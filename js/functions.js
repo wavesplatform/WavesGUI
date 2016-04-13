@@ -348,7 +348,10 @@ function loadDebug () {
 		debugPage += '</table>';
 
 		debugPage += '<h2>Info</h2>';
-
+		debugPage += '<table class="table table-striped">';
+		debugPage += '<thead><tr><th>Key</th><th>Value</th></tr></thead>';
+		debugPage += '<tbody>';
+	
 		$.getJSON(server+'/debug/info', function (response_info) {
 
 			$.each(response_info, function(key, value) {
