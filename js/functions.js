@@ -267,7 +267,7 @@ function loadConsensus() {
 		appContainer += '<thead><tr><th>Key</th><th>Value</th></tr></thead>';
 		appContainer += '<tbody>';
 
-		$.getJSON('http://23.94.190.226:9081/consensus/target', function (response_target) {
+		$.getJSON(server+'/consensus/target', function (response_target) {
 
 
 			$.each(response_target, function(key, value) {
@@ -292,10 +292,7 @@ function loadConsensus() {
 			});
 
 
-
 		});
-		
-
 
 	});
 
@@ -319,7 +316,6 @@ function loadPayment () {
 
 
 
-
 	$("#app").html(paymentForm);
 
 
@@ -336,7 +332,7 @@ function loadDebug () {
 	debugPage += '<thead><tr><th>Key</th><th>Value</th></tr></thead>';
 	debugPage += '<tbody>';
 
-	$.getJSON('http://23.94.190.226:9081/debug/settings', function (response) {
+	$.getJSON(server+'/debug/settings', function (response) {
 
 		$.each(response, function(key, value) {
 
@@ -353,7 +349,7 @@ function loadDebug () {
 
 		debugPage += '<h2>Info</h2>';
 
-		$.getJSON('http://23.94.190.226:9081/debug/info', function (response_info) {
+		$.getJSON(server+'/debug/info', function (response_info) {
 
 			$.each(response_info, function(key, value) {
 
@@ -375,6 +371,4 @@ function loadDebug () {
 		});
 
 	});
-
-
 }

@@ -6,7 +6,7 @@ WavesUI Lite. This is the concept of the Waves Lite Client.
 
 The current implementation is on top of Scorex Permacoin implementation as on https://github.com/ScorexProject/Scorex
 
-Scorex will be used to implement Waves Blocchain Consensus and Protocol.
+Scorex will be used to implement Waves Blockchain Consensus and Protocol.
 
 # Testing
 
