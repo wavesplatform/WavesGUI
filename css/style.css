@@ -1,0 +1,821 @@
+/* GENERAL NOTES
+Waves' branding colors: #0096DC for overall items (blue)
+                        #5AC8D2 for highlights (light blue/turquoise)
+                        #D7D7D7 (light grey)
+                        #AFAFAF (grey - Next on scale)
+*/
+
+
+/* ================================================= */
+/* FONT-FACE DEFINITIONS */ /* FONT-FACE DEFINITIONS */
+/* ================================================= */
+
+@font-face {
+  font-family: 'Wesli';
+  src: url('../css/fonts/wesli.woff') format('woff');
+  src: url('../css/fonts/wesli.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Engo';
+  src: url('../css/fonts/engo.woff') format('woff');
+  src: url('../css/fonts/engo.woff2') format('woff2');
+}
+
+
+/* ============================================================= */
+/* GLOBAL SETTINGS AND CLASSES */ /* GLOBAL SETTINGS AND CLASSES */
+/* ============================================================= */
+
+*, *::after, *::before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box; 
+    margin: 0;
+    padding: 0;
+}
+
+html {}
+	
+body {
+	font-family: "Wesli";
+	color: #333333;
+	background: #ffffff;
+}
+
+.fade {
+    -moz-transition: all .4s ease;
+    -o-transition: all .4s ease;
+    transition: all .4s ease;
+	-webkit-transition: all .4s ease;
+}
+
+.fFade {
+    -moz-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    transition: all .2s ease;
+	-webkit-transition: all .2s ease;
+}
+
+.centerIt {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%); 
+}
+
+.noSelect {
+	-webkit-user-select: none; /* Chrome/Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
+
+	/* Rules below not implemented in browsers yet */
+	-o-user-select: none;
+	user-select: none;
+}  
+
+.clearfix:after {
+    content:"";
+    display:block;
+    clear:both;
+}
+
+
+/* ================================================= */
+/* MAIN WRAPPER SETTINGS */ /* MAIN WRAPPER SETTINGS */
+/* ================================================= */
+
+#wrapper {
+	width: 100%;
+	max-width: 1920px;
+	min-width: 320px;
+	height: 100vh;
+	max-height: 1080px;
+	min-height: 320px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+
+/* =========================================================== */
+/* HEADER SETTINGS */ /* HEADER SETTINGS */ /* HEADER SETTINGS */
+/* =========================================================== */
+
+header, #tabs, #mBLeftBar, #mBBody {padding: 10px;}
+
+header {
+	position: relative;
+	width: 100%;
+	height: 50px;
+    background: #0096DC;
+    z-index: 101;
+    
+}
+
+#topLogo {
+	position: absolute;
+	top: .75rem;
+	left: 1.3rem;
+	width: 9rem;
+	z-index: 99;
+}
+
+#topLogoH { 
+	display: none; 
+	position: absolute;
+	top: .35rem;
+	left: 1rem;
+	width: 12rem;
+	z-index: 99;
+}
+
+#version {
+	font-size: 1.25rem;
+	color: #ffffff;
+	opacity: .5;
+}
+
+#header-Iconset {
+	display: block;
+	float: right;
+}
+
+#header-Iconset a {
+    text-decoration: none;
+}
+
+.header-Icon {
+	width: 2rem;
+	margin-right: 1rem;
+	opacity: .75;
+}
+
+.header-Icon:hover {
+	cursor: pointer;
+	opacity: 1;
+}
+
+.jurl {
+    display: block;
+	width: 100%;
+    border: none;
+    color: #ffffff;
+    height: 0.04rem;
+    background: #0096dc; /* Old browsers */
+    background: -moz-linear-gradient(left, #0096dc 0%, #0096dc 25%, #ffffff 50%, #ffffff 50%, #0096dc 75%, #0096dc 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #0096dc 0%, #0096dc 25%, #ffffff 50%, #ffffff 50%, #0096dc 75%, #0096dc 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #0096dc 0%, #0096dc 25%, #ffffff 50%, #ffffff 50%, #0096dc 75%, #0096dc 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0096dc', endColorstr='#0096dc',GradientType=1 ); /* IE6-9 */
+}
+
+
+/* ==================================================== */
+/* /* TAB SELECTOR SETTINGS */ /* TAB SELECTOR SETTINGS */
+/* ==================================================== */
+
+#tabs {
+	position: relative;
+	width: 100%;
+	height: 75px;
+	overflow: hidden;
+    background: #0096DC;
+    -webkit-box-shadow: 0px 12px 12px -12px rgba(0,0,0, .2);
+    -moz-box-shadow: 0px 12px 12px -12px rgba(0,0,0, .2);
+    box-shadow: 0px 12px 12px -12px rgba(0,0,0, .2);
+    z-index: 100;
+}
+
+#tabs-Iconset {
+	height: 95%;
+}
+
+#tabs-Iconset img {
+    height: 80%;
+    padding: 0;
+    margin: 0;
+	margin-top: .5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+#tabs-Iconset img:hover  {
+    cursor: pointer;
+    -moz-transform: scale(0.9);
+    -o-transform: scale(0.9);
+    transform: scale(0.9);
+	-webkit-transform: scale(0.9);
+}
+
+input.tabs-radio {
+    display: none;
+}
+
+input.tabs-radio + label img {
+    opacity: .4;
+}
+
+input.tabs-radio:hover + label img {
+    opacity: .6;
+}
+
+input.tabs-radio:checked + label  img {
+    opacity: 1;
+}
+
+
+/* ============================================== */
+/* /* MAIN BODY SETTINGS */ /* MAIN BODY SETTINGS */
+/* ============================================== */
+
+#mainBody { overflow-y: scroll; }
+
+
+/* ============================================ */
+/* /* LEFT BAR SETTINGS */ /* LEFT BAR SETTINGS */
+/* ============================================ */
+
+#mBLeftBar {
+	display: table-cell;
+	position: relative;
+	width: 200px;
+	border-right: 1px solid #D7D7D7;
+}
+
+.mBLB-vis {
+	display: table-cell;
+}
+
+.mBLB-no-vis {
+	display: none;
+}
+
+
+/* ======================================================== */
+/* /* MAIN BODY-BODY SETTINGS */ /* MAIN BODY-BODY SETTINGS */
+/* ======================================================== */
+
+#mBBody {
+	display: table-cell;
+	position: relative;
+	width: auto;
+    padding-bottom: 1rem;
+}
+
+#mBB-portfolio, #mBB-exchange, #mBB-voting, #mBB-history, #mBB-messages, #mBB-community {
+	display: none;
+} 
+
+#LBmBB-portfolio, #LBmBB-exchange, #LBmBB-voting, #LBmBB-history, #LBmBB-messages, #LBmBB-community {
+	display: none;
+} 
+
+
+/* ============================================ */
+/* WALLET TAB */ /* WALLET TAB */ /* WALLET TAB */
+/* ============================================ */
+
+#mBB-wallet {}
+
+.walletBox {
+    position: relative;
+    display: inline-block;
+    width: 320px;
+    height: 250px;
+    border: 1px solid rgb(220,220,220);
+    margin: 5px;
+    padding: 10px;
+    border-radius: 20px 20px 20px 20px;
+    -moz-border-radius: 20px 20px 20px 20px;
+    -webkit-border-radius: 20px 20px 20px 20px;
+    overflow: hidden;
+}
+
+.walletBox img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 90%;
+    z-index: 0;   
+}
+
+.wB-name {
+    display: block;
+    position: relative;
+    float: right;
+    z-index: 99 !important;
+    font-family: 'Engo';
+    font-size: 2.5rem;
+    color: #AFAFAF;
+}
+
+.wB-add {
+    display: block;
+	width: 100%;
+    position: relative;
+	text-align: right;
+    float: right;
+    z-index: 99 !important;
+    font-family: 'Wesli';
+    font-size: 1rem;
+    color: #D7D7D7;
+}
+
+.wB-balInt {
+    display: block;
+/*	width: 100%;*/
+    position: relative;
+    text-align: right;
+    z-index: 99 !important;
+    font-family: 'Engo';
+    font-size: 2.75rem;
+    color: #0096DC;  
+    letter-spacing: -6px;
+}
+
+.wB-balDec {
+    display: block;
+    position: relative;
+    float: right;
+    z-index: 99 !important;
+    font-family: 'Engo';
+    font-size: 2rem;
+    color: #0096DC;  
+    line-height: .5;
+    letter-spacing: -4px;
+}
+
+.wB-buttons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    padding: 1%;
+}
+
+.wB-buttons a {
+    text-decoration: none;
+}
+
+.wB-but {
+    display: inline-block;
+    position: relative;
+    width: 31%;
+    height: 80%;
+    margin: .45%;
+    background: #0096DC;
+    overflow: hidden;
+    font-family: 'Wesli';
+    font-size: 1rem;
+    color: #ffffff;
+    border: none;
+    outline: none;
+}
+
+.wB-but:hover {
+    cursor: pointer;
+    background: #5AC8D2;
+}
+
+.wB-butSend {
+    border-radius: 2px 2px 2px 12px;
+}
+
+.wB-butRec {
+    border-radius: 2px 2px 2px 2px;
+}
+
+.wB-butTrade {
+    border-radius: 2px 2px 12px 2px;
+}
+
+.wB-but p {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -55%);
+}
+
+#wHistory {
+	width:100%;
+    padding: .5rem;
+    padding-bottom: 1rem;
+}
+
+
+/* ================================================= */
+/* WAVES STANDARD TABLES */ /* WAVES STANDARD TABLES */
+/* ================================================= */
+
+.wavesTable table {
+    border-collapse: collapse;
+    border-spacing: 0;
+	width: 100%;
+	height: auto;
+    padding: 0px;
+    margin-bottom: 2rem;
+}
+
+.wTMainHeader tr {
+    background-color: #0096DC;
+	border: 0px solid #F0F0F0;
+	text-align: center;
+	font-size: 1.12rem;
+	color: #ffffff;   
+}
+
+.wavesTable thead {
+    background-color: #0096DC;
+	border: 0px solid #F0F0F0;
+	text-align: center;
+	font-size: 1.12rem;
+	color: #ffffff;
+}
+
+.wavesTable tbody tr:nth-child(odd) { 
+    background-color: #F0F0F0; 
+}
+
+.wavesTable tbody tr:nth-child(even) { 
+    background-color: #ffffff; 
+}
+
+.wavesTable td {
+	vertical-align: middle;
+	text-align: center;
+    font-size: 1.1rem;
+	padding: .5rem;
+}
+
+.wavesTable tbody tr:hover {
+    background: #CAE1FF;
+}
+
+.wTMainHeader {
+    background-color: #ffffff;
+	border: 0px solid #F0F0F0;
+	text-align: center;
+	font-size: 1.25rem;
+	color: #333333;
+    letter-spacing: .2rem;
+    padding-bottom: .5rem;
+}
+
+#transactionhistory tr {
+    -moz-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    transition: all .2s ease;
+	-webkit-transition: all .2s ease;
+}
+
+
+/* ====================================================== */
+/* PAYMENT FORMS PARAMETERS */ /* PAYMENT FORM PARAMETERS */
+/* ====================================================== */
+
+.paymentForm {
+    height: auto;
+    padding-bottom: 1rem;
+}
+
+.wPop-content {
+    margin-top: -1.5rem;;
+}
+
+.paymentForm h2 {
+    background-color: #ffffff;
+	border: 0px solid #F0F0F0;
+	text-align: center;
+	font-size: 1.25rem;
+	color: #333333;
+    letter-spacing: .2rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    padding-bottom: .5rem;
+    font-weight: 200;
+}
+
+.paymentForm thead tr {
+    background-color: #0096DC;
+	text-align: center;
+	font-size: 1.12rem;
+    line-height: 2.3rem;
+	color: #ffffff;
+}
+
+.paymentForm tbody td {
+    padding: .25rem;
+}
+
+.paymentFormFee {
+    background-color: #F0F0F0;
+    font-style: italic;
+}
+
+.form-control {
+    padding: .3rem;
+    font-family: 'Wesli';
+    font-size: 1rem;
+}
+
+.paymentForm-but {
+    border: none;
+    outline: none;
+    position: relative;
+    margin: 0 auto;
+    width: 5rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    background: #0096DC;
+    font-family: 'Wesli';
+	font-size: 1rem;
+    line-height: 2.3rem;
+	color: #ffffff;
+    text-align: center;
+}
+
+.paymentForm-but:hover {
+    cursor: pointer;
+    background: #5AC8D2;
+}
+
+#mBB-portfolio #paymentForm {
+   text-align: center;
+}
+
+#mBB-portfolio .paymentForm thead tr {
+    line-height: 1.5rem;
+}
+
+#mBB-portfolio .paymentForm table {
+    padding-bottom: 1rem;
+}
+
+/* ==================================================== */
+/* PORTFOLIO TAB *//* PORTFOLIO TAB */ /* PORTFOLIO TAB */  
+/* ==================================================== */
+
+#portfolio {
+    padding-bottom: 1rem;
+}
+
+#portfolio h2 {
+    background-color: #ffffff;
+	border: 0px solid #F0F0F0;
+	text-align: center;
+	font-size: 1.25rem;
+	color: #333333;
+    letter-spacing: .2rem;
+    padding-bottom: .5rem;
+    font-weight: 200;
+}
+
+#portfolio .btn {
+    border: none;
+    width: 8rem;
+    margin-bottom: .5rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    background: #0096DC;
+    font-family: 'Wesli';
+	font-size: 1rem;
+    line-height: 2.3rem;
+	color: #ffffff;
+    text-align: center;
+    
+    -moz-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    transition: all .2s ease;
+	-webkit-transition: all .2s ease;
+}
+
+#portfolio .btn:hover {
+    cursor: pointer;
+    background: #5AC8D2;
+}
+
+#portfolio table thead tr th {
+    padding: .5rem;
+}
+
+
+/* =============================================== */
+/* HISTORY TAB */ /* HISTORY TAB */ /* HISTORY TAB */ 
+/* =============================================== */
+
+#hSearch {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+#hSearch h1 {
+    display: block;
+    width: 100%;
+    text-align: center;
+    vertical-align: center;
+    background: #0096DC;
+    padding: .4rem;
+    color: white;
+    font-size: 1.3rem;
+}
+
+.hS-element {
+    display: inline-block;
+    width: auto;
+    padding: .5rem;
+}
+
+.hS-element h2 {
+    display: inline-block;
+    font-size: 1.2rem;
+    font-weight: 200;
+}
+
+.hS-element p {
+    display: inline-block;
+    font-size: 1rem;
+    margin-left: .65rem;
+    margin-right: 0;
+}
+
+.wavesDD {
+    display: inline-block;
+    height: 90%;
+    padding: .5rem;
+}
+
+.wavesDD select {
+    font-family: 'Wesli';
+    font-size: 1.15rem;
+    padding: .25rem;
+}
+
+#hResults {
+    height: auto;
+    padding-bottom: 1rem;
+}
+
+
+/* ===================================================== */
+/* MEDIA QUERIES */ /* MEDIA QUERIES */ /* MEDIA QUERIES */ 
+/* ===================================================== */
+
+@media only screen and (max-width: 1024px) {
+
+	#topLogo { display: none; }
+	#topLogoH { display: block; }
+    #version { font-size: 1rem; }
+	
+	#mBLeftBar {
+		width: 150px;
+	}
+	
+	#tabs-Iconset img {
+		margin-top: .5rem;
+		margin-left: .5rem;
+		margin-right: .5rem;
+	}
+}
+
+@media only screen and (max-width: 800px) {
+
+	#version { display: none; }
+	
+	#mBLeftBar {
+		width: 100px;
+	}
+}
+
+@media only screen and (max-width: 640px) {
+
+	#tabs-Iconset { height: 80%; }
+
+	#tabs-Iconset img {
+		margin-top: .5rem;
+		margin-left: .2rem;
+		margin-right: .2rem;
+	}
+}
+
+@media only screen and (max-width: 512px) {
+
+	#tabs { height: 65px; }
+	#tabs-Iconset { height: 80%; }
+
+	#tabs-Iconset img {
+		margin-top: .5rem;
+		margin-left: .1rem;
+		margin-right: .1rem;
+	}
+}
+
+/* Mobile version - Landscape (iPhone up to 6, all Samsung Galaxy, all HTC) */
+@media only screen and (max-width: 736px) and (max-height: 420px) {
+    
+    html { font-size: 12px; }
+    
+    header { 
+        height: 30px;
+        padding: 0;
+    }
+    
+    #topLogoH { 
+		width: 10rem; 
+		margin-top: .25rem;
+	}
+    
+    #header-Iconset {
+        position: absolute;
+        right: .25rem;
+        top: .5rem;
+    }
+    
+    .header-Icon {
+		width: 1.5rem;
+        margin: 0;
+        padding: 0;
+		margin-right: .35rem;
+	}
+    
+    .jurl { display: none; }
+    
+    #tabs { 
+        height: 40px;
+    } 
+    
+     #tabs-Iconset { 
+        height: 90%;
+        margin-top: -.25rem;
+    }
+    
+    #tabs-Iconset img {
+		padding-left: .4rem;
+        padding-right: .4rem;
+	}
+    
+    #mBB-wallet { 
+        height: auto;
+        padding-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .walletBox { 
+        width: 275px; 
+        height: 175px;
+    }
+}
+
+/* Mobile version - Portrait */
+@media only screen and (max-width: 420px) {
+
+    html { font-size: 12px; }
+    
+    header { height: 40px; }
+
+    .wavesTable td {
+        padding-left: .2rem;
+        padding-right: .2rem;
+    }
+    
+	#topLogoH { 
+		width: 10rem; 
+		margin-top: .38rem;
+	}
+	
+	.header-Icon {
+		width: 1.5rem;
+		margin-right: .35rem;
+		margin-top: .2rem;
+	}
+	
+	#tabs { 
+        height: 50px; 
+		text-align: center;
+	}
+	
+	#tabs-Iconset img {
+		margin-top: .25rem;
+	}
+    
+    .jurl { height: 0.08rem; }
+    
+    #mBB-wallet { 
+        height: auto;
+        padding-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .walletBox { 
+        width: 275px; 
+        height: 175px;
+    }
+
+    .wB-buttons { height: 22.5%; }
+    #wHistory { display: none; }
+    
+}
