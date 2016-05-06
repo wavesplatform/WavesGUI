@@ -26,9 +26,30 @@ var Waves = (function(Waves, $, undefined) {
 	"use strict";
 
     Waves.initApp = function () {
+
+        $("#wrapper").hide();
+        $("#lockscreen").show();
+        $("#lockscreenTable").show();
+
+        $("#loginButton").on("click", function() {
+            
+            Waves.login();
+
+        })
+
+    }
+
+    Waves.login = function() {
+
         Waves.loadHistory();
         Waves.loadBlockheight();
         Waves.loadBalance();
+
+        $("#lockscreen").hide();
+        $("#lockscreenTable").hide();
+        $("#wrapper").show();
+
+
     }
 
     Waves.loadBlockheight = function () {
