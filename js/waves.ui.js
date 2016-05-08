@@ -187,9 +187,7 @@ var Waves = (function(Waves, $, undefined) {
 
     Waves.loadPayment = function () {
 
-        var paymentForm = '<div id="wallet_accounts"><h2>YOUR WALLETS</h2> <button class="btn btn-primary" id="newAddress">New Address</button></div>';
-            paymentForm += '<div id="accounts_sender" class="wavesTable"><table><thead><tr><th>ADDRESS</th><th>BALANCE</th></thead><tbody id="accounts_table"></tbody></table></div><hr/>';
-            paymentForm += '</div><div id="payment_response"></div>';
+        var paymentForm = '</div><div id="payment_response"></div>';
 
             paymentForm += '<h2 style="margin-top: .5rem;">SEND PAYMENT</h2>'+
                             '<form id="paymentForm">'+
@@ -347,20 +345,6 @@ var Waves = (function(Waves, $, undefined) {
 
             });
 
-
-        });
-
-
-        $("#newAddress").on("click", function() {
-
-            $.post(Waves.server+'/addresses/', function(createAddress) {
-
-                console.log(createAddress);
-
-                $("#accounts_table").append('<tr><td>'+createAddress.address +'</td><td>0 Waves</td></tr>');
-
-
-            });
 
         });
 
@@ -538,7 +522,7 @@ var Waves = (function(Waves, $, undefined) {
     Waves.login = function (accountDetails) {
 
 
-
+        Waves.loadBlockheight();
         Waves.seed = accountDetails.passphrase;
         Waves.publicKey = accountDetails.publicKey;
         Waves.privateKey = accountDetails.privatekey;
@@ -595,7 +579,7 @@ $(document).ready(function(){
                 var accounts = JSON.parse(userAccounts);
 
                 var accountDetails = accounts.accounts[accountId];
-
+                
                 Waves.login(accountDetails);
 
            }
