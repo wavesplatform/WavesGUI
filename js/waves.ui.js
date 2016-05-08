@@ -51,20 +51,6 @@ var Waves = (function(Waves, $, undefined) {
 
     }
 
-    Waves.initPreview = function() {
-
-
-        Waves.loadBlockheight();
-        Waves.loadBalance();
-        Waves.loadHistory();
-
-        $("#lockscreen").hide();
-        $("#lockscreenTable").hide();
-        $("#wrapper").show();
-
-
-    }
-
     Waves.loadBlockheight = function () {
 
         Waves.apiRequest(Waves.api.blocks.height, function(result) {
@@ -107,65 +93,6 @@ var Waves = (function(Waves, $, undefined) {
 
     }
 
-    Waves.loadHistory = function () {
-
-        var signatures = [];
-        var appContainer;
-
-        Waves.apiRequest(Waves.api.address.getAddresses(), function(response) {
-
-            balance = 0;
-
-            $.each(response, function(key, value) {
-
-
-                Waves.apiRequest(Waves.server+'/transactions/address/'+value, function(transactionHistory) {
-
-                    $.each(transactionHistory[0], function(historyKey, historyValue) {
-
-                        if(historyValue.timestamp > 0) {
-
-                            if(signatures.indexOf(historyValue.signature) < 0) {
-
-                                signatures.push(historyValue.signature);
-
-                                appContainer += '<tr>';
-                                appContainer += '<td>'+historyValue.timestamp+'</td>';
-                                appContainer += '<td>'+historyValue.type+'</td>';
-                                appContainer += '<td>'+historyValue.sender+'</td>';
-                                appContainer += '<td>'+historyValue.recipient+'</td>';
-                                appContainer += '<td>'+historyValue.fee+'</td>';
-                                appContainer += '<td>'+historyValue.amount+' Waves</td>';
-
-                                appContainer += '</tr>';
-
-                            }
-                            
-                            
-                            
-                        }
-
-
-                    });
-
-                    
-
-                });
-
-
-
-            });
-
-            
-        });
-
-        setTimeout(function() {
-
-            $("#transactionhistory").html(appContainer);
-
-        }, 1000);
-
-    }
 
     // Show/hide different sections on tab activation
     $('input[type=radio]').click(function(){
@@ -232,26 +159,6 @@ var Waves = (function(Waves, $, undefined) {
 
         $("#portfolio").html(paymentForm);
 
-
-        Waves.apiRequest(Waves.server+'/addresses', function(response) {
-
-
-            balance = 0;
-
-            $.each(response, function(key, value) {
-
-                $.each(value, function(innerkey, innervalue) {
-
-                    Waves.apiRequest(Waves.server+'/addresses/balance/'+innervalue, function(balanceResult) {
-
-
-                        $("#accounts_table").append('<tr><td>'+innervalue +'</td><td>'+balanceResult.balance+' Waves</td></tr>');
-
-                    });
-
-                });
-            });
-        });
 
 
         $("#sendpayment").on("click", function(e) {
@@ -348,61 +255,6 @@ var Waves = (function(Waves, $, undefined) {
 
         });
 
-
-    }
-
-
-
-
-    Waves.loadWallet = function () {
-
-        var appContainer;
-
-        Waves.apiRequest(Waves.server+'/addresses', function(response) {
-
-            appContainer += '<h2>YOUR WALLETS</h2><div class="wavesTable">';
-
-            appContainer += '<table>';
-            appContainer += '<thead><tr><th>Key</th><th>Value</th></tr></thead>';
-            appContainer += '<tbody>';
-
-            $.each(response, function(key, value) {
-
-                $.each(value, function(innerkey, innervalue) {
-
-                    appContainer += '<tr><td>';
-                    appContainer += innerkey;
-                    appContainer += '</td><td>';
-                    appContainer += innervalue;
-                    appContainer += '</td></tr>';
-
-                });
-
-                
-
-            });
-
-            appContainer += '<tbody>';
-
-            appContainer += '</div>';
-
-            appContainer += '<button class="btn btn-primary" id="newAddress">New Address</button>';
-
-            
-            $("#walletContainer").html(appContainer);
-
-            $("#newAddress").on("click", function() {
-
-                $.post(Waves.server+'/addresses/', function(createAddress) {
-
-                    Waves.loadWallet();
-
-                });
-
-            });
-
-
-        });
 
     }
 
@@ -515,7 +367,15 @@ var Waves = (function(Waves, $, undefined) {
 
         Waves.apiRequest(Waves.api.address.balance(address), function(response) {
             return callback(response.balance);
-        })
+        });
+
+    }
+
+    Waves.getAddressHistory = function(address, callback) {
+
+        Waves.apiRequest(Waves.api.transactions.forAddress(address), function(response) {
+            return callback(response);
+        });
 
     }
 
@@ -538,6 +398,32 @@ var Waves = (function(Waves, $, undefined) {
             $("#balancespan").html(balance +' Waves');
             $('.balancewaves').html(balance + ' Waves');
             $(".wB-add").html(Waves.address);
+
+
+            Waves.getAddressHistory(Waves.address, function(history) {
+
+                var transactionHistory = history[0];
+                var appContainer;
+
+                 $.each(transactionHistory, function(historyKey, historyValue) {
+
+                        appContainer += '<tr>';
+                        appContainer += '<td>'+historyValue.timestamp+'</td>';
+                        appContainer += '<td>'+historyValue.type+'</td>';
+                        appContainer += '<td>'+historyValue.sender+'</td>';
+                        appContainer += '<td>'+historyValue.recipient+'</td>';
+                        appContainer += '<td>'+historyValue.fee+'</td>';
+                        appContainer += '<td>'+historyValue.amount+' Waves</td>';
+                        appContainer += '</tr>';
+
+                });
+
+                $("#transactionhistory").html(appContainer);
+
+            
+
+            });
+           
             
         });
     }
@@ -579,7 +465,7 @@ $(document).ready(function(){
                 var accounts = JSON.parse(userAccounts);
 
                 var accountDetails = accounts.accounts[accountId];
-                
+
                 Waves.login(accountDetails);
 
            }
