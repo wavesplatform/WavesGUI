@@ -288,12 +288,8 @@
                                                </thead>
                                                <tbody>
                                                    <tr>
-                                                       <td>Sender (choose one account with balance from above)</td>
-                                                       <td><input type="text" class="form-control" id="wavessender" placeholder="Sender"></td>
-                                                   </tr>
-                                                   <tr>
-                                                       <td>Recipient</td>
-                                                       <td><input type="text" class="form-control" id="wavesrecipient" placeholder="Recipient"></td>
+                                                       <td>Recipient (Please enter recipient Waves address)</td>
+                                                       <td><input type="text" style="width:250px;" class="form-control" id="wavesrecipient" placeholder="Recipient"></td>
                                                    </tr>
                                                    <tr>
                                                        <td>Amount</td>
@@ -303,16 +299,13 @@
                                                        <td>Fee</td>
                                                        <td><p>1 WAV</p></td>
                                                    </tr>
-                                                  <!-- <tr>
-                                                       <td>Send</td>
-                                                       <td> <button id="wavessend" value="send">Submit</button> </td>
-                                                   </tr>-->
                                                </tbody>
                                              </table>
                                             
                                     </form>
                                     <div id="wavessend" class="paymentForm-but fade" value="send"><p>SUBMIT</p></div>
                                     <div id="sentpayment"></div>
+                                    <div id="errorpayment"></div>
 
                                 </div>
                             </div>

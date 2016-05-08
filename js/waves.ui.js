@@ -43,11 +43,44 @@ var Waves = (function(Waves, $, undefined) {
         $("#lockscreen").show();
         $("#lockscreenTable").show();
 
-        $("#loginButton").on("click", function() {
-            
-            Waves.initPreview();
+        if(Waves.hasLocalStorage) {
+           var userAccounts = localStorage.getItem('WavesAccounts');
 
-        });
+           if(userAccounts !== null) {
+                var accounts = JSON.parse(userAccounts);
+
+                $.each(accounts.accounts, function(accountKey, accountDetails) {
+
+                    $("#wavesAccounts").append('<br>'+accountDetails.address+' <button class="loginAccount" data-id="'+accountKey+'">Login</button>');
+
+                });
+
+           }
+
+           $(".loginAccount").on("click", function(e) {
+                e.preventDefault();
+
+                var accountId = $(this).data('id');
+
+                var userAccounts = localStorage.getItem('WavesAccounts');
+
+               if(userAccounts !== null) {
+                    var accounts = JSON.parse(userAccounts);
+
+                    var accountDetails = accounts.accounts[accountId];
+
+                    Waves.login(accountDetails);
+
+               }
+
+
+            });
+
+        } else {
+
+            //To Do: no LocalStorage
+
+        }
 
     }
 
@@ -354,11 +387,15 @@ var Waves = (function(Waves, $, undefined) {
 
                 currentAccounts.accounts.push(accountData);
                 localStorage.setItem('WavesAccounts', JSON.stringify(currentAccounts));
+                $("#wavesAccounts").append('<br>'+accountData.address);
 
             } else {
                 var accountArray = { accounts: [accountData] };
                 localStorage.setItem('WavesAccounts', JSON.stringify(accountArray));
+                $("#wavesAccounts").append('<br>'+accountData.address);
             }
+
+
         }
 
     });
@@ -428,7 +465,31 @@ var Waves = (function(Waves, $, undefined) {
         });
     }
 
-    
+    $("#wavessend").on("click", function(e) {
+        e.preventDefault();
+
+        var sendAmount = $("#wavessendamount").val();
+        var amount = Number(sendAmount);
+
+        var sender = Waves.address;
+        var recipient = $("#wavesrecipient").val();
+
+        var wavesTime = Waves.getTime();
+
+        var signature;
+
+
+        var data = {
+            "amount": amount,
+            "fee": 1,
+            "sender": sender,
+            "recipient": recipient
+        };
+
+        console.log(data);
+
+
+    });
 
 	return Waves;
 }(Waves || {}, jQuery));    
@@ -440,44 +501,7 @@ $(document).ready(function(){
 
     Waves.initApp();
 
-    if(Waves.hasLocalStorage) {
-       var userAccounts = localStorage.getItem('WavesAccounts');
-
-       if(userAccounts !== null) {
-            var accounts = JSON.parse(userAccounts);
-
-            $.each(accounts.accounts, function(accountKey, accountDetails) {
-
-                $("#wavesAccounts").append('<br>'+accountDetails.address+' <button class="loginAccount" data-id="'+accountKey+'">Login</button>');
-
-            });
-
-       }
-
-       $(".loginAccount").on("click", function(e) {
-            e.preventDefault();
-
-            var accountId = $(this).data('id');
-
-            var userAccounts = localStorage.getItem('WavesAccounts');
-
-           if(userAccounts !== null) {
-                var accounts = JSON.parse(userAccounts);
-
-                var accountDetails = accounts.accounts[accountId];
-
-                Waves.login(accountDetails);
-
-           }
-
-
-        });
-
-    } else {
-
-        //To Do: no LocalStorage
-
-    }
+    
 
 });
 

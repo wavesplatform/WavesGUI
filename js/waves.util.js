@@ -219,6 +219,10 @@ var Waves = (function (Waves, $, undefined) {
     var LANG = window.navigator.userLanguage || window.navigator.language;
     var LOCALE_DATE_FORMAT = LOCALE_DATE_FORMATS[LANG] || 'dd/MM/yyyy';
 
+    //Get timestamp in Waves
+    Waves.getTime = function() {
+        return Date.now();
+    }
 
     //Returns publicKey
     Waves.getPublicKey = function(secretPhrase)
