@@ -368,6 +368,12 @@ var Waves = (function(Waves, $, undefined) {
 
     });
 
+    $("#addContact").on("click", function(e) {
+        e.preventDefault();
+
+        $("#contactForm").show();
+    })
+
 	return Waves;
 }(Waves || {}, jQuery));    
 
