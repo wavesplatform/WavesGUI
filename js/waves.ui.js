@@ -108,7 +108,7 @@ var Waves = (function(Waves, $, undefined) {
         }
 
     }
-    
+
     Waves.loadBlockheight = function () {
 
         Waves.apiRequest(Waves.api.blocks.height, function(result) {
@@ -167,154 +167,6 @@ var Waves = (function(Waves, $, undefined) {
             break;
         }
     });
-
-
-
-    Waves.loadPayment = function () {
-
-        var paymentForm = '</div><div id="payment_response"></div>';
-
-            paymentForm += '<h2 style="margin-top: .5rem;">SEND PAYMENT</h2>'+
-                            '<form id="paymentForm">'+
-                                '<div class="paymentForm">'+
-                                  '  <table>'+
-                                  '     <thead>'+
-                                  '         <tr>'+
-                                  '             <th>DESCRIPTION</th>'+
-                                  '             <th>INPUT</th>'+
-                                  '         </tr>'+
-                                  '     </thead>'+
-                                  '     <tbody>'+
-                                  '         <tr>'+
-                                  '             <td>Sender (choose one account with balance from above)</td>'+
-                                  '             <td><input type="text" class="form-control" id="sender" placeholder="Sender"></td>'+
-                                  '         </tr>'+
-                                  '         <tr>'+
-                                  '             <td>Recipient</td>'+
-                                  '             <td><input type="text" class="form-control" id="recipient" placeholder="Recipient"></td>'+
-                                  '         </tr>'+
-                                  '         <tr>'+
-                                  '             <td>Amount</td>'+
-                                  '             <td><input type="number" class="form-control" id="sendamount" placeholder="Amount" min="0"></td>'+
-                                  '         </tr>'+
-                                  '         <tr>'+
-                                  '             <td>Fee</td>'+
-                                  '             <td><p>Fee 1 Waves</p></td>'+
-                                  '         </tr>'+
-                                  '         <tr>'+
-                                  '             <td>Send</td>'+
-                                  '             <td><button id="sendpayment" class="paymentForm-but fade" value="send">SUBMIT</button></td>'+
-                                  '         </tr>'+
-
-                                  '     </tbody>'+
-                                  '   </table>'+
-                                  '</div>'+
-                            '</form>';
-
-
-            paymentForm += '</div>';
-
-
-        $("#portfolio").html(paymentForm);
-
-
-
-        $("#sendpayment").on("click", function(e) {
-
-            e.preventDefault();
-
-            var amount = $("#sendamount").val();
-            var recipient = $("#recipient").val();
-            var sender = $("#sender").val();
-
-            $("#sendpayment").on("click", function() {
-
-
-                if(amount > 0) {
-
-                    if(recipient > '') {
-
-                        var number = Number(amount);
-
-                        $.ajax({
-                            url: Waves.server+'/payment',
-                            data: JSON.stringify({
-                                "amount": number,
-                                "fee": 1,
-                                "sender": sender,
-                                "recipient": recipient
-                            }),
-                            type: "POST",
-                            success: function(successrequest){
-                    
-
-                                $("#sendamount").val('');
-                                $("#recipient").val('');
-                                $("#sender").val('');
-
-                                var messageTable = '<div class="wavesTable">'+
-                                                        '<table>'+
-                                                        '   <thead>'+
-                                                        '       <tr>'+
-                                                        '           <th>Key</th>'+
-                                                        '           <th>Value</th>'+
-                                                        '       </tr>'+
-                                                        '   </thead>'+
-                                                        '   <tbody>'+
-                                                        '       <tr>'+
-                                                        '           <th>Timestamp</th>'+
-                                                        '           <td>'+successrequest.timestamp+'</td>'+
-                                                        '       </tr>'+
-                                                        '       <tr>'+
-                                                        '           <th>Sender</th>'+
-                                                        '           <td>'+successrequest.sender+'</td>'+
-                                                        '       </tr>'+
-                                                        '       <tr>'+
-                                                        '           <th>Recipient</th>'+
-                                                        '           <td>'+successrequest.recipient+'</td>'+
-                                                        '       </tr>'+
-                                                        '       <tr>'+
-                                                        '           <th>Amount</th>'+
-                                                        '           <td>'+successrequest.amount+' Waves</td>'+
-                                                        '       </tr>'+
-                                                        '       <tr>'+
-                                                        '           <th>Fee</th>'+
-                                                        '           <td>'+successrequest.fee+' Waves</td>'+
-                                                        '       </tr>'+
-                                                        '       <tr>'+
-                                                        '           <th>Signature</th>'+
-                                                        '           <td>'+successrequest.signature+'</td>'+
-                                                        '       </tr>'+
-                                                        '   </tbody>'+
-                                                        '</table>'+
-                                                    '</div>';
-
-                                $("#payment_response").html('<h3>Sending successfull</h3>'+messageTable);
-
-                            },
-                            error: function(response){
-                                $("#payment_response").html(response.message);
-                                console.log(response);
-                            }
-                        });
-
-                        
-
-                    } else {
-                        alert ('Please insert a recipient');
-                    }
-
-                } else {
-                    alert ('Please insert an amount higher than 0');
-                }
-
-            });
-
-
-        });
-
-
-    }
 
     //Import Waves Account
 
@@ -493,11 +345,11 @@ var Waves = (function(Waves, $, undefined) {
     $("#wavessend").on("click", function(e) {
         e.preventDefault();
 
-        var sendAmount = $("#wavessendamount").val();
+        var sendAmount = $("#wavessendamount").val().replace(/\s+/g, '');
         var amount = Number(sendAmount);
 
         var sender = Waves.address;
-        var recipient = $("#wavesrecipient").val();
+        var recipient = $("#wavesrecipient").val().replace(/\s+/g, '');
 
         var wavesTime = Waves.getTime();
 

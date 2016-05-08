@@ -214,10 +214,41 @@ var Waves = (function (Waves, $, undefined) {
         "ug-CN": "yyyy-M-d",
         "sr-Cyrl-BA": "d.M.yyyy",
         "es-US": "M/d/yyyy"
-    };
+    }
 
     var LANG = window.navigator.userLanguage || window.navigator.language;
     var LOCALE_DATE_FORMAT = LOCALE_DATE_FORMATS[LANG] || 'dd/MM/yyyy';
+
+
+    Waves.signatureData = function(sender, recipient, amount, fee) {
+        
+    }
+
+    Waves.signBytes = function(message, seed) {
+
+        var messageBytes = message;
+        var seedBytes = converters.stringToByteArray(seed);
+
+        var digest = simpleHash(seedBytes);
+        var s = curve25519.keygen(digest).s;
+
+        var m = simpleHash(messageBytes);
+        _hash.init();
+        _hash.update(m);
+        _hash.update(s);
+        var x = _hash.getBytes();
+
+        var y = curve25519.keygen(x).p;
+
+        _hash.init();
+        _hash.update(m);
+        _hash.update(y);
+        var h = _hash.getBytes();
+
+        var v = curve25519.sign(h, x, s);
+
+        return v.concat(h);
+    }
 
     //Get timestamp in Waves
     Waves.getTime = function() {
@@ -265,7 +296,7 @@ var Waves = (function (Waves, $, undefined) {
 			formattedVolume = digits[i] + formattedVolume;
 		}
 		return formattedVolume + " " + size;
-	};
+	}
 
 
     Waves.calculatePercentage = function (a, b, rounding_mode) {
@@ -282,7 +313,7 @@ var Waves = (function (Waves, $, undefined) {
 		Big.RM = 1;
 
 		return result.toString();
-	};
+	}
 
    
     Waves.amountToPrecision = function (amount, decimals) {
@@ -305,7 +336,7 @@ var Waves = (function (Waves, $, undefined) {
 		} else {
 			throw $.t("error_invalid_input");
 		}
-	};
+	}
 
 
     Waves.format = function (params, no_escaping) {
@@ -342,7 +373,7 @@ var Waves = (function (Waves, $, undefined) {
 		}
 
 		return output;
-	};
+	}
 
 
     Waves.formatTimestamp = function (timestamp, date_only, isAbsoluteTime) {
@@ -401,7 +432,7 @@ var Waves = (function (Waves, $, undefined) {
 		} else {
 			return date.toLocaleString();
 		}
-	};
+	}
 
     Waves.isPrivateIP = function (ip) {
 		if (!/^\d+\.\d+\.\d+\.\d+$/.test(ip)) {
@@ -409,7 +440,7 @@ var Waves = (function (Waves, $, undefined) {
 		}
 		var parts = ip.split('.');
       return parts[0] === '10' || parts[0] == '127' || parts[0] === '172' && (parseInt(parts[1], 10) >= 16 && parseInt(parts[1], 10) <= 31) || parts[0] === '192' && parts[1] === '168';
-	};
+	}
 
     Waves.convertToHex16 = function (str) {
 		var hex, i;
@@ -420,7 +451,7 @@ var Waves = (function (Waves, $, undefined) {
 		}
 
 		return result;
-	};
+	}
 
     Waves.convertFromHex16 = function (hex) {
 		var j;
@@ -431,7 +462,7 @@ var Waves = (function (Waves, $, undefined) {
 		}
 
 		return back;
-	};
+	}
 
     Waves.convertFromHex8 = function (hex) {
         var hexStr = hex.toString(); //force conversion
@@ -440,7 +471,7 @@ var Waves = (function (Waves, $, undefined) {
             str += String.fromCharCode(parseInt(hexStr.substr(i, 2), 16));
         }
 		return str;
-	};
+	}
 
     Waves.convertToHex8 = function (str) {
 		var hex = '';
@@ -448,7 +479,7 @@ var Waves = (function (Waves, $, undefined) {
 			hex += '' + str.charCodeAt(i).toString(16);
 		}
 		return hex;
-	};
+	}
 
 
     Waves.setCookie = function (name, value, days) {
@@ -462,7 +493,7 @@ var Waves = (function (Waves, $, undefined) {
 		}
         //noinspection JSDeprecatedSymbols
 		document.cookie = escape(name) + "=" + escape(value) + expires + "; path=/";
-	};
+	}
 
     Waves.getCookie = function (name) {
         //noinspection JSDeprecatedSymbols
@@ -479,15 +510,15 @@ var Waves = (function (Waves, $, undefined) {
             }
         }
 		return null;
-	};
+	}
 
     Waves.deleteCookie = function (name) {
 		Waves.setCookie(name, "", -1);
-	};
+	}
 
     Waves.isControlKey = function (charCode) {
         return !(charCode >= 32 || charCode == 10 || charCode == 13);
-    };
+    }
 
     Waves.getUrlParameter = function (sParam) {
 		var sPageURL = window.location.search.substring(1);
@@ -499,7 +530,7 @@ var Waves = (function (Waves, $, undefined) {
 			}
 		}
 		return false;
-    };
+    }
 
 	// http://stackoverflow.com/questions/12518830/java-string-getbytesutf8-javascript-analog
     Waves.getUtf8Bytes = function (str) {
@@ -510,7 +541,7 @@ var Waves = (function (Waves, $, undefined) {
             arr[i] = utf8.charCodeAt(i);
         }
         return arr;
-    };
+    }
 
  
     // http://stackoverflow.com/questions/18729405/how-to-convert-utf8-string-to-byte-array
@@ -543,7 +574,7 @@ var Waves = (function (Waves, $, undefined) {
             }
         }
         return utf8;
-    };
+    }
 
     function byteArrayToBigInteger(byteArray) {
         var value = new BigInteger("0", 10);
@@ -562,14 +593,14 @@ var Waves = (function (Waves, $, undefined) {
             return firstChar;
         }
         return firstChar + str.slice(1);
-    };
+    }
 
     Waves.addEllipsis = function(str, length) {
         if (!str || str == "" || str.length <= length) {
             return str;
         }
         return str.substring(0, length) + "...";
-    };
+    }
 
     //Taken from https://gist.github.com/diafygi/90a3e80ca1c2793220e5/
     Waves.to_b58 = function(
