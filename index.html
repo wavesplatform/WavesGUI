@@ -23,16 +23,38 @@
                 <tr>
                     <td>
                         <center style="margin-top: 15%;">
-                        Welcome to Waves <br/><br/>
-                            <form>
-                                <div class="wPop-content">
-                                  <i>Login / Registration currently Disabled - Skip to Wallet preview</i><br/>
-                                    <div class="inline-form">
-                                        <div id="loginButton" class="paymentForm-but fade" value="Login"><p>Start</p></div>
-                                    </div>
-
+                            Welcome to Waves <br/><br/>
+                            
+                            <div class="wPop-content">
+                              <i>Login / Registration currently Disabled - Skip to Wallet preview</i><br/>
+                                <div class="inline-form">
+                                    <div id="loginButton" class="paymentForm-but fade" value="Login"><p>Start</p></div>
                                 </div>
-                            </form>
+                                <br/><br/><br/>
+
+
+                            </div>
+                            
+                            <div id="register">
+                                <h2>Register</h2>
+                                <form style="height:200px; width:500px;">
+                            
+                                    <button id="import_account">Import Account</button> <button id="create_account">Create new Account</button><br/><br/>
+                                    <div id="step2_reg" class="wPop-content" style="display: none;">
+                                        <label for="walletSeed">Wallet Seed</label>
+                                        <input type="text" id="walletSeed" style="width: 500px;" />
+                                        <br/>
+                                        <button id="generateKeys">Generate Keys</button> <button id="generateRandomSeed">Generate random Seed</button>
+
+                                        <br/><br/>
+                                        <div><b>PublicKey</b> <br/><span id="publicKeyLockscreen"></span></div><br/>
+                                        <div><b>PrivateKey</b> <br/><span id="privateKeyLockscreen"></span></div>
+                                        <div><b>Address</b> <br/><span id="addresLockscreen"></span></div>
+                                        <br/><br/>
+                                        <button id="registerSeed">Register</button> 
+                                    </div>
+                                </form>
+                            </div>
                         </center>
                     </td>
                 </tr>
@@ -701,6 +723,9 @@
     <script src="js/crypto/blake32.js" type="text/javascript"></script>
     <script src="js/crypto/keccak32.js" type="text/javascript"></script>
 
+    <script src="js/crypto/passphrasegenerator.js" type="text/javascript"></script>
+
+    <script src="js/crypto/3rdparty/seedrandom.js" type="text/javascript"></script>
     <script src="js/crypto/3rdparty/jssha256.js" type="text/javascript"></script>
 
     <script src="js/crypto/3rdparty/cryptojs/core.js" type="text/javascript"></script>
@@ -714,9 +739,6 @@
     <script src="js/waves.util.js" type="text/javascript"></script>
 
     <script src="js/waves.ui.js"></script>
-    <script src="js/functions.js"></script> 
     <script src="js/style.js"></script> 
-    
-    <script src="js/main.js"></script>
 </body>
 </html>

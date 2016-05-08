@@ -220,7 +220,7 @@ var Waves = (function (Waves, $, undefined) {
     var LOCALE_DATE_FORMAT = LOCALE_DATE_FORMATS[LANG] || 'dd/MM/yyyy';
 
 
-    //Returns publicKey Byte Array
+    //Returns publicKey
     Waves.getPublicKey = function(secretPhrase)
     {
         SHA256_init();
@@ -231,7 +231,7 @@ var Waves = (function (Waves, $, undefined) {
         return Waves.to_b58(converters.hexStringToByteArray(ky),'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz');
     }
 
-    //Returns privateKey ByteArray
+    //Returns privateKey
     Waves.getPrivateKey = function (secretPhrase) {
         SHA256_init();
         SHA256_write(converters.stringToByteArray(secretPhrase));

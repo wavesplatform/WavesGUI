@@ -41,6 +41,16 @@ var Waves = (function(Waves, $, undefined) {
 
     }
 
+    Waves.getAddress = function (publicKey) {
+
+        $.getJSON(Waves.server+'/waves/address/'+publicKey, function(response) {
+
+            return callback(response);
+
+        }); 
+        
+    }
+
     Waves.getAddressesBalance = function (address, callback) {
 
         $.getJSON(Waves.server+'/addresses/balance/'+address, function(response) {

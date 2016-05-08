@@ -25,7 +25,18 @@
 var Waves = (function(Waves, $, undefined) {
 	"use strict";
 
+    //Delete hack later.
+    var balance  = 0;
+
+    Waves.hasLocalStorage = false;
+
     Waves.initApp = function () {
+
+        if (!_checkDOMenabled()) {
+            Waves.hasLocalStorage = false;
+        } else {
+            Waves.hasLocalStorage = true;
+       }
 
         $("#wrapper").hide();
         $("#lockscreen").show();
@@ -35,7 +46,9 @@ var Waves = (function(Waves, $, undefined) {
             
             Waves.login();
 
-        })
+        });
+
+        console.log(Waves.hasLocalStorage);
 
     }
 
@@ -112,7 +125,7 @@ var Waves = (function(Waves, $, undefined) {
         var signatures = [];
         var appContainer;
 
-        $.getJSON(server+'/addresses/', function(response) {
+        $.getJSON(Waves.server+'/addresses/', function(response) {
 
             balance = 0;
 
@@ -169,17 +182,6 @@ var Waves = (function(Waves, $, undefined) {
 
     }
 
-
-	return Waves;
-}(Waves || {}, jQuery));    
-
-
-
-
-$(document).ready(function(){
-
-    Waves.initApp();
-
     // Show/hide different sections on tab activation
     $('input[type=radio]').click(function(){
 
@@ -191,9 +193,329 @@ $(document).ready(function(){
 
         switch(linkType) {
             case 'mBB-portfolio':
-                loadPayment();
+                Waves.loadPayment();
             break;
         }
     });
 
+
+
+    Waves.loadPayment = function () {
+
+        var paymentForm = '<div id="wallet_accounts"><h2>YOUR WALLETS</h2> <button class="btn btn-primary" id="newAddress">New Address</button></div>';
+            paymentForm += '<div id="accounts_sender" class="wavesTable"><table><thead><tr><th>ADDRESS</th><th>BALANCE</th></thead><tbody id="accounts_table"></tbody></table></div><hr/>';
+            paymentForm += '</div><div id="payment_response"></div>';
+
+            paymentForm += '<h2 style="margin-top: .5rem;">SEND PAYMENT</h2>'+
+                            '<form id="paymentForm">'+
+                                '<div class="paymentForm">'+
+                                  '  <table>'+
+                                  '     <thead>'+
+                                  '         <tr>'+
+                                  '             <th>DESCRIPTION</th>'+
+                                  '             <th>INPUT</th>'+
+                                  '         </tr>'+
+                                  '     </thead>'+
+                                  '     <tbody>'+
+                                  '         <tr>'+
+                                  '             <td>Sender (choose one account with balance from above)</td>'+
+                                  '             <td><input type="text" class="form-control" id="sender" placeholder="Sender"></td>'+
+                                  '         </tr>'+
+                                  '         <tr>'+
+                                  '             <td>Recipient</td>'+
+                                  '             <td><input type="text" class="form-control" id="recipient" placeholder="Recipient"></td>'+
+                                  '         </tr>'+
+                                  '         <tr>'+
+                                  '             <td>Amount</td>'+
+                                  '             <td><input type="number" class="form-control" id="sendamount" placeholder="Amount" min="0"></td>'+
+                                  '         </tr>'+
+                                  '         <tr>'+
+                                  '             <td>Fee</td>'+
+                                  '             <td><p>Fee 1 Waves</p></td>'+
+                                  '         </tr>'+
+                                  '         <tr>'+
+                                  '             <td>Send</td>'+
+                                  '             <td><button id="sendpayment" class="paymentForm-but fade" value="send">SUBMIT</button></td>'+
+                                  '         </tr>'+
+
+                                  '     </tbody>'+
+                                  '   </table>'+
+                                  '</div>'+
+                            '</form>';
+
+
+            paymentForm += '</div>';
+
+
+        $("#portfolio").html(paymentForm);
+
+
+        $.getJSON(Waves.server+'/addresses/', function(response) {
+
+            balance = 0;
+
+            $.each(response, function(key, value) {
+
+                $.each(value, function(innerkey, innervalue) {
+
+                    $.getJSON(Waves.server+'/addresses/balance/'+innervalue, function(balanceResult) {
+
+
+                        $("#accounts_table").append('<tr><td>'+innervalue +'</td><td>'+balanceResult.balance+' Waves</td></tr>');
+
+                    });
+
+                });
+            });
+        });
+
+
+        $("#sendpayment").on("click", function(e) {
+
+            e.preventDefault();
+
+            var amount = $("#sendamount").val();
+            var recipient = $("#recipient").val();
+            var sender = $("#sender").val();
+
+            $("#sendpayment").on("click", function() {
+
+
+                if(amount > 0) {
+
+                    if(recipient > '') {
+
+                        var number = Number(amount);
+
+                        $.ajax({
+                            url: Waves.server+'/payment',
+                            data: JSON.stringify({
+                                "amount": number,
+                                "fee": 1,
+                                "sender": sender,
+                                "recipient": recipient
+                            }),
+                            type: "POST",
+                            success: function(successrequest){
+                    
+
+                                $("#sendamount").val('');
+                                $("#recipient").val('');
+                                $("#sender").val('');
+
+                                var messageTable = '<div class="wavesTable">'+
+                                                        '<table>'+
+                                                        '   <thead>'+
+                                                        '       <tr>'+
+                                                        '           <th>Key</th>'+
+                                                        '           <th>Value</th>'+
+                                                        '       </tr>'+
+                                                        '   </thead>'+
+                                                        '   <tbody>'+
+                                                        '       <tr>'+
+                                                        '           <th>Timestamp</th>'+
+                                                        '           <td>'+successrequest.timestamp+'</td>'+
+                                                        '       </tr>'+
+                                                        '       <tr>'+
+                                                        '           <th>Sender</th>'+
+                                                        '           <td>'+successrequest.sender+'</td>'+
+                                                        '       </tr>'+
+                                                        '       <tr>'+
+                                                        '           <th>Recipient</th>'+
+                                                        '           <td>'+successrequest.recipient+'</td>'+
+                                                        '       </tr>'+
+                                                        '       <tr>'+
+                                                        '           <th>Amount</th>'+
+                                                        '           <td>'+successrequest.amount+' Waves</td>'+
+                                                        '       </tr>'+
+                                                        '       <tr>'+
+                                                        '           <th>Fee</th>'+
+                                                        '           <td>'+successrequest.fee+' Waves</td>'+
+                                                        '       </tr>'+
+                                                        '       <tr>'+
+                                                        '           <th>Signature</th>'+
+                                                        '           <td>'+successrequest.signature+'</td>'+
+                                                        '       </tr>'+
+                                                        '   </tbody>'+
+                                                        '</table>'+
+                                                    '</div>';
+
+                                $("#payment_response").html('<h3>Sending successfull</h3>'+messageTable);
+
+                            },
+                            error: function(response){
+                                $("#payment_response").html(response.message);
+                                console.log(response);
+                            }
+                        });
+
+                        
+
+                    } else {
+                        alert ('Please insert a recipient');
+                    }
+
+                } else {
+                    alert ('Please insert an amount higher than 0');
+                }
+
+            });
+
+
+        });
+
+
+        $("#newAddress").on("click", function() {
+
+            $.post(Waves.server+'/addresses/', function(createAddress) {
+
+                console.log(createAddress);
+
+                $("#accounts_table").append('<tr><td>'+createAddress.address +'</td><td>0 Waves</td></tr>');
+
+
+            });
+
+        });
+
+
+    }
+
+
+
+
+    Waves.loadWallet = function () {
+
+        var appContainer;
+
+        $.getJSON(Waves.server+'/addresses/', function(response) {
+
+            appContainer += '<h2>YOUR WALLETS</h2><div class="wavesTable">';
+
+            appContainer += '<table>';
+            appContainer += '<thead><tr><th>Key</th><th>Value</th></tr></thead>';
+            appContainer += '<tbody>';
+
+            $.each(response, function(key, value) {
+
+                $.each(value, function(innerkey, innervalue) {
+
+                    appContainer += '<tr><td>';
+                    appContainer += innerkey;
+                    appContainer += '</td><td>';
+                    appContainer += innervalue;
+                    appContainer += '</td></tr>';
+
+                });
+
+                
+
+            });
+
+            appContainer += '<tbody>';
+
+            appContainer += '</div>';
+
+            appContainer += '<button class="btn btn-primary" id="newAddress">New Address</button>';
+
+            
+            $("#walletContainer").html(appContainer);
+
+            $("#newAddress").on("click", function() {
+
+                $.post(Waves.server+'/addresses/', function(createAddress) {
+
+                    Waves.loadWallet();
+
+                });
+
+            });
+
+
+        });
+
+    }
+
+    //Import Waves Account
+
+    $("#import_account").on("click", function(e) {
+        e.preventDefault();
+
+        $("#step2_reg").show();
+        $("#walletSeed").val('');
+        $("#publicKeyLockscreen").html('');
+        $("#privateKeyLockscreen").html('');
+        $("#addresLockscreen").html('');
+
+    });
+
+    //Create new Waves Acount
+
+    $("#create_account").on("click", function(e) {
+        e.preventDefault();
+
+        $("#step2_reg").show();
+
+        var passphrase = PassPhraseGenerator.generatePassPhrase();
+        $("#walletSeed").val(passphrase);
+
+        var publicKey = Waves.getPublicKey(passphrase);
+        var privateKey = Waves.getPrivateKey(passphrase);
+
+        $("#publicKeyLockscreen").html(publicKey);
+        $("#privateKeyLockscreen").html(privateKey);
+
+        Waves.getAddress(publicKey, function(response) {
+            $("#addresLockscreen").html(response.address);
+        });
+
+        
+
+    });
+
+
+    $("#generateKeys").on("click", function(e) {
+        e.preventDefault();
+
+        var walletSeed = $("#walletSeed").val();
+
+        var publicKey = Waves.getPublicKey(walletSeed);
+        var privateKey = Waves.getPrivateKey(walletSeed);
+
+        $("#publicKeyLockscreen").html(publicKey);
+        $("#privateKeyLockscreen").html(privateKey);
+
+
+    });
+
+    $("#generateRandomSeed").on("click", function(e) {
+        e.preventDefault();
+
+        var passphrase = PassPhraseGenerator.generatePassPhrase();
+        $("#walletSeed").val(passphrase);
+
+        var publicKey = Waves.getPublicKey(passphrase);
+        var privateKey = Waves.getPrivateKey(passphrase);
+
+        $("#publicKeyLockscreen").html(publicKey);
+        $("#privateKeyLockscreen").html(privateKey);
+    })
+
+	return Waves;
+}(Waves || {}, jQuery));    
+
+
+
+
+$(document).ready(function(){
+
+    Waves.initApp();
+
 });
+
+
+
+
+
+
+
