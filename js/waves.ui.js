@@ -28,6 +28,7 @@ var Waves = (function(Waves, $, undefined) {
     //Delete hack later.
     var balance  = 0;
 
+
     Waves.hasLocalStorage = false;
 
     Waves.initApp = function () {
@@ -44,13 +45,13 @@ var Waves = (function(Waves, $, undefined) {
 
         $("#loginButton").on("click", function() {
             
-            Waves.login();
+            Waves.initPreview();
 
         });
 
     }
 
-    Waves.login = function() {
+    Waves.initPreview = function() {
 
 
         Waves.loadBlockheight();
@@ -490,7 +491,74 @@ var Waves = (function(Waves, $, undefined) {
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
             $("#addresLockscreen").html(response.address);
         });
-    })
+    });
+
+    $("#registerSeed").on("click", function(e) {
+        e.preventDefault();
+
+        var passphrase = $("#walletSeed").val();
+        var publicKey = $("#publicKeyLockscreen").html();
+        var privateKey = $("#privateKeyLockscreen").html();
+        var address = $("#addresLockscreen").html();
+
+        var accountData = {
+            passphrase: passphrase,
+            publicKey: publicKey,
+            privateKey: privateKey,
+            address: address
+        };
+
+
+        if(Waves.hasLocalStorage) {
+
+            var currentAccounts = localStorage.getItem('WavesAccounts');
+                currentAccounts = JSON.parse(currentAccounts);
+
+            if(currentAccounts !== undefined && currentAccounts !== null) {
+
+                currentAccounts.accounts.push(accountData);
+                localStorage.setItem('WavesAccounts', JSON.stringify(currentAccounts));
+
+            } else {
+                var accountArray = { accounts: [accountData] };
+                localStorage.setItem('WavesAccounts', JSON.stringify(accountArray));
+            }
+        }
+
+    });
+
+    Waves.loadAddressBalance = function (address, callback) {
+
+        Waves.apiRequest(Waves.api.address.balance(address), function(response) {
+            return callback(response.balance);
+        })
+
+    }
+
+    Waves.login = function (accountDetails) {
+
+
+
+        Waves.seed = accountDetails.passphrase;
+        Waves.publicKey = accountDetails.publicKey;
+        Waves.privateKey = accountDetails.privatekey;
+        Waves.address = accountDetails.address;
+
+        Waves.loadAddressBalance(Waves.address, function (balance) {
+
+            $("#lockscreen").hide();
+            $("#lockscreenTable").hide();
+            $("#wrapper").show();
+
+            $("#wavesbalance").html(balance);
+            $("#balancespan").html(balance +' Waves');
+            $('.balancewaves').html(balance + ' Waves');
+            $(".wB-add").html(Waves.address);
+            
+        });
+    }
+
+    
 
 	return Waves;
 }(Waves || {}, jQuery));    
@@ -501,6 +569,45 @@ var Waves = (function(Waves, $, undefined) {
 $(document).ready(function(){
 
     Waves.initApp();
+
+    if(Waves.hasLocalStorage) {
+       var userAccounts = localStorage.getItem('WavesAccounts');
+
+       if(userAccounts !== null) {
+            var accounts = JSON.parse(userAccounts);
+
+            $.each(accounts.accounts, function(accountKey, accountDetails) {
+
+                $("#wavesAccounts").append('<br>'+accountDetails.address+' <button class="loginAccount" data-id="'+accountKey+'">Login</button>');
+
+            });
+
+       }
+
+       $(".loginAccount").on("click", function(e) {
+            e.preventDefault();
+
+            var accountId = $(this).data('id');
+
+            var userAccounts = localStorage.getItem('WavesAccounts');
+
+           if(userAccounts !== null) {
+                var accounts = JSON.parse(userAccounts);
+
+                var accountDetails = accounts.accounts[accountId];
+
+                Waves.login(accountDetails);
+
+           }
+
+
+        });
+
+    } else {
+
+        //To Do: no LocalStorage
+
+    }
 
 });
 
