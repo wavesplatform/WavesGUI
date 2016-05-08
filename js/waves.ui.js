@@ -83,7 +83,7 @@ var Waves = (function(Waves, $, undefined) {
 
                 var userAccounts = localStorage.getItem('WavesAccounts');
 
-               if(userAccounts !== null) {
+                if(userAccounts !== null) {
                     var accounts = JSON.parse(userAccounts);
 
                     if (accountId > -1) {
@@ -95,10 +95,10 @@ var Waves = (function(Waves, $, undefined) {
                     $("#wavesAccounts").html('');
                     $.each(accounts.accounts, function(accountKey, accountDetails) {
 
-                    $("#wavesAccounts").append('<br>'+accountDetails.address+' <button class="removeAccount" data-id="'+accountKey+'">Remove</button> <button class="loginAccount" data-id="'+accountKey+'">Login</button> ');
+                        $("#wavesAccounts").append('<br>'+accountDetails.address+' <button class="removeAccount" data-id="'+accountKey+'">Remove</button> <button class="loginAccount" data-id="'+accountKey+'">Login</button> ');
 
-                });
-               }
+                    });
+                }
            });
 
         } else {
@@ -108,7 +108,7 @@ var Waves = (function(Waves, $, undefined) {
         }
 
     }
-
+    
     Waves.loadBlockheight = function () {
 
         Waves.apiRequest(Waves.api.blocks.height, function(result) {
