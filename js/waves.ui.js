@@ -322,7 +322,7 @@ var Waves = (function(Waves, $, undefined) {
                  $.each(transactionHistory, function(historyKey, historyValue) {
 
                         appContainer += '<tr>';
-                        appContainer += '<td>'+historyValue.timestamp+'</td>';
+                        appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
                         appContainer += '<td>'+historyValue.type+'</td>';
                         appContainer += '<td>'+historyValue.sender+'</td>';
                         appContainer += '<td>'+historyValue.recipient+'</td>';

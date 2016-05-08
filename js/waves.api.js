@@ -63,8 +63,6 @@ var Waves = (function (Waves, $) {
 
 	Waves.apiRequest = function(url, data, callback, async) {
 
-		var _type = 'GET';
-
 		if ($.isFunction(data)) {
             async = callback;
             callback = data;
@@ -72,6 +70,8 @@ var Waves = (function (Waves, $) {
         } else {
             data = data || {};
         }
+
+        var _type = 'GET';
 
         if(url === Waves.api.waves.address) {
         	_type = 'POST';
