@@ -250,7 +250,8 @@ var Waves = (function(Waves, $, undefined) {
         $("#portfolio").html(paymentForm);
 
 
-        $.getJSON(Waves.server+'/addresses/', function(response) {
+        $.getJSON(Waves.server+'/addresses', function(response) {
+
 
             balance = 0;
 
@@ -388,7 +389,7 @@ var Waves = (function(Waves, $, undefined) {
 
         var appContainer;
 
-        $.getJSON(Waves.server+'/addresses/', function(response) {
+        $.getJSON(Waves.server+'/addresses', function(response) {
 
             appContainer += '<h2>YOUR WALLETS</h2><div class="wavesTable">';
 
@@ -465,11 +466,9 @@ var Waves = (function(Waves, $, undefined) {
         $("#publicKeyLockscreen").html(publicKey);
         $("#privateKeyLockscreen").html(privateKey);
 
-        Waves.getAddress(publicKey, function(response) {
+        $.getJSON(Waves.api.waves.address, publicKey, function(response) {
             $("#addresLockscreen").html(response.address);
         });
-
-        
 
     });
 

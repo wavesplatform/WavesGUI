@@ -53,6 +53,9 @@ var Waves = (function (Waves, $) {
 		peers: {
 			all: URL + '/peers/all',
 			connected: URL + '/peers/connected'
+		},
+		waves: {
+			address: URL + '/waves/address'
 		}
 
 	};

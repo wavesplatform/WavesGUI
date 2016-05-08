@@ -23,8 +23,9 @@
  */
 var Waves = (function(Waves, $, undefined) {
 	"use strict";
-
-    Waves.server = 'http://82.165.138.42:6869'; //Enter your node or localhost here.
+    // http://52.36.177.184:6869
+    // http://82.165.138.42:6869
+    Waves.server = 'http://52.36.177.184:6869'; //Enter your node or localhost here.
     Waves.epoch = 1460678400;
     Waves.seed = '';
     Waves.hasLocalStorage = _checkDOMenabled();
@@ -48,7 +49,7 @@ var Waves = (function(Waves, $, undefined) {
             return callback(response);
 
         }); 
-        
+
     }
 
     Waves.getAddressesBalance = function (address, callback) {
