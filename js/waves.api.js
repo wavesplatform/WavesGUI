@@ -106,6 +106,5 @@ var Waves = (function (Waves, $) {
 
 	}
 
-
     return Waves;
 }(Waves || {}, jQuery));

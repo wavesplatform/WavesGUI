@@ -25,10 +25,7 @@
 var Waves = (function(Waves, $, undefined) {
 	"use strict";
 
-    //Delete hack later.
-    var balance  = 0;
-
-
+    Waves.balance  = 0;
     Waves.hasLocalStorage = false;
 
     Waves.initApp = function () {
@@ -73,7 +70,6 @@ var Waves = (function(Waves, $, undefined) {
 
                }
 
-
             });
 
            $(".removeAccount").on("click", function(e) {
@@ -117,16 +113,11 @@ var Waves = (function(Waves, $, undefined) {
 
         });
 
-        
-
     }
 
     Waves.loadBalance = function () {
 
-
         Waves.apiRequest(Waves.api.address.getAddresses(), function(response) {
-
-            balance = 0;
 
             var account = 0;
 
@@ -135,19 +126,18 @@ var Waves = (function(Waves, $, undefined) {
 
                 Waves.apiRequest(Waves.api.address.balance(value), function(balanceResult) {
 
-                    balance = balance + balanceResult.balance;
+                    Waves.balance = Waves.balance + balanceResult.balance;
 
-                    $("#wavesbalance").html(balance)
+                    $("#wavesbalance").html(Waves.balance)
 
-                    $("#balancespan").html(balance +' Waves');
+                    $("#balancespan").html(Waves.balance +' Waves');
 
-                    $('.balancewaves').html(balance + ' Waves');
+                    $('.balancewaves').html(Waves.balance + ' Waves');
 
                 });
 
             });
         });
-
 
     }
 
@@ -182,7 +172,6 @@ var Waves = (function(Waves, $, undefined) {
     });
 
     //Create new Waves Acount
-
     $("#create_account").on("click", function(e) {
         e.preventDefault();
 
@@ -295,7 +284,6 @@ var Waves = (function(Waves, $, undefined) {
 
     Waves.login = function (accountDetails) {
 
-
         Waves.loadBlockheight();
         Waves.seed = accountDetails.passphrase;
         Waves.publicKey = accountDetails.publicKey;
@@ -312,7 +300,6 @@ var Waves = (function(Waves, $, undefined) {
             $("#balancespan").html(balance +' Waves');
             $('.balancewaves').html(balance + ' Waves');
             $(".wB-add").html(Waves.address);
-
 
             Waves.getAddressHistory(Waves.address, function(history) {
 
@@ -335,10 +322,8 @@ var Waves = (function(Waves, $, undefined) {
                 $("#transactionhistory").html(appContainer);
 
             
-
             });
-           
-            
+               
         });
     }
 
@@ -378,13 +363,9 @@ var Waves = (function(Waves, $, undefined) {
 }(Waves || {}, jQuery));    
 
 
-
-
 $(document).ready(function(){
 
     Waves.initApp();
-
-    
 
 });
 
