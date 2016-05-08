@@ -450,7 +450,7 @@ var Waves = (function(Waves, $, undefined) {
         $("#publicKeyLockscreen").html(publicKey);
         $("#privateKeyLockscreen").html(privateKey);
 
-        $.getJSON(Waves.api.waves.address, publicKey, function(response) {
+        Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
             $("#addresLockscreen").html(response.address);
         });
 
@@ -468,6 +468,10 @@ var Waves = (function(Waves, $, undefined) {
         $("#publicKeyLockscreen").html(publicKey);
         $("#privateKeyLockscreen").html(privateKey);
 
+        Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
+            $("#addresLockscreen").html(response.address);
+        });
+
 
     });
 
@@ -482,6 +486,10 @@ var Waves = (function(Waves, $, undefined) {
 
         $("#publicKeyLockscreen").html(publicKey);
         $("#privateKeyLockscreen").html(privateKey);
+
+        Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
+            $("#addresLockscreen").html(response.address);
+        });
     })
 
 	return Waves;
@@ -493,16 +501,6 @@ var Waves = (function(Waves, $, undefined) {
 $(document).ready(function(){
 
     Waves.initApp();
-
-    /*  //Node Check
-    $.ajax({
-        url: 'http://52.36.177.184:6869/blocks/last',
-        success: function(data){
-            console.log(data);
-            //process the JSON data etc
-        }
-    })
-*/
 
 });
 

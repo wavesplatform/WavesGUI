@@ -61,15 +61,48 @@ var Waves = (function (Waves, $) {
 	};
 
 
-	Waves.apiRequest = function(api, callback) {
+	Waves.apiRequest = function(url, data, callback, async) {
 
-		$.ajax({
-        	url: api,
-        	success: function(data){
-            
-            	return callback(data);
-        	}
-    	});
+		var _type = 'GET';
+
+		if ($.isFunction(data)) {
+            async = callback;
+            callback = data;
+            data = {};
+        } else {
+            data = data || {};
+        }
+
+        if(url === Waves.api.waves.address) {
+        	_type = 'POST';
+        }
+
+        $.support.cors = true;
+
+        $.ajax({
+            url: url,
+            crossDomain: true,
+            dataType: "json",
+            type: _type,
+            timeout: 30000,
+            async: (async === undefined ? true : async),
+            data: data
+        }).done(function (json) {
+            //why is this necessary??..
+            if (json.errorCode && !json.errorDescription) {
+                json.errorDescription = (json.errorMessage ? json.errorMessage : $.t("server_error_unknown"));
+            }
+            if (callback) {
+                callback(json, data);
+            }
+        }).fail(function (xhr, textStatus, error) {
+            if (callback) {
+                callback({
+                    "errorCode": -1,
+                    "errorDescription": error
+                }, {});
+            }
+        });
 
 	}
 
