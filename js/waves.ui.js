@@ -51,7 +51,7 @@ var Waves = (function(Waves, $, undefined) {
 
                 $.each(accounts.accounts, function(accountKey, accountDetails) {
 
-                    $("#wavesAccounts").append('<br>'+accountDetails.address+' <button class="loginAccount" data-id="'+accountKey+'">Login</button>');
+                    $("#wavesAccounts").append('<br>'+accountDetails.address+' <button class="removeAccount" data-id="'+accountKey+'">Remove</button> <button class="loginAccount" data-id="'+accountKey+'">Login</button> ');
 
                 });
 
@@ -75,6 +75,31 @@ var Waves = (function(Waves, $, undefined) {
 
 
             });
+
+           $(".removeAccount").on("click", function(e) {
+                e.preventDefault();
+
+                var accountId = $(this).data('id');
+
+                var userAccounts = localStorage.getItem('WavesAccounts');
+
+               if(userAccounts !== null) {
+                    var accounts = JSON.parse(userAccounts);
+
+                    if (accountId > -1) {
+                        accounts.accounts.splice(accountId, 1);
+                    }
+
+                    localStorage.setItem('WavesAccounts', JSON.stringify(accounts));
+
+                    $("#wavesAccounts").html('');
+                    $.each(accounts.accounts, function(accountKey, accountDetails) {
+
+                    $("#wavesAccounts").append('<br>'+accountDetails.address+' <button class="removeAccount" data-id="'+accountKey+'">Remove</button> <button class="loginAccount" data-id="'+accountKey+'">Login</button> ');
+
+                });
+               }
+           });
 
         } else {
 
