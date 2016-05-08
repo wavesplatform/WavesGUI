@@ -23,7 +23,7 @@ var Waves = (function (Waves, $) {
 		},
 		address: {
 			getAddresses: function () {
-				return URL + '/addresses/';
+				return URL + '/addresses';
 			},
 			balance: function (address) {
 				return URL + '/addresses/balance/' + address;
@@ -59,6 +59,19 @@ var Waves = (function (Waves, $) {
 		}
 
 	};
+
+
+	Waves.apiRequest = function(api, callback) {
+
+		$.ajax({
+        	url: api,
+        	success: function(data){
+            
+            	return callback(data);
+        	}
+    	});
+
+	}
 
 
     return Waves;

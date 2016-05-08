@@ -48,15 +48,14 @@ var Waves = (function(Waves, $, undefined) {
 
         });
 
-        console.log(Waves.hasLocalStorage);
-
     }
 
     Waves.login = function() {
 
-        Waves.loadHistory();
+
         Waves.loadBlockheight();
         Waves.loadBalance();
+        Waves.loadHistory();
 
         $("#lockscreen").hide();
         $("#lockscreenTable").hide();
@@ -67,18 +66,20 @@ var Waves = (function(Waves, $, undefined) {
 
     Waves.loadBlockheight = function () {
 
-        $.getJSON(Waves.api.blocks.height, function(result) {
-
+        Waves.apiRequest(Waves.api.blocks.height, function(result) {
+            
             $("#blockheight").html(result.height);
 
         });
+
+        
 
     }
 
     Waves.loadBalance = function () {
 
 
-        $.getJSON(Waves.api.address.getAddresses(), function(response) {
+        Waves.apiRequest(Waves.api.address.getAddresses(), function(response) {
 
             balance = 0;
 
@@ -86,31 +87,16 @@ var Waves = (function(Waves, $, undefined) {
 
             $.each(response, function(key, value) {
 
-                $.each(value, function(innerkey, innervalue) {
 
-                    $.getJSON(Waves.api.address.balance(innervalue), function(balanceResult) {
+                Waves.apiRequest(Waves.api.address.balance(value), function(balanceResult) {
 
-                        balance = balance + balanceResult.balance;
+                    balance = balance + balanceResult.balance;
 
-                        $("#wavesbalance").html(balance)
+                    $("#wavesbalance").html(balance)
 
-                        $("#balancespan").html(balance +' Waves');
+                    $("#balancespan").html(balance +' Waves');
 
-                        $('.balancewaves').html(balance + ' Waves');
-
-                        if(typeof(Storage) !== "undefined") {
-
-                            var storageKey = 'waves-'+innervalue;
-                            
-                            localStorage.innervalue = balanceResult.balance;
-
-                        } else {
-                            // Sorry! No Web Storage support.. Let's not save it
-                        }
-
-                    });
-
-                    account++;
+                    $('.balancewaves').html(balance + ' Waves');
 
                 });
 
@@ -125,48 +111,46 @@ var Waves = (function(Waves, $, undefined) {
         var signatures = [];
         var appContainer;
 
-        $.getJSON(Waves.server+'/addresses/', function(response) {
+        Waves.apiRequest(Waves.api.address.getAddresses(), function(response) {
 
             balance = 0;
 
             $.each(response, function(key, value) {
 
-                $.each(value, function(innerkey, innervalue) {
 
-                    $.getJSON(server+'/transactions/address/'+innervalue, function(transactionHistory) {
+                Waves.apiRequest(Waves.server+'/transactions/address/'+value, function(transactionHistory) {
 
-                        $.each(transactionHistory[0], function(historyKey, historyValue) {
+                    $.each(transactionHistory[0], function(historyKey, historyValue) {
 
-                            if(historyValue.timestamp > 0) {
+                        if(historyValue.timestamp > 0) {
 
-                                if(signatures.indexOf(historyValue.signature) < 0) {
+                            if(signatures.indexOf(historyValue.signature) < 0) {
 
-                                    signatures.push(historyValue.signature);
+                                signatures.push(historyValue.signature);
 
-                                    appContainer += '<tr>';
-                                    appContainer += '<td>'+historyValue.timestamp+'</td>';
-                                    appContainer += '<td>'+historyValue.type+'</td>';
-                                    appContainer += '<td>'+historyValue.sender+'</td>';
-                                    appContainer += '<td>'+historyValue.recipient+'</td>';
-                                    appContainer += '<td>'+historyValue.fee+'</td>';
-                                    appContainer += '<td>'+historyValue.amount+' Waves</td>';
+                                appContainer += '<tr>';
+                                appContainer += '<td>'+historyValue.timestamp+'</td>';
+                                appContainer += '<td>'+historyValue.type+'</td>';
+                                appContainer += '<td>'+historyValue.sender+'</td>';
+                                appContainer += '<td>'+historyValue.recipient+'</td>';
+                                appContainer += '<td>'+historyValue.fee+'</td>';
+                                appContainer += '<td>'+historyValue.amount+' Waves</td>';
 
-                                    appContainer += '</tr>';
+                                appContainer += '</tr>';
 
-                                }
-                                
-                                
-                                
                             }
+                            
+                            
+                            
+                        }
 
-
-                        });
-
-                        
 
                     });
 
+                    
+
                 });
+
 
 
             });
@@ -250,7 +234,7 @@ var Waves = (function(Waves, $, undefined) {
         $("#portfolio").html(paymentForm);
 
 
-        $.getJSON(Waves.server+'/addresses', function(response) {
+        Waves.apiRequest(Waves.server+'/addresses', function(response) {
 
 
             balance = 0;
@@ -259,7 +243,7 @@ var Waves = (function(Waves, $, undefined) {
 
                 $.each(value, function(innerkey, innervalue) {
 
-                    $.getJSON(Waves.server+'/addresses/balance/'+innervalue, function(balanceResult) {
+                    Waves.apiRequest(Waves.server+'/addresses/balance/'+innervalue, function(balanceResult) {
 
 
                         $("#accounts_table").append('<tr><td>'+innervalue +'</td><td>'+balanceResult.balance+' Waves</td></tr>');
@@ -389,7 +373,7 @@ var Waves = (function(Waves, $, undefined) {
 
         var appContainer;
 
-        $.getJSON(Waves.server+'/addresses', function(response) {
+        Waves.apiRequest(Waves.server+'/addresses', function(response) {
 
             appContainer += '<h2>YOUR WALLETS</h2><div class="wavesTable">';
 
@@ -509,6 +493,16 @@ var Waves = (function(Waves, $, undefined) {
 $(document).ready(function(){
 
     Waves.initApp();
+
+    /*  //Node Check
+    $.ajax({
+        url: 'http://52.36.177.184:6869/blocks/last',
+        success: function(data){
+            console.log(data);
+            //process the JSON data etc
+        }
+    })
+*/
 
 });
 
