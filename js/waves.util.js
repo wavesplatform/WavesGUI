@@ -251,13 +251,14 @@ var Waves = (function (Waves, $, undefined) {
         var timestampBytes = converters.stringToByteArray(times);
         var amountBytes = converters.stringToByteArray(amount);
         var feeBytes = converters.stringToByteArray(fee);
+        var senderPublicKey = converters.stringToByteArray(Waves.publicKey);
 
-        //var recipientBytes = Waves.from_b58(converts,Waves.MAP);
-
-        //var decode = Waves.B58.decode(recipient);
+        //Check if this is decoded correctly
+        var decodeRecipient = Base58.decode(recipient);
         
-        var decode = Waves.from_b58(recipient,Waves.MAP)
-        console.log(decode);
+        var signatureBytes = [];
+
+        return signatureBytes.concat(typeBytes, timestampBytes, senderPublicKey, decodeRecipient, amountBytes, feeBytes);
 
     }
 
@@ -679,6 +680,7 @@ var Waves = (function (Waves, $, undefined) {
             c,        //the carry amount variable that is used to overflow from the current byte to the next byte
             n;        //a temporary placeholder variable for the current byte
         for(i in S) { //loop through each base58 character in the input string
+            
             j = 0,                             //reset the byte iterator
             c = A.indexOf( S[i] );             //set the initial carry amount equal to the current base58 digit
             if(c < 0)                          //see if the base58 digit lookup is invalid (-1)
@@ -691,32 +693,31 @@ var Waves = (function (Waves, $, undefined) {
                 d[j] = n % 256;                //reset the current byte to the remainder (the carry amount will pass on the overflow)
                 j++                            //iterate to the next byte
             }
+            console.log(b);
         }
         while(j--)               //since the byte array is backwards, loop through it in reverse order
             b.push( d[j] );      //append each byte to the result
         return new Uint8Array(b) //return the final byte array in Uint8Array format
     }
 
+    /*
     Waves.B58 = B58 = {
     alphabet: Waves.MAP,
-    base: BigInteger.valueOf(58),
+    base: { 
+        BigIng: BigInteger.valueOf(58), 
+        pow: function(input) {
+            return Math.pow(input);
+        }
+    },
 
-        /**
-         * Convert a byte array to a base58-encoded string.
-         *
-         * Written by Mike Hearn for BitcoinJ.
-         *   Copyright (c) 2011 Google Inc.
-         *
-         * Ported to JavaScript by Stefan Thomas.
-         */
         encode: function (input) {
             var bi = BigInteger.fromByteArrayUnsigned(input);
             var chars = [];
 
-            while (bi.compareTo(B58.base) >= 0) {
-                var mod = bi.mod(B58.base);
+            while (bi.compareTo(B58.base.BigIng) >= 0) {
+                var mod = bi.mod(B58.base.BigIng);
                 chars.unshift(B58.alphabet[mod.intValue()]);
-                bi = bi.subtract(mod).divide(B58.base);
+                bi = bi.subtract(mod).divide(B58.base.BigIng);
             }
             chars.unshift(B58.alphabet[bi.intValue()]);
 
@@ -730,34 +731,28 @@ var Waves = (function (Waves, $, undefined) {
             return chars.join('');
         },
 
-        /**
-         * Convert a base58-encoded string to a byte array.
-         *
-         * Written by Mike Hearn for BitcoinJ.
-         *   Copyright (c) 2011 Google Inc.
-         *
-         * Ported to JavaScript by Stefan Thomas.
-         */
         decode: function (input) {
             var bi = BigInteger.valueOf(0);
             var leadingZerosNum = 0;
             for (var i = input.length - 1; i >= 0; i--) {
                 var alphaIndex = B58.alphabet.indexOf(input[i]);
 
-                bi = bi.add(BigInteger.valueOf(alphaIndex).multiply(B58.base.pow(input.length - 1 -i)));
+                bi = bi + (BigInteger.valueOf(alphaIndex) * B58.base.pow(input.length - 1 -i));
 
                 // This counts leading zero bytes
                 if (input[i] == "1") leadingZerosNum++;
                 else leadingZerosNum = 0;
             }
-            var bytes = bi.toByteArrayUnsigned();
+            var bytes = converters.stringToByteArray(bi);
 
             // Add leading zeros
             while (leadingZerosNum-- > 0) bytes.unshift(0);
 
             return bytes;
         }
+        
     };
+
 
     // https://docs.omniref.com/js/npm/bitcore/0.1.6/symbols/BigInteger.fromByteArrayUnsigned
     BigInteger.fromByteArrayUnsigned = function (ba) {
@@ -771,6 +766,8 @@ var Waves = (function (Waves, $, undefined) {
         return new BigInteger(ba);
       }
     };
+
+    */
 
 
     Waves.encryptWalletSeed = function (phrase, key) {

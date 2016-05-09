@@ -411,15 +411,19 @@ var Waves = (function(Waves, $, undefined) {
 
         var data = {
             "amount": amount,
-            "fee": 1,
+            "fee": fee,
             "sender": sender,
             "recipient": recipient
         };
 
-        console.log(data);
+        //console.log(data);
 
-        var recipientBytes = Waves.signatureData(sender, recipient, amount, fee);
-        //console.log(recipientBytes);
+        
+        var signatureData = Waves.signatureData(sender, recipient, amount, fee);
+
+        var signature = Waves.signBytes();
+
+        console.log(signature);
 
     });
 
