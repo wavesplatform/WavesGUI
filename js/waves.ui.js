@@ -355,7 +355,7 @@ var Waves = (function(Waves, $, undefined) {
     $("#addContact").on("click", function(e) {
         e.preventDefault();
 
-        $("#contactForm").show();
+        $("#contactForm").toggle();
     });
 
     $("#addContactSubmit").on("click", function(e) {
@@ -384,6 +384,7 @@ var Waves = (function(Waves, $, undefined) {
                 $("#contactTable").append(row);
 
             } else {
+
                 var accountArray = { contacts: [accountData] };
                 localStorage.setItem('WavesContacts', JSON.stringify(accountArray));
                 var row = Waves.contactRow(accountData);
@@ -396,7 +397,6 @@ var Waves = (function(Waves, $, undefined) {
 
 
     $("#tabs-Icons-community").on("click", function(e) {
-        e.preventDefault();
 
         var currentAccounts = localStorage.getItem('WavesContacts');
             currentAccounts = JSON.parse(currentAccounts);
