@@ -138,7 +138,8 @@ var Waves = (function(Waves, $, undefined) {
 
         } else {
 
-            //To Do: no LocalStorage
+            //no LocalStorage support
+            $("#wavesAccounts").html('Your Browser does not support Storage, if you create an account please carefully backup your userdata.')
 
         }
 
