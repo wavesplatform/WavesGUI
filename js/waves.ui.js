@@ -202,8 +202,11 @@ var Waves = (function(Waves, $, undefined) {
         var publicKey = Waves.getPublicKey(passphrase);
         var privateKey = Waves.getPrivateKey(passphrase);
 
-        $("#publicKeyLockscreen").html(publicKey);
-        $("#privateKeyLockscreen").html(privateKey);
+        //$("#publicKeyLockscreen").html(publicKey);
+        //$("#privateKeyLockscreen").html(privateKey);
+
+        console.log('PrivateKey Generated: '+privateKey);
+        console.log('PublicKey Generated: '+publicKey);
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
             $("#addresLockscreen").html(response.address);
@@ -220,8 +223,10 @@ var Waves = (function(Waves, $, undefined) {
         var publicKey = Waves.getPublicKey(walletSeed);
         var privateKey = Waves.getPrivateKey(walletSeed);
 
-        $("#publicKeyLockscreen").html(publicKey);
-        $("#privateKeyLockscreen").html(privateKey);
+        //$("#publicKeyLockscreen").html(publicKey);
+        //$("#privateKeyLockscreen").html(privateKey);
+        console.log('PrivateKey Generated: '+privateKey);
+        console.log('PublicKey Generated: '+publicKey);
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
             $("#addresLockscreen").html(response.address);
@@ -239,8 +244,10 @@ var Waves = (function(Waves, $, undefined) {
         var publicKey = Waves.getPublicKey(passphrase);
         var privateKey = Waves.getPrivateKey(passphrase);
 
-        $("#publicKeyLockscreen").html(publicKey);
-        $("#privateKeyLockscreen").html(privateKey);
+        //$("#publicKeyLockscreen").html(publicKey);
+        //$("#privateKeyLockscreen").html(privateKey);
+        console.log('PrivateKey Generated: '+privateKey);
+        console.log('PublicKey Generated: '+publicKey);
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
             $("#addresLockscreen").html(response.address);
@@ -251,8 +258,8 @@ var Waves = (function(Waves, $, undefined) {
         e.preventDefault();
 
         var passphrase = $("#walletSeed").val();
-        var publicKey = $("#publicKeyLockscreen").html();
-        var privateKey = $("#privateKeyLockscreen").html();
+        //var publicKey = $("#publicKeyLockscreen").html();
+        //var privateKey = $("#privateKeyLockscreen").html();
         var address = $("#addresLockscreen").html();
         var name = $("#walletName").val();
 
