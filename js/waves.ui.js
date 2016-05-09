@@ -400,7 +400,7 @@ var Waves = (function(Waves, $, undefined) {
         var sendAmount = $("#wavessendamount").val().replace(/\s+/g, '');
         var amount = Number(sendAmount);
 
-        var sender = Waves.address;
+        var sender = converters.stringToByteArray(Waves.privateKey);
         var recipient = $("#wavesrecipient").val().replace(/\s+/g, '');
 
         var wavesTime = Waves.getTime();
@@ -408,22 +408,34 @@ var Waves = (function(Waves, $, undefined) {
         var signature;
         var fee = 1;
 
+        var signatureData = Waves.signatureData(sender, recipient, amount, fee);
+
+        var signature = Waves.signBytes(sender, signatureData);
+
+        signature = Waves.to_b58(signature,Waves.MAP)
 
         var data = {
-            "amount": amount,
-            "fee": fee,
-            "sender": sender,
-            "recipient": recipient
-        };
+          "recipient": recipient,
+          "timestamp": wavesTime,
+          "signature": signature,
+          "amount": amount,
+          "senderPublicKey": Waves.publicKey,
+          "fee": fee
+        }
 
         //console.log(data);
 
-        
-        var signatureData = Waves.signatureData(sender, recipient, amount, fee);
+        Waves.apiRequest(Waves.api.waves.broadcastTransaction, JSON.stringify(data), function(response) {
 
-        var signature = Waves.signBytes();
+            console.log(response);
 
-        console.log(signature);
+            $("#sentpayment").html(JSON.stringify(data));
+
+            $("#errorpayment").html(JSON.stringify(response));
+
+        });
+
+        //console.log(data);
 
     });
 

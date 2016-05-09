@@ -267,10 +267,10 @@ var Waves = (function (Waves, $, undefined) {
         var messageBytes = message;
         var seedBytes = converters.stringToByteArray(seed);
 
-        var digest = simpleHash(seedBytes);
+        var digest = Waves.simpleHash(seedBytes);
         var s = curve25519.keygen(digest).s;
 
-        var m = simpleHash(messageBytes);
+        var m = Waves.simpleHash(messageBytes);
         Waves._hash.init();
         Waves._hash.update(m);
         Waves._hash.update(s);

@@ -71,7 +71,8 @@ var Waves = (function (Waves, $) {
 			connected: URL + '/peers/connected'
 		},
 		waves: {
-			address: URL + '/waves/address'
+			address: URL + '/waves/address',
+			broadcastTransaction: URL + '/waves/external-payment'
 		}
 
 	};
@@ -90,6 +91,10 @@ var Waves = (function (Waves, $) {
         var _type = 'GET';
 
         if(url === Waves.api.waves.address) {
+        	_type = 'POST';
+        }
+
+        if(url === Waves.api.waves.broadcastTransaction) {
         	_type = 'POST';
         }
 
