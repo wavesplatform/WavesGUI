@@ -132,11 +132,7 @@ var Waves = (function(Waves, $, undefined) {
                     localStorage.setItem('WavesAccounts', JSON.stringify(accounts));
 
                     $("#wavesAccounts").html('');
-                    $.each(accounts.accounts, function(accountKey, accountDetails) {
-
-                         $("#wavesAccounts").append('<p class="loginAccountDiv"><br><b>'+accountName+'</b> <small>'+accountDetails.address+'</small> &nbsp; <button class="removeAccount wButton fade" data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button> <button class="loginAccount wButton fade" data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_go.svg"></span>LOG IN</button></p> ');
-
-                    });
+                    location.reload();
                 }
            });
 
