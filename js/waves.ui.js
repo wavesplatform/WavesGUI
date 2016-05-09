@@ -87,6 +87,8 @@ var Waves = (function(Waves, $, undefined) {
 
                     var childNode = accountId + 1;
 
+                    $("#loginAccountDiv").remove();
+
                     var submitButton = '<button class="submitLoginAccount wButton fade"><span class="wButton-icon"><img src="img/wIcon_go.svg"></span>LOG IN</button>';
 
                     $("#wavesAccounts > p:nth-child("+childNode+")").after("<div id='loginAccountDiv'><h3>Insert Password</h3><input type='password' id='loginPassword' class='wButton fade'><br/>"+submitButton+"<br/><div id='errorPasswordLogin'></div></div>");
