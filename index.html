@@ -67,11 +67,17 @@
                                         <label for="walletSeed">WALLET SEED</label>
                                         <br/>
                                         
-                                        <input type="text" id="walletSeed" class="wInput"/>
+                                        <input type="text" id="walletSeed" class="wInput" readonly/>
                                         <br/><br/>
                                         
                                         <button id="generateKeys" class="wButton fade">GENERATE KEYS</button>&nbsp;&nbsp;&nbsp;<button id="generateRandomSeed" class="wButton fade">GENERATE RANDOM SEED</button>
                                         <br/><br/>
+                                        
+                                        <div style="display: none;"><b>PUBLIC KEY</b> <br/><span id="publicKeyLockscreen"></span></div>
+                                        <br/>
+                                        
+                                        <div style="display: none;"><b>PRIVATE KEY</b> <br/><span id="privateKeyLockscreen"></span></div>
+                                        <br/>
                                         
                                         <div><b>ADDRESS</b> 
                                         <br/>
@@ -85,8 +91,17 @@
                                         <h3>Use a name for this address (optional)</h3>
                                         <input type="text" id="walletName" class="wInput"/>
                                         <br/><br/>
+
+                                        <h3>Password (encrypt your Wallet Seed)</h3>
+                                        <input type="password" id="walletPassword" class="wInput"/>
+                                        <br/><br/>
+                                        <h4>Repeat Password</h4>
+                                        <input type="password" id="walletPasswordConfirm" class="wInput"/>
+                                        <br/><br/>
                                         
                                         <button id="registerSeed" class="wButton fade">REGISTER</button> 
+
+                                        <div id="errorRegister"></div>
                                     </div>
                                     
                                 </form>

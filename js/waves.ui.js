@@ -202,8 +202,8 @@ var Waves = (function(Waves, $, undefined) {
         var publicKey = Waves.getPublicKey(passphrase);
         var privateKey = Waves.getPrivateKey(passphrase);
 
-        //$("#publicKeyLockscreen").html(publicKey);
-        //$("#privateKeyLockscreen").html(privateKey);
+        $("#publicKeyLockscreen").html(publicKey);
+        $("#privateKeyLockscreen").html(privateKey);
 
         console.log('PrivateKey Generated: '+privateKey);
         console.log('PublicKey Generated: '+publicKey);
@@ -223,8 +223,8 @@ var Waves = (function(Waves, $, undefined) {
         var publicKey = Waves.getPublicKey(walletSeed);
         var privateKey = Waves.getPrivateKey(walletSeed);
 
-        //$("#publicKeyLockscreen").html(publicKey);
-        //$("#privateKeyLockscreen").html(privateKey);
+        $("#publicKeyLockscreen").html(publicKey);
+        $("#privateKeyLockscreen").html(privateKey);
         console.log('PrivateKey Generated: '+privateKey);
         console.log('PublicKey Generated: '+publicKey);
 
@@ -244,8 +244,8 @@ var Waves = (function(Waves, $, undefined) {
         var publicKey = Waves.getPublicKey(passphrase);
         var privateKey = Waves.getPrivateKey(passphrase);
 
-        //$("#publicKeyLockscreen").html(publicKey);
-        //$("#privateKeyLockscreen").html(privateKey);
+        $("#publicKeyLockscreen").html(publicKey);
+        $("#privateKeyLockscreen").html(privateKey);
         console.log('PrivateKey Generated: '+privateKey);
         console.log('PublicKey Generated: '+publicKey);
 
@@ -258,19 +258,28 @@ var Waves = (function(Waves, $, undefined) {
         e.preventDefault();
 
         var passphrase = $("#walletSeed").val();
-        //var publicKey = $("#publicKeyLockscreen").html();
-        //var privateKey = $("#privateKeyLockscreen").html();
+        var publicKey = $("#publicKeyLockscreen").html();
+        var privateKey = $("#privateKeyLockscreen").html();
         var address = $("#addresLockscreen").html();
         var name = $("#walletName").val();
+        var password = $("#walletPassword").val();
+        var passwordConfirm = $("#walletPasswordConfirm").val();
+
+        if(password !== passwordConfirm) {
+            $("#errorRegister").html('Your passwords do not match.');
+            return;
+        }
+
+        var cipher = Waves.encryptWalletSeed(passphrase, password).toString();
+        var checksum = converters.byteArrayToHexString(Waves.simpleHash(converters.stringToByteArray(passphrase)));
 
         var accountData = {
             name: name,
-            passphrase: passphrase,
+            cipher: cipher,
+            checksum: checksum,
             publicKey: publicKey,
-            privateKey: privateKey,
             address: address
         };
-
 
         if(Waves.hasLocalStorage) {
 
@@ -290,6 +299,7 @@ var Waves = (function(Waves, $, undefined) {
             }
 
         }
+        
 
     });
 

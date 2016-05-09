@@ -235,6 +235,12 @@ var Waves = (function (Waves, $, undefined) {
     var LANG = window.navigator.userLanguage || window.navigator.language;
     var LOCALE_DATE_FORMAT = LOCALE_DATE_FORMATS[LANG] || 'dd/MM/yyyy';
 
+    Waves._hash = {
+        init: SHA256_init,
+        update: SHA256_write,
+        getBytes: SHA256_finalize
+    };
+
 
     Waves.signatureData = function(sender, recipient, amount, fee) {
 
@@ -262,17 +268,17 @@ var Waves = (function (Waves, $, undefined) {
         var s = curve25519.keygen(digest).s;
 
         var m = simpleHash(messageBytes);
-        _hash.init();
-        _hash.update(m);
-        _hash.update(s);
-        var x = _hash.getBytes();
+        Waves._hash.init();
+        Waves._hash.update(m);
+        Waves._hash.update(s);
+        var x = Waves._hash.getBytes();
 
         var y = curve25519.keygen(x).p;
 
-        _hash.init();
-        _hash.update(m);
-        _hash.update(y);
-        var h = _hash.getBytes();
+        Waves._hash.init();
+        Waves._hash.update(m);
+        Waves._hash.update(y);
+        var h = Waves._hash.getBytes();
 
         var v = curve25519.sign(h, x, s);
 
@@ -763,6 +769,36 @@ var Waves = (function (Waves, $, undefined) {
         return new BigInteger(ba);
       }
     };
+
+
+    Waves.encryptWalletSeed = function (phrase, key) {
+        var rkey = Waves.prepKey(key);
+        return CryptoJS.AES.encrypt(phrase, rkey);
+    }
+
+    Waves.decryptSecretPhrase = function (cipher, key, checksum) {
+        var rkey = Waves.prepKey(key);
+        var data = CryptoJS.AES.decrypt(cipher, rkey);
+
+        if (converters.byteArrayToHexString(Waves.simpleHash(converters.hexStringToByteArray(data.toString()))) == checksum)
+            return converters.hexStringToString(data.toString());
+        else return false;
+    }
+
+    Waves.prepKey = function (key) {
+        var rounds = 1000;
+        var digest = key;
+        for (var i = 0; i < rounds; i++) {
+            digest = converters.byteArrayToHexString(Waves.simpleHash(digest));
+        }
+        return digest;
+    }
+
+    Waves.simpleHash = function (message) {
+        Waves._hash.init();
+        Waves._hash.update(message);
+        return Waves._hash.getBytes();
+    }
 
 
     return Waves;
