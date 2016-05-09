@@ -241,21 +241,23 @@ var Waves = (function (Waves, $, undefined) {
         getBytes: SHA256_finalize
     };
 
+    Waves.MAP = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+
 
     Waves.signatureData = function(sender, recipient, amount, fee) {
 
-        var typeBytes = converters.stringToByteArray('2');
+        var typeBytes = converters.stringToByteArray(2);
         var times = Waves.getTime();
         var timestampBytes = converters.stringToByteArray(times);
         var amountBytes = converters.stringToByteArray(amount);
         var feeBytes = converters.stringToByteArray(fee);
 
-        //var recipientBytes = Waves.from_b58(converts,'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz');
+        //var recipientBytes = Waves.from_b58(converts,Waves.MAP);
 
-        var decode = Waves.B58.decode(recipient);
+        //var decode = Waves.B58.decode(recipient);
+        
+        var decode = Waves.from_b58(recipient,Waves.MAP)
         console.log(decode);
-        //var decode = Waves.from_b58(encode,'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz')
-        //console.log(decode);
 
     }
 
@@ -298,7 +300,7 @@ var Waves = (function (Waves, $, undefined) {
         var ky = converters.byteArrayToHexString(curve25519.keygen(SHA256_finalize()).p);
 
         //Array bytes in converters.hexStringToByteArray(ky);
-        return Waves.to_b58(converters.hexStringToByteArray(ky),'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz');
+        return Waves.to_b58(converters.hexStringToByteArray(ky),Waves.MAP);
     }
 
     //Returns privateKey
@@ -308,7 +310,7 @@ var Waves = (function (Waves, $, undefined) {
         var ky = converters.byteArrayToHexString(curve25519.keygen(SHA256_finalize()).k);
         
         //Array Bytes in converters.hexStringToByteArray(ky)
-        return Waves.to_b58(converters.hexStringToByteArray(ky),'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz');
+        return Waves.to_b58(converters.hexStringToByteArray(ky),Waves.MAP);
     }
 
     Waves.formatVolume = function (volume) {
@@ -696,7 +698,7 @@ var Waves = (function (Waves, $, undefined) {
     }
 
     Waves.B58 = B58 = {
-    alphabet: "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz",
+    alphabet: Waves.MAP,
     base: BigInteger.valueOf(58),
 
         /**
