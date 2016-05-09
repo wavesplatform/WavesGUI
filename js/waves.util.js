@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright © 2013-2016 The Waves Developers.                                *
+ * Copyright © 2016 The Waves Developers.                                *
  *                                                                            *
  * See the LICENSE files at                                                   *
  * the top-level directory of this distribution for the individual copyright  *
@@ -237,6 +237,19 @@ var Waves = (function (Waves, $, undefined) {
 
 
     Waves.signatureData = function(sender, recipient, amount, fee) {
+
+        var typeBytes = converters.stringToByteArray('2');
+        var times = Waves.getTime();
+        var timestampBytes = converters.stringToByteArray(times);
+        var amountBytes = converters.stringToByteArray(amount);
+        var feeBytes = converters.stringToByteArray(fee);
+
+        //var recipientBytes = Waves.from_b58(converts,'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz');
+
+        var decode = Waves.B58.decode(recipient);
+        console.log(decode);
+        //var decode = Waves.from_b58(encode,'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz')
+        //console.log(decode);
 
     }
 
@@ -675,6 +688,81 @@ var Waves = (function (Waves, $, undefined) {
             b.push( d[j] );      //append each byte to the result
         return new Uint8Array(b) //return the final byte array in Uint8Array format
     }
+
+    Waves.B58 = B58 = {
+    alphabet: "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz",
+    base: BigInteger.valueOf(58),
+
+        /**
+         * Convert a byte array to a base58-encoded string.
+         *
+         * Written by Mike Hearn for BitcoinJ.
+         *   Copyright (c) 2011 Google Inc.
+         *
+         * Ported to JavaScript by Stefan Thomas.
+         */
+        encode: function (input) {
+            var bi = BigInteger.fromByteArrayUnsigned(input);
+            var chars = [];
+
+            while (bi.compareTo(B58.base) >= 0) {
+                var mod = bi.mod(B58.base);
+                chars.unshift(B58.alphabet[mod.intValue()]);
+                bi = bi.subtract(mod).divide(B58.base);
+            }
+            chars.unshift(B58.alphabet[bi.intValue()]);
+
+            // Convert leading zeros too.
+            for (var i = 0; i < input.length; i++) {
+                if (input[i] == 0x00) {
+                    chars.unshift(B58.alphabet[0]);
+                } else break;
+            }
+
+            return chars.join('');
+        },
+
+        /**
+         * Convert a base58-encoded string to a byte array.
+         *
+         * Written by Mike Hearn for BitcoinJ.
+         *   Copyright (c) 2011 Google Inc.
+         *
+         * Ported to JavaScript by Stefan Thomas.
+         */
+        decode: function (input) {
+            var bi = BigInteger.valueOf(0);
+            var leadingZerosNum = 0;
+            for (var i = input.length - 1; i >= 0; i--) {
+                var alphaIndex = B58.alphabet.indexOf(input[i]);
+
+                bi = bi.add(BigInteger.valueOf(alphaIndex).multiply(B58.base.pow(input.length - 1 -i)));
+
+                // This counts leading zero bytes
+                if (input[i] == "1") leadingZerosNum++;
+                else leadingZerosNum = 0;
+            }
+            var bytes = bi.toByteArrayUnsigned();
+
+            // Add leading zeros
+            while (leadingZerosNum-- > 0) bytes.unshift(0);
+
+            return bytes;
+        }
+    };
+
+    // https://docs.omniref.com/js/npm/bitcore/0.1.6/symbols/BigInteger.fromByteArrayUnsigned
+    BigInteger.fromByteArrayUnsigned = function (ba) {
+      if (!ba.length) {
+        return ba.valueOf(0);
+      } else if (ba[0] & 0x80) {
+        // Prepend a zero so the BigInteger class doesn't mistake this
+        // for a negative integer.
+        return new BigInteger([0].concat(ba));
+      } else {
+        return new BigInteger(ba);
+      }
+    };
 
 
     return Waves;

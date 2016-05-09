@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright © 2013-2016 The Waves Developers.                                *
+ * Copyright © 2016 The Waves Developers.                                *
  *                                                                            *
  * See the LICENSE files at                                                   *
  * the top-level directory of this distribution for the individual copyright  *
@@ -359,6 +359,7 @@ var Waves = (function(Waves, $, undefined) {
         var wavesTime = Waves.getTime();
 
         var signature;
+        var fee = 1;
 
 
         var data = {
@@ -369,6 +370,9 @@ var Waves = (function(Waves, $, undefined) {
         };
 
         console.log(data);
+
+        var recipientBytes = Waves.signatureData(sender, recipient, amount, fee);
+        //console.log(recipientBytes);
 
     });
 
