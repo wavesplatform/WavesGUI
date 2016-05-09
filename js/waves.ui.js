@@ -101,6 +101,11 @@ var Waves = (function(Waves, $, undefined) {
 
                         if(decryptPassword) {
                             accountDetails.passphrase = decryptPassword;
+
+                            var publicKey = Waves.getPublicKey(decryptPassword);
+                            var privateKey = Waves.getPrivateKey(decryptPassword);
+                            accountDetails.publicKey = publicKey;
+                            accountDetails.privateKey = privateKey;
                             Waves.login(accountDetails);
                             $("#errorPasswordLogin").html('');
                         } else {
