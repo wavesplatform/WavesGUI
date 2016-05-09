@@ -297,6 +297,7 @@ var Waves = (function(Waves, $, undefined) {
         var cipher = Waves.encryptWalletSeed(passphrase, password).toString();
         var checksum = converters.byteArrayToHexString(Waves.simpleHash(converters.stringToByteArray(passphrase)));
 
+        
         var accountData = {
             name: name,
             cipher: cipher,
@@ -323,8 +324,14 @@ var Waves = (function(Waves, $, undefined) {
             }
 
         }
-        
 
+        accountData.firstTime = true;
+        accountData.password = password;
+        accountData.passphrase = passphrase;
+        passphrase = '';
+
+        Waves.login(accountData);
+        
     });
 
     Waves.loadAddressBalance = function (address, callback) {
@@ -346,10 +353,12 @@ var Waves = (function(Waves, $, undefined) {
     Waves.login = function (accountDetails) {
 
         Waves.loadBlockheight();
-        Waves.seed = accountDetails.passphrase;
+        Waves.passphrase = accountDetails.passphrase;
         Waves.publicKey = accountDetails.publicKey;
-        Waves.privateKey = accountDetails.privatekey;
         Waves.address = accountDetails.address;
+        Waves.cipher = accountDetails.cipher;
+        Waves.password = accountDetails.password;
+        Waves.checksum = accountDetails.checksum
 
         Waves.loadAddressBalance(Waves.address, function (balance) {
 
