@@ -350,14 +350,83 @@ var Waves = (function(Waves, $, undefined) {
 
         console.log(data);
 
-
     });
 
     $("#addContact").on("click", function(e) {
         e.preventDefault();
 
         $("#contactForm").show();
-    })
+    });
+
+    $("#addContactSubmit").on("click", function(e) {
+        e.preventDefault();
+
+        var name = $("#contactname").val();
+        var address = $("#contactaddress").val();
+        var email = $("#contactemail").val();
+
+        var accountData = {
+            name: name,
+            address: address,
+            email: email
+        };
+
+        if(Waves.hasLocalStorage) {
+
+            var currentAccounts = localStorage.getItem('WavesContacts');
+                currentAccounts = JSON.parse(currentAccounts);
+
+            if(currentAccounts !== undefined && currentAccounts !== null) {
+
+                currentAccounts.contacts.push(accountData);
+                localStorage.setItem('WavesContacts', JSON.stringify(currentAccounts));
+                var row = Waves.contactRow(accountData);
+                $("#contactTable").append(row);
+
+            } else {
+                var accountArray = { contacts: [accountData] };
+                localStorage.setItem('WavesContacts', JSON.stringify(accountArray));
+                var row = Waves.contactRow(accountData);
+                $("#contactTable").append(row);
+            }
+
+        }
+
+    });
+
+
+    $("#tabs-Icons-community").on("click", function(e) {
+        e.preventDefault();
+
+        var currentAccounts = localStorage.getItem('WavesContacts');
+            currentAccounts = JSON.parse(currentAccounts);
+
+        var row;
+        $.each(currentAccounts.contacts, function(contactKey, contactData) {
+            
+            row += Waves.contactRow(contactData);
+    
+        });
+
+        $("#contactTable").html(row);
+
+    });
+
+
+    Waves.contactRow = function (accountArray) {
+
+        var row = '<tr>';
+
+        row += '<td>'+accountArray.name+'</td>';
+        row += '<td>'+accountArray.address+'</td>';
+        row += '<td>'+accountArray.email+'</td>';
+        row += '<td>Send Message Remove</td>';
+
+        row += '</tr>';
+
+        return row;
+
+    };
 
 	return Waves;
 }(Waves || {}, jQuery));    
