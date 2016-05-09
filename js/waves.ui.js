@@ -62,7 +62,12 @@ var Waves = (function(Waves, $, undefined) {
 
                 $.each(accounts.accounts, function(accountKey, accountDetails) {
 
-                    $("#wavesAccounts").append('<br>'+accountDetails.address+' <button class="removeAccount" data-id="'+accountKey+'">Remove</button> <button class="loginAccount" data-id="'+accountKey+'">Login</button> ');
+                    var accountName = '';
+                    if(accountDetails.name !== undefined) {
+                        accountName = accountDetails.name;
+                    }
+
+                    $("#wavesAccounts").append('<br><b>'+accountName+'</b> '+accountDetails.address+' <button class="removeAccount" data-id="'+accountKey+'">Remove</button> <button class="loginAccount" data-id="'+accountKey+'">Login</button> ');
 
                 });
 
@@ -249,8 +254,10 @@ var Waves = (function(Waves, $, undefined) {
         var publicKey = $("#publicKeyLockscreen").html();
         var privateKey = $("#privateKeyLockscreen").html();
         var address = $("#addresLockscreen").html();
+        var name = $("#walletName").val();
 
         var accountData = {
+            name: name,
             passphrase: passphrase,
             publicKey: publicKey,
             privateKey: privateKey,
@@ -267,14 +274,13 @@ var Waves = (function(Waves, $, undefined) {
 
                 currentAccounts.accounts.push(accountData);
                 localStorage.setItem('WavesAccounts', JSON.stringify(currentAccounts));
-                $("#wavesAccounts").append('<br>'+accountData.address);
+                $("#wavesAccounts").append('<br><b>'+accountData.name+'</b> '+accountData.address);
 
             } else {
                 var accountArray = { accounts: [accountData] };
                 localStorage.setItem('WavesAccounts', JSON.stringify(accountArray));
-                $("#wavesAccounts").append('<br>'+accountData.address);
+                $("#wavesAccounts").append('<br><b>'+accountData.name+'</b>'+accountData.address);
             }
-
 
         }
 
