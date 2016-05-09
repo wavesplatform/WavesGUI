@@ -99,6 +99,144 @@ body {
 }
 
 
+/* ============================================= */
+/* LOCKSCREEN SETTINGS */ /* LOCKSCREEN SETTINGS */
+/* ============================================= */
+
+#lockscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: #ffffff;
+    padding: 8rem;
+    overflow-y: scroll;
+}
+
+.userBG {
+    background-image: url("../img/lockbg001.jpg");
+    min-height: 100%;
+	background-size: cover;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+/*
+Keeping this for now, in case I change later the way users will upload their own backgrounds.
+
+#lockscreen > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-width: 1600px;
+    min-height: 900px;
+    height: 100%;
+    z-index: -99;
+}
+*/
+
+#tint {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    opacity: 0.5;
+    z-index: -89;
+}
+
+#lockscreenTable {
+    display: none;   
+    width: auto;
+    margin: 0 auto;
+    padding: 1rem;
+    padding-top: none;
+    height: auto;
+    text-align: center;
+    
+    border: 1px solid #ffffff; /* Fallback */
+    border: 1px solid rgba(255, 255, 255, .25);
+    border-radius: 8px 8px 8px 8px;
+    -moz-border-radius: 8px 8px 8px 8px;
+    -webkit-border-radius: 8px 8px 8px 8px;
+    cursor: default;
+}
+
+#logoNversion {
+    position: relative;
+    width: 12rem;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+}
+
+#logoNversion > img {
+    width: 12rem;
+    margin-bottom: 1rem;
+}
+
+#logoNversion > p {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: .85rem;
+    font-style: italic;
+}
+
+#accounts h2 {
+    font-size: 1.5rem;
+    font-weight: 200;
+    color: #323232;
+    background: #ffffff; /* Fallback */
+    background: rgba(255, 255, 255, .75);
+    padding: .5rem;
+}
+
+#wavesAccounts {
+    font-size: 1.25rem;
+}
+
+#wavesAccounts > .wButton {
+    border: none;
+    background: none;
+    color: #ffffff;
+    opacity: .5;
+}
+
+.wButton-icon > img{
+    width: .75rem;
+    margin-right: .5rem;
+}
+
+#wavesAccounts > .wButton:hover {
+    border: none;
+    opacity: 1;
+}
+
+#register > form {
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+#step2_reg {
+    display: none;
+}
+
+#walletSeed {
+    width: 300px;
+    margin-top: .5rem;
+}
+
+#walletName {
+    width: 300px;
+    margin-top: .5rem;
+}
+
+
+
 /* =========================================================== */
 /* HEADER SETTINGS */ /* HEADER SETTINGS */ /* HEADER SETTINGS */
 /* =========================================================== */
@@ -472,6 +610,57 @@ input.tabs-radio:checked + label  img {
 	-webkit-transition: all .2s ease;
 }
 
+
+/* =================================================== */
+/* WAVES STANDARD BUTTONS */ /* WAVES STANDARD BUTTONS */
+/* =================================================== */
+
+.wButton {
+    display: inline-block;
+    position: relative;
+    padding: .5rem;
+    padding-left: .8rem;
+    padding-right: .8rem;
+/*    background: #0096DC;*/
+    background: none;
+    overflow: hidden;
+    font-family: 'Wesli';
+    font-size: 1rem;
+    color: #ffffff;
+/*    border: none;*/
+    border: 1px solid #ffffff;
+    outline: none;
+}
+
+.wButton a {
+    text-decoration: none;
+}
+
+.wButton p {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -55%);
+}
+
+.wButton:hover {
+    cursor: pointer;
+    background: #ffffff;
+    color: #323232;
+}
+
+
+/* ================================================= */
+/* WAVES STANDARD INPUTS */ /* WAVES STANDARD INPUTS */
+/* ================================================= */
+
+.wInput {
+    font-family: 'Wesli';
+	font-size: 1rem;
+    padding: .25rem;
+}
 
 /* ====================================================== */
 /* PAYMENT FORMS PARAMETERS */ /* PAYMENT FORM PARAMETERS */

@@ -67,7 +67,7 @@ var Waves = (function(Waves, $, undefined) {
                         accountName = accountDetails.name;
                     }
 
-                    $("#wavesAccounts").append('<br><b>'+accountName+'</b> '+accountDetails.address+' <button class="removeAccount" data-id="'+accountKey+'">Remove</button> <button class="loginAccount" data-id="'+accountKey+'">Login</button> ');
+                    $("#wavesAccounts").append('<br><b>'+accountName+'</b> '+accountDetails.address+' &nbsp; <button class="removeAccount wButton fade" data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button> <button class="loginAccount wButton fade" data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_go.svg"></span>LOG IN</button> ');
 
                 });
 
@@ -110,7 +110,7 @@ var Waves = (function(Waves, $, undefined) {
                     $("#wavesAccounts").html('');
                     $.each(accounts.accounts, function(accountKey, accountDetails) {
 
-                        $("#wavesAccounts").append('<br>'+accountDetails.address+' <button class="removeAccount" data-id="'+accountKey+'">Remove</button> <button class="loginAccount" data-id="'+accountKey+'">Login</button> ');
+                        $("#wavesAccounts").append('<br>'+accountDetails.address+' <button class="removeAccount wButton" data-id="'+accountKey+'">Remove</button> <button class="loginAccount wButton" data-id="'+accountKey+'">Login</button> ');
 
                     });
                 }
