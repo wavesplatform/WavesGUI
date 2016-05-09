@@ -195,11 +195,12 @@ Keeping this for now, in case I change later the way users will upload their own
     padding: .5rem;
 }
 
-#wavesAccounts {
+.loginAccountDiv {
     font-size: 1.25rem;
+    height: 55px;
 }
 
-#wavesAccounts > .wButton {
+.loginAccountDiv > .wButton {
     border: none;
     background: none;
     color: #ffffff;
@@ -211,7 +212,7 @@ Keeping this for now, in case I change later the way users will upload their own
     margin-right: .5rem;
 }
 
-#wavesAccounts > .wButton:hover {
+.loginAccountDiv > .wButton:hover {
     border: none;
     opacity: 1;
 }

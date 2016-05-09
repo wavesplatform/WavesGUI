@@ -67,7 +67,7 @@ var Waves = (function(Waves, $, undefined) {
                         accountName = accountDetails.name;
                     }
 
-                    $("#wavesAccounts").append('<br><b>'+accountName+'</b> '+accountDetails.address+' &nbsp; <button class="removeAccount wButton fade" data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button> <button class="loginAccount wButton fade" data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_go.svg"></span>LOG IN</button> ');
+                    $("#wavesAccounts").append('<p class="loginAccountDiv"><br><b>'+accountName+'</b> '+accountDetails.address+' &nbsp; <button class="removeAccount wButton fade" data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button> <button class="loginAccount wButton fade" data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_go.svg"></span>LOG IN</button></p> ');
 
                 });
 
@@ -85,7 +85,29 @@ var Waves = (function(Waves, $, undefined) {
 
                     var accountDetails = accounts.accounts[accountId];
 
-                    Waves.login(accountDetails);
+                    var childNode = accountId + 1;
+
+                    var submitButton = '<button class="submitLoginAccount wButton fade"><span class="wButton-icon"><img src="img/wIcon_go.svg"></span>LOG IN</button>';
+
+                    $("#wavesAccounts > p:nth-child("+childNode+")").after("<div id='loginAccountDiv'><h3>Insert Password</h3><input type='password' id='loginPassword' class='wButton fade'><br/>"+submitButton+"<br/><div id='errorPasswordLogin'></div></div>");
+
+                    $(".submitLoginAccount").on("click", function() {
+
+                        var password = $("#loginPassword").val();
+
+                        var decryptPassword = Waves.decryptWalletSeed(accountDetails.cipher, password, accountDetails.checksum);
+
+                        if(decryptPassword) {
+                            accountDetails.passphrase = decryptPassword;
+                            Waves.login(accountDetails);
+                            $("#errorPasswordLogin").html('');
+                        } else {
+                           
+                           $("#errorPasswordLogin").html('Wrong password');
+
+                        }
+
+                    });
 
                }
 

@@ -776,7 +776,7 @@ var Waves = (function (Waves, $, undefined) {
         return CryptoJS.AES.encrypt(phrase, rkey);
     }
 
-    Waves.decryptSecretPhrase = function (cipher, key, checksum) {
+    Waves.decryptWalletSeed = function (cipher, key, checksum) {
         var rkey = Waves.prepKey(key);
         var data = CryptoJS.AES.decrypt(cipher, rkey);
 
