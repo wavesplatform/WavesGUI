@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright © 2013-2016 The Waves Developers.                                *
+ * Copyright © 2016 The Waves Developers.                                *
  *                                                                            *
  * See the LICENSE files at                                                   *
  * the top-level directory of this distribution for the individual copyright  *
