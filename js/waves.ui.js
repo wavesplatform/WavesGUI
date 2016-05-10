@@ -527,6 +527,7 @@ var Waves = (function(Waves, $, undefined) {
 $(document).ready(function(){
 
     Waves.initApp();
+    $('.tooltip').tooltipster();
 
 });
 
