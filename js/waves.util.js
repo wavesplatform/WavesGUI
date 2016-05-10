@@ -246,17 +246,15 @@ var Waves = (function (Waves, $, undefined) {
 
     Waves.signatureData = function(sender, recipient, amount, fee) {
 
-        var typeBytes = converters.stringToByteArray(2);
+        var typeBytes = converters.int32ToBytes(2).reverse();
         var times = Waves.getTime();
-        var timestampBytes = converters.stringToByteArray(times);
-        var amountBytes = converters.stringToByteArray(amount);
-        var feeBytes = converters.stringToByteArray(fee);
         var senderPublicKey = converters.stringToByteArray(Waves.publicKey);
 
-        //Check if this is decoded correctly
         var decodeRecipient = Base58.decode(recipient);
         
         var signatureBytes = [];
+        
+        var testTimestampBytes = converters.stringToByteArray();
 
         return signatureBytes.concat(typeBytes, timestampBytes, senderPublicKey, decodeRecipient, amountBytes, feeBytes);
 
@@ -291,6 +289,17 @@ var Waves = (function (Waves, $, undefined) {
     //Get timestamp in Waves
     Waves.getTime = function() {
         return Date.now();
+    }
+
+    Waves.longToByteArray = function (value) {
+
+        var bytes = new Array(7);
+        for(var k=0;k<8;k++) {
+           bytes[k] = value & (255);
+           value = value / 256;
+        }
+
+        return bytes;
     }
 
     //Returns publicKey
