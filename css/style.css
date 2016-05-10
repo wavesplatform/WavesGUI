@@ -186,7 +186,7 @@ Keeping this for now, in case I change later the way users will upload their own
     font-style: italic;
 }
 
-#accounts h2 {
+#accounts h2, #register h2 {
     font-size: 1.5rem;
     font-weight: 200;
     color: #323232;
@@ -200,17 +200,14 @@ Keeping this for now, in case I change later the way users will upload their own
     height: 55px;
 }
 
+/*
 .loginAccountDiv > .wButton {
     border: none;
     background: none;
     color: #ffffff;
     opacity: .5;
 }
-
-.wButton-icon > img{
-    width: .75rem;
-    margin-right: .5rem;
-}
+*/
 
 .loginAccountDiv > .wButton:hover {
     border: none;
@@ -619,7 +616,7 @@ input.tabs-radio:checked + label  img {
 .wButton {
     display: inline-block;
     position: relative;
-    padding: .5rem;
+    padding: .3rem;
     padding-left: .8rem;
     padding-right: .8rem;
 /*    background: #0096DC;*/
@@ -633,7 +630,7 @@ input.tabs-radio:checked + label  img {
     outline: none;
 }
 
-.wButton a {
+.wButton a, .wButtonAlt a {
     text-decoration: none;
 }
 
@@ -652,6 +649,36 @@ input.tabs-radio:checked + label  img {
     color: #323232;
 }
 
+.wButton-icon > img {
+    width: .75rem;
+    margin-right: .5rem;
+}
+
+.wButtonAlt {
+    display: inline-block;
+    position: relative;
+    
+    padding: .2rem;
+    padding-left: .4rem;
+    padding-right: .4rem;
+    
+    
+    font-family: 'Wesli';
+    font-size: 1rem;
+    color: #ffffff;
+    
+    outline: none;
+    border: none;
+    background: none;
+    overflow: hidden;
+    opacity: .5;
+}
+
+.wButtonAlt:hover {
+    cursor: pointer;
+    opacity: 1;
+}
+
 
 /* ================================================= */
 /* WAVES STANDARD INPUTS */ /* WAVES STANDARD INPUTS */
@@ -661,6 +688,7 @@ input.tabs-radio:checked + label  img {
     font-family: 'Wesli';
 	font-size: 1rem;
     padding: .25rem;
+    margin-top: .5rem;
 }
 
 /* ====================================================== */
