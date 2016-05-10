@@ -414,7 +414,7 @@ var Waves = (function(Waves, $, undefined) {
         var signature;
         var fee = 1;
 
-        var signatureData = Waves.signatureData(sender, recipient, amount, fee);
+        var signatureData = Waves.signatureData(sender, recipient, amount, fee, wavesTime);
 
         var signature = Waves.signBytes(sender, signatureData);
 

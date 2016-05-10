@@ -244,11 +244,10 @@ var Waves = (function (Waves, $, undefined) {
     Waves.MAP = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
 
-    Waves.signatureData = function(sender, recipient, amount, fee) {
+    Waves.signatureData = function(sender, recipient, amount, fee, wavesTime) {
 
         var typeBytes = converters.int32ToBytes(2).reverse();
-        var times = Waves.getTime();
-        var timestampBytes = Waves.longToByteArray(times);
+        var timestampBytes = Waves.longToByteArray(wavesTime);
         var amountBytes = Waves.longToByteArray(amount);
         var feeBytes = Waves.longToByteArray(fee);
         //var senderPublicKey = converters.stringToByteArray(Waves.publicKey);
