@@ -248,6 +248,9 @@ var Waves = (function (Waves, $, undefined) {
 
         var typeBytes = converters.int32ToBytes(2).reverse();
         var times = Waves.getTime();
+        var timestampBytes = Waves.longToByteArray(times).reverse();
+        var amountBytes = Waves.longToByteArray(amount).reverse();
+        var feeBytes = Waves.longToByteArray(fee).reverse();
         var senderPublicKey = converters.stringToByteArray(Waves.publicKey);
 
         var decodeRecipient = Base58.decode(recipient);
