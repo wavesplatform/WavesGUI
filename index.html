@@ -1,53 +1,838 @@
-<!DOCTYPE html>
+<!--
+/******************************************************************************
+* Copyright © 2016 The Waves Developers.                                *
+*                                                                            *
+* See the LICENSE file at                                                    *
+* the top-level directory of this distribution for the individual copyright  *
+* holder information and the developer policies on copyright and licensing.  *
+*                                                                            *
+* Unless otherwise agreed in a custom licensing agreement, no part of the    *
+* Waves software, including this file may be copied, modified, propagated    *
+* or distributed except according to the terms contained in the LICENSE file *
+*                                                                            *
+* Removal or modification of this copyright notice is prohibited.            *
+*                                                                            *
+******************************************************************************/
+-->
+
+<!doctype html>
 <html>
 <head>
-	<title>Waves - Demo</title>
-	<!-- Chart XL - eXceLent Xtra Large charts -->
-	<script type="text/javascript" src="js/d3.min.js"></script>
-	<script type="text/javascript" src="js/react.min.js"></script>
-	<script type="text/javascript" src="js/react-dom.min.js"></script>
-	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-  <script type="text/javascript" src="js/functions.js"></script>
-
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/font-awesome.min.css">
-
-	
+    <meta charset="utf-8">
+    <title>Waves Lite Client v0a</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/jquery.modal.css">
+    <link rel="stylesheet" href="css/tooltipster.css">
+	<link href="img/favicon.ico" type="image/x-icon" rel="shortcut icon"/>
+   
 </head>
-<body class="carbon">
 
-	<nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Waves Data Prototype</a>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-          <li class="active wavesNavbar"><a href="#" id="blockchainpage">Blockchain</a></li>
-          <li class="wavesNavbar"><a href="#" id="walletpage">Wallet</a></li>
-          <li class="wavesNavbar"><a href="#" id="consensuspage">Consensus</a></li>
-          <li class="wavesNavbar"><a href="#" id="paymentpage">Payment</a></li>
-          <li class="wavesNavbar"><a href="#" id="peerspage">Peers</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li class="wavesNavbar"><a href="#" id="debugpage">Debug</a></li>
-        </ul>
-      </div><!--/.nav-collapse -->
-    </div><!--/.container-fluid -->
-  </nav>
+<body>
+    <!-- Login Area -->
+    <div id="lockscreen" class="userBG">
+<!--        <img id="lockscreen-bg" src="img/lockbg001.jpg" />-->
+        <div id="tint"></div>
+        
+        <table id="lockscreenTable">
 
-	<div class="container">
-		<div id="app">
-			<!-- this is where the root component will get rendered -->
-		</div>
-	</div>
+            <thead>
+                <div id="logoNversion">
+                        <img src="img/lockscreen_logo.svg" />
+                        <p>Alpha version</p>
+                </div>
+            </thead>
+            
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="wPop-content">
+                        </div>
+
+                            <!-- Accounts -->
+                            <div id="accounts">
+                                <h2>ACCOUNTS</h2>
+                                <div id="wavesAccounts"></div>
+                            </div>
+
+                            <!-- Hide Registration -->
+                            <div id="register">
+                                
+<!--                                <h2>Vanity Address</h2>-->
+                                <form>
+                                    <button id="import_account" class="wButton fade">IMPORT ACCOUNT</button>&nbsp;&nbsp;&nbsp;<button id="create_account" class="wButton fade">NEW ACCOUNT</button>
+                                    <br/>
+                                    
+                                    <div id="step2_reg" class="wPop-content">
+                                        <br/>
+                                        
+                                        <label for="walletSeed">WALLET SEED</label>
+                                        <br/>
+                                        
+                                        <input type="text" id="walletSeed" class="wInput" readonly/>
+                                        <br/><br/>
+                                        
+                                        <button id="generateKeys" class="wButton fade">GENERATE ADDRESS FROM SEED</button>&nbsp;&nbsp;&nbsp;<button id="generateRandomSeed" class="wButton fade">GENERATE RANDOM SEED</button>
+                                        <br/><br/>
+                                        
+                                        <div style="display: none;"><b>PUBLIC KEY</b> <br/><span id="publicKeyLockscreen"></span></div>
+                                        <br/>
+                                        
+                                        <div style="display: none;"><b>PRIVATE KEY</b> 
+                                            <br/>
+                                            <span id="privateKeyLockscreen"></span>
+                                        </div>
+                                        <br/>
+                                        
+                                        <div><b>ADDRESS</b> 
+                                        <br/>
+                                            <span id="addresLockscreen"></span>
+                                        </div>
+                                        <br/>
+                                        
+                                        <i>When you register a new seed, please write it down carefully. You can import it later.</i>
+                                        <br>
+                                        
+                                        Use a name for this address <i>(optional)</i>
+                                        <br/>
+                                        <input type="text" id="walletName" class="wInput"/>
+                                        <br/><br/>
+
+                                        PASSWORD <i>(encrypt your Wallet Seed)</i>
+                                        <br/>
+                                        <input type="password" id="walletPassword" class="wInput"/>
+                                        <br/><br/>
+                                        REPEAT PASSWORD
+                                        <br/>
+                                        <input type="password" id="walletPasswordConfirm" class="wInput"/>
+                                        <br/><br/>
+                                        
+                                        <button id="registerSeed" class="wButton fade">REGISTER</button> 
+
+                                        <div id="errorRegister"></div>
+                                    </div>
+                                    
+                                </form>
+                                
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <!-- /Login Area -->
+
+    <!-- Dashboard -->
+
+	<div id="wrapper" style="display:none;">
+	
+	<!-- HEADER -->
+	<header class="fFade noSelect">
+		<img id="topLogo" src="img/topleftlogo.svg" alt="Waves platform logo" />
+		<img id="topLogoH" src="img/topleftlogo_hor.svg" alt="Waves platform logo horizontal" />
+		<span id="version" class="centerIt">Waves Platform Lite Client v0 alpha - Block: <span id="blockheight"></span></span>
+		<div id=header-Iconset>
+            <a href="#header-wPop-pref" rel="modal:open">
+                <img class="header-Icon fade" src="img/uiTB-iconset-preferences.svg" alt="Preferences" />
+            </a>
+            <div id="header-wPop-pref" class="wavesPop" style="display: none;">
+                <img class="wPop-header" src="img/modal-header.svg" />  
+                <div class="wPop-content">
+                    <p>Example text for the PREFERENCES pop-up</p>
+                </div> 
+            </div>
+            <a href="#header-wPop-prof" rel="modal:open">
+                <img class="header-Icon fade" src="img/uiTB-iconset-profile.svg" alt="User profile" />
+            </a>
+            <div id="header-wPop-prof" class="wavesPop" style="display: none;">
+                <img class="wPop-header" src="img/modal-header.svg" />
+                <div class="wPop-content">
+                    <p>Example text for the USER PROFILE pop-up</p>
+                </div>
+            </div>
+        </div>
+	</header>
+	
+	<span class="jurl"></span>
+	
+	<!-- APPLICATION TAB SELECTORS --> 
+	<section id="tabs" class="fFade noSelect">
+		<div id="tabs-Iconset" class="centerIt">
+			<input type="radio" name="tabs-Icons" id="tabs-Icons-wallet" class="tabs-radio" value="mBB-wallet" checked>
+				<label for="tabs-Icons-wallet" class="fade">
+					<img src="img/tabs-iconset-wallet.svg" class="fFade" alt="Wallet tab" />
+				</label>
+			<input type="radio" name="tabs-Icons" id="tabs-Icons-portfolio" class="tabs-radio" value="mBB-portfolio">
+				<label for="tabs-Icons-portfolio">
+					<img src="img/tabs-iconset-portfolio.svg" class="fFade" alt="Porfolio tab" />
+				</label>
+			<input type="radio" name="tabs-Icons" id="tabs-Icons-exchange" class="tabs-radio" value="mBB-exchange">
+				<label for="tabs-Icons-exchange">    
+					<img src="img/tabs-iconset-exchange.svg" class="fFade" alt="Exchange tab" />
+				</label>
+			<input type="radio" name="tabs-Icons" id="tabs-Icons-voting" class="tabs-radio" value="mBB-voting">
+				<label for="tabs-Icons-voting">    
+					<img src="img/tabs-iconset-voting.svg" class="fFade" alt="Voting tab" />
+				</label>
+			<input type="radio" name="tabs-Icons" id="tabs-Icons-history" class="tabs-radio" value="mBB-history">
+				<label for="tabs-Icons-history">    
+					<img src="img/tabs-iconset-history.svg" class="fFade" alt="History tab" />
+				</label>
+			<input type="radio" name="tabs-Icons" id="tabs-Icons-messages" class="tabs-radio" value="mBB-messages">
+				<label for="tabs-Icons-messages">    
+					<img src="img/tabs-iconset-messages.svg" class="fFade" alt="Messages tab" />
+				</label>
+			<input type="radio" name="tabs-Icons" id="tabs-Icons-community" class="tabs-radio" value="mBB-community">
+				<label for="tabs-Icons-community">    
+					<img src="img/tabs-iconset-community.svg" class="fFade" alt="Community tab" />
+				</label>
+		</div>  
+	</section>
+
+	<!-- MAIN APPLICATION BODY CONTENT -->
+	<section id="mainBody">
+	
+	<!-- LEFT BAR CONTENT -->
+		<section id="mBLeftBar" class="fFade">
+		<div id="LBmBB-portfolio" class="LBmBB-content"><p class="centerIt">[ LBmBB-portfolio<br>TEST CONTENT ]</p></div>
+		<div id="LBmBB-exchange" class="LBmBB-content"><p class="centerIt">[ LBmBB-exchange<br>TEST CONTENT ]</p></div>
+		<div id="LBmBB-voting" class="LBmBB-content"><p class="centerIt">[ LBmBB-voting<br>TEST CONTENT ]</p></div>
+		<div id="LBmBB-history" class="LBmBB-content"><p class="centerIt">[ LBmBB-history<br>TEST CONTENT ]</p></div>
+		<div id="LBmBB-messages" class="LBmBB-content"><p class="centerIt">[ LBmBB-messages<br>TEST CONTENT ]</p></div>
+		<div id="LBmBB-community" class="LBmBB-content"><p class="centerIt">[ LBmBB-community<br>TEST CONTENT ]</p></div>
+<!--		<div id="LBmBB-cover" class="LBmBB-content"></div>-->
+		</section>
+		
+	<!-- BODY CONTENT -->	
+		<section id="mBBody" class="fFade">
+			<!-- <div id="mBB-cover" class="mBB-content"> -->
+			<div id="mBB-wallet" class="mBB-content">
+                    <div id="wB-USD" class="walletBox">
+                        <img id="wB-bg-USD" src="img/wB-bg-USD.svg" alt="US Dollar wallet" />
+                        <div class="wB-name">US DOLLAR</div>
+                        <div class="wB-add">1NMqir63R57y1WVk3cqsddwUcUwMfBWSGd</div><br>
+                        <div class="wB-balInt">0</div>
+                        <div class="wB-balDec">.00000</div>
+                        <div class="wB-buttons">
+                            <a href="#wB-butSend-USD" rel="modal:open">
+                                <div class="wB-but wB-butSend fade"><p>SEND</p></div>
+                            </a>
+                            <div id="wB-butSend-USD" class="wavesPop" style="display: none;">
+                                <img class="wPop-header" src="img/modal-header.svg" />
+                                <div class="wPop-content">
+                                    <p>Example text for the SEND USD pop-up</p>
+                                </div>
+                            </div>
+                            <a href="#wB-butRec-USD" rel="modal:open">
+                                <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
+                            </a>
+                            <div id="wB-butRec-USD" class="wavesPop" style="display: none;">
+                                <img class="wPop-header" src="img/modal-header.svg" />
+                                <div class="wPop-content">
+                                    <p>Example text for the RECEIVE/WITHDRAW USD pop-up</p>
+                                </div>
+                            </div>
+                            <a href="#wB-butTrade-USD" rel="modal:open">
+                                <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
+                            </a>
+                            <div id="wB-butTrade-USD" class="wavesPop" style="display: none;">
+                                <img class="wPop-header" src="img/modal-header.svg" />
+                                <div class="wPop-content">
+                                    <p>Example text for the TRADE USD pop-up</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="wB-EUR" class="walletBox">
+                        <img id="wB-bg-EUR" src="img/wB-bg-EUR.svg" alt="Euro wallet" />
+                        <div class="wB-name">EURO</div>
+                        <div class="wB-add">12yzhH85oFK9iDGHxyFKnaJyPRkyZ3v4tu</div>
+                        <div class="wB-balInt">0</div>
+                        <div class="wB-balDec">.000</div>
+                        <div class="wB-buttons">
+                            <a href="#wB-butSend-EUR" rel="modal:open">
+                                <div class="wB-but wB-butSend fade"><p>SEND</p></div>
+                            </a>
+                            <div id="wB-butSend-EUR" class="wavesPop" style="display: none;">
+                                <img class="wPop-header" src="img/modal-header.svg" />
+                                <div class="wPop-content">
+                                    <p>Example text for the SEND EURO pop-up</p>
+                                </div>
+                            </div>
+                            <a href="#wB-butRec-EUR" rel="modal:open">
+                                <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
+                            </a>
+                            <div id="wB-butRec-EUR" class="wavesPop" style="display: none;">
+                                <img class="wPop-header" src="img/modal-header.svg" />
+                                <div class="wPop-content">
+                                    <p>Example text for the RECEIVE/WITHDRAW EURO pop-up</p>
+                                </div>
+                            </div>
+                            <a href="#wB-butTrade-EUR" rel="modal:open">
+                                <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
+                            </a>
+                            <div id="wB-butTrade-EUR" class="wavesPop" style="display: none;">
+                                <img class="wPop-header" src="img/modal-header.svg" />
+                                <div class="wPop-content">
+                                    <p>Example text for the TRADE EURO pop-up</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="wB-BTC" class="walletBox">
+                        <img id="wB-bg-BTC" src="img/wB-bg-BTC.svg" alt="Bitcoin wallet" />
+                        <div class="wB-name">BITCOIN</div>
+                        <div class="wB-add">12pUY6dcgqcmDZBqui56cc2M6UXggzyWif</div>
+                        <div class="wB-balInt">0</div>
+                        <div class="wB-balDec">.000000000</div>
+                        <div class="wB-buttons">
+                            <a href="#wB-butSend-BTC" rel="modal:open">
+                                <div class="wB-but wB-butSend fade"><p>SEND</p></div>
+                            </a>
+                            <div id="wB-butSend-BTC" class="wavesPop" style="display: none;">
+                                <img class="wPop-header" src="img/modal-header.svg" />
+                                <div class="wPop-content">
+                                    <p>Example text for the SEND BTC pop-up</p>
+                                </div>
+                            </div>
+                            
+                            <a href="#wB-butRec-BTC" rel="modal:open">
+                                <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
+                            </a>
+                            <div id="wB-butRec-BTC" class="wavesPop" style="display: none;">
+                                <img class="wPop-header" src="img/modal-header.svg" />
+                                <div class="wPop-content">
+                                    <p>Example text for the RECEIVE/WITHDRAW BTC pop-up</p>
+                                </div>
+                            </div>
+                            <a href="#wB-butTrade-BTC" rel="modal:open">
+                                <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
+                            </a>
+                            <div id="wB-butTrade-BTC" class="wavesPop" style="display: none;">
+                                <img class="wPop-header" src="img/modal-header.svg" />
+                                <div class="wPop-content">
+                                    <p>Example text for the TRADE BTC pop-up</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="wB-WAV" class="walletBox">
+                        <img id="wB-bg-WAV" src="img/wB-bg-WAV.svg" alt="Waves wallet" />
+                        <div class="wB-name">WAVES</div>
+                        <div class="wB-add">1BTjfALE1LeBspwdNVTNyBT2JgoHdgXZ3s</div>
+                        <div class="wB-balInt" id="wavesbalance"></div>
+                        <div class="wB-balDec"></div>
+                        <div class="wB-buttons">
+                            <a href="#wB-butSend-WAV" rel="modal:open">
+                                <div class="wB-but wB-butSend fade"><p>SEND</p></div>
+                            </a>
+                            <div id="wB-butSend-WAV" class="wavesPop" style="display: none;">
+                                <img class="wPop-header" src="img/modal-header.svg" />
+                                <div class="wPop-content">
+                                    <form class="paymentForm">
+                                        <h2>SEND PAYMENT</h2>
+                                       <!-- <div class="wavesTable">-->
+                                            <table>
+                                               <thead>
+                                                   <tr>
+                                                       <th>DESCRIPTION</th>
+                                                       <th>INPUT</th>
+                                                   </tr>
+                                               </thead>
+                                               <tbody>
+                                                   <tr>
+                                                       <td>Recipient (Please enter recipient Waves address)</td>
+                                                       <td><input type="text" style="width:250px;" class="form-control" id="wavesrecipient" placeholder="Recipient"></td>
+                                                   </tr>
+                                                   <tr>
+                                                       <td>Amount</td>
+                                                       <td><input type="number" class="form-control" id="wavessendamount" placeholder="Amount" min="0"></td>
+                                                   </tr>
+                                                   <tr>
+                                                       <td>Fee</td>
+                                                       <td><p>1 WAV</p></td>
+                                                   </tr>
+                                               </tbody>
+                                             </table>
+                                            
+                                    </form>
+                                    <div id="wavessend" class="paymentForm-but fade" value="send"><p>SUBMIT</p></div>
+                                    <div id="sentpayment" style="width: 500px;word-wrap:break-word;"></div>
+                                    <div id="errorpayment" style="width: 500px;word-wrap:break-word;"></div>
+
+                                </div>
+                            </div>
+                            
+                            <a href="#wB-butRec-WAV" rel="modal:open">
+                                <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
+                            </a>
+                            <div id="wB-butRec-WAV" class="wavesPop" style="display: none;">
+                                <img class="wPop-header" src="img/modal-header.svg" />
+                                <div class="wPop-content">
+                                    <p>Example text for the RECEIVE/WITHDRAW WAVES pop-up</p>
+                                </div>
+                            </div>
+                            <a href="#wB-butTrade-WAV" rel="modal:open">
+                                <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
+                            </a>
+                            <div id="wB-butTrade-WAV" class="wavesPop" style="display: none;">
+                                <img class="wPop-header" src="img/modal-header.svg" />
+                                <div class="wPop-content">
+                                    <p>Example text for the TRADE WAVES pop-up</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="wB-RMB" class="walletBox">
+                        <img id="wB-bg-RMB" src="img/wB-bg-RMB.svg" alt="Chinese Yuan wallet" />
+                        <div class="wB-name">CHINESE YUAN</div>
+                        <div class="wB-add">1NMqir63R57y1WVk3cqsddwUcUwMfBWSGd</div>
+                        <div class="wB-balInt">0</div>
+                        <div class="wB-balDec">.000</div>
+                        <div class="wB-buttons">
+                            <a href="#wB-butSend-RMB" rel="modal:open">
+                                <div class="wB-but wB-butSend fade"><p>SEND</p></div>
+                            </a>
+                            <div id="wB-butSend-RMB" class="wavesPop" style="display: none;">
+                                <img class="wPop-header" src="img/modal-header.svg" />
+                                <div class="wPop-content">
+                                    <p>Example text for the SEND CHINESE YUAN pop-up</p>
+                                </div>
+                            </div>
+                            <a href="#wB-butRec-RMB" rel="modal:open">
+                                <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
+                            </a>
+                            <div id="wB-butRec-RMB" class="wavesPop" style="display: none;">
+                                <img class="wPop-header" src="img/modal-header.svg" />
+                                <div class="wPop-content">
+                                    <p>Example text for the RECEIVE/WITHDRAW CHINESE YUAN pop-up</p>
+                                </div>
+                            </div>
+                            <a href="#wB-butTrade-RMB" rel="modal:open">
+                                <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
+                            </a>
+                            <div id="wB-butTrade-RMB" class="wavesPop" style="display: none;">
+                                <img class="wPop-header" src="img/modal-header.svg" />
+                                <div class="wPop-content">
+                                    <p>Example text for the TRADE CHINESE YUAN pop-up</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="wHistory" class="wavesTable">
+                        <table>
+                            <thead>
+                                <div class="wTMainHeader">
+                                        LATEST TRANSACTIONS
+                                </div>
+                                <tr>
+                                    <td>
+                                        DATE
+                                    </td>
+                                    <td >
+                                        TYPE
+                                    </td>
+                                    <td>
+                                        SENDER
+                                    </td>
+                                    <td>
+                                        RECIPIENT
+                                    </td>
+                                    <td>
+                                        FEE
+                                    </td>
+                                    <td>
+                                        UNITS
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionhistory">
+
+                            </tbody>
+                            
+                        </table>        
+                    </div>
+                </div> <!-- Div mBB-wallet END -->
+                
+                <div id="mBB-portfolio" class="mBB-content"><p class="centerIt">[ mBB-portfolio SECTION TEST CONTENT ]</p></div>
+                <div id="mBB-exchange" class="mBB-content"><p class="centerIt">[ mBB-exchange SECTION TEST CONTENT ]</p></div>
+                <div id="mBB-voting" class="mBB-content"><p class="centerIt">[ mBB-voting SECTION TEST CONTENT ]</p></div>
+                <div id="mBB-history" class="mBB-content">
+                    
+                    <div id="hSearch">
+                        <h1>TRANSACTION HISTORY - SEARCH PARAMETERS</h1>
+                        <div id="hS-date" class="hS-element">
+                            <h2>DATE RANGE</h2>
+                            <p>From</p>
+                            <div id="hS-dateF-DD" class="wavesDD">
+                                <select>
+                                  <option value="Test1">Test1</option>
+                                  <option value="Test2">Test2</option>
+                                  <option value="Test3">Test3</option>
+                                  <option value="Test4">Test4</option>
+                                </select>
+                            </div>
+                            <p>To</p>
+                            <div id="hS-dateT-DD" class="wavesDD">
+                                <select>
+                                  <option value="Test1">Test1</option>
+                                  <option value="Test2">Test2</option>
+                                  <option value="Test3">Test3</option>
+                                  <option value="Test4">Test4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="hS-asset" class="hS-element">
+                            <h2>CURRENCY/ASSET</h2>
+                            <div id="hS-asset-DD" class="wavesDD">
+                                <select>
+                                  <option value="Test1">Test1</option>
+                                  <option value="Test2">Test2</option>
+                                  <option value="Test3">Test3</option>
+                                  <option value="Test4">Test4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="hS-type" class="hS-element">
+                            <h2>TYPE</h2>
+                            <div id="hS-type-DD" class="wavesDD">
+                                <select>
+                                  <option value="Test1">Test1</option>
+                                  <option value="Test2">Test2</option>
+                                  <option value="Test3">Test3</option>
+                                  <option value="Test4">Test4</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    <div id="hResults" class="wavesTable" > 
+                        <table>
+                            <thead>
+                                <tr class="fade">
+                                    <td>
+                                        DATE
+                                    </td>
+                                    <td >
+                                        PAIR
+                                    </td>
+                                    <td>
+                                        BUY/SELL
+                                    </td>
+                                    <td>
+                                        BID/ASK
+                                    </td>
+                                    <td>
+                                        TOTAL UNITS
+                                    </td>
+                                    <td>
+                                        TOTAL
+                                    </td>
+                            </thead>
+                            </tr>
+                            <tr class="fade">
+                                <td>
+                                    23/01/2016 12:33
+                                </td>
+                                <td>
+                                    BTC/USD
+                                </td>
+                                <td>
+                                    BUY
+                                </td>
+                                <td >
+                                    626.12
+                                </td>
+                                <td>
+                                    5.10000665
+                                </td>
+                                <td>
+                                    3,450.50
+                                </td>
+                            </tr>
+                            <tr class="fade">
+                                <td>
+                                    23/01/2016 11:30
+                                </td>
+                                <td>
+                                    BTC/WAV
+                                </td>
+                                <td>
+                                    BUY
+                                </td>
+                                <td>
+                                    0.00221457
+                                </td>
+                                <td>
+                                    332.12147454
+                                </td>
+                                <td>
+                                    6.00014102
+                                </td>
+                            </tr>
+                            <tr class="fade">
+                                <td>
+                                    23/01/2016 09:12
+                                </td>
+                                <td>
+                                    BTC/EUR
+                                </td>
+                                <td>
+                                    SELL
+                                </td>
+                                <td>
+                                    601.78
+                                </td>
+                                <td>
+                                    15.41
+                                </td>
+                                <td>
+                                    10,250.5
+                                </td>
+                            </tr>
+                            <tr class="fade">
+                                <td>
+                                    22/01/2016 22:25
+                                </td>
+                                <td>
+                                    BTC/USD
+                                </td>
+                                <td>
+                                    SELL
+                                </td>
+                                <td>
+                                    622.55
+                                </td>
+                                <td>
+                                    3.00025414
+                                </td>
+                                <td>
+                                    1,820.40
+                                </td>
+                            </tr>
+                            <tr class="fade">
+                                <td>
+                                    22/01/2016 22:25
+                                </td>
+                                <td>
+                                    BTC/EUR
+                                </td>
+                                <td>
+                                    BUY
+                                </td>
+                                <td >
+                                    600.22
+                                </td>
+                                <td>
+                                    12.00874541
+                                </td>
+                                <td>
+                                    8,150.88
+                                </td>
+                            </tr>
+                            <tr class="fade">
+                                <td>
+                                    22/01/2016 22:20
+                                </td>
+                                <td>
+                                    BTC/WAV
+                                </td>
+                                <td>
+                                    BUY
+                                </td>
+                                <td>
+                                    0.00226513
+                                </td>
+                                <td>
+                                    128,414.00002141
+                                </td>
+                                <td>
+                                    1.32001420
+                                </td>
+                            </tr>
+                            <tr class="fade">
+                                <td>
+                                    22/01/2016 21:41
+                                </td>
+                                <td>
+                                    USD/CYN
+                                </td>
+                                <td>
+                                    SELL
+                                </td>
+                                <td>
+                                    0.21
+                                </td>
+                                <td>
+                                    6,840.2
+                                </td>
+                                <td>
+                                    312.12
+                                </td>
+                            </tr>
+                            <tr class="fade">
+                                <td>
+                                    22/01/2016 21:20
+                                </td>
+                                <td>
+                                    BTC/EUR
+                                </td>
+                                <td>
+                                    SELL
+                                </td>
+                                <td>
+                                    599.05
+                                </td>
+                                <td>
+                                    2.00005448
+                                </td>
+                                <td>
+                                    1,280.40
+                                </td>
+                            </tr>
+                            <tr class="fade">
+                                <td>
+                                    22/01/2016 21:11
+                                </td>
+                                <td>
+                                    BTC/USD
+                                </td>
+                                <td>
+                                    BUY
+                                </td>
+                                <td>
+                                    625.23
+                                </td>
+                                <td>
+                                    1.00000124
+                                </td>
+                                <td>
+                                    701.55
+                                </td>
+                            </tr>
+                            <tr class="fade">
+                                <td>
+                                    21/01/2016 08:32
+                                </td>
+                                <td>
+                                    USD/WAV
+                                </td>
+                                <td>
+                                    BUY
+                                </td>
+                                <td>
+                                    1.22
+                                </td>
+                                <td>
+                                    5,420.00000022
+                                </td>
+                                <td>
+                                    7,120.92
+                                </td>
+                            </tr>
+                        </table>    
+                    </div>
+            
+                </div> <!-- Div mBB-history END -->
+                <div id="mBB-messages" class="mBB-content"><p class="centerIt">[ mBB-messages SECTION TEST CONTENT ]</p></div>
+                <div id="mBB-community" class="mBB-content">
+                    <div style="width:100%; height:100%;text-align: center;" class="centerIt">
+                    
+                        
+
+                        <button id="addContact">Add Contact</button>
+
+                        <div id="contactForm" style="display: none;">
+                            <form id="addContactForm">
+                                <h3>Name</h3>
+                                <input type="text" id="contactname" placeholder="" />
+
+                                <h3>Address</h3>
+                                <input type="text" id="contactaddress" placeholder="" />
+
+                                <h3>Email</h3>
+                                <input type="email" id="contactemail" placeholder="" />
+
+                                <br/><br/>
+                                <button id="addContactSubmit">Add to list</button>
+                            </form>
+                        </div>
+
+                        <h2>My Contacts</h2>
+
+                        <table style="width:100%; height:100%;" id="contacts" class="wavesTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Email</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contactTable">
+                                
+                            </tbody>
+                        </table>
+
+                    [ mBB-community SECTION TEST CONTENT ]
+                    </div>
+                </div>
+		</section> <!-- Section mbBody END -->
+	</section> <!-- Section mainBody END -->
+
+
 
 	
+	</div> <!-- Wrapper div END -->
+
+    <!-- JAVASCRIPT -->
+    <script>window.jQuery || document.write('<script src="js/3rdparty/jquery-2.1.4.min.js"><\/script>')</script>
+    <script src="js/3rdparty/jquery.modal.js"></script>
+
+    <script src="js/3rdparty/i18next.js" type="text/javascript"></script>
+    <script src="js/3rdparty/ajaxretry.js"></script>
+    <script src="js/3rdparty/webdb.js" type="text/javascript"></script>
+    <script src="js/3rdparty/growl.js" type="text/javascript"></script>
+    <script src="js/3rdparty/jsbn.js" type="text/javascript"></script>
+    <script src="js/3rdparty/jsbn2.js" type="text/javascript"></script>
+    <script src="js/3rdparty/big.js" type="text/javascript"></script>
+    <script src="js/3rdparty/maskedinput.js" type="text/javascript"></script>
+    <script src="js/3rdparty/moment.js" type="text/javascript"></script>
+    <script src="js/3rdparty/date.format.js" type="text/javascript"></script>
+    <script src="js/3rdparty/async.js" type="text/javascript"></script>
+    <script src="js/3rdparty/jquery.tooltipster.min.js" type="text/javascript"></script>
+
+    <script src="js/util/extensions.js" type="text/javascript"></script>
+    <script src="js/util/converters.js" type="text/javascript"></script>
+
+    <!-- Crypto Dependencies -->
+    <script src="js/crypto/curve25519.js" type="text/javascript"></script>
+    <script src="js/crypto/curve25519_.js" type="text/javascript"></script>
+    <script src="js/crypto/curve255.js" type="text/javascript"></script>
+    <script src="js/crypto/base58.js" type="text/javascript"></script>
+    <script src="js/crypto/blake32.js" type="text/javascript"></script>
+    <script src="js/crypto/keccak32.js" type="text/javascript"></script>
+
+    <script src="js/crypto/passphrasegenerator.js" type="text/javascript"></script>
+
+    <script src="js/crypto/3rdparty/seedrandom.js" type="text/javascript"></script>
+    <script src="js/crypto/3rdparty/jssha256.js" type="text/javascript"></script>
+
+    <script src="js/crypto/3rdparty/cryptojs/core.js" type="text/javascript"></script>
+    <script src="js/crypto/3rdparty/cryptojs/aes.js" type="text/javascript"></script>
+    <script src="js/crypto/3rdparty/cryptojs/sha256.js" type="text/javascript"></script>
+ 
+    <!-- Waves Dependencies -->
+    <script src="js/waves.js" type="text/javascript"></script>
+    <script src="js/waves.api.js" type="text/javascript"></script>
+    <script src="js/waves.constants.js" type="text/javascript"></script>
+    <script src="js/waves.util.js" type="text/javascript"></script>
+
+    <script src="js/waves.ui.js"></script>
+    <script src="js/style.js"></script> 
 </body>
 </html>
