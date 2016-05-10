@@ -34,8 +34,6 @@ Waves' branding colors: #0096DC for overall items (blue)
     margin: 0;
     padding: 0;
 }
-
-html {}
 	
 body {
 	font-family: "Wesli";
@@ -200,14 +198,9 @@ Keeping this for now, in case I change later the way users will upload their own
     height: 55px;
 }
 
-/*
-.loginAccountDiv > .wButton {
-    border: none;
-    background: none;
-    color: #ffffff;
-    opacity: .5;
-}
-*/
+#loginAccountDiv { margin-top: 1rem; }
+
+#loginPassword { margin-bottom: 1rem; }
 
 .loginAccountDiv > .wButton:hover {
     border: none;
@@ -340,8 +333,8 @@ header {
     cursor: pointer;
     -moz-transform: scale(0.9);
     -o-transform: scale(0.9);
-    transform: scale(0.9);
 	-webkit-transform: scale(0.9);
+    transform: scale(0.9);
 }
 
 input.tabs-radio {
@@ -662,7 +655,6 @@ input.tabs-radio:checked + label  img {
     padding-left: .4rem;
     padding-right: .4rem;
     
-    
     font-family: 'Wesli';
     font-size: 1rem;
     color: #ffffff;
@@ -835,7 +827,7 @@ input.tabs-radio:checked + label  img {
     display: block;
     width: 100%;
     text-align: center;
-    vertical-align: center;
+/*    vertical-align: center;*/
     background: #0096DC;
     padding: .4rem;
     color: white;
