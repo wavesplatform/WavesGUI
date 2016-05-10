@@ -357,6 +357,7 @@ var Waves = (function(Waves, $, undefined) {
         Waves.loadBlockheight();
         Waves.passphrase = accountDetails.passphrase;
         Waves.publicKey = accountDetails.publicKey;
+        Waves.privateKey = accountDetails.privateKey;
         Waves.address = accountDetails.address;
         Waves.cipher = accountDetails.cipher;
         Waves.password = accountDetails.password;
@@ -405,7 +406,7 @@ var Waves = (function(Waves, $, undefined) {
         var sendAmount = $("#wavessendamount").val().replace(/\s+/g, '');
         var amount = Number(sendAmount);
 
-        var sender = converters.stringToByteArray(Waves.privateKey);
+        var sender = Base58.decode(Waves.privateKey);
         var recipient = $("#wavesrecipient").val().replace(/\s+/g, '');
 
         var wavesTime = Waves.getTime();

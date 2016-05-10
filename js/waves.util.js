@@ -248,18 +248,16 @@ var Waves = (function (Waves, $, undefined) {
 
         var typeBytes = converters.int32ToBytes(2).reverse();
         var times = Waves.getTime();
-        var timestampBytes = Waves.longToByteArray(times).reverse();
-        var amountBytes = Waves.longToByteArray(amount).reverse();
-        var feeBytes = Waves.longToByteArray(fee).reverse();
-        var senderPublicKey = converters.stringToByteArray(Waves.publicKey);
-
+        var timestampBytes = Waves.longToByteArray(times);
+        var amountBytes = Waves.longToByteArray(amount);
+        var feeBytes = Waves.longToByteArray(fee);
+        //var senderPublicKey = converters.stringToByteArray(Waves.publicKey);
+        var decodePublicKey = Base58.decode(Waves.publicKey);
         var decodeRecipient = Base58.decode(recipient);
-        
-        var signatureBytes = [];
-        
-        var testTimestampBytes = converters.stringToByteArray();
 
-        return signatureBytes.concat(typeBytes, timestampBytes, senderPublicKey, decodeRecipient, amountBytes, feeBytes);
+        var signatureBytes = [];
+
+        return signatureBytes.concat(typeBytes, timestampBytes, decodePublicKey, decodeRecipient, amountBytes, feeBytes);
 
     }
 
@@ -297,7 +295,7 @@ var Waves = (function (Waves, $, undefined) {
     Waves.longToByteArray = function (value) {
 
         var bytes = new Array(7);
-        for(var k=0;k<8;k++) {
+        for(var k=7;k>=0;k--) {
            bytes[k] = value & (255);
            value = value / 256;
         }
