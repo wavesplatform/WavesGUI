@@ -89,9 +89,9 @@ var Waves = (function(Waves, $, undefined) {
 
                     $("#loginAccountDiv").remove();
 
-                    var submitButton = '<button class="submitLoginAccount wButton fade"><span class="wButton-icon"><img src="img/wIcon_go.svg"></span>LOG IN</button>';
+                    var submitButton = '<button class="submitLoginAccount wButton fade">SUBMIT</button>';
 
-                    $("#wavesAccounts > p:nth-child("+childNode+")").after("<div id='loginAccountDiv'><h3>Insert Password</h3><input type='password' id='loginPassword' class='wButton fade'><br/>"+submitButton+"<br/><div id='errorPasswordLogin'></div></div>");
+                    $("#wavesAccounts > p:nth-child("+childNode+")").after("<div id='loginAccountDiv'>PASSWORD&nbsp;&nbsp;<input type='password' id='loginPassword' class='wInput'><br/>"+submitButton+"<br/><div id='errorPasswordLogin'></div></div>");
 
                     $(".submitLoginAccount").on("click", function() {
 
