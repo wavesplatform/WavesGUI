@@ -286,6 +286,36 @@ var Waves = (function (Waves, $, undefined) {
         return v.concat(h);
     }
 
+    Waves.areByteArraysEqual = function (bytes1, bytes2) {
+        if (bytes1.length !== bytes2.length)
+            return false;
+
+        for (var i = 0; i < bytes1.length; ++i) {
+            if (bytes1[i] !== bytes2[i])
+                return false;
+        }
+
+        return true;
+    }
+
+    Waves.verifyBytes = function(signature, message, publicKey) {
+        var signatureBytes = signature;
+        var messageBytes = message;
+        var publicKeyBytes = publicKey;
+        var v = signatureBytes.slice(0, 32);
+        var h = signatureBytes.slice(32);
+        var y = curve25519.verify(v, h, publicKeyBytes);
+
+        var m = Waves.simpleHash(messageBytes);
+
+        Waves._hash.init();
+        Waves._hash.update(m);
+        Waves._hash.update(y);
+        var h2 = Waves._hash.getBytes();
+
+        return Waves.areByteArraysEqual(h, h2);
+    }
+
     //Get timestamp in Waves
     Waves.getTime = function() {
         return Date.now();
@@ -302,11 +332,6 @@ var Waves = (function (Waves, $, undefined) {
         return bytes;
     }
 
-    Waves.getSignature = function(message, seed) {
-
-       return curve25519.sign(message, seed);
-
-    }
 
     //Returns publicKey
     Waves.getPublicKey = function(secretPhrase)
@@ -316,7 +341,7 @@ var Waves = (function (Waves, $, undefined) {
         var ky = converters.byteArrayToHexString(curve25519.keygen(SHA256_finalize()).p);
 
         //Array bytes in converters.hexStringToByteArray(ky);
-        return Base58.encode(converters.hexStringToByteArray(ky),Waves.MAP);
+        return Base58.encode(converters.hexStringToByteArray(ky));
     }
 
     //Returns privateKey
@@ -326,7 +351,7 @@ var Waves = (function (Waves, $, undefined) {
         var ky = converters.byteArrayToHexString(curve25519.keygen(SHA256_finalize()).k);
         
         //Array Bytes in converters.hexStringToByteArray(ky)
-        return Base58.encode(converters.hexStringToByteArray(ky),Waves.MAP);
+        return Base58.encode(converters.hexStringToByteArray(ky));
     }
 
     Waves.formatVolume = function (volume) {

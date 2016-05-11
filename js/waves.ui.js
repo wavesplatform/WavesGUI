@@ -407,7 +407,8 @@ var Waves = (function(Waves, $, undefined) {
         var sendAmount = $("#wavessendamount").val().replace(/\s+/g, '');
         var amount = Number(sendAmount);
 
-        var sender = Base58.decode(Waves.privateKey);
+        var sender = converters.stringToByteArray(Waves.passphrase);
+        var senderPublic = Base58.decode(Waves.publicKey);
         var recipient = $("#wavesrecipient").val().replace(/\s+/g, '');
 
         var wavesTime = Waves.getTime();
@@ -418,6 +419,8 @@ var Waves = (function(Waves, $, undefined) {
         var signatureData = Waves.signatureData(sender, recipient, amount, fee, wavesTime);
 
         var signature = Base58.encode(Waves.signBytes(signatureData, sender, true));
+        //var verify = Waves.verifyBytes(Base58.decode(signature), signatureData, senderPublic);
+        //console.log(verify);
 
         var data = {
           "recipient": recipient,
@@ -428,6 +431,7 @@ var Waves = (function(Waves, $, undefined) {
           "fee": fee
         }
 
+
         Waves.apiRequest(Waves.api.waves.broadcastTransaction, JSON.stringify(data), function(response) {
 
             console.log(response);
@@ -437,6 +441,8 @@ var Waves = (function(Waves, $, undefined) {
             $("#errorpayment").html(JSON.stringify(response));
 
         });
+
+        //console.log(data);
 
     });
 
