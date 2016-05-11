@@ -411,10 +411,10 @@ var Waves = (function(Waves, $, undefined) {
         var senderPublic = Base58.decode(Waves.publicKey);
         var recipient = $("#wavesrecipient").val().replace(/\s+/g, '');
 
-        var wavesTime = Waves.getTime();
+        var wavesTime = Number(Waves.getTime());
 
         var signature;
-        var fee = 1;
+        var fee = Number(1);
 
         var signatureData = Waves.signatureData(sender, recipient, amount, fee, wavesTime);
 
