@@ -417,7 +417,7 @@ var Waves = (function(Waves, $, undefined) {
 
         var signatureData = Waves.signatureData(sender, recipient, amount, fee, wavesTime);
 
-        var signature = Waves.signBytes(sender, signatureData, true);
+        var signature = Waves.signBytes(signatureData, sender, true);
 
         signature = Base58.encode(signature,Waves.MAP)
 

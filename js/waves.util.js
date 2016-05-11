@@ -302,6 +302,12 @@ var Waves = (function (Waves, $, undefined) {
         return bytes;
     }
 
+    Waves.getSignature = function(message, seed) {
+
+       return curve25519.sign(message, seed);
+
+    }
+
     //Returns publicKey
     Waves.getPublicKey = function(secretPhrase)
     {
