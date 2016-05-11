@@ -244,15 +244,14 @@ var Waves = (function (Waves, $, undefined) {
     Waves.MAP = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
 
-    Waves.signatureData = function(sender, recipient, amount, fee, wavesTime) {
+    Waves.signatureData = function(senderPublicKey, recipientAddress, amount, fee, wavesTime) {
 
         var typeBytes = converters.int32ToBytes(2).reverse();
         var timestampBytes = Waves.longToByteArray(wavesTime);
         var amountBytes = Waves.longToByteArray(amount);
         var feeBytes = Waves.longToByteArray(fee);
-        //var senderPublicKey = converters.stringToByteArray(Waves.publicKey);
-        var decodePublicKey = Array.from(Base58.decode(Waves.publicKey));
-        var decodeRecipient = Array.from(Base58.decode(recipient));
+        var decodePublicKey = Array.from(Base58.decode(senderPublicKey));
+        var decodeRecipient = Array.from(Base58.decode(recipientAddress));
 
         var signatureBytes = [];
 
