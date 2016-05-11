@@ -417,9 +417,7 @@ var Waves = (function(Waves, $, undefined) {
 
         var signatureData = Waves.signatureData(sender, recipient, amount, fee, wavesTime);
 
-        var signature = Waves.signBytes(signatureData, sender, true);
-
-        signature = Base58.encode(signature,Waves.MAP)
+        var signature = Base58.encode(Waves.signBytes(signatureData, sender, true));
 
         var data = {
           "recipient": recipient,
@@ -430,8 +428,6 @@ var Waves = (function(Waves, $, undefined) {
           "fee": fee
         }
 
-        //console.log(data);
-
         Waves.apiRequest(Waves.api.waves.broadcastTransaction, JSON.stringify(data), function(response) {
 
             console.log(response);
@@ -441,8 +437,6 @@ var Waves = (function(Waves, $, undefined) {
             $("#errorpayment").html(JSON.stringify(response));
 
         });
-
-        //console.log(data);
 
     });
 
