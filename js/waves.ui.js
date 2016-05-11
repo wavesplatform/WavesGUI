@@ -419,7 +419,7 @@ var Waves = (function(Waves, $, undefined) {
 
         var signature = Waves.signBytes(sender, signatureData, true);
 
-        signature = Waves.to_b58(signature,Waves.MAP)
+        signature = Base58.encode(signature,Waves.MAP)
 
         var data = {
           "recipient": recipient,
