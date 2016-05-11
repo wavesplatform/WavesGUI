@@ -260,10 +260,10 @@ var Waves = (function (Waves, $, undefined) {
 
     }
 
-    Waves.signBytes = function(message, seed) {
+    Waves.signBytes = function(message, seed, isBytes = false) {
 
         var messageBytes = message;
-        var seedBytes = converters.stringToByteArray(seed);
+        var seedBytes = (isBytes) ? seed : converters.stringToByteArray(seed);
 
         var digest = Waves.simpleHash(seedBytes);
         var s = curve25519.keygen(digest).s;

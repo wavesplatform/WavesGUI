@@ -373,6 +373,7 @@ var Waves = (function(Waves, $, undefined) {
             $("#balancespan").html(balance +' Waves');
             $('.balancewaves').html(balance + ' Waves');
             $(".wB-add").html(Waves.address);
+            $("#wavesAccountAddress").html(Waves.address);
 
             Waves.getAddressHistory(Waves.address, function(history) {
 
@@ -416,7 +417,7 @@ var Waves = (function(Waves, $, undefined) {
 
         var signatureData = Waves.signatureData(sender, recipient, amount, fee, wavesTime);
 
-        var signature = Waves.signBytes(sender, signatureData);
+        var signature = Waves.signBytes(sender, signatureData, true);
 
         signature = Waves.to_b58(signature,Waves.MAP)
 
