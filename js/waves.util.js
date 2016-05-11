@@ -251,8 +251,8 @@ var Waves = (function (Waves, $, undefined) {
         var amountBytes = Waves.longToByteArray(amount);
         var feeBytes = Waves.longToByteArray(fee);
         //var senderPublicKey = converters.stringToByteArray(Waves.publicKey);
-        var decodePublicKey = Base58.decode(Waves.publicKey);
-        var decodeRecipient = Base58.decode(recipient);
+        var decodePublicKey = Array.from(Base58.decode(Waves.publicKey));
+        var decodeRecipient = Array.from(Base58.decode(recipient));
 
         var signatureBytes = [];
 
