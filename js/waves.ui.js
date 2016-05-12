@@ -80,10 +80,16 @@ var Waves = (function(Waves, $, undefined) {
 
                 $("#import_account").hide();
                 $("#create_account").hide();
+                $("#backbutton").show();
 
                 var accountId = $(this).data('id');
 
                 var userAccounts = localStorage.getItem('WavesAccounts');
+
+                $(".goBack").on("click", function(e) {
+                    e.preventDefault();
+                    location.reload();
+                });
 
                if(userAccounts !== null) {
                     var accounts = JSON.parse(userAccounts);
