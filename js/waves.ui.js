@@ -78,6 +78,9 @@ var Waves = (function(Waves, $, undefined) {
            $(".loginAccount").on("click", function(e) {
                 e.preventDefault();
 
+                $("#import_account").hide();
+                $("#create_account").hide();
+
                 var accountId = $(this).data('id');
 
                 var userAccounts = localStorage.getItem('WavesAccounts');
@@ -235,7 +238,7 @@ var Waves = (function(Waves, $, undefined) {
 
     $("#import_account").on("click", function(e) {
         e.preventDefault();
-        
+
         $("#import_account").hide();
         $("#create_account").hide();
 
