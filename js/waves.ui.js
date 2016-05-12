@@ -91,7 +91,7 @@ var Waves = (function(Waves, $, undefined) {
 
                     var submitButton = '<button class="submitLoginAccount wButton fade">SUBMIT</button>';
 
-                    $("#wavesAccounts > p:nth-child("+childNode+")").after("<div id='loginAccountDiv'>PASSWORD&nbsp;&nbsp;<input type='password' id='loginPassword' class='wInput'><br/>"+submitButton+"<br/><div id='errorPasswordLogin'></div></div>");
+                    $("#wavesAccounts > p:nth-child("+childNode+")").after("<div id='loginAccountDiv'>PASSWORD&nbsp;&nbsp;<input type='password' id='loginPassword' class='wInput' autofocus><br/>"+submitButton+"<br/><div id='errorPasswordLogin'></div></div>");
 
                     $(".submitLoginAccount").on("click", function() {
 
