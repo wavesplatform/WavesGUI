@@ -573,6 +573,15 @@ var Waves = (function(Waves, $, undefined) {
 
     };
 
+    Waves.logout = function () {
+        Waves = '';
+        window.location.href = window.location.pathname;  
+    }
+
+    $('#uiTB-iconset-logout').click(function() {
+        Waves.logout();  
+    });
+
 	return Waves;
 }(Waves || {}, jQuery));
 
@@ -581,10 +590,6 @@ $(document).ready(function(){
 
     Waves.initApp();
     $('.tooltip').tooltipster();
-    
-    $('#uiTB-iconset-logout').click(function() {
-        location.reload();
-    });
     
     $('#tooltipTest').tooltipster({
         content: $('<span><img src="my-image.png" /> <strong>This text is in bold case !</strong></span>')
