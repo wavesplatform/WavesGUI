@@ -80,16 +80,9 @@ var Waves = (function(Waves, $, undefined) {
 
                 $("#import_account").hide();
                 $("#create_account").hide();
-                $("#backbutton").show();
-
                 var accountId = $(this).data('id');
 
                 var userAccounts = localStorage.getItem('WavesAccounts');
-
-                $(".goBack").on("click", function(e) {
-                    e.preventDefault();
-                    location.reload();
-                });
 
                if(userAccounts !== null) {
                     var accounts = JSON.parse(userAccounts);
@@ -101,34 +94,40 @@ var Waves = (function(Waves, $, undefined) {
                     $("#loginAccountDiv").remove();
 
                     var submitButton = '<button class="submitLoginAccount wButton fade">SUBMIT</button>';
+                    var backButton = '<button class="goBack wButton fade tooltip-1" title="Go Back and create / import an Account.">BACK</button>';
 
-                    $("#wavesAccounts > p:nth-child("+childNode+")").after("<div id='loginAccountDiv'>PASSWORD&nbsp;&nbsp;<input type='password' id='loginPassword' class='wInput' autofocus><br/>"+submitButton+"<br/><div id='errorPasswordLogin'></div></div>");
+                    $("#wavesAccounts > p:nth-child("+childNode+")").after("<div id='loginAccountDiv'>PASSWORD&nbsp;&nbsp;<input type='password' id='loginPassword' class='wInput' autofocus><br/>"+submitButton+" "+backButton+" <br/><div id='errorPasswordLogin'></div></div>");
 
-                      $("#loginPassword").on("keyup", function(e) {
+                     $(".goBack").on("click", function(e) {
+                        e.preventDefault();
+                        location.reload();
+                    });
 
-                            if(Waves.isEnterKey(e.keyCode)) {
-                                
-                                var password = $("#loginPassword").val();
+                    $("#loginPassword").on("keyup", function(e) {
 
-                                var decryptPassword = Waves.decryptWalletSeed(accountDetails.cipher, password, accountDetails.checksum);
+                        if(Waves.isEnterKey(e.keyCode)) {
+                            
+                            var password = $("#loginPassword").val();
 
-                                if(decryptPassword) {
-                                    accountDetails.passphrase = decryptPassword;
+                            var decryptPassword = Waves.decryptWalletSeed(accountDetails.cipher, password, accountDetails.checksum);
 
-                                    var publicKey = Waves.getPublicKey(decryptPassword);
-                                    var privateKey = Waves.getPrivateKey(decryptPassword);
-                                    accountDetails.publicKey = publicKey;
-                                    accountDetails.privateKey = privateKey;
-                                    Waves.login(accountDetails);
-                                    $("#errorPasswordLogin").html('');
-                                } else {
-                                   
-                                   $("#errorPasswordLogin").html('Wrong password');
+                            if(decryptPassword) {
+                                accountDetails.passphrase = decryptPassword;
 
-                                }
+                                var publicKey = Waves.getPublicKey(decryptPassword);
+                                var privateKey = Waves.getPrivateKey(decryptPassword);
+                                accountDetails.publicKey = publicKey;
+                                accountDetails.privateKey = privateKey;
+                                Waves.login(accountDetails);
+                                $("#errorPasswordLogin").html('');
+                            } else {
+                               
+                               $("#errorPasswordLogin").html('Wrong password');
+
                             }
+                        }
 
-                       })
+                    });
 
                     $(".submitLoginAccount").on("click", function() {
 
