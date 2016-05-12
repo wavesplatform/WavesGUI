@@ -280,7 +280,7 @@ var Waves = (function (Waves, $, undefined) {
         var h = Waves._hash.getBytes();
 
         var v = curve25519.sign(h, x, s);
-
+        
         return v.concat(h);
     }
 

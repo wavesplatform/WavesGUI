@@ -462,13 +462,13 @@ var Waves = (function(Waves, $, undefined) {
 
         var signatureData = Waves.signatureData(Waves.publicKey, recipient, amount, fee, wavesTime);
 
-        var signature = Base58.encode(Waves.signBytes(signatureData, sender, true));
+        var signature = Waves.signBytes(signatureData, senderPassphrase, true);
 
-        //var signiture = CryptoJS.HmacSHA512(signatureData, sender);
-        //console.log (signiture);
+        signature = Base58.encode(signature);
 
-        var signature = Base58.encode(Waves.sign(signatureData, senderPassphrase));
+        var signiture = Base58.encode(Waves.sign(signatureData, senderPassphrase));
         var verify = Waves.verifyBytes(Base58.decode(signature), signatureData, senderPublic);
+
         console.log(verify);
 
         var data = {
@@ -480,7 +480,7 @@ var Waves = (function(Waves, $, undefined) {
           "fee": fee
         }
 
-        /*
+        
         Waves.apiRequest(Waves.api.waves.broadcastTransaction, JSON.stringify(data), function(response) {
 
             console.log(response);
@@ -490,7 +490,6 @@ var Waves = (function(Waves, $, undefined) {
             $("#errorpayment").html(JSON.stringify(response));
 
         });
-*/
 
         //console.log(data);
 
