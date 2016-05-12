@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright © 2016 The Waves Developers.                                *
+ * Copyright © 2016 The Waves Developers.                                     *
  *                                                                            *
  * See the LICENSE files at                                                   *
  * the top-level directory of this distribution for the individual copyright  *
@@ -248,7 +248,12 @@ var Waves = (function(Waves, $, undefined) {
     $("#create_account").on("click", function(e) {
         e.preventDefault();
 
+        $("#import_account").hide();
+        $("#create_account").hide();
+        $("#generateKeys").hide();
+
         $("#step2_reg").show();
+        $("#login-wPop-new").modal("show");
 
         var passphrase = PassPhraseGenerator.generatePassPhrase();
         $("#walletSeed").val(passphrase);
@@ -435,7 +440,7 @@ var Waves = (function(Waves, $, undefined) {
         var sendAmount = $("#wavessendamount").val().replace(/\s+/g, '');
         var amount = Number(sendAmount);
 
-        var sender = converters.stringToByteArray(Waves.passphrase);
+        var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
         var senderPublic = Base58.decode(Waves.publicKey);
         var recipient = $("#wavesrecipient").val().replace(/\s+/g, '');
 
@@ -451,6 +456,7 @@ var Waves = (function(Waves, $, undefined) {
         //var signiture = CryptoJS.HmacSHA512(signatureData, sender);
         //console.log (signiture);
 
+        var signature = Base58.encode(Waves.sign(signatureData, senderPassphrase));
         var verify = Waves.verifyBytes(Base58.decode(signature), signatureData, senderPublic);
         console.log(verify);
 
