@@ -67,7 +67,7 @@ var Waves = (function(Waves, $, undefined) {
                         accountName = accountDetails.name;
                     }
 
-                    $("#wavesAccounts").append('<p class="loginAccountDiv"><br><b>'+accountName+'</b> &nbsp;  <small>'+accountDetails.address+'</small> &nbsp; <button class="removeAccount wButtonAlt fade" data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button> <button class="loginAccount wButtonAlt fade" data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_go.svg"></span>LOG IN</button></p> ');
+                    $("#wavesAccounts").append('<p class="loginAccountDiv"><br><b>'+accountName+'</b> &nbsp;  <small>'+accountDetails.address+'</small> &nbsp; <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button> <button class="loginAccount wButtonAlt fade tooltip-1" title="Log into this account." data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_go.svg"></span>LOG IN</button></p> ');
 
                 });
 
@@ -533,6 +533,26 @@ $(document).ready(function(){
     
     $('#uiTB-iconset-logout').click(function() {
         location.reload();
+    });
+    
+    $('#tooltipTest').tooltipster({
+        content: $('<span><img src="my-image.png" /> <strong>This text is in bold case !</strong></span>')
+    });
+    
+    $('.tooltip-1').tooltipster({
+        theme: 'tooltipster-theme1',
+        delay: 1000
+    });
+    
+    $('.tooltip-2').tooltipster({
+        theme: 'tooltipster-theme2',
+        delay: 1000
+    });
+    
+    $('.tooltip-3').tooltipster({
+        theme: 'tooltipster-theme3',
+        delay: 1000,
+        contentAsHTML: true
     });
 
 });
