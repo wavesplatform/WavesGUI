@@ -530,6 +530,10 @@ $(document).ready(function(){
 
     Waves.initApp();
     $('.tooltip').tooltipster();
+    
+    $('#uiTB-iconset-logout').click(function() {
+        location.reload();
+    });
 
 });
 
