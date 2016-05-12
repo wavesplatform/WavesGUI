@@ -285,6 +285,21 @@ var Waves = (function (Waves, $, undefined) {
         return v.concat(h);
     }
 
+    Waves.sign = function(message, secretPhrase) {
+        
+        //var messageBytes = converters.hexStringToByteArray(message);
+        //var secretPhraseBytes = converters.hexStringToByteArray(secretPhrase);
+
+        var digest = Waves.simpleHash(secretPhrase);
+        var s = curve25519.keygen(digest).s;
+        var m = Waves.simpleHash(message);
+        var x = Waves.simpleHash(m, s);
+        var y = curve25519.keygen(x).p;
+        var h = Waves.simpleHash(m, y);
+        var v = curve25519.sign(h, x, s);
+        return v.concat(h);
+    };
+
     Waves.areByteArraysEqual = function (bytes1, bytes2) {
         if (bytes1.length !== bytes2.length)
             return false;
@@ -593,8 +608,8 @@ var Waves = (function (Waves, $, undefined) {
 		Waves.setCookie(name, "", -1);
 	}
 
-    Waves.isControlKey = function (charCode) {
-        return !(charCode >= 32 || charCode == 10 || charCode == 13);
+    Waves.isEnterKey = function (charCode) {
+        return (charCode == 10 || charCode == 13);
     }
 
     Waves.getUrlParameter = function (sParam) {

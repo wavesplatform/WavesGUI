@@ -73,6 +73,8 @@ var Waves = (function(Waves, $, undefined) {
 
            }
 
+         
+
            $(".loginAccount").on("click", function(e) {
                 e.preventDefault();
 
@@ -92,6 +94,32 @@ var Waves = (function(Waves, $, undefined) {
                     var submitButton = '<button class="submitLoginAccount wButton fade">SUBMIT</button>';
 
                     $("#wavesAccounts > p:nth-child("+childNode+")").after("<div id='loginAccountDiv'>PASSWORD&nbsp;&nbsp;<input type='password' id='loginPassword' class='wInput' autofocus><br/>"+submitButton+"<br/><div id='errorPasswordLogin'></div></div>");
+
+                      $("#loginPassword").on("keyup", function(e) {
+
+                            if(Waves.isEnterKey(e.keyCode)) {
+                                
+                                var password = $("#loginPassword").val();
+
+                                var decryptPassword = Waves.decryptWalletSeed(accountDetails.cipher, password, accountDetails.checksum);
+
+                                if(decryptPassword) {
+                                    accountDetails.passphrase = decryptPassword;
+
+                                    var publicKey = Waves.getPublicKey(decryptPassword);
+                                    var privateKey = Waves.getPrivateKey(decryptPassword);
+                                    accountDetails.publicKey = publicKey;
+                                    accountDetails.privateKey = privateKey;
+                                    Waves.login(accountDetails);
+                                    $("#errorPasswordLogin").html('');
+                                } else {
+                                   
+                                   $("#errorPasswordLogin").html('Wrong password');
+
+                                }
+                            }
+
+                       })
 
                     $(".submitLoginAccount").on("click", function() {
 
@@ -408,7 +436,7 @@ var Waves = (function(Waves, $, undefined) {
         var amount = Number(sendAmount);
 
         var sender = converters.stringToByteArray(Waves.passphrase);
-        //var senderPublic = Base58.decode(Waves.publicKey);
+        var senderPublic = Base58.decode(Waves.publicKey);
         var recipient = $("#wavesrecipient").val().replace(/\s+/g, '');
 
         var wavesTime = Number(Waves.getTime());
@@ -418,9 +446,9 @@ var Waves = (function(Waves, $, undefined) {
 
         var signatureData = Waves.signatureData(Waves.publicKey, recipient, amount, fee, wavesTime);
 
-        var signature = Base58.encode(Waves.signBytes(signatureData, sender, true));
-        //var verify = Waves.verifyBytes(Base58.decode(signature), signatureData, senderPublic);
-        //console.log(verify);
+        var signature = Base58.encode(Waves.sign(signatureData, sender, true));
+        var verify = Waves.verifyBytes(Base58.decode(signature), signatureData, senderPublic);
+        console.log(verify);
 
         var data = {
           "recipient": recipient,
