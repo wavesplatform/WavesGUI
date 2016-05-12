@@ -438,7 +438,7 @@ input.tabs-radio:checked + label  img {
     display: block;
     position: relative;
     float: right;
-    z-index: 99 !important;
+    z-index: 100 !important;
     font-family: 'Engo';
     font-size: 2.5rem;
     color: #AFAFAF;
@@ -450,7 +450,7 @@ input.tabs-radio:checked + label  img {
     position: relative;
 	text-align: right;
     float: right;
-    z-index: 99 !important;
+    z-index: 100 !important;
     font-family: 'Wesli';
     font-size: 1rem;
     color: #D7D7D7;
