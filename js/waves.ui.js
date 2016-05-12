@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright © 2016 The Waves Developers.                                *
+ * Copyright © 2016 The Waves Developers.                                     *
  *                                                                            *
  * See the LICENSE files at                                                   *
  * the top-level directory of this distribution for the individual copyright  *
@@ -435,7 +435,7 @@ var Waves = (function(Waves, $, undefined) {
         var sendAmount = $("#wavessendamount").val().replace(/\s+/g, '');
         var amount = Number(sendAmount);
 
-        var sender = converters.stringToByteArray(Waves.passphrase);
+        var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
         var senderPublic = Base58.decode(Waves.publicKey);
         var recipient = $("#wavesrecipient").val().replace(/\s+/g, '');
 
@@ -446,7 +446,7 @@ var Waves = (function(Waves, $, undefined) {
 
         var signatureData = Waves.signatureData(Waves.publicKey, recipient, amount, fee, wavesTime);
 
-        var signature = Base58.encode(Waves.sign(signatureData, sender, true));
+        var signature = Base58.encode(Waves.sign(signatureData, senderPassphrase));
         var verify = Waves.verifyBytes(Base58.decode(signature), signatureData, senderPublic);
         console.log(verify);
 
