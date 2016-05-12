@@ -85,6 +85,7 @@
     transform: translate(-50%, -50%);
     min-width: 300px;
     max-width: 1920px;
+    display: none;
 }
 
 .wPop-header {
