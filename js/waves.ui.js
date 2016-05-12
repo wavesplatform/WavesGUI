@@ -235,6 +235,9 @@ var Waves = (function(Waves, $, undefined) {
 
     $("#import_account").on("click", function(e) {
         e.preventDefault();
+        
+        $("#import_account").hide();
+        $("#create_account").hide();
 
         $("#step2_reg").show();
         $("#walletSeed").val('');
