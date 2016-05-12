@@ -256,7 +256,6 @@ var Waves = (function (Waves, $, undefined) {
         var signatureBytes = [];
 
         return signatureBytes.concat(typeBytes, timestampBytes, decodePublicKey, decodeRecipient, amountBytes, feeBytes);
-
     }
 
     Waves.signBytes = function(message, seed, isBytes = false) {
@@ -345,7 +344,6 @@ var Waves = (function (Waves, $, undefined) {
 
         return bytes;
     }
-
 
     //Returns publicKey
     Waves.getPublicKey = function(secretPhrase)

@@ -67,7 +67,7 @@ var Waves = (function(Waves, $, undefined) {
                         accountName = accountDetails.name;
                     }
 
-                    $("#wavesAccounts").append('<p class="loginAccountDiv"><br><b>'+accountName+'</b> &nbsp;  <small>'+accountDetails.address+'</small> &nbsp; <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button> <button class="loginAccount wButtonAlt fade tooltip-1" title="Log into this account." data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_go.svg"></span>LOG IN</button></p> ');
+                    $("#wavesAccounts").append('<p class="loginAccountDiv"><span class="loginAccount tooltip-1" title="Log into this account." style="cursor: pointer; cursor: hand;" data-id="'+accountKey+'"><br><b>'+accountName+'</b> &nbsp;  <small>'+accountDetails.address+'</small></span> &nbsp; <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button></p> ');
 
                 });
 
@@ -446,7 +446,11 @@ var Waves = (function(Waves, $, undefined) {
 
         var signatureData = Waves.signatureData(Waves.publicKey, recipient, amount, fee, wavesTime);
 
-        var signature = Base58.encode(Waves.sign(signatureData, sender, true));
+        var signature = Base58.encode(Waves.signBytes(signatureData, sender, true));
+
+        //var signiture = CryptoJS.HmacSHA512(signatureData, sender);
+        //console.log (signiture);
+
         var verify = Waves.verifyBytes(Base58.decode(signature), signatureData, senderPublic);
         console.log(verify);
 
@@ -459,7 +463,7 @@ var Waves = (function(Waves, $, undefined) {
           "fee": fee
         }
 
-
+        /*
         Waves.apiRequest(Waves.api.waves.broadcastTransaction, JSON.stringify(data), function(response) {
 
             console.log(response);
@@ -469,6 +473,7 @@ var Waves = (function(Waves, $, undefined) {
             $("#errorpayment").html(JSON.stringify(response));
 
         });
+*/
 
         //console.log(data);
 

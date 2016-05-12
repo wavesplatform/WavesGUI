@@ -3,7 +3,7 @@
     var C = CryptoJS;
     var C_lib = C.lib;
     var C_lib_WordArray = C_lib.WordArray;
-    var C_lib_Hash = C_lib.Hash;
+    var C_lib_Hash = C_lib.Hasher;
     var C_algo = C.algo;
 
     // Constants
