@@ -194,7 +194,7 @@ Keeping this for now, in case I change later the way users will upload their own
     font-weight: 200;
     color: #323232;
     background: #ffffff; /* Fallback */
-    background: rgba(255, 255, 255, .75);
+    background: rgba(255, 255, 255, .65);
     padding: .5rem;
 }
 
@@ -228,6 +228,14 @@ Keeping this for now, in case I change later the way users will upload their own
 
 #walletName {
     width: 300px;
+    margin-top: .5rem;
+}
+
+#wavesAccounts > p {
+    margin-top: -1rem;
+}
+
+#import_account {
     margin-top: .5rem;
 }
 
