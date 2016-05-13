@@ -277,7 +277,11 @@ Keeping this for now, in case I change later the way users will upload their own
     margin-top: .5rem;
 }
 
-
+#errorPasswordLogin {
+    margin: 1rem;
+    padding: 1rem;
+    color: red;
+}
 
 /* =========================================================== */
 /* HEADER SETTINGS */ /* HEADER SETTINGS */ /* HEADER SETTINGS */
@@ -720,6 +724,10 @@ input.tabs-radio:checked + label  img {
 .wButtonAlt:hover {
     cursor: pointer;
     opacity: 1;
+}
+
+.goBack {
+    margin-left: 1rem;
 }
 
 
