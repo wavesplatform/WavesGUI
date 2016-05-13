@@ -453,6 +453,7 @@ var Waves = (function(Waves, $, undefined) {
 
         var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
         var senderPublic = Base58.decode(Waves.publicKey);
+        var senderPrivate = Base58.decode(Waves.privateKey);
         var recipient = $("#wavesrecipient").val().replace(/\s+/g, '');
 
         var wavesTime = Number(Waves.getTime());
@@ -462,13 +463,11 @@ var Waves = (function(Waves, $, undefined) {
 
         var signatureData = Waves.signatureData(Waves.publicKey, recipient, amount, fee, wavesTime);
 
-        var signature = Waves.signBytes(signatureData, senderPassphrase, true);
-
+        var signature = Waves.curve25519.sign(senderPrivate, signatureData);
+        console.log(signature);
         signature = Base58.encode(signature);
 
-        var signiture = Base58.encode(Waves.sign(signatureData, senderPassphrase));
-        var verify = Waves.verifyBytes(Base58.decode(signature), signatureData, senderPublic);
-
+        var verify = Waves.curve25519.verify(senderPublic, signatureData, Base58.decode(signature));
         console.log(verify);
 
         var data = {
@@ -490,9 +489,7 @@ var Waves = (function(Waves, $, undefined) {
             $("#errorpayment").html(JSON.stringify(response));
 
         });
-
         //console.log(data);
-
     });
 
     $("#addContact").on("click", function(e) {

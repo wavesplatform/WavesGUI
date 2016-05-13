@@ -32,7 +32,7 @@
     var basepoint = new Uint8Array(32);
     basepoint[0] = 9;
 
-    window.curve25519 = {
+    Waves.curve25519 = {
         keyPair: function(privKey) {
             var priv = new Uint8Array(privKey);
             priv[0]  &= 248;

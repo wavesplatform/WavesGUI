@@ -258,6 +258,7 @@ var Waves = (function (Waves, $, undefined) {
         return signatureBytes.concat(typeBytes, timestampBytes, decodePublicKey, decodeRecipient, amountBytes, feeBytes);
     }
 
+    /*
     Waves.signBytes = function(message, seed, isBytes = false) {
 
         var messageBytes = message;
@@ -280,36 +281,40 @@ var Waves = (function (Waves, $, undefined) {
         var h = Waves._hash.getBytes();
 
         var v = curve25519.sign(h, x, s);
-        
+
         return v.concat(h);
     }
 
     Waves.sign = function(message, secretPhrase) {
-        
-        //var messageBytes = converters.hexStringToByteArray(message);
-        //var secretPhraseBytes = converters.hexStringToByteArray(secretPhrase);
+   
+        var messageBytes = converters.hexStringToByteArray(message);
+        var secretPhraseBytes = converters.hexStringToByteArray(secretPhrase);
 
-        var digest = Waves.simpleHash(secretPhrase);
+        var digest = Waves.simpleHash(secretPhraseBytes);
         var s = curve25519.keygen(digest).s;
-        var m = Waves.simpleHash(message);
+        var m = Waves.simpleHash(messageBytes);
         var x = Waves.simpleHash(m, s);
         var y = curve25519.keygen(x).p;
         var h = Waves.simpleHash(m, y);
         var v = curve25519.sign(h, x, s);
-        return v.concat(h);
+        return converters.byteArrayToHexString(v.concat(h));
     };
 
-    Waves.areByteArraysEqual = function (bytes1, bytes2) {
-        if (bytes1.length !== bytes2.length)
+    Waves.verify = function(signature, message, publicKey, callback) {
+        var signatureBytes = converters.hexStringToByteArray(signature);
+        var messageBytes = converters.hexStringToByteArray(message);
+        var publicKeyBytes = publicKey;
+        var v = signatureBytes.slice(0, 32);
+        var h = signatureBytes.slice(32);
+        var y = curve25519.verify(v, h, publicKeyBytes);
+        var m = Waves.simpleHash(messageBytes);
+        var h2 = Waves.simpleHash(m, y);
+        if (!Waves.areByteArraysEqual(h, h2)) {
+           
             return false;
-
-        for (var i = 0; i < bytes1.length; ++i) {
-            if (bytes1[i] !== bytes2[i])
-                return false;
         }
-
         return true;
-    }
+    };
 
     Waves.verifyBytes = function(signature, message, publicKey) {
         var signatureBytes = signature;
@@ -329,9 +334,23 @@ var Waves = (function (Waves, $, undefined) {
         return Waves.areByteArraysEqual(h, h2);
     }
 
+    */
+
+    Waves.areByteArraysEqual = function (bytes1, bytes2) {
+        if (bytes1.length !== bytes2.length)
+            return false;
+
+        for (var i = 0; i < bytes1.length; ++i) {
+            if (bytes1[i] !== bytes2[i])
+                return false;
+        }
+
+        return true;
+    }
+
     //Get timestamp in Waves
     Waves.getTime = function() {
-        return Date.now();
+        return Date.now() - 10000;
     }
 
     Waves.longToByteArray = function (value) {
