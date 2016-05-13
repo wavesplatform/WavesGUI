@@ -9,7 +9,8 @@ describe("waves.util", function() {
   
   it("generates correct private and public keys", function(){
 	  
-	  var seed = "secretPhrase877282999374";
+		//"secretPhrase877282999374"
+		
 	  var publicKey = Waves.getPublicKey(seed);
 	  expect(publicKey).toEqual("HGsmhwkdoLzKtAQVePcSr75Pj25dVMf8RPE4CzbCPVXi");
 	  
