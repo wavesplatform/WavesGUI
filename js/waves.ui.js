@@ -592,7 +592,8 @@ $(document).ready(function(){
     
     $('.tooltip-1').tooltipster({
         theme: 'tooltipster-theme1',
-        delay: 1000
+        delay: 1000,
+        contentAsHTML: true
     });
     
     $('.tooltip-2').tooltipster({
