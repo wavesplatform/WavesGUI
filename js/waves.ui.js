@@ -266,6 +266,7 @@ var Waves = (function(Waves, $, undefined) {
         $("#import_account").hide();
         $("#create_account").hide();
         $("#generateKeys").hide();
+        $("#account_divider").hide();
 
         $("#step2_reg").show();
         $("#login-wPop-new").modal("show");
