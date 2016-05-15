@@ -462,8 +462,9 @@ var Waves = (function(Waves, $, undefined) {
         var fee = Number(1);
 
         var signatureData = Waves.signatureData(Waves.publicKey, recipient, amount, fee, wavesTime);
+        console.log(signatureData);
 
-        var signature = Waves.curve25519.sign(senderPrivate, signatureData);
+        var signature = Array.from(Waves.curve25519.sign(senderPrivate, signatureData));
         console.log(signature);
         signature = Base58.encode(signature);
 
