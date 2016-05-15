@@ -155,9 +155,19 @@
 	
 	<!-- HEADER -->
 	<header class="fFade noSelect">
-		<img id="topLogo" src="img/topleftlogo.svg" alt="Waves platform logo" />
-		<img id="topLogoH" src="img/topleftlogo_hor.svg" alt="Waves platform logo horizontal" />
-		<span id="version" class="centerIt">Waves Platform Lite Client v0 alpha - Block: <span id="blockheight"></span></span>
+<!--		<img id="topLogo" src="img/topleftlogo.svg" alt="Waves platform logo" />-->
+		
+        <img id="topLogoH" src="img/topleftlogo_hor.svg" alt="Waves platform logo horizontal" />
+       
+        <div id="logoNversion2">
+						<img src="img/topleftlogo.svg" />
+                        <p>Lite Client v0a</p>
+        </div>
+        
+<!--		<span id="version" class="centerIt">Waves Platform Lite Client v0 alpha - Block: <span id="blockheight"></span></span>-->
+        
+        <span id="version" class="centerIt">Account: <span id="wavesAccountAddress"></span> - Block: <span id="blockheight"></span></span>
+        
 		<div id=header-Iconset>
             <a href="#header-wPop-pref" rel="modal:open">
                 <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-preferences.svg" alt="Preferences" title="Preferences"/>
@@ -238,7 +248,9 @@
 			<!-- <div id="mBB-cover" class="mBB-content"> -->
 
 			<div id="mBB-wallet" class="mBB-content">
-                    <div style="text-align: center;">Account address: <span id="wavesAccountAddress"></span></div>
+                
+<!--                    <div style="text-align: center;">Account address: <span id="wavesAccountAddress"></span></div>-->
+                
                     <div id="wB-USD" class="walletBox">
                         <img id="wB-bg-USD" src="img/wB-bg-USD.svg" alt="US Dollar wallet" />
                         <div class="wB-name">US DOLLAR</div>

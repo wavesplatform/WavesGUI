@@ -298,6 +298,7 @@ header {
     
 }
 
+/*
 #topLogo {
 	position: absolute;
 	top: .75rem;
@@ -305,6 +306,7 @@ header {
 	width: 9rem;
 	z-index: 99;
 }
+*/
 
 #topLogoH { 
 	display: none; 
@@ -313,6 +315,28 @@ header {
 	left: 1rem;
 	width: 12rem;
 	z-index: 99;
+}
+
+#logoNversion2 {
+	position: absolute;
+	top: .75rem;
+	left: 1.3rem;
+	width: 8rem;
+	z-index: 99;
+}
+
+#logoNversion2 > img {
+    width: 8rem;
+    margin-bottom: 1rem;
+}
+
+#logoNversion2 > p {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: #ffffff;
+    font-size: .8rem;
+    font-style: italic;
 }
 
 #version {
@@ -936,7 +960,7 @@ input.tabs-radio:checked + label  img {
 
 @media only screen and (max-width: 1024px) {
 
-	#topLogo { display: none; }
+	#logoNversion2 { display: none; }
 	#topLogoH { display: block; }
     #version { font-size: 1rem; }
 	
