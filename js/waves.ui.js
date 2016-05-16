@@ -583,18 +583,28 @@ var Waves = (function(Waves, $, undefined) {
         Waves.logout();  
     });
 
+
+    //Add Copy-to-Clipboard to class clipSpan
     var clipboard = new Clipboard('.clipSpan');
 
     clipboard.on('success', function(e) {
       
-        $.growl('Successfully copied to clipboard');
+         $.growl.notice({ message: "Address successfully copied to clipboard" });
 
         e.clearSelection();
     });
 
     clipboard.on('error', function(e) {
-         $.growl('Could not copy to clipboard');
+         $.growl.warning({ message: "Could not copy address to clipboard" });
     });
+
+    //How to growl:
+    /*
+      $.growl({ title: "Growl", message: "The kitten is awake!", url: "/kittens" });
+      $.growl.error({ message: "The kitten is attacking!" });
+      $.growl.notice({ message: "The kitten is cute!" });
+      $.growl.warning({ message: "The kitten is ugly!" });
+  */
 
 
 	return Waves;
