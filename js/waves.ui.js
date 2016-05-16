@@ -15,12 +15,12 @@
  ******************************************************************************/
 /**
  * @depends {3rdparty/jquery-2.1.0.js}
- * @depends {3rdparty/bootstrap.js}
  * @depends {3rdparty/big.js}
  * @depends {3rdparty/jsbn.js}
  * @depends {3rdparty/jsbn2.js}
  * @depends {3rdparty/webdb.js}
- * @depends {3rdparty/growl.js}
+ * @depends {3rdparty/jquery.growl.js}
+ * @depends {3rdparty/clipboard.js}
  * @depends {crypto/curve25519.js}
  * @depends {crypto/curve25519_.js}
  * @depends {crypto/base58.js}
@@ -81,6 +81,8 @@ var Waves = (function(Waves, $, undefined) {
                 $("#import_account").hide();
                 $("#create_account").hide();
                 var accountId = $(this).data('id');
+                $('.loginAccountDiv').hide();
+                $(this).parent().show();
 
                 var userAccounts = localStorage.getItem('WavesAccounts');
 
