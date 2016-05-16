@@ -73,8 +73,6 @@ var Waves = (function(Waves, $, undefined) {
 
            }
 
-         
-
            $(".loginAccount").on("click", function(e) {
                 e.preventDefault();
 

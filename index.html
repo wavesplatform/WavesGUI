@@ -782,49 +782,48 @@
                     </div>
             
                 </div> <!-- Div mBB-history END -->
-                <div id="mBB-messages" class="mBB-content"><p class="centerIt">[ mBB-messages SECTION TEST CONTENT ]</p></div>
-                <div id="mBB-community" class="mBB-content">
-                    <div style="width:100%; height:100%;text-align: center;" class="centerIt">
-                    
+                <div id="mBB-messages" class="mBB-content">
+                    <p class="centerIt">
+
+                        <div style="width:100%; height:100%;text-align: center;" class="centerIt">
                         
+                            <button id="addContact">Add Contact</button>
 
-                        <button id="addContact">Add Contact</button>
+                            <div id="contactForm" style="display: none;">
+                                <form id="addContactForm">
+                                    <h3>Name</h3>
+                                    <input type="text" id="contactname" placeholder="" />
 
-                        <div id="contactForm" style="display: none;">
-                            <form id="addContactForm">
-                                <h3>Name</h3>
-                                <input type="text" id="contactname" placeholder="" />
+                                    <h3>Address</h3>
+                                    <input type="text" id="contactaddress" placeholder="" />
 
-                                <h3>Address</h3>
-                                <input type="text" id="contactaddress" placeholder="" />
+                                    <h3>Email</h3>
+                                    <input type="email" id="contactemail" placeholder="" />
 
-                                <h3>Email</h3>
-                                <input type="email" id="contactemail" placeholder="" />
+                                    <br/><br/>
+                                    <button id="addContactSubmit">Add to list</button>
+                                </form>
+                            </div>
 
-                                <br/><br/>
-                                <button id="addContactSubmit">Add to list</button>
-                            </form>
+                            <h2>My Contacts</h2>
+
+                            <table style="width:100%; height:100%;" id="contacts" class="wavesTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Address</th>
+                                        <th>Email</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="contactTable">
+                                    
+                                </tbody>
+                            </table>
                         </div>
-
-                        <h2>My Contacts</h2>
-
-                        <table style="width:100%; height:100%;" id="contacts" class="wavesTable">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Address</th>
-                                    <th>Email</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="contactTable">
-                                
-                            </tbody>
-                        </table>
-
-                    [ mBB-community SECTION TEST CONTENT ]
-                    </div>
+                    </p>
                 </div>
+                <div id="mBB-community" class="mBB-content"><p class="centerIt">[ mBB-community SECTION TEST CONTENT ]</p></div>
 		</section> <!-- Section mbBody END -->
 	</section> <!-- Section mainBody END -->
 
