@@ -5,7 +5,6 @@ jquery.js - MIT - http://jquery.com/
 jquery.modal - MIT - Kyle Fox https://github.com/kylefox/jquery-modal
 bootstrap.js / bootstrap.css - APACHE2 - http://getbootstrap.com
 font-awesome.css - MIT - http://fortawesome.github.io
-growl - MIT - https://github.com/mouse0270/bootstrap-growl
 webdb.js - MIT - http://github.com/haas85/webdb
 passphrasegenerator.js - custom - based on https://github.com/michenriksen/diceware (UNLICENSE) and https://github.com/ggozad/mnemonic.js (MIT)
 seedrandom.js - MIT - https://github.com/davidbau/seedrandom
@@ -21,3 +20,5 @@ maskedinput.js - MIT - https://github.com/digitalBush/jquery.maskedinput
 i18next.js - MIT - https://github.com/jamuhl/i18next
 moment.js - MIT - http://momentjs.com/
 html5-qrcode.min.js - MIT - https://github.com/dwa012/html5-qrcode
+Jquery Growl - MIT - Kevin Sylvestre - https://github.com/ksylvest/jquery-growl
+ClipboardJS - MIT - Zeno Rocha - https://github.com/zenorocha/clipboard.js
