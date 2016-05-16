@@ -67,7 +67,7 @@ var Waves = (function(Waves, $, undefined) {
                         accountName = accountDetails.name;
                     }
 
-                    $("#wavesAccounts").append('<p class="loginAccountDiv"><span class="loginAccount tooltip-1 fade" title="Log into this account." data-id="'+accountKey+'"><br/><b>'+accountName+'</b> &nbsp;  <small>'+accountDetails.address+'</small></span> &nbsp; <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button></p> ');
+                    $("#wavesAccounts").append('<p class="loginAccountDiv"><span class="loginAccount tooltip-1 fade" title="Log into this account." data-id="'+accountKey+'"><br/><span class="clipSpan" data-clipboard-text="'+accountDetails.address+'">COPY</span> <b>'+accountName+'</b> &nbsp;  <small>'+accountDetails.address+'</small></span> &nbsp; <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>DEL</button></p> ');
 
                 });
 
@@ -582,6 +582,20 @@ var Waves = (function(Waves, $, undefined) {
     $('#uiTB-iconset-logout').click(function() {
         Waves.logout();  
     });
+
+    var clipboard = new Clipboard('.clipSpan');
+
+    clipboard.on('success', function(e) {
+      
+        $.growl('Successfully copied to clipboard');
+
+        e.clearSelection();
+    });
+
+    clipboard.on('error', function(e) {
+         $.growl('Could not copy to clipboard');
+    });
+
 
 	return Waves;
 }(Waves || {}, jQuery));
