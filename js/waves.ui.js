@@ -66,8 +66,8 @@ var Waves = (function(Waves, $, undefined) {
                     if(accountDetails.name !== undefined) {
                         accountName = accountDetails.name;
                     }
-
-                    $("#wavesAccounts").append('<p class="loginAccountDiv"><span class="loginAccount tooltip-1 fade" title="Log into this account." data-id="'+accountKey+'"><br/><span class="clipSpan" data-clipboard-text="'+accountDetails.address+'">COPY</span> <b>'+accountName+'</b> &nbsp;  <small>'+accountDetails.address+'</small></span> &nbsp; <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>DEL</button></p> ');
+                    
+                    $("#wavesAccounts").append('<p class="loginAccountDiv"><span class="loginAccount tooltip-1 fade" title="Log into this account." data-id="'+accountKey+'"> <br/> <b>'+accountName+'</b> &nbsp;  <small>'+accountDetails.address+'</small></span><span class="clipSpan tooltip-1" title="Copies this address to the clipboard." data-clipboard-text="'+accountDetails.address+'"></span> &nbsp;&nbsp; <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button></p> ');
 
                 });
 
@@ -589,13 +589,13 @@ var Waves = (function(Waves, $, undefined) {
 
     clipboard.on('success', function(e) {
       
-         $.growl.notice({ message: "Address successfully copied to clipboard" });
+         $.growl.notice({ message: "Address successfully copied to clipboard." });
 
         e.clearSelection();
     });
 
     clipboard.on('error', function(e) {
-         $.growl.warning({ message: "Could not copy address to clipboard" });
+         $.growl.warning({ message: "Could not copy address to clipboard." });
     });
 
     //How to growl:

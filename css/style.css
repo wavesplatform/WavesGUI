@@ -93,7 +93,19 @@ body {
     margin-left: .3rem; 
 }
 
-.infoSpan:hover:after {
+.clipSpan:after {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    background: url(../img/wIcon_clip.svg) no-repeat;
+    width: 1.25rem;
+    height: 1.25rem;
+    padding: 0;
+    margin: 0;
+    margin-left: .3rem; 
+}
+
+.clipSpan:hover:after, .infoSpan:hover:after {
     cursor: pointer;
 }
 
@@ -227,6 +239,10 @@ Keeping this for now, in case I change later the way users will upload their own
 .loginAccountDiv > span:hover {
     cursor: pointer;
     opacity: 1;
+}
+
+.loginAccountDiv .clipSpan {
+    color: red;
 }
 
 #loginAccountDiv { margin-top: 1rem; }
