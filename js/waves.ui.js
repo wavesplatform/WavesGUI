@@ -122,9 +122,7 @@ var Waves = (function(Waves, $, undefined) {
                                 $("#errorPasswordLogin").html('');
                             } else {
 
-                                $("#errorPasswordLogin").fadeOut();
-                                $("#errorPasswordLogin").html('Wrong password');
-                                $("#errorPasswordLogin").fadeIn();
+                                $.growl.warning({ message: "Wrong password! Please try again." });
 
                             }
                         }
@@ -147,11 +145,7 @@ var Waves = (function(Waves, $, undefined) {
                             Waves.login(accountDetails);
                             $("#errorPasswordLogin").html('');
                         } else {
-                           
-                           $("#errorPasswordLogin").fadeOut();
-                           $("#errorPasswordLogin").html('Wrong password');
-                            $("#errorPasswordLogin").fadeIn();
-
+                            $.growl.warning({ message: "Wrong password! Please try again." });
                         }
 
                     });
