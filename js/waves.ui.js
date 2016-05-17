@@ -67,7 +67,7 @@ var Waves = (function(Waves, $, undefined) {
                         accountName = accountDetails.name;
                     }
                     
-                    $("#wavesAccounts").append('<p class="loginAccountDiv"><span class="loginAccount tooltip-1 fade" title="Log into this account." data-id="'+accountKey+'"> <br/> <b>'+accountName+'</b> &nbsp;  <small>'+accountDetails.address+'</small></span><span class="clipSpan tooltip-1" title="Copies this address to the clipboard." data-clipboard-text="'+accountDetails.address+'"></span> &nbsp;&nbsp; <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button></p> ');
+                    $("#wavesAccounts").append('<p class="loginAccountDiv"><span class="loginAccount tooltip-1 fade" title="Log into this account." data-id="'+accountKey+'"> <br/> <b>'+accountName+'</b> &nbsp;  <small>'+accountDetails.address+'</small></span><span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="'+accountDetails.address+'"></span> &nbsp;&nbsp; <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button></p> ');
 
                 });
 
