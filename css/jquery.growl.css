@@ -90,7 +90,7 @@
 
 .growl.growl-default {
     color: #FFF;
-    background: #7f8c8d; 
+    background: #7f8c8d;
 }
 
 .growl.growl-error {
@@ -100,7 +100,7 @@
 
 .growl.growl-notice {
     color: #FFF;
-    background: #2ECC71; 
+    background: rgba(0,0,0, .8); 
 }
 
 .growl.growl-warning {
@@ -111,18 +111,22 @@
 .growl .growl-close {
     cursor: pointer;
     float: right;
-    font-size: 14px;
+    font-size: 1rem;
     line-height: 18px;
     font-weight: normal;
-    font-family: helvetica, verdana, sans-serif; 
+    font-family: 'Wesli';
 }
 
 .growl .growl-title {
-    font-size: 18px;
+    font-size: 1.25rem;
     line-height: 24px; 
 }
 
+.growl-title {
+    padding-bottom: .25rem;
+}
+
 .growl .growl-message {
-    font-size: 14px;
+    font-size: 1rem;
     line-height: 18px; 
 }
