@@ -975,9 +975,12 @@ input.tabs-radio:checked + label  img {
 
 #mBB-messages-add {
     position: relative;
+    display: table;
+    width: 100%;
     padding: .75rem;
-    overflow: hidden;
     vertical-align: center;
+    text-align: center;
+    overflow: hidden;
 }
 
 #mBB-messages h2 {
