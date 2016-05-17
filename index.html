@@ -787,25 +787,33 @@
 
                         <div style="width:100%; height:100%;text-align: center;" class="centerIt">
                         
-                            <button id="addContact">Add Contact</button>
+                            
 
-                            <div id="contactForm" style="display: none;">
-                                <form id="addContactForm">
-                                    <h3>Name</h3>
-                                    <input type="text" id="contactname" placeholder="" />
+                            <div id="mBB-messages-add">
+                               
+                                <h2>MY CONTACTS</h2>
+                               
+                                <div id="addContact" class="wButton tooltip-3" title="Adds a new contact to your list.">
+                                    <img src="img/wIcon_add.svg" class="fade"/>
+                                </div>
 
-                                    <h3>Address</h3>
-                                    <input type="text" id="contactaddress" placeholder="" />
+                                <div id="contactForm" style="display: none;">
+                                    <form id="addContactForm">
+                                        <h3>Name</h3>
+                                        <input type="text" id="contactname" placeholder="" />
 
-                                    <h3>Email</h3>
-                                    <input type="email" id="contactemail" placeholder="" />
+                                        <h3>Address</h3>
+                                        <input type="text" id="contactaddress" placeholder="" />
 
-                                    <br/><br/>
-                                    <button id="addContactSubmit">Add to list</button>
-                                </form>
+                                        <h3>Email</h3>
+                                        <input type="email" id="contactemail" placeholder="" />
+
+                                        <br/><br/>
+                                        <button id="addContactSubmit">Add to list</button>
+                                    </form>
+                                </div>
+                                
                             </div>
-
-                            <h2>My Contacts</h2>
 
                             <table style="width:100%; height:100%;" id="contacts" class="wavesTable">
                                 <thead>

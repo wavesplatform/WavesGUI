@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="0.176661in" height="0.176661in" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1506 1506"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fillTrans {
+		fill: none;
+		fill-rule: nonzero
+	}
+	
+	.fillBlue {
+		fill: #0096DC;
+		fill-rule: nonzero
+	}
+	
+    .fillWhite {
+		fill: #fff;
+		fill-rule: nonzero
+	}
+   ]]>
+  </style>
+ </defs>
+	 <g id="icon">
+	   <path id="bg" class="fillTrans" d="M1225 281c-121,-121 -288,-196 -472,-196 -184,0 -351,75 -472,196 -121,121 -196,288 -196,472 0,184 75,351 196,472l0 0c121,121 288,196 472,196 184,0 351,-75 472,-196 121,-121 196,-288 196,-472 0,-184 -75,-351 -196,-472l0 0z"/>
+	   <path id="outter" class="fillBlue" d="M753 0c208,0 396,84 532,221l0 0c136,136 221,324 221,532 0,208 -85,396 -221,532l0 0c-136,136 -324,221 -532,221 -208,0 -396,-85 -532,-221l0 0c-137,-136 -221,-324 -221,-532 0,-208 84,-396 221,-532 136,-137 324,-221 532,-221zm472 281c-121,-121 -288,-196 -472,-196 -184,0 -351,75 -472,196 -121,121 -196,288 -196,472 0,184 75,351 196,472l0 0c121,121 288,196 472,196 184,0 351,-75 472,-196 121,-121 196,-288 196,-472 0,-184 -75,-351 -196,-472l0 0z"/>
+	   <polygon id="inner" class="fillBlue" points="796,328 796,710 1177,710 1177,795 796,795 796,1177 710,1177 710,795 328,795 328,710 710,710 710,328 "/>
+	</g>
+
+</svg>

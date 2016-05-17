@@ -926,7 +926,6 @@ input.tabs-radio:checked + label  img {
     display: block;
     width: 100%;
     text-align: center;
-/*    vertical-align: center;*/
     background: #0096DC;
     padding: .4rem;
     color: white;
@@ -967,6 +966,43 @@ input.tabs-radio:checked + label  img {
 #hResults {
     height: auto;
     padding-bottom: 1rem;
+}
+
+
+/* ===================================================== */
+/* MESSENGER TAB */ /* MESSENGER TAB */ /* MESSENGER TAB */ 
+/* ===================================================== */
+
+#mBB-messages-add {
+    position: relative;
+    padding: .75rem;
+    overflow: hidden;
+    vertical-align: center;
+}
+
+#mBB-messages h2 {
+    display: inline-block;
+	text-align: center;
+	font-size: 1.25rem;
+    font-weight: 200;
+	color: #333333;
+    letter-spacing: .2rem;
+}
+
+#addContact {
+    width: auto;
+    position: absolute;
+    right: 2rem;
+    bottom: 0;
+}
+
+#addContact img {
+    width: 2rem;
+    opacity: .5;
+}
+
+#addContact img:hover {
+    opacity: 1;
 }
 
 
