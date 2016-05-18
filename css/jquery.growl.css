@@ -9,8 +9,8 @@
 }
 
 #growls.default {
-    top: 10px;
-    right: 10px; 
+    top: 1rem;
+    right: 1rem; 
 }
 
 #growls.tl {
@@ -51,13 +51,14 @@
 }
 
 .growl {
-  opacity: 0.8;
-  filter: alpha(opacity=80);
-  position: relative;
-  border-radius: 4px;
-  -webkit-transition: all 0.4s ease-in-out;
-  -moz-transition: all 0.4s ease-in-out;
-  transition: all 0.4s ease-in-out; 
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+    position: relative;
+    border-radius: 4px;
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+    border: 1px solid #fff;
 }
 
 .growl.growl-incoming {
@@ -95,7 +96,8 @@
 
 .growl.growl-error {
     color: #FFF;
-    background: #C0392B; 
+    background: #C0392B; /* Fallback */
+    background: rgba(255,0,0, .8);
 }
 
 .growl.growl-notice {
@@ -105,7 +107,8 @@
 
 .growl.growl-warning {
     color: #FFF;
-    background: #F39C12; 
+    background: #F39C12; /* Fallback */
+    background: rgba(255,255,0, .8);
 }
 
 .growl .growl-close {

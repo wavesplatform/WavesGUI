@@ -122,7 +122,7 @@ var Waves = (function(Waves, $, undefined) {
                                 $("#errorPasswordLogin").html('');
                             } else {
 
-                                $.growl.warning({ message: "Wrong password! Please try again." });
+                                $.growl.error({ message: "Wrong password! Please try again." });
 
                             }
                         }
@@ -145,7 +145,7 @@ var Waves = (function(Waves, $, undefined) {
                             Waves.login(accountDetails);
                             $("#errorPasswordLogin").html('');
                         } else {
-                            $.growl.warning({ message: "Wrong password! Please try again." });
+                            $.growl.error({ message: "Wrong password! Please try again." });
                         }
 
                     });

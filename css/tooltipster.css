@@ -10,15 +10,20 @@
 
 .tooltipster-default {
 	border-radius: 5px; 
-	border: 1px solid #ffffff;
+	border: 1px solid #fff;
 	background: #4c4c4c;
 	color: #fff;
 }
 
+
+/* ======================================================================= */
+/* WAVES CUSTOM THEMES */ /* WAVES CUSTOM THEMES */ /* WAVES CUSTOM THEMES */ 
+/* ======================================================================= */
+
 /* Custom theme for login screen area */
 .tooltipster-theme1 {
 	border-radius: 5px; 
-	border: 1px solid #ffffff;
+	border: 1px solid #fff;
 	background: #4c4c4c;
 	color: #ffffff;
     margin: -.2rem;
@@ -53,7 +58,7 @@
 /* Custom theme for xxxxxx */
 .tooltipster-theme3 {
 	border-radius: 5px; 
-	border: 1px solid #ffffff;
+	border: 1px solid #fff;
 	background: #0096DC;
 	color: #ffffff;
 }
@@ -68,10 +73,7 @@
 }
 
 
-
-
-
-
+/* ======================================================================= */
 
 
 /* Use this next selector to style things like font-size and line-height: */
