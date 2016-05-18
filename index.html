@@ -793,23 +793,28 @@
                                
                                 <h2>MY CONTACTS</h2>
                                
-                                <div id="addContact" class="wButton tooltip-3" title="Adds a new contact to your list.">
+                                <a href="#addContact-wPop" rel="modal:open">
+                                    <div id="addContact" class="wButton tooltip-3" title="Adds a new contact to your list.">
                                     <img src="img/wIcon_add.svg" class="fade"/>
-                                </div>
+                                    </div>
+                                </a>
+                                 
+                                <div id="addContact-wPop" class="wavesPop">
+                                    <img class="wPop-header" src="img/modal-header.svg" />
+                                    <form id="addContactForm" class="wPop-content">
+                                        <h2>ADD CONTACT</h2>
+                                        <p>Fill the fields below in order to add a new contact to your list:</p>
+                                        <p>Name</p>
+                                        <input type="text" id="contactname" placeholder="" class="wInput" />
 
-                                <div id="contactForm" style="display: none;">
-                                    <form id="addContactForm">
-                                        <h3>Name</h3>
-                                        <input type="text" id="contactname" placeholder="" />
+                                        <p>Address</p>
+                                        <input type="text" id="contactaddress" placeholder="" class="wInput" />
 
-                                        <h3>Address</h3>
-                                        <input type="text" id="contactaddress" placeholder="" />
-
-                                        <h3>Email</h3>
-                                        <input type="email" id="contactemail" placeholder="" />
+                                        <p>Email</p>
+                                        <input type="email" id="contactemail" placeholder="" class="wInput" />
 
                                         <br/><br/>
-                                        <button id="addContactSubmit">Add to list</button>
+                                        <button id="addContactSubmit" class="wButton fade">ADD CONTACT</button>
                                     </form>
                                 </div>
                                 

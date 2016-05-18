@@ -770,6 +770,18 @@ input.tabs-radio:checked + label  img {
     margin-left: 1rem;
 }
 
+/* Button on Messenger ADD CONTACT */
+#addContactSubmit {
+    background: #fff;
+    color: #0096DC;
+    border: 1px solid #0096DC;
+}
+
+#addContactSubmit:hover {
+    background: #0096DC;
+    color: #fff;
+}
+
 
 /* ================================================= */
 /* WAVES STANDARD INPUTS */ /* WAVES STANDARD INPUTS */
@@ -779,8 +791,10 @@ input.tabs-radio:checked + label  img {
     font-family: 'Wesli';
 	font-size: 1rem;
     padding: .25rem;
-    margin-top: .5rem;
+    margin-top: .25rem;
+    border: 1px solid #D7D7D7;
 }
+
 
 /* ====================================================== */
 /* PAYMENT FORMS PARAMETERS */ /* PAYMENT FORM PARAMETERS */
@@ -1006,6 +1020,24 @@ input.tabs-radio:checked + label  img {
 
 #addContact img:hover {
     opacity: 1;
+}
+
+#addContactForm {
+    text-align: center;
+}
+
+#addContactForm h2 {
+    background-color: #ffffff;
+	border: 0px solid #F0F0F0;
+	text-align: center;
+	font-size: 1.25rem;
+	color: #333333;
+    letter-spacing: .2rem;
+    font-weight: 200;
+}
+
+#addContactForm p {
+    margin-top: .25rem;
 }
 
 
