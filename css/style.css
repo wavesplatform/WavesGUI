@@ -192,9 +192,9 @@ Keeping this for now, in case I change later the way users will upload their own
     
     border: 1px solid #ffffff; /* Fallback */
     border: 1px solid rgba(255, 255, 255, .25);
-    border-radius: 8px 8px 8px 8px;
     -moz-border-radius: 8px 8px 8px 8px;
     -webkit-border-radius: 8px 8px 8px 8px;
+	border-radius: 8px 8px 8px 8px;
     cursor: default;
 }
 
@@ -510,9 +510,9 @@ input.tabs-radio:checked + label  img {
     border: 1px solid rgb(220,220,220);
     margin: 5px;
     padding: 10px;
-    border-radius: 20px 20px 20px 20px;
     -moz-border-radius: 20px 20px 20px 20px;
     -webkit-border-radius: 20px 20px 20px 20px;
+	border-radius: 20px 20px 20px 20px;
     overflow: hidden;
 }
 
@@ -718,6 +718,34 @@ input.tabs-radio:checked + label  img {
     outline: none;
 }
 
+.wButton {
+    display: inline-block;
+    position: relative;
+    padding: .3rem;
+    padding-left: .8rem;
+    padding-right: .8rem;
+/*    background: #0096DC;*/
+    background: none;
+    overflow: hidden;
+    font-family: 'Wesli';
+    font-size: 1rem;
+    color: #ffffff;
+/*    border: none;*/
+    border: 1px solid #ffffff;
+    outline: none;
+}
+
+#addContactSubmit {
+    background: #fff;
+    color: #0096DC;
+    border: 1px solid #0096DC;
+}
+
+#addContactSubmit:hover {
+    background: #0096DC;
+    color: #fff;
+}
+
 .wButton a, .wButtonAlt a {
     text-decoration: none;
 }
@@ -846,24 +874,28 @@ input.tabs-radio:checked + label  img {
 }
 
 .paymentForm-but {
-    border: none;
+    /* border: none; */
+	border: 1px solid #0096DC;
     outline: none;
     position: relative;
     margin: 0 auto;
     width: 5rem;
     padding-left: .5rem;
     padding-right: .5rem;
-    background: #0096DC;
+    /* background: #0096DC; */
+	background: #fff;
     font-family: 'Wesli';
 	font-size: 1rem;
     line-height: 2.3rem;
-	color: #ffffff;
+	/* color: #ffffff; */
+	color: #0096DC;
     text-align: center;
 }
 
 .paymentForm-but:hover {
     cursor: pointer;
-    background: #5AC8D2;
+    background: #0096DC;
+    color: #fff;
 }
 
 #mBB-portfolio #paymentForm {
