@@ -22,25 +22,26 @@ var $wrapW = $('#wrapper').width(),
 
 
 // Left bar active/hidden settings
-function LeftBarVis(){
-    
-    if (window.matchMedia('(max-width: 420px), (max-width: 736px) and (max-height: 420px)').matches) {
-        
-        $('#mBLeftBar').css('display', 'none');
-        $('#mBBody').css('width', $wrapW).css('text-align', 'center');
-        
-    } else if ($('input[type=radio][name=tabs-Icons]:checked').val() == 'mBB-wallet' || $('input[type=radio][name=tabs-Icons]:checked').val() == 'mBB-history' || $('input[type=radio][name=tabs-Icons]:checked').val() == 'mBB-community') {
-        
-            $('#mBLeftBar').css('display', 'none');
-            $('#mBBody').css('width', $wrapW);
-            $('#mBB-wallet').css('text-align', 'center');
-        
-    } else {
-        
-            $('#mBLeftBar').css('display', 'table-cell');    
-    }
-
-};
+// COMMENTED OUT FOR NOW - MIGHT UNCOMMENT AFTER ALPHA OR SUBSTITUTE ENTIRELY
+//function LeftBarVis(){
+//    
+//    if (window.matchMedia('(max-width: 420px), (max-width: 736px) and (max-height: 420px)').matches) {
+//        
+//        $('#mBLeftBar').css('display', 'none');
+//        $('#mBBody').css('width', $wrapW).css('text-align', 'center');
+//        
+//    } else if ($('input[type=radio][name=tabs-Icons]:checked').val() == 'mBB-wallet' || $('input[type=radio][name=tabs-Icons]:checked').val() == 'mBB-history' || $('input[type=radio][name=tabs-Icons]:checked').val() == 'mBB-community') {
+//        
+//            $('#mBLeftBar').css('display', 'none');
+//            $('#mBBody').css('width', $wrapW);
+//            $('#mBB-wallet').css('text-align', 'center');
+//        
+//    } else {
+//        
+//            $('#mBLeftBar').css('display', 'table-cell');    
+//    }
+//
+//};
 
 
 // GUI elements dynamic sizing and LeftBar visibility
@@ -58,7 +59,9 @@ $(window).on("load resize", function(e){
 	$('#mBLeftBar').css('height', $mainBodyH);
 	$('#mBBody').css('width', $mbBodyW);
     
-    LeftBarVis();
+    // LeftBarVis();
+    // Temporary due to LeftBarVis function not being used
+    $('#mBB-wallet').css('text-align', 'center');
     
 });
 
