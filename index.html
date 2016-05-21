@@ -30,9 +30,11 @@
 </head>
 
 <body>
-    <!-- Login Area -->
+    
+    
+<!-- LOG IN AREA -->
     <div id="lockscreen" class="userBG">
-<!--        <img id="lockscreen-bg" src="img/lockbg001.jpg" />-->
+        
         <div id="tint"></div>
         
         <table id="lockscreenTable">
@@ -149,24 +151,17 @@
         </table>
 
     </div>
-    <!-- /Login Area -->
+<!-- / LOG IN AREA -->
 
-    <!-- Dashboard -->
 	<div id="wrapper">
 	
-	<!-- HEADER -->
+<!-- HEADER -->
 	<header class="fFade noSelect">
-<!--		<img id="topLogo" src="img/topleftlogo.svg" alt="Waves platform logo" />-->
-		
         <img id="topLogoH" src="img/topleftlogo_hor.svg" alt="Waves platform logo horizontal" />
-       
         <div id="logoNversion2">
 						<img src="img/topleftlogo.svg" />
                         <p>Lite Client v0a</p>
         </div>
-        
-<!--		<span id="version" class="centerIt">Waves Platform Lite Client v0 alpha - Block: <span id="blockheight"></span></span>-->
-        
         <span id="version" class="centerIt">Account: <span id="wavesAccountAddress"></span> - Block: <span id="blockheight"></span></span>
         
 		<div id=header-Iconset>
@@ -193,6 +188,8 @@
             </a>
         </div>
 	</header>
+<!-- / HEADER -->
+        
 	
 	<span class="jurl"></span>
 	
@@ -233,7 +230,7 @@
 	<!-- MAIN APPLICATION BODY CONTENT -->
 	<section id="mainBody">
 	
-	<!-- LEFT BAR CONTENT -->
+	<!-- LEFT BAR CONTENTS -->
 		<section id="mBLeftBar" class="fFade">
 		<div id="LBmBB-portfolio" class="LBmBB-content"><p class="centerIt">[ LBmBB-portfolio<br>TEST CONTENT ]</p></div>
 		<div id="LBmBB-exchange" class="LBmBB-content"><p class="centerIt">[ LBmBB-exchange<br>TEST CONTENT ]</p></div>
@@ -241,16 +238,16 @@
 		<div id="LBmBB-history" class="LBmBB-content"><p class="centerIt">[ LBmBB-history<br>TEST CONTENT ]</p></div>
 		<div id="LBmBB-messages" class="LBmBB-content"><p class="centerIt">[ LBmBB-messages<br>TEST CONTENT ]</p></div>
 		<div id="LBmBB-community" class="LBmBB-content"><p class="centerIt">[ LBmBB-community<br>TEST CONTENT ]</p></div>
-<!--		<div id="LBmBB-cover" class="LBmBB-content"></div>-->
 		</section>
+    <!-- / LEFT BAR CONTENTS -->
+        
 		
 	<!-- BODY CONTENT -->	
 		<section id="mBBody" class="fFade">
-			<!-- <div id="mBB-cover" class="mBB-content"> -->
 
+            
+        <!-- WALLET TAB -->
 			<div id="mBB-wallet" class="mBB-content">
-                
-<!--                    <div style="text-align: center;">Account address: <span id="wavesAccountAddress"></span></div>-->
                 
                     <div id="wB-USD" class="walletBox">
                         <img id="wB-bg-USD" src="img/wB-bg-USD.svg" alt="US Dollar wallet" />
@@ -376,7 +373,6 @@
                                 <div class="wPop-content">
                                     <form class="paymentForm">
                                         <h2>SEND PAYMENT</h2>
-                                       <!-- <div class="wavesTable">-->
                                             <table>
                                                <thead>
                                                    <tr>
@@ -465,7 +461,7 @@
                             </div>
                         </div>
                     </div>
-
+                
                     <div id="wHistory" class="wavesTable">
                         <table>
                             <thead>
@@ -499,345 +495,376 @@
                             
                         </table>        
                     </div>
-                </div> <!-- Div mBB-wallet END -->
-                
-                <div id="mBB-portfolio" class="mBB-content"><p class="centerIt">[ mBB-portfolio SECTION TEST CONTENT ]</p></div>
-                <div id="mBB-exchange" class="mBB-content"><p class="centerIt">[ mBB-exchange SECTION TEST CONTENT ]</p></div>
-                <div id="mBB-voting" class="mBB-content"><p class="centerIt">[ mBB-voting SECTION TEST CONTENT ]</p></div>
-                <div id="mBB-history" class="mBB-content">
-                    
-                    <div id="hSearch">
-                        <h1>TRANSACTION HISTORY - SEARCH PARAMETERS</h1>
-                        <div id="hS-date" class="hS-element">
-                            <h2>DATE RANGE</h2>
-                            <p>From</p>
-                            <div id="hS-dateF-DD" class="wavesDD">
-                                <select>
-                                  <option value="Test1">Test1</option>
-                                  <option value="Test2">Test2</option>
-                                  <option value="Test3">Test3</option>
-                                  <option value="Test4">Test4</option>
-                                </select>
-                            </div>
-                            <p>To</p>
-                            <div id="hS-dateT-DD" class="wavesDD">
-                                <select>
-                                  <option value="Test1">Test1</option>
-                                  <option value="Test2">Test2</option>
-                                  <option value="Test3">Test3</option>
-                                  <option value="Test4">Test4</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div id="hS-asset" class="hS-element">
-                            <h2>CURRENCY/ASSET</h2>
-                            <div id="hS-asset-DD" class="wavesDD">
-                                <select>
-                                  <option value="Test1">Test1</option>
-                                  <option value="Test2">Test2</option>
-                                  <option value="Test3">Test3</option>
-                                  <option value="Test4">Test4</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div id="hS-type" class="hS-element">
-                            <h2>TYPE</h2>
-                            <div id="hS-type-DD" class="wavesDD">
-                                <select>
-                                  <option value="Test1">Test1</option>
-                                  <option value="Test2">Test2</option>
-                                  <option value="Test3">Test3</option>
-                                  <option value="Test4">Test4</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    
-                    <div id="hResults" class="wavesTable" > 
-                        <table>
-                            <thead>
-                                <tr class="fade">
-                                    <td>
-                                        DATE
-                                    </td>
-                                    <td >
-                                        PAIR
-                                    </td>
-                                    <td>
-                                        BUY/SELL
-                                    </td>
-                                    <td>
-                                        BID/ASK
-                                    </td>
-                                    <td>
-                                        TOTAL UNITS
-                                    </td>
-                                    <td>
-                                        TOTAL
-                                    </td>
-                            </thead>
-                            </tr>
-                            <tr class="fade">
-                                <td>
-                                    23/01/2016 12:33
-                                </td>
-                                <td>
-                                    BTC/USD
-                                </td>
-                                <td>
-                                    BUY
-                                </td>
-                                <td >
-                                    626.12
-                                </td>
-                                <td>
-                                    5.10000665
-                                </td>
-                                <td>
-                                    3,450.50
-                                </td>
-                            </tr>
-                            <tr class="fade">
-                                <td>
-                                    23/01/2016 11:30
-                                </td>
-                                <td>
-                                    BTC/WAV
-                                </td>
-                                <td>
-                                    BUY
-                                </td>
-                                <td>
-                                    0.00221457
-                                </td>
-                                <td>
-                                    332.12147454
-                                </td>
-                                <td>
-                                    6.00014102
-                                </td>
-                            </tr>
-                            <tr class="fade">
-                                <td>
-                                    23/01/2016 09:12
-                                </td>
-                                <td>
-                                    BTC/EUR
-                                </td>
-                                <td>
-                                    SELL
-                                </td>
-                                <td>
-                                    601.78
-                                </td>
-                                <td>
-                                    15.41
-                                </td>
-                                <td>
-                                    10,250.5
-                                </td>
-                            </tr>
-                            <tr class="fade">
-                                <td>
-                                    22/01/2016 22:25
-                                </td>
-                                <td>
-                                    BTC/USD
-                                </td>
-                                <td>
-                                    SELL
-                                </td>
-                                <td>
-                                    622.55
-                                </td>
-                                <td>
-                                    3.00025414
-                                </td>
-                                <td>
-                                    1,820.40
-                                </td>
-                            </tr>
-                            <tr class="fade">
-                                <td>
-                                    22/01/2016 22:25
-                                </td>
-                                <td>
-                                    BTC/EUR
-                                </td>
-                                <td>
-                                    BUY
-                                </td>
-                                <td >
-                                    600.22
-                                </td>
-                                <td>
-                                    12.00874541
-                                </td>
-                                <td>
-                                    8,150.88
-                                </td>
-                            </tr>
-                            <tr class="fade">
-                                <td>
-                                    22/01/2016 22:20
-                                </td>
-                                <td>
-                                    BTC/WAV
-                                </td>
-                                <td>
-                                    BUY
-                                </td>
-                                <td>
-                                    0.00226513
-                                </td>
-                                <td>
-                                    128,414.00002141
-                                </td>
-                                <td>
-                                    1.32001420
-                                </td>
-                            </tr>
-                            <tr class="fade">
-                                <td>
-                                    22/01/2016 21:41
-                                </td>
-                                <td>
-                                    USD/CYN
-                                </td>
-                                <td>
-                                    SELL
-                                </td>
-                                <td>
-                                    0.21
-                                </td>
-                                <td>
-                                    6,840.2
-                                </td>
-                                <td>
-                                    312.12
-                                </td>
-                            </tr>
-                            <tr class="fade">
-                                <td>
-                                    22/01/2016 21:20
-                                </td>
-                                <td>
-                                    BTC/EUR
-                                </td>
-                                <td>
-                                    SELL
-                                </td>
-                                <td>
-                                    599.05
-                                </td>
-                                <td>
-                                    2.00005448
-                                </td>
-                                <td>
-                                    1,280.40
-                                </td>
-                            </tr>
-                            <tr class="fade">
-                                <td>
-                                    22/01/2016 21:11
-                                </td>
-                                <td>
-                                    BTC/USD
-                                </td>
-                                <td>
-                                    BUY
-                                </td>
-                                <td>
-                                    625.23
-                                </td>
-                                <td>
-                                    1.00000124
-                                </td>
-                                <td>
-                                    701.55
-                                </td>
-                            </tr>
-                            <tr class="fade">
-                                <td>
-                                    21/01/2016 08:32
-                                </td>
-                                <td>
-                                    USD/WAV
-                                </td>
-                                <td>
-                                    BUY
-                                </td>
-                                <td>
-                                    1.22
-                                </td>
-                                <td>
-                                    5,420.00000022
-                                </td>
-                                <td>
-                                    7,120.92
-                                </td>
-                            </tr>
-                        </table>    
-                    </div>
+            </div> 
+        <!-- / WALLET TAB -->
+
             
-                </div> <!-- Div mBB-history END -->
-                <div id="mBB-messages" class="mBB-content">
-                    <p class="centerIt">
+        <!-- PORTFOLIO TAB -->
+            <div id="mBB-portfolio" class="mBB-content">
+                <p class="centerIt">[ mBB-portfolio SECTION TEST CONTENT ]</p>
+            </div>
+        <!-- / PORTFOLIO TAB -->
 
-                        <div style="width:100%; height:100%;text-align: center;" class="centerIt">
-     
-                            <div id="mBB-messages-add">
-                               
-                                <h2>MY CONTACTS</h2>
-                               
-                                <a href="#addContact-wPop" rel="modal:open">
-                                    <div id="addContact" class="wButton tooltip-3" title="Adds a new contact to your list.">
-                                    <img src="img/wIcon_add.svg" class="fade"/>
-                                    </div>
-                                </a>
-                                 
-                                <div id="addContact-wPop" class="wavesPop">
-                                    <img class="wPop-header" src="img/modal-header.svg" />
-                                    <form id="addContactForm" class="wPop-content">
-                                        <h2>ADD CONTACT</h2>
-                                        <p>Fill the fields below in order to add a new contact to your list:</p>
-                                        <p>Name</p>
-                                        <input type="text" id="contactname" placeholder="" class="wInput" />
 
-                                        <p>Address</p>
-                                        <input type="text" id="contactaddress" placeholder="" class="wInput" />
+        <!-- EXCHANGE TAB -->
+            <div id="mBB-exchange" class="mBB-content">
+                <p class="centerIt">[ mBB-exchange SECTION TEST CONTENT ]</p>
+            </div>
+        <!-- / EXCHANGE TAB -->
 
-                                        <p>Email</p>
-                                        <input type="email" id="contactemail" placeholder="" class="wInput" />
 
-                                        <br/><br/>
-                                        <button id="addContactSubmit" class="wButton fade">ADD CONTACT</button>
-                                    </form>
+        <!-- VOTING TAB -->
+            <div id="mBB-voting" class="mBB-content">
+                <p class="centerIt">[ mBB-voting SECTION TEST CONTENT ]</p>
+            </div>
+        <!-- / VOTING TAB -->
+
+
+        <!-- HISTORY TAB -->
+            <div id="mBB-history" class="mBB-content">
+
+                <div id="hSearch">
+                    <h1>TRANSACTION HISTORY - SEARCH PARAMETERS</h1>
+                    <div id="hS-date" class="hS-element">
+                        <h2>DATE RANGE</h2>
+                        <p>From</p>
+                        <div id="hS-dateF-DD" class="wavesDD">
+                            <select>
+                              <option value="Test1">Test1</option>
+                              <option value="Test2">Test2</option>
+                              <option value="Test3">Test3</option>
+                              <option value="Test4">Test4</option>
+                            </select>
+                        </div>
+                        <p>To</p>
+                        <div id="hS-dateT-DD" class="wavesDD">
+                            <select>
+                              <option value="Test1">Test1</option>
+                              <option value="Test2">Test2</option>
+                              <option value="Test3">Test3</option>
+                              <option value="Test4">Test4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="hS-asset" class="hS-element">
+                        <h2>CURRENCY/ASSET</h2>
+                        <div id="hS-asset-DD" class="wavesDD">
+                            <select>
+                              <option value="Test1">Test1</option>
+                              <option value="Test2">Test2</option>
+                              <option value="Test3">Test3</option>
+                              <option value="Test4">Test4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="hS-type" class="hS-element">
+                        <h2>TYPE</h2>
+                        <div id="hS-type-DD" class="wavesDD">
+                            <select>
+                              <option value="Test1">Test1</option>
+                              <option value="Test2">Test2</option>
+                              <option value="Test3">Test3</option>
+                              <option value="Test4">Test4</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div id="hResults" class="wavesTable" > 
+                    <table>
+                        <thead>
+                            <tr class="fade">
+                                <td>
+                                    DATE
+                                </td>
+                                <td >
+                                    PAIR
+                                </td>
+                                <td>
+                                    BUY/SELL
+                                </td>
+                                <td>
+                                    BID/ASK
+                                </td>
+                                <td>
+                                    TOTAL UNITS
+                                </td>
+                                <td>
+                                    TOTAL
+                                </td>
+                        </thead>
+                        </tr>
+                        <tr class="fade">
+                            <td>
+                                23/01/2016 12:33
+                            </td>
+                            <td>
+                                BTC/USD
+                            </td>
+                            <td>
+                                BUY
+                            </td>
+                            <td >
+                                626.12
+                            </td>
+                            <td>
+                                5.10000665
+                            </td>
+                            <td>
+                                3,450.50
+                            </td>
+                        </tr>
+                        <tr class="fade">
+                            <td>
+                                23/01/2016 11:30
+                            </td>
+                            <td>
+                                BTC/WAV
+                            </td>
+                            <td>
+                                BUY
+                            </td>
+                            <td>
+                                0.00221457
+                            </td>
+                            <td>
+                                332.12147454
+                            </td>
+                            <td>
+                                6.00014102
+                            </td>
+                        </tr>
+                        <tr class="fade">
+                            <td>
+                                23/01/2016 09:12
+                            </td>
+                            <td>
+                                BTC/EUR
+                            </td>
+                            <td>
+                                SELL
+                            </td>
+                            <td>
+                                601.78
+                            </td>
+                            <td>
+                                15.41
+                            </td>
+                            <td>
+                                10,250.5
+                            </td>
+                        </tr>
+                        <tr class="fade">
+                            <td>
+                                22/01/2016 22:25
+                            </td>
+                            <td>
+                                BTC/USD
+                            </td>
+                            <td>
+                                SELL
+                            </td>
+                            <td>
+                                622.55
+                            </td>
+                            <td>
+                                3.00025414
+                            </td>
+                            <td>
+                                1,820.40
+                            </td>
+                        </tr>
+                        <tr class="fade">
+                            <td>
+                                22/01/2016 22:25
+                            </td>
+                            <td>
+                                BTC/EUR
+                            </td>
+                            <td>
+                                BUY
+                            </td>
+                            <td >
+                                600.22
+                            </td>
+                            <td>
+                                12.00874541
+                            </td>
+                            <td>
+                                8,150.88
+                            </td>
+                        </tr>
+                        <tr class="fade">
+                            <td>
+                                22/01/2016 22:20
+                            </td>
+                            <td>
+                                BTC/WAV
+                            </td>
+                            <td>
+                                BUY
+                            </td>
+                            <td>
+                                0.00226513
+                            </td>
+                            <td>
+                                128,414.00002141
+                            </td>
+                            <td>
+                                1.32001420
+                            </td>
+                        </tr>
+                        <tr class="fade">
+                            <td>
+                                22/01/2016 21:41
+                            </td>
+                            <td>
+                                USD/CYN
+                            </td>
+                            <td>
+                                SELL
+                            </td>
+                            <td>
+                                0.21
+                            </td>
+                            <td>
+                                6,840.2
+                            </td>
+                            <td>
+                                312.12
+                            </td>
+                        </tr>
+                        <tr class="fade">
+                            <td>
+                                22/01/2016 21:20
+                            </td>
+                            <td>
+                                BTC/EUR
+                            </td>
+                            <td>
+                                SELL
+                            </td>
+                            <td>
+                                599.05
+                            </td>
+                            <td>
+                                2.00005448
+                            </td>
+                            <td>
+                                1,280.40
+                            </td>
+                        </tr>
+                        <tr class="fade">
+                            <td>
+                                22/01/2016 21:11
+                            </td>
+                            <td>
+                                BTC/USD
+                            </td>
+                            <td>
+                                BUY
+                            </td>
+                            <td>
+                                625.23
+                            </td>
+                            <td>
+                                1.00000124
+                            </td>
+                            <td>
+                                701.55
+                            </td>
+                        </tr>
+                        <tr class="fade">
+                            <td>
+                                21/01/2016 08:32
+                            </td>
+                            <td>
+                                USD/WAV
+                            </td>
+                            <td>
+                                BUY
+                            </td>
+                            <td>
+                                1.22
+                            </td>
+                            <td>
+                                5,420.00000022
+                            </td>
+                            <td>
+                                7,120.92
+                            </td>
+                        </tr>
+                    </table>    
+                </div>
+
+            </div> 
+        <!-- / HISTORY TAB -->
+
+
+        <!-- MESSAGES TAB -->
+            <div id="mBB-messages" class="mBB-content">
+                <p class="centerIt">
+
+                    <div style="width:100%; height:100%;text-align: center;" class="centerIt">
+
+                        <div id="mBB-messages-add">
+
+                            <h2>MY CONTACTS</h2>
+
+                            <a href="#addContact-wPop" rel="modal:open">
+                                <div id="addContact" class="wButton tooltip-3" title="Adds a new contact to your list.">
+                                <img src="img/wIcon_add.svg" class="fade"/>
                                 </div>
-                                
+                            </a>
+
+                            <div id="addContact-wPop" class="wavesPop">
+                                <img class="wPop-header" src="img/modal-header.svg" />
+                                <form id="addContactForm" class="wPop-content">
+                                    <h2>ADD CONTACT</h2>
+                                    <p>Fill the fields below in order to add a new contact to your list:</p>
+                                    <p>Name</p>
+                                    <input type="text" id="contactname" placeholder="" class="wInput" />
+
+                                    <p>Address</p>
+                                    <input type="text" id="contactaddress" placeholder="" class="wInput" />
+
+                                    <p>Email</p>
+                                    <input type="email" id="contactemail" placeholder="" class="wInput" />
+
+                                    <br/><br/>
+                                    <button id="addContactSubmit" class="wButton fade">ADD CONTACT</button>
+                                </form>
                             </div>
 
-                            <table id="contacts" class="wavesTable">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Address</th>
-                                        <th>Email</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="contactTable">
-                                    
-                                </tbody>
-                            </table>
                         </div>
-                    </p>
-                </div> <!-- Div mBB-messages END -->
+
+                        <table id="contacts" class="wavesTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Email</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contactTable">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </p>
+            </div> 
+        <!-- / MESSAGES TAB -->
+
+
+        <!-- COMMUNITY TAB -->
+            <div id="mBB-community" class="mBB-content">
+                <p class="centerIt">[ mBB-community SECTION TEST CONTENT ]</p>
+            </div> 
+        <!-- /COMMUNITY TAB -->
         
-                <div id="mBB-community" class="mBB-content">
-                    <p class="centerIt">[ mBB-community SECTION TEST CONTENT ]</p>
-                </div> <!-- Div mBB-community END -->
         
 		</section> <!-- Section mbBody END -->
     
