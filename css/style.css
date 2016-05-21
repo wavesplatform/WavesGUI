@@ -110,6 +110,38 @@ body {
 }
 
 
+/* =============================================================== */
+/* PLACEHOLDER CONTENT SETTINGS */ /* PLACEHOLDER CONTENT SETTINGS */
+/* =============================================================== */
+
+.phContent {
+    text-align: center;
+    padding: 2rem;
+}
+
+.phContent h1 {
+	border: 0px solid #F0F0F0;
+	text-align: center;
+	font-size: 1.4rem;
+	color: #333333;
+    letter-spacing: .2rem;
+    font-weight: 200;
+}
+
+.phContent p {
+    font-size: 1.2rem;
+    color: #333333;
+}
+
+.phContent > img {
+	margin: 0 auto;
+    width: 50%;
+}
+
+@media only screen and (max-width: 1024px) { .phContent > img { width: 75%; } }
+@media only screen and (max-width: 728px) { .phContent > img { width: 90%; } }
+
+
 /* ================================================= */
 /* MAIN WRAPPER SETTINGS */ /* MAIN WRAPPER SETTINGS */
 /* ================================================= */

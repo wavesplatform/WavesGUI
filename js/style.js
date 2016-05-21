@@ -50,7 +50,8 @@ $(window).on("load resize", function(e){
 	var $wrapH = $('#wrapper').height(),
         $headerH = $('header').height(),
         $tabsH = $('#tabs').height(),
-        $mainBodyH = $wrapH - $headerH - $tabsH,
+        $jurlH = $('.jurl').height(),
+        $mainBodyH = $wrapH - $headerH - $tabsH - $jurlH,
 		$lb = $('#mBLeftBar'),
         $lbW = $('#mBLeftBar').width(),
 		$mbBodyW = $wrapW - $lbW;
@@ -58,6 +59,7 @@ $(window).on("load resize", function(e){
 	$('#mainBody').css('height', $mainBodyH);
 	$('#mBLeftBar').css('height', $mainBodyH);
 	$('#mBBody').css('width', $mbBodyW);
+    $('.mBB-content').css('height', ($mainBodyH - 50)).css('max-height', $mainBodyH - 50);
     
     // LeftBarVis();
     // Temporary due to LeftBarVis function not being used
