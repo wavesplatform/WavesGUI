@@ -1,8 +1,149 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="615.066" height="306.112" viewBox="0 0 32382 16116" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"><defs><style><![CDATA[
-    .str0 {stroke:#E6E6E6;stroke-width:35.1009}
-    .str1 {stroke:#0096DC;stroke-width:15.1626}
-    .fil0 {fill:none}
-    .fil1 {fill:#0096DC}
-    .fil2 {fill:#E6E6E6}
-    .fil3 {fill:white}
-   ]]></style></defs><g id="Layer_x0020_1"><path class="fil0 str0" d="M18 2153h32347v13945H18z"/><path class="fil0 str0" d="M186 4047h32010v11883H186zM18 18h32347v2136H18z"/><path class="fil1 str1" d="M29152 18h3213v1068h-3213z"/><path class="fil1 str1" d="M29152 1085h3213v1068h-3213zM18 18h3213v2136H18z"/><path class="fil1 str1" d="M3230 18h25922v713H3230zM3230 731h25922v1422H3230z"/><path class="fil2" d="M472 355h2303v1461H472zM20453 937h1011v1011h-1011zM18864 937h1011v1011h-1011zM17275 937h1011v1011h-1011zM15686 937h1011v1011h-1011zM14096 937h1011v1011h-1011zM12507 937h1011v1011h-1011zM10918 937h1011v1011h-1011zM10031 229h2277v290h-2277zM12604 229h4232v290h-4232zM17468 229h2277v290h-2277zM20074 229h2277v290h-2277zM29477 214h674v674h-674zM30421 214h674v674h-674zM31366 214h674v674h-674z"/><g id="_627316880"><path class="fil2" d="M29483 1474h773v290h-773zM30451 1474h1583v290h-1583z"/></g><path class="fil1" d="M186 3290h32010v757H186z"/><path class="fil2" d="M14075 2631h4232v290h-4232z"/><path class="fil1" d="M31370 2412h674v674h-674z"/><path class="fil3" d="M2175 3524h2277v290H2175zM9756 3524h2277v290H9756zM17337 3524h2277v290h-2277zM24919 3524h2277v290h-2277z"/><path class="fil2" d="M186 4047h32010v594H186zM186 5235h32010v594H186zM186 6423h32010v594H186zM186 7610h32010v594H186zM186 8798h32010v594H186zM186 9986h32010v594H186zM186 11174h32010v594H186zM186 12361h32010v594H186zM186 13549h32010v594H186zM186 14737h32010v594H186z"/><path class="fil3" d="M1378 4272h3870v145H1378z"/><path class="fil2" d="M1487 4856h3652v145H1487z"/><path class="fil3" d="M8959 4272h2577v145H8959zM11834 4272h1218v145h-1218z"/><g id="_631210640"><path class="fil2" d="M10476 4851h2577v145h-2577zM8959 4851h1218v145H8959z"/></g><path class="fil1" d="M23754 4272h1218v145h-1218zM25448 4272h1218v145h-1218zM27155 4272h1218v145h-1218zM23754 4866h1218v145h-1218zM25448 4866h1218v145h-1218zM27155 4866h1218v145h-1218z"/><path class="fil3" d="M16292 4272h4368v145h-4368z"/><path class="fil2" d="M17208 4856h2535v145h-2535z"/><path class="fil3" d="M2172 5456h2283v145H2172z"/><path class="fil2" d="M1740 6040h3146v145H1740z"/><path class="fil3" d="M9446 5456h2090v145H9446zM11834 5456h834v145h-834z"/><g id="_944023744"><path class="fil2" d="M10384 6035h3020v145h-3020zM8607 6035h1428v145H8607z"/></g><path class="fil1" d="M23754 5456h1218v145h-1218zM25448 5456h1218v145h-1218zM27155 5456h1218v145h-1218zM23754 6050h1218v145h-1218zM25448 6050h1218v145h-1218zM27155 6050h1218v145h-1218z"/><path class="fil3" d="M17661 5456h1630v145h-1630z"/><path class="fil2" d="M16703 6040h3546v145h-3546z"/></g></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="6.40694in" height="3.18867in" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 32799 16324"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str1 {stroke:#E6E6E6;stroke-width:17.0506}
+    .str0 {stroke:#E6E6E6;stroke-width:35.5524}
+    .str2 {stroke:#0096DC;stroke-width:15.3577}
+    .fil1 {fill:none}
+    .fil2 {fill:#0096DC}
+    .fil3 {fill:#E6E6E6}
+    .fil0 {fill:white}
+   ]]>
+  </style>
+ </defs>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0 str0" x="18" y="2181" width="32763" height="14125"/>
+  <rect class="fil1 str1" x="364" y="4099" width="32070" height="2406"/>
+  <rect class="fil1 str0" x="18" y="18" width="32763" height="2163"/>
+  <rect class="fil2 str2" x="29527" y="18" width="3254" height="1082"/>
+  <rect class="fil2 str2" x="29527" y="1099" width="3254" height="1082"/>
+  <rect class="fil2 str2" x="18" y="18" width="3254" height="2163"/>
+  <rect class="fil2 str2" x="3272" y="18" width="26255" height="722"/>
+  <rect class="fil2 str2" x="3272" y="740" width="26255" height="1441"/>
+  <rect class="fil3" x="478" y="359" width="2333" height="1480"/>
+  <rect class="fil3" x="20717" y="949" width="1024" height="1024"/>
+  <rect class="fil3" x="19107" y="949" width="1024" height="1024"/>
+  <rect class="fil3" x="17497" y="949" width="1024" height="1024"/>
+  <rect class="fil3" x="15887" y="949" width="1024" height="1024"/>
+  <rect class="fil3" x="14278" y="949" width="1024" height="1024"/>
+  <rect class="fil3" x="12668" y="949" width="1024" height="1024"/>
+  <rect class="fil3" x="11058" y="949" width="1024" height="1024"/>
+  <rect class="fil3" x="10160" y="232" width="2306" height="293"/>
+  <rect class="fil3" x="12766" y="232" width="4286" height="293"/>
+  <rect class="fil3" x="17692" y="232" width="2306" height="293"/>
+  <rect class="fil3" x="20332" y="232" width="2306" height="293"/>
+  <rect class="fil3" x="29856" y="217" width="683" height="683"/>
+  <rect class="fil3" x="30813" y="217" width="683" height="683"/>
+  <rect class="fil3" x="31769" y="217" width="683" height="683"/>
+  <rect class="fil3" x="29862" y="1493" width="783" height="293"/>
+  <rect class="fil3" x="30842" y="1493" width="1603" height="293"/>
+  <rect class="fil2" x="364" y="3333" width="32070" height="767"/>
+  <rect class="fil3" x="14256" y="2665" width="4286" height="293"/>
+  <rect class="fil2" x="31773" y="2443" width="683" height="683"/>
+  <rect class="fil0" x="2203" y="3569" width="2306" height="293"/>
+  <rect class="fil0" x="9882" y="3569" width="2306" height="293"/>
+  <rect class="fil0" x="17560" y="3569" width="2306" height="293"/>
+  <rect class="fil0" x="25239" y="3569" width="2306" height="293"/>
+  <rect class="fil3" x="364" y="5904" width="32070" height="602"/>
+  <rect class="fil3" x="364" y="4701" width="32070" height="602"/>
+  <rect class="fil3" x="1396" y="4327" width="3920" height="147"/>
+  <rect class="fil0" x="1506" y="4919" width="3699" height="147"/>
+  <rect class="fil3" x="9075" y="4327" width="2610" height="147"/>
+  <rect class="fil3" x="11986" y="4327" width="1234" height="147"/>
+  <rect class="fil0" x="10610" y="4913" width="2610" height="147"/>
+  <rect class="fil0" x="9075" y="4913" width="1234" height="147"/>
+  <rect class="fil2" x="24059" y="4327" width="1234" height="147"/>
+  <rect class="fil2" x="25776" y="4327" width="1234" height="147"/>
+  <rect class="fil2" x="27504" y="4327" width="1234" height="147"/>
+  <rect class="fil2" x="24059" y="4929" width="1234" height="147"/>
+  <rect class="fil2" x="25776" y="4929" width="1234" height="147"/>
+  <rect class="fil2" x="27504" y="4929" width="1234" height="147"/>
+  <rect class="fil3" x="16502" y="4327" width="4424" height="147"/>
+  <rect class="fil0" x="17430" y="4919" width="2568" height="147"/>
+  <rect class="fil3" x="2200" y="5526" width="2312" height="147"/>
+  <rect class="fil0" x="1763" y="6118" width="3187" height="147"/>
+  <rect class="fil3" x="9567" y="5526" width="2117" height="147"/>
+  <rect class="fil3" x="11986" y="5526" width="844" height="147"/>
+  <rect class="fil0" x="10518" y="6112" width="3059" height="147"/>
+  <rect class="fil0" x="8718" y="6112" width="1446" height="147"/>
+  <rect class="fil2" x="24059" y="5526" width="1234" height="147"/>
+  <rect class="fil2" x="25776" y="5526" width="1234" height="147"/>
+  <rect class="fil2" x="27504" y="5526" width="1234" height="147"/>
+  <rect class="fil2" x="24059" y="6128" width="1234" height="147"/>
+  <rect class="fil2" x="25776" y="6128" width="1234" height="147"/>
+  <rect class="fil2" x="27504" y="6128" width="1234" height="147"/>
+  <rect class="fil3" x="17888" y="5526" width="1651" height="147"/>
+  <rect class="fil0" x="16918" y="6118" width="3592" height="147"/>
+  <rect class="fil1 str1" x="364" y="6847" width="15862" height="9118"/>
+  <rect class="fil1 str1" x="16573" y="6847" width="15862" height="9118"/>
+  <path class="fil2" d="M30902 11974l-6038 0c-226,0 -410,184 -410,410l0 898c0,225 184,409 410,409l6038 0c226,0 410,-184 410,-409l0 -9 426 -376 -426 -377 0 -136c0,-226 -184,-410 -410,-410z"/>
+  <path class="fil2" d="M26896 9486l-5660 0c-226,0 -410,184 -410,410l0 749c0,225 184,409 410,409l5660 0c225,0 409,-184 409,-409l0 -749c0,-226 -184,-410 -409,-410z"/>
+  <rect class="fil1 str1" x="16573" y="6847" width="3797" height="9118"/>
+  <rect class="fil3" x="20826" y="11441" width="1234" height="147"/>
+  <rect class="fil3" x="22343" y="11441" width="3033" height="147"/>
+  <rect class="fil1 str1" x="20369" y="14611" width="12065" height="1353"/>
+  <rect class="fil3" x="28676" y="14090" width="747" height="147"/>
+  <rect class="fil3" x="29666" y="14090" width="1234" height="147"/>
+  <path class="fil2" d="M31009 7233l-10230 0c-226,0 -410,184 -410,410l0 386 -248 219 248 218 0 224c0,226 184,410 410,410l10230 0c225,0 409,-184 409,-410l0 -1047c0,-226 -184,-410 -409,-410z"/>
+  <rect class="fil0" x="20935" y="7590" width="3033" height="147"/>
+  <rect class="fil0" x="24274" y="7590" width="3282" height="147"/>
+  <rect class="fil0" x="27868" y="7590" width="1133" height="147"/>
+  <rect class="fil0" x="20935" y="8093" width="1516" height="147"/>
+  <rect class="fil0" x="22772" y="8093" width="3978" height="147"/>
+  <rect class="fil0" x="27014" y="8093" width="1986" height="147"/>
+  <rect class="fil0" x="20935" y="8596" width="3033" height="147"/>
+  <rect class="fil0" x="24274" y="8596" width="2077" height="147"/>
+  <rect class="fil0" x="26694" y="8596" width="3176" height="147"/>
+  <rect class="fil3" x="21040" y="15215" width="2287" height="147"/>
+  <rect class="fil3" x="25159" y="15215" width="3033" height="147"/>
+  <rect class="fil3" x="23669" y="15215" width="1234" height="147"/>
+  <rect class="fil2" x="31245" y="14947" width="683" height="683"/>
+  <rect class="fil2" x="17591" y="7287" width="1760" height="1760"/>
+  <rect class="fil2" x="18097" y="9293" width="747" height="147"/>
+  <rect class="fil3" x="17826" y="9576" width="1291" height="147"/>
+  <rect class="fil0" x="21297" y="10180" width="1516" height="147"/>
+  <rect class="fil0" x="23134" y="10180" width="3616" height="147"/>
+  <g id="_783101568">
+   <rect class="fil0" x="28261" y="13263" width="2468" height="147"/>
+   <rect class="fil0" x="25342" y="13263" width="2671" height="147"/>
+   <rect class="fil0" x="29495" y="12759" width="1234" height="147"/>
+   <rect class="fil0" x="25997" y="12759" width="3237" height="147"/>
+   <rect class="fil0" x="28261" y="12256" width="2468" height="147"/>
+   <rect class="fil0" x="26322" y="12256" width="1690" height="147"/>
+  </g>
+  <g id="_917182656">
+   <rect class="fil2" x="1252" y="7649" width="1760" height="1760"/>
+   <rect class="fil2" x="1759" y="9656" width="747" height="147"/>
+   <rect class="fil3" x="1487" y="9938" width="1291" height="147"/>
+  </g>
+  <rect class="fil2" x="4209" y="7649" width="1760" height="1760"/>
+  <rect class="fil3" x="4059" y="9938" width="1291" height="147"/>
+  <rect class="fil2" x="7165" y="7649" width="1760" height="1760"/>
+  <rect class="fil2" x="7671" y="9656" width="747" height="147"/>
+  <rect class="fil3" x="7524" y="9938" width="1041" height="147"/>
+  <rect class="fil2" x="10121" y="7649" width="1760" height="1760"/>
+  <rect class="fil2" x="10312" y="9656" width="1378" height="147"/>
+  <rect class="fil3" x="10356" y="9938" width="1291" height="147"/>
+  <rect class="fil2" x="13077" y="7649" width="1760" height="1760"/>
+  <g id="_923679648">
+   <rect class="fil2" x="4395" y="9656" width="747" height="147"/>
+   <rect class="fil2" x="5334" y="9656" width="448" height="147"/>
+  </g>
+  <g id="_923680352">
+   <rect class="fil2" x="13904" y="9656" width="747" height="147"/>
+   <rect class="fil2" x="13264" y="9656" width="448" height="147"/>
+  </g>
+  <rect class="fil3" x="5541" y="9938" width="475" height="147"/>
+  <g id="_923681344">
+   <rect class="fil3" x="14163" y="9938" width="950" height="147"/>
+   <rect class="fil3" x="12801" y="9938" width="1159" height="147"/>
+  </g>
+ </g>
+</svg>
