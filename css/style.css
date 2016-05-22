@@ -115,8 +115,10 @@ body {
 /* =============================================================== */
 
 .phContent {
+    margin: 0 auto;
     text-align: center;
     padding: 2rem;
+    max-width: 80%;
 }
 
 .phContent h1 {
@@ -139,7 +141,10 @@ body {
 }
 
 @media only screen and (max-width: 1024px) { .phContent > img { width: 75%; } }
-@media only screen and (max-width: 728px) { .phContent > img { width: 90%; } }
+@media only screen and (max-width: 728px) { 
+    .phContent > img { width: 90%; }
+    .phContent { max-width: 90%; }
+}
 
 
 /* ================================================= */
@@ -207,10 +212,10 @@ Keeping this for now, in case I change later the way users will upload their own
     background: #000000;
     z-index: -89;
 	
-	filter: alpha(opacity=50); /* internet explorer */
-    -khtml-opacity: 0.5;      /* khtml, old safari */
-    -moz-opacity: 0.5;       /* mozilla, netscape */
-    opacity: 0.5;           /* fx, safari, opera */
+	filter: alpha(opacity=50);
+    -khtml-opacity: 0.5;
+    -moz-opacity: 0.5;
+    opacity: 0.5;
 }
 
 #lockscreenTable {
@@ -420,10 +425,10 @@ header {
     color: #ffffff;
     height: 0.04rem;
     background: #0096dc; /* Old browsers */
-    background: -moz-linear-gradient(left, #0096dc 0%, #0096dc 25%, #ffffff 50%, #ffffff 50%, #0096dc 75%, #0096dc 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(left, #0096dc 0%, #0096dc 25%, #ffffff 50%, #ffffff 50%, #0096dc 75%, #0096dc 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right, #0096dc 0%, #0096dc 25%, #ffffff 50%, #ffffff 50%, #0096dc 75%, #0096dc 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0096dc', endColorstr='#0096dc',GradientType=1 ); /* IE6-9 */
+    background: -moz-linear-gradient(left, #0096dc 0%, #0096dc 25%, #ffffff 50%, #ffffff 50%, #0096dc 75%, #0096dc 100%);
+    background: -webkit-linear-gradient(left, #0096dc 0%, #0096dc 25%, #ffffff 50%, #ffffff 50%, #0096dc 75%, #0096dc 100%);
+    background: linear-gradient(to right, #0096dc 0%, #0096dc 25%, #ffffff 50%, #ffffff 50%, #0096dc 75%, #0096dc 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0096dc', endColorstr='#0096dc',GradientType=1 );
 }
 
 
