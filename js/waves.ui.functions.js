@@ -39,6 +39,8 @@
 var Waves = (function(Waves, $, undefined) {
 	"use strict";
 
+
+	//To DO: Extract DOM functions from the initApp and add to waves.ui.js
 	Waves.initApp = function () {
 
         if (!_checkDOMenabled()) {
@@ -78,6 +80,7 @@ var Waves = (function(Waves, $, undefined) {
                 var accountId = $(this).data('id');
                 $('.loginAccountDiv').hide();
                 $(this).parent().show();
+                $("#register").css("display", "none");
 
                 var userAccounts = localStorage.getItem('WavesAccounts');
 

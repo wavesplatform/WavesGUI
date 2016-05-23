@@ -59,9 +59,7 @@ var Waves = (function (Waves, $, undefined) {
                 }, {});
             }
         });
-    };
-
-  
+    };  
 
     return Waves;
 }(Waves || {}, jQuery));

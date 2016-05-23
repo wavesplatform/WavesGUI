@@ -42,9 +42,6 @@ var Waves = (function(Waves, $, undefined) {
     Waves.balance  = 0;
     Waves.hasLocalStorage = false;
 
-    
-
-
     // Show/hide different sections on tab activation
     $('input[type=radio]').click(function(){
 
@@ -310,10 +307,7 @@ var Waves = (function(Waves, $, undefined) {
 
         $("#contactTable").html(row);
 
-    });
-
-
-    
+    });    
 
     $('#uiTB-iconset-logout').click(function() {
         Waves.logout();  
