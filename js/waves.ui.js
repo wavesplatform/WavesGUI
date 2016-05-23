@@ -67,6 +67,7 @@ var Waves = (function(Waves, $, undefined) {
         $("#create_account").hide();
         $("#ImportAccHeader").show();
         $("#AccHeader").hide();
+        $("#wavesAccounts").addClass('noDisp');
 
         $("#step2_reg").show();
         $("#walletSeed").val('');
@@ -86,6 +87,7 @@ var Waves = (function(Waves, $, undefined) {
         $("#account_divider").hide();
         $("#AccHeader").hide();
         $("#NewAccHeader").show();
+        $("#wavesAccounts").addClass('noDisp');
 
         $("#step2_reg").show();
         $("#login-wPop-new").modal("show");
