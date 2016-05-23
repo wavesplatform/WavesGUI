@@ -39,7 +39,6 @@
 var Waves = (function(Waves, $, undefined) {
 	"use strict";
 
-
 	//To DO: Extract DOM functions from the initApp and add to waves.ui.js
 	Waves.initApp = function () {
 
@@ -207,11 +206,11 @@ var Waves = (function(Waves, $, undefined) {
 
                     Waves.balance = Waves.balance + balanceResult.balance;
 
-                    $("#wavesbalance").html(Waves.balance)
+                    $("#wavesbalance").html(Waves.formatAmount(Waves.balance));
 
-                    $("#balancespan").html(Waves.balance +' Waves');
+                    $("#balancespan").html(Waves.formatAmount(Waves.balance) +' Waves');
 
-                    $('.balancewaves').html(Waves.balance + ' Waves');
+                    $('.balancewaves').html(Waves.formatAmount(Waves.balance) + ' Waves');
 
                 });
 
@@ -253,9 +252,11 @@ var Waves = (function(Waves, $, undefined) {
             $("#lockscreenTable").hide();
             $("#wrapper").show();
 
-            $("#wavesbalance").html(balance);
-            $("#balancespan").html(balance +' Waves');
-            $('.balancewaves').html(balance + ' Waves');
+			var formatBalance = Waves.formatAmount(balance);
+
+            $("#wavesbalance").html(formatBalance);
+            $("#balancespan").html(formatBalance +' Waves');
+            $('.balancewaves').html(formatBalance + ' Waves');
             $(".wB-add").html(Waves.address);
             $("#wavesAccountAddress").html(Waves.address);
 
@@ -272,7 +273,7 @@ var Waves = (function(Waves, $, undefined) {
                         appContainer += '<td>'+historyValue.sender+'</td>';
                         appContainer += '<td>'+historyValue.recipient+'</td>';
                         appContainer += '<td>'+historyValue.fee+'</td>';
-                        appContainer += '<td>'+historyValue.amount+' Waves</td>';
+                        appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' Waves</td>';
                         appContainer += '</tr>';
 
                 });
@@ -305,6 +306,12 @@ var Waves = (function(Waves, $, undefined) {
         window.location.href = window.location.pathname;  
     }
 
+
+    Waves.formatAmount = function (amount) {
+
+    	return new Decimal(amount).dividedBy(100000000).toFixed(8);
+
+    }
 
 	return Waves;
 }(Waves || {}, jQuery));

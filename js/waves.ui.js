@@ -336,7 +336,6 @@ var Waves = (function(Waves, $, undefined) {
       $.growl.warning({ message: "The kitten is ugly!" });
   */
 
-
 	return Waves;
 }(Waves || {}, jQuery));
 
