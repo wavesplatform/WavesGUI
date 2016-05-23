@@ -317,12 +317,12 @@ Keeping this for now, in case I change later the way users will upload their own
 }
 
 #walletSeed {
-/*    width: 300px;*/
+    width: 300px;
     margin-top: .5rem;
 }
 
 #walletName {
-/*    width: 300px;*/
+    width: 300px;
     margin-top: .5rem;
 }
 
