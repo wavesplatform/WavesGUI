@@ -265,7 +265,9 @@ var Waves = (function(Waves, $, undefined) {
                 var transactionHistory = history[0];
                 var appContainer;
 
-                 $.each(transactionHistory, function(historyKey, historyValue) {
+                transactionHistory.reverse();
+
+                $.each(transactionHistory, function(historyKey, historyValue) {
 
                         appContainer += '<tr>';
                         appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
