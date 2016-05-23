@@ -54,7 +54,9 @@
 
                             <!-- Accounts -->
                             <div id="accounts">
-                                <h2>ACCOUNTS</h2>
+                                <h2 id="AccHeader">ACCOUNTS</h2>
+                                <h2 id="NewAccHeader" class="noDisp">NEW ACCOUNT</h2>
+                                <h2 id="ImportAccHeader" class="noDisp">IMPORT ACCOUNT</h2>
                                 <div id="wavesAccounts"></div>
                             </div>
 
@@ -96,14 +98,14 @@
                                         
                                         <button id="generateKeys" class="wButton fade">GENERATE ADDRESS FROM SEED</button><span id="account_divider">&nbsp;&nbsp;&nbsp;</span><button id="generateRandomSeed" class="wButton fade">GENERATE NEW SEED</button>
                                         
-                                        <div style="display: none;">
+                                        <div class="noDisp">
                                             <b>PUBLIC KEY</b> 
                                             <br/>
                                             <span id="publicKeyLockscreen"></span>
                                         </div>
                                         <br/>
                                         
-                                        <div style="display: none;"><b>PRIVATE KEY</b> 
+                                        <div class="noDisp"><b>PRIVATE KEY</b> 
                                             <br/>
                                             <span id="privateKeyLockscreen"></span>
                                         </div>
@@ -138,7 +140,7 @@
                                         <button id="registerSeed" class="wButton fade">REGISTER</button>
                                         <button id="#" class="wButton goBack fade">BACK</button>
 
-                                        <div id="errorRegister" style="display: none;"></div>
+                                        <div id="errorRegister" class="noDisp"></div>
                                     </div>
                                     
                                 </form>
@@ -395,7 +397,7 @@
                                                <tbody>
                                                    <tr>
                                                        <td>Recipient (Please enter recipient Waves address)</td>
-                                                       <td><input class="wInput" type="text" style="width:250px;" class="form-control" id="wavesrecipient" placeholder="Recipient"></td>
+                                                       <td><input id="wavesrecipient" class="wInput form-control" type="text" placeholder="Recipient"></td>
                                                    </tr>
                                                    <tr>
                                                        <td>Amount</td>
@@ -411,8 +413,8 @@
                                     </form>
                                     <!-- check -->
                                     <div id="wavessend" class="paymentForm-but fade" value="send"><p>SUBMIT</p></div>
-                                    <div id="sentpayment" style="width: 500px;word-wrap:break-word;"></div>
-                                    <div id="errorpayment" style="width: 500px;word-wrap:break-word;"></div>
+                                    <div id="sentpayment" style="width: 500px; word-wrap:break-word;"></div>
+                                    <div id="errorpayment" style="width: 500px; word-wrap:break-word;"></div>
 
                                 </div>
                             </div>

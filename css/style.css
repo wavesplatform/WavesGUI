@@ -109,6 +109,10 @@ body {
     cursor: pointer;
 }
 
+.noDisp {
+    display: none;
+}
+
 
 /* =============================================================== */
 /* PLACEHOLDER CONTENT SETTINGS */ /* PLACEHOLDER CONTENT SETTINGS */
@@ -858,6 +862,7 @@ input.tabs-radio:checked + label  img {
     padding: .25rem;
     margin-top: .25rem;
     border: 1px solid #D7D7D7;
+    min-width: 250px;
 }
 
 
@@ -1166,6 +1171,8 @@ input.tabs-radio:checked + label  img {
 		margin-left: .1rem;
 		margin-right: .1rem;
 	}
+    
+    .wInput { min-width: 50px; }
 }
 
 /* Mobile version - Landscape (iPhone up to 6, all Samsung Galaxy, all HTC) */
