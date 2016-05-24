@@ -228,8 +228,19 @@ var Waves = (function(Waves, $, undefined) {
     $("#wavessend").on("click", function(e) {
         e.preventDefault();
 
+        $("#errorpayment").html('');
+        var maxSend = $("#wavesbalance").val() - 0.000000001;
         var sendAmount = $("#wavessendamount").val().replace(/\s+/g, '');
-        var amount = Number(sendAmount * 100000000);
+
+        if(sendAmount > maxSend) {
+
+            $("#errorpayment").html('Not enough funds');
+            return;
+
+        }
+
+        
+        var amount = Math.round(Number(sendAmount * 100000000));
 
         var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
         var senderPublic = Base58.decode(Waves.publicKey);
@@ -270,7 +281,7 @@ var Waves = (function(Waves, $, undefined) {
             $("#errorpayment").html(JSON.stringify(response));
 
         });
-        //console.log(data);
+
     });
 
     $("#addContact").on("click", function(e) {
