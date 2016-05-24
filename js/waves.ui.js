@@ -41,6 +41,27 @@ var Waves = (function(Waves, $, undefined) {
 
     Waves.balance  = 0;
     Waves.hasLocalStorage = false;
+    Waves.update = "Dashboard";
+
+    Waves.pages = {
+        'dashboard': function updateDashboard () {
+            console.log('Update Dashboard');
+        },
+        'history': function updateHistory () {
+            console.log('Update History');
+        },
+        'messages': 'messages'
+    };
+
+    waves.updateDOM = function (page) {
+
+       if (Waves.pages[page]) {
+            Waves.pages[page]();
+        }
+
+
+
+    }
 
     // Show/hide different sections on tab activation
     $('input[type=radio]').click(function(){
@@ -211,7 +232,7 @@ var Waves = (function(Waves, $, undefined) {
         e.preventDefault();
 
         var sendAmount = $("#wavessendamount").val().replace(/\s+/g, '');
-        var amount = Number(sendAmount);
+        var amount = Number(sendAmount * 100000000);
 
         var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
         var senderPublic = Base58.decode(Waves.publicKey);
