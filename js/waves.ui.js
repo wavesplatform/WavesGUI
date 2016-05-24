@@ -53,14 +53,11 @@ var Waves = (function(Waves, $, undefined) {
         'messages': 'messages'
     };
 
-    waves.updateDOM = function (page) {
+    Waves.updateDOM = function (page) {
 
        if (Waves.pages[page]) {
             Waves.pages[page]();
         }
-
-
-
     }
 
     // Show/hide different sections on tab activation
