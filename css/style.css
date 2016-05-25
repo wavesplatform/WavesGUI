@@ -836,6 +836,16 @@ input.tabs-radio:checked + label  img {
     opacity: 1;
 }
 
+.wButtonDanger {
+    color: #FF0000;
+    border: 1px solid #FF0000;
+}
+
+.wButtonDanger:hover {
+    background: #FF0000;
+    color: #fff;
+}
+
 .goBack {
     margin-left: 1rem;
 }
