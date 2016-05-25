@@ -250,12 +250,23 @@ var Waves = (function (Waves, $, undefined) {
         var timestampBytes = Waves.longToByteArray(wavesTime);
         var amountBytes = Waves.longToByteArray(amount);
         var feeBytes = Waves.longToByteArray(fee);
-        var decodePublicKey = Array.from(Base58.decode(senderPublicKey));
-        var decodeRecipient = Array.from(Base58.decode(recipientAddress));
+        var decodePublicKey = Base58.decode(senderPublicKey);
+        var decodeRecipient = Base58.decode(recipientAddress);
+
+        var publicKey = [];
+        var recipient = [];
+
+        for (var i = 0; i < decodePublicKey.length; ++i) {
+            publicKey.push(decodePublicKey[i] & 0xff)
+        }
+
+        for (var i = 0; i < decodeRecipient.length; ++i) {
+            recipient.push(decodeRecipient[i] & 0xff)
+        }
 
         var signatureBytes = [];
 
-        return signatureBytes.concat(typeBytes, timestampBytes, decodePublicKey, decodeRecipient, amountBytes, feeBytes);
+        return signatureBytes.concat(typeBytes, timestampBytes, publicKey, recipient, amountBytes, feeBytes);
     }
 
     Waves.areByteArraysEqual = function (bytes1, bytes2) {
