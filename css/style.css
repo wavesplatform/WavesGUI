@@ -161,6 +161,25 @@ body {
     .phContent { max-width: 90%; }
 }
 
+.modal-media {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.modal-media-img {
+    width: 2rem;
+    margin-left: .5rem;
+    margin-right: .5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    opacity: .5;
+}
+
+.modal-media-img:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
 
 /* ================================================= */
 /* MAIN WRAPPER SETTINGS */ /* MAIN WRAPPER SETTINGS */
