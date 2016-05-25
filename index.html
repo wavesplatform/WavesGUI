@@ -59,6 +59,7 @@
                                 <h2 id="ImportAccHeader" class="noDisp">IMPORT ACCOUNT</h2>
                                 <div id="wavesAccounts"></div>
                                 
+                                <!-- Remove Account popup -->
                                 <div id="login-wPop-remove" class="wavesPop">
                                     <img class="wPop-header" src="img/modal-header-danger.svg" />
                                     <div class="wPop-content">
@@ -92,6 +93,7 @@
                                 <form>
                                     <button id="import_account" class="wButton fade tooltip-1" title="Click here to import an existing account.">IMPORT ACCOUNT</button>&nbsp;&nbsp;&nbsp;<button id="create_account" class="wButton fade tooltip-1" title="Click here to create a brand new account.">NEW ACCOUNT</button>
                                     <br/>
+                                    
                                     <div id="login-wPop-new" class="wavesPop">
                                         <img class="wPop-header" src="img/modal-header.svg" />
                                         <div class="wPop-content">
@@ -202,6 +204,7 @@
         <span id="version" class="centerIt">Account: <span id="wavesAccountAddress" class="tooltip-3" title="Copy the address to clipboard."></span>&nbsp;&nbsp; - Block: <span id="blockheight"></span></span>
         
 		<div id=header-Iconset>
+            
 <!--        <a href="#header-wPop-pref" rel="modal:open"> -->
             <a href="#feat-not-active" rel="modal:open">    
                 <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-preferences.svg" alt="Preferences" title="Preferences"/>
@@ -212,6 +215,7 @@
                     <p>Example text for the PREFERENCES pop-up</p>
                 </div> 
             </div>
+            
 <!--        <a href="#header-wPop-prof" rel="modal:open"> -->
             <a href="#feat-not-active" rel="modal:open">
                 <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-profile.svg" alt="User profile" title="User profile"/>
@@ -235,34 +239,42 @@
 	<!-- APPLICATION TAB SELECTORS --> 
 	<section id="tabs" class="fFade noSelect">
 		<div id="tabs-Iconset" class="centerIt">
+            
 			<input type="radio" name="tabs-Icons" id="tabs-Icons-wallet" class="tabs-radio" value="mBB-wallet" checked>
 				<label for="tabs-Icons-wallet" class="fade">
 					<img src="img/tabs-iconset-wallet.svg" class="fFade tooltip-3" alt="Wallet tab" title="<center><u>Wallet</u></center><br/>Area containing the main wallets." />
 				</label>
+            
 			<input type="radio" name="tabs-Icons" id="tabs-Icons-portfolio" class="tabs-radio" value="mBB-portfolio">
 				<label for="tabs-Icons-portfolio">
 					<img src="img/tabs-iconset-portfolio.svg" class="fFade tooltip-3" alt="Portfolio tab" title="<center><u>Portfolio</u></center><br/>Display all your assets, both digital and physical<br/>as well as allowing transfers." />
 				</label>
+            
 			<input type="radio" name="tabs-Icons" id="tabs-Icons-exchange" class="tabs-radio" value="mBB-exchange">
 				<label for="tabs-Icons-exchange">    
 					<img src="img/tabs-iconset-exchange.svg" class="fFade tooltip-3" alt="Exchange tab" title="<center><u>Waves Decentralized Exchange</u></center><br/>Access to Waves' markets where you can<br/>conveniently buy, sell and trade tokens." />
 				</label>
+            
 			<input type="radio" name="tabs-Icons" id="tabs-Icons-voting" class="tabs-radio" value="mBB-voting">
 				<label for="tabs-Icons-voting">    
 					<img src="img/tabs-iconset-voting.svg" class="fFade tooltip-3" alt="Voting tab" title="<center><u>Voting Area</u></center><br/>Decentralized voting utility." />
 				</label>
+            
 			<input type="radio" name="tabs-Icons" id="tabs-Icons-history" class="tabs-radio" value="mBB-history">
 				<label for="tabs-Icons-history">    
 					<img src="img/tabs-iconset-history.svg" class="fFade tooltip-3" alt="History tab" title="<center><u>History</u></center><br/>Access all your transaction records." />
 				</label>
+            
 			<input type="radio" name="tabs-Icons" id="tabs-Icons-messages" class="tabs-radio" value="mBB-messages">
 				<label for="tabs-Icons-messages">    
 					<img src="img/tabs-iconset-messages.svg" class="fFade tooltip-3" alt="Messages tab" title="<center><u>Decentralized Messenger</u></center><br/>Allows private communication between Waves' users." />
 				</label>
+            
 			<input type="radio" name="tabs-Icons" id="tabs-Icons-community" class="tabs-radio" value="mBB-community">
 				<label for="tabs-Icons-community">    
 					<img src="img/tabs-iconset-community.svg" class="fFade tooltip-3" alt="Community tab" title="<center><u>Community tab</u></center><br/>Resources to learn more about Waves project such as <br/>forums, blogs, websites, etc." />
 				</label>
+            
 		</div>  
 	</section>
 
@@ -325,6 +337,7 @@
                                 <a href="https://www.reddit.com/r/Wavesplatform/" target="_blank"><img class="modal-media-img" src="img/reddit_icon.svg" /></a>
                                 
                                 <a href="http://vk.com/wavesplatform" target="_blank"><img id="icon-blog" class="modal-media-img" src="img/vk_icon.svg" /></a>
+                                
                             </div>
                         </div>
                     </div>
