@@ -162,14 +162,31 @@ var Waves = (function(Waves, $, undefined) {
                 if(userAccounts !== null) {
                     var accounts = JSON.parse(userAccounts);
 
-                    if (accountId > -1) {
-                        accounts.accounts.splice(accountId, 1);
-                    }
 
-                    localStorage.setItem('WavesAccounts', JSON.stringify(accounts));
+                     $("#login-wPop-remove").modal({
+                      fadeDuration: 500,
+                      fadeDelay: 0.10
+                    });
 
-                    $("#wavesAccounts").html('');
-                    location.reload();
+                    $("#remove_account_confirmation").on("click", function() {
+
+                        if (accountId > -1) {
+                            accounts.accounts.splice(accountId, 1);
+                        }
+
+                        localStorage.setItem('WavesAccounts', JSON.stringify(accounts));
+
+                        $("#wavesAccounts").html('');
+                        location.reload();
+                    });
+
+                    $("#remove_account_cancel").on("click", function(){
+
+                        $.modal.close();
+
+                    });
+                    
+
                 }
            });
 

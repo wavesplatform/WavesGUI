@@ -272,7 +272,7 @@ var Waves = (function (Waves, $, undefined) {
 
     //Get timestamp in Waves
     Waves.getTime = function() {
-        return Date.now() - 10000;
+        return Date.now();
     }
 
     Waves.longToByteArray = function (value) {
