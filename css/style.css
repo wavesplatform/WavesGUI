@@ -1196,6 +1196,30 @@ input.tabs-radio:checked + label  img {
 
 
 /* ===================================================== */
+/* COMMUNITY TAB */ /* COMMUNITY TAB */ /* COMMUNITY TAB */
+/* ===================================================== */
+
+#mBB-community h2 {
+	text-align: center;
+	font-size: 1.25rem;
+	color: #333333;
+    letter-spacing: .2rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    padding-bottom: .6rem;
+    font-weight: 200;
+}
+
+#mBB-community > p {
+	text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: #E1B47D;
+    font-weight: 600;
+}
+
+
+/* ===================================================== */
 /* MEDIA QUERIES */ /* MEDIA QUERIES */ /* MEDIA QUERIES */ 
 /* ===================================================== */
 
