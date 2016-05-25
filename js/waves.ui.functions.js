@@ -157,7 +157,6 @@ var Waves = (function(Waves, $, undefined) {
                 e.preventDefault();
 
                 var accountId = $(this).data('id');
-
                 var userAccounts = localStorage.getItem('WavesAccounts');
 
                 if(userAccounts !== null) {
@@ -260,32 +259,9 @@ var Waves = (function(Waves, $, undefined) {
             $(".wB-add").html(Waves.address);
             $("#wavesAccountAddress").html(Waves.address);
 
-            Waves.updateDOM('dashboard');
-
-            Waves.getAddressHistory(Waves.address, function(history) {
-
-                var transactionHistory = history[0];
-                var appContainer;
-
-                transactionHistory.reverse();
-
-                $.each(transactionHistory, function(historyKey, historyValue) {
-
-                        appContainer += '<tr>';
-                        appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                        appContainer += '<td>'+historyValue.type+'</td>';
-                        appContainer += '<td>'+historyValue.sender+'</td>';
-                        appContainer += '<td>'+historyValue.recipient+'</td>';
-                        appContainer += '<td>'+historyValue.fee+'</td>';
-                        appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' Waves</td>';
-                        appContainer += '</tr>';
-
-                });
-
-                $("#transactionhistory").html(appContainer);
+            Waves.updateDOM('mBB-wallet');
 
             
-            });
                
         });
     }

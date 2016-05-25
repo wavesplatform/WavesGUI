@@ -45,7 +45,22 @@ var Waves = (function(Waves, $, undefined) {
 
     Waves.pages = {
         'mBB-wallet': function updateWallet () {
-            console.log('Update Dashboard');
+
+            Waves.loadAddressBalance(Waves.address, function (balance) {
+
+                var formatBalance = Waves.formatAmount(balance);
+
+                $("#wavesbalance").html(formatBalance);
+                $("#balancespan").html(formatBalance +' Waves');
+                $('.balancewaves').html(formatBalance + ' Waves');
+                $(".wB-add").html(Waves.address);
+                $("#wavesAccountAddress").html(Waves.address);   
+
+                console.log('Balance: '+formatBalance);
+
+            });
+
+
         },
         'mBB-portfolio': function updatePortfolio () {
             console.log('Update Portfolio');
@@ -57,7 +72,32 @@ var Waves = (function(Waves, $, undefined) {
             console.log('Update Voting');
         },
         'mBB-history': function updateHistory() {
-            console.log('Update History');
+            
+            Waves.getAddressHistory(Waves.address, function(history) {
+
+                var transactionHistory = history[0];
+                var appContainer;
+
+                transactionHistory.reverse();
+
+                $.each(transactionHistory, function(historyKey, historyValue) {
+
+                        appContainer += '<tr>';
+                        appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
+                        appContainer += '<td>'+historyValue.type+'</td>';
+                        appContainer += '<td>'+historyValue.sender+'</td>';
+                        appContainer += '<td>'+historyValue.recipient+'</td>';
+                        appContainer += '<td>'+historyValue.fee+'</td>';
+                        appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' Waves</td>';
+                        appContainer += '</tr>';
+
+                });
+
+                $("#transactionhistory").html(appContainer);
+
+            
+            });
+
         },
         'mBB-messages': function updateMessages () {
             console.log('Update Messages');
@@ -101,7 +141,9 @@ var Waves = (function(Waves, $, undefined) {
         e.preventDefault();
 
         $("#errorpayment").html('');
-        var maxSend = $("#wavesbalance").val() - 0.000000001;
+        var currentBalance = $("#wavesbalance").html();
+        var maxSend = (currentBalance * Math.pow(10,8) ) - 1;
+        maxSend = maxSend / Math.pow(10,8);
         var sendAmount = $("#wavessendamount").val().replace(/\s+/g, '');
 
         if(sendAmount > maxSend) {
@@ -111,7 +153,6 @@ var Waves = (function(Waves, $, undefined) {
 
         }
 
-        
         var amount = Math.round(Number(sendAmount * 100000000));
 
         var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
@@ -143,7 +184,6 @@ var Waves = (function(Waves, $, undefined) {
           "fee": fee
         }
 
-        
         Waves.apiRequest(Waves.api.waves.broadcastTransaction, JSON.stringify(data), function(response) {
 
             console.log(response);

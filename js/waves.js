@@ -65,16 +65,6 @@ var Waves = (function(Waves, $, undefined) {
 
     }
 
-    Waves.getAddressesBalance = function (address, callback) {
-
-        $.getJSON(Waves.server+'/addresses/balance/'+address, function(response) {
-
-            return callback(response);
-
-        });
-
-    }
-
 	return Waves;
 }(Waves || {}, jQuery));
 
