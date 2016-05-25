@@ -137,12 +137,15 @@ var Waves = (function(Waves, $, undefined) {
         },
         'mBB-community': function updateCommunity () {
 
+            var amountOfBlocks = 100;
             var row = '';
             var endBlock = Waves.blockHeight;
-            var startBlock = endBlock - 6;
+            var startBlock = endBlock - amountOfBlocks;
             Waves.apiRequest(Waves.api.blocks.lastBlocks(startBlock, endBlock), function(response) {
 
-                response.reverse();
+                response.sort(function(x, y){
+                    return y.timestamp - x.timestamp;
+                })
 
                 $.each(response, function(blockKey, blockData) {
 
