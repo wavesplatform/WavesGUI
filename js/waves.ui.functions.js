@@ -263,7 +263,7 @@ var Waves = (function(Waves, $, undefined) {
         Waves.password = accountDetails.password;
         Waves.checksum = accountDetails.checksum;
 
-        $("#wavesAccountAddress").html('<span class="clipSpan tooltip-1" data-clipboard-text="'+Waves.address+'" style="cursor: pointer; cursor: hand;">'+Waves.address+'</span>')
+        $("#wavesAccountAddress").html('<span class="clipSpan" id="wavesAccountAddressClip" data-clipboard-text="'+Waves.address+'" style="cursor: pointer; cursor: hand;">'+Waves.address+'</span>')
 
         Waves.loadAddressBalance(Waves.address, function (balance) {
 
