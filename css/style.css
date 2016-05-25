@@ -1,9 +1,11 @@
 /* GENERAL NOTES
-Waves' palette: #0096DC Waves' blue
-                #5AC8D2 Turquoise (highlights)
-                #D7D7D7 Light grey
-                #AFAFAF Grey
-                #555555 Darker grey (h's, highlights)
+Waves' palette: #0096DC                             Waves' blue
+                #5AC8D2                             Turquoise (highlights)
+                #D7D7D7                             Light grey
+                #AFAFAF                             Grey
+                #555555                             Darker grey (h's, highlights)
+                #E1B47D     rgb(225,180,125);       Off orange
+                #37556E     rgb(55,85,110);         Off blue
 */
 
 
@@ -352,6 +354,7 @@ header {
 	width: 100%;
 	height: 50px;
     background: #0096DC;
+    background: #37556E; /* Test new palette */
     z-index: 101;
     
 }
@@ -429,11 +432,18 @@ header {
     border: none;
     color: #ffffff;
     height: 0.04rem;
-    background: #0096dc; /* Old browsers */
+    /*background: #0096dc;
     background: -moz-linear-gradient(left, #0096dc 0%, #0096dc 25%, #ffffff 50%, #ffffff 50%, #0096dc 75%, #0096dc 100%);
     background: -webkit-linear-gradient(left, #0096dc 0%, #0096dc 25%, #ffffff 50%, #ffffff 50%, #0096dc 75%, #0096dc 100%);
     background: linear-gradient(to right, #0096dc 0%, #0096dc 25%, #ffffff 50%, #ffffff 50%, #0096dc 75%, #0096dc 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0096dc', endColorstr='#0096dc',GradientType=1 );
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0096dc', endColorstr='#0096dc',GradientType=1 );*/
+    
+    /* Test new palette */
+    background: #37556E; /* Old browsers */
+    background: -moz-linear-gradient(left, #37556E 0%, #37556E 25%, #ffffff 50%, #ffffff 50%, #37556E 75%, #37556E 100%);
+    background: -webkit-linear-gradient(left, #37556E 0%, #37556E 25%, #ffffff 50%, #ffffff 50%, #37556E 75%, #37556E 100%);
+    background: linear-gradient(to right, #37556E 0%, #37556E 25%, #ffffff 50%, #ffffff 50%, #37556E 75%, #37556E 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#37556E', endColorstr='#37556E',GradientType=1 );
 }
 
 
@@ -447,6 +457,7 @@ header {
 	height: 75px;
 	overflow: hidden;
     background: #0096DC;
+    background: #37556E; /* Test new palette */
     -webkit-box-shadow: 0px 12px 12px -12px rgba(0,0,0, .2);
     -moz-box-shadow: 0px 12px 12px -12px rgba(0,0,0, .2);
     box-shadow: 0px 12px 12px -12px rgba(0,0,0, .2);
@@ -596,7 +607,8 @@ input.tabs-radio:checked + label  img {
     z-index: 99 !important;
     font-family: 'Engo';
     font-size: 2.75rem;
-    color: #0096DC;  
+    color: #0096DC; /* Test new palette */
+    color: #37556E;  
     letter-spacing: -6px;
 }
 
@@ -607,7 +619,8 @@ input.tabs-radio:checked + label  img {
     z-index: 99 !important;
     font-family: 'Engo';
     font-size: 2rem;
-    color: #0096DC;  
+    color: #0096DC; /* Test new palette */
+    color: #37556E;  
     line-height: .5;
     letter-spacing: -4px;
 }
@@ -632,6 +645,7 @@ input.tabs-radio:checked + label  img {
     height: 80%;
     margin: .45%;
     background: #0096DC;
+    background: #37556E; /* Test new palette */
     overflow: hidden;
     font-family: 'Wesli';
     font-size: 1rem;
@@ -643,6 +657,7 @@ input.tabs-radio:checked + label  img {
 .wB-but:hover {
     cursor: pointer;
     background: #5AC8D2;
+    background: #E1B47D; /* Test new palette */
 }
 
 .wB-butSend {
@@ -688,6 +703,7 @@ input.tabs-radio:checked + label  img {
 
 .wTMainHeader tr {
     background-color: #0096DC;
+    background-color: #37556E; /* Test new palette */
 	border: 0px solid #F0F0F0;
 	text-align: center;
 	font-size: 1.12rem;
@@ -696,6 +712,7 @@ input.tabs-radio:checked + label  img {
 
 .wavesTable thead {
     background-color: #0096DC;
+    background-color: #37556E; /* Test new palette */
 	border: 0px solid #F0F0F0;
 	text-align: center;
 	font-size: 1.12rem;
@@ -780,11 +797,14 @@ input.tabs-radio:checked + label  img {
 #addContactSubmit {
     background: #fff;
     color: #0096DC;
+    color: #37556E; /* Test new palette */
     border: 1px solid #0096DC;
+    border: 1px solid #37556E; /* Test new palette */
 }
 
 #addContactSubmit:hover {
     background: #0096DC;
+    background: #37556E; /* Test new palette */
     color: #fff;
 }
 
@@ -836,6 +856,7 @@ input.tabs-radio:checked + label  img {
     opacity: 1;
 }
 
+/* Button style for Danger or Error messages against white bg */
 .wButtonDanger {
     color: #FF0000;
     border: 1px solid #FF0000;
@@ -854,11 +875,14 @@ input.tabs-radio:checked + label  img {
 #addContactSubmit {
     background: #fff;
     color: #0096DC;
+    color: #37556E; /* Test new palette */
     border: 1px solid #0096DC;
+    border: 1px solid #37556E; /* Test new palette */
 }
 
 #addContactSubmit:hover {
     background: #0096DC;
+    background: #37556E; /* Test new palette */
     color: #fff;
 }
 
@@ -905,6 +929,7 @@ input.tabs-radio:checked + label  img {
 
 .paymentForm thead tr {
     background-color: #0096DC;
+    background-color: #37556E; /* Test new palette */
 	text-align: center;
 	font-size: 1.12rem;
     line-height: 2.3rem;
@@ -929,6 +954,7 @@ input.tabs-radio:checked + label  img {
 .paymentForm-but {
     /* border: none; */
 	border: 1px solid #0096DC;
+    border: 1px solid #37556E; /* Test new palette */
     outline: none;
     position: relative;
     margin: 0 auto;
@@ -942,12 +968,14 @@ input.tabs-radio:checked + label  img {
     line-height: 2.3rem;
 	/* color: #ffffff; */
 	color: #0096DC;
+    color: #37556E; /* Test new palette */
     text-align: center;
 }
 
 .paymentForm-but:hover {
     cursor: pointer;
     background: #0096DC;
+    background: #37556E; /* Test new palette */
     color: #fff;
 }
 
@@ -989,6 +1017,7 @@ input.tabs-radio:checked + label  img {
     padding-left: .5rem;
     padding-right: .5rem;
     background: #0096DC;
+    background: #37556E; /* Test new palette */
     font-family: 'Wesli';
 	font-size: 1rem;
     line-height: 2.3rem;
@@ -1026,8 +1055,9 @@ input.tabs-radio:checked + label  img {
     width: 100%;
     text-align: center;
     background: #0096DC;
+    background: #37556E; /* Test new palette */
     padding: .4rem;
-    color: white;
+    color: #fff;
     font-size: 1.3rem;
 }
 

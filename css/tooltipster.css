@@ -44,6 +44,7 @@
 	border-radius: 5px; 
 	border: 1px solid #ffffff;
 	background: #0096DC;
+    background: rgba(55,85,110, .9); /* Testing new palette */
 	color: #ffffff;
 }
 
@@ -61,6 +62,7 @@
 	border-radius: 5px; 
 	border: 1px solid #fff;
 	background: #0096DC;
+    background: rgba(55,85,110, .9); /* Testing new palette */
 	color: #ffffff;
 }
 
