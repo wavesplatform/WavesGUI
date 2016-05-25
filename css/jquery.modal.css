@@ -103,6 +103,10 @@
     padding: 1rem;
 }
 
+.wPop-content h2 {
+    margin-bottom: .6rem;
+}
+
 @media only screen and (max-width: 420px) {
   .modal { width: 80% !important; }
 }
