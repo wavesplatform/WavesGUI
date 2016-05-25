@@ -25,6 +25,12 @@ Waves' palette: #0096DC                             Waves' blue
   src: url('../css/fonts/engo.woff2') format('woff2');
 }
 
+@font-face {
+  font-family: 'Sparta';
+  src: url('../css/fonts/sparta.woff') format('woff');
+  src: url('../css/fonts/sparta.woff2') format('woff2');
+}
+
 
 /* ============================================================= */
 /* GLOBAL SETTINGS AND CLASSES */ /* GLOBAL SETTINGS AND CLASSES */
@@ -585,6 +591,7 @@ input.tabs-radio:checked + label  img {
     font-family: 'Engo';
     font-size: 2.5rem;
     color: #AFAFAF;
+    color: #37556E; /* Test new palette */
 }
 
 .wB-add {
@@ -605,11 +612,12 @@ input.tabs-radio:checked + label  img {
     position: relative;
     text-align: right;
     z-index: 99 !important;
-    font-family: 'Engo';
-    font-size: 2.75rem;
-    color: #0096DC; /* Test new palette */
-    color: #37556E;  
-    letter-spacing: -6px;
+/*    font-family: 'Engo';*/
+    font-family: 'Sparta';
+    font-size: 2.5rem;
+    color: #0096DC; 
+    color: #37556E;  /* Test new palette */
+/*    letter-spacing: -6px;*/
 }
 
 .wB-balDec {
@@ -617,12 +625,14 @@ input.tabs-radio:checked + label  img {
     position: relative;
     float: right;
     z-index: 99 !important;
-    font-family: 'Engo';
-    font-size: 2rem;
+/*    font-family: 'Engo';*/
+    font-family: 'Sparta';
+    font-size: 1.75rem;
     color: #0096DC; /* Test new palette */
     color: #37556E;  
     line-height: .5;
-    letter-spacing: -4px;
+    letter-spacing: -2px;
+    opacity: .5;
 }
 
 .wB-buttons {
