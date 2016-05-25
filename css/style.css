@@ -920,6 +920,11 @@ input.tabs-radio:checked + label  img {
     color: #fff;
 }
 
+.wPop-content-buttons {
+    margin: 0 auto;
+    text-align: center;
+}
+
 
 /* ================================================= */
 /* WAVES STANDARD INPUTS */ /* WAVES STANDARD INPUTS */
