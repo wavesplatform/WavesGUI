@@ -108,7 +108,7 @@ var Waves = (function(Waves, $, undefined) {
             
             var row = '';
             var endBlock = Waves.blockHeight;
-            var startBlock = endBlock - 9;
+            var startBlock = endBlock - 6;
             Waves.apiRequest(Waves.api.blocks.lastBlocks(startBlock, endBlock), function(response) {
 
                 response.reverse();
