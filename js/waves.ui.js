@@ -57,9 +57,6 @@ var Waves = (function(Waves, $, undefined) {
                 $("#balancespan").html(formatBalance +' Waves');
                 $('.balancewaves').html(formatBalance + ' Waves');
                 $(".wB-add").html(Waves.address);
-                //$("#wavesAccountAddress").html(Waves.address);   
-
-                console.log('Balance: '+formatBalance);
 
             });
 
@@ -95,13 +92,13 @@ var Waves = (function(Waves, $, undefined) {
 
         },
         'mBB-portfolio': function updatePortfolio () {
-            console.log('Update Portfolio');
+            //Auto Updating Portfolio Page Items
         },
         'mBB-exchange': function updateExchange() {
-            console.log('Update Exchange');
+            //Auto Updating Exchange Page Items
         },
         'mBB-voting' : function updateVoting() {
-            console.log('Update Voting');
+            //Auto Updating Voting Page Items
         },
         'mBB-history': function updateHistory() {
             
@@ -132,17 +129,16 @@ var Waves = (function(Waves, $, undefined) {
 
         },
         'mBB-messages': function updateMessages () {
-            console.log('Update Messages');
+            //Auto Updating Messages Page Items
         },
         'mBB-community': function updateCommunity () {
-            
+
             var row = '';
             var endBlock = Waves.blockHeight;
             var startBlock = endBlock - 6;
             Waves.apiRequest(Waves.api.blocks.lastBlocks(startBlock, endBlock), function(response) {
 
                 response.reverse();
-                console.log(response);
 
                 $.each(response, function(blockKey, blockData) {
 
@@ -166,9 +162,22 @@ var Waves = (function(Waves, $, undefined) {
     Waves.updateDOM = function (page) {
 
         var interval = Waves.stateIntervalSeconds * 1000;
-       if (Waves.pages[page]) {
+        if (Waves.pages[page]) {
             Waves.pages[page]();
-            Waves.update = setInterval(function() { Waves.pages[page](); }, interval);
+            Waves.update = setInterval(function() {
+
+            //Updating page functions
+             Waves.pages[page]();
+
+             //Load Blocks regularly
+             Waves.apiRequest(Waves.api.blocks.height, function(result) {
+            
+                Waves.blockHeight = result.height;
+                $("#blockheight").html(result.height);
+
+            }); 
+
+         }, interval);
         }
     }
 
@@ -210,6 +219,7 @@ var Waves = (function(Waves, $, undefined) {
         }
 
         var amount = Math.round(Number(sendAmount * 100000000));
+        var unmodifiedAmount = Number(sendAmount);
 
         var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
         var senderPublic = Base58.decode(Waves.publicKey);
@@ -222,14 +232,10 @@ var Waves = (function(Waves, $, undefined) {
         var fee = Number(1);
 
         var signatureData = Waves.signatureData(Waves.publicKey, recipient, amount, fee, wavesTime);
-        console.log(signatureData);
-
         var signature = Array.from(Waves.curve25519.sign(senderPrivate, signatureData));
-        console.log(signature);
         signature = Base58.encode(signature);
 
-        var verify = Waves.curve25519.verify(senderPublic, signatureData, Base58.decode(signature));
-        console.log(verify);
+        //var verify = Waves.curve25519.verify(senderPublic, signatureData, Base58.decode(signature));
 
         var data = {
           "recipient": recipient,
@@ -242,11 +248,15 @@ var Waves = (function(Waves, $, undefined) {
 
         Waves.apiRequest(Waves.api.waves.broadcastTransaction, JSON.stringify(data), function(response) {
 
-            console.log(response);
+            var fixFee = fee / 100000000;
+            if(response.error !== undefined) {
+                $.growl.error({ message: 'Error:'+response.error +' - '+response.message });
+            } else {
 
-            $("#sentpayment").html(JSON.stringify(data));
-
-            $("#errorpayment").html(JSON.stringify(response));
+                var successMessage = 'Sent '+Waves.formatAmount(unmodifiedAmount)+' Wave to '+recipient.substr(0,10)+'...';
+                $.growl({ title: 'Payment sent!', message: successMessage });
+                $.modal.close();
+            }
 
         });
 
