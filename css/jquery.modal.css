@@ -104,7 +104,14 @@
 }
 
 .wPop-content h2 {
-    margin-bottom: .6rem;
+	text-align: center;
+	font-size: 1.25rem;
+	color: #333333;
+    letter-spacing: .2rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    padding-bottom: .6rem;
+    font-weight: 200;
 }
 
 @media only screen and (max-width: 420px) {
