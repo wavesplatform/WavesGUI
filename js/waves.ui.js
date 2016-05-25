@@ -105,27 +105,30 @@ var Waves = (function(Waves, $, undefined) {
             console.log('Update Messages');
         },
         'mBB-community': function updateCommunity () {
-            console.log('Update Community');
-
+            
             var row = '';
+            var endBlock = Waves.blockHeight;
+            var startBlock = endBlock - 9;
+            Waves.apiRequest(Waves.api.blocks.lastBlocks(startBlock, endBlock), function(response) {
 
-            Waves.apiRequest(Waves.api.blocks.last, function(response) {
-
+                response.reverse();
                 console.log(response);
 
-                row += '<tr class="fade">'+
-                        '<td>'+response.timestamp+'</td>'+
-                        '<td>'+Waves.blockHeight+'</td>'+
-                        '<td>'+response.transactions.length+'</td>'+
-                        '<td>'+response.generator+'</td>'+
+                $.each(response, function(blockKey, blockData) {
+
+                    var block = Waves.blockHeight - blockKey;
+                    row += '<tr class="fade">'+
+                        '<td>'+block+'</td>'+
+                        '<td>'+Waves.formatTimestamp(blockData.timestamp)+'</td>'+
+                        '<td>'+blockData.transactions.length+'</td>'+
+                        '<td>'+blockData.generator+'</td>'+
                     '</tr>';
+
+                });
 
                 $("#latestBlocksTable").html(row);
 
             });
-
-            
-
 
         }
     };
