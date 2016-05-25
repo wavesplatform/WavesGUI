@@ -1,11 +1,14 @@
 /* GENERAL NOTES
-Waves' palette: #0096DC                             Waves' blue
-                #5AC8D2                             Turquoise (highlights)
+Waves' palette: #0096DC                             Waves' blue *
+                #5AC8D2                             Turquoise (highlights) *
                 #D7D7D7                             Light grey
                 #AFAFAF                             Grey
                 #555555                             Darker grey (h's, highlights)
-                #E1B47D     rgb(225,180,125);       Off orange
-                #37556E     rgb(55,85,110);         Off blue
+                #E1B47D     rgb(225,180,125);       Soft orange
+                #37556E     rgb(55,85,110);         Navy Blue
+                #46AAB4     rgb(70,170,180);        Lapis Lazuli
+
+* Not currently used.
 */
 
 
@@ -14,21 +17,21 @@ Waves' palette: #0096DC                             Waves' blue
 /* ================================================= */
 
 @font-face {
-  font-family: 'Wesli';
-  src: url('../css/fonts/wesli.woff') format('woff');
-  src: url('../css/fonts/wesli.woff2') format('woff2');
+    font-family: 'Wesli';
+    src: url('../css/fonts/wesli.woff') format('woff');
+    src: url('../css/fonts/wesli.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Engo';
-  src: url('../css/fonts/engo.woff') format('woff');
-  src: url('../css/fonts/engo.woff2') format('woff2');
+    font-family: 'Engo';
+    src: url('../css/fonts/engo.woff') format('woff');
+    src: url('../css/fonts/engo.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Sparta';
-  src: url('../css/fonts/sparta.woff') format('woff');
-  src: url('../css/fonts/sparta.woff2') format('woff2');
+    font-family: 'Sparta';
+    src: url('../css/fonts/sparta.woff') format('woff');
+    src: url('../css/fonts/sparta.woff2') format('woff2');
 }
 
 
@@ -238,14 +241,8 @@ Keeping this for now, in case I change later the way users will upload their own
     padding-top: none;
     height: auto;
     text-align: center;
-    
-    /*border: 1px solid #ffffff;
-    border: 1px solid rgba(255, 255, 255, .25);
-    -moz-border-radius: 8px 8px 8px 8px;
-    -webkit-border-radius: 8px 8px 8px 8px;
-	border-radius: 8px 8px 8px 8px;*/
-    
     cursor: default;
+    overflow-y: scroll; /* Test */
 }
 
 #logoNversion {
@@ -297,7 +294,10 @@ Keeping this for now, in case I change later the way users will upload their own
 
 #loginAccountDiv { margin-top: 1rem; }
 
-#loginPassword { margin-bottom: 1rem; }
+#loginPassword { 
+    margin-top: .5rem;
+    margin-bottom: 1rem; 
+}
 
 .loginAccountDiv > .wButton:hover {
     border: none;
@@ -613,7 +613,8 @@ input.tabs-radio:checked + label  img {
     text-align: right;
     z-index: 99 !important;
 /*    font-family: 'Engo';*/
-    font-family: 'Sparta';
+    font-family: 'Sparta', Arial;
+    font-weight: bold;
     font-size: 2.5rem;
     color: #0096DC; 
     color: #37556E;  /* Test new palette */
@@ -626,7 +627,8 @@ input.tabs-radio:checked + label  img {
     float: right;
     z-index: 99 !important;
 /*    font-family: 'Engo';*/
-    font-family: 'Sparta';
+    font-family: 'Sparta', Arial;
+    font-weight: bold;
     font-size: 1.75rem;
     color: #0096DC; /* Test new palette */
     color: #37556E;  
