@@ -57,7 +57,7 @@ var Waves = (function(Waves, $, undefined) {
                 $("#balancespan").html(formatBalance +' Waves');
                 $('.balancewaves').html(formatBalance + ' Waves');
                 $(".wB-add").html(Waves.address);
-                $("#wavesAccountAddress").html(Waves.address);   
+                //$("#wavesAccountAddress").html(Waves.address);   
 
                 console.log('Balance: '+formatBalance);
 

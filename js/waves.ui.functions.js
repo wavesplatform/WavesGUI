@@ -275,7 +275,7 @@ var Waves = (function(Waves, $, undefined) {
         Waves.password = accountDetails.password;
         Waves.checksum = accountDetails.checksum;
 
-        $("#wavesClipBoardAddress").html('<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="'+Waves.address+'"></span>')
+        $("#wavesAccountAddress").html('<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="'+Waves.address+'" style="cursor: pointer; cursor: hand;">'+Waves.address+'</span>')
 
         Waves.loadAddressBalance(Waves.address, function (balance) {
 
@@ -289,7 +289,7 @@ var Waves = (function(Waves, $, undefined) {
             $("#balancespan").html(formatBalance +' Waves');
             $('.balancewaves').html(formatBalance + ' Waves');
             $(".wB-add").html(Waves.address);
-            $("#wavesAccountAddress").html(Waves.address);
+            //$("#wavesAccountAddress").html(Waves.address);
 
             Waves.updateDOM('mBB-wallet');
 
