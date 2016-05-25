@@ -24,7 +24,8 @@
 .tooltipster-theme1 {
 	border-radius: 5px; 
 	border: 1px solid #fff;
-	background: #4c4c4c;
+	background: #000; /* Fallback */
+    background: rgba(55,85,110, .9);
 	color: #ffffff;
     margin: -.2rem;
 }
