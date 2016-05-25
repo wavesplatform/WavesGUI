@@ -260,6 +260,8 @@ var Waves = (function(Waves, $, undefined) {
             $(".wB-add").html(Waves.address);
             $("#wavesAccountAddress").html(Waves.address);
 
+            Waves.updateDOM('dashboard');
+
             Waves.getAddressHistory(Waves.address, function(history) {
 
                 var transactionHistory = history[0];

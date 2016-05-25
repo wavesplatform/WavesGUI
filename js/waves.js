@@ -42,9 +42,8 @@ var Waves = (function(Waves, $, undefined) {
     Waves.epoch = 1460678400;
     Waves.seed = '';
     Waves.hasLocalStorage = _checkDOMenabled();
-    var stateInterval;
-	var stateIntervalSeconds = 30;
-    
+    Waves.stateInterval;
+	Waves.stateIntervalSeconds = 10;
 
     Waves.createAccount = function (publicKey) {
 
