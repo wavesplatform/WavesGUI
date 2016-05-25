@@ -253,8 +253,11 @@ var Waves = (function(Waves, $, undefined) {
                 $.growl.error({ message: 'Error:'+response.error +' - '+response.message });
             } else {
 
-                var successMessage = 'Sent '+Waves.formatAmount(unmodifiedAmount)+' Wave to '+recipient.substr(0,10)+'...';
+                var successMessage = 'Sent '+Waves.formatAmount(amount)+' Wave to '+recipient.substr(0,10)+'...';
                 $.growl({ title: 'Payment sent!', message: successMessage });
+                $("#wavesrecipient").val('');
+                $("#wavessendamount").val('');
+
                 $.modal.close();
             }
 
