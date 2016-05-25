@@ -65,7 +65,9 @@ var Waves = (function(Waves, $, undefined) {
                 var transactionHistory = history[0];
                 var appContainer;
 
-                transactionHistory.reverse();
+                transactionHistory.sort(function(x, y){
+                    return y.timestamp - x.timestamp;
+                })
 
                 var max = 10;
 
@@ -107,7 +109,9 @@ var Waves = (function(Waves, $, undefined) {
                 var transactionHistory = history[0];
                 var appContainer;
 
-                transactionHistory.reverse();
+                transactionHistory.sort(function(x, y){
+                    return y.timestamp - x.timestamp;
+                })
 
                 $.each(transactionHistory, function(historyKey, historyValue) {
 
