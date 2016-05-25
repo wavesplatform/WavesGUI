@@ -273,7 +273,9 @@ var Waves = (function(Waves, $, undefined) {
         Waves.address = accountDetails.address;
         Waves.cipher = accountDetails.cipher;
         Waves.password = accountDetails.password;
-        Waves.checksum = accountDetails.checksum
+        Waves.checksum = accountDetails.checksum;
+
+        $("#wavesClipBoardAddress").html('<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="'+Waves.address+'"></span>')
 
         Waves.loadAddressBalance(Waves.address, function (balance) {
 
