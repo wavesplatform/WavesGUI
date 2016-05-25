@@ -424,7 +424,7 @@ header {
 .header-Icon {
 	width: 2rem;
 	margin-right: 1rem;
-	opacity: .75;
+	opacity: .5;
 }
 
 .header-Icon:hover {
@@ -500,7 +500,7 @@ input.tabs-radio + label img {
 }
 
 input.tabs-radio:hover + label img {
-    opacity: .6;
+    opacity: .3;
 }
 
 input.tabs-radio:checked + label  img {
