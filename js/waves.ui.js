@@ -57,6 +57,7 @@ var Waves = (function(Waves, $, undefined) {
 
        if (Waves.pages[page]) {
             Waves.pages[page]();
+            setInterval(Waves.pages[page](), 1000);
         }
     }
 

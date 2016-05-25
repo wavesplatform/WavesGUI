@@ -69,7 +69,9 @@ $(window).on("load resize", function(e){
 
 
 // Left bar active/hidden settings on tab clicks
-$('input[type=radio]').click(function(){ LeftBarVis(); });
+$('input[type=radio]').click(function(){ 
+  //LeftBarVis(); 
+});
 
 
 // Fee styling on .paymentForm
