@@ -858,12 +858,12 @@ input.tabs-radio:checked + label  img {
 
 /* Button style for Danger or Error messages against white bg */
 .wButtonDanger {
-    color: #FF0000;
-    border: 1px solid #FF0000;
+    color: #9C0005;
+    border: 1px solid #9C0005;
 }
 
 .wButtonDanger:hover {
-    background: #FF0000;
+    background: #9C0005;
     color: #fff;
 }
 
