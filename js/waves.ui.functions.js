@@ -184,11 +184,24 @@ var Waves = (function(Waves, $, undefined) {
 
     Waves.loadBlockheight = function () {
 
+
         Waves.apiRequest(Waves.api.blocks.height, function(result) {
             
+            Waves.blockHeight = result.height;
             $("#blockheight").html(result.height);
 
         });
+
+        Waves.blockUpdate = setInterval(function () {
+
+            Waves.apiRequest(Waves.api.blocks.height, function(result) {
+            
+                Waves.blockHeight = result.height;
+                $("#blockheight").html(result.height);
+
+            });
+
+        }, 10000);
 
     }
 

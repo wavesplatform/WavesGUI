@@ -35,7 +35,8 @@ var Waves = (function (Waves, $) {
 			},
 			bySignature: function (signature) {
 				return URL + '/blocks/signature/' + signature;
-			}
+			}, 
+			last: URL + '/blocks/last'
 		},
 		address: {
 			getAddresses: function () {

@@ -42,6 +42,8 @@ var Waves = (function(Waves, $, undefined) {
     Waves.balance  = 0;
     Waves.hasLocalStorage = false;
     Waves.update;
+    Waves.blockUpdate;
+    Waves.blockHeight;
 
     Waves.pages = {
         'mBB-wallet': function updateWallet () {
@@ -104,6 +106,27 @@ var Waves = (function(Waves, $, undefined) {
         },
         'mBB-community': function updateCommunity () {
             console.log('Update Community');
+
+            var row = '';
+
+            Waves.apiRequest(Waves.api.blocks.last, function(response) {
+
+                console.log(response);
+
+                row += '<tr class="fade">'+
+                        '<td>'+response.timestamp+'</td>'+
+                        '<td>'+response.blocksize+'</td>'+
+                        '<td>'+response.transactions.length+'</td>'+
+                        '<td>'+response.generator+'</td>'+
+                    '</tr>';
+
+                $("#latestBlocksTable").html(row);
+
+            });
+
+            
+
+
         }
     };
 
