@@ -54,8 +54,8 @@ var Waves = (function(Waves, $, undefined) {
                 var formatBalance = Waves.formatAmount(balance);
 
                 $("#wavesbalance").html(formatBalance);
-                $("#balancespan").html(formatBalance +' Waves');
-                $('.balancewaves').html(formatBalance + ' Waves');
+                $("#balancespan").html(formatBalance +' WAVE');
+                $('.balancewaves').html(formatBalance + ' WAVE');
                 $(".wB-add").html(Waves.address);
 
             });
@@ -77,8 +77,8 @@ var Waves = (function(Waves, $, undefined) {
                         appContainer += '<td>'+historyValue.type+'</td>';
                         appContainer += '<td>'+historyValue.sender+'</td>';
                         appContainer += '<td>'+historyValue.recipient+'</td>';
-                        appContainer += '<td>'+historyValue.fee+'</td>';
-                        appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' Waves</td>';
+                        appContainer += '<td>'+historyValue.fee+' WVL</td>';
+                        appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
                         appContainer += '</tr>';
                     }
                     max--;
@@ -116,8 +116,8 @@ var Waves = (function(Waves, $, undefined) {
                         appContainer += '<td>'+historyValue.type+'</td>';
                         appContainer += '<td>'+historyValue.sender+'</td>';
                         appContainer += '<td>'+historyValue.recipient+'</td>';
-                        appContainer += '<td>'+historyValue.fee+'</td>';
-                        appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' Waves</td>';
+                        appContainer += '<td>'+historyValue.fee+' WVL</td>';
+                        appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
                         appContainer += '</tr>';
 
                 });
