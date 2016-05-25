@@ -115,7 +115,7 @@ var Waves = (function(Waves, $, undefined) {
 
                 row += '<tr class="fade">'+
                         '<td>'+response.timestamp+'</td>'+
-                        '<td>'+response.blocksize+'</td>'+
+                        '<td>'+Waves.blockHeight+'</td>'+
                         '<td>'+response.transactions.length+'</td>'+
                         '<td>'+response.generator+'</td>'+
                     '</tr>';
