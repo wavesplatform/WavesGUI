@@ -223,7 +223,7 @@ var Waves = (function(Waves, $, undefined) {
 
                     Waves.balance = Waves.balance + balanceResult.balance;
 
-                    $("#wavesbalance").html(Waves.formatAmount(Waves.balance));
+                    $("#wavesCurrentBalance").val(Waves.formatAmount(Waves.balance));
 
                     $("#balancespan").html(Waves.formatAmount(Waves.balance) +' Waves');
 
@@ -272,8 +272,9 @@ var Waves = (function(Waves, $, undefined) {
             $("#wrapper").show();
 
 			var formatBalance = Waves.formatAmount(balance);
-
-            $("#wavesbalance").html(formatBalance);
+            $("#wavesCurrentBalance").val(formatBalance);
+            $("#wavesbalance").html(formatBalance.split(".")[0]);
+            $("#wavesbalancedec").html('.'+formatBalance.split(".")[1]);
             $("#balancespan").html(formatBalance +' Waves');
             $('.balancewaves').html(formatBalance + ' Waves');
             $(".wB-add").html(Waves.address);

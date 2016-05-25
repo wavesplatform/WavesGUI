@@ -53,7 +53,9 @@ var Waves = (function(Waves, $, undefined) {
 
                 var formatBalance = Waves.formatAmount(balance);
 
-                $("#wavesbalance").html(formatBalance);
+                $("#wavesCurrentBalance").val(formatBalance);
+                $("#wavesbalance").html(formatBalance.split(".")[0]);
+                $("#wavesbalancedec").html('.'+formatBalance.split(".")[1]);
                 $("#balancespan").html(formatBalance +' WAVE');
                 $('.balancewaves').html(formatBalance + ' WAVE');
                 $(".wB-add").html(Waves.address);
@@ -213,14 +215,14 @@ var Waves = (function(Waves, $, undefined) {
         e.preventDefault();
 
         $("#errorpayment").html('');
-        var currentBalance = $("#wavesbalance").html();
+        var currentBalance = $("#wavesCurrentBalance").val();
         var maxSend = (currentBalance * Math.pow(10,8) ) - 1;
         maxSend = maxSend / Math.pow(10,8);
         var sendAmount = $("#wavessendamount").val().replace(/\s+/g, '');
 
         if(sendAmount > maxSend) {
 
-            $("#errorpayment").html('Not enough funds');
+            $.growl.error({ message: 'Error: Not enough funds' });
             return;
 
         }
