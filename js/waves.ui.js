@@ -45,6 +45,7 @@ var Waves = (function(Waves, $, undefined) {
     Waves.blockUpdate;
     Waves.blockHeight;
 
+    //These are the functions running every Waves.stateIntervalSeconds for each page.
     Waves.pages = {
         'mBB-wallet': function updateWallet () {
 
@@ -60,6 +61,35 @@ var Waves = (function(Waves, $, undefined) {
 
                 console.log('Balance: '+formatBalance);
 
+            });
+
+            Waves.getAddressHistory(Waves.address, function(history) {
+
+                var transactionHistory = history[0];
+                var appContainer;
+
+                transactionHistory.reverse();
+
+                var max = 10;
+
+                $.each(transactionHistory, function(historyKey, historyValue) {
+                    
+                    if(max > 0) {
+                        appContainer += '<tr>';
+                        appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
+                        appContainer += '<td>'+historyValue.type+'</td>';
+                        appContainer += '<td>'+historyValue.sender+'</td>';
+                        appContainer += '<td>'+historyValue.recipient+'</td>';
+                        appContainer += '<td>'+historyValue.fee+'</td>';
+                        appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' Waves</td>';
+                        appContainer += '</tr>';
+                    }
+                    max--;
+                });
+
+                $("#walletTransactionhistory").html(appContainer);
+
+            
             });
 
 
