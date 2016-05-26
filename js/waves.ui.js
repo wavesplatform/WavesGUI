@@ -134,7 +134,11 @@ var Waves = (function(Waves, $, undefined) {
                             minYearTo = moment(historyValue.timestamp).year();
 
                             toInput = moment(historyValue.timestamp).format("DD-MM-YYYY");
-                            $("#comboDateTo").val(toInput);
+                            if(Waves.startSearch || Waves.stopSearch) {
+                                $("#comboDateTo").val(Waves.stopSearch);
+                            } else {
+                                $("#comboDateTo").val(toInput);
+                            }
                         }
 
                         if(historyKey === lastKey) {
@@ -144,7 +148,11 @@ var Waves = (function(Waves, $, undefined) {
 
                             fromInput = moment(historyValue.timestamp).format("DD-MM-YYYY");
 
-                            $("#comboDateFrom").val(fromInput);
+                            if(Waves.startSearch || Waves.stopSearch) {
+                                $("#comboDateFrom").val(Waves.startSearch);
+                            } else {
+                                $("#comboDateFrom").val(fromInput);
+                            }
                         }
                        
 
@@ -153,12 +161,9 @@ var Waves = (function(Waves, $, undefined) {
                             var startSearchTimestamp = new Date(Waves.startSearch.split("-").reverse().join("-")).getTime();
                             var stopSearchTimestamp = new Date(Waves.stopSearch.split("-").reverse().join("-")).getTime();
 
-                            stopSearchTimestamp = +stopSearchTimestamp + (22*60*60*1000);
+                            stopSearchTimestamp = +stopSearchTimestamp + (20*60*60*1000);
 
                             if(historyValue.timestamp > startSearchTimestamp && historyValue.timestamp < stopSearchTimestamp) {
-
-                                //console.log('Start: '+startSearchTimestamp + ' - Now:'+historyValue.timestamp);
-                                //console.log('Stop: '+stopSearchTimestamp + ' - Now:'+historyValue.timestamp);
 
                                 appContainer += '<tr>';
                                 appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
@@ -169,7 +174,11 @@ var Waves = (function(Waves, $, undefined) {
                                 appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
                                 appContainer += '</tr>';
 
-                            } 
+                            } else {
+
+                                //console.log('Sorted out: '+moment(historyValue.timestamp).format("DD-MM-YYYY hh:s"));
+                             
+                            }
 
                         } else {
 
@@ -181,8 +190,6 @@ var Waves = (function(Waves, $, undefined) {
                             appContainer += '<td>'+historyValue.fee+' WVL</td>';
                             appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
                             appContainer += '</tr>';
-
-
                         }
 
                     $("#transactionhistory").html(appContainer);
@@ -206,6 +213,7 @@ var Waves = (function(Waves, $, undefined) {
                     Waves.startSearch = $('#comboDateFrom').val();
                     Waves.stopSearch = $('#comboDateTo').val();
 
+                    clearInterval(Waves.update);
                     Waves.updatePage('mBB-history');
 
                 }); 
