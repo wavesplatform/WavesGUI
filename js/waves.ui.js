@@ -44,6 +44,9 @@ var Waves = (function(Waves, $, undefined) {
     Waves.blockUpdate;
     Waves.blockHeight;
 
+    Waves.startSearch = false;
+    Waves.stopSearch = false;
+
     //These are the functions running every Waves.stateIntervalSeconds for each page.
     Waves.pages = {
         'mBB-wallet': function updateWallet () {
@@ -140,20 +143,51 @@ var Waves = (function(Waves, $, undefined) {
                             maxYearTo = moment(historyValue.timestamp).year();
 
                             fromInput = moment(historyValue.timestamp).format("DD-MM-YYYY");
+
                             $("#comboDateFrom").val(fromInput);
                         }
+                       
 
-                        appContainer += '<tr>';
-                        appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                        appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
-                        appContainer += '<td>'+historyValue.sender+'</td>';
-                        appContainer += '<td>'+historyValue.recipient+'</td>';
-                        appContainer += '<td>'+historyValue.fee+' WVL</td>';
-                        appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
-                        appContainer += '</tr>';
+                        if(Waves.startSearch || Waves.stopSearch) {
 
+                            var startSearchTimestamp = new Date(Waves.startSearch.split("-").reverse().join("-")).getTime();
+                            var stopSearchTimestamp = new Date(Waves.stopSearch.split("-").reverse().join("-")).getTime();
+
+                            stopSearchTimestamp = +stopSearchTimestamp + (22*60*60*1000);
+
+                            if(historyValue.timestamp > startSearchTimestamp && historyValue.timestamp < stopSearchTimestamp) {
+
+                                //console.log('Start: '+startSearchTimestamp + ' - Now:'+historyValue.timestamp);
+                                //console.log('Stop: '+stopSearchTimestamp + ' - Now:'+historyValue.timestamp);
+
+                                appContainer += '<tr>';
+                                appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
+                                appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
+                                appContainer += '<td>'+historyValue.sender+'</td>';
+                                appContainer += '<td>'+historyValue.recipient+'</td>';
+                                appContainer += '<td>'+historyValue.fee+' WVL</td>';
+                                appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
+                                appContainer += '</tr>';
+
+                            } 
+
+                        } else {
+
+                            appContainer += '<tr>';
+                            appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
+                            appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
+                            appContainer += '<td>'+historyValue.sender+'</td>';
+                            appContainer += '<td>'+historyValue.recipient+'</td>';
+                            appContainer += '<td>'+historyValue.fee+' WVL</td>';
+                            appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
+                            appContainer += '</tr>';
+
+
+                        }
+
+                    $("#transactionhistory").html(appContainer);
+                        
                 });
-
 
                 $('#comboDateFrom').combodate({
                     value: fromInput,
@@ -167,9 +201,14 @@ var Waves = (function(Waves, $, undefined) {
                     minYear: minYearTo
                 }); 
 
-                $("#transactionhistory").html(appContainer);
+                $("#transactionHistorySearch").on("click", function() {
 
-            
+                    Waves.startSearch = $('#comboDateFrom').val();
+                    Waves.stopSearch = $('#comboDateTo').val();
+
+                    Waves.updatePage('mBB-history');
+
+                }); 
             });
 
         },
@@ -206,6 +245,11 @@ var Waves = (function(Waves, $, undefined) {
 
         }
     };
+
+    Waves.updatePage = function ( page ) {
+        clearInterval(Waves.update);
+        Waves.updateDOM(page);
+    }
 
     Waves.updateDOM = function (page) {
 
