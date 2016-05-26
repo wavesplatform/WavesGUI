@@ -111,7 +111,7 @@ var Waves = (function(Waves, $, undefined) {
             Waves.getAddressHistory(Waves.address, function(history) {
 
                 var transactionHistory = history[0];
-                var appContainer;
+                var appContainer = '';
 
                 var minYearFrom, maxYearFrom;
                 var minYearTo, maxYearTo;
@@ -139,9 +139,7 @@ var Waves = (function(Waves, $, undefined) {
                             minYearTo = moment(historyValue.timestamp).year();
 
                             toInput = moment(historyValue.timestamp).format("DD-MM-YYYY");
-                            if(Waves.startSearch || Waves.stopSearch) {
-                                $("#comboDateTo").val(Waves.stopSearch);
-                            } else {
+                            if(!Waves.startSearch && !Waves.stopSearch) {
                                 $("#comboDateTo").val(toInput);
                             }
                         }
@@ -153,12 +151,12 @@ var Waves = (function(Waves, $, undefined) {
 
                             fromInput = moment(historyValue.timestamp).format("DD-MM-YYYY");
 
-                            if(Waves.startSearch || Waves.stopSearch) {
-                                $("#comboDateFrom").val(Waves.startSearch);
-                            } else {
+                            if(!Waves.startSearch && !Waves.stopSearch) {
                                 $("#comboDateFrom").val(fromInput);
-                            }
+                            } 
                         }
+
+
                        
 
                         if(Waves.startSearch || Waves.stopSearch) {
@@ -167,8 +165,9 @@ var Waves = (function(Waves, $, undefined) {
                             var stopSearchTimestamp = new Date(Waves.stopSearch.split("-").reverse().join("-")).getTime();
 
                             stopSearchTimestamp = +stopSearchTimestamp + (20*60*60*1000);
-
-                            if(historyValue.timestamp > startSearchTimestamp && historyValue.timestamp < stopSearchTimestamp) {
+                            //console.log(stopSearchTimestamp);
+                            //console.log(historyValue.timestamp);
+                            if(startSearchTimestamp < historyValue.timestamp && stopSearchTimestamp > historyValue.timestamp) {
 
                                 appContainer += '<tr>';
                                 appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
@@ -196,10 +195,9 @@ var Waves = (function(Waves, $, undefined) {
                             appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
                             appContainer += '</tr>';
                         }
-
-                    $("#transactionhistory").html(appContainer);
-                        
                 });
+
+                $("#transactionhistory").html(appContainer);
 
                 $('#comboDateFrom').combodate({
                     value: fromInput,
@@ -298,6 +296,8 @@ var Waves = (function(Waves, $, undefined) {
             case 'mBB-history':
 
                 $("#transactionHistorySearch").on("click", function() {
+
+                    console.log($('#comboDateFrom').val());
 
                     Waves.startSearch = $('#comboDateFrom').val();
                     Waves.stopSearch = $('#comboDateTo').val();
