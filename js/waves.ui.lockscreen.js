@@ -82,8 +82,8 @@ var Waves = (function(Waves, $, undefined) {
         $("#publicKeyLockscreen").html(publicKey);
         $("#privateKeyLockscreen").html(privateKey);
 
-        console.log('PrivateKey Generated: '+privateKey);
-        console.log('PublicKey Generated: '+publicKey);
+        //console.log('PrivateKey Generated: '+privateKey);
+        //console.log('PublicKey Generated: '+publicKey);
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
             $("#addresLockscreen").html(response.address);
@@ -102,8 +102,8 @@ var Waves = (function(Waves, $, undefined) {
 
         $("#publicKeyLockscreen").html(publicKey);
         $("#privateKeyLockscreen").html(privateKey);
-        console.log('PrivateKey Generated: '+privateKey);
-        console.log('PublicKey Generated: '+publicKey);
+        //console.log('PrivateKey Generated: '+privateKey);
+        //console.log('PublicKey Generated: '+publicKey);
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
             $("#addresLockscreen").html(response.address);
@@ -123,8 +123,8 @@ var Waves = (function(Waves, $, undefined) {
 
         $("#publicKeyLockscreen").html(publicKey);
         $("#privateKeyLockscreen").html(privateKey);
-        console.log('PrivateKey Generated: '+privateKey);
-        console.log('PublicKey Generated: '+publicKey);
+        //console.log('PrivateKey Generated: '+privateKey);
+        //console.log('PublicKey Generated: '+publicKey);
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
             $("#addresLockscreen").html(response.address);
@@ -143,7 +143,7 @@ var Waves = (function(Waves, $, undefined) {
         var passwordConfirm = $("#walletPasswordConfirm").val();
 
         if(password !== passwordConfirm) {
-            $("#errorRegister").html('Your passwords do not match.');
+            $.growl.error({ message: "Your passwords do not match!" });
             return;
         }
 
@@ -176,6 +176,44 @@ var Waves = (function(Waves, $, undefined) {
                 $("#wavesAccounts").append('<br><b>'+accountData.name+'</b>'+accountData.address);
             }
 
+        } else {
+
+
+            chrome.storage.local.get('WavesAccounts', function (currentAccounts) {
+
+                if(chrome.runtime.lastError)
+                {
+                    console.log('error database empty?');
+
+                    return;
+                }
+
+
+                console.log(currentAccounts);
+
+                /*
+                if(currentAccounts !== undefined && currentAccounts !== null) {
+
+                    currentAccounts.accounts.push(accountData);
+                    chrome.storage.sync.set({'WavesAccounts': currentAccounts}, function() {
+                        // Notify that we saved.
+                        $.growl.notice({ message: "Added Account!" });
+                        $("#wavesAccounts").append('<br><b>'+accountData.name+'</b> '+accountData.address);
+                    });
+
+                } else {
+                    var accountArray = { accounts: [accountData] };
+                    chrome.storage.sync.set({'WavesAccounts': accountArray}, function() {
+                        // Notify that we saved.
+                        $.growl.notice({ message: "Added Account!" });
+                        $("#wavesAccounts").append('<br><b>'+accountData.name+'</b> '+accountData.address);
+                    });
+                }
+                
+                */
+                
+            });
+           
         }
 
         accountData.firstTime = true;
