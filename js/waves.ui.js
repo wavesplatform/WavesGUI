@@ -125,6 +125,11 @@ var Waves = (function(Waves, $, undefined) {
                 var amountTransactions = transactionHistory.length;
                 var lastKey = amountTransactions - 1;
 
+                if(Waves.startSearch || Waves.stopSearch) {
+                    
+                    console.log('Filtering from: ' +Waves.startSearch+ ' to: '+Waves.stopSearch);
+                }
+
                 $.each(transactionHistory, function(historyKey, historyValue) {
 
                         if(historyKey === 0) {
@@ -213,7 +218,6 @@ var Waves = (function(Waves, $, undefined) {
                     Waves.startSearch = $('#comboDateFrom').val();
                     Waves.stopSearch = $('#comboDateTo').val();
 
-                    clearInterval(Waves.update);
                     Waves.updatePage('mBB-history');
 
                 }); 
@@ -296,7 +300,7 @@ var Waves = (function(Waves, $, undefined) {
 
         switch(linkType) {
             case 'mBB-portfolio':
-                Waves.loadPayment();
+
             break;
             case 'mBB-history':
                 console.log('transaction history fetch');
