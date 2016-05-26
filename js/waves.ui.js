@@ -24,7 +24,6 @@
  * @depends {crypto/curve25519.js}
  * @depends {crypto/curve25519_.js}
  * @depends {crypto/base58.js}
- * @depends {crypto/blake32.js}
  * @depends {crypto/keccak32.js}
  * @depends {crypto/passphrasegenerator.js}
  * @depends {crypto/sha256worker.js}
@@ -78,7 +77,7 @@ var Waves = (function(Waves, $, undefined) {
                     if(max > 0) {
                         appContainer += '<tr>';
                         appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                        appContainer += '<td>'+historyValue.type+'</td>';
+                        appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
                         appContainer += '<td>'+historyValue.sender+'</td>';
                         appContainer += '<td>'+historyValue.recipient+'</td>';
                         appContainer += '<td>'+historyValue.fee+' WVL</td>';
@@ -119,7 +118,7 @@ var Waves = (function(Waves, $, undefined) {
 
                         appContainer += '<tr>';
                         appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                        appContainer += '<td>'+historyValue.type+'</td>';
+                        appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
                         appContainer += '<td>'+historyValue.sender+'</td>';
                         appContainer += '<td>'+historyValue.recipient+'</td>';
                         appContainer += '<td>'+historyValue.fee+' WVL</td>';
