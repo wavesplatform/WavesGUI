@@ -213,14 +213,7 @@ var Waves = (function(Waves, $, undefined) {
                     minYear: minYearTo
                 }); 
 
-                $("#transactionHistorySearch").on("click", function() {
-
-                    Waves.startSearch = $('#comboDateFrom').val();
-                    Waves.stopSearch = $('#comboDateTo').val();
-
-                    Waves.updatePage('mBB-history');
-
-                }); 
+                
             });
 
         },
@@ -303,7 +296,15 @@ var Waves = (function(Waves, $, undefined) {
 
             break;
             case 'mBB-history':
-                console.log('transaction history fetch');
+
+                $("#transactionHistorySearch").on("click", function() {
+
+                    Waves.startSearch = $('#comboDateFrom').val();
+                    Waves.stopSearch = $('#comboDateTo').val();
+
+                    Waves.updatePage('mBB-history');
+                }); 
+
             break;
         }
     });
