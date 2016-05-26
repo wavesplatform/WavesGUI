@@ -264,7 +264,7 @@ Keeping this for now, in case I change later the way users will upload their own
     height: auto;
     text-align: center;
     cursor: default;
-    overflow-y: scroll; /* Test */
+    overflow-y: scroll;
 }
 
 #logoNversion {
@@ -383,21 +383,10 @@ header {
 	position: relative;
 	width: 100%;
 	height: 50px;
-    background: #0096DC;
-    background: #37556E; /* Test new palette */
+    background: #37556E;
     z-index: 101;
     
 }
-
-/*
-#topLogo {
-	position: absolute;
-	top: .75rem;
-	left: 1.3rem;
-	width: 9rem;
-	z-index: 99;
-}
-*/
 
 #topLogoH { 
 	display: none; 
@@ -458,17 +447,11 @@ header {
 
 .jurl {
     display: block;
-	width: 100%;
+    width: 100%;
     border: none;
     color: #ffffff;
     height: 0.04rem;
-    /*background: #0096dc;
-    background: -moz-linear-gradient(left, #0096dc 0%, #0096dc 25%, #ffffff 50%, #ffffff 50%, #0096dc 75%, #0096dc 100%);
-    background: -webkit-linear-gradient(left, #0096dc 0%, #0096dc 25%, #ffffff 50%, #ffffff 50%, #0096dc 75%, #0096dc 100%);
-    background: linear-gradient(to right, #0096dc 0%, #0096dc 25%, #ffffff 50%, #ffffff 50%, #0096dc 75%, #0096dc 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0096dc', endColorstr='#0096dc',GradientType=1 );*/
-    
-    /* Test new palette */
+
     background: #37556E; /* Old browsers */
     background: -moz-linear-gradient(left, #37556E 0%, #37556E 25%, #ffffff 50%, #ffffff 50%, #37556E 75%, #37556E 100%);
     background: -webkit-linear-gradient(left, #37556E 0%, #37556E 25%, #ffffff 50%, #ffffff 50%, #37556E 75%, #37556E 100%);
@@ -486,9 +469,7 @@ header {
     
 	width: 100%;
 	height: 75px;
-/*	overflow: hidden;*/
-    background: #0096DC;
-    background: #37556E; /* Test new palette */
+    background: #37556E; /* New palette */
     -webkit-box-shadow: 0px 12px 12px -12px rgba(0,0,0, .2);
     -moz-box-shadow: 0px 12px 12px -12px rgba(0,0,0, .2);
     box-shadow: 0px 12px 12px -12px rgba(0,0,0, .2);
@@ -617,8 +598,7 @@ input.tabs-radio:checked + label  img {
     z-index: 100 !important;
     font-family: 'Engo';
     font-size: 2.5rem;
-    color: #AFAFAF;
-    color: #37556E; /* Test new palette */
+    color: #37556E;
 }
 
 .wB-add {
@@ -635,17 +615,13 @@ input.tabs-radio:checked + label  img {
 
 .wB-balInt {
     display: block;
-/*	width: 100%;*/
     position: relative;
     text-align: right;
     z-index: 99 !important;
-/*    font-family: 'Engo';*/
     font-family: 'Sparta', Arial;
     font-weight: bold;
     font-size: 2.5rem;
-    color: #0096DC; 
-    color: #37556E;  /* Test new palette */
-/*    letter-spacing: -6px;*/
+    color: #37556E;
 }
 
 .wB-balDec {
@@ -653,11 +629,9 @@ input.tabs-radio:checked + label  img {
     position: relative;
     float: right;
     z-index: 99 !important;
-/*    font-family: 'Engo';*/
     font-family: 'Sparta', Arial;
     font-weight: bold;
     font-size: 1.75rem;
-    color: #0096DC; /* Test new palette */
     color: #37556E;  
     line-height: .5;
     letter-spacing: -2px;
@@ -683,8 +657,7 @@ input.tabs-radio:checked + label  img {
     width: 31%;
     height: 80%;
     margin: .45%;
-    background: #0096DC;
-    background: #37556E; /* Test new palette */
+    background: #37556E;
     overflow: hidden;
     font-family: 'Wesli';
     font-size: 1rem;
@@ -695,8 +668,7 @@ input.tabs-radio:checked + label  img {
 
 .wB-but:hover {
     cursor: pointer;
-    background: #5AC8D2;
-    background: #E1B47D; /* Test new palette */
+    background: #E1B47D;
 }
 
 .wB-butSend {
@@ -741,8 +713,7 @@ input.tabs-radio:checked + label  img {
 }
 
 .wTMainHeader tr {
-    background-color: #0096DC;
-    background-color: #37556E; /* Test new palette */
+    background-color: #37556E;
 	border: 0px solid #F0F0F0;
 	text-align: center;
 	font-size: 1.12rem;
@@ -750,8 +721,7 @@ input.tabs-radio:checked + label  img {
 }
 
 .wavesTable thead {
-    background-color: #0096DC;
-    background-color: #37556E; /* Test new palette */
+    background-color: #37556E;
 	border: 0px solid #F0F0F0;
 	text-align: center;
 	font-size: 1.12rem;
@@ -805,13 +775,11 @@ input.tabs-radio:checked + label  img {
     padding: .3rem;
     padding-left: .8rem;
     padding-right: .8rem;
-/*    background: #0096DC;*/
     background: none;
     overflow: hidden;
     font-family: 'Wesli';
     font-size: 1rem;
     color: #ffffff;
-/*    border: none;*/
     border: 1px solid #ffffff;
     outline: none;
 }
@@ -822,28 +790,23 @@ input.tabs-radio:checked + label  img {
     padding: .3rem;
     padding-left: .8rem;
     padding-right: .8rem;
-/*    background: #0096DC;*/
     background: none;
     overflow: hidden;
     font-family: 'Wesli';
     font-size: 1rem;
     color: #ffffff;
-/*    border: none;*/
     border: 1px solid #ffffff;
     outline: none;
 }
 
 #addContactSubmit {
     background: #fff;
-    color: #0096DC;
-    color: #37556E; /* Test new palette */
-    border: 1px solid #0096DC;
-    border: 1px solid #37556E; /* Test new palette */
+    color: #37556E;
+    border: 1px solid #37556E;
 }
 
 #addContactSubmit:hover {
-    background: #0096DC;
-    background: #37556E; /* Test new palette */
+    background: #37556E;
     color: #fff;
 }
 
@@ -913,15 +876,12 @@ input.tabs-radio:checked + label  img {
 /* Button on Messenger ADD CONTACT */
 #addContactSubmit {
     background: #fff;
-    color: #0096DC;
-    color: #37556E; /* Test new palette */
-    border: 1px solid #0096DC;
-    border: 1px solid #37556E; /* Test new palette */
+    color: #37556E;
+    border: 1px solid #37556E;
 }
 
 #addContactSubmit:hover {
-    background: #0096DC;
-    background: #37556E; /* Test new palette */
+    background: #37556E;
     color: #fff;
 }
 
@@ -972,8 +932,7 @@ input.tabs-radio:checked + label  img {
 }
 
 .paymentForm thead tr {
-    background-color: #0096DC;
-    background-color: #37556E; /* Test new palette */
+    background-color: #37556E;
 	text-align: center;
 	font-size: 1.12rem;
     line-height: 2.3rem;
@@ -996,30 +955,24 @@ input.tabs-radio:checked + label  img {
 }
 
 .paymentForm-but {
-    /* border: none; */
-	border: 1px solid #0096DC;
-    border: 1px solid #37556E; /* Test new palette */
+    border: 1px solid #37556E;
     outline: none;
     position: relative;
     margin: 0 auto;
     width: 5rem;
     padding-left: .5rem;
     padding-right: .5rem;
-    /* background: #0096DC; */
 	background: #fff;
     font-family: 'Wesli';
 	font-size: 1rem;
     line-height: 2.3rem;
-	/* color: #ffffff; */
-	color: #0096DC;
-    color: #37556E; /* Test new palette */
+    color: #37556E;
     text-align: center;
 }
 
 .paymentForm-but:hover {
     cursor: pointer;
-    background: #0096DC;
-    background: #37556E; /* Test new palette */
+    background: #37556E;
     color: #fff;
 }
 
@@ -1060,8 +1013,7 @@ input.tabs-radio:checked + label  img {
     margin-bottom: .5rem;
     padding-left: .5rem;
     padding-right: .5rem;
-    background: #0096DC;
-    background: #37556E; /* Test new palette */
+    background: #37556E;
     font-family: 'Wesli';
 	font-size: 1rem;
     line-height: 2.3rem;
@@ -1098,8 +1050,7 @@ input.tabs-radio:checked + label  img {
     display: block;
     width: 100%;
     text-align: center;
-    background: #0096DC;
-    background: #37556E; /* Test new palette */
+    background: #37556E;
     padding: .4rem;
     color: #fff;
     font-size: 1.3rem;

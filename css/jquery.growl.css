@@ -91,7 +91,9 @@
 
 .growl.growl-default {
     color: #FFF;
-    background: #7f8c8d;
+/*    background: #7f8c8d; */
+    background: #37556E;
+    background: rgb(55,85,110);
 }
 
 .growl.growl-error {
