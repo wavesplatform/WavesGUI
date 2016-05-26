@@ -483,6 +483,7 @@ header {
 
 #tabs {
 	position: relative;
+    
 	width: 100%;
 	height: 75px;
 /*	overflow: hidden;*/
@@ -496,6 +497,8 @@ header {
 
 #tabs-Iconset {
 	height: 95%;
+    width: 100%;
+    text-align: center;
 }
 
 #tabs-Iconset img {
