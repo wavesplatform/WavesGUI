@@ -1124,13 +1124,13 @@ input.tabs-radio:checked + label  img {
 .wavesDD {
     display: inline-block;
     height: 90%;
-    padding: .5rem;
+    padding: .4rem;
 }
 
 .wavesDD select {
     font-family: 'Wesli';
     font-size: 1.15rem;
-    padding: .25rem;
+    padding: .1rem;
 }
 
 #hResults {
