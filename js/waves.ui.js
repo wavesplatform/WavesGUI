@@ -110,11 +110,38 @@ var Waves = (function(Waves, $, undefined) {
                 var transactionHistory = history[0];
                 var appContainer;
 
+                var minYearFrom, maxYearFrom;
+                var minYearTo, maxYearTo;
+
+                var fromInput, toInput;
+
                 transactionHistory.sort(function(x, y){
                     return y.timestamp - x.timestamp;
                 })
 
+                var amountTransactions = transactionHistory.length;
+                var lastKey = amountTransactions - 1;
+
                 $.each(transactionHistory, function(historyKey, historyValue) {
+
+                        if(historyKey === 0) {
+
+                            toInput = Waves.formatTimestamp(historyValue.timestamp, true);
+                            maxYearFrom = moment(historyValue.timestamp).year();
+                            minYearTo = moment(historyValue.timestamp).year();
+
+                            toInput = moment(historyValue.timestamp).format("DD-MM-YYYY");
+                            $("#comboDateTo").val(toInput);
+                        }
+
+                        if(historyKey === lastKey) {
+                            fromInput = Waves.formatTimestamp(historyValue.timestamp, true);
+                            minYearFrom = moment(historyValue.timestamp).year();
+                            maxYearTo = moment(historyValue.timestamp).year();
+
+                            fromInput = moment(historyValue.timestamp).format("DD-MM-YYYY");
+                            $("#comboDateFrom").val(fromInput);
+                        }
 
                         appContainer += '<tr>';
                         appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
@@ -126,6 +153,19 @@ var Waves = (function(Waves, $, undefined) {
                         appContainer += '</tr>';
 
                 });
+
+
+                $('#comboDateFrom').combodate({
+                    value: fromInput,
+                    maxYear: maxYearFrom,
+                    minYear: minYearFrom
+                });  
+
+                $('#comboDateTo').combodate({
+                    value: toInput,
+                    maxYear: maxYearTo,
+                    minYear: minYearTo
+                }); 
 
                 $("#transactionhistory").html(appContainer);
 
@@ -206,11 +246,12 @@ var Waves = (function(Waves, $, undefined) {
             case 'mBB-portfolio':
                 Waves.loadPayment();
             break;
+            case 'mBB-history':
+                console.log('transaction history fetch');
+            break;
         }
     });
 
-   
-    
 
     $("#addContact").on("click", function(e) {
         e.preventDefault();

@@ -243,6 +243,18 @@ var Waves = (function (Waves, $, undefined) {
 
     Waves.MAP = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
+    Waves.getLocalDateFormat = function () {
+        return LOCALE_DATE_FORMAT;
+    }
+
+    Waves.transactionType = function (number) {
+        var types = {
+            1: '',
+            2: 'Payment'
+        }
+
+        return types[number];
+    }
 
     Waves.signatureData = function(senderPublicKey, recipientAddress, amount, fee, wavesTime) {
 
