@@ -156,9 +156,6 @@ var Waves = (function(Waves, $, undefined) {
                             } 
                         }
 
-
-                       
-
                         if(Waves.startSearch || Waves.stopSearch) {
 
                             var startSearchTimestamp = new Date(Waves.startSearch.split("-").reverse().join("-")).getTime();
@@ -243,6 +240,30 @@ var Waves = (function(Waves, $, undefined) {
                 });
 
                 $("#latestBlocksTable").html(row);
+
+            });
+
+            Waves.apiRequest(Waves.api.transactions.unconfirmed, function(response) {
+
+                response.sort(function(x, y){
+                    return y.timestamp - x.timestamp;
+                })
+
+                $.each(response, function(blockKey, blockData) {
+
+                    
+
+                });
+
+                var futureBlock = Waves.blockHeight + 1; 
+                var unconfirmedRow = '<tr class="fade">'+
+                        '<td>'+futureBlock+'</td>'+
+                        '<td><i>incoming</i></td>'+
+                        '<td>'+response.length+'</td>'+
+                        '<td><i>Unknown</i></td>'+
+                    '</tr>';
+
+                $("#latestBlocksUnconfirmed").html(unconfirmedRow);
 
             });
 
