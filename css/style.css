@@ -747,6 +747,10 @@ input.tabs-radio:checked + label  img {
     background: #CAE1FF;
 }
 
+.wavesTable tbody tr {
+    color: #AFAFAF;
+}
+
 .wTMainHeader {
     background-color: #ffffff;
 	border: 0px solid #F0F0F0;
@@ -762,6 +766,10 @@ input.tabs-radio:checked + label  img {
     -o-transition: all .2s ease;
     transition: all .2s ease;
 	-webkit-transition: all .2s ease;
+}
+
+.wavesTable-txOut {
+    color: #000000;
 }
 
 
