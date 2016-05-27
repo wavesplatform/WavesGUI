@@ -236,6 +236,15 @@ body {
    animation: wFlip 1.2s ease-in infinite; 
 }
 
+#networkCheck {
+    width: 100%;
+    color: #ffffff;
+    font-family: 'Wesli';
+    font-weight: 200;
+    font-size: 1.25rem;
+    margin-top: 1rem;
+}
+
 
 #lockscreen {
     position: fixed;
