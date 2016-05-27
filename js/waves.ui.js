@@ -260,7 +260,7 @@ var Waves = (function(Waves, $, undefined) {
                         '<td>'+futureBlock+'</td>'+
                         '<td><i>incoming</i></td>'+
                         '<td>'+response.length+'</td>'+
-                        '<td><i>Unknown</i></td>'+
+                        '<td><i>unconfirmed</i></td>'+
                     '</tr>';
 
                 $("#latestBlocksUnconfirmed").html(unconfirmedRow);
