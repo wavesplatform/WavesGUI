@@ -60,7 +60,7 @@ var Waves = (function(Waves, $, undefined) {
                 $("#wavesbalancedec").html('.'+formatBalance.split(".")[1]);
                 $("#balancespan").html(formatBalance +' WAVE');
                 $('.balancewaves').html(formatBalance + ' WAVE');
-                $(".wB-add").html(Waves.address);
+                //$(".wB-add").html(Waves.address);
 
             });
 

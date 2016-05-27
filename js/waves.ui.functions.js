@@ -298,7 +298,7 @@ var Waves = (function(Waves, $, undefined) {
             $("#wavesbalancedec").html('.'+formatBalance.split(".")[1]);
             $("#balancespan").html(formatBalance +' Waves');
             $('.balancewaves').html(formatBalance + ' Waves');
-            $(".wB-add").html(Waves.address);
+            //$(".wB-add").html(Waves.address);
             //$("#wavesAccountAddress").html(Waves.address);
 
             Waves.updateDOM('mBB-wallet');
