@@ -78,7 +78,16 @@ var Waves = (function(Waves, $, undefined) {
                 $.each(transactionHistory, function(historyKey, historyValue) {
                     
                     if(max > 0) {
-                        appContainer += '<tr>';
+
+                        var senderClass = '';
+                        if(historyValue.sender === Waves.address) {
+
+                             var classSender = 'wavesTable-txOut';
+                            senderClass = '​class="'+classSender+'"';
+                        }
+
+
+                        appContainer += '<tr '+senderClass+'>';
                         appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
                         appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
                         appContainer += '<td>'+historyValue.sender+'</td>';
@@ -166,7 +175,13 @@ var Waves = (function(Waves, $, undefined) {
                             //console.log(historyValue.timestamp);
                             if(startSearchTimestamp < historyValue.timestamp && stopSearchTimestamp > historyValue.timestamp) {
 
-                                appContainer += '<tr>';
+                                var senderClass = '';
+                                if(historyValue.sender === Waves.address) {
+                                    var classSender = 'wavesTable-txOut';
+                                    senderClass = '​class="'+classSender+'"';
+                                }
+
+                                appContainer += '<tr '+senderClass+'>';
                                 appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
                                 appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
                                 appContainer += '<td>'+historyValue.sender+'</td>';
@@ -183,7 +198,14 @@ var Waves = (function(Waves, $, undefined) {
 
                         } else {
 
-                            appContainer += '<tr>';
+                            var senderClass = '';
+                            if(historyValue.sender === Waves.address) {
+
+                                 var classSender = 'wavesTable-txOut';
+                                senderClass = '​class="'+classSender+'"';
+                            }
+
+                            appContainer += '<tr '+senderClass+'>';
                             appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
                             appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
                             appContainer += '<td>'+historyValue.sender+'</td>';
