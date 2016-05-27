@@ -618,7 +618,9 @@ input.tabs-radio:checked + label  img {
 .wB-balInt {
     display: block;
     position: relative;
+    width: 100%;
     text-align: right;
+    float: right;
     z-index: 99 !important;
     font-family: 'Sparta', Arial;
     font-weight: bold;
@@ -629,6 +631,7 @@ input.tabs-radio:checked + label  img {
 .wB-balDec {
     display: block;
     position: relative;
+    text-align: right;
     float: right;
     z-index: 99 !important;
     font-family: 'Sparta', Arial;
