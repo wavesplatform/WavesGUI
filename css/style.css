@@ -217,42 +217,12 @@ body {
 }
 
 .userBG {
-    background-image: url("../img/lockbg003.jpg");
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("../img/lockbg003.jpg");
     min-height: 100%;
 	background-size: cover;
 	background-attachment: fixed;
 	background-repeat: no-repeat;
 	background-position: center center;
-}
-
-/*
-Keeping this for now, in case I change later the way users will upload their own backgrounds.
-
-#lockscreen > img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-width: 1600px;
-    min-height: 900px;
-    height: 100%;
-    z-index: -99;
-}
-*/
-
-#tint {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000000;
-    z-index: -89;
-	
-	filter: alpha(opacity=50);
-    -khtml-opacity: 0.5;
-    -moz-opacity: 0.5;
-    opacity: 0.5;
 }
 
 #lockscreenTable {
