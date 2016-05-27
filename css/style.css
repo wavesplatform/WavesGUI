@@ -218,7 +218,7 @@ body {
     }
 }
 
-#bg {
+#bg-spin {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -235,20 +235,6 @@ body {
 #logo-spin {
    animation: wFlip 1.2s ease-in infinite; 
 }
-/*
-
-#top {
-    display: block;
-    margin: 0 auto;
-    animation: wFlip 1.2s ease-in infinite;
-}
-
-#bottom {
-    margin-top: -5px;
-    animation: wFlip 1.2s ease-in infinite;
-}
-*/
-
 
 
 #lockscreen {
