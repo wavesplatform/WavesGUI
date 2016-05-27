@@ -110,9 +110,22 @@ $(window).load(function() {
     var $eThing = $('#bg-spin');
 
 
-    executeDoneFirst(function () {
-        $eThing.delay(1000).fadeOut();
-    })
+    Waves.apiRequest(Waves.api.blocks.last, function(response) {
+
+
+        if(!response.errorCode) {
+
+           executeDoneFirst(function () {
+              $eThing.delay(1000).fadeOut();
+           });
+
+        } else {
+
+          $("#networkCheck").html('Failed connecting to Waves');
+
+        }
+
+    });
 
 });
 
