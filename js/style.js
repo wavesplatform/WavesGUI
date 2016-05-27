@@ -90,6 +90,31 @@ $(window).ready(function(){
 $('#mBB-community').height($mbBodyH);
 
 
+$(document).ready(function(){
+   NProgress.start();
+});
+
+
+function executeDoneFirst (callback) {
+
+  NProgress.done();
+
+  callback();
+
+}
+
+$(window).load(function() {
+   var $eThing = $('#bg');
+
+
+   executeDoneFirst(function () {
+       $eThing.delay(1000).fadeOut();
+       console.log('Success!');
+   })
+    
+});
+
+
 /* FOR LATER REFINEMENT-
  if ($('input[type=radio][name=tabs-Icons]').val() == 'mBB-wallet' && (window.matchMedia('(max-width: 1024px)')).matches) { };
 */

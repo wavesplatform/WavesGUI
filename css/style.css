@@ -84,7 +84,11 @@ body {
 	/* Rules below not implemented in browsers yet */
 	-o-user-select: none;
 	user-select: none;
-}  
+}
+
+.noDisp {
+    display: none;
+}
 
 .clearfix:after {
     content:"";
@@ -118,10 +122,6 @@ body {
 
 .clipSpan:hover:after, .infoSpan:hover:after {
     cursor: pointer;
-}
-
-.noDisp {
-    display: none;
 }
 
 
@@ -204,6 +204,46 @@ body {
 /* ============================================= */
 /* LOCKSCREEN SETTINGS */ /* LOCKSCREEN SETTINGS */
 /* ============================================= */
+
+@keyframes wFlip {
+    0% {-webkit-transform: rotateY(0deg);
+        -moz-transform: rotateY(0deg);
+        -o-transform: rotateY(0deg);
+        transform: rotateY(0deg);
+    }
+    100%{-webkit-transform: rotateY(180deg);
+        -moz-transform: rotateY(180deg);
+        -o-transform: rotateY(180deg);
+        transform: rotateY(180deg);
+    }
+}
+
+#bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #37556E;
+    z-index: 1;
+}
+
+#logoo {
+    width: 150px;
+    height: 150px;
+    text-align: center;
+}
+
+#top {
+    display: block;
+    margin: 0 auto;
+    animation: wFlip 1.2s ease-in infinite;
+}
+
+#bottom {
+    margin-top: -5px;
+    animation: wFlip 1.2s ease-in infinite;
+}
+
+
 
 #lockscreen {
     position: fixed;
@@ -1150,6 +1190,27 @@ input.tabs-radio:checked + label  img {
     color: #E1B47D;
     font-weight: 600;
 }
+
+
+/* ======================================================================= */
+/* NPROGRESS CSS RULES */ /* NPROGRESS CSS RULES */ /* NPROGRESS CSS RULES */ 
+/* ======================================================================= */
+
+#nprogress {
+    pointer-events: none;
+}
+
+#nprogress .bar {
+    background: #ffffff;
+
+    position: fixed;
+    z-index: 1031;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 5px;
+} 
 
 
 /* ===================================================== */

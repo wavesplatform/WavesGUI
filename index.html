@@ -31,7 +31,18 @@
 
 <body>
     
-<input type="hidden" id="wavesCurrentBalance" style="display: none;">
+    <!-- LOADER -->
+    <div id="bg" class="noSelect">
+        <div id="logo-container-centered" class="centerIt">
+            <div id="logoo">
+                <img id="top" class="logo" src="img/logo_top.svg" />
+                <img id="bottom" class="logo" src="img/logo_bottom.svg" />
+            </div>
+        </div>
+    </div>
+    
+<input id="wavesCurrentBalance" type="hidden" class="noDisp">
+    
 <!-- LOG IN AREA -->
     <div id="lockscreen" class="userBG">
 
@@ -938,6 +949,7 @@
     <script src="js/3rdparty/jquery.growl.js" type="text/javascript"></script>
     <script src="js/3rdparty/decimal.js" type="text/javascript"></script>
     <script src="js/3rdparty/combodate.js" type="text/javascript"></script>
+    <script src="js/3rdparty/nprogress.js" type="text/javascript"></script>
 
     <script src="js/util/extensions.js" type="text/javascript"></script>
     <script src="js/util/converters.js" type="text/javascript"></script>
