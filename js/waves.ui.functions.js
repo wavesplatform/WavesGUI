@@ -43,56 +43,80 @@ var Waves = (function(Waves, $, undefined) {
     Waves.setInitApp = function (userAccounts) {
 
         if(userAccounts !== null) {
-            var accounts = JSON.parse(userAccounts);
-
-            $.each(accounts.accounts, function(accountKey, accountDetails) {
-
-                var accountName = '';
-                if(accountDetails.name !== undefined) {
-                    accountName = accountDetails.name;
-                }
-                
-                $("#wavesAccounts").append('<p class="loginAccountDiv"><span class="loginAccount tooltip-1 fade" title="Log into this account." data-id="'+accountKey+'"> <br/> <b>'+accountName+'</b> &nbsp;  <small>'+accountDetails.address+'</small></span><span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="'+accountDetails.address+'"></span> &nbsp;&nbsp; <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button></p> ');
-
-            });
-
-       }
-
-       $(".loginAccount").on("click", function(e) {
-            e.preventDefault();
-
-            $("#import_account").hide();
-            $("#create_account").hide();
-            var accountId = $(this).data('id');
-            $('.loginAccountDiv').hide();
-            $(this).parent().show();
-            $("#register").css("display", "none");
-
-            var userAccounts = localStorage.getItem('WavesAccounts');
-
-           if(userAccounts !== null) {
                 var accounts = JSON.parse(userAccounts);
 
-                var accountDetails = accounts.accounts[accountId];
+                $.each(accounts.accounts, function(accountKey, accountDetails) {
 
-                var childNode = accountId + 1;
+                    var accountName = '';
+                    if(accountDetails.name !== undefined) {
+                        accountName = accountDetails.name;
+                    }
+                    
+                    $("#wavesAccounts").append('<p class="loginAccountDiv"><span class="loginAccount tooltip-1 fade" title="Log into this account." data-id="'+accountKey+'"> <br/> <b>'+accountName+'</b> &nbsp;  <small>'+accountDetails.address+'</small></span><span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="'+accountDetails.address+'"></span> &nbsp;&nbsp; <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button></p> ');
 
-                $("#loginAccountDiv").remove();
-
-                var submitButton = '<button class="submitLoginAccount wButton fade">SUBMIT</button>';
-                var backButton = '<button class="goBack wButton fade tooltip-1" title="Return to the previous step.">BACK</button>';
-
-                $("#wavesAccounts > p:nth-child("+childNode+")").after("<div id='loginAccountDiv'>PASSWORD<br/><input type='password' id='loginPassword' class='wInput' autofocus><br/>"+submitButton+" "+backButton+" <br/><div id='errorPasswordLogin' style='display: none;'></div></div>");
-
-                 $(".goBack").on("click", function(e) {
-                    e.preventDefault();
-                    location.reload();
                 });
 
-                $("#loginPassword").on("keyup", function(e) {
+           }
 
-                    if(Waves.isEnterKey(e.keyCode)) {
-                        
+           $(".loginAccount").on("click", function(e) {
+                e.preventDefault();
+
+                $("#import_account").hide();
+                $("#create_account").hide();
+                var accountId = $(this).data('id');
+                $('.loginAccountDiv').hide();
+                $(this).parent().show();
+                $("#register").css("display", "none");
+
+                var userAccounts = localStorage.getItem('WavesAccounts');
+
+               if(userAccounts !== null) {
+                    var accounts = JSON.parse(userAccounts);
+
+                    var accountDetails = accounts.accounts[accountId];
+
+                    var childNode = accountId + 1;
+
+                    $("#loginAccountDiv").remove();
+
+                    var submitButton = '<button class="submitLoginAccount wButton fade">SUBMIT</button>';
+                    var backButton = '<button class="goBack wButton fade tooltip-1" title="Return to the previous step.">BACK</button>';
+
+                    $("#wavesAccounts > p:nth-child("+childNode+")").after("<div id='loginAccountDiv'>PASSWORD<br/><input type='password' id='loginPassword' class='wInput' autofocus><br/>"+submitButton+" "+backButton+" <br/><div id='errorPasswordLogin' style='display: none;'></div></div>");
+
+                     $(".goBack").on("click", function(e) {
+                        e.preventDefault();
+                        location.reload();
+                    });
+
+                    $("#loginPassword").on("keyup", function(e) {
+
+                        if(Waves.isEnterKey(e.keyCode)) {
+                            
+                            var password = $("#loginPassword").val();
+
+                            var decryptPassword = Waves.decryptWalletSeed(accountDetails.cipher, password, accountDetails.checksum);
+
+                            if(decryptPassword) {
+                                accountDetails.passphrase = decryptPassword;
+
+                                var publicKey = Waves.getPublicKey(decryptPassword);
+                                var privateKey = Waves.getPrivateKey(decryptPassword);
+                                accountDetails.publicKey = publicKey;
+                                accountDetails.privateKey = privateKey;
+                                Waves.login(accountDetails);
+                                $("#errorPasswordLogin").html('');
+                            } else {
+
+                                $.growl.error({ message: "Wrong password! Please try again." });
+
+                            }
+                        }
+
+                    });
+
+                    $(".submitLoginAccount").on("click", function() {
+
                         var password = $("#loginPassword").val();
 
                         var decryptPassword = Waves.decryptWalletSeed(accountDetails.cipher, password, accountDetails.checksum);
@@ -107,75 +131,51 @@ var Waves = (function(Waves, $, undefined) {
                             Waves.login(accountDetails);
                             $("#errorPasswordLogin").html('');
                         } else {
-
                             $.growl.error({ message: "Wrong password! Please try again." });
-
                         }
-                    }
 
-                });
+                    });
 
-                $(".submitLoginAccount").on("click", function() {
+               }
 
-                    var password = $("#loginPassword").val();
+            });
 
-                    var decryptPassword = Waves.decryptWalletSeed(accountDetails.cipher, password, accountDetails.checksum);
+           $(".removeAccount").on("click", function(e) {
+                e.preventDefault();
 
-                    if(decryptPassword) {
-                        accountDetails.passphrase = decryptPassword;
+                var accountId = $(this).data('id');
+                var userAccounts = localStorage.getItem('WavesAccounts');
 
-                        var publicKey = Waves.getPublicKey(decryptPassword);
-                        var privateKey = Waves.getPrivateKey(decryptPassword);
-                        accountDetails.publicKey = publicKey;
-                        accountDetails.privateKey = privateKey;
-                        Waves.login(accountDetails);
-                        $("#errorPasswordLogin").html('');
-                    } else {
-                        $.growl.error({ message: "Wrong password! Please try again." });
-                    }
-
-                });
-
-           }
-
-        });
-
-       $(".removeAccount").on("click", function(e) {
-            e.preventDefault();
-
-            var accountId = $(this).data('id');
-            var userAccounts = localStorage.getItem('WavesAccounts');
-
-            if(userAccounts !== null) {
-                var accounts = JSON.parse(userAccounts);
+                if(userAccounts !== null) {
+                    var accounts = JSON.parse(userAccounts);
 
 
-                 $("#login-wPop-remove").modal({
-                  fadeDuration: 500,
-                  fadeDelay: 0.10
-                });
+                     $("#login-wPop-remove").modal({
+                      fadeDuration: 500,
+                      fadeDelay: 0.10
+                    });
 
-                $("#remove_account_confirmation").on("click", function() {
+                    $("#remove_account_confirmation").on("click", function() {
 
-                    if (accountId > -1) {
-                        accounts.accounts.splice(accountId, 1);
-                    }
+                        if (accountId > -1) {
+                            accounts.accounts.splice(accountId, 1);
+                        }
 
-                    localStorage.setItem('WavesAccounts', JSON.stringify(accounts));
+                        localStorage.setItem('WavesAccounts', JSON.stringify(accounts));
 
-                    $("#wavesAccounts").html('');
-                    location.reload();
-                });
+                        $("#wavesAccounts").html('');
+                        location.reload();
+                    });
 
-                $("#remove_account_cancel").on("click", function(){
-                    accounts = '';
-                    userAccounts = '';
-                    $.modal.close();
-                });
-                
+                    $("#remove_account_cancel").on("click", function(){
+                        accounts = '';
+                        userAccounts = '';
+                        $.modal.close();
+                    });
+                    
 
-            }
-       });
+                }
+           });
 
 
     }
@@ -206,7 +206,7 @@ var Waves = (function(Waves, $, undefined) {
             //no LocalStorage support
             //$("#wavesAccounts").html('Your Browser does not support Storage, if you create an account please carefully backup your userdata.')
 
-            console.log("setup chrome storage")
+
             chrome.storage.local.get('WavesAccounts', function (result) {
                 
                 console.log(result);
@@ -326,6 +326,7 @@ var Waves = (function(Waves, $, undefined) {
     Waves.logout = function () {
         Waves = '';
         window.location.href = window.location.pathname;  
+        chrome.runtime.reload();
     }
 
 

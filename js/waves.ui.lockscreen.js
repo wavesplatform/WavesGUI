@@ -143,7 +143,7 @@ var Waves = (function(Waves, $, undefined) {
         var passwordConfirm = $("#walletPasswordConfirm").val();
 
         if(password !== passwordConfirm) {
-            $.growl.error({ message: "Your passwords do not match!" });
+            $("#errorRegister").html('Your passwords do not match.');
             return;
         }
 
@@ -178,20 +178,20 @@ var Waves = (function(Waves, $, undefined) {
 
         } else {
 
+            var accountArray = { accounts: [accountData] };
+            chrome.storage.sync.set({'WavesAccounts': accountArray}, function() {
+                // Notify that we saved.
+                console.log(accountArray);
+                $.growl.notice({ message: "Added Account!" });
+                $("#wavesAccounts").append('<br><b>'+accountData.name+'</b> '+accountData.address);
+            });
+
+            /*
 
             chrome.storage.local.get('WavesAccounts', function (currentAccounts) {
 
-                if(chrome.runtime.lastError)
-                {
-                    console.log('error database empty?');
-
-                    return;
-                }
-
-
                 console.log(currentAccounts);
 
-                /*
                 if(currentAccounts !== undefined && currentAccounts !== null) {
 
                     currentAccounts.accounts.push(accountData);
@@ -210,9 +210,9 @@ var Waves = (function(Waves, $, undefined) {
                     });
                 }
                 
-                */
                 
             });
+                */
            
         }
 
