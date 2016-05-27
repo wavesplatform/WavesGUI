@@ -288,9 +288,9 @@ var Waves = (function(Waves, $, undefined) {
 
         Waves.loadAddressBalance(Waves.address, function (balance) {
 
-            $("#lockscreen").hide();
-            $("#lockscreenTable").hide();
-            $("#wrapper").fadeIn('1000');
+            $("#lockscreen").fadeOut(500);
+            $("#lockscreenTable").fadeOut(500);
+            $("#wrapper").fadeIn(1300);
 
 			var formatBalance = Waves.formatAmount(balance);
             $("#wavesCurrentBalance").val(formatBalance);
