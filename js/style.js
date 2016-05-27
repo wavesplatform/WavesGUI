@@ -90,28 +90,30 @@ $(window).ready(function(){
 $('#mBB-community').height($mbBodyH);
 
 
+// LOADER
 $(document).ready(function(){
-   NProgress.start();
+    
+    NProgress.start();
+    
 });
 
 
 function executeDoneFirst (callback) {
 
-  NProgress.done();
-
-  callback();
+    NProgress.done();
+    callback();
 
 }
 
 $(window).load(function() {
-   var $eThing = $('#bg');
-
-
-   executeDoneFirst(function () {
-       $eThing.delay(1000).fadeOut();
-       console.log('Success!');
-   })
     
+    var $eThing = $('#bg-spin');
+
+
+    executeDoneFirst(function () {
+        $eThing.delay(1000).fadeOut();
+    })
+
 });
 
 
