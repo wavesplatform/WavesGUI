@@ -232,6 +232,11 @@ body {
     text-align: center;
 }
 
+#logo-spin {
+   animation: wFlip 1.2s ease-in infinite; 
+}
+/*
+
 #top {
     display: block;
     margin: 0 auto;
@@ -242,6 +247,7 @@ body {
     margin-top: -5px;
     animation: wFlip 1.2s ease-in infinite;
 }
+*/
 
 
 
