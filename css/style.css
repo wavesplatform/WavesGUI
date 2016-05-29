@@ -166,6 +166,15 @@ body {
     .phContent { max-width: 90%; }
 }
 
+@media only screen and (max-width: 620px) { 
+    .phContent > img { width: 96%; }
+    .phContent { 
+        width: 96%; 
+        padding: 1rem;
+        margin-bottom: 2rem;
+    }
+}
+
 .modal-media {
     margin: 0 auto;
     text-align: center;
