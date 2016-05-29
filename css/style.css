@@ -1352,7 +1352,6 @@ input.tabs-radio:checked + label  img {
 
     #lockscreenTable {
         text-align: center;
-        border: 1px solid yellow;
         margin: 0 auto;
     }
 
@@ -1366,7 +1365,7 @@ input.tabs-radio:checked + label  img {
      margin-left: -1rem;
     }
        
-    .divider-1, .divider-2 { width: 0px; }
+    .divider-1 { width: 0px; }
     
     #import_account, #create_account {
         display: block; 
