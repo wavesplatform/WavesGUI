@@ -1252,6 +1252,8 @@ input.tabs-radio:checked + label  img {
 	}
     
     #blockheight, header .divider-2, header .inlineParagraph { display: none; }
+    
+    .header-Icon { width: 1.75rem; }
 }
 
 @media only screen and (max-width: 800px) {
