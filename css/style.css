@@ -1250,6 +1250,8 @@ input.tabs-radio:checked + label  img {
 		margin-left: .5rem;
 		margin-right: .5rem;
 	}
+    
+    #blockheight, header .divider-2, header .inlineParagraph { display: none; }
 }
 
 @media only screen and (max-width: 800px) {
@@ -1260,12 +1262,7 @@ input.tabs-radio:checked + label  img {
 		width: 100px;
 	}
 }
-
-@media only screen and (max-width: 640px) { /* Ipad */
-
-}
-    
-    
+   
 @media only screen and (max-width: 640px) {
 
 	#tabs-Iconset { height: 80%; }
