@@ -1344,12 +1344,34 @@ input.tabs-radio:checked + label  img {
     html { font-size: 12px; }
     header { height: 40px; }
     
+    #lockscreen {
+        text-align: center;
+        margin: 0 auto;
+        min-width: 300px;
+    }
+
     #lockscreenTable {
         text-align: center;
+        border: 1px solid yellow;
+        margin: 0 auto;
+    }
+
+    .loginAccountDiv {
+        display: block;
+        height: auto;
         margin: 0 auto;
     }
     
+    .loginAccount {
+     margin-left: -1rem;
+    }
+       
     .divider-1, .divider-2 { width: 0px; }
+    
+    #import_account, #create_account {
+        display: block; 
+        margin: 0 auto;
+    }
     
     .wavesTable td {
         padding-left: .2rem;

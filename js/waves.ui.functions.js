@@ -80,7 +80,7 @@ var Waves = (function(Waves, $, undefined) {
                     $("#loginAccountDiv").remove();
 
                     var submitButton = '<button class="submitLoginAccount wButton fade">SUBMIT</button>';
-                    var backButton = '<button class="wButton fade tooltip-1" title="Return to the previous step.">BACK</button>';
+                    var backButton = '<button class="goBack wButton fade tooltip-1" title="Return to the previous step.">BACK</button>';
 
                     $("#wavesAccounts > p:nth-child("+childNode+")").after("<div id='loginAccountDiv'>PASSWORD<br/><input type='password' id='loginPassword' class='wInput' autofocus><br/>"+submitButton+" "+backButton+" <br/><div id='errorPasswordLogin' style='display: none;'></div></div>");
 
