@@ -71,7 +71,7 @@ var Waves = (function(Waves, $, undefined) {
 
                 transactionHistory.sort(function(x, y){
                     return y.timestamp - x.timestamp;
-                })
+                });
 
                 var max = 10;
 
@@ -129,7 +129,7 @@ var Waves = (function(Waves, $, undefined) {
 
                 transactionHistory.sort(function(x, y){
                     return y.timestamp - x.timestamp;
-                })
+                });
 
                 var amountTransactions = transactionHistory.length;
                 var lastKey = amountTransactions - 1;
@@ -247,7 +247,7 @@ var Waves = (function(Waves, $, undefined) {
 
                 response.sort(function(x, y){
                     return y.timestamp - x.timestamp;
-                })
+                });
 
                 $.each(response, function(blockKey, blockData) {
 
@@ -269,7 +269,7 @@ var Waves = (function(Waves, $, undefined) {
 
                 response.sort(function(x, y){
                     return y.timestamp - x.timestamp;
-                })
+                });
 
                 $.each(response, function(blockKey, blockData) {
 
@@ -295,7 +295,7 @@ var Waves = (function(Waves, $, undefined) {
     Waves.updatePage = function ( page ) {
         clearInterval(Waves.update);
         Waves.updateDOM(page);
-    }
+    };
 
     Waves.updateDOM = function (page) {
 
@@ -317,7 +317,7 @@ var Waves = (function(Waves, $, undefined) {
 
          }, interval);
         }
-    }
+    };
 
     // Show/hide different sections on tab activation
     // The ROUTING
