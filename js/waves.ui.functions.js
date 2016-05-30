@@ -337,5 +337,16 @@ var Waves = (function(Waves, $, undefined) {
 
     }
 
+    Waves.isControlKey = function (charCode) {
+        if (charCode >= 32)
+            return false;
+        if (charCode === 10)
+            return false;
+        if (charCode === 13)
+            return false;
+
+        return true;
+    }
+
 	return Waves;
 }(Waves || {}, jQuery));

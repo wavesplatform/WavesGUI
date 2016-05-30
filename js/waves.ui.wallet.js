@@ -38,6 +38,50 @@
 var Waves = (function(Waves, $, undefined) {
 	"use strict";
 
+    $("#wavessendamount").keydown(function(e) {
+        
+        var charCode = !e.charCode ? e.which : e.charCode;
+
+        if (Waves.isControlKey(charCode) || e.ctrlKey || e.metaKey) {
+            return;
+        }
+
+        var maxFractionLength = 8;
+
+        //allow 1 single period character
+        if (charCode == 110 || charCode == 190) {
+            if ($(this).val().indexOf(".") != -1) {
+                e.preventDefault();
+                return false;
+            } else {
+                return;
+            }
+        }
+
+        var input = $(this).val() + String.fromCharCode(charCode);
+        var afterComma = input.match(/\.(\d*)$/);
+
+        //only allow as many as there are decimals allowed.. 
+        if (afterComma && afterComma[1].length > maxFractionLength) {
+            e.preventDefault();
+            $.growl.notice({ message: "Only 8 decimals allowed!" });
+            return false;
+        }
+
+        //numeric characters, left/right key, backspace, delete, home, end
+        if (charCode == 8 || charCode == 37 || charCode == 39 || charCode == 46 || charCode == 36 || charCode == 35 || (charCode >= 48 && charCode <= 57 && !isNaN(String.fromCharCode(charCode))) || (charCode >= 96 && charCode <= 105)) {
+        } else {
+            //comma
+            if (charCode == 188) {
+                $.growl.notice({ message: "Comma as decimal seperator is not allowed, use a dot instead!" });
+            }
+            e.preventDefault();
+            return false;
+        }
+
+
+    });
+
 	$("#wavessend").on("click", function(e) {
         e.preventDefault();
 
