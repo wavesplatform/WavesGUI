@@ -48,10 +48,15 @@ var Waves = (function(Waves, $, undefined) {
         var sendAmount = $("#wavessendamount").val().replace(/\s+/g, '');
 
         if(sendAmount > maxSend) {
-
             $.growl.error({ message: 'Error: Not enough funds' });
             return;
+        }
 
+        if (sendAmount < Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT) {
+            $("#wavessendamount").add
+            $.growl.error({message : 'Payment amount is too small.\nThe minimum amount you can send is ' +
+                Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT.toFixed(Waves.UI.constants.AMOUNT_DECIMAL_PLACES) });
+            return;
         }
 
         var amount = Math.round(Number(sendAmount * 100000000));
