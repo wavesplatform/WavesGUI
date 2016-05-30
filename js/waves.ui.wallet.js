@@ -47,12 +47,7 @@ var Waves = (function(Waves, $, undefined) {
         maxSend = maxSend / Math.pow(10,8);
         var sendAmount = $("#wavessendamount").val().replace(/\s+/g, '');
 
-        if(sendAmount > maxSend) {
-
-            $.growl.error({ message: 'Error: Not enough funds' });
-            return;
-
-        }
+        
 
         var amount = Math.round(Number(sendAmount * 100000000));
         var unmodifiedAmount = Number(sendAmount);
@@ -72,6 +67,19 @@ var Waves = (function(Waves, $, undefined) {
         signature = Base58.encode(signature);
 
         //var verify = Waves.curve25519.verify(senderPublic, signatureData, Base58.decode(signature));
+
+        if(recipient.length < 10) {
+            $.growl.error({ message: 'Malformated recipient' });
+            return;
+        }
+        if(sendAmount > maxSend) {
+            $.growl.error({ message: 'Error: Not enough funds' });
+            return;
+        }
+        if(sendAmount < '0.00000001') {
+            $.growl.error({ message: 'Minimum Amount to send is 0.00000001 Wave' });
+            return;
+        }
 
         var data = {
           "recipient": recipient,
