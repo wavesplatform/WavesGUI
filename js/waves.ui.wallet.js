@@ -47,8 +47,6 @@ var Waves = (function(Waves, $, undefined) {
         maxSend = maxSend / Math.pow(10,8);
         var sendAmount = $("#wavessendamount").val().replace(/\s+/g, '');
 
-        
-
         var amount = Math.round(Number(sendAmount * 100000000));
         var unmodifiedAmount = Number(sendAmount);
 
@@ -76,7 +74,7 @@ var Waves = (function(Waves, $, undefined) {
             $.growl.error({ message: 'Error: Not enough funds' });
             return;
         }
-        if(sendAmount < '0.00000001') {
+        if(amount < 1) {
             $.growl.error({ message: 'Minimum Amount to send is 0.00000001 Wave' });
             return;
         }
