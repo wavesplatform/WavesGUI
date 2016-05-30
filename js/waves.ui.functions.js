@@ -293,7 +293,7 @@ var Waves = (function(Waves, $, undefined) {
             $("#lockscreenTable").fadeOut(500);
             $("#wrapper").fadeIn(1300);
 
-			var formatBalance = Waves.formatAmount(balance);
+            var formatBalance = Waves.formatAmount(balance);
             $("#wavesCurrentBalance").val(formatBalance);
             $("#wavesbalance").html(formatBalance.split(".")[0]);
             $("#wavesbalancedec").html('.'+formatBalance.split(".")[1]);
