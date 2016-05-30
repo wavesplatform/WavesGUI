@@ -934,6 +934,10 @@ input.tabs-radio:checked + label  img {
     min-width: 250px;
 }
 
+.wInput-error {
+    border: 2px solid #9C0005;
+}
+
 
 /* ====================================================== */
 /* PAYMENT FORMS PARAMETERS */ /* PAYMENT FORM PARAMETERS */
