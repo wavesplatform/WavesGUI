@@ -43,7 +43,7 @@ var Waves = (function(Waves, $, undefined) {
     Waves.seed = '';
     Waves.hasLocalStorage = _checkDOMenabled();
     Waves.stateInterval;
-	Waves.stateIntervalSeconds = 20;
+    Waves.stateIntervalSeconds = 20;
 
     Waves.createAccount = function (publicKey) {
 

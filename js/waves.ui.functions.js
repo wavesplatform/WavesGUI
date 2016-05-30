@@ -293,7 +293,7 @@ var Waves = (function(Waves, $, undefined) {
             $("#lockscreenTable").fadeOut(500);
             $("#wrapper").fadeIn(1300);
 
-			var formatBalance = Waves.formatAmount(balance);
+            var formatBalance = Waves.formatAmount(balance);
             $("#wavesCurrentBalance").val(formatBalance);
             $("#wavesbalance").html(formatBalance.split(".")[0]);
             $("#wavesbalancedec").html('.'+formatBalance.split(".")[1]);
@@ -335,6 +335,17 @@ var Waves = (function(Waves, $, undefined) {
 
     	return new Decimal(amount).dividedBy(100000000).toFixed(8);
 
+    }
+
+    Waves.isControlKey = function (charCode) {
+        if (charCode >= 32)
+            return false;
+        if (charCode === 10)
+            return false;
+        if (charCode === 13)
+            return false;
+
+        return true;
     }
 
 	return Waves;
