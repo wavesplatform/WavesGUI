@@ -85,6 +85,10 @@ var Waves = (function(Waves, $, undefined) {
         //console.log('PrivateKey Generated: '+privateKey);
         //console.log('PublicKey Generated: '+publicKey);
 
+        $("#close_create_account_modal").on("click", function(){
+            $.modal.close();
+        });
+
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
             $("#addresLockscreen").html(response.address);
         });
