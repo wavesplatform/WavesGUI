@@ -15,6 +15,8 @@
  ******************************************************************************/
 /**
  * @depends {3rdparty/jquery-2.1.0.js}
+ * @depends {3rdparty/jquery-validate.js}
+ * @depends {3rdparty/additional-methods.js}
  * @depends {3rdparty/big.js}
  * @depends {3rdparty/jsbn.js}
  * @depends {3rdparty/jsbn2.js}
@@ -430,6 +432,16 @@ var Waves = (function(Waves, $, undefined) {
 
     clipboard.on('error', function(e) {
          $.growl.warning({ message: "Could not copy address to clipboard." });
+    });
+
+    jQuery.validator.setDefaults({
+        debug: true,
+        onkeyup: false,
+        showErrors : function(errorMap, errorList) {
+            errorList.forEach(function(error) {
+                $.growl.error({ message : error.message });
+            });
+        }
     });
 
     //How to growl:

@@ -15,6 +15,8 @@
  ******************************************************************************/
 /**
  * @depends {3rdparty/jquery-2.1.0.js}
+ * @depends {3rdparty/jquery-validate.js}
+ * @depends {3rdparty/additional-methods.js}
  * @depends {3rdparty/bootstrap.js}
  * @depends {3rdparty/big.js}
  * @depends {3rdparty/jsbn.js}
@@ -38,7 +40,50 @@
 var Waves = (function(Waves, $, undefined) {
 	"use strict";
 
+    if (Waves.UI === undefined)
+        Waves.UI = {};
+
+    Waves.UI.sendWavesForm = {
+        id : 'send-waves-form',
+        containerId : 'wB-butSend-WAV',
+        setupValidation : function() {
+            $('#' + this.containerId).on($.modal.BEFORE_OPEN, function(event, modal) {
+                $('#' + Waves.UI.sendWavesForm.id).validate({
+                    errorClass : 'wInput-error',
+                    rules : {
+                        wavesrecipient : {
+                            required : true,
+                            minlength : 30
+                        },
+                        wavessendamount : {
+                            required : true,
+                            number : true,
+                            min : Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT
+                        }
+                    },
+                    messages : {
+                        wavesrecipient : {
+                            required : 'Recipient account number is required',
+                            minlength : 'Recipient account number is too short'
+                        },
+                        wavessendamount : {
+                            required : 'Amount to send is required',
+                            number : 'Amount to send must be a decimal number with decimal separator as a dot',
+                            min : 'Payment amount is too small. It should be greater or equal to ' +
+                                Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT.toFixed(Waves.UI.constants.AMOUNT_DECIMAL_PLACES)
+                        }
+                    }
+                });
+            });
+        },
+
+        isValid : function() {
+            return $('#' + Waves.UI.sendWavesForm.id).valid();
+        }
+    };
+
     $("#wavessendamount").keydown(function(e) {
+        return;
         
         var charCode = !e.charCode ? e.which : e.charCode;
 
@@ -86,6 +131,10 @@ var Waves = (function(Waves, $, undefined) {
         e.preventDefault();
 
         $("#errorpayment").html('');
+
+        if (!Waves.UI.sendWavesForm.isValid())
+            return;
+
         var currentBalance = $("#wavesCurrentBalance").val();
         var maxSend = (currentBalance * Math.pow(10,8) ) - 1;
         maxSend = maxSend / Math.pow(10,8);
@@ -97,7 +146,6 @@ var Waves = (function(Waves, $, undefined) {
         }
 
         if (sendAmount < Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT) {
-            $("#wavessendamount").add
             $.growl.error({message : 'Payment amount is too small.\nThe minimum amount you can send is ' +
                 Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT.toFixed(Waves.UI.constants.AMOUNT_DECIMAL_PLACES) });
             return;
@@ -163,6 +211,7 @@ var Waves = (function(Waves, $, undefined) {
 
     });
 
+    Waves.UI.sendWavesForm.setupValidation();
 	
 	return Waves;
 }(Waves || {}, jQuery));
