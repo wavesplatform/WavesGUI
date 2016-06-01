@@ -88,7 +88,7 @@ var Waves = (function(Waves, $, undefined) {
             return $('#' + Waves.UI.sendWavesForm.id).valid();
         }
     };
-    
+
 	$("#wavessend").on("click", function(e) {
         e.preventDefault();
 
@@ -104,12 +104,6 @@ var Waves = (function(Waves, $, undefined) {
 
         if(sendAmount > maxSend) {
             $.growl.error({ message: 'Error: Not enough funds' });
-            return;
-        }
-
-        if (sendAmount < Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT) {
-            $.growl.error({message : 'Payment amount is too small.\nThe minimum amount you can send is ' +
-                Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT.toFixed(Waves.UI.constants.AMOUNT_DECIMAL_PLACES) });
             return;
         }
 
