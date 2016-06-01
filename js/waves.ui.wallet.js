@@ -16,7 +16,6 @@
 /**
  * @depends {3rdparty/jquery-2.1.0.js}
  * @depends {3rdparty/jquery-validate.js}
- * @depends {3rdparty/additional-methods.js}
  * @depends {3rdparty/bootstrap.js}
  * @depends {3rdparty/big.js}
  * @depends {3rdparty/jsbn.js}
@@ -46,14 +45,18 @@ var Waves = (function(Waves, $, undefined) {
     Waves.UI.sendWavesForm = {
         id : 'send-waves-form',
         containerId : 'wB-butSend-WAV',
+        validator : undefined,
+        getForm : function() {
+            return $('#' + Waves.UI.sendWavesForm.id);
+        },
         setupValidation : function() {
             $('#' + this.containerId).on($.modal.BEFORE_OPEN, function(event, modal) {
-                $('#' + Waves.UI.sendWavesForm.id).validate({
+                Waves.UI.sendWavesForm.validator = Waves.UI.sendWavesForm.getForm().validate({
                     errorClass : 'wInput-error',
                     rules : {
                         wavesrecipient : {
                             required : true,
-                            minlength : 30
+                            address : true
                         },
                         wavessendamount : {
                             required : true,
@@ -63,8 +66,7 @@ var Waves = (function(Waves, $, undefined) {
                     },
                     messages : {
                         wavesrecipient : {
-                            required : 'Recipient account number is required',
-                            minlength : 'Recipient account number is too short'
+                            required : 'Recipient account number is required'
                         },
                         wavessendamount : {
                             required : 'Amount to send is required',
@@ -74,6 +76,11 @@ var Waves = (function(Waves, $, undefined) {
                         }
                     }
                 });
+            });
+
+            $('#' + this.containerId).on($.modal.BEFORE_CLOSE, function(event, modal) {
+                if (Waves.UI.sendWavesForm.validator !== undefined)
+                    Waves.UI.sendWavesForm.validator.resetForm();
             });
         },
 

@@ -16,7 +16,6 @@
 /**
  * @depends {3rdparty/jquery-2.1.0.js}
  * @depends {3rdparty/jquery-validate.js}
- * @depends {3rdparty/additional-methods.js}
  * @depends {3rdparty/big.js}
  * @depends {3rdparty/jsbn.js}
  * @depends {3rdparty/jsbn2.js}
@@ -434,15 +433,28 @@ var Waves = (function(Waves, $, undefined) {
          $.growl.warning({ message: "Could not copy address to clipboard." });
     });
 
-    jQuery.validator.setDefaults({
-        debug: true,
+    // setting up jquery validation engine
+    $.validator.setDefaults({
+        debug: false,
         onkeyup: false,
         showErrors : function(errorMap, errorList) {
             errorList.forEach(function(error) {
                 $.growl.error({ message : error.message });
             });
+
+            var i, elements;
+            for (i = 0, elements = this.validElements(); elements[i]; i++) {
+                $(elements[i]).removeClass(this.settings.errorClass);
+            }
+
+            for (i = 0, elements = this.invalidElements(); elements[i]; i++) {
+                $(elements[i]).addClass(this.settings.errorClass);
+            }
         }
     });
+    $.validator.addMethod('address', function(value, element){
+        return this.optional(element) || /^[a-zA-Z0-9]{30,34}$/.test(value);
+    }, "Account number must be a sequence of 34 alphanumeric characters with no spaces");
 
     //How to growl:
     /*
