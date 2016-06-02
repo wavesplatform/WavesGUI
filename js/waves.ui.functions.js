@@ -74,8 +74,6 @@ var Waves = (function(Waves, $, undefined) {
                 $(this).parent().show();
                 $("#register").css("display", "none");
 
-                var userAccounts = localStorage.getItem('WavesAccounts');
-
                if(userAccounts !== null) {
                     var accounts = JSON.parse(userAccounts);
 

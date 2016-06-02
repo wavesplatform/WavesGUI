@@ -447,7 +447,7 @@ var Waves = (function (Waves, $, undefined) {
 			var yyyy = date.getFullYear();
             var yy = String(yyyy).substring(2);
 
-            var res = LOCALE_DATE_FORMAT
+            var res = Waves.LOCALE_DATE_FORMAT
                 .replace(/dd/g, dd)
                 .replace(/d/g, d)
                 .replace(/MM/g, MM)
