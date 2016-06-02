@@ -147,7 +147,12 @@ var Waves = (function(Waves, $, undefined) {
         var passwordConfirm = $("#walletPasswordConfirm").val();
 
         if(password !== passwordConfirm) {
-            $("#errorRegister").html('Your passwords do not match.');
+            $.growl.notice({ message: "Your passwords do not match" });
+            return;
+        }
+
+        if(passphrase.length < 10) {
+            $.growl.notice({ message: "Your seed has to be minimum 10 character!" });
             return;
         }
 
