@@ -85,7 +85,7 @@ var Waves = (function(Waves, $, undefined) {
         },
 
         isValid : function() {
-            return $('#' + Waves.UI.sendWavesForm.id).valid();
+            return this.getForm().valid();
         }
     };
 
