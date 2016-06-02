@@ -168,7 +168,7 @@ var Waves = (function(Waves, $, undefined) {
             var currentAccounts = localStorage.getItem('WavesAccounts');
                 currentAccounts = JSON.parse(currentAccounts);
 
-            if(currentAccounts !== undefined && currentAccounts !== null) {
+            if(currentAccounts !== undefined || currentAccounts !== null) {
 
                 currentAccounts.accounts.push(accountData);
                 localStorage.setItem('WavesAccounts', JSON.stringify(currentAccounts));
@@ -183,20 +183,12 @@ var Waves = (function(Waves, $, undefined) {
         } else {
 
             var accountArray = { accounts: [accountData] };
-            chrome.storage.sync.set({'WavesAccounts': accountArray}, function() {
-                // Notify that we saved.
-                console.log(accountArray);
-                $.growl.notice({ message: "Added Account!" });
-                $("#wavesAccounts").append('<br><b>'+accountData.name+'</b> '+accountData.address);
-            });
 
-            /*
+            Waves.getAccounts(function(currentAccounts) {
 
-            chrome.storage.local.get('WavesAccounts', function (currentAccounts) {
+                currentAccounts = currentAccounts.WavesAccounts;
 
-                console.log(currentAccounts);
-
-                if(currentAccounts !== undefined && currentAccounts !== null) {
+                if(currentAccounts !== undefined || currentAccounts !== null) {
 
                     currentAccounts.accounts.push(accountData);
                     chrome.storage.sync.set({'WavesAccounts': currentAccounts}, function() {
@@ -206,6 +198,7 @@ var Waves = (function(Waves, $, undefined) {
                     });
 
                 } else {
+
                     var accountArray = { accounts: [accountData] };
                     chrome.storage.sync.set({'WavesAccounts': accountArray}, function() {
                         // Notify that we saved.
@@ -213,10 +206,8 @@ var Waves = (function(Waves, $, undefined) {
                         $("#wavesAccounts").append('<br><b>'+accountData.name+'</b> '+accountData.address);
                     });
                 }
-                
-                
+
             });
-                */
            
         }
 

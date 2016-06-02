@@ -43,7 +43,13 @@ var Waves = (function(Waves, $, undefined) {
     Waves.setInitApp = function (userAccounts) {
 
         if(userAccounts !== null) {
-                var accounts = JSON.parse(userAccounts);
+                
+                var accounts;
+                if(Waves.hasLocalStorage) {
+                    accounts = JSON.parse(userAccounts);
+                } else {
+                    accounts = userAccounts;
+                }
 
                 $.each(accounts.accounts, function(accountKey, accountDetails) {
 
@@ -182,7 +188,15 @@ var Waves = (function(Waves, $, undefined) {
     }
 
 
+    Waves.getAccounts = function(callback) {
 
+        chrome.storage.sync.get('WavesAccounts', function (result) {
+                
+            if(result !== undefined) {
+                callback(result);
+            }
+        });
+    }
 
 	//To DO: Extract DOM functions from the initApp and add to waves.ui.js
 	Waves.initApp = function () {
@@ -207,15 +221,12 @@ var Waves = (function(Waves, $, undefined) {
             //no LocalStorage support
             //$("#wavesAccounts").html('Your Browser does not support Storage, if you create an account please carefully backup your userdata.')
 
+            Waves.getAccounts(function(userAccounts) {
 
-            chrome.storage.local.get('WavesAccounts', function (result) {
+                Waves.setInitApp(userAccounts.WavesAccounts);
                 
-                console.log(result);
-
-                Waves.setInitApp(result);
-
-
             });
+            
 
         }
 
