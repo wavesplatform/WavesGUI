@@ -19,7 +19,7 @@
  */
 var Waves = (function (Waves, $, undefined) {
 
-    var LOCALE_DATE_FORMATS = {
+    Waves.LOCALE_DATE_FORMATS = {
         "ar-SA": "dd/MM/yy",
         "bg-BG": "dd.M.yyyy",
         "ca-ES": "dd/MM/yyyy",
@@ -233,7 +233,7 @@ var Waves = (function (Waves, $, undefined) {
     }
 
     var LANG = window.navigator.userLanguage || window.navigator.language;
-    var LOCALE_DATE_FORMAT = LOCALE_DATE_FORMATS[LANG] || 'dd/MM/yyyy';
+    Waves.LOCALE_DATE_FORMAT = Waves.LOCALE_DATE_FORMATS[LANG] || 'dd/MM/yyyy';
 
     Waves._hash = {
         init: SHA256_init,
@@ -244,7 +244,7 @@ var Waves = (function (Waves, $, undefined) {
     Waves.MAP = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
     Waves.getLocalDateFormat = function () {
-        return LOCALE_DATE_FORMAT;
+        return Waves.LOCALE_DATE_FORMAT;
     }
 
     Waves.transactionType = function (number) {
