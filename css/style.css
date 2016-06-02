@@ -1074,41 +1074,6 @@ input.tabs-radio:checked + label  img {
 /* HISTORY TAB */ /* HISTORY TAB */ /* HISTORY TAB */ 
 /* =============================================== */
 
-#hSearch {
-    display: block;
-    width: 100%;
-    text-align: center;
-}
-
-#hSearch h1 {
-    display: block;
-    width: 100%;
-    text-align: center;
-    background: #37556E;
-    padding: .4rem;
-    color: #fff;
-    font-size: 1.3rem;
-}
-
-.hS-element {
-    display: inline-block;
-    width: auto;
-    padding: .5rem;
-}
-
-.hS-element h2 {
-    display: inline-block;
-    font-size: 1.2rem;
-    font-weight: 200;
-}
-
-.hS-element p {
-    display: inline-block;
-    font-size: 1rem;
-    margin-left: .65rem;
-    margin-right: 0;
-}
-
 .wavesDD {
     display: inline-block;
     height: 90%;
