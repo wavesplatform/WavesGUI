@@ -684,6 +684,5 @@ var Waves = (function (Waves, $, undefined) {
         return Waves._hash.getBytes();
     }
 
-
     return Waves;
 }(Waves || {}, jQuery));
