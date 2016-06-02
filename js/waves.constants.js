@@ -39,7 +39,14 @@ var Waves = (function (Waves, $) {
         'UNKNOWN': 'unknown'
     };
 
+    if (Waves.UI === undefined)
+        Waves.UI = {};
 
+    Waves.UI.constants = {
+        'MINIMUM_PAYMENT_AMOUNT' : 1e-8,
+        'AMOUNT_DECIMAL_PLACES' : 8
+    }
+    
     Waves.loadServerConstants = function () {
         Waves.sendRequest("getConstants", {}, function (response) {
             if (response.genesisAccountId) {
