@@ -82,9 +82,6 @@ var Waves = (function(Waves, $, undefined) {
         $("#publicKeyLockscreen").html(publicKey);
         $("#privateKeyLockscreen").html(privateKey);
 
-        //console.log('PrivateKey Generated: '+privateKey);
-        //console.log('PublicKey Generated: '+publicKey);
-
         $("#close_create_account_modal").on("click", function(){
             $.modal.close();
         });
@@ -106,8 +103,6 @@ var Waves = (function(Waves, $, undefined) {
 
         $("#publicKeyLockscreen").html(publicKey);
         $("#privateKeyLockscreen").html(privateKey);
-        //console.log('PrivateKey Generated: '+privateKey);
-        //console.log('PublicKey Generated: '+publicKey);
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
             $("#addresLockscreen").html(response.address);
@@ -127,8 +122,6 @@ var Waves = (function(Waves, $, undefined) {
 
         $("#publicKeyLockscreen").html(publicKey);
         $("#privateKeyLockscreen").html(privateKey);
-        //console.log('PrivateKey Generated: '+privateKey);
-        //console.log('PublicKey Generated: '+publicKey);
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
             $("#addresLockscreen").html(response.address);
@@ -159,7 +152,6 @@ var Waves = (function(Waves, $, undefined) {
         var cipher = Waves.encryptWalletSeed(passphrase, password).toString();
         var checksum = converters.byteArrayToHexString(Waves.simpleHash(converters.stringToByteArray(passphrase)));
 
-        
         var accountData = {
             name: name,
             cipher: cipher,

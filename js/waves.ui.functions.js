@@ -216,16 +216,12 @@ var Waves = (function(Waves, $, undefined) {
 
         } else {
 
-            //no LocalStorage support
-            //$("#wavesAccounts").html('Your Browser does not support Storage, if you create an account please carefully backup your userdata.')
-
             Waves.getAccounts(function(userAccounts) {
 
                 Waves.setInitApp(userAccounts.WavesAccounts);
                 
             });
             
-
         }
 
     }
@@ -308,13 +304,9 @@ var Waves = (function(Waves, $, undefined) {
             $("#wavesbalancedec").html('.'+formatBalance.split(".")[1]);
             $("#balancespan").html(formatBalance +' Waves');
             $('.balancewaves').html(formatBalance + ' Waves');
-            //$(".wB-add").html(Waves.address);
-            //$("#wavesAccountAddress").html(Waves.address);
 
             Waves.updateDOM('mBB-wallet');
 
-            
-               
         });
     }
 
@@ -338,7 +330,6 @@ var Waves = (function(Waves, $, undefined) {
         window.location.href = window.location.pathname;  
         chrome.runtime.reload();
     }
-
 
     Waves.formatAmount = function (amount) {
 
