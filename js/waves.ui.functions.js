@@ -57,9 +57,9 @@ var Waves = (function(Waves, $, undefined) {
                 if(accountDetails.name !== undefined) {
                     accountName = accountDetails.name;
                 }
-                
-                $("#wavesAccounts").append('<p class="loginAccountDiv"><span class="loginAccount tooltip-1 fade" title="Log into this account." data-id="'+accountKey+'"> <br/> <b>'+accountName+'</b> <span class="divider-1"></span> <small>'+accountDetails.address+'</small></span><span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="'+accountDetails.address+'"></span> <span class="divider-1"></span> <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button></p> ');
 
+                var accountAddress = new WavesAddress(accountDetails.address).getDisplayAddress();
+                $("#wavesAccounts").append('<p class="loginAccountDiv"><span class="loginAccount tooltip-1 fade" title="Log into this account." data-id="'+accountKey+'"> <br/> <b>'+accountName+'</b> <span class="divider-1"></span> <small>'+accountAddress+'</small></span><span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="'+accountAddress+'"></span> <span class="divider-1"></span> <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button></p> ');
             });
 
        }
@@ -284,12 +284,13 @@ var Waves = (function(Waves, $, undefined) {
         Waves.passphrase = accountDetails.passphrase;
         Waves.publicKey = accountDetails.publicKey;
         Waves.privateKey = accountDetails.privateKey;
-        Waves.address = accountDetails.address;
+        Waves.address = new WavesAddress(accountDetails.address);
         Waves.cipher = accountDetails.cipher;
         Waves.password = accountDetails.password;
         Waves.checksum = accountDetails.checksum;
 
-        $("#wavesAccountAddress").html('<span class="clipSpan" id="wavesAccountAddressClip" data-clipboard-text="'+Waves.address+'" style="cursor: pointer; cursor: hand;">'+Waves.address+'</span>')
+        $("#wavesAccountAddress").html('<span class="clipSpan" id="wavesAccountAddressClip" data-clipboard-text="'+
+            Waves.address.getDisplayAddress()+'" style="cursor: pointer; cursor: hand;">'+Waves.address.getDisplayAddress()+'</span>')
 
         Waves.loadAddressBalance(Waves.address, function (balance) {
 
@@ -314,7 +315,7 @@ var Waves = (function(Waves, $, undefined) {
         var row = '<tr>';
 
         row += '<td>'+accountArray.name+'</td>';
-        row += '<td>'+accountArray.address+'</td>';
+        row += '<td>'+new WavesAddress(accountArray.address).getDisplayAddress()+'</td>';
         row += '<td>'+accountArray.email+'</td>';
         row += '<td>Send Message Remove</td>';
 

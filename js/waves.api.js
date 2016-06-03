@@ -16,6 +16,7 @@
 
 /**
  * @depends {waves.js}
+ * @depends {waves.api.address.js}
  */
 var Waves = (function (Waves, $) {
 	'use strict';
@@ -46,13 +47,13 @@ var Waves = (function (Waves, $) {
 				return URL + '/addresses';
 			},
 			balance: function (address) {
-				return URL + '/addresses/balance/' + address;
+				return URL + '/addresses/balance/' + address.getRawAddress();
 			},
 			generatingBalance: function (address) {
-				return URL + '/addresses/generatingbalance/' + address;
+				return URL + '/addresses/generatingbalance/' + address.getRawAddress();
 			},
 			validate: function (address) {
-				return URL + '/addresses/validate/' + address;
+				return URL + '/addresses/validate/' + address.getRawAddress();
 			}
 		},
 		transactions: {
@@ -61,7 +62,7 @@ var Waves = (function (Waves, $) {
 				return URL + '/transactions/info/' + signature;
 			},
 			forAddress: function (address) {
-				return URL + '/transactions/address/' + address + '/limit/50';
+				return URL + '/transactions/address/' + address.getRawAddress() + '/limit/50';
 			}
 
 		},
@@ -130,8 +131,6 @@ var Waves = (function (Waves, $) {
         });
 
 	}
-
-
 
     return Waves;
 }(Waves || {}, jQuery));

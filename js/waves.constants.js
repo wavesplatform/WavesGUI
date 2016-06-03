@@ -36,7 +36,9 @@ var Waves = (function (Waves, $) {
         'EPOCH_BEGINNING': 0,
         'FORGING': 'forging',
         'NOT_FORGING': 'not_forging',
-        'UNKNOWN': 'unknown'
+        'UNKNOWN': 'unknown',
+
+        "TESTNET_ADDRESS_REGEXP": /^[a-zA-Z0-9]{33}$/
     };
 
     if (Waves.UI === undefined)

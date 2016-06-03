@@ -60,7 +60,7 @@ var Waves = (function(Waves, $, undefined) {
                         },
                         wavessendamount : {
                             required : true,
-                            number : true,
+                            decimal : true,
                             min : Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT
                         }
                     },
@@ -70,7 +70,7 @@ var Waves = (function(Waves, $, undefined) {
                         },
                         wavessendamount : {
                             required : 'Amount to send is required',
-                            number : 'Amount to send must be a decimal number with decimal separator as a dot',
+                            decimal : 'Amount to send must be a decimal number with dot (.) as a decimal separator',
                             min : 'Payment amount is too small. It should be greater or equal to ' +
                                 Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT.toFixed(Waves.UI.constants.AMOUNT_DECIMAL_PLACES)
                         }
@@ -100,47 +100,38 @@ var Waves = (function(Waves, $, undefined) {
         var currentBalance = $("#wavesCurrentBalance").val();
         var maxSend = (currentBalance * Math.pow(10,8) ) - 1;
         maxSend = maxSend / Math.pow(10,8);
-        var sendAmount = $("#wavessendamount").val().replace(/\s+/g, '');
+        var sendAmount = Number($("#wavessendamount").val().replace(/\s+/g, ''));
 
         if(sendAmount > maxSend) {
             $.growl.error({ message: 'Error: Not enough funds' });
             return;
         }
 
-        var amount = Math.round(Number(sendAmount * 100000000));
-        var unmodifiedAmount = Number(sendAmount);
+        var amount = Math.round(sendAmount * 100000000);
+        var unmodifiedAmount = sendAmount;
 
         var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
         var senderPublic = Base58.decode(Waves.publicKey);
         var senderPrivate = Base58.decode(Waves.privateKey);
-        var recipient = $("#wavesrecipient").val().replace(/\s+/g, '');
+        var recipient = new WavesAddress().fromDisplayAddress($("#wavesrecipient").val().replace(/\s+/g, ''));
 
         var wavesTime = Number(Waves.getTime());
 
-        var signature;
         var fee = Number(1);
 
-        var signatureData = Waves.signatureData(Waves.publicKey, recipient, amount, fee, wavesTime);
+        var signatureData = Waves.signatureData(Waves.publicKey, recipient.getRawAddress(), amount, fee, wavesTime);
         var signature = Array.from(Waves.curve25519.sign(senderPrivate, signatureData));
         signature = Base58.encode(signature);
 
         //var verify = Waves.curve25519.verify(senderPublic, signatureData, Base58.decode(signature));
 
-        if(recipient.length < 10) {
-            $.growl.error({ message: 'Malformated recipient' });
-            return;
-        }
         if(sendAmount > maxSend) {
             $.growl.error({ message: 'Error: Not enough funds' });
             return;
         }
-        if(amount < 1) {
-            $.growl.error({ message: 'Minimum Amount to send is 0.00000001 Wave' });
-            return;
-        }
 
         var data = {
-          "recipient": recipient,
+          "recipient": recipient.getRawAddress(),
           "timestamp": wavesTime,
           "signature": signature,
           "amount": amount,
@@ -155,14 +146,13 @@ var Waves = (function(Waves, $, undefined) {
                 $.growl.error({ message: 'Error:'+response.error +' - '+response.message });
             } else {
 
-                var successMessage = 'Sent '+Waves.formatAmount(amount)+' Wave to '+recipient.substr(0,10)+'...';
+                var successMessage = 'Sent '+Waves.formatAmount(amount)+' Wave to '+recipient.getDisplayAddress().substr(0,10)+'...';
                 $.growl({ title: 'Payment sent!', message: successMessage });
                 $("#wavesrecipient").val('');
                 $("#wavessendamount").val('');
 
                 $.modal.close();
             }
-
         });
 
     });
