@@ -60,7 +60,7 @@ var Waves = (function(Waves, $, undefined) {
                         },
                         wavessendamount : {
                             required : true,
-                            number : true,
+                            decimal : true,
                             min : Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT
                         }
                     },
@@ -70,7 +70,7 @@ var Waves = (function(Waves, $, undefined) {
                         },
                         wavessendamount : {
                             required : 'Amount to send is required',
-                            number : 'Amount to send must be a decimal number with decimal separator as a dot',
+                            decimal : 'Amount to send must be a decimal number with dot (.) as a decimal separator',
                             min : 'Payment amount is too small. It should be greater or equal to ' +
                                 Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT.toFixed(Waves.UI.constants.AMOUNT_DECIMAL_PLACES)
                         }
@@ -100,15 +100,15 @@ var Waves = (function(Waves, $, undefined) {
         var currentBalance = $("#wavesCurrentBalance").val();
         var maxSend = (currentBalance * Math.pow(10,8) ) - 1;
         maxSend = maxSend / Math.pow(10,8);
-        var sendAmount = $("#wavessendamount").val().replace(/\s+/g, '');
+        var sendAmount = Number($("#wavessendamount").val().replace(/\s+/g, ''));
 
         if(sendAmount > maxSend) {
             $.growl.error({ message: 'Error: Not enough funds' });
             return;
         }
 
-        var amount = Math.round(Number(sendAmount * 100000000));
-        var unmodifiedAmount = Number(sendAmount);
+        var amount = Math.round(sendAmount * 100000000);
+        var unmodifiedAmount = sendAmount;
 
         var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
         var senderPublic = Base58.decode(Waves.publicKey);
@@ -117,7 +117,6 @@ var Waves = (function(Waves, $, undefined) {
 
         var wavesTime = Number(Waves.getTime());
 
-        var signature;
         var fee = Number(1);
 
         var signatureData = Waves.signatureData(Waves.publicKey, recipient.getRawAddress(), amount, fee, wavesTime);

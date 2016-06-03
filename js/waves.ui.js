@@ -353,6 +353,9 @@ var Waves = (function(Waves, $, undefined) {
     $.validator.addMethod('address', function(value, element){
         return this.optional(element) || /^1w[a-zA-Z0-9]{33}$/.test(value);
     }, "Account number must be a sequence of 35 alphanumeric characters with no spaces starting with '1w'");
+    $.validator.addMethod('decimal', function(value, element) {
+        return this.optional(element) || /^(?:-?\d+)?(?:\.\d+)?$/.test(value);
+    }, "Number is expected with dot (.) as a decimal separator");
 
     //How to growl:
     /*
