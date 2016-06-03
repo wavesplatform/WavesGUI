@@ -162,7 +162,7 @@ var Waves = (function(Waves, $, undefined) {
             var currentAccounts = localStorage.getItem('WavesAccounts');
                 currentAccounts = JSON.parse(currentAccounts);
 
-            if(currentAccounts !== undefined || currentAccounts !== null) {
+            if(currentAccounts !== undefined && currentAccounts !== null) {
 
                 currentAccounts.accounts.push(accountData);
                 localStorage.setItem('WavesAccounts', JSON.stringify(currentAccounts));
