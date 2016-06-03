@@ -126,16 +126,8 @@ var Waves = (function(Waves, $, undefined) {
 
         //var verify = Waves.curve25519.verify(senderPublic, signatureData, Base58.decode(signature));
 
-        if(recipient.length < 10) {
-            $.growl.error({ message: 'Malformated recipient' });
-            return;
-        }
         if(sendAmount > maxSend) {
             $.growl.error({ message: 'Error: Not enough funds' });
-            return;
-        }
-        if(amount < 1) {
-            $.growl.error({ message: 'Minimum Amount to send is 0.00000001 Wave' });
             return;
         }
 
