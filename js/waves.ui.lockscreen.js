@@ -87,9 +87,8 @@ var Waves = (function(Waves, $, undefined) {
         });
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
-            $("#addresLockscreen").html(response.address);
+            $("#addresLockscreen").html(new WavesAddress(response.address).getDisplayAddress());
         });
-
     });
 
 
