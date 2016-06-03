@@ -113,14 +113,14 @@ var Waves = (function(Waves, $, undefined) {
         var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
         var senderPublic = Base58.decode(Waves.publicKey);
         var senderPrivate = Base58.decode(Waves.privateKey);
-        var recipient = $("#wavesrecipient").val().replace(/\s+/g, '');
+        var recipient = new WavesAddress().fromDisplayAddress($("#wavesrecipient").val().replace(/\s+/g, ''));
 
         var wavesTime = Number(Waves.getTime());
 
         var signature;
         var fee = Number(1);
 
-        var signatureData = Waves.signatureData(Waves.publicKey, recipient, amount, fee, wavesTime);
+        var signatureData = Waves.signatureData(Waves.publicKey, recipient.getRawAddress(), amount, fee, wavesTime);
         var signature = Array.from(Waves.curve25519.sign(senderPrivate, signatureData));
         signature = Base58.encode(signature);
 
@@ -132,7 +132,7 @@ var Waves = (function(Waves, $, undefined) {
         }
 
         var data = {
-          "recipient": recipient,
+          "recipient": recipient.getRawAddress(),
           "timestamp": wavesTime,
           "signature": signature,
           "amount": amount,
@@ -147,14 +147,13 @@ var Waves = (function(Waves, $, undefined) {
                 $.growl.error({ message: 'Error:'+response.error +' - '+response.message });
             } else {
 
-                var successMessage = 'Sent '+Waves.formatAmount(amount)+' Wave to '+recipient.substr(0,10)+'...';
+                var successMessage = 'Sent '+Waves.formatAmount(amount)+' Wave to '+recipient.getDisplayAddress().substr(0,10)+'...';
                 $.growl({ title: 'Payment sent!', message: successMessage });
                 $("#wavesrecipient").val('');
                 $("#wavessendamount").val('');
 
                 $.modal.close();
             }
-
         });
 
     });

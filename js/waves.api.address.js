@@ -17,16 +17,27 @@
  * @depends {waves.constants.js}
  */
 function WavesAddress(rawAddress) {
-    if (rawAddress === undefined)
-        throw new Error('address must be defined');
-    
-    if (!Waves.constants.TESTNET_ADDRESS_REGEXP.test(rawAddress))
-        throw new Error('address is malformed');
+    if (rawAddress !== undefined) {
+        if (!Waves.constants.TESTNET_ADDRESS_REGEXP.test(rawAddress))
+            throw new Error('address is malformed');
 
-    this.rawAddress = rawAddress;
+        this.rawAddress = rawAddress;
+    }
+
     this.prefix = '1w';
 }
 
 WavesAddress.prototype.getDisplayAddress = function () { return this.prefix + this.rawAddress; }
 
 WavesAddress.prototype.getRawAddress = function() { return this.rawAddress; }
+
+WavesAddress.prototype.fromDisplayAddress = function(displayAddress) {
+    if (displayAddress.startsWith(this.prefix))
+        displayAddress = displayAddress.substr(this.prefix.length, displayAddress.length - this.prefix.length);
+
+    return new WavesAddress(displayAddress);
+}
+
+WavesAddress.prototype.fromRawAddress = function(rawAddress) {
+    return new WavesAddress(rawAddress);
+}
