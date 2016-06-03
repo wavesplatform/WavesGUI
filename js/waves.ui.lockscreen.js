@@ -87,9 +87,8 @@ var Waves = (function(Waves, $, undefined) {
         });
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
-            $("#addresLockscreen").html(response.address);
+            $("#addresLockscreen").html(new WavesAddress(response.address).getDisplayAddress());
         });
-
     });
 
 
@@ -105,10 +104,8 @@ var Waves = (function(Waves, $, undefined) {
         $("#privateKeyLockscreen").html(privateKey);
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
-            $("#addresLockscreen").html(response.address);
+            $("#addresLockscreen").html(new WavesAddress(response.address).getDisplayAddress());
         });
-
-
     });
 
     $("#generateRandomSeed").on("click", function(e) {
@@ -124,7 +121,7 @@ var Waves = (function(Waves, $, undefined) {
         $("#privateKeyLockscreen").html(privateKey);
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
-            $("#addresLockscreen").html(response.address);
+            $("#addresLockscreen").html(new WavesAddress(response.address).getDisplayAddress());
         });
     });
 
@@ -134,7 +131,7 @@ var Waves = (function(Waves, $, undefined) {
         var passphrase = $("#walletSeed").val();
         var publicKey = $("#publicKeyLockscreen").html();
         var privateKey = $("#privateKeyLockscreen").html();
-        var address = $("#addresLockscreen").html();
+        var address = new WavesAddress().fromDisplayAddress($("#addresLockscreen").html());
         var name = $("#walletName").val();
         var password = $("#walletPassword").val();
         var passwordConfirm = $("#walletPasswordConfirm").val();
@@ -157,7 +154,7 @@ var Waves = (function(Waves, $, undefined) {
             cipher: cipher,
             checksum: checksum,
             publicKey: publicKey,
-            address: address
+            address: address.getRawAddress()
         };
 
         if(Waves.hasLocalStorage) {
@@ -169,12 +166,12 @@ var Waves = (function(Waves, $, undefined) {
 
                 currentAccounts.accounts.push(accountData);
                 localStorage.setItem('WavesAccounts', JSON.stringify(currentAccounts));
-                $("#wavesAccounts").append('<br><b>'+accountData.name+'</b> '+accountData.address);
+                $("#wavesAccounts").append('<br><b>'+accountData.name+'</b> ' + address.getDisplayAddress());
 
             } else {
                 var accountArray = { accounts: [accountData] };
                 localStorage.setItem('WavesAccounts', JSON.stringify(accountArray));
-                $("#wavesAccounts").append('<br><b>'+accountData.name+'</b>'+accountData.address);
+                $("#wavesAccounts").append('<br><b>'+accountData.name+'</b>' + address.getDisplayAddress());
             }
 
         } else {
@@ -191,7 +188,7 @@ var Waves = (function(Waves, $, undefined) {
                     chrome.storage.sync.set({'WavesAccounts': currentAccounts}, function() {
                         // Notify that we saved.
                         $.growl.notice({ message: "Added Account!" });
-                        $("#wavesAccounts").append('<br><b>'+accountData.name+'</b> '+accountData.address);
+                        $("#wavesAccounts").append('<br><b>'+accountData.name+'</b> ' + address.getDisplayAddress());
                     });
 
                 } else {
@@ -200,7 +197,7 @@ var Waves = (function(Waves, $, undefined) {
                     chrome.storage.sync.set({'WavesAccounts': accountArray}, function() {
                         // Notify that we saved.
                         $.growl.notice({ message: "Added Account!" });
-                        $("#wavesAccounts").append('<br><b>'+accountData.name+'</b> '+accountData.address);
+                        $("#wavesAccounts").append('<br><b>'+accountData.name+'</b> ' + address.getDisplayAddress());
                     });
                 }
 

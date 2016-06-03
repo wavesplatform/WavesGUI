@@ -78,7 +78,7 @@ var Waves = (function(Waves, $, undefined) {
                     if(max > 0) {
 
                         var senderClass = '';
-                        if(historyValue.sender === Waves.address) {
+                        if(historyValue.sender === Waves.address.getRawAddress()) {
 
                              var classSender = 'wavesTable-txOut';
                             senderClass = '​class="'+classSender+'"';
@@ -87,8 +87,8 @@ var Waves = (function(Waves, $, undefined) {
                         appContainer += '<tr '+senderClass+'>';
                         appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
                         appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
-                        appContainer += '<td>'+historyValue.sender+'</td>';
-                        appContainer += '<td>'+historyValue.recipient+'</td>';
+                        appContainer += '<td>'+ new WavesAddress(historyValue.sender).getDisplayAddress()+'</td>';
+                        appContainer += '<td>'+ new WavesAddress(historyValue.recipient).getDisplayAddress()+'</td>';
                         appContainer += '<td>'+historyValue.fee+' WVL</td>';
                         appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
                         appContainer += '</tr>';
@@ -120,7 +120,7 @@ var Waves = (function(Waves, $, undefined) {
 
                 $.each(transactionHistory, function(historyKey, historyValue) {
                     var senderClass = '';
-                    if(historyValue.sender === Waves.address) {
+                    if(historyValue.sender === Waves.address.getRawAddress()) {
                         var classSender = 'wavesTable-txOut';
                         senderClass = '​class="'+classSender+'"';
                     }
@@ -128,8 +128,8 @@ var Waves = (function(Waves, $, undefined) {
                     appContainer += '<tr '+senderClass+'>';
                     appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
                     appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
-                    appContainer += '<td>'+historyValue.sender+'</td>';
-                    appContainer += '<td>'+historyValue.recipient+'</td>';
+                    appContainer += '<td>'+ new WavesAddress(historyValue.sender).getDisplayAddress()+'</td>';
+                    appContainer += '<td>'+ new WavesAddress(historyValue.recipient).getDisplayAddress()+'</td>';
                     appContainer += '<td>'+historyValue.fee+' WVL</td>';
                     appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
                     appContainer += '</tr>';
@@ -351,8 +351,11 @@ var Waves = (function(Waves, $, undefined) {
         }
     });
     $.validator.addMethod('address', function(value, element){
-        return this.optional(element) || /^[a-zA-Z0-9]{30,34}$/.test(value);
-    }, "Account number must be a sequence of 34 alphanumeric characters with no spaces");
+        return this.optional(element) || /^1w[a-zA-Z0-9]{33}$/.test(value);
+    }, "Account number must be a sequence of 35 alphanumeric characters with no spaces starting with '1w'");
+    $.validator.addMethod('decimal', function(value, element) {
+        return this.optional(element) || /^(?:-?\d+)?(?:\.\d+)?$/.test(value);
+    }, "Number is expected with dot (.) as a decimal separator");
 
     //How to growl:
     /*
