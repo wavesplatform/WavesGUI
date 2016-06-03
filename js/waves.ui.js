@@ -15,6 +15,7 @@
  ******************************************************************************/
 /**
  * @depends {3rdparty/jquery-2.1.0.js}
+ * @depends {3rdparty/jquery-validate.js}
  * @depends {3rdparty/big.js}
  * @depends {3rdparty/jsbn.js}
  * @depends {3rdparty/jsbn2.js}
@@ -44,9 +45,6 @@ var Waves = (function(Waves, $, undefined) {
     Waves.blockUpdate;
     Waves.blockHeight;
 
-    Waves.startSearch = false;
-    Waves.stopSearch = false;
-
     //These are the functions running every Waves.stateIntervalSeconds for each page.
     Waves.pages = {
         'mBB-wallet': function updateWallet () {
@@ -71,7 +69,7 @@ var Waves = (function(Waves, $, undefined) {
 
                 transactionHistory.sort(function(x, y){
                     return y.timestamp - x.timestamp;
-                })
+                });
 
                 var max = 10;
 
@@ -86,7 +84,6 @@ var Waves = (function(Waves, $, undefined) {
                             senderClass = '​class="'+classSender+'"';
                         }
 
-
                         appContainer += '<tr '+senderClass+'>';
                         appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
                         appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
@@ -100,11 +97,7 @@ var Waves = (function(Waves, $, undefined) {
                 });
 
                 $("#walletTransactionhistory").html(appContainer);
-
-            
             });
-
-
         },
         'mBB-portfolio': function updatePortfolio () {
             //Auto Updating Portfolio Page Items
@@ -118,119 +111,31 @@ var Waves = (function(Waves, $, undefined) {
         'mBB-history': function updateHistory() {
             
             Waves.getAddressHistory(Waves.address, function(history) {
-
                 var transactionHistory = history[0];
                 var appContainer = '';
-
-                var minYearFrom, maxYearFrom;
-                var minYearTo, maxYearTo;
-
-                var fromInput, toInput;
-
+                
                 transactionHistory.sort(function(x, y){
                     return y.timestamp - x.timestamp;
-                })
-
-                var amountTransactions = transactionHistory.length;
-                var lastKey = amountTransactions - 1;
-
-                if(Waves.startSearch || Waves.stopSearch) {
-                    
-                    console.log('Filtering from: ' +Waves.startSearch+ ' to: '+Waves.stopSearch);
-                }
+                });
 
                 $.each(transactionHistory, function(historyKey, historyValue) {
-
-                        if(historyKey === 0) {
-
-                            toInput = Waves.formatTimestamp(historyValue.timestamp, true);
-                            maxYearFrom = moment(historyValue.timestamp).year();
-                            minYearTo = moment(historyValue.timestamp).year();
-
-                            toInput = moment(historyValue.timestamp).format("DD-MM-YYYY");
-                            if(!Waves.startSearch && !Waves.stopSearch) {
-                                $("#comboDateTo").val(toInput);
-                            }
-                        }
-
-                        if(historyKey === lastKey) {
-                            fromInput = Waves.formatTimestamp(historyValue.timestamp, true);
-                            minYearFrom = moment(historyValue.timestamp).year();
-                            maxYearTo = moment(historyValue.timestamp).year();
-
-                            fromInput = moment(historyValue.timestamp).format("DD-MM-YYYY");
-
-                            if(!Waves.startSearch && !Waves.stopSearch) {
-                                $("#comboDateFrom").val(fromInput);
-                            } 
-                        }
-
-                        if(Waves.startSearch || Waves.stopSearch) {
-
-                            var startSearchTimestamp = new Date(Waves.startSearch.split("-").reverse().join("-")).getTime();
-                            var stopSearchTimestamp = new Date(Waves.stopSearch.split("-").reverse().join("-")).getTime();
-
-                            stopSearchTimestamp = +stopSearchTimestamp + (20*60*60*1000);
-                            //console.log(stopSearchTimestamp);
-                            //console.log(historyValue.timestamp);
-                            if(startSearchTimestamp < historyValue.timestamp && stopSearchTimestamp > historyValue.timestamp) {
-
-                                var senderClass = '';
-                                if(historyValue.sender === Waves.address) {
-                                    var classSender = 'wavesTable-txOut';
-                                    senderClass = '​class="'+classSender+'"';
-                                }
-
-                                appContainer += '<tr '+senderClass+'>';
-                                appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                                appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
-                                appContainer += '<td>'+historyValue.sender+'</td>';
-                                appContainer += '<td>'+historyValue.recipient+'</td>';
-                                appContainer += '<td>'+historyValue.fee+' WVL</td>';
-                                appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
-                                appContainer += '</tr>';
-
-                            } else {
-
-                                //console.log('Sorted out: '+moment(historyValue.timestamp).format("DD-MM-YYYY hh:s"));
-                             
-                            }
-
-                        } else {
-
-                            var senderClass = '';
-                            if(historyValue.sender === Waves.address) {
-
-                                 var classSender = 'wavesTable-txOut';
-                                senderClass = '​class="'+classSender+'"';
-                            }
-
-                            appContainer += '<tr '+senderClass+'>';
-                            appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                            appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
-                            appContainer += '<td>'+historyValue.sender+'</td>';
-                            appContainer += '<td>'+historyValue.recipient+'</td>';
-                            appContainer += '<td>'+historyValue.fee+' WVL</td>';
-                            appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
-                            appContainer += '</tr>';
-                        }
+                    var senderClass = '';
+                    if(historyValue.sender === Waves.address) {
+                        var classSender = 'wavesTable-txOut';
+                        senderClass = '​class="'+classSender+'"';
+                    }
+    
+                    appContainer += '<tr '+senderClass+'>';
+                    appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
+                    appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
+                    appContainer += '<td>'+historyValue.sender+'</td>';
+                    appContainer += '<td>'+historyValue.recipient+'</td>';
+                    appContainer += '<td>'+historyValue.fee+' WVL</td>';
+                    appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
+                    appContainer += '</tr>';
                 });
 
                 $("#transactionhistory").html(appContainer);
-
-                $('#comboDateFrom').combodate({
-                    value: fromInput,
-                    maxYear: maxYearFrom,
-                    minYear: minYearFrom
-                });  
-
-                $('#comboDateTo').combodate({
-                    value: toInput,
-                    maxYear: maxYearTo,
-                    minYear: minYearTo
-                }); 
-
-                
             });
 
         },
@@ -247,7 +152,7 @@ var Waves = (function(Waves, $, undefined) {
 
                 response.sort(function(x, y){
                     return y.timestamp - x.timestamp;
-                })
+                });
 
                 $.each(response, function(blockKey, blockData) {
 
@@ -269,7 +174,7 @@ var Waves = (function(Waves, $, undefined) {
 
                 response.sort(function(x, y){
                     return y.timestamp - x.timestamp;
-                })
+                });
 
                 $.each(response, function(blockKey, blockData) {
 
@@ -295,7 +200,7 @@ var Waves = (function(Waves, $, undefined) {
     Waves.updatePage = function ( page ) {
         clearInterval(Waves.update);
         Waves.updateDOM(page);
-    }
+    };
 
     Waves.updateDOM = function (page) {
 
@@ -317,7 +222,7 @@ var Waves = (function(Waves, $, undefined) {
 
          }, interval);
         }
-    }
+    };
 
     // Show/hide different sections on tab activation
     // The ROUTING
@@ -339,12 +244,6 @@ var Waves = (function(Waves, $, undefined) {
             case 'mBB-history':
 
                 $("#transactionHistorySearch").on("click", function() {
-
-                    console.log($('#comboDateFrom').val());
-
-                    Waves.startSearch = $('#comboDateFrom').val();
-                    Waves.stopSearch = $('#comboDateTo').val();
-
                     Waves.updatePage('mBB-history');
                 }); 
 
@@ -432,6 +331,29 @@ var Waves = (function(Waves, $, undefined) {
          $.growl.warning({ message: "Could not copy address to clipboard." });
     });
 
+    // setting up jquery validation engine
+    $.validator.setDefaults({
+        debug: false,
+        onkeyup: false,
+        showErrors : function(errorMap, errorList) {
+            errorList.forEach(function(error) {
+                $.growl.error({ message : error.message });
+            });
+
+            var i, elements;
+            for (i = 0, elements = this.validElements(); elements[i]; i++) {
+                $(elements[i]).removeClass(this.settings.errorClass);
+            }
+
+            for (i = 0, elements = this.invalidElements(); elements[i]; i++) {
+                $(elements[i]).addClass(this.settings.errorClass);
+            }
+        }
+    });
+    $.validator.addMethod('address', function(value, element){
+        return this.optional(element) || /^[a-zA-Z0-9]{30,34}$/.test(value);
+    }, "Account number must be a sequence of 34 alphanumeric characters with no spaces");
+
     //How to growl:
     /*
       $.growl({ title: "Growl", message: "The kitten is awake!", url: "/kittens" });
@@ -448,11 +370,7 @@ $(document).ready(function(){
 
     Waves.initApp();
     $('.tooltip').tooltipster();
-    
-    $('#tooltipTest').tooltipster({
-        content: $('<span><img src="my-image.png" /> <strong>This text is in bold case !</strong></span>')
-    });
-    
+
     $('.tooltip-1').tooltipster({
         theme: 'tooltipster-theme1',
         delay: 1000,

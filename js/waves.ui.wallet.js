@@ -15,6 +15,7 @@
  ******************************************************************************/
 /**
  * @depends {3rdparty/jquery-2.1.0.js}
+ * @depends {3rdparty/jquery-validate.js}
  * @depends {3rdparty/bootstrap.js}
  * @depends {3rdparty/big.js}
  * @depends {3rdparty/jsbn.js}
@@ -38,58 +39,73 @@
 var Waves = (function(Waves, $, undefined) {
 	"use strict";
 
-    $("#wavessendamount").keydown(function(e) {
-        
-        var charCode = !e.charCode ? e.which : e.charCode;
+    if (Waves.UI === undefined)
+        Waves.UI = {};
 
-        if (Waves.isControlKey(charCode) || e.ctrlKey || e.metaKey) {
-            return;
+    Waves.UI.sendWavesForm = {
+        id : 'send-waves-form',
+        containerId : 'wB-butSend-WAV',
+        validator : undefined,
+        getForm : function() {
+            return $('#' + Waves.UI.sendWavesForm.id);
+        },
+        setupValidation : function() {
+            $('#' + this.containerId).on($.modal.BEFORE_OPEN, function(event, modal) {
+                Waves.UI.sendWavesForm.validator = Waves.UI.sendWavesForm.getForm().validate({
+                    errorClass : 'wInput-error',
+                    rules : {
+                        wavesrecipient : {
+                            required : true,
+                            address : true
+                        },
+                        wavessendamount : {
+                            required : true,
+                            number : true,
+                            min : Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT
+                        }
+                    },
+                    messages : {
+                        wavesrecipient : {
+                            required : 'Recipient account number is required'
+                        },
+                        wavessendamount : {
+                            required : 'Amount to send is required',
+                            number : 'Amount to send must be a decimal number with decimal separator as a dot',
+                            min : 'Payment amount is too small. It should be greater or equal to ' +
+                                Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT.toFixed(Waves.UI.constants.AMOUNT_DECIMAL_PLACES)
+                        }
+                    }
+                });
+            });
+
+            $('#' + this.containerId).on($.modal.BEFORE_CLOSE, function(event, modal) {
+                if (Waves.UI.sendWavesForm.validator !== undefined)
+                    Waves.UI.sendWavesForm.validator.resetForm();
+            });
+        },
+
+        isValid : function() {
+            return this.getForm().valid();
         }
-
-        var maxFractionLength = 8;
-
-        //allow 1 single period character
-        if (charCode == 110 || charCode == 190) {
-            if ($(this).val().indexOf(".") != -1) {
-                e.preventDefault();
-                return false;
-            } else {
-                return;
-            }
-        }
-
-        var input = $(this).val() + String.fromCharCode(charCode);
-        var afterComma = input.match(/\.(\d*)$/);
-
-        //only allow as many as there are decimals allowed.. 
-        if (afterComma && afterComma[1].length > maxFractionLength) {
-            e.preventDefault();
-            $.growl.notice({ message: "Only 8 decimals allowed!" });
-            return false;
-        }
-
-        //numeric characters, left/right key, backspace, delete, home, end
-        if (charCode == 8 || charCode == 37 || charCode == 39 || charCode == 46 || charCode == 36 || charCode == 35 || (charCode >= 48 && charCode <= 57 && !isNaN(String.fromCharCode(charCode))) || (charCode >= 96 && charCode <= 105)) {
-        } else {
-            //comma
-            if (charCode == 188) {
-                $.growl.notice({ message: "Comma as decimal seperator is not allowed, use a dot instead!" });
-            }
-            e.preventDefault();
-            return false;
-        }
-
-
-    });
+    };
 
 	$("#wavessend").on("click", function(e) {
         e.preventDefault();
 
         $("#errorpayment").html('');
+
+        if (!Waves.UI.sendWavesForm.isValid())
+            return;
+
         var currentBalance = $("#wavesCurrentBalance").val();
         var maxSend = (currentBalance * Math.pow(10,8) ) - 1;
         maxSend = maxSend / Math.pow(10,8);
         var sendAmount = $("#wavessendamount").val().replace(/\s+/g, '');
+
+        if(sendAmount > maxSend) {
+            $.growl.error({ message: 'Error: Not enough funds' });
+            return;
+        }
 
         var amount = Math.round(Number(sendAmount * 100000000));
         var unmodifiedAmount = Number(sendAmount);
@@ -151,6 +167,7 @@ var Waves = (function(Waves, $, undefined) {
 
     });
 
+    Waves.UI.sendWavesForm.setupValidation();
 	
 	return Waves;
 }(Waves || {}, jQuery));
