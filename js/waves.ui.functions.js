@@ -75,7 +75,13 @@ var Waves = (function(Waves, $, undefined) {
             $("#register").css("display", "none");
 
            if(userAccounts !== null) {
-                var accounts = JSON.parse(userAccounts);
+                
+                var accounts;
+                if(Waves.hasLocalStorage) {
+                    accounts = JSON.parse(userAccounts);
+                } else {
+                    accounts = userAccounts;
+                }
 
                 var accountDetails = accounts.accounts[accountId];
 
@@ -149,11 +155,15 @@ var Waves = (function(Waves, $, undefined) {
             e.preventDefault();
 
             var accountId = $(this).data('id');
-            var userAccounts = localStorage.getItem('WavesAccounts');
 
             if(userAccounts !== null) {
-                var accounts = JSON.parse(userAccounts);
+                var accounts;
 
+                if(Waves.hasLocalStorage) {
+                    accounts = JSON.parse(userAccounts);
+                } else {
+                    accounts = userAccounts;
+                }
 
                  $("#login-wPop-remove").modal({
                   fadeDuration: 500,
@@ -166,10 +176,24 @@ var Waves = (function(Waves, $, undefined) {
                         accounts.accounts.splice(accountId, 1);
                     }
 
-                    localStorage.setItem('WavesAccounts', JSON.stringify(accounts));
+                    if(Waves.hasLocalStorage) {
+                        localStorage.setItem('WavesAccounts', JSON.stringify(accounts));
+                        // Notify that we saved.
+                        $.growl.notice({ message: "Removed Account!" });
+                    } else {
+                        chrome.storage.sync.set({'WavesAccounts': accounts}, function() {
+                            // Notify that we saved.
+                            $.growl.notice({ message: "Removed Account!" });
+                        });
+                    }
 
                     $("#wavesAccounts").html('');
-                    location.reload();
+                    
+                    if(Waves.hasLocalStorage) {
+                        location.reload();
+                    } else {
+                        chrome.runtime.reload();
+                    }
                 });
 
                 $("#remove_account_cancel").on("click", function(){
