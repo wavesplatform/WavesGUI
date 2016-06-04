@@ -39,7 +39,51 @@
 var Waves = (function(Waves, $, undefined) {
     "use strict";
 
- //Import Waves Account
+    if (Waves.UI === undefined)
+        Waves.UI = {};
+
+    Waves.UI.registerForm = {
+        id: 'register-form',
+        validator: undefined,
+        getForm : function() {
+            return $('#' + Waves.UI.registerForm.id);
+        },
+        setupValidation: function() {
+            Waves.UI.registerForm.validator = Waves.UI.registerForm.getForm().validate({
+                errorClass: 'wInput-error',
+                rules: {
+                    walletSeed: {
+                        required: true,
+                        minlength: 25
+                    },
+                    walletPassword: {
+                        required: true,
+                        minlength: 8,
+                        password: true
+                    },
+                    walletPasswordConfirm: {
+                        equalTo: '#walletPassword'
+                    }
+                },
+                messages: {
+                    walletSeed: {
+                        required: 'Wallet seed is required',
+                        minlength: 'Wallet seed is too short. Really secure wallet seed should be longer than 25 characters'
+                    },
+                    walletPassword: {
+                        required: 'Password is required to store your seed in a secure way',
+                        minlength: 'Password must be 8 characters or longer'
+                    },
+                    walletPasswordConfirm: {
+                        equalTo: 'Passwords do not match'
+                    }
+                }
+            });
+        },
+        isValid : function() { return this.getForm().valid(); }
+    };
+
+    //Import Waves Account
 
     $("#import_account").on("click", function(e) {
         e.preventDefault();
@@ -128,23 +172,15 @@ var Waves = (function(Waves, $, undefined) {
     $("#registerSeed").on("click", function(e) {
         e.preventDefault();
 
+        if (!Waves.UI.registerForm.isValid())
+            return;
+
         var passphrase = $("#walletSeed").val();
         var publicKey = $("#publicKeyLockscreen").html();
         var privateKey = $("#privateKeyLockscreen").html();
         var address = new WavesAddress().fromDisplayAddress($("#addresLockscreen").html());
         var name = $("#walletName").val();
         var password = $("#walletPassword").val();
-        var passwordConfirm = $("#walletPasswordConfirm").val();
-
-        if(password !== passwordConfirm) {
-            $.growl.notice({ message: "Your passwords do not match" });
-            return;
-        }
-
-        if(passphrase.length < 10) {
-            $.growl.notice({ message: "Your seed has to be minimum 10 character!" });
-            return;
-        }
 
         var cipher = Waves.encryptWalletSeed(passphrase, password).toString();
         var checksum = converters.byteArrayToHexString(Waves.simpleHash(converters.stringToByteArray(passphrase)));
@@ -213,6 +249,8 @@ var Waves = (function(Waves, $, undefined) {
         Waves.login(accountData);
         
     });
+
+    Waves.UI.registerForm.setupValidation();
 
     return Waves;
 }(Waves || {}, jQuery));

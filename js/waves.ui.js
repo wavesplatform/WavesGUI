@@ -351,11 +351,21 @@ var Waves = (function(Waves, $, undefined) {
         }
     });
     $.validator.addMethod('address', function(value, element){
-        return this.optional(element) || /^1w[a-zA-Z0-9]{33}$/.test(value);
-    }, "Account number must be a sequence of 35 alphanumeric characters with no spaces starting with '1w'");
+        return this.optional(element) || /^1W[a-zA-Z0-9]{33}$/.test(value);
+    }, "Account number must be a sequence of 35 alphanumeric characters with no spaces starting with '1W'");
     $.validator.addMethod('decimal', function(value, element) {
         return this.optional(element) || /^(?:-?\d+)?(?:\.\d+)?$/.test(value);
     }, "Number is expected with dot (.) as a decimal separator");
+    $.validator.addMethod('password', function(value, element){
+        if (this.optional(element))
+            return true;
+
+        var containsDigits = /[0-9]/.test(value);
+        var containsUppercase = /[A-Z]/.test(value);
+        var containsLowercase = /[a-z]/.test(value);
+
+        return containsDigits && containsUppercase && containsLowercase;
+    }, "Too weak password. Good password must contain at least 1 digit and latin letters in mixed cases");
 
     //How to growl:
     /*
