@@ -24,7 +24,7 @@ function WavesAddress(rawAddress) {
         this.rawAddress = rawAddress;
     }
 
-    this.prefix = '1w';
+    this.prefix = '1W';
 }
 
 WavesAddress.prototype.getDisplayAddress = function () { return this.prefix + this.rawAddress; }

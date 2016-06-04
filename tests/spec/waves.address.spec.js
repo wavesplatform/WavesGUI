@@ -1,7 +1,7 @@
 describe("waves.address", function() {
 
     var rawAddress = 'YyHCqgBqhp3kX9asUMYUQKvxuAj13ytnN';
-    var displayAddress = '1wYyHCqgBqhp3kX9asUMYUQKvxuAj13ytnN';
+    var displayAddress = '1WYyHCqgBqhp3kX9asUMYUQKvxuAj13ytnN';
 
     it("should throw an error if the address is incorrect", function () {
         //expect(function () { new WavesAddress(undefined) }).toThrow(new Error("address must be defined"));
