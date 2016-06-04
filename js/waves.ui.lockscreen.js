@@ -214,5 +214,14 @@ var Waves = (function(Waves, $, undefined) {
         
     });
 
+    $(".goBack").on("click", function(e) {
+        e.preventDefault();
+        if(Waves.hasLocalStorage) {
+            location.reload();
+        } else {
+            chrome.runtime.reload();
+        }
+    });
+
     return Waves;
 }(Waves || {}, jQuery));
