@@ -99,7 +99,7 @@
                         <!-- Hide Registration -->
                             <div id="register">
                                 
-                                <form>
+                                <form id="register-form">
                                     <button id="import_account" class="wButton fade tooltip-1" title="Click here to import an existing account.">IMPORT ACCOUNT</button><span class="divider-1"></span><button id="create_account" class="wButton fade tooltip-1" title="Click here to create a brand new account.">NEW ACCOUNT</button>
                                     <br/>
                                     
@@ -135,7 +135,7 @@
                                         <label for="walletSeed">WALLET SEED</label>
                                         <br/>
                                         
-                                        <textarea type="text" id="walletSeed" class="wInput"> </textarea><span class="clipSpan tooltip-1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" ></span>
+                                        <textarea type="text" id="walletSeed" name="walletSeed" class="wInput"> </textarea><span class="clipSpan tooltip-1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" ></span>
                                         <br/><br/>
                                         
                                         <button id="generateKeys" class="wButton fade">GENERATE ADDRESS FROM SEED</button><span class="divider-1"></span><button id="generateRandomSeed" class="wButton fade">GENERATE NEW SEED</button>
@@ -179,16 +179,16 @@
                                         <br/>
                                         place at all times."></span>
                                         <br/>
-                                        <input type="password" id="walletPassword" class="wInput"/>
+                                        <input type="password" id="walletPassword" name="walletPassword" class="wInput"/>
                                         <br/><br/>
                                         REPEAT PASSWORD
                                         <br/>
-                                        <input type="password" id="walletPasswordConfirm" class="wInput"/>
+                                        <input type="password" id="walletPasswordConfirm" name="walletPasswordConfirm" class="wInput"/>
                                         <br/><br/>
                                         
                                         <button id="registerSeed" class="wButton fade">REGISTER</button>
                                         <span class="divider-2"></span>
-                                        <button id="#" class="wButton fade">BACK</button>
+                                        <button id="#" class="wButton fade" formnovalidate>BACK</button>
 
                                         <div id="errorRegister" class="noDisp"></div>
                                     </div>
@@ -947,10 +947,10 @@
     <script src="js/waves.constants.js" type="text/javascript"></script>
     <script src="js/waves.util.js" type="text/javascript"></script>
 
+    <script src="js/waves.ui.js"></script>
     <script src="js/waves.ui.functions.js"></script>
     <script src="js/waves.ui.lockscreen.js"></script>
     <script src="js/waves.ui.wallet.js"></script>
-    <script src="js/waves.ui.js"></script>
-    <script src="js/style.js"></script> 
+    <script src="js/style.js"></script>
 </body>
 </html>

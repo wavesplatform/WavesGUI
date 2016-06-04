@@ -356,6 +356,16 @@ var Waves = (function(Waves, $, undefined) {
     $.validator.addMethod('decimal', function(value, element) {
         return this.optional(element) || /^(?:-?\d+)?(?:\.\d+)?$/.test(value);
     }, "Number is expected with dot (.) as a decimal separator");
+    $.validator.addMethod('password', function(value, element){
+        if (this.optional(element))
+            return true;
+
+        var containsDigits = /[0-9]/.test(value);
+        var containsUppercase = /[A-Z]/.test(value);
+        var containsLowercase = /[a-z]/.test(value);
+
+        return containsDigits && containsUppercase && containsLowercase;
+    }, "Too weak password. Good password must contain at least 1 digit and latin letters in mixed cases");
 
     //How to growl:
     /*
