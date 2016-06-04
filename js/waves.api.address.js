@@ -18,7 +18,7 @@
  */
 function WavesAddress(rawAddress) {
     if (rawAddress !== undefined) {
-        if (!Waves.constants.TESTNET_ADDRESS_REGEXP.test(rawAddress))
+        if (!Waves.constants.MAINNET_ADDRESS_REGEXP.test(rawAddress))
             throw new Error('address is malformed');
 
         this.rawAddress = rawAddress;

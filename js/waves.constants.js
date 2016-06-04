@@ -38,7 +38,8 @@ var Waves = (function (Waves, $) {
         'NOT_FORGING': 'not_forging',
         'UNKNOWN': 'unknown',
 
-        "TESTNET_ADDRESS_REGEXP": /^[a-zA-Z0-9]{33}$/
+        "TESTNET_ADDRESS_REGEXP": /^[a-zA-Z0-9]{33}$/,
+        "MAINNET_ADDRESS_REGEXP": /^[a-zA-Z0-9]{35}$/
     };
 
     if (Waves.UI === undefined)

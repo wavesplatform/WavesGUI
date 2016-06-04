@@ -351,7 +351,7 @@ var Waves = (function(Waves, $, undefined) {
         }
     });
     $.validator.addMethod('address', function(value, element){
-        return this.optional(element) || /^1W[a-zA-Z0-9]{33}$/.test(value);
+        return this.optional(element) || /^1W[a-zA-Z0-9]{35}$/.test(value);
     }, "Account number must be a sequence of 35 alphanumeric characters with no spaces starting with '1W'");
     $.validator.addMethod('decimal', function(value, element) {
         return this.optional(element) || /^(?:-?\d+)?(?:\.\d+)?$/.test(value);
@@ -402,10 +402,3 @@ $(document).ready(function(){
     });
 
 });
-
-
-
-
-
-
-
