@@ -42,13 +42,14 @@ var Waves = (function(Waves, $, undefined) {
 
     Waves.setInitApp = function (userAccounts) {
 
-        if(userAccounts !== null) {
+        if(userAccounts !== null && userAccounts !== undefined) {
                 
             var accounts;
             if(Waves.hasLocalStorage) {
                 accounts = JSON.parse(userAccounts);
             } else {
                 accounts = userAccounts;
+                console.log(accounts);
             }
 
             $.each(accounts.accounts, function(accountKey, accountDetails) {
@@ -215,8 +216,10 @@ var Waves = (function(Waves, $, undefined) {
 
         chrome.storage.sync.get('WavesAccounts', function (result) {
                 
-            if(result !== undefined) {
+            if($.isEmptyObject(result) === false) {
                 callback(result);
+            } else {
+                callback('');
             }
         });
     }

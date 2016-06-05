@@ -213,13 +213,11 @@ var Waves = (function(Waves, $, undefined) {
 
         } else {
 
-            var accountArray = { accounts: [accountData] };
-
             Waves.getAccounts(function(currentAccounts) {
 
-                currentAccounts = currentAccounts.WavesAccounts;
+                if(currentAccounts !== '') {
 
-                if(currentAccounts !== undefined || currentAccounts !== null) {
+                    currentAccounts = currentAccounts.WavesAccounts;
 
                     currentAccounts.accounts.push(accountData);
                     chrome.storage.sync.set({'WavesAccounts': currentAccounts}, function() {
