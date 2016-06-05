@@ -190,6 +190,7 @@ var Waves = (function(Waves, $, undefined) {
             cipher: cipher,
             checksum: checksum,
             publicKey: publicKey,
+            privateKey: privateKey,
             address: address.getRawAddress()
         };
 
