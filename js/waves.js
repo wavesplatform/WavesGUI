@@ -44,6 +44,7 @@ var Waves = (function(Waves, $, undefined) {
     Waves.hasLocalStorage = _checkDOMenabled();
     Waves.stateInterval;
     Waves.stateIntervalSeconds = 40;
+    Waves.isTestnet = false;
 
     Waves.createAccount = function (publicKey) {
 
