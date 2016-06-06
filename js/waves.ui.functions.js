@@ -312,11 +312,12 @@ var Waves = (function(Waves, $, undefined) {
         Waves.loadBlockheight();
         Waves.passphrase = accountDetails.passphrase;
         Waves.publicKey = accountDetails.publicKey;
-        Waves.privateKey = accountDetails.privateKey;
         Waves.address = new WavesAddress(accountDetails.address);
         Waves.cipher = accountDetails.cipher;
         Waves.password = accountDetails.password;
         Waves.checksum = accountDetails.checksum;
+
+        Waves.privateKey = Waves.getPrivateKey(accountDetails.passphrase);
 
         $("#wavesAccountAddress").html('<span class="clipSpan" id="wavesAccountAddressClip" data-clipboard-text="'+
             Waves.address.getDisplayAddress()+'" style="cursor: pointer; cursor: hand;">'+Waves.address.getDisplayAddress()+'</span>')
