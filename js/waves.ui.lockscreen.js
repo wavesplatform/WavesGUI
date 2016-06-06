@@ -204,18 +204,18 @@ var Waves = (function(Waves, $, undefined) {
 
         if(Waves.hasLocalStorage) {
 
-            var currentAccounts = localStorage.getItem('WavesAccounts');
+            var currentAccounts = localStorage.getItem('Waves'+Waves.network);
                 currentAccounts = JSON.parse(currentAccounts);
 
             if(currentAccounts !== undefined && currentAccounts !== null) {
 
                 currentAccounts.accounts.push(accountData);
-                localStorage.setItem('WavesAccounts', JSON.stringify(currentAccounts));
+                localStorage.setItem('Waves'+Waves.network, JSON.stringify(currentAccounts));
                 $("#wavesAccounts").append('<br><b>'+accountData.name+'</b> ' + address.getDisplayAddress());
 
             } else {
                 var accountArray = { accounts: [accountData] };
-                localStorage.setItem('WavesAccounts', JSON.stringify(accountArray));
+                localStorage.setItem('Waves'+Waves.network, JSON.stringify(accountArray));
                 $("#wavesAccounts").append('<br><b>'+accountData.name+'</b>' + address.getDisplayAddress());
             }
 
@@ -225,7 +225,7 @@ var Waves = (function(Waves, $, undefined) {
 
                 if(currentAccounts !== '') {
 
-                    currentAccounts = currentAccounts.WavesAccounts;
+                    currentAccounts = currentAccounts['Waves'+Waves.network];
 
                     currentAccounts.accounts.push(accountData);
                     chrome.storage.sync.set({'WavesAccounts': currentAccounts}, function() {

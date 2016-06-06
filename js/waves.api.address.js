@@ -17,9 +17,23 @@
  * @depends {waves.constants.js}
  */
 function WavesAddress(rawAddress) {
-    if (rawAddress !== undefined) {
-        if (!Waves.constants.TESTNET_ADDRESS_REGEXP.test(rawAddress))
+
+    Waves.addressOptions = {
+        'devel': function () {
+            if (!Waves.constants.TESTNET_ADDRESS_REGEXP.test(rawAddress))
             throw new Error('address is malformed');
+
+        }, 
+        '0.2.x': function() {
+            if (!Waves.constants.MAINNET_ADDRESS_REGEXP.test(rawAddress))
+            throw new Error('address is malformed');
+        }
+    }
+
+
+    if (rawAddress !== undefined) {
+
+        Waves.addressOptions[Waves.network]();
 
         this.rawAddress = rawAddress;
     }

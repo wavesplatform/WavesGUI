@@ -49,7 +49,6 @@ var Waves = (function(Waves, $, undefined) {
                 accounts = JSON.parse(userAccounts);
             } else {
                 accounts = userAccounts;
-                console.log(accounts);
             }
 
             $.each(accounts.accounts, function(accountKey, accountDetails) {
@@ -238,7 +237,7 @@ var Waves = (function(Waves, $, undefined) {
         $("#lockscreenTable").fadeIn('1000');
 
         if(Waves.hasLocalStorage) {
-           var userAccounts = localStorage.getItem('WavesAccounts');
+           var userAccounts = localStorage.getItem('Waves'+Waves.network);
 
            Waves.setInitApp(userAccounts);
 
@@ -246,7 +245,7 @@ var Waves = (function(Waves, $, undefined) {
 
             Waves.getAccounts(function(userAccounts) {
 
-                Waves.setInitApp(userAccounts.WavesAccounts);
+                Waves.setInitApp(userAccounts['Waves'+Waves.network]);
                 
             });
             

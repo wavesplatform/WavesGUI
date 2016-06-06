@@ -25,7 +25,6 @@ var Waves = (function (Waves, $) {
         'MAX_SHORT_JAVA': 32767,
         'MAX_UNSIGNED_SHORT_JAVA': 65535,
         'MAX_INT_JAVA': 2147483647,
-        'MIN_PRUNABLE_MESSAGE_LENGTH': 28,
         'DISABLED_API_ERROR_CODE': 16,
 
         "REQUEST_TYPES": {},
@@ -38,6 +37,7 @@ var Waves = (function (Waves, $) {
         'NOT_FORGING': 'not_forging',
         'UNKNOWN': 'unknown',
 
+        "MAINNET_ADDRESS_REGEXP": /^[a-zA-Z0-9]{35}$/,
         "TESTNET_ADDRESS_REGEXP": /^[a-zA-Z0-9]{33}$/
     };
 
