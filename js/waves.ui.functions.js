@@ -42,13 +42,14 @@ var Waves = (function(Waves, $, undefined) {
 
     Waves.setInitApp = function (userAccounts) {
 
-        if(userAccounts !== null) {
+        if(userAccounts !== null && userAccounts !== undefined) {
                 
             var accounts;
             if(Waves.hasLocalStorage) {
                 accounts = JSON.parse(userAccounts);
             } else {
                 accounts = userAccounts;
+                console.log(accounts);
             }
 
             $.each(accounts.accounts, function(accountKey, accountDetails) {
@@ -58,8 +59,13 @@ var Waves = (function(Waves, $, undefined) {
                     accountName = accountDetails.name;
                 }
 
-                var accountAddress = new WavesAddress(accountDetails.address).getDisplayAddress();
-                $("#wavesAccounts").append('<p class="loginAccountDiv"><span class="loginAccount tooltip-1 fade" title="Log into this account." data-id="'+accountKey+'"> <br/> <b>'+accountName+'</b> <span class="divider-1"></span> <small>'+accountAddress+'</small></span><span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="'+accountAddress+'"></span> <span class="divider-1"></span> <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button></p> ');
+                try {
+                    var accountAddress = new WavesAddress(accountDetails.address).getDisplayAddress();
+                    $("#wavesAccounts").append('<p class="loginAccountDiv"><span class="loginAccount tooltip-1 fade" title="Log into this account." data-id="' + accountKey + '"> <br/> <b>' + accountName + '</b> <span class="divider-1"></span> <small>' + accountAddress + '</small></span><span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + accountAddress + '"></span> <span class="divider-1"></span> <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="' + accountKey + '"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button></p> ');
+                }
+                catch (e) {
+                    console.log('Skipping account: ' + accountName);
+                }
             });
 
        }
@@ -85,15 +91,13 @@ var Waves = (function(Waves, $, undefined) {
 
                 var accountDetails = accounts.accounts[accountId];
 
-                var childNode = accountId + 1;
-
                 $("#loginAccountDiv").remove();
 
                 var submitButton = '<button class="submitLoginAccount wButton fade">SUBMIT</button>';
                 var backButton = '<button class="goBack wButton fade tooltip-1" title="Return to the previous step.">BACK</button>';
                 var divider2 = '<span class="divider-2"></span>';
 
-                $("#wavesAccounts > p:nth-child("+childNode+")").after("<div id='loginAccountDiv'>PASSWORD<br/><input type='password' id='loginPassword' class='wInput' autofocus><br/>"+submitButton+""+divider2+""+backButton+"<br/><div id='errorPasswordLogin' style='display: none;'></div></div>");
+               $(this).parent().after("<div id='loginAccountDiv'>PASSWORD<br/><input type='password' id='loginPassword' class='wInput' autofocus><br/>"+submitButton+""+divider2+""+backButton+"<br/><div id='errorPasswordLogin' style='display: none;'></div></div>");
 
                  $(".goBack").on("click", function(e) {
                     e.preventDefault();
@@ -105,7 +109,6 @@ var Waves = (function(Waves, $, undefined) {
                     if(Waves.isEnterKey(e.keyCode)) {
                         
                         var password = $("#loginPassword").val();
-
                         var decryptPassword = Waves.decryptWalletSeed(accountDetails.cipher, password, accountDetails.checksum);
 
                         if(decryptPassword) {
@@ -213,8 +216,10 @@ var Waves = (function(Waves, $, undefined) {
 
         chrome.storage.sync.get('WavesAccounts', function (result) {
                 
-            if(result !== undefined) {
+            if($.isEmptyObject(result) === false) {
                 callback(result);
+            } else {
+                callback('');
             }
         });
     }

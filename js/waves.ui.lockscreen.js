@@ -169,6 +169,15 @@ var Waves = (function(Waves, $, undefined) {
         });
     });
 
+    $(".goBack").on("click", function(e) {
+        e.preventDefault();
+        if(Waves.hasLocalStorage) {
+            location.reload();
+        } else {
+            chrome.runtime.reload();
+        }
+    });
+
     $("#registerSeed").on("click", function(e) {
         e.preventDefault();
 
@@ -190,6 +199,7 @@ var Waves = (function(Waves, $, undefined) {
             cipher: cipher,
             checksum: checksum,
             publicKey: publicKey,
+            privateKey: privateKey,
             address: address.getRawAddress()
         };
 
@@ -212,13 +222,11 @@ var Waves = (function(Waves, $, undefined) {
 
         } else {
 
-            var accountArray = { accounts: [accountData] };
-
             Waves.getAccounts(function(currentAccounts) {
 
-                currentAccounts = currentAccounts.WavesAccounts;
+                if(currentAccounts !== '') {
 
-                if(currentAccounts !== undefined || currentAccounts !== null) {
+                    currentAccounts = currentAccounts.WavesAccounts;
 
                     currentAccounts.accounts.push(accountData);
                     chrome.storage.sync.set({'WavesAccounts': currentAccounts}, function() {
