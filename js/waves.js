@@ -45,7 +45,7 @@ var Waves = (function(Waves, $, undefined) {
     Waves.stateInterval;
     Waves.stateIntervalSeconds = 40;
 
-    //possible networks: devel, 0.2.x
+    //possible networks: Accounts, devel, 0.2.x
     Waves.network = 'devel';
 
     Waves.createAccount = function (publicKey) {

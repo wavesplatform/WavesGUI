@@ -27,6 +27,10 @@ function WavesAddress(rawAddress) {
         '0.2.x': function() {
             if (!Waves.constants.MAINNET_ADDRESS_REGEXP.test(rawAddress))
             throw new Error('address is malformed');
+        },
+        'Accounts': function() {
+            if (!Waves.constants.TESTNET_ADDRESS_REGEXP.test(rawAddress))
+            throw new Error('address is malformed');
         }
     }
 
