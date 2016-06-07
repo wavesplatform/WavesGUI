@@ -16,6 +16,58 @@
 /**
  * @depends {waves.constants.js}
  */
+
+var WaveAddress  = (function(WaveAddress, $, undefined) {
+    "use strict";
+
+    WaveAddress.prefix = '1W';
+
+    WaveAddress.validateRawAddress = function(rawAddress) {
+        Waves.addressOptions = {
+            'devel': function () {
+                if (!Waves.constants.TESTNET_ADDRESS_REGEXP.test(rawAddress))
+                throw new Error('address is malformed');
+
+            }, 
+            '0.2.x': function() {
+                if (!Waves.constants.MAINNET_ADDRESS_REGEXP.test(rawAddress))
+                throw new Error('address is malformed');
+            },
+            'Accounts': function() {
+                if (!Waves.constants.TESTNET_ADDRESS_REGEXP.test(rawAddress))
+                throw new Error('address is malformed');
+            }
+        }
+
+
+        if (rawAddress !== undefined) {
+
+            Waves.addressOptions[Waves.network]();
+
+            rawAddress = rawAddress;
+        }
+
+        WaveAddress.prefix = '1W';
+    }
+
+    WaveAddress.fromStrToRaw = function(strAddress) {
+
+        if (straddr.startsWith(WaveAddress.prefix))
+        straddr = straddr.substr(WaveAddress.prefix.length, straddr.length - WaveAddress.prefix.length);
+
+        return straddr;
+    }
+
+    WaveAddress.fromRawToStr = function (rawAddress) {
+        if (!rawAddress.startsWith(WaveAddress.prefix))
+            return WaveAddress.prefix + rawAddress;
+        else 
+            return rawAddress;
+    }
+
+    return WaveAddress;
+}(WaveAddress || {}, jQuery));
+
 function WavesAddress(rawAddress) {
 
     Waves.addressOptions = {
