@@ -38,7 +38,7 @@
 var Waves = (function(Waves, $, undefined) {
 	"use strict";
     
-    Waves.server = 'http://52.51.92.182:6869'; //Enter your node or localhost here.
+    Waves.server = 'http://52.30.47.67:6869'; //Enter your node or localhost here.
     Waves.epoch = 1460678400;
     Waves.seed = '';
     Waves.hasLocalStorage = _checkDOMenabled();

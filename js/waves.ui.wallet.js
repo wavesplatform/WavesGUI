@@ -113,7 +113,7 @@ var Waves = (function(Waves, $, undefined) {
         var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
         var senderPublic = Base58.decode(Waves.publicKey);
         var senderPrivate = Base58.decode(Waves.privateKey);
-        var recipient = new WavesAddress().fromDisplayAddress($("#wavesrecipient").val().replace(/\s+/g, ''));
+        var recipient = Waves.Addressing.fromDisplayAddress($("#wavesrecipient").val().replace(/\s+/g, ''));
 
         var wavesTime = Number(Waves.getTime());
 
