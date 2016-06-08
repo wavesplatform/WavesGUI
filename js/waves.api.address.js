@@ -17,79 +17,59 @@
  * @depends {waves.constants.js}
  */
 
-var WaveAddress  = (function(WaveAddress, $, undefined) {
+function WaveAddress(rawAddress) {
+    if (rawAddress === undefined)
+        throw new Error("Address is undefined");
+    
+    this.rawAddress = rawAddress;
+    
+    this.getRawAddress = function () { return rawAddress; }
+        
+    this.getDisplayAddress = function() { return Waves.constants.ADDRESS_PREFIX + rawAddress; }
+}
+
+var Waves = (function (Waves, $, undefined) {
     "use strict";
 
-    WaveAddress.prefix = '1W';
+    Waves.Addressing = {
+        fromDisplayToRaw: function(displayAddress) {
+            var address = displayAddress;
+            if (address.length > Waves.constants.RAW_ADDRESS_LENGTH || address.startsWith(Waves.constants.ADDRESS_PREFIX))
+                address = address.substr(Waves.constants.ADDRESS_PREFIX.length, address.length - Waves.constants.ADDRESS_PREFIX.length);
 
-    WaveAddress.validateRawAddress = function(rawAddress) {
-        Waves.addressOptions = {
-            'devel': function () {
-                if (!Waves.constants.TESTNET_ADDRESS_REGEXP.test(rawAddress))
-                throw new Error('address is malformed');
+            return address;
+        },
+        validateRawAddress: function(rawAddress) {
+            return Waves.constants.MAINNET_ADDRESS_REGEXP.test(rawAddress);
+        },
+        validateDisplayAddress: function(displayAddress) {
+            var address = this.fromDisplayToRaw(displayAddress);
 
-            }, 
-            '0.2.x': function() {
-                if (!Waves.constants.MAINNET_ADDRESS_REGEXP.test(rawAddress))
-                throw new Error('address is malformed');
-            },
-            'Accounts': function() {
-                if (!Waves.constants.TESTNET_ADDRESS_REGEXP.test(rawAddress))
-                throw new Error('address is malformed');
-            }
+            return this.validateRawAddress(address);
+        },
+        fromRawAddress: function(rawAddress) {
+            if (!this.validateRawAddress(rawAddress))
+                throw new Error("Raw dddress is malformed");
+
+            return new WaveAddress(rawAddress);
+        },
+        fromDisplayAddress: function(displayAddress) {
+            if (!this.validateDisplayAddress(displayAddress))
+                throw new Error("Display address is malformed");
+
+            return new WaveAddress(this.fromDisplayToRaw(displayAddress));
         }
-
-
-        if (rawAddress !== undefined) {
-
-            Waves.addressOptions[Waves.network]();
-
-            rawAddress = rawAddress;
-        }
-
-        WaveAddress.prefix = '1W';
-    }
-
-    WaveAddress.fromStrToRaw = function(strAddress) {
-
-        if (straddr.startsWith(WaveAddress.prefix))
-        straddr = straddr.substr(WaveAddress.prefix.length, straddr.length - WaveAddress.prefix.length);
-
-        return straddr;
-    }
-
-    WaveAddress.fromRawToStr = function (rawAddress) {
-        if (!rawAddress.startsWith(WaveAddress.prefix))
-            return WaveAddress.prefix + rawAddress;
-        else 
-            return rawAddress;
-    }
-
-    return WaveAddress;
-}(WaveAddress || {}, jQuery));
+    };
+    
+    return Waves;
+}(Waves || {}, jQuery));
 
 function WavesAddress(rawAddress) {
 
-    Waves.addressOptions = {
-        'devel': function () {
-            if (!Waves.constants.TESTNET_ADDRESS_REGEXP.test(rawAddress))
-            throw new Error('address is malformed');
-
-        }, 
-        '0.2.x': function() {
-            if (!Waves.constants.MAINNET_ADDRESS_REGEXP.test(rawAddress))
-            throw new Error('address is malformed');
-        },
-        'Accounts': function() {
-            if (!Waves.constants.TESTNET_ADDRESS_REGEXP.test(rawAddress))
-            throw new Error('address is malformed');
-        }
-    }
-
-
     if (rawAddress !== undefined) {
 
-        Waves.addressOptions[Waves.network]();
+        if (!Waves.constants.MAINNET_ADDRESS_REGEXP.test(rawAddress))
+            throw new Error('address is malformed');
 
         this.rawAddress = rawAddress;
     }
