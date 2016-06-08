@@ -180,7 +180,7 @@ var Waves = (function(Waves, $, undefined) {
                     }
 
                     if(Waves.hasLocalStorage) {
-                        localStorage.setItem('WavesAccounts', JSON.stringify(accounts));
+                        localStorage.setItem('Waves'+Waves.network, JSON.stringify(accounts));
                         // Notify that we saved.
                         $.growl.notice({ message: "Removed Account!" });
                     } else {
