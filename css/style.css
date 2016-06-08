@@ -312,6 +312,10 @@ body {
     font-style: italic;
 }
 
+.testnet {
+    color: #E1B47D;
+}
+
 #accounts h2, #register h2 {
     font-size: 1.5rem;
     font-weight: 200;
