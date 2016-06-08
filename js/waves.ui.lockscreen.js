@@ -131,7 +131,7 @@ var Waves = (function(Waves, $, undefined) {
         });
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
-            $("#addresLockscreen").html(new WavesAddress(response.address).getDisplayAddress());
+            $("#addresLockscreen").html(Waves.Addressing.fromRawAddress(response.address).getDisplayAddress());
         });
     });
 
@@ -148,7 +148,7 @@ var Waves = (function(Waves, $, undefined) {
         $("#privateKeyLockscreen").html(privateKey);
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
-            $("#addresLockscreen").html(new WavesAddress(response.address).getDisplayAddress());
+            $("#addresLockscreen").html(Waves.Addressing.fromRawAddress(response.address).getDisplayAddress());
         });
     });
 
@@ -165,7 +165,7 @@ var Waves = (function(Waves, $, undefined) {
         $("#privateKeyLockscreen").html(privateKey);
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
-            $("#addresLockscreen").html(new WavesAddress(response.address).getDisplayAddress());
+            $("#addresLockscreen").html(Waves.Addressing.fromRawAddress(response.address).getDisplayAddress());
         });
     });
 
@@ -187,7 +187,7 @@ var Waves = (function(Waves, $, undefined) {
         var passphrase = $("#walletSeed").val();
         var publicKey = $("#publicKeyLockscreen").html();
         var privateKey = $("#privateKeyLockscreen").html();
-        var address = new WavesAddress().fromDisplayAddress($("#addresLockscreen").html());
+        var address = Waves.Addressing.fromDisplayAddress($("#addresLockscreen").html());
         var name = $("#walletName").val();
         var password = $("#walletPassword").val();
 

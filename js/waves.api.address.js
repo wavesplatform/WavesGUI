@@ -19,7 +19,7 @@
 
 function WaveAddress(rawAddress) {
     if (rawAddress === undefined)
-        throw new Error("Address is undefined");
+        throw new Error("Address must be defined");
     
     this.rawAddress = rawAddress;
     
@@ -49,7 +49,7 @@ var Waves = (function (Waves, $, undefined) {
         },
         fromRawAddress: function(rawAddress) {
             if (!this.validateRawAddress(rawAddress))
-                throw new Error("Raw dddress is malformed");
+                throw new Error("Raw address is malformed");
 
             return new WaveAddress(rawAddress);
         },
@@ -63,31 +63,3 @@ var Waves = (function (Waves, $, undefined) {
     
     return Waves;
 }(Waves || {}, jQuery));
-
-function WavesAddress(rawAddress) {
-
-    if (rawAddress !== undefined) {
-
-        if (!Waves.constants.MAINNET_ADDRESS_REGEXP.test(rawAddress))
-            throw new Error('address is malformed');
-
-        this.rawAddress = rawAddress;
-    }
-
-    this.prefix = '1W';
-}
-
-WavesAddress.prototype.getDisplayAddress = function () { return this.prefix + this.rawAddress; }
-
-WavesAddress.prototype.getRawAddress = function() { return this.rawAddress; }
-
-WavesAddress.prototype.fromDisplayAddress = function(displayAddress) {
-    if (displayAddress.startsWith(this.prefix))
-        displayAddress = displayAddress.substr(this.prefix.length, displayAddress.length - this.prefix.length);
-
-    return new WavesAddress(displayAddress);
-}
-
-WavesAddress.prototype.fromRawAddress = function(rawAddress) {
-    return new WavesAddress(rawAddress);
-}

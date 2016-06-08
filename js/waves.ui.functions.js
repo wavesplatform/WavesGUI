@@ -60,7 +60,7 @@ var Waves = (function(Waves, $, undefined) {
                 }
 
                 try {
-                    var accountAddress = new WavesAddress(accountDetails.address).getDisplayAddress();
+                    var accountAddress = Waves.Addressing.fromRawAddress(accountDetails.address).getDisplayAddress();
                     $("#wavesAccounts").append('<p class="loginAccountDiv"><span class="loginAccount tooltip-1 fade" title="Log into this account." data-id="' + accountKey + '"> <br/> <b>' + accountName + '</b> <span class="divider-1"></span> <small>' + accountAddress + '</small></span><span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + accountAddress + '"></span> <span class="divider-1"></span> <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="' + accountKey + '"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button></p> ');
                 }
                 catch (e) {
@@ -312,7 +312,7 @@ var Waves = (function(Waves, $, undefined) {
         Waves.loadBlockheight();
         Waves.passphrase = accountDetails.passphrase;
         Waves.publicKey = accountDetails.publicKey;
-        Waves.address = new WavesAddress(accountDetails.address);
+        Waves.address = Waves.Addressing.fromRawAddress(accountDetails.address);
         Waves.cipher = accountDetails.cipher;
         Waves.password = accountDetails.password;
         Waves.checksum = accountDetails.checksum;
@@ -345,7 +345,7 @@ var Waves = (function(Waves, $, undefined) {
         var row = '<tr>';
 
         row += '<td>'+accountArray.name+'</td>';
-        row += '<td>'+new WavesAddress(accountArray.address).getDisplayAddress()+'</td>';
+        row += '<td>'+Waves.Addressing.fromRawAddress(accountArray.address).getDisplayAddress()+'</td>';
         row += '<td>'+accountArray.email+'</td>';
         row += '<td>Send Message Remove</td>';
 
