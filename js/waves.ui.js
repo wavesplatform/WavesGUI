@@ -365,7 +365,7 @@ var Waves = (function(Waves, $, undefined) {
         var containsLowercase = /[a-z]/.test(value);
 
         return containsDigits && containsUppercase && containsLowercase;
-    }, "Too weak password. Good password must contain at least 1 digit and latin letters in mixed cases");
+    }, "Too weak password. Good password must contain at least one digit, one uppercase and one lowercase letter");
 
     //How to growl:
     /*
