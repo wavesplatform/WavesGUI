@@ -1264,6 +1264,22 @@ input.tabs-radio:checked + label  img {
 	#mBLeftBar {
 		width: 100px;
 	}
+    
+    #lockscreen {
+        padding: 2rem
+    }
+    
+    #lockscreenTable {
+        padding: 0;
+        margin: 0 auto;
+        min-width: 220px;
+    }
+    
+    .removeAccount, #register-form { display: block; }
+    
+    #register {margin-top: 2rem;}
+    
+    #register-form {}
 }
    
 @media only screen and (max-width: 640px) {
