@@ -42,6 +42,17 @@ var Waves = (function(Waves, $, undefined) {
 
     Waves.setInitApp = function (userAccounts) {
 
+        switch(Waves.network) {
+            default: 
+                $(".testnet").addClass('noDisp');
+                $(".mainnet").removeClass('noDisp');
+            bre
+            case 'devel':
+                $(".testnet").removeClass('noDisp');
+                $(".mainnet").addClass('noDisp');
+            break;
+        }
+
         if(userAccounts !== null && userAccounts !== undefined) {
                 
             var accounts;
