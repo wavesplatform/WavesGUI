@@ -786,8 +786,16 @@ input.tabs-radio:checked + label  img {
 	padding: .5rem;
 }
 
+.wavesTable tbody tr {
+    -moz-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    transition: all .2s ease;
+	-webkit-transition: all .2s ease;
+}
+
 .wavesTable tbody tr:hover {
-    background: rgba(225,180,125, .3);;
+    background: rgba(225,180,125, .5);
+    cursor: pointer;
 }
 
 .wavesTable tbody tr {
