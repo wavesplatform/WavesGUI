@@ -68,10 +68,10 @@ var Waves = (function(Waves, $, undefined) {
                 messages: {
                     walletSeed: {
                         required: 'Wallet seed is required',
-                        minlength: 'Wallet seed is too short. Really secure wallet seed should be longer than 25 characters'
+                        minlength: 'Wallet seed is too short. A secure wallet seed should contain more than 25 characters'
                     },
                     walletPassword: {
-                        required: 'Password is required to store your seed in a secure way',
+                        required: 'A password is required to store your seed safely',
                         minlength: 'Password must be 8 characters or longer'
                     },
                     walletPasswordConfirm: {

@@ -34,6 +34,13 @@ Waves' palette: #0096DC                             Waves' blue *
     src: url('../css/fonts/sparta.woff2') format('woff2');
 }
 
+@font-face {
+    font-family: 'Lekton';
+    src: url('../css/fonts/lekton.svg') format('svg');
+    src: url('../css/fonts/lekton.woff') format('woff');
+    src: url('../css/fonts/lekton.woff2') format('woff2');
+}
+
 
 /* ============================================================= */
 /* GLOBAL SETTINGS AND CLASSES */ /* GLOBAL SETTINGS AND CLASSES */
@@ -313,7 +320,16 @@ body {
 }
 
 .testnet {
-    color: #E1B47D;
+    color: #E1B47D !important;
+}
+
+/* REMOVE ACCOUNT CONFIRMATION POPUP */
+#login-wPop-remove {
+    max-width: 500px;
+}
+
+#login-wPop-remove p { 
+    text-align: justify;
 }
 
 #accounts h2, #register h2 {
@@ -361,12 +377,6 @@ body {
     padding-bottom: 1rem;
 }
 
-#login-wPop-new h2 {
-    font-weight: 200;
-    padding-bottom: 1rem;
-    color: #555555;
-}
-
 #register > form {
     margin: 0 auto;
     padding: 1rem;
@@ -405,6 +415,11 @@ body {
     padding: 1rem;
     color: red;
 }
+
+.loginAccountDiv { 
+        display: block;
+        height: inherit;
+    }
 
 /* =========================================================== */
 /* HEADER SETTINGS */ /* HEADER SETTINGS */ /* HEADER SETTINGS */
@@ -681,6 +696,7 @@ input.tabs-radio:checked + label  img {
     width: 100%;
     height: 20%;
     padding: 1%;
+    margin-bottom: -4px;
 }
 
 .wB-buttons a {
@@ -779,9 +795,16 @@ input.tabs-radio:checked + label  img {
 	padding: .5rem;
 }
 
+.wavesTable tbody tr {
+    -moz-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    transition: all .2s ease;
+	-webkit-transition: all .2s ease;
+}
+
 .wavesTable tbody tr:hover {
-/*    background: #CAE1FF;*/
-    background: rgba(225,180,125, .3);;
+    background: rgba(225,180,125, .5);
+    cursor: pointer;
 }
 
 .wavesTable tbody tr {
@@ -807,6 +830,10 @@ input.tabs-radio:checked + label  img {
 
 .wavesTable-txOut {
     color: #000000;
+}
+
+#wHistory tbody, #latestBlocksUnconfirmed, #latestBlocksTable  {
+    font-family: 'Lekton';
 }
 
 
@@ -899,14 +926,23 @@ input.tabs-radio:checked + label  img {
     color: #fff;
 }
 
-/* Button on Messenger ADD CONTACT */
-#addContactSubmit {
+/* Custom buttons */
+#login-wPop-new { 
+    text-align: center;
+    max-width: 550px;
+}
+
+#login-wPop-new p { 
+    text-align: left;
+}
+
+#addContactSubmit, #close_create_account_modal {
     background: #fff;
     color: #37556E;
     border: 1px solid #37556E;
 }
 
-#addContactSubmit:hover {
+#addContactSubmit:hover, #close_create_account_modal:hover {
     background: #37556E;
     color: #fff;
 }
@@ -924,6 +960,7 @@ input.tabs-radio:checked + label  img {
 #transactionHistorySearch:hover {
     background: #E1B47D;
 }
+
 
 /* ================================================= */
 /* WAVES STANDARD INPUTS */ /* WAVES STANDARD INPUTS */
@@ -1025,6 +1062,7 @@ input.tabs-radio:checked + label  img {
 #mBB-portfolio .paymentForm table {
     padding-bottom: 1rem;
 }
+
 
 /* ==================================================== */
 /* PORTFOLIO TAB *//* PORTFOLIO TAB */ /* PORTFOLIO TAB */  
@@ -1225,18 +1263,35 @@ input.tabs-radio:checked + label  img {
 	}
     
     #blockheight, header .divider-2, header .inlineParagraph { display: none; }
-    
     .header-Icon { width: 1.75rem; }
 }
+
 
 @media only screen and (max-width: 800px) {
 
 	#version { display: none; }
-	
-	#mBLeftBar {
-		width: 100px;
-	}
+    #mBLeftBar { width: 100px; }
+    #lockscreen { padding: 2rem }
+    
+    #lockscreenTable {
+        padding: 0;
+        margin: 0 auto;
+        min-width: 220px;
+    }
+    
+    .loginAccountDiv .divider-1:nth-child(1), 
+    .loginAccountDiv .divider-1:nth-child(2), 
+    .loginAccountDiv .divider-1:nth-child(3),
+    .loginAccountDiv > .clipSpan { 
+        display: none; 
+    }
+    
+    .loginAccount, .removeAccount { 
+        display: block;
+        margin: 0 auto;
+    }
 }
+
    
 @media only screen and (max-width: 640px) {
 
@@ -1247,7 +1302,16 @@ input.tabs-radio:checked + label  img {
 		margin-left: .2rem;
 		margin-right: .2rem;
 	}
+    
+    #generateRandomSeed, #generateKeys { 
+        display: block;
+        margin: 0 auto;
+    }
+    
+    .removeAccount { margin-top: .5rem; }
+    #walletSeed { min-width: 250px; }
 }
+
 
 @media only screen and (max-width: 512px) {
 
@@ -1262,6 +1326,7 @@ input.tabs-radio:checked + label  img {
     
     .wInput { min-width: 50px; }
 }
+
 
 /* Mobile version - Landscape (iPhone up to 6, all Samsung Galaxy, all HTC) */
 @media only screen and (max-width: 736px) and (max-height: 420px) {
@@ -1292,10 +1357,7 @@ input.tabs-radio:checked + label  img {
 	}
     
     .jurl { display: none; }
-    
-    #tabs { 
-        height: 40px;
-    } 
+    #tabs { height: 40px; } 
     
      #tabs-Iconset { 
         height: 90%;
@@ -1318,6 +1380,7 @@ input.tabs-radio:checked + label  img {
         height: 175px;
     }
 }
+
 
 /* Mobile version - Portrait */
 @media only screen and (max-width: 420px) {
@@ -1342,10 +1405,7 @@ input.tabs-radio:checked + label  img {
         margin: 0 auto;
     }
     
-    .loginAccount {
-     margin-left: -1rem;
-    }
-       
+    .loginAccount { margin-left: -1rem; }  
     .divider-1 { width: 0px; }
     
     #import_account, #create_account {
@@ -1390,5 +1450,4 @@ input.tabs-radio:checked + label  img {
 
     .wB-buttons { height: 22.5%; }
     #wHistory { display: none; }
-    
 }

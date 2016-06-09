@@ -42,6 +42,17 @@ var Waves = (function(Waves, $, undefined) {
 
     Waves.setInitApp = function (userAccounts) {
 
+        switch(Waves.network) {
+            default: 
+                $(".testnet").addClass('noDisp');
+                $(".mainnet").removeClass('noDisp');
+            bre
+            case 'devel':
+                $(".testnet").removeClass('noDisp');
+                $(".mainnet").addClass('noDisp');
+            break;
+        }
+
         if(userAccounts !== null && userAccounts !== undefined) {
                 
             var accounts;
@@ -180,7 +191,7 @@ var Waves = (function(Waves, $, undefined) {
                     }
 
                     if(Waves.hasLocalStorage) {
-                        localStorage.setItem('WavesAccounts', JSON.stringify(accounts));
+                        localStorage.setItem('Waves'+Waves.network, JSON.stringify(accounts));
                         // Notify that we saved.
                         $.growl.notice({ message: "Removed Account!" });
                     } else {
