@@ -323,6 +323,15 @@ body {
     color: #E1B47D !important;
 }
 
+/* REMOVE ACCOUNT CONFIRMATION POPUP */
+#login-wPop-remove {
+    max-width: 500px;
+}
+
+#login-wPop-remove p { 
+    text-align: justify;
+}
+
 #accounts h2, #register h2 {
     font-size: 1.5rem;
     font-weight: 200;
@@ -366,12 +375,6 @@ body {
     background: #ffffff; 
     color: #555555;
     padding-bottom: 1rem;
-}
-
-#login-wPop-new h2 {
-    font-weight: 200;
-    padding-bottom: 1rem;
-    color: #555555;
 }
 
 #register > form {
@@ -926,6 +929,7 @@ input.tabs-radio:checked + label  img {
 /* Custom buttons */
 #login-wPop-new { 
     text-align: center;
+    max-width: 550px;
 }
 
 #login-wPop-new p { 
@@ -1058,6 +1062,7 @@ input.tabs-radio:checked + label  img {
 #mBB-portfolio .paymentForm table {
     padding-bottom: 1rem;
 }
+
 
 /* ==================================================== */
 /* PORTFOLIO TAB *//* PORTFOLIO TAB */ /* PORTFOLIO TAB */  
@@ -1303,6 +1308,7 @@ input.tabs-radio:checked + label  img {
         margin: 0 auto;
     }
     
+    .removeAccount { margin-top: .5rem; }
     #walletSeed { min-width: 250px; }
 }
 
