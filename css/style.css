@@ -320,7 +320,7 @@ body {
 }
 
 .testnet {
-    color: #E1B47D;
+    color: #E1B47D !important;
 }
 
 #accounts h2, #register h2 {
@@ -815,7 +815,7 @@ input.tabs-radio:checked + label  img {
     color: #000000;
 }
 
-#wHistory, #latestBlocksUnconfirmed, #latestBlocksTable  {
+#wHistory tbody, #latestBlocksUnconfirmed, #latestBlocksTable  {
     font-family: 'Lekton';
 }
 
