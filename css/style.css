@@ -34,6 +34,13 @@ Waves' palette: #0096DC                             Waves' blue *
     src: url('../css/fonts/sparta.woff2') format('woff2');
 }
 
+@font-face {
+    font-family: 'Lekton';
+    src: url('../css/fonts/lekton.svg') format('svg');
+    src: url('../css/fonts/lekton.woff') format('woff');
+    src: url('../css/fonts/lekton.woff2') format('woff2');
+}
+
 
 /* ============================================================= */
 /* GLOBAL SETTINGS AND CLASSES */ /* GLOBAL SETTINGS AND CLASSES */
@@ -780,7 +787,6 @@ input.tabs-radio:checked + label  img {
 }
 
 .wavesTable tbody tr:hover {
-/*    background: #CAE1FF;*/
     background: rgba(225,180,125, .3);;
 }
 
@@ -807,6 +813,10 @@ input.tabs-radio:checked + label  img {
 
 .wavesTable-txOut {
     color: #000000;
+}
+
+#wHistory, #latestBlocksUnconfirmed, #latestBlocksTable  {
+    font-family: 'Lekton';
 }
 
 
