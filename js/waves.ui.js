@@ -85,10 +85,14 @@ var Waves = (function(Waves, $, undefined) {
                             paymentType = 'Outgoing ';
                         }
 
+                        var sender = historyValue.sender !== undefined ?
+                            Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress() :
+                            "none";
+
                         appContainer += '<tr '+senderClass+'>';
                         appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
                         appContainer += '<td>' +paymentType + Waves.transactionType(historyValue.type)+'</td>';
-                        appContainer += '<td>'+ Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress()+'</td>';
+                        appContainer += '<td>'+ sender +'</td>';
                         appContainer += '<td>'+ Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</td>';
                         appContainer += '<td>'+historyValue.fee+' WVL</td>';
                         appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';

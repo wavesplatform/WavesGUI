@@ -40,6 +40,8 @@ var Waves = (function (Waves, $) {
         "RAW_ADDRESS_LENGTH" : 35,
         "ADDRESS_PREFIX": "1W",
         "MAINNET_ADDRESS_REGEXP": /^[a-zA-Z0-9]{35}$/,
+
+        "INITIAL_NONCE": 0,
     };
 
     if (Waves.UI === undefined)
