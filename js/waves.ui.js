@@ -160,9 +160,8 @@ var Waves = (function(Waves, $, undefined) {
 
                 $.each(response, function(blockKey, blockData) {
 
-                    var block = Waves.blockHeight - blockKey;
                     row += '<tr class="fade">'+
-                        '<td>'+block+'</td>'+
+                        '<td>'+blockData.height+'</td>'+
                         '<td>'+Waves.formatTimestamp(blockData.timestamp)+'</td>'+
                         '<td>'+blockData.transactions.length+'</td>'+
                         '<td>'+blockData.generator+'</td>'+
