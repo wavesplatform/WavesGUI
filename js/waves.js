@@ -45,7 +45,8 @@ var Waves = (function(Waves, $, undefined) {
     Waves.stateInterval;
     Waves.stateIntervalSeconds = 25;
 
-    //possible networks: Accounts, devel, 0.2.x
+    //possible networks: testnet, devel = testnet
+    //You can using anything for Waves.network which will create a new account storage on mainnet
     Waves.network = 'devel';
 
     Waves.createAccount = function (publicKey) {
