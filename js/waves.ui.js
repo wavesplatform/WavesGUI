@@ -78,15 +78,17 @@ var Waves = (function(Waves, $, undefined) {
                     if(max > 0) {
 
                         var senderClass = '';
+                        var paymentType = 'Incoming ';
                         if(historyValue.sender === Waves.address.getRawAddress()) {
 
+                            paymentType = 'Outgoing ';
                              var classSender = 'wavesTable-txOut';
                             senderClass = '​class="'+classSender+'"';
                         }
 
                         appContainer += '<tr '+senderClass+'>';
                         appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                        appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
+                        appContainer += '<td>' +paymentType + Waves.transactionType(historyValue.type)+'</td>';
                         appContainer += '<td>'+ Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress()+'</td>';
                         appContainer += '<td>'+ Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</td>';
                         appContainer += '<td>'+historyValue.fee+' WVL</td>';
@@ -120,14 +122,16 @@ var Waves = (function(Waves, $, undefined) {
 
                 $.each(transactionHistory, function(historyKey, historyValue) {
                     var senderClass = '';
+                    var paymentType = 'Incoming ';
                     if(historyValue.sender === Waves.address.getRawAddress()) {
                         var classSender = 'wavesTable-txOut';
                         senderClass = '​class="'+classSender+'"';
+                        paymentType = 'Outgoing ';
                     }
     
                     appContainer += '<tr '+senderClass+'>';
                     appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                    appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
+                    appContainer += '<td>'+ paymentType + Waves.transactionType(historyValue.type)+'</td>';
                     appContainer += '<td>'+ Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress()+'</td>';
                     appContainer += '<td>'+ Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</td>';
                     appContainer += '<td>'+historyValue.fee+' WVL</td>';
