@@ -322,13 +322,13 @@ var Waves = (function(Waves, $, undefined) {
 
     clipboard.on('success', function(e) {
       
-         $.growl.notice({ message: "Address successfully copied to clipboard." });
+         $.growl.notice({ message: "Address successfully copied to clipboard" });
 
         e.clearSelection();
     });
 
     clipboard.on('error', function(e) {
-         $.growl.warning({ message: "Could not copy address to clipboard." });
+         $.growl.warning({ message: "Could not copy address to clipboard" });
     });
 
     // setting up jquery validation engine
@@ -355,7 +355,7 @@ var Waves = (function(Waves, $, undefined) {
     }, "Account number must be a sequence of 35 alphanumeric characters with no spaces starting with '1W'");
     $.validator.addMethod('decimal', function(value, element) {
         return this.optional(element) || /^(?:-?\d+)?(?:\.\d+)?$/.test(value);
-    }, "Number is expected with dot (.) as a decimal separator");
+    }, "Amount is expected with a dot (.) as a decimal separator");
     $.validator.addMethod('password', function(value, element){
         if (this.optional(element))
             return true;
@@ -365,7 +365,7 @@ var Waves = (function(Waves, $, undefined) {
         var containsLowercase = /[a-z]/.test(value);
 
         return containsDigits && containsUppercase && containsLowercase;
-    }, "Too weak password. Good password must contain at least one digit, one uppercase and one lowercase letter");
+    }, "The password is too weak. A good password must contain at least one digit, one uppercase and one lowercase letter");
 
     //How to growl:
     /*
