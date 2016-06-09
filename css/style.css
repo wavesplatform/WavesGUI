@@ -1258,7 +1258,6 @@ input.tabs-radio:checked + label  img {
 	}
     
     #blockheight, header .divider-2, header .inlineParagraph { display: none; }
-    
     .header-Icon { width: 1.75rem; }
 }
 
@@ -1298,6 +1297,13 @@ input.tabs-radio:checked + label  img {
 		margin-left: .2rem;
 		margin-right: .2rem;
 	}
+    
+    #generateRandomSeed, #generateKeys { 
+        display: block;
+        margin: 0 auto;
+    }
+    
+    #walletSeed { min-width: 250px; }
 }
 
 
@@ -1345,10 +1351,7 @@ input.tabs-radio:checked + label  img {
 	}
     
     .jurl { display: none; }
-    
-    #tabs { 
-        height: 40px;
-    } 
+    #tabs { height: 40px; } 
     
      #tabs-Iconset { 
         height: 90%;
@@ -1396,10 +1399,7 @@ input.tabs-radio:checked + label  img {
         margin: 0 auto;
     }
     
-    .loginAccount {
-     margin-left: -1rem;
-    }
-       
+    .loginAccount { margin-left: -1rem; }  
     .divider-1 { width: 0px; }
     
     #import_account, #create_account {
