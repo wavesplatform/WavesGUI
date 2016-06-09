@@ -368,8 +368,16 @@ var Waves = (function (Waves, $, undefined) {
     }
 
     //Returns privateKey built from string
-    Waves.getPrivateKey = function (secretPhrase) {
+    Waves.getPrivateKey = function(secretPhrase) {
         return this.buildPrivateKey(converters.stringToByteArray(secretPhrase));
+    }
+
+    // function accepts buffer with private key and an array with dataToSign
+    // returns buffer with signed data
+    Waves.sign = function(privateKey, dataToSign) {
+        var signatureArrayBuffer = curve25519.sign(privateKey, new Uint8Array(dataToSign));
+
+        return Base58.encode(new Uint8Array(signatureArrayBuffer));
     }
 
     Waves.formatVolume = function (volume) {

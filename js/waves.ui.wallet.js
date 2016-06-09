@@ -120,8 +120,7 @@ var Waves = (function(Waves, $, undefined) {
         var fee = Number(1);
 
         var signatureData = Waves.signatureData(Waves.publicKey, recipient.getRawAddress(), amount, fee, wavesTime);
-        var signature = Array.from(Waves.curve25519.sign(senderPrivate, signatureData));
-        signature = Base58.encode(signature);
+        var signature = Waves.sign(senderPrivate, signatureData);
 
         //var verify = Waves.curve25519.verify(senderPublic, signatureData, Base58.decode(signature));
 
