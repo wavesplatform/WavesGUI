@@ -918,14 +918,22 @@ input.tabs-radio:checked + label  img {
     color: #fff;
 }
 
-/* Button on Messenger ADD CONTACT */
-#addContactSubmit {
+/* Custom buttons */
+#login-wPop-new { 
+    text-align: center;
+}
+
+#login-wPop-new p { 
+    text-align: left;
+}
+
+#addContactSubmit, #close_create_account_modal {
     background: #fff;
     color: #37556E;
     border: 1px solid #37556E;
 }
 
-#addContactSubmit:hover {
+#addContactSubmit:hover, #close_create_account_modal:hover {
     background: #37556E;
     color: #fff;
 }
@@ -943,6 +951,7 @@ input.tabs-radio:checked + label  img {
 #transactionHistorySearch:hover {
     background: #E1B47D;
 }
+
 
 /* ================================================= */
 /* WAVES STANDARD INPUTS */ /* WAVES STANDARD INPUTS */
