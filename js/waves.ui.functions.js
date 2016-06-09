@@ -51,6 +51,10 @@ var Waves = (function(Waves, $, undefined) {
                 $(".testnet").removeClass('noDisp');
                 $(".mainnet").addClass('noDisp');
             break;
+            case 'testnet':
+                $(".testnet").removeClass('noDisp');
+                $(".mainnet").addClass('noDisp');
+            break;
         }
 
         if(userAccounts !== null && userAccounts !== undefined) {
