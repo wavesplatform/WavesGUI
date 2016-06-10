@@ -160,6 +160,7 @@ var Waves = (function(Waves, $, undefined) {
             var row = '';
             var endBlock = Waves.blockHeight;
             var startBlock = endBlock - amountOfBlocks;
+            if(startBlock <= 0) startBlock = 1;
             Waves.apiRequest(Waves.api.blocks.lastBlocks(startBlock, endBlock), function(response) {
 
                 response.sort(function(x, y){
