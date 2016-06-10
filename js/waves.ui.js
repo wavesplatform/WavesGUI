@@ -328,7 +328,6 @@ var Waves = (function(Waves, $, undefined) {
         Waves.logout();  
     });
 
-
     //Add Copy-to-Clipboard to class clipSpan
     var clipboard = new Clipboard('.clipSpan');
 

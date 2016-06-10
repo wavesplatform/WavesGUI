@@ -135,6 +135,9 @@ var Waves = (function(Waves, $, undefined) {
         });
     });
 
+    $("#close_create_account_modal").on("click", function(){
+        $.modal.close();
+    });
 
     $("#generateKeys").on("click", function(e) {
         e.preventDefault();
