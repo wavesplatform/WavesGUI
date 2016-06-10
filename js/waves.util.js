@@ -16,6 +16,8 @@
 
 /**
  * @depends {waves.js}
+ * @depends {blake2b/blake2b.js}
+ * @depends {crypto/sha3.js}
  */
 var Waves = (function (Waves, $, undefined) {
 
@@ -309,25 +311,73 @@ var Waves = (function (Waves, $, undefined) {
         return bytes;
     }
 
-    //Returns publicKey
-    Waves.getPublicKey = function(secretPhrase)
-    {
-        SHA256_init();
-        SHA256_write(converters.stringToByteArray(secretPhrase));
-        var ky = converters.byteArrayToHexString(curve25519.keygen(SHA256_finalize()).p);
-
-        //Array bytes in converters.hexStringToByteArray(ky);
-        return Base58.encode(converters.hexStringToByteArray(ky));
+    // blake2b 256 hash function
+    Waves.blake2bHash = function(messageBytes) {
+        return blake2b(messageBytes, null, 32);
     }
 
-    //Returns privateKey
-    Waves.getPrivateKey = function (secretPhrase) {
-        SHA256_init();
-        SHA256_write(converters.stringToByteArray(secretPhrase));
-        var ky = converters.byteArrayToHexString(curve25519.keygen(SHA256_finalize()).k);
-        
-        //Array Bytes in converters.hexStringToByteArray(ky)
-        return Base58.encode(converters.hexStringToByteArray(ky));
+    // keccak 256 hash algorithm
+    Waves.keccakHash = function(messageBytes) {
+        return keccak_256.array(messageBytes);
+    }
+
+    Waves.hashChain = function(noncedSecretPhraseBytes) {
+        return this.keccakHash(this.blake2bHash(new Uint8Array(noncedSecretPhraseBytes)));
+    }
+    
+    Waves.appendUint8Arrays = function(array1, array2) {
+        var tmp = new Uint8Array(array1.length + array2.length);
+        tmp.set(array1, 0);
+        tmp.set(array2, array1.length);
+        return tmp;
+    }
+
+    // appends nonce bytes to a seed as an array
+    Waves.appendNonce = function (originalSeed) {
+        // change this is when nonce increment gets introduced
+        var nonce = new Uint8Array(converters.int32ToBytes(Waves.constants.INITIAL_NONCE, true));
+
+        return this.appendUint8Arrays(nonce, originalSeed);
+    }
+
+    Waves.buildAccountSeedHash = function(seedBytes) {
+        var data = this.appendNonce(seedBytes);
+        var seedHash = this.hashChain(data);
+        var accountSeedHash = SHA256_hash(Array.prototype.slice.call(seedHash), true);
+
+        return new Uint8Array(accountSeedHash);
+    }
+
+    Waves.buildPublicKey = function (seedBytes) {
+        var accountSeedHash = this.buildAccountSeedHash(seedBytes);
+        var p = curve25519.generateKeyPair(accountSeedHash.buffer);
+
+        return Base58.encode(new Uint8Array(p.public));
+    }
+
+    Waves.buildPrivateKey = function (seedBytes) {
+        var accountSeedHash = this.buildAccountSeedHash(seedBytes);
+        var p = curve25519.generateKeyPair(accountSeedHash.buffer);
+
+        return Base58.encode(new Uint8Array(p.private));
+    }
+
+    //Returns publicKey built from string
+    Waves.getPublicKey = function(secretPhrase) {
+        return this.buildPublicKey(converters.stringToByteArray(secretPhrase));
+    }
+
+    //Returns privateKey built from string
+    Waves.getPrivateKey = function(secretPhrase) {
+        return this.buildPrivateKey(converters.stringToByteArray(secretPhrase));
+    }
+
+    // function accepts buffer with private key and an array with dataToSign
+    // returns buffer with signed data
+    Waves.sign = function(privateKey, dataToSign) {
+        var signatureArrayBuffer = curve25519.sign(privateKey, new Uint8Array(dataToSign));
+
+        return Base58.encode(new Uint8Array(signatureArrayBuffer));
     }
 
     Waves.formatVolume = function (volume) {

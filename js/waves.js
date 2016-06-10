@@ -38,12 +38,16 @@
 var Waves = (function(Waves, $, undefined) {
 	"use strict";
     
-    Waves.server = 'http://52.51.92.182:6869'; //Enter your node or localhost here.
+    Waves.server = 'http://52.30.47.67:6869'; //Enter your node or localhost here.
     Waves.epoch = 1460678400;
     Waves.seed = '';
     Waves.hasLocalStorage = _checkDOMenabled();
     Waves.stateInterval;
-    Waves.stateIntervalSeconds = 40;
+    Waves.stateIntervalSeconds = 25;
+
+    //possible networks: testnet, devel = testnet
+    //You can using anything for Waves.network which will create a new account storage on mainnet
+    Waves.network = 'devel';
 
     Waves.createAccount = function (publicKey) {
 

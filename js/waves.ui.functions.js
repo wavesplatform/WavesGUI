@@ -42,13 +42,26 @@ var Waves = (function(Waves, $, undefined) {
 
     Waves.setInitApp = function (userAccounts) {
 
-        if(userAccounts !== null) {
+        switch(Waves.network) {
+            case 'devel':
+            case 'testnet':
+                $(".testnet").removeClass('noDisp');
+                $(".mainnet").addClass('noDisp');
+                break;
+            default:
+                $(".testnet").addClass('noDisp');
+                $(".mainnet").removeClass('noDisp');
+            break;
+        }
+
+        if(userAccounts !== null && userAccounts !== undefined) {
                 
             var accounts;
             if(Waves.hasLocalStorage) {
                 accounts = JSON.parse(userAccounts);
             } else {
                 accounts = userAccounts;
+                console.log(accounts);
             }
 
             $.each(accounts.accounts, function(accountKey, accountDetails) {
@@ -58,8 +71,13 @@ var Waves = (function(Waves, $, undefined) {
                     accountName = accountDetails.name;
                 }
 
-                var accountAddress = new WavesAddress(accountDetails.address).getDisplayAddress();
-                $("#wavesAccounts").append('<p class="loginAccountDiv"><span class="loginAccount tooltip-1 fade" title="Log into this account." data-id="'+accountKey+'"> <br/> <b>'+accountName+'</b> <span class="divider-1"></span> <small>'+accountAddress+'</small></span><span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="'+accountAddress+'"></span> <span class="divider-1"></span> <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="'+accountKey+'"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button></p> ');
+                try {
+                    var accountAddress = Waves.Addressing.fromRawAddress(accountDetails.address).getDisplayAddress();
+                    $("#wavesAccounts").append('<p class="loginAccountDiv"><span class="loginAccount tooltip-1 fade" title="Log into this account." data-id="' + accountKey + '"> <br/> <b>' + accountName + '</b> <span class="divider-1"></span> <small>' + accountAddress + '</small></span><span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + accountAddress + '"></span> <span class="divider-1"></span> <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." data-id="' + accountKey + '"><span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE</button></p> ');
+                }
+                catch (e) {
+                    console.log('Skipping account: ' + accountName);
+                }
             });
 
        }
@@ -75,11 +93,15 @@ var Waves = (function(Waves, $, undefined) {
             $("#register").css("display", "none");
 
            if(userAccounts !== null) {
-                var accounts = JSON.parse(userAccounts);
+                
+                var accounts;
+                if(Waves.hasLocalStorage) {
+                    accounts = JSON.parse(userAccounts);
+                } else {
+                    accounts = userAccounts;
+                }
 
                 var accountDetails = accounts.accounts[accountId];
-
-                var childNode = accountId + 1;
 
                 $("#loginAccountDiv").remove();
 
@@ -87,7 +109,7 @@ var Waves = (function(Waves, $, undefined) {
                 var backButton = '<button class="goBack wButton fade tooltip-1" title="Return to the previous step.">BACK</button>';
                 var divider2 = '<span class="divider-2"></span>';
 
-                $("#wavesAccounts > p:nth-child("+childNode+")").after("<div id='loginAccountDiv'>PASSWORD<br/><input type='password' id='loginPassword' class='wInput' autofocus><br/>"+submitButton+""+divider2+""+backButton+"<br/><div id='errorPasswordLogin' style='display: none;'></div></div>");
+               $(this).parent().after("<div id='loginAccountDiv'>PASSWORD<br/><input type='password' id='loginPassword' class='wInput' autofocus><br/>"+submitButton+""+divider2+""+backButton+"<br/><div id='errorPasswordLogin' style='display: none;'></div></div>");
 
                  $(".goBack").on("click", function(e) {
                     e.preventDefault();
@@ -99,7 +121,6 @@ var Waves = (function(Waves, $, undefined) {
                     if(Waves.isEnterKey(e.keyCode)) {
                         
                         var password = $("#loginPassword").val();
-
                         var decryptPassword = Waves.decryptWalletSeed(accountDetails.cipher, password, accountDetails.checksum);
 
                         if(decryptPassword) {
@@ -149,11 +170,15 @@ var Waves = (function(Waves, $, undefined) {
             e.preventDefault();
 
             var accountId = $(this).data('id');
-            var userAccounts = localStorage.getItem('WavesAccounts');
 
             if(userAccounts !== null) {
-                var accounts = JSON.parse(userAccounts);
+                var accounts;
 
+                if(Waves.hasLocalStorage) {
+                    accounts = JSON.parse(userAccounts);
+                } else {
+                    accounts = userAccounts;
+                }
 
                  $("#login-wPop-remove").modal({
                   fadeDuration: 500,
@@ -166,10 +191,24 @@ var Waves = (function(Waves, $, undefined) {
                         accounts.accounts.splice(accountId, 1);
                     }
 
-                    localStorage.setItem('WavesAccounts', JSON.stringify(accounts));
+                    if(Waves.hasLocalStorage) {
+                        localStorage.setItem('Waves'+Waves.network, JSON.stringify(accounts));
+                        // Notify that we saved.
+                        $.growl.notice({ message: "Removed Account!" });
+                    } else {
+                        chrome.storage.sync.set({'WavesAccounts': accounts}, function() {
+                            // Notify that we saved.
+                            $.growl.notice({ message: "Removed Account!" });
+                        });
+                    }
 
                     $("#wavesAccounts").html('');
-                    location.reload();
+                    
+                    if(Waves.hasLocalStorage) {
+                        location.reload();
+                    } else {
+                        chrome.runtime.reload();
+                    }
                 });
 
                 $("#remove_account_cancel").on("click", function(){
@@ -189,8 +228,10 @@ var Waves = (function(Waves, $, undefined) {
 
         chrome.storage.sync.get('WavesAccounts', function (result) {
                 
-            if(result !== undefined) {
+            if($.isEmptyObject(result) === false) {
                 callback(result);
+            } else {
+                callback('');
             }
         });
     }
@@ -209,7 +250,7 @@ var Waves = (function(Waves, $, undefined) {
         $("#lockscreenTable").fadeIn('1000');
 
         if(Waves.hasLocalStorage) {
-           var userAccounts = localStorage.getItem('WavesAccounts');
+           var userAccounts = localStorage.getItem('Waves'+Waves.network);
 
            Waves.setInitApp(userAccounts);
 
@@ -217,7 +258,7 @@ var Waves = (function(Waves, $, undefined) {
 
             Waves.getAccounts(function(userAccounts) {
 
-                Waves.setInitApp(userAccounts.WavesAccounts);
+                Waves.setInitApp(userAccounts['Waves'+Waves.network]);
                 
             });
             
@@ -283,11 +324,12 @@ var Waves = (function(Waves, $, undefined) {
         Waves.loadBlockheight();
         Waves.passphrase = accountDetails.passphrase;
         Waves.publicKey = accountDetails.publicKey;
-        Waves.privateKey = accountDetails.privateKey;
-        Waves.address = new WavesAddress(accountDetails.address);
+        Waves.address = Waves.Addressing.fromRawAddress(accountDetails.address);
         Waves.cipher = accountDetails.cipher;
         Waves.password = accountDetails.password;
         Waves.checksum = accountDetails.checksum;
+
+        Waves.privateKey = Waves.getPrivateKey(accountDetails.passphrase);
 
         $("#wavesAccountAddress").html('<span class="clipSpan" id="wavesAccountAddressClip" data-clipboard-text="'+
             Waves.address.getDisplayAddress()+'" style="cursor: pointer; cursor: hand;">'+Waves.address.getDisplayAddress()+'</span>')
@@ -315,7 +357,7 @@ var Waves = (function(Waves, $, undefined) {
         var row = '<tr>';
 
         row += '<td>'+accountArray.name+'</td>';
-        row += '<td>'+new WavesAddress(accountArray.address).getDisplayAddress()+'</td>';
+        row += '<td>'+Waves.Addressing.fromRawAddress(accountArray.address).getDisplayAddress()+'</td>';
         row += '<td>'+accountArray.email+'</td>';
         row += '<td>Send Message Remove</td>';
 

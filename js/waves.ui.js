@@ -77,18 +77,23 @@ var Waves = (function(Waves, $, undefined) {
                     
                     if(max > 0) {
 
-                        var senderClass = '';
+                        var senderClass = 'class="wavesTable-txIn"';
+                        var paymentType = 'Incoming ';
                         if(historyValue.sender === Waves.address.getRawAddress()) {
-
-                             var classSender = 'wavesTable-txOut';
-                            senderClass = '​class="'+classSender+'"';
+                          
+                            senderClass = '​class="wavesTable-txOut"';
+                            paymentType = 'Outgoing ';
                         }
+
+                        var sender = historyValue.sender !== undefined ?
+                            Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress() :
+                            "none";
 
                         appContainer += '<tr '+senderClass+'>';
                         appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                        appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
-                        appContainer += '<td>'+ new WavesAddress(historyValue.sender).getDisplayAddress()+'</td>';
-                        appContainer += '<td>'+ new WavesAddress(historyValue.recipient).getDisplayAddress()+'</td>';
+                        appContainer += '<td>' +paymentType + Waves.transactionType(historyValue.type)+'</td>';
+                        appContainer += '<td>'+ sender +'</td>';
+                        appContainer += '<td>'+ Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</td>';
                         appContainer += '<td>'+historyValue.fee+' WVL</td>';
                         appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
                         appContainer += '</tr>';
@@ -119,17 +124,24 @@ var Waves = (function(Waves, $, undefined) {
                 });
 
                 $.each(transactionHistory, function(historyKey, historyValue) {
-                    var senderClass = '';
+
+                    var senderClass = 'class="wavesTable-txIn"';
+                    var paymentType = 'Incoming ';
                     if(historyValue.sender === Waves.address.getRawAddress()) {
-                        var classSender = 'wavesTable-txOut';
-                        senderClass = '​class="'+classSender+'"';
+                      
+                        senderClass = '​class="wavesTable-txOut"';
+                        paymentType = 'Outgoing ';
                     }
-    
+
+                    var sender = historyValue.sender !== undefined ?
+                        Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress() :
+                        "none";
+
                     appContainer += '<tr '+senderClass+'>';
                     appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                    appContainer += '<td>'+Waves.transactionType(historyValue.type)+'</td>';
-                    appContainer += '<td>'+ new WavesAddress(historyValue.sender).getDisplayAddress()+'</td>';
-                    appContainer += '<td>'+ new WavesAddress(historyValue.recipient).getDisplayAddress()+'</td>';
+                    appContainer += '<td>'+paymentType + Waves.transactionType(historyValue.type)+'</td>';
+                    appContainer += '<td>'+ sender +'</td>';
+                    appContainer += '<td>'+ Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</td>';
                     appContainer += '<td>'+historyValue.fee+' WVL</td>';
                     appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
                     appContainer += '</tr>';
@@ -156,9 +168,8 @@ var Waves = (function(Waves, $, undefined) {
 
                 $.each(response, function(blockKey, blockData) {
 
-                    var block = Waves.blockHeight - blockKey;
                     row += '<tr class="fade">'+
-                        '<td>'+block+'</td>'+
+                        '<td>'+blockData.height+'</td>'+
                         '<td>'+Waves.formatTimestamp(blockData.timestamp)+'</td>'+
                         '<td>'+blockData.transactions.length+'</td>'+
                         '<td>'+blockData.generator+'</td>'+
@@ -322,13 +333,13 @@ var Waves = (function(Waves, $, undefined) {
 
     clipboard.on('success', function(e) {
       
-         $.growl.notice({ message: "Address successfully copied to clipboard." });
+         $.growl.notice({ message: "Address successfully copied to clipboard" });
 
         e.clearSelection();
     });
 
     clipboard.on('error', function(e) {
-         $.growl.warning({ message: "Could not copy address to clipboard." });
+         $.growl.warning({ message: "Could not copy address to clipboard" });
     });
 
     // setting up jquery validation engine
@@ -351,11 +362,21 @@ var Waves = (function(Waves, $, undefined) {
         }
     });
     $.validator.addMethod('address', function(value, element){
-        return this.optional(element) || /^1w[a-zA-Z0-9]{33}$/.test(value);
-    }, "Account number must be a sequence of 35 alphanumeric characters with no spaces starting with '1w'");
+        return this.optional(element) || /^1W[a-zA-Z0-9]{35}$/.test(value);
+    }, "Account number must be a sequence of 35 alphanumeric characters with no spaces starting with '1W'");
     $.validator.addMethod('decimal', function(value, element) {
         return this.optional(element) || /^(?:-?\d+)?(?:\.\d+)?$/.test(value);
-    }, "Number is expected with dot (.) as a decimal separator");
+    }, "Amount is expected with a dot (.) as a decimal separator");
+    $.validator.addMethod('password', function(value, element){
+        if (this.optional(element))
+            return true;
+
+        var containsDigits = /[0-9]/.test(value);
+        var containsUppercase = /[A-Z]/.test(value);
+        var containsLowercase = /[a-z]/.test(value);
+
+        return containsDigits && containsUppercase && containsLowercase;
+    }, "The password is too weak. A good password must contain at least one digit, one uppercase and one lowercase letter");
 
     //How to growl:
     /*
@@ -392,10 +413,3 @@ $(document).ready(function(){
     });
 
 });
-
-
-
-
-
-
-

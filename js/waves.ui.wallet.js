@@ -113,15 +113,14 @@ var Waves = (function(Waves, $, undefined) {
         var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
         var senderPublic = Base58.decode(Waves.publicKey);
         var senderPrivate = Base58.decode(Waves.privateKey);
-        var recipient = new WavesAddress().fromDisplayAddress($("#wavesrecipient").val().replace(/\s+/g, ''));
+        var recipient = Waves.Addressing.fromDisplayAddress($("#wavesrecipient").val().replace(/\s+/g, ''));
 
         var wavesTime = Number(Waves.getTime());
 
         var fee = Number(1);
 
         var signatureData = Waves.signatureData(Waves.publicKey, recipient.getRawAddress(), amount, fee, wavesTime);
-        var signature = Array.from(Waves.curve25519.sign(senderPrivate, signatureData));
-        signature = Base58.encode(signature);
+        var signature = Waves.sign(senderPrivate, signatureData);
 
         //var verify = Waves.curve25519.verify(senderPublic, signatureData, Base58.decode(signature));
 

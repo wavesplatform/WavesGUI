@@ -16,28 +16,50 @@
 /**
  * @depends {waves.constants.js}
  */
-function WavesAddress(rawAddress) {
-    if (rawAddress !== undefined) {
-        if (!Waves.constants.TESTNET_ADDRESS_REGEXP.test(rawAddress))
-            throw new Error('address is malformed');
 
-        this.rawAddress = rawAddress;
-    }
-
-    this.prefix = '1w';
+function WaveAddress(rawAddress) {
+    if (rawAddress === undefined)
+        throw new Error("Address must be defined");
+    
+    this.rawAddress = rawAddress;
+    
+    this.getRawAddress = function () { return rawAddress; }
+        
+    this.getDisplayAddress = function() { return Waves.constants.ADDRESS_PREFIX + rawAddress; }
 }
 
-WavesAddress.prototype.getDisplayAddress = function () { return this.prefix + this.rawAddress; }
+var Waves = (function (Waves, $, undefined) {
+    "use strict";
 
-WavesAddress.prototype.getRawAddress = function() { return this.rawAddress; }
+    Waves.Addressing = {
+        fromDisplayToRaw: function(displayAddress) {
+            var address = displayAddress;
+            if (address.length > Waves.constants.RAW_ADDRESS_LENGTH || address.startsWith(Waves.constants.ADDRESS_PREFIX))
+                address = address.substr(Waves.constants.ADDRESS_PREFIX.length, address.length - Waves.constants.ADDRESS_PREFIX.length);
 
-WavesAddress.prototype.fromDisplayAddress = function(displayAddress) {
-    if (displayAddress.startsWith(this.prefix))
-        displayAddress = displayAddress.substr(this.prefix.length, displayAddress.length - this.prefix.length);
+            return address;
+        },
+        validateRawAddress: function(rawAddress) {
+            return Waves.constants.MAINNET_ADDRESS_REGEXP.test(rawAddress);
+        },
+        validateDisplayAddress: function(displayAddress) {
+            var address = this.fromDisplayToRaw(displayAddress);
 
-    return new WavesAddress(displayAddress);
-}
+            return this.validateRawAddress(address);
+        },
+        fromRawAddress: function(rawAddress) {
+            if (!this.validateRawAddress(rawAddress))
+                throw new Error("Raw address is malformed");
 
-WavesAddress.prototype.fromRawAddress = function(rawAddress) {
-    return new WavesAddress(rawAddress);
-}
+            return new WaveAddress(rawAddress);
+        },
+        fromDisplayAddress: function(displayAddress) {
+            if (!this.validateDisplayAddress(displayAddress))
+                throw new Error("Display address is malformed");
+
+            return new WaveAddress(this.fromDisplayToRaw(displayAddress));
+        }
+    };
+    
+    return Waves;
+}(Waves || {}, jQuery));
