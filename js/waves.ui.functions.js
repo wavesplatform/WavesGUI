@@ -258,7 +258,7 @@ var Waves = (function(Waves, $, undefined) {
 
             Waves.getAccounts(function(userAccounts) {
 
-                Waves.setInitApp(userAccounts['Waves'+Waves.network]);
+                Waves.setInitApp(userAccounts['WavesAccounts']);
                 
             });
             
