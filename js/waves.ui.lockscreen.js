@@ -225,7 +225,7 @@ var Waves = (function(Waves, $, undefined) {
 
                 if(currentAccounts !== '') {
 
-                    currentAccounts = currentAccounts['Waves'+Waves.network];
+                    currentAccounts = currentAccounts['WavesAccounts'];
 
                     currentAccounts.accounts.push(accountData);
                     chrome.storage.sync.set({'WavesAccounts': currentAccounts}, function() {
