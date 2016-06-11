@@ -829,11 +829,11 @@ input.tabs-radio:checked + label  img {
 }
 
 .wavesTable-txIn {
-    color: #888999 !important;
+    color: #46AAB4 !important;
 }
 
 .wavesTable-txOut {
-    color: #333333 !important;
+    color: #555555 !important;
 }
 
 #wHistory tbody, #latestBlocksUnconfirmed, #latestBlocksTable  {
