@@ -122,7 +122,7 @@ var Waves = (function(Waves, $, undefined) {
 
         $("#step2_reg").show();
         $("#login-wPop-new").modal("show");
-
+        NProgress.start();
        
     });
 
@@ -139,6 +139,7 @@ var Waves = (function(Waves, $, undefined) {
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
             $("#addresLockscreen").html(Waves.Addressing.fromRawAddress(response.address).getDisplayAddress());
+            NProgress.done();
         });
     });
 
