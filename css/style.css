@@ -828,8 +828,12 @@ input.tabs-radio:checked + label  img {
 	-webkit-transition: all .2s ease;
 }
 
+.wavesTable-txIn {
+    color: #888999 !important;
+}
+
 .wavesTable-txOut {
-    color: #000000;
+    color: #333333 !important;
 }
 
 #wHistory tbody, #latestBlocksUnconfirmed, #latestBlocksTable  {
