@@ -102,12 +102,6 @@ var Waves = (function(Waves, $, undefined) {
 
     });
 
-    Waves.createAccountDOM = function (callback) {
-
-
-
-    }
-
     //Create new Waves Acount
     $("#create_account").on("click", function(e) {
         e.preventDefault();
@@ -149,7 +143,6 @@ var Waves = (function(Waves, $, undefined) {
 
     $("#generateKeys").on("click", function(e) {
         e.preventDefault();
-
         var walletSeed = $("#walletSeed").val();
 
         var publicKey = Waves.getPublicKey(walletSeed);
