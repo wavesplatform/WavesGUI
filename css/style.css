@@ -6,6 +6,7 @@ Waves' palette: #0096DC                             Waves' blue *
                 #555555                             Darker grey (h's, highlights)
                 #E1B47D     rgb(225,180,125);       Soft orange
                 #37556E     rgb(55,85,110);         Navy Blue
+                #780CE8      rgb(130,12,232);      Lila
                 #46AAB4     rgb(70,170,180);        Lapis Lazuli
 
 * Not currently used.
@@ -829,7 +830,7 @@ input.tabs-radio:checked + label  img {
 }
 
 .wavesTable-txIn {
-    color: #46AAB4 !important;
+    color: #669ECC !important;
 }
 
 .wavesTable-txOut {
