@@ -102,6 +102,12 @@ var Waves = (function(Waves, $, undefined) {
 
     });
 
+    Waves.createAccountDOM = function (callback) {
+
+
+
+    }
+
     //Create new Waves Acount
     $("#create_account").on("click", function(e) {
         e.preventDefault();
@@ -117,6 +123,11 @@ var Waves = (function(Waves, $, undefined) {
         $("#step2_reg").show();
         $("#login-wPop-new").modal("show");
 
+       
+    });
+
+    $('#login-wPop-new').on($.modal.OPEN, function(event, modal) {
+    
         var passphrase = PassPhraseGenerator.generatePassPhrase();
         $("#walletSeed").val(passphrase);
 
@@ -125,10 +136,6 @@ var Waves = (function(Waves, $, undefined) {
 
         $("#publicKeyLockscreen").html(publicKey);
         $("#privateKeyLockscreen").html(privateKey);
-
-        $("#close_create_account_modal").on("click", function(){
-            $.modal.close();
-        });
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
             $("#addresLockscreen").html(Waves.Addressing.fromRawAddress(response.address).getDisplayAddress());
