@@ -18,4 +18,5 @@ Every transaction will be signed locally with JavaScript and transmitted to the 
 
 # Testnet and Mainnet
 
-Please make sure that you are on MAINNET before importing any account, using any password or creating addresses with the intention of transferring real tokens. Accidentally using TESTNET would result in lost assets!
+The Client is currently setup for mainnet. If you want to run on testnet please change the according variables in js/waves.js 
+Setup to use your own server and create your own network variable.
