@@ -391,7 +391,6 @@ var Waves = (function(Waves, $, undefined) {
         return true;
     }
 
-
     Waves.sendWave = function (recipient, amount) {
 
         var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
@@ -417,8 +416,6 @@ var Waves = (function(Waves, $, undefined) {
 
             return response;
         });
-
-
     }
 
 	return Waves;
