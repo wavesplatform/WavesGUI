@@ -6,7 +6,9 @@ Waves' palette: #0096DC                             Waves' blue *
                 #555555                             Darker grey (h's, highlights)
                 #E1B47D     rgb(225,180,125);       Soft orange
                 #37556E     rgb(55,85,110);         Navy Blue
+                #780CE8     rgb(130,12,232);        Lila
                 #46AAB4     rgb(70,170,180);        Lapis Lazuli
+                #9C0005                             Crimson red
 
 * Not currently used.
 */
@@ -621,7 +623,7 @@ input.tabs-radio:checked + label  img {
     position: relative;
     display: inline-block;
     width: 320px;
-    height: 250px;
+    height: 220px;
     border: 1px solid rgb(220,220,220);
     margin: 5px;
     padding: 10px;
@@ -696,7 +698,7 @@ input.tabs-radio:checked + label  img {
     width: 100%;
     height: 20%;
     padding: 1%;
-    margin-bottom: -4px;
+    margin-bottom: -1px;
 }
 
 .wB-buttons a {
@@ -828,8 +830,16 @@ input.tabs-radio:checked + label  img {
 	-webkit-transition: all .2s ease;
 }
 
+.wavesTable-txIn {
+/*    color: #669ECC !important;*/
+    color: #4C7699 !important;
+/*    color: #737D3A !important;*/
+    
+}
+
 .wavesTable-txOut {
-    color: #000000;
+    color: #888999 !important;
+/*    color: #9C0005 !important;*/
 }
 
 #wHistory tbody, #latestBlocksUnconfirmed, #latestBlocksTable  {
@@ -990,7 +1000,7 @@ input.tabs-radio:checked + label  img {
 }
 
 .wPop-content {
-    margin-top: -1.5rem;;
+    margin-top: -1.5rem;
 }
 
 .paymentForm h2 {
@@ -1006,6 +1016,18 @@ input.tabs-radio:checked + label  img {
     font-weight: 200;
 }
 
+.paymentForm table, .paymentForm table tr {
+    width: 100%;
+}
+
+.paymentForm td:first-child {
+    width: 40%;
+}
+
+.paymentForm td:nth-child(2) {
+    width: 60%;
+}
+
 .paymentForm thead tr {
     background-color: #37556E;
 	text-align: center;
@@ -1018,17 +1040,55 @@ input.tabs-radio:checked + label  img {
     padding: .25rem;
 }
 
-.paymentFormFee {
-    background-color: #F0F0F0;
-    font-style: italic;
+.paymentForm tbody tr {
+    width: 100%;
 }
 
 .form-control {
+    width: 100%;
     padding: .3rem;
     font-family: 'Wesli';
     font-size: 1rem;
 }
 
+/* Payment form from portfilio - Temp */
+#mBB-portfolio #paymentForm {
+   text-align: center;
+}
+
+#mBB-portfolio .paymentForm thead tr {
+    line-height: 1.5rem;
+}
+
+#mBB-portfolio .paymentForm table {
+    padding-bottom: 1rem;
+}
+
+/* Payment Forms BALANCE style */
+.balanceAmt {
+    color: #999999;
+    font-style: italic;
+    padding-right: .5rem;
+    text-align: right;
+}
+
+.balanceAmt p {
+    display: inline;
+}
+
+/* Payment forms FEES style */
+.paymentFormFee {
+    background-color: #F0F0F0;
+    font-style: italic;
+    color: #999999;
+}
+
+.paymentFormFee p {
+    text-align: right;
+    padding-right: .5rem;
+}
+
+/* Payment forms BUTTONS style */
 .paymentForm-but {
     border: 1px solid #37556E;
     outline: none;
@@ -1049,18 +1109,6 @@ input.tabs-radio:checked + label  img {
     cursor: pointer;
     background: #37556E;
     color: #fff;
-}
-
-#mBB-portfolio #paymentForm {
-   text-align: center;
-}
-
-#mBB-portfolio .paymentForm thead tr {
-    line-height: 1.5rem;
-}
-
-#mBB-portfolio .paymentForm table {
-    padding-bottom: 1rem;
 }
 
 

@@ -19,7 +19,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Waves Lite Client v0.3a</title>
+    <title>Waves Lite Client</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/jquery.modal.css">
@@ -51,8 +51,8 @@
             <thead>
                 <div id="logoNversion">
 						<img src="img/topleftlogo.svg" />
-                        <p class='testnet'>TESTNET Lite Client v0.3a</p>
-                        <p class='mainnet'>Lite Client v0.3a</p>
+                        <p class='testnet'>TESTNET Lite Client <span class="wlcversion"></span></p>
+                        <p class='mainnet'>Lite Client <span class="wlcversion"></span></p>
                 </div>
             </thead>
             
@@ -198,8 +198,8 @@
         <img id="topLogoH" src="img/topleftlogo_hor.svg" alt="Waves platform logo horizontal" />
         <div id="logoNversion2">
 			<img src="img/topleftlogo.svg" />
-            <p class='testnet'>TEST Lite Client v0.3a</p>
-            <p class='mainnet'>Lite Client v0.3a</p>
+            <p class='testnet'>TEST Lite Client <span class="wlcversion"></span></p>
+            <p class='mainnet'>Lite Client <span class="wlcversion"></span></p>
         </div>
         <span id="version" class="centerIt">Address: <span id="wavesAccountAddress" class="tooltip-3" title="Copy the address to clipboard."></span> <span class="divider-2"></span> <span class="inlineParagraph">Block:</span> <span id="blockheight"></span> </span>
         
@@ -336,7 +336,7 @@
                                 
                                 <a href="https://www.reddit.com/r/Wavesplatform/" target="_blank"><img class="modal-media-img" src="img/reddit_icon.svg" /></a>
                                 
-                                <a href="http://vk.com/wavesplatform" target="_blank"><img id="icon-blog" class="modal-media-img" src="img/vk_icon.svg" /></a>
+                                <a href="https://vk.com/wavesplatform" target="_blank"><img id="icon-blog" class="modal-media-img" src="img/vk_icon.svg" /></a>
                                 
                             </div>
                         </div>
@@ -482,29 +482,31 @@
                                 <div class="wPop-content">
                                     <form id="send-waves-form" class="paymentForm">
                                         <h2>SEND PAYMENT</h2>
-                                        <div style="aligh: right;">Balance: <span class="balancewaves"></span></div>
-                                            <table>
-                                               <thead>
-                                                   <tr>
-                                                       <th>DESCRIPTION</th>
-                                                       <th>INPUT</th>
-                                                   </tr>
-                                               </thead>
-                                               <tbody>
-                                                   <tr>
-                                                       <td>Recipient (Please enter recipient Waves address)</td>
-                                                       <td><input id="wavesrecipient" name="wavesrecipient" class="wInput form-control" type="text" placeholder="Recipient"></td>
-                                                   </tr>
-                                                   <tr>
-                                                       <td>Amount</td>
-                                                       <td><input class="wInput" type="text" class="form-control" id="wavessendamount" name="wavessendamount" placeholder="Amount"></td>
-                                                   </tr>
-                                                   <tr>
-                                                       <td>Fee</td>
-                                                       <td><p>0.00000001 WAVE</p></td>
-                                                   </tr>
-                                               </tbody>
-                                             </table>
+                                        <div class="balanceAmt">
+                                            <p>Balance: </p><span class="balancewaves"></span>
+                                        </div>
+                                        <table>
+                                           <thead>
+                                               <tr>
+                                                   <th>DESCRIPTION</th>
+                                                   <th>INPUT</th>
+                                               </tr>
+                                           </thead>
+                                           <tbody>
+                                               <tr>
+                                                   <td>Recipient's Address</td>
+                                                   <td><input id="wavesrecipient" class="wInput form-control" name="wavesrecipient" type="text" placeholder="Recipient"></td>
+                                               </tr>
+                                               <tr>
+                                                   <td>Amount</td>
+                                                   <td><input id="wavessendamount" class="wInput form-control"  name="wavessendamount" type="text" placeholder="Amount"></td>
+                                               </tr>
+                                               <tr>
+                                                   <td>Fee</td>
+                                                   <td><p>0.00000001 WAVE</p></td>
+                                               </tr>
+                                           </tbody>
+                                         </table>
                                             
                                     </form>
                                     <!-- check -->

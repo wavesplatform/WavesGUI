@@ -47,12 +47,15 @@ var Waves = (function(Waves, $, undefined) {
             case 'testnet':
                 $(".testnet").removeClass('noDisp');
                 $(".mainnet").addClass('noDisp');
+
                 break;
             default:
                 $(".testnet").addClass('noDisp');
                 $(".mainnet").removeClass('noDisp');
             break;
         }
+
+        $(".wlcversion").html(Waves.constants.CLIENT_VERSION);
 
         if(userAccounts !== null && userAccounts !== undefined) {
                 
@@ -389,6 +392,33 @@ var Waves = (function(Waves, $, undefined) {
             return false;
 
         return true;
+    }
+
+    Waves.sendWave = function (recipient, amount) {
+
+        var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
+
+        var senderPublic = Base58.decode(Waves.publicKey);
+        var senderPrivate = Base58.decode(Waves.privateKey);
+        var recipient = Waves.Addressing.fromDisplayAddress(recipient.replace(/\s+/g, ''));
+        var wavesTime = Number(Waves.getTime());
+        var fee = Number(1);
+        var signatureData = Waves.signatureData(Waves.publicKey, recipient.getRawAddress(), amount, fee, wavesTime);
+        var signature = Waves.sign(senderPrivate, signatureData);
+
+        var data = {
+          "recipient": recipient.getRawAddress(),
+          "timestamp": wavesTime,
+          "signature": signature,
+          "amount": amount,
+          "senderPublicKey": Waves.publicKey,
+          "fee": fee
+        }
+
+        Waves.apiRequest(Waves.api.waves.broadcastTransaction, JSON.stringify(data), function(response) {
+
+            return response;
+        });
     }
 
 	return Waves;

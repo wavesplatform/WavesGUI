@@ -645,7 +645,6 @@ var Waves = (function (Waves, $, undefined) {
         }
         return arr;
     }
-
  
     // http://stackoverflow.com/questions/18729405/how-to-convert-utf8-string-to-byte-array
     Waves.strToUTF8Arr = function(str) {
