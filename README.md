@@ -2,21 +2,21 @@
 
 ![Alt text](https://pbs.twimg.com/media/CjUjPVgVAAA60Pv.jpg "Waves Client Screen")
 
-Ever wanted to quickly access your Blockchain funds but had to download the Blockchain for hours before doing so? 
-The Waves Lite Client connects to public Waves nodes in order to retreive up-to-date Blockchain Information.
-We have all the crypto to create addresses, to sign and verify transactions for the Waves Blockchain. When using the Lite Client you read all the data from the public nodes, you write the transaction directly in the browser and just broadcast a finished transaction.
+Ever wanted to access your blockchain funds quickly but had to wait for hours while the blockchain downloads before doing so? 
+The Waves Lite Client connects to public Waves nodes in order to retrieve up-to-date blockchain information.
 
-# Testing
-
-This is on testnet, please do not use any real passwords or coins.
+We provide all the cryptography tools to create addresses, sign and verify transactions for the Waves blockchain. The Lite Client reads all the data from the public nodes, writes the transaction directly in the browser, and simply broadcasts it in a finished state.
 
 # Security
 
-During registration, the most important information is the wallet seed.
+During registration, the most important information is the wallet SEED. Save it somewhere safe, write it down on a piece of paper, or store it in different media.
 
-Save it somewhere save, you can also write it down on a piece of paper.
+With the SEED you can always import your account again or change the password.
 
-With the seed you can always import your account again.
+This SEED will be AES-encrypted with a password of your choice and you can unlock it to access your account at the log-in screen.
+Every transaction will be signed locally with JavaScript and transmitted to the node without revealing your wallet seed or private keys.
 
-This seed will get AES encrypted with a password you insert and you can unlock it to access your account on login.
-Every transaction will get signed locally with JavaScript and transmitted to the node without revealing your wallet seed or private keys.
+# Testnet and Mainnet
+
+The Client is currently setup for mainnet. If you want to run on testnet please change the according variables in js/waves.js 
+Setup to use your own server and create your own network variable.

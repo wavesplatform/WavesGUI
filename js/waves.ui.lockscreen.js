@@ -83,7 +83,7 @@ var Waves = (function(Waves, $, undefined) {
         isValid : function() { return this.getForm().valid(); }
     };
 
-    //Import Waves Account
+ //Import Waves Account
 
     $("#import_account").on("click", function(e) {
         e.preventDefault();
@@ -116,7 +116,12 @@ var Waves = (function(Waves, $, undefined) {
 
         $("#step2_reg").show();
         $("#login-wPop-new").modal("show");
+        NProgress.start();
+       
+    });
 
+    $('#login-wPop-new').on($.modal.OPEN, function(event, modal) {
+    
         var passphrase = PassPhraseGenerator.generatePassPhrase();
         $("#walletSeed").val(passphrase);
 
@@ -126,19 +131,18 @@ var Waves = (function(Waves, $, undefined) {
         $("#publicKeyLockscreen").html(publicKey);
         $("#privateKeyLockscreen").html(privateKey);
 
-        $("#close_create_account_modal").on("click", function(){
-            $.modal.close();
-        });
-
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
             $("#addresLockscreen").html(Waves.Addressing.fromRawAddress(response.address).getDisplayAddress());
+            NProgress.done();
         });
     });
 
+    $("#close_create_account_modal").on("click", function(){
+        $.modal.close();
+    });
 
     $("#generateKeys").on("click", function(e) {
         e.preventDefault();
-
         var walletSeed = $("#walletSeed").val();
 
         var publicKey = Waves.getPublicKey(walletSeed);
@@ -225,7 +229,7 @@ var Waves = (function(Waves, $, undefined) {
 
                 if(currentAccounts !== '') {
 
-                    currentAccounts = currentAccounts['Waves'+Waves.network];
+                    currentAccounts = currentAccounts['WavesAccounts'];
 
                     currentAccounts.accounts.push(accountData);
                     chrome.storage.sync.set({'WavesAccounts': currentAccounts}, function() {
