@@ -54,6 +54,8 @@ var Waves = (function(Waves, $, undefined) {
             break;
         }
 
+        Waves.applyCurrentVersion();
+
         if(userAccounts !== null && userAccounts !== undefined) {
                 
             var accounts;
