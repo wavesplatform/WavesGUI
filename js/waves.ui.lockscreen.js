@@ -108,7 +108,7 @@ var Waves = (function(Waves, $, undefined) {
 
         $("#import_account").hide();
         $("#create_account").hide();
-        //$("#generateKeys").hide();
+        $("#generateKeys").hide();
         $(".divider-1").hide();
         $("#AccHeader").hide();
         $("#NewAccHeader").show();
