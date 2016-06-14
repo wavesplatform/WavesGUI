@@ -196,7 +196,6 @@ var Waves = (function(Waves, $, undefined) {
 
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
-            //$("#addresLockscreen").html(Waves.Addressing.fromRawAddress(response.address).getDisplayAddress());
        
             var address = Waves.Addressing.fromDisplayAddress(Waves.Addressing.fromRawAddress(response.address).getDisplayAddress());
         
