@@ -47,12 +47,15 @@ var Waves = (function(Waves, $, undefined) {
             case 'testnet':
                 $(".testnet").removeClass('noDisp');
                 $(".mainnet").addClass('noDisp');
+
                 break;
             default:
                 $(".testnet").addClass('noDisp');
                 $(".mainnet").removeClass('noDisp');
             break;
         }
+
+        $(".wlcversion").html(Waves.constants.CLIENT_VERSION);
 
         if(userAccounts !== null && userAccounts !== undefined) {
                 
