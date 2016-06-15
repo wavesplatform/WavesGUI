@@ -141,6 +141,10 @@ var Waves = (function(Waves, $, undefined) {
         $.modal.close();
     });
 
+    $("#walletSeed").on("change keydown", function() {
+        $("#addresLockscreen").html('');
+    });
+
     $("#generateKeys").on("click", function(e) {
         e.preventDefault();
         var walletSeed = $("#walletSeed").val();
