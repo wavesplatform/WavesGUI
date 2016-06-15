@@ -58,6 +58,10 @@ var PassPhraseGenerator = {
 			n = this.wordCount,
 			words = [],
 			x, w1, w2, w3;
+			
+		// Sets Math.random to an ARC4-based PRNG that is autoseeded using the
+		// current time, dom state, and other accumulated local entropy.
+		// The generated seed string is returned.
 		Math.seedrandom();
 
 		for (; i < l; i++) {
