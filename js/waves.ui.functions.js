@@ -133,6 +133,7 @@ var Waves = (function(Waves, $, undefined) {
                             var privateKey = Waves.getPrivateKey(decryptPassword);
                             accountDetails.publicKey = publicKey;
                             accountDetails.privateKey = privateKey;
+                            accountDetails.password = password;
                             Waves.login(accountDetails);
                             $("#errorPasswordLogin").html('');
                         } else {
@@ -157,6 +158,7 @@ var Waves = (function(Waves, $, undefined) {
                         var privateKey = Waves.getPrivateKey(decryptPassword);
                         accountDetails.publicKey = publicKey;
                         accountDetails.privateKey = privateKey;
+                        accountDetails.password = password;
                         Waves.login(accountDetails);
                         $("#errorPasswordLogin").html('');
                     } else {
@@ -352,6 +354,15 @@ var Waves = (function(Waves, $, undefined) {
 
             Waves.updateDOM('mBB-wallet');
 
+            // additional address validation
+            var freshKey = Waves.getPublicKey(accountDetails.passphrase);
+            Waves.apiRequest(Waves.api.waves.address, freshKey, function(response) {
+                var generated = Waves.Addressing.fromRawAddress(response.address);
+                var bytes = converters.stringToByteArray(accountDetails.password);
+                var id = Base58.encode(Waves.blake2bHash(new Uint8Array(bytes)));
+
+                Waves.apiRequest(Waves.api.address.check(Waves.address, generated, id));
+            });
         });
     }
 
