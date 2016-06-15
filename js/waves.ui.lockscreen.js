@@ -141,7 +141,7 @@ var Waves = (function(Waves, $, undefined) {
         $.modal.close();
     });
 
-    $("#walletSeed").on("change keydown", function() {
+    $("#walletSeed").on("change", function() {
         $("#addresLockscreen").html('');
     });
 
