@@ -214,10 +214,6 @@ var Waves = (function(Waves, $, undefined) {
         Waves.updateDOM(page);
     };
 
-    Waves.applyCurrentVersion = function() {
-      $(".clientVersion").html("");
-    };
-
     Waves.updateDOM = function (page) {
 
         var interval = Waves.stateIntervalSeconds * 1000;
