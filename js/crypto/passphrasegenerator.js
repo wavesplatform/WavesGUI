@@ -62,9 +62,9 @@ var PassPhraseGenerator = {
 
 		for (; i < l; i++) {
 			x = random[i];
-			w1 = Math.floor(Math.random() * this.wordCount);
-			w2 = Math.floor(Math.random() * this.wordCount);
-			w3 = Math.floor(Math.random() * this.wordCount);
+			w1 = Math.floor(Math.random() * n);
+			w2 = Math.floor(Math.random() * n);
+			w3 = Math.floor(Math.random() * n);
 
 			words.push(this.words[w1]);
 			words.push(this.words[w2]);
