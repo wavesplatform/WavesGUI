@@ -58,7 +58,7 @@ var PassPhraseGenerator = {
 			n = this.wordCount,
 			words = [],
 			x, w1, w2, w3;
-		Math.seedrandom('WavesLite entropy.', { entropy: true });
+		Math.seedrandom();
 
 		for (; i < l; i++) {
 			x = random[i];
