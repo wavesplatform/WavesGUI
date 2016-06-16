@@ -205,7 +205,30 @@
         
 		<div id=header-Iconset>
             
-<!--        <a href="#header-wPop-pref" rel="modal:open"> -->
+            <a href="#header-wPop-backup" rel="modal:open">
+                <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-preferences.svg" alt="Backup" title="Backup"/>
+            </a>
+            <div id="header-wPop-backup" class="wavesPop">
+                <img class="wPop-header" src="img/modal-header.svg" />
+                <div class="wPop-content">
+                    <p>Example text for the BACKUP pop-up
+                    <form id="backupForm">
+                    <label for="seedBackup">Seed</label><br/>
+                    <textarea id="seedBackup" readonly></textarea><br/>
+                    <label for="privateKeyBackup">Private Key</label><br/>
+                    <input id="privateKeyBackup" type="text" name="privateKeyBackup" readonly/><br/>
+                    <label for="publicKeyBackup">Public Key</label><br/>
+                    <input id="publicKeyBackup" type="text" name="publicKeyBackup" readonly/><br/>
+                    <label for="addressBackup">Address</label><br/>
+                    <input id="addressBackup" type="text" name="addressBackup" readonly/>
+                    <div class="wPop-content-buttons">
+                        <a id="copy_and_close_backup_modal" href="#" class="wButton fade tooltip-1" title="Click here to copy everything to clipboard.">Copy to clipboard</a>
+                        <a href="#" rel="modal:close" class="wButton fade tooltip-1">Close</a>
+                    </div>
+                    </form>
+                    </p>
+                </div>
+            </div>
             <a href="#feat-not-active" rel="modal:open">    
                 <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-preferences.svg" alt="Preferences" title="Preferences"/>
             </a>
