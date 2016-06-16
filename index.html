@@ -211,22 +211,22 @@
             <div id="header-wPop-backup" class="wavesPop">
                 <img class="wPop-header" src="img/modal-header.svg" />
                 <div class="wPop-content">
-                    <p>Example text for the BACKUP pop-up
+                    <h2>ACCOUNT INFO BACKUP</h2>
+                    <p>Your account's basic information, click the COPY button in order to copy the contents to the clipboard or CLOSE to exit.</p></br>
                     <form id="backupForm">
                     <label for="seedBackup">Seed</label><br/>
-                    <textarea id="seedBackup" readonly></textarea><br/>
+                    <textarea id="seedBackup" class="wInput" rows="4" readonly></textarea><br/>
                     <label for="privateKeyBackup">Private Key</label><br/>
-                    <input id="privateKeyBackup" type="text" name="privateKeyBackup" readonly/><br/>
+                    <input id="privateKeyBackup" class="wInput" type="text" name="privateKeyBackup" readonly/><br/>
                     <label for="publicKeyBackup">Public Key</label><br/>
-                    <input id="publicKeyBackup" type="text" name="publicKeyBackup" readonly/><br/>
+                    <input id="publicKeyBackup" class="wInput" type="text" name="publicKeyBackup" readonly/><br/>
                     <label for="addressBackup">Address</label><br/>
-                    <input id="addressBackup" type="text" name="addressBackup" readonly/>
+                    <input id="addressBackup" class="wInput" type="text" name="addressBackup" readonly/>
                     <div class="wPop-content-buttons">
-                        <a id="copy_and_close_backup_modal" href="#" class="wButton fade tooltip-1" title="Click here to copy everything to clipboard.">Copy to clipboard</a>
-                        <a href="#" rel="modal:close" class="wButton fade tooltip-1">Close</a>
+                        <a id="copy_and_close_backup_modal" href="#" class="wButton paymentForm-but fade tooltip-1" title="Click here to copy everything to clipboard.">COPY</a>
+                        <a href="#" rel="modal:close" class="wButton paymentForm-but fade tooltip-1">CLOSE</a>
                     </div>
                     </form>
-                    </p>
                 </div>
             </div>
             <a href="#feat-not-active" rel="modal:open">    

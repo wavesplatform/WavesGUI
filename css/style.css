@@ -510,6 +510,30 @@ header {
 }
 
 
+/* Backup pop-up style */
+#header-wPop-backup {
+    max-width: 550px;
+}
+
+#header-wPop-backup a {
+    text-decoration: none;
+}
+
+#header-wPop-backup input, #header-wPop-backup textarea {
+    width: 100%;
+    resize: none;
+    margin-bottom: .5rem;
+}
+
+ .wPop-content-buttons {
+    padding-top: 1rem;
+}
+
+#copy_and_close_backup_modal {
+    margin-right: 1rem;
+}
+
+
 /* ==================================================== */
 /* /* TAB SELECTOR SETTINGS */ /* TAB SELECTOR SETTINGS */
 /* ==================================================== */
