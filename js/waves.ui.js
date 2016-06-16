@@ -322,7 +322,42 @@ var Waves = (function(Waves, $, undefined) {
 
         $("#contactTable").html(row);
 
-    });    
+    });
+    
+    $('#header-wPop-backup').on($.modal.BEFORE_OPEN, function() {
+        Waves.apiRequest(Waves.api.waves.address, Waves.publicKey, function(response) {
+            var encodedSeed = Base58.encode(new Uint8Array(converters.stringToByteArray(Waves.passphrase)));
+            $('#seedBackup').val(encodedSeed);
+            $('#privateKeyBackup').val(Waves.privateKey);
+            $('#publicKeyBackup').val(Waves.publicKey);
+            $("#addressBackup").val(Waves.Addressing.fromRawAddress(response.address).getDisplayAddress());
+        });
+    });
+
+    $('#header-wPop-backup').on($.modal.AFTER_CLOSE, function() {
+        $('#seedBackup').val('');
+        $('#privateKeyBackup').val('');
+        $('#publicKeyBackup').val('');
+        $("#addressBackup").val('');
+    });
+
+
+    $('#copy_and_close_backup_modal').click(function (e) {
+        e.preventDefault();
+
+        //copy to clipboard
+        var text = "Seed: " + $('#seedBackup').val() + "\n";
+        text += "Private key: " + $('#privateKeyBackup').val() + "\n";
+        text += "Public key: " + $('#publicKeyBackup').val() + "\n";
+        text += "Address: " + $('#addressBackup').val();
+        var clipboard = new Clipboard('#copy_and_close_backup_modal', {
+            text : function(trigger) {
+                return text;
+            }
+        });
+
+        $.modal.close();
+    })
 
     $('#uiTB-iconset-logout').click(function() {
         Waves.logout();  
@@ -333,7 +368,7 @@ var Waves = (function(Waves, $, undefined) {
 
     clipboard.on('success', function(e) {
       
-         $.growl.notice({ message: "Address successfully copied to clipboard" });
+        $.growl.notice({ message: "Address successfully copied to clipboard" });
 
         e.clearSelection();
     });
