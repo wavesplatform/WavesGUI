@@ -1,22 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Creator: CorelDRAW X7 -->
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="50px" height="50px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-viewBox="0 0 57 57"
- xmlns:xlink="http://www.w3.org/1999/xlink">
- <defs>
-  <style type="text/css">
-   <![CDATA[
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 57 57" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"><defs><style><![CDATA[
     .fil0 {fill:white}
-   ]]>
-  </style>
- </defs>
- <g id="Layer_x0020_1">
-  <metadata id="CorelCorpID_0Corel-Layer"/>
-  <path class="fil0" d="M29 0c15,0 28,13 28,29 0,15 -13,28 -28,28l0 -5c13,0 23,-10 23,-23 0,-13 -10,-24 -23,-24 -13,0 -24,10 -24,23l8 0 -6 10 -1 2 -2 3c-2,-4 -4,-9 -4,-14 0,-16 13,-29 29,-29z"/>
-  <path class="fil0" d="M25 13c-3,0 -10,1 -10,4 0,2 0,3 1,4 3,3 11,3 16,3 3,0 6,-1 8,-2 1,-1 2,-1 2,-3 0,-1 0,-3 -1,-3 -3,-3 -11,-4 -16,-3z"/>
-  <path class="fil0" d="M29 26c4,0 9,-1 13,-3l0 3c0,3 -7,5 -13,5 -7,0 -14,-2 -14,-5l0 -3c4,2 9,3 14,3z"/>
-  <path class="fil0" d="M29 33c4,0 9,-1 13,-3l0 2c0,4 -7,6 -13,6 -7,0 -14,-2 -14,-6l0 -2c4,2 9,3 14,3z"/>
-  <path class="fil0" d="M29 40c4,0 9,-1 13,-3l0 2c0,4 -7,6 -13,5 -7,1 -14,-1 -14,-5l0 -2c4,2 9,3 14,3z"/>
- </g>
-</svg>
+   ]]></style></defs><g id="Layer_x0020_1"><path class="fil0" d="M29 0c15 0 28 13 28 29 0 15-13 28-28 28v-5c13 0 23-10 23-23S42 5 29 5 5 15 5 28h8L7 38l-1 2-2 3c-2-4-4-9-4-14C0 13 13 0 29 0z"/><path class="fil0" d="M25 13c-3 0-10 1-10 4 0 2 0 3 1 4 3 3 11 3 16 3 3 0 6-1 8-2 1-1 2-1 2-3 0-1 0-3-1-3-3-3-11-4-16-3z"/><path class="fil0" d="M29 26c4 0 9-1 13-3v3c0 3-7 5-13 5-7 0-14-2-14-5v-3c4 2 9 3 14 3z"/><path class="fil0" d="M29 33c4 0 9-1 13-3v2c0 4-7 6-13 6-7 0-14-2-14-6v-2c4 2 9 3 14 3z"/><path class="fil0" d="M29 40c4 0 9-1 13-3v2c0 4-7 6-13 5-7 1-14-1-14-5v-2c4 2 9 3 14 3z"/></g></svg>
