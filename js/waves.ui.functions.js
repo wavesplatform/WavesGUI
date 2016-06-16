@@ -64,7 +64,6 @@ var Waves = (function(Waves, $, undefined) {
                 accounts = JSON.parse(userAccounts);
             } else {
                 accounts = userAccounts;
-                console.log(accounts);
             }
 
             $.each(accounts.accounts, function(accountKey, accountDetails) {
@@ -234,6 +233,8 @@ var Waves = (function(Waves, $, undefined) {
         chrome.storage.sync.get('WavesAccounts', function (result) {
                 
             if($.isEmptyObject(result) === false) {
+
+                Waves.checkChromeAccounts(result);
                 callback(result);
             } else {
                 callback('');
