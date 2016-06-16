@@ -235,24 +235,32 @@ var Waves = (function(Waves, $, undefined) {
 
                 Waves.getAccounts(function(currentAccounts) {
 
+                    var saveData = {
+                        name: name,
+                        cipher: cipher,
+                        checksum: checksum,
+                        publicKey: publicKey,
+                        address: address.getRawAddress()
+                    };
+
                     if(currentAccounts !== '') {
 
                         currentAccounts = currentAccounts['WavesAccounts'];
 
-                        currentAccounts.accounts.push(accountData);
+                        currentAccounts.accounts.push(saveData);
                         chrome.storage.sync.set({'WavesAccounts': currentAccounts}, function() {
                             // Notify that we saved.
                             $.growl.notice({ message: "Added Account!" });
-                            $("#wavesAccounts").append('<br><b>'+accountData.name+'</b> ' + address.getDisplayAddress());
+                            $("#wavesAccounts").append('<br><b>'+saveData.name+'</b> ' + address.getDisplayAddress());
                         });
 
                     } else {
 
-                        var accountArray = { accounts: [accountData] };
+                        var accountArray = { accounts: [saveData] };
                         chrome.storage.sync.set({'WavesAccounts': accountArray}, function() {
                             // Notify that we saved.
                             $.growl.notice({ message: "Added Account!" });
-                            $("#wavesAccounts").append('<br><b>'+accountData.name+'</b> ' + address.getDisplayAddress());
+                            $("#wavesAccounts").append('<br><b>'+saveData.name+'</b> ' + address.getDisplayAddress());
                         });
                     }
 
