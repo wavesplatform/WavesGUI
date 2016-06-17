@@ -42,6 +42,13 @@ var Waves = (function(Waves, $, undefined) {
 
     Waves.setInitApp = function (userAccounts) {
 
+        $('html').bind('keypress', function(e) {
+           if(e.keyCode == 13)
+           {
+              return false;
+           }
+        });
+
         switch(Waves.network) {
             case 'devel':
             case 'testnet':

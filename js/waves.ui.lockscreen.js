@@ -83,8 +83,7 @@ var Waves = (function(Waves, $, undefined) {
         isValid : function() { return this.getForm().valid(); }
     };
 
- //Import Waves Account
-
+    //Import Waves Account
     $("#import_account").on("click", function(e) {
         e.preventDefault();
 

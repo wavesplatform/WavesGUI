@@ -431,6 +431,7 @@ var Waves = (function(Waves, $, undefined) {
 $(document).ready(function(){
 
     Waves.initApp();
+
     $('.tooltip').tooltipster();
 
     $('.tooltip-1').tooltipster({
