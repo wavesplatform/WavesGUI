@@ -147,6 +147,11 @@ var Waves = (function(Waves, $, undefined) {
     $("#generateKeys").on("click", function(e) {
         e.preventDefault();
         var walletSeed = $("#walletSeed").val();
+        if (walletSeed === undefined || walletSeed.length < 1) {
+            $.growl.error({ message: "Wallet seed cannot be empty" });
+            
+            return;
+        }
 
         var publicKey = Waves.getPublicKey(walletSeed);
         var privateKey = Waves.getPrivateKey(walletSeed);
