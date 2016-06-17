@@ -115,6 +115,7 @@ var Waves = (function(Waves, $, undefined) {
 
         $("#step2_reg").show();
         $("#login-wPop-new").modal("show");
+        $("#walletSeed").attr('readonly', true);
         NProgress.start();
        
     });
