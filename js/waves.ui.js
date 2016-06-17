@@ -354,6 +354,11 @@ var Waves = (function(Waves, $, undefined) {
                 return text;
             }
         });
+        clipboard.on('success', function(e) {
+            $.growl.notice({ message: "Account backup has been copied to clipboard" });
+
+            e.clearSelection();
+        });
 
         $.modal.close();
     })
