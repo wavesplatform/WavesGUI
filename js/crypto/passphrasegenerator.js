@@ -40,7 +40,7 @@ var PassPhraseGenerator = {
 
 	passPhrase: "",
 
-	wordCount: 354896,
+	wordCount: 2048,
 
 	words: ClientWordList,
 	generatePassPhrase: function() {
@@ -58,17 +58,12 @@ var PassPhraseGenerator = {
 			n = this.wordCount,
 			words = [],
 			x, w1, w2, w3;
-			
-		// Sets Math.random to an ARC4-based PRNG that is autoseeded using the
-		// current time, dom state, and other accumulated local entropy.
-		// The generated seed string is returned.
-		Math.seedrandom();
 
 		for (; i < l; i++) {
 			x = random[i];
-			w1 = Math.floor(Math.random() * n);
-			w2 = Math.floor(Math.random() * n);
-			w3 = Math.floor(Math.random() * n);
+			w1 = x % n;
+			w2 = (((x / n) >> 0) + w1) % n;
+			w3 = (((((x / n) >> 0) / n) >> 0) + w2) % n;
 
 			words.push(this.words[w1]);
 			words.push(this.words[w2]);
