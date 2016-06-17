@@ -366,8 +366,12 @@ var Waves = (function(Waves, $, undefined) {
     var clipboard = new Clipboard('.clipSpan');
 
     clipboard.on('success', function(e) {
+
+        var message = $(e.trigger).attr("data-clipboard-message-success");
+        if (message === undefined)
+            message = "Address successfully copied to clipboard";
       
-        $.growl.notice({ message: "Address successfully copied to clipboard" });
+        $.growl.notice({ message: message });
 
         e.clearSelection();
     });

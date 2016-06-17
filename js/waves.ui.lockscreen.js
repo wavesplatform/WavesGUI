@@ -194,15 +194,13 @@ var Waves = (function(Waves, $, undefined) {
 
         var passphrase = $("#walletSeed").val();
         var publicKey = Waves.getPublicKey(passphrase);
-        var privateKey = Waves.getPrivateKey(passphrase);
         var name = $("#walletName").val();
         var password = $("#walletPassword").val();
 
 
         Waves.apiRequest(Waves.api.waves.address, publicKey, function(response) {
        
-            var address = Waves.Addressing.fromDisplayAddress(Waves.Addressing.fromRawAddress(response.address).getDisplayAddress());
-        
+            var address = Waves.Addressing.fromRawAddress(response.address);
             var cipher = Waves.encryptWalletSeed(passphrase, password).toString();
             var checksum = converters.byteArrayToHexString(Waves.simpleHash(converters.stringToByteArray(passphrase)));
 
