@@ -119,7 +119,7 @@ var Waves = (function(Waves, $, undefined) {
        
     });
 
-    $('#login-wPop-new').on($.modal.CLOSE, function(event, modal) {
+    $('#login-wPop-new').on($.modal.AFTER_CLOSE, function(event, modal) {
     
         var passphrase = PassPhraseGenerator.generatePassPhrase();
         $("#walletSeed").val(passphrase);
