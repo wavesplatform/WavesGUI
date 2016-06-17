@@ -121,7 +121,7 @@
                                         <label for="walletSeed">WALLET SEED</label>
                                         <br/>
                                         
-                                        <textarea type="text" id="walletSeed" name="walletSeed" class="wInput"> </textarea><span class="clipSpan tooltip-1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" ></span>
+                                        <textarea id="walletSeed" type="text" rows="3" name="walletSeed" class="wInput"> </textarea><span class="clipSpan tooltip-1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" data-clipboard-message-success="Wallet seed has been successfully copied to clipboard" ></span>
                                         <br/><br/>
                                         
                                         <button id="generateKeys" class="wButton fade">GENERATE ADDRESS FROM SEED</button><span class="divider-1"></span><button id="generateRandomSeed" class="wButton fade">GENERATE NEW SEED</button>
@@ -205,7 +205,30 @@
         
 		<div id=header-Iconset>
             
-<!--        <a href="#header-wPop-pref" rel="modal:open"> -->
+            <a href="#header-wPop-backup" rel="modal:open">
+                <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-backup.svg" alt="Backup" title="Backup"/>
+            </a>
+            <div id="header-wPop-backup" class="wavesPop">
+                <img class="wPop-header" src="img/modal-header.svg" />
+                <div class="wPop-content">
+                    <h2>ACCOUNT INFO BACKUP</h2>
+                    <p>Your account's basic information, click the COPY button in order to copy the contents to the clipboard or CLOSE to exit.</p></br>
+                    <form id="backupForm">
+                    <label for="seedBackup">Seed</label><br/>
+                    <textarea id="seedBackup" class="wInput" rows="3" readonly></textarea><br/>
+                    <label for="privateKeyBackup">Private Key</label><br/>
+                    <input id="privateKeyBackup" class="wInput" type="text" name="privateKeyBackup" readonly/><br/>
+                    <label for="publicKeyBackup">Public Key</label><br/>
+                    <input id="publicKeyBackup" class="wInput" type="text" name="publicKeyBackup" readonly/><br/>
+                    <label for="addressBackup">Address</label><br/>
+                    <input id="addressBackup" class="wInput" type="text" name="addressBackup" readonly/>
+                    <div class="wPop-content-buttons">
+                        <a id="copy_and_close_backup_modal" href="#" class="wButton paymentForm-but fade tooltip-1" title="Click here to copy everything to clipboard.">COPY</a>
+                        <a href="#" rel="modal:close" class="wButton paymentForm-but fade tooltip-1">CLOSE</a>
+                    </div>
+                    </form>
+                </div>
+            </div>
             <a href="#feat-not-active" rel="modal:open">    
                 <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-preferences.svg" alt="Preferences" title="Preferences"/>
             </a>
@@ -911,6 +934,7 @@
     <script src="js/util/converters.js" type="text/javascript"></script>
 
     <!-- Crypto Dependencies -->
+    <script src="js/crypto/wordlist.js" type="text/javascript"></script>
     <script src="js/crypto/base58.js" type="text/javascript"></script>
     <script src="js/crypto/sha3.js" type="text/javascript"></script>
     <script src="js/blake2b/blake2b.js" type="text/javascript"></script>
@@ -934,6 +958,7 @@
     <script src="js/waves.api.address.js" type="text/javascript"></script>
     <script src="js/waves.constants.js" type="text/javascript"></script>
     <script src="js/waves.util.js" type="text/javascript"></script>
+    <script src="js/waves.chrome.js" type="text/javascript"></script>
 
     <script src="js/waves.ui.js"></script>
     <script src="js/waves.ui.functions.js"></script>

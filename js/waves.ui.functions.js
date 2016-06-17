@@ -42,6 +42,13 @@ var Waves = (function(Waves, $, undefined) {
 
     Waves.setInitApp = function (userAccounts) {
 
+        $('html').bind('keypress', function(e) {
+           if(e.keyCode == 13)
+           {
+              return false;
+           }
+        });
+
         switch(Waves.network) {
             case 'devel':
             case 'testnet':
@@ -64,7 +71,6 @@ var Waves = (function(Waves, $, undefined) {
                 accounts = JSON.parse(userAccounts);
             } else {
                 accounts = userAccounts;
-                console.log(accounts);
             }
 
             $.each(accounts.accounts, function(accountKey, accountDetails) {
@@ -234,6 +240,8 @@ var Waves = (function(Waves, $, undefined) {
         chrome.storage.sync.get('WavesAccounts', function (result) {
                 
             if($.isEmptyObject(result) === false) {
+
+                Waves.checkChromeAccounts(result);
                 callback(result);
             } else {
                 callback('');
