@@ -121,7 +121,7 @@
                                         <label for="walletSeed">WALLET SEED</label>
                                         <br/>
                                         
-                                        <textarea type="text" id="walletSeed" name="walletSeed" class="wInput"> </textarea><span class="clipSpan tooltip-1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" data-clipboard-message-success="Wallet seed has been successfully copied to clipboard" ></span>
+                                        <textarea id="walletSeed" type="text" rows="3" name="walletSeed" class="wInput"> </textarea><span class="clipSpan tooltip-1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" data-clipboard-message-success="Wallet seed has been successfully copied to clipboard" ></span>
                                         <br/><br/>
                                         
                                         <button id="generateKeys" class="wButton fade">GENERATE ADDRESS FROM SEED</button><span class="divider-1"></span><button id="generateRandomSeed" class="wButton fade">GENERATE NEW SEED</button>
@@ -215,7 +215,7 @@
                     <p>Your account's basic information, click the COPY button in order to copy the contents to the clipboard or CLOSE to exit.</p></br>
                     <form id="backupForm">
                     <label for="seedBackup">Seed</label><br/>
-                    <textarea id="seedBackup" class="wInput" rows="4" readonly></textarea><br/>
+                    <textarea id="seedBackup" class="wInput" rows="3" readonly></textarea><br/>
                     <label for="privateKeyBackup">Private Key</label><br/>
                     <input id="privateKeyBackup" class="wInput" type="text" name="privateKeyBackup" readonly/><br/>
                     <label for="publicKeyBackup">Public Key</label><br/>
