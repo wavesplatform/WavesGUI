@@ -59,7 +59,7 @@ var Waves = (function(Waves, $, undefined) {
 
 		});
 
-		chrome.storage.sync.set({'WavesAccounts': accounts.WavesAccount}, function() {
+		chrome.storage.sync.set({'WavesAccounts': accounts.WavesAccounts}, function() {
             
         });
 
