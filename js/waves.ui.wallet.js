@@ -89,6 +89,10 @@ var Waves = (function(Waves, $, undefined) {
         }
     };
 
+    $("#wB-butSend-WAV").on($.modal.OPEN, function(event, modal) {
+        $("#wavesrecipient").focus();
+    });
+
 	$("#wavessend").on("click", function(e) {
         e.preventDefault();
 
