@@ -326,8 +326,7 @@ var Waves = (function(Waves, $, undefined) {
     
     $('#header-wPop-backup').on($.modal.BEFORE_OPEN, function() {
         Waves.apiRequest(Waves.api.waves.address, Waves.publicKey, function(response) {
-            var encodedSeed = Base58.encode(new Uint8Array(converters.stringToByteArray(Waves.passphrase)));
-            $('#seedBackup').val(encodedSeed);
+            $('#seedBackup').val(Waves.passphrase);
             $('#privateKeyBackup').val(Waves.privateKey);
             $('#publicKeyBackup').val(Waves.publicKey);
             $("#addressBackup").val(Waves.Addressing.fromRawAddress(response.address).getDisplayAddress());
