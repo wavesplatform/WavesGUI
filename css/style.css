@@ -138,6 +138,9 @@ body {
     width: 1rem;
 }
 
+#walletSeed, #seedBackup {
+    padding: .25rem;
+}
 
 /* =============================================================== */
 /* PLACEHOLDER CONTENT SETTINGS */ /* PLACEHOLDER CONTENT SETTINGS */
