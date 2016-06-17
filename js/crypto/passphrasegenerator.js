@@ -43,11 +43,12 @@ var PassPhraseGenerator = {
 	wordCount: 2048,
 
 	words: ClientWordList,
+
 	generatePassPhrase: function() {
 
 		var crypto = window.crypto || window.msCrypto;
 
-		bits = 128;
+		bits = 160;
 
 		var random = new Uint32Array(bits / 32);
 
