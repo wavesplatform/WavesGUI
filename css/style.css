@@ -142,6 +142,11 @@ body {
     padding: .25rem;
 }
 
+.notice-alert {
+    color: red;
+}
+
+
 /* =============================================================== */
 /* PLACEHOLDER CONTENT SETTINGS */ /* PLACEHOLDER CONTENT SETTINGS */
 /* =============================================================== */
