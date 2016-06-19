@@ -314,11 +314,13 @@ var Waves = (function(Waves, $, undefined) {
 
                 $.each(response, function(blockKey, blockData) {
 
+                    var generator = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(blockData.generator).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(blockData.generator).getDisplayAddress()+'</span>'; 
+
                     row += '<tr class="fade">'+
                         '<td>'+blockData.height+'</td>'+
                         '<td>'+Waves.formatTimestamp(blockData.timestamp)+'</td>'+
                         '<td>'+blockData.transactions.length+'</td>'+
-                        '<td>'+Waves.Addressing.fromRawAddress(blockData.generator).getDisplayAddress()+'</td>'+
+                        '<td>'+generator+'</td>'+
                     '</tr>';
 
                 });
