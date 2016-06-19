@@ -863,16 +863,46 @@ input.tabs-radio:checked + label  img {
 }
 
 .wavesTable-txIn {
-/*    color: #669ECC !important;*/
     color: #4C7699 !important;
-/*    color: #737D3A !important;*/
-    
 }
 
 .wavesTable-txOut {
     color: #888999 !important;
-/*    color: #9C0005 !important;*/
 }
+
+.wavesTable-txUnc {
+    -webkit-animation: opacity_change 1s infinite alternate;
+    -moz-animation: opacity_change 1s infinite alternate;
+    -ms-animation: opacity_change 1s infinite alternate;
+    -o-animation: opacity_change 1s infinite alternate;
+    animation: opacity_change 1s infinite alternate;
+    }
+
+@-webkit-keyframes opacity_change {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
+}
+
+@-moz-keyframes opacity_change {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
+}
+
+@-ms-keyframes opacity_change {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
+}
+
+@-o-keyframes opacity_change {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
+}
+
+@keyframes opacity_change {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
+}
+
 
 #wHistory tbody, #latestBlocksUnconfirmed, #latestBlocksTable  {
     font-family: 'Lekton';
