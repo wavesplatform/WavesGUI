@@ -37,7 +37,7 @@
  * @depends {waves.js}
  */
 var Waves = (function(Waves, $, undefined) {
-	"use strict";
+    "use strict";
 
     Waves.balance  = 0;
     Waves.hasLocalStorage = false;
@@ -60,48 +60,95 @@ var Waves = (function(Waves, $, undefined) {
                 $('.balancewaves').html(formatBalance + ' WAVE');
                 //$(".wB-add").html(Waves.address);
 
-            });
+                Waves.apiRequest(Waves.api.transactions.unconfirmed, function(unconfirmedTransactions) {
 
-            Waves.getAddressHistory(Waves.address, function(history) {
+                    Waves.getAddressHistory(Waves.address, function(history) {
 
-                var transactionHistory = history[0];
-                var appContainer;
+                        var transactionHistory = history[0];
+                        var appContainer;
 
-                transactionHistory.sort(function(x, y){
-                    return y.timestamp - x.timestamp;
-                });
+                        transactionHistory.sort(function(x, y){
+                            return y.timestamp - x.timestamp;
+                        });
 
-                var max = 10;
+                        var max = 10;
+                        var signatureKeys = []; //Prevent double-entry with unconfirmed transactions
 
-                $.each(transactionHistory, function(historyKey, historyValue) {
-                    
-                    if(max > 0) {
+                        if(unconfirmedTransactions.length > 0) {
 
-                        var senderClass = 'class="wavesTable-txIn"';
-                        var paymentType = 'Incoming ';
-                        if(historyValue.sender === Waves.address.getRawAddress()) {
-                          
-                            senderClass = 'class="wavesTable-txOut"';
-                            paymentType = 'Outgoing ';
+                            $.each(unconfirmedTransactions, function(keyunc, dataunc) {
+
+                                if(dataunc.sender === Waves.address.getRawAddress() || dataunc.recipient === Waves.address.getRawAddress()) {
+
+                                    if(max > 0) {
+
+                                        var senderClass = 'class="incoming wavesTable-txIn"';
+                                        var paymentType = 'Incoming ';
+                                        if(dataunc.sender === Waves.address.getRawAddress()) {
+                                          
+                                            senderClass = 'class="incoming wavesTable-txOut"';
+                                            paymentType = 'Outgoing ';
+                                        }
+
+                                        var sender = dataunc.sender !== undefined ?
+                                            Waves.Addressing.fromRawAddress(dataunc.sender).getDisplayAddress() :
+                                            "none";
+
+                                        signatureKeys.push(dataunc.signature);
+
+                                        appContainer += '<tr '+senderClass+'>';
+                                        appContainer += '<td>'+Waves.formatTimestamp(dataunc.timestamp)+'</td>';
+                                        appContainer += '<td>' +paymentType + Waves.transactionType(dataunc.type)+'</td>';
+                                        appContainer += '<td>'+ sender +'</td>';
+                                        appContainer += '<td>'+ Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress()+'</td>';
+                                        appContainer += '<td>'+dataunc.fee+' WVL</td>';
+                                        appContainer += '<td>'+Waves.formatAmount(dataunc.amount)+' WAVE</td>';
+                                        appContainer += '</tr>';
+                                    }
+                                    max--;
+
+                                }
+
+                            });
+
                         }
 
-                        var sender = historyValue.sender !== undefined ?
-                            Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress() :
-                            "none";
+                        $.each(transactionHistory, function(historyKey, historyValue) {
+                            
+                            if(max > 0) {
 
-                        appContainer += '<tr '+senderClass+'>';
-                        appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                        appContainer += '<td>' +paymentType + Waves.transactionType(historyValue.type)+'</td>';
-                        appContainer += '<td>'+ sender +'</td>';
-                        appContainer += '<td>'+ Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</td>';
-                        appContainer += '<td>'+historyValue.fee+' WVL</td>';
-                        appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
-                        appContainer += '</tr>';
-                    }
-                    max--;
+                                var senderClass = 'class="wavesTable-txIn"';
+                                var paymentType = 'Incoming ';
+                                if(historyValue.sender === Waves.address.getRawAddress()) {
+                                  
+                                    senderClass = 'class="wavesTable-txOut"';
+                                    paymentType = 'Outgoing ';
+                                }
+
+                                var sender = historyValue.sender !== undefined ?
+                                    Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress() :
+                                    "none";
+
+                                if(signatureKeys.indexOf(historyValue.signature) === -1) {
+
+                                    appContainer += '<tr '+senderClass+'>';
+                                    appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
+                                    appContainer += '<td>' +paymentType + Waves.transactionType(historyValue.type)+'</td>';
+                                    appContainer += '<td>'+ sender +'</td>';
+                                    appContainer += '<td>'+ Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</td>';
+                                    appContainer += '<td>'+historyValue.fee+' WVL</td>';
+                                    appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
+                                    appContainer += '</tr>';
+                                }
+                            }
+                            max--;
+                        });
+
+                        $("#walletTransactionhistory").html(appContainer);
+                    });
+
                 });
 
-                $("#walletTransactionhistory").html(appContainer);
             });
         },
         'mBB-portfolio': function updatePortfolio () {
@@ -429,7 +476,7 @@ var Waves = (function(Waves, $, undefined) {
       $.growl.warning({ message: "The kitten is ugly!" });
   */
 
-	return Waves;
+    return Waves;
 }(Waves || {}, jQuery));
 
 
