@@ -94,13 +94,18 @@ var Waves = (function(Waves, $, undefined) {
                                             Waves.Addressing.fromRawAddress(dataunc.sender).getDisplayAddress() :
                                             "none";
 
+                                        if(dataunc.sender === Waves.address.getRawAddress()) { sender = 'You'; }
+
+                                        var recipient;
+                                        if(dataunc.recipient === Waves.address.getRawAddress()) { recipient = 'You'; } else { recipient = Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress(); }
+
                                         signatureKeys.push(dataunc.signature);
 
                                         appContainer += '<tr '+senderClass+'>';
                                         appContainer += '<td>'+Waves.formatTimestamp(dataunc.timestamp)+'</td>';
                                         appContainer += '<td>' +paymentType + Waves.transactionType(dataunc.type)+'</td>';
                                         appContainer += '<td>'+ sender +'</td>';
-                                        appContainer += '<td>'+ Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress()+'</td>';
+                                        appContainer += '<td>'+ recipient +'</td>';
                                         appContainer += '<td>'+dataunc.fee+' WVL</td>';
                                         appContainer += '<td>'+Waves.formatAmount(dataunc.amount)+' WAVE</td>';
                                         appContainer += '</tr>';
@@ -129,13 +134,18 @@ var Waves = (function(Waves, $, undefined) {
                                     Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress() :
                                     "none";
 
+                                if(historyValue.sender === Waves.address.getRawAddress()) { sender = 'You'; }
+
+                                var recipient;
+                                if(historyValue.recipient === Waves.address.getRawAddress()) { recipient = 'You'; } else { recipient = Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress(); }
+
                                 if(signatureKeys.indexOf(historyValue.signature) === -1) {
 
                                     appContainer += '<tr '+senderClass+'>';
                                     appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
                                     appContainer += '<td>' +paymentType + Waves.transactionType(historyValue.type)+'</td>';
                                     appContainer += '<td>'+ sender +'</td>';
-                                    appContainer += '<td>'+ Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</td>';
+                                    appContainer += '<td>'+ recipient +'</td>';
                                     appContainer += '<td>'+historyValue.fee+' WVL</td>';
                                     appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
                                     appContainer += '</tr>';
