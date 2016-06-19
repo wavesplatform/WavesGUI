@@ -82,11 +82,11 @@ var Waves = (function(Waves, $, undefined) {
 
                                     if(max > 0) {
 
-                                        var senderClass = 'class="unconfirmed wavesTable-txIn"';
+                                        var senderClass = 'class="wavesTable-txUnc wavesTable-txIn"';
                                         var paymentType = 'Incoming ';
                                         if(dataunc.sender === Waves.address.getRawAddress()) {
                                           
-                                            senderClass = 'class="unconfirmed wavesTable-txOut"';
+                                            senderClass = 'class="wavesTable-txUnc wavesTable-txOut"';
                                             paymentType = 'Outgoing ';
                                         }
 
@@ -176,11 +176,11 @@ var Waves = (function(Waves, $, undefined) {
 
                             if(dataunc.sender === Waves.address.getRawAddress() || dataunc.recipient === Waves.address.getRawAddress()) {
 
-                                var senderClass = 'class="unconfirmed wavesTable-txIn"';
+                                var senderClass = 'class="wavesTable-txUnc wavesTable-txIn"';
                                 var paymentType = 'Incoming ';
                                 if(dataunc.sender === Waves.address.getRawAddress()) {
                                   
-                                    senderClass = 'class="unconfirmed wavesTable-txOut"';
+                                    senderClass = 'class="wavesTable-txUnc wavesTable-txOut"';
                                     paymentType = 'Outgoing ';
                                 }
 
