@@ -879,27 +879,27 @@ input.tabs-radio:checked + label  img {
     }
 
 @-webkit-keyframes opacity_change {
-    from { opacity: 0.4; }
+    from { opacity: 0.3; }
     to { opacity: 1; }
 }
 
 @-moz-keyframes opacity_change {
-    from { opacity: 0.4; }
+    from { opacity: 0.3; }
     to { opacity: 1; }
 }
 
 @-ms-keyframes opacity_change {
-    from { opacity: 0.4; }
+    from { opacity: 0.3; }
     to { opacity: 1; }
 }
 
 @-o-keyframes opacity_change {
-    from { opacity: 0.4; }
+    from { opacity: 0.3; }
     to { opacity: 1; }
 }
 
 @keyframes opacity_change {
-    from { opacity: 0.4; }
+    from { opacity: 0.3; }
     to { opacity: 1; }
 }
 
