@@ -867,7 +867,11 @@ input.tabs-radio:checked + label  img {
 }
 
 .wavesTable-txOut {
-    color: #888999 !important;
+    color: #555 !important;
+}
+
+.wavesTable-txIn .clipSpan:after, .wavesTable-txOut .clipSpan:after, .wavesTable-txUnc .clipSpan:after {
+    background: none;
 }
 
 .wavesTable-txUnc {
@@ -876,7 +880,7 @@ input.tabs-radio:checked + label  img {
     -ms-animation: opacity_change 1s infinite alternate;
     -o-animation: opacity_change 1s infinite alternate;
     animation: opacity_change 1s infinite alternate;
-    }
+}
 
 @-webkit-keyframes opacity_change {
     from { opacity: 0.3; }
@@ -902,7 +906,6 @@ input.tabs-radio:checked + label  img {
     from { opacity: 0.3; }
     to { opacity: 1; }
 }
-
 
 #wHistory tbody, #latestBlocksUnconfirmed, #latestBlocksTable  {
     font-family: 'Lekton';
