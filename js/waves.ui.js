@@ -235,12 +235,6 @@ var Waves = (function(Waves, $, undefined) {
                     return y.timestamp - x.timestamp;
                 });
 
-                $.each(response, function(blockKey, blockData) {
-
-                    
-
-                });
-
                 var futureBlock = Waves.blockHeight + 1; 
                 var unconfirmedRow = '<tr class="fade">'+
                         '<td>'+futureBlock+'</td>'+

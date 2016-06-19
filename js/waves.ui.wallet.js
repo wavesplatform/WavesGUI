@@ -155,6 +155,7 @@ var Waves = (function(Waves, $, undefined) {
                 $("#wavessendamount").val('');
 
                 $.modal.close();
+                Waves.pages['mBB-wallet']();
             }
         });
 
