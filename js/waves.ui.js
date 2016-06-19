@@ -82,11 +82,11 @@ var Waves = (function(Waves, $, undefined) {
 
                                     if(max > 0) {
 
-                                        var senderClass = 'class="incoming wavesTable-txIn"';
+                                        var senderClass = 'class="unconfirmed wavesTable-txIn"';
                                         var paymentType = 'Incoming ';
                                         if(dataunc.sender === Waves.address.getRawAddress()) {
                                           
-                                            senderClass = 'class="incoming wavesTable-txOut"';
+                                            senderClass = 'class="unconfirmed wavesTable-txOut"';
                                             paymentType = 'Outgoing ';
                                         }
 
