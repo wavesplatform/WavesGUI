@@ -855,12 +855,14 @@ input.tabs-radio:checked + label  img {
     padding-bottom: .5rem;
 }
 
+/*
 #transactionhistory tr {
     -moz-transition: all .2s ease;
     -o-transition: all .2s ease;
     transition: all .2s ease;
 	-webkit-transition: all .2s ease;
 }
+*/
 
 .wavesTable-txIn {
     color: #4C7699 !important;
@@ -883,39 +885,39 @@ input.tabs-radio:checked + label  img {
 }
 
 .wavesTable-txUnc {
-    -webkit-animation: opacity_change 1s infinite alternate;
-    -moz-animation: opacity_change 1s infinite alternate;
-    -ms-animation: opacity_change 1s infinite alternate;
-    -o-animation: opacity_change 1s infinite alternate;
-    animation: opacity_change 1s infinite alternate;
-}
-
-@-webkit-keyframes opacity_change {
-    from { opacity: 0.3; }
-    to { opacity: 1; }
+    -moz-animation: opacity_change 1s infinite alternate ease-in-out;
+    -ms-animation: opacity_change 1s infinite alternate ease-in-out;
+    -o-animation: opacity_change 1s infinite alternate ease-in-out;
+    -webkit-animation: opacity_change 1s infinite alternate ease-in-out;
+    animation: opacity_change 1s infinite alternate ease-in-out;
 }
 
 @-moz-keyframes opacity_change {
-    from { opacity: 0.3; }
+    from { opacity: 0.35; }
     to { opacity: 1; }
 }
 
 @-ms-keyframes opacity_change {
-    from { opacity: 0.3; }
+    from { opacity: 0.35; }
     to { opacity: 1; }
 }
 
 @-o-keyframes opacity_change {
-    from { opacity: 0.3; }
+    from { opacity: 0.35; }
+    to { opacity: 1; }
+}
+
+@-webkit-keyframes opacity_change {
+    from { opacity: 0.35; }
     to { opacity: 1; }
 }
 
 @keyframes opacity_change {
-    from { opacity: 0.3; }
+    from { opacity: 0.35; }
     to { opacity: 1; }
 }
 
-#wHistory tbody, #latestBlocksUnconfirmed, #latestBlocksTable  {
+#wHistory tbody, #latestBlocksUnconfirmed, #latestBlocksTable {
     font-family: 'Lekton';
 }
 
