@@ -161,40 +161,86 @@ var Waves = (function(Waves, $, undefined) {
             //Auto Updating Voting Page Items
         },
         'mBB-history': function updateHistory() {
+
+            Waves.apiRequest(Waves.api.transactions.unconfirmed, function(unconfirmedTransactions) {
             
-            Waves.getAddressHistory(Waves.address, function(history) {
-                var transactionHistory = history[0];
-                var appContainer = '';
-                
-                transactionHistory.sort(function(x, y){
-                    return y.timestamp - x.timestamp;
-                });
+                Waves.getAddressHistory(Waves.address, function(history) {
+                    var transactionHistory = history[0];
+                    var appContainer = '';
 
-                $.each(transactionHistory, function(historyKey, historyValue) {
+                    var signatureKeys = []; //Prevent double-entry with unconfirmed transactions
 
-                    var senderClass = 'class="wavesTable-txIn"';
-                    var paymentType = 'Incoming ';
-                    if(historyValue.sender === Waves.address.getRawAddress()) {
-                      
-                        senderClass = '​class="wavesTable-txOut"';
-                        paymentType = 'Outgoing ';
+                    if(unconfirmedTransactions.length > 0) {
+
+                        $.each(unconfirmedTransactions, function(keyunc, dataunc) {
+
+                            if(dataunc.sender === Waves.address.getRawAddress() || dataunc.recipient === Waves.address.getRawAddress()) {
+
+                                var senderClass = 'class="unconfirmed wavesTable-txIn"';
+                                var paymentType = 'Incoming ';
+                                if(dataunc.sender === Waves.address.getRawAddress()) {
+                                  
+                                    senderClass = 'class="unconfirmed wavesTable-txOut"';
+                                    paymentType = 'Outgoing ';
+                                }
+
+                                var sender = dataunc.sender !== undefined ?
+                                    Waves.Addressing.fromRawAddress(dataunc.sender).getDisplayAddress() :
+                                    "none";
+
+                                signatureKeys.push(dataunc.signature);
+
+                                appContainer += '<tr '+senderClass+'>';
+                                appContainer += '<td>'+Waves.formatTimestamp(dataunc.timestamp)+'</td>';
+                                appContainer += '<td>' +paymentType + Waves.transactionType(dataunc.type)+'</td>';
+                                appContainer += '<td>'+ sender +'</td>';
+                                appContainer += '<td>'+ Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress()+'</td>';
+                                appContainer += '<td>'+dataunc.fee+' WVL</td>';
+                                appContainer += '<td>'+Waves.formatAmount(dataunc.amount)+' WAVE</td>';
+                                appContainer += '</tr>';
+                         
+                            }
+
+                        });
+
                     }
+                    
+                    transactionHistory.sort(function(x, y){
+                        return y.timestamp - x.timestamp;
+                    });
 
-                    var sender = historyValue.sender !== undefined ?
-                        Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress() :
-                        "none";
+                    $.each(transactionHistory, function(historyKey, historyValue) {
 
-                    appContainer += '<tr '+senderClass+'>';
-                    appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                    appContainer += '<td>'+paymentType + Waves.transactionType(historyValue.type)+'</td>';
-                    appContainer += '<td>'+ sender +'</td>';
-                    appContainer += '<td>'+ Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</td>';
-                    appContainer += '<td>'+historyValue.fee+' WVL</td>';
-                    appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
-                    appContainer += '</tr>';
+                        var senderClass = 'class="wavesTable-txIn"';
+                        var paymentType = 'Incoming ';
+                        if(historyValue.sender === Waves.address.getRawAddress()) {
+                          
+                            senderClass = '​class="wavesTable-txOut"';
+                            paymentType = 'Outgoing ';
+                        }
+
+                        var sender = historyValue.sender !== undefined ?
+                            Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress() :
+                            "none";
+
+                        if(signatureKeys.indexOf(historyValue.signature) === -1) {
+
+                            appContainer += '<tr '+senderClass+'>';
+                            appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
+                            appContainer += '<td>'+paymentType + Waves.transactionType(historyValue.type)+'</td>';
+                            appContainer += '<td>'+ sender +'</td>';
+                            appContainer += '<td>'+ Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</td>';
+                            appContainer += '<td>'+historyValue.fee+' WVL</td>';
+                            appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
+                            appContainer += '</tr>';
+
+                        }
+
+                    });
+
+                    $("#transactionhistory").html(appContainer);
                 });
 
-                $("#transactionhistory").html(appContainer);
             });
 
         },
