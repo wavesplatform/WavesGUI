@@ -874,10 +874,12 @@ input.tabs-radio:checked + label  img {
 
 .wavesTable-txIn .clipSpan:after {
     background: url(../img/wIcon_clip_txIn.svg) no-repeat;
+    opacity: .6;
 }
 
 .wavesTable-txOut .clipSpan:after {
-    background: url(../img/wIcon_clip_txOut.svg) no-repeat;   
+    background: url(../img/wIcon_clip_txOut.svg) no-repeat;  
+    opacity: .6; 
 }
 
 .wavesTable-txUnc .clipSpan:after {
