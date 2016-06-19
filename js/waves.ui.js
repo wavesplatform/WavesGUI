@@ -94,10 +94,18 @@ var Waves = (function(Waves, $, undefined) {
                                             Waves.Addressing.fromRawAddress(dataunc.sender).getDisplayAddress() :
                                             "none";
 
-                                        if(dataunc.sender === Waves.address.getRawAddress()) { sender = 'You'; }
-
                                         var recipient;
-                                        if(dataunc.recipient === Waves.address.getRawAddress()) { recipient = 'You'; } else { recipient = Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress(); }
+                                        if(dataunc.sender === Waves.address.getRawAddress()) { 
+                                            sender = 'You'; 
+                                        } else {
+                                            sender = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>'; 
+                                        }
+
+                                        if(dataunc.recipient === Waves.address.getRawAddress()) { 
+                                            recipient = 'You'; 
+                                        } else { 
+                                            recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress()+'</span>'; 
+                                        }
 
                                         signatureKeys.push(dataunc.signature);
 
@@ -134,10 +142,18 @@ var Waves = (function(Waves, $, undefined) {
                                     Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress() :
                                     "none";
 
-                                if(historyValue.sender === Waves.address.getRawAddress()) { sender = 'You'; }
-
                                 var recipient;
-                                if(historyValue.recipient === Waves.address.getRawAddress()) { recipient = 'You'; } else { recipient = Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress(); }
+                                if(historyValue.sender === Waves.address.getRawAddress()) { 
+                                    sender = 'You'; 
+                                } else {
+                                    sender = '<span class="clipSpan tooltip-1" style="cursor: pointer; cursor: hand;" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>'; 
+                                }
+
+                                if(historyValue.recipient === Waves.address.getRawAddress()) { 
+                                    recipient = 'You'; 
+                                } else { 
+                                    recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</span>'; 
+                                }
 
                                 if(signatureKeys.indexOf(historyValue.signature) === -1) {
 
@@ -198,11 +214,18 @@ var Waves = (function(Waves, $, undefined) {
                                     Waves.Addressing.fromRawAddress(dataunc.sender).getDisplayAddress() :
                                     "none";
 
-                                if(dataunc.sender === Waves.address.getRawAddress()) { sender = 'You'; }
-
                                 var recipient;
-                                if(dataunc.recipient === Waves.address.getRawAddress()) { recipient = 'You'; } else { recipient = Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress(); }
+                                if(dataunc.sender === Waves.address.getRawAddress()) { 
+                                    sender = 'You'; 
+                                } else {
+                                    sender = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>'; 
+                                }
 
+                                if(dataunc.recipient === Waves.address.getRawAddress()) { 
+                                    recipient = 'You'; 
+                                } else { 
+                                    recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress()+'</span>'; 
+                                }
 
                                 signatureKeys.push(dataunc.signature);
 
@@ -239,11 +262,18 @@ var Waves = (function(Waves, $, undefined) {
                             Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress() :
                             "none";
 
-                        if(historyValue.sender === Waves.address.getRawAddress()) { sender = 'You'; }
-
                         var recipient;
-                        if(historyValue.recipient === Waves.address.getRawAddress()) { recipient = 'You'; } else { recipient = Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress(); }
+                        if(historyValue.sender === Waves.address.getRawAddress()) { 
+                            sender = 'You'; 
+                        } else {
+                            sender = '<span class="clipSpan tooltip-1" style="cursor: pointer; cursor: hand;" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>'; 
+                        }
 
+                        if(historyValue.recipient === Waves.address.getRawAddress()) { 
+                            recipient = 'You'; 
+                        } else { 
+                            recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</span>'; 
+                        }
 
                         if(signatureKeys.indexOf(historyValue.signature) === -1) {
 
