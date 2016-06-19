@@ -318,7 +318,7 @@ var Waves = (function(Waves, $, undefined) {
                         '<td>'+blockData.height+'</td>'+
                         '<td>'+Waves.formatTimestamp(blockData.timestamp)+'</td>'+
                         '<td>'+blockData.transactions.length+'</td>'+
-                        '<td>'+blockData.generator+'</td>'+
+                        '<td>'+Waves.Addressing.fromRawAddress(blockData.generator).getDisplayAddress()+'</td>'+
                     '</tr>';
 
                 });
