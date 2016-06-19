@@ -20,7 +20,7 @@
 var Waves = (function (Waves, $) {
     Waves.constants = {
         'DB_VERSION': 2,
-        'CLIENT_VERSION' : '0.3.2a',
+        'CLIENT_VERSION' : '0.3.3a',
         'SCOREX_VERSION' : 'v0.1.3',
 
         'PLUGIN_VERSION': 1,
