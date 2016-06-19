@@ -870,7 +870,15 @@ input.tabs-radio:checked + label  img {
     color: #555 !important;
 }
 
-.wavesTable-txIn .clipSpan:after, .wavesTable-txOut .clipSpan:after, .wavesTable-txUnc .clipSpan:after {
+.wavesTable-txIn .clipSpan:after {
+    background: url(../img/wIcon_clip_txIn.svg) no-repeat;
+}
+
+.wavesTable-txOut .clipSpan:after {
+    background: url(../img/wIcon_clip_txOut.svg) no-repeat;   
+}
+
+.wavesTable-txUnc .clipSpan:after {
     background: none;
 }
 
