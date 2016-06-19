@@ -49,6 +49,7 @@ var Waves = (function(Waves, $, undefined) {
     //You can using anything for Waves.network which will create a new account storage on mainnet
     Waves.network = 'devel';
 
+/*
     Waves.createAccount = function (publicKey) {
 
         $.getJSON(Waves.server+'/waves/address/'+publicKey, function(response) {
@@ -68,6 +69,7 @@ var Waves = (function(Waves, $, undefined) {
         }); 
 
     }
+    */
 
 	return Waves;
 }(Waves || {}, jQuery));
