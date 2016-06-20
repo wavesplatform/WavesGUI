@@ -149,8 +149,8 @@ var Waves = (function(Waves, $, undefined) {
                 $.growl.error({ message: 'Error:'+response.error +' - '+response.message });
             } else {
 
-                var successMessage = 'Sent '+Waves.formatAmount(amount)+' Wave to '+recipient.getDisplayAddress().substr(0,10)+'...';
-                $.growl({ title: 'Payment sent!', message: successMessage });
+                var successMessage = 'Sent '+Waves.formatAmount(amount)+' Wave <br>Recipient '+recipient.getDisplayAddress().substr(0,15)+'...<br>Date: '+Waves.formatTimestamp(wavesTime);
+                $.growl({ title: 'Payment sent! ', message: successMessage, size: 'large' });
                 $("#wavesrecipient").val('');
                 $("#wavessendamount").val('');
 
