@@ -117,7 +117,17 @@ var Waves = (function(Waves, $, undefined) {
         var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
         var senderPublic = Base58.decode(Waves.publicKey);
         var senderPrivate = Base58.decode(Waves.privateKey);
-        var recipient = Waves.Addressing.fromDisplayAddress($("#wavesrecipient").val().replace(/\s+/g, ''));
+        var addressText = $("#wavesrecipient").val().replace(/\s+/g, '');
+        var recipient = undefined;
+        if (Waves.Addressing.validateDisplayAddress(addressText))
+            recipient = Waves.Addressing.fromDisplayAddress(addressText);
+        else if (Waves.Addressing.validateRawAddress(addressText))
+            recipient = Waves.Addressing.fromRawAddress(addressText);
+        else {
+            // we shouldn't see this message, because form is validated
+            $.growl.error({ message: 'Unknown address format' });
+            return;
+        }
 
         var wavesTime = Number(Waves.getTime());
 
