@@ -532,7 +532,7 @@ var Waves = (function(Waves, $, undefined) {
         onkeyup: false,
         showErrors : function(errorMap, errorList) {
             errorList.forEach(function(error) {
-                $.growl.error({ message : error.message });
+                $.growl.error({ message : error.message, size: 'large' });
             });
 
             var i, elements;
