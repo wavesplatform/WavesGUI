@@ -254,7 +254,7 @@ var Waves = (function(Waves, $, undefined) {
                         var paymentType = 'Incoming ';
                         if(historyValue.sender === Waves.address.getRawAddress()) {
                           
-                            senderClass = '​class="wavesTable-txOut"';
+                            senderClass = 'class="wavesTable-txOut"';
                             paymentType = 'Outgoing ';
                         }
 
