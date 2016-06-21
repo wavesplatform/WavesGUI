@@ -547,8 +547,7 @@ var Waves = (function(Waves, $, undefined) {
         }
     });
     $.validator.addMethod('address', function(value, element){
-        return this.optional(element) || Waves.Addressing.validateDisplayAddress(value) ||
-            Waves.Addressing.validateRawAddress(value);
+        return this.optional(element) || Waves.Addressing.validateDisplayAddress(value);
     }, "Account number must be a sequence of 35 alphanumeric characters with no spaces, optionally starting with '1W'");
     $.validator.addMethod('decimal', function(value, element) {
         return this.optional(element) || /^(?:-?\d+)?(?:\.\d+)?$/.test(value);
