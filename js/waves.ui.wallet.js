@@ -106,7 +106,7 @@ var Waves = (function(Waves, $, undefined) {
         maxSend = maxSend / Math.pow(10,8);
         var sendAmount = Number($("#wavessendamount").val().replace(/\s+/g, ''));
 
-        if(sendAmount > maxSend) {
+        if (sendAmount > maxSend) {
             $.growl.error({ message: 'Error: Not enough funds' });
             return;
         }
@@ -117,7 +117,9 @@ var Waves = (function(Waves, $, undefined) {
         var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
         var senderPublic = Base58.decode(Waves.publicKey);
         var senderPrivate = Base58.decode(Waves.privateKey);
-        var recipient = Waves.Addressing.fromDisplayAddress($("#wavesrecipient").val().replace(/\s+/g, ''));
+        var addressText = $("#wavesrecipient").val().replace(/\s+/g, '');
+        // validate display address knows that the address prefix is optional
+        var recipient = Waves.Addressing.fromDisplayAddress(addressText);
 
         var wavesTime = Number(Waves.getTime());
 
@@ -127,11 +129,6 @@ var Waves = (function(Waves, $, undefined) {
         var signature = Waves.sign(senderPrivate, signatureData);
 
         //var verify = Waves.curve25519.verify(senderPublic, signatureData, Base58.decode(signature));
-
-        if(sendAmount > maxSend) {
-            $.growl.error({ message: 'Error: Not enough funds' });
-            return;
-        }
 
         var data = {
           "recipient": recipient.getRawAddress(),
