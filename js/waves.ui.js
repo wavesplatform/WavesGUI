@@ -35,9 +35,10 @@
  * @depends {util/converters.js}
  * @depends {util/extensions.js}
  * @depends {waves.js}
+ * @depends {waves.api.address.js}
  */
 var Waves = (function(Waves, $, undefined) {
-	"use strict";
+    "use strict";
 
     Waves.balance  = 0;
     Waves.hasLocalStorage = false;
@@ -60,22 +61,195 @@ var Waves = (function(Waves, $, undefined) {
                 $('.balancewaves').html(formatBalance + ' WAVE');
                 //$(".wB-add").html(Waves.address);
 
-            });
+                Waves.apiRequest(Waves.api.transactions.unconfirmed, function(unconfirmedTransactions) {
 
-            Waves.getAddressHistory(Waves.address, function(history) {
+                    Waves.getAddressHistory(Waves.address, function(history) {
 
-                var transactionHistory = history[0];
-                var appContainer;
+                        var transactionHistory = history[0];
+                        var appContainer;
 
-                transactionHistory.sort(function(x, y){
-                    return y.timestamp - x.timestamp;
+                        transactionHistory.sort(function(x, y){
+                            return y.timestamp - x.timestamp;
+                        });
+
+                        var max = 10;
+                        var signatureKeys = []; //Prevent double-entry with unconfirmed transactions
+
+                        if(unconfirmedTransactions.length > 0) {
+
+                            $.each(unconfirmedTransactions, function(keyunc, dataunc) {
+
+                                if(dataunc.sender === Waves.address.getRawAddress() || dataunc.recipient === Waves.address.getRawAddress()) {
+
+                                    if(max > 0) {
+
+                                        var senderClass = 'class="wavesTable-txUnc wavesTable-txIn"';
+                                        var paymentType = 'Incoming ';
+                                        if(dataunc.sender === Waves.address.getRawAddress()) {
+                                          
+                                            senderClass = 'class="wavesTable-txUnc wavesTable-txOut"';
+                                            paymentType = 'Outgoing ';
+                                        }
+
+                                        var sender = dataunc.sender !== undefined ?
+                                            Waves.Addressing.fromRawAddress(dataunc.sender).getDisplayAddress() :
+                                            "none";
+
+                                        var recipient;
+                                        if(dataunc.sender === Waves.address.getRawAddress()) { 
+                                            sender = 'You'; 
+                                        } else {
+                                            sender = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>'; 
+                                        }
+
+                                        if(dataunc.recipient === Waves.address.getRawAddress()) { 
+                                            recipient = 'You'; 
+                                        } else { 
+                                            recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress()+'</span>'; 
+                                        }
+
+                                        signatureKeys.push(dataunc.signature);
+
+                                        appContainer += '<tr '+senderClass+'>';
+                                        appContainer += '<td>'+Waves.formatTimestamp(dataunc.timestamp)+'</td>';
+                                        appContainer += '<td>' +paymentType + Waves.transactionType(dataunc.type)+'</td>';
+                                        appContainer += '<td>'+ sender +'</td>';
+                                        appContainer += '<td>'+ recipient +'</td>';
+                                        appContainer += '<td>'+dataunc.fee+' WVL</td>';
+                                        appContainer += '<td>'+Waves.formatAmount(dataunc.amount)+' WAVE</td>';
+                                        appContainer += '</tr>';
+                                    }
+                                    max--;
+
+                                }
+
+                            });
+
+                        }
+
+                        $.each(transactionHistory, function(historyKey, historyValue) {
+                            
+                            if(max > 0) {
+
+                                var senderClass = 'class="wavesTable-txIn"';
+                                var paymentType = 'Incoming ';
+                                if(historyValue.sender === Waves.address.getRawAddress()) {
+                                  
+                                    senderClass = 'class="wavesTable-txOut"';
+                                    paymentType = 'Outgoing ';
+                                }
+
+                                var sender = historyValue.sender !== undefined ?
+                                    Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress() :
+                                    "none";
+
+                                var recipient;
+                                if(historyValue.sender === Waves.address.getRawAddress()) { 
+                                    sender = 'You'; 
+                                } else {
+                                    sender = '<span class="clipSpan tooltip-1" style="cursor: pointer; cursor: hand;" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>'; 
+                                }
+
+                                if(historyValue.recipient === Waves.address.getRawAddress()) { 
+                                    recipient = 'You'; 
+                                } else { 
+                                    recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</span>'; 
+                                }
+
+                                if(signatureKeys.indexOf(historyValue.signature) === -1) {
+
+                                    appContainer += '<tr '+senderClass+'>';
+                                    appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
+                                    appContainer += '<td>' +paymentType + Waves.transactionType(historyValue.type)+'</td>';
+                                    appContainer += '<td>'+ sender +'</td>';
+                                    appContainer += '<td>'+ recipient +'</td>';
+                                    appContainer += '<td>'+historyValue.fee+' WVL</td>';
+                                    appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
+                                    appContainer += '</tr>';
+                                }
+                            }
+                            max--;
+                        });
+
+                        $("#walletTransactionhistory").html(appContainer);
+                    });
+
                 });
 
-                var max = 10;
+            });
+        },
+        'mBB-portfolio': function updatePortfolio () {
+            //Auto Updating Portfolio Page Items
+        },
+        'mBB-exchange': function updateExchange() {
+            //Auto Updating Exchange Page Items
+        },
+        'mBB-voting' : function updateVoting() {
+            //Auto Updating Voting Page Items
+        },
+        'mBB-history': function updateHistory() {
 
-                $.each(transactionHistory, function(historyKey, historyValue) {
+            Waves.apiRequest(Waves.api.transactions.unconfirmed, function(unconfirmedTransactions) {
+            
+                Waves.getAddressHistory(Waves.address, function(history) {
+                    var transactionHistory = history[0];
+                    var appContainer = '';
+
+                    var signatureKeys = []; //Prevent double-entry with unconfirmed transactions
+
+                    if(unconfirmedTransactions.length > 0) {
+
+                        $.each(unconfirmedTransactions, function(keyunc, dataunc) {
+
+                            if(dataunc.sender === Waves.address.getRawAddress() || dataunc.recipient === Waves.address.getRawAddress()) {
+
+                                var senderClass = 'class="wavesTable-txUnc wavesTable-txIn"';
+                                var paymentType = 'Incoming ';
+                                if(dataunc.sender === Waves.address.getRawAddress()) {
+                                  
+                                    senderClass = 'class="wavesTable-txUnc wavesTable-txOut"';
+                                    paymentType = 'Outgoing ';
+                                }
+
+                                var sender = dataunc.sender !== undefined ?
+                                    Waves.Addressing.fromRawAddress(dataunc.sender).getDisplayAddress() :
+                                    "none";
+
+                                var recipient;
+                                if(dataunc.sender === Waves.address.getRawAddress()) { 
+                                    sender = 'You'; 
+                                } else {
+                                    sender = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>'; 
+                                }
+
+                                if(dataunc.recipient === Waves.address.getRawAddress()) { 
+                                    recipient = 'You'; 
+                                } else { 
+                                    recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress()+'</span>'; 
+                                }
+
+                                signatureKeys.push(dataunc.signature);
+
+                                appContainer += '<tr '+senderClass+'>';
+                                appContainer += '<td>'+Waves.formatTimestamp(dataunc.timestamp)+'</td>';
+                                appContainer += '<td>' +paymentType + Waves.transactionType(dataunc.type)+'</td>';
+                                appContainer += '<td>'+ sender +'</td>';
+                                appContainer += '<td>'+ recipient +'</td>';
+                                appContainer += '<td>'+dataunc.fee+' WVL</td>';
+                                appContainer += '<td>'+Waves.formatAmount(dataunc.amount)+' WAVE</td>';
+                                appContainer += '</tr>';
+                         
+                            }
+
+                        });
+
+                    }
                     
-                    if(max > 0) {
+                    transactionHistory.sort(function(x, y){
+                        return y.timestamp - x.timestamp;
+                    });
+
+                    $.each(transactionHistory, function(historyKey, historyValue) {
 
                         var senderClass = 'class="wavesTable-txIn"';
                         var paymentType = 'Incoming ';
@@ -89,65 +263,37 @@ var Waves = (function(Waves, $, undefined) {
                             Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress() :
                             "none";
 
-                        appContainer += '<tr '+senderClass+'>';
-                        appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                        appContainer += '<td>' +paymentType + Waves.transactionType(historyValue.type)+'</td>';
-                        appContainer += '<td>'+ sender +'</td>';
-                        appContainer += '<td>'+ Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</td>';
-                        appContainer += '<td>'+historyValue.fee+' WVL</td>';
-                        appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
-                        appContainer += '</tr>';
-                    }
-                    max--;
+                        var recipient;
+                        if(historyValue.sender === Waves.address.getRawAddress()) { 
+                            sender = 'You'; 
+                        } else {
+                            sender = '<span class="clipSpan tooltip-1" style="cursor: pointer; cursor: hand;" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>'; 
+                        }
+
+                        if(historyValue.recipient === Waves.address.getRawAddress()) { 
+                            recipient = 'You'; 
+                        } else { 
+                            recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</span>'; 
+                        }
+
+                        if(signatureKeys.indexOf(historyValue.signature) === -1) {
+
+                            appContainer += '<tr '+senderClass+'>';
+                            appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
+                            appContainer += '<td>'+paymentType + Waves.transactionType(historyValue.type)+'</td>';
+                            appContainer += '<td>'+ sender +'</td>';
+                            appContainer += '<td>'+ recipient +'</td>';
+                            appContainer += '<td>'+historyValue.fee+' WVL</td>';
+                            appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
+                            appContainer += '</tr>';
+
+                        }
+
+                    });
+
+                    $("#transactionhistory").html(appContainer);
                 });
 
-                $("#walletTransactionhistory").html(appContainer);
-            });
-        },
-        'mBB-portfolio': function updatePortfolio () {
-            //Auto Updating Portfolio Page Items
-        },
-        'mBB-exchange': function updateExchange() {
-            //Auto Updating Exchange Page Items
-        },
-        'mBB-voting' : function updateVoting() {
-            //Auto Updating Voting Page Items
-        },
-        'mBB-history': function updateHistory() {
-            
-            Waves.getAddressHistory(Waves.address, function(history) {
-                var transactionHistory = history[0];
-                var appContainer = '';
-                
-                transactionHistory.sort(function(x, y){
-                    return y.timestamp - x.timestamp;
-                });
-
-                $.each(transactionHistory, function(historyKey, historyValue) {
-
-                    var senderClass = 'class="wavesTable-txIn"';
-                    var paymentType = 'Incoming ';
-                    if(historyValue.sender === Waves.address.getRawAddress()) {
-                      
-                        senderClass = '​class="wavesTable-txOut"';
-                        paymentType = 'Outgoing ';
-                    }
-
-                    var sender = historyValue.sender !== undefined ?
-                        Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress() :
-                        "none";
-
-                    appContainer += '<tr '+senderClass+'>';
-                    appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                    appContainer += '<td>'+paymentType + Waves.transactionType(historyValue.type)+'</td>';
-                    appContainer += '<td>'+ sender +'</td>';
-                    appContainer += '<td>'+ Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</td>';
-                    appContainer += '<td>'+historyValue.fee+' WVL</td>';
-                    appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
-                    appContainer += '</tr>';
-                });
-
-                $("#transactionhistory").html(appContainer);
             });
 
         },
@@ -169,11 +315,13 @@ var Waves = (function(Waves, $, undefined) {
 
                 $.each(response, function(blockKey, blockData) {
 
+                    var generator = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(blockData.generator).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(blockData.generator).getDisplayAddress()+'</span>'; 
+
                     row += '<tr class="fade">'+
                         '<td>'+blockData.height+'</td>'+
                         '<td>'+Waves.formatTimestamp(blockData.timestamp)+'</td>'+
                         '<td>'+blockData.transactions.length+'</td>'+
-                        '<td>'+blockData.generator+'</td>'+
+                        '<td>'+generator+'</td>'+
                     '</tr>';
 
                 });
@@ -186,12 +334,6 @@ var Waves = (function(Waves, $, undefined) {
 
                 response.sort(function(x, y){
                     return y.timestamp - x.timestamp;
-                });
-
-                $.each(response, function(blockKey, blockData) {
-
-                    
-
                 });
 
                 var futureBlock = Waves.blockHeight + 1; 
@@ -391,7 +533,7 @@ var Waves = (function(Waves, $, undefined) {
         onkeyup: false,
         showErrors : function(errorMap, errorList) {
             errorList.forEach(function(error) {
-                $.growl.error({ message : error.message });
+                $.growl.error({ message : error.message, size: 'large' });
             });
 
             var i, elements;
@@ -405,8 +547,8 @@ var Waves = (function(Waves, $, undefined) {
         }
     });
     $.validator.addMethod('address', function(value, element){
-        return this.optional(element) || /^1W[a-zA-Z0-9]{35}$/.test(value);
-    }, "Account number must be a sequence of 35 alphanumeric characters with no spaces starting with '1W'");
+        return this.optional(element) || Waves.Addressing.validateDisplayAddress(value);
+    }, "Account number must be a sequence of 35 alphanumeric characters with no spaces, optionally starting with '1W'");
     $.validator.addMethod('decimal', function(value, element) {
         return this.optional(element) || /^(?:-?\d+)?(?:\.\d+)?$/.test(value);
     }, "Amount is expected with a dot (.) as a decimal separator");
@@ -429,7 +571,7 @@ var Waves = (function(Waves, $, undefined) {
       $.growl.warning({ message: "The kitten is ugly!" });
   */
 
-	return Waves;
+    return Waves;
 }(Waves || {}, jQuery));
 
 

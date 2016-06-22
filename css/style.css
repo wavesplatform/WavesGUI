@@ -142,6 +142,11 @@ body {
     padding: .25rem;
 }
 
+.notice-alert {
+    color: red;
+}
+
+
 /* =============================================================== */
 /* PLACEHOLDER CONTENT SETTINGS */ /* PLACEHOLDER CONTENT SETTINGS */
 /* =============================================================== */
@@ -284,7 +289,7 @@ body {
 }
 
 .userBG {
-    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("../img/lockbg003.jpg");
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("../img/lockbg005b.jpg");
     min-height: 100%;
 	background-size: cover;
 	background-attachment: fixed;
@@ -850,26 +855,71 @@ input.tabs-radio:checked + label  img {
     padding-bottom: .5rem;
 }
 
+/*
 #transactionhistory tr {
     -moz-transition: all .2s ease;
     -o-transition: all .2s ease;
     transition: all .2s ease;
 	-webkit-transition: all .2s ease;
 }
+*/
 
 .wavesTable-txIn {
-/*    color: #669ECC !important;*/
     color: #4C7699 !important;
-/*    color: #737D3A !important;*/
-    
 }
 
 .wavesTable-txOut {
-    color: #888999 !important;
-/*    color: #9C0005 !important;*/
+    color: #555 !important;
 }
 
-#wHistory tbody, #latestBlocksUnconfirmed, #latestBlocksTable  {
+.wavesTable-txIn .clipSpan:after {
+    background: url(../img/wIcon_clip_txIn.svg) no-repeat;
+    opacity: .6;
+}
+
+.wavesTable-txOut .clipSpan:after {
+    background: url(../img/wIcon_clip_txOut.svg) no-repeat;  
+    opacity: .6; 
+}
+
+.wavesTable-txUnc .clipSpan:after {
+    background: none;
+}
+
+.wavesTable-txUnc {
+    -moz-animation: opacity_change 1s infinite alternate ease-in-out;
+    -ms-animation: opacity_change 1s infinite alternate ease-in-out;
+    -o-animation: opacity_change 1s infinite alternate ease-in-out;
+    -webkit-animation: opacity_change 1s infinite alternate ease-in-out;
+    animation: opacity_change 1s infinite alternate ease-in-out;
+}
+
+@-moz-keyframes opacity_change {
+    from { opacity: 0.35; }
+    to { opacity: 1; }
+}
+
+@-ms-keyframes opacity_change {
+    from { opacity: 0.35; }
+    to { opacity: 1; }
+}
+
+@-o-keyframes opacity_change {
+    from { opacity: 0.35; }
+    to { opacity: 1; }
+}
+
+@-webkit-keyframes opacity_change {
+    from { opacity: 0.35; }
+    to { opacity: 1; }
+}
+
+@keyframes opacity_change {
+    from { opacity: 0.35; }
+    to { opacity: 1; }
+}
+
+#wHistory tbody, #latestBlocksUnconfirmed, #latestBlocksTable {
     font-family: 'Lekton';
 }
 
