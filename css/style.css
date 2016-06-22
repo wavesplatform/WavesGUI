@@ -289,7 +289,7 @@ body {
 }
 
 .userBG {
-    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("../img/lockbg003.jpg");
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("../img/lockbg005b.jpg");
     min-height: 100%;
 	background-size: cover;
 	background-attachment: fixed;
