@@ -376,7 +376,7 @@ var Waves = (function (Waves, $, undefined) {
     // function accepts buffer with private key and an array with dataToSign
     // returns buffer with signed data
     Waves.sign = function(privateKey, dataToSign) {
-        var signature = axlsign.sign(privateKey, dataToSign);
+        var signature = axlsign.sign(privateKey, new Uint8Array(dataToSign));
 
         return Base58.encode(signature);
     }
