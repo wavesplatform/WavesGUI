@@ -44,6 +44,7 @@ var Waves = (function (Waves, $) {
         "MAINNET_ADDRESS_REGEXP": /^[a-zA-Z0-9]{35}$/,
 
         "INITIAL_NONCE": 0,
+        "WAVELETS_IN_WAVE": 1e8,
     };
 
     if (Waves.UI === undefined)
@@ -51,6 +52,7 @@ var Waves = (function (Waves, $) {
 
     Waves.UI.constants = {
         'MINIMUM_PAYMENT_AMOUNT' : 1e-8,
+        'MINIMUM_TRANSACTION_FEE' : 0.001,
         'AMOUNT_DECIMAL_PLACES' : 8
     }
     
