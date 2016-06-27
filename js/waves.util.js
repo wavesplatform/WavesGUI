@@ -18,6 +18,7 @@
  * @depends {waves.js}
  * @depends {blake2b/blake2b.js}
  * @depends {crypto/sha3.js}
+ * @depends {3rdparty/decimal.js}
  */
 var Waves = (function (Waves, $, undefined) {
 
@@ -378,6 +379,14 @@ var Waves = (function (Waves, $, undefined) {
         var signatureArrayBuffer = curve25519.sign(privateKey, new Uint8Array(dataToSign));
 
         return Base58.encode(new Uint8Array(signatureArrayBuffer));
+    }
+
+    Waves.wavesToWavelets = function(amountInWaves) {
+        return Math.round(amountInWaves * Waves.constants.WAVELETS_IN_WAVE);
+    }
+
+    Waves.waveletsToWaves = function(amountInWavelets) {
+        return amountInWavelets / Waves.constants.WAVELETS_IN_WAVE;
     }
 
     Waves.formatVolume = function (volume) {

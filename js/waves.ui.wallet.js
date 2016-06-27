@@ -102,8 +102,8 @@ var Waves = (function(Waves, $, undefined) {
             return;
 
         var currentBalance = $("#wavesCurrentBalance").val();
-        var maxSend = (currentBalance * Math.pow(10,8) ) - 1;
-        maxSend = maxSend / Math.pow(10,8);
+        var maxSend = Waves.wavesToWavelets(currentBalance) - 1;
+        maxSend = Waves.waveletsToWaves(maxSend);
         var sendAmount = Number($("#wavessendamount").val().replace(/\s+/g, ''));
 
         if (sendAmount > maxSend) {
@@ -111,7 +111,7 @@ var Waves = (function(Waves, $, undefined) {
             return;
         }
 
-        var amount = Math.round(sendAmount * 100000000);
+        var amount = Waves.wavesToWavelets(sendAmount);
         var unmodifiedAmount = sendAmount;
 
         var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
@@ -123,7 +123,7 @@ var Waves = (function(Waves, $, undefined) {
 
         var wavesTime = Number(Waves.getTime());
 
-        var fee = Number(1);
+        var fee = Waves.wavesToWavelets(Waves.UI.constants.MINIMUM_TRANSACTION_FEE);
 
         var signatureData = Waves.signatureData(Waves.publicKey, recipient.getRawAddress(), amount, fee, wavesTime);
         var signature = Waves.sign(senderPrivate, signatureData);

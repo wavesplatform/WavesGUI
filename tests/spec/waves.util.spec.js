@@ -41,4 +41,12 @@ describe("waves.util", function() {
 		hashingTestCase("aVYPRNWYNk3yvhLJtr83AHqVKonhtRwxsmdJf36qnxiRaUKbGfRWTeJg3jGLLhFQGXaGhHiggxhKXrwU5ZQZVTkomhtaC",
 			"5Afu7yvvwckWDabWG3LHFqLMBHy8uoyxiVahdNo39rp9");
 	});
+
+	it("precisely converts waves to wavelets", function() {
+		expect(Waves.wavesToWavelets(7e-6)).toEqual(700);
+		expect(Waves.waveletsToWaves(1000)).toEqual(0.00001000);
+
+		var v = 0.00001234;
+		expect(Waves.waveletsToWaves(Waves.wavesToWavelets(v))).toEqual(v);
+	});
 });

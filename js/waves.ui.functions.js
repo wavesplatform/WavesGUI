@@ -396,10 +396,8 @@ var Waves = (function(Waves, $, undefined) {
     }
 
 
-    Waves.formatAmount = function (amount) {
-
-    	return new Decimal(amount).dividedBy(100000000).toFixed(8);
-
+    Waves.formatAmount = function (amountInWavelets) {
+    	return Waves.waveletsToWaves(amountInWavelets).toFixed(Waves.UI.constants.AMOUNT_DECIMAL_PLACES);
     }
 
     Waves.isControlKey = function (charCode) {
