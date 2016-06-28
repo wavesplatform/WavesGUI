@@ -102,8 +102,7 @@ var Waves = (function(Waves, $, undefined) {
             return;
 
         var currentBalance = $("#wavesCurrentBalance").val();
-        var maxSend = Waves.wavesToWavelets(currentBalance) - 1;
-        maxSend = Waves.waveletsToWaves(maxSend);
+        var maxSend = currentBalance - Waves.UI.constants.MINIMUM_TRANSACTION_FEE;
         var sendAmount = Number($("#wavessendamount").val().replace(/\s+/g, ''));
 
         if (sendAmount > maxSend) {
