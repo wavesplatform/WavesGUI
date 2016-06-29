@@ -46,6 +46,50 @@ var Waves = (function(Waves, $, undefined) {
     Waves.blockUpdate;
     Waves.blockHeight;
 
+    var buildHistoryTableRow = function(transaction, unconfirmed) {
+        var unconfirmedClass = unconfirmed ? "wavesTable-txUnc " : "";
+        var senderClass = 'class="' + unconfirmedClass + 'wavesTable-txIn"';
+        var paymentType = 'Incoming ';
+        var you = 'You';
+        if(transaction.sender === Waves.address.getRawAddress()) {
+
+            senderClass = 'class="' + unconfirmedClass + 'wavesTable-txOut"';
+            paymentType = 'Outgoing ';
+        }
+
+        var sender = transaction.sender !== undefined ?
+            Waves.Addressing.fromRawAddress(transaction.sender).getDisplayAddress() :
+            "none";
+
+        var recipient;
+        if(transaction.sender === Waves.address.getRawAddress()) {
+            sender = you;
+        } else {
+            sender = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>';
+        }
+
+        if(transaction.recipient === Waves.address.getRawAddress()) {
+            recipient = you;
+        } else {
+            recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(transaction.recipient).getDisplayAddress() + '">'+
+                Waves.Addressing.fromRawAddress(transaction.recipient).getDisplayAddress()+'</span>';
+        }
+
+        if (sender === recipient)
+            paymentType = 'Self ';
+
+        var result = '<tr '+senderClass+'>';
+        result += '<td>'+Waves.formatTimestamp(transaction.timestamp)+'</td>';
+        result += '<td>' +paymentType + Waves.transactionType(transaction.type)+'</td>';
+        result += '<td>'+ sender +'</td>';
+        result += '<td>'+ recipient +'</td>';
+        result += '<td>'+transaction.fee+' WVL</td>';
+        result += '<td>'+Waves.formatAmount(transaction.amount)+' WAVE</td>';
+        result += '</tr>';
+
+        return result;
+    };
+
     //These are the functions running every Waves.stateIntervalSeconds for each page.
     Waves.pages = {
         'mBB-wallet': function updateWallet () {
@@ -82,90 +126,20 @@ var Waves = (function(Waves, $, undefined) {
                                 if(dataunc.sender === Waves.address.getRawAddress() || dataunc.recipient === Waves.address.getRawAddress()) {
 
                                     if(max > 0) {
-
-                                        var senderClass = 'class="wavesTable-txUnc wavesTable-txIn"';
-                                        var paymentType = 'Incoming ';
-                                        if(dataunc.sender === Waves.address.getRawAddress()) {
-                                          
-                                            senderClass = 'class="wavesTable-txUnc wavesTable-txOut"';
-                                            paymentType = 'Outgoing ';
-                                        }
-
-                                        var sender = dataunc.sender !== undefined ?
-                                            Waves.Addressing.fromRawAddress(dataunc.sender).getDisplayAddress() :
-                                            "none";
-
-                                        var recipient;
-                                        if(dataunc.sender === Waves.address.getRawAddress()) { 
-                                            sender = 'You'; 
-                                        } else {
-                                            sender = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>'; 
-                                        }
-
-                                        if(dataunc.recipient === Waves.address.getRawAddress()) { 
-                                            recipient = 'You'; 
-                                        } else { 
-                                            recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress()+'</span>'; 
-                                        }
-
                                         signatureKeys.push(dataunc.signature);
 
-                                        appContainer += '<tr '+senderClass+'>';
-                                        appContainer += '<td>'+Waves.formatTimestamp(dataunc.timestamp)+'</td>';
-                                        appContainer += '<td>' +paymentType + Waves.transactionType(dataunc.type)+'</td>';
-                                        appContainer += '<td>'+ sender +'</td>';
-                                        appContainer += '<td>'+ recipient +'</td>';
-                                        appContainer += '<td>'+dataunc.fee+' WVL</td>';
-                                        appContainer += '<td>'+Waves.formatAmount(dataunc.amount)+' WAVE</td>';
-                                        appContainer += '</tr>';
+                                        appContainer += buildHistoryTableRow(dataunc, true);
                                     }
                                     max--;
-
                                 }
-
                             });
-
                         }
 
                         $.each(transactionHistory, function(historyKey, historyValue) {
                             
                             if(max > 0) {
-
-                                var senderClass = 'class="wavesTable-txIn"';
-                                var paymentType = 'Incoming ';
-                                if(historyValue.sender === Waves.address.getRawAddress()) {
-                                  
-                                    senderClass = 'class="wavesTable-txOut"';
-                                    paymentType = 'Outgoing ';
-                                }
-
-                                var sender = historyValue.sender !== undefined ?
-                                    Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress() :
-                                    "none";
-
-                                var recipient;
-                                if(historyValue.sender === Waves.address.getRawAddress()) { 
-                                    sender = 'You'; 
-                                } else {
-                                    sender = '<span class="clipSpan tooltip-1" style="cursor: pointer; cursor: hand;" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>'; 
-                                }
-
-                                if(historyValue.recipient === Waves.address.getRawAddress()) { 
-                                    recipient = 'You'; 
-                                } else { 
-                                    recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</span>'; 
-                                }
-
-                                if(signatureKeys.indexOf(historyValue.signature) === -1) {
-
-                                    appContainer += '<tr '+senderClass+'>';
-                                    appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                                    appContainer += '<td>' +paymentType + Waves.transactionType(historyValue.type)+'</td>';
-                                    appContainer += '<td>'+ sender +'</td>';
-                                    appContainer += '<td>'+ recipient +'</td>';
-                                    appContainer += '<td>'+historyValue.fee+' WVL</td>';
-                                    appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
-                                    appContainer += '</tr>';
+                                if (signatureKeys.indexOf(historyValue.signature) === -1) {
+                                    appContainer += buildHistoryTableRow(historyValue, false);
                                 }
                             }
                             max--;
@@ -200,49 +174,12 @@ var Waves = (function(Waves, $, undefined) {
                     if(unconfirmedTransactions.length > 0) {
 
                         $.each(unconfirmedTransactions, function(keyunc, dataunc) {
-
                             if(dataunc.sender === Waves.address.getRawAddress() || dataunc.recipient === Waves.address.getRawAddress()) {
-
-                                var senderClass = 'class="wavesTable-txUnc wavesTable-txIn"';
-                                var paymentType = 'Incoming ';
-                                if(dataunc.sender === Waves.address.getRawAddress()) {
-                                  
-                                    senderClass = 'class="wavesTable-txUnc wavesTable-txOut"';
-                                    paymentType = 'Outgoing ';
-                                }
-
-                                var sender = dataunc.sender !== undefined ?
-                                    Waves.Addressing.fromRawAddress(dataunc.sender).getDisplayAddress() :
-                                    "none";
-
-                                var recipient;
-                                if(dataunc.sender === Waves.address.getRawAddress()) { 
-                                    sender = 'You'; 
-                                } else {
-                                    sender = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>'; 
-                                }
-
-                                if(dataunc.recipient === Waves.address.getRawAddress()) { 
-                                    recipient = 'You'; 
-                                } else { 
-                                    recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress()+'</span>'; 
-                                }
-
                                 signatureKeys.push(dataunc.signature);
 
-                                appContainer += '<tr '+senderClass+'>';
-                                appContainer += '<td>'+Waves.formatTimestamp(dataunc.timestamp)+'</td>';
-                                appContainer += '<td>' +paymentType + Waves.transactionType(dataunc.type)+'</td>';
-                                appContainer += '<td>'+ sender +'</td>';
-                                appContainer += '<td>'+ recipient +'</td>';
-                                appContainer += '<td>'+dataunc.fee+' WVL</td>';
-                                appContainer += '<td>'+Waves.formatAmount(dataunc.amount)+' WAVE</td>';
-                                appContainer += '</tr>';
-                         
+                                appContainer += buildHistoryTableRow(dataunc, true);
                             }
-
                         });
-
                     }
                     
                     transactionHistory.sort(function(x, y){
@@ -250,50 +187,13 @@ var Waves = (function(Waves, $, undefined) {
                     });
 
                     $.each(transactionHistory, function(historyKey, historyValue) {
-
-                        var senderClass = 'class="wavesTable-txIn"';
-                        var paymentType = 'Incoming ';
-                        if(historyValue.sender === Waves.address.getRawAddress()) {
-                          
-                            senderClass = 'class="wavesTable-txOut"';
-                            paymentType = 'Outgoing ';
+                        if (signatureKeys.indexOf(historyValue.signature) === -1) {
+                            appContainer += buildHistoryTableRow(historyValue, false);
                         }
-
-                        var sender = historyValue.sender !== undefined ?
-                            Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress() :
-                            "none";
-
-                        var recipient;
-                        if(historyValue.sender === Waves.address.getRawAddress()) { 
-                            sender = 'You'; 
-                        } else {
-                            sender = '<span class="clipSpan tooltip-1" style="cursor: pointer; cursor: hand;" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>'; 
-                        }
-
-                        if(historyValue.recipient === Waves.address.getRawAddress()) { 
-                            recipient = 'You'; 
-                        } else { 
-                            recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</span>'; 
-                        }
-
-                        if(signatureKeys.indexOf(historyValue.signature) === -1) {
-
-                            appContainer += '<tr '+senderClass+'>';
-                            appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                            appContainer += '<td>'+paymentType + Waves.transactionType(historyValue.type)+'</td>';
-                            appContainer += '<td>'+ sender +'</td>';
-                            appContainer += '<td>'+ recipient +'</td>';
-                            appContainer += '<td>'+historyValue.fee+' WVL</td>';
-                            appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
-                            appContainer += '</tr>';
-
-                        }
-
                     });
 
                     $("#transactionhistory").html(appContainer);
                 });
-
             });
 
         },
