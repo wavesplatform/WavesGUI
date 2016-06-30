@@ -78,32 +78,36 @@ var Waves = (function(Waves, $, undefined) {
         if (sender === recipient)
             paymentType = 'Self ';
 
+        var amount = Money.fromCoins(transaction.amount, Currency.WAV);
+        var fee = Money.fromCoins(transaction.fee, Currency.WAV);
+
         var result = '<tr '+senderClass+'>';
         result += '<td>'+Waves.formatTimestamp(transaction.timestamp)+'</td>';
         result += '<td>' +paymentType + Waves.transactionType(transaction.type)+'</td>';
         result += '<td>'+ sender +'</td>';
         result += '<td>'+ recipient +'</td>';
-        result += '<td>'+transaction.fee+' WVL</td>';
-        result += '<td>'+Waves.formatAmount(transaction.amount)+' WAVE</td>';
+        result += '<td>'+ fee.formatAmount(true) +' WAVE</td>';
+        result += '<td>'+ amount.formatAmount() +' WAVE</td>';
         result += '</tr>';
 
         return result;
     };
+
+    Waves.UI.updateWavesBalance = function (balance) {
+        var currentBalance = Money.fromCoins(balance, Currency.WAV);
+        $("#wavesCurrentBalance").val(currentBalance.formatAmount());
+        $("#wavesbalance").html(currentBalance.formatIntegerPart());
+        $("#wavesbalancedec").html(currentBalance.formatFractionPart());
+        $("#balancespan").html(currentBalance.formatAmount() +' Waves');
+        $('.balancewaves').html(currentBalance.formatAmount() + ' Waves');
+    }
 
     //These are the functions running every Waves.stateIntervalSeconds for each page.
     Waves.pages = {
         'mBB-wallet': function updateWallet () {
 
             Waves.loadAddressBalance(Waves.address, function (balance) {
-
-                var formatBalance = Waves.formatAmount(balance);
-
-                $("#wavesCurrentBalance").val(formatBalance);
-                $("#wavesbalance").html(formatBalance.split(".")[0]);
-                $("#wavesbalancedec").html('.'+formatBalance.split(".")[1]);
-                $("#balancespan").html(formatBalance +' WAVE');
-                $('.balancewaves').html(formatBalance + ' WAVE');
-                //$(".wB-add").html(Waves.address);
+                Waves.UI.updateWavesBalance(balance);
 
                 Waves.apiRequest(Waves.api.transactions.unconfirmed, function(unconfirmedTransactions) {
 
