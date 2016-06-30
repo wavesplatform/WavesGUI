@@ -101,17 +101,17 @@ var Waves = (function(Waves, $, undefined) {
         if (!Waves.UI.sendWavesForm.isValid())
             return;
 
-        var currentBalance = $("#wavesCurrentBalance").val();
-        var maxSend = currentBalance - Waves.UI.constants.MINIMUM_TRANSACTION_FEE;
-        var sendAmount = Number($("#wavessendamount").val().replace(/\s+/g, ''));
+        var transactionFee = new Money(Waves.UI.constants.MINIMUM_TRANSACTION_FEE, Currency.WAV);
+        var currentBalance = new Money($("#wavesCurrentBalance").val(), Currency.WAV);
+        var maxSend = currentBalance.minus(transactionFee);
+        var sendAmount = new Money($("#wavessendamount").val().replace(/\s+/g, ''), Currency.WAV);
 
-        if (sendAmount > maxSend) {
+        if (sendAmount.greaterThan(maxSend)) {
             $.growl.error({ message: 'Error: Not enough funds' });
             return;
         }
 
-        var amount = Waves.wavesToWavelets(sendAmount);
-        var unmodifiedAmount = sendAmount;
+        var amount = sendAmount.toCoins();
 
         var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
         var senderPublic = Base58.decode(Waves.publicKey);
@@ -121,8 +121,7 @@ var Waves = (function(Waves, $, undefined) {
         var recipient = Waves.Addressing.fromDisplayAddress(addressText);
 
         var wavesTime = Number(Waves.getTime());
-
-        var fee = Waves.wavesToWavelets(Waves.UI.constants.MINIMUM_TRANSACTION_FEE);
+        var fee = transactionFee.toCoins();
 
         var signatureData = Waves.signatureData(Waves.publicKey, recipient.getRawAddress(), amount, fee, wavesTime);
         var signature = Waves.sign(senderPrivate, signatureData);
@@ -145,7 +144,7 @@ var Waves = (function(Waves, $, undefined) {
                 $.growl.error({ message: 'Error:'+response.error +' - '+response.message });
             } else {
 
-                var successMessage = 'Sent '+Waves.formatAmount(amount)+' Wave <br>Recipient '+recipient.getDisplayAddress().substr(0,15)+'...<br>Date: '+Waves.formatTimestamp(wavesTime);
+                var successMessage = 'Sent '+ sendAmount.formatAmount(true) +' Wave <br>Recipient '+recipient.getDisplayAddress().substr(0,15)+'...<br>Date: '+Waves.formatTimestamp(wavesTime);
                 $.growl({ title: 'Payment sent! ', message: successMessage, size: 'large' });
                 $("#wavesrecipient").val('');
                 $("#wavessendamount").val('');

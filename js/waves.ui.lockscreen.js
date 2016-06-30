@@ -114,7 +114,12 @@ var Waves = (function(Waves, $, undefined) {
         $("#wavesAccounts").addClass('noDisp');
 
         $("#step2_reg").show();
-        $("#login-wPop-new").modal("show");
+        // this pop-up can be closed only by pressing the button
+        $("#login-wPop-new").modal({
+            escapeClose: false,
+            clickClose: false,
+            showClose: false
+        });
         $("#walletSeed").prop('disabled', true);
         NProgress.start();
        

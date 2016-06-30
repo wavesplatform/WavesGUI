@@ -44,7 +44,6 @@ var Waves = (function (Waves, $) {
         "MAINNET_ADDRESS_REGEXP": /^[a-zA-Z0-9]{35}$/,
 
         "INITIAL_NONCE": 0,
-        "WAVELETS_IN_WAVE": 1e8,
     };
 
     if (Waves.UI === undefined)

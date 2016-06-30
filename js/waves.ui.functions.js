@@ -227,13 +227,9 @@ var Waves = (function(Waves, $, undefined) {
                     userAccounts = '';
                     $.modal.close();
                 });
-                
-
             }
        });
-
     }
-
 
     Waves.getAccounts = function(callback) {
 
@@ -274,9 +270,7 @@ var Waves = (function(Waves, $, undefined) {
                 Waves.setInitApp(userAccounts['WavesAccounts']);
                 
             });
-            
         }
-
     }
 
     Waves.loadBlockheight = function () {
@@ -286,32 +280,6 @@ var Waves = (function(Waves, $, undefined) {
             Waves.blockHeight = result.height;
             $("#blockheight").html(result.height);
 
-        });
-
-    }
-
-    Waves.loadBalance = function () {
-
-        Waves.apiRequest(Waves.api.address.getAddresses(), function(response) {
-
-            var account = 0;
-
-            $.each(response, function(key, value) {
-
-
-                Waves.apiRequest(Waves.api.address.balance(value), function(balanceResult) {
-
-                    Waves.balance = Waves.balance + balanceResult.balance;
-
-                    $("#wavesCurrentBalance").val(Waves.formatAmount(Waves.balance));
-
-                    $("#balancespan").html(Waves.formatAmount(Waves.balance) +' Waves');
-
-                    $('.balancewaves').html(Waves.formatAmount(Waves.balance) + ' Waves');
-
-                });
-
-            });
         });
 
     }
@@ -353,12 +321,7 @@ var Waves = (function(Waves, $, undefined) {
             $("#lockscreenTable").fadeOut(500);
             $("#wrapper").fadeIn(1300);
 
-            var formatBalance = Waves.formatAmount(balance);
-            $("#wavesCurrentBalance").val(formatBalance);
-            $("#wavesbalance").html(formatBalance.split(".")[0]);
-            $("#wavesbalancedec").html('.'+formatBalance.split(".")[1]);
-            $("#balancespan").html(formatBalance +' Waves');
-            $('.balancewaves').html(formatBalance + ' Waves');
+            Waves.UI.updateWavesBalance(balance);
 
             Waves.updateDOM('mBB-wallet');
 
