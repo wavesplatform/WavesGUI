@@ -1,3 +1,5 @@
 /nbproject/
 /nbproject/private/
 .idea/
+/node_modules
+/.grunt
