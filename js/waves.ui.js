@@ -353,7 +353,6 @@ var Waves = (function(Waves, $, undefined) {
 
     });
 
-
     $("#tabs-Icons-community").on("click", function(e) {
 
         var currentAccounts = localStorage.getItem('WavesContacts');
@@ -385,7 +384,6 @@ var Waves = (function(Waves, $, undefined) {
         $('#publicKeyBackup').val('');
         $("#addressBackup").val('');
     });
-
 
     $('#copy_and_close_backup_modal').click(function (e) {
         e.preventDefault();
