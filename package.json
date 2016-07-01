@@ -11,6 +11,7 @@
     "grunt-contrib-watch": "~0.6.1",
 	"grunt-contrib-jasmine": "*",
 	"grunt-contrib-copy": "*",
-	"grunt-contrib-clean": "*"
+	"grunt-contrib-clean": "*",
+	"grunt-contrib-compress": "*"
   }
 }

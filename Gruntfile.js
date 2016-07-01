@@ -54,6 +54,14 @@ module.exports = function(grunt) {
 			src: ['css/**', 'img/**', 'js/**', 'index.html', '3RD-PARTY-LICENSES.txt', 'LICENSE'],
 			dest: 'distr/html'
 		}
+	},
+	compress: {
+		main: {
+			options: {
+				archive: 'distr/waves-lite-client.zip'
+			},
+			files: [{ expand: true, cwd: 'distr/html', src: '**/*', dest: '/' }]
+		}
 	}
   });
 
@@ -63,8 +71,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-compress');
 
-  grunt.registerTask('distr', ['clean', 'copy']);
+  grunt.registerTask('distr', ['clean', 'copy', 'compress']);
   // Default task.
   grunt.registerTask('default', ['jasmine']);
 
