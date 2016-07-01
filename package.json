@@ -1,4 +1,7 @@
 {
+  "name": "waves-lite-client",
+  "version": "0.4.1",
+  "license" : "See license in ./LICENSE",
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -6,6 +9,8 @@
     "grunt": "~0.4.5",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-watch": "~0.6.1",
-	"grunt-contrib-jasmine": "~1.0.3"
+	"grunt-contrib-jasmine": "*",
+	"grunt-contrib-copy": "*",
+	"grunt-contrib-clean": "*"
   }
 }

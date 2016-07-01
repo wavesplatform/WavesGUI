@@ -46,6 +46,14 @@ module.exports = function(grunt) {
 			vendor: ['js/3rdparty/**/*.js', 'js/blake2b/**/*.js', 'js/crypto/**/*.js', 'js/axlsign/**/*.js', 'js/util/**/*.js' ],
 			keepRunner: false
 		}
+	},
+	clean: ['build/**', 'distr/**'],
+	copy: {
+		main: {
+			expand: true,
+			src: ['css/**', 'img/**', 'js/**', 'index.html', '3RD-PARTY-LICENSES.txt', 'LICENSE'],
+			dest: 'distr/html'
+		}
 	}
   });
 
@@ -53,7 +61,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
+  grunt.registerTask('distr', ['clean', 'copy']);
   // Default task.
   grunt.registerTask('default', ['jasmine']);
 
