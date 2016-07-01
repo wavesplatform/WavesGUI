@@ -43,7 +43,7 @@ module.exports = function(grunt) {
 		src: 'js/*.js',
 		options: {
 			specs: 'tests/spec/**/*.js',
-			vendor: ['js/3rdparty/**/*.js', 'js/blake2b/**/*.js', 'js/crypto/**/*.js', 'js/libaxolotl-crypto-curve25519/**/*.js', 'js/util/**/*.js' ],
+			vendor: ['js/3rdparty/**/*.js', 'js/blake2b/**/*.js', 'js/crypto/**/*.js', 'js/axlsign/**/*.js', 'js/util/**/*.js' ],
 			keepRunner: false
 		}
 	}
