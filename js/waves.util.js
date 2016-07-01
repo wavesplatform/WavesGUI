@@ -19,6 +19,7 @@
  * @depends {blake2b/blake2b.js}
  * @depends {crypto/sha3.js}
  * @depends {3rdparty/decimal.js}
+ * @depends {axlsign/axlsign.js}
  */
 var Waves = (function (Waves, $, undefined) {
 
@@ -351,16 +352,16 @@ var Waves = (function (Waves, $, undefined) {
 
     Waves.buildPublicKey = function (seedBytes) {
         var accountSeedHash = this.buildAccountSeedHash(seedBytes);
-        var p = curve25519.generateKeyPair(accountSeedHash.buffer);
+        var p = axlsign.generateKeyPair(accountSeedHash);
 
-        return Base58.encode(new Uint8Array(p.public));
+        return Base58.encode(p.public);
     }
 
     Waves.buildPrivateKey = function (seedBytes) {
         var accountSeedHash = this.buildAccountSeedHash(seedBytes);
-        var p = curve25519.generateKeyPair(accountSeedHash.buffer);
+        var p = axlsign.generateKeyPair(accountSeedHash);
 
-        return Base58.encode(new Uint8Array(p.private));
+        return Base58.encode(p.private);
     }
 
     //Returns publicKey built from string
@@ -376,9 +377,13 @@ var Waves = (function (Waves, $, undefined) {
     // function accepts buffer with private key and an array with dataToSign
     // returns buffer with signed data
     Waves.sign = function(privateKey, dataToSign) {
-        var signatureArrayBuffer = curve25519.sign(privateKey, new Uint8Array(dataToSign));
+        var signature = axlsign.sign(privateKey, new Uint8Array(dataToSign));
 
-        return Base58.encode(new Uint8Array(signatureArrayBuffer));
+        return Base58.encode(signature);
+    }
+
+    Waves.verify = function(senderPublicKey, dataToSign, signatureBytes) {
+        return axlsign.verify(senderPublicKey, dataToSign, signatureBytes);
     }
 
     Waves.formatVolume = function (volume) {
