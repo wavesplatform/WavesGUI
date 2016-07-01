@@ -191,6 +191,8 @@ var Waves = (function(Waves, $, undefined) {
                     accounts = userAccounts;
                 }
 
+                $("#removeAccountSpan").html(accounts.accounts[accountId].name);
+
                  $("#login-wPop-remove").modal({
                   fadeDuration: 500,
                   fadeDelay: 0.10
@@ -223,8 +225,6 @@ var Waves = (function(Waves, $, undefined) {
                 });
 
                 $("#remove_account_cancel").on("click", function(){
-                    accounts = '';
-                    userAccounts = '';
                     $.modal.close();
                 });
             }
