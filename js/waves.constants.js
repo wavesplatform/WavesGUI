@@ -15,12 +15,11 @@
  ******************************************************************************/
 
 /**
- * @depends {waves.js}
+ * @depends {waves.settings.js}
  */
 var Waves = (function (Waves, $) {
     Waves.constants = {
         'DB_VERSION': 2,
-        'CLIENT_VERSION' : '0.4.1a',
         'SCOREX_VERSION' : 'v0.1.3',
 
         'PLUGIN_VERSION': 1,

@@ -3,66 +3,111 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    // Task configuration.
-    jshint: {
-      options: {
-        curly: true,
-        eqeqeq: true,
-        immed: true,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        sub: true,
-        undef: true,
-        unused: true,
-        boss: true,
-        eqnull: true,
-        browser: true,
-        globals: {
-          jQuery: true
-        }
+      pkg: grunt.file.readJSON('package.json'),
+      sources : ['css/**', 'img/**', 'js/**', 'index.html', '3RD-PARTY-LICENSES.txt', 'LICENSE'],
+      configurations : {
+          testnet: {
+              name: 'testnet',
+              server: 'http://52.30.47.67:6869'
+          },
+          mainnet: {
+              name: 'mainnet',
+              server: 'https://nodes.wavesnodes.com'
+          }
       },
-      gruntfile: {
-        src: 'Gruntfile.js'
+      // Task configuration.
+      jshint: {
+          options: {
+              curly: true,
+              eqeqeq: true,
+              immed: true,
+              latedef: true,
+              newcap: true,
+              noarg: true,
+              sub: true,
+              undef: true,
+              unused: true,
+              boss: true,
+              eqnull: true,
+              browser: true,
+              globals: {
+                  jQuery: true
+              }
+          },
+          gruntfile: {
+              src: 'Gruntfile.js'
+          },
+          lib_test: {
+              src: ['js/*.js']
+          }
       },
-      lib_test: {
-        src: ['js/*.js']
+      watch: {
+          gruntfile: {
+              files: '<%= jshint.gruntfile.src %>',
+              tasks: ['jshint:gruntfile']
+          },
+          lib_test: {
+              files: '<%= jshint.lib_test.src %>',
+              tasks: ['jshint:lib_test', 'qunit']
+          }
+      },
+      jasmine: {
+          src: 'js/*.js',
+          options: {
+              specs: 'tests/spec/**/*.js',
+              vendor: ['js/3rdparty/**/*.js', 'js/blake2b/**/*.js', 'js/crypto/**/*.js', 'js/axlsign/**/*.js', 'js/util/**/*.js'],
+              keepRunner: false
+          }
+      },
+      clean: ['build/**', 'distr/**'],
+      copy: {
+          testnet: {
+              expand: true,
+              src: '<%= sources %>',
+              dest: 'distr/<%= configurations.testnet.name %>',
+              options: {
+                  process: function (content, srcPath) {
+                      if (!srcPath.endsWith('waves.settings.js'))
+                          return content;
+
+                      return content
+                          .replace(/'CLIENT_VERSION'\s*:\s*'[^']+'/, grunt.template.process("'CLIENT_VERSION': '<%= pkg.version %>a'"))
+                          .replace(/'NODE_ADDRESS'\s*:\s*'[^']+'/, grunt.template.process("'NODE_ADDRESS': '<%= configurations.testnet.server %>'"))
+                          .replace(/'NETWORK_NAME'\s*:\s*'[^']+'/, grunt.template.process("'NETWORK_NAME': '<%= configurations.testnet.name %>'"))
+                  }
+              }
+          },
+          mainnet: {
+              expand: true,
+              src: '<%= sources %>',
+              dest: 'distr/<%= configurations.mainnet.name %>',
+              options: {
+                  process: function (content, srcPath) {
+                      if (!srcPath.endsWith('waves.settings.js'))
+                          return content;
+
+                      return content
+                          .replace(/'CLIENT_VERSION'\s*:\s*'[^']+'/, grunt.template.process("'CLIENT_VERSION': '<%= pkg.version %>a'"))
+                          .replace(/'NODE_ADDRESS'\s*:\s*'[^']+'/, grunt.template.process("'NODE_ADDRESS': '<%= configurations.mainnet.server %>'"))
+                          .replace(/'NETWORK_NAME'\s*:\s*'[^']+'/, grunt.template.process("'NETWORK_NAME': '<%= configurations.mainnet.name %>'"))
+                  }
+              }
+          }
+      },
+      compress: {
+          testnet: {
+              options: {
+                  archive: 'distr/<%= pkg.name %>-<%= configurations.testnet.name %>-v<%= pkg.version %>.zip'
+              },
+              files: [{expand: true, cwd: 'distr/<%= configurations.testnet.name %>', src: '**/*', dest: '/'}]
+          },
+          mainnet: {
+              options: {
+                  archive: 'distr/<%= pkg.name %>-<%= configurations.mainnet.name %>-v<%= pkg.version %>.zip'
+              },
+              files: [{expand: true, cwd: 'distr/<%= configurations.mainnet.name %>', src: '**/*', dest: '/'}]
+          }
       }
-    },
-    watch: {
-      gruntfile: {
-        files: '<%= jshint.gruntfile.src %>',
-        tasks: ['jshint:gruntfile']
-      },
-      lib_test: {
-        files: '<%= jshint.lib_test.src %>',
-        tasks: ['jshint:lib_test', 'qunit']
-      }
-    },
-	jasmine: {
-		src: 'js/*.js',
-		options: {
-			specs: 'tests/spec/**/*.js',
-			vendor: ['js/3rdparty/**/*.js', 'js/blake2b/**/*.js', 'js/crypto/**/*.js', 'js/axlsign/**/*.js', 'js/util/**/*.js' ],
-			keepRunner: false
-		}
-	},
-	clean: ['build/**', 'distr/**'],
-	copy: {
-		main: {
-			expand: true,
-			src: ['css/**', 'img/**', 'js/**', 'index.html', '3RD-PARTY-LICENSES.txt', 'LICENSE'],
-			dest: 'distr/html'
-		}
-	},
-	compress: {
-		main: {
-			options: {
-				archive: 'distr/waves-lite-client.zip'
-			},
-			files: [{ expand: true, cwd: 'distr/html', src: '**/*', dest: '/' }]
-		}
-	}
   });
 
   // These plugins provide necessary tasks.
