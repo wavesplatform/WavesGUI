@@ -5,3 +5,4 @@
 /.grunt
 /build
 /distr
+*.pem
