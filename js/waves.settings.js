@@ -14,10 +14,17 @@
  *                                                                            *
  ******************************************************************************/
 
+/**
+ * @depends {waves.constants.js}
+ */
 var Waves = (function (Waves) {
-    Waves.constants = {
-        'CLIENT_VERSION': '0.4.1a',
-        'NODE_ADDRESS': 'http://52.30.47.67:6869',
-        'NETWORK_NAME': 'testnet'
-    };
+    'use strict';
+
+    if (Waves.constants === undefined)
+        throw new Error("Incorrect order of scripts inclusion. Waves.settings.js should be included after Waves.constants.js");
+
+    Waves.constants.CLIENT_VERSION = '0.4.1a';
+    Waves.constants.NODE_ADDRESS = 'http://52.30.47.67:6869';
+    Waves.constants.NETWORK_NAME = 'testnet';
+
 }(Waves || {}));

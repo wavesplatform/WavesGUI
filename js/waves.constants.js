@@ -14,9 +14,6 @@
  *                                                                            *
  ******************************************************************************/
 
-/**
- * @depends {waves.settings.js}
- */
 var Waves = (function (Waves, $) {
     Waves.constants = {
         'DB_VERSION': 2,

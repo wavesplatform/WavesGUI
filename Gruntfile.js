@@ -3,16 +3,16 @@ module.exports = function (grunt) {
 
     var replaceTestnetVersion = function (content) {
         return content
-            .replace(/'CLIENT_VERSION'\s*:\s*'[^']+'/, grunt.template.process("'CLIENT_VERSION': '<%= pkg.version %>a'"))
-            .replace(/'NODE_ADDRESS'\s*:\s*'[^']+'/, grunt.template.process("'NODE_ADDRESS': '<%= meta.configurations.testnet.server %>'"))
-            .replace(/'NETWORK_NAME'\s*:\s*'[^']+'/, grunt.template.process("'NETWORK_NAME': '<%= meta.configurations.testnet.name %>'"));
+            .replace(/CLIENT_VERSION\s*=\s*'[^']+'/, grunt.template.process("CLIENT_VERSION = '<%= pkg.version %>a'"))
+            .replace(/NODE_ADDRESS\s*=\s*'[^']+'/, grunt.template.process("NODE_ADDRESS = '<%= meta.configurations.testnet.server %>'"))
+            .replace(/NETWORK_NAME\s*=\s*'[^']+'/, grunt.template.process("NETWORK_NAME = '<%= meta.configurations.testnet.name %>'"));
     };
 
     var replaceMainnetVersion = function (content) {
         return content
-            .replace(/'CLIENT_VERSION'\s*:\s*'[^']+'/, grunt.template.process("'CLIENT_VERSION': '<%= pkg.version %>a'"))
-            .replace(/'NODE_ADDRESS'\s*:\s*'[^']+'/, grunt.template.process("'NODE_ADDRESS': '<%= meta.configurations.mainnet.server %>'"))
-            .replace(/'NETWORK_NAME'\s*:\s*'[^']+'/, grunt.template.process("'NETWORK_NAME': '<%= meta.configurations.mainnet.name %>'"));
+            .replace(/CLIENT_VERSION\s*=\s*'[^']+'/, grunt.template.process("CLIENT_VERSION = '<%= pkg.version %>a'"))
+            .replace(/NODE_ADDRESS\s*=\s*'[^']+'/, grunt.template.process("NODE_ADDRESS = '<%= meta.configurations.mainnet.server %>'"))
+            .replace(/NETWORK_NAME\s*=\s*'[^']+'/, grunt.template.process("NETWORK_NAME = '<%= meta.configurations.mainnet.name %>'"));
     };
 
     // Project configuration.
