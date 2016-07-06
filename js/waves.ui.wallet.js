@@ -62,6 +62,11 @@ var Waves = (function(Waves, $, undefined) {
                             required : true,
                             decimal : true,
                             min : Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT
+                        },
+                        wavessendfee : {
+                            required : true,
+                            decimal : true,
+                            min : Waves.UI.constants.MINIMUM_TRANSACTION_FEE
                         }
                     },
                     messages : {
@@ -73,6 +78,12 @@ var Waves = (function(Waves, $, undefined) {
                             decimal : 'Amount to send must be a decimal number with dot (.) as a decimal separator',
                             min : 'Payment amount is too small. It should be greater or equal to ' +
                                 Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT.toFixed(Waves.UI.constants.AMOUNT_DECIMAL_PLACES)
+                        },
+                        wavessendfee : {
+                            required : 'Transaction fee is required',
+                            decimal : 'Transaction fee must be a decimal number with dot (.) as a decimal separator',
+                            min : 'Transactions fee is too small. It should be greater or equal to ' +
+                                Waves.UI.constants.MINIMUM_TRANSACTION_FEE
                         }
                     }
                 });
@@ -96,7 +107,7 @@ var Waves = (function(Waves, $, undefined) {
     $("#send-confirm").on("click", function(e) {
         e.preventDefault();
 
-        var transactionFee = new Money(Waves.UI.constants.MINIMUM_TRANSACTION_FEE, Currency.WAV);
+        var transactionFee = new Money($("#wavessendfee").val().replace(/\s+/g, ''), Currency.WAV);
         var sendAmount = new Money($("#wavessendamount").val().replace(/\s+/g, ''), Currency.WAV);
         var amount = sendAmount.toCoins();
 
@@ -126,7 +137,8 @@ var Waves = (function(Waves, $, undefined) {
                 $.growl.error({ message: 'Error:'+response.error +' - '+response.message });
             } else {
 
-                var successMessage = 'Sent '+ sendAmount.formatAmount(true) +' Wave <br>Recipient '+recipient.getDisplayAddress().substr(0,15)+'...<br>Date: '+Waves.formatTimestamp(wavesTime);
+                var successMessage = 'Sent '+ sendAmount.formatAmount(true) +' Wave <br>Recipient '+
+                    recipient.getDisplayAddress().substr(0,15)+'...<br>Date: '+Waves.formatTimestamp(wavesTime);
                 $.growl({ title: 'Payment sent! ', message: successMessage, size: 'large' });
                 $("#wavesrecipient").val('');
                 $("#wavessendamount").val('');
@@ -140,10 +152,15 @@ var Waves = (function(Waves, $, undefined) {
 	$("#wavessend").on("click", function(e) {
         e.preventDefault();
 
+        // set default value for the transaction fee
+        var feeText = $("#wavessendfee").val().replace(/\s+/g, '');
+        if (feeText.length === 0)
+            $("#wavessendfee").val(Waves.UI.constants.MINIMUM_TRANSACTION_FEE);
+
         if (!Waves.UI.sendWavesForm.isValid())
             return;
 
-        var transactionFee = new Money(Waves.UI.constants.MINIMUM_TRANSACTION_FEE, Currency.WAV);
+        var transactionFee = new Money($("#wavessendfee").val().replace(/\s+/g, ''), Currency.WAV);
         var currentBalance = new Money($("#wavesCurrentBalance").val(), Currency.WAV);
         var maxSend = currentBalance.minus(transactionFee);
         var sendAmount = new Money($("#wavessendamount").val().replace(/\s+/g, ''), Currency.WAV);
