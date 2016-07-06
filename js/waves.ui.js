@@ -40,7 +40,7 @@
 var Waves = (function(Waves, $, undefined) {
     "use strict";
 
-    Waves.balance  = 0;
+    Waves.balance = new Money(0, Currency.WAV);
     Waves.hasLocalStorage = false;
     Waves.update;
     Waves.blockUpdate;

@@ -93,10 +93,52 @@ var Waves = (function(Waves, $, undefined) {
         $("#wavesrecipient").focus();
     });
 
-	$("#wavessend").on("click", function(e) {
+    $("#send-confirm").on("click", function(e) {
         e.preventDefault();
 
-        $("#errorpayment").html('');
+        var transactionFee = new Money(Waves.UI.constants.MINIMUM_TRANSACTION_FEE, Currency.WAV);
+        var sendAmount = new Money($("#wavessendamount").val().replace(/\s+/g, ''), Currency.WAV);
+        var amount = sendAmount.toCoins();
+
+        var senderPrivate = Base58.decode(Waves.privateKey);
+        var addressText = $("#wavesrecipient").val().replace(/\s+/g, '');
+        // validate display address knows that the address prefix is optional
+        var recipient = Waves.Addressing.fromDisplayAddress(addressText);
+
+        var wavesTime = Number(Waves.getTime());
+        var fee = transactionFee.toCoins();
+
+        var signatureData = Waves.signatureData(Waves.publicKey, recipient.getRawAddress(), amount, fee, wavesTime);
+        var signature = Waves.sign(senderPrivate, signatureData);
+
+        var data = {
+            "recipient": recipient.getRawAddress(),
+            "timestamp": wavesTime,
+            "signature": signature,
+            "amount": amount,
+            "senderPublicKey": Waves.publicKey,
+            "fee": fee
+        }
+
+        Waves.apiRequest(Waves.api.waves.broadcastTransaction, JSON.stringify(data), function(response) {
+
+            if(response.error !== undefined) {
+                $.growl.error({ message: 'Error:'+response.error +' - '+response.message });
+            } else {
+
+                var successMessage = 'Sent '+ sendAmount.formatAmount(true) +' Wave <br>Recipient '+recipient.getDisplayAddress().substr(0,15)+'...<br>Date: '+Waves.formatTimestamp(wavesTime);
+                $.growl({ title: 'Payment sent! ', message: successMessage, size: 'large' });
+                $("#wavesrecipient").val('');
+                $("#wavessendamount").val('');
+
+                $.modal.close();
+                Waves.pages['mBB-wallet']();
+            }
+        });
+    });
+
+	$("#wavessend").on("click", function(e) {
+        e.preventDefault();
 
         if (!Waves.UI.sendWavesForm.isValid())
             return;
@@ -111,49 +153,11 @@ var Waves = (function(Waves, $, undefined) {
             return;
         }
 
-        var amount = sendAmount.toCoins();
-
-        var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
-        var senderPublic = Base58.decode(Waves.publicKey);
-        var senderPrivate = Base58.decode(Waves.privateKey);
         var addressText = $("#wavesrecipient").val().replace(/\s+/g, '');
-        // validate display address knows that the address prefix is optional
-        var recipient = Waves.Addressing.fromDisplayAddress(addressText);
+        $("#confirmation-amount").html(sendAmount.formatAmount(true));
+        $("#confirmation-address").html(addressText);
 
-        var wavesTime = Number(Waves.getTime());
-        var fee = transactionFee.toCoins();
-
-        var signatureData = Waves.signatureData(Waves.publicKey, recipient.getRawAddress(), amount, fee, wavesTime);
-        var signature = Waves.sign(senderPrivate, signatureData);
-
-        //var verify = Waves.curve25519.verify(senderPublic, signatureData, Base58.decode(signature));
-
-        var data = {
-          "recipient": recipient.getRawAddress(),
-          "timestamp": wavesTime,
-          "signature": signature,
-          "amount": amount,
-          "senderPublicKey": Waves.publicKey,
-          "fee": fee
-        }
-
-        Waves.apiRequest(Waves.api.waves.broadcastTransaction, JSON.stringify(data), function(response) {
-
-            var fixFee = fee / 100000000;
-            if(response.error !== undefined) {
-                $.growl.error({ message: 'Error:'+response.error +' - '+response.message });
-            } else {
-
-                var successMessage = 'Sent '+ sendAmount.formatAmount(true) +' Wave <br>Recipient '+recipient.getDisplayAddress().substr(0,15)+'...<br>Date: '+Waves.formatTimestamp(wavesTime);
-                $.growl({ title: 'Payment sent! ', message: successMessage, size: 'large' });
-                $("#wavesrecipient").val('');
-                $("#wavessendamount").val('');
-
-                $.modal.close();
-                Waves.pages['mBB-wallet']();
-            }
-        });
-
+        $("#send-payment-confirmation").modal();
     });
 
     Waves.UI.sendWavesForm.setupValidation();
