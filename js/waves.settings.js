@@ -25,6 +25,7 @@ var Waves = (function (Waves) {
 
     Waves.constants.CLIENT_VERSION = '0.4.1a';
     Waves.constants.NODE_ADDRESS = 'http://52.30.47.67:6869';
-    Waves.constants.NETWORK_NAME = 'testnet';
+    Waves.constants.NETWORK_NAME = 'devel';
 
+    return Waves;
 }(Waves || {}));
