@@ -41,4 +41,17 @@ describe("waves.util", function() {
 		hashingTestCase("aVYPRNWYNk3yvhLJtr83AHqVKonhtRwxsmdJf36qnxiRaUKbGfRWTeJg3jGLLhFQGXaGhHiggxhKXrwU5ZQZVTkomhtaC",
 			"5Afu7yvvwckWDabWG3LHFqLMBHy8uoyxiVahdNo39rp9");
 	});
+
+	it("deterministic transaction signature is the same as computed by backend", function () {
+		var messageBytes = Base58.decode("Psm3kB61bTJnbBZo3eE6fBGg8vAEAG");
+		var publicKey = Base58.decode('biVxMhzqLPDVS8hs9w5TtjXxtmNqeoHX21kHRDmszzV');
+		var privateKey = Base58.decode('4nAEobwe4jB5Cz2FXDzGDEPge89YaWm9HhKwsFyeHwoc');
+
+		var signature = Waves.deterministicSign(privateKey, messageBytes);
+		expect(Waves.verify(publicKey, messageBytes, Base58.decode(signature))).toBe(true);
+		expect(signature).toEqual('2HhyaYcKJVEPVgoPkjN3ZCVYKaobwxavLFnn75if6D95Nrc2jHAwX72inxsZpv9KVpMASqQfDB5KRqfkJutz5iav');
+
+		signature = Waves.nonDeterministicSign(privateKey, messageBytes);
+		expect(Waves.verify(publicKey, messageBytes, Base58.decode(signature))).toBe(true);
+	});
 });

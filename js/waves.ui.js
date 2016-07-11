@@ -22,8 +22,7 @@
  * @depends {3rdparty/webdb.js}
  * @depends {3rdparty/jquery.growl.js}
  * @depends {3rdparty/clipboard.js}
- * @depends {crypto/curve25519.js}
- * @depends {crypto/curve25519_.js}
+ * @depends {axlsign/axlsign.js}
  * @depends {crypto/base58.js}
  * @depends {crypto/keccak32.js}
  * @depends {crypto/passphrasegenerator.js}

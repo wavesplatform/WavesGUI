@@ -22,8 +22,7 @@
  * @depends {3rdparty/jsbn2.js}
  * @depends {3rdparty/webdb.js}
  * @depends {3rdparty/growl.js}
- * @depends {crypto/curve25519.js}
- * @depends {crypto/curve25519_.js}
+ * @depends {axlsign/axlsign.js}
  * @depends {crypto/base58.js}
  * @depends {crypto/blake32.js}
  * @depends {crypto/keccak32.js}
@@ -120,7 +119,7 @@ var Waves = (function(Waves, $, undefined) {
         var fee = transactionFee.toCoins();
 
         var signatureData = Waves.signatureData(Waves.publicKey, recipient.getRawAddress(), amount, fee, wavesTime);
-        var signature = Waves.sign(senderPrivate, signatureData);
+        var signature = Waves.nonDeterministicSign(senderPrivate, signatureData);
 
         var data = {
             "recipient": recipient.getRawAddress(),
