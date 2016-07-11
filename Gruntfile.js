@@ -18,6 +18,7 @@ module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        changelog: grunt.file.readJSON('changelog.json'),
         meta: {
             sources: ['css/**', 'img/**', 'js/**', 'index.html', '3RD-PARTY-LICENSES.txt', 'LICENSE'],
             configurations: {
@@ -28,6 +29,9 @@ module.exports = function (grunt) {
                 mainnet: {
                     name: 'mainnet',
                     server: 'https://nodes.wavesnodes.com'
+                },
+                chrome: {
+                    name: 'chrome'
                 }
             }
         },
@@ -104,15 +108,16 @@ module.exports = function (grunt) {
                 }
             },
             chrome: {
-                expand: true,
-                src: ['<%= meta.sources %>', 'manifest.json'],
-                dest: 'distr/chrome',
+                files: [
+                    { expand: true, dest: 'distr/<%= meta.configurations.chrome.name %>', src: '<%= meta.sources %>' },
+                    { expand: true, dest: 'distr/<%= meta.configurations.chrome.name %>', flatten: true, src: 'src/chrome/*.*' }
+                ],
                 options: {
                     process: function (content, srcPath) {
                         if (srcPath.endsWith('waves.settings.js'))
                             return replaceMainnetVersion(content);
 
-                        if (srcPath.endsWith("manifest.json"))
+                        if (srcPath.endsWith('manifest.json'))
                             return grunt.template.process(content);
 
                         return content;
@@ -132,6 +137,42 @@ module.exports = function (grunt) {
                     archive: 'distr/<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-v<%= pkg.version %>.zip'
                 },
                 files: [{expand: true, cwd: 'distr/<%= meta.configurations.mainnet.name %>', src: '**/*', dest: '/'}]
+            },
+            chrome: {
+                options: {
+                    archive: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.name %>-v<%= pkg.version %>.zip'
+                },
+                files: [{expand: true, cwd: 'distr/<%= meta.configurations.chrome.name %>', src: '**/*', dest: '/'}]
+            }
+        },
+        release: {
+            changelog: false, // changelog should be created by a separate task
+            npm: false, // no need to publish npm package
+            folder: "", // ??
+            tagName: "v<%= version =>",
+            commitMessage: "Created a new release v<%= version =>",
+            tagMessage: "Tagging version v<%= version =>",
+            beforeRelease: ['distr'],
+            github: false // do not create a release on github, cos this task do not support assets
+        },
+        "github-release": {
+            options: {
+                repository : "wavesplatform/WavesGUI",
+                auth: {
+                    user: process.env["GITHUB_ACCESS_TOKEN"],
+                    password: ''
+                },
+                release: {
+                    tag_name: "v<%= pkg.version =>",
+                    name: "v<%= pkg.version =>",
+                    body: "<%= changelog.text =>",
+                    draft: true,
+                    prerelease: true
+                }
+            },
+            files: {
+                expand: true,
+                src: ['<%= compress.testnet.options.archive =>', '<%= compress.mainnet.options.archive =>']
             }
         }
     });
@@ -144,9 +185,12 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-release');
-    grunt.loadNpmTasks('grunt-crx');
+    //grunt.loadNpmTasks('grunt-github-releaser');
+    //grunt.loadNpmTasks('grunt-crx');
 
     grunt.registerTask('distr', ['clean', 'copy', 'compress']);
+    grunt.registerTask('release', ['release:patch']);
+    grunt.registerTask('publish', ['distr', 'github-release']);
     // Default task.
     grunt.registerTask('default', ['jasmine']);
 };

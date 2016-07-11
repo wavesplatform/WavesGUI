@@ -22,8 +22,6 @@
  * @depends {3rdparty/jsbn2.js}
  * @depends {3rdparty/webdb.js}
  * @depends {3rdparty/growl.js}
- * @depends {crypto/curve25519.js}
- * @depends {crypto/curve25519_.js}
  * @depends {crypto/base58.js}
  * @depends {crypto/blake32.js}
  * @depends {crypto/keccak32.js}

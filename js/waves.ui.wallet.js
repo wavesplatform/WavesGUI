@@ -22,8 +22,7 @@
  * @depends {3rdparty/jsbn2.js}
  * @depends {3rdparty/webdb.js}
  * @depends {3rdparty/growl.js}
- * @depends {crypto/curve25519.js}
- * @depends {crypto/curve25519_.js}
+ * @depends {axlsign/axlsign.js}
  * @depends {crypto/base58.js}
  * @depends {crypto/blake32.js}
  * @depends {crypto/keccak32.js}
@@ -120,7 +119,7 @@ var Waves = (function(Waves, $, undefined) {
         var fee = transactionFee.toCoins();
 
         var signatureData = Waves.signatureData(Waves.publicKey, recipient.getRawAddress(), amount, fee, wavesTime);
-        var signature = Waves.sign(senderPrivate, signatureData);
+        var signature = Waves.nonDeterministicSign(senderPrivate, signatureData);
 
         var data = {
             "recipient": recipient.getRawAddress(),
@@ -151,11 +150,6 @@ var Waves = (function(Waves, $, undefined) {
 
 	$("#wavessend").on("click", function(e) {
         e.preventDefault();
-
-        // set default value for the transaction fee
-        var feeText = $("#wavessendfee").val().replace(/\s+/g, '');
-        if (feeText.length === 0)
-            $("#wavessendfee").val(Waves.UI.constants.MINIMUM_TRANSACTION_FEE);
 
         if (!Waves.UI.sendWavesForm.isValid())
             return;

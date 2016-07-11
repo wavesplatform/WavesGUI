@@ -376,7 +376,24 @@ var Waves = (function (Waves, $, undefined) {
 
     // function accepts buffer with private key and an array with dataToSign
     // returns buffer with signed data
-    Waves.sign = function(privateKey, dataToSign) {
+    // 64 randoms bytes are added to the signature
+    // method falls back to deterministic signatures if crypto object is not supported
+    Waves.nonDeterministicSign = function(privateKey, dataToSign) {
+        var crypto = window.crypto || window.msCrypto;
+        var random = undefined;
+        if (crypto) {
+            random = new Uint8Array(64);
+            crypto.getRandomValues(random);
+        }
+
+        var signature = axlsign.sign(privateKey, new Uint8Array(dataToSign), random);
+
+        return Base58.encode(signature);
+    }
+
+    // function accepts buffer with private key and an array with dataToSign
+    // returns buffer with signed data
+    Waves.deterministicSign = function(privateKey, dataToSign) {
         var signature = axlsign.sign(privateKey, new Uint8Array(dataToSign));
 
         return Base58.encode(signature);

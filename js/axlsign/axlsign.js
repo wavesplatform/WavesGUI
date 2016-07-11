@@ -1135,7 +1135,6 @@ function crypto_sign_direct(sm, m, n, sk) {
   var i, j, x = new Float64Array(64);
   var p = [gf(), gf(), gf(), gf()];
 
-  var smlen = n + 64;
   for (i = 0; i < n; i++) sm[64 + i] = m[i];
   for (i = 0; i < 32; i++) sm[32 + i] = sk[i];
 
@@ -1157,10 +1156,58 @@ function crypto_sign_direct(sm, m, n, sk) {
   }
 
   modL(sm.subarray(32), x);
-  return smlen;
+  return n + 64;
 }
 
-function curve25519_sign(sm, m, n, sk) {
+// Note: sm must be n+128.
+function crypto_sign_direct_rnd(sm, m, n, sk, rnd) {
+  var d = new Uint8Array(64), h = new Uint8Array(64), r = new Uint8Array(64);
+  var i, j, x = new Float64Array(64);
+  var p = [gf(), gf(), gf(), gf()];
+
+  // Hash separation.
+  sm[0] = 0xfe;
+  for (i = 1; i < 32; i++) sm[i] = 0xff;
+
+  // Secret key.
+  for (i = 0; i < 32; i++) sm[32 + i] = sk[i];
+
+  // Message.
+  for (i = 0; i < n; i++) sm[64 + i] = m[i];
+
+  // Random suffix.
+  for (i = 0; i < 64; i++) sm[n + 64 + i] = rnd[i];
+
+  crypto_hash(r, sm, n+128);
+  reduce(r);
+  scalarbase(p, r);
+  pack(sm, p);
+
+  for (i = 0; i < 32; i++) sm[i + 32] = sk[32 + i];
+  crypto_hash(h, sm, n + 64);
+  reduce(h);
+
+  // Wipe out random suffix.
+  for (i = 0; i < 64; i++) sm[n + 64 + i] = 0;
+
+  for (i = 0; i < 64; i++) x[i] = 0;
+  for (i = 0; i < 32; i++) x[i] = r[i];
+  for (i = 0; i < 32; i++) {
+    for (j = 0; j < 32; j++) {
+      x[i+j] += h[i] * sk[j];
+    }
+  }
+
+  modL(sm.subarray(32, n + 64), x);
+
+  return n + 64;
+}
+
+
+function curve25519_sign(sm, m, n, sk, opt_rnd) {
+  // If opt_rnd is provided, sm must have n + 128,
+  // otherwise it must have n + 64 bytes.
+
   // Convert Curve25519 secret key into Ed25519 secret key (includes pub key).
   var edsk = new Uint8Array(64);
   var p = [gf(), gf(), gf(), gf()];
@@ -1176,8 +1223,13 @@ function curve25519_sign(sm, m, n, sk) {
 
   // Remember sign bit.
   var signBit = edsk[63] & 128;
+  var smlen;
 
-  var smlen = crypto_sign_direct(sm, m, n, edsk);
+  if (opt_rnd) {
+    smlen = crypto_sign_direct_rnd(sm, m, n, edsk, opt_rnd);
+  } else {
+    smlen = crypto_sign_direct(sm, m, n, edsk);
+  }
 
   // Copy sign bit from public key into signature.
   sm[63] |= signBit;
@@ -1298,19 +1350,27 @@ function checkArrayTypes() {
 axlsign.sharedKey = function(secretKey, publicKey) {
   checkArrayTypes(publicKey, secretKey);
   if (publicKey.length !== 32) throw new Error('wrong public key length');
-  if (secretKey.length !== 32) throw new Error('wrong public key length');
+  if (secretKey.length !== 32) throw new Error('wrong secret key length');
   var sharedKey = new Uint8Array(32);
   crypto_scalarmult(sharedKey, secretKey, publicKey);
   return sharedKey;
 };
 
-axlsign.signMessage = function(secretKey, msg) {
+axlsign.signMessage = function(secretKey, msg, opt_random) {
   checkArrayTypes(msg, secretKey);
-  if (secretKey.length !== 32) throw new Error('wrong public key length');
-  var signedMsg = new Uint8Array(64 + msg.length);
-  curve25519_sign(signedMsg, msg, msg.length, secretKey);
-  return signedMsg;
-};
+  if (secretKey.length !== 32) throw new Error('wrong secret key length');
+  if (opt_random) {
+    checkArrayTypes(opt_random)
+    if (opt_random.length !== 64) throw new Error('wrong random data length');
+    var buf = new Uint8Array(128 + msg.length);
+    curve25519_sign(buf, msg, msg.length, secretKey, opt_random);
+    return new Uint8Array(buf.subarray(0, 64 + msg.length));
+  } else {
+    var signedMsg = new Uint8Array(64 + msg.length);
+    curve25519_sign(signedMsg, msg, msg.length, secretKey);
+    return signedMsg;
+  }
+}
 
 axlsign.openMessage = function(publicKey, signedMsg) {
   checkArrayTypes(signedMsg, publicKey);
@@ -1323,13 +1383,17 @@ axlsign.openMessage = function(publicKey, signedMsg) {
   return m;
 };
 
-axlsign.sign = function(secretKey, msg) {
+axlsign.sign = function(secretKey, msg, opt_random) {
   checkArrayTypes(secretKey, msg);
-  if (secretKey.length !== 32) throw new Error('wrong public key length');
-  var signedMsg = new Uint8Array(64 + msg.length);
-  curve25519_sign(signedMsg, msg, msg.length, secretKey);
+  if (secretKey.length !== 32) throw new Error('wrong secret key length');
+  if (opt_random) {
+    checkArrayTypes(opt_random);
+    if (opt_random.length !== 64) throw new Error('wrong random data length');
+  }
+  var buf = new Uint8Array((opt_random ? 128 : 64) + msg.length);
+  curve25519_sign(buf, msg, msg.length, secretKey, opt_random);
   var signature = new Uint8Array(64);
-  for (var i = 0; i < signature.length; i++) signature[i] = signedMsg[i];
+  for (var i = 0; i < signature.length; i++) signature[i] = buf[i];
   return signature;
 };
 
