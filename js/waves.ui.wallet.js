@@ -152,11 +152,6 @@ var Waves = (function(Waves, $, undefined) {
 	$("#wavessend").on("click", function(e) {
         e.preventDefault();
 
-        // set default value for the transaction fee
-        var feeText = $("#wavessendfee").val().replace(/\s+/g, '');
-        if (feeText.length === 0)
-            $("#wavessendfee").val(Waves.UI.constants.MINIMUM_TRANSACTION_FEE);
-
         if (!Waves.UI.sendWavesForm.isValid())
             return;
 

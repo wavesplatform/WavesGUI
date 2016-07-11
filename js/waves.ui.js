@@ -385,6 +385,13 @@ var Waves = (function(Waves, $, undefined) {
         $("#addressBackup").val('');
     });
 
+    $('#wB-butSend-WAV').on($.modal.BEFORE_OPEN, function () {
+        // set default value for the transaction fee
+        var feeText = $("#wavessendfee").val().replace(/\s+/g, '');
+        if (feeText.length === 0)
+            $("#wavessendfee").val(Waves.UI.constants.MINIMUM_TRANSACTION_FEE);
+    });
+
     $('#copy_and_close_backup_modal').click(function (e) {
         e.preventDefault();
 
