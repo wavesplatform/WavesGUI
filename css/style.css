@@ -146,6 +146,10 @@ body {
     color: red;
 }
 
+.fontBold {
+    font-weight: 600;
+}
+
 
 /* =============================================================== */
 /* PLACEHOLDER CONTENT SETTINGS */ /* PLACEHOLDER CONTENT SETTINGS */
@@ -723,6 +727,19 @@ input.tabs-radio:checked + label  img {
     opacity: .5;
 }
 
+/* CONFIRMATION DIALOG */
+#send-payment-confirmation {
+    text-align: center;
+}
+
+#send-confirm {
+    width: auto;
+}
+
+#confirmation-amount, #confirmation-currency, #confirmation-address {
+    font-weight: 600;
+}
+
 .wB-buttons {
     position: absolute;
     bottom: 0;
@@ -941,6 +958,9 @@ input.tabs-radio:checked + label  img {
     color: #ffffff;
     border: 1px solid #ffffff;
     outline: none;
+    
+    text-align: center;
+    text-decoration: none;
 }
 
 #addContactSubmit {
