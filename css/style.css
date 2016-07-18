@@ -736,7 +736,7 @@ input.tabs-radio:checked + label  img {
     width: auto;
 }
 
-#confirmation-amount, #confirmation-currency, #confirmation-address {
+.confirmation-currency, #confirmation-amount, #confirmation-fee, #confirmation-address {
     font-weight: 600;
 }
 
