@@ -21,6 +21,7 @@
     <meta charset="utf-8">
     <title>Waves Lite Client</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/jquery-ui.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/jquery.modal.css">
     <link rel="stylesheet" href="css/jquery.growl.css">
@@ -526,7 +527,13 @@
                                                </tr>
                                                <tr>
                                                    <td>Fee</td>
-                                                   <td><input id="wavessendfee" class="wInput form-control" name="wavessendfee" type="text" placeholder="Fee"/></td>
+                                                   <td>
+                                                       <select id="wavessendfee" name="wavessendfee" class="form-control">
+                                                           <option value="0.001" selected>0.001 WAVE (Economic)</option>
+                                                           <option value="0.0015">0.0015 WAVE (Standard)</option>
+                                                           <option value="0.002">0.002 WAVE (Premium)</option>
+                                                       </select>
+                                                   </td>
                                                </tr>
                                            </tbody>
                                          </table>
@@ -946,6 +953,7 @@
     <script src="js/3rdparty/combodate.js" type="text/javascript"></script>
     <script src="js/3rdparty/nprogress.js" type="text/javascript"></script>
     <script src="js/3rdparty/jquery.validate.js" type="text/javascript"></script>
+    <script src="js/3rdparty/jquery-ui.min.js" type="text/javascript"></script>
 
     <script src="js/util/extensions.js" type="text/javascript"></script>
     <script src="js/util/converters.js" type="text/javascript"></script>
