@@ -9,6 +9,11 @@ describe("waves.money", function() {
 
         var v = 0.00001234;
         expect(Money.fromCoins(Money.fromTokens(v, Currency.WAV).toCoins(), Currency.WAV).toTokens()).toEqual(v);
+
+        var stringValue = "0.001222222";
+        var m = Money.fromTokens(stringValue, Currency.WAV);
+        expect(m.toCoins()).toEqual(122222);
+        expect(m.toTokens()).toEqual(0.00122222);
     });
 
     it("formats money values according to wallet design", function () {

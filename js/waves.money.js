@@ -89,6 +89,14 @@ var Money = function(amount, currency) {
                 expected.currency.displayName + "; Actual: " + actual.currency.displayName);
     }
 
+    var fromTokensToCoins = function (valueInTokens, currencyPrecision) {
+        return valueInTokens.mul(Math.pow(10, currencyPrecision)).trunc();
+    }
+
+    var fromCoinsToTokens = function (valueInCoins, currencyPrecision) {
+        return valueInCoins.trunc().div(Math.pow(10, currencyPrecision));
+    }
+
     this.formatAmount = function (stripZeroes) {
         if (stripZeroes)
             return this.amount.toString();
@@ -107,11 +115,13 @@ var Money = function(amount, currency) {
     }
 
     this.toTokens = function () {
-        return this.amount.toNumber();
+        var result = fromCoinsToTokens(fromTokensToCoins(this.amount, this.currency.precision), this.currency.precision);
+
+        return result.toNumber();
     }
 
     this.toCoins = function () {
-        return this.amount.mul(Math.pow(10, this.currency.precision)).toNumber();
+        return fromTokensToCoins(this.amount, this.currency.precision).toNumber();
     }
 
     this.plus = function (money) {
