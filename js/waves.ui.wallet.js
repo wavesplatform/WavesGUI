@@ -127,6 +127,7 @@ var Waves = (function(Waves, $, undefined) {
             "signature": signature,
             "amount": amount,
             "senderPublicKey": Waves.publicKey,
+            "sender": Waves.address.getRawAddress(),
             "fee": fee
         }
 
@@ -166,6 +167,7 @@ var Waves = (function(Waves, $, undefined) {
 
         var addressText = $("#wavesrecipient").val().replace(/\s+/g, '');
         $("#confirmation-amount").html(sendAmount.formatAmount(true));
+        $("#confirmation-fee").html(transactionFee.formatAmount(true));
         $("#confirmation-address").html(addressText);
 
         $("#send-payment-confirmation").modal();

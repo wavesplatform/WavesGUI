@@ -371,6 +371,7 @@ var Waves = (function(Waves, $, undefined) {
     $('#header-wPop-backup').on($.modal.BEFORE_OPEN, function() {
         Waves.apiRequest(Waves.api.waves.address, Waves.publicKey, function(response) {
             $('#seedBackup').val(Waves.passphrase);
+            $('#encodedSeedBackup').val(Base58.encode(converters.stringToByteArray(Waves.passphrase)));
             $('#privateKeyBackup').val(Waves.privateKey);
             $('#publicKeyBackup').val(Waves.publicKey);
             $("#addressBackup").val(Waves.Addressing.fromRawAddress(response.address).getDisplayAddress());
@@ -379,6 +380,7 @@ var Waves = (function(Waves, $, undefined) {
 
     $('#header-wPop-backup').on($.modal.AFTER_CLOSE, function() {
         $('#seedBackup').val('');
+        $('#encodedSeedBackup').val('');
         $('#privateKeyBackup').val('');
         $('#publicKeyBackup').val('');
         $("#addressBackup").val('');
@@ -489,6 +491,7 @@ var Waves = (function(Waves, $, undefined) {
 
         //copy to clipboard
         var text = "Seed: " + $('#seedBackup').val() + "\n";
+        text += "Encoded seed: " + $('#encodedSeedBackup').val() + "\n";
         text += "Private key: " + $('#privateKeyBackup').val() + "\n";
         text += "Public key: " + $('#publicKeyBackup').val() + "\n";
         text += "Address: " + $('#addressBackup').val();
