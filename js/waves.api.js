@@ -81,9 +81,8 @@ var Waves = (function (Waves, $) {
 		},
 		waves: {
 			address: URL + '/waves/address',
-			broadcastTransaction: URL + '/waves/external-payment'
+			broadcastTransaction: URL + '/waves/broadcast-signed-payment'
 		}
-
 	};
 
 

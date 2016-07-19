@@ -127,6 +127,7 @@ var Waves = (function(Waves, $, undefined) {
             "signature": signature,
             "amount": amount,
             "senderPublicKey": Waves.publicKey,
+            "sender": Waves.address.getRawAddress(),
             "fee": fee
         }
 
