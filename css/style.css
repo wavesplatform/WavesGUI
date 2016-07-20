@@ -1217,13 +1217,19 @@ input.tabs-radio:checked + label  img {
     position: absolute;
     top: 0;
     bottom: 0;
-    margin-left: -1px;
+    right: 0;
+    margin-right: -.25rem;
     padding: 0;
 }
 
 .custom-combobox-input {
     margin: 0;
-    padding: 5px 10px;
+/*    padding: 5px 10px;*/
+    padding: .25rem;
+    font-family: 'Wesli';
+    font-style: italic;
+    color: #999999;
+    padding-right: -.25rem;
 }
 
 /* ==================================================== */
