@@ -155,7 +155,7 @@ var Waves = (function(Waves, $, undefined) {
         if (!Waves.UI.sendWavesForm.isValid())
             return;
 
-        var transactionFee = new Money($("#wavessendfee").val().replace(/\s+/g, ''), Currency.WAV);
+        var transactionFee = new Money($(".custom-combobox-input").val().replace(/\s+/g, ''), Currency.WAV);
         var currentBalance = new Money($("#wavesCurrentBalance").val(), Currency.WAV);
         var maxSend = currentBalance.minus(transactionFee);
         var sendAmount = new Money($("#wavessendamount").val().replace(/\s+/g, ''), Currency.WAV);
