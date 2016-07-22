@@ -106,7 +106,7 @@ var Waves = (function(Waves, $, undefined) {
     $("#send-confirm").on("click", function(e) {
         e.preventDefault();
 
-        var transactionFee = new Money($("#wavessendfee").val().replace(/\s+/g, ''), Currency.WAV);
+        var transactionFee = new Money($(".custom-combobox-input").val().replace(/\s+/g, ''), Currency.WAV);
         var sendAmount = new Money($("#wavessendamount").val().replace(/\s+/g, ''), Currency.WAV);
         var amount = sendAmount.toCoins();
 
