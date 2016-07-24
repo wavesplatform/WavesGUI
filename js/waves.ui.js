@@ -22,8 +22,7 @@
  * @depends {3rdparty/webdb.js}
  * @depends {3rdparty/jquery.growl.js}
  * @depends {3rdparty/clipboard.js}
- * @depends {crypto/curve25519.js}
- * @depends {crypto/curve25519_.js}
+ * @depends {axlsign/axlsign.js}
  * @depends {crypto/base58.js}
  * @depends {crypto/keccak32.js}
  * @depends {crypto/passphrasegenerator.js}
@@ -40,26 +39,74 @@
 var Waves = (function(Waves, $, undefined) {
     "use strict";
 
-    Waves.balance  = 0;
+    Waves.balance = new Money(0, Currency.WAV);
     Waves.hasLocalStorage = false;
     Waves.update;
     Waves.blockUpdate;
     Waves.blockHeight;
+
+    var buildHistoryTableRow = function(transaction, unconfirmed) {
+        var unconfirmedClass = unconfirmed ? "wavesTable-txUnc " : "";
+        var senderClass = 'class="' + unconfirmedClass + 'wavesTable-txIn"';
+        var paymentType = 'Incoming ';
+        var you = 'You';
+        if(transaction.sender === Waves.address.getRawAddress()) {
+
+            senderClass = 'class="' + unconfirmedClass + 'wavesTable-txOut"';
+            paymentType = 'Outgoing ';
+        }
+
+        var sender = transaction.sender !== undefined ?
+            Waves.Addressing.fromRawAddress(transaction.sender).getDisplayAddress() :
+            "none";
+
+        var recipient;
+        if(transaction.sender === Waves.address.getRawAddress()) {
+            sender = you;
+        } else {
+            sender = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>';
+        }
+
+        if(transaction.recipient === Waves.address.getRawAddress()) {
+            recipient = you;
+        } else {
+            recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(transaction.recipient).getDisplayAddress() + '">'+
+                Waves.Addressing.fromRawAddress(transaction.recipient).getDisplayAddress()+'</span>';
+        }
+
+        if (sender === recipient)
+            paymentType = 'Self ';
+
+        var amount = Money.fromCoins(transaction.amount, Currency.WAV);
+        var fee = Money.fromCoins(transaction.fee, Currency.WAV);
+
+        var result = '<tr '+senderClass+'>';
+        result += '<td>'+Waves.formatTimestamp(transaction.timestamp)+'</td>';
+        result += '<td>' +paymentType + Waves.transactionType(transaction.type)+'</td>';
+        result += '<td>'+ sender +'</td>';
+        result += '<td>'+ recipient +'</td>';
+        result += '<td>'+ fee.formatAmount(true) +' WAVE</td>';
+        result += '<td>'+ amount.formatAmount() +' WAVE</td>';
+        result += '</tr>';
+
+        return result;
+    };
+
+    Waves.UI.updateWavesBalance = function (balance) {
+        var currentBalance = Money.fromCoins(balance, Currency.WAV);
+        $("#wavesCurrentBalance").val(currentBalance.formatAmount());
+        $("#wavesbalance").html(currentBalance.formatIntegerPart());
+        $("#wavesbalancedec").html(currentBalance.formatFractionPart());
+        $("#balancespan").html(currentBalance.formatAmount() +' Waves');
+        $('.balancewaves').html(currentBalance.formatAmount() + ' Waves');
+    }
 
     //These are the functions running every Waves.stateIntervalSeconds for each page.
     Waves.pages = {
         'mBB-wallet': function updateWallet () {
 
             Waves.loadAddressBalance(Waves.address, function (balance) {
-
-                var formatBalance = Waves.formatAmount(balance);
-
-                $("#wavesCurrentBalance").val(formatBalance);
-                $("#wavesbalance").html(formatBalance.split(".")[0]);
-                $("#wavesbalancedec").html('.'+formatBalance.split(".")[1]);
-                $("#balancespan").html(formatBalance +' WAVE');
-                $('.balancewaves').html(formatBalance + ' WAVE');
-                //$(".wB-add").html(Waves.address);
+                Waves.UI.updateWavesBalance(balance);
 
                 Waves.apiRequest(Waves.api.transactions.unconfirmed, function(unconfirmedTransactions) {
 
@@ -82,90 +129,20 @@ var Waves = (function(Waves, $, undefined) {
                                 if(dataunc.sender === Waves.address.getRawAddress() || dataunc.recipient === Waves.address.getRawAddress()) {
 
                                     if(max > 0) {
-
-                                        var senderClass = 'class="wavesTable-txUnc wavesTable-txIn"';
-                                        var paymentType = 'Incoming ';
-                                        if(dataunc.sender === Waves.address.getRawAddress()) {
-                                          
-                                            senderClass = 'class="wavesTable-txUnc wavesTable-txOut"';
-                                            paymentType = 'Outgoing ';
-                                        }
-
-                                        var sender = dataunc.sender !== undefined ?
-                                            Waves.Addressing.fromRawAddress(dataunc.sender).getDisplayAddress() :
-                                            "none";
-
-                                        var recipient;
-                                        if(dataunc.sender === Waves.address.getRawAddress()) { 
-                                            sender = 'You'; 
-                                        } else {
-                                            sender = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>'; 
-                                        }
-
-                                        if(dataunc.recipient === Waves.address.getRawAddress()) { 
-                                            recipient = 'You'; 
-                                        } else { 
-                                            recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress()+'</span>'; 
-                                        }
-
                                         signatureKeys.push(dataunc.signature);
 
-                                        appContainer += '<tr '+senderClass+'>';
-                                        appContainer += '<td>'+Waves.formatTimestamp(dataunc.timestamp)+'</td>';
-                                        appContainer += '<td>' +paymentType + Waves.transactionType(dataunc.type)+'</td>';
-                                        appContainer += '<td>'+ sender +'</td>';
-                                        appContainer += '<td>'+ recipient +'</td>';
-                                        appContainer += '<td>'+dataunc.fee+' WVL</td>';
-                                        appContainer += '<td>'+Waves.formatAmount(dataunc.amount)+' WAVE</td>';
-                                        appContainer += '</tr>';
+                                        appContainer += buildHistoryTableRow(dataunc, true);
                                     }
                                     max--;
-
                                 }
-
                             });
-
                         }
 
                         $.each(transactionHistory, function(historyKey, historyValue) {
                             
                             if(max > 0) {
-
-                                var senderClass = 'class="wavesTable-txIn"';
-                                var paymentType = 'Incoming ';
-                                if(historyValue.sender === Waves.address.getRawAddress()) {
-                                  
-                                    senderClass = 'class="wavesTable-txOut"';
-                                    paymentType = 'Outgoing ';
-                                }
-
-                                var sender = historyValue.sender !== undefined ?
-                                    Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress() :
-                                    "none";
-
-                                var recipient;
-                                if(historyValue.sender === Waves.address.getRawAddress()) { 
-                                    sender = 'You'; 
-                                } else {
-                                    sender = '<span class="clipSpan tooltip-1" style="cursor: pointer; cursor: hand;" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>'; 
-                                }
-
-                                if(historyValue.recipient === Waves.address.getRawAddress()) { 
-                                    recipient = 'You'; 
-                                } else { 
-                                    recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</span>'; 
-                                }
-
-                                if(signatureKeys.indexOf(historyValue.signature) === -1) {
-
-                                    appContainer += '<tr '+senderClass+'>';
-                                    appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                                    appContainer += '<td>' +paymentType + Waves.transactionType(historyValue.type)+'</td>';
-                                    appContainer += '<td>'+ sender +'</td>';
-                                    appContainer += '<td>'+ recipient +'</td>';
-                                    appContainer += '<td>'+historyValue.fee+' WVL</td>';
-                                    appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
-                                    appContainer += '</tr>';
+                                if (signatureKeys.indexOf(historyValue.signature) === -1) {
+                                    appContainer += buildHistoryTableRow(historyValue, false);
                                 }
                             }
                             max--;
@@ -200,49 +177,12 @@ var Waves = (function(Waves, $, undefined) {
                     if(unconfirmedTransactions.length > 0) {
 
                         $.each(unconfirmedTransactions, function(keyunc, dataunc) {
-
                             if(dataunc.sender === Waves.address.getRawAddress() || dataunc.recipient === Waves.address.getRawAddress()) {
-
-                                var senderClass = 'class="wavesTable-txUnc wavesTable-txIn"';
-                                var paymentType = 'Incoming ';
-                                if(dataunc.sender === Waves.address.getRawAddress()) {
-                                  
-                                    senderClass = 'class="wavesTable-txUnc wavesTable-txOut"';
-                                    paymentType = 'Outgoing ';
-                                }
-
-                                var sender = dataunc.sender !== undefined ?
-                                    Waves.Addressing.fromRawAddress(dataunc.sender).getDisplayAddress() :
-                                    "none";
-
-                                var recipient;
-                                if(dataunc.sender === Waves.address.getRawAddress()) { 
-                                    sender = 'You'; 
-                                } else {
-                                    sender = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>'; 
-                                }
-
-                                if(dataunc.recipient === Waves.address.getRawAddress()) { 
-                                    recipient = 'You'; 
-                                } else { 
-                                    recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(dataunc.recipient).getDisplayAddress()+'</span>'; 
-                                }
-
                                 signatureKeys.push(dataunc.signature);
 
-                                appContainer += '<tr '+senderClass+'>';
-                                appContainer += '<td>'+Waves.formatTimestamp(dataunc.timestamp)+'</td>';
-                                appContainer += '<td>' +paymentType + Waves.transactionType(dataunc.type)+'</td>';
-                                appContainer += '<td>'+ sender +'</td>';
-                                appContainer += '<td>'+ recipient +'</td>';
-                                appContainer += '<td>'+dataunc.fee+' WVL</td>';
-                                appContainer += '<td>'+Waves.formatAmount(dataunc.amount)+' WAVE</td>';
-                                appContainer += '</tr>';
-                         
+                                appContainer += buildHistoryTableRow(dataunc, true);
                             }
-
                         });
-
                     }
                     
                     transactionHistory.sort(function(x, y){
@@ -250,50 +190,13 @@ var Waves = (function(Waves, $, undefined) {
                     });
 
                     $.each(transactionHistory, function(historyKey, historyValue) {
-
-                        var senderClass = 'class="wavesTable-txIn"';
-                        var paymentType = 'Incoming ';
-                        if(historyValue.sender === Waves.address.getRawAddress()) {
-                          
-                            senderClass = 'class="wavesTable-txOut"';
-                            paymentType = 'Outgoing ';
+                        if (signatureKeys.indexOf(historyValue.signature) === -1) {
+                            appContainer += buildHistoryTableRow(historyValue, false);
                         }
-
-                        var sender = historyValue.sender !== undefined ?
-                            Waves.Addressing.fromRawAddress(historyValue.sender).getDisplayAddress() :
-                            "none";
-
-                        var recipient;
-                        if(historyValue.sender === Waves.address.getRawAddress()) { 
-                            sender = 'You'; 
-                        } else {
-                            sender = '<span class="clipSpan tooltip-1" style="cursor: pointer; cursor: hand;" title="Copy this address to the clipboard." data-clipboard-text="' + sender + '">' + sender + '</span>'; 
-                        }
-
-                        if(historyValue.recipient === Waves.address.getRawAddress()) { 
-                            recipient = 'You'; 
-                        } else { 
-                            recipient = '<span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="' + Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress() + '">'+Waves.Addressing.fromRawAddress(historyValue.recipient).getDisplayAddress()+'</span>'; 
-                        }
-
-                        if(signatureKeys.indexOf(historyValue.signature) === -1) {
-
-                            appContainer += '<tr '+senderClass+'>';
-                            appContainer += '<td>'+Waves.formatTimestamp(historyValue.timestamp)+'</td>';
-                            appContainer += '<td>'+paymentType + Waves.transactionType(historyValue.type)+'</td>';
-                            appContainer += '<td>'+ sender +'</td>';
-                            appContainer += '<td>'+ recipient +'</td>';
-                            appContainer += '<td>'+historyValue.fee+' WVL</td>';
-                            appContainer += '<td>'+Waves.formatAmount(historyValue.amount)+' WAVE</td>';
-                            appContainer += '</tr>';
-
-                        }
-
                     });
 
                     $("#transactionhistory").html(appContainer);
                 });
-
             });
 
         },
@@ -449,7 +352,6 @@ var Waves = (function(Waves, $, undefined) {
 
     });
 
-
     $("#tabs-Icons-community").on("click", function(e) {
 
         var currentAccounts = localStorage.getItem('WavesContacts');
@@ -469,6 +371,7 @@ var Waves = (function(Waves, $, undefined) {
     $('#header-wPop-backup').on($.modal.BEFORE_OPEN, function() {
         Waves.apiRequest(Waves.api.waves.address, Waves.publicKey, function(response) {
             $('#seedBackup').val(Waves.passphrase);
+            $('#encodedSeedBackup').val(Base58.encode(converters.stringToByteArray(Waves.passphrase)));
             $('#privateKeyBackup').val(Waves.privateKey);
             $('#publicKeyBackup').val(Waves.publicKey);
             $("#addressBackup").val(Waves.Addressing.fromRawAddress(response.address).getDisplayAddress());
@@ -477,17 +380,119 @@ var Waves = (function(Waves, $, undefined) {
 
     $('#header-wPop-backup').on($.modal.AFTER_CLOSE, function() {
         $('#seedBackup').val('');
+        $('#encodedSeedBackup').val('');
         $('#privateKeyBackup').val('');
         $('#publicKeyBackup').val('');
         $("#addressBackup").val('');
     });
 
+    $('#wB-butSend-WAV').on($.modal.BEFORE_OPEN, function () {
+        // set default value for the transaction fee
+        var feeText = $("#wavessendfee").val().replace(/\s+/g, '');
+        if (feeText.length === 0)
+            $("#wavessendfee").val(Waves.UI.constants.MINIMUM_TRANSACTION_FEE);
+    });
+
+    $(function() {
+        $.widget("custom.combobox", {
+            _create: function() {
+                this.wrapper = $("<span>")
+                    .addClass("custom-combobox")
+                    .insertAfter(this.element);
+
+                this.element.hide();
+                this._createAutocomplete();
+                this._createShowAllButton();
+            },
+
+            _createAutocomplete: function() {
+                var selected = this.element.children( ":selected" ),
+                    value = selected.val() || "";
+
+                this.input = $("<input>")
+                    .appendTo(this.wrapper)
+                    .val(value)
+                    .attr("title", "")
+                    .addClass("custom-combobox-input " +
+                        "ui-widget ui-widget-content ui-state-default ui-corner-left")
+                    .autocomplete({
+                        delay: 0,
+                        minLength: 0,
+                        source: $.proxy(this, "_source"),
+                        appendTo: '#wB-butSend-WAV'
+                    });
+
+                this._on(this.input, {
+                    autocompleteselect: function(event, ui) {
+                        ui.item.option.selected = true;
+                        this._trigger( "select", event, {
+                            item: ui.item.option
+                        });
+                    },
+                });
+            },
+
+            _createShowAllButton: function() {
+                var input = this.input,
+                    wasOpen = false;
+
+                $("<a>")
+                    .attr("tabIndex", -1)
+                    .attr("title", "Show All Items")
+                    .appendTo(this.wrapper)
+                    .button({
+                        icons: {
+                            primary: "ui-icon-triangle-1-s"
+                        },
+                        text: false
+                    })
+                    .removeClass("ui-corner-all")
+                    .addClass("custom-combobox-toggle ui-corner-right")
+                    .on("mousedown", function() {
+                        wasOpen = input.autocomplete("widget").is(":visible");
+                    })
+                    .on("click", function() {
+                        input.trigger("focus");
+
+                        // Close if already visible
+                        if (wasOpen) {
+                            return;
+                        }
+
+                        // Pass empty string as value to search for, displaying all results
+                        input.autocomplete("search", "");
+                    });
+            },
+
+            _source: function(request, response) {
+                var term = request.term.trim().toLowerCase();
+                response(this.element.children("option").map(function() {
+                    var text = $(this).text();
+                    var value = $(this).val();
+                    if (!term || text.trim().toLowerCase().startsWith(term))
+                        return {
+                            label: text,
+                            value: value,
+                            option: this
+                        };
+                }));
+            },
+
+            _destroy: function() {
+                this.wrapper.remove();
+                this.element.show();
+            }
+        });
+
+        $('#wavessendfee').combobox();
+    });
 
     $('#copy_and_close_backup_modal').click(function (e) {
         e.preventDefault();
 
         //copy to clipboard
         var text = "Seed: " + $('#seedBackup').val() + "\n";
+        text += "Encoded seed: " + $('#encodedSeedBackup').val() + "\n";
         text += "Private key: " + $('#privateKeyBackup').val() + "\n";
         text += "Public key: " + $('#publicKeyBackup').val() + "\n";
         text += "Address: " + $('#addressBackup').val();

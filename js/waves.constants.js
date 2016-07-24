@@ -14,13 +14,9 @@
  *                                                                            *
  ******************************************************************************/
 
-/**
- * @depends {waves.js}
- */
 var Waves = (function (Waves, $) {
     Waves.constants = {
         'DB_VERSION': 2,
-        'CLIENT_VERSION' : '0.4.1a',
         'SCOREX_VERSION' : 'v0.1.3',
 
         'PLUGIN_VERSION': 1,
@@ -44,7 +40,6 @@ var Waves = (function (Waves, $) {
         "MAINNET_ADDRESS_REGEXP": /^[a-zA-Z0-9]{35}$/,
 
         "INITIAL_NONCE": 0,
-        "WAVELETS_IN_WAVE": 1e8,
     };
 
     if (Waves.UI === undefined)

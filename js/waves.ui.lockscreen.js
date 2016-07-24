@@ -21,8 +21,7 @@
  * @depends {3rdparty/webdb.js}
  * @depends {3rdparty/jquery.growl.js}
  * @depends {3rdparty/clipboard.js}
- * @depends {crypto/curve25519.js}
- * @depends {crypto/curve25519_.js}
+ * @depends {axlsign/axlsign.js}
  * @depends {crypto/base58.js}
  * @depends {crypto/blake32.js}
  * @depends {crypto/keccak32.js}
@@ -114,7 +113,12 @@ var Waves = (function(Waves, $, undefined) {
         $("#wavesAccounts").addClass('noDisp');
 
         $("#step2_reg").show();
-        $("#login-wPop-new").modal("show");
+        // this pop-up can be closed only by pressing the button
+        $("#login-wPop-new").modal({
+            escapeClose: false,
+            clickClose: false,
+            showClose: false
+        });
         $("#walletSeed").attr('readonly', true);
         NProgress.start();
        

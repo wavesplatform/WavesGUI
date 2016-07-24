@@ -21,8 +21,7 @@
  * @depends {3rdparty/webdb.js}
  * @depends {3rdparty/jquery.growl.js}
  * @depends {3rdparty/clipboard.js}
- * @depends {crypto/curve25519.js}
- * @depends {crypto/curve25519_.js}
+ * @depends {axlsign/axlsign.js}
  * @depends {crypto/base58.js}
  * @depends {crypto/blake32.js}
  * @depends {crypto/keccak32.js}
@@ -191,6 +190,8 @@ var Waves = (function(Waves, $, undefined) {
                     accounts = userAccounts;
                 }
 
+                $("#removeAccountSpan").html(accounts.accounts[accountId].name);
+
                  $("#login-wPop-remove").modal({
                   fadeDuration: 500,
                   fadeDelay: 0.10
@@ -223,17 +224,11 @@ var Waves = (function(Waves, $, undefined) {
                 });
 
                 $("#remove_account_cancel").on("click", function(){
-                    accounts = '';
-                    userAccounts = '';
                     $.modal.close();
                 });
-                
-
             }
        });
-
     }
-
 
     Waves.getAccounts = function(callback) {
 
@@ -274,9 +269,7 @@ var Waves = (function(Waves, $, undefined) {
                 Waves.setInitApp(userAccounts['WavesAccounts']);
                 
             });
-            
         }
-
     }
 
     Waves.loadBlockheight = function () {
@@ -286,32 +279,6 @@ var Waves = (function(Waves, $, undefined) {
             Waves.blockHeight = result.height;
             $("#blockheight").html(result.height);
 
-        });
-
-    }
-
-    Waves.loadBalance = function () {
-
-        Waves.apiRequest(Waves.api.address.getAddresses(), function(response) {
-
-            var account = 0;
-
-            $.each(response, function(key, value) {
-
-
-                Waves.apiRequest(Waves.api.address.balance(value), function(balanceResult) {
-
-                    Waves.balance = Waves.balance + balanceResult.balance;
-
-                    $("#wavesCurrentBalance").val(Waves.formatAmount(Waves.balance));
-
-                    $("#balancespan").html(Waves.formatAmount(Waves.balance) +' Waves');
-
-                    $('.balancewaves').html(Waves.formatAmount(Waves.balance) + ' Waves');
-
-                });
-
-            });
         });
 
     }
@@ -353,12 +320,7 @@ var Waves = (function(Waves, $, undefined) {
             $("#lockscreenTable").fadeOut(500);
             $("#wrapper").fadeIn(1300);
 
-            var formatBalance = Waves.formatAmount(balance);
-            $("#wavesCurrentBalance").val(formatBalance);
-            $("#wavesbalance").html(formatBalance.split(".")[0]);
-            $("#wavesbalancedec").html('.'+formatBalance.split(".")[1]);
-            $("#balancespan").html(formatBalance +' Waves');
-            $('.balancewaves').html(formatBalance + ' Waves');
+            Waves.UI.updateWavesBalance(balance);
 
             Waves.updateDOM('mBB-wallet');
 
@@ -409,33 +371,6 @@ var Waves = (function(Waves, $, undefined) {
             return false;
 
         return true;
-    }
-
-    Waves.sendWave = function (recipient, amount) {
-
-        var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
-
-        var senderPublic = Base58.decode(Waves.publicKey);
-        var senderPrivate = Base58.decode(Waves.privateKey);
-        var recipient = Waves.Addressing.fromDisplayAddress(recipient.replace(/\s+/g, ''));
-        var wavesTime = Number(Waves.getTime());
-        var fee = Number(1);
-        var signatureData = Waves.signatureData(Waves.publicKey, recipient.getRawAddress(), amount, fee, wavesTime);
-        var signature = Waves.sign(senderPrivate, signatureData);
-
-        var data = {
-          "recipient": recipient.getRawAddress(),
-          "timestamp": wavesTime,
-          "signature": signature,
-          "amount": amount,
-          "senderPublicKey": Waves.publicKey,
-          "fee": fee
-        }
-
-        Waves.apiRequest(Waves.api.waves.broadcastTransaction, JSON.stringify(data), function(response) {
-
-            return response;
-        });
     }
 
 	return Waves;

@@ -1,0 +1,19 @@
+{
+  "name": "WavesLiteApp",
+  "short_name": "WavesLite",
+  "description": "Waves Client - Use the Waves Client as Chrome App to control your Blockchain Account finances.",
+  "version": "<%= pkg.version %>",
+  "manifest_version": 2,
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "author": "Tosch, Eth",
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "permissions": [
+	   "storage"
+  ]
+}

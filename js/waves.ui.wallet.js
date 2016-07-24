@@ -22,8 +22,7 @@
  * @depends {3rdparty/jsbn2.js}
  * @depends {3rdparty/webdb.js}
  * @depends {3rdparty/growl.js}
- * @depends {crypto/curve25519.js}
- * @depends {crypto/curve25519_.js}
+ * @depends {axlsign/axlsign.js}
  * @depends {crypto/base58.js}
  * @depends {crypto/blake32.js}
  * @depends {crypto/keccak32.js}
@@ -62,6 +61,11 @@ var Waves = (function(Waves, $, undefined) {
                             required : true,
                             decimal : true,
                             min : Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT
+                        },
+                        wavessendfee : {
+                            required : true,
+                            decimal : true,
+                            min : Waves.UI.constants.MINIMUM_TRANSACTION_FEE
                         }
                     },
                     messages : {
@@ -73,6 +77,12 @@ var Waves = (function(Waves, $, undefined) {
                             decimal : 'Amount to send must be a decimal number with dot (.) as a decimal separator',
                             min : 'Payment amount is too small. It should be greater or equal to ' +
                                 Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT.toFixed(Waves.UI.constants.AMOUNT_DECIMAL_PLACES)
+                        },
+                        wavessendfee : {
+                            required : 'Transaction fee is required',
+                            decimal : 'Transaction fee must be a decimal number with dot (.) as a decimal separator',
+                            min : 'Transactions fee is too small. It should be greater or equal to ' +
+                                Waves.UI.constants.MINIMUM_TRANSACTION_FEE
                         }
                     }
                 });
@@ -93,59 +103,42 @@ var Waves = (function(Waves, $, undefined) {
         $("#wavesrecipient").focus();
     });
 
-	$("#wavessend").on("click", function(e) {
+    $("#send-confirm").on("click", function(e) {
         e.preventDefault();
 
-        $("#errorpayment").html('');
+        var transactionFee = new Money($(".custom-combobox-input").val().replace(/\s+/g, ''), Currency.WAV);
+        var sendAmount = new Money($("#wavessendamount").val().replace(/\s+/g, ''), Currency.WAV);
+        var amount = sendAmount.toCoins();
 
-        if (!Waves.UI.sendWavesForm.isValid())
-            return;
-
-        var currentBalance = $("#wavesCurrentBalance").val();
-        var maxSend = currentBalance - Waves.UI.constants.MINIMUM_TRANSACTION_FEE;
-        var sendAmount = Number($("#wavessendamount").val().replace(/\s+/g, ''));
-
-        if (sendAmount > maxSend) {
-            $.growl.error({ message: 'Error: Not enough funds' });
-            return;
-        }
-
-        var amount = Waves.wavesToWavelets(sendAmount);
-        var unmodifiedAmount = sendAmount;
-
-        var senderPassphrase = converters.stringToByteArray(Waves.passphrase);
-        var senderPublic = Base58.decode(Waves.publicKey);
         var senderPrivate = Base58.decode(Waves.privateKey);
         var addressText = $("#wavesrecipient").val().replace(/\s+/g, '');
         // validate display address knows that the address prefix is optional
         var recipient = Waves.Addressing.fromDisplayAddress(addressText);
 
         var wavesTime = Number(Waves.getTime());
-
-        var fee = Waves.wavesToWavelets(Waves.UI.constants.MINIMUM_TRANSACTION_FEE);
+        var fee = transactionFee.toCoins();
 
         var signatureData = Waves.signatureData(Waves.publicKey, recipient.getRawAddress(), amount, fee, wavesTime);
-        var signature = Waves.sign(senderPrivate, signatureData);
-
-        //var verify = Waves.curve25519.verify(senderPublic, signatureData, Base58.decode(signature));
+        var signature = Waves.nonDeterministicSign(senderPrivate, signatureData);
 
         var data = {
-          "recipient": recipient.getRawAddress(),
-          "timestamp": wavesTime,
-          "signature": signature,
-          "amount": amount,
-          "senderPublicKey": Waves.publicKey,
-          "fee": fee
+            "recipient": recipient.getRawAddress(),
+            "timestamp": wavesTime,
+            "signature": signature,
+            "amount": amount,
+            "senderPublicKey": Waves.publicKey,
+            "sender": Waves.address.getRawAddress(),
+            "fee": fee
         }
 
         Waves.apiRequest(Waves.api.waves.broadcastTransaction, JSON.stringify(data), function(response) {
 
-            var fixFee = fee / 100000000;
             if(response.error !== undefined) {
                 $.growl.error({ message: 'Error:'+response.error +' - '+response.message });
             } else {
 
-                var successMessage = 'Sent '+Waves.formatAmount(amount)+' Wave <br>Recipient '+recipient.getDisplayAddress().substr(0,15)+'...<br>Date: '+Waves.formatTimestamp(wavesTime);
+                var successMessage = 'Sent '+ sendAmount.formatAmount(true) +' Wave <br>Recipient '+
+                    recipient.getDisplayAddress().substr(0,15)+'...<br>Date: '+Waves.formatTimestamp(wavesTime);
                 $.growl({ title: 'Payment sent! ', message: successMessage, size: 'large' });
                 $("#wavesrecipient").val('');
                 $("#wavessendamount").val('');
@@ -154,7 +147,30 @@ var Waves = (function(Waves, $, undefined) {
                 Waves.pages['mBB-wallet']();
             }
         });
+    });
 
+	$("#wavessend").on("click", function(e) {
+        e.preventDefault();
+
+        if (!Waves.UI.sendWavesForm.isValid())
+            return;
+
+        var transactionFee = new Money($(".custom-combobox-input").val().replace(/\s+/g, ''), Currency.WAV);
+        var currentBalance = new Money($("#wavesCurrentBalance").val(), Currency.WAV);
+        var maxSend = currentBalance.minus(transactionFee);
+        var sendAmount = new Money($("#wavessendamount").val().replace(/\s+/g, ''), Currency.WAV);
+
+        if (sendAmount.greaterThan(maxSend)) {
+            $.growl.error({ message: 'Error: Not enough funds' });
+            return;
+        }
+
+        var addressText = $("#wavesrecipient").val().replace(/\s+/g, '');
+        $("#confirmation-amount").html(sendAmount.formatAmount(true));
+        $("#confirmation-fee").html(transactionFee.formatAmount(true));
+        $("#confirmation-address").html(addressText);
+
+        $("#send-payment-confirmation").modal();
     });
 
     Waves.UI.sendWavesForm.setupValidation();

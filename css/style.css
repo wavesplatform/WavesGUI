@@ -146,6 +146,10 @@ body {
     color: red;
 }
 
+.fontBold {
+    font-weight: 600;
+}
+
 
 /* =============================================================== */
 /* PLACEHOLDER CONTENT SETTINGS */ /* PLACEHOLDER CONTENT SETTINGS */
@@ -723,6 +727,19 @@ input.tabs-radio:checked + label  img {
     opacity: .5;
 }
 
+/* CONFIRMATION DIALOG */
+#send-payment-confirmation {
+    text-align: center;
+}
+
+#send-confirm {
+    width: auto;
+}
+
+.confirmation-currency, #confirmation-amount, #confirmation-fee, #confirmation-address {
+    font-weight: 600;
+}
+
 .wB-buttons {
     position: absolute;
     bottom: 0;
@@ -941,6 +958,9 @@ input.tabs-radio:checked + label  img {
     color: #ffffff;
     border: 1px solid #ffffff;
     outline: none;
+    
+    text-align: center;
+    text-decoration: none;
 }
 
 #addContactSubmit {
@@ -1188,6 +1208,34 @@ input.tabs-radio:checked + label  img {
     color: #fff;
 }
 
+.custom-combobox {
+    position: relative;
+    display: inline-block;
+}
+
+.custom-combobox-toggle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin-right: -.25rem;
+    padding: 0;
+}
+
+.custom-combobox-input {
+    margin: 0;
+    padding: .25rem;
+    font-family: 'Wesli';
+    font-style: italic;
+    color: #999999;
+    padding-right: -.25rem;
+}
+
+.ui-menu.ui-autocomplete {
+    font-family: 'Wesli';
+    font-style: italic;
+    color: #999999;
+}
 
 /* ==================================================== */
 /* PORTFOLIO TAB *//* PORTFOLIO TAB */ /* PORTFOLIO TAB */  

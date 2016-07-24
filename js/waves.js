@@ -21,8 +21,6 @@
  * @depends {3rdparty/jsbn2.js}
  * @depends {3rdparty/webdb.js}
  * @depends {3rdparty/growl.js}
- * @depends {crypto/curve25519.js}
- * @depends {crypto/curve25519_.js}
  * @depends {crypto/base58.js}
  * @depends {crypto/blake32.js}
  * @depends {crypto/keccak32.js}
@@ -34,11 +32,12 @@
  * @depends {crypto/3rdparty/seedrandom.js}
  * @depends {util/converters.js}
  * @depends {util/extensions.js}
+ * @depends {waves.settings.js}
  */
 var Waves = (function(Waves, $, undefined) {
 	"use strict";
     
-    Waves.server = 'https://nodes.wavesnodes.com'; //Enter your node or localhost here.
+    Waves.server = Waves.constants.NODE_ADDRESS; //Enter your node or localhost here.
     Waves.epoch = 1460678400;
     Waves.seed = '';
     Waves.hasLocalStorage = _checkDOMenabled();
@@ -47,27 +46,7 @@ var Waves = (function(Waves, $, undefined) {
 
     //possible networks: testnet, devel = testnet
     //You can using anything for Waves.network which will create a new account storage on mainnet
-    Waves.network = 'mainnet';
-
-    Waves.createAccount = function (publicKey) {
-
-        $.getJSON(Waves.server+'/waves/address/'+publicKey, function(response) {
-
-            return callback(response);
-
-        });
-
-    }
-
-    Waves.getAddress = function (publicKey) {
-
-        $.getJSON(Waves.server+'/waves/address/'+publicKey, function(response) {
-
-            return callback(response);
-
-        }); 
-
-    }
+    Waves.network = Waves.constants.NETWORK_NAME;
 
 	return Waves;
 }(Waves || {}, jQuery));
