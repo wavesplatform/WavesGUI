@@ -191,7 +191,7 @@ module.exports = function (grunt) {
         },
         "github-release": {
             options: {
-                repository : "beregovoy68/WavesGUI",
+                repository : "wavesplatform/WavesGUI",
                 auth: {
                     user: process.env["GITHUB_ACCESS_TOKEN"],
                     password: ''
