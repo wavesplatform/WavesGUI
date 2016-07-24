@@ -212,7 +212,7 @@ module.exports = function (grunt) {
         webstore_upload: {
             "accounts": {
                 "default": { //account under this section will be used by default
-                    publish: false, //publish item right after uploading. default false
+                    publish: true, //publish item right after uploading. default false
                     client_id: process.env["WEBSTORE_CLIENT_ID"],
                     client_secret: "",
                     refresh_token: process.env["WEBSTORE_REFRESH_TOKEN"]
@@ -247,7 +247,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('distr', ['clean', 'emptyChangelog', 'copy', 'compress']);
-    grunt.registerTask('publish', ['distr', 'conventionalChangelog', 'shell', 'github-release']);
+    grunt.registerTask('publish', ['distr', 'conventionalChangelog', 'shell', 'github-release', 'webstore_upload']);
     // Default task.
     grunt.registerTask('default', ['jasmine']);
 };
