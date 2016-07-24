@@ -81,6 +81,10 @@ module.exports = function (grunt) {
         },
         clean: ['build/**', 'distr/**'],
         copy: {
+            options: {
+                // if this line is not included copy corrupts binary files
+                noProcess: ['**/*.{png,gif,jpg,ico,psd,woff,woff2,svg}']
+            },
             testnet: {
                 expand: true,
                 src: '<%= meta.sources %>',
