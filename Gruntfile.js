@@ -204,6 +204,24 @@ module.exports = function (grunt) {
                 expand: true,
                 src: ['<%= compress.testnet.options.archive %>', '<%= compress.mainnet.options.archive %>']
             }
+        },
+        webstore_upload: {
+            "accounts": {
+                "default": { //account under this section will be used by default
+                    publish: false, //publish item right after uploading. default false
+                    client_id: process.env["WEBSTORE_CLIENT_ID"],
+                    client_secret: "",
+                    refresh_token: process.env["WEBSTORE_REFRESH_TOKEN"]
+                }
+            },
+            "extensions": {
+                "WavesLiteApp": {
+                    //required
+                    appID: "kfmcaklajknfekomaflnhkjjkcjabogm",
+                    //required, we can use dir name and upload most recent zip file
+                    zip: "<%= compress.chrome.options.archive %>"
+                }
+            }
         }
     });
 
@@ -216,7 +234,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-bump');
     grunt.loadNpmTasks('grunt-github-releaser');
-    //grunt.loadNpmTasks('grunt-crx');
+    grunt.loadNpmTasks('grunt-webstore-upload');
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-conventional-changelog');
 
@@ -225,7 +243,6 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('distr', ['clean', 'emptyChangelog', 'copy', 'compress']);
-    //grunt.registerTask('release', ['release:patch']);
     grunt.registerTask('publish', ['distr', 'conventionalChangelog', 'shell', 'github-release']);
     // Default task.
     grunt.registerTask('default', ['jasmine']);

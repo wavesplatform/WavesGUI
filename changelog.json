@@ -1,9 +1,0 @@
-{
-  "text": [
-    "Added a payment confirmation dialog",
-    "Transaction fee is now editable",
-    "Combined testnet and mainnet client versions together",
-    "Performance optimizations",
-    "Distribution size decreased by 1.5Mb"
-    ]
-}
