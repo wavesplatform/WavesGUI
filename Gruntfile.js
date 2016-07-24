@@ -148,8 +148,8 @@ module.exports = function (grunt) {
         bump: {
             options: {
                 updateConfigs: ['pkg'],
-                commit: false, // debug
-                push: false, // debug
+                commit: true, // debug
+                push: 'branch', // debug
                 pushTo: 'origin',
                 createTag: false,
                 commitMessage: "chore(version): bumping version v%VERSION%",
@@ -167,7 +167,7 @@ module.exports = function (grunt) {
                         // conventional-changelog options go here
                         preset: 'angular',
                         append: false,
-                        releaseCount: 1
+                        releaseCount: 0
                     },
                     context: {
                         // context goes here
@@ -193,8 +193,8 @@ module.exports = function (grunt) {
                     password: ''
                 },
                 release: {
-                    tag_name: "v<%= pkg.version =>",
-                    name: "v<%= pkg.version =>",
+                    tag_name: "v<%= pkg.version %>",
+                    name: "v<%= pkg.version %>",
                     bodyFilename: 'distr/CHANGELOG.tmp',
                     draft: true,
                     prerelease: true
@@ -202,7 +202,7 @@ module.exports = function (grunt) {
             },
             files: {
                 expand: true,
-                src: ['<%= compress.testnet.options.archive =>', '<%= compress.mainnet.options.archive =>']
+                src: ['<%= compress.testnet.options.archive %>', '<%= compress.mainnet.options.archive %>']
             }
         }
     });
