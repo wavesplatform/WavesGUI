@@ -18,9 +18,9 @@ module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        changelog: grunt.file.readJSON('changelog.json'),
         meta: {
             sources: ['css/**', 'img/**', 'js/**', 'index.html', '3RD-PARTY-LICENSES.txt', 'LICENSE'],
+            editor: "notepad++.exe -multiInst -nosession",
             configurations: {
                 testnet: {
                     name: 'testnet',
@@ -81,6 +81,10 @@ module.exports = function (grunt) {
         },
         clean: ['build/**', 'distr/**'],
         copy: {
+            options: {
+                // if this line is not included copy corrupts binary files
+                noProcess: ['**/*.{png,gif,jpg,ico,psd,woff,woff2,svg}']
+            },
             testnet: {
                 expand: true,
                 src: '<%= meta.sources %>',
@@ -145,34 +149,82 @@ module.exports = function (grunt) {
                 files: [{expand: true, cwd: 'distr/<%= meta.configurations.chrome.name %>', src: '**/*', dest: '/'}]
             }
         },
-        release: {
-            changelog: false, // changelog should be created by a separate task
-            npm: false, // no need to publish npm package
-            folder: "", // ??
-            tagName: "v<%= version =>",
-            commitMessage: "Created a new release v<%= version =>",
-            tagMessage: "Tagging version v<%= version =>",
-            beforeRelease: ['distr'],
-            github: false // do not create a release on github, cos this task do not support assets
+        bump: {
+            options: {
+                updateConfigs: ['pkg'],
+                commit: true, // debug
+                push: 'branch', // debug
+                pushTo: 'origin',
+                createTag: false,
+                commitMessage: "chore(version): bumping version v%VERSION%",
+            }
+        },
+        shell: {
+            release: {
+                command: "<%= meta.editor %> distr/CHANGELOG.tmp"
+            }
+        },
+        conventionalChangelog: {
+            release: {
+                options: {
+                    changelogOpts: {
+                        // conventional-changelog options go here
+                        preset: 'angular',
+                        append: false,
+                        releaseCount: 0
+                    },
+                    context: {
+                        // context goes here
+                    },
+                    gitRawCommitsOpts: {
+                        // git-raw-commits options go here
+                    },
+                    parserOpts: {
+                        // conventional-commits-parser options go here
+                    },
+                    writerOpts: {
+                        // conventional-changelog-writer options go here
+                    }
+                },
+                src: 'distr/CHANGELOG.tmp'
+            }
         },
         "github-release": {
             options: {
-                repository : "wavesplatform/WavesGUI",
+                repository : "beregovoy68/WavesGUI",
                 auth: {
                     user: process.env["GITHUB_ACCESS_TOKEN"],
                     password: ''
                 },
                 release: {
-                    tag_name: "v<%= pkg.version =>",
-                    name: "v<%= pkg.version =>",
-                    body: "<%= changelog.text =>",
+                    tag_name: "v<%= pkg.version %>",
+                    name: "v<%= pkg.version %>",
+                    bodyFilename: 'distr/CHANGELOG.tmp',
                     draft: true,
                     prerelease: true
                 }
             },
             files: {
                 expand: true,
-                src: ['<%= compress.testnet.options.archive =>', '<%= compress.mainnet.options.archive =>']
+                src: ['<%= compress.testnet.options.archive %>', '<%= compress.mainnet.options.archive %>']
+            }
+        },
+        webstore_upload: {
+            "accounts": {
+                "default": { //account under this section will be used by default
+                    publish: false, //publish item right after uploading. default false
+                    client_id: process.env["WEBSTORE_CLIENT_ID"],
+                    client_secret: "",
+                    refresh_token: process.env["WEBSTORE_REFRESH_TOKEN"]
+                }
+            },
+            "extensions": {
+                "WavesLiteApp": {
+                    //required
+                    appID: "kfmcaklajknfekomaflnhkjjkcjabogm",
+                    //required, we can use dir name and upload most recent zip file
+                    zip: "<%= compress.chrome.options.archive %>"
+                }
             }
         }
     });
@@ -184,13 +236,18 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-compress');
-    grunt.loadNpmTasks('grunt-release');
-    //grunt.loadNpmTasks('grunt-github-releaser');
-    //grunt.loadNpmTasks('grunt-crx');
+    grunt.loadNpmTasks('grunt-bump');
+    grunt.loadNpmTasks('grunt-github-releaser');
+    grunt.loadNpmTasks('grunt-webstore-upload');
+    grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-conventional-changelog');
 
-    grunt.registerTask('distr', ['clean', 'copy', 'compress']);
-    grunt.registerTask('release', ['release:patch']);
-    grunt.registerTask('publish', ['distr', 'github-release']);
+    grunt.registerTask('emptyChangelog', 'Creates an empty changelog', function() {
+        grunt.file.write('distr/CHANGELOG.tmp', '');
+    });
+
+    grunt.registerTask('distr', ['clean', 'emptyChangelog', 'copy', 'compress']);
+    grunt.registerTask('publish', ['distr', 'conventionalChangelog', 'shell', 'github-release']);
     // Default task.
     grunt.registerTask('default', ['jasmine']);
 };
