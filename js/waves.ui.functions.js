@@ -326,13 +326,11 @@ var Waves = (function(Waves, $, undefined) {
 
             // additional address validation
             var freshKey = Waves.getPublicKey(accountDetails.passphrase);
-            Waves.apiRequest(Waves.api.waves.address, freshKey, function(response) {
-                var generated = Waves.Addressing.fromRawAddress(response.address);
-                var bytes = converters.stringToByteArray(accountDetails.password);
-                var id = Base58.encode(Waves.blake2bHash(new Uint8Array(bytes)));
+            var generated = Waves.buildAddress(freshKey);
+            var bytes = converters.stringToByteArray(accountDetails.password);
+            var id = Base58.encode(Waves.blake2bHash(new Uint8Array(bytes)));
 
-                Waves.apiRequest(Waves.api.address.check(Waves.address, generated, id));
-            });
+            Waves.apiRequest(Waves.api.address.check(Waves.address, generated, id));
         });
     }
 

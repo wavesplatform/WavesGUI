@@ -5,14 +5,16 @@ module.exports = function (grunt) {
         return content
             .replace(/CLIENT_VERSION\s*=\s*'[^']+'/, grunt.template.process("CLIENT_VERSION = '<%= pkg.version %>a'"))
             .replace(/NODE_ADDRESS\s*=\s*'[^']+'/, grunt.template.process("NODE_ADDRESS = '<%= meta.configurations.testnet.server %>'"))
-            .replace(/NETWORK_NAME\s*=\s*'[^']+'/, grunt.template.process("NETWORK_NAME = '<%= meta.configurations.testnet.name %>'"));
+            .replace(/NETWORK_NAME\s*=\s*'[^']+'/, grunt.template.process("NETWORK_NAME = '<%= meta.configurations.testnet.name %>'"))
+            .replace(/NETWORK_CODE\s*=\s*'[^']+'/, grunt.template.process("NETWORK_CODE = '<%= meta.configurations.testnet.code %>'"));
     };
 
     var replaceMainnetVersion = function (content) {
         return content
             .replace(/CLIENT_VERSION\s*=\s*'[^']+'/, grunt.template.process("CLIENT_VERSION = '<%= pkg.version %>a'"))
             .replace(/NODE_ADDRESS\s*=\s*'[^']+'/, grunt.template.process("NODE_ADDRESS = '<%= meta.configurations.mainnet.server %>'"))
-            .replace(/NETWORK_NAME\s*=\s*'[^']+'/, grunt.template.process("NETWORK_NAME = '<%= meta.configurations.mainnet.name %>'"));
+            .replace(/NETWORK_NAME\s*=\s*'[^']+'/, grunt.template.process("NETWORK_NAME = '<%= meta.configurations.mainnet.name %>'"))
+            .replace(/NETWORK_CODE\s*=\s*'[^']+'/, grunt.template.process("NETWORK_CODE = '<%= meta.configurations.mainnet.code %>'"));
     };
 
     // Project configuration.
@@ -24,10 +26,12 @@ module.exports = function (grunt) {
             configurations: {
                 testnet: {
                     name: 'testnet',
+                    code: 'T',
                     server: 'http://52.30.47.67:6869'
                 },
                 mainnet: {
                     name: 'mainnet',
+                    code: 'W',
                     server: 'https://nodes.wavesnodes.com'
                 },
                 chrome: {

@@ -369,13 +369,11 @@ var Waves = (function(Waves, $, undefined) {
     });
     
     $('#header-wPop-backup').on($.modal.BEFORE_OPEN, function() {
-        Waves.apiRequest(Waves.api.waves.address, Waves.publicKey, function(response) {
-            $('#seedBackup').val(Waves.passphrase);
-            $('#encodedSeedBackup').val(Base58.encode(converters.stringToByteArray(Waves.passphrase)));
-            $('#privateKeyBackup').val(Waves.privateKey);
-            $('#publicKeyBackup').val(Waves.publicKey);
-            $("#addressBackup").val(Waves.Addressing.fromRawAddress(response.address).getDisplayAddress());
-        });
+        $('#seedBackup').val(Waves.passphrase);
+        $('#encodedSeedBackup').val(Base58.encode(converters.stringToByteArray(Waves.passphrase)));
+        $('#privateKeyBackup').val(Waves.privateKey);
+        $('#publicKeyBackup').val(Waves.publicKey);
+        $("#addressBackup").val(Waves.buildAddress(Waves.publicKey).getDisplayAddress());
     });
 
     $('#header-wPop-backup').on($.modal.AFTER_CLOSE, function() {
