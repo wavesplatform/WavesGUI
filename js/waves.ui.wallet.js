@@ -44,6 +44,8 @@ var Waves = (function(Waves, $, undefined) {
     Waves.UI.sendWavesForm = {
         id : 'send-waves-form',
         containerId : 'wB-butSend-WAV',
+        feeInputSelector : '.custom-combobox-input',
+        errorClass : 'wInput-error',
         validator : undefined,
         getForm : function() {
             return $('#' + Waves.UI.sendWavesForm.id);
@@ -51,7 +53,7 @@ var Waves = (function(Waves, $, undefined) {
         setupValidation : function() {
             $('#' + this.containerId).on($.modal.BEFORE_OPEN, function(event, modal) {
                 Waves.UI.sendWavesForm.validator = Waves.UI.sendWavesForm.getForm().validate({
-                    errorClass : 'wInput-error',
+                    errorClass : Waves.UI.sendWavesForm.errorClass,
                     rules : {
                         wavesrecipient : {
                             required : true,
@@ -59,13 +61,8 @@ var Waves = (function(Waves, $, undefined) {
                         },
                         wavessendamount : {
                             required : true,
-                            decimal : true,
+                            decimal : Currency.WAV.precision,
                             min : Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT
-                        },
-                        wavessendfee : {
-                            required : true,
-                            decimal : true,
-                            min : Waves.UI.constants.MINIMUM_TRANSACTION_FEE
                         }
                     },
                     messages : {
@@ -74,15 +71,9 @@ var Waves = (function(Waves, $, undefined) {
                         },
                         wavessendamount : {
                             required : 'Amount to send is required',
-                            decimal : 'Amount to send must be a decimal number with dot (.) as a decimal separator',
+                            decimal : 'Amount to send must be a decimal number with dot (.) as a decimal separator with no more than {0} fraction digits',
                             min : 'Payment amount is too small. It should be greater or equal to ' +
                                 Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT.toFixed(Waves.UI.constants.AMOUNT_DECIMAL_PLACES)
-                        },
-                        wavessendfee : {
-                            required : 'Transaction fee is required',
-                            decimal : 'Transaction fee must be a decimal number with dot (.) as a decimal separator',
-                            min : 'Transactions fee is too small. It should be greater or equal to ' +
-                                Waves.UI.constants.MINIMUM_TRANSACTION_FEE
                         }
                     }
                 });
@@ -91,11 +82,46 @@ var Waves = (function(Waves, $, undefined) {
             $('#' + this.containerId).on($.modal.BEFORE_CLOSE, function(event, modal) {
                 if (Waves.UI.sendWavesForm.validator !== undefined)
                     Waves.UI.sendWavesForm.validator.resetForm();
+
+                $(this.feeInputSelector).parent().removeClass(this.errorClass);
             });
         },
 
         isValid : function() {
-            return this.getForm().valid();
+            if  (!this.getForm().valid())
+                return false;
+
+            // manually validate tx fee cos jquery.validation conflicts with autocomplete.combobox
+            var element = $(this.feeInputSelector);
+            var value = element.val();
+
+            if (!$.validator.methods.required.call(this.validator, value, element[0], true)) {
+                $.growl.error({ message: 'Transaction fee is required' });
+                element.parent().addClass(this.errorClass);
+
+                return false;
+            }
+
+            if (!$.validator.methods.min.call(this.validator, value, element[0], Waves.UI.constants.MINIMUM_TRANSACTION_FEE)) {
+                $.growl.error({ message: 'Transaction fee is too small. It should be greater or equal to ' +
+                    Waves.UI.constants.MINIMUM_TRANSACTION_FEE });
+                element.parent().addClass(this.errorClass);
+
+                return false;
+            }
+
+            if (!$.validator.methods.decimal.call(this.validator, value, element[0], Currency.WAV.precision)) {
+                $.growl.error({ message: 'Transaction fee must be a decimal number with dot (.) as ' +
+                    'a decimal separator with no more than ' + Currency.WAV.precision +
+                    ' fraction digits' });
+                element.parent().addClass(this.errorClass);
+
+                return false;
+            }
+
+            element.parent().removeClass(this.errorClass);
+
+            return true;
         }
     };
 
