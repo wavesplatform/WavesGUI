@@ -99,7 +99,7 @@ var Money = function(amount, currency) {
 
     this.formatAmount = function (stripZeroes) {
         if (stripZeroes)
-            return this.amount.toString();
+            return this.toTokens().toString();
 
         return format(this.amount);
     }

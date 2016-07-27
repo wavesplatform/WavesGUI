@@ -1218,8 +1218,12 @@ input.tabs-radio:checked + label  img {
     top: 0;
     bottom: 0;
     right: 0;
-    margin-right: -.25rem;
-    padding: 0;
+    margin: 2px;
+    border-style: none none none solid;
+}
+
+.custom-combobox-toggle:hover {
+    border-style: none none none solid;
 }
 
 .custom-combobox-input {
