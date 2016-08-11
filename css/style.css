@@ -19,38 +19,27 @@ Waves' palette: #0096DC                             Waves' blue *
 
 /* FONT-FACE DEFINITIONS */
 
-
-/* ======================================================================= */
-
 @font-face {
     font-family: 'Wesli';
-    src: url('../css/fonts/wesli.woff') format('woff');
-    src: url('../css/fonts/wesli.woff2') format('woff2');
+    src: url('../css/fonts/wesli.eot?') format('eot'), url('../css/fonts/wesli.woff') format('woff'), url('../css/fonts/wesli.ttf') format('truetype');
 }
 @font-face {
     font-family: 'Engo';
-    src: url('../css/fonts/engo.woff') format('woff');
-    src: url('../css/fonts/engo.woff2') format('woff2');
+    src: url('../css/fonts/engo.eot?') format('eot'), url('../css/fonts/engo.woff') format('woff'), url('../css/fonts/engo.ttf') format('truetype');
 }
 @font-face {
     font-family: 'Sparta';
-    src: url('../css/fonts/sparta.woff') format('woff');
-    src: url('../css/fonts/sparta.woff2') format('woff2');
+    src: url('../css/fonts/sparta.eot?') format('eot'), url('../css/fonts/sparta.woff') format('woff'), url('../css/fonts/sparta.ttf') format('truetype');
 }
 @font-face {
     font-family: 'Lekton';
-    src: url('../css/fonts/lekton.svg') format('svg');
-    src: url('../css/fonts/lekton.woff') format('woff');
-    src: url('../css/fonts/lekton.woff2') format('woff2');
+    src: url('../css/fonts/lekton.eot?') format('eot'), url('../css/fonts/lekton.woff') format('woff'), url('../css/fonts/lekton.ttf') format('truetype');
 }
 
 /* ======================================================================= */
 
 
 /* GLOBAL SETTINGS AND CLASSES */
-
-
-/* ======================================================================= */
 
 *,
 *::after,
@@ -147,9 +136,6 @@ body {
 
 /* PLACEHOLDER CONTENT SETTINGS */
 
-
-/* ======================================================================= */
-
 .phContent {
     margin: 0 auto;
     text-align: center;
@@ -219,9 +205,6 @@ body {
 
 /* MAIN WRAPPER SETTINGS */
 
-
-/* ======================================================================= */
-
 #wrapper {
     width: 100%;
     max-width: 1920px;
@@ -238,9 +221,6 @@ body {
 
 
 /* LOCKSCREEN SETTINGS */
-
-
-/* ======================================================================= */
 
 @-webkit-keyframes wFlip {
     0% {
@@ -426,9 +406,6 @@ body {
 
 /* HEADER SETTINGS */
 
-
-/* ======================================================================= */
-
 header,
 #tabs,
 #mBLeftBar,
@@ -529,15 +506,11 @@ header {
 
 /* TAB SELECTOR SETTINGS */
 
-
-/* ======================================================================= */
-
 #tabs {
     position: relative;
     width: 100%;
     height: 75px;
     background: #37556E;
-    /* New palette */
     box-shadow: 0px 12px 12px -12px rgba(0, 0, 0, .2);
     z-index: 100;
 }
@@ -577,9 +550,6 @@ input.tabs-radio:checked + label img {
 
 /* MAIN BODY SETTINGS */
 
-
-/* ======================================================================= */
-
 #mainBody {
     overflow-y: scroll;
 }
@@ -588,9 +558,6 @@ input.tabs-radio:checked + label img {
 
 
 /* LEFT BAR SETTINGS */
-
-
-/* ======================================================================= */
 
 #mBLeftBar {
     display: table-cell;
@@ -609,9 +576,6 @@ input.tabs-radio:checked + label img {
 
 
 /* MAIN BODY-BODY SETTINGS */
-
-
-/* ======================================================================= */
 
 #mBBody {
     display: table-cell;
@@ -640,9 +604,6 @@ input.tabs-radio:checked + label img {
 
 
 /* WALLET TAB */
-
-
-/* ======================================================================= */
 
 #mBB-wallet {}
 .walletBox {
@@ -783,9 +744,6 @@ input.tabs-radio:checked + label img {
 
 /* WAVES STANDARD TABLES */
 
-
-/* ======================================================================= */
-
 .wavesTable table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -887,9 +845,6 @@ input.tabs-radio:checked + label img {
 
 
 /* WAVES STANDARD BUTTONS */
-
-
-/* ======================================================================= */
 
 .wButton {
     display: inline-block;
@@ -1006,9 +961,6 @@ input.tabs-radio:checked + label img {
 
 /* WAVES STANDARD INPUTS */
 
-
-/* ======================================================================= */
-
 .wInput {
     font-family: 'Wesli';
     font-size: 1rem;
@@ -1025,9 +977,6 @@ input.tabs-radio:checked + label img {
 
 
 /* PAYMENT FORM PARAMETERS */
-
-
-/* ======================================================================= */
 
 .paymentForm {
     height: auto;
@@ -1170,9 +1119,6 @@ input.tabs-radio:checked + label img {
 
 /* PORTFOLIO TAB */
 
-
-/* ======================================================================= */
-
 #portfolio {
     padding-bottom: 1rem;
 }
@@ -1214,9 +1160,6 @@ input.tabs-radio:checked + label img {
 
 /* HISTORY TAB */
 
-
-/* ======================================================================= */
-
 .wavesDD {
     display: inline-block;
     height: 90%;
@@ -1236,9 +1179,6 @@ input.tabs-radio:checked + label img {
 
 
 /* MESSENGER TAB */
-
-
-/* ======================================================================= */
 
 #mBB-messages-add {
     position: relative;
@@ -1295,9 +1235,6 @@ input.tabs-radio:checked + label img {
 
 /* COMMUNITY TAB */
 
-
-/* ======================================================================= */
-
 #mBB-community h2 {
     text-align: center;
     font-size: 1.25rem;
@@ -1321,9 +1258,6 @@ input.tabs-radio:checked + label img {
 
 /* NPROGRESS CSS RULES */
 
-
-/* ======================================================================= */
-
 #nprogress {
     pointer-events: none;
 }
@@ -1341,9 +1275,6 @@ input.tabs-radio:checked + label img {
 
 
 /* MEDIA QUERIES */
-
-
-/* ======================================================================= */
 
 @media only screen and (max-width: 1024px) {
     #logoNversion2 {
