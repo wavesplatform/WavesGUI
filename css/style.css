@@ -933,6 +933,12 @@ input.tabs-radio:checked + label img {
 #login-wPop-new p {
     text-align: left;
 }
+#seed-whitespace-popup {
+    max-width: 550px;
+}
+#seed-whitespace-popup p {
+   text-align: justify;
+}
 #addContactSubmit,
 #close_create_account_modal {
     background: #fff;
