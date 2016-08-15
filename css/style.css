@@ -503,6 +503,10 @@ header {
 #header-wPop-backup {
     max-width: 550px;
 }
+#header-wPop-backup p, #backupForm {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
 #header-wPop-backup a {
     text-decoration: none;
 }
