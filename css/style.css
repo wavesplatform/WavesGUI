@@ -503,7 +503,8 @@ header {
 #header-wPop-backup {
     max-width: 550px;
 }
-#header-wPop-backup p, #backupForm {
+#header-wPop-backup p,
+#backupForm {
     padding-left: 1rem;
     padding-right: 1rem;
 }
@@ -529,6 +530,7 @@ header {
 /* TAB SELECTOR SETTINGS */
 
 #tabs {
+    /*    display: flex;*/
     position: relative;
     width: 100%;
     height: 75px;
@@ -537,17 +539,19 @@ header {
     z-index: 100;
 }
 #tabs-Iconset {
-    height: 95%;
-    width: 100%;
-    text-align: center;
+    display: flex;
+    height: 90%;
+    width: 95%;
+    justify-content: center;
+    align-items: center;
+}
+#tabs-Iconset label {
+    height: 100%;
+    margin-left: .25rem;
+    margin-right: .25rem;
 }
 #tabs-Iconset img {
     height: 80%;
-    padding: 0;
-    margin: 0;
-    margin-top: .5rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
 }
 #tabs-Iconset img:hover {
     cursor: pointer;
