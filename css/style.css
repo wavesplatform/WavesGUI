@@ -360,10 +360,28 @@ body {
     border: none;
     opacity: 1;
 }
+
+/* NEW ACCOUNT CONFIRMATION POPUP */
+
 #login-wPop-new {
     background: #ffffff;
     color: #555555;
     padding-bottom: 1rem;
+}
+#login-wPop-new p {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* SEED WHITESPACE CONFIRMATION POPUP */
+
+#seed-whitespace-popup {
+    max-width: 550px;
+}
+#seed-whitespace-popup p {
+    text-align: justify;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 #register > form {
     margin: 0 auto;
@@ -931,13 +949,7 @@ input.tabs-radio:checked + label img {
     max-width: 550px;
 }
 #login-wPop-new p {
-    text-align: left;
-}
-#seed-whitespace-popup {
-    max-width: 550px;
-}
-#seed-whitespace-popup p {
-   text-align: justify;
+    text-align: justify;
 }
 #addContactSubmit,
 #close_create_account_modal {
@@ -960,6 +972,35 @@ input.tabs-radio:checked + label img {
 }
 #transactionHistorySearch:hover {
     background: #E1B47D;
+}
+
+/* Payment forms BUTTONS style */
+
+.paymentForm-but {
+    border: 1px solid #37556E;
+    outline: none;
+    position: relative;
+    margin: 0 auto;
+    /*    width: 5rem;*/
+    padding-left: .5rem;
+    padding-right: .5rem;
+    background: #fff;
+    font-family: 'Wesli';
+    font-size: 1rem;
+    color: #37556E;
+    text-align: center;
+}
+.paymentForm-but:hover {
+    cursor: pointer;
+    background: #37556E;
+    color: #fff;
+}
+
+/* Send Payment(s) form buttons */
+
+.send-but {
+    padding: .3rem;
+    width: 4.5rem;
 }
 
 /* ======================================================================= */
@@ -1067,29 +1108,6 @@ input.tabs-radio:checked + label img {
 .paymentFormFee p {
     text-align: right;
     padding-right: .5rem;
-}
-
-/* Payment forms BUTTONS style */
-
-.paymentForm-but {
-    border: 1px solid #37556E;
-    outline: none;
-    position: relative;
-    margin: 0 auto;
-    width: 5rem;
-    padding-left: .5rem;
-    padding-right: .5rem;
-    background: #fff;
-    font-family: 'Wesli';
-    font-size: 1rem;
-    line-height: 2.3rem;
-    color: #37556E;
-    text-align: center;
-}
-.paymentForm-but:hover {
-    cursor: pointer;
-    background: #37556E;
-    color: #fff;
 }
 .custom-combobox {
     position: relative;

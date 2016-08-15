@@ -108,7 +108,7 @@
                                             The procedure consists of complex cryptographic operations that use a <b>SEED</b> (a series of random words) to create a unique address for your account.
                                             <br/><br/>
                                             This SEED is extremely important and must be kept in safe place, since it's the only way to recover your account in case of lost, corrupted data or hardware failure. 
-                                            <br/><br/>    
+                                            <br/>   
                                             Your SEED will also allow you to IMPORT your account to other devices.
                                             <br/><br/>
                                             <i>NOTE: Make sure that you select the entire SEED length before keeping it.  It's suggested to use the copy-to-clipboard button located the right side of the SEED box.</i>
@@ -129,7 +129,6 @@
                                                 It is strongly recommended to avoid trailing whitespaces in the seed. If you understand all the implications of having a seed with trailing whitespace(s) press <b>PROCEED</b>.
                                                 Press <b>CANCEL</b> or close the dialog to edit the seed.<br/>
                                             </p>
-                                            <br/>
                                             <div class="wPop-content-buttons">
                                                 <a id="close-seed-whitespace-modal" href="#" class="wButton paymentForm-but fade">PROCEED</a><span class="divider-2"></span>
                                                 <a href="#" rel="modal:close" class="wButton paymentForm-but fade">CLOSE</a>
@@ -232,7 +231,7 @@
                 <img class="wPop-header" src="img/modal-header.svg" />
                 <div class="wPop-content">
                     <h2>ACCOUNT INFO BACKUP</h2>
-                    <p>Your account's basic information, click the COPY button in order to copy the contents to the clipboard or CLOSE to exit.</p></br>
+                    <p>Your account's basic information, click the <b>COPY</b> button in order to copy the contents to the clipboard or <b>CLOSE</b> to exit.</p></br>
                     <form id="backupForm">
                     <label for="seedBackup">Seed</label><br/>
                     <textarea id="seedBackup" class="wInput" rows="3" readonly></textarea><br/>
@@ -561,7 +560,7 @@
                                             
                                     </form>
                                     <!-- check -->
-                                    <div id="wavessend" class="paymentForm-but fade" value="send"><p>SUBMIT</p></div>
+                                    <div id="wavessend" class="paymentForm-but send-but fade" value="send"><p>SUBMIT</p></div>
                                     <div id="sentpayment" style="width: 500px; word-wrap:break-word;"></div>
                                     <div id="errorpayment" style="width: 500px; word-wrap:break-word;"></div>
 
