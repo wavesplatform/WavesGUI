@@ -547,9 +547,12 @@ header {
 }
 #tabs-Iconset label {
     height: 100%;
-    margin-left: .25rem;
-    margin-right: .25rem;
 }
+#tabs-Iconset img {
+        margin-top: .5rem;
+        margin-left: .5rem;
+        margin-right: .5rem;
+    }
 #tabs-Iconset img {
     height: 80%;
 }
@@ -1321,11 +1324,6 @@ input.tabs-radio:checked + label img {
     #mBLeftBar {
         width: 150px;
     }
-    #tabs-Iconset img {
-        margin-top: .5rem;
-        margin-left: .5rem;
-        margin-right: .5rem;
-    }
     #blockheight,
     header .divider-2,
     header .inlineParagraph {
@@ -1368,8 +1366,8 @@ input.tabs-radio:checked + label img {
     }
     #tabs-Iconset img {
         margin-top: .5rem;
-        margin-left: .2rem;
-        margin-right: .2rem;
+        margin-left: .5rem;
+        margin-right: .5rem;
     }
     #generateRandomSeed,
     #generateKeys {
@@ -1392,8 +1390,8 @@ input.tabs-radio:checked + label img {
     }
     #tabs-Iconset img {
         margin-top: .5rem;
-        margin-left: .1rem;
-        margin-right: .1rem;
+        margin-left: .5rem;
+        margin-right: .5rem;
     }
     .wInput {
         min-width: 50px;
@@ -1433,7 +1431,7 @@ input.tabs-radio:checked + label img {
     }
     #tabs-Iconset {
         height: 90%;
-        margin-top: -.25rem;
+/*        margin-top: -.25rem;*/
     }
     #tabs-Iconset img {
         padding-left: .4rem;
@@ -1499,7 +1497,6 @@ input.tabs-radio:checked + label img {
     }
     #tabs {
         height: 50px;
-        text-align: center;
     }
     #tabs-Iconset img {
         margin-top: .25rem;
