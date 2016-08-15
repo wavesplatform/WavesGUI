@@ -784,7 +784,7 @@ input.tabs-radio:checked + label img {
     -webkit-transform: translate(-50%, -55%);
     transform: translate(-50%, -55%);
 }
-#wHistory {
+#full-transaction-history, #wallet-transaction-history {
     width: 100%;
     padding: .5rem;
     padding-bottom: 1rem;
@@ -886,7 +886,7 @@ input.tabs-radio:checked + label img {
         opacity: 1;
     }
 }
-#wHistory tbody,
+#full-transaction-history tbody, #wallet-transaction-history tbody,
 #latestBlocksUnconfirmed,
 #latestBlocksTable {
     font-family: 'Lekton';
@@ -1548,7 +1548,7 @@ input.tabs-radio:checked + label img {
     .wB-buttons {
         height: 22.5%;
     }
-    #wHistory {
+    #full-transaction-history, #wallet-transaction-history {
         display: none;
     }
 }

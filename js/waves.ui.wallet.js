@@ -71,7 +71,7 @@ var Waves = (function(Waves, $, undefined) {
                         },
                         wavessendamount : {
                             required : 'Amount to send is required',
-                            decimal : 'Amount to send must be a decimal number with dot (.) as a decimal separator with no more than {0} fraction digits',
+                            decimal : 'The amount to send must be a number with no more than {0} digits after the decimal point (.)',
                             min : 'Payment amount is too small. It should be greater or equal to ' +
                                 Waves.UI.constants.MINIMUM_PAYMENT_AMOUNT.toFixed(Waves.UI.constants.AMOUNT_DECIMAL_PLACES)
                         }
@@ -111,9 +111,8 @@ var Waves = (function(Waves, $, undefined) {
             }
 
             if (!$.validator.methods.decimal.call(this.validator, value, element[0], Currency.WAV.precision)) {
-                $.growl.error({ message: 'Transaction fee must be a decimal number with dot (.) as ' +
-                    'a decimal separator with no more than ' + Currency.WAV.precision +
-                    ' fraction digits' });
+                $.growl.error({ message: 'Transaction fee must be with no more than ' +
+                    Currency.WAV.precision + ' digits after the decimal point (.)' });
                 element.parent().addClass(this.errorClass);
 
                 return false;
