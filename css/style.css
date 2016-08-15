@@ -440,7 +440,7 @@ header {
 #topLogoH {
     display: none;
     position: absolute;
-    top: .35rem;
+    top: .5rem;
     left: 1rem;
     width: 12rem;
     z-index: 99;
@@ -530,18 +530,18 @@ header {
 /* TAB SELECTOR SETTINGS */
 
 #tabs {
-    /*    display: flex;*/
+/*        display: flex;*/
     position: relative;
     width: 100%;
     height: 75px;
     background: #37556E;
-    box-shadow: 0px 12px 12px -12px rgba(0, 0, 0, .2);
+    box-shadow: 0px 12px 12px -12px rgba(0, 0, 0, .25);
     z-index: 100;
 }
 #tabs-Iconset {
     display: flex;
     height: 90%;
-    width: 95%;
+    width: 92.5%;
     justify-content: center;
     align-items: center;
 }
@@ -607,10 +607,18 @@ input.tabs-radio:checked + label img {
 /* MAIN BODY-BODY SETTINGS */
 
 #mBBody {
-    display: table-cell;
+/*    display: table-cell;*/
+/*    position: relative;*/
+/*    width: auto;*/
+/*    padding-bottom: 1rem;*/
+}
+#mBBody {
+    display: flex;
+    align-content: center;
     position: relative;
-    width: auto;
+    width: 100% !important;
     padding-bottom: 1rem;
+    margin: 0 auto;
 }
 #mBB-portfolio,
 #mBB-exchange,
@@ -634,11 +642,25 @@ input.tabs-radio:checked + label img {
 
 /* WALLET TAB */
 
-#mBB-wallet {}
+#mBB-wallet {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.flex-container {
+    display: flex;
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
 .walletBox {
     position: relative;
-    display: inline-block;
-    width: 320px;
+    flex: 1;
+/*    display: inline-block;*/
+    min-width: 300px;
+    max-width: 300px;
     height: 220px;
     border: 1px solid rgb(220, 220, 220);
     margin: 5px;
@@ -1390,8 +1412,8 @@ input.tabs-radio:checked + label img {
     }
     #tabs-Iconset img {
         margin-top: .5rem;
-        margin-left: .5rem;
-        margin-right: .5rem;
+        margin-left: .25rem;
+        margin-right: .25rem;
     }
     .wInput {
         min-width: 50px;
@@ -1431,7 +1453,10 @@ input.tabs-radio:checked + label img {
     }
     #tabs-Iconset {
         height: 90%;
-/*        margin-top: -.25rem;*/
+        margin-top: -.25rem;
+    }
+    #tabs-Iconset label {
+        
     }
     #tabs-Iconset img {
         padding-left: .4rem;
