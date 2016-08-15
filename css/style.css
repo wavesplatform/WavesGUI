@@ -530,7 +530,7 @@ header {
 /* TAB SELECTOR SETTINGS */
 
 #tabs {
-/*        display: flex;*/
+    /*        display: flex;*/
     position: relative;
     width: 100%;
     height: 75px;
@@ -549,10 +549,10 @@ header {
     height: 100%;
 }
 #tabs-Iconset img {
-        margin-top: .5rem;
-        margin-left: .5rem;
-        margin-right: .5rem;
-    }
+    margin-top: .5rem;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
 #tabs-Iconset img {
     height: 80%;
 }
@@ -607,10 +607,10 @@ input.tabs-radio:checked + label img {
 /* MAIN BODY-BODY SETTINGS */
 
 #mBBody {
-/*    display: table-cell;*/
-/*    position: relative;*/
-/*    width: auto;*/
-/*    padding-bottom: 1rem;*/
+    /*    display: table-cell;*/
+    /*    position: relative;*/
+    /*    width: auto;*/
+    /*    padding-bottom: 1rem;*/
 }
 #mBBody {
     display: flex;
@@ -658,7 +658,7 @@ input.tabs-radio:checked + label img {
 .walletBox {
     position: relative;
     flex: 1;
-/*    display: inline-block;*/
+    /*    display: inline-block;*/
     min-width: 300px;
     max-width: 300px;
     height: 220px;
@@ -1217,6 +1217,15 @@ input.tabs-radio:checked + label img {
 
 /* HISTORY TAB */
 
+#mBB-history {
+    text-align: center;
+}
+#wHistory {
+    width: 97vw;
+}
+#mBB-history .wavesTable {
+    /*    border: 1px solid red;*/
+}
 .wavesDD {
     display: inline-block;
     height: 90%;
@@ -1455,9 +1464,7 @@ input.tabs-radio:checked + label img {
         height: 90%;
         margin-top: -.25rem;
     }
-    #tabs-Iconset label {
-        
-    }
+    #tabs-Iconset label {}
     #tabs-Iconset img {
         padding-left: .4rem;
         padding-right: .4rem;

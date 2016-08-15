@@ -59,11 +59,11 @@ $(window).on("load resize", function(e){
 	$('#mainBody').css('height', $mainBodyH);
 	$('#mBLeftBar').css('height', $mainBodyH);
 	$('#mBBody').css('width', $mbBodyW);
-    $('.mBB-content').css('height', ($mainBodyH - 50)).css('max-height', $mainBodyH - 50);
+    //$('.mBB-content').css('height', ($mainBodyH - 50)).css('max-height', $mainBodyH - 50);
     
     // LeftBarVis();
     // Temporary due to LeftBarVis function not being used
-    $('#mBB-wallet').css('text-align', 'center');
+    //$('#mBB-wallet').css('text-align', 'center');
     
 });
 
