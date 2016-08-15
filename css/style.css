@@ -360,10 +360,28 @@ body {
     border: none;
     opacity: 1;
 }
+
+/* NEW ACCOUNT CONFIRMATION POPUP */
+
 #login-wPop-new {
     background: #ffffff;
     color: #555555;
     padding-bottom: 1rem;
+}
+#login-wPop-new p {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* SEED WHITESPACE CONFIRMATION POPUP */
+
+#seed-whitespace-popup {
+    max-width: 550px;
+}
+#seed-whitespace-popup p {
+    text-align: justify;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 #register > form {
     margin: 0 auto;
@@ -422,7 +440,7 @@ header {
 #topLogoH {
     display: none;
     position: absolute;
-    top: .35rem;
+    top: .5rem;
     left: 1rem;
     width: 12rem;
     z-index: 99;
@@ -485,6 +503,11 @@ header {
 #header-wPop-backup {
     max-width: 550px;
 }
+#header-wPop-backup p,
+#backupForm {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
 #header-wPop-backup a {
     text-decoration: none;
 }
@@ -507,25 +530,31 @@ header {
 /* TAB SELECTOR SETTINGS */
 
 #tabs {
+    /*        display: flex;*/
     position: relative;
     width: 100%;
     height: 75px;
     background: #37556E;
-    box-shadow: 0px 12px 12px -12px rgba(0, 0, 0, .2);
+    box-shadow: 0px 12px 12px -12px rgba(0, 0, 0, .25);
     z-index: 100;
 }
 #tabs-Iconset {
-    height: 95%;
-    width: 100%;
-    text-align: center;
+    display: flex;
+    height: 90%;
+    width: 92.5%;
+    justify-content: center;
+    align-items: center;
+}
+#tabs-Iconset label {
+    height: 100%;
+}
+#tabs-Iconset img {
+    margin-top: .5rem;
+    margin-left: .5rem;
+    margin-right: .5rem;
 }
 #tabs-Iconset img {
     height: 80%;
-    padding: 0;
-    margin: 0;
-    margin-top: .5rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
 }
 #tabs-Iconset img:hover {
     cursor: pointer;
@@ -578,10 +607,18 @@ input.tabs-radio:checked + label img {
 /* MAIN BODY-BODY SETTINGS */
 
 #mBBody {
-    display: table-cell;
+    /*    display: table-cell;*/
+    /*    position: relative;*/
+    /*    width: auto;*/
+    /*    padding-bottom: 1rem;*/
+}
+#mBBody {
+    display: flex;
+    align-content: center;
     position: relative;
-    width: auto;
+    width: 100% !important;
     padding-bottom: 1rem;
+    margin: 0 auto;
 }
 #mBB-portfolio,
 #mBB-exchange,
@@ -605,11 +642,25 @@ input.tabs-radio:checked + label img {
 
 /* WALLET TAB */
 
-#mBB-wallet {}
+#mBB-wallet {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.flex-container {
+    display: flex;
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
 .walletBox {
     position: relative;
-    display: inline-block;
-    width: 320px;
+    flex: 1;
+    /*    display: inline-block;*/
+    min-width: 300px;
+    max-width: 300px;
     height: 220px;
     border: 1px solid rgb(220, 220, 220);
     margin: 5px;
@@ -931,13 +982,7 @@ input.tabs-radio:checked + label img {
     max-width: 550px;
 }
 #login-wPop-new p {
-    text-align: left;
-}
-#seed-whitespace-popup {
-    max-width: 550px;
-}
-#seed-whitespace-popup p {
-   text-align: justify;
+    text-align: justify;
 }
 #addContactSubmit,
 #close_create_account_modal {
@@ -960,6 +1005,35 @@ input.tabs-radio:checked + label img {
 }
 #transactionHistorySearch:hover {
     background: #E1B47D;
+}
+
+/* Payment forms BUTTONS style */
+
+.paymentForm-but {
+    border: 1px solid #37556E;
+    outline: none;
+    position: relative;
+    margin: 0 auto;
+    /*    width: 5rem;*/
+    padding-left: .5rem;
+    padding-right: .5rem;
+    background: #fff;
+    font-family: 'Wesli';
+    font-size: 1rem;
+    color: #37556E;
+    text-align: center;
+}
+.paymentForm-but:hover {
+    cursor: pointer;
+    background: #37556E;
+    color: #fff;
+}
+
+/* Send Payment(s) form buttons */
+
+.send-but {
+    padding: .3rem;
+    width: 4.5rem;
 }
 
 /* ======================================================================= */
@@ -1068,29 +1142,6 @@ input.tabs-radio:checked + label img {
     text-align: right;
     padding-right: .5rem;
 }
-
-/* Payment forms BUTTONS style */
-
-.paymentForm-but {
-    border: 1px solid #37556E;
-    outline: none;
-    position: relative;
-    margin: 0 auto;
-    width: 5rem;
-    padding-left: .5rem;
-    padding-right: .5rem;
-    background: #fff;
-    font-family: 'Wesli';
-    font-size: 1rem;
-    line-height: 2.3rem;
-    color: #37556E;
-    text-align: center;
-}
-.paymentForm-but:hover {
-    cursor: pointer;
-    background: #37556E;
-    color: #fff;
-}
 .custom-combobox {
     position: relative;
     display: inline-block;
@@ -1166,6 +1217,15 @@ input.tabs-radio:checked + label img {
 
 /* HISTORY TAB */
 
+#mBB-history {
+    text-align: center;
+}
+#wHistory {
+    width: 97vw;
+}
+#mBB-history .wavesTable {
+    /*    border: 1px solid red;*/
+}
 .wavesDD {
     display: inline-block;
     height: 90%;
@@ -1295,11 +1355,6 @@ input.tabs-radio:checked + label img {
     #mBLeftBar {
         width: 150px;
     }
-    #tabs-Iconset img {
-        margin-top: .5rem;
-        margin-left: .5rem;
-        margin-right: .5rem;
-    }
     #blockheight,
     header .divider-2,
     header .inlineParagraph {
@@ -1342,8 +1397,8 @@ input.tabs-radio:checked + label img {
     }
     #tabs-Iconset img {
         margin-top: .5rem;
-        margin-left: .2rem;
-        margin-right: .2rem;
+        margin-left: .5rem;
+        margin-right: .5rem;
     }
     #generateRandomSeed,
     #generateKeys {
@@ -1366,8 +1421,8 @@ input.tabs-radio:checked + label img {
     }
     #tabs-Iconset img {
         margin-top: .5rem;
-        margin-left: .1rem;
-        margin-right: .1rem;
+        margin-left: .25rem;
+        margin-right: .25rem;
     }
     .wInput {
         min-width: 50px;
@@ -1409,6 +1464,7 @@ input.tabs-radio:checked + label img {
         height: 90%;
         margin-top: -.25rem;
     }
+    #tabs-Iconset label {}
     #tabs-Iconset img {
         padding-left: .4rem;
         padding-right: .4rem;
@@ -1473,7 +1529,6 @@ input.tabs-radio:checked + label img {
     }
     #tabs {
         height: 50px;
-        text-align: center;
     }
     #tabs-Iconset img {
         margin-top: .25rem;
