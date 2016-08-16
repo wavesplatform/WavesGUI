@@ -45,26 +45,26 @@ var $wrapW = $('#wrapper').width(),
 
 
 // GUI elements dynamic sizing and LeftBar visibility
-$(window).on("load resize", function(e){
-    
-	var $wrapH = $('#wrapper').height(),
+$(window).on("load resize", function (e) {
+
+    var $wrapH = $('#wrapper').height(),
         $headerH = $('header').height(),
         $tabsH = $('#tabs').height(),
         $jurlH = $('.jurl').height(),
         $mainBodyH = $wrapH - $headerH - $tabsH - $jurlH,
-		$lb = $('#mBLeftBar'),
+        $lb = $('#mBLeftBar'),
         $lbW = $('#mBLeftBar').width(),
-		$mbBodyW = $wrapW - $lbW;
-    
-	$('#mainBody').css('height', $mainBodyH);
-	$('#mBLeftBar').css('height', $mainBodyH);
-	$('#mBBody').css('width', $mbBodyW);
+        $mbBodyW = $wrapW - $lbW;
+
+    $('#mainBody').css('height', $mainBodyH);
+    $('#mBLeftBar').css('height', $mainBodyH);
+    $('#mBBody').css('width', $mbBodyW);
     //$('.mBB-content').css('height', ($mainBodyH - 50)).css('max-height', $mainBodyH - 50);
-    
+
     // LeftBarVis();
     // Temporary due to LeftBarVis function not being used
     //$('#mBB-wallet').css('text-align', 'center');
-    
+
 });
 
 
@@ -75,14 +75,10 @@ $(window).on("load resize", function(e){
 
 
 // Fee styling on .paymentForm
-$(window).ready(function(){
-    
-   $(".paymentForm tr td:contains('Fee')").each(function(){
-       
-       $(this).parent().addClass( "paymentFormFee" );
-       
-   }); 
-    
+$(window).ready(function () {
+    $(".paymentForm tr td:contains('Fee')").each(function () {
+        $(this).parent().addClass("paymentFormFee");
+    });
 });
 
 
@@ -91,42 +87,27 @@ $('#mBB-community').height($mbBodyH);
 
 
 // LOADER
-$(document).ready(function(){
-    
+$(document).ready(function () {
     NProgress.start();
-    
 });
 
 
-function executeDoneFirst (callback) {
-
+function executeDoneFirst(callback) {
     NProgress.done();
     callback();
-
 }
 
-$(window).load(function() {
-    
+$(window).load(function () {
     var $eThing = $('#bg-spin');
-
-
-    Waves.apiRequest(Waves.api.blocks.last, function(response) {
-
-
-        if(!response.errorCode) {
-
-           executeDoneFirst(function () {
-              $eThing.delay(1000).fadeOut();
-           });
-
+    Waves.apiRequest(Waves.api.blocks.last, function (response) {
+        if (!response.errorCode) {
+            executeDoneFirst(function () {
+                $eThing.delay(1000).fadeOut();
+            });
         } else {
-
-          $("#networkCheck").html('Failed connecting to Waves');
-
+            $("#networkCheck").html('Failed connecting to Waves');
         }
-
     });
-
 });
 
 
