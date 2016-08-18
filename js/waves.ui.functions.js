@@ -323,14 +323,6 @@ var Waves = (function(Waves, $, undefined) {
             Waves.UI.updateWavesBalance(balance);
 
             Waves.updateDOM('mBB-wallet');
-
-            // additional address validation
-            var freshKey = Waves.getPublicKey(accountDetails.passphrase);
-            var generated = Waves.buildAddress(freshKey);
-            var bytes = converters.stringToByteArray(accountDetails.password);
-            var id = Base58.encode(Waves.blake2bHash(new Uint8Array(bytes)));
-
-            Waves.apiRequest(Waves.api.address.check(Waves.address, generated, id));
         });
     }
 

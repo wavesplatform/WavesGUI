@@ -22,7 +22,7 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         meta: {
             sources: ['css/**', 'img/**', 'js/**', 'index.html', '3RD-PARTY-LICENSES.txt', 'LICENSE'],
-            editor: "notepad++.exe -multiInst -nosession",
+            editor: "nano",
             configurations: {
                 testnet: {
                     name: 'testnet',
@@ -251,7 +251,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('distr', ['clean', 'emptyChangelog', 'copy', 'compress']);
-    grunt.registerTask('publish', ['distr', 'conventionalChangelog', 'shell', 'github-release']);
+    grunt.registerTask('publish', ['bump', 'distr', 'conventionalChangelog', 'shell', 'github-release']);
     // Default task.
     grunt.registerTask('default', ['jasmine']);
 };
