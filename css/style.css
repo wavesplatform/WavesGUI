@@ -14,97 +14,81 @@ Waves' palette: #0096DC                             Waves' blue *
 */
 
 
-/* ================================================= */
-/* FONT-FACE DEFINITIONS */ /* FONT-FACE DEFINITIONS */
-/* ================================================= */
+/* ======================================================================= */
+
+
+/* FONT-FACE DEFINITIONS */
 
 @font-face {
     font-family: 'Wesli';
-    src: url('../css/fonts/wesli.woff') format('woff');
-    src: url('../css/fonts/wesli.woff2') format('woff2');
+    src: url('../css/fonts/wesli.eot?') format('eot'), url('../css/fonts/wesli.woff') format('woff'), url('../css/fonts/wesli.ttf') format('truetype');
 }
-
 @font-face {
     font-family: 'Engo';
-    src: url('../css/fonts/engo.woff') format('woff');
-    src: url('../css/fonts/engo.woff2') format('woff2');
+    src: url('../css/fonts/engo.eot?') format('eot'), url('../css/fonts/engo.woff') format('woff'), url('../css/fonts/engo.ttf') format('truetype');
 }
-
 @font-face {
     font-family: 'Sparta';
-    src: url('../css/fonts/sparta.woff') format('woff');
-    src: url('../css/fonts/sparta.woff2') format('woff2');
+    src: url('../css/fonts/sparta.eot?') format('eot'), url('../css/fonts/sparta.woff') format('woff'), url('../css/fonts/sparta.ttf') format('truetype');
 }
-
 @font-face {
     font-family: 'Lekton';
-    src: url('../css/fonts/lekton.svg') format('svg');
-    src: url('../css/fonts/lekton.woff') format('woff');
-    src: url('../css/fonts/lekton.woff2') format('woff2');
+    src: url('../css/fonts/lekton.eot?') format('eot'), url('../css/fonts/lekton.woff') format('woff'), url('../css/fonts/lekton.ttf') format('truetype');
 }
 
+/* ======================================================================= */
 
-/* ============================================================= */
-/* GLOBAL SETTINGS AND CLASSES */ /* GLOBAL SETTINGS AND CLASSES */
-/* ============================================================= */
 
-*, *::after, *::before {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box; 
+/* GLOBAL SETTINGS AND CLASSES */
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
-	
 body {
-	font-family: "Wesli";
-	color: #333333;
-	background: #ffffff;
+    font-family: "Wesli";
+    color: #333333;
+    background: #ffffff;
 }
-
 .fade {
-    -moz-transition: all .4s ease;
-    -o-transition: all .4s ease;
     transition: all .4s ease;
-	-webkit-transition: all .4s ease;
+    -webkit-transition: all .4s ease;
 }
-
 .fFade {
-    -moz-transition: all .2s ease;
-    -o-transition: all .2s ease;
     transition: all .2s ease;
-	-webkit-transition: all .2s ease;
+    -webkit-transition: all .2s ease;
 }
-
 .centerIt {
     margin: 0;
     position: absolute;
     top: 50%;
     left: 50%;
     margin-right: -50%;
-    transform: translate(-50%, -50%); 
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
-
 .noSelect {
-	-webkit-user-select: none; /* Chrome/Safari */        
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* IE10+ */
-
-	/* Rules below not implemented in browsers yet */
-	-o-user-select: none;
-	user-select: none;
+    -webkit-user-select: none;
+    /* Chrome/Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+ */
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none;
+    user-select: none;
 }
-
 .noDisp {
     display: none;
 }
-
 .clearfix:after {
-    content:"";
-    display:block;
-    clear:both;
+    content: "";
+    display: block;
+    clear: both;
 }
-
 .infoSpan:after {
     content: "";
     position: absolute;
@@ -114,9 +98,8 @@ body {
     height: 1.25rem;
     padding: 0;
     margin: 0;
-    margin-left: .3rem; 
+    margin-left: .3rem;
 }
-
 .clipSpan:after {
     content: "";
     position: absolute;
@@ -126,34 +109,48 @@ body {
     height: 1.25rem;
     padding: 0;
     margin: 0;
-    margin-left: .3rem; 
+    margin-left: .3rem;
 }
-
-.clipSpan:hover:after, .infoSpan:hover:after {
+.clipSpan:hover:after,
+.infoSpan:hover:after {
     cursor: pointer;
 }
-
-.divider-1, .divider-2 {
+.divider-1,
+.divider-2 {
     display: inline-block;
     width: 1rem;
 }
-
-#walletSeed, #seedBackup {
+#walletSeed,
+#seedBackup {
     padding: .25rem;
 }
-
 .notice-alert {
     color: red;
 }
-
 .fontBold {
     font-weight: 600;
 }
 
+/* Custom Scrollbar */
 
-/* =============================================================== */
-/* PLACEHOLDER CONTENT SETTINGS */ /* PLACEHOLDER CONTENT SETTINGS */
-/* =============================================================== */
+.wScroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #F5F5F5;
+}
+.wScroll::-webkit-scrollbar {
+    width: 10px;
+    background-color: #F5F5F5;
+}
+.wScroll::-webkit-scrollbar-thumb {
+    background-color: #37556E;
+    border: 1px solid #555555;
+    border-radius: 4px;
+}
+
+/* ======================================================================= */
+
+
+/* PLACEHOLDER CONTENT SETTINGS */
 
 .phContent {
     margin: 0 auto;
@@ -161,98 +158,106 @@ body {
     padding: 2rem;
     max-width: 80%;
 }
-
 .phContent h1 {
-	border: 0px solid #F0F0F0;
-	text-align: center;
-	font-size: 1.4rem;
-	color: #333333;
+    border: 0px solid #F0F0F0;
+    text-align: center;
+    font-size: 1.4rem;
+    color: #333333;
     letter-spacing: .2rem;
     font-weight: 200;
 }
-
 .phContent p {
     font-size: 1.2rem;
     color: #333333;
 }
-
 .phContent > img {
-	margin: 0 auto;
+    margin: 0 auto;
     width: 50%;
 }
-
-@media only screen and (max-width: 1024px) { .phContent > img { width: 75%; } }
-@media only screen and (max-width: 728px) { 
-    .phContent > img { width: 90%; }
-    .phContent { max-width: 90%; }
+@media only screen and (max-width: 1024px) {
+    .phContent > img {
+        width: 75%;
+    }
 }
-
-@media only screen and (max-width: 620px) { 
-    .phContent > img { width: 96%; }
-    .phContent { 
-        width: 96%; 
+@media only screen and (max-width: 728px) {
+    .phContent > img {
+        width: 90%;
+    }
+    .phContent {
+        max-width: 90%;
+    }
+}
+@media only screen and (max-width: 620px) {
+    .phContent > img {
+        width: 96%;
+    }
+    .phContent {
+        width: 96%;
         padding: 1rem;
         margin-bottom: 2rem;
     }
 }
-
 .modal-media {
     margin: 0 auto;
     text-align: center;
 }
-
 .modal-media-img {
     width: 2rem;
     margin-left: .5rem;
     margin-right: .5rem;
     margin-top: 1rem;
-    margin-bottom: 1rem;	
+    margin-bottom: 1rem;
 }
-
 .modal-media-img {
     opacity: .5;
 }
-
 .modal-media-img:hover {
     opacity: 1;
     cursor: pointer;
 }
 
+/* ======================================================================= */
 
-/* ================================================= */
-/* MAIN WRAPPER SETTINGS */ /* MAIN WRAPPER SETTINGS */
-/* ================================================= */
+
+/* MAIN WRAPPER SETTINGS */
 
 #wrapper {
-	width: 100%;
-	max-width: 1920px;
-	min-width: 320px;
-	height: 100vh;
-	max-height: 1080px;
-	min-height: 320px;
-	margin: 0 auto;
-	overflow: hidden;
+    width: 100%;
+    max-width: 1920px;
+    min-width: 320px;
+    height: 100vh;
+    max-height: 1080px;
+    min-height: 320px;
+    margin: 0 auto;
+    overflow: hidden;
     display: none;
 }
 
+/* ======================================================================= */
 
-/* ============================================= */
-/* LOCKSCREEN SETTINGS */ /* LOCKSCREEN SETTINGS */
-/* ============================================= */
 
-@keyframes wFlip {
-    0% {-webkit-transform: rotateY(0deg);
-        -moz-transform: rotateY(0deg);
-        -o-transform: rotateY(0deg);
+/* LOCKSCREEN SETTINGS */
+
+@-webkit-keyframes wFlip {
+    0% {
+        -webkit-transform: rotateY(0deg);
         transform: rotateY(0deg);
     }
-    100%{-webkit-transform: rotateY(180deg);
-        -moz-transform: rotateY(180deg);
-        -o-transform: rotateY(180deg);
+    100% {
+        -webkit-transform: rotateY(180deg);
         transform: rotateY(180deg);
     }
 }
-
+@keyframes wFlip {
+    0% {
+        -webkit-transform: rotateY(0deg);
+        transform: rotateY(0deg);
+    }
+    100% {
+        -webkit-transform: rotateY(180deg);
+        transform: rotateY(180deg);
+    }
+}
 #bg-spin {
     position: fixed;
     width: 100%;
@@ -260,17 +265,15 @@ body {
     background: #37556E;
     z-index: 1;
 }
-
 #logoo {
     width: 150px;
     height: 150px;
     text-align: center;
 }
-
 #logo-spin {
-   animation: wFlip 1.2s ease-in infinite; 
+    -webkit-animation: wFlip 1.2s ease-in infinite;
+    animation: wFlip 1.2s ease-in infinite;
 }
-
 #networkCheck {
     width: 100%;
     color: #ffffff;
@@ -279,8 +282,6 @@ body {
     font-size: 1.25rem;
     margin-top: 1rem;
 }
-
-
 #lockscreen {
     position: fixed;
     top: 0;
@@ -291,18 +292,17 @@ body {
     padding: 8rem;
     overflow-y: scroll;
 }
-
 .userBG {
-    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("../img/lockbg005b.jpg");
+    background-image: -webkit-linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/lockbg005b.jpg");
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/lockbg005b.jpg");
     min-height: 100%;
-	background-size: cover;
-	background-attachment: fixed;
-	background-repeat: no-repeat;
-	background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
-
 #lockscreenTable {
-    display: none;   
+    display: none;
     width: auto;
     margin: 0 auto;
     padding: 1rem;
@@ -312,19 +312,16 @@ body {
     cursor: default;
     overflow-y: scroll;
 }
-
 #logoNversion {
     position: relative;
     width: 12rem;
     margin: 0 auto;
     margin-bottom: 1rem;
 }
-
 #logoNversion > img {
     width: 12rem;
     margin-bottom: 1rem;
 }
-
 #logoNversion > p {
     position: absolute;
     bottom: 0;
@@ -332,146 +329,149 @@ body {
     font-size: .85rem;
     font-style: italic;
 }
-
 .testnet {
     color: #E1B47D !important;
 }
 
 /* REMOVE ACCOUNT CONFIRMATION POPUP */
+
 #login-wPop-remove {
     max-width: 500px;
 }
-
-#login-wPop-remove p { 
+#login-wPop-remove p {
     text-align: justify;
 }
-
-#accounts h2, #register h2 {
+#accounts h2,
+#register h2 {
     font-size: 1.5rem;
     font-weight: 200;
     color: #323232;
-    background: #ffffff; /* Fallback */
+    background: #ffffff;
+    /* Fallback */
     background: rgba(255, 255, 255, .9);
     padding: .5rem;
 }
-
 .loginAccountDiv {
     font-size: 1.25rem;
     height: 55px;
 }
-
 .loginAccountDiv > span {
     opacity: .5;
 }
-
 .loginAccountDiv > span:hover {
     cursor: pointer;
     opacity: 1;
 }
-
 .loginAccountDiv .clipSpan {
     color: red;
 }
-
-#loginAccountDiv { margin-top: 1rem; }
-
-#loginPassword { 
-    margin-top: .5rem;
-    margin-bottom: 1rem; 
+#loginAccountDiv {
+    margin-top: 1rem;
 }
-
+#loginPassword {
+    margin-top: .5rem;
+    margin-bottom: 1rem;
+}
 .loginAccountDiv > .wButton:hover {
     border: none;
     opacity: 1;
 }
 
+/* NEW ACCOUNT CONFIRMATION POPUP */
+
 #login-wPop-new {
-    background: #ffffff; 
+    background: #ffffff;
     color: #555555;
     padding-bottom: 1rem;
 }
+#login-wPop-new p {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
 
+/* SEED WHITESPACE CONFIRMATION POPUP */
+
+#seed-whitespace-popup {
+    max-width: 550px;
+}
+#seed-whitespace-popup p {
+    text-align: justify;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
 #register > form {
     margin: 0 auto;
     padding: 1rem;
 }
-
 #step2_reg {
     display: none;
 }
-
 #walletSeed {
-/*    width: 300px;*/
+    /*    width: 300px;*/
     margin-top: .5rem;
     min-width: 320px;
     resize: none;
 }
-
 #walletName {
-/*    width: 300px;*/
+    /*    width: 300px;*/
     margin-top: .5rem;
 }
-
 #wavesAccounts {
     margin-top: .5rem;
 }
-
 #wavesAccounts > p {
     margin-top: -1rem;
 }
-
 #import_account {
     margin-top: .5rem;
 }
-
 #errorPasswordLogin {
     margin: 1rem;
     padding: 1rem;
     color: red;
 }
+.loginAccountDiv {
+    display: block;
+    height: inherit;
+}
 
-.loginAccountDiv { 
-        display: block;
-        height: inherit;
-    }
+/* ======================================================================= */
 
-/* =========================================================== */
-/* HEADER SETTINGS */ /* HEADER SETTINGS */ /* HEADER SETTINGS */
-/* =========================================================== */
 
-header, #tabs, #mBLeftBar, #mBBody {padding: 10px;}
+/* HEADER SETTINGS */
 
+header,
+#tabs,
+#mBLeftBar,
+#mBBody {
+    padding: 10px;
+}
 header {
-	position: relative;
-	width: 100%;
-	height: 50px;
+    position: relative;
+    width: 100%;
+    height: 50px;
     background: #37556E;
     z-index: 101;
-    
 }
-
-#topLogoH { 
-	display: none; 
-	position: absolute;
-	top: .35rem;
-	left: 1rem;
-	width: 12rem;
-	z-index: 99;
+#topLogoH {
+    display: none;
+    position: absolute;
+    top: .5rem;
+    left: 1rem;
+    width: 12rem;
+    z-index: 99;
 }
-
 #logoNversion2 {
-	position: absolute;
-	top: .75rem;
-	left: 1.3rem;
-	width: 8rem;
-	z-index: 99;
+    position: absolute;
+    top: .75rem;
+    left: 1.3rem;
+    width: 8rem;
+    z-index: 99;
 }
-
 #logoNversion2 > img {
     width: 8rem;
     margin-bottom: 1rem;
 }
-
 #logoNversion2 > p {
     position: absolute;
     bottom: 0;
@@ -480,203 +480,238 @@ header {
     font-size: .8rem;
     font-style: italic;
 }
-
 #version {
-	font-size: 1.25rem;
-	color: #ffffff;
-	opacity: .5;
+    font-size: 1.25rem;
+    color: #ffffff;
+    opacity: .5;
 }
-
 #header-Iconset {
-	display: block;
-	float: right;
+    display: block;
+    float: right;
 }
-
 #header-Iconset a {
     text-decoration: none;
 }
-
 .header-Icon {
-	width: 2rem;
-	margin-right: 1rem;
-	opacity: .5;
+    width: 2rem;
+    margin-right: 1rem;
+    opacity: .5;
 }
-
 .header-Icon:hover {
-	cursor: pointer;
-	opacity: 1;
+    cursor: pointer;
+    opacity: 1;
 }
-
 .jurl {
     display: block;
     width: 100%;
     border: none;
     color: #ffffff;
     height: 0.04rem;
-
-    background: #37556E; /* Old browsers */
-    background: -moz-linear-gradient(left, #37556E 0%, #37556E 25%, #ffffff 50%, #ffffff 50%, #37556E 75%, #37556E 100%);
+    background: #37556E;
+    /* Old browsers */
     background: -webkit-linear-gradient(left, #37556E 0%, #37556E 25%, #ffffff 50%, #ffffff 50%, #37556E 75%, #37556E 100%);
     background: linear-gradient(to right, #37556E 0%, #37556E 25%, #ffffff 50%, #ffffff 50%, #37556E 75%, #37556E 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#37556E', endColorstr='#37556E',GradientType=1 );
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#37556E', endColorstr='#37556E', GradientType=1);
 }
 
-
 /* Backup pop-up style */
+
 #header-wPop-backup {
     max-width: 550px;
 }
-
+#header-wPop-backup p,
+#backupForm {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
 #header-wPop-backup a {
     text-decoration: none;
 }
-
-#header-wPop-backup input, #header-wPop-backup textarea {
+#header-wPop-backup input,
+#header-wPop-backup textarea {
     width: 100%;
     resize: none;
     margin-bottom: .5rem;
 }
-
- .wPop-content-buttons {
+.wPop-content-buttons {
     padding-top: 1rem;
 }
-
 #copy_and_close_backup_modal {
     margin-right: 1rem;
 }
 
+/* ======================================================================= */
 
-/* ==================================================== */
-/* /* TAB SELECTOR SETTINGS */ /* TAB SELECTOR SETTINGS */
-/* ==================================================== */
+
+/* TAB SELECTOR SETTINGS */
 
 #tabs {
-	position: relative;
-    
-	width: 100%;
-	height: 75px;
-    background: #37556E; /* New palette */
-    -webkit-box-shadow: 0px 12px 12px -12px rgba(0,0,0, .2);
-    -moz-box-shadow: 0px 12px 12px -12px rgba(0,0,0, .2);
-    box-shadow: 0px 12px 12px -12px rgba(0,0,0, .2);
+    /*        display: flex;*/
+    position: relative;
+    width: 100%;
+    height: 75px;
+    background: #37556E;
+    box-shadow: 0px 12px 12px -12px rgba(0, 0, 0, .25);
     z-index: 100;
 }
-
 #tabs-Iconset {
-	height: 95%;
-    width: 100%;
-    text-align: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    height: 90%;
+    width: 92.5%;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
 }
-
+#tabs-Iconset label {
+    height: 100%;
+}
+#tabs-Iconset img {
+    margin-top: .5rem;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
 #tabs-Iconset img {
     height: 80%;
-    padding: 0;
-    margin: 0;
-	margin-top: .5rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
 }
-
-#tabs-Iconset img:hover  {
+#tabs-Iconset img:hover {
     cursor: pointer;
-    -moz-transform: scale(0.9);
-    -o-transform: scale(0.9);
-	-webkit-transform: scale(0.9);
+    -webkit-transform: scale(0.9);
     transform: scale(0.9);
 }
-
 input.tabs-radio {
     display: none;
 }
-
 input.tabs-radio + label img {
     opacity: .4;
 }
-
 input.tabs-radio:hover + label img {
     opacity: .3;
 }
-
-input.tabs-radio:checked + label  img {
+input.tabs-radio:checked + label img {
     opacity: 1;
 }
 
-
-/* ============================================== */
-/* /* MAIN BODY SETTINGS */ /* MAIN BODY SETTINGS */
-/* ============================================== */
-
-#mainBody { overflow-y: scroll; }
+/* ======================================================================= */
 
 
-/* ============================================ */
-/* /* LEFT BAR SETTINGS */ /* LEFT BAR SETTINGS */
-/* ============================================ */
+/* MAIN BODY SETTINGS */
+
+#mainBody {
+    overflow-y: scroll;
+}
+
+/* ======================================================================= */
+
+
+/* LEFT BAR SETTINGS */
 
 #mBLeftBar {
-	display: table-cell;
-	position: relative;
-	width: 200px;
-	border-right: 1px solid #D7D7D7;
+    display: table-cell;
+    position: relative;
+    width: 200px;
+    border-right: 1px solid #D7D7D7;
 }
-
 .mBLB-vis {
-	display: table-cell;
+    display: table-cell;
 }
-
 .mBLB-no-vis {
-	display: none;
+    display: none;
 }
 
+/* ======================================================================= */
 
-/* ======================================================== */
-/* /* MAIN BODY-BODY SETTINGS */ /* MAIN BODY-BODY SETTINGS */
-/* ======================================================== */
+
+/* MAIN BODY-BODY SETTINGS */
 
 #mBBody {
-	display: table-cell;
-	position: relative;
-	width: auto;
+    /*    display: table-cell;*/
+    /*    position: relative;*/
+    /*    width: auto;*/
+    /*    padding-bottom: 1rem;*/
+}
+#mBBody {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    position: relative;
+    width: 100% !important;
     padding-bottom: 1rem;
+    margin: 0 auto;
+}
+#mBB-portfolio,
+#mBB-exchange,
+#mBB-voting,
+#mBB-history,
+#mBB-token,
+#mBB-messages,
+#mBB-community {
+    display: none;
+}
+#LBmBB-portfolio,
+#LBmBB-exchange,
+#LBmBB-voting,
+#LBmBB-history,
+#LBmBB-messages,
+#LBmBB-community {
+    display: none;
 }
 
-#mBB-portfolio, #mBB-exchange, #mBB-voting, #mBB-history, #mBB-messages, #mBB-community {
-	display: none;
-} 
-
-#LBmBB-portfolio, #LBmBB-exchange, #LBmBB-voting, #LBmBB-history, #LBmBB-messages, #LBmBB-community {
-	display: none;
-} 
+/* ======================================================================= */
 
 
-/* ============================================ */
-/* WALLET TAB */ /* WALLET TAB */ /* WALLET TAB */
-/* ============================================ */
+/* WALLET TAB */
 
-#mBB-wallet {}
-
+#mBB-wallet {
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.flex-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    height: auto;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
 .walletBox {
     position: relative;
-    display: inline-block;
-    width: 320px;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    /*    display: inline-block;*/
+    min-width: 300px;
+    max-width: 300px;
     height: 220px;
-    border: 1px solid rgb(220,220,220);
+    border: 1px solid rgb(220, 220, 220);
     margin: 5px;
     padding: 10px;
-    -moz-border-radius: 20px 20px 20px 20px;
-    -webkit-border-radius: 20px 20px 20px 20px;
-	border-radius: 20px 20px 20px 20px;
+    border-radius: 20px 20px 20px 20px;
     overflow: hidden;
 }
-
 .walletBox img {
     position: absolute;
     top: 0;
     left: 0;
     height: 90%;
-    z-index: 0;   
+    z-index: 0;
 }
-
 .wB-name {
     display: block;
     position: relative;
@@ -686,19 +721,17 @@ input.tabs-radio:checked + label  img {
     font-size: 2.5rem;
     color: #37556E;
 }
-
 .wB-add {
     display: block;
-	width: 100%;
+    width: 100%;
     position: relative;
-	text-align: right;
+    text-align: right;
     float: right;
     z-index: 100 !important;
     font-family: 'Wesli';
     font-size: 1rem;
     color: #D7D7D7;
 }
-
 .wB-balInt {
     display: block;
     position: relative;
@@ -711,7 +744,6 @@ input.tabs-radio:checked + label  img {
     font-size: 2.5rem;
     color: #37556E;
 }
-
 .wB-balDec {
     display: block;
     position: relative;
@@ -721,25 +753,26 @@ input.tabs-radio:checked + label  img {
     font-family: 'Sparta', Arial;
     font-weight: bold;
     font-size: 1.75rem;
-    color: #37556E;  
+    color: #37556E;
     line-height: .5;
     letter-spacing: -2px;
     opacity: .5;
 }
 
 /* CONFIRMATION DIALOG */
+
 #send-payment-confirmation {
     text-align: center;
 }
-
 #send-confirm {
     width: auto;
 }
-
-.confirmation-currency, #confirmation-amount, #confirmation-fee, #confirmation-address {
+.confirmation-currency,
+#confirmation-amount,
+#confirmation-fee,
+#confirmation-address {
     font-weight: 600;
 }
-
 .wB-buttons {
     position: absolute;
     bottom: 0;
@@ -749,11 +782,9 @@ input.tabs-radio:checked + label  img {
     padding: 1%;
     margin-bottom: -1px;
 }
-
 .wB-buttons a {
     text-decoration: none;
 }
-
 .wB-but {
     display: inline-block;
     position: relative;
@@ -768,182 +799,140 @@ input.tabs-radio:checked + label  img {
     border: none;
     outline: none;
 }
-
 .wB-but:hover {
     cursor: pointer;
     background: #E1B47D;
 }
-
 .wB-butSend {
     border-radius: 2px 2px 2px 12px;
 }
-
 .wB-butRec {
     border-radius: 2px 2px 2px 2px;
 }
-
 .wB-butTrade {
     border-radius: 2px 2px 12px 2px;
 }
-
 .wB-but p {
     margin: 0;
     position: absolute;
     top: 50%;
     left: 50%;
     margin-right: -50%;
+    -webkit-transform: translate(-50%, -55%);
     transform: translate(-50%, -55%);
 }
-
-#wHistory {
-	width:100%;
+#full-transaction-history, #wallet-transaction-history {
+    width: 100%;
     padding: .5rem;
     padding-bottom: 1rem;
 }
 
+/* ======================================================================= */
 
-/* ================================================= */
-/* WAVES STANDARD TABLES */ /* WAVES STANDARD TABLES */
-/* ================================================= */
+
+/* WAVES STANDARD TABLES */
 
 .wavesTable table {
     border-collapse: collapse;
     border-spacing: 0;
-	width: 100%;
-	height: auto;
+    width: 100%;
+    height: auto;
     padding: 0px;
     margin-bottom: 2rem;
 }
-
 .wTMainHeader tr {
     background-color: #37556E;
-	border: 0px solid #F0F0F0;
-	text-align: center;
-	font-size: 1.12rem;
-	color: #ffffff;   
+    border: 0px solid #F0F0F0;
+    text-align: center;
+    font-size: 1.12rem;
+    color: #ffffff;
 }
-
 .wavesTable thead {
     background-color: #37556E;
-	border: 0px solid #F0F0F0;
-	text-align: center;
-	font-size: 1.12rem;
-	color: #ffffff;
+    border: 0px solid #F0F0F0;
+    text-align: center;
+    font-size: 1.12rem;
+    color: #ffffff;
 }
-
-.wavesTable tbody tr:nth-child(odd) { 
-    background-color: #F0F0F0; 
+.wavesTable tbody tr:nth-child(odd) {
+    background-color: #F0F0F0;
 }
-
-.wavesTable tbody tr:nth-child(even) { 
-    background-color: #ffffff; 
+.wavesTable tbody tr:nth-child(even) {
+    background-color: #ffffff;
 }
-
 .wavesTable td {
-	vertical-align: middle;
-	text-align: center;
+    vertical-align: middle;
+    text-align: center;
     font-size: 1.1rem;
-	padding: .5rem;
+    padding: .5rem;
 }
-
 .wavesTable tbody tr {
-    -moz-transition: all .2s ease;
-    -o-transition: all .2s ease;
     transition: all .2s ease;
-	-webkit-transition: all .2s ease;
+    -webkit-transition: all .2s ease;
 }
-
 .wavesTable tbody tr:hover {
-    background: rgba(225,180,125, .5);
+    background: rgba(225, 180, 125, .5);
     cursor: pointer;
 }
-
 .wavesTable tbody tr {
     color: #333333;
 }
-
 .wTMainHeader {
     background-color: #ffffff;
-	border: 0px solid #F0F0F0;
-	text-align: center;
-	font-size: 1.25rem;
-	color: #555555;
+    border: 0px solid #F0F0F0;
+    text-align: center;
+    font-size: 1.25rem;
+    color: #555555;
     letter-spacing: .2rem;
     padding-bottom: .5rem;
 }
-
-/*
-#transactionhistory tr {
-    -moz-transition: all .2s ease;
-    -o-transition: all .2s ease;
-    transition: all .2s ease;
-	-webkit-transition: all .2s ease;
-}
-*/
-
 .wavesTable-txIn {
     color: #4C7699 !important;
 }
-
 .wavesTable-txOut {
     color: #555 !important;
 }
-
 .wavesTable-txIn .clipSpan:after {
     background: url(../img/wIcon_clip_txIn.svg) no-repeat;
     opacity: .6;
 }
-
 .wavesTable-txOut .clipSpan:after {
-    background: url(../img/wIcon_clip_txOut.svg) no-repeat;  
-    opacity: .6; 
+    background: url(../img/wIcon_clip_txOut.svg) no-repeat;
+    opacity: .6;
 }
-
 .wavesTable-txUnc .clipSpan:after {
     background: none;
 }
-
 .wavesTable-txUnc {
-    -moz-animation: opacity_change 1s infinite alternate ease-in-out;
-    -ms-animation: opacity_change 1s infinite alternate ease-in-out;
-    -o-animation: opacity_change 1s infinite alternate ease-in-out;
     -webkit-animation: opacity_change 1s infinite alternate ease-in-out;
     animation: opacity_change 1s infinite alternate ease-in-out;
 }
-
-@-moz-keyframes opacity_change {
-    from { opacity: 0.35; }
-    to { opacity: 1; }
-}
-
-@-ms-keyframes opacity_change {
-    from { opacity: 0.35; }
-    to { opacity: 1; }
-}
-
-@-o-keyframes opacity_change {
-    from { opacity: 0.35; }
-    to { opacity: 1; }
-}
-
 @-webkit-keyframes opacity_change {
-    from { opacity: 0.35; }
-    to { opacity: 1; }
+    from {
+        opacity: 0.35;
+    }
+    to {
+        opacity: 1;
+    }
 }
-
 @keyframes opacity_change {
-    from { opacity: 0.35; }
-    to { opacity: 1; }
+    from {
+        opacity: 0.35;
+    }
+    to {
+        opacity: 1;
+    }
 }
-
-#wHistory tbody, #latestBlocksUnconfirmed, #latestBlocksTable {
+#full-transaction-history tbody, #wallet-transaction-history tbody,
+#latestBlocksUnconfirmed,
+#latestBlocksTable {
     font-family: 'Lekton';
 }
 
+/* ======================================================================= */
 
-/* =================================================== */
-/* WAVES STANDARD BUTTONS */ /* WAVES STANDARD BUTTONS */
-/* =================================================== */
+
+/* WAVES STANDARD BUTTONS */
 
 .wButton {
     display: inline-block;
@@ -958,189 +947,196 @@ input.tabs-radio:checked + label  img {
     color: #ffffff;
     border: 1px solid #ffffff;
     outline: none;
-    
     text-align: center;
     text-decoration: none;
 }
-
 #addContactSubmit {
     background: #fff;
     color: #37556E;
     border: 1px solid #37556E;
 }
-
 #addContactSubmit:hover {
     background: #37556E;
     color: #fff;
 }
-
-.wButton a, .wButtonAlt a {
+.wButton a,
+.wButtonAlt a {
     text-decoration: none;
 }
-
 .wButton p {
     margin: 0;
     position: absolute;
     top: 50%;
     left: 50%;
     margin-right: -50%;
+    -webkit-transform: translate(-50%, -55%);
     transform: translate(-50%, -55%);
 }
-
 .wButton:hover {
     cursor: pointer;
     background: #ffffff;
     color: #323232;
 }
-
 .wButton-icon > img {
     width: .75rem;
     margin-right: .5rem;
 }
-
 .wButtonAlt {
     display: inline-block;
     position: relative;
-    
     padding: .2rem;
     padding-left: .4rem;
     padding-right: .4rem;
-    
     font-family: 'Wesli';
     font-size: 1rem;
     color: #ffffff;
-    
     outline: none;
     border: none;
     background: none;
     overflow: hidden;
     opacity: .5;
 }
-
 .wButtonAlt:hover {
     cursor: pointer;
     opacity: 1;
 }
 
 /* Button style for Danger or Error messages against white bg */
+
 .wButtonDanger {
     color: #9C0005;
     border: 1px solid #9C0005;
 }
-
 .wButtonDanger:hover {
     background: #9C0005;
     color: #fff;
 }
 
 /* Custom buttons */
-#login-wPop-new { 
+
+#login-wPop-new {
     text-align: center;
     max-width: 550px;
 }
-
-#login-wPop-new p { 
-    text-align: left;
+#login-wPop-new p {
+    text-align: justify;
 }
-
-#addContactSubmit, #close_create_account_modal {
+#addContactSubmit,
+#close_create_account_modal {
     background: #fff;
     color: #37556E;
     border: 1px solid #37556E;
 }
-
-#addContactSubmit:hover, #close_create_account_modal:hover {
+#addContactSubmit:hover,
+#close_create_account_modal:hover {
     background: #37556E;
     color: #fff;
 }
-
 .wPop-content-buttons {
     margin: 0 auto;
     text-align: center;
 }
-
 #transactionHistorySearch {
     background: #37556E;
     color: #fff;
 }
-
 #transactionHistorySearch:hover {
     background: #E1B47D;
 }
 
+/* Payment forms BUTTONS style */
 
-/* ================================================= */
-/* WAVES STANDARD INPUTS */ /* WAVES STANDARD INPUTS */
-/* ================================================= */
+.paymentForm-but {
+    border: 1px solid #37556E;
+    outline: none;
+    position: relative;
+    margin: 0 auto;
+    /*    width: 5rem;*/
+    padding-left: .5rem;
+    padding-right: .5rem;
+    background: #fff;
+    font-family: 'Wesli';
+    font-size: 1rem;
+    color: #37556E;
+    text-align: center;
+}
+.paymentForm-but:hover {
+    cursor: pointer;
+    background: #37556E;
+    color: #fff;
+}
+
+/* Send Payment(s) form buttons */
+
+.send-but {
+    padding: .3rem;
+    width: 4.5rem;
+}
+
+/* ======================================================================= */
+
+
+/* WAVES STANDARD INPUTS */
 
 .wInput {
     font-family: 'Wesli';
-	font-size: 1rem;
+    font-size: 1rem;
     padding: .25rem;
     margin-top: .25rem;
     border: 1px solid #D7D7D7;
     min-width: 250px;
 }
-
 .wInput-error {
     border: 2px solid #9C0005;
 }
 
+/* ======================================================================= */
 
-/* ====================================================== */
-/* PAYMENT FORMS PARAMETERS */ /* PAYMENT FORM PARAMETERS */
-/* ====================================================== */
+
+/* PAYMENT FORM PARAMETERS */
 
 .paymentForm {
     height: auto;
     padding-bottom: 1rem;
 }
-
 .wPop-content {
     margin-top: -1.5rem;
 }
-
 .paymentForm h2 {
     background-color: #ffffff;
-	border: 0px solid #F0F0F0;
-	text-align: center;
-	font-size: 1.25rem;
-	color: #333333;
+    border: 0px solid #F0F0F0;
+    text-align: center;
+    font-size: 1.25rem;
+    color: #333333;
     letter-spacing: .2rem;
     padding-left: .5rem;
     padding-right: .5rem;
     padding-bottom: .5rem;
     font-weight: 200;
 }
-
-.paymentForm table, .paymentForm table tr {
+.paymentForm table,
+.paymentForm table tr {
     width: 100%;
 }
-
 .paymentForm td:first-child {
     width: 40%;
 }
-
 .paymentForm td:nth-child(2) {
     width: 60%;
 }
-
 .paymentForm thead tr {
     background-color: #37556E;
-	text-align: center;
-	font-size: 1.12rem;
+    text-align: center;
+    font-size: 1.12rem;
     line-height: 2.3rem;
-	color: #ffffff;
+    color: #ffffff;
 }
-
 .paymentForm tbody td {
     padding: .25rem;
 }
-
 .paymentForm tbody tr {
     width: 100%;
 }
-
 .form-control {
     width: 100%;
     padding: .3rem;
@@ -1149,79 +1145,55 @@ input.tabs-radio:checked + label  img {
 }
 
 /* Payment form from portfilio - Temp */
-#mBB-portfolio #paymentForm {
-   text-align: center;
-}
 
+#mBB-portfolio #paymentForm {
+    text-align: center;
+}
 #mBB-portfolio .paymentForm thead tr {
     line-height: 1.5rem;
 }
-
 #mBB-portfolio .paymentForm table {
     padding-bottom: 1rem;
 }
 
 /* Payment Forms BALANCE style */
+
 .balanceAmt {
     color: #999999;
     font-style: italic;
     padding-right: .5rem;
     text-align: right;
 }
-
 .balanceAmt p {
     display: inline;
 }
 
 /* Payment forms FEES style */
+
 .paymentFormFee {
     background-color: #F0F0F0;
     font-style: italic;
     color: #999999;
 }
-
 .paymentFormFee p {
     text-align: right;
     padding-right: .5rem;
 }
-
-/* Payment forms BUTTONS style */
-.paymentForm-but {
-    border: 1px solid #37556E;
-    outline: none;
-    position: relative;
-    margin: 0 auto;
-    width: 5rem;
-    padding-left: .5rem;
-    padding-right: .5rem;
-	background: #fff;
-    font-family: 'Wesli';
-	font-size: 1rem;
-    line-height: 2.3rem;
-    color: #37556E;
-    text-align: center;
-}
-
-.paymentForm-but:hover {
-    cursor: pointer;
-    background: #37556E;
-    color: #fff;
-}
-
 .custom-combobox {
     position: relative;
     display: inline-block;
 }
-
 .custom-combobox-toggle {
     position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
-    margin-right: -.25rem;
-    padding: 0;
+    margin: 2px;
+    border-style: none none none solid;
 }
-
+.custom-combobox-toggle:hover {
+    border-style: none none none solid;
+}
 .custom-combobox-input {
     margin: 0;
     padding: .25rem;
@@ -1230,32 +1202,34 @@ input.tabs-radio:checked + label  img {
     color: #999999;
     padding-right: -.25rem;
 }
-
 .ui-menu.ui-autocomplete {
     font-family: 'Wesli';
     font-style: italic;
     color: #999999;
 }
 
-/* ==================================================== */
-/* PORTFOLIO TAB *//* PORTFOLIO TAB */ /* PORTFOLIO TAB */  
-/* ==================================================== */
+/* ======================================================================= */
+
+
+/* PORTFOLIO TAB */
 
 #portfolio {
     padding-bottom: 1rem;
 }
-
+#mBB-portfolio {
+    width: 100%;
+    text-align: center;
+}
 #portfolio h2 {
     background-color: #ffffff;
-	border: 0px solid #F0F0F0;
-	text-align: center;
-	font-size: 1.25rem;
-	color: #333333;
+    border: 0px solid #F0F0F0;
+    text-align: center;
+    font-size: 1.25rem;
+    color: #333333;
     letter-spacing: .2rem;
     padding-bottom: .5rem;
     font-weight: 200;
 }
-
 #portfolio .btn {
     border: none;
     width: 8rem;
@@ -1264,52 +1238,72 @@ input.tabs-radio:checked + label  img {
     padding-right: .5rem;
     background: #37556E;
     font-family: 'Wesli';
-	font-size: 1rem;
+    font-size: 1rem;
     line-height: 2.3rem;
-	color: #ffffff;
+    color: #ffffff;
     text-align: center;
-    
-    -moz-transition: all .2s ease;
-    -o-transition: all .2s ease;
     transition: all .2s ease;
-	-webkit-transition: all .2s ease;
+    -webkit-transition: all .2s ease;
 }
-
 #portfolio .btn:hover {
     cursor: pointer;
     background: #5AC8D2;
 }
-
 #portfolio table thead tr th {
     padding: .5rem;
 }
 
+/* ======================================================================= */
 
-/* =============================================== */
-/* HISTORY TAB */ /* HISTORY TAB */ /* HISTORY TAB */ 
-/* =============================================== */
 
+/* HISTORY TAB */
+
+#mBB-history {
+    width: 100%;
+    text-align: center;
+}
+#mBB-history .wavesTable {
+    /*    border: 1px solid red;*/
+}
 .wavesDD {
     display: inline-block;
     height: 90%;
     padding: .4rem;
 }
-
 .wavesDD select {
     font-family: 'Wesli';
     font-size: 1.15rem;
     padding: .1rem;
 }
-
 #hResults {
     height: auto;
     padding-bottom: 1rem;
 }
 
+/* ======================================================================= */
 
-/* ===================================================== */
-/* MESSENGER TAB */ /* MESSENGER TAB */ /* MESSENGER TAB */ 
-/* ===================================================== */
+
+/* EXCHANGE TAB */
+
+#mBB-exchange {
+    width: 100%;
+    text-align: center;
+}
+
+/* ======================================================================= */
+
+
+/* TOKENS TAB */
+
+#mBB-token {
+    width: 100%;
+    text-align: center;
+}
+
+/* ======================================================================= */
+
+
+/* MESSENGER TAB */
 
 #mBB-messages-add {
     position: relative;
@@ -1320,307 +1314,304 @@ input.tabs-radio:checked + label  img {
     text-align: center;
     overflow: hidden;
 }
-
 #mBB-messages h2 {
     display: inline-block;
-	text-align: center;
-	font-size: 1.25rem;
+    text-align: center;
+    font-size: 1.25rem;
     font-weight: 200;
-	color: #333333;
+    color: #333333;
     letter-spacing: .2rem;
 }
-
 #addContact {
     width: auto;
     position: absolute;
     right: 2rem;
     bottom: 0;
 }
-
 #addContact img {
     width: 2rem;
     opacity: .5;
 }
-
 #addContact img:hover {
     opacity: 1;
 }
-
 #addContactForm {
     text-align: center;
 }
-
 #addContactForm h2 {
     background-color: #ffffff;
-	border: 0px solid #F0F0F0;
-	text-align: center;
-	font-size: 1.25rem;
-	color: #333333;
+    border: 0px solid #F0F0F0;
+    text-align: center;
+    font-size: 1.25rem;
+    color: #333333;
     letter-spacing: .2rem;
     font-weight: 200;
 }
-
 #addContactForm p {
     margin-top: .25rem;
 }
-
 #contacts {
-    width: 100%; 
+    width: 100%;
     height: 100%;
 }
 
+/* ======================================================================= */
 
-/* ===================================================== */
-/* COMMUNITY TAB */ /* COMMUNITY TAB */ /* COMMUNITY TAB */
-/* ===================================================== */
 
+/* COMMUNITY TAB */
+
+#mBB-community {
+    width: 100%;
+    text-align: center;
+}
 #mBB-community h2 {
-	text-align: center;
-	font-size: 1.25rem;
-	color: #333333;
+    text-align: center;
+    font-size: 1.25rem;
+    color: #333333;
     letter-spacing: .2rem;
     padding-left: .5rem;
     padding-right: .5rem;
     padding-bottom: .6rem;
     font-weight: 200;
 }
-
 #mBB-community > p {
-	text-align: center;
+    text-align: center;
     margin-bottom: 1rem;
     font-size: 1.2rem;
     color: #E1B47D;
     font-weight: 600;
 }
 
+/* ======================================================================= */
 
-/* ======================================================================= */
-/* NPROGRESS CSS RULES */ /* NPROGRESS CSS RULES */ /* NPROGRESS CSS RULES */ 
-/* ======================================================================= */
+
+/* NPROGRESS CSS RULES */
 
 #nprogress {
     pointer-events: none;
 }
-
 #nprogress .bar {
     background: #ffffff;
-
     position: fixed;
     z-index: 1031;
     top: 0;
     left: 0;
-
     width: 100%;
     height: 5px;
-} 
-
-
-/* ===================================================== */
-/* MEDIA QUERIES */ /* MEDIA QUERIES */ /* MEDIA QUERIES */ 
-/* ===================================================== */
-
-@media only screen and (max-width: 1024px) {
-
-	#logoNversion2 { display: none; }
-	#topLogoH { display: block; }
-    #version { font-size: 1rem; }
-	
-	#mBLeftBar {
-		width: 150px;
-	}
-	
-	#tabs-Iconset img {
-		margin-top: .5rem;
-		margin-left: .5rem;
-		margin-right: .5rem;
-	}
-    
-    #blockheight, header .divider-2, header .inlineParagraph { display: none; }
-    .header-Icon { width: 1.75rem; }
 }
 
+/* ======================================================================= */
 
+
+/* MEDIA QUERIES */
+
+@media only screen and (max-width: 1024px) {
+    #logoNversion2 {
+        display: none;
+    }
+    #topLogoH {
+        display: block;
+    }
+    #version {
+        font-size: 1rem;
+    }
+    #mBLeftBar {
+        width: 150px;
+    }
+    #blockheight,
+    header .divider-2,
+    header .inlineParagraph {
+        display: none;
+    }
+    .header-Icon {
+        width: 1.75rem;
+    }
+}
 @media only screen and (max-width: 800px) {
-
-	#version { display: none; }
-    #mBLeftBar { width: 100px; }
-    #lockscreen { padding: 2rem }
-    
+    #version {
+        display: none;
+    }
+    #mBLeftBar {
+        width: 100px;
+    }
+    #lockscreen {
+        padding: 2rem
+    }
     #lockscreenTable {
         padding: 0;
         margin: 0 auto;
         min-width: 220px;
     }
-    
-    .loginAccountDiv .divider-1:nth-child(1), 
-    .loginAccountDiv .divider-1:nth-child(2), 
+    .loginAccountDiv .divider-1:nth-child(1),
+    .loginAccountDiv .divider-1:nth-child(2),
     .loginAccountDiv .divider-1:nth-child(3),
-    .loginAccountDiv > .clipSpan { 
-        display: none; 
+    .loginAccountDiv > .clipSpan {
+        display: none;
     }
-    
-    .loginAccount, .removeAccount { 
+    .loginAccount,
+    .removeAccount {
         display: block;
         margin: 0 auto;
     }
 }
-
-   
 @media only screen and (max-width: 640px) {
-
-	#tabs-Iconset { height: 80%; }
-
-	#tabs-Iconset img {
-		margin-top: .5rem;
-		margin-left: .2rem;
-		margin-right: .2rem;
-	}
-    
-    #generateRandomSeed, #generateKeys { 
+    #tabs-Iconset {
+        height: 80%;
+    }
+    #tabs-Iconset img {
+        margin-top: .5rem;
+        margin-left: .5rem;
+        margin-right: .5rem;
+    }
+    #generateRandomSeed,
+    #generateKeys {
         display: block;
         margin: 0 auto;
     }
-    
-    .removeAccount { margin-top: .5rem; }
-    #walletSeed { min-width: 250px; }
+    .removeAccount {
+        margin-top: .5rem;
+    }
+    #walletSeed {
+        min-width: 250px;
+    }
 }
-
-
 @media only screen and (max-width: 512px) {
-
-	#tabs { height: 65px; }
-	#tabs-Iconset { height: 80%; }
-
-	#tabs-Iconset img {
-		margin-top: .5rem;
-		margin-left: .1rem;
-		margin-right: .1rem;
-	}
-    
-    .wInput { min-width: 50px; }
+    #tabs {
+        height: 65px;
+    }
+    #tabs-Iconset {
+        height: 80%;
+    }
+    #tabs-Iconset img {
+        margin-top: .5rem;
+        margin-left: .25rem;
+        margin-right: .25rem;
+    }
+    .wInput {
+        min-width: 50px;
+    }
 }
-
 
 /* Mobile version - Landscape (iPhone up to 6, all Samsung Galaxy, all HTC) */
+
 @media only screen and (max-width: 736px) and (max-height: 420px) {
-    
-    html { font-size: 12px; }
-    
-    header { 
+    html {
+        font-size: 12px;
+    }
+    header {
         height: 30px;
         padding: 0;
     }
-    
-    #topLogoH { 
-		width: 10rem; 
-		margin-top: .25rem;
-	}
-    
+    #topLogoH {
+        width: 10rem;
+        margin-top: .25rem;
+    }
     #header-Iconset {
         position: absolute;
         right: .25rem;
         top: .5rem;
     }
-    
     .header-Icon {
-		width: 1.5rem;
+        width: 1.5rem;
         margin: 0;
         padding: 0;
-		margin-right: .35rem;
-	}
-    
-    .jurl { display: none; }
-    #tabs { height: 40px; } 
-    
-     #tabs-Iconset { 
+        margin-right: .35rem;
+    }
+    .jurl {
+        display: none;
+    }
+    #tabs {
+        height: 40px;
+    }
+    #tabs-Iconset {
         height: 90%;
         margin-top: -.25rem;
     }
-    
+    #tabs-Iconset label {}
     #tabs-Iconset img {
-		padding-left: .4rem;
+        padding-left: .4rem;
         padding-right: .4rem;
-	}
-    
-    #mBB-wallet { 
+    }
+    #mBB-wallet {
         height: auto;
         padding-bottom: 2rem;
         text-align: center;
     }
-    
-    .walletBox { 
-        width: 275px; 
+    .walletBox {
+        width: 275px;
         height: 175px;
     }
 }
 
-
 /* Mobile version - Portrait */
-@media only screen and (max-width: 420px) {
 
-    html { font-size: 12px; }
-    header { height: 40px; }
-    
+@media only screen and (max-width: 420px) {
+    html {
+        font-size: 12px;
+    }
+    header {
+        height: 40px;
+    }
     #lockscreen {
         text-align: center;
         margin: 0 auto;
         min-width: 300px;
     }
-
     #lockscreenTable {
         text-align: center;
         margin: 0 auto;
     }
-
     .loginAccountDiv {
         display: block;
         height: auto;
         margin: 0 auto;
     }
-    
-    .loginAccount { margin-left: -1rem; }  
-    .divider-1 { width: 0px; }
-    
-    #import_account, #create_account {
-        display: block; 
+    .loginAccount {
+        margin-left: -1rem;
+    }
+    .divider-1 {
+        width: 0px;
+    }
+    #import_account,
+    #create_account {
+        display: block;
         margin: 0 auto;
     }
-    
     .wavesTable td {
         padding-left: .2rem;
         padding-right: .2rem;
     }
-    
-	#topLogoH { 
-		width: 10rem; 
-		margin-top: .38rem;
-	}
-	
-	.header-Icon {
-		width: 1.5rem;
-		margin-right: .35rem;
-		margin-top: .2rem;
-	}
-	
-	#tabs { 
-        height: 50px; 
-		text-align: center;
-	}
-	
-	#tabs-Iconset img { margin-top: .25rem; }
-    .jurl { height: 0.08rem; }
-    
-    #mBB-wallet { 
+    #topLogoH {
+        width: 10rem;
+        margin-top: .38rem;
+    }
+    .header-Icon {
+        width: 1.5rem;
+        margin-right: .35rem;
+        margin-top: .2rem;
+    }
+    #tabs {
+        height: 50px;
+    }
+    #tabs-Iconset img {
+        margin-top: .25rem;
+    }
+    .jurl {
+        height: 0.08rem;
+    }
+    #mBB-wallet {
         height: auto;
         padding-bottom: 2rem;
         text-align: center;
     }
-    
-    .walletBox { 
-        width: 275px; 
+    .walletBox {
+        width: 275px;
         height: 175px;
     }
-
-    .wB-buttons { height: 22.5%; }
-    #wHistory { display: none; }
+    .wB-buttons {
+        height: 22.5%;
+    }
+    #full-transaction-history, #wallet-transaction-history {
+        display: none;
+    }
 }

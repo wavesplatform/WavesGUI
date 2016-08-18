@@ -54,4 +54,32 @@ describe("waves.util", function() {
 		signature = Waves.nonDeterministicSign(privateKey, messageBytes);
 		expect(Waves.verify(publicKey, messageBytes, Base58.decode(signature))).toBe(true);
 	});
+
+	it("should generate network addresses locally", function() {
+		// testing testnet address generation
+		Waves.constants.NETWORK_CODE = 'T';
+		expect(Waves.buildRawAddress("5ug8nQ1ubfjAZVJFed4mcXVVEBz53DfV8nBQWuKbt2AJ"))
+			.toEqual("3Mtkz8KeXUZmTbNH1MFcrMGv4t1av5tmaFL");
+		expect(Waves.buildRawAddress("9iDrC31brcunVTRCq69iUngg1S5Ai1rd6iX7vTwAGTvn"))
+			.toEqual("3N33kaYS3C9pvVsVjLKLApmRQHfzm3UY36N");
+		expect(Waves.buildRawAddress("Dq5f76Ro3qQCPWSDrCNrVDCiKwNFKCP2UmnVZzPxVf8"))
+			.toEqual("3NBmgsTgGv8nfmYzbCiKvTuBJtDpVyyxqKr");
+		expect(Waves.buildRawAddress("6tk94Rwij3FXwfaJLWu9PhQAHDY2MUjPLYkHQ28HaRk3"))
+			.toEqual("3MstHyC4tKtBhzbWdhrJ3jkxPD1hYSJCi77");
+		expect(Waves.buildRawAddress("2oGDrLRdBsU9Nb32jgPMh3TrQXm9QifUBLnLijfWqY5e"))
+			.toEqual("3MzUpwpiNTr32YWoYVmRFyzJQgdDbti3shP");
+		expect(Waves.buildRawAddress("71m88eJxbfJnNPW87r4Qtrp9Q2qa1wsLYmrxXRAzLPF6"))
+			.toEqual("3MwJXUURjZY2BmbMDRMwgGnJ19RZC9Hdg3V");
+		expect(Waves.buildRawAddress("7Ftuept6hfNEhSeVA439asPWZQVuteqWQUEPz6RGHsAo"))
+			.toEqual("3MpETHR7opAMN6dWqJejq1X37YCkq6Nu5hK");
+		expect(Waves.buildRawAddress("AEYsMR1171SmhV77rDtBTyfjmFubzirpHqFH4hV1aDt9"))
+			.toEqual("3MyciTA8STrTWjZ46KdoZ1ASf5GuY7sD8be");
+
+		// testing mainnet address generation
+		Waves.constants.NETWORK_CODE = 'W';
+		expect(Waves.buildRawAddress("D1vnz91YRXyDM72R6ZsPZfj1woMzL5nZtFrfeGQYjMs6"))
+			.toEqual("3PKGL4nMz3sMESQXPzmX5GKbiQtCi2Tu9Z5");
+		expect(Waves.buildRawAddress("9Emin4uvu2cew67hkpkX2ZKV6NJEjyP7Uvzbf8ARMCc6"))
+			.toEqual("3P9oRcFxwjW58bqu1oXyk1JrRTy8ADSKvdN");
+	});
 });

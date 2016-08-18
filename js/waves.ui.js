@@ -369,13 +369,11 @@ var Waves = (function(Waves, $, undefined) {
     });
     
     $('#header-wPop-backup').on($.modal.BEFORE_OPEN, function() {
-        Waves.apiRequest(Waves.api.waves.address, Waves.publicKey, function(response) {
-            $('#seedBackup').val(Waves.passphrase);
-            $('#encodedSeedBackup').val(Base58.encode(converters.stringToByteArray(Waves.passphrase)));
-            $('#privateKeyBackup').val(Waves.privateKey);
-            $('#publicKeyBackup').val(Waves.publicKey);
-            $("#addressBackup").val(Waves.Addressing.fromRawAddress(response.address).getDisplayAddress());
-        });
+        $('#seedBackup').val(Waves.passphrase);
+        $('#encodedSeedBackup').val(Base58.encode(converters.stringToByteArray(Waves.passphrase)));
+        $('#privateKeyBackup').val(Waves.privateKey);
+        $('#publicKeyBackup').val(Waves.publicKey);
+        $("#addressBackup").val(Waves.buildAddress(Waves.publicKey).getDisplayAddress());
     });
 
     $('#header-wPop-backup').on($.modal.AFTER_CLOSE, function() {
@@ -554,9 +552,12 @@ var Waves = (function(Waves, $, undefined) {
     $.validator.addMethod('address', function(value, element){
         return this.optional(element) || Waves.Addressing.validateDisplayAddress(value);
     }, "Account number must be a sequence of 35 alphanumeric characters with no spaces, optionally starting with '1W'");
-    $.validator.addMethod('decimal', function(value, element) {
-        return this.optional(element) || /^(?:-?\d+)?(?:\.\d+)?$/.test(value);
-    }, "Amount is expected with a dot (.) as a decimal separator");
+    $.validator.addMethod('decimal', function(value, element, params) {
+        var maxdigits = $.isNumeric(params) ? params : Waves.UI.constants.AMOUNT_DECIMAL_PLACES;
+
+        var regex = new RegExp("^(?:-?\\d+)?(?:\\.\\d{1," + maxdigits + "})?$");
+        return this.optional(element) || regex.test(value);
+    }, "Amount is expected with a dot (.) as a decimal separator with no more than {0} fraction digits");
     $.validator.addMethod('password', function(value, element){
         if (this.optional(element))
             return true;

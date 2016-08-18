@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/jquery.modal.css">
     <link rel="stylesheet" href="css/jquery.growl.css">
-    <link rel="stylesheet" href="css/tooltipster.css">
+    <link rel="stylesheet" href="css/tooltipster.min.css">
 	<link href="img/favicon.ico" type="image/x-icon" rel="shortcut icon"/>
    
 </head>
@@ -107,16 +107,33 @@
                                             <br/><br/>
                                             The procedure consists of complex cryptographic operations that use a <b>SEED</b> (a series of random words) to create a unique address for your account.
                                             <br/><br/>
-                                            This SEED is extremely important and must be kept in safe place, since it's the only way to recover your account in case of lost or corrupted data, or hardware failure that will lead to lost funds. 
-                                            <br/><br/>    
+                                            This SEED is extremely important and must be kept in safe place, since it's the only way to recover your account in case of lost, corrupted data or hardware failure. 
+                                            <br/>
                                             Your SEED will also allow you to IMPORT your account to other devices.
                                             <br/><br/>
-                                            <span class="notice-alert">The Waves team holds no responsibility for lost funds resulting from misplaced seeds. The account SEED and other vital information must be immediately saved via our Backup dialog.</span>    
-                                            <br/><br/>
-                                            <i>NOTE: Make sure that you select the entire SEED length before keeping it.  You can do this using the copy-to-clipboard function located on the right side of the SEED box.</i>
+                                            <i>NOTE: Make sure that you select the entire SEED length before keeping it.  It's suggested to use the copy-to-clipboard button located the right side of the SEED box.</i>
                                             </p>
                                             <br/>
                                             <button id="close_create_account_modal" class="wButton fade" title="Click here if you understand this message.">I UNDERSTAND</button>
+                                        </div>
+                                    </div>
+
+                                    <div id="seed-whitespace-popup" class="wavesPop">
+                                        <img class="wPop-header" src="img/modal-header-round.svg" />
+                                        <div class="wPop-content">
+                                            <h2>SEED NOTICE</h2>
+                                            <p>
+                                                Your wallet seed contains one or more trailing whitespace characters.
+                                                <br/><br/>
+                                                A seed with a whitespace at the end and a seed without one are different, and will result in different addresses generated.
+                                                <br/><br/>
+                                                It is strongly recommended that you avoid trailing whitespaces in the seed. If you understand the implications of including a trailing whitespace in your seed, press <b>PROCEED</b>.
+                                                Press <b>CANCEL</b> or close the dialog box to edit your seed.<br/>
+                                            </p>
+                                            <div class="wPop-content-buttons">
+                                                <a id="close-seed-whitespace-modal" href="#" class="wButton paymentForm-but fade">PROCEED</a><span class="divider-2"></span>
+                                                <a href="#" rel="modal:close" class="wButton paymentForm-but fade">CLOSE</a>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -215,7 +232,7 @@
                 <img class="wPop-header" src="img/modal-header.svg" />
                 <div class="wPop-content">
                     <h2>ACCOUNT INFO BACKUP</h2>
-                    <p>Your account's basic information, click the COPY button in order to copy the contents to the clipboard or CLOSE to exit.</p></br>
+                    <p>Your account's basic information, click the <b>COPY</b> button in order to copy the contents to the clipboard or <b>CLOSE</b> to exit.</p></br>
                     <form id="backupForm">
                     <label for="seedBackup">Seed</label><br/>
                     <textarea id="seedBackup" class="wInput" rows="3" readonly></textarea><br/>
@@ -265,49 +282,54 @@
 	<span class="jurl"></span>
 	
 	<!-- APPLICATION TAB SELECTORS --> 
-	<section id="tabs" class="fFade noSelect">
-		<div id="tabs-Iconset" class="centerIt">
-            
-			<input type="radio" name="tabs-Icons" id="tabs-Icons-wallet" class="tabs-radio" value="mBB-wallet" checked>
-				<label for="tabs-Icons-wallet" class="fade">
-					<img src="img/tabs-iconset-wallet.svg" class="fFade tooltip-3" alt="Wallet tab" title="<center><u>Wallet</u></center><br/>Area containing the main wallets."></img>
-            </label>
-            
-			<input type="radio" name="tabs-Icons" id="tabs-Icons-portfolio" class="tabs-radio" value="mBB-portfolio">
-				<label for="tabs-Icons-portfolio">
-					<img src="img/tabs-iconset-portfolio.svg" class="fFade tooltip-3" alt="Portfolio tab" title="<center><u>Portfolio</u></center><br/>Display all your assets, both digital and physical<br/>as well as allowing transfers."></img>
-				</label>
-            
-			<input type="radio" name="tabs-Icons" id="tabs-Icons-exchange" class="tabs-radio" value="mBB-exchange">
-				<label for="tabs-Icons-exchange">    
-					<img src="img/tabs-iconset-exchange.svg" class="fFade tooltip-3" alt="Exchange tab" title="<center><u>Waves Decentralized Exchange</u></center><br/>Access to Waves' markets where you can<br/>conveniently buy, sell and trade tokens."></img>
-				</label>
-            
-			<input type="radio" name="tabs-Icons" id="tabs-Icons-voting" class="tabs-radio" value="mBB-voting">
-				<label for="tabs-Icons-voting">    
-					<img src="img/tabs-iconset-voting.svg" class="fFade tooltip-3" alt="Voting tab" title="<center><u>Voting Area</u></center><br/>Decentralized voting utility."></img>
-				</label>
-            
-			<input type="radio" name="tabs-Icons" id="tabs-Icons-history" class="tabs-radio" value="mBB-history">
-				<label for="tabs-Icons-history">    
-					<img src="img/tabs-iconset-history.svg" class="fFade tooltip-3" alt="History tab" title="<center><u>History</u></center><br/>Access all your transaction records."></img>
-				</label>
-            
-			<input type="radio" name="tabs-Icons" id="tabs-Icons-messages" class="tabs-radio" value="mBB-messages">
-				<label for="tabs-Icons-messages">    
-					<img src="img/tabs-iconset-messages.svg" class="fFade tooltip-3" alt="Messages tab" title="<center><u>Decentralized Messenger</u></center><br/>Allows private communication between Waves' users."></img>
-				</label>
-            
-			<input type="radio" name="tabs-Icons" id="tabs-Icons-community" class="tabs-radio" value="mBB-community">
-				<label for="tabs-Icons-community">    
-					<img src="img/tabs-iconset-community.svg" class="fFade tooltip-3" alt="Community tab" title="<center><u>Community tab</u></center><br/>Resources to learn more about Waves project such as <br/>forums, blogs, websites, etc."></img>
-				</label>
-            
-		</div>  
-	</section>
+<section id="tabs" class="fFade noSelect">
+    <div id="tabs-Iconset" class="centerIt">
+
+        <input type="radio" name="tabs-Icons" id="tabs-Icons-wallet" class="tabs-radio" value="mBB-wallet" checked>
+        <label for="tabs-Icons-wallet" class="fade">
+            <img src="img/tabs-iconset-wallet.svg" class="fFade tooltip-3" alt="Wallet tab" title="<center><u>Wallet</u></center><br/>Area containing the main wallets."/>
+        </label>
+
+        <input type="radio" name="tabs-Icons" id="tabs-Icons-portfolio" class="tabs-radio" value="mBB-portfolio">
+        <label for="tabs-Icons-portfolio">
+            <img src="img/tabs-iconset-portfolio.svg" class="fFade tooltip-3" alt="Portfolio tab" title="<center><u>Portfolio</u></center><br/>Display all your assets, both digital and physical<br/>as well as allowing transfers."/>
+        </label>
+
+        <input type="radio" name="tabs-Icons" id="tabs-Icons-exchange" class="tabs-radio" value="mBB-exchange">
+        <label for="tabs-Icons-exchange">
+            <img src="img/tabs-iconset-exchange.svg" class="fFade tooltip-3" alt="Exchange tab" title="<center><u>Waves Decentralized Exchange</u></center><br/>Access to Waves' markets where you can<br/>conveniently buy, sell and trade tokens."/>
+        </label>
+
+        <input type="radio" name="tabs-Icons" id="tabs-Icons-voting" class="tabs-radio" value="mBB-voting">
+        <label for="tabs-Icons-voting">
+            <img src="img/tabs-iconset-voting.svg" class="fFade tooltip-3" alt="Voting tab" title="<center><u>Voting Area</u></center><br/>Decentralized voting utility."/>
+        </label>
+
+        <input type="radio" name="tabs-Icons" id="tabs-Icons-history" class="tabs-radio" value="mBB-history">
+        <label for="tabs-Icons-history">
+            <img src="img/tabs-iconset-history.svg" class="fFade tooltip-3" alt="History tab" title="<center><u>History</u></center><br/>Access all your transaction records."/>
+        </label>
+
+        <input type="radio" name="tabs-Icons" id="tabs-Icons-tokens" class="tabs-radio" value="mBB-token">
+        <label for="tabs-Icons-tokens">
+            <img src="img/tabs-iconset-tokens.svg" class="fFade tooltip-3" alt="Tokens Creation tab" title="<center><u>Tokens Creation tab</u></center><br/>Area in which assets can be created."/>
+        </label>
+
+        <input type="radio" name="tabs-Icons" id="tabs-Icons-messages" class="tabs-radio" value="mBB-messages">
+        <label for="tabs-Icons-messages">
+            <img src="img/tabs-iconset-messages.svg" class="fFade tooltip-3" alt="Messages tab" title="<center><u>Decentralized Messenger</u></center><br/>Allows private communication between Waves' users."/>
+        </label>
+
+        <input type="radio" name="tabs-Icons" id="tabs-Icons-community" class="tabs-radio" value="mBB-community">
+        <label for="tabs-Icons-community">
+            <img src="img/tabs-iconset-community.svg" class="fFade tooltip-3" alt="Community tab" title="<center><u>Community tab</u></center><br/>Resources to learn more about Waves project such as <br/>forums, blogs, websites, etc."/>
+        </label>
+
+    </div>
+</section>
 
 	<!-- MAIN APPLICATION BODY CONTENT -->
-	<section id="mainBody">
+	<section id="mainBody" class="wScroll">
 	
 	<!-- LEFT BAR CONTENTS -->
 <!--
@@ -370,7 +392,7 @@
                         </div>
                     </div>
                 <!-- / Temporary placeholder modal -->
-                
+                <div class="flex-container">
                     <div id="wB-USD" class="walletBox">
                         <img id="wB-bg-USD" src="img/wB-bg-USD.svg" alt="US Dollar wallet" />
                         <div class="wB-name">US DOLLAR</div>
@@ -544,7 +566,7 @@
                                             
                                     </form>
                                     <!-- check -->
-                                    <div id="wavessend" class="paymentForm-but fade" value="send"><p>SUBMIT</p></div>
+                                    <div id="wavessend" class="paymentForm-but send-but fade" value="send"><p>SUBMIT</p></div>
                                     <div id="sentpayment" style="width: 500px; word-wrap:break-word;"></div>
                                     <div id="errorpayment" style="width: 500px; word-wrap:break-word;"></div>
 
@@ -634,8 +656,8 @@
                         </div>
                     </div>
                 
-                        
-                    <div id="wHistory" class="wavesTable">
+            </div>
+                    <div id="wallet-transaction-history" class="wavesTable">
                     <table>
                         <thead>
                             <div class="wTMainHeader">
@@ -729,7 +751,7 @@
         <!-- HISTORY TAB -->
             <div id="mBB-history" class="mBB-content">
 
-                <div id="wHistory" class="wavesTable">
+                <div id="full-transaction-history" class="wavesTable">
                     <table>
                         <thead>
                             <div class="wTMainHeader">
@@ -817,7 +839,23 @@
             </div> 
         <!-- / HISTORY TAB -->
 
-
+         <!-- TOKENS TAB -->
+            <div id="mBB-token" class="mBB-content">
+                
+                <div class="phContent">
+                    <h1>ASSET CREATION</h1>
+                    <br/>
+                    <p>The Asset Creation area is utilized to build custom Assets composed by Tokens. It is the first step in order to initialize a project in the platform.
+                    <br/><br/>
+                    The Asset Creation tab will start being operative in the fall of 2016, shortly after the Full Node code is released publicly or even at the same time.
+                    </p>
+                    <br/><br/>
+                    <img src="img/tab_token_prev.svg" />
+                </div>
+                
+            </div>
+        <!-- / TOKENS TAB -->
+            
         <!-- MESSAGES TAB -->
             <div id="mBB-messages" class="mBB-content">
                 

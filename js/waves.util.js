@@ -246,6 +246,10 @@ var Waves = (function (Waves, $, undefined) {
     };
 
     Waves.MAP = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+    
+    var getNetworkIdByte = function() {
+        return Waves.constants.NETWORK_CODE.charCodeAt(0) & 0xFF;
+    }
 
     Waves.getLocalDateFormat = function () {
         return Waves.LOCALE_DATE_FORMAT;
@@ -362,6 +366,24 @@ var Waves = (function (Waves, $, undefined) {
         var p = axlsign.generateKeyPair(accountSeedHash);
 
         return Base58.encode(p.private);
+    }
+
+    Waves.buildRawAddress = function (encodedPublicKey) {
+        var publicKey = Base58.decode(encodedPublicKey);
+        var publicKeyHash = this.hashChain(publicKey);
+
+        var prefix = new Uint8Array(2);
+        prefix[0] = Waves.constants.ADDRESS_VERSION;
+        prefix[1] = getNetworkIdByte();
+
+        var unhashedAddress = this.appendUint8Arrays(prefix, publicKeyHash.slice(0, 20));
+        var addressHash = this.hashChain(unhashedAddress).slice(0, 4);
+
+        return Base58.encode(this.appendUint8Arrays(unhashedAddress, addressHash));
+    }
+
+    Waves.buildAddress = function (encodedPublicKey) {
+        return Waves.Addressing.fromRawAddress(this.buildRawAddress(encodedPublicKey));
     }
 
     //Returns publicKey built from string
