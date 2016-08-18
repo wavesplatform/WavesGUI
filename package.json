@@ -1,6 +1,6 @@
 {
   "name": "waves-lite-client",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "license": "See license in ./LICENSE",
   "engines": {
     "node": ">= 0.10.0"
