@@ -37,32 +37,27 @@ module.exports = function (grunt) {
                 chrome: {
                     name: 'chrome'
                 }
-            }
+            },
+            jsFilesForTesting: [
+                'bower_components/jquery/jquery.js',
+                'bower_components/angular/angular.js',
+                'bower_components/angular-route/angular-route.js',
+                'bower_components/angular-sanitize/angular-sanitize.js',
+                'bower_components/angular-mocks/angular-mocks.js',
+                'bower_components/restangular/dist/restangular.js',
+                'bower_components/underscore/underscore.js',
+                'bower_components/underscore/underscore.js',
+                'src/js/**/*Spec.js'
+            ]
         },
         // Task configuration.
         jshint: {
+            all: ['src/js/**/*.js']
+        },
+        jscs: {
+            src: 'src/js/**/*.js',
             options: {
-                curly: true,
-                eqeqeq: true,
-                immed: true,
-                latedef: true,
-                newcap: true,
-                noarg: true,
-                sub: true,
-                undef: true,
-                unused: true,
-                boss: true,
-                eqnull: true,
-                browser: true,
-                globals: {
-                    jQuery: true
-                }
-            },
-            gruntfile: {
-                src: 'Gruntfile.js'
-            },
-            lib_test: {
-                src: ['js/*.js']
+                config: '.jscsrc'
             }
         },
         watch: {
@@ -81,6 +76,17 @@ module.exports = function (grunt) {
                 specs: 'tests/spec/**/*.js',
                 vendor: ['js/3rdparty/**/*.js', 'js/blake2b/**/*.js', 'js/crypto/**/*.js', 'js/axlsign/**/*.js', 'js/util/**/*.js'],
                 keepRunner: false
+            }
+        },
+        karma: {
+            development: {
+                configFile: 'karma.conf.js',
+                options: {
+                    files: [
+                        '<%= meta.jsFilesForTesting %>',
+                        'src/js/**/*.js'
+                    ]
+                }
             }
         },
         clean: ['build/**', 'distr/**'],
@@ -155,6 +161,7 @@ module.exports = function (grunt) {
         },
         bump: {
             options: {
+                files: ['package.json', 'bower.json'],
                 updateConfigs: ['pkg'],
                 commit: true, // debug
                 push: 'branch', // debug
@@ -240,10 +247,12 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-compress');
+    grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-bump');
     grunt.loadNpmTasks('grunt-github-releaser');
     grunt.loadNpmTasks('grunt-webstore-upload');
     grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-conventional-changelog');
 
     grunt.registerTask('emptyChangelog', 'Creates an empty changelog', function() {
@@ -252,6 +261,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('distr', ['clean', 'emptyChangelog', 'copy', 'compress']);
     grunt.registerTask('publish', ['bump', 'distr', 'conventionalChangelog', 'shell', 'github-release']);
+    grunt.registerTask('test', ['karma:development']);
     // Default task.
     grunt.registerTask('default', ['jasmine']);
 };
