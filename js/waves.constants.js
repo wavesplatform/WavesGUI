@@ -16,25 +16,6 @@
 
 var Waves = (function (Waves, $) {
     Waves.constants = {
-        'DB_VERSION': 2,
-        'SCOREX_VERSION' : 'v0.1.3',
-
-        'PLUGIN_VERSION': 1,
-        'MAX_SHORT_JAVA': 32767,
-        'MAX_UNSIGNED_SHORT_JAVA': 65535,
-        'MAX_INT_JAVA': 2147483647,
-        'DISABLED_API_ERROR_CODE': 16,
-
-        "REQUEST_TYPES": {},
-        "API_TAGS": {},
-
-        'SERVER': {},
-        'GENESIS': '',
-        'EPOCH_BEGINNING': 0,
-        'FORGING': 'forging',
-        'NOT_FORGING': 'not_forging',
-        'UNKNOWN': 'unknown',
-
         "RAW_ADDRESS_LENGTH" : 35,
         "ADDRESS_PREFIX": "1W",
         "MAINNET_ADDRESS_REGEXP": /^[a-zA-Z0-9]{35}$/,
@@ -50,22 +31,6 @@ var Waves = (function (Waves, $) {
         'MINIMUM_TRANSACTION_FEE' : 0.001,
         'AMOUNT_DECIMAL_PLACES' : 8
     }
-    
-    Waves.loadServerConstants = function () {
-        Waves.sendRequest("getConstants", {}, function (response) {
-            if (response.genesisAccountId) {
-                Waves.constants.SERVER = response;
-                Waves.constants.MIN_BALANCE_MODELS = response.minBalanceModels;
-                Waves.constants.GENESIS = response.genesisAccountId;
-                Waves.constants.EPOCH_BEGINNING = response.epochBeginning;
-                Waves.constants.REQUEST_TYPES = response.requestTypes;
-                Waves.constants.API_TAGS = response.apiTags;
-                Waves.constants.DISABLED_APIS = response.disabledAPIs;
-                Waves.constants.DISABLED_API_TAGS = response.disabledAPITags;
-                Waves.loadTransactionTypeConstants(response);
-            }
-        }, false);
-    };
 
     function getKeyByValue(map, value) {
         for (var key in map) {
@@ -77,65 +42,6 @@ var Waves = (function (Waves, $) {
         }
         return null;
     }
-
-    Waves.isRequireBlockchain = function(requestType) {
-        if (!Waves.constants.REQUEST_TYPES[requestType]) {
-            // For requests invoked before the getConstants request returns,
-            // we implicitly assume that they do not require the blockchain
-            return false;
-        }
-        return true == Waves.constants.REQUEST_TYPES[requestType].requireBlockchain;
-    };
-
-    Waves.isRequirePost = function(requestType) {
-        if (!Waves.constants.REQUEST_TYPES[requestType]) {
-            // For requests invoked before the getConstants request returns
-            // we implicitly assume that they can use GET
-            return false;
-        }
-        return true == Waves.constants.REQUEST_TYPES[requestType].requirePost;
-    };
-
-    Waves.isRequestTypeEnabled = function(requestType) {
-        if ($.isEmptyObject(Waves.constants.REQUEST_TYPES)) {
-            return true;
-        }
-        if (requestType.indexOf("+") > 0) {
-            requestType = requestType.substring(0, requestType.indexOf("+"));
-        }
-        return !!Waves.constants.REQUEST_TYPES[requestType];
-    };
-
-    Waves.isSubmitPassphrase = function (requestType) {
-        return requestType == "startForging" ||
-            requestType == "stopForging" ||
-            requestType == "startShuffler" ||
-            requestType == "getForging" ||
-            requestType == "markHost";
-    };
-
-    Waves.isApiEnabled = function(depends) {
-        if (!depends) {
-            return true;
-        }
-        var tags = depends.tags;
-        if (tags) {
-            for (var i=0; i < tags.length; i++) {
-                if (!tags[i].enabled) {
-                    return false;
-                }
-            }
-        }
-        var apis = depends.apis;
-        if (apis) {
-            for (i=0; i < apis.length; i++) {
-                if (!apis[i].enabled) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    };
 
     return Waves;
 }(Waves || {}, jQuery));

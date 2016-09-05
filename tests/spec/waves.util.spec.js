@@ -20,7 +20,7 @@ describe("waves.util", function() {
 		expect(Waves.longToByteArray(1)).toEqual([0,0,0,0,0,0,0,1]);
 		expect(Waves.longToByteArray(12312)).toEqual([0, 0, 0, 0, 0, 0, 48, 24]);
 	});
-  
+
   it("generates correct private and public keys", function(){
 	  keyGenerationTestCase("sfRTzgCRLuWEbYBtnmnt7DecxvKazTMEScJpnFWaacCFWy36E83iGR8F6bKrQtwc2yuKmKo1vQBV8cFca4K8eoy",
 	  	"YoLY4iripseWvtMt29sc89oJnjxzodDgQ9REmEPFHkK",
@@ -32,7 +32,7 @@ describe("waves.util", function() {
 		  "98JtkrkqGqunaJqtN7J2kvJeUnvrTkpobDVArGXTVFa1",
 		  "FKKmKKWsVBPFWufcTTJjoQZDjMG9jmgzAbFPjQm9DVj8");
   });
-	
+
 	it("generates expected hash for a predefined seed", function () {
 		hashingTestCase("aVYPRLnqyyV367BssHsKUnkRgXXQYJcxSMgCuzZBBSD7ELnCzvMNmNKcjySu8fjYcERZCzvjqir5n2eCavh9oy4q4ro8B",
 			"Cyw5mgkYiAsCKvKZveGvAD9bjNconFUduJDBLvTGAFXS");

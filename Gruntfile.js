@@ -39,7 +39,11 @@ module.exports = function (grunt) {
                 }
             },
             jsFilesForTesting: [
-                'bower_components/jquery/jquery.js',
+                //'bower_components/jquery/dist/jquery.js',
+
+                // this library doesn't work properly being included after angular
+                'bower_components/js-sha3/src/sha3.js',
+
                 'bower_components/angular/angular.js',
                 'bower_components/angular-route/angular-route.js',
                 'bower_components/angular-sanitize/angular-sanitize.js',
@@ -47,27 +51,34 @@ module.exports = function (grunt) {
                 'bower_components/restangular/dist/restangular.js',
                 'bower_components/underscore/underscore.js',
                 'bower_components/underscore/underscore.js',
-                'src/js/**/*Spec.js'
+                'bower_components/decimal.js/decimal.js',
+                'bower_components/Base58/Base58.js',
+                'bower_components/cryptojslib/rollups/aes.js',
+                'bower_components/cryptojslib/rollups/sha256.js',
+                'bower_components/curve25519-js/axlsign.js',
+
+                'src/js/vendor/blake2b.js',
+                'src/js/vendor/converters.js',
+                'src/js/vendor/extensions.js',
             ]
         },
         // Task configuration.
         jshint: {
-            all: ['src/js/**/*.js']
+            all: ['src/js/**/*.js', '!src/js/vendor/*.js']
         },
         jscs: {
-            src: 'src/js/**/*.js',
+            src: ['src/js/**/*.js', '!src/js/vendor/*.js'],
             options: {
                 config: '.jscsrc'
             }
         },
         watch: {
-            gruntfile: {
-                files: '<%= jshint.gruntfile.src %>',
-                tasks: ['jshint:gruntfile']
-            },
-            lib_test: {
-                files: '<%= jshint.lib_test.src %>',
-                tasks: ['jshint:lib_test', 'qunit']
+            scripts: {
+                files: ['Gruntfile.js', 'src/js/**/*.js'],
+                tasks: ['test'],
+                options: {
+                    interrupt: true
+                }
             }
         },
         jasmine: {
@@ -79,13 +90,62 @@ module.exports = function (grunt) {
             }
         },
         karma: {
+            options: {
+                configFile: 'karma.conf.js'
+            },
             development: {
-                configFile: 'karma.conf.js',
                 options: {
                     files: [
                         '<%= meta.jsFilesForTesting %>',
-                        'src/js/**/*.js'
+                        // project sources
+                        'src/js/waves.money.js',
+                        'src/js/app.js',
+                        'src/js/core.module.js',
+                        'src/js/core.constants.js',
+                        'src/js/core.services.module.js',
+                        'src/js/account.service.js',
+                        'src/js/address.service.js',
+                        'src/js/crypto.service.js',
+                        'src/js/api.service.js',
+                        'src/js/localstorage.chrome.service.js',
+                        'src/js/localstorage.html5.service.js',
+
+                        'src/js/**/*.spec.js'
                     ]
+                }
+            },
+            distr: {
+                options: {
+                    files: [
+                        '<%= meta.jsFilesForTesting %>',
+                        'distr/<%= pkg.name %>-<%= pkg.version %>.js',
+                        'src/js/**/*.spec.js'
+                    ]
+                }
+            },
+            minified: {
+                options: {
+                    files: [
+                        '<%= meta.jsFilesForTesting %>',
+                        'distr/<%= pkg.name %>-<%= pkg.version %>.min.js',
+                        'src/js/**/*.spec.js'
+                    ]
+                }
+            }
+        },
+        concat: {
+            distr: {
+                src: ['src/js/**/*.js', 'src/js/**/*.spec.js'],
+                dest: 'distr/<%= pkg.name %>-<%= pkg.version %>.js'
+            }
+        },
+        uglify: {
+            options: {
+                mangle: false
+            },
+            distr: {
+                files: {
+                    'distr/<%= pkg.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= pkg.version %>.js']
                 }
             }
         },
@@ -242,6 +302,8 @@ module.exports = function (grunt) {
 
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-clean');
@@ -261,7 +323,16 @@ module.exports = function (grunt) {
 
     grunt.registerTask('distr', ['clean', 'emptyChangelog', 'copy', 'compress']);
     grunt.registerTask('publish', ['bump', 'distr', 'conventionalChangelog', 'shell', 'github-release']);
-    grunt.registerTask('test', ['karma:development']);
+    grunt.registerTask('test', ['jshint', 'jscs', 'karma:development']);
+    grunt.registerTask('build', [
+        'jscs',
+        'jshint',
+        'karma:development',
+        'concat',
+        'karma:distr',
+        'uglify',
+        'karma:minified'
+    ]);
     // Default task.
     grunt.registerTask('default', ['jasmine']);
 };
