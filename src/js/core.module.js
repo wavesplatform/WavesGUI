@@ -1,5 +1,5 @@
 (function() {
     'use strict';
 
-    angular.module('app.core', ['restangular']);
+    angular.module('app.core', []);
 })();

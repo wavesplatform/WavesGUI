@@ -1,5 +1,8 @@
 describe('Crypto.Service', function() {
-    var cryptoService;
+    var cryptoService, constants = {
+        INITIAL_NONCE: 0,
+        ADDRESS_VERSION: 1
+    };
 
     function keyGenerationTestCase(encodedSeed, encodedExpectedPrivateKey, encodedExpectedPublicKey) {
         var seedBytes = cryptoService.base58.decode(encodedSeed);
@@ -24,6 +27,11 @@ describe('Crypto.Service', function() {
 
     // Initialization of the module before each test case
     beforeEach(module('app.core.services'));
+
+    // overriding app.core module constants
+    beforeEach(angular.mock.module('app.core', function ($provide) {
+        $provide.constant('constants.core', constants);
+    }));
 
     // Injection of dependencies
     beforeEach(inject(function($injector) {
@@ -113,6 +121,48 @@ describe('Crypto.Service', function() {
             'XrZ050/ZvpR0XeTbNZCdijwAnlvMDAnEF/FxeMHLIb6nfSMFbGFuM8L8jRiqF4ENrA==',
             'a3d4dce6345761d7bbfaf2c306c12e731adbb18a0648118481a68ea6b5a61914',
             'unlock wasp wet engine syrup badge depth credit possible elder harvest ready fire divert member');
+    });
+
+    it('deterministic transaction signature is the same as computed by backend', function () {
+        var messageBytes = cryptoService.base58.decode('Psm3kB61bTJnbBZo3eE6fBGg8vAEAG');
+        var publicKey = cryptoService.base58.decode('biVxMhzqLPDVS8hs9w5TtjXxtmNqeoHX21kHRDmszzV');
+        var privateKey = cryptoService.base58.decode('4nAEobwe4jB5Cz2FXDzGDEPge89YaWm9HhKwsFyeHwoc');
+
+        var signature = cryptoService.deterministicSign(privateKey, messageBytes);
+        expect(cryptoService.verify(publicKey, messageBytes, cryptoService.base58.decode(signature))).toBe(true);
+        expect(signature)
+            .toEqual('2HhyaYcKJVEPVgoPkjN3ZCVYKaobwxavLFnn75if6D95Nrc2jHAwX72inxsZpv9KVpMASqQfDB5KRqfkJutz5iav');
+
+        signature = cryptoService.nonDeterministicSign(privateKey, messageBytes);
+        expect(cryptoService.verify(publicKey, messageBytes, cryptoService.base58.decode(signature))).toBe(true);
+    });
+
+    it('should generate network addresses locally', function() {
+        // testing testnet address generation
+        constants.NETWORK_CODE = 'T';
+        expect(cryptoService.buildRawAddress('5ug8nQ1ubfjAZVJFed4mcXVVEBz53DfV8nBQWuKbt2AJ'))
+            .toEqual('3Mtkz8KeXUZmTbNH1MFcrMGv4t1av5tmaFL');
+        expect(cryptoService.buildRawAddress('9iDrC31brcunVTRCq69iUngg1S5Ai1rd6iX7vTwAGTvn'))
+            .toEqual('3N33kaYS3C9pvVsVjLKLApmRQHfzm3UY36N');
+        expect(cryptoService.buildRawAddress('Dq5f76Ro3qQCPWSDrCNrVDCiKwNFKCP2UmnVZzPxVf8'))
+            .toEqual('3NBmgsTgGv8nfmYzbCiKvTuBJtDpVyyxqKr');
+        expect(cryptoService.buildRawAddress('6tk94Rwij3FXwfaJLWu9PhQAHDY2MUjPLYkHQ28HaRk3'))
+            .toEqual('3MstHyC4tKtBhzbWdhrJ3jkxPD1hYSJCi77');
+        expect(cryptoService.buildRawAddress('2oGDrLRdBsU9Nb32jgPMh3TrQXm9QifUBLnLijfWqY5e'))
+            .toEqual('3MzUpwpiNTr32YWoYVmRFyzJQgdDbti3shP');
+        expect(cryptoService.buildRawAddress('71m88eJxbfJnNPW87r4Qtrp9Q2qa1wsLYmrxXRAzLPF6'))
+            .toEqual('3MwJXUURjZY2BmbMDRMwgGnJ19RZC9Hdg3V');
+        expect(cryptoService.buildRawAddress('7Ftuept6hfNEhSeVA439asPWZQVuteqWQUEPz6RGHsAo'))
+            .toEqual('3MpETHR7opAMN6dWqJejq1X37YCkq6Nu5hK');
+        expect(cryptoService.buildRawAddress('AEYsMR1171SmhV77rDtBTyfjmFubzirpHqFH4hV1aDt9'))
+            .toEqual('3MyciTA8STrTWjZ46KdoZ1ASf5GuY7sD8be');
+
+        // testing mainnet address generation
+        constants.NETWORK_CODE = 'W';
+        expect(cryptoService.buildRawAddress('D1vnz91YRXyDM72R6ZsPZfj1woMzL5nZtFrfeGQYjMs6'))
+            .toEqual('3PKGL4nMz3sMESQXPzmX5GKbiQtCi2Tu9Z5');
+        expect(cryptoService.buildRawAddress('9Emin4uvu2cew67hkpkX2ZKV6NJEjyP7Uvzbf8ARMCc6'))
+            .toEqual('3P9oRcFxwjW58bqu1oXyk1JrRTy8ADSKvdN');
     });
 });
 
