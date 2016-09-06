@@ -97,17 +97,17 @@ module.exports = function (grunt) {
                     files: [
                         '<%= meta.jsFilesForTesting %>',
                         // project sources
-                        'src/js/waves.money.js',
                         'src/js/app.js',
-                        'src/js/core.module.js',
-                        'src/js/core.constants.js',
-                        'src/js/core.services.module.js',
-                        'src/js/account.service.js',
-                        'src/js/address.service.js',
-                        'src/js/crypto.service.js',
-                        'src/js/api.service.js',
-                        'src/js/localstorage.chrome.service.js',
-                        'src/js/localstorage.html5.service.js',
+                        'src/js/core/waves.money.js',
+                        'src/js/core/core.module.js',
+                        'src/js/core/core.constants.js',
+                        'src/js/core/core.services.module.js',
+                        'src/js/core/account.service.js',
+                        'src/js/core/address.service.js',
+                        'src/js/core/crypto.service.js',
+                        'src/js/core/api.service.js',
+                        'src/js/core/localstorage.chrome.service.js',
+                        'src/js/core/localstorage.html5.service.js',
 
                         'src/js/**/*.spec.js'
                     ]
