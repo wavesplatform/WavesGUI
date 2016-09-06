@@ -50,7 +50,6 @@ module.exports = function (grunt) {
                 'bower_components/angular-mocks/angular-mocks.js',
                 'bower_components/restangular/dist/restangular.js',
                 'bower_components/underscore/underscore.js',
-                'bower_components/underscore/underscore.js',
                 'bower_components/decimal.js/decimal.js',
                 'bower_components/Base58/Base58.js',
                 'bower_components/cryptojslib/rollups/aes.js',

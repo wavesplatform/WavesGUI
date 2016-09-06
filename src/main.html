@@ -1,0 +1,93 @@
+<!--
+/******************************************************************************
+* Copyright © 2016 The Waves Developers.                                     *
+*                                                                            *
+* See the LICENSE file at                                                    *
+* the top-level directory of this distribution for the individual copyright  *
+* holder information and the developer policies on copyright and licensing.  *
+*                                                                            *
+* Unless otherwise agreed in a custom licensing agreement, no part of the    *
+* Waves software, including this file may be copied, modified, propagated    *
+* or distributed except according to the terms contained in the LICENSE file *
+*                                                                            *
+* Removal or modification of this copyright notice is prohibited.            *
+*                                                                            *
+******************************************************************************/
+-->
+
+<!doctype html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>Waves Lite Client</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/jquery.modal.css">
+    <link rel="stylesheet" href="css/jquery.growl.css">
+    <link rel="stylesheet" href="css/tooltipster.min.css">
+	<link href="img/favicon.ico" type="image/x-icon" rel="shortcut icon"/>
+</head>
+
+<body>
+
+<!-- LOADER -->
+    <div ng-controller="splashController" id="bg-spin" class="noSelect">
+        <div id="logo-container-centered" class="centerIt">
+            <div id="logoo">
+                <img id="logo-spin" src="img/logo-spin.svg" />
+                <p id="networkCheck">{{connectionFailed}}</p>
+            </div>
+        </div>
+    </div>
+
+	<div id="wrapper">
+
+	</div> <!-- Wrapper div END -->
+
+    <!-- JAVASCRIPT -->
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+
+    <script src="../bower_components/js-sha3/src/sha3.js"></script>
+
+    <!-- angular -->
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-sanitize/angular-sanitize.js.js"></script>
+    <script src="../bower_components/restangular/dist/restangular.js"></script>
+
+    <!-- utilities -->
+    <script src="../bower_components/underscore/underscore.js"></script>
+    <script src="../bower_components/decimal.js/decimal.js"></script>
+
+    <script src="../bower_components/nprogress/nprogress.js"></script>
+
+    <!-- crypto libraries -->
+    <script src="../bower_components/Base58/Base58.js"></script>
+    <script src="../bower_components/cryptojslib/rollups/aes.js"></script>
+    <script src="../bower_components/cryptojslib/rollups/sha256.js"></script>
+    <script src="../bower_components/curve25519-js/axlsign.js"></script>
+
+    <script src="js/vendor/blake2b.js"></script>
+    <script src="js/vendor/converters.js"></script>
+    <script src="js/vendor/extensions.js"></script>
+
+    <!-- application modules -->
+    <script src="js/waves.money.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/core.module.js"></script>
+    <script src="js/core.constants.js"></script>
+
+    <script src="js/core.services.module.js"></script>
+    <script src="js/account.service.js"></script>
+    <script src="js/address.service.js"></script>
+    <script src="js/crypto.service.js"></script>
+    <script src="js/api.service.js"></script>
+    <script src="js/localstorage.html5.service.js"></script>
+    <script src="js/localstorage.chrome.service.js"></script>
+
+    <script src="js/login/login.module.js"></script>
+    <script src="js/login/splash.controller.js"></script>
+
+    <script src="js/style.js"></script>
+</body>
+</html>

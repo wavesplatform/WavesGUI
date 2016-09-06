@@ -4,28 +4,28 @@
     angular
         .module('app.core.services')
         .service('apiService', ['Restangular', function (rest) {
-            var blocksApi = rest.service('blocks');
+            var blocksApi = rest.all('blocks');
 
             this.blocks = {
                 height: function() {
-                    return blocksApi.all('height').get();
+                    return blocksApi.get('height');
                 },
                 last: function() {
-                    return blocksApi.all('last').get();
+                    return blocksApi.get('last');
                 },
-                list: function (start, end) {
-                    return blocksApi.one('seq', start).all(end).getList();
+                list: function (startHeight, endHeight) {
+                    return blocksApi.one('seq', startHeight).all(endHeight).getList();
                 }
             };
 
-            var addressApi = rest.service('addresses');
+            var addressApi = rest.all('addresses');
             this.address = {
                 balance: function (address) {
                     return addressApi.one('balance', address.getRawAddress()).get();
                 }
             };
 
-            var transactionApi = rest.service('transactions');
+            var transactionApi = rest.all('transactions');
             this.transactions = {
                 unconfirmed: function () {
                     return transactionApi.all('unconfirmed').getList();
@@ -36,7 +36,7 @@
                 }
             };
 
-            var wavesApi = rest.service('waves');
+            var wavesApi = rest.all('waves');
             this.broadcastPayment = function (signedPaymentTransaction) {
                 return wavesApi.all('broadcast-signed-payment').post(signedPaymentTransaction);
             };

@@ -123,7 +123,7 @@ describe('Crypto.Service', function() {
             'unlock wasp wet engine syrup badge depth credit possible elder harvest ready fire divert member');
     });
 
-    it('deterministic transaction signature is the same as computed by backend', function () {
+    it('deterministic transaction signature is the same as computed by the backend', function () {
         var messageBytes = cryptoService.base58.decode('Psm3kB61bTJnbBZo3eE6fBGg8vAEAG');
         var publicKey = cryptoService.base58.decode('biVxMhzqLPDVS8hs9w5TtjXxtmNqeoHX21kHRDmszzV');
         var privateKey = cryptoService.base58.decode('4nAEobwe4jB5Cz2FXDzGDEPge89YaWm9HhKwsFyeHwoc');
@@ -165,4 +165,3 @@ describe('Crypto.Service', function() {
             .toEqual('3P9oRcFxwjW58bqu1oXyk1JrRTy8ADSKvdN');
     });
 });
-
