@@ -1,5 +1,5 @@
 (function() {
     'use strict';
 
-    angular.module('app.login', ['app.core.services']);
+    angular.module('app.login', ['waves.core.services']);
 })();

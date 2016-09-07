@@ -7,8 +7,8 @@
 var app = angular.module('app',
     [
         'restangular',
-        'app.core',
-        'app.core.services',
+        'waves.core',
+        'waves.core.services',
 
         'app.login'
     ]

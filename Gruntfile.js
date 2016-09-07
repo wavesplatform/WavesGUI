@@ -59,6 +59,8 @@ module.exports = function (grunt) {
                 'src/js/vendor/blake2b.js',
                 'src/js/vendor/converters.js',
                 'src/js/vendor/extensions.js',
+
+                'bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.1.0.js'
             ]
         },
         // Task configuration.
@@ -98,16 +100,6 @@ module.exports = function (grunt) {
                         '<%= meta.jsFilesForTesting %>',
                         // project sources
                         'src/js/app.js',
-                        'src/js/core/waves.money.js',
-                        'src/js/core/core.module.js',
-                        'src/js/core/core.constants.js',
-                        'src/js/core/core.services.module.js',
-                        'src/js/core/account.service.js',
-                        'src/js/core/address.service.js',
-                        'src/js/core/crypto.service.js',
-                        'src/js/core/api.service.js',
-                        'src/js/core/localstorage.chrome.service.js',
-                        'src/js/core/localstorage.html5.service.js',
 
                         'src/js/**/*.spec.js'
                     ]
