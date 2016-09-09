@@ -10,6 +10,7 @@ var app = angular.module('app',
         'waves.core',
         'waves.core.services',
 
+        'app.ui',
         'app.login'
     ]
 );

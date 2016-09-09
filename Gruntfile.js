@@ -47,6 +47,7 @@ module.exports = function (grunt) {
                 'bower_components/angular/angular.js',
                 'bower_components/angular-route/angular-route.js',
                 'bower_components/angular-sanitize/angular-sanitize.js',
+                'bower_components/angular-animate/angular-animate.js',
                 'bower_components/angular-mocks/angular-mocks.js',
                 'bower_components/restangular/dist/restangular.js',
                 'bower_components/underscore/underscore.js',
@@ -55,10 +56,6 @@ module.exports = function (grunt) {
                 'bower_components/cryptojslib/rollups/aes.js',
                 'bower_components/cryptojslib/rollups/sha256.js',
                 'bower_components/curve25519-js/axlsign.js',
-
-                'src/js/vendor/blake2b.js',
-                'src/js/vendor/converters.js',
-                'src/js/vendor/extensions.js',
 
                 'bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.1.0.js'
             ]
@@ -100,6 +97,16 @@ module.exports = function (grunt) {
                         '<%= meta.jsFilesForTesting %>',
                         // project sources
                         'src/js/app.js',
+                        'src/js/ui.module.js',
+                        'src/js/home.controller.js',
+                        'src/js/splash.controller.js',
+
+                        'src/js/login/login.module.js',
+                        'src/js/login/login.constants.js',
+                        'src/js/login/accounts.controller.js',
+                        'src/js/login/account.list.controller.js',
+                        'src/js/login/account.register.controller.js',
+                        'src/js/login/account.seed.controller.js',
 
                         'src/js/**/*.spec.js'
                     ]

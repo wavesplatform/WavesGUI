@@ -17,7 +17,9 @@
     "curve25519-js": "git@github.com:wavesplatform/curve25519-js.git",
     "js-sha3": "^0.5.2",
     "nprogress": "^0.2.0",
-    "wavesplatform-core-js": "git@github.com:beregovoy68/wavesplatform.core.js.git"
+    "wavesplatform-core-js": "git@github.com:beregovoy68/wavesplatform.core.js.git",
+    "angular-animate": "^1.5.8",
+    "clipboard": "^1.5.12"
   },
   "analytics": false
 }
