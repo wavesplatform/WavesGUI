@@ -24,21 +24,21 @@ var $wrapW = $('#wrapper').width(),
 // Left bar active/hidden settings
 // COMMENTED OUT FOR NOW - MIGHT UNCOMMENT AFTER ALPHA OR SUBSTITUTE ENTIRELY
 //function LeftBarVis(){
-//    
+//
 //    if (window.matchMedia('(max-width: 420px), (max-width: 736px) and (max-height: 420px)').matches) {
-//        
+//
 //        $('#mBLeftBar').css('display', 'none');
 //        $('#mBBody').css('width', $wrapW).css('text-align', 'center');
-//        
+//
 //    } else if ($('input[type=radio][name=tabs-Icons]:checked').val() == 'mBB-wallet' || $('input[type=radio][name=tabs-Icons]:checked').val() == 'mBB-history' || $('input[type=radio][name=tabs-Icons]:checked').val() == 'mBB-community') {
-//        
+//
 //            $('#mBLeftBar').css('display', 'none');
 //            $('#mBBody').css('width', $wrapW);
 //            $('#mBB-wallet').css('text-align', 'center');
-//        
+//
 //    } else {
-//        
-//            $('#mBLeftBar').css('display', 'table-cell');    
+//
+//            $('#mBLeftBar').css('display', 'table-cell');
 //    }
 //
 //};
@@ -69,8 +69,8 @@ $(window).on("load resize", function (e) {
 
 
 // Left bar active/hidden settings on tab clicks
-//    $('input[type=radio]').click(function(){ 
-//    LeftBarVis(); 
+//    $('input[type=radio]').click(function(){
+//    LeftBarVis();
 //});
 
 
@@ -98,7 +98,7 @@ function executeDoneFirst(callback) {
 }
 
 $(window).load(function () {
-    var $eThing = $('#bg-spin');
+    /*var $eThing = $('#bg-spin');
     Waves.apiRequest(Waves.api.blocks.last, function (response) {
         if (!response.errorCode) {
             executeDoneFirst(function () {
@@ -107,7 +107,7 @@ $(window).load(function () {
         } else {
             $("#networkCheck").html('Failed connecting to Waves');
         }
-    });
+    });*/
 });
 
 

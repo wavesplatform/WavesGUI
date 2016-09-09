@@ -37,42 +37,46 @@ module.exports = function (grunt) {
                 chrome: {
                     name: 'chrome'
                 }
-            }
+            },
+            jsFilesForTesting: [
+                //'bower_components/jquery/dist/jquery.js',
+
+                // this library doesn't work properly being included after angular
+                'bower_components/js-sha3/src/sha3.js',
+
+                'bower_components/angular/angular.js',
+                'bower_components/angular-route/angular-route.js',
+                'bower_components/angular-sanitize/angular-sanitize.js',
+                'bower_components/angular-animate/angular-animate.js',
+                'bower_components/angular-mocks/angular-mocks.js',
+                'bower_components/restangular/dist/restangular.js',
+                'bower_components/underscore/underscore.js',
+                'bower_components/decimal.js/decimal.js',
+                'bower_components/Base58/Base58.js',
+                'bower_components/cryptojslib/rollups/aes.js',
+                'bower_components/cryptojslib/rollups/sha256.js',
+                'bower_components/curve25519-js/axlsign.js',
+
+                'bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.1.0.js'
+            ]
         },
         // Task configuration.
         jshint: {
+            all: ['src/js/**/*.js', '!src/js/vendor/*.js']
+        },
+        jscs: {
+            src: ['src/js/**/*.js', '!src/js/vendor/*.js'],
             options: {
-                curly: true,
-                eqeqeq: true,
-                immed: true,
-                latedef: true,
-                newcap: true,
-                noarg: true,
-                sub: true,
-                undef: true,
-                unused: true,
-                boss: true,
-                eqnull: true,
-                browser: true,
-                globals: {
-                    jQuery: true
-                }
-            },
-            gruntfile: {
-                src: 'Gruntfile.js'
-            },
-            lib_test: {
-                src: ['js/*.js']
+                config: '.jscsrc'
             }
         },
         watch: {
-            gruntfile: {
-                files: '<%= jshint.gruntfile.src %>',
-                tasks: ['jshint:gruntfile']
-            },
-            lib_test: {
-                files: '<%= jshint.lib_test.src %>',
-                tasks: ['jshint:lib_test', 'qunit']
+            scripts: {
+                files: ['Gruntfile.js', 'src/js/**/*.js'],
+                tasks: ['test'],
+                options: {
+                    interrupt: true
+                }
             }
         },
         jasmine: {
@@ -81,6 +85,66 @@ module.exports = function (grunt) {
                 specs: 'tests/spec/**/*.js',
                 vendor: ['js/3rdparty/**/*.js', 'js/blake2b/**/*.js', 'js/crypto/**/*.js', 'js/axlsign/**/*.js', 'js/util/**/*.js'],
                 keepRunner: false
+            }
+        },
+        karma: {
+            options: {
+                configFile: 'karma.conf.js'
+            },
+            development: {
+                options: {
+                    files: [
+                        '<%= meta.jsFilesForTesting %>',
+                        // project sources
+                        'src/js/app.js',
+                        'src/js/ui.module.js',
+                        'src/js/home.controller.js',
+                        'src/js/splash.controller.js',
+
+                        'src/js/login/login.module.js',
+                        'src/js/login/login.constants.js',
+                        'src/js/login/accounts.controller.js',
+                        'src/js/login/account.list.controller.js',
+                        'src/js/login/account.register.controller.js',
+                        'src/js/login/account.seed.controller.js',
+
+                        'src/js/**/*.spec.js'
+                    ]
+                }
+            },
+            distr: {
+                options: {
+                    files: [
+                        '<%= meta.jsFilesForTesting %>',
+                        'distr/<%= pkg.name %>-<%= pkg.version %>.js',
+                        'src/js/**/*.spec.js'
+                    ]
+                }
+            },
+            minified: {
+                options: {
+                    files: [
+                        '<%= meta.jsFilesForTesting %>',
+                        'distr/<%= pkg.name %>-<%= pkg.version %>.min.js',
+                        'src/js/**/*.spec.js'
+                    ]
+                }
+            }
+        },
+        concat: {
+            distr: {
+                src: ['src/js/**/*.js', 'src/js/**/*.spec.js'],
+                dest: 'distr/<%= pkg.name %>-<%= pkg.version %>.js'
+            }
+        },
+        uglify: {
+            options: {
+                mangle: false
+            },
+            distr: {
+                files: {
+                    'distr/<%= pkg.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= pkg.version %>.js']
+                }
             }
         },
         clean: ['build/**', 'distr/**'],
@@ -155,6 +219,7 @@ module.exports = function (grunt) {
         },
         bump: {
             options: {
+                files: ['package.json', 'bower.json'],
                 updateConfigs: ['pkg'],
                 commit: true, // debug
                 push: 'branch', // debug
@@ -235,15 +300,19 @@ module.exports = function (grunt) {
 
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-compress');
+    grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-bump');
     grunt.loadNpmTasks('grunt-github-releaser');
     grunt.loadNpmTasks('grunt-webstore-upload');
     grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-conventional-changelog');
 
     grunt.registerTask('emptyChangelog', 'Creates an empty changelog', function() {
@@ -252,6 +321,16 @@ module.exports = function (grunt) {
 
     grunt.registerTask('distr', ['clean', 'emptyChangelog', 'copy', 'compress']);
     grunt.registerTask('publish', ['bump', 'distr', 'conventionalChangelog', 'shell', 'github-release']);
+    grunt.registerTask('test', ['jshint', 'jscs', 'karma:development']);
+    grunt.registerTask('build', [
+        'jscs',
+        'jshint',
+        'karma:development',
+        'concat',
+        'karma:distr',
+        'uglify',
+        'karma:minified'
+    ]);
     // Default task.
     grunt.registerTask('default', ['jasmine']);
 };

@@ -230,7 +230,6 @@ body {
     min-height: 320px;
     margin: 0 auto;
     overflow: hidden;
-    display: none;
 }
 
 /* ======================================================================= */
@@ -302,7 +301,6 @@ body {
     background-position: center center;
 }
 #lockscreenTable {
-    display: none;
     width: auto;
     margin: 0 auto;
     padding: 1rem;
@@ -403,9 +401,6 @@ body {
     margin: 0 auto;
     padding: 1rem;
 }
-#step2_reg {
-    display: none;
-}
 #walletSeed {
     /*    width: 300px;*/
     margin-top: .5rem;
@@ -419,7 +414,7 @@ body {
 #wavesAccounts {
     margin-top: .5rem;
 }
-#wavesAccounts > p {
+.wavesAccounts > p {
     margin-top: -1rem;
 }
 #import_account {
