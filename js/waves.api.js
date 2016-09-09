@@ -54,10 +54,6 @@ var Waves = (function (Waves, $) {
 			},
 			validate: function (address) {
 				return URL + '/addresses/validate/' + address.getRawAddress();
-			},
-			check: function(current, generated, id) {
-				return URL + '/waves/address/validations/' + current.getRawAddress() + '/' +
-					generated.getRawAddress() + '/' + id;
 			}
 		},
 		transactions: {

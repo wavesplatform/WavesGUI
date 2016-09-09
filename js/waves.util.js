@@ -246,13 +246,9 @@ var Waves = (function (Waves, $, undefined) {
     };
 
     Waves.MAP = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-    
+
     var getNetworkIdByte = function() {
         return Waves.constants.NETWORK_CODE.charCodeAt(0) & 0xFF;
-    }
-
-    Waves.getLocalDateFormat = function () {
-        return Waves.LOCALE_DATE_FORMAT;
     }
 
     Waves.transactionType = function (number) {
@@ -289,18 +285,6 @@ var Waves = (function (Waves, $, undefined) {
         return signatureBytes.concat(typeBytes, timestampBytes, publicKey, recipient, amountBytes, feeBytes);
     }
 
-    Waves.areByteArraysEqual = function (bytes1, bytes2) {
-        if (bytes1.length !== bytes2.length)
-            return false;
-
-        for (var i = 0; i < bytes1.length; ++i) {
-            if (bytes1[i] !== bytes2[i])
-                return false;
-        }
-
-        return true;
-    }
-
     //Get timestamp in Waves
     Waves.getTime = function() {
         return Date.now();
@@ -330,7 +314,7 @@ var Waves = (function (Waves, $, undefined) {
     Waves.hashChain = function(noncedSecretPhraseBytes) {
         return this.keccakHash(this.blake2bHash(new Uint8Array(noncedSecretPhraseBytes)));
     }
-    
+
     Waves.appendUint8Arrays = function(array1, array2) {
         var tmp = new Uint8Array(array1.length + array2.length);
         tmp.set(array1, 0);
@@ -464,7 +448,7 @@ var Waves = (function (Waves, $, undefined) {
 		return result.toString();
 	}
 
-   
+
     Waves.amountToPrecision = function (amount, decimals) {
 		amount = String(amount);
 
@@ -582,102 +566,8 @@ var Waves = (function (Waves, $, undefined) {
 		}
 	}
 
-    Waves.isPrivateIP = function (ip) {
-		if (!/^\d+\.\d+\.\d+\.\d+$/.test(ip)) {
-			return false;
-		}
-		var parts = ip.split('.');
-      return parts[0] === '10' || parts[0] == '127' || parts[0] === '172' && (parseInt(parts[1], 10) >= 16 && parseInt(parts[1], 10) <= 31) || parts[0] === '192' && parts[1] === '168';
-	}
-
-    Waves.convertToHex16 = function (str) {
-		var hex, i;
-		var result = "";
-		for (i = 0; i < str.length; i++) {
-			hex = str.charCodeAt(i).toString(16);
-			result += ("000" + hex).slice(-4);
-		}
-
-		return result;
-	}
-
-    Waves.convertFromHex16 = function (hex) {
-		var j;
-		var hexes = hex.match(/.{1,4}/g) || [];
-		var back = "";
-		for (j = 0; j < hexes.length; j++) {
-			back += String.fromCharCode(parseInt(hexes[j], 16));
-		}
-
-		return back;
-	}
-
-    Waves.convertFromHex8 = function (hex) {
-        var hexStr = hex.toString(); //force conversion
-		var str = '';
-        for (var i = 0; i < hexStr.length; i += 2) {
-            str += String.fromCharCode(parseInt(hexStr.substr(i, 2), 16));
-        }
-		return str;
-	}
-
-    Waves.convertToHex8 = function (str) {
-		var hex = '';
-		for (var i = 0; i < str.length; i++) {
-			hex += '' + str.charCodeAt(i).toString(16);
-		}
-		return hex;
-	}
-
-
-    Waves.setCookie = function (name, value, days) {
-		var expires;
-		if (days) {
-			var date = new Date();
-			date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            expires = "; expires=" + date.toUTCString();
-		} else {
-			expires = "";
-		}
-        //noinspection JSDeprecatedSymbols
-		document.cookie = escape(name) + "=" + escape(value) + expires + "; path=/";
-	}
-
-    Waves.getCookie = function (name) {
-        //noinspection JSDeprecatedSymbols
-		var nameEQ = escape(name) + "=";
-		var ca = document.cookie.split(';');
-		for (var i = 0; i < ca.length; i++) {
-			var c = ca[i];
-            while (c.charAt(0) === ' ') {
-                c = c.substring(1, c.length);
-		}
-            if (c.indexOf(nameEQ) === 0) {
-                //noinspection JSDeprecatedSymbols
-                return unescape(c.substring(nameEQ.length, c.length));
-            }
-        }
-		return null;
-	}
-
-    Waves.deleteCookie = function (name) {
-		Waves.setCookie(name, "", -1);
-	}
-
     Waves.isEnterKey = function (charCode) {
         return (charCode == 10 || charCode == 13);
-    }
-
-    Waves.getUrlParameter = function (sParam) {
-		var sPageURL = window.location.search.substring(1);
-		var sURLVariables = sPageURL.split('&');
-        for (var i = 0; i < sURLVariables.length; i++) {
-			var sParameterName = sURLVariables[i].split('=');
-            if (sParameterName[0] == sParam) {
-				return sParameterName[1];
-			}
-		}
-		return false;
     }
 
 	// http://stackoverflow.com/questions/12518830/java-string-getbytesutf8-javascript-analog
@@ -689,46 +579,6 @@ var Waves = (function (Waves, $, undefined) {
             arr[i] = utf8.charCodeAt(i);
         }
         return arr;
-    }
- 
-    // http://stackoverflow.com/questions/18729405/how-to-convert-utf8-string-to-byte-array
-    Waves.strToUTF8Arr = function(str) {
-        var utf8 = [];
-        for (var i = 0; i < str.length; i++) {
-            var charcode = str.charCodeAt(i);
-            if (charcode < 0x80) utf8.push(charcode);
-            else if (charcode < 0x800) {
-                utf8.push(0xc0 | (charcode >> 6),
-                          0x80 | (charcode & 0x3f));
-            }
-            else if (charcode < 0xd800 || charcode >= 0xe000) {
-                utf8.push(0xe0 | (charcode >> 12),
-                          0x80 | ((charcode >> 6) & 0x3f),
-                          0x80 | (charcode & 0x3f));
-            }
-            // surrogate pair
-            else {
-                i++;
-                // UTF-16 encodes 0x10000-0x10FFFF by
-                // subtracting 0x10000 and splitting the
-                // 20 bits of 0x0-0xFFFFF into two halves
-                charcode = 0x10000 + (((charcode & 0x3ff) << 10)
-                          | (str.charCodeAt(i) & 0x3ff));
-                utf8.push(0xf0 | (charcode >> 18),
-                          0x80 | ((charcode >> 12) & 0x3f),
-                          0x80 | ((charcode >> 6) & 0x3f),
-                          0x80 | (charcode & 0x3f));
-            }
-        }
-        return utf8;
-    }
-
-    function byteArrayToBigInteger(byteArray) {
-        var value = new BigInteger("0", 10);
-        for (var i = byteArray.length - 1; i >= 0; i--) {
-            value = value.multiply(new BigInteger("256", 10)).add(new BigInteger(byteArray[i].toString(10), 10));
-        }
-        return value;
     }
 
     Waves.initialCaps = function(str) {
