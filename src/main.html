@@ -75,13 +75,9 @@
                                 <span class="divider-1"></span>
                                 <button id="create_account" class="wButton fade tooltip-1" title="Click here to create a brand new account." ng-click="list.createAccount()">NEW ACCOUNT</button>
                                 <br/>
-                            </div>
 
-
-                            <!-- Remove Account popup -->
-                            <div id="login-wPop-remove" class="wavesPop">
-                                <img class="wPop-header" src="img/modal-header-danger.svg" />
-                                <div class="wPop-content">
+                                <!-- Remove Account popup -->
+                                <div id="account-remove-popup" waves-dialog on-dialog-ok="list.removeAccount(list.accountIndex)" is-error="true" ok-button-caption="REMOVE">
                                     <h2>REMOVE ACCOUNT <span id="removeAccountSpan"></span> - NOTICE</h2>
                                     <p>This feature completely removes the account from this device.
                                         <br/><br/>
@@ -92,13 +88,8 @@
                                         Click on the REMOVE button to proceed with the account removal, or CANCEL to return to the previous screen.
                                         <br/><br/>
                                     </p>
-                                    <div class="wPop-content-buttons">
-                                        <button id="remove_account_confirmation" class="wButton wButtonDanger fade tooltip-1" title="Click here to proceed with the account removal.">REMOVE</button><span class="divider-2"></span><button id="remove_account_cancel" class="wButton wButtonDanger fade tooltip-1" title="Click here to return to the previous screen.">CANCEL</button>
-                                    </div>
                                 </div>
                             </div>
-
-                        </div>
 
                         <!-- Seed input -->
                         <div id="create-seed" ng-controller="accountSeedController as vm" ng-show="accounts.mode === 'create-seed'">
@@ -118,6 +109,18 @@
                                 <button class="wButton fade" ng-click="vm.registerAccount()">REGISTER ACCOUNT</button>
                                 <span class="divider-2"></span>
                                 <button class="wButton fade" ng-click="vm.back()">BACK</button>
+
+                                <div id="seed-whitespace-popup" waves-dialog on-dialog-ok="vm.registerAccount()" closeable="false" ok-button-caption="PROCEED">
+                                    <h2>SEED NOTICE</h2>
+                                    <p>
+                                        Your wallet seed contains one or more trailing whitespace characters.
+                                        <br/><br/>
+                                        A seed with a whitespace at the end and a seed without one are different, and will result in different addresses generated.
+                                        <br/><br/>
+                                        It is strongly recommended that you avoid trailing whitespaces in the seed. If you understand the implications of including a trailing whitespace in your seed, press <b>PROCEED</b>.
+                                        Press <b>CANCEL</b> or close the dialog box to edit your seed.<br/>
+                                    </p>
+                                </div>
                             </form>
                         </div>
 
@@ -141,25 +144,6 @@
                                         </p>
                                         <br/>
                                         <button id="close_create_account_modal" class="wButton fade" title="Click here if you understand this message.">I UNDERSTAND</button>
-                                    </div>
-                                </div>
-
-                                <div id="seed-whitespace-popup" class="wavesPop">
-                                    <img class="wPop-header" src="img/modal-header-round.svg" />
-                                    <div class="wPop-content">
-                                        <h2>SEED NOTICE</h2>
-                                        <p>
-                                            Your wallet seed contains one or more trailing whitespace characters.
-                                            <br/><br/>
-                                            A seed with a whitespace at the end and a seed without one are different, and will result in different addresses generated.
-                                            <br/><br/>
-                                            It is strongly recommended that you avoid trailing whitespaces in the seed. If you understand the implications of including a trailing whitespace in your seed, press <b>PROCEED</b>.
-                                            Press <b>CANCEL</b> or close the dialog box to edit your seed.<br/>
-                                        </p>
-                                        <div class="wPop-content-buttons">
-                                            <a id="close-seed-whitespace-modal" href="#" class="wButton paymentForm-but fade">PROCEED</a><span class="divider-2"></span>
-                                            <a href="#" rel="modal:close" class="wButton paymentForm-but fade">CLOSE</a>
-                                        </div>
                                     </div>
                                 </div>
 
@@ -207,6 +191,8 @@
                             </form>
 
                         </div>
+
+                        </div>
                     </td>
                 </tr>
                 </tbody>
@@ -240,13 +226,20 @@
     <script src="../bower_components/cryptojslib/rollups/sha256.js"></script>
     <script src="../bower_components/curve25519-js/axlsign.js"></script>
 
+    <script src="js/vendor/jquery.modal.js"></script>
+
     <!-- application modules -->
     <script src="../bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.1.0.js"></script>
+
+
 
     <script src="js/app.js"></script>
     <script src="js/ui.module.js"></script>
     <script src="js/home.controller.js"></script>
     <script src="js/splash.controller.js"></script>
+
+    <script src="js/shared/shared.module.js"></script>
+    <script src="js/shared/shared.dialog.component.js"></script>
 
     <script src="js/login/login.module.js"></script>
     <script src="js/login/login.constants.js"></script>

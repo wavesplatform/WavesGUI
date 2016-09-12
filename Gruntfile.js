@@ -57,6 +57,8 @@ module.exports = function (grunt) {
                 'bower_components/cryptojslib/rollups/sha256.js',
                 'bower_components/curve25519-js/axlsign.js',
 
+                'src/js/vendor/jquery.modal.js',
+
                 'bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.1.0.js'
             ]
         },
@@ -100,6 +102,9 @@ module.exports = function (grunt) {
                         'src/js/ui.module.js',
                         'src/js/home.controller.js',
                         'src/js/splash.controller.js',
+
+                        'src/js/shared/shared.module.js',
+                        'src/js/shared/shared.dialog.component.js',
 
                         'src/js/login/login.module.js',
                         'src/js/login/login.constants.js',

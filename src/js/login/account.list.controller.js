@@ -21,7 +21,8 @@
             list.importAccount = importAccount;
 
             function removeAccount(index) {
-                console.log('removing account by index ' + index);
+                list.accountIndex = index;
+                angular.element('#account-remove-popup').modal();
             }
 
             function createAccount() {
