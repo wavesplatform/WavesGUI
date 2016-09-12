@@ -8,9 +8,14 @@
             var vm = this;
 
             vm.registerAccount = registerAccount;
+            vm.back = goBack;
 
             function registerAccount() {
                 $scope.$emit(events.CHANGE_MODE, modes.REGISTER);
+            }
+
+            function goBack() {
+                $scope.$emit(events.CHANGE_MODE, modes.LIST);
             }
         }]);
 })();

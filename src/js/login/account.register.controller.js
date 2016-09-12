@@ -8,9 +8,18 @@
             var vm = this;
 
             vm.saveAccount = saveAccount;
+            vm.cancel = cancel;
+
+            function goToListMode() {
+                $scope.$emit(events.CHANGE_MODE, modes.LIST);
+            }
 
             function saveAccount() {
-                $scope.$emit(events.CHANGE_MODE, modes.LIST);
+                goToListMode();
+            }
+
+            function cancel() {
+                goToListMode();
             }
         }]);
 })();

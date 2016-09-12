@@ -100,8 +100,7 @@
 
                         </div>
 
-                        <!-- Hide Registration -->
-
+                        <!-- Seed input -->
                         <div id="create-seed" ng-controller="accountSeedController as vm" ng-show="accounts.mode === 'create-seed'">
                             <form id="account-seed-form">
                                 <br/>
@@ -116,10 +115,13 @@
                                 <textarea id="walletSeed" type="text" rows="3" name="walletSeed" class="wInput"> </textarea><span class="clipSpan tooltip-1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" data-clipboard-message-success="Wallet seed has been successfully copied to clipboard" ></span>
                                 <br/><br/>
 
-                                <button id="createAccountButton" class="wButton fade" ng-click="vm.registerAccount()">REGISTER ACCOUNT</button>
+                                <button class="wButton fade" ng-click="vm.registerAccount()">REGISTER ACCOUNT</button>
+                                <span class="divider-2"></span>
+                                <button class="wButton fade" ng-click="vm.back()">BACK</button>
                             </form>
                         </div>
 
+                        <!-- store account on the current device -->
                         <div id="register" ng-controller="accountRegisterController as vm" ng-show="accounts.mode === 'register'">
 
                             <form id="register-form">
@@ -197,7 +199,7 @@
 
                                     <button id="registerSeed" class="wButton fade" ng-click="vm.saveAccount()">REGISTER</button>
                                     <span class="divider-2"></span>
-                                    <button id="#" class="goBack wButton fade">BACK</button>
+                                    <button id="#" class="wButton fade" ng-click="vm.cancel()">CANCEL</button>
 
                                     <div id="errorRegister" class="noDisp"></div>
                                 </div>
