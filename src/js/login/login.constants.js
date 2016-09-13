@@ -13,5 +13,6 @@
         .module('app.login')
         .constant('ui.login.events', {
             CHANGE_MODE: 'change-mode',
+            GENERATE_SEED: 'generate-seed'
         });
 })();

@@ -1,11 +1,13 @@
 (function () {
     'use strict';
 
-    function WavesDialogController($scope) {
+    function WavesDialogController($scope, dialogService) {
         $scope.isError = $scope.isError || false;
+        $scope.cancelButtonVisible = $scope.cancelButtonVisible || true;
         $scope.closeable = $scope.closeable || true;
         $scope.okButtonCaption = $scope.okButtonCaption || 'OK';
         $scope.cancelButtonCaption = $scope.cancelButtonCaption || 'CANCEL';
+        $scope.showButtons = $scope.showButtons || true;
 
         var imageSuffix = $scope.isError ? '-danger' : '';
         $scope.image = 'modal-header' + imageSuffix;
@@ -14,22 +16,18 @@
 
         $scope.image += '.svg';
 
-        $scope.showButtons = function () {
-            return $scope.dialogOk || $scope.dialogCancel;
-        };
-
         $scope.onOk = function () {
             if ($scope.dialogOk)
                 $scope.dialogOk();
 
-            $.modal.close();
+            dialogService.close();
         }
 
         $scope.onCancel = function () {
             if ($scope.dialogCancel)
                 $scope.dialogCancel();
 
-            $.modal.close();
+            dialogService.close();
         }
     }
 
@@ -43,10 +41,12 @@
 
             return {
                 restrict: 'A',
-                controller: ['$scope', WavesDialogController],
+                controller: ['$scope', 'dialogService', WavesDialogController],
                 transclude: true,
                 scope: {
                     closeable: '<',
+                    cancelButtonVisible: '<',
+                    showButtons: '<',
                     dialogOk: '&onDialogOk',
                     dialogCancel: '&onDialogCancel',
                     dialogClose: '&onDialogClose',
@@ -57,10 +57,10 @@
                 link: WavesDialogLink,
                 template: '<img class="wPop-header" ng-src="img/{{image}}" />' +
                     '<div class="wavesPop-content" ng-transclude></div>' +
-                    '<div class="wPop-content-buttons" ng-show="showButtons()">' +
+                    '<div class="wPop-content-buttons" ng-show="showButtons">' +
                         '<button class="wButton fade tooltip-1" ng-class="[{wButtonDanger: isError}]" title="Click here to proceed with the account removal." ng-click="onOk()">{{::okButtonCaption}}</button>' +
-                        '<span class="divider-2"></span>' +
-                        '<button class="wButton fade" ng-class="[{wButtonDanger: isError}]" ng-click="onCancel()">{{::cancelButtonCaption}}</button>' +
+                        '<span class="divider-2" ng-if="cancelButtonVisible"></span>' +
+                        '<button ng-if="cancelButtonVisible" class="wButton fade" ng-class="[{wButtonDanger: isError}]" ng-click="onCancel()">{{::cancelButtonCaption}}</button>' +
                     '</div>'
             }
         });

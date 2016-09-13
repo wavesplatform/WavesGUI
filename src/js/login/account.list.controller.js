@@ -3,8 +3,13 @@
 
     angular
         .module('app.login')
-        .controller('accountListController', ['$scope', 'ui.login.events', 'ui.login.modes', 'accountService',
-            function ($scope, events, modes, accountService) {
+        .controller('accountListController', [
+            '$scope',
+            'ui.login.events',
+            'ui.login.modes',
+            'accountService',
+            'dialogService',
+            function ($scope, events, modes, accountService, dialogService) {
             var list = this;
             list.accounts = [{
                 name: 'qqq',
@@ -22,15 +27,15 @@
 
             function removeAccount(index) {
                 list.accountIndex = index;
-                angular.element('#account-remove-popup').modal();
+                dialogService.open('#account-remove-popup');
             }
 
             function createAccount() {
-                $scope.$emit(events.CHANGE_MODE, modes.CREATE_SEED);
+                $scope.$emit(events.GENERATE_SEED);
             }
 
             function importAccount() {
-                createAccount();
+                $scope.$emit(events.CHANGE_MODE, modes.CREATE_SEED);
             }
         }]);
 })();
