@@ -61,7 +61,7 @@
                             <h2 id="AccHeader">{{accounts.caption}}</h2>
                             <div class="wavesAccounts" ng-controller="accountListController as list" ng-show="accounts.mode === 'list'">
                                 <p class="loginAccountDiv" ng-repeat="account in list.accounts">
-                                    <span class="loginAccount tooltip-1 fade" title="Log into this account." data-id="accountKey"> <br/>
+                                    <span class="loginAccount tooltip-1 fade" title="Log into this account." ng-click="list.signIn(account)"> <br/>
                                         <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::account.address}}</small>
                                     </span>
                                     <span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="{{::account.address}}"></span>
@@ -93,9 +93,9 @@
 
                         <!-- Seed input -->
                         <div id="create-seed" ng-controller="accountSeedController as vm" ng-show="accounts.mode === 'create-seed'">
-                            <form id="account-seed-form">
+                            <form id="account-seed-form" ng-submit="vm.checkSeedAndRegister()">
                                 <br/>
-                                <button id="generateRandomSeed" class="wButton fade" ng-click="vm.generateSeed()">GENERATE NEW SEED</button>
+                                <button id="generateRandomSeed" class="wButton fade" ng-click="vm.generateSeed()" type="button">GENERATE NEW SEED</button>
                                 <br/>
 
                                 <label for="walletSeed">WALLET SEED</label>
@@ -114,9 +114,9 @@
                                 </div>
                                 <br/>
 
-                                <button class="wButton fade" ng-click="vm.checkSeedAndRegister()">REGISTER ACCOUNT</button>
+                                <button class="wButton fade" type="submit">REGISTER ACCOUNT</button>
                                 <span class="divider-2"></span>
-                                <button class="wButton fade" ng-click="vm.back()">BACK</button>
+                                <button class="wButton fade" ng-click="vm.back()" type="button">BACK</button>
 
                                 <div id="seed-whitespace-popup" waves-dialog on-dialog-ok="vm.registerAccount()" closeable="false" ok-button-caption="PROCEED">
                                     <h2>SEED NOTICE</h2>
@@ -187,13 +187,30 @@
                                     <input type="password" id="walletPasswordConfirm" name="walletPasswordConfirm" class="wInput" ng-model="vm.confirmPassword"/>
                                     <br/><br/>
 
-                                    <button id="registerSeed" class="wButton fade" ng-click="vm.saveAccountAndSignIn()">REGISTER</button>
+                                    <button class="wButton fade" ng-click="vm.saveAccountAndSignIn()">REGISTER</button>
                                     <span class="divider-2"></span>
-                                    <button id="#" class="wButton fade" ng-click="vm.cancel()">CANCEL</button>
+                                    <button class="wButton fade" ng-click="vm.cancel()">CANCEL</button>
                                 </div>
-
                             </form>
+                        </div>
+                        <div id="account-login" ng-controller="accountLoginController as vm" ng-show="accounts.mode === 'login'">
+                            <form id="login-form">
+                                <div>ACCOUNT
+                                    <br/>
+                                    <span>{{accounts.displayAddress}}</span>
+                                </div>
+                                <br/>
 
+                                <label for="accountPassword">PASSWORD</label>
+                                <br/>
+
+                                <input type="text" id="accountPassword" class="wInput" ng-model="vm.password"/>
+                                <br/><br/>
+
+                                <button class="wButton fade" ng-click="vm.signIn()">SIGN IN</button>
+                                <span class="divider-2"></span>
+                                <button class="wButton fade" ng-click="vm.cancel()">CANCEL</button>
+                            </form>
                         </div>
 
                         </div>
@@ -252,6 +269,7 @@
     <script src="js/login/account.list.controller.js"></script>
     <script src="js/login/account.register.controller.js"></script>
     <script src="js/login/account.seed.controller.js"></script>
+    <script src="js/login/account.login.controller.js"></script>
 
     <script src="js/style.js"></script>
 </body>

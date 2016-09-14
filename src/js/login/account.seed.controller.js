@@ -25,7 +25,7 @@
 
         function checkSeedAndRegister() {
             if (utilityService.endsWithWhitespace(vm.seed)) {
-                dialogService.open('#seed-whitespace-popup');
+                dialogService.openNonCloseable('#seed-whitespace-popup');
             }
             else {
                 registerAccount();

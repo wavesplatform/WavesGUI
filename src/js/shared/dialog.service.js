@@ -8,6 +8,14 @@
                 angular.element(elementAccessor).modal(options);
             };
 
+            this.openNonCloseable = function (elementAccessor) {
+                this.open(elementAccessor, {
+                    escapeClose: false,
+                    clickClose: false,
+                    showClose: false
+                });
+            };
+
             this.close = function () {
                 angular.element.modal.close();
             }

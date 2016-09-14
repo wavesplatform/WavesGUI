@@ -19,21 +19,21 @@
             // by default start in list mode
             switchToMode(modes.LIST);
 
-            $scope.$on(events.CHANGE_MODE, function (event, mode, seed) {
-                switchToMode(mode, seed);
+            $scope.$on(events.CHANGE_MODE, function (event, mode, param) {
+                switchToMode(mode, param);
             });
 
             $scope.$on(events.GENERATE_SEED, function (event) {
                 var seed = passPhraseService.generate();
                 accounts.generatedSeed = true;
                 switchToMode(modes.REGISTER, seed);
-                dialogService.open('#login-wPop-new');
+                dialogService.openNonCloseable('#login-wPop-new');
             });
 
-            function switchToMode(mode, seed) {
+            function switchToMode(mode, param) {
                 switch (mode) {
                     case modes.REGISTER:
-                        switchToRegisterMode(seed);
+                        switchToRegisterMode(param);
                         break;
 
                     case modes.CREATE_SEED:
@@ -42,6 +42,10 @@
 
                     case modes.LIST:
                         switchToListMode();
+                        break;
+
+                    case modes.LOGIN:
+                        switchToLoginMode(param);
                         break;
 
                     default:
@@ -65,6 +69,12 @@
 
                 var raw = cryptoService.buildRawAddressFromSeed(seed);
                 accounts.displayAddress = addressService.fromRawAddress(raw).getDisplayAddress();
+            }
+
+            function switchToLoginMode(account) {
+                accounts.caption = 'SIGN IN';
+                accounts.current = account;
+                accounts.displayAddress = account.address;
             }
         }]);
 })();

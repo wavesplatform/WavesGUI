@@ -12,7 +12,7 @@
         var imageSuffix = $scope.isError ? '-danger' : '';
         $scope.image = 'modal-header' + imageSuffix;
         if (!$scope.closeable)
-            $scope.image = 'modal-reader-round';
+            $scope.image = 'modal-header-round';
 
         $scope.image += '.svg';
 

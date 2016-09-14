@@ -112,6 +112,7 @@ module.exports = function (grunt) {
                         'src/js/login/account.list.controller.js',
                         'src/js/login/account.register.controller.js',
                         'src/js/login/account.seed.controller.js',
+                        'src/js/login/account.login.controller.js',
 
                         'src/js/**/*.spec.js'
                     ]
