@@ -1,42 +1,52 @@
 (function () {
     'use strict';
 
-    function AccountListController($scope, events, modes, accountService, dialogService) {
+    function AccountListController($scope, accountService, dialogService, loginContext) {
         var list = this;
-        list.accounts = [{
-            name: 'qqq',
-            address: 'lalala'
-        }];
-        function onLoadAccountsCallback(accounts) {
-            //list.accounts = accounts;
-        }
+        list.accounts = [];
 
-        accountService.getAccounts(onLoadAccountsCallback);
+        accountService.getAccounts().then(function (accounts) {
+            list.accounts = accounts;
+        });
 
         list.removeAccount = removeAccount;
         list.createAccount = createAccount;
         list.importAccount = importAccount;
         list.signIn = signIn;
+        list.showRemoveWarning = showRemoveWarning;
+        list.convertAddress = convertAddress;
 
-        function removeAccount(index) {
-            list.accountIndex = index;
+        function showRemoveWarning(account) {
+            list.removeCandidate = account;
             dialogService.open('#account-remove-popup');
         }
 
+        function convertAddress(address) {
+            return loginContext.convertAddress(address);
+        }
+
+        function removeAccount() {
+            if (list.removeCandidate) {
+                accountService.removeAccount(list.removeCandidate).then(function () {
+                    list.removeCandidate = undefined;
+                });
+            }
+        }
+
         function createAccount() {
-            $scope.$emit(events.GENERATE_SEED);
+            loginContext.notifyGenerateSeed($scope);
         }
 
         function importAccount() {
-            $scope.$emit(events.CHANGE_MODE, modes.CREATE_SEED);
+            loginContext.showInputSeedScreen($scope);
         }
 
         function signIn(account) {
-            $scope.$emit(events.CHANGE_MODE, modes.LOGIN, account);
+            loginContext.showLoginScreen($scope, account);
         }
     }
 
-    AccountListController.$inject = ['$scope', 'ui.login.events', 'ui.login.modes', 'accountService', 'dialogService'];
+    AccountListController.$inject = ['$scope', 'accountService', 'dialogService', 'loginContext'];
 
     angular
         .module('app.login')

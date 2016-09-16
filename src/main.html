@@ -41,55 +41,54 @@
         </div>
     </div>
 
-	<div id="wrapper" ng-show="!home.splashVisible">
-        <!-- LOG IN AREA -->
-        <div id="lockscreen" class="userBG" ng-controller="accountsController as accounts" ng-if="home.accountsVisible">
-            <table id="lockscreenTable">
+    <!-- LOG IN AREA -->
+    <div id="lockscreen" class="userBG" ng-controller="accountsController as accounts" ng-if="home.accountsVisible">
+        <table id="lockscreenTable">
 
-                <thead>
-                <div id="logoNversion">
-                    <img src="img/topleftlogo.svg" />
-                    <p ng-class='{testnet: home.isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
-                </div>
-                </thead>
+            <thead>
+            <div id="logoNversion">
+                <img src="img/topleftlogo.svg" />
+                <p ng-class='{testnet: home.isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
+            </div>
+            </thead>
 
-                <tbody>
-                <tr>
-                    <td>
-                        <!-- Accounts -->
-                        <div id="accounts">
-                            <h2 id="AccHeader">{{accounts.caption}}</h2>
-                            <div class="wavesAccounts" ng-controller="accountListController as list" ng-show="accounts.mode === 'list'">
-                                <p class="loginAccountDiv" ng-repeat="account in list.accounts">
-                                    <span class="loginAccount tooltip-1 fade" title="Log into this account." ng-click="list.signIn(account)"> <br/>
-                                        <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::account.address}}</small>
-                                    </span>
-                                    <span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="{{::account.address}}"></span>
-                                    <span class="divider-1"></span>
-                                    <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." ng-click="list.removeAccount($index)">
-                                        <span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE
-                                    </button>
-                                </p>
-
-                                <button id="import_account" class="wButton fade tooltip-1" title="Click here to import an existing account." ng-click="list.importAccount()">IMPORT ACCOUNT</button>
+            <tbody>
+            <tr>
+                <td>
+                    <!-- Accounts -->
+                    <div id="accounts">
+                        <h2 id="AccHeader">{{accounts.caption}}</h2>
+                        <div class="wavesAccounts" ng-controller="accountListController as list" ng-show="accounts.mode === 'list'">
+                            <p class="loginAccountDiv" ng-repeat="account in list.accounts">
+                                        <span class="loginAccount tooltip-1 fade" title="Log into this account." ng-click="list.signIn(account)"> <br/>
+                                            <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::list.convertAddress(account.address)}}</small>
+                                        </span>
+                                <span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="{{::list.convertAddress(account.address)}}"></span>
                                 <span class="divider-1"></span>
-                                <button id="create_account" class="wButton fade tooltip-1" title="Click here to create a brand new account." ng-click="list.createAccount()">NEW ACCOUNT</button>
-                                <br/>
+                                <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." ng-click="list.showRemoveWarning(account)">
+                                    <span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE
+                                </button>
+                            </p>
 
-                                <!-- Remove Account popup -->
-                                <div id="account-remove-popup" waves-dialog on-dialog-ok="list.removeAccount(list.accountIndex)" is-error="true" ok-button-caption="REMOVE">
-                                    <h2>REMOVE ACCOUNT <span id="removeAccountSpan"></span> - NOTICE</h2>
-                                    <p>This feature completely removes the account from this device.
-                                        <br/><br/>
-                                        The account will not be eliminated or destroyed, but instead will not be shown anymore in the Accounts List at the client startup.
-                                        <br/><br/>
-                                        You can always re-generate your account on this device again using the Import Account feature and entering the SEED when prompted.
-                                        <br/><br/>
-                                        Click on the REMOVE button to proceed with the account removal, or CANCEL to return to the previous screen.
-                                        <br/><br/>
-                                    </p>
-                                </div>
+                            <button id="import_account" class="wButton fade tooltip-1" title="Click here to import an existing account." ng-click="list.importAccount()">IMPORT ACCOUNT</button>
+                            <span class="divider-1"></span>
+                            <button id="create_account" class="wButton fade tooltip-1" title="Click here to create a brand new account." ng-click="list.createAccount()">NEW ACCOUNT</button>
+                            <br/>
+
+                            <!-- Remove Account popup -->
+                            <div id="account-remove-popup" waves-dialog on-dialog-ok="list.removeAccount()" is-error="true" ok-button-caption="REMOVE">
+                                <h2>REMOVE ACCOUNT <span id="removeAccountSpan"></span> - NOTICE</h2>
+                                <p>This feature completely removes the account from this device.
+                                    <br/><br/>
+                                    The account will not be eliminated or destroyed, but instead will not be shown anymore in the Accounts List at the client startup.
+                                    <br/><br/>
+                                    You can always re-generate your account on this device again using the Import Account feature and entering the SEED when prompted.
+                                    <br/><br/>
+                                    Click on the REMOVE button to proceed with the account removal, or CANCEL to return to the previous screen.
+                                    <br/><br/>
+                                </p>
                             </div>
+                        </div>
 
                         <!-- Seed input -->
                         <div id="create-seed" ng-controller="accountSeedController as vm" ng-show="accounts.mode === 'create-seed'">
@@ -132,7 +131,7 @@
                             </form>
                         </div>
 
-                        <div id="login-wPop-new" waves-dialog ok-button-caption="I UNDERSTAND" on-dialog-ok="" cancel-button-visible="false" cloaseable="false">
+                        <div id="login-wPop-new" waves-dialog ok-button-caption="I UNDERSTAND" on-dialog-ok="" cancel-button-visible="false" closeable="false">
                             <h2>NEW ACCOUNT - NOTICE</h2>
                             <p>This feature involves the creation of a new account on Waves platform.
                                 <br/><br/>
@@ -153,7 +152,7 @@
                                     <label for="walletSeed">WALLET SEED</label>
                                     <br/>
 
-                                    <textarea id="readonlySeed" rows="3" class="wInput" ng-model="accounts.seed" readonly></textarea>
+                                    <textarea id="readonlySeed" rows="3" class="wInput" ng-model="vm.seed" ng-model-options="{ getterSetter: true}" readonly></textarea>
                                     <div>ADDRESS
                                         <br/>
                                         <span>{{accounts.displayAddress}}</span>
@@ -161,24 +160,24 @@
                                     <br/>
 
                                     NAME<span class="infoSpan tooltip-1" title="It is possible to assign a name to your account(s)
-                                        <br/>
-                                        in order to make them more memorable, feel
-                                        <br/>
-                                        free to use the field below to do so.
-                                        <br/><br/>
-                                        <i>NOTE: This is optional, the accounts do not forcefully
-                                        <br/>
-                                        need to have assigned a name.</i>"></span>
+                                            <br/>
+                                            in order to make them more memorable, feel
+                                            <br/>
+                                            free to use the field below to do so.
+                                            <br/><br/>
+                                            <i>NOTE: This is optional, the accounts do not forcefully
+                                            <br/>
+                                            need to have assigned a name.</i>"></span>
                                     <br/>
                                     <input type="text" id="walletName" class="wInput" ng-model="vm.name"/>
                                     <br/><br/>
                                     PASSWORD<span class="infoSpan tooltip-1" title="Used to encrypt your wallet seed, the password
-                                        <br/>
-                                        will be prompted at the time of login.
-                                        <br/><br/>
-                                        It is imperative that the user keeps it in a safe
-                                        <br/>
-                                        place at all times."></span>
+                                            <br/>
+                                            will be prompted at the time of login.
+                                            <br/><br/>
+                                            It is imperative that the user keeps it in a safe
+                                            <br/>
+                                            place at all times."></span>
                                     <br/>
                                     <input type="password" id="walletPassword" name="walletPassword" class="wInput" ng-model="vm.password"/>
                                     <br/><br/>
@@ -213,13 +212,17 @@
                             </form>
                         </div>
 
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
 
-            </table>
-        </div>
+        </table>
+    </div>
+
+	<div id="wrapper" ng-if="home.mainViewVisible">
+
+        <span>{{home.state | json}}</span>
 
 	</div> <!-- Wrapper div END -->
 
@@ -265,6 +268,7 @@
 
     <script src="js/login/login.module.js"></script>
     <script src="js/login/login.constants.js"></script>
+    <script src="js/login/login.context.factory.js"></script>
     <script src="js/login/accounts.controller.js"></script>
     <script src="js/login/account.list.controller.js"></script>
     <script src="js/login/account.register.controller.js"></script>

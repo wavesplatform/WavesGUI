@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    function AccountSeedController($scope, events, modes,
-                                   cryptoService, addressService, utilityService, dialogService, passPhraseService) {
+    function AccountSeedController($scope, loginContext, utilityService,
+                                   cryptoService, dialogService, passPhraseService) {
         var vm = this;
 
         vm.registerAccount = registerAccount;
@@ -19,8 +19,7 @@
 
         function refreshAddress() {
             var raw = cryptoService.buildRawAddressFromSeed(vm.seed);
-            vm.address = addressService.fromRawAddress(raw);
-            vm.displayAddress = vm.address.getDisplayAddress();
+            vm.displayAddress = loginContext.convertAddress(raw);
         }
 
         function checkSeedAndRegister() {
@@ -38,22 +37,20 @@
         }
 
         function registerAccount() {
-            $scope.$emit(events.CHANGE_MODE, modes.REGISTER, vm.seed);
+            loginContext.showRegisterScreen($scope, vm.seed);
             cleanup();
         }
 
         function goBack() {
-            $scope.$emit(events.CHANGE_MODE, modes.LIST);
+            loginContext.showAccountsListScreen($scope);
             cleanup();
         }
     }
 
     AccountSeedController.$inject = ['$scope',
-        'ui.login.events',
-        'ui.login.modes',
-        'cryptoService',
-        'addressService',
+        'loginContext',
         'utilityService',
+        'cryptoService',
         'dialogService',
         'passPhraseService'];
 

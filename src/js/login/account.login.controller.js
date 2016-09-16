@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function AccountLoginController ($scope, moduleEvents, applicationEvents, modes) {
+    function AccountLoginController ($scope, cryptoService, loginContext) {
         var vm = this;
 
         vm.signIn = signIn;
@@ -11,14 +11,18 @@
             vm.password = '';
         }
 
-        function goToListMode() {
-            $scope.$emit(moduleEvents.CHANGE_MODE, modes.LIST);
-        }
-
         function performSignIn() {
-            //todo: fill account object
-            var account = {};
-            $scope.$emit(applicationEvents.LOGIN_SUCCESSFUL, account);
+            var account = loginContext.currentAccount;
+            if (angular.isUndefined(account))
+                throw new Error('Account to log in hasn\'t been selected');
+
+            var decryptedSeed = cryptoService.decryptWalletSeed(account.cipher, vm.password, account.checksum);
+            if (!decryptedSeed) {
+                //todo: display notification
+            }
+            else {
+                loginContext.notifySignedIn($scope, account.address, decryptedSeed);
+            }
         }
 
         function signIn() {
@@ -27,12 +31,12 @@
         }
 
         function cancel() {
-            goToListMode();
+            loginContext.showAccountsListScreen($scope);
             cleanup();
         }
     }
 
-    AccountLoginController.$inject = ['$scope', 'ui.login.events', 'ui.events', 'ui.login.modes'];
+    AccountLoginController.$inject = ['$scope', 'cryptoService', 'loginContext'];
 
     angular
         .module('app.login')

@@ -108,6 +108,7 @@ module.exports = function (grunt) {
 
                         'src/js/login/login.module.js',
                         'src/js/login/login.constants.js',
+                        'src/js/login/login.context.factory.js',
                         'src/js/login/accounts.controller.js',
                         'src/js/login/account.list.controller.js',
                         'src/js/login/account.register.controller.js',

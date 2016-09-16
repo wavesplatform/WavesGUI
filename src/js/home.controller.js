@@ -25,8 +25,8 @@
                 //todo: add fade animation on splash close
             });
 
-            $scope.$on(events.LOGIN_SUCCESSFUL, function (account) {
-                home.account = account;
+            $scope.$on(events.LOGIN_SUCCESSFUL, function (event, account) {
+                home.state = account;
                 home.accountsVisible = false;
                 home.mainViewVisible = true;
             });

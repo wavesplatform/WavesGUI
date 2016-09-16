@@ -2,12 +2,16 @@
     'use strict';
 
     function WavesDialogController($scope, dialogService) {
-        $scope.isError = $scope.isError || false;
-        $scope.cancelButtonVisible = $scope.cancelButtonVisible || true;
-        $scope.closeable = $scope.closeable || true;
-        $scope.okButtonCaption = $scope.okButtonCaption || 'OK';
-        $scope.cancelButtonCaption = $scope.cancelButtonCaption || 'CANCEL';
-        $scope.showButtons = $scope.showButtons || true;
+        var defaults = {
+            isError: false,
+            cancelButtonVisible: true,
+            closeable: true,
+            showButtons: true,
+            okButtonCaption: 'OK',
+            cancelButtonCaption: 'CANCEL'
+        };
+
+        _.defaults($scope, defaults);
 
         var imageSuffix = $scope.isError ? '-danger' : '';
         $scope.image = 'modal-header' + imageSuffix;
@@ -21,14 +25,14 @@
                 $scope.dialogOk();
 
             dialogService.close();
-        }
+        };
 
         $scope.onCancel = function () {
             if ($scope.dialogCancel)
                 $scope.dialogCancel();
 
             dialogService.close();
-        }
+        };
     }
 
     function WavesDialogLink(scope, element, attrs, controller) {
@@ -44,15 +48,14 @@
                 controller: ['$scope', 'dialogService', WavesDialogController],
                 transclude: true,
                 scope: {
-                    closeable: '<',
-                    cancelButtonVisible: '<',
-                    showButtons: '<',
+                    closeable: '=?',
+                    cancelButtonVisible: '=?',
+                    showButtons: '=?',
                     dialogOk: '&onDialogOk',
                     dialogCancel: '&onDialogCancel',
-                    dialogClose: '&onDialogClose',
                     okButtonCaption: '@',
                     cancelButtonCaption: '@',
-                    isError: '<'
+                    isError: '=?'
                 },
                 link: WavesDialogLink,
                 template: '<img class="wPop-header" ng-src="img/{{image}}" />' +
