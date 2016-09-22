@@ -19,21 +19,21 @@
         function saveAccountAndSignIn() {
             var seed = loginContext.seed;
             var cipher = cryptoService.encryptWalletSeed(seed, vm.password).toString();
-            var publicKey = cryptoService.getPublicKey(seed);
+            var keys = cryptoService.getKeyPair(seed);
             var checksum = cryptoService.seedChecksum(seed);
-            var address = cryptoService.buildRawAddress(publicKey);
+            var address = cryptoService.buildRawAddress(keys.public);
 
             var account = {
                 name: vm.name,
                 cipher: cipher,
                 checksum: checksum,
-                publicKey: publicKey,
+                publicKey: keys.public,
                 address: address
             };
 
             accountService.addAccount(account);
 
-            loginContext.notifySignedIn($scope, address, seed);
+            loginContext.notifySignedIn($scope, address, seed, keys);
 
             cleanup();
         }

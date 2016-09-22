@@ -100,6 +100,7 @@ module.exports = function (grunt) {
                         // project sources
                         'src/js/app.js',
                         'src/js/ui.module.js',
+                        'src/js/application.context.factory.js',
                         'src/js/home.controller.js',
                         'src/js/splash.controller.js',
 
@@ -114,6 +115,9 @@ module.exports = function (grunt) {
                         'src/js/login/account.register.controller.js',
                         'src/js/login/account.seed.controller.js',
                         'src/js/login/account.login.controller.js',
+
+                        'src/js/navigation/navigation.module.js',
+                        'src/js/navigation/main.menu.controller.js',
 
                         'src/js/**/*.spec.js'
                     ]

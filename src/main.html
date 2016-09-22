@@ -221,10 +221,73 @@
     </div>
 
 	<div id="wrapper" ng-if="home.mainViewVisible">
+        <!-- shared blocks -->
+        <div id="feat-not-active" waves-dialog show-buttons="false" is-error="true">
+            <h2>NOTICE</h2>
+            <p>This feature is still under development and not active during the alpha release.
+                <br/><br/>
+                Follow our social media channels for being up-to-date with the latest improvements
+                <br/>
+                and developments.
+            </p>
+            <div class="modal-media">
+                <a href="https://blog.wavesplatform.com/" target="_blank"><img class="modal-media-img" src="img/blog_icon.svg" /></a>
+                <a href="https://twitter.com/wavesplatform" target="_blank"><img class="modal-media-img" src="img/twitter_icon.svg" /></a>
+                <a href="https://www.facebook.com/wavesplatform" target="_blank"><img class="modal-media-img" src="img/facebook_icon.svg" /></a>
+                <a href="http://slack.wavesplatform.com/" target="_blank"><img class="modal-media-img" src="img/slack_icon.svg" /></a>
+                <a href="https://www.reddit.com/r/Wavesplatform/" target="_blank"><img class="modal-media-img" src="img/reddit_icon.svg" /></a>
+                <a href="https://vk.com/wavesplatform" target="_blank"><img id="icon-blog" class="modal-media-img" src="img/vk_icon.svg" /></a>
+            </div>
+        </div>
+        <!-- /shared blocks-->
 
-        <span>{{home.state | json}}</span>
+        <!-- HEADER -->
+        <header class="fFade noSelect" ng-controller="mainMenuController as menu">
+            <img id="topLogoH" src="img/topleftlogo_hor.svg" alt="Waves platform logo horizontal" />
+            <div id="logoNversion2">
+                <img src="img/topleftlogo.svg" />
+                <p ng-class='{testnet: home.isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
+            </div>
+            <span id="version" class="centerIt">Address: <span id="wavesAccountAddress" class="tooltip-3" title="Copy the address to clipboard.">{{::menu.address}}</span>
+                <span class="divider-2"></span>
+                <span class="inlineParagraph">Block:</span> <span id="blockheight"></span>
+            </span>
 
-	</div> <!-- Wrapper div END -->
+            <div id="header-Iconset">
+                <a ng-click="menu.showBackupDialog()">
+                    <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-backup.svg" alt="Backup" title="Backup"/>
+                </a>
+                <div id="header-wPop-backup" waves-dialog on-dialog-ok="menu.backup()" ok-button-caption="COPY" cancel-button-caption="CLOSE">
+                    <h2>ACCOUNT INFO BACKUP</h2>
+                    <p>Your account's basic information, click the <b>COPY</b> button in order to copy the contents to the clipboard or <b>CLOSE</b> to exit.</p></br>
+                    <form id="backupForm">
+                        <label for="seedBackup">Seed</label><br/>
+                        <textarea id="seedBackup" class="wInput" rows="3" readonly ng-model="menu.seed"></textarea><br/>
+                        <label for="encodedSeedBackup">Encoded seed</label><br/>
+                        <textarea id="encodedSeedBackup" class="wInput" rows="3" readonly ng-model="menu.encodedSeed"></textarea><br/>
+                        <label for="privateKeyBackup">Private Key</label><br/>
+                        <input id="privateKeyBackup" class="wInput" type="text" readonly ng-model="menu.privateKey"/><br/>
+                        <label for="publicKeyBackup">Public Key</label><br/>
+                        <input id="publicKeyBackup" class="wInput" type="text" readonly ng-model="menu.publicKey"/><br/>
+                        <label for="addressBackup">Address</label><br/>
+                        <input id="addressBackup" class="wInput" type="text" readonly ng-model="menu.address"/>
+                    </form>
+                </div>
+                <a ng-click="home.featureUnderDevelopment()">
+                    <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-preferences.svg" alt="Preferences" title="Preferences"/>
+                </a>
+                <a ng-click="home.featureUnderDevelopment()">
+                    <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-profile.svg" alt="User profile" title="User profile"/>
+                </a>
+                <a ng-click="home.logout()">
+                    <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-logout.svg" alt="Log out" title="Log out" />
+                </a>
+            </div>
+        </header>
+        <!-- / HEADER -->
+
+
+    </div> <!-- Wrapper div END -->
 
     <!-- JAVASCRIPT -->
     <script src="../bower_components/jquery/dist/jquery.js"></script>
@@ -255,10 +318,9 @@
     <!-- application modules -->
     <script src="../bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.1.0.js"></script>
 
-
-
     <script src="js/app.js"></script>
     <script src="js/ui.module.js"></script>
+    <script src="js/application.context.factory.js"></script>
     <script src="js/home.controller.js"></script>
     <script src="js/splash.controller.js"></script>
 
@@ -274,6 +336,9 @@
     <script src="js/login/account.register.controller.js"></script>
     <script src="js/login/account.seed.controller.js"></script>
     <script src="js/login/account.login.controller.js"></script>
+
+    <script src="js/navigation/navigation.module.js"></script>
+    <script src="js/navigation/main.menu.controller.js"></script>
 
     <script src="js/style.js"></script>
 </body>

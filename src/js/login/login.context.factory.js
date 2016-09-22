@@ -27,10 +27,11 @@
                 $scope.$emit(moduleEvents.GENERATE_SEED);
             },
 
-            notifySignedIn: function ($scope, rawAddress, seed) {
+            notifySignedIn: function ($scope, rawAddress, seed, keys) {
                 var applicationState = {
                     address: addressService.fromRawAddress(rawAddress),
-                    seed: seed
+                    seed: seed,
+                    keyPair: keys
                 };
 
                 $scope.$emit(applicationEvents.LOGIN_SUCCESSFUL, applicationState);

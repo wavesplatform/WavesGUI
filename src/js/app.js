@@ -11,6 +11,7 @@ var app = angular.module('app',
         'waves.core.services',
 
         'app.ui',
-        'app.login'
+        'app.login',
+        'app.navigation'
     ]
 );

@@ -21,7 +21,8 @@
                 //todo: display notification
             }
             else {
-                loginContext.notifySignedIn($scope, account.address, decryptedSeed);
+                var keys = cryptoService.getKeyPair(decryptedSeed);
+                loginContext.notifySignedIn($scope, account.address, decryptedSeed, keys);
             }
         }
 
