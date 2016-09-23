@@ -1,35 +1,54 @@
 (function () {
     'use strict';
 
+    function AccountListController($scope, accountService, dialogService, loginContext) {
+        var list = this;
+        list.accounts = [];
+
+        accountService.getAccounts().then(function (accounts) {
+            list.accounts = accounts;
+        });
+
+        list.removeAccount = removeAccount;
+        list.createAccount = createAccount;
+        list.importAccount = importAccount;
+        list.signIn = signIn;
+        list.showRemoveWarning = showRemoveWarning;
+        list.convertAddress = convertAddress;
+
+        function showRemoveWarning(account) {
+            list.removeCandidate = account;
+            dialogService.open('#account-remove-popup');
+        }
+
+        function convertAddress(address) {
+            return loginContext.convertAddress(address);
+        }
+
+        function removeAccount() {
+            if (list.removeCandidate) {
+                accountService.removeAccount(list.removeCandidate).then(function () {
+                    list.removeCandidate = undefined;
+                });
+            }
+        }
+
+        function createAccount() {
+            loginContext.notifyGenerateSeed($scope);
+        }
+
+        function importAccount() {
+            loginContext.showInputSeedScreen($scope);
+        }
+
+        function signIn(account) {
+            loginContext.showLoginScreen($scope, account);
+        }
+    }
+
+    AccountListController.$inject = ['$scope', 'accountService', 'dialogService', 'loginContext'];
+
     angular
         .module('app.login')
-        .controller('accountListController', ['$scope', 'ui.login.events', 'ui.login.modes', 'accountService',
-            function ($scope, events, modes, accountService) {
-            var list = this;
-            list.accounts = [{
-                name: 'qqq',
-                address: 'lalala'
-            }];
-            function onLoadAccountsCallback(accounts) {
-                //list.accounts = accounts;
-            }
-
-            accountService.getAccounts(onLoadAccountsCallback);
-
-            list.removeAccount = removeAccount;
-            list.createAccount = createAccount;
-            list.importAccount = importAccount;
-
-            function removeAccount(index) {
-                console.log('removing account by index ' + index);
-            }
-
-            function createAccount() {
-                $scope.$emit(events.CHANGE_MODE, modes.CREATE_SEED);
-            }
-
-            function importAccount() {
-                createAccount();
-            }
-        }]);
+        .controller('accountListController', AccountListController);
 })();

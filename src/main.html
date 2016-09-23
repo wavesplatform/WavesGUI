@@ -41,178 +41,620 @@
         </div>
     </div>
 
-	<div id="wrapper" ng-show="!home.splashVisible">
-        <!-- LOG IN AREA -->
-        <div id="lockscreen" class="userBG" ng-controller="accountsController as accounts" ng-if="home.accountsVisible">
-            <table id="lockscreenTable">
+    <!-- LOG IN AREA -->
+    <div id="lockscreen" class="userBG" ng-controller="accountsController as accounts" ng-if="home.accountsVisible">
+        <table id="lockscreenTable">
 
-                <thead>
-                <div id="logoNversion">
-                    <img src="img/topleftlogo.svg" />
-                    <p ng-class='{testnet: home.isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
-                </div>
-                </thead>
+            <thead>
+            <div id="logoNversion">
+                <img src="img/topleftlogo.svg" />
+                <p ng-class='{testnet: home.isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
+            </div>
+            </thead>
 
-                <tbody>
-                <tr>
-                    <td>
-                        <!-- Accounts -->
-                        <div id="accounts">
-                            <h2 id="AccHeader">{{accounts.caption}}</h2>
-                            <div class="wavesAccounts" ng-controller="accountListController as list" ng-show="accounts.mode === 'list'">
-                                <p class="loginAccountDiv" ng-repeat="account in list.accounts">
-                                    <span class="loginAccount tooltip-1 fade" title="Log into this account." data-id="accountKey"> <br/>
-                                        <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::account.address}}</small>
-                                    </span>
-                                    <span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="{{::account.address}}"></span>
-                                    <span class="divider-1"></span>
-                                    <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." ng-click="list.removeAccount($index)">
-                                        <span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE
-                                    </button>
-                                </p>
-
-                                <button id="import_account" class="wButton fade tooltip-1" title="Click here to import an existing account." ng-click="list.importAccount()">IMPORT ACCOUNT</button>
+            <tbody>
+            <tr>
+                <td>
+                    <!-- Accounts -->
+                    <div id="accounts">
+                        <h2 id="AccHeader">{{accounts.caption}}</h2>
+                        <div class="wavesAccounts" ng-controller="accountListController as list" ng-show="accounts.mode === 'list'">
+                            <p class="loginAccountDiv" ng-repeat="account in list.accounts">
+                                        <span class="loginAccount tooltip-1 fade" title="Log into this account." ng-click="list.signIn(account)"> <br/>
+                                            <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::list.convertAddress(account.address)}}</small>
+                                        </span>
+                                <span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="{{::list.convertAddress(account.address)}}"></span>
                                 <span class="divider-1"></span>
-                                <button id="create_account" class="wButton fade tooltip-1" title="Click here to create a brand new account." ng-click="list.createAccount()">NEW ACCOUNT</button>
-                                <br/>
-                            </div>
+                                <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." ng-click="list.showRemoveWarning(account)">
+                                    <span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE
+                                </button>
+                            </p>
 
+                            <button id="import_account" class="wButton fade tooltip-1" title="Click here to import an existing account." ng-click="list.importAccount()">IMPORT ACCOUNT</button>
+                            <span class="divider-1"></span>
+                            <button id="create_account" class="wButton fade tooltip-1" title="Click here to create a brand new account." ng-click="list.createAccount()">NEW ACCOUNT</button>
+                            <br/>
 
                             <!-- Remove Account popup -->
-                            <div id="login-wPop-remove" class="wavesPop">
-                                <img class="wPop-header" src="img/modal-header-danger.svg" />
-                                <div class="wPop-content">
-                                    <h2>REMOVE ACCOUNT <span id="removeAccountSpan"></span> - NOTICE</h2>
-                                    <p>This feature completely removes the account from this device.
-                                        <br/><br/>
-                                        The account will not be eliminated or destroyed, but instead will not be shown anymore in the Accounts List at the client startup.
-                                        <br/><br/>
-                                        You can always re-generate your account on this device again using the Import Account feature and entering the SEED when prompted.
-                                        <br/><br/>
-                                        Click on the REMOVE button to proceed with the account removal, or CANCEL to return to the previous screen.
-                                        <br/><br/>
-                                    </p>
-                                    <div class="wPop-content-buttons">
-                                        <button id="remove_account_confirmation" class="wButton wButtonDanger fade tooltip-1" title="Click here to proceed with the account removal.">REMOVE</button><span class="divider-2"></span><button id="remove_account_cancel" class="wButton wButtonDanger fade tooltip-1" title="Click here to return to the previous screen.">CANCEL</button>
-                                    </div>
-                                </div>
+                            <div id="account-remove-popup" waves-dialog on-dialog-ok="list.removeAccount()" is-error="true" ok-button-caption="REMOVE">
+                                <h2>REMOVE ACCOUNT <span id="removeAccountSpan"></span> - NOTICE</h2>
+                                <p>This feature completely removes the account from this device.
+                                    <br/><br/>
+                                    The account will not be eliminated or destroyed, but instead will not be shown anymore in the Accounts List at the client startup.
+                                    <br/><br/>
+                                    You can always re-generate your account on this device again using the Import Account feature and entering the SEED when prompted.
+                                    <br/><br/>
+                                    Click on the REMOVE button to proceed with the account removal, or CANCEL to return to the previous screen.
+                                    <br/><br/>
+                                </p>
                             </div>
-
                         </div>
 
-                        <!-- Hide Registration -->
-
+                        <!-- Seed input -->
                         <div id="create-seed" ng-controller="accountSeedController as vm" ng-show="accounts.mode === 'create-seed'">
-                            <form id="account-seed-form">
+                            <form id="account-seed-form" ng-submit="vm.checkSeedAndRegister()">
                                 <br/>
-                                <button id="generateKeys" class="wButton fade">GENERATE ADDRESS FROM SEED</button>
-                                <span class="divider-1"></span>
-                                <button id="generateRandomSeed" class="wButton fade">GENERATE NEW SEED</button>
+                                <button id="generateRandomSeed" class="wButton fade" ng-click="vm.generateSeed()" type="button">GENERATE NEW SEED</button>
                                 <br/>
 
                                 <label for="walletSeed">WALLET SEED</label>
                                 <br/>
 
-                                <textarea id="walletSeed" type="text" rows="3" name="walletSeed" class="wInput"> </textarea><span class="clipSpan tooltip-1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" data-clipboard-message-success="Wallet seed has been successfully copied to clipboard" ></span>
+                                <textarea id="walletSeed" rows="3" name="walletSeed" class="wInput" ng-model="vm.seed" ng-change="vm.refreshAddress()" ng-model-options="{ debounce: 750 }" ng-trim="false"></textarea>
+                                <span class="clipSpan tooltip-1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" data-clipboard-message-success="Wallet seed has been successfully copied to clipboard" ></span>
                                 <br/><br/>
-
-                                <button id="createAccountButton" class="wButton fade" ng-click="vm.registerAccount()">REGISTER ACCOUNT</button>
-                            </form>
-                        </div>
-
-                        <div id="register" ng-controller="accountRegisterController as vm" ng-show="accounts.mode === 'register'">
-
-                            <form id="register-form">
-                                <div id="login-wPop-new" class="wavesPop">
-                                    <img class="wPop-header" src="img/modal-header-round.svg" />
-                                    <div class="wPop-content">
-                                        <h2>NEW ACCOUNT - NOTICE</h2>
-                                        <p>This feature involves the creation of a new account on Waves platform.
-                                            <br/><br/>
-                                            The procedure consists of complex cryptographic operations that use a <b>SEED</b> (a series of random words) to create a unique address for your account.
-                                            <br/><br/>
-                                            This SEED is extremely important and must be kept in safe place, since it's the only way to recover your account in case of lost, corrupted data or hardware failure.
-                                            <br/>
-                                            Your SEED will also allow you to IMPORT your account to other devices.
-                                            <br/><br/>
-                                            <i>NOTE: Make sure that you select the entire SEED length before keeping it.  It's suggested to use the copy-to-clipboard button located the right side of the SEED box.</i>
-                                        </p>
-                                        <br/>
-                                        <button id="close_create_account_modal" class="wButton fade" title="Click here if you understand this message.">I UNDERSTAND</button>
-                                    </div>
-                                </div>
-
-                                <div id="seed-whitespace-popup" class="wavesPop">
-                                    <img class="wPop-header" src="img/modal-header-round.svg" />
-                                    <div class="wPop-content">
-                                        <h2>SEED NOTICE</h2>
-                                        <p>
-                                            Your wallet seed contains one or more trailing whitespace characters.
-                                            <br/><br/>
-                                            A seed with a whitespace at the end and a seed without one are different, and will result in different addresses generated.
-                                            <br/><br/>
-                                            It is strongly recommended that you avoid trailing whitespaces in the seed. If you understand the implications of including a trailing whitespace in your seed, press <b>PROCEED</b>.
-                                            Press <b>CANCEL</b> or close the dialog box to edit your seed.<br/>
-                                        </p>
-                                        <div class="wPop-content-buttons">
-                                            <a id="close-seed-whitespace-modal" href="#" class="wButton paymentForm-but fade">PROCEED</a><span class="divider-2"></span>
-                                            <a href="#" rel="modal:close" class="wButton paymentForm-but fade">CLOSE</a>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div class="wPop-content">
                                     <div>ADDRESS
                                         <br/>
-                                        <span id="addresLockscreen"></span>
+                                        <span>{{vm.displayAddress}}</span>
+                                    </div>
+                                    <br/>
+                                </div>
+                                <br/>
+
+                                <button class="wButton fade" type="submit">REGISTER ACCOUNT</button>
+                                <span class="divider-2"></span>
+                                <button class="wButton fade" ng-click="vm.back()" type="button">BACK</button>
+
+                                <div id="seed-whitespace-popup" waves-dialog on-dialog-ok="vm.registerAccount()" closeable="false" ok-button-caption="PROCEED">
+                                    <h2>SEED NOTICE</h2>
+                                    <p>
+                                        Your wallet seed contains one or more trailing whitespace characters.
+                                        <br/><br/>
+                                        A seed with a whitespace at the end and a seed without one are different, and will result in different addresses generated.
+                                        <br/><br/>
+                                        It is strongly recommended that you avoid trailing whitespaces in the seed. If you understand the implications of including a trailing whitespace in your seed, press <b>PROCEED</b>.
+                                        Press <b>CANCEL</b> or close the dialog box to edit your seed.<br/>
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div id="login-wPop-new" waves-dialog ok-button-caption="I UNDERSTAND" on-dialog-ok="" cancel-button-visible="false" closeable="false">
+                            <h2>NEW ACCOUNT - NOTICE</h2>
+                            <p>This feature involves the creation of a new account on Waves platform.
+                                <br/><br/>
+                                The procedure consists of complex cryptographic operations that use a <b>SEED</b> (a series of random words) to create a unique address for your account.
+                                <br/><br/>
+                                This SEED is extremely important and must be kept in safe place, since it's the only way to recover your account in case of lost, corrupted data or hardware failure.
+                                <br/>
+                                Your SEED will also allow you to IMPORT your account to other devices.
+                                <br/><br/>
+                                <i>NOTE: Make sure that you select the entire SEED length before keeping it. It's suggested to use the copy-to-clipboard button located the right side of the SEED box.</i>
+                            </p>
+                        </div>
+
+                        <!-- store account on the current device -->
+                        <div id="register" ng-controller="accountRegisterController as vm" ng-show="accounts.mode === 'register'">
+                            <form id="register-form">
+                                <div class="wPop-content">
+                                    <label for="walletSeed">WALLET SEED</label>
+                                    <br/>
+
+                                    <textarea id="readonlySeed" rows="3" class="wInput" ng-model="vm.seed" ng-model-options="{ getterSetter: true}" readonly></textarea>
+                                    <div>ADDRESS
+                                        <br/>
+                                        <span>{{accounts.displayAddress}}</span>
                                     </div>
                                     <br/>
 
                                     NAME<span class="infoSpan tooltip-1" title="It is possible to assign a name to your account(s)
-                                        <br/>
-                                        in order to make them more memorable, feel
-                                        <br/>
-                                        free to use the field below to do so.
-                                        <br/><br/>
-                                        <i>NOTE: This is optional, the accounts do not forcefully
-                                        <br/>
-                                        need to have assigned a name.</i>"></span>
+                                            <br/>
+                                            in order to make them more memorable, feel
+                                            <br/>
+                                            free to use the field below to do so.
+                                            <br/><br/>
+                                            <i>NOTE: This is optional, the accounts do not forcefully
+                                            <br/>
+                                            need to have assigned a name.</i>"></span>
                                     <br/>
-                                    <input type="text" id="walletName" class="wInput"/>
+                                    <input type="text" id="walletName" class="wInput" ng-model="vm.name"/>
                                     <br/><br/>
                                     PASSWORD<span class="infoSpan tooltip-1" title="Used to encrypt your wallet seed, the password
-                                        <br/>
-                                        will be prompted at the time of login.
-                                        <br/><br/>
-                                        It is imperative that the user keeps it in a safe
-                                        <br/>
-                                        place at all times."></span>
+                                            <br/>
+                                            will be prompted at the time of login.
+                                            <br/><br/>
+                                            It is imperative that the user keeps it in a safe
+                                            <br/>
+                                            place at all times."></span>
                                     <br/>
-                                    <input type="password" id="walletPassword" name="walletPassword" class="wInput"/>
+                                    <input type="password" id="walletPassword" name="walletPassword" class="wInput" ng-model="vm.password"/>
                                     <br/><br/>
                                     REPEAT PASSWORD
                                     <br/>
-                                    <input type="password" id="walletPasswordConfirm" name="walletPasswordConfirm" class="wInput"/>
+                                    <input type="password" id="walletPasswordConfirm" name="walletPasswordConfirm" class="wInput" ng-model="vm.confirmPassword"/>
                                     <br/><br/>
 
-                                    <button id="registerSeed" class="wButton fade" ng-click="vm.saveAccount()">REGISTER</button>
+                                    <button class="wButton fade" ng-click="vm.saveAccountAndSignIn()">REGISTER</button>
                                     <span class="divider-2"></span>
-                                    <button id="#" class="goBack wButton fade">BACK</button>
+                                    <button class="wButton fade" ng-click="vm.cancel()">CANCEL</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div id="account-login" ng-controller="accountLoginController as vm" ng-show="accounts.mode === 'login'">
+                            <form id="login-form">
+                                <div>ACCOUNT
+                                    <br/>
+                                    <span>{{accounts.displayAddress}}</span>
+                                </div>
+                                <br/>
 
-                                    <div id="errorRegister" class="noDisp"></div>
+                                <label for="accountPassword">PASSWORD</label>
+                                <br/>
+
+                                <input type="text" id="accountPassword" class="wInput" ng-model="vm.password"/>
+                                <br/><br/>
+
+                                <button class="wButton fade" ng-click="vm.signIn()">SIGN IN</button>
+                                <span class="divider-2"></span>
+                                <button class="wButton fade" ng-click="vm.cancel()">CANCEL</button>
+                            </form>
+                        </div>
+
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+	<div id="wrapper" ng-if="home.mainViewVisible">
+        <!-- shared blocks -->
+        <div id="feat-not-active" waves-dialog show-buttons="false" is-error="true">
+            <h2>NOTICE</h2>
+            <p>This feature is still under development and not active during the alpha release.
+                <br/><br/>
+                Follow our social media channels for being up-to-date with the latest improvements
+                <br/>
+                and developments.
+            </p>
+            <div class="modal-media">
+                <a href="https://blog.wavesplatform.com/" target="_blank"><img class="modal-media-img" src="img/blog_icon.svg" /></a>
+                <a href="https://twitter.com/wavesplatform" target="_blank"><img class="modal-media-img" src="img/twitter_icon.svg" /></a>
+                <a href="https://www.facebook.com/wavesplatform" target="_blank"><img class="modal-media-img" src="img/facebook_icon.svg" /></a>
+                <a href="http://slack.wavesplatform.com/" target="_blank"><img class="modal-media-img" src="img/slack_icon.svg" /></a>
+                <a href="https://www.reddit.com/r/Wavesplatform/" target="_blank"><img class="modal-media-img" src="img/reddit_icon.svg" /></a>
+                <a href="https://vk.com/wavesplatform" target="_blank"><img id="icon-blog" class="modal-media-img" src="img/vk_icon.svg" /></a>
+            </div>
+        </div>
+        <!-- /shared blocks-->
+
+        <!-- HEADER -->
+        <header class="fFade noSelect" ng-controller="mainMenuController as menu">
+            <img id="topLogoH" src="img/topleftlogo_hor.svg" alt="Waves platform logo horizontal" />
+            <div id="logoNversion2">
+                <img src="img/topleftlogo.svg" />
+                <p ng-class='{testnet: home.isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
+            </div>
+            <span id="version" class="centerIt">Address: <span id="wavesAccountAddress" class="tooltip-3" title="Copy the address to clipboard.">{{::menu.address}}</span>
+                <span class="divider-2"></span>
+                <span class="inlineParagraph">Block:</span> <span id="blockheight"></span>
+            </span>
+
+            <div id="header-Iconset">
+                <a ng-click="menu.showBackupDialog()">
+                    <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-backup.svg" alt="Backup" title="Backup"/>
+                </a>
+                <div id="header-wPop-backup" waves-dialog on-dialog-ok="menu.backup()" ok-button-caption="COPY" cancel-button-caption="CLOSE">
+                    <h2>ACCOUNT INFO BACKUP</h2>
+                    <p>Your account's basic information, click the <b>COPY</b> button in order to copy the contents to the clipboard or <b>CLOSE</b> to exit.</p></br>
+                    <form id="backupForm">
+                        <label for="seedBackup">Seed</label><br/>
+                        <textarea id="seedBackup" class="wInput" rows="3" readonly ng-model="menu.seed"></textarea><br/>
+                        <label for="encodedSeedBackup">Encoded seed</label><br/>
+                        <textarea id="encodedSeedBackup" class="wInput" rows="3" readonly ng-model="menu.encodedSeed"></textarea><br/>
+                        <label for="privateKeyBackup">Private Key</label><br/>
+                        <input id="privateKeyBackup" class="wInput" type="text" readonly ng-model="menu.privateKey"/><br/>
+                        <label for="publicKeyBackup">Public Key</label><br/>
+                        <input id="publicKeyBackup" class="wInput" type="text" readonly ng-model="menu.publicKey"/><br/>
+                        <label for="addressBackup">Address</label><br/>
+                        <input id="addressBackup" class="wInput" type="text" readonly ng-model="menu.address"/>
+                    </form>
+                </div>
+                <a ng-click="home.featureUnderDevelopment()">
+                    <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-preferences.svg" alt="Preferences" title="Preferences"/>
+                </a>
+                <a ng-click="home.featureUnderDevelopment()">
+                    <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-profile.svg" alt="User profile" title="User profile"/>
+                </a>
+                <a ng-click="home.logout()">
+                    <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-logout.svg" alt="Log out" title="Log out" />
+                </a>
+            </div>
+        </header>
+        <!-- / HEADER -->
+
+        <span class="jurl"></span>
+
+        <div id="navigationContainer" ng-controller="navigationController as nav">
+            <!-- APPLICATION TAB SELECTORS -->
+            <section id="tabs" class="fFade noSelect">
+                <div id="tabs-Iconset" class="centerIt">
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="wallet" caption="'Wallet tab'" tooltip="'<center><u>Wallet</u></center><br/>Area containing the main wallets.'"></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="portfolio" caption="'Portfolio tab'" tooltip="'<center><u>Portfolio</u></center><br/>Display all your assets, both digital and physical<br/>as well as allowing transfers.'"></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="exchange" caption="'Exchange tab'" tooltip="'<center><u>Waves Decentralized Exchange</u></center><br/>Access to Waves markets where you can<br/>conveniently buy, sell and trade tokens.'"></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="voting" caption="'Voting tab'" tooltip="'<center><u>Voting Area</u></center><br/>Decentralized voting utility.'"></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="history" caption="'History tab'" tooltip="'<center><u>History</u></center><br/>Access all your transaction records.'"></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="tokens" caption="'Tokens Creation tab'" tooltip="'<center><u>Tokens Creation tab</u></center><br/>Area in which assets can be created.'"></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="messages" caption="'Messages tab'" tooltip="'<center><u>Decentralized Messenger</u></center><br/>Allows private communication between Waves users.'"></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="community" caption="'Community tab'" tooltip="'<center><u>Community tab</u></center><br/>Resources to learn more about Waves project such as <br/>forums, blogs, websites, etc.'"></span>
+              </div>
+            </section>
+
+            <!-- BODY CONTENT -->
+            <section id="mBBody" class="fFade" ng-switch on="nav.currentTab">
+                <!-- WALLET TAB -->
+                <div id="mBB-wallet" class="mBB-content" ng-switch-when="wallet">
+                    <div class="flex-container">
+                        <div id="wB-USD" class="walletBox">
+                            <img id="wB-bg-USD" src="img/wB-bg-USD.svg" alt="US Dollar wallet" />
+                            <div class="wB-name">US DOLLAR</div>
+                            <div class="wB-add"></div><br>
+                            <div class="wB-balInt">0</div>
+                            <div class="wB-balDec">.00</div>
+                            <div class="wB-buttons">
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butSend fade"><p>SEND</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div id="wB-EUR" class="walletBox">
+                            <img id="wB-bg-EUR" src="img/wB-bg-EUR.svg" alt="Euro wallet" />
+                            <div class="wB-name">EURO</div>
+                            <div class="wB-add"></div>
+                            <div class="wB-balInt">0</div>
+                            <div class="wB-balDec">.00</div>
+                            <div class="wB-buttons">
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butSend fade"><p>SEND</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div id="wB-BTC" class="walletBox">
+                            <img id="wB-bg-BTC" src="img/wB-bg-BTC.svg" alt="Bitcoin wallet" />
+                            <div class="wB-name">BITCOIN</div>
+                            <div class="wB-add"></div>
+                            <div class="wB-balInt">0</div>
+                            <div class="wB-balDec">.00000000</div>
+                            <div class="wB-buttons">
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butSend fade"><p>SEND</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div id="wB-WAV" class="walletBox">
+                            <img id="wB-bg-WAV" src="img/wB-bg-WAV.svg" alt="Waves wallet" />
+                            <div class="wB-name">WAVE</div>
+                            <div class="wB-add"></div>
+                            <div class="wB-balInt" id="wavesbalance"></div>
+                            <div class="wB-balDec" id="wavesbalancedec"></div>
+                            <div class="wB-buttons">
+                                <a href="#wB-butSend-WAV" rel="modal:open">
+                                    <div class="wB-but wB-butSend fade"><p>SEND</p></div>
+                                </a>
+
+                                <div id="wB-butSend-WAV" class="wavesPop">
+                                    <img class="wPop-header" src="img/modal-header.svg" />
+                                    <div class="wPop-content">
+                                        <form id="send-waves-form" class="paymentForm">
+                                            <h2>SEND PAYMENT</h2>
+                                            <div class="balanceAmt">
+                                                <p>Balance: </p><span class="balancewaves"></span>
+                                            </div>
+                                            <table>
+                                                <thead>
+                                                <tr>
+                                                    <th>DESCRIPTION</th>
+                                                    <th>INPUT</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Recipient's Address</td>
+                                                    <td><input id="wavesrecipient" class="wInput form-control" name="wavesrecipient" type="text" placeholder="Recipient"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Amount</td>
+                                                    <td><input id="wavessendamount" class="wInput form-control" name="wavessendamount" type="text" placeholder="Amount"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Fee</td>
+                                                    <td>
+                                                        <select id="wavessendfee" name="wavessendfee" class="form-control">
+                                                            <option value="0.001" selected>0.001 WAVE (Economic)</option>
+                                                            <option value="0.0015">0.0015 WAVE (Standard)</option>
+                                                            <option value="0.002">0.002 WAVE (Premium)</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </form>
+                                        <!-- check -->
+                                        <div id="wavessend" class="paymentForm-but send-but fade" value="send"><p>SUBMIT</p></div>
+                                        <div id="sentpayment" style="width: 500px; word-wrap:break-word;"></div>
+                                        <div id="errorpayment" style="width: 500px; word-wrap:break-word;"></div>
+
+                                    </div>
                                 </div>
 
-                            </form>
+                                <div id="send-payment-confirmation" class="wavesPop">
+                                    <img class="wPop-header" src="img/modal-header.svg" />
+                                    <div class="wPop-content">
+                                        <p>You are sending <span id="confirmation-amount">0</span>
+                                            <span class="confirmation-currency">WAVES</span> with
+                                            <span id="confirmation-fee">0</span> <span class="confirmation-currency">WAVES</span> fee to the address<br/>
+                                            <span id="confirmation-address"></span>
+                                        </p>
+                                        <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                                        <!-- buttons -->
+                                        <div class="wPop-content-buttons">
+                                            <a id="send-confirm" href="#" class="wButton paymentForm-but fade tooltip-1" title="Click here to confirm your payment.">CONFIRM</a>
+                                            <span class="divider-1"></span>
+                                            <a href="#" rel="modal:close" class="wButton paymentForm-but fade tooltip-1">CANCEL</a>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
+                                </a>
+                            </div>
                         </div>
-                    </td>
-                </tr>
-                </tbody>
+                        <div id="wB-RMB" class="walletBox">
+                            <img id="wB-bg-RMB" src="img/wB-bg-RMB.svg" alt="Chinese Yuan wallet" />
+                            <div class="wB-name">CHINESE YUAN</div>
+                            <div class="wB-add"></div>
+                            <div class="wB-balInt">0</div>
+                            <div class="wB-balDec">.00</div>
+                            <div class="wB-buttons">
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butSend fade"><p>SEND</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
+                                </a>
+                            </div>
+                        </div>
 
-            </table>
+                    </div>
+                    <div id="wallet-transaction-history" class="wavesTable">
+                        <table>
+                            <thead>
+                            <div class="wTMainHeader">
+                                LATEST TRANSACTIONS
+                            </div>
+                            <tr>
+                                <td>DATE</td>
+                                <td>TYPE</td>
+                                <td>SENDER</td>
+                                <td>RECIPIENT</td>
+                                <td>FEE</td>
+                                <td>UNITS</td>
+                            </tr>
+                            </thead>
+                            <tbody id="walletTransactionhistory">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- / WALLET TAB -->
+
+                <!-- PORTFOLIO TAB -->
+                <div id="mBB-portfolio" class="mBB-content" ng-switch-when="portfolio">
+                    <div class="phContent">
+                        <h1>PORTFOLIO</h1>
+                        <br/>
+                        <p>The Portfolio area serves both as an analytic tool and a summary overview of a user's holdings. It is the perfect place to draft market strategies and plan future investments.
+                            <br/><br/>
+                            The Portfolio tab will start operating as Waves platform incorporates additional markets, meanwhile the transactions can be tracked via History tab.
+                        </p>
+                        <br/><br/>
+                        <img src="img/tab_port_prev.svg" />
+                    </div>
+                </div>
+                <!-- / PORTFOLIO TAB -->
+
+                <!-- EXCHANGE TAB -->
+                <div id="mBB-exchange" class="mBB-content" ng-switch-when="exchange">
+                    <div class="phContent">
+                        <h1>DECENTRALIZED EXCHANGE</h1>
+                        <br/>
+                        <p>Waves' features include a decentralized exchange in which users will be able to trade tokens of all kinds. There will be no AML/KYC requirements in order to use this service.
+                            <br/><br/>
+                            The Decentralized Exchange is scheduled for launch in the last quarter of 2016.
+                        </p>
+                        <br/><br/>
+                        <img src="img/tab_dex_prev.svg" />
+                    </div>
+                </div>
+                <!-- / EXCHANGE TAB -->
+
+                <!-- VOTING TAB -->
+                <div id="mBB-voting" class="mBB-content" ng-switch-when="voting">
+                    <div class="phContent">
+                        <h1>DECENTRALIZED VOTING</h1>
+                        <br/>
+                        <p>With a fair and automated system, Waves' voting area enables communities and projects to achieve consensus for critical decision-making that might otherwise prove difficult or controversial. A full set of analytic tools will also be available to follow up the voting process in real time.
+                            <br/><br/>
+                            The Decentralized Voting feature is scheduled for launch in the final quarter of 2016.
+                        </p>
+                        <br/><br/>
+                        <img src="img/tab_vote_prev.svg" />
+                    </div>
+                </div>
+                <!-- / VOTING TAB -->
+
+                <!-- HISTORY TAB -->
+                <div id="mBB-history" class="mBB-content" ng-switch-when="history">
+
+                    <div id="full-transaction-history" class="wavesTable">
+                        <table>
+                            <thead>
+                            <div class="wTMainHeader">
+                                LATEST TRANSACTIONS
+                            </div>
+                            <tr>
+                                <td>
+                                    DATE
+                                </td>
+                                <td >
+                                    TYPE
+                                </td>
+                                <td>
+                                    SENDER
+                                </td>
+                                <td>
+                                    RECIPIENT
+                                </td>
+                                <td>
+                                    FEE
+                                </td>
+                                <td>
+                                    UNITS
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody id="unconfirmedHistory">
+
+                            </tbody>
+                            <tbody id="transactionhistory">
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <!-- / HISTORY TAB -->
+
+                <!-- TOKENS TAB -->
+                <div id="mBB-token" class="mBB-content" ng-switch-when="tokens">
+
+                    <div class="phContent">
+                        <h1>ASSET CREATION</h1>
+                        <br/>
+                        <p>The Asset Creation area is utilized to build custom Assets composed by Tokens. It is the first step in order to initialize a project in the platform.
+                            <br/><br/>
+                            The Asset Creation tab will start being operative in the fall of 2016, shortly after the Full Node code is released publicly or even at the same time.
+                        </p>
+                        <br/><br/>
+                        <img src="img/tab_token_prev.svg" />
+                    </div>
+
+                </div>
+                <!-- / TOKENS TAB -->
+
+                <!-- MESSAGES TAB -->
+                <div id="mBB-messages" class="mBB-content" ng-switch-when="messages">
+                    <div class="phContent">
+                        <h1>MESSAGING CENTER</h1>
+                        <br/>
+                        <p>Soon to be renamed/rebranded as CONTACTS, this is an area in which users will be able to add other individuals or groups to several list types, providing an easy way to keep track of friends, execute regular, automated payments, and much more.
+                            <br/><br/>
+                            The Contacts area services is scheduled for launch in the third quarter of 2016.
+                        </p>
+                        <br/><br/>
+                        <img src="img/tab_cont_prev.svg" />
+                    </div>
+                    <div id="addContact-wPop" class="wavesPop">
+                        <img class="wPop-header" src="img/modal-header.svg" />
+                        <form id="addContactForm" class="wPop-content">
+                            <h2>ADD CONTACT</h2>
+                            <p>Fill the fields below in order to add a new contact to your list:</p>
+                            <p>Name</p>
+                            <input type="text" id="contactname" placeholder="" class="wInput" />
+
+                            <p>Address</p>
+                            <input type="text" id="contactaddress" placeholder="" class="wInput" />
+
+                            <p>Email</p>
+                            <input type="email" id="contactemail" placeholder="" class="wInput" />
+
+                            <br/><br/>
+                            <button id="addContactSubmit" class="wButton fade">ADD CONTACT</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- / MESSAGES TAB -->
+
+                <!-- COMMUNITY TAB -->
+                <div id="mBB-community" class="mBB-content" ng-switch-when="community">
+                    <!-- Temporary -->
+                    <p>DISCLAIMER: The Community tab will temporarily hold block information for testing purposes. After alpha phase this data  will be relocated inside the Preferences - Advanced area.</p>
+                    <h2>LATEST BLOCKS INFORMATION</h2>
+                    <p class="centerIt">
+
+                    <div id="latestBlocks" class="wavesTable" >
+                        <table>
+                            <thead>
+                            <tr class="fade">
+                                <td>HEIGHT</td>
+                                <td>DATE</td>
+                                <td>TRANSACTIONS</td>
+                                <td>GENERATOR</td>
+                            </tr>
+                            </thead>
+                            <tbody id="latestBlocksUnconfirmed">
+
+                            </tbody>
+                            <tbody id="latestBlocksTable">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    </p>
+                </div>
+                <!-- /COMMUNITY TAB -->
+            </section>
         </div>
-
-	</div> <!-- Wrapper div END -->
+    </div> <!-- Wrapper div END -->
 
     <!-- JAVASCRIPT -->
     <script src="../bower_components/jquery/dist/jquery.js"></script>
@@ -231,6 +673,8 @@
 
     <script src="../bower_components/nprogress/nprogress.js"></script>
     <script src="../bower_components/clipboard/dist/clipboard.js"></script>
+    <script src="../bower_components/ngclipboard/dist/ngclipboard.js"></script>
+    <script src="../bower_components/growl/javascripts/jquery.growl.js"></script>
 
     <!-- crypto libraries -->
     <script src="../bower_components/Base58/Base58.js"></script>
@@ -238,20 +682,35 @@
     <script src="../bower_components/cryptojslib/rollups/sha256.js"></script>
     <script src="../bower_components/curve25519-js/axlsign.js"></script>
 
+    <script src="js/vendor/jquery.modal.js"></script>
+
     <!-- application modules -->
     <script src="../bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.1.0.js"></script>
 
     <script src="js/app.js"></script>
     <script src="js/ui.module.js"></script>
+    <script src="js/application.context.factory.js"></script>
     <script src="js/home.controller.js"></script>
     <script src="js/splash.controller.js"></script>
 
+    <script src="js/shared/shared.module.js"></script>
+    <script src="js/shared/dialog.service.js"></script>
+    <script src="js/shared/shared.dialog.directive.js"></script>
+    <script src="js/shared/notification.service.js"></script>
+
     <script src="js/login/login.module.js"></script>
     <script src="js/login/login.constants.js"></script>
+    <script src="js/login/login.context.factory.js"></script>
     <script src="js/login/accounts.controller.js"></script>
     <script src="js/login/account.list.controller.js"></script>
     <script src="js/login/account.register.controller.js"></script>
     <script src="js/login/account.seed.controller.js"></script>
+    <script src="js/login/account.login.controller.js"></script>
+
+    <script src="js/navigation/navigation.module.js"></script>
+    <script src="js/navigation/main.menu.controller.js"></script>
+    <script src="js/navigation/navigation.controller.js"></script>
+    <script src="js/navigation/tab.directive.js"></script>
 
     <script src="js/style.js"></script>
 </body>

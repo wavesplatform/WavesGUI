@@ -56,6 +56,11 @@ module.exports = function (grunt) {
                 'bower_components/cryptojslib/rollups/aes.js',
                 'bower_components/cryptojslib/rollups/sha256.js',
                 'bower_components/curve25519-js/axlsign.js',
+                'bower_components/clipboard/dist/clipboard.js',
+                'bower_components/ngclipboard/dist/ngclipboard.js',
+                'bower_components/growl/javascripts/jquery.growl.js',
+
+                'src/js/vendor/jquery.modal.js',
 
                 'bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.1.0.js'
             ]
@@ -98,15 +103,28 @@ module.exports = function (grunt) {
                         // project sources
                         'src/js/app.js',
                         'src/js/ui.module.js',
+                        'src/js/application.context.factory.js',
                         'src/js/home.controller.js',
                         'src/js/splash.controller.js',
 
+                        'src/js/shared/shared.module.js',
+                        'src/js/shared/dialog.service.js',
+                        'src/js/shared/notification.service.js',
+                        'src/js/shared/shared.dialog.directive.js',
+
                         'src/js/login/login.module.js',
                         'src/js/login/login.constants.js',
+                        'src/js/login/login.context.factory.js',
                         'src/js/login/accounts.controller.js',
                         'src/js/login/account.list.controller.js',
                         'src/js/login/account.register.controller.js',
                         'src/js/login/account.seed.controller.js',
+                        'src/js/login/account.login.controller.js',
+
+                        'src/js/navigation/navigation.module.js',
+                        'src/js/navigation/main.menu.controller.js',
+                        'src/js/navigation/navigation.controller.js',
+                        'src/js/navigation/tab.directive.js',
 
                         'src/js/**/*.spec.js'
                     ]

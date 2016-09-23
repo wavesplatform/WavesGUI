@@ -562,7 +562,7 @@ header {
     -ms-flex-align: center;
     align-items: center;
 }
-#tabs-Iconset label {
+#tabs-Iconset span {
     height: 100%;
 }
 #tabs-Iconset img {
@@ -578,16 +578,13 @@ header {
     -webkit-transform: scale(0.9);
     transform: scale(0.9);
 }
-input.tabs-radio {
-    display: none;
-}
-input.tabs-radio + label img {
+span.tabs-radio img {
     opacity: .4;
 }
-input.tabs-radio:hover + label img {
+input.tabs-radio:hover img {
     opacity: .3;
 }
-input.tabs-radio:checked + label img {
+input.tabs-radio img.selected {
     opacity: 1;
 }
 
@@ -639,15 +636,6 @@ input.tabs-radio:checked + label img {
     width: 100% !important;
     padding-bottom: 1rem;
     margin: 0 auto;
-}
-#mBB-portfolio,
-#mBB-exchange,
-#mBB-voting,
-#mBB-history,
-#mBB-token,
-#mBB-messages,
-#mBB-community {
-    display: none;
 }
 #LBmBB-portfolio,
 #LBmBB-exchange,
@@ -1522,7 +1510,6 @@ input.tabs-radio:checked + label img {
         height: 90%;
         margin-top: -.25rem;
     }
-    #tabs-Iconset label {}
     #tabs-Iconset img {
         padding-left: .4rem;
         padding-right: .4rem;
