@@ -10,7 +10,10 @@ var app = angular.module('app',
         'waves.core',
         'waves.core.services',
 
+        'ngclipboard',
+        'ngAnimate',
         'app.ui',
+        'app.shared',
         'app.login',
         'app.navigation'
     ]

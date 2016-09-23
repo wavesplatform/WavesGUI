@@ -56,6 +56,9 @@ module.exports = function (grunt) {
                 'bower_components/cryptojslib/rollups/aes.js',
                 'bower_components/cryptojslib/rollups/sha256.js',
                 'bower_components/curve25519-js/axlsign.js',
+                'bower_components/clipboard/dist/clipboard.js',
+                'bower_components/ngclipboard/dist/ngclipboard.js',
+                'bower_components/growl/javascripts/jquery.growl.js',
 
                 'src/js/vendor/jquery.modal.js',
 
@@ -105,7 +108,9 @@ module.exports = function (grunt) {
                         'src/js/splash.controller.js',
 
                         'src/js/shared/shared.module.js',
-                        'src/js/shared/shared.dialog.component.js',
+                        'src/js/shared/dialog.service.js',
+                        'src/js/shared/notification.service.js',
+                        'src/js/shared/shared.dialog.directive.js',
 
                         'src/js/login/login.module.js',
                         'src/js/login/login.constants.js',

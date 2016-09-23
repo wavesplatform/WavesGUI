@@ -3,7 +3,7 @@
 
     angular
         .module('app.navigation')
-        .controller('mainMenuController', ['$scope', 'applicationContext', 'cryptoService', 'dialogService', function ($scope, applicationContext, cryptoService, dialogService) {
+        .controller('mainMenuController', ['$scope', 'applicationContext', 'cryptoService', 'dialogService', 'notificationService', function ($scope, applicationContext, cryptoService, dialogService, notificationService) {
             var menu = this;
 
             menu.address = applicationContext.account.address.getDisplayAddress();
@@ -16,11 +16,11 @@
             }
 
             function buildBackupClipboardText() {
-                var text = "Seed: " + menu.seed + "\n";
-                text += "Encoded seed: " + menu.encodedSeed + "\n";
-                text += "Private key: " + menu.privateKey + "\n";
-                text += "Public key: " + menu.publicKey + "\n";
-                text += "Address: " + menu.address;
+                var text = 'Seed: ' + menu.seed + '\n';
+                text += 'Encoded seed: ' + menu.encodedSeed + '\n';
+                text += 'Private key: ' + menu.privateKey + '\n';
+                text += 'Public key: ' + menu.publicKey + '\n';
+                text += 'Address: ' + menu.address;
 
                 return text;
             }
@@ -30,12 +30,21 @@
 
             function showBackupDialog() {
                 initializeBackupFields();
-                dialogService.open("#header-wPop-backup");
+                dialogService.open('#header-wPop-backup');
             }
 
             function backup() {
-                var text = buildBackupClipboardText();
-                //todo: put this text to clipboard and display a good message
+                var clipboard = new Clipboard('#backupForm', {
+                    text: function (trigger) {
+                        return buildBackupClipboardText();
+                    }
+                });
+                clipboard.on('success', function(e) {
+                    notificationService.notice('Account backup has been copied to clipboard');
+                    e.clearSelection();
+                });
+                angular.element('#backupForm').click();
+                clipboard.destroy();
             }
         }]);
 })();
