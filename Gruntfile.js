@@ -123,6 +123,8 @@ module.exports = function (grunt) {
 
                         'src/js/navigation/navigation.module.js',
                         'src/js/navigation/main.menu.controller.js',
+                        'src/js/navigation/navigation.controller.js',
+                        'src/js/navigation/tab.directive.js',
 
                         'src/js/**/*.spec.js'
                     ]

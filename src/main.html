@@ -286,7 +286,374 @@
         </header>
         <!-- / HEADER -->
 
+        <span class="jurl"></span>
 
+        <div id="navigationContainer" ng-controller="navigationController as nav">
+            <!-- APPLICATION TAB SELECTORS -->
+            <section id="tabs" class="fFade noSelect">
+                <div id="tabs-Iconset" class="centerIt">
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="wallet" caption="'Wallet tab'" tooltip="'<center><u>Wallet</u></center><br/>Area containing the main wallets.'"></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="portfolio" caption="'Portfolio tab'" tooltip="'<center><u>Portfolio</u></center><br/>Display all your assets, both digital and physical<br/>as well as allowing transfers.'"></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="exchange" caption="'Exchange tab'" tooltip="'<center><u>Waves Decentralized Exchange</u></center><br/>Access to Waves markets where you can<br/>conveniently buy, sell and trade tokens.'"></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="voting" caption="'Voting tab'" tooltip="'<center><u>Voting Area</u></center><br/>Decentralized voting utility.'"></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="history" caption="'History tab'" tooltip="'<center><u>History</u></center><br/>Access all your transaction records.'"></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="tokens" caption="'Tokens Creation tab'" tooltip="'<center><u>Tokens Creation tab</u></center><br/>Area in which assets can be created.'"></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="messages" caption="'Messages tab'" tooltip="'<center><u>Decentralized Messenger</u></center><br/>Allows private communication between Waves users.'"></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="community" caption="'Community tab'" tooltip="'<center><u>Community tab</u></center><br/>Resources to learn more about Waves project such as <br/>forums, blogs, websites, etc.'"></span>
+              </div>
+            </section>
+
+            <!-- BODY CONTENT -->
+            <section id="mBBody" class="fFade" ng-switch on="nav.currentTab">
+                <!-- WALLET TAB -->
+                <div id="mBB-wallet" class="mBB-content" ng-switch-when="wallet">
+                    <div class="flex-container">
+                        <div id="wB-USD" class="walletBox">
+                            <img id="wB-bg-USD" src="img/wB-bg-USD.svg" alt="US Dollar wallet" />
+                            <div class="wB-name">US DOLLAR</div>
+                            <div class="wB-add"></div><br>
+                            <div class="wB-balInt">0</div>
+                            <div class="wB-balDec">.00</div>
+                            <div class="wB-buttons">
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butSend fade"><p>SEND</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div id="wB-EUR" class="walletBox">
+                            <img id="wB-bg-EUR" src="img/wB-bg-EUR.svg" alt="Euro wallet" />
+                            <div class="wB-name">EURO</div>
+                            <div class="wB-add"></div>
+                            <div class="wB-balInt">0</div>
+                            <div class="wB-balDec">.00</div>
+                            <div class="wB-buttons">
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butSend fade"><p>SEND</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div id="wB-BTC" class="walletBox">
+                            <img id="wB-bg-BTC" src="img/wB-bg-BTC.svg" alt="Bitcoin wallet" />
+                            <div class="wB-name">BITCOIN</div>
+                            <div class="wB-add"></div>
+                            <div class="wB-balInt">0</div>
+                            <div class="wB-balDec">.00000000</div>
+                            <div class="wB-buttons">
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butSend fade"><p>SEND</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div id="wB-WAV" class="walletBox">
+                            <img id="wB-bg-WAV" src="img/wB-bg-WAV.svg" alt="Waves wallet" />
+                            <div class="wB-name">WAVE</div>
+                            <div class="wB-add"></div>
+                            <div class="wB-balInt" id="wavesbalance"></div>
+                            <div class="wB-balDec" id="wavesbalancedec"></div>
+                            <div class="wB-buttons">
+                                <a href="#wB-butSend-WAV" rel="modal:open">
+                                    <div class="wB-but wB-butSend fade"><p>SEND</p></div>
+                                </a>
+
+                                <div id="wB-butSend-WAV" class="wavesPop">
+                                    <img class="wPop-header" src="img/modal-header.svg" />
+                                    <div class="wPop-content">
+                                        <form id="send-waves-form" class="paymentForm">
+                                            <h2>SEND PAYMENT</h2>
+                                            <div class="balanceAmt">
+                                                <p>Balance: </p><span class="balancewaves"></span>
+                                            </div>
+                                            <table>
+                                                <thead>
+                                                <tr>
+                                                    <th>DESCRIPTION</th>
+                                                    <th>INPUT</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Recipient's Address</td>
+                                                    <td><input id="wavesrecipient" class="wInput form-control" name="wavesrecipient" type="text" placeholder="Recipient"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Amount</td>
+                                                    <td><input id="wavessendamount" class="wInput form-control" name="wavessendamount" type="text" placeholder="Amount"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Fee</td>
+                                                    <td>
+                                                        <select id="wavessendfee" name="wavessendfee" class="form-control">
+                                                            <option value="0.001" selected>0.001 WAVE (Economic)</option>
+                                                            <option value="0.0015">0.0015 WAVE (Standard)</option>
+                                                            <option value="0.002">0.002 WAVE (Premium)</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </form>
+                                        <!-- check -->
+                                        <div id="wavessend" class="paymentForm-but send-but fade" value="send"><p>SUBMIT</p></div>
+                                        <div id="sentpayment" style="width: 500px; word-wrap:break-word;"></div>
+                                        <div id="errorpayment" style="width: 500px; word-wrap:break-word;"></div>
+
+                                    </div>
+                                </div>
+
+                                <div id="send-payment-confirmation" class="wavesPop">
+                                    <img class="wPop-header" src="img/modal-header.svg" />
+                                    <div class="wPop-content">
+                                        <p>You are sending <span id="confirmation-amount">0</span>
+                                            <span class="confirmation-currency">WAVES</span> with
+                                            <span id="confirmation-fee">0</span> <span class="confirmation-currency">WAVES</span> fee to the address<br/>
+                                            <span id="confirmation-address"></span>
+                                        </p>
+                                        <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                                        <!-- buttons -->
+                                        <div class="wPop-content-buttons">
+                                            <a id="send-confirm" href="#" class="wButton paymentForm-but fade tooltip-1" title="Click here to confirm your payment.">CONFIRM</a>
+                                            <span class="divider-1"></span>
+                                            <a href="#" rel="modal:close" class="wButton paymentForm-but fade tooltip-1">CANCEL</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div id="wB-RMB" class="walletBox">
+                            <img id="wB-bg-RMB" src="img/wB-bg-RMB.svg" alt="Chinese Yuan wallet" />
+                            <div class="wB-name">CHINESE YUAN</div>
+                            <div class="wB-add"></div>
+                            <div class="wB-balInt">0</div>
+                            <div class="wB-balDec">.00</div>
+                            <div class="wB-buttons">
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butSend fade"><p>SEND</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
+                                </a>
+                                <a ng-click="home.featureUnderDevelopment()">
+                                    <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="wallet-transaction-history" class="wavesTable">
+                        <table>
+                            <thead>
+                            <div class="wTMainHeader">
+                                LATEST TRANSACTIONS
+                            </div>
+                            <tr>
+                                <td>DATE</td>
+                                <td>TYPE</td>
+                                <td>SENDER</td>
+                                <td>RECIPIENT</td>
+                                <td>FEE</td>
+                                <td>UNITS</td>
+                            </tr>
+                            </thead>
+                            <tbody id="walletTransactionhistory">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- / WALLET TAB -->
+
+                <!-- PORTFOLIO TAB -->
+                <div id="mBB-portfolio" class="mBB-content" ng-switch-when="portfolio">
+                    <div class="phContent">
+                        <h1>PORTFOLIO</h1>
+                        <br/>
+                        <p>The Portfolio area serves both as an analytic tool and a summary overview of a user's holdings. It is the perfect place to draft market strategies and plan future investments.
+                            <br/><br/>
+                            The Portfolio tab will start operating as Waves platform incorporates additional markets, meanwhile the transactions can be tracked via History tab.
+                        </p>
+                        <br/><br/>
+                        <img src="img/tab_port_prev.svg" />
+                    </div>
+                </div>
+                <!-- / PORTFOLIO TAB -->
+
+                <!-- EXCHANGE TAB -->
+                <div id="mBB-exchange" class="mBB-content" ng-switch-when="exchange">
+                    <div class="phContent">
+                        <h1>DECENTRALIZED EXCHANGE</h1>
+                        <br/>
+                        <p>Waves' features include a decentralized exchange in which users will be able to trade tokens of all kinds. There will be no AML/KYC requirements in order to use this service.
+                            <br/><br/>
+                            The Decentralized Exchange is scheduled for launch in the last quarter of 2016.
+                        </p>
+                        <br/><br/>
+                        <img src="img/tab_dex_prev.svg" />
+                    </div>
+                </div>
+                <!-- / EXCHANGE TAB -->
+
+                <!-- VOTING TAB -->
+                <div id="mBB-voting" class="mBB-content" ng-switch-when="voting">
+                    <div class="phContent">
+                        <h1>DECENTRALIZED VOTING</h1>
+                        <br/>
+                        <p>With a fair and automated system, Waves' voting area enables communities and projects to achieve consensus for critical decision-making that might otherwise prove difficult or controversial. A full set of analytic tools will also be available to follow up the voting process in real time.
+                            <br/><br/>
+                            The Decentralized Voting feature is scheduled for launch in the final quarter of 2016.
+                        </p>
+                        <br/><br/>
+                        <img src="img/tab_vote_prev.svg" />
+                    </div>
+                </div>
+                <!-- / VOTING TAB -->
+
+                <!-- HISTORY TAB -->
+                <div id="mBB-history" class="mBB-content" ng-switch-when="history">
+
+                    <div id="full-transaction-history" class="wavesTable">
+                        <table>
+                            <thead>
+                            <div class="wTMainHeader">
+                                LATEST TRANSACTIONS
+                            </div>
+                            <tr>
+                                <td>
+                                    DATE
+                                </td>
+                                <td >
+                                    TYPE
+                                </td>
+                                <td>
+                                    SENDER
+                                </td>
+                                <td>
+                                    RECIPIENT
+                                </td>
+                                <td>
+                                    FEE
+                                </td>
+                                <td>
+                                    UNITS
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody id="unconfirmedHistory">
+
+                            </tbody>
+                            <tbody id="transactionhistory">
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <!-- / HISTORY TAB -->
+
+                <!-- TOKENS TAB -->
+                <div id="mBB-token" class="mBB-content" ng-switch-when="tokens">
+
+                    <div class="phContent">
+                        <h1>ASSET CREATION</h1>
+                        <br/>
+                        <p>The Asset Creation area is utilized to build custom Assets composed by Tokens. It is the first step in order to initialize a project in the platform.
+                            <br/><br/>
+                            The Asset Creation tab will start being operative in the fall of 2016, shortly after the Full Node code is released publicly or even at the same time.
+                        </p>
+                        <br/><br/>
+                        <img src="img/tab_token_prev.svg" />
+                    </div>
+
+                </div>
+                <!-- / TOKENS TAB -->
+
+                <!-- MESSAGES TAB -->
+                <div id="mBB-messages" class="mBB-content" ng-switch-when="messages">
+                    <div class="phContent">
+                        <h1>MESSAGING CENTER</h1>
+                        <br/>
+                        <p>Soon to be renamed/rebranded as CONTACTS, this is an area in which users will be able to add other individuals or groups to several list types, providing an easy way to keep track of friends, execute regular, automated payments, and much more.
+                            <br/><br/>
+                            The Contacts area services is scheduled for launch in the third quarter of 2016.
+                        </p>
+                        <br/><br/>
+                        <img src="img/tab_cont_prev.svg" />
+                    </div>
+                    <div id="addContact-wPop" class="wavesPop">
+                        <img class="wPop-header" src="img/modal-header.svg" />
+                        <form id="addContactForm" class="wPop-content">
+                            <h2>ADD CONTACT</h2>
+                            <p>Fill the fields below in order to add a new contact to your list:</p>
+                            <p>Name</p>
+                            <input type="text" id="contactname" placeholder="" class="wInput" />
+
+                            <p>Address</p>
+                            <input type="text" id="contactaddress" placeholder="" class="wInput" />
+
+                            <p>Email</p>
+                            <input type="email" id="contactemail" placeholder="" class="wInput" />
+
+                            <br/><br/>
+                            <button id="addContactSubmit" class="wButton fade">ADD CONTACT</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- / MESSAGES TAB -->
+
+                <!-- COMMUNITY TAB -->
+                <div id="mBB-community" class="mBB-content" ng-switch-when="community">
+                    <!-- Temporary -->
+                    <p>DISCLAIMER: The Community tab will temporarily hold block information for testing purposes. After alpha phase this data  will be relocated inside the Preferences - Advanced area.</p>
+                    <h2>LATEST BLOCKS INFORMATION</h2>
+                    <p class="centerIt">
+
+                    <div id="latestBlocks" class="wavesTable" >
+                        <table>
+                            <thead>
+                            <tr class="fade">
+                                <td>HEIGHT</td>
+                                <td>DATE</td>
+                                <td>TRANSACTIONS</td>
+                                <td>GENERATOR</td>
+                            </tr>
+                            </thead>
+                            <tbody id="latestBlocksUnconfirmed">
+
+                            </tbody>
+                            <tbody id="latestBlocksTable">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    </p>
+                </div>
+                <!-- /COMMUNITY TAB -->
+            </section>
+        </div>
     </div> <!-- Wrapper div END -->
 
     <!-- JAVASCRIPT -->
@@ -342,6 +709,8 @@
 
     <script src="js/navigation/navigation.module.js"></script>
     <script src="js/navigation/main.menu.controller.js"></script>
+    <script src="js/navigation/navigation.controller.js"></script>
+    <script src="js/navigation/tab.directive.js"></script>
 
     <script src="js/style.js"></script>
 </body>
