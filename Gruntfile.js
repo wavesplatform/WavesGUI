@@ -126,6 +126,10 @@ module.exports = function (grunt) {
                         'src/js/navigation/navigation.controller.js',
                         'src/js/navigation/tab.directive.js',
 
+                        'src/js/wallet/wallet.module.js',
+                        'src/js/wallet/wallet.box.component.js',
+                        'src/js/wallet/wallet.controller.js',
+
                         'src/js/**/*.spec.js'
                     ]
                 }

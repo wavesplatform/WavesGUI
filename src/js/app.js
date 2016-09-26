@@ -15,6 +15,7 @@ var app = angular.module('app',
         'app.ui',
         'app.shared',
         'app.login',
-        'app.navigation'
+        'app.navigation',
+        'app.wallet'
     ]
 );

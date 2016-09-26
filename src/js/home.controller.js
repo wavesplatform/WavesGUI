@@ -33,7 +33,7 @@
         });
 
         function featureUnderDevelopment() {
-            dialogService.open("#feat-not-active");
+            dialogService.open('#feat-not-active');
         }
 
         function logout() {
@@ -41,7 +41,8 @@
         }
     }
 
-    HomeController.$inject = ['$scope', '$window', 'ui.events', 'constants.core', 'dialogService', 'applicationContext'];
+    HomeController.$inject = ['$scope', '$window', 'ui.events', 'constants.core',
+        'dialogService', 'applicationContext'];
 
     angular
         .module('app')

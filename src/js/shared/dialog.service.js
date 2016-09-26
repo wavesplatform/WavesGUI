@@ -18,6 +18,6 @@
 
             this.close = function () {
                 angular.element.modal.close();
-            }
+            };
         }]);
 })();

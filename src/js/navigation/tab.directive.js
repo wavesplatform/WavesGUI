@@ -4,11 +4,11 @@
     function WavesTabController($scope) {
         $scope.isSelected = function () {
             return $scope.pageId === $scope.currentPageId;
-        }
+        };
 
         $scope.onClick = function () {
             $scope.onSelect({pageId: $scope.pageId});
-        }
+        };
     }
 
     function WavesTabLink(scope, element) {
