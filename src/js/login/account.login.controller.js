@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function AccountLoginController ($scope, cryptoService, loginContext) {
+    function AccountLoginController ($scope, cryptoService, loginContext, notificationService) {
         var vm = this;
 
         vm.signIn = signIn;
@@ -18,7 +18,7 @@
 
             var decryptedSeed = cryptoService.decryptWalletSeed(account.cipher, vm.password, account.checksum);
             if (!decryptedSeed) {
-                //todo: display notification
+                notificationService.error('Wrong password! Please try again.');
             }
             else {
                 var keys = cryptoService.getKeyPair(decryptedSeed);
@@ -37,7 +37,7 @@
         }
     }
 
-    AccountLoginController.$inject = ['$scope', 'cryptoService', 'loginContext'];
+    AccountLoginController.$inject = ['$scope', 'cryptoService', 'loginContext', 'notificationService'];
 
     angular
         .module('app.login')

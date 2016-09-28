@@ -750,6 +750,7 @@ input.tabs-radio img.selected {
 #send-confirm {
     width: auto;
 }
+.confirmation-value,
 .confirmation-currency,
 #confirmation-amount,
 #confirmation-fee,

@@ -39,7 +39,7 @@ module.exports = function (grunt) {
                 }
             },
             jsFilesForTesting: [
-                //'bower_components/jquery/dist/jquery.js',
+                'bower_components/jquery/dist/jquery.js',
 
                 // this library doesn't work properly being included after angular
                 'bower_components/js-sha3/src/sha3.js',

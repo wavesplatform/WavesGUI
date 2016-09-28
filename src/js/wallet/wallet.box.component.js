@@ -50,7 +50,7 @@
                 onTrade: '&'
             },
             template: '<img src="img/{{::$ctrl.image}}" alt="Chinese Yuan wallet" />' +
-                '<div class="wB-name">{{::$ctrl.displayName}}</div>' +
+                '<div class="wB-name">{{::$ctrl.displayName | uppercase}}</div>' +
                 '<div class="wB-add"></div>' +
                 '<div class="wB-balInt">{{$ctrl.integerBalance}}</div>' +
                 '<div class="wB-balDec">{{$ctrl.fractionBalance}}</div>' +

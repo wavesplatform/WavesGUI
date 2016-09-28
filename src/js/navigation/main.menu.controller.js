@@ -1,9 +1,12 @@
 (function () {
     'use strict';
 
-    function MainMenuController($scope, applicationContext, cryptoService, dialogService, notificationService) {
+    function MainMenuController($scope, $timeout, $interval, applicationContext,
+                                cryptoService, dialogService, notificationService, apiService) {
+        var refreshPromise, delayRefresh = 10 * 1000;
         var menu = this;
 
+        menu.blockHeight = 0;
         menu.address = applicationContext.account.address.getDisplayAddress();
 
         function initializeBackupFields() {
@@ -22,6 +25,19 @@
 
             return text;
         }
+
+        $timeout(function () {
+            refreshBlockHeight();
+
+            refreshPromise = $interval(refreshBlockHeight, delayRefresh);
+        }, 1);
+
+        $scope.$on('$destroy', function () {
+            if (angular.isDefined(refreshPromise)) {
+                $interval.cancel(refreshPromise);
+                refreshPromise = undefined;
+            }
+        });
 
         menu.showBackupDialog = showBackupDialog;
         menu.backup = backup;
@@ -44,10 +60,16 @@
             angular.element('#backupForm').click();
             clipboard.destroy();
         }
+
+        function refreshBlockHeight() {
+            apiService.blocks.height().then(function (response) {
+                menu.blockHeight = response.height;
+            });
+        }
     }
 
-    MainMenuController.$inject = ['$scope', 'applicationContext',
-        'cryptoService', 'dialogService', 'notificationService'];
+    MainMenuController.$inject = ['$scope', '$timeout', '$interval', 'applicationContext',
+        'cryptoService', 'dialogService', 'notificationService', 'apiService'];
 
     angular
         .module('app.navigation')
