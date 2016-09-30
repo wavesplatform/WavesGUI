@@ -249,7 +249,8 @@
                 <img src="img/topleftlogo.svg" />
                 <p ng-class='{testnet: home.isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
             </div>
-            <span id="version" class="centerIt">Address: <span id="wavesAccountAddress" class="tooltip-3" title="Copy the address to clipboard." ngclipboard data-clipboard-text="{{::menu.address}}" ngclipboard-success="clipboardOk()" >{{::menu.address}}</span>
+            <span id="version" class="centerIt">Address:
+                <span id="wavesAccountAddress" class="clipSpan tooltip-3" title="Copy the address to clipboard." ngclipboard data-clipboard-text="{{::menu.address}}" ngclipboard-success="clipboardOk()">{{::menu.address}}</span>
                 <span class="divider-2"></span>
                 <span class="inlineParagraph">Block:</span> <span id="blockheight">{{menu.blockHeight}}</span>
             </span>
