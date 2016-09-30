@@ -4,11 +4,11 @@
     function WavesTabController($scope) {
         $scope.isSelected = function () {
             return $scope.pageId === $scope.currentPageId;
-        }
+        };
 
         $scope.onClick = function () {
             $scope.onSelect({pageId: $scope.pageId});
-        }
+        };
     }
 
     function WavesTabLink(scope, element) {
@@ -29,7 +29,7 @@
                     currentPageId: '<'
                 },
                 link: WavesTabLink,
-                template: '<img src="img/tabs-iconset-{{pageId}}.svg" class="fFade tooltip-3" alt="{{caption}}" ' +
+                template: '<img ng-src="img/tabs-iconset-{{pageId}}.svg" class="fFade tooltip-3" alt="{{caption}}" ' +
                     'title="{{tooltip}}" ng-click="onClick()" ng-class="[{selected: isSelected()}]"/>'
             };
         });

@@ -39,7 +39,7 @@ module.exports = function (grunt) {
                 }
             },
             jsFilesForTesting: [
-                //'bower_components/jquery/dist/jquery.js',
+                'bower_components/jquery/dist/jquery.js',
 
                 // this library doesn't work properly being included after angular
                 'bower_components/js-sha3/src/sha3.js',
@@ -111,6 +111,8 @@ module.exports = function (grunt) {
                         'src/js/shared/dialog.service.js',
                         'src/js/shared/notification.service.js',
                         'src/js/shared/shared.dialog.directive.js',
+                        'src/js/shared/transaction.loading.service.js',
+                        'src/js/shared/transaction.filter.js',
 
                         'src/js/login/login.module.js',
                         'src/js/login/login.constants.js',
@@ -125,6 +127,16 @@ module.exports = function (grunt) {
                         'src/js/navigation/main.menu.controller.js',
                         'src/js/navigation/navigation.controller.js',
                         'src/js/navigation/tab.directive.js',
+
+                        'src/js/wallet/wallet.module.js',
+                        'src/js/wallet/wallet.box.component.js',
+                        'src/js/wallet/wallet.controller.js',
+
+                        'src/js/history/history.module.js',
+                        'src/js/history/history.controller.js',
+
+                        'src/js/community/community.module.js',
+                        'src/js/community/community.controller.js',
 
                         'src/js/**/*.spec.js'
                     ]

@@ -51,6 +51,7 @@
                     closeable: '=?',
                     cancelButtonVisible: '=?',
                     showButtons: '=?',
+                    tooltip: '=?',
                     dialogOk: '&onDialogOk',
                     dialogCancel: '&onDialogCancel',
                     okButtonCaption: '@',
@@ -61,10 +62,13 @@
                 template: '<img class="wPop-header" ng-src="img/{{image}}" />' +
                     '<div class="wavesPop-content" ng-transclude></div>' +
                     '<div class="wPop-content-buttons" ng-show="showButtons">' +
-                        '<button class="wButton fade tooltip-1" ng-class="[{wButtonDanger: isError}]" title="Click here to proceed with the account removal." ng-click="onOk()">{{::okButtonCaption}}</button>' +
+                        '<button class="wButton fade tooltip-1" ng-class="[{wButtonDanger: isError}]" ' +
+                            'title="{{::tooltip}}" ng-click="onOk()">{{::okButtonCaption}}</button>' +
                         '<span class="divider-2" ng-if="cancelButtonVisible"></span>' +
-                        '<button ng-if="cancelButtonVisible" class="wButton fade" ng-class="[{wButtonDanger: isError}]" ng-click="onCancel()">{{::cancelButtonCaption}}</button>' +
+                        '<button ng-if="cancelButtonVisible" class="wButton fade" ' +
+                            'ng-class="[{wButtonDanger: isError}]" ng-click="onCancel()">{{::cancelButtonCaption}}' +
+                        '</button>' +
                     '</div>'
-            }
+            };
         });
 })();

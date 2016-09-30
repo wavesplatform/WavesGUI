@@ -4,7 +4,7 @@
     function ApplicationContextFactory() {
         return {
             account: {}
-        }
+        };
     }
 
     ApplicationContextFactory.$inject = [];

@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="css/jquery.modal.css">
     <link rel="stylesheet" href="css/jquery.growl.css">
     <link rel="stylesheet" href="css/tooltipster.min.css">
+    <link rel="stylesheet" href="../bower_components/angular/angular-csp.css">
 	<link href="img/favicon.ico" type="image/x-icon" rel="shortcut icon"/>
 </head>
 
@@ -36,13 +37,13 @@
         <div id="logo-container-centered" class="centerIt">
             <div id="logoo">
                 <img id="logo-spin" src="img/logo-spin.svg" />
-                <p id="networkCheck">{{::splash.connectionFailed}}</p>
+                <p id="networkCheck" ng-cloak>{{::splash.connectionFailed}}</p>
             </div>
         </div>
     </div>
 
     <!-- LOG IN AREA -->
-    <div id="lockscreen" class="userBG" ng-controller="accountsController as accounts" ng-if="home.accountsVisible">
+    <div id="lockscreen" class="userBG" ng-controller="accountsController as accounts" ng-if="home.accountsVisible" ng-cloak>
         <table id="lockscreenTable">
 
             <thead>
@@ -61,9 +62,9 @@
                         <div class="wavesAccounts" ng-controller="accountListController as list" ng-show="accounts.mode === 'list'">
                             <p class="loginAccountDiv" ng-repeat="account in list.accounts">
                                         <span class="loginAccount tooltip-1 fade" title="Log into this account." ng-click="list.signIn(account)"> <br/>
-                                            <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::list.convertAddress(account.address)}}</small>
+                                            <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::account.address | address}}</small>
                                         </span>
-                                <span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="{{::list.convertAddress(account.address)}}"></span>
+                                <span class="clipSpan tooltip-1" ngclipboard title="Copy this address to the clipboard." data-clipboard-text="{{::account.address | address}}" ngclipboard-success="clipboardOk()"></span>
                                 <span class="divider-1"></span>
                                 <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." ng-click="list.showRemoveWarning(account)">
                                     <span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE
@@ -203,7 +204,7 @@
                                 <label for="accountPassword">PASSWORD</label>
                                 <br/>
 
-                                <input type="text" id="accountPassword" class="wInput" ng-model="vm.password"/>
+                                <input type="password" id="accountPassword" class="wInput" ng-model="vm.password"/>
                                 <br/><br/>
 
                                 <button class="wButton fade" ng-click="vm.signIn()">SIGN IN</button>
@@ -220,7 +221,7 @@
         </table>
     </div>
 
-	<div id="wrapper" ng-if="home.mainViewVisible">
+	<div id="wrapper" ng-if="home.mainViewVisible" ng-cloak>
         <!-- shared blocks -->
         <div id="feat-not-active" waves-dialog show-buttons="false" is-error="true">
             <h2>NOTICE</h2>
@@ -248,9 +249,10 @@
                 <img src="img/topleftlogo.svg" />
                 <p ng-class='{testnet: home.isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
             </div>
-            <span id="version" class="centerIt">Address: <span id="wavesAccountAddress" class="tooltip-3" title="Copy the address to clipboard.">{{::menu.address}}</span>
+            <span id="version" class="centerIt">Address:
+                <span id="wavesAccountAddress" class="clipSpan tooltip-3" title="Copy the address to clipboard." ngclipboard data-clipboard-text="{{::menu.address}}" ngclipboard-success="clipboardOk()">{{::menu.address}}</span>
                 <span class="divider-2"></span>
-                <span class="inlineParagraph">Block:</span> <span id="blockheight"></span>
+                <span class="inlineParagraph">Block:</span> <span id="blockheight">{{menu.blockHeight}}</span>
             </span>
 
             <div id="header-Iconset">
@@ -306,171 +308,62 @@
             <!-- BODY CONTENT -->
             <section id="mBBody" class="fFade" ng-switch on="nav.currentTab">
                 <!-- WALLET TAB -->
-                <div id="mBB-wallet" class="mBB-content" ng-switch-when="wallet">
+                <div id="mBB-wallet" class="mBB-content" ng-switch-when="wallet" ng-controller="walletController as wallet">
+                    <div id="wB-butSend-WAV" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="wallet.submitPayment()">
+                        <form id="send-waves-form" class="paymentForm">
+                            <h2>SEND PAYMENT</h2>
+                            <div class="balanceAmt">
+                                <p>Balance: </p><span class="balancewaves">{{wallet.current.balance.formatAmount(true)}}</span>
+                            </div>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>DESCRIPTION</th>
+                                    <th>INPUT</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Recipient's Address</td>
+                                    <td><input class="wInput form-control" name="wavesrecipient" type="text" placeholder="Recipient" ng-model="wallet.transfer.recipient"></td>
+                                </tr>
+                                <tr>
+                                    <td>Amount</td>
+                                    <td><input class="wInput form-control" name="wavessendamount" type="text" placeholder="Amount" ng-model="wallet.transfer.amount"></td>
+                                </tr>
+                                <tr>
+                                    <td>Fee</td>
+                                    <td>
+                                        <select id="wavessendfee" name="wavessendfee" class="form-control" ng-model="wallet.transfer.fee">
+                                            <option value="0.001" selected>0.001 WAVE (Economic)</option>
+                                            <option value="0.0015">0.0015 WAVE (Standard)</option>
+                                            <option value="0.002">0.002 WAVE (Premium)</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+
+                    <div id="send-payment-confirmation" waves-dialog ok-button-caption="CONFIRM" on-dialog-ok="wallet.broadcastSendTransaction()">
+                        <p>You are sending <span class="confirmation-value">{{wallet.confirm.amount.value}}</span>
+                            <span class="confirmation-value">{{wallet.confirm.amount.currency}}</span> with
+                            <span class="confirmation-value">{{wallet.confirm.fee.value}}</span>
+                            <span class="confirmation-value">{{wallet.confirm.fee.currency}}</span> fee to the address<br/>
+                            <span class="confirmation-value">{{wallet.confirm.recipient}}</span>
+                        </p>
+                        <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                    </div>
+
                     <div class="flex-container">
-                        <div id="wB-USD" class="walletBox">
-                            <img id="wB-bg-USD" src="img/wB-bg-USD.svg" alt="US Dollar wallet" />
-                            <div class="wB-name">US DOLLAR</div>
-                            <div class="wB-add"></div><br>
-                            <div class="wB-balInt">0</div>
-                            <div class="wB-balDec">.00</div>
-                            <div class="wB-buttons">
-                                <a ng-click="home.featureUnderDevelopment()">
-                                    <div class="wB-but wB-butSend fade"><p>SEND</p></div>
-                                </a>
-                                <a ng-click="home.featureUnderDevelopment()">
-                                    <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
-                                </a>
-                                <a ng-click="home.featureUnderDevelopment()">
-                                    <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
-                                </a>
-                            </div>
-                        </div>
-                        <div id="wB-EUR" class="walletBox">
-                            <img id="wB-bg-EUR" src="img/wB-bg-EUR.svg" alt="Euro wallet" />
-                            <div class="wB-name">EURO</div>
-                            <div class="wB-add"></div>
-                            <div class="wB-balInt">0</div>
-                            <div class="wB-balDec">.00</div>
-                            <div class="wB-buttons">
-                                <a ng-click="home.featureUnderDevelopment()">
-                                    <div class="wB-but wB-butSend fade"><p>SEND</p></div>
-                                </a>
-                                <a ng-click="home.featureUnderDevelopment()">
-                                    <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
-                                </a>
-                                <a ng-click="home.featureUnderDevelopment()">
-                                    <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
-                                </a>
-                            </div>
-                        </div>
-                        <div id="wB-BTC" class="walletBox">
-                            <img id="wB-bg-BTC" src="img/wB-bg-BTC.svg" alt="Bitcoin wallet" />
-                            <div class="wB-name">BITCOIN</div>
-                            <div class="wB-add"></div>
-                            <div class="wB-balInt">0</div>
-                            <div class="wB-balDec">.00000000</div>
-                            <div class="wB-buttons">
-                                <a ng-click="home.featureUnderDevelopment()">
-                                    <div class="wB-but wB-butSend fade"><p>SEND</p></div>
-                                </a>
-                                <a ng-click="home.featureUnderDevelopment()">
-                                    <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
-                                </a>
-                                <a ng-click="home.featureUnderDevelopment()">
-                                    <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
-                                </a>
-                            </div>
-                        </div>
-                        <div id="wB-WAV" class="walletBox">
-                            <img id="wB-bg-WAV" src="img/wB-bg-WAV.svg" alt="Waves wallet" />
-                            <div class="wB-name">WAVE</div>
-                            <div class="wB-add"></div>
-                            <div class="wB-balInt" id="wavesbalance"></div>
-                            <div class="wB-balDec" id="wavesbalancedec"></div>
-                            <div class="wB-buttons">
-                                <a href="#wB-butSend-WAV" rel="modal:open">
-                                    <div class="wB-but wB-butSend fade"><p>SEND</p></div>
-                                </a>
-
-                                <div id="wB-butSend-WAV" class="wavesPop">
-                                    <img class="wPop-header" src="img/modal-header.svg" />
-                                    <div class="wPop-content">
-                                        <form id="send-waves-form" class="paymentForm">
-                                            <h2>SEND PAYMENT</h2>
-                                            <div class="balanceAmt">
-                                                <p>Balance: </p><span class="balancewaves"></span>
-                                            </div>
-                                            <table>
-                                                <thead>
-                                                <tr>
-                                                    <th>DESCRIPTION</th>
-                                                    <th>INPUT</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td>Recipient's Address</td>
-                                                    <td><input id="wavesrecipient" class="wInput form-control" name="wavesrecipient" type="text" placeholder="Recipient"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Amount</td>
-                                                    <td><input id="wavessendamount" class="wInput form-control" name="wavessendamount" type="text" placeholder="Amount"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Fee</td>
-                                                    <td>
-                                                        <select id="wavessendfee" name="wavessendfee" class="form-control">
-                                                            <option value="0.001" selected>0.001 WAVE (Economic)</option>
-                                                            <option value="0.0015">0.0015 WAVE (Standard)</option>
-                                                            <option value="0.002">0.002 WAVE (Premium)</option>
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-
-                                        </form>
-                                        <!-- check -->
-                                        <div id="wavessend" class="paymentForm-but send-but fade" value="send"><p>SUBMIT</p></div>
-                                        <div id="sentpayment" style="width: 500px; word-wrap:break-word;"></div>
-                                        <div id="errorpayment" style="width: 500px; word-wrap:break-word;"></div>
-
-                                    </div>
-                                </div>
-
-                                <div id="send-payment-confirmation" class="wavesPop">
-                                    <img class="wPop-header" src="img/modal-header.svg" />
-                                    <div class="wPop-content">
-                                        <p>You are sending <span id="confirmation-amount">0</span>
-                                            <span class="confirmation-currency">WAVES</span> with
-                                            <span id="confirmation-fee">0</span> <span class="confirmation-currency">WAVES</span> fee to the address<br/>
-                                            <span id="confirmation-address"></span>
-                                        </p>
-                                        <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
-                                        <!-- buttons -->
-                                        <div class="wPop-content-buttons">
-                                            <a id="send-confirm" href="#" class="wButton paymentForm-but fade tooltip-1" title="Click here to confirm your payment.">CONFIRM</a>
-                                            <span class="divider-1"></span>
-                                            <a href="#" rel="modal:close" class="wButton paymentForm-but fade tooltip-1">CANCEL</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <a ng-click="home.featureUnderDevelopment()">
-                                    <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
-                                </a>
-                                <a ng-click="home.featureUnderDevelopment()">
-                                    <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
-                                </a>
-                            </div>
-                        </div>
-                        <div id="wB-RMB" class="walletBox">
-                            <img id="wB-bg-RMB" src="img/wB-bg-RMB.svg" alt="Chinese Yuan wallet" />
-                            <div class="wB-name">CHINESE YUAN</div>
-                            <div class="wB-add"></div>
-                            <div class="wB-balInt">0</div>
-                            <div class="wB-balDec">.00</div>
-                            <div class="wB-buttons">
-                                <a ng-click="home.featureUnderDevelopment()">
-                                    <div class="wB-but wB-butSend fade"><p>SEND</p></div>
-                                </a>
-                                <a ng-click="home.featureUnderDevelopment()">
-                                    <div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>
-                                </a>
-                                <a ng-click="home.featureUnderDevelopment()">
-                                    <div class="wB-but wB-butTrade fade"><p>TRADE</p></div>
-                                </a>
-                            </div>
-                        </div>
-
+                        <wallet-box class="walletBox" ng-repeat="w in wallet.wallets" balance="w.balance" on-send="wallet.send(currency)"
+                                    on-withdraw="wallet.withdraw(currency)" on-trade="wallet.trade(currency)"></wallet-box>
                     </div>
                     <div id="wallet-transaction-history" class="wavesTable">
                         <table>
                             <thead>
-                            <div class="wTMainHeader">
-                                LATEST TRANSACTIONS
-                            </div>
+                            <div class="wTMainHeader">LATEST TRANSACTIONS</div>
                             <tr>
                                 <td>DATE</td>
                                 <td>TYPE</td>
@@ -481,6 +374,14 @@
                             </tr>
                             </thead>
                             <tbody id="walletTransactionhistory">
+                                <tr ng-repeat="tx in wallet.transactions | orderBy:'timestamp':true | limitTo:10 | transaction" ng-class="{'wavesTable-txUnc': tx.unconfirmed, 'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
+                                    <td>{{tx.formatted.datetime}}</td>
+                                    <td>{{tx.formatted.type}}</td>
+                                    <td>{{tx.formatted.sender}}</td>
+                                    <td>{{tx.formatted.recipient}}</td>
+                                    <td>{{tx.formatted.fee}}</td>
+                                    <td>{{tx.formatted.amount}}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -533,42 +434,41 @@
                 <!-- / VOTING TAB -->
 
                 <!-- HISTORY TAB -->
-                <div id="mBB-history" class="mBB-content" ng-switch-when="history">
+                <div id="mBB-history" class="mBB-content" ng-switch-when="history" ng-controller="historyController as history">
 
-                    <div id="full-transaction-history" class="wavesTable">
+                    <div id="full-transaction-history" class="wavesTable" >
                         <table>
                             <thead>
-                            <div class="wTMainHeader">
-                                LATEST TRANSACTIONS
-                            </div>
+                            <div class="wTMainHeader">LATEST TRANSACTIONS</div>
                             <tr>
-                                <td>
-                                    DATE
-                                </td>
-                                <td >
-                                    TYPE
-                                </td>
-                                <td>
-                                    SENDER
-                                </td>
-                                <td>
-                                    RECIPIENT
-                                </td>
-                                <td>
-                                    FEE
-                                </td>
-                                <td>
-                                    UNITS
-                                </td>
+                                <td>DATE</td>
+                                <td>TYPE</td>
+                                <td>SENDER</td>
+                                <td>RECIPIENT</td>
+                                <td>FEE</td>
+                                <td>UNITS</td>
                             </tr>
                             </thead>
-                            <tbody id="unconfirmedHistory">
-
+                            <tbody>
+                                <tr ng-repeat="tx in history.unconfirmed | orderBy:'timestamp':true | limitTo:10 | transaction" class="wavesTable-txUnc" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
+                                    <td>{{tx.formatted.datetime}}</td>
+                                    <td>{{tx.formatted.type}}</td>
+                                    <td>{{tx.formatted.sender}}</td>
+                                    <td>{{tx.formatted.recipient}}</td>
+                                    <td>{{tx.formatted.fee}}</td>
+                                    <td>{{tx.formatted.amount}}</td>
+                                </tr>
                             </tbody>
-                            <tbody id="transactionhistory">
-
+                            <tbody>
+                                <tr ng-repeat="tx in history.confirmed | orderBy:'timestamp':true | limitTo:10 | transaction" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
+                                    <td>{{tx.formatted.datetime}}</td>
+                                    <td>{{tx.formatted.type}}</td>
+                                    <td>{{tx.formatted.sender}}</td>
+                                    <td>{{tx.formatted.recipient}}</td>
+                                    <td>{{tx.formatted.fee}}</td>
+                                    <td>{{tx.formatted.amount}}</td>
+                                </tr>
                             </tbody>
-
                         </table>
                     </div>
                 </div>
@@ -625,7 +525,7 @@
                 <!-- / MESSAGES TAB -->
 
                 <!-- COMMUNITY TAB -->
-                <div id="mBB-community" class="mBB-content" ng-switch-when="community">
+                <div id="mBB-community" class="mBB-content" ng-switch-when="community" ng-controller="communityController as community">
                     <!-- Temporary -->
                     <p>DISCLAIMER: The Community tab will temporarily hold block information for testing purposes. After alpha phase this data  will be relocated inside the Preferences - Advanced area.</p>
                     <h2>LATEST BLOCKS INFORMATION</h2>
@@ -642,9 +542,22 @@
                             </tr>
                             </thead>
                             <tbody id="latestBlocksUnconfirmed">
-
+                                <tr class="fade">
+                                    <td>{{community.candidate.block}}</td>
+                                    <td><i>incoming</i></td>
+                                    <td>{{community.candidate.size}}</td>
+                                    <td><i>unconfirmed</i></td>
+                                </tr>
                             </tbody>
                             <tbody id="latestBlocksTable">
+                                <tr class="fade" ng-repeat="block in community.blocks | orderBy:'timestamp':true">
+                                    <td>{{block.height}}</td>
+                                    <td>{{block.timestamp | formatting}}</td>
+                                    <td>{{block.transactions.length}}</td>
+                                    <td>
+                                        <span class="clipSpan tooltip-1" ngclipboard title="Copy this address to the clipboard." data-clipboard-text="{{block.generator | address}}" ngclipboard-success="clipboardOk()">{{block.generator | address}}</span>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -697,6 +610,8 @@
     <script src="js/shared/dialog.service.js"></script>
     <script src="js/shared/shared.dialog.directive.js"></script>
     <script src="js/shared/notification.service.js"></script>
+    <script src="js/shared/transaction.loading.service.js"></script>
+    <script src="js/shared/transaction.filter.js"></script>
 
     <script src="js/login/login.module.js"></script>
     <script src="js/login/login.constants.js"></script>
@@ -711,6 +626,16 @@
     <script src="js/navigation/main.menu.controller.js"></script>
     <script src="js/navigation/navigation.controller.js"></script>
     <script src="js/navigation/tab.directive.js"></script>
+
+    <script src="js/wallet/wallet.module.js"></script>
+    <script src="js/wallet/wallet.box.component.js"></script>
+    <script src="js/wallet/wallet.controller.js"></script>
+
+    <script src="js/history/history.module.js"></script>
+    <script src="js/history/history.controller.js"></script>
+
+    <script src="js/community/community.module.js"></script>
+    <script src="js/community/community.controller.js"></script>
 
     <script src="js/style.js"></script>
 </body>

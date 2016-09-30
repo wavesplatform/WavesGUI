@@ -36,7 +36,7 @@
 
                 $scope.$emit(applicationEvents.LOGIN_SUCCESSFUL, applicationState);
             }
-        }
+        };
     }
 
     LoginContextFactory.$inject = ['ui.login.events', 'ui.events', 'ui.login.modes', 'addressService'];
