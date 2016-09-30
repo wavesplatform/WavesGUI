@@ -49,7 +49,7 @@
                 onWithdraw: '&',
                 onTrade: '&'
             },
-            template: '<img src="img/{{::$ctrl.image}}" alt="Chinese Yuan wallet" />' +
+            template: '<img ng-src="img/{{::$ctrl.image}}" alt="Chinese Yuan wallet" />' +
                 '<div class="wB-name">{{::$ctrl.displayName | uppercase}}</div>' +
                 '<div class="wB-add"></div>' +
                 '<div class="wB-balInt">{{$ctrl.integerBalance}}</div>' +

@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function MainMenuController($scope, $timeout, $interval, applicationContext,
+    function MainMenuController($scope, $interval, applicationContext,
                                 cryptoService, dialogService, notificationService, apiService) {
         var refreshPromise, delayRefresh = 10 * 1000;
         var menu = this;
@@ -26,11 +26,8 @@
             return text;
         }
 
-        $timeout(function () {
-            refreshBlockHeight();
-
-            refreshPromise = $interval(refreshBlockHeight, delayRefresh);
-        }, 1);
+        refreshBlockHeight();
+        refreshPromise = $interval(refreshBlockHeight, delayRefresh);
 
         $scope.$on('$destroy', function () {
             if (angular.isDefined(refreshPromise)) {
@@ -68,7 +65,7 @@
         }
     }
 
-    MainMenuController.$inject = ['$scope', '$timeout', '$interval', 'applicationContext',
+    MainMenuController.$inject = ['$scope', '$interval', 'applicationContext',
         'cryptoService', 'dialogService', 'notificationService', 'apiService'];
 
     angular

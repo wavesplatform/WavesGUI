@@ -29,7 +29,7 @@
                     currentPageId: '<'
                 },
                 link: WavesTabLink,
-                template: '<img src="img/tabs-iconset-{{pageId}}.svg" class="fFade tooltip-3" alt="{{caption}}" ' +
+                template: '<img ng-src="img/tabs-iconset-{{pageId}}.svg" class="fFade tooltip-3" alt="{{caption}}" ' +
                     'title="{{tooltip}}" ng-click="onClick()" ng-class="[{selected: isSelected()}]"/>'
             };
         });

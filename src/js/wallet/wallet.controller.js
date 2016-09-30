@@ -2,7 +2,8 @@
     'use strict';
 
     function WalletController($scope, $timeout, $interval, applicationContext, dialogService, addressService,
-                              utilityService, apiService, notificationService, formattingService, transferService) {
+                              utilityService, apiService, notificationService, formattingService,
+                              transferService, transactionLoadingService) {
         var wallet = this;
         var transaction, refreshPromise;
         var refreshDelay = 10 * 1000;
@@ -144,15 +145,13 @@
         }
 
         function loadDataFromBackend() {
-            $timeout(function () {
+            refreshWallets();
+            refreshTransactions();
+
+            refreshPromise = $interval(function() {
                 refreshWallets();
                 refreshTransactions();
-
-                refreshPromise = $interval(function() {
-                    refreshWallets();
-                    refreshTransactions();
-                }, refreshDelay);
-            }, 1);
+            }, refreshDelay);
         }
 
         function refreshWallets() {
@@ -167,22 +166,16 @@
         }
 
         function refreshTransactions() {
-            var unconfirmed, confirmed;
-            apiService.transactions.unconfirmed()
-                .then(function (response) {
-                    unconfirmed = response;
-
-                    return apiService.transactions.list(applicationContext.account.address);
-                })
-                .then(function (response) {
-                    wallet.transactions = response[0];
+            transactionLoadingService.loadTransactions(applicationContext.account.address)
+                .then(function (transactions) {
+                    wallet.transactions = transactions;
                 });
         }
     }
 
     WalletController.$inject = ['$scope', '$timeout', '$interval', 'applicationContext', 'dialogService',
         'addressService', 'utilityService', 'apiService', 'notificationService',
-        'formattingService', 'transferService'];
+        'formattingService', 'transferService', 'transactionLoadingService'];
 
     angular
         .module('app.wallet')

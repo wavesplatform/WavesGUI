@@ -581,10 +581,10 @@ header {
 span.tabs-radio img {
     opacity: .4;
 }
-input.tabs-radio:hover img {
+span.tabs-radio:hover img {
     opacity: .3;
 }
-input.tabs-radio img.selected {
+span.tabs-radio img.selected {
     opacity: 1;
 }
 
@@ -750,11 +750,7 @@ input.tabs-radio img.selected {
 #send-confirm {
     width: auto;
 }
-.confirmation-value,
-.confirmation-currency,
-#confirmation-amount,
-#confirmation-fee,
-#confirmation-address {
+.confirmation-value {
     font-weight: 600;
 }
 .wB-buttons {

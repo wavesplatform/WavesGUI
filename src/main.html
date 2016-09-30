@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="css/jquery.modal.css">
     <link rel="stylesheet" href="css/jquery.growl.css">
     <link rel="stylesheet" href="css/tooltipster.min.css">
+    <link rel="stylesheet" href="../bower_components/angular/angular-csp.css">
 	<link href="img/favicon.ico" type="image/x-icon" rel="shortcut icon"/>
 </head>
 
@@ -36,13 +37,13 @@
         <div id="logo-container-centered" class="centerIt">
             <div id="logoo">
                 <img id="logo-spin" src="img/logo-spin.svg" />
-                <p id="networkCheck">{{::splash.connectionFailed}}</p>
+                <p id="networkCheck" ng-cloak>{{::splash.connectionFailed}}</p>
             </div>
         </div>
     </div>
 
     <!-- LOG IN AREA -->
-    <div id="lockscreen" class="userBG" ng-controller="accountsController as accounts" ng-if="home.accountsVisible">
+    <div id="lockscreen" class="userBG" ng-controller="accountsController as accounts" ng-if="home.accountsVisible" ng-cloak>
         <table id="lockscreenTable">
 
             <thead>
@@ -203,7 +204,7 @@
                                 <label for="accountPassword">PASSWORD</label>
                                 <br/>
 
-                                <input type="text" id="accountPassword" class="wInput" ng-model="vm.password"/>
+                                <input type="password" id="accountPassword" class="wInput" ng-model="vm.password"/>
                                 <br/><br/>
 
                                 <button class="wButton fade" ng-click="vm.signIn()">SIGN IN</button>
@@ -220,7 +221,7 @@
         </table>
     </div>
 
-	<div id="wrapper" ng-if="home.mainViewVisible">
+	<div id="wrapper" ng-if="home.mainViewVisible" ng-cloak>
         <!-- shared blocks -->
         <div id="feat-not-active" waves-dialog show-buttons="false" is-error="true">
             <h2>NOTICE</h2>
@@ -372,13 +373,13 @@
                             </tr>
                             </thead>
                             <tbody id="walletTransactionhistory">
-                                <tr ng-repeat="tx in wallet.transactions">
-                                    <td>{{tx.timestamp}}</td>
-                                    <td>{{tx.type}}</td>
-                                    <td>{{tx.sender}}</td>
-                                    <td>{{tx.recipient}}</td>
-                                    <td>{{tx.fee}}</td>
-                                    <td>{{tx.amount}}</td>
+                                <tr ng-repeat="tx in wallet.transactions | orderBy:'timestamp':true | limitTo:10 | transaction" ng-class="{'wavesTable-txUnc': tx.unconfirmed, 'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
+                                    <td>{{tx.formatted.datetime}}</td>
+                                    <td>{{tx.formatted.type}}</td>
+                                    <td>{{tx.formatted.sender}}</td>
+                                    <td>{{tx.formatted.recipient}}</td>
+                                    <td>{{tx.formatted.fee}}</td>
+                                    <td>{{tx.formatted.amount}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -432,9 +433,9 @@
                 <!-- / VOTING TAB -->
 
                 <!-- HISTORY TAB -->
-                <div id="mBB-history" class="mBB-content" ng-switch-when="history">
+                <div id="mBB-history" class="mBB-content" ng-switch-when="history" ng-controller="historyController as history">
 
-                    <div id="full-transaction-history" class="wavesTable">
+                    <div id="full-transaction-history" class="wavesTable" >
                         <table>
                             <thead>
                             <div class="wTMainHeader">LATEST TRANSACTIONS</div>
@@ -448,8 +449,24 @@
                             </tr>
                             </thead>
                             <tbody id="unconfirmedHistory">
+                                <tr ng-repeat="tx in history.unconfirmed | orderBy:'timestamp':true | limitTo:10 | transaction" class="wavesTable-txUnc" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
+                                    <td>{{tx.formatted.datetime}}</td>
+                                    <td>{{tx.formatted.type}}</td>
+                                    <td>{{tx.formatted.sender}}</td>
+                                    <td>{{tx.formatted.recipient}}</td>
+                                    <td>{{tx.formatted.fee}}</td>
+                                    <td>{{tx.formatted.amount}}</td>
+                                </tr>
                             </tbody>
                             <tbody id="transactionhistory">
+                                <tr ng-repeat="tx in history.confirmed | orderBy:'timestamp':true | limitTo:10 | transaction" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
+                                    <td>{{tx.formatted.datetime}}</td>
+                                    <td>{{tx.formatted.type}}</td>
+                                    <td>{{tx.formatted.sender}}</td>
+                                    <td>{{tx.formatted.recipient}}</td>
+                                    <td>{{tx.formatted.fee}}</td>
+                                    <td>{{tx.formatted.amount}}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -579,6 +596,8 @@
     <script src="js/shared/dialog.service.js"></script>
     <script src="js/shared/shared.dialog.directive.js"></script>
     <script src="js/shared/notification.service.js"></script>
+    <script src="js/shared/transaction.loading.service.js"></script>
+    <script src="js/shared/transaction.filter.js"></script>
 
     <script src="js/login/login.module.js"></script>
     <script src="js/login/login.constants.js"></script>
@@ -597,6 +616,9 @@
     <script src="js/wallet/wallet.module.js"></script>
     <script src="js/wallet/wallet.box.component.js"></script>
     <script src="js/wallet/wallet.controller.js"></script>
+
+    <script src="js/history/history.module.js"></script>
+    <script src="js/history/history.controller.js"></script>
 
     <script src="js/style.js"></script>
 </body>
