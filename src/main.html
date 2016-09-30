@@ -62,9 +62,9 @@
                         <div class="wavesAccounts" ng-controller="accountListController as list" ng-show="accounts.mode === 'list'">
                             <p class="loginAccountDiv" ng-repeat="account in list.accounts">
                                         <span class="loginAccount tooltip-1 fade" title="Log into this account." ng-click="list.signIn(account)"> <br/>
-                                            <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::list.convertAddress(account.address)}}</small>
+                                            <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::account.address | address}}</small>
                                         </span>
-                                <span class="clipSpan tooltip-1" title="Copy this address to the clipboard." data-clipboard-text="{{::list.convertAddress(account.address)}}"></span>
+                                <span class="clipSpan tooltip-1" ngclipboard title="Copy this address to the clipboard." data-clipboard-text="{{::account.address | address}}" ngclipboard-success="clipboardOk()"></span>
                                 <span class="divider-1"></span>
                                 <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." ng-click="list.showRemoveWarning(account)">
                                     <span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE
@@ -249,7 +249,7 @@
                 <img src="img/topleftlogo.svg" />
                 <p ng-class='{testnet: home.isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
             </div>
-            <span id="version" class="centerIt">Address: <span id="wavesAccountAddress" class="tooltip-3" title="Copy the address to clipboard.">{{::menu.address}}</span>
+            <span id="version" class="centerIt">Address: <span id="wavesAccountAddress" class="tooltip-3" title="Copy the address to clipboard." ngclipboard data-clipboard-text="{{::menu.address}}" ngclipboard-success="clipboardOk()" >{{::menu.address}}</span>
                 <span class="divider-2"></span>
                 <span class="inlineParagraph">Block:</span> <span id="blockheight">{{menu.blockHeight}}</span>
             </span>
@@ -448,7 +448,7 @@
                                 <td>UNITS</td>
                             </tr>
                             </thead>
-                            <tbody id="unconfirmedHistory">
+                            <tbody>
                                 <tr ng-repeat="tx in history.unconfirmed | orderBy:'timestamp':true | limitTo:10 | transaction" class="wavesTable-txUnc" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
                                     <td>{{tx.formatted.datetime}}</td>
                                     <td>{{tx.formatted.type}}</td>
@@ -458,7 +458,7 @@
                                     <td>{{tx.formatted.amount}}</td>
                                 </tr>
                             </tbody>
-                            <tbody id="transactionhistory">
+                            <tbody>
                                 <tr ng-repeat="tx in history.confirmed | orderBy:'timestamp':true | limitTo:10 | transaction" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
                                     <td>{{tx.formatted.datetime}}</td>
                                     <td>{{tx.formatted.type}}</td>
@@ -524,7 +524,7 @@
                 <!-- / MESSAGES TAB -->
 
                 <!-- COMMUNITY TAB -->
-                <div id="mBB-community" class="mBB-content" ng-switch-when="community">
+                <div id="mBB-community" class="mBB-content" ng-switch-when="community" ng-controller="communityController as community">
                     <!-- Temporary -->
                     <p>DISCLAIMER: The Community tab will temporarily hold block information for testing purposes. After alpha phase this data  will be relocated inside the Preferences - Advanced area.</p>
                     <h2>LATEST BLOCKS INFORMATION</h2>
@@ -541,9 +541,22 @@
                             </tr>
                             </thead>
                             <tbody id="latestBlocksUnconfirmed">
-
+                                <tr class="fade">
+                                    <td>{{community.candidate.block}}</td>
+                                    <td><i>incoming</i></td>
+                                    <td>{{community.candidate.size}}</td>
+                                    <td><i>unconfirmed</i></td>
+                                </tr>
                             </tbody>
                             <tbody id="latestBlocksTable">
+                                <tr class="fade" ng-repeat="block in community.blocks | orderBy:'timestamp':true">
+                                    <td>{{block.height}}</td>
+                                    <td>{{block.timestamp | formatting}}</td>
+                                    <td>{{block.transactions.length}}</td>
+                                    <td>
+                                        <span class="clipSpan tooltip-1" ngclipboard title="Copy this address to the clipboard." data-clipboard-text="{{block.generator | address}}" ngclipboard-success="clipboardOk()">{{block.generator | address}}</span>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -619,6 +632,9 @@
 
     <script src="js/history/history.module.js"></script>
     <script src="js/history/history.controller.js"></script>
+
+    <script src="js/community/community.module.js"></script>
+    <script src="js/community/community.controller.js"></script>
 
     <script src="js/style.js"></script>
 </body>

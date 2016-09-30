@@ -61,6 +61,7 @@
         function refreshBlockHeight() {
             apiService.blocks.height().then(function (response) {
                 menu.blockHeight = response.height;
+                applicationContext.blockHeight = response.height;
             });
         }
     }

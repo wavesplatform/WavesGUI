@@ -135,6 +135,9 @@ module.exports = function (grunt) {
                         'src/js/history/history.module.js',
                         'src/js/history/history.controller.js',
 
+                        'src/js/community/community.module.js',
+                        'src/js/community/community.controller.js',
+
                         'src/js/**/*.spec.js'
                     ]
                 }

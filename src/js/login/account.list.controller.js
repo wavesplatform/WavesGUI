@@ -14,15 +14,10 @@
         list.importAccount = importAccount;
         list.signIn = signIn;
         list.showRemoveWarning = showRemoveWarning;
-        list.convertAddress = convertAddress;
 
         function showRemoveWarning(account) {
             list.removeCandidate = account;
             dialogService.open('#account-remove-popup');
-        }
-
-        function convertAddress(address) {
-            return loginContext.convertAddress(address);
         }
 
         function removeAccount() {

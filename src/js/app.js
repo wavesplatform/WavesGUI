@@ -17,6 +17,7 @@ var app = angular.module('app',
         'app.login',
         'app.navigation',
         'app.wallet',
-        'app.history'
+        'app.history',
+        'app.community'
     ]
 );
