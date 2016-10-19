@@ -11,6 +11,7 @@ var app = angular.module('app',
         'waves.core.services',
 
         'ngclipboard',
+        'ngMessages',
         'ngAnimate',
         'app.ui',
         'app.shared',
