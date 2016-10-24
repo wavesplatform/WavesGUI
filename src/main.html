@@ -160,7 +160,7 @@
                                     <label for="readonlySeed">WALLET SEED</label>
                                     <br/>
 
-                                    <textarea id="readonlySeed" rows="3" class="wInput" ng-model="vm.seed" ng-model-options="{ getterSetter: true}" readonly></textarea>
+                                    <textarea id="readonlySeed" rows="3" class="wInput" ng-model="vm.seed" ng-model-options="{ getterSetter: true }" readonly></textarea>
                                     <br/>
                                     <div>ADDRESS
                                         <br/>
@@ -338,7 +338,7 @@
                 <!-- WALLET TAB -->
                 <div id="mBB-wallet" class="mBB-content" ng-switch-when="wallet" ng-controller="walletController as wallet">
                     <div id="wB-butSend-WAV" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="wallet.submitPayment()">
-                        <form id="send-waves-form" class="paymentForm">
+                        <form id="send-waves-form" name="sendWavesForm" class="paymentForm" novalidate>
                             <h2>SEND PAYMENT</h2>
                             <div class="balanceAmt">
                                 <p>Balance: </p><span class="balancewaves">{{wallet.current.balance.formatAmount(true)}}</span>
@@ -353,11 +353,27 @@
                                 <tbody>
                                 <tr>
                                     <td>Recipient's Address</td>
-                                    <td><input class="wInput form-control" name="wavesrecipient" type="text" placeholder="Recipient" ng-model="wallet.transfer.recipient"></td>
+                                    <td>
+                                        <div class="form-field">
+                                            <input class="wInput form-control" name="wavesrecipient" type="text" placeholder="Recipient" ng-model="wallet.transfer.recipient" required address />
+                                            <div ng-messages="sendWavesForm.wavesrecipient.$error" ng-if="sendWavesForm.$submitted || sendWavesForm.wavesrecipient.$touched">
+                                                <p ng-message="required">Recipient account number is required</p>
+                                                <p ng-message="address">Recipient address is malformed</p>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Amount</td>
-                                    <td><input class="wInput form-control" name="wavessendamount" type="text" placeholder="Amount" ng-model="wallet.transfer.amount"></td>
+                                    <td>
+                                        <div class="form-field">
+                                            <input class="wInput form-control" name="wavessendamount" type="text" placeholder="Amount" ng-model="wallet.transfer.amount" required decimal="{{wallet.current.balance.currency.precision}}" />
+                                            <div ng-messages="sendWavesForm.wavessendamount.$error" ng-if="sendWavesForm.$submitted || sendWavesForm.wavessendamount.$touched">
+                                                <p ng-message="required">Amount to send is required</p>
+                                                <p ng-message="decimal">The amount to send must be a number<br/>with no more than {{wallet.current.balance.currency.precision}} digits after the decimal point (.)</p>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Fee</td>
@@ -618,6 +634,8 @@
     <script src="../bower_components/clipboard/dist/clipboard.js"></script>
     <script src="../bower_components/ngclipboard/dist/ngclipboard.js"></script>
     <script src="../bower_components/growl/javascripts/jquery.growl.js"></script>
+    <script src="../bower_components/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="../bower_components/jpkleemans-angular-validate/src/angular-validate.js"></script>
 
     <!-- crypto libraries -->
     <script src="../bower_components/Base58/Base58.js"></script>
@@ -640,6 +658,8 @@
     <script src="js/shared/dialog.service.js"></script>
     <script src="js/shared/shared.dialog.directive.js"></script>
     <script src="js/shared/password.strength.directive.js"></script>
+    <script src="js/shared/address.directive.js"></script>
+    <script src="js/shared/decimal.directive.js"></script>
     <script src="js/shared/notification.service.js"></script>
     <script src="js/shared/transaction.loading.service.js"></script>
     <script src="js/shared/transaction.filter.js"></script>

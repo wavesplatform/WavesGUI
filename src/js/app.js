@@ -12,6 +12,7 @@ var app = angular.module('app',
 
         'ngclipboard',
         'ngMessages',
+        'ngValidate',
         'ngAnimate',
         'app.ui',
         'app.shared',

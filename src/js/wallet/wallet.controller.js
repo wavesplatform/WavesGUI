@@ -35,6 +35,7 @@
                 balance: new Money(0, Currency.CNY)
             }
         ];
+        wallet.current = wallet.wallets[0];
         wallet.transactions = [];
         wallet.confirm = {
             amount: {
@@ -47,17 +48,23 @@
             },
             recipient: ''
         };
-        wallet.transfer = {
-            recipient: '',
-            amount: '0',
-            fee: '0.001'
+        wallet.transfer = {};
+        wallet.paymentValidationOptions = {
+            rules: {
+
+            },
+            messages: {
+
+            }
         };
         wallet.send = send;
         wallet.withdraw = withdraw;
         wallet.trade = trade;
         wallet.submitPayment = submitPayment;
         wallet.broadcastSendTransaction = broadcastSendTransaction;
+        wallet.getPaymentForm = getPaymentForm;
 
+        resetPaymentForm();
         loadDataFromBackend();
 
         $scope.$on('$destroy', function () {
@@ -88,7 +95,18 @@
             unimplementedFeature();
         }
 
+        function getPaymentForm() {
+            return angular.element('#send-waves-form').scope().sendWavesForm;
+        }
+
         function submitPayment() {
+            // here we have a direct markup dependency
+            var paymentForm = getPaymentForm();
+            paymentForm.$setSubmitted();
+            if (paymentForm.$invalid)
+                // prevent payment dialog from closing
+                return false;
+
             var currentCurrency = wallet.current.balance.currency;
             var payment = {
                 amount: new Money(wallet.transfer.amount, currentCurrency),
@@ -118,6 +136,11 @@
             $timeout(function () {
                 dialogService.open('#send-payment-confirmation');
             }, 1);
+
+            resetPaymentForm();
+
+            // it's ok to close payment dialog
+            return true;
         }
 
         function broadcastSendTransaction() {
@@ -170,6 +193,12 @@
                 .then(function (transactions) {
                     wallet.transactions = transactions;
                 });
+        }
+
+        function resetPaymentForm() {
+            wallet.transfer.recipient = '';
+            wallet.transfer.amount = '0';
+            wallet.transfer.fee = '0.001';
         }
     }
 
