@@ -21,12 +21,12 @@
     <meta charset="utf-8">
     <title>Waves Lite Client</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/jquery-ui.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../bower_components/angular/angular-csp.css">
+    <link rel="stylesheet" href="../bower_components/angular-material/angular-material.css">
     <link rel="stylesheet" href="css/jquery.modal.css">
     <link rel="stylesheet" href="css/jquery.growl.css">
     <link rel="stylesheet" href="css/tooltipster.min.css">
-    <link rel="stylesheet" href="../bower_components/angular/angular-csp.css">
+    <link rel="stylesheet" href="css/style.css">
 	<link href="img/favicon.ico" type="image/x-icon" rel="shortcut icon"/>
 </head>
 
@@ -102,7 +102,7 @@
                                 <label for="walletSeed">WALLET SEED</label>
                                     <br/>
 
-                                    <textarea id="walletSeed" rows="3" name="walletSeed" class="wInput" ng-class="{ 'wInput-error' : (accountSeedForm.$submitted || accountSeedForm.walletSeed.$touched) && accountSeedForm.walletSeed.$invalid }" ng-model="vm.seed" ng-change="vm.refreshAddress()" ng-model-options="{ debounce: 750 }" ng-trim="false" required minlength="25"></textarea>
+                                    <textarea id="walletSeed" rows="3" name="walletSeed" class="wInput" focus-me="accounts.mode === 'create-seed'" ng-class="{ 'wInput-error' : (accountSeedForm.$submitted || accountSeedForm.walletSeed.$touched) && accountSeedForm.walletSeed.$invalid }" ng-model="vm.seed" ng-change="vm.refreshAddress()" ng-model-options="{ debounce: 750 }" ng-trim="false" required minlength="25"></textarea>
                                     <span class="clipSpan tooltip-1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" data-clipboard-message-success="Wallet seed has been successfully copied to clipboard" ></span>
                                     <br/>
                                     <div ng-messages="accountSeedForm.walletSeed.$error" ng-if="accountSeedForm.$submitted || accountSeedForm.walletSeed.$touched">
@@ -181,7 +181,7 @@
                                                 need to have assigned a name.</i>"></span>
                                         <br/>
                                         </label>
-                                        <input type="text" id="walletName" class="wInput" ng-model="vm.name"/>
+                                        <input type="text" id="walletName" class="wInput" ng-model="vm.name" focus-me="accounts.mode === 'register'"/>
                                     </div>
                                     <br/>
                                     <div class="form-field">
@@ -232,7 +232,7 @@
                                 <label for="accountPassword">PASSWORD</label>
                                 <br/>
 
-                                <input type="password" id="accountPassword" class="wInput" ng-model="vm.password"/>
+                                <input type="password" id="accountPassword" class="wInput" ng-model="vm.password" focus-me="accounts.mode === 'login'"/>
                                 <br/><br/>
 
                                 <button class="wButton fade" ng-click="vm.signIn()">SIGN IN</button>
@@ -338,7 +338,7 @@
                 <!-- WALLET TAB -->
                 <div id="mBB-wallet" class="mBB-content" ng-switch-when="wallet" ng-controller="walletController as wallet">
                     <div id="wB-butSend-WAV" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="wallet.submitPayment()">
-                        <form id="send-waves-form" name="sendWavesForm" class="paymentForm" novalidate>
+                        <form id="send-waves-form" name="sendWavesForm" class="paymentForm" novalidate ng-validate="wallet.paymentValidationOptions">
                             <h2>SEND PAYMENT</h2>
                             <div class="balanceAmt">
                                 <p>Balance: </p><span class="balancewaves">{{wallet.current.balance.formatAmount(true)}}</span>
@@ -355,11 +355,7 @@
                                     <td>Recipient's Address</td>
                                     <td>
                                         <div class="form-field">
-                                            <input class="wInput form-control" name="wavesrecipient" type="text" placeholder="Recipient" ng-model="wallet.transfer.recipient" required address />
-                                            <div ng-messages="sendWavesForm.wavesrecipient.$error" ng-if="sendWavesForm.$submitted || sendWavesForm.wavesrecipient.$touched">
-                                                <p ng-message="required">Recipient account number is required</p>
-                                                <p ng-message="address">Recipient address is malformed</p>
-                                            </div>
+                                            <input class="wInput form-control" name="wavesrecipient" type="text" placeholder="Recipient" ng-model="wallet.transfer.recipient" />
                                         </div>
                                     </td>
                                 </tr>
@@ -367,22 +363,21 @@
                                     <td>Amount</td>
                                     <td>
                                         <div class="form-field">
-                                            <input class="wInput form-control" name="wavessendamount" type="text" placeholder="Amount" ng-model="wallet.transfer.amount" required decimal="{{wallet.current.balance.currency.precision}}" />
-                                            <div ng-messages="sendWavesForm.wavessendamount.$error" ng-if="sendWavesForm.$submitted || sendWavesForm.wavessendamount.$touched">
-                                                <p ng-message="required">Amount to send is required</p>
-                                                <p ng-message="decimal">The amount to send must be a number<br/>with no more than {{wallet.current.balance.currency.precision}} digits after the decimal point (.)</p>
-                                            </div>
+                                            <input class="wInput form-control" name="wavessendamount" type="text" placeholder="Amount" ng-model="wallet.transfer.amount" />
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Fee</td>
                                     <td>
-                                        <select id="wavessendfee" name="wavessendfee" class="form-control" ng-model="wallet.transfer.fee">
-                                            <option value="0.001" selected>0.001 WAVE (Economic)</option>
-                                            <option value="0.0015">0.0015 WAVE (Standard)</option>
-                                            <option value="0.002">0.002 WAVE (Premium)</option>
-                                        </select>
+                                        <md-autocomplete md-input-name="wavessendfee" md-selected-item="wallet.transfer.selectedFee" md-search-text="wallet.transfer.searchText"
+                                                         md-items="item in wallet.transfer.querySearch(wallet.transfer.searchText)"
+                                                         md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
+                                                         md-menu-class="popup-autocomplete" ng-class="{'wInput-error': !wallet.transfer.fee.isValid}">
+                                            <md-item-template>
+                                                <span md-highlight-text="wallet.transfer.searchText">{{item.displayText}}</span>
+                                            </md-item-template>
+                                        </md-autocomplete>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -418,7 +413,7 @@
                             </tr>
                             </thead>
                             <tbody id="walletTransactionhistory">
-                                <tr ng-repeat="tx in wallet.transactions | orderBy:'timestamp':true | limitTo:10 | transaction" ng-class="{'wavesTable-txUnc': tx.unconfirmed, 'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
+                                <tr ng-repeat="tx in wallet.transactions | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" ng-class="{'wavesTable-txUnc': tx.unconfirmed, 'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
                                     <td>{{tx.formatted.datetime}}</td>
                                     <td>{{tx.formatted.type}}</td>
                                     <td>{{tx.formatted.sender}}</td>
@@ -494,7 +489,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="tx in history.unconfirmed | orderBy:'timestamp':true | limitTo:10 | transaction" class="wavesTable-txUnc" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
+                                <tr ng-repeat="tx in history.unconfirmed | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" class="wavesTable-txUnc" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
                                     <td>{{tx.formatted.datetime}}</td>
                                     <td>{{tx.formatted.type}}</td>
                                     <td>{{tx.formatted.sender}}</td>
@@ -504,7 +499,7 @@
                                 </tr>
                             </tbody>
                             <tbody>
-                                <tr ng-repeat="tx in history.confirmed | orderBy:'timestamp':true | limitTo:10 | transaction" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
+                                <tr ng-repeat="tx in history.confirmed | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
                                     <td>{{tx.formatted.datetime}}</td>
                                     <td>{{tx.formatted.type}}</td>
                                     <td>{{tx.formatted.sender}}</td>
@@ -623,6 +618,8 @@
     <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="../bower_components/angular-messages/angular-messages.js"></script>
     <script src="../bower_components/angular-animate/angular-animate.js"></script>
+    <script src="../bower_components/angular-aria/angular-aria.js"></script>
+    <script src="../bower_components/angular-material/angular-material.js"></script>
     <script src="../bower_components/restangular/dist/restangular.js"></script>
     <script src="../bower_components/angular-validation-match/dist/angular-validation-match.js"></script>
 
@@ -635,7 +632,7 @@
     <script src="../bower_components/ngclipboard/dist/ngclipboard.js"></script>
     <script src="../bower_components/growl/javascripts/jquery.growl.js"></script>
     <script src="../bower_components/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="../bower_components/jpkleemans-angular-validate/src/angular-validate.js"></script>
+    <script src="../bower_components/waves-angular-validate/src/angular-validate.js"></script>
 
     <!-- crypto libraries -->
     <script src="../bower_components/Base58/Base58.js"></script>
@@ -657,6 +654,7 @@
     <script src="js/shared/shared.module.js"></script>
     <script src="js/shared/dialog.service.js"></script>
     <script src="js/shared/shared.dialog.directive.js"></script>
+    <script src="js/shared/focus.directive.js"></script>
     <script src="js/shared/password.strength.directive.js"></script>
     <script src="js/shared/address.directive.js"></script>
     <script src="js/shared/decimal.directive.js"></script>
