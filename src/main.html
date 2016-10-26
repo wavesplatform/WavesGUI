@@ -123,7 +123,7 @@
 
                                 <button class="wButton fade" type="submit">REGISTER ACCOUNT</button>
                                 <span class="divider-2"></span>
-                                <button class="wButton fade" ng-click="vm.back()" type="button">BACK</button>
+                                <button class="wButton fade" ng-click="accountSeedForm.$setPristine() || vm.back()">BACK</button>
 
                                 <div id="seed-whitespace-popup" waves-dialog on-dialog-ok="vm.registerAccount()" closeable="false" ok-button-caption="PROCEED">
                                     <h2>SEED NOTICE</h2>
@@ -385,7 +385,7 @@
                         </form>
                     </div>
 
-                    <div id="send-payment-confirmation" waves-dialog ok-button-caption="CONFIRM" on-dialog-ok="wallet.broadcastSendTransaction()">
+                    <div id="send-payment-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!wallet.confirm.pendingPayment" on-dialog-ok="wallet.broadcastSendTransaction()">
                         <p>You are sending <span class="confirmation-value">{{wallet.confirm.amount.value}}</span>
                             <span class="confirmation-value">{{wallet.confirm.amount.currency}}</span> with
                             <span class="confirmation-value">{{wallet.confirm.fee.value}}</span>

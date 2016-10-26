@@ -9,8 +9,8 @@
                 link: function (scope, element, attributes) {
                     scope.$watch(attributes.focusMe, function (newValue) {
                         $timeout(function () {
-                            newValue && element[0].focus();
-                        })
+                            return newValue && element[0].focus();
+                        });
                     }, true);
                 }
             };

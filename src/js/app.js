@@ -29,7 +29,7 @@ app.run(['Restangular', 'constants.core', function (rest, coreConstants) {
     rest.setDefaultHttpFields({
         timeout: 10000 // milliseconds
     });
-    var url = coreConstants.NODE_ADDRESS;
-    //var url = 'http://52.28.66.217:6869';
+    //var url = coreConstants.NODE_ADDRESS;
+    var url = 'http://52.28.66.217:6869';
     rest.setBaseUrl(url);
 }]);

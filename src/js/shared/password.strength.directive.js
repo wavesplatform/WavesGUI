@@ -18,7 +18,7 @@
                         var containsLowercase = /[a-z]/.test(viewValue);
 
                         return containsDigits && containsUppercase && containsLowercase;
-                    }
+                    };
                 }
             };
         });

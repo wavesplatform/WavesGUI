@@ -48,7 +48,8 @@
                 value: '0',
                 currency: ''
             },
-            recipient: ''
+            recipient: '',
+            paymentPending: false
         };
         wallet.transfer = {
             fees: [
@@ -65,6 +66,11 @@
                     displayText: '0.002 WAVE (Premium)'
                 }
             ],
+            getFeeAmount: function() {
+                return angular.isDefined(wallet.transfer.selectedFee) ?
+                    wallet.transfer.selectedFee.amount :
+                    wallet.transfer.searchText;
+            },
             selectedFee: undefined,
             searchText: undefined,
             querySearch: function (searchText) {
@@ -101,13 +107,15 @@
                     required: 'Amount to send is required',
                     decimal: 'The amount to send must be a number with no more than ' +
                         minimumPayment.currency.precision + ' digits after the decimal point (.)',
-                    min: 'Payment amount is too small. It should be greater or equal to ' + minimumPayment.formatAmount(false)
+                    min: 'Payment amount is too small. It should be greater or equal to ' +
+                        minimumPayment.formatAmount(false)
                 },
                 wavessendfee: {
                     required: 'Transaction fee is required',
                     decimal: 'Transaction fee must be with no more than ' +
                         minimumFee.currency.precision + ' digits after the decimal point (.)',
-                    min: 'Transaction fee is too small. It should be greater or equal to ' + minimumFee.formatAmount(true)
+                    min: 'Transaction fee is too small. It should be greater or equal to ' +
+                        minimumFee.formatAmount(true)
                 }
             }
         };
@@ -162,10 +170,7 @@
                 // prevent payment dialog from closing if it's not valid
                 return false;
 
-            if (angular.isDefined(wallet.transfer.selectedFee))
-                wallet.transfer.fee.amount = wallet.transfer.selectedFee.amount;
-            else
-                wallet.transfer.fee.amount = wallet.transfer.searchText;
+            wallet.transfer.fee.amount = wallet.transfer.getFeeAmount();
 
             var currentCurrency = wallet.current.balance.currency;
             var payment = {
@@ -208,21 +213,27 @@
             if (angular.isUndefined(transaction))
                 return;
 
-            //todo: disable confirm button
+            //disable confirm button
+            wallet.confirm.paymentPending = true;
+
             apiService.broadcastPayment(transaction).then(function () {
                 var amount = Money.fromCoins(transaction.amount, wallet.current.balance.currency);
                 var address = addressService.fromRawAddress(transaction.recipient).getDisplayAddress();
                 var displayMessage = 'Sent ' + amount.formatAmount(true) + amount.currency.symbol +
                     '<br>Recipient ' + address.substr(0,15) + '...<br>Date: ' +
-                    formattingService.formatTimestamp(transaction.time);
+                    formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
-                //todo: enable confirm button
-
+                //enable confirm button
+                wallet.confirm.paymentPending = false;
                 transaction = undefined;
             }, function (response) {
-                notificationService.error('Error:' + response.error + ' - ' + response.message);
-                //todo: enable confirm button
-
+                if (angular.isDefined(response.data))
+                    notificationService.error('Error:' + response.data.error + ' - ' + response.data.message);
+                else
+                    notificationService.error('Request failed. Status: ' + response.status + ' - ' +
+                        response.statusText);
+                //enable confirm button
+                wallet.confirm.paymentPending = false;
                 transaction = undefined;
             });
         }
