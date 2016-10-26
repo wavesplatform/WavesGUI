@@ -62,7 +62,7 @@ module.exports = function (grunt) {
                 'bower_components/ngclipboard/dist/ngclipboard.js',
                 'bower_components/growl/javascripts/jquery.growl.js',
                 'bower_components/jquery-validation/dist/jquery.validate.js',
-                'bower_components/jpkleemans-angular-validate/src/angular-validate.js',
+                'bower_components/waves-angular-validate/src/angular-validate.js',
 
                 'src/js/vendor/jquery.modal.js',
 
@@ -118,6 +118,7 @@ module.exports = function (grunt) {
                         'src/js/shared/password.strength.directive.js',
                         'src/js/shared/address.directive.js',
                         'src/js/shared/decimal.directive.js',
+                        'src/js/shared/focus.directive.js',
                         'src/js/shared/transaction.loading.service.js',
                         'src/js/shared/transaction.filter.js',
 

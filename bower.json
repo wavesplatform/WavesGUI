@@ -23,7 +23,8 @@
     "growl": "^1.3.2",
     "angular-messages": "^1.5.8",
     "angular-validation-match": "^1.9.0",
-    "jpkleemans-angular-validate": "^1.1.1"
+    "angular-material": "^1.1.1",
+    "waves-angular-validate": "git@github.com:beregovoy68/angular-validate.git#^1.1.2"
   },
   "analytics": false
 }

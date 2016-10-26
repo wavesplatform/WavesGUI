@@ -14,7 +14,7 @@
                             return true;
 
                         return addressService.validateDisplayAddress(viewValue);
-                    }
+                    };
                 }
             };
         }]);

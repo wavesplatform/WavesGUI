@@ -1188,6 +1188,14 @@ span.tabs-radio img.selected {
     color: #999999;
 }
 
+.popup-autocomplete {
+    z-index: 160;
+}
+
+.md-virtual-repeat-container.md-autocomplete-suggestions-container {
+    z-index: 160;
+}
+
 /* ======================================================================= */
 
 

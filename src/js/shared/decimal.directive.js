@@ -23,10 +23,10 @@
                             return true;
 
                         var maxdigits = isFinite(parseInt(digits)) ? digits : 8;
-                        var regex = new RegExp("^(?:-?\\d+)?(?:\\.\\d{1," + maxdigits + "})?$");
+                        var regex = new RegExp('^(?:-?\\d+)?(?:\\.\\d{1,' + maxdigits + '})?$');
 
                         return regex.test(viewValue);
-                    }
+                    };
                 }
             };
         });
