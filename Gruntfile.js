@@ -47,8 +47,10 @@ module.exports = function (grunt) {
                 'bower_components/angular/angular.js',
                 'bower_components/angular-route/angular-route.js',
                 'bower_components/angular-sanitize/angular-sanitize.js',
+                'bower_components/angular-messages/angular-messages.js',
                 'bower_components/angular-animate/angular-animate.js',
                 'bower_components/angular-mocks/angular-mocks.js',
+                'bower_components/angular-validation-match/dist/angular-validation-match.js',
                 'bower_components/restangular/dist/restangular.js',
                 'bower_components/underscore/underscore.js',
                 'bower_components/decimal.js/decimal.js',
@@ -59,6 +61,8 @@ module.exports = function (grunt) {
                 'bower_components/clipboard/dist/clipboard.js',
                 'bower_components/ngclipboard/dist/ngclipboard.js',
                 'bower_components/growl/javascripts/jquery.growl.js',
+                'bower_components/jquery-validation/dist/jquery.validate.js',
+                'bower_components/jpkleemans-angular-validate/src/angular-validate.js',
 
                 'src/js/vendor/jquery.modal.js',
 
@@ -111,6 +115,9 @@ module.exports = function (grunt) {
                         'src/js/shared/dialog.service.js',
                         'src/js/shared/notification.service.js',
                         'src/js/shared/shared.dialog.directive.js',
+                        'src/js/shared/password.strength.directive.js',
+                        'src/js/shared/address.directive.js',
+                        'src/js/shared/decimal.directive.js',
                         'src/js/shared/transaction.loading.service.js',
                         'src/js/shared/transaction.filter.js',
 

@@ -21,10 +21,13 @@
         $scope.image += '.svg';
 
         $scope.onOk = function () {
-            if ($scope.dialogOk)
-                $scope.dialogOk();
+            var shouldClose;
 
-            dialogService.close();
+            if ($scope.dialogOk)
+                shouldClose = $scope.dialogOk();
+
+            if (angular.isUndefined(shouldClose) || shouldClose !== false)
+                dialogService.close();
         };
 
         $scope.onCancel = function () {

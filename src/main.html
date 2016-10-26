@@ -93,17 +93,24 @@
 
                         <!-- Seed input -->
                         <div id="create-seed" ng-controller="accountSeedController as vm" ng-show="accounts.mode === 'create-seed'">
-                            <form id="account-seed-form" ng-submit="vm.checkSeedAndRegister()">
+                            <form id="account-seed-form" name="accountSeedForm" ng-submit="accountSeedForm.$valid && vm.checkSeedAndRegister()" novalidate>
                                 <br/>
                                 <button id="generateRandomSeed" class="wButton fade" ng-click="vm.generateSeed()" type="button">GENERATE NEW SEED</button>
-                                <br/>
-
-                                <label for="walletSeed">WALLET SEED</label>
-                                <br/>
-
-                                <textarea id="walletSeed" rows="3" name="walletSeed" class="wInput" ng-model="vm.seed" ng-change="vm.refreshAddress()" ng-model-options="{ debounce: 750 }" ng-trim="false"></textarea>
-                                <span class="clipSpan tooltip-1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" data-clipboard-message-success="Wallet seed has been successfully copied to clipboard" ></span>
                                 <br/><br/>
+
+                                <div class="form-field">
+                                <label for="walletSeed">WALLET SEED</label>
+                                    <br/>
+
+                                    <textarea id="walletSeed" rows="3" name="walletSeed" class="wInput" ng-class="{ 'wInput-error' : (accountSeedForm.$submitted || accountSeedForm.walletSeed.$touched) && accountSeedForm.walletSeed.$invalid }" ng-model="vm.seed" ng-change="vm.refreshAddress()" ng-model-options="{ debounce: 750 }" ng-trim="false" required minlength="25"></textarea>
+                                    <span class="clipSpan tooltip-1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" data-clipboard-message-success="Wallet seed has been successfully copied to clipboard" ></span>
+                                    <br/>
+                                    <div ng-messages="accountSeedForm.walletSeed.$error" ng-if="accountSeedForm.$submitted || accountSeedForm.walletSeed.$touched">
+                                        <p ng-message="required">Wallet seed is required</p>
+                                        <p ng-message="minlength">Wallet seed is too short. A secure wallet seed <br/>should contain more than 25 characters</p>
+                                    </div>
+                                </div>
+                                <br/>
 
                                 <div class="wPop-content">
                                     <div>ADDRESS
@@ -148,51 +155,72 @@
 
                         <!-- store account on the current device -->
                         <div id="register" ng-controller="accountRegisterController as vm" ng-show="accounts.mode === 'register'">
-                            <form id="register-form">
+                            <form id="register-form" name="registerForm" novalidate ng-submit="registerForm.$valid && vm.saveAccountAndSignIn()">
                                 <div class="wPop-content">
-                                    <label for="walletSeed">WALLET SEED</label>
+                                    <label for="readonlySeed">WALLET SEED</label>
                                     <br/>
 
-                                    <textarea id="readonlySeed" rows="3" class="wInput" ng-model="vm.seed" ng-model-options="{ getterSetter: true}" readonly></textarea>
+                                    <textarea id="readonlySeed" rows="3" class="wInput" ng-model="vm.seed" ng-model-options="{ getterSetter: true }" readonly></textarea>
+                                    <br/>
                                     <div>ADDRESS
                                         <br/>
                                         <span>{{accounts.displayAddress}}</span>
                                     </div>
                                     <br/>
 
-                                    NAME<span class="infoSpan tooltip-1" title="It is possible to assign a name to your account(s)
-                                            <br/>
-                                            in order to make them more memorable, feel
-                                            <br/>
-                                            free to use the field below to do so.
-                                            <br/><br/>
-                                            <i>NOTE: This is optional, the accounts do not forcefully
-                                            <br/>
-                                            need to have assigned a name.</i>"></span>
+                                    <div class="form-field">
+                                        <label for="walletName">
+                                        NAME<span class="infoSpan tooltip-1" title="It is possible to assign a name to your account(s)
+                                                <br/>
+                                                in order to make them more memorable, feel
+                                                <br/>
+                                                free to use the field below to do so.
+                                                <br/><br/>
+                                                <i>NOTE: This is optional, the accounts do not forcefully
+                                                <br/>
+                                                need to have assigned a name.</i>"></span>
+                                        <br/>
+                                        </label>
+                                        <input type="text" id="walletName" class="wInput" ng-model="vm.name"/>
+                                    </div>
                                     <br/>
-                                    <input type="text" id="walletName" class="wInput" ng-model="vm.name"/>
-                                    <br/><br/>
-                                    PASSWORD<span class="infoSpan tooltip-1" title="Used to encrypt your wallet seed, the password
-                                            <br/>
-                                            will be prompted at the time of login.
-                                            <br/><br/>
-                                            It is imperative that the user keeps it in a safe
-                                            <br/>
-                                            place at all times."></span>
+                                    <div class="form-field">
+                                        <label for="walletPassword">
+                                        PASSWORD<span class="infoSpan tooltip-1" title="Used to encrypt your wallet seed, the password
+                                                <br/>
+                                                will be prompted at the time of login.
+                                                <br/><br/>
+                                                It is imperative that the user keeps it in a safe
+                                                <br/>
+                                                place at all times."></span>
+                                        </label>
+                                        <br/>
+                                        <input type="password" id="walletPassword" name="walletPassword" class="wInput" ng-class="{ 'wInput-error' : (registerForm.$submitted || registerForm.walletPassword.$touched) && registerForm.walletPassword.$invalid }" ng-model="vm.password" required password-strength minlength="8"/>
+                                        <div ng-messages="registerForm.walletPassword.$error" ng-if="registerForm.$submitted || registerForm.walletPassword.$touched">
+                                            <p ng-message="required">Password is required</p>
+                                            <p ng-message="minlength">Password length must be at least 8 symbols</p>
+                                            <p ng-message="passwordStrength">The password is too weak. A good password<br/> must contain at least one digit,<br/> one uppercase and one lowercase letter</p>
+                                        </div>
+                                    </div>
                                     <br/>
-                                    <input type="password" id="walletPassword" name="walletPassword" class="wInput" ng-model="vm.password"/>
-                                    <br/><br/>
-                                    REPEAT PASSWORD
+                                    <div class="form-field">
+                                        <label for="walletPasswordConfirm">REPEAT PASSWORD</label>
+                                        <br/>
+                                        <input type="password" id="walletPasswordConfirm" name="walletPasswordConfirm" class="wInput" ng-class="{ 'wInput-error' : (registerForm.$submitted || registerForm.walletPasswordConfirm.$touched) && registerForm.walletPasswordConfirm.$invalid }" ng-model="vm.confirmPassword" required match="walletPassword"/>
+                                        <div ng-messages="registerForm.walletPasswordConfirm.$error" ng-if="registerForm.$submitted || registerForm.walletPasswordConfirm.$touched">
+                                            <p ng-message="required">Password confirmation is required</p>
+                                            <p ng-message="match">Passwords do not match</p>
+                                        </div>
+                                    </div>
                                     <br/>
-                                    <input type="password" id="walletPasswordConfirm" name="walletPasswordConfirm" class="wInput" ng-model="vm.confirmPassword"/>
-                                    <br/><br/>
 
-                                    <button class="wButton fade" ng-click="vm.saveAccountAndSignIn()">REGISTER</button>
+                                    <button class="wButton fade" type="submit">REGISTER</button>
                                     <span class="divider-2"></span>
                                     <button class="wButton fade" ng-click="vm.cancel()">CANCEL</button>
                                 </div>
                             </form>
                         </div>
+                        <!-- log in to selected account -->
                         <div id="account-login" ng-controller="accountLoginController as vm" ng-show="accounts.mode === 'login'">
                             <form id="login-form">
                                 <div>ACCOUNT
@@ -310,7 +338,7 @@
                 <!-- WALLET TAB -->
                 <div id="mBB-wallet" class="mBB-content" ng-switch-when="wallet" ng-controller="walletController as wallet">
                     <div id="wB-butSend-WAV" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="wallet.submitPayment()">
-                        <form id="send-waves-form" class="paymentForm">
+                        <form id="send-waves-form" name="sendWavesForm" class="paymentForm" novalidate>
                             <h2>SEND PAYMENT</h2>
                             <div class="balanceAmt">
                                 <p>Balance: </p><span class="balancewaves">{{wallet.current.balance.formatAmount(true)}}</span>
@@ -325,11 +353,27 @@
                                 <tbody>
                                 <tr>
                                     <td>Recipient's Address</td>
-                                    <td><input class="wInput form-control" name="wavesrecipient" type="text" placeholder="Recipient" ng-model="wallet.transfer.recipient"></td>
+                                    <td>
+                                        <div class="form-field">
+                                            <input class="wInput form-control" name="wavesrecipient" type="text" placeholder="Recipient" ng-model="wallet.transfer.recipient" required address />
+                                            <div ng-messages="sendWavesForm.wavesrecipient.$error" ng-if="sendWavesForm.$submitted || sendWavesForm.wavesrecipient.$touched">
+                                                <p ng-message="required">Recipient account number is required</p>
+                                                <p ng-message="address">Recipient address is malformed</p>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Amount</td>
-                                    <td><input class="wInput form-control" name="wavessendamount" type="text" placeholder="Amount" ng-model="wallet.transfer.amount"></td>
+                                    <td>
+                                        <div class="form-field">
+                                            <input class="wInput form-control" name="wavessendamount" type="text" placeholder="Amount" ng-model="wallet.transfer.amount" required decimal="{{wallet.current.balance.currency.precision}}" />
+                                            <div ng-messages="sendWavesForm.wavessendamount.$error" ng-if="sendWavesForm.$submitted || sendWavesForm.wavessendamount.$touched">
+                                                <p ng-message="required">Amount to send is required</p>
+                                                <p ng-message="decimal">The amount to send must be a number<br/>with no more than {{wallet.current.balance.currency.precision}} digits after the decimal point (.)</p>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Fee</td>
@@ -577,8 +621,10 @@
     <!-- angular -->
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="../bower_components/angular-messages/angular-messages.js"></script>
     <script src="../bower_components/angular-animate/angular-animate.js"></script>
     <script src="../bower_components/restangular/dist/restangular.js"></script>
+    <script src="../bower_components/angular-validation-match/dist/angular-validation-match.js"></script>
 
     <!-- utilities -->
     <script src="../bower_components/underscore/underscore.js"></script>
@@ -588,6 +634,8 @@
     <script src="../bower_components/clipboard/dist/clipboard.js"></script>
     <script src="../bower_components/ngclipboard/dist/ngclipboard.js"></script>
     <script src="../bower_components/growl/javascripts/jquery.growl.js"></script>
+    <script src="../bower_components/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="../bower_components/jpkleemans-angular-validate/src/angular-validate.js"></script>
 
     <!-- crypto libraries -->
     <script src="../bower_components/Base58/Base58.js"></script>
@@ -609,6 +657,9 @@
     <script src="js/shared/shared.module.js"></script>
     <script src="js/shared/dialog.service.js"></script>
     <script src="js/shared/shared.dialog.directive.js"></script>
+    <script src="js/shared/password.strength.directive.js"></script>
+    <script src="js/shared/address.directive.js"></script>
+    <script src="js/shared/decimal.directive.js"></script>
     <script src="js/shared/notification.service.js"></script>
     <script src="js/shared/transaction.loading.service.js"></script>
     <script src="js/shared/transaction.filter.js"></script>
