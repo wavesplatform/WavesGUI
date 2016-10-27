@@ -47,7 +47,7 @@
         <table id="lockscreenTable">
 
             <thead>
-            <div id="logoNversion">
+            <div id="logoNversion" title="LOGO" class="tooltip-1">
                 <img src="img/topleftlogo.svg" />
                 <p ng-class='{testnet: home.isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
             </div>
@@ -240,7 +240,6 @@
                                 <button class="wButton fade" ng-click="vm.cancel()">CANCEL</button>
                             </form>
                         </div>
-
                     </div>
                 </td>
             </tr>
@@ -516,15 +515,48 @@
                 <!-- TOKENS TAB -->
                 <div id="mBB-token" class="mBB-content" ng-switch-when="tokens">
 
-                    <div class="phContent">
+                    <div>
                         <h1>ASSET CREATION</h1>
                         <br/>
-                        <p>The Asset Creation area is utilized to build custom Assets composed by Tokens. It is the first step in order to initialize a project in the platform.
-                            <br/><br/>
-                            The Asset Creation tab will start being operative in the fall of 2016, shortly after the Full Node code is released publicly or even at the same time.
-                        </p>
-                        <br/><br/>
-                        <img src="img/tab_token_prev.svg" />
+                        <form name="createAssetForm">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <td>DESCRIPTION</td>
+                                        <td>INPUT</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><label for="assetName">Asset's name</label></td>
+                                        <td><input id="assetName" name="assetName" type="text" class="wInput form-control"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="assetDescription">Asset's description</label></td>
+                                        <td><textarea id="assetDescription" name="assetDescription" class="wInput" rows="3"></textarea></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="assetTotalTokens">Asset's total tokens</label></td>
+                                        <td><input id="assetTotalTokens" name="assetTotalTokens" class="wInput" type="text"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="assetTokenDecimalPlaces">Token's decimals</label></td>
+                                        <td><input id="assetTokenDecimalPlaces" name="assetTokenDecimalPlaces" class="wInput" type="text"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="assetReissuable">Re-issuable asset</label></td>
+                                        <td><input id="assetReissuable" name="assetReissuable" type="checkbox" class="wInput"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fee</td>
+                                        <td>1,000 WAVES</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div>
+                                <button type="submit">SUBMIT</button>
+                            </div>
+                        </form>
                     </div>
 
                 </div>
@@ -632,6 +664,7 @@
     <script src="../bower_components/ngclipboard/dist/ngclipboard.js"></script>
     <script src="../bower_components/growl/javascripts/jquery.growl.js"></script>
     <script src="../bower_components/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="../bower_components/tooltipster/js/jquery.tooltipster.js"></script>
     <script src="../bower_components/waves-angular-validate/src/angular-validate.js"></script>
 
     <!-- crypto libraries -->
