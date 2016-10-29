@@ -336,7 +336,7 @@
             <section id="mBBody" class="fFade" ng-switch on="nav.currentTab">
                 <!-- WALLET TAB -->
                 <div id="mBB-wallet" class="mBB-content" ng-switch-when="wallet" ng-controller="walletController as wallet">
-                    <div id="wB-butSend-WAV" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="wallet.submitPayment()">
+                    <div id="wB-butSend-WAV" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="wallet.submitPayment({paymentForm: sendWavesForm})">
                         <form id="send-waves-form" name="sendWavesForm" class="paymentForm" novalidate ng-validate="wallet.paymentValidationOptions">
                             <h2>SEND PAYMENT</h2>
                             <div class="balanceAmt">
@@ -515,10 +515,10 @@
                 <!-- TOKENS TAB -->
                 <div id="mBB-token" class="mBB-content" ng-switch-when="tokens">
 
-                    <div>
+                    <div ng-controller="tokenCreateController as ctrl">
                         <h1>ASSET CREATION</h1>
                         <br/>
-                        <form name="createAssetForm">
+                        <form id="create-asset-form" name="createAssetForm" novalidate ng-validate="ctrl.issuanceValidationOptions" ng-submit="ctrl.assetIssueConfirmation(createAssetForm)">
                             <table>
                                 <thead>
                                     <tr>
@@ -529,7 +529,7 @@
                                 <tbody>
                                     <tr>
                                         <td><label for="assetName">Asset's name</label></td>
-                                        <td><input id="assetName" name="assetName" type="text" class="wInput form-control"/></td>
+                                        <td><input id="assetName" name="assetName" type="text" class="wInput form-control" focus-me="true"/></td>
                                     </tr>
                                     <tr>
                                         <td><label for="assetDescription">Asset's description</label></td>
@@ -557,8 +557,13 @@
                                 <button type="submit">SUBMIT</button>
                             </div>
                         </form>
-                    </div>
 
+                        <div id="create-asset-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!ctrl.confirm.pendingIssuance" on-dialog-ok="ctrl.broadcastIssueTransaction()">
+                            <p>You are creating asset...
+                            </p>
+                            <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                        </div>
+                    </div>
                 </div>
                 <!-- / TOKENS TAB -->
 
@@ -712,6 +717,9 @@
     <script src="js/wallet/wallet.module.js"></script>
     <script src="js/wallet/wallet.box.component.js"></script>
     <script src="js/wallet/wallet.controller.js"></script>
+
+    <script src="js/tokens/tokens.module.js"></script>
+    <script src="js/tokens/token.create.controller.js"></script>
 
     <script src="js/history/history.module.js"></script>
     <script src="js/history/history.controller.js"></script>

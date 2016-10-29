@@ -62,6 +62,7 @@ module.exports = function (grunt) {
                 'bower_components/ngclipboard/dist/ngclipboard.js',
                 'bower_components/growl/javascripts/jquery.growl.js',
                 'bower_components/jquery-validation/dist/jquery.validate.js',
+                'bower_components/tooltipster/js/jquery.tooltipster.min.js',
                 'bower_components/waves-angular-validate/src/angular-validate.js',
 
                 'src/js/vendor/jquery.modal.js',
@@ -139,6 +140,9 @@ module.exports = function (grunt) {
                         'src/js/wallet/wallet.module.js',
                         'src/js/wallet/wallet.box.component.js',
                         'src/js/wallet/wallet.controller.js',
+
+                        'src/js/tokens/tokens.module.js',
+                        'src/js/tokens/token.create.controller.js',
 
                         'src/js/history/history.module.js',
                         'src/js/history/history.controller.js',

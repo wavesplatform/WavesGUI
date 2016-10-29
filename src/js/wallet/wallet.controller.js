@@ -161,9 +161,9 @@
             return angular.element('#send-waves-form').scope().sendWavesForm;
         }
 
-        function submitPayment() {
+        function submitPayment(paymentForm) {
             // here we have a direct markup dependency
-            var paymentForm = getPaymentForm();
+            //var paymentForm = getPaymentForm();
             wallet.transfer.fee.isValid = angular.isDefined(paymentForm.invalid.wavessendfee) ?
                 paymentForm.invalid.wavessendfee : true;
             if (!paymentForm.validate())
