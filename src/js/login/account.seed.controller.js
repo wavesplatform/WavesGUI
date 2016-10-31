@@ -19,7 +19,7 @@
 
         function refreshAddress() {
             var raw = cryptoService.buildRawAddressFromSeed(vm.seed);
-            vm.displayAddress = loginContext.convertAddress(raw);
+            vm.displayAddress = raw;
         }
 
         function checkSeedAndRegister() {

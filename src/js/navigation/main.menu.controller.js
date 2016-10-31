@@ -7,7 +7,7 @@
         var menu = this;
 
         menu.blockHeight = 0;
-        menu.address = applicationContext.account.address.getDisplayAddress();
+        menu.address = applicationContext.account.address;
 
         function initializeBackupFields() {
             menu.seed = applicationContext.account.seed;

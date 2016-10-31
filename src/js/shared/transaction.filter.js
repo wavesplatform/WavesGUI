@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function TransactionFilter(applicationContext, formattingService, addressService) {
+    function TransactionFilter(applicationContext, formattingService) {
         var TRANSACTION_TYPES = {
             2: 'Payment'
         };
@@ -11,20 +11,18 @@
         }
 
         function transformAddress(rawAddress) {
-            var result = !angular.isUndefined(rawAddress) ?
-                addressService.fromRawAddress(rawAddress).getDisplayAddress() :
-                'none';
+            var result = angular.isDefined(rawAddress) ? rawAddress : 'none';
 
-            if (result === applicationContext.account.address.getDisplayAddress())
+            if (result === applicationContext.account.address)
                 result = 'You';
 
             return result;
         }
 
         function formatTransaction(transaction) {
-            // in future currency should be a part of transaction itself
+            // in the future currency should be a part of transaction itself
             var currency = Currency.WAV;
-            var currentAddress = applicationContext.account.address.getRawAddress();
+            var currentAddress = applicationContext.account.address;
             var type = transaction.sender === currentAddress ? 'Outgoing' : 'Incoming';
             var amount = Money.fromCoins(transaction.amount, currency);
             var fee = Money.fromCoins(transaction.fee, currency);
@@ -47,7 +45,7 @@
         };
     }
 
-    TransactionFilter.$inject = ['applicationContext', 'formattingService', 'addressService'];
+    TransactionFilter.$inject = ['applicationContext', 'formattingService'];
 
     angular
         .module('app.shared')

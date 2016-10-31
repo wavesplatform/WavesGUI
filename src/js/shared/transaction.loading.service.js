@@ -23,7 +23,7 @@
             };
 
             this.mergeTransactions = function (address, unconfirmed, confirmed) {
-                var rawAddress = address.getRawAddress();
+                var rawAddress = address;
                 unconfirmed = _.filter(unconfirmed, function (transaction) {
                     return (transaction.sender === rawAddress || transaction.recipient === rawAddress);
                 });

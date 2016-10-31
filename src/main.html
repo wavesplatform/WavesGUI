@@ -62,9 +62,9 @@
                         <div class="wavesAccounts" ng-controller="accountListController as list" ng-show="accounts.mode === 'list'">
                             <p class="loginAccountDiv" ng-repeat="account in list.accounts">
                                     <span class="loginAccount fade" tooltipster tooltip-theme="tooltipster-theme1" title="Log into this account." ng-click="list.signIn(account)"> <br/>
-                                        <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::account.address | address}}</small>
+                                        <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::account.address}}</small>
                                     </span>
-                                <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard title="Copy this address to the clipboard." data-clipboard-text="{{::account.address | address}}" ngclipboard-success="clipboardOk()"></span>
+                                <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard title="Copy this address to the clipboard." data-clipboard-text="{{::account.address}}" ngclipboard-success="clipboardOk()"></span>
                                 <span class="divider-1"></span>
                                 <button class="removeAccount wButtonAlt fade" tooltipster tooltip-theme="tooltipster-theme1" title="Remove this account from the list." ng-click="list.showRemoveWarning(account)">
                                     <span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE
@@ -639,7 +639,7 @@
                                     <td>{{block.timestamp | formatting}}</td>
                                     <td>{{block.transactions.length}}</td>
                                     <td>
-                                        <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard title="Copy this address to the clipboard." data-clipboard-text="{{block.generator | address}}" ngclipboard-success="clipboardOk()">{{block.generator | address}}</span>
+                                        <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard title="Copy this address to the clipboard." data-clipboard-text="{{block.generator}}" ngclipboard-success="clipboardOk()">{{block.generator}}</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -689,7 +689,7 @@
     <script src="js/vendor/jquery.modal.js"></script>
 
     <!-- application modules -->
-    <script src="../bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.1.0.js"></script>
+    <script src="../bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.2.0.js"></script>
 
     <script src="js/app.js"></script>
     <script src="js/ui.module.js"></script>

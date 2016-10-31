@@ -54,14 +54,14 @@
             accounts.caption = 'REGISTER ACCOUNT';
 
             var raw = cryptoService.buildRawAddressFromSeed(seed);
-            accounts.displayAddress = loginContext.convertAddress(raw);
+            accounts.displayAddress = raw;
             // setting a seed to register a new account
             loginContext.seed = seed;
         }
 
         function switchToLoginMode(account) {
             accounts.caption = 'SIGN IN';
-            accounts.displayAddress = loginContext.convertAddress(account.address);
+            accounts.displayAddress = account.address;
             // setting an account which we would like to sign in
             loginContext.currentAccount = account;
         }

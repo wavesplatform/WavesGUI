@@ -12,7 +12,6 @@ var __mockValidateAddress = function(address) {};
 var app = angular.module('app', [
     'restangular',
     'waves.core',
-    'waves.core.services',
 
     'ngclipboard',
     'ngMessages',
@@ -88,7 +87,7 @@ function AngularApplicationRun(rest, coreConstants, notificationService, address
         notificationService.error(message);
     };
     __mockValidateAddress = function (address) {
-        return addressService.validateDisplayAddress(address);
+        return addressService.validateAddress(address);
     };
 }
 
