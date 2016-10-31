@@ -90,24 +90,6 @@ function AngularApplicationRun(rest, coreConstants, notificationService, address
     __mockValidateAddress = function (address) {
         return addressService.validateDisplayAddress(address);
     };
-
-    // setting tooltips
-    /*angular.element('.tooltip').tooltipster();
-    angular.element('.tooltip-1').tooltipster({
-        theme: 'tooltipster-theme1',
-        delay: 1000,
-        contentAsHTML: true,
-        debug: true
-    });
-    angular.element('.tooltip-2').tooltipster({
-        theme: 'tooltipster-theme2',
-        delay: 1000
-    });
-    angular.element('.tooltip-3').tooltipster({
-        theme: 'tooltipster-theme3',
-        delay: 1000,
-        contentAsHTML: true
-    });*/
 }
 
 AngularApplicationRun.$inject = ['Restangular', 'constants.core', 'notificationService', 'addressService'];

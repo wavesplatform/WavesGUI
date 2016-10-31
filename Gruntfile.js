@@ -113,6 +113,7 @@ module.exports = function (grunt) {
                         'src/js/splash.controller.js',
 
                         'src/js/shared/shared.module.js',
+                        'src/js/shared/shared.constants.js',
                         'src/js/shared/dialog.service.js',
                         'src/js/shared/notification.service.js',
                         'src/js/shared/shared.dialog.directive.js',
@@ -120,6 +121,7 @@ module.exports = function (grunt) {
                         'src/js/shared/address.directive.js',
                         'src/js/shared/decimal.directive.js',
                         'src/js/shared/focus.directive.js',
+                        'src/js/shared/tooltipster.directive.js',
                         'src/js/shared/transaction.loading.service.js',
                         'src/js/shared/transaction.filter.js',
 

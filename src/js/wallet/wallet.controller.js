@@ -158,12 +158,13 @@
         }
 
         function getPaymentForm() {
+            // here we have a direct markup dependency
+            // but other ways of getting the form from a child scope are even more ugly
             return angular.element('#send-waves-form').scope().sendWavesForm;
         }
 
-        function submitPayment(paymentForm) {
-            // here we have a direct markup dependency
-            //var paymentForm = getPaymentForm();
+        function submitPayment() {
+            var paymentForm = getPaymentForm();
             wallet.transfer.fee.isValid = angular.isDefined(paymentForm.invalid.wavessendfee) ?
                 paymentForm.invalid.wavessendfee : true;
             if (!paymentForm.validate())
