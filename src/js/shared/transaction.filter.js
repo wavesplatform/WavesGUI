@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function TransactionFilter(applicationContext, formattingService) {
+    function TransactionFilter(applicationContext, formattingService, addressService) {
         var TRANSACTION_TYPES = {
             2: 'Payment'
         };
@@ -37,6 +37,9 @@
                 fee: fee.formatAmount(true)
             };
 
+            transaction.formatted.isSenderCopiable = addressService.validateAddress(transaction.formatted.sender);
+            transaction.formatted.isRecipientCopiable = addressService.validateAddress(transaction.formatted.recipient);
+
             return transaction;
         }
 
@@ -45,7 +48,7 @@
         };
     }
 
-    TransactionFilter.$inject = ['applicationContext', 'formattingService'];
+    TransactionFilter.$inject = ['applicationContext', 'formattingService', 'addressService'];
 
     angular
         .module('app.shared')

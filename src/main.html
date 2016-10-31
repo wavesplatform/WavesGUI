@@ -423,8 +423,10 @@
                                 <tr ng-repeat="tx in wallet.transactions | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" ng-class="{'wavesTable-txUnc': tx.unconfirmed, 'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
                                     <td>{{tx.formatted.datetime}}</td>
                                     <td>{{tx.formatted.type}}</td>
-                                    <td>{{tx.formatted.sender}}</td>
-                                    <td>{{tx.formatted.recipient}}</td>
+                                    <td ng-if="!tx.formatted.isSenderCopiable">{{tx.formatted.sender}}</td>
+                                    <td ng-if="tx.formatted.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.sender}}</span></td>
+                                    <td ng-if="!tx.formatted.isRecipientCopiable">{{tx.formatted.recipient}}</td>
+                                    <td ng-if="tx.formatted.isRecipientCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.recipient}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.recipient}}</span></td>
                                     <td>{{tx.formatted.fee}}</td>
                                     <td>{{tx.formatted.amount}}</td>
                                 </tr>
