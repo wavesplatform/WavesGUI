@@ -3,10 +3,6 @@
 
     function LoginContextFactory(moduleEvents, applicationEvents, modes, addressService) {
         return {
-            convertAddress: function (rawAddress) {
-                return addressService.fromRawAddress(rawAddress).getDisplayAddress();
-            },
-
             showAccountsListScreen: function($scope) {
                 $scope.$emit(moduleEvents.CHANGE_MODE, modes.LIST);
             },
@@ -29,7 +25,7 @@
 
             notifySignedIn: function ($scope, rawAddress, seed, keys) {
                 var applicationState = {
-                    address: addressService.fromRawAddress(rawAddress),
+                    address: rawAddress,
                     seed: seed,
                     keyPair: keys
                 };

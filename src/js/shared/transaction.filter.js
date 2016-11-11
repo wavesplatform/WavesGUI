@@ -11,22 +11,21 @@
         }
 
         function transformAddress(rawAddress) {
-            var result = !angular.isUndefined(rawAddress) ?
-                addressService.fromRawAddress(rawAddress).getDisplayAddress() :
-                'none';
+            var result = angular.isDefined(rawAddress) ? rawAddress : 'none';
 
-            if (result === applicationContext.account.address.getDisplayAddress())
+            if (result === applicationContext.account.address)
                 result = 'You';
 
             return result;
         }
 
         function formatTransaction(transaction) {
-            // in future currency should be a part of transaction itself
+            // in the future currency should be a part of transaction itself
             var currency = Currency.WAV;
-            var currentAddress = applicationContext.account.address.getRawAddress();
+            var currentAddress = applicationContext.account.address;
             var type = transaction.sender === currentAddress ? 'Outgoing' : 'Incoming';
-            var amount = Money.fromCoins(transaction.amount, currency);
+            var formattedAmount = angular.isDefined(transaction.amount) ?
+                Money.fromCoins(transaction.amount, currency).formatAmount() : 'N/A';
             var fee = Money.fromCoins(transaction.fee, currency);
 
             transaction.formatted = {
@@ -35,9 +34,12 @@
                 isOutgoing: transaction.sender === currentAddress,
                 sender: transformAddress(transaction.sender),
                 recipient: transformAddress(transaction.recipient),
-                amount: amount.formatAmount(),
+                amount: formattedAmount,
                 fee: fee.formatAmount(true)
             };
+
+            transaction.formatted.isSenderCopiable = addressService.validateAddress(transaction.formatted.sender);
+            transaction.formatted.isRecipientCopiable = addressService.validateAddress(transaction.formatted.recipient);
 
             return transaction;
         }

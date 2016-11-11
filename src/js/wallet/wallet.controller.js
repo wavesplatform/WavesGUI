@@ -158,11 +158,12 @@
         }
 
         function getPaymentForm() {
+            // here we have a direct markup dependency
+            // but other ways of getting the form from a child scope are even more ugly
             return angular.element('#send-waves-form').scope().sendWavesForm;
         }
 
         function submitPayment() {
-            // here we have a direct markup dependency
             var paymentForm = getPaymentForm();
             wallet.transfer.fee.isValid = angular.isDefined(paymentForm.invalid.wavessendfee) ?
                 paymentForm.invalid.wavessendfee : true;
@@ -176,7 +177,7 @@
             var payment = {
                 amount: new Money(wallet.transfer.amount, currentCurrency),
                 fee: new Money(wallet.transfer.fee.amount, currentCurrency),
-                recipient: addressService.fromDisplayAddress(wallet.transfer.recipient),
+                recipient: addressService.cleanupOptionalPrefix(wallet.transfer.recipient),
                 time: utilityService.getTime()
             };
 
@@ -194,7 +195,7 @@
             wallet.confirm.amount.currency = payment.amount.currency.displayName;
             wallet.confirm.fee.value = payment.fee.formatAmount(true);
             wallet.confirm.fee.currency = payment.fee.currency.displayName;
-            wallet.confirm.recipient = payment.recipient.getDisplayAddress();
+            wallet.confirm.recipient = payment.recipient;
 
             // open confirmation dialog
             // doing it async because this method is called while another dialog is open
@@ -213,12 +214,16 @@
             if (angular.isUndefined(transaction))
                 return;
 
+            // prevent method execution when there is a pending payment request
+            if (wallet.confirm.paymentPending)
+                return;
+
             //disable confirm button
             wallet.confirm.paymentPending = true;
 
             apiService.broadcastPayment(transaction).then(function () {
                 var amount = Money.fromCoins(transaction.amount, wallet.current.balance.currency);
-                var address = addressService.fromRawAddress(transaction.recipient).getDisplayAddress();
+                var address = transaction.recipient;
                 var displayMessage = 'Sent ' + amount.formatAmount(true) + amount.currency.symbol +
                     '<br>Recipient ' + address.substr(0,15) + '...<br>Date: ' +
                     formattingService.formatTimestamp(transaction.timestamp);

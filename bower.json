@@ -24,7 +24,8 @@
     "angular-messages": "^1.5.8",
     "angular-validation-match": "^1.9.0",
     "angular-material": "^1.1.1",
-    "waves-angular-validate": "git@github.com:beregovoy68/angular-validate.git#^1.1.2"
+    "waves-angular-validate": "git@github.com:beregovoy68/angular-validate.git#^1.1.2",
+    "tooltipster": "^3.3.0"
   },
   "analytics": false
 }

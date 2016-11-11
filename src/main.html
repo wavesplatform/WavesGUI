@@ -47,7 +47,7 @@
         <table id="lockscreenTable">
 
             <thead>
-            <div id="logoNversion" title="LOGO" class="tooltip-1">
+            <div id="logoNversion">
                 <img src="img/topleftlogo.svg" />
                 <p ng-class='{testnet: home.isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
             </div>
@@ -61,19 +61,19 @@
                         <h2 id="AccHeader">{{accounts.caption}}</h2>
                         <div class="wavesAccounts" ng-controller="accountListController as list" ng-show="accounts.mode === 'list'">
                             <p class="loginAccountDiv" ng-repeat="account in list.accounts">
-                                        <span class="loginAccount tooltip-1 fade" title="Log into this account." ng-click="list.signIn(account)"> <br/>
-                                            <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::account.address | address}}</small>
-                                        </span>
-                                <span class="clipSpan tooltip-1" ngclipboard title="Copy this address to the clipboard." data-clipboard-text="{{::account.address | address}}" ngclipboard-success="clipboardOk()"></span>
+                                    <span class="loginAccount fade" tooltipster tooltip-theme="tooltipster-theme1" title="Log into this account." ng-click="list.signIn(account)"> <br/>
+                                        <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::account.address}}</small>
+                                    </span>
+                                <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard title="Copy this address to the clipboard." data-clipboard-text="{{::account.address}}" ngclipboard-success="clipboardOk()"></span>
                                 <span class="divider-1"></span>
-                                <button class="removeAccount wButtonAlt fade tooltip-1" title="Remove this account from the list." ng-click="list.showRemoveWarning(account)">
+                                <button class="removeAccount wButtonAlt fade" tooltipster tooltip-theme="tooltipster-theme1" title="Remove this account from the list." ng-click="list.showRemoveWarning(account)">
                                     <span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE
                                 </button>
                             </p>
 
-                            <button id="import_account" class="wButton fade tooltip-1" title="Click here to import an existing account." ng-click="list.importAccount()">IMPORT ACCOUNT</button>
+                            <button id="import_account" class="wButton fade" tooltipster tooltip-theme="tooltipster-theme1" title="Click here to import an existing account." ng-click="list.importAccount()">IMPORT ACCOUNT</button>
                             <span class="divider-1"></span>
-                            <button id="create_account" class="wButton fade tooltip-1" title="Click here to create a brand new account." ng-click="list.createAccount()">NEW ACCOUNT</button>
+                            <button id="create_account" class="wButton fade" tooltipster tooltip-theme="tooltipster-theme1" title="Click here to create a brand new account." ng-click="list.createAccount()">NEW ACCOUNT</button>
                             <br/>
 
                             <!-- Remove Account popup -->
@@ -103,7 +103,7 @@
                                     <br/>
 
                                     <textarea id="walletSeed" rows="3" name="walletSeed" class="wInput" focus-me="accounts.mode === 'create-seed'" ng-class="{ 'wInput-error' : (accountSeedForm.$submitted || accountSeedForm.walletSeed.$touched) && accountSeedForm.walletSeed.$invalid }" ng-model="vm.seed" ng-change="vm.refreshAddress()" ng-model-options="{ debounce: 750 }" ng-trim="false" required minlength="25"></textarea>
-                                    <span class="clipSpan tooltip-1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" data-clipboard-message-success="Wallet seed has been successfully copied to clipboard" ></span>
+                                    <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" data-clipboard-message-success="Wallet seed has been successfully copied to clipboard" ></span>
                                     <br/>
                                     <div ng-messages="accountSeedForm.walletSeed.$error" ng-if="accountSeedForm.$submitted || accountSeedForm.walletSeed.$touched">
                                         <p ng-message="required">Wallet seed is required</p>
@@ -170,7 +170,7 @@
 
                                     <div class="form-field">
                                         <label for="walletName">
-                                        NAME<span class="infoSpan tooltip-1" title="It is possible to assign a name to your account(s)
+                                        NAME<span class="infoSpan" tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="It is possible to assign a name to your account(s)
                                                 <br/>
                                                 in order to make them more memorable, feel
                                                 <br/>
@@ -186,7 +186,7 @@
                                     <br/>
                                     <div class="form-field">
                                         <label for="walletPassword">
-                                        PASSWORD<span class="infoSpan tooltip-1" title="Used to encrypt your wallet seed, the password
+                                        PASSWORD<span class="infoSpan" tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="Used to encrypt your wallet seed, the password
                                                 <br/>
                                                 will be prompted at the time of login.
                                                 <br/><br/>
@@ -277,14 +277,14 @@
                 <p ng-class='{testnet: home.isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
             </div>
             <span id="version" class="centerIt">Address:
-                <span id="wavesAccountAddress" class="clipSpan tooltip-3" title="Copy the address to clipboard." ngclipboard data-clipboard-text="{{::menu.address}}" ngclipboard-success="clipboardOk()">{{::menu.address}}</span>
+                <span id="wavesAccountAddress" class="clipSpan" tooltipster tooltip-theme="tooltipster-theme3" title="Copy the address to clipboard." ngclipboard data-clipboard-text="{{::menu.address}}" ngclipboard-success="clipboardOk()">{{::menu.address}}</span>
                 <span class="divider-2"></span>
                 <span class="inlineParagraph">Block:</span> <span id="blockheight">{{menu.blockHeight}}</span>
             </span>
 
             <div id="header-Iconset">
                 <a ng-click="menu.showBackupDialog()">
-                    <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-backup.svg" alt="Backup" title="Backup"/>
+                    <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-backup.svg" alt="Backup" title="Backup"/>
                 </a>
                 <div id="header-wPop-backup" waves-dialog on-dialog-ok="menu.backup()" ok-button-caption="COPY" cancel-button-caption="CLOSE">
                     <h2>ACCOUNT INFO BACKUP</h2>
@@ -303,13 +303,13 @@
                     </form>
                 </div>
                 <a ng-click="home.featureUnderDevelopment()">
-                    <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-preferences.svg" alt="Preferences" title="Preferences"/>
+                    <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-preferences.svg" alt="Preferences" title="Preferences"/>
                 </a>
                 <a ng-click="home.featureUnderDevelopment()">
-                    <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-profile.svg" alt="User profile" title="User profile"/>
+                    <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-profile.svg" alt="User profile" title="User profile"/>
                 </a>
                 <a ng-click="home.logout()">
-                    <img class="header-Icon fade tooltip-2" src="img/uiTB-iconset-logout.svg" alt="Log out" title="Log out" />
+                    <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-logout.svg" alt="Log out" title="Log out" />
                 </a>
             </div>
         </header>
@@ -321,14 +321,22 @@
             <!-- APPLICATION TAB SELECTORS -->
             <section id="tabs" class="fFade noSelect">
                 <div id="tabs-Iconset" class="centerIt">
-                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="wallet" caption="'Wallet tab'" tooltip="'<center><u>Wallet</u></center><br/>Area containing the main wallets.'"></span>
-                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="portfolio" caption="'Portfolio tab'" tooltip="'<center><u>Portfolio</u></center><br/>Display all your assets, both digital and physical<br/>as well as allowing transfers.'"></span>
-                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="exchange" caption="'Exchange tab'" tooltip="'<center><u>Waves Decentralized Exchange</u></center><br/>Access to Waves markets where you can<br/>conveniently buy, sell and trade tokens.'"></span>
-                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="voting" caption="'Voting tab'" tooltip="'<center><u>Voting Area</u></center><br/>Decentralized voting utility.'"></span>
-                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="history" caption="'History tab'" tooltip="'<center><u>History</u></center><br/>Access all your transaction records.'"></span>
-                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="tokens" caption="'Tokens Creation tab'" tooltip="'<center><u>Tokens Creation tab</u></center><br/>Area in which assets can be created.'"></span>
-                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="messages" caption="'Messages tab'" tooltip="'<center><u>Decentralized Messenger</u></center><br/>Allows private communication between Waves users.'"></span>
-                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="community" caption="'Community tab'" tooltip="'<center><u>Community tab</u></center><br/>Resources to learn more about Waves project such as <br/>forums, blogs, websites, etc.'"></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="wallet" caption="'Wallet tab'" tooltipster tooltip-html
+                          tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Wallet</u></center><br/>Area containing the main wallets."></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="portfolio" caption="'Portfolio tab'" tooltipster tooltip-html
+                          tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Portfolio</u></center><br/>Display all your assets, both digital and physical<br/>as well as allowing transfers."></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="exchange" caption="'Exchange tab'" tooltipster tooltip-html
+                          tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Waves Decentralized Exchange</u></center><br/>Access to Waves markets where you can<br/>conveniently buy, sell and trade tokens."></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="voting" caption="'Voting tab'" tooltipster tooltip-html
+                          tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Voting Area</u></center><br/>Decentralized voting utility."></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="history" caption="'History tab'" tooltipster tooltip-html
+                          tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>History</u></center><br/>Access all your transaction records."></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="tokens" caption="'Tokens Creation tab'" tooltipster tooltip-html
+                          tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Tokens Creation tab</u></center><br/>Area in which assets can be created."></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="messages" caption="'Messages tab'" tooltipster tooltip-html
+                          tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Decentralized Messenger</u></center><br/>Allows private communication between Waves users."></span>
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="community" caption="'Community tab'" tooltipster tooltip-html
+                          tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Community tab</u></center><br/>Resources to learn more about Waves project such as <br/>forums, blogs, websites, etc."></span>
               </div>
             </section>
 
@@ -415,8 +423,10 @@
                                 <tr ng-repeat="tx in wallet.transactions | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" ng-class="{'wavesTable-txUnc': tx.unconfirmed, 'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
                                     <td>{{tx.formatted.datetime}}</td>
                                     <td>{{tx.formatted.type}}</td>
-                                    <td>{{tx.formatted.sender}}</td>
-                                    <td>{{tx.formatted.recipient}}</td>
+                                    <td ng-if="!tx.formatted.isSenderCopiable">{{tx.formatted.sender}}</td>
+                                    <td ng-if="tx.formatted.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.sender}}</span></td>
+                                    <td ng-if="!tx.formatted.isRecipientCopiable">{{tx.formatted.recipient}}</td>
+                                    <td ng-if="tx.formatted.isRecipientCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.recipient}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.recipient}}</span></td>
                                     <td>{{tx.formatted.fee}}</td>
                                     <td>{{tx.formatted.amount}}</td>
                                 </tr>
@@ -430,13 +440,35 @@
                 <div id="mBB-portfolio" class="mBB-content" ng-switch-when="portfolio">
                     <div class="phContent">
                         <h1>PORTFOLIO</h1>
-                        <br/>
-                        <p>The Portfolio area serves both as an analytic tool and a summary overview of a user's holdings. It is the perfect place to draft market strategies and plan future investments.
-                            <br/><br/>
-                            The Portfolio tab will start operating as Waves platform incorporates additional markets, meanwhile the transactions can be tracked via History tab.
-                        </p>
-                        <br/><br/>
-                        <img src="img/tab_port_prev.svg" />
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>ASSET NAME</td>
+                                    <td>ISSUER</td>
+                                    <td>RE-ISSUABLE</td>
+                                    <td>BALANCE</td>
+                                    <td>OPTIONS</td>
+                                </tr>
+                            </thead>
+                            <tbody ng-if="false">
+                                <tr>
+                                    <td colspan="5">You do not own or issued any assets</td>
+                                </tr>
+                            </tbody>
+                            <tbody ng-if="true">
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <button>Send</button><span class="divider-2"></span>
+                                        <button>Reissue</button><span class="divider-2"></span>
+                                        <button>Details</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <!-- / PORTFOLIO TAB -->
@@ -515,10 +547,10 @@
                 <!-- TOKENS TAB -->
                 <div id="mBB-token" class="mBB-content" ng-switch-when="tokens">
 
-                    <div>
+                    <div class="phContent" ng-controller="tokenCreateController as ctrl">
                         <h1>ASSET CREATION</h1>
                         <br/>
-                        <form name="createAssetForm">
+                        <form id="create-asset-form" name="createAssetForm" novalidate ng-validate="ctrl.issuanceValidationOptions" ng-submit="ctrl.assetIssueConfirmation(createAssetForm, $event)">
                             <table>
                                 <thead>
                                     <tr>
@@ -529,23 +561,23 @@
                                 <tbody>
                                     <tr>
                                         <td><label for="assetName">Asset's name</label></td>
-                                        <td><input id="assetName" name="assetName" type="text" class="wInput form-control"/></td>
+                                        <td><input id="assetName" name="assetName" type="text" class="wInput form-control" focus-me="true" ng-model="ctrl.asset.name"/></td>
                                     </tr>
                                     <tr>
                                         <td><label for="assetDescription">Asset's description</label></td>
-                                        <td><textarea id="assetDescription" name="assetDescription" class="wInput" rows="3"></textarea></td>
+                                        <td><textarea id="assetDescription" name="assetDescription" class="wInput" rows="3" ng-model="ctrl.asset.description"></textarea></td>
                                     </tr>
                                     <tr>
                                         <td><label for="assetTotalTokens">Asset's total tokens</label></td>
-                                        <td><input id="assetTotalTokens" name="assetTotalTokens" class="wInput" type="text"/></td>
+                                        <td><input id="assetTotalTokens" name="assetTotalTokens" class="wInput" type="text" ng-model="ctrl.asset.totalTokens"/></td>
                                     </tr>
                                     <tr>
                                         <td><label for="assetTokenDecimalPlaces">Token's decimals</label></td>
-                                        <td><input id="assetTokenDecimalPlaces" name="assetTokenDecimalPlaces" class="wInput" type="text"/></td>
+                                        <td><input id="assetTokenDecimalPlaces" name="assetTokenDecimalPlaces" class="wInput" type="text" ng-model="ctrl.asset.decimalPlaces"/></td>
                                     </tr>
                                     <tr>
                                         <td><label for="assetReissuable">Re-issuable asset</label></td>
-                                        <td><input id="assetReissuable" name="assetReissuable" type="checkbox" class="wInput"/></td>
+                                        <td><input id="assetReissuable" name="assetReissuable" type="checkbox" class="wInput" ng-model="ctrl.asset.reissuable"/></td>
                                     </tr>
                                     <tr>
                                         <td>Fee</td>
@@ -557,8 +589,15 @@
                                 <button type="submit">SUBMIT</button>
                             </div>
                         </form>
-                    </div>
 
+                        <div id="create-asset-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!ctrl.confirm.pendingIssuance" on-dialog-ok="ctrl.broadcastIssueTransaction()">
+                            <p>You are creating a <span class="confirmation-value">{{ctrl.confirm.reissuable}}</span> asset named
+                                <span class="confirmation-value">{{ctrl.confirm.name}}</span> with
+                                <span class="confirmation-value">{{ctrl.confirm.totalTokens}}</span> of total tokens amount
+                            </p>
+                            <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                        </div>
+                    </div>
                 </div>
                 <!-- / TOKENS TAB -->
 
@@ -626,7 +665,7 @@
                                     <td>{{block.timestamp | formatting}}</td>
                                     <td>{{block.transactions.length}}</td>
                                     <td>
-                                        <span class="clipSpan tooltip-1" ngclipboard title="Copy this address to the clipboard." data-clipboard-text="{{block.generator | address}}" ngclipboard-success="clipboardOk()">{{block.generator | address}}</span>
+                                        <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard title="Copy this address to the clipboard." data-clipboard-text="{{block.generator}}" ngclipboard-success="clipboardOk()">{{block.generator}}</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -676,7 +715,7 @@
     <script src="js/vendor/jquery.modal.js"></script>
 
     <!-- application modules -->
-    <script src="../bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.1.0.js"></script>
+    <script src="../bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.2.0.js"></script>
 
     <script src="js/app.js"></script>
     <script src="js/ui.module.js"></script>
@@ -685,9 +724,11 @@
     <script src="js/splash.controller.js"></script>
 
     <script src="js/shared/shared.module.js"></script>
+    <script src="js/shared/shared.constants.js"></script>
     <script src="js/shared/dialog.service.js"></script>
     <script src="js/shared/shared.dialog.directive.js"></script>
     <script src="js/shared/focus.directive.js"></script>
+    <script src="js/shared/tooltipster.directive.js"></script>
     <script src="js/shared/password.strength.directive.js"></script>
     <script src="js/shared/address.directive.js"></script>
     <script src="js/shared/decimal.directive.js"></script>
@@ -712,6 +753,9 @@
     <script src="js/wallet/wallet.module.js"></script>
     <script src="js/wallet/wallet.box.component.js"></script>
     <script src="js/wallet/wallet.controller.js"></script>
+
+    <script src="js/tokens/tokens.module.js"></script>
+    <script src="js/tokens/token.create.controller.js"></script>
 
     <script src="js/history/history.module.js"></script>
     <script src="js/history/history.controller.js"></script>

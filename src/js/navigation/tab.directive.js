@@ -24,13 +24,12 @@
                 scope: {
                     pageId: '@',
                     caption: '<',
-                    tooltip: '<',
                     onSelect: '&',
                     currentPageId: '<'
                 },
                 link: WavesTabLink,
-                template: '<img ng-src="img/tabs-iconset-{{pageId}}.svg" class="fFade tooltip-3" alt="{{caption}}" ' +
-                    'title="{{tooltip}}" ng-click="onClick()" ng-class="[{selected: isSelected()}]"/>'
+                template: '<img ng-src="img/tabs-iconset-{{pageId}}.svg" class="fFade" alt="{{caption}}" ' +
+                    'ng-click="onClick()" ng-class="[{selected: isSelected()}]"/>'
             };
         });
 })();

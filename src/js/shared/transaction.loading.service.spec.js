@@ -1,5 +1,6 @@
 describe('Transaction.Loading.Service', function() {
-    var transactionService, sender;
+    var transactionService,
+        sender = '3Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB';
 
     // Initialization of the module before each test case
     beforeEach(module('waves.core'));
@@ -8,8 +9,6 @@ describe('Transaction.Loading.Service', function() {
     // Injection of dependencies
     beforeEach(inject(function($injector) {
         transactionService = $injector.get('transactionLoadingService');
-        var addressService = $injector.get('addressService');
-        sender = addressService.fromRawAddress('3Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB');
     }));
 
     it('should merge transactions if confirmed and unconfirmed do not intersect', function () {

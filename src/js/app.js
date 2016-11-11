@@ -12,7 +12,6 @@ var __mockValidateAddress = function(address) {};
 var app = angular.module('app', [
     'restangular',
     'waves.core',
-    'waves.core.services',
 
     'ngclipboard',
     'ngMessages',
@@ -24,6 +23,7 @@ var app = angular.module('app', [
     'app.login',
     'app.navigation',
     'app.wallet',
+    'app.tokens',
     'app.history',
     'app.community'
 ]).config(AngularApplicationConfig).run(AngularApplicationRun);
@@ -79,7 +79,9 @@ function AngularApplicationRun(rest, coreConstants, notificationService, address
         timeout: 10000 // milliseconds
     });
     //var url = coreConstants.NODE_ADDRESS;
-    var url = 'http://52.28.66.217:6869';
+    //var url = 'http://52.28.66.217:6869';
+    //var url = 'http://52.77.111.219:6869';
+    var url = 'http://127.0.0.1:6869';
     rest.setBaseUrl(url);
 
     // override mock methods cos in config phase services are not available yet
@@ -87,7 +89,7 @@ function AngularApplicationRun(rest, coreConstants, notificationService, address
         notificationService.error(message);
     };
     __mockValidateAddress = function (address) {
-        return addressService.validateDisplayAddress(address);
+        return addressService.validateAddress(address);
     };
 }
 
