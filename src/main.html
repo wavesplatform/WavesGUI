@@ -440,13 +440,35 @@
                 <div id="mBB-portfolio" class="mBB-content" ng-switch-when="portfolio">
                     <div class="phContent">
                         <h1>PORTFOLIO</h1>
-                        <br/>
-                        <p>The Portfolio area serves both as an analytic tool and a summary overview of a user's holdings. It is the perfect place to draft market strategies and plan future investments.
-                            <br/><br/>
-                            The Portfolio tab will start operating as Waves platform incorporates additional markets, meanwhile the transactions can be tracked via History tab.
-                        </p>
-                        <br/><br/>
-                        <img src="img/tab_port_prev.svg" />
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>ASSET NAME</td>
+                                    <td>ISSUER</td>
+                                    <td>RE-ISSUABLE</td>
+                                    <td>BALANCE</td>
+                                    <td>OPTIONS</td>
+                                </tr>
+                            </thead>
+                            <tbody ng-if="false">
+                                <tr>
+                                    <td colspan="5">You do not own or issued any assets</td>
+                                </tr>
+                            </tbody>
+                            <tbody ng-if="true">
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <button>Send</button><span class="divider-2"></span>
+                                        <button>Reissue</button><span class="divider-2"></span>
+                                        <button>Details</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <!-- / PORTFOLIO TAB -->
@@ -525,10 +547,10 @@
                 <!-- TOKENS TAB -->
                 <div id="mBB-token" class="mBB-content" ng-switch-when="tokens">
 
-                    <div ng-controller="tokenCreateController as ctrl">
+                    <div class="phContent" ng-controller="tokenCreateController as ctrl">
                         <h1>ASSET CREATION</h1>
                         <br/>
-                        <form id="create-asset-form" name="createAssetForm" novalidate ng-validate="ctrl.issuanceValidationOptions" ng-submit="ctrl.assetIssueConfirmation(createAssetForm)">
+                        <form id="create-asset-form" name="createAssetForm" novalidate ng-validate="ctrl.issuanceValidationOptions" ng-submit="ctrl.assetIssueConfirmation(createAssetForm, $event)">
                             <table>
                                 <thead>
                                     <tr>
@@ -539,23 +561,23 @@
                                 <tbody>
                                     <tr>
                                         <td><label for="assetName">Asset's name</label></td>
-                                        <td><input id="assetName" name="assetName" type="text" class="wInput form-control" focus-me="true"/></td>
+                                        <td><input id="assetName" name="assetName" type="text" class="wInput form-control" focus-me="true" ng-model="ctrl.asset.name"/></td>
                                     </tr>
                                     <tr>
                                         <td><label for="assetDescription">Asset's description</label></td>
-                                        <td><textarea id="assetDescription" name="assetDescription" class="wInput" rows="3"></textarea></td>
+                                        <td><textarea id="assetDescription" name="assetDescription" class="wInput" rows="3" ng-model="ctrl.asset.description"></textarea></td>
                                     </tr>
                                     <tr>
                                         <td><label for="assetTotalTokens">Asset's total tokens</label></td>
-                                        <td><input id="assetTotalTokens" name="assetTotalTokens" class="wInput" type="text"/></td>
+                                        <td><input id="assetTotalTokens" name="assetTotalTokens" class="wInput" type="text" ng-model="ctrl.asset.totalTokens"/></td>
                                     </tr>
                                     <tr>
                                         <td><label for="assetTokenDecimalPlaces">Token's decimals</label></td>
-                                        <td><input id="assetTokenDecimalPlaces" name="assetTokenDecimalPlaces" class="wInput" type="text"/></td>
+                                        <td><input id="assetTokenDecimalPlaces" name="assetTokenDecimalPlaces" class="wInput" type="text" ng-model="ctrl.asset.decimalPlaces"/></td>
                                     </tr>
                                     <tr>
                                         <td><label for="assetReissuable">Re-issuable asset</label></td>
-                                        <td><input id="assetReissuable" name="assetReissuable" type="checkbox" class="wInput"/></td>
+                                        <td><input id="assetReissuable" name="assetReissuable" type="checkbox" class="wInput" ng-model="ctrl.asset.reissuable"/></td>
                                     </tr>
                                     <tr>
                                         <td>Fee</td>
@@ -569,7 +591,9 @@
                         </form>
 
                         <div id="create-asset-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!ctrl.confirm.pendingIssuance" on-dialog-ok="ctrl.broadcastIssueTransaction()">
-                            <p>You are creating asset...
+                            <p>You are creating a <span class="confirmation-value">{{ctrl.confirm.reissuable}}</span> asset named
+                                <span class="confirmation-value">{{ctrl.confirm.name}}</span> with
+                                <span class="confirmation-value">{{ctrl.confirm.totalTokens}}</span> of total tokens amount
                             </p>
                             <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
                         </div>
@@ -708,6 +732,7 @@
     <script src="js/shared/password.strength.directive.js"></script>
     <script src="js/shared/address.directive.js"></script>
     <script src="js/shared/decimal.directive.js"></script>
+    <script src="js/shared/asset.service.js"></script>
     <script src="js/shared/notification.service.js"></script>
     <script src="js/shared/transaction.loading.service.js"></script>
     <script src="js/shared/transaction.filter.js"></script>

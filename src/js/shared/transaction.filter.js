@@ -24,7 +24,8 @@
             var currency = Currency.WAV;
             var currentAddress = applicationContext.account.address;
             var type = transaction.sender === currentAddress ? 'Outgoing' : 'Incoming';
-            var amount = Money.fromCoins(transaction.amount, currency);
+            var formattedAmount = angular.isDefined(transaction.amount) ?
+                Money.fromCoins(transaction.amount, currency).formatAmount() : 'N/A';
             var fee = Money.fromCoins(transaction.fee, currency);
 
             transaction.formatted = {
@@ -33,7 +34,7 @@
                 isOutgoing: transaction.sender === currentAddress,
                 sender: transformAddress(transaction.sender),
                 recipient: transformAddress(transaction.recipient),
-                amount: amount.formatAmount(),
+                amount: formattedAmount,
                 fee: fee.formatAmount(true)
             };
 

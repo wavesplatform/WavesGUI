@@ -214,6 +214,10 @@
             if (angular.isUndefined(transaction))
                 return;
 
+            // prevent method execution when there is a pending payment request
+            if (wallet.confirm.paymentPending)
+                return;
+
             //disable confirm button
             wallet.confirm.paymentPending = true;
 

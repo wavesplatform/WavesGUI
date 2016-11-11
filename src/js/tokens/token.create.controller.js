@@ -6,7 +6,8 @@
     var ASSET_NAME_MAX = 16;
     var TOKEN_DECIMALS_MAX = 8;
 
-    function TokenCreateController(constants, dialogService) {
+    function TokenCreateController(constants, applicationContext, assetService, dialogService, apiService,
+                                   notificationService, formattingService) {
         var transaction;
         var ctrl = this;
 
@@ -53,26 +54,84 @@
                 }
             }
         };
+        ctrl.asset = {};
         ctrl.confirm = {
             pendingIssuance: false
         };
         ctrl.broadcastIssueTransaction = broadcastIssueTransaction;
         ctrl.assetIssueConfirmation = assetIssueConfirmation;
 
-        function assetIssueConfirmation(form) {
+        resetIssueAssetForm();
+
+        function assetIssueConfirmation(form, event) {
+            event.preventDefault();
+
             if (!form.validate())
                 return;
 
-            //to the stuff
+            var asset = {
+                name: ctrl.asset.name,
+                description: ctrl.asset.description,
+                totalTokens: ctrl.asset.totalTokens,
+                decimalPlaces: ctrl.asset.decimalPlaces,
+                reissuable: ctrl.asset.reissuable,
+                time: utilityService.getTime()
+            };
+
+            var sender = {
+                publicKey: applicationContext.account.keyPair.public,
+                privateKey: applicationContext.account.keyPair.private
+            };
+
+            ctrl.confirm.name = ctrl.asset.name;
+            ctrl.confirm.totalTokens = ctrl.asset.totalTokens;
+            ctrl.confirm.reissuable = ctrl.asset.reissuable ? 'reissuable' : 'non-reissuable';
+
+            transaction = assetService.createAssetIssueTransaction(asset, sender);
+
             dialogService.open('#create-asset-confirmation');
         }
 
         function broadcastIssueTransaction() {
-            console.log('broadcast');
+            if (angular.isUndefined(transaction))
+                return;
+
+            // disable method while there is a pending issuance request
+            if (ctrl.confirm.pendingIssuance)
+                return;
+
+            // disable confirm button
+            ctrl.confirm.pendingIssuance = true;
+            apiService.assets.issue(transaction).then(function () {
+                var displayMessage = 'Asset ' + ctrl.confirm.name + ' has been issued!<br/>' +
+                    'Total tokens amount: ' + ctrl.confirm.totalTokens + '<br/>' +
+                    'Date: ' + formattingService.formatTimestamp(transaction.timestamp);
+                notificationService.notice(displayMessage);
+                transaction = undefined;
+                resetIssueAssetForm();
+            }, function (response) {
+                if (angular.isDefined(response.data))
+                    notificationService.error('Error:' + response.data.error + ' - ' + response.data.message);
+                else
+                    notificationService.error('Request failed. Status: ' + response.status + ' - ' +
+                        response.statusText);
+
+                transaction = undefined;
+                ctrl.confirm.pendingIssuance = false;
+            });
+        }
+
+        function resetIssueAssetForm() {
+            ctrl.asset.name = '';
+            ctrl.asset.description = '';
+            ctrl.asset.totalTokens = '0';
+            ctrl.asset.tokenDecimalPlaces = '0';
+            ctrl.asset.reissuable = false;
         }
     }
 
-    TokenCreateController.$inject = ['constants.ui', 'dialogService'];
+    TokenCreateController.$inject = ['constants.ui', 'applicationContext', 'assetService', 'dialogService',
+        'apiService', 'notificationService', 'formattingService'];
 
     angular
         .module('app.tokens')

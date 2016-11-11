@@ -1,6 +1,9 @@
-describe('Transaction.Loading.Service', function() {
-    var transactionService,
-        sender = '3Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB';
+describe('Asset.Service', function() {
+    var assetService, cryptoService;
+    var sender = {
+        publicKey: 'FJuErRxhV9JaFUwcYLabFK5ENvDRfyJbRz8FeVfYpBLn',
+        privateKey: '9dXhQYWZ5468TRhksJqpGT6nUySENxXi9nsCZH9AefD1'
+    };
 
     // Initialization of the module before each test case
     beforeEach(module('waves.core'));
@@ -8,160 +11,96 @@ describe('Transaction.Loading.Service', function() {
 
     // Injection of dependencies
     beforeEach(inject(function($injector) {
-        transactionService = $injector.get('transactionLoadingService');
+        assetService = $injector.get('assetService');
+        cryptoService = $injector.get('cryptoService');
+
+        // changing non-deterministic signatures with deterministic ones
+        // to always have the same transaction signature
+        spyOn(cryptoService, 'nonDeterministicSign').and.callFake(function (privateKeyBytes, signatureData) {
+            return cryptoService.deterministicSign(privateKeyBytes, signatureData);
+        });
     }));
 
-    it('should merge transactions if confirmed and unconfirmed do not intersect', function () {
-        var confirmed = [{
-            'type': 2,
-            'fee': 59291,
-            'timestamp': 1474706165774,
-            'signature': '5fjGRrNS9wg1RzcWuQUddPNfhm72CGAHWFo6bHpD5bGf3iyjNiXWLwVxdjeiw2Hnmrki61FYM5VAgpyTHmMaxc2y',
-            'sender': '3Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB',
-            'recipient': '3MuTjWD6muPQ3nbSAPtYMkyKwJwSAzC8C2J',
-            'amount': 237099
-        },
-        {
-            'type': 2,
-            'fee': 62391,
-            'timestamp': 1474706165507,
-            'signature': '4GQbncPm4HxNwcu6zKeVqxEHC6CK5jc99CjqwgtPNLgasebYBt3KCEf4QLrFeVAeDbekXN3RDRM3mzYxy69rmDWU',
-            'sender': '3Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB',
-            'recipient': '3MuTjWD6muPQ3nbSAPtYMkyKwJwSAzC8C2J',
-            'amount': 508442
-        },
-        {
-            'type': 2,
-            'fee': 106151,
-            'timestamp': 1474706165244,
-            'signature': '5RbVW57WEnuSXyz2Ba5sFkjXkWWBnc81fGZq1Zpwoetk1JkWkufMTaMnukgGsahxmiwNCtsLuuPYDB5mzkBBt8Bk',
-            'sender': '3Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB',
-            'recipient': '3MtCKcpwnQvK2fiVWsKJAhVEpXuFFopDqeE',
-            'amount': 723987
-        }];
+    it('should successfully sign issue transaction', function () {
+        var transaction = {
+            name: 'БАБЛОС',
+            description: 'Some english words немного кириллических символов',
+            time: 1478704158292,
+            totalTokens: 100000000,
+            decimalPlaces: 2,
+            reissuable: true,
+            fee: new Money(1, Currency.WAV)
+        };
 
-        var unconfirmed = [{
-            'type': 2,
-            'fee': 171965,
-            'timestamp': 1474706164412,
-            'signature': '44fHMbbNXz1zSiZnXEsRBwXbAScV6epM8jDsoDMtFAUSU7oN3vZPhxi5BPRjNyHqYfK8AFNeS4vQCvhiMcSxMJKT',
-            'sender': '3Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB',
-            'recipient': '3MtCKcpwnQvK2fiVWsKJAhVEpXuFFopDqeE',
-            'amount': 335693
-        },
-        {
-            'type': 2,
-            'fee': 187116,
-            'timestamp': 1474706165157,
-            'signature': '4p5KYrn2mCmMbsBfoU1FGjsDEgbMLhLzp95Dia9oco8Zdi3xRMUPdErQWqXGVXnQrqjnDwtDGbKP4AZsqrCKnX5a',
-            'sender': '3Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB',
-            'recipient': '3MuTjWD6muPQ3nbSAPtYMkyKwJwSAzC8C2J',
-            'amount': 276897
-        }];
+        var actual = assetService.createAssetIssueTransaction(transaction, sender);
 
-        var tx = transactionService.mergeTransactions(sender, unconfirmed, confirmed);
-
-        expect(tx.length).toEqual(5);
-        _.each(confirmed, function (transaction) {
-            expect(_.indexOf(tx, transaction)).toBeGreaterThan(-1);
-        });
-        _.each(unconfirmed, function (transaction) {
-            expect(_.indexOf(tx, transaction)).toBeGreaterThan(-1);
-        });
+        expect(actual.timestamp).toEqual(transaction.time);
+        expect(actual.name).toEqual(transaction.name);
+        expect(actual.description).toEqual(transaction.description);
+        expect(actual.quantity).toEqual(transaction.totalTokens * 100);
+        expect(actual.decimals).toEqual(transaction.decimalPlaces);
+        expect(actual.fee).toEqual(transaction.fee.toCoins());
+        expect(actual.reissuable).toBe(true);
+        expect(actual.senderPublicKey).toEqual(sender.publicKey);
+        expect(actual.signature)
+            .toEqual('5ngquur4nqX1cVPK3Zaf9KqY1qNH6i7gF5EhaWeS8mZp1LADTVuPXmNUi12jeXSniGry5a7ThsMtWcC73pSU196o');
     });
 
-    it('should merge transactions if confirmed and unconfirmed set intersect', function () {
-        var confirmed = [{
-            'type': 2,
-            'fee': 59291,
-            'timestamp': 1474706165774,
-            'signature': '5fjGRrNS9wg1RzcWuQUddPNfhm72CGAHWFo6bHpD5bGf3iyjNiXWLwVxdjeiw2Hnmrki61FYM5VAgpyTHmMaxc2y',
-            'sender': '3Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB',
-            'recipient': '3MuTjWD6muPQ3nbSAPtYMkyKwJwSAzC8C2J',
-            'amount': 237099
-        },
-        {
-            'type': 2,
-            'fee': 106151,
-            'timestamp': 1474706165244,
-            'signature': '5RbVW57WEnuSXyz2Ba5sFkjXkWWBnc81fGZq1Zpwoetk1JkWkufMTaMnukgGsahxmiwNCtsLuuPYDB5mzkBBt8Bk',
-            'sender': '3Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB',
-            'recipient': '3MtCKcpwnQvK2fiVWsKJAhVEpXuFFopDqeE',
-            'amount': 723987
-        }];
-
-        var unconfirmed = [{
-            'type': 2,
-            'fee': 106151,
-            'timestamp': 1474706165244,
-            'signature': '5RbVW57WEnuSXyz2Ba5sFkjXkWWBnc81fGZq1Zpwoetk1JkWkufMTaMnukgGsahxmiwNCtsLuuPYDB5mzkBBt8Bk',
-            'sender': '3Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB',
-            'recipient': '3MtCKcpwnQvK2fiVWsKJAhVEpXuFFopDqeE',
-            'amount': 723987
-        },
-        {
-            'type': 2,
-            'fee': 187116,
-            'timestamp': 1474706165157,
-            'signature': '4p5KYrn2mCmMbsBfoU1FGjsDEgbMLhLzp95Dia9oco8Zdi3xRMUPdErQWqXGVXnQrqjnDwtDGbKP4AZsqrCKnX5a',
-            'sender': '3Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB',
-            'recipient': '3MuTjWD6muPQ3nbSAPtYMkyKwJwSAzC8C2J',
-            'amount': 276897
-        }];
-
-        var tx = transactionService.mergeTransactions(sender, unconfirmed, confirmed);
-        expect(tx.length).toEqual(3);
-        expect(_.indexOf(tx, confirmed[0])).toBeGreaterThan(-1);
-        expect(_.indexOf(tx, confirmed[1])).toEqual(-1);
-        _.each(unconfirmed, function (transaction) {
-            expect(_.indexOf(tx, transaction)).toBeGreaterThan(-1);
+    it('should successfully sign transfer transaction', function () {
+        var currency = new Currency({
+            id: '246d8u9gBJqUXK1VhQBxPMLL4iiFLdc4iopFyAkqU5HN',
+            displayName: 'Asset',
+            precision: 2,
+            symbol: ''
         });
+
+        // todo: remove this after moving this code to core
+        Currency.WAV.id = undefined;
+
+        var transfer = {
+            recipient: '3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq',
+            time: 1478864678621,
+            amount: new Money(10, currency),
+            fee: new Money(0.001, Currency.WAV)
+        };
+
+        var actual = assetService.createAssetTransferTransaction(transfer, sender);
+
+        expect(actual.timestamp).toEqual(transfer.time);
+        expect(actual.recipient).toEqual(transfer.recipient);
+        expect(actual.assetId).toEqual(currency.id);
+        expect(actual.senderPublicKey).toEqual(sender.publicKey);
+        expect(actual.amount).toEqual(transfer.amount.toCoins());
+        expect(actual.fee).toEqual(transfer.fee.toCoins());
+        expect(actual.attachment).toEqual('');
+        expect(actual.signature)
+            .toEqual('677UVgKBAVZdweVbn6wKhPLP9UxVSh3x4fBXPgepKoHtsV9nSd8HXBMxCdsYn41g3EE63bcihnUHwhXoSu9GZTLf');
     });
 
-    it('should filter unconnfirmed transactions and then merge them', function () {
-        var confirmed = [{
-            'type': 2,
-            'fee': 59291,
-            'timestamp': 1474706165774,
-            'signature': '5fjGRrNS9wg1RzcWuQUddPNfhm72CGAHWFo6bHpD5bGf3iyjNiXWLwVxdjeiw2Hnmrki61FYM5VAgpyTHmMaxc2y',
-            'sender': '3Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB',
-            'recipient': '3MuTjWD6muPQ3nbSAPtYMkyKwJwSAzC8C2J',
-            'amount': 237099
-        },
-        {
-            'type': 2,
-            'fee': 106151,
-            'timestamp': 1474706165244,
-            'signature': '5RbVW57WEnuSXyz2Ba5sFkjXkWWBnc81fGZq1Zpwoetk1JkWkufMTaMnukgGsahxmiwNCtsLuuPYDB5mzkBBt8Bk',
-            'sender': '3Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB',
-            'recipient': '3MtCKcpwnQvK2fiVWsKJAhVEpXuFFopDqeE',
-            'amount': 723987
-        }];
+    it('should successfully sign asset reissue transaction', function () {
+        var asset = new Currency({
+            id: '246d8u9gBJqUXK1VhQBxPMLL4iiFLdc4iopFyAkqU5HN',
+            displayName: 'Asset',
+            precision: 2,
+            symbol: ''
+        });
 
-        var unconfirmed = [{
-            'type': 2,
-            'fee': 106151,
-            'timestamp': 1474706165244,
-            'signature': '5RbVW57WEnuSXyz2Ba5sFkjXkWWBnc81fGZq1Zpwoetk1JkWkufMTaMnukgGsahxmiwNCtsLuuPYDB5mzkBBt8Bk',
-            'sender': '3Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB',
-            'recipient': '3MtCKcpwnQvK2fiVWsKJAhVEpXuFFopDqeE',
-            'amount': 723987
-        },
-        {
-            'type': 2,
-            'fee': 187116,
-            'timestamp': 1474706165157,
-            'signature': '4p5KYrn2mCmMbsBfoU1FGjsDEgbMLhLzp95Dia9oco8Zdi3xRMUPdErQWqXGVXnQrqjnDwtDGbKP4AZsqrCKnX5a',
-            'sender': '9Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB',
-            'recipient': '3MuTjWD6muPQ3nbSAPtYMkyKwJwSAzC8C2J',
-            'amount': 276897
-        }];
+        var amount = new Money(1000000, asset);
+        var reissue = {
+            totalTokens: amount,
+            reissuable: false,
+            time: 1478868177862,
+            fee: new Money(1, Currency.WAV)
+        };
 
-        var tx = transactionService.mergeTransactions(sender, unconfirmed, confirmed);
-        expect(tx.length).toEqual(2);
-        expect(_.indexOf(tx, confirmed[0])).toBeGreaterThan(-1);
-        expect(_.indexOf(tx, confirmed[1])).toEqual(-1);
-        expect(_.indexOf(tx, unconfirmed[0])).toBeGreaterThan(-1);
-        expect(_.indexOf(tx, unconfirmed[1])).toEqual(-1);
+        var actual = assetService.createAssetReissueTransaction(reissue, sender);
+
+        expect(actual.timestamp).toEqual(reissue.time);
+        expect(actual.quantity).toEqual(reissue.totalTokens.toCoins());
+        expect(actual.fee).toEqual(reissue.fee.toCoins());
+        expect(actual.reissuable).toBe(false);
+        expect(actual.senderPublicKey).toEqual(sender.publicKey);
+        expect(actual.signature)
+            .toEqual('4G81NzgHDwXdjqANGE2qxZrC5VpDA7ek3Db8v3iqunpkrXgAy7KBJgdHWUw1TEDBNewtjMJTvB9Po55PZ5d6ztCk');
     });
 });
