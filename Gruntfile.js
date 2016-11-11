@@ -152,6 +152,9 @@ module.exports = function (grunt) {
                         'src/js/community/community.module.js',
                         'src/js/community/community.controller.js',
 
+                        'src/js/portfolio/portfolio.module.js',
+                        'src/js/portfolio/asset.list.controller.js',
+
                         'src/js/**/*.spec.js'
                     ]
                 }

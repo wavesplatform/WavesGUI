@@ -438,7 +438,7 @@
 
                 <!-- PORTFOLIO TAB -->
                 <div id="mBB-portfolio" class="mBB-content" ng-switch-when="portfolio">
-                    <div class="phContent">
+                    <div class="phContent" ng-controller="assetListController as assetList">
                         <h1>PORTFOLIO</h1>
                         <table>
                             <thead>
@@ -450,13 +450,11 @@
                                     <td>OPTIONS</td>
                                 </tr>
                             </thead>
-                            <tbody ng-if="false">
-                                <tr>
+                            <tbody ng-switch on="assetList.assets.length">
+                                <tr ng-switch-when="0">
                                     <td colspan="5">You do not own or issued any assets</td>
                                 </tr>
-                            </tbody>
-                            <tbody ng-if="true">
-                                <tr>
+                                <tr ng-switch-default>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -762,6 +760,9 @@
 
     <script src="js/community/community.module.js"></script>
     <script src="js/community/community.controller.js"></script>
+
+    <script src="js/portfolio/portfolio.module.js"></script>
+    <script src="js/portfolio/asset.list.controller.js"></script>
 
     <script src="js/style.js"></script>
 </body>

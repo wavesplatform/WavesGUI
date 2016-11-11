@@ -102,11 +102,14 @@
 
             // disable confirm button
             ctrl.confirm.pendingIssuance = true;
-            apiService.assets.issue(transaction).then(function () {
+            apiService.assets.issue(transaction).then(function (response) {
                 var displayMessage = 'Asset ' + ctrl.confirm.name + ' has been issued!<br/>' +
                     'Total tokens amount: ' + ctrl.confirm.totalTokens + '<br/>' +
                     'Date: ' + formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
+
+                applicationContext.cache.assets.put(response);
+
                 transaction = undefined;
                 resetIssueAssetForm();
             }, function (response) {
@@ -125,7 +128,7 @@
             ctrl.asset.name = '';
             ctrl.asset.description = '';
             ctrl.asset.totalTokens = '0';
-            ctrl.asset.tokenDecimalPlaces = '0';
+            ctrl.asset.decimalPlaces = '0';
             ctrl.asset.reissuable = false;
         }
     }
