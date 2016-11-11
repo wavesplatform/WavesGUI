@@ -115,7 +115,6 @@ module.exports = function (grunt) {
                         'src/js/shared/shared.module.js',
                         'src/js/shared/shared.constants.js',
                         'src/js/shared/dialog.service.js',
-                        'src/js/shared/asset.service.js',
                         'src/js/shared/notification.service.js',
                         'src/js/shared/shared.dialog.directive.js',
                         'src/js/shared/password.strength.directive.js',
