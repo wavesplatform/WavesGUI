@@ -3,7 +3,10 @@
 
     function TransactionFilter(applicationContext, formattingService, addressService) {
         var TRANSACTION_TYPES = {
-            2: 'Payment'
+            2: 'Payment',
+            3: 'Asset Issue',
+            4: 'Transfer',
+            5: 'Asset Reissue'
         };
 
         function buildTransactionType (number) {
@@ -24,8 +27,17 @@
             var currency = Currency.WAV;
             var currentAddress = applicationContext.account.address;
             var type = transaction.sender === currentAddress ? 'Outgoing' : 'Incoming';
-            var formattedAmount = angular.isDefined(transaction.amount) ?
-                Money.fromCoins(transaction.amount, currency).formatAmount() : 'N/A';
+            var formattedAmount = 'N/A';
+            if (angular.isDefined(transaction.amount))
+                formattedAmount = Money.fromCoins(transaction.amount, currency).formatAmount();
+            if (angular.isDefined(transaction.quantity)) {
+                var asset = new Currency({
+                    id: transaction.id,
+                    displayName: transaction.name,
+                    precision: transaction.decimals
+                });
+                formattedAmount = Money.fromCoins(transaction.quantity, asset).formatAmount();
+            }
             var fee = Money.fromCoins(transaction.fee, currency);
 
             transaction.formatted = {

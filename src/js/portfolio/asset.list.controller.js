@@ -30,13 +30,15 @@
             if (angular.isUndefined(applicationContext.cache.assets[asset.id]))
                 return false;
 
-            var cached = applicationContext.cache.assets[id];
-            cached.balance = new Money(assetBalance.balance, cached.currency);
+            var cached = applicationContext.cache.assets[asset.id];
+            cached.balance = new Money(asset.balance, cached.currency);
 
             asset.name = cached.currency.displayName;
             asset.total = cached.totalTokens.formatAmount();
             asset.balance = cached.balance.formatAmount();
             asset.timestamp = formattingService.formatTimestamp(cached.timestamp);
+            asset.reissuable = cached.reissuable;
+            asset.sender = cached.sender;
 
             return true;
         }
@@ -52,7 +54,7 @@
                         id: id,
                         total: '',
                         name: '',
-                        balance: '',
+                        balance: assetBalance.balance,
                         issued: assetBalance.issued
                     };
 

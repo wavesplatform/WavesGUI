@@ -5,6 +5,7 @@
     var ASSET_NAME_MIN = 4;
     var ASSET_NAME_MAX = 16;
     var TOKEN_DECIMALS_MAX = 8;
+    var FIXED_ISSUE_FEE = new Money(1, Currency.WAV);
 
     function TokenCreateController(constants, applicationContext, assetService, dialogService, apiService,
                                    notificationService, formattingService) {
@@ -54,7 +55,9 @@
                 }
             }
         };
-        ctrl.asset = {};
+        ctrl.asset = {
+            fee: FIXED_ISSUE_FEE
+        };
         ctrl.confirm = {
             pendingIssuance: false
         };
@@ -73,9 +76,9 @@
                 name: ctrl.asset.name,
                 description: ctrl.asset.description,
                 totalTokens: ctrl.asset.totalTokens,
-                decimalPlaces: ctrl.asset.decimalPlaces,
+                decimalPlaces: Number(ctrl.asset.decimalPlaces),
                 reissuable: ctrl.asset.reissuable,
-                time: utilityService.getTime()
+                fee: ctrl.asset.fee
             };
 
             var sender = {
@@ -111,6 +114,7 @@
                 applicationContext.cache.assets.put(response);
 
                 transaction = undefined;
+                ctrl.confirm.pendingIssuance = false;
                 resetIssueAssetForm();
             }, function (response) {
                 if (angular.isDefined(response.data))

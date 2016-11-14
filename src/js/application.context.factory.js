@@ -7,17 +7,18 @@
 
         assets.put = function (issueTransaction) {
             var currency = new Currency({
-                id: transaction.assetId,
-                displayName: transaction.name,
-                precision: transaction.decimals
+                id: issueTransaction.assetId,
+                displayName: issueTransaction.name,
+                precision: issueTransaction.decimals
             });
             var balance = new Money(0, currency);
             var asset = {
                 currency: currency,
-                description: transaction.description,
-                reissuable: transaction.reissuable,
-                timestamp: transaction.timestamp,
-                totalTokens: Money.fromCoins(transaction.quantity, currency),
+                description: issueTransaction.description,
+                reissuable: issueTransaction.reissuable,
+                timestamp: issueTransaction.timestamp,
+                sender: issueTransaction.sender,
+                totalTokens: Money.fromCoins(issueTransaction.quantity, currency)
             };
 
             if (angular.isDefined(assets[currency.id]))
