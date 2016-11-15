@@ -51,7 +51,7 @@
             recipient: '',
             paymentPending: false
         };
-        wallet.transfer = angular.copy(autocomplete);
+        wallet.transfer = autocomplete;
         wallet.paymentValidationOptions = {
             rules: {
                 wavesrecipient: {
@@ -134,8 +134,9 @@
 
         function submitPayment() {
             var paymentForm = getPaymentForm();
-            wallet.transfer.fee.isValid = angular.isDefined(paymentForm.invalid.wavessendfee) ?
-                paymentForm.invalid.wavessendfee : true;
+            var invalid = paymentForm.invalid();
+            wallet.transfer.fee.isValid = angular.isDefined(invalid.wavessendfee) ?
+                !invalid.wavessendfee : true;
             if (!paymentForm.validate())
                 // prevent payment dialog from closing if it's not valid
                 return false;

@@ -469,7 +469,7 @@
                             </tbody>
                         </table>
                         <div ng-controller="assetTransferController as transfer">
-                            <div id="transfer-asset-dialog" waves-dialog ok-button-caption="TRANSFER" ok-button-enabled="!transfer.confirm.pendingTransfer" on-dialog-ok="transfer.submitPayment()">
+                            <div id="transfer-asset-dialog" waves-dialog ok-button-caption="TRANSFER" on-dialog-ok="transfer.submitTransfer()">
                                 <form id="transfer-asset-form" name="transferAssetForm" novalidate ng-validate="transfer.validationOptions">
                                     <h2>ASSET TRANSFER</h2>
                                     <div class="balanceAmt">
@@ -515,6 +515,14 @@
                                         </tbody>
                                     </table>
                                 </form>
+                            </div>
+                            <div id="transfer-asset-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!transfer.confirm.pendingTransfer" on-dialog-ok="transfer.broadcastTransaction()">
+                                <p>You are sending <span class="confirmation-value">{{transfer.confirm.amount.value}}</span>
+                                    <span class="confirmation-value">{{transfer.confirm.amount.currency}}</span> with
+                                    <span class="confirmation-value">{{transfer.confirm.fee.value}}</span>
+                                    <span class="confirmation-value">{{transfer.confirm.fee.currency}}</span> fee <br/>to the address: <span class="confirmation-value">{{transfer.confirm.recipient}}</span>
+                                </p>
+                                <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
                             </div>
                         </div>
                     </div>

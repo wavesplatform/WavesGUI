@@ -56,7 +56,7 @@ function AngularApplicationConfig($validatorProvider) {
     $validatorProvider.addMethod('decimal', function(value, element, params) {
         var maxdigits = angular.isNumber(params) ? params : Currency.WAV.precision;
 
-        var regex = new RegExp('^(?:-?\\d+)?(?:\\.\\d{1,' + maxdigits + '})?$');
+        var regex = new RegExp('^(?:-?\\d+)?(?:\\.\\d{0,' + maxdigits + '})?$');
         return this.optional(element) || regex.test(value);
     }, 'Amount is expected with a dot (.) as a decimal separator with no more than {0} fraction digits');
     $validatorProvider.addMethod('password', function(value, element) {
