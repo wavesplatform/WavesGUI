@@ -461,13 +461,62 @@
                                     <td>{{tx.reissuable}}</td>
                                     <td>{{tx.balance}}</td>
                                     <td>
-                                        <button>Transfer</button><span class="divider-2"></span>
+                                        <button ng-click="assetList.assetTransfer(tx.id)">Transfer</button><span class="divider-2"></span>
                                         <button>Reissue</button><span class="divider-2"></span>
                                         <button>Details</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+                        <div ng-controller="assetTransferController as transfer">
+                            <div id="transfer-asset-dialog" waves-dialog ok-button-caption="TRANSFER" ok-button-enabled="!transfer.confirm.pendingTransfer" on-dialog-ok="transfer.submitPayment()">
+                                <form id="transfer-asset-form" name="transferAssetForm" novalidate ng-validate="transfer.validationOptions">
+                                    <h2>ASSET TRANSFER</h2>
+                                    <div class="balanceAmt">
+                                        <p>Balance: </p><span class="balancewaves">{{transfer.availableBalance}}</span>
+                                    </div>
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>DESCRIPTION</th>
+                                            <th>INPUT</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Recipient's Address</td>
+                                                <td>
+                                                    <div class="form-field">
+                                                        <input class="wInput form-control" name="assetRecipient" type="text" placeholder="Recipient" ng-model="transfer.recipient" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Amount</td>
+                                                <td>
+                                                    <div class="form-field">
+                                                        <input class="wInput form-control" name="assetAmount" type="text" placeholder="Amount" ng-model="transfer.amount" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee</td>
+                                                <td>
+                                                    <md-autocomplete md-input-name="assetFee" md-selected-item="transfer.autocomplete.selectedFee" md-search-text="transfer.autocomplete.searchText"
+                                                                     md-items="item in transfer.autocomplete.querySearch(transfer.autocomplete.searchText)"
+                                                                     md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
+                                                                     md-menu-class="popup-autocomplete" ng-class="{'wInput-error': !transfer.fee.isValid}">
+                                                        <md-item-template>
+                                                            <span md-highlight-text="transfer.autocomplete.searchText">{{item.displayText}}</span>
+                                                        </md-item-template>
+                                                    </md-autocomplete>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- / PORTFOLIO TAB -->
@@ -734,6 +783,7 @@
     <script src="js/shared/notification.service.js"></script>
     <script src="js/shared/transaction.loading.service.js"></script>
     <script src="js/shared/transaction.filter.js"></script>
+    <script src="js/shared/shared.autocomplete.js"></script>
 
     <script src="js/login/login.module.js"></script>
     <script src="js/login/login.constants.js"></script>
@@ -764,6 +814,7 @@
 
     <script src="js/portfolio/portfolio.module.js"></script>
     <script src="js/portfolio/asset.list.controller.js"></script>
+    <script src="js/portfolio/asset.transfer.controller.js"></script>
     <script src="js/portfolio/asset.filter.js"></script>
 
     <script src="js/style.js"></script>

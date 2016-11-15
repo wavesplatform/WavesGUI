@@ -1,14 +1,14 @@
 (function () {
     'use strict';
 
-    function WavesAssetListController($scope, $interval, applicationContext, apiService, formattingService) {
+    function WavesAssetListController($scope, $interval, events, applicationContext,
+                                      apiService, formattingService, dialogService) {
         var assetList = this;
         var refreshPromise;
         var refreshDelay = 15 * 1000;
 
         assetList.assets = [];
-        assetList.transferValidationOptions = {};
-
+        assetList.assetTransfer = assetTransfer;
         loadDataFromBackend();
 
         $scope.$on('$destroy', function () {
@@ -26,12 +26,17 @@
             }, refreshDelay);
         }
 
+        function assetTransfer(assetId) {
+            $scope.$broadcast(events.ASSET_SELECTED, assetId);
+            dialogService.open('#transfer-asset-dialog');
+        }
+
         function tryToLoadAssetDataFromCache(asset) {
             if (angular.isUndefined(applicationContext.cache.assets[asset.id]))
                 return false;
 
             var cached = applicationContext.cache.assets[asset.id];
-            cached.balance = new Money(asset.balance, cached.currency);
+            cached.balance = Money.fromCoins(asset.balance, cached.currency);
 
             asset.name = cached.currency.displayName;
             asset.total = cached.totalTokens.formatAmount();
@@ -80,8 +85,8 @@
         }
     }
 
-    WavesAssetListController.$inject = ['$scope', '$interval',
-        'applicationContext', 'apiService', 'formattingService'];
+    WavesAssetListController.$inject = ['$scope', '$interval', 'portfolio.events',
+        'applicationContext', 'apiService', 'formattingService', 'dialogService'];
 
     angular
         .module('app.portfolio')
