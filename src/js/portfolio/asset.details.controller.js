@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function WavesAssetDetailsController($scope, events, applicationContext) {
+    function WavesAssetDetailsController($scope, events, applicationContext, dialogService) {
         var details = this;
 
         function transformAddress(address) {
@@ -17,7 +17,7 @@
             return address === applicationContext.account.address;
         }
 
-        $scope.$on(events.ASSET_SELECTED, function (event, assetId) {
+        $scope.$on(events.ASSET_DETAILS, function (event, assetId) {
             var asset = applicationContext.cache.assets[assetId];
             if (angular.isUndefined(asset))
                 throw new Error('Failed to find asset details by id ' + assetId);
@@ -30,10 +30,12 @@
             details.timestamp = asset.timestamp;
             details.totalTokens = asset.totalTokens.formatAmount();
             details.reissuable = asset.reissuable ? 'Yes' : 'No';
+
+            dialogService.open('#asset-details-dialog');
         });
     }
 
-    WavesAssetDetailsController.$inject = ['$scope', 'portfolio.events', 'applicationContext'];
+    WavesAssetDetailsController.$inject = ['$scope', 'portfolio.events', 'applicationContext', 'dialogService'];
 
     angular
         .module('app.portfolio')

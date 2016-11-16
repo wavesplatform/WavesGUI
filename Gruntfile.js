@@ -157,6 +157,7 @@ module.exports = function (grunt) {
                         'src/js/portfolio/asset.list.controller.js',
                         'src/js/portfolio/asset.transfer.controller.js',
                         'src/js/portfolio/asset.details.controller.js',
+                        'src/js/portfolio/asset.reissue.controller.js',
                         'src/js/portfolio/asset.filter.js',
 
                         'src/js/**/*.spec.js'

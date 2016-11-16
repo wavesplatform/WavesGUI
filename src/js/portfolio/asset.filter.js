@@ -5,15 +5,20 @@
         function transformAddress (rawAddress) {
             var result = angular.isDefined(rawAddress) ? rawAddress : 'none';
 
-            if (result === applicationContext.account.address)
+            if (isMyAddress(result))
                 result = 'You';
 
             return result;
         }
 
+        function isMyAddress(address) {
+            return address === applicationContext.account.address;
+        }
+
         function formatAsset (transaction) {
             transaction.formatted = {
-                sender: transformAddress(transaction.sender)
+                sender: transformAddress(transaction.sender),
+                canReissue: transaction.reissuable && isMyAddress(transaction.sender)
             };
 
             transaction.formatted.isSenderCopiable = addressService.validateAddress(transaction.formatted.sender);

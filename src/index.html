@@ -462,7 +462,7 @@
                                     <td>{{tx.balance}}</td>
                                     <td>
                                         <button ng-click="assetList.assetTransfer(tx.id)">Transfer</button><span class="divider-2"></span>
-                                        <button>Reissue</button><span class="divider-2"></span>
+                                        <button ng-enable="tx.formatted.canReissue" ng-click="assetList.assetReissue(tx.id)">Reissue</button><span class="divider-2"></span>
                                         <button ng-click="assetList.assetDetails(tx.id)">Details</button>
                                     </td>
                                 </tr>
@@ -509,8 +509,8 @@
                                 </table>
                             </div>
                         </div>
-                        <div ng-controller="assetTransferController as transfer">
-                            <div id="transfer-asset-dialog" waves-dialog ok-button-caption="TRANSFER" on-dialog-ok="transfer.submitTransfer()">
+                        <div class="noDisp" ng-controller="assetTransferController as transfer">
+                            <div id="asset-transfer-dialog" waves-dialog ok-button-caption="TRANSFER" on-dialog-ok="transfer.submitTransfer()">
                                 <form id="transfer-asset-form" name="transferAssetForm" novalidate ng-validate="transfer.validationOptions">
                                     <h2>ASSET TRANSFER</h2>
                                     <div class="balanceAmt">
@@ -562,6 +562,63 @@
                                     <span class="confirmation-value">{{transfer.confirm.amount.currency}}</span> with
                                     <span class="confirmation-value">{{transfer.confirm.fee.value}}</span>
                                     <span class="confirmation-value">{{transfer.confirm.fee.currency}}</span> fee <br/>to the address: <span class="confirmation-value">{{transfer.confirm.recipient}}</span>
+                                </p>
+                                <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                            </div>
+                        </div>
+                        <div class="noDisp" ng-controller="assetReissueController as reissue">
+                            <div id="asset-reissue-dialog" waves-dialog ok-button-caption="REISSUE" ok-button-enabled="!reissue.confirm.pendingReissue" on-dialog-ok="reissue.submitReissue()">
+                                <form id="asset-reissue-form" name="assetReissueForm" novalidate ng-validate="reissue.validationOptions">
+                                    <h2>ASSET REISSUE</h2>
+                                    <div class="balanceAmt">
+                                        <p>Total tokens issued: </p><span class="balancewaves">{{reissue.totalTokens}}</span>
+                                    </div>
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>DESCRIPTION</th>
+                                            <th>INPUT</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Asset identifier</td>
+                                            <td>{{reissue.assetId}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Asset name</td>
+                                            <td>{{reissue.assetName}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Additional amount</td>
+                                            <td>
+                                                <div class="form-field">
+                                                    <input class="wInput form-control" name="assetAmount" type="text" placeholder="Amount" ng-model="reissue.amount" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Reissue enabled</td>
+                                            <td>
+                                                <div class="form-field">
+                                                    <input class="wInput form-control" name="assetReissue" type="checkbox" ng-model="reissue.reissuable" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fee</td>
+                                            <td>{{reissue.fee.formatAmount(true)}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                            <div id="asset-reissue-confirm-dialog" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!reissue.confirm.reissuePending" on-dialog-ok="reissue.broadcastTransaction()">
+                                <p>You are issuing additional amount of <span class="confirmation-value">{{reissue.confirm.amount.value}}</span> tokens <br/>
+                                    to the asset <span class="confirmation-value">{{reissue.confirm.amount.currency}}</span>
+                                    with <span class="confirmation-value">{{reissue.confirm.fee.value}}</span>
+                                    <span class="confirmation-value">{{reissue.confirm.fee.currency}}</span> fee
                                 </p>
                                 <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
                             </div>
@@ -865,6 +922,7 @@
     <script src="js/portfolio/asset.list.controller.js"></script>
     <script src="js/portfolio/asset.transfer.controller.js"></script>
     <script src="js/portfolio/asset.details.controller.js"></script>
+    <script src="js/portfolio/asset.reissue.controller.js"></script>
     <script src="js/portfolio/asset.filter.js"></script>
 
     <script src="js/style.js"></script>

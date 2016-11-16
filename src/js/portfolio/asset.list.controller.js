@@ -10,6 +10,7 @@
         assetList.assets = [];
         assetList.assetTransfer = assetTransfer;
         assetList.assetDetails = assetDetails;
+        assetList.assetReissue = assetReissue;
         loadDataFromBackend();
 
         $scope.$on('$destroy', function () {
@@ -28,13 +29,15 @@
         }
 
         function assetTransfer(assetId) {
-            $scope.$broadcast(events.ASSET_SELECTED, assetId);
-            dialogService.open('#transfer-asset-dialog');
+            $scope.$broadcast(events.ASSET_TRANSFER, assetId);
         }
 
         function assetDetails(assetId) {
-            $scope.$broadcast(events.ASSET_SELECTED, assetId);
-            dialogService.open('#asset-details-dialog');
+            $scope.$broadcast(events.ASSET_DETAILS, assetId);
+        }
+
+        function assetReissue(assetId) {
+            $scope.$broadcast(events.ASSET_REISSUE, assetId);
         }
 
         function tryToLoadAssetDataFromCache(asset) {

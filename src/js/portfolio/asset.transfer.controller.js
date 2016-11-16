@@ -23,7 +23,6 @@
         };
         transfer.autocomplete = autocomplete;
         transfer.validationOptions = {
-            debug: true,
             rules: {
                 assetRecipient: {
                     required: true,
@@ -61,7 +60,7 @@
 
         resetPaymentForm();
 
-        $scope.$on(events.ASSET_SELECTED, function (event, assetId) {
+        $scope.$on(events.ASSET_TRANSFER, function (event, assetId) {
             var asset = applicationContext.cache.assets[assetId];
             transfer.availableBalance = asset.balance.formatAmount();
             transfer.asset = asset;
@@ -75,6 +74,8 @@
                 ' digits after the decimal point (.)';
             transfer.validationOptions.messages.assetAmount.min = 'Payment amount is too small. ' +
                 'It should be greater or equal to ' + minimumPayment.formatAmount(false);
+
+            dialogService.open('#asset-transfer-dialog');
         });
 
         function getTransferForm() {
@@ -139,7 +140,7 @@
                 var amount = Money.fromCoins(transaction.amount, transfer.asset);
                 var address = transaction.recipient;
                 var displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
-                    transaction.asset.currency.displayName +
+                    transfer.asset.currency.displayName +
                     '<br/>Recipient ' + address.substr(0,15) + '...<br/>Date: ' +
                     formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
