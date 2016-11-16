@@ -9,6 +9,7 @@
 
         assetList.assets = [];
         assetList.assetTransfer = assetTransfer;
+        assetList.assetDetails = assetDetails;
         loadDataFromBackend();
 
         $scope.$on('$destroy', function () {
@@ -29,6 +30,11 @@
         function assetTransfer(assetId) {
             $scope.$broadcast(events.ASSET_SELECTED, assetId);
             dialogService.open('#transfer-asset-dialog');
+        }
+
+        function assetDetails(assetId) {
+            $scope.$broadcast(events.ASSET_SELECTED, assetId);
+            dialogService.open('#asset-details-dialog');
         }
 
         function tryToLoadAssetDataFromCache(asset) {

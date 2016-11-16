@@ -463,11 +463,52 @@
                                     <td>
                                         <button ng-click="assetList.assetTransfer(tx.id)">Transfer</button><span class="divider-2"></span>
                                         <button>Reissue</button><span class="divider-2"></span>
-                                        <button>Details</button>
+                                        <button ng-click="assetList.assetDetails(tx.id)">Details</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="noDisp" ng-controller="assetDetailsController as details">
+                            <div id="asset-details-dialog" waves-dialog cancel-button-visible="false">
+                                <h2>ASSET DETAILS</h2>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>Issuer address:</td>
+                                            <td ng-if="!details.isSenderCopiable">{{details.sender}}</td>
+                                            <td ng-if="details.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{details.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{details.sender}}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Identifier:</td>
+                                            <td><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{details.assetId}}" title="Copy this asset id to the clipboard." ngclipboard-success="clipboardOk()">{{details.assetId}}</span></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Name:</td>
+                                            <td>{{details.name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">Details:</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">{{details.description}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total tokens:</td>
+                                            <td>{{details.totalTokens}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Reissuable:</td>
+                                            <td>{{details.reissuable}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Issue date:</td>
+                                            <td>{{details.timestamp | formatting}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         <div ng-controller="assetTransferController as transfer">
                             <div id="transfer-asset-dialog" waves-dialog ok-button-caption="TRANSFER" on-dialog-ok="transfer.submitTransfer()">
                                 <form id="transfer-asset-form" name="transferAssetForm" novalidate ng-validate="transfer.validationOptions">
@@ -823,6 +864,7 @@
     <script src="js/portfolio/portfolio.module.js"></script>
     <script src="js/portfolio/asset.list.controller.js"></script>
     <script src="js/portfolio/asset.transfer.controller.js"></script>
+    <script src="js/portfolio/asset.details.controller.js"></script>
     <script src="js/portfolio/asset.filter.js"></script>
 
     <script src="js/style.js"></script>
