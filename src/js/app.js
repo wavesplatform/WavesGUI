@@ -25,7 +25,8 @@ var app = angular.module('app', [
     'app.wallet',
     'app.tokens',
     'app.history',
-    'app.community'
+    'app.community',
+    'app.portfolio'
 ]).config(AngularApplicationConfig).run(AngularApplicationRun);
 
 function AngularApplicationConfig($validatorProvider) {
@@ -55,7 +56,7 @@ function AngularApplicationConfig($validatorProvider) {
     $validatorProvider.addMethod('decimal', function(value, element, params) {
         var maxdigits = angular.isNumber(params) ? params : Currency.WAV.precision;
 
-        var regex = new RegExp('^(?:-?\\d+)?(?:\\.\\d{1,' + maxdigits + '})?$');
+        var regex = new RegExp('^(?:-?\\d+)?(?:\\.\\d{0,' + maxdigits + '})?$');
         return this.optional(element) || regex.test(value);
     }, 'Amount is expected with a dot (.) as a decimal separator with no more than {0} fraction digits');
     $validatorProvider.addMethod('password', function(value, element) {
@@ -78,10 +79,10 @@ function AngularApplicationRun(rest, coreConstants, notificationService, address
     rest.setDefaultHttpFields({
         timeout: 10000 // milliseconds
     });
-    //var url = coreConstants.NODE_ADDRESS;
+    var url = coreConstants.NODE_ADDRESS;
     //var url = 'http://52.28.66.217:6869';
     //var url = 'http://52.77.111.219:6869';
-    var url = 'http://127.0.0.1:6869';
+    //var url = 'http://127.0.0.1:6869';
     rest.setBaseUrl(url);
 
     // override mock methods cos in config phase services are not available yet

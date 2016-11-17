@@ -5,6 +5,7 @@
     var ASSET_NAME_MIN = 4;
     var ASSET_NAME_MAX = 16;
     var TOKEN_DECIMALS_MAX = 8;
+    var FIXED_ISSUE_FEE = new Money(1, Currency.WAV);
 
     function TokenCreateController(constants, applicationContext, assetService, dialogService, apiService,
                                    notificationService, formattingService) {
@@ -54,7 +55,9 @@
                 }
             }
         };
-        ctrl.asset = {};
+        ctrl.asset = {
+            fee: FIXED_ISSUE_FEE
+        };
         ctrl.confirm = {
             pendingIssuance: false
         };
@@ -73,9 +76,9 @@
                 name: ctrl.asset.name,
                 description: ctrl.asset.description,
                 totalTokens: ctrl.asset.totalTokens,
-                decimalPlaces: ctrl.asset.decimalPlaces,
+                decimalPlaces: Number(ctrl.asset.decimalPlaces),
                 reissuable: ctrl.asset.reissuable,
-                time: utilityService.getTime()
+                fee: ctrl.asset.fee
             };
 
             var sender = {
@@ -102,12 +105,16 @@
 
             // disable confirm button
             ctrl.confirm.pendingIssuance = true;
-            apiService.assets.issue(transaction).then(function () {
+            apiService.assets.issue(transaction).then(function (response) {
                 var displayMessage = 'Asset ' + ctrl.confirm.name + ' has been issued!<br/>' +
                     'Total tokens amount: ' + ctrl.confirm.totalTokens + '<br/>' +
                     'Date: ' + formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
+
+                applicationContext.cache.assets.put(response);
+
                 transaction = undefined;
+                ctrl.confirm.pendingIssuance = false;
                 resetIssueAssetForm();
             }, function (response) {
                 if (angular.isDefined(response.data))
@@ -125,7 +132,7 @@
             ctrl.asset.name = '';
             ctrl.asset.description = '';
             ctrl.asset.totalTokens = '0';
-            ctrl.asset.tokenDecimalPlaces = '0';
+            ctrl.asset.decimalPlaces = '0';
             ctrl.asset.reissuable = false;
         }
     }

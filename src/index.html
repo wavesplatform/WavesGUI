@@ -438,7 +438,7 @@
 
                 <!-- PORTFOLIO TAB -->
                 <div id="mBB-portfolio" class="mBB-content" ng-switch-when="portfolio">
-                    <div class="phContent">
+                    <div class="phContent" ng-controller="assetListController as assetList">
                         <h1>PORTFOLIO</h1>
                         <table>
                             <thead>
@@ -450,25 +450,179 @@
                                     <td>OPTIONS</td>
                                 </tr>
                             </thead>
-                            <tbody ng-if="false">
-                                <tr>
+                            <tbody ng-switch on="assetList.assets.length">
+                                <tr ng-switch-when="0">
                                     <td colspan="5">You do not own or issued any assets</td>
                                 </tr>
-                            </tbody>
-                            <tbody ng-if="true">
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                <tr ng-switch-default ng-repeat="tx in assetList.assets | orderBy:'timestamp':true | asset track by tx.id">
+                                    <td>{{tx.name}}</td>
+                                    <td ng-if="!tx.formatted.isSenderCopiable">{{tx.formatted.sender}}</td>
+                                    <td ng-if="tx.formatted.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.sender}}</span></td>
+                                    <td>{{tx.reissuable}}</td>
+                                    <td>{{tx.balance}}</td>
                                     <td>
-                                        <button>Send</button><span class="divider-2"></span>
-                                        <button>Reissue</button><span class="divider-2"></span>
-                                        <button>Details</button>
+                                        <button ng-click="assetList.assetTransfer(tx.id)">Transfer</button><span class="divider-2"></span>
+                                        <button ng-enable="tx.formatted.canReissue" ng-click="assetList.assetReissue(tx.id)">Reissue</button><span class="divider-2"></span>
+                                        <button ng-click="assetList.assetDetails(tx.id)">Details</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="noDisp" ng-controller="assetDetailsController as details">
+                            <div id="asset-details-dialog" waves-dialog cancel-button-visible="false">
+                                <h2>ASSET DETAILS</h2>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>Issuer address:</td>
+                                            <td ng-if="!details.isSenderCopiable">{{details.sender}}</td>
+                                            <td ng-if="details.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{details.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{details.sender}}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Identifier:</td>
+                                            <td><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{details.assetId}}" title="Copy this asset id to the clipboard." ngclipboard-success="clipboardOk()">{{details.assetId}}</span></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Name:</td>
+                                            <td>{{details.name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">Details:</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">{{details.description}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total tokens:</td>
+                                            <td>{{details.totalTokens}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Reissuable:</td>
+                                            <td>{{details.reissuable}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Issue date:</td>
+                                            <td>{{details.timestamp | formatting}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="noDisp" ng-controller="assetTransferController as transfer">
+                            <div id="asset-transfer-dialog" waves-dialog ok-button-caption="TRANSFER" on-dialog-ok="transfer.submitTransfer()">
+                                <form id="transfer-asset-form" name="transferAssetForm" novalidate ng-validate="transfer.validationOptions">
+                                    <h2>ASSET TRANSFER</h2>
+                                    <div class="balanceAmt">
+                                        <p>Balance: </p><span class="balancewaves">{{transfer.availableBalance}}</span>
+                                    </div>
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>DESCRIPTION</th>
+                                            <th>INPUT</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Recipient's Address</td>
+                                                <td>
+                                                    <div class="form-field">
+                                                        <input class="wInput form-control" name="assetRecipient" type="text" placeholder="Recipient" ng-model="transfer.recipient" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Amount</td>
+                                                <td>
+                                                    <div class="form-field">
+                                                        <input class="wInput form-control" name="assetAmount" type="text" placeholder="Amount" ng-model="transfer.amount" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee</td>
+                                                <td>
+                                                    <md-autocomplete md-input-name="assetFee" md-selected-item="transfer.autocomplete.selectedFee" md-search-text="transfer.autocomplete.searchText"
+                                                                     md-items="item in transfer.autocomplete.querySearch(transfer.autocomplete.searchText)"
+                                                                     md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
+                                                                     md-menu-class="popup-autocomplete" ng-class="{'wInput-error': !transfer.fee.isValid}">
+                                                        <md-item-template>
+                                                            <span md-highlight-text="transfer.autocomplete.searchText">{{item.displayText}}</span>
+                                                        </md-item-template>
+                                                    </md-autocomplete>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                            <div id="transfer-asset-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!transfer.confirm.pendingTransfer" on-dialog-ok="transfer.broadcastTransaction()">
+                                <p>You are sending <span class="confirmation-value">{{transfer.confirm.amount.value}}</span>
+                                    <span class="confirmation-value">{{transfer.confirm.amount.currency}}</span> with
+                                    <span class="confirmation-value">{{transfer.confirm.fee.value}}</span>
+                                    <span class="confirmation-value">{{transfer.confirm.fee.currency}}</span> fee <br/>to the address: <span class="confirmation-value">{{transfer.confirm.recipient}}</span>
+                                </p>
+                                <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                            </div>
+                        </div>
+                        <div class="noDisp" ng-controller="assetReissueController as reissue">
+                            <div id="asset-reissue-dialog" waves-dialog ok-button-caption="REISSUE" ok-button-enabled="!reissue.confirm.pendingReissue" on-dialog-ok="reissue.submitReissue()">
+                                <form id="asset-reissue-form" name="assetReissueForm" novalidate ng-validate="reissue.validationOptions">
+                                    <h2>ASSET REISSUE</h2>
+                                    <div class="balanceAmt">
+                                        <p>Total tokens issued: </p><span class="balancewaves">{{reissue.totalTokens}}</span>
+                                    </div>
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>DESCRIPTION</th>
+                                            <th>INPUT</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Asset identifier</td>
+                                            <td>{{reissue.assetId}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Asset name</td>
+                                            <td>{{reissue.assetName}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Additional amount</td>
+                                            <td>
+                                                <div class="form-field">
+                                                    <input class="wInput form-control" name="assetAmount" type="text" placeholder="Amount" ng-model="reissue.amount" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Reissue enabled</td>
+                                            <td>
+                                                <div class="form-field">
+                                                    <input class="wInput form-control" name="assetReissue" type="checkbox" ng-model="reissue.reissuable" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fee</td>
+                                            <td>{{reissue.fee.formatAmount(true)}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                            <div id="asset-reissue-confirm-dialog" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!reissue.confirm.reissuePending" on-dialog-ok="reissue.broadcastTransaction()">
+                                <p>You are issuing additional amount of <span class="confirmation-value">{{reissue.confirm.amount.value}}</span> tokens <br/>
+                                    to the asset <span class="confirmation-value">{{reissue.confirm.amount.currency}}</span>
+                                    with <span class="confirmation-value">{{reissue.confirm.fee.value}}</span>
+                                    <span class="confirmation-value">{{reissue.confirm.fee.currency}}</span> fee
+                                </p>
+                                <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- / PORTFOLIO TAB -->
@@ -581,7 +735,7 @@
                                     </tr>
                                     <tr>
                                         <td>Fee</td>
-                                        <td>1,000 WAVES</td>
+                                        <td>{{::ctrl.asset.fee.formatAmount(true)}} WAVES</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -592,7 +746,7 @@
 
                         <div id="create-asset-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!ctrl.confirm.pendingIssuance" on-dialog-ok="ctrl.broadcastIssueTransaction()">
                             <p>You are creating a <span class="confirmation-value">{{ctrl.confirm.reissuable}}</span> asset named
-                                <span class="confirmation-value">{{ctrl.confirm.name}}</span> with
+                                <span class="confirmation-value">{{ctrl.confirm.name}}</span><br/> with
                                 <span class="confirmation-value">{{ctrl.confirm.totalTokens}}</span> of total tokens amount
                             </p>
                             <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
@@ -735,6 +889,7 @@
     <script src="js/shared/notification.service.js"></script>
     <script src="js/shared/transaction.loading.service.js"></script>
     <script src="js/shared/transaction.filter.js"></script>
+    <script src="js/shared/shared.autocomplete.js"></script>
 
     <script src="js/login/login.module.js"></script>
     <script src="js/login/login.constants.js"></script>
@@ -762,6 +917,13 @@
 
     <script src="js/community/community.module.js"></script>
     <script src="js/community/community.controller.js"></script>
+
+    <script src="js/portfolio/portfolio.module.js"></script>
+    <script src="js/portfolio/asset.list.controller.js"></script>
+    <script src="js/portfolio/asset.transfer.controller.js"></script>
+    <script src="js/portfolio/asset.details.controller.js"></script>
+    <script src="js/portfolio/asset.reissue.controller.js"></script>
+    <script src="js/portfolio/asset.filter.js"></script>
 
     <script src="js/style.js"></script>
 </body>

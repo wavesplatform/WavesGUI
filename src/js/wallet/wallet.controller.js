@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function WalletController($scope, $timeout, $interval, constants, applicationContext, dialogService,
+    function WalletController($scope, $timeout, $interval, constants, autocomplete, applicationContext, dialogService,
                               addressService, utilityService, apiService, notificationService, formattingService,
                               transferService, transactionLoadingService) {
         var wallet = this;
@@ -51,37 +51,7 @@
             recipient: '',
             paymentPending: false
         };
-        wallet.transfer = {
-            fees: [
-                {
-                    amount: 0.001,
-                    displayText: '0.001 WAVE (Economic)'
-                },
-                {
-                    amount: 0.0015,
-                    displayText: '0.0015 WAVE (Standard)'
-                },
-                {
-                    amount: 0.002,
-                    displayText: '0.002 WAVE (Premium)'
-                }
-            ],
-            getFeeAmount: function() {
-                return angular.isDefined(wallet.transfer.selectedFee) ?
-                    wallet.transfer.selectedFee.amount :
-                    wallet.transfer.searchText;
-            },
-            selectedFee: undefined,
-            searchText: undefined,
-            querySearch: function (searchText) {
-                if (!searchText)
-                    return wallet.transfer.fees;
-
-                return _.filter(wallet.transfer.fees, function (item) {
-                    return item.amount.toString().indexOf(searchText) !== -1;
-                });
-            }
-        };
+        wallet.transfer = autocomplete;
         wallet.paymentValidationOptions = {
             rules: {
                 wavesrecipient: {
@@ -124,7 +94,6 @@
         wallet.trade = trade;
         wallet.submitPayment = submitPayment;
         wallet.broadcastSendTransaction = broadcastSendTransaction;
-        wallet.getPaymentForm = getPaymentForm;
 
         resetPaymentForm();
         loadDataFromBackend();
@@ -165,8 +134,9 @@
 
         function submitPayment() {
             var paymentForm = getPaymentForm();
-            wallet.transfer.fee.isValid = angular.isDefined(paymentForm.invalid.wavessendfee) ?
-                paymentForm.invalid.wavessendfee : true;
+            var invalid = paymentForm.invalid();
+            wallet.transfer.fee.isValid = angular.isDefined(invalid.wavessendfee) ?
+                !invalid.wavessendfee : true;
             if (!paymentForm.validate())
                 // prevent payment dialog from closing if it's not valid
                 return false;
@@ -243,9 +213,13 @@
             });
         }
 
+        function fillUpTransactionCache (transactions) {
+            applicationContext.cache.assets.grab(transactions);
+        }
+
         function loadDataFromBackend() {
             refreshWallets();
-            refreshTransactions();
+            refreshTransactions(fillUpTransactionCache);
 
             refreshPromise = $interval(function() {
                 refreshWallets();
@@ -264,9 +238,12 @@
             });
         }
 
-        function refreshTransactions() {
+        function refreshTransactions(transactionHandler) {
             transactionLoadingService.loadTransactions(applicationContext.account.address)
                 .then(function (transactions) {
+                    if (angular.isDefined(transactionHandler))
+                        transactionHandler(transactions);
+
                     wallet.transactions = transactions;
                 });
         }
@@ -281,7 +258,8 @@
         }
     }
 
-    WalletController.$inject = ['$scope', '$timeout', '$interval', 'constants.ui', 'applicationContext',
+    WalletController.$inject = ['$scope', '$timeout', '$interval', 'constants.ui',
+        'autocomplete.fees', 'applicationContext',
         'dialogService', 'addressService', 'utilityService', 'apiService', 'notificationService',
         'formattingService', 'transferService', 'transactionLoadingService'];
 

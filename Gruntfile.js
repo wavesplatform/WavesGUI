@@ -124,6 +124,7 @@ module.exports = function (grunt) {
                         'src/js/shared/tooltipster.directive.js',
                         'src/js/shared/transaction.loading.service.js',
                         'src/js/shared/transaction.filter.js',
+                        'src/js/shared/shared.autocomplete.js',
 
                         'src/js/login/login.module.js',
                         'src/js/login/login.constants.js',
@@ -151,6 +152,13 @@ module.exports = function (grunt) {
 
                         'src/js/community/community.module.js',
                         'src/js/community/community.controller.js',
+
+                        'src/js/portfolio/portfolio.module.js',
+                        'src/js/portfolio/asset.list.controller.js',
+                        'src/js/portfolio/asset.transfer.controller.js',
+                        'src/js/portfolio/asset.details.controller.js',
+                        'src/js/portfolio/asset.reissue.controller.js',
+                        'src/js/portfolio/asset.filter.js',
 
                         'src/js/**/*.spec.js'
                     ]
