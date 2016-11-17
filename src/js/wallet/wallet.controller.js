@@ -213,9 +213,13 @@
             });
         }
 
+        function fillUpTransactionCache (transactions) {
+            applicationContext.cache.assets.grab(transactions);
+        }
+
         function loadDataFromBackend() {
             refreshWallets();
-            refreshTransactions();
+            refreshTransactions(fillUpTransactionCache);
 
             refreshPromise = $interval(function() {
                 refreshWallets();
@@ -234,9 +238,12 @@
             });
         }
 
-        function refreshTransactions() {
+        function refreshTransactions(transactionHandler) {
             transactionLoadingService.loadTransactions(applicationContext.account.address)
                 .then(function (transactions) {
+                    if (angular.isDefined(transactionHandler))
+                        transactionHandler(transactions);
+
                     wallet.transactions = transactions;
                 });
         }
