@@ -93,7 +93,7 @@
 
                         <!-- Seed input -->
                         <div id="create-seed" ng-controller="accountSeedController as vm" ng-show="accounts.mode === 'create-seed'">
-                            <form id="account-seed-form" name="accountSeedForm" ng-submit="accountSeedForm.$valid && vm.checkSeedAndRegister()" novalidate>
+                            <form id="account-seed-form" name="accountSeedForm" ng-submit="vm.checkSeedAndRegister(accountSeedForm)" novalidate ng-validate="vm.validationOptions">
                                 <br/>
                                 <button id="generateRandomSeed" class="wButton fade" ng-click="vm.generateSeed()" type="button">GENERATE NEW SEED</button>
                                 <br/><br/>
@@ -102,13 +102,9 @@
                                 <label for="walletSeed">WALLET SEED</label>
                                     <br/>
 
-                                    <textarea id="walletSeed" rows="3" name="walletSeed" class="wInput" focus-me="accounts.mode === 'create-seed'" ng-class="{ 'wInput-error' : (accountSeedForm.$submitted || accountSeedForm.walletSeed.$touched) && accountSeedForm.walletSeed.$invalid }" ng-model="vm.seed" ng-change="vm.refreshAddress()" ng-model-options="{ debounce: 750 }" ng-trim="false" required minlength="25"></textarea>
+                                    <textarea id="walletSeed" rows="3" name="walletSeed" class="wInput" focus-me="accounts.mode === 'create-seed'" ng-model="vm.seed" ng-change="vm.refreshAddress()" ng-model-options="{ debounce: 750 }" ng-trim="false"></textarea>
                                     <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" data-clipboard-message-success="Wallet seed has been successfully copied to clipboard" ></span>
                                     <br/>
-                                    <div ng-messages="accountSeedForm.walletSeed.$error" ng-if="accountSeedForm.$submitted || accountSeedForm.walletSeed.$touched">
-                                        <p ng-message="required">Wallet seed is required</p>
-                                        <p ng-message="minlength">Wallet seed is too short. A secure wallet seed <br/>should contain more than 25 characters</p>
-                                    </div>
                                 </div>
                                 <br/>
 
@@ -123,7 +119,7 @@
 
                                 <button class="wButton fade" type="submit">REGISTER ACCOUNT</button>
                                 <span class="divider-2"></span>
-                                <button class="wButton fade" ng-click="accountSeedForm.$setPristine() || vm.back()">BACK</button>
+                                <button class="wButton fade" type="reset" ng-click="vm.back()">BACK</button>
 
                                 <div id="seed-whitespace-popup" waves-dialog on-dialog-ok="vm.registerAccount()" closeable="false" ok-button-caption="PROCEED">
                                     <h2>SEED NOTICE</h2>
