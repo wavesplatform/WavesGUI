@@ -1,6 +1,12 @@
 (function () {
     'use strict';
 
+    var SCREENS = {
+        splash: 'splash-screen',
+        accounts: 'accounts-screen',
+        main: 'main-screen'
+    };
+
     function HomeController($scope, $window, events, constants,
                             dialogService, applicationContext, notificationService) {
         function isTestnet() {
@@ -8,9 +14,7 @@
         }
 
         var home = this;
-        home.splashVisible = true;
-        home.accountsVisible = true;
-        home.mainViewVisible = false;
+        home.screen = SCREENS.splash;
         home.isTestnet = isTestnet;
         home.featureUnderDevelopment = featureUnderDevelopment;
         home.logout = logout;
@@ -20,10 +24,7 @@
         home.version = constants.CLIENT_VERSION;
 
         $scope.$on(events.SPLASH_COMPLETED, function () {
-            home.splashVisible = false;
-            home.accountsVisible = true;
-
-            //todo: add fade animation on splash close
+            home.screen = SCREENS.accounts;
         });
 
         $scope.clipboardOk = function (message) {
@@ -34,8 +35,8 @@
         $scope.$on(events.LOGIN_SUCCESSFUL, function (event, account) {
             // putting the current account to the app context
             applicationContext.account = account;
-            home.accountsVisible = false;
-            home.mainViewVisible = true;
+
+            home.screen = SCREENS.main;
         });
 
         function featureUnderDevelopment() {

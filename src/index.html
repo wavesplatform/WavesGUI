@@ -30,10 +30,10 @@
 	<link href="img/favicon.ico" type="image/x-icon" rel="shortcut icon"/>
 </head>
 
-<body ng-controller="homeController as home">
+<body ng-controller="homeController as home" ng-switch on="home.screen">
 
 <!-- LOADER -->
-    <div ng-controller="splashController as splash" id="bg-spin" class="noSelect" ng-show="splashVisible">
+    <div ng-controller="splashController as splash" id="bg-spin" class="noSelect"  ng-switch-when="splash-screen">
         <div id="logo-container-centered" class="centerIt">
             <div id="logoo">
                 <img id="logo-spin" src="img/logo-spin.svg" />
@@ -43,7 +43,7 @@
     </div>
 
     <!-- LOG IN AREA -->
-    <div id="lockscreen" class="userBG" ng-controller="accountsController as accounts" ng-if="home.accountsVisible" ng-cloak>
+    <div id="lockscreen" class="userBG" ng-controller="accountsController as accounts" ng-switch-when="accounts-screen" ng-cloak>
         <table id="lockscreenTable">
 
             <thead>
@@ -235,7 +235,7 @@
         </table>
     </div>
 
-	<div id="wrapper" ng-if="home.mainViewVisible" ng-cloak>
+	<div id="wrapper" ng-switch-when="main-screen" ng-cloak>
         <!-- shared blocks -->
         <div id="feat-not-active" waves-dialog show-buttons="false" is-error="true">
             <h2>NOTICE</h2>
