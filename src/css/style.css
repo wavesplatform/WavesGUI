@@ -1067,7 +1067,7 @@ span.tabs-radio img.selected {
     min-width: 250px;
 }
 .wInput-error {
-    border: 2px solid #9C0005;
+    border: 2px solid #9C0005 !important;
 }
 
 /* ======================================================================= */
@@ -1194,6 +1194,11 @@ span.tabs-radio img.selected {
 
 .md-virtual-repeat-container.md-autocomplete-suggestions-container {
     z-index: 160;
+}
+
+.md-whiteframe-z1 {
+    border: 1px solid #D7D7D7;
+    box-shadow: none;
 }
 
 /* ======================================================================= */

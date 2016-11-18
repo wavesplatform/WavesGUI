@@ -33,7 +33,7 @@
 <body ng-controller="homeController as home" ng-switch on="home.screen">
 
 <!-- LOADER -->
-    <div ng-controller="splashController as splash" id="bg-spin" class="noSelect"  ng-switch-when="splash-screen">
+    <div ng-controller="splashController as splash" id="bg-spin" class="noSelect" ng-show="home.screen === 'splash-screen'">
         <div id="logo-container-centered" class="centerIt">
             <div id="logoo">
                 <img id="logo-spin" src="img/logo-spin.svg" />
