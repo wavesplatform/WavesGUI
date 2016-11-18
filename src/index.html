@@ -151,7 +151,7 @@
 
                         <!-- store account on the current device -->
                         <div id="register" ng-controller="accountRegisterController as vm" ng-show="accounts.mode === 'register'">
-                            <form id="register-form" name="registerForm" novalidate ng-submit="registerForm.$valid && vm.saveAccountAndSignIn()">
+                            <form id="register-form" name="registerForm" novalidate ng-submit="vm.saveAccountAndSignIn(registerForm)" ng-validate="vm.validationOptions">
                                 <div class="wPop-content">
                                     <label for="readonlySeed">WALLET SEED</label>
                                     <br/>
@@ -191,28 +191,19 @@
                                                 place at all times."></span>
                                         </label>
                                         <br/>
-                                        <input type="password" id="walletPassword" name="walletPassword" class="wInput" ng-class="{ 'wInput-error' : (registerForm.$submitted || registerForm.walletPassword.$touched) && registerForm.walletPassword.$invalid }" ng-model="vm.password" required password-strength minlength="8"/>
-                                        <div ng-messages="registerForm.walletPassword.$error" ng-if="registerForm.$submitted || registerForm.walletPassword.$touched">
-                                            <p ng-message="required">Password is required</p>
-                                            <p ng-message="minlength">Password length must be at least 8 symbols</p>
-                                            <p ng-message="passwordStrength">The password is too weak. A good password<br/> must contain at least one digit,<br/> one uppercase and one lowercase letter</p>
-                                        </div>
+                                        <input type="password" id="walletPassword" name="walletPassword" class="wInput" ng-model="vm.password"/>
                                     </div>
                                     <br/>
                                     <div class="form-field">
                                         <label for="walletPasswordConfirm">REPEAT PASSWORD</label>
                                         <br/>
-                                        <input type="password" id="walletPasswordConfirm" name="walletPasswordConfirm" class="wInput" ng-class="{ 'wInput-error' : (registerForm.$submitted || registerForm.walletPasswordConfirm.$touched) && registerForm.walletPasswordConfirm.$invalid }" ng-model="vm.confirmPassword" required match="walletPassword"/>
-                                        <div ng-messages="registerForm.walletPasswordConfirm.$error" ng-if="registerForm.$submitted || registerForm.walletPasswordConfirm.$touched">
-                                            <p ng-message="required">Password confirmation is required</p>
-                                            <p ng-message="match">Passwords do not match</p>
-                                        </div>
+                                        <input type="password" id="walletPasswordConfirm" name="walletPasswordConfirm" class="wInput" ng-model="vm.confirmPassword"/>
                                     </div>
                                     <br/>
 
                                     <button class="wButton fade" type="submit">REGISTER</button>
                                     <span class="divider-2"></span>
-                                    <button class="wButton fade" ng-click="vm.cancel()">CANCEL</button>
+                                    <button class="wButton fade" type="reset" ng-click="vm.cancel()">CANCEL</button>
                                 </div>
                             </form>
                         </div>

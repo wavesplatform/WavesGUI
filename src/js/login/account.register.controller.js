@@ -4,6 +4,28 @@
     function AccountRegisterController($scope, accountService, cryptoService, loginContext) {
         var vm = this;
 
+        vm.validationOptions = {
+            onfocusout: false,
+            rules: {
+                walletPassword: {
+                    required: true,
+                    minlength: 8,
+                    password: true
+                },
+                walletPasswordConfirm: {
+                    equalTo: '#walletPassword'
+                }
+            },
+            messages: {
+                walletPassword: {
+                    required: 'A password is required to store your seed safely',
+                    minlength: 'Password must be 8 characters or longer'
+                },
+                walletPasswordConfirm: {
+                    equalTo: 'Passwords do not match'
+                }
+            }
+        };
         vm.saveAccountAndSignIn = saveAccountAndSignIn;
         vm.cancel = cancel;
         vm.seed = function (seed) {
@@ -16,7 +38,10 @@
             vm.confirmPassword = '';
         }
 
-        function saveAccountAndSignIn() {
+        function saveAccountAndSignIn(form) {
+            if (!form.validate())
+                return false;
+
             var seed = loginContext.seed;
             var cipher = cryptoService.encryptWalletSeed(seed, vm.password).toString();
             var keys = cryptoService.getKeyPair(seed);
@@ -36,6 +61,8 @@
             loginContext.notifySignedIn($scope, address, seed, keys);
 
             cleanup();
+
+            return true;
         }
 
         function cancel() {
