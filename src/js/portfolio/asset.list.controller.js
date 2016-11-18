@@ -41,8 +41,11 @@
         }
 
         function tryToLoadAssetDataFromCache(asset) {
-            if (angular.isUndefined(applicationContext.cache.assets[asset.id]))
+            if (angular.isUndefined(applicationContext.cache.assets[asset.id])) {
+                asset.balance = 'Loading';
+
                 return false;
+            }
 
             var cached = applicationContext.cache.assets[asset.id];
             cached.balance = Money.fromCoins(asset.balance, cached.currency);

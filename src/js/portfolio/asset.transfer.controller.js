@@ -30,8 +30,8 @@
                 },
                 assetAmount: {
                     required: true,
-                    decimal: 0,
-                    min: 1
+                    decimal: 0, // stub value updated on validation
+                    min: 1      // stub value updated on validation
                 },
                 assetFee: {
                     required: true,
