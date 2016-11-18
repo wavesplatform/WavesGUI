@@ -30,10 +30,10 @@
 	<link href="img/favicon.ico" type="image/x-icon" rel="shortcut icon"/>
 </head>
 
-<body ng-controller="homeController as home">
+<body ng-controller="homeController as home" ng-switch on="home.screen">
 
 <!-- LOADER -->
-    <div ng-controller="splashController as splash" id="bg-spin" class="noSelect" ng-show="splashVisible">
+    <div ng-controller="splashController as splash" id="bg-spin" class="noSelect" ng-show="home.screen === 'splash-screen'">
         <div id="logo-container-centered" class="centerIt">
             <div id="logoo">
                 <img id="logo-spin" src="img/logo-spin.svg" />
@@ -43,7 +43,7 @@
     </div>
 
     <!-- LOG IN AREA -->
-    <div id="lockscreen" class="userBG" ng-controller="accountsController as accounts" ng-if="home.accountsVisible" ng-cloak>
+    <div id="lockscreen" class="userBG" ng-controller="accountsController as accounts" ng-switch-when="accounts-screen" ng-cloak>
         <table id="lockscreenTable">
 
             <thead>
@@ -93,7 +93,7 @@
 
                         <!-- Seed input -->
                         <div id="create-seed" ng-controller="accountSeedController as vm" ng-show="accounts.mode === 'create-seed'">
-                            <form id="account-seed-form" name="accountSeedForm" ng-submit="accountSeedForm.$valid && vm.checkSeedAndRegister()" novalidate>
+                            <form id="account-seed-form" name="accountSeedForm" ng-submit="vm.checkSeedAndRegister(accountSeedForm)" novalidate ng-validate="vm.validationOptions">
                                 <br/>
                                 <button id="generateRandomSeed" class="wButton fade" ng-click="vm.generateSeed()" type="button">GENERATE NEW SEED</button>
                                 <br/><br/>
@@ -102,13 +102,9 @@
                                 <label for="walletSeed">WALLET SEED</label>
                                     <br/>
 
-                                    <textarea id="walletSeed" rows="3" name="walletSeed" class="wInput" focus-me="accounts.mode === 'create-seed'" ng-class="{ 'wInput-error' : (accountSeedForm.$submitted || accountSeedForm.walletSeed.$touched) && accountSeedForm.walletSeed.$invalid }" ng-model="vm.seed" ng-change="vm.refreshAddress()" ng-model-options="{ debounce: 750 }" ng-trim="false" required minlength="25"></textarea>
+                                    <textarea id="walletSeed" rows="3" name="walletSeed" class="wInput" focus-me="accounts.mode === 'create-seed'" ng-model="vm.seed" ng-change="vm.refreshAddress()" ng-model-options="{ debounce: 750 }" ng-trim="false"></textarea>
                                     <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" data-clipboard-message-success="Wallet seed has been successfully copied to clipboard" ></span>
                                     <br/>
-                                    <div ng-messages="accountSeedForm.walletSeed.$error" ng-if="accountSeedForm.$submitted || accountSeedForm.walletSeed.$touched">
-                                        <p ng-message="required">Wallet seed is required</p>
-                                        <p ng-message="minlength">Wallet seed is too short. A secure wallet seed <br/>should contain more than 25 characters</p>
-                                    </div>
                                 </div>
                                 <br/>
 
@@ -123,7 +119,7 @@
 
                                 <button class="wButton fade" type="submit">REGISTER ACCOUNT</button>
                                 <span class="divider-2"></span>
-                                <button class="wButton fade" ng-click="accountSeedForm.$setPristine() || vm.back()">BACK</button>
+                                <button class="wButton fade" type="reset" ng-click="vm.back()">BACK</button>
 
                                 <div id="seed-whitespace-popup" waves-dialog on-dialog-ok="vm.registerAccount()" closeable="false" ok-button-caption="PROCEED">
                                     <h2>SEED NOTICE</h2>
@@ -155,7 +151,7 @@
 
                         <!-- store account on the current device -->
                         <div id="register" ng-controller="accountRegisterController as vm" ng-show="accounts.mode === 'register'">
-                            <form id="register-form" name="registerForm" novalidate ng-submit="registerForm.$valid && vm.saveAccountAndSignIn()">
+                            <form id="register-form" name="registerForm" novalidate ng-submit="vm.saveAccountAndSignIn(registerForm)" ng-validate="vm.validationOptions">
                                 <div class="wPop-content">
                                     <label for="readonlySeed">WALLET SEED</label>
                                     <br/>
@@ -195,28 +191,19 @@
                                                 place at all times."></span>
                                         </label>
                                         <br/>
-                                        <input type="password" id="walletPassword" name="walletPassword" class="wInput" ng-class="{ 'wInput-error' : (registerForm.$submitted || registerForm.walletPassword.$touched) && registerForm.walletPassword.$invalid }" ng-model="vm.password" required password-strength minlength="8"/>
-                                        <div ng-messages="registerForm.walletPassword.$error" ng-if="registerForm.$submitted || registerForm.walletPassword.$touched">
-                                            <p ng-message="required">Password is required</p>
-                                            <p ng-message="minlength">Password length must be at least 8 symbols</p>
-                                            <p ng-message="passwordStrength">The password is too weak. A good password<br/> must contain at least one digit,<br/> one uppercase and one lowercase letter</p>
-                                        </div>
+                                        <input type="password" id="walletPassword" name="walletPassword" class="wInput" ng-model="vm.password"/>
                                     </div>
                                     <br/>
                                     <div class="form-field">
                                         <label for="walletPasswordConfirm">REPEAT PASSWORD</label>
                                         <br/>
-                                        <input type="password" id="walletPasswordConfirm" name="walletPasswordConfirm" class="wInput" ng-class="{ 'wInput-error' : (registerForm.$submitted || registerForm.walletPasswordConfirm.$touched) && registerForm.walletPasswordConfirm.$invalid }" ng-model="vm.confirmPassword" required match="walletPassword"/>
-                                        <div ng-messages="registerForm.walletPasswordConfirm.$error" ng-if="registerForm.$submitted || registerForm.walletPasswordConfirm.$touched">
-                                            <p ng-message="required">Password confirmation is required</p>
-                                            <p ng-message="match">Passwords do not match</p>
-                                        </div>
+                                        <input type="password" id="walletPasswordConfirm" name="walletPasswordConfirm" class="wInput" ng-model="vm.confirmPassword"/>
                                     </div>
                                     <br/>
 
                                     <button class="wButton fade" type="submit">REGISTER</button>
                                     <span class="divider-2"></span>
-                                    <button class="wButton fade" ng-click="vm.cancel()">CANCEL</button>
+                                    <button class="wButton fade" type="reset" ng-click="vm.cancel()">CANCEL</button>
                                 </div>
                             </form>
                         </div>
@@ -248,7 +235,7 @@
         </table>
     </div>
 
-	<div id="wrapper" ng-if="home.mainViewVisible" ng-cloak>
+	<div id="wrapper" ng-switch-when="main-screen" ng-cloak>
         <!-- shared blocks -->
         <div id="feat-not-active" waves-dialog show-buttons="false" is-error="true">
             <h2>NOTICE</h2>
@@ -841,12 +828,10 @@
     <!-- angular -->
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="../bower_components/angular-messages/angular-messages.js"></script>
     <script src="../bower_components/angular-animate/angular-animate.js"></script>
     <script src="../bower_components/angular-aria/angular-aria.js"></script>
     <script src="../bower_components/angular-material/angular-material.js"></script>
     <script src="../bower_components/restangular/dist/restangular.js"></script>
-    <script src="../bower_components/angular-validation-match/dist/angular-validation-match.js"></script>
 
     <!-- utilities -->
     <script src="../bower_components/underscore/underscore.js"></script>
@@ -883,9 +868,6 @@
     <script src="js/shared/shared.dialog.directive.js"></script>
     <script src="js/shared/focus.directive.js"></script>
     <script src="js/shared/tooltipster.directive.js"></script>
-    <script src="js/shared/password.strength.directive.js"></script>
-    <script src="js/shared/address.directive.js"></script>
-    <script src="js/shared/decimal.directive.js"></script>
     <script src="js/shared/notification.service.js"></script>
     <script src="js/shared/transaction.loading.service.js"></script>
     <script src="js/shared/transaction.filter.js"></script>
