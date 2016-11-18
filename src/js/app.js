@@ -14,7 +14,6 @@ var app = angular.module('app', [
     'waves.core',
 
     'ngclipboard',
-    'ngMessages',
     'ngAnimate',
     'ngMaterial',
     'ngValidate',
