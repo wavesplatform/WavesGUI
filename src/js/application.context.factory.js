@@ -10,7 +10,6 @@
             if (angular.isDefined(asset)) {
                 var reissued = Money.fromCoins(reissuedAmount, asset.currency);
                 asset.totalTokens = asset.totalTokens.plus(reissued);
-                console.log(asset.totalTokens.formatAmount());
             }
         }
 

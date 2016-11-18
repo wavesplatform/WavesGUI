@@ -57,7 +57,11 @@
         }
 
         function processAssetTransferTransaction(transaction) {
+            var asset = applicationContext.cache.assets[transaction.assetId];
+            if (angular.isUndefined(asset))
+                return;
 
+            transaction.formatted.amount = Money.fromCoins(transaction.amount, asset.currency).formatAmount();
         }
 
         function processAssetReissueTransaction(transaction) {

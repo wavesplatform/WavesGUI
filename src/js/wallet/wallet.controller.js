@@ -1,9 +1,9 @@
 (function () {
     'use strict';
 
-    function WalletController($scope, $timeout, $interval, constants, autocomplete, applicationContext, dialogService,
-                              addressService, utilityService, apiService, notificationService, formattingService,
-                              transferService, transactionLoadingService) {
+    function WavesWalletController($scope, $timeout, $interval, constants, autocomplete, applicationContext,
+                              dialogService, addressService, utilityService, apiService, notificationService,
+                              formattingService, transferService, transactionLoadingService) {
         var wallet = this;
         var transaction, refreshPromise;
         var refreshDelay = 10 * 1000;
@@ -258,12 +258,12 @@
         }
     }
 
-    WalletController.$inject = ['$scope', '$timeout', '$interval', 'constants.ui',
+    WavesWalletController.$inject = ['$scope', '$timeout', '$interval', 'constants.ui',
         'autocomplete.fees', 'applicationContext',
         'dialogService', 'addressService', 'utilityService', 'apiService', 'notificationService',
         'formattingService', 'transferService', 'transactionLoadingService'];
 
     angular
         .module('app.wallet')
-        .controller('walletController', WalletController);
+        .controller('walletController', WavesWalletController);
 })();
