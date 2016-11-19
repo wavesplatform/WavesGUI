@@ -390,13 +390,26 @@ body {
 
 /* REMOVE ACCOUNT CONFIRMATION POPUP */
 
-#login-wPop-remove {
+#account-remove-popup {
     max-width: 500px;
+    padding-bottom: 2rem;
 }
 
-#login-wPop-remove p {
-    text-align: justify;
+#account-remove-popup h2 {
+    text-align: center;
+    padding-bottom: 1rem;
 }
+
+#account-remove-popup p {
+    text-align: justify;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+#account-remove-popup button {}
+
+
+/* END OF REMOVE ACCOUNT CONFIRMATION POPUP */
 
 #accounts h2,
 #register h2 {
