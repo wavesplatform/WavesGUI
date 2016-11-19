@@ -248,6 +248,10 @@ body {
     cursor: pointer;
 }
 
+#feat-not-active {
+    max-width: 500px;
+}
+
 #feat-not-active h2,
 #feat-not-active p {
     padding-left: 2rem;
