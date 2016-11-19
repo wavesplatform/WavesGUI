@@ -406,6 +406,7 @@ body {
     padding-right: 2rem;
 }
 
+
 /* END OF REMOVE ACCOUNT CONFIRMATION POPUP */
 
 #accounts h2,
@@ -449,6 +450,10 @@ body {
 .loginAccountDiv > .wButton:hover {
     border: none;
     opacity: 1;
+}
+
+#register-form .wPop-content{
+    padding-top: 1.5rem;
 }
 
 
