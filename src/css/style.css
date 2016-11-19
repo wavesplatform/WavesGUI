@@ -1545,8 +1545,12 @@ span.tabs-radio img.selected {
     margin: 0 auto;
 }
 
+#mBB-token table tbody tr:last-child {
+    color: red;
+}
+
 #mBB-token form button {
-    
+    margin-top: 1rem;
 }
 
 /* ======================================================================= */
