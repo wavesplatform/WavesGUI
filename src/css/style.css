@@ -458,6 +458,8 @@ body {
     background: #ffffff;
     color: #555555;
     margin-bottom: 1rem;
+    text-align: center;
+    max-width: 550px;
 }
 
 #login-wPop-new h2 {
@@ -467,6 +469,7 @@ body {
 #login-wPop-new p {
     padding-left: 2rem;
     padding-right: 2rem;
+    text-align: justify;
 }
 
 
@@ -1182,15 +1185,6 @@ span.tabs-radio img.selected {
 
 
 /* Custom buttons */
-
-#login-wPop-new {
-    text-align: center;
-    max-width: 550px;
-}
-
-#login-wPop-new p {
-    text-align: justify;
-}
 
 #addContactSubmit,
 #close_create_account_modal {
