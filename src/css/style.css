@@ -456,6 +456,10 @@ body {
     padding-top: 1.5rem;
 }
 
+#readonlySeed {
+    text-align: center;
+}
+
 
 /* NEW ACCOUNT CONFIRMATION POPUP */
 
