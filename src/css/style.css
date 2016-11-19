@@ -456,7 +456,7 @@ body {
     opacity: 1;
 }
 
-#register-form .wPop-content{
+#register-form .wPop-content {
     padding-top: 1.5rem;
 }
 
@@ -907,6 +907,7 @@ span.tabs-radio img.selected {
     font-weight: 600;
 }
 
+
 /* BALANCE BOXES BUTTONS */
 
 .wB-buttons {
@@ -1344,7 +1345,7 @@ span.tabs-radio img.selected {
 }
 
 
-/* Payment form from portfilio - Temp */
+/* Payment form from portfolio - Temp */
 
 #mBB-portfolio #paymentForm {
     text-align: center;
@@ -1438,16 +1439,18 @@ span.tabs-radio img.selected {
 
 /* PORTFOLIO TAB */
 
-#portfolio {
-    padding-bottom: 1rem;
-}
-
 #mBB-portfolio {
     width: 100%;
     text-align: center;
 }
 
-#portfolio h2 {
+#mBB-portfolio table {
+    width: 100%;
+}
+
+#mBB-portfolio h2,
+#mBB-history h2,
+#mBB-token h2 {
     background-color: #ffffff;
     border: 0px solid #F0F0F0;
     text-align: center;

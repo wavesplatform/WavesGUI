@@ -419,9 +419,9 @@
 
                 <!-- PORTFOLIO TAB -->
                 <div id="mBB-portfolio" class="mBB-content" ng-switch-when="portfolio">
-                    <div class="phContent" ng-controller="assetListController as assetList">
-                        <h1>PORTFOLIO</h1>
-                        <table>
+                    <div ng-controller="assetListController as assetList">
+                        <h2>PORTFOLIO</h2>
+                        <table class="wavesTable">
                             <thead>
                                 <tr>
                                     <td>ASSET NAME</td>
@@ -682,8 +682,8 @@
                 <!-- TOKENS TAB -->
                 <div id="mBB-token" class="mBB-content" ng-switch-when="tokens">
 
-                    <div class="phContent" ng-controller="tokenCreateController as ctrl">
-                        <h1>ASSET CREATION</h1>
+                    <div ng-controller="tokenCreateController as ctrl">
+                        <h2>ASSET CREATION</h2>
                         <br/>
                         <form id="create-asset-form" name="createAssetForm" novalidate ng-validate="ctrl.issuanceValidationOptions" ng-submit="ctrl.assetIssueConfirmation(createAssetForm, $event)">
                             <table>
