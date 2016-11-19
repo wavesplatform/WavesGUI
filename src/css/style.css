@@ -638,8 +638,8 @@ header {
 
 #header-wPop-backup p,
 #backupForm {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
 #header-wPop-backup a {
@@ -1448,16 +1448,21 @@ span.tabs-radio img.selected {
     width: 100%;
 }
 
+
+/* This next rule must be created as a standard
+Angular rule or on the top area of CSS file */
+
 #mBB-portfolio h2,
 #mBB-history h2,
-#mBB-token h2 {
+#mBB-token h2,
+#header-wPop-backup h2 {
     background-color: #ffffff;
     border: 0px solid #F0F0F0;
     text-align: center;
     font-size: 1.25rem;
     color: #333333;
     letter-spacing: .2rem;
-    padding-bottom: .5rem;
+    padding-bottom: 1rem;
     font-weight: 200;
 }
 
@@ -1563,6 +1568,15 @@ span.tabs-radio img.selected {
 #mBB-token form button {
     margin-top: 1rem;
 }
+
+#mBB-token .wavesTable tbody tr:nth-child(odd):hover {
+    background: #F0F0F0;
+}
+
+#mBB-token .wavesTable tbody tr:nth-child(even):hover {
+    background: #ffffff;
+}
+
 
 /* ======================================================================= */
 
