@@ -1540,6 +1540,14 @@ span.tabs-radio img.selected {
     text-align: center;
 }
 
+#mBB-token table {
+    width: 500px;
+    margin: 0 auto;
+}
+
+#mBB-token form button {
+    
+}
 
 /* ======================================================================= */
 
@@ -1747,6 +1755,9 @@ span.tabs-radio img.selected {
     }
     .wInput {
         min-width: 50px;
+    }
+    #mBB-token table {
+        width: 100%;
     }
 }
 

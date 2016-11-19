@@ -642,9 +642,10 @@
                 <div id="mBB-history" class="mBB-content" ng-switch-when="history" ng-controller="historyController as history">
 
                     <div id="full-transaction-history" class="wavesTable" >
+                        <h2>LATEST TRANSACTIONS</h2>
                         <table>
                             <thead>
-                            <div class="wTMainHeader">LATEST TRANSACTIONS</div>
+<!--                            <div class="wTMainHeader">LATEST TRANSACTIONS</div>-->
                             <tr>
                                 <td>DATE</td>
                                 <td>TYPE</td>
@@ -684,9 +685,8 @@
 
                     <div ng-controller="tokenCreateController as ctrl">
                         <h2>ASSET CREATION</h2>
-                        <br/>
                         <form id="create-asset-form" name="createAssetForm" novalidate ng-validate="ctrl.issuanceValidationOptions" ng-submit="ctrl.assetIssueConfirmation(createAssetForm, $event)">
-                            <table>
+                            <table class="wavesTable">
                                 <thead>
                                     <tr>
                                         <td>DESCRIPTION</td>
@@ -721,7 +721,7 @@
                                 </tbody>
                             </table>
                             <div>
-                                <button type="submit">SUBMIT</button>
+                                <button class="wButton wButton-neg fade" type="submit">SUBMIT</button>
                             </div>
                         </form>
 
