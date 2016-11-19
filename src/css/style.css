@@ -23,18 +23,22 @@ Waves' palette: #0096DC                             Waves' blue *
     font-family: 'Wesli';
     src: url('../css/fonts/wesli.eot?') format('eot'), url('../css/fonts/wesli.woff') format('woff'), url('../css/fonts/wesli.ttf') format('truetype');
 }
+
 @font-face {
     font-family: 'Engo';
     src: url('../css/fonts/engo.eot?') format('eot'), url('../css/fonts/engo.woff') format('woff'), url('../css/fonts/engo.ttf') format('truetype');
 }
+
 @font-face {
     font-family: 'Sparta';
     src: url('../css/fonts/sparta.eot?') format('eot'), url('../css/fonts/sparta.woff') format('woff'), url('../css/fonts/sparta.ttf') format('truetype');
 }
+
 @font-face {
     font-family: 'Lekton';
     src: url('../css/fonts/lekton.eot?') format('eot'), url('../css/fonts/lekton.woff') format('woff'), url('../css/fonts/lekton.ttf') format('truetype');
 }
+
 
 /* ======================================================================= */
 
@@ -48,19 +52,23 @@ Waves' palette: #0096DC                             Waves' blue *
     margin: 0;
     padding: 0;
 }
+
 body {
     font-family: "Wesli";
     color: #333333;
     background: #ffffff;
 }
+
 .fade {
     transition: all .4s ease;
     -webkit-transition: all .4s ease;
 }
+
 .fFade {
     transition: all .2s ease;
     -webkit-transition: all .2s ease;
 }
+
 .centerIt {
     margin: 0;
     position: absolute;
@@ -70,6 +78,7 @@ body {
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
+
 .noSelect {
     -webkit-user-select: none;
     /* Chrome/Safari */
@@ -81,14 +90,17 @@ body {
     -o-user-select: none;
     user-select: none;
 }
+
 .noDisp {
     display: none;
 }
+
 .clearfix:after {
     content: "";
     display: block;
     clear: both;
 }
+
 .infoSpan:after {
     content: "";
     position: absolute;
@@ -100,6 +112,7 @@ body {
     margin: 0;
     margin-left: .3rem;
 }
+
 .clipSpan:after {
     content: "";
     position: absolute;
@@ -111,25 +124,31 @@ body {
     margin: 0;
     margin-left: .3rem;
 }
+
 .clipSpan:hover:after,
 .infoSpan:hover:after {
     cursor: pointer;
 }
+
 .divider-1,
 .divider-2 {
     display: inline-block;
     width: 1rem;
 }
+
 #walletSeed,
 #seedBackup {
     padding: .25rem;
 }
+
 .notice-alert {
     color: red;
 }
+
 .fontBold {
     font-weight: 600;
 }
+
 
 /* Custom Scrollbar */
 
@@ -137,15 +156,18 @@ body {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     background-color: #F5F5F5;
 }
+
 .wScroll::-webkit-scrollbar {
     width: 10px;
     background-color: #F5F5F5;
 }
+
 .wScroll::-webkit-scrollbar-thumb {
     background-color: #37556E;
     border: 1px solid #555555;
     border-radius: 4px;
 }
+
 
 /* ======================================================================= */
 
@@ -158,6 +180,7 @@ body {
     padding: 2rem;
     max-width: 80%;
 }
+
 .phContent h1 {
     border: 0px solid #F0F0F0;
     text-align: center;
@@ -166,19 +189,23 @@ body {
     letter-spacing: .2rem;
     font-weight: 200;
 }
+
 .phContent p {
     font-size: 1.2rem;
     color: #333333;
 }
+
 .phContent > img {
     margin: 0 auto;
     width: 50%;
 }
+
 @media only screen and (max-width: 1024px) {
     .phContent > img {
         width: 75%;
     }
 }
+
 @media only screen and (max-width: 728px) {
     .phContent > img {
         width: 90%;
@@ -187,6 +214,7 @@ body {
         max-width: 90%;
     }
 }
+
 @media only screen and (max-width: 620px) {
     .phContent > img {
         width: 96%;
@@ -197,10 +225,12 @@ body {
         margin-bottom: 2rem;
     }
 }
+
 .modal-media {
     margin: 0 auto;
     text-align: center;
 }
+
 .modal-media-img {
     width: 2rem;
     margin-left: .5rem;
@@ -208,13 +238,16 @@ body {
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
+
 .modal-media-img {
     opacity: .5;
 }
+
 .modal-media-img:hover {
     opacity: 1;
     cursor: pointer;
 }
+
 
 /* ======================================================================= */
 
@@ -232,6 +265,7 @@ body {
     overflow: hidden;
 }
 
+
 /* ======================================================================= */
 
 
@@ -247,6 +281,7 @@ body {
         transform: rotateY(180deg);
     }
 }
+
 @keyframes wFlip {
     0% {
         -webkit-transform: rotateY(0deg);
@@ -257,6 +292,7 @@ body {
         transform: rotateY(180deg);
     }
 }
+
 #bg-spin {
     position: fixed;
     width: 100%;
@@ -264,15 +300,18 @@ body {
     background: #37556E;
     z-index: 1;
 }
+
 #logoo {
     width: 150px;
     height: 150px;
     text-align: center;
 }
+
 #logo-spin {
     -webkit-animation: wFlip 1.2s ease-in infinite;
     animation: wFlip 1.2s ease-in infinite;
 }
+
 #networkCheck {
     width: 100%;
     color: #ffffff;
@@ -281,6 +320,7 @@ body {
     font-size: 1.25rem;
     margin-top: 1rem;
 }
+
 #lockscreen {
     position: fixed;
     top: 0;
@@ -291,6 +331,7 @@ body {
     padding: 8rem;
     overflow-y: scroll;
 }
+
 .userBG {
     background-image: -webkit-linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/lockbg005b.jpg");
     background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/lockbg005b.jpg");
@@ -300,6 +341,7 @@ body {
     background-repeat: no-repeat;
     background-position: center center;
 }
+
 #lockscreenTable {
     width: auto;
     margin: 0 auto;
@@ -310,16 +352,19 @@ body {
     cursor: default;
     overflow-y: scroll;
 }
+
 #logoNversion {
     position: relative;
     width: 12rem;
     margin: 0 auto;
     margin-bottom: 1rem;
 }
+
 #logoNversion > img {
     width: 12rem;
     margin-bottom: 1rem;
 }
+
 #logoNversion > p {
     position: absolute;
     bottom: 0;
@@ -327,18 +372,22 @@ body {
     font-size: .85rem;
     font-style: italic;
 }
+
 .testnet {
     color: #E1B47D !important;
 }
+
 
 /* REMOVE ACCOUNT CONFIRMATION POPUP */
 
 #login-wPop-remove {
     max-width: 500px;
 }
+
 #login-wPop-remove p {
     text-align: justify;
 }
+
 #accounts h2,
 #register h2 {
     font-size: 1.5rem;
@@ -349,31 +398,39 @@ body {
     background: rgba(255, 255, 255, .9);
     padding: .5rem;
 }
+
 .loginAccountDiv {
     font-size: 1.25rem;
     height: 55px;
 }
+
 .loginAccountDiv > span {
     opacity: .5;
 }
+
 .loginAccountDiv > span:hover {
     cursor: pointer;
     opacity: 1;
 }
+
 .loginAccountDiv .clipSpan {
     color: red;
 }
+
 #loginAccountDiv {
     margin-top: 1rem;
 }
+
 #loginPassword {
     margin-top: .5rem;
     margin-bottom: 1rem;
 }
+
 .loginAccountDiv > .wButton:hover {
     border: none;
     opacity: 1;
 }
+
 
 /* NEW ACCOUNT CONFIRMATION POPUP */
 
@@ -382,53 +439,65 @@ body {
     color: #555555;
     padding-bottom: 1rem;
 }
+
 #login-wPop-new p {
     padding-left: 1rem;
     padding-right: 1rem;
 }
+
 
 /* SEED WHITESPACE CONFIRMATION POPUP */
 
 #seed-whitespace-popup {
     max-width: 550px;
 }
+
 #seed-whitespace-popup p {
     text-align: justify;
     padding-left: 1rem;
     padding-right: 1rem;
 }
+
 #register > form {
     margin: 0 auto;
     padding: 1rem;
 }
+
 #walletSeed {
     /*    width: 300px;*/
     margin-top: .5rem;
     min-width: 320px;
     resize: none;
 }
+
 #walletName {
     /*    width: 300px;*/
     margin-top: .5rem;
 }
+
 #wavesAccounts {
     margin-top: .5rem;
 }
+
 .wavesAccounts > p {
     margin-top: -1rem;
 }
+
 #import_account {
     margin-top: .5rem;
 }
+
 #errorPasswordLogin {
     margin: 1rem;
     padding: 1rem;
     color: red;
 }
+
 .loginAccountDiv {
     display: block;
     height: inherit;
 }
+
 
 /* ======================================================================= */
 
@@ -441,6 +510,7 @@ header,
 #mBBody {
     padding: 10px;
 }
+
 header {
     position: relative;
     width: 100%;
@@ -448,6 +518,7 @@ header {
     background: #37556E;
     z-index: 101;
 }
+
 #topLogoH {
     display: none;
     position: absolute;
@@ -456,6 +527,7 @@ header {
     width: 12rem;
     z-index: 99;
 }
+
 #logoNversion2 {
     position: absolute;
     top: .75rem;
@@ -463,10 +535,12 @@ header {
     width: 8rem;
     z-index: 99;
 }
+
 #logoNversion2 > img {
     width: 8rem;
     margin-bottom: 1rem;
 }
+
 #logoNversion2 > p {
     position: absolute;
     bottom: 0;
@@ -475,27 +549,33 @@ header {
     font-size: .8rem;
     font-style: italic;
 }
+
 #version {
     font-size: 1.25rem;
     color: #ffffff;
     opacity: .5;
 }
+
 #header-Iconset {
     display: block;
     float: right;
 }
+
 #header-Iconset a {
     text-decoration: none;
 }
+
 .header-Icon {
     width: 2rem;
     margin-right: 1rem;
     opacity: .5;
 }
+
 .header-Icon:hover {
     cursor: pointer;
     opacity: 1;
 }
+
 .jurl {
     display: block;
     width: 100%;
@@ -509,31 +589,38 @@ header {
     filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#37556E', endColorstr='#37556E', GradientType=1);
 }
 
+
 /* Backup pop-up style */
 
 #header-wPop-backup {
     max-width: 550px;
 }
+
 #header-wPop-backup p,
 #backupForm {
     padding-left: 1rem;
     padding-right: 1rem;
 }
+
 #header-wPop-backup a {
     text-decoration: none;
 }
+
 #header-wPop-backup input,
 #header-wPop-backup textarea {
     width: 100%;
     resize: none;
     margin-bottom: .5rem;
 }
+
 .wPop-content-buttons {
     padding-top: 1rem;
 }
+
 #copy_and_close_backup_modal {
     margin-right: 1rem;
 }
+
 
 /* ======================================================================= */
 
@@ -549,6 +636,7 @@ header {
     box-shadow: 0px 12px 12px -12px rgba(0, 0, 0, .25);
     z-index: 100;
 }
+
 #tabs-Iconset {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -562,31 +650,39 @@ header {
     -ms-flex-align: center;
     align-items: center;
 }
+
 #tabs-Iconset span {
     height: 100%;
 }
+
 #tabs-Iconset img {
     margin-top: .5rem;
     margin-left: .5rem;
     margin-right: .5rem;
 }
+
 #tabs-Iconset img {
     height: 80%;
 }
+
 #tabs-Iconset img:hover {
     cursor: pointer;
     -webkit-transform: scale(0.9);
     transform: scale(0.9);
 }
+
 span.tabs-radio img {
     opacity: .4;
 }
+
 span.tabs-radio:hover img {
     opacity: .3;
 }
+
 span.tabs-radio img.selected {
     opacity: 1;
 }
+
 
 /* ======================================================================= */
 
@@ -596,6 +692,7 @@ span.tabs-radio img.selected {
 #mainBody {
     overflow-y: scroll;
 }
+
 
 /* ======================================================================= */
 
@@ -608,12 +705,15 @@ span.tabs-radio img.selected {
     width: 200px;
     border-right: 1px solid #D7D7D7;
 }
+
 .mBLB-vis {
     display: table-cell;
 }
+
 .mBLB-no-vis {
     display: none;
 }
+
 
 /* ======================================================================= */
 
@@ -626,6 +726,7 @@ span.tabs-radio img.selected {
     /*    width: auto;*/
     /*    padding-bottom: 1rem;*/
 }
+
 #mBBody {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -637,6 +738,7 @@ span.tabs-radio img.selected {
     padding-bottom: 1rem;
     margin: 0 auto;
 }
+
 #LBmBB-portfolio,
 #LBmBB-exchange,
 #LBmBB-voting,
@@ -645,6 +747,7 @@ span.tabs-radio img.selected {
 #LBmBB-community {
     display: none;
 }
+
 
 /* ======================================================================= */
 
@@ -659,6 +762,7 @@ span.tabs-radio img.selected {
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 }
+
 .flex-container {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -673,6 +777,7 @@ span.tabs-radio img.selected {
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 }
+
 .walletBox {
     position: relative;
     -webkit-box-flex: 1;
@@ -688,6 +793,7 @@ span.tabs-radio img.selected {
     border-radius: 20px 20px 20px 20px;
     overflow: hidden;
 }
+
 .walletBox img {
     position: absolute;
     top: 0;
@@ -695,6 +801,7 @@ span.tabs-radio img.selected {
     height: 90%;
     z-index: 0;
 }
+
 .wB-name {
     display: block;
     position: relative;
@@ -704,6 +811,7 @@ span.tabs-radio img.selected {
     font-size: 2.5rem;
     color: #37556E;
 }
+
 .wB-add {
     display: block;
     width: 100%;
@@ -715,6 +823,7 @@ span.tabs-radio img.selected {
     font-size: 1rem;
     color: #D7D7D7;
 }
+
 .wB-balInt {
     display: block;
     position: relative;
@@ -727,6 +836,7 @@ span.tabs-radio img.selected {
     font-size: 2.5rem;
     color: #37556E;
 }
+
 .wB-balDec {
     display: block;
     position: relative;
@@ -742,17 +852,21 @@ span.tabs-radio img.selected {
     opacity: .5;
 }
 
+
 /* CONFIRMATION DIALOG */
 
 #send-payment-confirmation {
     text-align: center;
 }
+
 #send-confirm {
     width: auto;
 }
+
 .confirmation-value {
     font-weight: 600;
 }
+
 .wB-buttons {
     position: absolute;
     bottom: 0;
@@ -762,9 +876,11 @@ span.tabs-radio img.selected {
     padding: 1%;
     margin-bottom: -1px;
 }
+
 .wB-buttons a {
     text-decoration: none;
 }
+
 .wB-but {
     display: inline-block;
     position: relative;
@@ -779,19 +895,24 @@ span.tabs-radio img.selected {
     border: none;
     outline: none;
 }
+
 .wB-but:hover {
     cursor: pointer;
     background: #E1B47D;
 }
+
 .wB-butSend {
     border-radius: 2px 2px 2px 12px;
 }
+
 .wB-butRec {
     border-radius: 2px 2px 2px 2px;
 }
+
 .wB-butTrade {
     border-radius: 2px 2px 12px 2px;
 }
+
 .wB-but p {
     margin: 0;
     position: absolute;
@@ -801,11 +922,14 @@ span.tabs-radio img.selected {
     -webkit-transform: translate(-50%, -55%);
     transform: translate(-50%, -55%);
 }
-#full-transaction-history, #wallet-transaction-history {
+
+#full-transaction-history,
+#wallet-transaction-history {
     width: 100%;
     padding: .5rem;
     padding-bottom: 1rem;
 }
+
 
 /* ======================================================================= */
 
@@ -820,6 +944,7 @@ span.tabs-radio img.selected {
     padding: 0px;
     margin-bottom: 2rem;
 }
+
 .wTMainHeader tr {
     background-color: #37556E;
     border: 0px solid #F0F0F0;
@@ -827,6 +952,7 @@ span.tabs-radio img.selected {
     font-size: 1.12rem;
     color: #ffffff;
 }
+
 .wavesTable thead {
     background-color: #37556E;
     border: 0px solid #F0F0F0;
@@ -834,29 +960,36 @@ span.tabs-radio img.selected {
     font-size: 1.12rem;
     color: #ffffff;
 }
+
 .wavesTable tbody tr:nth-child(odd) {
     background-color: #F0F0F0;
 }
+
 .wavesTable tbody tr:nth-child(even) {
     background-color: #ffffff;
 }
+
 .wavesTable td {
     vertical-align: middle;
     text-align: center;
     font-size: 1.1rem;
     padding: .5rem;
 }
+
 .wavesTable tbody tr {
     transition: all .2s ease;
     -webkit-transition: all .2s ease;
 }
+
 .wavesTable tbody tr:hover {
     background: rgba(225, 180, 125, .5);
     cursor: pointer;
 }
+
 .wavesTable tbody tr {
     color: #333333;
 }
+
 .wTMainHeader {
     background-color: #ffffff;
     border: 0px solid #F0F0F0;
@@ -866,27 +999,34 @@ span.tabs-radio img.selected {
     letter-spacing: .2rem;
     padding-bottom: .5rem;
 }
+
 .wavesTable-txIn {
     color: #4C7699 !important;
 }
+
 .wavesTable-txOut {
     color: #555 !important;
 }
+
 .wavesTable-txIn .clipSpan:after {
     background: url(../img/wIcon_clip_txIn.svg) no-repeat;
     opacity: .6;
 }
+
 .wavesTable-txOut .clipSpan:after {
     background: url(../img/wIcon_clip_txOut.svg) no-repeat;
     opacity: .6;
 }
+
 .wavesTable-txUnc .clipSpan:after {
     background: none;
 }
+
 .wavesTable-txUnc {
     -webkit-animation: opacity_change 1s infinite alternate ease-in-out;
     animation: opacity_change 1s infinite alternate ease-in-out;
 }
+
 @-webkit-keyframes opacity_change {
     from {
         opacity: 0.35;
@@ -895,6 +1035,7 @@ span.tabs-radio img.selected {
         opacity: 1;
     }
 }
+
 @keyframes opacity_change {
     from {
         opacity: 0.35;
@@ -903,11 +1044,14 @@ span.tabs-radio img.selected {
         opacity: 1;
     }
 }
-#full-transaction-history tbody, #wallet-transaction-history tbody,
+
+#full-transaction-history tbody,
+#wallet-transaction-history tbody,
 #latestBlocksUnconfirmed,
 #latestBlocksTable {
     font-family: 'Lekton';
 }
+
 
 /* ======================================================================= */
 
@@ -930,19 +1074,23 @@ span.tabs-radio img.selected {
     text-align: center;
     text-decoration: none;
 }
+
 #addContactSubmit {
     background: #fff;
     color: #37556E;
     border: 1px solid #37556E;
 }
+
 #addContactSubmit:hover {
     background: #37556E;
     color: #fff;
 }
+
 .wButton a,
 .wButtonAlt a {
     text-decoration: none;
 }
+
 .wButton p {
     margin: 0;
     position: absolute;
@@ -952,15 +1100,18 @@ span.tabs-radio img.selected {
     -webkit-transform: translate(-50%, -55%);
     transform: translate(-50%, -55%);
 }
+
 .wButton:hover {
     cursor: pointer;
     background: #ffffff;
     color: #323232;
 }
+
 .wButton-icon > img {
     width: .75rem;
     margin-right: .5rem;
 }
+
 .wButtonAlt {
     display: inline-block;
     position: relative;
@@ -976,10 +1127,12 @@ span.tabs-radio img.selected {
     overflow: hidden;
     opacity: .5;
 }
+
 .wButtonAlt:hover {
     cursor: pointer;
     opacity: 1;
 }
+
 
 /* Button style for Danger or Error messages against white bg */
 
@@ -987,10 +1140,12 @@ span.tabs-radio img.selected {
     color: #9C0005;
     border: 1px solid #9C0005;
 }
+
 .wButtonDanger:hover {
     background: #9C0005;
     color: #fff;
 }
+
 
 /* Custom buttons */
 
@@ -998,31 +1153,38 @@ span.tabs-radio img.selected {
     text-align: center;
     max-width: 550px;
 }
+
 #login-wPop-new p {
     text-align: justify;
 }
+
 #addContactSubmit,
 #close_create_account_modal {
     background: #fff;
     color: #37556E;
     border: 1px solid #37556E;
 }
+
 #addContactSubmit:hover,
 #close_create_account_modal:hover {
     background: #37556E;
     color: #fff;
 }
+
 .wPop-content-buttons {
     margin: 0 auto;
     text-align: center;
 }
+
 #transactionHistorySearch {
     background: #37556E;
     color: #fff;
 }
+
 #transactionHistorySearch:hover {
     background: #E1B47D;
 }
+
 
 /* Payment forms BUTTONS style */
 
@@ -1040,11 +1202,13 @@ span.tabs-radio img.selected {
     color: #37556E;
     text-align: center;
 }
+
 .paymentForm-but:hover {
     cursor: pointer;
     background: #37556E;
     color: #fff;
 }
+
 
 /* Send Payment(s) form buttons */
 
@@ -1052,6 +1216,7 @@ span.tabs-radio img.selected {
     padding: .3rem;
     width: 4.5rem;
 }
+
 
 /* ======================================================================= */
 
@@ -1066,9 +1231,11 @@ span.tabs-radio img.selected {
     border: 1px solid #D7D7D7;
     min-width: 250px;
 }
+
 .wInput-error {
     border: 2px solid #9C0005 !important;
 }
+
 
 /* ======================================================================= */
 
@@ -1079,9 +1246,11 @@ span.tabs-radio img.selected {
     height: auto;
     padding-bottom: 1rem;
 }
+
 .wPop-content {
     margin-top: -1.5rem;
 }
+
 .paymentForm h2 {
     background-color: #ffffff;
     border: 0px solid #F0F0F0;
@@ -1094,16 +1263,20 @@ span.tabs-radio img.selected {
     padding-bottom: .5rem;
     font-weight: 200;
 }
+
 .paymentForm table,
 .paymentForm table tr {
     width: 100%;
 }
+
 .paymentForm td:first-child {
     width: 40%;
 }
+
 .paymentForm td:nth-child(2) {
     width: 60%;
 }
+
 .paymentForm thead tr {
     background-color: #37556E;
     text-align: center;
@@ -1111,12 +1284,15 @@ span.tabs-radio img.selected {
     line-height: 2.3rem;
     color: #ffffff;
 }
+
 .paymentForm tbody td {
     padding: .25rem;
 }
+
 .paymentForm tbody tr {
     width: 100%;
 }
+
 .form-control {
     width: 100%;
     padding: .3rem;
@@ -1124,17 +1300,21 @@ span.tabs-radio img.selected {
     font-size: 1rem;
 }
 
+
 /* Payment form from portfilio - Temp */
 
 #mBB-portfolio #paymentForm {
     text-align: center;
 }
+
 #mBB-portfolio .paymentForm thead tr {
     line-height: 1.5rem;
 }
+
 #mBB-portfolio .paymentForm table {
     padding-bottom: 1rem;
 }
+
 
 /* Payment Forms BALANCE style */
 
@@ -1144,9 +1324,11 @@ span.tabs-radio img.selected {
     padding-right: .5rem;
     text-align: right;
 }
+
 .balanceAmt p {
     display: inline;
 }
+
 
 /* Payment forms FEES style */
 
@@ -1155,14 +1337,17 @@ span.tabs-radio img.selected {
     font-style: italic;
     color: #999999;
 }
+
 .paymentFormFee p {
     text-align: right;
     padding-right: .5rem;
 }
+
 .custom-combobox {
     position: relative;
     display: inline-block;
 }
+
 .custom-combobox-toggle {
     position: absolute;
     top: 0;
@@ -1171,9 +1356,11 @@ span.tabs-radio img.selected {
     margin: 2px;
     border-style: none none none solid;
 }
+
 .custom-combobox-toggle:hover {
     border-style: none none none solid;
 }
+
 .custom-combobox-input {
     margin: 0;
     padding: .25rem;
@@ -1182,6 +1369,7 @@ span.tabs-radio img.selected {
     color: #999999;
     padding-right: -.25rem;
 }
+
 .ui-menu.ui-autocomplete {
     font-family: 'Wesli';
     font-style: italic;
@@ -1201,6 +1389,7 @@ span.tabs-radio img.selected {
     box-shadow: none;
 }
 
+
 /* ======================================================================= */
 
 
@@ -1209,10 +1398,12 @@ span.tabs-radio img.selected {
 #portfolio {
     padding-bottom: 1rem;
 }
+
 #mBB-portfolio {
     width: 100%;
     text-align: center;
 }
+
 #portfolio h2 {
     background-color: #ffffff;
     border: 0px solid #F0F0F0;
@@ -1223,6 +1414,7 @@ span.tabs-radio img.selected {
     padding-bottom: .5rem;
     font-weight: 200;
 }
+
 #portfolio .btn {
     border: none;
     width: 8rem;
@@ -1238,13 +1430,16 @@ span.tabs-radio img.selected {
     transition: all .2s ease;
     -webkit-transition: all .2s ease;
 }
+
 #portfolio .btn:hover {
     cursor: pointer;
     background: #5AC8D2;
 }
+
 #portfolio table thead tr th {
     padding: .5rem;
 }
+
 
 /* ======================================================================= */
 
@@ -1255,23 +1450,28 @@ span.tabs-radio img.selected {
     width: 100%;
     text-align: center;
 }
+
 #mBB-history .wavesTable {
     /*    border: 1px solid red;*/
 }
+
 .wavesDD {
     display: inline-block;
     height: 90%;
     padding: .4rem;
 }
+
 .wavesDD select {
     font-family: 'Wesli';
     font-size: 1.15rem;
     padding: .1rem;
 }
+
 #hResults {
     height: auto;
     padding-bottom: 1rem;
 }
+
 
 /* ======================================================================= */
 
@@ -1283,6 +1483,7 @@ span.tabs-radio img.selected {
     text-align: center;
 }
 
+
 /* ======================================================================= */
 
 
@@ -1292,6 +1493,7 @@ span.tabs-radio img.selected {
     width: 100%;
     text-align: center;
 }
+
 
 /* ======================================================================= */
 
@@ -1307,6 +1509,7 @@ span.tabs-radio img.selected {
     text-align: center;
     overflow: hidden;
 }
+
 #mBB-messages h2 {
     display: inline-block;
     text-align: center;
@@ -1315,22 +1518,27 @@ span.tabs-radio img.selected {
     color: #333333;
     letter-spacing: .2rem;
 }
+
 #addContact {
     width: auto;
     position: absolute;
     right: 2rem;
     bottom: 0;
 }
+
 #addContact img {
     width: 2rem;
     opacity: .5;
 }
+
 #addContact img:hover {
     opacity: 1;
 }
+
 #addContactForm {
     text-align: center;
 }
+
 #addContactForm h2 {
     background-color: #ffffff;
     border: 0px solid #F0F0F0;
@@ -1340,13 +1548,16 @@ span.tabs-radio img.selected {
     letter-spacing: .2rem;
     font-weight: 200;
 }
+
 #addContactForm p {
     margin-top: .25rem;
 }
+
 #contacts {
     width: 100%;
     height: 100%;
 }
+
 
 /* ======================================================================= */
 
@@ -1357,6 +1568,7 @@ span.tabs-radio img.selected {
     width: 100%;
     text-align: center;
 }
+
 #mBB-community h2 {
     text-align: center;
     font-size: 1.25rem;
@@ -1367,6 +1579,7 @@ span.tabs-radio img.selected {
     padding-bottom: .6rem;
     font-weight: 200;
 }
+
 #mBB-community > p {
     text-align: center;
     margin-bottom: 1rem;
@@ -1374,6 +1587,7 @@ span.tabs-radio img.selected {
     color: #E1B47D;
     font-weight: 600;
 }
+
 
 /* ======================================================================= */
 
@@ -1383,6 +1597,7 @@ span.tabs-radio img.selected {
 #nprogress {
     pointer-events: none;
 }
+
 #nprogress .bar {
     background: #ffffff;
     position: fixed;
@@ -1392,6 +1607,7 @@ span.tabs-radio img.selected {
     width: 100%;
     height: 5px;
 }
+
 
 /* ======================================================================= */
 
@@ -1420,6 +1636,7 @@ span.tabs-radio img.selected {
         width: 1.75rem;
     }
 }
+
 @media only screen and (max-width: 800px) {
     #version {
         display: none;
@@ -1447,6 +1664,7 @@ span.tabs-radio img.selected {
         margin: 0 auto;
     }
 }
+
 @media only screen and (max-width: 640px) {
     #tabs-Iconset {
         height: 80%;
@@ -1468,6 +1686,7 @@ span.tabs-radio img.selected {
         min-width: 250px;
     }
 }
+
 @media only screen and (max-width: 512px) {
     #tabs {
         height: 65px;
@@ -1484,6 +1703,7 @@ span.tabs-radio img.selected {
         min-width: 50px;
     }
 }
+
 
 /* Mobile version - Landscape (iPhone up to 6, all Samsung Galaxy, all HTC) */
 
@@ -1534,6 +1754,7 @@ span.tabs-radio img.selected {
         height: 175px;
     }
 }
+
 
 /* Mobile version - Portrait */
 
@@ -1603,7 +1824,8 @@ span.tabs-radio img.selected {
     .wB-buttons {
         height: 22.5%;
     }
-    #full-transaction-history, #wallet-transaction-history {
+    #full-transaction-history,
+    #wallet-transaction-history {
         display: none;
     }
 }
