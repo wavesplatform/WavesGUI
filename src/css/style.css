@@ -1157,6 +1157,16 @@ span.tabs-radio img.selected {
     opacity: 1;
 }
 
+.wButton-neg {
+    border: 1px solid #37556E;
+    color: #37556E;
+}
+
+.wButton-neg:hover {
+    background: #37556E;
+    color: #ffffff;
+}
+
 
 /* Button style for Danger or Error messages against white bg */
 
