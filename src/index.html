@@ -695,26 +695,26 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><label for="assetName">Asset's name</label></td>
+                                        <td><label for="assetName">Name</label></td>
                                         <td><input id="assetName" name="assetName" type="text" class="wInput form-control" focus-me="true" ng-model="ctrl.asset.name"/></td>
                                     </tr>
                                     <tr>
-                                        <td><label for="assetDescription">Asset's description</label></td>
+                                        <td><label for="assetDescription">Description</label></td>
                                         <td><textarea id="assetDescription" name="assetDescription" class="wInput" rows="3" ng-model="ctrl.asset.description"></textarea></td>
                                     </tr>
                                     <tr>
-                                        <td><label for="assetTotalTokens">Asset's total tokens</label></td>
+                                        <td><label for="assetTotalTokens">Total Tokens</label></td>
                                         <td><input id="assetTotalTokens" name="assetTotalTokens" class="wInput" type="text" ng-model="ctrl.asset.totalTokens"/></td>
                                     </tr>
                                     <tr>
-                                        <td><label for="assetTokenDecimalPlaces">Token's decimals</label></td>
+                                        <td><label for="assetTokenDecimalPlaces">Token Decimals</label></td>
                                         <td><input id="assetTokenDecimalPlaces" name="assetTokenDecimalPlaces" class="wInput" type="text" ng-model="ctrl.asset.decimalPlaces"/></td>
                                     </tr>
                                     <tr>
-                                        <td><label for="assetReissuable">Re-issuable asset</label></td>
+                                        <td><label for="assetReissuable">Re-issuable</label></td>
                                         <td><input id="assetReissuable" name="assetReissuable" type="checkbox" class="wInput" ng-model="ctrl.asset.reissuable"/></td>
                                     </tr>
-                                    <tr>
+                                    <tr class="noSelect">
                                         <td>Fee</td>
                                         <td>{{::ctrl.asset.fee.formatAmount(true)}} WAVES</td>
                                     </tr>

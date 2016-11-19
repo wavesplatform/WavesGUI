@@ -1546,7 +1546,18 @@ span.tabs-radio img.selected {
 }
 
 #mBB-token table tbody tr:last-child {
-    color: red;
+    background-color: #ffffff;
+    font-style: italic;
+    color: #999999;
+}
+
+#mBB-token table tbody tr:last-child {
+    text-align: right;
+    padding-right: .5rem;
+}
+
+#mBB-token table tbody tr:last-child:hover {
+    cursor: default;
 }
 
 #mBB-token form button {
