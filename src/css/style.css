@@ -406,9 +406,6 @@ body {
     padding-right: 2rem;
 }
 
-#account-remove-popup button {}
-
-
 /* END OF REMOVE ACCOUNT CONFIRMATION POPUP */
 
 #accounts h2,
@@ -460,12 +457,16 @@ body {
 #login-wPop-new {
     background: #ffffff;
     color: #555555;
-    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+#login-wPop-new h2 {
+    margin-bottom: 1rem;
 }
 
 #login-wPop-new p {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
 
