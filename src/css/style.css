@@ -248,6 +248,16 @@ body {
     cursor: pointer;
 }
 
+#feat-not-active h2,
+#feat-not-active p {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+#feat-not-active h2 {
+    text-align: center
+}
+
 
 /* ======================================================================= */
 
