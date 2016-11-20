@@ -597,14 +597,14 @@ header {
 }
 
 #logoNversion2 > img {
-    width: 8rem;
-    margin-bottom: 1rem;
+    width: 7.5rem;
+    margin-bottom: .7rem;
 }
 
 #logoNversion2 > p {
     position: absolute;
     bottom: 0;
-    right: 0;
+    right: .45rem;
     color: #ffffff;
     font-size: .7rem;
     font-style: italic;
@@ -702,7 +702,7 @@ header {
     /*        display: flex;*/
     position: relative;
     width: 100%;
-    height: 75px;
+    height: 65px;
     background: #37556E;
     box-shadow: 0px 12px 12px -12px rgba(0, 0, 0, .25);
     z-index: 100;
@@ -727,13 +727,13 @@ header {
 }
 
 #tabs-Iconset img {
-    margin-top: .5rem;
+    margin-top: 0px;
     margin-left: .5rem;
     margin-right: .5rem;
 }
 
 #tabs-Iconset img {
-    height: 80%;
+    height: 90%;
 }
 
 #tabs-Iconset img:hover {
@@ -1799,7 +1799,7 @@ span.tabs-radio img.selected {
         height: 80%;
     }
     #tabs-Iconset img {
-        margin-top: .5rem;
+        margin-top: 0rem;
         margin-left: .5rem;
         margin-right: .5rem;
     }
@@ -1824,7 +1824,6 @@ span.tabs-radio img.selected {
         height: 80%;
     }
     #tabs-Iconset img {
-        margin-top: .5rem;
         margin-left: .25rem;
         margin-right: .25rem;
     }
