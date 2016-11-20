@@ -1124,6 +1124,11 @@ span.tabs-radio img.selected {
     background: none;
 }
 
+#latestBlocksTable .clipSpan:after {
+    background: url(../img/wIcon_clip_txOut.svg) no-repeat;
+    opacity: .6;
+}
+
 .wavesTable-txUnc {
     -webkit-animation: opacity_change 1s infinite alternate ease-in-out;
     animation: opacity_change 1s infinite alternate ease-in-out;
