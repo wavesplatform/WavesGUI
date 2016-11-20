@@ -78,7 +78,7 @@
 
                             <!-- Remove Account popup -->
                             <div id="account-remove-popup" waves-dialog on-dialog-ok="list.removeAccount()" is-error="true" ok-button-caption="REMOVE">
-                                <h2>REMOVE ACCOUNT <span id="removeAccountSpan"></span> - NOTICE</h2>
+                                <h2 class="sectionHeader">REMOVE ACCOUNT <span id="removeAccountSpan"></span> - NOTICE</h2>
                                 <p>This feature completely removes the account from this device.
                                     <br/><br/>
                                     The account will not be eliminated or destroyed, but instead will not be shown anymore in the Accounts List at the client startup.
@@ -131,7 +131,7 @@
                         </div>
 
                         <div id="login-wPop-new" waves-dialog ok-button-caption="I UNDERSTAND" on-dialog-ok="" cancel-button-visible="false" closeable="false">
-                            <h2>NEW ACCOUNT - NOTICE</h2>
+                            <h2 class="sectionHeader">NEW ACCOUNT - NOTICE</h2>
                             <p>This feature involves the creation of a new account on Waves platform.
                                 <br/><br/>
                                 The procedure consists of complex cryptographic operations that use a <b>SEED</b> (a series of random words) to create a unique address for your account.
@@ -232,7 +232,7 @@
 	<div id="wrapper" ng-switch-when="main-screen" ng-cloak>
         <!-- shared blocks -->
         <div id="feat-not-active" waves-dialog show-buttons="false" is-error="true">
-            <h2>NOTICE</h2>
+            <h2 class="sectionHeader">NOTICE</h2>
             <p>This feature is still under development and not active during the alpha release.
                 <br/><br/>
                 Follow our social media channels for being up-to-date with the latest improvements and developments.
@@ -266,7 +266,7 @@
                     <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-backup.svg" alt="Backup" title="Backup"/>
                 </a>
                 <div id="header-wPop-backup" waves-dialog on-dialog-ok="menu.backup()" ok-button-caption="COPY" cancel-button-caption="CLOSE">
-                    <h2>ACCOUNT INFO BACKUP</h2>
+                    <h2 class="sectionHeader">ACCOUNT INFO BACKUP</h2>
                     <p>Your account's basic information, click the <b>COPY</b> button in order to copy the contents to the clipboard or <b>CLOSE</b> to exit.</p></br>
                     <form id="backupForm">
                         <label for="seedBackup">SEED</label><br/>
@@ -387,8 +387,8 @@
                     </div>
                     <div id="wallet-transaction-history" class="wavesTable">
                         <table>
+                            <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
                             <thead>
-                            <div class="wTMainHeader">LATEST TRANSACTIONS</div>
                             <tr>
                                 <td>DATE</td>
                                 <td>TYPE</td>
@@ -418,7 +418,7 @@
                 <!-- PORTFOLIO TAB -->
                 <div id="mBB-portfolio" class="mBB-content" ng-switch-when="portfolio">
                     <div ng-controller="assetListController as assetList">
-                        <h2>PORTFOLIO</h2>
+                        <h2 class="sectionHeader">PORTFOLIO</h2>
                         <table class="wavesTable">
                             <thead>
                                 <tr>
@@ -640,7 +640,7 @@
                 <div id="mBB-history" class="mBB-content" ng-switch-when="history" ng-controller="historyController as history">
 
                     <div id="full-transaction-history" class="wavesTable" >
-                        <h2>LATEST TRANSACTIONS</h2>
+                        <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
                         <table>
                             <thead>
 <!--                            <div class="wTMainHeader">LATEST TRANSACTIONS</div>-->
@@ -682,7 +682,7 @@
                 <div id="mBB-token" class="mBB-content" ng-switch-when="tokens">
 
                     <div ng-controller="tokenCreateController as ctrl">
-                        <h2>ASSET CREATION</h2>
+                        <h2 class="sectionHeader">ASSET CREATION</h2>
                         <form id="create-asset-form" name="createAssetForm" novalidate ng-validate="ctrl.issuanceValidationOptions" ng-submit="ctrl.assetIssueConfirmation(createAssetForm, $event)">
                             <table class="wavesTable">
                                 <thead>

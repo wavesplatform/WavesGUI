@@ -149,6 +149,17 @@ body {
     font-weight: 600;
 }
 
+.sectionHeader {
+    background-color: #ffffff;
+    border: 0px solid #F0F0F0;
+    text-align: center;
+    font-size: 1.25rem;
+    color: #333333;
+    letter-spacing: .2rem;
+    padding-bottom: 1rem;
+    font-weight: 200;
+}
+
 
 /* Custom Scrollbar */
 
@@ -469,10 +480,6 @@ body {
     margin-bottom: 1rem;
     text-align: center;
     max-width: 550px;
-}
-
-#login-wPop-new h2 {
-    margin-bottom: 1rem;
 }
 
 #login-wPop-new p {
@@ -970,8 +977,11 @@ span.tabs-radio img.selected {
 #full-transaction-history,
 #wallet-transaction-history {
     width: 100%;
-    padding: .5rem;
     padding-bottom: 1rem;
+}
+
+#wallet-transaction-history {
+    padding-top: 1rem;
 }
 
 #wB-butSend-WAV {
@@ -984,7 +994,7 @@ span.tabs-radio img.selected {
 }
 
 #wB-butSend-WAV .balanceAmt {
-/*    padding-right: 2rem;*/
+    /*    padding-right: 2rem;*/
     text-align: center;
     padding-bottom: .25rem;
 }
@@ -1472,24 +1482,6 @@ span.tabs-radio img.selected {
 
 #mBB-portfolio table {
     width: 100%;
-}
-
-
-/* This next rule must be created as a standard
-Angular template or on the top area of CSS file */
-
-#mBB-portfolio h2,
-#mBB-history h2,
-#mBB-token h2,
-#header-wPop-backup h2 {
-    background-color: #ffffff;
-    border: 0px solid #F0F0F0;
-    text-align: center;
-    font-size: 1.25rem;
-    color: #333333;
-    letter-spacing: .2rem;
-    padding-bottom: 1rem;
-    font-weight: 200;
 }
 
 #portfolio .btn {
