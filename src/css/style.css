@@ -261,6 +261,7 @@ body {
 
 #feat-not-active {
     max-width: 500px;
+    padding-bottom: 1rem;
 }
 
 #feat-not-active h2,
@@ -653,6 +654,7 @@ header {
 
 #header-wPop-backup {
     max-width: 550px;
+    padding-bottom: 2rem;
 }
 
 #header-wPop-backup p,
@@ -670,6 +672,16 @@ header {
     width: 100%;
     resize: none;
     margin-bottom: .5rem;
+}
+
+#header-wPop-backup button {
+    border: 1px solid #37556E;
+    color: #37556E;
+}
+
+#header-wPop-backup button:hover {
+    background: #37556E;
+    color: #ffffff;
 }
 
 .wPop-content-buttons {
