@@ -325,7 +325,7 @@
                 <div id="mBB-wallet" class="mBB-content" ng-switch-when="wallet" ng-controller="walletController as wallet">
                     <div id="wB-butSend-WAV" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="wallet.submitPayment()">
                         <form id="send-waves-form" name="sendWavesForm" class="paymentForm" novalidate ng-validate="wallet.paymentValidationOptions">
-                            <h2>SEND PAYMENT</h2>
+                            <h2 class="sectionHeader">SEND PAYMENT</h2>
                             <div class="balanceAmt">
                                 <p>Balance: </p><span class="balancewaves">{{wallet.current.balance.formatAmount(true)}}</span>
                             </div>
