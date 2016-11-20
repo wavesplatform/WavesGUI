@@ -446,10 +446,6 @@ body {
     color: red;
 }
 
-#loginAccountDiv {
-    margin-top: 1rem;
-}
-
 #loginPassword {
     margin-top: .5rem;
     margin-bottom: 1rem;
@@ -515,12 +511,17 @@ body {
     margin-top: .5rem;
 }
 
-#wavesAccounts {
-    margin-top: .5rem;
+.wavesAccounts {
+    padding: 0px;
+    margin: 0px;
+    margin-top: none;
 }
 
 .wavesAccounts > p {
-    margin-top: -1rem;
+    /* Temporary fix - Check if this problem
+    comes from Angular ng template side */
+    margin-top: -35px;
+    padding-top: 0px;
 }
 
 #import_account {
@@ -971,6 +972,25 @@ span.tabs-radio img.selected {
     width: 100%;
     padding: .5rem;
     padding-bottom: 1rem;
+}
+
+#wB-butSend-WAV {
+    padding-bottom: 2rem;
+}
+
+#wB-butSend-WAV table {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+#wB-butSend-WAV button {
+    border: 1px solid #37556E;
+    color: #37556E;
+}
+
+#wB-butSend-WAV button:hover {
+    background: #37556E;
+    color: #ffffff;
 }
 
 
@@ -1450,7 +1470,7 @@ span.tabs-radio img.selected {
 
 
 /* This next rule must be created as a standard
-Angular rule or on the top area of CSS file */
+Angular template or on the top area of CSS file */
 
 #mBB-portfolio h2,
 #mBB-history h2,
@@ -1864,9 +1884,10 @@ Angular rule or on the top area of CSS file */
         display: block;
         height: auto;
         margin: 0 auto;
+        margin-bottom: 10px;
     }
     .loginAccount {
-        margin-left: -1rem;
+        margin-top: 20px;
     }
     .divider-1 {
         width: 0px;
