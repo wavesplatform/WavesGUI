@@ -413,6 +413,10 @@ body {
 
 /* END OF REMOVE ACCOUNT CONFIRMATION POPUP */
 
+#AccHeader {
+    margin-bottom: 1rem;
+}
+
 #accounts h2,
 #register h2 {
     font-size: 1.5rem;
@@ -456,10 +460,6 @@ body {
     opacity: 1;
 }
 
-#register-form .wPop-content {
-    padding-top: 1.5rem;
-}
-
 #readonlySeed {
     text-align: center;
 }
@@ -500,7 +500,7 @@ body {
 
 #register > form {
     margin: 0 auto;
-    padding: 1rem;
+    padding-top: .75rem;
 }
 
 #walletSeed {

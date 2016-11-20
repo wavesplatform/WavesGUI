@@ -94,14 +94,12 @@
                         <!-- Seed input -->
                         <div id="create-seed" ng-controller="accountSeedController as vm" ng-show="accounts.mode === 'create-seed'">
                             <form id="account-seed-form" name="accountSeedForm" ng-submit="vm.checkSeedAndRegister(accountSeedForm)" novalidate ng-validate="vm.validationOptions">
-                                <br/>
+                                
                                 <button id="generateRandomSeed" class="wButton fade" ng-click="vm.generateSeed()" type="button">GENERATE NEW SEED</button>
                                 <br/><br/>
-
                                 <div class="form-field">
                                 <label for="walletSeed">WALLET SEED</label>
                                     <br/>
-
                                     <textarea id="walletSeed" rows="3" name="walletSeed" class="wInput" focus-me="accounts.mode === 'create-seed'" ng-model="vm.seed" ng-change="vm.refreshAddress()" ng-model-options="{ debounce: 750 }" ng-trim="false"></textarea>
                                     <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" data-clipboard-message-success="Wallet seed has been successfully copied to clipboard" ></span>
                                     <br/>
