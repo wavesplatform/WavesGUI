@@ -983,6 +983,12 @@ span.tabs-radio img.selected {
     padding-right: 2rem;
 }
 
+#wB-butSend-WAV .balanceAmt {
+/*    padding-right: 2rem;*/
+    text-align: center;
+    padding-bottom: .25rem;
+}
+
 #wB-butSend-WAV button {
     border: 1px solid #37556E;
     color: #37556E;
