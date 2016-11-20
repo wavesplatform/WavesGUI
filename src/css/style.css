@@ -480,12 +480,23 @@ body {
     margin-bottom: 1rem;
     text-align: center;
     max-width: 550px;
+    padding-bottom: 2rem;
 }
 
 #login-wPop-new p {
     padding-left: 2rem;
     padding-right: 2rem;
     text-align: justify;
+}
+
+#login-wPop-new button {
+    border: 1px solid #37556E;
+    color: #37556E;
+}
+
+#login-wPop-new button:hover {
+    background: #37556E;
+    color: #ffffff;
 }
 
 
