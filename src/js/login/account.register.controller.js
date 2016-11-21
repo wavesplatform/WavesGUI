@@ -1,12 +1,17 @@
 (function () {
     'use strict';
 
+    var WALLET_NAME_MAXLENGTH = 16;
+
     function AccountRegisterController($scope, accountService, cryptoService, loginContext) {
         var vm = this;
 
         vm.validationOptions = {
             onfocusout: false,
             rules: {
+                walletName: {
+                    maxlength: WALLET_NAME_MAXLENGTH
+                },
                 walletPassword: {
                     required: true,
                     minlength: 8,
@@ -17,6 +22,10 @@
                 }
             },
             messages: {
+                walletName: {
+                    maxlength: 'A wallet name is too long. Maximum name length is ' +
+                        WALLET_NAME_MAXLENGTH + ' characters'
+                },
                 walletPassword: {
                     required: 'A password is required to store your seed safely',
                     minlength: 'Password must be 8 characters or longer'
