@@ -94,7 +94,7 @@
                         <!-- Seed input -->
                         <div id="create-seed" ng-controller="accountSeedController as vm" ng-show="accounts.mode === 'create-seed'">
                             <form id="account-seed-form" name="accountSeedForm" ng-submit="vm.checkSeedAndRegister(accountSeedForm)" novalidate ng-validate="vm.validationOptions">
-                                
+
                                 <button id="generateRandomSeed" class="wButton fade" ng-click="vm.generateSeed()" type="button">GENERATE NEW SEED</button>
                                 <br/><br/>
                                 <div class="form-field">
@@ -171,7 +171,7 @@
                                                 need to have assigned a name.</i>"></span>
                                         <br/>
                                         </label>
-                                        <input type="text" id="walletName" class="wInput" ng-model="vm.name" focus-me="accounts.mode === 'register'"/>
+                                        <input type="text" id="walletName" name="walletName" class="wInput" ng-model="vm.name" focus-me="accounts.mode === 'register'"/>
                                     </div>
                                     <br/>
                                     <div class="form-field">
