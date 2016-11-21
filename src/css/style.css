@@ -188,14 +188,16 @@ body {
 .phContent {
     margin: 0 auto;
     text-align: center;
-    padding: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
     max-width: 80%;
 }
 
 .phContent h1 {
     border: 0px solid #F0F0F0;
     text-align: center;
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     color: #333333;
     letter-spacing: .2rem;
     font-weight: 200;
