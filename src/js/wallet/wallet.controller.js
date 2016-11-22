@@ -61,12 +61,12 @@
                 wavessendamount: {
                     required: true,
                     decimal: Currency.WAV.precision,
-                    min: minimumPayment.amount
+                    min: minimumPayment.toTokens()
                 },
                 wavessendfee: {
                     required: true,
                     decimal: Currency.WAV.precision,
-                    min: minimumFee.amount
+                    min: minimumFee.toTokens()
                 }
             },
             messages: {
