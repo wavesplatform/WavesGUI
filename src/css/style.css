@@ -931,6 +931,23 @@ span.tabs-radio img.selected {
 
 #send-payment-confirmation {
     text-align: center;
+    padding-bottom: 2rem;
+}
+
+#send-payment-confirmation p {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 1rem;
+}
+
+#send-payment-confirmation button {
+    border: 1px solid #37556E;
+    color: #37556E;  
+}
+
+#send-payment-confirmation button:hover {
+    background: #37556E;
+    color: #ffffff;
 }
 
 #send-confirm {
@@ -938,7 +955,8 @@ span.tabs-radio img.selected {
 }
 
 .confirmation-value {
-    font-weight: 600;
+    font-family: 'Sparta';
+/*    font-weight: 600;*/
 }
 
 
