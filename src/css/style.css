@@ -160,6 +160,10 @@ body {
     font-weight: 200;
 }
 
+.balanceType {
+    
+}
+
 
 /* Custom Scrollbar */
 
@@ -927,29 +931,29 @@ span.tabs-radio img.selected {
 }
 
 
-/* CONFIRMATION DIALOGS */
+/* CONFIRMATION DIALOGS - ANGULAR FIXES FOR LATER */
 
 #send-payment-confirmation {
     text-align: center;
     padding-bottom: 2rem;
 }
 
-#create-asset-confirmation {
+#create-asset-confirmation, #asset-transfer-dialog {
     padding-bottom: 2rem;
 }
 
-#send-payment-confirmation p, #create-asset-confirmation p {
-    padding-left: 2rem;
-    padding-right: 2rem;
-    padding-bottom: 1rem;
+#send-payment-confirmation p, #create-asset-confirmation p, #asset-transfer-dialog form {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+    padding-bottom: 1rem !important;
 }
 
-#send-payment-confirmation button, #create-asset-confirmation button {
+#send-payment-confirmation button, #create-asset-confirmation button, #asset-transfer-dialog button {
     border: 1px solid #37556E;
     color: #37556E;  
 }
 
-#send-payment-confirmation button:hover, #create-asset-confirmation button:hover {
+#send-payment-confirmation button:hover, #create-asset-confirmation button:hover, #asset-transfer-dialog button:hover {
     background: #37556E;
     color: #ffffff;
 }
@@ -1465,7 +1469,7 @@ span.tabs-radio img.selected {
     color: #999999;
     font-style: italic;
     padding-right: .5rem;
-    text-align: right;
+    text-align: center;
 }
 
 .balanceAmt p {

@@ -492,16 +492,14 @@
                         <div class="noDisp" ng-controller="assetTransferController as transfer">
                             <div id="asset-transfer-dialog" waves-dialog ok-button-caption="TRANSFER" on-dialog-ok="transfer.submitTransfer()">
                                 <form id="transfer-asset-form" name="transferAssetForm" novalidate ng-validate="transfer.validationOptions">
-                                    <h2>ASSET TRANSFER</h2>
+                                    <h2 class="sectionHeader">ASSET TRANSFER</h2>
                                     <div class="balanceAmt">
                                         <p>Balance: </p><span class="balancewaves">{{transfer.availableBalance}}</span>
                                     </div>
-                                    <table>
+                                    <table class="wavesTable">
                                         <thead>
-                                        <tr>
                                             <th>DESCRIPTION</th>
                                             <th>INPUT</th>
-                                        </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
