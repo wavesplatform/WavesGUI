@@ -927,25 +927,29 @@ span.tabs-radio img.selected {
 }
 
 
-/* CONFIRMATION DIALOG */
+/* CONFIRMATION DIALOGS */
 
 #send-payment-confirmation {
     text-align: center;
     padding-bottom: 2rem;
 }
 
-#send-payment-confirmation p {
+#create-asset-confirmation {
+    padding-bottom: 2rem;
+}
+
+#send-payment-confirmation p, #create-asset-confirmation p {
     padding-left: 2rem;
     padding-right: 2rem;
     padding-bottom: 1rem;
 }
 
-#send-payment-confirmation button {
+#send-payment-confirmation button, #create-asset-confirmation button {
     border: 1px solid #37556E;
     color: #37556E;  
 }
 
-#send-payment-confirmation button:hover {
+#send-payment-confirmation button:hover, #create-asset-confirmation button:hover {
     background: #37556E;
     color: #ffffff;
 }
@@ -1442,6 +1446,16 @@ span.tabs-radio img.selected {
 
 #mBB-portfolio .paymentForm table {
     padding-bottom: 1rem;
+}
+
+#mBB-portfolio table tbody tr td  button {
+    border: 1px solid #37556E;
+    color: #37556E;
+}
+
+#mBB-portfolio  table tbody tr td button:hover {
+    background: #37556E;
+    color: #ffffff;
 }
 
 

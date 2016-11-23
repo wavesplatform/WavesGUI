@@ -441,9 +441,9 @@
                                     <td>{{tx.reissuable}}</td>
                                     <td>{{tx.balance}}</td>
                                     <td>
-                                        <button ng-click="assetList.assetTransfer(tx.id)">Transfer</button><span class="divider-2"></span>
-                                        <button ng-enable="tx.formatted.canReissue" ng-click="assetList.assetReissue(tx.id)">Reissue</button><span class="divider-2"></span>
-                                        <button ng-click="assetList.assetDetails(tx.id)">Details</button>
+                                        <button class="wButton wButton-neg fade" ng-click="assetList.assetTransfer(tx.id)">TRANSFER</button><span class="divider-2"></span>
+                                        <button class="wButton wButton-neg fade" ng-enable="tx.formatted.canReissue" ng-click="assetList.assetReissue(tx.id)">REISSUE</button><span class="divider-2"></span>
+                                        <button class="wButton wButton-neg fade" ng-click="assetList.assetDetails(tx.id)">DETAILS</button>
                                     </td>
                                 </tr>
                             </tbody>
