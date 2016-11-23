@@ -450,11 +450,17 @@
                         </table>
                         <div class="noDisp" ng-controller="assetDetailsController as details">
                             <div id="asset-details-dialog" waves-dialog cancel-button-visible="false">
-                                <h2>ASSET DETAILS</h2>
-                                <table>
+                                <h2 class="sectionHeader">ASSET DETAILS</h2>
+                                <table class="wavesTable">
+                                    <thead>
+                                        <tr>
+                                        <td>FIELD</td>
+                                        <td>DESCRIPTION</td>
+                                        </tr>
+                                    </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Issuer address:</td>
+                                            <td>Issuer:</td>
                                             <td ng-if="!details.isSenderCopiable">{{details.sender}}</td>
                                             <td ng-if="details.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{details.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{details.sender}}</span></td>
                                         </tr>
@@ -468,10 +474,8 @@
                                             <td>{{details.name}}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2">Details:</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">{{details.description}}</td>
+                                            <td>Details:</td>
+                                            <td>{{details.description}}</td>
                                         </tr>
                                         <tr>
                                             <td>Total tokens:</td>
