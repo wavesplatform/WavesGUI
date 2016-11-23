@@ -1041,6 +1041,11 @@ span.tabs-radio img.selected {
     padding-top: 1rem;
 }
 
+#wallet-transaction-history {
+    
+    overflow-y: scroll !important;
+}
+
 #wB-butSend-WAV {
     padding-bottom: 2rem;
 }
@@ -1161,6 +1166,10 @@ span.tabs-radio img.selected {
 #latestBlocksTable .clipSpan:after {
     background: url(../img/wIcon_clip_txOut.svg) no-repeat;
     opacity: .6;
+}
+
+#latestBlocks {
+    overflow-y: scroll !important;
 }
 
 .wavesTable-txUnc {
@@ -1602,8 +1611,8 @@ span.tabs-radio img.selected {
     text-align: center;
 }
 
-#mBB-history .wavesTable {
-    /*    border: 1px solid red;*/
+#full-transaction-history {
+    overflow-y: scroll;
 }
 
 .wavesDD {

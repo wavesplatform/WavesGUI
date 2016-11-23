@@ -387,8 +387,8 @@
                                     on-withdraw="wallet.withdraw(currency)" on-trade="wallet.trade(currency)"></wallet-box>
                     </div>
                     <div id="wallet-transaction-history" class="wavesTable">
+                        <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
                         <table>
-                            <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
                             <thead>
                             <tr>
                                 <td>DATE</td>
@@ -597,10 +597,10 @@
                                 </form>
                             </div>
                             <div id="asset-reissue-confirm-dialog" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!reissue.confirm.reissuePending" on-dialog-ok="reissue.broadcastTransaction()">
-                                <p>You are issuing additional amount of <span class="confirmation-value">{{reissue.confirm.amount.value}}</span> tokens <br/>
+                                <p>You are issuing an additional amount of <span class="confirmation-value">{{reissue.confirm.amount.value}}</span> tokens <br/>
                                     to the asset <span class="confirmation-value">{{reissue.confirm.amount.currency}}</span>
-                                    with <span class="confirmation-value">{{reissue.confirm.fee.value}}</span>
-                                    <span class="confirmation-value">{{reissue.confirm.fee.currency}}</span> fee
+                                    with a fee of <span class="confirmation-value">{{reissue.confirm.fee.value}}</span>
+                                    <span class="confirmation-value">{{reissue.confirm.fee.currency}}</span>
                                 </p>
                                 <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
                             </div>
@@ -642,7 +642,7 @@
                 <!-- HISTORY TAB -->
                 <div id="mBB-history" class="mBB-content" ng-switch-when="history" ng-controller="historyController as history">
 
-                    <div id="full-transaction-history" class="wavesTable" >
+                    <div id="full-transaction-history" class="wavesTable wScroll" >
                         <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
                         <table>
                             <thead>
