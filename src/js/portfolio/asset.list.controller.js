@@ -48,11 +48,13 @@
             }
 
             var cached = applicationContext.cache.assets[asset.id];
-            cached.balance = Money.fromCoins(asset.balance, cached.currency);
+            if (angular.isNumber(asset.balance)) {
+                cached.balance = Money.fromCoins(asset.balance, cached.currency);
+                asset.balance = cached.balance.formatAmount();
+            }
 
             asset.name = cached.currency.displayName;
             asset.total = cached.totalTokens.formatAmount();
-            asset.balance = cached.balance.formatAmount();
             asset.timestamp = formattingService.formatTimestamp(cached.timestamp);
             asset.reissuable = cached.reissuable;
             asset.sender = cached.sender;
