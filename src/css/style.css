@@ -938,22 +938,22 @@ span.tabs-radio img.selected {
     padding-bottom: 2rem;
 }
 
-#create-asset-confirmation, #asset-transfer-dialog, #asset-reissue-dialog {
+#create-asset-confirmation, #asset-transfer-dialog, #asset-reissue-dialog, #transfer-asset-confirmation {
     padding-bottom: 2rem;
 }
 
-#send-payment-confirmation p, #create-asset-confirmation p, #asset-transfer-dialog form, #asset-reissue-dialog form {
+#send-payment-confirmation p, #create-asset-confirmation p, #asset-transfer-dialog form, #asset-reissue-dialog form, #transfer-asset-confirmation p {
     padding-left: 2rem !important;
     padding-right: 2rem !important;
     padding-bottom: 1rem !important;
 }
 
-#send-payment-confirmation button, #create-asset-confirmation button, #asset-transfer-dialog button, #asset-reissue-dialog button {
+#send-payment-confirmation button, #create-asset-confirmation button, #asset-transfer-dialog button, #asset-reissue-dialog button, #transfer-asset-confirmation button {
     border: 1px solid #37556E;
     color: #37556E;  
 }
 
-#send-payment-confirmation button:hover, #create-asset-confirmation button:hover, #asset-transfer-dialog button:hover, #asset-reissue-dialog button:hover {
+#send-payment-confirmation button:hover, #create-asset-confirmation button:hover, #asset-transfer-dialog button:hover, #asset-reissue-dialog button:hover, #transfer-asset-confirmation button:hover {
     background: #37556E;
     color: #ffffff;
 }
