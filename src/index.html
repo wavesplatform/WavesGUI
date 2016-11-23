@@ -547,11 +547,11 @@
                         <div class="noDisp" ng-controller="assetReissueController as reissue">
                             <div id="asset-reissue-dialog" waves-dialog ok-button-caption="REISSUE" ok-button-enabled="!reissue.confirm.pendingReissue" on-dialog-ok="reissue.submitReissue()">
                                 <form id="asset-reissue-form" name="assetReissueForm" novalidate ng-validate="reissue.validationOptions">
-                                    <h2>ASSET REISSUE</h2>
+                                    <h2 class="sectionHeader">ASSET REISSUE</h2>
                                     <div class="balanceAmt">
                                         <p>Total tokens issued: </p><span class="balancewaves">{{reissue.totalTokens}}</span>
                                     </div>
-                                    <table>
+                                    <table class="wavesTable">
                                         <thead>
                                         <tr>
                                             <th>DESCRIPTION</th>
