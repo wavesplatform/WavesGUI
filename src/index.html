@@ -442,7 +442,7 @@
                                     <td>{{tx.balance}}</td>
                                     <td>
                                         <button ng-click="assetList.assetTransfer(tx.id)">Transfer</button><span class="divider-2"></span>
-                                        <button ng-enable="tx.formatted.canReissue" ng-click="assetList.assetReissue(tx.id)">Reissue</button><span class="divider-2"></span>
+                                        <button ng-disabled="!tx.formatted.canReissue" ng-click="assetList.assetReissue(tx.id)">Reissue</button><span class="divider-2"></span>
                                         <button ng-click="assetList.assetDetails(tx.id)">Details</button>
                                     </td>
                                 </tr>
