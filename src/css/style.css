@@ -703,7 +703,7 @@ header {
 /* ======================================================================= */
 
 
-/* TAB SELECTOR SETTINGS */
+/* TAB SELECTORS SECTION */
 
 #tabs {
     /*        display: flex;*/
@@ -765,7 +765,7 @@ span.tabs-radio img.selected {
 /* ======================================================================= */
 
 
-/* MAIN BODY SETTINGS */
+/* MAIN BODY SECTION */
 
 #mainBody {
     overflow-y: scroll;
@@ -775,7 +775,7 @@ span.tabs-radio img.selected {
 /* ======================================================================= */
 
 
-/* LEFT BAR SETTINGS */
+/* LEFT BAR SECTION */
 
 #mBLeftBar {
     display: table-cell;
@@ -973,7 +973,7 @@ span.tabs-radio img.selected {
 }
 
 
-/* BALANCE BOXES BUTTONS */
+/* BALANCE BOXES BUTTONS SECTION */
 
 .wB-buttons {
     position: absolute;
@@ -1075,7 +1075,7 @@ span.tabs-radio img.selected {
 /* ======================================================================= */
 
 
-/* WAVES STANDARD TABLES */
+/* WAVES STANDARD TABLES SECTION */
 
 .wavesTable table {
     border-collapse: collapse;
@@ -1122,7 +1122,7 @@ span.tabs-radio img.selected {
     -webkit-transition: all .2s ease;
 }
 
-.wavesTable tbody tr:hover {
+.wavesTable-hover tbody tr:hover {
     background: rgba(225, 180, 125, .5);
     cursor: pointer;
 }
