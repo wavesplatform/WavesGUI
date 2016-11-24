@@ -1041,9 +1041,8 @@ span.tabs-radio img.selected {
     padding-top: 1rem;
 }
 
-#wallet-transaction-history {
-    
-    overflow-y: scroll !important;
+#wallet-transaction-history table {
+    overflow-y: scroll;
 }
 
 #wB-butSend-WAV {
@@ -1129,16 +1128,6 @@ span.tabs-radio img.selected {
 
 .wavesTable tbody tr {
     color: #333333;
-}
-
-.wTMainHeader {
-    background-color: #ffffff;
-    border: 0px solid #F0F0F0;
-    text-align: center;
-    font-size: 1.25rem;
-    color: #555555;
-    letter-spacing: .2rem;
-    padding-bottom: .5rem;
 }
 
 .wavesTable-txIn {
@@ -1574,6 +1563,15 @@ span.tabs-radio img.selected {
 #mBB-portfolio table {
     width: 100%;
 }
+
+#mBB-portfolio .wavesTable tbody {
+    overflow-y: scroll;
+}
+
+#mBB-portfolio .wavesTable tr:hover {
+    cursor: default;
+}
+
 
 #portfolio .btn {
     border: none;
