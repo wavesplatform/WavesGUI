@@ -29,12 +29,12 @@ var app = angular.module('app', [
 ]).config(AngularApplicationConfig).run(AngularApplicationRun);
 
 function AngularApplicationConfig($provide, $validatorProvider, networkConstants, applicationSettings) {
-    $provide.constant('constants.network',
+    $provide.constant(networkConstants,
         angular.extend(networkConstants, {
             NETWORK_NAME: 'devel',
             NETWORK_CODE: 'T'
         }));
-    $provide.value('settings.application',
+    $provide.constant(applicationSettings,
         angular.extend(applicationSettings, {
             CLIENT_VERSION: '0.4.1a',
             NODE_ADDRESS: 'http://52.30.47.67:6869'
@@ -82,14 +82,14 @@ function AngularApplicationConfig($provide, $validatorProvider, networkConstants
         'one uppercase and one lowercase letter');
 }
 
-AngularApplicationConfig.$inject = ['$provide', '$validatorProvider', 'constants.network', 'settings.application'];
+AngularApplicationConfig.$inject = ['$provide', '$validatorProvider', 'constants.network', 'constants.application'];
 
-function AngularApplicationRun(rest, settings, notificationService, addressService) {
+function AngularApplicationRun(rest, applicationConstants, notificationService, addressService) {
     // restangular configuration
     rest.setDefaultHttpFields({
         timeout: 10000 // milliseconds
     });
-    var url = settings.NODE_ADDRESS;
+    var url = applicationConstants.NODE_ADDRESS;
     //var url = 'http://52.28.66.217:6869';
     //var url = 'http://52.77.111.219:6869';
     //var url = 'http://127.0.0.1:6869';
@@ -104,5 +104,5 @@ function AngularApplicationRun(rest, settings, notificationService, addressServi
     };
 }
 
-AngularApplicationRun.$inject = ['Restangular', 'settings.application', 'notificationService', 'addressService'];
+AngularApplicationRun.$inject = ['Restangular', 'constants.application', 'notificationService', 'addressService'];
 
