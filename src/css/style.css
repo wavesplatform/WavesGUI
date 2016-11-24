@@ -733,6 +733,10 @@ header {
     height: 100%;
 }
 
+#tabs-Iconset span:focus {
+    outline: none;
+}
+
 #tabs-Iconset img {
     margin-top: 0px;
     margin-left: .5rem;
@@ -745,12 +749,17 @@ header {
 
 #tabs-Iconset img:hover {
     cursor: pointer;
-    -webkit-transform: scale(0.9);
-    transform: scale(0.9);
+    -webkit-transform: scale(0.88);
+    transform: scale(0.88);
 }
 
 span.tabs-radio img {
-    opacity: .4;
+    opacity: .4; 
+}
+
+span.tabs-radio img:not(.selected) {
+    -webkit-transform: scale(0.94);
+    transform: scale(0.94);
 }
 
 span.tabs-radio:hover img {
@@ -759,6 +768,7 @@ span.tabs-radio:hover img {
 
 span.tabs-radio img.selected {
     opacity: 1;
+    pointer-events: none;
 }
 
 
@@ -1158,7 +1168,7 @@ span.tabs-radio img.selected {
 }
 
 #latestBlocks {
-    overflow-y: scroll !important;
+/*    overflow-y: scroll !important;*/
 }
 
 .wavesTable-txUnc {
@@ -1609,7 +1619,7 @@ span.tabs-radio img.selected {
     text-align: center;
 }
 
-#full-transaction-history {
+#full-transaction-history table {
     overflow-y: scroll;
 }
 
