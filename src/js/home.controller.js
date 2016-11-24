@@ -7,7 +7,7 @@
         main: 'main-screen'
     };
 
-    function HomeController($scope, $window, events, constants,
+    function HomeController($scope, $window, events, constants, settings,
                             dialogService, applicationContext, notificationService) {
         function isTestnet() {
             return constants.NETWORK_NAME === 'devel';
@@ -21,7 +21,7 @@
 
         var titlePrefix = isTestnet() ? 'TESTNET ' : '';
         home.title = titlePrefix + 'Lite Client';
-        home.version = constants.CLIENT_VERSION;
+        home.version = settings.CLIENT_VERSION;
 
         $scope.$on(events.SPLASH_COMPLETED, function () {
             home.screen = SCREENS.accounts;
@@ -48,7 +48,7 @@
         }
     }
 
-    HomeController.$inject = ['$scope', '$window', 'ui.events', 'constants.core',
+    HomeController.$inject = ['$scope', '$window', 'ui.events', 'constants.core', 'settings.application',
         'dialogService', 'applicationContext', 'notificationService'];
 
     angular
