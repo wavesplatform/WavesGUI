@@ -137,7 +137,7 @@
             transfer.confirm.paymentPending = true;
 
             apiService.assets.transfer(transaction).then(function () {
-                var amount = Money.fromCoins(transaction.amount, transfer.asset);
+                var amount = Money.fromCoins(transaction.amount, transfer.asset.currency);
                 var address = transaction.recipient;
                 var displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
                     transfer.asset.currency.displayName +
