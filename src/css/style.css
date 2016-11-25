@@ -160,6 +160,10 @@ body {
     font-weight: 200;
 }
 
+.balanceType {
+    
+}
+
 
 /* Custom Scrollbar */
 
@@ -699,7 +703,7 @@ header {
 /* ======================================================================= */
 
 
-/* TAB SELECTOR SETTINGS */
+/* TAB SELECTORS SECTION */
 
 #tabs {
     /*        display: flex;*/
@@ -729,6 +733,10 @@ header {
     height: 100%;
 }
 
+#tabs-Iconset span:focus {
+    outline: none;
+}
+
 #tabs-Iconset img {
     margin-top: 0px;
     margin-left: .5rem;
@@ -741,12 +749,17 @@ header {
 
 #tabs-Iconset img:hover {
     cursor: pointer;
-    -webkit-transform: scale(0.9);
-    transform: scale(0.9);
+    -webkit-transform: scale(0.88);
+    transform: scale(0.88);
 }
 
 span.tabs-radio img {
-    opacity: .4;
+    opacity: .4; 
+}
+
+span.tabs-radio img:not(.selected) {
+    -webkit-transform: scale(0.94);
+    transform: scale(0.94);
 }
 
 span.tabs-radio:hover img {
@@ -755,13 +768,14 @@ span.tabs-radio:hover img {
 
 span.tabs-radio img.selected {
     opacity: 1;
+    pointer-events: none;
 }
 
 
 /* ======================================================================= */
 
 
-/* MAIN BODY SETTINGS */
+/* MAIN BODY SECTION */
 
 #mainBody {
     overflow-y: scroll;
@@ -771,7 +785,7 @@ span.tabs-radio img.selected {
 /* ======================================================================= */
 
 
-/* LEFT BAR SETTINGS */
+/* LEFT BAR SECTION */
 
 #mBLeftBar {
     display: table-cell;
@@ -927,29 +941,34 @@ span.tabs-radio img.selected {
 }
 
 
-/* CONFIRMATION DIALOGS */
+/* CONFIRMATION DIALOGS - ANGULAR FIXES FOR LATER */
 
 #send-payment-confirmation {
     text-align: center;
     padding-bottom: 2rem;
 }
 
-#create-asset-confirmation {
+#asset-details-dialog {
+    max-width: 600px;
+}
+
+#create-asset-confirmation, #asset-transfer-dialog, #asset-reissue-dialog, #transfer-asset-confirmation, #asset-reissue-confirm-dialog, #asset-details-dialog {
     padding-bottom: 2rem;
 }
 
-#send-payment-confirmation p, #create-asset-confirmation p {
-    padding-left: 2rem;
-    padding-right: 2rem;
-    padding-bottom: 1rem;
+#send-payment-confirmation p, #create-asset-confirmation p, #asset-transfer-dialog form, #asset-reissue-dialog form, #transfer-asset-confirmation p, #asset-reissue-confirm-dialog p, #asset-details-dialog table {
+    padding-bottom: 2rem;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+    padding-bottom: 1rem !important;
 }
 
-#send-payment-confirmation button, #create-asset-confirmation button {
+#send-payment-confirmation button, #create-asset-confirmation button, #asset-transfer-dialog button, #asset-reissue-dialog button, #transfer-asset-confirmation button, #asset-reissue-confirm-dialog button, #asset-details-dialog button {
     border: 1px solid #37556E;
     color: #37556E;  
 }
 
-#send-payment-confirmation button:hover, #create-asset-confirmation button:hover {
+#send-payment-confirmation button:hover, #create-asset-confirmation button:hover, #asset-transfer-dialog button:hover, #asset-reissue-dialog button:hover, #transfer-asset-confirmation button:hover, #asset-reissue-confirm-dialog button:hover, #asset-details-dialog button:hover {
     background: #37556E;
     color: #ffffff;
 }
@@ -964,7 +983,7 @@ span.tabs-radio img.selected {
 }
 
 
-/* BALANCE BOXES BUTTONS */
+/* BALANCE BOXES BUTTONS SECTION */
 
 .wB-buttons {
     position: absolute;
@@ -1032,6 +1051,10 @@ span.tabs-radio img.selected {
     padding-top: 1rem;
 }
 
+#wallet-transaction-history table {
+    overflow-y: scroll;
+}
+
 #wB-butSend-WAV {
     padding-bottom: 2rem;
 }
@@ -1061,7 +1084,7 @@ span.tabs-radio img.selected {
 /* ======================================================================= */
 
 
-/* WAVES STANDARD TABLES */
+/* WAVES STANDARD TABLES SECTION */
 
 .wavesTable table {
     border-collapse: collapse;
@@ -1108,23 +1131,13 @@ span.tabs-radio img.selected {
     -webkit-transition: all .2s ease;
 }
 
-.wavesTable tbody tr:hover {
+.wavesTable-hover tbody tr:hover {
     background: rgba(225, 180, 125, .5);
     cursor: pointer;
 }
 
 .wavesTable tbody tr {
     color: #333333;
-}
-
-.wTMainHeader {
-    background-color: #ffffff;
-    border: 0px solid #F0F0F0;
-    text-align: center;
-    font-size: 1.25rem;
-    color: #555555;
-    letter-spacing: .2rem;
-    padding-bottom: .5rem;
 }
 
 .wavesTable-txIn {
@@ -1152,6 +1165,10 @@ span.tabs-radio img.selected {
 #latestBlocksTable .clipSpan:after {
     background: url(../img/wIcon_clip_txOut.svg) no-repeat;
     opacity: .6;
+}
+
+#latestBlocks {
+/*    overflow-y: scroll !important;*/
 }
 
 .wavesTable-txUnc {
@@ -1205,6 +1222,16 @@ span.tabs-radio img.selected {
     outline: none;
     text-align: center;
     text-decoration: none;
+    
+    -webkit-user-select: none;
+    /* Chrome/Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+ */
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none;
+    user-select: none;
 }
 
 #addContactSubmit {
@@ -1465,7 +1492,7 @@ span.tabs-radio img.selected {
     color: #999999;
     font-style: italic;
     padding-right: .5rem;
-    text-align: right;
+    text-align: center;
 }
 
 .balanceAmt p {
@@ -1547,6 +1574,15 @@ span.tabs-radio img.selected {
     width: 100%;
 }
 
+#mBB-portfolio .wavesTable tbody {
+    overflow-y: scroll;
+}
+
+#mBB-portfolio .wavesTable tr:hover {
+    cursor: default;
+}
+
+
 #portfolio .btn {
     border: none;
     width: 8rem;
@@ -1583,8 +1619,8 @@ span.tabs-radio img.selected {
     text-align: center;
 }
 
-#mBB-history .wavesTable {
-    /*    border: 1px solid red;*/
+#full-transaction-history table {
+    overflow-y: scroll;
 }
 
 .wavesDD {

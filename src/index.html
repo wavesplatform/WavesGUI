@@ -389,8 +389,8 @@
                                     on-withdraw="wallet.withdraw(currency)" on-trade="wallet.trade(currency)"></wallet-box>
                     </div>
                     <div id="wallet-transaction-history" class="wavesTable">
-                        <table>
-                            <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
+                        <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
+                        <table class="wavesTable-hover wScroll">
                             <thead>
                             <tr>
                                 <td>DATE</td>
@@ -422,7 +422,7 @@
                 <div id="mBB-portfolio" class="mBB-content" ng-switch-when="portfolio">
                     <div ng-controller="assetListController as assetList">
                         <h2 class="sectionHeader">PORTFOLIO</h2>
-                        <table class="wavesTable">
+                        <table class="wavesTable wScroll">
                             <thead>
                                 <tr>
                                     <td>ASSET NAME</td>
@@ -443,20 +443,26 @@
                                     <td>{{tx.reissuable}}</td>
                                     <td>{{tx.balance}}</td>
                                     <td>
-                                        <button class="wButton wButton-neg fade" ng-click="assetList.assetTransfer(tx.id)">Transfer</button><span class="divider-2"></span>
-                                        <button class="wButton wButton-neg fade" ng-disabled="!tx.formatted.canReissue" ng-click="assetList.assetReissue(tx.id)">Reissue</button><span class="divider-2"></span>
-                                        <button class="wButton wButton-neg fade" ng-click="assetList.assetDetails(tx.id)">Details</button>
+                                        <button class="wButton wButton-neg fade" ng-click="assetList.assetTransfer(tx.id)">TRANSFER</button><span class="divider-2"></span>
+                                        <button class="wButton wButton-neg fade" ng-disabled="!tx.formatted.canReissue" ng-click="assetList.assetReissue(tx.id)">REISSUE</button><span class="divider-2"></span>
+                                        <button class="wButton wButton-neg fade" ng-click="assetList.assetDetails(tx.id)">DETAILS</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="noDisp" ng-controller="assetDetailsController as details">
                             <div id="asset-details-dialog" waves-dialog cancel-button-visible="false">
-                                <h2>ASSET DETAILS</h2>
-                                <table>
+                                <h2 class="sectionHeader">ASSET DETAILS</h2>
+                                <table class="wavesTable">
+                                    <thead>
+                                        <tr>
+                                        <td>FIELD</td>
+                                        <td>DESCRIPTION</td>
+                                        </tr>
+                                    </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Issuer address:</td>
+                                            <td>Issuer:</td>
                                             <td ng-if="!details.isSenderCopiable">{{details.sender}}</td>
                                             <td ng-if="details.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{details.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{details.sender}}</span></td>
                                         </tr>
@@ -470,10 +476,8 @@
                                             <td>{{details.name}}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2">Details:</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">{{details.description}}</td>
+                                            <td>Details:</td>
+                                            <td>{{details.description}}</td>
                                         </tr>
                                         <tr>
                                             <td>Total tokens:</td>
@@ -494,16 +498,14 @@
                         <div class="noDisp" ng-controller="assetTransferController as transfer">
                             <div id="asset-transfer-dialog" waves-dialog ok-button-caption="TRANSFER" on-dialog-ok="transfer.submitTransfer()">
                                 <form id="transfer-asset-form" name="transferAssetForm" novalidate ng-validate="transfer.validationOptions">
-                                    <h2>ASSET TRANSFER</h2>
+                                    <h2 class="sectionHeader">ASSET TRANSFER</h2>
                                     <div class="balanceAmt">
                                         <p>Balance: </p><span class="balancewaves">{{transfer.availableBalance}}</span>
                                     </div>
-                                    <table>
+                                    <table class="wavesTable">
                                         <thead>
-                                        <tr>
                                             <th>DESCRIPTION</th>
                                             <th>INPUT</th>
-                                        </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
@@ -551,11 +553,11 @@
                         <div class="noDisp" ng-controller="assetReissueController as reissue">
                             <div id="asset-reissue-dialog" waves-dialog ok-button-caption="REISSUE" ok-button-enabled="!reissue.confirm.pendingReissue" on-dialog-ok="reissue.submitReissue()">
                                 <form id="asset-reissue-form" name="assetReissueForm" novalidate ng-validate="reissue.validationOptions">
-                                    <h2>ASSET REISSUE</h2>
+                                    <h2 class="sectionHeader">ASSET REISSUE</h2>
                                     <div class="balanceAmt">
                                         <p>Total tokens issued: </p><span class="balancewaves">{{reissue.totalTokens}}</span>
                                     </div>
-                                    <table>
+                                    <table class="wavesTable">
                                         <thead>
                                         <tr>
                                             <th>DESCRIPTION</th>
@@ -597,10 +599,10 @@
                                 </form>
                             </div>
                             <div id="asset-reissue-confirm-dialog" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!reissue.confirm.reissuePending" on-dialog-ok="reissue.broadcastTransaction()">
-                                <p>You are issuing additional amount of <span class="confirmation-value">{{reissue.confirm.amount.value}}</span> tokens <br/>
+                                <p>You are issuing an additional amount of <span class="confirmation-value">{{reissue.confirm.amount.value}}</span> tokens <br/>
                                     to the asset <span class="confirmation-value">{{reissue.confirm.amount.currency}}</span>
-                                    with <span class="confirmation-value">{{reissue.confirm.fee.value}}</span>
-                                    <span class="confirmation-value">{{reissue.confirm.fee.currency}}</span> fee
+                                    with a fee of <span class="confirmation-value">{{reissue.confirm.fee.value}}</span>
+                                    <span class="confirmation-value">{{reissue.confirm.fee.currency}}</span>
                                 </p>
                                 <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
                             </div>
@@ -642,11 +644,10 @@
                 <!-- HISTORY TAB -->
                 <div id="mBB-history" class="mBB-content" ng-switch-when="history" ng-controller="historyController as history">
 
-                    <div id="full-transaction-history" class="wavesTable" >
+                    <div id="full-transaction-history" class="wavesTable">
                         <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
-                        <table>
+                        <table class="wavesTable-hover wScroll">
                             <thead>
-<!--                            <div class="wTMainHeader">LATEST TRANSACTIONS</div>-->
                             <tr>
                                 <td>DATE</td>
                                 <td>TYPE</td>
@@ -776,9 +777,8 @@
                     <p>DISCLAIMER: The Community tab will temporarily hold block information for testing purposes. After alpha phase this data  will be relocated inside the Preferences - Advanced area.</p>
                     <h2>LATEST BLOCKS INFORMATION</h2>
                     <p class="centerIt">
-
                     <div id="latestBlocks" class="wavesTable" >
-                        <table>
+                        <table class="wScroll">
                             <thead>
                             <tr class="fade">
                                 <td>HEIGHT</td>
