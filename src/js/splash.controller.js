@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app')
+        .module('app.ui')
         .controller('splashController', ['$scope', 'apiService', 'ui.events', function ($scope, api, events) {
             NProgress.start();
 
