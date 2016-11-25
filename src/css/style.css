@@ -453,6 +453,7 @@ body {
 
 .loginAccountDiv > span {
     opacity: .5;
+    outline: none;
 }
 
 .loginAccountDiv > span:hover {
