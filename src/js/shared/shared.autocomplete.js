@@ -24,9 +24,24 @@
             };
 
             result.getFeeAmount = function() {
-                return angular.isDefined(result.selectedFee) ?
+                return result.selectedFee ?
                     result.selectedFee.amount :
                     result.searchText;
+            };
+
+            result.defaultFee = function (feeAmount) {
+                var feeIndex = 0;
+
+                if (angular.isNumber(feeAmount)) {
+                    var index = _.findIndex(result.fees, function (fee) {
+                        return fee.amount === feeAmount;
+                    });
+
+                    if (index >= 0)
+                        feeIndex = index;
+                }
+
+                result.selectedFee = result.fees[feeIndex];
             };
 
             result.querySearch = function (searchText) {

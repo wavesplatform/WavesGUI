@@ -362,7 +362,7 @@
                                         <md-autocomplete md-input-name="wavessendfee" md-selected-item="wallet.transfer.selectedFee" md-search-text="wallet.transfer.searchText"
                                                          md-items="item in wallet.transfer.querySearch(wallet.transfer.searchText)"
                                                          md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
-                                                         md-menu-class="popup-autocomplete" ng-class="{'wInput-error': !wallet.transfer.fee.isValid}">
+                                                         md-menu-class="popup-autocomplete">
                                             <md-item-template>
                                                 <span md-highlight-text="wallet.transfer.searchText">{{item.displayText}}</span>
                                             </md-item-template>
@@ -530,7 +530,7 @@
                                                     <md-autocomplete md-input-name="assetFee" md-selected-item="transfer.autocomplete.selectedFee" md-search-text="transfer.autocomplete.searchText"
                                                                      md-items="item in transfer.autocomplete.querySearch(transfer.autocomplete.searchText)"
                                                                      md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
-                                                                     md-menu-class="popup-autocomplete" ng-class="{'wInput-error': !transfer.fee.isValid}">
+                                                                     md-menu-class="popup-autocomplete">
                                                         <md-item-template>
                                                             <span md-highlight-text="transfer.autocomplete.searchText">{{item.displayText}}</span>
                                                         </md-item-template>
