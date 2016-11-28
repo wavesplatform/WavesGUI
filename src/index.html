@@ -500,7 +500,8 @@
                                 <form id="transfer-asset-form" name="transferAssetForm" novalidate ng-validate="transfer.validationOptions">
                                     <h2 class="sectionHeader">ASSET TRANSFER</h2>
                                     <div class="balanceAmt">
-                                        <p>Balance: </p><span class="balancewaves">{{transfer.availableBalance}}</span>
+                                        <p>Asset balance: </p><span class="balancewaves">{{transfer.availableBalance.formatAmount()}}</span>
+                                        <p>Waves balance: </p><span class="balancewaves">{{transfer.wavesBalance.formatAmount(true)}}</span>
                                     </div>
                                     <table class="wavesTable">
                                         <thead>
@@ -555,7 +556,8 @@
                                 <form id="asset-reissue-form" name="assetReissueForm" novalidate ng-validate="reissue.validationOptions">
                                     <h2 class="sectionHeader">ASSET REISSUE</h2>
                                     <div class="balanceAmt">
-                                        <p>Total tokens issued: </p><span class="balancewaves">{{reissue.totalTokens}}</span>
+                                        <p>Total tokens issued: </p><span class="balancewaves">{{reissue.totalTokens.formatAmount()}}</span><br/>
+                                        <p>Waves balance: </p><span class="balancewaves">{{reissue.wavesBalance.formatAmount(true)}}</span>
                                     </div>
                                     <table class="wavesTable">
                                         <thead>
@@ -692,6 +694,9 @@
                     <div ng-controller="tokenCreateController as ctrl">
                         <h2 class="sectionHeader">ASSET CREATION</h2>
                         <form id="create-asset-form" name="createAssetForm" novalidate ng-validate="ctrl.issuanceValidationOptions" ng-submit="ctrl.assetIssueConfirmation(createAssetForm, $event)">
+                            <div class="balanceAmt">
+                                <p>Waves balance: </p><span class="balancewaves">{{ctrl.wavesBalance.formatAmount(true)}}</span>
+                            </div>
                             <table class="wavesTable">
                                 <thead>
                                     <tr>

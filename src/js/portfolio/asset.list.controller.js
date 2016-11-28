@@ -2,11 +2,12 @@
     'use strict';
 
     function WavesAssetListController($scope, $interval, events, applicationContext,
-                                      apiService, formattingService, dialogService) {
+                                      apiService, formattingService) {
         var assetList = this;
         var refreshPromise;
         var refreshDelay = 15 * 1000;
 
+        assetList.wavesBalance = new Money(0, Currency.WAV);
         assetList.assets = [];
         assetList.assetTransfer = assetTransfer;
         assetList.assetDetails = assetDetails;
@@ -22,14 +23,19 @@
 
         function loadDataFromBackend() {
             refreshAssets();
+            refreshBalance();
 
             refreshPromise = $interval(function() {
                 refreshAssets();
+                refreshBalance();
             }, refreshDelay);
         }
 
         function assetTransfer(assetId) {
-            $scope.$broadcast(events.ASSET_TRANSFER, assetId);
+            $scope.$broadcast(events.ASSET_TRANSFER, {
+                assetId: assetId,
+                wavesBalance: assetList.wavesBalance
+            });
         }
 
         function assetDetails(assetId) {
@@ -37,7 +43,10 @@
         }
 
         function assetReissue(assetId) {
-            $scope.$broadcast(events.ASSET_REISSUE, assetId);
+            $scope.$broadcast(events.ASSET_REISSUE, {
+                assetId: assetId,
+                wavesBalance: assetList.wavesBalance
+            });
         }
 
         function tryToLoadAssetDataFromCache(asset) {
@@ -60,6 +69,13 @@
             asset.sender = cached.sender;
 
             return true;
+        }
+
+        function refreshBalance() {
+            apiService.address.balance(applicationContext.account.address)
+                .then(function (response) {
+                    assetList.wavesBalance = Money.fromCoins(response.balance, Currency.WAV);
+                });
         }
 
         function refreshAssets() {
@@ -100,7 +116,7 @@
     }
 
     WavesAssetListController.$inject = ['$scope', '$interval', 'portfolio.events',
-        'applicationContext', 'apiService', 'formattingService', 'dialogService'];
+        'applicationContext', 'apiService', 'formattingService'];
 
     angular
         .module('app.portfolio')
