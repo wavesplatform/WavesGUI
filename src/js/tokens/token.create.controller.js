@@ -7,11 +7,21 @@
     var TOKEN_DECIMALS_MAX = 8;
     var FIXED_ISSUE_FEE = new Money(1, Currency.WAV);
 
-    function TokenCreateController(constants, applicationContext, assetService, dialogService, apiService,
-                                   notificationService, formattingService) {
+    function TokenCreateController($scope, $interval, constants, applicationContext, assetService, dialogService,
+                                   apiService, notificationService, formattingService) {
+        var refreshPromise;
+        var refreshDelay = 15 * 1000;
         var transaction;
         var ctrl = this;
 
+        $scope.$on('$destroy', function () {
+            if (angular.isDefined(refreshPromise)) {
+                $interval.cancel(refreshPromise);
+                refreshPromise = undefined;
+            }
+        });
+
+        ctrl.wavesBalance = new Money(0, Currency.WAV);
         ctrl.issuanceValidationOptions = {
             rules: {
                 assetName: {
@@ -64,6 +74,7 @@
         ctrl.broadcastIssueTransaction = broadcastIssueTransaction;
         ctrl.assetIssueConfirmation = assetIssueConfirmation;
 
+        loadDataFromBackend();
         resetIssueAssetForm();
 
         function assetIssueConfirmation(form, event) {
@@ -71,6 +82,12 @@
 
             if (!form.validate())
                 return;
+
+            if (ctrl.asset.fee.greaterThan(ctrl.wavesBalance)) {
+                notificationService.error('Not enough funds for the issue transaction fee');
+
+                return;
+            }
 
             var asset = {
                 name: ctrl.asset.name,
@@ -135,10 +152,25 @@
             ctrl.asset.decimalPlaces = '0';
             ctrl.asset.reissuable = false;
         }
+
+        function loadDataFromBackend() {
+            refreshBalance();
+
+            refreshPromise = $interval(function() {
+                refreshBalance();
+            }, refreshDelay);
+        }
+
+        function refreshBalance() {
+            apiService.address.balance(applicationContext.account.address)
+                .then(function (response) {
+                    ctrl.wavesBalance = Money.fromCoins(response.balance, Currency.WAV);
+                });
+        }
     }
 
-    TokenCreateController.$inject = ['constants.ui', 'applicationContext', 'assetService', 'dialogService',
-        'apiService', 'notificationService', 'formattingService'];
+    TokenCreateController.$inject = ['$scope', '$interval', 'constants.ui', 'applicationContext', 'assetService',
+        'dialogService', 'apiService', 'notificationService', 'formattingService'];
 
     angular
         .module('app.tokens')
