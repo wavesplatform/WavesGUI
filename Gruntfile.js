@@ -359,7 +359,7 @@ module.exports = function (grunt) {
         },
         "github-release": {
             options: {
-                repository : "beregovoy68/WavesGUI",
+                repository : "wavesplatform/WavesGUI",
                 auth: {
                     user: process.env["GITHUB_ACCESS_TOKEN"],
                     password: ''
@@ -380,7 +380,7 @@ module.exports = function (grunt) {
         webstore_upload: {
             "accounts": {
                 "default": { //account under this section will be used by default
-                    publish: false, //publish item right after uploading. default false
+                    publish: true, //publish item right after uploading. default false
                     client_id: process.env["WEBSTORE_CLIENT_ID"],
                     client_secret: "",
                     refresh_token: process.env["WEBSTORE_REFRESH_TOKEN"]
@@ -419,7 +419,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('distr', ['clean', 'build', 'emptyChangelog', 'copy', 'compress']);
-    grunt.registerTask('publish', ['bump', 'distr', 'conventionalChangelog', 'shell', 'github-release']);
+    grunt.registerTask('publish', ['bump', 'distr', 'conventionalChangelog', 'shell', 'github-release', 'webstore_upload']);
     grunt.registerTask('test', ['jshint', 'jscs', 'karma:development']);
     grunt.registerTask('build', [
         'jscs',

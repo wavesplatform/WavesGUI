@@ -74,7 +74,7 @@
 
         function formatFee(transaction) {
             var currency = Currency.WAV;
-            var assetId = transaction.assetId;
+            var assetId = transaction.feeAssetId;
             if (angular.isDefined(assetId)) {
                 var asset = applicationContext.cache.assets[assetId];
                 if (angular.isDefined(asset))
