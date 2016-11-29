@@ -262,13 +262,13 @@ module.exports = function (grunt) {
                     {expand: true, flatten: true, src: '<%= meta.stylesheets %>', dest: 'distr/<%= meta.configurations.mainnet.name %>/css'},
                     {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.mainnet.name %>'},
                     {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.mainnet.name %>'},
-                    {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.mainnet.name %>/js'}
+                    {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.mainnet.name %>/js'}
                 ],
                 options: {
                     process: function (content, srcPath) {
                         if (srcPath.endsWith('index.html'))
                             return patchHtml(content,
-                                grunt.template.process('<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.js'));
+                                grunt.template.process('<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-<%= pkg.version %>.js'));
 
                         return content;
                     }
