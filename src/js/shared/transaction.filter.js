@@ -27,7 +27,7 @@
         }
 
         function transformAddress(rawAddress) {
-            var result = angular.isDefined(rawAddress) ? rawAddress : 'none';
+            var result = angular.isDefined(rawAddress) ? rawAddress : 'n/a';
 
             if (result === applicationContext.account.address)
                 result = 'You';

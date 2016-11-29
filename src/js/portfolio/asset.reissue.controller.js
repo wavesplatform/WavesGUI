@@ -32,15 +32,16 @@
 
         resetReissueForm();
 
-        $scope.$on(events.ASSET_REISSUE, function (event, assetId) {
-            var asset = applicationContext.cache.assets[assetId];
+        $scope.$on(events.ASSET_REISSUE, function (event, eventData) {
+            var asset = applicationContext.cache.assets[eventData.assetId];
             if (angular.isUndefined(asset))
-                throw new Error('Failed to find asset data by id ' + assetId);
+                throw new Error('Failed to find asset data by id ' + eventData.assetId);
 
-            reissue.assetId = assetId;
+            reissue.assetId = eventData.assetId;
             reissue.assetName = asset.currency.displayName;
-            reissue.totalTokens = asset.totalTokens.formatAmount();
+            reissue.totalTokens = asset.totalTokens;
             reissue.asset = asset;
+            reissue.wavesBalance = eventData.wavesBalance;
 
             // update validation options and check how it affects form validation
             reissue.validationOptions.rules.assetAmount.decimal = asset.currency.precision;
@@ -60,6 +61,12 @@
             if (!form.validate(reissue.validationOptions))
                 // prevent dialog from closing
                 return false;
+
+            if (reissue.fee.greaterThan(reissue.wavesBalance)) {
+                notificationService.error('Not enough funds for the reissue transaction fee');
+
+                return false;
+            }
 
             var assetReissue = {
                 totalTokens: Money.fromTokens(reissue.amount, reissue.asset.currency),

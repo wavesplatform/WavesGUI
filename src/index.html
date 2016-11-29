@@ -362,7 +362,7 @@
                                         <md-autocomplete md-input-name="wavessendfee" md-selected-item="wallet.transfer.selectedFee" md-search-text="wallet.transfer.searchText"
                                                          md-items="item in wallet.transfer.querySearch(wallet.transfer.searchText)"
                                                          md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
-                                                         md-menu-class="popup-autocomplete" ng-class="{'wInput-error': !wallet.transfer.fee.isValid}">
+                                                         md-menu-class="popup-autocomplete">
                                             <md-item-template>
                                                 <span md-highlight-text="wallet.transfer.searchText">{{item.displayText}}</span>
                                             </md-item-template>
@@ -432,11 +432,11 @@
                                     <td>OPTIONS</td>
                                 </tr>
                             </thead>
-                            <tbody ng-switch on="assetList.assets.length">
-                                <tr ng-switch-when="0">
+                            <tbody>
+                                <tr ng-show="assetList.noData">
                                     <td colspan="5">You do not own or issued any assets</td>
                                 </tr>
-                                <tr ng-switch-default ng-repeat="tx in assetList.assets | orderBy:'timestamp':true | asset track by tx.id">
+                                <tr ng-show="!assetList.noData" ng-repeat="tx in assetList.assets | orderBy:'timestamp':true | asset track by tx.id">
                                     <td>{{tx.name}}</td>
                                     <td ng-if="!tx.formatted.isSenderCopiable">{{tx.formatted.sender}}</td>
                                     <td ng-if="tx.formatted.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.sender}}</span></td>
@@ -500,7 +500,8 @@
                                 <form id="transfer-asset-form" name="transferAssetForm" novalidate ng-validate="transfer.validationOptions">
                                     <h2 class="sectionHeader">ASSET TRANSFER</h2>
                                     <div class="balanceAmt">
-                                        <p>Balance: </p><span class="balancewaves">{{transfer.availableBalance}}</span>
+                                        <p>Asset balance: </p><span class="balancewaves">{{transfer.availableBalance.formatAmount()}}</span>
+                                        <p>Waves balance: </p><span class="balancewaves">{{transfer.wavesBalance.formatAmount(true)}}</span>
                                     </div>
                                     <table class="wavesTable">
                                         <thead>
@@ -530,7 +531,7 @@
                                                     <md-autocomplete md-input-name="assetFee" md-selected-item="transfer.autocomplete.selectedFee" md-search-text="transfer.autocomplete.searchText"
                                                                      md-items="item in transfer.autocomplete.querySearch(transfer.autocomplete.searchText)"
                                                                      md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
-                                                                     md-menu-class="popup-autocomplete" ng-class="{'wInput-error': !transfer.fee.isValid}">
+                                                                     md-menu-class="popup-autocomplete">
                                                         <md-item-template>
                                                             <span md-highlight-text="transfer.autocomplete.searchText">{{item.displayText}}</span>
                                                         </md-item-template>
@@ -555,7 +556,8 @@
                                 <form id="asset-reissue-form" name="assetReissueForm" novalidate ng-validate="reissue.validationOptions">
                                     <h2 class="sectionHeader">ASSET REISSUE</h2>
                                     <div class="balanceAmt">
-                                        <p>Total tokens issued: </p><span class="balancewaves">{{reissue.totalTokens}}</span>
+                                        <p>Total tokens issued: </p><span class="balancewaves">{{reissue.totalTokens.formatAmount()}}</span><br/>
+                                        <p>Waves balance: </p><span class="balancewaves">{{reissue.wavesBalance.formatAmount(true)}}</span>
                                     </div>
                                     <table class="wavesTable">
                                         <thead>
@@ -692,6 +694,9 @@
                     <div ng-controller="tokenCreateController as ctrl">
                         <h2 class="sectionHeader">ASSET CREATION</h2>
                         <form id="create-asset-form" name="createAssetForm" novalidate ng-validate="ctrl.issuanceValidationOptions" ng-submit="ctrl.assetIssueConfirmation(createAssetForm, $event)">
+                            <div class="balanceAmt">
+                                <p>Waves balance: </p><span class="balancewaves">{{ctrl.wavesBalance.formatAmount(true)}}</span>
+                            </div>
                             <table class="wavesTable">
                                 <thead>
                                     <tr>

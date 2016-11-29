@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    var DEFAULT_FEE_AMOUNT = '0.001';
+
     function WavesAssetTransferController($scope, $timeout, constants, events, autocomplete, applicationContext,
                                           assetService, apiService, dialogService,
                                           formattingService, notificationService) {
@@ -9,6 +11,7 @@
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAV);
 
         transfer.availableBalance = 0;
+        transfer.wavesBalance = 0;
         transfer.confirm = {
             amount: {
                 value: '0',
@@ -31,7 +34,8 @@
                 assetAmount: {
                     required: true,
                     decimal: 0, // stub value updated on validation
-                    min: 1      // stub value updated on validation
+                    min: 1,     // stub value updated on validation
+                    max: constants.JAVA_MAX_LONG // stub value updated on validation
                 },
                 assetFee: {
                     required: true,
@@ -60,20 +64,24 @@
 
         resetPaymentForm();
 
-        $scope.$on(events.ASSET_TRANSFER, function (event, assetId) {
-            var asset = applicationContext.cache.assets[assetId];
-            transfer.availableBalance = asset.balance.formatAmount();
+        $scope.$on(events.ASSET_TRANSFER, function (event, eventData) {
+            var asset = applicationContext.cache.assets[eventData.assetId];
+            transfer.availableBalance = asset.balance;
+            transfer.wavesBalance = eventData.wavesBalance;
             transfer.asset = asset;
 
             // update validation options and check how it affects form validation
             transfer.validationOptions.rules.assetAmount.decimal = asset.currency.precision;
             var minimumPayment = Money.fromCoins(1, asset.currency);
             transfer.validationOptions.rules.assetAmount.min = minimumPayment.toTokens();
+            transfer.validationOptions.rules.assetAmount.max = transfer.availableBalance.toTokens();
             transfer.validationOptions.messages.assetAmount.decimal = 'The amount to send must be a number ' +
                 'with no more than ' + minimumPayment.currency.precision +
                 ' digits after the decimal point (.)';
             transfer.validationOptions.messages.assetAmount.min = 'Payment amount is too small. ' +
                 'It should be greater or equal to ' + minimumPayment.formatAmount(false);
+            transfer.validationOptions.messages.assetAmount.max = 'Payment amount is too big. ' +
+                'It should be less or equal to ' + transfer.availableBalance.formatAmount(false);
 
             dialogService.open('#asset-transfer-dialog');
         });
@@ -93,10 +101,17 @@
                 // prevent dialog from closing
                 return false;
 
+            var transferFee = Money.fromTokens(transfer.autocomplete.getFeeAmount(), Currency.WAV);
+            if (transferFee.greaterThan(transfer.wavesBalance)) {
+                notificationService.error('Not enough funds for the transfer transaction fee');
+
+                return false;
+            }
+
             var assetTransfer = {
                 recipient: transfer.recipient,
                 amount: Money.fromTokens(transfer.amount, transfer.asset.currency),
-                fee: Money.fromTokens(transfer.autocomplete.getFeeAmount(), Currency.WAV)
+                fee: transferFee
             };
             var sender = {
                 publicKey: applicationContext.account.keyPair.public,
@@ -137,7 +152,7 @@
             transfer.confirm.paymentPending = true;
 
             apiService.assets.transfer(transaction).then(function () {
-                var amount = Money.fromCoins(transaction.amount, transfer.asset);
+                var amount = Money.fromCoins(transaction.amount, transfer.asset.currency);
                 var address = transaction.recipient;
                 var displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
                     transfer.asset.currency.displayName +
@@ -163,9 +178,10 @@
             transfer.recipient = '';
             transfer.amount = '0';
             transfer.fee = {
-                amount: '0.001',
+                amount: DEFAULT_FEE_AMOUNT,
                 isValid: true
             };
+            transfer.autocomplete.defaultFee(Number(DEFAULT_FEE_AMOUNT));
         }
     }
 

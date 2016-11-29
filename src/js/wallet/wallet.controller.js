@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    var DEFAULT_FEE_AMOUNT = '0.001';
+
     function WavesWalletController($scope, $timeout, $interval, constants, autocomplete, applicationContext,
                               dialogService, addressService, utilityService, apiService, notificationService,
                               formattingService, transferService, transactionLoadingService) {
@@ -137,7 +139,7 @@
             var invalid = paymentForm.invalid();
             wallet.transfer.fee.isValid = angular.isDefined(invalid.wavessendfee) ?
                 !invalid.wavessendfee : true;
-            if (!paymentForm.validate())
+            if (!paymentForm.validate(wallet.paymentValidationOptions) || !wallet.transfer.fee.isValid)
                 // prevent payment dialog from closing if it's not valid
                 return false;
 
@@ -252,9 +254,11 @@
             wallet.transfer.recipient = '';
             wallet.transfer.amount = '0';
             wallet.transfer.fee = {
-                amount: '0.001',
+                amount: DEFAULT_FEE_AMOUNT,
                 isValid: true
             };
+
+            wallet.transfer.defaultFee(Number(DEFAULT_FEE_AMOUNT));
         }
     }
 
