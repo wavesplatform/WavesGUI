@@ -1,14 +1,15 @@
 (function () {
     'use strict';
 
-    function WavesAssetListController($scope, $interval, events, applicationContext,
+    function WavesAssetListController($scope, $timeout, $interval, events, applicationContext,
                                       apiService, formattingService) {
         var assetList = this;
         var refreshPromise;
-        var refreshDelay = 15 * 1000;
+        var refreshDelay = 10 * 1000; // refreshing every 10 seconds
 
         assetList.wavesBalance = new Money(0, Currency.WAV);
         assetList.assets = [];
+        assetList.noData = true;
         assetList.assetTransfer = assetTransfer;
         assetList.assetDetails = assetDetails;
         assetList.assetReissue = assetReissue;
@@ -101,21 +102,35 @@
 
                 _.forEach(cacheMiss, function getAssetTransactionInfo(assetId) {
                     apiService.transactions.info(assetId).then(function (response) {
-                        var id = response.id;
-                        applicationContext.cache.assets.put(response);
-                        var index = _.findIndex(assetList.assets, function (asset) {
-                            return asset.id === id;
-                        });
-                        tryToLoadAssetDataFromCache(assetList.assets[index]);
+                        // updating data asynchronously to make view changes visible
+                        $timeout(function () {
+                            var id = response.id;
+                            applicationContext.cache.assets.put(response);
+                            var index = _.findIndex(assetList.assets, function (asset) {
+                                return asset.id === id;
+                            });
+                            if (index >= 0)
+                                tryToLoadAssetDataFromCache(assetList.assets[index]);
+                        }, 500);
                     });
                 });
 
-                assetList.assets = assets;
+                var delay = 1;
+                if (assetList.assets.length === 0 && assets.length > 0) {
+                    assetList.noData = false;
+                    delay = 500; // waiting for 0.5 sec on first data loading attempt
+                }
+
+                // to prevent no data message and asset list from displaying simultaneously
+                // we need to update
+                $timeout(function() {
+                    assetList.assets = assets;
+                }, delay);
             });
         }
     }
 
-    WavesAssetListController.$inject = ['$scope', '$interval', 'portfolio.events',
+    WavesAssetListController.$inject = ['$scope', '$timeout', '$interval', 'portfolio.events',
         'applicationContext', 'apiService', 'formattingService'];
 
     angular

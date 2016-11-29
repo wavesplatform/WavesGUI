@@ -432,11 +432,11 @@
                                     <td>OPTIONS</td>
                                 </tr>
                             </thead>
-                            <tbody ng-switch on="assetList.assets.length">
-                                <tr ng-switch-when="0">
+                            <tbody>
+                                <tr ng-show="assetList.noData">
                                     <td colspan="5">You do not own or issued any assets</td>
                                 </tr>
-                                <tr ng-switch-default ng-repeat="tx in assetList.assets | orderBy:'timestamp':true | asset track by tx.id">
+                                <tr ng-show="!assetList.noData" ng-repeat="tx in assetList.assets | orderBy:'timestamp':true | asset track by tx.id">
                                     <td>{{tx.name}}</td>
                                     <td ng-if="!tx.formatted.isSenderCopiable">{{tx.formatted.sender}}</td>
                                     <td ng-if="tx.formatted.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.sender}}</span></td>
