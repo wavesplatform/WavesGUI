@@ -945,11 +945,7 @@ span.tabs-radio img.selected {
 }
 
 #asset-details-dialog {
-    max-width: 600px;
-}
-
-#asset-details-dialog .wavesTable tr {
-    max-width: 90%;
+    max-width: 640px;
 }
 
 #create-asset-confirmation,
@@ -1173,12 +1169,12 @@ span.tabs-radio img.selected {
 
 .wavesTable-txIn .clipSpan:after {
     background: url(../img/wIcon_clip_txIn.svg) no-repeat;
-    opacity: .6;
+    opacity: .75;
 }
 
 .wavesTable-txOut .clipSpan:after {
     background: url(../img/wIcon_clip_txOut.svg) no-repeat;
-    opacity: .6;
+    opacity: .75;
 }
 
 .wavesTable-txUnc .clipSpan:after {
@@ -1323,9 +1319,6 @@ span.tabs-radio img.selected {
     background: #37556E;
     color: #ffffff;
 }
-
-
-/*.wButton-neg[disabled], .wButton-neg:hover[disabled] {*/
 
 .wButton[disabled],
 .wButton-neg[disabled] {
