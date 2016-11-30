@@ -950,6 +950,10 @@ span.tabs-radio img.selected {
     max-width: 600px;
 }
 
+#asset-details-dialog .wavesTable tr {
+    max-width: 90%;
+}
+
 #create-asset-confirmation, #asset-transfer-dialog, #asset-reissue-dialog, #transfer-asset-confirmation, #asset-reissue-confirm-dialog, #asset-details-dialog {
     padding-bottom: 2rem;
 }
