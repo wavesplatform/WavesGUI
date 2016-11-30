@@ -1,13 +1,16 @@
 (function () {
     'use strict';
 
-    function WavesTabController($scope) {
+    function WavesTabController($scope, dialogService) {
         $scope.isSelected = function () {
             return $scope.pageId === $scope.currentPageId;
         };
 
         $scope.onClick = function () {
             $scope.onSelect({pageId: $scope.pageId});
+
+            // cleaning unused modal dialog divs, created by previous tab
+            dialogService.cleanup();
         };
     }
 
@@ -20,7 +23,7 @@
         .directive('wavesTab', function WavesTabDirective() {
             return {
                 restrict: 'A',
-                controller: ['$scope', WavesTabController],
+                controller: ['$scope', 'dialogService', WavesTabController],
                 scope: {
                     pageId: '@',
                     caption: '<',
