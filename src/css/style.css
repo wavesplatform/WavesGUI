@@ -1304,9 +1304,11 @@ span.tabs-radio img.selected {
     color: #ffffff;
 }
 
-.wButton-neg[disabled], .wButton-neg:hover[disabled] {
-    background: #646464;
-    color: #ffffff;
+/*.wButton-neg[disabled], .wButton-neg:hover[disabled] {*/
+.wButton-neg[disabled] {  
+    opacity: .5;
+    cursor: default;
+    pointer-events: none;
 }
 
 
