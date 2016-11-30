@@ -4,8 +4,6 @@
     function WavesAssetDetailsController($scope, $timeout, events, applicationContext, dialogService) {
         var details = this;
 
-        details.cleanup = cleanup;
-
         function transformAddress(address) {
             var result = address;
 
