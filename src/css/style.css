@@ -1300,6 +1300,11 @@ span.tabs-radio img.selected {
     color: #ffffff;
 }
 
+.wButton-neg[disabled], .wButton-neg:hover[disabled] {
+    background: #646464;
+    color: #ffffff;
+}
+
 
 /* Button style for Danger or Error messages against white bg */
 
@@ -1472,17 +1477,6 @@ span.tabs-radio img.selected {
 #mBB-portfolio .paymentForm table {
     padding-bottom: 1rem;
 }
-
-#mBB-portfolio table tbody tr td  button {
-    border: 1px solid #37556E;
-    color: #37556E;
-}
-
-#mBB-portfolio  table tbody tr td button:hover {
-    background: #37556E;
-    color: #ffffff;
-}
-
 
 /* Payment Forms BALANCE style */
 
