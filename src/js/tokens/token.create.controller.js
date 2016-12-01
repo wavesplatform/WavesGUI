@@ -128,23 +128,21 @@
             // disable confirm button
             ctrl.confirm.pendingIssuance = true;
             apiService.assets.issue(transaction).then(function (response) {
+                resetIssueAssetForm();
+
+                applicationContext.cache.assets.put(response);
+
                 var displayMessage = 'Asset ' + ctrl.confirm.name + ' has been issued!<br/>' +
                     'Total tokens amount: ' + ctrl.confirm.totalTokens + '<br/>' +
                     'Date: ' + formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
-
-                applicationContext.cache.assets.put(response);
-
-                transaction = undefined;
-                ctrl.confirm.pendingIssuance = false;
-                resetIssueAssetForm();
             }, function (response) {
-                if (angular.isDefined(response.data))
+                if (response.data)
                     notificationService.error('Error:' + response.data.error + ' - ' + response.data.message);
                 else
                     notificationService.error('Request failed. Status: ' + response.status + ' - ' +
                         response.statusText);
-
+            }).finally(function () {
                 transaction = undefined;
                 ctrl.confirm.pendingIssuance = false;
             });

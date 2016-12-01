@@ -113,6 +113,7 @@ function AngularApplicationRun(rest, applicationConstants, notificationService, 
     //var url = 'http://52.28.66.217:6869';
     //var url = 'http://52.77.111.219:6869';
     //var url = 'http://127.0.0.1:6869';
+    //var url = 'http://127.0.0.1:8089';
     rest.setBaseUrl(url);
 
     // override mock methods cos in config phase services are not available yet
