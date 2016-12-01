@@ -781,35 +781,7 @@ span.tabs-radio img.selected {
 /* ======================================================================= */
 
 
-/* LEFT BAR SECTION */
-
-#mBLeftBar {
-    display: table-cell;
-    position: relative;
-    width: 200px;
-    border-right: 1px solid #D7D7D7;
-}
-
-.mBLB-vis {
-    display: table-cell;
-}
-
-.mBLB-no-vis {
-    display: none;
-}
-
-
-/* ======================================================================= */
-
-
 /* MAIN BODY-BODY SETTINGS */
-
-#mBBody {
-    /*    display: table-cell;*/
-    /*    position: relative;*/
-    /*    width: auto;*/
-    /*    padding-bottom: 1rem;*/
-}
 
 #mBBody {
     display: -webkit-box;
