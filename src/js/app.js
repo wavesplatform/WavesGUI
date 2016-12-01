@@ -59,17 +59,17 @@ function AngularApplicationConfig($provide, $validatorProvider, networkConstants
             }
         }
     });
-    $validatorProvider.addMethod('address', function(value, element) {
+    $validatorProvider.addMethod('address', function (value, element) {
         return this.optional(element) || __mockValidateAddress(value);
     }, 'Account number must be a sequence of 35 alphanumeric characters with no spaces, ' +
         'optionally starting with \'1W\'');
-    $validatorProvider.addMethod('decimal', function(value, element, params) {
+    $validatorProvider.addMethod('decimal', function (value, element, params) {
         var maxdigits = angular.isNumber(params) ? params : Currency.WAV.precision;
 
         var regex = new RegExp('^(?:-?\\d+)?(?:\\.\\d{0,' + maxdigits + '})?$');
         return this.optional(element) || regex.test(value);
     }, 'Amount is expected with a dot (.) as a decimal separator with no more than {0} fraction digits');
-    $validatorProvider.addMethod('password', function(value, element) {
+    $validatorProvider.addMethod('password', function (value, element) {
         if (this.optional(element))
             return true;
 
@@ -80,6 +80,26 @@ function AngularApplicationConfig($provide, $validatorProvider, networkConstants
         return containsDigits && containsUppercase && containsLowercase;
     }, 'The password is too weak. A good password must contain at least one digit, ' +
         'one uppercase and one lowercase letter');
+    $validatorProvider.addMethod('minbytelength', function (value, element, params) {
+        if (this.optional(element))
+            return true;
+
+        if (!angular.isNumber(params))
+           throw new Error('minbytelength parameter must be a number. Got ' + params);
+
+        var minLength = params;
+        return converters.stringToByteArray(value).length >= minLength;
+    }, 'String is too short. Please add more characters.');
+    $validatorProvider.addMethod('maxbytelength', function (value, element, params) {
+        if (this.optional(element))
+            return true;
+
+        if (!angular.isNumber(params))
+            throw new Error('maxbytelength parameter must be a number. Got ' + params);
+
+        var maxLength = params;
+        return converters.stringToByteArray(value).length <= maxLength;
+    }, 'String is too long. Please remove some characters.');
 }
 
 AngularApplicationConfig.$inject = ['$provide', '$validatorProvider', 'constants.network', 'constants.application'];

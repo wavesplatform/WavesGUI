@@ -26,11 +26,11 @@
             rules: {
                 assetName: {
                     required: true,
-                    minlength: ASSET_NAME_MIN,
-                    maxlength: ASSET_NAME_MAX
+                    minbytelength: ASSET_NAME_MIN,
+                    maxbytelength: ASSET_NAME_MAX
                 },
                 assetDescription: {
-                    maxlength: ASSET_DESCRIPTION_MAX
+                    maxbytelength: ASSET_DESCRIPTION_MAX
                 },
                 assetTotalTokens: {
                     required: true,
@@ -46,12 +46,11 @@
             messages: {
                 assetName: {
                     required: 'Asset name is required',
-                    minlength: 'Asset name minimum length must be ' + ASSET_NAME_MIN + ' characters',
-                    maxlength: 'Asset name maximum length must be ' + ASSET_NAME_MAX + ' characters'
+                    minbytelength: 'Asset name is too short. Please give your asset a longer name',
+                    maxbytelength: 'Asset name is too long. Please give your asset a shorter name'
                 },
                 assetDescription: {
-                    maxlength: 'Maximum length of asset description must be less than ' + ASSET_DESCRIPTION_MAX +
-                    ' characters'
+                    maxbytelength: 'Maximum length of asset description exceeded. Please make a shorter description'
                 },
                 assetTotalTokens: {
                     required: 'Total amount of issued tokens in required',
