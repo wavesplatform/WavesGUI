@@ -34,8 +34,7 @@
                 },
                 assetTotalTokens: {
                     required: true,
-                    min: 0,
-                    max: constants.JAVA_MAX_LONG
+                    min: 0
                 },
                 assetTokenDecimalPlaces: {
                     required: true,
@@ -54,8 +53,7 @@
                 },
                 assetTotalTokens: {
                     required: 'Total amount of issued tokens in required',
-                    min: 'Total issued tokens amount must be greater than or equal to zero',
-                    max: 'Total issued tokens amount must be less than ' + constants.JAVA_MAX_LONG
+                    min: 'Total issued tokens amount must be greater than or equal to zero'
                 },
                 assetTokenDecimalPlaces: {
                     required: 'Number of token decimal places is required',
@@ -84,6 +82,14 @@
 
             if (ctrl.asset.fee.greaterThan(ctrl.wavesBalance)) {
                 notificationService.error('Not enough funds for the issue transaction fee');
+
+                return;
+            }
+
+            var decimalPlaces = Number(ctrl.asset.decimalPlaces);
+            var maxTokens = Math.floor(constants.JAVA_MAX_LONG / Math.pow(10, decimalPlaces));
+            if (ctrl.asset.totalTokens > maxTokens) {
+                notificationService.error('Total issued tokens amount must be less than ' + maxTokens);
 
                 return;
             }
