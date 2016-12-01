@@ -322,8 +322,9 @@
               </div>
             </section>
 
-            <!-- BODY CONTENT -->
-            <section id="mBBody" class="fFade" ng-switch on="nav.currentTab">
+            <section id="mainBody" class="wScroll">
+                <!-- BODY CONTENT -->
+                <section id="mBBody" class="fFade" ng-switch on="nav.currentTab">
                 <!-- WALLET TAB -->
                 <div id="mBB-wallet" class="mBB-content" ng-switch-when="wallet" ng-controller="walletController as wallet">
                     <div id="wB-butSend-WAV" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="wallet.submitPayment()">
@@ -818,6 +819,7 @@
                     </p>
                 </div>
                 <!-- /COMMUNITY TAB -->
+            </section>
             </section>
         </div>
     </div> <!-- Wrapper div END -->
