@@ -233,7 +233,7 @@
 
 	<div id="wrapper" ng-switch-when="main-screen" ng-cloak>
         <!-- shared blocks -->
-        <div id="feat-not-active" waves-dialog show-buttons="false" is-error="true">
+        <div id="feat-not-active" waves-dialog global="true" show-buttons="false" is-error="true">
             <h2 class="sectionHeader">NOTICE</h2>
             <p>This feature is still under development and not active during the alpha release.
                 <br/><br/>
@@ -268,7 +268,7 @@
                 <a ng-click="menu.showBackupDialog()">
                     <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-backup.svg" alt="Backup" title="Backup"/>
                 </a>
-                <div id="header-wPop-backup" waves-dialog on-dialog-ok="menu.backup()" ok-button-caption="COPY" cancel-button-caption="CLOSE">
+                <div id="header-wPop-backup" waves-dialog global="true" on-dialog-ok="menu.backup()" ok-button-caption="COPY" cancel-button-caption="CLOSE">
                     <h2 class="sectionHeader">ACCOUNT INFO BACKUP</h2>
                     <p>Your account's basic information, click the <b>COPY</b> button in order to copy the contents to the clipboard or <b>CLOSE</b> to exit.</p></br>
                     <form id="backupForm">
