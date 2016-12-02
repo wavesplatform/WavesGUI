@@ -26,7 +26,7 @@
                 dialogs with outdated data
              */
             this.cleanup = function () {
-                var result = $document.find('body > div.modal');
+                var result = $document.find('body > div.modal.recyclable');
                 _.forEach(result, function (divNode) {
                     divNode.remove();
                 })
