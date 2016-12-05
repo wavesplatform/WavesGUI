@@ -213,13 +213,9 @@
             });
         }
 
-        function fillUpTransactionCache (transactions) {
-            applicationContext.cache.assets.grab(transactions);
-        }
-
         function loadDataFromBackend() {
             refreshWallets();
-            refreshTransactions(fillUpTransactionCache);
+            refreshTransactions();
 
             refreshPromise = $interval(function() {
                 refreshWallets();
@@ -238,13 +234,16 @@
             });
         }
 
-        function refreshTransactions(transactionHandler) {
+        function refreshTransactions() {
+            var txArray;
             transactionLoadingService.loadTransactions(applicationContext.account.address)
                 .then(function (transactions) {
-                    if (angular.isDefined(transactionHandler))
-                        transactionHandler(transactions);
+                    txArray = transactions;
 
-                    wallet.transactions = transactions;
+                    return transactionLoadingService.refreshAssetCache(applicationContext.cache.assets, transactions);
+                })
+                .then(function () {
+                    wallet.transactions = txArray;
                 });
         }
 

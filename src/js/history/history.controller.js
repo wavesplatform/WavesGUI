@@ -21,10 +21,16 @@
         });
 
         function refreshTransactions() {
+            var txArray;
             transactionLoadingService.loadTransactions(applicationContext.account.address)
                 .then(function (transactions) {
-                    history.unconfirmed = _.where(transactions, {unconfirmed: true});
-                    history.confirmed = _.difference(transactions, history.unconfirmed);
+                    txArray = transactions;
+
+                    return transactionLoadingService.refreshAssetCache(applicationContext.cache.assets, transactions);
+                })
+                .then(function () {
+                    history.unconfirmed = _.where(txArray, {unconfirmed: true});
+                    history.confirmed = _.difference(txArray, history.unconfirmed);
                 });
         }
     }

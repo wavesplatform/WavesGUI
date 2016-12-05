@@ -37,7 +37,8 @@
         });
     }
 
-    WavesAssetDetailsController.$inject = ['$scope', '$timeout', 'portfolio.events', 'applicationContext', 'dialogService'];
+    WavesAssetDetailsController.$inject = ['$scope', '$timeout', 'portfolio.events', 'applicationContext',
+        'dialogService'];
 
     angular
         .module('app.portfolio')

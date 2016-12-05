@@ -45,6 +45,7 @@
 
         function processPaymentTransaction(transaction) {
             transaction.formatted.amount = Money.fromCoins(transaction.amount, Currency.WAV).formatAmount();
+            transaction.formatted.asset = Currency.WAV.displayName;
         }
 
         function processAssetIssueTransaction(transaction) {
@@ -54,6 +55,7 @@
                 precision: transaction.decimals
             });
             transaction.formatted.amount = Money.fromCoins(transaction.quantity, asset).formatAmount();
+            transaction.formatted.asset = asset.displayName;
         }
 
         function processAssetTransferTransaction(transaction) {
@@ -62,6 +64,7 @@
                 return;
 
             transaction.formatted.amount = Money.fromCoins(transaction.amount, asset.currency).formatAmount();
+            transaction.formatted.asset = asset.currency.displayName;
         }
 
         function processAssetReissueTransaction(transaction) {
@@ -70,6 +73,7 @@
                 return;
 
             transaction.formatted.amount = Money.fromCoins(transaction.quantity, asset.currency).formatAmount();
+            transaction.formatted.asset = asset.currency.displayName;
         }
 
         function formatFee(transaction) {
@@ -96,7 +100,8 @@
                 sender: transformAddress(transaction.sender),
                 recipient: transformAddress(transaction.recipient),
                 amount: 'N/A',
-                fee: formatFee(transaction)
+                fee: formatFee(transaction),
+                asset: 'Loading'
             };
 
             processTransaction(transaction);
