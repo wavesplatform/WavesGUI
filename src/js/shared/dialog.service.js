@@ -29,7 +29,7 @@
                 var result = $document.find('body > div.modal.recyclable');
                 _.forEach(result, function (divNode) {
                     divNode.remove();
-                })
+                });
             };
         }]);
 })();

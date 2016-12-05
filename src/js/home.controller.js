@@ -8,7 +8,7 @@
     };
 
     function HomeController($scope, $window, events, networkConstants, applicationConstants,
-                            dialogService, applicationContext, notificationService) {
+                            dialogService, applicationContext, notificationService, apiService) {
         function isTestnet() {
             return networkConstants.NETWORK_NAME === 'devel';
         }
@@ -36,7 +36,17 @@
             // putting the current account to the app context
             applicationContext.account = account;
 
-            home.screen = SCREENS.main;
+            NProgress.start();
+            apiService.assets.balance(applicationContext.account.address)
+                .then(function (response) {
+                    _.forEach(response.balances, function (balanceItem) {
+                        applicationContext.cache.assets.put(balanceItem.issueTransaction);
+                    });
+                })
+                .finally(function () {
+                    home.screen = SCREENS.main;
+                    NProgress.done();
+                });
         });
 
         function featureUnderDevelopment() {
@@ -49,7 +59,7 @@
     }
 
     HomeController.$inject = ['$scope', '$window', 'ui.events', 'constants.network', 'constants.application',
-        'dialogService', 'applicationContext', 'notificationService'];
+        'dialogService', 'applicationContext', 'notificationService', 'apiService'];
 
     angular
         .module('app.ui')
