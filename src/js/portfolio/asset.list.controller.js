@@ -83,18 +83,29 @@
                         name: ''
                     };
 
+                    // adding asset details to cache
                     applicationContext.cache.assets.put(assetBalance.issueTransaction);
                     applicationContext.cache.assets.update(id, assetBalance.balance,
                         assetBalance.reissuable, assetBalance.quantity);
-                    loadAssetDataFromCache(asset);
 
-                    assets.push(asset);
+                    // adding an asset with positive balance only
+                    if (assetBalance.balance !== 0) {
+                        loadAssetDataFromCache(asset);
+                        assets.push(asset);
+                    }
                 });
 
                 var delay = 1;
+                // handling the situation when some assets appeared on the account
                 if (assetList.assets.length === 0 && assets.length > 0) {
                     assetList.noData = false;
                     delay = 500; // waiting for 0.5 sec on first data loading attempt
+                }
+
+                // handling the situation when all assets were transferred from the account
+                if (assetList.assets.length > 0 && assets.length === 0) {
+                    assetList.noData = true;
+                    delay = 500;
                 }
 
                 // to prevent no data message and asset list from displaying simultaneously
