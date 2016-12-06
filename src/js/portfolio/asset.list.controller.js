@@ -50,26 +50,20 @@
             });
         }
 
-        function tryToLoadAssetDataFromCache(asset) {
+        function loadAssetDataFromCache(asset) {
             if (angular.isUndefined(applicationContext.cache.assets[asset.id])) {
                 asset.balance = 'Loading';
 
-                return false;
+                return;
             }
 
             var cached = applicationContext.cache.assets[asset.id];
-            if (angular.isNumber(asset.balance)) {
-                cached.balance = Money.fromCoins(asset.balance, cached.currency);
-                asset.balance = cached.balance.formatAmount();
-            }
-
+            asset.balance = cached.balance.formatAmount();
             asset.name = cached.currency.displayName;
             asset.total = cached.totalTokens.formatAmount();
             asset.timestamp = formattingService.formatTimestamp(cached.timestamp);
             asset.reissuable = cached.reissuable;
             asset.sender = cached.sender;
-
-            return true;
         }
 
         function refreshBalance() {
@@ -80,45 +74,40 @@
         }
 
         function refreshAssets() {
+            var assets = [];
             apiService.assets.balance(applicationContext.account.address).then(function (response) {
-                var balances = response.balances;
-                var assets = [];
-                var cacheMiss = [];
-                _.forEach(balances, function (assetBalance) {
+                _.forEach(response.balances, function (assetBalance) {
                     var id = assetBalance.assetId;
                     var asset = {
                         id: id,
-                        total: '',
-                        name: '',
-                        balance: assetBalance.balance,
-                        issued: assetBalance.issued
+                        name: ''
                     };
 
-                    if (!tryToLoadAssetDataFromCache(asset))
-                        cacheMiss.push(id);
+                    // adding asset details to cache
+                    applicationContext.cache.assets.put(assetBalance.issueTransaction);
+                    applicationContext.cache.assets.update(id, assetBalance.balance,
+                        assetBalance.reissuable, assetBalance.quantity);
 
-                    assets.push(asset);
-                });
-
-                _.forEach(cacheMiss, function getAssetTransactionInfo(assetId) {
-                    apiService.transactions.info(assetId).then(function (response) {
-                        // updating data asynchronously to make view changes visible
-                        $timeout(function () {
-                            var id = response.id;
-                            applicationContext.cache.assets.put(response);
-                            var index = _.findIndex(assetList.assets, function (asset) {
-                                return asset.id === id;
-                            });
-                            if (index >= 0)
-                                tryToLoadAssetDataFromCache(assetList.assets[index]);
-                        }, 500);
-                    });
+                    // adding an asset with positive balance only or your reissuable assets
+                    var yourReissuableAsset = assetBalance.reissuable &&
+                        assetBalance.issueTransaction.sender === applicationContext.account.address;
+                    if (assetBalance.balance !== 0 || yourReissuableAsset) {
+                        loadAssetDataFromCache(asset);
+                        assets.push(asset);
+                    }
                 });
 
                 var delay = 1;
+                // handling the situation when some assets appeared on the account
                 if (assetList.assets.length === 0 && assets.length > 0) {
                     assetList.noData = false;
                     delay = 500; // waiting for 0.5 sec on first data loading attempt
+                }
+
+                // handling the situation when all assets were transferred from the account
+                if (assetList.assets.length > 0 && assets.length === 0) {
+                    assetList.noData = true;
+                    delay = 500;
                 }
 
                 // to prevent no data message and asset list from displaying simultaneously

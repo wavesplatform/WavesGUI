@@ -30,7 +30,7 @@ module.exports = function (grunt) {
             stylesheets: ['bower_components/angular/angular-csp.css', 'bower_components/angular-material/angular-material.css'],
             content: ['css/**', 'img/**', 'index.html'],
             licenses: ['3RD-PARTY-LICENSES.txt', 'LICENSE'],
-            editor: "nano",
+            editor: "gedit --new-window -s ",
             configurations: {
                 testnet: {
                     name: 'testnet',
@@ -321,6 +321,7 @@ module.exports = function (grunt) {
                 files: ['package.json', 'bower.json'],
                 updateConfigs: ['pkg'],
                 commit: true, // debug
+                commitFiles: ['package.json', 'bower.json'],
                 push: 'branch', // debug
                 pushTo: 'origin',
                 createTag: false,

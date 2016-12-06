@@ -200,28 +200,22 @@
                     '<br>Recipient ' + address.substr(0,15) + '...<br>Date: ' +
                     formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
-                //enable confirm button
-                wallet.confirm.paymentPending = false;
-                transaction = undefined;
             }, function (response) {
-                if (angular.isDefined(response.data))
+                if (response.data)
                     notificationService.error('Error:' + response.data.error + ' - ' + response.data.message);
                 else
                     notificationService.error('Request failed. Status: ' + response.status + ' - ' +
                         response.statusText);
+            }).finally(function () {
                 //enable confirm button
                 wallet.confirm.paymentPending = false;
                 transaction = undefined;
             });
         }
 
-        function fillUpTransactionCache (transactions) {
-            applicationContext.cache.assets.grab(transactions);
-        }
-
         function loadDataFromBackend() {
             refreshWallets();
-            refreshTransactions(fillUpTransactionCache);
+            refreshTransactions();
 
             refreshPromise = $interval(function() {
                 refreshWallets();
@@ -240,13 +234,16 @@
             });
         }
 
-        function refreshTransactions(transactionHandler) {
+        function refreshTransactions() {
+            var txArray;
             transactionLoadingService.loadTransactions(applicationContext.account.address)
                 .then(function (transactions) {
-                    if (angular.isDefined(transactionHandler))
-                        transactionHandler(transactions);
+                    txArray = transactions;
 
-                    wallet.transactions = transactions;
+                    return transactionLoadingService.refreshAssetCache(applicationContext.cache.assets, transactions);
+                })
+                .then(function () {
+                    wallet.transactions = txArray;
                 });
         }
 

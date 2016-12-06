@@ -159,15 +159,13 @@
                     '<br/>Recipient ' + address.substr(0,15) + '...<br/>Date: ' +
                     formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
-                //enable confirm button
-                transfer.confirm.paymentPending = false;
-                transaction = undefined;
             }, function (response) {
-                if (angular.isDefined(response.data))
+                if (response.data)
                     notificationService.error('Error:' + response.data.error + ' - ' + response.data.message);
                 else
                     notificationService.error('Request failed. Status: ' + response.status + ' - ' +
                         response.statusText);
+            }).finally(function () {
                 //enable confirm button
                 transfer.confirm.paymentPending = false;
                 transaction = undefined;

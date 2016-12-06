@@ -39,7 +39,7 @@
         <div id="logo-container-centered" class="centerIt">
             <div id="logoo">
                 <img id="logo-spin" src="img/logo-spin.svg" />
-                <p id="networkCheck" ng-cloak>{{::splash.connectionFailed}}</p>
+                <p id="networkCheck">Loading</p>
             </div>
         </div>
     </div>
@@ -233,7 +233,7 @@
 
 	<div id="wrapper" ng-switch-when="main-screen" ng-cloak>
         <!-- shared blocks -->
-        <div id="feat-not-active" waves-dialog show-buttons="false" is-error="true">
+        <div id="feat-not-active" waves-dialog global="true" show-buttons="false" is-error="true">
             <h2 class="sectionHeader">NOTICE</h2>
             <p>This feature is still under development and not active during the alpha release.
                 <br/><br/>
@@ -268,7 +268,7 @@
                 <a ng-click="menu.showBackupDialog()">
                     <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-backup.svg" alt="Backup" title="Backup"/>
                 </a>
-                <div id="header-wPop-backup" waves-dialog on-dialog-ok="menu.backup()" ok-button-caption="COPY" cancel-button-caption="CLOSE">
+                <div id="header-wPop-backup" waves-dialog global="true" on-dialog-ok="menu.backup()" ok-button-caption="COPY" cancel-button-caption="CLOSE">
                     <h2 class="sectionHeader">ACCOUNT INFO BACKUP</h2>
                     <p>Your account's basic information, click the <b>COPY</b> button in order to copy the contents to the clipboard or <b>CLOSE</b> to exit.</p></br>
                     <form id="backupForm">
@@ -396,6 +396,7 @@
                             <tr>
                                 <td>DATE</td>
                                 <td>TYPE</td>
+                                <td>ASSET</td>
                                 <td>SENDER</td>
                                 <td>RECIPIENT</td>
                                 <td>FEE</td>
@@ -406,6 +407,7 @@
                                 <tr ng-repeat="tx in wallet.transactions | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" ng-class="{'wavesTable-txUnc': tx.unconfirmed, 'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
                                     <td>{{tx.formatted.datetime}}</td>
                                     <td>{{tx.formatted.type}}</td>
+                                    <td>{{tx.formatted.asset}}</td>
                                     <td ng-if="!tx.formatted.isSenderCopiable">{{tx.formatted.sender}}</td>
                                     <td ng-if="tx.formatted.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.sender}}</span></td>
                                     <td ng-if="!tx.formatted.isRecipientCopiable">{{tx.formatted.recipient}}</td>
@@ -654,6 +656,7 @@
                             <tr>
                                 <td>DATE</td>
                                 <td>TYPE</td>
+                                <td>ASSET</td>
                                 <td>SENDER</td>
                                 <td>RECIPIENT</td>
                                 <td>FEE</td>
@@ -664,6 +667,7 @@
                                 <tr ng-repeat="tx in history.unconfirmed | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" class="wavesTable-txUnc" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
                                     <td>{{tx.formatted.datetime}}</td>
                                     <td>{{tx.formatted.type}}</td>
+                                    <td>{{tx.formatted.asset}}</td>
                                     <td ng-if="!tx.formatted.isSenderCopiable">{{tx.formatted.sender}}</td>
                                     <td ng-if="tx.formatted.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.sender}}</span></td>
                                     <td ng-if="!tx.formatted.isRecipientCopiable">{{tx.formatted.recipient}}</td>
@@ -676,6 +680,7 @@
                                 <tr ng-repeat="tx in history.confirmed | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
                                     <td>{{tx.formatted.datetime}}</td>
                                     <td>{{tx.formatted.type}}</td>
+                                    <td>{{tx.formatted.asset}}</td>
                                     <td ng-if="!tx.formatted.isSenderCopiable">{{tx.formatted.sender}}</td>
                                     <td ng-if="tx.formatted.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.sender}}</span></td>
                                     <td ng-if="!tx.formatted.isRecipientCopiable">{{tx.formatted.recipient}}</td>

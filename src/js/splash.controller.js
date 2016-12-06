@@ -3,18 +3,12 @@
 
     angular
         .module('app.ui')
-        .controller('splashController', ['$scope', 'apiService', 'ui.events', function ($scope, api, events) {
+        .controller('splashController', ['$scope', '$timeout', 'ui.events', function ($scope, $timeout, events) {
             NProgress.start();
 
-            var splash = this;
-
-            api.blocks.last().then(function (block) {
+            $timeout(function () {
                 NProgress.done();
                 $scope.$emit(events.SPLASH_COMPLETED);
-            },
-            function (response) {
-                NProgress.done();
-                splash.connectionFailed = 'Failed connecting to Waves';
-            });
+            }, 1);
         }]);
 })();

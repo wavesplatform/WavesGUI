@@ -26,16 +26,15 @@
             rules: {
                 assetName: {
                     required: true,
-                    minlength: ASSET_NAME_MIN,
-                    maxlength: ASSET_NAME_MAX
+                    minbytelength: ASSET_NAME_MIN,
+                    maxbytelength: ASSET_NAME_MAX
                 },
                 assetDescription: {
-                    maxlength: ASSET_DESCRIPTION_MAX
+                    maxbytelength: ASSET_DESCRIPTION_MAX
                 },
                 assetTotalTokens: {
                     required: true,
-                    min: 0,
-                    max: constants.JAVA_MAX_LONG
+                    min: 0
                 },
                 assetTokenDecimalPlaces: {
                     required: true,
@@ -46,17 +45,15 @@
             messages: {
                 assetName: {
                     required: 'Asset name is required',
-                    minlength: 'Asset name minimum length must be ' + ASSET_NAME_MIN + ' characters',
-                    maxlength: 'Asset name maximum length must be ' + ASSET_NAME_MAX + ' characters'
+                    minbytelength: 'Asset name is too short. Please give your asset a longer name',
+                    maxbytelength: 'Asset name is too long. Please give your asset a shorter name'
                 },
                 assetDescription: {
-                    maxlength: 'Maximum length of asset description must be less than ' + ASSET_DESCRIPTION_MAX +
-                    ' characters'
+                    maxbytelength: 'Maximum length of asset description exceeded. Please make a shorter description'
                 },
                 assetTotalTokens: {
                     required: 'Total amount of issued tokens in required',
-                    min: 'Total issued tokens amount must be greater than or equal to zero',
-                    max: 'Total issued tokens amount must be less than ' + constants.JAVA_MAX_LONG
+                    min: 'Total issued tokens amount must be greater than or equal to zero'
                 },
                 assetTokenDecimalPlaces: {
                     required: 'Number of token decimal places is required',
@@ -85,6 +82,14 @@
 
             if (ctrl.asset.fee.greaterThan(ctrl.wavesBalance)) {
                 notificationService.error('Not enough funds for the issue transaction fee');
+
+                return;
+            }
+
+            var decimalPlaces = Number(ctrl.asset.decimalPlaces);
+            var maxTokens = Math.floor(constants.JAVA_MAX_LONG / Math.pow(10, decimalPlaces));
+            if (ctrl.asset.totalTokens > maxTokens) {
+                notificationService.error('Total issued tokens amount must be less than ' + maxTokens);
 
                 return;
             }
@@ -123,23 +128,21 @@
             // disable confirm button
             ctrl.confirm.pendingIssuance = true;
             apiService.assets.issue(transaction).then(function (response) {
+                resetIssueAssetForm();
+
+                applicationContext.cache.assets.put(response);
+
                 var displayMessage = 'Asset ' + ctrl.confirm.name + ' has been issued!<br/>' +
                     'Total tokens amount: ' + ctrl.confirm.totalTokens + '<br/>' +
                     'Date: ' + formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
-
-                applicationContext.cache.assets.put(response);
-
-                transaction = undefined;
-                ctrl.confirm.pendingIssuance = false;
-                resetIssueAssetForm();
             }, function (response) {
-                if (angular.isDefined(response.data))
+                if (response.data)
                     notificationService.error('Error:' + response.data.error + ' - ' + response.data.message);
                 else
                     notificationService.error('Request failed. Status: ' + response.status + ' - ' +
                         response.statusText);
-
+            }).finally(function () {
                 transaction = undefined;
                 ctrl.confirm.pendingIssuance = false;
             });

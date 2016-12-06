@@ -41,6 +41,9 @@
 
     function WavesDialogLink(scope, element, attrs, controller) {
         element.addClass('wavesPop');
+
+        if (!scope.global)
+            element.addClass('recyclable');
     }
 
     angular
@@ -61,7 +64,8 @@
                     okButtonCaption: '@',
                     okButtonEnabled: '=?',
                     cancelButtonCaption: '@',
-                    isError: '=?'
+                    isError: '=?',
+                    global: '=?'
                 },
                 link: WavesDialogLink,
                 template: '<img class="wPop-header" ng-src="img/{{image}}" />' +
