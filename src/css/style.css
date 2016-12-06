@@ -920,6 +920,14 @@ span.tabs-radio img.selected {
     max-width: 640px;
 }
 
+#asset-details-dialog .wavesTable tr:nth-child(4) {
+    max-width: 630px !important;
+}
+
+#asset-details-dialog .wavesTable {
+    max-width: 630px !important;
+}
+
 #create-asset-confirmation,
 #asset-transfer-dialog,
 #asset-reissue-dialog,
@@ -1590,8 +1598,13 @@ span.tabs-radio img.selected {
     background: #5AC8D2;
 }
 
-#portfolio table thead tr th {
-    padding: .5rem;
+#mBB-portfolio .wavesTable tr .clipSpan:after {
+    background: url(../img/wIcon_clip_txIn.svg) no-repeat;
+    opacity: 1;
+}
+
+#mBB-portfolio .wavesTable tr {
+    
 }
 
 
