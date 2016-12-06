@@ -28,7 +28,8 @@ var app = angular.module('app', [
     'app.portfolio'
 ]).config(AngularApplicationConfig).run(AngularApplicationRun);
 
-function AngularApplicationConfig($provide, $validatorProvider, networkConstants, applicationSettings) {
+function AngularApplicationConfig($provide, $compileProvider, $validatorProvider,
+                                  networkConstants, applicationSettings) {
     $provide.constant(networkConstants,
         angular.extend(networkConstants, {
             NETWORK_NAME: 'devel',
@@ -39,6 +40,8 @@ function AngularApplicationConfig($provide, $validatorProvider, networkConstants
             CLIENT_VERSION: '0.4.1a',
             NODE_ADDRESS: 'http://52.30.47.67:6869'
         }));
+
+    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data|file|chrome-extension):/);
 
     $validatorProvider.setDefaults({
         errorClass: 'wInput-error',
@@ -102,7 +105,8 @@ function AngularApplicationConfig($provide, $validatorProvider, networkConstants
     }, 'String is too long. Please remove some characters.');
 }
 
-AngularApplicationConfig.$inject = ['$provide', '$validatorProvider', 'constants.network', 'constants.application'];
+AngularApplicationConfig.$inject = ['$provide', '$compileProvider', '$validatorProvider',
+    'constants.network', 'constants.application'];
 
 function AngularApplicationRun(rest, applicationConstants, notificationService, addressService) {
     // restangular configuration
