@@ -1,6 +1,6 @@
 {
   "name": "waves-lite-client",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "dependencies": {
     "angular": "~1.5.0",
     "angular-route": "~1.5.0",
