@@ -1,6 +1,6 @@
 {
   "name": "waves-lite-client",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "A lite client for the Waves platform",
   "license": "See license in ./LICENSE",
   "engines": {
