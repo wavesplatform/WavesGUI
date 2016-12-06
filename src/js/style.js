@@ -26,24 +26,10 @@
         var $wrapH = $('#wrapper').height(),
             $headerH = $('header').height(),
             $tabsH = $('#tabs').height(),
-            $jurlH = $('.jurl').height(),
-            $mainBodyH = $wrapH - $headerH - $tabsH - $jurlH,
-            $lbW = $('#mBLeftBar').width(),
-            $mbBodyW = $wrapW - $lbW;
+            $mainBodyH = $wrapH - $headerH - $tabsH,
+            $mbBodyW = $wrapW;
 
         $('#mainBody').css('height', $mainBodyH);
-        $('#mBLeftBar').css('height', $mainBodyH);
         $('#mBBody').css('width', $mbBodyW);
     });
-
-    // Fee styling on .paymentForm
-    $(window).ready(function () {
-        $('.paymentForm tr td:contains(\'Fee\')').each(function () {
-            $(this).parent().addClass('paymentFormFee');
-        });
-    });
-
-    // Temporary - Delete later
-    $('#mBB-community').height($mbBodyH);
-
 })(jQuery, window);

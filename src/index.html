@@ -39,7 +39,7 @@
         <div id="logo-container-centered" class="centerIt">
             <div id="logoo">
                 <img id="logo-spin" src="img/logo-spin.svg" />
-                <p id="networkCheck" ng-cloak>{{::splash.connectionFailed}}</p>
+                <p id="networkCheck">Loading</p>
             </div>
         </div>
     </div>
@@ -233,7 +233,7 @@
 
 	<div id="wrapper" ng-switch-when="main-screen" ng-cloak>
         <!-- shared blocks -->
-        <div id="feat-not-active" waves-dialog show-buttons="false" is-error="true">
+        <div id="feat-not-active" waves-dialog global="true" show-buttons="false" is-error="true">
             <h2 class="sectionHeader">NOTICE</h2>
             <p>This feature is still under development and not active during the alpha release.
                 <br/><br/>
@@ -268,7 +268,7 @@
                 <a ng-click="menu.showBackupDialog()">
                     <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-backup.svg" alt="Backup" title="Backup"/>
                 </a>
-                <div id="header-wPop-backup" waves-dialog on-dialog-ok="menu.backup()" ok-button-caption="COPY" cancel-button-caption="CLOSE">
+                <div id="header-wPop-backup" waves-dialog global="true" on-dialog-ok="menu.backup()" ok-button-caption="COPY" cancel-button-caption="CLOSE">
                     <h2 class="sectionHeader">ACCOUNT INFO BACKUP</h2>
                     <p>Your account's basic information, click the <b>COPY</b> button in order to copy the contents to the clipboard or <b>CLOSE</b> to exit.</p></br>
                     <form id="backupForm">
@@ -322,8 +322,9 @@
               </div>
             </section>
 
-            <!-- BODY CONTENT -->
-            <section id="mBBody" class="fFade" ng-switch on="nav.currentTab">
+            <section id="mainBody" class="wScroll">
+                <!-- BODY CONTENT -->
+                <section id="mBBody" class="fFade" ng-switch on="nav.currentTab">
                 <!-- WALLET TAB -->
                 <div id="mBB-wallet" class="mBB-content" ng-switch-when="wallet" ng-controller="walletController as wallet">
                     <div id="wB-butSend-WAV" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="wallet.submitPayment()">
@@ -362,7 +363,7 @@
                                         <md-autocomplete md-input-name="wavessendfee" md-selected-item="wallet.transfer.selectedFee" md-search-text="wallet.transfer.searchText"
                                                          md-items="item in wallet.transfer.querySearch(wallet.transfer.searchText)"
                                                          md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
-                                                         md-menu-class="popup-autocomplete" ng-class="{'wInput-error': !wallet.transfer.fee.isValid}">
+                                                         md-menu-class="popup-autocomplete">
                                             <md-item-template>
                                                 <span md-highlight-text="wallet.transfer.searchText">{{item.displayText}}</span>
                                             </md-item-template>
@@ -395,6 +396,7 @@
                             <tr>
                                 <td>DATE</td>
                                 <td>TYPE</td>
+                                <td>ASSET</td>
                                 <td>SENDER</td>
                                 <td>RECIPIENT</td>
                                 <td>FEE</td>
@@ -405,6 +407,7 @@
                                 <tr ng-repeat="tx in wallet.transactions | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" ng-class="{'wavesTable-txUnc': tx.unconfirmed, 'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
                                     <td>{{tx.formatted.datetime}}</td>
                                     <td>{{tx.formatted.type}}</td>
+                                    <td>{{tx.formatted.asset}}</td>
                                     <td ng-if="!tx.formatted.isSenderCopiable">{{tx.formatted.sender}}</td>
                                     <td ng-if="tx.formatted.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.sender}}</span></td>
                                     <td ng-if="!tx.formatted.isRecipientCopiable">{{tx.formatted.recipient}}</td>
@@ -432,11 +435,11 @@
                                     <td>OPTIONS</td>
                                 </tr>
                             </thead>
-                            <tbody ng-switch on="assetList.assets.length">
-                                <tr ng-switch-when="0">
+                            <tbody>
+                                <tr ng-show="assetList.noData">
                                     <td colspan="5">You do not own or issued any assets</td>
                                 </tr>
-                                <tr ng-switch-default ng-repeat="tx in assetList.assets | orderBy:'timestamp':true | asset track by tx.id">
+                                <tr ng-show="!assetList.noData" ng-repeat="tx in assetList.assets | orderBy:'timestamp':true | asset track by tx.id">
                                     <td>{{tx.name}}</td>
                                     <td ng-if="!tx.formatted.isSenderCopiable">{{tx.formatted.sender}}</td>
                                     <td ng-if="tx.formatted.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.sender}}</span></td>
@@ -500,7 +503,8 @@
                                 <form id="transfer-asset-form" name="transferAssetForm" novalidate ng-validate="transfer.validationOptions">
                                     <h2 class="sectionHeader">ASSET TRANSFER</h2>
                                     <div class="balanceAmt">
-                                        <p>Balance: </p><span class="balancewaves">{{transfer.availableBalance}}</span>
+                                        <p>Asset balance: </p><span class="balancewaves">{{transfer.availableBalance.formatAmount()}}</span>
+                                        <p>Waves balance: </p><span class="balancewaves">{{transfer.wavesBalance.formatAmount(true)}}</span>
                                     </div>
                                     <table class="wavesTable">
                                         <thead>
@@ -530,7 +534,7 @@
                                                     <md-autocomplete md-input-name="assetFee" md-selected-item="transfer.autocomplete.selectedFee" md-search-text="transfer.autocomplete.searchText"
                                                                      md-items="item in transfer.autocomplete.querySearch(transfer.autocomplete.searchText)"
                                                                      md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
-                                                                     md-menu-class="popup-autocomplete" ng-class="{'wInput-error': !transfer.fee.isValid}">
+                                                                     md-menu-class="popup-autocomplete">
                                                         <md-item-template>
                                                             <span md-highlight-text="transfer.autocomplete.searchText">{{item.displayText}}</span>
                                                         </md-item-template>
@@ -555,7 +559,8 @@
                                 <form id="asset-reissue-form" name="assetReissueForm" novalidate ng-validate="reissue.validationOptions">
                                     <h2 class="sectionHeader">ASSET REISSUE</h2>
                                     <div class="balanceAmt">
-                                        <p>Total tokens issued: </p><span class="balancewaves">{{reissue.totalTokens}}</span>
+                                        <p>Total tokens issued: </p><span class="balancewaves">{{reissue.totalTokens.formatAmount()}}</span><br/>
+                                        <p>Waves balance: </p><span class="balancewaves">{{reissue.wavesBalance.formatAmount(true)}}</span>
                                     </div>
                                     <table class="wavesTable">
                                         <thead>
@@ -651,6 +656,7 @@
                             <tr>
                                 <td>DATE</td>
                                 <td>TYPE</td>
+                                <td>ASSET</td>
                                 <td>SENDER</td>
                                 <td>RECIPIENT</td>
                                 <td>FEE</td>
@@ -661,6 +667,7 @@
                                 <tr ng-repeat="tx in history.unconfirmed | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" class="wavesTable-txUnc" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
                                     <td>{{tx.formatted.datetime}}</td>
                                     <td>{{tx.formatted.type}}</td>
+                                    <td>{{tx.formatted.asset}}</td>
                                     <td ng-if="!tx.formatted.isSenderCopiable">{{tx.formatted.sender}}</td>
                                     <td ng-if="tx.formatted.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.sender}}</span></td>
                                     <td ng-if="!tx.formatted.isRecipientCopiable">{{tx.formatted.recipient}}</td>
@@ -673,6 +680,7 @@
                                 <tr ng-repeat="tx in history.confirmed | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
                                     <td>{{tx.formatted.datetime}}</td>
                                     <td>{{tx.formatted.type}}</td>
+                                    <td>{{tx.formatted.asset}}</td>
                                     <td ng-if="!tx.formatted.isSenderCopiable">{{tx.formatted.sender}}</td>
                                     <td ng-if="tx.formatted.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.sender}}</span></td>
                                     <td ng-if="!tx.formatted.isRecipientCopiable">{{tx.formatted.recipient}}</td>
@@ -692,6 +700,9 @@
                     <div ng-controller="tokenCreateController as ctrl">
                         <h2 class="sectionHeader">ASSET CREATION</h2>
                         <form id="create-asset-form" name="createAssetForm" novalidate ng-validate="ctrl.issuanceValidationOptions" ng-submit="ctrl.assetIssueConfirmation(createAssetForm, $event)">
+                            <div class="balanceAmt">
+                                <p>Waves balance: </p><span class="balancewaves">{{ctrl.wavesBalance.formatAmount(true)}}</span>
+                            </div>
                             <table class="wavesTable">
                                 <thead>
                                     <tr>
@@ -813,6 +824,7 @@
                     </p>
                 </div>
                 <!-- /COMMUNITY TAB -->
+            </section>
             </section>
         </div>
     </div> <!-- Wrapper div END -->

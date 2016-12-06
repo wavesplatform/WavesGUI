@@ -160,9 +160,7 @@ body {
     font-weight: 200;
 }
 
-.balanceType {
-
-}
+.balanceType {}
 
 
 /* Custom Scrollbar */
@@ -783,35 +781,7 @@ span.tabs-radio img.selected {
 /* ======================================================================= */
 
 
-/* LEFT BAR SECTION */
-
-#mBLeftBar {
-    display: table-cell;
-    position: relative;
-    width: 200px;
-    border-right: 1px solid #D7D7D7;
-}
-
-.mBLB-vis {
-    display: table-cell;
-}
-
-.mBLB-no-vis {
-    display: none;
-}
-
-
-/* ======================================================================= */
-
-
 /* MAIN BODY-BODY SETTINGS */
-
-#mBBody {
-    /*    display: table-cell;*/
-    /*    position: relative;*/
-    /*    width: auto;*/
-    /*    padding-bottom: 1rem;*/
-}
 
 #mBBody {
     display: -webkit-box;
@@ -947,26 +917,49 @@ span.tabs-radio img.selected {
 }
 
 #asset-details-dialog {
-    max-width: 600px;
+    max-width: 640px;
 }
 
-#create-asset-confirmation, #asset-transfer-dialog, #asset-reissue-dialog, #transfer-asset-confirmation, #asset-reissue-confirm-dialog, #asset-details-dialog {
+#create-asset-confirmation,
+#asset-transfer-dialog,
+#asset-reissue-dialog,
+#transfer-asset-confirmation,
+#asset-reissue-confirm-dialog,
+#asset-details-dialog {
     padding-bottom: 2rem;
 }
 
-#send-payment-confirmation p, #create-asset-confirmation p, #asset-transfer-dialog form, #asset-reissue-dialog form, #transfer-asset-confirmation p, #asset-reissue-confirm-dialog p, #asset-details-dialog table {
+#send-payment-confirmation p,
+#create-asset-confirmation p,
+#asset-transfer-dialog form,
+#asset-reissue-dialog form,
+#transfer-asset-confirmation p,
+#asset-reissue-confirm-dialog p,
+#asset-details-dialog table {
     padding-bottom: 2rem;
     padding-left: 2rem !important;
     padding-right: 2rem !important;
     padding-bottom: 1rem !important;
 }
 
-#send-payment-confirmation button, #create-asset-confirmation button, #asset-transfer-dialog button, #asset-reissue-dialog button, #transfer-asset-confirmation button, #asset-reissue-confirm-dialog button, #asset-details-dialog button {
+#send-payment-confirmation button,
+#create-asset-confirmation button,
+#asset-transfer-dialog button,
+#asset-reissue-dialog button,
+#transfer-asset-confirmation button,
+#asset-reissue-confirm-dialog button,
+#asset-details-dialog button {
     border: 1px solid #37556E;
     color: #37556E;
 }
 
-#send-payment-confirmation button:hover, #create-asset-confirmation button:hover, #asset-transfer-dialog button:hover, #asset-reissue-dialog button:hover, #transfer-asset-confirmation button:hover, #asset-reissue-confirm-dialog button:hover, #asset-details-dialog button:hover {
+#send-payment-confirmation button:hover,
+#create-asset-confirmation button:hover,
+#asset-transfer-dialog button:hover,
+#asset-reissue-dialog button:hover,
+#transfer-asset-confirmation button:hover,
+#asset-reissue-confirm-dialog button:hover,
+#asset-details-dialog button:hover {
     background: #37556E;
     color: #ffffff;
 }
@@ -977,7 +970,7 @@ span.tabs-radio img.selected {
 
 .confirmation-value {
     font-family: 'Sparta';
-/*    font-weight: 600;*/
+    /*    font-weight: 600;*/
 }
 
 
@@ -1148,12 +1141,12 @@ span.tabs-radio img.selected {
 
 .wavesTable-txIn .clipSpan:after {
     background: url(../img/wIcon_clip_txIn.svg) no-repeat;
-    opacity: .6;
+    opacity: .75;
 }
 
 .wavesTable-txOut .clipSpan:after {
     background: url(../img/wIcon_clip_txOut.svg) no-repeat;
-    opacity: .6;
+    opacity: .75;
 }
 
 .wavesTable-txUnc .clipSpan:after {
@@ -1166,7 +1159,7 @@ span.tabs-radio img.selected {
 }
 
 #latestBlocks {
-/*    overflow-y: scroll !important;*/
+    /*    overflow-y: scroll !important;*/
 }
 
 .wavesTable-txUnc {
@@ -1220,7 +1213,6 @@ span.tabs-radio img.selected {
     outline: none;
     text-align: center;
     text-decoration: none;
-
     -webkit-user-select: none;
     /* Chrome/Safari */
     -moz-user-select: none;
@@ -1298,6 +1290,13 @@ span.tabs-radio img.selected {
 .wButton-neg:hover {
     background: #37556E;
     color: #ffffff;
+}
+
+.wButton[disabled],
+.wButton-neg[disabled] {
+    opacity: .5;
+    cursor: default;
+    pointer-events: none;
 }
 
 
@@ -1473,16 +1472,6 @@ span.tabs-radio img.selected {
     padding-bottom: 1rem;
 }
 
-#mBB-portfolio table tbody tr td  button {
-    border: 1px solid #37556E;
-    color: #37556E;
-}
-
-#mBB-portfolio  table tbody tr td button:hover {
-    background: #37556E;
-    color: #ffffff;
-}
-
 
 /* Payment Forms BALANCE style */
 
@@ -1579,7 +1568,6 @@ span.tabs-radio img.selected {
 #mBB-portfolio .wavesTable tr:hover {
     cursor: default;
 }
-
 
 #portfolio .btn {
     border: none;

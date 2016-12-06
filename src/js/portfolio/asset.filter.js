@@ -3,7 +3,7 @@
 
     function AssetFilter(applicationContext, addressService) {
         function transformAddress (rawAddress) {
-            var result = angular.isDefined(rawAddress) ? rawAddress : 'none';
+            var result = angular.isDefined(rawAddress) ? rawAddress : 'n/a';
 
             if (isMyAddress(result))
                 result = 'You';

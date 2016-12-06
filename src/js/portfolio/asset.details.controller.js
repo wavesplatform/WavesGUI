@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function WavesAssetDetailsController($scope, events, applicationContext, dialogService) {
+    function WavesAssetDetailsController($scope, $timeout, events, applicationContext, dialogService) {
         var details = this;
 
         function transformAddress(address) {
@@ -31,11 +31,14 @@
             details.totalTokens = asset.totalTokens.formatAmount();
             details.reissuable = asset.reissuable ? 'Yes' : 'No';
 
-            dialogService.open('#asset-details-dialog');
+            $timeout(function () {
+                dialogService.open('#asset-details-dialog');
+            }, 1);
         });
     }
 
-    WavesAssetDetailsController.$inject = ['$scope', 'portfolio.events', 'applicationContext', 'dialogService'];
+    WavesAssetDetailsController.$inject = ['$scope', '$timeout', 'portfolio.events', 'applicationContext',
+        'dialogService'];
 
     angular
         .module('app.portfolio')

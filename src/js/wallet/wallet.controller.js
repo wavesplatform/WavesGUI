@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    var DEFAULT_FEE_AMOUNT = '0.001';
+
     function WavesWalletController($scope, $timeout, $interval, constants, autocomplete, applicationContext,
                               dialogService, addressService, utilityService, apiService, notificationService,
                               formattingService, transferService, transactionLoadingService) {
@@ -137,7 +139,7 @@
             var invalid = paymentForm.invalid();
             wallet.transfer.fee.isValid = angular.isDefined(invalid.wavessendfee) ?
                 !invalid.wavessendfee : true;
-            if (!paymentForm.validate())
+            if (!paymentForm.validate(wallet.paymentValidationOptions) || !wallet.transfer.fee.isValid)
                 // prevent payment dialog from closing if it's not valid
                 return false;
 
@@ -198,28 +200,22 @@
                     '<br>Recipient ' + address.substr(0,15) + '...<br>Date: ' +
                     formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
-                //enable confirm button
-                wallet.confirm.paymentPending = false;
-                transaction = undefined;
             }, function (response) {
-                if (angular.isDefined(response.data))
+                if (response.data)
                     notificationService.error('Error:' + response.data.error + ' - ' + response.data.message);
                 else
                     notificationService.error('Request failed. Status: ' + response.status + ' - ' +
                         response.statusText);
+            }).finally(function () {
                 //enable confirm button
                 wallet.confirm.paymentPending = false;
                 transaction = undefined;
             });
         }
 
-        function fillUpTransactionCache (transactions) {
-            applicationContext.cache.assets.grab(transactions);
-        }
-
         function loadDataFromBackend() {
             refreshWallets();
-            refreshTransactions(fillUpTransactionCache);
+            refreshTransactions();
 
             refreshPromise = $interval(function() {
                 refreshWallets();
@@ -238,13 +234,16 @@
             });
         }
 
-        function refreshTransactions(transactionHandler) {
+        function refreshTransactions() {
+            var txArray;
             transactionLoadingService.loadTransactions(applicationContext.account.address)
                 .then(function (transactions) {
-                    if (angular.isDefined(transactionHandler))
-                        transactionHandler(transactions);
+                    txArray = transactions;
 
-                    wallet.transactions = transactions;
+                    return transactionLoadingService.refreshAssetCache(applicationContext.cache.assets, transactions);
+                })
+                .then(function () {
+                    wallet.transactions = txArray;
                 });
         }
 
@@ -252,9 +251,11 @@
             wallet.transfer.recipient = '';
             wallet.transfer.amount = '0';
             wallet.transfer.fee = {
-                amount: '0.001',
+                amount: DEFAULT_FEE_AMOUNT,
                 isValid: true
             };
+
+            wallet.transfer.defaultFee(Number(DEFAULT_FEE_AMOUNT));
         }
     }
 
