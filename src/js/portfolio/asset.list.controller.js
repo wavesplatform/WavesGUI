@@ -88,8 +88,10 @@
                     applicationContext.cache.assets.update(id, assetBalance.balance,
                         assetBalance.reissuable, assetBalance.quantity);
 
-                    // adding an asset with positive balance only
-                    if (assetBalance.balance !== 0) {
+                    // adding an asset with positive balance only or your reissuable assets
+                    var yourReissuableAsset = assetBalance.reissuable &&
+                        assetBalance.issueTransaction.sender === applicationContext.account.address;
+                    if (assetBalance.balance !== 0 || yourReissuableAsset) {
                         loadAssetDataFromCache(asset);
                         assets.push(asset);
                     }
