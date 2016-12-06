@@ -381,10 +381,9 @@ module.exports = function (grunt) {
         webstore_upload: {
             "accounts": {
                 "default": { //account under this section will be used by default
-                    publish: true, //publish item right after uploading. default false
+                    publish: false, //publish item right after uploading. default false
                     client_id: process.env["WEBSTORE_CLIENT_ID"],
-                    client_secret: "",
-                    refresh_token: process.env["WEBSTORE_REFRESH_TOKEN"]
+                    client_secret: ""
                 }
             },
             "extensions": {
