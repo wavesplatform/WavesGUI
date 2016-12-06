@@ -54,7 +54,10 @@
         }
 
         function logout() {
-            $window.location.reload();
+            if (chrome)
+                chrome.runtime.reload();
+            else
+                $window.location.reload();
         }
     }
 
