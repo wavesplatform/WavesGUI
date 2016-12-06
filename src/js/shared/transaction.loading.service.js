@@ -21,7 +21,7 @@
         };
 
         this.refreshAssetCache = function (cache, transactions) {
-            var sequence = $q.defer().resolve();
+            var sequence = $q.resolve();
             _.forEach(transactions, function (tx) {
                 if (tx.assetId) {
                     var cached = cache[tx.assetId];
