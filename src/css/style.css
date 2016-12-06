@@ -920,14 +920,6 @@ span.tabs-radio img.selected {
     max-width: 640px;
 }
 
-#asset-details-dialog .wavesTable tr:nth-child(4) {
-    max-width: 630px !important;
-}
-
-#asset-details-dialog .wavesTable {
-    max-width: 630px !important;
-}
-
 #create-asset-confirmation,
 #asset-transfer-dialog,
 #asset-reissue-dialog,
@@ -1480,6 +1472,12 @@ span.tabs-radio img.selected {
     padding-bottom: 1rem;
 }
 
+/* Fix for the long non-spacing strings in the details field*/
+#asset-details-dialog .wavesTable tr:nth-child(4) {
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+}
 
 /* Payment Forms BALANCE style */
 
