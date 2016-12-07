@@ -158,6 +158,7 @@ body {
     letter-spacing: .2rem;
     padding-bottom: 1rem;
     font-weight: 200;
+    margin: 0 auto;
 }
 
 .balanceType {}
@@ -908,6 +909,10 @@ span.tabs-radio img.selected {
     opacity: .5;
 }
 
+#mBB-wallet h2 {
+    padding: .5rem;
+}
+
 
 /* CONFIRMATION DIALOGS - ANGULAR FIXES FOR LATER */
 
@@ -1036,10 +1041,6 @@ span.tabs-radio img.selected {
 #wallet-transaction-history {
     width: 100%;
     padding-bottom: 1rem;
-}
-
-#wallet-transaction-history {
-    padding-top: 1rem;
 }
 
 #wallet-transaction-history table {
@@ -1472,12 +1473,15 @@ span.tabs-radio img.selected {
     padding-bottom: 1rem;
 }
 
+
 /* Fix for the long non-spacing strings in the details field*/
+
 #asset-details-dialog .wavesTable tr:nth-child(4) {
     -ms-word-break: break-all;
     word-break: break-all;
     word-break: break-word;
 }
+
 
 /* Payment Forms BALANCE style */
 
@@ -1837,8 +1841,8 @@ span.tabs-radio img.selected {
     .header-Icon {
         width: 1.75rem;
     }
-    #mBB-portfolio table {
-        overflow-x: scroll;
+    .wavesTable {
+        overflow-x: scroll !important;
     }
 }
 
@@ -1867,6 +1871,9 @@ span.tabs-radio img.selected {
     .removeAccount {
         display: block;
         margin: 0 auto;
+    }
+    #mBB-community > p {
+        font-size: 1rem;
     }
 }
 
@@ -1938,9 +1945,6 @@ span.tabs-radio img.selected {
         margin: 0;
         padding: 0;
         margin-right: .35rem;
-    }
-    .jurl {
-        display: none;
     }
     #tabs {
         height: 40px;
@@ -2017,10 +2021,8 @@ span.tabs-radio img.selected {
         height: 50px;
     }
     #tabs-Iconset img {
-        margin-top: .25rem;
-    }
-    .jurl {
-        height: 0.08rem;
+        /*        margin-top: .25rem;*/
+        height: 36px;
     }
     #mBB-wallet {
         height: auto;
