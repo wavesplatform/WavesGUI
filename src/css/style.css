@@ -1601,8 +1601,13 @@ span.tabs-radio img.selected {
     opacity: 1;
 }
 
-#mBB-portfolio .wavesTable tr {
-    
+#mBB-portfolio .wavesTable td:last-child {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
 }
 
 
