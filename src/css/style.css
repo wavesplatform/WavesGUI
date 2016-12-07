@@ -1087,14 +1087,6 @@ span.tabs-radio img.selected {
     margin-bottom: 2rem;
 }
 
-.wTMainHeader tr {
-    background-color: #37556E;
-    border: 0px solid #F0F0F0;
-    text-align: center;
-    font-size: 1.12rem;
-    color: #ffffff;
-}
-
 .wavesTable thead {
     background-color: #37556E;
     border: 0px solid #F0F0F0;
@@ -1130,6 +1122,7 @@ span.tabs-radio img.selected {
 
 .wavesTable tbody tr {
     color: #333333;
+    font-family: 'Lekton';
 }
 
 .wavesTable-txIn {
