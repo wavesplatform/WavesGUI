@@ -1837,6 +1837,9 @@ span.tabs-radio img.selected {
     .header-Icon {
         width: 1.75rem;
     }
+    #mBB-portfolio table {
+        overflow-x: scroll;
+    }
 }
 
 @media only screen and (max-width: 800px) {
@@ -1898,7 +1901,6 @@ span.tabs-radio img.selected {
         width: 90%;
     }
     #tabs-Iconset img {
-        margin-top: .`rem;
         margin-left: .25rem;
         margin-right: .25rem;
         height: 41px;
