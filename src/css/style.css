@@ -1891,14 +1891,17 @@ span.tabs-radio img.selected {
 
 @media only screen and (max-width: 512px) {
     #tabs {
-        height: 65px;
+        height: 55px;
     }
     #tabs-Iconset {
         height: 80%;
+        width: 90%;
     }
     #tabs-Iconset img {
+        margin-top: .`rem;
         margin-left: .25rem;
         margin-right: .25rem;
+        height: 41px;
     }
     .wInput {
         min-width: 50px;
