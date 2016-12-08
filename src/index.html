@@ -598,7 +598,7 @@
                                         </tr>
                                         <tr>
                                             <td>Fee</td>
-                                            <td>{{reissue.fee.formatAmount(true)}}</td>
+                                            <td>{{::reissue.fee.formatAmount(true)}} {{::reissue.fee.currency.displayName}}</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -734,7 +734,7 @@
                                     </tr>
                                     <tr class="noSelect">
                                         <td>Fee</td>
-                                        <td>{{::ctrl.asset.fee.formatAmount(true)}} WAVES</td>
+                                        <td>{{::ctrl.asset.fee.formatAmount(true)}} {{::ctrl.asset.fee.currency.displayName}}</td>
                                     </tr>
                                 </tbody>
                             </table>
