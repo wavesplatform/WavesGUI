@@ -1120,7 +1120,13 @@ span.tabs-radio img.selected {
     cursor: pointer;
 }
 
-.wavesTable tbody tr {
+.wavesTable tbody tr:not(#mBB-token .wavesTable-hover tbody tr) {
+    color: #333333;
+    font-family: 'Lekton';
+}
+
+/* Added deeper specification to avoid it auto-excepting itself */
+#mBB-portfolio .wavesTable tbody tr {
     color: #333333;
     font-family: 'Lekton';
 }
