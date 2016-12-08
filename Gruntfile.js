@@ -20,15 +20,24 @@ module.exports = function (grunt) {
     var patchHtml = function (content, fileName) {
         return content
             .replace(/<!-- JAVASCRIPT BEGIN -->(\s|.)*?<!-- JAVASCRIPT END -->/m, '<script src="js/' + fileName + '"></script>\n')
-            .replace(/<!-- CSS BEGIN -->(\s|.)*?<!-- CSS END -->/m, '<link rel="stylesheet" href="css/angular-csp.css">\n<link rel="stylesheet" href="css/angular-material.css">\n');
+            .replace(/<!-- CSS BEGIN -->(\s|.)*?<!-- CSS END -->/m,
+                grunt.template.process('<link rel="stylesheet" href="css/<%= pkg.name %>-styles-<%= pkg.version %>.css">\n'));
     };
 
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         meta: {
-            stylesheets: ['bower_components/angular/angular-csp.css', 'bower_components/angular-material/angular-material.css'],
-            content: ['css/**', 'img/**', 'index.html'],
+            stylesheets: [
+                'bower_components/angular/angular-csp.css',
+                'bower_components/angular-material/angular-material.css',
+                // application stylesheets
+                'src/css/jquery.modal.css',
+                'src/css/jquery.growl.css',
+                'src/css/tooltipster.min.css',
+                'src/css/style.css'
+            ],
+            content: ['css/*/**', 'img/**', 'index.html'],
             licenses: ['3RD-PARTY-LICENSES.txt', 'LICENSE'],
             editor: "gedit --new-window -s ",
             configurations: {
@@ -44,6 +53,10 @@ module.exports = function (grunt) {
                 },
                 chrome: {
                     name: 'chrome'
+                },
+                css: {
+                    concat: 'distr/<%= pkg.name %>-styles-<%= pkg.version %>.css',
+                    bundle: 'distr/<%= pkg.name %>-styles-<%= pkg.version %>.css'
                 }
             },
             dependencies: [
@@ -220,6 +233,10 @@ module.exports = function (grunt) {
                         return content;
                     }
                 }
+            },
+            css: {
+                src: ['<%= meta.stylesheets %>'],
+                dest: '<%= meta.configurations.css.concat %>'
             }
         },
         uglify: {
@@ -242,7 +259,7 @@ module.exports = function (grunt) {
             },
             testnet: {
                 files: [
-                    {expand: true, flatten: true, src: '<%= meta.stylesheets %>', dest: 'distr/<%= meta.configurations.testnet.name %>/css'},
+                    {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.testnet.name %>/css'},
                     {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.testnet.name %>'},
                     {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.testnet.name %>'},
                     {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.testnet.name %>/js'}
@@ -259,7 +276,7 @@ module.exports = function (grunt) {
             },
             mainnet: {
                 files: [
-                    {expand: true, flatten: true, src: '<%= meta.stylesheets %>', dest: 'distr/<%= meta.configurations.mainnet.name %>/css'},
+                    {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.mainnet.name %>/css'},
                     {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.mainnet.name %>'},
                     {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.mainnet.name %>'},
                     {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.mainnet.name %>/js'}
@@ -276,7 +293,7 @@ module.exports = function (grunt) {
             },
             chrome: {
                 files: [
-                    {expand: true, flatten: true, src: '<%= meta.stylesheets %>', dest: 'distr/<%= meta.configurations.chrome.name %>/css'},
+                    {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.chrome.name %>/css'},
                     {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.chrome.name %>'},
                     {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.chrome.name %>'},
                     {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.chrome.name %>/js'},
@@ -286,7 +303,7 @@ module.exports = function (grunt) {
                     process: function (content, srcPath) {
                         if (srcPath.endsWith('index.html'))
                             return patchHtml(content,
-                                grunt.template.process('<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.js'));
+                                grunt.template.process('<%= pkg.name %>-<%= meta.configurations.chrome.name %>-<%= pkg.version %>.js'));
 
                         if (srcPath.endsWith('manifest.json'))
                             return grunt.template.process(content);
