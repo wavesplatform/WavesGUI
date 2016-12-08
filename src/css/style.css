@@ -158,6 +158,7 @@ body {
     letter-spacing: .2rem;
     padding-bottom: 1rem;
     font-weight: 200;
+    margin: 0 auto;
 }
 
 .balanceType {}
@@ -908,6 +909,10 @@ span.tabs-radio img.selected {
     opacity: .5;
 }
 
+#mBB-wallet h2 {
+    padding: .5rem;
+}
+
 
 /* CONFIRMATION DIALOGS - ANGULAR FIXES FOR LATER */
 
@@ -1038,10 +1043,6 @@ span.tabs-radio img.selected {
     padding-bottom: 1rem;
 }
 
-#wallet-transaction-history {
-    padding-top: 1rem;
-}
-
 #wallet-transaction-history table {
     overflow-y: scroll;
 }
@@ -1086,14 +1087,6 @@ span.tabs-radio img.selected {
     margin-bottom: 2rem;
 }
 
-.wTMainHeader tr {
-    background-color: #37556E;
-    border: 0px solid #F0F0F0;
-    text-align: center;
-    font-size: 1.12rem;
-    color: #ffffff;
-}
-
 .wavesTable thead {
     background-color: #37556E;
     border: 0px solid #F0F0F0;
@@ -1129,6 +1122,7 @@ span.tabs-radio img.selected {
 
 .wavesTable tbody tr {
     color: #333333;
+    font-family: 'Lekton';
 }
 
 .wavesTable-txIn {
@@ -1472,12 +1466,15 @@ span.tabs-radio img.selected {
     padding-bottom: 1rem;
 }
 
+
 /* Fix for the long non-spacing strings in the details field*/
+
 #asset-details-dialog .wavesTable tr:nth-child(4) {
     -ms-word-break: break-all;
     word-break: break-all;
     word-break: break-word;
 }
+
 
 /* Payment Forms BALANCE style */
 
@@ -1601,8 +1598,13 @@ span.tabs-radio img.selected {
     opacity: 1;
 }
 
-#mBB-portfolio .wavesTable tr {
-    
+#mBB-portfolio .wavesTable td:last-child {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
 }
 
 
@@ -1832,6 +1834,9 @@ span.tabs-radio img.selected {
     .header-Icon {
         width: 1.75rem;
     }
+    .wavesTable {
+        overflow-x: scroll !important;
+    }
 }
 
 @media only screen and (max-width: 800px) {
@@ -1860,6 +1865,9 @@ span.tabs-radio img.selected {
         display: block;
         margin: 0 auto;
     }
+    #mBB-community > p {
+        font-size: 1rem;
+    }
 }
 
 @media only screen and (max-width: 640px) {
@@ -1886,14 +1894,16 @@ span.tabs-radio img.selected {
 
 @media only screen and (max-width: 512px) {
     #tabs {
-        height: 65px;
+        height: 55px;
     }
     #tabs-Iconset {
         height: 80%;
+        width: 90%;
     }
     #tabs-Iconset img {
         margin-left: .25rem;
         margin-right: .25rem;
+        height: 41px;
     }
     .wInput {
         min-width: 50px;
@@ -1928,9 +1938,6 @@ span.tabs-radio img.selected {
         margin: 0;
         padding: 0;
         margin-right: .35rem;
-    }
-    .jurl {
-        display: none;
     }
     #tabs {
         height: 40px;
@@ -2007,10 +2014,8 @@ span.tabs-radio img.selected {
         height: 50px;
     }
     #tabs-Iconset img {
-        margin-top: .25rem;
-    }
-    .jurl {
-        height: 0.08rem;
+        /*        margin-top: .25rem;*/
+        height: 36px;
     }
     #mBB-wallet {
         height: auto;

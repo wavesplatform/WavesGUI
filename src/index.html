@@ -39,7 +39,7 @@
         <div id="logo-container-centered" class="centerIt">
             <div id="logoo">
                 <img id="logo-spin" src="img/logo-spin.svg" />
-                <p id="networkCheck">Loading</p>
+                <p id="networkCheck">Loading...</p>
             </div>
         </div>
     </div>
@@ -237,7 +237,7 @@
             <h2 class="sectionHeader">NOTICE</h2>
             <p>This feature is still under development and not active during the alpha release.
                 <br/><br/>
-                Follow our social media channels for being up-to-date with the latest improvements and developments.
+                Follow our social media channels to stay up to date with the latest improvements and developments.
                 <br/><br/>
             </p>
             <div class="modal-media">
@@ -270,7 +270,7 @@
                 </a>
                 <div id="header-wPop-backup" waves-dialog global="true" on-dialog-ok="menu.backup()" ok-button-caption="COPY" cancel-button-caption="CLOSE">
                     <h2 class="sectionHeader">ACCOUNT INFO BACKUP</h2>
-                    <p>Your account's basic information, click the <b>COPY</b> button in order to copy the contents to the clipboard or <b>CLOSE</b> to exit.</p></br>
+                    <p>This area contains your account's basic information. Click the <b>COPY</b> button in order to copy the contents to the clipboard or <b>CLOSE</b> to exit.</p></br>
                     <form id="backupForm">
                         <label for="seedBackup">SEED</label><br/>
                         <textarea id="seedBackup" class="wInput" rows="3" readonly ng-model="menu.seed"></textarea><br/>
@@ -306,7 +306,7 @@
                     <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="wallet" caption="'Wallet tab'" tooltipster tooltip-html
                           tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Wallet</u></center><br/>Area containing the main wallets."></span>
                     <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="portfolio" caption="'Portfolio tab'" tooltipster tooltip-html
-                          tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Portfolio</u></center><br/>Display all your assets, both digital and physical<br/>as well as allowing transfers."></span>
+                          tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Portfolio</u></center><br/>Display all your assets, both digital and physical,<br/>as well as allowing transfers."></span>
                     <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="exchange" caption="'Exchange tab'" tooltipster tooltip-html
                           tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Waves Decentralized Exchange</u></center><br/>Access to Waves markets where you can<br/>conveniently buy, sell and trade tokens."></span>
                     <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="voting" caption="'Voting tab'" tooltipster tooltip-html
@@ -389,9 +389,10 @@
                         <wallet-box class="walletBox" ng-repeat="w in wallet.wallets" balance="w.balance" on-send="wallet.send(currency)"
                                     on-withdraw="wallet.withdraw(currency)" on-trade="wallet.trade(currency)"></wallet-box>
                     </div>
-                    <div id="wallet-transaction-history" class="wavesTable">
-                        <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
-                        <table class="wavesTable-hover wScroll">
+                    <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
+                    <div id="wallet-transaction-history" class="wavesTable wScroll">
+                        
+                        <table class="wavesTable-hover">
                             <thead>
                             <tr>
                                 <td>DATE</td>
@@ -422,7 +423,7 @@
                 <!-- / WALLET TAB -->
 
                 <!-- PORTFOLIO TAB -->
-                <div id="mBB-portfolio" class="mBB-content" ng-switch-when="portfolio">
+                <div id="mBB-portfolio" class="mBB-content wScroll" ng-switch-when="portfolio">
                     <div ng-controller="assetListController as assetList">
                         <h2 class="sectionHeader">PORTFOLIO</h2>
                         <table class="wavesTable wScroll">
@@ -437,7 +438,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-show="assetList.noData">
-                                    <td colspan="5">You do not own or issued any assets</td>
+                                    <td colspan="5">You do not own/have not created any assets.</td>
                                 </tr>
                                 <tr ng-show="!assetList.noData" ng-repeat="tx in assetList.assets | orderBy:'timestamp':true | asset track by tx.id">
                                     <td>{{tx.name}}</td>
@@ -623,7 +624,7 @@
                         <br/>
                         <p>Waves' features include a decentralized exchange in which users will be able to trade tokens of all kinds. There will be no AML/KYC requirements in order to use this service.
                             <br/><br/>
-                            The Decentralized Exchange is scheduled for launch in the last quarter of 2016.
+                            The Decentralized Exchange is scheduled for launch in the first quarter of 2017.
                         </p>
                         <br/><br/>
                         <img src="img/tab_dex_prev.svg" />
@@ -638,7 +639,7 @@
                         <br/>
                         <p>With a fair and automated system, Waves' voting area enables communities and projects to achieve consensus for critical decision-making that might otherwise prove difficult or controversial. A full set of analytic tools will also be available to follow up the voting process in real time.
                             <br/><br/>
-                            The Decentralized Voting feature is scheduled for launch in the final quarter of 2016.
+                            The Decentralized Voting feature launch is estimated for the first quarter of 2017.
                         </p>
                         <br/><br/>
                         <img src="img/tab_vote_prev.svg" />
@@ -648,9 +649,9 @@
 
                 <!-- HISTORY TAB -->
                 <div id="mBB-history" class="mBB-content" ng-switch-when="history" ng-controller="historyController as history">
-
-                    <div id="full-transaction-history" class="wavesTable">
-                        <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
+                    <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>    
+                    <div id="full-transaction-history" class="wavesTable wScroll">
+                        
                         <table class="wavesTable-hover wScroll">
                             <thead>
                             <tr>
@@ -760,7 +761,7 @@
                         <br/>
                         <p>Soon to be renamed/rebranded as CONTACTS, this is an area in which users will be able to add other individuals or groups to several list types, providing an easy way to keep track of friends, execute regular, automated payments, and much more.
                             <br/><br/>
-                            The Contacts area services is scheduled for launch in the third quarter of 2016.
+                            The Contacts area services are estimated to be completed on the first half of 2017.
                         </p>
                         <br/><br/>
                         <img src="img/tab_cont_prev.svg" />
@@ -792,8 +793,8 @@
                     <p>DISCLAIMER: The Community tab will temporarily hold block information for testing purposes. After alpha phase this data  will be relocated inside the Preferences - Advanced area.</p>
                     <h2>LATEST BLOCKS INFORMATION</h2>
                     <p class="centerIt">
-                    <div id="latestBlocks" class="wavesTable" >
-                        <table class="wScroll">
+                    <div id="latestBlocks" class="wavesTable wScroll" >
+                        <table>
                             <thead>
                             <tr class="fade">
                                 <td>HEIGHT</td>
