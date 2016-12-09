@@ -714,27 +714,27 @@
                                 <tbody>
                                     <tr>
                                         <td><label for="assetName">Name</label></td>
-                                        <td><input id="assetName" name="assetName" type="text" class="wInput form-control" focus-me="true" ng-model="ctrl.asset.name"/></td>
-                                    </tr>
+                                        <td><input id="assetName" name="assetName" type="text" class="wInput form-control" focus-me="true" ng-model="ctrl.asset.name" tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="This field defines the NAME of your<br/>asset.<br/><br/>It can contain up to 16 alphanumeric<br/>characters."/></td>
+                                    </tr><br/>
                                     <tr>
                                         <td><label for="assetDescription">Description</label></td>
-                                        <td><textarea id="assetDescription" name="assetDescription" class="wInput" rows="3" ng-model="ctrl.asset.description"></textarea></td>
+                                        <td><textarea id="assetDescription" name="assetDescription" class="wInput" rows="3" ng-model="ctrl.asset.description" tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="Brief DESCRIPTION about the asset.<br/>"></textarea></td>
                                     </tr>
                                     <tr>
                                         <td><label for="assetTotalTokens">Total Tokens</label></td>
-                                        <td><input id="assetTotalTokens" name="assetTotalTokens" class="wInput" type="text" ng-model="ctrl.asset.totalTokens"/></td>
+                                        <td><input id="assetTotalTokens" name="assetTotalTokens" class="wInput" type="text" ng-model="ctrl.asset.totalTokens" tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="This field defines the TOTAL TOKENS<br/>supply that your asset will contain."/></td>
                                     </tr>
                                     <tr>
                                         <td><label for="assetTokenDecimalPlaces">Token Decimals</label></td>
-                                        <td><input id="assetTokenDecimalPlaces" name="assetTokenDecimalPlaces" class="wInput" type="text" ng-model="ctrl.asset.decimalPlaces"/></td>
+                                        <td><input id="assetTokenDecimalPlaces" name="assetTokenDecimalPlaces" class="wInput" type="text" ng-model="ctrl.asset.decimalPlaces" tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="This field defines the number of DECIMALS<br/>that your asset tokens will be divided in.<br/><br/>Example: Three decimals would allow the<br/>tokens to be divided by 1,000, so 0.001<br/>would be the smallest token fraction."/></td>
                                     </tr>
                                     <tr>
                                         <td><label for="assetReissuable">Re-issuable</label></td>
-                                        <td><input id="assetReissuable" name="assetReissuable" type="checkbox" class="wInput" ng-model="ctrl.asset.reissuable"/></td>
+                                        <td><input id="assetReissuable" name="assetReissuable" type="checkbox" class="wInput" ng-model="ctrl.asset.reissuable" tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="RE-ISSUABILITY allows for additional<br/>tokens creation that will be added<br/>to the total token supply of the asset.<br/><br/>A non RE-ISSUABLE asset will be<br/> permanently limited to the total<br/>token supply defined on this process."/></td>
                                     </tr>
                                     <tr class="noSelect">
                                         <td>Fee</td>
-                                        <td>{{::ctrl.asset.fee.formatAmount(true)}} {{::ctrl.asset.fee.currency.displayName}}</td>
+                                        <td tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="The FEE you will be charged<br/>for this process.">{{::ctrl.asset.fee.formatAmount(true)}} {{::ctrl.asset.fee.currency.displayName}}</td>
                                     </tr>
                                 </tbody>
                             </table>
