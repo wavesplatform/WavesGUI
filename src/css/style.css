@@ -57,6 +57,8 @@ body {
     font-family: "Wesli";
     color: #333333;
     background: #ffffff;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased !important;
 }
 
 .fade {
@@ -161,25 +163,23 @@ body {
     margin: 0 auto;
 }
 
-.balanceType {}
-
 
 /* Custom Scrollbar */
 
-.wScroll::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: #F5F5F5;
+.wScroll::-webkit-scrollbar-track,
+.wScroll::-webkit-scrollbar-track:horizontal {
+    background-color: #F2F3F4;
 }
 
-.wScroll::-webkit-scrollbar {
-    width: 10px;
-    background-color: #F5F5F5;
+.wScroll::-webkit-scrollbar,
+.wScroll::-webkit-scrollbar:horizontal {
+    width: 5px;
+    background-color: #F2F3F4;
 }
 
-.wScroll::-webkit-scrollbar-thumb {
-    background-color: #37556E;
-    border: 1px solid #555555;
-    border-radius: 4px;
+.wScroll::-webkit-scrollbar-thumb,
+.wScroll::-webkit-scrollbar-thumb:horizontal {
+    background-color: #E5E7E9;
 }
 
 
@@ -269,14 +269,9 @@ body {
     padding-bottom: 1rem;
 }
 
-#feat-not-active h2,
 #feat-not-active p {
     padding-left: 2rem;
     padding-right: 2rem;
-}
-
-#feat-not-active h2 {
-    text-align: center
 }
 
 
@@ -414,11 +409,6 @@ body {
 #account-remove-popup {
     max-width: 500px;
     padding-bottom: 2rem;
-}
-
-#account-remove-popup h2 {
-    text-align: center;
-    padding-bottom: 1rem;
 }
 
 #account-remove-popup p {
@@ -909,6 +899,9 @@ span.tabs-radio img.selected {
     opacity: .5;
 }
 
+
+/* Do not eliminate this one */
+
 #mBB-wallet h2 {
     padding: .5rem;
 }
@@ -1056,12 +1049,6 @@ span.tabs-radio img.selected {
     padding-right: 2rem;
 }
 
-#wB-butSend-WAV .balanceAmt {
-    /*    padding-right: 2rem;*/
-    text-align: center;
-    padding-bottom: .25rem;
-}
-
 #wB-butSend-WAV button {
     border: 1px solid #37556E;
     color: #37556E;
@@ -1120,7 +1107,22 @@ span.tabs-radio img.selected {
     cursor: pointer;
 }
 
-.wavesTable tbody tr {
+.wavesTable tbody tr:not(#mBB-token .wavesTable-hover tbody tr) {
+    color: #333333;
+    font-family: 'Lekton';
+}
+
+.wavesTable input[type="search"],
+.paymentForm input[type="search"] {
+    font-family: 'Wesli';
+    font-size: 1rem;
+    padding: .3rem
+}
+
+
+/* Added deeper specification to avoid it auto-excepting itself */
+
+#mBB-portfolio .wavesTable tbody tr {
     color: #333333;
     font-family: 'Lekton';
 }
@@ -1368,6 +1370,15 @@ span.tabs-radio img.selected {
     width: 4.5rem;
 }
 
+md-autocomplete[md-input-name="wavessendfee"] button,
+md-autocomplete[md-input-name="assetFee"] button {
+    transition: all .4s ease;
+    -webkit-transition: all .4s ease;
+}
+
+
+/* md-autocomplete[md-input-name="wavessendfee"] button:hover,  md-autocomplete[md-input-name="assetFee"] button:hover {}*/
+
 
 /* ======================================================================= */
 
@@ -1398,21 +1409,15 @@ span.tabs-radio img.selected {
     padding-bottom: 1rem;
 }
 
-.wPop-content {
-    margin-top: -1.5rem;
+
+/* Temporary fix for misalignment in the Balance amount */
+
+.paymentForm div:nth-child(2) {
+    margin-right: 2rem;
 }
 
-.paymentForm h2 {
-    background-color: #ffffff;
-    border: 0px solid #F0F0F0;
-    text-align: center;
-    font-size: 1.25rem;
-    color: #333333;
-    letter-spacing: .2rem;
-    padding-left: .5rem;
-    padding-right: .5rem;
-    padding-bottom: .5rem;
-    font-weight: 200;
+.wPop-content {
+    margin-top: -1.5rem;
 }
 
 .paymentForm table,
@@ -1481,8 +1486,10 @@ span.tabs-radio img.selected {
 .balanceAmt {
     color: #999999;
     font-style: italic;
-    padding-right: .5rem;
-    text-align: center;
+    text-align: right;
+    margin-right: 0.25rem;
+    line-height: 1.25rem;
+    padding-bottom: .2rem;
 }
 
 .balanceAmt p {
@@ -1661,9 +1668,20 @@ span.tabs-radio img.selected {
     text-align: center;
 }
 
-#mBB-token table {
+
+/* Temporary fix for the extra space below this div - CHECK */
+
+#create-asset-form div:nth-child(1) {
+    margin-bottom: -20px;
+}
+
+#mBB-token form {
     width: 500px;
     margin: 0 auto;
+}
+
+#mBB-token table {
+    width: 100%;
 }
 
 #mBB-token table tbody tr:last-child {
@@ -1685,77 +1703,11 @@ span.tabs-radio img.selected {
     margin-top: 1rem;
 }
 
-#mBB-token .wavesTable tbody tr:nth-child(odd):hover {
-    background: #F0F0F0;
-}
-
-#mBB-token .wavesTable tbody tr:nth-child(even):hover {
-    background: #ffffff;
-}
-
 
 /* ======================================================================= */
 
 
 /* MESSENGER TAB */
-
-#mBB-messages-add {
-    position: relative;
-    display: table;
-    width: 100%;
-    padding: .75rem;
-    vertical-align: center;
-    text-align: center;
-    overflow: hidden;
-}
-
-#mBB-messages h2 {
-    display: inline-block;
-    text-align: center;
-    font-size: 1.25rem;
-    font-weight: 200;
-    color: #333333;
-    letter-spacing: .2rem;
-}
-
-#addContact {
-    width: auto;
-    position: absolute;
-    right: 2rem;
-    bottom: 0;
-}
-
-#addContact img {
-    width: 2rem;
-    opacity: .5;
-}
-
-#addContact img:hover {
-    opacity: 1;
-}
-
-#addContactForm {
-    text-align: center;
-}
-
-#addContactForm h2 {
-    background-color: #ffffff;
-    border: 0px solid #F0F0F0;
-    text-align: center;
-    font-size: 1.25rem;
-    color: #333333;
-    letter-spacing: .2rem;
-    font-weight: 200;
-}
-
-#addContactForm p {
-    margin-top: .25rem;
-}
-
-#contacts {
-    width: 100%;
-    height: 100%;
-}
 
 
 /* ======================================================================= */
@@ -1766,17 +1718,6 @@ span.tabs-radio img.selected {
 #mBB-community {
     width: 100%;
     text-align: center;
-}
-
-#mBB-community h2 {
-    text-align: center;
-    font-size: 1.25rem;
-    color: #333333;
-    letter-spacing: .2rem;
-    padding-left: .5rem;
-    padding-right: .5rem;
-    padding-bottom: .6rem;
-    font-weight: 200;
 }
 
 #mBB-community > p {
