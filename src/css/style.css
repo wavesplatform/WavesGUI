@@ -57,6 +57,7 @@ body {
     font-family: "Wesli";
     color: #333333;
     background: #ffffff;
+    overflow: hidden;
 }
 
 .fade {
@@ -166,8 +167,8 @@ body {
 
 /* Custom Scrollbar */
 
-
-.wScroll::-webkit-scrollbar-track, .wScroll::-webkit-scrollbar-track:horizontal {
+.wScroll::-webkit-scrollbar-track,
+.wScroll::-webkit-scrollbar-track:horizontal {
     background-color: #F2F3F4;
 }
 
@@ -1375,6 +1376,15 @@ span.tabs-radio img.selected {
     padding: .3rem;
     width: 4.5rem;
 }
+
+md-autocomplete[md-input-name="wavessendfee"] button,
+md-autocomplete[md-input-name="assetFee"] button {
+    transition: all .4s ease;
+    -webkit-transition: all .4s ease;
+}
+
+
+/* md-autocomplete[md-input-name="wavessendfee"] button:hover,  md-autocomplete[md-input-name="assetFee"] button:hover {}*/
 
 
 /* ======================================================================= */

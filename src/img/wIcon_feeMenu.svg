@@ -1,0 +1,7 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 31000 31000"><defs><style><![CDATA[
+    .str0 {stroke:#37556E;stroke-width:902.913;transition: all .4s ease; -webkit-transition: all .4s ease}
+    .fil0 {fill:#ffffff;transition: all .4s ease; -webkit-transition: all .4s ease}
+    .fil1 {fill:#37556E;fill-rule:nonzero;transition: all .4s ease; -webkit-transition: all .4s ease}
+	#wrapper:hover .fil1 {fill:#ffffff;fill-rule:nonzero}
+	#wrapper:hover .fil0 {fill:#37556E;fill-rule:nonzero}
+   ]]></style></defs><g id="wrapper"><circle class="fil0 str0" cx="15500" cy="15500" r="15049"/><path class="fil1" d="M22406 10073l-5427 5427 5427 5427-1479 1479-5427-5427-5427 5427-1479-1479 5427-5427-5427-5427 1479-1479 5427 5427 5427-5427z"/></g></svg>
