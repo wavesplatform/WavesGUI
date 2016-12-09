@@ -1057,12 +1057,6 @@ span.tabs-radio img.selected {
     padding-right: 2rem;
 }
 
-#wB-butSend-WAV .balanceAmt {
-    /*    padding-right: 2rem;*/
-    text-align: center;
-    padding-bottom: .25rem;
-}
-
 #wB-butSend-WAV button {
     border: 1px solid #37556E;
     color: #37556E;
@@ -1499,7 +1493,6 @@ md-autocomplete[md-input-name="assetFee"] button {
 .balanceAmt {
     color: #999999;
     font-style: italic;
-    padding-right: .5rem;
     text-align: center;
 }
 
@@ -1678,6 +1671,9 @@ md-autocomplete[md-input-name="assetFee"] button {
     width: 100%;
     text-align: center;
 }
+
+/* Temporary fix for the extra space below this div - CHECK */
+#create-asset-form div:nth-child(1) { margin-bottom: -20px; }
 
 #mBB-token table {
     width: 500px;
