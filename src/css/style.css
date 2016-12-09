@@ -1119,6 +1119,13 @@ span.tabs-radio img.selected {
     font-family: 'Lekton';
 }
 
+.wavesTable input[type="search"],
+.paymentForm input[type="search"] {
+    font-family: 'Wesli';
+    font-size: 1rem;
+    padding: .3rem
+}
+
 
 /* Added deeper specification to avoid it auto-excepting itself */
 
@@ -1409,8 +1416,12 @@ md-autocomplete[md-input-name="assetFee"] button {
     padding-bottom: 1rem;
 }
 
+
 /* Temporary fix for misalignment in the Balance amount */
-.paymentForm div:nth-child(2) { margin-right: 2rem; }
+
+.paymentForm div:nth-child(2) {
+    margin-right: 2rem;
+}
 
 .wPop-content {
     margin-top: -1.5rem;
@@ -1662,7 +1673,9 @@ md-autocomplete[md-input-name="assetFee"] button {
     text-align: center;
 }
 
+
 /* Temporary fix for the extra space below this div - CHECK */
+
 #create-asset-form div:nth-child(1) {
     margin-bottom: -20px;
 }
