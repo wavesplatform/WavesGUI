@@ -58,6 +58,7 @@ body {
     color: #333333;
     background: #ffffff;
     overflow: hidden;
+    -webkit-font-smoothing: antialiased;
 }
 
 .fade {
@@ -161,8 +162,6 @@ body {
     font-weight: 200;
     margin: 0 auto;
 }
-
-.balanceType {}
 
 
 /* Custom Scrollbar */
@@ -1410,21 +1409,11 @@ md-autocomplete[md-input-name="assetFee"] button {
     padding-bottom: 1rem;
 }
 
+/* Temporary fix for misalignment in the Balance amount */
+.paymentForm div:nth-child(2) { margin-right: 2rem; }
+
 .wPop-content {
     margin-top: -1.5rem;
-}
-
-.paymentForm h2 {
-    background-color: #ffffff;
-    border: 0px solid #F0F0F0;
-    text-align: center;
-    font-size: 1.25rem;
-    color: #333333;
-    letter-spacing: .2rem;
-    padding-left: .5rem;
-    padding-right: .5rem;
-    padding-bottom: .5rem;
-    font-weight: 200;
 }
 
 .paymentForm table,
@@ -1493,7 +1482,8 @@ md-autocomplete[md-input-name="assetFee"] button {
 .balanceAmt {
     color: #999999;
     font-style: italic;
-    text-align: center;
+    text-align: right;
+    margin-right: 0.25rem;
 }
 
 .balanceAmt p {
@@ -1673,11 +1663,17 @@ md-autocomplete[md-input-name="assetFee"] button {
 }
 
 /* Temporary fix for the extra space below this div - CHECK */
-#create-asset-form div:nth-child(1) { margin-bottom: -20px; }
+#create-asset-form div:nth-child(1) {
+    margin-bottom: -20px;
+}
 
-#mBB-token table {
+#mBB-token form {
     width: 500px;
     margin: 0 auto;
+}
+
+#mBB-token table {
+    width: 100%;
 }
 
 #mBB-token table tbody tr:last-child {
@@ -1697,14 +1693,6 @@ md-autocomplete[md-input-name="assetFee"] button {
 
 #mBB-token form button {
     margin-top: 1rem;
-}
-
-#mBB-token .wavesTable tbody tr:nth-child(odd):hover {
-    background: #F0F0F0;
-}
-
-#mBB-token .wavesTable tbody tr:nth-child(even):hover {
-    background: #ffffff;
 }
 
 
