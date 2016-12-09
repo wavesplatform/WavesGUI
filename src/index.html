@@ -363,7 +363,7 @@
                                         <md-autocomplete md-input-name="wavessendfee" md-selected-item="wallet.transfer.selectedFee" md-search-text="wallet.transfer.searchText"
                                                          md-items="item in wallet.transfer.querySearch(wallet.transfer.searchText)"
                                                          md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
-                                                         md-menu-class="popup-autocomplete">
+                                                         md-menu-class="popup-autocomplete" class="fee-autocomplete">
                                             <md-item-template>
                                                 <span md-highlight-text="wallet.transfer.searchText">{{item.displayText}}</span>
                                             </md-item-template>
@@ -535,7 +535,7 @@
                                                     <md-autocomplete md-input-name="assetFee" md-selected-item="transfer.autocomplete.selectedFee" md-search-text="transfer.autocomplete.searchText"
                                                                      md-items="item in transfer.autocomplete.querySearch(transfer.autocomplete.searchText)"
                                                                      md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
-                                                                     md-menu-class="popup-autocomplete">
+                                                                     md-menu-class="popup-autocomplete" class="fee-autocomplete">
                                                         <md-item-template>
                                                             <span md-highlight-text="transfer.autocomplete.searchText">{{item.displayText}}</span>
                                                         </md-item-template>
@@ -880,7 +880,7 @@
     <script src="js/shared/notification.service.js"></script>
     <script src="js/shared/transaction.loading.service.js"></script>
     <script src="js/shared/transaction.filter.js"></script>
-    <script src="js/shared/shared.autocomplete.js"></script>
+    <script src="js/shared/shared.autocomplete.factory.js"></script>
 
     <script src="js/login/login.module.js"></script>
     <script src="js/login/login.constants.js"></script>
