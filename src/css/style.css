@@ -58,7 +58,7 @@ body {
     color: #333333;
     background: #ffffff;
     overflow: hidden;
-    -webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased !important;
 }
 
 .fade {
@@ -269,14 +269,9 @@ body {
     padding-bottom: 1rem;
 }
 
-#feat-not-active h2,
 #feat-not-active p {
     padding-left: 2rem;
     padding-right: 2rem;
-}
-
-#feat-not-active h2 {
-    text-align: center
 }
 
 
@@ -414,11 +409,6 @@ body {
 #account-remove-popup {
     max-width: 500px;
     padding-bottom: 2rem;
-}
-
-#account-remove-popup h2 {
-    text-align: center;
-    padding-bottom: 1rem;
 }
 
 #account-remove-popup p {
@@ -908,6 +898,9 @@ span.tabs-radio img.selected {
     letter-spacing: -2px;
     opacity: .5;
 }
+
+
+/* Do not eliminate this one */
 
 #mBB-wallet h2 {
     padding: .5rem;
@@ -1495,6 +1488,8 @@ md-autocomplete[md-input-name="assetFee"] button {
     font-style: italic;
     text-align: right;
     margin-right: 0.25rem;
+    line-height: 1.25rem;
+    padding-bottom: .2rem;
 }
 
 .balanceAmt p {
@@ -1714,64 +1709,6 @@ md-autocomplete[md-input-name="assetFee"] button {
 
 /* MESSENGER TAB */
 
-#mBB-messages-add {
-    position: relative;
-    display: table;
-    width: 100%;
-    padding: .75rem;
-    vertical-align: center;
-    text-align: center;
-    overflow: hidden;
-}
-
-#mBB-messages h2 {
-    display: inline-block;
-    text-align: center;
-    font-size: 1.25rem;
-    font-weight: 200;
-    color: #333333;
-    letter-spacing: .2rem;
-}
-
-#addContact {
-    width: auto;
-    position: absolute;
-    right: 2rem;
-    bottom: 0;
-}
-
-#addContact img {
-    width: 2rem;
-    opacity: .5;
-}
-
-#addContact img:hover {
-    opacity: 1;
-}
-
-#addContactForm {
-    text-align: center;
-}
-
-#addContactForm h2 {
-    background-color: #ffffff;
-    border: 0px solid #F0F0F0;
-    text-align: center;
-    font-size: 1.25rem;
-    color: #333333;
-    letter-spacing: .2rem;
-    font-weight: 200;
-}
-
-#addContactForm p {
-    margin-top: .25rem;
-}
-
-#contacts {
-    width: 100%;
-    height: 100%;
-}
-
 
 /* ======================================================================= */
 
@@ -1781,17 +1718,6 @@ md-autocomplete[md-input-name="assetFee"] button {
 #mBB-community {
     width: 100%;
     text-align: center;
-}
-
-#mBB-community h2 {
-    text-align: center;
-    font-size: 1.25rem;
-    color: #333333;
-    letter-spacing: .2rem;
-    padding-left: .5rem;
-    padding-right: .5rem;
-    padding-bottom: .6rem;
-    font-weight: 200;
 }
 
 #mBB-community > p {
