@@ -1370,12 +1370,18 @@ span.tabs-radio img.selected {
     width: 4.5rem;
 }
 
-md-autocomplete[md-input-name="wavessendfee"] button,
-md-autocomplete[md-input-name="assetFee"] button {
+md-autocomplete.fee-autocomplete button {
     transition: all .4s ease;
     -webkit-transition: all .4s ease;
 }
 
+md-autocomplete.fee-autocomplete button md-icon path {
+    fill: #37556E;
+}
+
+md-autocomplete.fee-autocomplete button:hover md-icon path {
+    fill: white;
+}
 
 /* md-autocomplete[md-input-name="wavessendfee"] button:hover,  md-autocomplete[md-input-name="assetFee"] button:hover {}*/
 

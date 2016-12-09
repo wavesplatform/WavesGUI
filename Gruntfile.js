@@ -106,7 +106,7 @@ module.exports = function (grunt) {
                 'src/js/shared/tooltipster.directive.js',
                 'src/js/shared/transaction.loading.service.js',
                 'src/js/shared/transaction.filter.js',
-                'src/js/shared/shared.autocomplete.js',
+                'src/js/shared/shared.autocomplete.factory.js',
 
                 'src/js/login/login.module.js',
                 'src/js/login/login.constants.js',
@@ -411,6 +411,49 @@ module.exports = function (grunt) {
                     zip: "<%= compress.chrome.options.archive %>"
                 }
             }
+        },
+        s3: {
+            options: {
+                accessKeyId: process.env['WALLET_AWS_ACCESS_KEY_ID'],
+                secretAccessKey: process.env['WALLET_AWS_ACCESS_SECRET'],
+                region: 'eu-central-1',
+                dryRun: true
+            },
+            testnet: {
+                options: {
+                    bucket: 'testnet.waveswallet.io'
+                },
+                cwd: 'distr/<%= meta.configurations.testnet.name %>',
+                src: '**/*'
+            },
+            mainnet: {
+                options: {
+                    bucket: 'waveswallet.io'
+                },
+                cwd: 'distr/<%= meta.configurations.mainnet.name %>',
+                src: '**/*'
+            }
+        },
+        cloudfront: {
+            options: {
+                accessKeyId: process.env['WALLET_AWS_ACCESS_KEY_ID'],
+                secretAccessKey: process.env['WALLET_AWS_ACCESS_SECRET'],
+                invalidations: [
+                    '/index.html',
+                    '/css/*',
+                    '/js/*'
+                ]
+            },
+            testnet: {
+                options: {
+                    distributionId: 'E174FYNYORL3QH'
+                }
+            },
+            mainnet: {
+                options: {
+                    distributionId: 'E2BNQKK79AMUA0'
+                }
+            }
         }
     });
 
@@ -427,6 +470,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-bump');
     grunt.loadNpmTasks('grunt-github-releaser');
     grunt.loadNpmTasks('grunt-webstore-upload');
+    grunt.loadNpmTasks('grunt-aws');
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-conventional-changelog');
@@ -436,7 +480,8 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('distr', ['clean', 'build', 'emptyChangelog', 'copy', 'compress']);
-    grunt.registerTask('publish', ['bump', 'distr', 'conventionalChangelog', 'shell', 'github-release', 'webstore_upload']);
+    grunt.registerTask('publish', ['bump', 'distr', 'conventionalChangelog', 'shell', 'github-release']);
+    grunt.registerTask('deploy', ['webstore_upload', 's3']);
     grunt.registerTask('test', ['jshint', 'jscs', 'karma:development']);
     grunt.registerTask('build', [
         'jscs',
