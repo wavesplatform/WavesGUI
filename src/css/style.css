@@ -4,6 +4,8 @@ Waves' palette: #0096DC                             Waves' blue *
                 #D7D7D7                             Light grey
                 #AFAFAF                             Grey
                 #555555                             Darker grey (h's, highlights)
+                #333333     rgb(50,50,50);          80% black
+                #E6E6E6     rgb(230,230,230);       10% black
                 #E1B47D     rgb(225,180,125);       Soft orange
                 #37556E     rgb(55,85,110);         Navy Blue
                 #780CE8     rgb(130,12,232);        Lila
@@ -168,18 +170,18 @@ body {
 
 .wScroll::-webkit-scrollbar-track,
 .wScroll::-webkit-scrollbar-track:horizontal {
-    background-color: #F2F3F4;
+    background-color: #fff;
 }
 
 .wScroll::-webkit-scrollbar,
 .wScroll::-webkit-scrollbar:horizontal {
     width: 5px;
-    background-color: #F2F3F4;
+    background-color: #fff;
 }
 
 .wScroll::-webkit-scrollbar-thumb,
 .wScroll::-webkit-scrollbar-thumb:horizontal {
-    background-color: #E5E7E9;
+    background-color: #E6E6E6;
 }
 
 
