@@ -7,8 +7,8 @@
     var TOKEN_DECIMALS_MAX = 8;
     var FIXED_ISSUE_FEE = new Money(1, Currency.WAV);
 
-    function TokenCreateController($scope, $interval, constants, applicationContext, assetService, dialogService,
-                                   apiService, notificationService, formattingService) {
+    function TokenCreateController($scope, $interval, $timeout, constants, applicationContext, assetService,
+                                   dialogService, apiService, notificationService, formattingService) {
         var refreshPromise;
         var refreshDelay = 15 * 1000;
         var transaction;
@@ -70,6 +70,7 @@
         };
         ctrl.broadcastIssueTransaction = broadcastIssueTransaction;
         ctrl.assetIssueConfirmation = assetIssueConfirmation;
+        ctrl.assetBroadcastConfirmation = assetBroadcastConfirmation;
 
         loadDataFromBackend();
         resetIssueAssetForm();
@@ -114,7 +115,16 @@
 
             transaction = assetService.createAssetIssueTransaction(asset, sender);
 
-            dialogService.open('#create-asset-confirmation');
+            if (!ctrl.asset.reissuable)
+                dialogService.open('#non-reissuable-asset-notice');
+            else
+                dialogService.open('#create-asset-confirmation');
+        }
+
+        function assetBroadcastConfirmation() {
+            $timeout(function () {
+                dialogService.open('#create-asset-confirmation');
+            }, 1);
         }
 
         function broadcastIssueTransaction() {
@@ -172,8 +182,8 @@
         }
     }
 
-    TokenCreateController.$inject = ['$scope', '$interval', 'constants.ui', 'applicationContext', 'assetService',
-        'dialogService', 'apiService', 'notificationService', 'formattingService'];
+    TokenCreateController.$inject = ['$scope', '$interval', '$timeout', 'constants.ui', 'applicationContext',
+        'assetService', 'dialogService', 'apiService', 'notificationService', 'formattingService'];
 
     angular
         .module('app.tokens')

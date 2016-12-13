@@ -268,14 +268,7 @@ body {
 
 #feat-not-active {
     max-width: 500px;
-    padding-bottom: 1rem;
 }
-
-#feat-not-active p {
-    padding-left: 2rem;
-    padding-right: 2rem;
-}
-
 
 /* ======================================================================= */
 
@@ -480,25 +473,11 @@ body {
     margin-bottom: 1rem;
     text-align: center;
     max-width: 550px;
-    padding-bottom: 2rem;
 }
 
 #login-wPop-new p {
-    padding-left: 2rem;
-    padding-right: 2rem;
     text-align: justify;
 }
-
-#login-wPop-new button {
-    border: 1px solid #37556E;
-    color: #37556E;
-}
-
-#login-wPop-new button:hover {
-    background: #37556E;
-    color: #ffffff;
-}
-
 
 /* SEED WHITESPACE CONFIRMATION POPUP */
 
@@ -508,8 +487,6 @@ body {
 
 #seed-whitespace-popup p {
     text-align: justify;
-    padding-left: 1rem;
-    padding-right: 1rem;
 }
 
 #register > form {
@@ -653,13 +630,6 @@ header {
 
 #header-wPop-backup {
     max-width: 550px;
-    padding-bottom: 2rem;
-}
-
-#header-wPop-backup p,
-#backupForm {
-    padding-left: 2rem;
-    padding-right: 2rem;
 }
 
 #header-wPop-backup a {
@@ -671,20 +641,6 @@ header {
     width: 100%;
     resize: none;
     margin-bottom: .5rem;
-}
-
-#header-wPop-backup button {
-    border: 1px solid #37556E;
-    color: #37556E;
-}
-
-#header-wPop-backup button:hover {
-    background: #37556E;
-    color: #ffffff;
-}
-
-.wPop-content-buttons {
-    padding-top: 1rem;
 }
 
 #copy_and_close_backup_modal {
@@ -911,57 +867,27 @@ span.tabs-radio img.selected {
 
 /* CONFIRMATION DIALOGS - ANGULAR FIXES FOR LATER */
 
-#send-payment-confirmation {
+.dialog-confirmation {
     text-align: center;
-    padding-bottom: 2rem;
 }
 
 #asset-details-dialog {
     max-width: 640px;
 }
 
-#create-asset-confirmation,
-#asset-transfer-dialog,
-#asset-reissue-dialog,
-#transfer-asset-confirmation,
-#asset-reissue-confirm-dialog,
-#asset-details-dialog {
-    padding-bottom: 2rem;
+.dialog-text {
+    padding-bottom: 1rem;
 }
 
-#send-payment-confirmation p,
-#create-asset-confirmation p,
-#asset-transfer-dialog form,
-#asset-reissue-dialog form,
-#transfer-asset-confirmation p,
-#asset-reissue-confirm-dialog p,
-#asset-details-dialog table {
-    padding-bottom: 2rem;
+.wavesPop-content {
     padding-left: 2rem !important;
     padding-right: 2rem !important;
     padding-bottom: 1rem !important;
 }
 
-#send-payment-confirmation button,
-#create-asset-confirmation button,
-#asset-transfer-dialog button,
-#asset-reissue-dialog button,
-#transfer-asset-confirmation button,
-#asset-reissue-confirm-dialog button,
-#asset-details-dialog button {
-    border: 1px solid #37556E;
-    color: #37556E;
-}
-
-#send-payment-confirmation button:hover,
-#create-asset-confirmation button:hover,
-#asset-transfer-dialog button:hover,
-#asset-reissue-dialog button:hover,
-#transfer-asset-confirmation button:hover,
-#asset-reissue-confirm-dialog button:hover,
-#asset-details-dialog button:hover {
-    background: #37556E;
-    color: #ffffff;
+.wavesPop-content-buttons {
+    padding-bottom: 2rem;
+    text-align: center;
 }
 
 #send-confirm {
@@ -1041,26 +967,6 @@ span.tabs-radio img.selected {
 #wallet-transaction-history table {
     overflow-y: scroll;
 }
-
-#wB-butSend-WAV {
-    padding-bottom: 2rem;
-}
-
-#wB-butSend-WAV table {
-    padding-left: 2rem;
-    padding-right: 2rem;
-}
-
-#wB-butSend-WAV button {
-    border: 1px solid #37556E;
-    color: #37556E;
-}
-
-#wB-butSend-WAV button:hover {
-    background: #37556E;
-    color: #ffffff;
-}
-
 
 /* ======================================================================= */
 
@@ -1286,6 +1192,16 @@ span.tabs-radio img.selected {
 }
 
 .wButton-neg:hover {
+    background: #37556E;
+    color: #ffffff;
+}
+
+.wButton-dialog {
+    border: 1px solid #37556E;
+    color: #37556E;
+}
+
+.wButton-dialog:hover {
     background: #37556E;
     color: #ffffff;
 }

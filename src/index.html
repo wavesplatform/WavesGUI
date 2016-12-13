@@ -81,15 +81,10 @@
                             <!-- Remove Account popup -->
                             <div id="account-remove-popup" waves-dialog on-dialog-ok="list.removeAccount()" is-error="true" ok-button-caption="REMOVE">
                                 <h2 class="sectionHeader">REMOVE ACCOUNT <span id="removeAccountSpan"></span> - NOTICE</h2>
-                                <p>This feature completely removes the account from this device.
-                                    <br/><br/>
-                                    The account will not be eliminated or destroyed, but instead will not be shown anymore in the Accounts List at the client startup.
-                                    <br/><br/>
-                                    You can always re-generate your account on this device again using the Import Account feature and entering the SEED when prompted.
-                                    <br/><br/>
-                                    Click on the REMOVE button to proceed with the account removal, or CANCEL to return to the previous screen.
-                                    <br/><br/>
-                                </p>
+                                <p class="dialog-text">This feature completely removes the account from this device.</p>
+                                <p class="dialog-text">The account will not be eliminated or destroyed, but instead will not be shown anymore in the Accounts List at the client startup.</p>
+                                <p class="dialog-text">You can always re-generate your account on this device again using the Import Account feature and entering the SEED when prompted.</p>
+                                <p class="dialog-text">Click on the REMOVE button to proceed with the account removal, or CANCEL to return to the previous screen.</p>
                             </div>
                         </div>
 
@@ -119,31 +114,23 @@
                                 <button class="wButton fade" type="reset" ng-click="vm.back()">BACK</button>
 
                                 <div id="seed-whitespace-popup" waves-dialog on-dialog-ok="vm.registerAccount()" closeable="false" ok-button-caption="PROCEED">
-                                    <h2>SEED NOTICE</h2>
-                                    <p>
-                                        Your wallet seed contains one or more trailing whitespace characters.
-                                        <br/><br/>
-                                        A seed with a whitespace at the end and a seed without one are different, and will result in different addresses generated.
-                                        <br/><br/>
-                                        It is strongly recommended that you avoid trailing whitespaces in the seed. If you understand the implications of including a trailing whitespace in your seed, press <b>PROCEED</b>.
-                                        Press <b>CANCEL</b> or close the dialog box to edit your seed.<br/>
-                                    </p>
+                                    <h2 class="sectionHeader">SEED NOTICE</h2>
+                                    <p class="dialog-text">Your wallet seed contains one or more trailing whitespace characters.</p>
+                                    <p class="dialog-text">A seed with a whitespace at the end and a seed without one are different, and will result in different addresses generated.</p>
+                                    <p class="dialog-text">It is strongly recommended that you avoid trailing whitespaces in the seed. If you understand the implications of including a trailing whitespace
+                                        in your seed, press <b>PROCEED</b>. Press <b>CANCEL</b> or close the dialog box to edit your seed.<br/></p>
                                 </div>
                             </form>
                         </div>
 
                         <div id="login-wPop-new" waves-dialog ok-button-caption="I UNDERSTAND" on-dialog-ok="" cancel-button-visible="false" closeable="false">
                             <h2 class="sectionHeader">NEW ACCOUNT - NOTICE</h2>
-                            <p>This feature involves the creation of a new account on Waves platform.
-                                <br/><br/>
-                                The procedure consists of complex cryptographic operations that use a <b>SEED</b> (a series of random words) to create a unique address for your account.
-                                <br/><br/>
-                                This SEED is extremely important and must be kept in safe place, since it's the only way to recover your account in case of lost, corrupted data or hardware failure.
-                                <br/>
-                                Your SEED will also allow you to IMPORT your account to other devices.
-                                <br/><br/>
-                                <i>NOTE: Make sure that you select the entire SEED length before keeping it. It's suggested to use the copy-to-clipboard button located the right side of the SEED box.</i>
-                            </p>
+                            <p class="dialog-text">This feature involves the creation of a new account on Waves platform.</p>
+                            <p class="dialog-text">The procedure consists of complex cryptographic operations that use a <b>SEED</b> (a series of random words) to create a unique address for your account.</p>
+                            <p class="dialog-text">This SEED is extremely important and must be kept in safe place, since it's the only way to recover your account in case of lost, corrupted data or hardware failure.</p>
+                            <p class="dialog-text">Your SEED will also allow you to IMPORT your account to other devices.
+                            <br/><br/>
+                            <i>NOTE: Make sure that you select the entire SEED length before keeping it. It's suggested to use the copy-to-clipboard button located the right side of the SEED box.</i></p>
                         </div>
 
                         <!-- store account on the current device -->
@@ -235,11 +222,8 @@
         <!-- shared blocks -->
         <div id="feat-not-active" waves-dialog global="true" show-buttons="false" is-error="true">
             <h2 class="sectionHeader">NOTICE</h2>
-            <p>This feature is still under development and not active during the alpha release.
-                <br/><br/>
-                Follow our social media channels to stay up to date with the latest improvements and developments.
-                <br/><br/>
-            </p>
+            <p class="dialog-text">This feature is still under development and not active during the alpha release.</p>
+            <p class="dialog-text">Follow our social media channels to stay up to date with the latest improvements and developments.</p>
             <div class="modal-media">
                 <a href="https://blog.wavesplatform.com/" target="_blank"><img class="modal-media-img" src="img/blog_icon.svg" /></a>
                 <a href="https://twitter.com/wavesplatform" target="_blank"><img class="modal-media-img" src="img/twitter_icon.svg" /></a>
@@ -376,13 +360,15 @@
                     </div>
 
                     <div id="send-payment-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!wallet.confirm.pendingPayment" on-dialog-ok="wallet.broadcastSendTransaction()">
-                        <p>You are sending <span class="confirmation-value">{{wallet.confirm.amount.value}}</span>
-                            <span class="confirmation-value">{{wallet.confirm.amount.currency}}</span> with
-                            <span class="confirmation-value">{{wallet.confirm.fee.value}}</span>
-                            <span class="confirmation-value">{{wallet.confirm.fee.currency}}</span> fee to the address<br/>
-                            <span class="confirmation-value">{{wallet.confirm.recipient}}</span>
-                        </p>
-                        <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                        <div class="dialog-confirmation">
+                            <p class="dialog-text">You are sending <span class="confirmation-value">{{wallet.confirm.amount.value}}</span>
+                                <span class="confirmation-value">{{wallet.confirm.amount.currency}}</span> with
+                                <span class="confirmation-value">{{wallet.confirm.fee.value}}</span>
+                                <span class="confirmation-value">{{wallet.confirm.fee.currency}}</span> fee to the address<br/>
+                                <span class="confirmation-value">{{wallet.confirm.recipient}}</span>
+                            </p>
+                            <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                        </div>
                     </div>
 
                     <div class="flex-container">
@@ -547,12 +533,14 @@
                                 </form>
                             </div>
                             <div id="transfer-asset-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!transfer.confirm.pendingTransfer" on-dialog-ok="transfer.broadcastTransaction()">
-                                <p>You are sending <span class="confirmation-value">{{transfer.confirm.amount.value}}</span>
-                                    <span class="confirmation-value">{{transfer.confirm.amount.currency}}</span> with
-                                    <span class="confirmation-value">{{transfer.confirm.fee.value}}</span>
-                                    <span class="confirmation-value">{{transfer.confirm.fee.currency}}</span> fee <br/>to the address: <span class="confirmation-value">{{transfer.confirm.recipient}}</span>
-                                </p>
-                                <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                                <div class="dialog-confirmation">
+                                    <p class="dialog-text">You are sending <span class="confirmation-value">{{transfer.confirm.amount.value}}</span>
+                                        <span class="confirmation-value">{{transfer.confirm.amount.currency}}</span> with
+                                        <span class="confirmation-value">{{transfer.confirm.fee.value}}</span>
+                                        <span class="confirmation-value">{{transfer.confirm.fee.currency}}</span> fee <br/>to the address: <span class="confirmation-value">{{transfer.confirm.recipient}}</span>
+                                    </p>
+                                    <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                                </div>
                             </div>
                         </div>
                         <div class="noDisp" ng-controller="assetReissueController as reissue">
@@ -605,12 +593,14 @@
                                 </form>
                             </div>
                             <div id="asset-reissue-confirm-dialog" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!reissue.confirm.reissuePending" on-dialog-ok="reissue.broadcastTransaction()">
-                                <p>You are issuing an additional amount of <span class="confirmation-value">{{reissue.confirm.amount.value}}</span> tokens <br/>
-                                    to the asset <span class="confirmation-value">{{reissue.confirm.amount.currency}}</span>
-                                    with a fee of <span class="confirmation-value">{{reissue.confirm.fee.value}}</span>
-                                    <span class="confirmation-value">{{reissue.confirm.fee.currency}}</span>
-                                </p>
-                                <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                                <div class="dialog-confirmation">
+                                    <p class="dialog-text">You are issuing an additional amount of <span class="confirmation-value">{{reissue.confirm.amount.value}}</span> tokens <br/>
+                                        to the asset <span class="confirmation-value">{{reissue.confirm.amount.currency}}</span>
+                                        with a fee of <span class="confirmation-value">{{reissue.confirm.fee.value}}</span>
+                                        <span class="confirmation-value">{{reissue.confirm.fee.currency}}</span>
+                                    </p>
+                                    <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -651,7 +641,6 @@
                 <div id="mBB-history" class="mBB-content" ng-switch-when="history" ng-controller="historyController as history">
                     <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
                     <div id="full-transaction-history" class="wavesTable wScroll">
-
                         <table class="wavesTable-hover wScroll">
                             <thead>
                             <tr>
@@ -743,12 +732,21 @@
                             </div>
                         </form>
 
+                        <div id="non-reissuable-asset-notice" waves-dialog ok-button-caption="I UNDERSTAND" on-dialog-ok="ctrl.assetBroadcastConfirmation()">
+                            <h2 class="sectionHeader">NON-REISSUABLE ASSET - NOTICE</h2>
+                            <p class="dialog-text">You are going to create a non-reissuable asset. </p>
+                            <p class="dialog-text">It means that tokens amount is fixed and can not be increased in the future</p>
+                        </div>
+
                         <div id="create-asset-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!ctrl.confirm.pendingIssuance" on-dialog-ok="ctrl.broadcastIssueTransaction()">
-                            <p>You are creating a <span class="confirmation-value">{{ctrl.confirm.reissuable}}</span> asset named
-                                <span class="confirmation-value">{{ctrl.confirm.name}}</span><br/> with
-                                <span class="confirmation-value">{{ctrl.confirm.totalTokens}}</span> of total tokens amount
-                            </p>
-                            <p>Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                            <div class="dialog-confirmation">
+                                <p class="dialog-text">You are creating a <span class="confirmation-value">{{ctrl.confirm.reissuable}}</span> asset named
+                                    <span class="confirmation-value">{{ctrl.confirm.name}}</span><br/> with
+                                    <span class="confirmation-value">{{ctrl.confirm.totalTokens}}</span> of total tokens amount
+                                </p>
+                                <p class="dialog-text" ng-if="!ctrl.asset.reissuable" style="color: red">NOTICE: This is a sample warning text for non-reissuable assets</p>
+                                <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
