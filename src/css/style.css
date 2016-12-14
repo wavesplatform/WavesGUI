@@ -1895,8 +1895,4 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
         height: 22.5%;
         margin-bottom: -3px;
     }
-    #full-transaction-history,
-    #wallet-transaction-history {
-        display: none;
-    }
 }
