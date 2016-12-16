@@ -5,8 +5,7 @@
 
     function WavesAssetTransferController($scope, $timeout, constants, events, autocomplete, applicationContext,
                                           assetService, apiService, dialogService,
-                                          formattingService, notificationService) {
-        var transaction;
+                                          formattingService, notificationService, transactionBroadcast) {
         var transfer = this;
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAV);
 
@@ -21,9 +20,18 @@
                 value: '0',
                 currency: ''
             },
-            recipient: '',
-            pendingTransfer: false
+            recipient: ''
         };
+        transfer.broadcast = new transactionBroadcast.instance(apiService.assets.transfer,
+            function (transaction, response) {
+                var amount = Money.fromCoins(transaction.amount, transfer.asset.currency);
+                var address = transaction.recipient;
+                var displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
+                    transfer.asset.currency.displayName +
+                    '<br/>Recipient ' + address.substr(0,15) + '...<br/>Date: ' +
+                    formattingService.formatTimestamp(transaction.timestamp);
+                notificationService.notice(displayMessage);
+            });
         transfer.autocomplete = autocomplete;
         transfer.validationOptions = {
             rules: {
@@ -118,7 +126,7 @@
                 privateKey: applicationContext.account.keyPair.private
             };
             // creating the transaction and waiting for confirmation
-            transaction = assetService.createAssetTransferTransaction(assetTransfer, sender);
+            transfer.broadcast.setTransaction(assetService.createAssetTransferTransaction(assetTransfer, sender));
 
             // setting data for the confirmation dialog
             transfer.confirm.amount.value = assetTransfer.amount.formatAmount(true);
@@ -140,36 +148,7 @@
         }
 
         function broadcastTransaction() {
-            // checking if transaction was saved
-            if (angular.isUndefined(transaction))
-                return;
-
-            // prevent method execution when there is a pending transfer request
-            if (transfer.confirm.paymentPending)
-                return;
-
-            //disable confirm button
-            transfer.confirm.paymentPending = true;
-
-            apiService.assets.transfer(transaction).then(function () {
-                var amount = Money.fromCoins(transaction.amount, transfer.asset.currency);
-                var address = transaction.recipient;
-                var displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
-                    transfer.asset.currency.displayName +
-                    '<br/>Recipient ' + address.substr(0,15) + '...<br/>Date: ' +
-                    formattingService.formatTimestamp(transaction.timestamp);
-                notificationService.notice(displayMessage);
-            }, function (response) {
-                if (response.data)
-                    notificationService.error('Error:' + response.data.error + ' - ' + response.data.message);
-                else
-                    notificationService.error('Request failed. Status: ' + response.status + ' - ' +
-                        response.statusText);
-            }).finally(function () {
-                //enable confirm button
-                transfer.confirm.paymentPending = false;
-                transaction = undefined;
-            });
+            transfer.broadcast.broadcast();
         }
 
         function resetPaymentForm() {
@@ -185,7 +164,7 @@
 
     WavesAssetTransferController.$inject = ['$scope', '$timeout', 'constants.ui', 'portfolio.events',
         'autocomplete.fees', 'applicationContext', 'assetService', 'apiService', 'dialogService',
-        'formattingService', 'notificationService'];
+        'formattingService', 'notificationService', 'transactionBroadcast'];
 
     angular
         .module('app.portfolio')
