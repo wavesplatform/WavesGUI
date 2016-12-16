@@ -59,12 +59,21 @@
         }
 
         function processAssetTransferTransaction(transaction) {
-            var asset = applicationContext.cache.assets[transaction.assetId];
-            if (angular.isUndefined(asset))
+            var currency;
+            if (transaction.assetId) {
+                var asset = applicationContext.cache.assets[transaction.assetId];
+                if (asset)
+                    currency = asset.currency;
+            }
+            else {
+                currency = Currency.WAV;
+            }
+
+            if (!currency)
                 return;
 
-            transaction.formatted.amount = Money.fromCoins(transaction.amount, asset.currency).formatAmount();
-            transaction.formatted.asset = asset.currency.displayName;
+            transaction.formatted.amount = Money.fromCoins(transaction.amount, currency).formatAmount();
+            transaction.formatted.asset = currency.displayName;
         }
 
         function processAssetReissueTransaction(transaction) {
@@ -79,9 +88,9 @@
         function formatFee(transaction) {
             var currency = Currency.WAV;
             var assetId = transaction.feeAssetId;
-            if (angular.isDefined(assetId)) {
+            if (assetId) {
                 var asset = applicationContext.cache.assets[assetId];
-                if (angular.isDefined(asset))
+                if (asset)
                     currency = asset.currency;
             }
 

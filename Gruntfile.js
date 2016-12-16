@@ -107,6 +107,7 @@ module.exports = function (grunt) {
                 'src/js/shared/transaction.loading.service.js',
                 'src/js/shared/transaction.filter.js',
                 'src/js/shared/shared.autocomplete.factory.js',
+                'src/js/shared/transaction.broadcast.factory.js',
 
                 'src/js/login/login.module.js',
                 'src/js/login/login.constants.js',
@@ -124,7 +125,9 @@ module.exports = function (grunt) {
 
                 'src/js/wallet/wallet.module.js',
                 'src/js/wallet/wallet.box.component.js',
-                'src/js/wallet/wallet.controller.js',
+                'src/js/wallet/wallet.list.controller.js',
+                'src/js/wallet/wallet.send.controller.js',
+                'src/js/wallet/wallet.withdraw.controller.js',
 
                 'src/js/tokens/tokens.module.js',
                 'src/js/tokens/token.create.controller.js',

@@ -310,70 +310,91 @@
                 <!-- BODY CONTENT -->
                 <section id="mBBody" class="fFade" ng-switch on="nav.currentTab">
                 <!-- WALLET TAB -->
-                <div id="mBB-wallet" class="mBB-content" ng-switch-when="wallet" ng-controller="walletController as wallet">
-                    <div id="wB-butSend-WAV" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="wallet.submitPayment()">
-                        <form id="send-waves-form" name="sendWavesForm" class="paymentForm" novalidate ng-validate="wallet.paymentValidationOptions">
-                            <h2 class="sectionHeader">SEND PAYMENT</h2>
-                            <table>
-                                <div class="balanceAmt">
-                                    <p>Balance: </p><span class="balancewaves">{{wallet.current.balance.formatAmount(true)}}</span>
-                                </div>
-                                <thead>
-                                <tr>
-                                    <th>DESCRIPTION</th>
-                                    <th>INPUT</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Recipient's Address</td>
-                                    <td>
-                                        <div class="form-field">
-                                            <input class="wInput form-control" name="wavesrecipient" type="text" placeholder="Recipient" ng-model="wallet.transfer.recipient" />
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Amount</td>
-                                    <td>
-                                        <div class="form-field">
-                                            <input class="wInput form-control" name="wavessendamount" type="text" placeholder="Amount" ng-model="wallet.transfer.amount" />
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Fee</td>
-                                    <td>
-                                        <md-autocomplete md-input-name="wavessendfee" md-selected-item="wallet.transfer.selectedFee" md-search-text="wallet.transfer.searchText"
-                                                         md-items="item in wallet.transfer.querySearch(wallet.transfer.searchText)"
-                                                         md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
-                                                         md-menu-class="popup-autocomplete" class="fee-autocomplete">
-                                            <md-item-template>
-                                                <span md-highlight-text="wallet.transfer.searchText">{{item.displayText}}</span>
-                                            </md-item-template>
-                                        </md-autocomplete>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
+                <div id="mBB-wallet" class="mBB-content" ng-switch-when="wallet" ng-controller="walletListController as walletList">
 
-                    <div id="send-payment-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!wallet.confirm.pendingPayment" on-dialog-ok="wallet.broadcastSendTransaction()">
-                        <div class="dialog-confirmation">
-                            <p class="dialog-text">You are sending <span class="confirmation-value">{{wallet.confirm.amount.value}}</span>
-                                <span class="confirmation-value">{{wallet.confirm.amount.currency}}</span> with
-                                <span class="confirmation-value">{{wallet.confirm.fee.value}}</span>
-                                <span class="confirmation-value">{{wallet.confirm.fee.currency}}</span> fee to the address<br/>
-                                <span class="confirmation-value">{{wallet.confirm.recipient}}</span>
-                            </p>
-                            <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                    <div class="noDisp" ng-controller="walletSendController as send">
+                        <div id="wB-butSend-WAV" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="send.submitTransfer()">
+                            <form id="send-waves-form" name="sendWavesForm" class="paymentForm" novalidate ng-validate="send.validationOptions">
+                                <h2 class="sectionHeader">SEND PAYMENT: {{send.currency}}</h2>
+                                <table>
+                                    <div class="balanceAmt">
+                                        <div ng-if="!send.sendingWaves"><p>Asset balance: </p><span class="balancewaves">{{send.assetBalance.formatAmount()}}</span><br/></div>
+                                        <p>Waves balance: </p><span class="balancewaves">{{send.wavesBalance.formatAmount(true)}}</span>
+                                    </div>
+                                    <thead>
+                                    <tr>
+                                        <th>DESCRIPTION</th>
+                                        <th>INPUT</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Recipient's Address</td>
+                                        <td>
+                                            <div class="form-field">
+                                                <input class="wInput form-control" name="sendRecipient" type="text" placeholder="Recipient" ng-model="send.recipient" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Amount</td>
+                                        <td>
+                                            <div class="form-field">
+                                                <input class="wInput form-control" name="sendAmount" type="text" placeholder="Amount" ng-model="send.amount" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fee</td>
+                                        <td>
+                                            <md-autocomplete md-input-name="sendFee" md-selected-item="send.autocomplete.selectedFee" md-search-text="send.autocomplete.searchText"
+                                                             md-items="item in send.autocomplete.querySearch(send.autocomplete.searchText)"
+                                                             md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
+                                                             md-menu-class="popup-autocomplete" class="fee-autocomplete">
+                                                <md-item-template>
+                                                    <span md-highlight-text="send.autocomplete.searchText">{{item.displayText}}</span>
+                                                </md-item-template>
+                                            </md-autocomplete>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                        <div id="send-payment-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!send.broadcast.pending" on-dialog-ok="send.broadcastTransaction()">
+                            <div class="dialog-confirmation">
+                                <p class="dialog-text">You are sending <span class="confirmation-value">{{send.confirm.amount.value}}</span>
+                                    <span class="confirmation-value">{{send.confirm.amount.currency}}</span> with
+                                    <span class="confirmation-value">{{send.confirm.fee.value}}</span>
+                                    <span class="confirmation-value">{{send.confirm.fee.currency}}</span> fee to the address<br/>
+                                    <span class="confirmation-value">{{send.confirm.recipient}}</span>
+                                </p>
+                                <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                            </div>
                         </div>
                     </div>
 
+                    <div class="noDisp">
+                        <div id="withdraw-dialog" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="walletList.submitWithdraw()">
+
+                        </div>
+                        <div id="withdraw-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!wallet.confirm.pendingPayment" on-dialog-ok="walletList.broadcastSendTransaction()">
+                            <div class="dialog-confirmation">
+                                <p class="dialog-text">You are sending <span class="confirmation-value">{{walletList.confirm.amount.value}}</span>
+                                    <span class="confirmation-value">{{walletList.confirm.amount.currency}}</span> with
+                                    <span class="confirmation-value">{{walletList.confirm.fee.value}}</span>
+                                    <span class="confirmation-value">{{walletList.confirm.fee.currency}}</span> fee to the address<br/>
+                                    <span class="confirmation-value">{{walletList.confirm.recipient}}</span>
+                                </p>
+                                <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="flex-container">
-                        <wallet-box class="walletBox" ng-repeat="w in wallet.wallets" balance="w.balance" on-send="wallet.send(currency)"
-                                    on-withdraw="wallet.withdraw(currency)" on-trade="wallet.trade(currency)"></wallet-box>
+                        <wallet-box class="walletBox" ng-repeat="w in walletList.wallets" balance="w.balance" on-send="walletList.send(currency)"
+                                    on-withdraw="walletList.withdraw(currency)" on-trade="walletList.trade(currency)"></wallet-box>
                     </div>
                     <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
                     <div id="wallet-transaction-history" class="wavesTable wScroll">
@@ -391,7 +412,7 @@
                             </tr>
                             </thead>
                             <tbody id="walletTransactionhistory">
-                                <tr ng-repeat="tx in wallet.transactions | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" ng-class="{'wavesTable-txUnc': tx.unconfirmed, 'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
+                                <tr ng-repeat="tx in walletList.transactions | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" ng-class="{'wavesTable-txUnc': tx.unconfirmed, 'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
                                     <td>{{tx.formatted.datetime}}</td>
                                     <td>{{tx.formatted.type}}</td>
                                     <td>{{tx.formatted.asset}}</td>
@@ -532,7 +553,7 @@
                                     </table>
                                 </form>
                             </div>
-                            <div id="transfer-asset-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!transfer.confirm.pendingTransfer" on-dialog-ok="transfer.broadcastTransaction()">
+                            <div id="transfer-asset-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!transfer.broadcast.pending" on-dialog-ok="transfer.broadcastTransaction()">
                                 <div class="dialog-confirmation">
                                     <p class="dialog-text">You are sending <span class="confirmation-value">{{transfer.confirm.amount.value}}</span>
                                         <span class="confirmation-value">{{transfer.confirm.amount.currency}}</span> with
@@ -544,7 +565,7 @@
                             </div>
                         </div>
                         <div class="noDisp" ng-controller="assetReissueController as reissue">
-                            <div id="asset-reissue-dialog" waves-dialog ok-button-caption="REISSUE" ok-button-enabled="!reissue.confirm.pendingReissue" on-dialog-ok="reissue.submitReissue()">
+                            <div id="asset-reissue-dialog" waves-dialog ok-button-caption="REISSUE" ok-button-enabled="!reissue.broadcast.pending" on-dialog-ok="reissue.submitReissue()">
                                 <form id="asset-reissue-form" name="assetReissueForm" novalidate ng-validate="reissue.validationOptions">
                                     <h2 class="sectionHeader">ASSET REISSUE</h2>
                                     <div class="balanceAmt">
@@ -592,7 +613,7 @@
                                     </table>
                                 </form>
                             </div>
-                            <div id="asset-reissue-confirm-dialog" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!reissue.confirm.reissuePending" on-dialog-ok="reissue.broadcastTransaction()">
+                            <div id="asset-reissue-confirm-dialog" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!reissue.broadcast.pending" on-dialog-ok="reissue.broadcastTransaction()">
                                 <div class="dialog-confirmation">
                                     <p class="dialog-text">You are issuing an additional amount of <span class="confirmation-value">{{reissue.confirm.amount.value}}</span> tokens <br/>
                                         to the asset <span class="confirmation-value">{{reissue.confirm.amount.currency}}</span>
@@ -878,6 +899,7 @@
     <script src="js/shared/notification.service.js"></script>
     <script src="js/shared/transaction.loading.service.js"></script>
     <script src="js/shared/transaction.filter.js"></script>
+    <script src="js/shared/transaction.broadcast.factory.js"></script>
     <script src="js/shared/shared.autocomplete.factory.js"></script>
 
     <script src="js/login/login.module.js"></script>
@@ -896,7 +918,9 @@
 
     <script src="js/wallet/wallet.module.js"></script>
     <script src="js/wallet/wallet.box.component.js"></script>
-    <script src="js/wallet/wallet.controller.js"></script>
+    <script src="js/wallet/wallet.list.controller.js"></script>
+    <script src="js/wallet/wallet.send.controller.js"></script>
+    <script src="js/wallet/wallet.withdraw.controller.js"></script>
 
     <script src="js/tokens/tokens.module.js"></script>
     <script src="js/tokens/token.create.controller.js"></script>
