@@ -41,7 +41,7 @@
                 },
                 assetAmount: {
                     required: true,
-                    decimal: 0, // stub value updated on validation
+                    decimal: 8, // stub value updated on validation
                     min: 1,     // stub value updated on validation
                     max: constants.JAVA_MAX_LONG // stub value updated on validation
                 },
@@ -94,14 +94,14 @@
             dialogService.open('#asset-transfer-dialog');
         });
 
-        function getTransferForm() {
+        function getForm() {
             // here we have a direct markup dependency
             // but other ways of getting the form from a child scope are even more ugly
             return angular.element('#transfer-asset-form').scope().transferAssetForm;
         }
 
         function submitTransfer() {
-            var transferForm = getTransferForm();
+            var transferForm = getForm();
             var invalid = transferForm.invalid();
             transfer.fee.isValid = angular.isDefined(invalid.assetFee) ?
                 !invalid.assetFee : true;

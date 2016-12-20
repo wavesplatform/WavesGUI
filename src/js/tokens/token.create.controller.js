@@ -7,8 +7,9 @@
     var TOKEN_DECIMALS_MAX = 8;
     var FIXED_ISSUE_FEE = new Money(1, Currency.WAV);
 
-    function TokenCreateController($scope, $interval, $timeout, constants, applicationContext, assetService,
-                                   dialogService, apiService, notificationService, formattingService) {
+    function TokenCreateController($scope, $interval, constants, applicationContext, assetService,
+                                   dialogService, apiService, notificationService,
+                                   formattingService, transactionBroadcast) {
         var refreshPromise;
         var refreshDelay = 15 * 1000;
         var transaction;
@@ -65,9 +66,18 @@
         ctrl.asset = {
             fee: FIXED_ISSUE_FEE
         };
-        ctrl.confirm = {
-            pendingIssuance: false
-        };
+        ctrl.confirm = {};
+        ctrl.broadcast = new transactionBroadcast.instance(apiService.assets.issue,
+            function (transaction, response) {
+                resetIssueAssetForm();
+
+                applicationContext.cache.assets.put(response);
+
+                var displayMessage = 'Asset ' + ctrl.confirm.name + ' has been issued!<br/>' +
+                    'Total tokens amount: ' + ctrl.confirm.totalTokens + '<br/>' +
+                    'Date: ' + formattingService.formatTimestamp(transaction.timestamp);
+                notificationService.notice(displayMessage);
+            });
         ctrl.broadcastIssueTransaction = broadcastIssueTransaction;
         ctrl.assetIssueConfirmation = assetIssueConfirmation;
 
@@ -112,40 +122,13 @@
             ctrl.confirm.totalTokens = ctrl.asset.totalTokens;
             ctrl.confirm.reissuable = ctrl.asset.reissuable ? 'reissuable' : 'non-reissuable';
 
-            transaction = assetService.createAssetIssueTransaction(asset, sender);
+            ctrl.broadcast.setTransaction(assetService.createAssetIssueTransaction(asset, sender));
 
             dialogService.open('#create-asset-confirmation');
         }
 
         function broadcastIssueTransaction() {
-            if (angular.isUndefined(transaction))
-                return;
-
-            // disable method while there is a pending issuance request
-            if (ctrl.confirm.pendingIssuance)
-                return;
-
-            // disable confirm button
-            ctrl.confirm.pendingIssuance = true;
-            apiService.assets.issue(transaction).then(function (response) {
-                resetIssueAssetForm();
-
-                applicationContext.cache.assets.put(response);
-
-                var displayMessage = 'Asset ' + ctrl.confirm.name + ' has been issued!<br/>' +
-                    'Total tokens amount: ' + ctrl.confirm.totalTokens + '<br/>' +
-                    'Date: ' + formattingService.formatTimestamp(transaction.timestamp);
-                notificationService.notice(displayMessage);
-            }, function (response) {
-                if (response.data)
-                    notificationService.error('Error:' + response.data.error + ' - ' + response.data.message);
-                else
-                    notificationService.error('Request failed. Status: ' + response.status + ' - ' +
-                        response.statusText);
-            }).finally(function () {
-                transaction = undefined;
-                ctrl.confirm.pendingIssuance = false;
-            });
+            ctrl.broadcast.broadcast();
         }
 
         function resetIssueAssetForm() {
@@ -172,8 +155,9 @@
         }
     }
 
-    TokenCreateController.$inject = ['$scope', '$interval', '$timeout', 'constants.ui', 'applicationContext',
-        'assetService', 'dialogService', 'apiService', 'notificationService', 'formattingService'];
+    TokenCreateController.$inject = ['$scope', '$interval', 'constants.ui', 'applicationContext',
+        'assetService', 'dialogService', 'apiService', 'notificationService',
+        'formattingService', 'transactionBroadcast'];
 
     angular
         .module('app.tokens')
