@@ -340,7 +340,7 @@
                                         <td>Amount</td>
                                         <td>
                                             <div class="form-field">
-                                                <input class="wInput form-control" name="sendAmount" type="text" placeholder="Amount" ng-model="send.amount" />
+                                                <input class="wInput form-control" name="sendAmount" type="text" placeholder="Amount" ng-model="send.amount" decimal-input-restrictor />
                                             </div>
                                         </td>
                                     </tr>
@@ -532,7 +532,7 @@
                                                 <td>Amount</td>
                                                 <td>
                                                     <div class="form-field">
-                                                        <input class="wInput form-control" name="assetAmount" type="text" placeholder="Amount" ng-model="transfer.amount" />
+                                                        <input class="wInput form-control" name="assetAmount" type="text" placeholder="Amount" ng-model="transfer.amount" decimal-input-restrictor />
                                                     </div>
                                                 </td>
                                             </tr>
@@ -593,7 +593,7 @@
                                             <td>Additional amount</td>
                                             <td>
                                                 <div class="form-field">
-                                                    <input class="wInput form-control" name="assetAmount" type="text" placeholder="Amount" ng-model="reissue.amount" />
+                                                    <input class="wInput form-control" name="assetAmount" type="text" placeholder="Amount" ng-model="reissue.amount" decimal-input-restrictor />
                                                 </div>
                                             </td>
                                         </tr>
@@ -732,11 +732,11 @@
                                     </tr>
                                     <tr>
                                         <td><label for="assetTotalTokens">Total Tokens</label></td>
-                                        <td><input id="assetTotalTokens" name="assetTotalTokens" class="wInput" type="text" ng-model="ctrl.asset.totalTokens" tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="This field defines the TOTAL TOKENS<br/>supply that your asset will contain."/></td>
+                                        <td><input id="assetTotalTokens" name="assetTotalTokens" class="wInput" type="text" ng-model="ctrl.asset.totalTokens" integer-input-restrictor tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="This field defines the TOTAL TOKENS<br/>supply that your asset will contain."/></td>
                                     </tr>
                                     <tr>
                                         <td><label for="assetTokenDecimalPlaces">Token Decimals</label></td>
-                                        <td><input id="assetTokenDecimalPlaces" name="assetTokenDecimalPlaces" class="wInput" type="text" ng-model="ctrl.asset.decimalPlaces" tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="This field defines the number of DECIMALS<br/>that your asset tokens will be divided in.<br/><br/>Example: Three decimals would allow the<br/>tokens to be divided by 1,000, so 0.001<br/>would be the smallest token fraction."/></td>
+                                        <td><input id="assetTokenDecimalPlaces" name="assetTokenDecimalPlaces" class="wInput" type="text" ng-model="ctrl.asset.decimalPlaces" integer-input-restrictor tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="This field defines the number of DECIMALS<br/>that your asset tokens will be divided in.<br/><br/>Example: Three decimals would allow the<br/>tokens to be divided by 1,000, so 0.001<br/>would be the smallest token fraction."/></td>
                                     </tr>
                                     <tr>
                                         <td><label for="assetReissuable">Re-issuable</label></td>
@@ -896,6 +896,8 @@
     <script src="js/shared/transaction.filter.js"></script>
     <script src="js/shared/transaction.broadcast.factory.js"></script>
     <script src="js/shared/shared.autocomplete.factory.js"></script>
+    <script src="js/shared/decimal.input.restrictor.directive.js"></script>
+    <script src="js/shared/integer.input.restrictor.directive.js"></script>
 
     <script src="js/login/login.module.js"></script>
     <script src="js/login/login.constants.js"></script>

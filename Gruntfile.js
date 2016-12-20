@@ -108,6 +108,8 @@ module.exports = function (grunt) {
                 'src/js/shared/transaction.filter.js',
                 'src/js/shared/shared.autocomplete.factory.js',
                 'src/js/shared/transaction.broadcast.factory.js',
+                'src/js/shared/decimal.input.restrictor.directive.js',
+                'src/js/shared/integer.input.restrictor.directive.js',
 
                 'src/js/login/login.module.js',
                 'src/js/login/login.constants.js',
