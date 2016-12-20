@@ -70,7 +70,6 @@
         };
         ctrl.broadcastIssueTransaction = broadcastIssueTransaction;
         ctrl.assetIssueConfirmation = assetIssueConfirmation;
-        ctrl.assetBroadcastConfirmation = assetBroadcastConfirmation;
 
         loadDataFromBackend();
         resetIssueAssetForm();
@@ -115,16 +114,7 @@
 
             transaction = assetService.createAssetIssueTransaction(asset, sender);
 
-            if (!ctrl.asset.reissuable)
-                dialogService.open('#non-reissuable-asset-notice');
-            else
-                dialogService.open('#create-asset-confirmation');
-        }
-
-        function assetBroadcastConfirmation() {
-            $timeout(function () {
-                dialogService.open('#create-asset-confirmation');
-            }, 1);
+            dialogService.open('#create-asset-confirmation');
         }
 
         function broadcastIssueTransaction() {

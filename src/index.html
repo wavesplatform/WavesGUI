@@ -753,19 +753,14 @@
                             </div>
                         </form>
 
-                        <div id="non-reissuable-asset-notice" waves-dialog ok-button-caption="I UNDERSTAND" on-dialog-ok="ctrl.assetBroadcastConfirmation()">
-                            <h2 class="sectionHeader">NON-REISSUABLE ASSET - NOTICE</h2>
-                            <p class="dialog-text">You are going to create a non-reissuable asset. </p>
-                            <p class="dialog-text">It means that tokens amount is fixed and can not be increased in the future</p>
-                        </div>
-
                         <div id="create-asset-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!ctrl.confirm.pendingIssuance" on-dialog-ok="ctrl.broadcastIssueTransaction()">
                             <div class="dialog-confirmation">
                                 <p class="dialog-text">You are creating a <span class="confirmation-value">{{ctrl.confirm.reissuable}}</span> asset named
                                     <span class="confirmation-value">{{ctrl.confirm.name}}</span><br/> with
                                     <span class="confirmation-value">{{ctrl.confirm.totalTokens}}</span> of total tokens amount
                                 </p>
-                                <p class="dialog-text" ng-if="!ctrl.asset.reissuable" style="color: red">NOTICE: This is a sample warning text for non-reissuable assets</p>
+                                <p class="dialog-text" ng-if="!ctrl.asset.reissuable" style="color: red">Please note that flagging an asset as non-reissuable is permanent.<br/>
+                                    Assets created as reissuable can later be changed to non-reissuable.<br/>However, assets flagged as non-reissuable can never be made reissuable.</p>
                                 <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
                             </div>
                         </div>
