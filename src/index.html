@@ -753,7 +753,7 @@
                             </div>
                         </form>
 
-                        <div id="create-asset-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!ctrl.confirm.pendingIssuance" on-dialog-ok="ctrl.broadcastIssueTransaction()">
+                        <div id="create-asset-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!ctrl.broadcast.pending" on-dialog-ok="ctrl.broadcastIssueTransaction()">
                             <div class="dialog-confirmation">
                                 <p class="dialog-text">You are creating a <span class="confirmation-value">{{ctrl.confirm.reissuable}}</span> asset named
                                     <span class="confirmation-value">{{ctrl.confirm.name}}</span><br/> with
