@@ -51,7 +51,7 @@
             <thead>
             <div id="logoNversion">
                 <img src="img/topleftlogo.svg" />
-                <p ng-class='{testnet: home.isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
+                <p ng-class='{testnet: isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
             </div>
             </thead>
 
@@ -240,7 +240,7 @@
             <img id="topLogoH" src="img/topleftlogo_hor.svg" alt="Waves platform logo horizontal" />
             <div id="logoNversion2">
                 <img src="img/topleftlogo.svg" />
-                <p ng-class='{testnet: home.isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
+                <p ng-class='{testnet: isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
             </div>
             <span id="version" class="centerIt">Address:
                 <span id="wavesAccountAddress" class="clipSpan" tooltipster tooltip-theme="tooltipster-theme3" title="Copy the address to clipboard." ngclipboard data-clipboard-text="{{::menu.address}}" ngclipboard-success="clipboardOk()">{{::menu.address}}</span>

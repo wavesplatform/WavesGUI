@@ -13,9 +13,10 @@
             return networkConstants.NETWORK_NAME === 'devel';
         }
 
+        $scope.isTestnet = isTestnet;
+
         var home = this;
         home.screen = SCREENS.splash;
-        home.isTestnet = isTestnet;
         home.featureUnderDevelopment = featureUnderDevelopment;
         home.logout = logout;
 
