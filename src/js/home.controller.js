@@ -55,7 +55,7 @@
 
         function logout() {
             if ($window.chrome && $window.chrome.extension)
-                chrome.runtime.reload();
+                $window.chrome.runtime.reload();
             else
                 $window.location.reload();
         }
