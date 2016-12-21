@@ -42,6 +42,7 @@
         walletList.trade = trade;
 
         loadDataFromBackend();
+        patchCurrencyIdsForTestnet();
 
         $scope.$on('$destroy', function () {
             if (angular.isDefined(refreshPromise)) {
@@ -115,6 +116,18 @@
                 .then(function () {
                     walletList.transactions = txArray;
                 });
+        }
+
+        /* AssetId substitution for testnet only.
+           Mainnet version uses default asset identifiers.
+         */
+        function patchCurrencyIdsForTestnet() {
+            if ($scope.isTestnet()) {
+                Currency.EUR.id = 'FzM69o6zN8imUt31SUDuTAbuGudFFHgCukod22CZBFsn';
+                Currency.USD.id = '3YFnx7HDriFrgw5WGXz3B1w8ap9joSsDfxChbHPzUX9W';
+                Currency.CNY.id = '4iqnbrviN9gVH12zxjVTF4MMKz8sHCtoiQkN1XnD3EAJ';
+                Currency.BTC.id = 'FwYdL5RUm9S15kGHNp9FAT9F2rgDYzL4NpzwJTug9STB';
+            }
         }
     }
 

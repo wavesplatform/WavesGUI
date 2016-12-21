@@ -13,9 +13,10 @@
             return networkConstants.NETWORK_NAME === 'devel';
         }
 
+        $scope.isTestnet = isTestnet;
+
         var home = this;
         home.screen = SCREENS.splash;
-        home.isTestnet = isTestnet;
         home.featureUnderDevelopment = featureUnderDevelopment;
         home.logout = logout;
 
@@ -55,7 +56,7 @@
 
         function logout() {
             if ($window.chrome && $window.chrome.extension)
-                chrome.runtime.reload();
+                $window.chrome.runtime.reload();
             else
                 $window.location.reload();
         }
