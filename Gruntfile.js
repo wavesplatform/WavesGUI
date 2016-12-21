@@ -422,7 +422,7 @@ module.exports = function (grunt) {
                 accessKeyId: process.env['WALLET_AWS_ACCESS_KEY_ID'],
                 secretAccessKey: process.env['WALLET_AWS_ACCESS_SECRET'],
                 region: 'eu-central-1',
-                dryRun: true
+                dryRun: false
             },
             testnet: {
                 options: {
