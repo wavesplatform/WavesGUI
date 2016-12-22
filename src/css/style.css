@@ -1895,4 +1895,7 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
         height: 22.5%;
         margin-bottom: -3px;
     }
+    .clipSpan:before, .clipSpan:after {
+        display: none;
+    }
 }
