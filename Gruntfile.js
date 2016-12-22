@@ -146,6 +146,8 @@ module.exports = function (grunt) {
                 'src/js/portfolio/asset.details.controller.js',
                 'src/js/portfolio/asset.reissue.controller.js',
                 'src/js/portfolio/asset.filter.js',
+                'src/js/portfolio/mass.payment.controller.js',
+                'src/js/portfolio/file.select.directive.js',
 
                 'src/js/style.js',
 

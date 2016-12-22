@@ -624,6 +624,11 @@
                                 </div>
                             </div>
                         </div>
+                        <div ng-controller="massPaymentController as mass">
+                            <form id="massPaymentFilesForm" name="massPaymentFilesForm" novalidate>
+                                <input type="file" name="inputFile" file-select file-handler="mass.handleFile(file)" accept=".json"/>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <!-- / PORTFOLIO TAB -->
@@ -934,6 +939,8 @@
     <script src="js/portfolio/asset.details.controller.js"></script>
     <script src="js/portfolio/asset.reissue.controller.js"></script>
     <script src="js/portfolio/asset.filter.js"></script>
+    <script src="js/portfolio/mass.payment.controller.js"></script>
+    <script src="js/portfolio/file.select.directive.js"></script>
 
     <script src="js/style.js"></script>
 
