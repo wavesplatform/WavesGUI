@@ -270,6 +270,7 @@ body {
     max-width: 500px;
 }
 
+
 /* ======================================================================= */
 
 
@@ -478,6 +479,7 @@ body {
 #login-wPop-new p {
     text-align: justify;
 }
+
 
 /* SEED WHITESPACE CONFIRMATION POPUP */
 
@@ -968,6 +970,7 @@ span.tabs-radio img.selected {
     overflow-y: scroll;
 }
 
+
 /* ======================================================================= */
 
 
@@ -1300,6 +1303,7 @@ md-autocomplete.fee-autocomplete button md-icon path {
 md-autocomplete.fee-autocomplete button:hover md-icon path {
     fill: white;
 }
+
 
 /* md-autocomplete[md-input-name="wavessendfee"] button:hover,  md-autocomplete[md-input-name="assetFee"] button:hover {}*/
 
@@ -1702,6 +1706,10 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
     .wavesTable {
         overflow-x: scroll !important;
     }
+    .clipSpan:before,
+    .clipSpan:after {
+        display: none;
+    }
 }
 
 @media only screen and (max-width: 800px) {
@@ -1894,8 +1902,5 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
     .wB-buttons {
         height: 22.5%;
         margin-bottom: -3px;
-    }
-    .clipSpan:before, .clipSpan:after {
-        display: none;
     }
 }
