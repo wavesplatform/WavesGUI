@@ -13,6 +13,7 @@
         assetList.assetTransfer = assetTransfer;
         assetList.assetDetails = assetDetails;
         assetList.assetReissue = assetReissue;
+        assetList.assetMassPay = assetMassPay;
         loadDataFromBackend();
 
         $scope.$on('$destroy', function () {
@@ -45,6 +46,13 @@
 
         function assetReissue(assetId) {
             $scope.$broadcast(events.ASSET_REISSUE, {
+                assetId: assetId,
+                wavesBalance: assetList.wavesBalance
+            });
+        }
+
+        function assetMassPay(assetId) {
+            $scope.$broadcast(events.ASSET_MASSPAY, {
                 assetId: assetId,
                 wavesBalance: assetList.wavesBalance
             });

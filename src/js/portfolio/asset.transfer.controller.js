@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    var DEFAULT_FEE_AMOUNT = '0.001';
-
     function WavesAssetTransferController($scope, $timeout, constants, events, autocomplete, applicationContext,
                                           assetService, apiService, dialogService,
                                           formattingService, notificationService, transactionBroadcast) {
@@ -155,10 +153,10 @@
             transfer.recipient = '';
             transfer.amount = '0';
             transfer.fee = {
-                amount: DEFAULT_FEE_AMOUNT,
+                amount: constants.MINIMUM_TRANSACTION_FEE.toString(),
                 isValid: true
             };
-            transfer.autocomplete.defaultFee(Number(DEFAULT_FEE_AMOUNT));
+            transfer.autocomplete.defaultFee(constants.MINIMUM_TRANSACTION_FEE);
         }
     }
 
