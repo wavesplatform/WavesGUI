@@ -40,7 +40,7 @@
                 assetAmount: {
                     required: true,
                     decimal: 8, // stub value updated on validation
-                    min: 1,     // stub value updated on validation
+                    min: 0,     // stub value updated on validation
                     max: constants.JAVA_MAX_LONG // stub value updated on validation
                 },
                 assetFee: {
