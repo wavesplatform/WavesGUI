@@ -1326,9 +1326,13 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
     border: 2px solid #9C0005 !important;
 }
 
+.attachment {
+    border: 3px dashed #e4e3e3;
+    padding: 1em;
+    text-align: center;
+}
 
 /* ======================================================================= */
-
 
 /* PAYMENT FORM PARAMETERS */
 

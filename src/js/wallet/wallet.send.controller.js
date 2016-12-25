@@ -19,7 +19,7 @@
                 sendAmount: {
                     required: true,
                     decimal: 8, // stub value updated on validation
-                    min: 1,     // stub value updated on validation
+                    min: 0,     // stub value updated on validation
                     max: constants.JAVA_MAX_LONG // stub value updated on validation
                 },
                 sendFee: {
@@ -38,9 +38,9 @@
                 sendFee: {
                     required: 'Transaction fee is required',
                     decimal: 'Transaction fee must be with no more than ' +
-                    minimumFee.currency.precision + ' digits after the decimal point (.)',
+                        minimumFee.currency.precision + ' digits after the decimal point (.)',
                     min: 'Transaction fee is too small. It should be greater or equal to ' +
-                    minimumFee.formatAmount(true)
+                        minimumFee.formatAmount(true)
                 }
             }
         };

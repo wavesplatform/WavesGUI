@@ -146,6 +146,8 @@ module.exports = function (grunt) {
                 'src/js/portfolio/asset.details.controller.js',
                 'src/js/portfolio/asset.reissue.controller.js',
                 'src/js/portfolio/asset.filter.js',
+                'src/js/portfolio/mass.payment.controller.js',
+                'src/js/portfolio/file.select.directive.js',
 
                 'src/js/style.js',
 
@@ -422,7 +424,7 @@ module.exports = function (grunt) {
                 accessKeyId: process.env['WALLET_AWS_ACCESS_KEY_ID'],
                 secretAccessKey: process.env['WALLET_AWS_ACCESS_SECRET'],
                 region: 'eu-central-1',
-                dryRun: true
+                dryRun: false
             },
             testnet: {
                 options: {

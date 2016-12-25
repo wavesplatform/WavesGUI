@@ -10,7 +10,8 @@
     function HomeController($scope, $window, events, networkConstants, applicationConstants,
                             dialogService, applicationContext, notificationService, apiService) {
         function isTestnet() {
-            return networkConstants.NETWORK_NAME === 'devel';
+            return networkConstants.NETWORK_NAME === 'devel' ||
+                networkConstants.NETWORK_NAME === 'testnet';
         }
 
         $scope.isTestnet = isTestnet;
