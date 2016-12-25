@@ -24,7 +24,7 @@
                 assetAmount: {
                     required: true,
                     decimal: 0,
-                    min: 1
+                    min: 0
                 }
             },
             messages: {

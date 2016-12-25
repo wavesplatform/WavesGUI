@@ -23,7 +23,8 @@
     "ngclipboard": "^1.1.1",
     "growl": "^1.3.2",
     "waves-angular-validate": "https://github.com/beregovoy68/angular-validate.git#master",
-    "tooltipster": "^3.3.0"
+    "tooltipster": "^3.3.0",
+    "ng-droplet": "^0.5.16"
   },
   "analytics": false
 }

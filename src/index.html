@@ -456,7 +456,8 @@
                                     <td>
                                         <button class="wButton wButton-neg fade" ng-click="assetList.assetTransfer(tx.id)">TRANSFER</button><span class="divider-2"></span>
                                         <button class="wButton wButton-neg fade" ng-disabled="!tx.formatted.canReissue" ng-click="assetList.assetReissue(tx.id)">REISSUE</button><span class="divider-2"></span>
-                                        <button class="wButton wButton-neg fade" ng-click="assetList.assetDetails(tx.id)">DETAILS</button>
+                                        <button class="wButton wButton-neg fade" ng-click="assetList.assetDetails(tx.id)">DETAILS</button><span class="divider-2"></span>
+                                        <button class="wButton wButton-neg fade" ng-click="assetList.assetMassPay(tx.id)">MASS PAY</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -619,6 +620,77 @@
                                         to the asset <span class="confirmation-value">{{reissue.confirm.amount.currency}}</span>
                                         with a fee of <span class="confirmation-value">{{reissue.confirm.fee.value}}</span>
                                         <span class="confirmation-value">{{reissue.confirm.fee.currency}}</span>
+                                    </p>
+                                    <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="noDisp" ng-controller="massPaymentController as mass">
+                            <div id="asset-mass-pay-dialog" waves-dialog ok-button-caption="SEND" on-dialog-ok="mass.submitPayment()" show-buttons="mass.stage === 'processing'">
+                                <h2 class="sectionHeader">MASS PAYMENT</h2>
+                                <ng-switch on="mass.stage">
+                                    <form id="massPaymentFilesForm" name="massPaymentFilesForm" novalidate ng-switch-when="loading" ng-validate="mass.validationOptions">
+                                        <table class="wavesTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>DESCRIPTION</th>
+                                                    <th>INPUT</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Payments file</td>
+                                                    <td>
+                                                        <input type="file" name="inputFile" file-select file-handler="mass.handleFile(file)" accept=".json"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Fee per transaction</td>
+                                                    <td>
+                                                        <md-autocomplete md-input-name="massPayFee" md-selected-item="mass.autocomplete.selectedFee" md-search-text="mass.autocomplete.searchText"
+                                                                         md-items="item in mass.autocomplete.querySearch(mass.autocomplete.searchText)"
+                                                                         md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
+                                                                         md-menu-class="popup-autocomplete" class="fee-autocomplete">
+                                                            <md-item-template>
+                                                                <span md-highlight-text="mass.autocomplete.searchText">{{item.displayText}}</span>
+                                                            </md-item-template>
+                                                        </md-autocomplete>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2"><button class="wButton wButton-neg" ng-click="mass.processInputFile(massPaymentFilesForm)">LOAD</button></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                    <div ng-switch-when="processing">
+                                        <p>Total transactions: {{mass.summary.totalTransactions}}</p>
+                                        <p>Total amount: {{mass.summary.totalAmount.toTokens()}}</p>
+                                        <p>Total fee: {{mass.summary.totalFee.toTokens()}}</p>
+                                        <table class="wavesTable">
+                                            <thead>
+                                            <tr>
+                                                <td>RECIPIENT</td>
+                                                <td>AMOUNT</td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="transfer in mass.transfers track by $index">
+                                                <td>{{transfer.recipient}}</td>
+                                                <td>{{transfer.amount}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </ng-switch>
+                            </div>
+                            <div id="asset-mass-pay-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!mass.broadcast.pending" on-dialog-ok="mass.broadcastTransaction()">
+                                <div class="dialog-confirmation">
+                                    <p class="dialog-text">You are sending <span class="confirmation-value">{{mass.confirm.amount.value}}</span>
+                                        <span class="confirmation-value">{{mass.confirm.amount.currency}}</span> with
+                                        <span class="confirmation-value">{{mass.confirm.fee.value}}</span>
+                                        <span class="confirmation-value">{{mass.confirm.fee.currency}}</span> total fee <br/>
+                                        to <span class="confirmation-value">{{mass.confirm.recipients}}</span> recipients.
                                     </p>
                                     <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
                                 </div>
@@ -934,6 +1006,8 @@
     <script src="js/portfolio/asset.details.controller.js"></script>
     <script src="js/portfolio/asset.reissue.controller.js"></script>
     <script src="js/portfolio/asset.filter.js"></script>
+    <script src="js/portfolio/mass.payment.controller.js"></script>
+    <script src="js/portfolio/file.select.directive.js"></script>
 
     <script src="js/style.js"></script>
 
