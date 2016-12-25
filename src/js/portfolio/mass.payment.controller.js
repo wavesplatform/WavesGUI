@@ -8,7 +8,8 @@
     var ZERO_MONEY = Money.fromTokens(0, Currency.WAV);
 
     function WavesMassPaymentController ($scope, $window, $timeout, constants, events, applicationContext, autocomplete,
-                                         notificationService, assetService, dialogService) {
+                                         notificationService, assetService, dialogService,
+                                         transactionBroadcast, apiService) {
         var mass = this;
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAV);
 
@@ -16,10 +17,22 @@
             totalAmount: ZERO_MONEY,
             totalFee: ZERO_MONEY
         };
+        mass.confirm = {
+            amount: {},
+            fee: {},
+            recipients: 0
+        };
         mass.transfers = [];
         mass.inputPayments = [];
         mass.autocomplete = autocomplete;
         mass.stage = LOADING_STAGE;
+        mass.broadcast = new transactionBroadcast.instance(apiService.assets.massPay,
+            function (transaction, response) {
+                var displayMessage = 'Sent ' + mass.summary.totalAmount.formatAmount(true) + ' of ' +
+                        mass.summary.totalAmount.currency.displayName + ' to ' + mass.summary.totalTransactions +
+                        ' recipients';
+                notificationService.notice(displayMessage);
+            });
         mass.validationOptions = {
             rules: {
                 massPayFee: {
@@ -54,7 +67,7 @@
             else {
                 mass.asset = undefined;
             }
-            mass.stage = LOADING_STAGE;
+            cleanup();
 
             dialogService.open('#asset-mass-pay-dialog');
         });
@@ -130,6 +143,8 @@
                 totalTransactions++;
             });
 
+            mass.broadcast.setTransaction(transactions);
+
             mass.summary.totalAmount = totalAmount;
             mass.summary.totalTransactions = totalTransactions;
             mass.summary.totalFee = totalFee;
@@ -154,7 +169,12 @@
                 return false;
             }
 
-            //TODO: set transaction
+            // setting data for the confirmation dialog
+            mass.confirm.amount.value = mass.summary.totalAmount.formatAmount(true);
+            mass.confirm.amount.currency = mass.summary.totalAmount.currency.displayName;
+            mass.confirm.fee.value = mass.summary.totalFee.formatAmount(true);
+            mass.confirm.fee.currency = mass.summary.totalFee.currency.displayName;
+            mass.confirm.recipients = mass.summary.totalTransactions;
 
             $timeout(function () {
                 dialogService.open('#asset-mass-pay-confirmation');
@@ -164,7 +184,7 @@
         }
 
         function broadcastTransaction() {
-            //TODO: broadcast transaction
+            mass.broadcast.broadcast();
         }
 
         function handleFile(file) {
@@ -198,12 +218,19 @@
             mass.summary.totalAmount = ZERO_MONEY;
             mass.summary.totalTransactions = 0;
             mass.summary.totalFee = ZERO_MONEY;
+            mass.stage = LOADING_STAGE;
+
+            mass.confirm.amount.value = '0';
+            mass.confirm.recipients = 0;
+            mass.confirm.fee.value = '0';
+
+            mass.autocomplete.defaultFee(constants.MINIMUM_TRANSACTION_FEE);
         }
     }
 
     WavesMassPaymentController.$inject = ['$scope', '$window', '$timeout', 'constants.ui', 'portfolio.events',
         'applicationContext', 'autocomplete.fees',
-        'notificationService', 'assetService', 'dialogService'];
+        'notificationService', 'assetService', 'dialogService', 'transactionBroadcast', 'apiService'];
 
     angular
         .module('app.portfolio')

@@ -684,8 +684,16 @@
                                     </div>
                                 </ng-switch>
                             </div>
-                            <div id="asset-mass-pay-confirmation" waves-dialog ok-button-caption="CONFIRM" on-dialog-ok="mass.broadcastTransaction()">
-
+                            <div id="asset-mass-pay-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!mass.broadcast.pending" on-dialog-ok="mass.broadcastTransaction()">
+                                <div class="dialog-confirmation">
+                                    <p class="dialog-text">You are sending <span class="confirmation-value">{{mass.confirm.amount.value}}</span>
+                                        <span class="confirmation-value">{{mass.confirm.amount.currency}}</span> with
+                                        <span class="confirmation-value">{{mass.confirm.fee.value}}</span>
+                                        <span class="confirmation-value">{{mass.confirm.fee.currency}}</span> total fee <br/>
+                                        to <span class="confirmation-value">{{mass.confirm.recipients}}</span> recipients.
+                                    </p>
+                                    <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
