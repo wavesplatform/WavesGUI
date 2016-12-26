@@ -12,6 +12,7 @@
                                          transactionBroadcast, apiService) {
         var mass = this;
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAV);
+        var transactions;
 
         mass.summary = {
             totalAmount: ZERO_MONEY,
@@ -56,6 +57,8 @@
         mass.processInputFile = processInputFile;
         mass.submitPayment = submitPayment;
         mass.broadcastTransaction = broadcastTransaction;
+        mass.transactionsToClipboard = transactionsToClipboard;
+        mass.dataCopied = dataCopied;
 
         $scope.$on(events.ASSET_MASSPAY, function (event, eventData) {
             mass.wavesBalance = eventData.wavesBalance;
@@ -115,7 +118,7 @@
                 privateKey: applicationContext.account.keyPair.private
             };
 
-            var transactions = [];
+            transactions = [];
             var transfersToDisplay = [];
             var transferCurrency = mass.asset ? mass.asset.currency : Currency.WAV;
             var totalTransactions = 0;
@@ -126,7 +129,8 @@
                 var assetTransfer = {
                     recipient: transfer.recipient,
                     amount: Money.fromTokens(transfer.amount, transferCurrency),
-                    fee: fee
+                    fee: fee,
+                    attachment: transfer.id ? converters.stringToByteArray(transfer.id) : undefined
                 };
 
                 if (transfersToDisplay.length < FIRST_TRANSACTIONS_COUNT)
@@ -212,6 +216,14 @@
             reader.onerror = fileErrorHandler;
 
             reader.readAsText(file);
+        }
+
+        function transactionsToClipboard() {
+            return JSON.stringify(transactions, null, ' ');
+        }
+
+        function dataCopied() {
+            notificationService.notice('Transactions copied successfully');
         }
 
         function cleanup() {
