@@ -120,7 +120,7 @@
 
             ctrl.confirm.name = ctrl.asset.name;
             ctrl.confirm.totalTokens = ctrl.asset.totalTokens;
-            ctrl.confirm.reissuable = ctrl.asset.reissuable ? 'reissuable' : 'non-reissuable';
+            ctrl.confirm.reissuable = ctrl.asset.reissuable ? 'RE-ISSUABLE' : 'NON RE-ISSUABLE';
 
             ctrl.broadcast.setTransaction(assetService.createAssetIssueTransaction(asset, sender));
 

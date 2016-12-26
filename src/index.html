@@ -254,7 +254,7 @@
                 </a>
                 <div id="header-wPop-backup" waves-dialog global="true" on-dialog-ok="menu.backup()" ok-button-caption="COPY" cancel-button-caption="CLOSE">
                     <h2 class="sectionHeader">ACCOUNT INFO BACKUP</h2>
-                    <p>This area contains your account's basic information. Click the <b>COPY</b> button in order to copy the contents to the clipboard or <b>CLOSE</b> to exit.</p></br>
+                    <p>This area contains your account's basic information. Click the <span class="fontBold">COPY</span> button in order to copy the contents to the clipboard or <span class="fontBold">CLOSE</span> to exit.</p></br>
                     <form id="backupForm">
                         <label for="seedBackup">SEED</label><br/>
                         <textarea id="seedBackup" class="wInput" rows="3" readonly ng-model="menu.seed"></textarea><br/>
@@ -831,8 +831,8 @@
                                     <span class="confirmation-value">{{ctrl.confirm.name}}</span><br/> with
                                     <span class="confirmation-value">{{ctrl.confirm.totalTokens}}</span> of total tokens amount
                                 </p>
-                                <p class="dialog-text" ng-if="!ctrl.asset.reissuable" style="color: red">Please note that flagging an asset as non-reissuable is permanent.<br/>
-                                    Assets created as reissuable can later be changed to non-reissuable.<br/>However, assets flagged as non-reissuable can never be made reissuable.</p>
+                                <p class="dialog-text" ng-if="!ctrl.asset.reissuable" style="color: red">Please note that flagging an asset as NON RE-ISSUABLE is permanent.<br/>
+                                    Assets created as RE-ISSUABLE can later be changed to NON RE-ISSUABLE.<br/>However, assets flagged as NON RE-ISSUABLE can never be made RE-ISSUABLE.</p>
                                 <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
                             </div>
                         </div>

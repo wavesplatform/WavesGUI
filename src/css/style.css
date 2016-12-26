@@ -150,7 +150,12 @@ body {
 }
 
 .fontBold {
-    font-weight: 600;
+/*    font-weight: 600;*/
+    font-family: 'Sparta';
+    font-size: .9rem;
+    color: rgb(50,50,50);
+    color: #333333;
+    
 }
 
 .sectionHeader {
@@ -898,6 +903,7 @@ span.tabs-radio img.selected {
 
 .confirmation-value {
     font-family: 'Sparta';
+    font-size: .9rem;
     /*    font-weight: 600;*/
 }
 
