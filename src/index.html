@@ -667,6 +667,7 @@
                                         <p>Total transactions: {{mass.summary.totalTransactions}}</p>
                                         <p>Total amount: {{mass.summary.totalAmount.toTokens()}}</p>
                                         <p>Total fee: {{mass.summary.totalFee.toTokens()}}</p>
+                                        <p><button ngclipboard ngclipboard-text-provider="mass.transactionsToClipboard()" ngclipboard-success="mass.dataCopied()">COPY TO CLIPBOARD</button></p>
                                         <table class="wavesTable">
                                             <thead>
                                             <tr>
