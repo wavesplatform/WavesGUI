@@ -70,7 +70,7 @@
                 link: WavesDialogLink,
                 template: '<img class="wPop-header" ng-src="img/{{image}}" />' +
                     '<div class="wavesPop-content" ng-transclude></div>' +
-                    '<div class="wavesPop-content-buttons" ng-show="showButtons">' +
+                    '<div class="wavesPop-content-buttons button-row" ng-show="showButtons">' +
                         '<button class="wButton wButton-dialog fade tooltip-1" ng-class="[{wButtonDanger: isError}]" ' +
                             'title="{{::tooltip}}" ng-click="onOk()" ng-disabled="!okButtonEnabled">' +
                             '{{::okButtonCaption}}</button>' +

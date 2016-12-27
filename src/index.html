@@ -626,7 +626,7 @@
                             </div>
                         </div>
                         <div class="noDisp" ng-controller="massPaymentController as mass">
-                            <div id="asset-mass-pay-dialog" waves-dialog ok-button-caption="SEND" on-dialog-ok="mass.submitPayment()" show-buttons="mass.stage === 'processing'">
+                            <div id="asset-mass-pay-dialog" waves-dialog ok-button-caption="SEND" show-buttons="false">
                                 <h2 class="sectionHeader">MASS PAYMENT</h2>
                                 <ng-switch on="mass.stage">
                                     <form id="massPaymentFilesForm" name="massPaymentFilesForm" novalidate ng-switch-when="loading" ng-validate="mass.validationOptions">
@@ -657,17 +657,17 @@
                                                         </md-autocomplete>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td colspan="2"><button class="wButton wButton-neg" ng-click="mass.processInputFile(massPaymentFilesForm)">LOAD</button></td>
-                                                </tr>
                                             </tbody>
                                         </table>
+                                        <br/>
+                                        <div class="button-row">
+                                            <button class="wButton wButton-neg" ng-click="mass.processInputFile(massPaymentFilesForm)">LOAD</button>
+                                        </div>
                                     </form>
                                     <div class="massPayRecap wScroll" ng-switch-when="processing">
                                         <p>Please notice that only the first 10 transactions are shown below as a sample. Use the EXPORT functionality to export the full transaction details to a text file.</p>
                                         <p>Total transactions: {{mass.summary.totalTransactions}} | Total amount: {{mass.summary.totalAmount.toTokens()}} | Total fee: {{mass.summary.totalFee.toTokens()}}</p>
-<!--                                        <p><button class="wButton wButton-neg fade" ngclipboard ngclipboard-text-provider="mass.transactionsToClipboard()" ngclipboard-success="mass.dataCopied()">COPY</button></p>-->
-                                        
+
                                         <table class="wavesTable">
                                             <thead>
                                             <tr>
@@ -682,6 +682,12 @@
                                             </tr>
                                             </tbody>
                                         </table>
+                                        <br/>
+                                        <div class="button-row">
+                                            <button class="wButton wButton-neg fade" ngclipboard ngclipboard-text-provider="mass.transactionsToClipboard()" ngclipboard-success="mass.dataCopied()">EXPORT</button><span class="divider-2"></span>
+                                            <button class="wButton wButton-neg fade" ng-click="mass.submitPayment()">SEND</button><span class="divider-2"></span>
+                                            <button class="wButton wButton-neg fade" ng-click="mass.cancel()">CANCEL</button>
+                                        </div>
                                     </div>
                                 </ng-switch>
                             </div>
@@ -832,7 +838,7 @@
                                     <span class="confirmation-value">{{ctrl.confirm.name}}</span><br/> with
                                     <span class="confirmation-value">{{ctrl.confirm.totalTokens}}</span> of total tokens amount
                                 </p>
-                                <p class="dialog-text" ng-if="!ctrl.asset.reissuable" style="color: red">Please note that flagging an asset as NON RE-ISSUABLE is permanent.<br/>
+                                <p class="dialog-text notice-alert" ng-if="!ctrl.asset.reissuable">Please note that flagging an asset as NON RE-ISSUABLE is permanent.<br/>
                                     Assets created as RE-ISSUABLE can later be changed to NON RE-ISSUABLE.<br/>However, assets flagged as NON RE-ISSUABLE can never be made RE-ISSUABLE.</p>
                                 <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
                             </div>
