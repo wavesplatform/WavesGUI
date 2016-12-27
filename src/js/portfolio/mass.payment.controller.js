@@ -59,6 +59,7 @@
         mass.broadcastTransaction = broadcastTransaction;
         mass.transactionsToClipboard = transactionsToClipboard;
         mass.dataCopied = dataCopied;
+        mass.cancel = cancel;
 
         $scope.$on(events.ASSET_MASSPAY, function (event, eventData) {
             mass.wavesBalance = eventData.wavesBalance;
@@ -180,11 +181,16 @@
             mass.confirm.fee.currency = mass.summary.totalFee.currency.displayName;
             mass.confirm.recipients = mass.summary.totalTransactions;
 
+            dialogService.close();
             $timeout(function () {
                 dialogService.open('#asset-mass-pay-confirmation');
             }, 1);
 
             return true;
+        }
+
+        function cancel () {
+            dialogService.close();
         }
 
         function broadcastTransaction() {
