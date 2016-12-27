@@ -1641,6 +1641,34 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
     margin-top: 1rem;
 }
 
+.massPayRecap {
+    max-width: 435px;
+    max-height: 65vh;
+    overflow-y: scroll;
+}
+
+.massPayRecap p:nth-child(1) {
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.massPayRecap p:nth-child(2) {
+    font-style: italic;
+    color: #999999;
+    text-align: center;
+    margin-bottom: .5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.massPayRecap tBody tr {
+    font-family: "Lekton";
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+}
+
 
 /* ======================================================================= */
 

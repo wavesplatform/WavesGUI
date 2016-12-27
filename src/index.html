@@ -663,11 +663,11 @@
                                             </tbody>
                                         </table>
                                     </form>
-                                    <div ng-switch-when="processing">
-                                        <p>Total transactions: {{mass.summary.totalTransactions}}</p>
-                                        <p>Total amount: {{mass.summary.totalAmount.toTokens()}}</p>
-                                        <p>Total fee: {{mass.summary.totalFee.toTokens()}}</p>
-                                        <p><button ngclipboard ngclipboard-text-provider="mass.transactionsToClipboard()" ngclipboard-success="mass.dataCopied()">COPY TO CLIPBOARD</button></p>
+                                    <div class="massPayRecap wScroll" ng-switch-when="processing">
+                                        <p>Please notice that only the first 10 transactions are shown below as a sample. Use the EXPORT functionality to export the full transaction details to a text file.</p>
+                                        <p>Total transactions: {{mass.summary.totalTransactions}} | Total amount: {{mass.summary.totalAmount.toTokens()}} | Total fee: {{mass.summary.totalFee.toTokens()}}</p>
+<!--                                        <p><button class="wButton wButton-neg fade" ngclipboard ngclipboard-text-provider="mass.transactionsToClipboard()" ngclipboard-success="mass.dataCopied()">COPY</button></p>-->
+                                        
                                         <table class="wavesTable">
                                             <thead>
                                             <tr>
