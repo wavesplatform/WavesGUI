@@ -150,12 +150,11 @@ body {
 }
 
 .fontBold {
-/*    font-weight: 600;*/
+    /*    font-weight: 600;*/
     font-family: 'Sparta';
     font-size: .9rem;
-    color: rgb(50,50,50);
+    color: rgb(50, 50, 50);
     color: #333333;
-
 }
 
 .sectionHeader {
@@ -1345,7 +1344,9 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
     text-align: center;
 }
 
+
 /* ======================================================================= */
+
 
 /* PAYMENT FORM PARAMETERS */
 
@@ -1676,6 +1677,23 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
     word-break: break-word;
 }
 
+#asset-mass-pay-dialog {
+    max-width: 550px;
+    text-align: center;
+}
+
+#asset-mass-pay-dialog p {
+    text-align: center;
+    margin-bottom: .5rem;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+}
+
+#massPaymentFilesForm input[type="file"] {
+    font-family: "Wesli";
+}
+
 
 /* ======================================================================= */
 
@@ -1947,5 +1965,9 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
     .wB-buttons {
         height: 22.5%;
         margin-bottom: -3px;
+    }
+    #massPaymentFilesForm input[type="file"] {
+        font-family: "Wesli";
+        font-size: 0.9rem;
     }
 }
