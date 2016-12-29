@@ -629,6 +629,8 @@
                             <div id="asset-mass-pay-dialog" waves-dialog ok-button-caption="SEND" show-buttons="false">
                                 <h2 class="sectionHeader">MASS PAYMENT</h2>
                                 <ng-switch on="mass.stage">
+                                    <p ng-if="mass.invalidPayment" class="notice-alert">{{mass.inputErrorMessage}}
+                                        Please fix the error and load the file again.</p>
                                     <form id="massPaymentFilesForm" name="massPaymentFilesForm" novalidate ng-switch-when="loading" ng-validate="mass.validationOptions">
                                         <table class="wavesTable">
                                             <thead>
@@ -665,7 +667,7 @@
                                         </div>
                                     </form>
                                     <div class="massPayRecap wScroll" ng-switch-when="processing">
-                                        <p>Please notice that only the first 10 transactions are shown below as a sample. Use the EXPORT functionality to export the full transaction details to a text file.</p>
+                                        <p>Please notice that only the first 10 transactions are shown below as a sample. Use the EXPORT functionality to export the full transaction details to clipboard.</p>
                                         <p>Total transactions: {{mass.summary.totalTransactions}} | Total amount: {{mass.summary.totalAmount.toTokens()}} | Total fee: {{mass.summary.totalFee.toTokens()}}</p>
 
                                         <table class="wavesTable">
