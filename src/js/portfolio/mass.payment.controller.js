@@ -7,6 +7,10 @@
     var PROCESSING_STAGE = 'processing';
     var ZERO_MONEY = Money.fromTokens(0, Currency.WAV);
 
+    function ValidationError(message) {
+        this.message = message;
+    }
+
     function WavesMassPaymentController ($scope, $window, $timeout, constants, events, applicationContext, autocomplete,
                                          notificationService, assetService, dialogService,
                                          transactionBroadcast, apiService) {
@@ -119,42 +123,59 @@
                 privateKey: applicationContext.account.keyPair.private
             };
 
-            transactions = [];
-            var transfersToDisplay = [];
-            var transferCurrency = mass.asset ? mass.asset.currency : Currency.WAV;
-            var totalTransactions = 0;
-            var totalAmount = Money.fromCoins(0, transferCurrency);
-            var totalFee = Money.fromCoins(0, Currency.WAV);
-            var fee = Money.fromTokens(mass.autocomplete.getFeeAmount(), Currency.WAV);
-            _.forEach(mass.inputPayments, function (transfer) {
-                var assetTransfer = {
-                    recipient: transfer.recipient,
-                    amount: Money.fromTokens(transfer.amount, transferCurrency),
-                    fee: fee,
-                    attachment: transfer.id ? converters.stringToByteArray(transfer.id) : undefined
-                };
-
-                if (transfersToDisplay.length < FIRST_TRANSACTIONS_COUNT)
-                    transfersToDisplay.push({
+            try {
+                transactions = [];
+                var transfersToDisplay = [];
+                var transferCurrency = mass.asset ? mass.asset.currency : Currency.WAV;
+                var totalTransactions = 0;
+                var totalAmount = Money.fromCoins(0, transferCurrency);
+                var totalFee = Money.fromCoins(0, Currency.WAV);
+                var fee = Money.fromTokens(mass.autocomplete.getFeeAmount(), Currency.WAV);
+                var minimumPayment = Money.fromCoins(1, transferCurrency);
+                _.forEach(mass.inputPayments, function (transfer) {
+                    var assetTransfer = {
                         recipient: transfer.recipient,
-                        amount: assetTransfer.amount.toTokens()
-                    });
+                        amount: Money.fromTokens(transfer.amount, transferCurrency),
+                        fee: fee,
+                        attachment: transfer.id ? converters.stringToByteArray(transfer.id) : undefined
+                    };
 
-                transactions.push(assetService.createAssetTransferTransaction(assetTransfer, sender));
+                    if (assetTransfer.amount.lessThan(minimumPayment)) {
+                        throw new ValidationError('Payment amount ' + transfer.amount + ' to address ' + transfer.recipient +
+                            ' is less than minimum (' + minimumPayment.formatAmount(true) + ')');
+                    }
 
-                // statistics
-                totalAmount = totalAmount.plus(assetTransfer.amount);
-                totalFee = totalFee.plus(assetTransfer.fee);
-                totalTransactions++;
-            });
+                    if (transfersToDisplay.length < FIRST_TRANSACTIONS_COUNT)
+                        transfersToDisplay.push({
+                            recipient: transfer.recipient,
+                            amount: assetTransfer.amount.formatAmount(true)
+                        });
 
-            mass.broadcast.setTransaction(transactions);
+                    transactions.push(assetService.createAssetTransferTransaction(assetTransfer, sender));
 
-            mass.summary.totalAmount = totalAmount;
-            mass.summary.totalTransactions = totalTransactions;
-            mass.summary.totalFee = totalFee;
-            mass.transfers = transfersToDisplay;
-            mass.stage = PROCESSING_STAGE;
+                    // statistics
+                    totalAmount = totalAmount.plus(assetTransfer.amount);
+                    totalFee = totalFee.plus(assetTransfer.fee);
+                    totalTransactions++;
+                });
+
+                mass.broadcast.setTransaction(transactions);
+
+                mass.summary.totalAmount = totalAmount;
+                mass.summary.totalTransactions = totalTransactions;
+                mass.summary.totalFee = totalFee;
+                mass.transfers = transfersToDisplay;
+                mass.stage = PROCESSING_STAGE;
+            }
+            catch (e) {
+                if (e instanceof ValidationError) {
+                    mass.invalidPayment = true;
+                    mass.inputErrorMessage = e.message;
+                }
+                else {
+                    throw e;
+                }
+            }
         }
 
         function submitPayment() {
@@ -237,6 +258,7 @@
             mass.summary.totalTransactions = 0;
             mass.summary.totalFee = ZERO_MONEY;
             mass.stage = LOADING_STAGE;
+            mass.invalidPayment = false;
 
             mass.confirm.amount.value = '0';
             mass.confirm.recipients = 0;
