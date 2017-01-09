@@ -398,7 +398,6 @@
                     </div>
                     <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
                     <div id="wallet-transaction-history" class="wavesTable wScroll">
-
                         <table class="wavesTable-hover">
                             <thead>
                             <tr>
@@ -409,6 +408,7 @@
                                 <td>RECIPIENT</td>
                                 <td>FEE</td>
                                 <td>UNITS</td>
+                                <td></td>
                             </tr>
                             </thead>
                             <tbody id="walletTransactionhistory">
@@ -422,6 +422,21 @@
                                     <td ng-if="tx.formatted.isRecipientCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.recipient}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.recipient}}</span></td>
                                     <td>{{tx.formatted.fee}}</td>
                                     <td>{{tx.formatted.amount}}</td>
+                                    <td width="16">
+                                        <md-menu>
+                                            <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                                                <img ng-src="img/slack_icon.svg" height="16" width="16" />
+                                            </md-button>
+                                            <md-menu-content width="2">
+                                                <md-menu-item>
+                                                    <md-button><span md-menu-align-target>Copy Tx ID</span></md-button>
+                                                </md-menu-item>
+                                                <md-menu-item>
+                                                    <md-button><span md-menu-align-target>Copy Full Tx</span></md-button>
+                                                </md-menu-item>
+                                            </md-menu-content>
+                                        </md-menu>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
