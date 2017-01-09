@@ -141,8 +141,8 @@
                     };
 
                     if (assetTransfer.amount.lessThan(minimumPayment)) {
-                        throw new ValidationError('Payment amount ' + transfer.amount + ' to address ' + transfer.recipient +
-                            ' is less than minimum (' + minimumPayment.formatAmount(true) + ')');
+                        throw new ValidationError('Payment amount ' + transfer.amount + ' to address ' +
+                            transfer.recipient + ' is less than minimum (' + minimumPayment.formatAmount(true) + ')');
                     }
 
                     if (transfersToDisplay.length < FIRST_TRANSACTIONS_COUNT)
