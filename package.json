@@ -25,7 +25,8 @@
     "grunt-webstore-upload": "0.9.3",
     "karma": "^0.13.0",
     "karma-jasmine": "1.0.2",
-    "karma-phantomjs-launcher": "1.0.1"
+    "karma-phantomjs-launcher": "1.0.1",
+    "waves-grunt-github-releaser": "^0.2.0"
   },
   "scripts": {
     "postinstall": "bower install"
