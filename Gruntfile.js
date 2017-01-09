@@ -20,17 +20,26 @@ module.exports = function (grunt) {
     var patchHtml = function (content, fileName) {
         return content
             .replace(/<!-- JAVASCRIPT BEGIN -->(\s|.)*?<!-- JAVASCRIPT END -->/m, '<script src="js/' + fileName + '"></script>\n')
-            .replace(/<!-- CSS BEGIN -->(\s|.)*?<!-- CSS END -->/m, '<link rel="stylesheet" href="css/angular-csp.css">\n<link rel="stylesheet" href="css/angular-material.css">\n');
+            .replace(/<!-- CSS BEGIN -->(\s|.)*?<!-- CSS END -->/m,
+                grunt.template.process('<link rel="stylesheet" href="css/<%= pkg.name %>-styles-<%= pkg.version %>.css">\n'));
     };
 
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         meta: {
-            stylesheets: ['bower_components/angular/angular-csp.css', 'bower_components/angular-material/angular-material.css'],
-            content: ['css/**', 'img/**', 'index.html'],
+            stylesheets: [
+                'bower_components/angular/angular-csp.css',
+                'bower_components/angular-material/angular-material.css',
+                // application stylesheets
+                'src/css/jquery.modal.css',
+                'src/css/jquery.growl.css',
+                'src/css/tooltipster.min.css',
+                'src/css/style.css'
+            ],
+            content: ['css/*/**', 'img/**', 'index.html'],
             licenses: ['3RD-PARTY-LICENSES.txt', 'LICENSE'],
-            editor: "nano",
+            editor: "gedit --new-window -s ",
             configurations: {
                 testnet: {
                     name: 'testnet',
@@ -44,6 +53,10 @@ module.exports = function (grunt) {
                 },
                 chrome: {
                     name: 'chrome'
+                },
+                css: {
+                    concat: 'distr/<%= pkg.name %>-styles-<%= pkg.version %>.css',
+                    bundle: 'distr/<%= pkg.name %>-styles-<%= pkg.version %>.css'
                 }
             },
             dependencies: [
@@ -93,7 +106,10 @@ module.exports = function (grunt) {
                 'src/js/shared/tooltipster.directive.js',
                 'src/js/shared/transaction.loading.service.js',
                 'src/js/shared/transaction.filter.js',
-                'src/js/shared/shared.autocomplete.js',
+                'src/js/shared/shared.autocomplete.factory.js',
+                'src/js/shared/transaction.broadcast.factory.js',
+                'src/js/shared/decimal.input.restrictor.directive.js',
+                'src/js/shared/integer.input.restrictor.directive.js',
 
                 'src/js/login/login.module.js',
                 'src/js/login/login.constants.js',
@@ -111,7 +127,9 @@ module.exports = function (grunt) {
 
                 'src/js/wallet/wallet.module.js',
                 'src/js/wallet/wallet.box.component.js',
-                'src/js/wallet/wallet.controller.js',
+                'src/js/wallet/wallet.list.controller.js',
+                'src/js/wallet/wallet.send.controller.js',
+                'src/js/wallet/wallet.withdraw.controller.js',
 
                 'src/js/tokens/tokens.module.js',
                 'src/js/tokens/token.create.controller.js',
@@ -128,6 +146,8 @@ module.exports = function (grunt) {
                 'src/js/portfolio/asset.details.controller.js',
                 'src/js/portfolio/asset.reissue.controller.js',
                 'src/js/portfolio/asset.filter.js',
+                'src/js/portfolio/mass.payment.controller.js',
+                'src/js/portfolio/file.select.directive.js',
 
                 'src/js/style.js',
 
@@ -220,6 +240,10 @@ module.exports = function (grunt) {
                         return content;
                     }
                 }
+            },
+            css: {
+                src: ['<%= meta.stylesheets %>'],
+                dest: '<%= meta.configurations.css.concat %>'
             }
         },
         uglify: {
@@ -242,7 +266,7 @@ module.exports = function (grunt) {
             },
             testnet: {
                 files: [
-                    {expand: true, flatten: true, src: '<%= meta.stylesheets %>', dest: 'distr/<%= meta.configurations.testnet.name %>/css'},
+                    {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.testnet.name %>/css'},
                     {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.testnet.name %>'},
                     {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.testnet.name %>'},
                     {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.testnet.name %>/js'}
@@ -259,16 +283,16 @@ module.exports = function (grunt) {
             },
             mainnet: {
                 files: [
-                    {expand: true, flatten: true, src: '<%= meta.stylesheets %>', dest: 'distr/<%= meta.configurations.mainnet.name %>/css'},
+                    {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.mainnet.name %>/css'},
                     {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.mainnet.name %>'},
                     {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.mainnet.name %>'},
-                    {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.mainnet.name %>/js'}
+                    {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.mainnet.name %>/js'}
                 ],
                 options: {
                     process: function (content, srcPath) {
                         if (srcPath.endsWith('index.html'))
                             return patchHtml(content,
-                                grunt.template.process('<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.js'));
+                                grunt.template.process('<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-<%= pkg.version %>.js'));
 
                         return content;
                     }
@@ -276,7 +300,7 @@ module.exports = function (grunt) {
             },
             chrome: {
                 files: [
-                    {expand: true, flatten: true, src: '<%= meta.stylesheets %>', dest: 'distr/<%= meta.configurations.chrome.name %>/css'},
+                    {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.chrome.name %>/css'},
                     {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.chrome.name %>'},
                     {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.chrome.name %>'},
                     {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.chrome.name %>/js'},
@@ -286,7 +310,7 @@ module.exports = function (grunt) {
                     process: function (content, srcPath) {
                         if (srcPath.endsWith('index.html'))
                             return patchHtml(content,
-                                grunt.template.process('<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.js'));
+                                grunt.template.process('<%= pkg.name %>-<%= meta.configurations.chrome.name %>-<%= pkg.version %>.js'));
 
                         if (srcPath.endsWith('manifest.json'))
                             return grunt.template.process(content);
@@ -321,6 +345,7 @@ module.exports = function (grunt) {
                 files: ['package.json', 'bower.json'],
                 updateConfigs: ['pkg'],
                 commit: true, // debug
+                commitFiles: ['package.json', 'bower.json'],
                 push: 'branch', // debug
                 pushTo: 'origin',
                 createTag: false,
@@ -359,7 +384,7 @@ module.exports = function (grunt) {
         },
         "github-release": {
             options: {
-                repository : "beregovoy68/WavesGUI",
+                repository : "wavesplatform/WavesGUI",
                 auth: {
                     user: process.env["GITHUB_ACCESS_TOKEN"],
                     password: ''
@@ -382,8 +407,7 @@ module.exports = function (grunt) {
                 "default": { //account under this section will be used by default
                     publish: false, //publish item right after uploading. default false
                     client_id: process.env["WEBSTORE_CLIENT_ID"],
-                    client_secret: "",
-                    refresh_token: process.env["WEBSTORE_REFRESH_TOKEN"]
+                    client_secret: ""
                 }
             },
             "extensions": {
@@ -392,6 +416,49 @@ module.exports = function (grunt) {
                     appID: "kfmcaklajknfekomaflnhkjjkcjabogm",
                     //required, we can use dir name and upload most recent zip file
                     zip: "<%= compress.chrome.options.archive %>"
+                }
+            }
+        },
+        s3: {
+            options: {
+                accessKeyId: process.env['WALLET_AWS_ACCESS_KEY_ID'],
+                secretAccessKey: process.env['WALLET_AWS_ACCESS_SECRET'],
+                region: 'eu-central-1',
+                dryRun: false
+            },
+            testnet: {
+                options: {
+                    bucket: 'testnet.waveswallet.io'
+                },
+                cwd: 'distr/<%= meta.configurations.testnet.name %>',
+                src: '**/*'
+            },
+            mainnet: {
+                options: {
+                    bucket: 'waveswallet.io'
+                },
+                cwd: 'distr/<%= meta.configurations.mainnet.name %>',
+                src: '**/*'
+            }
+        },
+        cloudfront: {
+            options: {
+                accessKeyId: process.env['WALLET_AWS_ACCESS_KEY_ID'],
+                secretAccessKey: process.env['WALLET_AWS_ACCESS_SECRET'],
+                invalidations: [
+                    '/index.html',
+                    '/css/*',
+                    '/js/*'
+                ]
+            },
+            testnet: {
+                options: {
+                    distributionId: 'E174FYNYORL3QH'
+                }
+            },
+            mainnet: {
+                options: {
+                    distributionId: 'E2BNQKK79AMUA0'
                 }
             }
         }
@@ -410,6 +477,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-bump');
     grunt.loadNpmTasks('grunt-github-releaser');
     grunt.loadNpmTasks('grunt-webstore-upload');
+    grunt.loadNpmTasks('grunt-aws');
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-conventional-changelog');
@@ -420,6 +488,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('distr', ['clean', 'build', 'emptyChangelog', 'copy', 'compress']);
     grunt.registerTask('publish', ['bump', 'distr', 'conventionalChangelog', 'shell', 'github-release']);
+    grunt.registerTask('deploy', ['webstore_upload', 's3']);
     grunt.registerTask('test', ['jshint', 'jscs', 'karma:development']);
     grunt.registerTask('build', [
         'jscs',

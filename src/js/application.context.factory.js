@@ -5,31 +5,13 @@
 
         var assets = {};
 
-        function updateTotalTokens(assetId, reissuedAmount) {
+        assets.update = function (assetId, balance, reissuable, totalTokens) {
             var asset = assets[assetId];
-            if (angular.isDefined(asset)) {
-                var reissued = Money.fromCoins(reissuedAmount, asset.currency);
-                asset.totalTokens = asset.totalTokens.plus(reissued);
+            if (asset) {
+                asset.balance = Money.fromCoins(balance, asset.currency);
+                asset.totalTokens = Money.fromCoins(totalTokens, asset.currency);
+                asset.reissuable = reissuable;
             }
-        }
-
-        assets.grab = function (transactions) {
-            var confirmed = _.reject(transactions, function (tx) {
-                return tx.unconfirmed;
-            });
-            var issueTransactions = _.where(confirmed, {type: constants.ASSET_ISSUE_TRANSACTION_TYPE});
-            _.map(issueTransactions, assets.put);
-
-            var reissueTransactions = _.where(confirmed, {type: constants.ASSET_REISSUE_TRANSACTION_TYPE});
-            var grouped = _.groupBy(reissueTransactions, 'assetId');
-            var accumulated = _.mapObject(grouped, function (values) {
-                return _.reduce(values, function (memo, tx) {
-                    return memo + tx.quantity;
-                }, 0);
-            });
-            _.mapObject(accumulated, function (value, assetId) {
-                updateTotalTokens(assetId, value);
-            });
         };
 
         assets.put = function (issueTransaction) {
@@ -42,7 +24,6 @@
             var asset = {
                 currency: currency,
                 description: issueTransaction.description,
-                reissuable: issueTransaction.reissuable,
                 timestamp: issueTransaction.timestamp,
                 sender: issueTransaction.sender,
                 totalTokens: Money.fromCoins(issueTransaction.quantity, currency)

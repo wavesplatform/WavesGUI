@@ -26,14 +26,16 @@
             displayName: Currency.CNY.displayName
         };
 
-        ctrl.image = mapping[ctrl.balance.currency.displayName].image;
-        ctrl.displayName = mapping[ctrl.balance.currency.displayName].displayName;
         ctrl.$onChanges = function (changesObject) {
             if (changesObject.balance) {
                 var balance = changesObject.balance.currentValue;
                 ctrl.integerBalance = balance.formatIntegerPart();
                 ctrl.fractionBalance = balance.formatFractionPart();
             }
+        };
+        ctrl.$onInit = function () {
+            ctrl.image = mapping[ctrl.balance.currency.displayName].image;
+            ctrl.displayName = mapping[ctrl.balance.currency.displayName].displayName;
         };
     }
 

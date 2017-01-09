@@ -4,6 +4,8 @@ Waves' palette: #0096DC                             Waves' blue *
                 #D7D7D7                             Light grey
                 #AFAFAF                             Grey
                 #555555                             Darker grey (h's, highlights)
+                #333333     rgb(50,50,50);          80% black
+                #E6E6E6     rgb(230,230,230);       10% black
                 #E1B47D     rgb(225,180,125);       Soft orange
                 #37556E     rgb(55,85,110);         Navy Blue
                 #780CE8     rgb(130,12,232);        Lila
@@ -57,6 +59,8 @@ body {
     font-family: "Wesli";
     color: #333333;
     background: #ffffff;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased !important;
 }
 
 .fade {
@@ -146,7 +150,11 @@ body {
 }
 
 .fontBold {
-    font-weight: 600;
+    /*    font-weight: 600;*/
+    font-family: 'Sparta';
+    font-size: .9rem;
+    color: rgb(50, 50, 50);
+    color: #333333;
 }
 
 .sectionHeader {
@@ -158,29 +166,26 @@ body {
     letter-spacing: .2rem;
     padding-bottom: 1rem;
     font-weight: 200;
-}
-
-.balanceType {
-
+    margin: 0 auto;
 }
 
 
 /* Custom Scrollbar */
 
-.wScroll::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: #F5F5F5;
+.wScroll::-webkit-scrollbar-track,
+.wScroll::-webkit-scrollbar-track:horizontal {
+    background-color: #fff;
 }
 
-.wScroll::-webkit-scrollbar {
-    width: 10px;
-    background-color: #F5F5F5;
+.wScroll::-webkit-scrollbar,
+.wScroll::-webkit-scrollbar:horizontal {
+    width: 5px;
+    background-color: #fff;
 }
 
-.wScroll::-webkit-scrollbar-thumb {
-    background-color: #37556E;
-    border: 1px solid #555555;
-    border-radius: 4px;
+.wScroll::-webkit-scrollbar-thumb,
+.wScroll::-webkit-scrollbar-thumb:horizontal {
+    background-color: #E6E6E6;
 }
 
 
@@ -267,17 +272,6 @@ body {
 
 #feat-not-active {
     max-width: 500px;
-    padding-bottom: 1rem;
-}
-
-#feat-not-active h2,
-#feat-not-active p {
-    padding-left: 2rem;
-    padding-right: 2rem;
-}
-
-#feat-not-active h2 {
-    text-align: center
 }
 
 
@@ -417,11 +411,6 @@ body {
     padding-bottom: 2rem;
 }
 
-#account-remove-popup h2 {
-    text-align: center;
-    padding-bottom: 1rem;
-}
-
 #account-remove-popup p {
     text-align: justify;
     padding-left: 2rem;
@@ -489,23 +478,10 @@ body {
     margin-bottom: 1rem;
     text-align: center;
     max-width: 550px;
-    padding-bottom: 2rem;
 }
 
 #login-wPop-new p {
-    padding-left: 2rem;
-    padding-right: 2rem;
     text-align: justify;
-}
-
-#login-wPop-new button {
-    border: 1px solid #37556E;
-    color: #37556E;
-}
-
-#login-wPop-new button:hover {
-    background: #37556E;
-    color: #ffffff;
 }
 
 
@@ -517,8 +493,6 @@ body {
 
 #seed-whitespace-popup p {
     text-align: justify;
-    padding-left: 1rem;
-    padding-right: 1rem;
 }
 
 #register > form {
@@ -662,13 +636,6 @@ header {
 
 #header-wPop-backup {
     max-width: 550px;
-    padding-bottom: 2rem;
-}
-
-#header-wPop-backup p,
-#backupForm {
-    padding-left: 2rem;
-    padding-right: 2rem;
 }
 
 #header-wPop-backup a {
@@ -680,20 +647,6 @@ header {
     width: 100%;
     resize: none;
     margin-bottom: .5rem;
-}
-
-#header-wPop-backup button {
-    border: 1px solid #37556E;
-    color: #37556E;
-}
-
-#header-wPop-backup button:hover {
-    background: #37556E;
-    color: #ffffff;
-}
-
-.wPop-content-buttons {
-    padding-top: 1rem;
 }
 
 #copy_and_close_backup_modal {
@@ -783,35 +736,7 @@ span.tabs-radio img.selected {
 /* ======================================================================= */
 
 
-/* LEFT BAR SECTION */
-
-#mBLeftBar {
-    display: table-cell;
-    position: relative;
-    width: 200px;
-    border-right: 1px solid #D7D7D7;
-}
-
-.mBLB-vis {
-    display: table-cell;
-}
-
-.mBLB-no-vis {
-    display: none;
-}
-
-
-/* ======================================================================= */
-
-
 /* MAIN BODY-BODY SETTINGS */
-
-#mBBody {
-    /*    display: table-cell;*/
-    /*    position: relative;*/
-    /*    width: auto;*/
-    /*    padding-bottom: 1rem;*/
-}
 
 #mBBody {
     display: -webkit-box;
@@ -939,36 +864,35 @@ span.tabs-radio img.selected {
 }
 
 
+/* Do not eliminate this one */
+
+#mBB-wallet h2 {
+    padding: .5rem;
+}
+
+
 /* CONFIRMATION DIALOGS - ANGULAR FIXES FOR LATER */
 
-#send-payment-confirmation {
+.dialog-confirmation {
     text-align: center;
-    padding-bottom: 2rem;
 }
 
 #asset-details-dialog {
-    max-width: 600px;
+    max-width: 640px;
 }
 
-#create-asset-confirmation, #asset-transfer-dialog, #asset-reissue-dialog, #transfer-asset-confirmation, #asset-reissue-confirm-dialog, #asset-details-dialog {
-    padding-bottom: 2rem;
+.dialog-text {
+    padding-bottom: 1rem;
 }
 
-#send-payment-confirmation p, #create-asset-confirmation p, #asset-transfer-dialog form, #asset-reissue-dialog form, #transfer-asset-confirmation p, #asset-reissue-confirm-dialog p, #asset-details-dialog table {
-    padding-bottom: 2rem;
+.wavesPop-content {
     padding-left: 2rem !important;
     padding-right: 2rem !important;
     padding-bottom: 1rem !important;
 }
 
-#send-payment-confirmation button, #create-asset-confirmation button, #asset-transfer-dialog button, #asset-reissue-dialog button, #transfer-asset-confirmation button, #asset-reissue-confirm-dialog button, #asset-details-dialog button {
-    border: 1px solid #37556E;
-    color: #37556E;
-}
-
-#send-payment-confirmation button:hover, #create-asset-confirmation button:hover, #asset-transfer-dialog button:hover, #asset-reissue-dialog button:hover, #transfer-asset-confirmation button:hover, #asset-reissue-confirm-dialog button:hover, #asset-details-dialog button:hover {
-    background: #37556E;
-    color: #ffffff;
+.wavesPop-content-buttons {
+    padding-bottom: 2rem;
 }
 
 #send-confirm {
@@ -977,7 +901,16 @@ span.tabs-radio img.selected {
 
 .confirmation-value {
     font-family: 'Sparta';
-/*    font-weight: 600;*/
+    font-size: .9rem;
+    /*    font-weight: 600;*/
+}
+
+.button-row {
+    text-align: center;
+}
+
+.wavesPop-content .button-row {
+    padding-bottom: 1rem;
 }
 
 
@@ -1045,37 +978,8 @@ span.tabs-radio img.selected {
     padding-bottom: 1rem;
 }
 
-#wallet-transaction-history {
-    padding-top: 1rem;
-}
-
 #wallet-transaction-history table {
     overflow-y: scroll;
-}
-
-#wB-butSend-WAV {
-    padding-bottom: 2rem;
-}
-
-#wB-butSend-WAV table {
-    padding-left: 2rem;
-    padding-right: 2rem;
-}
-
-#wB-butSend-WAV .balanceAmt {
-    /*    padding-right: 2rem;*/
-    text-align: center;
-    padding-bottom: .25rem;
-}
-
-#wB-butSend-WAV button {
-    border: 1px solid #37556E;
-    color: #37556E;
-}
-
-#wB-butSend-WAV button:hover {
-    background: #37556E;
-    color: #ffffff;
 }
 
 
@@ -1091,14 +995,6 @@ span.tabs-radio img.selected {
     height: auto;
     padding: 0px;
     margin-bottom: 2rem;
-}
-
-.wTMainHeader tr {
-    background-color: #37556E;
-    border: 0px solid #F0F0F0;
-    text-align: center;
-    font-size: 1.12rem;
-    color: #ffffff;
 }
 
 .wavesTable thead {
@@ -1134,8 +1030,24 @@ span.tabs-radio img.selected {
     cursor: pointer;
 }
 
-.wavesTable tbody tr {
+.wavesTable tbody tr:not(#mBB-token .wavesTable-hover tbody tr) {
     color: #333333;
+    font-family: 'Lekton';
+}
+
+.wavesTable input[type="search"],
+.paymentForm input[type="search"] {
+    font-family: 'Wesli';
+    font-size: 1rem;
+    padding: .3rem
+}
+
+
+/* Added deeper specification to avoid it auto-excepting itself */
+
+#mBB-portfolio .wavesTable tbody tr {
+    color: #333333;
+    font-family: 'Lekton';
 }
 
 .wavesTable-txIn {
@@ -1148,12 +1060,12 @@ span.tabs-radio img.selected {
 
 .wavesTable-txIn .clipSpan:after {
     background: url(../img/wIcon_clip_txIn.svg) no-repeat;
-    opacity: .6;
+    opacity: .75;
 }
 
 .wavesTable-txOut .clipSpan:after {
     background: url(../img/wIcon_clip_txOut.svg) no-repeat;
-    opacity: .6;
+    opacity: .75;
 }
 
 .wavesTable-txUnc .clipSpan:after {
@@ -1166,7 +1078,7 @@ span.tabs-radio img.selected {
 }
 
 #latestBlocks {
-/*    overflow-y: scroll !important;*/
+    /*    overflow-y: scroll !important;*/
 }
 
 .wavesTable-txUnc {
@@ -1220,7 +1132,6 @@ span.tabs-radio img.selected {
     outline: none;
     text-align: center;
     text-decoration: none;
-
     -webkit-user-select: none;
     /* Chrome/Safari */
     -moz-user-select: none;
@@ -1300,6 +1211,23 @@ span.tabs-radio img.selected {
     color: #ffffff;
 }
 
+.wButton-dialog {
+    border: 1px solid #37556E;
+    color: #37556E;
+}
+
+.wButton-dialog:hover {
+    background: #37556E;
+    color: #ffffff;
+}
+
+.wButton[disabled],
+.wButton-neg[disabled] {
+    opacity: .5;
+    cursor: default;
+    pointer-events: none;
+}
+
 
 /* Button style for Danger or Error messages against white bg */
 
@@ -1375,6 +1303,22 @@ span.tabs-radio img.selected {
     width: 4.5rem;
 }
 
+md-autocomplete.fee-autocomplete button {
+    transition: all .4s ease;
+    -webkit-transition: all .4s ease;
+}
+
+md-autocomplete.fee-autocomplete button md-icon path {
+    fill: #37556E;
+}
+
+md-autocomplete.fee-autocomplete button:hover md-icon path {
+    fill: white;
+}
+
+
+/* md-autocomplete[md-input-name="wavessendfee"] button:hover,  md-autocomplete[md-input-name="assetFee"] button:hover {}*/
+
 
 /* ======================================================================= */
 
@@ -1394,6 +1338,12 @@ span.tabs-radio img.selected {
     border: 2px solid #9C0005 !important;
 }
 
+.attachment {
+    border: 3px dashed #e4e3e3;
+    padding: 1em;
+    text-align: center;
+}
+
 
 /* ======================================================================= */
 
@@ -1405,21 +1355,15 @@ span.tabs-radio img.selected {
     padding-bottom: 1rem;
 }
 
-.wPop-content {
-    margin-top: -1.5rem;
+
+/* Temporary fix for misalignment in the Balance amount */
+
+.paymentForm div:nth-child(2) {
+    margin-right: 2rem;
 }
 
-.paymentForm h2 {
-    background-color: #ffffff;
-    border: 0px solid #F0F0F0;
-    text-align: center;
-    font-size: 1.25rem;
-    color: #333333;
-    letter-spacing: .2rem;
-    padding-left: .5rem;
-    padding-right: .5rem;
-    padding-bottom: .5rem;
-    font-weight: 200;
+.wPop-content {
+    margin-top: -1.5rem;
 }
 
 .paymentForm table,
@@ -1473,14 +1417,13 @@ span.tabs-radio img.selected {
     padding-bottom: 1rem;
 }
 
-#mBB-portfolio table tbody tr td  button {
-    border: 1px solid #37556E;
-    color: #37556E;
-}
 
-#mBB-portfolio  table tbody tr td button:hover {
-    background: #37556E;
-    color: #ffffff;
+/* Fix for the long non-spacing strings in the details field*/
+
+#asset-details-dialog .wavesTable tr:nth-child(4) {
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
 }
 
 
@@ -1489,8 +1432,10 @@ span.tabs-radio img.selected {
 .balanceAmt {
     color: #999999;
     font-style: italic;
-    padding-right: .5rem;
-    text-align: center;
+    text-align: right;
+    margin-right: 0.25rem;
+    line-height: 1.25rem;
+    padding-bottom: .2rem;
 }
 
 .balanceAmt p {
@@ -1580,7 +1525,6 @@ span.tabs-radio img.selected {
     cursor: default;
 }
 
-
 #portfolio .btn {
     border: none;
     width: 8rem;
@@ -1602,8 +1546,18 @@ span.tabs-radio img.selected {
     background: #5AC8D2;
 }
 
-#portfolio table thead tr th {
-    padding: .5rem;
+#mBB-portfolio .wavesTable tr .clipSpan:after {
+    background: url(../img/wIcon_clip_txIn.svg) no-repeat;
+    opacity: 1;
+}
+
+#mBB-portfolio .wavesTable td:last-child {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
 }
 
 
@@ -1660,9 +1614,20 @@ span.tabs-radio img.selected {
     text-align: center;
 }
 
-#mBB-token table {
+
+/* Temporary fix for the extra space below this div - CHECK */
+
+#create-asset-form div:nth-child(1) {
+    margin-bottom: -20px;
+}
+
+#mBB-token form {
     width: 500px;
     margin: 0 auto;
+}
+
+#mBB-token table {
+    width: 100%;
 }
 
 #mBB-token table tbody tr:last-child {
@@ -1684,12 +1649,49 @@ span.tabs-radio img.selected {
     margin-top: 1rem;
 }
 
-#mBB-token .wavesTable tbody tr:nth-child(odd):hover {
-    background: #F0F0F0;
+.massPayRecap {
+    max-width: 435px;
+    max-height: 65vh;
+    overflow-y: scroll;
 }
 
-#mBB-token .wavesTable tbody tr:nth-child(even):hover {
-    background: #ffffff;
+.massPayRecap p:nth-child(1) {
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.massPayRecap p:nth-child(2) {
+    font-style: italic;
+    color: #999999;
+    text-align: center;
+    margin-bottom: .5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.massPayRecap tBody tr {
+    font-family: "Lekton";
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+}
+
+#asset-mass-pay-dialog {
+    max-width: 550px;
+    text-align: center;
+}
+
+#asset-mass-pay-dialog p {
+    text-align: center;
+    margin-bottom: .5rem;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+}
+
+#massPaymentFilesForm input[type="file"] {
+    font-family: "Wesli";
 }
 
 
@@ -1697,64 +1699,6 @@ span.tabs-radio img.selected {
 
 
 /* MESSENGER TAB */
-
-#mBB-messages-add {
-    position: relative;
-    display: table;
-    width: 100%;
-    padding: .75rem;
-    vertical-align: center;
-    text-align: center;
-    overflow: hidden;
-}
-
-#mBB-messages h2 {
-    display: inline-block;
-    text-align: center;
-    font-size: 1.25rem;
-    font-weight: 200;
-    color: #333333;
-    letter-spacing: .2rem;
-}
-
-#addContact {
-    width: auto;
-    position: absolute;
-    right: 2rem;
-    bottom: 0;
-}
-
-#addContact img {
-    width: 2rem;
-    opacity: .5;
-}
-
-#addContact img:hover {
-    opacity: 1;
-}
-
-#addContactForm {
-    text-align: center;
-}
-
-#addContactForm h2 {
-    background-color: #ffffff;
-    border: 0px solid #F0F0F0;
-    text-align: center;
-    font-size: 1.25rem;
-    color: #333333;
-    letter-spacing: .2rem;
-    font-weight: 200;
-}
-
-#addContactForm p {
-    margin-top: .25rem;
-}
-
-#contacts {
-    width: 100%;
-    height: 100%;
-}
 
 
 /* ======================================================================= */
@@ -1765,17 +1709,6 @@ span.tabs-radio img.selected {
 #mBB-community {
     width: 100%;
     text-align: center;
-}
-
-#mBB-community h2 {
-    text-align: center;
-    font-size: 1.25rem;
-    color: #333333;
-    letter-spacing: .2rem;
-    padding-left: .5rem;
-    padding-right: .5rem;
-    padding-bottom: .6rem;
-    font-weight: 200;
 }
 
 #mBB-community > p {
@@ -1833,6 +1766,13 @@ span.tabs-radio img.selected {
     .header-Icon {
         width: 1.75rem;
     }
+    .wavesTable {
+        overflow-x: scroll !important;
+    }
+    .clipSpan:before,
+    .clipSpan:after {
+        display: none;
+    }
 }
 
 @media only screen and (max-width: 800px) {
@@ -1861,6 +1801,9 @@ span.tabs-radio img.selected {
         display: block;
         margin: 0 auto;
     }
+    #mBB-community > p {
+        font-size: 1rem;
+    }
 }
 
 @media only screen and (max-width: 640px) {
@@ -1887,14 +1830,16 @@ span.tabs-radio img.selected {
 
 @media only screen and (max-width: 512px) {
     #tabs {
-        height: 65px;
+        height: 55px;
     }
     #tabs-Iconset {
         height: 80%;
+        width: 90%;
     }
     #tabs-Iconset img {
         margin-left: .25rem;
         margin-right: .25rem;
+        height: 41px;
     }
     .wInput {
         min-width: 50px;
@@ -1929,9 +1874,6 @@ span.tabs-radio img.selected {
         margin: 0;
         padding: 0;
         margin-right: .35rem;
-    }
-    .jurl {
-        display: none;
     }
     #tabs {
         height: 40px;
@@ -2008,10 +1950,8 @@ span.tabs-radio img.selected {
         height: 50px;
     }
     #tabs-Iconset img {
-        margin-top: .25rem;
-    }
-    .jurl {
-        height: 0.08rem;
+        /*        margin-top: .25rem;*/
+        height: 36px;
     }
     #mBB-wallet {
         height: auto;
@@ -2026,8 +1966,8 @@ span.tabs-radio img.selected {
         height: 22.5%;
         margin-bottom: -3px;
     }
-    #full-transaction-history,
-    #wallet-transaction-history {
-        display: none;
+    #massPaymentFilesForm input[type="file"] {
+        font-family: "Wesli";
+        font-size: 0.9rem;
     }
 }

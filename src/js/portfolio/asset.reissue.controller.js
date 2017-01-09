@@ -4,21 +4,27 @@
     var FIXED_REISSUE_FEE = new Money(1, Currency.WAV);
 
     function WavesAssetReissueController($scope, $timeout, events, applicationContext, assetService, dialogService,
-                                         notificationService, formattingService, apiService) {
-        var transaction;
+                                         notificationService, formattingService, apiService, transactionBroadcast) {
         var reissue = this;
         reissue.confirm = {
             amount: {},
-            fee: {},
-            reissuePending: false
+            fee: {}
         };
+        reissue.broadcast = new transactionBroadcast.instance(apiService.assets.reissue,
+            function (transaction, response) {
+                var amount = Money.fromCoins(transaction.quantity, reissue.asset.currency);
+                var displayMessage = 'Reissued ' + amount.formatAmount(true) + ' tokens of asset ' +
+                    reissue.asset.currency.displayName + '<br/>Date: ' +
+                    formattingService.formatTimestamp(transaction.timestamp);
+                notificationService.notice(displayMessage);
+            });
         reissue.fee = FIXED_REISSUE_FEE;
         reissue.validationOptions = {
             rules: {
                 assetAmount: {
                     required: true,
                     decimal: 0,
-                    min: 1
+                    min: 0
                 }
             },
             messages: {
@@ -32,15 +38,16 @@
 
         resetReissueForm();
 
-        $scope.$on(events.ASSET_REISSUE, function (event, assetId) {
-            var asset = applicationContext.cache.assets[assetId];
+        $scope.$on(events.ASSET_REISSUE, function (event, eventData) {
+            var asset = applicationContext.cache.assets[eventData.assetId];
             if (angular.isUndefined(asset))
-                throw new Error('Failed to find asset data by id ' + assetId);
+                throw new Error('Failed to find asset data by id ' + eventData.assetId);
 
-            reissue.assetId = assetId;
+            reissue.assetId = eventData.assetId;
             reissue.assetName = asset.currency.displayName;
-            reissue.totalTokens = asset.totalTokens.formatAmount();
+            reissue.totalTokens = asset.totalTokens;
             reissue.asset = asset;
+            reissue.wavesBalance = eventData.wavesBalance;
 
             // update validation options and check how it affects form validation
             reissue.validationOptions.rules.assetAmount.decimal = asset.currency.precision;
@@ -61,6 +68,12 @@
                 // prevent dialog from closing
                 return false;
 
+            if (reissue.fee.greaterThan(reissue.wavesBalance)) {
+                notificationService.error('Not enough funds for the reissue transaction fee');
+
+                return false;
+            }
+
             var assetReissue = {
                 totalTokens: Money.fromTokens(reissue.amount, reissue.asset.currency),
                 reissuable: reissue.reissuable,
@@ -72,7 +85,7 @@
                 privateKey: applicationContext.account.keyPair.private
             };
             // creating the transaction and waiting for confirmation
-            transaction = assetService.createAssetReissueTransaction(assetReissue, sender);
+            reissue.broadcast.setTransaction(assetService.createAssetReissueTransaction(assetReissue, sender));
 
             // setting data for the confirmation dialog
             reissue.confirm.amount.value = assetReissue.totalTokens.formatAmount(true);
@@ -93,36 +106,7 @@
         }
 
         function broadcastTransaction () {
-            // checking if transaction was saved
-            if (angular.isUndefined(transaction))
-                return;
-
-            // prevent method execution when there is a pending reissue request
-            if (reissue.confirm.reissuePending)
-                return;
-
-            //disable confirm button
-            reissue.confirm.reissuePending = true;
-
-            apiService.assets.reissue(transaction).then(function () {
-                var amount = Money.fromCoins(transaction.quantity, reissue.asset);
-                var displayMessage = 'Reissued ' + amount.formatAmount(true) + ' tokens of asset ' +
-                    reissue.asset.currency.displayName + '<br/>Date: ' +
-                    formattingService.formatTimestamp(transaction.timestamp);
-                notificationService.notice(displayMessage);
-                //enable confirm button
-                reissue.confirm.reissuePending = false;
-                transaction = undefined;
-            }, function (response) {
-                if (angular.isDefined(response.data))
-                    notificationService.error('Error:' + response.data.error + ' - ' + response.data.message);
-                else
-                    notificationService.error('Request failed. Status: ' + response.status + ' - ' +
-                        response.statusText);
-                //enable confirm button
-                reissue.confirm.reissuePending = false;
-                transaction = undefined;
-            });
+            reissue.broadcast.broadcast();
         }
 
         function getReissueForm() {
@@ -137,7 +121,8 @@
     }
 
     WavesAssetReissueController.$inject = ['$scope', '$timeout', 'portfolio.events', 'applicationContext',
-        'assetService', 'dialogService', 'notificationService', 'formattingService', 'apiService'];
+        'assetService', 'dialogService', 'notificationService',
+        'formattingService', 'apiService', 'transactionBroadcast'];
 
     angular
         .module('app.portfolio')
