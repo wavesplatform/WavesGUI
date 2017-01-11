@@ -65,17 +65,16 @@
         mass.dataCopied = dataCopied;
         mass.cancel = cancel;
 
+        cleanup();
+
         $scope.$on(events.ASSET_MASSPAY, function (event, eventData) {
             mass.wavesBalance = eventData.wavesBalance;
+            mass.assetBalance = eventData.wavesBalance;
             if (eventData.assetId) {
-                var asset = applicationContext.cache.assets[eventData.assetId];
-                mass.availableBalance = asset.balance;
-                mass.asset = asset;
+                mass.assetBalance = applicationContext.cache.assets[eventData.assetId].balance;
             }
-            else {
-                mass.asset = undefined;
-            }
-            cleanup();
+
+            mass.sendingWaves = mass.assetBalance.currency === Currency.WAV;
 
             dialogService.open('#asset-mass-pay-dialog');
         });
@@ -97,14 +96,52 @@
             }
         }
 
-        function loadInputFile (content) {
+        function loadInputFile (fileName, content) {
             try {
                 mass.inputPayments = [];
-                mass.inputPayments = $window.JSON.parse(content);
+                if (fileName.endsWith('.json')) {
+                    mass.inputPayments = parseJsonFile(content);
+                }
+                else if (fileName.endsWith('.csv')) {
+                    mass.inputPayments = parseCsvFile(content);
+                }
+                else {
+                    throw new Error('Unsupported file type: ' + fileName);
+                }
             }
             catch (ex) {
                 notificationService.error('Failed to parse file: ' + ex);
             }
+        }
+
+        function parseCsvFile (content) {
+            var lines = content.split('\n');
+            var result = [];
+            _.forEach(lines, function (line) {
+                line = line.trim();
+                var parts = line.split(';');
+                if (parts.length < 2) {
+                    throw new Error('CSV file contains ' + parts.length + ' columns. Expected 2 or 3 columns');
+                }
+                var address = parts[0];
+                var amount = parseFloat(parts[1]);
+                var id;
+                if (parts.length > 2) {
+                    id = parts[2];
+                }
+
+                result.push({
+                    recipient: address,
+                    amount: amount,
+                    id: id
+                });
+            });
+
+            return result;
+        }
+
+        function parseJsonFile (content) {
+            return $window.JSON.parse(content);
         }
 
         function processInputFile(form) {
@@ -126,13 +163,17 @@
             try {
                 transactions = [];
                 var transfersToDisplay = [];
-                var transferCurrency = mass.asset ? mass.asset.currency : Currency.WAV;
+                var transferCurrency = mass.assetBalance.currency;
                 var totalTransactions = 0;
                 var totalAmount = Money.fromCoins(0, transferCurrency);
                 var totalFee = Money.fromCoins(0, Currency.WAV);
                 var fee = Money.fromTokens(mass.autocomplete.getFeeAmount(), Currency.WAV);
                 var minimumPayment = Money.fromCoins(1, transferCurrency);
                 _.forEach(mass.inputPayments, function (transfer) {
+                    if (isNaN(transfer.amount)) {
+                        throw new ValidationError('Failed to parse payment amount for address ' + transfer.recipient);
+                    }
+
                     var assetTransfer = {
                         recipient: transfer.recipient,
                         amount: Money.fromTokens(transfer.amount, transferCurrency),
@@ -179,7 +220,7 @@
         }
 
         function submitPayment() {
-            var paymentCost = mass.asset ?
+            var paymentCost = !mass.sendingWaves ?
                 mass.summary.totalFee :
                 mass.summary.totalFee.plus(mass.summary.totalAmount);
 
@@ -189,8 +230,9 @@
                 return false;
             }
 
-            if (mass.asset && mass.summary.totalAmount.greaterThan(mass.asset.balance)) {
-                notificationService.error('Not enough "' + mass.asset.currency.displayName + '" to make mass payment');
+            if (mass.summary.totalAmount.greaterThan(mass.assetBalance)) {
+                notificationService.error('Not enough "' + mass.assetBalance.currency.displayName +
+                    '" to make mass payment');
 
                 return false;
             }
@@ -231,7 +273,7 @@
                 NProgress.done();
 
                 if (event.target.readyState == FileReader.DONE)
-                    mass.loadInputFile(event.target.result);
+                    mass.loadInputFile(file.name, event.target.result);
             };
             reader.onloadstart = function (event) {
                 cleanup();
@@ -246,7 +288,7 @@
         }
 
         function transactionsToClipboard() {
-            return JSON.stringify(transactions, null, ' ');
+            return $window.JSON.stringify(transactions, null, ' ');
         }
 
         function dataCopied() {
