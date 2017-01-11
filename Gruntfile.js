@@ -475,7 +475,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-bump');
-    grunt.loadNpmTasks('grunt-github-releaser');
+    grunt.loadNpmTasks('waves-grunt-github-releaser');
     grunt.loadNpmTasks('grunt-webstore-upload');
     grunt.loadNpmTasks('grunt-aws');
     grunt.loadNpmTasks('grunt-shell');

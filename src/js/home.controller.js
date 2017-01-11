@@ -56,7 +56,7 @@
         }
 
         function logout() {
-            if ($window.chrome && $window.chrome.runtime)
+            if ($window.chrome && $window.chrome.runtime && typeof $window.chrome.runtime.reload === 'function')
                 $window.chrome.runtime.reload();
             else
                 $window.location.reload();
