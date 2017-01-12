@@ -35,12 +35,13 @@
         };
         reissue.submitReissue = submitReissue;
         reissue.broadcastTransaction = broadcastTransaction;
+        reissue.getForm = getForm;
 
         resetReissueForm();
 
         $scope.$on(events.ASSET_REISSUE, function (event, eventData) {
             var asset = applicationContext.cache.assets[eventData.assetId];
-            if (angular.isUndefined(asset))
+            if (!asset)
                 throw new Error('Failed to find asset data by id ' + eventData.assetId);
 
             reissue.assetId = eventData.assetId;
@@ -63,7 +64,7 @@
         });
 
         function submitReissue () {
-            var form = getReissueForm();
+            var form = reissue.getForm();
             if (!form.validate(reissue.validationOptions))
                 // prevent dialog from closing
                 return false;
@@ -109,7 +110,7 @@
             reissue.broadcast.broadcast();
         }
 
-        function getReissueForm() {
+        function getForm() {
             // here we have a direct markup dependency
             // but other ways of getting the form from a child scope are even more ugly
             return angular.element('#asset-reissue-form').scope().assetReissueForm;

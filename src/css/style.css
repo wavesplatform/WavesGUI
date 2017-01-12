@@ -618,20 +618,6 @@ header {
     opacity: 1;
 }
 
-.jurl {
-    display: block;
-    width: 100%;
-    border: none;
-    color: #ffffff;
-    height: 0.04rem;
-    background: #37556E;
-    /* Old browsers */
-    background: -webkit-linear-gradient(left, #37556E 0%, #37556E 25%, #ffffff 50%, #ffffff 50%, #37556E 75%, #37556E 100%);
-    background: linear-gradient(to right, #37556E 0%, #37556E 25%, #ffffff 50%, #ffffff 50%, #37556E 75%, #37556E 100%);
-    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#37556E', endColorstr='#37556E', GradientType=1);
-}
-
-
 /* Backup pop-up style */
 
 #header-wPop-backup {

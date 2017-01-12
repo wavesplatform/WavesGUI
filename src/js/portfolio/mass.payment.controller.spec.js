@@ -140,6 +140,21 @@ describe('Mass.Payment.Controller', function() {
         expect(controller.inputPayments[2].id).toEqual('000001');
     });
 
+    it('should correctly parse CSV transaction file with empty lines', function () {
+        var content = '3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq;300\n' +
+            '\n' +
+            '3MuriKVs6CLgNxbhZ7SFRk1mfSJ2dRCK319;0.00000001\n';
+
+        spyOn(notificationService, 'error');
+
+        controller.loadInputFile('transactions.csv', content);
+        expect(notificationService.error).not.toHaveBeenCalled();
+        expect(controller.inputPayments.length).toEqual(2);
+        expect(controller.inputPayments[0].recipient).toEqual('3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq');
+        expect(controller.inputPayments[1].amount).toEqual(1e-8);
+        expect(controller.inputPayments[1].recipient).toEqual('3MuriKVs6CLgNxbhZ7SFRk1mfSJ2dRCK319');
+    });
+
     it('should show error on unknown file format', function () {
         spyOn(notificationService, 'error');
 
