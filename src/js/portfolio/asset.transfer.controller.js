@@ -67,6 +67,7 @@
         };
         transfer.submitTransfer = submitTransfer;
         transfer.broadcastTransaction = broadcastTransaction;
+        transfer.getForm = getForm;
 
         resetPaymentForm();
 
@@ -99,7 +100,7 @@
         }
 
         function submitTransfer() {
-            var transferForm = getForm();
+            var transferForm = transfer.getForm();
             var invalid = transferForm.invalid();
             transfer.fee.isValid = angular.isDefined(invalid.assetFee) ?
                 !invalid.assetFee : true;
@@ -114,9 +115,16 @@
                 return false;
             }
 
+            var transferAmount = Money.fromTokens(transfer.amount, transfer.asset.currency);
+            if (transferAmount.greaterThan(transfer.availableBalance)) {
+                notificationService.error('Transfer amount exceeds available asset balance');
+
+                return false;
+            }
+
             var assetTransfer = {
                 recipient: transfer.recipient,
-                amount: Money.fromTokens(transfer.amount, transfer.asset.currency),
+                amount: transferAmount,
                 fee: transferFee
             };
             var sender = {

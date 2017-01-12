@@ -76,6 +76,8 @@
 
             mass.sendingWaves = mass.assetBalance.currency === Currency.WAV;
 
+            cleanup();
+
             dialogService.open('#asset-mass-pay-dialog');
         });
 
@@ -119,6 +121,9 @@
             var result = [];
             _.forEach(lines, function (line) {
                 line = line.trim();
+                if (line.length < 1)
+                    return;
+
                 var parts = line.split(';');
                 if (parts.length < 2) {
                     throw new Error('CSV file contains ' + parts.length + ' columns. Expected 2 or 3 columns');
