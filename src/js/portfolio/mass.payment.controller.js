@@ -1,7 +1,8 @@
 (function () {
     'use strict';
 
-    var MAXIMUM_FILE_SIZE = 1 * 1024 * 1024;
+    var MAXIMUM_FILE_SIZE_BYTES = 512 * 1024;
+    var MAXIMUM_TRANSACTIONS_PER_FILE = 500;
     var FIRST_TRANSACTIONS_COUNT = 10;
     var LOADING_STAGE = 'loading';
     var PROCESSING_STAGE = 'processing';
@@ -160,6 +161,13 @@
                 return;
             }
 
+            if (mass.inputPayments.length > MAXIMUM_TRANSACTIONS_PER_FILE) {
+                notificationService.error('Too many payments for a single file. Maximum payments count ' +
+                    'in a file should not exceed ' + MAXIMUM_TRANSACTIONS_PER_FILE);
+
+                return;
+            }
+
             var sender = {
                 publicKey: applicationContext.account.keyPair.public,
                 privateKey: applicationContext.account.keyPair.private
@@ -266,8 +274,9 @@
         }
 
         function handleFile(file) {
-            if (file.size > MAXIMUM_FILE_SIZE) {
-                notificationService.error('File "' + file.name + '" is too big. Maximum file size is 1Mb.');
+            if (file.size > MAXIMUM_FILE_SIZE_BYTES) {
+                notificationService.error('File "' + file.name + '" is too big. Maximum file size is ' +
+                    MAXIMUM_FILE_SIZE_BYTES / 1024 + 'Kb');
 
                 return;
             }
