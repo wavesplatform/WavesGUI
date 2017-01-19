@@ -88,7 +88,7 @@ module.exports = function (grunt) {
 
                 'src/js/vendor/jquery.modal.js',
 
-                'bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.2.0.js'
+                'bower_components/wavesplatform-core-js/distr/wavesplatform-core.js'
             ],
             application: [
                 // project sources
@@ -130,6 +130,7 @@ module.exports = function (grunt) {
                 'src/js/wallet/wallet.list.controller.js',
                 'src/js/wallet/wallet.send.controller.js',
                 'src/js/wallet/wallet.withdraw.controller.js',
+                'src/js/wallet/wallet.deposit.controller.js',
 
                 'src/js/tokens/tokens.module.js',
                 'src/js/tokens/token.create.controller.js',

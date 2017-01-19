@@ -49,7 +49,7 @@
                 balance: '<',
                 onSend: '&',
                 onWithdraw: '&',
-                onTrade: '&'
+                onDeposit: '&'
             },
             template: '<img ng-src="img/{{::$ctrl.image}}" alt="Chinese Yuan wallet" />' +
                 '<div class="wB-name">{{::$ctrl.displayName | uppercase}}</div>' +
@@ -63,8 +63,8 @@
                     '<a ng-click="$ctrl.onWithdraw({currency: $ctrl.balance.currency})">' +
                         '<div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>' +
                     '</a>' +
-                    '<a ng-click="$ctrl.onTrade({currency: $ctrl.balance.currency})">' +
-                        '<div class="wB-but wB-butTrade fade"><p>TRADE</p></div>' +
+                    '<a ng-click="$ctrl.onDeposit({currency: $ctrl.balance.currency})">' +
+                        '<div class="wB-but wB-butTrade fade"><p>DEPOSIT</p></div>' +
                     '</a>' +
                 '</div>'
         });

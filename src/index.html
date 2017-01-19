@@ -372,27 +372,32 @@
                         </div>
                     </div>
 
-                    <div class="noDisp">
-                        <div id="withdraw-dialog" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="walletList.submitWithdraw()">
-
+                    <div class="noDisp" ng-controller="walletWithdrawController as withdraw">
+                        <div id="withdraw-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.submitWithdraw()">
+                            <p class="dialog-text">You're about to withdraw something</p>
                         </div>
-                        <div id="withdraw-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!wallet.confirm.pendingPayment" on-dialog-ok="walletList.broadcastSendTransaction()">
-                            <div class="dialog-confirmation">
-                                <p class="dialog-text">You are sending <span class="confirmation-value">{{walletList.confirm.amount.value}}</span>
-                                    <span class="confirmation-value">{{walletList.confirm.amount.currency}}</span> with
-                                    <span class="confirmation-value">{{walletList.confirm.fee.value}}</span>
-                                    <span class="confirmation-value">{{walletList.confirm.fee.currency}}</span> fee to the address<br/>
-                                    <span class="confirmation-value">{{walletList.confirm.recipient}}</span>
-                                </p>
-                                <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
-                            </div>
+                        <!--<div id="withdraw-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!wallet.confirm.pendingPayment" on-dialog-ok="walletList.broadcastSendTransaction()">-->
+                            <!--<div class="dialog-confirmation">-->
+                                <!--<p class="dialog-text">You are sending <span class="confirmation-value">{{walletList.confirm.amount.value}}</span>-->
+                                    <!--<span class="confirmation-value">{{walletList.confirm.amount.currency}}</span> with-->
+                                    <!--<span class="confirmation-value">{{walletList.confirm.fee.value}}</span>-->
+                                    <!--<span class="confirmation-value">{{walletList.confirm.fee.currency}}</span> fee to the address<br/>-->
+                                    <!--<span class="confirmation-value">{{walletList.confirm.recipient}}</span>-->
+                                <!--</p>-->
+                                <!--<p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    </div>
+
+                    <div class="noDisp" ng-controller="walletDepositController as deposit">
+                        <div id="deposit-dialog" waves-dialog ok-button-caption="OK" cancel-button-visible="false">
+                            <p class="dialog-text">You're about to deposit something</p>
                         </div>
                     </div>
 
-
                     <div class="flex-container">
                         <wallet-box class="walletBox" ng-repeat="w in walletList.wallets" balance="w.balance" on-send="walletList.send(currency)"
-                                    on-withdraw="walletList.withdraw(currency)" on-trade="walletList.trade(currency)"></wallet-box>
+                                    on-withdraw="walletList.withdraw(currency)" on-deposit="walletList.deposit(currency)"></wallet-box>
                     </div>
                     <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
                     <div id="wallet-transaction-history" class="wavesTable wScroll">
@@ -957,7 +962,7 @@
     <script src="js/vendor/jquery.modal.js"></script>
 
     <!-- application modules -->
-    <script src="../bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.2.0.js"></script>
+    <script src="../bower_components/wavesplatform-core-js/distr/wavesplatform-core.js"></script>
 
     <script src="js/ui.module.js"></script>
     <script src="js/application.context.factory.js"></script>
@@ -997,6 +1002,7 @@
     <script src="js/wallet/wallet.list.controller.js"></script>
     <script src="js/wallet/wallet.send.controller.js"></script>
     <script src="js/wallet/wallet.withdraw.controller.js"></script>
+    <script src="js/wallet/wallet.deposit.contoller.js"></script>
 
     <script src="js/tokens/tokens.module.js"></script>
     <script src="js/tokens/token.create.controller.js"></script>

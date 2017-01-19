@@ -9,8 +9,14 @@
         var refreshPromise;
         var refreshDelay = 10 * 1000;
 
-        function unimplementedFeature() {
-            $scope.home.featureUnderDevelopment();
+        function sendCommandEvent(event, currency) {
+            var assetWallet = findWalletByCurrency(currency);
+            var wavesWallet = findWalletByCurrency(Currency.WAV);
+
+            $scope.$broadcast(event, {
+                assetBalance: assetWallet.balance,
+                wavesBalance: wavesWallet.balance
+            });
         }
 
         function findWalletByCurrency(currency) {
@@ -39,7 +45,7 @@
         walletList.transactions = [];
         walletList.send = send;
         walletList.withdraw = withdraw;
-        walletList.trade = trade;
+        walletList.deposit = deposit;
 
         loadDataFromBackend();
         patchCurrencyIdsForTestnet();
@@ -52,21 +58,15 @@
         });
 
         function send (currency) {
-            var assetWallet = findWalletByCurrency(currency);
-            var wavesWallet = findWalletByCurrency(Currency.WAV);
-
-            $scope.$broadcast(events.WALLET_SEND, {
-                assetBalance: assetWallet.balance,
-                wavesBalance: wavesWallet.balance
-            });
+            sendCommandEvent(events.WALLET_SEND, currency);
         }
 
         function withdraw (currency) {
-            unimplementedFeature();
+            sendCommandEvent(events.WALLET_WITHDRAW, currency);
         }
 
-        function trade (currency) {
-            unimplementedFeature();
+        function deposit (currency) {
+            sendCommandEvent(events.WALLET_DEPOSIT, currency);
         }
 
         function loadDataFromBackend() {
