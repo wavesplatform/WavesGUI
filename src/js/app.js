@@ -38,11 +38,14 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
     $provide.constant(applicationSettings,
         angular.extend(applicationSettings, {
             CLIENT_VERSION: '0.4.1a',
-            NODE_ADDRESS: 'http://52.30.47.67:6869'
+            NODE_ADDRESS: 'http://52.30.47.67:6869',
+            COINOMAT_ADDRESS: 'https://test.coinomat.com'
         }));
 
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data|file|chrome-extension):/);
     $qProvider.errorOnUnhandledRejections(false);
+
+
 
     $validatorProvider.setDefaults({
         errorClass: 'wInput-error',

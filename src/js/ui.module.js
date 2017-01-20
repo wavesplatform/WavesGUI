@@ -13,6 +13,7 @@
         // actual values are set in the application config phase
         .constant('constants.application', {
             CLIENT_VERSION: '',
-            NODE_ADDRESS: ''
+            NODE_ADDRESS: '',
+            COINOMAT_ADDRESS: ''
         });
 })();

@@ -94,6 +94,7 @@ module.exports = function (grunt) {
                 // project sources
                 'src/js/ui.module.js',
                 'src/js/application.context.factory.js',
+                'src/js/coinomat.restangular.factory.js',
                 'src/js/home.controller.js',
                 'src/js/splash.controller.js',
 

@@ -390,8 +390,18 @@
                     </div>
 
                     <div class="noDisp" ng-controller="walletDepositController as deposit">
-                        <div id="deposit-dialog" waves-dialog ok-button-caption="OK" cancel-button-visible="false">
-                            <p class="dialog-text">You're about to deposit something</p>
+                        <div id="deposit-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
+                            <p class="dialog-text">To deposit {{deposit.currency}} on your Waves account, please send the real crypto or fiat with the requisites provided below
+                                <table class="wavesTable">
+                                    <tbody>
+                                        <tr ng-repeat="r in deposit.requisites track by r.name">
+                                            <td>{{r.name}}</td>
+                                            <td><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{r.value}}" title="Copy this requisite to the clipboard." ngclipboard-success="deposit.clipboardOk()">{{r.value}}</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </p>
+                            <p class="dialog-text">Some additional instructions</p>
                         </div>
                     </div>
 
@@ -966,6 +976,7 @@
 
     <script src="js/ui.module.js"></script>
     <script src="js/application.context.factory.js"></script>
+    <script src="js/coinomat.restangular.factory.js"></script>
     <script src="js/home.controller.js"></script>
     <script src="js/splash.controller.js"></script>
 
