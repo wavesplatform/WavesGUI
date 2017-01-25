@@ -373,20 +373,78 @@
                     </div>
 
                     <div class="noDisp" ng-controller="walletWithdrawController as withdraw">
-                        <div id="withdraw-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.submitWithdraw()">
+                        <div id="withdraw-asset-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.submitWithdraw()">
+                            <h2 class="sectionHeader">WITHDRAW: {{withdraw.sourceCurrency}}</h2>
                             <p class="dialog-text">You're about to withdraw something</p>
+                            <form id="withdraw-asset-form" name="withdrawAssetForm" novalidate ng-validate="withdraw.validationOptions">
+                            <table>
+                                <div class="balanceAmt">
+                                    <div><p>Asset balance: </p><span class="balancewaves">{{withdraw.assetBalance.formatAmount(true)}}</span><br/></div>
+                                </div>
+                                <thead>
+                                    <tr>
+                                        <th>DESCRIPTION</th>
+                                        <th>INPUT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Amount</td>
+                                        <td><input class="wInput form-control" name="withdrawAmount" type="text" placeholder="Withdraw amount" ng-model="withdraw.amount" ng-change="withdraw.refreshAmounts()" ng-model-options="{ debounce: 750 }" decimal-input-restrictor/></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            {{withdraw.amount}} {{withdraw.sourceCurrency}} = {{withdraw.exchangeAmount}} {{withdraw.targetCurrency}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fee</td>
+                                        <td>
+                                            <md-autocomplete md-input-name="withdrawFee" md-selected-item="withdraw.autocomplete.selectedFee" md-search-text="withdraw.autocomplete.searchText"
+                                                             md-items="item in withdraw.autocomplete.querySearch(withdraw.autocomplete.searchText)"
+                                                             md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
+                                                             md-menu-class="popup-autocomplete" class="fee-autocomplete">
+                                                <md-item-template>
+                                                    <span md-highlight-text="withdraw.autocomplete.searchText">{{item.displayText}}</span>
+                                                </md-item-template>
+                                            </md-autocomplete>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </form>
                         </div>
-                        <!--<div id="withdraw-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!wallet.confirm.pendingPayment" on-dialog-ok="walletList.broadcastSendTransaction()">-->
-                            <!--<div class="dialog-confirmation">-->
-                                <!--<p class="dialog-text">You are sending <span class="confirmation-value">{{walletList.confirm.amount.value}}</span>-->
-                                    <!--<span class="confirmation-value">{{walletList.confirm.amount.currency}}</span> with-->
-                                    <!--<span class="confirmation-value">{{walletList.confirm.fee.value}}</span>-->
-                                    <!--<span class="confirmation-value">{{walletList.confirm.fee.currency}}</span> fee to the address<br/>-->
-                                    <!--<span class="confirmation-value">{{walletList.confirm.recipient}}</span>-->
-                                <!--</p>-->
-                                <!--<p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>-->
-                            <!--</div>-->
-                        <!--</div>-->
+                        <div id="withdraw-address-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.confirmWithdraw()">
+                            <h2 class="sectionHeader">EXCHANGE REQUISITES</h2>
+                            <form id="withdraw-address-form" name="withdrawAddressForm" novalidate>
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>DESCRIPTION</th>
+                                        <th>INPUT</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Bitcoin Address</td>
+                                            <td><input class="wInput form-control" name="withdrawAddress" type="text" placeholder="Bitcoin address" ng-model="withdraw.address"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                        <div id="withdraw-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!withdraw.broadcast.pending" on-dialog-ok="withdraw.broadcastTransaction()">
+                            <div class="dialog-confirmation">
+                                <p class="dialog-text">You are sending <span class="confirmation-value">{{withdraw.confirm.amount.value}}</span>
+                                    <span class="confirmation-value">{{withdraw.confirm.amount.currency}}</span> with
+                                    <span class="confirmation-value">{{withdraw.confirm.fee.value}}</span>
+                                    <span class="confirmation-value">{{withdraw.confirm.fee.currency}}</span> fee to the gateway address in Waves<br/>
+                                    <span class="confirmation-value">{{withdraw.confirm.gatewayAddress}}</span>.
+                                </p>
+                                <p class="dialog-text">The gateway is responsible for transfer of crypto to address <span class="confirmation-value">{{withdraw.confirm.address}}</span>.</p>
+                                <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="noDisp" ng-controller="walletDepositController as deposit">
