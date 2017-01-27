@@ -427,7 +427,7 @@
                                     <tbody>
                                         <tr>
                                             <td>Bitcoin Address</td>
-                                            <td><input class="wInput form-control" name="withdrawAddress" type="text" placeholder="Bitcoin address" ng-model="withdraw.address"/></td>
+                                            <td><input class="wInput form-control" name="withdrawAddress" type="text" placeholder="Bitcoin address" ng-model="withdraw.recipient"/></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -441,7 +441,7 @@
                                     <span class="confirmation-value">{{withdraw.confirm.fee.currency}}</span> fee to the gateway address in Waves<br/>
                                     <span class="confirmation-value">{{withdraw.confirm.gatewayAddress}}</span>.
                                 </p>
-                                <p class="dialog-text">The gateway is responsible for transfer of crypto to address <span class="confirmation-value">{{withdraw.confirm.address}}</span>.</p>
+                                <p class="dialog-text">The gateway is responsible for transfer of crypto to address <span class="confirmation-value">{{withdraw.confirm.recipient}}</span>.</p>
                                 <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
                             </div>
                         </div>
@@ -1071,7 +1071,7 @@
     <script src="js/wallet/wallet.list.controller.js"></script>
     <script src="js/wallet/wallet.send.controller.js"></script>
     <script src="js/wallet/wallet.withdraw.controller.js"></script>
-    <script src="js/wallet/wallet.deposit.contoller.js"></script>
+    <script src="js/wallet/wallet.deposit.controller.js"></script>
 
     <script src="js/tokens/tokens.module.js"></script>
     <script src="js/tokens/token.create.controller.js"></script>

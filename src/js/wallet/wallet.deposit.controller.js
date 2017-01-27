@@ -1,11 +1,10 @@
 (function () {
     'use strict';
 
-    function WavesWalletDepositController ($scope, events, coinomatService, dialogService, notificationService) {
+    function WavesWalletDepositController ($scope, events, coinomatService, dialogService, notificationService,
+                                           applicationContext) {
         var deposit = this;
-
         deposit.requisites = [];
-
         deposit.clipboardOk = clipboardOk;
 
         $scope.$on(events.WALLET_DEPOSIT, function (event, eventData) {
@@ -18,14 +17,18 @@
                 return;
             }
 
-            deposit.requisites = [
-                {
-                    name: 'Bitcoin address',
-                    value: '14qViLJfdGaP4EeHnDyJbEGQysnCpwn1gZ'
-                }
-            ];
-
             dialogService.open('#deposit-dialog');
+
+            coinomatService.getDepositDetails(deposit.assetBalance.currency, applicationContext.account.address)
+                .then(function (depositAddress) {
+                    deposit.requisites = [{
+                        name: 'Bitcoin address',
+                        value: depositAddress
+                    }];
+                })
+                .catch(function (exception) {
+                    notificationService.error(exception.message);
+                });
         });
 
         function clipboardOk() {
@@ -34,7 +37,7 @@
     }
 
     WavesWalletDepositController.$inject = ['$scope', 'wallet.events', 'coinomatService', 'dialogService',
-        'notificationService'];
+        'notificationService', 'applicationContext'];
 
     angular
         .module('app.wallet')

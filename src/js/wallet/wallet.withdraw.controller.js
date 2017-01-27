@@ -5,7 +5,7 @@
 
     function WavesWalletWithdrawController ($scope, $timeout, constants, events, autocomplete, dialogService,
                                             coinomatService, transactionBroadcast, notificationService,
-                                            apiService, formattingService, applicationContext) {
+                                            apiService, formattingService, assetService, applicationContext) {
         var withdraw = this;
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAV);
 
@@ -76,49 +76,41 @@
                 return;
             }
 
-            var response = {
-                "xrate":0.99,
-                "in_min":0.1,
-                "in_max":100,
-                "in_def":10,
-                "from_txt":"LTC",
-                "to_txt":"Webmoney VND",
-                "in_prec":{
-                    "dec":8,
-                    "correction":1
-                },
-                "out_prec":{
-                    "dec":2,
-                    "correction":1000000
-                }
-            };
-            var minimumPayment = Money.fromCoins(1, withdraw.assetBalance.currency);
-            minimumPayment = Money.fromTokens(Math.max(minimumPayment.toTokens(), response.in_min),
-                withdraw.assetBalance.currency);
-            var maximumPayment = Money.fromTokens(Math.min(withdraw.assetBalance.toTokens(),
-                response.in_max), withdraw.assetBalance.currency);
-            withdraw.sourceCurrency = withdraw.assetBalance.currency.displayName;
-            withdraw.exchangeRate = response.xrate;
-            withdraw.correction = response.out_prec.correction;
-            withdraw.targetCurrency = response.to_txt;
-            withdraw.exchangeAmount = '0';
-            withdraw.amount = response.in_def;
-            withdraw.validationOptions.rules.withdrawAmount.decimal = withdraw.assetBalance.currency.precision;
-            withdraw.validationOptions.rules.withdrawAmount.max = maximumPayment.toTokens();
-            withdraw.validationOptions.rules.withdrawAmount.min = minimumPayment.toTokens();
-            withdraw.validationOptions.messages.withdrawAmount.decimal = 'The amount to withdraw must be a number ' +
-                'with no more than ' + minimumPayment.currency.precision + ' digits after the decimal point (.)';
-            withdraw.validationOptions.messages.withdrawAmount.min = 'Withdraw amount is too small. ' +
-                'It should be greater or equal to ' + minimumPayment.formatAmount();
-            withdraw.validationOptions.messages.withdrawAmount.max = 'Withdraw amount is too big. ' +
-                'It should be less or equal to ' + maximumPayment.formatAmount();
+            coinomatService.getWithdrawRate(withdraw.assetBalance.currency)
+                .then(function (response) {
+                    /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
+                    var minimumPayment = Money.fromCoins(1, withdraw.assetBalance.currency);
+                    minimumPayment = Money.fromTokens(Math.max(minimumPayment.toTokens(), response.in_min),
+                        withdraw.assetBalance.currency);
+                    var maximumPayment = Money.fromTokens(Math.min(withdraw.assetBalance.toTokens(),
+                        response.in_max), withdraw.assetBalance.currency);
+                    withdraw.sourceCurrency = withdraw.assetBalance.currency.displayName;
+                    withdraw.exchangeRate = response.xrate;
+                    withdraw.correction = response.out_prec.correction;
+                    withdraw.targetCurrency = response.to_txt;
+                    withdraw.exchangeAmount = '0';
+                    withdraw.amount = response.in_def;
+                    /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
+                    withdraw.validationOptions.rules.withdrawAmount.decimal = withdraw.assetBalance.currency.precision;
+                    withdraw.validationOptions.rules.withdrawAmount.max = maximumPayment.toTokens();
+                    withdraw.validationOptions.rules.withdrawAmount.min = minimumPayment.toTokens();
+                    withdraw.validationOptions.messages.withdrawAmount.decimal = 'The amount to withdraw must be ' +
+                        'a number with no more than ' + minimumPayment.currency.precision +
+                        ' digits after the decimal point (.)';
+                    withdraw.validationOptions.messages.withdrawAmount.min = 'Withdraw amount is too small. ' +
+                        'It should be greater or equal to ' + minimumPayment.formatAmount();
+                    withdraw.validationOptions.messages.withdrawAmount.max = 'Withdraw amount is too big. ' +
+                        'It should be less or equal to ' + maximumPayment.formatAmount();
 
-            refreshAmounts();
+                    refreshAmounts();
 
-            dialogService.open('#withdraw-asset-dialog');
+                    dialogService.open('#withdraw-asset-dialog');
+                }).catch(function (exception) {
+                    notificationService.error(exception.message);
+                });
         });
 
-        function getAmountForm() {
+        function getAmountForm () {
             // here we have a direct markup dependency
             // but other ways of getting the form from a child scope are even more ugly
             return angular.element('#withdraw-asset-form').scope().withdrawAssetForm;
@@ -139,14 +131,14 @@
 
             $timeout(function () {
                 dialogService.open('#withdraw-address-dialog');
-            });
+            }, 1);
 
             return true;
         }
 
         function confirmWithdraw () {
             try {
-                ensureValidAddress(withdraw.address);
+                ensureValidAddress(withdraw.recipient);
 
                 var amount = Money.fromTokens(withdraw.amount, withdraw.assetBalance.currency);
                 var fee = Money.fromTokens(withdraw.autocomplete.getFeeAmount(), Currency.WAV);
@@ -154,16 +146,32 @@
                 withdraw.confirm.amount.currency = amount.currency.displayName;
                 withdraw.confirm.fee.value = fee.formatAmount(true);
                 withdraw.confirm.fee.currency = fee.currency.displayName;
-                withdraw.confirm.address = withdraw.address;
+                withdraw.confirm.recipient = withdraw.recipient;
 
-                //TODO: init these values in an api call
-                withdraw.confirm.gatewayAddress = 'Lala-Address';
-                //TODO: implement asset transfer transaction
-                $timeout(function () {
-                    dialogService.open('#withdraw-confirmation');
-                });
+                coinomatService.getWithdrawAddress(withdraw.assetBalance.currency, withdraw.recipient)
+                    .then(function (gatewayAddress) {
+                        withdraw.confirm.gatewayAddress = gatewayAddress;
 
-                resetForm();
+                        var assetTransfer = {
+                            recipient: gatewayAddress,
+                            amount: amount,
+                            fee: fee
+                        };
+                        var sender = {
+                            publicKey: applicationContext.account.keyPair.public,
+                            privateKey: applicationContext.account.keyPair.private
+                        };
+                        // creating the transaction and waiting for confirmation
+                        withdraw.broadcast.setTransaction(assetService.createAssetTransferTransaction(assetTransfer,
+                            sender));
+
+                        resetForm();
+
+                        dialogService.open('#withdraw-confirmation');
+                    })
+                    .catch(function (exception) {
+                        notificationService.error(exception.message);
+                    });
 
                 return true;
             }
@@ -200,7 +208,7 @@
 
     WavesWalletWithdrawController.$inject = ['$scope', '$timeout', 'constants.ui', 'wallet.events', 'autocomplete.fees',
         'dialogService', 'coinomatService', 'transactionBroadcast', 'notificationService', 'apiService',
-        'formattingService', 'applicationContext'];
+        'formattingService', 'assetService', 'applicationContext'];
 
     angular
         .module('app.wallet')

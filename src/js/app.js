@@ -45,8 +45,6 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data|file|chrome-extension):/);
     $qProvider.errorOnUnhandledRejections(false);
 
-
-
     $validatorProvider.setDefaults({
         errorClass: 'wInput-error',
         onkeyup: false,
