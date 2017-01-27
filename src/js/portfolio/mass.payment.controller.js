@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var MAXIMUM_FILE_SIZE_BYTES = 512 * 1024;
+    var MAXIMUM_FILE_SIZE_BYTES = 256 * 1024;
     var MAXIMUM_TRANSACTIONS_PER_FILE = 500;
     var FIRST_TRANSACTIONS_COUNT = 10;
     var LOADING_STAGE = 'loading';
