@@ -52,7 +52,12 @@ module.exports = function (grunt) {
                     server: 'https://nodes.wavesnodes.com'
                 },
                 chrome: {
-                    name: 'chrome'
+                    testnet: {
+                        name: 'chrome_testnet'
+                    },
+                    mainnet: {
+                        name: 'chrome'
+                    }
                 },
                 css: {
                     concat: 'distr/<%= pkg.name %>-styles-<%= pkg.version %>.css',
@@ -88,7 +93,7 @@ module.exports = function (grunt) {
 
                 'src/js/vendor/jquery.modal.js',
 
-                'bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.2.0.js'
+                'bower_components/wavesplatform-core-js/distr/wavesplatform-core.js'
             ],
             application: [
                 // project sources
@@ -229,13 +234,25 @@ module.exports = function (grunt) {
                     }
                 }
             },
-            chrome: {
+            chrome_mainnet: {
                 src: ['<%= meta.dependencies %>', '<%= meta.application %>'],
-                dest: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.name %>-<%= pkg.version %>.js',
+                dest: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.mainnet.name %>-<%= pkg.version %>.js',
                 options: {
                     process: function (content, srcPath) {
                         if (srcPath.endsWith('app.js'))
                             return replaceMainnetVersion(content);
+
+                        return content;
+                    }
+                }
+            },
+            chrome_testnet: {
+                src: ['<%= meta.dependencies %>', '<%= meta.application %>'],
+                dest: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-<%= pkg.version %>.js',
+                options: {
+                    process: function (content, srcPath) {
+                        if (srcPath.endsWith('app.js'))
+                            return replaceTestnetVersion(content);
 
                         return content;
                     }
@@ -254,7 +271,8 @@ module.exports = function (grunt) {
                 files: {
                     'distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.js'],
                     'distr/<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-<%= pkg.version %>.js'],
-                    'distr/<%= pkg.name %>-<%= meta.configurations.chrome.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.chrome.name %>-<%= pkg.version %>.js']
+                    'distr/<%= pkg.name %>-<%= meta.configurations.chrome.mainnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.chrome.mainnet.name %>-<%= pkg.version %>.js'],
+                    'distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-<%= pkg.version %>.js']
                 }
             }
         },
@@ -298,19 +316,40 @@ module.exports = function (grunt) {
                     }
                 }
             },
-            chrome: {
+            chrome_mainnet: {
                 files: [
-                    {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.chrome.name %>/css'},
-                    {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.chrome.name %>'},
-                    {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.chrome.name %>'},
-                    {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.chrome.name %>/js'},
-                    {expand: true, dest: 'distr/<%= meta.configurations.chrome.name %>', flatten: true, src: 'src/chrome/*.*'}
+                    {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.chrome.mainnet.name %>/css'},
+                    {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.chrome.mainnet.name %>'},
+                    {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.chrome.mainnet.name %>'},
+                    {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.mainnet.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.chrome.mainnet.name %>/js'},
+                    {expand: true, dest: 'distr/<%= meta.configurations.chrome.mainnet.name %>', flatten: true, src: 'src/chrome/*.*'}
                 ],
                 options: {
                     process: function (content, srcPath) {
                         if (srcPath.endsWith('index.html'))
                             return patchHtml(content,
-                                grunt.template.process('<%= pkg.name %>-<%= meta.configurations.chrome.name %>-<%= pkg.version %>.js'));
+                                grunt.template.process('<%= pkg.name %>-<%= meta.configurations.chrome.mainnet.name %>-<%= pkg.version %>.js'));
+
+                        if (srcPath.endsWith('manifest.json'))
+                            return grunt.template.process(content);
+
+                        return content;
+                    }
+                }
+            },
+            chrome_testnet: {
+                files: [
+                    {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.chrome.testnet.name %>/css'},
+                    {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.chrome.testnet.name %>'},
+                    {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.chrome.testnet.name %>'},
+                    {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.chrome.testnet.name %>/js'},
+                    {expand: true, dest: 'distr/<%= meta.configurations.chrome.testnet.name %>', flatten: true, src: 'src/chrome/*.*'}
+                ],
+                options: {
+                    process: function (content, srcPath) {
+                        if (srcPath.endsWith('index.html'))
+                            return patchHtml(content,
+                                grunt.template.process('<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-<%= pkg.version %>.js'));
 
                         if (srcPath.endsWith('manifest.json'))
                             return grunt.template.process(content);
@@ -333,11 +372,17 @@ module.exports = function (grunt) {
                 },
                 files: [{expand: true, cwd: 'distr/<%= meta.configurations.mainnet.name %>', src: '**/*', dest: '/'}]
             },
-            chrome: {
+            chrome_mainnet: {
                 options: {
-                    archive: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.name %>-v<%= pkg.version %>.zip'
+                    archive: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.mainnet.name %>-v<%= pkg.version %>.zip'
                 },
-                files: [{expand: true, cwd: 'distr/<%= meta.configurations.chrome.name %>', src: '**/*', dest: '/'}]
+                files: [{expand: true, cwd: 'distr/<%= meta.configurations.chrome.mainnet.name %>', src: '**/*', dest: '/'}]
+            },
+            chrome_testnet: {
+                options: {
+                    archive: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-v<%= pkg.version %>.zip'
+                },
+                files: [{expand: true, cwd: 'distr/<%= meta.configurations.chrome.testnet.name %>', src: '**/*', dest: '/'}]
             }
         },
         bump: {
@@ -415,7 +460,7 @@ module.exports = function (grunt) {
                     //required
                     appID: "kfmcaklajknfekomaflnhkjjkcjabogm",
                     //required, we can use dir name and upload most recent zip file
-                    zip: "<%= compress.chrome.options.archive %>"
+                    zip: "<%= compress.chrome_mainnet.options.archive %>"
                 }
             }
         },
