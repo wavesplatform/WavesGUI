@@ -88,7 +88,7 @@ module.exports = function (grunt) {
 
                 'src/js/vendor/jquery.modal.js',
 
-                'bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.2.0.js'
+                'bower_components/wavesplatform-core-js/distr/wavesplatform-core.js'
             ],
             application: [
                 // project sources
@@ -110,6 +110,7 @@ module.exports = function (grunt) {
                 'src/js/shared/transaction.broadcast.factory.js',
                 'src/js/shared/decimal.input.restrictor.directive.js',
                 'src/js/shared/integer.input.restrictor.directive.js',
+                'src/js/shared/transaction.menu.component.js',
 
                 'src/js/login/login.module.js',
                 'src/js/login/login.constants.js',
@@ -475,7 +476,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-bump');
-    grunt.loadNpmTasks('grunt-github-releaser');
+    grunt.loadNpmTasks('waves-grunt-github-releaser');
     grunt.loadNpmTasks('grunt-webstore-upload');
     grunt.loadNpmTasks('grunt-aws');
     grunt.loadNpmTasks('grunt-shell');
