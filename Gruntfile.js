@@ -88,7 +88,7 @@ module.exports = function (grunt) {
 
                 'src/js/vendor/jquery.modal.js',
 
-                'bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.2.0.js'
+                'bower_components/wavesplatform-core-js/distr/wavesplatform-core.js'
             ],
             application: [
                 // project sources
@@ -110,6 +110,7 @@ module.exports = function (grunt) {
                 'src/js/shared/transaction.broadcast.factory.js',
                 'src/js/shared/decimal.input.restrictor.directive.js',
                 'src/js/shared/integer.input.restrictor.directive.js',
+                'src/js/shared/transaction.menu.component.js',
 
                 'src/js/login/login.module.js',
                 'src/js/login/login.constants.js',
