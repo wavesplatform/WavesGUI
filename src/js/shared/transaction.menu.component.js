@@ -52,7 +52,7 @@
             },
             template: '<md-menu>' +
                 '<md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">' +
-                    '<img ng-src="img/slack_icon.svg" height="16" width="16" />' +
+                    '<img ng-src="img/wicon_txmenu.svg" height="16" width="16" />' +
                 '</md-button>' +
                 '<md-menu-content width="2">' +
                     '<md-menu-item>' +
