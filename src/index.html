@@ -710,16 +710,66 @@
                 <!-- / PORTFOLIO TAB -->
 
                 <!-- EXCHANGE TAB -->
-                <div id="mBB-exchange" class="mBB-content" ng-switch-when="exchange">
-                    <div class="phContent">
-                        <h1>DECENTRALIZED EXCHANGE</h1>
-                        <br/>
-                        <p>Waves' features include a decentralized exchange in which users will be able to trade tokens of all kinds. There will be no AML/KYC requirements in order to use this service.
-                            <br/><br/>
-                            The Decentralized Exchange is scheduled for launch in the first quarter of 2017.
-                        </p>
-                        <br/><br/>
-                        <img src="img/tab_dex_prev.svg" />
+                <div id="mBB-exchange" class="mBB-content" ng-switch-when="exchange" ng-controller="exchangeMainController as exchangeMain">
+                    <div ng-if="exchangeMain.page === 'list'" ng-controller="exchangePairListController as pairList">
+                        <h2 class="sectionHeader">DECENTRALIZED EXCHANGE</h2>
+                        <section>
+                            <form id="pair-list-filter-form" name="pairListFilterForm" novalidate>
+                                <table>
+                                    <tr>
+                                        <td><button ng-click="exchangeMain.showNewPairDialog()">Open new pair</button></td>
+                                        <td><input class="wInput form-control" type="text" placeholder="Search" /></td>
+                                        <td><button>Search</button></td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </section>
+                        <section>
+                            <table>
+                                <thead>
+                                    <th>
+                                        <td>Market</td>
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <td></td>
+                                </tbody>
+                            </table>
+                        </section>
+                    </div>
+
+                    <div class="noDisp" ng-controller="exchangePairNewController as newPair">
+                        <div id="exchange-pair-new-dialog" waves-dialog ok-button-caption="OPEN" on-dialog-ok="newPair.showPairMarket()">
+                            <h2 class="sectionHeader">OPEN MARKET PAIR</h2>
+                            <form id="exchange-pair-new-form" name="exchangePairNewForm" novalidate>
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>DESCRIPTION</th>
+                                        <th>INPUT</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>First asset ID</td>
+                                            <td>
+                                                <input class="wInput form-control" type="text" placeholder="Asset ID" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Second asset ID</td>
+                                            <td>
+                                                <input class="wInput form-control" type="text" placeholder="Asset ID" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div ng-if="exchangeMain.page === 'pair'" ng-controller="exchangePairController as pair">
+                        <h2 class="sectionHeader">ASSET EXCHANGE</h2>
                     </div>
                 </div>
                 <!-- / EXCHANGE TAB -->
@@ -1021,6 +1071,12 @@
     <script src="js/portfolio/asset.filter.js"></script>
     <script src="js/portfolio/mass.payment.controller.js"></script>
     <script src="js/portfolio/file.select.directive.js"></script>
+
+    <script src="js/exchange/exchange.module.js"></script>
+    <script src="js/exchange/exchange.main.controller.js"></script>
+    <script src="js/exchange/exchange.pair.list.controller.js"></script>
+    <script src="js/exchange/exchange.pair.new.controller.js"></script>
+    <script src="js/exchange/exchange.pair.controller.js"></script>
 
     <script src="js/style.js"></script>
 

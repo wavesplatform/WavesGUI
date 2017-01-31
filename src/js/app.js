@@ -25,6 +25,7 @@ var app = angular.module('app', [
     'app.tokens',
     'app.history',
     'app.community',
+    'app.exchange',
     'app.portfolio'
 ]).config(AngularApplicationConfig).run(AngularApplicationRun);
 

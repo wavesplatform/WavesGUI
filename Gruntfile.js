@@ -150,6 +150,12 @@ module.exports = function (grunt) {
                 'src/js/portfolio/mass.payment.controller.js',
                 'src/js/portfolio/file.select.directive.js',
 
+                'src/js/exchange/exchange.module.js',
+                'src/js/exchange/exchange.main.controller.js',
+                'src/js/exchange/exchange.pair.list.controller.js',
+                'src/js/exchange/exchange.pair.new.controller.js',
+                'src/js/exchange/exchange.pair.controller.js',
+
                 'src/js/style.js',
 
                 'src/js/app.js'
