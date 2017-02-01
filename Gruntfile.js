@@ -6,7 +6,8 @@ module.exports = function (grunt) {
             .replace(/CLIENT_VERSION\s*:\s*'[^']+'/, grunt.template.process("CLIENT_VERSION: '<%= pkg.version %>a'"))
             .replace(/NODE_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("NODE_ADDRESS: '<%= meta.configurations.testnet.server %>'"))
             .replace(/NETWORK_NAME\s*:\s*'[^']+'/, grunt.template.process("NETWORK_NAME: '<%= meta.configurations.testnet.name %>'"))
-            .replace(/NETWORK_CODE\s*:\s*'[^']+'/, grunt.template.process("NETWORK_CODE: '<%= meta.configurations.testnet.code %>'"));
+            .replace(/NETWORK_CODE\s*:\s*'[^']+'/, grunt.template.process("NETWORK_CODE: '<%= meta.configurations.testnet.code %>'"))
+            .replace(/MATCHER_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("MATCHER_ADDRESS: '<%= meta.configurations.testnet.matcher %>'"));
     };
 
     var replaceMainnetVersion = function (content) {
@@ -14,7 +15,8 @@ module.exports = function (grunt) {
             .replace(/CLIENT_VERSION\s*:\s*'[^']+'/, grunt.template.process("CLIENT_VERSION: '<%= pkg.version %>a'"))
             .replace(/NODE_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("NODE_ADDRESS: '<%= meta.configurations.mainnet.server %>'"))
             .replace(/NETWORK_NAME\s*:\s*'[^']+'/, grunt.template.process("NETWORK_NAME: '<%= meta.configurations.mainnet.name %>'"))
-            .replace(/NETWORK_CODE\s*:\s*'[^']+'/, grunt.template.process("NETWORK_CODE: '<%= meta.configurations.mainnet.code %>'"));
+            .replace(/NETWORK_CODE\s*:\s*'[^']+'/, grunt.template.process("NETWORK_CODE: '<%= meta.configurations.mainnet.code %>'"))
+            .replace(/MATCHER_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("MATCHER_ADDRESS: '<%= meta.configurations.mainnet.matcher %>'"));
     };
 
     var patchHtml = function (content, fileName) {
@@ -44,12 +46,14 @@ module.exports = function (grunt) {
                 testnet: {
                     name: 'testnet',
                     code: 'T',
-                    server: 'http://52.30.47.67:6869'
+                    server: 'http://52.30.47.67:6869',
+                    matcher: 'http://52.28.66.217:6886'
                 },
                 mainnet: {
                     name: 'mainnet',
                     code: 'W',
-                    server: 'https://nodes.wavesnodes.com'
+                    server: 'https://nodes.wavesnodes.com',
+                    matcher: 'http://52.28.66.217:6886' //TODO: replace this with mainnet matcher address
                 },
                 chrome: {
                     name: 'chrome'
@@ -94,6 +98,7 @@ module.exports = function (grunt) {
                 // project sources
                 'src/js/ui.module.js',
                 'src/js/application.context.factory.js',
+                'src/js/matcher.restangular.factory.js',
                 'src/js/home.controller.js',
                 'src/js/splash.controller.js',
 
