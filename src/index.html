@@ -717,9 +717,11 @@
                             <form id="pair-list-filter-form" name="pairListFilterForm" novalidate>
                                 <table>
                                     <tr>
-                                        <td><button ng-click="exchangeMain.showNewPairDialog()">Open new pair</button></td>
-                                        <td><input class="wInput form-control" type="text" placeholder="Search" /></td>
-                                        <td><button>Search</button></td>
+                                        <td><md-button ng-click="exchangeMain.showNewPairDialog()">Open a new market</md-button></td>
+                                        <td><input class="wInput form-control" type="text" placeholder="Search" ng-model="pairList.search" ng-model-options="{ debounce: 500 }" /></td>
+                                        <td>
+                                            <md-button aria-label="Clear" ng-click="pairList.clearSearch()">Clear</md-button>
+                                        </td>
                                     </tr>
                                 </table>
                             </form>
@@ -729,10 +731,17 @@
                                 <thead>
                                     <th>
                                         <td>Market</td>
+                                        <td>Date added</td>
                                     </th>
                                 </thead>
                                 <tbody>
-                                    <td></td>
+                                    <tr ng-show="pairList.noData">
+                                        <td colspan="2">There are no markets created. You can open a new one</td>
+                                    </tr>
+                                    <tr ng-show="!pairList.noData" ng-repeat="p in pairList.pairs | filter:pairList.searchPredicate track by p.id">
+                                        <td><a href="#" ng-click="exchangeMain.show">{{p.first.name}}/{{p.second.name}}</a></td>
+                                        <td>{{p.created | formatting}}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </section>
@@ -753,13 +762,13 @@
                                         <tr>
                                             <td>First asset ID</td>
                                             <td>
-                                                <input class="wInput form-control" type="text" placeholder="Asset ID" />
+                                                <input class="wInput form-control" type="text" placeholder="Asset ID" ng-model="newPair.firstAssetId" />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Second asset ID</td>
                                             <td>
-                                                <input class="wInput form-control" type="text" placeholder="Asset ID" />
+                                                <input class="wInput form-control" type="text" placeholder="Asset ID" ng-model="newPair.secondAssetId" />
                                             </td>
                                         </tr>
                                     </tbody>

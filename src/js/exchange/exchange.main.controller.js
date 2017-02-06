@@ -16,7 +16,12 @@
             exchangeMain.page = LIST_PAGE_NAME;
         }
 
-        function showPairPage () {
+        function showPairPage (firstAssetId, secondAssetId) {
+            /*$scope.$broadcast(events.EXCHANGE_SHOW_PAIR_MARKET, {
+                firstAssetId: firstAssetId,
+                secondAssetId: secondAssetId
+            });*/
+
             exchangeMain.page = PAIR_PAGE_NAME;
         }
 
@@ -25,8 +30,7 @@
         }
 
         $scope.$on(events.EXCHANGE_SHOW_PAIR_MARKET, function (event, eventData) {
-            //TODO: pass asset pair as a parameter
-            exchangeMain.showPairPage();
+            exchangeMain.showPairPage(eventData.firstAssetId, eventData.secondAssetId);
         });
     }
 
