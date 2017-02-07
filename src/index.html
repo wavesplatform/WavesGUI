@@ -396,7 +396,6 @@
                     </div>
                     <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
                     <div id="wallet-transaction-history" class="wavesTable wScroll">
-
                         <table class="wavesTable-hover">
                             <thead>
                             <tr>
@@ -407,6 +406,7 @@
                                 <td>RECIPIENT</td>
                                 <td>FEE</td>
                                 <td>UNITS</td>
+                                <td></td>
                             </tr>
                             </thead>
                             <tbody id="walletTransactionhistory">
@@ -414,12 +414,13 @@
                                     <td>{{tx.formatted.datetime}}</td>
                                     <td>{{tx.formatted.type}}</td>
                                     <td>{{tx.formatted.asset}}</td>
-                                    <td ng-if="!tx.formatted.isSenderCopiable">{{tx.formatted.sender}}</td>
-                                    <td ng-if="tx.formatted.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.sender}}</span></td>
-                                    <td ng-if="!tx.formatted.isRecipientCopiable">{{tx.formatted.recipient}}</td>
-                                    <td ng-if="tx.formatted.isRecipientCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.recipient}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.recipient}}</span></td>
+                                    <td>{{tx.formatted.sender}}</td>
+                                    <td>{{tx.formatted.recipient}}</td>
                                     <td>{{tx.formatted.fee}}</td>
                                     <td>{{tx.formatted.amount}}</td>
+                                    <td width="16">
+                                        <tx-menu transaction="tx"></tx-menu>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -447,8 +448,7 @@
                                 </tr>
                                 <tr ng-show="!assetList.noData" ng-repeat="tx in assetList.assets | orderBy:'timestamp':true | asset track by tx.id">
                                     <td>{{tx.name}}</td>
-                                    <td ng-if="!tx.formatted.isSenderCopiable">{{tx.formatted.sender}}</td>
-                                    <td ng-if="tx.formatted.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.sender}}</span></td>
+                                    <td>{{tx.formatted.sender}}</td>
                                     <td>{{tx.reissuable}}</td>
                                     <td>{{tx.balance}}</td>
                                     <td>
@@ -660,8 +660,12 @@
                                             </tbody>
                                         </table>
                                         <br/>
+                                        <ng-if ng-if="mass.loadingInProgress">
+                                            <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+                                            <br/>
+                                        </ng-if>
                                         <div class="button-row">
-                                            <button class="wButton wButton-neg" ng-click="mass.processInputFile(massPaymentFilesForm)">LOAD</button>
+                                            <button class="wButton wButton-neg" ng-disabled="mass.loadingInProgress" ng-click="mass.processInputFile(massPaymentFilesForm)">LOAD</button>
                                         </div>
                                     </form>
                                     <div class="massPayRecap wScroll" ng-switch-when="processing">
@@ -751,6 +755,7 @@
                                 <td>RECIPIENT</td>
                                 <td>FEE</td>
                                 <td>UNITS</td>
+                                <td></td>
                             </tr>
                             </thead>
                             <tbody>
@@ -758,12 +763,13 @@
                                     <td>{{tx.formatted.datetime}}</td>
                                     <td>{{tx.formatted.type}}</td>
                                     <td>{{tx.formatted.asset}}</td>
-                                    <td ng-if="!tx.formatted.isSenderCopiable">{{tx.formatted.sender}}</td>
-                                    <td ng-if="tx.formatted.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.sender}}</span></td>
-                                    <td ng-if="!tx.formatted.isRecipientCopiable">{{tx.formatted.recipient}}</td>
-                                    <td ng-if="tx.formatted.isRecipientCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.recipient}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.recipient}}</span></td>
+                                    <td>{{tx.formatted.sender}}</td>
+                                    <td>{{tx.formatted.recipient}}</td>
                                     <td>{{tx.formatted.fee}}</td>
                                     <td>{{tx.formatted.amount}}</td>
+                                    <td width="16">
+                                        <tx-menu transaction="tx"></tx-menu>
+                                    </td>
                                 </tr>
                             </tbody>
                             <tbody>
@@ -771,12 +777,13 @@
                                     <td>{{tx.formatted.datetime}}</td>
                                     <td>{{tx.formatted.type}}</td>
                                     <td>{{tx.formatted.asset}}</td>
-                                    <td ng-if="!tx.formatted.isSenderCopiable">{{tx.formatted.sender}}</td>
-                                    <td ng-if="tx.formatted.isSenderCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.sender}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.sender}}</span></td>
-                                    <td ng-if="!tx.formatted.isRecipientCopiable">{{tx.formatted.recipient}}</td>
-                                    <td ng-if="tx.formatted.isRecipientCopiable"><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{tx.formatted.recipient}}" title="Copy this address to the clipboard." ngclipboard-success="clipboardOk()">{{tx.formatted.recipient}}</span></td>
+                                    <td>{{tx.formatted.sender}}</td>
+                                    <td>{{tx.formatted.recipient}}</td>
                                     <td>{{tx.formatted.fee}}</td>
                                     <td>{{tx.formatted.amount}}</td>
+                                    <td width="16">
+                                        <tx-menu transaction="tx"></tx-menu>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -957,7 +964,7 @@
     <script src="js/vendor/jquery.modal.js"></script>
 
     <!-- application modules -->
-    <script src="../bower_components/wavesplatform-core-js/distr/wavesplatform-core-js-0.2.0.js"></script>
+    <script src="../bower_components/wavesplatform-core-js/distr/wavesplatform-core.js"></script>
 
     <script src="js/ui.module.js"></script>
     <script src="js/application.context.factory.js"></script>
@@ -977,6 +984,7 @@
     <script src="js/shared/shared.autocomplete.factory.js"></script>
     <script src="js/shared/decimal.input.restrictor.directive.js"></script>
     <script src="js/shared/integer.input.restrictor.directive.js"></script>
+    <script src="js/shared/transaction.menu.component.js"></script>
 
     <script src="js/login/login.module.js"></script>
     <script src="js/login/login.constants.js"></script>

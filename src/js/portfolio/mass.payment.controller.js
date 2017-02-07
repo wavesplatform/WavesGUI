@@ -32,6 +32,7 @@
         mass.inputPayments = [];
         mass.autocomplete = autocomplete;
         mass.stage = LOADING_STAGE;
+        mass.loadingInProgress = false;
         mass.broadcast = new transactionBroadcast.instance(apiService.assets.massPay,
             function (transaction, response) {
                 var displayMessage = 'Sent ' + mass.summary.totalAmount.formatAmount(true) + ' of ' +
@@ -150,24 +151,7 @@
             return $window.JSON.parse(content);
         }
 
-        function processInputFile(form) {
-            if (!form.validate(mass.validationOptions)) {
-                return;
-            }
-
-            if (!mass.inputPayments || mass.inputPayments.length === 0) {
-                notificationService.error('Payments were not provided or failed to parse. Nothing to load');
-
-                return;
-            }
-
-            if (mass.inputPayments.length > MAXIMUM_TRANSACTIONS_PER_FILE) {
-                notificationService.error('Too many payments for a single file. Maximum payments count ' +
-                    'in a file should not exceed ' + MAXIMUM_TRANSACTIONS_PER_FILE);
-
-                return;
-            }
-
+        function loadTransactionsFromFile() {
             var sender = {
                 publicKey: applicationContext.account.keyPair.public,
                 privateKey: applicationContext.account.keyPair.private
@@ -230,6 +214,31 @@
                     throw e;
                 }
             }
+
+            mass.loadingInProgress = false;
+        }
+
+        function processInputFile(form) {
+            if (!form.validate(mass.validationOptions)) {
+                return;
+            }
+
+            if (!mass.inputPayments || mass.inputPayments.length === 0) {
+                notificationService.error('Payments were not provided or failed to parse. Nothing to load');
+
+                return;
+            }
+
+            if (mass.inputPayments.length > MAXIMUM_TRANSACTIONS_PER_FILE) {
+                notificationService.error('Too many payments for a single file. Maximum payments count ' +
+                    'in a file should not exceed ' + MAXIMUM_TRANSACTIONS_PER_FILE);
+
+                return;
+            }
+
+            mass.loadingInProgress = true;
+            // loading transactions asynchronously
+            $timeout(loadTransactionsFromFile, 150);
         }
 
         function submitPayment() {

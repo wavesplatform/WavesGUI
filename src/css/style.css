@@ -1546,6 +1546,15 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
     justify-content: center;
 }
 
+/* linear progress bar styling */
+md-progress-linear .md-container {
+    background-color: #F0F0F0;
+}
+
+md-progress-linear .md-bar {
+    background-color: #37556E;
+}
+
 
 /* ======================================================================= */
 

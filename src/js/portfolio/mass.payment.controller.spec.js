@@ -190,6 +190,7 @@ describe('Mass.Payment.Controller', function() {
         spyOn(controller.broadcast, 'setTransaction');
 
         controller.processInputFile(formMock);
+        timeout.flush();
 
         expect(controller.broadcast.setTransaction).not.toHaveBeenCalled();
         expect(controller.invalidPayment).toBe(true);
@@ -214,6 +215,7 @@ describe('Mass.Payment.Controller', function() {
         spyOn(controller.broadcast, 'setTransaction');
 
         controller.processInputFile(formMock);
+        timeout.flush();
 
         expect(controller.broadcast.setTransaction).not.toHaveBeenCalled();
         expect(controller.invalidPayment).toBe(true);
@@ -238,6 +240,7 @@ describe('Mass.Payment.Controller', function() {
         spyOn(controller.broadcast, 'setTransaction');
 
         controller.processInputFile(formMock);
+        timeout.flush();
 
         expect(controller.broadcast.setTransaction).toHaveBeenCalled();
         expect(controller.invalidPayment).toBeFalsy();
@@ -266,6 +269,8 @@ describe('Mass.Payment.Controller', function() {
         ];
 
         controller.processInputFile(formMock);
+        timeout.flush();
+
         expect(controller.submitPayment()).toBe(false);
         expect(controller.sendingWaves).toBeFalsy();
         expect(notificationService.error).toHaveBeenCalled();
@@ -291,6 +296,8 @@ describe('Mass.Payment.Controller', function() {
         ];
 
         controller.processInputFile(formMock);
+        timeout.flush();
+
         expect(controller.submitPayment()).toBe(false);
 
         expect(controller.sendingWaves).toBe(true);
@@ -316,6 +323,8 @@ describe('Mass.Payment.Controller', function() {
         ];
 
         controller.processInputFile(formMock);
+        timeout.flush();
+
         expect(controller.submitPayment()).toBe(false);
 
         expect(controller.sendingWaves).toBe(false);
@@ -342,8 +351,9 @@ describe('Mass.Payment.Controller', function() {
         ];
 
         controller.processInputFile(formMock);
-        expect(controller.submitPayment()).toBe(true);
+        timeout.flush();
 
+        expect(controller.submitPayment()).toBe(true);
         timeout.flush();
 
         expect(controller.confirm.amount.value).toEqual('999');
