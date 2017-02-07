@@ -28,7 +28,7 @@ var app = angular.module('app', [
     'app.portfolio'
 ]).config(AngularApplicationConfig).run(AngularApplicationRun);
 
-function AngularApplicationConfig($provide, $compileProvider, $validatorProvider, $qProvider,
+function AngularApplicationConfig($provide, $compileProvider, $validatorProvider, $qProvider, $mdAriaProvider,
                                   networkConstants, applicationSettings) {
     $provide.constant(networkConstants,
         angular.extend(networkConstants, {
@@ -43,6 +43,9 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
 
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data|file|chrome-extension):/);
     $qProvider.errorOnUnhandledRejections(false);
+
+    // Globally disables all ARIA warnings.
+    $mdAriaProvider.disableWarnings();
 
     $validatorProvider.setDefaults({
         errorClass: 'wInput-error',
@@ -107,7 +110,7 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
 }
 
 AngularApplicationConfig.$inject = ['$provide', '$compileProvider', '$validatorProvider', '$qProvider',
-    'constants.network', 'constants.application'];
+    '$mdAriaProvider', 'constants.network', 'constants.application'];
 
 function AngularApplicationRun(rest, applicationConstants, notificationService, addressService) {
     // restangular configuration

@@ -21,8 +21,6 @@
                 canReissue: transaction.reissuable && isMyAddress(transaction.sender)
             };
 
-            transaction.formatted.isSenderCopiable = addressService.validateAddress(transaction.formatted.sender);
-
             return transaction;
         }
 

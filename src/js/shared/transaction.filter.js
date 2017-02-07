@@ -115,9 +115,6 @@
 
             processTransaction(transaction);
 
-            transaction.formatted.isSenderCopiable = addressService.validateAddress(transaction.formatted.sender);
-            transaction.formatted.isRecipientCopiable = addressService.validateAddress(transaction.formatted.recipient);
-
             return transaction;
         }
 
