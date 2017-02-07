@@ -660,8 +660,12 @@
                                             </tbody>
                                         </table>
                                         <br/>
+                                        <ng-if ng-if="mass.loadingInProgress">
+                                            <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+                                            <br/>
+                                        </ng-if>
                                         <div class="button-row">
-                                            <button class="wButton wButton-neg" ng-click="mass.processInputFile(massPaymentFilesForm)">LOAD</button>
+                                            <button class="wButton wButton-neg" ng-disabled="mass.loadingInProgress" ng-click="mass.processInputFile(massPaymentFilesForm)">LOAD</button>
                                         </div>
                                     </form>
                                     <div class="massPayRecap wScroll" ng-switch-when="processing">
