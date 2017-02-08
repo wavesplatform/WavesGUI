@@ -26,6 +26,9 @@
                     required: true,
                     decimal: Currency.WAV.precision,
                     min: minimumFee.toTokens()
+                },
+                sendAttachment: {
+                    maxbytelength: constants.MAXIMUM_ATTACHMENT_BYTE_SIZE
                 }
             },
             messages: {
@@ -41,6 +44,9 @@
                         minimumFee.currency.precision + ' digits after the decimal point (.)',
                     min: 'Transaction fee is too small. It should be greater or equal to ' +
                         minimumFee.formatAmount(true)
+                },
+                sendAttachment: {
+                    maxbytelength: 'Attachment is too long'
                 }
             }
         };
