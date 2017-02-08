@@ -125,6 +125,10 @@
                 amount: amount,
                 fee: transferFee
             };
+
+            if (send.attachment)
+                assetTransfer.attachment = converters.stringToByteArray(send.attachment);
+
             var sender = {
                 publicKey: applicationContext.account.keyPair.public,
                 privateKey: applicationContext.account.keyPair.private
