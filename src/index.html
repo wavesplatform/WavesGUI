@@ -343,6 +343,14 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>Attachment</td>
+                                        <td>
+                                            <div class="form-field">
+                                                <textarea rows="2" class="wInput form-control" name="sendAttachment" ng-model="send.attachment"></textarea>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>Fee</td>
                                         <td>
                                             <md-autocomplete md-input-name="sendFee" md-selected-item="send.autocomplete.selectedFee" md-search-text="send.autocomplete.searchText"
@@ -532,6 +540,14 @@
                                                 <td>
                                                     <div class="form-field">
                                                         <input class="wInput form-control" name="assetAmount" type="text" placeholder="Amount" ng-model="transfer.amount" decimal-input-restrictor />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Attachment</td>
+                                                <td>
+                                                    <div class="form-field">
+                                                        <textarea rows="2" class="wInput form-control" name="assetAttachment" ng-model="transfer.attachment"></textarea>
                                                     </div>
                                                 </td>
                                             </tr>

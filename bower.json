@@ -19,7 +19,7 @@
     "curve25519-js": "https://github.com/wavesplatform/curve25519-js.git",
     "js-sha3": "^0.5.2",
     "nprogress": "^0.2.0",
-    "wavesplatform-core-js": "https://github.com/beregovoy68/wavesplatform.core.js.git",
+    "wavesplatform-core-js": "https://github.com/beregovoy68/wavesplatform.core.js.git#master",
     "ngclipboard": "https://github.com/beregovoy68/ngclipboard.git#1.1.3",
     "growl": "^1.3.2",
     "waves-angular-validate": "https://github.com/beregovoy68/angular-validate.git#master",

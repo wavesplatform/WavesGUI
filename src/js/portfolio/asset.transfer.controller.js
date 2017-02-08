@@ -47,6 +47,9 @@
                     required: true,
                     decimal: Currency.WAV.precision,
                     min: minimumFee.toTokens()
+                },
+                assetAttachment: {
+                    maxbytelength: constants.MAXIMUM_ATTACHMENT_BYTE_SIZE
                 }
             },
             messages: {
@@ -62,6 +65,9 @@
                         minimumFee.currency.precision + ' digits after the decimal point (.)',
                     min: 'Transaction fee is too small. It should be greater or equal to ' +
                         minimumFee.formatAmount(true)
+                },
+                maxbytelength: {
+                    maxbytelength: 'Attachment is too long'
                 }
             }
         };
@@ -127,6 +133,11 @@
                 amount: transferAmount,
                 fee: transferFee
             };
+
+            if (transfer.attachment) {
+                assetTransfer.attachment = converters.stringToByteArray(transfer.attachment);
+            }
+
             var sender = {
                 publicKey: applicationContext.account.keyPair.public,
                 privateKey: applicationContext.account.keyPair.private
