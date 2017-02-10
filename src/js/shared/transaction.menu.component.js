@@ -30,6 +30,9 @@
 
         function fullTransactionData () {
             var recipient = hasRecipient() ? ctrl.transaction.recipient : ADDRESS_STUB;
+            var attachment = '';
+            if (ctrl.transaction.attachment)
+                attachment = ' | ATTACHMENT: ' + ctrl.transaction.attachment;
 
             return 'TX ID: ' + ctrl.transaction.id +
                 ' | TYPE: ' + ctrl.transaction.formatted.type +
@@ -37,7 +40,8 @@
                 ' | SENDER ADDRESS: ' + ctrl.transaction.sender +
                 ' | TX AMOUNT: ' + ctrl.transaction.formatted.amount + ' ' + ctrl.transaction.formatted.asset +
                 ' | RECIPIENT ADDRESS: ' + recipient +
-                ' | TX FEE: ' + ctrl.transaction.formatted.fee;
+                ' | TX FEE: ' + ctrl.transaction.formatted.fee +
+                attachment;
         }
     }
 
