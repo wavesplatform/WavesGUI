@@ -62,13 +62,13 @@
                     <div id="accounts">
                         <h2 id="AccHeader">{{accounts.caption}}</h2>
                         <div class="wavesAccounts" ng-controller="accountListController as list" ng-show="accounts.mode === 'list'">
-                            <p class="loginAccountDiv" ng-repeat="account in list.accounts track by account.address">
+                            <p class="loginAccountDiv" ng-repeat="account in list.accounts track by $index">
                                     <span class="loginAccount fade" tooltipster tooltip-theme="tooltipster-theme1" title="Log into this account." ng-click="list.signIn(account)"> <br/>
                                         <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::account.address}}</small>
                                     </span>
                                 <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard title="Copy this address to the clipboard." data-clipboard-text="{{::account.address}}" ngclipboard-success="clipboardOk()"></span>
                                 <span class="divider-1"></span>
-                                <button class="removeAccount wButtonAlt fade" tooltipster tooltip-theme="tooltipster-theme1" title="Remove this account from the list." ng-click="list.showRemoveWarning(account)">
+                                <button class="removeAccount wButtonAlt fade" tooltipster tooltip-theme="tooltipster-theme1" title="Remove this account from the list." ng-click="list.showRemoveWarning($index)">
                                     <span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE
                                 </button>
                             </p>
@@ -80,7 +80,7 @@
 
                             <!-- Remove Account popup -->
                             <div id="account-remove-popup" waves-dialog on-dialog-ok="list.removeAccount()" is-error="true" ok-button-caption="REMOVE">
-                                <h2 class="sectionHeader">REMOVE ACCOUNT <span id="removeAccountSpan"></span> - NOTICE</h2>
+                                <h2 class="sectionHeader">REMOVE ACCOUNT - NOTICE</h2>
                                 <p class="dialog-text">This feature completely removes the account from this device.</p>
                                 <p class="dialog-text">The account will not be eliminated or destroyed, but instead will not be shown anymore in the Accounts List at the client startup.</p>
                                 <p class="dialog-text">You can always re-generate your account on this device again using the Import Account feature and entering the SEED when prompted.</p>
