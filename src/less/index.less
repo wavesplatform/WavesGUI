@@ -1,6 +1,5 @@
-/* THE "style.css" FILE IS GENERATED AUTOMATICALLY!     */
-/* DO NOT WRITE ANYTHING HERE!!!                        */
-/* TODO : THIS MESSAGE MUST BE ADDED DURING THE BUILD   */
+@import "warning-comment";
+
 /* GENERAL NOTES
 Waves' palette: #0096DC                             Waves' blue *
                 #5AC8D2                             Turquoise (highlights) *
@@ -17,26 +16,39 @@ Waves' palette: #0096DC                             Waves' blue *
 
 * Not currently used.
 */
+
+
 /* ======================================================================= */
+
+
 /* FONT-FACE DEFINITIONS */
+
 @font-face {
   font-family: 'Wesli';
   src: url('../css/fonts/wesli.eot?') format('eot'), url('../css/fonts/wesli.woff') format('woff'), url('../css/fonts/wesli.ttf') format('truetype');
 }
+
 @font-face {
   font-family: 'Engo';
   src: url('../css/fonts/engo.eot?') format('eot'), url('../css/fonts/engo.woff') format('woff'), url('../css/fonts/engo.ttf') format('truetype');
 }
+
 @font-face {
   font-family: 'Sparta';
   src: url('../css/fonts/sparta.eot?') format('eot'), url('../css/fonts/sparta.woff') format('woff'), url('../css/fonts/sparta.ttf') format('truetype');
 }
+
 @font-face {
   font-family: 'Lekton';
   src: url('../css/fonts/lekton.eot?') format('eot'), url('../css/fonts/lekton.woff') format('woff'), url('../css/fonts/lekton.ttf') format('truetype');
 }
+
+
 /* ======================================================================= */
+
+
 /* GLOBAL SETTINGS AND CLASSES */
+
 *,
 *::after,
 *::before {
@@ -44,6 +56,7 @@ Waves' palette: #0096DC                             Waves' blue *
   margin: 0;
   padding: 0;
 }
+
 body {
   font-family: "Wesli";
   color: #333333;
@@ -51,14 +64,17 @@ body {
   overflow: hidden;
   -webkit-font-smoothing: antialiased !important;
 }
+
 .fade {
   transition: all .4s ease;
   -webkit-transition: all .4s ease;
 }
+
 .fFade {
   transition: all .2s ease;
   -webkit-transition: all .2s ease;
 }
+
 .centerIt {
   margin: 0;
   position: absolute;
@@ -68,6 +84,7 @@ body {
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+
 .noSelect {
   -webkit-user-select: none;
   /* Chrome/Safari */
@@ -79,14 +96,17 @@ body {
   -o-user-select: none;
   user-select: none;
 }
+
 .noDisp {
   display: none;
 }
+
 .clearfix:after {
   content: "";
   display: block;
   clear: both;
 }
+
 .infoSpan:after {
   content: "";
   position: absolute;
@@ -98,6 +118,7 @@ body {
   margin: 0;
   margin-left: .3rem;
 }
+
 .clipSpan:after {
   content: "";
   position: absolute;
@@ -109,29 +130,35 @@ body {
   margin: 0;
   margin-left: .3rem;
 }
+
 .clipSpan:hover:after,
 .infoSpan:hover:after {
   cursor: pointer;
 }
+
 .divider-1,
 .divider-2 {
   display: inline-block;
   width: 1rem;
 }
+
 #walletSeed,
 #seedBackup {
   padding: .25rem;
 }
+
 .notice-alert {
   color: red;
 }
+
 .fontBold {
   /*    font-weight: 600;*/
   font-family: 'Sparta';
   font-size: .9rem;
-  color: #323232;
+  color: rgb(50, 50, 50);
   color: #333333;
 }
+
 .sectionHeader {
   background-color: #ffffff;
   border: 0px solid #F0F0F0;
@@ -143,22 +170,32 @@ body {
   font-weight: 200;
   margin: 0 auto;
 }
+
+
 /* Custom Scrollbar */
+
 .wScroll::-webkit-scrollbar-track,
 .wScroll::-webkit-scrollbar-track:horizontal {
   background-color: #fff;
 }
+
 .wScroll::-webkit-scrollbar,
 .wScroll::-webkit-scrollbar:horizontal {
   width: 5px;
   background-color: #fff;
 }
+
 .wScroll::-webkit-scrollbar-thumb,
 .wScroll::-webkit-scrollbar-thumb:horizontal {
   background-color: #E6E6E6;
 }
+
+
 /* ======================================================================= */
+
+
 /* PLACEHOLDER CONTENT SETTINGS */
+
 .phContent {
   margin: 0 auto;
   text-align: center;
@@ -167,6 +204,7 @@ body {
   padding-bottom: 2rem;
   max-width: 80%;
 }
+
 .phContent h1 {
   border: 0px solid #F0F0F0;
   text-align: center;
@@ -175,19 +213,23 @@ body {
   letter-spacing: .2rem;
   font-weight: 200;
 }
+
 .phContent p {
   font-size: 1.2rem;
   color: #333333;
 }
+
 .phContent > img {
   margin: 0 auto;
   width: 50%;
 }
+
 @media only screen and (max-width: 1024px) {
   .phContent > img {
     width: 75%;
   }
 }
+
 @media only screen and (max-width: 728px) {
   .phContent > img {
     width: 90%;
@@ -196,6 +238,7 @@ body {
     max-width: 90%;
   }
 }
+
 @media only screen and (max-width: 620px) {
   .phContent > img {
     width: 96%;
@@ -206,10 +249,12 @@ body {
     margin-bottom: 2rem;
   }
 }
+
 .modal-media {
   margin: 0 auto;
   text-align: center;
 }
+
 .modal-media-img {
   width: 2rem;
   margin-left: .5rem;
@@ -217,18 +262,26 @@ body {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+
 .modal-media-img {
   opacity: .5;
 }
+
 .modal-media-img:hover {
   opacity: 1;
   cursor: pointer;
 }
+
 #feat-not-active {
   max-width: 500px;
 }
+
+
 /* ======================================================================= */
+
+
 /* MAIN WRAPPER SETTINGS */
+
 #wrapper {
   width: 100%;
   max-width: 1920px;
@@ -239,8 +292,13 @@ body {
   margin: 0 auto;
   overflow: hidden;
 }
+
+
 /* ======================================================================= */
+
+
 /* LOCKSCREEN SETTINGS */
+
 @-webkit-keyframes wFlip {
   0% {
     -webkit-transform: rotateY(0deg);
@@ -251,6 +309,7 @@ body {
     transform: rotateY(180deg);
   }
 }
+
 @keyframes wFlip {
   0% {
     -webkit-transform: rotateY(0deg);
@@ -261,6 +320,7 @@ body {
     transform: rotateY(180deg);
   }
 }
+
 #bg-spin {
   position: fixed;
   width: 100%;
@@ -268,15 +328,18 @@ body {
   background: #37556E;
   z-index: 1;
 }
+
 #logoo {
   width: 150px;
   height: 150px;
   text-align: center;
 }
+
 #logo-spin {
   -webkit-animation: wFlip 1.2s ease-in infinite;
   animation: wFlip 1.2s ease-in infinite;
 }
+
 #networkCheck {
   width: 100%;
   color: #ffffff;
@@ -285,6 +348,7 @@ body {
   font-size: 1.25rem;
   margin-top: 1rem;
 }
+
 #lockscreen {
   position: fixed;
   top: 0;
@@ -295,15 +359,17 @@ body {
   padding: 8rem;
   overflow-y: scroll;
 }
+
 .userBG {
-  background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/lockbg005b.jpg");
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/lockbg005b.jpg");
+  background-image: -webkit-linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/lockbg005b.jpg");
+  background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/lockbg005b.jpg");
   min-height: 100%;
   background-size: cover;
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: center center;
 }
+
 #lockscreenTable {
   width: auto;
   margin: 0 auto;
@@ -314,16 +380,19 @@ body {
   cursor: default;
   overflow-y: scroll;
 }
+
 #logoNversion {
   position: relative;
   width: 12rem;
   margin: 0 auto;
   margin-bottom: 1rem;
 }
+
 #logoNversion > img {
   width: 12rem;
   margin-bottom: 1rem;
 }
+
 #logoNversion > p {
   position: absolute;
   bottom: 0;
@@ -331,23 +400,32 @@ body {
   font-size: .85rem;
   font-style: italic;
 }
+
 .testnet {
   color: #E1B47D !important;
 }
+
+
 /* REMOVE ACCOUNT CONFIRMATION POPUP */
+
 #account-remove-popup {
   max-width: 500px;
   padding-bottom: 2rem;
 }
+
 #account-remove-popup p {
   text-align: justify;
   padding-left: 2rem;
   padding-right: 2rem;
 }
+
+
 /* END OF REMOVE ACCOUNT CONFIRMATION POPUP */
+
 #AccHeader {
   margin-bottom: 1rem;
 }
+
 #accounts h2,
 #register h2 {
   font-size: 1.5rem;
@@ -355,37 +433,47 @@ body {
   color: #323232;
   background: #ffffff;
   /* Fallback */
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, .9);
   padding: .5rem;
 }
+
 .loginAccountDiv {
   font-size: 1.25rem;
   height: 55px;
 }
+
 .loginAccountDiv > span {
   opacity: .5;
   outline: none;
 }
+
 .loginAccountDiv > span:hover {
   cursor: pointer;
   opacity: 1;
 }
+
 .loginAccountDiv .clipSpan {
   color: red;
 }
+
 #loginPassword {
   margin-top: .5rem;
   margin-bottom: 1rem;
 }
+
 .loginAccountDiv > .wButton:hover {
   border: none;
   opacity: 1;
 }
+
 #readonlySeed {
   text-align: center;
   resize: none;
 }
+
+
 /* NEW ACCOUNT CONFIRMATION POPUP */
+
 #login-wPop-new {
   background: #ffffff;
   color: #555555;
@@ -393,61 +481,80 @@ body {
   text-align: center;
   max-width: 550px;
 }
+
 #login-wPop-new p {
   text-align: justify;
 }
+
+
 /* SEED WHITESPACE CONFIRMATION POPUP */
+
 #seed-whitespace-popup {
   max-width: 550px;
 }
+
 #seed-whitespace-popup p {
   text-align: justify;
 }
+
 #register > form {
   margin: 0 auto;
   padding-top: .75rem;
 }
+
 #walletSeed {
   /*    width: 300px;*/
   margin-top: .5rem;
   min-width: 320px;
   resize: none;
 }
+
 #walletName {
   /*    width: 300px;*/
   margin-top: .5rem;
 }
+
 .wavesAccounts {
   padding: 0px;
   margin: 0px;
   margin-top: none;
 }
+
 .wavesAccounts > p {
   /* Temporary fix - Check if this problem
   comes from Angular ng template side */
   margin-top: -35px;
   padding-top: 0px;
 }
+
 #import_account {
   margin-top: .5rem;
 }
+
 #errorPasswordLogin {
   margin: 1rem;
   padding: 1rem;
   color: red;
 }
+
 .loginAccountDiv {
   display: block;
   height: inherit;
 }
+
+
 /* ======================================================================= */
+
+
 /* HEADER SETTINGS */
+
 header,
 #tabs,
 #mBLeftBar,
 #mBBody {
   padding: 10px;
 }
+
 header {
   position: relative;
   width: 100%;
@@ -455,6 +562,7 @@ header {
   background: #37556E;
   z-index: 101;
 }
+
 #topLogoH {
   display: none;
   position: absolute;
@@ -463,6 +571,7 @@ header {
   width: 12rem;
   z-index: 99;
 }
+
 #logoNversion2 {
   position: absolute;
   top: .75rem;
@@ -470,10 +579,12 @@ header {
   width: 8rem;
   z-index: 99;
 }
+
 #logoNversion2 > img {
   width: 7.5rem;
   margin-bottom: .7rem;
 }
+
 #logoNversion2 > p {
   position: absolute;
   bottom: 0;
@@ -482,54 +593,70 @@ header {
   font-size: .7rem;
   font-style: italic;
 }
+
 #version {
   font-size: 1.25rem;
   color: #ffffff;
   opacity: .5;
 }
+
 #header-Iconset {
   display: block;
   float: right;
 }
+
 #header-Iconset a {
   text-decoration: none;
 }
+
 .header-Icon {
   width: 2rem;
   margin-right: 1rem;
   opacity: .5;
 }
+
 .header-Icon:hover {
   cursor: pointer;
   opacity: 1;
 }
+
 /* Backup pop-up style */
+
 #header-wPop-backup {
   max-width: 550px;
 }
+
 #header-wPop-backup a {
   text-decoration: none;
 }
+
 #header-wPop-backup input,
 #header-wPop-backup textarea {
   width: 100%;
   resize: none;
   margin-bottom: .5rem;
 }
+
 #copy_and_close_backup_modal {
   margin-right: 1rem;
 }
+
+
 /* ======================================================================= */
+
+
 /* TAB SELECTORS SECTION */
+
 #tabs {
   /*        display: flex;*/
   position: relative;
   width: 100%;
   height: 65px;
   background: #37556E;
-  box-shadow: 0px 12px 12px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 12px 12px -12px rgba(0, 0, 0, .25);
   z-index: 100;
 }
+
 #tabs-Iconset {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -543,44 +670,62 @@ header {
   -ms-flex-align: center;
   align-items: center;
 }
+
 #tabs-Iconset span {
   height: 100%;
 }
+
 #tabs-Iconset img {
   margin-top: 0px;
   margin-left: .5rem;
   margin-right: .5rem;
   height: 90%;
 }
+
 #tabs-Iconset img:focus {
   outline: none;
 }
+
 #tabs-Iconset img:hover {
   cursor: pointer;
   -webkit-transform: scale(0.88);
   transform: scale(0.88);
 }
+
 span.tabs-radio img {
   opacity: .4;
 }
+
 span.tabs-radio img:not(.selected) {
   -webkit-transform: scale(0.94);
   transform: scale(0.94);
 }
+
 span.tabs-radio:hover img {
   opacity: .3;
 }
+
 span.tabs-radio img.selected {
   opacity: 1;
   pointer-events: none;
 }
+
+
 /* ======================================================================= */
+
+
 /* MAIN BODY SECTION */
+
 #mainBody {
   overflow-y: scroll;
 }
+
+
 /* ======================================================================= */
+
+
 /* MAIN BODY-BODY SETTINGS */
+
 #mBBody {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -592,6 +737,7 @@ span.tabs-radio img.selected {
   padding-bottom: 1rem;
   margin: 0 auto;
 }
+
 #LBmBB-portfolio,
 #LBmBB-exchange,
 #LBmBB-voting,
@@ -600,8 +746,13 @@ span.tabs-radio img.selected {
 #LBmBB-community {
   display: none;
 }
+
+
 /* ======================================================================= */
+
+
 /* WALLET TAB */
+
 #mBB-wallet {
   width: 100%;
   display: -webkit-box;
@@ -610,6 +761,7 @@ span.tabs-radio img.selected {
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
+
 .flex-container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -624,6 +776,7 @@ span.tabs-radio img.selected {
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
+
 .walletBox {
   position: relative;
   -webkit-box-flex: 1;
@@ -633,12 +786,13 @@ span.tabs-radio img.selected {
   min-width: 260px;
   max-width: 300px;
   height: 220px;
-  border: 1px solid #dcdcdc;
+  border: 1px solid rgb(220, 220, 220);
   margin: 5px;
   padding: 10px;
   border-radius: 20px 20px 20px 20px;
   overflow: hidden;
 }
+
 .walletBox img {
   position: absolute;
   top: 0;
@@ -646,6 +800,7 @@ span.tabs-radio img.selected {
   height: 90%;
   z-index: 0;
 }
+
 .wB-name {
   display: block;
   position: relative;
@@ -655,6 +810,7 @@ span.tabs-radio img.selected {
   font-size: 2.5rem;
   color: #37556E;
 }
+
 .wB-add {
   display: block;
   width: 100%;
@@ -666,6 +822,7 @@ span.tabs-radio img.selected {
   font-size: 1rem;
   color: #D7D7D7;
 }
+
 .wB-balInt {
   display: block;
   position: relative;
@@ -678,6 +835,7 @@ span.tabs-radio img.selected {
   font-size: 2.5rem;
   color: #37556E;
 }
+
 .wB-balDec {
   display: block;
   position: relative;
@@ -692,43 +850,60 @@ span.tabs-radio img.selected {
   letter-spacing: -2px;
   opacity: .5;
 }
+
+
 /* Do not eliminate this one */
+
 #mBB-wallet h2 {
   padding: .5rem;
 }
+
+
 /* CONFIRMATION DIALOGS - ANGULAR FIXES FOR LATER */
+
 .dialog-confirmation {
   text-align: center;
 }
+
 #asset-details-dialog {
   max-width: 640px;
 }
+
 .dialog-text {
   padding-bottom: 1rem;
 }
+
 .wavesPop-content {
   padding-left: 2rem !important;
   padding-right: 2rem !important;
   padding-bottom: 1rem !important;
 }
+
 .wavesPop-content-buttons {
   padding-bottom: 2rem;
 }
+
 #send-confirm {
   width: auto;
 }
+
 .confirmation-value {
   font-family: 'Sparta';
   font-size: .9rem;
   /*    font-weight: 600;*/
 }
+
 .button-row {
   text-align: center;
 }
+
 .wavesPop-content .button-row {
   padding-bottom: 1rem;
 }
+
+
 /* BALANCE BOXES BUTTONS SECTION */
+
 .wB-buttons {
   position: absolute;
   bottom: 0;
@@ -738,9 +913,11 @@ span.tabs-radio img.selected {
   padding: 1%;
   margin-bottom: -5px;
 }
+
 .wB-buttons a {
   text-decoration: none;
 }
+
 .wB-but {
   display: inline-block;
   position: relative;
@@ -755,19 +932,24 @@ span.tabs-radio img.selected {
   border: none;
   outline: none;
 }
+
 .wB-but:hover {
   cursor: pointer;
   background: #E1B47D;
 }
+
 .wB-butSend {
   border-radius: 2px 2px 2px 16px;
 }
+
 .wB-butRec {
   border-radius: 2px 2px 2px 2px;
 }
+
 .wB-butTrade {
   border-radius: 2px 2px 16px 2px;
 }
+
 .wB-but p {
   margin: 0;
   position: absolute;
@@ -777,16 +959,23 @@ span.tabs-radio img.selected {
   -webkit-transform: translate(-50%, -55%);
   transform: translate(-50%, -55%);
 }
+
 #full-transaction-history,
 #wallet-transaction-history {
   width: 100%;
   padding-bottom: 1rem;
 }
+
 #wallet-transaction-history table {
   overflow-y: scroll;
 }
+
+
 /* ======================================================================= */
+
+
 /* WAVES STANDARD TABLES SECTION */
+
 .wavesTable table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -795,6 +984,7 @@ span.tabs-radio img.selected {
   padding: 0px;
   margin-bottom: 2rem;
 }
+
 .wavesTable thead {
   background-color: #37556E;
   border: 0px solid #F0F0F0;
@@ -802,69 +992,88 @@ span.tabs-radio img.selected {
   font-size: 1.12rem;
   color: #ffffff;
 }
+
 .wavesTable tbody tr:nth-child(odd) {
   background-color: #F0F0F0;
 }
+
 .wavesTable tbody tr:nth-child(even) {
   background-color: #ffffff;
 }
+
 .wavesTable td {
   vertical-align: middle;
   text-align: center;
   font-size: 1.1rem;
   padding: .5rem;
 }
+
 .wavesTable tbody tr {
   transition: all .2s ease;
   -webkit-transition: all .2s ease;
 }
+
 .wavesTable-hover tbody tr:hover {
-  background: rgba(225, 180, 125, 0.5);
+  background: rgba(225, 180, 125, .5);
   cursor: pointer;
 }
+
 .wavesTable tbody tr:not(#mBB-token .wavesTable-hover tbody tr) {
   color: #333333;
   font-family: 'Lekton';
 }
+
 .wavesTable input[type="search"],
 .paymentForm input[type="search"] {
   font-family: 'Wesli';
   font-size: 1rem;
-  padding: 0.3rem;
+  padding: .3rem
 }
+
+
 /* Added deeper specification to avoid it auto-excepting itself */
+
 #mBB-portfolio .wavesTable tbody tr {
   color: #333333;
   font-family: 'Lekton';
 }
+
 .wavesTable-txIn {
   color: #4C7699 !important;
 }
+
 .wavesTable-txOut {
   color: #555 !important;
 }
+
 .wavesTable-txIn .clipSpan:after {
   background: url(../img/wIcon_clip_txIn.svg) no-repeat;
   opacity: .75;
 }
+
 .wavesTable-txOut .clipSpan:after {
   background: url(../img/wIcon_clip_txOut.svg) no-repeat;
   opacity: .75;
 }
+
 .wavesTable-txUnc .clipSpan:after {
   background: none;
 }
+
 #latestBlocksTable .clipSpan:after {
   background: url(../img/wIcon_clip_txOut.svg) no-repeat;
   opacity: .6;
 }
+
 #latestBlocks {
   /*    overflow-y: scroll !important;*/
 }
+
 .wavesTable-txUnc {
   -webkit-animation: opacity_change 1s infinite alternate ease-in-out;
   animation: opacity_change 1s infinite alternate ease-in-out;
 }
+
 @-webkit-keyframes opacity_change {
   from {
     opacity: 0.35;
@@ -873,6 +1082,7 @@ span.tabs-radio img.selected {
     opacity: 1;
   }
 }
+
 @keyframes opacity_change {
   from {
     opacity: 0.35;
@@ -881,14 +1091,20 @@ span.tabs-radio img.selected {
     opacity: 1;
   }
 }
+
 #full-transaction-history tbody,
 #wallet-transaction-history tbody,
 #latestBlocksUnconfirmed,
 #latestBlocksTable {
   font-family: 'Lekton';
 }
+
+
 /* ======================================================================= */
+
+
 /* WAVES STANDARD BUTTONS */
+
 .wButton {
   display: inline-block;
   position: relative;
@@ -914,19 +1130,23 @@ span.tabs-radio img.selected {
   -o-user-select: none;
   user-select: none;
 }
+
 #addContactSubmit {
   background: #fff;
   color: #37556E;
   border: 1px solid #37556E;
 }
+
 #addContactSubmit:hover {
   background: #37556E;
   color: #fff;
 }
+
 .wButton a,
 .wButtonAlt a {
   text-decoration: none;
 }
+
 .wButton p {
   margin: 0;
   position: absolute;
@@ -936,15 +1156,18 @@ span.tabs-radio img.selected {
   -webkit-transform: translate(-50%, -55%);
   transform: translate(-50%, -55%);
 }
+
 .wButton:hover {
   cursor: pointer;
   background: #ffffff;
   color: #323232;
 }
+
 .wButton-icon > img {
   width: .75rem;
   margin-right: .5rem;
 }
+
 .wButtonAlt {
   display: inline-block;
   position: relative;
@@ -960,65 +1183,85 @@ span.tabs-radio img.selected {
   overflow: hidden;
   opacity: .5;
 }
+
 .wButtonAlt:hover {
   cursor: pointer;
   opacity: 1;
 }
+
 .wButton-neg {
   border: 1px solid #37556E;
   color: #37556E;
 }
+
 .wButton-neg:hover {
   background: #37556E;
   color: #ffffff;
 }
+
 .wButton-dialog {
   border: 1px solid #37556E;
   color: #37556E;
 }
+
 .wButton-dialog:hover {
   background: #37556E;
   color: #ffffff;
 }
+
 .wButton[disabled],
 .wButton-neg[disabled] {
   opacity: .5;
   cursor: default;
   pointer-events: none;
 }
+
+
 /* Button style for Danger or Error messages against white bg */
+
 .wButtonDanger {
   color: #9C0005;
   border: 1px solid #9C0005;
 }
+
 .wButtonDanger:hover {
   background: #9C0005;
   color: #fff;
 }
+
+
 /* Custom buttons */
+
 #addContactSubmit,
 #close_create_account_modal {
   background: #fff;
   color: #37556E;
   border: 1px solid #37556E;
 }
+
 #addContactSubmit:hover,
 #close_create_account_modal:hover {
   background: #37556E;
   color: #fff;
 }
+
 .wPop-content-buttons {
   margin: 0 auto;
   text-align: center;
 }
+
 #transactionHistorySearch {
   background: #37556E;
   color: #fff;
 }
+
 #transactionHistorySearch:hover {
   background: #E1B47D;
 }
+
+
 /* Payment forms BUTTONS style */
+
 .paymentForm-but {
   border: 1px solid #37556E;
   outline: none;
@@ -1033,29 +1276,43 @@ span.tabs-radio img.selected {
   color: #37556E;
   text-align: center;
 }
+
 .paymentForm-but:hover {
   cursor: pointer;
   background: #37556E;
   color: #fff;
 }
+
+
 /* Send Payment(s) form buttons */
+
 .send-but {
   padding: .3rem;
   width: 4.5rem;
 }
+
 md-autocomplete.fee-autocomplete button {
   transition: all .4s ease;
   -webkit-transition: all .4s ease;
 }
+
 md-autocomplete.fee-autocomplete button md-icon path {
   fill: #37556E;
 }
+
 md-autocomplete.fee-autocomplete button:hover md-icon path {
   fill: white;
 }
+
+
 /* md-autocomplete[md-input-name="wavessendfee"] button:hover,  md-autocomplete[md-input-name="assetFee"] button:hover {}*/
+
+
 /* ======================================================================= */
+
+
 /* WAVES STANDARD INPUTS */
+
 .wInput {
   font-family: 'Wesli';
   font-size: 1rem;
@@ -1064,37 +1321,52 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
   border: 1px solid #D7D7D7;
   min-width: 250px;
 }
+
 .wInput-error {
   border: 2px solid #9C0005 !important;
 }
+
 .attachment {
   border: 3px dashed #e4e3e3;
   padding: 1em;
   text-align: center;
 }
+
+
 /* ======================================================================= */
+
+
 /* PAYMENT FORM PARAMETERS */
+
 .paymentForm {
   height: auto;
   padding-bottom: 1rem;
 }
+
+
 /* Temporary fix for misalignment in the Balance amount */
+
 .paymentForm div:nth-child(2) {
   margin-right: 2rem;
 }
+
 .wPop-content {
   margin-top: -1.5rem;
 }
+
 .paymentForm table,
 .paymentForm table tr {
   width: 100%;
 }
+
 .paymentForm td:first-child {
   width: 40%;
 }
+
 .paymentForm td:nth-child(2) {
   width: 60%;
 }
+
 .paymentForm thead tr {
   background-color: #37556E;
   text-align: center;
@@ -1102,35 +1374,49 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
   line-height: 2.3rem;
   color: #ffffff;
 }
+
 .paymentForm tbody td {
   padding: .25rem;
 }
+
 .paymentForm tbody tr {
   width: 100%;
 }
+
 .form-control {
   width: 100%;
   padding: .3rem;
   font-family: 'Wesli';
   font-size: 1rem;
 }
+
+
 /* Payment form from portfolio - Temp */
+
 #mBB-portfolio #paymentForm {
   text-align: center;
 }
+
 #mBB-portfolio .paymentForm thead tr {
   line-height: 1.5rem;
 }
+
 #mBB-portfolio .paymentForm table {
   padding-bottom: 1rem;
 }
+
+
 /* Fix for the long non-spacing strings in the details field*/
+
 #asset-details-dialog .wavesTable tr:nth-child(4) {
   -ms-word-break: break-all;
   word-break: break-all;
   word-break: break-word;
 }
+
+
 /* Payment Forms BALANCE style */
+
 .balanceAmt {
   color: #999999;
   font-style: italic;
@@ -1139,23 +1425,30 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
   line-height: 1.25rem;
   padding-bottom: .2rem;
 }
+
 .balanceAmt p {
   display: inline;
 }
+
+
 /* Payment forms FEES style */
+
 .paymentFormFee {
   background-color: #F0F0F0;
   font-style: italic;
   color: #999999;
 }
+
 .paymentFormFee p {
   text-align: right;
   padding-right: .5rem;
 }
+
 .custom-combobox {
   position: relative;
   display: inline-block;
 }
+
 .custom-combobox-toggle {
   position: absolute;
   top: 0;
@@ -1164,47 +1457,62 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
   margin: 2px;
   border-style: none none none solid;
 }
+
 .custom-combobox-toggle:hover {
   border-style: none none none solid;
 }
+
 .custom-combobox-input {
   margin: 0;
   padding: .25rem;
   font-family: 'Wesli';
   font-style: italic;
   color: #999999;
-  padding-right: -0.25rem;
+  padding-right: -.25rem;
 }
+
 .ui-menu.ui-autocomplete {
   font-family: 'Wesli';
   font-style: italic;
   color: #999999;
 }
+
 .popup-autocomplete {
   z-index: 160;
 }
+
 .md-virtual-repeat-container.md-autocomplete-suggestions-container {
   z-index: 160;
 }
+
 .md-whiteframe-z1 {
   border: 1px solid #D7D7D7;
   box-shadow: none;
 }
+
+
 /* ======================================================================= */
+
+
 /* PORTFOLIO TAB */
+
 #mBB-portfolio {
   width: 100%;
   text-align: center;
 }
+
 #mBB-portfolio table {
   width: 100%;
 }
+
 #mBB-portfolio .wavesTable tbody {
   overflow-y: scroll;
 }
+
 #mBB-portfolio .wavesTable tr:hover {
   cursor: default;
 }
+
 #portfolio .btn {
   border: none;
   width: 8rem;
@@ -1220,14 +1528,17 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
   transition: all .2s ease;
   -webkit-transition: all .2s ease;
 }
+
 #portfolio .btn:hover {
   cursor: pointer;
   background: #5AC8D2;
 }
+
 #mBB-portfolio .wavesTable tr .clipSpan:after {
   background: url(../img/wIcon_clip_txIn.svg) no-repeat;
   opacity: 1;
 }
+
 #mBB-portfolio .wavesTable td:last-child {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1236,84 +1547,117 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
   -ms-flex-pack: center;
   justify-content: center;
 }
+
 /* linear progress bar styling */
 md-progress-linear .md-container {
   background-color: #F0F0F0;
 }
+
 md-progress-linear .md-bar {
   background-color: #37556E;
 }
+
+
 /* ======================================================================= */
+
+
 /* HISTORY TAB */
+
 #mBB-history {
   width: 100%;
   text-align: center;
 }
+
 #full-transaction-history table {
   overflow-y: scroll;
 }
+
 .wavesDD {
   display: inline-block;
   height: 90%;
   padding: .4rem;
 }
+
 .wavesDD select {
   font-family: 'Wesli';
   font-size: 1.15rem;
   padding: .1rem;
 }
+
 #hResults {
   height: auto;
   padding-bottom: 1rem;
 }
+
+
 /* ======================================================================= */
+
+
 /* EXCHANGE TAB */
+
 #mBB-exchange {
   width: 100%;
   text-align: center;
 }
+
+
 /* ======================================================================= */
+
+
 /* TOKENS TAB */
+
 #mBB-token {
   width: 100%;
   text-align: center;
 }
+
+
 /* Temporary fix for the extra space below this div - CHECK */
+
 #create-asset-form div:nth-child(1) {
   margin-bottom: -20px;
 }
+
 #mBB-token form {
   width: 500px;
   margin: 0 auto;
 }
+
 #mBB-token table {
   width: 100%;
 }
+
 #mBB-token table tbody tr:last-child {
   background-color: #ffffff;
   font-style: italic;
   color: #999999;
 }
+
 #mBB-token table tbody tr:last-child {
   text-align: right;
   padding-right: .5rem;
 }
+
 #mBB-token table tbody tr:last-child:hover {
   cursor: default;
 }
+
 #mBB-token form button {
   margin-top: 1rem;
 }
+
 .massPayRecap {
   max-width: 435px;
   max-height: 65vh;
   overflow-y: scroll;
 }
+
 .massPayRecap p:nth-child(1) {
   margin-bottom: 1rem;
   padding-left: 1rem;
   padding-right: 1rem;
 }
+
 .massPayRecap p:nth-child(2) {
   font-style: italic;
   color: #999999;
@@ -1322,16 +1666,19 @@ md-progress-linear .md-bar {
   padding-left: 1rem;
   padding-right: 1rem;
 }
+
 .massPayRecap tBody tr {
   font-family: "Lekton";
   -ms-word-break: break-all;
   word-break: break-all;
   word-break: break-word;
 }
+
 #asset-mass-pay-dialog {
   max-width: 550px;
   text-align: center;
 }
+
 #asset-mass-pay-dialog p {
   text-align: center;
   margin-bottom: .5rem;
@@ -1339,17 +1686,28 @@ md-progress-linear .md-bar {
   word-break: break-all;
   word-break: break-word;
 }
+
 #massPaymentFilesForm input[type="file"] {
   font-family: "Wesli";
 }
+
+
 /* ======================================================================= */
+
+
 /* MESSENGER TAB */
+
+
 /* ======================================================================= */
+
+
 /* COMMUNITY TAB */
+
 #mBB-community {
   width: 100%;
   text-align: center;
 }
+
 #mBB-community > p {
   text-align: center;
   margin-bottom: 1rem;
@@ -1357,11 +1715,17 @@ md-progress-linear .md-bar {
   color: #E1B47D;
   font-weight: 600;
 }
+
+
 /* ======================================================================= */
+
+
 /* NPROGRESS CSS RULES */
+
 #nprogress {
   pointer-events: none;
 }
+
 #nprogress .bar {
   background: #ffffff;
   position: fixed;
@@ -1371,8 +1735,13 @@ md-progress-linear .md-bar {
   width: 100%;
   height: 5px;
 }
+
+
 /* ======================================================================= */
+
+
 /* MEDIA QUERIES */
+
 @media only screen and (max-width: 1024px) {
   #logoNversion2 {
     display: none;
@@ -1402,6 +1771,7 @@ md-progress-linear .md-bar {
     display: none;
   }
 }
+
 @media only screen and (max-width: 800px) {
   #version {
     display: none;
@@ -1410,7 +1780,7 @@ md-progress-linear .md-bar {
     width: 100px;
   }
   #lockscreen {
-    padding: 2rem;
+    padding: 2rem
   }
   #lockscreenTable {
     padding: 0;
@@ -1432,6 +1802,7 @@ md-progress-linear .md-bar {
     font-size: 1rem;
   }
 }
+
 @media only screen and (max-width: 640px) {
   #tabs-Iconset {
     height: 80%;
@@ -1453,6 +1824,7 @@ md-progress-linear .md-bar {
     min-width: 250px;
   }
 }
+
 @media only screen and (max-width: 512px) {
   #tabs {
     height: 55px;
@@ -1473,7 +1845,10 @@ md-progress-linear .md-bar {
     width: 100%;
   }
 }
+
+
 /* Mobile version - Landscape (iPhone up to 6, all Samsung Galaxy, all HTC) */
+
 @media only screen and (max-width: 736px) and (max-height: 420px) {
   html {
     font-size: 12px;
@@ -1502,7 +1877,7 @@ md-progress-linear .md-bar {
   }
   #tabs-Iconset {
     height: 90%;
-    margin-top: -0.25rem;
+    margin-top: -.25rem;
   }
   #tabs-Iconset img {
     padding-left: .4rem;
@@ -1518,7 +1893,10 @@ md-progress-linear .md-bar {
     height: 175px;
   }
 }
+
+
 /* Mobile version - Portrait */
+
 @media only screen and (max-width: 420px) {
   html {
     font-size: 12px;

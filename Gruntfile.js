@@ -177,6 +177,10 @@ module.exports = function (grunt) {
                 options: {
                     interrupt: true
                 }
+            },
+            css: {
+                files: ['src/less/**/*.less'],
+                tasks: ['less']
             }
         },
         karma: {
@@ -207,6 +211,13 @@ module.exports = function (grunt) {
                         'distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.min.js',
                         'src/js/**/*.spec.js'
                     ]
+                }
+            }
+        },
+        less: {
+            development: {
+                files: {
+                    'src/css/style.css': 'src/less/index.less'
                 }
             }
         },
@@ -512,6 +523,7 @@ module.exports = function (grunt) {
 
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -536,15 +548,19 @@ module.exports = function (grunt) {
     grunt.registerTask('publish', ['bump', 'distr', 'conventionalChangelog', 'shell', 'github-release']);
     grunt.registerTask('deploy', ['webstore_upload', 's3']);
     grunt.registerTask('test', ['jshint', 'jscs', 'karma:development']);
+
     grunt.registerTask('build', [
         'jscs',
         'jshint',
         'karma:development',
+        'less',
         'concat',
         'karma:distr',
         'uglify',
         'karma:minified'
     ]);
+
     // Default task.
     grunt.registerTask('default', ['jasmine']);
+
 };
