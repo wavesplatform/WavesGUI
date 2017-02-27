@@ -1,24 +1,6 @@
 /* THE "style.css" FILE IS GENERATED AUTOMATICALLY!     */
 /* DO NOT WRITE ANYTHING HERE!!!                        */
 /* TODO : THIS MESSAGE MUST BE ADDED DURING THE BUILD   */
-/* GENERAL NOTES
-Waves' palette: #0096DC                             Waves' blue *
-                #5AC8D2                             Turquoise (highlights) *
-                #D7D7D7                             Light grey
-                #AFAFAF                             Grey
-                #555555                             Darker grey (h's, highlights)
-                #333333     rgb(50,50,50);          80% black
-                #E6E6E6     rgb(230,230,230);       10% black
-                #E1B47D     rgb(225,180,125);       Soft orange
-                #37556E     rgb(55,85,110);         Navy Blue
-                #780CE8     rgb(130,12,232);        Lila
-                #46AAB4     rgb(70,170,180);        Lapis Lazuli
-                #9C0005                             Crimson red
-
-* Not currently used.
-*/
-/* ======================================================================= */
-/* FONT-FACE DEFINITIONS */
 @font-face {
   font-family: 'Wesli';
   src: url('../css/fonts/wesli.eot?') format('eot'), url('../css/fonts/wesli.woff') format('woff'), url('../css/fonts/wesli.ttf') format('truetype');
@@ -35,7 +17,6 @@ Waves' palette: #0096DC                             Waves' blue *
   font-family: 'Lekton';
   src: url('../css/fonts/lekton.eot?') format('eot'), url('../css/fonts/lekton.woff') format('woff'), url('../css/fonts/lekton.ttf') format('truetype');
 }
-/* ======================================================================= */
 /* GLOBAL SETTINGS AND CLASSES */
 *,
 *::after,
@@ -45,7 +26,7 @@ Waves' palette: #0096DC                             Waves' blue *
   padding: 0;
 }
 body {
-  font-family: "Wesli";
+  font-family: "Wesli", "Verdana", sans-serif;
   color: #333333;
   background: #ffffff;
   overflow: hidden;
@@ -60,23 +41,17 @@ body {
   -webkit-transition: all .2s ease;
 }
 .centerIt {
-  margin: 0;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-right: -50%;
+  margin: 0 -50% 0 0;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 .noSelect {
   -webkit-user-select: none;
-  /* Chrome/Safari */
   -moz-user-select: none;
-  /* Firefox */
   -ms-user-select: none;
-  /* IE10+ */
-  /* Rules below not implemented in browsers yet */
-  -o-user-select: none;
   user-select: none;
 }
 .noDisp {
@@ -95,8 +70,7 @@ body {
   width: 1.25rem;
   height: 1.25rem;
   padding: 0;
-  margin: 0;
-  margin-left: .3rem;
+  margin: 0 0 0 .3rem;
 }
 .clipSpan:after {
   content: "";
@@ -106,8 +80,7 @@ body {
   width: 1.25rem;
   height: 1.25rem;
   padding: 0;
-  margin: 0;
-  margin-left: .3rem;
+  margin: 0 0 0 .3rem;
 }
 .clipSpan:hover:after,
 .infoSpan:hover:after {
@@ -126,15 +99,13 @@ body {
   color: red;
 }
 .fontBold {
-  /*    font-weight: 600;*/
-  font-family: 'Sparta';
+  font-family: "Sparta", "Verdana", sans-serif;
   font-size: .9rem;
-  color: #323232;
   color: #333333;
 }
 .sectionHeader {
   background-color: #ffffff;
-  border: 0px solid #F0F0F0;
+  border: 0 solid #f0f0f0;
   text-align: center;
   font-size: 1.25rem;
   color: #333333;
@@ -146,16 +117,16 @@ body {
 /* Custom Scrollbar */
 .wScroll::-webkit-scrollbar-track,
 .wScroll::-webkit-scrollbar-track:horizontal {
-  background-color: #fff;
+  background-color: #ffffff;
 }
 .wScroll::-webkit-scrollbar,
 .wScroll::-webkit-scrollbar:horizontal {
   width: 5px;
-  background-color: #fff;
+  background-color: #ffffff;
 }
 .wScroll::-webkit-scrollbar-thumb,
 .wScroll::-webkit-scrollbar-thumb:horizontal {
-  background-color: #E6E6E6;
+  background-color: #e6e6e6;
 }
 /* ======================================================================= */
 /* PLACEHOLDER CONTENT SETTINGS */
@@ -168,7 +139,7 @@ body {
   max-width: 80%;
 }
 .phContent h1 {
-  border: 0px solid #F0F0F0;
+  border: 0 solid #f0f0f0;
   text-align: center;
   font-size: 1.25rem;
   color: #333333;
@@ -212,10 +183,7 @@ body {
 }
 .modal-media-img {
   width: 2rem;
-  margin-left: .5rem;
-  margin-right: .5rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin: 1rem .5rem;
 }
 .modal-media-img {
   opacity: .5;
@@ -265,7 +233,7 @@ body {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: #37556E;
+  background: #37556e;
   z-index: 1;
 }
 #logoo {
@@ -280,7 +248,7 @@ body {
 #networkCheck {
   width: 100%;
   color: #ffffff;
-  font-family: 'Wesli';
+  font-family: "Wesli", "Verdana", sans-serif;
   font-weight: 200;
   font-size: 1.25rem;
   margin-top: 1rem;
@@ -296,8 +264,8 @@ body {
   overflow-y: scroll;
 }
 .userBG {
-  background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/lockbg005b.jpg");
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/lockbg005b.jpg");
+  background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/lockbg005b.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/lockbg005b.jpg);
   min-height: 100%;
   background-size: cover;
   background-attachment: fixed;
@@ -307,8 +275,7 @@ body {
 #lockscreenTable {
   width: auto;
   margin: 0 auto;
-  padding: 1rem;
-  padding-top: none;
+  padding: 0 1rem 1rem;
   height: auto;
   text-align: center;
   cursor: default;
@@ -317,8 +284,7 @@ body {
 #logoNversion {
   position: relative;
   width: 12rem;
-  margin: 0 auto;
-  margin-bottom: 1rem;
+  margin: 0 auto 1rem;
 }
 #logoNversion > img {
   width: 12rem;
@@ -332,7 +298,7 @@ body {
   font-style: italic;
 }
 .testnet {
-  color: #E1B47D !important;
+  color: #e1b47d !important;
 }
 /* REMOVE ACCOUNT CONFIRMATION POPUP */
 #account-remove-popup {
@@ -352,7 +318,7 @@ body {
 #register h2 {
   font-size: 1.5rem;
   font-weight: 200;
-  color: #323232;
+  color: #333333;
   background: #ffffff;
   /* Fallback */
   background: rgba(255, 255, 255, 0.9);
@@ -418,15 +384,14 @@ body {
   margin-top: .5rem;
 }
 .wavesAccounts {
-  padding: 0px;
-  margin: 0px;
-  margin-top: none;
+  padding: 0;
+  margin: 0;
 }
 .wavesAccounts > p {
   /* Temporary fix - Check if this problem
   comes from Angular ng template side */
   margin-top: -35px;
-  padding-top: 0px;
+  padding-top: 0;
 }
 #import_account {
   margin-top: .5rem;
@@ -452,7 +417,7 @@ header {
   position: relative;
   width: 100%;
   height: 50px;
-  background: #37556E;
+  background: #37556e;
   z-index: 101;
 }
 #topLogoH {
@@ -526,8 +491,8 @@ header {
   position: relative;
   width: 100%;
   height: 65px;
-  background: #37556E;
-  box-shadow: 0px 12px 12px -12px rgba(0, 0, 0, 0.25);
+  background: #37556e;
+  box-shadow: 0 12px 12px -12px rgba(0, 0, 0, 0.25);
   z-index: 100;
 }
 #tabs-Iconset {
@@ -547,7 +512,7 @@ header {
   height: 100%;
 }
 #tabs-Iconset img {
-  margin-top: 0px;
+  margin-top: 0;
   margin-left: .5rem;
   margin-right: .5rem;
   height: 90%;
@@ -651,9 +616,9 @@ span.tabs-radio img.selected {
   position: relative;
   float: right;
   z-index: 100 !important;
-  font-family: 'Engo';
+  font-family: "Engo", "Verdana", sans-serif;
   font-size: 2.5rem;
-  color: #37556E;
+  color: #37556e;
 }
 .wB-add {
   display: block;
@@ -662,9 +627,9 @@ span.tabs-radio img.selected {
   text-align: right;
   float: right;
   z-index: 100 !important;
-  font-family: 'Wesli';
+  font-family: "Wesli", "Verdana", sans-serif;
   font-size: 1rem;
-  color: #D7D7D7;
+  color: #d7d7d7;
 }
 .wB-balInt {
   display: block;
@@ -673,10 +638,10 @@ span.tabs-radio img.selected {
   text-align: right;
   float: right;
   z-index: 99 !important;
-  font-family: 'Sparta', Arial;
+  font-family: "Sparta", "Verdana", sans-serif;
   font-weight: bold;
   font-size: 2.5rem;
-  color: #37556E;
+  color: #37556e;
 }
 .wB-balDec {
   display: block;
@@ -684,10 +649,10 @@ span.tabs-radio img.selected {
   text-align: right;
   float: right;
   z-index: 99 !important;
-  font-family: 'Sparta', Arial;
+  font-family: "Sparta", "Verdana", sans-serif;
   font-weight: bold;
   font-size: 1.75rem;
-  color: #37556E;
+  color: #37556e;
   line-height: .5;
   letter-spacing: -2px;
   opacity: .5;
@@ -718,7 +683,7 @@ span.tabs-radio img.selected {
   width: auto;
 }
 .confirmation-value {
-  font-family: 'Sparta';
+  font-family: "Sparta", "Verdana", sans-serif;
   font-size: .9rem;
   /*    font-weight: 600;*/
 }
@@ -747,9 +712,9 @@ span.tabs-radio img.selected {
   width: 32.4%;
   height: 80%;
   margin: .45%;
-  background: #37556E;
+  background: #37556e;
   overflow: hidden;
-  font-family: 'Wesli';
+  font-family: "Wesli", "Verdana", sans-serif;
   font-size: 1rem;
   color: #ffffff;
   border: none;
@@ -757,7 +722,7 @@ span.tabs-radio img.selected {
 }
 .wB-but:hover {
   cursor: pointer;
-  background: #E1B47D;
+  background: #e1b47d;
 }
 .wB-butSend {
   border-radius: 2px 2px 2px 16px;
@@ -769,11 +734,10 @@ span.tabs-radio img.selected {
   border-radius: 2px 2px 16px 2px;
 }
 .wB-but p {
-  margin: 0;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-right: -50%;
+  margin: 0 -50% 0 0;
   -webkit-transform: translate(-50%, -55%);
   transform: translate(-50%, -55%);
 }
@@ -792,18 +756,18 @@ span.tabs-radio img.selected {
   border-spacing: 0;
   width: 100%;
   height: auto;
-  padding: 0px;
+  padding: 0;
   margin-bottom: 2rem;
 }
 .wavesTable thead {
-  background-color: #37556E;
-  border: 0px solid #F0F0F0;
+  background-color: #37556e;
+  border: 0 solid #f0f0f0;
   text-align: center;
   font-size: 1.12rem;
   color: #ffffff;
 }
 .wavesTable tbody tr:nth-child(odd) {
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
 }
 .wavesTable tbody tr:nth-child(even) {
   background-color: #ffffff;
@@ -824,24 +788,24 @@ span.tabs-radio img.selected {
 }
 .wavesTable tbody tr:not(#mBB-token .wavesTable-hover tbody tr) {
   color: #333333;
-  font-family: 'Lekton';
+  font-family: "Lekton", "Courier New", monospace;
 }
 .wavesTable input[type="search"],
 .paymentForm input[type="search"] {
-  font-family: 'Wesli';
+  font-family: "Wesli", "Verdana", sans-serif;
   font-size: 1rem;
   padding: 0.3rem;
 }
 /* Added deeper specification to avoid it auto-excepting itself */
 #mBB-portfolio .wavesTable tbody tr {
   color: #333333;
-  font-family: 'Lekton';
+  font-family: "Lekton", "Courier New", monospace;
 }
 .wavesTable-txIn {
-  color: #4C7699 !important;
+  color: #4c7699 !important;
 }
 .wavesTable-txOut {
-  color: #555 !important;
+  color: #555555 !important;
 }
 .wavesTable-txIn .clipSpan:after {
   background: url(../img/wIcon_clip_txIn.svg) no-repeat;
@@ -885,19 +849,17 @@ span.tabs-radio img.selected {
 #wallet-transaction-history tbody,
 #latestBlocksUnconfirmed,
 #latestBlocksTable {
-  font-family: 'Lekton';
+  font-family: "Lekton", "Courier New", monospace;
 }
 /* ======================================================================= */
 /* WAVES STANDARD BUTTONS */
 .wButton {
   display: inline-block;
   position: relative;
-  padding: .3rem;
-  padding-left: .8rem;
-  padding-right: .8rem;
+  padding: .3rem .8rem;
   background: none;
   overflow: hidden;
-  font-family: 'Wesli';
+  font-family: "Wesli", "Verdana", sans-serif;
   font-size: 1rem;
   color: #ffffff;
   border: 1px solid #ffffff;
@@ -905,41 +867,35 @@ span.tabs-radio img.selected {
   text-align: center;
   text-decoration: none;
   -webkit-user-select: none;
-  /* Chrome/Safari */
   -moz-user-select: none;
-  /* Firefox */
   -ms-user-select: none;
-  /* IE10+ */
-  /* Rules below not implemented in browsers yet */
-  -o-user-select: none;
   user-select: none;
 }
 #addContactSubmit {
-  background: #fff;
-  color: #37556E;
-  border: 1px solid #37556E;
+  background: #ffffff;
+  color: #37556e;
+  border: 1px solid #37556e;
 }
 #addContactSubmit:hover {
-  background: #37556E;
-  color: #fff;
+  background: #37556e;
+  color: #ffffff;
 }
 .wButton a,
 .wButtonAlt a {
   text-decoration: none;
 }
 .wButton p {
-  margin: 0;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-right: -50%;
+  margin: 0 -50% 0 0;
   -webkit-transform: translate(-50%, -55%);
   transform: translate(-50%, -55%);
 }
 .wButton:hover {
   cursor: pointer;
   background: #ffffff;
-  color: #323232;
+  color: #333333;
 }
 .wButton-icon > img {
   width: .75rem;
@@ -948,10 +904,8 @@ span.tabs-radio img.selected {
 .wButtonAlt {
   display: inline-block;
   position: relative;
-  padding: .2rem;
-  padding-left: .4rem;
-  padding-right: .4rem;
-  font-family: 'Wesli';
+  padding: .2rem .4rem;
+  font-family: "Wesli", "Verdana", sans-serif;
   font-size: 1rem;
   color: #ffffff;
   outline: none;
@@ -965,19 +919,19 @@ span.tabs-radio img.selected {
   opacity: 1;
 }
 .wButton-neg {
-  border: 1px solid #37556E;
-  color: #37556E;
+  border: 1px solid #37556e;
+  color: #37556e;
 }
 .wButton-neg:hover {
-  background: #37556E;
+  background: #37556e;
   color: #ffffff;
 }
 .wButton-dialog {
-  border: 1px solid #37556E;
-  color: #37556E;
+  border: 1px solid #37556e;
+  color: #37556e;
 }
 .wButton-dialog:hover {
-  background: #37556E;
+  background: #37556e;
   color: #ffffff;
 }
 .wButton[disabled],
@@ -988,55 +942,55 @@ span.tabs-radio img.selected {
 }
 /* Button style for Danger or Error messages against white bg */
 .wButtonDanger {
-  color: #9C0005;
-  border: 1px solid #9C0005;
+  color: #9c0005;
+  border: 1px solid #9c0005;
 }
 .wButtonDanger:hover {
-  background: #9C0005;
-  color: #fff;
+  background: #9c0005;
+  color: #ffffff;
 }
 /* Custom buttons */
 #addContactSubmit,
 #close_create_account_modal {
-  background: #fff;
-  color: #37556E;
-  border: 1px solid #37556E;
+  background: #ffffff;
+  color: #37556e;
+  border: 1px solid #37556e;
 }
 #addContactSubmit:hover,
 #close_create_account_modal:hover {
-  background: #37556E;
-  color: #fff;
+  background: #37556e;
+  color: #ffffff;
 }
 .wPop-content-buttons {
   margin: 0 auto;
   text-align: center;
 }
 #transactionHistorySearch {
-  background: #37556E;
-  color: #fff;
+  background: #37556e;
+  color: #ffffff;
 }
 #transactionHistorySearch:hover {
-  background: #E1B47D;
+  background: #e1b47d;
 }
 /* Payment forms BUTTONS style */
 .paymentForm-but {
-  border: 1px solid #37556E;
+  border: 1px solid #37556e;
   outline: none;
   position: relative;
   margin: 0 auto;
   /*    width: 5rem;*/
   padding-left: .5rem;
   padding-right: .5rem;
-  background: #fff;
-  font-family: 'Wesli';
+  background: #ffffff;
+  font-family: "Wesli", "Verdana", sans-serif;
   font-size: 1rem;
-  color: #37556E;
+  color: #37556e;
   text-align: center;
 }
 .paymentForm-but:hover {
   cursor: pointer;
-  background: #37556E;
-  color: #fff;
+  background: #37556e;
+  color: #ffffff;
 }
 /* Send Payment(s) form buttons */
 .send-but {
@@ -1048,7 +1002,7 @@ md-autocomplete.fee-autocomplete button {
   -webkit-transition: all .4s ease;
 }
 md-autocomplete.fee-autocomplete button md-icon path {
-  fill: #37556E;
+  fill: #37556e;
 }
 md-autocomplete.fee-autocomplete button:hover md-icon path {
   fill: white;
@@ -1057,15 +1011,15 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
 /* ======================================================================= */
 /* WAVES STANDARD INPUTS */
 .wInput {
-  font-family: 'Wesli';
+  font-family: "Wesli", "Verdana", sans-serif;
   font-size: 1rem;
   padding: .25rem;
   margin-top: .25rem;
-  border: 1px solid #D7D7D7;
+  border: 1px solid #d7d7d7;
   min-width: 250px;
 }
 .wInput-error {
-  border: 2px solid #9C0005 !important;
+  border: 2px solid #9c0005 !important;
 }
 .attachment {
   border: 3px dashed #e4e3e3;
@@ -1096,7 +1050,7 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
   width: 60%;
 }
 .paymentForm thead tr {
-  background-color: #37556E;
+  background-color: #37556e;
   text-align: center;
   font-size: 1.12rem;
   line-height: 2.3rem;
@@ -1111,7 +1065,7 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
 .form-control {
   width: 100%;
   padding: .3rem;
-  font-family: 'Wesli';
+  font-family: "Wesli", "Verdana", sans-serif;
   font-size: 1rem;
 }
 /* Payment form from portfolio - Temp */
@@ -1126,9 +1080,8 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
 }
 /* Fix for the long non-spacing strings in the details field*/
 #asset-details-dialog .wavesTable tr:nth-child(4) {
-  -ms-word-break: break-all;
   word-break: break-all;
-  word-break: break-word;
+  word-wrap: break-word;
 }
 /* Payment Forms BALANCE style */
 .balanceAmt {
@@ -1144,7 +1097,7 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
 }
 /* Payment forms FEES style */
 .paymentFormFee {
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
   font-style: italic;
   color: #999999;
 }
@@ -1169,14 +1122,13 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
 }
 .custom-combobox-input {
   margin: 0;
-  padding: .25rem;
-  font-family: 'Wesli';
+  font-family: "Wesli", "Verdana", sans-serif;
   font-style: italic;
   color: #999999;
-  padding-right: -0.25rem;
+  padding: 0.25rem -0.25rem 0.25rem 0.25rem;
 }
 .ui-menu.ui-autocomplete {
-  font-family: 'Wesli';
+  font-family: "Wesli", "Verdana", sans-serif;
   font-style: italic;
   color: #999999;
 }
@@ -1187,7 +1139,7 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
   z-index: 160;
 }
 .md-whiteframe-z1 {
-  border: 1px solid #D7D7D7;
+  border: 1px solid #d7d7d7;
   box-shadow: none;
 }
 /* ======================================================================= */
@@ -1211,8 +1163,8 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
   margin-bottom: .5rem;
   padding-left: .5rem;
   padding-right: .5rem;
-  background: #37556E;
-  font-family: 'Wesli';
+  background: #37556e;
+  font-family: "Wesli", "Verdana", sans-serif;
   font-size: 1rem;
   line-height: 2.3rem;
   color: #ffffff;
@@ -1222,7 +1174,7 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
 }
 #portfolio .btn:hover {
   cursor: pointer;
-  background: #5AC8D2;
+  background: #5ac8d2;
 }
 #mBB-portfolio .wavesTable tr .clipSpan:after {
   background: url(../img/wIcon_clip_txIn.svg) no-repeat;
@@ -1238,10 +1190,10 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
 }
 /* linear progress bar styling */
 md-progress-linear .md-container {
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
 }
 md-progress-linear .md-bar {
-  background-color: #37556E;
+  background-color: #37556e;
 }
 /* ======================================================================= */
 /* HISTORY TAB */
@@ -1258,7 +1210,7 @@ md-progress-linear .md-bar {
   padding: .4rem;
 }
 .wavesDD select {
-  font-family: 'Wesli';
+  font-family: "Wesli", "Verdana", sans-serif;
   font-size: 1.15rem;
   padding: .1rem;
 }
@@ -1323,10 +1275,9 @@ md-progress-linear .md-bar {
   padding-right: 1rem;
 }
 .massPayRecap tBody tr {
-  font-family: "Lekton";
-  -ms-word-break: break-all;
+  font-family: "Lekton", "Courier New", monospace;
   word-break: break-all;
-  word-break: break-word;
+  word-wrap: break-word;
 }
 #asset-mass-pay-dialog {
   max-width: 550px;
@@ -1335,12 +1286,11 @@ md-progress-linear .md-bar {
 #asset-mass-pay-dialog p {
   text-align: center;
   margin-bottom: .5rem;
-  -ms-word-break: break-all;
   word-break: break-all;
-  word-break: break-word;
+  word-wrap: break-word;
 }
 #massPaymentFilesForm input[type="file"] {
-  font-family: "Wesli";
+  font-family: "Wesli", "Verdana", sans-serif;
 }
 /* ======================================================================= */
 /* MESSENGER TAB */
@@ -1354,7 +1304,7 @@ md-progress-linear .md-bar {
   text-align: center;
   margin-bottom: 1rem;
   font-size: 1.2rem;
-  color: #E1B47D;
+  color: #e1b47d;
   font-weight: 600;
 }
 /* ======================================================================= */
@@ -1437,7 +1387,7 @@ md-progress-linear .md-bar {
     height: 80%;
   }
   #tabs-Iconset img {
-    margin-top: 0rem;
+    margin-top: 0;
     margin-left: .5rem;
     margin-right: .5rem;
   }
@@ -1493,9 +1443,8 @@ md-progress-linear .md-bar {
   }
   .header-Icon {
     width: 1.5rem;
-    margin: 0;
     padding: 0;
-    margin-right: .35rem;
+    margin: 0 .35rem 0 0;
   }
   #tabs {
     height: 40px;
@@ -1538,14 +1487,13 @@ md-progress-linear .md-bar {
   .loginAccountDiv {
     display: block;
     height: auto;
-    margin: 0 auto;
-    margin-bottom: 10px;
+    margin: 0 auto 10px;
   }
   .loginAccount {
     margin-top: 20px;
   }
   .divider-1 {
-    width: 0px;
+    width: 0;
   }
   #import_account,
   #create_account {
@@ -1586,7 +1534,7 @@ md-progress-linear .md-bar {
     margin-bottom: -3px;
   }
   #massPaymentFilesForm input[type="file"] {
-    font-family: "Wesli";
+    font-family: "Wesli", "Verdana", sans-serif;
     font-size: 0.9rem;
   }
 }

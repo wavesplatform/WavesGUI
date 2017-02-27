@@ -1,50 +1,7 @@
-@import "warning-comment";
+@import "warning-comment"; // TODO : remove that file.
 
-/* GENERAL NOTES
-Waves' palette: #0096DC                             Waves' blue *
-                #5AC8D2                             Turquoise (highlights) *
-                #D7D7D7                             Light grey
-                #AFAFAF                             Grey
-                #555555                             Darker grey (h's, highlights)
-                #333333     rgb(50,50,50);          80% black
-                #E6E6E6     rgb(230,230,230);       10% black
-                #E1B47D     rgb(225,180,125);       Soft orange
-                #37556E     rgb(55,85,110);         Navy Blue
-                #780CE8     rgb(130,12,232);        Lila
-                #46AAB4     rgb(70,170,180);        Lapis Lazuli
-                #9C0005                             Crimson red
-
-* Not currently used.
-*/
-
-
-/* ======================================================================= */
-
-
-/* FONT-FACE DEFINITIONS */
-
-@font-face {
-  font-family: 'Wesli';
-  src: url('../css/fonts/wesli.eot?') format('eot'), url('../css/fonts/wesli.woff') format('woff'), url('../css/fonts/wesli.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Engo';
-  src: url('../css/fonts/engo.eot?') format('eot'), url('../css/fonts/engo.woff') format('woff'), url('../css/fonts/engo.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Sparta';
-  src: url('../css/fonts/sparta.eot?') format('eot'), url('../css/fonts/sparta.woff') format('woff'), url('../css/fonts/sparta.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Lekton';
-  src: url('../css/fonts/lekton.eot?') format('eot'), url('../css/fonts/lekton.woff') format('woff'), url('../css/fonts/lekton.ttf') format('truetype');
-}
-
-
-/* ======================================================================= */
+@import "fonts";
+@import "variables";
 
 
 /* GLOBAL SETTINGS AND CLASSES */
@@ -58,9 +15,9 @@ Waves' palette: #0096DC                             Waves' blue *
 }
 
 body {
-  font-family: "Wesli";
-  color: #333333;
-  background: #ffffff;
+  font-family: @font-wesli;
+  color: @color-darkest-grey;
+  background: @color-white;
   overflow: hidden;
   -webkit-font-smoothing: antialiased !important;
 }
@@ -76,24 +33,19 @@ body {
 }
 
 .centerIt {
-  margin: 0;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-right: -50%;
+  margin: 0 -50% 0 0;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
 .noSelect {
+  // TODO : wrap user-select directives below into a mixin.
   -webkit-user-select: none;
-  /* Chrome/Safari */
   -moz-user-select: none;
-  /* Firefox */
   -ms-user-select: none;
-  /* IE10+ */
-  /* Rules below not implemented in browsers yet */
-  -o-user-select: none;
   user-select: none;
 }
 
@@ -115,8 +67,7 @@ body {
   width: 1.25rem;
   height: 1.25rem;
   padding: 0;
-  margin: 0;
-  margin-left: .3rem;
+  margin: 0 0 0 .3rem;
 }
 
 .clipSpan:after {
@@ -127,8 +78,7 @@ body {
   width: 1.25rem;
   height: 1.25rem;
   padding: 0;
-  margin: 0;
-  margin-left: .3rem;
+  margin: 0 0 0 .3rem;
 }
 
 .clipSpan:hover:after,
@@ -152,19 +102,17 @@ body {
 }
 
 .fontBold {
-  /*    font-weight: 600;*/
-  font-family: 'Sparta';
+  font-family: @font-sparta;
   font-size: .9rem;
-  color: rgb(50, 50, 50);
-  color: #333333;
+  color: @color-darkest-grey;
 }
 
 .sectionHeader {
-  background-color: #ffffff;
-  border: 0px solid #F0F0F0;
+  background-color: @color-white;
+  border: 0 solid @color-almost-white;
   text-align: center;
   font-size: 1.25rem;
-  color: #333333;
+  color: @color-darkest-grey;
   letter-spacing: .2rem;
   padding-bottom: 1rem;
   font-weight: 200;
@@ -176,18 +124,18 @@ body {
 
 .wScroll::-webkit-scrollbar-track,
 .wScroll::-webkit-scrollbar-track:horizontal {
-  background-color: #fff;
+  background-color: @color-white;
 }
 
 .wScroll::-webkit-scrollbar,
 .wScroll::-webkit-scrollbar:horizontal {
   width: 5px;
-  background-color: #fff;
+  background-color: @color-white;
 }
 
 .wScroll::-webkit-scrollbar-thumb,
 .wScroll::-webkit-scrollbar-thumb:horizontal {
-  background-color: #E6E6E6;
+  background-color: @color-lightest-grey;
 }
 
 
@@ -206,17 +154,17 @@ body {
 }
 
 .phContent h1 {
-  border: 0px solid #F0F0F0;
+  border: 0 solid @color-almost-white;
   text-align: center;
   font-size: 1.25rem;
-  color: #333333;
+  color: @color-darkest-grey;
   letter-spacing: .2rem;
   font-weight: 200;
 }
 
 .phContent p {
   font-size: 1.2rem;
-  color: #333333;
+  color: @color-darkest-grey;
 }
 
 .phContent > img {
@@ -257,10 +205,7 @@ body {
 
 .modal-media-img {
   width: 2rem;
-  margin-left: .5rem;
-  margin-right: .5rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin: 1rem .5rem;
 }
 
 .modal-media-img {
@@ -325,7 +270,7 @@ body {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: #37556E;
+  background: @color-navy-blue;
   z-index: 1;
 }
 
@@ -342,8 +287,8 @@ body {
 
 #networkCheck {
   width: 100%;
-  color: #ffffff;
-  font-family: 'Wesli';
+  color: @color-white;
+  font-family: @font-wesli;
   font-weight: 200;
   font-size: 1.25rem;
   margin-top: 1rem;
@@ -355,14 +300,14 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  color: #ffffff;
+  color: @color-white;
   padding: 8rem;
   overflow-y: scroll;
 }
 
 .userBG {
-  background-image: -webkit-linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/lockbg005b.jpg");
-  background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/lockbg005b.jpg");
+  background-image: -webkit-linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/lockbg005b.jpg);
+  background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/lockbg005b.jpg);
   min-height: 100%;
   background-size: cover;
   background-attachment: fixed;
@@ -373,8 +318,7 @@ body {
 #lockscreenTable {
   width: auto;
   margin: 0 auto;
-  padding: 1rem;
-  padding-top: none;
+  padding: 0 1rem 1rem;
   height: auto;
   text-align: center;
   cursor: default;
@@ -384,8 +328,7 @@ body {
 #logoNversion {
   position: relative;
   width: 12rem;
-  margin: 0 auto;
-  margin-bottom: 1rem;
+  margin: 0 auto 1rem;
 }
 
 #logoNversion > img {
@@ -402,7 +345,7 @@ body {
 }
 
 .testnet {
-  color: #E1B47D !important;
+  color: @color-soft-orange !important;
 }
 
 
@@ -430,8 +373,8 @@ body {
 #register h2 {
   font-size: 1.5rem;
   font-weight: 200;
-  color: #323232;
-  background: #ffffff;
+  color: @color-darkest-grey;
+  background: @color-white;
   /* Fallback */
   background: rgba(255, 255, 255, .9);
   padding: .5rem;
@@ -475,15 +418,14 @@ body {
 /* NEW ACCOUNT CONFIRMATION POPUP */
 
 #login-wPop-new {
-  background: #ffffff;
-  color: #555555;
+  background: @color-white;
+  color: @color-dark-grey;
   margin-bottom: 1rem;
   text-align: center;
   max-width: 550px;
-}
-
-#login-wPop-new p {
-  text-align: justify;
+  & p {
+    text-align: justify;
+  }
 }
 
 
@@ -491,10 +433,9 @@ body {
 
 #seed-whitespace-popup {
   max-width: 550px;
-}
-
-#seed-whitespace-popup p {
-  text-align: justify;
+  & p {
+    text-align: justify;
+  }
 }
 
 #register > form {
@@ -515,16 +456,15 @@ body {
 }
 
 .wavesAccounts {
-  padding: 0px;
-  margin: 0px;
-  margin-top: none;
+  padding: 0;
+  margin: 0;
 }
 
 .wavesAccounts > p {
   /* Temporary fix - Check if this problem
   comes from Angular ng template side */
   margin-top: -35px;
-  padding-top: 0px;
+  padding-top: 0;
 }
 
 #import_account {
@@ -559,7 +499,7 @@ header {
   position: relative;
   width: 100%;
   height: 50px;
-  background: #37556E;
+  background: @color-navy-blue;
   z-index: 101;
 }
 
@@ -589,14 +529,14 @@ header {
   position: absolute;
   bottom: 0;
   right: .45rem;
-  color: #ffffff;
+  color: @color-white;
   font-size: .7rem;
   font-style: italic;
 }
 
 #version {
   font-size: 1.25rem;
-  color: #ffffff;
+  color: @color-white;
   opacity: .5;
 }
 
@@ -652,12 +592,13 @@ header {
   position: relative;
   width: 100%;
   height: 65px;
-  background: #37556E;
-  box-shadow: 0px 12px 12px -12px rgba(0, 0, 0, .25);
+  background: @color-navy-blue;
+  box-shadow: 0 12px 12px -12px rgba(0, 0, 0, .25);
   z-index: 100;
 }
 
 #tabs-Iconset {
+  // TODO : make a mixin.
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -676,7 +617,7 @@ header {
 }
 
 #tabs-Iconset img {
-  margin-top: 0px;
+  margin-top: 0;
   margin-left: .5rem;
   margin-right: .5rem;
   height: 90%;
@@ -727,6 +668,7 @@ span.tabs-radio img.selected {
 /* MAIN BODY-BODY SETTINGS */
 
 #mBBody {
+  // TODO : make a mixin.
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -755,6 +697,7 @@ span.tabs-radio img.selected {
 
 #mBB-wallet {
   width: 100%;
+  // TODO : make a mixin.
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -763,6 +706,7 @@ span.tabs-radio img.selected {
 }
 
 .flex-container {
+  // TODO : make a mixin.
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -806,9 +750,9 @@ span.tabs-radio img.selected {
   position: relative;
   float: right;
   z-index: 100 !important;
-  font-family: 'Engo';
+  font-family: @font-engo;
   font-size: 2.5rem;
-  color: #37556E;
+  color: @color-navy-blue;
 }
 
 .wB-add {
@@ -818,9 +762,9 @@ span.tabs-radio img.selected {
   text-align: right;
   float: right;
   z-index: 100 !important;
-  font-family: 'Wesli';
+  font-family: @font-wesli;
   font-size: 1rem;
-  color: #D7D7D7;
+  color: @color-light-grey;
 }
 
 .wB-balInt {
@@ -830,10 +774,10 @@ span.tabs-radio img.selected {
   text-align: right;
   float: right;
   z-index: 99 !important;
-  font-family: 'Sparta', Arial;
+  font-family: @font-sparta;
   font-weight: bold;
   font-size: 2.5rem;
-  color: #37556E;
+  color: @color-navy-blue;
 }
 
 .wB-balDec {
@@ -842,10 +786,10 @@ span.tabs-radio img.selected {
   text-align: right;
   float: right;
   z-index: 99 !important;
-  font-family: 'Sparta', Arial;
+  font-family: @font-sparta;
   font-weight: bold;
   font-size: 1.75rem;
-  color: #37556E;
+  color: @color-navy-blue;
   line-height: .5;
   letter-spacing: -2px;
   opacity: .5;
@@ -888,7 +832,7 @@ span.tabs-radio img.selected {
 }
 
 .confirmation-value {
-  font-family: 'Sparta';
+  font-family: @font-sparta;
   font-size: .9rem;
   /*    font-weight: 600;*/
 }
@@ -924,18 +868,18 @@ span.tabs-radio img.selected {
   width: 32.4%;
   height: 80%;
   margin: .45%;
-  background: #37556E;
+  background: @color-navy-blue;
   overflow: hidden;
-  font-family: 'Wesli';
+  font-family: @font-wesli;
   font-size: 1rem;
-  color: #ffffff;
+  color: @color-white;
   border: none;
   outline: none;
 }
 
 .wB-but:hover {
   cursor: pointer;
-  background: #E1B47D;
+  background: @color-soft-orange;
 }
 
 .wB-butSend {
@@ -951,11 +895,10 @@ span.tabs-radio img.selected {
 }
 
 .wB-but p {
-  margin: 0;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-right: -50%;
+  margin: 0 -50% 0 0;
   -webkit-transform: translate(-50%, -55%);
   transform: translate(-50%, -55%);
 }
@@ -981,24 +924,24 @@ span.tabs-radio img.selected {
   border-spacing: 0;
   width: 100%;
   height: auto;
-  padding: 0px;
+  padding: 0;
   margin-bottom: 2rem;
 }
 
 .wavesTable thead {
-  background-color: #37556E;
-  border: 0px solid #F0F0F0;
+  background-color: @color-navy-blue;
+  border: 0 solid @color-almost-white;
   text-align: center;
   font-size: 1.12rem;
-  color: #ffffff;
+  color: @color-white;
 }
 
 .wavesTable tbody tr:nth-child(odd) {
-  background-color: #F0F0F0;
+  background-color: @color-almost-white;
 }
 
 .wavesTable tbody tr:nth-child(even) {
-  background-color: #ffffff;
+  background-color: @color-white;
 }
 
 .wavesTable td {
@@ -1019,13 +962,13 @@ span.tabs-radio img.selected {
 }
 
 .wavesTable tbody tr:not(#mBB-token .wavesTable-hover tbody tr) {
-  color: #333333;
-  font-family: 'Lekton';
+  color: @color-darkest-grey;
+  font-family: @font-lekton;
 }
 
 .wavesTable input[type="search"],
 .paymentForm input[type="search"] {
-  font-family: 'Wesli';
+  font-family: @font-wesli;
   font-size: 1rem;
   padding: .3rem
 }
@@ -1034,16 +977,16 @@ span.tabs-radio img.selected {
 /* Added deeper specification to avoid it auto-excepting itself */
 
 #mBB-portfolio .wavesTable tbody tr {
-  color: #333333;
-  font-family: 'Lekton';
+  color: @color-darkest-grey;
+  font-family: @font-lekton;
 }
 
 .wavesTable-txIn {
-  color: #4C7699 !important;
+  color: @color-waves-blue-temp !important;
 }
 
 .wavesTable-txOut {
-  color: #555 !important;
+  color: @color-dark-grey !important;
 }
 
 .wavesTable-txIn .clipSpan:after {
@@ -1096,7 +1039,7 @@ span.tabs-radio img.selected {
 #wallet-transaction-history tbody,
 #latestBlocksUnconfirmed,
 #latestBlocksTable {
-  font-family: 'Lekton';
+  font-family: @font-lekton;
 }
 
 
@@ -1108,38 +1051,32 @@ span.tabs-radio img.selected {
 .wButton {
   display: inline-block;
   position: relative;
-  padding: .3rem;
-  padding-left: .8rem;
-  padding-right: .8rem;
+  padding: .3rem .8rem;
   background: none;
   overflow: hidden;
-  font-family: 'Wesli';
+  font-family: @font-wesli;
   font-size: 1rem;
-  color: #ffffff;
-  border: 1px solid #ffffff;
+  color: @color-white;
+  border: 1px solid @color-white;
   outline: none;
   text-align: center;
   text-decoration: none;
+  // TODO : wrap user-select directives below into a mixin.
   -webkit-user-select: none;
-  /* Chrome/Safari */
   -moz-user-select: none;
-  /* Firefox */
   -ms-user-select: none;
-  /* IE10+ */
-  /* Rules below not implemented in browsers yet */
-  -o-user-select: none;
   user-select: none;
 }
 
 #addContactSubmit {
-  background: #fff;
-  color: #37556E;
-  border: 1px solid #37556E;
+  background: @color-white;
+  color: @color-navy-blue;
+  border: 1px solid @color-navy-blue;
 }
 
 #addContactSubmit:hover {
-  background: #37556E;
-  color: #fff;
+  background: @color-navy-blue;
+  color: @color-white;
 }
 
 .wButton a,
@@ -1148,19 +1085,18 @@ span.tabs-radio img.selected {
 }
 
 .wButton p {
-  margin: 0;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-right: -50%;
+  margin: 0 -50% 0 0;
   -webkit-transform: translate(-50%, -55%);
   transform: translate(-50%, -55%);
 }
 
 .wButton:hover {
   cursor: pointer;
-  background: #ffffff;
-  color: #323232;
+  background: @color-white;
+  color: @color-darkest-grey;
 }
 
 .wButton-icon > img {
@@ -1171,12 +1107,10 @@ span.tabs-radio img.selected {
 .wButtonAlt {
   display: inline-block;
   position: relative;
-  padding: .2rem;
-  padding-left: .4rem;
-  padding-right: .4rem;
-  font-family: 'Wesli';
+  padding: .2rem .4rem;
+  font-family: @font-wesli;
   font-size: 1rem;
-  color: #ffffff;
+  color: @color-white;
   outline: none;
   border: none;
   background: none;
@@ -1190,23 +1124,23 @@ span.tabs-radio img.selected {
 }
 
 .wButton-neg {
-  border: 1px solid #37556E;
-  color: #37556E;
+  border: 1px solid @color-navy-blue;
+  color: @color-navy-blue;
 }
 
 .wButton-neg:hover {
-  background: #37556E;
-  color: #ffffff;
+  background: @color-navy-blue;
+  color: @color-white;
 }
 
 .wButton-dialog {
-  border: 1px solid #37556E;
-  color: #37556E;
+  border: 1px solid @color-navy-blue;
+  color: @color-navy-blue;
 }
 
 .wButton-dialog:hover {
-  background: #37556E;
-  color: #ffffff;
+  background: @color-navy-blue;
+  color: @color-white;
 }
 
 .wButton[disabled],
@@ -1220,13 +1154,13 @@ span.tabs-radio img.selected {
 /* Button style for Danger or Error messages against white bg */
 
 .wButtonDanger {
-  color: #9C0005;
-  border: 1px solid #9C0005;
+  color: @color-crimson-red;
+  border: 1px solid @color-crimson-red;
 }
 
 .wButtonDanger:hover {
-  background: #9C0005;
-  color: #fff;
+  background: @color-crimson-red;
+  color: @color-white;
 }
 
 
@@ -1234,15 +1168,15 @@ span.tabs-radio img.selected {
 
 #addContactSubmit,
 #close_create_account_modal {
-  background: #fff;
-  color: #37556E;
-  border: 1px solid #37556E;
+  background: @color-white;
+  color: @color-navy-blue;
+  border: 1px solid @color-navy-blue;
 }
 
 #addContactSubmit:hover,
 #close_create_account_modal:hover {
-  background: #37556E;
-  color: #fff;
+  background: @color-navy-blue;
+  color: @color-white;
 }
 
 .wPop-content-buttons {
@@ -1251,36 +1185,36 @@ span.tabs-radio img.selected {
 }
 
 #transactionHistorySearch {
-  background: #37556E;
-  color: #fff;
+  background: @color-navy-blue;
+  color: @color-white;
 }
 
 #transactionHistorySearch:hover {
-  background: #E1B47D;
+  background: @color-soft-orange;
 }
 
 
 /* Payment forms BUTTONS style */
 
 .paymentForm-but {
-  border: 1px solid #37556E;
+  border: 1px solid @color-navy-blue;
   outline: none;
   position: relative;
   margin: 0 auto;
   /*    width: 5rem;*/
   padding-left: .5rem;
   padding-right: .5rem;
-  background: #fff;
-  font-family: 'Wesli';
+  background: @color-white;
+  font-family: @font-wesli;
   font-size: 1rem;
-  color: #37556E;
+  color: @color-navy-blue;
   text-align: center;
 }
 
 .paymentForm-but:hover {
   cursor: pointer;
-  background: #37556E;
-  color: #fff;
+  background: @color-navy-blue;
+  color: @color-white;
 }
 
 
@@ -1297,7 +1231,7 @@ md-autocomplete.fee-autocomplete button {
 }
 
 md-autocomplete.fee-autocomplete button md-icon path {
-  fill: #37556E;
+  fill: @color-navy-blue;
 }
 
 md-autocomplete.fee-autocomplete button:hover md-icon path {
@@ -1314,16 +1248,16 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
 /* WAVES STANDARD INPUTS */
 
 .wInput {
-  font-family: 'Wesli';
+  font-family: @font-wesli;
   font-size: 1rem;
   padding: .25rem;
   margin-top: .25rem;
-  border: 1px solid #D7D7D7;
+  border: 1px solid @color-light-grey;
   min-width: 250px;
 }
 
 .wInput-error {
-  border: 2px solid #9C0005 !important;
+  border: 2px solid @color-crimson-red !important;
 }
 
 .attachment {
@@ -1368,11 +1302,11 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
 }
 
 .paymentForm thead tr {
-  background-color: #37556E;
+  background-color: @color-navy-blue;
   text-align: center;
   font-size: 1.12rem;
   line-height: 2.3rem;
-  color: #ffffff;
+  color: @color-white;
 }
 
 .paymentForm tbody td {
@@ -1386,7 +1320,7 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
 .form-control {
   width: 100%;
   padding: .3rem;
-  font-family: 'Wesli';
+  font-family: @font-wesli;
   font-size: 1rem;
 }
 
@@ -1409,16 +1343,16 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
 /* Fix for the long non-spacing strings in the details field*/
 
 #asset-details-dialog .wavesTable tr:nth-child(4) {
-  -ms-word-break: break-all;
+  // TODO : make a mixin.
   word-break: break-all;
-  word-break: break-word;
+  word-wrap: break-word;
 }
 
 
 /* Payment Forms BALANCE style */
 
 .balanceAmt {
-  color: #999999;
+  color: @color-grey;
   font-style: italic;
   text-align: right;
   margin-right: 0.25rem;
@@ -1434,9 +1368,9 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
 /* Payment forms FEES style */
 
 .paymentFormFee {
-  background-color: #F0F0F0;
+  background-color: @color-almost-white;
   font-style: italic;
-  color: #999999;
+  color: @color-grey;
 }
 
 .paymentFormFee p {
@@ -1464,17 +1398,16 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
 
 .custom-combobox-input {
   margin: 0;
-  padding: .25rem;
-  font-family: 'Wesli';
+  font-family: @font-wesli;
   font-style: italic;
-  color: #999999;
-  padding-right: -.25rem;
+  color: @color-grey;
+  padding: .25rem -.25rem .25rem .25rem;
 }
 
 .ui-menu.ui-autocomplete {
-  font-family: 'Wesli';
+  font-family: @font-wesli;
   font-style: italic;
-  color: #999999;
+  color: @color-grey;
 }
 
 .popup-autocomplete {
@@ -1486,7 +1419,7 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
 }
 
 .md-whiteframe-z1 {
-  border: 1px solid #D7D7D7;
+  border: 1px solid @color-light-grey;
   box-shadow: none;
 }
 
@@ -1519,11 +1452,11 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
   margin-bottom: .5rem;
   padding-left: .5rem;
   padding-right: .5rem;
-  background: #37556E;
-  font-family: 'Wesli';
+  background: @color-navy-blue;
+  font-family: @font-wesli;
   font-size: 1rem;
   line-height: 2.3rem;
-  color: #ffffff;
+  color: @color-white;
   text-align: center;
   transition: all .2s ease;
   -webkit-transition: all .2s ease;
@@ -1531,7 +1464,7 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
 
 #portfolio .btn:hover {
   cursor: pointer;
-  background: #5AC8D2;
+  background: @color-turquoise;
 }
 
 #mBB-portfolio .wavesTable tr .clipSpan:after {
@@ -1540,6 +1473,7 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
 }
 
 #mBB-portfolio .wavesTable td:last-child {
+  // TODO : make a mixin.
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1550,11 +1484,11 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
 
 /* linear progress bar styling */
 md-progress-linear .md-container {
-  background-color: #F0F0F0;
+  background-color: @color-almost-white;
 }
 
 md-progress-linear .md-bar {
-  background-color: #37556E;
+  background-color: @color-navy-blue;
 }
 
 
@@ -1579,7 +1513,7 @@ md-progress-linear .md-bar {
 }
 
 .wavesDD select {
-  font-family: 'Wesli';
+  font-family: @font-wesli;
   font-size: 1.15rem;
   padding: .1rem;
 }
@@ -1628,9 +1562,9 @@ md-progress-linear .md-bar {
 }
 
 #mBB-token table tbody tr:last-child {
-  background-color: #ffffff;
+  background-color: @color-white;
   font-style: italic;
-  color: #999999;
+  color: @color-grey;
 }
 
 #mBB-token table tbody tr:last-child {
@@ -1660,7 +1594,7 @@ md-progress-linear .md-bar {
 
 .massPayRecap p:nth-child(2) {
   font-style: italic;
-  color: #999999;
+  color: @color-grey;
   text-align: center;
   margin-bottom: .5rem;
   padding-left: 1rem;
@@ -1668,10 +1602,10 @@ md-progress-linear .md-bar {
 }
 
 .massPayRecap tBody tr {
-  font-family: "Lekton";
-  -ms-word-break: break-all;
+  font-family: @font-lekton;
+  // TODO : make a mixin.
   word-break: break-all;
-  word-break: break-word;
+  word-wrap: break-word;
 }
 
 #asset-mass-pay-dialog {
@@ -1682,13 +1616,13 @@ md-progress-linear .md-bar {
 #asset-mass-pay-dialog p {
   text-align: center;
   margin-bottom: .5rem;
-  -ms-word-break: break-all;
+  // TODO : make a mixin.
   word-break: break-all;
-  word-break: break-word;
+  word-wrap: break-word;
 }
 
 #massPaymentFilesForm input[type="file"] {
-  font-family: "Wesli";
+  font-family: @font-wesli;
 }
 
 
@@ -1712,7 +1646,7 @@ md-progress-linear .md-bar {
   text-align: center;
   margin-bottom: 1rem;
   font-size: 1.2rem;
-  color: #E1B47D;
+  color: @color-soft-orange;
   font-weight: 600;
 }
 
@@ -1727,7 +1661,7 @@ md-progress-linear .md-bar {
 }
 
 #nprogress .bar {
-  background: #ffffff;
+  background: @color-white;
   position: fixed;
   z-index: 1031;
   top: 0;
@@ -1808,7 +1742,7 @@ md-progress-linear .md-bar {
     height: 80%;
   }
   #tabs-Iconset img {
-    margin-top: 0rem;
+    margin-top: 0;
     margin-left: .5rem;
     margin-right: .5rem;
   }
@@ -1868,9 +1802,8 @@ md-progress-linear .md-bar {
   }
   .header-Icon {
     width: 1.5rem;
-    margin: 0;
     padding: 0;
-    margin-right: .35rem;
+    margin: 0 .35rem 0 0;
   }
   #tabs {
     height: 40px;
@@ -1916,14 +1849,13 @@ md-progress-linear .md-bar {
   .loginAccountDiv {
     display: block;
     height: auto;
-    margin: 0 auto;
-    margin-bottom: 10px;
+    margin: 0 auto 10px;
   }
   .loginAccount {
     margin-top: 20px;
   }
   .divider-1 {
-    width: 0px;
+    width: 0;
   }
   #import_account,
   #create_account {
@@ -1964,7 +1896,7 @@ md-progress-linear .md-bar {
     margin-bottom: -3px;
   }
   #massPaymentFilesForm input[type="file"] {
-    font-family: "Wesli";
+    font-family: @font-wesli;
     font-size: 0.9rem;
   }
 }
