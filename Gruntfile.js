@@ -215,9 +215,13 @@ module.exports = function (grunt) {
             }
         },
         less: {
+            // NOTE : that task is not consistent with the standard distribution workflow.
             development: {
+                options: {
+                    compress: true
+                },
                 files: {
-                    'src/css/style.css': 'src/less/index.less'
+                    'distr/devel/css/style.css': 'src/less/index.less'
                 }
             }
         },
@@ -369,6 +373,28 @@ module.exports = function (grunt) {
                         return content;
                     }
                 }
+            },
+            fonts: {
+                // NOTE : that task is not consistent with the standard distribution workflow.
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['src/less/fonts/**/*.*'],
+                        dest: 'distr/devel/css/fonts/'
+                    }
+                ]
+            },
+            img: {
+                // NOTE : that task is not consistent with the standard distribution workflow.
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['src/img/**/*.*'],
+                        dest: 'distr/devel/img/'
+                    }
+                ]
             }
         },
         compress: {
@@ -548,12 +574,15 @@ module.exports = function (grunt) {
     grunt.registerTask('publish', ['bump', 'distr', 'conventionalChangelog', 'shell', 'github-release']);
     grunt.registerTask('deploy', ['webstore_upload', 's3']);
     grunt.registerTask('test', ['jshint', 'jscs', 'karma:development']);
+    grunt.registerTask('styles', ['less', 'copy:fonts', 'copy:img']);
+
+    grunt.registerTask('build-local', ['styles']);
 
     grunt.registerTask('build', [
         'jscs',
         'jshint',
         'karma:development',
-        'less',
+        'styles',
         'concat',
         'karma:distr',
         'uglify',
