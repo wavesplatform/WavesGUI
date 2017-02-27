@@ -4,6 +4,7 @@
     function CoinomatRestangularFactory(constants, rest) {
         return rest.withConfig(function(configurer) {
             configurer.setBaseUrl(constants.COINOMAT_ADDRESS);
+            configurer.setJsonp(true);
         });
     }
 

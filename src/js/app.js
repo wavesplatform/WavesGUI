@@ -28,7 +28,7 @@ var app = angular.module('app', [
     'app.portfolio'
 ]).config(AngularApplicationConfig).run(AngularApplicationRun);
 
-function AngularApplicationConfig($provide, $compileProvider, $validatorProvider, $qProvider,
+function AngularApplicationConfig($provide, $compileProvider, $validatorProvider, $qProvider, $sceDelegateProvider,
                                   networkConstants, applicationSettings) {
     $provide.constant(networkConstants,
         angular.extend(networkConstants, {
@@ -44,6 +44,11 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
 
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data|file|chrome-extension):/);
     $qProvider.errorOnUnhandledRejections(false);
+    $sceDelegateProvider.resourceUrlWhitelist([
+        'self',
+        'https://test.coinomat.com/api/**',
+        'https://coinomat.com/api/**'
+    ]);
 
     $validatorProvider.setDefaults({
         errorClass: 'wInput-error',
@@ -108,7 +113,7 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
 }
 
 AngularApplicationConfig.$inject = ['$provide', '$compileProvider', '$validatorProvider', '$qProvider',
-    'constants.network', 'constants.application'];
+    '$sceDelegateProvider', 'constants.network', 'constants.application'];
 
 function AngularApplicationRun(rest, applicationConstants, notificationService, addressService) {
     // restangular configuration
@@ -131,5 +136,6 @@ function AngularApplicationRun(rest, applicationConstants, notificationService, 
     };
 }
 
-AngularApplicationRun.$inject = ['Restangular', 'constants.application', 'notificationService', 'addressService'];
+AngularApplicationRun.$inject = ['Restangular', 'constants.application', 'notificationService',
+    'addressService'];
 
