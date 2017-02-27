@@ -17,7 +17,6 @@
   font-family: 'Lekton';
   src: url('../css/fonts/lekton.eot?') format('eot'), url('../css/fonts/lekton.woff') format('woff'), url('../css/fonts/lekton.ttf') format('truetype');
 }
-/* GLOBAL SETTINGS AND CLASSES */
 *,
 *::after,
 *::before {
@@ -128,8 +127,359 @@ body {
 .wScroll::-webkit-scrollbar-thumb:horizontal {
   background-color: #e6e6e6;
 }
-/* ======================================================================= */
-/* PLACEHOLDER CONTENT SETTINGS */
+/* Main Wrapper */
+#wrapper {
+  width: 100%;
+  max-width: 1920px;
+  min-width: 320px;
+  height: 100vh;
+  max-height: 1080px;
+  min-height: 320px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+/* Main Body */
+#mainBody {
+  overflow-y: scroll;
+}
+#mBBody {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  position: relative;
+  width: 100% !important;
+  padding-bottom: 1rem;
+  margin: 0 auto;
+}
+#LBmBB-portfolio,
+#LBmBB-exchange,
+#LBmBB-voting,
+#LBmBB-history,
+#LBmBB-messages,
+#LBmBB-community {
+  display: none;
+}
+/* CONFIRMATION DIALOGS - ANGULAR FIXES FOR LATER */
+.dialog-confirmation {
+  text-align: center;
+}
+#asset-details-dialog {
+  max-width: 640px;
+}
+.dialog-text {
+  padding-bottom: 1rem;
+}
+.wavesPop-content {
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+  padding-bottom: 1rem !important;
+}
+.wavesPop-content-buttons {
+  padding-bottom: 2rem;
+}
+#send-confirm {
+  width: auto;
+}
+.confirmation-value {
+  font-family: "Sparta", "Verdana", sans-serif;
+  font-size: .9rem;
+  /*    font-weight: 600;*/
+}
+.button-row {
+  text-align: center;
+}
+.wavesPop-content .button-row {
+  padding-bottom: 1rem;
+}
+/* WAVES STANDARD TABLES SECTION */
+.wavesTable table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  height: auto;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+.wavesTable thead {
+  background-color: #37556e;
+  border: 0 solid #f0f0f0;
+  text-align: center;
+  font-size: 1.12rem;
+  color: #ffffff;
+}
+.wavesTable tbody tr:nth-child(odd) {
+  background-color: #f0f0f0;
+}
+.wavesTable tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+.wavesTable td {
+  vertical-align: middle;
+  text-align: center;
+  font-size: 1.1rem;
+  padding: .5rem;
+}
+.wavesTable tbody tr {
+  transition: all .2s ease;
+  -webkit-transition: all .2s ease;
+}
+.wavesTable-hover tbody tr:hover {
+  background: rgba(225, 180, 125, 0.5);
+  cursor: pointer;
+}
+.wavesTable tbody tr:not(#mBB-token .wavesTable-hover tbody tr) {
+  color: #333333;
+  font-family: "Lekton", "Courier New", monospace;
+}
+.wavesTable input[type="search"],
+.paymentForm input[type="search"] {
+  font-family: "Wesli", "Verdana", sans-serif;
+  font-size: 1rem;
+  padding: 0.3rem;
+}
+/* Added deeper specification to avoid it auto-excepting itself */
+#mBB-portfolio .wavesTable tbody tr {
+  color: #333333;
+  font-family: "Lekton", "Courier New", monospace;
+}
+.wavesTable-txIn {
+  color: #4c7699 !important;
+}
+.wavesTable-txOut {
+  color: #555555 !important;
+}
+.wavesTable-txIn .clipSpan:after {
+  background: url(../img/wIcon_clip_txIn.svg) no-repeat;
+  opacity: .75;
+}
+.wavesTable-txOut .clipSpan:after {
+  background: url(../img/wIcon_clip_txOut.svg) no-repeat;
+  opacity: .75;
+}
+.wavesTable-txUnc .clipSpan:after {
+  background: none;
+}
+#latestBlocksTable .clipSpan:after {
+  background: url(../img/wIcon_clip_txOut.svg) no-repeat;
+  opacity: .6;
+}
+#latestBlocks {
+  /*    overflow-y: scroll !important;*/
+}
+.wavesTable-txUnc {
+  -webkit-animation: opacity_change 1s infinite alternate ease-in-out;
+  animation: opacity_change 1s infinite alternate ease-in-out;
+}
+@-webkit-keyframes opacity_change {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes opacity_change {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+#full-transaction-history tbody,
+#wallet-transaction-history tbody,
+#latestBlocksUnconfirmed,
+#latestBlocksTable {
+  font-family: "Lekton", "Courier New", monospace;
+}
+/* NPROGRESS CSS RULES */
+#nprogress {
+  pointer-events: none;
+}
+#nprogress .bar {
+  background: #ffffff;
+  position: fixed;
+  z-index: 1031;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+}
+/* WAVES STANDARD BUTTONS */
+.wButton {
+  display: inline-block;
+  position: relative;
+  padding: .3rem .8rem;
+  background: none;
+  overflow: hidden;
+  font-family: "Wesli", "Verdana", sans-serif;
+  font-size: 1rem;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  outline: none;
+  text-align: center;
+  text-decoration: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+#addContactSubmit {
+  background: #ffffff;
+  color: #37556e;
+  border: 1px solid #37556e;
+}
+#addContactSubmit:hover {
+  background: #37556e;
+  color: #ffffff;
+}
+.wButton a,
+.wButtonAlt a {
+  text-decoration: none;
+}
+.wButton p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0 -50% 0 0;
+  -webkit-transform: translate(-50%, -55%);
+  transform: translate(-50%, -55%);
+}
+.wButton:hover {
+  cursor: pointer;
+  background: #ffffff;
+  color: #333333;
+}
+.wButton-icon > img {
+  width: .75rem;
+  margin-right: .5rem;
+}
+.wButtonAlt {
+  display: inline-block;
+  position: relative;
+  padding: .2rem .4rem;
+  font-family: "Wesli", "Verdana", sans-serif;
+  font-size: 1rem;
+  color: #ffffff;
+  outline: none;
+  border: none;
+  background: none;
+  overflow: hidden;
+  opacity: .5;
+}
+.wButtonAlt:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+.wButton-neg {
+  border: 1px solid #37556e;
+  color: #37556e;
+}
+.wButton-neg:hover {
+  background: #37556e;
+  color: #ffffff;
+}
+.wButton-dialog {
+  border: 1px solid #37556e;
+  color: #37556e;
+}
+.wButton-dialog:hover {
+  background: #37556e;
+  color: #ffffff;
+}
+.wButton[disabled],
+.wButton-neg[disabled] {
+  opacity: .5;
+  cursor: default;
+  pointer-events: none;
+}
+/* Button style for Danger or Error messages against white bg */
+.wButtonDanger {
+  color: #9c0005;
+  border: 1px solid #9c0005;
+}
+.wButtonDanger:hover {
+  background: #9c0005;
+  color: #ffffff;
+}
+/* Custom buttons */
+#addContactSubmit,
+#close_create_account_modal {
+  background: #ffffff;
+  color: #37556e;
+  border: 1px solid #37556e;
+}
+#addContactSubmit:hover,
+#close_create_account_modal:hover {
+  background: #37556e;
+  color: #ffffff;
+}
+.wPop-content-buttons {
+  margin: 0 auto;
+  text-align: center;
+}
+#transactionHistorySearch {
+  background: #37556e;
+  color: #ffffff;
+}
+#transactionHistorySearch:hover {
+  background: #e1b47d;
+}
+/* Payment forms BUTTONS style */
+.paymentForm-but {
+  border: 1px solid #37556e;
+  outline: none;
+  position: relative;
+  margin: 0 auto;
+  /*    width: 5rem;*/
+  padding-left: .5rem;
+  padding-right: .5rem;
+  background: #ffffff;
+  font-family: "Wesli", "Verdana", sans-serif;
+  font-size: 1rem;
+  color: #37556e;
+  text-align: center;
+}
+.paymentForm-but:hover {
+  cursor: pointer;
+  background: #37556e;
+  color: #ffffff;
+}
+/* Send Payment(s) form buttons */
+.send-but {
+  padding: .3rem;
+  width: 4.5rem;
+}
+md-autocomplete.fee-autocomplete button {
+  transition: all .4s ease;
+  -webkit-transition: all .4s ease;
+}
+md-autocomplete.fee-autocomplete button md-icon path {
+  fill: #37556e;
+}
+md-autocomplete.fee-autocomplete button:hover md-icon path {
+  fill: white;
+}
+/* md-autocomplete[md-input-name="wavessendfee"] button:hover,  md-autocomplete[md-input-name="assetFee"] button:hover {}*/
+/* WAVES STANDARD INPUTS */
+.wInput {
+  font-family: "Wesli", "Verdana", sans-serif;
+  font-size: 1rem;
+  padding: .25rem;
+  margin-top: .25rem;
+  border: 1px solid #d7d7d7;
+  min-width: 250px;
+}
+.wInput-error {
+  border: 2px solid #9c0005 !important;
+}
+.attachment {
+  border: 3px dashed #e4e3e3;
+  padding: 1em;
+  text-align: center;
+}
 .phContent {
   margin: 0 auto;
   text-align: center;
@@ -195,20 +545,6 @@ body {
 #feat-not-active {
   max-width: 500px;
 }
-/* ======================================================================= */
-/* MAIN WRAPPER SETTINGS */
-#wrapper {
-  width: 100%;
-  max-width: 1920px;
-  min-width: 320px;
-  height: 100vh;
-  max-height: 1080px;
-  min-height: 320px;
-  margin: 0 auto;
-  overflow: hidden;
-}
-/* ======================================================================= */
-/* LOCKSCREEN SETTINGS */
 @-webkit-keyframes wFlip {
   0% {
     -webkit-transform: rotateY(0deg);
@@ -405,8 +741,6 @@ body {
   display: block;
   height: inherit;
 }
-/* ======================================================================= */
-/* HEADER SETTINGS */
 header,
 #tabs,
 #mBLeftBar,
@@ -484,8 +818,6 @@ header {
 #copy_and_close_backup_modal {
   margin-right: 1rem;
 }
-/* ======================================================================= */
-/* TAB SELECTORS SECTION */
 #tabs {
   /*        display: flex;*/
   position: relative;
@@ -539,494 +871,6 @@ span.tabs-radio img.selected {
   opacity: 1;
   pointer-events: none;
 }
-/* ======================================================================= */
-/* MAIN BODY SECTION */
-#mainBody {
-  overflow-y: scroll;
-}
-/* ======================================================================= */
-/* MAIN BODY-BODY SETTINGS */
-#mBBody {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-line-pack: center;
-  align-content: center;
-  position: relative;
-  width: 100% !important;
-  padding-bottom: 1rem;
-  margin: 0 auto;
-}
-#LBmBB-portfolio,
-#LBmBB-exchange,
-#LBmBB-voting,
-#LBmBB-history,
-#LBmBB-messages,
-#LBmBB-community {
-  display: none;
-}
-/* ======================================================================= */
-/* WALLET TAB */
-#mBB-wallet {
-  width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-}
-.flex-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-  height: auto;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -ms-flex-line-pack: center;
-  align-content: center;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-}
-.walletBox {
-  position: relative;
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  /*    display: inline-block;*/
-  min-width: 260px;
-  max-width: 300px;
-  height: 220px;
-  border: 1px solid #dcdcdc;
-  margin: 5px;
-  padding: 10px;
-  border-radius: 20px 20px 20px 20px;
-  overflow: hidden;
-}
-.walletBox img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 90%;
-  z-index: 0;
-}
-.wB-name {
-  display: block;
-  position: relative;
-  float: right;
-  z-index: 100 !important;
-  font-family: "Engo", "Verdana", sans-serif;
-  font-size: 2.5rem;
-  color: #37556e;
-}
-.wB-add {
-  display: block;
-  width: 100%;
-  position: relative;
-  text-align: right;
-  float: right;
-  z-index: 100 !important;
-  font-family: "Wesli", "Verdana", sans-serif;
-  font-size: 1rem;
-  color: #d7d7d7;
-}
-.wB-balInt {
-  display: block;
-  position: relative;
-  width: 100%;
-  text-align: right;
-  float: right;
-  z-index: 99 !important;
-  font-family: "Sparta", "Verdana", sans-serif;
-  font-weight: bold;
-  font-size: 2.5rem;
-  color: #37556e;
-}
-.wB-balDec {
-  display: block;
-  position: relative;
-  text-align: right;
-  float: right;
-  z-index: 99 !important;
-  font-family: "Sparta", "Verdana", sans-serif;
-  font-weight: bold;
-  font-size: 1.75rem;
-  color: #37556e;
-  line-height: .5;
-  letter-spacing: -2px;
-  opacity: .5;
-}
-/* Do not eliminate this one */
-#mBB-wallet h2 {
-  padding: .5rem;
-}
-/* CONFIRMATION DIALOGS - ANGULAR FIXES FOR LATER */
-.dialog-confirmation {
-  text-align: center;
-}
-#asset-details-dialog {
-  max-width: 640px;
-}
-.dialog-text {
-  padding-bottom: 1rem;
-}
-.wavesPop-content {
-  padding-left: 2rem !important;
-  padding-right: 2rem !important;
-  padding-bottom: 1rem !important;
-}
-.wavesPop-content-buttons {
-  padding-bottom: 2rem;
-}
-#send-confirm {
-  width: auto;
-}
-.confirmation-value {
-  font-family: "Sparta", "Verdana", sans-serif;
-  font-size: .9rem;
-  /*    font-weight: 600;*/
-}
-.button-row {
-  text-align: center;
-}
-.wavesPop-content .button-row {
-  padding-bottom: 1rem;
-}
-/* BALANCE BOXES BUTTONS SECTION */
-.wB-buttons {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 20%;
-  padding: 1%;
-  margin-bottom: -5px;
-}
-.wB-buttons a {
-  text-decoration: none;
-}
-.wB-but {
-  display: inline-block;
-  position: relative;
-  width: 32.4%;
-  height: 80%;
-  margin: .45%;
-  background: #37556e;
-  overflow: hidden;
-  font-family: "Wesli", "Verdana", sans-serif;
-  font-size: 1rem;
-  color: #ffffff;
-  border: none;
-  outline: none;
-}
-.wB-but:hover {
-  cursor: pointer;
-  background: #e1b47d;
-}
-.wB-butSend {
-  border-radius: 2px 2px 2px 16px;
-}
-.wB-butRec {
-  border-radius: 2px 2px 2px 2px;
-}
-.wB-butTrade {
-  border-radius: 2px 2px 16px 2px;
-}
-.wB-but p {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: 0 -50% 0 0;
-  -webkit-transform: translate(-50%, -55%);
-  transform: translate(-50%, -55%);
-}
-#full-transaction-history,
-#wallet-transaction-history {
-  width: 100%;
-  padding-bottom: 1rem;
-}
-#wallet-transaction-history table {
-  overflow-y: scroll;
-}
-/* ======================================================================= */
-/* WAVES STANDARD TABLES SECTION */
-.wavesTable table {
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-  height: auto;
-  padding: 0;
-  margin-bottom: 2rem;
-}
-.wavesTable thead {
-  background-color: #37556e;
-  border: 0 solid #f0f0f0;
-  text-align: center;
-  font-size: 1.12rem;
-  color: #ffffff;
-}
-.wavesTable tbody tr:nth-child(odd) {
-  background-color: #f0f0f0;
-}
-.wavesTable tbody tr:nth-child(even) {
-  background-color: #ffffff;
-}
-.wavesTable td {
-  vertical-align: middle;
-  text-align: center;
-  font-size: 1.1rem;
-  padding: .5rem;
-}
-.wavesTable tbody tr {
-  transition: all .2s ease;
-  -webkit-transition: all .2s ease;
-}
-.wavesTable-hover tbody tr:hover {
-  background: rgba(225, 180, 125, 0.5);
-  cursor: pointer;
-}
-.wavesTable tbody tr:not(#mBB-token .wavesTable-hover tbody tr) {
-  color: #333333;
-  font-family: "Lekton", "Courier New", monospace;
-}
-.wavesTable input[type="search"],
-.paymentForm input[type="search"] {
-  font-family: "Wesli", "Verdana", sans-serif;
-  font-size: 1rem;
-  padding: 0.3rem;
-}
-/* Added deeper specification to avoid it auto-excepting itself */
-#mBB-portfolio .wavesTable tbody tr {
-  color: #333333;
-  font-family: "Lekton", "Courier New", monospace;
-}
-.wavesTable-txIn {
-  color: #4c7699 !important;
-}
-.wavesTable-txOut {
-  color: #555555 !important;
-}
-.wavesTable-txIn .clipSpan:after {
-  background: url(../img/wIcon_clip_txIn.svg) no-repeat;
-  opacity: .75;
-}
-.wavesTable-txOut .clipSpan:after {
-  background: url(../img/wIcon_clip_txOut.svg) no-repeat;
-  opacity: .75;
-}
-.wavesTable-txUnc .clipSpan:after {
-  background: none;
-}
-#latestBlocksTable .clipSpan:after {
-  background: url(../img/wIcon_clip_txOut.svg) no-repeat;
-  opacity: .6;
-}
-#latestBlocks {
-  /*    overflow-y: scroll !important;*/
-}
-.wavesTable-txUnc {
-  -webkit-animation: opacity_change 1s infinite alternate ease-in-out;
-  animation: opacity_change 1s infinite alternate ease-in-out;
-}
-@-webkit-keyframes opacity_change {
-  from {
-    opacity: 0.35;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes opacity_change {
-  from {
-    opacity: 0.35;
-  }
-  to {
-    opacity: 1;
-  }
-}
-#full-transaction-history tbody,
-#wallet-transaction-history tbody,
-#latestBlocksUnconfirmed,
-#latestBlocksTable {
-  font-family: "Lekton", "Courier New", monospace;
-}
-/* ======================================================================= */
-/* WAVES STANDARD BUTTONS */
-.wButton {
-  display: inline-block;
-  position: relative;
-  padding: .3rem .8rem;
-  background: none;
-  overflow: hidden;
-  font-family: "Wesli", "Verdana", sans-serif;
-  font-size: 1rem;
-  color: #ffffff;
-  border: 1px solid #ffffff;
-  outline: none;
-  text-align: center;
-  text-decoration: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-#addContactSubmit {
-  background: #ffffff;
-  color: #37556e;
-  border: 1px solid #37556e;
-}
-#addContactSubmit:hover {
-  background: #37556e;
-  color: #ffffff;
-}
-.wButton a,
-.wButtonAlt a {
-  text-decoration: none;
-}
-.wButton p {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: 0 -50% 0 0;
-  -webkit-transform: translate(-50%, -55%);
-  transform: translate(-50%, -55%);
-}
-.wButton:hover {
-  cursor: pointer;
-  background: #ffffff;
-  color: #333333;
-}
-.wButton-icon > img {
-  width: .75rem;
-  margin-right: .5rem;
-}
-.wButtonAlt {
-  display: inline-block;
-  position: relative;
-  padding: .2rem .4rem;
-  font-family: "Wesli", "Verdana", sans-serif;
-  font-size: 1rem;
-  color: #ffffff;
-  outline: none;
-  border: none;
-  background: none;
-  overflow: hidden;
-  opacity: .5;
-}
-.wButtonAlt:hover {
-  cursor: pointer;
-  opacity: 1;
-}
-.wButton-neg {
-  border: 1px solid #37556e;
-  color: #37556e;
-}
-.wButton-neg:hover {
-  background: #37556e;
-  color: #ffffff;
-}
-.wButton-dialog {
-  border: 1px solid #37556e;
-  color: #37556e;
-}
-.wButton-dialog:hover {
-  background: #37556e;
-  color: #ffffff;
-}
-.wButton[disabled],
-.wButton-neg[disabled] {
-  opacity: .5;
-  cursor: default;
-  pointer-events: none;
-}
-/* Button style for Danger or Error messages against white bg */
-.wButtonDanger {
-  color: #9c0005;
-  border: 1px solid #9c0005;
-}
-.wButtonDanger:hover {
-  background: #9c0005;
-  color: #ffffff;
-}
-/* Custom buttons */
-#addContactSubmit,
-#close_create_account_modal {
-  background: #ffffff;
-  color: #37556e;
-  border: 1px solid #37556e;
-}
-#addContactSubmit:hover,
-#close_create_account_modal:hover {
-  background: #37556e;
-  color: #ffffff;
-}
-.wPop-content-buttons {
-  margin: 0 auto;
-  text-align: center;
-}
-#transactionHistorySearch {
-  background: #37556e;
-  color: #ffffff;
-}
-#transactionHistorySearch:hover {
-  background: #e1b47d;
-}
-/* Payment forms BUTTONS style */
-.paymentForm-but {
-  border: 1px solid #37556e;
-  outline: none;
-  position: relative;
-  margin: 0 auto;
-  /*    width: 5rem;*/
-  padding-left: .5rem;
-  padding-right: .5rem;
-  background: #ffffff;
-  font-family: "Wesli", "Verdana", sans-serif;
-  font-size: 1rem;
-  color: #37556e;
-  text-align: center;
-}
-.paymentForm-but:hover {
-  cursor: pointer;
-  background: #37556e;
-  color: #ffffff;
-}
-/* Send Payment(s) form buttons */
-.send-but {
-  padding: .3rem;
-  width: 4.5rem;
-}
-md-autocomplete.fee-autocomplete button {
-  transition: all .4s ease;
-  -webkit-transition: all .4s ease;
-}
-md-autocomplete.fee-autocomplete button md-icon path {
-  fill: #37556e;
-}
-md-autocomplete.fee-autocomplete button:hover md-icon path {
-  fill: white;
-}
-/* md-autocomplete[md-input-name="wavessendfee"] button:hover,  md-autocomplete[md-input-name="assetFee"] button:hover {}*/
-/* ======================================================================= */
-/* WAVES STANDARD INPUTS */
-.wInput {
-  font-family: "Wesli", "Verdana", sans-serif;
-  font-size: 1rem;
-  padding: .25rem;
-  margin-top: .25rem;
-  border: 1px solid #d7d7d7;
-  min-width: 250px;
-}
-.wInput-error {
-  border: 2px solid #9c0005 !important;
-}
-.attachment {
-  border: 3px dashed #e4e3e3;
-  padding: 1em;
-  text-align: center;
-}
-/* ======================================================================= */
 /* PAYMENT FORM PARAMETERS */
 .paymentForm {
   height: auto;
@@ -1142,8 +986,156 @@ md-autocomplete.fee-autocomplete button:hover md-icon path {
   border: 1px solid #d7d7d7;
   box-shadow: none;
 }
-/* ======================================================================= */
-/* PORTFOLIO TAB */
+#mBB-wallet {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+.flex-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  height: auto;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+.walletBox {
+  position: relative;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  /*    display: inline-block;*/
+  min-width: 260px;
+  max-width: 300px;
+  height: 220px;
+  border: 1px solid #dcdcdc;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 20px 20px 20px 20px;
+  overflow: hidden;
+}
+.walletBox img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 90%;
+  z-index: 0;
+}
+.wB-name {
+  display: block;
+  position: relative;
+  float: right;
+  z-index: 100 !important;
+  font-family: "Engo", "Verdana", sans-serif;
+  font-size: 2.5rem;
+  color: #37556e;
+}
+.wB-add {
+  display: block;
+  width: 100%;
+  position: relative;
+  text-align: right;
+  float: right;
+  z-index: 100 !important;
+  font-family: "Wesli", "Verdana", sans-serif;
+  font-size: 1rem;
+  color: #d7d7d7;
+}
+.wB-balInt {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-align: right;
+  float: right;
+  z-index: 99 !important;
+  font-family: "Sparta", "Verdana", sans-serif;
+  font-weight: bold;
+  font-size: 2.5rem;
+  color: #37556e;
+}
+.wB-balDec {
+  display: block;
+  position: relative;
+  text-align: right;
+  float: right;
+  z-index: 99 !important;
+  font-family: "Sparta", "Verdana", sans-serif;
+  font-weight: bold;
+  font-size: 1.75rem;
+  color: #37556e;
+  line-height: .5;
+  letter-spacing: -2px;
+  opacity: .5;
+}
+/* Do not eliminate this one */
+#mBB-wallet h2 {
+  padding: .5rem;
+}
+/* BALANCE BOXES BUTTONS SECTION */
+.wB-buttons {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  padding: 1%;
+  margin-bottom: -5px;
+}
+.wB-buttons a {
+  text-decoration: none;
+}
+.wB-but {
+  display: inline-block;
+  position: relative;
+  width: 32.4%;
+  height: 80%;
+  margin: .45%;
+  background: #37556e;
+  overflow: hidden;
+  font-family: "Wesli", "Verdana", sans-serif;
+  font-size: 1rem;
+  color: #ffffff;
+  border: none;
+  outline: none;
+}
+.wB-but:hover {
+  cursor: pointer;
+  background: #e1b47d;
+}
+.wB-butSend {
+  border-radius: 2px 2px 2px 16px;
+}
+.wB-butRec {
+  border-radius: 2px 2px 2px 2px;
+}
+.wB-butTrade {
+  border-radius: 2px 2px 16px 2px;
+}
+.wB-but p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0 -50% 0 0;
+  -webkit-transform: translate(-50%, -55%);
+  transform: translate(-50%, -55%);
+}
+#full-transaction-history,
+#wallet-transaction-history {
+  width: 100%;
+  padding-bottom: 1rem;
+}
+#wallet-transaction-history table {
+  overflow-y: scroll;
+}
 #mBB-portfolio {
   width: 100%;
   text-align: center;
@@ -1195,8 +1187,6 @@ md-progress-linear .md-container {
 md-progress-linear .md-bar {
   background-color: #37556e;
 }
-/* ======================================================================= */
-/* HISTORY TAB */
 #mBB-history {
   width: 100%;
   text-align: center;
@@ -1218,14 +1208,10 @@ md-progress-linear .md-bar {
   height: auto;
   padding-bottom: 1rem;
 }
-/* ======================================================================= */
-/* EXCHANGE TAB */
 #mBB-exchange {
   width: 100%;
   text-align: center;
 }
-/* ======================================================================= */
-/* TOKENS TAB */
 #mBB-token {
   width: 100%;
   text-align: center;
@@ -1292,10 +1278,6 @@ md-progress-linear .md-bar {
 #massPaymentFilesForm input[type="file"] {
   font-family: "Wesli", "Verdana", sans-serif;
 }
-/* ======================================================================= */
-/* MESSENGER TAB */
-/* ======================================================================= */
-/* COMMUNITY TAB */
 #mBB-community {
   width: 100%;
   text-align: center;
@@ -1307,22 +1289,6 @@ md-progress-linear .md-bar {
   color: #e1b47d;
   font-weight: 600;
 }
-/* ======================================================================= */
-/* NPROGRESS CSS RULES */
-#nprogress {
-  pointer-events: none;
-}
-#nprogress .bar {
-  background: #ffffff;
-  position: fixed;
-  z-index: 1031;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5px;
-}
-/* ======================================================================= */
-/* MEDIA QUERIES */
 @media only screen and (max-width: 1024px) {
   #logoNversion2 {
     display: none;

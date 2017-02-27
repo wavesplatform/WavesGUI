@@ -1,0 +1,226 @@
+@import "variables";
+
+@media only screen and (max-width: 1024px) {
+  #logoNversion2 {
+    display: none;
+  }
+  #topLogoH {
+    display: block;
+  }
+  #version {
+    font-size: 1rem;
+  }
+  #mBLeftBar {
+    width: 150px;
+  }
+  #blockheight,
+  header .divider-2,
+  header .inlineParagraph {
+    display: none;
+  }
+  .header-Icon {
+    width: 1.75rem;
+  }
+  .wavesTable {
+    overflow-x: scroll !important;
+  }
+  .clipSpan:before,
+  .clipSpan:after {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  #version {
+    display: none;
+  }
+  #mBLeftBar {
+    width: 100px;
+  }
+  #lockscreen {
+    padding: 2rem
+  }
+  #lockscreenTable {
+    padding: 0;
+    margin: 0 auto;
+    min-width: 220px;
+  }
+  .loginAccountDiv .divider-1:nth-child(1),
+  .loginAccountDiv .divider-1:nth-child(2),
+  .loginAccountDiv .divider-1:nth-child(3),
+  .loginAccountDiv > .clipSpan {
+    display: none;
+  }
+  .loginAccount,
+  .removeAccount {
+    display: block;
+    margin: 0 auto;
+  }
+  #mBB-community > p {
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  #tabs-Iconset {
+    height: 80%;
+  }
+  #tabs-Iconset img {
+    margin-top: 0;
+    margin-left: .5rem;
+    margin-right: .5rem;
+  }
+  #generateRandomSeed,
+  #generateKeys {
+    display: block;
+    margin: 0 auto;
+  }
+  .removeAccount {
+    margin-top: .5rem;
+  }
+  #walletSeed {
+    min-width: 250px;
+  }
+}
+
+@media only screen and (max-width: 512px) {
+  #tabs {
+    height: 55px;
+  }
+  #tabs-Iconset {
+    height: 80%;
+    width: 90%;
+  }
+  #tabs-Iconset img {
+    margin-left: .25rem;
+    margin-right: .25rem;
+    height: 41px;
+  }
+  .wInput {
+    min-width: 50px;
+  }
+  #mBB-token table {
+    width: 100%;
+  }
+}
+
+
+/* Mobile version - Landscape (iPhone up to 6, all Samsung Galaxy, all HTC) */
+
+@media only screen and (max-width: 736px) and (max-height: 420px) {
+  html {
+    font-size: 12px;
+  }
+  header {
+    height: 30px;
+    padding: 0;
+  }
+  #topLogoH {
+    width: 10rem;
+    margin-top: .25rem;
+  }
+  #header-Iconset {
+    position: absolute;
+    right: .25rem;
+    top: .5rem;
+  }
+  .header-Icon {
+    width: 1.5rem;
+    padding: 0;
+    margin: 0 .35rem 0 0;
+  }
+  #tabs {
+    height: 40px;
+  }
+  #tabs-Iconset {
+    height: 90%;
+    margin-top: -.25rem;
+  }
+  #tabs-Iconset img {
+    padding-left: .4rem;
+    padding-right: .4rem;
+  }
+  #mBB-wallet {
+    height: auto;
+    padding-bottom: 2rem;
+    text-align: center;
+  }
+  .walletBox {
+    width: 275px;
+    height: 175px;
+  }
+}
+
+
+/* Mobile version - Portrait */
+
+@media only screen and (max-width: 420px) {
+  html {
+    font-size: 12px;
+  }
+  header {
+    height: 40px;
+  }
+  #lockscreen {
+    text-align: center;
+    margin: 0 auto;
+    min-width: 300px;
+  }
+  #lockscreenTable {
+    text-align: center;
+    margin: 0 auto;
+  }
+  .loginAccountDiv {
+    display: block;
+    height: auto;
+    margin: 0 auto 10px;
+  }
+  .loginAccount {
+    margin-top: 20px;
+  }
+  .divider-1 {
+    width: 0;
+  }
+  #import_account,
+  #create_account {
+    display: block;
+    margin: 0 auto;
+  }
+  .wavesTable td {
+    padding-left: .2rem;
+    padding-right: .2rem;
+  }
+  #topLogoH {
+    width: 10rem;
+    margin-top: .38rem;
+  }
+  .header-Icon {
+    width: 1.5rem;
+    margin-right: .35rem;
+    margin-top: .2rem;
+  }
+  #tabs {
+    height: 50px;
+  }
+  #tabs-Iconset img {
+    /*        margin-top: .25rem;*/
+    height: 36px;
+  }
+  #mBB-wallet {
+    height: auto;
+    padding-bottom: 2rem;
+    text-align: center;
+  }
+  .walletBox {
+    width: 275px;
+    height: 175px;
+  }
+  .wB-buttons {
+    height: 22.5%;
+    margin-bottom: -3px;
+  }
+  #massPaymentFilesForm input[type="file"] {
+    font-family: @font-wesli;
+    font-size: 0.9rem;
+  }
+}
