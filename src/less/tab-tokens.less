@@ -1,0 +1,85 @@
+@import "variables";
+
+#mBB-token {
+  width: 100%;
+  text-align: center;
+}
+
+/* Temporary fix for the extra space below this div - CHECK */
+
+#create-asset-form div:nth-child(1) {
+  margin-bottom: -20px;
+}
+
+#mBB-token form {
+  width: 500px;
+  margin: 0 auto;
+}
+
+#mBB-token table {
+  width: 100%;
+}
+
+#mBB-token table tbody tr:last-child {
+  background-color: @color-white;
+  font-style: italic;
+  color: @color-grey;
+}
+
+#mBB-token table tbody tr:last-child {
+  text-align: right;
+  padding-right: .5rem;
+}
+
+#mBB-token table tbody tr:last-child:hover {
+  cursor: default;
+}
+
+#mBB-token form button {
+  margin-top: 1rem;
+}
+
+.massPayRecap {
+  max-width: 435px;
+  max-height: 65vh;
+  overflow-y: scroll;
+}
+
+.massPayRecap p:nth-child(1) {
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.massPayRecap p:nth-child(2) {
+  font-style: italic;
+  color: @color-grey;
+  text-align: center;
+  margin-bottom: .5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.massPayRecap tBody tr {
+  font-family: @font-lekton;
+  // TODO : make a mixin.
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+#asset-mass-pay-dialog {
+  max-width: 550px;
+  text-align: center;
+}
+
+#asset-mass-pay-dialog p {
+  text-align: center;
+  margin-bottom: .5rem;
+  // TODO : make a mixin.
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+#massPaymentFilesForm input[type="file"] {
+  font-family: @font-wesli;
+}
