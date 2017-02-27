@@ -126,7 +126,7 @@
                 Currency.EUR.id = 'FzM69o6zN8imUt31SUDuTAbuGudFFHgCukod22CZBFsn';
                 Currency.USD.id = '3YFnx7HDriFrgw5WGXz3B1w8ap9joSsDfxChbHPzUX9W';
                 Currency.CNY.id = '4iqnbrviN9gVH12zxjVTF4MMKz8sHCtoiQkN1XnD3EAJ';
-                Currency.BTC.id = 'FwYdL5RUm9S15kGHNp9FAT9F2rgDYzL4NpzwJTug9STB';
+                Currency.BTC.id = 'J3gwJZHJBtK9994EXhmEzdHX5dj7bToRuVf7fvJ3GgBq';
             }
         }
     }

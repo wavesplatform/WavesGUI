@@ -9,15 +9,16 @@
         var withdraw = this;
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAV);
 
-        withdraw.broadcast = new transactionBroadcast.instance(apiService.assets.transfer, function () {
-            var amount = Money.fromCoins(transaction.amount, withdraw.assetBalance.currency);
-            var address = transaction.recipient;
-            var displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
-                withdraw.assetBalance.currency.displayName +
-                '<br/>Gateway ' + address.substr(0,15) + '...<br/>Date: ' +
-                formattingService.formatTimestamp(transaction.timestamp);
-            notificationService.notice(displayMessage);
-        });
+        withdraw.broadcast = new transactionBroadcast.instance(apiService.assets.transfer,
+            function (transaction, response) {
+                var amount = Money.fromCoins(transaction.amount, withdraw.assetBalance.currency);
+                var address = transaction.recipient;
+                var displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
+                    withdraw.assetBalance.currency.displayName +
+                    '<br/>Gateway ' + address.substr(0,15) + '...<br/>Date: ' +
+                    formattingService.formatTimestamp(transaction.timestamp);
+                notificationService.notice(displayMessage);
+            });
         withdraw.autocomplete = autocomplete;
         withdraw.validationOptions = {
             rules: {
@@ -86,7 +87,8 @@
                         response.in_max), withdraw.assetBalance.currency);
                     withdraw.sourceCurrency = withdraw.assetBalance.currency.displayName;
                     withdraw.exchangeRate = response.xrate;
-                    withdraw.correction = response.out_prec.correction;
+                    withdraw.feeIn = response.fee_in;
+                    withdraw.feeOut = response.fee_out;
                     withdraw.targetCurrency = response.to_txt;
                     withdraw.exchangeAmount = '0';
                     withdraw.amount = response.in_def;
@@ -148,14 +150,15 @@
                 withdraw.confirm.fee.currency = fee.currency.displayName;
                 withdraw.confirm.recipient = withdraw.recipient;
 
-                coinomatService.getWithdrawAddress(withdraw.assetBalance.currency, withdraw.recipient)
-                    .then(function (gatewayAddress) {
-                        withdraw.confirm.gatewayAddress = gatewayAddress;
+                coinomatService.getWithdrawDetails(withdraw.assetBalance.currency, withdraw.recipient)
+                    .then(function (withdrawDetails) {
+                        withdraw.confirm.gatewayAddress = withdrawDetails.address;
 
                         var assetTransfer = {
-                            recipient: gatewayAddress,
+                            recipient: withdrawDetails.address,
                             amount: amount,
-                            fee: fee
+                            fee: fee,
+                            attachment: converters.stringToByteArray(withdrawDetails.attachment)
                         };
                         var sender = {
                             publicKey: applicationContext.account.keyPair.public,
@@ -186,7 +189,7 @@
             if (!address)
                 throw new Error('Bitcoin address is required');
 
-            if (!address.match(/^[13][0-9a-z]{26,33}$/i))
+            if (!address.match(/^[0-9a-z]{27,34}$/i))
                 throw new Error('Bitcoin address is invalid. Expected address length is from 27 to 34 symbols');
         }
 
@@ -195,8 +198,8 @@
         }
 
         function refreshAmounts () {
-            var exchangeAmount = Money.fromTokens(withdraw.amount * withdraw.exchangeRate * withdraw.correction,
-                withdraw.assetBalance.currency);
+            var amount = Math.max(0, withdraw.exchangeRate * (withdraw.amount - withdraw.feeIn) - withdraw.feeOut);
+            var exchangeAmount = Money.fromTokens(amount, withdraw.assetBalance.currency);
             withdraw.exchangeAmount = exchangeAmount.formatAmount(true);
         }
 

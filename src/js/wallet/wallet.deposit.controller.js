@@ -20,10 +20,10 @@
             dialogService.open('#deposit-dialog');
 
             coinomatService.getDepositDetails(deposit.assetBalance.currency, applicationContext.account.address)
-                .then(function (depositAddress) {
+                .then(function (depositDetails) {
                     deposit.requisites = [{
                         name: 'Bitcoin address',
-                        value: depositAddress
+                        value: depositDetails.address
                     }];
                 })
                 .catch(function (exception) {

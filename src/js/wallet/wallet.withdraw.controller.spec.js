@@ -26,7 +26,7 @@ describe('Wallet.Withdraw.Controller', function() {
         timeout = $timeout;
         coinomatService = {
             getWithdrawRate: function () {},
-            getWithdrawAddress: function () {}
+            getWithdrawDetails: function () {}
         };
         formMock = {
             invalid: function () {
@@ -77,6 +77,8 @@ describe('Wallet.Withdraw.Controller', function() {
             in_min: 0.1,
             in_max: 100,
             in_def: 10,
+            fee_in: 0,
+            fee_out: 0.0001,
             from_txt: 'LTC',
             to_txt: 'Webmoney VND',
             in_prec: {
@@ -97,8 +99,8 @@ describe('Wallet.Withdraw.Controller', function() {
 
     function initWithdrawAddressMock() {
         var deferred = $q.defer();
-        spyOn(coinomatService, 'getWithdrawAddress').and.returnValue(deferred.promise);
-        deferred.resolve(gatewayAddress);
+        spyOn(coinomatService, 'getWithdrawDetails').and.returnValue(deferred.promise);
+        deferred.resolve({address: gatewayAddress});
     }
 
     it('should initialize properly', function () {
@@ -113,9 +115,10 @@ describe('Wallet.Withdraw.Controller', function() {
         expect(coinomatService.getWithdrawRate).toHaveBeenCalled();
         expect(dialogService.open).toHaveBeenCalled();
         expect(controller.exchangeRate).toEqual(0.99);
-        expect(controller.correction).toEqual(1000000);
+        expect(controller.feeIn).toEqual(0);
+        expect(controller.feeOut).toEqual(0.0001);
         expect(controller.amount).toEqual(10);
-        expect(controller.exchangeAmount).toEqual('9,900,000');
+        expect(controller.exchangeAmount).toEqual('9.8999');
         expect(controller.validationOptions.rules.withdrawAmount.decimal).toEqual(Currency.BTC.precision);
         expect(controller.validationOptions.rules.withdrawAmount.min).toEqual(0.1);
         expect(controller.validationOptions.rules.withdrawAmount.max).toEqual(10);
@@ -217,7 +220,7 @@ describe('Wallet.Withdraw.Controller', function() {
         $rootScope.$apply();
 
         var deferred = $q.defer();
-        spyOn(coinomatService, 'getWithdrawAddress').and.returnValue(deferred.promise);
+        spyOn(coinomatService, 'getWithdrawDetails').and.returnValue(deferred.promise);
         spyOn(notificationService, 'error');
 
         var errorMessage = 'Failed to get tunnel';
