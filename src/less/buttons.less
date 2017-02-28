@@ -1,0 +1,196 @@
+@import "variables";
+
+/* WAVES STANDARD BUTTONS */
+
+.wButton {
+  display: inline-block;
+  position: relative;
+  padding: .3rem .8rem;
+  background: none;
+  overflow: hidden;
+  font-family: @font-wesli;
+  font-size: 1rem;
+  color: @color-white;
+  border: 1px solid @color-white;
+  outline: none;
+  text-align: center;
+  text-decoration: none;
+  // TODO : wrap user-select directives below into a mixin.
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#addContactSubmit {
+  background: @color-white;
+  color: @color-navy-blue;
+  border: 1px solid @color-navy-blue;
+}
+
+#addContactSubmit:hover {
+  background: @color-navy-blue;
+  color: @color-white;
+}
+
+.wButton a,
+.wButtonAlt a {
+  text-decoration: none;
+}
+
+.wButton p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0 -50% 0 0;
+  -webkit-transform: translate(-50%, -55%);
+  transform: translate(-50%, -55%);
+}
+
+.wButton:hover {
+  cursor: pointer;
+  background: @color-white;
+  color: @color-darkest-grey;
+}
+
+.wButton-icon > img {
+  width: .75rem;
+  margin-right: .5rem;
+}
+
+.wButtonAlt {
+  display: inline-block;
+  position: relative;
+  padding: .2rem .4rem;
+  font-family: @font-wesli;
+  font-size: 1rem;
+  color: @color-white;
+  outline: none;
+  border: none;
+  background: none;
+  overflow: hidden;
+  opacity: .5;
+}
+
+.wButtonAlt:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.wButton-neg {
+  border: 1px solid @color-navy-blue;
+  color: @color-navy-blue;
+}
+
+.wButton-neg:hover {
+  background: @color-navy-blue;
+  color: @color-white;
+}
+
+.wButton-dialog {
+  border: 1px solid @color-navy-blue;
+  color: @color-navy-blue;
+}
+
+.wButton-dialog:hover {
+  background: @color-navy-blue;
+  color: @color-white;
+}
+
+.wButton[disabled],
+.wButton-neg[disabled] {
+  opacity: .5;
+  cursor: default;
+  pointer-events: none;
+}
+
+
+/* Button style for Danger or Error messages against white bg */
+
+.wButtonDanger {
+  color: @color-crimson-red;
+  border: 1px solid @color-crimson-red;
+}
+
+.wButtonDanger:hover {
+  background: @color-crimson-red;
+  color: @color-white;
+}
+
+
+/* Custom buttons */
+
+#addContactSubmit,
+#close_create_account_modal {
+  background: @color-white;
+  color: @color-navy-blue;
+  border: 1px solid @color-navy-blue;
+}
+
+#addContactSubmit:hover,
+#close_create_account_modal:hover {
+  background: @color-navy-blue;
+  color: @color-white;
+}
+
+.wPop-content-buttons {
+  margin: 0 auto;
+  text-align: center;
+}
+
+#transactionHistorySearch {
+  background: @color-navy-blue;
+  color: @color-white;
+}
+
+#transactionHistorySearch:hover {
+  background: @color-soft-orange;
+}
+
+
+/* Payment forms BUTTONS style */
+
+.paymentForm-but {
+  border: 1px solid @color-navy-blue;
+  outline: none;
+  position: relative;
+  margin: 0 auto;
+  /*    width: 5rem;*/
+  padding-left: .5rem;
+  padding-right: .5rem;
+  background: @color-white;
+  font-family: @font-wesli;
+  font-size: 1rem;
+  color: @color-navy-blue;
+  text-align: center;
+}
+
+.paymentForm-but:hover {
+  cursor: pointer;
+  background: @color-navy-blue;
+  color: @color-white;
+}
+
+
+/* Send Payment(s) form buttons */
+
+.send-but {
+  padding: .3rem;
+  width: 4.5rem;
+}
+
+md-autocomplete.fee-autocomplete button {
+  transition: all .4s ease;
+  -webkit-transition: all .4s ease;
+}
+
+md-autocomplete.fee-autocomplete button md-icon path {
+  fill: @color-navy-blue;
+}
+
+md-autocomplete.fee-autocomplete button:hover md-icon path {
+  fill: white;
+}
+
+
+/* md-autocomplete[md-input-name="wavessendfee"] button:hover,  md-autocomplete[md-input-name="assetFee"] button:hover {}*/

@@ -39,7 +39,12 @@ Since you have your enviroment set up you can clone the repository and run in th
 ```
 npm install
 ```
-This command will prepare all required dependencies. Now feel free to open src/index.html in your browser.
+Since we are reorganizing the building process, there is something more you need to have a fully working Waves Client:
+```
+npm install -g grunt
+grunt build-local
+```
+Those commands will prepare all required dependencies. Now feel free to open src/index.html in your browser.
 
 # Packages description
 
