@@ -59,13 +59,13 @@
                     <div id="accounts">
                         <h2 id="AccHeader">{{accounts.caption}}</h2>
                         <div class="wavesAccounts" ng-controller="accountListController as list" ng-show="accounts.mode === 'list'">
-                            <p class="loginAccountDiv" ng-repeat="account in list.accounts track by account.address">
+                            <p class="loginAccountDiv" ng-repeat="account in list.accounts track by $index">
                                     <span class="loginAccount fade" tooltipster tooltip-theme="tooltipster-theme1" title="Log into this account." ng-click="list.signIn(account)"> <br/>
                                         <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::account.address}}</small>
                                     </span>
                                 <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard title="Copy this address to the clipboard." data-clipboard-text="{{::account.address}}" ngclipboard-success="clipboardOk()"></span>
                                 <span class="divider-1"></span>
-                                <button class="removeAccount wButtonAlt fade" tooltipster tooltip-theme="tooltipster-theme1" title="Remove this account from the list." ng-click="list.showRemoveWarning(account)">
+                                <button class="removeAccount wButtonAlt fade" tooltipster tooltip-theme="tooltipster-theme1" title="Remove this account from the list." ng-click="list.showRemoveWarning($index)">
                                     <span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE
                                 </button>
                             </p>
@@ -77,7 +77,7 @@
 
                             <!-- Remove Account popup -->
                             <div id="account-remove-popup" waves-dialog on-dialog-ok="list.removeAccount()" is-error="true" ok-button-caption="REMOVE">
-                                <h2 class="sectionHeader">REMOVE ACCOUNT <span id="removeAccountSpan"></span> - NOTICE</h2>
+                                <h2 class="sectionHeader">REMOVE ACCOUNT - NOTICE</h2>
                                 <p class="dialog-text">This feature completely removes the account from this device.</p>
                                 <p class="dialog-text">The account will not be eliminated or destroyed, but instead will not be shown anymore in the Accounts List at the client startup.</p>
                                 <p class="dialog-text">You can always re-generate your account on this device again using the Import Account feature and entering the SEED when prompted.</p>
@@ -377,27 +377,100 @@
                         </div>
                     </div>
 
-                    <div class="noDisp">
-                        <div id="withdraw-dialog" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="walletList.submitWithdraw()">
-
+                    <div class="noDisp" ng-controller="walletWithdrawController as withdraw">
+                        <div id="withdraw-asset-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.submitWithdraw()">
+                            <h2 class="sectionHeader">WITHDRAW: {{withdraw.sourceCurrency}}</h2>
+                            <p class="dialog-text">You're about to withdraw something</p>
+                            <form id="withdraw-asset-form" name="withdrawAssetForm" novalidate ng-validate="withdraw.validationOptions">
+                            <table>
+                                <div class="balanceAmt">
+                                    <div><p>Asset balance: </p><span class="balancewaves">{{withdraw.assetBalance.formatAmount(true)}}</span><br/></div>
+                                </div>
+                                <thead>
+                                    <tr>
+                                        <th>DESCRIPTION</th>
+                                        <th>INPUT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Amount</td>
+                                        <td><input class="wInput form-control" name="withdrawAmount" type="text" placeholder="Withdraw amount" ng-model="withdraw.amount" ng-change="withdraw.refreshAmounts()" ng-model-options="{ debounce: 750 }" decimal-input-restrictor/></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            {{withdraw.amount}} {{withdraw.sourceCurrency}} = {{withdraw.exchangeAmount}} {{withdraw.targetCurrency}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fee</td>
+                                        <td>
+                                            <md-autocomplete md-input-name="withdrawFee" md-selected-item="withdraw.autocomplete.selectedFee" md-search-text="withdraw.autocomplete.searchText"
+                                                             md-items="item in withdraw.autocomplete.querySearch(withdraw.autocomplete.searchText)"
+                                                             md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
+                                                             md-menu-class="popup-autocomplete" class="fee-autocomplete">
+                                                <md-item-template>
+                                                    <span md-highlight-text="withdraw.autocomplete.searchText">{{item.displayText}}</span>
+                                                </md-item-template>
+                                            </md-autocomplete>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </form>
                         </div>
-                        <div id="withdraw-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!wallet.confirm.pendingPayment" on-dialog-ok="walletList.broadcastSendTransaction()">
+                        <div id="withdraw-address-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.confirmWithdraw()">
+                            <h2 class="sectionHeader">EXCHANGE REQUISITES</h2>
+                            <form id="withdraw-address-form" name="withdrawAddressForm" novalidate>
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>DESCRIPTION</th>
+                                        <th>INPUT</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Bitcoin Address</td>
+                                            <td><input class="wInput form-control" name="withdrawAddress" type="text" placeholder="Bitcoin address" ng-model="withdraw.recipient"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                        <div id="withdraw-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!withdraw.broadcast.pending" on-dialog-ok="withdraw.broadcastTransaction()">
                             <div class="dialog-confirmation">
-                                <p class="dialog-text">You are sending <span class="confirmation-value">{{walletList.confirm.amount.value}}</span>
-                                    <span class="confirmation-value">{{walletList.confirm.amount.currency}}</span> with
-                                    <span class="confirmation-value">{{walletList.confirm.fee.value}}</span>
-                                    <span class="confirmation-value">{{walletList.confirm.fee.currency}}</span> fee to the address<br/>
-                                    <span class="confirmation-value">{{walletList.confirm.recipient}}</span>
+                                <p class="dialog-text">You are sending <span class="confirmation-value">{{withdraw.confirm.amount.value}}</span>
+                                    <span class="confirmation-value">{{withdraw.confirm.amount.currency}}</span> with
+                                    <span class="confirmation-value">{{withdraw.confirm.fee.value}}</span>
+                                    <span class="confirmation-value">{{withdraw.confirm.fee.currency}}</span> fee to the gateway address in Waves<br/>
+                                    <span class="confirmation-value">{{withdraw.confirm.gatewayAddress}}</span>.
                                 </p>
+                                <p class="dialog-text">The gateway is responsible for transfer of crypto to address <span class="confirmation-value">{{withdraw.confirm.recipient}}</span>.</p>
                                 <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
                             </div>
                         </div>
                     </div>
 
+                    <div class="noDisp" ng-controller="walletDepositController as deposit">
+                        <div id="deposit-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
+                            <p class="dialog-text">To deposit {{deposit.currency}} on your Waves account, please send the real crypto or fiat with the requisites provided below
+                                <table class="wavesTable">
+                                    <tbody>
+                                        <tr ng-repeat="r in deposit.requisites track by r.name">
+                                            <td>{{r.name}}</td>
+                                            <td><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{r.value}}" title="Copy this requisite to the clipboard." ngclipboard-success="deposit.clipboardOk()">{{r.value}}</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </p>
+                            <p class="dialog-text">Some additional instructions</p>
+                        </div>
+                    </div>
 
                     <div class="flex-container">
                         <wallet-box class="walletBox" ng-repeat="w in walletList.wallets" balance="w.balance" on-send="walletList.send(currency)"
-                                    on-withdraw="walletList.withdraw(currency)" on-trade="walletList.trade(currency)"></wallet-box>
+                                    on-withdraw="walletList.withdraw(currency)" on-deposit="walletList.deposit(currency)"></wallet-box>
                     </div>
                     <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
                     <div id="wallet-transaction-history" class="wavesTable wScroll">
@@ -981,6 +1054,7 @@
 
     <script src="js/ui.module.js"></script>
     <script src="js/application.context.factory.js"></script>
+    <script src="js/coinomat.restangular.factory.js"></script>
     <script src="js/home.controller.js"></script>
     <script src="js/splash.controller.js"></script>
 
@@ -1018,6 +1092,7 @@
     <script src="js/wallet/wallet.list.controller.js"></script>
     <script src="js/wallet/wallet.send.controller.js"></script>
     <script src="js/wallet/wallet.withdraw.controller.js"></script>
+    <script src="js/wallet/wallet.deposit.controller.js"></script>
 
     <script src="js/tokens/tokens.module.js"></script>
     <script src="js/tokens/token.create.controller.js"></script>

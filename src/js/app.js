@@ -28,8 +28,8 @@ var app = angular.module('app', [
     'app.portfolio'
 ]).config(AngularApplicationConfig).run(AngularApplicationRun);
 
-function AngularApplicationConfig($provide, $compileProvider, $validatorProvider, $qProvider, $mdAriaProvider,
-                                  networkConstants, applicationSettings) {
+function AngularApplicationConfig($provide, $compileProvider, $validatorProvider, $qProvider, $sceDelegateProvider,
+                                  $mdAriaProvider, networkConstants, applicationSettings) {
     $provide.constant(networkConstants,
         angular.extend(networkConstants, {
             NETWORK_NAME: 'devel',
@@ -38,11 +38,17 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
     $provide.constant(applicationSettings,
         angular.extend(applicationSettings, {
             CLIENT_VERSION: '0.4.1a',
-            NODE_ADDRESS: 'http://52.30.47.67:6869'
+            NODE_ADDRESS: 'http://52.30.47.67:6869',
+            COINOMAT_ADDRESS: 'https://test.coinomat.com'
         }));
 
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data|file|chrome-extension):/);
     $qProvider.errorOnUnhandledRejections(false);
+    $sceDelegateProvider.resourceUrlWhitelist([
+        'self',
+        'https://test.coinomat.com/api/**',
+        'https://coinomat.com/api/**'
+    ]);
 
     // Globally disables all ARIA warnings.
     $mdAriaProvider.disableWarnings();
@@ -110,7 +116,7 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
 }
 
 AngularApplicationConfig.$inject = ['$provide', '$compileProvider', '$validatorProvider', '$qProvider',
-    '$mdAriaProvider', 'constants.network', 'constants.application'];
+    '$sceDelegateProvider', '$mdAriaProvider', 'constants.network', 'constants.application'];
 
 function AngularApplicationRun(rest, applicationConstants, notificationService, addressService) {
     // restangular configuration
@@ -133,5 +139,5 @@ function AngularApplicationRun(rest, applicationConstants, notificationService, 
     };
 }
 
-AngularApplicationRun.$inject = ['Restangular', 'constants.application', 'notificationService', 'addressService'];
-
+AngularApplicationRun.$inject = ['Restangular', 'constants.application', 'notificationService',
+    'addressService'];

@@ -4,10 +4,7 @@
     function AccountListController($scope, accountService, dialogService, loginContext) {
         var list = this;
         list.accounts = [];
-
-        accountService.getAccounts().then(function (accounts) {
-            list.accounts = accounts;
-        });
+        list.removeCandidate = {};
 
         list.removeAccount = removeAccount;
         list.createAccount = createAccount;
@@ -15,15 +12,21 @@
         list.signIn = signIn;
         list.showRemoveWarning = showRemoveWarning;
 
-        function showRemoveWarning(account) {
-            list.removeCandidate = account;
+        accountService.getAccounts().then(function (accounts) {
+            list.accounts = accounts;
+        });
+
+        function showRemoveWarning(index) {
+            list.removeIndex = index;
+            list.removeCandidate = list.accounts[index];
             dialogService.open('#account-remove-popup');
         }
 
         function removeAccount() {
             if (list.removeCandidate) {
-                accountService.removeAccount(list.removeCandidate).then(function () {
+                accountService.removeAccountByIndex(list.removeIndex).then(function () {
                     list.removeCandidate = undefined;
+                    list.removeIndex = undefined;
                 });
             }
         }
