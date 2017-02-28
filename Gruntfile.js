@@ -32,12 +32,10 @@ module.exports = function (grunt) {
                 'bower_components/angular/angular-csp.css',
                 'bower_components/angular-material/angular-material.css',
                 // application stylesheets
-                'src/css/jquery.modal.css',
-                'src/css/jquery.growl.css',
-                'src/css/tooltipster.min.css',
-                'src/css/style.css'
+                'distr/devel/css/style.css'
             ],
-            content: ['css/*/**', 'img/**', 'index.html'],
+            fonts: ['fonts/**'],
+            content: ['img/**', 'index.html'],
             licenses: ['3RD-PARTY-LICENSES.txt', 'LICENSE'],
             editor: "gedit --new-window -s ",
             configurations: {
@@ -303,6 +301,7 @@ module.exports = function (grunt) {
             testnet: {
                 files: [
                     {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.testnet.name %>/css'},
+                    {expand: true, cwd: 'src/less', src: '<%= meta.fonts %>', dest: 'distr/<%= meta.configurations.testnet.name %>/css'},
                     {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.testnet.name %>'},
                     {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.testnet.name %>'},
                     {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.testnet.name %>/js'}
@@ -320,6 +319,7 @@ module.exports = function (grunt) {
             mainnet: {
                 files: [
                     {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.mainnet.name %>/css'},
+                    {expand: true, cwd: 'src/less', src: '<%= meta.fonts %>', dest: 'distr/<%= meta.configurations.mainnet.name %>/css'},
                     {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.mainnet.name %>'},
                     {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.mainnet.name %>'},
                     {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.mainnet.name %>/js'}
@@ -337,6 +337,7 @@ module.exports = function (grunt) {
             chrome_mainnet: {
                 files: [
                     {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.chrome.mainnet.name %>/css'},
+                    {expand: true, cwd: 'src/less', src: '<%= meta.fonts %>', dest: 'distr/<%= meta.configurations.chrome.mainnet.name %>/css'},
                     {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.chrome.mainnet.name %>'},
                     {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.chrome.mainnet.name %>'},
                     {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.mainnet.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.chrome.mainnet.name %>/js'},
@@ -358,6 +359,7 @@ module.exports = function (grunt) {
             chrome_testnet: {
                 files: [
                     {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.chrome.testnet.name %>/css'},
+                    {expand: true, cwd: 'src/less', src: '<%= meta.fonts %>', dest: 'distr/<%= meta.configurations.chrome.testnet.name %>/css'},
                     {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.chrome.testnet.name %>'},
                     {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.chrome.testnet.name %>'},
                     {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.chrome.testnet.name %>/js'},
@@ -581,6 +583,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build-local', ['styles']);
 
     grunt.registerTask('build', [
+        'build-local',
         'jscs',
         'jshint',
         'karma:development',
