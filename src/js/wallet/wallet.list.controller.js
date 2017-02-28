@@ -9,8 +9,14 @@
         var refreshPromise;
         var refreshDelay = 10 * 1000;
 
-        function unimplementedFeature() {
-            $scope.home.featureUnderDevelopment();
+        function sendCommandEvent(event, currency) {
+            var assetWallet = findWalletByCurrency(currency);
+            var wavesWallet = findWalletByCurrency(Currency.WAV);
+
+            $scope.$broadcast(event, {
+                assetBalance: assetWallet.balance,
+                wavesBalance: wavesWallet.balance
+            });
         }
 
         function findWalletByCurrency(currency) {
@@ -39,7 +45,7 @@
         walletList.transactions = [];
         walletList.send = send;
         walletList.withdraw = withdraw;
-        walletList.trade = trade;
+        walletList.deposit = deposit;
 
         loadDataFromBackend();
         patchCurrencyIdsForTestnet();
@@ -52,21 +58,15 @@
         });
 
         function send (currency) {
-            var assetWallet = findWalletByCurrency(currency);
-            var wavesWallet = findWalletByCurrency(Currency.WAV);
-
-            $scope.$broadcast(events.WALLET_SEND, {
-                assetBalance: assetWallet.balance,
-                wavesBalance: wavesWallet.balance
-            });
+            sendCommandEvent(events.WALLET_SEND, currency);
         }
 
         function withdraw (currency) {
-            unimplementedFeature();
+            sendCommandEvent(events.WALLET_WITHDRAW, currency);
         }
 
-        function trade (currency) {
-            unimplementedFeature();
+        function deposit (currency) {
+            sendCommandEvent(events.WALLET_DEPOSIT, currency);
         }
 
         function loadDataFromBackend() {
@@ -126,7 +126,7 @@
                 Currency.EUR.id = '8zEZuJcKPQmFuYgVe5ZMpxgiPLu5zBhjA6xgdGomQDaP';
                 Currency.USD.id = '2aSqCbvCTgvCpwkGsk4mea4tCLG4Zgp69aQDhHNvRUZv';
                 Currency.CNY.id = 'D2MNuUyA38pSKoV7F7vpS15Uhw9nw5qfbrGUfCLRNuRo';
-                Currency.BTC.id = '7g151iXK8fyxB5sBUHkwQNXhVBuXdbK8ftPB3h1NrrYV';
+                Currency.BTC.id = 'J3gwJZHJBtK9994EXhmEzdHX5dj7bToRuVf7fvJ3GgBq';
             }
         }
     }

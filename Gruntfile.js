@@ -99,6 +99,7 @@ module.exports = function (grunt) {
                 // project sources
                 'src/js/ui.module.js',
                 'src/js/application.context.factory.js',
+                'src/js/coinomat.restangular.factory.js',
                 'src/js/home.controller.js',
                 'src/js/splash.controller.js',
 
@@ -136,6 +137,7 @@ module.exports = function (grunt) {
                 'src/js/wallet/wallet.list.controller.js',
                 'src/js/wallet/wallet.send.controller.js',
                 'src/js/wallet/wallet.withdraw.controller.js',
+                'src/js/wallet/wallet.deposit.controller.js',
 
                 'src/js/tokens/tokens.module.js',
                 'src/js/tokens/token.create.controller.js',
