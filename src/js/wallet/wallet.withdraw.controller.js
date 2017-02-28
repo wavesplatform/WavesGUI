@@ -108,7 +108,8 @@
 
                     dialogService.open('#withdraw-asset-dialog');
                 }).catch(function (exception) {
-                    notificationService.error(exception.message);
+                    //TODO: make this better
+                    notificationService.error(exception.error);
                 });
         });
 

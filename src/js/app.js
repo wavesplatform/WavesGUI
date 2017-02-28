@@ -28,8 +28,8 @@ var app = angular.module('app', [
     'app.portfolio'
 ]).config(AngularApplicationConfig).run(AngularApplicationRun);
 
-function AngularApplicationConfig($provide, $compileProvider, $validatorProvider, $qProvider, $sceDelegateProvider, $mdAriaProvider,
-                                  networkConstants, applicationSettings) {
+function AngularApplicationConfig($provide, $compileProvider, $validatorProvider, $qProvider, $sceDelegateProvider,
+                                  $mdAriaProvider, networkConstants, applicationSettings) {
     $provide.constant(networkConstants,
         angular.extend(networkConstants, {
             NETWORK_NAME: 'devel',
@@ -141,4 +141,3 @@ function AngularApplicationRun(rest, applicationConstants, notificationService, 
 
 AngularApplicationRun.$inject = ['Restangular', 'constants.application', 'notificationService',
     'addressService'];
-

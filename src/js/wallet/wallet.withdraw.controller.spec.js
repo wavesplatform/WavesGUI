@@ -129,13 +129,13 @@ describe('Wallet.Withdraw.Controller', function() {
         spyOn(coinomatService, 'getWithdrawRate').and.returnValue(deferred.promise);
         spyOn(notificationService, 'error');
 
-        var errorMessage = 'Failed to get exchange rate';
-        deferred.reject(new Error(errorMessage));
+        var errorResponse = {error: 'Failed to get exchange rate'};
+        deferred.reject(errorResponse);
 
         initControllerAssets();
         $rootScope.$apply();
 
-        expect(notificationService.error).toHaveBeenCalledWith(errorMessage);
+        expect(notificationService.error).toHaveBeenCalledWith(errorResponse.error);
         expect(dialogService.open).not.toHaveBeenCalled();
     });
 
