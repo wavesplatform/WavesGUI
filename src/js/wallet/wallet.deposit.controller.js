@@ -4,7 +4,7 @@
     function WavesWalletDepositController ($scope, events, coinomatService, dialogService, notificationService,
                                            applicationContext) {
         var deposit = this;
-        deposit.requisites = [];
+        deposit.bitcoinAddress = '';
         deposit.clipboardOk = clipboardOk;
 
         $scope.$on(events.WALLET_DEPOSIT, function (event, eventData) {
@@ -21,10 +21,7 @@
 
             coinomatService.getDepositDetails(deposit.assetBalance.currency, applicationContext.account.address)
                 .then(function (depositDetails) {
-                    deposit.requisites = [{
-                        name: 'Bitcoin address',
-                        value: depositDetails.address
-                    }];
+                    deposit.bitcoinAddress = depositDetails.address;
                 })
                 .catch(function (exception) {
                     notificationService.error(exception.message);

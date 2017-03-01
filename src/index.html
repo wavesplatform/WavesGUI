@@ -448,9 +448,9 @@
                             <p class="dialog-text">To deposit bitcoins to your Waves account, please send BTC to the address below.
                                 <table class="wavesTable">
                                     <tbody>
-                                        <tr ng-repeat="r in deposit.requisites track by r.name">
-                                            <td>{{r.name}}</td>
-                                            <td><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{r.value}}" title="Copy bitcoin address to the clipboard." ngclipboard-success="deposit.clipboardOk()">{{r.value}}</span></td>
+                                        <tr>
+                                            <td>Bitcoin address:</td>
+                                            <td><b>{{deposit.bitcoinAddress}}</b></td>
                                         </tr>
                                     </tbody>
                                 </table>
