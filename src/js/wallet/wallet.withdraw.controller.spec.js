@@ -73,7 +73,7 @@ describe('Wallet.Withdraw.Controller', function() {
     function initRateServiceMock() {
         /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
         var response = {
-            xrate: 0.99,
+            xrate: 1,
             in_min: 0.1,
             in_max: 100,
             in_def: 10,
@@ -114,11 +114,11 @@ describe('Wallet.Withdraw.Controller', function() {
 
         expect(coinomatService.getWithdrawRate).toHaveBeenCalled();
         expect(dialogService.open).toHaveBeenCalled();
-        expect(controller.exchangeRate).toEqual(0.99);
+        expect(controller.exchangeRate).toEqual(1);
         expect(controller.feeIn).toEqual(0);
         expect(controller.feeOut).toEqual(0.0001);
-        expect(controller.amount).toEqual(10);
-        expect(controller.exchangeAmount).toEqual('9.8999');
+        expect(controller.amount).toEqual('9.9999');
+        expect(controller.total).toEqual(10);
         expect(controller.validationOptions.rules.withdrawAmount.decimal).toEqual(Currency.BTC.precision);
         expect(controller.validationOptions.rules.withdrawAmount.min).toEqual(0.1);
         expect(controller.validationOptions.rules.withdrawAmount.max).toEqual(10);
@@ -205,7 +205,7 @@ describe('Wallet.Withdraw.Controller', function() {
         expect(controller.confirmWithdraw()).toBe(true);
         $rootScope.$apply();
 
-        expect(controller.confirm.amount.value).toEqual('9.99');
+        expect(controller.confirm.amount.value).toEqual('10');
         expect(controller.confirm.amount.currency).toEqual(Currency.BTC.displayName);
         expect(controller.confirm.fee.value).toEqual('0.002');
         expect(controller.confirm.fee.currency).toEqual(Currency.WAV.displayName);

@@ -21,6 +21,9 @@
             });
         withdraw.autocomplete = autocomplete;
         withdraw.validationOptions = {
+            onfocusout: function (element) {
+                return !(element.name in ['withdrawFee']); // FIXME
+            },
             rules: {
                 withdrawAmount: {
                     required: true,
@@ -32,6 +35,12 @@
                     required: true,
                     decimal: Currency.WAV.precision,
                     min: minimumFee.toTokens()
+                },
+                withdrawTotal: {
+                    required: true,
+                    decimal: 8,
+                    min: 0,
+                    max: constants.JAVA_MAX_LONG
                 }
             },
             messages: {
@@ -44,6 +53,9 @@
                         minimumFee.currency.precision + ' digits after the decimal point (.)',
                     min: 'Transaction fee is too small. It should be greater or equal to ' +
                         minimumFee.formatAmount(true)
+                },
+                withdrawTotal: {
+                    required: 'Total amount is required'
                 }
             }
         };
@@ -61,7 +73,8 @@
         };
         withdraw.submitWithdraw = submitWithdraw;
         withdraw.confirmWithdraw = confirmWithdraw;
-        withdraw.refreshAmounts = refreshAmounts;
+        withdraw.refreshAmount = refreshAmount;
+        withdraw.refreshTotal = refreshTotal;
         withdraw.getAmountForm = getAmountForm;
         withdraw.broadcastTransaction = broadcastTransaction;
 
@@ -90,8 +103,7 @@
                     withdraw.feeIn = response.fee_in;
                     withdraw.feeOut = response.fee_out;
                     withdraw.targetCurrency = response.to_txt;
-                    withdraw.exchangeAmount = '0';
-                    withdraw.amount = response.in_def;
+                    withdraw.total = response.in_def;
                     /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
                     withdraw.validationOptions.rules.withdrawAmount.decimal = withdraw.assetBalance.currency.precision;
                     withdraw.validationOptions.rules.withdrawAmount.max = maximumPayment.toTokens();
@@ -104,7 +116,7 @@
                     withdraw.validationOptions.messages.withdrawAmount.max = 'Withdraw amount is too big. ' +
                         'It should be less or equal to ' + maximumPayment.formatAmount();
 
-                    refreshAmounts();
+                    refreshAmount();
 
                     dialogService.open('#withdraw-asset-dialog');
                 }).catch(function (exception) {
@@ -143,10 +155,10 @@
             try {
                 ensureValidAddress(withdraw.recipient);
 
-                var amount = Money.fromTokens(withdraw.amount, withdraw.assetBalance.currency);
+                var total = Money.fromTokens(withdraw.total, withdraw.assetBalance.currency);
                 var fee = Money.fromTokens(withdraw.autocomplete.getFeeAmount(), Currency.WAV);
-                withdraw.confirm.amount.value = amount.formatAmount(true);
-                withdraw.confirm.amount.currency = amount.currency.displayName;
+                withdraw.confirm.amount.value = total.formatAmount(true);
+                withdraw.confirm.amount.currency = total.currency.displayName;
                 withdraw.confirm.fee.value = fee.formatAmount(true);
                 withdraw.confirm.fee.currency = fee.currency.displayName;
                 withdraw.confirm.recipient = withdraw.recipient;
@@ -157,7 +169,7 @@
 
                         var assetTransfer = {
                             recipient: withdrawDetails.address,
-                            amount: amount,
+                            amount: total,
                             fee: fee,
                             attachment: converters.stringToByteArray(withdrawDetails.attachment)
                         };
@@ -198,10 +210,16 @@
             withdraw.broadcast.broadcast();
         }
 
-        function refreshAmounts () {
-            var amount = Math.max(0, withdraw.exchangeRate * (withdraw.amount - withdraw.feeIn) - withdraw.feeOut);
-            var exchangeAmount = Money.fromTokens(amount, withdraw.assetBalance.currency);
-            withdraw.exchangeAmount = exchangeAmount.formatAmount(true);
+        function refreshTotal () {
+            var amount = withdraw.exchangeRate * withdraw.amount;
+            var total = Money.fromTokens(amount + withdraw.feeIn + withdraw.feeOut, withdraw.assetBalance.currency);
+            withdraw.total = total.formatAmount(true);
+        }
+
+        function refreshAmount () {
+            var total = Math.max(0, withdraw.exchangeRate * (withdraw.total - withdraw.feeIn) - withdraw.feeOut);
+            var amount = Money.fromTokens(total, withdraw.assetBalance.currency);
+            withdraw.amount = amount.formatAmount(true);
         }
 
         function resetForm () {
