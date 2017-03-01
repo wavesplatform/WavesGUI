@@ -381,29 +381,26 @@
                         <div id="withdraw-asset-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.submitWithdraw()">
                             <h2 class="sectionHeader">WITHDRAW: {{withdraw.sourceCurrency}}</h2>
                             <form id="withdraw-asset-form" name="withdrawAssetForm" novalidate ng-validate="withdraw.validationOptions">
-                            <table>
+                            <table class="form-table">
                                 <div class="balanceAmt">
                                     <div><p>Asset balance: </p><span class="balancewaves">{{withdraw.assetBalance.formatAmount(true)}}</span><br/></div>
                                 </div>
-                                <thead>
-                                    <tr>
-                                        <th>DESCRIPTION</th>
-                                        <th>INPUT</th>
-                                    </tr>
-                                </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Amount</td>
-                                        <td><input class="wInput form-control" name="withdrawAmount" type="text" placeholder="Withdraw amount" ng-model="withdraw.amount" ng-change="withdraw.refreshAmounts()" ng-model-options="{ debounce: 750 }" decimal-input-restrictor/></td>
+                                        <td width="30%">Amount</td>
+                                        <td><input class="wInput form-control" name="withdrawAmount" type="text" placeholder="Withdraw amount" ng-model="withdraw.amount" ng-change="withdraw.refreshTotal()" decimal-input-restrictor/></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">
-                                            {{withdraw.amount}} {{withdraw.sourceCurrency}} = {{withdraw.exchangeAmount}} {{withdraw.targetCurrency}}
-                                        </td>
+                                        <td>Gateway fee</td>
+                                        <td><input disabled class="wInput form-control" name="gatewayFee" type="text" placeholder="Gateway fee" ng-model="withdraw.feeOut" decimal-input-restrictor/></td>
                                     </tr>
                                     <tr>
-                                        <td>Fee</td>
-                                        <td>
+                                        <td>Total</td>
+                                        <td><input class="wInput form-control" name="withdrawTotal" type="text" placeholder="Total amount" ng-model="withdraw.total" ng-change="withdraw.refreshAmount()" decimal-input-restrictor/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="padded">Waves fee</td>
+                                        <td class="padded">
                                             <md-autocomplete md-input-name="withdrawFee" md-selected-item="withdraw.autocomplete.selectedFee" md-search-text="withdraw.autocomplete.searchText"
                                                              md-items="item in withdraw.autocomplete.querySearch(withdraw.autocomplete.searchText)"
                                                              md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
@@ -422,15 +419,9 @@
                             <h2 class="sectionHeader">EXCHANGE REQUISITES</h2>
                             <form id="withdraw-address-form" name="withdrawAddressForm" novalidate>
                                 <table>
-                                    <thead>
-                                    <tr>
-                                        <th>DESCRIPTION</th>
-                                        <th>INPUT</th>
-                                    </tr>
-                                    </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Bitcoin Address</td>
+                                            <td width="30%">Bitcoin Address</td>
                                             <td><input class="wInput form-control" name="withdrawAddress" type="text" placeholder="Bitcoin address" ng-model="withdraw.recipient"/></td>
                                         </tr>
                                     </tbody>
