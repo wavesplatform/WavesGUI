@@ -433,11 +433,11 @@
                                 <p class="dialog-text">You are sending <span class="confirmation-value">{{withdraw.confirm.amount.value}}</span>
                                     <span class="confirmation-value">{{withdraw.confirm.amount.currency}}</span> with
                                     <span class="confirmation-value">{{withdraw.confirm.fee.value}}</span>
-                                    <span class="confirmation-value">{{withdraw.confirm.fee.currency}}</span> fee to the gateway address in Waves<br/>
+                                    <span class="confirmation-value">{{withdraw.confirm.fee.currency}}</span> fee to the Waves gateway address <br/>
                                     <span class="confirmation-value">{{withdraw.confirm.gatewayAddress}}</span>.
                                 </p>
-                                <p class="dialog-text">The gateway is responsible for transfer of crypto to address <span class="confirmation-value">{{withdraw.confirm.recipient}}</span>.</p>
-                                <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                                <p class="dialog-text">The gateway will transfer these funds to your bitcoin address: <span class="confirmation-value">{{withdraw.confirm.recipient}}</span>.</p>
+                                <p class="dialog-text">Press <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard this operation.</p>
                             </div>
                         </div>
                     </div>
@@ -445,8 +445,8 @@
                     <div class="noDisp" ng-controller="walletDepositController as deposit">
                         <div id="deposit-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
                             <h2 class="sectionHeader">DEPOSIT: {{deposit.currency}}</h2>
-                            <p class="dialog-text">To deposit {{deposit.currency}} on your Waves account, please send the real crypto to the address below.</p>
-                                <table class="wavesTable bitcoin-requisites">
+                            <p class="dialog-text">To deposit bitcoins to your Waves account, please send BTC to the address below.
+                                <table class="wavesTable">
                                     <tbody>
                                         <tr>
                                             <td>Bitcoin address:</td>
@@ -454,8 +454,10 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            <p class="dialog-text">Use this address in your bitcoin client. The gateway will take care of the transfer to your Waves account.<br/>
-                                Please note, that the gateway may apply a fee for operations of this kind.</p>
+                            </p>
+                            <p class="dialog-text">Enter this address into your bitcoin client or wallet. Once the transaction is confirmed, <br/>
+                                the gateway will process the transfer of BTC to a token in your Waves account.</p>
+                            <p class="dialog-text">Please note that the gateway may apply a fee for this operation.</p>
                         </div>
                     </div>
 
