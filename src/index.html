@@ -380,7 +380,6 @@
                     <div class="noDisp" ng-controller="walletWithdrawController as withdraw">
                         <div id="withdraw-asset-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.submitWithdraw()">
                             <h2 class="sectionHeader">WITHDRAW: {{withdraw.sourceCurrency}}</h2>
-                            <p class="dialog-text">You're about to withdraw something</p>
                             <form id="withdraw-asset-form" name="withdrawAssetForm" novalidate ng-validate="withdraw.validationOptions">
                             <table>
                                 <div class="balanceAmt">
@@ -454,7 +453,8 @@
 
                     <div class="noDisp" ng-controller="walletDepositController as deposit">
                         <div id="deposit-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
-                            <p class="dialog-text">To deposit {{deposit.currency}} on your Waves account, please send the real crypto or fiat with the requisites provided below
+                            <h2 class="sectionHeader">DEPOSIT: {{deposit.currency}}</h2>
+                            <p class="dialog-text">To deposit {{deposit.currency}} on your Waves account, please send the real crypto to the address below
                                 <table class="wavesTable">
                                     <tbody>
                                         <tr ng-repeat="r in deposit.requisites track by r.name">
@@ -464,7 +464,8 @@
                                     </tbody>
                                 </table>
                             </p>
-                            <p class="dialog-text">Some additional instructions</p>
+                            <p class="dialog-text">Use this address in your bitcoin client. The gateway will take care of the transfer to your Waves account. <br/>
+                                Please note, that the gateway may apply a fee for operations of this kind</p>
                         </div>
                     </div>
 
