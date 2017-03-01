@@ -445,18 +445,17 @@
                     <div class="noDisp" ng-controller="walletDepositController as deposit">
                         <div id="deposit-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
                             <h2 class="sectionHeader">DEPOSIT: {{deposit.currency}}</h2>
-                            <p class="dialog-text">To deposit {{deposit.currency}} on your Waves account, please send the real crypto to the address below
-                                <table class="wavesTable">
+                            <p class="dialog-text">To deposit {{deposit.currency}} on your Waves account, please send the real crypto to the address below.</p>
+                                <table class="wavesTable bitcoin-requisites">
                                     <tbody>
-                                        <tr ng-repeat="r in deposit.requisites track by r.name">
-                                            <td>{{r.name}}</td>
-                                            <td><span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard data-clipboard-text="{{r.value}}" title="Copy this requisite to the clipboard." ngclipboard-success="deposit.clipboardOk()">{{r.value}}</span></td>
+                                        <tr>
+                                            <td>Bitcoin address:</td>
+                                            <td><b>{{deposit.bitcoinAddress}}</b></td>
                                         </tr>
                                     </tbody>
                                 </table>
-                            </p>
-                            <p class="dialog-text">Use this address in your bitcoin client. The gateway will take care of the transfer to your Waves account. <br/>
-                                Please note, that the gateway may apply a fee for operations of this kind</p>
+                            <p class="dialog-text">Use this address in your bitcoin client. The gateway will take care of the transfer to your Waves account.<br/>
+                                Please note, that the gateway may apply a fee for operations of this kind.</p>
                         </div>
                     </div>
 
