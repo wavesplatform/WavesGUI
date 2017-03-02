@@ -378,7 +378,7 @@
                     </div>
 
                     <div class="noDisp" ng-controller="walletWithdrawController as withdraw">
-                        <div id="withdraw-asset-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.submitWithdraw()">
+                        <div id="withdraw-asset-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.confirmWithdraw()">
                             <h2 class="sectionHeader">WITHDRAW: {{withdraw.sourceCurrency}}</h2>
                             <form id="withdraw-asset-form" name="withdrawAssetForm" novalidate ng-validate="withdraw.validationOptions">
                             <table class="form-table">
@@ -387,7 +387,11 @@
                                 </div>
                                 <tbody>
                                     <tr>
-                                        <td width="30%">Amount</td>
+                                        <td width="30%">Bitcoin Address</td>
+                                        <td><input class="wInput form-control" name="withdrawAddress" type="text" placeholder="Bitcoin address" ng-model="withdraw.recipient"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Amount</td>
                                         <td><input class="wInput form-control" name="withdrawAmount" type="text" placeholder="Withdraw amount" ng-model="withdraw.amount" ng-change="withdraw.refreshTotal()" decimal-input-restrictor/></td>
                                     </tr>
                                     <tr>
@@ -415,19 +419,6 @@
                             </table>
                             </form>
                         </div>
-                        <div id="withdraw-address-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.confirmWithdraw()">
-                            <h2 class="sectionHeader">EXCHANGE REQUISITES</h2>
-                            <form id="withdraw-address-form" name="withdrawAddressForm" novalidate>
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td width="30%">Bitcoin Address</td>
-                                            <td><input class="wInput form-control" name="withdrawAddress" type="text" placeholder="Bitcoin address" ng-model="withdraw.recipient"/></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </form>
-                        </div>
                         <div id="withdraw-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!withdraw.broadcast.pending" on-dialog-ok="withdraw.broadcastTransaction()">
                             <div class="dialog-confirmation">
                                 <p class="dialog-text">You are sending <span class="confirmation-value">{{withdraw.confirm.amount.value}}</span>
@@ -445,7 +436,8 @@
                     <div class="noDisp" ng-controller="walletDepositController as deposit">
                         <div id="deposit-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
                             <h2 class="sectionHeader">DEPOSIT: {{deposit.currency}}</h2>
-                            <p class="dialog-text">To deposit bitcoins to your Waves account, please send BTC to the address below.</p>
+                            <p class="dialog-text">To deposit bitcoins to your Waves account, please send BTC to the address below.<br/>
+                                The minimum amount for deposit is <span class="fontBold">0.01 BTC</span>.</p>
                                 <table class="wavesTable bitcoin-requisites">
                                     <tbody>
                                         <tr>
@@ -455,8 +447,8 @@
                                 </table>
                             <p class="dialog-text">Enter this address into your bitcoin client or wallet. Once the transaction is confirmed, <br/>
                                 the gateway will process the transfer of BTC to a token in your Waves account.</p>
-                            <p class="dialog-text">Please note that the gateway may apply a fee for this operation.</p>
-                            <p class="dialog-text">You can scan this QR-code as well to copy the address:</p>
+                            <p class="dialog-text">Please note that the gateway doesn't apply any fees for this operation.</p>
+                            <p class="dialog-text">You can scan this QR-code in order to copy the address:</p>
                             <div class="textCenter">
                                 <a ng-href="{{deposit.bitcoinUri}}">
                                     <qr-code class="center" size="180" value="deposit.bitcoinUri"></qr-code>
@@ -878,7 +870,7 @@
                 <div id="mBB-token" class="mBB-content" ng-switch-when="tokens">
 
                     <div ng-controller="tokenCreateController as ctrl">
-                        <h2 class="sectionHeader">ASSET CREATION</h2>
+                        <h2 class="sectionHeader">TOKEN CREATION</h2>
                         <form id="create-asset-form" name="createAssetForm" novalidate ng-validate="ctrl.issuanceValidationOptions" ng-submit="ctrl.assetIssueConfirmation(createAssetForm, $event)">
                             <div class="balanceAmt">
                                 <p>Waves balance: </p><span class="balancewaves">{{ctrl.wavesBalance.formatAmount(true)}}</span>
@@ -918,7 +910,8 @@
                                 </tbody>
                             </table>
                             <div>
-                                <button class="wButton wButton-neg fade" type="submit">SUBMIT</button>
+                                <button class="wButton wButton-neg fade" type="submit">SUBMIT</button><span class="divider-2"></span>
+                                <button class="wButton wButton-neg fade" type="button" ng-click="ctrl.resetForm()">CANCEL</button>
                             </div>
                         </form>
 
