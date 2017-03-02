@@ -5,9 +5,13 @@
 
     angular
         .module('app.shared')
-        .service('bitcoinUri', [function () {
+        .service('bitcoinUriService', [function () {
 
             this.generate = function (address, params) {
+
+                if (!address || typeof address !== 'string') {
+                    return '';
+                }
 
                 var uri = 'bitcoin:' + address,
                     keys = Object.keys(params || {});
