@@ -448,8 +448,12 @@
                             <p class="dialog-text">Enter this address into your bitcoin client or wallet. Once the transaction is confirmed, <br/>
                                 the gateway will process the transfer of BTC to a token in your Waves account.</p>
                             <p class="dialog-text">Please note that the gateway doesn't apply any fees for this operation.</p>
-                            <p class="dialog-text">You can scan this QR-code in order to copy the address:</p>
+                            <p class="dialog-text">You can scan this QR-code in order to copy the address.<br/>
+                                Amount is optional but it will be added to the QR-code if present.</p>
                             <div class="textCenter">
+                                <input class="wInput small" type="text" placeholder="Amount" ng-model="deposit.bitcoinAmount" ng-change="deposit.refreshUri()" decimal-input-restrictor />
+                                <br/>
+                                <br/>
                                 <a ng-href="{{deposit.bitcoinUri}}">
                                     <qr-code class="center" size="180" value="deposit.bitcoinUri"></qr-code>
                                 </a>

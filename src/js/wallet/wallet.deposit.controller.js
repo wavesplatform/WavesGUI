@@ -2,11 +2,21 @@
     'use strict';
 
     function WavesWalletDepositController ($scope, events, coinomatService, dialogService, notificationService,
-                                           applicationContext, bitcoinUri) {
+                                           applicationContext, bitcoinUriService) {
         var deposit = this;
         deposit.bitcoinAddress = '';
+        deposit.bitcoinAmount = '';
         deposit.bitcoinUri = '';
-        deposit.clipboardOk = clipboardOk;
+
+        deposit.refreshUri = function () {
+            var params = null;
+            if (deposit.bitcoinAmount > 0) {
+                params = {
+                    amount: deposit.bitcoinAmount
+                };
+            }
+            deposit.bitcoinUri = bitcoinUriService.generate(deposit.bitcoinAddress, params);
+        };
 
         $scope.$on(events.WALLET_DEPOSIT, function (event, eventData) {
             deposit.assetBalance = eventData.assetBalance;
@@ -23,20 +33,16 @@
             coinomatService.getDepositDetails(deposit.assetBalance.currency, applicationContext.account.address)
                 .then(function (depositDetails) {
                     deposit.bitcoinAddress = depositDetails.address;
-                    deposit.bitcoinUri = bitcoinUri.generate(deposit.bitcoinAddress);
+                    deposit.bitcoinUri = bitcoinUriService.generate(deposit.bitcoinAddress);
                 })
                 .catch(function (exception) {
                     notificationService.error(exception.message);
                 });
         });
-
-        function clipboardOk() {
-            notificationService.notice('Requisite copied successfully');
-        }
     }
 
     WavesWalletDepositController.$inject = ['$scope', 'wallet.events', 'coinomatService', 'dialogService',
-        'notificationService', 'applicationContext', 'bitcoinUri'];
+        'notificationService', 'applicationContext', 'bitcoinUriService'];
 
     angular
         .module('app.wallet')
