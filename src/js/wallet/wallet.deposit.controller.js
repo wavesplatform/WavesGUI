@@ -5,8 +5,18 @@
                                            applicationContext, bitcoinUri) {
         var deposit = this;
         deposit.bitcoinAddress = '';
+        deposit.bitcoinAmount = '';
         deposit.bitcoinUri = '';
-        deposit.clipboardOk = clipboardOk;
+
+        deposit.refreshUri = function () {
+            var params = null;
+            if (deposit.bitcoinAmount > 0) {
+                params = {
+                    amount: deposit.bitcoinAmount
+                };
+            }
+            deposit.bitcoinUri = bitcoinUri.generate(deposit.bitcoinAddress, params);
+        };
 
         $scope.$on(events.WALLET_DEPOSIT, function (event, eventData) {
             deposit.assetBalance = eventData.assetBalance;
@@ -29,10 +39,6 @@
                     notificationService.error(exception.message);
                 });
         });
-
-        function clipboardOk() {
-            notificationService.notice('Requisite copied successfully');
-        }
     }
 
     WavesWalletDepositController.$inject = ['$scope', 'wallet.events', 'coinomatService', 'dialogService',
