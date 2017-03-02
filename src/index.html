@@ -457,7 +457,11 @@
                                 the gateway will process the transfer of BTC to a token in your Waves account.</p>
                             <p class="dialog-text">Please note that the gateway may apply a fee for this operation.</p>
                             <p class="dialog-text">You can scan this QR-code as well to copy the address:</p>
-                            <qr-code class="center" size="180" value="deposit.bitcoinAddress"></qr-code>
+                            <div class="textCenter">
+                                <a ng-href="{{deposit.bitcoinUri}}">
+                                    <qr-code class="center" size="180" value="deposit.bitcoinUri"></qr-code>
+                                </a>
+                            </div>
                         </div>
                     </div>
 
@@ -1054,6 +1058,7 @@
 
     <script src="js/shared/shared.module.js"></script>
     <script src="js/shared/shared.constants.js"></script>
+    <script src="js/shared/bitcoin.uri.service.js"></script>
     <script src="js/shared/dialog.service.js"></script>
     <script src="js/shared/shared.dialog.directive.js"></script>
     <script src="js/shared/focus.directive.js"></script>

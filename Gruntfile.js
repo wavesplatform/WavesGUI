@@ -104,6 +104,7 @@ module.exports = function (grunt) {
 
                 'src/js/shared/shared.module.js',
                 'src/js/shared/shared.constants.js',
+                'src/js/shared/bitcoin.uri.service.js',
                 'src/js/shared/dialog.service.js',
                 'src/js/shared/notification.service.js',
                 'src/js/shared/qr.code.component.js',
