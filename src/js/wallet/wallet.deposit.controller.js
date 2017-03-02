@@ -2,7 +2,7 @@
     'use strict';
 
     function WavesWalletDepositController ($scope, events, coinomatService, dialogService, notificationService,
-                                           applicationContext, bitcoinUri) {
+                                           applicationContext, bitcoinUriService) {
         var deposit = this;
         deposit.bitcoinAddress = '';
         deposit.bitcoinAmount = '';
@@ -15,7 +15,7 @@
                     amount: deposit.bitcoinAmount
                 };
             }
-            deposit.bitcoinUri = bitcoinUri.generate(deposit.bitcoinAddress, params);
+            deposit.bitcoinUri = bitcoinUriService.generate(deposit.bitcoinAddress, params);
         };
 
         $scope.$on(events.WALLET_DEPOSIT, function (event, eventData) {
@@ -33,7 +33,7 @@
             coinomatService.getDepositDetails(deposit.assetBalance.currency, applicationContext.account.address)
                 .then(function (depositDetails) {
                     deposit.bitcoinAddress = depositDetails.address;
-                    deposit.bitcoinUri = bitcoinUri.generate(deposit.bitcoinAddress);
+                    deposit.bitcoinUri = bitcoinUriService.generate(deposit.bitcoinAddress);
                 })
                 .catch(function (exception) {
                     notificationService.error(exception.message);
@@ -42,7 +42,7 @@
     }
 
     WavesWalletDepositController.$inject = ['$scope', 'wallet.events', 'coinomatService', 'dialogService',
-        'notificationService', 'applicationContext', 'bitcoinUri'];
+        'notificationService', 'applicationContext', 'bitcoinUriService'];
 
     angular
         .module('app.wallet')
