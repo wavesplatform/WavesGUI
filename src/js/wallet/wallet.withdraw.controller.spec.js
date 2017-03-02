@@ -139,7 +139,7 @@ describe('Wallet.Withdraw.Controller', function() {
         expect(dialogService.open).not.toHaveBeenCalled();
     });
 
-    it('should check available balance on submit withdraw', function () {
+    it('should check available balance on confirm withdraw', function () {
         initRateServiceMock();
         initControllerAssets(undefined, Money.fromTokens(1, Currency.WAV));
         $rootScope.$apply();
@@ -147,12 +147,12 @@ describe('Wallet.Withdraw.Controller', function() {
         spyOn(controller.autocomplete, 'getFeeAmount').and.returnValue('1.001');
         spyOn(notificationService, 'error').and.returnValue(undefined);
 
-        expect(controller.submitWithdraw()).toBe(false);
+        expect(controller.confirmWithdraw()).toBe(false);
         timeout.flush();
-        expect(dialogService.open).not.toHaveBeenCalledWith('#withdraw-address-dialog');
+        expect(dialogService.open).not.toHaveBeenCalledWith('#withdraw-confirmation');
     });
 
-    it('should not submit withdraw in case the form is invalid', function () {
+    it('should not confirm withdraw in case the form is invalid', function () {
         initRateServiceMock();
         initControllerAssets();
         $rootScope.$apply();
@@ -161,23 +161,9 @@ describe('Wallet.Withdraw.Controller', function() {
         spyOn(notificationService, 'error').and.returnValue(undefined);
         spyOn(formMock, 'validate').and.returnValue(false);
 
-        expect(controller.submitWithdraw()).toBe(false);
+        expect(controller.confirmWithdraw()).toBe(false);
         timeout.flush();
-        expect(dialogService.open).not.toHaveBeenCalledWith('#withdraw-address-dialog');
-        expect(notificationService.error).not.toHaveBeenCalled();
-    });
-
-    it('should show withdraw address dialog on submit withdraw', function () {
-        initRateServiceMock();
-        initControllerAssets();
-        $rootScope.$apply();
-
-        spyOn(controller.autocomplete, 'getFeeAmount').and.returnValue('0.001');
-        spyOn(notificationService, 'error').and.returnValue(undefined);
-
-        expect(controller.submitWithdraw()).toBe(true);
-        timeout.flush();
-        expect(dialogService.open).toHaveBeenCalledWith('#withdraw-address-dialog');
+        expect(dialogService.open).not.toHaveBeenCalledWith('#withdraw-confirmation');
         expect(notificationService.error).not.toHaveBeenCalled();
     });
 

@@ -69,7 +69,7 @@
         ctrl.confirm = {};
         ctrl.broadcast = new transactionBroadcast.instance(apiService.assets.issue,
             function (transaction, response) {
-                resetIssueAssetForm();
+                resetForm();
 
                 applicationContext.cache.assets.put(response);
 
@@ -80,9 +80,10 @@
             });
         ctrl.broadcastIssueTransaction = broadcastIssueTransaction;
         ctrl.assetIssueConfirmation = assetIssueConfirmation;
+        ctrl.resetForm = resetForm;
 
         loadDataFromBackend();
-        resetIssueAssetForm();
+        resetForm();
 
         function assetIssueConfirmation(form, event) {
             event.preventDefault();
@@ -131,7 +132,7 @@
             ctrl.broadcast.broadcast();
         }
 
-        function resetIssueAssetForm() {
+        function resetForm() {
             ctrl.asset.name = '';
             ctrl.asset.description = '';
             ctrl.asset.totalTokens = '0';

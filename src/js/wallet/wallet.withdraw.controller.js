@@ -25,6 +25,9 @@
                 return !(element.name in ['withdrawFee']); // FIXME
             },
             rules: {
+                withdrawAddress: {
+                    required: true
+                },
                 withdrawAmount: {
                     required: true,
                     decimal: 8,
@@ -44,6 +47,9 @@
                 }
             },
             messages: {
+                withdrawAddress: {
+                    required: 'Bitcoin address is required'
+                },
                 withdrawAmount: {
                     required: 'Amount to withdraw is required'
                 },
@@ -71,7 +77,6 @@
             gatewayAddress: '',
             address: ''
         };
-        withdraw.submitWithdraw = submitWithdraw;
         withdraw.confirmWithdraw = confirmWithdraw;
         withdraw.refreshAmount = refreshAmount;
         withdraw.refreshTotal = refreshTotal;
@@ -131,7 +136,7 @@
             return angular.element('#withdraw-asset-form').scope().withdrawAssetForm;
         }
 
-        function submitWithdraw () {
+        function confirmWithdraw () {
             var amountForm = withdraw.getAmountForm();
 
             if (!amountForm.validate(withdraw.validationOptions))
@@ -144,66 +149,49 @@
                 return false;
             }
 
-            $timeout(function () {
-                dialogService.open('#withdraw-address-dialog');
-            }, 1);
-
-            return true;
-        }
-
-        function confirmWithdraw () {
-            try {
-                ensureValidAddress(withdraw.recipient);
-
-                var total = Money.fromTokens(withdraw.total, withdraw.assetBalance.currency);
-                var fee = Money.fromTokens(withdraw.autocomplete.getFeeAmount(), Currency.WAV);
-                withdraw.confirm.amount.value = total.formatAmount(true);
-                withdraw.confirm.amount.currency = total.currency.displayName;
-                withdraw.confirm.fee.value = fee.formatAmount(true);
-                withdraw.confirm.fee.currency = fee.currency.displayName;
-                withdraw.confirm.recipient = withdraw.recipient;
-
-                coinomatService.getWithdrawDetails(withdraw.assetBalance.currency, withdraw.recipient)
-                    .then(function (withdrawDetails) {
-                        withdraw.confirm.gatewayAddress = withdrawDetails.address;
-
-                        var assetTransfer = {
-                            recipient: withdrawDetails.address,
-                            amount: total,
-                            fee: fee,
-                            attachment: converters.stringToByteArray(withdrawDetails.attachment)
-                        };
-                        var sender = {
-                            publicKey: applicationContext.account.keyPair.public,
-                            privateKey: applicationContext.account.keyPair.private
-                        };
-                        // creating the transaction and waiting for confirmation
-                        withdraw.broadcast.setTransaction(assetService.createAssetTransferTransaction(assetTransfer,
-                            sender));
-
-                        resetForm();
-
-                        dialogService.open('#withdraw-confirmation');
-                    })
-                    .catch(function (exception) {
-                        notificationService.error(exception.message);
-                    });
-
-                return true;
-            }
-            catch (e) {
-                notificationService.error(e.message);
+            if (!withdraw.recipient.match(/^[0-9a-z]{27,34}$/i)) {
+                notificationService.error('Bitcoin address is invalid. ' +
+                    'Expected address length is from 27 to 34 symbols');
 
                 return false;
             }
-        }
 
-        function ensureValidAddress(address) {
-            if (!address)
-                throw new Error('Bitcoin address is required');
+            var total = Money.fromTokens(withdraw.total, withdraw.assetBalance.currency);
+            var fee = Money.fromTokens(withdraw.autocomplete.getFeeAmount(), Currency.WAV);
+            withdraw.confirm.amount.value = total.formatAmount(true);
+            withdraw.confirm.amount.currency = total.currency.displayName;
+            withdraw.confirm.fee.value = fee.formatAmount(true);
+            withdraw.confirm.fee.currency = fee.currency.displayName;
+            withdraw.confirm.recipient = withdraw.recipient;
 
-            if (!address.match(/^[0-9a-z]{27,34}$/i))
-                throw new Error('Bitcoin address is invalid. Expected address length is from 27 to 34 symbols');
+            coinomatService.getWithdrawDetails(withdraw.assetBalance.currency, withdraw.recipient)
+                .then(function (withdrawDetails) {
+                    withdraw.confirm.gatewayAddress = withdrawDetails.address;
+
+                    var assetTransfer = {
+                        recipient: withdrawDetails.address,
+                        amount: total,
+                        fee: fee,
+                        attachment: converters.stringToByteArray(withdrawDetails.attachment)
+                    };
+                    var sender = {
+                        publicKey: applicationContext.account.keyPair.public,
+                        privateKey: applicationContext.account.keyPair.private
+                    };
+                    // creating the transaction and waiting for confirmation
+                    withdraw.broadcast.setTransaction(assetService.createAssetTransferTransaction(assetTransfer,
+                        sender));
+
+                    resetForm();
+
+                    dialogService.open('#withdraw-confirmation');
+                })
+                .catch(function (exception) {
+                    console.log(JSON.stringify(exception));
+                    notificationService.error(exception.message);
+                });
+
+            return true;
         }
 
         function broadcastTransaction () {
@@ -223,6 +211,7 @@
         }
 
         function resetForm () {
+            withdraw.recipient = '';
             withdraw.address = '';
             withdraw.autocomplete.defaultFee(Number(DEFAULT_FEE_AMOUNT));
         }
