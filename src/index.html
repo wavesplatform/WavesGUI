@@ -437,7 +437,7 @@
                         <div id="deposit-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
                             <h2 class="sectionHeader">DEPOSIT: {{deposit.currency}}</h2>
                             <p class="dialog-text">To deposit bitcoins to your Waves account, please send BTC to the address below.<br/>
-                                The minimum amount for deposit is <span class="fontBold">0.001 BTC</span>.</p>
+                                The minimum amount for deposit is <span class="fontBold">{{::deposit.minimumAmount}} BTC</span>.</p>
                                 <table class="wavesTable bitcoin-requisites">
                                     <tbody>
                                         <tr>
