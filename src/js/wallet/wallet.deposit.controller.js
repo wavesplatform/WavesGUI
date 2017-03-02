@@ -10,7 +10,7 @@
 
         deposit.refreshUri = function () {
             var params = null;
-            if (deposit.bitcoinAmount > 0) {
+            if (deposit.bitcoinAmount >= 0.01) {
                 params = {
                     amount: deposit.bitcoinAmount
                 };
