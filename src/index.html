@@ -878,7 +878,7 @@
                 <div id="mBB-token" class="mBB-content" ng-switch-when="tokens">
 
                     <div ng-controller="tokenCreateController as ctrl">
-                        <h2 class="sectionHeader">ASSET CREATION</h2>
+                        <h2 class="sectionHeader">TOKEN CREATION</h2>
                         <form id="create-asset-form" name="createAssetForm" novalidate ng-validate="ctrl.issuanceValidationOptions" ng-submit="ctrl.assetIssueConfirmation(createAssetForm, $event)">
                             <div class="balanceAmt">
                                 <p>Waves balance: </p><span class="balancewaves">{{ctrl.wavesBalance.formatAmount(true)}}</span>
@@ -918,7 +918,8 @@
                                 </tbody>
                             </table>
                             <div>
-                                <button class="wButton wButton-neg fade" type="submit">SUBMIT</button>
+                                <button class="wButton wButton-neg fade" type="submit">SUBMIT</button><span class="divider-2"></span>
+                                <button class="wButton wButton-neg fade" type="button" ng-click="ctrl.resetForm()">CANCEL</button>
                             </div>
                         </form>
 
