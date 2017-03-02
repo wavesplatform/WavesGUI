@@ -88,6 +88,7 @@ module.exports = function (grunt) {
                 'bower_components/jquery-validation/dist/jquery.validate.js',
                 'bower_components/tooltipster/js/jquery.tooltipster.min.js',
                 'bower_components/waves-angular-validate/src/angular-validate.js',
+                'bower_components/qrious/dist/umd/qrious.js',
 
                 'src/js/vendor/jquery.modal.js',
 
@@ -105,6 +106,7 @@ module.exports = function (grunt) {
                 'src/js/shared/shared.constants.js',
                 'src/js/shared/dialog.service.js',
                 'src/js/shared/notification.service.js',
+                'src/js/shared/qr-code.component.js',
                 'src/js/shared/shared.dialog.directive.js',
                 'src/js/shared/focus.directive.js',
                 'src/js/shared/tooltipster.directive.js',
