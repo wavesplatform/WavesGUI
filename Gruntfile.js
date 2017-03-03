@@ -24,6 +24,21 @@ module.exports = function (grunt) {
                 grunt.template.process('<link rel="stylesheet" href="css/<%= pkg.name %>-styles-<%= pkg.version %>.css">\n'));
     };
 
+    var generateConcatDirectives = function (target) {
+        return {
+            src: ['<%= meta.dependencies %>', '<%= meta.application %>'],
+            dest: 'distr/<%= pkg.name %>-<%= meta.configurations.' + target + '.name %>-<%= pkg.version %>.js',
+            options: {
+                process: function (content, srcPath) {
+                    if (srcPath.endsWith('app.js'))
+                        return replaceTestnetVersion(content);
+
+                    return content;
+                }
+            }
+        };
+    };
+
     var generateCopyDirectives = function (target, isChrome) {
         return {
             files: [
@@ -254,54 +269,10 @@ module.exports = function (grunt) {
             }
         },
         concat: {
-            testnet: {
-                src: ['<%= meta.dependencies %>', '<%= meta.application %>'],
-                dest: 'distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.js',
-                options: {
-                    process: function (content, srcPath) {
-                        if (srcPath.endsWith('app.js'))
-                            return replaceTestnetVersion(content);
-
-                        return content;
-                    }
-                }
-            },
-            mainnet: {
-                src: ['<%= meta.dependencies %>', '<%= meta.application %>'],
-                dest: 'distr/<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-<%= pkg.version %>.js',
-                options: {
-                    process: function (content, srcPath) {
-                        if (srcPath.endsWith('app.js'))
-                            return replaceMainnetVersion(content);
-
-                        return content;
-                    }
-                }
-            },
-            chrome_mainnet: {
-                src: ['<%= meta.dependencies %>', '<%= meta.application %>'],
-                dest: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.mainnet.name %>-<%= pkg.version %>.js',
-                options: {
-                    process: function (content, srcPath) {
-                        if (srcPath.endsWith('app.js'))
-                            return replaceMainnetVersion(content);
-
-                        return content;
-                    }
-                }
-            },
-            chrome_testnet: {
-                src: ['<%= meta.dependencies %>', '<%= meta.application %>'],
-                dest: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-<%= pkg.version %>.js',
-                options: {
-                    process: function (content, srcPath) {
-                        if (srcPath.endsWith('app.js'))
-                            return replaceTestnetVersion(content);
-
-                        return content;
-                    }
-                }
-            },
+            testnet: generateConcatDirectives('testnet'),
+            mainnet: generateConcatDirectives('mainnet'),
+            chrome_mainnet: generateConcatDirectives('chrome.mainnet'),
+            chrome_testnet: generateConcatDirectives('chrome.testnet'),
             css: {
                 src: ['<%= meta.stylesheets %>'],
                 dest: '<%= meta.configurations.css.concat %>'
