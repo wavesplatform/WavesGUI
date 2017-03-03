@@ -1,4 +1,4 @@
-@import "variables";
+@import "shared/variables";
 
 @-webkit-keyframes wFlip {
   0% {
@@ -62,8 +62,8 @@
 }
 
 .userBG {
-  background-image: -webkit-linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/lockbg005b.jpg);
-  background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/lockbg005b.jpg);
+  background-image: -webkit-linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('@{img}/lockbg005b.jpg');
+  background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('@{img}/lockbg005b.jpg');
   min-height: 100%;
   background-size: cover;
   background-attachment: fixed;

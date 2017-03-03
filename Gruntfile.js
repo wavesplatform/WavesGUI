@@ -304,7 +304,7 @@ module.exports = function (grunt) {
             testnet: {
                 files: [
                     {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.testnet.name %>/css'},
-                    {expand: true, cwd: 'src/less', src: '<%= meta.fonts %>', dest: 'distr/<%= meta.configurations.testnet.name %>/css'},
+                    {expand: true, cwd: 'src/less', src: '<%= meta.fonts %>', dest: 'distr/<%= meta.configurations.testnet.name %>/'},
                     {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.testnet.name %>'},
                     {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.testnet.name %>'},
                     {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.testnet.name %>/js'}
@@ -322,7 +322,7 @@ module.exports = function (grunt) {
             mainnet: {
                 files: [
                     {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.mainnet.name %>/css'},
-                    {expand: true, cwd: 'src/less', src: '<%= meta.fonts %>', dest: 'distr/<%= meta.configurations.mainnet.name %>/css'},
+                    {expand: true, cwd: 'src/less', src: '<%= meta.fonts %>', dest: 'distr/<%= meta.configurations.mainnet.name %>/'},
                     {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.mainnet.name %>'},
                     {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.mainnet.name %>'},
                     {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.mainnet.name %>/js'}
@@ -340,7 +340,7 @@ module.exports = function (grunt) {
             chrome_mainnet: {
                 files: [
                     {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.chrome.mainnet.name %>/css'},
-                    {expand: true, cwd: 'src/less', src: '<%= meta.fonts %>', dest: 'distr/<%= meta.configurations.chrome.mainnet.name %>/css'},
+                    {expand: true, cwd: 'src/less', src: '<%= meta.fonts %>', dest: 'distr/<%= meta.configurations.chrome.mainnet.name %>/'},
                     {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.chrome.mainnet.name %>'},
                     {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.chrome.mainnet.name %>'},
                     {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.mainnet.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.chrome.mainnet.name %>/js'},
@@ -362,7 +362,7 @@ module.exports = function (grunt) {
             chrome_testnet: {
                 files: [
                     {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.chrome.testnet.name %>/css'},
-                    {expand: true, cwd: 'src/less', src: '<%= meta.fonts %>', dest: 'distr/<%= meta.configurations.chrome.testnet.name %>/css'},
+                    {expand: true, cwd: 'src/less', src: '<%= meta.fonts %>', dest: 'distr/<%= meta.configurations.chrome.testnet.name %>/'},
                     {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.chrome.testnet.name %>'},
                     {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.chrome.testnet.name %>'},
                     {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.chrome.testnet.name %>/js'},
@@ -388,7 +388,7 @@ module.exports = function (grunt) {
                         expand: true,
                         flatten: true,
                         src: ['src/less/fonts/**/*.*'],
-                        dest: 'distr/devel/css/fonts/'
+                        dest: 'distr/devel/fonts/'
                     }
                 ]
             },
