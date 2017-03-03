@@ -1,4 +1,4 @@
-@import "variables";
+@import "shared/variables";
 
 *,
 *::after,
@@ -36,11 +36,7 @@ body {
 }
 
 .noSelect {
-  // TODO : wrap user-select directives below into a mixin.
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  &:extend(.user-select-none);
 }
 
 .noDisp {
@@ -57,7 +53,7 @@ body {
   content: "";
   position: absolute;
   display: inline-block;
-  background: url(../img/wIcon_tip.svg) no-repeat;
+  background: url('@{img}/wIcon_tip.svg') no-repeat;
   width: 1.25rem;
   height: 1.25rem;
   padding: 0;
@@ -68,7 +64,7 @@ body {
   content: "";
   position: absolute;
   display: inline-block;
-  background: url(../img/wIcon_clip.svg) no-repeat;
+  background: url('@{img}/wIcon_clip.svg') no-repeat;
   width: 1.25rem;
   height: 1.25rem;
   padding: 0;
@@ -296,12 +292,12 @@ body {
 }
 
 .wavesTable-txIn .clipSpan:after {
-  background: url(../img/wIcon_clip_txIn.svg) no-repeat;
+  background: url('@{img}/wIcon_clip_txIn.svg') no-repeat;
   opacity: .75;
 }
 
 .wavesTable-txOut .clipSpan:after {
-  background: url(../img/wIcon_clip_txOut.svg) no-repeat;
+  background: url('@{img}/wIcon_clip_txOut.svg') no-repeat;
   opacity: .75;
 }
 
@@ -310,7 +306,7 @@ body {
 }
 
 #latestBlocksTable .clipSpan:after {
-  background: url(../img/wIcon_clip_txOut.svg) no-repeat;
+  background: url('@{img}/wIcon_clip_txOut.svg') no-repeat;
   opacity: .6;
 }
 
