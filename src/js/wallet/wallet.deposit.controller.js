@@ -7,10 +7,11 @@
         deposit.bitcoinAddress = '';
         deposit.bitcoinAmount = '';
         deposit.bitcoinUri = '';
+        deposit.minimumAmount = 0.001;
 
         deposit.refreshUri = function () {
             var params = null;
-            if (deposit.bitcoinAmount >= 0.01) {
+            if (deposit.bitcoinAmount >= deposit.minimumAmount) {
                 params = {
                     amount: deposit.bitcoinAmount
                 };

@@ -187,7 +187,6 @@
                     dialogService.open('#withdraw-confirmation');
                 })
                 .catch(function (exception) {
-                    console.log(JSON.stringify(exception));
                     notificationService.error(exception.message);
                 });
 
