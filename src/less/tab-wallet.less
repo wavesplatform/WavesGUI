@@ -8,6 +8,11 @@
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+
+  /* Do not eliminate this one */
+  & h2 {
+    padding: .5rem;
+  }
 }
 
 .flex-container {
@@ -31,7 +36,6 @@
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  /*    display: inline-block;*/
   min-width: 260px;
   max-width: 300px;
   height: 220px;
@@ -40,14 +44,13 @@
   padding: 10px;
   border-radius: 20px 20px 20px 20px;
   overflow: hidden;
-}
-
-.walletBox img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 90%;
-  z-index: 0;
+  & img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 90%;
+    z-index: 0;
+  }
 }
 
 .wB-name {
@@ -101,13 +104,6 @@
 }
 
 
-/* Do not eliminate this one */
-
-#mBB-wallet h2 {
-  padding: .5rem;
-}
-
-
 /* BALANCE BOXES BUTTONS SECTION */
 
 .wB-buttons {
@@ -118,10 +114,9 @@
   height: 20%;
   padding: 1%;
   margin-bottom: -5px;
-}
-
-.wB-buttons a {
-  text-decoration: none;
+  & a {
+    text-decoration: none;
+  }
 }
 
 .wB-but {
@@ -137,11 +132,19 @@
   color: @color-white;
   border: none;
   outline: none;
-}
-
-.wB-but:hover {
   cursor: pointer;
-  background: @color-soft-orange;
+
+  &:hover {
+    background: @color-soft-orange;
+  }
+
+  & p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 0 -50% 0 0;
+    transform: translate(-50%, -55%);
+  }
 }
 
 .wB-butSend {
@@ -154,14 +157,6 @@
 
 .wB-butTrade {
   border-radius: 2px 2px 16px 2px;
-}
-
-.wB-but p {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: 0 -50% 0 0;
-  transform: translate(-50%, -55%);
 }
 
 #full-transaction-history,

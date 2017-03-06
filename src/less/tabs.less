@@ -1,7 +1,6 @@
 @import "shared/variables";
 
 #tabs {
-  /*        display: flex;*/
   position: relative;
   width: 100%;
   height: 65px;
@@ -23,27 +22,25 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-}
 
-#tabs-Iconset span {
-  height: 100%;
-}
+  & span {
+    height: 100%;
+  }
 
-#tabs-Iconset img {
-  margin-top: 0;
-  margin-left: .5rem;
-  margin-right: .5rem;
-  height: 90%;
-}
-
-#tabs-Iconset img:focus {
-  outline: none;
-}
-
-#tabs-Iconset img:hover {
-  cursor: pointer;
-  -webkit-transform: scale(0.88);
-  transform: scale(0.88);
+  & img {
+    margin-top: 0;
+    margin-left: .5rem;
+    margin-right: .5rem;
+    height: 90%;
+    &:focus {
+      outline: none;
+    }
+    &:hover {
+      cursor: pointer;
+      -webkit-transform: scale(0.88);
+      transform: scale(0.88);
+    }
+  }
 }
 
 span.tabs-radio img {
