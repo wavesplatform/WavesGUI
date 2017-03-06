@@ -126,8 +126,8 @@
 
                     dialogService.open('#withdraw-asset-dialog');
                 }).catch(function (exception) {
-                    if (exception && exception.message) {
-                        notificationService.error(exception.message);
+                    if (exception && exception.error) {
+                        notificationService.error(exception.error);
                     } else {
                         notificationService.error(DEFAULT_ERROR_MESSAGE);
                     }
