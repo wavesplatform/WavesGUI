@@ -260,12 +260,22 @@ module.exports = function (grunt) {
         less: {
             // NOTE : that task is not consistent with the standard distribution workflow.
             development: {
-                options: {
-                    compress: true
-                },
                 files: {
                     'distr/devel/css/style.css': 'src/less/index.less'
                 }
+            }
+        },
+        postcss: {
+            options: {
+                failOnError: true,
+                processors: [
+                    require('pixrem')(),
+                    require('autoprefixer')({browsers: 'last 2 versions'}),
+                    require('cssnano')()
+                ]
+            },
+            dist: {
+                src: 'distr/devel/css/style.css'
             }
         },
         concat: {
@@ -492,6 +502,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-conventional-changelog');
+    grunt.loadNpmTasks('grunt-postcss');
 
     grunt.registerTask('emptyChangelog', 'Creates an empty changelog', function() {
         grunt.file.write('distr/CHANGELOG.tmp', '');
@@ -511,6 +522,7 @@ module.exports = function (grunt) {
         'jshint',
         'karma:development',
         'styles',
+        'postcss',
         'concat',
         'karma:distr',
         'uglify',

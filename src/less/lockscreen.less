@@ -2,22 +2,18 @@
 
 @-webkit-keyframes wFlip {
   0% {
-    -webkit-transform: rotateY(0deg);
     transform: rotateY(0deg);
   }
   100% {
-    -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
   }
 }
 
 @keyframes wFlip {
   0% {
-    -webkit-transform: rotateY(0deg);
     transform: rotateY(0deg);
   }
   100% {
-    -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
   }
 }
@@ -37,7 +33,6 @@
 }
 
 #logo-spin {
-  -webkit-animation: wFlip 1.2s ease-in infinite;
   animation: wFlip 1.2s ease-in infinite;
 }
 
@@ -62,13 +57,9 @@
 }
 
 .userBG {
-  background-image: -webkit-linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('@{img}/lockbg005b.jpg');
-  background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('@{img}/lockbg005b.jpg');
   min-height: 100%;
   background-size: cover;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-position: center center;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('@{img}/lockbg005b.jpg') no-repeat fixed center center;
 }
 
 #lockscreenTable {

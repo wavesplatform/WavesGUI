@@ -18,12 +18,10 @@ body {
 
 .fade {
   transition: all .4s ease;
-  -webkit-transition: all .4s ease;
 }
 
 .fFade {
   transition: all .2s ease;
-  -webkit-transition: all .2s ease;
 }
 
 .centerIt {
@@ -31,12 +29,11 @@ body {
   top: 50%;
   left: 50%;
   margin: 0 -50% 0 0;
-  -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
 .noSelect {
-  &:extend(.user-select-none);
+  user-select: none;
 }
 
 .noDisp {
@@ -255,7 +252,6 @@ body {
 
 .wavesTable tbody tr {
   transition: all .2s ease;
-  -webkit-transition: all .2s ease;
 }
 
 .wavesTable-hover tbody tr:hover {
@@ -315,7 +311,6 @@ body {
 }
 
 .wavesTable-txUnc {
-  -webkit-animation: opacity_change 1s infinite alternate ease-in-out;
   animation: opacity_change 1s infinite alternate ease-in-out;
 }
 
