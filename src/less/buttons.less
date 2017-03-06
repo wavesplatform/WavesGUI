@@ -25,12 +25,12 @@
 
 .wButton {
   &:extend(.button);
-  &:extend(.user-select-none);
 
   padding: .3rem .8rem;
   border: 1px solid @color-white;
   text-align: center;
   text-decoration: none;
+  user-select: none;
 
   &:hover {
     background: @color-white;
@@ -46,7 +46,6 @@
     top: 50%;
     left: 50%;
     margin: 0 -50% 0 0;
-    -webkit-transform: translate(-50%, -55%);
     transform: translate(-50%, -55%);
   }
 }
@@ -171,7 +170,6 @@
 
 md-autocomplete.fee-autocomplete button {
   transition: all .4s ease;
-  -webkit-transition: all .4s ease;
 }
 
 md-autocomplete.fee-autocomplete button md-icon path {

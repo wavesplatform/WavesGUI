@@ -1,5 +1,5 @@
 {
-    "excludeFiles": ["node_modules/**", "bower_components/**"],
+    "excludeFiles": ["node_modules/**", "bower_components/**", "distr/**", "Gruntfile.js"],
 
     "requireCurlyBraces": [
         "for",
@@ -20,7 +20,7 @@
 
     "disallowMultipleLineStrings": true,
     "disallowMixedSpacesAndTabs": true,
-    "disallowTrailingWhitespace": false,
+    "disallowTrailingWhitespace": true,
     "disallowSpaceAfterPrefixUnaryOperators": true,
     "disallowMultipleVarDecl": null,
 

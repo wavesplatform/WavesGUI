@@ -3,18 +3,32 @@
 #mBB-portfolio {
   width: 100%;
   text-align: center;
-}
 
-#mBB-portfolio table {
-  width: 100%;
-}
+  & table {
+    width: 100%;
+  }
 
-#mBB-portfolio .wavesTable tbody {
-  overflow-y: scroll;
-}
-
-#mBB-portfolio .wavesTable tr:hover {
-  cursor: default;
+  & .wavesTable {
+    & tbody {
+      overflow-y: scroll;
+    }
+    & tr:hover {
+      cursor: default;
+    }
+    & tr .clipSpan:after {
+      background: url('@{img}/wIcon_clip_txIn.svg') no-repeat;
+      opacity: 1;
+    }
+    & td:last-child {
+      // TODO : make a mixin.
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+    }
+  }
 }
 
 #portfolio .btn {
@@ -30,27 +44,10 @@
   color: @color-white;
   text-align: center;
   transition: all .2s ease;
-  -webkit-transition: all .2s ease;
-}
-
-#portfolio .btn:hover {
-  cursor: pointer;
-  background: @color-turquoise;
-}
-
-#mBB-portfolio .wavesTable tr .clipSpan:after {
-  background: url('@{img}/wIcon_clip_txIn.svg') no-repeat;
-  opacity: 1;
-}
-
-#mBB-portfolio .wavesTable td:last-child {
-  // TODO : make a mixin.
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+  &:hover {
+    cursor: pointer;
+    background: @color-turquoise;
+  }
 }
 
 /* linear progress bar styling */

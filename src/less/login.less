@@ -5,14 +5,12 @@
 #account-remove-popup {
   max-width: 500px;
   padding-bottom: 2rem;
+  & p {
+    text-align: justify;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }
-
-#account-remove-popup p {
-  text-align: justify;
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-
 
 /* END OF REMOVE ACCOUNT CONFIRMATION POPUP */
 
@@ -34,30 +32,29 @@
 .loginAccountDiv {
   font-size: 1.25rem;
   height: 55px;
-}
 
-.loginAccountDiv > span {
-  opacity: .5;
-  outline: none;
-}
+  & > span {
+    opacity: .5;
+    outline: none;
+    &:hover {
+      cursor: pointer;
+      opacity: 1;
+    }
+  }
 
-.loginAccountDiv > span:hover {
-  cursor: pointer;
-  opacity: 1;
-}
+  & .clipSpan {
+    color: red;
+  }
 
-.loginAccountDiv .clipSpan {
-  color: red;
+  & > .wButton:hover {
+    border: none;
+    opacity: 1;
+  }
 }
 
 #loginPassword {
   margin-top: .5rem;
   margin-bottom: 1rem;
-}
-
-.loginAccountDiv > .wButton:hover {
-  border: none;
-  opacity: 1;
 }
 
 #readonlySeed {
@@ -95,14 +92,12 @@
 }
 
 #walletSeed {
-  /*    width: 300px;*/
   margin-top: .5rem;
   min-width: 320px;
   resize: none;
 }
 
 #walletName {
-  /*    width: 300px;*/
   margin-top: .5rem;
 }
 
