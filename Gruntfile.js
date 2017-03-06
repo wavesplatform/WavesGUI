@@ -216,7 +216,7 @@ module.exports = function (grunt) {
         watch: {
             scripts: {
                 files: ['Gruntfile.js', 'src/js/**/*.js'],
-                tasks: ['test'],
+                tasks: ['concat:scriptsBundle', 'test'],
                 options: {
                     interrupt: true
                 }
@@ -286,6 +286,11 @@ module.exports = function (grunt) {
             css: {
                 src: ['<%= meta.stylesheets %>'],
                 dest: '<%= meta.configurations.css.concat %>'
+            },
+            scriptsBundle: {
+                // NOTE : that task is not consistent with the standard distribution workflow.
+                src: ['<%= meta.dependencies %>', '<%= meta.application %>'],
+                dest: 'distr/devel/js/bundle.js'
             }
         },
         uglify: {
@@ -514,7 +519,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['jshint', 'jscs', 'karma:development']);
     grunt.registerTask('styles', ['less', 'copy:fonts', 'copy:img']);
 
-    grunt.registerTask('build-local', ['styles']);
+    grunt.registerTask('build-local', ['styles', 'concat:scriptsBundle']);
 
     grunt.registerTask('build', [
         'build-local',
