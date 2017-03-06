@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    var DEFAULT_ERROR_MESSAGE = 'Connection is lost';
+
     function WavesWalletDepositController ($scope, events, coinomatService, dialogService, notificationService,
                                            applicationContext, bitcoinUriService) {
         var deposit = this;
@@ -37,7 +39,11 @@
                     deposit.bitcoinUri = bitcoinUriService.generate(deposit.bitcoinAddress);
                 })
                 .catch(function (exception) {
-                    notificationService.error(exception.message);
+                    if (exception && exception.message) {
+                        notificationService.error(exception.message);
+                    } else {
+                        notificationService.error(DEFAULT_ERROR_MESSAGE);
+                    }
                 });
         });
     }

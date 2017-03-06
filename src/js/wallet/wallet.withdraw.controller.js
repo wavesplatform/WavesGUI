@@ -1,7 +1,8 @@
 (function () {
     'use strict';
 
-    var DEFAULT_FEE_AMOUNT = '0.001';
+    var DEFAULT_FEE_AMOUNT = '0.001',
+        DEFAULT_ERROR_MESSAGE = 'Connection is lost';
 
     function WavesWalletWithdrawController ($scope, $timeout, constants, events, autocomplete, dialogService,
                                             coinomatService, transactionBroadcast, notificationService,
@@ -125,8 +126,11 @@
 
                     dialogService.open('#withdraw-asset-dialog');
                 }).catch(function (exception) {
-                    //TODO: make this better
-                    notificationService.error(exception.error);
+                    if (exception && exception.error) {
+                        notificationService.error(exception.error);
+                    } else {
+                        notificationService.error(DEFAULT_ERROR_MESSAGE);
+                    }
                 });
         });
 
