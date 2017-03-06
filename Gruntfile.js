@@ -47,7 +47,7 @@ module.exports = function (grunt) {
                 {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>'},
                 {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>'},
                 {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.' + target + '.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.' + target + '.name %>/js'},
-                isChrome ? {expand: true, dest: 'distr/<%= meta.configurations.chrome.mainnet.name %>', flatten: true, src: 'src/chrome/*.*'} : {}
+                isChrome ? {expand: true, dest: 'distr/<%= meta.configurations.' + target + '.name %>', flatten: true, src: 'src/chrome/*.*'} : {}
             ],
             options: {
                 process: function (content, srcPath) {
