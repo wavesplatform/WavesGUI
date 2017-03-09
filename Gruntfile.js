@@ -1,6 +1,8 @@
 /*global module:false*/
 module.exports = function (grunt) {
 
+    var compiledTemplates = 'distr/devel/js/templates.js';
+
     var replaceTestnetVersion = function (content) {
         return content
             .replace(/CLIENT_VERSION\s*:\s*'[^']+'/, grunt.template.process("CLIENT_VERSION: '<%= pkg.version %>a'"))
@@ -26,7 +28,7 @@ module.exports = function (grunt) {
 
     var generateConcatDirectives = function (target) {
         return {
-            src: ['<%= meta.dependencies %>', '<%= meta.application %>'],
+            src: ['<%= meta.dependencies %>', '<%= meta.application %>', compiledTemplates],
             dest: 'distr/<%= pkg.name %>-<%= meta.configurations.' + target + '.name %>-<%= pkg.version %>.js',
             options: {
                 process: function (content, srcPath) {
@@ -143,17 +145,17 @@ module.exports = function (grunt) {
                 'src/js/splash.controller.js',
 
                 'src/js/shared/shared.module.js',
-                'src/js/shared/shared.constants.js',
+                'src/js/shared/constants.js',
                 'src/js/shared/bitcoin.uri.service.js',
                 'src/js/shared/dialog.service.js',
                 'src/js/shared/notification.service.js',
                 'src/js/shared/qr.code.component.js',
-                'src/js/shared/shared.dialog.directive.js',
+                'src/js/shared/dialog.directive.js',
                 'src/js/shared/focus.directive.js',
                 'src/js/shared/tooltipster.directive.js',
                 'src/js/shared/transaction.loading.service.js',
                 'src/js/shared/transaction.filter.js',
-                'src/js/shared/shared.autocomplete.factory.js',
+                'src/js/shared/autocomplete.factory.js',
                 'src/js/shared/transaction.broadcast.factory.js',
                 'src/js/shared/decimal.input.restrictor.directive.js',
                 'src/js/shared/integer.input.restrictor.directive.js',
@@ -224,6 +226,10 @@ module.exports = function (grunt) {
             css: {
                 files: ['src/less/**/*.less'],
                 tasks: ['less']
+            },
+            ngtemplates: {
+                files: ['src/templates/**/*.html'],
+                tasks: ['ngtemplates']
             }
         },
         karma: {
@@ -276,6 +282,20 @@ module.exports = function (grunt) {
             },
             dist: {
                 src: 'distr/devel/css/style.css'
+            }
+        },
+        ngtemplates: {
+            // NOTE : that task is not consistent with the standard distribution workflow.
+            options: {
+                url: function (url) { return url.replace('.html', ''); },
+                htmlmin: {
+                    collapseWhitespace: true
+                }
+            },
+            app: {
+                cwd: 'src/templates',
+                src: '**/*.html',
+                dest: compiledTemplates
             }
         },
         concat: {
@@ -490,24 +510,25 @@ module.exports = function (grunt) {
     });
 
     // These plugins provide necessary tasks.
+    grunt.loadNpmTasks('grunt-angular-templates');
+    grunt.loadNpmTasks('grunt-aws');
+    grunt.loadNpmTasks('grunt-bump');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-compress');
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-less');
-    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-jasmine');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-compress');
-    grunt.loadNpmTasks('grunt-jscs');
-    grunt.loadNpmTasks('grunt-bump');
-    grunt.loadNpmTasks('waves-grunt-github-releaser');
-    grunt.loadNpmTasks('grunt-webstore-upload');
-    grunt.loadNpmTasks('grunt-aws');
-    grunt.loadNpmTasks('grunt-shell');
-    grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-conventional-changelog');
+    grunt.loadNpmTasks('grunt-jscs');
+    grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-postcss');
+    grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-webstore-upload');
+    grunt.loadNpmTasks('waves-grunt-github-releaser');
 
     grunt.registerTask('emptyChangelog', 'Creates an empty changelog', function() {
         grunt.file.write('distr/CHANGELOG.tmp', '');
@@ -519,14 +540,14 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['jshint', 'jscs', 'karma:development']);
     grunt.registerTask('styles', ['less', 'copy:fonts', 'copy:img']);
 
-    grunt.registerTask('build-local', ['styles', 'concat:scriptsBundle']);
+    grunt.registerTask('build-local', ['styles', 'concat:scriptsBundle', 'ngtemplates']);
 
     grunt.registerTask('build', [
         'build-local',
         'jscs',
         'jshint',
         'karma:development',
-        'styles',
+        // 'styles',
         'postcss',
         'concat',
         'karma:distr',
