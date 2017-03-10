@@ -2,27 +2,28 @@
 @import (less) "../css-libs/jquery.modal.css";
 @import (less) "../css-libs/tooltipster.min.css";
 
-@import "variables";
+@import "variables.less";
 
-@import "global";
-@import "buttons";
-@import "inputs";
+@import "global.less";
+@import "buttons.less";
+@import "inputs.less";
 
-@import "placeholder";
-@import "lockscreen";
-@import "login";
-@import "header";
-@import "tabs";
-@import "payment-form";
+@import "placeholder.less";
+@import "lockscreen.less";
+@import "login.less";
+@import "header.less";
+@import "tabs.less";
+@import "payment-form.less";
 
-@import "tab-wallet";
-@import "tab-portfolio";
-@import "tab-history";
-@import "tab-exchange";
-@import "tab-tokens";
-//@import "tab-messenger";
-@import "tab-community";
+@import "tab-wallet.less";
+@import "tab-portfolio.less";
+@import "tab-history.less";
+@import "tab-tokens.less";
+@import "tab-community.less";
 
-@import "media-queries"; // TODO : spread its content where it belongs.
+@import "media-queries.less";
 
-@import "shared/qr-code";
+@import "shared/page.component.less";
+@import "shared/qr-code.component.less";
+
+@import "dex/component.less";

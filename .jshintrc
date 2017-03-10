@@ -18,7 +18,7 @@
   "quotmark": "single",
   "undef": true,
   "unused": false,
-  "strict": false,
+  "strict": true,
   "maxparams": 10,
   "maxdepth": 5,
   "maxstatements": 40,
@@ -57,6 +57,7 @@
     "angular": false,
     "$": false,
     "_": false,
+    "QRious": false,
     "Currency": false,
     "converters": false
   }
