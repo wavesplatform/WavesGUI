@@ -28,6 +28,7 @@
             fee: {},
             recipients: 0
         };
+        mass.filename = '';
         mass.transfers = [];
         mass.inputPayments = [];
         mass.autocomplete = autocomplete;
@@ -204,6 +205,10 @@
                 mass.summary.totalFee = totalFee;
                 mass.transfers = transfersToDisplay;
                 mass.stage = PROCESSING_STAGE;
+
+                // cleaning up
+                mass.filename = '';
+                mass.inputPayments = [];
             }
             catch (e) {
                 if (e instanceof ValidationError) {
