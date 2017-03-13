@@ -2,8 +2,8 @@
     'use strict';
 
     function WavesAssetTransferController($scope, $timeout, constants, events, autocomplete, applicationContext,
-                                          assetService, apiService, dialogService,
-                                          formattingService, notificationService, transactionBroadcast) {
+                                          assetService, apiService, dialogService, formattingService,
+                                          notificationService, transactionBroadcast, addressService) {
         var transfer = this;
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAV);
 
@@ -129,7 +129,7 @@
             }
 
             var assetTransfer = {
-                recipient: transfer.recipient,
+                recipient: addressService.cleanupOptionalPrefix(transfer.recipient),
                 amount: transferAmount,
                 fee: transferFee
             };
@@ -181,7 +181,7 @@
 
     WavesAssetTransferController.$inject = ['$scope', '$timeout', 'constants.ui', 'portfolio.events',
         'autocomplete.fees', 'applicationContext', 'assetService', 'apiService', 'dialogService',
-        'formattingService', 'notificationService', 'transactionBroadcast'];
+        'formattingService', 'notificationService', 'transactionBroadcast', 'addressService'];
 
     angular
         .module('app.portfolio')

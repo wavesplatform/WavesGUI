@@ -135,7 +135,7 @@ function AngularApplicationRun(rest, applicationConstants, notificationService, 
         notificationService.error(message);
     };
     __mockValidateAddress = function (address) {
-        return addressService.validateAddress(address);
+        return addressService.validateAddress(address.trim());
     };
 }
 
