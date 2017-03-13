@@ -1,0 +1,98 @@
+@import "../variables";
+
+waves-dex-asset-picker {
+  min-width: 300px;
+  max-width: 500px;
+  min-height: 200px;
+  padding: 20px;
+  font-size: 1.2rem;
+
+  .asset-id {
+    display: flex;
+    width: 100%;
+    margin: 0 auto;
+
+    & > span.title {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 5px 0 0 5px;
+      border: solid 1px @color-darkest-grey;
+      background: @color-lightest-grey;
+      user-select: none;
+    }
+
+    & > input {
+      display: inline-block;
+      flex-grow: 1;
+      padding: 5px 10px;
+      border: solid 1px @color-darkest-grey;
+      border-left: none;
+      border-right: none;
+      outline: none;
+      color: @color-grey;
+    }
+
+    & > span.clipboard {
+      display: inline-block;
+      padding: 5px;
+      width: 35px;
+      border-radius: 0 5px 5px 0;
+      border: solid 1px @color-darkest-grey;
+      // SVG icon here is created by Andrew Onorato (https://thenounproject.com/Onocoolo/), shared under Creative Commons 3.0 license.
+      background: @color-almost-white url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMTAwIDEwMCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PGc+PHJlY3QgeD0iMzEuMjMzIiB5PSIzNS41MTIiIHdpZHRoPSIzOC4yODEiIGhlaWdodD0iMy44MjgiLz48cmVjdCB4PSIzMS4yMzMiIHk9IjUwLjgyNCIgd2lkdGg9IjM4LjI4MSIgaGVpZ2h0PSIzLjgyOSIvPjxyZWN0IHg9IjMxLjIzMyIgeT0iNjYuMTM4IiB3aWR0aD0iMzguMjgxIiBoZWlnaHQ9IjMuODI4Ii8+PHJlY3QgeD0iMzEuMjMzIiB5PSI0My4xNjgiIHdpZHRoPSIzOC4yODEiIGhlaWdodD0iMy44MjkiLz48cmVjdCB4PSIzMS4yMzMiIHk9IjU4LjQ4IiB3aWR0aD0iMzguMjgxIiBoZWlnaHQ9IjMuODI5Ii8+PHJlY3QgeD0iMzEuMjMzIiB5PSI3My43OTQiIHdpZHRoPSIzOC4yODEiIGhlaWdodD0iMy44MjgiLz48cGF0aCBkPSJNNjUuNjg2LDE2Ljc1M2gtNy42NTZWMTMuNjljMC0yLjExNC0xLjcxMy0zLjgyOC0zLjgyOC0zLjgyOGgtNy42NTVjLTIuMTE2LDAtMy44MjksMS43MTQtMy44MjksMy44Mjh2My4wNjJoLTcuNjU2ICAgYy0yLjExNCwwLTMuODI4LDEuNzE0LTMuODI4LDMuODI4djYuNjM2aDM4LjI4MXYtNi42MzZDNjkuNTE0LDE4LjQ2Nyw2Ny44MDEsMTYuNzUzLDY1LjY4NiwxNi43NTN6Ii8+PHBvbHlnb24gcG9pbnRzPSI3MS40MywyMS4wOTIgNzEuNDMsMjQuOTIgNzcuMTcyLDI0LjkyIDc3LjE3Miw4Ni4xNzIgMjMuNTc2LDg2LjE3MiAyMy41NzYsMjQuOTIgMjkuMzE4LDI0LjkyIDI5LjMxOCwyMS4wOTIgICAgMTkuNzQ4LDIxLjA5MiAxOS43NDgsOTAgODEsOTAgODEsMjEuMDkyICAiLz48L2c+PC9zdmc+') center no-repeat;
+      background-size: 80%;
+      cursor: pointer;
+      user-select: none;
+    }
+  }
+
+  .container {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    user-select: none;
+
+    .picker {
+      display: inline-block;
+      min-width: 200px;
+      max-width: 80%;
+      padding: 25px 15px;
+      background: @color-lightest-grey;
+      border-radius: 8px;
+      outline: none;
+      box-shadow: 0 2px 10px -4px @color-darkest-grey;
+      color: @color-dark-grey;
+      cursor: pointer;
+      text-align: center;
+
+      &.pressed {
+        box-shadow: inset 0 2px 10px -4px @color-darkest-grey;
+        padding: 24px 15px 26px;
+      }
+
+      & > span {
+        text-shadow: 0 0 1px @color-navy-blue;
+      }
+    }
+
+    .asset-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      position: absolute;
+      margin-top: 100px;
+      max-width: 720px;
+      background: @color-white;
+      border-radius: 8px;
+
+      .asset {
+        display: inline-block;
+        width: 235px;
+        margin-bottom: 5px;
+        padding: 25px 15px;
+        background: @color-lightest-grey;
+      }
+    }
+  }
+}

@@ -1,10 +1,12 @@
-<div class="flex-row upper">
-  <div class="flex-col workspace">
-    <div class="flex-row choice">
-      <waves-dex-asset-picker></waves-dex-asset-picker>
-      <waves-dex-asset-picker></waves-dex-asset-picker>
+<div class="upper">
+
+  <div class="workspace">
+    <div class="choice">
+      <waves-dex-asset-picker assets="$ctrl.assetsOne"></waves-dex-asset-picker>
+      <waves-dex-asset-picker assets="$ctrl.assetsTwo"></waves-dex-asset-picker>
     </div>
-    <div class="flex-row tools">
+
+    <div class="tools">
       <waves-dex-order-creator></waves-dex-order-creator>
       <div class="flex-col">
         <waves-dex-pair-info></waves-dex-pair-info>
@@ -12,10 +14,15 @@
       </div>
     </div>
   </div>
-  <aside class="col quick-choice"></aside>
+
+  <aside class="col quick-choice">
+    <waves-dex-pairs-list></waves-dex-pairs-list>
+    <waves-dex-pairs-list></waves-dex-pairs-list>
+  </aside>
+
 </div>
 
-<div class="flex-row lower">
+<div class="lower">
   <waves-dex-orderbook></waves-dex-orderbook>
   <waves-dex-orderbook></waves-dex-orderbook>
   <waves-dex-orderbook></waves-dex-orderbook>

@@ -6,6 +6,18 @@
 
         ctrl.priceAsset = null;
         ctrl.amountAsset = null;
+
+        ctrl.assetsOne = [
+            Currency.WAV,
+            Currency.BTC
+        ];
+
+        ctrl.assetsTwo = [
+            Currency.WAV,
+            Currency.BTC,
+            Currency.EUR,
+            Currency.USD
+        ];
     }
 
     angular

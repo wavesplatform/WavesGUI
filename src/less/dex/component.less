@@ -1,0 +1,37 @@
+waves-dex {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100%;
+
+  & > .upper {
+    display: flex;
+    flex-grow: 5;
+    min-height: 500px;
+
+    & > .workspace {
+      flex-grow: 7;
+      & > .choice {
+        display: flex;
+        justify-content: space-around;
+      }
+    }
+
+    & > .quick-choice {
+      flex-grow: 4;
+      min-width: 100px;
+    }
+  }
+
+  & > .lower {
+    display: flex;
+    flex-grow: 3;
+    min-height: 300px;
+
+    //& > .order-book {
+    //  margin: 0 1rem 2rem;
+    //  width: 100%;
+    //  overflow-y: auto;
+    //}
+  }
+}
