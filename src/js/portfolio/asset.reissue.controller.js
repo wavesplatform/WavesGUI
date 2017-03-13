@@ -3,8 +3,9 @@
 
     var FIXED_REISSUE_FEE = new Money(1, Currency.WAV);
 
-    function WavesAssetReissueController($scope, $timeout, events, applicationContext, assetService, dialogService,
-                                         notificationService, formattingService, apiService, transactionBroadcast) {
+    function WavesAssetReissueController($scope, $timeout, constants, events, applicationContext, assetService,
+                                         dialogService, notificationService, formattingService, apiService,
+                                         transactionBroadcast) {
         var reissue = this;
         reissue.confirm = {
             amount: {},
@@ -24,7 +25,8 @@
                 assetAmount: {
                     required: true,
                     decimal: 0,
-                    min: 0
+                    min: 0,
+                    max: constants.JAVA_MAX_LONG
                 }
             },
             messages: {
@@ -121,8 +123,8 @@
         }
     }
 
-    WavesAssetReissueController.$inject = ['$scope', '$timeout', 'portfolio.events', 'applicationContext',
-        'assetService', 'dialogService', 'notificationService',
+    WavesAssetReissueController.$inject = ['$scope', '$timeout', 'constants.ui', 'portfolio.events',
+        'applicationContext', 'assetService', 'dialogService', 'notificationService',
         'formattingService', 'apiService', 'transactionBroadcast'];
 
     angular
