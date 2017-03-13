@@ -25,8 +25,7 @@
                 assetAmount: {
                     required: true,
                     decimal: 0,
-                    min: 0,
-                    max: constants.JAVA_MAX_LONG
+                    min: 0
                 }
             },
             messages: {
@@ -55,12 +54,16 @@
             // update validation options and check how it affects form validation
             reissue.validationOptions.rules.assetAmount.decimal = asset.currency.precision;
             var minimumPayment = Money.fromCoins(1, asset.currency);
+            var maximumPayment = Money.fromCoins(constants.JAVA_MAX_LONG, asset.currency);
             reissue.validationOptions.rules.assetAmount.min = minimumPayment.toTokens();
+            reissue.validationOptions.rules.assetAmount.max = maximumPayment.toTokens();
             reissue.validationOptions.messages.assetAmount.decimal = 'The amount to reissue must be a number ' +
                 'with no more than ' + minimumPayment.currency.precision +
                 ' digits after the decimal point (.)';
             reissue.validationOptions.messages.assetAmount.min = 'Amount to reissue is too small. ' +
                 'It should be greater or equal to ' + minimumPayment.formatAmount(false);
+            reissue.validationOptions.messages.assetAmount.max = 'Amount to reissue is too big. ' +
+                'It should be less or equal to ' + maximumPayment.formatAmount(false);
 
             dialogService.open('#asset-reissue-dialog');
         });
