@@ -1,4 +1,4 @@
-<h2>{{$ctrl.title}}</h2>
+<h2>{{$ctrl.name}}</h2>
 
 <div class="pairs-list" ng-if="$ctrl.pairs.length">
   <div class="pair" ng-class="$ctrl.type" ng-repeat="p in $ctrl.pairs">{{p.priceAsset.abbr}}/{{p.amountAsset.abbr}}</div>

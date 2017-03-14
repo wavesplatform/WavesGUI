@@ -3,7 +3,7 @@
 
     function PairsListController($attrs) {
         this.type = $attrs.type;
-        this.title = $attrs.title;
+        this.name = $attrs.name;
         this.placeholder = $attrs.placeholder;
         this.pairs = $attrs.pairs;
     }
@@ -14,7 +14,7 @@
             controller: PairsListController,
             bindings: {
                 type: '@',
-                title: '@',
+                name: '@',
                 placeholder: '@',
                 pairs: '<'
             },
