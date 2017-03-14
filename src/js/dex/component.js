@@ -18,6 +18,28 @@
             Currency.EUR,
             Currency.USD
         ];
+
+        ctrl.favoritePairs = [{
+            priceAsset: {abbr: 'WAV'},
+            amountAsset: {abbr: 'USD'}
+        }, {
+            priceAsset: {abbr: 'BTC'},
+            amountAsset: {abbr: 'USD'}
+        }, {
+            priceAsset: {abbr: 'WAV'},
+            amountAsset: {abbr: 'USD'}
+        }, {
+            priceAsset: {abbr: 'BTC'},
+            amountAsset: {abbr: 'ETH'}
+        }];
+
+        ctrl.tradedPairs = [{
+            priceAsset: {abbr: 'WAV'},
+            amountAsset: {abbr: 'USD'}
+        }, {
+            priceAsset: {abbr: 'BTC'},
+            amountAsset: {abbr: 'USD'}
+        }];
     }
 
     angular

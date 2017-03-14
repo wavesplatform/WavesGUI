@@ -16,8 +16,14 @@
   </div>
 
   <aside class="col quick-choice">
-    <waves-dex-pairs-list></waves-dex-pairs-list>
-    <waves-dex-pairs-list></waves-dex-pairs-list>
+    <waves-dex-pairs-list type="favorite"
+                          title="Favorites"
+                          placeholder="You can add pairs here. Just press the star button!"
+                          pairs="$ctrl.favoritePairs"></waves-dex-pairs-list>
+    <waves-dex-pairs-list type="traded"
+                          title="Most traded"
+                          placeholder="Pairs will appear here soon."
+                          pairs="$ctrl.tradedPairs"></waves-dex-pairs-list>
   </aside>
 
 </div>
