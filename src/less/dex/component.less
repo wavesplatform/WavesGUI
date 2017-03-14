@@ -7,13 +7,18 @@ waves-dex {
   & > .upper {
     display: flex;
     flex-grow: 5;
-    min-height: 500px;
 
     & > .workspace {
       flex-grow: 8;
-      & > .choice {
+
+      & > .choice,
+      & > .tools {
         display: flex;
         justify-content: space-around;
+      }
+
+      & > .tools {
+        margin-top: 25px;
       }
     }
 

@@ -1,0 +1,25 @@
+<div class="half buy" ng-class="{'focused': $ctrl.focused == 'buy'}" ng-click="$ctrl.focusOn('buy')">
+  <h3>Buy</h3>
+  <div class="fields">
+    <input class="waves-input long" type="text" placeholder="BTC amount" ng-model="$ctrl.buy.amount" decimal-input-restrictor/>
+    <input class="waves-input long" type="text" placeholder="Price per BTC" ng-model="$ctrl.buy.price" decimal-input-restrictor/>
+    <span>Total: 23000 USD</span>
+    <span>Fee: 0.02 BTC</span>
+  </div>
+  <div class="button-container">
+    <button>Buy</button>
+  </div>
+</div>
+
+<div class="half sell" ng-class="{'focused': $ctrl.focused == 'sell'}" ng-click="$ctrl.focusOn('sell')">
+  <h3>Sell</h3>
+  <div class="fields">
+    <input class="waves-input long" type="text" placeholder="BTC amount" ng-model="$ctrl.sell.amount" decimal-input-restrictor/>
+    <input class="waves-input long" type="text" placeholder="Price per BTC" ng-model="$ctrl.sell.price" decimal-input-restrictor/>
+    <span>Total: 23000 USD</span>
+    <span>Fee: 22.4 USD</span>
+  </div>
+  <div class="button-container">
+    <button>Sell</button>
+  </div>
+</div>
