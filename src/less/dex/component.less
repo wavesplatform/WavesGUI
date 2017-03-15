@@ -1,43 +1,43 @@
+@import "../variables";
+
 waves-dex {
   display: flex;
-  flex-direction: column;
   width: 100%;
   min-height: 100%;
 
-  & > .upper {
-    display: flex;
-    flex-grow: 5;
+  & > .workspace {
+    flex-grow: 8;
+    padding: 20px 50px 0 30px;
 
-    & > .workspace {
-      flex-grow: 8;
+    & > .choice {
+      display: flex;
+      justify-content: space-between;
 
-      & > .choice,
-      & > .tools {
-        display: flex;
-        justify-content: space-around;
+      .current-pair {
+        display: inline-block;
+        padding: 6px 12px 4px;
+        border-radius: 5px;
+        border: solid 2px @color-waves-blue-temp;
+        color: @color-waves-blue-temp;
+        font-weight: bold;
       }
 
-      & > .tools {
-        margin-top: 25px;
+      .picker-widget {
+        flex-grow: 1;
+        margin-left: 40px;
       }
     }
 
-    & > .quick-choice {
-      flex-grow: 3;
-      min-width: 220px;
-      max-width: 370px;
+    & > .orderbooks {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 25px;
     }
   }
 
-  & > .lower {
-    display: flex;
+  & > .pairs-lists {
     flex-grow: 3;
-    min-height: 300px;
-
-    //& > .order-book {
-    //  margin: 0 1rem 2rem;
-    //  width: 100%;
-    //  overflow-y: auto;
-    //}
+    min-width: 220px;
+    max-width: 370px;
   }
 }

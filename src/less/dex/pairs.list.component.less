@@ -14,7 +14,8 @@ waves-dex-pairs-list {
     flex-wrap: wrap;
     align-content: space-between;
 
-    .pair {
+    .pair,
+    .action {
       width: 90px;
       display: inline-block;
       padding: 5px 10px;
@@ -22,15 +23,31 @@ waves-dex-pairs-list {
       border-radius: 4px;
       text-align: center;
       cursor: pointer;
+    }
 
-      &.favorite {
-        background: @color-soft-orange;
-      }
+    .action {
+      width: auto;
+      font-weight: bold;
+      user-select: none;
+    }
 
-      &.traded {
-        background: @color-waves-blue-temp;
-        color: @color-white;
-      }
+    &.favorite .pair {
+      background: @color-soft-orange;
+    }
+
+    &.favorite .action {
+      background: lighten(@color-soft-orange, 15%);
+      color: @color-grey;
+    }
+
+    &.traded .pair {
+      background: @color-waves-blue-temp;
+      color: @color-white;
+    }
+
+    &.traded .action {
+      background: lighten(@color-waves-blue-temp, 15%);
+      color: @color-white;
     }
   }
 }

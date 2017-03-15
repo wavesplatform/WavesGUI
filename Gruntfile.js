@@ -193,7 +193,7 @@ module.exports = function (grunt) {
                 'src/js/dex/order.creator.component.js',
                 'src/js/dex/orderbook.component.js',
                 'src/js/dex/pair.info.component.js',
-                'src/js/dex/pair.plot.component.js',
+                'src/js/dex/pair.chart.component.js',
                 'src/js/dex/pairs.list.component.js',
 
                 'src/js/history/module.js',

@@ -6,6 +6,7 @@
         this.name = $attrs.name;
         this.placeholder = $attrs.placeholder;
         this.pairs = $attrs.pairs;
+        this.action = $attrs.action;
     }
 
     angular
@@ -16,7 +17,8 @@
                 type: '@',
                 name: '@',
                 placeholder: '@',
-                pairs: '<'
+                pairs: '<',
+                action: '&'
             },
             templateUrl: 'dex/pairs.list.component'
         });

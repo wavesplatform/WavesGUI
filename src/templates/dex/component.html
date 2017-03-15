@@ -1,33 +1,35 @@
-<div class="upper">
-
-  <div class="workspace">
-    <div class="choice">
-      <waves-dex-asset-picker assets="$ctrl.assetsOne"></waves-dex-asset-picker>
-      <waves-dex-asset-picker assets="$ctrl.assetsTwo"></waves-dex-asset-picker>
+<div class="workspace">
+  <div class="choice">
+    <div class="current-pair">BTC/WAV</div>
+    <div class="picker-widget">
+      <waves-dex-asset-picker name="Price asset"
+                              assets="$ctrl.assetsOne"></waves-dex-asset-picker>
     </div>
-
-    <div class="tools">
-      <!--<waves-dex-pair-info></waves-dex-pair-info>-->
-      <waves-dex-order-creator></waves-dex-order-creator>
-      <waves-dex-pair-plot></waves-dex-pair-plot>
+    <div class="picker-widget">
+      <waves-dex-asset-picker name="Amount asset"
+                              assets="$ctrl.assetsTwo"></waves-dex-asset-picker>
     </div>
   </div>
 
-  <aside class="col quick-choice">
-    <waves-dex-pairs-list type="favorite"
-                          name="Favorites"
-                          placeholder="You can add pairs here. Just press the star button!"
-                          pairs="$ctrl.favoritePairs"></waves-dex-pairs-list>
-    <waves-dex-pairs-list type="traded"
-                          name="Most traded"
-                          placeholder="Pairs will appear here soon."
-                          pairs="$ctrl.tradedPairs"></waves-dex-pairs-list>
-  </aside>
-
+  <div class="orderbooks">
+    <waves-dex-orderbook></waves-dex-orderbook>
+    <waves-dex-orderbook></waves-dex-orderbook>
+    <div>
+      <waves-dex-order-creator></waves-dex-order-creator>
+      <waves-dex-orderbook></waves-dex-orderbook>
+    </div>
+  </div>
 </div>
 
-<div class="lower">
-  <waves-dex-orderbook></waves-dex-orderbook>
-  <waves-dex-orderbook></waves-dex-orderbook>
-  <waves-dex-orderbook></waves-dex-orderbook>
-</div>
+<aside class="pairs-lists">
+  <waves-dex-pairs-list type="favorite"
+                        name="Favorites"
+                        placeholder="You can add pairs here. Just press the star button!"
+                        pairs="$ctrl.favoritePairs"
+                        action="$ctrl.addFavorite()"></waves-dex-pairs-list>
+  <waves-dex-pairs-list type="traded"
+                        name="Most traded"
+                        placeholder="Pairs will appear here soon."
+                        pairs="$ctrl.tradedPairs"
+                        action="$ctrl.showMoreTraded()"></waves-dex-pairs-list>
+</aside>
