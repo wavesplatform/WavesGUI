@@ -6,6 +6,7 @@
     angular
         .module('app.dex')
         .component('wavesDexUserOrders', {
-            controller: UserOrdersController
+            controller: UserOrdersController,
+            templateUrl: 'dex/user.orders.component'
         });
 })();
