@@ -195,6 +195,7 @@ module.exports = function (grunt) {
 
                 'src/js/dex/module.js',
                 'src/js/dex/component.js',
+                'src/js/dex/order.service.js',
                 'src/js/dex/asset.picker.component.js',
                 'src/js/dex/order.creator.component.js',
                 'src/js/dex/orderbook.component.js',
