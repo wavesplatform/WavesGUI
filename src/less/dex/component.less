@@ -1,0 +1,43 @@
+@import "../variables";
+
+waves-dex {
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+
+  & > .workspace {
+    flex-grow: 8;
+    padding: 20px 50px 0 30px;
+
+    & > .choice {
+      display: flex;
+      justify-content: space-between;
+
+      .current-pair {
+        display: inline-block;
+        padding: 6px 12px 4px;
+        border-radius: 5px;
+        border: solid 2px @color-waves-blue-temp;
+        color: @color-waves-blue-temp;
+        font-weight: bold;
+      }
+
+      .picker-widget {
+        flex-grow: 1;
+        margin-left: 40px;
+      }
+    }
+
+    & > .orderbooks {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 25px;
+    }
+  }
+
+  & > .pairs-lists {
+    flex-grow: 3;
+    min-width: 220px;
+    max-width: 370px;
+  }
+}

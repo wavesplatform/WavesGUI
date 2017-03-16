@@ -49,7 +49,7 @@ module.exports = function (grunt) {
         return {
             files: [
                 {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>/css'},
-                {expand: true, cwd: 'src/less', src: '<%= meta.fonts %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>/'},
+                {expand: true, cwd: 'src', src: '<%= meta.fonts %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>/'},
                 {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>'},
                 {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>'},
                 {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.' + target + '.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.' + target + '.name %>/js'},
@@ -150,11 +150,13 @@ module.exports = function (grunt) {
                 'src/js/home.controller.js',
                 'src/js/splash.controller.js',
 
-                'src/js/shared/shared.module.js',
+                'src/js/shared/module.js',
                 'src/js/shared/constants.js',
                 'src/js/shared/bitcoin.uri.service.js',
                 'src/js/shared/dialog.service.js',
+                'src/js/shared/document.title.service.js',
                 'src/js/shared/notification.service.js',
+                'src/js/shared/page.component.js',
                 'src/js/shared/qr.code.component.js',
                 'src/js/shared/dialog.directive.js',
                 'src/js/shared/focus.directive.js',
@@ -167,37 +169,46 @@ module.exports = function (grunt) {
                 'src/js/shared/integer.input.restrictor.directive.js',
                 'src/js/shared/transaction.menu.component.js',
 
-                'src/js/login/login.module.js',
-                'src/js/login/login.constants.js',
-                'src/js/login/login.context.factory.js',
+                'src/js/login/module.js',
+                'src/js/login/constants.js',
+                'src/js/login/context.factory.js',
                 'src/js/login/accounts.controller.js',
                 'src/js/login/account.list.controller.js',
                 'src/js/login/account.register.controller.js',
                 'src/js/login/account.seed.controller.js',
                 'src/js/login/account.login.controller.js',
 
-                'src/js/navigation/navigation.module.js',
+                'src/js/navigation/module.js',
+                'src/js/navigation/controller.js',
                 'src/js/navigation/main.menu.controller.js',
-                'src/js/navigation/navigation.controller.js',
                 'src/js/navigation/tab.directive.js',
 
-                'src/js/wallet/wallet.module.js',
-                'src/js/wallet/wallet.box.component.js',
-                'src/js/wallet/wallet.list.controller.js',
-                'src/js/wallet/wallet.send.controller.js',
-                'src/js/wallet/wallet.withdraw.controller.js',
-                'src/js/wallet/wallet.deposit.controller.js',
+                'src/js/wallet/module.js',
+                'src/js/wallet/box.component.js',
+                'src/js/wallet/list.controller.js',
+                'src/js/wallet/send.controller.js',
+                'src/js/wallet/withdraw.controller.js',
+                'src/js/wallet/deposit.controller.js',
 
-                'src/js/tokens/tokens.module.js',
-                'src/js/tokens/token.create.controller.js',
+                'src/js/tokens/module.js',
+                'src/js/tokens/create.controller.js',
 
-                'src/js/history/history.module.js',
-                'src/js/history/history.controller.js',
+                'src/js/dex/module.js',
+                'src/js/dex/component.js',
+                'src/js/dex/asset.picker.component.js',
+                'src/js/dex/order.creator.component.js',
+                'src/js/dex/orderbook.component.js',
+                'src/js/dex/pair.info.component.js',
+                'src/js/dex/pair.chart.component.js',
+                'src/js/dex/pairs.list.component.js',
 
-                'src/js/community/community.module.js',
-                'src/js/community/community.controller.js',
+                'src/js/history/module.js',
+                'src/js/history/controller.js',
 
-                'src/js/portfolio/portfolio.module.js',
+                'src/js/community/module.js',
+                'src/js/community/controller.js',
+
+                'src/js/portfolio/module.js',
                 'src/js/portfolio/asset.list.controller.js',
                 'src/js/portfolio/asset.transfer.controller.js',
                 'src/js/portfolio/asset.details.controller.js',
@@ -348,7 +359,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         flatten: true,
-                        src: ['src/less/fonts/**/*.*'],
+                        src: ['src/fonts/**/*.*'],
                         dest: 'distr/devel/fonts/'
                     }
                 ]
