@@ -1,19 +1,21 @@
 @import "../variables";
 
-@general-width: 400px;
-@active-width: 220px;
-
 waves-dex-order-creator {
-  width: @general-width;
+  display: block;
+  width: 400px;
 
   & > .half {
     display: inline-block;
-    width: @general-width - @active-width;
+    width: 43%;
     transition: all ease 0.2s;
-    opacity: 0.5;
+    opacity: 0.55;
+
+    &.sell {
+      margin-left: 5%;
+    }
 
     &.focused {
-      width: @active-width;
+      width: 52%;
       opacity: 1;
     }
 
@@ -22,20 +24,20 @@ waves-dex-order-creator {
     }
 
     .fields {
-      input, span {
-        display: inline-block;
-        width: 90%;
+      input, div {
+        display: block;
+        width: 100%;
         margin-bottom: 10px;
       }
     }
 
     .button-container {
-      width: 90%;
       text-align: right;
+
       button {
-        padding: 5px 10px;
+        padding: 6px 12px;
         border: none;
-        //border-radius: 4px;
+        border-radius: 3px;
         background: @color-lightest-grey;
         &:hover {
           background: @color-light-grey;

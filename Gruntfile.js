@@ -152,6 +152,7 @@ module.exports = function (grunt) {
                 'src/js/shared/notification.service.js',
                 'src/js/shared/page.component.js',
                 'src/js/shared/qr.code.component.js',
+                'src/js/shared/scrollbox.component.js',
                 'src/js/shared/dialog.directive.js',
                 'src/js/shared/focus.directive.js',
                 'src/js/shared/tooltipster.directive.js',
@@ -195,6 +196,7 @@ module.exports = function (grunt) {
                 'src/js/dex/pair.info.component.js',
                 'src/js/dex/pair.chart.component.js',
                 'src/js/dex/pairs.list.component.js',
+                'src/js/dex/user.orders.component.js',
 
                 'src/js/history/module.js',
                 'src/js/history/controller.js',

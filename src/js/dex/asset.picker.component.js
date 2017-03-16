@@ -1,11 +1,8 @@
 (function () {
     'use strict';
 
-    function AssetPickerController($attrs) {
+    function AssetPickerController() {
         var ctrl = this;
-
-        ctrl.name = $attrs.name;
-        ctrl.assets = $attrs.assets;
 
         ctrl.pressed = false;
 

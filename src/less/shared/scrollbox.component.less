@@ -1,0 +1,21 @@
+@import "../variables";
+
+waves-scrollbox {
+  display: block;
+  height: 100%;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    position: absolute;
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: lighten(@color-navy-blue, 60%);
+    border-radius: 2px;
+    &:hover {
+      background: lighten(@color-navy-blue, 55%);
+      cursor: pointer;
+    }
+  }
+}

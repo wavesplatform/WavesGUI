@@ -31,7 +31,21 @@ waves-dex {
     & > .orderbooks {
       display: flex;
       justify-content: space-between;
-      margin-top: 25px;
+      margin-top: 35px;
+
+      .orderbook {
+        flex-grow: 1;
+        padding-right: 35px;
+
+        .orderbook-scroll {
+          max-height: 250px;
+        }
+      }
+
+      .user-orders {
+        display: flex;
+        flex-direction: column;
+      }
     }
   }
 

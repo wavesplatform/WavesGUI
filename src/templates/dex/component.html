@@ -12,11 +12,17 @@
   </div>
 
   <div class="orderbooks">
-    <waves-dex-orderbook></waves-dex-orderbook>
-    <waves-dex-orderbook></waves-dex-orderbook>
-    <div>
+    <div class="orderbook">
+      <waves-dex-orderbook name="Buy orders"
+                           orders="$ctrl.buyOrders"></waves-dex-orderbook>
+    </div>
+    <div class="orderbook">
+      <waves-dex-orderbook name="Sell orders"
+                           orders="$ctrl.sellOrders"></waves-dex-orderbook>
+    </div>
+    <div class="user-orders">
+      <waves-dex-user-orders></waves-dex-user-orders>
       <waves-dex-order-creator></waves-dex-order-creator>
-      <waves-dex-orderbook></waves-dex-orderbook>
     </div>
   </div>
 </div>
