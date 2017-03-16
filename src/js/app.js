@@ -23,6 +23,7 @@ var app = angular.module('app', [
     'app.navigation',
     'app.wallet',
     'app.tokens',
+    'app.dex',
     'app.history',
     'app.community',
     'app.portfolio'
