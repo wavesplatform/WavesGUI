@@ -105,7 +105,7 @@ describe('Asset.Transfer.Controller', function() {
         controller.getForm = function () { return formMock; };
 
         controller.amount = '7';
-        controller.recipient = address;
+        controller.recipient = '1W' + address;
         expect(controller.submitTransfer()).toBe(true);
 
         timeout.flush();

@@ -3,8 +3,9 @@
 
     var FIXED_REISSUE_FEE = new Money(1, Currency.WAV);
 
-    function WavesAssetReissueController($scope, $timeout, events, applicationContext, assetService, dialogService,
-                                         notificationService, formattingService, apiService, transactionBroadcast) {
+    function WavesAssetReissueController($scope, $timeout, constants, events, applicationContext, assetService,
+                                         dialogService, notificationService, formattingService, apiService,
+                                         transactionBroadcast) {
         var reissue = this;
         reissue.confirm = {
             amount: {},
@@ -53,12 +54,16 @@
             // update validation options and check how it affects form validation
             reissue.validationOptions.rules.assetAmount.decimal = asset.currency.precision;
             var minimumPayment = Money.fromCoins(1, asset.currency);
+            var maximumPayment = Money.fromCoins(constants.JAVA_MAX_LONG, asset.currency);
             reissue.validationOptions.rules.assetAmount.min = minimumPayment.toTokens();
+            reissue.validationOptions.rules.assetAmount.max = maximumPayment.toTokens();
             reissue.validationOptions.messages.assetAmount.decimal = 'The amount to reissue must be a number ' +
                 'with no more than ' + minimumPayment.currency.precision +
                 ' digits after the decimal point (.)';
             reissue.validationOptions.messages.assetAmount.min = 'Amount to reissue is too small. ' +
                 'It should be greater or equal to ' + minimumPayment.formatAmount(false);
+            reissue.validationOptions.messages.assetAmount.max = 'Amount to reissue is too big. ' +
+                'It should be less or equal to ' + maximumPayment.formatAmount(false);
 
             dialogService.open('#asset-reissue-dialog');
         });
@@ -121,8 +126,8 @@
         }
     }
 
-    WavesAssetReissueController.$inject = ['$scope', '$timeout', 'portfolio.events', 'applicationContext',
-        'assetService', 'dialogService', 'notificationService',
+    WavesAssetReissueController.$inject = ['$scope', '$timeout', 'constants.ui', 'portfolio.events',
+        'applicationContext', 'assetService', 'dialogService', 'notificationService',
         'formattingService', 'apiService', 'transactionBroadcast'];
 
     angular

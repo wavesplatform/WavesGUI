@@ -5,7 +5,8 @@
 
     function WavesWalletSendController ($scope, $timeout, constants, events, autocomplete,
                                         applicationContext, apiService, dialogService,
-                                        transactionBroadcast, assetService, notificationService, formattingService) {
+                                        transactionBroadcast, assetService, notificationService,
+                                        formattingService, addressService) {
         var send = this;
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAV);
 
@@ -121,7 +122,7 @@
             }
 
             var assetTransfer = {
-                recipient: send.recipient,
+                recipient: addressService.cleanupOptionalPrefix(send.recipient),
                 amount: amount,
                 fee: transferFee
             };
@@ -179,7 +180,7 @@
 
     WavesWalletSendController.$inject = ['$scope', '$timeout', 'constants.ui', 'wallet.events', 'autocomplete.fees',
         'applicationContext', 'apiService', 'dialogService', 'transactionBroadcast', 'assetService',
-        'notificationService', 'formattingService'];
+        'notificationService', 'formattingService', 'addressService'];
 
     angular
         .module('app.wallet')
