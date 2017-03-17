@@ -1,24 +1,33 @@
 <h3>{{$ctrl.name}}</h3>
 
-<table>
+<table ng-class="$ctrl.type">
   <thead>
     <tr>
+      <td ng-if="$ctrl.type === 'user'">Status</td>
+      <td ng-if="$ctrl.type === 'user'">Type</td>
       <td>Price</td>
       <td>BTC</td>
       <td>WAV</td>
-      <td>SUM (WAV)</td>
+      <td ng-if="$ctrl.type !== 'user'">SUM (WAV)</td>
     </tr>
   </thead>
 </table>
 
-<waves-scrollbox class="orderbook-scroll">
+<waves-scrollbox class="orderbook-scroll" ng-class="$ctrl.type">
   <table>
     <tbody>
       <tr ng-repeat="order in $ctrl.orders">
+        <td ng-if="$ctrl.type === 'user'">{{order.status}}</td>
+        <td ng-if="$ctrl.type === 'user'">{{order.type}}</td>
         <td>{{order.price | number:4}}</td>
         <td>{{order.amount | number:4}}</td>
         <td>{{order.total | number:4}}</td>
-        <td>{{order.sum | number:6}}</td>
+        <td ng-if="$ctrl.type !== 'user'">{{order.sum | number:6}}</td>
+      </tr>
+      <tr ng-if="!$ctrl.orders.length">
+        <td colspan="{{$ctrl.type === 'user' ? 5 : 4}}">
+          <span>No active orders right now.</span>
+        </td>
       </tr>
     </tbody>
   </table>

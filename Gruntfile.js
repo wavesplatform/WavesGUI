@@ -203,7 +203,6 @@ module.exports = function (grunt) {
                 'src/js/dex/pair.info.component.js',
                 'src/js/dex/pair.chart.component.js',
                 'src/js/dex/pairs.list.component.js',
-                'src/js/dex/user.orders.component.js',
 
                 'src/js/history/module.js',
                 'src/js/history/controller.js',

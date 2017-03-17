@@ -12,18 +12,34 @@ waves-dex-orderbook {
     border-collapse: collapse;
 
     td {
-      width: 25%;
       text-align: center;
     }
 
+    &.buy td,
+    &.sell td {
+      width: 25%;
+    }
+
+    &.user td {
+      width: 20%;
+    }
+
     thead {
-      background: @color-navy-blue;
       color: @color-white;
 
       td {
         padding-top: 3px;
         padding-bottom: 3px;
       }
+    }
+
+    &.buy thead,
+    &.sell thead {
+      background: @color-navy-blue;
+    }
+
+    &.user thead {
+      background: @color-waves-blue-temp;
     }
 
     tbody {

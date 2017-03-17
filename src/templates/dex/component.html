@@ -13,15 +13,19 @@
 
   <div class="orderbooks">
     <div class="orderbook">
-      <waves-dex-orderbook name="Buy orders"
+      <waves-dex-orderbook type="buy"
+                           name="Buy orders"
                            orders="$ctrl.buyOrders"></waves-dex-orderbook>
     </div>
     <div class="orderbook">
-      <waves-dex-orderbook name="Sell orders"
+      <waves-dex-orderbook type="sell"
+                           name="Sell orders"
                            orders="$ctrl.sellOrders"></waves-dex-orderbook>
     </div>
     <div class="user-orders">
-      <waves-dex-user-orders></waves-dex-user-orders>
+      <waves-dex-orderbook type="user"
+                           name="My orders"
+                           orders="$ctrl.userOrders"></waves-dex-orderbook>
       <waves-dex-order-creator></waves-dex-order-creator>
     </div>
   </div>

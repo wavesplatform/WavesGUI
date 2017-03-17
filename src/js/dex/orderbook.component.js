@@ -1,6 +1,7 @@
 (function () {
     'use strict';
 
+    // Only non-user orderbooks need that denorm.
     function denormalizeOrders(orders) {
         var currentSum = 0;
         return orders.map(function (order) {
@@ -18,9 +19,11 @@
     function OrderbookController() {
         var ctrl = this;
 
-        ctrl.$onChanges = function () {
-            ctrl.orders = denormalizeOrders(ctrl.orders);
-        };
+        if (ctrl.type !== 'user') {
+            ctrl.$onChanges = function () {
+                ctrl.orders = denormalizeOrders(ctrl.orders);
+            };
+        }
     }
 
     angular
@@ -28,6 +31,7 @@
         .component('wavesDexOrderbook', {
             controller: OrderbookController,
             bindings: {
+                type: '@',
                 name: '@',
                 orders: '<'
             },
