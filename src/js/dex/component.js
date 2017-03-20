@@ -17,15 +17,21 @@
         return orders;
     }
 
+    function normalizeBalance(n) {
+        return n / Math.pow(10, 8);
+    }
+
     function normalizeOrder(order) {
         return {
-            price: order.price / Math.pow(10, 8),
+            price: normalizeBalance(order.price),
             amount: order.amount
         };
     }
 
-    function DexController() {
+    function DexController(applicationContext, apiService) {
         var ctrl = this;
+
+        getUserBalances();
 
         ctrl.priceAsset = null;
         ctrl.amountAsset = null;
@@ -72,7 +78,34 @@
         ctrl.buyOrders = getOrdersFromBackend(1).map(normalizeOrder);
         ctrl.sellOrders = getOrdersFromBackend(-1).map(normalizeOrder);
         ctrl.userOrders = [];
+
+        function getUserBalances(callback) {
+            var balances = [];
+            Promise.resolve()
+                .then(apiService.assets.balance.bind(apiService.assets, applicationContext.account.address))
+                .then(function (response) {
+                    balances = response.balances.map(function (item) {
+                        return {
+                            assetId: item.assetId,
+                            balance: item.balance,
+                            decimals: item.issueTransaction.decimals,
+                            name: item.issueTransaction.name
+                        };
+                    });
+                })
+                .then(apiService.address.balance.bind(apiService.assets, applicationContext.account.address))
+                .then(function (response) {
+                    balances.unshift({
+                        assetId: '', // TODO
+                        balance: normalizeBalance(response.balance),
+                        decimals: 8,
+                        name: 'Waves'
+                    });
+                });
+        }
     }
+
+    DexController.$inject = ['applicationContext', 'apiService'];
 
     angular
         .module('app.dex')
