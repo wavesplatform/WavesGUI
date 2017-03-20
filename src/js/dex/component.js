@@ -71,6 +71,7 @@
 
         ctrl.buyOrders = getOrdersFromBackend(1).map(normalizeOrder);
         ctrl.sellOrders = getOrdersFromBackend(-1).map(normalizeOrder);
+        ctrl.userOrders = [];
     }
 
     angular

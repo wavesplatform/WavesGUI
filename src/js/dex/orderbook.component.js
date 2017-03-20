@@ -21,7 +21,7 @@
 
         if (ctrl.type !== 'user') {
             ctrl.$onChanges = function () {
-                ctrl.orders = denormalizeOrders(ctrl.orders);
+                ctrl.orders = denormalizeOrders(ctrl.rawOrders);
             };
         }
     }
@@ -33,7 +33,7 @@
             bindings: {
                 type: '@',
                 name: '@',
-                orders: '<'
+                rawOrders: '<orders'
             },
             templateUrl: 'dex/orderbook.component'
         });
