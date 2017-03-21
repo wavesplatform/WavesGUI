@@ -4,11 +4,23 @@
     function AssetPickerController() {
         var ctrl = this;
 
-        ctrl.pressed = false;
+        setupValues();
+        ctrl.$onChanges = setupValues;
 
         ctrl.press = function () {
             ctrl.pressed = !ctrl.pressed;
         };
+
+        ctrl.onSubmit = function () {
+            ctrl.submit();
+        };
+
+        function setupValues() {
+            if (ctrl.chosenAsset) {
+                ctrl.queryString = ctrl.chosenAsset.displayName;
+                ctrl.pressed = false;
+            }
+        }
     }
 
     angular
@@ -17,7 +29,9 @@
             controller: AssetPickerController,
             bindings: {
                 name: '@',
-                assets: '<'
+                assets: '<',
+                chosenAsset: '<',
+                submit: '&'
             },
             templateUrl: 'dex/asset.picker.component'
         });

@@ -6,5 +6,10 @@
     </div>
   </div>
 </div>
-<input type="text" placeholder="{{$ctrl.name}}"/>
-<span class="clipboard"></span>
+
+<input type="text"
+       placeholder="{{$ctrl.name}}"
+       ng-model="$ctrl.queryString"
+       ng-blur="$ctrl.onSubmit()"/>
+
+<span class="clipboard" title="Copy asset ID"></span>

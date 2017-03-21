@@ -28,25 +28,29 @@
         };
     }
 
-    function DexController(applicationContext, apiService) {
+    function DexController($scope, applicationContext, apiService, assetStoreService) {
         var ctrl = this;
 
-        getUserBalances();
+        // Unfiltered list for keeping user assets and hardcoded ones.
+        // TODO : implement a filtered array to pass to asset picker components.
+        ctrl.assetsList = [];
 
-        ctrl.priceAsset = null;
-        ctrl.amountAsset = null;
+        // Real pair which is always in the right order (price/amount).
+        ctrl.currentPair = {
+            priceAsset: null,
+            amountAsset: null
+        };
 
-        ctrl.assetsOne = [
-            Currency.WAV,
-            Currency.BTC
-        ];
-
-        ctrl.assetsTwo = [
-            Currency.WAV,
-            Currency.BTC,
-            Currency.EUR,
-            Currency.USD
-        ];
+        Promise.resolve()
+            .then(getUserBalances) // Get both Waves and asset balances in one array.
+            .then(assetStoreService.complement) // Add needed fields and missing assets.
+            .then(function (assetsList) {
+                $scope.$apply(function () {
+                    ctrl.assetsList = assetsList;
+                    ctrl.currentPair.priceAsset = assetsList[0];
+                    ctrl.currentPair.amountAsset = assetsList[1];
+                });
+            });
 
         // FIXME : those are placeholders for Currency until it starts supporting `shortName` property.
         ctrl.favoritePairs = [{
@@ -79,9 +83,15 @@
         ctrl.sellOrders = getOrdersFromBackend(-1).map(normalizeOrder);
         ctrl.userOrders = [];
 
-        function getUserBalances(callback) {
+        ctrl.changePair = function () {
+            var temp = ctrl.currentPair.priceAsset;
+            ctrl.currentPair.priceAsset = ctrl.currentPair.amountAsset;
+            ctrl.currentPair.amountAsset = temp;
+        };
+
+        function getUserBalances() {
             var balances = [];
-            Promise.resolve()
+            return Promise.resolve()
                 .then(apiService.assets.balance.bind(apiService.assets, applicationContext.account.address))
                 .then(function (response) {
                     balances = response.balances.map(function (item) {
@@ -89,23 +99,23 @@
                             assetId: item.assetId,
                             balance: item.balance,
                             decimals: item.issueTransaction.decimals,
-                            name: item.issueTransaction.name
+                            displayName: item.issueTransaction.name
                         };
                     });
                 })
                 .then(apiService.address.balance.bind(apiService.assets, applicationContext.account.address))
                 .then(function (response) {
                     balances.unshift({
-                        assetId: '', // TODO
                         balance: normalizeBalance(response.balance),
                         decimals: 8,
-                        name: 'Waves'
+                        displayName: 'Waves'
                     });
+                    return Promise.resolve(balances);
                 });
         }
     }
 
-    DexController.$inject = ['applicationContext', 'apiService'];
+    DexController.$inject = ['$scope', 'applicationContext', 'apiService', 'assetStoreService'];
 
     angular
         .module('app.dex')

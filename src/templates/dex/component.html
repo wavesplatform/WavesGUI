@@ -1,13 +1,17 @@
 <div class="workspace">
   <div class="choice">
-    <div class="current-pair">BTC/WAV</div>
+    <div class="current-pair">{{$ctrl.currentPair.priceAsset.shortName}}/{{$ctrl.currentPair.amountAsset.shortName}}</div>
     <div class="picker-widget">
-      <waves-dex-asset-picker name="Price asset"
-                              assets="$ctrl.assetsOne"></waves-dex-asset-picker>
+      <waves-dex-asset-picker name="Choose asset"
+                              assets="$ctrl.assetsList"
+                              chosen-asset="$ctrl.currentPair.priceAsset"
+                              submit="$ctrl.changePair()"></waves-dex-asset-picker>
     </div>
     <div class="picker-widget">
-      <waves-dex-asset-picker name="Amount asset"
-                              assets="$ctrl.assetsTwo"></waves-dex-asset-picker>
+      <waves-dex-asset-picker name="Choose asset"
+                              assets="$ctrl.assetsList"
+                              chosen-asset="$ctrl.currentPair.amountAsset"
+                              submit="$ctrl.changePair()"></waves-dex-asset-picker>
     </div>
   </div>
 
@@ -15,16 +19,19 @@
     <div class="orderbook">
       <waves-dex-orderbook type="buy"
                            name="Buy orders"
+                           pair="$ctrl.currentPair"
                            orders="$ctrl.buyOrders"></waves-dex-orderbook>
     </div>
     <div class="orderbook">
       <waves-dex-orderbook type="sell"
                            name="Sell orders"
+                           pair="$ctrl.currentPair"
                            orders="$ctrl.sellOrders"></waves-dex-orderbook>
     </div>
     <div class="user-orders">
       <waves-dex-orderbook type="user"
                            name="My orders"
+                           pair="$ctrl.currentPair"
                            orders="$ctrl.userOrders"></waves-dex-orderbook>
       <waves-dex-order-creator></waves-dex-order-creator>
     </div>
