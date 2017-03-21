@@ -308,13 +308,13 @@
                 <div id="mBB-wallet" class="mBB-content" ng-switch-when="wallet" ng-controller="walletListController as walletList">
 
                     <div class="noDisp" ng-controller="walletSendController as send">
-                        <div id="wB-butSend-WAV" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="send.submitTransfer()">
-                            <form id="send-waves-form" name="sendWavesForm" class="paymentForm" novalidate ng-validate="send.validationOptions">
+                        <div id="wB-butSend-WAV" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="send.submitTransfer(send.form)">
+                            <form id="send-waves-form" name="send.form" class="paymentForm" novalidate ng-validate="send.validationOptions">
                                 <h2 class="sectionHeader">SEND PAYMENT: {{send.currency}}</h2>
                                 <table>
                                     <div class="balanceAmt">
-                                        <div ng-if="!send.sendingWaves"><p>Asset balance: </p><span class="balancewaves">{{send.assetBalance.formatAmount()}}</span><br/></div>
-                                        <p>Waves balance: </p><span class="balancewaves">{{send.wavesBalance.formatAmount(true)}}</span>
+                                        <div ng-if="!send.feeAndTransferAssetsAreTheSame"><p>Asset balance: </p><span class="balancewaves">{{send.assetBalance.formatAmount()}}</span><br/></div>
+                                        <p>Waves balance: </p><span class="balancewaves">{{send.feeAssetBalance.formatAmount(true)}}</span>
                                     </div>
                                     <thead>
                                     <tr>
@@ -378,9 +378,9 @@
                     </div>
 
                     <div class="noDisp" ng-controller="walletWithdrawController as withdraw">
-                        <div id="withdraw-asset-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.confirmWithdraw()">
+                        <div id="withdraw-asset-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.confirmWithdraw(withdraw.assetForm)">
                             <h2 class="sectionHeader">WITHDRAW: {{withdraw.sourceCurrency}}</h2>
-                            <form id="withdraw-asset-form" name="withdrawAssetForm" novalidate ng-validate="withdraw.validationOptions">
+                            <form id="withdraw-asset-form" name="withdraw.assetForm" novalidate ng-validate="withdraw.validationOptions">
                             <table class="form-table">
                                 <div class="balanceAmt">
                                     <div><p>Asset balance: </p><span class="balancewaves">{{withdraw.assetBalance.formatAmount(true)}}</span><br/></div>
@@ -581,8 +581,8 @@
                             </div>
                         </div>
                         <div class="noDisp" ng-controller="assetTransferController as transfer">
-                            <div id="asset-transfer-dialog" waves-dialog ok-button-caption="TRANSFER" on-dialog-ok="transfer.submitTransfer()">
-                                <form id="transfer-asset-form" name="transferAssetForm" novalidate ng-validate="transfer.validationOptions">
+                            <div id="asset-transfer-dialog" waves-dialog ok-button-caption="TRANSFER" on-dialog-ok="transfer.submitTransfer(transfer.assetForm)">
+                                <form id="transfer-asset-form" name="transfer.assetForm" novalidate ng-validate="transfer.validationOptions">
                                     <h2 class="sectionHeader">ASSET TRANSFER</h2>
                                     <div class="balanceAmt">
                                         <p>Asset balance: </p><span class="balancewaves">{{transfer.availableBalance.formatAmount()}}</span><br/>
@@ -647,8 +647,8 @@
                             </div>
                         </div>
                         <div class="noDisp" ng-controller="assetReissueController as reissue">
-                            <div id="asset-reissue-dialog" waves-dialog ok-button-caption="REISSUE" ok-button-enabled="!reissue.broadcast.pending" on-dialog-ok="reissue.submitReissue()">
-                                <form id="asset-reissue-form" name="assetReissueForm" novalidate ng-validate="reissue.validationOptions">
+                            <div id="asset-reissue-dialog" waves-dialog ok-button-caption="REISSUE" ok-button-enabled="!reissue.broadcast.pending" on-dialog-ok="reissue.submitReissue(reissue.assetForm)">
+                                <form id="asset-reissue-form" name="reissue.assetForm" novalidate ng-validate="reissue.validationOptions">
                                     <h2 class="sectionHeader">ASSET REISSUE</h2>
                                     <div class="balanceAmt">
                                         <p>Total tokens issued: </p><span class="balancewaves">{{reissue.totalTokens.formatAmount()}}</span><br/>
@@ -712,7 +712,7 @@
                                 <ng-switch on="mass.stage">
                                     <p ng-if="mass.invalidPayment" class="notice-alert">{{mass.inputErrorMessage}}
                                         Please fix the error and load the file again.</p>
-                                    <form id="massPaymentFilesForm" name="massPaymentFilesForm" novalidate ng-switch-when="loading" ng-validate="mass.validationOptions">
+                                    <form id="massPaymentFilesForm" name="mass.form" novalidate ng-switch-when="loading" ng-validate="mass.validationOptions">
                                         <table class="wavesTable">
                                             <thead>
                                                 <tr>

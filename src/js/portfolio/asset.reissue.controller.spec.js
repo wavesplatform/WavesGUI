@@ -93,11 +93,9 @@ describe('Asset.Reissue.Controller', function() {
 
         spyOn(controller.broadcast, 'setTransaction');
 
-        controller.getForm = function () { return formMock; };
-
         controller.amount = '7';
         controller.reissuable = true;
-        expect(controller.submitReissue()).toBe(true);
+        expect(controller.submitReissue(formMock)).toBe(true);
 
         timeout.flush();
 
@@ -117,10 +115,9 @@ describe('Asset.Reissue.Controller', function() {
         spyOn(formMock, 'validate').and.returnValue(false);
         spyOn(controller.broadcast, 'setTransaction');
 
-        controller.getForm = function () { return formMock; };
         controller.amount = '11';
         controller.reissuable = false;
-        expect(controller.submitReissue()).toBe(false);
+        expect(controller.submitReissue(formMock)).toBe(false);
     });
 
     it('should not create transaction if there is not enough waves for fee', function () {
@@ -129,10 +126,9 @@ describe('Asset.Reissue.Controller', function() {
         spyOn(controller.broadcast, 'setTransaction');
         spyOn(notificationService, 'error');
 
-        controller.getForm = function () { return formMock; };
         controller.amount = '10';
         controller.reissuable = true;
-        expect(controller.submitReissue()).toBe(false);
+        expect(controller.submitReissue(formMock)).toBe(false);
         expect(notificationService.error).toHaveBeenCalled();
         expect(controller.broadcast.setTransaction).not.toHaveBeenCalled();
     });
