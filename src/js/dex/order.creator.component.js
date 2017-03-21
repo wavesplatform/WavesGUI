@@ -9,7 +9,14 @@
 
         ctrl.buy = {
             amount: '',
-            price: 122
+            price: null,
+            feePercentage: 0.001
+        };
+
+        ctrl.sell = {
+            amount: '',
+            price: null,
+            feePercentage: 0.001
         };
 
         ctrl.focusOn = function (half) {
@@ -21,6 +28,9 @@
         .module('app.dex')
         .component('wavesDexOrderCreator', {
             controller: OrderCreatorController,
+            bindings: {
+                pair: '<'
+            },
             templateUrl: 'dex/order.creator.component'
         });
 })();

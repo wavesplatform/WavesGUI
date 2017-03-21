@@ -1,10 +1,26 @@
 <div class="half buy" ng-class="{'focused': $ctrl.focused == 'buy'}" ng-click="$ctrl.focusOn('buy')">
   <h3>Buy</h3>
   <div class="fields">
-    <input class="waves-input long" type="text" placeholder="BTC amount" ng-model="$ctrl.buy.amount" decimal-input-restrictor/>
-    <input class="waves-input long" type="text" placeholder="Price per BTC" ng-model="$ctrl.buy.price" decimal-input-restrictor/>
-    <div>Total: 23000 USD</div>
-    <div>Fee: 0.02 BTC</div>
+    <input class="waves-input"
+           type="text"
+           placeholder="{{$ctrl.pair.priceAsset.displayName}} amount"
+           ng-model="$ctrl.buy.amount"
+           decimal-input-restrictor/>
+    <input class="waves-input"
+           type="text"
+           placeholder="Price per {{$ctrl.pair.priceAsset.displayName}}"
+           ng-model="$ctrl.buy.price"
+           decimal-input-restrictor/>
+    <div>
+      <span>Total:&nbsp;</span>
+      <span>{{$ctrl.buy.amount * $ctrl.buy.price}}&nbsp;</span>
+      <span>{{$ctrl.pair.amountAsset.shortName}}</span>
+    </div>
+    <div>
+      <span>Fee:&nbsp;</span>
+      <span>{{$ctrl.buy.amount * $ctrl.buy.price * $ctrl.buy.feePercentage}}&nbsp;</span>
+      <span>{{$ctrl.pair.priceAsset.shortName}}</span>
+    </div>
   </div>
   <div class="button-container">
     <button>Buy</button>
@@ -14,10 +30,26 @@
 <div class="half sell" ng-class="{'focused': $ctrl.focused == 'sell'}" ng-click="$ctrl.focusOn('sell')">
   <h3>Sell</h3>
   <div class="fields">
-    <input class="waves-input long" type="text" placeholder="BTC amount" ng-model="$ctrl.sell.amount" decimal-input-restrictor/>
-    <input class="waves-input long" type="text" placeholder="Price per BTC" ng-model="$ctrl.sell.price" decimal-input-restrictor/>
-    <div>Total: 23000 USD</div>
-    <div>Fee: 22.4 USD</div>
+    <input class="waves-input"
+           type="text"
+           placeholder="{{$ctrl.pair.priceAsset.displayName}} amount"
+           ng-model="$ctrl.sell.amount"
+           decimal-input-restrictor/>
+    <input class="waves-input"
+           type="text"
+           placeholder="Price per {{$ctrl.pair.priceAsset.displayName}}"
+           ng-model="$ctrl.sell.price"
+           decimal-input-restrictor/>
+    <div>
+      <span>Total:&nbsp;</span>
+      <span>{{$ctrl.sell.amount * $ctrl.sell.price}}&nbsp;</span>
+      <span>{{$ctrl.pair.amountAsset.shortName}}</span>
+    </div>
+    <div>
+      <span>Fee:&nbsp;</span>
+      <span>{{$ctrl.sell.amount * $ctrl.sell.price * $ctrl.sell.feePercentage}}&nbsp;</span>
+      <span>{{$ctrl.pair.amountAsset.shortName}}</span>
+    </div>
   </div>
   <div class="button-container">
     <button>Sell</button>
