@@ -436,6 +436,10 @@
                     <div class="noDisp" ng-controller="walletDepositController as deposit">
                         <div id="deposit-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
                             <h2 class="sectionHeader">DEPOSIT: {{deposit.currency}}</h2>
+                            <p class="dialog-text textCenter" ng-show="deposit.bitcoinAddress !== ''">
+                                <img src="img/visa_mastercard_116x35.gif" width="116" height="35"><span class="divider-2"></span>
+                                <button class="wButton wButton-dialog" ng-click="deposit.redirectToCardGateway()">Buy BTC for 25$ from your credit card</button>
+                            </p>
                             <p class="dialog-text">To deposit bitcoins to your Waves account, please send BTC to the address below.<br/>
                                 The minimum amount for deposit is <span class="fontBold">{{::deposit.minimumAmount}} BTC</span>.</p>
                                 <table class="wavesTable bitcoin-requisites">
