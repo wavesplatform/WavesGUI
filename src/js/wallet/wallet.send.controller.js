@@ -2,13 +2,14 @@
     'use strict';
 
     var DEFAULT_FEE_AMOUNT = '0.001';
+    var FEE_CURRENCY = Currency.WAV;
 
     function WavesWalletSendController ($scope, $timeout, constants, events, autocomplete,
                                         applicationContext, apiService, dialogService,
                                         transactionBroadcast, assetService, notificationService,
                                         formattingService, addressService) {
         var send = this;
-        var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAV);
+        var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
 
         send.autocomplete = autocomplete;
         send.validationOptions = {
@@ -77,9 +78,9 @@
         send.getForm = getForm;
 
         $scope.$on(events.WALLET_SEND, function (event, eventData) {
-            send.wavesBalance = eventData.wavesBalance;
+            send.feeAssetBalance = eventData.wavesBalance;
             send.assetBalance = eventData.assetBalance;
-            send.sendingWaves = eventData.assetBalance.currency === Currency.WAV;
+            send.feeAndTransferAssetsAreTheSame = eventData.assetBalance.currency === FEE_CURRENCY;
             send.currency = eventData.assetBalance.currency.displayName;
 
             // update validation options and check how it affects form validation
@@ -110,13 +111,13 @@
                 return false;
 
             var amount = Money.fromTokens(send.amount, send.assetBalance.currency);
-            var transferFee = Money.fromTokens(send.autocomplete.getFeeAmount(), Currency.WAV);
+            var transferFee = Money.fromTokens(send.autocomplete.getFeeAmount(), FEE_CURRENCY);
             var paymentCost = transferFee;
-            if (send.sendingWaves)
+            if (send.feeAndTransferAssetsAreTheSame)
                 paymentCost = paymentCost.plus(amount);
 
-            if (paymentCost.greaterThan(send.wavesBalance)) {
-                notificationService.error('Not enough Waves for the transfer');
+            if (paymentCost.greaterThan(send.feeAssetBalance)) {
+                notificationService.error('Not enough ' + FEE_CURRENCY.displayName + ' for the transfer');
 
                 return false;
             }

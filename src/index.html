@@ -313,8 +313,8 @@
                                 <h2 class="sectionHeader">SEND PAYMENT: {{send.currency}}</h2>
                                 <table>
                                     <div class="balanceAmt">
-                                        <div ng-if="!send.sendingWaves"><p>Asset balance: </p><span class="balancewaves">{{send.assetBalance.formatAmount()}}</span><br/></div>
-                                        <p>Waves balance: </p><span class="balancewaves">{{send.wavesBalance.formatAmount(true)}}</span>
+                                        <div ng-if="!send.feeAndTransferAssetsAreTheSame"><p>Asset balance: </p><span class="balancewaves">{{send.assetBalance.formatAmount()}}</span><br/></div>
+                                        <p>Waves balance: </p><span class="balancewaves">{{send.feeAssetBalance.formatAmount(true)}}</span>
                                     </div>
                                     <thead>
                                     <tr>

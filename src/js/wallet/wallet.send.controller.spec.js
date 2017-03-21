@@ -78,7 +78,7 @@ describe('Wallet.Send.Controller', function() {
     it('should correctly handle the WAVES_SEND event', function () {
         initControllerAssets();
 
-        expect(controller.sendingWaves).toBe(false);
+        expect(controller.feeAndTransferAssetsAreTheSame).toBe(false);
         expect(controller.validationOptions.rules.sendAmount.decimal).toEqual(2);
         expect(controller.validationOptions.rules.sendAmount.min).toEqual(0.01);
         expect(controller.validationOptions.rules.sendAmount.max).toEqual(10);
@@ -88,7 +88,7 @@ describe('Wallet.Send.Controller', function() {
     it('should understand that waves are being sent', function () {
         initControllerAssets(Money.fromTokens(10, Currency.WAV), Money.fromTokens(10, Currency.WAV));
 
-        expect(controller.sendingWaves).toBe(true);
+        expect(controller.feeAndTransferAssetsAreTheSame).toBe(true);
 
         expect(dialogService.open).toHaveBeenCalledWith('#wB-butSend-WAV');
     });
