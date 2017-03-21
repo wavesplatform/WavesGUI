@@ -75,7 +75,6 @@
             });
         send.submitTransfer = submitTransfer;
         send.broadcastTransaction = broadcastTransaction;
-        send.getForm = getForm;
 
         $scope.$on(events.WALLET_SEND, function (event, eventData) {
             send.feeAssetBalance = eventData.wavesBalance;
@@ -101,8 +100,7 @@
 
         resetForm();
 
-        function submitTransfer() {
-            var transferForm = send.getForm();
+        function submitTransfer(transferForm) {
             var invalid = transferForm.invalid();
             send.fee.isValid = angular.isDefined(invalid.sendFee) ?
                 !invalid.sendFee : true;
@@ -159,12 +157,6 @@
 
         function broadcastTransaction() {
             send.broadcast.broadcast();
-        }
-
-        function getForm() {
-            // here we have a direct markup dependency
-            // but other ways of getting the form from a child scope are even more ugly
-            return angular.element('#send-waves-form').scope().sendWavesForm;
         }
 
         function resetForm() {

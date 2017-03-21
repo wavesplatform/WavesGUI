@@ -75,7 +75,6 @@
         };
         transfer.submitTransfer = submitTransfer;
         transfer.broadcastTransaction = broadcastTransaction;
-        transfer.getForm = getForm;
 
         resetPaymentForm();
 
@@ -101,14 +100,7 @@
             dialogService.open('#asset-transfer-dialog');
         });
 
-        function getForm() {
-            // here we have a direct markup dependency
-            // but other ways of getting the form from a child scope are even more ugly
-            return angular.element('#transfer-asset-form').scope().transferAssetForm;
-        }
-
-        function submitTransfer() {
-            var transferForm = transfer.getForm();
+        function submitTransfer(transferForm) {
             var invalid = transferForm.invalid();
             transfer.fee.isValid = angular.isDefined(invalid.assetFee) ?
                 !invalid.assetFee : true;

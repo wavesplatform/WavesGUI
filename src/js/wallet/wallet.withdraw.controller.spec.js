@@ -54,7 +54,6 @@ describe('Wallet.Withdraw.Controller', function() {
             'applicationContext': applicationContext,
             'coinomatService': coinomatService
         });
-        controller.getAmountForm = function () { return formMock; };
     }));
 
     function initControllerAssets(assetBalance, wavesBalance) {
@@ -147,7 +146,7 @@ describe('Wallet.Withdraw.Controller', function() {
         spyOn(controller.autocomplete, 'getFeeAmount').and.returnValue('1.001');
         spyOn(notificationService, 'error').and.returnValue(undefined);
 
-        expect(controller.confirmWithdraw()).toBe(false);
+        expect(controller.confirmWithdraw(formMock)).toBe(false);
         timeout.flush();
         expect(dialogService.open).not.toHaveBeenCalledWith('#withdraw-confirmation');
     });
@@ -161,7 +160,7 @@ describe('Wallet.Withdraw.Controller', function() {
         spyOn(notificationService, 'error').and.returnValue(undefined);
         spyOn(formMock, 'validate').and.returnValue(false);
 
-        expect(controller.confirmWithdraw()).toBe(false);
+        expect(controller.confirmWithdraw(formMock)).toBe(false);
         timeout.flush();
         expect(dialogService.open).not.toHaveBeenCalledWith('#withdraw-confirmation');
         expect(notificationService.error).not.toHaveBeenCalled();
@@ -173,10 +172,10 @@ describe('Wallet.Withdraw.Controller', function() {
         $rootScope.$apply();
 
         controller.address = undefined;
-        expect(controller.confirmWithdraw()).toBe(false);
+        expect(controller.confirmWithdraw(formMock)).toBe(false);
 
         controller.address = '198ynwv8yq0wef';
-        expect(controller.confirmWithdraw()).toBe(false);
+        expect(controller.confirmWithdraw(formMock)).toBe(false);
     });
 
     it('should show a confirmation dialog on confirm withdraw', function () {
@@ -188,7 +187,7 @@ describe('Wallet.Withdraw.Controller', function() {
         controller.recipient = bitcoinAddress;
         controller.amount = '9.99';
         initWithdrawAddressMock();
-        expect(controller.confirmWithdraw()).toBe(true);
+        expect(controller.confirmWithdraw(formMock)).toBe(true);
         $rootScope.$apply();
 
         expect(controller.confirm.amount.value).toEqual('10');
@@ -216,7 +215,7 @@ describe('Wallet.Withdraw.Controller', function() {
         controller.recipient = bitcoinAddress;
         controller.amount = '9.99';
 
-        expect(controller.confirmWithdraw()).toBe(true);
+        expect(controller.confirmWithdraw(formMock)).toBe(true);
         $rootScope.$apply();
 
         expect(notificationService.error).toHaveBeenCalledWith(errorMessage);

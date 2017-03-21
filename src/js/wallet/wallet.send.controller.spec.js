@@ -99,11 +99,9 @@ describe('Wallet.Send.Controller', function() {
         spyOn(controller.autocomplete, 'getFeeAmount').and.returnValue('0.002');
         spyOn(controller.broadcast, 'setTransaction');
 
-        controller.getForm = function () { return formMock; };
-
         controller.amount = '7';
         controller.recipient = '1W' + address;
-        expect(controller.submitTransfer()).toBe(true);
+        expect(controller.submitTransfer(formMock)).toBe(true);
 
         timeout.flush();
 
@@ -125,10 +123,9 @@ describe('Wallet.Send.Controller', function() {
         spyOn(controller.autocomplete, 'getFeeAmount').and.returnValue('0.002');
         spyOn(controller.broadcast, 'setTransaction');
 
-        controller.getForm = function () { return formMock; };
         controller.amount = '11';
         controller.recipient = address;
-        expect(controller.submitTransfer()).toBe(false);
+        expect(controller.submitTransfer(formMock)).toBe(false);
     });
 
     it('should not create transaction if there is not enough waves for fee', function () {
@@ -138,10 +135,9 @@ describe('Wallet.Send.Controller', function() {
         spyOn(controller.broadcast, 'setTransaction');
         spyOn(notificationService, 'error');
 
-        controller.getForm = function () { return formMock; };
         controller.amount = '10';
         controller.recipient = address;
-        expect(controller.submitTransfer()).toBe(false);
+        expect(controller.submitTransfer(formMock)).toBe(false);
         expect(notificationService.error).toHaveBeenCalled();
         expect(controller.broadcast.setTransaction).not.toHaveBeenCalled();
     });
@@ -154,10 +150,9 @@ describe('Wallet.Send.Controller', function() {
         spyOn(controller.broadcast, 'setTransaction');
         spyOn(notificationService, 'error');
 
-        controller.getForm = function () { return formMock; };
         controller.amount = '10.001';
         controller.recipient = address;
-        expect(controller.submitTransfer()).toBe(false);
+        expect(controller.submitTransfer(formMock)).toBe(false);
         expect(notificationService.error).toHaveBeenCalled();
         expect(controller.broadcast.setTransaction).not.toHaveBeenCalled();
     });
@@ -170,14 +165,12 @@ describe('Wallet.Send.Controller', function() {
         spyOn(controller.broadcast, 'setTransaction');
         spyOn(notificationService, 'error');
 
-        controller.getForm = function () { return formMock; };
         controller.amount = '9.9980000';
         controller.recipient = address;
-        expect(controller.submitTransfer()).toBe(true);
+        expect(controller.submitTransfer(formMock)).toBe(true);
         expect(notificationService.error).not.toHaveBeenCalled();
         expect(controller.broadcast.setTransaction).toHaveBeenCalled();
         expect(controller.confirm.fee.value).toEqual('0.002');
         expect(controller.confirm.fee.currency).toEqual('Waves');
     });
-
 });
