@@ -49,32 +49,16 @@
                     ctrl.assetsList = assetsList;
                     ctrl.currentPair.priceAsset = assetsList[0];
                     ctrl.currentPair.amountAsset = assetsList[1];
+                    ctrl.favoritePairs = [{
+                        priceAsset: ctrl.assetsList[0],
+                        amountAsset: ctrl.assetsList[1]
+                    }];
+                    ctrl.tradedPairs = [{
+                        priceAsset: ctrl.assetsList[0],
+                        amountAsset: ctrl.assetsList[1]
+                    }];
                 });
             });
-
-        // FIXME : those are placeholders for Currency until it starts supporting `shortName` property.
-        ctrl.favoritePairs = [{
-            priceAsset: {shortName: 'WAV'},
-            amountAsset: {shortName: 'USD'}
-        }, {
-            priceAsset: {shortName: 'BTC'},
-            amountAsset: {shortName: 'USD'}
-        }, {
-            priceAsset: {shortName: 'WAV'},
-            amountAsset: {shortName: 'USD'}
-        }, {
-            priceAsset: {shortName: 'BTC'},
-            amountAsset: {shortName: 'ETH'}
-        }];
-
-        // FIXME : those are placeholders for Currency until it starts supporting `shortName` property.
-        ctrl.tradedPairs = [{
-            priceAsset: {shortName: 'WAV'},
-            amountAsset: {shortName: 'USD'}
-        }, {
-            priceAsset: {shortName: 'BTC'},
-            amountAsset: {shortName: 'USD'}
-        }];
 
         ctrl.addFavorite = function () {};
         ctrl.showMoreTraded = function () {};

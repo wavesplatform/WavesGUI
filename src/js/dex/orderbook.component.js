@@ -33,6 +33,7 @@
             bindings: {
                 type: '@',
                 name: '@',
+                pair: '<',
                 rawOrders: '<orders'
             },
             templateUrl: 'dex/orderbook.component'

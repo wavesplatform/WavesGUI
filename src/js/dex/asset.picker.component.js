@@ -4,8 +4,8 @@
     function AssetPickerController() {
         var ctrl = this;
 
-        setupValues();
-        ctrl.$onChanges = setupValues;
+        setupCtrl();
+        ctrl.$onChanges = setupCtrl;
 
         ctrl.press = function () {
             ctrl.pressed = !ctrl.pressed;
@@ -15,7 +15,7 @@
             ctrl.submit();
         };
 
-        function setupValues() {
+        function setupCtrl() {
             if (ctrl.chosenAsset) {
                 ctrl.queryString = ctrl.chosenAsset.displayName;
                 ctrl.pressed = false;

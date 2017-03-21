@@ -6,15 +6,15 @@
       <td ng-if="$ctrl.type === 'user'">Status</td>
       <td ng-if="$ctrl.type === 'user'">Type</td>
       <td>Price</td>
-      <td>BTC</td>
-      <td>WAV</td>
-      <td ng-if="$ctrl.type !== 'user'">SUM (WAV)</td>
+      <td>{{$ctrl.pair.priceAsset.shortName}}</td>
+      <td>{{$ctrl.pair.amountAsset.shortName}}</td>
+      <td ng-if="$ctrl.type !== 'user'">SUM ({{$ctrl.pair.priceAsset.shortName}})</td>
     </tr>
   </thead>
 </table>
 
-<waves-scrollbox class="orderbook-scroll" ng-class="$ctrl.type">
-  <table>
+<waves-scrollbox class="orderbook-scroll">
+  <table ng-class="$ctrl.type">
 
     <tbody ng-if="$ctrl.type === 'user'">
       <tr ng-repeat="order in $ctrl.orders">
