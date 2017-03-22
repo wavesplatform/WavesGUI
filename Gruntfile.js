@@ -152,7 +152,7 @@ module.exports = function (grunt) {
 
                 'src/js/shared/module.js',
                 'src/js/shared/constants.js',
-                'src/js/shared/assets.store.service.js',
+                'src/js/shared/assets.store.factory.js',
                 'src/js/shared/bitcoin.uri.service.js',
                 'src/js/shared/dialog.service.js',
                 'src/js/shared/document.title.service.js',
