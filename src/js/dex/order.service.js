@@ -44,7 +44,7 @@
         return pair.amountAssetId + '_' + pair.priceAssetId;
     }
 
-    function WavesExchangeOrderService(storageService) {
+    function WavesDexOrderService(storageService) {
         function loadState() {
             return storageService.loadState().then(function (state) {
                 state = state || {};
@@ -87,9 +87,9 @@
         };
     }
 
-    WavesExchangeOrderService.$inject = ['storageService'];
+    WavesDexOrderService.$inject = ['storageService'];
 
     angular
         .module('app.dex')
-        .service('exchangeOrderService', WavesExchangeOrderService);
+        .service('dexOrderService', WavesDexOrderService);
 })();
