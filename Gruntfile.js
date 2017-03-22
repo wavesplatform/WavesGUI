@@ -9,7 +9,8 @@ module.exports = function (grunt) {
             .replace(/NODE_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("NODE_ADDRESS: '<%= meta.configurations.testnet.server %>'"))
             .replace(/NETWORK_NAME\s*:\s*'[^']+'/, grunt.template.process("NETWORK_NAME: '<%= meta.configurations.testnet.name %>'"))
             .replace(/NETWORK_CODE\s*:\s*'[^']+'/, grunt.template.process("NETWORK_CODE: '<%= meta.configurations.testnet.code %>'"))
-            .replace(/COINOMAT_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("COINOMAT_ADDRESS: '<%= meta.configurations.testnet.coinomat %>'"));
+            .replace(/COINOMAT_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("COINOMAT_ADDRESS: '<%= meta.configurations.testnet.coinomat %>'"))
+            .replace(/MATCHER_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("MATCHER_ADDRESS: '<%= meta.configurations.testnet.matcher %>'"));
     };
 
     var replaceMainnetVersion = function (content) {
@@ -18,7 +19,8 @@ module.exports = function (grunt) {
             .replace(/NODE_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("NODE_ADDRESS: '<%= meta.configurations.mainnet.server %>'"))
             .replace(/NETWORK_NAME\s*:\s*'[^']+'/, grunt.template.process("NETWORK_NAME: '<%= meta.configurations.mainnet.name %>'"))
             .replace(/NETWORK_CODE\s*:\s*'[^']+'/, grunt.template.process("NETWORK_CODE: '<%= meta.configurations.mainnet.code %>'"))
-            .replace(/COINOMAT_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("COINOMAT_ADDRESS: '<%= meta.configurations.mainnet.coinomat %>'"));
+            .replace(/COINOMAT_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("COINOMAT_ADDRESS: '<%= meta.configurations.mainnet.coinomat %>'"))
+            .replace(/MATCHER_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("MATCHER_ADDRESS: '<%= meta.configurations.mainnet.matcher %>'"));
     };
 
     var patchHtml = function (content, fileName) {
@@ -89,13 +91,15 @@ module.exports = function (grunt) {
                     name: 'testnet',
                     code: 'T',
                     server: 'http://52.30.47.67:6869',
-                    coinomat: 'https://test.coinomat.com'
+                    coinomat: 'https://test.coinomat.com',
+                    matcher: 'http://52.28.66.217:6886'
                 },
                 mainnet: {
                     name: 'mainnet',
                     code: 'W',
                     server: 'https://nodes.wavesnodes.com',
-                    coinomat: 'https://coinomat.com'
+                    coinomat: 'https://coinomat.com',
+                    matcher: 'http://52.28.66.217:6886'
                 },
                 chrome: {
                     testnet: {
@@ -147,6 +151,7 @@ module.exports = function (grunt) {
                 'src/js/ui.module.js',
                 'src/js/application.context.factory.js',
                 'src/js/coinomat.restangular.factory.js',
+                'src/js/matcher.restangular.factory.js',
                 'src/js/home.controller.js',
                 'src/js/splash.controller.js',
 

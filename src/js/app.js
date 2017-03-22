@@ -40,7 +40,8 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
         angular.extend(applicationSettings, {
             CLIENT_VERSION: '0.4.1a',
             NODE_ADDRESS: 'http://52.30.47.67:6869',
-            COINOMAT_ADDRESS: 'https://test.coinomat.com'
+            COINOMAT_ADDRESS: 'https://test.coinomat.com',
+            MATCHER_ADDRESS: 'http://52.28.66.217:6886'
         }));
 
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data|file|chrome-extension):/);
