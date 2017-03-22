@@ -52,10 +52,14 @@
                 });
         }
 
-        function redirectToMerchant() {
+        function redirectToMerchant(form) {
+            //TODO: validate min/max values
+
             var url = fiatService.getMerchantUrl(applicationContext.account.address,
                 card.payAmount, card.payCurrency.code);
             $window.open(url, '_blank');
+
+            return true;
         }
     }
 

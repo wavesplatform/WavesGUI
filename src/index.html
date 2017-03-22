@@ -466,13 +466,13 @@
                     </div>
 
                     <div class="noDisp" ng-controller="cardDepositController as card">
-                        <div id="card-deposit-dialog" waves-dialog ok-button-caption="BUY BTC" on-dialog-ok="card.redirectToMerchant()">
+                        <div id="card-deposit-dialog" waves-dialog ok-button-caption="BUY BTC" on-dialog-ok="card.redirectToMerchant(card.form)">
                             <h2 class="sectionHeader">DEPOSIT FROM CARD</h2>
                             <form id="depositCalculatorForm" name="card.form" novalidate ng-validate="card.validationOptions">
                                 <div layout="row">
                                     <md-input-container>
                                         <label>Amount you pay</label>
-                                        <input name="payAmount" ng-model="card.payAmount" type="text" ng-change="card.updateReceiveAmount()" decimal-input-restrictor/>
+                                        <input name="payAmount" ng-model="card.payAmount" type="text" ng-change="card.updateReceiveAmount()" ng-model-options="{ debounce: 500 }" decimal-input-restrictor/>
                                     </md-input-container>
                                     <md-input-container>
                                         <label>Currency</label>
