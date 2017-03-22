@@ -11,60 +11,74 @@
             this.displayName = code;
     }
 
-    function WavesCardDepositController ($scope, $window, events, dialogService, fiatService, applicationContext) {
+    function WavesCardDepositController ($scope, $window, events, dialogService, fiatService, applicationContext,
+                                         notificationService) {
         var card = this;
         card.currencies = [new FiatCurrency('EURO', 'Euro'), new FiatCurrency('USD')];
         card.payAmount = DEFAULT_AMOUNT_TO_PAY;
         card.payCurrency = card.currencies[0];
-        card.validationOptions = {
-            onfocusout: false,
-            rules: {
-                payAmount: {}
-            },
-            messages: {
-                payAmount: {}
-            }
-        };
-
+        card.limits = {};
         card.updateReceiveAmount = updateReceiveAmount;
+        card.updateLimitsAndReceiveAmount = updateLimitsAndReceiveAmount;
         card.redirectToMerchant = redirectToMerchant;
 
         $scope.$on(events.WALLET_CARD_DEPOSIT, function (event, eventData) {
             dialogService.open('#card-deposit-dialog');
 
+            updateLimitsAndReceiveAmount();
+        });
+
+        function updateLimitsAndReceiveAmount() {
             fiatService.getLimits(applicationContext.account.address, card.payCurrency.code)
                 .then(function (response) {
-                    card.validationOptions.rules.payAmount.min = response.min;
-                    card.validationOptions.rules.payAmount.max = response.max;
-                    card.validationOptions.messages.payAmount.min = 'Minimum amount to pay is ' +
-                        response.min + ' ' + card.payCurrency.displayName;
-                    card.validationOptions.messages.payAmount.max = 'Maximum amount to pay is ' +
-                        response.max + ' ' + card.payCurrency.displayName;
+                    card.limits = {
+                        min: Number(response.min),
+                        max: Number(response.max)
+                    };
 
                     return updateReceiveAmount();
+                }).catch(function (response) {
+                    notificationService.error(response.message);
                 });
-        });
+        }
 
         function updateReceiveAmount() {
             return fiatService.getRate(applicationContext.account.address, card.payAmount, card.payCurrency.code)
                 .then(function (response) {
                     card.getAmount = response;
+                }).catch(function (response) {
+                    card.getAmount = response.message;
                 });
         }
 
-        function redirectToMerchant(form) {
-            //TODO: validate min/max values
+        function redirectToMerchant() {
+            try {
+                validateAmountToPay();
 
-            var url = fiatService.getMerchantUrl(applicationContext.account.address,
-                card.payAmount, card.payCurrency.code);
-            $window.open(url, '_blank');
+                var url = fiatService.getMerchantUrl(applicationContext.account.address,
+                    card.payAmount, card.payCurrency.code);
+                $window.open(url, '_blank');
 
-            return true;
+                return true;
+            }
+            catch (exception) {
+                notificationService.error(exception.message);
+
+                return false;
+            }
+        }
+
+        function validateAmountToPay() {
+            if (Number(card.payAmount) < card.limits.min)
+                throw new Error('Minimum amount to pay is ' + card.limits.min + ' ' + card.payCurrency.displayName);
+
+            if (Number(card.payAmount) > card.limits.max)
+                throw new Error('Maximum amount to pay is ' + card.limits.max + ' ' + card.payCurrency.displayName);
         }
     }
 
     WavesCardDepositController.$inject = ['$scope', '$window', 'wallet.events', 'dialogService', 'coinomatFiatService',
-        'applicationContext'];
+        'applicationContext', 'notificationService'];
 
     angular
         .module('app.wallet')

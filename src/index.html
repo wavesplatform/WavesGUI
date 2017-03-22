@@ -468,7 +468,9 @@
                     <div class="noDisp" ng-controller="cardDepositController as card">
                         <div id="card-deposit-dialog" waves-dialog ok-button-caption="BUY BTC" on-dialog-ok="card.redirectToMerchant(card.form)">
                             <h2 class="sectionHeader">DEPOSIT FROM CARD</h2>
-                            <form id="depositCalculatorForm" name="card.form" novalidate ng-validate="card.validationOptions">
+                            <p class="textCenter">Please note: the minimum amount you can pay is <b>{{card.limits.min | number:0}} {{card.payCurrency.displayName}}</b>,<br/>
+                                the maximum is <b>{{card.limits.max | number:0}} {{card.payCurrency.displayName}}</b></p>
+                            <form id="depositCalculatorForm" name="card.form" novalidate>
                                 <div layout="row">
                                     <md-input-container>
                                         <label>Amount you pay</label>
@@ -476,7 +478,7 @@
                                     </md-input-container>
                                     <md-input-container>
                                         <label>Currency</label>
-                                        <md-select ng-model="card.payCurrency" ng-change="card.updateReceiveAmount()" width="2">
+                                        <md-select ng-model="card.payCurrency" ng-change="card.updateLimitsAndReceiveAmount()" width="2">
                                             <md-optgroup label="Your card currency">
                                                 <md-option ng-value="currency" ng-repeat="currency in card.currencies">{{currency.displayName}}</md-option>
                                             </md-optgroup>
