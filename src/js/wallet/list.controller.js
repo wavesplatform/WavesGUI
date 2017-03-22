@@ -123,10 +123,10 @@
          */
         function patchCurrencyIdsForTestnet() {
             if ($scope.isTestnet()) {
-                Currency.EUR.id = '8zEZuJcKPQmFuYgVe5ZMpxgiPLu5zBhjA6xgdGomQDaP';
-                Currency.USD.id = '2aSqCbvCTgvCpwkGsk4mea4tCLG4Zgp69aQDhHNvRUZv';
-                Currency.CNY.id = 'D2MNuUyA38pSKoV7F7vpS15Uhw9nw5qfbrGUfCLRNuRo';
-                Currency.BTC.id = 'J3gwJZHJBtK9994EXhmEzdHX5dj7bToRuVf7fvJ3GgBq';
+                Currency.EUR.id = '2xnE3EdpqXtFgCP156qt1AbyjpqdZ5jGjWo3CwTawcux';
+                Currency.USD.id = 'HyFJ3rrq5m7FxdkWtQXkZrDat1F7LjVVGfpSkUuEXQHj';
+                Currency.CNY.id = '6pmDivReTLikwYqQtJTv6dTcE59knriaodB3AK8T9cF8';
+                Currency.BTC.id = 'Fmg13HEHJHuZYbtJq8Da8wifJENq8uBxDuWoP9pVe2Qe';
             }
         }
     }
