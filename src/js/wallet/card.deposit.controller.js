@@ -11,8 +11,9 @@
             this.displayName = code;
     }
 
-    function WavesCardDepositController ($scope, $window, events, dialogService, fiatService, applicationContext,
+    function WavesCardDepositController ($scope, $window, $q, events, dialogService, fiatService, applicationContext,
                                          notificationService) {
+        var deferred;
         var card = this;
         card.currencies = [new FiatCurrency('EURO', 'Euro'), new FiatCurrency('USD')];
         card.payAmount = DEFAULT_AMOUNT_TO_PAY;
@@ -35,20 +36,28 @@
                         min: Number(response.min),
                         max: Number(response.max)
                     };
-
-                    return updateReceiveAmount();
                 }).catch(function (response) {
                     notificationService.error(response.message);
                 });
+
+            updateReceiveAmount();
         }
 
         function updateReceiveAmount() {
-            return fiatService.getRate(applicationContext.account.address, card.payAmount, card.payCurrency.code)
-                .then(function (response) {
-                    card.getAmount = response;
-                }).catch(function (response) {
-                    card.getAmount = response.message;
-                });
+            if (deferred) {
+                deferred.reject();
+            }
+
+            deferred = $q.defer();
+            deferred.promise.then(function (response) {
+                card.getAmount = response;
+            }).catch(function (value) {
+                if (value && value.message)
+                    notificationService.error(value.message);
+            });
+
+            fiatService.getRate(applicationContext.account.address, card.payAmount, card.payCurrency.code)
+                .then(deferred.resolve).catch(deferred.reject);
         }
 
         function redirectToMerchant() {
@@ -77,8 +86,8 @@
         }
     }
 
-    WavesCardDepositController.$inject = ['$scope', '$window', 'wallet.events', 'dialogService', 'coinomatFiatService',
-        'applicationContext', 'notificationService'];
+    WavesCardDepositController.$inject = ['$scope', '$window', '$q', 'wallet.events', 'dialogService',
+        'coinomatFiatService', 'applicationContext', 'notificationService'];
 
     angular
         .module('app.wallet')

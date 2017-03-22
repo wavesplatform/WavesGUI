@@ -474,7 +474,7 @@
                                 <div layout="row">
                                     <md-input-container>
                                         <label>Amount you pay</label>
-                                        <input name="payAmount" ng-model="card.payAmount" type="text" ng-change="card.updateReceiveAmount()" ng-model-options="{ debounce: 500 }" decimal-input-restrictor/>
+                                        <input name="payAmount" ng-model="card.payAmount" type="text" ng-change="card.updateReceiveAmount()" ng-model-options="{ debounce: 250 }" decimal-input-restrictor/>
                                     </md-input-container>
                                     <md-input-container>
                                         <label>Currency</label>
