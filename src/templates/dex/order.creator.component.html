@@ -18,12 +18,12 @@
     </div>
     <div>
       <span>Fee:&nbsp;</span>
-      <span>{{$ctrl.buy.amount * $ctrl.buy.price * $ctrl.buy.feePercentage}}&nbsp;</span>
-      <span>{{$ctrl.pair.priceAsset.shortName}}</span>
+      <span>{{$ctrl.buy.fee}}</span>
+      <span>WAV</span>
     </div>
   </div>
   <div class="button-container">
-    <button>Buy</button>
+    <button ng-click="$ctrl.submitBuyOrder()">Buy</button>
   </div>
 </div>
 
@@ -47,11 +47,11 @@
     </div>
     <div>
       <span>Fee:&nbsp;</span>
-      <span>{{$ctrl.sell.amount * $ctrl.sell.price * $ctrl.sell.feePercentage}}&nbsp;</span>
-      <span>{{$ctrl.pair.amountAsset.shortName}}</span>
+      <span>{{$ctrl.sell.fee}}</span>
+      <span>WAV</span>
     </div>
   </div>
   <div class="button-container">
-    <button>Sell</button>
+    <button ng-click="$ctrl.submitSellOrder()">Sell</button>
   </div>
 </div>

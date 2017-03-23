@@ -9,18 +9,26 @@
 
         ctrl.buy = {
             amount: '',
-            price: null,
-            feePercentage: 0.001
+            price: '',
+            fee: 0.001
         };
 
         ctrl.sell = {
             amount: '',
-            price: null,
-            feePercentage: 0.001
+            price: '',
+            fee: 0.001
         };
 
         ctrl.focusOn = function (half) {
             ctrl.focused = half;
+        };
+
+        ctrl.submitBuyOrder = function () {
+            ctrl.submit('buy', ctrl.buy.price, ctrl.buy.amount);
+        };
+
+        ctrl.submitSellOrder = function () {
+            ctrl.submit('sell', ctrl.sell.price, ctrl.sell.amount);
         };
     }
 
@@ -29,7 +37,8 @@
         .component('wavesDexOrderCreator', {
             controller: OrderCreatorController,
             bindings: {
-                pair: '<'
+                pair: '<',
+                submit: '<'
             },
             templateUrl: 'dex/order.creator.component'
         });

@@ -1,16 +1,16 @@
 <div class="workspace">
   <div class="choice">
-    <div class="current-pair">{{$ctrl.currentPair.priceAsset.shortName}}/{{$ctrl.currentPair.amountAsset.shortName}}</div>
+    <div class="current-pair">{{$ctrl.pair.priceAsset.shortName}}/{{$ctrl.pair.amountAsset.shortName}}</div>
     <div class="picker-widget">
       <waves-dex-asset-picker name="Choose asset"
                               assets="$ctrl.assetsList"
-                              chosen-asset="$ctrl.currentPair.priceAsset"
+                              chosen-asset="$ctrl.pair.priceAsset"
                               submit="$ctrl.changePair()"></waves-dex-asset-picker>
     </div>
     <div class="picker-widget">
       <waves-dex-asset-picker name="Choose asset"
                               assets="$ctrl.assetsList"
-                              chosen-asset="$ctrl.currentPair.amountAsset"
+                              chosen-asset="$ctrl.pair.amountAsset"
                               submit="$ctrl.changePair()"></waves-dex-asset-picker>
     </div>
   </div>
@@ -19,22 +19,22 @@
     <div class="orderbook">
       <waves-dex-orderbook type="buy"
                            name="Buy orders"
-                           pair="$ctrl.currentPair"
+                           pair="$ctrl.pair"
                            orders="$ctrl.buyOrders"></waves-dex-orderbook>
     </div>
     <div class="orderbook">
       <waves-dex-orderbook type="sell"
                            name="Sell orders"
-                           pair="$ctrl.currentPair"
+                           pair="$ctrl.pair"
                            orders="$ctrl.sellOrders"></waves-dex-orderbook>
     </div>
     <div class="user-orders">
       <waves-dex-orderbook type="user"
                            name="My orders"
-                           pair="$ctrl.currentPair"
+                           pair="$ctrl.pair"
                            orders="$ctrl.userOrders"></waves-dex-orderbook>
-      <waves-dex-order-creator pair="$ctrl.currentPair"
-                               submit-order="$ctrl.createOrder"></waves-dex-order-creator>
+      <waves-dex-order-creator pair="$ctrl.pair"
+                               submit="$ctrl.createOrder"></waves-dex-order-creator>
     </div>
   </div>
 </div>
@@ -45,9 +45,9 @@
                         placeholder="You can add pairs here. Just press the star button!"
                         pairs="$ctrl.favoritePairs"
                         action="$ctrl.addFavorite()"></waves-dex-pairs-list>
-  <waves-dex-pairs-list type="traded"
+  <!--waves-dex-pairs-list type="traded"
                         name="Most traded"
                         placeholder="Pairs will appear here soon."
                         pairs="$ctrl.tradedPairs"
-                        action="$ctrl.showMoreTraded()"></waves-dex-pairs-list>
+                        action="$ctrl.showMoreTraded()"></waves-dex-pairs-list-->
 </aside>

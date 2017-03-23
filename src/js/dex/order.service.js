@@ -44,7 +44,7 @@
         return pair.amountAssetId + '_' + pair.priceAssetId;
     }
 
-    function WavesDexOrderService(storageService) {
+    function DexOrderService(storageService, matcherRequestService, matcherApiService) {
         function loadState() {
             return storageService.loadState().then(function (state) {
                 state = state || {};
@@ -55,13 +55,26 @@
             });
         }
 
-        this.addOrder = function (pair, order) {
+        this.addOrder = function (pair, order, sender) {
             return loadState().then(function (state) {
-                var array = state.orders[buildPairKey(pair)] || [];
-                array.push(serializeOrder(order));
-                state.orders[buildPairKey(pair)] = array;
+                return Promise.resolve()
+                    .then(matcherApiService.loadMatcherKey)
+                    .then(function (matcherKey) {
+                        order.matcherKey = matcherKey;
+                        return matcherRequestService.buildCreateOrderRequest(order, sender);
+                    })
+                    .then(function (signedOrder) {
+                        return signedOrder;
+                    })
+                    .then(matcherApiService.createOrder)
+                    .then(function (response) {
+                        console.log(response); // TODO : make a notification.
+                        var array = state.orders[buildPairKey(pair)] || [];
+                        array.push(serializeOrder(order));
+                        state.orders[buildPairKey(pair)] = array;
 
-                return state;
+                        return state;
+                    });
             }).then(storageService.saveState);
         };
 
@@ -87,9 +100,9 @@
         };
     }
 
-    WavesDexOrderService.$inject = ['storageService'];
+    DexOrderService.$inject = ['storageService', 'matcherRequestService', 'matcherApiService'];
 
     angular
         .module('app.dex')
-        .service('dexOrderService', WavesDexOrderService);
+        .service('dexOrderService', DexOrderService);
 })();

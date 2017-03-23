@@ -1,12 +1,6 @@
 (function () {
     'use strict';
 
-    var assets = {};
-
-    assets[Currency.WAV.id] = _.extend({verified: true}, Currency.WAV);
-    assets[Currency.BTC.id] = _.extend({verified: true}, Currency.BTC);
-    // TODO : expand this list.
-
     angular
         .module('app.shared')
         .service('assetStoreFactory', ['apiService', function (apiService) {
@@ -23,22 +17,18 @@
                     .then(apiService.assets.balance.bind(apiService.assets, self.address))
                     .then(function (response) {
                         self.balances = response.balances.map(function (item) {
-                            return complement({
-                                assetId: item.assetId,
-                                balance: item.balance,
-                                decimals: item.issueTransaction.decimals,
-                                displayName: item.issueTransaction.name
-                            });
+                            return Money.fromTokens(item.balance, new Currency({
+                                id: item.assetId,
+                                displayName: item.issueTransaction.name,
+                                precision: item.issueTransaction.decimals
+                            }));
                         });
                     })
                     .then(apiService.address.balance.bind(apiService.assets, self.address))
                     .then(function (response) {
-                        self.balances.unshift(complement({
-                            balance: response.balance / Math.pow(10, 8),
-                            decimals: 8,
-                            displayName: 'Waves'
-                        }));
+                        self.balances.unshift(Money.fromTokens(response.balance / Math.pow(10, 8), Currency.WAV));
                     });
+                return this;
             };
 
             AssetStore.prototype.getAll = function () {
@@ -59,16 +49,6 @@
                 });
                 return this.promise;
             };
-
-            function complement(asset) {
-                if (assets[asset.assetId]) {
-                    asset.verified = assets[asset.id].verified;
-                    asset.shortName = assets[asset.id].shortName;
-                } else {
-                    asset.shortName = asset.displayName;
-                }
-                return asset;
-            }
 
             var stores = {};
 

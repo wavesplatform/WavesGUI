@@ -28,36 +28,48 @@
         };
     }
 
-    function DexController($scope, applicationContext, assetStoreFactory) {
+    function DexController($scope, applicationContext, assetStoreFactory,
+                           dexOrderService, dexOrderbookService) {
         var ctrl = this;
 
-        var assetStore = assetStoreFactory.createStore(applicationContext.account.address);
+        var assetStore = assetStoreFactory.createStore(applicationContext.account.address),
+            initialAssetOne = Currency.WAV,
+            initialAssetTwo = Currency.BTC;
 
-        // Real pair which is always in the right order (price/amount).
-        ctrl.currentPair = {
-            priceAsset: null,
-            amountAsset: null
-        };
+        dexOrderbookService
+            .switchToPair(initialAssetOne, initialAssetTwo)
+            .then(function (orderbook) {
+                // ctrl.pair = {
+                //     priceAsset: orderbook.priceAsset,
+                //     amountAsset: orderbook.amountAsset
+                // };
+                //
+                // // TODO : normalize them all inside the service.
+                // ctrl.buyOrders = orderbook.bids;
+                // ctrl.sellOrders = orderbook.asks;
+                // ctrl.userOrders = dexOrderService.getOrders(ctrl.pair);
+            });
 
-        ctrl.orderbook = null;
-
-        Promise.resolve()
-            .then(assetStore.getAll.bind(assetStore))
+        assetStore
+            .getAll()
             .then(function (assetsList) {
                 $scope.$apply(function () {
                     ctrl.assetsList = assetsList;
-                    ctrl.currentPair.priceAsset = assetsList[0];
-                    ctrl.currentPair.amountAsset = assetsList[1];
-                    ctrl.favoritePairs = [{
-                        priceAsset: ctrl.assetsList[0],
-                        amountAsset: ctrl.assetsList[1]
-                    }];
-                    ctrl.tradedPairs = [{
-                        priceAsset: ctrl.assetsList[0],
-                        amountAsset: ctrl.assetsList[1]
-                    }];
+                    ctrl.pair = {
+                        priceAsset: assetsList[0].currency,
+                        amountAsset: assetsList[1].currency
+                    };
                 });
             });
+
+        // favoritePairsService
+        //     .getAll()
+        //     .then(function () {
+        //         // ctrl.favoritePairs = [{
+        //         //     priceAsset: ctrl.assetsList[0],
+        //         //     amountAsset: ctrl.assetsList[1]
+        //         // }];
+        //     });
 
         ctrl.addFavorite = function () {};
         ctrl.showMoreTraded = function () {};
@@ -66,14 +78,28 @@
         ctrl.sellOrders = getOrdersFromBackend(-1).map(normalizeOrder);
         ctrl.userOrders = [];
 
+        ctrl.createOrder = function (type, price, amount) {
+            dexOrderService.addOrder({
+                amountAssetId: ctrl.pair.amountAsset.id,
+                priceAssetId: ctrl.pair.priceAsset.id
+            }, {
+                orderType: type,
+                price: Money.fromTokens(price, ctrl.pair.priceAsset),
+                amount: Money.fromTokens(amount, ctrl.pair.amountAsset),
+                fee: Money.fromTokens(0.01, Currency.WAV)
+            }, {
+                publicKey: applicationContext.account.keyPair.public,
+                privateKey: applicationContext.account.keyPair.private
+            });
+        };
+
         ctrl.changePair = function () {
-            var temp = ctrl.currentPair.priceAsset;
-            ctrl.currentPair.priceAsset = ctrl.currentPair.amountAsset;
-            ctrl.currentPair.amountAsset = temp;
+            // TODO
         };
     }
 
-    DexController.$inject = ['$scope', 'applicationContext', 'assetStoreFactory'];
+    DexController.$inject = ['$scope', 'applicationContext', 'assetStoreFactory',
+                            'dexOrderService', 'dexOrderbookService'];
 
     angular
         .module('app.dex')

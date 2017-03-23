@@ -2,7 +2,7 @@
   <span class="title" ng-class="{'pressed': $ctrl.pressed}" ng-click="$ctrl.press()">&#9660;</span>
   <div class="asset-list" ng-if="$ctrl.pressed">
     <div class="asset" ng-repeat="a in $ctrl.assets">
-      <span>{{a.displayName}}</span>
+      <span>{{a.currency.displayName}}</span>
     </div>
   </div>
 </div>
