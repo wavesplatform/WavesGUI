@@ -26,7 +26,7 @@
                     })
                     .then(apiService.address.balance.bind(apiService.assets, self.address))
                     .then(function (response) {
-                        self.balances.unshift(Money.fromTokens(response.balance / Math.pow(10, 8), Currency.WAV));
+                        self.balances.unshift(Money.fromCoins(response.balance, Currency.WAV));
                     });
                 return this;
             };
