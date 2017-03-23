@@ -10,6 +10,7 @@
         deposit.bitcoinAmount = '';
         deposit.bitcoinUri = '';
         deposit.minimumAmount = 0.001;
+        deposit.cardGatewayUrl = '';
 
         deposit.refreshUri = function () {
             var params = null;

@@ -185,6 +185,7 @@ module.exports = function (grunt) {
                 'src/js/wallet/wallet.send.controller.js',
                 'src/js/wallet/wallet.withdraw.controller.js',
                 'src/js/wallet/wallet.deposit.controller.js',
+                'src/js/wallet/card.deposit.controller.js',
 
                 'src/js/tokens/tokens.module.js',
                 'src/js/tokens/token.create.controller.js',

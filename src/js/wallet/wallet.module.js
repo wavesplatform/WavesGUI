@@ -5,6 +5,7 @@
         .constant('wallet.events', {
             WALLET_SEND: 'wallet-send',
             WALLET_WITHDRAW: 'wallet-withdraw',
-            WALLET_DEPOSIT: 'wallet-deposit'
+            WALLET_DEPOSIT: 'wallet-deposit',
+            WALLET_CARD_DEPOSIT: 'wallet-card-deposit'
         });
 })();

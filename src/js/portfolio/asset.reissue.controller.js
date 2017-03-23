@@ -36,7 +36,6 @@
         };
         reissue.submitReissue = submitReissue;
         reissue.broadcastTransaction = broadcastTransaction;
-        reissue.getForm = getForm;
 
         resetReissueForm();
 
@@ -68,8 +67,7 @@
             dialogService.open('#asset-reissue-dialog');
         });
 
-        function submitReissue () {
-            var form = reissue.getForm();
+        function submitReissue (form) {
             if (!form.validate(reissue.validationOptions))
                 // prevent dialog from closing
                 return false;
@@ -113,12 +111,6 @@
 
         function broadcastTransaction () {
             reissue.broadcast.broadcast();
-        }
-
-        function getForm() {
-            // here we have a direct markup dependency
-            // but other ways of getting the form from a child scope are even more ugly
-            return angular.element('#asset-reissue-form').scope().assetReissueForm;
         }
 
         function resetReissueForm() {

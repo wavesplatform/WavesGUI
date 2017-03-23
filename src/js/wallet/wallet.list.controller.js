@@ -4,7 +4,7 @@
     var DEFAULT_FEE_AMOUNT = '0.001';
 
     function WavesWalletListController($scope, $interval, events, applicationContext,
-                                       apiService, transactionLoadingService) {
+                                       apiService, transactionLoadingService, dialogService) {
         var walletList = this;
         var refreshPromise;
         var refreshDelay = 10 * 1000;
@@ -46,6 +46,7 @@
         walletList.send = send;
         walletList.withdraw = withdraw;
         walletList.deposit = deposit;
+        walletList.depositFromCard = depositFromCard;
 
         loadDataFromBackend();
         patchCurrencyIdsForTestnet();
@@ -66,7 +67,20 @@
         }
 
         function deposit (currency) {
-            sendCommandEvent(events.WALLET_DEPOSIT, currency);
+            if (currency.id === Currency.WAV.id) {
+                depositFromCard(Currency.WAV);
+            }
+            else {
+                sendCommandEvent(events.WALLET_DEPOSIT, currency);
+            }
+        }
+
+        function depositFromCard (currency) {
+            dialogService.close();
+
+            $scope.$broadcast(events.WALLET_CARD_DEPOSIT, {
+                currency: currency
+            });
         }
 
         function loadDataFromBackend() {
@@ -123,16 +137,16 @@
          */
         function patchCurrencyIdsForTestnet() {
             if ($scope.isTestnet()) {
-                Currency.EUR.id = '8zEZuJcKPQmFuYgVe5ZMpxgiPLu5zBhjA6xgdGomQDaP';
-                Currency.USD.id = '2aSqCbvCTgvCpwkGsk4mea4tCLG4Zgp69aQDhHNvRUZv';
-                Currency.CNY.id = 'D2MNuUyA38pSKoV7F7vpS15Uhw9nw5qfbrGUfCLRNuRo';
-                Currency.BTC.id = 'J3gwJZHJBtK9994EXhmEzdHX5dj7bToRuVf7fvJ3GgBq';
+                Currency.EUR.id = '2xnE3EdpqXtFgCP156qt1AbyjpqdZ5jGjWo3CwTawcux';
+                Currency.USD.id = 'HyFJ3rrq5m7FxdkWtQXkZrDat1F7LjVVGfpSkUuEXQHj';
+                Currency.CNY.id = '6pmDivReTLikwYqQtJTv6dTcE59knriaodB3AK8T9cF8';
+                Currency.BTC.id = 'Fmg13HEHJHuZYbtJq8Da8wifJENq8uBxDuWoP9pVe2Qe';
             }
         }
     }
 
     WavesWalletListController.$inject = ['$scope', '$interval', 'wallet.events',
-        'applicationContext', 'apiService', 'transactionLoadingService'];
+        'applicationContext', 'apiService', 'transactionLoadingService', 'dialogService'];
 
     angular
         .module('app.wallet')
