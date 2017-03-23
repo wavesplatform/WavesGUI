@@ -9,11 +9,26 @@
 
         ctrl.buy = {
             amount: '',
-            price: 122
+            price: '',
+            fee: 0.001
+        };
+
+        ctrl.sell = {
+            amount: '',
+            price: '',
+            fee: 0.001
         };
 
         ctrl.focusOn = function (half) {
             ctrl.focused = half;
+        };
+
+        ctrl.submitBuyOrder = function () {
+            ctrl.submit('buy', ctrl.buy.price, ctrl.buy.amount);
+        };
+
+        ctrl.submitSellOrder = function () {
+            ctrl.submit('sell', ctrl.sell.price, ctrl.sell.amount);
         };
     }
 
@@ -21,6 +36,10 @@
         .module('app.dex')
         .component('wavesDexOrderCreator', {
             controller: OrderCreatorController,
+            bindings: {
+                pair: '<',
+                submit: '<'
+            },
             templateUrl: 'dex/order.creator.component'
         });
 })();

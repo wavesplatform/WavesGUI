@@ -59,6 +59,7 @@
     "_": false,
     "QRious": false,
     "Currency": false,
+    "Money": false,
     "converters": false
   }
 }

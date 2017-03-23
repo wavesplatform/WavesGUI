@@ -1,0 +1,63 @@
+@import "../variables";
+
+waves-dex-orderbook {
+  display: block;
+
+  h3 {
+    padding: 3px 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    td {
+      text-align: center;
+    }
+
+    &.buy td,
+    &.sell td {
+      width: 25%;
+    }
+
+    &.user td {
+      width: 20%;
+    }
+
+    thead {
+      color: @color-white;
+
+      td {
+        padding-top: 3px;
+        padding-bottom: 5px;
+      }
+    }
+
+    &.buy thead,
+    &.sell thead {
+      background: @color-navy-blue;
+    }
+
+    &.user thead {
+      background: @color-waves-blue-temp;
+    }
+
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background: @color-almost-white;
+        }
+
+        td {
+          padding-top: 1px;
+          padding-bottom: 1px;
+        }
+      }
+    }
+  }
+
+  .scroll-box {
+    height: 300px;
+    overflow: auto;
+  }
+}

@@ -6,7 +6,7 @@ waves-dex {
   min-height: 100%;
 
   & > .workspace {
-    flex-grow: 8;
+    width: 81%;
     padding: 20px 50px 0 30px;
 
     & > .choice {
@@ -31,12 +31,31 @@ waves-dex {
     & > .orderbooks {
       display: flex;
       justify-content: space-between;
-      margin-top: 25px;
+      margin-top: 35px;
+
+      .orderbook {
+        width: 33%;
+        padding-right: 35px;
+
+        .orderbook-scroll {
+          max-height: 250px;
+        }
+      }
+
+      .user-orders {
+        width: 34%;
+        display: flex;
+        flex-direction: column;
+
+        waves-dex-orderbook {
+          margin-bottom: 35px;
+        }
+      }
     }
   }
 
   & > .pairs-lists {
-    flex-grow: 3;
+    width: 19%;
     min-width: 220px;
     max-width: 370px;
   }

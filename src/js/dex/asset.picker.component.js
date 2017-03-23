@@ -1,17 +1,26 @@
 (function () {
     'use strict';
 
-    function AssetPickerController($attrs) {
+    function AssetPickerController() {
         var ctrl = this;
 
-        ctrl.name = $attrs.name;
-        ctrl.assets = $attrs.assets;
-
-        ctrl.pressed = false;
+        setupCtrl();
+        ctrl.$onChanges = setupCtrl;
 
         ctrl.press = function () {
             ctrl.pressed = !ctrl.pressed;
         };
+
+        ctrl.onSubmit = function () {
+            ctrl.submit();
+        };
+
+        function setupCtrl() {
+            if (ctrl.chosenAsset) {
+                ctrl.queryString = ctrl.chosenAsset.displayName;
+                ctrl.pressed = false;
+            }
+        }
     }
 
     angular
@@ -20,7 +29,9 @@
             controller: AssetPickerController,
             bindings: {
                 name: '@',
-                assets: '<'
+                assets: '<',
+                chosenAsset: '<',
+                submit: '&'
             },
             templateUrl: 'dex/asset.picker.component'
         });
