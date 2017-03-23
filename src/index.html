@@ -436,6 +436,10 @@
                     <div class="noDisp" ng-controller="walletDepositController as deposit">
                         <div id="deposit-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
                             <h2 class="sectionHeader">DEPOSIT: {{deposit.currency}}</h2>
+                            <p class="dialog-text textCenter">
+                                <img src="img/visa_mastercard_116x35.gif" width="116" height="35"><span class="divider-2"></span>
+                                <button class="wButton wButton-dialog" ng-click="walletList.depositFromCard(deposit.assetBalance.currency)">Buy BTC from your credit card</button>
+                            </p>
                             <p class="dialog-text">To deposit bitcoins to your Waves account, please send BTC to the address below.<br/>
                                 The minimum amount for deposit is <span class="fontBold">{{::deposit.minimumAmount}} BTC</span>.</p>
                                 <table class="wavesTable bitcoin-requisites">
@@ -457,6 +461,39 @@
                                 <a ng-href="{{deposit.bitcoinUri}}">
                                     <qr-code class="center" size="180" value="deposit.bitcoinUri"></qr-code>
                                 </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="noDisp" ng-controller="cardDepositController as card">
+                        <div id="card-deposit-dialog" waves-dialog ok-button-caption="BUY" on-dialog-ok="card.redirectToMerchant(card.form)">
+                            <h2 class="sectionHeader">DEPOSIT FROM CARD: <b>{{card.crypto.shortName}}</b></h2>
+                            <p class="textCenter">Please note: the minimum amount you can pay is <b>{{card.limits.min | number:0}} {{card.payCurrency.displayName}}</b>,<br/>
+                                the maximum is <b>{{card.limits.max | number:0}} {{card.payCurrency.displayName}}</b></p>
+                            <form id="depositCalculatorForm" name="card.form" novalidate>
+                                <div layout="row">
+                                    <md-input-container>
+                                        <label>Amount you pay</label>
+                                        <input name="payAmount" ng-model="card.payAmount" type="text" ng-change="card.updateReceiveAmount()" ng-model-options="{ debounce: 250 }" decimal-input-restrictor/>
+                                    </md-input-container>
+                                    <md-input-container>
+                                        <label>Currency</label>
+                                        <md-select ng-model="card.payCurrency" ng-change="card.updateLimitsAndReceiveAmount()" width="2">
+                                            <md-optgroup label="Your card currency">
+                                                <md-option ng-value="currency" ng-repeat="currency in card.currencies">{{currency.displayName}}</md-option>
+                                            </md-optgroup>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+                                <div layout="row">
+                                    <md-input-container>
+                                        <label>Amount you get</label>
+                                        <input name="getAmount" ng-model="card.getAmount" ng-disabled="true" type="text"/>
+                                    </md-input-container>
+                                </div>
+                            </form>
+                            <div class="textCenter">
+                                <p>For making a payment from your card you will be redirected <br/> to the merchant's website.</p>
                             </div>
                         </div>
                     </div>

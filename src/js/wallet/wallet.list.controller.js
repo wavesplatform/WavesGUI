@@ -4,7 +4,7 @@
     var DEFAULT_FEE_AMOUNT = '0.001';
 
     function WavesWalletListController($scope, $interval, events, applicationContext,
-                                       apiService, transactionLoadingService) {
+                                       apiService, transactionLoadingService, dialogService) {
         var walletList = this;
         var refreshPromise;
         var refreshDelay = 10 * 1000;
@@ -46,6 +46,7 @@
         walletList.send = send;
         walletList.withdraw = withdraw;
         walletList.deposit = deposit;
+        walletList.depositFromCard = depositFromCard;
 
         loadDataFromBackend();
         patchCurrencyIdsForTestnet();
@@ -66,7 +67,20 @@
         }
 
         function deposit (currency) {
-            sendCommandEvent(events.WALLET_DEPOSIT, currency);
+            if (currency.id === Currency.WAV.id) {
+                depositFromCard(Currency.WAV);
+            }
+            else {
+                sendCommandEvent(events.WALLET_DEPOSIT, currency);
+            }
+        }
+
+        function depositFromCard (currency) {
+            dialogService.close();
+
+            $scope.$broadcast(events.WALLET_CARD_DEPOSIT, {
+                currency: currency
+            });
         }
 
         function loadDataFromBackend() {
@@ -132,7 +146,7 @@
     }
 
     WavesWalletListController.$inject = ['$scope', '$interval', 'wallet.events',
-        'applicationContext', 'apiService', 'transactionLoadingService'];
+        'applicationContext', 'apiService', 'transactionLoadingService', 'dialogService'];
 
     angular
         .module('app.wallet')
