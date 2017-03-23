@@ -67,13 +67,20 @@
         }
 
         function deposit (currency) {
-            sendCommandEvent(events.WALLET_DEPOSIT, currency);
+            if (currency.id === Currency.WAV.id) {
+                depositFromCard(Currency.WAV);
+            }
+            else {
+                sendCommandEvent(events.WALLET_DEPOSIT, currency);
+            }
         }
 
-        function depositFromCard () {
+        function depositFromCard (currency) {
             dialogService.close();
 
-            $scope.$broadcast(events.WALLET_CARD_DEPOSIT, {});
+            $scope.$broadcast(events.WALLET_CARD_DEPOSIT, {
+                currency: currency
+            });
         }
 
         function loadDataFromBackend() {

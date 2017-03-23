@@ -19,12 +19,15 @@
         card.payAmount = DEFAULT_AMOUNT_TO_PAY;
         card.payCurrency = card.currencies[0];
         card.limits = {};
+        card.crypto = {};
         card.updateReceiveAmount = updateReceiveAmount;
         card.updateLimitsAndReceiveAmount = updateLimitsAndReceiveAmount;
         card.redirectToMerchant = redirectToMerchant;
 
         $scope.$on(events.WALLET_CARD_DEPOSIT, function (event, eventData) {
             dialogService.open('#card-deposit-dialog');
+
+            card.crypto = eventData.currency;
 
             updateLimitsAndReceiveAmount();
         });
@@ -50,13 +53,18 @@
 
             deferred = $q.defer();
             deferred.promise.then(function (response) {
-                card.getAmount = response;
+                if (response) {
+                    card.getAmount = response + ' ' + card.crypto.shortName;
+                }
+                else {
+                    card.getAmount = '';
+                }
             }).catch(function (value) {
                 if (value && value.message)
                     notificationService.error(value.message);
             });
 
-            fiatService.getRate(applicationContext.account.address, card.payAmount, card.payCurrency.code)
+            fiatService.getRate(applicationContext.account.address, card.payAmount, card.payCurrency.code, card.crypto)
                 .then(deferred.resolve).catch(deferred.reject);
         }
 
@@ -65,7 +73,7 @@
                 validateAmountToPay();
 
                 var url = fiatService.getMerchantUrl(applicationContext.account.address,
-                    card.payAmount, card.payCurrency.code);
+                    card.payAmount, card.payCurrency.code, card.crypto);
                 $window.open(url, '_blank');
 
                 return true;
