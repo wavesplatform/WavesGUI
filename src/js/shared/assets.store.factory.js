@@ -17,9 +17,10 @@
                     .then(apiService.assets.balance.bind(apiService.assets, self.address))
                     .then(function (response) {
                         self.balances = response.balances.map(function (item) {
-                            return Money.fromTokens(item.balance, new Currency({
+                            return Money.fromCoins(item.balance, new Currency({
                                 id: item.assetId,
                                 displayName: item.issueTransaction.name,
+                                shortName: item.issueTransaction.name,
                                 precision: item.issueTransaction.decimals
                             }));
                         });
@@ -48,6 +49,18 @@
                     }).map(_.clone);
                 });
                 return this.promise;
+            };
+
+            AssetStore.prototype.syncGetAsset = function (id) {
+                var balances = this.balances,
+                    len = balances.length;
+                id = id || undefined;
+                for (var i = 0; i < len; i++) {
+                    if (balances[i].currency.id === id) {
+                        return balances[i].currency;
+                    }
+                }
+                return null;
             };
 
             var stores = {};
