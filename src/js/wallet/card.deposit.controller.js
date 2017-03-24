@@ -40,10 +40,23 @@
                         max: Number(response.max)
                     };
                 }).catch(function (response) {
-                    notificationService.error(response.message);
+                    remotePartyErrorHandler('get limits', response);
                 });
 
             updateReceiveAmount();
+        }
+
+        function remotePartyErrorHandler(operationName, response) {
+            if (response) {
+                if (response.data)
+                    notificationService.error(response.data.message);
+                else if (response.statusText)
+                    notificationService.error('Failed to ' + operationName + '. Error code: ' + response.status +
+                        '<br/>Message: ' + response.statusText);
+            }
+            else {
+                notificationService.error('Operation failed: ' + operationName);
+            }
         }
 
         function updateReceiveAmount() {
@@ -60,8 +73,7 @@
                     card.getAmount = '';
                 }
             }).catch(function (value) {
-                if (value && value.message)
-                    notificationService.error(value.message);
+                remotePartyErrorHandler('get rates', value);
             });
 
             fiatService.getRate(applicationContext.account.address, card.payAmount, card.payCurrency.code, card.crypto)
