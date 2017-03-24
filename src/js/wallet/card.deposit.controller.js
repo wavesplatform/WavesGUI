@@ -36,6 +36,7 @@
             card.payAmount = DEFAULT_AMOUNT_TO_PAY;
             card.payCurrency = card.currencies[0];
             card.crypto = {};
+            card.getAmount = '';
         }
 
         function updateLimitsAndReceiveAmount() {
