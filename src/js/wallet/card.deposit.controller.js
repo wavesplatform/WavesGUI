@@ -16,21 +16,27 @@
         var deferred;
         var card = this;
         card.currencies = [new FiatCurrency('EURO', 'Euro'), new FiatCurrency('USD')];
-        card.payAmount = DEFAULT_AMOUNT_TO_PAY;
-        card.payCurrency = card.currencies[0];
         card.limits = {};
-        card.crypto = {};
         card.updateReceiveAmount = updateReceiveAmount;
         card.updateLimitsAndReceiveAmount = updateLimitsAndReceiveAmount;
         card.redirectToMerchant = redirectToMerchant;
 
+        reset();
+
         $scope.$on(events.WALLET_CARD_DEPOSIT, function (event, eventData) {
             dialogService.open('#card-deposit-dialog');
 
+            reset();
             card.crypto = eventData.currency;
 
             updateLimitsAndReceiveAmount();
         });
+
+        function reset() {
+            card.payAmount = DEFAULT_AMOUNT_TO_PAY;
+            card.payCurrency = card.currencies[0];
+            card.crypto = {};
+        }
 
         function updateLimitsAndReceiveAmount() {
             fiatService.getLimits(applicationContext.account.address, card.payCurrency.code, card.crypto)
@@ -81,7 +87,8 @@
                     card.getAmount = '';
                 }
             }).catch(function (value) {
-                remotePartyErrorHandler('get rates', value);
+                if (value)
+                    remotePartyErrorHandler('get rates', value);
             });
 
             fiatService.getRate(applicationContext.account.address, card.payAmount, card.payCurrency.code, card.crypto)
