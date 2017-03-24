@@ -31,6 +31,11 @@
 
                 return;
             }
+            else {
+                // little trick to push short name to currency
+                // FIXME: the proper way is to build a service responsible for currency creation
+                deposit.assetBalance.currency.shortName = Currency.BTC.shortName;
+            }
 
             dialogService.open('#deposit-dialog');
 
