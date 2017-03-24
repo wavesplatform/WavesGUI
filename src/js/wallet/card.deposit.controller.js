@@ -33,7 +33,7 @@
         });
 
         function updateLimitsAndReceiveAmount() {
-            fiatService.getLimits(applicationContext.account.address, card.payCurrency.code)
+            fiatService.getLimits(applicationContext.account.address, card.payCurrency.code, card.crypto)
                 .then(function (response) {
                     card.limits = {
                         min: Number(response.min),
@@ -62,6 +62,14 @@
         function updateReceiveAmount() {
             if (deferred) {
                 deferred.reject();
+                deferred = undefined;
+            }
+
+            var amount = Number(card.payAmount);
+            if (isNaN(amount) || card.payAmount <= 0) {
+                card.getAmount = '';
+
+                return;
             }
 
             deferred = $q.defer();
