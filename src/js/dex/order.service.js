@@ -11,7 +11,7 @@
     function deserializeCurrency(json) {
         // It's not a perfect solution.
         // Currencies created here won't be equivalent (===) to predefined currencies
-        return new Currency(json.currency);
+        return new Currency(json);
     }
 
     function deserializeMoney(json) {
