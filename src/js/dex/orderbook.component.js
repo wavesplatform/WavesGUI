@@ -1,6 +1,11 @@
 (function () {
     'use strict';
 
+    var types = {
+        buy: 'Buy',
+        sell: 'Sell'
+    };
+
     // Only non-user orderbooks need that denorm.
     function denormalizeOrders(orders) {
         var currentSum = 0;
@@ -21,8 +26,8 @@
             var price = order.price.toTokens(),
                 amount = order.amount.toTokens();
             return {
-                status: order.status || 'wait...',
-                type: order.orderType,
+                status: order.status,
+                type: types[order.orderType],
                 price: price,
                 amount: amount,
                 total: price * amount

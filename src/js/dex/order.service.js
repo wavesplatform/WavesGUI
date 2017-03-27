@@ -66,7 +66,6 @@
                     })
                     .then(matcherApiService.createOrder)
                     .then(function (response) {
-                        console.log(response); // TODO : make a notification.
                         var array = state.orders[buildPairKey(pair)] || [];
                         order.id = response.message.id;
                         array.push(serializeOrder(order));
@@ -95,6 +94,21 @@
                 return state.orders[buildPairKey(pair)] || [];
             }).then(function (rawOrders) {
                 return _.map(rawOrders, deserializeOrder);
+            }).then(function (rawOrders) {
+                var p = Promise.resolve(),
+                    filteredOrders = [];
+                rawOrders.forEach(function (order) {
+                    p = p.then(function () {
+                        return matcherApiService.orderStatus(pair.amountAssetId, pair.priceAssetId, order.id);
+                    }).then(function (response) {
+                        if (response && response.status === 'Accepted') {
+                            order.status = response.status;
+                            filteredOrders.push(order);
+                        }
+                        return filteredOrders;
+                    });
+                });
+                return p;
             });
         };
     }

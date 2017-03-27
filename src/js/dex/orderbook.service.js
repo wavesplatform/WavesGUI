@@ -9,7 +9,7 @@
     }
 
     function DexOrderbookService(matcherApiService) {
-        this.switchToPair = function (assetOne, assetTwo) {
+        this.getOrderbook = function (assetOne, assetTwo) {
             var decimals = {};
             decimals[assetOne.id] = assetOne.precision;
             decimals[assetTwo.id] = assetTwo.precision;
