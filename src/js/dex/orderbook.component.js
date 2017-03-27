@@ -16,14 +16,30 @@
         });
     }
 
+    function denormalizeUserOrders(orders) {
+        return orders.map(function (order) {
+            var price = order.price.toTokens(),
+                amount = order.amount.toTokens();
+            return {
+                status: order.status || 'wait...',
+                type: order.orderType,
+                price: price,
+                amount: amount,
+                total: price * amount
+            };
+        });
+    }
+
     function OrderbookController() {
         var ctrl = this;
 
-        if (ctrl.type !== 'user') {
-            ctrl.$onChanges = function () {
+        ctrl.$onChanges = function () {
+            if (ctrl.type !== 'user') {
                 ctrl.orders = denormalizeOrders(ctrl.rawOrders);
-            };
-        }
+            } else {
+                ctrl.orders = denormalizeUserOrders(ctrl.rawOrders);
+            }
+        };
     }
 
     angular

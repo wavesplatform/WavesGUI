@@ -1,8 +1,15 @@
 (function () {
     'use strict';
 
+    function getPairIds(pair) {
+        return {
+            amountAssetId: pair.amountAsset.id,
+            priceAssetId: pair.priceAsset.id
+        };
+    }
+
     function DexController($scope, applicationContext, assetStoreFactory,
-                           dexOrderService, dexOrderbookService) {
+                           dexOrderService, dexOrderbookService, notificationService) {
         var ctrl = this,
 
             assetStore = assetStoreFactory.createStore(applicationContext.account.address),
@@ -14,28 +21,38 @@
                 precision: 4
             });
 
+        function refreshUserOrders() {
+            dexOrderService
+                .getOrders(getPairIds(ctrl.pair))
+                .then(function (orders) {
+                    ctrl.userOrders = orders;
+                });
+        }
+
         assetStore
             .getAll()
             .then(function (assetsList) {
-                $scope.$apply(function () {
-                    ctrl.assetsList = assetsList;
-                });
+                // $scope.$apply(function () {
+                ctrl.assetsList = assetsList;
+                // });
             })
             .then(function () {
                 return dexOrderbookService.switchToPair(initialAssetOne, initialAssetTwo);
             })
             .then(function (orderbook) {
-                $scope.$apply(function () {
-                    ctrl.pair = {
-                        priceAsset: assetStore.syncGetAsset(orderbook.pair.priceAsset),
-                        amountAsset: assetStore.syncGetAsset(orderbook.pair.amountAsset)
-                    };
+                // $scope.$apply(function () {
+                ctrl.pair = {
+                    priceAsset: assetStore.syncGetAsset(orderbook.pair.priceAsset),
+                    amountAsset: assetStore.syncGetAsset(orderbook.pair.amountAsset)
+                };
 
-                    // // TODO : normalize them all inside the service.
-                    ctrl.buyOrders = orderbook.bids;
-                    ctrl.sellOrders = orderbook.asks;
-                    // ctrl.userOrders = dexOrderService.getOrders(ctrl.pair);
-                });
+                // // TODO : normalize them all inside the service.
+                ctrl.buyOrders = orderbook.bids;
+                ctrl.sellOrders = orderbook.asks;
+                refreshUserOrders();
+                $scope.$apply();
+                // ctrl.userOrders = dexOrderService.getOrders(ctrl.pair);
+                // });
             });
 
         // favoritePairsService
@@ -55,10 +72,7 @@
         ctrl.userOrders = [];
 
         ctrl.createOrder = function (type, price, amount) {
-            dexOrderService.addOrder({
-                amountAssetId: ctrl.pair.amountAsset.id,
-                priceAssetId: ctrl.pair.priceAsset.id
-            }, {
+            dexOrderService.addOrder(getPairIds(ctrl.pair), {
                 orderType: type,
                 price: Money.fromTokens(price, ctrl.pair.priceAsset),
                 amount: Money.fromTokens(amount, ctrl.pair.amountAsset),
@@ -66,6 +80,11 @@
             }, {
                 publicKey: applicationContext.account.keyPair.public,
                 privateKey: applicationContext.account.keyPair.private
+            }).then(function () {
+                refreshUserOrders();
+                notificationService.notice('The order has been created!');
+            }).catch(function (e) {
+                notificationService.error('The order has not been created!');
             });
         };
 
@@ -75,7 +94,7 @@
     }
 
     DexController.$inject = ['$scope', 'applicationContext', 'assetStoreFactory',
-                            'dexOrderService', 'dexOrderbookService'];
+                            'dexOrderService', 'dexOrderbookService', 'notificationService'];
 
     angular
         .module('app.dex')

@@ -11,7 +11,7 @@
     function deserializeCurrency(json) {
         // It's not a perfect solution.
         // Currencies created here won't be equivalent (===) to predefined currencies
-        return new Currency(json.currency);
+        return new Currency(json);
     }
 
     function deserializeMoney(json) {
@@ -22,10 +22,9 @@
         return {
             id: order.id,
             status: order.status,
-            type: order.type,
-            quantity: serializeMoney(order.quantity),
+            orderType: order.orderType,
             price: serializeMoney(order.price),
-            total: serializeMoney(order.total)
+            amount: serializeMoney(order.amount)
         };
     }
 
@@ -33,10 +32,9 @@
         return {
             id: json.id,
             status: json.status,
-            type: json.type,
-            quantity: deserializeMoney(json.quantity),
+            orderType: json.orderType,
             price: deserializeMoney(json.price),
-            total: deserializeMoney(json.total)
+            amount: deserializeMoney(json.amount)
         };
     }
 
@@ -70,6 +68,7 @@
                     .then(function (response) {
                         console.log(response); // TODO : make a notification.
                         var array = state.orders[buildPairKey(pair)] || [];
+                        order.id = response.message.id;
                         array.push(serializeOrder(order));
                         state.orders[buildPairKey(pair)] = array;
 
