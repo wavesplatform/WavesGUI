@@ -12,6 +12,11 @@
                            dexOrderService, dexOrderbookService, notificationService) {
         var ctrl = this,
 
+            sender = {
+                publicKey: applicationContext.account.keyPair.public,
+                privateKey: applicationContext.account.keyPair.private
+            },
+
             assetStore = assetStoreFactory.createStore(applicationContext.account.address),
 
             initialAssetOne = Currency.WAV,
@@ -52,7 +57,7 @@
         $interval(function () {
             refreshOrderbooks();
             refreshUserOrders();
-        }, 1000);
+        }, 5000);
 
         // favoritePairsService.getAll()
         //     .then(function () {
@@ -63,21 +68,32 @@
         //     });
 
         ctrl.createOrder = function (type, price, amount) {
-            dexOrderService.addOrder(getPairIds(ctrl.pair), {
-                orderType: type,
-                price: Money.fromTokens(price, ctrl.pair.priceAsset),
-                amount: Money.fromTokens(amount, ctrl.pair.amountAsset),
-                fee: Money.fromTokens(0.01, Currency.WAV)
-            }, {
-                publicKey: applicationContext.account.keyPair.public,
-                privateKey: applicationContext.account.keyPair.private
-            }).then(function () {
-                refreshOrderbooks();
-                refreshUserOrders();
-                notificationService.notice('The order has been created!');
-            }).catch(function () {
-                notificationService.error('The order has not been created!');
-            });
+            dexOrderService
+                .addOrder(getPairIds(ctrl.pair), {
+                    orderType: type,
+                    price: Money.fromTokens(price, ctrl.pair.priceAsset),
+                    amount: Money.fromTokens(amount, ctrl.pair.amountAsset),
+                    fee: Money.fromTokens(0.01, Currency.WAV)
+                }, sender)
+                .then(function () {
+                    refreshOrderbooks();
+                    refreshUserOrders();
+                    notificationService.notice('Order has been created!');
+                }).catch(function () {
+                    notificationService.error('Order has not been created!');
+                });
+        };
+
+        ctrl.cancelOrder = function (order) {
+            dexOrderService
+                .removeOrder(getPairIds(ctrl.pair), order, sender)
+                .then(function () {
+                    refreshOrderbooks();
+                    refreshUserOrders();
+                    notificationService.notice('Order has been cancelled!');
+                }).catch(function () {
+                    notificationService.error('Order could not be cancelled!');
+                });
         };
 
         ctrl.changePair = function () {

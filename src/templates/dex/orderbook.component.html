@@ -9,6 +9,7 @@
       <td>{{$ctrl.pair.priceAsset.shortName}}</td>
       <td>{{$ctrl.pair.amountAsset.shortName}}</td>
       <td ng-if="$ctrl.type !== 'user'">SUM ({{$ctrl.pair.priceAsset.shortName}})</td>
+      <td ng-if="$ctrl.type === 'user'"></td>
     </tr>
   </thead>
 </table>
@@ -23,9 +24,10 @@
         <td>{{order.price | number:4}}</td>
         <td>{{order.amount | number:4}}</td>
         <td>{{order.total | number:4}}</td>
+        <td ng-click="$ctrl.cancel({order: order})">&times;</td>
       </tr>
       <tr ng-if="!$ctrl.orders.length">
-        <td colspan="5">
+        <td colspan="6">
           <span>No active orders right now.</span>
         </td>
       </tr>

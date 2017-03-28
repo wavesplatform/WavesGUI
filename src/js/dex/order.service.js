@@ -55,16 +55,17 @@
 
         this.addOrder = function (pair, order, sender) {
             return loadState().then(function (state) {
-                return Promise.resolve()
-                    .then(matcherApiService.loadMatcherKey)
+                return matcherApiService
+                    // Getting the matcher key.
+                    .loadMatcherKey()
+                    // Signing the order.
                     .then(function (matcherKey) {
                         order.matcherKey = matcherKey;
                         return matcherRequestService.buildCreateOrderRequest(order, sender);
                     })
-                    .then(function (signedOrder) {
-                        return signedOrder;
-                    })
+                    // Sending it to matcher.
                     .then(matcherApiService.createOrder)
+                    // Saving the order with its ID to the storage.
                     .then(function (response) {
                         var array = state.orders[buildPairKey(pair)] || [];
                         order.id = response.message.id;
@@ -76,16 +77,29 @@
             }).then(storageService.saveState);
         };
 
-        this.removeOrder = function (pair, order) {
+        this.removeOrder = function (pair, order, sender) {
             return loadState().then(function (state) {
-                var array = state.orders[buildPairKey(pair)] || [];
-                var index = _.findIndex(array, {id: order.id});
-                if (index >= 0) {
-                    array.splice(index, 1);
-                }
-                state.orders[buildPairKey(pair)] = array;
+                return Promise.resolve()
+                    .then(function () {
+                        return matcherRequestService.buildCancelOrderRequest(order.id, sender);
+                    })
+                    .then(function (signedRequest) {
+                        return matcherApiService.cancelOrder(pair.amountAssetId, pair.priceAssetId, signedRequest);
+                    })
+                    .then(function (response) {
+                        if (response.status !== 'OrderCanceled') {
+                            throw new Error();
+                        }
 
-                return state;
+                        var array = state.orders[buildPairKey(pair)] || [];
+                        var index = _.findIndex(array, {id: order.id});
+                        if (index >= 0) {
+                            array.splice(index, 1);
+                        }
+                        state.orders[buildPairKey(pair)] = array;
+
+                        return state;
+                    });
             }).then(storageService.saveState);
         };
 
