@@ -22,10 +22,9 @@
         return {
             id: order.id,
             status: order.status,
-            type: order.type,
-            quantity: serializeMoney(order.quantity),
+            orderType: order.orderType,
             price: serializeMoney(order.price),
-            total: serializeMoney(order.total)
+            amount: serializeMoney(order.amount)
         };
     }
 
@@ -33,10 +32,9 @@
         return {
             id: json.id,
             status: json.status,
-            type: json.type,
-            quantity: deserializeMoney(json.quantity),
+            orderType: json.orderType,
             price: deserializeMoney(json.price),
-            total: deserializeMoney(json.total)
+            amount: deserializeMoney(json.amount)
         };
     }
 
@@ -57,19 +55,20 @@
 
         this.addOrder = function (pair, order, sender) {
             return loadState().then(function (state) {
-                return Promise.resolve()
-                    .then(matcherApiService.loadMatcherKey)
+                return matcherApiService
+                    // Getting the matcher key.
+                    .loadMatcherKey()
+                    // Signing the order.
                     .then(function (matcherKey) {
                         order.matcherKey = matcherKey;
                         return matcherRequestService.buildCreateOrderRequest(order, sender);
                     })
-                    .then(function (signedOrder) {
-                        return signedOrder;
-                    })
+                    // Sending it to matcher.
                     .then(matcherApiService.createOrder)
+                    // Saving the order with its ID to the storage.
                     .then(function (response) {
-                        console.log(response); // TODO : make a notification.
                         var array = state.orders[buildPairKey(pair)] || [];
+                        order.id = response.message.id;
                         array.push(serializeOrder(order));
                         state.orders[buildPairKey(pair)] = array;
 
@@ -78,16 +77,29 @@
             }).then(storageService.saveState);
         };
 
-        this.removeOrder = function (pair, order) {
+        this.removeOrder = function (pair, order, sender) {
             return loadState().then(function (state) {
-                var array = state.orders[buildPairKey(pair)] || [];
-                var index = _.findIndex(array, {id: order.id});
-                if (index >= 0) {
-                    array.splice(index, 1);
-                }
-                state.orders[buildPairKey(pair)] = array;
+                return Promise.resolve()
+                    .then(function () {
+                        return matcherRequestService.buildCancelOrderRequest(order.id, sender);
+                    })
+                    .then(function (signedRequest) {
+                        return matcherApiService.cancelOrder(pair.amountAssetId, pair.priceAssetId, signedRequest);
+                    })
+                    .then(function (response) {
+                        if (response.status !== 'OrderCanceled') {
+                            throw new Error();
+                        }
 
-                return state;
+                        var array = state.orders[buildPairKey(pair)] || [];
+                        var index = _.findIndex(array, {id: order.id});
+                        if (index >= 0) {
+                            array.splice(index, 1);
+                        }
+                        state.orders[buildPairKey(pair)] = array;
+
+                        return state;
+                    });
             }).then(storageService.saveState);
         };
 
@@ -96,6 +108,19 @@
                 return state.orders[buildPairKey(pair)] || [];
             }).then(function (rawOrders) {
                 return _.map(rawOrders, deserializeOrder);
+            }).then(function (rawOrders) {
+                var p = Promise.resolve(),
+                    filteredOrders = [];
+                rawOrders.forEach(function (order) {
+                    p = p.then(function () {
+                        return matcherApiService.orderStatus(pair.amountAssetId, pair.priceAssetId, order.id);
+                    }).then(function (response) {
+                        order.status = response.status;
+                        filteredOrders.push(order);
+                        return filteredOrders;
+                    });
+                });
+                return p;
             });
         };
     }

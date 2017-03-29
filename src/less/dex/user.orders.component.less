@@ -1,24 +1,28 @@
 @import "../variables";
 
-waves-dex-orderbook {
+waves-dex-user-orders {
   display: block;
 
   h3 {
     padding: 3px 0;
   }
 
-  table.buy,
-  table.sell {
+  table.user {
     width: 100%;
     border-collapse: collapse;
 
     td {
-      width: 25%;
+      width: 19%;
       text-align: center;
+
+      &:nth-child(6) {
+        width: 5%;
+        cursor: pointer;
+      }
     }
 
     thead {
-      background: @color-navy-blue;
+      background: @color-waves-blue-temp;
       color: @color-white;
 
       td {
@@ -29,6 +33,10 @@ waves-dex-orderbook {
 
     tbody {
       tr {
+        &.filled {
+          color: @color-grey;
+        }
+
         &:nth-child(even) {
           background: @color-almost-white;
         }
@@ -42,7 +50,7 @@ waves-dex-orderbook {
   }
 
   waves-scrollbox {
-    max-height: 280px;
+    max-height: 240px;
     overflow: auto;
   }
 }

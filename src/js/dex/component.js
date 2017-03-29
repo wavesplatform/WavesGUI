@@ -1,69 +1,65 @@
 (function () {
     'use strict';
 
-    // FIXME : this data is fake.
-    function getOrdersFromBackend(sign) {
-        var orders = [],
-            price,
-            amount;
-        for (var i = 0; i < 20; i++) {
-            price = ((1 - i * 0.001 * sign) + Math.random() * 0.0002).toPrecision(8) * 100000000;
-            amount = (Math.ceil(Math.random() * 40) + 3 + Math.random() * 2).toPrecision(8);
-            orders.push({
-                price: price,
-                amount: amount
-            });
-        }
-        return orders;
-    }
-
-    function normalizeBalance(n) {
-        return n / Math.pow(10, 8);
-    }
-
-    function normalizeOrder(order) {
+    function getPairIds(pair) {
         return {
-            price: normalizeBalance(order.price),
-            amount: order.amount
+            amountAssetId: pair.amountAsset.id,
+            priceAssetId: pair.priceAsset.id
         };
     }
 
-    function DexController($scope, applicationContext, assetStoreFactory,
-                           dexOrderService, dexOrderbookService) {
-        var ctrl = this;
+    function DexController($scope, $interval, applicationContext, assetStoreFactory,
+                           dexOrderService, dexOrderbookService, notificationService) {
+        var ctrl = this,
 
-        var assetStore = assetStoreFactory.createStore(applicationContext.account.address),
+            sender = {
+                publicKey: applicationContext.account.keyPair.public,
+                privateKey: applicationContext.account.keyPair.private
+            },
+
+            assetStore = assetStoreFactory.createStore(applicationContext.account.address),
+
             initialAssetOne = Currency.WAV,
-            initialAssetTwo = Currency.BTC;
-
-        dexOrderbookService
-            .switchToPair(initialAssetOne, initialAssetTwo)
-            .then(function (orderbook) {
-                // ctrl.pair = {
-                //     priceAsset: orderbook.priceAsset,
-                //     amountAsset: orderbook.amountAsset
-                // };
-                //
-                // // TODO : normalize them all inside the service.
-                // ctrl.buyOrders = orderbook.bids;
-                // ctrl.sellOrders = orderbook.asks;
-                // ctrl.userOrders = dexOrderService.getOrders(ctrl.pair);
+            initialAssetTwo = new Currency({
+                id: '3K8EjNoBvQjGT7MDhsKdKcayAKmWjxtEWEwAVeQzFGHu',
+                displayName: 'DOCoin',
+                precision: 4
             });
 
-        assetStore
-            .getAll()
+        ctrl.addFavorite = function () {};
+        ctrl.showMoreTraded = function () {};
+
+        ctrl.buyOrders = [];
+        ctrl.sellOrders = [];
+        ctrl.userOrders = [];
+
+        assetStore.getAll()
             .then(function (assetsList) {
                 $scope.$apply(function () {
                     ctrl.assetsList = assetsList;
-                    ctrl.pair = {
-                        priceAsset: assetsList[0].currency,
-                        amountAsset: assetsList[1].currency
-                    };
                 });
+            })
+            .then(function () {
+                return dexOrderbookService.getOrderbook(initialAssetOne, initialAssetTwo);
+            })
+            .then(function (orderbook) {
+                ctrl.pair = {
+                    priceAsset: assetStore.syncGetAsset(orderbook.pair.priceAsset),
+                    amountAsset: assetStore.syncGetAsset(orderbook.pair.amountAsset)
+                };
+
+                ctrl.buyOrders = orderbook.bids;
+                ctrl.sellOrders = orderbook.asks;
+                refreshUserOrders();
+                $scope.$apply();
             });
 
-        // favoritePairsService
-        //     .getAll()
+        $interval(function () {
+            refreshOrderbooks();
+            refreshUserOrders();
+        }, 5000);
+
+        // favoritePairsService.getAll()
         //     .then(function () {
         //         // ctrl.favoritePairs = [{
         //         //     priceAsset: ctrl.assetsList[0],
@@ -71,35 +67,59 @@
         //         // }];
         //     });
 
-        ctrl.addFavorite = function () {};
-        ctrl.showMoreTraded = function () {};
-
-        ctrl.buyOrders = getOrdersFromBackend(1).map(normalizeOrder);
-        ctrl.sellOrders = getOrdersFromBackend(-1).map(normalizeOrder);
-        ctrl.userOrders = [];
-
         ctrl.createOrder = function (type, price, amount) {
-            dexOrderService.addOrder({
-                amountAssetId: ctrl.pair.amountAsset.id,
-                priceAssetId: ctrl.pair.priceAsset.id
-            }, {
-                orderType: type,
-                price: Money.fromTokens(price, ctrl.pair.priceAsset),
-                amount: Money.fromTokens(amount, ctrl.pair.amountAsset),
-                fee: Money.fromTokens(0.01, Currency.WAV)
-            }, {
-                publicKey: applicationContext.account.keyPair.public,
-                privateKey: applicationContext.account.keyPair.private
-            });
+            dexOrderService
+                .addOrder(getPairIds(ctrl.pair), {
+                    orderType: type,
+                    price: Money.fromTokens(price, ctrl.pair.priceAsset),
+                    amount: Money.fromTokens(amount, ctrl.pair.amountAsset),
+                    fee: Money.fromTokens(0.01, Currency.WAV)
+                }, sender)
+                .then(function () {
+                    refreshOrderbooks();
+                    refreshUserOrders();
+                    notificationService.notice('Order has been created!');
+                }).catch(function () {
+                    notificationService.error('Order has not been created!');
+                });
+        };
+
+        ctrl.cancelOrder = function (order) {
+            dexOrderService
+                .removeOrder(getPairIds(ctrl.pair), order, sender)
+                .then(function () {
+                    refreshOrderbooks();
+                    refreshUserOrders();
+                    notificationService.notice('Order has been cancelled!');
+                }).catch(function () {
+                    notificationService.error('Order could not be cancelled!');
+                });
         };
 
         ctrl.changePair = function () {
             // TODO
         };
+
+        function refreshOrderbooks() {
+            dexOrderbookService
+                .getOrderbook(ctrl.pair.priceAsset, ctrl.pair.amountAsset)
+                .then(function (orderbook) {
+                    ctrl.buyOrders = orderbook.bids;
+                    ctrl.sellOrders = orderbook.asks;
+                });
+        }
+
+        function refreshUserOrders() {
+            dexOrderService
+                .getOrders(getPairIds(ctrl.pair))
+                .then(function (orders) {
+                    ctrl.userOrders = orders;
+                });
+        }
     }
 
-    DexController.$inject = ['$scope', 'applicationContext', 'assetStoreFactory',
-                            'dexOrderService', 'dexOrderbookService'];
+    DexController.$inject = ['$scope', '$interval', 'applicationContext', 'assetStoreFactory',
+                            'dexOrderService', 'dexOrderbookService', 'notificationService'];
 
     angular
         .module('app.dex')

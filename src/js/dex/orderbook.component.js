@@ -1,13 +1,17 @@
 (function () {
     'use strict';
 
-    // Only non-user orderbooks need that denorm.
     function denormalizeOrders(orders) {
+        if (!orders || !orders.length) {
+            return [];
+        }
+
         var currentSum = 0;
         return orders.map(function (order) {
             var total = order.price * order.amount;
             currentSum += total;
             return {
+                id: order.id,
                 price: order.price,
                 amount: order.amount,
                 total: total,
@@ -19,11 +23,18 @@
     function OrderbookController() {
         var ctrl = this;
 
-        if (ctrl.type !== 'user') {
-            ctrl.$onChanges = function () {
-                ctrl.orders = denormalizeOrders(ctrl.rawOrders);
-            };
-        }
+        ctrl.$onChanges = function (changes) {
+            if (!changes.rawOrders) {
+                return;
+            }
+
+            var denormPreviousValue = denormalizeOrders(changes.rawOrders.previousValue),
+                denormCurrentValue = denormalizeOrders(changes.rawOrders.currentValue);
+
+            if (!_.isEqual(denormPreviousValue, denormCurrentValue)) {
+                ctrl.orders = denormCurrentValue;
+            }
+        };
     }
 
     angular

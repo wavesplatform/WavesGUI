@@ -29,10 +29,9 @@
                            orders="$ctrl.sellOrders"></waves-dex-orderbook>
     </div>
     <div class="user-orders">
-      <waves-dex-orderbook type="user"
-                           name="My orders"
-                           pair="$ctrl.pair"
-                           orders="$ctrl.userOrders"></waves-dex-orderbook>
+      <waves-dex-user-orders pair="$ctrl.pair"
+                             orders="$ctrl.userOrders"
+                             cancel-order="$ctrl.cancelOrder"></waves-dex-user-orders>
       <waves-dex-order-creator pair="$ctrl.pair"
                                submit="$ctrl.createOrder"></waves-dex-order-creator>
     </div>
