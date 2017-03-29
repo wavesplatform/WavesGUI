@@ -1,28 +1,32 @@
-<h3>{{$ctrl.name}}</h3>
+<h3>My orders</h3>
 
-<table ng-class="$ctrl.type">
+<table class="user">
   <thead>
     <tr>
+      <td>Status</td>
+      <td>Type</td>
       <td>Price</td>
       <td>{{$ctrl.pair.priceAsset.shortName}}</td>
       <td>{{$ctrl.pair.amountAsset.shortName}}</td>
-      <td>SUM ({{$ctrl.pair.priceAsset.shortName}})</td>
+      <td></td>
     </tr>
   </thead>
 </table>
 
 <waves-scrollbox class="orderbook-scroll">
-  <table ng-class="$ctrl.type">
+  <table class="user">
     <tbody>
       <tr ng-repeat="order in $ctrl.orders">
+        <td>{{order.status}}</td>
+        <td>{{order.type}}</td>
         <td>{{order.price | number:4}}</td>
         <td>{{order.amount | number:4}}</td>
         <td>{{order.total | number:4}}</td>
-        <td>{{order.sum | number:4}}</td>
+        <td ng-click="$ctrl.cancel({order: order})">&times;</td>
       </tr>
       <tr ng-if="!$ctrl.orders.length">
-        <td colspan="4">
-          <span>Some orders will appear soon.</span>
+        <td colspan="6">
+          <span>No active orders right now.</span>
         </td>
       </tr>
     </tbody>
