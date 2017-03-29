@@ -53,6 +53,8 @@
                     } else {
                         notificationService.error(DEFAULT_ERROR_MESSAGE);
                     }
+
+                    dialogService.close();
                 });
         });
     }
