@@ -13,12 +13,12 @@
   </thead>
 </table>
 
-<waves-scrollbox class="orderbook-scroll">
+<waves-scrollbox>
   <table class="user">
     <tbody>
       <tr ng-repeat="order in $ctrl.orders">
-        <td>{{order.status}}</td>
-        <td>{{order.type}}</td>
+        <td>{{order.statusTitle}}</td>
+        <td>{{order.typeTitle}}</td>
         <td>{{order.price | number:4}}</td>
         <td>{{order.amount | number:4}}</td>
         <td>{{order.total | number:4}}</td>
