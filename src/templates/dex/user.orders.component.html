@@ -16,7 +16,8 @@
 <waves-scrollbox>
   <table class="user">
     <tbody>
-      <tr ng-repeat="order in $ctrl.orders">
+      <tr ng-repeat="order in $ctrl.orders"
+          ng-class="{filled: order.status === 'Filled'}">
         <td>{{order.statusTitle}}</td>
         <td>{{order.typeTitle}}</td>
         <td>{{order.price | number:4}}</td>
