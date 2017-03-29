@@ -115,10 +115,8 @@
                     p = p.then(function () {
                         return matcherApiService.orderStatus(pair.amountAssetId, pair.priceAssetId, order.id);
                     }).then(function (response) {
-                        if (response && response.status === 'Accepted') {
-                            order.status = response.status;
-                            filteredOrders.push(order);
-                        }
+                        order.status = response.status;
+                        filteredOrders.push(order);
                         return filteredOrders;
                     });
                 });

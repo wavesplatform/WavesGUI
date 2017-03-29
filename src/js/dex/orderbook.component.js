@@ -23,8 +23,17 @@
     function OrderbookController() {
         var ctrl = this;
 
-        ctrl.$onChanges = function () {
-            ctrl.orders = denormalizeOrders(ctrl.rawOrders);
+        ctrl.$onChanges = function (changes) {
+            if (!changes.rawOrders) {
+                return;
+            }
+
+            var denormPreviousValue = denormalizeOrders(changes.rawOrders.previousValue),
+                denormCurrentValue = denormalizeOrders(changes.rawOrders.currentValue);
+
+            if (!_.isEqual(denormPreviousValue, denormCurrentValue)) {
+                ctrl.orders = denormCurrentValue;
+            }
         };
     }
 

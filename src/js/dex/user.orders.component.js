@@ -32,8 +32,17 @@
             ctrl.cancelOrder(obj.order);
         };
 
-        ctrl.$onChanges = function () {
-            ctrl.orders = denormalizeUserOrders(ctrl.rawOrders);
+        ctrl.$onChanges = function (changes) {
+            if (!changes.rawOrders) {
+                return;
+            }
+
+            var denormPreviousValue = denormalizeUserOrders(changes.rawOrders.previousValue),
+                denormCurrentValue = denormalizeUserOrders(changes.rawOrders.currentValue);
+
+            if (!_.isEqual(denormPreviousValue, denormCurrentValue)) {
+                ctrl.orders = denormCurrentValue;
+            }
         };
     }
 
