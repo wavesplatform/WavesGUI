@@ -23,10 +23,12 @@
         };
 
         $scope.$on(events.WALLET_DEPOSIT, function (event, eventData) {
+            deposit.depositWith = eventData.depositWith;
             deposit.assetBalance = eventData.assetBalance;
             deposit.currency = deposit.assetBalance.currency.displayName;
 
-            if (deposit.assetBalance.currency.id !== Currency.BTC.id) {
+            if (deposit.assetBalance.currency.id !== Currency.BTC.id &&
+                deposit.assetBalance.currency.id !== Currency.WAV.id) {
                 $scope.home.featureUnderDevelopment();
 
                 return;
@@ -39,7 +41,8 @@
 
             dialogService.open('#deposit-dialog');
 
-            coinomatService.getDepositDetails(deposit.assetBalance.currency, applicationContext.account.address)
+            coinomatService.getDepositDetails(deposit.depositWith, deposit.assetBalance.currency,
+                applicationContext.account.address)
                 .then(function (depositDetails) {
                     deposit.bitcoinAddress = depositDetails.address;
                     deposit.bitcoinUri = bitcoinUriService.generate(deposit.bitcoinAddress);
