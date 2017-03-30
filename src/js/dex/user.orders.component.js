@@ -17,10 +17,6 @@
         'Cancelled': {
             title: 'Cancelled',
             order: 8
-        },
-        'NotFound': {
-            title: 'Not found',
-            order: 10
         }
     };
 

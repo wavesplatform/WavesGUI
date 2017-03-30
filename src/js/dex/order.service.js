@@ -1,6 +1,12 @@
 (function () {
     'use strict';
 
+    var ACCEPTED = 'Accepted',
+        PARTIALLY = 'PartiallyFilled',
+        FILLED = 'Filled',
+        CANCELLED = 'Cancelled',
+        ORDER_CANCELED = 'OrderCanceled';
+
     function serializeMoney(amount) {
         return {
             amount: amount.toTokens(),
@@ -78,19 +84,26 @@
         };
 
         this.removeOrder = function (pair, order, sender) {
-            return loadState().then(function (state) {
-                return $q.when()
-                    .then(function () {
-                        return matcherRequestService.buildCancelOrderRequest(order.id, sender);
-                    })
-                    .then(function (signedRequest) {
-                        return matcherApiService.cancelOrder(pair.amountAssetId, pair.priceAssetId, signedRequest);
-                    })
-                    .then(function (response) {
-                        if (response.status !== 'OrderCanceled') {
-                            throw new Error();
-                        }
 
+            if (!order.status || order.status === ACCEPTED || order.status === PARTIALLY) {
+
+                // If the order is "live", we send request to server to cancel it.
+                // The order becomes "dead" and with the next remove click it'll be gone.
+                return $q.when().then(function () {
+                    return matcherRequestService.buildCancelOrderRequest(order.id, sender);
+                }).then(function (signedRequest) {
+                    return matcherApiService.cancelOrder(pair.amountAssetId, pair.priceAssetId, signedRequest);
+                }).then(function (response) {
+                    if (response.status !== ORDER_CANCELED) {
+                        throw new Error();
+                    }
+                });
+
+            } else {
+
+                // Order is "dead" already, and now is removed from locally saved state.
+                return loadState().then(function (state) {
+                    return $q.when().then(function () {
                         var array = state.orders[buildPairKey(pair)] || [];
                         var index = _.findIndex(array, {id: order.id});
                         if (index >= 0) {
@@ -100,7 +113,9 @@
 
                         return state;
                     });
-            }).then(storageService.saveState);
+                }).then(storageService.saveState);
+
+            }
         };
 
         this.getOrders = function (pair) {
@@ -114,7 +129,7 @@
                 orders.forEach(function (order) {
                     // Chaining `then`s for the whole array of orders.
                     q = q.then(function () {
-                        if (!order.status || order.status === 'Accepted' || order.status === 'PartiallyFilled') {
+                        if (!order.status || order.status === ACCEPTED || order.status === PARTIALLY) {
                             // While order status can change further we check it on server (asynchronously).
                             return matcherApiService
                                 .orderStatus(pair.amountAssetId, pair.priceAssetId, order.id)
@@ -123,8 +138,9 @@
                                     ordersWithStatus.push(order);
                                     return ordersWithStatus;
                                 });
-                        } else {
+                        } else if (order.status === FILLED || order.status === CANCELLED) {
                             // Otherwise we just leave it as is (synchronously).
+                            // 'NotFound' orders are dropped.
                             ordersWithStatus.push(order);
                             return ordersWithStatus;
                         }
