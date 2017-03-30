@@ -33,17 +33,38 @@ waves-dex-user-orders {
 
     tbody {
       tr {
-        &.filled {
-          color: @color-grey;
-        }
-
-        &:nth-child(even) {
-          background: @color-almost-white;
-        }
 
         td {
           padding-top: 1px;
           padding-bottom: 1px;
+
+          &.type {
+            font-weight: bold;
+
+            &.buy {
+              color: @color-waves-blue-temp;
+            }
+
+            &.sell {
+              color: @color-orange;
+            }
+          }
+        }
+
+        &.filled {
+          color: @color-grey;
+
+          td.type.buy {
+            color: lighten(@color-waves-blue-temp, 30%);
+          }
+
+          td.type.sell {
+            color: lighten(@color-orange, 20%);
+          }
+        }
+
+        &:nth-child(even) {
+          background: @color-almost-white;
         }
       }
     }
