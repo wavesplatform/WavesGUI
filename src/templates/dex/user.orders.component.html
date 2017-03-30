@@ -19,7 +19,7 @@
       <tr ng-repeat="order in $ctrl.orders"
           ng-class="{filled: order.status === 'Filled'}">
         <td>{{order.statusTitle}}</td>
-        <td>{{order.typeTitle}}</td>
+        <td class="type" ng-class="order.type">{{order.typeTitle}}</td>
         <td>{{order.price | number:4}}</td>
         <td>{{order.amount | number:4}}</td>
         <td>{{order.total | number:4}}</td>
