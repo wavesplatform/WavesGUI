@@ -42,7 +42,7 @@
         return pair.amountAssetId + '_' + pair.priceAssetId;
     }
 
-    function DexOrderService(storageService, matcherRequestService, matcherApiService) {
+    function DexOrderService($q, storageService, matcherRequestService, matcherApiService) {
         function loadState() {
             return storageService.loadState().then(function (state) {
                 state = state || {};
@@ -79,7 +79,7 @@
 
         this.removeOrder = function (pair, order, sender) {
             return loadState().then(function (state) {
-                return Promise.resolve()
+                return $q.when()
                     .then(function () {
                         return matcherRequestService.buildCancelOrderRequest(order.id, sender);
                     })
@@ -106,26 +106,48 @@
         this.getOrders = function (pair) {
             return loadState().then(function (state) {
                 return state.orders[buildPairKey(pair)] || [];
-            }).then(function (rawOrders) {
-                return _.map(rawOrders, deserializeOrder);
-            }).then(function (rawOrders) {
-                var p = Promise.resolve(),
-                    filteredOrders = [];
-                rawOrders.forEach(function (order) {
-                    p = p.then(function () {
-                        return matcherApiService.orderStatus(pair.amountAssetId, pair.priceAssetId, order.id);
-                    }).then(function (response) {
-                        order.status = response.status;
-                        filteredOrders.push(order);
-                        return filteredOrders;
+            }).then(function (orders) {
+                var q = $q.when(),
+                    ordersWithStatus = [];
+
+                // Complementing orders with their actual statuses.
+                orders.forEach(function (order) {
+                    // Chaining `then`s for the whole array of orders.
+                    q = q.then(function () {
+                        if (!order.status || order.status === 'Accepted' || order.status === 'PartiallyFilled') {
+                            // While order status can change further we check it on server (asynchronously).
+                            return matcherApiService
+                                .orderStatus(pair.amountAssetId, pair.priceAssetId, order.id)
+                                .then(function (response) {
+                                    order.status = response.status;
+                                    ordersWithStatus.push(order);
+                                    return ordersWithStatus;
+                                });
+                        } else {
+                            // Otherwise we just leave it as is (synchronously).
+                            ordersWithStatus.push(order);
+                            return ordersWithStatus;
+                        }
                     });
                 });
-                return p;
+
+                return q;
+            }).then(function (orders) {
+                // Finally, we save orders with refreshed statuses in state.
+                return loadState().then(function (state) {
+                    state.orders[buildPairKey(pair)] = orders;
+                    return state;
+                }).then(storageService.saveState).then(function () {
+                    return orders;
+                });
+            }).then(function (orders) {
+                // And here we just wrap values in Currency and Money and send all to the outer code.
+                return _.map(orders, deserializeOrder);
             });
         };
     }
 
-    DexOrderService.$inject = ['storageService', 'matcherRequestService', 'matcherApiService'];
+    DexOrderService.$inject = ['$q', 'storageService', 'matcherRequestService', 'matcherApiService'];
 
     angular
         .module('app.dex')
