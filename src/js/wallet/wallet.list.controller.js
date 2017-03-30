@@ -27,19 +27,24 @@
 
         walletList.wallets = [
             {
-                balance: new Money(0, Currency.USD)
+                balance: new Money(0, Currency.USD),
+                depositWith: Currency.USD
             },
             {
-                balance: new Money(0, Currency.EUR)
+                balance: new Money(0, Currency.EUR),
+                depositWith: Currency.EUR
             },
             {
-                balance: new Money(0, Currency.BTC)
+                balance: new Money(0, Currency.BTC),
+                depositWith: Currency.BTC
             },
             {
-                balance: new Money(0, Currency.WAV)
+                balance: new Money(0, Currency.WAV),
+                depositWith: Currency.BTC
             },
             {
-                balance: new Money(0, Currency.CNY)
+                balance: new Money(0, Currency.CNY),
+                depositWith: Currency.CNY
             }
         ];
         walletList.transactions = [];
@@ -58,21 +63,19 @@
             }
         });
 
-        function send (currency) {
-            sendCommandEvent(events.WALLET_SEND, currency);
+        function send (wallet) {
+            sendCommandEvent(events.WALLET_SEND, wallet.balance.currency);
         }
 
-        function withdraw (currency) {
-            sendCommandEvent(events.WALLET_WITHDRAW, currency);
+        function withdraw (wallet) {
+            sendCommandEvent(events.WALLET_WITHDRAW, wallet.balance.currency);
         }
 
-        function deposit (currency) {
-            if (currency.id === Currency.WAV.id) {
-                depositFromCard(Currency.WAV);
-            }
-            else {
-                sendCommandEvent(events.WALLET_DEPOSIT, currency);
-            }
+        function deposit (wallet) {
+            $scope.$broadcast(events.WALLET_DEPOSIT, {
+                assetBalance: wallet.balance,
+                depositWith: wallet.depositWith
+            });
         }
 
         function depositFromCard (currency) {
@@ -141,6 +144,7 @@
                 Currency.USD.id = 'HyFJ3rrq5m7FxdkWtQXkZrDat1F7LjVVGfpSkUuEXQHj';
                 Currency.CNY.id = '6pmDivReTLikwYqQtJTv6dTcE59knriaodB3AK8T9cF8';
                 Currency.BTC.id = 'Fmg13HEHJHuZYbtJq8Da8wifJENq8uBxDuWoP9pVe2Qe';
+                Currency.invalidateCache();
             }
         }
     }

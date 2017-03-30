@@ -438,9 +438,11 @@
                             <h2 class="sectionHeader">DEPOSIT: {{deposit.currency}}</h2>
                             <p class="dialog-text textCenter">
                                 <img src="img/visa_mastercard_116x35.gif" width="116" height="35"><span class="divider-2"></span>
-                                <button class="wButton wButton-dialog" ng-click="walletList.depositFromCard(deposit.assetBalance.currency)">Buy BTC from your credit card</button>
+                                <button class="wButton wButton-dialog" ng-click="walletList.depositFromCard(deposit.assetBalance.currency)">
+                                    Buy {{deposit.currency}} from your credit card
+                                </button>
                             </p>
-                            <p class="dialog-text">To deposit bitcoins to your Waves account, please send BTC to the address below.<br/>
+                            <p class="dialog-text">To deposit {{deposit.currency}} to your Waves account, please send BTC to the address below.<br/>
                                 The minimum amount for deposit is <span class="fontBold">{{::deposit.minimumAmount}} BTC</span>.</p>
                                 <table class="wavesTable bitcoin-requisites">
                                     <tbody>
@@ -499,8 +501,8 @@
                     </div>
 
                     <div class="flex-container">
-                        <wallet-box class="walletBox" ng-repeat="w in walletList.wallets" balance="w.balance" on-send="walletList.send(currency)"
-                                    on-withdraw="walletList.withdraw(currency)" on-deposit="walletList.deposit(currency)"></wallet-box>
+                        <wallet-box class="walletBox" ng-repeat="w in walletList.wallets" balance="w.balance" on-send="walletList.send(w)"
+                                    on-withdraw="walletList.withdraw(w)" on-deposit="walletList.deposit(w)"></wallet-box>
                     </div>
                     <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
                     <div id="wallet-transaction-history" class="wavesTable wScroll">

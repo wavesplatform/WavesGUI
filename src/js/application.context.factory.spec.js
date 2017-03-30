@@ -36,7 +36,7 @@ describe('Application.Context', function() {
     });
 
     it('should update the issue transaction in cache', function () {
-        var currency = new Currency({
+        var currency = Currency.create({
             id: assetId,
             precision: 4
         });

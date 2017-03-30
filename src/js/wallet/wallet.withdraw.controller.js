@@ -89,7 +89,7 @@
             withdraw.assetBalance = eventData.assetBalance;
             withdraw.wavesBalance = eventData.wavesBalance;
 
-            if (withdraw.assetBalance.currency.id !== Currency.BTC.id) {
+            if (withdraw.assetBalance.currency !== Currency.BTC) {
                 $scope.home.featureUnderDevelopment();
 
                 return;
