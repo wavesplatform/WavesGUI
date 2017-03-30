@@ -27,16 +27,11 @@
             deposit.assetBalance = eventData.assetBalance;
             deposit.currency = deposit.assetBalance.currency.displayName;
 
-            if (deposit.assetBalance.currency.id !== Currency.BTC.id &&
-                deposit.assetBalance.currency.id !== Currency.WAV.id) {
+            if (deposit.assetBalance.currency !== Currency.BTC &&
+                deposit.assetBalance.currency !== Currency.WAV) {
                 $scope.home.featureUnderDevelopment();
 
                 return;
-            }
-            else {
-                // little trick to push short name to currency
-                // FIXME: the proper way is to build a service responsible for currency creation
-                deposit.assetBalance.currency.shortName = Currency.BTC.shortName;
             }
 
             dialogService.open('#deposit-dialog');
