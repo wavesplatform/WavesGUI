@@ -2,16 +2,18 @@
   <div class="choice">
     <div class="current-pair">{{$ctrl.pair.priceAsset.shortName}}/{{$ctrl.pair.amountAsset.shortName}}</div>
     <div class="picker-widget">
-      <waves-dex-asset-picker name="Choose asset"
+      <waves-dex-asset-picker name="Price asset"
+                              type="priceAsset"
                               assets="$ctrl.assetsList"
-                              chosen-asset="$ctrl.pair.priceAsset"
-                              submit="$ctrl.changePair()"></waves-dex-asset-picker>
+                              hidden-asset="$ctrl.pair.amountAsset"
+                              picked-asset="$ctrl.pair.priceAsset"></waves-dex-asset-picker>
     </div>
     <div class="picker-widget">
-      <waves-dex-asset-picker name="Choose asset"
+      <waves-dex-asset-picker name="Amount asset"
+                              type="amountAsset"
                               assets="$ctrl.assetsList"
-                              chosen-asset="$ctrl.pair.amountAsset"
-                              submit="$ctrl.changePair()"></waves-dex-asset-picker>
+                              hidden-asset="$ctrl.pair.priceAsset"
+                              picked-asset="$ctrl.pair.amountAsset"></waves-dex-asset-picker>
     </div>
   </div>
 

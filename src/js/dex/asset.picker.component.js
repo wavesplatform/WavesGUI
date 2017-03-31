@@ -1,27 +1,31 @@
 (function () {
     'use strict';
 
-    function AssetPickerController() {
+    function AssetPickerController($scope, autocomplete) {
         var ctrl = this;
 
-        setupCtrl();
-        ctrl.$onChanges = setupCtrl;
+        ctrl.autocomplete = autocomplete.create();
 
-        ctrl.press = function () {
-            ctrl.pressed = !ctrl.pressed;
-        };
-
-        ctrl.onSubmit = function () {
-            ctrl.submit();
-        };
-
-        function setupCtrl() {
-            if (ctrl.chosenAsset) {
-                ctrl.queryString = ctrl.chosenAsset.displayName;
-                ctrl.pressed = false;
+        ctrl.$onChanges = function () {
+            if (ctrl.assets && ctrl.pickedAsset) {
+                ctrl.autocomplete.selectedAsset = ctrl.pickedAsset;
+                ctrl.autocomplete.assets = ctrl.assets.map(function (asset) {
+                    return asset.currency;
+                }).filter(function (asset) {
+                    return asset !== ctrl.hiddenAsset;
+                });
             }
-        }
+        };
+
+        ctrl.changeAsset = function () {
+            var asset = ctrl.autocomplete.selectedAsset;
+            if (asset && asset !== ctrl.pickedAsset) {
+                $scope.$emit('asset-picked', asset, ctrl.type);
+            }
+        };
     }
+
+    AssetPickerController.$inject = ['$scope', 'autocomplete.assets'];
 
     angular
         .module('app.dex')
@@ -29,9 +33,10 @@
             controller: AssetPickerController,
             bindings: {
                 name: '@',
+                type: '@',
                 assets: '<',
-                chosenAsset: '<',
-                submit: '&'
+                hiddenAsset: '<',
+                pickedAsset: '<'
             },
             templateUrl: 'dex/asset.picker.component'
         });

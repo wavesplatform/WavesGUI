@@ -37,16 +37,18 @@
                         return fee.amount === feeAmount;
                     });
 
-                    if (index >= 0)
+                    if (index >= 0) {
                         feeIndex = index;
+                    }
                 }
 
                 result.selectedFee = result.fees[feeIndex];
             };
 
             result.querySearch = function (searchText) {
-                if (!searchText)
+                if (!searchText) {
                     return result.fees;
+                }
 
                 return _.filter(result.fees, function (item) {
                     return item.amount.toString().indexOf(searchText) !== -1;
@@ -54,5 +56,33 @@
             };
 
             return result;
+        })
+        .factory('autocomplete.assets', function AutocompleteAssetsFactory() {
+            function createAutocomplete() {
+                var result = {
+                    assets: [],
+                    selectedAsset: undefined,
+                    searchText: undefined
+                };
+
+                result.querySearch = function (searchText) {
+                    if (!searchText) {
+                        return result.assets.slice(0, 10);
+                    }
+
+                    searchText = searchText.toLowerCase();
+                    return _.filter(result.assets, function (asset) {
+                        return asset.displayName.toLowerCase().indexOf(searchText) !== -1;
+                    });
+                };
+
+                return result;
+            }
+
+            return {
+                create: function () {
+                    return createAutocomplete();
+                }
+            };
         });
 })();
