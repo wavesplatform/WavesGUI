@@ -10,6 +10,7 @@
     "autoprefixer": "^6.7.6",
     "cssnano": "^3.10.0",
     "grunt": "~1.0.0",
+    "grunt-angular-templates": "^1.1.0",
     "grunt-aws": "^0.6.2",
     "grunt-bump": "0.8.0",
     "grunt-contrib-clean": "1.0.0",

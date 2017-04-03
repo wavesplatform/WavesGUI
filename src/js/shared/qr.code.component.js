@@ -5,7 +5,7 @@
         FOREGROUND = '#000',
         SIZE = 150;
 
-    function QrCodeController($scope, $element) {
+    function QrCodeController($element) {
 
         var ctrl = this,
             canvas = $element.children('canvas'),
@@ -41,7 +41,7 @@
 
     angular
         .module('app.shared')
-        .component('qrCode', {
+        .component('wavesQrCode', {
             controller: QrCodeController,
             bindings: {
                 size: '<',

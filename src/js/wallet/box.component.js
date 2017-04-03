@@ -51,21 +51,6 @@
                 onWithdraw: '&',
                 onDeposit: '&'
             },
-            template: '<img ng-src="img/{{::$ctrl.image}}" alt="Chinese Yuan wallet" />' +
-                '<div class="wB-name">{{::$ctrl.displayName | uppercase}}</div>' +
-                '<div class="wB-add"></div>' +
-                '<div class="wB-balInt">{{$ctrl.integerBalance}}</div>' +
-                '<div class="wB-balDec">{{$ctrl.fractionBalance}}</div>' +
-                '<div class="wB-buttons">' +
-                    '<a ng-click="$ctrl.onSend({currency: $ctrl.balance.currency})">' +
-                        '<div class="wB-but wB-butSend fade"><p>SEND</p></div>' +
-                    '</a>' +
-                    '<a ng-click="$ctrl.onWithdraw({currency: $ctrl.balance.currency})">' +
-                        '<div class="wB-but wB-butRec fade"><p>WITHDRAW</p></div>' +
-                    '</a>' +
-                    '<a ng-click="$ctrl.onDeposit({currency: $ctrl.balance.currency})">' +
-                        '<div class="wB-but wB-butTrade fade"><p>DEPOSIT</p></div>' +
-                    '</a>' +
-                '</div>'
+            templateUrl: 'wallet/box.component'
         });
 })();
