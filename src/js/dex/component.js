@@ -38,7 +38,7 @@
         ctrl.sellOrders = [];
         ctrl.userOrders = [];
 
-        ctrl.createOrder = function (type, price, amount) {
+        ctrl.createOrder = function (type, price, amount, callback) {
             // TODO : add a queue for the orders which weren't yet accepted.
             dexOrderService
                 .addOrder(getPairIds(ctrl.pair), {
@@ -51,9 +51,15 @@
                     refreshOrderbooks();
                     refreshUserOrders();
                     notificationService.notice('Order has been created!');
+                    if (callback) {
+                        callback();
+                    }
                 })
                 .catch(function () {
                     notificationService.error('Order has not been created!');
+                    if (callback) {
+                        callback();
+                    }
                 });
         };
 

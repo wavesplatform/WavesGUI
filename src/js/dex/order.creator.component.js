@@ -10,13 +10,15 @@
         ctrl.buy = {
             amount: '',
             price: '',
-            fee: 0.001
+            fee: 0.001,
+            blocked: false
         };
 
         ctrl.sell = {
             amount: '',
             price: '',
-            fee: 0.001
+            fee: 0.001,
+            blocked: false
         };
 
         ctrl.focusOn = function (half) {
@@ -24,11 +26,17 @@
         };
 
         ctrl.submitBuyOrder = function () {
-            ctrl.submit('buy', ctrl.buy.price, ctrl.buy.amount);
+            ctrl.buy.blocked = true;
+            ctrl.submit('buy', ctrl.buy.price, ctrl.buy.amount, function () {
+                ctrl.buy.blocked = false;
+            });
         };
 
         ctrl.submitSellOrder = function () {
-            ctrl.submit('sell', ctrl.sell.price, ctrl.sell.amount);
+            ctrl.sell.blocked = true;
+            ctrl.submit('sell', ctrl.sell.price, ctrl.sell.amount, function () {
+                ctrl.sell.blocked = false;
+            });
         };
     }
 
