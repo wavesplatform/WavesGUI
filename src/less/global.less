@@ -1,4 +1,4 @@
-@import "shared/variables";
+@import "variables";
 
 *,
 *::after,
@@ -6,6 +6,10 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  outline: none;
+  &:focus {
+    outline: none;
+  }
 }
 
 body {
@@ -156,6 +160,7 @@ body {
   align-content: center;
   position: relative;
   width: 100% !important;
+  min-height: 100%;
   padding-bottom: 1rem;
   margin: 0 auto;
 }

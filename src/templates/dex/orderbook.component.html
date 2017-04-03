@@ -1,0 +1,30 @@
+<h3>{{$ctrl.name}}</h3>
+
+<table ng-class="$ctrl.type">
+  <thead>
+    <tr>
+      <td>Price</td>
+      <td>{{$ctrl.pair.priceAsset.shortName}}</td>
+      <td>{{$ctrl.pair.amountAsset.shortName}}</td>
+      <td>SUM ({{$ctrl.pair.priceAsset.shortName}})</td>
+    </tr>
+  </thead>
+</table>
+
+<waves-scrollbox>
+  <table ng-class="$ctrl.type">
+    <tbody>
+      <tr ng-repeat="order in $ctrl.orders">
+        <td>{{order.price | number:4}}</td>
+        <td>{{order.amount | number:4}}</td>
+        <td>{{order.total | number:4}}</td>
+        <td>{{order.sum | number:4}}</td>
+      </tr>
+      <tr ng-if="!$ctrl.orders.length">
+        <td colspan="4">
+          <span>Some orders will appear soon.</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</waves-scrollbox>

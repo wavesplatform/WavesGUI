@@ -286,8 +286,8 @@
                           tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Wallet</u></center><br/>Area containing the main wallets."></span>
                     <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="portfolio" caption="'Portfolio tab'" tooltipster tooltip-html
                           tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Portfolio</u></center><br/>Display all your assets, both digital and physical,<br/>as well as allowing transfers."></span>
-                    <!--<span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="exchange" caption="'Exchange tab'" tooltipster tooltip-html-->
-                          <!--tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Waves Decentralized Exchange</u></center><br/>Access to Waves markets where you can<br/>conveniently buy, sell and trade tokens."></span>-->
+                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="exchange" caption="'Exchange tab'" tooltipster tooltip-html
+                          tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Waves Decentralized Exchange</u></center><br/>Access to Waves markets where you can<br/>conveniently buy, sell and trade tokens."></span>
                     <!--<span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="voting" caption="'Voting tab'" tooltipster tooltip-html-->
                           <!--tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Voting Area</u></center><br/>Decentralized voting utility."></span>-->
                     <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="history" caption="'History tab'" tooltipster tooltip-html
@@ -461,7 +461,7 @@
                                 <br/>
                                 <br/>
                                 <a ng-href="{{deposit.bitcoinUri}}">
-                                    <qr-code class="center" size="180" value="deposit.bitcoinUri"></qr-code>
+                                    <waves-qr-code class="center" size="180" value="deposit.bitcoinUri"></waves-qr-code>
                                 </a>
                             </div>
                         </div>
@@ -829,20 +829,11 @@
                 </div>
                 <!-- / PORTFOLIO TAB -->
 
-                <!-- EXCHANGE TAB -->
-                <div id="mBB-exchange" class="mBB-content" ng-switch-when="exchange">
-                    <div class="phContent">
-                        <h1>DECENTRALIZED EXCHANGE</h1>
-                        <br/>
-                        <p>Waves' features include a decentralized exchange in which users will be able to trade tokens of all kinds. There will be no AML/KYC requirements in order to use this service.
-                            <br/><br/>
-                            The Decentralized Exchange is scheduled for launch in the first quarter of 2017.
-                        </p>
-                        <br/><br/>
-                        <img src="img/tab_dex_prev.svg" />
-                    </div>
-                </div>
-                <!-- / EXCHANGE TAB -->
+                <!-- DEX TAB -->
+                <waves-page ng-switch-when="exchange" page-title="DEX">
+                    <waves-dex></waves-dex>
+                </waves-page>
+                <!-- / DEX TAB -->
 
                 <!-- VOTING TAB -->
                 <div id="mBB-voting" class="mBB-content" ng-switch-when="voting">
@@ -1051,6 +1042,7 @@
 
     <!-- JAVASCRIPT BEGIN -->
     <script src="../distr/devel/js/bundle.js"></script>
+    <script src="../distr/devel/js/templates.js"></script>
     <!-- JAVASCRIPT END -->
 
 </body>

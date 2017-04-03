@@ -1,0 +1,24 @@
+<span class="magnifier"></span>
+
+<md-autocomplete class="assets-autocomplete"
+                 placeholder="Choose an asset"
+                 md-menu-class="assets-autocomplete-popup"
+                 md-selected-item="$ctrl.autocomplete.selectedAsset"
+                 md-selected-item-change="$ctrl.changeAsset()"
+                 md-search-text="$ctrl.autocomplete.searchText"
+                 md-search-text-change=""
+                 md-items="item in $ctrl.autocomplete.querySearch($ctrl.autocomplete.searchText)"
+                 md-item-text="item.displayName"
+                 md-clear-button="false"
+                 md-no-cache="true"
+                 md-min-length="0"
+                 md-has-not-found="true">
+  <md-item-template>
+    <span md-highlight-text="$ctrl.autocomplete.searchText">{{item.displayName}}</span>
+  </md-item-template>
+  <md-not-found>
+    <span>Nothing is found!</span>
+  </md-not-found>
+</md-autocomplete>
+
+<span class="clipboard" title="Copy asset ID"></span>

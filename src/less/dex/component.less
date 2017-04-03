@@ -1,0 +1,62 @@
+@import "../variables";
+
+waves-dex {
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+
+  & > .workspace {
+    width: 81%;
+    padding: 20px 50px 0 30px;
+
+    & > .choice {
+      display: flex;
+      justify-content: space-between;
+
+      .current-pair {
+        display: inline-block;
+        padding: 6px 12px 4px;
+        border-radius: 5px;
+        border: solid 2px @color-waves-blue-temp;
+        color: @color-waves-blue-temp;
+        font-weight: bold;
+      }
+
+      .picker-widget {
+        flex-grow: 1;
+        margin-left: 40px;
+      }
+    }
+
+    & > .orderbooks {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 35px;
+
+      .orderbook {
+        width: 33%;
+        padding-right: 35px;
+
+        .orderbook-scroll {
+          max-height: 250px;
+        }
+      }
+
+      .user-orders {
+        width: 34%;
+        display: flex;
+        flex-direction: column;
+
+        waves-dex-user-orders {
+          margin-bottom: 35px;
+        }
+      }
+    }
+  }
+
+  & > .pairs-lists {
+    width: 19%;
+    min-width: 220px;
+    max-width: 370px;
+  }
+}
