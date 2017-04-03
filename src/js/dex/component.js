@@ -51,7 +51,8 @@
                     refreshOrderbooks();
                     refreshUserOrders();
                     notificationService.notice('Order has been created!');
-                }).catch(function () {
+                })
+                .catch(function () {
                     notificationService.error('Order has not been created!');
                 });
         };
@@ -64,7 +65,8 @@
                     refreshOrderbooks();
                     refreshUserOrders();
                     notificationService.notice('Order has been canceled!');
-                }).catch(function () {
+                })
+                .catch(function () {
                     notificationService.error('Order could not be canceled!');
                 });
         };
@@ -89,6 +91,9 @@
                 ctrl.sellOrders = orderbook.asks;
                 refreshUserOrders();
                 $scope.$apply();
+            })
+            .catch(function (e) {
+                console.log(e);
             });
 
         // Enable polling.
