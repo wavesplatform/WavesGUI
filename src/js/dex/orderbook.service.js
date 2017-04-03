@@ -16,8 +16,8 @@
             return matcherApiService
                 .loadOrderbook(assetOne.id, assetTwo.id)
                 .then(function (orderbook) {
-                    var priceDecimals = decimals[orderbook.pair.priceAsset || undefined],
-                        amountDecimals = decimals[orderbook.pair.amountAsset || undefined];
+                    var priceDecimals = decimals[orderbook.pair.priceAsset || ''],
+                        amountDecimals = decimals[orderbook.pair.amountAsset || ''];
                     return {
                         timestamp: orderbook.timestamp,
                         pair: orderbook.pair,
