@@ -39,8 +39,16 @@ waves-dex-order-creator {
         border: none;
         border-radius: 3px;
         background: @color-lightest-grey;
+        cursor: pointer;
+
         &:hover {
           background: @color-light-grey;
+        }
+
+        &[disabled],
+        &[disabled]:hover {
+          background: @color-lightest-grey;
+          cursor: default;
         }
       }
     }

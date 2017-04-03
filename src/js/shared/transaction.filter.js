@@ -49,7 +49,7 @@
         }
 
         function processAssetIssueTransaction(transaction) {
-            var asset = new Currency({
+            var asset = Currency.create({
                 id: transaction.id,
                 displayName: transaction.name,
                 precision: transaction.decimals

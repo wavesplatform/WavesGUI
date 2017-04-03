@@ -23,7 +23,7 @@
     </div>
   </div>
   <div class="button-container">
-    <button ng-click="$ctrl.submitBuyOrder()">Buy</button>
+    <button ng-disabled="$ctrl.buy.blocked" ng-click="$ctrl.submitBuyOrder()">Buy</button>
   </div>
 </div>
 
@@ -52,6 +52,6 @@
     </div>
   </div>
   <div class="button-container">
-    <button ng-click="$ctrl.submitSellOrder()">Sell</button>
+    <button ng-disabled="$ctrl.sell.blocked"  ng-click="$ctrl.submitSellOrder()">Sell</button>
   </div>
 </div>

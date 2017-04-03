@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    var POLLING_DELAY = 5000;
+
     function getPairIds(pair) {
         return {
             amountAssetId: pair.amountAsset.id,
@@ -12,93 +14,108 @@
                            dexOrderService, dexOrderbookService, notificationService) {
         var ctrl = this,
 
-            sender = {
-                publicKey: applicationContext.account.keyPair.public,
-                privateKey: applicationContext.account.keyPair.private
-            },
+            // TODO : inside the store, get the markets from matcher.
+            // assetStore = assetStoreFactory.createStore({
+            //     address: applicationContext.account.address,
+            //     markets: true
+            // }),
 
             assetStore = assetStoreFactory.createStore(applicationContext.account.address),
 
-            initialAssetOne = Currency.WAV,
-            initialAssetTwo = new Currency({
-                id: '3K8EjNoBvQjGT7MDhsKdKcayAKmWjxtEWEwAVeQzFGHu',
-                displayName: 'DOCoin',
-                precision: 4
-            });
+            sender = {
+                publicKey: applicationContext.account.keyPair.public,
+                privateKey: applicationContext.account.keyPair.private
+            };
 
-        ctrl.addFavorite = function () {};
-        ctrl.showMoreTraded = function () {};
+        ctrl.assetsList = [];
+
+        ctrl.pair = {
+            amountAsset: Currency.WAV,
+            priceAsset: Currency.BTC
+        };
 
         ctrl.buyOrders = [];
         ctrl.sellOrders = [];
         ctrl.userOrders = [];
 
-        assetStore.getAll()
-            .then(function (assetsList) {
-                $scope.$apply(function () {
-                    ctrl.assetsList = assetsList;
-                });
-            })
-            .then(function () {
-                return dexOrderbookService.getOrderbook(initialAssetOne, initialAssetTwo);
-            })
-            .then(function (orderbook) {
-                ctrl.pair = {
-                    priceAsset: assetStore.syncGetAsset(orderbook.pair.priceAsset),
-                    amountAsset: assetStore.syncGetAsset(orderbook.pair.amountAsset)
-                };
-
-                ctrl.buyOrders = orderbook.bids;
-                ctrl.sellOrders = orderbook.asks;
-                refreshUserOrders();
-                $scope.$apply();
-            });
-
-        $interval(function () {
-            refreshOrderbooks();
-            refreshUserOrders();
-        }, 5000);
-
-        // favoritePairsService.getAll()
-        //     .then(function () {
-        //         // ctrl.favoritePairs = [{
-        //         //     priceAsset: ctrl.assetsList[0],
-        //         //     amountAsset: ctrl.assetsList[1]
-        //         // }];
-        //     });
-
-        ctrl.createOrder = function (type, price, amount) {
+        ctrl.createOrder = function (type, price, amount, callback) {
+            // TODO : add a queue for the orders which weren't yet accepted.
             dexOrderService
                 .addOrder(getPairIds(ctrl.pair), {
                     orderType: type,
-                    price: Money.fromTokens(price, ctrl.pair.priceAsset),
                     amount: Money.fromTokens(amount, ctrl.pair.amountAsset),
+                    price: Money.fromTokens(price, ctrl.pair.priceAsset),
                     fee: Money.fromTokens(0.01, Currency.WAV)
                 }, sender)
                 .then(function () {
                     refreshOrderbooks();
                     refreshUserOrders();
                     notificationService.notice('Order has been created!');
-                }).catch(function () {
+                    if (callback) {
+                        callback();
+                    }
+                })
+                .catch(function () {
                     notificationService.error('Order has not been created!');
+                    if (callback) {
+                        callback();
+                    }
                 });
         };
 
         ctrl.cancelOrder = function (order) {
+            // TODO : add a queue for the orders which weren't yet canceled.
             dexOrderService
                 .removeOrder(getPairIds(ctrl.pair), order, sender)
                 .then(function () {
                     refreshOrderbooks();
                     refreshUserOrders();
-                    notificationService.notice('Order has been cancelled!');
-                }).catch(function () {
-                    notificationService.error('Order could not be cancelled!');
+                    notificationService.notice('Order has been canceled!');
+                })
+                .catch(function () {
+                    notificationService.error('Order could not be canceled!');
                 });
         };
 
-        ctrl.changePair = function () {
-            // TODO
-        };
+        assetStore.getAll()
+            .then(function (assetsList) {
+                // From here, asset pickers start working.
+                ctrl.assetsList = assetsList;
+                $scope.$apply();
+            })
+            .then(function () {
+                return dexOrderbookService.getOrderbook(ctrl.pair.amountAsset, ctrl.pair.priceAsset);
+            })
+            .then(function (orderbook) {
+                ctrl.pair = {
+                    // Here we just get assets by their IDs.
+                    amountAsset: assetStore.syncGetAsset(orderbook.pair.amountAsset),
+                    priceAsset: assetStore.syncGetAsset(orderbook.pair.priceAsset)
+                };
+
+                ctrl.buyOrders = orderbook.bids;
+                ctrl.sellOrders = orderbook.asks;
+                refreshUserOrders();
+                $scope.$apply();
+            })
+            .catch(function (e) {
+                console.log(e);
+            });
+
+        // Enable polling.
+        $interval(function () {
+            refreshOrderbooks();
+            refreshUserOrders();
+        }, POLLING_DELAY);
+
+        // Events are from asset pickers.
+        $scope.$on('asset-picked', function (e, newAsset, type) {
+            // Define in which widget the asset was changed.
+            ctrl.pair[type] = newAsset;
+
+            refreshOrderbooks();
+            refreshUserOrders();
+        });
 
         function refreshOrderbooks() {
             dexOrderbookService
@@ -106,6 +123,15 @@
                 .then(function (orderbook) {
                     ctrl.buyOrders = orderbook.bids;
                     ctrl.sellOrders = orderbook.asks;
+                    return orderbook.pair;
+                })
+                .then(function (pair) {
+                    // Placing each asset in the right widget.
+                    if (ctrl.pair.amountAsset.id !== pair.amountAsset && ctrl.pair.priceAsset.id !== pair.priceAsset) {
+                        var temp = ctrl.pair.amountAsset;
+                        ctrl.pair.amountAsset = ctrl.pair.priceAsset;
+                        ctrl.pair.priceAsset = temp;
+                    }
                 });
         }
 
@@ -113,6 +139,7 @@
             dexOrderService
                 .getOrders(getPairIds(ctrl.pair))
                 .then(function (orders) {
+                    // TODO : add here orders from pending queues.
                     ctrl.userOrders = orders;
                 });
         }

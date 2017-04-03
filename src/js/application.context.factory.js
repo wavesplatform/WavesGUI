@@ -15,7 +15,7 @@
         };
 
         assets.put = function (issueTransaction) {
-            var currency = new Currency({
+            var currency = Currency.create({
                 id: issueTransaction.assetId,
                 displayName: issueTransaction.name,
                 precision: issueTransaction.decimals
