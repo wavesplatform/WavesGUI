@@ -4,7 +4,7 @@
     var DEFAULT_FEE_AMOUNT = '0.001';
 
     function WavesWalletListController($scope, $interval, events, applicationContext,
-                                       apiService, transactionLoadingService) {
+                                       apiService, transactionLoadingService, dialogService) {
         var walletList = this;
         var refreshPromise;
         var refreshDelay = 10 * 1000;
@@ -27,25 +27,31 @@
 
         walletList.wallets = [
             {
-                balance: new Money(0, Currency.USD)
+                balance: new Money(0, Currency.USD),
+                depositWith: Currency.USD
             },
             {
-                balance: new Money(0, Currency.EUR)
+                balance: new Money(0, Currency.EUR),
+                depositWith: Currency.EUR
             },
             {
-                balance: new Money(0, Currency.BTC)
+                balance: new Money(0, Currency.BTC),
+                depositWith: Currency.BTC
             },
             {
-                balance: new Money(0, Currency.WAV)
+                balance: new Money(0, Currency.WAV),
+                depositWith: Currency.BTC
             },
             {
-                balance: new Money(0, Currency.CNY)
+                balance: new Money(0, Currency.CNY),
+                depositWith: Currency.CNY
             }
         ];
         walletList.transactions = [];
         walletList.send = send;
         walletList.withdraw = withdraw;
         walletList.deposit = deposit;
+        walletList.depositFromCard = depositFromCard;
 
         loadDataFromBackend();
         patchCurrencyIdsForTestnet();
@@ -57,16 +63,27 @@
             }
         });
 
-        function send (currency) {
-            sendCommandEvent(events.WALLET_SEND, currency);
+        function send (wallet) {
+            sendCommandEvent(events.WALLET_SEND, wallet.balance.currency);
         }
 
-        function withdraw (currency) {
-            sendCommandEvent(events.WALLET_WITHDRAW, currency);
+        function withdraw (wallet) {
+            sendCommandEvent(events.WALLET_WITHDRAW, wallet.balance.currency);
         }
 
-        function deposit (currency) {
-            sendCommandEvent(events.WALLET_DEPOSIT, currency);
+        function deposit (wallet) {
+            $scope.$broadcast(events.WALLET_DEPOSIT, {
+                assetBalance: wallet.balance,
+                depositWith: wallet.depositWith
+            });
+        }
+
+        function depositFromCard (currency) {
+            dialogService.close();
+
+            $scope.$broadcast(events.WALLET_CARD_DEPOSIT, {
+                currency: currency
+            });
         }
 
         function loadDataFromBackend() {
@@ -127,12 +144,13 @@
                 Currency.USD.id = 'HyFJ3rrq5m7FxdkWtQXkZrDat1F7LjVVGfpSkUuEXQHj';
                 Currency.CNY.id = '6pmDivReTLikwYqQtJTv6dTcE59knriaodB3AK8T9cF8';
                 Currency.BTC.id = 'Fmg13HEHJHuZYbtJq8Da8wifJENq8uBxDuWoP9pVe2Qe';
+                Currency.invalidateCache();
             }
         }
     }
 
     WavesWalletListController.$inject = ['$scope', '$interval', 'wallet.events',
-        'applicationContext', 'apiService', 'transactionLoadingService'];
+        'applicationContext', 'apiService', 'transactionLoadingService', 'dialogService'];
 
     angular
         .module('app.wallet')

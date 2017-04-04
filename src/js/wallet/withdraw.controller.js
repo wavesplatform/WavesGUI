@@ -81,7 +81,6 @@
         withdraw.confirmWithdraw = confirmWithdraw;
         withdraw.refreshAmount = refreshAmount;
         withdraw.refreshTotal = refreshTotal;
-        withdraw.getAmountForm = getAmountForm;
         withdraw.broadcastTransaction = broadcastTransaction;
 
         resetForm();
@@ -90,7 +89,7 @@
             withdraw.assetBalance = eventData.assetBalance;
             withdraw.wavesBalance = eventData.wavesBalance;
 
-            if (withdraw.assetBalance.currency.id !== Currency.BTC.id) {
+            if (withdraw.assetBalance.currency !== Currency.BTC) {
                 $scope.home.featureUnderDevelopment();
 
                 return;
@@ -134,15 +133,7 @@
                 });
         });
 
-        function getAmountForm () {
-            // here we have a direct markup dependency
-            // but other ways of getting the form from a child scope are even more ugly
-            return angular.element('#withdraw-asset-form').scope().withdrawAssetForm;
-        }
-
-        function confirmWithdraw () {
-            var amountForm = withdraw.getAmountForm();
-
+        function confirmWithdraw (amountForm) {
             if (!amountForm.validate(withdraw.validationOptions))
                 return false;
 

@@ -1,14 +1,16 @@
 (function () {
     'use strict';
 
+    var FEE_CURRENCY = Currency.WAV;
+
     function WavesAssetTransferController($scope, $timeout, constants, events, autocomplete, applicationContext,
                                           assetService, apiService, dialogService, formattingService,
                                           notificationService, transactionBroadcast, addressService) {
         var transfer = this;
-        var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAV);
+        var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
 
         transfer.availableBalance = 0;
-        transfer.wavesBalance = 0;
+        transfer.feeAssetBalance = 0;
         transfer.confirm = {
             amount: {
                 value: '0',
@@ -73,14 +75,13 @@
         };
         transfer.submitTransfer = submitTransfer;
         transfer.broadcastTransaction = broadcastTransaction;
-        transfer.getForm = getForm;
 
         resetPaymentForm();
 
         $scope.$on(events.ASSET_TRANSFER, function (event, eventData) {
             var asset = applicationContext.cache.assets[eventData.assetId];
             transfer.availableBalance = asset.balance;
-            transfer.wavesBalance = eventData.wavesBalance;
+            transfer.feeAssetBalance = eventData.wavesBalance;
             transfer.asset = asset;
 
             // update validation options and check how it affects form validation
@@ -99,14 +100,7 @@
             dialogService.open('#asset-transfer-dialog');
         });
 
-        function getForm() {
-            // here we have a direct markup dependency
-            // but other ways of getting the form from a child scope are even more ugly
-            return angular.element('#transfer-asset-form').scope().transferAssetForm;
-        }
-
-        function submitTransfer() {
-            var transferForm = transfer.getForm();
+        function submitTransfer(transferForm) {
             var invalid = transferForm.invalid();
             transfer.fee.isValid = angular.isDefined(invalid.assetFee) ?
                 !invalid.assetFee : true;
@@ -114,8 +108,8 @@
                 // prevent dialog from closing
                 return false;
 
-            var transferFee = Money.fromTokens(transfer.autocomplete.getFeeAmount(), Currency.WAV);
-            if (transferFee.greaterThan(transfer.wavesBalance)) {
+            var transferFee = Money.fromTokens(transfer.autocomplete.getFeeAmount(), FEE_CURRENCY);
+            if (transferFee.greaterThan(transfer.feeAssetBalance)) {
                 notificationService.error('Not enough funds for the transfer transaction fee');
 
                 return false;

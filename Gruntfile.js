@@ -196,6 +196,7 @@ module.exports = function (grunt) {
                 'src/js/wallet/send.controller.js',
                 'src/js/wallet/withdraw.controller.js',
                 'src/js/wallet/deposit.controller.js',
+                'src/js/wallet/card.deposit.controller.js',
 
                 'src/js/tokens/module.js',
                 'src/js/tokens/create.controller.js',
@@ -574,7 +575,6 @@ module.exports = function (grunt) {
         'jscs',
         'jshint',
         'karma:development',
-        // 'styles',
         'postcss',
         'concat',
         'karma:distr',
