@@ -13,6 +13,7 @@
     function DexController($scope, $interval, applicationContext, assetStoreFactory,
                            dexOrderService, dexOrderbookService, notificationService) {
         var ctrl = this,
+            intervalPromise,
 
             // TODO : inside the store, get the markets from matcher.
             // assetStore = assetStoreFactory.createStore({
@@ -102,12 +103,6 @@
                 console.log(e);
             });
 
-        // Enable polling.
-        $interval(function () {
-            refreshOrderbooks();
-            refreshUserOrders();
-        }, POLLING_DELAY);
-
         // Events are from asset pickers.
         $scope.$on('asset-picked', function (e, newAsset, type) {
             // Define in which widget the asset was changed.
@@ -116,6 +111,16 @@
             refreshOrderbooks();
             refreshUserOrders();
         });
+
+        // Enable polling.
+        intervalPromise = $interval(function () {
+            refreshOrderbooks();
+            refreshUserOrders();
+        }, POLLING_DELAY);
+
+        ctrl.$onDestroy = function () {
+            $interval.cancel(intervalPromise);
+        };
 
         function refreshOrderbooks() {
             dexOrderbookService
