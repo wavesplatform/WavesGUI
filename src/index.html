@@ -501,8 +501,24 @@
                     </div>
 
                     <div class="noDisp" ng-controller="balanceDetailsController as balance">
-                        <div id="balance-details-dialog" waves-dialog ok-button-caption="LEASE" on-dialog-ok="walletList.lease()" cancel-button-caption="CLOSE">
+                        <div id="balance-details-dialog" waves-dialog ok-button-caption="LEASE MY BALANCE" on-dialog-ok="walletList.lease()" cancel-button-caption="CLOSE">
                             <h2 class="sectionHeader">BALANCE DETAILS</h2>
+                            <table class="wavesTable">
+                                <thead>
+                                    <tr>
+                                        <td>Regular</td>
+                                        <td>Effective</td>
+                                        <td>Generating</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{balance.details.regular}}</td>
+                                        <td>{{balance.details.effective}}</td>
+                                        <td>{{balance.details.generating}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 
