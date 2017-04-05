@@ -123,6 +123,10 @@
         };
 
         function refreshOrderbooks() {
+            if (!ctrl.pair.amountAsset || !ctrl.pair.priceAsset) {
+                return;
+            }
+
             dexOrderbookService
                 .getOrderbook(ctrl.pair.priceAsset, ctrl.pair.amountAsset)
                 .then(function (orderbook) {
@@ -141,6 +145,10 @@
         }
 
         function refreshUserOrders() {
+            if (!ctrl.pair.amountAsset || !ctrl.pair.priceAsset) {
+                return;
+            }
+
             dexOrderService
                 .getOrders(getPairIds(ctrl.pair))
                 .then(function (orders) {
