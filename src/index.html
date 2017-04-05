@@ -500,9 +500,15 @@
                         </div>
                     </div>
 
+                    <div class="noDisp" ng-controller="balanceDetailsController as balance">
+                        <div id="balance-details-dialog" waves-dialog ok-button-caption="LEASE" on-dialog-ok="walletList.lease()" cancel-button-caption="CLOSE">
+                            <h2 class="sectionHeader">BALANCE DETAILS</h2>
+                        </div>
+                    </div>
+
                     <div class="flex-container">
-                        <wallet-box class="walletBox" ng-repeat="w in walletList.wallets" balance="w.balance" on-send="walletList.send(w)"
-                                    on-withdraw="walletList.withdraw(w)" on-deposit="walletList.deposit(w)"></wallet-box>
+                        <wallet-box class="walletBox" ng-repeat="w in walletList.wallets" balance="w.balance" details-available="w.leasingAvailable" on-send="walletList.send(w)"
+                                    on-withdraw="walletList.withdraw(w)" on-deposit="walletList.deposit(w)" on-details="walletList.details(w)"></wallet-box>
                     </div>
                     <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
                     <div id="wallet-transaction-history" class="wavesTable wScroll">

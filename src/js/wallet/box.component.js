@@ -49,7 +49,9 @@
                 balance: '<',
                 onSend: '&',
                 onWithdraw: '&',
-                onDeposit: '&'
+                onDeposit: '&',
+                onDetails: '&',
+                detailsAvailable: '<?'
             },
             templateUrl: 'wallet/box.component'
         });

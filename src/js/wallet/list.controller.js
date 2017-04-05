@@ -40,7 +40,8 @@
             },
             {
                 balance: new Money(0, Currency.WAV),
-                depositWith: Currency.BTC
+                depositWith: Currency.BTC,
+                leasingAvailable: true
             },
             {
                 balance: new Money(0, Currency.CNY),
@@ -51,6 +52,7 @@
         walletList.send = send;
         walletList.withdraw = withdraw;
         walletList.deposit = deposit;
+        walletList.details = details;
         walletList.depositFromCard = depositFromCard;
 
         loadDataFromBackend();
@@ -75,6 +77,12 @@
             $scope.$broadcast(events.WALLET_DEPOSIT, {
                 assetBalance: wallet.balance,
                 depositWith: wallet.depositWith
+            });
+        }
+
+        function details (wallet) {
+            $scope.$broadcast(events.WALLET_DETAILS, {
+                assetBalance: wallet.balance
             });
         }
 
