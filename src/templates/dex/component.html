@@ -1,13 +1,6 @@
 <div class="workspace">
   <div class="choice">
-    <div class="current-pair">{{$ctrl.pair.priceAsset.shortName}}/{{$ctrl.pair.amountAsset.shortName}}</div>
-    <div class="picker-widget">
-      <waves-dex-asset-picker name="Price asset"
-                              type="priceAsset"
-                              assets="$ctrl.assetsList"
-                              hidden-asset="$ctrl.pair.amountAsset"
-                              picked-asset="$ctrl.pair.priceAsset"></waves-dex-asset-picker>
-    </div>
+    <div class="current-pair">{{$ctrl.pair.amountAsset.shortName}}/{{$ctrl.pair.priceAsset.shortName}}</div>
     <div class="picker-widget">
       <waves-dex-asset-picker name="Amount asset"
                               type="amountAsset"
@@ -15,18 +8,25 @@
                               hidden-asset="$ctrl.pair.priceAsset"
                               picked-asset="$ctrl.pair.amountAsset"></waves-dex-asset-picker>
     </div>
+    <div class="picker-widget">
+      <waves-dex-asset-picker name="Price asset"
+                              type="priceAsset"
+                              assets="$ctrl.assetsList"
+                              hidden-asset="$ctrl.pair.amountAsset"
+                              picked-asset="$ctrl.pair.priceAsset"></waves-dex-asset-picker>
+    </div>
   </div>
 
   <div class="orderbooks">
     <div class="orderbook">
       <waves-dex-orderbook type="buy"
-                           name="Buy {{$ctrl.pair.priceAsset.displayName}}"
+                           name="Buy {{$ctrl.pair.amountAsset.displayName}}"
                            pair="$ctrl.pair"
                            orders="$ctrl.buyOrders"></waves-dex-orderbook>
     </div>
     <div class="orderbook">
       <waves-dex-orderbook type="sell"
-                           name="Sell {{$ctrl.pair.priceAsset.displayName}}"
+                           name="Sell {{$ctrl.pair.amountAsset.displayName}}"
                            pair="$ctrl.pair"
                            orders="$ctrl.sellOrders"></waves-dex-orderbook>
     </div>
@@ -46,7 +46,7 @@
     <p>1. Choose a pair of assets you want to trade. Just start typing asset name, then pick the right one.</p>
     <p>2. Take a look at orderbooks to get an understanding of the pair market.</p>
     <p>3. Finally, create an order and submit it.</p>
-    <p>If you encountered some difficulties, feel free to contact <a href="mailto:support@wavesplatform.com">support</a>.</p>
+    <p>If you encountered some difficulties, feel free to contact support.</p>
   </div>
   <!--waves-dex-pairs-list type="favorite"
                         name="Favorites"
