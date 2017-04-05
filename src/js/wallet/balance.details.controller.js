@@ -6,17 +6,20 @@
     function WavesBalanceDetailsController ($scope, events, applicationContext,
                                             dialogService, leasingService, notificationService) {
         var balance = this;
-        balance.details = {};
+        balance.formatted = {};
 
         function formatMoney(amount) {
             return amount.formatAmount(true) + ' ' + amount.currency.shortName;
         }
 
         $scope.$on(events.WALLET_DETAILS, function (event, eventData) {
+            balance.wallet = eventData.wallet;
+
             dialogService.open('#balance-details-dialog');
 
             leasingService.loadBalanceDetails(applicationContext.account.address).then(function (details) {
-                balance.details = {
+                balance.details = details;
+                balance.formatted = {
                     regular: formatMoney(details.regular),
                     effective: formatMoney(details.effective),
                     generating: formatMoney(details.generating)

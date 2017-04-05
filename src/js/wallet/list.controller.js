@@ -83,12 +83,14 @@
 
         function details (wallet) {
             $scope.$broadcast(events.WALLET_DETAILS, {
-                assetBalance: wallet.balance
+                wallet: wallet
             });
         }
 
-        function lease() {
-            console.log('leasing');
+        function lease (balanceDetails) {
+            $scope.$broadcast(events.WALLET_LEASE, {
+                balanceDetails: balanceDetails
+            });
         }
 
         function depositFromCard (currency) {

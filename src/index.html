@@ -501,7 +501,7 @@
                     </div>
 
                     <div class="noDisp" ng-controller="balanceDetailsController as balance">
-                        <div id="balance-details-dialog" waves-dialog ok-button-caption="LEASE MY BALANCE" on-dialog-ok="walletList.lease()" cancel-button-caption="CLOSE">
+                        <div id="balance-details-dialog" waves-dialog ok-button-caption="LEASE MY BALANCE" on-dialog-ok="walletList.lease(balance.details)" cancel-button-caption="CLOSE">
                             <h2 class="sectionHeader">BALANCE DETAILS</h2>
                             <table class="wavesTable">
                                 <thead>
@@ -513,12 +513,53 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>{{balance.details.regular}}</td>
-                                        <td>{{balance.details.effective}}</td>
-                                        <td>{{balance.details.generating}}</td>
+                                        <td>{{balance.formatted.regular}}</td>
+                                        <td>{{balance.formatted.effective}}</td>
+                                        <td>{{balance.formatted.generating}}</td>
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+
+                    <div class="noDisp" ng-controller="leasingController as leasing">
+                        <div id="start-leasing-dialog" waves-dialog ok-button-caption="LEASE" on-dialog-ok="leasing.confirmLease(leasing.form)">
+                            <h2 class="sectionHeader">BALANCE LEASING</h2>
+                            <form name="leasing.form" novalidate>
+                                <table>
+                                    <div class="balanceAmt">
+                                        <div><p>Available balance: </p><span class="balancewaves">{{leasing.availableBalance.formatAmount(true)}}</span><br/></div>
+                                    </div>
+                                    <tbody>
+                                        <tr>
+                                            <td>Recipient</td>
+                                            <td><input class="wInput form-control" name="leasingRecipient" type="text" placeholder="Recipient address" ng-model="leasing.recipient"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Amount</td>
+                                            <td><input class="wInput form-control" name="leasingAmount" type="text" placeholder="Leasing amount" ng-model="leasing.amount"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="padded">Waves fee</td>
+                                            <td class="padded">
+                                                <md-autocomplete md-input-name="leasingFee" md-selected-item="leasing.autocomplete.selectedFee" md-search-text="leasing.autocomplete.searchText"
+                                                                 md-items="item in leasing.autocomplete.querySearch(leasing.autocomplete.searchText)"
+                                                                 md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
+                                                                 md-menu-class="popup-autocomplete" class="fee-autocomplete">
+                                                    <md-item-template>
+                                                        <span md-highlight-text="leasing.autocomplete.searchText">{{item.displayText}}</span>
+                                                    </md-item-template>
+                                                </md-autocomplete>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                        <div id="start-leasing-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!leasing.broadcast.pending" on-dialog-ok="leasing.broadcastTransaction()">
+                            <div class="dialog-confirmation">
+                                <p>Confirmation text</p>
+                            </div>
                         </div>
                     </div>
 
