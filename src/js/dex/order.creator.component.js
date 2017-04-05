@@ -26,6 +26,10 @@
         };
 
         ctrl.submitBuyOrder = function () {
+            if (!ctrl.buy.amount || !ctrl.buy.price) {
+                return;
+            }
+
             ctrl.buy.blocked = true;
             ctrl.submit('buy', ctrl.buy.price, ctrl.buy.amount, function () {
                 ctrl.buy.blocked = false;
@@ -33,6 +37,10 @@
         };
 
         ctrl.submitSellOrder = function () {
+            if (!ctrl.sell.amount || !ctrl.sell.price) {
+                return;
+            }
+
             ctrl.sell.blocked = true;
             ctrl.submit('sell', ctrl.sell.price, ctrl.sell.amount, function () {
                 ctrl.sell.blocked = false;
