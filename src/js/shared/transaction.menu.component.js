@@ -31,8 +31,9 @@
         function fullTransactionData () {
             var recipient = hasRecipient() ? ctrl.transaction.recipient : ADDRESS_STUB;
             var attachment = '';
-            if (ctrl.transaction.attachment)
+            if (ctrl.transaction.attachment) {
                 attachment = ' | ATTACHMENT: ' + ctrl.transaction.attachment;
+            }
 
             return 'TX ID: ' + ctrl.transaction.id +
                 ' | TYPE: ' + ctrl.transaction.formatted.type +
@@ -54,37 +55,6 @@
             bindings: {
                 transaction: '<'
             },
-            template: '<md-menu>' +
-                '<md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">' +
-                    '<img ng-src="img/wicon_txmenu.svg" height="16" width="16" />' +
-                '</md-button>' +
-                '<md-menu-content width="2">' +
-                    '<md-menu-item>' +
-                        '<md-button ngclipboard data-clipboard-text="{{::$ctrl.transaction.sender}}" ' +
-                            'ngclipboard-success="$ctrl.addressCopied()">' +
-                            '<span md-menu-align-target>Copy sender address</span>' +
-                        '</md-button>' +
-                    '</md-menu-item>' +
-                    '<md-menu-item>' +
-                        '<md-button ng-disabled="!$ctrl.hasRecipient()" ngclipboard ' +
-                            'data-clipboard-text="{{::$ctrl.transaction.recipient}}" ' +
-                            'ngclipboard-success="$ctrl.addressCopied()">' +
-                            '<span md-menu-align-target>Copy recipient address</span>' +
-                        '</md-button>' +
-                    '</md-menu-item>' +
-                    '<md-menu-item>' +
-                        '<md-button ngclipboard data-clipboard-text="{{::$ctrl.transaction.id}}" ' +
-                            'ngclipboard-success="$ctrl.idCopied()">' +
-                            '<span md-menu-align-target>Copy TX ID</span>' +
-                        '</md-button>' +
-                    '</md-menu-item>' +
-                    '<md-menu-item>' +
-                        '<md-button ngclipboard ngclipboard-text-provider="$ctrl.fullTransactionData()" ' +
-                            'ngclipboard-success="$ctrl.dataCopied()">' +
-                            '<span md-menu-align-target>Copy full TX data</span>' +
-                        '</md-button>' +
-                    '</md-menu-item>' +
-                '</md-menu-content>' +
-            '</md-menu>'
+            templateUrl: 'shared/transaction.menu.component'
         });
 })();

@@ -1,0 +1,57 @@
+<div class="half buy" ng-class="{'focused': $ctrl.focused == 'buy'}" ng-click="$ctrl.focusOn('buy')">
+  <h3>Buy</h3>
+  <div class="fields">
+    <input class="waves-input"
+           type="text"
+           placeholder="{{$ctrl.pair.priceAsset.displayName}} amount"
+           ng-model="$ctrl.buy.amount"
+           decimal-input-restrictor/>
+    <input class="waves-input"
+           type="text"
+           placeholder="Price per {{$ctrl.pair.priceAsset.displayName}}"
+           ng-model="$ctrl.buy.price"
+           decimal-input-restrictor/>
+    <div>
+      <span>Total:&nbsp;</span>
+      <span>{{$ctrl.buy.amount * $ctrl.buy.price}}&nbsp;</span>
+      <span>{{$ctrl.pair.amountAsset.shortName}}</span>
+    </div>
+    <div>
+      <span><abbr title="Fee will be taken in the moment of order execution">Fee</abbr>:&nbsp;</span>
+      <span>{{$ctrl.buy.fee}}</span>
+      <span>WAV</span>
+    </div>
+  </div>
+  <div class="button-container">
+    <button ng-disabled="$ctrl.buy.blocked" ng-click="$ctrl.submitBuyOrder()">Buy</button>
+  </div>
+</div>
+
+<div class="half sell" ng-class="{'focused': $ctrl.focused == 'sell'}" ng-click="$ctrl.focusOn('sell')">
+  <h3>Sell</h3>
+  <div class="fields">
+    <input class="waves-input"
+           type="text"
+           placeholder="{{$ctrl.pair.priceAsset.displayName}} amount"
+           ng-model="$ctrl.sell.amount"
+           decimal-input-restrictor/>
+    <input class="waves-input"
+           type="text"
+           placeholder="Price per {{$ctrl.pair.priceAsset.displayName}}"
+           ng-model="$ctrl.sell.price"
+           decimal-input-restrictor/>
+    <div>
+      <span>Total:&nbsp;</span>
+      <span>{{$ctrl.sell.amount * $ctrl.sell.price}}&nbsp;</span>
+      <span>{{$ctrl.pair.amountAsset.shortName}}</span>
+    </div>
+    <div>
+      <span><abbr title="Fee will be taken in the moment of order execution">Fee</abbr>:&nbsp;</span>
+      <span>{{$ctrl.sell.fee}}</span>
+      <span>WAV</span>
+    </div>
+  </div>
+  <div class="button-container">
+    <button ng-disabled="$ctrl.sell.blocked"  ng-click="$ctrl.submitSellOrder()">Sell</button>
+  </div>
+</div>

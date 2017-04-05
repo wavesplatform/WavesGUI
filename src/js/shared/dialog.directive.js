@@ -16,34 +16,39 @@
 
         var imageSuffix = $scope.isError ? '-danger' : '';
         $scope.image = 'modal-header' + imageSuffix;
-        if (!$scope.closeable)
+        if (!$scope.closeable) {
             $scope.image = 'modal-header-round';
+        }
 
         $scope.image += '.svg';
 
         $scope.onOk = function () {
             var shouldClose;
 
-            if ($scope.dialogOk)
+            if ($scope.dialogOk) {
                 shouldClose = $scope.dialogOk();
+            }
 
-            if (angular.isUndefined(shouldClose) || shouldClose !== false)
+            if (angular.isUndefined(shouldClose) || shouldClose !== false) {
                 dialogService.close();
+            }
         };
 
         $scope.onCancel = function () {
-            if ($scope.dialogCancel)
+            if ($scope.dialogCancel) {
                 $scope.dialogCancel();
+            }
 
             dialogService.close();
         };
     }
 
-    function WavesDialogLink(scope, element, attrs, controller) {
+    function WavesDialogLink(scope, element) {
         element.addClass('wavesPop');
 
-        if (!scope.global)
+        if (!scope.global) {
             element.addClass('recyclable');
+        }
     }
 
     angular
@@ -68,17 +73,7 @@
                     global: '=?'
                 },
                 link: WavesDialogLink,
-                template: '<img class="wPop-header" ng-src="img/{{image}}" />' +
-                    '<div class="wavesPop-content" ng-transclude></div>' +
-                    '<div class="wavesPop-content-buttons button-row" ng-show="showButtons">' +
-                        '<button class="wButton wButton-dialog fade tooltip-1" ng-class="[{wButtonDanger: isError}]" ' +
-                            'title="{{::tooltip}}" ng-click="onOk()" ng-disabled="!okButtonEnabled">' +
-                            '{{::okButtonCaption}}</button>' +
-                        '<span class="divider-2" ng-if="cancelButtonVisible"></span>' +
-                        '<button ng-if="cancelButtonVisible" class="wButton wButton-dialog fade" ' +
-                            'ng-class="[{wButtonDanger: isError}]" ng-click="onCancel()">{{::cancelButtonCaption}}' +
-                        '</button>' +
-                    '</div>'
+                templateUrl: 'shared/dialog.directive'
             };
         });
 })();

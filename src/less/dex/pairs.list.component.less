@@ -1,0 +1,68 @@
+@import "../variables";
+
+@color-favorite-still: @color-soft-orange;
+@color-favorite-hover: saturate(@color-soft-orange, 20%);
+@color-traded-still: @color-waves-blue-temp;
+@color-traded-hover: saturate(@color-waves-blue-temp, 20%);
+
+waves-dex-pairs-list {
+  display: block;
+  width: 100%;
+  padding: 10px;
+
+  h2 {
+    margin-bottom: 12px;
+  }
+
+  .pairs-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+
+    .pair,
+    .action {
+      display: inline-block;
+      padding: 5px 10px;
+      margin: 0 20px 18px 0;
+      border-radius: 4px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .action {
+      font-weight: bold;
+      user-select: none;
+    }
+
+    &.favorite .pair {
+      background: @color-favorite-still;
+      &:hover {
+        background: @color-favorite-hover;
+      }
+    }
+
+    &.favorite .action {
+      background: lighten(@color-favorite-still, 15%);
+      color: @color-grey;
+      &:hover {
+        background: lighten(@color-favorite-hover, 15%);
+      }
+    }
+
+    &.traded .pair {
+      background: @color-traded-still;
+      color: @color-white;
+      &:hover {
+        background: @color-traded-hover;
+      }
+    }
+
+    &.traded .action {
+      background: lighten(@color-traded-still, 15%);
+      color: @color-white;
+      &:hover {
+        background: lighten(@color-traded-hover, 15%);
+      }
+    }
+  }
+}

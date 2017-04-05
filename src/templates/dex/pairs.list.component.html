@@ -1,0 +1,11 @@
+<h2>{{$ctrl.name}}</h2>
+
+<div ng-if="!$ctrl.pairs.length">
+  <span class="placeholder">{{$ctrl.placeholder}}</span>
+</div>
+
+<div class="pairs-list" ng-class="$ctrl.type" ng-if="$ctrl.pairs.length">
+  <div class="pair" ng-repeat="p in $ctrl.pairs">{{p.priceAsset.shortName}}/{{p.amountAsset.shortName}}</div>
+  <div class="action" ng-if="$ctrl.type == 'favorite'" ng-click="$ctrl.action()">&#10133;</div>
+  <div class="action" ng-if="$ctrl.type == 'traded'" ng-click="$ctrl.action()">...</div>
+</div>

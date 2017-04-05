@@ -1,0 +1,60 @@
+@import "../variables";
+
+waves-dex-order-creator {
+  display: block;
+  width: 100%;
+
+  & > .half {
+    display: inline-block;
+    width: 43%;
+    transition: all ease 0.2s;
+    opacity: 0.55;
+
+    &.sell {
+      margin-left: 5%;
+    }
+
+    &.focused {
+      width: 52%;
+      opacity: 1;
+    }
+
+    h3 {
+      margin-bottom: 6px;
+    }
+
+    .fields {
+      input, div {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+
+    .button-container {
+      text-align: right;
+
+      button {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 3px;
+        background: @color-lightest-grey;
+        cursor: pointer;
+
+        &:hover {
+          background: @color-light-grey;
+        }
+
+        &[disabled],
+        &[disabled]:hover {
+          background: @color-lightest-grey;
+          cursor: default;
+        }
+      }
+    }
+  }
+
+  abbr {
+    border-bottom: 1px dotted @color-grey;
+  }
+}

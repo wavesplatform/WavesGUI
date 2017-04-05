@@ -1,13 +1,16 @@
 /*global module:false*/
 module.exports = function (grunt) {
 
+    var compiledTemplates = 'distr/devel/js/templates.js';
+
     var replaceTestnetVersion = function (content) {
         return content
             .replace(/CLIENT_VERSION\s*:\s*'[^']+'/, grunt.template.process("CLIENT_VERSION: '<%= pkg.version %>a'"))
             .replace(/NODE_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("NODE_ADDRESS: '<%= meta.configurations.testnet.server %>'"))
             .replace(/NETWORK_NAME\s*:\s*'[^']+'/, grunt.template.process("NETWORK_NAME: '<%= meta.configurations.testnet.name %>'"))
             .replace(/NETWORK_CODE\s*:\s*'[^']+'/, grunt.template.process("NETWORK_CODE: '<%= meta.configurations.testnet.code %>'"))
-            .replace(/COINOMAT_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("COINOMAT_ADDRESS: '<%= meta.configurations.testnet.coinomat %>'"));
+            .replace(/COINOMAT_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("COINOMAT_ADDRESS: '<%= meta.configurations.testnet.coinomat %>'"))
+            .replace(/MATCHER_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("MATCHER_ADDRESS: '<%= meta.configurations.testnet.matcher %>'"));
     };
 
     var replaceMainnetVersion = function (content) {
@@ -16,7 +19,8 @@ module.exports = function (grunt) {
             .replace(/NODE_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("NODE_ADDRESS: '<%= meta.configurations.mainnet.server %>'"))
             .replace(/NETWORK_NAME\s*:\s*'[^']+'/, grunt.template.process("NETWORK_NAME: '<%= meta.configurations.mainnet.name %>'"))
             .replace(/NETWORK_CODE\s*:\s*'[^']+'/, grunt.template.process("NETWORK_CODE: '<%= meta.configurations.mainnet.code %>'"))
-            .replace(/COINOMAT_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("COINOMAT_ADDRESS: '<%= meta.configurations.mainnet.coinomat %>'"));
+            .replace(/COINOMAT_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("COINOMAT_ADDRESS: '<%= meta.configurations.mainnet.coinomat %>'"))
+            .replace(/MATCHER_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("MATCHER_ADDRESS: '<%= meta.configurations.mainnet.matcher %>'"));
     };
 
     var patchHtml = function (content, fileName) {
@@ -30,7 +34,7 @@ module.exports = function (grunt) {
         var patcher = /testnet/i.test(target) ? replaceTestnetVersion : replaceMainnetVersion;
 
         return {
-            src: ['<%= meta.dependencies %>', '<%= meta.application %>'],
+            src: ['<%= meta.dependencies %>', '<%= meta.application %>', compiledTemplates],
             dest: 'distr/<%= pkg.name %>-<%= meta.configurations.' + target + '.name %>-<%= pkg.version %>.js',
             options: {
                 process: function (content, srcPath) {
@@ -47,7 +51,7 @@ module.exports = function (grunt) {
         return {
             files: [
                 {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>/css'},
-                {expand: true, cwd: 'src/less', src: '<%= meta.fonts %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>/'},
+                {expand: true, cwd: 'src', src: '<%= meta.fonts %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>/'},
                 {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>'},
                 {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>'},
                 {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.' + target + '.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.' + target + '.name %>/js'},
@@ -87,13 +91,15 @@ module.exports = function (grunt) {
                     name: 'testnet',
                     code: 'T',
                     server: 'http://52.30.47.67:6869',
-                    coinomat: 'https://test.coinomat.com'
+                    coinomat: 'https://test.coinomat.com',
+                    matcher: 'http://52.28.66.217:6886'
                 },
                 mainnet: {
                     name: 'mainnet',
                     code: 'W',
                     server: 'https://nodes.wavesnodes.com',
-                    coinomat: 'https://coinomat.com'
+                    coinomat: 'https://coinomat.com',
+                    matcher: 'http://52.28.66.217:6886'
                 },
                 chrome: {
                     testnet: {
@@ -145,58 +151,75 @@ module.exports = function (grunt) {
                 'src/js/ui.module.js',
                 'src/js/application.context.factory.js',
                 'src/js/coinomat.restangular.factory.js',
+                'src/js/matcher.restangular.factory.js',
                 'src/js/home.controller.js',
                 'src/js/splash.controller.js',
 
-                'src/js/shared/shared.module.js',
-                'src/js/shared/shared.constants.js',
+                'src/js/shared/module.js',
+                'src/js/shared/constants.js',
+                'src/js/shared/assets.store.factory.js',
                 'src/js/shared/bitcoin.uri.service.js',
                 'src/js/shared/dialog.service.js',
+                'src/js/shared/document.title.service.js',
                 'src/js/shared/notification.service.js',
+                'src/js/shared/page.component.js',
                 'src/js/shared/qr.code.component.js',
-                'src/js/shared/shared.dialog.directive.js',
+                'src/js/shared/scrollbox.component.js',
+                'src/js/shared/dialog.directive.js',
                 'src/js/shared/focus.directive.js',
                 'src/js/shared/tooltipster.directive.js',
                 'src/js/shared/transaction.loading.service.js',
                 'src/js/shared/transaction.filter.js',
-                'src/js/shared/shared.autocomplete.factory.js',
+                'src/js/shared/autocomplete.factory.js',
                 'src/js/shared/transaction.broadcast.factory.js',
                 'src/js/shared/decimal.input.restrictor.directive.js',
                 'src/js/shared/integer.input.restrictor.directive.js',
                 'src/js/shared/transaction.menu.component.js',
 
-                'src/js/login/login.module.js',
-                'src/js/login/login.constants.js',
-                'src/js/login/login.context.factory.js',
+                'src/js/login/module.js',
+                'src/js/login/constants.js',
+                'src/js/login/context.factory.js',
                 'src/js/login/accounts.controller.js',
                 'src/js/login/account.list.controller.js',
                 'src/js/login/account.register.controller.js',
                 'src/js/login/account.seed.controller.js',
                 'src/js/login/account.login.controller.js',
 
-                'src/js/navigation/navigation.module.js',
+                'src/js/navigation/module.js',
+                'src/js/navigation/controller.js',
                 'src/js/navigation/main.menu.controller.js',
-                'src/js/navigation/navigation.controller.js',
                 'src/js/navigation/tab.directive.js',
 
-                'src/js/wallet/wallet.module.js',
-                'src/js/wallet/wallet.box.component.js',
-                'src/js/wallet/wallet.list.controller.js',
-                'src/js/wallet/wallet.send.controller.js',
-                'src/js/wallet/wallet.withdraw.controller.js',
-                'src/js/wallet/wallet.deposit.controller.js',
+                'src/js/wallet/module.js',
+                'src/js/wallet/box.component.js',
+                'src/js/wallet/list.controller.js',
+                'src/js/wallet/send.controller.js',
+                'src/js/wallet/withdraw.controller.js',
+                'src/js/wallet/deposit.controller.js',
                 'src/js/wallet/card.deposit.controller.js',
 
-                'src/js/tokens/tokens.module.js',
-                'src/js/tokens/token.create.controller.js',
+                'src/js/tokens/module.js',
+                'src/js/tokens/create.controller.js',
 
-                'src/js/history/history.module.js',
-                'src/js/history/history.controller.js',
+                'src/js/dex/module.js',
+                'src/js/dex/component.js',
+                'src/js/dex/order.service.js',
+                'src/js/dex/orderbook.service.js',
+                'src/js/dex/asset.picker.component.js',
+                'src/js/dex/order.creator.component.js',
+                'src/js/dex/orderbook.component.js',
+                'src/js/dex/pair.info.component.js',
+                'src/js/dex/pair.chart.component.js',
+                'src/js/dex/pairs.list.component.js',
+                'src/js/dex/user.orders.component.js',
 
-                'src/js/community/community.module.js',
-                'src/js/community/community.controller.js',
+                'src/js/history/module.js',
+                'src/js/history/controller.js',
 
-                'src/js/portfolio/portfolio.module.js',
+                'src/js/community/module.js',
+                'src/js/community/controller.js',
+
+                'src/js/portfolio/module.js',
                 'src/js/portfolio/asset.list.controller.js',
                 'src/js/portfolio/asset.transfer.controller.js',
                 'src/js/portfolio/asset.details.controller.js',
@@ -231,6 +254,10 @@ module.exports = function (grunt) {
             css: {
                 files: ['src/less/**/*.less'],
                 tasks: ['less']
+            },
+            ngtemplates: {
+                files: ['src/templates/**/*.html'],
+                tasks: ['ngtemplates']
             }
         },
         karma: {
@@ -285,6 +312,20 @@ module.exports = function (grunt) {
                 src: 'distr/devel/css/style.css'
             }
         },
+        ngtemplates: {
+            // NOTE : that task is not consistent with the standard distribution workflow.
+            options: {
+                url: function (url) { return url.replace('.html', ''); },
+                htmlmin: {
+                    collapseWhitespace: true
+                }
+            },
+            app: {
+                cwd: 'src/templates',
+                src: '**/*.html',
+                dest: compiledTemplates
+            }
+        },
         concat: {
             testnet: generateConcatDirectives('testnet'),
             mainnet: generateConcatDirectives('mainnet'),
@@ -329,7 +370,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         flatten: true,
-                        src: ['src/less/fonts/**/*.*'],
+                        src: ['src/fonts/**/*.*'],
                         dest: 'distr/devel/fonts/'
                     }
                 ]
@@ -497,24 +538,25 @@ module.exports = function (grunt) {
     });
 
     // These plugins provide necessary tasks.
+    grunt.loadNpmTasks('grunt-angular-templates');
+    grunt.loadNpmTasks('grunt-aws');
+    grunt.loadNpmTasks('grunt-bump');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-compress');
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-less');
-    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-jasmine');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-compress');
-    grunt.loadNpmTasks('grunt-jscs');
-    grunt.loadNpmTasks('grunt-bump');
-    grunt.loadNpmTasks('waves-grunt-github-releaser');
-    grunt.loadNpmTasks('grunt-webstore-upload');
-    grunt.loadNpmTasks('grunt-aws');
-    grunt.loadNpmTasks('grunt-shell');
-    grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-conventional-changelog');
+    grunt.loadNpmTasks('grunt-jscs');
+    grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-postcss');
+    grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-webstore-upload');
+    grunt.loadNpmTasks('waves-grunt-github-releaser');
 
     grunt.registerTask('emptyChangelog', 'Creates an empty changelog', function() {
         grunt.file.write('distr/CHANGELOG.tmp', '');
@@ -526,14 +568,13 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['jshint', 'jscs', 'karma:development']);
     grunt.registerTask('styles', ['less', 'copy:fonts', 'copy:img']);
 
-    grunt.registerTask('build-local', ['styles', 'concat:scriptsBundle']);
+    grunt.registerTask('build-local', ['styles', 'concat:scriptsBundle', 'ngtemplates']);
 
     grunt.registerTask('build', [
         'build-local',
         'jscs',
         'jshint',
         'karma:development',
-        'styles',
         'postcss',
         'concat',
         'karma:distr',

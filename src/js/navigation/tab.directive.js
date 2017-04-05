@@ -31,8 +31,7 @@
                     currentPageId: '<'
                 },
                 link: WavesTabLink,
-                template: '<img ng-src="img/tabs-iconset-{{pageId}}.svg" class="fFade" alt="{{caption}}" ' +
-                    'ng-click="onClick()" ng-class="[{selected: isSelected()}]"/>'
+                templateUrl: 'navigation/tab.directive'
             };
         });
 })();
