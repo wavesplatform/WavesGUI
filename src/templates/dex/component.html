@@ -20,13 +20,13 @@
   <div class="orderbooks">
     <div class="orderbook">
       <waves-dex-orderbook type="buy"
-                           name="Buy orders"
+                           name="Buy {{$ctrl.pair.priceAsset.displayName}}"
                            pair="$ctrl.pair"
                            orders="$ctrl.buyOrders"></waves-dex-orderbook>
     </div>
     <div class="orderbook">
       <waves-dex-orderbook type="sell"
-                           name="Sell orders"
+                           name="Sell {{$ctrl.pair.priceAsset.displayName}}"
                            pair="$ctrl.pair"
                            orders="$ctrl.sellOrders"></waves-dex-orderbook>
     </div>
