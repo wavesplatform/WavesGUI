@@ -32,6 +32,18 @@
                                 }));
                             });
                         })
+                        .then(function () {
+                            var defaultAssets = [Currency.BTC, Currency.USD, Currency.EUR, Currency.CNY];
+                            defaultAssets.forEach(function (asset) {
+                                var foundInBalances = _.find(self.balances, function (b) {
+                                    return b.currency === asset;
+                                });
+
+                                if (!foundInBalances) {
+                                    self.balances.push(Money.fromCoins(0, asset));
+                                }
+                            });
+                        })
                         .then(apiService.address.balance.bind(apiService.assets, self.address))
                         .then(function (response) {
                             self.balances.unshift(Money.fromCoins(response.balance, Currency.WAV));
