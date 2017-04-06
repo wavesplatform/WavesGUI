@@ -1,31 +1,30 @@
 (function () {
     'use strict';
 
-    function normalizeOrder(order, priceDecimals, amountDecimals) {
+    function normalizeOrder(order, amountAsset) {
         return {
-            price: order.price / Math.pow(10, priceDecimals),
-            amount: order.amount / Math.pow(10, amountDecimals)
+            price: Money.fromCoins(order.price, Currency.MATCHER_CURRENCY).toTokens(),
+            amount: Money.fromCoins(order.amount, amountAsset).toTokens()
         };
     }
 
     function DexOrderbookService(matcherApiService) {
         this.getOrderbook = function (assetOne, assetTwo) {
-            var decimals = {};
-            decimals[assetOne.id] = assetOne.precision;
-            decimals[assetTwo.id] = assetTwo.precision;
+            var assets = {};
+            assets[assetOne.id] = assetOne;
+            assets[assetTwo.id] = assetTwo;
             return matcherApiService
                 .loadOrderbook(assetOne.id, assetTwo.id)
                 .then(function (orderbook) {
-                    var priceDecimals = decimals[orderbook.pair.priceAsset || ''],
-                        amountDecimals = decimals[orderbook.pair.amountAsset || ''];
+                    var amountAsset = assets[orderbook.pair.amountAsset];
                     return {
                         timestamp: orderbook.timestamp,
                         pair: orderbook.pair,
                         bids: orderbook.bids.map(function (order) {
-                            return normalizeOrder(order, priceDecimals, amountDecimals);
+                            return normalizeOrder(order, amountAsset);
                         }),
                         asks: orderbook.asks.map(function (order) {
-                            return normalizeOrder(order, priceDecimals, amountDecimals);
+                            return normalizeOrder(order, amountAsset);
                         })
                     };
                 });
