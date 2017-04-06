@@ -12,7 +12,7 @@
             currentSum += total;
             return {
                 id: order.id,
-                price: order.price,
+                price: Money.fromCoins(order.price, Currency.MATCHER_CURRENCY).toTokens(),
                 amount: order.amount,
                 total: total,
                 sum: currentSum
