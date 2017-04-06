@@ -15,10 +15,10 @@
   <table ng-class="$ctrl.type">
     <tbody>
       <tr ng-repeat="order in $ctrl.orders">
-        <td>{{order.price | number:4}}</td>
-        <td>{{order.amount | number:4}}</td>
-        <td>{{order.total | number:4}}</td>
-        <td>{{order.sum | number:4}}</td>
+        <td>{{order.price | number:8}}</td>
+        <td>{{order.amount | number:8}}</td>
+        <td>{{order.total | number:8}}</td>
+        <td>{{order.sum | number:8}}</td>
       </tr>
       <tr ng-if="!$ctrl.orders.length">
         <td colspan="4">
