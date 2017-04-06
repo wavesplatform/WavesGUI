@@ -138,8 +138,6 @@
                 dialogService.open('#start-leasing-confirmation');
             }, 1);
 
-            reset();
-
             return true;
         }
 
