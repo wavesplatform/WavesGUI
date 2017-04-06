@@ -6,7 +6,7 @@
 
     function WavesLeasingController ($scope, $timeout, constants, events, autocomplete, applicationContext,
                                      apiService, dialogService, notificationService, transactionBroadcast,
-                                     formattingService, addressService) {
+                                     formattingService, addressService, leasingRequestService) {
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
 
         var leasing = this;
@@ -111,7 +111,7 @@
                 return false;
             }
 
-            var leasingObj = {
+            var startLeasing = {
                 recipient: addressService.cleanupOptionalPrefix(leasing.recipient),
                 amount: amount,
                 fee: transferFee
@@ -123,14 +123,14 @@
             };
 
             // creating the transaction and waiting for confirmation
-            leasing.broadcast.setTransaction(/*TODO: implement me*/leasingObj);
+            leasing.broadcast.setTransaction(leasingRequestService.buildStartLeasingRequest(startLeasing, sender));
 
             // setting data for the confirmation dialog
-            leasing.confirm.amount.value = leasingObj.amount.formatAmount(true);
-            leasing.confirm.amount.currency = leasingObj.amount.currency.displayName;
-            leasing.confirm.fee.value = leasingObj.fee.formatAmount(true);
-            leasing.confirm.fee.currency = leasingObj.fee.currency.displayName;
-            leasing.confirm.recipient = leasingObj.recipient;
+            leasing.confirm.amount.value = startLeasing.amount.formatAmount(true);
+            leasing.confirm.amount.currency = startLeasing.amount.currency.displayName;
+            leasing.confirm.fee.value = startLeasing.fee.formatAmount(true);
+            leasing.confirm.fee.currency = startLeasing.fee.currency.displayName;
+            leasing.confirm.recipient = startLeasing.recipient;
 
             // open confirmation dialog
             // doing it async because this method is called while another dialog is open
@@ -160,7 +160,7 @@
 
     WavesLeasingController.$inject = ['$scope', '$timeout', 'constants.ui', 'wallet.events', 'autocomplete.fees',
         'applicationContext', 'apiService', 'dialogService', 'notificationService', 'transactionBroadcast',
-        'formattingService', 'addressService'];
+        'formattingService', 'addressService', 'leasingRequestService'];
 
     angular
         .module('app.wallet')
