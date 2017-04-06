@@ -6,8 +6,7 @@
         var refreshPromise;
         var refreshDelay = 10 * 1000;
 
-        history.unconfirmed = [];
-        history.confirmed = [];
+        history.transactions = [];
 
         refreshTransactions();
 
@@ -29,8 +28,7 @@
                     return transactionLoadingService.refreshAssetCache(applicationContext.cache.assets, transactions);
                 })
                 .then(function () {
-                    history.unconfirmed = _.where(txArray, {unconfirmed: true});
-                    history.confirmed = _.difference(txArray, history.unconfirmed);
+                    history.transactions = txArray;
                 });
         }
     }

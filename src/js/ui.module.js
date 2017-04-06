@@ -5,7 +5,8 @@
         .module('app.ui', [])
         .constant('ui.events', {
             SPLASH_COMPLETED: 'splash-completed',
-            LOGIN_SUCCESSFUL: 'login-successful'
+            LOGIN_SUCCESSFUL: 'login-successful',
+            LEASING_CANCEL: 'leasing-cancel'
         });
 
     angular

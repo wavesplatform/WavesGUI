@@ -175,6 +175,7 @@ module.exports = function (grunt) {
                 'src/js/shared/decimal.input.restrictor.directive.js',
                 'src/js/shared/integer.input.restrictor.directive.js',
                 'src/js/shared/transaction.menu.component.js',
+                'src/js/shared/transaction.history.component.js',
 
                 'src/js/login/module.js',
                 'src/js/login/constants.js',
@@ -196,7 +197,10 @@ module.exports = function (grunt) {
                 'src/js/wallet/send.controller.js',
                 'src/js/wallet/withdraw.controller.js',
                 'src/js/wallet/deposit.controller.js',
+                'src/js/wallet/balance.details.controller.js',
                 'src/js/wallet/card.deposit.controller.js',
+                'src/js/wallet/leasing.service.js',
+                'src/js/wallet/leasing.controller.js',
 
                 'src/js/tokens/module.js',
                 'src/js/tokens/create.controller.js',
