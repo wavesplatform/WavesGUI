@@ -1,16 +1,18 @@
 <div class="half buy" ng-class="{'focused': $ctrl.focused == 'buy'}" ng-click="$ctrl.focusOn('buy')">
   <h3>Buy</h3>
   <div class="fields">
-    <input class="waves-input"
-           type="text"
-           placeholder="{{$ctrl.pair.amountAsset.displayName}} amount"
-           ng-model="$ctrl.buy.amount"
-           decimal-input-restrictor/>
-    <input class="waves-input"
-           type="text"
-           placeholder="Price per {{$ctrl.pair.amountAsset.displayName}}"
-           ng-model="$ctrl.buy.price"
-           decimal-input-restrictor/>
+    <md-input-container>
+      <label>Price in {{$ctrl.pair.priceAsset.displayName}}</label>
+      <input type="text"
+             ng-model="$ctrl.buy.price"
+             decimal-input-restrictor>
+    </md-input-container>
+    <md-input-container>
+      <label>{{$ctrl.pair.amountAsset.displayName}} amount</label>
+      <input type="text"
+             ng-model="$ctrl.buy.amount"
+             decimal-input-restrictor>
+    </md-input-container>
     <div>
       <span>Total:&nbsp;</span>
       <span>{{$ctrl.buy.amount * $ctrl.buy.price}}&nbsp;</span>
@@ -30,16 +32,18 @@
 <div class="half sell" ng-class="{'focused': $ctrl.focused == 'sell'}" ng-click="$ctrl.focusOn('sell')">
   <h3>Sell</h3>
   <div class="fields">
-    <input class="waves-input"
-           type="text"
-           placeholder="{{$ctrl.pair.amountAsset.displayName}} amount"
-           ng-model="$ctrl.sell.amount"
-           decimal-input-restrictor/>
-    <input class="waves-input"
-           type="text"
-           placeholder="Price per {{$ctrl.pair.amountAsset.displayName}}"
-           ng-model="$ctrl.sell.price"
-           decimal-input-restrictor/>
+    <md-input-container>
+      <label>Price in {{$ctrl.pair.priceAsset.displayName}}</label>
+      <input type="text"
+             ng-model="$ctrl.sell.price"
+             decimal-input-restrictor>
+    </md-input-container>
+    <md-input-container>
+      <label>{{$ctrl.pair.amountAsset.displayName}} amount</label>
+      <input type="text"
+             ng-model="$ctrl.sell.amount"
+             decimal-input-restrictor>
+    </md-input-container>
     <div>
       <span>Total:&nbsp;</span>
       <span>{{$ctrl.sell.amount * $ctrl.sell.price}}&nbsp;</span>
