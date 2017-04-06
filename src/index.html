@@ -525,7 +525,7 @@
                     <div class="noDisp" ng-controller="leasingController as leasing">
                         <div id="start-leasing-dialog" waves-dialog ok-button-caption="LEASE" on-dialog-ok="leasing.confirmLease(leasing.form)">
                             <h2 class="sectionHeader">BALANCE LEASING</h2>
-                            <form name="leasing.form" novalidate>
+                            <form name="leasing.form" novalidate ng-validate="leasing.validationOptions">
                                 <table>
                                     <div class="balanceAmt">
                                         <div><p>Available balance: </p><span class="balancewaves">{{leasing.availableBalance.formatAmount(true)}}</span><br/></div>
@@ -558,7 +558,13 @@
                         </div>
                         <div id="start-leasing-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!leasing.broadcast.pending" on-dialog-ok="leasing.broadcastTransaction()">
                             <div class="dialog-confirmation">
-                                <p>Confirmation text</p>
+                                <p class="dialog-text">You are going to lease <span class="confirmation-value">{{leasing.confirm.amount.value}}</span>
+                                    <span class="confirmation-value">{{leasing.confirm.amount.currency}}</span> with
+                                    <span class="confirmation-value">{{leasing.confirm.fee.value}}</span>
+                                    <span class="confirmation-value">{{leasing.confirm.fee.currency}}</span> fee to the address<br/>
+                                    <span class="confirmation-value">{{leasing.confirm.recipient}}</span>
+                                </p>
+                                <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
                             </div>
                         </div>
                     </div>
