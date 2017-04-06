@@ -42,7 +42,7 @@
                 },
                 sendFee: {
                     required: 'Transaction fee is required',
-                    decimal: 'Transaction fee must be with no more than ' +
+                    decimal: 'Transaction fee must be a number with no more than ' +
                         minimumFee.currency.precision + ' digits after the decimal point (.)',
                     min: 'Transaction fee is too small. It should be greater or equal to ' +
                         minimumFee.formatAmount(true)
