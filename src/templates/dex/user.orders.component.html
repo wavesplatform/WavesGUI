@@ -20,9 +20,9 @@
           ng-class="{filled: order.status === 'Filled' || order.status === 'Cancelled'}">
         <td>{{order.statusTitle}}</td>
         <td class="type" ng-class="order.type">{{order.typeTitle}}</td>
-        <td>{{order.price | number:4}}</td>
-        <td>{{order.amount | number:4}}</td>
-        <td>{{order.total | number:4}}</td>
+        <td>{{order.price | number:8}}</td>
+        <td>{{order.amount | number:8}}</td>
+        <td>{{order.total | number:8}}</td>
         <td ng-click="$ctrl.cancel({order: order})">&times;</td>
       </tr>
       <tr ng-if="!$ctrl.orders.length">
