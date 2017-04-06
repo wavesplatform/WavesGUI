@@ -537,7 +537,7 @@
                                         </tr>
                                         <tr>
                                             <td>Amount</td>
-                                            <td><input class="wInput form-control" name="leasingAmount" type="text" placeholder="Leasing amount" ng-model="leasing.amount"/></td>
+                                            <td><input class="wInput form-control" name="leasingAmount" type="text" placeholder="Leasing amount" ng-model="leasing.amount" decimal-input-restrictor/></td>
                                         </tr>
                                         <tr>
                                             <td class="padded">Waves fee</td>
@@ -576,37 +576,7 @@
                         <wallet-box class="walletBox" ng-repeat="w in walletList.wallets" balance="w.balance" details-available="w.leasingAvailable" on-send="walletList.send(w)"
                                     on-withdraw="walletList.withdraw(w)" on-deposit="walletList.deposit(w)" on-details="walletList.details(w)"></wallet-box>
                     </div>
-                    <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
-                    <div id="wallet-transaction-history" class="wavesTable wScroll">
-                        <table class="wavesTable-hover">
-                            <thead>
-                            <tr>
-                                <td>DATE</td>
-                                <td>TYPE</td>
-                                <td>NAME</td>
-                                <td>SENDER</td>
-                                <td>RECIPIENT</td>
-                                <td>FEE</td>
-                                <td>UNITS</td>
-                                <td></td>
-                            </tr>
-                            </thead>
-                            <tbody id="walletTransactionhistory">
-                                <tr ng-repeat="tx in walletList.transactions | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" ng-class="{'wavesTable-txUnc': tx.unconfirmed, 'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
-                                    <td>{{tx.formatted.datetime}}</td>
-                                    <td>{{tx.formatted.type}}</td>
-                                    <td>{{tx.formatted.asset}}</td>
-                                    <td>{{tx.formatted.sender}}</td>
-                                    <td>{{tx.formatted.recipient}}</td>
-                                    <td>{{tx.formatted.fee}}</td>
-                                    <td>{{tx.formatted.amount}}</td>
-                                    <td width="16">
-                                        <tx-menu transaction="tx"></tx-menu>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <waves-transaction-history transactions="walletList.transactions" limit-to="10"></waves-transaction-history>
                 </div>
                 <!-- / WALLET TAB -->
 
@@ -924,51 +894,7 @@
 
                 <!-- HISTORY TAB -->
                 <div id="mBB-history" class="mBB-content" ng-switch-when="history" ng-controller="historyController as history">
-                    <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
-                    <div id="full-transaction-history" class="wavesTable wScroll">
-                        <table class="wavesTable-hover wScroll">
-                            <thead>
-                            <tr>
-                                <td>DATE</td>
-                                <td>TYPE</td>
-                                <td>NAME</td>
-                                <td>SENDER</td>
-                                <td>RECIPIENT</td>
-                                <td>FEE</td>
-                                <td>UNITS</td>
-                                <td></td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="tx in history.unconfirmed | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" class="wavesTable-txUnc" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
-                                    <td>{{tx.formatted.datetime}}</td>
-                                    <td>{{tx.formatted.type}}</td>
-                                    <td>{{tx.formatted.asset}}</td>
-                                    <td>{{tx.formatted.sender}}</td>
-                                    <td>{{tx.formatted.recipient}}</td>
-                                    <td>{{tx.formatted.fee}}</td>
-                                    <td>{{tx.formatted.amount}}</td>
-                                    <td width="16">
-                                        <tx-menu transaction="tx"></tx-menu>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr ng-repeat="tx in history.confirmed | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
-                                    <td>{{tx.formatted.datetime}}</td>
-                                    <td>{{tx.formatted.type}}</td>
-                                    <td>{{tx.formatted.asset}}</td>
-                                    <td>{{tx.formatted.sender}}</td>
-                                    <td>{{tx.formatted.recipient}}</td>
-                                    <td>{{tx.formatted.fee}}</td>
-                                    <td>{{tx.formatted.amount}}</td>
-                                    <td width="16">
-                                        <tx-menu transaction="tx"></tx-menu>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <waves-transaction-history transactions="history.transactions" limit-to="50"></waves-transaction-history>
                 </div>
                 <!-- / HISTORY TAB -->
 

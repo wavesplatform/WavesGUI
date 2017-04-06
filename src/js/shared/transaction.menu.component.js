@@ -3,7 +3,7 @@
 
     var ADDRESS_STUB = 'n/a';
 
-    function TransactionMenuController(notificationService) {
+    function TransactionMenuController($scope, constants, events, notificationService) {
         var ctrl = this;
 
         ctrl.idCopied = idCopied;
@@ -11,6 +11,8 @@
         ctrl.fullTransactionData = fullTransactionData;
         ctrl.hasRecipient = hasRecipient;
         ctrl.addressCopied = addressCopied;
+        ctrl.canCancelLeasing = canCancelLeasing;
+        ctrl.cancelLeasing = cancelLeasing;
 
         function addressCopied () {
             return notificationService.notice('Address has been copied');
@@ -26,6 +28,16 @@
 
         function hasRecipient () {
             return !!ctrl.transaction.recipient;
+        }
+
+        function canCancelLeasing () {
+            return ctrl.transaction.type == constants.START_LEASING_TRANSACTION_TYPE;
+        }
+
+        function cancelLeasing () {
+            $scope.$emit(events.LEASING_CANCEL, {
+                startLeasingTransaction: ctrl.transaction
+            });
         }
 
         function fullTransactionData () {
@@ -46,7 +58,7 @@
         }
     }
 
-    TransactionMenuController.$inject = ['notificationService'];
+    TransactionMenuController.$inject = ['$scope', 'constants.transactions', 'ui.events', 'notificationService'];
 
     angular
         .module('app.shared')
