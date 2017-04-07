@@ -1,4 +1,4 @@
-<span class="magnifier">Asset&nbsp;name:</span>
+<span class="magnifier">Asset&nbsp;name</span>
 
 <md-autocomplete class="assets-autocomplete"
                  placeholder="Choose an asset"
@@ -12,7 +12,8 @@
                  md-clear-button="false"
                  md-no-cache="true"
                  md-min-length="0"
-                 md-has-not-found="true">
+                 md-has-not-found="true"
+                 md-select-on-focus>
   <md-item-template>
     <span md-highlight-text="$ctrl.autocomplete.searchText">{{item.displayName}}</span>
   </md-item-template>
