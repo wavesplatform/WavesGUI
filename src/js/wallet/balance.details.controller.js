@@ -25,9 +25,15 @@
                     generating: formatMoney(details.generating)
                 };
             }).catch(function (exception) {
-                if (exception && exception.message) {
-                    notificationService.error(exception.message);
-                } else {
+                if (exception) {
+                    if (exception.data)
+                        notificationService.error(exception.data.message);
+                    else if (exception.message)
+                        notificationService.error(exception.message);
+                    else if (exception.statusText)
+                        notificationService.error(exception.statusText);
+                }
+                else {
                     notificationService.error(DEFAULT_ERROR_MESSAGE);
                 }
 
