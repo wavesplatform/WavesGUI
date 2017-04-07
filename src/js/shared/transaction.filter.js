@@ -19,6 +19,18 @@
             type: 'Asset Reissue',
             processor: processAssetReissueTransaction
         };
+        TRANSACTION_SPEC[constants.START_LEASING_TRANSACTION_TYPE] = {
+            type: 'Start Leasing',
+            processor: processStartLeasingTransaction
+        };
+        TRANSACTION_SPEC[constants.CANCEL_LEASING_TRANSACTION_TYPE] = {
+            type: 'Cancel Leasing',
+            processor: processCancelLeasingTransaction
+        };
+        TRANSACTION_SPEC[constants.CREATE_ALIAS_TRANSACTION_TYPE] = {
+            type: 'Create Alias',
+            processor: processCreateAliasTransaction
+        };
 
         function buildTransactionType (number) {
             var spec = TRANSACTION_SPEC[number];
@@ -58,6 +70,10 @@
             transaction.formatted.asset = asset.displayName;
         }
 
+        function processCreateAliasTransaction(transaction) {
+            transaction.formatted.asset = Currency.WAV.displayName;
+        }
+
         function processAssetTransferTransaction(transaction) {
             var currency;
             if (transaction.assetId) {
@@ -83,6 +99,15 @@
 
             transaction.formatted.amount = Money.fromCoins(transaction.quantity, asset.currency).formatAmount();
             transaction.formatted.asset = asset.currency.displayName;
+        }
+
+        function processStartLeasingTransaction(transaction) {
+            transaction.formatted.amount = Money.fromCoins(transaction.amount, Currency.WAV).formatAmount();
+            transaction.formatted.asset = Currency.WAV.displayName;
+        }
+
+        function processCancelLeasingTransaction(transaction) {
+            transaction.formatted.asset = Currency.WAV.displayName;
         }
 
         function formatFee(transaction) {

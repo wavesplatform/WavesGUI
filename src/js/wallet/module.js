@@ -6,6 +6,8 @@
             WALLET_SEND: 'wallet-send',
             WALLET_WITHDRAW: 'wallet-withdraw',
             WALLET_DEPOSIT: 'wallet-deposit',
+            WALLET_DETAILS: 'wallet-details',
+            WALLET_LEASE: 'wallet-lease',
             WALLET_CARD_DEPOSIT: 'wallet-card-deposit'
         });
 })();

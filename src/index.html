@@ -268,9 +268,37 @@
                 <a ng-click="home.featureUnderDevelopment()">
                     <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-preferences.svg" alt="Preferences" title="Preferences"/>
                 </a>
-                <a ng-click="home.featureUnderDevelopment()">
+                <a ng-click="menu.showProfileDialog()">
                     <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-profile.svg" alt="User profile" title="User profile"/>
                 </a>
+                <div class="noDisp" ng-controller="createAliasController as create">
+                    <div id="create-alias-dialog" waves-dialog global="true" ok-button-caption="CREATE" on-dialog-ok="create.confirmCreateAlias(create.form)">
+                        <h2 class="sectionHeader">CREATE NEW ALIAS</h2>
+                        <p>Here you can assign a symbolic name to your address</p>
+                        <form name="create.form" novalidate ng-validate="create.validationOptions">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td width="30%">Alias</td>
+                                        <td><input class="wInput form-control" name="aliasName" type="text" placeholder="Symbolic name" ng-model="create.alias"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Waves fee</td>
+                                        <td>{{::create.fee.formatAmount(true)}} {{::create.fee.currency.displayName}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                    <div id="create-alias-confirmation" waves-dialog global="true" ok-button-caption="CONFIRM" ok-button-enabled="!create.broadcast.pending" on-dialog-ok="create.broadcastTransaction()">
+                        <div class="dialog-confirmation">
+                            <p class="dialog-text">You are going to create a new alias <span class="confirmation-value">{{create.alias}}</span>
+                                for your current address.
+                            </p>
+                            <p class="dialog-text">Press <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard this operation.</p>
+                        </div>
+                    </div>
+                </div>
                 <a ng-click="home.logout()">
                     <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-logout.svg" alt="Log out" title="Log out" />
                 </a>
@@ -500,41 +528,83 @@
                         </div>
                     </div>
 
+                    <div class="noDisp" ng-controller="balanceDetailsController as balance">
+                        <div id="balance-details-dialog" waves-dialog ok-button-caption="LEASE MY BALANCE" on-dialog-ok="walletList.lease(balance.details)" cancel-button-caption="CLOSE">
+                            <h2 class="sectionHeader">BALANCE DETAILS</h2>
+                            <table class="wavesTable">
+                                <thead>
+                                    <tr>
+                                        <td>Regular</td>
+                                        <td>Effective</td>
+                                        <td>Generating</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{balance.formatted.regular}}</td>
+                                        <td>{{balance.formatted.effective}}</td>
+                                        <td>{{balance.formatted.generating}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="noDisp" ng-controller="leasingController as leasing">
+                        <div id="start-leasing-dialog" waves-dialog ok-button-caption="LEASE" on-dialog-ok="leasing.confirmLease(leasing.form)">
+                            <h2 class="sectionHeader">BALANCE LEASING</h2>
+                            <form name="leasing.form" novalidate ng-validate="leasing.validationOptions">
+                                <table>
+                                    <div class="balanceAmt">
+                                        <div><p>Available balance: </p><span class="balancewaves">{{leasing.availableBalance.formatAmount(true)}}</span><br/></div>
+                                    </div>
+                                    <tbody>
+                                        <tr>
+                                            <td>Recipient</td>
+                                            <td><input class="wInput form-control" name="leasingRecipient" type="text" placeholder="Recipient address" ng-model="leasing.recipient"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Amount</td>
+                                            <td><input class="wInput form-control" name="leasingAmount" type="text" placeholder="Leasing amount" ng-model="leasing.amount" decimal-input-restrictor/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="padded">Waves fee</td>
+                                            <td class="padded">
+                                                <md-autocomplete md-input-name="leasingFee" md-selected-item="leasing.autocomplete.selectedFee" md-search-text="leasing.autocomplete.searchText"
+                                                                 md-items="item in leasing.autocomplete.querySearch(leasing.autocomplete.searchText)"
+                                                                 md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
+                                                                 md-menu-class="popup-autocomplete" class="fee-autocomplete">
+                                                    <md-item-template>
+                                                        <span md-highlight-text="leasing.autocomplete.searchText">{{item.displayText}}</span>
+                                                    </md-item-template>
+                                                </md-autocomplete>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                            <div class="textCenter">
+                                <p class="dialog-text">Please note that you won't be able to transfer or<br/> trade this money while it is leased.</p>
+                            </div>
+                        </div>
+                        <div id="start-leasing-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!leasing.broadcast.pending" on-dialog-ok="leasing.broadcastTransaction()">
+                            <div class="dialog-confirmation">
+                                <p class="dialog-text">You are going to lease <span class="confirmation-value">{{leasing.confirm.amount.value}}</span>
+                                    <span class="confirmation-value">{{leasing.confirm.amount.currency}}</span> with
+                                    <span class="confirmation-value">{{leasing.confirm.fee.value}}</span>
+                                    <span class="confirmation-value">{{leasing.confirm.fee.currency}}</span> fee to the address<br/>
+                                    <span class="confirmation-value">{{leasing.confirm.recipient}}</span>
+                                </p>
+                                <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="flex-container">
-                        <wallet-box class="walletBox" ng-repeat="w in walletList.wallets" balance="w.balance" on-send="walletList.send(w)"
-                                    on-withdraw="walletList.withdraw(w)" on-deposit="walletList.deposit(w)"></wallet-box>
+                        <wallet-box class="walletBox" ng-repeat="w in walletList.wallets" balance="w.balance" details-available="w.leasingAvailable" on-send="walletList.send(w)"
+                                    on-withdraw="walletList.withdraw(w)" on-deposit="walletList.deposit(w)" on-details="walletList.details(w)"></wallet-box>
                     </div>
-                    <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
-                    <div id="wallet-transaction-history" class="wavesTable wScroll">
-                        <table class="wavesTable-hover">
-                            <thead>
-                            <tr>
-                                <td>DATE</td>
-                                <td>TYPE</td>
-                                <td>NAME</td>
-                                <td>SENDER</td>
-                                <td>RECIPIENT</td>
-                                <td>FEE</td>
-                                <td>UNITS</td>
-                                <td></td>
-                            </tr>
-                            </thead>
-                            <tbody id="walletTransactionhistory">
-                                <tr ng-repeat="tx in walletList.transactions | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" ng-class="{'wavesTable-txUnc': tx.unconfirmed, 'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
-                                    <td>{{tx.formatted.datetime}}</td>
-                                    <td>{{tx.formatted.type}}</td>
-                                    <td>{{tx.formatted.asset}}</td>
-                                    <td>{{tx.formatted.sender}}</td>
-                                    <td>{{tx.formatted.recipient}}</td>
-                                    <td>{{tx.formatted.fee}}</td>
-                                    <td>{{tx.formatted.amount}}</td>
-                                    <td width="16">
-                                        <tx-menu transaction="tx"></tx-menu>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <waves-transaction-history transactions="walletList.transactions" limit-to="10"></waves-transaction-history>
                 </div>
                 <!-- / WALLET TAB -->
 
@@ -852,51 +922,7 @@
 
                 <!-- HISTORY TAB -->
                 <div id="mBB-history" class="mBB-content" ng-switch-when="history" ng-controller="historyController as history">
-                    <h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
-                    <div id="full-transaction-history" class="wavesTable wScroll">
-                        <table class="wavesTable-hover wScroll">
-                            <thead>
-                            <tr>
-                                <td>DATE</td>
-                                <td>TYPE</td>
-                                <td>NAME</td>
-                                <td>SENDER</td>
-                                <td>RECIPIENT</td>
-                                <td>FEE</td>
-                                <td>UNITS</td>
-                                <td></td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="tx in history.unconfirmed | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" class="wavesTable-txUnc" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
-                                    <td>{{tx.formatted.datetime}}</td>
-                                    <td>{{tx.formatted.type}}</td>
-                                    <td>{{tx.formatted.asset}}</td>
-                                    <td>{{tx.formatted.sender}}</td>
-                                    <td>{{tx.formatted.recipient}}</td>
-                                    <td>{{tx.formatted.fee}}</td>
-                                    <td>{{tx.formatted.amount}}</td>
-                                    <td width="16">
-                                        <tx-menu transaction="tx"></tx-menu>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr ng-repeat="tx in history.confirmed | orderBy:'timestamp':true | limitTo:10 | transaction track by tx.timestamp" ng-class="{'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
-                                    <td>{{tx.formatted.datetime}}</td>
-                                    <td>{{tx.formatted.type}}</td>
-                                    <td>{{tx.formatted.asset}}</td>
-                                    <td>{{tx.formatted.sender}}</td>
-                                    <td>{{tx.formatted.recipient}}</td>
-                                    <td>{{tx.formatted.fee}}</td>
-                                    <td>{{tx.formatted.amount}}</td>
-                                    <td width="16">
-                                        <tx-menu transaction="tx"></tx-menu>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <waves-transaction-history transactions="history.transactions" limit-to="50"></waves-transaction-history>
                 </div>
                 <!-- / HISTORY TAB -->
 
