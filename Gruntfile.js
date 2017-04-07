@@ -189,6 +189,7 @@ module.exports = function (grunt) {
                 'src/js/navigation/module.js',
                 'src/js/navigation/controller.js',
                 'src/js/navigation/main.menu.controller.js',
+                'src/js/navigation/alias.create.controller.js',
                 'src/js/navigation/tab.directive.js',
 
                 'src/js/wallet/module.js',
