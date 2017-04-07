@@ -27,6 +27,10 @@
             type: 'Cancel Leasing',
             processor: processCancelLeasingTransaction
         };
+        TRANSACTION_SPEC[constants.CREATE_ALIAS_TRANSACTION_TYPE] = {
+            type: 'Create Alias',
+            processor: processCreateAliasTransaction
+        };
 
         function buildTransactionType (number) {
             var spec = TRANSACTION_SPEC[number];
@@ -64,6 +68,10 @@
             });
             transaction.formatted.amount = Money.fromCoins(transaction.quantity, asset).formatAmount();
             transaction.formatted.asset = asset.displayName;
+        }
+
+        function processCreateAliasTransaction(transaction) {
+            transaction.formatted.asset = Currency.WAV.displayName;
         }
 
         function processAssetTransferTransaction(transaction) {

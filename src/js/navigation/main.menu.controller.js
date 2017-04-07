@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function MainMenuController($scope, $interval, applicationContext,
+    function MainMenuController($scope, $interval, events, applicationContext,
                                 cryptoService, dialogService, notificationService, apiService) {
         var refreshPromise, delayRefresh = 10 * 1000;
         var menu = this;
@@ -37,7 +37,12 @@
         });
 
         menu.showBackupDialog = showBackupDialog;
+        menu.showProfileDialog = showProfileDialog;
         menu.backup = backup;
+
+        function showProfileDialog () {
+            $scope.$broadcast(events.NAVIGATION_CREATE_ALIAS, {});
+        }
 
         function showBackupDialog() {
             initializeBackupFields();
@@ -66,7 +71,7 @@
         }
     }
 
-    MainMenuController.$inject = ['$scope', '$interval', 'applicationContext',
+    MainMenuController.$inject = ['$scope', '$interval', 'navigation.events', 'applicationContext',
         'cryptoService', 'dialogService', 'notificationService', 'apiService'];
 
     angular

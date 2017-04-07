@@ -268,9 +268,37 @@
                 <a ng-click="home.featureUnderDevelopment()">
                     <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-preferences.svg" alt="Preferences" title="Preferences"/>
                 </a>
-                <a ng-click="home.featureUnderDevelopment()">
+                <a ng-click="menu.showProfileDialog()">
                     <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-profile.svg" alt="User profile" title="User profile"/>
                 </a>
+                <div class="noDisp" ng-controller="createAliasController as create">
+                    <div id="create-alias-dialog" waves-dialog global="true" ok-button-caption="CREATE" on-dialog-ok="create.confirmCreateAlias(create.form)">
+                        <h2 class="sectionHeader">CREATE NEW ALIAS</h2>
+                        <p>Here you can assign a symbolic name to your address</p>
+                        <form name="create.form" novalidate ng-validate="create.validationOptions">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td width="30%">Alias</td>
+                                        <td><input class="wInput form-control" name="aliasName" type="text" placeholder="Symbolic name" ng-model="create.alias"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Waves fee</td>
+                                        <td>{{::create.fee.formatAmount(true)}} {{::create.fee.currency.displayName}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                    <div id="create-alias-confirmation" waves-dialog global="true" ok-button-caption="CONFIRM" ok-button-enabled="!create.broadcast.pending" on-dialog-ok="create.broadcastTransaction()">
+                        <div class="dialog-confirmation">
+                            <p class="dialog-text">You are going to create a new alias <span class="confirmation-value">{{create.alias}}</span>
+                                for your current address.
+                            </p>
+                            <p class="dialog-text">Press <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard this operation.</p>
+                        </div>
+                    </div>
+                </div>
                 <a ng-click="home.logout()">
                     <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-logout.svg" alt="Log out" title="Log out" />
                 </a>
