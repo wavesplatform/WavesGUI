@@ -56,8 +56,9 @@
                         callback();
                     }
                 })
-                .catch(function () {
-                    notificationService.error('Order has not been created!');
+                .catch(function (e) {
+                    var errorMessage = e.data ? e.data.message : null;
+                    notificationService.error(errorMessage || 'Order has not been created!');
                     if (callback) {
                         callback();
                     }
