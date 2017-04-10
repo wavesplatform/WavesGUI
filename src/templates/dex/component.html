@@ -1,6 +1,5 @@
 <div class="exchange">
   <div class="choice">
-    <div class="current-pair">{{$ctrl.pair.amountAsset.shortName}}/{{$ctrl.pair.priceAsset.shortName}}</div>
     <div class="picker-widget">
       <waves-dex-asset-picker name="Amount asset"
                               type="amountAsset"
@@ -8,6 +7,7 @@
                               hidden-asset="$ctrl.pair.priceAsset"
                               picked-asset="$ctrl.pair.amountAsset"></waves-dex-asset-picker>
     </div>
+    <div class="current-pair">{{$ctrl.pair.amountAsset.shortName}}/{{$ctrl.pair.priceAsset.shortName}}</div>
     <div class="picker-widget">
       <waves-dex-asset-picker name="Price asset"
                               type="priceAsset"

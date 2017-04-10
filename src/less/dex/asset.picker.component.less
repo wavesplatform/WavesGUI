@@ -9,12 +9,19 @@ waves-dex-asset-picker {
 
   & > span.magnifier {
     display: inline-block;
-    padding: 5px 10px;
-    border-radius: 5px 0 0 5px;
+    padding: 5px 15px;
     border: @border;
     background: @color-almost-white;
     background-size: 70%;
     user-select: none;
+
+    &.amount {
+      border-radius: 5px 0 0 5px;
+    }
+
+    &.price {
+      border-radius: 0 5px 5px 0;
+    }
   }
 
   & > md-autocomplete.assets-autocomplete {
@@ -32,11 +39,20 @@ waves-dex-asset-picker {
         flex-grow: 1;
         padding: 5px 10px;
         border: @border;
-        border-left: none;
-        border-radius: 0 5px 5px 0;
         font-size: 1.05rem;
         color: @color-grey;
       }
+    }
+
+    &.amount input {
+      border-left: none;
+      border-radius: 0 5px 5px 0;
+      text-align: right;
+    }
+
+    &.price input {
+      border-right: none;
+      border-radius: 5px 0 0 5px;
     }
   }
 }
