@@ -1,0 +1,7 @@
+<h2>Favorites</h2>
+
+<div class="pairs-list">
+  <div class="pair"
+       ng-repeat="p in $ctrl.pairs"
+       ng-click="$ctrl.onClick(p)">{{p.amountAsset.shortName}}/{{p.priceAsset.shortName}}</div>
+</div>

@@ -211,11 +211,11 @@ module.exports = function (grunt) {
                 'src/js/dex/order.service.js',
                 'src/js/dex/orderbook.service.js',
                 'src/js/dex/asset.picker.component.js',
+                'src/js/dex/favorites.component.js',
                 'src/js/dex/order.creator.component.js',
                 'src/js/dex/orderbook.component.js',
                 'src/js/dex/pair.info.component.js',
                 'src/js/dex/pair.chart.component.js',
-                'src/js/dex/pairs.list.component.js',
                 'src/js/dex/user.orders.component.js',
 
                 'src/js/history/module.js',

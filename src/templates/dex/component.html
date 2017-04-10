@@ -41,20 +41,12 @@
 </div>
 
 <aside class="pairs-lists">
+  <waves-dex-favorites pairs="$ctrl.favoritePairs"
+                       switch-pair="$ctrl.changePair"></waves-dex-favorites>
   <div class="how-to">
     <h3>Quick guide</h3>
     <p>1. Choose a pair of assets you want to trade. Just start typing asset name, then pick the right one.</p>
     <p>2. Take a look at orderbooks to get an understanding of the pair market.</p>
     <p>3. Finally, fill the form and submit your order.</p>
   </div>
-  <!--waves-dex-pairs-list type="favorite"
-                        name="Favorites"
-                        placeholder="You can add pairs here. Just press the star button!"
-                        pairs="$ctrl.favoritePairs"
-                        action="$ctrl.addFavorite()"></waves-dex-pairs-list-->
-  <!--waves-dex-pairs-list type="traded"
-                        name="Most traded"
-                        placeholder="Pairs will appear here soon."
-                        pairs="$ctrl.tradedPairs"
-                        action="$ctrl.showMoreTraded()"></waves-dex-pairs-list-->
 </aside>

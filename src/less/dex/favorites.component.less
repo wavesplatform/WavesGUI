@@ -5,10 +5,10 @@
 @color-traded-still: @color-waves-blue-temp;
 @color-traded-hover: saturate(@color-waves-blue-temp, 20%);
 
-waves-dex-pairs-list {
+waves-dex-favorites {
   display: block;
   width: 100%;
-  padding: 10px;
+  margin-top: 15px;
 
   h2 {
     margin-bottom: 12px;
@@ -29,39 +29,20 @@ waves-dex-pairs-list {
       cursor: pointer;
     }
 
-    .action {
-      font-weight: bold;
-      user-select: none;
-    }
-
-    &.favorite .pair {
+    .pair {
       background: @color-favorite-still;
       &:hover {
         background: @color-favorite-hover;
       }
     }
 
-    &.favorite .action {
+    .action {
+      font-weight: bold;
+      user-select: none;
       background: lighten(@color-favorite-still, 15%);
       color: @color-grey;
       &:hover {
         background: lighten(@color-favorite-hover, 15%);
-      }
-    }
-
-    &.traded .pair {
-      background: @color-traded-still;
-      color: @color-white;
-      &:hover {
-        background: @color-traded-hover;
-      }
-    }
-
-    &.traded .action {
-      background: lighten(@color-traded-still, 15%);
-      color: @color-white;
-      &:hover {
-        background: lighten(@color-traded-hover, 15%);
       }
     }
   }
