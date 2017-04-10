@@ -1,4 +1,4 @@
-<div class="workspace">
+<div class="exchange">
   <div class="choice">
     <div class="current-pair">{{$ctrl.pair.amountAsset.shortName}}/{{$ctrl.pair.priceAsset.shortName}}</div>
     <div class="picker-widget">
@@ -17,25 +17,27 @@
     </div>
   </div>
 
-  <div class="orderbooks">
-    <div class="orderbook">
-      <waves-dex-orderbook type="buy"
-                           name="Buy {{$ctrl.pair.amountAsset.displayName}}"
-                           pair="$ctrl.pair"
-                           orders="$ctrl.buyOrders"></waves-dex-orderbook>
-    </div>
-    <div class="orderbook">
-      <waves-dex-orderbook type="sell"
-                           name="Sell {{$ctrl.pair.amountAsset.displayName}}"
-                           pair="$ctrl.pair"
-                           orders="$ctrl.sellOrders"></waves-dex-orderbook>
+  <div class="workplace">
+    <div class="orderbooks">
+      <div class="orderbook">
+        <waves-dex-orderbook type="buy"
+                             name="{{$ctrl.pair.amountAsset.displayName}} buy orders"
+                             pair="$ctrl.pair"
+                             orders="$ctrl.buyOrders"></waves-dex-orderbook>
+      </div>
+      <div class="orderbook">
+        <waves-dex-orderbook type="sell"
+                             name="{{$ctrl.pair.amountAsset.displayName}} sell orders"
+                             pair="$ctrl.pair"
+                             orders="$ctrl.sellOrders"></waves-dex-orderbook>
+      </div>
     </div>
     <div class="user-orders">
+      <waves-dex-order-creator pair="$ctrl.pair"
+                               submit="$ctrl.createOrder"></waves-dex-order-creator>
       <waves-dex-user-orders pair="$ctrl.pair"
                              orders="$ctrl.userOrders"
                              cancel-order="$ctrl.cancelOrder"></waves-dex-user-orders>
-      <waves-dex-order-creator pair="$ctrl.pair"
-                               submit="$ctrl.createOrder"></waves-dex-order-creator>
     </div>
   </div>
 </div>
