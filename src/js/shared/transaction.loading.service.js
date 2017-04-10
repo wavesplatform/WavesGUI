@@ -23,17 +23,21 @@
         this.refreshAssetCache = function (cache, transactions) {
             var sequence = $q.resolve();
             _.forEach(transactions, function (tx) {
-                if (tx.assetId) {
-                    var cached = cache[tx.assetId];
-                    if (!cached) {
-                        sequence = sequence
-                            .then(function () {
-                                return apiService.transactions.info(tx.assetId);
-                            })
-                            .then(function (response) {
-                                cache.put(response);
-                            });
-                    }
+                var assetId;
+                if (tx.assetId)
+                    assetId = tx.assetId;
+                else if (tx.order1 && tx.order1.assetPair.amountAsset)
+                    assetId = tx.order1.assetPair.amountAsset;
+
+                var cached = cache[assetId];
+                if (!cached) {
+                    sequence = sequence
+                        .then(function () {
+                            return apiService.transactions.info(assetId);
+                        })
+                        .then(function (response) {
+                            cache.put(response);
+                        });
                 }
             });
 
