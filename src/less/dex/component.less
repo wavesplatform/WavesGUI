@@ -5,9 +5,9 @@ waves-dex {
   width: 100%;
   min-height: 100%;
 
-  & > .workspace {
+  & > .exchange {
     width: 81%;
-    padding: 20px 50px 0 30px;
+    padding: 20px 50px 60px 30px;
 
     & > .choice {
       display: flex;
@@ -15,40 +15,47 @@ waves-dex {
 
       .current-pair {
         display: inline-block;
-        padding: 6px 12px 4px;
+        margin: 0 40px;
         border-radius: 5px;
-        border: solid 2px @color-waves-blue-temp;
         color: @color-waves-blue-temp;
+        font-size: 1.65em;
         font-weight: bold;
       }
 
       .picker-widget {
         flex-grow: 1;
-        margin-left: 40px;
       }
     }
 
-    & > .orderbooks {
+    & > .workplace {
       display: flex;
       justify-content: space-between;
       margin-top: 35px;
 
-      .orderbook {
-        width: 33%;
-        padding-right: 35px;
+      .orderbooks {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
 
-        .orderbook-scroll {
-          max-height: 250px;
+        .orderbook {
+          width: 100%;
+          padding: 0 45px 25px 0;
+
+          .orderbook-scroll {
+            max-height: 250px;
+          }
         }
       }
 
       .user-orders {
-        width: 34%;
         display: flex;
         flex-direction: column;
+        width: 50%;
+        min-width: 520px;
+        padding-top: 25px;
 
         waves-dex-user-orders {
-          margin-bottom: 35px;
+          margin-top: 25px;
         }
       }
     }
@@ -58,9 +65,10 @@ waves-dex {
     width: 19%;
     min-width: 220px;
     max-width: 370px;
+    padding-left: 20px;
 
     .how-to {
-      margin-top: 10px;
+      margin-top: 15px;
 
       p {
         margin-top: 15px;

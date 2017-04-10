@@ -39,6 +39,18 @@
         ctrl.sellOrders = [];
         ctrl.userOrders = [];
 
+        ctrl.favoritePairs = [
+            {amountAsset: Currency.WAV, priceAsset: Currency.BTC},
+            {amountAsset: Currency.WAV, priceAsset: Currency.USD},
+            {amountAsset: Currency.WAV, priceAsset: Currency.EUR},
+            {amountAsset: Currency.WAV, priceAsset: Currency.CNY},
+            {amountAsset: Currency.BTC, priceAsset: Currency.EUR},
+            {amountAsset: Currency.BTC, priceAsset: Currency.CNY},
+            {amountAsset: Currency.USD, priceAsset: Currency.BTC},
+            {amountAsset: Currency.USD, priceAsset: Currency.CNY},
+            {amountAsset: Currency.EUR, priceAsset: Currency.USD}
+        ];
+
         ctrl.createOrder = function (type, price, amount, callback) {
             // TODO : add a queue for the orders which weren't yet accepted.
             dexOrderService
@@ -79,6 +91,12 @@
                 });
         };
 
+        ctrl.changePair = function (pair) {
+            ctrl.pair = pair;
+            refreshOrderbooks();
+            refreshUserOrders();
+        };
+
         assetStore.getAll()
             .then(function (assetsList) {
                 // From here, asset pickers start working.
@@ -108,7 +126,6 @@
         $scope.$on('asset-picked', function (e, newAsset, type) {
             // Define in which widget the asset was changed.
             ctrl.pair[type] = newAsset;
-
             refreshOrderbooks();
             refreshUserOrders();
         });

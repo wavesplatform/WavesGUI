@@ -3,19 +3,19 @@
 
     var statuses = {
         'PartiallyFilled': {
-            title: 'Partially filled',
+            title: 'Partial',
             order: 2
         },
         'Accepted': {
-            title: 'Accepted',
+            title: 'Opened',
             order: 4
         },
         'Filled': {
-            title: 'Filled',
+            title: 'Closed',
             order: 6
         },
         'Cancelled': {
-            title: 'Cancelled',
+            title: 'Canceled',
             order: 8
         }
     };
