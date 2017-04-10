@@ -76,6 +76,8 @@
                             notificationService.error(exception.message);
                         else if (exception.statusText)
                             notificationService.error(exception.statusText);
+                        else
+                            notificationService.error(DEFAULT_ERROR_MESSAGE);
                     }
                     else {
                         notificationService.error(DEFAULT_ERROR_MESSAGE);

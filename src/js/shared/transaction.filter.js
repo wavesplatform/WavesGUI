@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function TransactionFilter(constants, applicationContext, formattingService, addressService) {
+    function TransactionFilter(constants, applicationContext, formattingService, apiService) {
         var TRANSACTION_SPEC = {};
         TRANSACTION_SPEC[constants.PAYMENT_TRANSACTION_TYPE] = {
             type: 'Payment',
@@ -30,6 +30,10 @@
         TRANSACTION_SPEC[constants.CREATE_ALIAS_TRANSACTION_TYPE] = {
             type: 'Create Alias',
             processor: processCreateAliasTransaction
+        };
+        TRANSACTION_SPEC[constants.EXCHANGE_TRANSACTION_TYPE] = {
+            type: '',
+            processor: processExchangeTransaction
         };
 
         function buildTransactionType (number) {
@@ -110,6 +114,35 @@
             transaction.formatted.asset = Currency.WAV.displayName;
         }
 
+        function processExchangeTransaction(transaction) {
+            var type = 'Exchange';
+
+            var buyOrder = transaction.order1;
+            var assetId = buyOrder.assetPair.amountAsset;
+            if (buyOrder.senderPublicKey === applicationContext.account.keyPair.public) {
+                type = type + ' ' + 'Buy';
+            }
+
+            var sellOrder = transaction.order2;
+            if (sellOrder.senderPublicKey === applicationContext.account.keyPair.public) {
+                type = type + ' ' + 'Sell';
+            }
+
+            transaction.formatted.type = type;
+            var currency;
+            if (assetId) {
+                currency = applicationContext.cache.assets[assetId];
+            }
+            else {
+                currency = Currency.WAV;
+            }
+
+            if (currency) {
+                transaction.formatted.asset = currency.displayName;
+                transaction.formatted.amount = Money.fromCoins(transaction.amount, currency).formatAmount();
+            }
+        }
+
         function formatFee(transaction) {
             var currency = Currency.WAV;
             var assetId = transaction.feeAssetId;
@@ -148,7 +181,7 @@
         };
     }
 
-    TransactionFilter.$inject = ['constants.transactions', 'applicationContext', 'formattingService', 'addressService'];
+    TransactionFilter.$inject = ['constants.transactions', 'applicationContext', 'formattingService', 'apiService'];
 
     angular
         .module('app.shared')
