@@ -1,31 +1,32 @@
-<h2 class="sectionHeader">LATEST TRANSACTIONS</h2>
-<div id="wallet-transaction-history" class="wavesTable wScroll">
-  <table class="wavesTable-hover">
+<section-header>LATEST TRANSACTIONS</section-header>
+<waves-scrollbox class="transactions-table">
+  <table>
     <thead>
-    <tr>
-      <td>DATE</td>
-      <td>TYPE</td>
-      <td>NAME</td>
-      <td>SENDER</td>
-      <td>RECIPIENT</td>
-      <td>FEE</td>
-      <td>UNITS</td>
-      <td></td>
-    </tr>
+      <tr>
+        <td>DATE</td>
+        <td>TYPE</td>
+        <td>NAME</td>
+        <td>SENDER</td>
+        <td>RECIPIENT</td>
+        <td>FEE</td>
+        <td>UNITS</td>
+        <td></td>
+      </tr>
     </thead>
-    <tbody id="walletTransactionhistory">
-    <tr ng-repeat="tx in $ctrl.transactions | orderBy:'timestamp':true | limitTo:$ctrl.limitTo | transaction track by tx.timestamp" ng-class="{'wavesTable-txUnc': tx.unconfirmed, 'wavesTable-txIn': !tx.formatted.isOutgoing, 'wavesTable-txOut': tx.formatted.isOutgoing}">
-      <td>{{tx.formatted.datetime}}</td>
-      <td>{{tx.formatted.type}}</td>
-      <td>{{tx.formatted.asset}}</td>
-      <td>{{tx.formatted.sender}}</td>
-      <td>{{tx.formatted.recipient}}</td>
-      <td>{{tx.formatted.fee}}</td>
-      <td>{{tx.formatted.amount}}</td>
-      <td width="16">
-        <tx-menu transaction="tx"></tx-menu>
-      </td>
-    </tr>
+    <tbody>
+      <tr ng-repeat="tx in $ctrl.transactions | orderBy:'timestamp':true | limitTo:$ctrl.limitTo | transaction track by tx.timestamp"
+          ng-class="{'tx-unc': tx.unconfirmed, 'tx-in': !tx.formatted.isOutgoing, 'tx-out': tx.formatted.isOutgoing}">
+        <td>{{tx.formatted.datetime}}</td>
+        <td>{{tx.formatted.type}}</td>
+        <td>{{tx.formatted.asset}}</td>
+        <td>{{tx.formatted.sender}}</td>
+        <td>{{tx.formatted.recipient}}</td>
+        <td>{{tx.formatted.fee}}</td>
+        <td>{{tx.formatted.amount}}</td>
+        <td width="16">
+          <tx-menu transaction="tx"></tx-menu>
+        </td>
+      </tr>
     </tbody>
   </table>
 
@@ -57,4 +58,4 @@
       <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
     </div>
   </div>
-</div>
+</waves-scrollbox>

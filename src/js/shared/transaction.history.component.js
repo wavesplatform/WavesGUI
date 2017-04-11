@@ -46,8 +46,9 @@
         });
 
         function cancelLeasing (form) {
-            if (!form.validate(ctrl.validationOptions))
+            if (!form.validate(ctrl.validationOptions)) {
                 return false;
+            }
 
             var fee = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), FEE_CURRENCY);
             var cancelLeasing = {
@@ -63,23 +64,23 @@
             var transaction = leasingRequestService.buildCancelLeasingRequest(cancelLeasing, sender);
 
             apiService.leasing.cancel(transaction)
-                .then(function (response) {
+                .then(function () {
                     notificationService.notice('Leasing transaction of ' +
                         ctrl.startLeasingTransaction.formatted.amount + ' ' +
                         ctrl.startLeasingTransaction.formatted.asset + ' has been cancelled.');
                 })
                 .catch(function (exception) {
                     if (exception) {
-                        if (exception.data)
+                        if (exception.data) {
                             notificationService.error(exception.data.message);
-                        else if (exception.message)
+                        } else if (exception.message) {
                             notificationService.error(exception.message);
-                        else if (exception.statusText)
+                        } else if (exception.statusText) {
                             notificationService.error(exception.statusText);
-                        else
+                        } else {
                             notificationService.error(DEFAULT_ERROR_MESSAGE);
-                    }
-                    else {
+                        }
+                    } else {
                         notificationService.error(DEFAULT_ERROR_MESSAGE);
                     }
 

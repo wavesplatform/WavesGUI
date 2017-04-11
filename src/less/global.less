@@ -199,7 +199,7 @@ body {
 }
 
 .wavesPop-content-buttons {
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
 }
 
 #send-confirm {
@@ -283,39 +283,9 @@ body {
   font-family: @font-lekton;
 }
 
-.wavesTable-txIn {
-  color: @color-waves-blue-temp !important;
-}
-
-.wavesTable-txOut {
-  color: @color-dark-grey !important;
-}
-
-.wavesTable-txIn .clipSpan:after {
-  background: url('@{img}/wIcon_clip_txIn.svg') no-repeat;
-  opacity: .75;
-}
-
-.wavesTable-txOut .clipSpan:after {
-  background: url('@{img}/wIcon_clip_txOut.svg') no-repeat;
-  opacity: .75;
-}
-
-.wavesTable-txUnc .clipSpan:after {
-  background: none;
-}
-
 #latestBlocksTable .clipSpan:after {
   background: url('@{img}/wIcon_clip_txOut.svg') no-repeat;
   opacity: .6;
-}
-
-#latestBlocks {
-  /*    overflow-y: scroll !important;*/
-}
-
-.wavesTable-txUnc {
-  animation: opacity_change 1s infinite alternate ease-in-out;
 }
 
 @-webkit-keyframes opacity_change {
