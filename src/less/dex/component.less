@@ -58,6 +58,23 @@ waves-dex {
           margin-top: 25px;
         }
       }
+
+      @media (max-width: 1200px) {
+        flex-direction: column;
+        padding-right: 2%;
+
+        .orderbooks {
+          width: 100%;
+          .orderbook {
+            padding-right: 0;
+          }
+        }
+
+        .user-orders {
+          width: 100%;
+          padding-right: 0;
+        }
+      }
     }
   }
 
@@ -73,6 +90,12 @@ waves-dex {
       p {
         margin-top: 15px;
       }
+    }
+
+    @media (max-width: 1200px) {
+      margin-top: 100px;
+      padding-left: 0;
+      padding-right: 20px;
     }
   }
 }

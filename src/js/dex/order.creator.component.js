@@ -5,8 +5,6 @@
 
         var ctrl = this;
 
-        ctrl.focused = 'buy';
-
         ctrl.buy = {
             amount: '',
             price: '',
@@ -19,10 +17,6 @@
             price: '',
             fee: 0.001,
             blocked: false
-        };
-
-        ctrl.focusOn = function (half) {
-            ctrl.focused = half;
         };
 
         ctrl.submitBuyOrder = function () {

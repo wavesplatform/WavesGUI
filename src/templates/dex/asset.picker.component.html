@@ -1,4 +1,4 @@
-<span ng-if="$ctrl.type === 'amountAsset'" class="magnifier amount">Amount</span>
+<span ng-if="$ctrl.type === 'amountAsset'" class="magnifier amount">Asset</span>
 
 <md-autocomplete class="assets-autocomplete"
                  ng-class="{amount: $ctrl.type === 'amountAsset', price: $ctrl.type === 'priceAsset'}"
@@ -23,4 +23,4 @@
   </md-not-found>
 </md-autocomplete>
 
-<span ng-if="$ctrl.type === 'priceAsset'" class="magnifier price">Price</span>
+<span ng-if="$ctrl.type === 'priceAsset'" class="magnifier price">Asset</span>
