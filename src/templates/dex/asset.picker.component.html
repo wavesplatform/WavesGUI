@@ -1,5 +1,3 @@
-<span ng-if="$ctrl.type === 'amountAsset'" class="magnifier amount">Asset</span>
-
 <md-autocomplete class="assets-autocomplete"
                  ng-class="{amount: $ctrl.type === 'amountAsset', price: $ctrl.type === 'priceAsset'}"
                  placeholder="Choose an asset"
@@ -22,5 +20,3 @@
     <span>Nothing is found!</span>
   </md-not-found>
 </md-autocomplete>
-
-<span ng-if="$ctrl.type === 'priceAsset'" class="magnifier price">Asset</span>
