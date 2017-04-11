@@ -174,6 +174,7 @@ module.exports = function (grunt) {
                 'src/js/shared/transaction.broadcast.factory.js',
                 'src/js/shared/decimal.input.restrictor.directive.js',
                 'src/js/shared/integer.input.restrictor.directive.js',
+                'src/js/shared/support.link.component.js',
                 'src/js/shared/transaction.menu.component.js',
                 'src/js/shared/transaction.history.component.js',
 

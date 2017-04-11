@@ -1,0 +1,27 @@
+@import "../variables";
+
+waves-support-link {
+  display: block;
+  margin: 12px auto;
+
+  &.light a {
+    color: @color-pale;
+  }
+
+  &.dark a {
+    color: @color-navy-blue;
+  }
+
+  // If positioned in...
+
+  &.in-header {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    margin: 0;
+
+    @media (max-width: 880px) {
+      display: none;
+    }
+  }
+}
