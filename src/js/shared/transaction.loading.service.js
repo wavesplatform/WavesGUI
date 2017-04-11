@@ -29,15 +29,17 @@
                 else if (tx.order1 && tx.order1.assetPair.amountAsset)
                     assetId = tx.order1.assetPair.amountAsset;
 
-                var cached = cache[assetId];
-                if (!cached) {
-                    sequence = sequence
-                        .then(function () {
-                            return apiService.transactions.info(assetId);
-                        })
-                        .then(function (response) {
-                            cache.put(response);
-                        });
+                if (assetId) {
+                    var cached = cache[assetId];
+                    if (!cached) {
+                        sequence = sequence
+                            .then(function () {
+                                return apiService.transactions.info(assetId);
+                            })
+                            .then(function (response) {
+                                cache.put(response);
+                            });
+                    }
                 }
             });
 
