@@ -131,7 +131,9 @@
             transaction.formatted.type = type;
             var currency;
             if (assetId) {
-                currency = applicationContext.cache.assets[assetId];
+                var asset = applicationContext.cache.assets[assetId];
+                if (asset)
+                    currency = asset.currency;
             }
             else {
                 currency = Currency.WAV;
