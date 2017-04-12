@@ -2,13 +2,13 @@ describe('Wallet.Deposit.Controller', function() {
     var $rootScope, $q, scope, timeout, events, dialogService, controller, coinomatService, notificationService,
         applicationContext = {
             account: {
+                address: '3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq',
                 keyPair: {
                     public: 'FJuErRxhV9JaFUwcYLabFK5ENvDRfyJbRz8FeVfYpBLn',
                     private: '9dXhQYWZ5468TRhksJqpGT6nUySENxXi9nsCZH9AefD1'
                 }
             }
         };
-    var address = '3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq';
 
     // Initialization of the module before each test case
     beforeEach(module('waves.core'));

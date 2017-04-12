@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function TransactionFilter(constants, applicationContext, formattingService, apiService) {
+    function TransactionFilter(constants, applicationContext, formattingService) {
         var TRANSACTION_SPEC = {};
         TRANSACTION_SPEC[constants.PAYMENT_TRANSACTION_TYPE] = {
             type: 'Payment',
@@ -119,16 +119,21 @@
 
             var buyOrder = transaction.order1;
             var assetId = buyOrder.assetPair.amountAsset;
+            var totalFee = 0;
             if (buyOrder.senderPublicKey === applicationContext.account.keyPair.public) {
                 type = type + ' ' + 'Buy';
+                totalFee += transaction.buyMatcherFee;
             }
 
             var sellOrder = transaction.order2;
             if (sellOrder.senderPublicKey === applicationContext.account.keyPair.public) {
                 type = type + ' ' + 'Sell';
+                totalFee += transaction.sellMatcherFee;
             }
 
             transaction.formatted.type = type;
+            transaction.formatted.fee = Money.fromCoins(totalFee, Currency.WAV).formatAmount(true);
+
             var currency;
             if (assetId) {
                 var asset = applicationContext.cache.assets[assetId];
@@ -183,7 +188,7 @@
         };
     }
 
-    TransactionFilter.$inject = ['constants.transactions', 'applicationContext', 'formattingService', 'apiService'];
+    TransactionFilter.$inject = ['constants.transactions', 'applicationContext', 'formattingService'];
 
     angular
         .module('app.shared')
