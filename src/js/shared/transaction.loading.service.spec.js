@@ -1,6 +1,12 @@
 describe('Transaction.Loading.Service', function() {
     var transactionService,
-        sender = '3Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB';
+        account = {
+            address: '3Mv61qe6egMSjRDZiiuvJDnf3Q1qW9tTZDB',
+            keyPair: {
+                public: 'FJuErRxhV9JaFUwcYLabFK5ENvDRfyJbRz8FeVfYpBLn',
+                private: '9dXhQYWZ5468TRhksJqpGT6nUySENxXi9nsCZH9AefD1'
+            }
+        };
 
     // Initialization of the module before each test case
     beforeEach(module('waves.core'));
@@ -59,7 +65,7 @@ describe('Transaction.Loading.Service', function() {
             'amount': 276897
         }];
 
-        var tx = transactionService.mergeTransactions(sender, unconfirmed, confirmed);
+        var tx = transactionService.mergeTransactions(account, unconfirmed, confirmed);
 
         expect(tx.length).toEqual(5);
         _.each(confirmed, function (transaction) {
@@ -109,7 +115,7 @@ describe('Transaction.Loading.Service', function() {
             'amount': 276897
         }];
 
-        var tx = transactionService.mergeTransactions(sender, unconfirmed, confirmed);
+        var tx = transactionService.mergeTransactions(account, unconfirmed, confirmed);
         expect(tx.length).toEqual(3);
         expect(_.indexOf(tx, confirmed[0])).toBeGreaterThan(-1);
         expect(_.indexOf(tx, confirmed[1])).toEqual(-1);
@@ -157,7 +163,7 @@ describe('Transaction.Loading.Service', function() {
             'amount': 276897
         }];
 
-        var tx = transactionService.mergeTransactions(sender, unconfirmed, confirmed);
+        var tx = transactionService.mergeTransactions(account, unconfirmed, confirmed);
         expect(tx.length).toEqual(2);
         expect(_.indexOf(tx, confirmed[0])).toBeGreaterThan(-1);
         expect(_.indexOf(tx, confirmed[1])).toEqual(-1);

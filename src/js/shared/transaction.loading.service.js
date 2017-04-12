@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function WavesTransactionLoadingService($q, apiService) {
+    function WavesTransactionLoadingService($q, constants, apiService) {
         var self = this;
 
         // returns promise that loads and merges unconfirmed and confirmed transactions
@@ -46,10 +46,16 @@
             return sequence;
         };
 
-        this.mergeTransactions = function (address, unconfirmed, confirmed) {
-            var rawAddress = address;
+        this.mergeTransactions = function (account, unconfirmed, confirmed) {
+            var rawAddress = account.address;
             unconfirmed = _.filter(unconfirmed, function (transaction) {
-                return (transaction.sender === rawAddress || transaction.recipient === rawAddress);
+                if (transaction.type === constants.EXCHANGE_TRANSACTION_TYPE) {
+                    return transaction.order1.senderPublicKey === account.keyPair.public ||
+                        transaction.order2.senderPublicKey === account.keyPair.public;
+                }
+                else {
+                    return (transaction.sender === rawAddress || transaction.recipient === rawAddress);
+                }
             });
             var unconfirmedSignatures = _.map(unconfirmed, function (transaction) {
                 return transaction.signature;
@@ -67,7 +73,7 @@
         };
     }
 
-    WavesTransactionLoadingService.$inject = ['$q', 'apiService'];
+    WavesTransactionLoadingService.$inject = ['$q', 'constants.transactions', 'apiService'];
 
     angular
         .module('app.shared')
