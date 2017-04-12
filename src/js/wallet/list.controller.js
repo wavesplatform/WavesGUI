@@ -139,7 +139,7 @@
 
         function refreshTransactions() {
             var txArray;
-            transactionLoadingService.loadTransactions(applicationContext.account.address)
+            transactionLoadingService.loadTransactions(applicationContext.account)
                 .then(function (transactions) {
                     txArray = transactions;
 
