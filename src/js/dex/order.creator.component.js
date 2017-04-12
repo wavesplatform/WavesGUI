@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var FEE = 0.001;
+    var FEE = 0.003;
 
     function OrderCreatorController() {
 
