@@ -51,14 +51,14 @@
             {amountAsset: Currency.EUR, priceAsset: Currency.USD}
         ];
 
-        ctrl.createOrder = function (type, price, amount, callback) {
+        ctrl.createOrder = function (type, price, amount, fee, callback) {
             // TODO : add a queue for the orders which weren't yet accepted.
             dexOrderService
                 .addOrder(getPairIds(ctrl.pair), {
                     orderType: type,
                     amount: Money.fromTokens(amount, ctrl.pair.amountAsset),
                     price: Money.fromTokens(price, ctrl.pair.priceAsset),
-                    fee: Money.fromTokens(0.01, Currency.WAV)
+                    fee: Money.fromTokens(fee, Currency.WAV)
                 }, sender)
                 .then(function () {
                     refreshOrderbooks();
