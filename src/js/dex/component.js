@@ -48,7 +48,11 @@
             {amountAsset: Currency.BTC, priceAsset: Currency.CNY},
             {amountAsset: Currency.USD, priceAsset: Currency.BTC},
             {amountAsset: Currency.USD, priceAsset: Currency.CNY},
-            {amountAsset: Currency.EUR, priceAsset: Currency.USD}
+            {amountAsset: Currency.EUR, priceAsset: Currency.USD},
+            {amountAsset: Currency.WCT, priceAsset: Currency.WAV},
+            {amountAsset: Currency.WCT, priceAsset: Currency.BTC},
+            {amountAsset: Currency.MRT, priceAsset: Currency.WAV},
+            {amountAsset: Currency.MRT, priceAsset: Currency.BTC}
         ];
 
         ctrl.createOrder = function (type, price, amount, fee, callback) {
