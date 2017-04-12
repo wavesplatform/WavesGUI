@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    var FEE = 0.001;
+
     function OrderCreatorController() {
 
         var ctrl = this;
@@ -8,14 +10,14 @@
         ctrl.buy = {
             amount: '',
             price: '',
-            fee: 0.001,
+            fee: FEE,
             blocked: false
         };
 
         ctrl.sell = {
             amount: '',
             price: '',
-            fee: 0.001,
+            fee: FEE,
             blocked: false
         };
 
@@ -25,7 +27,7 @@
             }
 
             ctrl.buy.blocked = true;
-            ctrl.submit('buy', ctrl.buy.price, ctrl.buy.amount, function () {
+            ctrl.submit('buy', ctrl.buy.price, ctrl.buy.amount, FEE, function () {
                 ctrl.buy.blocked = false;
             });
         };
@@ -36,7 +38,7 @@
             }
 
             ctrl.sell.blocked = true;
-            ctrl.submit('sell', ctrl.sell.price, ctrl.sell.amount, function () {
+            ctrl.submit('sell', ctrl.sell.price, ctrl.sell.amount, FEE, function () {
                 ctrl.sell.blocked = false;
             });
         };
