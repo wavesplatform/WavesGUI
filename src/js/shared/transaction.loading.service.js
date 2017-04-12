@@ -5,18 +5,18 @@
         var self = this;
 
         // returns promise that loads and merges unconfirmed and confirmed transactions
-        this.loadTransactions = function (address) {
+        this.loadTransactions = function (account) {
             var unconfirmed;
             return apiService.transactions.unconfirmed()
                 .then(function (response) {
                     unconfirmed = response;
 
-                    return apiService.transactions.list(address);
+                    return apiService.transactions.list(account.address);
                 })
                 .then(function (response) {
                     var confirmed = response[0];
 
-                    return self.mergeTransactions(address, unconfirmed, confirmed);
+                    return self.mergeTransactions(account, unconfirmed, confirmed);
                 });
         };
 
