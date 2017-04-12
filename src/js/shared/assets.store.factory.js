@@ -33,7 +33,15 @@
                             });
                         })
                         .then(function () {
-                            var defaultAssets = [Currency.BTC, Currency.USD, Currency.EUR, Currency.CNY];
+                            var defaultAssets = [
+                                // WAVES is added below.
+                                Currency.BTC,
+                                Currency.USD,
+                                Currency.EUR,
+                                Currency.CNY,
+                                Currency.WCT,
+                                Currency.MRT
+                            ];
                             defaultAssets.forEach(function (asset) {
                                 var foundInBalances = _.find(self.balances, function (b) {
                                     return b.currency === asset;
