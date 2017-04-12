@@ -99,7 +99,7 @@ module.exports = function (grunt) {
                     code: 'W',
                     server: 'https://nodes.wavesnodes.com',
                     coinomat: 'https://coinomat.com',
-                    matcher: 'http://52.28.66.217:6886'
+                    matcher: 'https://nodes.wavesnodes.com'
                 },
                 chrome: {
                     testnet: {
