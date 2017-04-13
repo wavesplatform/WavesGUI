@@ -74,7 +74,7 @@
         return pair.amountAssetId + '_' + pair.priceAssetId;
     }
 
-    function DexOrderService($q, storageService, matcherRequestService, matcherApiService) {
+    function DexOrderService($q, storageService, matcherRequestService, matcherApiService, utilityService) {
         function loadState() {
             return storageService.loadState().then(function (state) {
                 state = state || {};
