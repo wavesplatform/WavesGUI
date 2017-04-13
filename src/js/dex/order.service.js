@@ -93,6 +93,11 @@
                     // Signing the order.
                     .then(function (matcherKey) {
                         order.matcherKey = matcherKey;
+                        //FIXME: remove this timestamp patch after node release
+                        // current time minus ten minutes
+                        //------------------------------------------------------
+                        order.time = utilityService.getTime() - 10 * 60 * 1000;
+                        //------------------------------------------------------
                         return matcherRequestService.buildCreateOrderRequest(order, sender);
                     })
                     // Sending it to matcher.
@@ -189,7 +194,7 @@
         };
     }
 
-    DexOrderService.$inject = ['$q', 'storageService', 'matcherRequestService', 'matcherApiService'];
+    DexOrderService.$inject = ['$q', 'storageService', 'matcherRequestService', 'matcherApiService', 'utilityService'];
 
     angular
         .module('app.dex')
