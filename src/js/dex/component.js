@@ -61,7 +61,7 @@
                 .addOrder(getPairIds(ctrl.pair), {
                     orderType: type,
                     amount: Money.fromTokens(amount, ctrl.pair.amountAsset),
-                    price: Money.fromTokens(price, ctrl.pair.priceAsset),
+                    price: OrderPrice.fromTokens(price, ctrl.pair),
                     fee: Money.fromTokens(fee, Currency.WAV)
                 }, sender)
                 .then(function () {

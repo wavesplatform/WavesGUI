@@ -1,10 +1,10 @@
 (function () {
     'use strict';
 
-    function normalizeOrder(order, amountAsset) {
+    function normalizeOrder(order, pair) {
         return {
-            price: Money.fromCoins(order.price, Currency.MATCHER_CURRENCY).toTokens(),
-            amount: Money.fromCoins(order.amount, amountAsset).toTokens()
+            price: OrderPrice.fromBackendPrice(order.price, pair).toTokens(),
+            amount: Money.fromCoins(order.amount, pair.amountAsset).toTokens()
         };
     }
 
@@ -16,15 +16,19 @@
             return matcherApiService
                 .loadOrderbook(assetOne.id, assetTwo.id)
                 .then(function (orderbook) {
-                    var amountAsset = assets[orderbook.pair.amountAsset];
+                    var pair = {
+                        amountAsset: assets[orderbook.pair.amountAsset],
+                        priceAsset: assets[orderbook.pair.priceAsset]
+                    };
+
                     return {
                         timestamp: orderbook.timestamp,
                         pair: orderbook.pair,
                         bids: orderbook.bids.map(function (order) {
-                            return normalizeOrder(order, amountAsset);
+                            return normalizeOrder(order, pair);
                         }),
                         asks: orderbook.asks.map(function (order) {
-                            return normalizeOrder(order, amountAsset);
+                            return normalizeOrder(order, pair);
                         })
                     };
                 });

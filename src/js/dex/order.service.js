@@ -14,12 +14,40 @@
         };
     }
 
-    function deserializeCurrency(json) {
-        return Currency.create(json);
+    function serializeOrderPrice(price) {
+        return {
+            price: price.toTokens(),
+            pair: {
+                amountAsset: price.amountAsset,
+                priceAsset: price.priceAsset
+            }
+        };
     }
 
-    function deserializeMoney(json) {
-        return Money.fromTokens(json.amount, deserializeCurrency(json.currency));
+    function deserializeCurrency(currency) {
+        return Currency.create(currency);
+    }
+
+    function deserializeMoney(amount) {
+        return Money.fromTokens(amount.amount, deserializeCurrency(amount.currency));
+    }
+
+    function deserializeOrderPrice(orderPrice, amount) {
+        if (orderPrice.amount) {
+            var oldPrice = orderPrice;
+            var amountAsset = deserializeCurrency(amount.currency);
+            var priceAsset = deserializeCurrency(oldPrice.currency);
+
+            return OrderPrice.fromTokens(oldPrice.amount, {
+                amountAsset: amountAsset,
+                priceAsset: priceAsset
+            });
+        } else {
+            return OrderPrice.fromTokens(orderPrice.price, {
+                amountAsset: deserializeCurrency(orderPrice.pair.amountAsset),
+                priceAsset: deserializeCurrency(orderPrice.pair.priceAsset)
+            });
+        }
     }
 
     function serializeOrder(order) {
@@ -27,7 +55,7 @@
             id: order.id,
             status: order.status,
             orderType: order.orderType,
-            price: serializeMoney(order.price),
+            price: serializeOrderPrice(order.price),
             amount: serializeMoney(order.amount)
         };
     }
@@ -37,7 +65,7 @@
             id: json.id,
             status: json.status,
             orderType: json.orderType,
-            price: deserializeMoney(json.price),
+            price: deserializeOrderPrice(json.price, json.amount),
             amount: deserializeMoney(json.amount)
         };
     }
