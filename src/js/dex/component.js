@@ -90,7 +90,8 @@
                     refreshUserOrders();
                     notificationService.notice('Order has been canceled!');
                 })
-                .catch(function () {
+                .catch(function (exception) {
+                    console.log(exception);
                     notificationService.error('Order could not be canceled!');
                 });
         };
@@ -165,7 +166,8 @@
                         ctrl.pair.priceAsset = temp;
                     }
                 })
-                .catch(function (e) {
+                .catch(function (exception) {
+                    console.log(exception);
                     notificationService.error('There is no such pair or one of the assets does not exist.');
                 });
         }

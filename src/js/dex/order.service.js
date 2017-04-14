@@ -74,15 +74,41 @@
         return pair.amountAssetId + '_' + pair.priceAssetId;
     }
 
-    function DexOrderService($q, storageService, matcherRequestService, matcherApiService, utilityService) {
+    function DexOrderService($q, storageService, matcherRequestService, matcherApiService, utilityService,
+                             applicationContext) {
+
+        var currentAddress = applicationContext.account.address;
+
         function loadState() {
             return storageService.loadState().then(function (state) {
                 state = state || {};
                 if (!state.orders) {
                     state.orders = {};
                 }
+
+                if (!state.orders.byAddress) {
+                    state.orders.byAddress = {};
+                }
+
+                if (!state.orders.byAddress[currentAddress])
+                    state.orders.byAddress[currentAddress] = {};
+
                 return state;
             });
+        }
+
+        function removeOrderFromMap(ordersObject, pair, order) {
+            if (!ordersObject || !ordersObject[buildPairKey(pair)]) {
+                return;
+            }
+
+            var array = ordersObject[buildPairKey(pair)];
+            var index = _.findIndex(array, {id: order.id});
+            if (index >= 0) {
+                array.splice(index, 1);
+            }
+
+            ordersObject[buildPairKey(pair)] = array;
         }
 
         this.addOrder = function (pair, order, sender) {
@@ -104,10 +130,10 @@
                     .then(matcherApiService.createOrder)
                     // Saving the order with its ID to the storage.
                     .then(function (response) {
-                        var array = state.orders[buildPairKey(pair)] || [];
+                        var array = state.orders.byAddress[currentAddress][buildPairKey(pair)] || [];
                         order.id = response.message.id;
                         array.push(serializeOrder(order));
-                        state.orders[buildPairKey(pair)] = array;
+                        state.orders.byAddress[currentAddress][buildPairKey(pair)] = array;
 
                         return state;
                     });
@@ -135,23 +161,35 @@
                 // Order is "dead" already, and now is removed from locally saved state.
                 return loadState().then(function (state) {
                     return $q.when().then(function () {
-                        var array = state.orders[buildPairKey(pair)] || [];
-                        var index = _.findIndex(array, {id: order.id});
-                        if (index >= 0) {
-                            array.splice(index, 1);
-                        }
-                        state.orders[buildPairKey(pair)] = array;
+                        removeOrderFromMap(state.orders, pair, order);
+                        removeOrderFromMap(state.orders.byAddress[currentAddress], pair, order);
 
                         return state;
                     });
                 }).then(storageService.saveState);
-
             }
         };
 
         this.getOrders = function (pair) {
             return loadState().then(function (state) {
-                return state.orders[buildPairKey(pair)] || [];
+                var currentVersion = state.version || 0;
+
+                // we have to copy orders to the new location and use it in the future
+                if (currentVersion === 0) {
+                    var ordersByAddress = state.orders.byAddress[currentAddress] || {};
+                    _.mapObject(state.orders, function (value, key) {
+                        if (key === 'byAddress')
+                            return;
+
+                        ordersByAddress[key] = _.clone(value);
+                    });
+
+                    state.orders.byAddress[currentAddress] = ordersByAddress;
+                    state.version = storageService.getStorageVersion();
+                    storageService.saveState(state);
+                }
+
+                return state.orders.byAddress[currentAddress][buildPairKey(pair)] || [];
             }).then(function (orders) {
                 var q = $q.when(),
                     ordersWithStatus = [];
@@ -182,7 +220,7 @@
             }).then(function (orders) {
                 // Finally, we save orders with refreshed statuses in state.
                 return loadState().then(function (state) {
-                    state.orders[buildPairKey(pair)] = orders;
+                    state.orders.byAddress[currentAddress][buildPairKey(pair)] = orders;
                     return state;
                 }).then(storageService.saveState).then(function () {
                     return orders;
@@ -194,7 +232,8 @@
         };
     }
 
-    DexOrderService.$inject = ['$q', 'storageService', 'matcherRequestService', 'matcherApiService', 'utilityService'];
+    DexOrderService.$inject = ['$q', 'storageService', 'matcherRequestService', 'matcherApiService', 'utilityService',
+        'applicationContext'];
 
     angular
         .module('app.dex')
