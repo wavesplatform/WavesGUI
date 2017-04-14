@@ -1,5 +1,8 @@
 <div class="half buy">
-  <h2>Buy {{$ctrl.pair.amountAsset.displayName}}</h2>
+  <h2>
+    <span>Buy {{$ctrl.pair.amountAsset.displayName}} </span>
+    <small>{{$ctrl.priceAssetBalance}}&nbsp;{{$ctrl.pair.priceAsset.shortName}}</small>
+  </h2>
   <div class="fields">
     <md-input-container>
       <label>Price in {{$ctrl.pair.priceAsset.displayName}}</label>
@@ -30,7 +33,10 @@
 </div>
 
 <div class="half sell">
-  <h2>Sell {{$ctrl.pair.amountAsset.displayName}}</h2>
+  <h2>
+    <span>Sell {{$ctrl.pair.amountAsset.displayName}} </span>
+    <small>{{$ctrl.amountAssetBalance}}&nbsp;{{$ctrl.pair.amountAsset.shortName}}</small>
+  </h2>
   <div class="fields">
     <md-input-container>
       <label>Price in {{$ctrl.pair.priceAsset.displayName}}</label>

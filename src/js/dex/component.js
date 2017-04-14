@@ -99,6 +99,7 @@
             ctrl.pair = pair;
             refreshOrderbooks();
             refreshUserOrders();
+            assetStore.getAll(); // That refreshes balances.
         };
 
         assetStore.getAll()
@@ -163,6 +164,9 @@
                         ctrl.pair.amountAsset = ctrl.pair.priceAsset;
                         ctrl.pair.priceAsset = temp;
                     }
+                })
+                .catch(function (e) {
+                    notificationService.error('There is no such pair or one of the assets does not exist.');
                 });
         }
 

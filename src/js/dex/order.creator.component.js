@@ -3,9 +3,10 @@
 
     var FEE = 0.003;
 
-    function OrderCreatorController() {
+    function OrderCreatorController(applicationContext, assetStoreFactory) {
 
-        var ctrl = this;
+        var ctrl = this,
+            assetStore = assetStoreFactory.createStore(applicationContext.account.address);
 
         ctrl.buy = {
             amount: '',
@@ -42,7 +43,14 @@
                 ctrl.sell.blocked = false;
             });
         };
+
+        ctrl.$onChanges = function () {
+            ctrl.amountAssetBalance = assetStore.syncGetBalance(ctrl.pair.amountAsset.id);
+            ctrl.priceAssetBalance = assetStore.syncGetBalance(ctrl.pair.priceAsset.id);
+        };
     }
+
+    OrderCreatorController.$inject = ['applicationContext', 'assetStoreFactory'];
 
     angular
         .module('app.dex')

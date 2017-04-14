@@ -60,6 +60,7 @@
     "QRious": false,
     "Currency": false,
     "Money": false,
+    "OrderPrice": false,
     "converters": false
   }
 }
