@@ -95,27 +95,31 @@
                     return this.promise;
                 };
 
-                // TODO : check if it works properly.
-                AssetStore.prototype.getExcept = function (id) {
-                    var self = this;
-                    this.promise = this.promise.then(function () {
-                        return self.balances.filter(function (asset) {
-                            return asset.assetId !== id;
-                        }).map(_.clone);
-                    });
-                    return this.promise;
-                };
-
-                AssetStore.prototype.syncGetAsset = function (id) {
+                AssetStore.prototype.syncGet = function (id) {
                     var balances = this.balances,
                         len = balances.length;
                     id = id || '';
                     for (var i = 0; i < len; i++) {
                         if (balances[i].currency.id === id) {
-                            return balances[i].currency;
+                            return balances[i];
                         }
                     }
-                    return null;
+                };
+
+                AssetStore.prototype.syncGetAsset = function (id) {
+                    var item = this.syncGet(id);
+                    if (item && item.currency) {
+                        return item.currency;
+                    }
+                };
+
+                AssetStore.prototype.syncGetBalance = function (id) {
+                    var item = this.syncGet(id);
+                    if (item && item.amount) {
+                        return item.amount.toNumber();
+                    } else {
+                        return 0;
+                    }
                 };
 
                 var stores = {};

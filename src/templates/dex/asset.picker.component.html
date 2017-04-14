@@ -14,7 +14,10 @@
                  md-has-not-found="true"
                  md-select-on-focus>
   <md-item-template>
-    <span md-highlight-text="$ctrl.autocomplete.searchText">{{item.displayName}}</span>
+    <div class="asset-tile">
+      <span md-highlight-text="$ctrl.autocomplete.searchText">{{item.displayName}}</span>
+      <span class="muted">{{item.id}}</span>
+    </div>
   </md-item-template>
   <md-not-found>
     <span>Nothing is found!</span>

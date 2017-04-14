@@ -100,6 +100,7 @@
             ctrl.pair = pair;
             refreshOrderbooks();
             refreshUserOrders();
+            assetStore.getAll(); // That refreshes balances.
         };
 
         assetStore.getAll()
@@ -151,7 +152,7 @@
             }
 
             dexOrderbookService
-                .getOrderbook(ctrl.pair.priceAsset, ctrl.pair.amountAsset)
+                .getOrderbook(ctrl.pair.amountAsset, ctrl.pair.priceAsset)
                 .then(function (orderbook) {
                     ctrl.buyOrders = orderbook.bids;
                     ctrl.sellOrders = orderbook.asks;
@@ -167,6 +168,7 @@
                 })
                 .catch(function (exception) {
                     console.log(exception);
+                    notificationService.error('There is no such pair or one of the assets does not exist.');
                 });
         }
 
