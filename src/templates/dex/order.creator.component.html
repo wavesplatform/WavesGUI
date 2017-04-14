@@ -18,7 +18,7 @@
     </md-input-container>
     <div>
       <span>Total:&nbsp;</span>
-      <span>{{$ctrl.buy.amount * $ctrl.buy.price | number:8}}&nbsp;</span>
+      <span>{{$ctrl.buy.amount * $ctrl.buy.price | number:$ctrl.pair.priceAsset.precision}}&nbsp;</span>
       <span>{{$ctrl.pair.priceAsset.shortName}}</span>
     </div>
     <div>
@@ -52,7 +52,7 @@
     </md-input-container>
     <div>
       <span>Total:&nbsp;</span>
-      <span>{{$ctrl.sell.amount * $ctrl.sell.price | number:8}}&nbsp;</span>
+      <span>{{$ctrl.sell.amount * $ctrl.sell.price | number:$ctrl.pair.priceAsset.precision}}&nbsp;</span>
       <span>{{$ctrl.pair.priceAsset.shortName}}</span>
     </div>
     <div>
