@@ -150,7 +150,7 @@
             }
 
             dexOrderbookService
-                .getOrderbook(ctrl.pair.priceAsset, ctrl.pair.amountAsset)
+                .getOrderbook(ctrl.pair.amountAsset, ctrl.pair.priceAsset)
                 .then(function (orderbook) {
                     ctrl.buyOrders = orderbook.bids;
                     ctrl.sellOrders = orderbook.asks;
