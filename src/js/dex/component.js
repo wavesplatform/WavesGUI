@@ -90,7 +90,8 @@
                     refreshUserOrders();
                     notificationService.notice('Order has been canceled!');
                 })
-                .catch(function () {
+                .catch(function (exception) {
+                    console.log(exception);
                     notificationService.error('Order could not be canceled!');
                 });
         };
@@ -163,6 +164,9 @@
                         ctrl.pair.amountAsset = ctrl.pair.priceAsset;
                         ctrl.pair.priceAsset = temp;
                     }
+                })
+                .catch(function (exception) {
+                    console.log(exception);
                 });
         }
 
