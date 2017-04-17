@@ -5,7 +5,8 @@
         PARTIALLY = 'PartiallyFilled',
         FILLED = 'Filled',
         CANCELLED = 'Cancelled',
-        ORDER_CANCELED = 'OrderCanceled';
+        ORDER_CANCELED = 'OrderCanceled',
+        ORDER_CANCEL_REJECTED = 'OrderCancelRejected';
 
     function serializeMoney(amount) {
         return {
@@ -90,11 +91,23 @@
                     state.orders.byAddress = {};
                 }
 
-                if (!state.orders.byAddress[currentAddress])
+                if (!state.orders.byAddress[currentAddress]) {
                     state.orders.byAddress[currentAddress] = {};
+                }
 
                 return state;
             });
+        }
+
+        function purgeOrder(pair, order) {
+            return loadState().then(function (state) {
+                return $q.when().then(function () {
+                    removeOrderFromMap(state.orders, pair, order);
+                    removeOrderFromMap(state.orders.byAddress[currentAddress], pair, order);
+
+                    return state;
+                });
+            }).then(storageService.saveState);
         }
 
         function removeOrderFromMap(ordersObject, pair, order) {
@@ -154,19 +167,15 @@
                     if (response.status !== ORDER_CANCELED) {
                         throw new Error();
                     }
+                }).catch(function (e) {
+                    if (e.data && e.data.status === ORDER_CANCEL_REJECTED) {
+                        return purgeOrder(pair, order);
+                    }
                 });
 
             } else {
-
                 // Order is "dead" already, and now is removed from locally saved state.
-                return loadState().then(function (state) {
-                    return $q.when().then(function () {
-                        removeOrderFromMap(state.orders, pair, order);
-                        removeOrderFromMap(state.orders.byAddress[currentAddress], pair, order);
-
-                        return state;
-                    });
-                }).then(storageService.saveState);
+                return purgeOrder(pair, order);
             }
         };
 
@@ -178,8 +187,9 @@
                 if (currentVersion === 0) {
                     var ordersByAddress = state.orders.byAddress[currentAddress] || {};
                     _.mapObject(state.orders, function (value, key) {
-                        if (key === 'byAddress')
+                        if (key === 'byAddress') {
                             return;
+                        }
 
                         ordersByAddress[key] = _.clone(value);
                     });
