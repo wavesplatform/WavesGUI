@@ -8,17 +8,19 @@
       <label>Price in {{$ctrl.pair.priceAsset.displayName}}</label>
       <input type="text"
              ng-model="$ctrl.buy.price"
+             ng-change="$ctrl.updateBuyTotal()"
              decimal-input-restrictor>
     </md-input-container>
     <md-input-container>
       <label>{{$ctrl.pair.amountAsset.displayName}} amount</label>
       <input type="text"
              ng-model="$ctrl.buy.amount"
+             ng-change="$ctrl.updateBuyTotal()"
              decimal-input-restrictor>
     </md-input-container>
     <div>
       <span>Total:&nbsp;</span>
-      <span>{{$ctrl.buy.amount * $ctrl.buy.price | number:$ctrl.pair.priceAsset.precision}}&nbsp;</span>
+      <span>{{$ctrl.buy.total | number:$ctrl.pair.priceAsset.precision}}&nbsp;</span>
       <span>{{$ctrl.pair.priceAsset.shortName}}</span>
     </div>
     <div>
@@ -42,17 +44,19 @@
       <label>Price in {{$ctrl.pair.priceAsset.displayName}}</label>
       <input type="text"
              ng-model="$ctrl.sell.price"
+             ng-change="$ctrl.updateSellTotal()"
              decimal-input-restrictor>
     </md-input-container>
     <md-input-container>
       <label>{{$ctrl.pair.amountAsset.displayName}} amount</label>
       <input type="text"
              ng-model="$ctrl.sell.amount"
+             ng-change="$ctrl.updateSellTotal()"
              decimal-input-restrictor>
     </md-input-container>
     <div>
       <span>Total:&nbsp;</span>
-      <span>{{$ctrl.sell.amount * $ctrl.sell.price | number:$ctrl.pair.priceAsset.precision}}&nbsp;</span>
+      <span>{{$ctrl.sell.total | number:$ctrl.pair.priceAsset.precision}}&nbsp;</span>
       <span>{{$ctrl.pair.priceAsset.shortName}}</span>
     </div>
     <div>

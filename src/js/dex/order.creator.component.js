@@ -9,15 +9,17 @@
             assetStore = assetStoreFactory.createStore(applicationContext.account.address);
 
         ctrl.buy = {
-            amount: '',
             price: '',
+            amount: '',
+            total: '',
             fee: FEE,
             blocked: false
         };
 
         ctrl.sell = {
-            amount: '',
             price: '',
+            amount: '',
+            total: '',
             fee: FEE,
             blocked: false
         };
@@ -44,9 +46,33 @@
             });
         };
 
-        ctrl.$onChanges = function () {
+        // Those two methods are called to update `total` after user's input:
+
+        ctrl.updateBuyTotal = function () {
+            ctrl.buy.total = ctrl.buy.price * ctrl.buy.amount || '';
+        };
+
+        ctrl.updateSellTotal = function () {
+            ctrl.sell.total = ctrl.sell.price * ctrl.sell.amount || '';
+        };
+
+        ctrl.$onChanges = function (changes) {
             ctrl.amountAssetBalance = assetStore.syncGetBalance(ctrl.pair.amountAsset.id);
             ctrl.priceAssetBalance = assetStore.syncGetBalance(ctrl.pair.priceAsset.id);
+
+            // Those lines write directly to the `total` field when it's calculated in an orderbook:
+
+            if (changes.outerBuyValues) {
+                ctrl.buy.price = ctrl.outerBuyValues.price || '';
+                ctrl.buy.amount = ctrl.outerBuyValues.amount || '';
+                ctrl.buy.total = ctrl.outerBuyValues.total || ctrl.buy.price * ctrl.buy.amount || '';
+            }
+
+            if (changes.outerSellValues) {
+                ctrl.sell.price = ctrl.outerSellValues.price || '';
+                ctrl.sell.amount = ctrl.outerSellValues.amount || '';
+                ctrl.sell.total = ctrl.outerSellValues.total || ctrl.sell.price * ctrl.sell.amount || '';
+            }
         };
     }
 
@@ -58,7 +84,9 @@
             controller: OrderCreatorController,
             bindings: {
                 pair: '<',
-                submit: '<'
+                submit: '<',
+                outerBuyValues: '<buyValues',
+                outerSellValues: '<sellValues'
             },
             templateUrl: 'dex/order.creator.component'
         });

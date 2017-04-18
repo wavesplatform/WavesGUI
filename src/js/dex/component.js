@@ -39,6 +39,9 @@
         ctrl.sellOrders = [];
         ctrl.userOrders = [];
 
+        ctrl.buyFormValues = {};
+        ctrl.sellFormValues = {};
+
         ctrl.favoritePairs = [
             {amountAsset: Currency.WAV, priceAsset: Currency.BTC},
             {amountAsset: Currency.WAV, priceAsset: Currency.USD},
@@ -54,6 +57,22 @@
             {amountAsset: Currency.MRT, priceAsset: Currency.WAV},
             {amountAsset: Currency.MRT, priceAsset: Currency.BTC}
         ];
+
+        ctrl.fillBuyForm = function (price, amount, total) {
+            ctrl.buyFormValues = {
+                price: price,
+                amount: amount,
+                total: total
+            };
+        };
+
+        ctrl.fillSellForm = function (price, amount, total) {
+            ctrl.sellFormValues = {
+                price: price,
+                amount: amount,
+                total: total
+            };
+        };
 
         ctrl.createOrder = function (type, price, amount, fee, callback) {
             // TODO : add a queue for the orders which weren't yet accepted.
@@ -90,8 +109,8 @@
                     refreshUserOrders();
                     notificationService.notice('Order has been canceled!');
                 })
-                .catch(function (exception) {
-                    console.log(exception);
+                .catch(function (e) {
+                    console.log(e);
                     notificationService.error('Order could not be canceled!');
                 });
         };
@@ -166,8 +185,8 @@
                         ctrl.pair.priceAsset = temp;
                     }
                 })
-                .catch(function (exception) {
-                    console.log(exception);
+                .catch(function (e) {
+                    console.log(e);
                     notificationService.error('There is no such pair or one of the assets does not exist.');
                 });
         }

@@ -23,18 +23,22 @@
         <waves-dex-orderbook type="buy"
                              name="{{$ctrl.pair.amountAsset.displayName}} buy orders"
                              pair="$ctrl.pair"
+                             on-click="$ctrl.fillSellForm"
                              orders="$ctrl.buyOrders"></waves-dex-orderbook>
       </div>
       <div class="orderbook">
         <waves-dex-orderbook type="sell"
                              name="{{$ctrl.pair.amountAsset.displayName}} sell orders"
                              pair="$ctrl.pair"
+                             on-click="$ctrl.fillBuyForm"
                              orders="$ctrl.sellOrders"></waves-dex-orderbook>
       </div>
     </div>
     <div class="user-orders">
       <waves-dex-order-creator pair="$ctrl.pair"
-                               submit="$ctrl.createOrder"></waves-dex-order-creator>
+                               submit="$ctrl.createOrder"
+                               buy-values="$ctrl.buyFormValues"
+                               sell-values="$ctrl.sellFormValues"></waves-dex-order-creator>
       <waves-dex-user-orders pair="$ctrl.pair"
                              orders="$ctrl.userOrders"
                              cancel-order="$ctrl.cancelOrder"></waves-dex-user-orders>
