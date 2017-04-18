@@ -3,27 +3,19 @@ module.exports = function (grunt) {
 
     var compiledTemplates = 'distr/devel/js/templates.js';
 
-    var replaceTestnetVersion = function (content) {
+    var replaceVersion = function (content, target) {
         return content
             .replace(/CLIENT_VERSION\s*:\s*'[^']+'/, grunt.template.process("CLIENT_VERSION: '<%= pkg.version %>a'"))
-            .replace(/NODE_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("NODE_ADDRESS: '<%= meta.configurations.testnet.server %>'"))
-            .replace(/NETWORK_NAME\s*:\s*'[^']+'/, grunt.template.process("NETWORK_NAME: '<%= meta.configurations.testnet.name %>'"))
-            .replace(/NETWORK_CODE\s*:\s*'[^']+'/, grunt.template.process("NETWORK_CODE: '<%= meta.configurations.testnet.code %>'"))
-            .replace(/COINOMAT_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("COINOMAT_ADDRESS: '<%= meta.configurations.testnet.coinomat %>'"))
-            .replace(/MATCHER_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("MATCHER_ADDRESS: '<%= meta.configurations.testnet.matcher %>'"));
+            .replace(/NODE_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("NODE_ADDRESS: '<%= meta.configurations." + target + ".server %>'"))
+            .replace(/NETWORK_NAME\s*:\s*'[^']+'/, grunt.template.process("NETWORK_NAME: '<%= meta.configurations." + target + ".name %>'"))
+            .replace(/NETWORK_CODE\s*:\s*'[^']+'/, grunt.template.process("NETWORK_CODE: '<%= meta.configurations." + target + ".code %>'"))
+            .replace(/COINOMAT_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("COINOMAT_ADDRESS: '<%= meta.configurations." + target + ".coinomat %>'"))
+            .replace(/MATCHER_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("MATCHER_ADDRESS: '<%= meta.configurations." + target + ".matcher %>'"));
     };
 
-    var replaceMainnetVersion = function (content) {
-        return content
-            .replace(/CLIENT_VERSION\s*:\s*'[^']+'/, grunt.template.process("CLIENT_VERSION: '<%= pkg.version %>a'"))
-            .replace(/NODE_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("NODE_ADDRESS: '<%= meta.configurations.mainnet.server %>'"))
-            .replace(/NETWORK_NAME\s*:\s*'[^']+'/, grunt.template.process("NETWORK_NAME: '<%= meta.configurations.mainnet.name %>'"))
-            .replace(/NETWORK_CODE\s*:\s*'[^']+'/, grunt.template.process("NETWORK_CODE: '<%= meta.configurations.mainnet.code %>'"))
-            .replace(/COINOMAT_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("COINOMAT_ADDRESS: '<%= meta.configurations.mainnet.coinomat %>'"))
-            .replace(/MATCHER_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("MATCHER_ADDRESS: '<%= meta.configurations.mainnet.matcher %>'"));
-    };
+    var patchHtml = function (content, target) {
+        var fileName = grunt.template.process('<%= pkg.name %>-<%= meta.configurations.' + target + '.name %>-<%= pkg.version %>.js');
 
-    var patchHtml = function (content, fileName) {
         return content
             .replace(/<!-- JAVASCRIPT BEGIN -->(\s|.)*?<!-- JAVASCRIPT END -->/m, '<script src="js/' + fileName + '"></script>\n')
             .replace(/<!-- CSS BEGIN -->(\s|.)*?<!-- CSS END -->/m,
@@ -31,7 +23,10 @@ module.exports = function (grunt) {
     };
 
     var generateConcatDirectives = function (target) {
-        var patcher = /testnet/i.test(target) ? replaceTestnetVersion : replaceMainnetVersion;
+        var patcherTarget = target;
+        if (target.indexOf('chrome') === 0) {
+            patcherTarget = 'mainnet';
+        }
 
         return {
             src: ['<%= meta.dependencies %>', '<%= meta.application %>', compiledTemplates],
@@ -39,7 +34,7 @@ module.exports = function (grunt) {
             options: {
                 process: function (content, srcPath) {
                     if (srcPath.endsWith('app.js'))
-                        return patcher(content);
+                        return replaceVersion(content, patcherTarget);
 
                     return content;
                 }
@@ -60,8 +55,7 @@ module.exports = function (grunt) {
             options: {
                 process: function (content, srcPath) {
                     if (srcPath.endsWith('index.html'))
-                        return patchHtml(content,
-                            grunt.template.process('<%= pkg.name %>-<%= meta.configurations.' + target + '.name %>-<%= pkg.version %>.js'));
+                        return patchHtml(content, target);
 
                     if (isChrome && srcPath.endsWith('manifest.json'))
                         return grunt.template.process(content);
@@ -100,6 +94,13 @@ module.exports = function (grunt) {
                     server: 'https://nodes.wavesnodes.com',
                     coinomat: 'https://coinomat.com',
                     matcher: 'https://nodes.wavesnodes.com'
+                },
+                devnet: {
+                    name: 'devnet',
+                    code: 'D',
+                    server: 'http://35.157.212.173:6869',
+                    coinomat: 'https://test.coinomat.com',
+                    matcher: 'http://52.28.66.217:6886'
                 },
                 chrome: {
                     testnet: {
@@ -336,6 +337,7 @@ module.exports = function (grunt) {
         concat: {
             testnet: generateConcatDirectives('testnet'),
             mainnet: generateConcatDirectives('mainnet'),
+            devnet: generateConcatDirectives('devnet'),
             chrome_mainnet: generateConcatDirectives('chrome.mainnet'),
             chrome_testnet: generateConcatDirectives('chrome.testnet'),
             css: {
@@ -356,6 +358,7 @@ module.exports = function (grunt) {
                 files: {
                     'distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.js'],
                     'distr/<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-<%= pkg.version %>.js'],
+                    'distr/<%= pkg.name %>-<%= meta.configurations.devnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.devnet.name %>-<%= pkg.version %>.js'],
                     'distr/<%= pkg.name %>-<%= meta.configurations.chrome.mainnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.chrome.mainnet.name %>-<%= pkg.version %>.js'],
                     'distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-<%= pkg.version %>.js']
                 }
@@ -369,6 +372,7 @@ module.exports = function (grunt) {
             },
             testnet: generateCopyDirectives('testnet'),
             mainnet: generateCopyDirectives('mainnet'),
+            devnet: generateCopyDirectives('devnet'),
             chrome_testnet: generateCopyDirectives('chrome.testnet', true),
             chrome_mainnet: generateCopyDirectives('chrome.mainnet', true),
             fonts: {
@@ -406,6 +410,12 @@ module.exports = function (grunt) {
                     archive: 'distr/<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-v<%= pkg.version %>.zip'
                 },
                 files: [{expand: true, cwd: 'distr/<%= meta.configurations.mainnet.name %>', src: '**/*', dest: '/'}]
+            },
+            devnet: {
+                options: {
+                    archive: 'distr/<%= pkg.name %>-<%= meta.configurations.devnet.name %>-v<%= pkg.version %>.zip'
+                },
+                files: [{expand: true, cwd: 'distr/<%= meta.configurations.devnet.name %>', src: '**/*', dest: '/'}]
             },
             chrome_mainnet: {
                 options: {
@@ -591,5 +601,4 @@ module.exports = function (grunt) {
 
     // Default task.
     grunt.registerTask('default', ['jasmine']);
-
 };
