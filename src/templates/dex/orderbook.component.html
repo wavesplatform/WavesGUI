@@ -14,11 +14,11 @@
 <waves-scrollbox>
   <table ng-class="$ctrl.type">
     <tbody>
-      <tr ng-repeat="order in $ctrl.orders">
-        <td>{{order.price | number:8}}</td>
-        <td>{{order.amount | number:8}}</td>
-        <td>{{order.total | number:8}}</td>
-        <td>{{order.sum | number:8}}</td>
+      <tr ng-repeat="order in $ctrl.orders" ng-click="$ctrl.lineClick($index)">
+        <td>{{order.price | number:$ctrl.pair.priceAsset.precision}}</td>
+        <td>{{order.amount | number:$ctrl.pair.amountAsset.precision}}</td>
+        <td>{{order.total | number:$ctrl.pair.priceAsset.precision}}</td>
+        <td>{{order.sum | number:$ctrl.pair.priceAsset.precision}}</td>
       </tr>
       <tr ng-if="!$ctrl.orders.length">
         <td colspan="4">

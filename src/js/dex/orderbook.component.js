@@ -23,6 +23,15 @@
     function OrderbookController() {
         var ctrl = this;
 
+        ctrl.lineClick = function (index) {
+            var order = ctrl.orders[index],
+                cumulativeAmount = ctrl.orders.slice(0, index + 1).reduce(function (amountSum, order) {
+                    return amountSum + order.amount;
+                }, 0);
+
+            ctrl.onClick(order.price, cumulativeAmount, order.sum);
+        };
+
         ctrl.$onChanges = function (changes) {
             if (!changes.rawOrders) {
                 return;
@@ -45,6 +54,7 @@
                 type: '@',
                 name: '@',
                 pair: '<',
+                onClick: '<',
                 rawOrders: '<orders'
             },
             templateUrl: 'dex/orderbook.component'
