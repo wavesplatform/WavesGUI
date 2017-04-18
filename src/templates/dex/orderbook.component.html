@@ -15,10 +15,10 @@
   <table ng-class="$ctrl.type">
     <tbody>
       <tr ng-repeat="order in $ctrl.orders" ng-click="$ctrl.lineClick($index)">
-        <td>{{order.price | number:$ctrl.pair.priceAsset.precision}}</td>
-        <td>{{order.amount | number:$ctrl.pair.amountAsset.precision}}</td>
-        <td>{{order.total | number:$ctrl.pair.priceAsset.precision}}</td>
-        <td>{{order.sum | number:$ctrl.pair.priceAsset.precision}}</td>
+        <td ng-bind-html="order.price | number:$ctrl.pair.priceAsset.precision | padder:$ctrl.lengths.price"></td>
+        <td ng-bind-html="order.amount | number:$ctrl.pair.amountAsset.precision | padder:$ctrl.lengths.amount"></td>
+        <td ng-bind-html="order.total | number:$ctrl.pair.priceAsset.precision | padder:$ctrl.lengths.total"></td>
+        <td ng-bind-html="order.sum | number:$ctrl.pair.priceAsset.precision | padder:$ctrl.lengths.sum"></td>
       </tr>
       <tr ng-if="!$ctrl.orders.length">
         <td colspan="4">
