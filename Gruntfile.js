@@ -163,6 +163,7 @@ module.exports = function (grunt) {
                 'src/js/shared/dialog.service.js',
                 'src/js/shared/document.title.service.js',
                 'src/js/shared/notification.service.js',
+                'src/js/shared/padder.filter.js',
                 'src/js/shared/page.component.js',
                 'src/js/shared/qr.code.component.js',
                 'src/js/shared/scrollbox.component.js',

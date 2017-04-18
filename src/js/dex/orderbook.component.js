@@ -20,6 +20,43 @@
         });
     }
 
+    function calculateStringLength(n, precision) {
+        // Get initial string length with a given precision.
+        var len = n.toFixed(precision).length;
+        // Add some length for commas (e.g. 10,000,000.0000).
+        return len + Math.floor(n.toFixed(0).length / 3);
+    }
+
+    function getMaxLengths(orders, pair) {
+        var price = 0,
+            amount = 0,
+            total = 0,
+            sum = 0;
+
+        // Get max value for each column.
+        orders.forEach(function (order) {
+            if (order.price > price) {
+                price = order.price;
+            }
+            if (order.amount > amount) {
+                amount = order.amount;
+            }
+            if (order.total > total) {
+                total = order.total;
+            }
+            if (order.sum > sum) {
+                sum = order.sum;
+            }
+        });
+
+        return {
+            price: calculateStringLength(price, pair.priceAsset.precision),
+            amount: calculateStringLength(amount, pair.amountAsset.precision),
+            total: calculateStringLength(total, pair.priceAsset.precision),
+            sum: calculateStringLength(sum, pair.priceAsset.precision)
+        };
+    }
+
     function OrderbookController() {
         var ctrl = this;
 
@@ -42,6 +79,7 @@
 
             if (!_.isEqual(denormPreviousValue, denormCurrentValue)) {
                 ctrl.orders = denormCurrentValue;
+                ctrl.lengths = getMaxLengths(ctrl.orders, ctrl.pair);
             }
         };
     }
