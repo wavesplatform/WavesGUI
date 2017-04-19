@@ -5,50 +5,17 @@
         PARTIALLY = 'PartiallyFilled',
         FILLED = 'Filled',
         CANCELLED = 'Cancelled',
+        NOT_FOUND = 'NotFound',
+
         ORDER_CANCELED = 'OrderCanceled',
         ORDER_CANCEL_REJECTED = 'OrderCancelRejected';
 
-    function serializeMoney(amount) {
-        return {
-            amount: amount.toTokens(),
-            currency: amount.currency
-        };
+    function serializeAmount(amount) {
+        return amount.toTokens();
     }
 
     function serializeOrderPrice(price) {
-        return {
-            price: price.toTokens(),
-            pair: {
-                amountAsset: price.amountAsset,
-                priceAsset: price.priceAsset
-            }
-        };
-    }
-
-    function deserializeCurrency(currency) {
-        return Currency.create(currency);
-    }
-
-    function deserializeMoney(amount) {
-        return Money.fromTokens(amount.amount, deserializeCurrency(amount.currency));
-    }
-
-    function deserializeOrderPrice(orderPrice, amount) {
-        if (orderPrice.amount) {
-            var oldPrice = orderPrice;
-            var amountAsset = deserializeCurrency(amount.currency);
-            var priceAsset = deserializeCurrency(oldPrice.currency);
-
-            return OrderPrice.fromTokens(oldPrice.amount, {
-                amountAsset: amountAsset,
-                priceAsset: priceAsset
-            });
-        } else {
-            return OrderPrice.fromTokens(orderPrice.price, {
-                amountAsset: deserializeCurrency(orderPrice.pair.amountAsset),
-                priceAsset: deserializeCurrency(orderPrice.pair.priceAsset)
-            });
-        }
+        return price.toTokens();
     }
 
     function serializeOrder(order) {
@@ -57,22 +24,43 @@
             status: order.status,
             orderType: order.orderType,
             price: serializeOrderPrice(order.price),
-            amount: serializeMoney(order.amount)
+            amount: serializeAmount(order.amount)
         };
     }
 
-    function deserializeOrder(json) {
+    function deserializeAmount(amount, currency) {
+        // Here we deal with old amount format.
+        if (typeof amount === 'object') {
+            amount = amount.amount;
+        }
+
+        return Money.fromTokens(amount, currency);
+    }
+
+    function deserializeOrderPrice(orderPrice, pair) {
+        // Here we deal with old price format.
+        if (typeof orderPrice === 'object') {
+            orderPrice = orderPrice.amount ? orderPrice.amount : orderPrice.price;
+        }
+
+        return OrderPrice.fromTokens(orderPrice, {
+            amountAsset: pair.amountAsset,
+            priceAsset: pair.priceAsset
+        });
+    }
+
+    function deserializeOrder(json, pair) {
         return {
             id: json.id,
             status: json.status,
             orderType: json.orderType,
-            price: deserializeOrderPrice(json.price, json.amount),
-            amount: deserializeMoney(json.amount)
+            price: deserializeOrderPrice(json.price, pair),
+            amount: deserializeAmount(json.amount, pair.amountAsset)
         };
     }
 
     function buildPairKey(pair) {
-        return pair.amountAssetId + '_' + pair.priceAssetId;
+        return pair.amountAsset.id + '_' + pair.priceAsset.id;
     }
 
     function DexOrderService($q, storageService, matcherRequestService, matcherApiService, utilityService,
@@ -162,7 +150,7 @@
                 return $q.when().then(function () {
                     return matcherRequestService.buildCancelOrderRequest(order.id, sender);
                 }).then(function (signedRequest) {
-                    return matcherApiService.cancelOrder(pair.amountAssetId, pair.priceAssetId, signedRequest);
+                    return matcherApiService.cancelOrder(pair.amountAsset.id, pair.priceAsset.id, signedRequest);
                 }).then(function (response) {
                     if (response.status !== ORDER_CANCELED) {
                         throw new Error();
@@ -211,9 +199,14 @@
                         if (!order.status || order.status === ACCEPTED || order.status === PARTIALLY) {
                             // While order status can change further we check it on server (asynchronously).
                             return matcherApiService
-                                .orderStatus(pair.amountAssetId, pair.priceAssetId, order.id)
+                                .orderStatus(pair.amountAsset.id, pair.priceAsset.id, order.id)
                                 .then(function (response) {
-                                    order.status = response.status;
+                                    order.status = response.status || NOT_FOUND;
+                                    ordersWithStatus.push(order);
+                                    return ordersWithStatus;
+                                }).catch(function (e) {
+                                    console.log(e);
+                                    order.status = NOT_FOUND;
                                     ordersWithStatus.push(order);
                                     return ordersWithStatus;
                                 });
@@ -222,22 +215,25 @@
                             // 'NotFound' orders are dropped.
                             ordersWithStatus.push(order);
                             return ordersWithStatus;
+                        } else {
+                            return ordersWithStatus;
                         }
                     });
                 });
 
                 return q;
             }).then(function (orders) {
+                orders = _.map(orders, function (order) {
+                    return deserializeOrder(order, pair);
+                });
+
                 // Finally, we save orders with refreshed statuses in state.
                 return loadState().then(function (state) {
-                    state.orders.byAddress[currentAddress][buildPairKey(pair)] = orders;
+                    state.orders.byAddress[currentAddress][buildPairKey(pair)] = _.map(orders, serializeOrder);
                     return state;
                 }).then(storageService.saveState).then(function () {
                     return orders;
                 });
-            }).then(function (orders) {
-                // And here we just wrap values in Currency and Money and send all to the outer code.
-                return _.map(orders, deserializeOrder);
             });
         };
     }

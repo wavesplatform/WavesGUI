@@ -52,7 +52,8 @@ waves-dex-user-orders {
           }
         }
 
-        &.filled {
+        &.filled,
+        &.not-found {
           color: @color-grey;
 
           td.type.buy {
@@ -62,6 +63,10 @@ waves-dex-user-orders {
           td.type.sell {
             color: lighten(@color-orange, 20%);
           }
+        }
+
+        &.not-found {
+          color: lighten(@color-crimson-red, 40%);
         }
 
         &:nth-child(even) {

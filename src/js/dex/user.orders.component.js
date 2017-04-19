@@ -17,6 +17,10 @@
         'Cancelled': {
             title: 'Canceled',
             order: 8
+        },
+        'NotFound': {
+            title: 'NotFound',
+            order: 10
         }
     };
 
@@ -32,11 +36,11 @@
     };
 
     function status(s) {
-        return statuses[s].title;
+        return statuses[s] ? statuses[s].title : '---';
     }
 
     function type(t) {
-        return types[t].title;
+        return types[t] ? types[t].title : '---';
     }
 
     function denormalizeUserOrders(orders) {

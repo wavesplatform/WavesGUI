@@ -3,13 +3,6 @@
 
     var POLLING_DELAY = 5000;
 
-    function getPairIds(pair) {
-        return {
-            amountAssetId: pair.amountAsset.id,
-            priceAssetId: pair.priceAsset.id
-        };
-    }
-
     function DexController($scope, $interval, applicationContext, assetStoreFactory,
                            dexOrderService, dexOrderbookService, notificationService) {
         var ctrl = this,
@@ -77,7 +70,7 @@
         ctrl.createOrder = function (type, price, amount, fee, callback) {
             // TODO : add a queue for the orders which weren't yet accepted.
             dexOrderService
-                .addOrder(getPairIds(ctrl.pair), {
+                .addOrder(ctrl.pair, {
                     orderType: type,
                     amount: Money.fromTokens(amount, ctrl.pair.amountAsset),
                     price: OrderPrice.fromTokens(price, ctrl.pair),
@@ -103,7 +96,7 @@
         ctrl.cancelOrder = function (order) {
             // TODO : add a queue for the orders which weren't yet canceled.
             dexOrderService
-                .removeOrder(getPairIds(ctrl.pair), order, sender)
+                .removeOrder(ctrl.pair, order, sender)
                 .then(function () {
                     refreshOrderbooks();
                     refreshUserOrders();
@@ -197,7 +190,7 @@
             }
 
             dexOrderService
-                .getOrders(getPairIds(ctrl.pair))
+                .getOrders(ctrl.pair)
                 .then(function (orders) {
                     // TODO : add here orders from pending queues.
                     ctrl.userOrders = orders;
