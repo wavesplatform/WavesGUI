@@ -4,9 +4,9 @@
     var WALLET_NAME_MAXLENGTH = 16;
 
     function AccountRegisterController($scope, accountService, cryptoService, loginContext) {
-        var vm = this;
+        var ctrl = this;
 
-        vm.validationOptions = {
+        ctrl.validationOptions = {
             onfocusout: false,
             rules: {
                 walletName: {
@@ -35,30 +35,31 @@
                 }
             }
         };
-        vm.saveAccountAndSignIn = saveAccountAndSignIn;
-        vm.cancel = cancel;
-        vm.seed = function (seed) {
+        ctrl.saveAccountAndSignIn = saveAccountAndSignIn;
+        ctrl.cancel = cancel;
+        ctrl.seed = function (seed) {
             return arguments.length ? (loginContext.seed = seed) : loginContext.seed;
         };
 
         function cleanup() {
-            vm.name = '';
-            vm.password = '';
-            vm.confirmPassword = '';
+            ctrl.name = '';
+            ctrl.password = '';
+            ctrl.confirmPassword = '';
         }
 
         function saveAccountAndSignIn(form) {
-            if (!form.validate())
+            if (!form.validate()) {
                 return false;
+            }
 
             var seed = loginContext.seed;
-            var cipher = cryptoService.encryptWalletSeed(seed, vm.password).toString();
+            var cipher = cryptoService.encryptWalletSeed(seed, ctrl.password).toString();
             var keys = cryptoService.getKeyPair(seed);
             var checksum = cryptoService.seedChecksum(seed);
             var address = cryptoService.buildRawAddress(keys.public);
 
             var account = {
-                name: vm.name,
+                name: ctrl.name,
                 cipher: cipher,
                 checksum: checksum,
                 publicKey: keys.public,

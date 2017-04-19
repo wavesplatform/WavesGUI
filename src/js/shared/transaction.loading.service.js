@@ -24,10 +24,11 @@
             var sequence = $q.resolve();
             _.forEach(transactions, function (tx) {
                 var assetId;
-                if (tx.assetId)
+                if (tx.assetId) {
                     assetId = tx.assetId;
-                else if (tx.order1 && tx.order1.assetPair.amountAsset)
+                } else if (tx.order1 && tx.order1.assetPair.amountAsset) {
                     assetId = tx.order1.assetPair.amountAsset;
+                }
 
                 if (assetId) {
                     var cached = cache[assetId];
@@ -46,14 +47,14 @@
             return sequence;
         };
 
+        // TODO : refactor with a map.
         this.mergeTransactions = function (account, unconfirmed, confirmed) {
             var rawAddress = account.address;
             unconfirmed = _.filter(unconfirmed, function (transaction) {
                 if (transaction.type === constants.EXCHANGE_TRANSACTION_TYPE) {
                     return transaction.order1.senderPublicKey === account.keyPair.public ||
                         transaction.order2.senderPublicKey === account.keyPair.public;
-                }
-                else {
+                } else {
                     return (transaction.sender === rawAddress || transaction.recipient === rawAddress);
                 }
             });
