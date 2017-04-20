@@ -25,7 +25,7 @@ module.exports = function (grunt) {
     var generateConcatDirectives = function (target) {
         var patcherTarget = target;
         if (target.indexOf('chrome') === 0) {
-            patcherTarget = 'mainnet';
+            patcherTarget = target.replace('chrome.', '');
         }
 
         return {
