@@ -15,12 +15,14 @@
 
                 this.broadcast = function () {
                     // checking if transaction was saved
-                    if (angular.isUndefined(transaction))
+                    if (angular.isUndefined(transaction)) {
                         return;
+                    }
 
                     // prevent method execution when there is a pending request
-                    if (self.pending)
+                    if (self.pending) {
                         return;
+                    }
 
                     // start pending request
                     self.pending = true;
@@ -28,11 +30,12 @@
                     method(transaction).then(function (response) {
                         successCallback(transaction, response);
                     }, function (response) {
-                        if (response.data)
+                        if (response.data) {
                             notificationService.error('Error:' + response.data.error + ' - ' + response.data.message);
-                        else
+                        } else {
                             notificationService.error('Request failed. Status: ' + response.status + ' - ' +
                                 response.statusText);
+                        }
                     }).finally(function () {
                         self.pending = false;
                         transaction = undefined;
