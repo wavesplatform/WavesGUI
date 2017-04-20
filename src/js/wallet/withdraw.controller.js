@@ -9,6 +9,7 @@
                                             apiService, formattingService, assetService, applicationContext) {
         var withdraw = this;
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAV);
+        var notPermittedBitcoinAddresses = {};
 
         withdraw.broadcast = new transactionBroadcast.instance(apiService.assets.transfer,
             function (transaction, response) {
@@ -125,28 +126,51 @@
 
                     dialogService.open('#withdraw-asset-dialog');
                 }).catch(function (exception) {
-                    if (exception && exception.error) {
+                    if (exception && exception.data && exception.data.error) {
                         notificationService.error(exception.error);
                     } else {
                         notificationService.error(DEFAULT_ERROR_MESSAGE);
                     }
+                }).then(function () {
+                    return coinomatService.getDepositDetails(Currency.BTC, Currency.BTC,
+                        applicationContext.account.address);
+                }).then(function (depositDetails) {
+                    notPermittedBitcoinAddresses[depositDetails.address] = 1;
+
+                    return coinomatService.getDepositDetails(Currency.BTC, Currency.WAV,
+                        applicationContext.account.address);
+                }).then(function (depositDetails) {
+                    notPermittedBitcoinAddresses[depositDetails.address] = 1;
                 });
         });
+
+        function validateRecipientAddress(recipient) {
+            if (!recipient.match(/^[0-9a-z]{27,34}$/i)) {
+                throw new Error('Bitcoin address is invalid. Expected address length is from 27 to 34 symbols');
+            }
+
+            if (notPermittedBitcoinAddresses[recipient]) {
+                throw new Error('Withdraw on deposit bitcoin accounts is not permitted');
+            }
+        }
+
+        function validateWithdrawCost(withdrawCost, availableFunds) {
+            if (withdrawCost.greaterThan(availableFunds)) {
+                throw new Error('Not enough Waves for the withdraw transfer');
+            }
+        }
 
         function confirmWithdraw (amountForm) {
             if (!amountForm.validate(withdraw.validationOptions))
                 return false;
 
-            var withdrawCost = Money.fromTokens(withdraw.autocomplete.getFeeAmount(), Currency.WAV);
-            if (withdrawCost.greaterThan(withdraw.wavesBalance)) {
-                notificationService.error('Not enough Waves for the withdraw transfer');
-
-                return false;
+            try {
+                var withdrawCost = Money.fromTokens(withdraw.autocomplete.getFeeAmount(), Currency.WAV);
+                validateWithdrawCost(withdrawCost, withdraw.wavesBalance);
+                validateRecipientAddress(withdraw.recipient);
             }
-
-            if (!withdraw.recipient.match(/^[0-9a-z]{27,34}$/i)) {
-                notificationService.error('Bitcoin address is invalid. ' +
-                    'Expected address length is from 27 to 34 symbols');
+            catch (exception) {
+                notificationService.error(exception.message);
 
                 return false;
             }
