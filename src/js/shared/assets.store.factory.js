@@ -17,13 +17,14 @@
                 }
 
                 AssetStore.prototype.refreshBalances = function () {
-                    var self = this;
+                    var self = this,
+                        newBalances = [];
                     this.promise = this.promise
                         .then(function () {
                             return apiService.assets.balance(self.address);
                         })
                         .then(function (response) {
-                            self.balances = response.balances.map(function (item) {
+                            newBalances = response.balances.map(function (item) {
                                 return Money.fromCoins(item.balance, Currency.create({
                                     id: item.assetId,
                                     displayName: item.issueTransaction.name,
@@ -43,18 +44,19 @@
                                 Currency.MRT
                             ];
                             defaultAssets.forEach(function (asset) {
-                                var foundInBalances = _.find(self.balances, function (b) {
+                                var foundInBalances = _.find(newBalances, function (b) {
                                     return b.currency === asset;
                                 });
 
                                 if (!foundInBalances) {
-                                    self.balances.push(Money.fromCoins(0, asset));
+                                    newBalances.push(Money.fromCoins(0, asset));
                                 }
                             });
                         })
                         .then(apiService.address.balance.bind(apiService.assets, self.address))
                         .then(function (response) {
-                            self.balances.unshift(Money.fromCoins(response.balance, Currency.WAV));
+                            newBalances.unshift(Money.fromCoins(response.balance, Currency.WAV));
+                            self.balances = newBalances;
                         });
                     return this;
                 };

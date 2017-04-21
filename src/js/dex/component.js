@@ -152,6 +152,7 @@
         intervalPromise = $interval(function () {
             refreshOrderbooks();
             refreshUserOrders();
+            assetStore.refreshBalances();
         }, POLLING_DELAY);
 
         ctrl.$onDestroy = function () {

@@ -3,10 +3,11 @@
 
     var FEE = 0.003;
 
-    function OrderCreatorController(applicationContext, assetStoreFactory) {
+    function OrderCreatorController($interval, applicationContext, assetStoreFactory) {
 
         var ctrl = this,
-            assetStore = assetStoreFactory.createStore(applicationContext.account.address);
+            assetStore = assetStoreFactory.createStore(applicationContext.account.address),
+            intervalPromise;
 
         ctrl.buy = {
             price: '',
@@ -56,9 +57,14 @@
             ctrl.sell.total = ctrl.sell.price * ctrl.sell.amount || '';
         };
 
+        intervalPromise = $interval(refreshBalances, 3000);
+
+        ctrl.$onDestroy = function () {
+            $interval.cancel(intervalPromise);
+        };
+
         ctrl.$onChanges = function (changes) {
-            ctrl.amountAssetBalance = assetStore.syncGetBalance(ctrl.pair.amountAsset.id);
-            ctrl.priceAssetBalance = assetStore.syncGetBalance(ctrl.pair.priceAsset.id);
+            refreshBalances();
 
             // Those lines write directly to the `total` field when it's calculated in an orderbook:
 
@@ -74,9 +80,14 @@
                 ctrl.sell.total = ctrl.outerSellValues.total || ctrl.sell.price * ctrl.sell.amount || '';
             }
         };
+
+        function refreshBalances() {
+            ctrl.amountAssetBalance = assetStore.syncGetBalance(ctrl.pair.amountAsset.id);
+            ctrl.priceAssetBalance = assetStore.syncGetBalance(ctrl.pair.priceAsset.id);
+        }
     }
 
-    OrderCreatorController.$inject = ['applicationContext', 'assetStoreFactory'];
+    OrderCreatorController.$inject = ['$interval', 'applicationContext', 'assetStoreFactory'];
 
     angular
         .module('app.dex')
