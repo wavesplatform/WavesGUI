@@ -10,6 +10,7 @@ describe('Wallet.Withdraw.Controller', function() {
         };
     var gatewayAddress = '3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq';
     var bitcoinAddress = '14qViLJfdGaP4EeHnDyJbEGQysnCpwn1gZ';
+    var depositAddress = 'mhqqhhuKPGCoEa7wwkxfGSbYWEccKcCDFd';
 
     // Initialization of the module before each test case
     beforeEach(module('waves.core'));
@@ -26,7 +27,8 @@ describe('Wallet.Withdraw.Controller', function() {
         timeout = $timeout;
         coinomatService = {
             getWithdrawRate: function () {},
-            getWithdrawDetails: function () {}
+            getWithdrawDetails: function () {},
+            getDepositDetails: function () {}
         };
         formMock = {
             invalid: function () {
@@ -102,12 +104,19 @@ describe('Wallet.Withdraw.Controller', function() {
         deferred.resolve({address: gatewayAddress});
     }
 
+    function initDepositDetailsMock () {
+        var deferred = $q.defer();
+        spyOn(coinomatService, 'getDepositDetails').and.returnValue(deferred.promise);
+        deferred.resolve({address: depositAddress});
+    }
+
     it('should initialize properly', function () {
         expect(controller.address).toEqual('');
     });
 
     it('should request exchange rates on init', function () {
         initRateServiceMock();
+        initDepositDetailsMock();
         initControllerAssets();
         $rootScope.$apply();
 
@@ -128,10 +137,11 @@ describe('Wallet.Withdraw.Controller', function() {
         spyOn(coinomatService, 'getWithdrawRate').and.returnValue(deferred.promise);
         spyOn(notificationService, 'error');
 
-        var errorResponse = {error: 'Failed to get exchange rate'};
+        var errorResponse = {data: {error: 'Failed to get exchange rate'}};
         deferred.reject(errorResponse);
 
         initControllerAssets();
+        initDepositDetailsMock();
         $rootScope.$apply();
 
         expect(notificationService.error).toHaveBeenCalledWith(errorResponse.error);
@@ -140,6 +150,7 @@ describe('Wallet.Withdraw.Controller', function() {
 
     it('should check available balance on confirm withdraw', function () {
         initRateServiceMock();
+        initDepositDetailsMock();
         initControllerAssets(undefined, Money.fromTokens(1, Currency.WAV));
         $rootScope.$apply();
 
@@ -153,6 +164,7 @@ describe('Wallet.Withdraw.Controller', function() {
 
     it('should not confirm withdraw in case the form is invalid', function () {
         initRateServiceMock();
+        initDepositDetailsMock();
         initControllerAssets();
         $rootScope.$apply();
 
@@ -168,6 +180,7 @@ describe('Wallet.Withdraw.Controller', function() {
 
     it('should check bitcoin address on confirm', function () {
         initRateServiceMock();
+        initDepositDetailsMock();
         initControllerAssets();
         $rootScope.$apply();
 
@@ -178,8 +191,19 @@ describe('Wallet.Withdraw.Controller', function() {
         expect(controller.confirmWithdraw(formMock)).toBe(false);
     });
 
+    it('should check bitcoin address in not a deposit one', function () {
+        initRateServiceMock();
+        initDepositDetailsMock();
+        initControllerAssets();
+        $rootScope.$apply();
+
+        controller.address = depositAddress;
+        expect(controller.confirmWithdraw(formMock)).toBe(false);
+    });
+
     it('should show a confirmation dialog on confirm withdraw', function () {
         initRateServiceMock();
+        initDepositDetailsMock();
         initControllerAssets();
         $rootScope.$apply();
 
@@ -201,6 +225,7 @@ describe('Wallet.Withdraw.Controller', function() {
 
     it('should handle errors on confirm withdraw', function () {
         initRateServiceMock();
+        initDepositDetailsMock();
         initControllerAssets();
         $rootScope.$apply();
 
