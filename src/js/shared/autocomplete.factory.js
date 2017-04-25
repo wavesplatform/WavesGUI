@@ -90,9 +90,7 @@
                         }
                     }));
 
-                    return list.sort(function (a, b) {
-                        return +a.verified - +b.verified;
-                    });
+                    return list;
                 };
 
                 return result;

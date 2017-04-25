@@ -17,6 +17,9 @@
                     return asset.currency;
                 }).filter(function (asset) {
                     return asset !== ctrl.hiddenAsset;
+                }).sort(function (a, b) {
+                    // Verified assets go first.
+                    return +b.verified - +a.verified;
                 });
             }
         };
@@ -42,7 +45,7 @@
                     ctrl.autocomplete.assets.push(currency);
                     ctrl.autocomplete.selectedAsset = currency;
 
-                    // That strangely unfocus the element thus avoiding an empty dropdown.
+                    // That strangely unfocuses the element thus avoiding an empty dropdown.
                     autocompleteElement.focus();
                 }).finally(function () {
                     ctrl.isAssetLoading = false;

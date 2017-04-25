@@ -15,7 +15,10 @@
                  md-select-on-focus>
   <md-item-template>
     <div class="asset-tile">
-      <span md-highlight-text="$ctrl.autocomplete.searchText">{{item.displayName}}</span>
+      <span class="label"
+            ng-class="{'verified': item.verified}"
+            md-highlight-text="$ctrl.autocomplete.searchText"
+            title="{{item.verified ? 'Asset is verified' : ''}}">{{item.displayName}}</span>
       <span class="muted">{{item.id}}</span>
     </div>
   </md-item-template>
