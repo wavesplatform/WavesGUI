@@ -39,6 +39,19 @@ md-autocomplete-parent-scope .asset-tile {
   display: flex;
   justify-content: space-between;
 
+  .label {
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+    }
+
+    &.verified::before {
+      content: '\2714'; // ✔
+      color: @color-success-green;
+    }
+  }
+
   .muted {
     color: @color-grey;
   }

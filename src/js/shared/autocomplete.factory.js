@@ -70,10 +70,27 @@
                         return result.assets.slice(0, 10);
                     }
 
-                    searchText = searchText.toLowerCase();
-                    return _.filter(result.assets, function (asset) {
-                        return asset.displayName.toLowerCase().indexOf(searchText) !== -1;
-                    });
+                    var searchTextLC = searchText.toLowerCase(),
+                        list = [],
+                        ids = {};
+
+                    // Adding assets which match by name.
+                    list = list.concat(result.assets.filter(function (asset) {
+                        ids[asset.id] = asset.displayName.toLowerCase().indexOf(searchTextLC) > -1;
+                        return ids[asset.id];
+                    }));
+
+                    // Adding assets which match by ID.
+                    list = list.concat(result.assets.filter(function (asset) {
+                        if (ids[asset.id] === true) {
+                            return false;
+                        } else {
+                            ids[asset.id] = asset.id.indexOf(searchText) > -1;
+                            return ids[asset.id];
+                        }
+                    }));
+
+                    return list;
                 };
 
                 return result;

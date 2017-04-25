@@ -31,6 +31,8 @@ var app = angular.module('app', [
 
 function AngularApplicationConfig($provide, $compileProvider, $validatorProvider, $qProvider, $sceDelegateProvider,
                                   $mdAriaProvider, networkConstants, applicationSettings) {
+    'use strict';
+
     $provide.constant(networkConstants,
         angular.extend(networkConstants, {
             NETWORK_NAME: 'devel',
@@ -85,8 +87,9 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
         return this.optional(element) || regex.test(value);
     }, 'Amount is expected with a dot (.) as a decimal separator with no more than {0} fraction digits');
     $validatorProvider.addMethod('password', function (value, element) {
-        if (this.optional(element))
+        if (this.optional(element)) {
             return true;
+        }
 
         var containsDigits = /[0-9]/.test(value);
         var containsUppercase = /[A-Z]/.test(value);
@@ -96,21 +99,25 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
     }, 'The password is too weak. A good password must contain at least one digit, ' +
         'one uppercase and one lowercase letter');
     $validatorProvider.addMethod('minbytelength', function (value, element, params) {
-        if (this.optional(element))
+        if (this.optional(element)) {
             return true;
+        }
 
-        if (!angular.isNumber(params))
-           throw new Error('minbytelength parameter must be a number. Got ' + params);
+        if (!angular.isNumber(params)) {
+            throw new Error('minbytelength parameter must be a number. Got ' + params);
+        }
 
         var minLength = params;
         return converters.stringToByteArray(value).length >= minLength;
     }, 'String is too short. Please add more characters.');
     $validatorProvider.addMethod('maxbytelength', function (value, element, params) {
-        if (this.optional(element))
+        if (this.optional(element)) {
             return true;
+        }
 
-        if (!angular.isNumber(params))
+        if (!angular.isNumber(params)) {
             throw new Error('maxbytelength parameter must be a number. Got ' + params);
+        }
 
         var maxLength = params;
         return converters.stringToByteArray(value).length <= maxLength;
@@ -121,6 +128,8 @@ AngularApplicationConfig.$inject = ['$provide', '$compileProvider', '$validatorP
     '$sceDelegateProvider', '$mdAriaProvider', 'constants.network', 'constants.application'];
 
 function AngularApplicationRun(rest, applicationConstants, notificationService, addressService) {
+    'use strict';
+
     // restangular configuration
     rest.setDefaultHttpFields({
         timeout: 10000 // milliseconds
@@ -141,5 +150,4 @@ function AngularApplicationRun(rest, applicationConstants, notificationService, 
     };
 }
 
-AngularApplicationRun.$inject = ['Restangular', 'constants.application', 'notificationService',
-    'addressService'];
+AngularApplicationRun.$inject = ['Restangular', 'constants.application', 'notificationService', 'addressService'];

@@ -6,7 +6,7 @@
                  md-selected-item-change="$ctrl.changeAsset()"
                  md-search-text="$ctrl.autocomplete.searchText"
                  md-search-text-change=""
-                 md-items="item in $ctrl.autocomplete.querySearch($ctrl.autocomplete.searchText)"
+                 md-items="item in $ctrl.findAssets($ctrl.autocomplete.searchText)"
                  md-item-text="item.displayName"
                  md-clear-button="false"
                  md-no-cache="true"
@@ -15,11 +15,15 @@
                  md-select-on-focus>
   <md-item-template>
     <div class="asset-tile">
-      <span md-highlight-text="$ctrl.autocomplete.searchText">{{item.displayName}}</span>
+      <span class="label"
+            ng-class="{'verified': item.verified}"
+            md-highlight-text="$ctrl.autocomplete.searchText"
+            title="{{item.verified ? 'Asset is verified' : ''}}">{{item.displayName}}</span>
       <span class="muted">{{item.id}}</span>
     </div>
   </md-item-template>
   <md-not-found>
-    <span>Nothing is found!</span>
+    <span ng-if="$ctrl.isAssetLoading">Loading...</span>
+    <span ng-if="!$ctrl.isAssetLoading">Nothing is found!</span>
   </md-not-found>
 </md-autocomplete>
