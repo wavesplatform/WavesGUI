@@ -1,9 +1,13 @@
 (function () {
     'use strict';
 
-    function AssetPickerController($scope, autocomplete) {
-        var ctrl = this;
+    var ASSET_ID_BYTE_LENGTH = 32;
 
+    function AssetPickerController($scope, $element, autocomplete, apiService, utilityService) {
+        var ctrl = this,
+            autocompleteElement = $element.find('md-autocomplete');
+
+        ctrl.isAssetLoading = false;
         ctrl.autocomplete = autocomplete.create();
 
         ctrl.$onChanges = function () {
@@ -23,9 +27,41 @@
                 $scope.$emit('asset-picked', asset, ctrl.type);
             }
         };
+
+        ctrl.findAssets = function (query) {
+            var assets = ctrl.autocomplete.querySearch(query);
+            if (assets.length === 0 && isValidAssetId(query)) {
+                ctrl.isAssetLoading = true;
+                apiService.transactions.info(query).then(function (response) {
+                    var currency = Currency.create({
+                        id: response.id,
+                        displayName: response.name,
+                        precision: response.decimals
+                    });
+
+                    ctrl.autocomplete.assets.push(currency);
+                    ctrl.autocomplete.selectedAsset = currency;
+
+                    // That strangely unfocus the element thus avoiding an empty dropdown.
+                    autocompleteElement.focus();
+                }).finally(function () {
+                    ctrl.isAssetLoading = false;
+                });
+                return [];
+            } else {
+                ctrl.isAssetLoading = false;
+                return assets;
+            }
+        };
+
+        function isValidAssetId(str) {
+            if (utilityService.isValidBase58String(str)) {
+                return utilityService.base58StringToByteArray(str).length === ASSET_ID_BYTE_LENGTH;
+            }
+        }
     }
 
-    AssetPickerController.$inject = ['$scope', 'autocomplete.assets'];
+    AssetPickerController.$inject = ['$scope', '$element', 'autocomplete.assets', 'apiService', 'utilityService'];
 
     angular
         .module('app.dex')

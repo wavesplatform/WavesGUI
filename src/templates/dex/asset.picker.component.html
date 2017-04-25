@@ -6,7 +6,7 @@
                  md-selected-item-change="$ctrl.changeAsset()"
                  md-search-text="$ctrl.autocomplete.searchText"
                  md-search-text-change=""
-                 md-items="item in $ctrl.autocomplete.querySearch($ctrl.autocomplete.searchText)"
+                 md-items="item in $ctrl.findAssets($ctrl.autocomplete.searchText)"
                  md-item-text="item.displayName"
                  md-clear-button="false"
                  md-no-cache="true"
@@ -20,6 +20,7 @@
     </div>
   </md-item-template>
   <md-not-found>
-    <span>Nothing is found!</span>
+    <span ng-if="$ctrl.isAssetLoading">Loading...</span>
+    <span ng-if="!$ctrl.isAssetLoading">Nothing is found!</span>
   </md-not-found>
 </md-autocomplete>
