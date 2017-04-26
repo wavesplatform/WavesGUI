@@ -92,8 +92,8 @@
                     };
 
                     // adding asset details to cache
-                    applicationContext.cache.assets.put(assetBalance.issueTransaction);
-                    applicationContext.cache.assets.update(id, assetBalance.balance,
+                    applicationContext.cache.putAsset(assetBalance.issueTransaction);
+                    applicationContext.cache.updateAsset(id, assetBalance.balance,
                         assetBalance.reissuable, assetBalance.quantity);
 
                     // adding an asset with positive balance only or your reissuable assets

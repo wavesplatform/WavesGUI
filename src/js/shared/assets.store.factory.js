@@ -5,15 +5,10 @@
         .module('app.shared')
         .factory('assetStoreFactory', [
             '$q', 'apiService', 'matcherApiService', function ($q, apiService, matcherApiService) {
-                function getAssetInfo(assetId) {
-                    // TODO
-                }
-
                 function AssetStore(address) {
                     this.address = address;
                     this.balances = [];
                     this.promise = Promise.resolve();
-                    this.refreshBalances();
                 }
 
                 AssetStore.prototype.refreshBalances = function () {
@@ -91,10 +86,11 @@
 
                 AssetStore.prototype.getAll = function () {
                     var self = this;
-                    this.promise = this.promise.then(function () {
+                    self.refreshBalances();
+                    self.promise = self.promise.then(function () {
                         return self.balances.map(_.clone);
                     });
-                    return this.promise;
+                    return self.promise;
                 };
 
                 AssetStore.prototype.syncGet = function (id) {
