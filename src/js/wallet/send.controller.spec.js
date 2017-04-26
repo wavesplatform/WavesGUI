@@ -66,10 +66,6 @@ describe('Wallet.Send.Controller', function() {
     it('should initialize correctly', function () {
         expect(controller.recipient).toEqual('');
         expect(controller.amount).toEqual('0');
-        expect(controller.fee.amount).toEqual('0.001');
-        expect(controller.fee.isValid).toBe(true);
-        expect(controller.confirm.amount.value).toEqual('0');
-        expect(controller.confirm.fee.value).toEqual('0');
         expect(controller.confirm.recipient).toEqual('');
         expect(controller.autocomplete).toBeDefined();
         expect(controller.broadcast).toBeDefined();
@@ -105,10 +101,10 @@ describe('Wallet.Send.Controller', function() {
 
         timeout.flush();
 
-        expect(controller.confirm.amount.value).toEqual('7');
-        expect(controller.confirm.amount.currency).toEqual('Chinese Yuan');
-        expect(controller.confirm.fee.value).toEqual('0.002');
-        expect(controller.confirm.fee.currency).toEqual('Waves');
+        expect(controller.confirm.amount.toTokens()).toEqual(7);
+        expect(controller.confirm.amount.currency).toEqual(Currency.CNY);
+        expect(controller.confirm.fee.toTokens()).toEqual(0.002);
+        expect(controller.confirm.fee.currency).toEqual(Currency.WAV);
         expect(controller.confirm.recipient).toEqual(address);
 
         expect(controller.broadcast.setTransaction).toHaveBeenCalled();
@@ -170,7 +166,7 @@ describe('Wallet.Send.Controller', function() {
         expect(controller.submitTransfer(formMock)).toBe(true);
         expect(notificationService.error).not.toHaveBeenCalled();
         expect(controller.broadcast.setTransaction).toHaveBeenCalled();
-        expect(controller.confirm.fee.value).toEqual('0.002');
-        expect(controller.confirm.fee.currency).toEqual('Waves');
+        expect(controller.confirm.fee.toTokens()).toEqual(0.002);
+        expect(controller.confirm.fee.currency).toEqual(Currency.WAV);
     });
 });

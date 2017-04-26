@@ -342,8 +342,8 @@
                                 <h2 class="sectionHeader">SEND PAYMENT: {{send.currency}}</h2>
                                 <table>
                                     <div class="balanceAmt">
-                                        <div ng-if="!send.feeAndTransferAssetsAreTheSame"><p>Asset balance: </p><span class="balancewaves">{{send.assetBalance.formatAmount()}}</span><br/></div>
-                                        <p>Waves balance: </p><span class="balancewaves">{{send.feeAssetBalance.formatAmount(true)}}</span>
+                                        <div ng-if="!send.feeAndTransferAssetsAreTheSame"><p>Asset balance: </p><span class="balancewaves">{{send.assetBalance | moneyLong:true}}</span><br/></div>
+                                        <p>Waves balance: </p><span class="balancewaves">{{send.feeAssetBalance | moneyLong:true}}</span>
                                     </div>
                                     <thead>
                                     <tr>
@@ -395,10 +395,8 @@
                         </div>
                         <div id="send-payment-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!send.broadcast.pending" on-dialog-ok="send.broadcastTransaction()">
                             <div class="dialog-confirmation">
-                                <p class="dialog-text">You are sending <span class="confirmation-value">{{send.confirm.amount.value}}</span>
-                                    <span class="confirmation-value">{{send.confirm.amount.currency}}</span> with
-                                    <span class="confirmation-value">{{send.confirm.fee.value}}</span>
-                                    <span class="confirmation-value">{{send.confirm.fee.currency}}</span> fee to the address<br/>
+                                <p class="dialog-text">You are sending <span class="confirmation-value">{{send.confirm.amount | moneyLong:true}}</span> with
+                                    <span class="confirmation-value">{{send.confirm.fee | moneyLong:true}}</span> fee to the address<br/>
                                     <span class="confirmation-value">{{send.confirm.recipient}}</span>
                                 </p>
                                 <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
@@ -412,7 +410,7 @@
                             <form id="withdraw-asset-form" name="withdraw.assetForm" novalidate ng-validate="withdraw.validationOptions">
                             <table class="form-table">
                                 <div class="balanceAmt">
-                                    <div><p>Asset balance: </p><span class="balancewaves">{{withdraw.assetBalance.formatAmount(true)}}</span><br/></div>
+                                    <div><p>Asset balance: </p><span class="balancewaves">{{withdraw.assetBalance | moneyLong:true}}</span><br/></div>
                                 </div>
                                 <tbody>
                                     <tr>
@@ -450,10 +448,8 @@
                         </div>
                         <div id="withdraw-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!withdraw.broadcast.pending" on-dialog-ok="withdraw.broadcastTransaction()">
                             <div class="dialog-confirmation">
-                                <p class="dialog-text">You are sending <span class="confirmation-value">{{withdraw.confirm.amount.value}}</span>
-                                    <span class="confirmation-value">{{withdraw.confirm.amount.currency}}</span> with
-                                    <span class="confirmation-value">{{withdraw.confirm.fee.value}}</span>
-                                    <span class="confirmation-value">{{withdraw.confirm.fee.currency}}</span> fee to the Waves gateway address <br/>
+                                <p class="dialog-text">You are sending <span class="confirmation-value">{{withdraw.confirm.amount | moneyLong:true}}</span> with
+                                    <span class="confirmation-value">{{withdraw.confirm.fee | moneyLong:true}}</span> fee to the Waves gateway address <br/>
                                     <span class="confirmation-value">{{withdraw.confirm.gatewayAddress}}</span>.
                                 </p>
                                 <p class="dialog-text">The gateway will transfer these funds to your bitcoin address: <span class="confirmation-value">{{withdraw.confirm.recipient}}</span>.</p>
@@ -557,7 +553,7 @@
                             <form name="leasing.form" novalidate ng-validate="leasing.validationOptions">
                                 <table>
                                     <div class="balanceAmt">
-                                        <div><p>Available balance: </p><span class="balancewaves">{{leasing.availableBalance.formatAmount(true)}}</span><br/></div>
+                                        <div><p>Available balance: </p><span class="balancewaves">{{leasing.availableBalance | moneyLong:true}}</span><br/></div>
                                     </div>
                                     <tbody>
                                         <tr>
@@ -590,10 +586,8 @@
                         </div>
                         <div id="start-leasing-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!leasing.broadcast.pending" on-dialog-ok="leasing.broadcastTransaction()">
                             <div class="dialog-confirmation">
-                                <p class="dialog-text">You are going to lease <span class="confirmation-value">{{leasing.confirm.amount.value}}</span>
-                                    <span class="confirmation-value">{{leasing.confirm.amount.currency}}</span> with
-                                    <span class="confirmation-value">{{leasing.confirm.fee.value}}</span>
-                                    <span class="confirmation-value">{{leasing.confirm.fee.currency}}</span> fee to the address<br/>
+                                <p class="dialog-text">You are going to lease <span class="confirmation-value">{{leasing.confirm.amount | moneyLong:true}}</span> with
+                                    <span class="confirmation-value">{{leasing.confirm.fee | moneyLong:true}}</span> fee to the address<br/>
                                     <span class="confirmation-value">{{leasing.confirm.recipient}}</span>
                                 </p>
                                 <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
@@ -631,7 +625,7 @@
                                     <td>{{tx.name}}</td>
                                     <td>{{tx.formatted.sender}}</td>
                                     <td>{{tx.reissuable}}</td>
-                                    <td>{{tx.balance}}</td>
+                                    <td>{{tx.balance | moneyShort}}</td>
                                     <td>
                                         <button class="wButton wButton-neg fade" ng-click="assetList.assetTransfer(tx.id)">TRANSFER</button><span class="divider-2"></span>
                                         <button class="wButton wButton-neg fade" ng-disabled="!tx.formatted.canReissue" ng-click="assetList.assetReissue(tx.id)">REISSUE</button><span class="divider-2"></span>
@@ -693,8 +687,8 @@
                                 <form id="transfer-asset-form" name="transfer.assetForm" novalidate ng-validate="transfer.validationOptions">
                                     <h2 class="sectionHeader">ASSET TRANSFER</h2>
                                     <div class="balanceAmt">
-                                        <p>Asset balance: </p><span class="balancewaves">{{transfer.availableBalance.formatAmount()}}</span><br/>
-                                        <p>Waves balance: </p><span class="balancewaves">{{transfer.feeAssetBalance.formatAmount(true)}}</span>
+                                        <p>Asset balance: </p><span class="balancewaves">{{transfer.availableBalance | moneyLong:true}}</span><br/>
+                                        <p>Waves balance: </p><span class="balancewaves">{{transfer.feeAssetBalance | moneyLong:true}}</span>
                                     </div>
                                     <table class="wavesTable">
                                         <thead>
@@ -745,10 +739,9 @@
                             </div>
                             <div id="transfer-asset-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!transfer.broadcast.pending" on-dialog-ok="transfer.broadcastTransaction()">
                                 <div class="dialog-confirmation">
-                                    <p class="dialog-text">You are sending <span class="confirmation-value">{{transfer.confirm.amount.value}}</span>
-                                        <span class="confirmation-value">{{transfer.confirm.amount.currency}}</span> with
-                                        <span class="confirmation-value">{{transfer.confirm.fee.value}}</span>
-                                        <span class="confirmation-value">{{transfer.confirm.fee.currency}}</span> fee <br/>to the address: <span class="confirmation-value">{{transfer.confirm.recipient}}</span>
+                                    <p class="dialog-text">You are sending <span class="confirmation-value">{{transfer.confirm.amount | moneyLong:true}}</span> with
+                                        <span class="confirmation-value">{{transfer.confirm.fee | moneyLong:true}}</span> fee <br/>
+                                        to the address: <span class="confirmation-value">{{transfer.confirm.recipient}}</span>
                                     </p>
                                     <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
                                 </div>
@@ -805,10 +798,9 @@
                             </div>
                             <div id="asset-reissue-confirm-dialog" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!reissue.broadcast.pending" on-dialog-ok="reissue.broadcastTransaction()">
                                 <div class="dialog-confirmation">
-                                    <p class="dialog-text">You are issuing an additional amount of <span class="confirmation-value">{{reissue.confirm.amount.value}}</span> tokens <br/>
+                                    <p class="dialog-text">You are issuing an additional amount of <span class="confirmation-value">{{reissue.confirm.amount | moneyShort}}</span> tokens <br/>
                                         to the asset <span class="confirmation-value">{{reissue.confirm.amount.currency}}</span>
-                                        with a fee of <span class="confirmation-value">{{reissue.confirm.fee.value}}</span>
-                                        <span class="confirmation-value">{{reissue.confirm.fee.currency}}</span>
+                                        with a fee of <span class="confirmation-value">{{reissue.confirm.fee | moneyLong:true}}</span>
                                     </p>
                                     <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
                                 </div>
@@ -888,10 +880,8 @@
                             </div>
                             <div id="asset-mass-pay-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!mass.broadcast.pending" on-dialog-ok="mass.broadcastTransaction()">
                                 <div class="dialog-confirmation">
-                                    <p class="dialog-text">You are sending <span class="confirmation-value">{{mass.confirm.amount.value}}</span>
-                                        <span class="confirmation-value">{{mass.confirm.amount.currency}}</span> with
-                                        <span class="confirmation-value">{{mass.confirm.fee.value}}</span>
-                                        <span class="confirmation-value">{{mass.confirm.fee.currency}}</span> total fee <br/>
+                                    <p class="dialog-text">You are sending <span class="confirmation-value">{{mass.confirm.amount | moneyLong:true}}</span> with
+                                        <span class="confirmation-value">{{mass.confirm.fee | moneyLong:true}}</span> total fee <br/>
                                         to <span class="confirmation-value">{{mass.confirm.recipients}}</span> recipients.
                                     </p>
                                     <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
@@ -936,7 +926,7 @@
                         <h2 class="sectionHeader">TOKEN CREATION</h2>
                         <form id="create-asset-form" name="createAssetForm" novalidate ng-validate="ctrl.issuanceValidationOptions" ng-submit="ctrl.assetIssueConfirmation(createAssetForm, $event)">
                             <div class="balanceAmt">
-                                <p>Waves balance: </p><span class="balancewaves">{{ctrl.wavesBalance.formatAmount(true)}}</span>
+                                <p>Waves balance: </p><span class="balancewaves">{{ctrl.wavesBalance | moneyLong:true}}</span>
                             </div>
                             <table class="wavesTable">
                                 <thead>

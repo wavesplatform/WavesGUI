@@ -79,8 +79,8 @@ describe('Mass.Payment.Controller', function() {
         expect(controller.stage).toEqual('loading');
         expect(controller.summary.totalAmount.toTokens()).toEqual(0);
         expect(controller.summary.totalFee.toTokens()).toEqual(0);
-        expect(controller.confirm.amount.value).toEqual('0');
-        expect(controller.confirm.fee.value).toEqual('0');
+        expect(controller.confirm.amount.toTokens()).toEqual(0);
+        expect(controller.confirm.fee.toTokens()).toEqual(0);
         expect(controller.confirm.recipients).toEqual(0);
         expect(controller.autocomplete).toBeDefined();
         expect(controller.broadcast).toBeDefined();
@@ -356,10 +356,10 @@ describe('Mass.Payment.Controller', function() {
         expect(controller.submitPayment()).toBe(true);
         timeout.flush();
 
-        expect(controller.confirm.amount.value).toEqual('999');
-        expect(controller.confirm.amount.currency).toEqual('US Dollar');
-        expect(controller.confirm.fee.value).toEqual('0.02');
-        expect(controller.confirm.fee.currency).toEqual('Waves');
+        expect(controller.confirm.amount.toTokens()).toEqual(999);
+        expect(controller.confirm.amount.currency).toEqual(Currency.USD);
+        expect(controller.confirm.fee.toTokens()).toEqual(0.02);
+        expect(controller.confirm.fee.currency).toEqual(Currency.WAV);
         expect(controller.confirm.recipients).toEqual(2);
 
         expect(controller.sendingWaves).toBe(false);

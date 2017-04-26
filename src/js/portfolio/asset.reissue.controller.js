@@ -7,10 +7,7 @@
                                          dialogService, notificationService, formattingService, apiService,
                                          transactionBroadcast) {
         var reissue = this;
-        reissue.confirm = {
-            amount: {},
-            fee: {}
-        };
+        reissue.confirm = {};
         reissue.broadcast = new transactionBroadcast.instance(apiService.assets.reissue,
             function (transaction, response) {
                 var amount = Money.fromCoins(transaction.quantity, reissue.asset.currency);
@@ -43,6 +40,8 @@
             var asset = applicationContext.cache.assets[eventData.assetId];
             if (!asset)
                 throw new Error('Failed to find asset data by id ' + eventData.assetId);
+
+            resetReissueForm();
 
             reissue.assetId = eventData.assetId;
             reissue.assetName = asset.currency.displayName;
@@ -92,18 +91,14 @@
             reissue.broadcast.setTransaction(assetService.createAssetReissueTransaction(assetReissue, sender));
 
             // setting data for the confirmation dialog
-            reissue.confirm.amount.value = assetReissue.totalTokens.formatAmount(true);
-            reissue.confirm.amount.currency = assetReissue.totalTokens.currency.displayName;
-            reissue.confirm.fee.value = assetReissue.fee.formatAmount(true);
-            reissue.confirm.fee.currency = assetReissue.fee.currency.displayName;
+            reissue.confirm.amount = assetReissue.totalTokens;
+            reissue.confirm.fee = assetReissue.fee;
 
             // open confirmation dialog
             // doing it async because this method is called while another dialog is open
             $timeout(function () {
                 dialogService.open('#asset-reissue-confirm-dialog');
             }, 1);
-
-            resetReissueForm();
 
             // it's ok to close reissue dialog
             return true;
@@ -115,6 +110,8 @@
 
         function resetReissueForm() {
             reissue.amount = '0';
+            reissue.confirm.amount = Money.fromTokens(0, Currency.WAV);
+            reissue.confirm.fee = reissue.fee;
         }
     }
 
