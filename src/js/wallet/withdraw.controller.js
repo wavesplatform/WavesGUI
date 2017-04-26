@@ -68,14 +68,8 @@
             }
         };
         withdraw.confirm = {
-            amount: {
-                value: '0',
-                currency: ''
-            },
-            fee: {
-                value: '0',
-                currency: ''
-            },
+            amount: {},
+            fee: {},
             gatewayAddress: '',
             address: ''
         };
@@ -177,10 +171,8 @@
 
             var total = Money.fromTokens(withdraw.total, withdraw.assetBalance.currency);
             var fee = Money.fromTokens(withdraw.autocomplete.getFeeAmount(), Currency.WAV);
-            withdraw.confirm.amount.value = total.formatAmount(true);
-            withdraw.confirm.amount.currency = total.currency.displayName;
-            withdraw.confirm.fee.value = fee.formatAmount(true);
-            withdraw.confirm.fee.currency = fee.currency.displayName;
+            withdraw.confirm.amount = total;
+            withdraw.confirm.fee = fee;
             withdraw.confirm.recipient = withdraw.recipient;
 
             coinomatService.getWithdrawDetails(withdraw.assetBalance.currency, withdraw.recipient)
@@ -219,13 +211,13 @@
         function refreshTotal () {
             var amount = withdraw.exchangeRate * withdraw.amount;
             var total = Money.fromTokens(amount + withdraw.feeIn + withdraw.feeOut, withdraw.assetBalance.currency);
-            withdraw.total = total.formatAmount(true);
+            withdraw.total = total.formatAmount(true, false);
         }
 
         function refreshAmount () {
             var total = Math.max(0, withdraw.exchangeRate * (withdraw.total - withdraw.feeIn) - withdraw.feeOut);
             var amount = Money.fromTokens(total, withdraw.assetBalance.currency);
-            withdraw.amount = amount.formatAmount(true);
+            withdraw.amount = amount.formatAmount(true, false);
         }
 
         function resetForm () {

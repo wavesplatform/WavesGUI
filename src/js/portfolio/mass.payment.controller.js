@@ -24,8 +24,6 @@
             totalFee: ZERO_MONEY
         };
         mass.confirm = {
-            amount: {},
-            fee: {},
             recipients: 0
         };
         mass.filename = '';
@@ -265,10 +263,8 @@
             }
 
             // setting data for the confirmation dialog
-            mass.confirm.amount.value = mass.summary.totalAmount.formatAmount(true);
-            mass.confirm.amount.currency = mass.summary.totalAmount.currency.displayName;
-            mass.confirm.fee.value = mass.summary.totalFee.formatAmount(true);
-            mass.confirm.fee.currency = mass.summary.totalFee.currency.displayName;
+            mass.confirm.amount = mass.summary.totalAmount;
+            mass.confirm.fee = mass.summary.totalFee;
             mass.confirm.recipients = mass.summary.totalTransactions;
 
             dialogService.close();
@@ -330,9 +326,9 @@
             mass.stage = LOADING_STAGE;
             mass.invalidPayment = false;
 
-            mass.confirm.amount.value = '0';
+            mass.confirm.amount = Money.fromTokens(0, Currency.WAV);
             mass.confirm.recipients = 0;
-            mass.confirm.fee.value = '0';
+            mass.confirm.fee = Money.fromTokens(0, Currency.WAV);
 
             mass.autocomplete.defaultFee(constants.MINIMUM_TRANSACTION_FEE);
         }

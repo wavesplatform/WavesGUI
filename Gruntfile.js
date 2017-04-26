@@ -172,6 +172,8 @@ module.exports = function (grunt) {
                 'src/js/shared/tooltipster.directive.js',
                 'src/js/shared/transaction.loading.service.js',
                 'src/js/shared/transaction.filter.js',
+                'src/js/shared/money.short.filter.js',
+                'src/js/shared/money.long.filter.js',
                 'src/js/shared/autocomplete.factory.js',
                 'src/js/shared/transaction.broadcast.factory.js',
                 'src/js/shared/decimal.input.restrictor.directive.js',

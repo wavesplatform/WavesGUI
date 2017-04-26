@@ -99,10 +99,10 @@ describe('Asset.Reissue.Controller', function() {
 
         timeout.flush();
 
-        expect(controller.confirm.amount.value).toEqual('7');
-        expect(controller.confirm.amount.currency).toEqual('Chinese Yuan');
-        expect(controller.confirm.fee.value).toEqual('1');
-        expect(controller.confirm.fee.currency).toEqual('Waves');
+        expect(controller.confirm.amount.toTokens()).toEqual(7);
+        expect(controller.confirm.amount.currency).toEqual(Currency.CNY);
+        expect(controller.confirm.fee.toTokens()).toEqual(1);
+        expect(controller.confirm.fee.currency).toEqual(Currency.WAV);
 
         expect(controller.broadcast.setTransaction).toHaveBeenCalled();
         expect(dialogService.open).toHaveBeenCalledTimes(2);
