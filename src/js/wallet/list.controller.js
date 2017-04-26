@@ -40,8 +40,8 @@
             },
             {
                 balance: new Money(0, Currency.WAV),
-                depositWith: Currency.BTC/*, TODO: uncomment when released
-                leasingAvailable: true*/
+                depositWith: Currency.BTC,
+                leasingAvailable: true
             },
             {
                 balance: new Money(0, Currency.CNY),
