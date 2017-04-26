@@ -42,7 +42,7 @@
             apiService.assets.balance(applicationContext.account.address)
                 .then(function (response) {
                     _.forEach(response.balances, function (balanceItem) {
-                        applicationContext.cache.assets.put(balanceItem.issueTransaction);
+                        applicationContext.cache.putAsset(balanceItem.issueTransaction);
                     });
                 })
                 .finally(function () {
@@ -56,10 +56,11 @@
         }
 
         function logout() {
-            if ($window.chrome && $window.chrome.runtime && typeof $window.chrome.runtime.reload === 'function')
+            if ($window.chrome && $window.chrome.runtime && typeof $window.chrome.runtime.reload === 'function') {
                 $window.chrome.runtime.reload();
-            else
+            } else {
                 $window.location.reload();
+            }
         }
     }
 

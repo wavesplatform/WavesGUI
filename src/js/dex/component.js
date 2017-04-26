@@ -112,7 +112,6 @@
             ctrl.pair = pair;
             refreshOrderbooks();
             refreshUserOrders();
-            assetStore.getAll(); // That refreshes balances.
         };
 
         assetStore.getAll()
@@ -152,7 +151,12 @@
         intervalPromise = $interval(function () {
             refreshOrderbooks();
             refreshUserOrders();
-            assetStore.refreshBalances();
+            assetStore.getAll()
+                .then(function (assetsList) {
+                    // Here, the assets list is refreshed.
+                    ctrl.assetsList = assetsList;
+                    $scope.$apply();
+                });
         }, POLLING_DELAY);
 
         ctrl.$onDestroy = function () {

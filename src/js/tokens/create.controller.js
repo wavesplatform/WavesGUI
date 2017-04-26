@@ -71,7 +71,7 @@
             function (transaction, response) {
                 resetForm();
 
-                applicationContext.cache.assets.put(response);
+                applicationContext.cache.putAsset(response);
 
                 var displayMessage = 'Asset ' + ctrl.confirm.name + ' has been issued!<br/>' +
                     'Total tokens amount: ' + ctrl.confirm.totalTokens + '<br/>' +

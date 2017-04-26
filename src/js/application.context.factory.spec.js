@@ -28,7 +28,7 @@ describe('Application.Context', function() {
 
         expect(context.cache.assets[assetId]).toBeUndefined();
 
-        context.cache.assets.put(tx);
+        context.cache.putAsset(tx);
 
         expect(context.cache.assets[assetId].balance.toTokens()).toEqual(0);
         expect(context.cache.assets[assetId].currency.id).toEqual(assetId);
@@ -55,7 +55,7 @@ describe('Application.Context', function() {
         };
 
         context.cache.assets[assetId] = {balance: Money.fromTokens(10, currency)};
-        context.cache.assets.put(tx);
+        context.cache.putAsset(tx);
 
         expect(context.cache.assets[assetId].balance.toTokens()).toEqual(10);
         expect(context.cache.assets[assetId].currency.id).toEqual(assetId);
