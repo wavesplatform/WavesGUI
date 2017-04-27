@@ -8,11 +8,15 @@
             autocompleteElement = $element.find('md-autocomplete');
 
         ctrl.isAssetLoading = false;
+        ctrl.isPickingInProgress = false;
         ctrl.autocomplete = autocomplete.create();
 
         ctrl.$onChanges = function () {
             if (ctrl.assets && ctrl.pickedAsset) {
-                ctrl.autocomplete.selectedAsset = ctrl.pickedAsset;
+                if (!ctrl.isPickingInProgress) {
+                    ctrl.autocomplete.selectedAsset = ctrl.pickedAsset;
+                }
+
                 ctrl.autocomplete.assets = ctrl.assets.map(function (asset) {
                     return asset.currency;
                 }).filter(function (asset) {
@@ -24,9 +28,19 @@
             }
         };
 
+        autocompleteElement.on('focusin', function () {
+            ctrl.isPickingInProgress = true;
+        });
+
+        autocompleteElement.on('focusout', function () {
+            ctrl.isPickingInProgress = false;
+            ctrl.autocomplete.selectedAsset = ctrl.pickedAsset;
+        });
+
         ctrl.changeAsset = function () {
             var asset = ctrl.autocomplete.selectedAsset;
             if (asset && asset !== ctrl.pickedAsset) {
+                ctrl.isPickingInProgress = false;
                 $scope.$emit('asset-picked', asset, ctrl.type);
             }
         };
