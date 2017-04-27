@@ -78,10 +78,8 @@ describe('Asset.Transfer.Controller', function() {
     it('should initialize correctly', function () {
         expect(controller.recipient).toEqual('');
         expect(controller.amount).toEqual('0');
-        expect(controller.fee.amount).toEqual('0.001');
-        expect(controller.fee.isValid).toBe(true);
-        expect(controller.confirm.amount.value).toEqual('0');
-        expect(controller.confirm.fee.value).toEqual('0');
+        expect(controller.confirm.amount.toTokens()).toEqual(0);
+        expect(controller.confirm.fee.toTokens()).toEqual(0.001);
         expect(controller.confirm.recipient).toEqual('');
         expect(controller.autocomplete).toBeDefined();
         expect(controller.broadcast).toBeDefined();
@@ -108,10 +106,10 @@ describe('Asset.Transfer.Controller', function() {
 
         timeout.flush();
 
-        expect(controller.confirm.amount.value).toEqual('7');
-        expect(controller.confirm.amount.currency).toEqual('Chinese Yuan');
-        expect(controller.confirm.fee.value).toEqual('0.002');
-        expect(controller.confirm.fee.currency).toEqual('Waves');
+        expect(controller.confirm.amount.toTokens()).toEqual(7);
+        expect(controller.confirm.amount.currency).toEqual(Currency.CNY);
+        expect(controller.confirm.fee.toTokens()).toEqual(0.002);
+        expect(controller.confirm.fee.currency).toEqual(Currency.WAV);
         expect(controller.confirm.recipient).toEqual(address);
 
         expect(controller.broadcast.setTransaction).toHaveBeenCalled();
@@ -152,7 +150,7 @@ describe('Asset.Transfer.Controller', function() {
         spyOn(controller.broadcast, 'setTransaction');
         spyOn(notificationService, 'error');
 
-        controller.amount = '10.001';
+        controller.amount = '10.01';
         controller.recipient = address;
         expect(controller.submitTransfer(formMock)).toBe(false);
         expect(notificationService.error).toHaveBeenCalled();

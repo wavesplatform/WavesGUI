@@ -12,14 +12,6 @@
         transfer.availableBalance = 0;
         transfer.feeAssetBalance = 0;
         transfer.confirm = {
-            amount: {
-                value: '0',
-                currency: ''
-            },
-            fee: {
-                value: '0',
-                currency: ''
-            },
             recipient: ''
         };
         transfer.broadcast = new transactionBroadcast.instance(apiService.assets.transfer,
@@ -84,6 +76,8 @@
             transfer.feeAssetBalance = eventData.wavesBalance;
             transfer.asset = asset;
 
+            resetPaymentForm();
+
             // update validation options and check how it affects form validation
             transfer.validationOptions.rules.assetAmount.decimal = asset.currency.precision;
             var minimumPayment = Money.fromCoins(1, asset.currency);
@@ -101,9 +95,6 @@
         });
 
         function submitTransfer(transferForm) {
-            var invalid = transferForm.invalid();
-            transfer.fee.isValid = angular.isDefined(invalid.assetFee) ?
-                !invalid.assetFee : true;
             if (!transferForm.validate(transfer.validationOptions))
                 // prevent dialog from closing
                 return false;
@@ -140,10 +131,8 @@
             transfer.broadcast.setTransaction(assetService.createAssetTransferTransaction(assetTransfer, sender));
 
             // setting data for the confirmation dialog
-            transfer.confirm.amount.value = assetTransfer.amount.formatAmount(true);
-            transfer.confirm.amount.currency = assetTransfer.amount.currency.displayName;
-            transfer.confirm.fee.value = assetTransfer.fee.formatAmount(true);
-            transfer.confirm.fee.currency = assetTransfer.fee.currency.displayName;
+            transfer.confirm.amount = assetTransfer.amount;
+            transfer.confirm.fee = assetTransfer.fee;
             transfer.confirm.recipient = assetTransfer.recipient;
 
             // open confirmation dialog
@@ -151,8 +140,6 @@
             $timeout(function () {
                 dialogService.open('#transfer-asset-confirmation');
             }, 1);
-
-            resetPaymentForm();
 
             // it's ok to close payment dialog
             return true;
@@ -165,10 +152,8 @@
         function resetPaymentForm() {
             transfer.recipient = '';
             transfer.amount = '0';
-            transfer.fee = {
-                amount: constants.MINIMUM_TRANSACTION_FEE.toString(),
-                isValid: true
-            };
+            transfer.confirm.amount = Money.fromTokens(0, Currency.WAV);
+            transfer.confirm.fee = Money.fromTokens(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
             transfer.autocomplete.defaultFee(constants.MINIMUM_TRANSACTION_FEE);
         }
     }

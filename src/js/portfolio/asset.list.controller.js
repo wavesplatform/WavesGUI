@@ -59,14 +59,8 @@
         }
 
         function loadAssetDataFromCache(asset) {
-            if (angular.isUndefined(applicationContext.cache.assets[asset.id])) {
-                asset.balance = 'Loading';
-
-                return;
-            }
-
             var cached = applicationContext.cache.assets[asset.id];
-            asset.balance = cached.balance.formatAmount();
+            asset.balance = cached.balance;
             asset.name = cached.currency.displayName;
             asset.total = cached.totalTokens.formatAmount();
             asset.timestamp = formattingService.formatTimestamp(cached.timestamp);

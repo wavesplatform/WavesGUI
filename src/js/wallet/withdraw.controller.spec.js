@@ -214,10 +214,10 @@ describe('Wallet.Withdraw.Controller', function() {
         expect(controller.confirmWithdraw(formMock)).toBe(true);
         $rootScope.$apply();
 
-        expect(controller.confirm.amount.value).toEqual('10');
-        expect(controller.confirm.amount.currency).toEqual(Currency.BTC.displayName);
-        expect(controller.confirm.fee.value).toEqual('0.002');
-        expect(controller.confirm.fee.currency).toEqual(Currency.WAV.displayName);
+        expect(controller.confirm.amount.toTokens()).toEqual(10);
+        expect(controller.confirm.amount.currency).toEqual(Currency.BTC);
+        expect(controller.confirm.fee.toTokens()).toEqual(0.002);
+        expect(controller.confirm.fee.currency).toEqual(Currency.WAV);
         expect(controller.confirm.recipient).toEqual(bitcoinAddress);
         expect(controller.confirm.gatewayAddress).toEqual(gatewayAddress);
         expect(dialogService.open).toHaveBeenCalledWith('#withdraw-confirmation');

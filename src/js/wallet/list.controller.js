@@ -40,8 +40,8 @@
             },
             {
                 balance: new Money(0, Currency.WAV),
-                depositWith: Currency.BTC/*, TODO: uncomment when released
-                leasingAvailable: true*/
+                depositWith: Currency.BTC,
+                leasingAvailable: true
             },
             {
                 balance: new Money(0, Currency.CNY),
@@ -75,10 +75,15 @@
         }
 
         function deposit (wallet) {
-            $scope.$broadcast(events.WALLET_DEPOSIT, {
-                assetBalance: wallet.balance,
-                depositWith: wallet.depositWith
-            });
+            if (wallet.balance.currency == Currency.WAV) {
+                depositFromCard(wallet.balance.currency);
+            }
+            else {
+                $scope.$broadcast(events.WALLET_DEPOSIT, {
+                    assetBalance: wallet.balance,
+                    depositWith: wallet.depositWith
+                });
+            }
         }
 
         function details (wallet) {

@@ -53,14 +53,6 @@
             }
         };
         send.confirm = {
-            amount: {
-                value: '0',
-                currency: ''
-            },
-            fee: {
-                value: '0',
-                currency: ''
-            },
             recipient: ''
         };
         send.broadcast = new transactionBroadcast.instance(apiService.assets.transfer,
@@ -76,7 +68,12 @@
         send.submitTransfer = submitTransfer;
         send.broadcastTransaction = broadcastTransaction;
 
+        resetForm();
+
         $scope.$on(events.WALLET_SEND, function (event, eventData) {
+
+            resetForm();
+
             send.feeAssetBalance = eventData.wavesBalance;
             send.assetBalance = eventData.assetBalance;
             send.feeAndTransferAssetsAreTheSame = eventData.assetBalance.currency === FEE_CURRENCY;
@@ -98,12 +95,7 @@
             dialogService.open('#wB-butSend-WAV');
         });
 
-        resetForm();
-
         function submitTransfer(transferForm) {
-            var invalid = transferForm.invalid();
-            send.fee.isValid = angular.isDefined(invalid.sendFee) ?
-                !invalid.sendFee : true;
             if (!transferForm.validate(send.validationOptions))
                 // prevent dialog from closing
                 return false;
@@ -137,10 +129,8 @@
             send.broadcast.setTransaction(assetService.createAssetTransferTransaction(assetTransfer, sender));
 
             // setting data for the confirmation dialog
-            send.confirm.amount.value = assetTransfer.amount.formatAmount(true);
-            send.confirm.amount.currency = assetTransfer.amount.currency.displayName;
-            send.confirm.fee.value = assetTransfer.fee.formatAmount(true);
-            send.confirm.fee.currency = assetTransfer.fee.currency.displayName;
+            send.confirm.amount = assetTransfer.amount;
+            send.confirm.fee = assetTransfer.fee;
             send.confirm.recipient = assetTransfer.recipient;
 
             // open confirmation dialog
@@ -148,8 +138,6 @@
             $timeout(function () {
                 dialogService.open('#send-payment-confirmation');
             }, 1);
-
-            resetForm();
 
             // it's ok to close payment dialog
             return true;
@@ -162,11 +150,8 @@
         function resetForm() {
             send.recipient = '';
             send.amount = '0';
-            send.fee = {
-                amount: DEFAULT_FEE_AMOUNT,
-                isValid: true
-            };
-
+            send.confirm.amount = Money.fromTokens(0, Currency.WAV);
+            send.confirm.fee = Money.fromTokens(DEFAULT_FEE_AMOUNT, FEE_CURRENCY);
             send.autocomplete.defaultFee(Number(DEFAULT_FEE_AMOUNT));
         }
     }

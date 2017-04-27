@@ -57,14 +57,6 @@
             }
         };
         leasing.confirm = {
-            amount: {
-                value: '0',
-                currency: ''
-            },
-            fee: {
-                value: '0',
-                currency: ''
-            },
             recipient: ''
         };
         leasing.confirmLease = confirmLease;
@@ -126,10 +118,8 @@
             leasing.broadcast.setTransaction(leasingRequestService.buildStartLeasingRequest(startLeasing, sender));
 
             // setting data for the confirmation dialog
-            leasing.confirm.amount.value = startLeasing.amount.formatAmount(true);
-            leasing.confirm.amount.currency = startLeasing.amount.currency.displayName;
-            leasing.confirm.fee.value = startLeasing.fee.formatAmount(true);
-            leasing.confirm.fee.currency = startLeasing.fee.currency.displayName;
+            leasing.confirm.amount = startLeasing.amount;
+            leasing.confirm.fee = startLeasing.fee;
             leasing.confirm.recipient = startLeasing.recipient;
 
             // open confirmation dialog
@@ -146,12 +136,10 @@
         }
 
         function reset() {
-            leasing.amount = 0;
+            leasing.amount = '0';
             leasing.recipient = '';
-            leasing.fee = {
-                amount: DEFAULT_FEE_AMOUNT,
-                isValid: true
-            };
+            leasing.confirm.amount = Money.fromTokens(0, Currency.WAV);
+            leasing.confirm.fee = Money.fromTokens(DEFAULT_FEE_AMOUNT, FEE_CURRENCY);
             leasing.autocomplete.defaultFee(Number(DEFAULT_FEE_AMOUNT));
         }
     }
