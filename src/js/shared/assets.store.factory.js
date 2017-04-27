@@ -1,107 +1,97 @@
 (function () {
     'use strict';
 
+    // TODO : move to the future `appState` service.
+
+    var predefinedAssets = [
+        Currency.BTC,
+        Currency.USD,
+        Currency.EUR,
+        Currency.CNY,
+        Currency.WCT,
+        Currency.MRT
+    ];
+
     angular
         .module('app.shared')
         .factory('assetStoreFactory', [
             '$q', 'apiService', 'matcherApiService', function ($q, apiService, matcherApiService) {
                 function AssetStore(address) {
                     this.address = address;
-                    this.balances = [];
-                    this.promise = Promise.resolve();
+                    this.balances = {};
+                    this.promise = $q.when();
                 }
 
-                AssetStore.prototype.refreshBalances = function () {
-                    var self = this,
-                        newBalances = [];
+                AssetStore.prototype._getBalances = function () {
+                    var self = this;
                     this.promise = this.promise
                         .then(function () {
                             return apiService.assets.balance(self.address);
                         })
                         .then(function (response) {
-                            newBalances = response.balances.map(function (item) {
-                                return Money.fromCoins(item.balance, Currency.create({
-                                    id: item.assetId,
-                                    displayName: item.issueTransaction.name,
-                                    shortName: item.issueTransaction.name,
-                                    precision: item.issueTransaction.decimals
+                            response.balances.forEach(function (asset) {
+                                self.balances[asset.assetId] = Money.fromCoins(asset.balance, Currency.create({
+                                    id: asset.assetId,
+                                    displayName: asset.issueTransaction.name,
+                                    shortName: asset.issueTransaction.name,
+                                    precision: asset.issueTransaction.decimals
                                 }));
                             });
                         })
-                        .then(function () {
-                            var defaultAssets = [
-                                // WAVES is added below.
-                                Currency.BTC,
-                                Currency.USD,
-                                Currency.EUR,
-                                Currency.CNY,
-                                Currency.WCT,
-                                Currency.MRT
-                            ];
-                            defaultAssets.forEach(function (asset) {
-                                var foundInBalances = _.find(newBalances, function (b) {
-                                    return b.currency === asset;
-                                });
-
-                                if (!foundInBalances) {
-                                    newBalances.push(Money.fromCoins(0, asset));
-                                }
-                            });
-                        })
-                        .then(apiService.address.balance.bind(apiService.assets, self.address))
+                        .then(apiService.address.balance.bind(apiService.address, self.address))
                         .then(function (response) {
-                            newBalances.unshift(Money.fromCoins(response.balance, Currency.WAV));
-                            self.balances = newBalances;
+                            self.balances[Currency.WAV.id] = Money.fromCoins(response.balance, Currency.WAV);
                         });
-                    return this;
                 };
 
-                AssetStore.prototype.refreshMarkets = function () {
+                AssetStore.prototype._getPredefined = function () {
+                    var self = this;
+                    this.promise = this.promise
+                        .then(function () {
+                            predefinedAssets.forEach(function (asset) {
+                                if (!self.balances[asset.id]) {
+                                    self.balances[asset.id] = Money.fromCoins(0, asset);
+                                }
+                            });
+                        });
+                };
+
+                AssetStore.prototype._getTradedAssets = function () {
+                    var self = this;
                     this.promise = this.promise
                         .then(matcherApiService.loadAllMarkets)
                         .then(function (markets) {
-                            console.log(markets);
-                            var marketAssets = {},
-                                q = $q.when();
+                            markets.forEach(function (market) {
+                                var amountAsset = market.amountAsset;
+                                if (!self.balances[amountAsset.id]) {
+                                    self.balances[amountAsset.id] = Money.fromCoins(0, amountAsset);
+                                }
 
-                            ['first', 'second'].forEach(function (order) {
-                                markets.forEach(function (market) {
-                                    if (!marketAssets[market[order].id]) {
-                                        q = getAssetInfo(market[order].id)
-                                            .then(function (info) {
-                                                console.log(info);
-                                                marketAssets[info.id] = Currency.create({
-                                                    id: info.id,
-                                                    displayName: info.name,
-                                                    shortName: info.name,
-                                                    precision: info.decimals
-                                                });
-                                            });
-                                        return q;
-                                    }
-                                });
+                                var priceAsset = market.priceAsset;
+                                if (!self.balances[priceAsset.id]) {
+                                    self.balances[priceAsset.id] = Money.fromCoins(0, priceAsset);
+                                }
                             });
                         });
                 };
 
                 AssetStore.prototype.getAll = function () {
                     var self = this;
-                    self.refreshBalances();
+
+                    self._getBalances();
+                    self._getPredefined();
+                    self._getTradedAssets();
                     self.promise = self.promise.then(function () {
-                        return self.balances.map(_.clone);
+                        return Object.keys(self.balances).map(function (key) {
+                            return self.balances[key];
+                        });
                     });
+
                     return self.promise;
                 };
 
                 AssetStore.prototype.syncGet = function (id) {
-                    var balances = this.balances,
-                        len = balances.length;
-                    id = id || '';
-                    for (var i = 0; i < len; i++) {
-                        if (balances[i].currency.id === id) {
-                            return balances[i];
-                        }
-                    }
+                    return this.balances[id];
                 };
 
                 AssetStore.prototype.syncGetAsset = function (id) {

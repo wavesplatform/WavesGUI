@@ -8,12 +8,6 @@
         var ctrl = this,
             intervalPromise,
 
-            // TODO : inside the store, get the markets from matcher.
-            // assetStore = assetStoreFactory.createStore({
-            //     address: applicationContext.account.address,
-            //     markets: true
-            // }),
-
             assetStore = assetStoreFactory.createStore(applicationContext.account.address),
 
             sender = {
@@ -114,11 +108,10 @@
             refreshUserOrders();
         };
 
-        assetStore.getAll()
+        assetStore
+            .getAll()
             .then(function (assetsList) {
-                // From here, asset pickers start working.
                 ctrl.assetsList = assetsList;
-                $scope.$apply();
             })
             .then(function () {
                 return dexOrderbookService.getOrderbook(ctrl.pair.amountAsset, ctrl.pair.priceAsset);
@@ -133,7 +126,6 @@
                 ctrl.buyOrders = orderbook.bids;
                 ctrl.sellOrders = orderbook.asks;
                 refreshUserOrders();
-                $scope.$apply();
             })
             .catch(function (e) {
                 console.log(e);
@@ -147,15 +139,14 @@
             refreshUserOrders();
         });
 
-        // Enable polling.
+        // Enable polling for orderbooks and newly created assets.
         intervalPromise = $interval(function () {
             refreshOrderbooks();
             refreshUserOrders();
-            assetStore.getAll()
+            assetStore
+                .getAll()
                 .then(function (assetsList) {
-                    // Here, the assets list is refreshed.
                     ctrl.assetsList = assetsList;
-                    $scope.$apply();
                 });
         }, POLLING_DELAY);
 
