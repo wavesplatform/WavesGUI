@@ -6,7 +6,7 @@
 
     function MoneyLongFilter() {
         return function filterInput(input, stripZeroes, useThousandsSeparator) {
-            if (!input) {
+            if (!input || !input.formatAmount) {
                 return '';
             }
 
