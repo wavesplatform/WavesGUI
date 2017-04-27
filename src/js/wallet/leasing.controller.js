@@ -136,9 +136,10 @@
         }
 
         function reset() {
-            leasing.amount = Money.fromTokens(0, Currency.WAV);
+            leasing.amount = '0';
             leasing.recipient = '';
-            leasing.fee = Money.fromTokens(DEFAULT_FEE_AMOUNT, FEE_CURRENCY);
+            leasing.confirm.amount = Money.fromTokens(0, Currency.WAV);
+            leasing.confirm.fee = Money.fromTokens(DEFAULT_FEE_AMOUNT, FEE_CURRENCY);
             leasing.autocomplete.defaultFee(Number(DEFAULT_FEE_AMOUNT));
         }
     }
