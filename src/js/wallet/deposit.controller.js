@@ -27,8 +27,7 @@
             deposit.assetBalance = eventData.assetBalance;
             deposit.currency = deposit.assetBalance.currency.displayName;
 
-            if (deposit.assetBalance.currency !== Currency.BTC &&
-                deposit.assetBalance.currency !== Currency.WAV) {
+            if (deposit.assetBalance.currency !== Currency.BTC) {
                 $scope.home.featureUnderDevelopment();
 
                 return;
