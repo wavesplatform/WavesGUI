@@ -1,0 +1,14 @@
+<div class="leasing">
+  <div class="tools">
+    <div class="balance">
+      <waves-leasing-balance-details balance-details="$ctrl.balanceDetails"></waves-leasing-balance-details>
+    </div>
+    <div class="form">
+      <waves-leasing-lease-form></waves-leasing-lease-form>
+    </div>
+  </div>
+
+  <waves-transaction-history heading="LEASING TRANSACTIONS"
+                             transactions="$ctrl.transactions"
+                             limit-to="200"></waves-transaction-history>
+</div>

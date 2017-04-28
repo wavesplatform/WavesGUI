@@ -32,6 +32,6 @@
     WavesLeasingService.$inject = ['apiService'];
 
     angular
-        .module('app.wallet')
+        .module('app.leasing')
         .service('leasingService', WavesLeasingService);
 })();

@@ -1,0 +1,45 @@
+<h2 class="sectionHeader">BALANCE LEASING</h2>
+<form name="$ctrl.form" novalidate ng-validate="$ctrl.validationOptions">
+  <table>
+    <div class="balanceAmt">
+      <div><p>Available balance: </p><span class="balancewaves">{{$ctrl.availableBalance | moneyLong:true}}</span><br/></div>
+    </div>
+    <tbody>
+    <tr>
+      <td>Recipient</td>
+      <td><input class="wInput form-control" name="leasingRecipient" type="text" placeholder="Recipient address" ng-model="$ctrl.recipient"/></td>
+    </tr>
+    <tr>
+      <td>Amount</td>
+      <td><input class="wInput form-control" name="leasingAmount" type="text" placeholder="Leasing amount" ng-model="$ctrl.amount" decimal-input-restrictor/></td>
+    </tr>
+    <tr>
+      <td class="padded">Waves fee</td>
+      <td class="padded">
+        <md-autocomplete md-input-name="leasingFee" md-selected-item="$ctrl.autocomplete.selectedFee" md-search-text="$ctrl.autocomplete.searchText"
+                         md-items="item in $ctrl.autocomplete.querySearch($ctrl.autocomplete.searchText)"
+                         md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
+                         md-menu-class="popup-autocomplete" class="fee-autocomplete">
+          <md-item-template>
+            <span md-highlight-text="$ctrl.autocomplete.searchText">{{item.displayText}}</span>
+          </md-item-template>
+        </md-autocomplete>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</form>
+<div class="textCenter">
+  <p class="dialog-text">Please note that you won't be able to transfer or<br/> trade this money while it is leased.</p>
+</div>
+<button ng-click="$ctrl.confirmLease($ctrl.form)">LEASE</button>
+
+<div id="start-leasing-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!$ctrl.broadcast.pending" on-dialog-ok="$ctrl.broadcastTransaction()">
+  <div class="dialog-confirmation">
+    <p class="dialog-text">You are going to lease <span class="confirmation-value">{{$ctrl.confirm.amount | moneyLong:true}}</span> with
+      <span class="confirmation-value">{{$ctrl.confirm.fee | moneyLong:true}}</span> fee to the address<br/>
+      <span class="confirmation-value">{{$ctrl.confirm.recipient}}</span>
+    </p>
+    <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
+  </div>
+</div>
