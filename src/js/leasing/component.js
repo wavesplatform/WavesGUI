@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    // TODO : refactor all the code in the component, recursive.
-
     var POLLING_DELAY = 5000,
         DEFAULT_ERROR_MESSAGE = 'Failed to load balance details';
 

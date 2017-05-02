@@ -1,9 +1,6 @@
-<h2 class="sectionHeader">BALANCE LEASING</h2>
+<section-header>BALANCE LEASING</section-header>
 <form name="$ctrl.form" novalidate ng-validate="$ctrl.validationOptions">
   <table>
-    <div class="balanceAmt">
-      <div><p>Available balance: </p><span class="balancewaves">{{$ctrl.availableBalance | moneyLong:true}}</span><br/></div>
-    </div>
     <tbody>
     <tr>
       <td>Recipient</td>
@@ -26,13 +23,15 @@
         </md-autocomplete>
       </td>
     </tr>
+    <tr>
+      <td></td>
+      <td class="button-container">
+        <button class="wButton wButton-neg fade" ng-click="$ctrl.confirmLease($ctrl.form)">LEASE</button>
+      </td>
+    </tr>
     </tbody>
   </table>
 </form>
-<div class="textCenter">
-  <p class="dialog-text">Please note that you won't be able to transfer or<br/> trade this money while it is leased.</p>
-</div>
-<button ng-click="$ctrl.confirmLease($ctrl.form)">LEASE</button>
 
 <div id="start-leasing-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!$ctrl.broadcast.pending" on-dialog-ok="$ctrl.broadcastTransaction()">
   <div class="dialog-confirmation">
