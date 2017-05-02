@@ -1,0 +1,50 @@
+@import "../variables";
+
+table.waves-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  height: auto;
+  padding: 0;
+  margin-bottom: 2rem;
+
+  thead {
+    background-color: @color-navy-blue;
+    border: 0 solid @color-almost-white;
+    text-align: center;
+    font-size: 1.12rem;
+    color: @color-white;
+  }
+
+  tbody {
+    tr {
+      transition: all .2s ease;
+
+      &:nth-child(odd) {
+        background-color: @color-almost-white;
+      }
+
+      &:nth-child(even) {
+        background-color: @color-white;
+      }
+    }
+  }
+
+  td {
+    vertical-align: middle;
+    text-align: center;
+    font-size: 1.1rem;
+    padding: .5rem;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    overflow-x: scroll !important;
+  }
+
+  @media only screen and (max-width: 420px) {
+    td {
+      padding-left: .2rem;
+      padding-right: .2rem;
+    }
+  }
+}
