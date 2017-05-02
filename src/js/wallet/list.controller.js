@@ -52,8 +52,6 @@
         walletList.send = send;
         walletList.withdraw = withdraw;
         walletList.deposit = deposit;
-        walletList.details = details;
-        walletList.lease = lease;
         walletList.depositFromCard = depositFromCard;
 
         loadDataFromBackend();
@@ -84,18 +82,6 @@
                     depositWith: wallet.depositWith
                 });
             }
-        }
-
-        function details (wallet) {
-            $scope.$broadcast(events.WALLET_DETAILS, {
-                wallet: wallet
-            });
-        }
-
-        function lease (balanceDetails) {
-            $scope.$broadcast(events.WALLET_LEASE, {
-                balanceDetails: balanceDetails
-            });
         }
 
         function depositFromCard (currency) {

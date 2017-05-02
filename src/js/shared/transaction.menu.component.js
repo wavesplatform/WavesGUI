@@ -11,7 +11,7 @@
         ctrl.fullTransactionData = fullTransactionData;
         ctrl.hasRecipient = hasRecipient;
         ctrl.addressCopied = addressCopied;
-        ctrl.canCancelLeasing = canCancelLeasing;
+        ctrl.isLeasing = isLeasing;
         ctrl.cancelLeasing = cancelLeasing;
 
         function addressCopied () {
@@ -30,8 +30,8 @@
             return !!ctrl.transaction.recipient;
         }
 
-        function canCancelLeasing () {
-            return ctrl.transaction.type == constants.START_LEASING_TRANSACTION_TYPE;
+        function isLeasing () {
+            return ctrl.transaction.type === constants.START_LEASING_TRANSACTION_TYPE;
         }
 
         function cancelLeasing () {

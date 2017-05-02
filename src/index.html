@@ -24,9 +24,9 @@
     <!-- CSS BEGIN -->
     <link rel="stylesheet" href="../bower_components/angular/angular-csp.css">
     <link rel="stylesheet" href="../bower_components/angular-material/angular-material.css">
-    <link rel="stylesheet" href="../distr/devel/css/style.css"> <!-- NOTE: run 'grunt styles' to get CSS working. -->
+    <link rel="stylesheet" href="../distr/devel/css/style.css">
     <!-- CSS END -->
-	<link href="img/favicon.ico" type="image/x-icon" rel="shortcut icon"/>
+	<link href="img/favicon.ico" type="image/x-icon" rel="shortcut icon">
 </head>
 
 <body ng-controller="homeController as home" ng-switch on="home.screen">
@@ -311,22 +311,73 @@
             <!-- APPLICATION TAB SELECTORS -->
             <section id="tabs" class="fFade noSelect">
                 <div id="tabs-Iconset" class="centerIt">
-                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="wallet" caption="'Wallet tab'" tooltipster tooltip-html
-                          tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Wallet</u></center><br/>Area containing the main wallets."></span>
-                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="portfolio" caption="'Portfolio tab'" tooltipster tooltip-html
-                          tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Portfolio</u></center><br/>Display all your assets, both digital and physical,<br/>as well as allowing transfers."></span>
-                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="exchange" caption="'Exchange tab'" tooltipster tooltip-html
-                          tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Waves Decentralized Exchange</u></center><br/>Access to Waves markets where you can<br/>conveniently buy, sell and trade tokens."></span>
+                    <span waves-tab
+                          on-select="nav.changeTab(pageId)"
+                          current-page-id="nav.currentTab"
+                          page-id="wallet"
+                          caption="'Wallet tab'"
+                          tooltipster
+                          tooltip-html
+                          tooltip-theme="tooltipster-theme3"
+                          tooltip-title="<center><u>Wallet</u></center><br/>Area containing the main wallets."></span>
+                    <span waves-tab
+                          on-select="nav.changeTab(pageId)"
+                          current-page-id="nav.currentTab"
+                          page-id="portfolio"
+                          caption="'Portfolio tab'"
+                          tooltipster
+                          tooltip-html
+                          tooltip-theme="tooltipster-theme3"
+                          tooltip-title="<center><u>Portfolio</u></center><br/>Display all your assets, both digital and physical,<br/>as well as allowing transfers."></span>
+                    <span waves-tab
+                          on-select="nav.changeTab(pageId)"
+                          current-page-id="nav.currentTab"
+                          page-id="exchange"
+                          caption="'Exchange tab'"
+                          tooltipster
+                          tooltip-html
+                          tooltip-theme="tooltipster-theme3"
+                          tooltip-title="<center><u>Waves Decentralized Exchange</u></center><br/>Access to Waves markets where you can<br/>conveniently buy, sell and trade tokens."></span>
+                    <span waves-tab
+                          on-select="nav.changeTab(pageId)"
+                          current-page-id="nav.currentTab"
+                          page-id="leasing"
+                          caption="'Waves leasing tab'"
+                          tooltipster
+                          tooltip-html
+                          tooltip-theme="tooltipster-theme3"
+                          tooltip-title="<center><u>Leasing</u></center><br/>Lease your Waves<br/>to another wallet."></span>
                     <!--<span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="voting" caption="'Voting tab'" tooltipster tooltip-html-->
                           <!--tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Voting Area</u></center><br/>Decentralized voting utility."></span>-->
-                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="history" caption="'History tab'" tooltipster tooltip-html
-                          tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>History</u></center><br/>Access all your transaction records."></span>
-                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="tokens" caption="'Tokens Creation tab'" tooltipster tooltip-html
-                          tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Tokens Creation tab</u></center><br/>Area in which assets can be created."></span>
+                    <span waves-tab
+                          on-select="nav.changeTab(pageId)"
+                          current-page-id="nav.currentTab"
+                          page-id="history"
+                          caption="'History tab'"
+                          tooltipster
+                          tooltip-html
+                          tooltip-theme="tooltipster-theme3"
+                          tooltip-title="<center><u>History</u></center><br/>Access all your transaction records."></span>
+                    <span waves-tab
+                          on-select="nav.changeTab(pageId)"
+                          current-page-id="nav.currentTab"
+                          page-id="tokens"
+                          caption="'Tokens Creation tab'"
+                          tooltipster
+                          tooltip-html
+                          tooltip-theme="tooltipster-theme3"
+                          tooltip-title="<center><u>Tokens Creation tab</u></center><br/>Area in which assets can be created."></span>
                     <!--<span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="messages" caption="'Messages tab'" tooltipster tooltip-html-->
                           <!--tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Decentralized Messenger</u></center><br/>Allows private communication between Waves users."></span>-->
-                    <span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="community" caption="'Community tab'" tooltipster tooltip-html
-                          tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Community tab</u></center><br/>Resources to learn more about Waves project such as <br/>forums, blogs, websites, etc."></span>
+                    <span waves-tab
+                          on-select="nav.changeTab(pageId)"
+                          current-page-id="nav.currentTab"
+                          page-id="community"
+                          caption="'Community tab'"
+                          tooltipster
+                          tooltip-html
+                          tooltip-theme="tooltipster-theme3"
+                          tooltip-title="<center><u>Community tab</u></center><br/>Resources to learn more about Waves project such as <br/>forums, blogs, websites, etc."></span>
               </div>
             </section>
 
@@ -525,81 +576,17 @@
                         </div>
                     </div>
 
-                    <div class="noDisp" ng-controller="balanceDetailsController as balance">
-                        <div id="balance-details-dialog" waves-dialog ok-button-caption="LEASE MY BALANCE" on-dialog-ok="walletList.lease(balance.details)" cancel-button-caption="CLOSE">
-                            <h2 class="sectionHeader">BALANCE DETAILS</h2>
-                            <table class="wavesTable">
-                                <thead>
-                                    <tr>
-                                        <td>Regular</td>
-                                        <td>Effective</td>
-                                        <td>Generating</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>{{balance.formatted.regular}}</td>
-                                        <td>{{balance.formatted.effective}}</td>
-                                        <td>{{balance.formatted.generating}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="noDisp" ng-controller="leasingController as leasing">
-                        <div id="start-leasing-dialog" waves-dialog ok-button-caption="LEASE" on-dialog-ok="leasing.confirmLease(leasing.form)">
-                            <h2 class="sectionHeader">BALANCE LEASING</h2>
-                            <form name="leasing.form" novalidate ng-validate="leasing.validationOptions">
-                                <table>
-                                    <div class="balanceAmt">
-                                        <div><p>Available balance: </p><span class="balancewaves">{{leasing.availableBalance | moneyLong:true}}</span><br/></div>
-                                    </div>
-                                    <tbody>
-                                        <tr>
-                                            <td>Recipient</td>
-                                            <td><input class="wInput form-control" name="leasingRecipient" type="text" placeholder="Recipient address" ng-model="leasing.recipient"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Amount</td>
-                                            <td><input class="wInput form-control" name="leasingAmount" type="text" placeholder="Leasing amount" ng-model="leasing.amount" decimal-input-restrictor/></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="padded">Waves fee</td>
-                                            <td class="padded">
-                                                <md-autocomplete md-input-name="leasingFee" md-selected-item="leasing.autocomplete.selectedFee" md-search-text="leasing.autocomplete.searchText"
-                                                                 md-items="item in leasing.autocomplete.querySearch(leasing.autocomplete.searchText)"
-                                                                 md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
-                                                                 md-menu-class="popup-autocomplete" class="fee-autocomplete">
-                                                    <md-item-template>
-                                                        <span md-highlight-text="leasing.autocomplete.searchText">{{item.displayText}}</span>
-                                                    </md-item-template>
-                                                </md-autocomplete>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </form>
-                            <div class="textCenter">
-                                <p class="dialog-text">Please note that you won't be able to transfer or<br/> trade this money while it is leased.</p>
-                            </div>
-                        </div>
-                        <div id="start-leasing-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!leasing.broadcast.pending" on-dialog-ok="leasing.broadcastTransaction()">
-                            <div class="dialog-confirmation">
-                                <p class="dialog-text">You are going to lease <span class="confirmation-value">{{leasing.confirm.amount | moneyLong:true}}</span> with
-                                    <span class="confirmation-value">{{leasing.confirm.fee | moneyLong:true}}</span> fee to the address<br/>
-                                    <span class="confirmation-value">{{leasing.confirm.recipient}}</span>
-                                </p>
-                                <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="flex-container">
-                        <wallet-box class="walletBox" ng-repeat="w in walletList.wallets" balance="w.balance" details-available="w.leasingAvailable" on-send="walletList.send(w)"
-                                    on-withdraw="walletList.withdraw(w)" on-deposit="walletList.deposit(w)" on-details="walletList.details(w)"></wallet-box>
+                        <wallet-box class="walletBox"
+                                    ng-repeat="w in walletList.wallets"
+                                    balance="w.balance"
+                                    on-send="walletList.send(w)"
+                                    on-withdraw="walletList.withdraw(w)"
+                                    on-deposit="walletList.deposit(w)"></wallet-box>
                     </div>
-                    <waves-transaction-history transactions="walletList.transactions" limit-to="10"></waves-transaction-history>
+                    <waves-transaction-history heading="LATEST TRANSACTIONS"
+                                               transactions="walletList.transactions"
+                                               limit-to="10"></waves-transaction-history>
                 </div>
                 <!-- / WALLET TAB -->
 
@@ -898,6 +885,12 @@
                 </waves-page>
                 <!-- / DEX TAB -->
 
+                <!-- LEASING TAB -->
+                <waves-page ng-switch-when="leasing" page-title="Leasing">
+                    <waves-leasing></waves-leasing>
+                </waves-page>
+                <!-- / LEASING TAB -->
+
                 <!-- VOTING TAB -->
                 <div id="mBB-voting" class="mBB-content" ng-switch-when="voting">
                     <div class="phContent">
@@ -915,7 +908,9 @@
 
                 <!-- HISTORY TAB -->
                 <div id="mBB-history" class="mBB-content" ng-switch-when="history" ng-controller="historyController as history">
-                    <waves-transaction-history transactions="history.transactions" limit-to="50"></waves-transaction-history>
+                    <waves-transaction-history heading="LATEST TRANSACTIONS"
+                                               transactions="history.transactions"
+                                               limit-to="50"></waves-transaction-history>
                 </div>
                 <!-- / HISTORY TAB -->
 

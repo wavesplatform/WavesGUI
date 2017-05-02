@@ -50,7 +50,6 @@
                 onSend: '&',
                 onWithdraw: '&',
                 onDeposit: '&',
-                onDetails: '&',
                 detailsAvailable: '<?'
             },
             templateUrl: 'wallet/box.component'

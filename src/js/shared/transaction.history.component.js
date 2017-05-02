@@ -103,6 +103,7 @@
         .component('wavesTransactionHistory', {
             controller: WavesTransactionHistoryController,
             bindings: {
+                heading: '@',
                 transactions: '<',
                 limitTo: '<'
             },
