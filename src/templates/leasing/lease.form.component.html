@@ -11,8 +11,8 @@
       <td><input class="wInput form-control" name="leasingAmount" type="text" placeholder="Leasing amount" ng-model="$ctrl.amount" decimal-input-restrictor/></td>
     </tr>
     <tr>
-      <td class="padded">Waves fee</td>
-      <td class="padded">
+      <td class="padded">Fee</td>
+      <td class="padded padded-more">
         <md-autocomplete md-input-name="leasingFee" md-selected-item="$ctrl.autocomplete.selectedFee" md-search-text="$ctrl.autocomplete.searchText"
                          md-items="item in $ctrl.autocomplete.querySearch($ctrl.autocomplete.searchText)"
                          md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
