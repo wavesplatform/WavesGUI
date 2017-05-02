@@ -5,12 +5,7 @@
         var details = this;
 
         function transformAddress(address) {
-            var result = address;
-
-            if (isMyAddress(result))
-                result = 'You';
-
-            return result;
+            return isMyAddress(address) ? 'You' : address;
         }
 
         function isMyAddress(address) {
@@ -19,8 +14,9 @@
 
         $scope.$on(events.ASSET_DETAILS, function (event, assetId) {
             var asset = applicationContext.cache.assets[assetId];
-            if (angular.isUndefined(asset))
+            if (angular.isUndefined(asset)) {
                 throw new Error('Failed to find asset details by id ' + assetId);
+            }
 
             details.assetId = assetId;
             details.name = asset.currency.displayName;
