@@ -5,6 +5,8 @@
     var FEE_CURRENCY = Currency.WAV;
     var DEFAULT_ERROR_MESSAGE = 'The Internet connection is lost';
 
+    // TODO : add the `exceptField` attribute.
+
     function WavesTransactionHistoryController($scope, events, constants, applicationContext, autocomplete,
                                                apiService, leasingRequestService, notificationService, dialogService) {
         var ctrl = this;
