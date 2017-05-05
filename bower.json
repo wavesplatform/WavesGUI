@@ -18,6 +18,7 @@
     "nprogress": "^0.2.0",
     "qrious": "^2.2.0",
     "restangular": "1.5.2",
+    "techan": "^0.8.0",
     "tooltipster": "^3.3.0",
     "underscore": "1.8.3",
     "Base58": "https://github.com/45678/Base58.git",

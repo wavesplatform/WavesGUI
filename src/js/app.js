@@ -44,7 +44,8 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
             CLIENT_VERSION: '0.4.1a',
             NODE_ADDRESS: 'http://52.30.47.67:6869',
             COINOMAT_ADDRESS: 'https://test.coinomat.com',
-            MATCHER_ADDRESS: 'http://52.28.66.217:6886'
+            MATCHER_ADDRESS: 'http://52.28.66.217:6886',
+            DATAFEED_ADDRESS: 'http://marketdata.wavesplatform.com'
         }));
 
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data|file|chrome-extension):/);
@@ -52,7 +53,8 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
     $sceDelegateProvider.resourceUrlWhitelist([
         'self',
         'https://test.coinomat.com/api/**',
-        'https://coinomat.com/api/**'
+        'https://coinomat.com/api/**',
+        'http://marketdata.wavesplatform.com/**'
     ]);
 
     // Globally disables all ARIA warnings.
