@@ -18,7 +18,7 @@
         ctrl.assetsList = [];
 
         ctrl.pair = {
-            amountAsset: Currency.WAV,
+            amountAsset: Currency.WAVES,
             priceAsset: Currency.BTC
         };
 
@@ -30,18 +30,18 @@
         ctrl.sellFormValues = {};
 
         ctrl.favoritePairs = [
-            {amountAsset: Currency.WAV, priceAsset: Currency.BTC},
-            {amountAsset: Currency.WAV, priceAsset: Currency.USD},
-            {amountAsset: Currency.WAV, priceAsset: Currency.EUR},
-            {amountAsset: Currency.WAV, priceAsset: Currency.CNY},
+            {amountAsset: Currency.WAVES, priceAsset: Currency.BTC},
+            {amountAsset: Currency.WAVES, priceAsset: Currency.USD},
+            {amountAsset: Currency.WAVES, priceAsset: Currency.EUR},
+            {amountAsset: Currency.WAVES, priceAsset: Currency.CNY},
             {amountAsset: Currency.BTC, priceAsset: Currency.EUR},
             {amountAsset: Currency.BTC, priceAsset: Currency.CNY},
             {amountAsset: Currency.USD, priceAsset: Currency.BTC},
             {amountAsset: Currency.USD, priceAsset: Currency.CNY},
             {amountAsset: Currency.EUR, priceAsset: Currency.USD},
-            {amountAsset: Currency.WCT, priceAsset: Currency.WAV},
+            {amountAsset: Currency.WCT, priceAsset: Currency.WAVES},
             {amountAsset: Currency.WCT, priceAsset: Currency.BTC},
-            {amountAsset: Currency.MRT, priceAsset: Currency.WAV},
+            {amountAsset: Currency.MRT, priceAsset: Currency.WAVES},
             {amountAsset: Currency.MRT, priceAsset: Currency.BTC}
         ];
 
@@ -68,7 +68,7 @@
                     orderType: type,
                     amount: Money.fromTokens(amount, ctrl.pair.amountAsset),
                     price: OrderPrice.fromTokens(price, ctrl.pair),
-                    fee: Money.fromTokens(fee, Currency.WAV)
+                    fee: Money.fromTokens(fee, Currency.WAVES)
                 }, sender)
                 .then(function () {
                     refreshOrderbooks();

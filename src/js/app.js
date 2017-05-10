@@ -84,7 +84,7 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
     }, 'Account number must be a sequence of 35 alphanumeric characters with no spaces, ' +
         'optionally starting with \'1W\'');
     $validatorProvider.addMethod('decimal', function (value, element, params) {
-        var maxdigits = angular.isNumber(params) ? params : Currency.WAV.precision;
+        var maxdigits = angular.isNumber(params) ? params : Currency.WAVES.precision;
 
         var regex = new RegExp('^(?:-?\\d+)?(?:\\.\\d{0,' + maxdigits + '})?$');
         return this.optional(element) || regex.test(value);

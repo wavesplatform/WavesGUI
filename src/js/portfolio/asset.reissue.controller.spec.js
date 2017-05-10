@@ -56,10 +56,10 @@ describe('Asset.Reissue.Controller', function() {
             assetBalance = Money.fromTokens(10, Currency.USD);
 
         if (!wavesBalance)
-            wavesBalance = Money.fromTokens(20, Currency.WAV);
+            wavesBalance = Money.fromTokens(20, Currency.WAVES);
 
         var assetId;
-        if (assetBalance.currency !== Currency.WAV) {
+        if (assetBalance.currency !== Currency.WAVES) {
             assetId = assetBalance.currency.id;
             applicationContext.cache.assets[assetId] = {
                 balance: assetBalance,
@@ -102,7 +102,7 @@ describe('Asset.Reissue.Controller', function() {
         expect(controller.confirm.amount.toTokens()).toEqual(7);
         expect(controller.confirm.amount.currency).toEqual(Currency.CNY);
         expect(controller.confirm.fee.toTokens()).toEqual(1);
-        expect(controller.confirm.fee.currency).toEqual(Currency.WAV);
+        expect(controller.confirm.fee.currency).toEqual(Currency.WAVES);
 
         expect(controller.broadcast.setTransaction).toHaveBeenCalled();
         expect(dialogService.open).toHaveBeenCalledTimes(2);
@@ -121,7 +121,7 @@ describe('Asset.Reissue.Controller', function() {
     });
 
     it('should not create transaction if there is not enough waves for fee', function () {
-        initControllerAssets(undefined, Money.fromTokens(0.9, Currency.WAV));
+        initControllerAssets(undefined, Money.fromTokens(0.9, Currency.WAVES));
 
         spyOn(controller.broadcast, 'setTransaction');
         spyOn(notificationService, 'error');
@@ -134,7 +134,7 @@ describe('Asset.Reissue.Controller', function() {
     });
 
     it('should not create transaction if there is not enough asset for transfer', function () {
-        var waves = Money.fromTokens(10, Currency.WAV);
+        var waves = Money.fromTokens(10, Currency.WAVES);
         expect(function () {
             initControllerAssets(waves, waves);
         }).toThrowError(Error);

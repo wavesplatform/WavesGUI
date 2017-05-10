@@ -11,7 +11,7 @@
 
         function sendCommandEvent(event, currency) {
             var assetWallet = findWalletByCurrency(currency);
-            var wavesWallet = findWalletByCurrency(Currency.WAV);
+            var wavesWallet = findWalletByCurrency(Currency.WAVES);
 
             $scope.$broadcast(event, {
                 assetBalance: assetWallet.balance,
@@ -39,7 +39,7 @@
                 depositWith: Currency.BTC
             },
             {
-                balance: new Money(0, Currency.WAV),
+                balance: new Money(0, Currency.WAVES),
                 depositWith: Currency.BTC,
                 leasingAvailable: true
             },
@@ -73,7 +73,7 @@
         }
 
         function deposit (wallet) {
-            if (wallet.balance.currency == Currency.WAV) {
+            if (wallet.balance.currency == Currency.WAVES) {
                 depositFromCard(wallet.balance.currency);
             }
             else {
@@ -105,8 +105,8 @@
         function refreshWallets() {
             apiService.address.balance(applicationContext.account.address)
                 .then(function (response) {
-                    var wavesWallet = findWalletByCurrency(Currency.WAV);
-                    wavesWallet.balance = Money.fromCoins(response.balance, Currency.WAV);
+                    var wavesWallet = findWalletByCurrency(Currency.WAVES);
+                    wavesWallet.balance = Money.fromCoins(response.balance, Currency.WAVES);
                 });
 
             apiService.assets.balance(applicationContext.account.address).then(function (response) {

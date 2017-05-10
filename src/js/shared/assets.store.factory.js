@@ -40,7 +40,7 @@
                         })
                         .then(apiService.address.balance.bind(apiService.address, self.address))
                         .then(function (response) {
-                            self.balances[Currency.WAV.id] = Money.fromCoins(response.balance, Currency.WAV);
+                            self.balances[Currency.WAVES.id] = Money.fromCoins(response.balance, Currency.WAVES);
                         });
                 };
 

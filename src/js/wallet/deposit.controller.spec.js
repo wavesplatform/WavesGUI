@@ -51,7 +51,7 @@ describe('Wallet.Deposit.Controller', function() {
             assetBalance = Money.fromTokens(10, Currency.BTC);
 
         if (!wavesBalance)
-            wavesBalance = Money.fromTokens(20, Currency.WAV);
+            wavesBalance = Money.fromTokens(20, Currency.WAVES);
 
         $rootScope.$broadcast(events.WALLET_DEPOSIT, {
             assetBalance: assetBalance,

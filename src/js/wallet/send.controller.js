@@ -2,7 +2,7 @@
     'use strict';
 
     var DEFAULT_FEE_AMOUNT = '0.001';
-    var FEE_CURRENCY = Currency.WAV;
+    var FEE_CURRENCY = Currency.WAVES;
 
     function WavesWalletSendController ($scope, $timeout, constants, events, autocomplete,
                                         applicationContext, apiService, dialogService,
@@ -26,7 +26,7 @@
                 },
                 sendFee: {
                     required: true,
-                    decimal: Currency.WAV.precision,
+                    decimal: Currency.WAVES.precision,
                     min: minimumFee.toTokens()
                 },
                 sendAttachment: {
@@ -150,7 +150,7 @@
         function resetForm() {
             send.recipient = '';
             send.amount = '0';
-            send.confirm.amount = Money.fromTokens(0, Currency.WAV);
+            send.confirm.amount = Money.fromTokens(0, Currency.WAVES);
             send.confirm.fee = Money.fromTokens(DEFAULT_FEE_AMOUNT, FEE_CURRENCY);
             send.autocomplete.defaultFee(Number(DEFAULT_FEE_AMOUNT));
         }

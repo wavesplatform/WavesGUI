@@ -58,10 +58,10 @@ describe('Asset.Transfer.Controller', function() {
             assetBalance = Money.fromTokens(10, Currency.USD);
 
         if (!wavesBalance)
-            wavesBalance = Money.fromTokens(20, Currency.WAV);
+            wavesBalance = Money.fromTokens(20, Currency.WAVES);
 
         var assetId;
-        if (assetBalance.currency !== Currency.WAV) {
+        if (assetBalance.currency !== Currency.WAVES) {
             assetId = assetBalance.currency.id;
             applicationContext.cache.assets[assetId] = {
                 balance: assetBalance,
@@ -109,7 +109,7 @@ describe('Asset.Transfer.Controller', function() {
         expect(controller.confirm.amount.toTokens()).toEqual(7);
         expect(controller.confirm.amount.currency).toEqual(Currency.CNY);
         expect(controller.confirm.fee.toTokens()).toEqual(0.002);
-        expect(controller.confirm.fee.currency).toEqual(Currency.WAV);
+        expect(controller.confirm.fee.currency).toEqual(Currency.WAVES);
         expect(controller.confirm.recipient).toEqual(address);
 
         expect(controller.broadcast.setTransaction).toHaveBeenCalled();

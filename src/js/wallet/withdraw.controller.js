@@ -8,7 +8,7 @@
                                             coinomatService, transactionBroadcast, notificationService,
                                             apiService, formattingService, assetService, applicationContext) {
         var withdraw = this;
-        var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAV);
+        var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAVES);
         var notPermittedBitcoinAddresses = {};
 
         withdraw.broadcast = new transactionBroadcast.instance(apiService.assets.transfer,
@@ -38,7 +38,7 @@
                 },
                 withdrawFee: {
                     required: true,
-                    decimal: Currency.WAV.precision,
+                    decimal: Currency.WAVES.precision,
                     min: minimumFee.toTokens()
                 },
                 withdrawTotal: {
@@ -131,7 +131,7 @@
                 }).then(function (depositDetails) {
                     notPermittedBitcoinAddresses[depositDetails.address] = 1;
 
-                    return coinomatService.getDepositDetails(Currency.BTC, Currency.WAV,
+                    return coinomatService.getDepositDetails(Currency.BTC, Currency.WAVES,
                         applicationContext.account.address);
                 }).then(function (depositDetails) {
                     notPermittedBitcoinAddresses[depositDetails.address] = 1;
@@ -159,7 +159,7 @@
                 return false;
 
             try {
-                var withdrawCost = Money.fromTokens(withdraw.autocomplete.getFeeAmount(), Currency.WAV);
+                var withdrawCost = Money.fromTokens(withdraw.autocomplete.getFeeAmount(), Currency.WAVES);
                 validateWithdrawCost(withdrawCost, withdraw.wavesBalance);
                 validateRecipientAddress(withdraw.recipient);
             }
@@ -170,7 +170,7 @@
             }
 
             var total = Money.fromTokens(withdraw.total, withdraw.assetBalance.currency);
-            var fee = Money.fromTokens(withdraw.autocomplete.getFeeAmount(), Currency.WAV);
+            var fee = Money.fromTokens(withdraw.autocomplete.getFeeAmount(), Currency.WAVES);
             withdraw.confirm.amount = total;
             withdraw.confirm.fee = fee;
             withdraw.confirm.recipient = withdraw.recipient;
