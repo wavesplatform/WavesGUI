@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    var DEFAULT_FEE_AMOUNT = '0.001';
-
     function WavesWalletListController($scope, $interval, events, applicationContext,
                                        apiService, transactionLoadingService, dialogService) {
         var walletList = this;
@@ -73,10 +71,9 @@
         }
 
         function deposit (wallet) {
-            if (wallet.balance.currency == Currency.WAVES) {
+            if (wallet.balance.currency === Currency.WAVES) {
                 depositFromCard(wallet.balance.currency);
-            }
-            else {
+            } else {
                 $scope.$broadcast(events.WALLET_DEPOSIT, {
                     assetBalance: wallet.balance,
                     depositWith: wallet.depositWith

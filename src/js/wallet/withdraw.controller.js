@@ -155,8 +155,9 @@
         }
 
         function confirmWithdraw (amountForm) {
-            if (!amountForm.validate(withdraw.validationOptions))
+            if (!amountForm.validate(withdraw.validationOptions)) {
                 return false;
+            }
 
             try {
                 var withdrawCost = Money.fromTokens(withdraw.autocomplete.getFeeAmount(), Currency.WAVES);

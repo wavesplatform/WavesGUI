@@ -88,12 +88,12 @@
         function assetIssueConfirmation(form, event) {
             event.preventDefault();
 
-            if (!form.validate())
+            if (!form.validate()) {
                 return;
+            }
 
             if (ctrl.asset.fee.greaterThan(ctrl.wavesBalance)) {
                 notificationService.error('Not enough funds for the issue transaction fee');
-
                 return;
             }
 

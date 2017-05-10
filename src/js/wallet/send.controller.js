@@ -96,19 +96,20 @@
         });
 
         function submitTransfer(transferForm) {
-            if (!transferForm.validate(send.validationOptions))
+            if (!transferForm.validate(send.validationOptions)) {
                 // prevent dialog from closing
                 return false;
+            }
 
             var amount = Money.fromTokens(send.amount, send.assetBalance.currency);
             var transferFee = Money.fromTokens(send.autocomplete.getFeeAmount(), FEE_CURRENCY);
             var paymentCost = transferFee;
-            if (send.feeAndTransferAssetsAreTheSame)
+            if (send.feeAndTransferAssetsAreTheSame) {
                 paymentCost = paymentCost.plus(amount);
+            }
 
             if (paymentCost.greaterThan(send.feeAssetBalance)) {
                 notificationService.error('Not enough ' + FEE_CURRENCY.displayName + ' for the transfer');
-
                 return false;
             }
 
@@ -118,8 +119,9 @@
                 fee: transferFee
             };
 
-            if (send.attachment)
+            if (send.attachment) {
                 assetTransfer.attachment = converters.stringToByteArray(send.attachment);
+            }
 
             var sender = {
                 publicKey: applicationContext.account.keyPair.public,
