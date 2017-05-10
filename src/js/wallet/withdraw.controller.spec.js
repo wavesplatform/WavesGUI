@@ -63,7 +63,7 @@ describe('Wallet.Withdraw.Controller', function() {
             assetBalance = Money.fromTokens(10, Currency.BTC);
 
         if (!wavesBalance)
-            wavesBalance = Money.fromTokens(20, Currency.WAV);
+            wavesBalance = Money.fromTokens(20, Currency.WAVES);
 
         $rootScope.$broadcast(events.WALLET_WITHDRAW, {
             assetBalance: assetBalance,
@@ -151,7 +151,7 @@ describe('Wallet.Withdraw.Controller', function() {
     it('should check available balance on confirm withdraw', function () {
         initRateServiceMock();
         initDepositDetailsMock();
-        initControllerAssets(undefined, Money.fromTokens(1, Currency.WAV));
+        initControllerAssets(undefined, Money.fromTokens(1, Currency.WAVES));
         $rootScope.$apply();
 
         spyOn(controller.autocomplete, 'getFeeAmount').and.returnValue('1.001');
@@ -217,7 +217,7 @@ describe('Wallet.Withdraw.Controller', function() {
         expect(controller.confirm.amount.toTokens()).toEqual(10);
         expect(controller.confirm.amount.currency).toEqual(Currency.BTC);
         expect(controller.confirm.fee.toTokens()).toEqual(0.002);
-        expect(controller.confirm.fee.currency).toEqual(Currency.WAV);
+        expect(controller.confirm.fee.currency).toEqual(Currency.WAVES);
         expect(controller.confirm.recipient).toEqual(bitcoinAddress);
         expect(controller.confirm.gatewayAddress).toEqual(gatewayAddress);
         expect(dialogService.open).toHaveBeenCalledWith('#withdraw-confirmation');

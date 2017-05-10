@@ -2,7 +2,7 @@
     'use strict';
 
     var DEFAULT_FEE_AMOUNT = '0.001';
-    var FEE_CURRENCY = Currency.WAV;
+    var FEE_CURRENCY = Currency.WAVES;
 
     function WavesLeasingFormController($timeout, constants, autocomplete, applicationContext,
                                      apiService, dialogService, notificationService, transactionBroadcast,
@@ -11,10 +11,10 @@
 
         var ctrl = this;
         ctrl.autocomplete = autocomplete;
-        ctrl.availableBalance = Money.fromCoins(0, Currency.WAV);
+        ctrl.availableBalance = Money.fromCoins(0, Currency.WAVES);
         ctrl.broadcast = new transactionBroadcast.instance(apiService.leasing.lease,
             function (transaction, response) {
-                var amount = Money.fromCoins(transaction.amount, Currency.WAV);
+                var amount = Money.fromCoins(transaction.amount, Currency.WAVES);
                 var address = transaction.recipient;
                 var displayMessage = 'Leased ' + amount.formatAmount(true) + ' of ' +
                     amount.currency.displayName +
@@ -36,7 +36,7 @@
                 },
                 leasingFee: {
                     required: true,
-                    decimal: Currency.WAV.precision,
+                    decimal: Currency.WAVES.precision,
                     min: minimumFee.toTokens()
                 }
             },
@@ -137,7 +137,7 @@
         function reset() {
             ctrl.amount = '0';
             ctrl.recipient = '';
-            ctrl.confirm.amount = Money.fromTokens(0, Currency.WAV);
+            ctrl.confirm.amount = Money.fromTokens(0, Currency.WAVES);
             ctrl.confirm.fee = Money.fromTokens(DEFAULT_FEE_AMOUNT, FEE_CURRENCY);
             ctrl.autocomplete.defaultFee(Number(DEFAULT_FEE_AMOUNT));
         }

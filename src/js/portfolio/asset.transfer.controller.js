@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var FEE_CURRENCY = Currency.WAV;
+    var FEE_CURRENCY = Currency.WAVES;
 
     function WavesAssetTransferController($scope, $timeout, constants, events, autocomplete, applicationContext,
                                           assetService, apiService, dialogService, formattingService,
@@ -39,7 +39,7 @@
                 },
                 assetFee: {
                     required: true,
-                    decimal: Currency.WAV.precision,
+                    decimal: Currency.WAVES.precision,
                     min: minimumFee.toTokens()
                 },
                 assetAttachment: {
@@ -152,7 +152,7 @@
         function resetPaymentForm() {
             transfer.recipient = '';
             transfer.amount = '0';
-            transfer.confirm.amount = Money.fromTokens(0, Currency.WAV);
+            transfer.confirm.amount = Money.fromTokens(0, Currency.WAVES);
             transfer.confirm.fee = Money.fromTokens(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
             transfer.autocomplete.defaultFee(constants.MINIMUM_TRANSACTION_FEE);
         }

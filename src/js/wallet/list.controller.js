@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    var DEFAULT_FEE_AMOUNT = '0.001';
-
     function WavesWalletListController($scope, $interval, events, applicationContext,
                                        apiService, transactionLoadingService, dialogService) {
         var walletList = this;
@@ -11,7 +9,7 @@
 
         function sendCommandEvent(event, currency) {
             var assetWallet = findWalletByCurrency(currency);
-            var wavesWallet = findWalletByCurrency(Currency.WAV);
+            var wavesWallet = findWalletByCurrency(Currency.WAVES);
 
             $scope.$broadcast(event, {
                 assetBalance: assetWallet.balance,
@@ -39,7 +37,7 @@
                 depositWith: Currency.BTC
             },
             {
-                balance: new Money(0, Currency.WAV),
+                balance: new Money(0, Currency.WAVES),
                 depositWith: Currency.BTC,
                 leasingAvailable: true
             },
@@ -73,10 +71,9 @@
         }
 
         function deposit (wallet) {
-            if (wallet.balance.currency == Currency.WAV) {
+            if (wallet.balance.currency === Currency.WAVES) {
                 depositFromCard(wallet.balance.currency);
-            }
-            else {
+            } else {
                 $scope.$broadcast(events.WALLET_DEPOSIT, {
                     assetBalance: wallet.balance,
                     depositWith: wallet.depositWith
@@ -105,8 +102,8 @@
         function refreshWallets() {
             apiService.address.balance(applicationContext.account.address)
                 .then(function (response) {
-                    var wavesWallet = findWalletByCurrency(Currency.WAV);
-                    wavesWallet.balance = Money.fromCoins(response.balance, Currency.WAV);
+                    var wavesWallet = findWalletByCurrency(Currency.WAVES);
+                    wavesWallet.balance = Money.fromCoins(response.balance, Currency.WAVES);
                 });
 
             apiService.assets.balance(applicationContext.account.address).then(function (response) {

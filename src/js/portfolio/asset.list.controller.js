@@ -7,7 +7,7 @@
         var refreshPromise;
         var refreshDelay = 10 * 1000; // refreshing every 10 seconds
 
-        assetList.wavesBalance = new Money(0, Currency.WAV);
+        assetList.wavesBalance = new Money(0, Currency.WAVES);
         assetList.assets = [];
         assetList.noData = true;
         assetList.assetTransfer = assetTransfer;
@@ -71,7 +71,7 @@
         function refreshBalance() {
             apiService.address.balance(applicationContext.account.address)
                 .then(function (response) {
-                    assetList.wavesBalance = Money.fromCoins(response.balance, Currency.WAV);
+                    assetList.wavesBalance = Money.fromCoins(response.balance, Currency.WAVES);
                 });
         }
 
