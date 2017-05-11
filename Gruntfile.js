@@ -153,6 +153,7 @@ module.exports = function (grunt) {
             application: [
                 // project sources
                 'src/js/ui.module.js',
+                'src/js/ui.utils.service.js',
                 'src/js/application.context.factory.js',
                 'src/js/coinomat.restangular.factory.js',
                 'src/js/datafeed.restangular.factory.js',
@@ -185,7 +186,6 @@ module.exports = function (grunt) {
                 'src/js/shared/support.link.component.js',
                 'src/js/shared/transaction.menu.component.js',
                 'src/js/shared/transaction.history.component.js',
-                'src/js/shared/utils.service.js',
 
                 'src/js/login/module.js',
                 'src/js/login/constants.js',

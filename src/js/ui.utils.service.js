@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.shared')
+        .module('app.ui')
         .service('utilsService', ['constants.network', function (networkConstants) {
             this.isTestnet = function () {
                 return networkConstants.NETWORK_NAME === 'devel' || networkConstants.NETWORK_NAME === 'testnet';
