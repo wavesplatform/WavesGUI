@@ -2,7 +2,7 @@
     'use strict';
 
     var DEFAULT_FEE_AMOUNT = '0.001';
-    var FEE_CURRENCY = Currency.WAV;
+    var FEE_CURRENCY = Currency.WAVES;
 
     function WavesWalletSendController ($scope, $timeout, constants, events, autocomplete,
                                         applicationContext, apiService, dialogService,
@@ -26,7 +26,7 @@
                 },
                 sendFee: {
                     required: true,
-                    decimal: Currency.WAV.precision,
+                    decimal: Currency.WAVES.precision,
                     min: minimumFee.toTokens()
                 },
                 sendAttachment: {
@@ -96,19 +96,20 @@
         });
 
         function submitTransfer(transferForm) {
-            if (!transferForm.validate(send.validationOptions))
+            if (!transferForm.validate(send.validationOptions)) {
                 // prevent dialog from closing
                 return false;
+            }
 
             var amount = Money.fromTokens(send.amount, send.assetBalance.currency);
             var transferFee = Money.fromTokens(send.autocomplete.getFeeAmount(), FEE_CURRENCY);
             var paymentCost = transferFee;
-            if (send.feeAndTransferAssetsAreTheSame)
+            if (send.feeAndTransferAssetsAreTheSame) {
                 paymentCost = paymentCost.plus(amount);
+            }
 
             if (paymentCost.greaterThan(send.feeAssetBalance)) {
                 notificationService.error('Not enough ' + FEE_CURRENCY.displayName + ' for the transfer');
-
                 return false;
             }
 
@@ -118,8 +119,9 @@
                 fee: transferFee
             };
 
-            if (send.attachment)
+            if (send.attachment) {
                 assetTransfer.attachment = converters.stringToByteArray(send.attachment);
+            }
 
             var sender = {
                 publicKey: applicationContext.account.keyPair.public,
@@ -150,7 +152,7 @@
         function resetForm() {
             send.recipient = '';
             send.amount = '0';
-            send.confirm.amount = Money.fromTokens(0, Currency.WAV);
+            send.confirm.amount = Money.fromTokens(0, Currency.WAVES);
             send.confirm.fee = Money.fromTokens(DEFAULT_FEE_AMOUNT, FEE_CURRENCY);
             send.autocomplete.defaultFee(Number(DEFAULT_FEE_AMOUNT));
         }

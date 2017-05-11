@@ -45,23 +45,25 @@
         function transformAddress(rawAddress) {
             var result = angular.isDefined(rawAddress) ? rawAddress : 'n/a';
 
-            if (result === applicationContext.account.address)
+            if (result === applicationContext.account.address) {
                 result = 'You';
+            }
 
             return result;
         }
 
         function processTransaction(transaction) {
             var spec = TRANSACTION_SPEC[transaction.type];
-            if (angular.isUndefined(spec) || angular.isUndefined(spec.processor))
+            if (angular.isUndefined(spec) || angular.isUndefined(spec.processor)) {
                 return;
+            }
 
             spec.processor(transaction);
         }
 
         function processPaymentTransaction(transaction) {
-            transaction.formatted.amount = Money.fromCoins(transaction.amount, Currency.WAV).formatAmount();
-            transaction.formatted.asset = Currency.WAV.displayName;
+            transaction.formatted.amount = Money.fromCoins(transaction.amount, Currency.WAVES).formatAmount();
+            transaction.formatted.asset = Currency.WAVES.displayName;
         }
 
         function processAssetIssueTransaction(transaction) {
@@ -75,22 +77,23 @@
         }
 
         function processCreateAliasTransaction(transaction) {
-            transaction.formatted.asset = Currency.WAV.displayName;
+            transaction.formatted.asset = Currency.WAVES.displayName;
         }
 
         function processAssetTransferTransaction(transaction) {
             var currency;
             if (transaction.assetId) {
                 var asset = applicationContext.cache.assets[transaction.assetId];
-                if (asset)
+                if (asset) {
                     currency = asset.currency;
-            }
-            else {
-                currency = Currency.WAV;
+                }
+            } else {
+                currency = Currency.WAVES;
             }
 
-            if (!currency)
+            if (!currency) {
                 return;
+            }
 
             transaction.formatted.amount = Money.fromCoins(transaction.amount, currency).formatAmount();
             transaction.formatted.asset = currency.displayName;
@@ -98,20 +101,21 @@
 
         function processAssetReissueTransaction(transaction) {
             var asset = applicationContext.cache.assets[transaction.assetId];
-            if (angular.isUndefined(asset))
+            if (angular.isUndefined(asset)) {
                 return;
+            }
 
             transaction.formatted.amount = Money.fromCoins(transaction.quantity, asset.currency).formatAmount();
             transaction.formatted.asset = asset.currency.displayName;
         }
 
         function processStartLeasingTransaction(transaction) {
-            transaction.formatted.amount = Money.fromCoins(transaction.amount, Currency.WAV).formatAmount();
-            transaction.formatted.asset = Currency.WAV.displayName;
+            transaction.formatted.amount = Money.fromCoins(transaction.amount, Currency.WAVES).formatAmount();
+            transaction.formatted.asset = Currency.WAVES.displayName;
         }
 
         function processCancelLeasingTransaction(transaction) {
-            transaction.formatted.asset = Currency.WAV.displayName;
+            transaction.formatted.asset = Currency.WAVES.displayName;
         }
 
         function processExchangeTransaction(transaction) {
@@ -132,16 +136,16 @@
             }
 
             transaction.formatted.type = type;
-            transaction.formatted.fee = Money.fromCoins(totalFee, Currency.WAV).formatAmount(true);
+            transaction.formatted.fee = Money.fromCoins(totalFee, Currency.WAVES).formatAmount(true);
 
             var currency;
             if (assetId) {
                 var asset = applicationContext.cache.assets[assetId];
-                if (asset)
+                if (asset) {
                     currency = asset.currency;
-            }
-            else {
-                currency = Currency.WAV;
+                }
+            } else {
+                currency = Currency.WAVES;
             }
 
             if (currency) {
@@ -151,12 +155,13 @@
         }
 
         function formatFee(transaction) {
-            var currency = Currency.WAV;
+            var currency = Currency.WAVES;
             var assetId = transaction.feeAssetId;
             if (assetId) {
                 var asset = applicationContext.cache.assets[assetId];
-                if (asset)
+                if (asset) {
                     currency = asset.currency;
+                }
             }
 
             return Money.fromCoins(transaction.fee, currency).formatAmount(true);

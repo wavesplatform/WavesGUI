@@ -143,6 +143,9 @@ module.exports = function (grunt) {
                 'bower_components/waves-angular-validate/src/angular-validate.js',
                 'bower_components/qrious/dist/umd/qrious.js',
 
+                'bower_components/d3/d3.min.js',
+                'bower_components/techan/dist/techan.min.js',
+
                 'src/js/vendor/jquery.modal.js',
 
                 'bower_components/wavesplatform-core-js/distr/wavesplatform-core.js'
@@ -152,6 +155,7 @@ module.exports = function (grunt) {
                 'src/js/ui.module.js',
                 'src/js/application.context.factory.js',
                 'src/js/coinomat.restangular.factory.js',
+                'src/js/datafeed.restangular.factory.js',
                 'src/js/matcher.restangular.factory.js',
                 'src/js/home.controller.js',
                 'src/js/splash.controller.js',
@@ -203,25 +207,27 @@ module.exports = function (grunt) {
                 'src/js/wallet/send.controller.js',
                 'src/js/wallet/withdraw.controller.js',
                 'src/js/wallet/deposit.controller.js',
-                'src/js/wallet/balance.details.controller.js',
                 'src/js/wallet/card.deposit.controller.js',
-                'src/js/wallet/leasing.service.js',
-                'src/js/wallet/leasing.controller.js',
 
                 'src/js/tokens/module.js',
                 'src/js/tokens/create.controller.js',
 
                 'src/js/dex/module.js',
                 'src/js/dex/component.js',
-                'src/js/dex/order.service.js',
-                'src/js/dex/orderbook.service.js',
                 'src/js/dex/asset.picker.component.js',
+                'src/js/dex/chart.component.js',
                 'src/js/dex/favorites.component.js',
                 'src/js/dex/order.creator.component.js',
+                'src/js/dex/order.service.js',
                 'src/js/dex/orderbook.component.js',
-                'src/js/dex/pair.info.component.js',
-                'src/js/dex/pair.chart.component.js',
+                'src/js/dex/orderbook.service.js',
                 'src/js/dex/user.orders.component.js',
+
+                'src/js/leasing/module.js',
+                'src/js/leasing/service.js',
+                'src/js/leasing/component.js',
+                'src/js/leasing/lease.form.component.js',
+                'src/js/leasing/balance.details.component.js',
 
                 'src/js/history/module.js',
                 'src/js/history/controller.js',

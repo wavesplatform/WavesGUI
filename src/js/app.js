@@ -24,6 +24,7 @@ var app = angular.module('app', [
     'app.wallet',
     'app.tokens',
     'app.dex',
+    'app.leasing',
     'app.history',
     'app.community',
     'app.portfolio'
@@ -43,7 +44,8 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
             CLIENT_VERSION: '0.4.1a',
             NODE_ADDRESS: 'http://52.30.47.67:6869',
             COINOMAT_ADDRESS: 'https://test.coinomat.com',
-            MATCHER_ADDRESS: 'http://52.28.66.217:6886'
+            MATCHER_ADDRESS: 'http://52.28.66.217:6886',
+            DATAFEED_ADDRESS: 'http://marketdata.wavesplatform.com'
         }));
 
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data|file|chrome-extension):/);
@@ -51,7 +53,8 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
     $sceDelegateProvider.resourceUrlWhitelist([
         'self',
         'https://test.coinomat.com/api/**',
-        'https://coinomat.com/api/**'
+        'https://coinomat.com/api/**',
+        'http://marketdata.wavesplatform.com/**'
     ]);
 
     // Globally disables all ARIA warnings.
@@ -81,7 +84,7 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
     }, 'Account number must be a sequence of 35 alphanumeric characters with no spaces, ' +
         'optionally starting with \'1W\'');
     $validatorProvider.addMethod('decimal', function (value, element, params) {
-        var maxdigits = angular.isNumber(params) ? params : Currency.WAV.precision;
+        var maxdigits = angular.isNumber(params) ? params : Currency.WAVES.precision;
 
         var regex = new RegExp('^(?:-?\\d+)?(?:\\.\\d{0,' + maxdigits + '})?$');
         return this.optional(element) || regex.test(value);

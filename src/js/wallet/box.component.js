@@ -5,9 +5,9 @@
         var ctrl = this;
 
         var mapping = {};
-        mapping[Currency.WAV.displayName] = {
+        mapping[Currency.WAVES.displayName] = {
             image: 'wB-bg-WAV.svg',
-            displayName: Currency.WAV.displayName
+            displayName: Currency.WAVES.displayName
         };
         mapping[Currency.BTC.displayName] = {
             image: 'wB-bg-BTC.svg',
@@ -50,7 +50,6 @@
                 onSend: '&',
                 onWithdraw: '&',
                 onDeposit: '&',
-                onDetails: '&',
                 detailsAvailable: '<?'
             },
             templateUrl: 'wallet/box.component'

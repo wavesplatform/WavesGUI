@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var DEFAULT_CURRENCY = Currency.WAV;
+    var DEFAULT_CURRENCY = Currency.WAVES;
 
     function WavesLeasingService (apiService) {
         function parseBalance(response) {
@@ -32,6 +32,6 @@
     WavesLeasingService.$inject = ['apiService'];
 
     angular
-        .module('app.wallet')
+        .module('app.leasing')
         .service('leasingService', WavesLeasingService);
 })();

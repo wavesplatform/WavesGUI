@@ -1,0 +1,42 @@
+@import "../variables";
+
+waves-leasing {
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+
+  .leasing {
+    width: 100%;
+
+    .tools {
+      display: flex;
+
+      .column {
+        width: 33.3%;
+        padding: 30px 4% 20px;
+
+        &.balance table {
+          margin-top: 5px;
+        }
+
+        &.form table {
+          width: 100%;
+          margin-bottom: 10px;
+
+          .padded-more {
+            padding-top: 4px;
+          }
+
+          .button-container {
+            padding-top: 10px;
+            text-align: center;
+          }
+        }
+
+        &.quick-note p {
+          margin: 5px 0 10px;
+        }
+      }
+    }
+  }
+}

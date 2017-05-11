@@ -2,8 +2,10 @@
     'use strict';
 
     var DEFAULT_FEE_AMOUNT = 0.001;
-    var FEE_CURRENCY = Currency.WAV;
+    var FEE_CURRENCY = Currency.WAVES;
     var DEFAULT_ERROR_MESSAGE = 'The Internet connection is lost';
+
+    // TODO : add the `exceptField` attribute.
 
     function WavesTransactionHistoryController($scope, events, constants, applicationContext, autocomplete,
                                                apiService, leasingRequestService, notificationService, dialogService) {
@@ -18,7 +20,7 @@
             rules: {
                 cancelFee: {
                     required: true,
-                    decimal: Currency.WAV.precision,
+                    decimal: Currency.WAVES.precision,
                     min: minimumFee.toTokens()
                 }
             },
@@ -103,6 +105,7 @@
         .component('wavesTransactionHistory', {
             controller: WavesTransactionHistoryController,
             bindings: {
+                heading: '@',
                 transactions: '<',
                 limitTo: '<'
             },
