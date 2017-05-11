@@ -5,86 +5,23 @@
         CANDLE_FRAME = 30,
         POLLING_DELAY = 5000;
 
-    function Chart($element) {
-        var w = $element.width(),
-            h = $element.height(),
-            elem = $element.children('.chart').get(0),
-            margins = {left: 60, top: 20, right: 10, bottom: 30};
-
-        this.width = w - margins.left - margins.right;
-        this.height = h - margins.top - margins.bottom;
-
-        this.x = techan.scale.financetime().range([0, this.width]);
-        this.y = d3.scaleLinear().range([this.height, 0]);
-
-        this.candlestick = techan.plot.candlestick().xScale(this.x).yScale(this.y);
-        this.accessor = this.candlestick.accessor();
-
-        this.xAxis = d3.axisBottom(this.x);
-        this.yAxis = d3.axisLeft(this.y);
-
-        this.svg = d3
-            .select(elem)
-            .append('svg')
-            .attr('width', this.width + margins.left + margins.right)
-            .attr('height', this.height + margins.top + margins.bottom);
-
-        this.chart = this.svg
-            .append('g')
-            .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')');
-
-        this.chart.append('g')
-            .attr('class', 'candlestick');
-
-        this.chart.append('g')
-            .attr('class', 'x axis')
-            .attr('transform', 'translate(0,' + this.height + ')');
-
-        this.chart.append('g')
-            .attr('class', 'y axis');
-    }
-
-    Chart.prototype.draw = function (data) {
-        this.x.domain(data.map(this.accessor.d));
-        this.y.domain(techan.scale.plot.ohlc(data, this.accessor).domain());
-
-        this.chart.selectAll('g.candlestick').datum(data).call(this.candlestick);
-        this.chart.selectAll('g.x.axis').call(this.xAxis);
-        this.chart.selectAll('g.y.axis').call(this.yAxis);
-    };
-
-    Chart.prototype.prepareData = function (rawData) {
-        var self = this;
-        return rawData.map(function (candle) {
-            return {
-                date: candle.timestamp,
-                open: +candle.open,
-                high: +candle.high,
-                low: +candle.low,
-                close: +candle.close,
-                volume: +candle.volume
-            };
-        }).sort(function (a, b) {
-            return d3.ascending(self.accessor.d(a), self.accessor.d(b));
-        });
-    };
-
-    function ChartController($element, $timeout, $interval, datafeedApiService, utilsService) {
+    function ChartController($element, $interval, datafeedApiService, utilsService, chartsFactory) {
         var ctrl = this,
             intervalPromise;
 
-        $timeout(function () {
-            // That instantiation is placed here because of the width resolving issue.
-            ctrl.chart = new Chart($element);
-
-            intervalPromise = $interval(refreshCandles, POLLING_DELAY);
-
-            ctrl.$onChanges = function (changes) {
-                if (changes.pair) {
-                    refreshCandles();
-                }
-            };
+        setTimeout(function () {
+            // That instantiation is placed here because of the synchronous width resolving issue.
+            ctrl.chart = chartsFactory.create('candlestick', $element);
+            refreshCandles();
         }, 100);
+
+        intervalPromise = $interval(refreshCandles, POLLING_DELAY);
+
+        ctrl.$onChanges = function (changes) {
+            if (changes.pair) {
+                refreshCandles();
+            }
+        };
 
         ctrl.$onDestroy = function () {
             $interval.cancel(intervalPromise);
@@ -100,14 +37,13 @@
                 datafeedApiService
                     .getLastCandles(pair, CANDLE_NUMBER, CANDLE_FRAME)
                     .then(function (response) {
-                        var candles = ctrl.chart.prepareData(response);
-                        ctrl.chart.draw(candles);
+                        ctrl.chart.draw(response);
                     });
             }
         }
     }
 
-    ChartController.$inject = ['$element', '$timeout', '$interval', 'datafeedApiService', 'utilsService'];
+    ChartController.$inject = ['$element', '$interval', 'datafeedApiService', 'utilsService', 'chartsFactory'];
 
     angular
         .module('app.dex')

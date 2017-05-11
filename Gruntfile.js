@@ -217,6 +217,7 @@ module.exports = function (grunt) {
                 'src/js/dex/component.js',
                 'src/js/dex/asset.picker.component.js',
                 'src/js/dex/chart.component.js',
+                'src/js/dex/charts.factory.js',
                 'src/js/dex/favorites.component.js',
                 'src/js/dex/history.component.js',
                 'src/js/dex/order.creator.component.js',
