@@ -7,21 +7,17 @@
         main: 'main-screen'
     };
 
-    function HomeController($scope, $window, events, networkConstants, applicationConstants,
+    function HomeController($scope, $window, events, applicationConstants, utilsService,
                             dialogService, applicationContext, notificationService, apiService) {
-        function isTestnet() {
-            return networkConstants.NETWORK_NAME === 'devel' ||
-                networkConstants.NETWORK_NAME === 'testnet';
-        }
 
-        $scope.isTestnet = isTestnet;
+        $scope.isTestnet = utilsService.isTestnet;
 
         var home = this;
         home.screen = SCREENS.splash;
         home.featureUnderDevelopment = featureUnderDevelopment;
         home.logout = logout;
 
-        var titlePrefix = isTestnet() ? 'TESTNET ' : '';
+        var titlePrefix = utilsService.isTestnet() ? 'TESTNET ' : '';
         home.title = titlePrefix + 'Lite Client';
         home.version = applicationConstants.CLIENT_VERSION;
 
@@ -64,7 +60,7 @@
         }
     }
 
-    HomeController.$inject = ['$scope', '$window', 'ui.events', 'constants.network', 'constants.application',
+    HomeController.$inject = ['$scope', '$window', 'ui.events', 'constants.application', 'utilsService',
         'dialogService', 'applicationContext', 'notificationService', 'apiService'];
 
     angular

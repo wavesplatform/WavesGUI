@@ -4,19 +4,6 @@
     var CANDLE_NUMBER = 120,
         CANDLE_FRAME = 30;
 
-    function testnetSubstitutePair(pair) {
-        var realIds = {};
-        realIds[Currency.BTC.id] = '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS';
-        realIds[Currency.USD.id] = 'Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck';
-        realIds[Currency.EUR.id] = 'Gtb1WRznfchDnTh37ezoDTJ4wcoKaRsKqKjJjy7nm2zU';
-        realIds[Currency.CNY.id] = 'DEJbZipbKQjwEiRjx2AqQFucrj5CZ3rAc4ZvFM8nAsoA';
-
-        return {
-            amountAsset: {id: realIds[pair.amountAsset.id] || ''},
-            priceAsset: {id: realIds[pair.priceAsset.id] || realIds[Currency.BTC.id]}
-        };
-    }
-
     function Chart($element) {
         var w = $element.width(),
             h = $element.height(),
@@ -81,7 +68,7 @@
         });
     };
 
-    function ChartController($element, $timeout, $interval, networkConstants, datafeedApiService) {
+    function ChartController($element, $timeout, $interval, datafeedApiService, utilsService) {
         var ctrl = this;
 
         $timeout(function () {
@@ -101,8 +88,8 @@
         function refreshCandles() {
             var pair = ctrl.pair;
             if (pair) {
-                if (isTestnet()) {
-                    pair = testnetSubstitutePair(ctrl.pair);
+                if (utilsService.isTestnet()) {
+                    pair = utilsService.testnetSubstitutePair(pair);
                 }
 
                 datafeedApiService
@@ -113,14 +100,9 @@
                     });
             }
         }
-
-        function isTestnet() {
-            return networkConstants.NETWORK_NAME === 'devel' ||
-                networkConstants.NETWORK_NAME === 'testnet';
-        }
     }
 
-    ChartController.$inject = ['$element', '$timeout', '$interval', 'constants.network', 'datafeedApiService'];
+    ChartController.$inject = ['$element', '$timeout', '$interval', 'datafeedApiService', 'utilsService'];
 
     angular
         .module('app.dex')
