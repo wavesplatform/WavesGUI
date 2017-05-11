@@ -1,10 +1,14 @@
 (function () {
     'use strict';
 
-    var TRADES_LIMIT = 50;
+    var TRADES_LIMIT = 50,
+        POLLING_DELAY = 5000;
 
     function HistoryController($interval, datafeedApiService, utilsService) {
-        var ctrl = this;
+        var ctrl = this,
+            intervalPromise;
+
+        intervalPromise = $interval(refreshHistory, POLLING_DELAY);
 
         ctrl.$onChanges = function (changes) {
             if (changes.pair) {
@@ -12,7 +16,9 @@
             }
         };
 
-        $interval(refreshHistory, 5000);
+        ctrl.$onDestroy = function () {
+            $interval.cancel(intervalPromise);
+        };
 
         function refreshHistory() {
             var pair = ctrl.pair;

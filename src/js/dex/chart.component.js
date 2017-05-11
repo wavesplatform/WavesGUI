@@ -2,7 +2,8 @@
     'use strict';
 
     var CANDLE_NUMBER = 120,
-        CANDLE_FRAME = 30;
+        CANDLE_FRAME = 30,
+        POLLING_DELAY = 5000;
 
     function Chart($element) {
         var w = $element.width(),
@@ -69,14 +70,14 @@
     };
 
     function ChartController($element, $timeout, $interval, datafeedApiService, utilsService) {
-        var ctrl = this;
+        var ctrl = this,
+            intervalPromise;
 
         $timeout(function () {
+            // That instantiation is placed here because of the width resolving issue.
             ctrl.chart = new Chart($element);
 
-            refreshCandles();
-
-            $interval(refreshCandles, 5000);
+            intervalPromise = $interval(refreshCandles, POLLING_DELAY);
 
             ctrl.$onChanges = function (changes) {
                 if (changes.pair) {
@@ -84,6 +85,10 @@
                 }
             };
         }, 100);
+
+        ctrl.$onDestroy = function () {
+            $interval.cancel(intervalPromise);
+        };
 
         function refreshCandles() {
             var pair = ctrl.pair;
