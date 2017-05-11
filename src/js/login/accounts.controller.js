@@ -11,7 +11,7 @@
             switchToMode(mode, param);
         });
 
-        $scope.$on(events.GENERATE_SEED, function (event) {
+        $scope.$on(events.GENERATE_SEED, function () {
             var seed = passPhraseService.generate();
             switchToMode(modes.REGISTER, seed);
             dialogService.openNonCloseable('#login-wPop-new');
@@ -52,9 +52,7 @@
 
         function switchToRegisterMode(seed) {
             accounts.caption = 'REGISTER ACCOUNT';
-
-            var raw = cryptoService.buildRawAddressFromSeed(seed);
-            accounts.displayAddress = raw;
+            accounts.displayAddress = cryptoService.buildRawAddressFromSeed(seed);
             // setting a seed to register a new account
             loginContext.seed = seed;
         }
