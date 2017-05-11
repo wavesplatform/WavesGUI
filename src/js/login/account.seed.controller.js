@@ -36,18 +36,17 @@
         }
 
         function refreshAddress() {
-            var raw = cryptoService.buildRawAddressFromSeed(vm.seed);
-            vm.displayAddress = raw;
+            vm.displayAddress = cryptoService.buildRawAddressFromSeed(vm.seed);
         }
 
         function checkSeedAndRegister(form) {
-            if (!form.validate())
+            if (!form.validate()) {
                 return false;
+            }
 
             if (utilityService.endsWithWhitespace(vm.seed)) {
                 dialogService.openNonCloseable('#seed-whitespace-popup');
-            }
-            else {
+            } else {
                 registerAccount();
             }
 
