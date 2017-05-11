@@ -94,7 +94,7 @@
                                 <div class="form-field">
                                 <label for="walletSeed">WALLET SEED</label>
                                     <br/>
-                                    <textarea id="walletSeed" rows="3" name="walletSeed" class="wInput" focus-me="accounts.mode === 'create-seed'" ng-model="vm.seed" ng-change="vm.refreshAddress()" ng-model-options="{ debounce: 750 }" ng-trim="false"></textarea>
+                                    <textarea id="walletSeed" rows="4" name="walletSeed" class="wInput" focus-me="accounts.mode === 'create-seed'" ng-model="vm.seed" ng-change="vm.refreshAddress()" ng-model-options="{ debounce: 750 }" ng-trim="false"></textarea>
                                     <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" title="Copy the seed to the clipboard." data-clipboard-target="#walletSeed" data-clipboard-message-success="Wallet seed has been successfully copied to clipboard" ></span>
                                     <br/>
                                 </div>
@@ -136,7 +136,7 @@
                                 <div class="wPop-content">
                                     <label for="readonlySeed">WALLET SEED</label>
                                     <br/>
-                                    <textarea id="readonlySeed" rows="3" class="wInput" ng-model="vm.seed" ng-model-options="{ getterSetter: true }" readonly></textarea>
+                                    <textarea id="readonlySeed" rows="4" class="wInput" ng-model="vm.seed" ng-model-options="{ getterSetter: true }" readonly></textarea>
                                     <br/><br/>
                                     <div>ADDRESS
                                         <br/>
@@ -254,9 +254,9 @@
                     <p>This area contains your account's basic information. Click the <span class="fontBold">COPY</span> button in order to copy the contents to the clipboard or <span class="fontBold">CLOSE</span> to exit.</p></br>
                     <form id="backupForm">
                         <label for="seedBackup">SEED</label><br/>
-                        <textarea id="seedBackup" class="wInput" rows="3" readonly ng-model="menu.seed"></textarea><br/>
+                        <textarea id="seedBackup" class="wInput" rows="4" readonly ng-model="menu.seed"></textarea><br/>
                         <label for="encodedSeedBackup">ENCODED SEED</label><br/>
-                        <textarea id="encodedSeedBackup" class="wInput" rows="3" readonly ng-model="menu.encodedSeed"></textarea><br/>
+                        <textarea id="encodedSeedBackup" class="wInput" rows="4" readonly ng-model="menu.encodedSeed"></textarea><br/>
                         <label for="privateKeyBackup">PRIVATE KEY</label><br/>
                         <input id="privateKeyBackup" class="wInput" type="text" readonly ng-model="menu.privateKey"/><br/>
                         <label for="publicKeyBackup">PUBLIC KEY</label><br/>
