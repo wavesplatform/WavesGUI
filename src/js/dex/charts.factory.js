@@ -8,7 +8,7 @@
                 var w = $element.width(),
                     h = $element.height(),
                     elem = $element.children('.chart').get(0),
-                    margins = {left: 60, top: 20, right: 10, bottom: 30};
+                    margins = {left: 60, top: 20, right: 40, bottom: 30};
 
                 this.width = w - margins.left - margins.right;
                 this.height = h - margins.top - margins.bottom;
@@ -26,6 +26,7 @@
 
                 this.xAxis = d3.axisBottom(this.x);
                 this.yAxis = d3.axisLeft(this.y);
+                this.yAxisRight = d3.axisRight(this.y);
                 this.volumeAxis = d3.axisRight(this.yVolume).ticks(2).tickFormat(d3.format(',.3s'));
 
                 this.svg = d3
@@ -52,6 +53,10 @@
                     .attr('class', 'y axis');
 
                 this.chart.append('g')
+                    .attr('class', 'y axis-right')
+                    .attr('transform', 'translate(' + this.width + ',0)');
+
+                this.chart.append('g')
                     .attr('class', 'volume axis');
             }
 
@@ -66,6 +71,7 @@
                 this.chart.selectAll('g.volume').datum(data).call(this.volume);
                 this.chart.selectAll('g.x.axis').call(this.xAxis);
                 this.chart.selectAll('g.y.axis').call(this.yAxis);
+                this.chart.selectAll('g.y.axis-right').call(this.yAxisRight);
                 this.chart.selectAll('g.volume.axis').call(this.volumeAxis);
             };
 
