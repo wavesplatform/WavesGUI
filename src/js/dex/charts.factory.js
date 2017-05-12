@@ -26,7 +26,7 @@
 
                 this.xAxis = d3.axisBottom(this.x);
                 this.yAxis = d3.axisLeft(this.y);
-                this.volumeAxis = d3.axisRight(this.yVolume).ticks(3).tickFormat(d3.format(',.3s'));
+                this.volumeAxis = d3.axisRight(this.yVolume).ticks(2).tickFormat(d3.format(',.3s'));
 
                 this.svg = d3
                     .select(elem)
@@ -73,11 +73,14 @@
                 var self = this,
                     lastTradePrice = 0;
                 return rawData.map(function (candle) {
+                    var adjustedHigh = Math.min(+candle.high, +candle.vwap * 1.5),
+                        adjustedLow = Math.max(+candle.low, +candle.vwap / 2);
+
                     return {
                         date: candle.timestamp,
                         open: +candle.open,
-                        high: +candle.high,
-                        low: +candle.low,
+                        high: adjustedHigh,
+                        low: adjustedLow,
                         close: +candle.close,
                         volume: +candle.volume
                     };
