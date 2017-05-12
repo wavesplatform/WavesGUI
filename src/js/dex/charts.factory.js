@@ -15,12 +15,18 @@
 
                 this.x = techan.scale.financetime().range([0, this.width]);
                 this.y = d3.scaleLinear().range([this.height, 0]);
+                this.yVolume = d3.scaleLinear().range([this.y(0), this.y(0.2)]);
 
                 this.candlestick = techan.plot.candlestick().xScale(this.x).yScale(this.y);
                 this.accessor = this.candlestick.accessor();
+                this.volume = techan.plot.volume()
+                    .accessor(this.accessor)
+                    .xScale(this.x)
+                    .yScale(this.yVolume);
 
                 this.xAxis = d3.axisBottom(this.x);
                 this.yAxis = d3.axisLeft(this.y);
+                this.volumeAxis = d3.axisRight(this.yVolume).ticks(3).tickFormat(d3.format(',.3s'));
 
                 this.svg = d3
                     .select(elem)
@@ -36,11 +42,17 @@
                     .attr('class', 'candlestick');
 
                 this.chart.append('g')
+                    .attr('class', 'volume');
+
+                this.chart.append('g')
                     .attr('class', 'x axis')
                     .attr('transform', 'translate(0,' + this.height + ')');
 
                 this.chart.append('g')
                     .attr('class', 'y axis');
+
+                this.chart.append('g')
+                    .attr('class', 'volume axis');
             }
 
             CandlestickChart.prototype.draw = function (data) {
@@ -48,10 +60,13 @@
 
                 this.x.domain(data.map(this.accessor.d));
                 this.y.domain(techan.scale.plot.ohlc(data, this.accessor).domain());
+                this.yVolume.domain(techan.scale.plot.volume(data).domain());
 
                 this.chart.selectAll('g.candlestick').datum(data).call(this.candlestick);
+                this.chart.selectAll('g.volume').datum(data).call(this.volume);
                 this.chart.selectAll('g.x.axis').call(this.xAxis);
                 this.chart.selectAll('g.y.axis').call(this.yAxis);
+                this.chart.selectAll('g.volume.axis').call(this.volumeAxis);
             };
 
             CandlestickChart.prototype.prepareData = function (rawData) {
