@@ -54,6 +54,7 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
         'self',
         'https://test.coinomat.com/api/**',
         'https://coinomat.com/api/**',
+        'http://marketdata.wavesplatform.com/**',
         'https://marketdata.wavesplatform.com/**'
     ]);
 
