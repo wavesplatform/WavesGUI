@@ -55,7 +55,8 @@
             };
 
             CandlestickChart.prototype.prepareData = function (rawData) {
-                var self = this;
+                var self = this,
+                    lastTradePrice = 0;
                 return rawData.map(function (candle) {
                     return {
                         date: candle.timestamp,
@@ -67,6 +68,14 @@
                     };
                 }).sort(function (a, b) {
                     return d3.ascending(self.accessor.d(a), self.accessor.d(b));
+                }).map(function (c) {
+                    if (c.open === 0 && c.high === 0 && c.low === 0 && c.close === 0) {
+                        c.open = c.high = c.low = c.close = lastTradePrice;
+                    } else {
+                        lastTradePrice = c.close;
+                    }
+
+                    return c;
                 });
             };
 
