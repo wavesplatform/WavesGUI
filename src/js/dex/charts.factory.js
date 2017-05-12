@@ -84,8 +84,13 @@
                 this.chart.selectAll('g.volume.axis').call(this.volumeAxis);
 
                 var now = new Date(),
-                    time = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
-                this.chart.selectAll('text.ticker').text('Last updated: ' + time);
+                    hh = now.getHours(),
+                    mm = now.getMinutes(),
+                    ss = now.getSeconds();
+                hh = hh < 10 ? '0' + hh : hh;
+                mm = mm < 10 ? '0' + mm : mm;
+                ss = ss < 10 ? '0' + ss : ss;
+                this.chart.selectAll('text.ticker').text('Last updated: ' + hh + ':' + mm + ':' + ss);
             };
 
             CandlestickChart.prototype.prepareData = function (rawData) {
