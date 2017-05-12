@@ -10,6 +10,7 @@ module.exports = function (grunt) {
             .replace(/NETWORK_NAME\s*:\s*'[^']+'/, grunt.template.process("NETWORK_NAME: '<%= meta.configurations." + target + ".name %>'"))
             .replace(/NETWORK_CODE\s*:\s*'[^']+'/, grunt.template.process("NETWORK_CODE: '<%= meta.configurations." + target + ".code %>'"))
             .replace(/COINOMAT_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("COINOMAT_ADDRESS: '<%= meta.configurations." + target + ".coinomat %>'"))
+            .replace(/DATAFEED_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("DATAFEED_ADDRESS: '<%= meta.configurations." + target + ".datafeed %>'"))
             .replace(/MATCHER_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("MATCHER_ADDRESS: '<%= meta.configurations." + target + ".matcher %>'"));
     };
 
@@ -86,21 +87,24 @@ module.exports = function (grunt) {
                     code: 'T',
                     server: 'http://52.30.47.67:6869',
                     coinomat: 'https://test.coinomat.com',
-                    matcher: 'http://52.28.66.217:6886'
+                    matcher: 'http://52.28.66.217:6886',
+                    datafeed: 'http://marketdata.wavesplatform.com'
                 },
                 mainnet: {
                     name: 'mainnet',
                     code: 'W',
                     server: 'https://nodes.wavesnodes.com',
                     coinomat: 'https://coinomat.com',
-                    matcher: 'https://nodes.wavesnodes.com'
+                    matcher: 'https://nodes.wavesnodes.com',
+                    datafeed: 'https://marketdata.wavesplatform.com'
                 },
                 devnet: {
                     name: 'devnet',
                     code: 'D',
                     server: 'http://35.157.212.173:6869',
                     coinomat: 'https://test.coinomat.com',
-                    matcher: 'http://52.28.66.217:6886'
+                    matcher: 'http://52.28.66.217:6886',
+                    datafeed: 'http://marketdata.wavesplatform.com'
                 },
                 chrome: {
                     testnet: {
