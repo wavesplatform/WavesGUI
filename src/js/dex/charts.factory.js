@@ -58,6 +58,15 @@
 
                 this.chart.append('g')
                     .attr('class', 'volume axis');
+
+                this.chart.append('text')
+                    .attr('class', 'note')
+                    .attr('transform', 'translate(' + (this.width - 250) + ',10)')
+                    .text('Candles cover 30 minute intervals');
+
+                this.chart.append('text')
+                    .attr('class', 'ticker')
+                    .attr('transform', 'translate(' + (this.width - 250) + ',30)');
             }
 
             CandlestickChart.prototype.draw = function (data) {
@@ -73,6 +82,10 @@
                 this.chart.selectAll('g.y.axis').call(this.yAxis);
                 this.chart.selectAll('g.y.axis-right').call(this.yAxisRight);
                 this.chart.selectAll('g.volume.axis').call(this.volumeAxis);
+
+                var now = new Date(),
+                    time = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
+                this.chart.selectAll('text.ticker').text('Last updated: ' + time);
             };
 
             CandlestickChart.prototype.prepareData = function (rawData) {
