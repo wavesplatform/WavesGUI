@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var CANDLE_NUMBER = 120,
+    var CANDLE_NUMBER = 100,
         CANDLE_FRAME = 30,
         POLLING_DELAY = 5000;
 
