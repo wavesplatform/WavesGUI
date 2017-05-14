@@ -440,7 +440,7 @@ module.exports = function (grunt) {
         },
         bump: {
             options: {
-                files: ['package.json', 'bower.json'],
+                files: ['package.json', 'bower.json', 'src/electron/package.json'],
                 updateConfigs: ['pkg'],
                 commit: true, // debug
                 commitFiles: ['package.json', 'bower.json'],
