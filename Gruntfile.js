@@ -159,9 +159,7 @@ module.exports = function (grunt) {
                 'src/js/ui.module.js',
                 'src/js/ui.utils.service.js',
                 'src/js/application.context.factory.js',
-                'src/js/coinomat.restangular.factory.js',
-                'src/js/datafeed.restangular.factory.js',
-                'src/js/matcher.restangular.factory.js',
+                'src/js/restangular.factories.js',
                 'src/js/home.controller.js',
                 'src/js/splash.controller.js',
 
