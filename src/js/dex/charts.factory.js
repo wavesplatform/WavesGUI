@@ -8,7 +8,7 @@
                 var w = $element.width(),
                     h = $element.height(),
                     elem = $element.children('.chart').get(0),
-                    margins = {left: 60, top: 20, right: 40, bottom: 30};
+                    margins = {left: 60, top: 20, right: 60, bottom: 30};
 
                 this.width = w - margins.left - margins.right;
                 this.height = h - margins.top - margins.bottom;
