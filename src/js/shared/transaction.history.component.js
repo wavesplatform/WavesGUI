@@ -5,7 +5,7 @@
     var FEE_CURRENCY = Currency.WAVES;
     var DEFAULT_ERROR_MESSAGE = 'The Internet connection is lost';
 
-    // TODO : add the `exceptField` attribute.
+    // TODO : add the `exceptField` attribute or a list of all the needed fields.
 
     function WavesTransactionHistoryController($scope, events, constants, applicationContext, autocomplete,
                                                apiService, leasingRequestService, notificationService, dialogService) {

@@ -608,8 +608,10 @@
               <tr ng-show="assetList.noData">
                 <td colspan="5">You do not own/have not created any assets.</td>
               </tr>
-              <tr ng-show="!assetList.noData" ng-repeat="tx in assetList.assets | orderBy:'timestamp':true | asset track by tx.id">
-                <td>{{tx.name}}</td>
+              <tr ng-show="!assetList.noData" ng-repeat="tx in assetList.assets | asset track by tx.id">
+                <td>
+                  <span ng-class="{verified: tx.balance.currency.verified}">{{tx.name}}</span>
+                </td>
                 <td>{{tx.formatted.sender}}</td>
                 <td>{{tx.reissuable}}</td>
                 <td>{{tx.balance | moneyShort}}</td>
