@@ -1,0 +1,32 @@
+<h3>Trade history</h3>
+
+<table>
+  <thead>
+  <tr>
+    <td>Date</td>
+    <td>Type</td>
+    <td>Price ({{$ctrl.pair.priceAsset.shortName}})</td>
+    <td>Amount ({{$ctrl.pair.amountAsset.shortName}})</td>
+    <td>Total ({{$ctrl.pair.priceAsset.shortName}})</td>
+  </tr>
+  </thead>
+</table>
+
+<waves-scrollbox>
+  <table>
+    <tbody>
+    <tr ng-repeat="trade in $ctrl.trades">
+      <td>{{trade.timestamp | formatting}}</td>
+      <td class="type" ng-class="trade.type">{{trade.typeTitle}}</td>
+      <td>{{trade.price | number:$ctrl.pair.priceAsset.precision}}</td>
+      <td>{{trade.amount | number:$ctrl.pair.amountAsset.precision}}</td>
+      <td>{{trade.total | number:$ctrl.pair.priceAsset.precision}}</td>
+    </tr>
+    <tr ng-if="!$ctrl.trades.length">
+      <td colspan="5">
+        <span>There was no trades for the current pair.</span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</waves-scrollbox>

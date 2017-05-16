@@ -13,8 +13,9 @@
 
         function performSignIn() {
             var account = loginContext.currentAccount;
-            if (angular.isUndefined(account))
+            if (angular.isUndefined(account)) {
                 throw new Error('Account to log in hasn\'t been selected');
+            }
 
             var decryptedSeed = cryptoService.decryptWalletSeed(account.cipher, vm.password, account.checksum);
             if (!decryptedSeed) {

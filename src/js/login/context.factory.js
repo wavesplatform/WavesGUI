@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function LoginContextFactory(moduleEvents, applicationEvents, modes, addressService) {
+    function LoginContextFactory(moduleEvents, applicationEvents, modes) {
         return {
             showAccountsListScreen: function($scope) {
                 $scope.$emit(moduleEvents.CHANGE_MODE, modes.LIST);
@@ -35,7 +35,7 @@
         };
     }
 
-    LoginContextFactory.$inject = ['ui.login.events', 'ui.events', 'ui.login.modes', 'addressService'];
+    LoginContextFactory.$inject = ['ui.login.events', 'ui.events', 'ui.login.modes'];
 
     angular
         .module('app.login')

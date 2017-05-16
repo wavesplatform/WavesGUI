@@ -1,19 +1,19 @@
 (function () {
     'use strict';
 
-    function WavesAssetListController($scope, $timeout, $interval, events, applicationContext,
-                                      apiService, formattingService) {
-        var assetList = this;
+    function WavesAssetListController($scope, $timeout, $interval, events,
+                                      applicationContext, apiService, formattingService) {
+        var ctrl = this;
         var refreshPromise;
         var refreshDelay = 10 * 1000; // refreshing every 10 seconds
 
-        assetList.wavesBalance = new Money(0, Currency.WAVES);
-        assetList.assets = [];
-        assetList.noData = true;
-        assetList.assetTransfer = assetTransfer;
-        assetList.assetDetails = assetDetails;
-        assetList.assetReissue = assetReissue;
-        assetList.assetMassPay = assetMassPay;
+        ctrl.wavesBalance = new Money(0, Currency.WAVES);
+        ctrl.assets = [];
+        ctrl.noData = true;
+        ctrl.assetTransfer = assetTransfer;
+        ctrl.assetDetails = assetDetails;
+        ctrl.assetReissue = assetReissue;
+        ctrl.assetMassPay = assetMassPay;
         loadDataFromBackend();
 
         $scope.$on('$destroy', function () {
@@ -36,7 +36,7 @@
         function assetTransfer(assetId) {
             $scope.$broadcast(events.ASSET_TRANSFER, {
                 assetId: assetId,
-                wavesBalance: assetList.wavesBalance
+                wavesBalance: ctrl.wavesBalance
             });
         }
 
@@ -47,14 +47,14 @@
         function assetReissue(assetId) {
             $scope.$broadcast(events.ASSET_REISSUE, {
                 assetId: assetId,
-                wavesBalance: assetList.wavesBalance
+                wavesBalance: ctrl.wavesBalance
             });
         }
 
         function assetMassPay(assetId) {
             $scope.$broadcast(events.ASSET_MASSPAY, {
                 assetId: assetId,
-                wavesBalance: assetList.wavesBalance
+                wavesBalance: ctrl.wavesBalance
             });
         }
 
@@ -71,7 +71,7 @@
         function refreshBalance() {
             apiService.address.balance(applicationContext.account.address)
                 .then(function (response) {
-                    assetList.wavesBalance = Money.fromCoins(response.balance, Currency.WAVES);
+                    ctrl.wavesBalance = Money.fromCoins(response.balance, Currency.WAVES);
                 });
         }
 
@@ -101,21 +101,30 @@
 
                 var delay = 1;
                 // handling the situation when some assets appeared on the account
-                if (assetList.assets.length === 0 && assets.length > 0) {
-                    assetList.noData = false;
+                if (ctrl.assets.length === 0 && assets.length > 0) {
+                    ctrl.noData = false;
                     delay = 500; // waiting for 0.5 sec on first data loading attempt
                 }
 
                 // handling the situation when all assets were transferred from the account
-                if (assetList.assets.length > 0 && assets.length === 0) {
-                    assetList.noData = true;
+                if (ctrl.assets.length > 0 && assets.length === 0) {
+                    ctrl.noData = true;
                     delay = 500;
                 }
 
                 // to prevent no data message and asset list from displaying simultaneously
                 // we need to update
                 $timeout(function() {
-                    assetList.assets = assets;
+                    ctrl.assets = assets.sort(function (a, b) {
+                        var aVerified = (a.balance.currency.verified === true) ? 1 : 0,
+                            bVerified = (b.balance.currency.verified === true) ? 1 : 0;
+
+                        // The verified assets go first, then we sort them by timestamp
+                        aVerified += parseFloat('0.' + new Date(a.timestamp).getTime());
+                        bVerified += parseFloat('0.' + new Date(b.timestamp).getTime());
+
+                        return bVerified - aVerified;
+                    });
                 }, delay);
             });
         }

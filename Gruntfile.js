@@ -10,6 +10,7 @@ module.exports = function (grunt) {
             .replace(/NETWORK_NAME\s*:\s*'[^']+'/, grunt.template.process("NETWORK_NAME: '<%= meta.configurations." + target + ".name %>'"))
             .replace(/NETWORK_CODE\s*:\s*'[^']+'/, grunt.template.process("NETWORK_CODE: '<%= meta.configurations." + target + ".code %>'"))
             .replace(/COINOMAT_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("COINOMAT_ADDRESS: '<%= meta.configurations." + target + ".coinomat %>'"))
+            .replace(/DATAFEED_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("DATAFEED_ADDRESS: '<%= meta.configurations." + target + ".datafeed %>'"))
             .replace(/MATCHER_ADDRESS\s*:\s*'[^']+'/, grunt.template.process("MATCHER_ADDRESS: '<%= meta.configurations." + target + ".matcher %>'"));
     };
 
@@ -86,21 +87,24 @@ module.exports = function (grunt) {
                     code: 'T',
                     server: 'http://52.30.47.67:6869',
                     coinomat: 'https://test.coinomat.com',
-                    matcher: 'http://52.28.66.217:6886'
+                    matcher: 'http://52.28.66.217:6886',
+                    datafeed: 'http://marketdata.wavesplatform.com'
                 },
                 mainnet: {
                     name: 'mainnet',
                     code: 'W',
                     server: 'https://nodes.wavesnodes.com',
                     coinomat: 'https://coinomat.com',
-                    matcher: 'https://nodes.wavesnodes.com'
+                    matcher: 'https://nodes.wavesnodes.com',
+                    datafeed: 'https://marketdata.wavesplatform.com'
                 },
                 devnet: {
                     name: 'devnet',
                     code: 'D',
                     server: 'http://35.157.212.173:6869',
                     coinomat: 'https://test.coinomat.com',
-                    matcher: 'http://52.28.66.217:6886'
+                    matcher: 'http://52.28.66.217:6886',
+                    datafeed: 'http://marketdata.wavesplatform.com'
                 },
                 chrome: {
                     testnet: {
@@ -153,10 +157,9 @@ module.exports = function (grunt) {
             application: [
                 // project sources
                 'src/js/ui.module.js',
+                'src/js/ui.utils.service.js',
                 'src/js/application.context.factory.js',
-                'src/js/coinomat.restangular.factory.js',
-                'src/js/datafeed.restangular.factory.js',
-                'src/js/matcher.restangular.factory.js',
+                'src/js/restangular.factories.js',
                 'src/js/home.controller.js',
                 'src/js/splash.controller.js',
 
@@ -216,7 +219,9 @@ module.exports = function (grunt) {
                 'src/js/dex/component.js',
                 'src/js/dex/asset.picker.component.js',
                 'src/js/dex/chart.component.js',
+                'src/js/dex/charts.factory.js',
                 'src/js/dex/favorites.component.js',
+                'src/js/dex/history.component.js',
                 'src/js/dex/order.creator.component.js',
                 'src/js/dex/order.service.js',
                 'src/js/dex/orderbook.component.js',
