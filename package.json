@@ -1,8 +1,8 @@
 {
   "name": "waves-lite-client",
   "version": "0.4.20",
-  "description": "A lite client for the Waves platform",
-  "license": "See license in ./LICENSE",
+  "description": "A lite client for Waves platform",
+  "license": "Apache-2.0",
   "engines": {
     "node": ">= 0.10.0"
   },
