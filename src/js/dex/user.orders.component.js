@@ -50,16 +50,20 @@
 
         return orders.map(function (order) {
             var price = order.price.toTokens(),
-                amount = order.amount.toTokens();
+                amount = order.amount.toTokens(),
+                filled = order.filled.toTokens();
+
             return {
                 id: order.id,
                 status: order.status,
                 statusTitle: status(order.status),
-                type: order.orderType,
-                typeTitle: type(order.orderType),
+                type: order.type,
+                typeTitle: type(order.type),
                 price: price,
                 amount: amount,
-                total: price * amount
+                total: price * amount,
+                filled: filled,
+                timestamp: order.timestamp
             };
         });
     }
