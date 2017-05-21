@@ -1,14 +1,17 @@
 {
   "name": "waves-lite-client",
   "version": "0.4.20",
-  "description": "A lite client for the Waves platform",
-  "license": "See license in ./LICENSE",
+  "description": "A lite client for Waves platform",
+  "license": "Apache-2.0",
   "engines": {
     "node": ">= 0.10.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.6",
     "cssnano": "^3.10.0",
+    "electron-builder": "^17.5.0",
+    "electron-packager": "^8.7.0",
+    "electron-prebuilt": "^1.4.13",
     "grunt": "~1.0.0",
     "grunt-angular-templates": "^1.1.0",
     "grunt-aws": "^0.6.2",
