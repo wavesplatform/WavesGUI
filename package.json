@@ -9,6 +9,7 @@
   "devDependencies": {
     "autoprefixer": "^6.7.6",
     "cssnano": "^3.10.0",
+    "electron": "^1.6.8",
     "electron-builder": "^17.5.0",
     "electron-packager": "^8.7.0",
     "electron-prebuilt": "^1.4.13",
