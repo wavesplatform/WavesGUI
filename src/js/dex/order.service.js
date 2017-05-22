@@ -22,7 +22,7 @@
                     var signedRequest = matcherRequestService.buildCreateOrderRequest(order, sender);
                     return matcherApiService.createOrder(signedRequest);
                 }).catch(function (e) {
-                    throw new Error(e); // TODO
+                    throw new Error(e);
                 });
         };
 
@@ -36,7 +36,7 @@
                             throw new Error();
                         }
                     }).catch(function (e) {
-                        throw new Error(); // TODO
+                        throw new Error(e);
                     });
             } else if (order.status === FILLED || order.status === CANCELLED) {
                 return matcherApiService
@@ -46,7 +46,7 @@
                             throw new Error();
                         }
                     }).catch(function (e) {
-                        throw new Error(e); // TODO
+                        throw new Error(e);
                     });
             }
         };
@@ -81,7 +81,7 @@
                     });
                 })
                 .catch(function (e) {
-                    throw new Error(e); // TODO
+                    throw new Error(e);
                 });
         };
     }
