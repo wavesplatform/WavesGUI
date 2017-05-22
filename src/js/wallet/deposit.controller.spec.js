@@ -62,7 +62,7 @@ describe('Wallet.Deposit.Controller', function() {
     }
 
     it('should initialize properly', function () {
-        expect(controller.bitcoinAddress).toEqual('');
+        expect(controller.btc.bitcoinAddress).toEqual('');
     });
 
     it('should ask coinomat for payment requisites', function () {
@@ -74,10 +74,10 @@ describe('Wallet.Deposit.Controller', function() {
 
         initControllerAssets();
         expect(coinomatService.getDepositDetails).toHaveBeenCalled();
-        expect(controller.bitcoinAddress).toEqual('');
+        expect(controller.btc.bitcoinAddress).toEqual('');
 
         $rootScope.$apply();
-        expect(controller.bitcoinAddress).toEqual(address);
+        expect(controller.btc.bitcoinAddress).toEqual(address);
     });
 
     it('should handle exceptions', function () {
@@ -91,7 +91,7 @@ describe('Wallet.Deposit.Controller', function() {
         initControllerAssets();
         $rootScope.$apply();
 
-        expect(controller.bitcoinAddress).toEqual('');
+        expect(controller.btc.bitcoinAddress).toEqual('');
         expect(notificationService.error).toHaveBeenCalledWith(errorMessage);
     });
 });

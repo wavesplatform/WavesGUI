@@ -4,25 +4,25 @@
     var DEFAULT_FEE_AMOUNT = '0.001',
         DEFAULT_ERROR_MESSAGE = 'Connection is lost';
 
-    function WavesWalletWithdrawController ($scope, $timeout, constants, events, autocomplete, dialogService,
+    function WavesWalletWithdrawController ($scope, constants, events, autocomplete, dialogService,
                                             coinomatService, transactionBroadcast, notificationService,
                                             apiService, formattingService, assetService, applicationContext) {
-        var withdraw = this;
+        var ctrl = this;
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAVES);
         var notPermittedBitcoinAddresses = {};
 
-        withdraw.broadcast = new transactionBroadcast.instance(apiService.assets.transfer,
+        ctrl.broadcast = new transactionBroadcast.instance(apiService.assets.transfer,
             function (transaction, response) {
-                var amount = Money.fromCoins(transaction.amount, withdraw.assetBalance.currency);
+                var amount = Money.fromCoins(transaction.amount, ctrl.assetBalance.currency);
                 var address = transaction.recipient;
                 var displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
-                    withdraw.assetBalance.currency.displayName +
+                    ctrl.assetBalance.currency.displayName +
                     '<br/>Gateway ' + address.substr(0,15) + '...<br/>Date: ' +
                     formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
             });
-        withdraw.autocomplete = autocomplete;
-        withdraw.validationOptions = {
+        ctrl.autocomplete = autocomplete;
+        ctrl.validationOptions = {
             onfocusout: function (element) {
                 return !(element.name in ['withdrawFee']); // FIXME
             },
@@ -67,53 +67,53 @@
                 }
             }
         };
-        withdraw.confirm = {
+        ctrl.confirm = {
             amount: {},
             fee: {},
             gatewayAddress: '',
             address: ''
         };
-        withdraw.confirmWithdraw = confirmWithdraw;
-        withdraw.refreshAmount = refreshAmount;
-        withdraw.refreshTotal = refreshTotal;
-        withdraw.broadcastTransaction = broadcastTransaction;
+        ctrl.confirmWithdraw = confirmWithdraw;
+        ctrl.refreshAmount = refreshAmount;
+        ctrl.refreshTotal = refreshTotal;
+        ctrl.broadcastTransaction = broadcastTransaction;
 
         resetForm();
 
         $scope.$on(events.WALLET_WITHDRAW, function (event, eventData) {
-            withdraw.assetBalance = eventData.assetBalance;
-            withdraw.wavesBalance = eventData.wavesBalance;
+            ctrl.assetBalance = eventData.assetBalance;
+            ctrl.wavesBalance = eventData.wavesBalance;
 
-            if (withdraw.assetBalance.currency !== Currency.BTC) {
+            if (ctrl.assetBalance.currency !== Currency.BTC) {
                 $scope.home.featureUnderDevelopment();
 
                 return;
             }
 
-            coinomatService.getWithdrawRate(withdraw.assetBalance.currency)
+            coinomatService.getWithdrawRate(ctrl.assetBalance.currency)
                 .then(function (response) {
                     /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
-                    var minimumPayment = Money.fromCoins(1, withdraw.assetBalance.currency);
+                    var minimumPayment = Money.fromCoins(1, ctrl.assetBalance.currency);
                     minimumPayment = Money.fromTokens(Math.max(minimumPayment.toTokens(), response.in_min),
-                        withdraw.assetBalance.currency);
-                    var maximumPayment = Money.fromTokens(Math.min(withdraw.assetBalance.toTokens(),
-                        response.in_max), withdraw.assetBalance.currency);
-                    withdraw.sourceCurrency = withdraw.assetBalance.currency.displayName;
-                    withdraw.exchangeRate = response.xrate;
-                    withdraw.feeIn = response.fee_in;
-                    withdraw.feeOut = response.fee_out;
-                    withdraw.targetCurrency = response.to_txt;
-                    withdraw.total = response.in_def;
+                        ctrl.assetBalance.currency);
+                    var maximumPayment = Money.fromTokens(Math.min(ctrl.assetBalance.toTokens(),
+                        response.in_max), ctrl.assetBalance.currency);
+                    ctrl.sourceCurrency = ctrl.assetBalance.currency.displayName;
+                    ctrl.exchangeRate = response.xrate;
+                    ctrl.feeIn = response.fee_in;
+                    ctrl.feeOut = response.fee_out;
+                    ctrl.targetCurrency = response.to_txt;
+                    ctrl.total = response.in_def;
                     /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
-                    withdraw.validationOptions.rules.withdrawAmount.decimal = withdraw.assetBalance.currency.precision;
-                    withdraw.validationOptions.rules.withdrawAmount.max = maximumPayment.toTokens();
-                    withdraw.validationOptions.rules.withdrawAmount.min = minimumPayment.toTokens();
-                    withdraw.validationOptions.messages.withdrawAmount.decimal = 'The amount to withdraw must be ' +
+                    ctrl.validationOptions.rules.withdrawAmount.decimal = ctrl.assetBalance.currency.precision;
+                    ctrl.validationOptions.rules.withdrawAmount.max = maximumPayment.toTokens();
+                    ctrl.validationOptions.rules.withdrawAmount.min = minimumPayment.toTokens();
+                    ctrl.validationOptions.messages.withdrawAmount.decimal = 'The amount to withdraw must be ' +
                         'a number with no more than ' + minimumPayment.currency.precision +
                         ' digits after the decimal point (.)';
-                    withdraw.validationOptions.messages.withdrawAmount.min = 'Withdraw amount is too small. ' +
+                    ctrl.validationOptions.messages.withdrawAmount.min = 'Withdraw amount is too small. ' +
                         'It should be greater or equal to ' + minimumPayment.formatAmount();
-                    withdraw.validationOptions.messages.withdrawAmount.max = 'Withdraw amount is too big. ' +
+                    ctrl.validationOptions.messages.withdrawAmount.max = 'Withdraw amount is too big. ' +
                         'It should be less or equal to ' + maximumPayment.formatAmount();
 
                     refreshAmount();
@@ -155,30 +155,28 @@
         }
 
         function confirmWithdraw (amountForm) {
-            if (!amountForm.validate(withdraw.validationOptions)) {
+            if (!amountForm.validate(ctrl.validationOptions)) {
                 return false;
             }
 
             try {
-                var withdrawCost = Money.fromTokens(withdraw.autocomplete.getFeeAmount(), Currency.WAVES);
-                validateWithdrawCost(withdrawCost, withdraw.wavesBalance);
-                validateRecipientAddress(withdraw.recipient);
-            }
-            catch (exception) {
-                notificationService.error(exception.message);
-
+                var withdrawCost = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), Currency.WAVES);
+                validateWithdrawCost(withdrawCost, ctrl.wavesBalance);
+                validateRecipientAddress(ctrl.recipient);
+            } catch (e) {
+                notificationService.error(e.message);
                 return false;
             }
 
-            var total = Money.fromTokens(withdraw.total, withdraw.assetBalance.currency);
-            var fee = Money.fromTokens(withdraw.autocomplete.getFeeAmount(), Currency.WAVES);
-            withdraw.confirm.amount = total;
-            withdraw.confirm.fee = fee;
-            withdraw.confirm.recipient = withdraw.recipient;
+            var total = Money.fromTokens(ctrl.total, ctrl.assetBalance.currency);
+            var fee = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), Currency.WAVES);
+            ctrl.confirm.amount = total;
+            ctrl.confirm.fee = fee;
+            ctrl.confirm.recipient = ctrl.recipient;
 
-            coinomatService.getWithdrawDetails(withdraw.assetBalance.currency, withdraw.recipient)
+            coinomatService.getWithdrawDetails(ctrl.assetBalance.currency, ctrl.recipient)
                 .then(function (withdrawDetails) {
-                    withdraw.confirm.gatewayAddress = withdrawDetails.address;
+                    ctrl.confirm.gatewayAddress = withdrawDetails.address;
 
                     var assetTransfer = {
                         recipient: withdrawDetails.address,
@@ -191,8 +189,7 @@
                         privateKey: applicationContext.account.keyPair.private
                     };
                     // creating the transaction and waiting for confirmation
-                    withdraw.broadcast.setTransaction(assetService.createAssetTransferTransaction(assetTransfer,
-                        sender));
+                    ctrl.broadcast.setTransaction(assetService.createAssetTransferTransaction(assetTransfer, sender));
 
                     resetForm();
 
@@ -206,29 +203,29 @@
         }
 
         function broadcastTransaction () {
-            withdraw.broadcast.broadcast();
+            ctrl.broadcast.broadcast();
         }
 
         function refreshTotal () {
-            var amount = withdraw.exchangeRate * withdraw.amount;
-            var total = Money.fromTokens(amount + withdraw.feeIn + withdraw.feeOut, withdraw.assetBalance.currency);
-            withdraw.total = total.formatAmount(true, false);
+            var amount = ctrl.exchangeRate * ctrl.amount;
+            var total = Money.fromTokens(amount + ctrl.feeIn + ctrl.feeOut, ctrl.assetBalance.currency);
+            ctrl.total = total.formatAmount(true, false);
         }
 
         function refreshAmount () {
-            var total = Math.max(0, withdraw.exchangeRate * (withdraw.total - withdraw.feeIn) - withdraw.feeOut);
-            var amount = Money.fromTokens(total, withdraw.assetBalance.currency);
-            withdraw.amount = amount.formatAmount(true, false);
+            var total = Math.max(0, ctrl.exchangeRate * (ctrl.total - ctrl.feeIn) - ctrl.feeOut);
+            var amount = Money.fromTokens(total, ctrl.assetBalance.currency);
+            ctrl.amount = amount.formatAmount(true, false);
         }
 
         function resetForm () {
-            withdraw.recipient = '';
-            withdraw.address = '';
-            withdraw.autocomplete.defaultFee(Number(DEFAULT_FEE_AMOUNT));
+            ctrl.recipient = '';
+            ctrl.address = '';
+            ctrl.autocomplete.defaultFee(Number(DEFAULT_FEE_AMOUNT));
         }
     }
 
-    WavesWalletWithdrawController.$inject = ['$scope', '$timeout', 'constants.ui', 'wallet.events', 'autocomplete.fees',
+    WavesWalletWithdrawController.$inject = ['$scope', 'constants.ui', 'wallet.events', 'autocomplete.fees',
         'dialogService', 'coinomatService', 'transactionBroadcast', 'notificationService', 'apiService',
         'formattingService', 'assetService', 'applicationContext'];
 

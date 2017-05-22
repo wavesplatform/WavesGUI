@@ -12,6 +12,7 @@ const url = require('url');
 let mainWindow;
 
 function createWindow () {
+    'use strict';
     // Create the browser window.
     mainWindow = new BrowserWindow({
         minWidth: 800,
@@ -52,6 +53,7 @@ app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
+    'use strict';
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
@@ -60,9 +62,10 @@ app.on('window-all-closed', function () {
 });
 
 app.on('activate', function () {
+    'use strict';
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (mainWindow === null) {
-        createWindow()
+        createWindow();
     }
 });
