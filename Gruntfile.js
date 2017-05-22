@@ -29,6 +29,10 @@ module.exports = function (grunt) {
             patcherTarget = target.replace('chrome.', '');
         }
 
+        if (target.indexOf('desktop') == 0) {
+            patcherTarget = target.replace('desktop.', '');
+        }
+
         return {
             src: ['<%= meta.dependencies %>', '<%= meta.application %>', compiledTemplates],
             dest: 'distr/<%= pkg.name %>-<%= meta.configurations.' + target + '.name %>-<%= pkg.version %>.js',
@@ -43,7 +47,7 @@ module.exports = function (grunt) {
         };
     };
 
-    var generateCopyDirectives = function (target, isChrome) {
+    var generateCopyDirectives = function (target, isChrome, isDesktop) {
         return {
             files: [
                 {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>/css'},
@@ -51,7 +55,8 @@ module.exports = function (grunt) {
                 {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>'},
                 {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>'},
                 {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.' + target + '.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.' + target + '.name %>/js'},
-                isChrome ? {expand: true, dest: 'distr/<%= meta.configurations.' + target + '.name %>', flatten: true, src: 'src/chrome/*.*'} : {}
+                isChrome ? {expand: true, dest: 'distr/<%= meta.configurations.' + target + '.name %>', flatten: true, src: 'src/chrome/*.*'} : {},
+                isDesktop ? {expand: true, dest: 'distr/<%= meta.configurations.' + target + '.name %>', flatten: true, src: 'src/desktop/*.*'} : {}
             ],
             options: {
                 process: function (content, srcPath) {
@@ -112,6 +117,14 @@ module.exports = function (grunt) {
                     },
                     mainnet: {
                         name: 'chrome'
+                    }
+                },
+                desktop: {
+                    testnet: {
+                        name: 'desktop-testnet'
+                    },
+                    mainnet: {
+                        name: 'desktop-mainnet'
                     }
                 },
                 css: {
@@ -353,6 +366,8 @@ module.exports = function (grunt) {
             devnet: generateConcatDirectives('devnet'),
             chrome_mainnet: generateConcatDirectives('chrome.mainnet'),
             chrome_testnet: generateConcatDirectives('chrome.testnet'),
+            desktop_mainnet: generateConcatDirectives('desktop.mainnet'),
+            desktop_testnet: generateConcatDirectives('desktop.testnet'),
             css: {
                 src: ['<%= meta.stylesheets %>'],
                 dest: '<%= meta.configurations.css.concat %>'
@@ -373,7 +388,9 @@ module.exports = function (grunt) {
                     'distr/<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-<%= pkg.version %>.js'],
                     'distr/<%= pkg.name %>-<%= meta.configurations.devnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.devnet.name %>-<%= pkg.version %>.js'],
                     'distr/<%= pkg.name %>-<%= meta.configurations.chrome.mainnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.chrome.mainnet.name %>-<%= pkg.version %>.js'],
-                    'distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-<%= pkg.version %>.js']
+                    'distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-<%= pkg.version %>.js'],
+                    'distr/<%= pkg.name %>-<%= meta.configurations.desktop.mainnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.desktop.mainnet.name %>-<%= pkg.version %>.js'],
+                    'distr/<%= pkg.name %>-<%= meta.configurations.desktop.testnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.desktop.testnet.name %>-<%= pkg.version %>.js']
                 }
             }
         },
@@ -388,6 +405,8 @@ module.exports = function (grunt) {
             devnet: generateCopyDirectives('devnet'),
             chrome_testnet: generateCopyDirectives('chrome.testnet', true),
             chrome_mainnet: generateCopyDirectives('chrome.mainnet', true),
+            desktop_testnet: generateCopyDirectives('desktop.testnet', false, true),
+            desktop_mainnet: generateCopyDirectives('desktop.mainnet', false, true),
             fonts: {
                 // NOTE : that task is not consistent with the standard distribution workflow.
                 files: [
@@ -441,11 +460,23 @@ module.exports = function (grunt) {
                     archive: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-v<%= pkg.version %>.zip'
                 },
                 files: [{expand: true, cwd: 'distr/<%= meta.configurations.chrome.testnet.name %>', src: '**/*', dest: '/'}]
+            },
+            desktop_mainnet: {
+                options: {
+                    archive: 'distr/<%= pkg.name %>-<%= meta.configurations.desktop.mainnet.name %>-v<%= pkg.version %>.zip'
+                },
+                files: [{expand: true, cwd: 'distr/<%= meta.configurations.desktop.mainnet.name %>', src: '**/*', dest: '/'}]
+            },
+            desktop_testnet: {
+                options: {
+                    archive: 'distr/<%= pkg.name %>-<%= meta.configurations.desktop.testnet.name %>-v<%= pkg.version %>.zip'
+                },
+                files: [{expand: true, cwd: 'distr/<%= meta.configurations.desktop.testnet.name %>', src: '**/*', dest: '/'}]
             }
         },
         bump: {
             options: {
-                files: ['package.json', 'bower.json'],
+                files: ['package.json', 'bower.json', 'src/desktop/package.json'],
                 updateConfigs: ['pkg'],
                 commit: true, // debug
                 commitFiles: ['package.json', 'bower.json'],
@@ -607,9 +638,9 @@ module.exports = function (grunt) {
         'karma:development',
         'postcss',
         'concat',
-        'karma:distr',
+        'karma:distr'/*,
         'uglify',
-        'karma:minified'
+        'karma:minified'*/
     ]);
 
     // Default task.

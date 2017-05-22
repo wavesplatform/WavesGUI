@@ -14,7 +14,7 @@
                     return apiService.transactions.list(account.address);
                 })
                 .then(function (response) {
-                    var confirmed = response[0];
+                    var confirmed = response;
 
                     return self.mergeTransactions(account, unconfirmed, confirmed);
                 });
