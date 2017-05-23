@@ -10,6 +10,7 @@
             intervalPromise;
 
         ctrl.transactions = [];
+        ctrl.limitTo = 1000;
         ctrl.balanceDetails = null;
 
         refreshAll();
@@ -47,7 +48,7 @@
 
         function refreshLeasingTransactions() {
             transactionLoadingService
-                .loadTransactions(applicationContext.account)
+                .loadTransactions(applicationContext.account, ctrl.limitTo)
                 .then(function (transactions) {
                     ctrl.transactions = transactions.filter(function (tx) {
                         var startLeasing = constants.START_LEASING_TRANSACTION_TYPE,
