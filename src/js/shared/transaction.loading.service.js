@@ -14,9 +14,12 @@
                     return apiService.transactions.list(account.address);
                 })
                 .then(function (response) {
-                    var confirmed = response;
+                    // FIXME : redo this when the API is fixed.
+                    if (response[0] instanceof Array) {
+                        response = response[0];
+                    }
 
-                    return self.mergeTransactions(account, unconfirmed, confirmed);
+                    return self.mergeTransactions(account, unconfirmed, response);
                 });
         };
 

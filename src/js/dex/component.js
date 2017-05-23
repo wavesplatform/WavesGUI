@@ -89,6 +89,8 @@
 
         ctrl.cancelOrder = function (order) {
             // TODO : add a queue for the orders which weren't yet canceled.
+
+            // TODO : add different messages for cancel and delete actions.
             dexOrderService
                 .removeOrder(ctrl.pair, order, sender)
                 .then(function () {
