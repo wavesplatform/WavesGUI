@@ -153,7 +153,6 @@ module.exports = function (grunt) {
                 'bower_components/curve25519-js/axlsign.js',
                 'bower_components/clipboard/dist/clipboard.js',
                 'bower_components/ngclipboard/dist/ngclipboard.js',
-                'bower_components/nprogress/nprogress.js',
                 'bower_components/growl/javascripts/jquery.growl.js',
                 'bower_components/jquery-validation/dist/jquery.validate.js',
                 'bower_components/tooltipster/js/jquery.tooltipster.min.js',
