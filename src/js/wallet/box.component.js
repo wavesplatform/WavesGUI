@@ -22,7 +22,7 @@
             displayName: Currency.EUR.displayName
         };
         mapping[Currency.CNY.displayName] = {
-            image: 'wB-bg-RMB.svg',
+            image: 'wB-bg-CNY.svg',
             displayName: Currency.CNY.displayName
         };
 

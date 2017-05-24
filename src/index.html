@@ -26,7 +26,7 @@
   <link rel="stylesheet" href="../bower_components/angular-material/angular-material.css">
   <link rel="stylesheet" href="../distr/devel/css/style.css">
   <!-- CSS END -->
-  <link href="img/favicon.ico" type="image/x-icon" rel="shortcut icon">
+  <link href="./img/favicon.ico" type="image/x-icon" rel="shortcut icon">
 </head>
 
 <body ng-controller="homeController as home" ng-switch on="home.screen">
@@ -47,7 +47,7 @@
 
     <thead>
     <div id="logoNversion">
-      <img src="img/topleftlogo.svg" />
+      <img src="img/logo-top-left.svg" />
       <p ng-class='{testnet: isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
     </div>
     </thead>
@@ -222,21 +222,21 @@
     <p class="dialog-text">This feature is still under development and not active during the alpha release.</p>
     <p class="dialog-text">Follow our social media channels to stay up to date with the latest improvements and developments.</p>
     <div class="modal-media">
-      <a href="https://blog.wavesplatform.com/" target="_blank"><img class="modal-media-img" src="img/blog_icon.svg" /></a>
-      <a href="https://twitter.com/wavesplatform" target="_blank"><img class="modal-media-img" src="img/twitter_icon.svg" /></a>
-      <a href="https://www.facebook.com/wavesplatform" target="_blank"><img class="modal-media-img" src="img/facebook_icon.svg" /></a>
-      <a href="http://slack.wavesplatform.com/" target="_blank"><img class="modal-media-img" src="img/slack_icon.svg" /></a>
-      <a href="https://www.reddit.com/r/Wavesplatform/" target="_blank"><img class="modal-media-img" src="img/reddit_icon.svg" /></a>
-      <a href="https://vk.com/wavesplatform" target="_blank"><img id="icon-blog" class="modal-media-img" src="img/vk_icon.svg" /></a>
+      <a href="https://blog.wavesplatform.com/" target="_blank"><img class="modal-media-img" src="img/modal-icon-blog.svg" /></a>
+      <a href="https://twitter.com/wavesplatform" target="_blank"><img class="modal-media-img" src="img/modal-icon-twitter.svg" /></a>
+      <a href="https://www.facebook.com/wavesplatform" target="_blank"><img class="modal-media-img" src="img/modal-icon-facebook.svg" /></a>
+      <a href="http://slack.wavesplatform.com/" target="_blank"><img class="modal-media-img" src="img/modal-icon-slack.svg" /></a>
+      <a href="https://www.reddit.com/r/Wavesplatform/" target="_blank"><img class="modal-media-img" src="img/modal-icon-reddit.svg" /></a>
+      <a href="https://vk.com/wavesplatform" target="_blank"><img id="icon-blog" class="modal-media-img" src="img/modal-icon-vk.svg" /></a>
     </div>
   </div>
   <!-- /shared blocks-->
 
   <!-- HEADER -->
   <header class="fFade noSelect" ng-controller="mainMenuController as menu">
-    <img id="topLogoH" src="img/topleftlogo_hor.svg" alt="Waves platform logo horizontal" />
+    <img id="topLogoH" src="img/logo-top-left-h.svg" alt="Waves platform logo horizontal" />
     <div id="logoNversion2">
-      <img src="img/topleftlogo.svg" />
+      <img src="img/logo-top-left.svg" />
       <p ng-class='{testnet: isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
     </div>
     <span id="version" class="centerIt">Address:
@@ -513,7 +513,7 @@
             <div id="deposit-btc-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
               <h2 class="sectionHeader">DEPOSIT: BTC</h2>
               <p class="dialog-text textCenter">
-                <img src="img/visa_mastercard_116x35.gif" width="116" height="35"><span class="divider-2"></span>
+                <img src="img/visa-mastercard-116x35.gif" width="116" height="35"><span class="divider-2"></span>
                 <button class="wButton wButton-dialog" ng-click="walletList.depositFromCard(deposit.assetBalance.currency)">
                   Buy BTC from your credit card
                 </button>
@@ -934,7 +934,7 @@
               The Decentralized Voting feature launch is estimated for the first quarter of 2017.
             </p>
             <br/><br/>
-            <img src="img/tab_vote_prev.svg" />
+            <img src="img/tab-preview-vote.svg" />
           </div>
         </div>
         <!-- / VOTING TAB -->
@@ -1021,7 +1021,7 @@
               The Contacts area services are estimated to be completed on the first half of 2017.
             </p>
             <br/><br/>
-            <img src="img/tab_cont_prev.svg" />
+            <img src="img/tab-preview-cont.svg" />
           </div>
           <div id="addContact-wPop" class="wavesPop">
             <img class="wPop-header" src="img/modal-header.svg" />
