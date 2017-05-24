@@ -104,16 +104,13 @@
                 mass.inputPayments = [];
                 if (fileName.endsWith('.json')) {
                     mass.inputPayments = parseJsonFile(content);
-                }
-                else if (fileName.endsWith('.csv')) {
+                } else if (fileName.endsWith('.csv')) {
                     mass.inputPayments = parseCsvFile(content);
-                }
-                else {
+                } else {
                     throw new Error('Unsupported file type: ' + fileName);
                 }
-            }
-            catch (ex) {
-                notificationService.error('Failed to parse file: ' + ex);
+            } catch (e) {
+                notificationService.error('Failed to parse file: ' + e);
             }
         }
 
@@ -122,13 +119,15 @@
             var result = [];
             _.forEach(lines, function (line) {
                 line = line.trim();
-                if (line.length < 1)
+                if (line.length < 1) {
                     return;
+                }
 
                 var parts = line.split(';');
                 if (parts.length < 2) {
                     throw new Error('CSV file contains ' + parts.length + ' columns. Expected 2 or 3 columns');
                 }
+
                 var address = parts[0];
                 var amount = parseFloat(parts[1]);
                 var id;
@@ -182,11 +181,12 @@
                             transfer.recipient + ' is less than minimum (' + minimumPayment.formatAmount(true) + ')');
                     }
 
-                    if (transfersToDisplay.length < FIRST_TRANSACTIONS_COUNT)
+                    if (transfersToDisplay.length < FIRST_TRANSACTIONS_COUNT) {
                         transfersToDisplay.push({
                             recipient: transfer.recipient,
                             amount: assetTransfer.amount.formatAmount(true)
                         });
+                    }
 
                     transactions.push(assetService.createAssetTransferTransaction(assetTransfer, sender));
 
@@ -294,14 +294,12 @@
             var reader = new $window.FileReader();
 
             reader.onloadend = function (event) {
-                NProgress.done();
-
-                if (event.target.readyState == FileReader.DONE)
+                if (event.target.readyState == FileReader.DONE) {
                     mass.loadInputFile(file.name, event.target.result);
+                }
             };
             reader.onloadstart = function (event) {
                 cleanup();
-                NProgress.start();
             };
             reader.onabort = function (event) {
                 notificationService.error('File read cancelled');

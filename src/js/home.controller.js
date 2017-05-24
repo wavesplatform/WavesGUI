@@ -34,7 +34,6 @@
             // putting the current account to the app context
             applicationContext.account = account;
 
-            NProgress.start();
             apiService.assets.balance(applicationContext.account.address)
                 .then(function (response) {
                     _.forEach(response.balances, function (balanceItem) {
@@ -43,7 +42,6 @@
                 })
                 .finally(function () {
                     home.screen = SCREENS.main;
-                    NProgress.done();
                 });
         });
 
