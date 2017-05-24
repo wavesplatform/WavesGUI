@@ -31,25 +31,30 @@ var app = angular.module('app', [
 ]).config(AngularApplicationConfig).run(AngularApplicationRun);
 
 function AngularApplicationConfig($provide, $compileProvider, $validatorProvider, $qProvider,
-                                  $sceDelegateProvider, $mdAriaProvider, networkConstants, applicationSettings) {
+                                  $sceDelegateProvider, $mdAriaProvider, networkConstants,
+                                  applicationConstants) {
     'use strict';
 
     $provide.constant(networkConstants,
         angular.extend(networkConstants, {
             NETWORK_NAME: 'devel',
             NETWORK_CODE: 'T'
-        }));
-    $provide.constant(applicationSettings,
-        angular.extend(applicationSettings, {
+        })
+    );
+
+    $provide.constant(applicationConstants,
+        angular.extend(applicationConstants, {
             CLIENT_VERSION: '0.4.1a',
             NODE_ADDRESS: 'http://52.30.47.67:6869',
             COINOMAT_ADDRESS: 'https://test.coinomat.com',
             MATCHER_ADDRESS: 'http://52.28.66.217:6886',
             DATAFEED_ADDRESS: 'http://marketdata.wavesplatform.com'
-        }));
+        })
+    );
 
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data|file|chrome-extension):/);
     $qProvider.errorOnUnhandledRejections(false);
+
     $sceDelegateProvider.resourceUrlWhitelist([
         'self',
         'https://test.coinomat.com/api/**',
@@ -131,26 +136,26 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
 }
 
 AngularApplicationConfig.$inject = ['$provide', '$compileProvider', '$validatorProvider', '$qProvider',
-    '$sceDelegateProvider', '$mdAriaProvider', 'constants.network', 'constants.application'];
+                                    '$sceDelegateProvider', '$mdAriaProvider', 'constants.network',
+                                    'constants.application'];
 
 function AngularApplicationRun(rest, applicationConstants, notificationService, addressService) {
     'use strict';
+
+    var url = applicationConstants.NODE_ADDRESS;
 
     // restangular configuration
     rest.setDefaultHttpFields({
         timeout: 10000 // milliseconds
     });
-    var url = applicationConstants.NODE_ADDRESS;
-    //var url = 'http://52.28.66.217:6869';
-    //var url = 'http://52.77.111.219:6869';
-    //var url = 'http://127.0.0.1:6869';
-    //var url = 'http://127.0.0.1:8089';
+
     rest.setBaseUrl(url);
 
     // override mock methods cos in config phase services are not available yet
     __mockShowError = function (message) {
         notificationService.error(message);
     };
+
     __mockValidateAddress = function (address) {
         return addressService.validateAddress(address.trim());
     };

@@ -12,17 +12,17 @@
 
         $scope.isTestnet = utilsService.isTestnet;
 
-        var home = this;
-        home.screen = SCREENS.splash;
-        home.featureUnderDevelopment = featureUnderDevelopment;
-        home.logout = logout;
+        var ctrl = this;
+        ctrl.screen = SCREENS.splash;
+        ctrl.featureUnderDevelopment = featureUnderDevelopment;
+        ctrl.logout = logout;
 
         var titlePrefix = utilsService.isTestnet() ? 'TESTNET ' : '';
-        home.title = titlePrefix + 'Lite Client';
-        home.version = applicationConstants.CLIENT_VERSION;
+        ctrl.title = titlePrefix + 'Lite Client';
+        ctrl.version = applicationConstants.CLIENT_VERSION;
 
         $scope.$on(events.SPLASH_COMPLETED, function () {
-            home.screen = SCREENS.accounts;
+            ctrl.screen = SCREENS.accounts;
         });
 
         $scope.clipboardOk = function (message) {
@@ -41,7 +41,7 @@
                     });
                 })
                 .finally(function () {
-                    home.screen = SCREENS.main;
+                    ctrl.screen = SCREENS.main;
                 });
         });
 
@@ -59,7 +59,7 @@
     }
 
     HomeController.$inject = ['$scope', '$window', 'ui.events', 'constants.application', 'utilsService',
-        'dialogService', 'applicationContext', 'notificationService', 'apiService'];
+                              'dialogService', 'applicationContext', 'notificationService', 'apiService'];
 
     angular
         .module('app.ui')
