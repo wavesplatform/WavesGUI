@@ -72,6 +72,28 @@ module.exports = function (grunt) {
         }
     };
 
+    var generateDesktopBuildDirectives = function (target) {
+        return {
+            options: {
+                name: '<%= pkg.name %>-' + target,
+                dir: 'distr/<%= meta.configurations.desktop.' + target + '.name %>',
+                out: 'distr/native/' + target,
+                electronVersion: '<%= pkg.devDependencies.electron %>',
+                platform: 'darwin,linux,win32',
+                arch: 'ia32,x64',
+                icon: 'src/desktop/resources/icon',
+                appCopyright: 'WavesPlatform',
+                appCategoryType: 'public.app-category.finance',
+                win32metadata: {
+                    CompanyName: 'WavesPlatform',
+                    FileDescription: '<%= pkg.description %>',
+                    ProductName: 'Waves Lite Client',
+                    OriginalFilename: '<%= pkg.name %>-' + target + '.exe'
+                }
+            }
+        }
+    };
+
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -431,35 +453,8 @@ module.exports = function (grunt) {
             }
         },
         electron: {
-            testnet: {
-                options: {
-                    name: '<%= pkg.name %>-testnet',
-                    dir: 'distr/<%= meta.configurations.desktop.testnet.name %>',
-                    out: 'distr/native/testnet',
-                    electronVersion: '<%= pkg.devDependencies.electron %>',
-                    platform: 'darwin,linux,win32',
-                    arch: 'ia32,x64',
-                    icon: 'src/desktop/resources/icon',
-                    appCopyright: 'WavesPlatform',
-                    appCategoryType: 'public.app-category.finance',
-                    win32metadata: {
-                        CompanyName: 'WavesPlatform',
-                        FileDescription: '<%= pkg.description %>',
-                        ProductName: 'Waves Lite Client',
-                        OriginalFilename: '<%= pkg.name %>-testnet.exe'
-                    }
-                }
-            },
-            mainnet: {
-                options: {
-                    name: '<%= pkg.name %>-mainnet',
-                    dir: 'distr/<%= meta.configurations.desktop.mainnet.name %>',
-                    out: 'distr/native/mainnet',
-                    electronVersion: '<%= pkg.devDependencies.electron %>',
-                    platform: 'darwin,linux,win32',
-                    arch: 'ia32,x64'
-                }
-            }
+            testnet: generateDesktopBuildDirectives('testnet'),
+            mainnet: generateDesktopBuildDirectives('mainnet')
         },
         compress: {
             testnet: {
