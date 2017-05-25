@@ -83,6 +83,7 @@ module.exports = function (grunt) {
                 arch: 'ia32,x64',
                 icon: 'src/desktop/resources/icon',
                 appCopyright: 'WavesPlatform',
+                appBundleId: 'com.wavesplatform.client',
                 appCategoryType: 'public.app-category.finance',
                 win32metadata: {
                     CompanyName: 'WavesPlatform',
