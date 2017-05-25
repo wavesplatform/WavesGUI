@@ -82,11 +82,11 @@ module.exports = function (grunt) {
                 platform: 'darwin,linux,win32',
                 arch: 'ia32,x64',
                 icon: 'src/desktop/resources/icon',
-                appCopyright: 'WavesPlatform',
+                appCopyright: 'Waves Platform',
                 appBundleId: 'com.wavesplatform.client',
                 appCategoryType: 'public.app-category.finance',
                 win32metadata: {
-                    CompanyName: 'WavesPlatform',
+                    CompanyName: 'Waves Platform',
                     FileDescription: '<%= pkg.description %>',
                     ProductName: 'Waves Lite Client',
                     OriginalFilename: '<%= pkg.name %>-' + target + '.exe'
@@ -457,6 +457,24 @@ module.exports = function (grunt) {
             testnet: generateDesktopBuildDirectives('testnet'),
             mainnet: generateDesktopBuildDirectives('mainnet')
         },
+        zip_directories: {
+            testnet: {
+                files: [{
+                    expand: true,
+                    cwd: 'distr/native/testnet',
+                    dest: 'distr/native/zip',
+                    src: '*'
+                }]
+            },
+            mainnet: {
+                files: [{
+                    expand: true,
+                    cwd: 'distr/native/mainnet',
+                    dest: 'distr/native/zip',
+                    src: '*'
+                }]
+            }
+        },
         compress: {
             testnet: {
                 options: {
@@ -487,18 +505,6 @@ module.exports = function (grunt) {
                     archive: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-v<%= pkg.version %>.zip'
                 },
                 files: [{expand: true, cwd: 'distr/<%= meta.configurations.chrome.testnet.name %>', src: '**/*', dest: '/'}]
-            },
-            desktop_mainnet: {
-                options: {
-                    archive: 'distr/<%= pkg.name %>-<%= meta.configurations.desktop.mainnet.name %>-v<%= pkg.version %>.zip'
-                },
-                files: [{expand: true, cwd: 'distr/<%= meta.configurations.desktop.mainnet.name %>', src: '**/*', dest: '/'}]
-            },
-            desktop_testnet: {
-                options: {
-                    archive: 'distr/<%= pkg.name %>-<%= meta.configurations.desktop.testnet.name %>-v<%= pkg.version %>.zip'
-                },
-                files: [{expand: true, cwd: 'distr/<%= meta.configurations.desktop.testnet.name %>', src: '**/*', dest: '/'}]
             }
         },
         bump: {
@@ -639,12 +645,13 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-conventional-changelog');
+    grunt.loadNpmTasks('grunt-electron');
     grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-postcss');
     grunt.loadNpmTasks('grunt-shell');
-    grunt.loadNpmTasks('grunt-electron');
     grunt.loadNpmTasks('grunt-webstore-upload');
+    grunt.loadNpmTasks('grunt-zip-directories');
     grunt.loadNpmTasks('waves-grunt-github-releaser');
 
     grunt.registerTask('emptyChangelog', 'Creates an empty changelog', function() {
@@ -653,6 +660,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('distr', ['clean', 'build', 'emptyChangelog', 'copy', 'compress']);
     grunt.registerTask('publish', ['bump', 'distr', 'conventionalChangelog', 'shell', 'github-release']);
+    grunt.registerTask('native', ['distr', 'electron', 'zip_directories']);
     grunt.registerTask('deploy', ['webstore_upload', 's3']);
     grunt.registerTask('test', ['jshint', 'jscs', 'karma:development']);
     grunt.registerTask('styles', ['less', 'copy:fonts', 'copy:img']);
