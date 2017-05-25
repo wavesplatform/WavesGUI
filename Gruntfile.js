@@ -134,6 +134,7 @@ module.exports = function (grunt) {
             },
             dependencies: [
                 'bower_components/jquery/dist/jquery.js',
+                'bower_components/lodash/lodash.js',
 
                 // this library doesn't work properly being included after angular
                 'bower_components/js-sha3/src/sha3.js',
@@ -145,7 +146,6 @@ module.exports = function (grunt) {
                 'bower_components/angular-aria/angular-aria.js',
                 'bower_components/angular-material/angular-material.js',
                 'bower_components/restangular/dist/restangular.js',
-                'bower_components/underscore/underscore.js',
                 'bower_components/decimal.js/decimal.js',
                 'bower_components/Base58/Base58.js',
                 'bower_components/cryptojslib/rollups/aes.js',
