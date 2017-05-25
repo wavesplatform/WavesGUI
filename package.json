@@ -1,7 +1,7 @@
 {
   "name": "waves-lite-client",
   "version": "0.4.21",
-  "description": "A lite client for the Waves platform",
+  "description": "A lite client for Waves blockchain platform",
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 0.10.0"
@@ -9,7 +9,7 @@
   "devDependencies": {
     "autoprefixer": "^6.7.6",
     "cssnano": "^3.10.0",
-    "electron": "^1.6.8",
+    "electron": "1.6.8",
     "electron-builder": "^17.5.0",
     "electron-packager": "^8.7.0",
     "electron-prebuilt": "^1.4.13",
@@ -27,6 +27,7 @@
     "grunt-contrib-uglify": "2.0.0",
     "grunt-contrib-watch": "~1.0.0",
     "grunt-conventional-changelog": "6.1.0",
+    "grunt-electron": "^5.0.0",
     "grunt-jscs": "~3.0.1",
     "grunt-karma": "*",
     "grunt-postcss": "^0.8.0",

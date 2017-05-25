@@ -56,7 +56,7 @@ module.exports = function (grunt) {
                 {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>'},
                 {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.' + target + '.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.' + target + '.name %>/js'},
                 isChrome ? {expand: true, dest: 'distr/<%= meta.configurations.' + target + '.name %>', flatten: true, src: 'src/chrome/*.*'} : {},
-                isDesktop ? {expand: true, dest: 'distr/<%= meta.configurations.' + target + '.name %>', flatten: true, src: 'src/desktop/*.*'} : {}
+                isDesktop ? {expand: true, cwd: 'src/desktop', dest: 'distr/<%= meta.configurations.' + target + '.name %>', src: '**'} : {}
             ],
             options: {
                 process: function (content, srcPath) {
@@ -398,7 +398,7 @@ module.exports = function (grunt) {
         copy: {
             options: {
                 // if this line is not included copy corrupts binary files
-                noProcess: ['**/*.{png,gif,jpg,ico,psd,woff,woff2,svg}']
+                noProcess: ['**/*.{png,gif,jpg,ico,icns,psd,woff,woff2,svg}']
             },
             testnet: generateCopyDirectives('testnet'),
             mainnet: generateCopyDirectives('mainnet'),
@@ -428,6 +428,37 @@ module.exports = function (grunt) {
                         dest: 'distr/devel/img/'
                     }
                 ]
+            }
+        },
+        electron: {
+            testnet: {
+                options: {
+                    name: '<%= pkg.name %>-testnet',
+                    dir: 'distr/<%= meta.configurations.desktop.testnet.name %>',
+                    out: 'distr/native/testnet',
+                    electronVersion: '<%= pkg.devDependencies.electron %>',
+                    platform: 'darwin,linux,win32',
+                    arch: 'ia32,x64',
+                    icon: 'src/desktop/resources/icon',
+                    appCopyright: 'WavesPlatform',
+                    appCategoryType: 'public.app-category.finance',
+                    win32metadata: {
+                        CompanyName: 'WavesPlatform',
+                        FileDescription: '<%= pkg.description %>',
+                        ProductName: 'Waves Lite Client',
+                        OriginalFilename: '<%= pkg.name %>-testnet.exe'
+                    }
+                }
+            },
+            mainnet: {
+                options: {
+                    name: '<%= pkg.name %>-mainnet',
+                    dir: 'distr/<%= meta.configurations.desktop.mainnet.name %>',
+                    out: 'distr/native/mainnet',
+                    electronVersion: '<%= pkg.devDependencies.electron %>',
+                    platform: 'darwin,linux,win32',
+                    arch: 'ia32,x64'
+                }
             }
         },
         compress: {
@@ -616,6 +647,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-postcss');
     grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-electron');
     grunt.loadNpmTasks('grunt-webstore-upload');
     grunt.loadNpmTasks('waves-grunt-github-releaser');
 

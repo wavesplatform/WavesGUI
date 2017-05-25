@@ -14,7 +14,6 @@
     "html5-boilerplate": "^5.3.0",
     "jquery": "~3.1.0",
     "js-sha3": "^0.5.2",
-    "ng-droplet": "^0.5.16",
     "nprogress": "^0.2.0",
     "qrious": "^2.2.0",
     "restangular": "1.5.2",
