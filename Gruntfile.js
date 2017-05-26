@@ -90,6 +90,9 @@ module.exports = function (grunt) {
                     FileDescription: '<%= pkg.description %>',
                     ProductName: 'Waves Lite Client',
                     OriginalFilename: '<%= pkg.name %>-' + target + '.exe'
+                },
+                extendInfo: {
+                    CFBundleDisplayName: 'Waves Lite Client'
                 }
             }
         }
