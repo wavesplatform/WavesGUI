@@ -17,6 +17,8 @@ var app = angular.module('app', [
     'ngAnimate',
     'ngMaterial',
     'ngValidate',
+
+    'app.state',
     'app.ui',
     'app.shared',
     'app.login',

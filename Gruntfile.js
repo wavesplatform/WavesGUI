@@ -167,7 +167,10 @@ module.exports = function (grunt) {
                 'bower_components/wavesplatform-core-js/distr/wavesplatform-core.js'
             ],
             application: [
-                // project sources
+                'src/js/state/module.js',
+                'src/js/state/factory.js',
+                'src/js/state/service.js',
+
                 'src/js/ui.module.js',
                 'src/js/ui.utils.service.js',
                 'src/js/application.context.factory.js',
