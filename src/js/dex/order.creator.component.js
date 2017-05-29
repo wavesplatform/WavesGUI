@@ -1,12 +1,12 @@
 (function () {
     'use strict';
 
-    var FEE = 0.003;
+    var FEE = 0.003,
+        BALANCE_UPDATE_DELAY = 5000;
 
-    function OrderCreatorController($interval, applicationContext, assetStoreFactory) {
+    function OrderCreatorController($interval, applicationContext, matcherApiService) {
 
         var ctrl = this,
-            assetStore = assetStoreFactory.createStore(applicationContext.account.address),
             intervalPromise;
 
         ctrl.buy = {
@@ -33,6 +33,7 @@
             ctrl.buy.blocked = true;
             ctrl.submit('buy', ctrl.buy.price, ctrl.buy.amount, FEE, function () {
                 ctrl.buy.blocked = false;
+                refreshBalances();
             });
         };
 
@@ -44,6 +45,7 @@
             ctrl.sell.blocked = true;
             ctrl.submit('sell', ctrl.sell.price, ctrl.sell.amount, FEE, function () {
                 ctrl.sell.blocked = false;
+                refreshBalances();
             });
         };
 
@@ -57,7 +59,7 @@
             ctrl.sell.total = ctrl.sell.price * ctrl.sell.amount || '';
         };
 
-        intervalPromise = $interval(refreshBalances, 3000);
+        intervalPromise = $interval(refreshBalances, BALANCE_UPDATE_DELAY);
 
         ctrl.$onDestroy = function () {
             $interval.cancel(intervalPromise);
@@ -82,12 +84,19 @@
         };
 
         function refreshBalances() {
-            ctrl.amountAssetBalance = assetStore.syncGetBalance(ctrl.pair.amountAsset.id);
-            ctrl.priceAssetBalance = assetStore.syncGetBalance(ctrl.pair.priceAsset.id);
+            var amountAsset = ctrl.pair.amountAsset,
+                priceAsset = ctrl.pair.priceAsset;
+
+            matcherApiService
+                .getTradableBalance(amountAsset.id, priceAsset.id, applicationContext.account.address)
+                .then(function (data) {
+                    ctrl.amountAssetBalance = Money.fromCoins(data[amountAsset.id], amountAsset);
+                    ctrl.priceAssetBalance = Money.fromCoins(data[priceAsset.id], priceAsset);
+                });
         }
     }
 
-    OrderCreatorController.$inject = ['$interval', 'applicationContext', 'assetStoreFactory'];
+    OrderCreatorController.$inject = ['$interval', 'applicationContext', 'matcherApiService'];
 
     angular
         .module('app.dex')
