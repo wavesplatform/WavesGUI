@@ -1,10 +1,11 @@
 (function () {
     'use strict';
 
-    var POLLING_DELAY = 5000;
+    var POLLING_DELAY = 5000,
+        HISTORY_LIMIT = 50;
 
-    function DexController($scope, $interval, applicationContext, assetStoreFactory,
-                           dexOrderService, dexOrderbookService, notificationService) {
+    function DexController($scope, $interval, applicationContext, assetStoreFactory, datafeedApiService,
+                           dexOrderService, dexOrderbookService, notificationService, utilsService) {
         var ctrl = this,
             intervalPromise,
 
@@ -106,8 +107,8 @@
 
         ctrl.changePair = function (pair) {
             ctrl.pair = pair;
-            refreshOrderbooks();
-            refreshUserOrders();
+            clearAll();
+            refreshAll();
         };
 
         assetStore
@@ -128,6 +129,7 @@
                 ctrl.buyOrders = orderbook.bids;
                 ctrl.sellOrders = orderbook.asks;
                 refreshUserOrders();
+                refreshTradeHistory();
             })
             .catch(function (e) {
                 console.log(e);
@@ -137,14 +139,12 @@
         $scope.$on('asset-picked', function (e, newAsset, type) {
             // Define in which widget the asset was changed.
             ctrl.pair[type] = newAsset;
-            refreshOrderbooks();
-            refreshUserOrders();
+            refreshAll();
         });
 
         // Enable polling for orderbooks and newly created assets.
         intervalPromise = $interval(function () {
-            refreshOrderbooks();
-            refreshUserOrders();
+            refreshAll();
             assetStore
                 .getAll()
                 .then(function (assetsList) {
@@ -155,6 +155,14 @@
         ctrl.$onDestroy = function () {
             $interval.cancel(intervalPromise);
         };
+
+        function clearAll() {}
+
+        function refreshAll() {
+            refreshOrderbooks();
+            refreshUserOrders();
+            refreshTradeHistory();
+        }
 
         function refreshOrderbooks() {
             if (!ctrl.pair.amountAsset || !ctrl.pair.priceAsset) {
@@ -194,10 +202,36 @@
                     ctrl.userOrders = orders;
                 });
         }
+
+        function refreshTradeHistory() {
+            var pair = ctrl.pair;
+            if (pair) {
+                if (utilsService.isTestnet()) {
+                    pair = utilsService.testnetSubstitutePair(pair);
+                }
+
+                datafeedApiService
+                    .getTrades(pair, HISTORY_LIMIT)
+                    .then(function (response) {
+                        ctrl.tradeHistory = response.map(function (trade) {
+                            return {
+                                timestamp: trade.timestamp,
+                                type: trade.type,
+                                typeTitle: trade.type === 'buy' ? 'Buy' : 'Sell',
+                                price: trade.price,
+                                amount: trade.amount,
+                                total: trade.price * trade.amount
+                            };
+                        });
+
+                        // TODO : add ctrl.lastTrade = ctrl.tradeHistory[0].price or what?
+                    });
+            }
+        }
     }
 
-    DexController.$inject = ['$scope', '$interval', 'applicationContext', 'assetStoreFactory',
-                            'dexOrderService', 'dexOrderbookService', 'notificationService'];
+    DexController.$inject = ['$scope', '$interval', 'applicationContext', 'assetStoreFactory', 'datafeedApiService',
+                            'dexOrderService', 'dexOrderbookService', 'notificationService', 'utilsService'];
 
     angular
         .module('app.dex')
