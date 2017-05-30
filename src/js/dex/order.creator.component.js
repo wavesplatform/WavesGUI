@@ -59,6 +59,30 @@
             ctrl.sell.total = ctrl.sell.price * ctrl.sell.amount || '';
         };
 
+        // Those two methods calculate the amount as current balance divided by last history price:
+
+        ctrl.buyFullBalance = function () {
+            var price = ctrl.buy.price || ctrl.lastPrice,
+                balance = ctrl.priceAssetBalance.toTokens();
+
+            if (price && balance) {
+                ctrl.buy.price = price;
+                ctrl.buy.amount = Money.fromTokens(balance / price, ctrl.pair.amountAsset).toTokens();
+                ctrl.updateBuyTotal();
+            }
+        };
+
+        ctrl.sellFullBalance = function () {
+            var price = ctrl.sell.price || ctrl.lastPrice,
+                balance = ctrl.amountAssetBalance.toTokens();
+
+            if (price && balance) {
+                ctrl.sell.price = price;
+                ctrl.sell.amount = balance;
+                ctrl.updateSellTotal();
+            }
+        };
+
         intervalPromise = $interval(refreshBalances, BALANCE_UPDATE_DELAY);
 
         ctrl.$onDestroy = function () {
@@ -105,6 +129,7 @@
             bindings: {
                 pair: '<',
                 submit: '<',
+                lastPrice: '<',
                 outerBuyValues: '<buyValues',
                 outerSellValues: '<sellValues'
             },

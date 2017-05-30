@@ -224,7 +224,7 @@
                             };
                         });
 
-                        // TODO : add ctrl.lastTrade = ctrl.tradeHistory[0].price or what?
+                        ctrl.lastTradePrice = ctrl.tradeHistory[0].price;
                     });
             }
         }
