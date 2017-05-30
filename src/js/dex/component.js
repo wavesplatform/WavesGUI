@@ -23,12 +23,7 @@
             priceAsset: Currency.BTC
         };
 
-        ctrl.buyOrders = [];
-        ctrl.sellOrders = [];
-        ctrl.userOrders = [];
-
-        ctrl.buyFormValues = {};
-        ctrl.sellFormValues = {};
+        emptyDataFields();
 
         ctrl.favoritePairs = [
             {amountAsset: Currency.WAVES, priceAsset: Currency.BTC},
@@ -46,24 +41,8 @@
             {amountAsset: Currency.MRT, priceAsset: Currency.BTC}
         ];
 
-        ctrl.fillBuyForm = function (price, amount, total) {
-            ctrl.buyFormValues = {
-                price: price,
-                amount: amount,
-                total: total
-            };
-        };
-
-        ctrl.fillSellForm = function (price, amount, total) {
-            ctrl.sellFormValues = {
-                price: price,
-                amount: amount,
-                total: total
-            };
-        };
-
         ctrl.createOrder = function (type, price, amount, fee, callback) {
-            // TODO : add a queue for the orders which weren't yet accepted.
+            // TODO : add a queue for the orders which weren't yet accepted
             dexOrderService
                 .addOrder(ctrl.pair, {
                     orderType: type,
@@ -89,9 +68,9 @@
         };
 
         ctrl.cancelOrder = function (order) {
-            // TODO : add a queue for the orders which weren't yet canceled.
+            // TODO : add a queue for the orders which weren't yet canceled
 
-            // TODO : add different messages for cancel and delete actions.
+            // TODO : add different messages for cancel and delete actions
             dexOrderService
                 .removeOrder(ctrl.pair, order, sender)
                 .then(function () {
@@ -107,9 +86,13 @@
 
         ctrl.changePair = function (pair) {
             ctrl.pair = pair;
-            clearAll();
+            emptyDataFields();
             refreshAll();
         };
+
+        ctrl.fillBuyForm = fillBuyForm;
+
+        ctrl.fillSellForm = fillSellForm;
 
         assetStore
             .getAll()
@@ -121,7 +104,7 @@
             })
             .then(function (orderbook) {
                 ctrl.pair = {
-                    // Here we just get assets by their IDs.
+                    // Here we just get assets by their IDs
                     amountAsset: assetStore.syncGetAsset(orderbook.pair.amountAsset),
                     priceAsset: assetStore.syncGetAsset(orderbook.pair.priceAsset)
                 };
@@ -135,14 +118,14 @@
                 console.log(e);
             });
 
-        // Events are from asset pickers.
+        // Events are from asset pickers
         $scope.$on('asset-picked', function (e, newAsset, type) {
-            // Define in which widget the asset was changed.
+            // Define in which widget the asset was changed
             ctrl.pair[type] = newAsset;
             refreshAll();
         });
 
-        // Enable polling for orderbooks and newly created assets.
+        // Enable polling for orderbooks and newly created assets
         intervalPromise = $interval(function () {
             refreshAll();
             assetStore
@@ -156,7 +139,20 @@
             $interval.cancel(intervalPromise);
         };
 
-        function clearAll() {}
+        function emptyDataFields() {
+            ctrl.buyOrders = [];
+            ctrl.sellOrders = [];
+            ctrl.userOrders = [];
+
+            ctrl.buyFormValues = {};
+            ctrl.sellFormValues = {};
+
+            ctrl.tradeHistory = [];
+            ctrl.lastTradePrice = 0;
+
+            fillBuyForm();
+            fillSellForm();
+        }
 
         function refreshAll() {
             refreshOrderbooks();
@@ -177,7 +173,7 @@
                     return orderbook.pair;
                 })
                 .then(function (pair) {
-                    // Placing each asset in the right widget.
+                    // Placing each asset in the right widget
                     if (ctrl.pair.amountAsset.id !== pair.amountAsset && ctrl.pair.priceAsset.id !== pair.priceAsset) {
                         var temp = ctrl.pair.amountAsset;
                         ctrl.pair.amountAsset = ctrl.pair.priceAsset;
@@ -198,7 +194,7 @@
             dexOrderService
                 .getOrders(ctrl.pair)
                 .then(function (orders) {
-                    // TODO : add here orders from pending queues.
+                    // TODO : add here orders from pending queues
                     ctrl.userOrders = orders;
                 });
         }
@@ -227,6 +223,22 @@
                         ctrl.lastTradePrice = ctrl.tradeHistory[0].price;
                     });
             }
+        }
+
+        function fillBuyForm(price, amount, total) {
+            ctrl.buyFormValues = {
+                price: price,
+                amount: amount,
+                total: total
+            };
+        }
+
+        function fillSellForm(price, amount, total) {
+            ctrl.sellFormValues = {
+                price: price,
+                amount: amount,
+                total: total
+            };
         }
     }
 
