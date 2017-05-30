@@ -122,6 +122,7 @@
         $scope.$on('asset-picked', function (e, newAsset, type) {
             // Define in which widget the asset was changed
             ctrl.pair[type] = newAsset;
+            emptyDataFields();
             refreshAll();
         });
 
@@ -152,6 +153,9 @@
 
             fillBuyForm();
             fillSellForm();
+
+            // That forces children components to react on the pair change
+            ctrl.pair = _.clone(ctrl.pair);
         }
 
         function refreshAll() {
