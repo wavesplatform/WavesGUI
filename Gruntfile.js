@@ -481,7 +481,7 @@ module.exports = function (grunt) {
                 files: ['package.json', 'bower.json', 'src/desktop/package.json'],
                 updateConfigs: ['pkg'],
                 commit: true, // debug
-                commitFiles: ['package.json', 'bower.json'],
+                commitFiles: ['package.json', 'bower.json', 'src/desktop/package.json'],
                 push: 'branch', // debug
                 pushTo: 'origin',
                 createTag: false,

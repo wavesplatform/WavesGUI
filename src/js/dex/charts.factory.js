@@ -69,6 +69,10 @@
                     .attr('transform', 'translate(' + (this.width - 250) + ',30)');
             }
 
+            CandlestickChart.prototype.clear = function () {
+                this.draw([]);
+            };
+
             CandlestickChart.prototype.draw = function (data) {
                 data = this.prepareData(data);
 

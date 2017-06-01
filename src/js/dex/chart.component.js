@@ -18,7 +18,8 @@
         intervalPromise = $interval(refreshCandles, POLLING_DELAY);
 
         ctrl.$onChanges = function (changes) {
-            if (changes.pair) {
+            if (ctrl.chart && changes.pair) {
+                ctrl.chart.clear();
                 refreshCandles();
             }
         };
