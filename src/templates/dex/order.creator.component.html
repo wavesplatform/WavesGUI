@@ -1,7 +1,7 @@
 <div class="half buy">
   <h2>
     <span>Buy {{$ctrl.pair.amountAsset.displayName}} </span>
-    <small>{{$ctrl.priceAssetBalance}}&nbsp;{{$ctrl.pair.priceAsset.shortName}}</small>
+    <small ng-click="$ctrl.buyFullBalance()">{{$ctrl.priceAssetBalance}}</small>
   </h2>
   <div class="fields">
     <md-input-container>
@@ -37,7 +37,7 @@
 <div class="half sell">
   <h2>
     <span>Sell {{$ctrl.pair.amountAsset.displayName}} </span>
-    <small>{{$ctrl.amountAssetBalance}}&nbsp;{{$ctrl.pair.amountAsset.shortName}}</small>
+    <small ng-click="$ctrl.sellFullBalance()">{{$ctrl.amountAssetBalance}}</small>
   </h2>
   <div class="fields">
     <md-input-container>

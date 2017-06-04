@@ -568,7 +568,15 @@
               <br/>
               <p class="dialog-text textCenter">
                 In case the link doesn't work for you just send<br/>
-                an email to {{deposit.eur.email}}<br/>
+                an email to
+                <span class="email"
+                      title="Copy this address to the clipboard."
+                      tooltipster
+                      tooltip-theme="tooltipster-theme1"
+                      ngclipboard
+                      data-clipboard-text="{{deposit.eur.email}}"
+                      ngclipboard-success="clipboardOk()">{{deposit.eur.email}}</span>
+                <br/>
                 with your Waves wallet address as the subject
               </p>
             </div>
