@@ -1,7 +1,7 @@
 const electron = require('electron');
 // Module to control application life.
 const app = electron.app;
-// application menu (used in MacOSX fo far to enable editing shortcuts)
+// application menu (used only in OSX fo far to enable editing shortcuts)
 const Menu = electron.Menu;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;

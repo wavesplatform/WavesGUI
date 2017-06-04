@@ -1,7 +1,7 @@
 {
   "name": "waves-lite-client",
   "version": "0.4.23",
-  "description": "A lite client for Waves blockchain platform",
+  "description": "A lite client for the Waves platform",
   "license": "Apache-2.0",
   "engines": {
     "node": ">= 0.10.0"
