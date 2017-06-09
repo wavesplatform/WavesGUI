@@ -547,30 +547,26 @@
             <div id="deposit-eur-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
               <h2 class="sectionHeader">DEPOSIT: EUR</h2>
               <p class="dialog-text textCenter">
-                Currently Eurotokens can be deposited only by<br/>
-                European Union citizens through SEPA.
+                In order to deposit Euros directly from your bank<br/>
+                account through SEPA transfer you MUST get verified<br/>
+                by our partner <a href="https://www.idnow.eu/" target="_blank">IDNow.eu</a>
               </p>
               <p class="dialog-text textCenter">
-                If you are eligible, please, proceed with 2 steps<br/>
-                KYC&AML verification by:
+                <a href="https://wavesplatform.userecho.com/topics/1303-buying-eurotoken-with-sepa-transfer/" target="_blank">Read more about SEPA transfers</a>
               </p>
               <p class="dialog-text textCenter">
-                1. Sending your ID scans by email
+                <a href="https://wavesplatform.userecho.com/topics/1304-list-of-accepted-countries-and-documents-for-verification/" target="_blank">List of eligible countries and IDs</a>
               </p>
               <p class="dialog-text textCenter">
-                2. Remote face-to-face communication with our partner's<br/>
-                agent www.IDnow.eu (a special link will be sent if you<br/>
-                succeed with the first step)
-              </p>
-              <p class="dialog-text textCenter">
-                <a href="#" ng-click="deposit.eur.sendEmail()">I want to send my ID to get verified</a>
+                In order to get verified follow the link:<br/>
+                <a href="{{deposit.eur.verificationLink}}">{{deposit.eur.verificationLink}}</a>
               </p>
               <br/>
               <p class="dialog-text textCenter">
-                In case the link doesn't work for you just send<br/>
-                an email to
+                In case the link doesn't work for you,<br/>
+                please just send an email to<br/>
                 <span class="email"
-                      title="Copy this address to the clipboard."
+                      title="Copy this address to the clipboard"
                       tooltipster
                       tooltip-theme="tooltipster-theme1"
                       ngclipboard
