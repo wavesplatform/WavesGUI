@@ -5,21 +5,22 @@
 
     function FiatCurrency (code, displayName) {
         this.code = code;
-        if (displayName)
+        if (displayName) {
             this.displayName = displayName;
-        else
+        } else {
             this.displayName = code;
+        }
     }
 
-    function WavesCardDepositController ($scope, $window, $q, events, dialogService, fiatService, applicationContext,
-                                         notificationService) {
+    function WavesCardDepositController ($scope, $window, $q, events, dialogService,
+                                         fiatService, applicationContext, notificationService) {
         var deferred;
-        var card = this;
-        card.currencies = [new FiatCurrency('EURO', 'Euro'), new FiatCurrency('USD')];
-        card.limits = {};
-        card.updateReceiveAmount = updateReceiveAmount;
-        card.updateLimitsAndReceiveAmount = updateLimitsAndReceiveAmount;
-        card.redirectToMerchant = redirectToMerchant;
+        var ctrl = this;
+        ctrl.currencies = [new FiatCurrency('EURO', 'Euro'), new FiatCurrency('USD')];
+        ctrl.limits = {};
+        ctrl.updateReceiveAmount = updateReceiveAmount;
+        ctrl.updateLimitsAndReceiveAmount = updateLimitsAndReceiveAmount;
+        ctrl.redirectToMerchant = redirectToMerchant;
 
         reset();
 
@@ -27,22 +28,22 @@
             dialogService.open('#card-deposit-dialog');
 
             reset();
-            card.crypto = eventData.currency;
+            ctrl.crypto = eventData.currency;
 
             updateLimitsAndReceiveAmount();
         });
 
         function reset() {
-            card.payAmount = DEFAULT_AMOUNT_TO_PAY;
-            card.payCurrency = card.currencies[0];
-            card.crypto = {};
-            card.getAmount = '';
+            ctrl.payAmount = DEFAULT_AMOUNT_TO_PAY;
+            ctrl.payCurrency = ctrl.currencies[0];
+            ctrl.crypto = {};
+            ctrl.getAmount = '';
         }
 
         function updateLimitsAndReceiveAmount() {
-            fiatService.getLimits(applicationContext.account.address, card.payCurrency.code, card.crypto)
+            fiatService.getLimits(applicationContext.account.address, ctrl.payCurrency.code, ctrl.crypto)
                 .then(function (response) {
-                    card.limits = {
+                    ctrl.limits = {
                         min: Number(response.min),
                         max: Number(response.max)
                     };
@@ -55,13 +56,13 @@
 
         function remotePartyErrorHandler(operationName, response) {
             if (response) {
-                if (response.data)
+                if (response.data) {
                     notificationService.error(response.data.message);
-                else if (response.statusText)
+                } else if (response.statusText) {
                     notificationService.error('Failed to ' + operationName + '. Error code: ' + response.status +
                         '<br/>Message: ' + response.statusText);
-            }
-            else {
+                }
+            } else {
                 notificationService.error('Operation failed: ' + operationName);
             }
         }
@@ -72,27 +73,26 @@
                 deferred = undefined;
             }
 
-            var amount = Number(card.payAmount);
-            if (isNaN(amount) || card.payAmount <= 0) {
-                card.getAmount = '';
-
+            var amount = Number(ctrl.payAmount);
+            if (isNaN(amount) || ctrl.payAmount <= 0) {
+                ctrl.getAmount = '';
                 return;
             }
 
             deferred = $q.defer();
             deferred.promise.then(function (response) {
                 if (response) {
-                    card.getAmount = response + ' ' + card.crypto.shortName;
-                }
-                else {
-                    card.getAmount = '';
+                    ctrl.getAmount = response + ' ' + ctrl.crypto.shortName;
+                } else {
+                    ctrl.getAmount = '';
                 }
             }).catch(function (value) {
-                if (value)
+                if (value) {
                     remotePartyErrorHandler('get rates', value);
+                }
             });
 
-            fiatService.getRate(applicationContext.account.address, card.payAmount, card.payCurrency.code, card.crypto)
+            fiatService.getRate(applicationContext.account.address, ctrl.payAmount, ctrl.payCurrency.code, ctrl.crypto)
                 .then(deferred.resolve).catch(deferred.reject);
         }
 
@@ -101,29 +101,28 @@
                 validateAmountToPay();
 
                 var url = fiatService.getMerchantUrl(applicationContext.account.address,
-                    card.payAmount, card.payCurrency.code, card.crypto);
+                    ctrl.payAmount, ctrl.payCurrency.code, ctrl.crypto);
                 $window.open(url, '_blank');
 
                 return true;
-            }
-            catch (exception) {
-                notificationService.error(exception.message);
-
+            } catch (e) {
+                notificationService.error(e.message);
                 return false;
             }
         }
 
         function validateAmountToPay() {
-            if (Number(card.payAmount) < card.limits.min)
-                throw new Error('Minimum amount to pay is ' + card.limits.min + ' ' + card.payCurrency.displayName);
-
-            if (Number(card.payAmount) > card.limits.max)
-                throw new Error('Maximum amount to pay is ' + card.limits.max + ' ' + card.payCurrency.displayName);
+            if (Number(ctrl.payAmount) < ctrl.limits.min) {
+                throw new Error('Minimum amount to pay is ' + ctrl.limits.min + ' ' + ctrl.payCurrency.displayName);
+            }
+            if (Number(ctrl.payAmount) > ctrl.limits.max) {
+                throw new Error('Maximum amount to pay is ' + ctrl.limits.max + ' ' + ctrl.payCurrency.displayName);
+            }
         }
     }
 
     WavesCardDepositController.$inject = ['$scope', '$window', '$q', 'wallet.events', 'dialogService',
-        'coinomatFiatService', 'applicationContext', 'notificationService'];
+                                          'coinomatFiatService', 'applicationContext', 'notificationService'];
 
     angular
         .module('app.wallet')
