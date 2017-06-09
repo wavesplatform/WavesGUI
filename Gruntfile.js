@@ -638,9 +638,9 @@ module.exports = function (grunt) {
         'karma:development',
         'postcss',
         'concat',
-        'karma:distr'/*,
+        'karma:distr',
         'uglify',
-        'karma:minified'*/
+        'karma:minified'
     ]);
 
     // Default task.
