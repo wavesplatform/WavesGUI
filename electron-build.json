@@ -1,0 +1,23 @@
+{
+  "appId": "com.wavesplatform.client.lite",
+  "copyright": "Waves Platform",
+  "productName": "Waves Lite Client",
+  "files": "**/*",
+  "asar": true,
+  "compression": "store",
+  "npmRebuild": false,
+  "npmSkipBuildFromSource": true,
+  "directories": {
+    "buildResources": "src/desktop/resources",
+    "output": "distr/native",
+    "app": "distr/desktop-mainnet"
+  },
+  "artifactName": "${productName}-${version}.${ext}",
+  "buildVersion": "0.4.23",
+  "linux": {
+    "category": "Utility",
+    "target": ["deb"],
+    "executableName": "waves-lite-client",
+    "icon": "src/desktop/resources"
+  }
+}
