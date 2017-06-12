@@ -118,7 +118,7 @@ module.exports = function (grunt) {
                     code: 'T',
                     server: 'http://52.30.47.67:6869',
                     coinomat: 'https://test.coinomat.com',
-                    matcher: 'http://52.28.66.217:6886',
+                    matcher: 'http://52.30.47.67:6886',
                     datafeed: 'http://marketdata.wavesplatform.com'
                 },
                 mainnet: {
@@ -677,9 +677,9 @@ module.exports = function (grunt) {
         'karma:development',
         'postcss',
         'concat',
-        'karma:distr'/*,
+        'karma:distr',
         'uglify',
-        'karma:minified'*/
+        'karma:minified'
     ]);
 
     // Default task.
