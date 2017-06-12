@@ -51,8 +51,8 @@ Those commands will prepare all required dependencies. Now feel free to open src
 ## Downloadable distributions
 
 Here in the Releases page you can find all Lite Client packages available for download.
-For mainnet Client please download *waves-lite-client-testnet-vx.y.z.zip*.
-For testnet use *waves-lite-client-mainnet-vx.y.z.zip*.
+For mainnet Client please download *waves-lite-client-mainnet-vx.y.z.zip*.
+For testnet use *waves-lite-client-testnet-vx.y.z.zip*.
 
 To run the Lite Client downloaded as a regular zip archive, follow these steps:
 1. Download and extract zip package to some directory
