@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var DEFAULT_AMOUNT_TO_PAY = 25;
+    var DEFAULT_AMOUNT_TO_PAY = 50;
 
     function FiatCurrency (code, displayName) {
         this.code = code;
@@ -47,6 +47,12 @@
                         min: Number(response.min),
                         max: Number(response.max)
                     };
+
+                    if (ctrl.payAmount < ctrl.limits.min) {
+                        ctrl.payAmount = ctrl.limits.min;
+                    } else if (ctrl.payAmount > ctrl.limits.max) {
+                        ctrl.payAmount = ctrl.limits.max;
+                    }
                 }).catch(function (response) {
                     remotePartyErrorHandler('get limits', response);
                 });

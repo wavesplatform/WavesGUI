@@ -116,12 +116,12 @@
                 // we need to update
                 $timeout(function() {
                     ctrl.assets = assets.sort(function (a, b) {
-                        var aVerified = (a.balance.currency.verified === true) ? 1 : 0,
-                            bVerified = (b.balance.currency.verified === true) ? 1 : 0;
+                        var aVerified = (a.balance.currency.verified === true) ? '1' : '0',
+                            bVerified = (b.balance.currency.verified === true) ? '1' : '0';
 
                         // The verified assets go first, then we sort them by timestamp
-                        aVerified += parseFloat('0.' + new Date(a.timestamp).getTime());
-                        bVerified += parseFloat('0.' + new Date(b.timestamp).getTime());
+                        aVerified += new Date(a.timestamp).getTime();
+                        bVerified += new Date(b.timestamp).getTime();
 
                         return bVerified - aVerified;
                     });

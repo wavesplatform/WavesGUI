@@ -94,6 +94,10 @@
 
         ctrl.fillSellForm = fillSellForm;
 
+        ctrl.nonVerifiedNote = 'Please, be cautious with non-verified assets! Verified assets have a green mark.';
+
+        notificationService.notice(ctrl.nonVerifiedNote);
+
         assetStore
             .getAll()
             .then(function (assetsList) {
