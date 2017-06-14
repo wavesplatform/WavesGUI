@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var DEFAULT_AMOUNT_TO_PAY = 40;
+    var DEFAULT_AMOUNT_TO_PAY = 50;
 
     function FiatCurrency (code, displayName) {
         this.code = code;
