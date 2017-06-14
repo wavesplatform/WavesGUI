@@ -167,6 +167,19 @@
             return Money.fromCoins(transaction.fee, currency).formatAmount(true);
         }
 
+        function getFeeAsset(transaction) {
+            var currency = Currency.WAVES;
+            var assetId = transaction.feeAssetId;
+            if (assetId) {
+                var asset = applicationContext.cache.assets[assetId];
+                if (asset) {
+                    currency = asset.currency;
+                }
+            }
+
+            return currency;
+        }
+
         function formatTransaction(transaction) {
             // in the future currency should be a part of transaction itself
             var currentAddress = applicationContext.account.address;
@@ -180,6 +193,7 @@
                 recipient: transformAddress(transaction.recipient),
                 amount: 'N/A',
                 fee: formatFee(transaction),
+                feeAsset: getFeeAsset(transaction),
                 asset: 'Loading'
             };
 

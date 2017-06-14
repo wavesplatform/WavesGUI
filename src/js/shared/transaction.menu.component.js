@@ -53,7 +53,8 @@
                 ' | SENDER ADDRESS: ' + ctrl.transaction.sender +
                 ' | TX AMOUNT: ' + ctrl.transaction.formatted.amount + ' ' + ctrl.transaction.formatted.asset +
                 ' | RECIPIENT ADDRESS: ' + recipient +
-                ' | TX FEE: ' + ctrl.transaction.formatted.fee +
+                ' | TX FEE: ' + ctrl.transaction.formatted.fee + ' ' + ctrl.transaction.formatted.feeAsset.displayName +
+                (ctrl.transaction.formatted.feeAsset.id ? ' (' + ctrl.transaction.formatted.feeAsset.id + ')' : '') +
                 attachment;
         }
     }
