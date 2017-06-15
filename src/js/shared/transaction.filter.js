@@ -156,27 +156,27 @@
 
         function formatFee(transaction) {
             var currency = Currency.WAVES;
-            var assetId = transaction.feeAssetId;
+            var assetId = transaction.feeAsset;
             if (assetId) {
                 var asset = applicationContext.cache.assets[assetId];
                 if (asset) {
                     currency = asset.currency;
                 }
             }
-
+            
             return Money.fromCoins(transaction.fee, currency).formatAmount(true);
         }
-
+          
         function getFeeAsset(transaction) {
             var currency = Currency.WAVES;
-            var assetId = transaction.feeAssetId;
-            if (assetId) {
+            var assetId = transaction.feeAsset;
+            if (assetId) {                         
                 var asset = applicationContext.cache.assets[assetId];
                 if (asset) {
                     currency = asset.currency;
                 }
             }
-
+                 
             return currency;
         }
 
