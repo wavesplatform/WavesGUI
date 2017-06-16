@@ -163,23 +163,23 @@
                     currency = asset.currency;
                 }
             }
-            
+
             return Money.fromCoins(transaction.fee, currency).formatAmount(true);
         }
-        
+
         function getFeeAsset(transaction) {
             var currency = Currency.WAVES;
             var assetId = transaction.feeAsset;
-            if (assetId) {                         
+            if (assetId) {
                 var asset = applicationContext.cache.assets[assetId];
                 if (asset) {
                     currency = asset.currency;
                 }
             }
-            
+
             return currency;
         }
-        
+
         function formatTransaction(transaction) {
             // in the future currency should be a part of transaction itself
             var currentAddress = applicationContext.account.address;
