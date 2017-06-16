@@ -162,8 +162,7 @@
                 if (asset) {
                     currency = asset.currency;
                 }
-            }
-            
+            }            
             return Money.fromCoins(transaction.fee, currency).formatAmount(true);
         }
           
@@ -175,8 +174,7 @@
                 if (asset) {
                     currency = asset.currency;
                 }
-            }
-                 
+            }                 
             return currency;
         }
 
