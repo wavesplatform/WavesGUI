@@ -156,7 +156,7 @@
 
         function formatFee(transaction) {
             var currency = Currency.WAVES;
-            var assetId = transaction.feeAssetId;
+            var assetId = transaction.feeAsset;
             if (assetId) {
                 var asset = applicationContext.cache.assets[assetId];
                 if (asset) {
@@ -165,6 +165,19 @@
             }
 
             return Money.fromCoins(transaction.fee, currency).formatAmount(true);
+        }
+
+        function getFeeAsset(transaction) {
+            var currency = Currency.WAVES;
+            var assetId = transaction.feeAsset;
+            if (assetId) {
+                var asset = applicationContext.cache.assets[assetId];
+                if (asset) {
+                    currency = asset.currency;
+                }
+            }
+
+            return currency;
         }
 
         function formatTransaction(transaction) {
@@ -180,6 +193,7 @@
                 recipient: transformAddress(transaction.recipient),
                 amount: 'N/A',
                 fee: formatFee(transaction),
+                feeAsset: getFeeAsset(transaction),
                 asset: 'Loading'
             };
 
