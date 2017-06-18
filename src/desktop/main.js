@@ -21,7 +21,7 @@ function createWindow () {
         minHeight: 600,
         center: true,
         title: 'Waves Lite Client',
-        icon: path.join(__dirname, 'resources/icon.png'), // this works only for linux
+        icon: path.join(__dirname, 'resources/icon128x128.png'), // this works only for linux
         webPreferences: {
             nodeIntegration: false,
             defaultEncoding: 'UTF-8'
