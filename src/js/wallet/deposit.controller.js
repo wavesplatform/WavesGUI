@@ -14,7 +14,7 @@
             minimumAmount: 0.01
         };
 
-        ctrl.eur = {
+        ctrl.fiat = {
             verificationLink: 'https://go.idnow.de/coinomat/userdata/' + applicationContext.account.address,
             email: 'support@coinomat.com'
         };
@@ -38,6 +38,8 @@
                 depositBTC();
             } else if (ctrl.assetBalance.currency === Currency.EUR) {
                 depositEUR();
+            } else if (ctrl.assetBalance.currency === Currency.USD) {
+                depositUSD();
             } else {
                 $scope.home.featureUnderDevelopment();
             }
@@ -65,6 +67,10 @@
 
         function depositEUR() {
             dialogService.open('#deposit-eur-dialog');
+        }
+
+        function depositUSD() {
+            dialogService.open('#deposit-usd-dialog');
         }
     }
 
