@@ -3,8 +3,9 @@
 
     var DEFAULT_ERROR_MESSAGE = 'Connection is lost';
 
-    function WavesWalletDepositController ($scope, events, coinomatService, dialogService, notificationService,
-                                           applicationContext, bitcoinUriService) {
+    function WavesWalletDepositController($scope, events, coinomatService, dialogService,
+                                          notificationService, applicationContext, bitcoinUriService,
+                                          utilsService) {
         var ctrl = this;
 
         ctrl.btc = {
@@ -34,7 +35,8 @@
             ctrl.assetBalance = eventData.assetBalance;
             ctrl.currency = ctrl.assetBalance.currency.displayName;
 
-            if (ctrl.assetBalance.currency === Currency.BTC) {
+            if (ctrl.assetBalance.currency === Currency.BTC && !utilsService.isTestnet()) {
+                // Show the BTC deposit popup only on mainnet
                 depositBTC();
             } else if (ctrl.assetBalance.currency === Currency.EUR) {
                 depositEUR();
@@ -75,7 +77,8 @@
     }
 
     WavesWalletDepositController.$inject = ['$scope', 'wallet.events', 'coinomatService', 'dialogService',
-        'notificationService', 'applicationContext', 'bitcoinUriService'];
+                                            'notificationService', 'applicationContext', 'bitcoinUriService',
+                                            'utilsService'];
 
     angular
         .module('app.wallet')
