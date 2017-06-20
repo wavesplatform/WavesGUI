@@ -38,8 +38,7 @@
             },
             {
                 balance: new Money(0, Currency.WAVES),
-                depositWith: Currency.BTC,
-                leasingAvailable: true
+                depositWith: Currency.BTC
             }
         ];
 
