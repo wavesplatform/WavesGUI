@@ -40,10 +40,6 @@
                 balance: new Money(0, Currency.WAVES),
                 depositWith: Currency.BTC,
                 leasingAvailable: true
-            },
-            {
-                balance: new Money(0, Currency.CNY),
-                depositWith: Currency.CNY
             }
         ];
 
