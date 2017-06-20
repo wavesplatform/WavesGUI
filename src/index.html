@@ -560,7 +560,7 @@
               </p>
               <p class="dialog-text textCenter">
                 In order to get verified follow the link:<br/>
-                <a href="{{deposit.eur.verificationLink}}" target="_blank">{{deposit.eur.verificationLink}}</a>
+                <a href="{{deposit.fiat.verificationLink}}" target="_blank">{{deposit.fiat.verificationLink}}</a>
               </p>
               <br/>
               <p class="dialog-text textCenter">
@@ -571,8 +571,41 @@
                       tooltipster
                       tooltip-theme="tooltipster-theme1"
                       ngclipboard
-                      data-clipboard-text="{{deposit.eur.email}}"
-                      ngclipboard-success="clipboardOk()">{{deposit.eur.email}}</span>
+                      data-clipboard-text="{{deposit.fiat.email}}"
+                      ngclipboard-success="clipboardOk()">{{deposit.fiat.email}}</span>
+                <br/>
+                with your Waves wallet address as the subject
+              </p>
+            </div>
+          </div>
+
+          <div class="noDisp" ng-controller="walletDepositController as deposit">
+            <div id="deposit-usd-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
+              <h2 class="sectionHeader">DEPOSIT: USD</h2>
+              <p class="dialog-text textCenter">VERIFICATION</p>
+              <p class="dialog-text textCenter">
+                In order to deposit USD directly from your bank<br/>
+                account through wire transfer you MUST get verified<br/>
+                by our partner <a href="https://www.idnow.eu/" target="_blank">IDNow.eu</a>
+              </p>
+              <p class="dialog-text textCenter">
+                <a href="https://wavesplatform.userecho.com/topics/1304-list-of-accepted-countries-and-documents-for-verification/" target="_blank">List of eligible countries and IDs</a>
+              </p>
+              <p class="dialog-text textCenter">
+                In order to get verified follow the link:<br/>
+                <a href="{{deposit.fiat.verificationLink}}" target="_blank">{{deposit.fiat.verificationLink}}</a>
+              </p>
+              <br/>
+              <p class="dialog-text textCenter">
+                In case the link doesn't work for you,<br/>
+                please just send an email to<br/>
+                <span class="email"
+                      title="Copy this address to the clipboard"
+                      tooltipster
+                      tooltip-theme="tooltipster-theme1"
+                      ngclipboard
+                      data-clipboard-text="{{deposit.fiat.email}}"
+                      ngclipboard-success="clipboardOk()">{{deposit.fiat.email}}</span>
                 <br/>
                 with your Waves wallet address as the subject
               </p>

@@ -1,5 +1,6 @@
 describe('Wallet.Deposit.Controller', function() {
-    var $rootScope, $q, scope, timeout, events, dialogService, controller, coinomatService, notificationService,
+    var $rootScope, $q, scope, timeout, events, dialogService, controller,
+        coinomatService, notificationService, utilsService,
         applicationContext = {
             account: {
                 address: '3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq',
@@ -12,6 +13,7 @@ describe('Wallet.Deposit.Controller', function() {
 
     // Initialization of the module before each test case
     beforeEach(module('waves.core'));
+    beforeEach(module('app.ui'));
     beforeEach(module('app.wallet'));
 
     // Injection of dependencies
@@ -22,12 +24,18 @@ describe('Wallet.Deposit.Controller', function() {
         events = $injector.get('wallet.events');
         dialogService = $injector.get('dialogService');
         notificationService = $injector.get('notificationService');
+        utilsService = $injector.get('utilsService');
         timeout = $timeout;
         coinomatService = {
             getDepositDetails: function () {}
         };
 
         spyOn(dialogService, 'open');
+
+        // Emulate mainnet so the popup may be shown
+        spyOn(utilsService, 'isTestnet').and.callFake(function () {
+            return false;
+        });
 
         controller = $controller('walletDepositController', {
             '$scope': scope,
@@ -42,7 +50,8 @@ describe('Wallet.Deposit.Controller', function() {
             'formattingService': $injector.get('formattingService'),
             'notificationService': notificationService,
             'applicationContext': applicationContext,
-            'coinomatService': coinomatService
+            'coinomatService': coinomatService,
+            'utilsService': utilsService
         });
     }));
 
