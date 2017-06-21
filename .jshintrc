@@ -63,6 +63,7 @@
     "OrderPrice": false,
     "converters": false,
     "d3": false,
-    "techan": false
+    "techan": false,
+    "Clipboard": false
   }
 }
