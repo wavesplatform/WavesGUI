@@ -56,7 +56,8 @@
             unconfirmed = _.filter(unconfirmed, function (transaction) {
                 if (transaction.type === constants.EXCHANGE_TRANSACTION_TYPE) {
                     return transaction.order1.senderPublicKey === account.keyPair.public ||
-                        transaction.order2.senderPublicKey === account.keyPair.public;
+                        transaction.order2.senderPublicKey === account.keyPair.public ||
+                        transaction.sender === rawAddress;
                 } else {
                     return (transaction.sender === rawAddress || transaction.recipient === rawAddress);
                 }
