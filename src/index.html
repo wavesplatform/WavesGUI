@@ -456,7 +456,7 @@
           </div>
 
           <div class="noDisp" ng-controller="walletWithdrawController as withdraw">
-            <div id="withdraw-asset-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.confirmWithdraw(withdraw.assetForm)">
+            <div id="withdraw-btc-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.confirmWithdraw(withdraw.assetForm)">
               <h2 class="sectionHeader">WITHDRAW: {{withdraw.sourceCurrency}}</h2>
               <form id="withdraw-asset-form" name="withdraw.assetForm" novalidate ng-validate="withdraw.validationOptions">
                 <table class="form-table">
@@ -506,6 +506,43 @@
                 <p class="dialog-text">The gateway will transfer these funds to your bitcoin address: <span class="confirmation-value">{{withdraw.confirm.recipient}}</span>.</p>
                 <p class="dialog-text">Press <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard this operation.</p>
               </div>
+            </div>
+          </div>
+
+          <div class="noDisp" ng-controller="walletWithdrawController as withdraw">
+            <div id="withdraw-fiat-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
+              <h2 class="sectionHeader">WITHDRAW: {{withdraw.sourceCurrency}}</h2>
+              <p class="dialog-text textCenter">
+                If you've been verified and deposited {{withdraw.sourceCurrency}}<br/>
+                you can withdraw {{withdraw.sourceCurrency}} back to your bank account<br/>
+                <br/>
+                To do so please make a SEND transaction to the<br/>
+                Waves address <span class="email"
+                                    title="Copy this address to the clipboard"
+                                    tooltipster
+                                    tooltip-theme="tooltipster-theme1"
+                                    ngclipboard
+                                    data-clipboard-text="3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us"
+                                    ngclipboard-success="clipboardOk()">3P7qtv5Z7AMhwyvf5sM6nLuWWypyjVKb7Us</span><br/>
+                <br/>
+                Fees are 1% from the amount transferred<br/>
+                <br/>
+                The minimum amount is 100 {{withdraw.sourceCurrency}}<br/>
+                <br/>
+                Bank transfer can take up to 3 working days
+              </p>
+              <br/>
+              <p class="dialog-text textCenter">
+                If you have any questions,<br/>
+                please just send an email to<br/>
+                <span class="email"
+                      title="Copy this address to the clipboard"
+                      tooltipster
+                      tooltip-theme="tooltipster-theme1"
+                      ngclipboard
+                      data-clipboard-text="{{withdraw.gatewayEmail}}"
+                      ngclipboard-success="clipboardOk()">{{withdraw.gatewayEmail}}</span>
+              </p>
             </div>
           </div>
 
