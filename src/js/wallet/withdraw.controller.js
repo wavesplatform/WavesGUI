@@ -21,7 +21,9 @@
                     formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
             });
+
         ctrl.autocomplete = autocomplete;
+
         ctrl.validationOptions = {
             onfocusout: function (element) {
                 return !(element.name in ['withdrawFee']); // FIXME
@@ -67,16 +69,19 @@
                 }
             }
         };
+
         ctrl.confirm = {
             amount: {},
             fee: {},
             gatewayAddress: '',
             address: ''
         };
+
         ctrl.confirmWithdraw = confirmWithdraw;
         ctrl.refreshAmount = refreshAmount;
         ctrl.refreshTotal = refreshTotal;
         ctrl.broadcastTransaction = broadcastTransaction;
+        ctrl.gatewayEmail = 'support@coinomat.com';
 
         resetForm();
 
@@ -84,12 +89,18 @@
             ctrl.assetBalance = eventData.assetBalance;
             ctrl.wavesBalance = eventData.wavesBalance;
 
-            if (ctrl.assetBalance.currency !== Currency.BTC) {
+            if (ctrl.assetBalance.currency === Currency.BTC) {
+                withdrawBTC();
+            } else if (ctrl.assetBalance.currency === Currency.EUR) {
+                withdrawEUR();
+            } else if (ctrl.assetBalance.currency === Currency.USD) {
+                withdrawUSD();
+            } else {
                 $scope.home.featureUnderDevelopment();
-
-                return;
             }
+        });
 
+        function withdrawBTC() {
             coinomatService.getWithdrawRate(ctrl.assetBalance.currency)
                 .then(function (response) {
                     /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
@@ -118,25 +129,35 @@
 
                     refreshAmount();
 
-                    dialogService.open('#withdraw-asset-dialog');
+                    dialogService.open('#withdraw-btc-dialog');
                 }).catch(function (exception) {
-                    if (exception && exception.data && exception.data.error) {
-                        notificationService.error(exception.error);
-                    } else {
-                        notificationService.error(DEFAULT_ERROR_MESSAGE);
-                    }
-                }).then(function () {
-                    return coinomatService.getDepositDetails(Currency.BTC, Currency.BTC,
-                        applicationContext.account.address);
-                }).then(function (depositDetails) {
-                    notPermittedBitcoinAddresses[depositDetails.address] = 1;
+                if (exception && exception.data && exception.data.error) {
+                    notificationService.error(exception.error);
+                } else {
+                    notificationService.error(DEFAULT_ERROR_MESSAGE);
+                }
+            }).then(function () {
+                return coinomatService.getDepositDetails(Currency.BTC, Currency.BTC,
+                    applicationContext.account.address);
+            }).then(function (depositDetails) {
+                notPermittedBitcoinAddresses[depositDetails.address] = 1;
 
-                    return coinomatService.getDepositDetails(Currency.BTC, Currency.WAVES,
-                        applicationContext.account.address);
-                }).then(function (depositDetails) {
-                    notPermittedBitcoinAddresses[depositDetails.address] = 1;
-                });
-        });
+                return coinomatService.getDepositDetails(Currency.BTC, Currency.WAVES,
+                    applicationContext.account.address);
+            }).then(function (depositDetails) {
+                notPermittedBitcoinAddresses[depositDetails.address] = 1;
+            });
+        }
+
+        function withdrawEUR() {
+            ctrl.sourceCurrency = Currency.EUR.displayName;
+            dialogService.open('#withdraw-fiat-dialog');
+        }
+
+        function withdrawUSD() {
+            ctrl.sourceCurrency = Currency.USD.displayName;
+            dialogService.open('#withdraw-fiat-dialog');
+        }
 
         function validateRecipientAddress(recipient) {
             if (!recipient.match(/^[0-9a-z]{27,34}$/i)) {
