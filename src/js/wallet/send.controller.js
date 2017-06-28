@@ -4,19 +4,35 @@
     var DEFAULT_FEE_AMOUNT = '0.001';
     var FEE_CURRENCY = Currency.WAVES;
 
-    function WavesWalletSendController ($scope, $timeout, constants, events, autocomplete,
-                                        applicationContext, apiService, dialogService,
-                                        transactionBroadcast, assetService, notificationService,
-                                        formattingService, addressService) {
-        var send = this;
+    function WalletSendController($scope, $timeout, constants, events, autocomplete,
+                                  applicationContext, apiService, dialogService,
+                                  transactionBroadcast, assetService, notificationService,
+                                  formattingService, addressService) {
+        var ctrl = this;
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
 
-        send.autocomplete = autocomplete;
-        send.validationOptions = {
+        ctrl.autocomplete = autocomplete;
+
+        ctrl.confirm = {
+            recipient: ''
+        };
+
+        ctrl.broadcast = new transactionBroadcast.instance(apiService.assets.transfer,
+            function (transaction) {
+                var amount = Money.fromCoins(transaction.amount, ctrl.assetBalance.currency);
+                var address = transaction.recipient;
+                var displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
+                    ctrl.assetBalance.currency.displayName +
+                    '<br/>Recipient ' + address.substr(0,15) + '...<br/>Date: ' +
+                    formattingService.formatTimestamp(transaction.timestamp);
+                notificationService.notice(displayMessage);
+            }
+        );
+
+        ctrl.validationOptions = {
             rules: {
                 sendRecipient: {
-                    required: true,
-                    address: true
+                    required: true
                 },
                 sendAmount: {
                     required: true,
@@ -52,21 +68,9 @@
                 }
             }
         };
-        send.confirm = {
-            recipient: ''
-        };
-        send.broadcast = new transactionBroadcast.instance(apiService.assets.transfer,
-            function (transaction, response) {
-                var amount = Money.fromCoins(transaction.amount, send.assetBalance.currency);
-                var address = transaction.recipient;
-                var displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
-                    send.assetBalance.currency.displayName +
-                    '<br/>Recipient ' + address.substr(0,15) + '...<br/>Date: ' +
-                    formattingService.formatTimestamp(transaction.timestamp);
-                notificationService.notice(displayMessage);
-            });
-        send.submitTransfer = submitTransfer;
-        send.broadcastTransaction = broadcastTransaction;
+
+        ctrl.submitTransfer = submitTransfer;
+        ctrl.broadcastTransaction = broadcastTransaction;
 
         resetForm();
 
@@ -74,95 +78,96 @@
 
             resetForm();
 
-            send.feeAssetBalance = eventData.wavesBalance;
-            send.assetBalance = eventData.assetBalance;
-            send.feeAndTransferAssetsAreTheSame = eventData.assetBalance.currency === FEE_CURRENCY;
-            send.currency = eventData.assetBalance.currency.displayName;
+            ctrl.feeAssetBalance = eventData.wavesBalance;
+            ctrl.assetBalance = eventData.assetBalance;
+            ctrl.feeAndTransferAssetsAreTheSame = eventData.assetBalance.currency === FEE_CURRENCY;
+            ctrl.currency = eventData.assetBalance.currency.displayName;
 
-            // update validation options and check how it affects form validation
-            send.validationOptions.rules.sendAmount.decimal = send.assetBalance.currency.precision;
-            var minimumPayment = Money.fromCoins(1, send.assetBalance.currency);
-            send.validationOptions.rules.sendAmount.min = minimumPayment.toTokens();
-            send.validationOptions.rules.sendAmount.max = send.assetBalance.toTokens();
-            send.validationOptions.messages.sendAmount.decimal = 'The amount to send must be a number ' +
+            // Update validation options and check how they affect form validation
+            ctrl.validationOptions.rules.sendAmount.decimal = ctrl.assetBalance.currency.precision;
+            var minimumPayment = Money.fromCoins(1, ctrl.assetBalance.currency);
+            ctrl.validationOptions.rules.sendAmount.min = minimumPayment.toTokens();
+            ctrl.validationOptions.rules.sendAmount.max = ctrl.assetBalance.toTokens();
+            ctrl.validationOptions.messages.sendAmount.decimal = 'The amount to send must be a number ' +
                 'with no more than ' + minimumPayment.currency.precision +
                 ' digits after the decimal point (.)';
-            send.validationOptions.messages.sendAmount.min = 'Payment amount is too small. ' +
+            ctrl.validationOptions.messages.sendAmount.min = 'Payment amount is too small. ' +
                 'It should be greater or equal to ' + minimumPayment.formatAmount(false);
-            send.validationOptions.messages.sendAmount.max = 'Payment amount is too big. ' +
-                'It should be less or equal to ' + send.assetBalance.formatAmount(false);
+            ctrl.validationOptions.messages.sendAmount.max = 'Payment amount is too big. ' +
+                'It should be less or equal to ' + ctrl.assetBalance.formatAmount(false);
 
             dialogService.open('#wB-butSend-WAV');
         });
 
         function submitTransfer(transferForm) {
-            if (!transferForm.validate(send.validationOptions)) {
-                // prevent dialog from closing
+            if (!transferForm.validate(ctrl.validationOptions)) {
+                // Prevent dialog from closing
                 return false;
             }
 
-            var amount = Money.fromTokens(send.amount, send.assetBalance.currency);
-            var transferFee = Money.fromTokens(send.autocomplete.getFeeAmount(), FEE_CURRENCY);
+            var amount = Money.fromTokens(ctrl.amount, ctrl.assetBalance.currency);
+            var transferFee = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), FEE_CURRENCY);
             var paymentCost = transferFee;
-            if (send.feeAndTransferAssetsAreTheSame) {
+
+            if (ctrl.feeAndTransferAssetsAreTheSame) {
                 paymentCost = paymentCost.plus(amount);
             }
 
-            if (paymentCost.greaterThan(send.feeAssetBalance)) {
+            if (paymentCost.greaterThan(ctrl.feeAssetBalance)) {
                 notificationService.error('Not enough ' + FEE_CURRENCY.displayName + ' for the transfer');
                 return false;
             }
 
             var assetTransfer = {
-                recipient: addressService.cleanupOptionalPrefix(send.recipient),
+                recipient: addressService.cleanupOptionalPrefix(ctrl.recipient),
                 amount: amount,
                 fee: transferFee
             };
 
-            if (send.attachment) {
-                assetTransfer.attachment = converters.stringToByteArray(send.attachment);
+            if (ctrl.attachment) {
+                assetTransfer.attachment = converters.stringToByteArray(ctrl.attachment);
             }
 
             var sender = {
                 publicKey: applicationContext.account.keyPair.public,
                 privateKey: applicationContext.account.keyPair.private
             };
-            // creating the transaction and waiting for confirmation
-            send.broadcast.setTransaction(assetService.createAssetTransferTransaction(assetTransfer, sender));
 
-            // setting data for the confirmation dialog
-            send.confirm.amount = assetTransfer.amount;
-            send.confirm.fee = assetTransfer.fee;
-            send.confirm.recipient = assetTransfer.recipient;
+            // Create a transaction and wait for confirmation
+            ctrl.broadcast.setTransaction(assetService.createAssetTransferTransaction(assetTransfer, sender));
 
-            // open confirmation dialog
-            // doing it async because this method is called while another dialog is open
+            // Set data to the confirmation dialog
+            ctrl.confirm.amount = assetTransfer.amount;
+            ctrl.confirm.fee = assetTransfer.fee;
+            ctrl.confirm.recipient = assetTransfer.recipient;
+
+            // Open confirmation dialog (async because this method is called while another dialog is open)
             $timeout(function () {
                 dialogService.open('#send-payment-confirmation');
             }, 1);
 
-            // it's ok to close payment dialog
+            // Close payment dialog
             return true;
         }
 
         function broadcastTransaction() {
-            send.broadcast.broadcast();
+            ctrl.broadcast.broadcast();
         }
 
         function resetForm() {
-            send.recipient = '';
-            send.amount = '0';
-            send.confirm.amount = Money.fromTokens(0, Currency.WAVES);
-            send.confirm.fee = Money.fromTokens(DEFAULT_FEE_AMOUNT, FEE_CURRENCY);
-            send.autocomplete.defaultFee(Number(DEFAULT_FEE_AMOUNT));
+            ctrl.recipient = '';
+            ctrl.amount = '0';
+            ctrl.confirm.amount = Money.fromTokens(0, Currency.WAVES);
+            ctrl.confirm.fee = Money.fromTokens(DEFAULT_FEE_AMOUNT, FEE_CURRENCY);
+            ctrl.autocomplete.defaultFee(Number(DEFAULT_FEE_AMOUNT));
         }
     }
 
-    WavesWalletSendController.$inject = ['$scope', '$timeout', 'constants.ui', 'wallet.events', 'autocomplete.fees',
+    WalletSendController.$inject = ['$scope', '$timeout', 'constants.ui', 'wallet.events', 'autocomplete.fees',
         'applicationContext', 'apiService', 'dialogService', 'transactionBroadcast', 'assetService',
         'notificationService', 'formattingService', 'addressService'];
 
     angular
         .module('app.wallet')
-        .controller('walletSendController', WavesWalletSendController);
+        .controller('walletSendController', WalletSendController);
 })();

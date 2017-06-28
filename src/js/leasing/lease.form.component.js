@@ -4,16 +4,17 @@
     var DEFAULT_FEE_AMOUNT = '0.001';
     var FEE_CURRENCY = Currency.WAVES;
 
-    function WavesLeasingFormController($timeout, constants, autocomplete, applicationContext,
-                                     apiService, dialogService, notificationService, transactionBroadcast,
-                                     formattingService, addressService, leasingService, leasingRequestService) {
+    function LeasingFormController($timeout, constants, autocomplete, applicationContext,
+                                   apiService, dialogService, notificationService, transactionBroadcast,
+                                   formattingService, addressService, leasingService, leasingRequestService) {
+        var ctrl = this;
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
 
-        var ctrl = this;
         ctrl.autocomplete = autocomplete;
         ctrl.availableBalance = Money.fromCoins(0, Currency.WAVES);
+
         ctrl.broadcast = new transactionBroadcast.instance(apiService.leasing.lease,
-            function (transaction, response) {
+            function (transaction) {
                 var amount = Money.fromCoins(transaction.amount, Currency.WAVES);
                 var address = transaction.recipient;
                 var displayMessage = 'Leased ' + amount.formatAmount(true) + ' of ' +
@@ -21,12 +22,13 @@
                     '<br/>Recipient ' + address.substr(0,15) + '...<br/>Date: ' +
                     formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
-            });
+            }
+        );
+
         ctrl.validationOptions = {
             rules: {
                 leasingRecipient: {
-                    required: true,
-                    address: true
+                    required: true
                 },
                 leasingAmount: {
                     required: true,
@@ -56,9 +58,11 @@
                 }
             }
         };
+
         ctrl.confirm = {
             recipient: ''
         };
+
         ctrl.confirmLease = confirmLease;
         ctrl.broadcastTransaction = broadcastTransaction;
 
@@ -72,7 +76,7 @@
 
                 reset();
 
-                // update validation options and check how it affects form validation
+                // Update validation options and check how they affect form validation
                 ctrl.validationOptions.rules.leasingAmount.decimal = ctrl.availableBalance.currency.precision;
                 var minimumPayment = Money.fromCoins(1, ctrl.availableBalance.currency);
                 ctrl.validationOptions.rules.leasingAmount.min = minimumPayment.toTokens();
@@ -94,11 +98,10 @@
             var amount = Money.fromTokens(ctrl.amount, ctrl.availableBalance.currency);
             var transferFee = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), FEE_CURRENCY);
 
-            // we assume here that amount and fee are in Waves, however it's not hardcoded
+            // We assume here that amount and fee are in Waves, however it's not hardcoded
             var leasingCost = amount.plus(transferFee);
             if (leasingCost.greaterThan(ctrl.availableBalance)) {
                 notificationService.error('Not enough ' + FEE_CURRENCY.displayName + ' for the leasing transaction');
-
                 return false;
             }
 
@@ -113,20 +116,20 @@
                 privateKey: applicationContext.account.keyPair.private
             };
 
-            // creating the transaction and waiting for confirmation
+            // Create a transaction and wait for confirmation
             ctrl.broadcast.setTransaction(leasingRequestService.buildStartLeasingRequest(startLeasing, sender));
 
-            // setting data for the confirmation dialog
+            // Set data to the confirmation dialog
             ctrl.confirm.amount = startLeasing.amount;
             ctrl.confirm.fee = startLeasing.fee;
             ctrl.confirm.recipient = startLeasing.recipient;
 
-            // open confirmation dialog
-            // doing it async because this method is called while another dialog is open
+            // Open confirmation dialog (async because this method is called while another dialog is open)
             $timeout(function () {
                 dialogService.open('#start-leasing-confirmation');
             }, 1);
 
+            // Close payment dialog
             return true;
         }
 
@@ -143,14 +146,14 @@
         }
     }
 
-    WavesLeasingFormController.$inject = ['$timeout', 'constants.ui', 'autocomplete.fees',
-        'applicationContext', 'apiService', 'dialogService', 'notificationService', 'transactionBroadcast',
-        'formattingService', 'addressService', 'leasingService', 'leasingRequestService'];
+    LeasingFormController.$inject = ['$timeout', 'constants.ui', 'autocomplete.fees', 'applicationContext',
+                                     'apiService', 'dialogService', 'notificationService', 'transactionBroadcast',
+                                     'formattingService', 'addressService', 'leasingService', 'leasingRequestService'];
 
     angular
         .module('app.leasing')
         .component('wavesLeasingLeaseForm', {
-            controller: WavesLeasingFormController,
+            controller: LeasingFormController,
             templateUrl: 'leasing/lease.form.component'
         });
 })();
