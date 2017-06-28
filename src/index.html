@@ -268,11 +268,15 @@
       <a ng-click="home.featureUnderDevelopment()">
         <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-preferences.svg" alt="Preferences" title="Preferences"/>
       </a>
-      <a ng-click="home.featureUnderDevelopment()">
+      <a ng-click="menu.showProfileDialog()">
         <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-profile.svg" alt="User profile" title="User profile"/>
       </a>
       <div class="noDisp" ng-controller="createAliasController as create">
         <div id="create-alias-dialog" waves-dialog global="true" ok-button-caption="CREATE" on-dialog-ok="create.confirmCreateAlias(create.form)">
+          <div class="existing-aliases" ng-show="create.aliasList.length">
+            <h2 class="sectionHeader">YOUR ALIASES</h2>
+            <span ng-repeat="alias in create.aliasList"><span class="alias">{{alias}}</span>&nbsp;</span>
+          </div>
           <h2 class="sectionHeader">CREATE NEW ALIAS</h2>
           <p>Here you can assign a symbolic name to your address</p>
           <form name="create.form" novalidate ng-validate="create.validationOptions">

@@ -11,6 +11,7 @@
         var ctrl = this;
 
         ctrl.fee = DEFAULT_FEE;
+        ctrl.aliasList = [];
 
         ctrl.validationOptions = {
             onfocusout: false,
@@ -41,8 +42,17 @@
 
         $scope.$on(events.NAVIGATION_CREATE_ALIAS, function () {
             reset();
+            getExistingAliases();
             dialogService.open('#create-alias-dialog');
         });
+
+        function getExistingAliases() {
+            apiService.alias
+                .getByAddress(applicationContext.account.address)
+                .then(function (aliasList) {
+                    ctrl.aliasList = aliasList;
+                });
+        }
 
         function broadcastTransaction () {
             ctrl.broadcast.broadcast();
@@ -66,8 +76,7 @@
             // Create the transaction and waiting for confirmation
             ctrl.broadcast.setTransaction(aliasRequestService.buildCreateAliasRequest(createAlias, sender));
 
-            // Open confirmation dialog
-            // Do it async because this method is called while another dialog is open
+            // Open confirmation dialog (async because this method is called while another dialog is open)
             $timeout(function () {
                 dialogService.open('#create-alias-confirmation');
             }, 1);
