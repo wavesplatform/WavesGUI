@@ -3,7 +3,7 @@
 
     function WavesWalletListController($scope, $interval, events, applicationContext,
                                        apiService, transactionLoadingService, dialogService) {
-        var walletList = this;
+        var ctrl = this;
         var refreshPromise;
         var refreshDelay = 10 * 1000;
 
@@ -18,12 +18,12 @@
         }
 
         function findWalletByCurrency(currency) {
-            return _.find(walletList.wallets, function (w) {
+            return _.find(ctrl.wallets, function (w) {
                 return w.balance.currency === currency;
             });
         }
 
-        walletList.wallets = [
+        ctrl.wallets = [
             {
                 balance: new Money(0, Currency.USD),
                 depositWith: Currency.USD
@@ -38,19 +38,15 @@
             },
             {
                 balance: new Money(0, Currency.WAVES),
-                depositWith: Currency.BTC,
-                leasingAvailable: true
-            },
-            {
-                balance: new Money(0, Currency.CNY),
-                depositWith: Currency.CNY
+                depositWith: Currency.BTC
             }
         ];
-        walletList.transactions = [];
-        walletList.send = send;
-        walletList.withdraw = withdraw;
-        walletList.deposit = deposit;
-        walletList.depositFromCard = depositFromCard;
+
+        ctrl.transactions = [];
+        ctrl.send = send;
+        ctrl.withdraw = withdraw;
+        ctrl.deposit = deposit;
+        ctrl.depositFromCard = depositFromCard;
 
         loadDataFromBackend();
         patchCurrencyIdsForTestnet();
@@ -116,7 +112,7 @@
                         assetBalance.reissuable, assetBalance.quantity);
                 });
 
-                _.forEach(walletList.wallets, function (wallet) {
+                _.forEach(ctrl.wallets, function (wallet) {
                     var asset = applicationContext.cache.assets[wallet.balance.currency.id];
                     if (asset) {
                         wallet.balance = asset.balance;
@@ -134,13 +130,11 @@
                     return transactionLoadingService.refreshAssetCache(applicationContext.cache.assets, transactions);
                 })
                 .then(function () {
-                    walletList.transactions = txArray;
+                    ctrl.transactions = txArray;
                 });
         }
 
-        /* AssetId substitution for testnet only.
-           Mainnet version uses default asset identifiers.
-         */
+        // Assets ID substitution for testnet
         function patchCurrencyIdsForTestnet() {
             if ($scope.isTestnet()) {
                 Currency.EUR.id = '2xnE3EdpqXtFgCP156qt1AbyjpqdZ5jGjWo3CwTawcux';
@@ -152,8 +146,8 @@
         }
     }
 
-    WavesWalletListController.$inject = ['$scope', '$interval', 'wallet.events',
-        'applicationContext', 'apiService', 'transactionLoadingService', 'dialogService'];
+    WavesWalletListController.$inject = ['$scope', '$interval', 'wallet.events', 'applicationContext',
+                                         'apiService', 'transactionLoadingService', 'dialogService'];
 
     angular
         .module('app.wallet')

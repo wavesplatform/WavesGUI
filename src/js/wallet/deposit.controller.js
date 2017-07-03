@@ -3,8 +3,9 @@
 
     var DEFAULT_ERROR_MESSAGE = 'Connection is lost';
 
-    function WavesWalletDepositController ($scope, events, coinomatService, dialogService, notificationService,
-                                           applicationContext, bitcoinUriService) {
+    function WavesWalletDepositController($scope, events, coinomatService, dialogService,
+                                          notificationService, applicationContext, bitcoinUriService,
+                                          utilsService) {
         var ctrl = this;
 
         ctrl.btc = {
@@ -14,7 +15,7 @@
             minimumAmount: 0.01
         };
 
-        ctrl.eur = {
+        ctrl.fiat = {
             verificationLink: 'https://go.idnow.de/coinomat/userdata/' + applicationContext.account.address,
             email: 'support@coinomat.com'
         };
@@ -34,10 +35,13 @@
             ctrl.assetBalance = eventData.assetBalance;
             ctrl.currency = ctrl.assetBalance.currency.displayName;
 
-            if (ctrl.assetBalance.currency === Currency.BTC) {
+            if (ctrl.assetBalance.currency === Currency.BTC && !utilsService.isTestnet()) {
+                // Show the BTC deposit popup only on mainnet
                 depositBTC();
             } else if (ctrl.assetBalance.currency === Currency.EUR) {
                 depositEUR();
+            } else if (ctrl.assetBalance.currency === Currency.USD) {
+                depositUSD();
             } else {
                 $scope.home.featureUnderDevelopment();
             }
@@ -66,10 +70,15 @@
         function depositEUR() {
             dialogService.open('#deposit-eur-dialog');
         }
+
+        function depositUSD() {
+            dialogService.open('#deposit-usd-dialog');
+        }
     }
 
     WavesWalletDepositController.$inject = ['$scope', 'wallet.events', 'coinomatService', 'dialogService',
-        'notificationService', 'applicationContext', 'bitcoinUriService'];
+                                            'notificationService', 'applicationContext', 'bitcoinUriService',
+                                            'utilsService'];
 
     angular
         .module('app.wallet')
