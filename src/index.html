@@ -273,9 +273,15 @@
       </a>
       <div class="noDisp" ng-controller="createAliasController as create">
         <div id="create-alias-dialog" waves-dialog global="true" ok-button-caption="CREATE" on-dialog-ok="create.confirmCreateAlias(create.form)">
-          <div class="existing-aliases" ng-show="create.aliasList.length">
+          <div class="existing-aliases">
             <h2 class="sectionHeader">YOUR ALIASES</h2>
-            <span ng-repeat="alias in create.aliasList"><span class="alias">{{alias}}</span>&nbsp;</span>
+            <div ng-if="create.aliasList !== null">
+              <span ng-repeat="alias in create.aliasList"><span class="alias">{{alias}}</span>&nbsp;</span>
+              <span ng-if="create.aliasList.length === 0">You don't have any aliases yet</span>
+            </div>
+            <div ng-if="create.aliasList === null">
+              <span>Loading...</span>
+            </div>
           </div>
           <h2 class="sectionHeader">CREATE NEW ALIAS</h2>
           <p>Here you can assign a symbolic name to your address</p>

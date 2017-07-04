@@ -11,7 +11,7 @@
         var ctrl = this;
 
         ctrl.fee = DEFAULT_FEE;
-        ctrl.aliasList = [];
+        ctrl.aliasList = null;
 
         ctrl.validationOptions = {
             onfocusout: false,
