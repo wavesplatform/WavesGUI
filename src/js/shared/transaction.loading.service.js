@@ -34,14 +34,14 @@
                 }
 
                 if (assetId) {
-                    var cached = cache[assetId];
+                    var cached = cache.assets[assetId];
                     if (!cached) {
                         sequence = sequence
                             .then(function () {
                                 return apiService.transactions.info(assetId);
                             })
                             .then(function (response) {
-                                cache.put(response);
+                                cache.putAsset(response);
                             });
                     }
                 }
