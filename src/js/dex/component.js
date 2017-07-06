@@ -251,7 +251,7 @@
     }
 
     DexController.$inject = ['$scope', '$interval', 'applicationContext', 'assetStoreFactory', 'datafeedApiService',
-                            'dexOrderService', 'dexOrderbookService', 'notificationService', 'utilsService'];
+                             'dexOrderService', 'dexOrderbookService', 'notificationService', 'utilsService'];
 
     angular
         .module('app.dex')
