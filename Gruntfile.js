@@ -168,7 +168,6 @@ module.exports = function (grunt) {
             ],
             application: [
                 'src/js/state/module.js',
-                'src/js/state/factory.js',
                 'src/js/state/service.js',
 
                 'src/js/ui.module.js',
