@@ -302,9 +302,12 @@ module.exports = function (grunt) {
             development: {
                 options: {
                     files: [
+                        'node_modules/es6-promise/dist/es6-promise.min.js',
+
                         '<%= meta.dependencies %>',
                         '<%= meta.application %>',
 
+                        'src/js/test/mock/module.js',
                         'src/js/**/*.spec.js'
                     ]
                 }

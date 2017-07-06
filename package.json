@@ -17,6 +17,7 @@
     "electron-builder": "^17.5.0",
     "electron-packager": "^8.7.0",
     "electron-prebuilt": "^1.4.13",
+    "es6-promise": "^4.1.1",
     "grunt": "~1.0.0",
     "grunt-angular-templates": "^1.1.0",
     "grunt-aws": "^0.6.2",
