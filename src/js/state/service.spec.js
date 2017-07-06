@@ -31,18 +31,17 @@ describe('State.Service', function () {
             .then(function (data) {
                 expect(data).toEqual(null);
             })
-            .then(done);
-        // .then(function () {
-        //   return state.set('account', account);
-        // })
-        // .then(function () {
-        //   return state.get('account');
-        // });
-        // .then(function (data) {
-        //   expect(data.name).toEqual(account.name);
-        //   expect(data.encodedSeed).toEqual(account.encodedSeed);
-        //   expect(data.publicKey).toEqual(account.publicKey);
-        //   done();
-        // });
+            .then(function () {
+                return state.set('account', account);
+            })
+            .then(function () {
+                return state.get('account');
+            })
+            .then(function (data) {
+                expect(data.name).toEqual(account.name);
+                expect(data.encodedSeed).toEqual(account.encodedSeed);
+                expect(data.publicKey).toEqual(account.publicKey);
+                done();
+            });
     });
 });
