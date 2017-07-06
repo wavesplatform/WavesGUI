@@ -77,8 +77,8 @@
     }
 
     WavesWalletDepositController.$inject = ['$scope', 'wallet.events', 'coinomatService', 'dialogService',
-                                            'notificationService', 'applicationContext', 'bitcoinUriService',
-                                            'utilsService'];
+        'notificationService', 'applicationContext', 'bitcoinUriService',
+        'utilsService'];
 
     angular
         .module('app.wallet')

@@ -1,4 +1,4 @@
-describe('Wallet.Send.Controller', function() {
+describe('Wallet.Send.Controller', function () {
     var $rootScope, scope, timeout, events, dialogService, controller, formMock, notificationService,
         applicationContext = {
             account: {
@@ -15,7 +15,7 @@ describe('Wallet.Send.Controller', function() {
     beforeEach(module('app.wallet'));
 
     // Injection of dependencies
-    beforeEach(inject(function($injector, $controller, $timeout) {
+    beforeEach(inject(function ($injector, $controller, $timeout) {
         $rootScope = $injector.get('$rootScope');
         scope = $rootScope.$new();
         events = $injector.get('wallet.events');

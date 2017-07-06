@@ -4,20 +4,21 @@
     var DEFAULT_FEE_AMOUNT = '0.001',
         DEFAULT_ERROR_MESSAGE = 'Connection is lost';
 
-    function WavesWalletWithdrawController ($scope, constants, events, autocomplete, dialogService,
-                                            coinomatService, transactionBroadcast, notificationService,
-                                            apiService, formattingService, assetService, applicationContext) {
+    function WavesWalletWithdrawController($scope, constants, events, autocomplete, dialogService,
+                                           coinomatService, transactionBroadcast, notificationService,
+                                           apiService, formattingService, assetService, applicationContext) {
+
         var ctrl = this;
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAVES);
         var notPermittedBitcoinAddresses = {};
 
         ctrl.broadcast = new transactionBroadcast.instance(apiService.assets.transfer,
-            function (transaction, response) {
+            function (transaction) {
                 var amount = Money.fromCoins(transaction.amount, ctrl.assetBalance.currency);
                 var address = transaction.recipient;
                 var displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
                     ctrl.assetBalance.currency.displayName +
-                    '<br/>Gateway ' + address.substr(0,15) + '...<br/>Date: ' +
+                    '<br/>Gateway ' + address.substr(0, 15) + '...<br/>Date: ' +
                     formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
             });
@@ -60,9 +61,9 @@
                 withdrawFee: {
                     required: 'Gateway transaction fee is required',
                     decimal: 'Transaction fee must be with no more than ' +
-                        minimumFee.currency.precision + ' digits after the decimal point (.)',
+                    minimumFee.currency.precision + ' digits after the decimal point (.)',
                     min: 'Transaction fee is too small. It should be greater or equal to ' +
-                        minimumFee.formatAmount(true)
+                    minimumFee.formatAmount(true)
                 },
                 withdrawTotal: {
                     required: 'Total amount is required'
@@ -175,7 +176,7 @@
             }
         }
 
-        function confirmWithdraw (amountForm) {
+        function confirmWithdraw(amountForm) {
             if (!amountForm.validate(ctrl.validationOptions)) {
                 return false;
             }
@@ -223,27 +224,28 @@
             return true;
         }
 
-        function broadcastTransaction () {
+        function broadcastTransaction() {
             ctrl.broadcast.broadcast();
         }
 
-        function refreshTotal () {
+        function refreshTotal() {
             var amount = ctrl.exchangeRate * ctrl.amount;
             var total = Money.fromTokens(amount + ctrl.feeIn + ctrl.feeOut, ctrl.assetBalance.currency);
             ctrl.total = total.formatAmount(true, false);
         }
 
-        function refreshAmount () {
+        function refreshAmount() {
             var total = Math.max(0, ctrl.exchangeRate * (ctrl.total - ctrl.feeIn) - ctrl.feeOut);
             var amount = Money.fromTokens(total, ctrl.assetBalance.currency);
             ctrl.amount = amount.formatAmount(true, false);
         }
 
-        function resetForm () {
+        function resetForm() {
             ctrl.recipient = '';
             ctrl.address = '';
             ctrl.autocomplete.defaultFee(Number(DEFAULT_FEE_AMOUNT));
         }
+
     }
 
     WavesWalletWithdrawController.$inject = ['$scope', 'constants.ui', 'wallet.events', 'autocomplete.fees',

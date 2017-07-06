@@ -3,7 +3,7 @@
 
     var DEFAULT_AMOUNT_TO_PAY = 50;
 
-    function FiatCurrency (code, displayName) {
+    function FiatCurrency(code, displayName) {
         this.code = code;
         if (displayName) {
             this.displayName = displayName;
@@ -12,8 +12,8 @@
         }
     }
 
-    function WavesCardDepositController ($scope, $window, $q, events, dialogService,
-                                         fiatService, applicationContext, notificationService) {
+    function WavesCardDepositController($scope, $window, $q, events, dialogService,
+                                        fiatService, applicationContext, notificationService) {
         var deferred;
         var ctrl = this;
         ctrl.currencies = [new FiatCurrency('EURO', 'Euro'), new FiatCurrency('USD')];
@@ -54,8 +54,8 @@
                         ctrl.payAmount = ctrl.limits.max;
                     }
                 }).catch(function (response) {
-                    remotePartyErrorHandler('get limits', response);
-                });
+                remotePartyErrorHandler('get limits', response);
+            });
 
             updateReceiveAmount();
         }
@@ -128,7 +128,7 @@
     }
 
     WavesCardDepositController.$inject = ['$scope', '$window', '$q', 'wallet.events', 'dialogService',
-                                          'coinomatFiatService', 'applicationContext', 'notificationService'];
+        'coinomatFiatService', 'applicationContext', 'notificationService'];
 
     angular
         .module('app.wallet')

@@ -58,15 +58,15 @@
             }
         });
 
-        function send (wallet) {
+        function send(wallet) {
             sendCommandEvent(events.WALLET_SEND, wallet.balance.currency);
         }
 
-        function withdraw (wallet) {
+        function withdraw(wallet) {
             sendCommandEvent(events.WALLET_WITHDRAW, wallet.balance.currency);
         }
 
-        function deposit (wallet) {
+        function deposit(wallet) {
             if (wallet.balance.currency === Currency.WAVES) {
                 depositFromCard(wallet.balance.currency);
             } else {
@@ -77,7 +77,7 @@
             }
         }
 
-        function depositFromCard (currency) {
+        function depositFromCard(currency) {
             dialogService.close();
 
             $scope.$broadcast(events.WALLET_CARD_DEPOSIT, {
@@ -89,7 +89,7 @@
             refreshWallets();
             refreshTransactions();
 
-            refreshPromise = $interval(function() {
+            refreshPromise = $interval(function () {
                 refreshWallets();
                 refreshTransactions();
             }, refreshDelay);
@@ -147,7 +147,7 @@
     }
 
     WavesWalletListController.$inject = ['$scope', '$interval', 'wallet.events', 'applicationContext',
-                                         'apiService', 'transactionLoadingService', 'dialogService'];
+        'apiService', 'transactionLoadingService', 'dialogService'];
 
     angular
         .module('app.wallet')

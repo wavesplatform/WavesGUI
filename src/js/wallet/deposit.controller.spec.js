@@ -1,4 +1,4 @@
-describe('Wallet.Deposit.Controller', function() {
+describe('Wallet.Deposit.Controller', function () {
     var $rootScope, $q, scope, timeout, events, dialogService, controller,
         coinomatService, notificationService, utilsService,
         applicationContext = {
@@ -17,7 +17,7 @@ describe('Wallet.Deposit.Controller', function() {
     beforeEach(module('app.wallet'));
 
     // Injection of dependencies
-    beforeEach(inject(function($injector, $controller, $timeout) {
+    beforeEach(inject(function ($injector, $controller, $timeout) {
         $rootScope = $injector.get('$rootScope');
         $q = $injector.get('$q');
         scope = $rootScope.$new();

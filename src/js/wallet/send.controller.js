@@ -4,10 +4,10 @@
     var DEFAULT_FEE_AMOUNT = '0.001';
     var FEE_CURRENCY = Currency.WAVES;
 
-    function WavesWalletSendController ($scope, $timeout, constants, events, autocomplete,
-                                        applicationContext, apiService, dialogService,
-                                        transactionBroadcast, assetService, notificationService,
-                                        formattingService, addressService) {
+    function WavesWalletSendController($scope, $timeout, constants, events, autocomplete,
+                                       applicationContext, apiService, dialogService,
+                                       transactionBroadcast, assetService, notificationService,
+                                       formattingService, addressService) {
         var send = this;
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
 
@@ -43,9 +43,9 @@
                 sendFee: {
                     required: 'Transaction fee is required',
                     decimal: 'Transaction fee must be a number with no more than ' +
-                        minimumFee.currency.precision + ' digits after the decimal point (.)',
+                    minimumFee.currency.precision + ' digits after the decimal point (.)',
                     min: 'Transaction fee is too small. It should be greater or equal to ' +
-                        minimumFee.formatAmount(true)
+                    minimumFee.formatAmount(true)
                 },
                 sendAttachment: {
                     maxbytelength: 'Attachment is too long'
@@ -61,7 +61,7 @@
                 var address = transaction.recipient;
                 var displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
                     send.assetBalance.currency.displayName +
-                    '<br/>Recipient ' + address.substr(0,15) + '...<br/>Date: ' +
+                    '<br/>Recipient ' + address.substr(0, 15) + '...<br/>Date: ' +
                     formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
             });

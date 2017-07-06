@@ -1,4 +1,4 @@
-describe('Wallet.Withdraw.Controller', function() {
+describe('Wallet.Withdraw.Controller', function () {
     var $rootScope, $q, scope, timeout, events, dialogService, controller, coinomatService, notificationService,
         formMock, applicationContext = {
             account: {
@@ -17,7 +17,7 @@ describe('Wallet.Withdraw.Controller', function() {
     beforeEach(module('app.wallet'));
 
     // Injection of dependencies
-    beforeEach(inject(function($injector, $controller, $timeout) {
+    beforeEach(inject(function ($injector, $controller, $timeout) {
         $rootScope = $injector.get('$rootScope');
         $q = $injector.get('$q');
         scope = $rootScope.$new();
@@ -104,7 +104,7 @@ describe('Wallet.Withdraw.Controller', function() {
         deferred.resolve({address: gatewayAddress});
     }
 
-    function initDepositDetailsMock () {
+    function initDepositDetailsMock() {
         var deferred = $q.defer();
         spyOn(coinomatService, 'getDepositDetails').and.returnValue(deferred.promise);
         deferred.resolve({address: depositAddress});
