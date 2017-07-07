@@ -1026,65 +1026,7 @@
 
         <!-- TOKENS TAB -->
         <div id="mBB-token" class="mBB-content" ng-switch-when="tokens">
-
-          <div ng-controller="tokenCreateController as ctrl">
-            <h2 class="sectionHeader">TOKEN CREATION</h2>
-            <form id="create-asset-form" name="createAssetForm" novalidate ng-validate="ctrl.issuanceValidationOptions" ng-submit="ctrl.assetIssueConfirmation(createAssetForm, $event)">
-              <div class="balanceAmt">
-                <p>Waves balance: </p><span class="balancewaves">{{ctrl.wavesBalance | moneyLong:true}}</span>
-              </div>
-              <table class="wavesTable">
-                <thead>
-                <tr>
-                  <td>DESCRIPTION</td>
-                  <td>INPUT</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                  <td><label for="assetName">Name</label></td>
-                  <td><input id="assetName" name="assetName" type="text" class="wInput form-control" focus-me="true" ng-model="ctrl.asset.name" tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="This field defines the NAME of your<br/>asset.<br/><br/>It can contain up to 16 alphanumeric<br/>characters."/></td>
-                </tr><br/>
-                <tr>
-                  <td><label for="assetDescription">Description</label></td>
-                  <td><textarea id="assetDescription" name="assetDescription" class="wInput" rows="3" ng-model="ctrl.asset.description" tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="Brief DESCRIPTION about the asset.<br/>"></textarea></td>
-                </tr>
-                <tr>
-                  <td><label for="assetTotalTokens">Total Tokens</label></td>
-                  <td><input id="assetTotalTokens" name="assetTotalTokens" class="wInput" type="text" ng-model="ctrl.asset.totalTokens" integer-input-restrictor tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="This field defines the TOTAL TOKENS<br/>supply that your asset will contain."/></td>
-                </tr>
-                <tr>
-                  <td><label for="assetTokenDecimalPlaces">Token Decimals</label></td>
-                  <td><input id="assetTokenDecimalPlaces" name="assetTokenDecimalPlaces" class="wInput" type="text" ng-model="ctrl.asset.decimalPlaces" integer-input-restrictor tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="This field defines the number of DECIMALS<br/>that your asset tokens will be divided in.<br/><br/>Example: Three decimals would allow the<br/>tokens to be divided by 1,000, so 0.001<br/>would be the smallest token fraction."/></td>
-                </tr>
-                <tr>
-                  <td><label for="assetReissuable">Re-issuable</label></td>
-                  <td><input id="assetReissuable" name="assetReissuable" type="checkbox" class="wInput" ng-model="ctrl.asset.reissuable" tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="RE-ISSUABILITY allows for additional<br/>tokens creation that will be added<br/>to the total token supply of the asset.<br/><br/>A non RE-ISSUABLE asset will be<br/> permanently limited to the total<br/>token supply defined on this process."/></td>
-                </tr>
-                <tr class="noSelect">
-                  <td>Fee</td>
-                  <td tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="The FEE you will be charged<br/>for this process.">{{::ctrl.asset.fee.formatAmount(true)}} {{::ctrl.asset.fee.currency.displayName}}</td>
-                </tr>
-                </tbody>
-              </table>
-              <div>
-                <button class="wButton wButton-neg fade" type="submit">SUBMIT</button><span class="divider-2"></span>
-                <button class="wButton wButton-neg fade" type="button" ng-click="ctrl.resetForm()">CLEAR</button>
-              </div>
-            </form>
-
-            <div id="create-asset-confirmation" waves-dialog ok-button-caption="CONFIRM" ok-button-enabled="!ctrl.broadcast.pending" on-dialog-ok="ctrl.broadcastIssueTransaction()">
-              <div class="dialog-confirmation">
-                <p class="dialog-text">You are creating a <span class="confirmation-value">{{ctrl.confirm.reissuable}}</span> asset named
-                  <span class="confirmation-value">{{ctrl.confirm.name}}</span><br/> with
-                  <span class="confirmation-value">{{ctrl.confirm.totalTokens}}</span> of total tokens amount
-                </p>
-                <p class="dialog-text notice-alert" ng-if="!ctrl.asset.reissuable">Please note that flagging an asset as NON RE-ISSUABLE is permanent.<br/>
-                  Assets created as RE-ISSUABLE can later be changed to NON RE-ISSUABLE.<br/>However, assets flagged as NON RE-ISSUABLE can never be made RE-ISSUABLE.</p>
-                <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
-              </div>
-            </div>
-          </div>
+          <waves-tokens></waves-tokens>
         </div>
         <!-- / TOKENS TAB -->
 
@@ -1122,41 +1064,8 @@
         <!-- / MESSAGES TAB -->
 
         <!-- COMMUNITY TAB -->
-        <div id="mBB-community" class="mBB-content" ng-switch-when="community" ng-controller="communityController as community">
-          <!-- Temporary -->
-          <p>DISCLAIMER: The Community tab will temporarily hold block information for testing purposes. After alpha phase this data  will be relocated inside the Preferences - Advanced area.</p>
-          <h2 class="sectionHeader">LATEST BLOCKS INFORMATION</h2>
-          <p class="centerIt">
-          <div id="latestBlocks" class="wavesTable wScroll" >
-            <table>
-              <thead>
-              <tr class="fade">
-                <td>HEIGHT</td>
-                <td>DATE</td>
-                <td>TRANSACTIONS</td>
-                <td>GENERATOR</td>
-              </tr>
-              </thead>
-              <tbody id="latestBlocksTable">
-              <tr class="fade">
-                <td>{{community.candidate.block}}</td>
-                <td><i>incoming</i></td>
-                <td>{{community.candidate.size}}</td>
-                <td><i>unconfirmed</i></td>
-              </tr>
-              <tr class="fade" ng-repeat="block in community.blocks | orderBy:'timestamp':true">
-                <td>{{block.height}}</td>
-                <td>{{block.timestamp | formatting}}</td>
-                <td>{{block.transactions.length}}</td>
-                <td>
-                  <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard title="Copy this address to the clipboard." data-clipboard-text="{{block.generator}}" ngclipboard-success="clipboardOk()">{{block.generator}}</span>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-
-          </p>
+        <div id="mBB-community" class="mBB-content" ng-switch-when="community">
+          <waves-community></waves-community>
         </div>
         <!-- /COMMUNITY TAB -->
       </section>

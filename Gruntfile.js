@@ -228,6 +228,7 @@ module.exports = function (grunt) {
 
                 'src/js/tokens/module.js',
                 'src/js/tokens/create.controller.js',
+                'src/js/tokens/component.js',
 
                 'src/js/dex/module.js',
                 'src/js/dex/component.js',
@@ -253,6 +254,7 @@ module.exports = function (grunt) {
 
                 'src/js/community/module.js',
                 'src/js/community/controller.js',
+                'src/js/community/component.js',
 
                 'src/js/portfolio/module.js',
                 'src/js/portfolio/asset.list.controller.js',
