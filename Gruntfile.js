@@ -133,20 +133,20 @@ module.exports = function (grunt) {
                 }
             },
             dependencies: [
-                'bower_components/jquery/dist/jquery.js',
+                'bower_components/jquery/dist/jquery.min.js',
                 'bower_components/lodash/lodash.js',
 
                 // this library doesn't work properly being included after angular
                 'bower_components/js-sha3/src/sha3.js',
 
-                'bower_components/angular/angular.js',
-                'bower_components/angular-sanitize/angular-sanitize.js',
-                'bower_components/angular-animate/angular-animate.js',
+                'bower_components/angular/angular.min.js',
+                'bower_components/angular-sanitize/angular-sanitize.min.js',
+                'bower_components/angular-animate/angular-animate.min.js',
                 'bower_components/angular-mocks/angular-mocks.js',
-                'bower_components/angular-aria/angular-aria.js',
-                'bower_components/angular-material/angular-material.js',
-                'bower_components/restangular/dist/restangular.js',
-                'bower_components/decimal.js/decimal.js',
+                'bower_components/angular-aria/angular-aria.min.js',
+                'bower_components/angular-material/angular-material.min.js',
+                'bower_components/restangular/dist/restangular.min.js',
+                'bower_components/decimal.js/decimal.min.js',
                 'bower_components/Base58/Base58.js',
                 'bower_components/cryptojslib/rollups/aes.js',
                 'bower_components/cryptojslib/rollups/sha256.js',
@@ -381,8 +381,12 @@ module.exports = function (grunt) {
             },
             scriptsBundle: {
                 // NOTE : that task is not consistent with the standard distribution workflow.
-                src: ['<%= meta.dependencies %>', '<%= meta.application %>'],
+                src: ['<%= meta.application %>'],
                 dest: 'distr/devel/js/bundle.js'
+            },
+            vendorsBundle: {
+                src: ['<%= meta.dependencies %>'],
+                dest: 'distr/devel/js/vendors.js'
             }
         },
         uglify: {
@@ -636,7 +640,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['jshint', 'jscs', 'karma:development']);
     grunt.registerTask('styles', ['less', 'copy:fonts', 'copy:img']);
 
-    grunt.registerTask('build-local', ['styles', 'concat:scriptsBundle', 'ngtemplates']);
+    grunt.registerTask('build-local', ['styles', 'concat:scriptsBundle', 'concat:vendorsBundle', 'ngtemplates']);
 
     grunt.registerTask('build', [
         'build-local',
