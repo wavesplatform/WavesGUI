@@ -21,17 +21,18 @@
 
             notifyGenerateSeed: function ($scope) {
                 $scope.$emit(moduleEvents.GENERATE_SEED);
-            },
-
-            notifySignedIn: function ($scope, rawAddress, seed, keys) {
-                var applicationState = {
-                    address: rawAddress,
-                    seed: seed,
-                    keyPair: keys
-                };
-
-                $scope.$emit(applicationEvents.LOGIN_SUCCESSFUL, applicationState);
             }
+
+
+            // notifySignedIn: function ($scope, rawAddress, seed, keys) {
+            //     var applicationState = {
+            //         address: rawAddress,
+            //         seed: seed,
+            //         keyPair: keys
+            //     };
+            //
+            //     $scope.$emit(applicationEvents.LOGIN_SUCCESSFUL, applicationState);
+            // }
         };
     }
 

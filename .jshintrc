@@ -1,5 +1,7 @@
 {
   "bitwise": true,
+  "es6": true,
+  "modules": true,
   "camelcase": true,
   "curly": true,
   "eqeqeq": true,
@@ -28,9 +30,8 @@
   "boss": false,
   "debug": false,
   "eqnull": true,
-  "esnext": false,
   "evil": false,
-  "expr": false,
+  "expr": true,
   "funcscope": false,
   "globalstrict": false,
   "iterator": false,
@@ -63,6 +64,7 @@
     "OrderPrice": false,
     "converters": false,
     "d3": false,
-    "techan": false
+    "techan": false,
+    "BaseClass": false
   }
 }
