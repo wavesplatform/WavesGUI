@@ -40,6 +40,7 @@
     "jscs": "^3.0.7",
     "karma": "^0.13.0",
     "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.1",
     "karma-jasmine": "1.0.2",
     "pixrem": "^3.0.2",
     "waves-grunt-github-releaser": "^0.2.0"

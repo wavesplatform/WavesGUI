@@ -9,7 +9,8 @@
 
     class HomeController {
 
-        constructor($scope, $timeout, $window, events, applicationConstants, utilsService, dialogService, notificationService) {
+        constructor($scope, $timeout, $window, events, applicationConstants, utilsService, dialogService,
+                    notificationService) {
 
             this.$window = $window;
             this.dialogService = dialogService;
