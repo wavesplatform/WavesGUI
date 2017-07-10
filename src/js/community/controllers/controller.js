@@ -8,7 +8,6 @@
     class CommunityController {
 
         constructor($scope, $interval, apiService, applicationContext) {
-            let refreshPromise;
 
             this.apiService = apiService;
             this.applicationContext = applicationContext;
@@ -21,12 +20,12 @@
 
             this.refreshData();
 
-            refreshPromise = $interval(this.refreshData.bind(this), REFRESH_DELAY);
+            let $intervalId = $interval(this.refreshData.bind(this), REFRESH_DELAY);
 
             $scope.$on('$destroy', function () {
-                if (angular.isDefined(refreshPromise)) {
-                    $interval.cancel(refreshPromise);
-                    refreshPromise = undefined;
+                if (angular.isDefined($intervalId)) {
+                    $interval.cancel($intervalId);
+                    $intervalId = undefined;
                 }
             });
         }
