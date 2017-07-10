@@ -69,10 +69,6 @@
             accountService.addAccount(account);
 
             loginContext.notifySignedIn($scope, address, seed, keys);
-
-            cleanup();
-
-            return true;
         }
 
         function cancel() {
@@ -81,7 +77,9 @@
         }
     }
 
-    AccountRegisterController.$inject = ['$scope', 'accountService', 'cryptoService', 'loginContext'];
+    AccountRegisterController.$inject = [
+        '$scope', 'accountService', 'cryptoService', 'loginContext'
+    ];
 
     angular
         .module('app.login')

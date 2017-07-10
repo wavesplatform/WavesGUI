@@ -1,0 +1,188 @@
+<div id="wrapper" ng-cloak>
+    <!-- shared blocks -->
+    <div id="feat-not-active" waves-dialog global="true" show-buttons="false" is-error="true">
+        <h2 class="sectionHeader">NOTICE</h2>
+        <p class="dialog-text">This feature is still under development and not active during the alpha release.</p>
+        <p class="dialog-text">Follow our social media channels to stay up to date with the latest improvements and
+            developments.</p>
+        <div class="modal-media">
+            <a href="https://blog.wavesplatform.com/" target="_blank"><img class="modal-media-img"
+                                                                           src="img/modal-icon-blog.svg"/></a>
+            <a href="https://twitter.com/wavesplatform" target="_blank"><img class="modal-media-img"
+                                                                             src="img/modal-icon-twitter.svg"/></a>
+            <a href="https://www.facebook.com/wavesplatform" target="_blank"><img class="modal-media-img"
+                                                                                  src="img/modal-icon-facebook.svg"/></a>
+            <a href="http://slack.wavesplatform.com/" target="_blank"><img class="modal-media-img"
+                                                                           src="img/modal-icon-slack.svg"/></a>
+            <a href="https://www.reddit.com/r/Wavesplatform/" target="_blank"><img class="modal-media-img"
+                                                                                   src="img/modal-icon-reddit.svg"/></a>
+            <a href="https://vk.com/wavesplatform" target="_blank"><img id="icon-blog" class="modal-media-img"
+                                                                        src="img/modal-icon-vk.svg"/></a>
+        </div>
+    </div>
+    <!-- /shared blocks-->
+
+    <!-- HEADER -->
+    <header class="fFade noSelect" ng-controller="mainMenuController as menu">
+        <img id="topLogoH" src="img/logo-top-left-h.svg" alt="Waves platform logo horizontal"/>
+        <div id="logoNversion2">
+            <img src="img/logo-top-left.svg"/>
+            <p ng-class='{testnet: isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
+        </div>
+        <span id="version" class="centerIt">Address:
+                <span id="wavesAccountAddress" class="clipSpan" tooltipster tooltip-theme="tooltipster-theme3"
+                      title="Copy the address to clipboard." ngclipboard data-clipboard-text="{{::menu.address}}"
+                      ngclipboard-success="clipboardOk()">{{::menu.address}}</span>
+                <span class="divider-2"></span>
+                <span class="inlineParagraph">Block:</span> <span id="blockheight">{{menu.blockHeight}}</span>
+            </span>
+
+        <div id="header-Iconset">
+            <a ng-click="menu.showBackupDialog()">
+                <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2"
+                     src="img/uiTB-iconset-backup.svg" alt="Backup" title="Backup"/>
+            </a>
+            <div id="header-wPop-backup" waves-dialog global="true" on-dialog-ok="menu.backup()"
+                 ok-button-caption="COPY" cancel-button-caption="CLOSE">
+                <h2 class="sectionHeader">ACCOUNT INFO BACKUP</h2>
+                <p>This area contains your account's basic information. Click the <span class="fontBold">COPY</span>
+                    button in order to copy the contents to the clipboard or <span class="fontBold">CLOSE</span> to
+                    exit.</p></br>
+                <form id="backupForm">
+                    <label for="seedBackup">SEED</label><br/>
+                    <textarea id="seedBackup" class="wInput" rows="4" readonly ng-model="menu.seed"></textarea><br/>
+                    <label for="encodedSeedBackup">ENCODED SEED</label><br/>
+                    <textarea id="encodedSeedBackup" class="wInput" rows="4" readonly
+                              ng-model="menu.encodedSeed"></textarea><br/>
+                    <label for="privateKeyBackup">PRIVATE KEY</label><br/>
+                    <input id="privateKeyBackup" class="wInput" type="text" readonly ng-model="menu.privateKey"/><br/>
+                    <label for="publicKeyBackup">PUBLIC KEY</label><br/>
+                    <input id="publicKeyBackup" class="wInput" type="text" readonly ng-model="menu.publicKey"/><br/>
+                    <label for="addressBackup">ADDRESS</label><br/>
+                    <input id="addressBackup" class="wInput" type="text" readonly ng-model="menu.address"/>
+                </form>
+            </div>
+            <a ng-click="home.featureUnderDevelopment()">
+                <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2"
+                     src="img/uiTB-iconset-preferences.svg" alt="Preferences" title="Preferences"/>
+            </a>
+            <a ng-click="home.featureUnderDevelopment()">
+                <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2"
+                     src="img/uiTB-iconset-profile.svg" alt="User profile" title="User profile"/>
+            </a>
+            <div class="noDisp" ng-controller="createAliasController as create">
+                <div id="create-alias-dialog" waves-dialog global="true" ok-button-caption="CREATE"
+                     on-dialog-ok="create.confirmCreateAlias(create.form)">
+                    <h2 class="sectionHeader">CREATE NEW ALIAS</h2>
+                    <p>Here you can assign a symbolic name to your address</p>
+                    <form name="create.form" novalidate ng-validate="create.validationOptions">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td width="30%">Alias</td>
+                                <td><input class="wInput form-control" name="aliasName" type="text"
+                                           placeholder="Symbolic name" ng-model="create.alias"/></td>
+                            </tr>
+                            <tr>
+                                <td>Waves fee</td>
+                                <td>{{::create.fee.formatAmount(true)}} {{::create.fee.currency.displayName}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div id="create-alias-confirmation" waves-dialog global="true" ok-button-caption="CONFIRM"
+                     ok-button-enabled="!create.broadcast.pending" on-dialog-ok="create.broadcastTransaction()">
+                    <div class="dialog-confirmation">
+                        <p class="dialog-text">You are going to create a new alias <span class="confirmation-value">{{create.alias}}</span>
+                            for your current address.
+                        </p>
+                        <p class="dialog-text">Press <span class="fontBold"> CONFIRM </span>to execute or <span
+                                class="fontBold"> CANCEL </span> to discard this operation.</p>
+                    </div>
+                </div>
+            </div>
+            <a ng-click="home.logout()">
+                <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2"
+                     src="img/uiTB-iconset-logout.svg" alt="Log out" title="Log out"/>
+            </a>
+        </div>
+        <waves-support-link class="in-header light"></waves-support-link>
+    </header>
+    <!-- / HEADER -->
+
+    <div id="navigationContainer" ng-controller="navigationController as nav">
+        <!-- APPLICATION TAB SELECTORS -->
+        <section id="tabs" class="fFade noSelect">
+            <div id="tabs-Iconset" class="centerIt">
+                <span waves-tab
+                      on-select="nav.changeTab(pageId)"
+                      current-page-id="nav.currentTab"
+                      page-id="wallet"
+                      caption="'Wallet tab'"
+                      tooltipster
+                      tooltip-html
+                      tooltip-theme="tooltipster-theme3"
+                      tooltip-title="<center><u>Wallet</u></center><br/>Area containing the main wallets."></span>
+                <span waves-tab
+                      on-select="nav.changeTab(pageId)"
+                      current-page-id="nav.currentTab"
+                      page-id="portfolio"
+                      caption="'Portfolio tab'"
+                      tooltipster
+                      tooltip-html
+                      tooltip-theme="tooltipster-theme3"
+                      tooltip-title="<center><u>Portfolio</u></center><br/>Display all your assets, both digital and physical,<br/>as well as allowing transfers."></span>
+                <span waves-tab
+                      on-select="nav.changeTab(pageId)"
+                      current-page-id="nav.currentTab"
+                      page-id="exchange"
+                      caption="'Exchange tab'"
+                      tooltipster
+                      tooltip-html
+                      tooltip-theme="tooltipster-theme3"
+                      tooltip-title="<center><u>Waves Decentralized Exchange</u></center><br/>Access to Waves markets where you can<br/>conveniently buy, sell and trade tokens."></span>
+                <span waves-tab
+                      on-select="nav.changeTab(pageId)"
+                      current-page-id="nav.currentTab"
+                      page-id="leasing"
+                      caption="'Waves leasing tab'"
+                      tooltipster
+                      tooltip-html
+                      tooltip-theme="tooltipster-theme3"
+                      tooltip-title="<center><u>Leasing</u></center><br/>Lease your Waves<br/>to another wallet."></span>
+                <span waves-tab
+                      on-select="nav.changeTab(pageId)"
+                      current-page-id="nav.currentTab"
+                      page-id="history"
+                      caption="'History tab'"
+                      tooltipster
+                      tooltip-html
+                      tooltip-theme="tooltipster-theme3"
+                      tooltip-title="<center><u>History</u></center><br/>Access all your transaction records."></span>
+                <span waves-tab
+                      on-select="nav.changeTab(pageId)"
+                      current-page-id="nav.currentTab"
+                      page-id="tokens"
+                      caption="'Tokens Creation tab'"
+                      tooltipster
+                      tooltip-html
+                      tooltip-theme="tooltipster-theme3"
+                      tooltip-title="<center><u>Tokens Creation tab</u></center><br/>Area in which assets can be created."></span>
+                <span waves-tab
+                      on-select="nav.changeTab(pageId)"
+                      current-page-id="nav.currentTab"
+                      page-id="community"
+                      caption="'Community tab'"
+                      tooltipster
+                      tooltip-html
+                      tooltip-theme="tooltipster-theme3"
+                      tooltip-title="<center><u>Community tab</u></center><br/>Resources to learn more about Waves project such as <br/>forums, blogs, websites, etc."></span>
+            </div>
+        </section>
+
+        <section id="mainBody" class="wScroll">
+            <ui-view name="content"></ui-view>
+        </section>
+    </div>
+</div>

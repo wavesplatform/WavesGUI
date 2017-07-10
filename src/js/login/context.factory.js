@@ -1,9 +1,9 @@
 (function () {
     'use strict';
 
-    function LoginContextFactory(moduleEvents, applicationEvents, modes) {
+    function LoginContextFactory(moduleEvents, applicationEvents, modes, applicationContext, apiService, $state) {
         return {
-            showAccountsListScreen: function($scope) {
+            showAccountsListScreen: function ($scope) {
                 $scope.$emit(moduleEvents.CHANGE_MODE, modes.LIST);
             },
 
@@ -24,18 +24,37 @@
             },
 
             notifySignedIn: function ($scope, rawAddress, seed, keys) {
-                var applicationState = {
+                const applicationState = {
                     address: rawAddress,
                     seed: seed,
                     keyPair: keys
                 };
 
-                $scope.$emit(applicationEvents.LOGIN_SUCCESSFUL, applicationState);
+                applicationContext.account = applicationState;
+                apiService.assets.balance(applicationContext.account.address)
+                    .then(function (response) {
+                        _.forEach(response.balances, function (balanceItem) {
+                            applicationContext.cache.putAsset(balanceItem.issueTransaction);
+                        });
+                    });
+
+                $state.go('home.wallet');
             }
+            // notifySignedIn: function ($scope, rawAddress, seed, keys) {
+            //     var applicationState = {
+            //         address: rawAddress,
+            //         seed: seed,
+            //         keyPair: keys
+            //     };
+            //
+            //     $scope.$emit(applicationEvents.LOGIN_SUCCESSFUL, applicationState);
+            // }
         };
     }
 
-    LoginContextFactory.$inject = ['ui.login.events', 'ui.events', 'ui.login.modes'];
+    LoginContextFactory.$inject = [
+        'ui.login.events', 'ui.events', 'ui.login.modes', 'applicationContext', 'apiService', '$state'
+    ];
 
     angular
         .module('app.login')

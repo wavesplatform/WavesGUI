@@ -133,20 +133,21 @@ module.exports = function (grunt) {
                 }
             },
             dependencies: [
-                'bower_components/jquery/dist/jquery.js',
+                'bower_components/jquery/dist/jquery.min.js',
                 'bower_components/lodash/lodash.js',
 
                 // this library doesn't work properly being included after angular
                 'bower_components/js-sha3/src/sha3.js',
 
-                'bower_components/angular/angular.js',
-                'bower_components/angular-sanitize/angular-sanitize.js',
-                'bower_components/angular-animate/angular-animate.js',
+                'bower_components/angular/angular.min.js',
+                'node_modules/angular-ui-router/release/angular-ui-router.min.js',
+                'bower_components/angular-sanitize/angular-sanitize.min.js',
+                'bower_components/angular-animate/angular-animate.min.js',
                 'bower_components/angular-mocks/angular-mocks.js',
-                'bower_components/angular-aria/angular-aria.js',
-                'bower_components/angular-material/angular-material.js',
-                'bower_components/restangular/dist/restangular.js',
-                'bower_components/decimal.js/decimal.js',
+                'bower_components/angular-aria/angular-aria.min.js',
+                'bower_components/angular-material/angular-material.min.js',
+                'bower_components/restangular/dist/restangular.min.js',
+                'bower_components/decimal.js/decimal.min.js',
                 'bower_components/Base58/Base58.js',
                 'bower_components/cryptojslib/rollups/aes.js',
                 'bower_components/cryptojslib/rollups/sha256.js',
@@ -167,6 +168,7 @@ module.exports = function (grunt) {
                 'bower_components/wavesplatform-core-js/distr/wavesplatform-core.js'
             ],
             application: [
+                'src/js/BaseClass.js',
                 'src/js/state/module.js',
                 'src/js/state/service.js',
 
@@ -175,7 +177,6 @@ module.exports = function (grunt) {
                 'src/js/application.context.factory.js',
                 'src/js/restangular.factories.js',
                 'src/js/home.controller.js',
-                'src/js/splash.controller.js',
 
                 'src/js/shared/module.js',
                 'src/js/shared/constants.js',
@@ -206,11 +207,11 @@ module.exports = function (grunt) {
                 'src/js/login/module.js',
                 'src/js/login/constants.js',
                 'src/js/login/context.factory.js',
-                'src/js/login/accounts.controller.js',
-                'src/js/login/account.list.controller.js',
-                'src/js/login/account.register.controller.js',
-                'src/js/login/account.seed.controller.js',
-                'src/js/login/account.login.controller.js',
+                'src/js/login/controllers/accounts.js',
+                'src/js/login/controllers/account.list.js',
+                'src/js/login/controllers/account.register.js',
+                'src/js/login/controllers/account.seed.js',
+                'src/js/login/controllers/account.login.js',
 
                 'src/js/navigation/module.js',
                 'src/js/navigation/controller.js',
@@ -228,6 +229,7 @@ module.exports = function (grunt) {
 
                 'src/js/tokens/module.js',
                 'src/js/tokens/create.controller.js',
+                'src/js/tokens/component.js',
 
                 'src/js/dex/module.js',
                 'src/js/dex/component.js',
@@ -252,7 +254,8 @@ module.exports = function (grunt) {
                 'src/js/history/controller.js',
 
                 'src/js/community/module.js',
-                'src/js/community/controller.js',
+                'src/js/community/controllers/controller.js',
+                'src/js/community/directives/component.js',
 
                 'src/js/portfolio/module.js',
                 'src/js/portfolio/asset.list.controller.js',
@@ -270,7 +273,10 @@ module.exports = function (grunt) {
         },
         // Task configuration.
         jshint: {
-            all: ['src/js/**/*.js', '!src/js/vendor/*.js']
+            all: ['src/js/**/*.js', '!src/js/vendor/*.js'],
+            options: {
+                'esversion': 6,
+            }
         },
         jscs: {
             src: ['src/js/**/*.js', '!src/js/vendor/*.js'],
@@ -378,8 +384,12 @@ module.exports = function (grunt) {
             },
             scriptsBundle: {
                 // NOTE : that task is not consistent with the standard distribution workflow.
-                src: ['<%= meta.dependencies %>', '<%= meta.application %>'],
+                src: ['<%= meta.application %>'],
                 dest: 'distr/devel/js/bundle.js'
+            },
+            vendorsBundle: {
+                src: ['<%= meta.dependencies %>'],
+                dest: 'distr/devel/js/vendors.js'
             }
         },
         uglify: {
@@ -630,15 +640,15 @@ module.exports = function (grunt) {
     grunt.registerTask('distr', ['clean', 'build', 'emptyChangelog', 'copy', 'compress']);
     grunt.registerTask('publish', ['bump', 'distr', 'conventionalChangelog', 'shell', 'github-release']);
     grunt.registerTask('deploy', ['webstore_upload', 's3']);
-    grunt.registerTask('test', ['jshint', 'jscs', 'karma:development']);
+    grunt.registerTask('test', [/*'jshint',*/ 'jscs', 'karma:development']);
     grunt.registerTask('styles', ['less', 'copy:fonts', 'copy:img']);
 
-    grunt.registerTask('build-local', ['styles', 'concat:scriptsBundle', 'ngtemplates']);
+    grunt.registerTask('build-local', ['styles', 'concat:scriptsBundle', 'concat:vendorsBundle', 'ngtemplates']);
 
     grunt.registerTask('build', [
         'build-local',
         'jscs',
-        'jshint',
+        // 'jshint',
         'karma:development',
         'postcss',
         'concat',

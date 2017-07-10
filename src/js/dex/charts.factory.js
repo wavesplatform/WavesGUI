@@ -4,6 +4,7 @@
     angular
         .module('app.dex')
         .factory('chartsFactory', [function () {
+
             function CandlestickChart($element) {
                 var w = $element.width(),
                     h = $element.height(),

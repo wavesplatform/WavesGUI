@@ -1,37 +1,43 @@
 (function () {
     'use strict';
 
-    function HistoryController($scope, $interval, applicationContext, transactionLoadingService) {
-        var history = this;
-        var refreshPromise;
-        var refreshDelay = 10 * 1000;
+    const REFRESH_DELAY = 10 * 1000;
 
-        history.transactions = [];
 
-        refreshTransactions();
+    class HistoryController {
 
-        refreshPromise = $interval(refreshTransactions, refreshDelay);
+        constructor($scope, $interval, applicationContext, transactionLoadingService) {
+            this.transactions = [];
 
-        $scope.$on('$destroy', function () {
-            if (angular.isDefined(refreshPromise)) {
-                $interval.cancel(refreshPromise);
-                refreshPromise = undefined;
-            }
-        });
+            this.applicationContext = applicationContext;
+            this.transactionLoadingService = transactionLoadingService;
 
-        function refreshTransactions() {
-            var txArray;
-            transactionLoadingService.loadTransactions(applicationContext.account)
-                .then(function (transactions) {
+            this.refreshTransactions();
+            let $intervalId = $interval(this.refreshTransactions.bind(this), REFRESH_DELAY);
+
+            $scope.$on('$destroy', function () {
+                if (angular.isDefined($intervalId)) {
+                    $interval.cancel($intervalId);
+                    $intervalId = undefined;
+                }
+            });
+        }
+
+        refreshTransactions() {
+            let txArray;
+            this.transactionLoadingService.loadTransactions(applicationContext.account)
+                .then((transactions) => {
                     txArray = transactions;
 
-                    return transactionLoadingService.refreshAssetCache(applicationContext.cache.assets, transactions);
+                    return this.transactionLoadingService
+                        .refreshAssetCache(this.applicationContext.cache.assets, transactions);
                 })
-                .then(function () {
+                .then(() => {
                     history.transactions = txArray;
                 });
         }
     }
+
 
     HistoryController.$inject = ['$scope', '$interval', 'applicationContext', 'transactionLoadingService'];
 

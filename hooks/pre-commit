@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo "pre commit hook"
+grunt jscs || exit 1
+echo "pre commit >> DONE"
+
+exit 0

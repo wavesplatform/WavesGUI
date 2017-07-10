@@ -6,12 +6,15 @@
  */
 
 // mock methods to implement late binding
-var __mockShowError = function(message) {};
-var __mockValidateAddress = function(address) {};
+var __mockShowError = function (message) {
+};
+var __mockValidateAddress = function (address) {
+};
 
 var app = angular.module('app', [
     'restangular',
     'waves.core',
+    'ui.router',
 
     'ngclipboard',
     'ngAnimate',
@@ -33,8 +36,8 @@ var app = angular.module('app', [
 ]).config(AngularApplicationConfig).run(AngularApplicationRun);
 
 function AngularApplicationConfig($provide, $compileProvider, $validatorProvider, $qProvider,
-                                  $sceDelegateProvider, $mdAriaProvider, networkConstants,
-                                  applicationConstants) {
+                                  $sceDelegateProvider, $mdAriaProvider, networkConstants, applicationConstants,
+                                  $stateProvider, $urlRouterProvider) {
     'use strict';
 
     $provide.constant(networkConstants,
@@ -71,8 +74,8 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
     $validatorProvider.setDefaults({
         errorClass: 'wInput-error',
         onkeyup: false,
-        showErrors : function(errorMap, errorList) {
-            errorList.forEach(function(error) {
+        showErrors: function (errorMap, errorList) {
+            errorList.forEach(function (error) {
                 // can't use notificationService here cos services are not available in config phase
                 __mockShowError(error.message);
             });
@@ -135,15 +138,95 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
 
         return converters.stringToByteArray(value).length <= maxLength;
     }, 'String is too long. Please remove some characters.');
+
+    $urlRouterProvider
+        .otherwise('/wallet');
+
+    $stateProvider
+        .state('login', {
+            url: '/login',
+            views: {
+                main: {
+                    templateUrl: 'login/login'
+                }
+            }
+        })
+        .state('home', {
+            url: '/',
+            abstract: true,
+            views: {
+                main: {
+                    templateUrl: 'core/core'
+                }
+            }
+        })
+        .state('home.wallet', {
+            url: 'wallet',
+            views: {
+                content: {
+                    templateUrl: 'wallet/wallet'
+                }
+            }
+        })
+        .state('home.portfolio', {
+            url: 'portfolio',
+            views: {
+                content: {
+                    templateUrl: 'portfolio/portfolio'
+                }
+            }
+        })
+        .state('home.exchange', {
+            url: 'exchange',
+            views: {
+                content: {
+                    templateUrl: 'dex/dex'
+                }
+            }
+        })
+        .state('home.leasing', {
+            url: 'leasing',
+            views: {
+                content: {
+                    templateUrl: 'leasing/leasing'
+                }
+            }
+        })
+        .state('home.history', {
+            url: 'history',
+            views: {
+                content: {
+                    templateUrl: 'history/history'
+                }
+            }
+        })
+        .state('home.tokens', {
+            url: 'tokens',
+            views: {
+                content: {
+                    templateUrl: 'tokens/tokens'
+                }
+            }
+        })
+        .state('home.community', {
+            url: 'community',
+            views: {
+                content: {
+                    templateUrl: 'community/community'
+                }
+            }
+        });
+
 }
 
-AngularApplicationConfig.$inject = ['$provide', '$compileProvider', '$validatorProvider', '$qProvider',
-                                    '$sceDelegateProvider', '$mdAriaProvider', 'constants.network',
-                                    'constants.application'];
+AngularApplicationConfig.$inject = [
+    '$provide', '$compileProvider', '$validatorProvider', '$qProvider',
+    '$sceDelegateProvider', '$mdAriaProvider', 'constants.network', 'constants.application',
+    '$stateProvider', '$urlRouterProvider'
+];
 
-function AngularApplicationRun(rest, applicationConstants, notificationService, addressService) {
+function AngularApplicationRun(rest, applicationConstants, notificationService, addressService, $state) {
     'use strict';
-
     var url = applicationConstants.NODE_ADDRESS;
 
     // restangular configuration
@@ -161,6 +244,10 @@ function AngularApplicationRun(rest, applicationConstants, notificationService, 
     __mockValidateAddress = function (address) {
         return addressService.validateAddress(address.trim());
     };
+
+    $state.go('login');
 }
 
-AngularApplicationRun.$inject = ['Restangular', 'constants.application', 'notificationService', 'addressService'];
+AngularApplicationRun.$inject = [
+    'Restangular', 'constants.application', 'notificationService', 'addressService', '$state'
+];

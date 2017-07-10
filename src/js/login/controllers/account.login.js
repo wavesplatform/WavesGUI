@@ -38,7 +38,9 @@
         }
     }
 
-    AccountLoginController.$inject = ['$scope', 'cryptoService', 'loginContext', 'notificationService'];
+    AccountLoginController.$inject = [
+        '$scope', 'cryptoService', 'loginContext', 'notificationService'
+    ];
 
     angular
         .module('app.login')
