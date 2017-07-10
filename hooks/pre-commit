@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
 echo "pre commit hook"
+grunt jscs || exit 1
+echo "pre commit >> DONE"
 
-bower jscs || exit 1
+exit 0
