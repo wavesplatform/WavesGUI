@@ -25,7 +25,7 @@
 
         refreshTransactions() {
             let txArray;
-            this.transactionLoadingService.loadTransactions(applicationContext.account)
+            this.transactionLoadingService.loadTransactions(this.applicationContext.account)
                 .then((transactions) => {
                     txArray = transactions;
 
