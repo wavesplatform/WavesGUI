@@ -3,7 +3,6 @@
 
     const REFRESH_DELAY = 10 * 1000;
 
-
     class HistoryController {
 
         constructor($scope, $interval, applicationContext, transactionLoadingService) {
@@ -37,7 +36,6 @@
                 });
         }
     }
-
 
     HistoryController.$inject = ['$scope', '$interval', 'applicationContext', 'transactionLoadingService'];
 
