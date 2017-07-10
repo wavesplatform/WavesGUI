@@ -6,12 +6,10 @@
  */
 
 // mock methods to implement late binding
-var __mockShowError = function (message) {
-};
-var __mockValidateAddress = function (address) {
-};
+let __mockShowError = _.identity;
+let __mockValidateAddress = _.identity;
 
-var app = angular.module('app', [
+const app = angular.module('app', [
     'restangular',
     'waves.core',
     'ui.router',
@@ -38,6 +36,7 @@ var app = angular.module('app', [
 function AngularApplicationConfig($provide, $compileProvider, $validatorProvider, $qProvider,
                                   $sceDelegateProvider, $mdAriaProvider, networkConstants, applicationConstants,
                                   $stateProvider, $urlRouterProvider) {
+
     'use strict';
 
     $provide.constant(networkConstants,
@@ -80,7 +79,7 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
                 __mockShowError(error.message);
             });
 
-            var i, elements;
+            let i, elements;
             for (i = 0, elements = this.validElements(); elements[i]; i++) {
                 angular.element(elements[i]).removeClass(this.settings.errorClass);
             }
@@ -98,7 +97,7 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
 
     $validatorProvider.addMethod('decimal', function (value, element, maxDigits) {
         maxDigits = angular.isNumber(maxDigits) ? maxDigits : Currency.WAVES.precision;
-        var regex = new RegExp('^(?:-?\\d+)?(?:\\.\\d{0,' + maxDigits + '})?$');
+        const regex = new RegExp('^(?:-?\\d+)?(?:\\.\\d{0,' + maxDigits + '})?$');
         return this.optional(element) || regex.test(value);
     }, 'Amount is expected with a dot (.) as a decimal separator with no more than {0} fraction digits');
 
@@ -107,9 +106,9 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
             return true;
         }
 
-        var containsDigits = /[0-9]/.test(value);
-        var containsUppercase = /[A-Z]/.test(value);
-        var containsLowercase = /[a-z]/.test(value);
+        const containsDigits = /[0-9]/.test(value);
+        const containsUppercase = /[A-Z]/.test(value);
+        const containsLowercase = /[a-z]/.test(value);
 
         return containsDigits && containsUppercase && containsLowercase;
     }, 'The password is too weak. A good password must contain at least one digit, ' +
@@ -226,8 +225,10 @@ AngularApplicationConfig.$inject = [
 ];
 
 function AngularApplicationRun(rest, applicationConstants, notificationService, addressService, $state) {
+
     'use strict';
-    var url = applicationConstants.NODE_ADDRESS;
+
+    const url = applicationConstants.NODE_ADDRESS;
 
     // restangular configuration
     rest.setDefaultHttpFields({
@@ -246,6 +247,7 @@ function AngularApplicationRun(rest, applicationConstants, notificationService, 
     };
 
     $state.go('login');
+
 }
 
 AngularApplicationRun.$inject = [
