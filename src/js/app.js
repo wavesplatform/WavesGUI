@@ -37,8 +37,10 @@ var app = angular.module('app', [
 
 function AngularApplicationConfig($provide, $compileProvider, $validatorProvider, $qProvider,
                                   $sceDelegateProvider, $mdAriaProvider, networkConstants, applicationConstants,
-                                  $stateProvider, $urlRouterProvider) {
+                                  $stateProvider, $urlRouterProvider, $locationProvider) {
     'use strict';
+
+    $locationProvider.html5Mode(true);
 
     $provide.constant(networkConstants,
         angular.extend(networkConstants, {
@@ -222,7 +224,7 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
 AngularApplicationConfig.$inject = [
     '$provide', '$compileProvider', '$validatorProvider', '$qProvider',
     '$sceDelegateProvider', '$mdAriaProvider', 'constants.network', 'constants.application',
-    '$stateProvider', '$urlRouterProvider'
+    '$stateProvider', '$urlRouterProvider', '$locationProvider'
 ];
 
 function AngularApplicationRun(rest, applicationConstants, notificationService, addressService, $state) {

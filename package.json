@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.7.6",
+    "connect": "^3.6.2",
     "cssnano": "^3.10.0",
     "electron": "^1.6.8",
     "electron-builder": "^17.5.0",
@@ -43,6 +44,7 @@
     "karma-coverage": "^1.1.1",
     "karma-jasmine": "1.0.2",
     "pixrem": "^3.0.2",
+    "serve-static": "^1.12.3",
     "waves-grunt-github-releaser": "^0.2.0"
   },
   "scripts": {
