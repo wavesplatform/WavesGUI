@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+echo "pre commit hook"
+
+bower jscs || exit 1
