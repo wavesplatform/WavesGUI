@@ -23,6 +23,7 @@
             const titlePrefix = utilsService.isTestnet() ? 'TESTNET ' : '';
 
             $scope.isTestnet = utilsService.isTestnet;
+            $scope.clipboardOk = this.clipboardOk.bind(this);
             this.loading = true;
 
             this.title = titlePrefix + 'Lite Client';
@@ -55,7 +56,7 @@
             // });
 
         }
-        //TODO check works!
+
         clipboardOk(message) {
             message = message || 'Address copied successfully';
             this.notificationService.notice(message);
