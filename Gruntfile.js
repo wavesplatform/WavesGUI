@@ -254,8 +254,8 @@ module.exports = function (grunt) {
                 'src/js/history/controller.js',
 
                 'src/js/community/module.js',
-                'src/js/community/controller.js',
-                'src/js/community/component.js',
+                'src/js/community/controllers/controller.js',
+                'src/js/community/directives/component.js',
 
                 'src/js/portfolio/module.js',
                 'src/js/portfolio/asset.list.controller.js',
