@@ -177,7 +177,6 @@ module.exports = function (grunt) {
                 'src/js/application.context.factory.js',
                 'src/js/restangular.factories.js',
                 'src/js/home.controller.js',
-                'src/js/splash.controller.js',
 
                 'src/js/shared/module.js',
                 'src/js/shared/constants.js',
@@ -208,11 +207,11 @@ module.exports = function (grunt) {
                 'src/js/login/module.js',
                 'src/js/login/constants.js',
                 'src/js/login/context.factory.js',
-                'src/js/login/accounts.controller.js',
-                'src/js/login/account.list.controller.js',
-                'src/js/login/account.register.controller.js',
-                'src/js/login/account.seed.controller.js',
-                'src/js/login/account.login.controller.js',
+                'src/js/login/controllers/accounts.js',
+                'src/js/login/controllers/account.list.js',
+                'src/js/login/controllers/account.register.js',
+                'src/js/login/controllers/account.seed.js',
+                'src/js/login/controllers/account.login.js',
 
                 'src/js/navigation/module.js',
                 'src/js/navigation/controller.js',
@@ -266,7 +265,6 @@ module.exports = function (grunt) {
                 'src/js/portfolio/asset.filter.js',
                 'src/js/portfolio/mass.payment.controller.js',
                 'src/js/portfolio/file.select.directive.js',
-                'src/js/portfolio/component.js',
 
                 'src/js/style.js',
 

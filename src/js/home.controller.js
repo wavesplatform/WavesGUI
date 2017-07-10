@@ -7,43 +7,66 @@
         main: 'main-screen'
     };
 
-    class HomeController extends BaseClass {
+    class HomeController {
 
-        constructor() {
-            super(...arguments);
+        constructor($scope, $timeout, $window, events, applicationConstants, utilsService, dialogService, notificationService) {
 
-            this.initialize();
+            this.$window = $window;
+            this.dialogService = dialogService;
+            this.notificationService = notificationService;
+
+            this.initialize(applicationConstants, utilsService, $timeout, $scope);
+            this.setHandlers($scope, events);
         }
 
-        initialize() {
-            const titlePrefix = this.deps.utilsService.isTestnet() ? 'TESTNET ' : '';
+        initialize(applicationConstants, utilsService, $timeout, $scope) {
+            const titlePrefix = utilsService.isTestnet() ? 'TESTNET ' : '';
 
-            this.isTestnet = this.deps.utilsService.isTestnet;
-            this.screen = SCREENS.splash;
+            $scope.isTestnet = utilsService.isTestnet;
+            this.loading = true;
 
             this.title = titlePrefix + 'Lite Client';
-            this.version = this.deps.applicationConstants.CLIENT_VERSION;
+            this.version = applicationConstants.CLIENT_VERSION;
+
+            $timeout(() => {
+                this.loading = false;
+            }, 1);
         }
 
-        setHandlers() {
-            super.setHandlers();
+        setHandlers($scope, events) {
 
-            this.$on(this.deps.events.SPLASH_COMPLETED, () => {
+            $scope.$on(events.SPLASH_COMPLETED, () => {
                 this.screen = SCREENS.accounts;
             });
-        }
 
+            // $scope.$on(events.LOGIN_SUCCESSFUL, function (event, account) {
+            //     // putting the current account to the app context
+            //     applicationContext.account = account;
+            //
+            //     apiService.assets.balance(applicationContext.account.address)
+            //         .then(function (response) {
+            //             _.forEach(response.balances, function (balanceItem) {
+            //                 applicationContext.cache.putAsset(balanceItem.issueTransaction);
+            //             });
+            //         })
+            //         .finally(function () {
+            //             ctrl.screen = SCREENS.main;
+            //         });
+            // });
+
+        }
+        //TODO check works!
         clipboardOk(message) {
             message = message || 'Address copied successfully';
-            this.deps.notificationService.notice(message);
+            this.notificationService.notice(message);
         }
 
         featureUnderDevelopment() {
-            this.deps.dialogService.open('#feat-not-active');
+            this.dialogService.open('#feat-not-active');
         }
 
         logout() {
-            const window = this.deps.$window;
+            const window = this.$window;
             if (window.chrome && window.chrome.runtime && typeof window.chrome.runtime.reload === 'function') {
                 window.chrome.runtime.reload();
             } else {
@@ -51,27 +74,12 @@
             }
         }
 
-        static $inject = [
-            '$window', 'ui.events', 'constants.application', 'utilsService',
-            'dialogService', 'applicationContext', 'notificationService', 'apiService'
-        ];
-
     }
 
-    // $scope.$on(events.LOGIN_SUCCESSFUL, function (event, account) {
-    //     // putting the current account to the app context
-    //     applicationContext.account = account;
-    //
-    //     apiService.assets.balance(applicationContext.account.address)
-    //         .then(function (response) {
-    //             _.forEach(response.balances, function (balanceItem) {
-    //                 applicationContext.cache.putAsset(balanceItem.issueTransaction);
-    //             });
-    //         })
-    //         .finally(function () {
-    //             ctrl.screen = SCREENS.main;
-    //         });
-    // });
+    HomeController.$inject = [
+        '$scope', '$timeout', '$window', 'ui.events', 'constants.application', 'utilsService',
+        'dialogService', 'notificationService'
+    ];
 
     angular
         .module('app.ui')

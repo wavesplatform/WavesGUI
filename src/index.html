@@ -29,9 +29,20 @@
   <link href="./img/favicon.ico" type="image/x-icon" rel="shortcut icon">
 </head>
 
-<body>
+<body ng-controller="homeController as home">
 
-<ui-view></ui-view>
+<!-- LOADER -->
+<div id="bg-spin" class="noSelect" ng-show="home.loading">
+  <div id="logo-container-centered" class="centerIt">
+    <div id="logoo">
+      <img id="logo-spin" src="img/logo-spin.svg" />
+      <p id="networkCheck">Loading...</p>
+    </div>
+  </div>
+</div>
+
+
+<ui-view name="main"></ui-view>
 
 <!-- JAVASCRIPT BEGIN -->
 <script src="../distr/devel/js/vendors.js"></script>

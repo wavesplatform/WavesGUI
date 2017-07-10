@@ -3,7 +3,7 @@
 
     var WALLET_NAME_MAXLENGTH = 16;
 
-    function AccountRegisterController($scope, accountService, cryptoService, loginContext, $state) {
+    function AccountRegisterController($scope, accountService, cryptoService, loginContext) {
         var ctrl = this;
 
         ctrl.validationOptions = {
@@ -68,7 +68,7 @@
 
             accountService.addAccount(account);
 
-            $state.go('home');
+            loginContext.notifySignedIn($scope, address, seed, keys);
         }
 
         function cancel() {
@@ -78,7 +78,7 @@
     }
 
     AccountRegisterController.$inject = [
-        '$scope', 'accountService', 'cryptoService', 'loginContext', '$state'
+        '$scope', 'accountService', 'cryptoService', 'loginContext'
     ];
 
     angular

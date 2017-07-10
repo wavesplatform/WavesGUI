@@ -140,16 +140,81 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
     }, 'String is too long. Please remove some characters.');
 
     $urlRouterProvider
-        .otherwise('/');
+        .otherwise('/wallet');
 
     $stateProvider
         .state('login', {
             url: '/login',
-            templateUrl: 'login/login'
+            views: {
+                main: {
+                    templateUrl: 'login/login'
+                }
+            }
         })
         .state('home', {
             url: '/',
-            templateUrl: 'core/core'
+            abstract: true,
+            views: {
+                main: {
+                    templateUrl: 'core/core'
+                }
+            }
+        })
+        .state('home.wallet', {
+            url: 'wallet',
+            views: {
+                content: {
+                    templateUrl: 'wallet/wallet'
+                }
+            }
+        })
+        .state('home.portfolio', {
+            url: 'portfolio',
+            views: {
+                content: {
+                    templateUrl: 'portfolio/portfolio'
+                }
+            }
+        })
+        .state('home.exchange', {
+            url: 'exchange',
+            views: {
+                content: {
+                    templateUrl: 'dex/dex'
+                }
+            }
+        })
+        .state('home.leasing', {
+            url: 'leasing',
+            views: {
+                content: {
+                    templateUrl: 'leasing/leasing'
+                }
+            }
+        })
+        .state('home.history', {
+            url: 'history',
+            views: {
+                content: {
+                    templateUrl: 'history/history'
+                }
+            }
+        })
+        .state('home.tokens', {
+            url: 'tokens',
+            views: {
+                content: {
+                    templateUrl: 'tokens/tokens'
+                }
+            }
+        })
+        .state('home.community', {
+            url: 'community',
+            views: {
+                content: {
+                    templateUrl: 'community/community'
+                }
+            }
         });
 
 }
