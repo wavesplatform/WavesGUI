@@ -163,8 +163,7 @@ module.exports = function (grunt) {
                     bundle: 'distr/<%= pkg.name %>-styles-<%= pkg.version %>.css'
                 }
             },
-            dependencies:
-                [
+            dependencies: [
                 'bower_components/jquery/dist/jquery.min.js',
                 'bower_components/lodash/lodash.js',
 
