@@ -34,6 +34,27 @@ module.exports = function (grunt) {
         return files;
     }
 
+    var SOURCE_LIST = getFilesFrom('./src/js', '.js', function (name, path) {
+        return name.indexOf('.spec') === -1 && path.indexOf('/test/') === -1;
+    });
+
+    var ES5_PROCESS = function (item) {
+        return item.replace('src/js', 'tmp');
+    };
+
+    var MIN_PROCESS = function (item) {
+        return item.replace('.js', '.min.js');
+    };
+
+    var GET_PROCESS_FUNC = function () {
+        var processes = Array.prototype.slice.call(arguments);
+        return function (item) {
+            return processes.reduce(function (result, process) {
+                return process(result);
+            }, item);
+        }
+    };
+
     var replaceVersion = function (content, target) {
         return content
             .replace(/CLIENT_VERSION\s*:\s*'[^']+'/, grunt.template.process("CLIENT_VERSION: '<%= pkg.version %>a'"))
@@ -65,8 +86,9 @@ module.exports = function (grunt) {
         }
 
         return {
-            src: ['<%= meta.dependencies %>', '<%= meta.application %>', compiledTemplates],
-            dest: 'distr/<%= pkg.name %>-<%= meta.configurations.' + target + '.name %>-<%= pkg.version %>.js',
+            src: ['<%= meta.dependencies %>'].concat(
+                SOURCE_LIST.map(GET_PROCESS_FUNC(ES5_PROCESS, MIN_PROCESS)), compiledTemplates),
+            dest: 'distr/<%= pkg.name %>-<%= meta.configurations.' + target + '.name %>-<%= pkg.version %>.min.js',
             options: {
                 process: function (content, srcPath) {
                     if (srcPath.endsWith('app.js'))
@@ -198,9 +220,7 @@ module.exports = function (grunt) {
 
                 'bower_components/wavesplatform-core-js/distr/wavesplatform-core.js'
             ],
-            application: getFilesFrom('./src/js', '.js', function (name, path) {
-                return name.indexOf('.spec') === -1 && path.indexOf('/test/') === -1;
-            }),
+            application: SOURCE_LIST,
         },
         // Task configuration.
         jshint: {
@@ -239,8 +259,6 @@ module.exports = function (grunt) {
             development: {
                 options: {
                     files: [
-                        'node_modules/es6-promise/dist/es6-promise.min.js',
-
                         '<%= meta.dependencies %>',
                         '<%= meta.application %>',
 
@@ -253,6 +271,7 @@ module.exports = function (grunt) {
                 options: {
                     files: [
                         'distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.js',
+                        'src/js/test/mock/module.js',
                         'src/js/**/*.spec.js'
                     ]
                 }
@@ -261,8 +280,21 @@ module.exports = function (grunt) {
                 options: {
                     files: [
                         'distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.min.js',
+                        'src/js/test/mock/module.js',
                         'src/js/**/*.spec.js'
-                    ]
+                    ],
+                    coverageReporter: {
+                        type : 'html',
+                        dir : 'coverage/',
+                        check: {
+                            global: {
+                                statements: 1,
+                                lines: 1,
+                                functions: 1,
+                                branches: 1
+                            }
+                        }
+                    }
                 }
             }
         },
@@ -323,23 +355,30 @@ module.exports = function (grunt) {
                 dest: 'distr/devel/js/vendors.js'
             }
         },
+        babel: {
+            options: {
+                sourceMap: false,
+                presets: ['es2015']
+            },
+            dist: {
+                files: SOURCE_LIST.reduce(function (result, item) {
+                    result[ES5_PROCESS(item)] = item;
+                    return result;
+                }, {})
+            }
+        },
         uglify: {
             options: {
                 mangle: false
             },
             distr: {
-                files: {
-                    'distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.js'],
-                    'distr/<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-<%= pkg.version %>.js'],
-                    'distr/<%= pkg.name %>-<%= meta.configurations.devnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.devnet.name %>-<%= pkg.version %>.js'],
-                    'distr/<%= pkg.name %>-<%= meta.configurations.chrome.mainnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.chrome.mainnet.name %>-<%= pkg.version %>.js'],
-                    'distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-<%= pkg.version %>.js'],
-                    'distr/<%= pkg.name %>-<%= meta.configurations.desktop.mainnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.desktop.mainnet.name %>-<%= pkg.version %>.js'],
-                    'distr/<%= pkg.name %>-<%= meta.configurations.desktop.testnet.name %>-<%= pkg.version %>.min.js': ['distr/<%= pkg.name %>-<%= meta.configurations.desktop.testnet.name %>-<%= pkg.version %>.js']
-                }
+                files: SOURCE_LIST.reduce(function (result, item) {
+                    result[GET_PROCESS_FUNC(ES5_PROCESS, MIN_PROCESS)(item)] = GET_PROCESS_FUNC(ES5_PROCESS)(item);
+                    return result;
+                }, {})
             }
         },
-        clean: ['build/**', 'distr/**'],
+        clean: ['build/**', 'distr/**', 'tmp/**'],
         copy: {
             options: {
                 // if this line is not included copy corrupts binary files
@@ -560,6 +599,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-postcss');
+    grunt.loadNpmTasks('grunt-babel');
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-webstore-upload');
     grunt.loadNpmTasks('waves-grunt-github-releaser');
@@ -574,6 +614,8 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [/*'jshint',*/ 'jscs', 'karma:development']);
     grunt.registerTask('styles', ['less', 'copy:fonts', 'copy:img']);
 
+    grunt.registerTask('minBabel', ['babel', 'uglify']);
+
     grunt.registerTask('build-local', ['styles', 'concat:scriptsBundle', 'concat:vendorsBundle', 'ngtemplates']);
 
     grunt.registerTask('build', [
@@ -582,9 +624,8 @@ module.exports = function (grunt) {
         // 'jshint',
         'karma:development',
         'postcss',
+        'minBabel',
         'concat',
-        'karma:distr',
-        'uglify',
         'karma:minified'
     ]);
 
