@@ -1,50 +1,56 @@
 (function () {
     'use strict';
 
-    function AccountListController($scope, accountService, dialogService, loginContext) {
-        var list = this;
-        list.accounts = [];
-        list.removeCandidate = {};
+    class AccountListController {
 
-        list.removeAccount = removeAccount;
-        list.createAccount = createAccount;
-        list.importAccount = importAccount;
-        list.signIn = signIn;
-        list.showRemoveWarning = showRemoveWarning;
+        /**
+         * @constructor
+         * @param $scope
+         * @param dialogService
+         * @param {LoginContext} loginContext
+         */
+        constructor($scope, dialogService, loginContext) {
+            this.$scope = $scope;
+            this.loginContext = loginContext;
+            this.dialogService = dialogService;
+            this.accounts = [];
+            this.removeCandidate = {};
 
-        accountService.getAccounts().then(function (accounts) {
-            list.accounts = accounts;
-        });
-
-        function showRemoveWarning(index) {
-            list.removeIndex = index;
-            list.removeCandidate = list.accounts[index];
-            dialogService.open('#account-remove-popup');
+            loginContext.getAccounts().then((accounts) => {
+                this.accounts = accounts;
+            });
         }
 
-        function removeAccount() {
-            if (list.removeCandidate) {
-                accountService.removeAccountByIndex(list.removeIndex).then(function () {
-                    list.removeCandidate = undefined;
-                    list.removeIndex = undefined;
+        showRemoveWarning(index) {
+            this.removeIndex = index;
+            this.removeCandidate = this.accounts[index];
+            this.dialogService.open('#account-remove-popup');
+        }
+
+        removeAccount() {
+            if (this.removeCandidate) {
+                this.loginContext.removeAccountByIndex(this.removeIndex).then(() => {
+                    this.removeCandidate = undefined;
+                    this.removeIndex = undefined;
                 });
             }
         }
 
-        function createAccount() {
-            loginContext.notifyGenerateSeed($scope);
+        createAccount() {
+            this.loginContext.notifyGenerateSeed(this.$scope);
         }
 
-        function importAccount() {
-            loginContext.showInputSeedScreen($scope);
+        importAccount() {
+            this.loginContext.showInputSeedScreen(this.$scope);
         }
 
-        function signIn(account) {
-            loginContext.showLoginScreen($scope, account);
+        signIn(account) {
+            this.loginContext.showLoginScreen(this.$scope, account);
         }
+
     }
 
-    AccountListController.$inject = ['$scope', 'accountService', 'dialogService', 'loginContext'];
+    AccountListController.$inject = ['$scope', 'dialogService', 'loginContext'];
 
     angular
         .module('app.login')

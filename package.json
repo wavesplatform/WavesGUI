@@ -48,7 +48,8 @@
     "waves-grunt-github-releaser": "^0.2.0"
   },
   "scripts": {
-    "postinstall": "sh postinstall.sh"
+    "postinstall": "sh postinstall.sh",
+    "test": "grunt test"
   },
   "dependencies": {
     "angular-ui-router": "^1.0.3"

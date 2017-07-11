@@ -1,68 +1,103 @@
 (function () {
     'use strict';
 
-    function AccountsController($scope, modes, events, passPhraseService, dialogService, cryptoService, loginContext) {
-        var accounts = this;
+    class AccountsController {
 
-        // by default start in list mode
-        switchToMode(modes.LIST);
+        /**
+         * @constructor
+         * @param $scope
+         * @param modes
+         * @param events
+         * @param passPhraseService
+         * @param dialogService
+         * @param cryptoService
+         * @param {LoginContext} loginContext
+         */
+        constructor($scope, modes, events, passPhraseService, dialogService, cryptoService, loginContext) {
 
-        $scope.$on(events.CHANGE_MODE, function (event, mode, param) {
-            switchToMode(mode, param);
-        });
+            this.cryptoService = cryptoService;
+            /**
+             * @type {LoginContext}
+             */
+            this.loginContext = loginContext;
+            this.modes = modes;
 
-        $scope.$on(events.GENERATE_SEED, function () {
-            var seed = passPhraseService.generate();
-            switchToMode(modes.REGISTER, seed);
-            dialogService.openNonCloseable('#login-wPop-new');
-        });
+            // by default start in list mode
+            this.switchToMode(modes.LIST);
+            this.setHandlers($scope, events, passPhraseService, dialogService);
+        }
 
-        function switchToMode(mode, param) {
+        /**
+         *
+         * @param $scope
+         * @param events
+         * @param passPhraseService
+         * @param dialogService
+         */
+        setHandlers($scope, events, passPhraseService, dialogService) {
+            $scope.$on(events.CHANGE_MODE, (event, mode, param) => {
+                this.switchToMode(mode, param);
+            });
+
+            $scope.$on(events.GENERATE_SEED, () => {
+                const seed = passPhraseService.generate();
+                this.switchToMode(this.modes.REGISTER, seed);
+                dialogService.openNonCloseable('#login-wPop-new');
+            });
+        }
+
+        /**
+         *
+         * @param mode
+         * @param param
+         */
+        switchToMode(mode, param) {
             switch (mode) {
-                case modes.REGISTER:
-                    switchToRegisterMode(param);
+                case this.modes.REGISTER:
+                    this.switchToRegisterMode(param);
                     break;
 
-                case modes.CREATE_SEED:
-                    switchToCreateSeedMode();
+                case this.modes.CREATE_SEED:
+                    this.switchToCreateSeedMode();
                     break;
 
-                case modes.LIST:
-                    switchToListMode();
+                case this.modes.LIST:
+                    this.switchToListMode();
                     break;
 
-                case modes.LOGIN:
-                    switchToLoginMode(param);
+                case this.modes.LOGIN:
+                    this.switchToLoginMode(param);
                     break;
 
                 default:
                     throw new Error('Unsupported account operation: ' + mode);
             }
 
-            accounts.mode = mode;
+            this.mode = mode;
         }
 
-        function switchToListMode() {
-            accounts.caption = 'ACCOUNTS';
+        switchToListMode() {
+            this.caption = 'ACCOUNTS';
         }
 
-        function switchToCreateSeedMode() {
-            accounts.caption = 'SET UP YOUR SEED';
+        switchToCreateSeedMode() {
+            this.caption = 'SET UP YOUR SEED';
         }
 
-        function switchToRegisterMode(seed) {
-            accounts.caption = 'REGISTER ACCOUNT';
-            accounts.displayAddress = cryptoService.buildRawAddressFromSeed(seed);
+        switchToRegisterMode(seed) {
+            this.caption = 'REGISTER ACCOUNT';
+            this.displayAddress = this.cryptoService.buildRawAddressFromSeed(seed);
             // setting a seed to register a new account
-            loginContext.seed = seed;
+            this.loginContext.seed = seed;
         }
 
-        function switchToLoginMode(account) {
-            accounts.caption = 'SIGN IN';
-            accounts.displayAddress = account.address;
+        switchToLoginMode(account) {
+            this.caption = 'SIGN IN';
+            this.displayAddress = account.address;
             // setting an account which we would like to sign in
-            loginContext.currentAccount = account;
+            this.loginContext.currentAccount = account;
         }
+
     }
 
     AccountsController.$inject = [

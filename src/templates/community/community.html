@@ -1,3 +1,40 @@
 <div id="mBB-community" class="mBB-content">
-    <waves-community></waves-community>
+    <!-- Temporary -->
+    <p>DISCLAIMER: The Community tab will temporarily hold block information for testing purposes. After alpha phase
+        this
+        data will be relocated inside the Preferences - Advanced area.</p>
+    <h2 class="sectionHeader">LATEST BLOCKS INFORMATION</h2>
+    <p class="centerIt">
+    <div id="latestBlocks" class="wavesTable wScroll">
+        <table>
+            <thead>
+            <tr class="fade">
+                <td>HEIGHT</td>
+                <td>DATE</td>
+                <td>TRANSACTIONS</td>
+                <td>GENERATOR</td>
+            </tr>
+            </thead>
+            <tbody id="latestBlocksTable">
+            <tr class="fade">
+                <td>{{$ctrl.candidate.block}}</td>
+                <td><i>incoming</i></td>
+                <td>{{$ctrl.candidate.size}}</td>
+                <td><i>unconfirmed</i></td>
+            </tr>
+            <tr class="fade" ng-repeat="block in $ctrl.blocks | orderBy:'timestamp':true">
+                <td>{{block.height}}</td>
+                <td>{{block.timestamp | formatting}}</td>
+                <td>{{block.transactions.length}}</td>
+                <td>
+                <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard
+                      title="Copy this address to the clipboard." data-clipboard-text="{{block.generator}}"
+                      ngclipboard-success="clipboardOk()">{{block.generator}}</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    </p>
 </div>

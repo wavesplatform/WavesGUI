@@ -212,6 +212,7 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
             url: 'community',
             views: {
                 content: {
+                    controller: 'communityController as $ctrl',
                     templateUrl: 'community/community'
                 }
             }
