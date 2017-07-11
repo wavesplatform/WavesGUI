@@ -11,6 +11,8 @@
     "node": ">= 0.10.0"
   },
   "devDependencies": {
+    "@types/angular": "^1.6.25",
+    "@types/jasmine": "^2.5.53",
     "autoprefixer": "^6.7.6",
     "connect": "^3.6.2",
     "cssnano": "^3.10.0",
