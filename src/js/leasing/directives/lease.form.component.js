@@ -1,27 +1,31 @@
 (function () {
     'use strict';
 
-    var DEFAULT_FEE_AMOUNT = '0.001';
-    var FEE_CURRENCY = Currency.WAVES;
+    const DEFAULT_FEE_AMOUNT = '0.001';
+    const FEE_CURRENCY = Currency.WAVES;
 
     function WavesLeasingFormController($timeout, constants, autocomplete, applicationContext,
-                                     apiService, dialogService, notificationService, transactionBroadcast,
-                                     formattingService, addressService, leasingService, leasingRequestService) {
-        var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
+                                        apiService, dialogService, notificationService, transactionBroadcast,
+                                        formattingService, addressService, leasingService, leasingRequestService) {
 
-        var ctrl = this;
+        const minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
+
+        const ctrl = this;
+
         ctrl.autocomplete = autocomplete;
         ctrl.availableBalance = Money.fromCoins(0, Currency.WAVES);
+
         ctrl.broadcast = new transactionBroadcast.instance(apiService.leasing.lease,
-            function (transaction, response) {
-                var amount = Money.fromCoins(transaction.amount, Currency.WAVES);
-                var address = transaction.recipient;
-                var displayMessage = 'Leased ' + amount.formatAmount(true) + ' of ' +
+            function (transaction) {
+                const amount = Money.fromCoins(transaction.amount, Currency.WAVES);
+                const address = transaction.recipient;
+                const displayMessage = 'Leased ' + amount.formatAmount(true) + ' of ' +
                     amount.currency.displayName +
-                    '<br/>Recipient ' + address.substr(0,15) + '...<br/>Date: ' +
+                    '<br/>Recipient ' + address.substr(0, 15) + '...<br/>Date: ' +
                     formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
             });
+
         ctrl.validationOptions = {
             rules: {
                 leasingRecipient: {
@@ -50,15 +54,17 @@
                 leasingFee: {
                     required: 'Transaction fee is required',
                     decimal: 'Transaction fee must be with no more than ' +
-                        minimumFee.currency.precision + ' digits after the decimal point (.)',
+                    minimumFee.currency.precision + ' digits after the decimal point (.)',
                     min: 'Transaction fee is too small. It should be greater or equal to ' +
-                        minimumFee.formatAmount(true)
+                    minimumFee.formatAmount(true)
                 }
             }
         };
+
         ctrl.confirm = {
             recipient: ''
         };
+
         ctrl.confirmLease = confirmLease;
         ctrl.broadcastTransaction = broadcastTransaction;
 
@@ -74,7 +80,7 @@
 
                 // update validation options and check how it affects form validation
                 ctrl.validationOptions.rules.leasingAmount.decimal = ctrl.availableBalance.currency.precision;
-                var minimumPayment = Money.fromCoins(1, ctrl.availableBalance.currency);
+                const minimumPayment = Money.fromCoins(1, ctrl.availableBalance.currency);
                 ctrl.validationOptions.rules.leasingAmount.min = minimumPayment.toTokens();
                 ctrl.validationOptions.rules.leasingAmount.max = ctrl.availableBalance.toTokens();
                 ctrl.validationOptions.messages.leasingAmount.decimal = 'The amount to leasing must be a number ' +
@@ -91,24 +97,24 @@
                 return false;
             }
 
-            var amount = Money.fromTokens(ctrl.amount, ctrl.availableBalance.currency);
-            var transferFee = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), FEE_CURRENCY);
+            const amount = Money.fromTokens(ctrl.amount, ctrl.availableBalance.currency);
+            const transferFee = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), FEE_CURRENCY);
 
             // we assume here that amount and fee are in Waves, however it's not hardcoded
-            var leasingCost = amount.plus(transferFee);
+            const leasingCost = amount.plus(transferFee);
             if (leasingCost.greaterThan(ctrl.availableBalance)) {
                 notificationService.error('Not enough ' + FEE_CURRENCY.displayName + ' for the leasing transaction');
 
                 return false;
             }
 
-            var startLeasing = {
+            const startLeasing = {
                 recipient: addressService.cleanupOptionalPrefix(ctrl.recipient),
                 amount: amount,
                 fee: transferFee
             };
 
-            var sender = {
+            const sender = {
                 publicKey: applicationContext.account.keyPair.public,
                 privateKey: applicationContext.account.keyPair.private
             };
@@ -143,9 +149,11 @@
         }
     }
 
-    WavesLeasingFormController.$inject = ['$timeout', 'constants.ui', 'autocomplete.fees',
-        'applicationContext', 'apiService', 'dialogService', 'notificationService', 'transactionBroadcast',
-        'formattingService', 'addressService', 'leasingService', 'leasingRequestService'];
+    WavesLeasingFormController.$inject = [
+        '$timeout', 'constants.ui', 'autocomplete.fees', 'applicationContext',
+        'apiService', 'dialogService', 'notificationService', 'transactionBroadcast',
+        'formattingService', 'addressService', 'leasingService', 'leasingRequestService'
+    ];
 
     angular
         .module('app.leasing')

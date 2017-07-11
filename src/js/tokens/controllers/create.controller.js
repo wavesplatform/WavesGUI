@@ -1,18 +1,17 @@
 (function () {
     'use strict';
 
-    var ASSET_DESCRIPTION_MAX = 1000;
-    var ASSET_NAME_MIN = 4;
-    var ASSET_NAME_MAX = 16;
-    var TOKEN_DECIMALS_MAX = 8;
-    var FIXED_ISSUE_FEE = new Money(1, Currency.WAVES);
+    const ASSET_DESCRIPTION_MAX = 1000;
+    const ASSET_NAME_MIN = 4;
+    const ASSET_NAME_MAX = 16;
+    const TOKEN_DECIMALS_MAX = 8;
+    const FIXED_ISSUE_FEE = new Money(1, Currency.WAVES);
 
     function TokenCreateController($scope, $interval, constants, applicationContext, assetService,
                                    dialogService, apiService, notificationService,
                                    formattingService, transactionBroadcast) {
         var refreshPromise;
         var refreshDelay = 15 * 1000;
-        var transaction;
         var ctrl = this;
 
         $scope.$on('$destroy', function () {
@@ -143,7 +142,7 @@
         function loadDataFromBackend() {
             refreshBalance();
 
-            refreshPromise = $interval(function() {
+            refreshPromise = $interval(function () {
                 refreshBalance();
             }, refreshDelay);
         }

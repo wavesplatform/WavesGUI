@@ -29,7 +29,7 @@ describe('Asset.Reissue.Controller', function() {
             invalid: function () {
                 return {};
             },
-            validate: function (options) {
+            validate: function () {
                 return true;
             }
         };
@@ -52,13 +52,15 @@ describe('Asset.Reissue.Controller', function() {
     }));
 
     function initControllerAssets(assetBalance, wavesBalance) {
-        if (!assetBalance)
+        if (!assetBalance) {
             assetBalance = Money.fromTokens(10, Currency.USD);
+        }
 
-        if (!wavesBalance)
+        if (!wavesBalance) {
             wavesBalance = Money.fromTokens(20, Currency.WAVES);
+        }
 
-        var assetId;
+        let assetId;
         if (assetBalance.currency !== Currency.WAVES) {
             assetId = assetBalance.currency.id;
             applicationContext.cache.assets[assetId] = {

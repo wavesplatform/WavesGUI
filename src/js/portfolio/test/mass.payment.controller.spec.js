@@ -1,24 +1,24 @@
-describe('Mass.Payment.Controller', function() {
-    var $rootScope, $window, scope, timeout, events, dialogService, controller, formMock, notificationService,
-        applicationContext = {
-            account: {
-                keyPair: {
-                    public: 'FJuErRxhV9JaFUwcYLabFK5ENvDRfyJbRz8FeVfYpBLn',
-                    private: '9dXhQYWZ5468TRhksJqpGT6nUySENxXi9nsCZH9AefD1'
-                }
-            },
-            cache: {
-                assets: {}
+describe('Mass.Payment.Controller', function () {
+    let $rootScope, $window, scope, timeout, events, dialogService, controller, formMock, notificationService;
+
+    const applicationContext = {
+        account: {
+            keyPair: {
+                public: 'FJuErRxhV9JaFUwcYLabFK5ENvDRfyJbRz8FeVfYpBLn',
+                private: '9dXhQYWZ5468TRhksJqpGT6nUySENxXi9nsCZH9AefD1'
             }
-        };
-    var address = '3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq';
+        },
+        cache: {
+            assets: {}
+        }
+    };
 
     // Initialization of the module before each test case
     beforeEach(module('waves.core'));
     beforeEach(module('app.portfolio'));
 
     // Injection of dependencies
-    beforeEach(inject(function($injector, $controller, $timeout) {
+    beforeEach(inject(function ($injector, $controller, $timeout) {
         $rootScope = $injector.get('$rootScope');
         $window = $injector.get('$window');
         scope = $rootScope.$new();
@@ -31,7 +31,7 @@ describe('Mass.Payment.Controller', function() {
             invalid: function () {
                 return {};
             },
-            validate: function (options) {
+            validate: function () {
                 return true;
             }
         };
@@ -55,13 +55,15 @@ describe('Mass.Payment.Controller', function() {
     }));
 
     function initControllerAssets(assetBalance, wavesBalance) {
-        if (!assetBalance)
+        if (!assetBalance) {
             assetBalance = Money.fromTokens(1000, Currency.USD);
+        }
 
-        if (!wavesBalance)
+        if (!wavesBalance) {
             wavesBalance = Money.fromTokens(20, Currency.WAVES);
+        }
 
-        var assetId;
+        let assetId;
         if (assetBalance.currency !== Currency.WAVES) {
             assetId = assetBalance.currency.id;
             applicationContext.cache.assets[assetId] = {
@@ -102,16 +104,17 @@ describe('Mass.Payment.Controller', function() {
     });
 
     it('should correctly parse JSON transaction file', function () {
-        var content = '[' +
-                '{' +
-                    '"recipient": "3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq",' +
-                    '"amount": 100' +
-                '},' +
-                '{' +
-                    '"recipient": "3MuriKVs6CLgNxbhZ7SFRk1mfSJ2dRCK319",' +
-                    '"amount": 0.00000001' +
-                '}' +
-            ']';
+
+        const content = JSON.stringify([
+            {
+                "recipient": "3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq",
+                "amount": 100
+            },
+            {
+                "recipient": "3MuriKVs6CLgNxbhZ7SFRk1mfSJ2dRCK319",
+                "amount": 0.00000001
+            }
+        ]);
 
         spyOn(notificationService, 'error');
 
@@ -124,7 +127,7 @@ describe('Mass.Payment.Controller', function() {
     });
 
     it('should correctly parse CSV transaction file', function () {
-        var content = '3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq;300\n' +
+        const content = '3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq;300\n' +
             '3MuriKVs6CLgNxbhZ7SFRk1mfSJ2dRCK319;0.00000001\n' +
             '3MtMoVbAHSitzohEvd6dJGR3kmJZHSePUkS;zhmurik;000001';
 
@@ -141,7 +144,7 @@ describe('Mass.Payment.Controller', function() {
     });
 
     it('should correctly parse CSV transaction file with empty lines', function () {
-        var content = '3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq;300\n' +
+        const content = '3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq;300\n' +
             '\n' +
             '3MuriKVs6CLgNxbhZ7SFRk1mfSJ2dRCK319;0.00000001\n';
 
@@ -277,7 +280,7 @@ describe('Mass.Payment.Controller', function() {
     });
 
     it('should not confirm payment if there is not enough Waves when paying Waves', function () {
-        var balance = Money.fromTokens(1000, Currency.WAVES);
+        const balance = Money.fromTokens(1000, Currency.WAVES);
         initControllerAssets(balance, balance);
 
         spyOn(controller.autocomplete, 'getFeeAmount').and.returnValue('1');

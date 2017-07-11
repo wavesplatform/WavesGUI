@@ -104,19 +104,24 @@
         function withdrawBTC() {
             coinomatService.getWithdrawRate(ctrl.assetBalance.currency)
                 .then(function (response) {
-                    /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
-                    var minimumPayment = Money.fromCoins(1, ctrl.assetBalance.currency);
-                    minimumPayment = Money.fromTokens(Math.max(minimumPayment.toTokens(), response.in_min),
-                        ctrl.assetBalance.currency);
-                    var maximumPayment = Money.fromTokens(Math.min(ctrl.assetBalance.toTokens(),
-                        response.in_max), ctrl.assetBalance.currency);
+
+                    const minimumPayment = Money.fromTokens(
+                        Math.max(Money.fromCoins(1, ctrl.assetBalance.currency).toTokens(), response.in_min),
+                        ctrl.assetBalance.currency
+                    );
+
+                    const maximumPayment = Money.fromTokens(
+                        Math.min(ctrl.assetBalance.toTokens(), response.in_max),
+                        ctrl.assetBalance.currency
+                    );
+
                     ctrl.sourceCurrency = ctrl.assetBalance.currency.displayName;
                     ctrl.exchangeRate = response.xrate;
                     ctrl.feeIn = response.fee_in;
                     ctrl.feeOut = response.fee_out;
                     ctrl.targetCurrency = response.to_txt;
                     ctrl.total = response.in_def;
-                    /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
+
                     ctrl.validationOptions.rules.withdrawAmount.decimal = ctrl.assetBalance.currency.precision;
                     ctrl.validationOptions.rules.withdrawAmount.max = maximumPayment.toTokens();
                     ctrl.validationOptions.rules.withdrawAmount.min = minimumPayment.toTokens();

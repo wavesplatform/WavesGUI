@@ -1,13 +1,13 @@
 (function () {
     'use strict';
 
-    function AssetFilter(applicationContext, addressService) {
+    function AssetFilter(applicationContext) {
+
         function transformAddress (rawAddress) {
-            var result = angular.isDefined(rawAddress) ? rawAddress : 'n/a';
-
-            if (isMyAddress(result))
+            let result = angular.isDefined(rawAddress) ? rawAddress : 'n/a';
+            if (isMyAddress(result)) {
                 result = 'You';
-
+            }
             return result;
         }
 
@@ -20,7 +20,6 @@
                 sender: transformAddress(transaction.sender),
                 canReissue: transaction.reissuable && isMyAddress(transaction.sender)
             };
-
             return transaction;
         }
 
@@ -29,7 +28,7 @@
         };
     }
 
-    AssetFilter.$inject = ['applicationContext', 'addressService'];
+    AssetFilter.$inject = ['applicationContext'];
 
     angular
         .module('app.portfolio')

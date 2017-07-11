@@ -1,45 +1,46 @@
 (function () {
     'use strict';
 
-    var MAXIMUM_FILE_SIZE_BYTES = 256 * 1024;
-    var MAXIMUM_TRANSACTIONS_PER_FILE = 500;
-    var FIRST_TRANSACTIONS_COUNT = 10;
-    var LOADING_STAGE = 'loading';
-    var PROCESSING_STAGE = 'processing';
-    var ZERO_MONEY = Money.fromTokens(0, Currency.WAVES);
+    const MAXIMUM_FILE_SIZE_BYTES = 256 * 1024;
+    const MAXIMUM_TRANSACTIONS_PER_FILE = 500;
+    const FIRST_TRANSACTIONS_COUNT = 10;
+    const LOADING_STAGE = 'loading';
+    const PROCESSING_STAGE = 'processing';
+    const ZERO_MONEY = Money.fromTokens(0, Currency.WAVES);
 
     function ValidationError(message) {
         this.message = message;
     }
 
-    function WavesMassPaymentController ($scope, $window, $timeout, constants, events, applicationContext, autocomplete,
-                                         notificationService, assetService, dialogService,
-                                         transactionBroadcast, apiService) {
-        var mass = this;
+    function WavesMassPaymentController($scope, $window, $timeout, constants, events, applicationContext,
+                                        autocomplete, notificationService, assetService, dialogService,
+                                        transactionBroadcast, apiService) {
+
+        const ctrl = this;
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAVES);
         var transactions;
 
-        mass.summary = {
+        ctrl.summary = {
             totalAmount: ZERO_MONEY,
             totalFee: ZERO_MONEY
         };
-        mass.confirm = {
+        ctrl.confirm = {
             recipients: 0
         };
-        mass.filename = '';
-        mass.transfers = [];
-        mass.inputPayments = [];
-        mass.autocomplete = autocomplete;
-        mass.stage = LOADING_STAGE;
-        mass.loadingInProgress = false;
-        mass.broadcast = new transactionBroadcast.instance(apiService.assets.massPay,
-            function (transaction, response) {
-                var displayMessage = 'Sent ' + mass.summary.totalAmount.formatAmount(true) + ' of ' +
-                        mass.summary.totalAmount.currency.displayName + ' to ' + mass.summary.totalTransactions +
-                        ' recipients';
+        ctrl.filename = '';
+        ctrl.transfers = [];
+        ctrl.inputPayments = [];
+        ctrl.autocomplete = autocomplete;
+        ctrl.stage = LOADING_STAGE;
+        ctrl.loadingInProgress = false;
+        ctrl.broadcast = new transactionBroadcast.instance(apiService.assets.massPay,
+            function () {
+                var displayMessage = 'Sent ' + ctrl.summary.totalAmount.formatAmount(true) + ' of ' +
+                    ctrl.summary.totalAmount.currency.displayName + ' to ' + ctrl.summary.totalTransactions +
+                    ' recipients';
                 notificationService.notice(displayMessage);
             });
-        mass.validationOptions = {
+        ctrl.validationOptions = {
             rules: {
                 massPayFee: {
                     required: true,
@@ -51,31 +52,31 @@
                 massPayFee: {
                     required: 'Fee per transaction is required',
                     decimal: 'Fee must be with no more than ' +
-                        minimumFee.currency.precision + ' digits after the decimal point (.)',
+                    minimumFee.currency.precision + ' digits after the decimal point (.)',
                     min: 'Fee per transaction is too small. It should be greater or equal to ' +
-                        minimumFee.formatAmount(true)
+                    minimumFee.formatAmount(true)
                 }
             }
         };
-        mass.handleFile = handleFile;
-        mass.loadInputFile = loadInputFile;
-        mass.processInputFile = processInputFile;
-        mass.submitPayment = submitPayment;
-        mass.broadcastTransaction = broadcastTransaction;
-        mass.transactionsToClipboard = transactionsToClipboard;
-        mass.dataCopied = dataCopied;
-        mass.cancel = cancel;
+        ctrl.handleFile = handleFile;
+        ctrl.loadInputFile = loadInputFile;
+        ctrl.processInputFile = processInputFile;
+        ctrl.submitPayment = submitPayment;
+        ctrl.broadcastTransaction = broadcastTransaction;
+        ctrl.transactionsToClipboard = transactionsToClipboard;
+        ctrl.dataCopied = dataCopied;
+        ctrl.cancel = cancel;
 
         cleanup();
 
         $scope.$on(events.ASSET_MASSPAY, function (event, eventData) {
-            mass.wavesBalance = eventData.wavesBalance;
-            mass.assetBalance = eventData.wavesBalance;
+            ctrl.wavesBalance = eventData.wavesBalance;
+            ctrl.assetBalance = eventData.wavesBalance;
             if (eventData.assetId) {
-                mass.assetBalance = applicationContext.cache.assets[eventData.assetId].balance;
+                ctrl.assetBalance = applicationContext.cache.assets[eventData.assetId].balance;
             }
 
-            mass.sendingWaves = mass.assetBalance.currency === Currency.WAVES;
+            ctrl.sendingWaves = ctrl.assetBalance.currency === Currency.WAVES;
 
             cleanup();
 
@@ -99,13 +100,13 @@
             }
         }
 
-        function loadInputFile (fileName, content) {
+        function loadInputFile(fileName, content) {
             try {
-                mass.inputPayments = [];
+                ctrl.inputPayments = [];
                 if (fileName.endsWith('.json')) {
-                    mass.inputPayments = parseJsonFile(content);
+                    ctrl.inputPayments = parseJsonFile(content);
                 } else if (fileName.endsWith('.csv')) {
-                    mass.inputPayments = parseCsvFile(content);
+                    ctrl.inputPayments = parseCsvFile(content);
                 } else {
                     throw new Error('Unsupported file type: ' + fileName);
                 }
@@ -114,7 +115,7 @@
             }
         }
 
-        function parseCsvFile (content) {
+        function parseCsvFile(content) {
             var lines = content.split('\n');
             var result = [];
             _.forEach(lines, function (line) {
@@ -145,7 +146,7 @@
             return result;
         }
 
-        function parseJsonFile (content) {
+        function parseJsonFile(content) {
             return $window.JSON.parse(content);
         }
 
@@ -158,13 +159,13 @@
             try {
                 transactions = [];
                 var transfersToDisplay = [];
-                var transferCurrency = mass.assetBalance.currency;
+                var transferCurrency = ctrl.assetBalance.currency;
                 var totalTransactions = 0;
                 var totalAmount = Money.fromCoins(0, transferCurrency);
                 var totalFee = Money.fromCoins(0, Currency.WAVES);
-                var fee = Money.fromTokens(mass.autocomplete.getFeeAmount(), Currency.WAVES);
+                var fee = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), Currency.WAVES);
                 var minimumPayment = Money.fromCoins(1, transferCurrency);
-                _.forEach(mass.inputPayments, function (transfer) {
+                _.forEach(ctrl.inputPayments, function (transfer) {
                     if (isNaN(transfer.amount)) {
                         throw new ValidationError('Failed to parse payment amount for address ' + transfer.recipient);
                     }
@@ -196,76 +197,76 @@
                     totalTransactions++;
                 });
 
-                mass.broadcast.setTransaction(transactions);
+                ctrl.broadcast.setTransaction(transactions);
 
-                mass.summary.totalAmount = totalAmount;
-                mass.summary.totalTransactions = totalTransactions;
-                mass.summary.totalFee = totalFee;
-                mass.transfers = transfersToDisplay;
-                mass.stage = PROCESSING_STAGE;
+                ctrl.summary.totalAmount = totalAmount;
+                ctrl.summary.totalTransactions = totalTransactions;
+                ctrl.summary.totalFee = totalFee;
+                ctrl.transfers = transfersToDisplay;
+                ctrl.stage = PROCESSING_STAGE;
 
                 // cleaning up
-                mass.filename = '';
-                mass.inputPayments = [];
+                ctrl.filename = '';
+                ctrl.inputPayments = [];
             }
             catch (e) {
                 if (e instanceof ValidationError) {
-                    mass.invalidPayment = true;
-                    mass.inputErrorMessage = e.message;
+                    ctrl.invalidPayment = true;
+                    ctrl.inputErrorMessage = e.message;
                 }
                 else {
                     throw e;
                 }
             }
 
-            mass.loadingInProgress = false;
+            ctrl.loadingInProgress = false;
         }
 
         function processInputFile(form) {
-            if (!form.validate(mass.validationOptions)) {
+            if (!form.validate(ctrl.validationOptions)) {
                 return;
             }
 
-            if (!mass.inputPayments || mass.inputPayments.length === 0) {
+            if (!ctrl.inputPayments || ctrl.inputPayments.length === 0) {
                 notificationService.error('Payments were not provided or failed to parse. Nothing to load');
 
                 return;
             }
 
-            if (mass.inputPayments.length > MAXIMUM_TRANSACTIONS_PER_FILE) {
+            if (ctrl.inputPayments.length > MAXIMUM_TRANSACTIONS_PER_FILE) {
                 notificationService.error('Too many payments for a single file. Maximum payments count ' +
                     'in a file should not exceed ' + MAXIMUM_TRANSACTIONS_PER_FILE);
 
                 return;
             }
 
-            mass.loadingInProgress = true;
+            ctrl.loadingInProgress = true;
             // loading transactions asynchronously
             $timeout(loadTransactionsFromFile, 150);
         }
 
         function submitPayment() {
-            var paymentCost = !mass.sendingWaves ?
-                mass.summary.totalFee :
-                mass.summary.totalFee.plus(mass.summary.totalAmount);
+            var paymentCost = !ctrl.sendingWaves ?
+                ctrl.summary.totalFee :
+                ctrl.summary.totalFee.plus(ctrl.summary.totalAmount);
 
-            if (paymentCost.greaterThan(mass.wavesBalance)) {
+            if (paymentCost.greaterThan(ctrl.wavesBalance)) {
                 notificationService.error('Not enough Waves to make mass payment');
 
                 return false;
             }
 
-            if (mass.summary.totalAmount.greaterThan(mass.assetBalance)) {
-                notificationService.error('Not enough "' + mass.assetBalance.currency.displayName +
+            if (ctrl.summary.totalAmount.greaterThan(ctrl.assetBalance)) {
+                notificationService.error('Not enough "' + ctrl.assetBalance.currency.displayName +
                     '" to make mass payment');
 
                 return false;
             }
 
             // setting data for the confirmation dialog
-            mass.confirm.amount = mass.summary.totalAmount;
-            mass.confirm.fee = mass.summary.totalFee;
-            mass.confirm.recipients = mass.summary.totalTransactions;
+            ctrl.confirm.amount = ctrl.summary.totalAmount;
+            ctrl.confirm.fee = ctrl.summary.totalFee;
+            ctrl.confirm.recipients = ctrl.summary.totalTransactions;
 
             dialogService.close();
             $timeout(function () {
@@ -275,12 +276,12 @@
             return true;
         }
 
-        function cancel () {
+        function cancel() {
             dialogService.close();
         }
 
         function broadcastTransaction() {
-            mass.broadcast.broadcast();
+            ctrl.broadcast.broadcast();
         }
 
         function handleFile(file) {
@@ -295,13 +296,13 @@
 
             reader.onloadend = function (event) {
                 if (event.target.readyState == FileReader.DONE) {
-                    mass.loadInputFile(file.name, event.target.result);
+                    ctrl.loadInputFile(file.name, event.target.result);
                 }
             };
-            reader.onloadstart = function (event) {
+            reader.onloadstart = function () {
                 cleanup();
             };
-            reader.onabort = function (event) {
+            reader.onabort = function () {
                 notificationService.error('File read cancelled');
             };
             reader.onerror = fileErrorHandler;
@@ -318,23 +319,25 @@
         }
 
         function cleanup() {
-            mass.summary.totalAmount = ZERO_MONEY;
-            mass.summary.totalTransactions = 0;
-            mass.summary.totalFee = ZERO_MONEY;
-            mass.stage = LOADING_STAGE;
-            mass.invalidPayment = false;
+            ctrl.summary.totalAmount = ZERO_MONEY;
+            ctrl.summary.totalTransactions = 0;
+            ctrl.summary.totalFee = ZERO_MONEY;
+            ctrl.stage = LOADING_STAGE;
+            ctrl.invalidPayment = false;
 
-            mass.confirm.amount = Money.fromTokens(0, Currency.WAVES);
-            mass.confirm.recipients = 0;
-            mass.confirm.fee = Money.fromTokens(0, Currency.WAVES);
+            ctrl.confirm.amount = Money.fromTokens(0, Currency.WAVES);
+            ctrl.confirm.recipients = 0;
+            ctrl.confirm.fee = Money.fromTokens(0, Currency.WAVES);
 
-            mass.autocomplete.defaultFee(constants.MINIMUM_TRANSACTION_FEE);
+            ctrl.autocomplete.defaultFee(constants.MINIMUM_TRANSACTION_FEE);
         }
     }
 
-    WavesMassPaymentController.$inject = ['$scope', '$window', '$timeout', 'constants.ui', 'portfolio.events',
-        'applicationContext', 'autocomplete.fees',
-        'notificationService', 'assetService', 'dialogService', 'transactionBroadcast', 'apiService'];
+    WavesMassPaymentController.$inject = [
+        '$scope', '$window', '$timeout', 'constants.ui', 'portfolio.events', 'applicationContext',
+        'autocomplete.fees', 'notificationService', 'assetService', 'dialogService',
+        'transactionBroadcast', 'apiService'
+    ];
 
     angular
         .module('app.portfolio')

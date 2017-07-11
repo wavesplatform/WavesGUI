@@ -22,7 +22,7 @@
         }
 
         cancel() {
-            loginContext.showAccountsListScreen(this.$scope);
+            this.loginContext.showAccountsListScreen(this.$scope);
             this._cleanup();
         }
 

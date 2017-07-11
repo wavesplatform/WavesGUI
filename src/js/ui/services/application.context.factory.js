@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function ApplicationContextFactory(constants) {
+    function ApplicationContextFactory() {
 
         var assets = {};
 

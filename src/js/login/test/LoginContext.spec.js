@@ -1,4 +1,5 @@
 describe('LoginContext.Service', function () {
+
     /**
      * @type {LoginContext} loginContext
      */
@@ -81,11 +82,8 @@ describe('LoginContext.Service', function () {
             };
 
             it(item.method, () => {
-                loginContext[item.method].apply(loginContext, [$scope].concat(item.args));
+                loginContext[item.method](...[$scope].concat(item.args));
             });
-
         });
-
     });
-
 });

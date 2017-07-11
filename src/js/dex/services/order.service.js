@@ -1,14 +1,14 @@
 (function () {
     'use strict';
 
-    var ACCEPTED = 'Accepted',
-        PARTIALLY = 'PartiallyFilled',
-        FILLED = 'Filled',
-        CANCELLED = 'Cancelled',
-        NOT_FOUND = 'NotFound',
+    const ACCEPTED = 'Accepted';
+    const PARTIALLY = 'PartiallyFilled';
+    const FILLED = 'Filled';
+    const CANCELLED = 'Cancelled';
+    const NOT_FOUND = 'NotFound';
 
-        ORDER_CANCELED = 'OrderCanceled',
-        ORDER_DELETED = 'OrderDeleted';
+    const ORDER_CANCELED = 'OrderCanceled';
+    const ORDER_DELETED = 'OrderDeleted';
 
     function DexOrderService(matcherRequestService, matcherApiService, applicationContext) {
 
@@ -19,7 +19,7 @@
                 .loadMatcherKey()
                 .then(function (matcherKey) {
                     order.matcherKey = matcherKey;
-                    var signedRequest = matcherRequestService.buildCreateOrderRequest(order, sender);
+                    const signedRequest = matcherRequestService.buildCreateOrderRequest(order, sender);
                     return matcherApiService.createOrder(signedRequest);
                 }).catch(function (e) {
                     throw new Error(e);
@@ -27,7 +27,7 @@
         };
 
         this.removeOrder = function (pair, order, sender) {
-            var signedRequest = matcherRequestService.buildCancelOrderRequest(order.id, sender);
+            const signedRequest = matcherRequestService.buildCancelOrderRequest(order.id, sender);
             if (order.status === ACCEPTED || order.status === PARTIALLY) {
                 return matcherApiService
                     .cancelOrder(pair.amountAsset.id, pair.priceAsset.id, signedRequest)
@@ -60,14 +60,14 @@
                 .then(function (response) {
                     return response.map(function (o) {
                         if (o.amount === null || o.price === null || o.filled === null || o.timestamp === null) {
-                            console.error('Bad order!', o);
                             o.amount = o.amount || 0;
                             o.price = o.price || 0;
                             o.filled = o.filled || 0;
                             o.timestamp = o.timestamp || 0;
+                            throw new Error('Bad order!', o);
                         }
 
-                        var orderPrice = OrderPrice.fromBackendPrice(o.price, pair).toTokens();
+                        const orderPrice = OrderPrice.fromBackendPrice(o.price, pair).toTokens();
 
                         return {
                             id: o.id,

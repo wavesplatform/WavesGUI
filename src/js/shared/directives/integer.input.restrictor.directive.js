@@ -3,18 +3,19 @@
 
     angular
         .module('app.shared')
-        .directive('integerInputRestrictor', [function WavesIntegerInputRestrictorDirective() {
+        .directive('integerInputRestrictor', function () {
             return {
                 restrict: 'A',
                 require: 'ngModel',
                 link: function (scope, element, attributes, ngModelController) {
-                    var pattern = /[^0-9]+/g;
+                    const pattern = /[^0-9]+/g;
 
-                    function fromUser (text) {
-                        if (!text)
+                    function fromUser(text) {
+                        if (!text) {
                             return text;
+                        }
 
-                        var transformedInput = text.replace(pattern, '');
+                        const transformedInput = text.replace(pattern, '');
                         if (transformedInput !== text) {
                             ngModelController.$setViewValue(transformedInput);
                             ngModelController.$render();
@@ -26,5 +27,5 @@
                     ngModelController.$parsers.push(fromUser);
                 }
             };
-        }]);
+        });
 })();

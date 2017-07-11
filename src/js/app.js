@@ -9,7 +9,7 @@
 let __mockShowError = _.identity;
 let __mockValidateAddress = _.identity;
 
-const app = angular.module('app', [
+angular.module('app', [
     'restangular',
     'waves.core',
     'ui.router',

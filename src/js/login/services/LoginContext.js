@@ -9,10 +9,12 @@
              * @constructor
              */
             constructor() {
+
                 /**
                  * @type {string}
                  */
                 this.seed = null;
+
                 /**
                  * @type {*}
                  */

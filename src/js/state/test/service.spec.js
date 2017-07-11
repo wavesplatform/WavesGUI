@@ -1,6 +1,7 @@
 describe('State.Service', function () {
-    var stateService,
-        state;
+
+    let stateService;
+    let state;
 
     beforeEach(module('app.state'));
 
@@ -16,7 +17,8 @@ describe('State.Service', function () {
     });
 
     it('should save account data', function (done) {
-        var account = {
+
+        const account = {
             name: 'Test no. 1',
             encodedSeed: 'U2FsdGVkX1/zaprYBQmMMFZRidPd8vvxfZYuc7og1u/adiefrn45Msi+xFxswRXe3P1t9NLkqrfXAL' +
             '3P0baFwRRajC0VZ9JtJXJfaybVZBzleVGxR9gorxjl9jq0dLzv8X51eXOT9UQwWUzlJ6YScg==',

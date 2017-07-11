@@ -1,20 +1,18 @@
 (function () {
     'use strict';
 
-    var POLLING_DELAY = 5000,
-        HISTORY_LIMIT = 50;
+    const POLLING_DELAY = 5000;
+    const HISTORY_LIMIT = 50;
 
     function DexController($scope, $interval, applicationContext, assetStoreFactory, datafeedApiService,
                            dexOrderService, dexOrderbookService, notificationService, utilsService) {
-        var ctrl = this,
-            intervalPromise,
+        const ctrl = this;
+        const assetStore = assetStoreFactory.createStore(applicationContext.account.address);
 
-            assetStore = assetStoreFactory.createStore(applicationContext.account.address),
-
-            sender = {
-                publicKey: applicationContext.account.keyPair.public,
-                privateKey: applicationContext.account.keyPair.private
-            };
+        const sender = {
+            publicKey: applicationContext.account.keyPair.public,
+            privateKey: applicationContext.account.keyPair.private
+        };
 
         ctrl.assetsList = [];
 
@@ -59,7 +57,7 @@
                     }
                 })
                 .catch(function (e) {
-                    var errorMessage = e.data ? e.data.message : null;
+                    const errorMessage = e.data ? e.data.message : null;
                     notificationService.error(errorMessage || 'Order has not been created!');
                     if (callback) {
                         callback();
@@ -78,8 +76,7 @@
                     refreshUserOrders();
                     notificationService.notice('Order has been canceled!');
                 })
-                .catch(function (e) {
-                    console.log(e);
+                .catch(function () {
                     notificationService.error('Order could not be canceled!');
                 });
         };
@@ -119,7 +116,7 @@
                 refreshTradeHistory();
             })
             .catch(function (e) {
-                console.log(e);
+                throw new Error(e);
             });
 
         // Events are from asset pickers
@@ -131,7 +128,7 @@
         });
 
         // Enable polling for orderbooks and newly created assets
-        intervalPromise = $interval(function () {
+        const intervalPromise = $interval(function () {
             refreshAll();
             assetStore
                 .getAll()
@@ -183,13 +180,12 @@
                 .then(function (pair) {
                     // Placing each asset in the right widget
                     if (ctrl.pair.amountAsset.id !== pair.amountAsset && ctrl.pair.priceAsset.id !== pair.priceAsset) {
-                        var temp = ctrl.pair.amountAsset;
+                        const temp = ctrl.pair.amountAsset;
                         ctrl.pair.amountAsset = ctrl.pair.priceAsset;
                         ctrl.pair.priceAsset = temp;
                     }
                 })
-                .catch(function (e) {
-                    console.log(e);
+                .catch(function () {
                     notificationService.error('There is no such pair or one of the assets does not exist.');
                 });
         }
@@ -208,7 +204,7 @@
         }
 
         function refreshTradeHistory() {
-            var pair = ctrl.pair;
+            let pair = ctrl.pair;
             if (pair) {
                 if (utilsService.isTestnet()) {
                     pair = utilsService.testnetSubstitutePair(pair);
@@ -250,8 +246,10 @@
         }
     }
 
-    DexController.$inject = ['$scope', '$interval', 'applicationContext', 'assetStoreFactory', 'datafeedApiService',
-                             'dexOrderService', 'dexOrderbookService', 'notificationService', 'utilsService'];
+    DexController.$inject = [
+        '$scope', '$interval', 'applicationContext', 'assetStoreFactory', 'datafeedApiService',
+        'dexOrderService', 'dexOrderbookService', 'notificationService', 'utilsService'
+    ];
 
     angular
         .module('app.dex')

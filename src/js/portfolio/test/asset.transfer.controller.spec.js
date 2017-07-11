@@ -1,24 +1,27 @@
-describe('Asset.Transfer.Controller', function() {
-    var $rootScope, scope, timeout, events, dialogService, controller, formMock, notificationService,
-        applicationContext = {
-            account: {
-                keyPair: {
-                    public: 'FJuErRxhV9JaFUwcYLabFK5ENvDRfyJbRz8FeVfYpBLn',
-                    private: '9dXhQYWZ5468TRhksJqpGT6nUySENxXi9nsCZH9AefD1'
-                }
-            },
-            cache: {
-                assets: {}
+describe('Asset.Transfer.Controller', function () {
+
+    let $rootScope, scope, timeout, events, dialogService, controller, formMock, notificationService;
+
+    const applicationContext = {
+        account: {
+            keyPair: {
+                public: 'FJuErRxhV9JaFUwcYLabFK5ENvDRfyJbRz8FeVfYpBLn',
+                private: '9dXhQYWZ5468TRhksJqpGT6nUySENxXi9nsCZH9AefD1'
             }
-        };
-    var address = '3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq';
+        },
+        cache: {
+            assets: {}
+        }
+    };
+
+    const address = '3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq';
 
     // Initialization of the module before each test case
     beforeEach(module('waves.core'));
     beforeEach(module('app.portfolio'));
 
     // Injection of dependencies
-    beforeEach(inject(function($injector, $controller, $timeout) {
+    beforeEach(inject(function ($injector, $controller, $timeout) {
         $rootScope = $injector.get('$rootScope');
         scope = $rootScope.$new();
         events = $injector.get('portfolio.events');
@@ -30,7 +33,7 @@ describe('Asset.Transfer.Controller', function() {
             invalid: function () {
                 return {};
             },
-            validate: function (options) {
+            validate: function () {
                 return true;
             }
         };
@@ -54,13 +57,15 @@ describe('Asset.Transfer.Controller', function() {
     }));
 
     function initControllerAssets(assetBalance, wavesBalance) {
-        if (!assetBalance)
+        if (!assetBalance) {
             assetBalance = Money.fromTokens(10, Currency.USD);
+        }
 
-        if (!wavesBalance)
+        if (!wavesBalance) {
             wavesBalance = Money.fromTokens(20, Currency.WAVES);
+        }
 
-        var assetId;
+        let assetId;
         if (assetBalance.currency !== Currency.WAVES) {
             assetId = assetBalance.currency.id;
             applicationContext.cache.assets[assetId] = {

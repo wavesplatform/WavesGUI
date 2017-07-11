@@ -4,6 +4,7 @@
     const WALLET_NAME_MAXLENGTH = 16;
 
     class AccountRegisterController {
+
         /**
          * @param $scope
          * @param cryptoService
@@ -23,7 +24,7 @@
          * @returns {string}
          */
         seed(seed) {
-            return seed != null ? (this.loginContext.seed = seed) : this.loginContext.seed;
+            return seed !== null ? (this.loginContext.seed = seed) : this.loginContext.seed;
         }
 
         cleanup() {

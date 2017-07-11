@@ -16,6 +16,7 @@
         constructor($scope, modes, events, passPhraseService, dialogService, cryptoService, loginContext) {
 
             this.cryptoService = cryptoService;
+
             /**
              * @type {LoginContext}
              */

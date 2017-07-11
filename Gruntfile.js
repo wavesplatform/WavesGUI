@@ -200,20 +200,13 @@ module.exports = function (grunt) {
             ],
             application: getFilesFrom('./src/js', '.js', function (name, path) {
                 return name.indexOf('.spec') === -1 && path.indexOf('/test/') === -1;
-            }),
+            })
         },
-        // Task configuration.
-        jshint: {
-            all: ['src/js/**/*.js', '!src/js/vendor/*.js'],
+        eslint: {
             options: {
-                'esversion': 6,
-            }
-        },
-        jscs: {
-            src: ['src/js/**/*.js', '!src/js/vendor/*.js'],
-            options: {
-                config: '.jscsrc'
-            }
+                configFile: '.eslintrc.json'
+            },
+            target: ['src/js/**/*.js', '!src/js/vendor/*.js'] // TODO : remove vendor directory
         },
         watch: {
             scripts: {
@@ -552,12 +545,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-conventional-changelog');
-    grunt.loadNpmTasks('grunt-jscs');
+    grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-postcss');
     grunt.loadNpmTasks('grunt-shell');
@@ -571,15 +563,13 @@ module.exports = function (grunt) {
     grunt.registerTask('distr', ['clean', 'build', 'emptyChangelog', 'copy', 'compress']);
     grunt.registerTask('publish', ['bump', 'distr', 'conventionalChangelog', 'shell', 'github-release']);
     grunt.registerTask('deploy', ['webstore_upload', 's3']);
-    grunt.registerTask('test', [/*'jshint',*/ 'jscs', 'karma:development']);
+    grunt.registerTask('test', ['eslint', 'karma:development']);
     grunt.registerTask('styles', ['less', 'copy:fonts', 'copy:img']);
 
     grunt.registerTask('build-local', ['styles', 'concat:scriptsBundle', 'concat:vendorsBundle', 'ngtemplates']);
 
     grunt.registerTask('build', [
         'build-local',
-        'jscs',
-        // 'jshint',
         'karma:development',
         'postcss',
         'concat',
@@ -589,5 +579,5 @@ module.exports = function (grunt) {
     ]);
 
     // Default task.
-    grunt.registerTask('default', ['jasmine']);
+    grunt.registerTask('default', ['test']);
 };

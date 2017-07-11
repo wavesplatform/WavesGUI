@@ -17,11 +17,10 @@
 (function ($, window) {
     'use strict';
 
-    var $wrapW = $('#wrapper').width(),
-        $mbBodyH = $('#mainBody').height();
+    var $wrapW = $('#wrapper').width();
 
     // GUI elements dynamic sizing and LeftBar visibility
-    $(window).on('load resize', function (e) {
+    $(window).on('load resize', function () {
 
         var $wrapH = $('#wrapper').height(),
             $headerH = $('header').height(),

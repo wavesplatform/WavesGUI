@@ -1,16 +1,18 @@
 (function () {
     'use strict';
 
-    var DEFAULT_FEE = Money.fromTokens(1, Currency.WAVES);
-    var ALIAS_MINIMUM_LENGTH = 4;
-    var ALIAS_MAXIMUM_LENGTH = 30;
+    const DEFAULT_FEE = Money.fromTokens(1, Currency.WAVES);
+    const ALIAS_MINIMUM_LENGTH = 4;
+    const ALIAS_MAXIMUM_LENGTH = 30;
 
-    function WavesCreateAliasController ($scope, $timeout, events, applicationContext,
-                                         dialogService, notificationService,
-                                         transactionBroadcast, formattingService, aliasRequestService, apiService) {
-        var create = this;
-        create.fee = DEFAULT_FEE;
-        create.validationOptions = {
+    function CreateAlias($scope, $timeout, events, applicationContext, dialogService, notificationService,
+                         transactionBroadcast, formattingService, aliasRequestService, apiService) {
+
+        const ctrl = this;
+
+        ctrl.fee = DEFAULT_FEE;
+
+        ctrl.validationOptions = {
             onfocusout: false,
             rules: {
                 aliasName: {
@@ -27,41 +29,44 @@
                 }
             }
         };
-        create.broadcast = new transactionBroadcast.instance(apiService.alias.create,
-            function (transaction, response) {
-                var displayMessage = 'Created alias \'' + transaction.alias + '\'' +
+
+        ctrl.broadcast = new transactionBroadcast.instance(apiService.alias.create,
+            function (transaction) {
+                const displayMessage = 'Created alias \'' + transaction.alias + '\'' +
                     '<br/>Date: ' + formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
             });
-        create.confirmCreateAlias = confirmCreateAlias;
-        create.broadcastTransaction = broadcastTransaction;
 
-        $scope.$on(events.NAVIGATION_CREATE_ALIAS, function (event, eventData) {
+        ctrl.confirmCreateAlias = confirmCreateAlias;
+        ctrl.broadcastTransaction = broadcastTransaction;
+
+        $scope.$on(events.NAVIGATION_CREATE_ALIAS, function () {
             reset();
-
             dialogService.open('#create-alias-dialog');
         });
 
-        function broadcastTransaction () {
-            create.broadcast.broadcast();
+        function broadcastTransaction() {
+            ctrl.broadcast.broadcast();
         }
 
-        function confirmCreateAlias (form) {
-            if (!form.validate(create.validationOptions))
-                return false;
+        function confirmCreateAlias(form) {
 
-            var createAlias = {
-                alias: create.alias,
-                fee: create.fee
+            if (!form.validate(ctrl.validationOptions)) {
+                return false;
+            }
+
+            const createAlias = {
+                alias: ctrl.alias,
+                fee: ctrl.fee
             };
 
-            var sender = {
+            const sender = {
                 publicKey: applicationContext.account.keyPair.public,
                 privateKey: applicationContext.account.keyPair.private
             };
 
             // creating the transaction and waiting for confirmation
-            create.broadcast.setTransaction(aliasRequestService.buildCreateAliasRequest(createAlias, sender));
+            ctrl.broadcast.setTransaction(aliasRequestService.buildCreateAliasRequest(createAlias, sender));
 
             // open confirmation dialog
             // doing it async because this method is called while another dialog is open
@@ -72,16 +77,17 @@
             return true;
         }
 
-        function reset () {
-            create.alias = '';
+        function reset() {
+            ctrl.alias = '';
         }
     }
 
-    WavesCreateAliasController.$inject = ['$scope', '$timeout', 'navigation.events', 'applicationContext',
-        'dialogService', 'notificationService', 'transactionBroadcast', 'formattingService', 'aliasRequestService',
-        'apiService'];
+    CreateAlias.$inject = [
+        '$scope', '$timeout', 'navigation.events', 'applicationContext', 'dialogService', 'notificationService',
+        'transactionBroadcast', 'formattingService', 'aliasRequestService', 'apiService'
+    ];
 
     angular
         .module('app.navigation')
-        .controller('createAliasController', WavesCreateAliasController);
+        .controller('createAliasController', CreateAlias);
 })();

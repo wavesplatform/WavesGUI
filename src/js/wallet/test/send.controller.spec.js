@@ -1,14 +1,17 @@
 describe('Wallet.Send.Controller', function () {
-    var $rootScope, scope, timeout, events, dialogService, controller, formMock, notificationService,
-        applicationContext = {
-            account: {
-                keyPair: {
-                    public: 'FJuErRxhV9JaFUwcYLabFK5ENvDRfyJbRz8FeVfYpBLn',
-                    private: '9dXhQYWZ5468TRhksJqpGT6nUySENxXi9nsCZH9AefD1'
-                }
+
+    let $rootScope, scope, timeout, events, dialogService, controller, formMock, notificationService;
+
+    const applicationContext = {
+        account: {
+            keyPair: {
+                public: 'FJuErRxhV9JaFUwcYLabFK5ENvDRfyJbRz8FeVfYpBLn',
+                private: '9dXhQYWZ5468TRhksJqpGT6nUySENxXi9nsCZH9AefD1'
             }
-        };
-    var address = '3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq';
+        }
+    };
+
+    const address = '3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq';
 
     // Initialization of the module before each test case
     beforeEach(module('waves.core'));
@@ -27,7 +30,7 @@ describe('Wallet.Send.Controller', function () {
             invalid: function () {
                 return {};
             },
-            validate: function (options) {
+            validate: function () {
                 return true;
             }
         };
