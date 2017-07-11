@@ -4,7 +4,6 @@
     const REFRESH_DELAY = 10 * 1000;
     const BLOCKS_DEPTH = 50;
 
-
     class CommunityController {
 
         constructor($scope, $interval, apiService, applicationContext) {

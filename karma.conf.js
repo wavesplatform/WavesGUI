@@ -55,8 +55,8 @@ module.exports = function (config) {
             dir : 'coverage/',
             check: {
                 global: {
-                    statements: 40,
-                    lines: 40,
+                    statements: 39,
+                    lines: 39,
                     functions: 27,
                     branches: 17
                 }

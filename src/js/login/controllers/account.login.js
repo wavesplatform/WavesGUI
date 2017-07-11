@@ -1,41 +1,56 @@
 (function () {
     'use strict';
 
-    function AccountLoginController ($scope, cryptoService, loginContext, notificationService) {
-        var vm = this;
+    class AccountLoginController {
 
-        vm.signIn = signIn;
-        vm.cancel = cancel;
-
-        function cleanup() {
-            vm.password = '';
+        /**
+         * @param $scope
+         * @param cryptoService
+         * @param {LoginContext} loginContext
+         * @param notificationService
+         */
+        constructor($scope, cryptoService, loginContext, notificationService) {
+            this.$scope = $scope;
+            this.cryptoService = cryptoService;
+            this.loginContext = loginContext;
+            this.notificationService = notificationService;
         }
 
-        function performSignIn() {
-            var account = loginContext.currentAccount;
+        signIn() {
+            this._performSignIn();
+            this._cleanup();
+        }
+
+        cancel() {
+            loginContext.showAccountsListScreen(this.$scope);
+            this._cleanup();
+        }
+
+        /**
+         * @private
+         */
+        _cleanup() {
+            this.password = '';
+        }
+
+        /**
+         * @private
+         */
+        _performSignIn() {
+            const account = this.loginContext.currentAccount;
             if (angular.isUndefined(account)) {
                 throw new Error('Account to log in hasn\'t been selected');
             }
 
-            var decryptedSeed = cryptoService.decryptWalletSeed(account.cipher, vm.password, account.checksum);
+            const decryptedSeed = this.cryptoService.decryptWalletSeed(account.cipher, this.password, account.checksum);
             if (!decryptedSeed) {
-                notificationService.error('Wrong password! Please try again.');
-            }
-            else {
-                var keys = cryptoService.getKeyPair(decryptedSeed);
-                loginContext.notifySignedIn($scope, account.address, decryptedSeed, keys);
+                this.notificationService.error('Wrong password! Please try again.');
+            } else {
+                const keys = this.cryptoService.getKeyPair(decryptedSeed);
+                this.loginContext.notifySignedIn(account.address, decryptedSeed, keys);
             }
         }
 
-        function signIn() {
-            performSignIn();
-            cleanup();
-        }
-
-        function cancel() {
-            loginContext.showAccountsListScreen($scope);
-            cleanup();
-        }
     }
 
     AccountLoginController.$inject = [
