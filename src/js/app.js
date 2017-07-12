@@ -181,6 +181,7 @@
                 url: `portfolio`,
                 views: {
                     content: {
+                        controller: `assetListController as $ctrl`,
                         templateUrl: `portfolio/portfolio`
                     }
                 }
@@ -205,6 +206,7 @@
                 url: `history`,
                 views: {
                     content: {
+                        controller: `historyController as $ctrl`,
                         templateUrl: `history/history`
                     }
                 }

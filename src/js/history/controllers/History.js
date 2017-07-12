@@ -3,9 +3,10 @@
 
     const REFRESH_DELAY = 10 * 1000;
 
-    class TransactionsHistory {
+    class History {
 
         constructor($scope, $interval, applicationContext, transactionLoadingService) {
+
             this.transactions = [];
 
             this.applicationContext = applicationContext;
@@ -32,15 +33,15 @@
                         .refreshAssetCache(this.applicationContext.cache.assets, transactions);
                 })
                 .then(() => {
-                    history.transactions = txArray;
+                    this.transactions = txArray;
                 });
         }
 
     }
 
-    TransactionsHistory.$inject = [`$scope`, `$interval`, `applicationContext`, `transactionLoadingService`];
+    History.$inject = [`$scope`, `$interval`, `applicationContext`, `transactionLoadingService`];
 
     angular
         .module(`app.history`)
-        .controller(`transactionsHistoryController`, TransactionsHistory);
+        .controller(`historyController`, History);
 })();

@@ -7,8 +7,8 @@
 
     // TODO : add the `exceptField` attribute or a list of all the needed fields.
 
-    function TransactionHistory($scope, events, constants, applicationContext, autocomplete,
-                                apiService, leasingRequestService, notificationService, dialogService) {
+    function TransactionsHistory($scope, events, constants, applicationContext, autocomplete,
+                                 apiService, leasingRequestService, notificationService, dialogService) {
 
         const ctrl = this;
         const minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
@@ -98,20 +98,20 @@
         }
     }
 
-    TransactionHistory.$inject = [
+    TransactionsHistory.$inject = [
         `$scope`, `ui.events`, `constants.ui`, `applicationContext`, `autocomplete.fees`,
         `apiService`, `leasingRequestService`, `notificationService`, `dialogService`
     ];
 
     angular
         .module(`app.shared`)
-        .component(`wavesTransactionHistory`, {
-            controller: TransactionHistory,
+        .component(`wavesTransactionsHistory`, {
+            controller: TransactionsHistory,
             bindings: {
                 heading: `@`,
                 transactions: `<`,
                 limitTo: `<`
             },
-            templateUrl: `shared/transaction.history.component`
+            templateUrl: `shared/transactions.history.component`
         });
 })();
