@@ -5,7 +5,8 @@
     const HISTORY_LIMIT = 50;
 
     function Dex($scope, $interval, applicationContext, assetStoreFactory, datafeedApiService,
-                           dexOrderService, dexOrderbookService, notificationService, utilsService) {
+                 dexOrderService, dexOrderbookService, notificationService, utilsService) {
+
         const ctrl = this;
         const assetStore = assetStoreFactory.createStore(applicationContext.account.address);
 

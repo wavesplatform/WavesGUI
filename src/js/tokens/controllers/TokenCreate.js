@@ -7,12 +7,12 @@
     const TOKEN_DECIMALS_MAX = 8;
     const FIXED_ISSUE_FEE = new Money(1, Currency.WAVES);
 
-    function TokenCreate($scope, $interval, constants, applicationContext, assetService,
-                                   dialogService, apiService, notificationService,
-                                   formattingService, transactionBroadcast) {
-        var refreshPromise;
-        var refreshDelay = 15 * 1000;
-        var ctrl = this;
+    function TokenCreate($scope, $interval, constants, applicationContext, assetService, dialogService, apiService,
+                         notificationService, formattingService, transactionBroadcast) {
+
+        const ctrl = this;
+        const refreshDelay = 15 * 1000;
+        let refreshPromise;
 
         $scope.$on('$destroy', function () {
             if (angular.isDefined(refreshPromise)) {
@@ -72,7 +72,7 @@
 
                 applicationContext.cache.putAsset(response);
 
-                var displayMessage = 'Asset ' + ctrl.confirm.name + ' has been issued!<br/>' +
+                const displayMessage = 'Asset ' + ctrl.confirm.name + ' has been issued!<br/>' +
                     'Total tokens amount: ' + ctrl.confirm.totalTokens + '<br/>' +
                     'Date: ' + formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
@@ -96,15 +96,15 @@
                 return;
             }
 
-            var decimalPlaces = Number(ctrl.asset.decimalPlaces);
-            var maxTokens = Math.floor(constants.JAVA_MAX_LONG / Math.pow(10, decimalPlaces));
+            const decimalPlaces = Number(ctrl.asset.decimalPlaces);
+            const maxTokens = Math.floor(constants.JAVA_MAX_LONG / Math.pow(10, decimalPlaces));
             if (ctrl.asset.totalTokens > maxTokens) {
                 notificationService.error('Total issued tokens amount must be less than ' + maxTokens);
 
                 return;
             }
 
-            var asset = {
+            const asset = {
                 name: ctrl.asset.name,
                 description: ctrl.asset.description,
                 totalTokens: ctrl.asset.totalTokens,
@@ -113,7 +113,7 @@
                 fee: ctrl.asset.fee
             };
 
-            var sender = {
+            const sender = {
                 publicKey: applicationContext.account.keyPair.public,
                 privateKey: applicationContext.account.keyPair.private
             };
@@ -155,9 +155,10 @@
         }
     }
 
-    TokenCreate.$inject = ['$scope', '$interval', 'constants.ui', 'applicationContext',
-        'assetService', 'dialogService', 'apiService', 'notificationService',
-        'formattingService', 'transactionBroadcast'];
+    TokenCreate.$inject = [
+        '$scope', '$interval', 'constants.ui', 'applicationContext', 'assetService', 'dialogService', 'apiService',
+        'notificationService', 'formattingService', 'transactionBroadcast'
+    ];
 
     angular
         .module('app.tokens')

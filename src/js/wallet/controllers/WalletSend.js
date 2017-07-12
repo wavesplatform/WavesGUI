@@ -4,15 +4,15 @@
     const DEFAULT_FEE_AMOUNT = '0.001';
     const FEE_CURRENCY = Currency.WAVES;
 
-    function WavesWalletSend($scope, $timeout, constants, events, autocomplete,
-                                       applicationContext, apiService, dialogService,
-                                       transactionBroadcast, assetService, notificationService,
-                                       formattingService, addressService) {
+    function WalletSend($scope, $timeout, constants, events, autocomplete, applicationContext,
+                        apiService, dialogService, transactionBroadcast, assetService,
+                        notificationService, formattingService, addressService) {
 
         const ctrl = this;
         const minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
 
         ctrl.autocomplete = autocomplete;
+
         ctrl.validationOptions = {
             rules: {
                 sendRecipient: {
@@ -53,19 +53,22 @@
                 }
             }
         };
+
         ctrl.confirm = {
             recipient: ''
         };
+
         ctrl.broadcast = new transactionBroadcast.instance(apiService.assets.transfer,
             function (transaction) {
-                var amount = Money.fromCoins(transaction.amount, ctrl.assetBalance.currency);
-                var address = transaction.recipient;
-                var displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
+                const amount = Money.fromCoins(transaction.amount, ctrl.assetBalance.currency);
+                const address = transaction.recipient;
+                const displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
                     ctrl.assetBalance.currency.displayName +
                     '<br/>Recipient ' + address.substr(0, 15) + '...<br/>Date: ' +
                     formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
             });
+
         ctrl.submitTransfer = submitTransfer;
         ctrl.broadcastTransaction = broadcastTransaction;
 
@@ -82,7 +85,7 @@
 
             // update validation options and check how it affects form validation
             ctrl.validationOptions.rules.sendAmount.decimal = ctrl.assetBalance.currency.precision;
-            var minimumPayment = Money.fromCoins(1, ctrl.assetBalance.currency);
+            const minimumPayment = Money.fromCoins(1, ctrl.assetBalance.currency);
             ctrl.validationOptions.rules.sendAmount.min = minimumPayment.toTokens();
             ctrl.validationOptions.rules.sendAmount.max = ctrl.assetBalance.toTokens();
             ctrl.validationOptions.messages.sendAmount.decimal = 'The amount to send must be a number ' +
@@ -102,9 +105,9 @@
                 return false;
             }
 
-            var amount = Money.fromTokens(ctrl.amount, ctrl.assetBalance.currency);
-            var transferFee = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), FEE_CURRENCY);
-            var paymentCost = transferFee;
+            const amount = Money.fromTokens(ctrl.amount, ctrl.assetBalance.currency);
+            const transferFee = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), FEE_CURRENCY);
+            let paymentCost = transferFee;
             if (ctrl.feeAndTransferAssetsAreTheSame) {
                 paymentCost = paymentCost.plus(amount);
             }
@@ -114,7 +117,7 @@
                 return false;
             }
 
-            var assetTransfer = {
+            const assetTransfer = {
                 recipient: addressService.cleanupOptionalPrefix(ctrl.recipient),
                 amount: amount,
                 fee: transferFee
@@ -124,7 +127,7 @@
                 assetTransfer.attachment = converters.stringToByteArray(ctrl.attachment);
             }
 
-            var sender = {
+            const sender = {
                 publicKey: applicationContext.account.keyPair.public,
                 privateKey: applicationContext.account.keyPair.private
             };
@@ -159,13 +162,13 @@
         }
     }
 
-    WavesWalletSend.$inject = [
-        '$scope', '$timeout', 'constants.ui', 'wallet.events', 'autocomplete.fees',
-        'applicationContext', 'apiService', 'dialogService', 'transactionBroadcast', 'assetService',
+    WalletSend.$inject = [
+        '$scope', '$timeout', 'constants.ui', 'wallet.events', 'autocomplete.fees', 'applicationContext',
+        'apiService', 'dialogService', 'transactionBroadcast', 'assetService',
         'notificationService', 'formattingService', 'addressService'
     ];
 
     angular
         .module('app.wallet')
-        .controller('walletSendController', WavesWalletSend);
+        .controller('walletSendController', WalletSend);
 })();

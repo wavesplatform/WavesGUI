@@ -1,16 +1,17 @@
 (function () {
     'use strict';
 
-    var DEFAULT_FEE_AMOUNT = 0.001;
-    var FEE_CURRENCY = Currency.WAVES;
-    var DEFAULT_ERROR_MESSAGE = 'The Internet connection is lost';
+    const DEFAULT_FEE_AMOUNT = 0.001;
+    const FEE_CURRENCY = Currency.WAVES;
+    const DEFAULT_ERROR_MESSAGE = 'The Internet connection is lost';
 
     // TODO : add the `exceptField` attribute or a list of all the needed fields.
 
-    function WavesTransactionHistory($scope, events, constants, applicationContext, autocomplete,
-                                               apiService, leasingRequestService, notificationService, dialogService) {
-        var ctrl = this;
-        var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
+    function TransactionHistory($scope, events, constants, applicationContext, autocomplete,
+                                apiService, leasingRequestService, notificationService, dialogService) {
+
+        const ctrl = this;
+        const minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
 
         ctrl.cancelLeasing = cancelLeasing;
         ctrl.confirm = {};
@@ -28,9 +29,9 @@
                 cancelFee: {
                     required: 'Transaction fee is required',
                     decimal: 'Transaction fee must a number be with no more than ' +
-                        minimumFee.currency.precision + ' digits after the decimal point (.)',
+                    minimumFee.currency.precision + ' digits after the decimal point (.)',
                     min: 'Transaction fee is too small. It should be greater or equal to ' +
-                        minimumFee.formatAmount(true)
+                    minimumFee.formatAmount(true)
                 }
             }
         };
@@ -47,23 +48,23 @@
             dialogService.open('#cancel-leasing-confirmation');
         });
 
-        function cancelLeasing (form) {
+        function cancelLeasing(form) {
             if (!form.validate(ctrl.validationOptions)) {
                 return false;
             }
 
-            var fee = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), FEE_CURRENCY);
-            var cancelLeasing = {
+            const fee = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), FEE_CURRENCY);
+            const cancelLeasing = {
                 startLeasingTransactionId: ctrl.startLeasingTransaction.id,
                 fee: fee
             };
 
-            var sender = {
+            const sender = {
                 publicKey: applicationContext.account.keyPair.public,
                 privateKey: applicationContext.account.keyPair.private
             };
 
-            var transaction = leasingRequestService.buildCancelLeasingRequest(cancelLeasing, sender);
+            const transaction = leasingRequestService.buildCancelLeasingRequest(cancelLeasing, sender);
 
             apiService.leasing.cancel(transaction)
                 .then(function () {
@@ -92,18 +93,20 @@
             return true;
         }
 
-        function reset () {
+        function reset() {
             ctrl.autocomplete.defaultFee(DEFAULT_FEE_AMOUNT);
         }
     }
 
-    WavesTransactionHistory.$inject = ['$scope', 'ui.events', 'constants.ui', 'applicationContext',
-        'autocomplete.fees', 'apiService', 'leasingRequestService', 'notificationService', 'dialogService'];
+    TransactionHistory.$inject = [
+        '$scope', 'ui.events', 'constants.ui', 'applicationContext', 'autocomplete.fees',
+        'apiService', 'leasingRequestService', 'notificationService', 'dialogService'
+    ];
 
     angular
         .module('app.shared')
         .component('wavesTransactionHistory', {
-            controller: WavesTransactionHistory,
+            controller: TransactionHistory,
             bindings: {
                 heading: '@',
                 transactions: '<',

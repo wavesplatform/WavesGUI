@@ -3,7 +3,7 @@
 
     // TODO : move to the future `appState` service.
 
-    var predefinedAssets = [
+    const predefinedAssets = [
         Currency.BTC,
         Currency.USD,
         Currency.EUR,
@@ -23,7 +23,7 @@
                 }
 
                 AssetStore.prototype._getBalances = function () {
-                    var self = this;
+                    const self = this;
                     this.promise = this.promise
                         .then(function () {
                             return apiService.assets.balance(self.address);
@@ -45,7 +45,7 @@
                 };
 
                 AssetStore.prototype._getPredefined = function () {
-                    var self = this;
+                    const self = this;
                     this.promise = this.promise
                         .then(function () {
                             predefinedAssets.forEach(function (asset) {
@@ -57,17 +57,17 @@
                 };
 
                 AssetStore.prototype._getTradedAssets = function () {
-                    var self = this;
+                    const self = this;
                     this.promise = this.promise
                         .then(matcherApiService.loadAllMarkets)
                         .then(function (markets) {
                             markets.forEach(function (market) {
-                                var amountAsset = market.amountAsset;
+                                const amountAsset = market.amountAsset;
                                 if (!self.balances[amountAsset.id]) {
                                     self.balances[amountAsset.id] = Money.fromCoins(0, amountAsset);
                                 }
 
-                                var priceAsset = market.priceAsset;
+                                const priceAsset = market.priceAsset;
                                 if (!self.balances[priceAsset.id]) {
                                     self.balances[priceAsset.id] = Money.fromCoins(0, priceAsset);
                                 }
@@ -76,7 +76,7 @@
                 };
 
                 AssetStore.prototype.getAll = function () {
-                    var self = this;
+                    const self = this;
 
                     self._getBalances();
                     self._getPredefined();
@@ -95,14 +95,16 @@
                 };
 
                 AssetStore.prototype.syncGetAsset = function (id) {
-                    var item = this.syncGet(id);
+                    const item = this.syncGet(id);
                     if (item && item.currency) {
                         return item.currency;
+                    } else {
+                        return null;
                     }
                 };
 
                 AssetStore.prototype.syncGetBalance = function (id) {
-                    var item = this.syncGet(id);
+                    const item = this.syncGet(id);
                     if (item && item.amount) {
                         return item.amount.toNumber();
                     } else {
@@ -110,7 +112,7 @@
                     }
                 };
 
-                var stores = {};
+                const stores = {};
 
                 return {
                     createStore: function (address) {

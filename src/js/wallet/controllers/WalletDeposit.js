@@ -1,12 +1,12 @@
 (function () {
     'use strict';
 
-    var DEFAULT_ERROR_MESSAGE = 'Connection is lost';
+    const DEFAULT_ERROR_MESSAGE = 'Connection is lost';
 
-    function WavesWalletDeposit($scope, events, coinomatService, dialogService,
-                                          notificationService, applicationContext, bitcoinUriService,
-                                          utilsService) {
-        var ctrl = this;
+    function WalletDeposit($scope, events, coinomatService, dialogService, notificationService,
+                           applicationContext, bitcoinUriService, utilsService) {
+
+        const ctrl = this;
 
         ctrl.btc = {
             bitcoinAddress: '',
@@ -21,7 +21,7 @@
         };
 
         ctrl.refreshBTCUri = function () {
-            var params = null;
+            let params = null;
             if (ctrl.btc.bitcoinAmount >= ctrl.btc.minimumAmount) {
                 params = {
                     amount: ctrl.btc.bitcoinAmount
@@ -76,11 +76,12 @@
         }
     }
 
-    WavesWalletDeposit.$inject = ['$scope', 'wallet.events', 'coinomatService', 'dialogService',
-        'notificationService', 'applicationContext', 'bitcoinUriService',
-        'utilsService'];
+    WalletDeposit.$inject = [
+        '$scope', 'wallet.events', 'coinomatService', 'dialogService', 'notificationService',
+        'applicationContext', 'bitcoinUriService', 'utilsService'
+    ];
 
     angular
         .module('app.wallet')
-        .controller('walletDepositController', WavesWalletDeposit);
+        .controller('walletDepositController', WalletDeposit);
 })();

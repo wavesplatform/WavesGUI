@@ -1,11 +1,11 @@
 (function () {
     'use strict';
 
-    function WavesAssetList($scope, $timeout, $interval, events,
-                                      applicationContext, apiService, formattingService) {
-        var ctrl = this;
-        var refreshPromise;
-        var refreshDelay = 10 * 1000; // refreshing every 10 seconds
+    function AssetList($scope, $timeout, $interval, events, applicationContext, apiService, formattingService) {
+
+        const ctrl = this;
+        const refreshDelay = 10 * 1000; // refreshing every 10 seconds
+        let refreshPromise;
 
         ctrl.wavesBalance = new Money(0, Currency.WAVES);
         ctrl.assets = [];
@@ -27,7 +27,7 @@
             refreshAssets();
             refreshBalance();
 
-            refreshPromise = $interval(function() {
+            refreshPromise = $interval(function () {
                 refreshAssets();
                 refreshBalance();
             }, refreshDelay);
@@ -59,7 +59,7 @@
         }
 
         function loadAssetDataFromCache(asset) {
-            var cached = applicationContext.cache.assets[asset.id];
+            const cached = applicationContext.cache.assets[asset.id];
             asset.balance = cached.balance;
             asset.name = cached.currency.displayName;
             asset.total = cached.totalTokens.formatAmount();
@@ -76,11 +76,11 @@
         }
 
         function refreshAssets() {
-            var assets = [];
+            const assets = [];
             apiService.assets.balance(applicationContext.account.address).then(function (response) {
                 _.forEach(response.balances, function (assetBalance) {
-                    var id = assetBalance.assetId;
-                    var asset = {
+                    const id = assetBalance.assetId;
+                    const asset = {
                         id: id,
                         name: ''
                     };
@@ -91,7 +91,7 @@
                         assetBalance.reissuable, assetBalance.quantity);
 
                     // adding an asset with positive balance only or your reissuable assets
-                    var yourReissuableAsset = assetBalance.reissuable &&
+                    const yourReissuableAsset = assetBalance.reissuable &&
                         assetBalance.issueTransaction.sender === applicationContext.account.address;
                     if (assetBalance.balance !== 0 || yourReissuableAsset) {
                         loadAssetDataFromCache(asset);
@@ -99,7 +99,7 @@
                     }
                 });
 
-                var delay = 1;
+                let delay = 1;
                 // handling the situation when some assets appeared on the account
                 if (ctrl.assets.length === 0 && assets.length > 0) {
                     ctrl.noData = false;
@@ -114,10 +114,10 @@
 
                 // to prevent no data message and asset list from displaying simultaneously
                 // we need to update
-                $timeout(function() {
+                $timeout(function () {
                     ctrl.assets = assets.sort(function (a, b) {
-                        var aVerified = (a.balance.currency.verified === true) ? '1' : '0',
-                            bVerified = (b.balance.currency.verified === true) ? '1' : '0';
+                        let aVerified = (a.balance.currency.verified === true) ? '1' : '0';
+                        let bVerified = (b.balance.currency.verified === true) ? '1' : '0';
 
                         // The verified assets go first, then we sort them by timestamp
                         aVerified += new Date(a.timestamp).getTime();
@@ -130,10 +130,11 @@
         }
     }
 
-    WavesAssetList.$inject = ['$scope', '$timeout', '$interval', 'portfolio.events',
-        'applicationContext', 'apiService', 'formattingService'];
+    AssetList.$inject = [
+        '$scope', '$timeout', '$interval', 'portfolio.events', 'applicationContext', 'apiService', 'formattingService'
+    ];
 
     angular
         .module('app.portfolio')
-        .controller('assetListController', WavesAssetList);
+        .controller('assetListController', AssetList);
 })();

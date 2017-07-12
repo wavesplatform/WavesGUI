@@ -1,8 +1,9 @@
 (function () {
     'use strict';
 
-    function WavesBalanceDetails () {
-        var ctrl = this;
+    function BalanceDetails () {
+
+        const ctrl = this;
 
         ctrl.formattedBalance = {};
 
@@ -24,7 +25,7 @@
     angular
         .module('app.leasing')
         .component('wavesLeasingBalanceDetails', {
-            controller: WavesBalanceDetails,
+            controller: BalanceDetails,
             bindings: {
                 balanceDetails: '<'
             },

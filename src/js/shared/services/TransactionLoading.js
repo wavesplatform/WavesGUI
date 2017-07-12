@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function WavesTransactionLoading($q, constants, apiService) {
+    function TransactionLoading($q, constants, apiService) {
         var self = this;
 
         // returns promise that loads and merges unconfirmed and confirmed transactions
@@ -77,9 +77,9 @@
         };
     }
 
-    WavesTransactionLoading.$inject = ['$q', 'constants.transactions', 'apiService'];
+    TransactionLoading.$inject = ['$q', 'constants.transactions', 'apiService'];
 
     angular
         .module('app.shared')
-        .service('transactionLoadingService', WavesTransactionLoading);
+        .service('transactionLoadingService', TransactionLoading);
 })();

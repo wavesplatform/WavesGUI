@@ -97,9 +97,7 @@
         }
     };
 
-    AccountRegister.$inject = [
-        '$scope', 'cryptoService', 'loginContext'
-    ];
+    AccountRegister.$inject = ['$scope', 'cryptoService', 'loginContext'];
 
     angular
         .module('app.login')

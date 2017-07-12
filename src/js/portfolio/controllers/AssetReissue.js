@@ -3,16 +3,18 @@
 
     const FIXED_REISSUE_FEE = new Money(1, Currency.WAVES);
 
-    function WavesAssetReissue($scope, $timeout, constants, events, applicationContext, assetService,
-                                         dialogService, notificationService, formattingService, apiService,
-                                         transactionBroadcast) {
-        var ctrl = this;
+    function AssetReissue($scope, $timeout, constants, events, applicationContext, assetService, dialogService,
+                          notificationService, formattingService, apiService, transactionBroadcast) {
+
+        const ctrl = this;
+
         ctrl.confirm = {};
+
         ctrl.broadcast = new transactionBroadcast.instance(apiService.assets.reissue,
-            function (transaction, response) {
-                var amount = Money.fromCoins(transaction.quantity, reissue.asset.currency);
-                var displayMessage = 'Reissued ' + amount.formatAmount(true) + ' tokens of asset ' +
-                    reissue.asset.currency.displayName + '<br/>Date: ' +
+            function (transaction) {
+                const amount = Money.fromCoins(transaction.quantity, ctrl.asset.currency);
+                const displayMessage = 'Reissued ' + amount.formatAmount(true) + ' tokens of asset ' +
+                    ctrl.asset.currency.displayName + '<br/>Date: ' +
                     formattingService.formatTimestamp(transaction.timestamp);
                 notificationService.notice(displayMessage);
             });
@@ -120,11 +122,12 @@
         }
     }
 
-    WavesAssetReissue.$inject = ['$scope', '$timeout', 'constants.ui', 'portfolio.events',
-        'applicationContext', 'assetService', 'dialogService', 'notificationService',
-        'formattingService', 'apiService', 'transactionBroadcast'];
+    AssetReissue.$inject = [
+        '$scope', '$timeout', 'constants.ui', 'portfolio.events', 'applicationContext', 'assetService', 'dialogService',
+        'notificationService', 'formattingService', 'apiService', 'transactionBroadcast'
+    ];
 
     angular
         .module('app.portfolio')
-        .controller('assetReissueController', WavesAssetReissue);
+        .controller('assetReissueController', AssetReissue);
 })();

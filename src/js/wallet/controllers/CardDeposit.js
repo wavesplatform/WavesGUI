@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var DEFAULT_AMOUNT_TO_PAY = 50;
+    const DEFAULT_AMOUNT_TO_PAY = 50;
 
     function FiatCurrency(code, displayName) {
         this.code = code;
@@ -12,12 +12,15 @@
         }
     }
 
-    function WavesCardDeposit($scope, $window, $q, events, dialogService,
-                                        fiatService, applicationContext, notificationService) {
-        var deferred;
-        var ctrl = this;
+    function CardDeposit($scope, $window, $q, events, dialogService,
+                         fiatService, applicationContext, notificationService) {
+
+        const ctrl = this;
+        let deferred;
+
         ctrl.currencies = [new FiatCurrency('EURO', 'Euro'), new FiatCurrency('USD')];
         ctrl.limits = {};
+
         ctrl.updateReceiveAmount = updateReceiveAmount;
         ctrl.updateLimitsAndReceiveAmount = updateLimitsAndReceiveAmount;
         ctrl.redirectToMerchant = redirectToMerchant;
@@ -53,9 +56,10 @@
                     } else if (ctrl.payAmount > ctrl.limits.max) {
                         ctrl.payAmount = ctrl.limits.max;
                     }
-                }).catch(function (response) {
-                remotePartyErrorHandler('get limits', response);
-            });
+                })
+                .catch(function (response) {
+                    remotePartyErrorHandler('get limits', response);
+                });
 
             updateReceiveAmount();
         }
@@ -79,7 +83,7 @@
                 deferred = undefined;
             }
 
-            var amount = Number(ctrl.payAmount);
+            const amount = Number(ctrl.payAmount);
             if (isNaN(amount) || ctrl.payAmount <= 0) {
                 ctrl.getAmount = '';
                 return;
@@ -106,8 +110,11 @@
             try {
                 validateAmountToPay();
 
-                var url = fiatService.getMerchantUrl(applicationContext.account.address,
-                    ctrl.payAmount, ctrl.payCurrency.code, ctrl.crypto);
+                const url = fiatService.getMerchantUrl(
+                    applicationContext.account.address,
+                    ctrl.payAmount, ctrl.payCurrency.code, ctrl.crypto
+                );
+
                 $window.open(url, '_blank');
 
                 return true;
@@ -127,10 +134,12 @@
         }
     }
 
-    WavesCardDeposit.$inject = ['$scope', '$window', '$q', 'wallet.events', 'dialogService',
-        'coinomatFiatService', 'applicationContext', 'notificationService'];
+    CardDeposit.$inject = [
+        '$scope', '$window', '$q', 'wallet.events', 'dialogService',
+        'coinomatFiatService', 'applicationContext', 'notificationService'
+    ];
 
     angular
         .module('app.wallet')
-        .controller('cardDepositController', WavesCardDeposit);
+        .controller('cardDepositController', CardDeposit);
 })();

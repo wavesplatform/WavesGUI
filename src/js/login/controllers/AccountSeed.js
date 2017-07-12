@@ -1,13 +1,13 @@
 (function () {
     'use strict';
 
-    var SEED_MINIMUM_LENGTH = 25;
+    const SEED_MINIMUM_LENGTH = 25;
 
-    function AccountSeed($scope, loginContext, utilityService,
-                                   cryptoService, dialogService, passPhraseService) {
-        var vm = this;
+    function AccountSeed($scope, loginContext, utilityService, cryptoService, dialogService, passPhraseService) {
 
-        vm.validationOptions = {
+        const ctrl = this;
+
+        ctrl.validationOptions = {
             onfocusout: false,
             rules: {
                 walletSeed: {
@@ -19,24 +19,24 @@
                 walletSeed: {
                     required: 'Wallet seed is required',
                     minlength: 'Wallet seed is too short. A secure wallet seed should contain more than ' +
-                       SEED_MINIMUM_LENGTH + ' characters'
+                    SEED_MINIMUM_LENGTH + ' characters'
                 }
             }
         };
-        vm.registerAccount = registerAccount;
-        vm.back = goBack;
-        vm.refreshAddress = refreshAddress;
-        vm.checkSeedAndRegister = checkSeedAndRegister;
-        vm.generateSeed = generateSeed;
+        ctrl.registerAccount = registerAccount;
+        ctrl.back = goBack;
+        ctrl.refreshAddress = refreshAddress;
+        ctrl.checkSeedAndRegister = checkSeedAndRegister;
+        ctrl.generateSeed = generateSeed;
 
         function cleanup() {
             //it seems we won't need this code if we switch to recreation of controllers on each event
-            vm.seed = '';
-            vm.displayAddress = '';
+            ctrl.seed = '';
+            ctrl.displayAddress = '';
         }
 
         function refreshAddress() {
-            vm.displayAddress = cryptoService.buildRawAddressFromSeed(vm.seed);
+            ctrl.displayAddress = cryptoService.buildRawAddressFromSeed(ctrl.seed);
         }
 
         function checkSeedAndRegister(form) {
@@ -44,7 +44,7 @@
                 return false;
             }
 
-            if (utilityService.endsWithWhitespace(vm.seed)) {
+            if (utilityService.endsWithWhitespace(ctrl.seed)) {
                 dialogService.openNonCloseable('#seed-whitespace-popup');
             } else {
                 registerAccount();
@@ -54,12 +54,12 @@
         }
 
         function generateSeed() {
-            vm.seed = passPhraseService.generate();
+            ctrl.seed = passPhraseService.generate();
             refreshAddress();
         }
 
         function registerAccount() {
-            loginContext.showRegisterScreen($scope, vm.seed);
+            loginContext.showRegisterScreen($scope, ctrl.seed);
             cleanup();
         }
 
@@ -69,12 +69,9 @@
         }
     }
 
-    AccountSeed.$inject = ['$scope',
-        'loginContext',
-        'utilityService',
-        'cryptoService',
-        'dialogService',
-        'passPhraseService'];
+    AccountSeed.$inject = [
+        '$scope', 'loginContext', 'utilityService', 'cryptoService', 'dialogService', 'passPhraseService'
+    ];
 
     angular
         .module('app.login')

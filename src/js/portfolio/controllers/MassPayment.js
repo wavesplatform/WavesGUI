@@ -12,12 +12,12 @@
         this.message = message;
     }
 
-    function WavesMassPayment ($scope, $window, $timeout, constants, events, applicationContext,
-                                        autocomplete, notificationService, assetService, dialogService,
-                                         transactionBroadcast, apiService) {
+    function MassPayment($scope, $window, $timeout, constants, events, applicationContext, autocomplete,
+                         notificationService, assetService, dialogService, transactionBroadcast, apiService) {
+
         const ctrl = this;
-        var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAVES);
-        var transactions;
+        const minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAVES);
+        let transactions;
 
         ctrl.summary = {
             totalAmount: ZERO_MONEY,
@@ -34,7 +34,7 @@
         ctrl.loadingInProgress = false;
         ctrl.broadcast = new transactionBroadcast.instance(apiService.assets.massPay,
             function () {
-                var displayMessage = 'Sent ' + ctrl.summary.totalAmount.formatAmount(true) + ' of ' +
+                const displayMessage = 'Sent ' + ctrl.summary.totalAmount.formatAmount(true) + ' of ' +
                     ctrl.summary.totalAmount.currency.displayName + ' to ' + ctrl.summary.totalTransactions +
                     ' recipients';
                 notificationService.notice(displayMessage);
@@ -115,22 +115,22 @@
         }
 
         function parseCsvFile(content) {
-            var lines = content.split('\n');
-            var result = [];
+            const lines = content.split('\n');
+            const result = [];
             _.forEach(lines, function (line) {
                 line = line.trim();
                 if (line.length < 1) {
                     return;
                 }
 
-                var parts = line.split(';');
+                const parts = line.split(';');
                 if (parts.length < 2) {
                     throw new Error('CSV file contains ' + parts.length + ' columns. Expected 2 or 3 columns');
                 }
 
-                var address = parts[0];
-                var amount = parseFloat(parts[1]);
-                var id;
+                const address = parts[0];
+                const amount = parseFloat(parts[1]);
+                let id;
                 if (parts.length > 2) {
                     id = parts[2];
                 }
@@ -150,26 +150,26 @@
         }
 
         function loadTransactionsFromFile() {
-            var sender = {
+            const sender = {
                 publicKey: applicationContext.account.keyPair.public,
                 privateKey: applicationContext.account.keyPair.private
             };
 
             try {
                 transactions = [];
-                var transfersToDisplay = [];
-                var transferCurrency = ctrl.assetBalance.currency;
-                var totalTransactions = 0;
-                var totalAmount = Money.fromCoins(0, transferCurrency);
-                var totalFee = Money.fromCoins(0, Currency.WAVES);
-                var fee = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), Currency.WAVES);
-                var minimumPayment = Money.fromCoins(1, transferCurrency);
+                const transfersToDisplay = [];
+                const transferCurrency = ctrl.assetBalance.currency;
+                let totalTransactions = 0;
+                let totalAmount = Money.fromCoins(0, transferCurrency);
+                let totalFee = Money.fromCoins(0, Currency.WAVES);
+                const fee = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), Currency.WAVES);
+                const minimumPayment = Money.fromCoins(1, transferCurrency);
                 _.forEach(ctrl.inputPayments, function (transfer) {
                     if (isNaN(transfer.amount)) {
                         throw new ValidationError('Failed to parse payment amount for address ' + transfer.recipient);
                     }
 
-                    var assetTransfer = {
+                    const assetTransfer = {
                         recipient: transfer.recipient,
                         amount: Money.fromTokens(transfer.amount, transferCurrency),
                         fee: fee,
@@ -207,13 +207,11 @@
                 // cleaning up
                 ctrl.filename = '';
                 ctrl.inputPayments = [];
-            }
-            catch (e) {
+            } catch (e) {
                 if (e instanceof ValidationError) {
                     ctrl.invalidPayment = true;
                     ctrl.inputErrorMessage = e.message;
-                }
-                else {
+                } else {
                     throw e;
                 }
             }
@@ -245,7 +243,7 @@
         }
 
         function submitPayment() {
-            var paymentCost = !ctrl.sendingWaves ?
+            const paymentCost = !ctrl.sendingWaves ?
                 ctrl.summary.totalFee :
                 ctrl.summary.totalFee.plus(ctrl.summary.totalAmount);
 
@@ -291,10 +289,10 @@
                 return;
             }
 
-            var reader = new $window.FileReader();
+            const reader = new $window.FileReader();
 
             reader.onloadend = function (event) {
-                if (event.target.readyState == FileReader.DONE) {
+                if (event.target.readyState === FileReader.DONE) {
                     ctrl.loadInputFile(file.name, event.target.result);
                 }
             };
@@ -332,13 +330,12 @@
         }
     }
 
-    WavesMassPayment.$inject = [
-        '$scope', '$window', '$timeout', 'constants.ui', 'portfolio.events', 'applicationContext',
-        'autocomplete.fees', 'notificationService', 'assetService', 'dialogService',
-        'transactionBroadcast', 'apiService'
+    MassPayment.$inject = [
+        '$scope', '$window', '$timeout', 'constants.ui', 'portfolio.events', 'applicationContext', 'autocomplete.fees',
+        'notificationService', 'assetService', 'dialogService', 'transactionBroadcast', 'apiService'
     ];
 
     angular
         .module('app.portfolio')
-        .controller('massPaymentController', WavesMassPayment);
+        .controller('massPaymentController', MassPayment);
 })();

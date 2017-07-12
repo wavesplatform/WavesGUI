@@ -1,15 +1,17 @@
 (function () {
     'use strict';
 
-    function WavesWalletList($scope, $interval, events, applicationContext,
-                                       apiService, transactionLoadingService, dialogService) {
-        var ctrl = this;
-        var refreshPromise;
-        var refreshDelay = 10 * 1000;
+    function WalletList($scope, $interval, events, applicationContext, apiService,
+                        transactionLoadingService, dialogService) {
+
+        const ctrl = this;
+        const refreshDelay = 10 * 1000;
+
+        let refreshPromise;
 
         function sendCommandEvent(event, currency) {
-            var assetWallet = findWalletByCurrency(currency);
-            var wavesWallet = findWalletByCurrency(Currency.WAVES);
+            const assetWallet = findWalletByCurrency(currency);
+            const wavesWallet = findWalletByCurrency(Currency.WAVES);
 
             $scope.$broadcast(event, {
                 assetBalance: assetWallet.balance,
@@ -98,13 +100,13 @@
         function refreshWallets() {
             apiService.address.balance(applicationContext.account.address)
                 .then(function (response) {
-                    var wavesWallet = findWalletByCurrency(Currency.WAVES);
+                    const wavesWallet = findWalletByCurrency(Currency.WAVES);
                     wavesWallet.balance = Money.fromCoins(response.balance, Currency.WAVES);
                 });
 
             apiService.assets.balance(applicationContext.account.address).then(function (response) {
                 _.forEach(response.balances, function (assetBalance) {
-                    var id = assetBalance.assetId;
+                    const id = assetBalance.assetId;
 
                     // adding asset details to cache
                     applicationContext.cache.putAsset(assetBalance.issueTransaction);
@@ -113,7 +115,7 @@
                 });
 
                 _.forEach(ctrl.wallets, function (wallet) {
-                    var asset = applicationContext.cache.assets[wallet.balance.currency.id];
+                    const asset = applicationContext.cache.assets[wallet.balance.currency.id];
                     if (asset) {
                         wallet.balance = asset.balance;
                     }
@@ -122,7 +124,7 @@
         }
 
         function refreshTransactions() {
-            var txArray;
+            let txArray;
             transactionLoadingService.loadTransactions(applicationContext.account)
                 .then(function (transactions) {
                     txArray = transactions;
@@ -146,10 +148,12 @@
         }
     }
 
-    WavesWalletList.$inject = ['$scope', '$interval', 'wallet.events', 'applicationContext',
-        'apiService', 'transactionLoadingService', 'dialogService'];
+    WalletList.$inject = [
+        '$scope', '$interval', 'wallet.events', 'applicationContext', 'apiService',
+        'transactionLoadingService', 'dialogService'
+    ];
 
     angular
         .module('app.wallet')
-        .controller('walletListController', WavesWalletList);
+        .controller('walletListController', WalletList);
 })();

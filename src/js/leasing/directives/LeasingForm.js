@@ -4,13 +4,12 @@
     const DEFAULT_FEE_AMOUNT = '0.001';
     const FEE_CURRENCY = Currency.WAVES;
 
-    function WavesLeasingForm($timeout, constants, autocomplete, applicationContext,
-                                        apiService, dialogService, notificationService, transactionBroadcast,
-                                        formattingService, addressService, leasingService, leasingRequestService) {
-
-        const minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
+    function LeasingForm($timeout, constants, autocomplete, applicationContext, apiService, dialogService,
+                         notificationService, transactionBroadcast, formattingService, addressService, leasingService,
+                         leasingRequestService) {
 
         const ctrl = this;
+        const minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
 
         ctrl.autocomplete = autocomplete;
         ctrl.availableBalance = Money.fromCoins(0, Currency.WAVES);
@@ -149,16 +148,16 @@
         }
     }
 
-    WavesLeasingForm.$inject = [
-        '$timeout', 'constants.ui', 'autocomplete.fees', 'applicationContext',
-        'apiService', 'dialogService', 'notificationService', 'transactionBroadcast',
-        'formattingService', 'addressService', 'leasingService', 'leasingRequestService'
+    LeasingForm.$inject = [
+        '$timeout', 'constants.ui', 'autocomplete.fees', 'applicationContext', 'apiService', 'dialogService',
+        'notificationService', 'transactionBroadcast', 'formattingService', 'addressService', 'leasingService',
+        'leasingRequestService'
     ];
 
     angular
         .module('app.leasing')
         .component('wavesLeasingLeaseForm', {
-            controller: WavesLeasingForm,
+            controller: LeasingForm,
             templateUrl: 'leasing/lease.form.component'
         });
 })();
