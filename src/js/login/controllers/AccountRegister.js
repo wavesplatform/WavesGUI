@@ -23,7 +23,7 @@
          * @returns {string}
          */
         seed(seed) {
-            return seed !== null ? (this.loginContext.seed = seed) : this.loginContext.seed;
+            return seed != null ? (this.loginContext.seed = seed) : this.loginContext.seed;
         }
 
         cleanup() {

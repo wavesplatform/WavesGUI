@@ -94,7 +94,10 @@
         ],
         "eqeqeq": [
             "error",
-            "always"
+            "always",
+            {
+                "null": "ignore"
+            }
         ],
         "for-direction": "error",
         "func-call-spacing": "error",
@@ -181,7 +184,7 @@
         "no-duplicate-imports": "error",
         "no-else-return": "off",
         "no-empty-function": "off",
-        "no-eq-null": "error",
+        "no-eq-null": "off",
         "no-eval": "error",
         "no-extend-native": "error",
         "no-extra-bind": "error",
