@@ -13,9 +13,9 @@
     ];
 
     angular
-        .module('app.shared')
-        .factory('assetStoreFactory', [
-            '$q', 'apiService', 'matcherApiService', function ($q, apiService, matcherApiService) {
+        .module(`app.shared`)
+        .factory(`assetStoreFactory`, [
+            `$q`, `apiService`, `matcherApiService`, function ($q, apiService, matcherApiService) {
                 function AssetStore(address) {
                     this.address = address;
                     this.balances = {};
@@ -25,11 +25,9 @@
                 AssetStore.prototype._getBalances = function () {
                     const self = this;
                     this.promise = this.promise
-                        .then(function () {
-                            return apiService.assets.balance(self.address);
-                        })
-                        .then(function (response) {
-                            response.balances.forEach(function (asset) {
+                        .then(() => apiService.assets.balance(self.address))
+                        .then((response) => {
+                            response.balances.forEach((asset) => {
                                 self.balances[asset.assetId] = Money.fromCoins(asset.balance, Currency.create({
                                     id: asset.assetId,
                                     displayName: asset.issueTransaction.name,
@@ -39,7 +37,7 @@
                             });
                         })
                         .then(apiService.address.balance.bind(apiService.address, self.address))
-                        .then(function (response) {
+                        .then((response) => {
                             self.balances[Currency.WAVES.id] = Money.fromCoins(response.balance, Currency.WAVES);
                         });
                 };
@@ -47,8 +45,8 @@
                 AssetStore.prototype._getPredefined = function () {
                     const self = this;
                     this.promise = this.promise
-                        .then(function () {
-                            predefinedAssets.forEach(function (asset) {
+                        .then(() => {
+                            predefinedAssets.forEach((asset) => {
                                 if (!self.balances[asset.id]) {
                                     self.balances[asset.id] = Money.fromCoins(0, asset);
                                 }
@@ -60,8 +58,8 @@
                     const self = this;
                     this.promise = this.promise
                         .then(matcherApiService.loadAllMarkets)
-                        .then(function (markets) {
-                            markets.forEach(function (market) {
+                        .then((markets) => {
+                            markets.forEach((market) => {
                                 const amountAsset = market.amountAsset;
                                 if (!self.balances[amountAsset.id]) {
                                     self.balances[amountAsset.id] = Money.fromCoins(0, amountAsset);
@@ -81,11 +79,7 @@
                     self._getBalances();
                     self._getPredefined();
                     self._getTradedAssets();
-                    self.promise = self.promise.then(function () {
-                        return Object.keys(self.balances).map(function (key) {
-                            return self.balances[key];
-                        });
-                    });
+                    self.promise = self.promise.then(() => Object.keys(self.balances).map((key) => self.balances[key]));
 
                     return self.promise;
                 };
@@ -115,7 +109,7 @@
                 const stores = {};
 
                 return {
-                    createStore: function (address) {
+                    createStore(address) {
                         if (!stores[address]) {
                             stores[address] = new AssetStore(address);
                         }

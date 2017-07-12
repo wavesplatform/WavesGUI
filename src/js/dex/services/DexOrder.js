@@ -1,14 +1,14 @@
 (function () {
     'use strict';
 
-    const ACCEPTED = 'Accepted';
-    const PARTIALLY = 'PartiallyFilled';
-    const FILLED = 'Filled';
-    const CANCELLED = 'Cancelled';
-    const NOT_FOUND = 'NotFound';
+    const ACCEPTED = `Accepted`;
+    const PARTIALLY = `PartiallyFilled`;
+    const FILLED = `Filled`;
+    const CANCELLED = `Cancelled`;
+    const NOT_FOUND = `NotFound`;
 
-    const ORDER_CANCELED = 'OrderCanceled';
-    const ORDER_DELETED = 'OrderDeleted';
+    const ORDER_CANCELED = `OrderCanceled`;
+    const ORDER_DELETED = `OrderDeleted`;
 
     function DexOrder(matcherRequestService, matcherApiService, applicationContext) {
 
@@ -17,11 +17,12 @@
         this.addOrder = function (pair, order, sender) {
             return matcherApiService
                 .loadMatcherKey()
-                .then(function (matcherKey) {
+                .then((matcherKey) => {
                     order.matcherKey = matcherKey;
                     const signedRequest = matcherRequestService.buildCreateOrderRequest(order, sender);
                     return matcherApiService.createOrder(signedRequest);
-                }).catch(function (e) {
+                })
+                .catch((e) => {
                     throw new Error(e);
                 });
         };
@@ -31,21 +32,23 @@
             if (order.status === ACCEPTED || order.status === PARTIALLY) {
                 return matcherApiService
                     .cancelOrder(pair.amountAsset.id, pair.priceAsset.id, signedRequest)
-                    .then(function (response) {
+                    .then((response) => {
                         if (response.status !== ORDER_CANCELED) {
                             throw new Error();
                         }
-                    }).catch(function (e) {
+                    })
+                    .catch((e) => {
                         throw new Error(e);
                     });
             } else if (order.status === FILLED || order.status === CANCELLED) {
                 return matcherApiService
                     .deleteOrder(pair.amountAsset.id, pair.priceAsset.id, signedRequest)
-                    .then(function (response) {
+                    .then((response) => {
                         if (response.status !== ORDER_DELETED) {
                             throw new Error();
                         }
-                    }).catch(function (e) {
+                    })
+                    .catch((e) => {
                         throw new Error(e);
                     });
             }
@@ -57,38 +60,36 @@
                     publicKey: applicationContext.account.keyPair.public,
                     privateKey: applicationContext.account.keyPair.private
                 })
-                .then(function (response) {
-                    return response.map(function (o) {
-                        if (o.amount === null || o.price === null || o.filled === null || o.timestamp === null) {
-                            o.amount = o.amount || 0;
-                            o.price = o.price || 0;
-                            o.filled = o.filled || 0;
-                            o.timestamp = o.timestamp || 0;
-                            throw new Error('Bad order!', o);
-                        }
+                .then((response) => response.map((o) => {
+                    if (o.amount === null || o.price === null || o.filled === null || o.timestamp === null) {
+                        o.amount = o.amount || 0;
+                        o.price = o.price || 0;
+                        o.filled = o.filled || 0;
+                        o.timestamp = o.timestamp || 0;
+                        throw new Error(`Bad order!`, o);
+                    }
 
-                        const orderPrice = OrderPrice.fromBackendPrice(o.price, pair).toTokens();
+                    const orderPrice = OrderPrice.fromBackendPrice(o.price, pair).toTokens();
 
-                        return {
-                            id: o.id,
-                            type: o.type,
-                            price: Money.fromTokens(orderPrice, pair.priceAsset),
-                            amount: Money.fromCoins(o.amount, pair.amountAsset),
-                            filled: Money.fromCoins(o.filled, pair.amountAsset),
-                            status: o.status || NOT_FOUND,
-                            timestamp: o.timestamp
-                        };
-                    });
-                })
-                .catch(function (e) {
+                    return {
+                        id: o.id,
+                        type: o.type,
+                        price: Money.fromTokens(orderPrice, pair.priceAsset),
+                        amount: Money.fromCoins(o.amount, pair.amountAsset),
+                        filled: Money.fromCoins(o.filled, pair.amountAsset),
+                        status: o.status || NOT_FOUND,
+                        timestamp: o.timestamp
+                    };
+                }))
+                .catch((e) => {
                     throw new Error(e);
                 });
         };
     }
 
-    DexOrder.$inject = ['matcherRequestService', 'matcherApiService', 'applicationContext'];
+    DexOrder.$inject = [`matcherRequestService`, `matcherApiService`, `applicationContext`];
 
     angular
-        .module('app.dex')
-        .service('dexOrderService', DexOrder);
+        .module(`app.dex`)
+        .service(`dexOrderService`, DexOrder);
 })();

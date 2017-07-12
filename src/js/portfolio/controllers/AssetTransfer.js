@@ -14,19 +14,19 @@
         ctrl.feeAssetBalance = 0;
 
         ctrl.confirm = {
-            recipient: ''
+            recipient: ``
         };
 
         ctrl.broadcast = new transactionBroadcast.instance(apiService.assets.transfer,
-            function (transaction) {
+            ((transaction) => {
                 const amount = Money.fromCoins(transaction.amount, ctrl.asset.currency);
                 const address = transaction.recipient;
-                const displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
-                    ctrl.asset.currency.displayName +
-                    '<br/>Recipient ' + address.substr(0, 15) + '...<br/>Date: ' +
-                    formattingService.formatTimestamp(transaction.timestamp);
+                const displayMessage = `Sent ${amount.formatAmount(true)} of ${
+                    ctrl.asset.currency.displayName
+                }<br/>Recipient ${address.substr(0, 15)}...<br/>Date: ${
+                    formattingService.formatTimestamp(transaction.timestamp)}`;
                 notificationService.notice(displayMessage);
-            }
+            })
         );
 
         ctrl.autocomplete = autocomplete;
@@ -40,7 +40,7 @@
                 assetAmount: {
                     required: true,
                     decimal: 8, // stub value updated on validation
-                    min: 0,     // stub value updated on validation
+                    min: 0, // stub value updated on validation
                     max: constants.JAVA_MAX_LONG // stub value updated on validation
                 },
                 assetFee: {
@@ -54,20 +54,20 @@
             },
             messages: {
                 assetRecipient: {
-                    required: 'Recipient account number is required'
+                    required: `Recipient account number is required`
                 },
                 assetAmount: {
-                    required: 'Amount to send is required'
+                    required: `Amount to send is required`
                 },
                 assetFee: {
-                    required: 'Transaction fee is required',
-                    decimal: 'Transaction fee must be with no more than ' +
-                    minimumFee.currency.precision + ' digits after the decimal point (.)',
-                    min: 'Transaction fee is too small. It should be greater or equal to ' +
-                    minimumFee.formatAmount(true)
+                    required: `Transaction fee is required`,
+                    decimal: `Transaction fee must be with no more than ${
+                        minimumFee.currency.precision} digits after the decimal point (.)`,
+                    min: `Transaction fee is too small. It should be greater or equal to ${
+                        minimumFee.formatAmount(true)}`
                 },
                 maxbytelength: {
-                    maxbytelength: 'Attachment is too long'
+                    maxbytelength: `Attachment is too long`
                 }
             }
         };
@@ -77,7 +77,7 @@
 
         resetPaymentForm();
 
-        $scope.$on(events.ASSET_TRANSFER, function (event, eventData) {
+        $scope.$on(events.ASSET_TRANSFER, (event, eventData) => {
             const asset = applicationContext.cache.assets[eventData.assetId];
             ctrl.availableBalance = asset.balance;
             ctrl.feeAssetBalance = eventData.wavesBalance;
@@ -90,15 +90,15 @@
             const minimumPayment = Money.fromCoins(1, asset.currency);
             ctrl.validationOptions.rules.assetAmount.min = minimumPayment.toTokens();
             ctrl.validationOptions.rules.assetAmount.max = ctrl.availableBalance.toTokens();
-            ctrl.validationOptions.messages.assetAmount.decimal = 'The amount to send must be a number ' +
-                'with no more than ' + minimumPayment.currency.precision +
-                ' digits after the decimal point (.)';
-            ctrl.validationOptions.messages.assetAmount.min = 'Payment amount is too small. ' +
-                'It should be greater or equal to ' + minimumPayment.formatAmount(false);
-            ctrl.validationOptions.messages.assetAmount.max = 'Payment amount is too big. ' +
-                'It should be less or equal to ' + ctrl.availableBalance.formatAmount(false);
+            ctrl.validationOptions.messages.assetAmount.decimal = `${`The amount to send must be a number ` +
+                `with no more than `}${minimumPayment.currency.precision
+            } digits after the decimal point (.)`;
+            ctrl.validationOptions.messages.assetAmount.min = `${`Payment amount is too small. ` +
+                `It should be greater or equal to `}${minimumPayment.formatAmount(false)}`;
+            ctrl.validationOptions.messages.assetAmount.max = `${`Payment amount is too big. ` +
+                `It should be less or equal to `}${ctrl.availableBalance.formatAmount(false)}`;
 
-            dialogService.open('#asset-transfer-dialog');
+            dialogService.open(`#asset-transfer-dialog`);
         });
 
         function submitTransfer(transferForm) {
@@ -109,14 +109,14 @@
 
             const transferFee = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), FEE_CURRENCY);
             if (transferFee.greaterThan(ctrl.feeAssetBalance)) {
-                notificationService.error('Not enough funds for the transfer transaction fee');
+                notificationService.error(`Not enough funds for the transfer transaction fee`);
 
                 return false;
             }
 
             const transferAmount = Money.fromTokens(ctrl.amount, ctrl.asset.currency);
             if (transferAmount.greaterThan(ctrl.availableBalance)) {
-                notificationService.error('Transfer amount exceeds available asset balance');
+                notificationService.error(`Transfer amount exceeds available asset balance`);
 
                 return false;
             }
@@ -146,8 +146,8 @@
 
             // open confirmation dialog
             // doing it async because this method is called while another dialog is open
-            $timeout(function () {
-                dialogService.open('#transfer-asset-confirmation');
+            $timeout(() => {
+                dialogService.open(`#transfer-asset-confirmation`);
             }, 1);
 
             // it's ok to close payment dialog
@@ -159,8 +159,8 @@
         }
 
         function resetPaymentForm() {
-            ctrl.recipient = '';
-            ctrl.amount = '0';
+            ctrl.recipient = ``;
+            ctrl.amount = `0`;
             ctrl.confirm.amount = Money.fromTokens(0, Currency.WAVES);
             ctrl.confirm.fee = Money.fromTokens(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
             ctrl.autocomplete.defaultFee(constants.MINIMUM_TRANSACTION_FEE);
@@ -168,12 +168,12 @@
     }
 
     AssetTransfer.$inject = [
-        '$scope', '$timeout', 'constants.ui', 'portfolio.events', 'autocomplete.fees', 'applicationContext',
-        'assetService', 'apiService', 'dialogService', 'formattingService', 'notificationService',
-        'transactionBroadcast', 'addressService'
+        `$scope`, `$timeout`, `constants.ui`, `portfolio.events`, `autocomplete.fees`, `applicationContext`,
+        `assetService`, `apiService`, `dialogService`, `formattingService`, `notificationService`,
+        `transactionBroadcast`, `addressService`
     ];
 
     angular
-        .module('app.portfolio')
-        .controller('assetTransferController', AssetTransfer);
+        .module(`app.portfolio`)
+        .controller(`assetTransferController`, AssetTransfer);
 })();

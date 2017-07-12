@@ -5,7 +5,7 @@
 
         constructor($state) {
             this.$state = $state;
-            this.currentTab = 'wallet';
+            this.currentTab = `wallet`;
         }
 
         changeTab(pageId) {
@@ -15,9 +15,9 @@
 
     }
 
-    Navigation.$inject = ['$state'];
+    Navigation.$inject = [`$state`];
 
     angular
-        .module('app.navigation')
-        .controller('navigationController', Navigation);
+        .module(`app.navigation`)
+        .controller(`navigationController`, Navigation);
 })();

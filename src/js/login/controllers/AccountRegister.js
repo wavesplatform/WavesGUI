@@ -4,6 +4,7 @@
     const WALLET_NAME_MAXLENGTH = 16;
 
     class AccountRegister {
+
         /**
          * @param $scope
          * @param cryptoService
@@ -27,9 +28,9 @@
         }
 
         cleanup() {
-            this.name = '';
-            this.password = '';
-            this.confirmPassword = '';
+            this.name = ``;
+            this.password = ``;
+            this.confirmPassword = ``;
         }
 
         cancel() {
@@ -79,27 +80,27 @@
                 password: true
             },
             walletPasswordConfirm: {
-                equalTo: '#walletPassword'
+                equalTo: `#walletPassword`
             }
         },
         messages: {
             walletName: {
-                maxlength: 'A wallet name is too long. Maximum name length is ' +
-                WALLET_NAME_MAXLENGTH + ' characters'
+                maxlength: `A wallet name is too long. Maximum name length is ${
+                    WALLET_NAME_MAXLENGTH} characters`
             },
             walletPassword: {
-                required: 'A password is required to store your seed safely',
-                minlength: 'Password must be 8 characters or longer'
+                required: `A password is required to store your seed safely`,
+                minlength: `Password must be 8 characters or longer`
             },
             walletPasswordConfirm: {
-                equalTo: 'Passwords do not match'
+                equalTo: `Passwords do not match`
             }
         }
     };
 
-    AccountRegister.$inject = ['$scope', 'cryptoService', 'loginContext'];
+    AccountRegister.$inject = [`$scope`, `cryptoService`, `loginContext`];
 
     angular
-        .module('app.login')
-        .controller('accountRegisterController', AccountRegister);
+        .module(`app.login`)
+        .controller(`accountRegisterController`, AccountRegister);
 })();

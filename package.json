@@ -37,6 +37,7 @@
     "grunt-postcss": "^0.8.0",
     "grunt-shell": "^2.1.0",
     "grunt-webstore-upload": "^0.9.17",
+    "jasmine-core": "^2.6.4",
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.1",

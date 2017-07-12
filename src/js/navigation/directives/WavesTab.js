@@ -15,23 +15,23 @@
     }
 
     function WavesTabLink(scope, element) {
-        element.addClass('tabs-radio');
+        element.addClass(`tabs-radio`);
     }
 
     angular
-        .module('app.navigation')
-        .directive('wavesTab', function WavesTabDirective() {
+        .module(`app.navigation`)
+        .directive(`wavesTab`, function WavesTabDirective() {
             return {
-                restrict: 'A',
-                controller: ['$scope', 'dialogService', WavesTab],
+                restrict: `A`,
+                controller: [`$scope`, `dialogService`, WavesTab],
                 scope: {
-                    pageId: '@',
-                    caption: '<',
-                    onSelect: '&',
-                    currentPageId: '<'
+                    pageId: `@`,
+                    caption: `<`,
+                    onSelect: `&`,
+                    currentPageId: `<`
                 },
                 link: WavesTabLink,
-                templateUrl: 'navigation/tab.directive'
+                templateUrl: `navigation/tab.directive`
             };
         });
 })();

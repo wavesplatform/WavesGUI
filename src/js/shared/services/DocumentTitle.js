@@ -1,13 +1,15 @@
 (function () {
     'use strict';
 
-    var prefix = 'Waves Lite Client';
+    const prefix = `Waves Lite Client`;
+
+    function DocumentTitle() {
+        this.set = function (title) {
+            document.title = prefix + (title ? ` | ${title}` : ``);
+        };
+    }
 
     angular
-        .module('app.shared')
-        .service('documentTitleService', [function () {
-            this.set = function (title) {
-                document.title = prefix + (title ? ' | ' + title : '');
-            };
-        }]);
+        .module(`app.shared`)
+        .service(`documentTitleService`, DocumentTitle);
 })();

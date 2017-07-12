@@ -10,13 +10,13 @@
 
     function DexOrderbook(matcherApiService) {
         this.getOrderbook = function (assetOne, assetTwo) {
-            var assets = {};
+            const assets = {};
             assets[assetOne.id] = assetOne;
             assets[assetTwo.id] = assetTwo;
             return matcherApiService
                 .loadOrderbook(assetOne.id, assetTwo.id)
-                .then(function (orderbook) {
-                    var pair = {
+                .then((orderbook) => {
+                    const pair = {
                         amountAsset: assets[orderbook.pair.amountAsset],
                         priceAsset: assets[orderbook.pair.priceAsset]
                     };
@@ -24,20 +24,16 @@
                     return {
                         timestamp: orderbook.timestamp,
                         pair: orderbook.pair,
-                        bids: orderbook.bids.map(function (order) {
-                            return normalizeOrder(order, pair);
-                        }),
-                        asks: orderbook.asks.map(function (order) {
-                            return normalizeOrder(order, pair);
-                        })
+                        bids: orderbook.bids.map((order) => normalizeOrder(order, pair)),
+                        asks: orderbook.asks.map((order) => normalizeOrder(order, pair))
                     };
                 });
         };
     }
 
-    DexOrderbook.$inject = ['matcherApiService'];
+    DexOrderbook.$inject = [`matcherApiService`];
 
     angular
-        .module('app.dex')
-        .service('dexOrderbookService', DexOrderbook);
+        .module(`app.dex`)
+        .service(`dexOrderbookService`, DexOrderbook);
 })();

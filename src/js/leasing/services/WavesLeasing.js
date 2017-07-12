@@ -1,27 +1,27 @@
 (function () {
     'use strict';
 
-    var DEFAULT_CURRENCY = Currency.WAVES;
+    const DEFAULT_CURRENCY = Currency.WAVES;
 
-    function WavesLeasing (apiService) {
+    function WavesLeasing(apiService) {
         function parseBalance(response) {
             return Money.fromCoins(response.balance, DEFAULT_CURRENCY);
         }
 
         this.loadBalanceDetails = function (address) {
-            var details = {};
+            const details = {};
             return apiService.address.balance(address)
-                .then(function (response) {
+                .then((response) => {
                     details.regular = parseBalance(response);
 
                     return apiService.address.effectiveBalance(address);
                 })
-                .then(function (response) {
+                .then((response) => {
                     details.effective = parseBalance(response);
 
                     return apiService.address.generatingBalance(address);
                 })
-                .then(function (response) {
+                .then((response) => {
                     details.generating = parseBalance(response);
 
                     return details;
@@ -29,9 +29,9 @@
         };
     }
 
-    WavesLeasing.$inject = ['apiService'];
+    WavesLeasing.$inject = [`apiService`];
 
     angular
-        .module('app.leasing')
-        .service('leasingService', WavesLeasing);
+        .module(`app.leasing`)
+        .service(`leasingService`, WavesLeasing);
 })();

@@ -1,5 +1,5 @@
-(function() {
+(function () {
     'use strict';
 
-    angular.module('app.tokens', ['app.shared']);
+    angular.module(`app.tokens`, [`app.shared`]);
 })();

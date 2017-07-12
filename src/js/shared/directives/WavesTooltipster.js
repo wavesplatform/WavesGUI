@@ -2,11 +2,11 @@
     'use strict';
 
     angular
-        .module('app.shared')
-        .directive('tooltipster', ['constants.tooltip', function WavesTooltipster(constants) {
+        .module(`app.shared`)
+        .directive(`tooltipster`, [`constants.tooltip`, function WavesTooltipster(constants) {
 
             return {
-                restrict: 'A',
+                restrict: `A`,
                 link: function (scope, element, attributes) {
 
                     let text;
@@ -17,7 +17,7 @@
                     }
 
                     if (angular.isUndefined(text)) {
-                        throw new Error('Tooltip text is undefined. Tooltipster is not needed for element: ' + element);
+                        throw new Error(`Tooltip text is undefined. Tooltipster is not needed for element: ${element}`);
                     }
 
                     const tooltipOptions = _.clone(constants);
@@ -33,8 +33,8 @@
 
                     element.tooltipster(tooltipOptions);
 
-                    scope.$on('$destroy', function DestroyTooltip() {
-                        element.tooltipster('destroy');
+                    scope.$on(`$destroy`, function DestroyTooltip() {
+                        element.tooltipster(`destroy`);
                     });
                 }
             };

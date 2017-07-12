@@ -4,8 +4,8 @@
     const MAXIMUM_FILE_SIZE_BYTES = 256 * 1024;
     const MAXIMUM_TRANSACTIONS_PER_FILE = 500;
     const FIRST_TRANSACTIONS_COUNT = 10;
-    const LOADING_STAGE = 'loading';
-    const PROCESSING_STAGE = 'processing';
+    const LOADING_STAGE = `loading`;
+    const PROCESSING_STAGE = `processing`;
     const ZERO_MONEY = Money.fromTokens(0, Currency.WAVES);
 
     function ValidationError(message) {
@@ -23,22 +23,27 @@
             totalAmount: ZERO_MONEY,
             totalFee: ZERO_MONEY
         };
+
         ctrl.confirm = {
             recipients: 0
         };
-        ctrl.filename = '';
+
+        ctrl.filename = ``;
         ctrl.transfers = [];
         ctrl.inputPayments = [];
         ctrl.autocomplete = autocomplete;
         ctrl.stage = LOADING_STAGE;
         ctrl.loadingInProgress = false;
+
         ctrl.broadcast = new transactionBroadcast.instance(apiService.assets.massPay,
-            function () {
-                const displayMessage = 'Sent ' + ctrl.summary.totalAmount.formatAmount(true) + ' of ' +
-                    ctrl.summary.totalAmount.currency.displayName + ' to ' + ctrl.summary.totalTransactions +
-                    ' recipients';
+            (() => {
+                const displayMessage = `Sent ${ctrl.summary.totalAmount.formatAmount(true)} of ${
+                    ctrl.summary.totalAmount.currency.displayName} to ${ctrl.summary.totalTransactions
+                } recipients`;
                 notificationService.notice(displayMessage);
-            });
+            })
+        );
+
         ctrl.validationOptions = {
             rules: {
                 massPayFee: {
@@ -49,11 +54,11 @@
             },
             messages: {
                 massPayFee: {
-                    required: 'Fee per transaction is required',
-                    decimal: 'Fee must be with no more than ' +
-                    minimumFee.currency.precision + ' digits after the decimal point (.)',
-                    min: 'Fee per transaction is too small. It should be greater or equal to ' +
-                    minimumFee.formatAmount(true)
+                    required: `Fee per transaction is required`,
+                    decimal: `Fee must be with no more than ${
+                        minimumFee.currency.precision} digits after the decimal point (.)`,
+                    min: `Fee per transaction is too small. It should be greater or equal to ${
+                        minimumFee.formatAmount(true)}`
                 }
             }
         };
@@ -68,7 +73,7 @@
 
         cleanup();
 
-        $scope.$on(events.ASSET_MASSPAY, function (event, eventData) {
+        $scope.$on(events.ASSET_MASSPAY, (event, eventData) => {
             ctrl.wavesBalance = eventData.wavesBalance;
             ctrl.assetBalance = eventData.wavesBalance;
             if (eventData.assetId) {
@@ -79,7 +84,7 @@
 
             cleanup();
 
-            dialogService.open('#asset-mass-pay-dialog');
+            dialogService.open(`#asset-mass-pay-dialog`);
         });
 
         function fileErrorHandler(evt) {
@@ -87,45 +92,45 @@
 
             switch (evt.target.error.code) {
                 case evt.target.error.NOT_FOUND_ERR:
-                    notificationService.error('File Not Found!');
+                    notificationService.error(`File Not Found!`);
                     break;
                 case evt.target.error.NOT_READABLE_ERR:
-                    notificationService.error('File is not readable');
+                    notificationService.error(`File is not readable`);
                     break;
                 case evt.target.error.ABORT_ERR:
                     break; // noop
                 default:
-                    notificationService.error('An error occurred reading this file.');
+                    notificationService.error(`An error occurred reading this file.`);
             }
         }
 
         function loadInputFile(fileName, content) {
             try {
                 ctrl.inputPayments = [];
-                if (fileName.endsWith('.json')) {
+                if (fileName.endsWith(`.json`)) {
                     ctrl.inputPayments = parseJsonFile(content);
-                } else if (fileName.endsWith('.csv')) {
+                } else if (fileName.endsWith(`.csv`)) {
                     ctrl.inputPayments = parseCsvFile(content);
                 } else {
-                    throw new Error('Unsupported file type: ' + fileName);
+                    throw new Error(`Unsupported file type: ${fileName}`);
                 }
             } catch (e) {
-                notificationService.error('Failed to parse file: ' + e);
+                notificationService.error(`Failed to parse file: ${e}`);
             }
         }
 
         function parseCsvFile(content) {
-            const lines = content.split('\n');
+            const lines = content.split(`\n`);
             const result = [];
-            _.forEach(lines, function (line) {
+            _.forEach(lines, (line) => {
                 line = line.trim();
                 if (line.length < 1) {
                     return;
                 }
 
-                const parts = line.split(';');
+                const parts = line.split(`;`);
                 if (parts.length < 2) {
-                    throw new Error('CSV file contains ' + parts.length + ' columns. Expected 2 or 3 columns');
+                    throw new Error(`CSV file contains ${parts.length} columns. Expected 2 or 3 columns`);
                 }
 
                 const address = parts[0];
@@ -164,9 +169,9 @@
                 let totalFee = Money.fromCoins(0, Currency.WAVES);
                 const fee = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), Currency.WAVES);
                 const minimumPayment = Money.fromCoins(1, transferCurrency);
-                _.forEach(ctrl.inputPayments, function (transfer) {
+                _.forEach(ctrl.inputPayments, (transfer) => {
                     if (isNaN(transfer.amount)) {
-                        throw new ValidationError('Failed to parse payment amount for address ' + transfer.recipient);
+                        throw new ValidationError(`Failed to parse payment amount for address ${transfer.recipient}`);
                     }
 
                     const assetTransfer = {
@@ -177,8 +182,8 @@
                     };
 
                     if (assetTransfer.amount.lessThan(minimumPayment)) {
-                        throw new ValidationError('Payment amount ' + transfer.amount + ' to address ' +
-                            transfer.recipient + ' is less than minimum (' + minimumPayment.formatAmount(true) + ')');
+                        throw new ValidationError(`Payment amount ${transfer.amount} to address ${
+                            transfer.recipient} is less than minimum (${minimumPayment.formatAmount(true)})`);
                     }
 
                     if (transfersToDisplay.length < FIRST_TRANSACTIONS_COUNT) {
@@ -205,7 +210,7 @@
                 ctrl.stage = PROCESSING_STAGE;
 
                 // cleaning up
-                ctrl.filename = '';
+                ctrl.filename = ``;
                 ctrl.inputPayments = [];
             } catch (e) {
                 if (e instanceof ValidationError) {
@@ -225,14 +230,14 @@
             }
 
             if (!ctrl.inputPayments || ctrl.inputPayments.length === 0) {
-                notificationService.error('Payments were not provided or failed to parse. Nothing to load');
+                notificationService.error(`Payments were not provided or failed to parse. Nothing to load`);
 
                 return;
             }
 
             if (ctrl.inputPayments.length > MAXIMUM_TRANSACTIONS_PER_FILE) {
-                notificationService.error('Too many payments for a single file. Maximum payments count ' +
-                    'in a file should not exceed ' + MAXIMUM_TRANSACTIONS_PER_FILE);
+                notificationService.error(`${`Too many payments for a single file. Maximum payments count ` +
+                    `in a file should not exceed `}${MAXIMUM_TRANSACTIONS_PER_FILE}`);
 
                 return;
             }
@@ -248,14 +253,14 @@
                 ctrl.summary.totalFee.plus(ctrl.summary.totalAmount);
 
             if (paymentCost.greaterThan(ctrl.wavesBalance)) {
-                notificationService.error('Not enough Waves to make mass payment');
+                notificationService.error(`Not enough Waves to make mass payment`);
 
                 return false;
             }
 
             if (ctrl.summary.totalAmount.greaterThan(ctrl.assetBalance)) {
-                notificationService.error('Not enough "' + ctrl.assetBalance.currency.displayName +
-                    '" to make mass payment');
+                notificationService.error(`Not enough "${ctrl.assetBalance.currency.displayName
+                }" to make mass payment`);
 
                 return false;
             }
@@ -266,8 +271,8 @@
             ctrl.confirm.recipients = ctrl.summary.totalTransactions;
 
             dialogService.close();
-            $timeout(function () {
-                dialogService.open('#asset-mass-pay-confirmation');
+            $timeout(() => {
+                dialogService.open(`#asset-mass-pay-confirmation`);
             }, 1);
 
             return true;
@@ -283,8 +288,8 @@
 
         function handleFile(file) {
             if (file.size > MAXIMUM_FILE_SIZE_BYTES) {
-                notificationService.error('File "' + file.name + '" is too big. Maximum file size is ' +
-                    MAXIMUM_FILE_SIZE_BYTES / 1024 + 'Kb');
+                notificationService.error(`File "${file.name}" is too big. Maximum file size is ${
+                    MAXIMUM_FILE_SIZE_BYTES / 1024}Kb`);
 
                 return;
             }
@@ -300,7 +305,7 @@
                 cleanup();
             };
             reader.onabort = function () {
-                notificationService.error('File read cancelled');
+                notificationService.error(`File read cancelled`);
             };
             reader.onerror = fileErrorHandler;
 
@@ -308,11 +313,11 @@
         }
 
         function transactionsToClipboard() {
-            return $window.JSON.stringify(transactions, null, ' ');
+            return $window.JSON.stringify(transactions, null, ` `);
         }
 
         function dataCopied() {
-            notificationService.notice('Transactions copied successfully');
+            notificationService.notice(`Transactions copied successfully`);
         }
 
         function cleanup() {
@@ -331,11 +336,11 @@
     }
 
     MassPayment.$inject = [
-        '$scope', '$window', '$timeout', 'constants.ui', 'portfolio.events', 'applicationContext', 'autocomplete.fees',
-        'notificationService', 'assetService', 'dialogService', 'transactionBroadcast', 'apiService'
+        `$scope`, `$window`, `$timeout`, `constants.ui`, `portfolio.events`, `applicationContext`, `autocomplete.fees`,
+        `notificationService`, `assetService`, `dialogService`, `transactionBroadcast`, `apiService`
     ];
 
     angular
-        .module('app.portfolio')
-        .controller('massPaymentController', MassPayment);
+        .module(`app.portfolio`)
+        .controller(`massPaymentController`, MassPayment);
 })();

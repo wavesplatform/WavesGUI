@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    const DEFAULT_FEE_AMOUNT = '0.001';
-    const DEFAULT_ERROR_MESSAGE = 'Connection is lost';
+    const DEFAULT_FEE_AMOUNT = `0.001`;
+    const DEFAULT_ERROR_MESSAGE = `Connection is lost`;
 
     function WalletWithdraw($scope, constants, events, autocomplete, dialogService,
                             coinomatService, transactionBroadcast, notificationService,
@@ -13,21 +13,21 @@
         const notPermittedBitcoinAddresses = {};
 
         ctrl.broadcast = new transactionBroadcast.instance(apiService.assets.transfer,
-            function (transaction) {
+            ((transaction) => {
                 const amount = Money.fromCoins(transaction.amount, ctrl.assetBalance.currency);
                 const address = transaction.recipient;
-                const displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
-                    ctrl.assetBalance.currency.displayName +
-                    '<br/>Gateway ' + address.substr(0, 15) + '...<br/>Date: ' +
-                    formattingService.formatTimestamp(transaction.timestamp);
+                const displayMessage = `Sent ${amount.formatAmount(true)} of ${
+                    ctrl.assetBalance.currency.displayName
+                }<br/>Gateway ${address.substr(0, 15)}...<br/>Date: ${
+                    formattingService.formatTimestamp(transaction.timestamp)}`;
                 notificationService.notice(displayMessage);
-            });
+            }));
 
         ctrl.autocomplete = autocomplete;
 
         ctrl.validationOptions = {
             onfocusout: function (element) {
-                return !(element.name in ['withdrawFee']); // FIXME
+                return !(element.name in [`withdrawFee`]); // FIXME
             },
             rules: {
                 withdrawAddress: {
@@ -53,20 +53,20 @@
             },
             messages: {
                 withdrawAddress: {
-                    required: 'Bitcoin address is required'
+                    required: `Bitcoin address is required`
                 },
                 withdrawAmount: {
-                    required: 'Amount to withdraw is required'
+                    required: `Amount to withdraw is required`
                 },
                 withdrawFee: {
-                    required: 'Gateway transaction fee is required',
-                    decimal: 'Transaction fee must be with no more than ' +
-                    minimumFee.currency.precision + ' digits after the decimal point (.)',
-                    min: 'Transaction fee is too small. It should be greater or equal to ' +
-                    minimumFee.formatAmount(true)
+                    required: `Gateway transaction fee is required`,
+                    decimal: `Transaction fee must be with no more than ${
+                        minimumFee.currency.precision} digits after the decimal point (.)`,
+                    min: `Transaction fee is too small. It should be greater or equal to ${
+                        minimumFee.formatAmount(true)}`
                 },
                 withdrawTotal: {
-                    required: 'Total amount is required'
+                    required: `Total amount is required`
                 }
             }
         };
@@ -74,19 +74,19 @@
         ctrl.confirm = {
             amount: {},
             fee: {},
-            gatewayAddress: '',
-            address: ''
+            gatewayAddress: ``,
+            address: ``
         };
 
         ctrl.confirmWithdraw = confirmWithdraw;
         ctrl.refreshAmount = refreshAmount;
         ctrl.refreshTotal = refreshTotal;
         ctrl.broadcastTransaction = broadcastTransaction;
-        ctrl.gatewayEmail = 'support@coinomat.com';
+        ctrl.gatewayEmail = `support@coinomat.com`;
 
         resetForm();
 
-        $scope.$on(events.WALLET_WITHDRAW, function (event, eventData) {
+        $scope.$on(events.WALLET_WITHDRAW, (event, eventData) => {
             ctrl.assetBalance = eventData.assetBalance;
             ctrl.wavesBalance = eventData.wavesBalance;
 
@@ -103,7 +103,7 @@
 
         function withdrawBTC() {
             coinomatService.getWithdrawRate(ctrl.assetBalance.currency)
-                .then(function (response) {
+                .then((response) => {
 
                     const minimumPayment = Money.fromTokens(
                         Math.max(Money.fromCoins(1, ctrl.assetBalance.currency).toTokens(), response.in_min),
@@ -125,63 +125,61 @@
                     ctrl.validationOptions.rules.withdrawAmount.decimal = ctrl.assetBalance.currency.precision;
                     ctrl.validationOptions.rules.withdrawAmount.max = maximumPayment.toTokens();
                     ctrl.validationOptions.rules.withdrawAmount.min = minimumPayment.toTokens();
-                    ctrl.validationOptions.messages.withdrawAmount.decimal = 'The amount to withdraw must be ' +
-                        'a number with no more than ' + minimumPayment.currency.precision +
-                        ' digits after the decimal point (.)';
-                    ctrl.validationOptions.messages.withdrawAmount.min = 'Withdraw amount is too small. ' +
-                        'It should be greater or equal to ' + minimumPayment.formatAmount();
-                    ctrl.validationOptions.messages.withdrawAmount.max = 'Withdraw amount is too big. ' +
-                        'It should be less or equal to ' + maximumPayment.formatAmount();
+                    ctrl.validationOptions.messages.withdrawAmount.decimal = `${`The amount to withdraw must be ` +
+                        `a number with no more than `}${minimumPayment.currency.precision
+                    } digits after the decimal point (.)`;
+                    ctrl.validationOptions.messages.withdrawAmount.min = `${`Withdraw amount is too small. ` +
+                        `It should be greater or equal to `}${minimumPayment.formatAmount()}`;
+                    ctrl.validationOptions.messages.withdrawAmount.max = `${`Withdraw amount is too big. ` +
+                        `It should be less or equal to `}${maximumPayment.formatAmount()}`;
 
                     refreshAmount();
 
-                    dialogService.open('#withdraw-btc-dialog');
+                    dialogService.open(`#withdraw-btc-dialog`);
                 })
-                .catch(function (exception) {
+                .catch((exception) => {
                     if (exception && exception.data && exception.data.error) {
                         notificationService.error(exception.error);
                     } else {
                         notificationService.error(DEFAULT_ERROR_MESSAGE);
                     }
                 })
-                .then(function () {
-                    return coinomatService.getDepositDetails(Currency.BTC, Currency.BTC,
-                        applicationContext.account.address);
-                })
-                .then(function (depositDetails) {
+                .then(() => coinomatService.getDepositDetails(Currency.BTC, Currency.BTC,
+                    applicationContext.account.address))
+                .then((depositDetails) => {
                     notPermittedBitcoinAddresses[depositDetails.address] = 1;
 
                     return coinomatService.getDepositDetails(Currency.BTC, Currency.WAVES,
                         applicationContext.account.address);
                 })
-                .then(function (depositDetails) {
+                .then((depositDetails) => {
                     notPermittedBitcoinAddresses[depositDetails.address] = 1;
                 });
         }
 
         function withdrawEUR() {
             ctrl.sourceCurrency = Currency.EUR.displayName;
-            dialogService.open('#withdraw-fiat-dialog');
+            dialogService.open(`#withdraw-fiat-dialog`);
         }
 
         function withdrawUSD() {
             ctrl.sourceCurrency = Currency.USD.displayName;
-            dialogService.open('#withdraw-fiat-dialog');
+            dialogService.open(`#withdraw-fiat-dialog`);
         }
 
         function validateRecipientAddress(recipient) {
             if (!recipient.match(/^[0-9a-z]{27,34}$/i)) {
-                throw new Error('Bitcoin address is invalid. Expected address length is from 27 to 34 symbols');
+                throw new Error(`Bitcoin address is invalid. Expected address length is from 27 to 34 symbols`);
             }
 
             if (notPermittedBitcoinAddresses[recipient]) {
-                throw new Error('Withdraw on deposit bitcoin accounts is not permitted');
+                throw new Error(`Withdraw on deposit bitcoin accounts is not permitted`);
             }
         }
 
         function validateWithdrawCost(withdrawCost, availableFunds) {
             if (withdrawCost.greaterThan(availableFunds)) {
-                throw new Error('Not enough Waves for the withdraw transfer');
+                throw new Error(`Not enough Waves for the withdraw transfer`);
             }
         }
 
@@ -206,7 +204,7 @@
             ctrl.confirm.recipient = ctrl.recipient;
 
             coinomatService.getWithdrawDetails(ctrl.assetBalance.currency, ctrl.recipient)
-                .then(function (withdrawDetails) {
+                .then((withdrawDetails) => {
                     ctrl.confirm.gatewayAddress = withdrawDetails.address;
 
                     const assetTransfer = {
@@ -226,9 +224,9 @@
 
                     resetForm();
 
-                    dialogService.open('#withdraw-confirmation');
+                    dialogService.open(`#withdraw-confirmation`);
                 })
-                .catch(function (exception) {
+                .catch((exception) => {
                     notificationService.error(exception.message);
                 });
 
@@ -252,20 +250,20 @@
         }
 
         function resetForm() {
-            ctrl.recipient = '';
-            ctrl.address = '';
+            ctrl.recipient = ``;
+            ctrl.address = ``;
             ctrl.autocomplete.defaultFee(Number(DEFAULT_FEE_AMOUNT));
         }
 
     }
 
     WalletWithdraw.$inject = [
-        '$scope', 'constants.ui', 'wallet.events', 'autocomplete.fees', 'dialogService',
-        'coinomatService', 'transactionBroadcast', 'notificationService',
-        'apiService', 'formattingService', 'assetService', 'applicationContext'
+        `$scope`, `constants.ui`, `wallet.events`, `autocomplete.fees`, `dialogService`,
+        `coinomatService`, `transactionBroadcast`, `notificationService`,
+        `apiService`, `formattingService`, `assetService`, `applicationContext`
     ];
 
     angular
-        .module('app.wallet')
-        .controller('walletWithdrawController', WalletWithdraw);
+        .module(`app.wallet`)
+        .controller(`walletWithdrawController`, WalletWithdraw);
 })();

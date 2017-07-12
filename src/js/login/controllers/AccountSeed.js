@@ -17,9 +17,9 @@
             },
             messages: {
                 walletSeed: {
-                    required: 'Wallet seed is required',
-                    minlength: 'Wallet seed is too short. A secure wallet seed should contain more than ' +
-                    SEED_MINIMUM_LENGTH + ' characters'
+                    required: `Wallet seed is required`,
+                    minlength: `Wallet seed is too short. A secure wallet seed should contain more than ${
+                        SEED_MINIMUM_LENGTH} characters`
                 }
             }
         };
@@ -30,9 +30,9 @@
         ctrl.generateSeed = generateSeed;
 
         function cleanup() {
-            //it seems we won't need this code if we switch to recreation of controllers on each event
-            ctrl.seed = '';
-            ctrl.displayAddress = '';
+            // it seems we won't need this code if we switch to recreation of controllers on each event
+            ctrl.seed = ``;
+            ctrl.displayAddress = ``;
         }
 
         function refreshAddress() {
@@ -45,7 +45,7 @@
             }
 
             if (utilityService.endsWithWhitespace(ctrl.seed)) {
-                dialogService.openNonCloseable('#seed-whitespace-popup');
+                dialogService.openNonCloseable(`#seed-whitespace-popup`);
             } else {
                 registerAccount();
             }
@@ -70,10 +70,10 @@
     }
 
     AccountSeed.$inject = [
-        '$scope', 'loginContext', 'utilityService', 'cryptoService', 'dialogService', 'passPhraseService'
+        `$scope`, `loginContext`, `utilityService`, `cryptoService`, `dialogService`, `passPhraseService`
     ];
 
     angular
-        .module('app.login')
-        .controller('accountSeedController', AccountSeed);
+        .module(`app.login`)
+        .controller(`accountSeedController`, AccountSeed);
 })();

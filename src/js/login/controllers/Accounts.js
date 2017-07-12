@@ -43,7 +43,7 @@
             $scope.$on(events.GENERATE_SEED, () => {
                 const seed = passPhraseService.generate();
                 this.switchToMode(this.modes.REGISTER, seed);
-                dialogService.openNonCloseable('#login-wPop-new');
+                dialogService.openNonCloseable(`#login-wPop-new`);
             });
         }
 
@@ -71,29 +71,29 @@
                     break;
 
                 default:
-                    throw new Error('Unsupported account operation: ' + mode);
+                    throw new Error(`Unsupported account operation: ${mode}`);
             }
 
             this.mode = mode;
         }
 
         switchToListMode() {
-            this.caption = 'ACCOUNTS';
+            this.caption = `ACCOUNTS`;
         }
 
         switchToCreateSeedMode() {
-            this.caption = 'SET UP YOUR SEED';
+            this.caption = `SET UP YOUR SEED`;
         }
 
         switchToRegisterMode(seed) {
-            this.caption = 'REGISTER ACCOUNT';
+            this.caption = `REGISTER ACCOUNT`;
             this.displayAddress = this.cryptoService.buildRawAddressFromSeed(seed);
             // setting a seed to register a new account
             this.loginContext.seed = seed;
         }
 
         switchToLoginMode(account) {
-            this.caption = 'SIGN IN';
+            this.caption = `SIGN IN`;
             this.displayAddress = account.address;
             // setting an account which we would like to sign in
             this.loginContext.currentAccount = account;
@@ -102,16 +102,16 @@
     }
 
     Accounts.$inject = [
-        '$scope',
-        'ui.login.modes',
-        'ui.login.events',
-        'passPhraseService',
-        'dialogService',
-        'cryptoService',
-        'loginContext'
+        `$scope`,
+        `ui.login.modes`,
+        `ui.login.events`,
+        `passPhraseService`,
+        `dialogService`,
+        `cryptoService`,
+        `loginContext`
     ];
 
     angular
-        .module('app.login')
-        .controller('accountsController', Accounts);
+        .module(`app.login`)
+        .controller(`accountsController`, Accounts);
 })();

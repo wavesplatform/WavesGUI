@@ -1,257 +1,266 @@
-/**
- * Setup of main AngularJS application, with Restangular being defined as a dependency.
- *
- * @see controllers
- * @see services
- */
-
-// mock methods to implement late binding
-let __mockShowError = _.identity;
-let __mockValidateAddress = _.identity;
-
-angular.module('app', [
-    'restangular',
-    'waves.core',
-    'ui.router',
-
-    'ngclipboard',
-    'ngAnimate',
-    'ngMaterial',
-    'ngValidate',
-
-    'app.state',
-    'app.ui',
-    'app.shared',
-    'app.login',
-    'app.navigation',
-    'app.wallet',
-    'app.tokens',
-    'app.dex',
-    'app.leasing',
-    'app.history',
-    'app.community',
-    'app.portfolio'
-]).config(AngularApplicationConfig).run(AngularApplicationRun);
-
-function AngularApplicationConfig($provide, $compileProvider, $validatorProvider, $qProvider,
-                                  $sceDelegateProvider, $mdAriaProvider, networkConstants, applicationConstants,
-                                  $stateProvider, $urlRouterProvider, $locationProvider) {
+(function () {
     'use strict';
 
-    $locationProvider.html5Mode(true);
+    /**
+     * Setup of main AngularJS application, with Restangular being defined as a dependency.
+     *
+     * @see controllers
+     * @see services
+     */
 
-    $provide.constant(networkConstants,
-        angular.extend(networkConstants, {
-            NETWORK_NAME: 'devel',
-            NETWORK_CODE: 'T'
-        })
-    );
+    // mock methods to implement late binding
+    let __mockShowError = _.identity;
+    let __mockValidateAddress = _.identity;
 
-    $provide.constant(applicationConstants,
-        angular.extend(applicationConstants, {
-            CLIENT_VERSION: '0.4.1a',
-            NODE_ADDRESS: 'http://52.30.47.67:6869',
-            COINOMAT_ADDRESS: 'https://test.coinomat.com',
-            MATCHER_ADDRESS: 'http://52.30.47.67:6886',
-            DATAFEED_ADDRESS: 'http://marketdata.wavesplatform.com'
-        })
-    );
+    const app = angular.module(`app`, [
+        `restangular`,
+        `waves.core`,
+        `ui.router`,
 
-    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data|file|chrome-extension):/);
-    $qProvider.errorOnUnhandledRejections(false);
+        `ngclipboard`,
+        `ngAnimate`,
+        `ngMaterial`,
+        `ngValidate`,
 
-    $sceDelegateProvider.resourceUrlWhitelist([
-        'self',
-        'https://test.coinomat.com/api/**',
-        'https://coinomat.com/api/**',
-        'http://marketdata.wavesplatform.com/**',
-        'https://marketdata.wavesplatform.com/**'
+        `app.state`,
+        `app.ui`,
+        `app.shared`,
+        `app.login`,
+        `app.navigation`,
+        `app.wallet`,
+        `app.tokens`,
+        `app.dex`,
+        `app.leasing`,
+        `app.history`,
+        `app.community`,
+        `app.portfolio`
     ]);
 
-    // Globally disables all ARIA warnings.
-    $mdAriaProvider.disableWarnings();
+    app.config(AngularApplicationConfig);
+    app.run(AngularApplicationRun);
 
-    $validatorProvider.setDefaults({
-        errorClass: 'wInput-error',
-        onkeyup: false,
-        showErrors: function (errorMap, errorList) {
-            errorList.forEach(function (error) {
-                // can't use notificationService here cos services are not available in config phase
-                __mockShowError(error.message);
-            });
+    function AngularApplicationConfig($provide, $compileProvider, $validatorProvider, $qProvider,
+                                      $sceDelegateProvider, $mdAriaProvider, networkConstants, applicationConstants,
+                                      $stateProvider, $urlRouterProvider, $locationProvider) {
 
-            let i, elements;
-            for (i = 0, elements = this.validElements(); elements[i]; i++) {
-                angular.element(elements[i]).removeClass(this.settings.errorClass);
-            }
+        const self = this;
 
-            for (i = 0, elements = this.invalidElements(); elements[i]; i++) {
-                angular.element(elements[i]).addClass(this.settings.errorClass);
-            }
-        }
-    });
+        $locationProvider.html5Mode(true);
 
-    $validatorProvider.addMethod('address', function (value, element) {
-        return this.optional(element) || __mockValidateAddress(value);
-    }, 'Account number must be a sequence of 35 alphanumeric characters with no spaces, ' +
-        'optionally starting with \'1W\'');
+        $provide.constant(networkConstants,
+            angular.extend(networkConstants, {
+                NETWORK_NAME: `devel`,
+                NETWORK_CODE: `T`
+            })
+        );
 
-    $validatorProvider.addMethod('decimal', function (value, element, maxDigits) {
-        maxDigits = angular.isNumber(maxDigits) ? maxDigits : Currency.WAVES.precision;
-        const regex = new RegExp('^(?:-?\\d+)?(?:\\.\\d{0,' + maxDigits + '})?$');
-        return this.optional(element) || regex.test(value);
-    }, 'Amount is expected with a dot (.) as a decimal separator with no more than {0} fraction digits');
+        $provide.constant(applicationConstants,
+            angular.extend(applicationConstants, {
+                CLIENT_VERSION: `0.4.1a`,
+                NODE_ADDRESS: `http://52.30.47.67:6869`,
+                COINOMAT_ADDRESS: `https://test.coinomat.com`,
+                MATCHER_ADDRESS: `http://52.30.47.67:6886`,
+                DATAFEED_ADDRESS: `http://marketdata.wavesplatform.com`
+            })
+        );
 
-    $validatorProvider.addMethod('password', function (value, element) {
-        if (this.optional(element)) {
-            return true;
-        }
+        $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data|file|chrome-extension):/);
+        $qProvider.errorOnUnhandledRejections(false);
 
-        const containsDigits = /[0-9]/.test(value);
-        const containsUppercase = /[A-Z]/.test(value);
-        const containsLowercase = /[a-z]/.test(value);
+        $sceDelegateProvider.resourceUrlWhitelist([
+            `self`,
+            `https://test.coinomat.com/api/**`,
+            `https://coinomat.com/api/**`,
+            `http://marketdata.wavesplatform.com/**`,
+            `https://marketdata.wavesplatform.com/**`
+        ]);
 
-        return containsDigits && containsUppercase && containsLowercase;
-    }, 'The password is too weak. A good password must contain at least one digit, ' +
-        'one uppercase and one lowercase letter');
+        // Globally disables all ARIA warnings.
+        $mdAriaProvider.disableWarnings();
 
-    $validatorProvider.addMethod('minbytelength', function (value, element, minLength) {
-        if (this.optional(element)) {
-            return true;
-        }
+        $validatorProvider.setDefaults({
+            errorClass: `wInput-error`,
+            onkeyup: false,
+            showErrors: function (errorMap, errorList) {
+                errorList.forEach((error) => {
+                    // can't use notificationService here cos services are not available in config phase
+                    __mockShowError(error.message);
+                });
 
-        if (!angular.isNumber(minLength)) {
-            throw new Error('minbytelength parameter must be a number. Got ' + minLength);
-        }
-
-        return converters.stringToByteArray(value).length >= minLength;
-    }, 'String is too short. Please add more characters.');
-
-    $validatorProvider.addMethod('maxbytelength', function (value, element, maxLength) {
-        if (this.optional(element)) {
-            return true;
-        }
-
-        if (!angular.isNumber(maxLength)) {
-            throw new Error('maxbytelength parameter must be a number. Got ' + maxLength);
-        }
-
-        return converters.stringToByteArray(value).length <= maxLength;
-    }, 'String is too long. Please remove some characters.');
-
-    $urlRouterProvider
-        .otherwise('/wallet');
-
-    $stateProvider
-        .state('login', {
-            url: '/login',
-            views: {
-                main: {
-                    templateUrl: 'login/login'
+                let i, elements;
+                for (i = 0, elements = this.validElements(); elements[i]; i++) {
+                    angular.element(elements[i]).removeClass(this.settings.errorClass);
                 }
-            }
-        })
-        .state('home', {
-            url: '/',
-            abstract: true,
-            views: {
-                main: {
-                    templateUrl: 'core/core'
-                }
-            }
-        })
-        .state('home.wallet', {
-            url: 'wallet',
-            views: {
-                content: {
-                    templateUrl: 'wallet/wallet'
-                }
-            }
-        })
-        .state('home.portfolio', {
-            url: 'portfolio',
-            views: {
-                content: {
-                    templateUrl: 'portfolio/portfolio'
-                }
-            }
-        })
-        .state('home.exchange', {
-            url: 'exchange',
-            views: {
-                content: {
-                    templateUrl: 'dex/dex'
-                }
-            }
-        })
-        .state('home.leasing', {
-            url: 'leasing',
-            views: {
-                content: {
-                    templateUrl: 'leasing/leasing'
-                }
-            }
-        })
-        .state('home.history', {
-            url: 'history',
-            views: {
-                content: {
-                    templateUrl: 'history/history'
-                }
-            }
-        })
-        .state('home.tokens', {
-            url: 'tokens',
-            views: {
-                content: {
-                    templateUrl: 'tokens/tokens'
-                }
-            }
-        })
-        .state('home.community', {
-            url: 'community',
-            views: {
-                content: {
-                    controller: 'communityController as $ctrl',
-                    templateUrl: 'community/community'
+
+                for (i = 0, elements = this.invalidElements(); elements[i]; i++) {
+                    angular.element(elements[i]).addClass(this.settings.errorClass);
                 }
             }
         });
 
-}
+        $validatorProvider.addMethod(
+            `address`,
+            (value, element) => self.optional(element) || __mockValidateAddress(value),
+            `Account number must be a sequence of 35 alphanumeric characters with no spaces, ` +
+            `optionally starting with '1W'`
+        );
 
-AngularApplicationConfig.$inject = [
-    '$provide', '$compileProvider', '$validatorProvider', '$qProvider',
-    '$sceDelegateProvider', '$mdAriaProvider', 'constants.network', 'constants.application',
-    '$stateProvider', '$urlRouterProvider', '$locationProvider'
-];
+        $validatorProvider.addMethod(`decimal`, (value, element, maxDigits) => {
+            maxDigits = angular.isNumber(maxDigits) ? maxDigits : Currency.WAVES.precision;
+            const regex = new RegExp(`^(?:-?\\d+)?(?:\\.\\d{0,${maxDigits}})?$`);
+            return self.optional(element) || regex.test(value);
+        }, `Amount is expected with a dot (.) as a decimal separator with no more than {0} fraction digits`);
 
-function AngularApplicationRun(rest, applicationConstants, notificationService, addressService, $state) {
+        $validatorProvider.addMethod(`password`, (value, element) => {
+            if (self.optional(element)) {
+                return true;
+            }
 
-    'use strict';
+            const containsDigits = /[0-9]/.test(value);
+            const containsUppercase = /[A-Z]/.test(value);
+            const containsLowercase = /[a-z]/.test(value);
 
-    const url = applicationConstants.NODE_ADDRESS;
+            return containsDigits && containsUppercase && containsLowercase;
+        }, `The password is too weak. A good password must contain at least one digit, ` +
+            `one uppercase and one lowercase letter`);
 
-    // restangular configuration
-    rest.setDefaultHttpFields({
-        timeout: 10000 // milliseconds
-    });
+        $validatorProvider.addMethod(`minbytelength`, (value, element, minLength) => {
+            if (self.optional(element)) {
+                return true;
+            }
 
-    rest.setBaseUrl(url);
+            if (!angular.isNumber(minLength)) {
+                throw new Error(`minbytelength parameter must be a number. Got ${minLength}`);
+            }
 
-    // override mock methods cos in config phase services are not available yet
-    __mockShowError = function (message) {
-        notificationService.error(message);
-    };
+            return converters.stringToByteArray(value).length >= minLength;
+        }, `String is too short. Please add more characters.`);
 
-    __mockValidateAddress = function (address) {
-        return addressService.validateAddress(address.trim());
-    };
+        $validatorProvider.addMethod(`maxbytelength`, (value, element, maxLength) => {
+            if (self.optional(element)) {
+                return true;
+            }
 
-    $state.go('login');
+            if (!angular.isNumber(maxLength)) {
+                throw new Error(`maxbytelength parameter must be a number. Got ${maxLength}`);
+            }
 
-}
+            return converters.stringToByteArray(value).length <= maxLength;
+        }, `String is too long. Please remove some characters.`);
 
-AngularApplicationRun.$inject = [
-    'Restangular', 'constants.application', 'notificationService', 'addressService', '$state'
-];
+        $urlRouterProvider
+            .otherwise(`/wallet`);
+
+        $stateProvider
+            .state(`login`, {
+                url: `/login`,
+                views: {
+                    main: {
+                        templateUrl: `login/login`
+                    }
+                }
+            })
+            .state(`home`, {
+                url: `/`,
+                abstract: true,
+                views: {
+                    main: {
+                        templateUrl: `core/core`
+                    }
+                }
+            })
+            .state(`home.wallet`, {
+                url: `wallet`,
+                views: {
+                    content: {
+                        templateUrl: `wallet/wallet`
+                    }
+                }
+            })
+            .state(`home.portfolio`, {
+                url: `portfolio`,
+                views: {
+                    content: {
+                        templateUrl: `portfolio/portfolio`
+                    }
+                }
+            })
+            .state(`home.exchange`, {
+                url: `exchange`,
+                views: {
+                    content: {
+                        templateUrl: `dex/dex`
+                    }
+                }
+            })
+            .state(`home.leasing`, {
+                url: `leasing`,
+                views: {
+                    content: {
+                        templateUrl: `leasing/leasing`
+                    }
+                }
+            })
+            .state(`home.history`, {
+                url: `history`,
+                views: {
+                    content: {
+                        templateUrl: `history/history`
+                    }
+                }
+            })
+            .state(`home.tokens`, {
+                url: `tokens`,
+                views: {
+                    content: {
+                        templateUrl: `tokens/tokens`
+                    }
+                }
+            })
+            .state(`home.community`, {
+                url: `community`,
+                views: {
+                    content: {
+                        controller: `communityController as $ctrl`,
+                        templateUrl: `community/community`
+                    }
+                }
+            });
+
+    }
+
+    AngularApplicationConfig.$inject = [
+        `$provide`, `$compileProvider`, `$validatorProvider`, `$qProvider`,
+        `$sceDelegateProvider`, `$mdAriaProvider`, `constants.network`, `constants.application`,
+        `$stateProvider`, `$urlRouterProvider`, `$locationProvider`
+    ];
+
+    function AngularApplicationRun(rest, applicationConstants, notificationService, addressService, $state) {
+
+        const url = applicationConstants.NODE_ADDRESS;
+
+        // restangular configuration
+        rest.setDefaultHttpFields({
+            timeout: 10000 // milliseconds
+        });
+
+        rest.setBaseUrl(url);
+
+        // override mock methods cos in config phase services are not available yet
+        __mockShowError = function (message) {
+            notificationService.error(message);
+        };
+
+        __mockValidateAddress = function (address) {
+            return addressService.validateAddress(address.trim());
+        };
+
+        $state.go(`login`);
+
+    }
+
+    AngularApplicationRun.$inject = [
+        `Restangular`, `constants.application`, `notificationService`, `addressService`, `$state`
+    ];
+
+})();

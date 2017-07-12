@@ -1,13 +1,13 @@
 (function () {
     'use strict';
 
-    var DEFAULT_STRIP_ZEROES = false;
-    var DEFAULT_USE_THOUSANDS_SEPARATOR = true;
+    const DEFAULT_STRIP_ZEROES = false;
+    const DEFAULT_USE_THOUSANDS_SEPARATOR = true;
 
     function MoneyLong() {
         return function filterInput(input, stripZeroes, useThousandsSeparator) {
             if (!input || !input.formatAmount) {
-                return '';
+                return ``;
             }
 
             if (angular.isUndefined(stripZeroes)) {
@@ -18,14 +18,14 @@
                 useThousandsSeparator = DEFAULT_USE_THOUSANDS_SEPARATOR;
             }
 
-            var result = input.formatAmount(stripZeroes, useThousandsSeparator);
-            var currency = input.currency.shortName ? input.currency.shortName : input.currency.displayName;
+            const result = input.formatAmount(stripZeroes, useThousandsSeparator);
+            const currency = input.currency.shortName ? input.currency.shortName : input.currency.displayName;
 
-            return result + ' ' + currency;
+            return `${result} ${currency}`;
         };
     }
 
     angular
-        .module('app.shared')
-        .filter('moneyLong', MoneyLong);
+        .module(`app.shared`)
+        .filter(`moneyLong`, MoneyLong);
 })();

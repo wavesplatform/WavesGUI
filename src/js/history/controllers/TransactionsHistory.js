@@ -14,7 +14,7 @@
             this.refreshTransactions();
             let $intervalId = $interval(this.refreshTransactions.bind(this), REFRESH_DELAY);
 
-            $scope.$on('$destroy', function () {
+            $scope.$on(`$destroy`, () => {
                 if (angular.isDefined($intervalId)) {
                     $interval.cancel($intervalId);
                     $intervalId = undefined;
@@ -35,11 +35,12 @@
                     history.transactions = txArray;
                 });
         }
+
     }
 
-    TransactionsHistory.$inject = ['$scope', '$interval', 'applicationContext', 'transactionLoadingService'];
+    TransactionsHistory.$inject = [`$scope`, `$interval`, `applicationContext`, `transactionLoadingService`];
 
     angular
-        .module('app.history')
-        .controller('historyController', TransactionsHistory);
+        .module(`app.history`)
+        .controller(`transactionsHistoryController`, TransactionsHistory);
 })();

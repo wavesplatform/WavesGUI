@@ -1,5 +1,5 @@
-(function() {
+(function () {
     'use strict';
 
-    angular.module('app.dex', ['app.shared', 'ngSanitize']);
+    angular.module(`app.dex`, [`app.shared`, `ngSanitize`]);
 })();

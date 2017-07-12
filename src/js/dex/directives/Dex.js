@@ -49,17 +49,17 @@
                     price: OrderPrice.fromTokens(price, ctrl.pair),
                     fee: Money.fromTokens(fee, Currency.WAVES)
                 }, sender)
-                .then(function () {
+                .then(() => {
                     refreshOrderbooks();
                     refreshUserOrders();
-                    notificationService.notice('Order has been created!');
+                    notificationService.notice(`Order has been created!`);
                     if (callback) {
                         callback();
                     }
                 })
-                .catch(function (e) {
+                .catch((e) => {
                     const errorMessage = e.data ? e.data.message : null;
-                    notificationService.error(errorMessage || 'Order has not been created!');
+                    notificationService.error(errorMessage || `Order has not been created!`);
                     if (callback) {
                         callback();
                     }
@@ -72,13 +72,13 @@
             // TODO : add different messages for cancel and delete actions
             dexOrderService
                 .removeOrder(ctrl.pair, order, sender)
-                .then(function () {
+                .then(() => {
                     refreshOrderbooks();
                     refreshUserOrders();
-                    notificationService.notice('Order has been canceled!');
+                    notificationService.notice(`Order has been canceled!`);
                 })
-                .catch(function () {
-                    notificationService.error('Order could not be canceled!');
+                .catch(() => {
+                    notificationService.error(`Order could not be canceled!`);
                 });
         };
 
@@ -92,19 +92,17 @@
 
         ctrl.fillSellForm = fillSellForm;
 
-        ctrl.nonVerifiedNote = 'Please, be cautious with non-verified assets! Verified assets have a green mark.';
+        ctrl.nonVerifiedNote = `Please, be cautious with non-verified assets! Verified assets have a green mark.`;
 
         notificationService.notice(ctrl.nonVerifiedNote);
 
         assetStore
             .getAll()
-            .then(function (assetsList) {
+            .then((assetsList) => {
                 ctrl.assetsList = assetsList;
             })
-            .then(function () {
-                return dexOrderbookService.getOrderbook(ctrl.pair.amountAsset, ctrl.pair.priceAsset);
-            })
-            .then(function (orderbook) {
+            .then(() => dexOrderbookService.getOrderbook(ctrl.pair.amountAsset, ctrl.pair.priceAsset))
+            .then((orderbook) => {
                 ctrl.pair = {
                     // Here we just get assets by their IDs
                     amountAsset: assetStore.syncGetAsset(orderbook.pair.amountAsset),
@@ -116,12 +114,12 @@
                 refreshUserOrders();
                 refreshTradeHistory();
             })
-            .catch(function (e) {
+            .catch((e) => {
                 throw new Error(e);
             });
 
         // Events are from asset pickers
-        $scope.$on('asset-picked', function (e, newAsset, type) {
+        $scope.$on(`asset-picked`, (e, newAsset, type) => {
             // Define in which widget the asset was changed
             ctrl.pair[type] = newAsset;
             emptyDataFields();
@@ -129,11 +127,11 @@
         });
 
         // Enable polling for orderbooks and newly created assets
-        const intervalPromise = $interval(function () {
+        const intervalPromise = $interval(() => {
             refreshAll();
             assetStore
                 .getAll()
-                .then(function (assetsList) {
+                .then((assetsList) => {
                     ctrl.assetsList = assetsList;
                 });
         }, POLLING_DELAY);
@@ -173,12 +171,12 @@
 
             dexOrderbookService
                 .getOrderbook(ctrl.pair.amountAsset, ctrl.pair.priceAsset)
-                .then(function (orderbook) {
+                .then((orderbook) => {
                     ctrl.buyOrders = orderbook.bids;
                     ctrl.sellOrders = orderbook.asks;
                     return orderbook.pair;
                 })
-                .then(function (pair) {
+                .then((pair) => {
                     // Placing each asset in the right widget
                     if (ctrl.pair.amountAsset.id !== pair.amountAsset && ctrl.pair.priceAsset.id !== pair.priceAsset) {
                         const temp = ctrl.pair.amountAsset;
@@ -186,8 +184,8 @@
                         ctrl.pair.priceAsset = temp;
                     }
                 })
-                .catch(function () {
-                    notificationService.error('There is no such pair or one of the assets does not exist.');
+                .catch(() => {
+                    notificationService.error(`There is no such pair or one of the assets does not exist.`);
                 });
         }
 
@@ -198,7 +196,7 @@
 
             dexOrderService
                 .getOrders(ctrl.pair)
-                .then(function (orders) {
+                .then((orders) => {
                     // TODO : add here orders from pending queues
                     ctrl.userOrders = orders;
                 });
@@ -213,17 +211,15 @@
 
                 datafeedApiService
                     .getTrades(pair, HISTORY_LIMIT)
-                    .then(function (response) {
-                        ctrl.tradeHistory = response.map(function (trade) {
-                            return {
-                                timestamp: trade.timestamp,
-                                type: trade.type,
-                                typeTitle: trade.type === 'buy' ? 'Buy' : 'Sell',
-                                price: trade.price,
-                                amount: trade.amount,
-                                total: trade.price * trade.amount
-                            };
-                        });
+                    .then((response) => {
+                        ctrl.tradeHistory = response.map((trade) => ({
+                            timestamp: trade.timestamp,
+                            type: trade.type,
+                            typeTitle: trade.type === `buy` ? `Buy` : `Sell`,
+                            price: trade.price,
+                            amount: trade.amount,
+                            total: trade.price * trade.amount
+                        }));
 
                         ctrl.lastTradePrice = ctrl.tradeHistory[0].price;
                     });
@@ -232,30 +228,30 @@
 
         function fillBuyForm(price, amount, total) {
             ctrl.buyFormValues = {
-                price: price,
-                amount: amount,
-                total: total
+                price,
+                amount,
+                total
             };
         }
 
         function fillSellForm(price, amount, total) {
             ctrl.sellFormValues = {
-                price: price,
-                amount: amount,
-                total: total
+                price,
+                amount,
+                total
             };
         }
     }
 
     Dex.$inject = [
-        '$scope', '$interval', 'applicationContext', 'assetStoreFactory', 'datafeedApiService',
-        'dexOrderService', 'dexOrderbookService', 'notificationService', 'utilsService'
+        `$scope`, `$interval`, `applicationContext`, `assetStoreFactory`, `datafeedApiService`,
+        `dexOrderService`, `dexOrderbookService`, `notificationService`, `utilsService`
     ];
 
     angular
-        .module('app.dex')
-        .component('wavesDex', {
+        .module(`app.dex`)
+        .component(`wavesDex`, {
             controller: Dex,
-            templateUrl: 'dex/component'
+            templateUrl: `dex/component`
         });
 })();

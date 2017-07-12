@@ -11,13 +11,13 @@
         ctrl.confirm = {};
 
         ctrl.broadcast = new transactionBroadcast.instance(apiService.assets.reissue,
-            function (transaction) {
+            ((transaction) => {
                 const amount = Money.fromCoins(transaction.quantity, ctrl.asset.currency);
-                const displayMessage = 'Reissued ' + amount.formatAmount(true) + ' tokens of asset ' +
-                    ctrl.asset.currency.displayName + '<br/>Date: ' +
-                    formattingService.formatTimestamp(transaction.timestamp);
+                const displayMessage = `Reissued ${amount.formatAmount(true)} tokens of asset ${
+                    ctrl.asset.currency.displayName}<br/>Date: ${
+                    formattingService.formatTimestamp(transaction.timestamp)}`;
                 notificationService.notice(displayMessage);
-            });
+            }));
 
         ctrl.fee = FIXED_REISSUE_FEE;
 
@@ -31,7 +31,7 @@
             },
             messages: {
                 assetAmount: {
-                    required: 'Amount to reissue is required'
+                    required: `Amount to reissue is required`
                 }
             }
         };
@@ -41,10 +41,10 @@
 
         resetReissueForm();
 
-        $scope.$on(events.ASSET_REISSUE, function (event, eventData) {
+        $scope.$on(events.ASSET_REISSUE, (event, eventData) => {
             const asset = applicationContext.cache.assets[eventData.assetId];
             if (!asset) {
-                throw new Error('Failed to find asset data by id ' + eventData.assetId);
+                throw new Error(`Failed to find asset data by id ${eventData.assetId}`);
             }
 
             resetReissueForm();
@@ -61,15 +61,15 @@
             const maximumPayment = Money.fromCoins(constants.JAVA_MAX_LONG, asset.currency);
             ctrl.validationOptions.rules.assetAmount.min = minimumPayment.toTokens();
             ctrl.validationOptions.rules.assetAmount.max = maximumPayment.toTokens();
-            ctrl.validationOptions.messages.assetAmount.decimal = 'The amount to reissue must be a number ' +
-                'with no more than ' + minimumPayment.currency.precision +
-                ' digits after the decimal point (.)';
-            ctrl.validationOptions.messages.assetAmount.min = 'Amount to reissue is too small. ' +
-                'It should be greater or equal to ' + minimumPayment.formatAmount(false);
-            ctrl.validationOptions.messages.assetAmount.max = 'Amount to reissue is too big. ' +
-                'It should be less or equal to ' + maximumPayment.formatAmount(false);
+            ctrl.validationOptions.messages.assetAmount.decimal = `${`The amount to reissue must be a number ` +
+                `with no more than `}${minimumPayment.currency.precision
+            } digits after the decimal point (.)`;
+            ctrl.validationOptions.messages.assetAmount.min = `${`Amount to reissue is too small. ` +
+                `It should be greater or equal to `}${minimumPayment.formatAmount(false)}`;
+            ctrl.validationOptions.messages.assetAmount.max = `${`Amount to reissue is too big. ` +
+                `It should be less or equal to `}${maximumPayment.formatAmount(false)}`;
 
-            dialogService.open('#asset-reissue-dialog');
+            dialogService.open(`#asset-reissue-dialog`);
         });
 
         function submitReissue(form) {
@@ -79,7 +79,7 @@
             }
 
             if (ctrl.fee.greaterThan(ctrl.wavesBalance)) {
-                notificationService.error('Not enough funds for the reissue transaction fee');
+                notificationService.error(`Not enough funds for the reissue transaction fee`);
 
                 return false;
             }
@@ -103,8 +103,8 @@
 
             // open confirmation dialog
             // doing it async because this method is called while another dialog is open
-            $timeout(function () {
-                dialogService.open('#asset-reissue-confirm-dialog');
+            $timeout(() => {
+                dialogService.open(`#asset-reissue-confirm-dialog`);
             }, 1);
 
             // it's ok to close reissue dialog
@@ -116,18 +116,18 @@
         }
 
         function resetReissueForm() {
-            ctrl.amount = '0';
+            ctrl.amount = `0`;
             ctrl.confirm.amount = Money.fromTokens(0, Currency.WAVES);
             ctrl.confirm.fee = ctrl.fee;
         }
     }
 
     AssetReissue.$inject = [
-        '$scope', '$timeout', 'constants.ui', 'portfolio.events', 'applicationContext', 'assetService', 'dialogService',
-        'notificationService', 'formattingService', 'apiService', 'transactionBroadcast'
+        `$scope`, `$timeout`, `constants.ui`, `portfolio.events`, `applicationContext`, `assetService`, `dialogService`,
+        `notificationService`, `formattingService`, `apiService`, `transactionBroadcast`
     ];
 
     angular
-        .module('app.portfolio')
-        .controller('assetReissueController', AssetReissue);
+        .module(`app.portfolio`)
+        .controller(`assetReissueController`, AssetReissue);
 })();

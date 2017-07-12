@@ -25,7 +25,7 @@
             }
 
             set(path, value) {
-                if (typeof path === 'object') {
+                if (typeof path === `object`) {
                     this.data = path;
                 } else {
                     this.data = this.data || {};
@@ -55,16 +55,16 @@
         }
 
         return {
-            create: function (data, options) {
+            create(data, options) {
                 return new Model(data, options);
             }
         };
 
     }
 
-    ModelFactory.$inject = ['$q'];
+    ModelFactory.$inject = [`$q`];
 
     angular
-        .module('app.state')
-        .factory('modelFactory', ModelFactory);
+        .module(`app.state`)
+        .factory(`modelFactory`, ModelFactory);
 })();

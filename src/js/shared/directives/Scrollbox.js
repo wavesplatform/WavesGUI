@@ -1,13 +1,10 @@
 (function () {
     'use strict';
 
-    function Scrollbox() {}
-
     angular
-        .module('app.shared')
-        .component('wavesScrollbox', {
-            controller: Scrollbox,
+        .module(`app.shared`)
+        .component(`wavesScrollbox`, {
             transclude: true,
-            template: '<div ng-transclude></div>'
+            template: `<div ng-transclude></div>`
         });
 })();

@@ -8,7 +8,7 @@
     function WavesCreateAlias($scope, $timeout, events, applicationContext,
                               dialogService, notificationService,
                               transactionBroadcast, formattingService, aliasRequestService, apiService) {
-        var ctrl = this;
+        const ctrl = this;
         ctrl.fee = DEFAULT_FEE;
         ctrl.validationOptions = {
             onfocusout: false,
@@ -21,26 +21,26 @@
             },
             messages: {
                 aliasName: {
-                    required: 'Symbolic name is required',
-                    minlength: 'Alias name is too short. Please enter at least ' + ALIAS_MINIMUM_LENGTH + ' symbols',
-                    maxlength: 'Alias name is too long. Please use no more than ' + ALIAS_MAXIMUM_LENGTH + ' symbols'
+                    required: `Symbolic name is required`,
+                    minlength: `Alias name is too short. Please enter at least ${ALIAS_MINIMUM_LENGTH} symbols`,
+                    maxlength: `Alias name is too long. Please use no more than ${ALIAS_MAXIMUM_LENGTH} symbols`
                 }
             }
         };
 
         ctrl.broadcast = new transactionBroadcast.instance(apiService.alias.create,
-            function (transaction) {
-                const displayMessage = 'Created alias \'' + transaction.alias + '\'' +
-                    '<br/>Date: ' + formattingService.formatTimestamp(transaction.timestamp);
+            ((transaction) => {
+                const displayMessage = `Created alias '${transaction.alias}'` +
+                    `<br/>Date: ${formattingService.formatTimestamp(transaction.timestamp)}`;
                 notificationService.notice(displayMessage);
-            });
+            }));
 
         ctrl.confirmCreateAlias = confirmCreateAlias;
         ctrl.broadcastTransaction = broadcastTransaction;
 
-        $scope.$on(events.NAVIGATION_CREATE_ALIAS, function () {
+        $scope.$on(events.NAVIGATION_CREATE_ALIAS, () => {
             reset();
-            dialogService.open('#create-alias-dialog');
+            dialogService.open(`#create-alias-dialog`);
         });
 
         function broadcastTransaction() {
@@ -68,25 +68,25 @@
 
             // open confirmation dialog
             // doing it async because this method is called while another dialog is open
-            $timeout(function () {
-                dialogService.open('#create-alias-confirmation');
+            $timeout(() => {
+                dialogService.open(`#create-alias-confirmation`);
             }, 1);
 
             return true;
         }
 
         function reset() {
-            ctrl.alias = '';
+            ctrl.alias = ``;
         }
     }
 
     WavesCreateAlias.$inject = [
-        '$scope', '$timeout', 'navigation.events', 'applicationContext',
-        'dialogService', 'notificationService', 'transactionBroadcast', 'formattingService', 'aliasRequestService',
-        'apiService'
+        `$scope`, `$timeout`, `navigation.events`, `applicationContext`,
+        `dialogService`, `notificationService`, `transactionBroadcast`, `formattingService`, `aliasRequestService`,
+        `apiService`
     ];
 
     angular
-        .module('app.navigation')
-        .controller('createAliasController', WavesCreateAlias);
+        .module(`app.navigation`)
+        .controller(`createAliasController`, WavesCreateAlias);
 })();

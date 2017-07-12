@@ -1,60 +1,61 @@
-describe('Wallet.Withdraw.Controller', function () {
+describe(`Wallet.Withdraw.Controller`, () => {
+    'use strict';
 
     let $rootScope, $q, scope, timeout, events, dialogService, ctrl, coinomatService, notificationService, formMock;
 
-    const gatewayAddress = '3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq';
-    const bitcoinAddress = '14qViLJfdGaP4EeHnDyJbEGQysnCpwn1gZ';
-    const depositAddress = 'mhqqhhuKPGCoEa7wwkxfGSbYWEccKcCDFd';
+    const gatewayAddress = `3N9UuGeWuDt9NfWbC5oEACHyRoeEMApXAeq`;
+    const bitcoinAddress = `14qViLJfdGaP4EeHnDyJbEGQysnCpwn1gZ`;
+    const depositAddress = `mhqqhhuKPGCoEa7wwkxfGSbYWEccKcCDFd`;
 
     const applicationContext = {
         account: {
             keyPair: {
-                public: 'FJuErRxhV9JaFUwcYLabFK5ENvDRfyJbRz8FeVfYpBLn',
-                private: '9dXhQYWZ5468TRhksJqpGT6nUySENxXi9nsCZH9AefD1'
+                public: `FJuErRxhV9JaFUwcYLabFK5ENvDRfyJbRz8FeVfYpBLn`,
+                private: `9dXhQYWZ5468TRhksJqpGT6nUySENxXi9nsCZH9AefD1`
             }
         }
     };
 
     // Initialization of the module before each test case
-    beforeEach(module('waves.core'));
-    beforeEach(module('app.wallet'));
+    beforeEach(module(`waves.core`));
+    beforeEach(module(`app.wallet`));
 
     // Injection of dependencies
-    beforeEach(inject(function ($injector, $controller, $timeout) {
-        $rootScope = $injector.get('$rootScope');
-        $q = $injector.get('$q');
+    beforeEach(inject(($injector, $controller, $timeout) => {
+        $rootScope = $injector.get(`$rootScope`);
+        $q = $injector.get(`$q`);
         scope = $rootScope.$new();
-        events = $injector.get('wallet.events');
-        dialogService = $injector.get('dialogService');
-        notificationService = $injector.get('notificationService');
+        events = $injector.get(`wallet.events`);
+        dialogService = $injector.get(`dialogService`);
+        notificationService = $injector.get(`notificationService`);
         timeout = $timeout;
         coinomatService = {
-            getWithdrawRate: function () {},
-            getWithdrawDetails: function () {},
-            getDepositDetails: function () {}
+            getWithdrawRate: _.identity,
+            getWithdrawDetails: _.identity,
+            getDepositDetails: _.identity
         };
         formMock = {
-            invalid: function () {
+            invalid() {
                 return {};
             },
-            validate: function () {
+            validate() {
                 return true;
             }
         };
 
-        spyOn(dialogService, 'open');
+        spyOn(dialogService, `open`);
 
-        ctrl = $controller('walletWithdrawController', {
+        ctrl = $controller(`walletWithdrawController`, {
             '$scope': scope,
             '$timeout': timeout,
-            'constants.ui': $injector.get('constants.ui'),
+            'constants.ui': $injector.get(`constants.ui`),
             'wallet.events': events,
-            'autocomplete.fees': $injector.get('autocomplete.fees'),
-            'apiService': $injector.get('apiService'),
+            'autocomplete.fees': $injector.get(`autocomplete.fees`),
+            'apiService': $injector.get(`apiService`),
             'dialogService': dialogService,
-            'transactionBroadcast': $injector.get('transactionBroadcast'),
-            'assetService': $injector.get('assetService'),
-            'formattingService': $injector.get('formattingService'),
+            'transactionBroadcast': $injector.get(`transactionBroadcast`),
+            'assetService': $injector.get(`assetService`),
+            'formattingService': $injector.get(`formattingService`),
             'notificationService': notificationService,
             'applicationContext': applicationContext,
             'coinomatService': coinomatService
@@ -71,8 +72,8 @@ describe('Wallet.Withdraw.Controller', function () {
         }
 
         $rootScope.$broadcast(events.WALLET_WITHDRAW, {
-            assetBalance: assetBalance,
-            wavesBalance: wavesBalance
+            assetBalance,
+            wavesBalance
         });
     }
 
@@ -84,8 +85,8 @@ describe('Wallet.Withdraw.Controller', function () {
             in_def: 10,
             fee_in: 0,
             fee_out: 0.0001,
-            from_txt: 'LTC',
-            to_txt: 'Webmoney VND',
+            from_txt: `LTC`,
+            to_txt: `Webmoney VND`,
             in_prec: {
                 dec: 8,
                 correction: 1
@@ -97,27 +98,27 @@ describe('Wallet.Withdraw.Controller', function () {
         };
 
         const deferred = $q.defer();
-        spyOn(coinomatService, 'getWithdrawRate').and.returnValue(deferred.promise);
+        spyOn(coinomatService, `getWithdrawRate`).and.returnValue(deferred.promise);
         deferred.resolve(response);
     }
 
     function initWithdrawAddressMock() {
         const deferred = $q.defer();
-        spyOn(coinomatService, 'getWithdrawDetails').and.returnValue(deferred.promise);
+        spyOn(coinomatService, `getWithdrawDetails`).and.returnValue(deferred.promise);
         deferred.resolve({address: gatewayAddress});
     }
 
     function initDepositDetailsMock() {
         const deferred = $q.defer();
-        spyOn(coinomatService, 'getDepositDetails').and.returnValue(deferred.promise);
+        spyOn(coinomatService, `getDepositDetails`).and.returnValue(deferred.promise);
         deferred.resolve({address: depositAddress});
     }
 
-    it('should initialize properly', function () {
-        expect(ctrl.address).toEqual('');
+    it(`should initialize properly`, () => {
+        expect(ctrl.address).toEqual(``);
     });
 
-    it('should request exchange rates on init', function () {
+    it(`should request exchange rates on init`, () => {
         initRateServiceMock();
         initDepositDetailsMock();
         initControllerAssets();
@@ -128,19 +129,19 @@ describe('Wallet.Withdraw.Controller', function () {
         expect(ctrl.exchangeRate).toEqual(1);
         expect(ctrl.feeIn).toEqual(0);
         expect(ctrl.feeOut).toEqual(0.0001);
-        expect(ctrl.amount).toEqual('9.9999');
+        expect(ctrl.amount).toEqual(`9.9999`);
         expect(ctrl.total).toEqual(10);
         expect(ctrl.validationOptions.rules.withdrawAmount.decimal).toEqual(Currency.BTC.precision);
         expect(ctrl.validationOptions.rules.withdrawAmount.min).toEqual(0.1);
         expect(ctrl.validationOptions.rules.withdrawAmount.max).toEqual(10);
     });
 
-    it('should show a message if exchange rate request has failed', function () {
+    it(`should show a message if exchange rate request has failed`, () => {
         const deferred = $q.defer();
-        spyOn(coinomatService, 'getWithdrawRate').and.returnValue(deferred.promise);
-        spyOn(notificationService, 'error');
+        spyOn(coinomatService, `getWithdrawRate`).and.returnValue(deferred.promise);
+        spyOn(notificationService, `error`);
 
-        const errorResponse = {data: {error: 'Failed to get exchange rate'}};
+        const errorResponse = {data: {error: `Failed to get exchange rate`}};
         deferred.reject(errorResponse);
 
         initControllerAssets();
@@ -151,37 +152,37 @@ describe('Wallet.Withdraw.Controller', function () {
         expect(dialogService.open).not.toHaveBeenCalled();
     });
 
-    it('should check available balance on confirm withdraw', function () {
+    it(`should check available balance on confirm withdraw`, () => {
         initRateServiceMock();
         initDepositDetailsMock();
         initControllerAssets(undefined, Money.fromTokens(1, Currency.WAVES));
         $rootScope.$apply();
 
-        spyOn(ctrl.autocomplete, 'getFeeAmount').and.returnValue('1.001');
-        spyOn(notificationService, 'error').and.returnValue(undefined);
+        spyOn(ctrl.autocomplete, `getFeeAmount`).and.returnValue(`1.001`);
+        spyOn(notificationService, `error`).and.returnValue(undefined);
 
         expect(ctrl.confirmWithdraw(formMock)).toBe(false);
         timeout.flush();
-        expect(dialogService.open).not.toHaveBeenCalledWith('#withdraw-confirmation');
+        expect(dialogService.open).not.toHaveBeenCalledWith(`#withdraw-confirmation`);
     });
 
-    it('should not confirm withdraw in case the form is invalid', function () {
+    it(`should not confirm withdraw in case the form is invalid`, () => {
         initRateServiceMock();
         initDepositDetailsMock();
         initControllerAssets();
         $rootScope.$apply();
 
-        spyOn(ctrl.autocomplete, 'getFeeAmount').and.returnValue('1.001');
-        spyOn(notificationService, 'error').and.returnValue(undefined);
-        spyOn(formMock, 'validate').and.returnValue(false);
+        spyOn(ctrl.autocomplete, `getFeeAmount`).and.returnValue(`1.001`);
+        spyOn(notificationService, `error`).and.returnValue(undefined);
+        spyOn(formMock, `validate`).and.returnValue(false);
 
         expect(ctrl.confirmWithdraw(formMock)).toBe(false);
         timeout.flush();
-        expect(dialogService.open).not.toHaveBeenCalledWith('#withdraw-confirmation');
+        expect(dialogService.open).not.toHaveBeenCalledWith(`#withdraw-confirmation`);
         expect(notificationService.error).not.toHaveBeenCalled();
     });
 
-    it('should check bitcoin address on confirm', function () {
+    it(`should check bitcoin address on confirm`, () => {
         initRateServiceMock();
         initDepositDetailsMock();
         initControllerAssets();
@@ -190,11 +191,11 @@ describe('Wallet.Withdraw.Controller', function () {
         ctrl.address = undefined;
         expect(ctrl.confirmWithdraw(formMock)).toBe(false);
 
-        ctrl.address = '198ynwv8yq0wef';
+        ctrl.address = `198ynwv8yq0wef`;
         expect(ctrl.confirmWithdraw(formMock)).toBe(false);
     });
 
-    it('should check bitcoin address in not a deposit one', function () {
+    it(`should check bitcoin address in not a deposit one`, () => {
         initRateServiceMock();
         initDepositDetailsMock();
         initControllerAssets();
@@ -204,15 +205,15 @@ describe('Wallet.Withdraw.Controller', function () {
         expect(ctrl.confirmWithdraw(formMock)).toBe(false);
     });
 
-    it('should show a confirmation dialog on confirm withdraw', function () {
+    it(`should show a confirmation dialog on confirm withdraw`, () => {
         initRateServiceMock();
         initDepositDetailsMock();
         initControllerAssets();
         $rootScope.$apply();
 
-        spyOn(ctrl.autocomplete, 'getFeeAmount').and.returnValue('0.002');
+        spyOn(ctrl.autocomplete, `getFeeAmount`).and.returnValue(`0.002`);
         ctrl.recipient = bitcoinAddress;
-        ctrl.amount = '9.99';
+        ctrl.amount = `9.99`;
         initWithdrawAddressMock();
         expect(ctrl.confirmWithdraw(formMock)).toBe(true);
         $rootScope.$apply();
@@ -223,32 +224,32 @@ describe('Wallet.Withdraw.Controller', function () {
         expect(ctrl.confirm.fee.currency).toEqual(Currency.WAVES);
         expect(ctrl.confirm.recipient).toEqual(bitcoinAddress);
         expect(ctrl.confirm.gatewayAddress).toEqual(gatewayAddress);
-        expect(dialogService.open).toHaveBeenCalledWith('#withdraw-confirmation');
+        expect(dialogService.open).toHaveBeenCalledWith(`#withdraw-confirmation`);
     });
 
-    it('should handle errors on confirm withdraw', function () {
+    it(`should handle errors on confirm withdraw`, () => {
         initRateServiceMock();
         initDepositDetailsMock();
         initControllerAssets();
         $rootScope.$apply();
 
         const deferred = $q.defer();
-        spyOn(coinomatService, 'getWithdrawDetails').and.returnValue(deferred.promise);
-        spyOn(notificationService, 'error');
+        spyOn(coinomatService, `getWithdrawDetails`).and.returnValue(deferred.promise);
+        spyOn(notificationService, `error`);
 
-        const errorMessage = 'Failed to get tunnel';
+        const errorMessage = `Failed to get tunnel`;
         deferred.reject(new Error(errorMessage));
 
-        spyOn(ctrl.autocomplete, 'getFeeAmount').and.returnValue('0.002');
+        spyOn(ctrl.autocomplete, `getFeeAmount`).and.returnValue(`0.002`);
         ctrl.recipient = bitcoinAddress;
-        ctrl.amount = '9.99';
+        ctrl.amount = `9.99`;
 
         expect(ctrl.confirmWithdraw(formMock)).toBe(true);
         $rootScope.$apply();
 
         expect(notificationService.error).toHaveBeenCalledWith(errorMessage);
-        expect(dialogService.open).not.toHaveBeenCalledWith('#withdraw-confirmation');
-        expect(ctrl.confirm.gatewayAddress).toEqual('');
+        expect(dialogService.open).not.toHaveBeenCalledWith(`#withdraw-confirmation`);
+        expect(ctrl.confirm.gatewayAddress).toEqual(``);
     });
 
 });

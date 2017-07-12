@@ -60,13 +60,13 @@
 
                 applicationContext.account = applicationState;
                 apiService.assets.balance(applicationContext.account.address)
-                    .then(function (response) {
-                        _.forEach(response.balances, function (balanceItem) {
+                    .then((response) => {
+                        _.forEach(response.balances, (balanceItem) => {
                             applicationContext.cache.putAsset(balanceItem.issueTransaction);
                         });
                     });
 
-                $state.go('home.wallet');
+                $state.go(`home.wallet`);
             }
 
             /**
@@ -112,10 +112,10 @@
     }
 
     loginContextFactory.$inject = [
-        'ui.login.events', 'ui.login.modes', 'applicationContext', 'apiService', '$state', 'accountService'
+        `ui.login.events`, `ui.login.modes`, `applicationContext`, `apiService`, `$state`, `accountService`
     ];
 
     angular
-        .module('app.login')
-        .factory('loginContext', loginContextFactory);
+        .module(`app.login`)
+        .factory(`loginContext`, loginContextFactory);
 })();

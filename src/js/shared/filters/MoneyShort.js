@@ -1,13 +1,13 @@
 (function () {
     'use strict';
 
-    var DEFAULT_STRIP_ZEROES = true;
-    var DEFAULT_USE_THOUSANDS_SEPARATOR = true;
+    const DEFAULT_STRIP_ZEROES = true;
+    const DEFAULT_USE_THOUSANDS_SEPARATOR = true;
 
     function MoneyShort() {
         return function filterInput(input, stripZeroes, useThousandsSeparator) {
             if (!input || !input.formatAmount) {
-                return '';
+                return ``;
             }
 
             if (angular.isUndefined(stripZeroes)) {
@@ -23,6 +23,6 @@
     }
 
     angular
-        .module('app.shared')
-        .filter('moneyShort', MoneyShort);
+        .module(`app.shared`)
+        .filter(`moneyShort`, MoneyShort);
 })();

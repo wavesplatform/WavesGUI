@@ -2,40 +2,38 @@
     'use strict';
 
     angular
-        .module('app.shared')
-        .factory('autocomplete.fees', function AutocompleteFees() {
-            var result = {
+        .module(`app.shared`)
+        .factory(`autocomplete.fees`, function AutocompleteFees() {
+            const result = {
                 fees: [
                     {
                         amount: 0.001,
-                        displayText: '0.001 WAVE (Economic)'
+                        displayText: `0.001 WAVE (Economic)`
                     },
                     {
                         amount: 0.0015,
-                        displayText: '0.0015 WAVE (Standard)'
+                        displayText: `0.0015 WAVE (Standard)`
                     },
                     {
                         amount: 0.002,
-                        displayText: '0.002 WAVE (Premium)'
+                        displayText: `0.002 WAVE (Premium)`
                     }
                 ],
                 selectedFee: undefined,
                 searchText: undefined
             };
 
-            result.getFeeAmount = function() {
+            result.getFeeAmount = function () {
                 return result.selectedFee ?
                     result.selectedFee.amount :
                     result.searchText;
             };
 
             result.defaultFee = function (feeAmount) {
-                var feeIndex = 0;
+                let feeIndex = 0;
 
                 if (angular.isNumber(feeAmount)) {
-                    var index = _.findIndex(result.fees, function (fee) {
-                        return fee.amount === feeAmount;
-                    });
+                    const index = _.findIndex(result.fees, (fee) => fee.amount === feeAmount);
 
                     if (index >= 0) {
                         feeIndex = index;
@@ -50,16 +48,14 @@
                     return result.fees;
                 }
 
-                return _.filter(result.fees, function (item) {
-                    return item.amount.toString().indexOf(searchText) !== -1;
-                });
+                return _.filter(result.fees, (item) => item.amount.toString().indexOf(searchText) !== -1);
             };
 
             return result;
         })
-        .factory('autocomplete.assets', function AutocompleteAssetsFactory() {
+        .factory(`autocomplete.assets`, function AutocompleteAssetsFactory() {
             function createAutocomplete() {
-                var result = {
+                const result = {
                     assets: [],
                     selectedAsset: undefined,
                     searchText: undefined
@@ -70,18 +66,18 @@
                         return result.assets.slice(0, 10);
                     }
 
-                    var searchTextLC = searchText.toLowerCase(),
-                        list = [],
-                        ids = {};
+                    const searchTextLC = searchText.toLowerCase();
+                    const ids = {};
+                    let list = [];
 
                     // Adding assets which match by name.
-                    list = list.concat(result.assets.filter(function (asset) {
+                    list = list.concat(result.assets.filter((asset) => {
                         ids[asset.id] = asset.displayName.toLowerCase().indexOf(searchTextLC) > -1;
                         return ids[asset.id];
                     }));
 
                     // Adding assets which match by ID.
-                    list = list.concat(result.assets.filter(function (asset) {
+                    list = list.concat(result.assets.filter((asset) => {
                         if (ids[asset.id] === true) {
                             return false;
                         } else {
@@ -97,7 +93,7 @@
             }
 
             return {
-                create: function () {
+                create() {
                     return createAutocomplete();
                 }
             };

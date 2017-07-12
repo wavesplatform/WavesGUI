@@ -2,58 +2,58 @@
     'use strict';
 
     function Transaction(constants, applicationContext, formattingService) {
-        var TRANSACTION_SPEC = {};
+        const TRANSACTION_SPEC = {};
         TRANSACTION_SPEC[constants.PAYMENT_TRANSACTION_TYPE] = {
-            type: 'Payment',
+            type: `Payment`,
             processor: processPaymentTransaction
         };
         TRANSACTION_SPEC[constants.ASSET_ISSUE_TRANSACTION_TYPE] = {
-            type: 'Asset Issue',
+            type: `Asset Issue`,
             processor: processAssetIssueTransaction
         };
         TRANSACTION_SPEC[constants.ASSET_TRANSFER_TRANSACTION_TYPE] = {
-            type: 'Transfer',
+            type: `Transfer`,
             processor: processAssetTransferTransaction
         };
         TRANSACTION_SPEC[constants.ASSET_REISSUE_TRANSACTION_TYPE] = {
-            type: 'Asset Reissue',
+            type: `Asset Reissue`,
             processor: processAssetReissueTransaction
         };
         TRANSACTION_SPEC[constants.START_LEASING_TRANSACTION_TYPE] = {
-            type: 'Start Leasing',
+            type: `Start Leasing`,
             processor: processStartLeasingTransaction
         };
         TRANSACTION_SPEC[constants.CANCEL_LEASING_TRANSACTION_TYPE] = {
-            type: 'Cancel Leasing',
+            type: `Cancel Leasing`,
             processor: processCancelLeasingTransaction
         };
         TRANSACTION_SPEC[constants.CREATE_ALIAS_TRANSACTION_TYPE] = {
-            type: 'Create Alias',
+            type: `Create Alias`,
             processor: processCreateAliasTransaction
         };
         TRANSACTION_SPEC[constants.EXCHANGE_TRANSACTION_TYPE] = {
-            type: '',
+            type: ``,
             processor: processExchangeTransaction
         };
 
-        function buildTransactionType (number) {
-            var spec = TRANSACTION_SPEC[number];
+        function buildTransactionType(number) {
+            const spec = TRANSACTION_SPEC[number];
 
-            return spec ? spec.type : '';
+            return spec ? spec.type : ``;
         }
 
         function transformAddress(rawAddress) {
-            var result = angular.isDefined(rawAddress) ? rawAddress : 'n/a';
+            let result = angular.isDefined(rawAddress) ? rawAddress : `n/a`;
 
             if (result === applicationContext.account.address) {
-                result = 'You';
+                result = `You`;
             }
 
             return result;
         }
 
         function processTransaction(transaction) {
-            var spec = TRANSACTION_SPEC[transaction.type];
+            const spec = TRANSACTION_SPEC[transaction.type];
             if (angular.isUndefined(spec) || angular.isUndefined(spec.processor)) {
                 return;
             }
@@ -67,7 +67,7 @@
         }
 
         function processAssetIssueTransaction(transaction) {
-            var asset = Currency.create({
+            const asset = Currency.create({
                 id: transaction.id,
                 displayName: transaction.name,
                 precision: transaction.decimals
@@ -81,9 +81,9 @@
         }
 
         function processAssetTransferTransaction(transaction) {
-            var currency;
+            let currency;
             if (transaction.assetId) {
-                var asset = applicationContext.cache.assets[transaction.assetId];
+                const asset = applicationContext.cache.assets[transaction.assetId];
                 if (asset) {
                     currency = asset.currency;
                 }
@@ -100,7 +100,7 @@
         }
 
         function processAssetReissueTransaction(transaction) {
-            var asset = applicationContext.cache.assets[transaction.assetId];
+            const asset = applicationContext.cache.assets[transaction.assetId];
             if (angular.isUndefined(asset)) {
                 return;
             }
@@ -119,28 +119,28 @@
         }
 
         function processExchangeTransaction(transaction) {
-            var type = 'Exchange';
+            let type = `Exchange`;
 
-            var buyOrder = transaction.order1;
-            var assetId = buyOrder.assetPair.amountAsset;
-            var totalFee = 0;
+            const buyOrder = transaction.order1;
+            const assetId = buyOrder.assetPair.amountAsset;
+            let totalFee = 0;
             if (buyOrder.senderPublicKey === applicationContext.account.keyPair.public) {
-                type = type + ' ' + 'Buy';
+                type = `${type} Buy`;
                 totalFee += transaction.buyMatcherFee;
             }
 
-            var sellOrder = transaction.order2;
+            const sellOrder = transaction.order2;
             if (sellOrder.senderPublicKey === applicationContext.account.keyPair.public) {
-                type = type + ' ' + 'Sell';
+                type = `${type} Sell`;
                 totalFee += transaction.sellMatcherFee;
             }
 
             transaction.formatted.type = type;
             transaction.formatted.fee = Money.fromCoins(totalFee, Currency.WAVES).formatAmount(true);
 
-            var currency;
+            let currency;
             if (assetId) {
-                var asset = applicationContext.cache.assets[assetId];
+                const asset = applicationContext.cache.assets[assetId];
                 if (asset) {
                     currency = asset.currency;
                 }
@@ -155,10 +155,10 @@
         }
 
         function formatFee(transaction) {
-            var currency = Currency.WAVES;
-            var assetId = transaction.feeAsset;
+            let currency = Currency.WAVES;
+            const assetId = transaction.feeAsset;
             if (assetId) {
-                var asset = applicationContext.cache.assets[assetId];
+                const asset = applicationContext.cache.assets[assetId];
                 if (asset) {
                     currency = asset.currency;
                 }
@@ -168,10 +168,10 @@
         }
 
         function getFeeAsset(transaction) {
-            var currency = Currency.WAVES;
-            var assetId = transaction.feeAsset;
+            let currency = Currency.WAVES;
+            const assetId = transaction.feeAsset;
             if (assetId) {
-                var asset = applicationContext.cache.assets[assetId];
+                const asset = applicationContext.cache.assets[assetId];
                 if (asset) {
                     currency = asset.currency;
                 }
@@ -182,19 +182,19 @@
 
         function formatTransaction(transaction) {
             // in the future currency should be a part of transaction itself
-            var currentAddress = applicationContext.account.address;
-            var type = transaction.sender === currentAddress ? 'Outgoing' : 'Incoming';
+            const currentAddress = applicationContext.account.address;
+            const type = transaction.sender === currentAddress ? `Outgoing` : `Incoming`;
 
             transaction.formatted = {
-                type: type + ' ' + buildTransactionType(transaction.type),
+                type: `${type} ${buildTransactionType(transaction.type)}`,
                 datetime: formattingService.formatTimestamp(transaction.timestamp),
                 isOutgoing: transaction.sender === currentAddress,
                 sender: transformAddress(transaction.sender),
                 recipient: transformAddress(transaction.recipient),
-                amount: 'N/A',
+                amount: `N/A`,
                 fee: formatFee(transaction),
                 feeAsset: getFeeAsset(transaction),
-                asset: 'Loading'
+                asset: `Loading`
             };
 
             processTransaction(transaction);
@@ -207,9 +207,9 @@
         };
     }
 
-    Transaction.$inject = ['constants.transactions', 'applicationContext', 'formattingService'];
+    Transaction.$inject = [`constants.transactions`, `applicationContext`, `formattingService`];
 
     angular
-        .module('app.shared')
-        .filter('transaction', Transaction);
+        .module(`app.shared`)
+        .filter(`transaction`, Transaction);
 })();

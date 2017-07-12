@@ -3,11 +3,11 @@
 
     function Padder() {
         return function filterInput(input, maxLength) {
-            var spaces = '',
+            let spaces = ``,
                 i = input.length;
 
             while (i++ < maxLength) {
-                spaces +=  '&nbsp;';
+                spaces += `&nbsp;`;
             }
 
             return spaces + input;
@@ -15,6 +15,6 @@
     }
 
     angular
-        .module('app.shared')
-        .filter('padder', Padder);
+        .module(`app.shared`)
+        .filter(`padder`, Padder);
 })();

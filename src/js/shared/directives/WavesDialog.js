@@ -2,28 +2,28 @@
     'use strict';
 
     function WavesDialog($scope, dialogService) {
-        var defaults = {
+        const defaults = {
             isError: false,
             cancelButtonVisible: true,
             closeable: true,
             showButtons: true,
-            okButtonCaption: 'OK',
+            okButtonCaption: `OK`,
             okButtonEnabled: true,
-            cancelButtonCaption: 'CANCEL'
+            cancelButtonCaption: `CANCEL`
         };
 
         _.defaults($scope, defaults);
 
-        var imageSuffix = $scope.isError ? '-danger' : '';
-        $scope.image = 'modal-header' + imageSuffix;
+        const imageSuffix = $scope.isError ? `-danger` : ``;
+        $scope.image = `modal-header${imageSuffix}`;
         if (!$scope.closeable) {
-            $scope.image = 'modal-header-round';
+            $scope.image = `modal-header-round`;
         }
 
-        $scope.image += '.svg';
+        $scope.image += `.svg`;
 
         $scope.onOk = function () {
-            var shouldClose;
+            let shouldClose;
 
             if ($scope.dialogOk) {
                 shouldClose = $scope.dialogOk();
@@ -44,36 +44,36 @@
     }
 
     function WavesDialogLink(scope, element) {
-        element.addClass('wavesPop');
+        element.addClass(`wavesPop`);
 
         if (!scope.global) {
-            element.addClass('recyclable');
+            element.addClass(`recyclable`);
         }
     }
 
     angular
-        .module('app.shared')
-        .directive('wavesDialog', function WavesDialogDirective() {
+        .module(`app.shared`)
+        .directive(`wavesDialog`, function WavesDialogDirective() {
 
             return {
-                restrict: 'A',
-                controller: ['$scope', 'dialogService', WavesDialog],
+                restrict: `A`,
+                controller: [`$scope`, `dialogService`, WavesDialog],
                 transclude: true,
                 scope: {
-                    closeable: '=?',
-                    cancelButtonVisible: '=?',
-                    showButtons: '=?',
-                    tooltip: '=?',
-                    dialogOk: '&onDialogOk',
-                    dialogCancel: '&onDialogCancel',
-                    okButtonCaption: '@',
-                    okButtonEnabled: '=?',
-                    cancelButtonCaption: '@',
-                    isError: '=?',
-                    global: '=?'
+                    closeable: `=?`,
+                    cancelButtonVisible: `=?`,
+                    showButtons: `=?`,
+                    tooltip: `=?`,
+                    dialogOk: `&onDialogOk`,
+                    dialogCancel: `&onDialogCancel`,
+                    okButtonCaption: `@`,
+                    okButtonEnabled: `=?`,
+                    cancelButtonCaption: `@`,
+                    isError: `=?`,
+                    global: `=?`
                 },
                 link: WavesDialogLink,
-                templateUrl: 'shared/dialog.directive'
+                templateUrl: `shared/dialog.directive`
             };
         });
 })();

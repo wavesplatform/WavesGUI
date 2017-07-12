@@ -13,13 +13,13 @@
         }
 
         initialize(applicationConstants, utilsService, $timeout, $scope) {
-            const titlePrefix = utilsService.isTestnet() ? 'TESTNET ' : '';
+            const titlePrefix = utilsService.isTestnet() ? `TESTNET ` : ``;
 
             $scope.isTestnet = utilsService.isTestnet;
             $scope.clipboardOk = this.clipboardOk.bind(this);
             this.loading = true;
 
-            this.title = titlePrefix + 'Lite Client';
+            this.title = `${titlePrefix}Lite Client`;
             this.version = applicationConstants.CLIENT_VERSION;
 
             $timeout(() => {
@@ -28,17 +28,17 @@
         }
 
         clipboardOk(message) {
-            message = message || 'Address copied successfully';
+            message = message || `Address copied successfully`;
             this.notificationService.notice(message);
         }
 
         featureUnderDevelopment() {
-            this.dialogService.open('#feat-not-active');
+            this.dialogService.open(`#feat-not-active`);
         }
 
         logout() {
             const window = this.$window;
-            if (window.chrome && window.chrome.runtime && typeof window.chrome.runtime.reload === 'function') {
+            if (window.chrome && window.chrome.runtime && typeof window.chrome.runtime.reload === `function`) {
                 window.chrome.runtime.reload();
             } else {
                 window.location.reload();
@@ -48,11 +48,11 @@
     }
 
     Home.$inject = [
-        '$scope', '$timeout', '$window', 'constants.application', 'utilsService',
-        'dialogService', 'notificationService'
+        `$scope`, `$timeout`, `$window`, `constants.application`, `utilsService`,
+        `dialogService`, `notificationService`
     ];
 
     angular
-        .module('app.ui')
-        .controller('homeController', Home);
+        .module(`app.ui`)
+        .controller(`homeController`, Home);
 })();

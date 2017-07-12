@@ -21,7 +21,7 @@
 
             let $intervalId = $interval(this.refreshData.bind(this), REFRESH_DELAY);
 
-            $scope.$on('$destroy', function () {
+            $scope.$on(`$destroy`, () => {
                 if (angular.isDefined($intervalId)) {
                     $interval.cancel($intervalId);
                     $intervalId = undefined;
@@ -46,11 +46,12 @@
                     this.blocks = response;
                 });
         }
+
     }
 
-    Community.$inject = ['$scope', '$interval', 'apiService', 'applicationContext'];
+    Community.$inject = [`$scope`, `$interval`, `apiService`, `applicationContext`];
 
     angular
-        .module('app.community')
-        .controller('communityController', Community);
+        .module(`app.community`)
+        .controller(`communityController`, Community);
 })();

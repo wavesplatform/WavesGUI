@@ -2,11 +2,11 @@
     'use strict';
 
     angular
-        .module('app.shared')
-        .directive('decimalInputRestrictor', function WavesDecimalInputRestrictor() {
+        .module(`app.shared`)
+        .directive(`decimalInputRestrictor`, function WavesDecimalInputRestrictor() {
             return {
-                restrict: 'A',
-                require: 'ngModel',
+                restrict: `A`,
+                require: `ngModel`,
                 link: function (scope, element, attributes, ngModelController) {
                     const pattern = /[^0-9.]+/g;
 
@@ -15,7 +15,7 @@
                             return text;
                         }
 
-                        const transformedInput = text.replace(pattern, '');
+                        const transformedInput = text.replace(pattern, ``);
                         if (transformedInput !== text) {
                             ngModelController.$setViewValue(transformedInput);
                             ngModelController.$render();

@@ -1,50 +1,57 @@
 (function () {
     'use strict';
 
-    angular
-        .module('app.shared')
-        .factory('transactionBroadcast', ['notificationService', function (notificationService) {
-            function Instance(method, successCallback) {
-                var self = this;
-                var transaction;
+    function TransactionBroadcast(notificationService) {
 
-                this.pending = false;
-                this.setTransaction = function (value) {
-                    transaction = value;
-                };
+        function Instance(method, successCallback) {
 
-                this.broadcast = function () {
-                    // checking if transaction was saved
-                    if (angular.isUndefined(transaction)) {
-                        return;
-                    }
+            const self = this;
+            let transaction;
 
-                    // prevent method execution when there is a pending request
-                    if (self.pending) {
-                        return;
-                    }
+            this.pending = false;
+            this.setTransaction = function (value) {
+                transaction = value;
+            };
 
-                    // start pending request
-                    self.pending = true;
+            this.broadcast = function () {
+                // checking if transaction was saved
+                if (angular.isUndefined(transaction)) {
+                    return;
+                }
 
-                    method(transaction).then(function (response) {
+                // prevent method execution when there is a pending request
+                if (self.pending) {
+                    return;
+                }
+
+                // start pending request
+                self.pending = true;
+
+                method(transaction)
+                    .then((response) => {
                         successCallback(transaction, response);
-                    }, function (response) {
-                        if (response.data) {
-                            notificationService.error('Error:' + response.data.error + ' - ' + response.data.message);
+                    }, (res) => {
+                        if (res.data) {
+                            notificationService.error(`Error: ${res.data.error} - ${res.data.message}`);
                         } else {
-                            notificationService.error('Request failed. Status: ' + response.status + ' - ' +
-                                response.statusText);
+                            notificationService.error(`Request failed. Status: ${res.status} - ${res.statusText}`);
                         }
-                    }).finally(function () {
+                    })
+                    .finally(() => {
                         self.pending = false;
                         transaction = undefined;
                     });
-                };
-            }
-
-            return {
-                instance: Instance
             };
-        }]);
+        }
+
+        return {
+            instance: Instance
+        };
+    }
+
+    TransactionBroadcast.$inject = [`notificationService`];
+
+    angular
+        .module(`app.shared`)
+        .factory(`transactionBroadcast`, TransactionBroadcast);
 })();

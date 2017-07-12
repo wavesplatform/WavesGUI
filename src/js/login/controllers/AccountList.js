@@ -24,7 +24,7 @@
         showRemoveWarning(index) {
             this.removeIndex = index;
             this.removeCandidate = this.accounts[index];
-            this.dialogService.open('#account-remove-popup');
+            this.dialogService.open(`#account-remove-popup`);
         }
 
         removeAccount() {
@@ -50,9 +50,9 @@
 
     }
 
-    AccountList.$inject = ['$scope', 'dialogService', 'loginContext'];
+    AccountList.$inject = [`$scope`, `dialogService`, `loginContext`];
 
     angular
-        .module('app.login')
-        .controller('accountListController', AccountList);
+        .module(`app.login`)
+        .controller(`accountListController`, AccountList);
 })();

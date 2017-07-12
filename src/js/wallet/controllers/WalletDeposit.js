@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const DEFAULT_ERROR_MESSAGE = 'Connection is lost';
+    const DEFAULT_ERROR_MESSAGE = `Connection is lost`;
 
     function WalletDeposit($scope, events, coinomatService, dialogService, notificationService,
                            applicationContext, bitcoinUriService, utilsService) {
@@ -9,15 +9,15 @@
         const ctrl = this;
 
         ctrl.btc = {
-            bitcoinAddress: '',
-            bitcoinAmount: '',
-            bitcoinUri: '',
+            bitcoinAddress: ``,
+            bitcoinAmount: ``,
+            bitcoinUri: ``,
             minimumAmount: 0.01
         };
 
         ctrl.fiat = {
-            verificationLink: 'https://go.idnow.de/coinomat/userdata/' + applicationContext.account.address,
-            email: 'support@coinomat.com'
+            verificationLink: `https://go.idnow.de/coinomat/userdata/${applicationContext.account.address}`,
+            email: `support@coinomat.com`
         };
 
         ctrl.refreshBTCUri = function () {
@@ -30,7 +30,7 @@
             ctrl.btc.bitcoinUri = bitcoinUriService.generate(ctrl.btc.bitcoinAddress, params);
         };
 
-        $scope.$on(events.WALLET_DEPOSIT, function (event, eventData) {
+        $scope.$on(events.WALLET_DEPOSIT, (event, eventData) => {
             ctrl.depositWith = eventData.depositWith;
             ctrl.assetBalance = eventData.assetBalance;
             ctrl.currency = ctrl.assetBalance.currency.displayName;
@@ -48,15 +48,15 @@
         });
 
         function depositBTC() {
-            dialogService.open('#deposit-btc-dialog');
+            dialogService.open(`#deposit-btc-dialog`);
 
             coinomatService.getDepositDetails(ctrl.depositWith, ctrl.assetBalance.currency,
                 applicationContext.account.address)
-                .then(function (depositDetails) {
+                .then((depositDetails) => {
                     ctrl.btc.bitcoinAddress = depositDetails.address;
                     ctrl.btc.bitcoinUri = bitcoinUriService.generate(ctrl.btc.bitcoinAddress);
                 })
-                .catch(function (exception) {
+                .catch((exception) => {
                     if (exception && exception.message) {
                         notificationService.error(exception.message);
                     } else {
@@ -68,20 +68,20 @@
         }
 
         function depositEUR() {
-            dialogService.open('#deposit-eur-dialog');
+            dialogService.open(`#deposit-eur-dialog`);
         }
 
         function depositUSD() {
-            dialogService.open('#deposit-usd-dialog');
+            dialogService.open(`#deposit-usd-dialog`);
         }
     }
 
     WalletDeposit.$inject = [
-        '$scope', 'wallet.events', 'coinomatService', 'dialogService', 'notificationService',
-        'applicationContext', 'bitcoinUriService', 'utilsService'
+        `$scope`, `wallet.events`, `coinomatService`, `dialogService`, `notificationService`,
+        `applicationContext`, `bitcoinUriService`, `utilsService`
     ];
 
     angular
-        .module('app.wallet')
-        .controller('walletDepositController', WalletDeposit);
+        .module(`app.wallet`)
+        .controller(`walletDepositController`, WalletDeposit);
 })();

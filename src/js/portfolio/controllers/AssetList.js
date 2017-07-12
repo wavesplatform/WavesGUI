@@ -16,7 +16,7 @@
         ctrl.assetMassPay = assetMassPay;
         loadDataFromBackend();
 
-        $scope.$on('$destroy', function () {
+        $scope.$on(`$destroy`, () => {
             if (angular.isDefined(refreshPromise)) {
                 $interval.cancel(refreshPromise);
                 refreshPromise = undefined;
@@ -27,7 +27,7 @@
             refreshAssets();
             refreshBalance();
 
-            refreshPromise = $interval(function () {
+            refreshPromise = $interval(() => {
                 refreshAssets();
                 refreshBalance();
             }, refreshDelay);
@@ -70,19 +70,19 @@
 
         function refreshBalance() {
             apiService.address.balance(applicationContext.account.address)
-                .then(function (response) {
+                .then((response) => {
                     ctrl.wavesBalance = Money.fromCoins(response.balance, Currency.WAVES);
                 });
         }
 
         function refreshAssets() {
             const assets = [];
-            apiService.assets.balance(applicationContext.account.address).then(function (response) {
-                _.forEach(response.balances, function (assetBalance) {
+            apiService.assets.balance(applicationContext.account.address).then((response) => {
+                _.forEach(response.balances, (assetBalance) => {
                     const id = assetBalance.assetId;
                     const asset = {
                         id: id,
-                        name: ''
+                        name: ``
                     };
 
                     // adding asset details to cache
@@ -114,10 +114,10 @@
 
                 // to prevent no data message and asset list from displaying simultaneously
                 // we need to update
-                $timeout(function () {
-                    ctrl.assets = assets.sort(function (a, b) {
-                        let aVerified = (a.balance.currency.verified === true) ? '1' : '0';
-                        let bVerified = (b.balance.currency.verified === true) ? '1' : '0';
+                $timeout(() => {
+                    ctrl.assets = assets.sort((a, b) => {
+                        let aVerified = (a.balance.currency.verified === true) ? `1` : `0`;
+                        let bVerified = (b.balance.currency.verified === true) ? `1` : `0`;
 
                         // The verified assets go first, then we sort them by timestamp
                         aVerified += new Date(a.timestamp).getTime();
@@ -131,10 +131,10 @@
     }
 
     AssetList.$inject = [
-        '$scope', '$timeout', '$interval', 'portfolio.events', 'applicationContext', 'apiService', 'formattingService'
+        `$scope`, `$timeout`, `$interval`, `portfolio.events`, `applicationContext`, `apiService`, `formattingService`
     ];
 
     angular
-        .module('app.portfolio')
-        .controller('assetListController', AssetList);
+        .module(`app.portfolio`)
+        .controller(`assetListController`, AssetList);
 })();

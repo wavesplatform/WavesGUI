@@ -1,14 +1,11 @@
 (function () {
     'use strict';
 
-    var url = 'support.wavesplatform.com';
-
-    function SupportLink() {}
+    const url = `support.wavesplatform.com`;
 
     angular
-        .module('app.shared')
-        .component('wavesSupportLink', {
-            controller: SupportLink,
-            template: '<a href="http://' + url + '" target="_blank">' + url + '</a>'
+        .module(`app.shared`)
+        .component(`wavesSupportLink`, {
+            template: `<a href="http://${url}" target="_blank">${url}</a>`
         });
 })();

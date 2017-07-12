@@ -2,18 +2,18 @@
     'use strict';
 
     function TransactionLoading($q, constants, apiService) {
-        var self = this;
+        const self = this;
 
         // returns promise that loads and merges unconfirmed and confirmed transactions
         this.loadTransactions = function (account, limit) {
-            var unconfirmed;
+            let unconfirmed;
             return apiService.transactions.unconfirmed()
-                .then(function (response) {
+                .then((response) => {
                     unconfirmed = response;
 
                     return apiService.transactions.list(account.address, limit);
                 })
-                .then(function (response) {
+                .then((response) => {
                     // FIXME : redo this when the API is fixed.
                     if (response[0] instanceof Array) {
                         response = response[0];
@@ -24,9 +24,9 @@
         };
 
         this.refreshAssetCache = function (cache, transactions) {
-            var sequence = $q.resolve();
-            _.forEach(transactions, function (tx) {
-                var assetId;
+            let sequence = $q.resolve();
+            _.forEach(transactions, (tx) => {
+                let assetId;
                 if (tx.assetId) {
                     assetId = tx.assetId;
                 } else if (tx.order1 && tx.order1.assetPair.amountAsset) {
@@ -34,13 +34,11 @@
                 }
 
                 if (assetId) {
-                    var cached = cache[assetId];
+                    const cached = cache[assetId];
                     if (!cached) {
                         sequence = sequence
-                            .then(function () {
-                                return apiService.transactions.info(assetId);
-                            })
-                            .then(function (response) {
+                            .then(() => apiService.transactions.info(assetId))
+                            .then((response) => {
                                 cache.put(response);
                             });
                     }
@@ -52,8 +50,9 @@
 
         // TODO : refactor with a map.
         this.mergeTransactions = function (account, unconfirmed, confirmed) {
-            var rawAddress = account.address;
-            unconfirmed = _.filter(unconfirmed, function (transaction) {
+
+            const rawAddress = account.address;
+            unconfirmed = _.filter(unconfirmed, (transaction) => {
                 if (transaction.type === constants.EXCHANGE_TRANSACTION_TYPE) {
                     return transaction.order1.senderPublicKey === account.keyPair.public ||
                         transaction.order2.senderPublicKey === account.keyPair.public;
@@ -61,15 +60,16 @@
                     return (transaction.sender === rawAddress || transaction.recipient === rawAddress);
                 }
             });
-            var unconfirmedSignatures = _.map(unconfirmed, function (transaction) {
-                return transaction.signature;
-            });
-            confirmed = _.filter(confirmed, function (transaction) {
-                return unconfirmedSignatures.indexOf(transaction.signature) === -1;
-            });
-            unconfirmed = _.map(unconfirmed, function (transaction) {
-                transaction.unconfirmed = true;
 
+            const unconfirmedSignatures = _.map(unconfirmed, (transaction) => transaction.signature);
+
+            confirmed = _.filter(
+                confirmed,
+                (transaction) => unconfirmedSignatures.indexOf(transaction.signature) === -1
+            );
+
+            unconfirmed = _.map(unconfirmed, (transaction) => {
+                transaction.unconfirmed = true;
                 return transaction;
             });
 
@@ -77,9 +77,9 @@
         };
     }
 
-    TransactionLoading.$inject = ['$q', 'constants.transactions', 'apiService'];
+    TransactionLoading.$inject = [`$q`, `constants.transactions`, `apiService`];
 
     angular
-        .module('app.shared')
-        .service('transactionLoadingService', TransactionLoading);
+        .module(`app.shared`)
+        .service(`transactionLoadingService`, TransactionLoading);
 })();

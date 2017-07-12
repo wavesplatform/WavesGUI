@@ -1,46 +1,46 @@
 (function () {
     'use strict';
 
-    var statuses = {
-        'PartiallyFilled': {
-            title: 'Partial',
+    const statuses = {
+        PartiallyFilled: {
+            title: `Partial`,
             order: 2
         },
-        'Accepted': {
-            title: 'Opened',
+        Accepted: {
+            title: `Opened`,
             order: 4
         },
-        'Filled': {
-            title: 'Closed',
+        Filled: {
+            title: `Closed`,
             order: 6
         },
-        'Cancelled': {
-            title: 'Canceled',
+        Cancelled: {
+            title: `Canceled`,
             order: 8
         },
-        'NotFound': {
-            title: 'NotFound',
+        NotFound: {
+            title: `NotFound`,
             order: 10
         }
     };
 
-    var types = {
-        'buy': {
-            title: 'Buy',
+    const types = {
+        buy: {
+            title: `Buy`,
             order: 0
         },
-        'sell': {
-            title: 'Sell',
+        sell: {
+            title: `Sell`,
             order: 1
         }
     };
 
     function status(s) {
-        return statuses[s] ? statuses[s].title : '---';
+        return statuses[s] ? statuses[s].title : `---`;
     }
 
     function type(t) {
-        return types[t] ? types[t].title : '---';
+        return types[t] ? types[t].title : `---`;
     }
 
     function denormalizeUserOrders(orders) {
@@ -48,10 +48,10 @@
             return [];
         }
 
-        return orders.map(function (order) {
-            var price = order.price.toTokens(),
-                amount = order.amount.toTokens(),
-                filled = order.filled.toTokens();
+        return orders.map((order) => {
+            const price = order.price.toTokens();
+            const amount = order.amount.toTokens();
+            const filled = order.filled.toTokens();
 
             return {
                 id: order.id,
@@ -69,15 +69,15 @@
     }
 
     function sortUserOrders(orders) {
-        return orders.sort(function (a, b) {
-            var aVal = statuses[a.status].order + types[a.type].order,
-                bVal = statuses[b.status].order + types[b.type].order;
+        return orders.sort((a, b) => {
+            const aVal = statuses[a.status].order + types[a.type].order;
+            const bVal = statuses[b.status].order + types[b.type].order;
             return aVal - bVal;
         });
     }
 
     function UserOrders() {
-        var ctrl = this;
+        const ctrl = this;
 
         ctrl.cancel = function (obj) {
             ctrl.cancelOrder(obj.order);
@@ -88,8 +88,8 @@
                 return;
             }
 
-            var denormPreviousValue = denormalizeUserOrders(changes.rawOrders.previousValue),
-                denormCurrentValue = denormalizeUserOrders(changes.rawOrders.currentValue);
+            const denormPreviousValue = denormalizeUserOrders(changes.rawOrders.previousValue);
+            const denormCurrentValue = denormalizeUserOrders(changes.rawOrders.currentValue);
 
             if (!_.isEqual(denormPreviousValue, denormCurrentValue)) {
                 ctrl.orders = sortUserOrders(denormCurrentValue);
@@ -98,14 +98,14 @@
     }
 
     angular
-        .module('app.dex')
-        .component('wavesDexUserOrders', {
+        .module(`app.dex`)
+        .component(`wavesDexUserOrders`, {
             controller: UserOrders,
             bindings: {
-                pair: '<',
-                rawOrders: '<orders',
-                cancelOrder: '<'
+                pair: `<`,
+                rawOrders: `<orders`,
+                cancelOrder: `<`
             },
-            templateUrl: 'dex/user.orders.component'
+            templateUrl: `dex/user.orders.component`
         });
 })();

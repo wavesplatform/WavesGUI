@@ -1,4 +1,4 @@
-/******************************************************************************
+/** ****************************************************************************
  * Copyright © 2016 The Waves Core Developers.                                *
  *                                                                            *
  * See the LICENSE.txt files at                                               *
@@ -17,18 +17,19 @@
 (function ($, window) {
     'use strict';
 
-    var $wrapW = $('#wrapper').width();
+    const $wrapW = $(`#wrapper`).width();
 
     // GUI elements dynamic sizing and LeftBar visibility
-    $(window).on('load resize', function () {
+    $(window).on(`load resize`, () => {
 
-        var $wrapH = $('#wrapper').height(),
-            $headerH = $('header').height(),
-            $tabsH = $('#tabs').height(),
-            $mainBodyH = $wrapH - $headerH - $tabsH,
-            $mbBodyW = $wrapW;
+        const $wrapH = $(`#wrapper`).height();
+        const $headerH = $(`header`).height();
+        const $tabsH = $(`#tabs`).height();
+        const $mainBodyH = $wrapH - $headerH - $tabsH;
+        const $mbBodyW = $wrapW;
 
-        $('#mainBody').css('height', $mainBodyH);
-        $('#mBBody').css('width', $mbBodyW);
+        $(`#mainBody`).css(`height`, $mainBodyH);
+        $(`#mBBody`).css(`width`, $mbBodyW);
+
     });
 })(jQuery, window);

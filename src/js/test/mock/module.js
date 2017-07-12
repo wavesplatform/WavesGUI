@@ -1,13 +1,9 @@
-/**
- * Created by daniil on 06.07.17.
- */
-
-angular.module('mock', [])
-    .service('$q', function () {
+angular.module(`mock`, [])
+    .service(`$q`, () => {
         'use strict';
 
         return {
-            when: function (data) {
+            when(data) {
                 return Promise.resolve(data);
             }
         };

@@ -1,21 +1,20 @@
 (function () {
     'use strict';
 
-    var CANDLE_NUMBER = 100,
-        CANDLE_FRAME = 30,
-        POLLING_DELAY = 5000;
+    const CANDLE_NUMBER = 100;
+    const CANDLE_FRAME = 30;
+    const POLLING_DELAY = 5000;
 
     function Chart($element, $interval, datafeedApiService, utilsService, chartsFactory) {
-        var ctrl = this,
-            intervalPromise;
+        const ctrl = this;
 
-        setTimeout(function () {
+        setTimeout(() => {
             // That instantiation is placed here because of the synchronous width resolving issue.
-            ctrl.chart = chartsFactory.create('candlestick', $element);
+            ctrl.chart = chartsFactory.create(`candlestick`, $element);
             refreshCandles();
         }, 100);
 
-        intervalPromise = $interval(refreshCandles, POLLING_DELAY);
+        const intervalPromise = $interval(refreshCandles, POLLING_DELAY);
 
         ctrl.$onChanges = function (changes) {
             if (ctrl.chart && changes.pair) {
@@ -29,7 +28,7 @@
         };
 
         function refreshCandles() {
-            var pair = ctrl.pair;
+            let pair = ctrl.pair;
             if (pair) {
                 if (utilsService.isTestnet()) {
                     pair = utilsService.testnetSubstitutePair(pair);
@@ -37,22 +36,22 @@
 
                 datafeedApiService
                     .getLastCandles(pair, CANDLE_NUMBER, CANDLE_FRAME)
-                    .then(function (response) {
+                    .then((response) => {
                         ctrl.chart.draw(response);
                     });
             }
         }
     }
 
-    Chart.$inject = ['$element', '$interval', 'datafeedApiService', 'utilsService', 'chartsFactory'];
+    Chart.$inject = [`$element`, `$interval`, `datafeedApiService`, `utilsService`, `chartsFactory`];
 
     angular
-        .module('app.dex')
-        .component('wavesDexChart', {
+        .module(`app.dex`)
+        .component(`wavesDexChart`, {
             controller: Chart,
             bindings: {
-                pair: '<'
+                pair: `<`
             },
-            templateUrl: 'dex/chart.component'
+            templateUrl: `dex/chart.component`
         });
 })();

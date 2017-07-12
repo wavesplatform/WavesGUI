@@ -20,11 +20,11 @@
         }
 
         function buildBackupClipboardText() {
-            let text = 'Seed: ' + ctrl.seed + '\n';
-            text += 'Encoded seed: ' + ctrl.encodedSeed + '\n';
-            text += 'Private key: ' + ctrl.privateKey + '\n';
-            text += 'Public key: ' + ctrl.publicKey + '\n';
-            text += 'Address: ' + ctrl.address;
+            let text = `Seed: ${ctrl.seed}\n`;
+            text += `Encoded seed: ${ctrl.encodedSeed}\n`;
+            text += `Private key: ${ctrl.privateKey}\n`;
+            text += `Public key: ${ctrl.publicKey}\n`;
+            text += `Address: ${ctrl.address}`;
 
             return text;
         }
@@ -32,7 +32,7 @@
         refreshBlockHeight();
         refreshPromise = $interval(refreshBlockHeight, delayRefresh);
 
-        $scope.$on('$destroy', function () {
+        $scope.$on(`$destroy`, () => {
             if (angular.isDefined(refreshPromise)) {
                 $interval.cancel(refreshPromise);
                 refreshPromise = undefined;
@@ -49,28 +49,28 @@
 
         function showBackupDialog() {
             initializeBackupFields();
-            dialogService.open('#header-wPop-backup');
+            dialogService.open(`#header-wPop-backup`);
         }
 
         function backup() {
 
-            const clipboard = new Clipboard('#backupForm', {
-                text: function () {
+            const clipboard = new Clipboard(`#backupForm`, {
+                text() {
                     return buildBackupClipboardText();
                 }
             });
 
-            clipboard.on('success', function (e) {
-                notificationService.notice('Account backup has been copied to clipboard');
+            clipboard.on(`success`, (e) => {
+                notificationService.notice(`Account backup has been copied to clipboard`);
                 e.clearSelection();
             });
 
-            angular.element('#backupForm').click();
+            angular.element(`#backupForm`).click();
             clipboard.destroy();
         }
 
         function refreshBlockHeight() {
-            apiService.blocks.height().then(function (response) {
+            apiService.blocks.height().then((response) => {
                 ctrl.blockHeight = response.height;
                 applicationContext.blockHeight = response.height;
             });
@@ -78,11 +78,11 @@
     }
 
     MainMenu.$inject = [
-        '$scope', '$interval', 'navigation.events', 'applicationContext', 'cryptoService', 'dialogService',
-        'notificationService', 'apiService'
+        `$scope`, `$interval`, `navigation.events`, `applicationContext`, `cryptoService`, `dialogService`,
+        `notificationService`, `apiService`
     ];
 
     angular
-        .module('app.navigation')
-        .controller('mainMenuController', MainMenu);
+        .module(`app.navigation`)
+        .controller(`mainMenuController`, MainMenu);
 })();

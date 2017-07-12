@@ -2,33 +2,33 @@
     'use strict';
 
     function WalletBox() {
-        var ctrl = this;
+        const ctrl = this;
 
-        var mapping = {};
+        const mapping = {};
         mapping[Currency.WAVES.displayName] = {
-            image: 'wB-bg-WAV.svg',
+            image: `wB-bg-WAV.svg`,
             displayName: Currency.WAVES.displayName
         };
         mapping[Currency.BTC.displayName] = {
-            image: 'wB-bg-BTC.svg',
+            image: `wB-bg-BTC.svg`,
             displayName: Currency.BTC.displayName
         };
         mapping[Currency.USD.displayName] = {
-            image: 'wB-bg-USD.svg',
+            image: `wB-bg-USD.svg`,
             displayName: Currency.USD.displayName
         };
         mapping[Currency.EUR.displayName] = {
-            image: 'wB-bg-EUR.svg',
+            image: `wB-bg-EUR.svg`,
             displayName: Currency.EUR.displayName
         };
         mapping[Currency.CNY.displayName] = {
-            image: 'wB-bg-CNY.svg',
+            image: `wB-bg-CNY.svg`,
             displayName: Currency.CNY.displayName
         };
 
         ctrl.$onChanges = function (changesObject) {
             if (changesObject.balance) {
-                var balance = changesObject.balance.currentValue;
+                const balance = changesObject.balance.currentValue;
                 ctrl.integerBalance = balance.formatIntegerPart();
                 ctrl.fractionBalance = balance.formatFractionPart();
             }
@@ -42,16 +42,16 @@
     WalletBox.$inject = [];
 
     angular
-        .module('app.wallet')
-        .component('walletBox', {
+        .module(`app.wallet`)
+        .component(`walletBox`, {
             controller: WalletBox,
             bindings: {
-                balance: '<',
-                onSend: '&',
-                onWithdraw: '&',
-                onDeposit: '&',
-                detailsAvailable: '<?'
+                balance: `<`,
+                onSend: `&`,
+                onWithdraw: `&`,
+                onDeposit: `&`,
+                detailsAvailable: `<?`
             },
-            templateUrl: 'wallet/box.component'
+            templateUrl: `wallet/box.component`
         });
 })();

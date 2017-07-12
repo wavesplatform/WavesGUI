@@ -6,9 +6,9 @@
             return [];
         }
 
-        var currentSum = 0;
-        return orders.map(function (order) {
-            var total = order.price * order.amount;
+        let currentSum = 0;
+        return orders.map((order) => {
+            const total = order.price * order.amount;
             currentSum += total;
             return {
                 id: order.id,
@@ -22,19 +22,19 @@
 
     function calculateStringLength(n, precision) {
         // Get initial string length with a given precision.
-        var len = n.toFixed(precision).length;
+        const len = n.toFixed(precision).length;
         // Add some length for commas (e.g. 10,000,000.0000).
         return len + Math.floor(n.toFixed(0).length / 3);
     }
 
     function getMaxLengths(orders, pair) {
-        var price = 0,
+        let price = 0,
             amount = 0,
             total = 0,
             sum = 0;
 
         // Get max value for each column.
-        orders.forEach(function (order) {
+        orders.forEach((order) => {
             if (order.price > price) {
                 price = order.price;
             }
@@ -58,13 +58,11 @@
     }
 
     function Orderbook() {
-        var ctrl = this;
+        const ctrl = this;
 
         ctrl.lineClick = function (index) {
-            var order = ctrl.orders[index],
-                cumulativeAmount = ctrl.orders.slice(0, index + 1).reduce(function (amountSum, order) {
-                    return amountSum + order.amount;
-                }, 0);
+            const order = ctrl.orders[index];
+            const cumulativeAmount = ctrl.orders.slice(0, index + 1).reduce((sum, order) => sum + order.amount, 0);
 
             ctrl.onClick(order.price, cumulativeAmount, order.sum);
         };
@@ -74,8 +72,8 @@
                 return;
             }
 
-            var denormPreviousValue = denormalizeOrders(changes.rawOrders.previousValue),
-                denormCurrentValue = denormalizeOrders(changes.rawOrders.currentValue);
+            const denormPreviousValue = denormalizeOrders(changes.rawOrders.previousValue);
+            const denormCurrentValue = denormalizeOrders(changes.rawOrders.currentValue);
 
             if (!_.isEqual(denormPreviousValue, denormCurrentValue)) {
                 ctrl.orders = denormCurrentValue;
@@ -85,16 +83,16 @@
     }
 
     angular
-        .module('app.dex')
-        .component('wavesDexOrderbook', {
+        .module(`app.dex`)
+        .component(`wavesDexOrderbook`, {
             controller: Orderbook,
             bindings: {
-                type: '@',
-                name: '@',
-                pair: '<',
-                onClick: '<',
-                rawOrders: '<orders'
+                type: `@`,
+                name: `@`,
+                pair: `<`,
+                onClick: `<`,
+                rawOrders: `<orders`
             },
-            templateUrl: 'dex/orderbook.component'
+            templateUrl: `dex/orderbook.component`
         });
 })();

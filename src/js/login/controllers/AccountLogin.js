@@ -30,7 +30,7 @@
          * @private
          */
         _cleanup() {
-            this.password = '';
+            this.password = ``;
         }
 
         /**
@@ -39,12 +39,12 @@
         _performSignIn() {
             const account = this.loginContext.currentAccount;
             if (angular.isUndefined(account)) {
-                throw new Error('Account to log in hasn\'t been selected');
+                throw new Error(`Account to log in hasn't been selected`);
             }
 
             const decryptedSeed = this.cryptoService.decryptWalletSeed(account.cipher, this.password, account.checksum);
             if (!decryptedSeed) {
-                this.notificationService.error('Wrong password! Please try again.');
+                this.notificationService.error(`Wrong password! Please try again.`);
             } else {
                 const keys = this.cryptoService.getKeyPair(decryptedSeed);
                 this.loginContext.notifySignedIn(account.address, decryptedSeed, keys);
@@ -54,10 +54,10 @@
     }
 
     AccountLogin.$inject = [
-        '$scope', 'cryptoService', 'loginContext', 'notificationService'
+        `$scope`, `cryptoService`, `loginContext`, `notificationService`
     ];
 
     angular
-        .module('app.login')
-        .controller('accountLoginController', AccountLogin);
+        .module(`app.login`)
+        .controller(`accountLoginController`, AccountLogin);
 })();

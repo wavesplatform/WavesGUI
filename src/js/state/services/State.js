@@ -9,16 +9,16 @@
         });
 
         return {
-            getState: function () {
+            getState() {
                 return state;
             }
         };
 
     }
 
-    StateService.$inject = ['modelFactory'];
+    StateService.$inject = [`modelFactory`];
 
     angular
-        .module('app.state')
-        .service('stateService', StateService);
+        .module(`app.state`)
+        .service(`stateService`, StateService);
 })();

@@ -1,18 +1,18 @@
 (function () {
     'use strict';
 
-    var BACKGROUND = '#fff',
-        FOREGROUND = '#000',
-        SIZE = 150;
+    const BACKGROUND = `#fff`;
+    const FOREGROUND = `#000`;
+    const SIZE = 150;
 
     function QrCode($element) {
 
-        var ctrl = this,
-            canvas = $element.children('canvas'),
-            qr = new QRious({
-                element: canvas.get(0),
-                size: ctrl.size || SIZE
-            });
+        const ctrl = this;
+        const canvas = $element.children(`canvas`);
+        const qr = new QRious({
+            element: canvas.get(0),
+            size: ctrl.size || SIZE
+        });
 
         ctrl.setCode = function () {
             ctrl.removeCode();
@@ -21,12 +21,12 @@
                 qr.foreqround = ctrl.foreground || FOREGROUND;
                 qr.size = ctrl.size || SIZE;
                 qr.value = ctrl.value;
-                canvas.removeClass('hidden');
+                canvas.removeClass(`hidden`);
             }
         };
 
         ctrl.removeCode = function () {
-            canvas.addClass('hidden');
+            canvas.addClass(`hidden`);
         };
 
         ctrl.$onInit = ctrl.setCode.bind(ctrl);
@@ -40,15 +40,15 @@
     }
 
     angular
-        .module('app.shared')
-        .component('wavesQrCode', {
+        .module(`app.shared`)
+        .component(`wavesQrCode`, {
             controller: QrCode,
             bindings: {
-                size: '<',
-                background: '<',
-                foreground: '<',
-                value: '<'
+                size: `<`,
+                background: `<`,
+                foreground: `<`,
+                value: `<`
             },
-            template: '<canvas class="hidden"></canvas>'
+            template: `<canvas class="hidden"></canvas>`
         });
 })();

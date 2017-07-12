@@ -1,5 +1,5 @@
-(function() {
+(function () {
     'use strict';
 
-    angular.module('app.state', []);
+    angular.module(`app.state`, []);
 })();

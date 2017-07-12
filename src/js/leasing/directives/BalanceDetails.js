@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function BalanceDetails () {
+    function BalanceDetails() {
 
         const ctrl = this;
 
@@ -18,17 +18,17 @@
         };
 
         function formatMoney(amount) {
-            return amount.formatAmount(true) + ' ' + amount.currency.shortName;
+            return `${amount.formatAmount(true)} ${amount.currency.shortName}`;
         }
     }
 
     angular
-        .module('app.leasing')
-        .component('wavesLeasingBalanceDetails', {
+        .module(`app.leasing`)
+        .component(`wavesLeasingBalanceDetails`, {
             controller: BalanceDetails,
             bindings: {
-                balanceDetails: '<'
+                balanceDetails: `<`
             },
-            templateUrl: 'leasing/balance.details.component'
+            templateUrl: `leasing/balance.details.component`
         });
 })();

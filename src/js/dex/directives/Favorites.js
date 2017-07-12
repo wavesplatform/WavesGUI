@@ -2,7 +2,7 @@
     'use strict';
 
     function Favorites() {
-        var ctrl = this;
+        const ctrl = this;
 
         ctrl.onClick = function (pair) {
             ctrl.switchPair({
@@ -13,13 +13,13 @@
     }
 
     angular
-        .module('app.dex')
-        .component('wavesDexFavorites', {
+        .module(`app.dex`)
+        .component(`wavesDexFavorites`, {
             controller: Favorites,
             bindings: {
-                pairs: '<',
-                switchPair: '<'
+                pairs: `<`,
+                switchPair: `<`
             },
-            templateUrl: 'dex/favorites.component'
+            templateUrl: `dex/favorites.component`
         });
 })();

@@ -2,10 +2,10 @@
     'use strict';
 
     function Asset(applicationContext) {
-        function transformAddress (rawAddress) {
-            let result = angular.isDefined(rawAddress) ? rawAddress : 'n/a';
+        function transformAddress(rawAddress) {
+            let result = angular.isDefined(rawAddress) ? rawAddress : `n/a`;
             if (isMyAddress(result)) {
-                result = 'You';
+                result = `You`;
             }
             return result;
         }
@@ -14,7 +14,7 @@
             return address === applicationContext.account.address;
         }
 
-        function formatAsset (transaction) {
+        function formatAsset(transaction) {
             transaction.formatted = {
                 sender: transformAddress(transaction.sender),
                 canReissue: transaction.reissuable && isMyAddress(transaction.sender)
@@ -22,14 +22,14 @@
             return transaction;
         }
 
-        return function filterInput (input) {
+        return function filterInput(input) {
             return _.map(input, formatAsset);
         };
     }
 
-    Asset.$inject = ['applicationContext'];
+    Asset.$inject = [`applicationContext`];
 
     angular
-        .module('app.portfolio')
-        .filter('asset', Asset);
+        .module(`app.portfolio`)
+        .filter(`asset`, Asset);
 })();

@@ -1,16 +1,13 @@
 (function () {
     'use strict';
 
-    function TradesHistory() {}
-
     angular
-        .module('app.dex')
-        .component('wavesDexHistory', {
-            controller: TradesHistory,
+        .module(`app.dex`)
+        .component(`wavesDexHistory`, {
             bindings: {
-                pair: '<',
-                trades: '<'
+                pair: `<`,
+                trades: `<`
             },
-            templateUrl: 'dex/history.component'
+            templateUrl: `dex/history.component`
         });
 })();

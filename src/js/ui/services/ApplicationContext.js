@@ -3,34 +3,34 @@
 
     function ApplicationContext() {
 
-        var assets = {};
+        const assets = {};
 
         return {
             account: {},
             cache: {
-                assets: assets,
-                updateAsset: function (assetId, balance, reissuable, totalTokens) {
-                    var asset = assets[assetId];
+                assets,
+                updateAsset(assetId, balance, reissuable, totalTokens) {
+                    const asset = assets[assetId];
                     if (asset) {
                         asset.balance = Money.fromCoins(balance, asset.currency);
                         asset.totalTokens = Money.fromCoins(totalTokens, asset.currency);
                         asset.reissuable = reissuable;
                     }
                 },
-                putAsset: function (issueTransaction) {
-                    var currency = Currency.create({
+                putAsset(issueTransaction) {
+                    const currency = Currency.create({
                         id: issueTransaction.assetId,
                         displayName: issueTransaction.name,
                         precision: issueTransaction.decimals
                     });
-                    var asset = {
+                    const asset = {
                         currency: currency,
                         description: issueTransaction.description,
                         timestamp: issueTransaction.timestamp,
                         sender: issueTransaction.sender,
                         totalTokens: Money.fromCoins(issueTransaction.quantity, currency)
                     };
-                    var balance;
+                    let balance;
 
                     if (angular.isDefined(assets[currency.id])) {
                         balance = assets[currency.id].balance;
@@ -42,18 +42,16 @@
 
                     assets[currency.id] = asset;
                 },
-                getAssetsList: function () {
-                    return Object.keys(assets).map(function (key) {
-                        return assets[key];
-                    });
+                getAssetsList() {
+                    return Object.keys(assets).map((key) => assets[key]);
                 }
             }
         };
     }
 
-    ApplicationContext.$inject = ['constants.transactions'];
+    ApplicationContext.$inject = [`constants.transactions`];
 
     angular
-        .module('app.ui')
-        .factory('applicationContext', ApplicationContext);
+        .module(`app.ui`)
+        .factory(`applicationContext`, ApplicationContext);
 })();

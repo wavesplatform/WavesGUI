@@ -3,7 +3,7 @@
 
     const DEFAULT_FEE_AMOUNT = 0.001;
     const FEE_CURRENCY = Currency.WAVES;
-    const DEFAULT_ERROR_MESSAGE = 'The Internet connection is lost';
+    const DEFAULT_ERROR_MESSAGE = `The Internet connection is lost`;
 
     // TODO : add the `exceptField` attribute or a list of all the needed fields.
 
@@ -27,16 +27,16 @@
             },
             messages: {
                 cancelFee: {
-                    required: 'Transaction fee is required',
-                    decimal: 'Transaction fee must a number be with no more than ' +
-                    minimumFee.currency.precision + ' digits after the decimal point (.)',
-                    min: 'Transaction fee is too small. It should be greater or equal to ' +
-                    minimumFee.formatAmount(true)
+                    required: `Transaction fee is required`,
+                    decimal: `Transaction fee must a number be with no more than ${
+                        minimumFee.currency.precision} digits after the decimal point (.)`,
+                    min: `Transaction fee is too small. It should be greater or equal to ${
+                        minimumFee.formatAmount(true)}`
                 }
             }
         };
 
-        $scope.$on(events.LEASING_CANCEL, function (event, eventData) {
+        $scope.$on(events.LEASING_CANCEL, (event, eventData) => {
             ctrl.startLeasingTransaction = eventData.startLeasingTransaction;
 
             ctrl.confirm.recipient = ctrl.startLeasingTransaction.recipient;
@@ -45,7 +45,7 @@
 
             reset();
 
-            dialogService.open('#cancel-leasing-confirmation');
+            dialogService.open(`#cancel-leasing-confirmation`);
         });
 
         function cancelLeasing(form) {
@@ -67,12 +67,12 @@
             const transaction = leasingRequestService.buildCancelLeasingRequest(cancelLeasing, sender);
 
             apiService.leasing.cancel(transaction)
-                .then(function () {
-                    notificationService.notice('Leasing transaction of ' +
-                        ctrl.startLeasingTransaction.formatted.amount + ' ' +
-                        ctrl.startLeasingTransaction.formatted.asset + ' has been cancelled.');
+                .then(() => {
+                    notificationService.notice(`Leasing transaction of ${
+                        ctrl.startLeasingTransaction.formatted.amount} ${
+                        ctrl.startLeasingTransaction.formatted.asset} has been cancelled.`);
                 })
-                .catch(function (exception) {
+                .catch((exception) => {
                     if (exception) {
                         if (exception.data) {
                             notificationService.error(exception.data.message);
@@ -99,19 +99,19 @@
     }
 
     TransactionHistory.$inject = [
-        '$scope', 'ui.events', 'constants.ui', 'applicationContext', 'autocomplete.fees',
-        'apiService', 'leasingRequestService', 'notificationService', 'dialogService'
+        `$scope`, `ui.events`, `constants.ui`, `applicationContext`, `autocomplete.fees`,
+        `apiService`, `leasingRequestService`, `notificationService`, `dialogService`
     ];
 
     angular
-        .module('app.shared')
-        .component('wavesTransactionHistory', {
+        .module(`app.shared`)
+        .component(`wavesTransactionHistory`, {
             controller: TransactionHistory,
             bindings: {
-                heading: '@',
-                transactions: '<',
-                limitTo: '<'
+                heading: `@`,
+                transactions: `<`,
+                limitTo: `<`
             },
-            templateUrl: 'shared/transaction.history.component'
+            templateUrl: `shared/transaction.history.component`
         });
 })();
