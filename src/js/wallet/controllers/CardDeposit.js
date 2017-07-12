@@ -19,8 +19,7 @@
         let deferred;
 
         ctrl.currencies = [new FiatCurrency('EURO', 'Euro'), new FiatCurrency('USD')];
-        ctrl.limits = {};
-
+        ctrl.limits = Object.create(null);
         ctrl.updateReceiveAmount = updateReceiveAmount;
         ctrl.updateLimitsAndReceiveAmount = updateLimitsAndReceiveAmount;
         ctrl.redirectToMerchant = redirectToMerchant;

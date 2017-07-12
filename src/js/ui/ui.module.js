@@ -4,7 +4,6 @@
     angular
         .module('app.ui', [])
         .constant('ui.events', {
-            SPLASH_COMPLETED: 'splash-completed',
             LEASING_CANCEL: 'leasing-cancel'
         });
 
