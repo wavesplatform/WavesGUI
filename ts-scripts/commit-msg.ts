@@ -1,12 +1,12 @@
-import { getBranchDetail, readFile } from './utils';
+import { readFile } from './utils';
 
 
-const enum ARGUMETS {
-    INTERPRITATOR,
+const enum ARGUMENTS {
+    INTERPRETER,
     FILE_PATH,
     COMMIT_MESSAGE_PATH
 }
-const path = process.argv[ARGUMETS.COMMIT_MESSAGE_PATH];
+const path = process.argv[ARGUMENTS.COMMIT_MESSAGE_PATH];
 
 
 readFile(path).then((message) => {
