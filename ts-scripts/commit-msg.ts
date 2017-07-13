@@ -6,7 +6,7 @@ const enum ARGUMETS {
     FILE_PATH,
     COMMIT_MESSAGE_PATH
 }
-const ERROR_MESSAGE = 'Wrong commit message!';
+const ERROR_MESSAGE = 'Wrong commit message! Message pattern "PROJECT-TICKET: description"';
 const path = process.argv[ARGUMETS.COMMIT_MESSAGE_PATH];
 
 
