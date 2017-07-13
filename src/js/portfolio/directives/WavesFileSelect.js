@@ -13,7 +13,7 @@
                     element.on(`change`, (changeEvent) => {
                         const files = changeEvent.target.files;
                         if (files.length) {
-                            scope.fileHandler({file: files[0]});
+                            scope.fileHandler({ file: files[0] });
                         }
                     });
                 }

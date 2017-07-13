@@ -12,7 +12,7 @@
                 const w = $element.width();
                 const h = $element.height();
                 const elem = $element.children(`.chart`).get(0);
-                const margins = {left: 60, top: 20, right: 60, bottom: 30};
+                const margins = { left: 60, top: 20, right: 60, bottom: 30 };
 
                 this.width = w - margins.left - margins.right;
                 this.height = h - margins.top - margins.bottom;

@@ -7,7 +7,7 @@
         };
 
         $scope.onClick = function () {
-            $scope.onSelect({pageId: $scope.pageId});
+            $scope.onSelect({ pageId: $scope.pageId });
 
             // cleaning unused modal dialog divs, created by previous tab
             dialogService.cleanup();

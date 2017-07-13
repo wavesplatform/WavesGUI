@@ -79,8 +79,7 @@
 
         function depositFromCard(currency) {
             dialogService.close();
-
-            $scope.$broadcast(events.WALLET_CARD_DEPOSIT, {currency});
+            $scope.$broadcast(events.WALLET_CARD_DEPOSIT, { currency });
         }
 
         function loadDataFromBackend() {

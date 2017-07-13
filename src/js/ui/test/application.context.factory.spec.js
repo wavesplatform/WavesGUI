@@ -57,7 +57,7 @@ describe(`Application.Context`, () => {
             timestamp: 1479119236120
         };
 
-        context.cache.assets[assetId] = {balance: Money.fromTokens(10, currency)};
+        context.cache.assets[assetId] = { balance: Money.fromTokens(10, currency) };
         context.cache.putAsset(tx);
 
         expect(context.cache.assets[assetId].balance.toTokens()).toEqual(10);

@@ -29,8 +29,8 @@ describe(`LoginContext.Service`, () => {
     beforeEach(inject(($injector) => {
 
         accountList = [
-            {name: `Vasia`},
-            {name: `Valera`}
+            { name: `Vasia` },
+            { name: `Valera` }
         ];
 
         loginContext = $injector.get(`loginContext`);
@@ -55,7 +55,7 @@ describe(`LoginContext.Service`, () => {
 
         it(`addAccount`, () => {
             const start = accountList.length;
-            loginContext.addAccount({name: `Boria`});
+            loginContext.addAccount({ name: `Boria` });
             expect(accountList.length).toEqual(start + 1);
         });
 
@@ -64,11 +64,11 @@ describe(`LoginContext.Service`, () => {
     describe(`$emit event`, () => {
 
         const testData = [
-            {method: `showAccountsListScreen`, args: [], argsEmit: [`change-mode`, `list`]},
-            {method: `showInputSeedScreen`, args: [], argsEmit: [`change-mode`, `create-seed`]},
-            {method: `showLoginScreen`, args: [`account`], argsEmit: [`change-mode`, `login`, `account`]},
-            {method: `showRegisterScreen`, args: [`seed`], argsEmit: [`change-mode`, `register`, `seed`]},
-            {method: `notifyGenerateSeed`, args: [], argsEmit: [`generate-seed`]}
+            { method: `showAccountsListScreen`, args: [], argsEmit: [`change-mode`, `list`] },
+            { method: `showInputSeedScreen`, args: [], argsEmit: [`change-mode`, `create-seed`] },
+            { method: `showLoginScreen`, args: [`account`], argsEmit: [`change-mode`, `login`, `account`] },
+            { method: `showRegisterScreen`, args: [`seed`], argsEmit: [`change-mode`, `register`, `seed`] },
+            { method: `notifyGenerateSeed`, args: [], argsEmit: [`generate-seed`] }
         ];
 
         testData.forEach((item) => {

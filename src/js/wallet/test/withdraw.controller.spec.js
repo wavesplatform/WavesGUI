@@ -105,13 +105,13 @@ describe(`Wallet.Withdraw.Controller`, () => {
     function initWithdrawAddressMock() {
         const deferred = $q.defer();
         spyOn(coinomatService, `getWithdrawDetails`).and.returnValue(deferred.promise);
-        deferred.resolve({address: gatewayAddress});
+        deferred.resolve({ address: gatewayAddress });
     }
 
     function initDepositDetailsMock() {
         const deferred = $q.defer();
         spyOn(coinomatService, `getDepositDetails`).and.returnValue(deferred.promise);
-        deferred.resolve({address: depositAddress});
+        deferred.resolve({ address: depositAddress });
     }
 
     it(`should initialize properly`, () => {
@@ -141,7 +141,7 @@ describe(`Wallet.Withdraw.Controller`, () => {
         spyOn(coinomatService, `getWithdrawRate`).and.returnValue(deferred.promise);
         spyOn(notificationService, `error`);
 
-        const errorResponse = {data: {error: `Failed to get exchange rate`}};
+        const errorResponse = { data: { error: `Failed to get exchange rate` } };
         deferred.reject(errorResponse);
 
         initControllerAssets();

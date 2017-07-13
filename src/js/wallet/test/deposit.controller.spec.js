@@ -80,7 +80,7 @@ describe(`Wallet.Deposit.Controller`, () => {
         spyOn(coinomatService, `getDepositDetails`).and.returnValue(deferred.promise);
 
         const address = `319287n098r7wer7qve`;
-        deferred.resolve({address});
+        deferred.resolve({ address });
 
         initControllerAssets();
         expect(coinomatService.getDepositDetails).toHaveBeenCalled();

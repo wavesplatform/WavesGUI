@@ -85,8 +85,7 @@
         },
         messages: {
             walletName: {
-                maxlength: `A wallet name is too long. Maximum name length is ${
-                    WALLET_NAME_MAXLENGTH} characters`
+                maxlength: `A wallet name is too long. Maximum name length is ${WALLET_NAME_MAXLENGTH} characters`
             },
             walletPassword: {
                 required: `A password is required to store your seed safely`,

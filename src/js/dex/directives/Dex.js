@@ -25,19 +25,19 @@
         emptyDataFields();
 
         ctrl.favoritePairs = [
-            {amountAsset: Currency.WAVES, priceAsset: Currency.BTC},
-            {amountAsset: Currency.WAVES, priceAsset: Currency.USD},
-            {amountAsset: Currency.WAVES, priceAsset: Currency.EUR},
-            {amountAsset: Currency.WAVES, priceAsset: Currency.CNY},
-            {amountAsset: Currency.BTC, priceAsset: Currency.EUR},
-            {amountAsset: Currency.BTC, priceAsset: Currency.CNY},
-            {amountAsset: Currency.USD, priceAsset: Currency.BTC},
-            {amountAsset: Currency.USD, priceAsset: Currency.CNY},
-            {amountAsset: Currency.EUR, priceAsset: Currency.USD},
-            {amountAsset: Currency.WCT, priceAsset: Currency.WAVES},
-            {amountAsset: Currency.WCT, priceAsset: Currency.BTC},
-            {amountAsset: Currency.MRT, priceAsset: Currency.WAVES},
-            {amountAsset: Currency.MRT, priceAsset: Currency.BTC}
+            { amountAsset: Currency.WAVES, priceAsset: Currency.BTC },
+            { amountAsset: Currency.WAVES, priceAsset: Currency.USD },
+            { amountAsset: Currency.WAVES, priceAsset: Currency.EUR },
+            { amountAsset: Currency.WAVES, priceAsset: Currency.CNY },
+            { amountAsset: Currency.BTC, priceAsset: Currency.EUR },
+            { amountAsset: Currency.BTC, priceAsset: Currency.CNY },
+            { amountAsset: Currency.USD, priceAsset: Currency.BTC },
+            { amountAsset: Currency.USD, priceAsset: Currency.CNY },
+            { amountAsset: Currency.EUR, priceAsset: Currency.USD },
+            { amountAsset: Currency.WCT, priceAsset: Currency.WAVES },
+            { amountAsset: Currency.WCT, priceAsset: Currency.BTC },
+            { amountAsset: Currency.MRT, priceAsset: Currency.WAVES },
+            { amountAsset: Currency.MRT, priceAsset: Currency.BTC }
         ];
 
         ctrl.createOrder = function (type, price, amount, fee, callback) {

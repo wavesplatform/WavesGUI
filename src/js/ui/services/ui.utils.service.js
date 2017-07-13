@@ -15,8 +15,8 @@
             realIds[Currency.CNY.id] = `DEJbZipbKQjwEiRjx2AqQFucrj5CZ3rAc4ZvFM8nAsoA`;
 
             return {
-                amountAsset: {id: realIds[pair.amountAsset.id] || ``},
-                priceAsset: {id: realIds[pair.priceAsset.id] || realIds[Currency.BTC.id]}
+                amountAsset: { id: realIds[pair.amountAsset.id] || `` },
+                priceAsset: { id: realIds[pair.priceAsset.id] || realIds[Currency.BTC.id] }
             };
         };
     }
