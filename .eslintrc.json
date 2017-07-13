@@ -264,7 +264,7 @@
         "no-useless-constructor": "error",
         "no-useless-rename": "error",
         "no-useless-return": "error",
-        "no-var": "warn",
+        "no-var": "error",
         "no-void": "error",
         "no-warning-comments": "off",
         "no-whitespace-before-property": "error",
@@ -303,7 +303,7 @@
         ],
         "padding-line-between-statements": "error",
         "prefer-arrow-callback": [
-            "warn",
+            "error",
             {
                 "allowNamedFunctions": true,
                 "allowUnboundThis": false
@@ -316,13 +316,13 @@
         "prefer-reflect": "off",
         "prefer-rest-params": "error",
         "prefer-spread": "error",
-        "prefer-template": "warn",
+        "prefer-template": "error",
         "quote-props": [
-            "warn",
+            "error",
             "consistent-as-needed"
         ],
         "quotes": [
-            "warn",
+            "error",
             "backtick",
             {
                 "avoidEscape": true

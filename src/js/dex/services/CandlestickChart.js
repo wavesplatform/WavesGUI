@@ -1,7 +1,7 @@
+/* eslint newline-per-chained-call: "off" */
+
 (function () {
     'use strict';
-
-    /* eslint newline-per-chained-call: "off" */
 
     angular
         .module(`app.dex`)

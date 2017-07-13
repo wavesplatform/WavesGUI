@@ -8,7 +8,6 @@
      * @see services
      */
 
-    // mock methods to implement late binding
     let __mockShowError = _.identity;
     let __mockValidateAddress = _.identity;
 
@@ -42,8 +41,6 @@
     function AngularApplicationConfig($provide, $compileProvider, $validatorProvider, $qProvider,
                                       $sceDelegateProvider, $mdAriaProvider, networkConstants, applicationConstants,
                                       $stateProvider, $urlRouterProvider, $locationProvider) {
-
-        const self = this;
 
         $locationProvider.html5Mode(true);
 
@@ -98,21 +95,21 @@
             }
         });
 
-        $validatorProvider.addMethod(
-            `address`,
-            (value, element) => self.optional(element) || __mockValidateAddress(value),
-            `Account number must be a sequence of 35 alphanumeric characters with no spaces, ` +
-            `optionally starting with '1W'`
-        );
+        /* eslint-disable no-invalid-this, no-unused-expressions, prefer-arrow-callback */
 
-        $validatorProvider.addMethod(`decimal`, (value, element, maxDigits) => {
+        $validatorProvider.addMethod(`address`, function (value, element) {
+            this.optional(element) || __mockValidateAddress(value);
+        }, `Account number must be a sequence of 35 alphanumeric characters with no spaces, ` +
+            `optionally starting with '1W'`);
+
+        $validatorProvider.addMethod(`decimal`, function (value, element, maxDigits) {
             maxDigits = angular.isNumber(maxDigits) ? maxDigits : Currency.WAVES.precision;
             const regex = new RegExp(`^(?:-?\\d+)?(?:\\.\\d{0,${maxDigits}})?$`);
-            return self.optional(element) || regex.test(value);
+            return this.optional(element) || regex.test(value);
         }, `Amount is expected with a dot (.) as a decimal separator with no more than {0} fraction digits`);
 
-        $validatorProvider.addMethod(`password`, (value, element) => {
-            if (self.optional(element)) {
+        $validatorProvider.addMethod(`password`, function (value, element) {
+            if (this.optional(element)) {
                 return true;
             }
 
@@ -124,8 +121,8 @@
         }, `The password is too weak. A good password must contain at least one digit, ` +
             `one uppercase and one lowercase letter`);
 
-        $validatorProvider.addMethod(`minbytelength`, (value, element, minLength) => {
-            if (self.optional(element)) {
+        $validatorProvider.addMethod(`minbytelength`, function (value, element, minLength) {
+            if (this.optional(element)) {
                 return true;
             }
 
@@ -136,8 +133,8 @@
             return converters.stringToByteArray(value).length >= minLength;
         }, `String is too short. Please add more characters.`);
 
-        $validatorProvider.addMethod(`maxbytelength`, (value, element, maxLength) => {
-            if (self.optional(element)) {
+        $validatorProvider.addMethod(`maxbytelength`, function (value, element, maxLength) {
+            if (this.optional(element)) {
                 return true;
             }
 
@@ -147,6 +144,8 @@
 
             return converters.stringToByteArray(value).length <= maxLength;
         }, `String is too long. Please remove some characters.`);
+
+        /* eslint-enable no-invalid-this, no-unused-expressions, prefer-arrow-callback */
 
         $urlRouterProvider
             .otherwise(`/wallet`);
