@@ -6,7 +6,6 @@ getBranchDetail().then((detail) => {
     const args = Array.prototype.slice.call(process.argv, 2);
 
     function run(message: string): void {
-        console.log(`run command: git commit -m ${message}`);
         const commit = spawn('git', ['commit', '-m', message]);
 
         commit.stdout.on('data', (data: Buffer) => {
