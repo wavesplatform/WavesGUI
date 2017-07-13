@@ -12,9 +12,9 @@ cp hooks/commit-msg .git/hooks || exit 1
 cp hooks/post-checkout .git/hooks || exit 1
 echo "copy hooks >> DONE"
 
-echo "compile aliases"
+echo "compile typescript"
 ./node_modules/.bin/tsc -p ./ts-scripts/ || exit 1
-echo "compile aliases >> DONE"
+echo "compile typescript >> DONE"
 
 echo "apply aliases"
 git config alias.s status
