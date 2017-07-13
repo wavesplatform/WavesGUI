@@ -9,3 +9,4 @@
 *.pem
 /coverage
 tmp
+ts-scripts/*.js

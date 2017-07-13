@@ -1,5 +1,7 @@
+aliases/
 bower_components/
 distr/
 node_modules/
 Gruntfile.js
 karma.conf.js
+hooks/
