@@ -28,6 +28,7 @@ function moveTo(path: string): (relativePath: string) => string {
     }
 }
 
+gulp.task('up-bower-json')
 
 (gulp as any).task('templates', ['clean'], function () {
     return gulp.src('src/templates/**/*.html')

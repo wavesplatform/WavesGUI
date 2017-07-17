@@ -51,6 +51,7 @@
   },
   "scripts": {
     "postinstall": "sh scripts/postinstall.sh",
+    "preversion": "sh scripts/preversion.sh",
     "watchts": "sh scripts/watch-typescript.sh",
     "lessc": "sh scripts/lessc",
     "test": "node_modules/.bin/karma start karma.conf.js"
