@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 
 echo 'pre version'
-echo "$1"
-
+node_modules/.bin/gulp up-version-json || exit 1

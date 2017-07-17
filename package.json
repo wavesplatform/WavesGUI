@@ -1,6 +1,6 @@
 {
   "name": "waves-lite-client",
-  "version": "0.4.28",
+  "version": "0.4.29",
   "description": "A lite client for the Waves platform",
   "repository": {
     "type": "git",
@@ -52,6 +52,7 @@
   "scripts": {
     "postinstall": "sh scripts/postinstall.sh",
     "preversion": "sh scripts/preversion.sh",
+    "postversion": "sh scripts/postversion.sh",
     "watchts": "sh scripts/watch-typescript.sh",
     "lessc": "sh scripts/lessc",
     "test": "node_modules/.bin/karma start karma.conf.js"

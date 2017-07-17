@@ -6,11 +6,11 @@ import * as uglify from 'gulp-uglify';
 import * as rename from 'gulp-rename';
 import * as copy from 'gulp-copy';
 const zip = require('gulp-zip');
-import { getFilesFrom, replaceScripts, replaceStyles, run } from './ts-scripts/utils';
-import { relative } from 'path';
-import { readJSONSync, outputFile, readFile, copy as fsCopy } from 'fs-extra';
+import {getFilesFrom, replaceScripts, replaceStyles, run} from './ts-scripts/utils';
+import {relative} from 'path';
+import {readJSONSync, outputFile, readFile, copy as fsCopy, readJSON} from 'fs-extra';
 
-import { IMteaJSON, IPackageJSON } from './ts-scripts/interface';
+import {IMteaJSON, IPackageJSON} from './ts-scripts/interface';
 
 
 const meta: IMteaJSON = readJSONSync('ts-scripts/meta.json');
@@ -28,7 +28,30 @@ function moveTo(path: string): (relativePath: string) => string {
     }
 }
 
-gulp.task('up-bower-json')
+gulp.task('up-version-json', function (done) {
+    console.log('new version: ', pack.version);
+
+    const promises = [
+        './bower.json',
+        './src/desktop/package.json'
+    ].map((path) => {
+        return readJSON(path).then((json) => {
+            json.version = pack.version;
+            return outputFile(path, json);
+        });
+    });
+
+    Promise.all(promises)
+        .then(() => {
+            return run('git', ['add', '.']);
+        })
+        .then(() => {
+            return run('git', ['commit', '-m', `Message: "${pack.version}" for other json files`]);
+        })
+        .then(() => {
+            done();
+        });
+});
 
 (gulp as any).task('templates', ['clean'], function () {
     return gulp.src('src/templates/**/*.html')

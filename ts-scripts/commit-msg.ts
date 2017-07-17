@@ -9,6 +9,10 @@ const enum ARGUMENTS {
 const path = process.argv[ARGUMENTS.COMMIT_MESSAGE_PATH];
 
 
+function isVersion(data): boolean {
+
+}
+
 readFile(path, 'utf8').then((message) => {
 
     const ERROR_MESSAGE = `Wrong commit message!
@@ -16,6 +20,10 @@ readFile(path, 'utf8').then((message) => {
  Message pattern "PROJECT-TICKET: description"`;
 
     if (message.includes('Merge ')) {
+        process.exit(0);
+    }
+
+    if (message.indexOf('Message: "') === 0) {
         process.exit(0);
     }
 
