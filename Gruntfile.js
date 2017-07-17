@@ -1,9 +1,7 @@
 /*global module:false*/
 module.exports = function (grunt) {
 
-    var compiledTemplates = 'distr/devel/js/templates.js';
-
-    function getFilesFrom(dist, extention, filter) {
+    function getFilesFrom(dist, extension, filter) {
         var fs = require('fs');
         var path = require('path');
 
@@ -18,7 +16,7 @@ module.exports = function (grunt) {
                 if (fs.statSync(itemPath).isDirectory()) {
                     forRead.push(itemPath);
                 } else {
-                    if (itemName.lastIndexOf(extention) === (itemName.length - extention.length)) {
+                    if (itemName.lastIndexOf(extension) === (itemName.length - extension.length)) {
                         if (!filter || filter(itemName, itemPath)) {
                             files.push(itemPath);
                         }
@@ -88,7 +86,7 @@ module.exports = function (grunt) {
         return {
             src: ['<%= meta.dependencies %>'].concat(
                 SOURCE_LIST.map(GET_PROCESS_FUNC(ES5_PROCESS, MIN_PROCESS)), compiledTemplates),
-            dest: 'distr/<%= pkg.name %>-<%= meta.configurations.' + target + '.name %>-<%= pkg.version %>.min.js',
+            dest: 'dist/<%= pkg.name %>-<%= meta.configurations.' + target + '.name %>-<%= pkg.version %>.min.js',
             options: {
                 process: function (content, srcPath) {
                     if (srcPath.endsWith('app.js'))
@@ -103,13 +101,13 @@ module.exports = function (grunt) {
     var generateCopyDirectives = function (target, isChrome, isDesktop) {
         return {
             files: [
-                {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>/css'},
-                {expand: true, cwd: 'src', src: '<%= meta.fonts %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>/'},
-                {expand: true, src: '<%= meta.licenses %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>'},
-                {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'distr/<%= meta.configurations.' + target + '.name %>'},
-                {expand: true, flatten: true, src: 'distr/<%= pkg.name %>-<%= meta.configurations.' + target + '.name %>-<%= pkg.version %>.js', dest: 'distr/<%= meta.configurations.' + target + '.name %>/js'},
-                isChrome ? {expand: true, dest: 'distr/<%= meta.configurations.' + target + '.name %>', flatten: true, src: 'src/chrome/*.*'} : {},
-                isDesktop ? {expand: true, dest: 'distr/<%= meta.configurations.' + target + '.name %>', flatten: true, src: 'src/desktop/*.*'} : {}
+                {expand: true, flatten: true, src: '<%= meta.configurations.css.bundle %>', dest: 'dist/<%= meta.configurations.' + target + '.name %>/css'},
+                {expand: true, cwd: 'src', src: '<%= meta.fonts %>', dest: 'dist/<%= meta.configurations.' + target + '.name %>/'},
+                {expand: true, src: '<%= meta.licenses %>', dest: 'dist/<%= meta.configurations.' + target + '.name %>'},
+                {expand: true, cwd: 'src', src: '<%= meta.content %>', dest: 'dist/<%= meta.configurations.' + target + '.name %>'},
+                {expand: true, flatten: true, src: 'dist/<%= pkg.name %>-<%= meta.configurations.' + target + '.name %>-<%= pkg.version %>.js', dest: 'dist/<%= meta.configurations.' + target + '.name %>/js'},
+                isChrome ? {expand: true, dest: 'dist/<%= meta.configurations.' + target + '.name %>', flatten: true, src: 'src/chrome/*.*'} : {},
+                isDesktop ? {expand: true, dest: 'dist/<%= meta.configurations.' + target + '.name %>', flatten: true, src: 'src/desktop/*.*'} : {}
             ],
             options: {
                 process: function (content, srcPath) {
@@ -133,7 +131,7 @@ module.exports = function (grunt) {
                 'bower_components/angular/angular-csp.css',
                 'bower_components/angular-material/angular-material.css',
                 // application stylesheets
-                'distr/devel/css/style.css'
+                'dist/dev/css/style.css'
             ],
             fonts: ['fonts/**'],
             content: ['img/**', 'index.html'],
@@ -181,8 +179,8 @@ module.exports = function (grunt) {
                     }
                 },
                 css: {
-                    concat: 'distr/<%= pkg.name %>-styles-<%= pkg.version %>.css',
-                    bundle: 'distr/<%= pkg.name %>-styles-<%= pkg.version %>.css'
+                    concat: 'dist/<%= pkg.name %>-styles-<%= pkg.version %>.css',
+                    bundle: 'dist/<%= pkg.name %>-styles-<%= pkg.version %>.css'
                 }
             },
             dependencies: [
@@ -218,15 +216,9 @@ module.exports = function (grunt) {
 
                 'src/js/vendor/jquery.modal.js',
 
-                'bower_components/wavesplatform-core-js/distr/wavesplatform-core.js'
+                'bower_components/wavesplatform-core-js/dist/wavesplatform-core.js'
             ],
             application: SOURCE_LIST,
-        },
-        eslint: {
-            options: {
-                configFile: '.eslintrc.json'
-            },
-            target: ['src/js/**/*.js', '!src/js/vendor/*.js'] // TODO : remove vendor directory
         },
         watch: {
             scripts: {
@@ -245,212 +237,6 @@ module.exports = function (grunt) {
                 tasks: ['ngtemplates']
             }
         },
-        karma: {
-            options: {
-                configFile: 'karma.conf.js'
-            },
-            development: {
-                options: {
-                    files: [
-                        '<%= meta.dependencies %>',
-                        '<%= meta.application %>',
-
-                        'src/js/test/mock/module.js',
-                        'src/js/**/*.spec.js'
-                    ]
-                }
-            },
-            distr: {
-                options: {
-                    files: [
-                        'distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.js',
-                        'src/js/test/mock/module.js',
-                        'src/js/**/*.spec.js'
-                    ]
-                }
-            },
-            minified: {
-                options: {
-                    files: [
-                        'distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-<%= pkg.version %>.min.js',
-                        'src/js/test/mock/module.js',
-                        'src/js/**/*.spec.js'
-                    ],
-                    coverageReporter: {
-                        type : 'html',
-                        dir : 'coverage/',
-                        check: {
-                            global: {
-                                statements: 1,
-                                lines: 1,
-                                functions: 1,
-                                branches: 1
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        less: {
-            // NOTE : that task is not consistent with the standard distribution workflow.
-            development: {
-                files: {
-                    'distr/devel/css/style.css': 'src/less/index.less'
-                }
-            }
-        },
-        postcss: {
-            options: {
-                failOnError: true,
-                processors: [
-                    require('pixrem')(),
-                    require('autoprefixer')({browsers: 'last 2 versions'}),
-                    require('cssnano')()
-                ]
-            },
-            dist: {
-                src: 'distr/devel/css/style.css'
-            }
-        },
-        ngtemplates: {
-            // NOTE : that task is not consistent with the standard distribution workflow.
-            options: {
-                url: function (url) { return url.replace('.html', ''); },
-                htmlmin: {
-                    collapseWhitespace: true
-                }
-            },
-            app: {
-                cwd: 'src/templates',
-                src: '**/*.html',
-                dest: compiledTemplates
-            }
-        },
-        concat: {
-            testnet: generateConcatDirectives('testnet'),
-            mainnet: generateConcatDirectives('mainnet'),
-            devnet: generateConcatDirectives('devnet'),
-            chrome_mainnet: generateConcatDirectives('chrome.mainnet'),
-            chrome_testnet: generateConcatDirectives('chrome.testnet'),
-            desktop_mainnet: generateConcatDirectives('desktop.mainnet'),
-            desktop_testnet: generateConcatDirectives('desktop.testnet'),
-            css: {
-                src: ['<%= meta.stylesheets %>'],
-                dest: '<%= meta.configurations.css.concat %>'
-            },
-            scriptsBundle: {
-                // NOTE : that task is not consistent with the standard distribution workflow.
-                src: ['<%= meta.application %>'],
-                dest: 'distr/devel/js/bundle.js'
-            },
-            vendorsBundle: {
-                src: ['<%= meta.dependencies %>'],
-                dest: 'distr/devel/js/vendors.js'
-            }
-        },
-        babel: {
-            options: {
-                sourceMap: false,
-                presets: ['es2015']
-            },
-            dist: {
-                files: SOURCE_LIST.reduce(function (result, item) {
-                    result[ES5_PROCESS(item)] = item;
-                    return result;
-                }, {})
-            }
-        },
-        uglify: {
-            options: {
-                mangle: false
-            },
-            distr: {
-                files: SOURCE_LIST.reduce(function (result, item) {
-                    result[GET_PROCESS_FUNC(ES5_PROCESS, MIN_PROCESS)(item)] = GET_PROCESS_FUNC(ES5_PROCESS)(item);
-                    return result;
-                }, {})
-            }
-        },
-        clean: ['build/**', 'distr/**', 'tmp/**'],
-        copy: {
-            options: {
-                // if this line is not included copy corrupts binary files
-                noProcess: ['**/*.{png,gif,jpg,ico,psd,woff,woff2,svg}']
-            },
-            testnet: generateCopyDirectives('testnet'),
-            mainnet: generateCopyDirectives('mainnet'),
-            devnet: generateCopyDirectives('devnet'),
-            chrome_testnet: generateCopyDirectives('chrome.testnet', true),
-            chrome_mainnet: generateCopyDirectives('chrome.mainnet', true),
-            desktop_testnet: generateCopyDirectives('desktop.testnet', false, true),
-            desktop_mainnet: generateCopyDirectives('desktop.mainnet', false, true),
-            fonts: {
-                // NOTE : that task is not consistent with the standard distribution workflow.
-                files: [
-                    {
-                        expand: true,
-                        flatten: true,
-                        src: ['src/fonts/**/*.*'],
-                        dest: 'distr/devel/fonts/'
-                    }
-                ]
-            },
-            img: {
-                // NOTE : that task is not consistent with the standard distribution workflow.
-                files: [
-                    {
-                        expand: true,
-                        flatten: true,
-                        src: ['src/img/**/*.*'],
-                        dest: 'distr/devel/img/'
-                    }
-                ]
-            }
-        },
-        compress: {
-            testnet: {
-                options: {
-                    archive: 'distr/<%= pkg.name %>-<%= meta.configurations.testnet.name %>-v<%= pkg.version %>.zip'
-                },
-                files: [{expand: true, cwd: 'distr/<%= meta.configurations.testnet.name %>', src: '**/*', dest: '/'}]
-            },
-            mainnet: {
-                options: {
-                    archive: 'distr/<%= pkg.name %>-<%= meta.configurations.mainnet.name %>-v<%= pkg.version %>.zip'
-                },
-                files: [{expand: true, cwd: 'distr/<%= meta.configurations.mainnet.name %>', src: '**/*', dest: '/'}]
-            },
-            devnet: {
-                options: {
-                    archive: 'distr/<%= pkg.name %>-<%= meta.configurations.devnet.name %>-v<%= pkg.version %>.zip'
-                },
-                files: [{expand: true, cwd: 'distr/<%= meta.configurations.devnet.name %>', src: '**/*', dest: '/'}]
-            },
-            chrome_mainnet: {
-                options: {
-                    archive: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.mainnet.name %>-v<%= pkg.version %>.zip'
-                },
-                files: [{expand: true, cwd: 'distr/<%= meta.configurations.chrome.mainnet.name %>', src: '**/*', dest: '/'}]
-            },
-            chrome_testnet: {
-                options: {
-                    archive: 'distr/<%= pkg.name %>-<%= meta.configurations.chrome.testnet.name %>-v<%= pkg.version %>.zip'
-                },
-                files: [{expand: true, cwd: 'distr/<%= meta.configurations.chrome.testnet.name %>', src: '**/*', dest: '/'}]
-            },
-            desktop_mainnet: {
-                options: {
-                    archive: 'distr/<%= pkg.name %>-<%= meta.configurations.desktop.mainnet.name %>-v<%= pkg.version %>.zip'
-                },
-                files: [{expand: true, cwd: 'distr/<%= meta.configurations.desktop.mainnet.name %>', src: '**/*', dest: '/'}]
-            },
-            desktop_testnet: {
-                options: {
-                    archive: 'distr/<%= pkg.name %>-<%= meta.configurations.desktop.testnet.name %>-v<%= pkg.version %>.zip'
-                },
-                files: [{expand: true, cwd: 'distr/<%= meta.configurations.desktop.testnet.name %>', src: '**/*', dest: '/'}]
-            }
-        },
         bump: {
             options: {
                 files: ['package.json', 'bower.json', 'src/desktop/package.json'],
@@ -465,7 +251,7 @@ module.exports = function (grunt) {
         },
         shell: {
             release: {
-                command: "<%= meta.editor %> distr/CHANGELOG.tmp"
+                command: "<%= meta.editor %> dist/CHANGELOG.tmp"
             }
         },
         conventionalChangelog: {
@@ -490,7 +276,7 @@ module.exports = function (grunt) {
                         // conventional-changelog-writer options go here
                     }
                 },
-                src: 'distr/CHANGELOG.tmp'
+                src: 'dist/CHANGELOG.tmp'
             }
         },
         "github-release": {
@@ -503,7 +289,7 @@ module.exports = function (grunt) {
                 release: {
                     tag_name: "v<%= pkg.version %>",
                     name: "v<%= pkg.version %>",
-                    bodyFilename: 'distr/CHANGELOG.tmp',
+                    bodyFilename: 'dist/CHANGELOG.tmp',
                     draft: true,
                     prerelease: true
                 }
@@ -541,14 +327,14 @@ module.exports = function (grunt) {
                 options: {
                     bucket: 'testnet.waveswallet.io'
                 },
-                cwd: 'distr/<%= meta.configurations.testnet.name %>',
+                cwd: 'dist/<%= meta.configurations.testnet.name %>',
                 src: '**/*'
             },
             mainnet: {
                 options: {
                     bucket: 'waveswallet.io'
                 },
-                cwd: 'distr/<%= meta.configurations.mainnet.name %>',
+                cwd: 'dist/<%= meta.configurations.mainnet.name %>',
                 src: '**/*'
             }
         },
@@ -588,8 +374,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-conventional-changelog');
-    grunt.loadNpmTasks('grunt-eslint');
-    grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-postcss');
     grunt.loadNpmTasks('grunt-babel');
     grunt.loadNpmTasks('grunt-shell');
@@ -597,13 +381,13 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('waves-grunt-github-releaser');
 
     grunt.registerTask('emptyChangelog', 'Creates an empty changelog', function() {
-        grunt.file.write('distr/CHANGELOG.tmp', '');
+        grunt.file.write('dist/CHANGELOG.tmp', '');
     });
 
-    grunt.registerTask('distr', ['clean', 'build', 'emptyChangelog', 'copy', 'compress']);
-    grunt.registerTask('publish', ['bump', 'distr', 'conventionalChangelog', 'shell', 'github-release']);
+    grunt.registerTask('dist', ['clean', 'build', 'emptyChangelog', 'copy', 'compress']);
+    grunt.registerTask('publish', ['bump', 'dist', 'conventionalChangelog', 'shell', 'github-release']);
     grunt.registerTask('deploy', ['webstore_upload', 's3']);
-    grunt.registerTask('test', ['eslint', 'karma:development']);
+    grunt.registerTask('test', [/*'eslint',*/ /*'karma:development'*/]);
     grunt.registerTask('styles', ['less', 'copy:fonts', 'copy:img']);
 
     grunt.registerTask('minBabel', ['babel', 'uglify']);
@@ -612,11 +396,11 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'build-local',
-        'karma:development',
+        // 'karma:development',
         'postcss',
         'minBabel',
         'concat',
-        'karma:minified'
+        // 'karma:minified'
     ]);
 
     // Default task.

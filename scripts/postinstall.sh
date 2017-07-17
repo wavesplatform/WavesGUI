@@ -13,7 +13,7 @@ cp hooks/post-checkout .git/hooks || exit 1
 echo "copy hooks >> DONE"
 
 echo "compile typescript"
-./node_modules/.bin/tsc -p ./ts-scripts/ || exit 1
+./node_modules/.bin/tsc -p ./ || exit 1
 echo "compile typescript >> DONE"
 
 echo "apply aliases"

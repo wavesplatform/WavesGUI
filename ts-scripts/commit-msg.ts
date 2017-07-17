@@ -1,4 +1,4 @@
-import { readFile } from './utils';
+import { readFile } from 'fs-extra';
 
 
 const enum ARGUMENTS {
@@ -9,7 +9,7 @@ const enum ARGUMENTS {
 const path = process.argv[ARGUMENTS.COMMIT_MESSAGE_PATH];
 
 
-readFile(path).then((message) => {
+readFile(path, 'utf8').then((message) => {
 
     const ERROR_MESSAGE = `Wrong commit message!
  Message: "${message}"
