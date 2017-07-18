@@ -7,12 +7,13 @@
     function WavesWalletWithdrawController ($scope, constants, events, autocomplete, dialogService,
                                             coinomatService, transactionBroadcast, notificationService,
                                             apiService, formattingService, assetService, applicationContext) {
+
         var ctrl = this;
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAVES);
         var notPermittedBitcoinAddresses = {};
 
         ctrl.broadcast = new transactionBroadcast.instance(apiService.assets.transfer,
-            function (transaction, response) {
+            function (transaction) {
                 var amount = Money.fromCoins(transaction.amount, ctrl.assetBalance.currency);
                 var address = transaction.recipient;
                 var displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
@@ -89,8 +90,8 @@
             ctrl.assetBalance = eventData.assetBalance;
             ctrl.wavesBalance = eventData.wavesBalance;
 
-            if (ctrl.assetBalance.currency === Currency.BTC) {
-                withdrawBTC();
+            if (ctrl.assetBalance.currency === Currency.BTC || ctrl.assetBalance.currency === Currency.ETH) {
+                withdrawCrypto();
             } else if (ctrl.assetBalance.currency === Currency.EUR) {
                 withdrawEUR();
             } else if (ctrl.assetBalance.currency === Currency.USD) {
@@ -100,7 +101,7 @@
             }
         });
 
-        function withdrawBTC() {
+        function withdrawCrypto() {
             coinomatService.getWithdrawRate(ctrl.assetBalance.currency)
                 .then(function (response) {
                     /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
@@ -129,7 +130,7 @@
 
                     refreshAmount();
 
-                    dialogService.open('#withdraw-btc-dialog');
+                    dialogService.open('#withdraw-crypto-dialog');
                 }).catch(function (exception) {
                 if (exception && exception.data && exception.data.error) {
                     notificationService.error(exception.error);
@@ -246,9 +247,11 @@
         }
     }
 
-    WavesWalletWithdrawController.$inject = ['$scope', 'constants.ui', 'wallet.events', 'autocomplete.fees',
-        'dialogService', 'coinomatService', 'transactionBroadcast', 'notificationService', 'apiService',
-        'formattingService', 'assetService', 'applicationContext'];
+    WavesWalletWithdrawController.$inject = [
+        '$scope', 'constants.ui', 'wallet.events', 'autocomplete.fees', 'dialogService',
+        'coinomatService', 'transactionBroadcast', 'notificationService',
+        'apiService', 'formattingService', 'assetService', 'applicationContext'
+    ];
 
     angular
         .module('app.wallet')

@@ -456,7 +456,7 @@
           </div>
 
           <div class="noDisp" ng-controller="walletWithdrawController as withdraw">
-            <div id="withdraw-btc-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.confirmWithdraw(withdraw.assetForm)">
+            <div id="withdraw-crypto-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.confirmWithdraw(withdraw.assetForm)">
               <h2 class="sectionHeader">WITHDRAW: {{withdraw.sourceCurrency}}</h2>
               <form id="withdraw-asset-form" name="withdraw.assetForm" novalidate ng-validate="withdraw.validationOptions">
                 <table class="form-table">
@@ -465,8 +465,8 @@
                   </div>
                   <tbody>
                   <tr>
-                    <td width="30%">Bitcoin Address</td>
-                    <td><input class="wInput form-control" name="withdrawAddress" type="text" placeholder="Bitcoin address" ng-model="withdraw.recipient"/></td>
+                    <td width="30%">{{withdraw.sourceCurrency}} address</td>
+                    <td><input class="wInput form-control" name="withdrawAddress" type="text" placeholder="{{withdraw.sourceCurrency}} address" ng-model="withdraw.recipient"/></td>
                   </tr>
                   <tr>
                     <td>Amount</td>
