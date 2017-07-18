@@ -1,3 +1,4 @@
+import {Stream} from "stream";
 
 export interface IMteaJSON {
     vendors: Array<string>;
@@ -63,4 +64,14 @@ export interface IPackageJSON {
 
 export interface IHash<T> {
     [key: string]: T;
+}
+
+export interface ITaskFunction {
+    (name: string, deps: Array<string>): void;
+    (name: string, deps: Array<string>, cb: ITaskCallback): void;
+    (name: string, cb: ITaskCallback): void;
+}
+
+export interface ITaskCallback {
+    (done?: () => void): Stream|void;
 }

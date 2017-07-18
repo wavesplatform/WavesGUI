@@ -1,4 +1,5 @@
 import { readFile } from 'fs-extra';
+import {version} from "punycode";
 
 
 const enum ARGUMENTS {
@@ -9,8 +10,8 @@ const enum ARGUMENTS {
 const path = process.argv[ARGUMENTS.COMMIT_MESSAGE_PATH];
 
 
-function isVersion(data): boolean {
-
+function isVersion(data: string): boolean {
+    return data.split('.').map(Number).every((version) => !isNaN(version)) && data.split('.').length === 3;
 }
 
 readFile(path, 'utf8').then((message) => {
@@ -23,7 +24,7 @@ readFile(path, 'utf8').then((message) => {
         process.exit(0);
     }
 
-    if (message.indexOf('Message: "') === 0) {
+    if (message.indexOf('Message: "') === 0 || isVersion(message)) {
         process.exit(0);
     }
 

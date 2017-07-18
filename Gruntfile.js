@@ -220,23 +220,6 @@ module.exports = function (grunt) {
             ],
             application: SOURCE_LIST,
         },
-        watch: {
-            scripts: {
-                files: ['Gruntfile.js', 'src/js/**/*.js'],
-                tasks: ['concat:scriptsBundle'/*, 'test'*/],
-                options: {
-                    interrupt: true
-                }
-            },
-            css: {
-                files: ['src/less/**/*.less'],
-                tasks: ['less']
-            },
-            ngtemplates: {
-                files: ['src/templates/**/*.html'],
-                tasks: ['ngtemplates']
-            }
-        },
         bump: {
             options: {
                 files: ['package.json', 'bower.json', 'src/desktop/package.json'],
@@ -247,95 +230,6 @@ module.exports = function (grunt) {
                 pushTo: 'origin',
                 createTag: false,
                 commitMessage: "chore(version): bumping version v%VERSION%"
-            }
-        },
-        shell: {
-            release: {
-                command: "<%= meta.editor %> dist/CHANGELOG.tmp"
-            }
-        },
-        conventionalChangelog: {
-            release: {
-                options: {
-                    changelogOpts: {
-                        // conventional-changelog options go here
-                        preset: 'angular',
-                        append: false,
-                        releaseCount: 0
-                    },
-                    context: {
-                        // context goes here
-                    },
-                    gitRawCommitsOpts: {
-                        // git-raw-commits options go here
-                    },
-                    parserOpts: {
-                        // conventional-commits-parser options go here
-                    },
-                    writerOpts: {
-                        // conventional-changelog-writer options go here
-                    }
-                },
-                src: 'dist/CHANGELOG.tmp'
-            }
-        },
-        "github-release": {
-            options: {
-                repository : "wavesplatform/WavesGUI",
-                auth: {
-                    user: process.env["GITHUB_ACCESS_TOKEN"],
-                    password: ''
-                },
-                release: {
-                    tag_name: "v<%= pkg.version %>",
-                    name: "v<%= pkg.version %>",
-                    bodyFilename: 'dist/CHANGELOG.tmp',
-                    draft: true,
-                    prerelease: true
-                }
-            },
-            files: {
-                expand: true,
-                src: ['<%= compress.testnet.options.archive %>', '<%= compress.mainnet.options.archive %>']
-            }
-        },
-        webstore_upload: {
-            "accounts": {
-                "default": { //account under this section will be used by default
-                    publish: false, //publish item right after uploading. default false
-                    client_id: process.env["WEBSTORE_CLIENT_ID"],
-                    client_secret: ""
-                }
-            },
-            "extensions": {
-                "WavesLiteApp": {
-                    //required
-                    appID: "kfmcaklajknfekomaflnhkjjkcjabogm",
-                    //required, we can use dir name and upload most recent zip file
-                    zip: "<%= compress.chrome_mainnet.options.archive %>"
-                }
-            }
-        },
-        s3: {
-            options: {
-                accessKeyId: process.env['WALLET_AWS_ACCESS_KEY_ID'],
-                secretAccessKey: process.env['WALLET_AWS_ACCESS_SECRET'],
-                region: 'eu-central-1',
-                dryRun: false
-            },
-            testnet: {
-                options: {
-                    bucket: 'testnet.waveswallet.io'
-                },
-                cwd: 'dist/<%= meta.configurations.testnet.name %>',
-                src: '**/*'
-            },
-            mainnet: {
-                options: {
-                    bucket: 'waveswallet.io'
-                },
-                cwd: 'dist/<%= meta.configurations.mainnet.name %>',
-                src: '**/*'
             }
         },
         cloudfront: {
@@ -386,7 +280,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('dist', ['clean', 'build', 'emptyChangelog', 'copy', 'compress']);
     grunt.registerTask('publish', ['bump', 'dist', 'conventionalChangelog', 'shell', 'github-release']);
-    grunt.registerTask('deploy', ['webstore_upload', 's3']);
     grunt.registerTask('test', [/*'eslint',*/ /*'karma:development'*/]);
     grunt.registerTask('styles', ['less', 'copy:fonts', 'copy:img']);
 

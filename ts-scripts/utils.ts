@@ -1,7 +1,11 @@
-import {exec, spawn} from 'child_process';
-import {readdirSync, statSync} from 'fs';
-import {join} from 'path';
+import * as gulp from 'gulp';
+import { exec, spawn } from 'child_process';
+import { readdirSync, statSync } from 'fs';
+import { join } from 'path';
+import { ITaskFunction } from './interface';
 
+
+export const task: ITaskFunction = gulp.task.bind(gulp) as any;
 
 export function getBranch(): Promise<string> {
     return new Promise((resolve, reject) => {

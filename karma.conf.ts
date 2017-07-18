@@ -28,13 +28,15 @@ module.exports = function (config) {
         branches: 15
     };
 
+    const name = meta.configurations.testnet.name;
+
     switch (mode) {
         case 'development':
             files = meta.vendors.concat(jsFiles);
             break;
         case 'dist':
             files = [
-                `dist/${pack.name}-${meta.configurations.testnet.name}-${pack.version}.js`,
+                `dist/${name}/js/${pack.name}-${name}-${pack.version}.js`,
                 'src/js/test/mock/module.js',
                 'src/js/**/*.spec.js'
             ];
@@ -44,7 +46,7 @@ module.exports = function (config) {
             break;
         case 'minified':
             files = [
-                `dist/${pack.name}-${meta.configurations.testnet.name}-${pack.version}.min.js`,
+                `dist/${name}/js/${pack.name}-${name}-${pack.version}.min.js`,
                 'src/js/test/mock/module.js',
                 'src/js/**/*.spec.js'
             ];
