@@ -555,8 +555,8 @@
                   Buy BTC from your credit card
                 </button>
               </p>
-              <p class="dialog-text">To deposit {{deposit.currency}} to your Waves account, please send BTC to the address below.<br/>
-                The minimum amount for deposit is <span class="fontBold">{{::deposit.btc.minimumAmount}} BTC</span>.</p>
+              <p class="dialog-text">To deposit BTC to your Waves account, please send BTC to the address below.<br/>
+                The minimum amount of deposit is <span class="fontBold">{{::deposit.btc.minimumAmount}} BTC</span>.</p>
               <table class="wavesTable bitcoin-requisites">
                 <tbody>
                 <tr>
@@ -564,7 +564,7 @@
                 </tr>
                 </tbody>
               </table>
-              <p class="dialog-text">Enter this address into your bitcoin client or wallet. Once the transaction is confirmed, <br/>
+              <p class="dialog-text">Enter this address into your Bitcoin client or wallet. Once the transaction is confirmed, <br/>
                 the gateway will process the transfer of BTC to a token in your Waves account.</p>
               <p class="dialog-text">Please note that the gateway doesn't apply any fees for this operation.</p>
               <p class="dialog-text">You can scan this QR-code in order to copy the address.<br/>
@@ -577,6 +577,24 @@
                   <waves-qr-code class="center" size="180" value="deposit.btc.bitcoinUri"></waves-qr-code>
                 </a>
               </div>
+            </div>
+          </div>
+
+          <div class="noDisp" ng-controller="walletDepositController as deposit">
+            <div id="deposit-eth-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
+              <h2 class="sectionHeader">DEPOSIT: ETH</h2>
+              <p class="dialog-text">To deposit ETH to your Waves account, please send ETH to the address below.<br/>
+                The minimum amount of deposit is <span class="fontBold">{{::deposit.eth.minimumAmount}} ETH</span>.</p>
+              <table class="wavesTable bitcoin-requisites">
+                <tbody>
+                <tr>
+                  <td><b>{{deposit.eth.ethereumAddress}}</b></td>
+                </tr>
+                </tbody>
+              </table>
+              <p class="dialog-text">Enter this address into your Ethereum client or wallet. Once the transaction is confirmed, <br/>
+                the gateway will process the transfer of ETH to a token in your Waves account.</p>
+              <p class="dialog-text">Please note that the gateway doesn't apply any fees for this operation.</p>
             </div>
           </div>
 
