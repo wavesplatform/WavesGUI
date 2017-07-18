@@ -17,7 +17,7 @@
 
         ctrl.eth = {
             ethereumAddress: '',
-            minimumAmount: 0.01
+            minimumAmount: 0.001
         };
 
         ctrl.fiat = {
