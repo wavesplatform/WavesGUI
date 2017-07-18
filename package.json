@@ -59,7 +59,7 @@
     "lessc": "sh scripts/lessc",
     "test": "node_modules/.bin/karma start karma.conf.js",
     "testdist": "node_modules/.bin/karma start karma.conf.js mode=dist",
-    "testdist": "node_modules/.bin/karma start karma.conf.js mode=min"
+    "testmin": "node_modules/.bin/karma start karma.conf.js mode=min"
   },
   "dependencies": {
     "angular-ui-router": "^1.0.3"
