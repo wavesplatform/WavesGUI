@@ -41,17 +41,17 @@ module.exports = function (config) {
                 'src/js/**/*.spec.js'
             ];
             Object.keys(global).forEach((key) => {
-                global[key] = 1;
+                global[key] = 0;
             });
             break;
         case 'min':
             files = [
-                `dist/${name}/js/${pack.name}-${name}-${pack.version}.min.js`,
+                `dist/${name}/js/${pack.name}-${name}-${pack.version}.js`,
                 'src/js/test/mock/module.js',
                 'src/js/**/*.spec.js'
             ];
             Object.keys(global).forEach((key) => {
-                global[key] = 1;
+                global[key] = 0;
             });
             break;
     }
