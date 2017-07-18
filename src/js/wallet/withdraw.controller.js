@@ -160,7 +160,7 @@
             dialogService.open('#withdraw-fiat-dialog');
         }
 
-        function validateRecipientAddress(recipient) {
+        function validateRecipientBTCAddress(recipient) {
             if (!recipient.match(/^[0-9a-z]{27,34}$/i)) {
                 throw new Error('Bitcoin address is invalid. Expected address length is from 27 to 34 symbols');
             }
@@ -184,7 +184,11 @@
             try {
                 var withdrawCost = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), Currency.WAVES);
                 validateWithdrawCost(withdrawCost, ctrl.wavesBalance);
-                validateRecipientAddress(ctrl.recipient);
+                if (ctrl.assetBalance.currency === Currency.BTC) {
+                    validateRecipientBTCAddress(ctrl.recipient);
+                } else if (ctrl.assetBalance.currency === Currency.ETH) {
+                    // TODO
+                }
             } catch (e) {
                 notificationService.error(e.message);
                 return false;
