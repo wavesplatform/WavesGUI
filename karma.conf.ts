@@ -44,7 +44,7 @@ module.exports = function (config) {
                 global[key] = 1;
             });
             break;
-        case 'minified':
+        case 'min':
             files = [
                 `dist/${name}/js/${pack.name}-${name}-${pack.version}.min.js`,
                 'src/js/test/mock/module.js',
