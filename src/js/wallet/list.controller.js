@@ -39,6 +39,10 @@
             {
                 balance: new Money(0, Currency.WAVES),
                 depositWith: Currency.BTC
+            },
+            {
+                balance: new Money(0, Currency.ETH),
+                depositWith: Currency.ETH
             }
         ];
 
@@ -139,8 +143,8 @@
             if ($scope.isTestnet()) {
                 Currency.EUR.id = '2xnE3EdpqXtFgCP156qt1AbyjpqdZ5jGjWo3CwTawcux';
                 Currency.USD.id = 'HyFJ3rrq5m7FxdkWtQXkZrDat1F7LjVVGfpSkUuEXQHj';
-                Currency.CNY.id = '6pmDivReTLikwYqQtJTv6dTcE59knriaodB3AK8T9cF8';
                 Currency.BTC.id = 'Fmg13HEHJHuZYbtJq8Da8wifJENq8uBxDuWoP9pVe2Qe';
+                Currency.ETH.id = 'NO_ID_YET'; // FIXME
                 Currency.invalidateCache();
             }
         }
