@@ -24,6 +24,10 @@ git config alias.rh "reset --hard"
 git config alias.c "!node ./ts-scripts/commit.js"
 echo "apply aliases >> DONE"
 
+echo "build-local"
+node_modules/.bin/gulp build-local
+echo "build-local >> DONE"
+
 echo "run post install script >> DONE"
 
 exit 0

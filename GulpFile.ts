@@ -5,6 +5,7 @@ import * as babel from 'gulp-babel';
 import * as uglify from 'gulp-uglify';
 import * as rename from 'gulp-rename';
 import * as copy from 'gulp-copy';
+import * as htmlmin from 'gulp-htmlmin';
 import {getFilesFrom, replaceScripts, replaceStyles, run, task} from './ts-scripts/utils';
 import {relative} from 'path';
 import {readJSONSync, outputFile, readFile, copy as fsCopy, readJSON} from 'fs-extra';
@@ -60,6 +61,7 @@ task('up-version-json', function (done) {
 
 task('templates', ['clean'], function () {
     return gulp.src('src/templates/**/*.html')
+        .pipe(htmlmin({collapseWhitespace: true}))
         .pipe(templateCache({
             module: 'app',
             transformUrl: function (url) {
@@ -180,7 +182,7 @@ task('uglify', ['babel'], function () {
 task('html-develop', ['clean'], function (done) {
     readFile('src/index.html', {encoding: 'utf8'}).then((file) => {
         const filter = moveTo('./dist/dev');
-        const files = ['dist/dev/js/vendors.js'].concat('./dist/dev/js/bundle.js'/*sourceFiles*/, './dist/dev/js/templates.js').map(filter);
+        const files = ['dist/dev/js/vendors.js'].concat(/*'./dist/dev/js/bundle.js'*/sourceFiles, './dist/dev/js/templates.js').map(filter);
 
         file = replaceStyles(file, meta.stylesheets.map(filter));
         file = replaceScripts(file, files);
@@ -235,7 +237,6 @@ task('build-local', [
     'clean',
     'less',
     'templates',
-    'concat-develop',
     'concat-develop-vendors',
     'copy-develop',
     'html-develop'
