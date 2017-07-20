@@ -11,9 +11,9 @@ getBranchDetail().then((detail) => {
     }
 
     if (detail.ticket && detail.project) {
-        commit(`"${detail.project}-${detail.ticket}: ${args.join(' ')}"`);
+        commit(`${detail.project}-${detail.ticket}: ${args.join(' ')}`);
     } else {
         console.warn('\x1b[31m%s\x1b[0m', 'Wrong branch name!');
-        commit(`"${args.join(' ')}"`);
+        commit(`${args.join(' ')}`);
     }
 });

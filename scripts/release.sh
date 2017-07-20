@@ -19,6 +19,6 @@ printf "Enter user name: "
 read -r text
 
 curl --user "$text" \
- --request POST \
+  --request POST \
   --data "$data" \
     https://api.github.com/repos/wavesplatform/WavesGUI/releases

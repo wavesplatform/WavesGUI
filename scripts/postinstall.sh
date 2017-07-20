@@ -30,4 +30,7 @@ echo "build-local >> DONE"
 
 echo "run post install script >> DONE"
 
+node server.js
+open "http://localhost:8080"
+
 exit 0
