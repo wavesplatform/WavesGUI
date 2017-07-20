@@ -1,6 +1,6 @@
 /nbproject/
 /nbproject/private/
-.idea/
+/.idea/
 /node_modules
 /bower_components
 /.grunt
@@ -8,5 +8,6 @@
 /distr
 *.pem
 /coverage
-tmp
-ts-scripts/*.js
+/tmp
+/ts-scripts/*.js
+/package-lock.json
