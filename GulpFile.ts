@@ -9,6 +9,7 @@ import * as htmlmin from 'gulp-htmlmin';
 import {getFilesFrom, replaceScripts, replaceStyles, run, task} from './ts-scripts/utils';
 import {relative} from 'path';
 import {readJSONSync, outputFile, readFile, copy as fsCopy, readJSON} from 'fs-extra';
+
 const zip = require('gulp-zip');
 const s3 = require('gulp-s3');
 
@@ -89,7 +90,7 @@ configurations.forEach((configName) => {
             file = replaceStyles(file, [`dist/${name}/css/${pack.name}-styles-${pack.version}.css`].map(filter));
             file = replaceScripts(file, [`dist/${name}/js/${jsName}`].map(filter));
 
-            outputFile(`./dist/${name}/index.html`, file).then(done);
+            outputFile(`./dist/${name}/index.html`, file).then(() => done());
         });
     });
 
@@ -146,22 +147,22 @@ task('concat-develop-sources', function () {
         .pipe(gulp.dest('dist/dev/js/'));
 });
 
-task('concat-develop-vendors', function () {
+task('concat-develop-vendors', ['clean'], function () {
     return gulp.src(meta.vendors)
         .pipe(concat('vendors.js'))
         .pipe(gulp.dest('dist/dev/js/'));
 });
 
 task('clean', function (done) {
-    run('sh', ['scripts/clean.sh']).then(done);
+    run('sh', ['scripts/clean.sh']).then(() => done());
 });
 
 task('eslint', function (done) {
-    run('sh', ['scripts/eslint.sh']).then(done);
+    run('sh', ['scripts/eslint.sh']).then(() => done());
 });
 
 task('less', ['clean'], function (done) {
-    run('sh', ['scripts/less.sh']).then(done);
+    run('sh', ['scripts/less.sh']).then(() => done());
 });
 
 task('babel', ['concat-develop'], function () {
@@ -187,7 +188,7 @@ task('html-develop', ['clean'], function (done) {
         file = replaceStyles(file, meta.stylesheets.map(filter));
         file = replaceScripts(file, files);
 
-        outputFile('./dist/dev/index.html', file).then(done);
+        outputFile('./dist/dev/index.html', file).then(() => done());
     });
 });
 
@@ -226,12 +227,12 @@ task('concat-develop', [
     'clean',
     'concat-develop-sources',
     'concat-develop-vendors'
-] as any);
+]);
 
 task('copy', configurations.map(name => `copy-${name}`).concat('copy-develop'));
 task('html', configurations.map(name => `html-${name}`).concat('html-develop'));
-task('concat', configurations.map(name => `concat-${name}`).concat('concat-style') as any);
-task('zip', configurations.map(name => `zip-${name}`) as any);
+task('concat', configurations.map(name => `concat-${name}`).concat('concat-style'));
+task('zip', configurations.map(name => `zip-${name}`));
 
 task('build-local', [
     'clean',

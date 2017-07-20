@@ -60,12 +60,15 @@ export function getFilesFrom(dist: string, extension: string, filter?: IFilter):
     return files;
 }
 
-export function run(command: string, args: Array<string>): Promise<number> {
+export function run(command: string, args: Array<string>): Promise<{code: number; data: string[]}> {
     return new Promise((resolve) => {
         const task = spawn(command, args);
+        const data = [];
 
-        task.stdout.on('data', (data: Buffer) => {
-            console.log(String(data));
+        task.stdout.on('data', (message: Buffer) => {
+            const value = String(message);
+            data.push(value);
+            console.log(value);
         });
 
         task.stderr.on('data', (data: Buffer) => {
@@ -73,7 +76,7 @@ export function run(command: string, args: Array<string>): Promise<number> {
         });
 
         task.on('close', (code: number) => {
-            resolve(code);
+            resolve({code, data});
         });
     });
 }

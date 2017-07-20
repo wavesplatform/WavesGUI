@@ -38,7 +38,7 @@
     "bower_components/angular-material/angular-material.min.css",
     "dist/dev/css/style.css"
   ],
-  "devopScripts": [
+  "developmentScripts": [
     "dist/dev/js/vendors.js",
     "dist/dev/js/bundle.js",
     "dist/dev/js/templates.js"

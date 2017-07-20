@@ -3,7 +3,7 @@ import {Stream} from "stream";
 export interface IMteaJSON {
     vendors: Array<string>;
     stylesheets: Array<string>;
-    developScripts: Array<string>;
+    developmentScripts: Array<string>;
     configurations: {
         testnet: {
             name: string;

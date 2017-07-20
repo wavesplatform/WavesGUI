@@ -5,8 +5,8 @@ getBranchDetail().then((detail) => {
     const args = Array.prototype.slice.call(process.argv, 2);
 
     function commit(message) {
-        run('git',  ['commit', '-m', message]).then((code) => {
-            process.exit(code);
+        run('git',  ['commit', '-m', message]).then((data) => {
+            process.exit(data.code);
         });
     }
 

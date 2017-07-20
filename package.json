@@ -57,7 +57,8 @@
     "postversion": "sh scripts/postversion.sh",
     "watchts": "sh scripts/watch-typescript.sh",
     "lessc": "sh scripts/lessc",
-    "test": "node_modules/.bin/karma start karma.conf.js"
+    "test": "node_modules/.bin/karma start karma.conf.js",
+    "release": "sh scripts/release.sh"
   },
   "dependencies": {
     "angular-ui-router": "^1.0.3"
