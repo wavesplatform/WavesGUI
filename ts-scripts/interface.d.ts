@@ -1,12 +1,11 @@
 import {Stream} from "stream";
 
-export interface IMteaJSON {
+export interface IMetaJSON {
     vendors: Array<string>;
     stylesheets: Array<string>;
     developmentScripts: Array<string>;
     configurations: {
         testnet: {
-            name: string;
             code: string;
             server: string;
             coinomat: string;
@@ -14,7 +13,6 @@ export interface IMteaJSON {
             datafeed: string;
         };
         mainnet: {
-            name: string;
             code: string;
             server: string;
             coinomat: string;
@@ -22,28 +20,39 @@ export interface IMteaJSON {
             datafeed: string;
         };
         devnet: {
-            name: string;
             code: string;
             server: string;
             coinomat: string;
             matcher: string;
             datafeed: string;
         };
-        chrome: {
-            testnet: {
-                name: string;
-            };
-            mainnet: {
-                name: string;
-            }
-        };
-        desktop: {
-            testnet: {
-                name: string;
-            };
-            mainnet: {
-                name: string;
-            }
+        chrome_testnet: {
+            code: string;
+            server: string;
+            matcher: string;
+            coinomat: string;
+            datafeed: string;
+        },
+        chrome_mainnet: {
+            code: string;
+            server: string;
+            matcher: string;
+            coinomat: string;
+            datafeed: string;
+        },
+        desktop_testnet: {
+            code: string;
+            server: string;
+            matcher: string;
+            coinomat: string;
+            datafeed: string;
+        },
+        desktop_mainnet: {
+            code: string;
+            server: string;
+            matcher: string;
+            coinomat: string;
+            datafeed: string;
         }
     }
 }

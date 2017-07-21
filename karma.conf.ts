@@ -1,6 +1,6 @@
 import { getFilesFrom } from './ts-scripts/utils';
 import { readJSONSync } from 'fs-extra';
-import { IMteaJSON, IPackageJSON } from './ts-scripts/interface';
+import { IMetaJSON, IPackageJSON } from './ts-scripts/interface';
 
 
 module.exports = function (config) {
@@ -8,7 +8,7 @@ module.exports = function (config) {
 
     const jsFiles = getFilesFrom('src/js', '.js');
     const pack: IPackageJSON = readJSONSync('./package.json');
-    const meta: IMteaJSON = readJSONSync('./ts-scripts/meta.json');
+    const meta: IMetaJSON = readJSONSync('./ts-scripts/meta.json');
     let mode;
 
     process.argv.some((param) => {
@@ -28,7 +28,7 @@ module.exports = function (config) {
         branches: 15
     };
 
-    const name = meta.configurations.testnet.name;
+    const name = 'testnet';
 
     switch (mode) {
         case 'development':

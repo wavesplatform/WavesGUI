@@ -46,18 +46,18 @@
 
         $provide.constant(networkConstants,
             angular.extend(networkConstants, {
-                NETWORK_NAME: `devel`,
-                NETWORK_CODE: `T`
+                NETWORK_NAME: `{{NETWORK_NAME}}`,
+                NETWORK_CODE: `{{NETWORK_CODE}}`
             })
         );
 
         $provide.constant(applicationConstants,
             angular.extend(applicationConstants, {
-                CLIENT_VERSION: `0.4.1a`,
-                NODE_ADDRESS: `http://52.30.47.67:6869`,
-                COINOMAT_ADDRESS: `https://test.coinomat.com`,
-                MATCHER_ADDRESS: `http://52.30.47.67:6886`,
-                DATAFEED_ADDRESS: `http://marketdata.wavesplatform.com`
+                CLIENT_VERSION: /*<CLIENT_VERSION>*/'develop'/*</CLIENT_VERSION>*/,
+                NODE_ADDRESS: /*<NODE_ADDRESS>*/'http://52.30.47.67:6869'/*</NODE_ADDRESS>*/,
+                COINOMAT_ADDRESS: /*<COINOMAT_ADDRESS>*/'https://test.coinomat.com'/*</COINOMAT_ADDRESS>*/,
+                MATCHER_ADDRESS: /*<MATCHER_ADDRESS>*/'http://52.30.47.67:6886'/*</MATCHER_ADDRESS>*/,
+                DATAFEED_ADDRESS: /*<DATAFEED_ADDRESS>*/'http://marketdata.wavesplatform.com'/*</DATAFEED_ADDRESS>*/
             })
         );
 

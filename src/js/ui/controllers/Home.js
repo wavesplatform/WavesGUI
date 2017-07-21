@@ -24,7 +24,7 @@
 
             $timeout(() => {
                 this.loading = false;
-            }, 1000);
+            }, 1);
         }
 
         clipboardOk(message) {

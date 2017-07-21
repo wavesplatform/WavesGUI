@@ -6,16 +6,15 @@ import * as uglify from 'gulp-uglify';
 import * as rename from 'gulp-rename';
 import * as copy from 'gulp-copy';
 import * as htmlmin from 'gulp-htmlmin';
-import {getFilesFrom, replaceScripts, replaceStyles, run, task} from './ts-scripts/utils';
-import {relative} from 'path';
-import {readJSONSync, outputFile, readFile, copy as fsCopy, readJSON} from 'fs-extra';
+import { getFilesFrom, replaceScripts, replaceStyles, run, task } from './ts-scripts/utils';
+import { relative } from 'path';
+import { copy as fsCopy, outputFile, readFile, readJSON, readJSONSync } from 'fs-extra';
+import { IMetaJSON, IPackageJSON } from './ts-scripts/interface';
 
 const zip = require('gulp-zip');
 const s3 = require('gulp-s3');
 
-import {IMteaJSON, IPackageJSON} from './ts-scripts/interface';
-
-const meta: IMteaJSON = readJSONSync('ts-scripts/meta.json');
+const meta: IMetaJSON = readJSONSync('ts-scripts/meta.json');
 const pack: IPackageJSON = readJSONSync('package.json');
 const configurations = Object.keys(meta.configurations);
 const AWS = {
@@ -32,6 +31,16 @@ const sourceFiles = getFilesFrom('./src/js', '.js', function (name, path) {
 function moveTo(path: string): (relativePath: string) => string {
     return function (relativePath: string): string {
         return relative(path, relativePath);
+    }
+}
+
+function template(file: string): (data: any) => string {
+    return function (data: any) {
+        Object.keys(data).forEach((name) => {
+            const prop = data[name];
+            file = file.replace(new RegExp(`\/\*\<${name}>\*\/.*?(\/\*\<\/${name}>\*\/)`, 'g'), prop);
+        });
+        return file;
     }
 }
 
@@ -60,9 +69,9 @@ task('up-version-json', function (done) {
         });
 });
 
-task('templates', ['clean'], function () {
+task('templates', function () {
     return gulp.src('src/templates/**/*.html')
-        .pipe(htmlmin({collapseWhitespace: true}))
+        .pipe(htmlmin({ collapseWhitespace: true }))
         .pipe(templateCache({
             module: 'app',
             transformUrl: function (url) {
@@ -72,18 +81,35 @@ task('templates', ['clean'], function () {
         .pipe(gulp.dest('dist/dev/js'));
 });
 
-configurations.forEach((configName) => {
-    const name = meta.configurations[configName].name;
+configurations.forEach((name) => {
+    const config = meta.configurations[name];
     const jsName = `${pack.name}-${name}-${pack.version}.js`;
-    const indexPromise = readFile('src/index.html', {encoding: 'utf8'});
+    const indexPromise = readFile('src/index.html', { encoding: 'utf8' });
 
-    task(`concat-${configName}`, ['uglify', 'templates'], function () {
-        return gulp.src(['dist/dev/js/vendors.js', 'dist/dev/js/bundle.min.js', 'dist/dev/js/templates.js'])
+    task(`concat-${name}`, ['uglify', 'templates'], function (done) {
+        const stream = gulp.src(['dist/dev/js/vendors.js', 'dist/dev/js/bundle.min.js', 'dist/dev/js/templates.js'])
             .pipe(concat(jsName))
             .pipe(gulp.dest(`dist/${name}/js`));
+
+        stream.on('end', function () {
+            readFile(`dist/${name}/js/${jsName}`, { encoding: 'utf8' }).then((file) => {
+                const content = template(file)({
+                    NETWORK_NAME: name,
+                    NETWORK_CODE: config.code,
+                    CLIENT_VERSION: pack.version,
+                    NODE_ADDRESS: config.server,
+                    COINOMAT_ADDRESS: config.coinomat,
+                    MATCHER_ADDRESS: config.matcher,
+                    DATAFEED_ADDRESS: config.datafeed
+                });
+
+                outputFile(`dist/${name}/js/${jsName}`, content)
+                    .then(() => done());
+            });
+        });
     });
 
-    task(`html-${configName}`, ['clean', `concat-${configName}`], function (done) {
+    task(`html-${name}`, [`concat-${name}`], function (done) {
         indexPromise.then((file) => {
             const filter = moveTo(`./dist/${name}`);
 
@@ -94,14 +120,14 @@ configurations.forEach((configName) => {
         });
     });
 
-    task(`copy-${configName}`, ['concat-style'], function (done) {
+    task(`copy-${name}`, ['concat-style'], function (done) {
         let forCopy = [];
 
-        if (configName.includes('chrome')) {
+        if (name.includes('chrome')) {
             forCopy = [
                 fsCopy('src/chrome', `dist/${name}`)
             ];
-        } else if (configName.includes('desktop')) {
+        } else if (name.includes('desktop')) {
             forCopy = [
                 fsCopy('src/desktop', `dist/${name}`)
             ];
@@ -122,10 +148,10 @@ configurations.forEach((configName) => {
         });
     });
 
-    task(`zip-${configName}`, [
-        `concat-${configName}`,
-        `html-${configName}`,
-        `copy-${configName}`
+    task(`zip-${name}`, [
+        `concat-${name}`,
+        `html-${name}`,
+        `copy-${name}`
     ], function () {
         return gulp.src(`dist/${name}/**/*.*`)
             .pipe(zip(`${pack.name}-${name}-v${pack.version}.zip`))
@@ -147,7 +173,7 @@ task('concat-develop-sources', function () {
         .pipe(gulp.dest('dist/dev/js/'));
 });
 
-task('concat-develop-vendors', ['clean'], function () {
+task('concat-develop-vendors', function () {
     return gulp.src(meta.vendors)
         .pipe(concat('vendors.js'))
         .pipe(gulp.dest('dist/dev/js/'));
@@ -161,7 +187,7 @@ task('eslint', function (done) {
     run('sh', ['scripts/eslint.sh']).then(() => done());
 });
 
-task('less', ['clean'], function (done) {
+task('less', function (done) {
     run('sh', ['scripts/less.sh']).then(() => done());
 });
 
@@ -180,10 +206,10 @@ task('uglify', ['babel'], function () {
         .pipe(gulp.dest('dist/dev/js'));
 });
 
-task('html-develop', ['clean'], function (done) {
-    readFile('src/index.html', {encoding: 'utf8'}).then((file) => {
+task('html-develop', function (done) {
+    readFile('src/index.html', { encoding: 'utf8' }).then((file) => {
         const filter = moveTo('./dist/dev');
-        const files = ['dist/dev/js/vendors.js'].concat(/*'./dist/dev/js/bundle.js'*/sourceFiles, './dist/dev/js/templates.js').map(filter);
+        const files = ['dist/dev/js/vendors.js'].concat('./dist/dev/js/bundle.min.js'/*sourceFiles*/, './dist/dev/js/templates.js').map(filter);
 
         file = replaceStyles(file, meta.stylesheets.map(filter));
         file = replaceScripts(file, files);
@@ -193,38 +219,36 @@ task('html-develop', ['clean'], function (done) {
 });
 
 
-task('copy-fonts', ['clean'], function () {
+task('copy-fonts', function () {
     return gulp.src('src/fonts/**/*.*')
-        .pipe(copy('dist/dev', {prefix: 1}));
+        .pipe(copy('dist/dev', { prefix: 1 }));
 });
 
-task('copy-img', ['clean'], function () {
+task('copy-img', function () {
     return gulp.src('src/img/**/*.*')
-        .pipe(copy('dist/dev', {prefix: 1}));
+        .pipe(copy('dist/dev', { prefix: 1 }));
 });
 
 task('s3-testnet', function () {
     const bucket = 'testnet.waveswallet.io';
     return gulp.src('./dist/testnet/**/*')
-        .pipe(s3({...AWS, bucket}));
+        .pipe(s3({ ...AWS, bucket }));
 });
 
 task('s3-mainnet', function () {
     const bucket = 'waveswallet.io';
     return gulp.src('./dist/mainnet/**/*')
-        .pipe(s3({...AWS, bucket}));
+        .pipe(s3({ ...AWS, bucket }));
 });
 
 task('s3', ['s3-testnet', 's3-mainnet']);
 
 task('copy-develop', [
-    'clean',
     'copy-fonts',
     'copy-img'
 ]);
 
 task('concat-develop', [
-    'clean',
     'concat-develop-sources',
     'concat-develop-vendors'
 ]);
@@ -235,7 +259,6 @@ task('concat', configurations.map(name => `concat-${name}`).concat('concat-style
 task('zip', configurations.map(name => `zip-${name}`));
 
 task('build-local', [
-    'clean',
     'less',
     'templates',
     'concat-develop-vendors',

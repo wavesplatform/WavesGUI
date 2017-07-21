@@ -45,40 +45,46 @@
   ],
   "configurations": {
     "testnet": {
-      "name": "testnet",
       "code": "T",
       "server": "http://52.30.47.67:6869",
-      "coinomat": "https://test.coinomat.com",
       "matcher": "http://52.30.47.67:6886",
+      "coinomat": "https://test.coinomat.com",
       "datafeed": "http://marketdata.wavesplatform.com"
     },
     "mainnet": {
-      "name": "mainnet",
       "code": "W",
       "server": "https://nodes.wavesnodes.com",
-      "coinomat": "https://coinomat.com",
       "matcher": "https://nodes.wavesnodes.com",
+      "coinomat": "https://coinomat.com",
       "datafeed": "https://marketdata.wavesplatform.com"
     },
-    "devnet": {
-      "name": "devnet",
-      "code": "D",
-      "server": "http://35.157.212.173:6869",
+    "chrome_testnet": {
+      "code": "T",
+      "server": "http://52.30.47.67:6869",
+      "matcher": "http://52.30.47.67:6886",
       "coinomat": "https://test.coinomat.com",
-      "matcher": "http://52.28.66.217:6886",
       "datafeed": "http://marketdata.wavesplatform.com"
     },
-    "chrome_testnet": {
-      "name": "chrome_testnet"
-    },
     "chrome_mainnet": {
-      "name": "chrome"
+      "code": "W",
+      "server": "https://nodes.wavesnodes.com",
+      "matcher": "https://nodes.wavesnodes.com",
+      "coinomat": "https://coinomat.com",
+      "datafeed": "https://marketdata.wavesplatform.com"
     },
-    "desktop-testnet": {
-      "name": "desktop-testnet"
+    "desktop_testnet": {
+      "code": "W",
+      "server": "https://nodes.wavesnodes.com",
+      "matcher": "https://nodes.wavesnodes.com",
+      "coinomat": "https://coinomat.com",
+      "datafeed": "https://marketdata.wavesplatform.com"
     },
-    "desktop-mainnet": {
-      "name": "desktop-mainnet"
+    "desktop_mainnet": {
+      "code": "T",
+      "server": "http://52.30.47.67:6869",
+      "matcher": "http://52.30.47.67:6886",
+      "coinomat": "https://test.coinomat.com",
+      "datafeed": "http://marketdata.wavesplatform.com"
     }
   }
 }
