@@ -103,6 +103,8 @@ configurations.forEach((name) => {
                     DATAFEED_ADDRESS: config.datafeed
                 });
 
+                console.log(name, config);
+
                 outputFile(`dist/${name}/js/${jsName}`, content)
                     .then(() => done());
             });
@@ -209,7 +211,7 @@ task('uglify', ['babel'], function () {
 task('html-develop', function (done) {
     readFile('src/index.html', { encoding: 'utf8' }).then((file) => {
         const filter = moveTo('./dist/dev');
-        const files = ['dist/dev/js/vendors.js'].concat('./dist/dev/js/bundle.min.js'/*sourceFiles*/, './dist/dev/js/templates.js').map(filter);
+        const files = ['dist/dev/js/vendors.js'].concat(/*'./dist/dev/js/bundle.min.js'*/sourceFiles, './dist/dev/js/templates.js').map(filter);
 
         file = replaceStyles(file, meta.stylesheets.map(filter));
         file = replaceScripts(file, files);
