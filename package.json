@@ -53,7 +53,7 @@
     "productName": "Waves Lite Client",
     "files": "**/*",
     "asar": true,
-    "compression": "store",
+    "compression": "normal",
     "npmRebuild": false,
     "npmSkipBuildFromSource": true,
     "directories": {
@@ -68,7 +68,7 @@
     },
     "mac": {
       "category": "public.app-category.finance",
-      "target": ["zip"],
+      "target": ["dmg"],
       "icon": "src/desktop/resources/icon.icns"
     },
     "win": {
@@ -80,7 +80,13 @@
       "artifactName": "waves-lite-client[${env.WAVES_CONFIGURATION}]-setup-${version}.${ext}"
     },
     "dmg": {
-      "icon": null
+      "icon": null,
+      "window": {
+        "x": 400,
+        "y": 100,
+        "width": 540,
+        "height": 280
+      }
     }
   }
 }

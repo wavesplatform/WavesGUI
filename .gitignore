@@ -9,4 +9,6 @@
 *.pem
 *.pdx
 *.cer
-build-native.sh
+*.sh
+*.p12
+*.pfx
