@@ -3,8 +3,9 @@
 
     var DEFAULT_ERROR_MESSAGE = 'Connection is lost';
 
-    function WavesWalletDepositController ($scope, events, coinomatService, dialogService, notificationService,
-                                           applicationContext, bitcoinUriService) {
+    function WavesWalletDepositController($scope, events, coinomatService, dialogService, notificationService,
+                                          applicationContext, bitcoinUriService, utilsService) {
+
         var ctrl = this;
 
         ctrl.btc = {
@@ -14,7 +15,12 @@
             minimumAmount: 0.01
         };
 
-        ctrl.eur = {
+        ctrl.eth = {
+            ethereumAddress: '',
+            minimumAmount: 0.001
+        };
+
+        ctrl.fiat = {
             verificationLink: 'https://go.idnow.de/coinomat/userdata/' + applicationContext.account.address,
             email: 'support@coinomat.com'
         };
@@ -34,10 +40,16 @@
             ctrl.assetBalance = eventData.assetBalance;
             ctrl.currency = ctrl.assetBalance.currency.displayName;
 
-            if (ctrl.assetBalance.currency === Currency.BTC) {
+            if (ctrl.assetBalance.currency === Currency.BTC && !utilsService.isTestnet()) {
+                // Show the BTC deposit popup only on mainnet
                 depositBTC();
+            } else if (ctrl.assetBalance.currency === Currency.ETH && !utilsService.isTestnet()) {
+                // Show the ETH deposit popup only on mainnet
+                depositETH();
             } else if (ctrl.assetBalance.currency === Currency.EUR) {
                 depositEUR();
+            } else if (ctrl.assetBalance.currency === Currency.USD) {
+                depositUSD();
             } else {
                 $scope.home.featureUnderDevelopment();
             }
@@ -63,13 +75,38 @@
                 });
         }
 
+        function depositETH() {
+            dialogService.open('#deposit-eth-dialog');
+
+            coinomatService.getDepositDetails(ctrl.depositWith, ctrl.assetBalance.currency,
+                applicationContext.account.address)
+                .then(function (depositDetails) {
+                    ctrl.eth.ethereumAddress = depositDetails.address;
+                })
+                .catch(function (exception) {
+                    if (exception && exception.message) {
+                        notificationService.error(exception.message);
+                    } else {
+                        notificationService.error(DEFAULT_ERROR_MESSAGE);
+                    }
+
+                    dialogService.close();
+                });
+        }
+
         function depositEUR() {
             dialogService.open('#deposit-eur-dialog');
         }
+
+        function depositUSD() {
+            dialogService.open('#deposit-usd-dialog');
+        }
     }
 
-    WavesWalletDepositController.$inject = ['$scope', 'wallet.events', 'coinomatService', 'dialogService',
-        'notificationService', 'applicationContext', 'bitcoinUriService'];
+    WavesWalletDepositController.$inject = [
+        '$scope', 'wallet.events', 'coinomatService', 'dialogService', 'notificationService',
+        'applicationContext', 'bitcoinUriService', 'utilsService'
+    ];
 
     angular
         .module('app.wallet')

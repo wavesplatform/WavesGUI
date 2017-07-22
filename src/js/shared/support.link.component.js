@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var email = 'support@wavesplatform.com';
+    var url = 'support.wavesplatform.com';
 
     function SupportLinkController() {}
 
@@ -9,6 +9,6 @@
         .module('app.shared')
         .component('wavesSupportLink', {
             controller: SupportLinkController,
-            template: '<a href="mailto:' + email + '" target="_blank">' + email + '</a>'
+            template: '<a href="http://' + url + '" target="_blank">' + url + '</a>'
         });
 })();
