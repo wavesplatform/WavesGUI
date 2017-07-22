@@ -49,4 +49,4 @@ chmod u+x build-native.sh
 
 By default shell scripts and certificates are ignored by git to prevent sensitive data leakage.
 
-Build script builds native applications for testnet and mainnet. You can find native binaries in `distr/native` directory.
+Build script assembles native applications for testnet and mainnet. You can find native binaries in `distr/native` directory.
