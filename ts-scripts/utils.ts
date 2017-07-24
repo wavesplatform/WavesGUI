@@ -1,5 +1,11 @@
-import { exec } from 'child_process';
-import { readFile as readFileFs } from 'fs';
+import * as gulp from 'gulp';
+import { exec, spawn } from 'child_process';
+import { readdirSync, statSync } from 'fs';
+import { join } from 'path';
+import { ITaskFunction } from './interface';
+
+
+export const task: ITaskFunction = gulp.task.bind(gulp) as any;
 
 export function getBranch(): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -16,24 +22,77 @@ export function getBranch(): Promise<string> {
     });
 }
 
-export function getBranchDetail(): Promise<{branch: string; project: string; ticket: number; description: string}> {
+export function getBranchDetail(): Promise<{ branch: string; project: string; ticket: number; description: string }> {
     return getBranch().then((branch) => {
         const parts = branch.split('-');
         const [project, ticket] = parts;
         const description = parts.slice(2).join(' ');
-        return { branch, project: project.toUpperCase(), ticket: Number(ticket), description };
+        return {branch, project: project.toUpperCase(), ticket: Number(ticket), description};
     });
 }
 
-export function readFile(path: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-        readFileFs(path, 'utf8', (err, file) => {
-            if (err) {
-                console.log(err);
-                reject(err);
+export function getFilesFrom(dist: string, extension: string, filter?: IFilter): Array<string> {
+    const files = [];
+
+    function read(localPath) {
+        const result = readdirSync(localPath);
+        const forRead = [];
+
+        result.sort();
+        result.forEach(function (itemName) {
+            const itemPath = join(localPath, itemName);
+            if (statSync(itemPath).isDirectory()) {
+                forRead.push(itemPath);
             } else {
-                resolve(file);
+                if (itemName.lastIndexOf(extension) === (itemName.length - extension.length)) {
+                    if (!filter || filter(itemName, itemPath)) {
+                        files.push(itemPath);
+                    }
+                }
             }
         });
+
+        forRead.forEach(read);
+    }
+
+    read(dist);
+
+    return files;
+}
+
+export function run(command: string, args: Array<string>): Promise<{code: number; data: string[]}> {
+    return new Promise((resolve) => {
+        const task = spawn(command, args);
+        const data = [];
+
+        task.stdout.on('data', (message: Buffer) => {
+            const value = String(message);
+            data.push(value);
+            console.log(value);
+        });
+
+        task.stderr.on('data', (data: Buffer) => {
+            console.log(String(data));
+        });
+
+        task.on('close', (code: number) => {
+            resolve({code, data});
+        });
     });
+}
+
+export function replaceScripts(file: string, paths: Array<string>): string {
+    return file.replace('<!-- JAVASCRIPT -->', paths.map((path) => {
+        return `<script src="${path}"></script>`;
+    }).join('\n'));
+}
+
+export function replaceStyles(file: string, paths: Array<string>): string {
+    return file.replace('<!-- CSS -->', paths.map((path: string) => {
+        return `<link rel="stylesheet" href="${path}" />`;
+    }).join('\n'));
+}
+
+export interface IFilter {
+    (name: string, path: string): boolean;
 }

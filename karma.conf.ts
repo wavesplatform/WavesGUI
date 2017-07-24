@@ -1,5 +1,62 @@
+import { getFilesFrom } from './ts-scripts/utils';
+import { readJSONSync } from 'fs-extra';
+import { IMetaJSON, IPackageJSON } from './ts-scripts/interface';
+
+
 module.exports = function (config) {
     'use strict';
+
+    const jsFiles = getFilesFrom('src/js', '.js');
+    const pack: IPackageJSON = readJSONSync('./package.json');
+    const meta: IMetaJSON = readJSONSync('./ts-scripts/meta.json');
+    let mode;
+
+    process.argv.some((param) => {
+        if (param.includes('mode=')) {
+            mode = param.replace('mode=', '');
+            return true;
+        }
+    });
+
+    mode = mode || 'development';
+
+    let files;
+    let global = {
+        statements: 39,
+        lines: 39,
+        functions: 32,
+        branches: 15
+    };
+
+    const name = 'testnet';
+
+    switch (mode) {
+        case 'development':
+            files = meta.vendors.concat(jsFiles);
+            break;
+        case 'dist':
+            files = [
+                `dist/${name}/js/${pack.name}-${name}-${pack.version}.js`,
+                'src/js/test/mock/module.js',
+                'src/js/**/*.spec.js'
+            ];
+            Object.keys(global).forEach((key) => {
+                global[key] = 0;
+            });
+            break;
+        case 'min':
+            files = [
+                `dist/${name}/js/${pack.name}-${name}-${pack.version}.js`,
+                'src/js/test/mock/module.js',
+                'src/js/**/*.spec.js'
+            ];
+            Object.keys(global).forEach((key) => {
+                global[key] = 0;
+            });
+            break;
+    }
+
+    console.log(mode);
 
     config.set({
 
@@ -10,9 +67,7 @@ module.exports = function (config) {
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
         frameworks: ['jasmine'],
 
-        files: [
-            'src/js/**/*.js'
-        ],
+        files,
 
         // list of files to exclude
         exclude: [],
@@ -51,16 +106,9 @@ module.exports = function (config) {
         singleRun: true,
 
         coverageReporter: {
-            type : 'html',
-            dir : 'coverage/',
-            check: {
-                global: {
-                    statements: 39,
-                    lines: 39,
-                    functions: 27,
-                    branches: 15
-                }
-            }
+            type: 'html',
+            dir: 'coverage/',
+            check: { global }
         },
 
     });

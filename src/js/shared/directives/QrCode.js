@@ -39,6 +39,8 @@
 
     }
 
+    QrCode.$inject = [`$element`];
+
     angular
         .module(`app.shared`)
         .component(`wavesQrCode`, {
