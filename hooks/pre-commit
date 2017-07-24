@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo "pre commit hook"
-node_modules/.bin/eslint -c ./.eslintrc.json ./src/js/\!\(vendor\)/**/*.js || exit 1
+sh scripts/eslint.sh || exit 1
 echo "pre commit hook >> DONE"
 
 exit 0

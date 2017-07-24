@@ -1,0 +1,90 @@
+{
+  "vendors": [
+    "bower_components/jquery/dist/jquery.min.js",
+    "bower_components/lodash/lodash.js",
+
+    "bower_components/js-sha3/src/sha3.js",
+
+    "bower_components/angular/angular.min.js",
+    "node_modules/angular-ui-router/release/angular-ui-router.min.js",
+    "bower_components/angular-sanitize/angular-sanitize.min.js",
+    "bower_components/angular-animate/angular-animate.min.js",
+    "bower_components/angular-mocks/angular-mocks.js",
+    "bower_components/angular-aria/angular-aria.min.js",
+    "bower_components/angular-material/angular-material.min.js",
+    "bower_components/restangular/dist/restangular.min.js",
+    "bower_components/decimal.js/decimal.min.js",
+    "bower_components/Base58/Base58.js",
+    "bower_components/cryptojslib/rollups/aes.js",
+    "bower_components/cryptojslib/rollups/sha256.js",
+    "bower_components/curve25519-js/axlsign.js",
+    "bower_components/clipboard/dist/clipboard.js",
+    "bower_components/ngclipboard/dist/ngclipboard.js",
+    "bower_components/growl/javascripts/jquery.growl.js",
+    "bower_components/jquery-validation/dist/jquery.validate.js",
+    "bower_components/tooltipster/js/jquery.tooltipster.min.js",
+    "bower_components/waves-angular-validate/src/angular-validate.js",
+    "bower_components/qrious/dist/umd/qrious.js",
+
+    "bower_components/d3/d3.min.js",
+    "bower_components/techan/dist/techan.min.js",
+
+    "src/js/vendor/jquery.modal.js",
+
+    "bower_components/wavesplatform-core-js/distr/wavesplatform-core.js"
+  ],
+  "stylesheets": [
+    "bower_components/angular/angular-csp.css",
+    "bower_components/angular-material/angular-material.min.css",
+    "dist/dev/css/style.css"
+  ],
+  "developmentScripts": [
+    "dist/dev/js/vendors.js",
+    "dist/dev/js/bundle.js",
+    "dist/dev/js/templates.js"
+  ],
+  "configurations": {
+    "testnet": {
+      "code": "T",
+      "server": "http://52.30.47.67:6869",
+      "matcher": "http://52.30.47.67:6886",
+      "coinomat": "https://test.coinomat.com",
+      "datafeed": "http://marketdata.wavesplatform.com"
+    },
+    "mainnet": {
+      "code": "W",
+      "server": "https://nodes.wavesnodes.com",
+      "matcher": "https://nodes.wavesnodes.com",
+      "coinomat": "https://coinomat.com",
+      "datafeed": "https://marketdata.wavesplatform.com"
+    },
+    "chrome_testnet": {
+      "code": "T",
+      "server": "http://52.30.47.67:6869",
+      "matcher": "http://52.30.47.67:6886",
+      "coinomat": "https://test.coinomat.com",
+      "datafeed": "http://marketdata.wavesplatform.com"
+    },
+    "chrome_mainnet": {
+      "code": "W",
+      "server": "https://nodes.wavesnodes.com",
+      "matcher": "https://nodes.wavesnodes.com",
+      "coinomat": "https://coinomat.com",
+      "datafeed": "https://marketdata.wavesplatform.com"
+    },
+    "desktop_testnet": {
+      "code": "W",
+      "server": "https://nodes.wavesnodes.com",
+      "matcher": "https://nodes.wavesnodes.com",
+      "coinomat": "https://coinomat.com",
+      "datafeed": "https://marketdata.wavesplatform.com"
+    },
+    "desktop_mainnet": {
+      "code": "T",
+      "server": "http://52.30.47.67:6869",
+      "matcher": "http://52.30.47.67:6886",
+      "coinomat": "https://test.coinomat.com",
+      "datafeed": "http://marketdata.wavesplatform.com"
+    }
+  }
+}

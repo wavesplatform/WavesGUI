@@ -1,4 +1,5 @@
-import { readFile } from './utils';
+import { readFile } from 'fs-extra';
+import {version} from "punycode";
 
 
 const enum ARGUMENTS {
@@ -9,13 +10,21 @@ const enum ARGUMENTS {
 const path = process.argv[ARGUMENTS.COMMIT_MESSAGE_PATH];
 
 
-readFile(path).then((message) => {
+function isVersion(data: string): boolean {
+    return data.split('.').map(Number).every((version) => !isNaN(version)) && data.split('.').length === 3;
+}
+
+readFile(path, 'utf8').then((message) => {
 
     const ERROR_MESSAGE = `Wrong commit message!
  Message: "${message}"
  Message pattern "PROJECT-TICKET: description"`;
 
     if (message.includes('Merge ')) {
+        process.exit(0);
+    }
+
+    if (message.indexOf('Message: "') === 0 || isVersion(message)) {
         process.exit(0);
     }
 

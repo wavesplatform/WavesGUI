@@ -4,6 +4,7 @@
         "es6": true
     },
     "globals": {
+        "WAVES_NETWORK_CONF": true,
         "angular": true,
         "jQuery": true,
         "$": true,

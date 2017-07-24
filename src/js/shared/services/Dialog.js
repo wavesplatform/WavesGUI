@@ -33,6 +33,8 @@
 
     }
 
+    Dialog.$inject = [`$document`];
+
     angular
         .module(`app.shared`)
         .service(`dialogService`, Dialog);

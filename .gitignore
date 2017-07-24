@@ -5,9 +5,15 @@
 /bower_components
 /.grunt
 /build
-/distr
+/dist
 *.pem
 /coverage
 /tmp
 /ts-scripts/*.js
 /package-lock.json
+/GulpFile.js
+/GulpFile.js.map
+/karma.conf.js
+/karma.conf.js.map
+/server.js
+/server.js.map
