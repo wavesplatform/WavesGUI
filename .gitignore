@@ -16,4 +16,5 @@ karma.conf.js
 karma.conf.js.map
 server.js
 server.js.map
+/package-lock.json
 
