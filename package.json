@@ -59,7 +59,9 @@
     "watchts": "sh scripts/watch-typescript.sh",
     "lessc": "sh scripts/lessc",
     "test": "node_modules/.bin/tsc -p ./ && node_modules/.bin/karma start karma.conf.js",
-    "release": "sh scripts/release.sh"
+    "release": "sh scripts/release.sh",
+    "build-local": "node_modules/.bin/gulp build-local",
+    "build": "node_modules/.bin/gulp all"
   },
   "dependencies": {
     "angular-ui-router": "^1.0.3"
