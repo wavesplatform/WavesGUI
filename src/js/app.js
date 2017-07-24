@@ -236,7 +236,7 @@
         `$stateProvider`, `$urlRouterProvider`, `$locationProvider`
     ];
 
-    function AngularApplicationRun(rest, applicationConstants, notificationService, addressService, $location, $state,
+    function AngularApplicationRun(rest, applicationConstants, notificationService, addressService, $location,
                                    loginContext) {
 
         const url = applicationConstants.NODE_ADDRESS;
@@ -270,7 +270,7 @@
     }
 
     AngularApplicationRun.$inject = [
-        `Restangular`, `constants.application`, `notificationService`, `addressService`, `$location`, `$state`,
+        `Restangular`, `constants.application`, `notificationService`, `addressService`, `$location`,
         `loginContext`
     ];
 
