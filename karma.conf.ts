@@ -24,7 +24,7 @@ module.exports = function (config) {
     let global = {
         statements: 39,
         lines: 39,
-        functions: false,
+        functions: 32,
         branches: 15
     };
 
