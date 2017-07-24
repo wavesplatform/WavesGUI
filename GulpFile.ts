@@ -41,6 +41,7 @@ function getConfigFile(name: string, config: IConfItem): string {
         version: pack.version,
         server: config.server,
         matcher: config.matcher,
+        coinomat: config.coinomat,
         datafeed: config.datafeed
     })};
     `;
