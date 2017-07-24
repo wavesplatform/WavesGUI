@@ -31,8 +31,8 @@
              * @returns {Promise}
              */
             login() {
-                const base = $location.absUrl().replace($location.path(), ``);
-                $location.path(`/login`).replace();
+                const base = $location.absUrl().replace($location.$$url, ``);
+                $state.go(`login`);
                 const stop = $rootScope.$on(`$locationChangeStart`, (event, next) => {
                     if (next.replace(base, ``) !== `/login`) {
                         event.preventDefault();

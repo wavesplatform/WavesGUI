@@ -261,9 +261,9 @@
         const reloadUrl = $location.url();
         loginContext.login().then(() => {
             if (path !== `/` && path !== `/login`) {
-                $location.url(reloadUrl);
+                $location.url(reloadUrl).replace();
             } else {
-                $state.go(`home.wallet`);
+                $location.path(`/wallet`).replace();
             }
         });
 
