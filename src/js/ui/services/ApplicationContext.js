@@ -3,10 +3,10 @@
 
     function ApplicationContext() {
 
-        const assets = {};
+        const assets = Object.create(null);
 
         return {
-            account: {},
+            account: Object.create(null),
             cache: {
                 assets,
                 updateAsset(assetId, balance, reissuable, totalTokens) {

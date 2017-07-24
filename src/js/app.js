@@ -236,7 +236,8 @@
         `$stateProvider`, `$urlRouterProvider`, `$locationProvider`
     ];
 
-    function AngularApplicationRun(rest, applicationConstants, notificationService, addressService, $state) {
+    function AngularApplicationRun(rest, applicationConstants, notificationService, addressService, $location, $state,
+                                   loginContext) {
 
         const url = applicationConstants.NODE_ADDRESS;
 
@@ -256,12 +257,21 @@
             return addressService.validateAddress(address.trim());
         };
 
-        $state.go(`login`);
+        const path = $location.path();
+        const reloadUrl = $location.url();
+        loginContext.login().then(() => {
+            if (path !== `/` && path !== `/login`) {
+                $location.url(reloadUrl);
+            } else {
+                $state.go(`home.wallet`);
+            }
+        });
 
     }
 
     AngularApplicationRun.$inject = [
-        `Restangular`, `constants.application`, `notificationService`, `addressService`, `$state`
+        `Restangular`, `constants.application`, `notificationService`, `addressService`, `$location`, `$state`,
+        `loginContext`
     ];
 
 })();

@@ -5,7 +5,7 @@
 
         constructor($state) {
             this.$state = $state;
-            this.currentTab = `wallet`;
+            this.currentTab = $state.current.name.replace(`home.`, ``);
         }
 
         changeTab(pageId) {

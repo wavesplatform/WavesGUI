@@ -1,7 +1,8 @@
 (function () {
     'use strict';
 
-    function loginContextFactory(moduleEvents, modes, applicationContext, apiService, $state, accountService) {
+    function loginContextFactory(moduleEvents, modes, applicationContext, apiService, $state, accountService, $q,
+                                 $rootScope, $location) {
 
         class LoginContext {
 
@@ -9,6 +10,11 @@
              * @constructor
              */
             constructor() {
+
+                /**
+                 * @private
+                 */
+                this._loginPromise = $q.defer();
 
                 /**
                  * @type {string}
@@ -19,6 +25,22 @@
                  * @type {*}
                  */
                 this.currentAccount = null;
+            }
+
+            /**
+             * @returns {Promise}
+             */
+            login() {
+                const base = $location.absUrl().replace($location.path(), ``);
+                $location.path(`/login`).replace();
+                const stop = $rootScope.$on(`$locationChangeStart`, (event, next) => {
+                    if (next.replace(base, ``) !== `/login`) {
+                        event.preventDefault();
+                    }
+                });
+                return this._loginPromise.promise.then(() => {
+                    stop();
+                });
             }
 
             /**
@@ -64,9 +86,8 @@
                         _.forEach(response.balances, (balanceItem) => {
                             applicationContext.cache.putAsset(balanceItem.issueTransaction);
                         });
+                        this._loginPromise.resolve();
                     });
-
-                $state.go(`home.wallet`);
             }
 
             /**
@@ -112,7 +133,8 @@
     }
 
     loginContextFactory.$inject = [
-        `ui.login.events`, `ui.login.modes`, `applicationContext`, `apiService`, `$state`, `accountService`
+        `ui.login.events`, `ui.login.modes`, `applicationContext`, `apiService`, `$state`, `accountService`, `$q`,
+        `$rootScope`, `$location`
     ];
 
     angular
