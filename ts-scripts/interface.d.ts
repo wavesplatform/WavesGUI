@@ -5,55 +5,13 @@ export interface IMetaJSON {
     stylesheets: Array<string>;
     developmentScripts: Array<string>;
     configurations: {
-        testnet: {
-            code: string;
-            server: string;
-            coinomat: string;
-            matcher: string;
-            datafeed: string;
-        };
-        mainnet: {
-            code: string;
-            server: string;
-            coinomat: string;
-            matcher: string;
-            datafeed: string;
-        };
-        devnet: {
-            code: string;
-            server: string;
-            coinomat: string;
-            matcher: string;
-            datafeed: string;
-        };
-        chrome_testnet: {
-            code: string;
-            server: string;
-            matcher: string;
-            coinomat: string;
-            datafeed: string;
-        },
-        chrome_mainnet: {
-            code: string;
-            server: string;
-            matcher: string;
-            coinomat: string;
-            datafeed: string;
-        },
-        desktop_testnet: {
-            code: string;
-            server: string;
-            matcher: string;
-            coinomat: string;
-            datafeed: string;
-        },
-        desktop_mainnet: {
-            code: string;
-            server: string;
-            matcher: string;
-            coinomat: string;
-            datafeed: string;
-        }
+        testnet: IConfItem;
+        mainnet:IConfItem;
+        devnet:IConfItem;
+        chrome_testnet: IConfItem;
+        chrome_mainnet: IConfItem;
+        desktop_testnet: IConfItem;
+        desktop_mainnet: IConfItem;
     }
 }
 
@@ -73,6 +31,14 @@ export interface IPackageJSON {
 
 export interface IHash<T> {
     [key: string]: T;
+}
+
+export interface IConfItem {
+    code: string;
+    server: string;
+    coinomat: string;
+    matcher: string;
+    datafeed: string;
 }
 
 export interface ITaskFunction {

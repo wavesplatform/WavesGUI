@@ -9,7 +9,7 @@ import * as htmlmin from 'gulp-htmlmin';
 import { getFilesFrom, replaceScripts, replaceStyles, run, task } from './ts-scripts/utils';
 import { relative } from 'path';
 import { copy as fsCopy, outputFile, readFile, readJSON, readJSONSync } from 'fs-extra';
-import { IMetaJSON, IPackageJSON } from './ts-scripts/interface';
+import { IConfItem, IMetaJSON, IPackageJSON } from './ts-scripts/interface';
 
 const zip = require('gulp-zip');
 const s3 = require('gulp-s3');
@@ -34,14 +34,16 @@ function moveTo(path: string): (relativePath: string) => string {
     }
 }
 
-function template(file: string): (data: any) => string {
-    return function (data: any) {
-        Object.keys(data).forEach((name) => {
-            const prop = data[name];
-            file = file.replace(new RegExp(`\/\*\<${name}>\*\/.*?(\/\*\<\/${name}>\*\/)`, 'g'), prop);
-        });
-        return file;
-    }
+function getConfigFile(name: string, config: IConfItem): string {
+    return `var WAVES_NETWORK_CONF = ${JSON.stringify({
+        name,
+        code: config.code,
+        version: pack.version,
+        server: config.server,
+        matcher: config.matcher,
+        datafeed: config.datafeed
+    })};
+    `;
 }
 
 task('up-version-json', function (done) {
@@ -93,19 +95,10 @@ configurations.forEach((name) => {
 
         stream.on('end', function () {
             readFile(`dist/${name}/js/${jsName}`, { encoding: 'utf8' }).then((file) => {
-                const content = template(file)({
-                    NETWORK_NAME: name,
-                    NETWORK_CODE: config.code,
-                    CLIENT_VERSION: pack.version,
-                    NODE_ADDRESS: config.server,
-                    COINOMAT_ADDRESS: config.coinomat,
-                    MATCHER_ADDRESS: config.matcher,
-                    DATAFEED_ADDRESS: config.datafeed
-                });
 
-                console.log(name, config);
+                file = getConfigFile(name, config) + file;
 
-                outputFile(`dist/${name}/js/${jsName}`, content)
+                outputFile(`dist/${name}/js/${jsName}`, file)
                     .then(() => done());
             });
         });
@@ -211,12 +204,21 @@ task('uglify', ['babel'], function () {
 task('html-develop', function (done) {
     readFile('src/index.html', { encoding: 'utf8' }).then((file) => {
         const filter = moveTo('./dist/dev');
-        const files = ['dist/dev/js/vendors.js'].concat(/*'./dist/dev/js/bundle.min.js'*/sourceFiles, './dist/dev/js/templates.js').map(filter);
+        const files = [
+            './dist/dev/js/config.js',
+            'dist/dev/js/vendors.js'
+        ]
+            .concat(/*'./dist/dev/js/bundle.min.js'*/sourceFiles, './dist/dev/js/templates.js')
+            .map(filter);
 
         file = replaceStyles(file, meta.stylesheets.map(filter));
         file = replaceScripts(file, files);
 
-        outputFile('./dist/dev/index.html', file).then(() => done());
+        Promise.all([
+            outputFile('./dist/dev/index.html', file),
+            outputFile('./dist/dev/js/config.js', getConfigFile('devel', meta.configurations.testnet))
+        ])
+            .then(() => done());
     });
 });
 
