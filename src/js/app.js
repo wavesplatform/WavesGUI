@@ -257,15 +257,7 @@
             return addressService.validateAddress(address.trim());
         };
 
-        const path = $location.path();
-        const reloadUrl = $location.url();
-        loginContext.login().then(() => {
-            if (path !== `/` && path !== `/login`) {
-                $location.url(reloadUrl).replace();
-            } else {
-                $location.path(`/wallet`).replace();
-            }
-        });
+        loginContext.loginAndReturn();
 
     }
 

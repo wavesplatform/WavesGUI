@@ -2,7 +2,7 @@
     'use strict';
 
     function loginContextFactory(moduleEvents, modes, applicationContext, apiService, $state, accountService, $q,
-                                 $rootScope) {
+                                 $rootScope, $location) {
 
         class LoginContext {
 
@@ -39,6 +39,21 @@
                 });
                 return this._loginPromise.promise.then(() => {
                     stop();
+                });
+            }
+
+            /**
+             * @returns {Promise}
+             */
+            loginAndReturn() {
+                const path = $location.path();
+                const reloadUrl = $location.url();
+                return this.login().then(() => {
+                    if (path !== `/` && path !== `/login`) {
+                        $location.url(reloadUrl).replace();
+                    } else {
+                        $location.path(`/wallet`).replace();
+                    }
                 });
             }
 
@@ -133,7 +148,7 @@
 
     loginContextFactory.$inject = [
         `ui.login.events`, `ui.login.modes`, `applicationContext`, `apiService`, `$state`, `accountService`, `$q`,
-        `$rootScope`
+        `$rootScope`, `$location`
     ];
 
     angular
