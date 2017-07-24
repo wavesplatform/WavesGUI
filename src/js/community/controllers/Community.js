@@ -35,6 +35,10 @@
             const endBlock = blockHeight;
             const startBlock = Math.max(1, endBlock - BLOCKS_DEPTH);
 
+            if (isNaN(blockHeight) || isNaN(startBlock)) {
+                return null;
+            }
+
             this.apiService.transactions.unconfirmed()
                 .then((response) => {
                     this.candidate.block = blockHeight + 1;
