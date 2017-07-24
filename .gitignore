@@ -10,7 +10,7 @@
 /coverage
 tmp
 ts-scripts/*.js
-GulpFile.js
+gulpfile.js
 GulpFile.js.map
 karma.conf.js
 karma.conf.js.map

@@ -2,7 +2,7 @@
     'use strict';
 
     function loginContextFactory(moduleEvents, modes, applicationContext, apiService, $state, accountService, $q,
-                                 $rootScope, $location) {
+                                 $rootScope) {
 
         class LoginContext {
 
@@ -31,10 +31,9 @@
              * @returns {Promise}
              */
             login() {
-                const base = $location.absUrl().replace($location.$$url, ``);
                 $state.go(`login`);
                 const stop = $rootScope.$on(`$locationChangeStart`, (event, next) => {
-                    if (next.replace(base, ``) !== `/login`) {
+                    if (next.replace(location.origin, ``) !== `/login`) {
                         event.preventDefault();
                     }
                 });
@@ -134,7 +133,7 @@
 
     loginContextFactory.$inject = [
         `ui.login.events`, `ui.login.modes`, `applicationContext`, `apiService`, `$state`, `accountService`, `$q`,
-        `$rootScope`, `$location`
+        `$rootScope`
     ];
 
     angular
