@@ -1,6 +1,11 @@
 {
   "name": "waves-lite-client",
   "version": "0.4.29",
+  "author": {
+    "name": "Waves Platform",
+    "email": "info@wavesplatform.com",
+    "url": "https://wavesplatform.com"
+  },
   "description": "A lite client for the Waves platform",
   "license": "Apache-2.0",
   "main": "main.js"

@@ -17,3 +17,8 @@
 /karma.conf.js.map
 /server.js
 /server.js.map
+*.pdx
+*.cer
+*.sh
+*.p12
+*.pfx

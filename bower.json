@@ -15,7 +15,6 @@
     "jquery": "~3.1.0",
     "js-sha3": "^0.5.2",
     "lodash": "^4.17.4",
-    "ng-droplet": "^0.5.16",
     "qrious": "^2.2.0",
     "restangular": "1.5.2",
     "techan": "^0.8.0",

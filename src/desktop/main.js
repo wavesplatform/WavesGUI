@@ -1,9 +1,8 @@
-/* eslint no-implicit-globals: "off" */
-/* eslint no-undef: "off" */
-
 const electron = require(`electron`);
 // Module to control application life.
 const app = electron.app;
+// application menu (used only in OSX fo far to enable editing shortcuts)
+const Menu = electron.Menu;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
@@ -23,11 +22,34 @@ function createWindow() {
         minHeight: 600,
         center: true,
         title: `Waves Lite Client`,
+        icon: path.join(__dirname, `resources/icon128x128.png`), // this works only for linux
         webPreferences: {
             nodeIntegration: false,
             defaultEncoding: `UTF-8`
         }
     });
+
+    // setting up menu to enable editing shortcuts for Mac OSX
+    if (process.platform === `darwin`) {
+        var template = [{
+            label: `Application`,
+            submenu: [
+                { label: `Quit`, accelerator: `Command+Q`, click: function() { app.quit(); }}
+            ]}, {
+            label: `Edit`,
+            submenu: [
+                { label: `Undo`, accelerator: `CmdOrCtrl+Z`, selector: `undo:` },
+                { label: `Redo`, accelerator: `Shift+CmdOrCtrl+Z`, selector: `redo:` },
+                { type: `separator` },
+                { label: `Cut`, accelerator: `CmdOrCtrl+X`, selector: `cut:` },
+                { label: `Copy`, accelerator: `CmdOrCtrl+C`, selector: `copy:` },
+                { label: `Paste`, accelerator: `CmdOrCtrl+V`, selector: `paste:` },
+                { label: `Select All`, accelerator: `CmdOrCtrl+A`, selector: `selectAll:` }
+            ]}
+        ];
+
+        Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+    }
 
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({

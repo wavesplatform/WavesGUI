@@ -46,6 +46,9 @@ grunt build-local
 ```
 Those commands will prepare all required dependencies. Now feel free to open src/index.html in your browser.
 
+## Native applications
+Build process for native apps is described [here](build-native.md).
+
 # Packages description
 
 ## Downloadable distributions
