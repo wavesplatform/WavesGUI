@@ -458,6 +458,7 @@
           <div class="noDisp" ng-controller="walletWithdrawController as withdraw">
             <div id="withdraw-crypto-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.confirmWithdraw(withdraw.assetForm)">
               <h2 class="sectionHeader">WITHDRAW: {{withdraw.sourceCurrency}}</h2>
+              <p class="dialog-text" ng-if="withdraw.isEthereum">Please withdraw to simple address without smart contracts,<br>otherwise higher fee will be required and transaction may fail</p>
               <form id="withdraw-asset-form" name="withdraw.assetForm" novalidate ng-validate="withdraw.validationOptions">
                 <table class="form-table">
                   <div class="balanceAmt">

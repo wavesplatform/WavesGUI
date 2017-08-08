@@ -111,6 +111,7 @@
                     var maximumPayment = Money.fromTokens(Math.min(ctrl.assetBalance.toTokens(),
                         response.in_max), ctrl.assetBalance.currency);
                     ctrl.sourceCurrency = ctrl.assetBalance.currency.displayName;
+                    ctrl.isEthereum = (ctrl.assetBalance.currency === Currency.ETH);
                     ctrl.exchangeRate = response.xrate;
                     ctrl.feeIn = response.fee_in;
                     ctrl.feeOut = response.fee_out;
