@@ -190,7 +190,6 @@
                 })
                 .catch(function (e) {
                     console.log(e);
-                    notificationService.error('There is no such pair or one of the assets does not exist.');
                 });
         }
 
