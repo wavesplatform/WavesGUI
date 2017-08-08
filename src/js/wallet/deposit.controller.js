@@ -56,11 +56,11 @@
         });
 
         function depositBTC() {
-            dialogService.open('#deposit-btc-dialog');
 
             coinomatService.getDepositDetails(ctrl.depositWith, ctrl.assetBalance.currency,
                 applicationContext.account.address)
                 .then(function (depositDetails) {
+                    dialogService.open('#deposit-btc-dialog');
                     ctrl.btc.bitcoinAddress = depositDetails.address;
                     ctrl.btc.bitcoinUri = bitcoinUriService.generate(ctrl.btc.bitcoinAddress);
                 })
@@ -70,17 +70,15 @@
                     } else {
                         notificationService.error(DEFAULT_ERROR_MESSAGE);
                     }
-
-                    dialogService.close();
                 });
         }
 
         function depositETH() {
-            dialogService.open('#deposit-eth-dialog');
 
             coinomatService.getDepositDetails(ctrl.depositWith, ctrl.assetBalance.currency,
                 applicationContext.account.address)
                 .then(function (depositDetails) {
+                    dialogService.open('#deposit-eth-dialog');
                     ctrl.eth.ethereumAddress = depositDetails.address;
                 })
                 .catch(function (exception) {
@@ -89,8 +87,6 @@
                     } else {
                         notificationService.error(DEFAULT_ERROR_MESSAGE);
                     }
-
-                    dialogService.close();
                 });
         }
 
