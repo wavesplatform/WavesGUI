@@ -43,28 +43,47 @@
 
         ctrl.createOrder = function (type, price, amount, fee, callback) {
             // TODO : add a queue for the orders which weren't yet accepted
-            dexOrderService
-                .addOrder(ctrl.pair, {
-                    orderType: type,
-                    amount: Money.fromTokens(amount, ctrl.pair.amountAsset),
-                    price: OrderPrice.fromTokens(price, ctrl.pair),
-                    fee: Money.fromTokens(fee, Currency.WAVES)
-                }, sender)
-                .then(function () {
-                    refreshOrderbooks();
-                    refreshUserOrders();
-                    notificationService.notice('Order has been created!');
-                    if (callback) {
-                        callback();
-                    }
-                })
-                .catch(function (e) {
-                    var errorMessage = e.data ? e.data.message : null;
-                    notificationService.error(errorMessage || 'Order has not been created!');
-                    if (callback) {
-                        callback();
-                    }
-                });
+
+            var confirmation = true,
+                amountName = ctrl.pair.amountAsset.displayName,
+                priceName = ctrl.pair.priceAsset.displayName;
+
+            if (type === 'sell' && ctrl.buyOrders.length && price < ctrl.buyOrders[0].price * 0.9) {
+                confirmation = confirm('Are you sure you want to sell ' + amountName +
+                    ' at ' + price + ' ' + priceName + '?');
+            }
+
+            if (type === 'buy' && ctrl.sellOrders.length && price > ctrl.sellOrders[0].price * 1.1) {
+                confirmation = confirm('Are you sure you want to buy ' + amountName +
+                    ' at ' + price + ' ' + priceName + '?');
+            }
+
+            if (confirmation) {
+                dexOrderService
+                    .addOrder(ctrl.pair, {
+                        orderType: type,
+                        amount: Money.fromTokens(amount, ctrl.pair.amountAsset),
+                        price: OrderPrice.fromTokens(price, ctrl.pair),
+                        fee: Money.fromTokens(fee, Currency.WAVES)
+                    }, sender)
+                    .then(function () {
+                        refreshOrderbooks();
+                        refreshUserOrders();
+                        notificationService.notice('Order has been created!');
+                        if (callback) {
+                            callback();
+                        }
+                    })
+                    .catch(function (e) {
+                        var errorMessage = e.data ? e.data.message : null;
+                        notificationService.error(errorMessage || 'Order has not been created!');
+                        if (callback) {
+                            callback();
+                        }
+                    });
+            } else if (callback) {
+                callback();
+            }
         };
 
         ctrl.cancelOrder = function (order) {
