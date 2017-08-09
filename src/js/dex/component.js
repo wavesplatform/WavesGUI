@@ -5,7 +5,8 @@
         HISTORY_LIMIT = 50;
 
     function DexController($scope, $interval, applicationContext, assetStoreFactory, datafeedApiService,
-                           dexOrderService, dexOrderbookService, notificationService, utilsService) {
+                           dexOrderService, dexOrderbookService, notificationService, utilsService, dialogService) {
+
         var ctrl = this,
             intervalPromise,
 
@@ -26,64 +27,81 @@
         emptyDataFields();
 
         ctrl.favoritePairs = [
-            {amountAsset: Currency.WAVES, priceAsset: Currency.BTC},
-            {amountAsset: Currency.WAVES, priceAsset: Currency.USD},
-            {amountAsset: Currency.WAVES, priceAsset: Currency.EUR},
-            {amountAsset: Currency.BTC, priceAsset: Currency.EUR},
-            {amountAsset: Currency.BTC, priceAsset: Currency.USD},
-            {amountAsset: Currency.ETH, priceAsset: Currency.WAVES},
-            {amountAsset: Currency.ETH, priceAsset: Currency.BTC},
-            {amountAsset: Currency.ETH, priceAsset: Currency.USD},
-            {amountAsset: Currency.WCT, priceAsset: Currency.WAVES},
-            {amountAsset: Currency.WCT, priceAsset: Currency.BTC},
-            {amountAsset: Currency.MRT, priceAsset: Currency.WAVES},
-            {amountAsset: Currency.MRT, priceAsset: Currency.BTC},
-            {amountAsset: Currency.EUR, priceAsset: Currency.USD}
+            { amountAsset: Currency.WAVES, priceAsset: Currency.BTC },
+            { amountAsset: Currency.WAVES, priceAsset: Currency.USD },
+            { amountAsset: Currency.WAVES, priceAsset: Currency.EUR },
+            { amountAsset: Currency.BTC, priceAsset: Currency.EUR },
+            { amountAsset: Currency.BTC, priceAsset: Currency.USD },
+            { amountAsset: Currency.ETH, priceAsset: Currency.WAVES },
+            { amountAsset: Currency.ETH, priceAsset: Currency.BTC },
+            { amountAsset: Currency.ETH, priceAsset: Currency.USD },
+            { amountAsset: Currency.WCT, priceAsset: Currency.WAVES },
+            { amountAsset: Currency.WCT, priceAsset: Currency.BTC },
+            { amountAsset: Currency.MRT, priceAsset: Currency.WAVES },
+            { amountAsset: Currency.MRT, priceAsset: Currency.BTC },
+            { amountAsset: Currency.EUR, priceAsset: Currency.USD }
         ];
 
         ctrl.createOrder = function (type, price, amount, fee, callback) {
             // TODO : add a queue for the orders which weren't yet accepted
 
-            var confirmation = true,
-                amountName = ctrl.pair.amountAsset.displayName,
-                priceName = ctrl.pair.priceAsset.displayName;
-
-            if (type === 'sell' && ctrl.buyOrders.length && price < ctrl.buyOrders[0].price * 0.9) {
-                confirmation = confirm('Are you sure you want to sell ' + amountName +
-                    ' at ' + price + ' ' + priceName + '?');
+            function emptyBadOrderFields() {
+                ctrl.badOrderQuestion = '';
+                ctrl.placeBadOrder = ctrl.refuseBadOrder = function () {};
             }
 
-            if (type === 'buy' && ctrl.sellOrders.length && price > ctrl.sellOrders[0].price * 1.1) {
-                confirmation = confirm('Are you sure you want to buy ' + amountName +
-                    ' at ' + price + ' ' + priceName + '?');
+            var amountName = ctrl.pair.amountAsset.displayName,
+                priceName = ctrl.pair.priceAsset.displayName,
+                badSellOrder = (type === 'sell' && ctrl.buyOrders.length && price < ctrl.buyOrders[0].price * 0.9),
+                badBuyOrder = (type === 'buy' && ctrl.sellOrders.length && price > ctrl.sellOrders[0].price * 1.1);
+
+            if (badSellOrder || badBuyOrder) {
+
+                ctrl.badOrderQuestion = 'Are you sure you want to ' + type + ' ' +
+                    amountName + ' at price ' + price + ' ' + priceName + '?';
+
+                ctrl.placeBadOrder = function () {
+                    emptyBadOrderFields();
+                    ctrl.realCreateOrder(type, price, amount, fee, callback);
+                };
+
+                ctrl.refuseBadOrder = function () {
+                    emptyBadOrderFields();
+                    callback();
+                };
+
+                dialogService.open('#dex-bad-order-confirmation');
+
+            } else {
+                ctrl.realCreateOrder(type, price, amount, fee, callback);
             }
 
-            if (confirmation) {
-                dexOrderService
-                    .addOrder(ctrl.pair, {
-                        orderType: type,
-                        amount: Money.fromTokens(amount, ctrl.pair.amountAsset),
-                        price: OrderPrice.fromTokens(price, ctrl.pair),
-                        fee: Money.fromTokens(fee, Currency.WAVES)
-                    }, sender)
-                    .then(function () {
-                        refreshOrderbooks();
-                        refreshUserOrders();
-                        notificationService.notice('Order has been created!');
-                        if (callback) {
-                            callback();
-                        }
-                    })
-                    .catch(function (e) {
-                        var errorMessage = e.data ? e.data.message : null;
-                        notificationService.error(errorMessage || 'Order has not been created!');
-                        if (callback) {
-                            callback();
-                        }
-                    });
-            } else if (callback) {
-                callback();
-            }
+        };
+
+        ctrl.realCreateOrder = function (type, price, amount, fee, callback) {
+            // TODO : add a queue for the orders which weren't yet accepted
+            dexOrderService
+                .addOrder(ctrl.pair, {
+                    orderType: type,
+                    amount: Money.fromTokens(amount, ctrl.pair.amountAsset),
+                    price: OrderPrice.fromTokens(price, ctrl.pair),
+                    fee: Money.fromTokens(fee, Currency.WAVES)
+                }, sender)
+                .then(function () {
+                    refreshOrderbooks();
+                    refreshUserOrders();
+                    notificationService.notice('Order has been created!');
+                    if (callback) {
+                        callback();
+                    }
+                })
+                .catch(function (e) {
+                    var errorMessage = e.data ? e.data.message : null;
+                    notificationService.error(errorMessage || 'Order has not been created!');
+                    if (callback) {
+                        callback();
+                    }
+                });
         };
 
         ctrl.cancelOrder = function (order) {
@@ -269,7 +287,7 @@
     }
 
     DexController.$inject = ['$scope', '$interval', 'applicationContext', 'assetStoreFactory', 'datafeedApiService',
-                            'dexOrderService', 'dexOrderbookService', 'notificationService', 'utilsService'];
+        'dexOrderService', 'dexOrderbookService', 'notificationService', 'utilsService', 'dialogService'];
 
     angular
         .module('app.dex')
