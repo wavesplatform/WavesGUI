@@ -1,6 +1,6 @@
 {
   "name": "waves-lite-client",
-  "version": "0.4.32",
+  "version": "0.4.33",
   "description": "A lite client for the Waves platform",
   "repository": {
     "type": "git",
