@@ -10,7 +10,7 @@ export const task: ITaskFunction = gulp.task.bind(gulp) as any;
 export function getBranch(): Promise<string> {
     return new Promise((resolve, reject) => {
         const command = 'git symbolic-ref --short HEAD';
-        exec(command, {encoding: 'utf8'}, (error: Error, stdout: string, stderr: string) => {
+        exec(command, { encoding: 'utf8' }, (error: Error, stdout: string, stderr: string) => {
             if (error) {
                 console.log(stderr);
                 console.log(error);
@@ -27,7 +27,7 @@ export function getBranchDetail(): Promise<{ branch: string; project: string; ti
         const parts = branch.split('-');
         const [project, ticket] = parts;
         const description = parts.slice(2).join(' ');
-        return {branch, project: project.toUpperCase(), ticket: Number(ticket), description};
+        return { branch, project: project.toUpperCase(), ticket: Number(ticket), description };
     });
 }
 
@@ -60,7 +60,7 @@ export function getFilesFrom(dist: string, extension: string, filter?: IFilter):
     return files;
 }
 
-export function run(command: string, args: Array<string>): Promise<{code: number; data: string[]}> {
+export function run(command: string, args: Array<string>, noLog?: boolean): Promise<{ code: number; data: string[] }> {
     return new Promise((resolve) => {
         const task = spawn(command, args);
         const data = [];
@@ -68,15 +68,19 @@ export function run(command: string, args: Array<string>): Promise<{code: number
         task.stdout.on('data', (message: Buffer) => {
             const value = String(message);
             data.push(value);
-            console.log(value);
+            if (!noLog) {
+                console.log(value);
+            }
         });
 
         task.stderr.on('data', (data: Buffer) => {
-            console.log(String(data));
+            if (!noLog) {
+                console.log(String(data));
+            }
         });
 
         task.on('close', (code: number) => {
-            resolve({code, data});
+            resolve({ code, data });
         });
     });
 }
