@@ -455,7 +455,7 @@
             </div>
           </div>
 
-          <div class="noDisp" ng-controller="walletWithdrawController as withdraw">
+          <div class="noDisp" ng-controller="walletWithdrawController as withdraw" data-type="crypto">
             <div id="withdraw-crypto-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.confirmWithdraw(withdraw.assetForm)">
               <h2 class="sectionHeader">WITHDRAW: {{withdraw.sourceCurrency}}</h2>
               <p class="dialog-text" ng-if="withdraw.isEthereum">Do not withdraw ETH to smart contract addresses!<br/>Your transaction may fail if their execution require additional fees.</p>
@@ -510,7 +510,7 @@
             </div>
           </div>
 
-          <div class="noDisp" ng-controller="walletWithdrawController as withdraw">
+          <div class="noDisp" ng-controller="walletWithdrawController as withdraw" data-type="fiat">
             <div id="withdraw-fiat-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
               <h2 class="sectionHeader">WITHDRAW: {{withdraw.sourceCurrency}}</h2>
               <p class="dialog-text textCenter">

@@ -4,11 +4,13 @@
     var DEFAULT_FEE_AMOUNT = '0.001',
         DEFAULT_ERROR_MESSAGE = 'Connection is lost';
 
-    function WavesWalletWithdrawController ($scope, constants, events, autocomplete, dialogService,
+    function WavesWalletWithdrawController ($scope, constants, events, autocomplete, dialogService, $element,
                                             coinomatService, transactionBroadcast, notificationService,
                                             apiService, formattingService, assetService, applicationContext) {
 
         var ctrl = this;
+        var type = $element.data('type');
+
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAVES);
         var notPermittedBitcoinAddresses = {};
 
@@ -86,7 +88,7 @@
 
         resetForm();
 
-        $scope.$on(events.WALLET_WITHDRAW, function (event, eventData) {
+        $scope.$on(events.WALLET_WITHDRAW + type, function (event, eventData) {
             ctrl.assetBalance = eventData.assetBalance;
             ctrl.wavesBalance = eventData.wavesBalance;
 
@@ -253,7 +255,7 @@
     }
 
     WavesWalletWithdrawController.$inject = [
-        '$scope', 'constants.ui', 'wallet.events', 'autocomplete.fees', 'dialogService',
+        '$scope', 'constants.ui', 'wallet.events', 'autocomplete.fees', 'dialogService', '$element',
         'coinomatService', 'transactionBroadcast', 'notificationService',
         'apiService', 'formattingService', 'assetService', 'applicationContext'
     ];
