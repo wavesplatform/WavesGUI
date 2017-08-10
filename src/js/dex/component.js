@@ -170,11 +170,6 @@
         // Enable polling for orderbooks and newly created assets
         intervalPromise = $interval(function () {
             refreshAll();
-            assetStore
-                .getAll()
-                .then(function (assetsList) {
-                    ctrl.assetsList = assetsList;
-                });
         }, POLLING_DELAY);
 
         ctrl.$onDestroy = function () {
