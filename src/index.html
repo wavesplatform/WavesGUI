@@ -547,7 +547,7 @@
             </div>
           </div>
 
-          <div class="noDisp" ng-controller="walletDepositController as deposit">
+          <div class="noDisp" ng-controller="walletDepositController as deposit" data-currency="BTC">
             <div id="deposit-btc-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
               <h2 class="sectionHeader">DEPOSIT: BTC</h2>
               <p class="dialog-text textCenter">
@@ -581,11 +581,11 @@
             </div>
           </div>
 
-          <div class="noDisp" ng-controller="walletDepositController as deposit">
+          <div class="noDisp" ng-controller="walletDepositController as deposit" data-currency="ETH">
             <div id="deposit-eth-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
               <h2 class="sectionHeader">DEPOSIT: ETH</h2>
               <p class="dialog-text">To deposit ETH to your Waves account, please send ETH to the address below.<br/>
-                The minimum amount of deposit is <span class="fontBold">{{::deposit.eth.minimumAmount}} ETH</span>.</p>
+                The minimum amount of deposit is <span class="fontBold">{{deposit.eth.minimumAmount}} ETH</span>.</p>
               <table class="wavesTable bitcoin-requisites">
                 <tbody>
                 <tr>
@@ -602,7 +602,7 @@
             </div>
           </div>
 
-          <div class="noDisp" ng-controller="walletDepositController as deposit">
+          <div class="noDisp" ng-controller="walletDepositController as deposit" data-currency="EUR">
             <div id="deposit-eur-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
               <h2 class="sectionHeader">DEPOSIT: EUR</h2>
               <p class="dialog-text textCenter">VERIFICATION</p>
@@ -639,7 +639,7 @@
             </div>
           </div>
 
-          <div class="noDisp" ng-controller="walletDepositController as deposit">
+          <div class="noDisp" ng-controller="walletDepositController as deposit" data-currency="USD">
             <div id="deposit-usd-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
               <h2 class="sectionHeader">DEPOSIT: USD</h2>
               <p class="dialog-text textCenter">VERIFICATION</p>

@@ -4,9 +4,10 @@
     var DEFAULT_ERROR_MESSAGE = 'Connection is lost';
 
     function WavesWalletDepositController($scope, events, coinomatService, dialogService, notificationService,
-                                          applicationContext, bitcoinUriService, utilsService) {
+                                          applicationContext, bitcoinUriService, utilsService, $element) {
 
         var ctrl = this;
+        var currencyId = Currency[$element.data('currency')].id;
 
         ctrl.btc = {
             bitcoinAddress: '',
@@ -35,7 +36,7 @@
             ctrl.btc.bitcoinUri = bitcoinUriService.generate(ctrl.btc.bitcoinAddress, params);
         };
 
-        $scope.$on(events.WALLET_DEPOSIT, function (event, eventData) {
+        $scope.$on(events.WALLET_DEPOSIT + currencyId, function (event, eventData) {
             ctrl.depositWith = eventData.depositWith;
             ctrl.assetBalance = eventData.assetBalance;
             ctrl.currency = ctrl.assetBalance.currency.displayName;
@@ -101,7 +102,7 @@
 
     WavesWalletDepositController.$inject = [
         '$scope', 'wallet.events', 'coinomatService', 'dialogService', 'notificationService',
-        'applicationContext', 'bitcoinUriService', 'utilsService'
+        'applicationContext', 'bitcoinUriService', 'utilsService', '$element'
     ];
 
     angular

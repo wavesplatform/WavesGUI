@@ -74,7 +74,7 @@
             if (wallet.balance.currency === Currency.WAVES) {
                 depositFromCard(wallet.balance.currency);
             } else {
-                $scope.$broadcast(events.WALLET_DEPOSIT, {
+                $scope.$broadcast(events.WALLET_DEPOSIT + wallet.balance.currency.id, {
                     assetBalance: wallet.balance,
                     depositWith: wallet.depositWith
                 });
