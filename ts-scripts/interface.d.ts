@@ -7,11 +7,6 @@ export interface IMetaJSON {
     configurations: {
         testnet: IConfItem;
         mainnet:IConfItem;
-        devnet:IConfItem;
-        chrome_testnet: IConfItem;
-        chrome_mainnet: IConfItem;
-        desktop_testnet: IConfItem;
-        desktop_mainnet: IConfItem;
     }
 }
 

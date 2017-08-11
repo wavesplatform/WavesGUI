@@ -6,8 +6,8 @@ import * as uglify from 'gulp-uglify';
 import * as rename from 'gulp-rename';
 import * as copy from 'gulp-copy';
 import * as htmlmin from 'gulp-htmlmin';
-import { getFilesFrom, replaceScripts, replaceStyles, run, task } from './ts-scripts/utils';
-import { relative } from 'path';
+import { getFilesFrom, replaceNetworkConfig, replaceScripts, replaceStyles, run, task } from './ts-scripts/utils';
+import { join, relative } from 'path';
 import { copy as fsCopy, outputFile, readFile, readJSON, readJSONSync } from 'fs-extra';
 import { IConfItem, IMetaJSON, IPackageJSON } from './ts-scripts/interface';
 
@@ -47,6 +47,138 @@ function getConfigFile(name: string, config: IConfItem): string {
     `;
 }
 
+const taskHash = {
+    concat: [],
+    html: [],
+    copy: [],
+    zip: []
+};
+
+const tmpJsPath = './dist/tmp/js';
+const tmpCssPath = './dist/tmp/css';
+const vendorName = 'vendors.js';
+const bundleName = 'bundle.js';
+const templateName = 'templates.js';
+const cssName = `${pack.name}-styles-${pack.version}.css`;
+const vendorPath = join(tmpJsPath, vendorName);
+const bundlePath = join(tmpJsPath, bundleName);
+const templatePath = join(tmpJsPath, templateName);
+const cssPath = join(tmpCssPath, cssName);
+
+
+
+const getFileName = (name, type) => {
+    const postfix = type === 'min' ? '.min' : '';
+    return `${name.replace('.js', '')}${postfix}.js`;
+};
+
+
+const indexPromise = readFile('src/index.html', { encoding: 'utf8' });
+
+['build', 'chrome', 'desktop'].forEach((buildName) => {
+
+    configurations.forEach((configName) => {
+
+        const config = meta.configurations[configName];
+
+        ['dev', 'normal', 'min'].forEach((type) => {
+
+            const targetPath = `./dist/${buildName}/${configName}/${type}`;
+            const jsFileName = getName(`${pack.name}-${buildName}-${configName}-${pack.version}.js`);
+            const jsFilePath = join(targetPath, 'js', jsFileName);
+            const taskPostfix = `${buildName}-${configName}-${type}`;
+
+
+            if (type !== 'dev') {
+                task(`concat-${taskPostfix}`, [type === 'min' ? 'uglify' : 'babel'], function (done) {
+                    const stream = gulp.src([vendorPath, getName(bundlePath), templatePath])
+                        .pipe(concat(jsFileName))
+                        .pipe(gulp.dest(`${targetPath}/js`));
+
+                    stream.on('end', function () {
+                        readFile(`${targetPath}/js/${jsFileName}`, { encoding: 'utf8' }).then((file) => {
+                            outputFile(`${targetPath}/js/${jsFileName}`, file)
+                                .then(() => done());
+                        });
+                    });
+                });
+                taskHash.concat.push(`concat-${taskPostfix}`);
+            }
+
+            task(`copy-${taskPostfix}`, ['concat-style'], function (done) {
+                let forCopy = [];
+
+                if (buildName === 'chrome') {
+                    forCopy = [
+                        fsCopy('./src/chrome', targetPath)
+                    ];
+                } else if (buildName  === 'desktop') {
+                    forCopy = [
+                        fsCopy('src/desktop', targetPath)
+                    ];
+                } else if (type === 'dev') {
+                    forCopy = [
+                        fsCopy(templatePath, `${targetPath}/js/${templateName}`)
+                    ]
+                } else {
+                    forCopy = [];
+                }
+
+                Promise.all([
+                    fsCopy(cssPath, `${targetPath}/css/${pack.name}-styles-${pack.version}.css`),
+                    fsCopy('src/fonts', `${targetPath}/fonts`),
+                    fsCopy('LICENSE', `${targetPath}/LICENSE`),
+                    fsCopy('3RD-PARTY-LICENSES.txt', `${targetPath}/3RD-PARTY-LICENSES.txt`),
+                    fsCopy('src/img', `${targetPath}/img`)
+                ].concat(forCopy)).then(() => {
+                    done();
+                }, (e) => {
+                    console.log(e.message);
+                });
+            });
+            taskHash.copy.push(`copy-${taskPostfix}`);
+
+
+            const htmlDeps = type === 'dev' ? [] : [`concat-${taskPostfix}`];
+
+            task(`html-${taskPostfix}`, htmlDeps.concat(['templates', `copy-${taskPostfix}`]), function (done) {
+                indexPromise.then((file) => {
+                    const filter = moveTo(targetPath);
+
+                    file = replaceStyles(file, [`${targetPath}/css/${pack.name}-styles-${pack.version}.css`].map(filter));
+                    if (type === 'dev') {
+                        file = replaceScripts(file, meta.vendors.concat(sourceFiles, `${targetPath}/js/${templateName}`).map(filter));
+                    } else {
+                        file = replaceScripts(file, [jsFilePath].map(filter));
+                    }
+
+                    file = replaceNetworkConfig(file, getConfigFile(`${bundleName}-${configName}`, config));
+                    outputFile(`${targetPath}/index.html`, file).then(() => done());
+                });
+            });
+            taskHash.html.push(`html-${taskPostfix}`);
+
+            function getName(name) {
+                return getFileName(name, type);
+            }
+
+        });
+
+    });
+
+    task(`zip-${buildName}`, [
+        `concat-${buildName}-mainnet-min`,
+        `html-${buildName}-mainnet-min`,
+        `copy-${buildName}-mainnet-min`
+    ], function () {
+        return gulp.src(`dist/${buildName}/mainnet/min/**/*.*`)
+            .pipe(zip(`${pack.name}-${buildName}-v${pack.version}.zip`))
+            .pipe(gulp.dest('dist'));
+    });
+    taskHash.zip.push(`zip-${buildName}`);
+
+});
+
 task('up-version-json', function (done) {
     console.log('new version: ', pack.version);
 
@@ -81,98 +213,25 @@ task('templates', function () {
                 return url.replace('.html', '');
             }
         }))
-        .pipe(gulp.dest('dist/dev/js'));
-});
-
-configurations.forEach((name) => {
-    const config = meta.configurations[name];
-    const jsName = `${pack.name}-${name}-${pack.version}.js`;
-    const indexPromise = readFile('src/index.html', { encoding: 'utf8' });
-
-    task(`concat-${name}`, ['uglify', 'templates'], function (done) {
-        const stream = gulp.src(['dist/dev/js/vendors.js', 'dist/dev/js/bundle.min.js', 'dist/dev/js/templates.js'])
-            .pipe(concat(jsName))
-            .pipe(gulp.dest(`dist/${name}/js`));
-
-        stream.on('end', function () {
-            readFile(`dist/${name}/js/${jsName}`, { encoding: 'utf8' }).then((file) => {
-
-                file = getConfigFile(name, config) + file;
-
-                outputFile(`dist/${name}/js/${jsName}`, file)
-                    .then(() => done());
-            });
-        });
-    });
-
-    task(`html-${name}`, [`concat-${name}`], function (done) {
-        indexPromise.then((file) => {
-            const filter = moveTo(`./dist/${name}`);
-
-            file = replaceStyles(file, [`dist/${name}/css/${pack.name}-styles-${pack.version}.css`].map(filter));
-            file = replaceScripts(file, [`dist/${name}/js/${jsName}`].map(filter));
-
-            outputFile(`./dist/${name}/index.html`, file).then(() => done());
-        });
-    });
-
-    task(`copy-${name}`, ['concat-style'], function (done) {
-        let forCopy = [];
-
-        if (name.includes('chrome')) {
-            forCopy = [
-                fsCopy('src/chrome', `dist/${name}`)
-            ];
-        } else if (name.includes('desktop')) {
-            forCopy = [
-                fsCopy('src/desktop', `dist/${name}`)
-            ];
-        } else {
-            forCopy = [];
-        }
-
-        Promise.all([
-            fsCopy(`dist/${pack.name}-styles-${pack.version}.css`, `dist/${name}/css/${pack.name}-styles-${pack.version}.css`),
-            fsCopy('src/fonts', `dist/${name}/fonts`),
-            fsCopy('LICENSE', `dist/${name}/LICENSE`),
-            fsCopy('3RD-PARTY-LICENSES.txt', `dist/${name}/3RD-PARTY-LICENSES.txt`),
-            fsCopy('src/img', `dist/${name}/img`)
-        ].concat(forCopy)).then(() => {
-            done();
-        }, (e) => {
-            console.log(e.message);
-        });
-    });
-
-    task(`zip-${name}`, [
-        `concat-${name}`,
-        `html-${name}`,
-        `copy-${name}`
-    ], function () {
-        return gulp.src(`dist/${name}/**/*.*`)
-            .pipe(zip(`${pack.name}-${name}-v${pack.version}.zip`))
-            .pipe(gulp.dest('dist'));
-    })
-
+        .pipe(gulp.dest(tmpJsPath));
 });
 
 task('concat-style', ['less'], function () {
-    const target = `${pack.name}-styles-${pack.version}.css`;
-    return gulp.src(meta.stylesheets)
-        .pipe(concat(target))
-        .pipe(gulp.dest('dist/'))
+    return gulp.src(meta.stylesheets.concat(join(tmpCssPath, 'style.css')))
+        .pipe(concat(cssName))
+        .pipe(gulp.dest(tmpCssPath))
 });
 
 task('concat-develop-sources', function () {
     return gulp.src(sourceFiles)
-        .pipe(concat('bundle.js'))
-        .pipe(gulp.dest('dist/dev/js/'));
+        .pipe(concat(bundleName))
+        .pipe(gulp.dest(tmpJsPath));
 });
 
 task('concat-develop-vendors', function () {
     return gulp.src(meta.vendors)
-        .pipe(concat('vendors.js'))
-        .pipe(gulp.dest('dist/dev/js/'));
+        .pipe(concat(vendorName))
+        .pipe(gulp.dest(tmpJsPath));
 });
 
 task('clean', function (done) {
@@ -188,50 +247,18 @@ task('less', function (done) {
 });
 
 task('babel', ['concat-develop'], function () {
-    return gulp.src('dist/dev/js/bundle.js')
+    return gulp.src(bundlePath)
         .pipe(babel({
             presets: ['es2015']
         }))
-        .pipe(gulp.dest('dist/dev/js'));
+        .pipe(gulp.dest(tmpJsPath));
 });
 
 task('uglify', ['babel'], function () {
-    return gulp.src('dist/dev/js/bundle.js')
+    return gulp.src(bundlePath)
         .pipe(uglify())
-        .pipe(rename('bundle.min.js'))
-        .pipe(gulp.dest('dist/dev/js'));
-});
-
-task('html-develop', function (done) {
-    readFile('src/index.html', { encoding: 'utf8' }).then((file) => {
-        const filter = moveTo('./dist/dev');
-        const files = [
-            './dist/dev/js/config.js',
-            'dist/dev/js/vendors.js'
-        ]
-            .concat(/*'./dist/dev/js/bundle.min.js'*/sourceFiles, './dist/dev/js/templates.js')
-            .map(filter);
-
-        file = replaceStyles(file, meta.stylesheets.map(filter));
-        file = replaceScripts(file, files);
-
-        Promise.all([
-            outputFile('./dist/dev/index.html', file),
-            outputFile('./dist/dev/js/config.js', getConfigFile('devel', meta.configurations.testnet))
-        ])
-            .then(() => done());
-    });
-});
-
-
-task('copy-fonts', function () {
-    return gulp.src('src/fonts/**/*.*')
-        .pipe(copy('dist/dev', { prefix: 1 }));
-});
-
-task('copy-img', function () {
-    return gulp.src('src/img/**/*.*')
-        .pipe(copy('dist/dev', { prefix: 1 }));
+        .pipe(rename(getFileName(bundlePath, 'min')))
+        .pipe(gulp.dest('./'));
 });
 
 task('s3-testnet', function () {
@@ -248,28 +275,19 @@ task('s3-mainnet', function () {
 
 task('s3', ['s3-testnet', 's3-mainnet']);
 
-task('copy-develop', [
-    'copy-fonts',
-    'copy-img'
-]);
+task('zip', configurations.map(name => `zip-${name}`));
 
 task('concat-develop', [
     'concat-develop-sources',
     'concat-develop-vendors'
 ]);
 
-task('copy', configurations.map(name => `copy-${name}`).concat('copy-develop'));
-task('html', configurations.map(name => `html-${name}`).concat('html-develop'));
-task('concat', configurations.map(name => `concat-${name}`).concat('concat-style'));
-task('zip', configurations.map(name => `zip-${name}`));
+task('build-main', getTasksFrom('build', taskHash.concat, taskHash.copy, taskHash.html));
 
-task('build-local', [
-    'less',
-    'templates',
-    'concat-develop-vendors',
-    'copy-develop',
-    'html-develop'
-]);
+task('concat', taskHash.concat.concat('concat-develop'));
+task('copy', taskHash.copy);
+task('html', taskHash.html);
+task('zip', taskHash.zip);
 
 task('all', [
     'clean',
@@ -278,3 +296,17 @@ task('all', [
     'html',
     'zip'
 ]);
+
+function filterTask(forFind: string) {
+    return (item) => {
+        return item.includes(forFind);
+    }
+}
+
+function getTasksFrom(filter: string, ...tasks: Array<Array<string>>): Array<string> {
+    const processor = filterTask(filter);
+    return tasks.reduce((result, taskList) => {
+        result = result.concat(taskList.filter(processor));
+        return result;
+    }, []);
+}

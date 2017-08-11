@@ -97,6 +97,10 @@ export function replaceStyles(file: string, paths: Array<string>): string {
     }).join('\n'));
 }
 
+export function replaceNetworkConfig(file: string, config: string): string {
+    return file.replace('<!-- NETWORK_CONFIG -->', `<script>${config}</script>`);
+}
+
 export interface IFilter {
     (name: string, path: string): boolean;
 }

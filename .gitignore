@@ -3,6 +3,7 @@
 /.idea/
 /node_modules
 /bower_components
+/**/*.js.map
 /.grunt
 /build
 /dist
@@ -12,11 +13,8 @@
 /ts-scripts/*.js
 /package-lock.json
 /gulpfile.js
-/gulpfile.js.map
 /karma.conf.js
-/karma.conf.js.map
 /server.js
-/server.js.map
 *.pdx
 *.cer
 *.sh
