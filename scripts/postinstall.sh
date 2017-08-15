@@ -10,10 +10,6 @@ echo "compile typescript"
 ./node_modules/.bin/tsc -p ./ || exit 1
 echo "compile typescript >> DONE"
 
-echo "build-local"
-node_modules/.bin/gulp build-local || exit 1
-echo "build-local >> DONE"
-
 echo "run post install script >> DONE"
 
 echo "copy hooks"
