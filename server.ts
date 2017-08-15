@@ -3,47 +3,68 @@ import { createServer } from 'http';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as serveStatic from 'serve-static';
-import { readJSON } from 'fs-extra';
-
-import { IMetaJSON } from './ts-scripts/interface';
+import { join } from 'path';
 
 
-const START_PORT = 8080;
-const SERVERS = ['testnet', 'mainnet'];
+const connectionTypes = ['mainnet', 'testnet'];
+const buildTypes = ['dev', 'normal', 'min'];
 
-function isPage(url: string) {
-    return url === '/' || url.split('/').length === 2;
-}
-
-function createMyServer(localPath: string, port: number, name: string) {
+function createMyServer(localPath: string, port: number) {
     const app = connect();
 
-    app.use(function middleware1(req, res, next) {
-        if (isPage(req.url)) {
-            res.end(fs.readFileSync(path.join(__dirname, localPath, 'index.html')));
+    const connectionTypesHash = arrToHash(connectionTypes);
+    const buildTypesHash = arrToHash(buildTypes);
+
+    app.use(function (req, res, next) {
+        const parsed = parseDomain(req.headers.host);
+        if (!parsed) {
+            res.writeHead(302, {Location: 'http://testnet.dev.localhost:8080'});
+            res.end();
         } else {
-            next();
+            if (isPage(req.url)) {
+                res.end(fs.readFileSync(path.join(__dirname, localPath, parsed.connectionType, parsed.buildType, 'index.html')));
+            } else {
+                next();
+            }
         }
+    });
+
+    connectionTypes.forEach((connectionType) => {
+        buildTypes.forEach((buildType) => {
+            app.use(serveStatic(`dist/build/${connectionType}/${buildType}`));
+        });
     });
 
     app.use(serveStatic(__dirname));
 
-    app.use(serveStatic(path.join(__dirname, localPath)));
-
     createServer(app).listen(port);
-    console.log(`Run server for "${name}" on port ${port}`);
+    console.log(`Run server on port ${port}`);
+
+    function parseDomain(host: string): { connectionType: string, buildType: string } {
+        const toParse = host.replace('localhost:8080', '');
+        const [connectionType, buildType] = toParse.split('.');
+
+        if (!connectionType || !buildType || !buildTypesHash[buildType] || !connectionTypesHash[connectionType]) {
+            return null;
+        }
+
+        return { buildType, connectionType };
+    }
 }
 
-readJSON('./ts-scripts/meta.json').then((meta: IMetaJSON) => {
+createMyServer('./dist/build', 8080);
 
-    let port = START_PORT;
-
-    createMyServer('./dist/dev', port, 'develop');
-
-    SERVERS.forEach((name) => {
-        port++;
-        createMyServer(`./dist/${name}`, port, name);
+function isPage(url: string): boolean {
+    const staticPathPartial = [
+        'img', 'css', 'fonts', 'js', 'bower_components', 'node_modules'
+    ];
+    return !staticPathPartial.some((path) => {
+        return url.includes(`/${path}/`);
     });
+}
 
-});
-
+function arrToHash(arr: Array<string>): Object {
+    const result = Object.create(null);
+    arr.forEach((some) => result[some] = true);
+    return result;
+}

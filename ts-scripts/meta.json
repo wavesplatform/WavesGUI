@@ -35,8 +35,7 @@
   ],
   "stylesheets": [
     "bower_components/angular/angular-csp.css",
-    "bower_components/angular-material/angular-material.min.css",
-    "dist/dev/css/style.css"
+    "bower_components/angular-material/angular-material.min.css"
   ],
   "developmentScripts": [
     "dist/dev/js/vendors.js",
@@ -49,7 +48,7 @@
       "server": "http://52.30.47.67:6869",
       "matcher": "http://52.30.47.67:6886",
       "coinomat": "https://test.coinomat.com",
-      "datafeed": "http://marketdata.wavesplatform.com"
+      "datafeed": "https://marketdata.wavesplatform.com"
     },
     "mainnet": {
       "code": "W",
@@ -57,34 +56,6 @@
       "matcher": "https://nodes.wavesnodes.com",
       "coinomat": "https://coinomat.com",
       "datafeed": "https://marketdata.wavesplatform.com"
-    },
-    "chrome_testnet": {
-      "code": "T",
-      "server": "http://52.30.47.67:6869",
-      "matcher": "http://52.30.47.67:6886",
-      "coinomat": "https://test.coinomat.com",
-      "datafeed": "http://marketdata.wavesplatform.com"
-    },
-    "chrome_mainnet": {
-      "code": "W",
-      "server": "https://nodes.wavesnodes.com",
-      "matcher": "https://nodes.wavesnodes.com",
-      "coinomat": "https://coinomat.com",
-      "datafeed": "https://marketdata.wavesplatform.com"
-    },
-    "desktop_testnet": {
-      "code": "W",
-      "server": "https://nodes.wavesnodes.com",
-      "matcher": "https://nodes.wavesnodes.com",
-      "coinomat": "https://coinomat.com",
-      "datafeed": "https://marketdata.wavesplatform.com"
-    },
-    "desktop_mainnet": {
-      "code": "T",
-      "server": "http://52.30.47.67:6869",
-      "matcher": "http://52.30.47.67:6886",
-      "coinomat": "https://test.coinomat.com",
-      "datafeed": "http://marketdata.wavesplatform.com"
     }
   }
 }
