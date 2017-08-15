@@ -142,7 +142,7 @@
                 .then(function (transactions) {
                     txArray = transactions;
 
-                    return transactionLoadingService.refreshAssetCache(applicationContext.cache.assets, transactions);
+                    return transactionLoadingService.refreshAssetCache(applicationContext.cache, transactions);
                 })
                 .then(function () {
                     ctrl.transactions = txArray;
