@@ -2,10 +2,6 @@
 
 echo "run post install script"
 
-echo "run bower install"
-bower install || exit 1
-echo "bower install >> DONE"
-
 echo "compile typescript"
 ./node_modules/.bin/tsc -p ./ || exit 1
 echo "compile typescript >> DONE"

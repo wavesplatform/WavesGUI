@@ -183,7 +183,6 @@ task('up-version-json', function (done) {
     console.log('new version: ', pack.version);
 
     const promises = [
-        './bower.json',
         './src/desktop/package.json'
     ].map((path) => {
         return readJSON(path).then((json) => {

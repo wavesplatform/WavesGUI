@@ -31,7 +31,6 @@ Our project uses a javascript development environment that needs to be set up be
 ## Prerequisites
 
 1. You need to install npm. Binaries and installation instructions could be found [here](https://nodejs.org/en/download/)
-2. You need to install bower. [Here](https://bower.io/) is a good link to start with.
 
 ## Environment set up
 
