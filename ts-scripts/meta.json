@@ -1,17 +1,18 @@
 {
   "vendors": [
-    "bower_components/jquery/dist/jquery.min.js",
-    "bower_components/lodash/lodash.js",
+    "node_modules/jquery/dist/jquery.min.js",
+    "node_modules/lodash/lodash.js",
 
-    "bower_components/js-sha3/src/sha3.js",
-
-    "bower_components/angular/angular.min.js",
+    "node_modules/angular/angular.min.js",
     "node_modules/angular-ui-router/release/angular-ui-router.min.js",
+    "node_modules/angular-material/angular-material.min.js"
+  ],
+  "vendors-old": [
+    "bower_components/js-sha3/src/sha3.js",
     "bower_components/angular-sanitize/angular-sanitize.min.js",
     "bower_components/angular-animate/angular-animate.min.js",
     "bower_components/angular-mocks/angular-mocks.js",
     "bower_components/angular-aria/angular-aria.min.js",
-    "bower_components/angular-material/angular-material.min.js",
     "bower_components/restangular/dist/restangular.min.js",
     "bower_components/decimal.js/decimal.min.js",
     "bower_components/Base58/Base58.js",
@@ -34,7 +35,6 @@
     "bower_components/wavesplatform-core-js/distr/wavesplatform-core.js"
   ],
   "stylesheets": [
-    "bower_components/angular/angular-csp.css",
     "bower_components/angular-material/angular-material.min.css"
   ],
   "developmentScripts": [

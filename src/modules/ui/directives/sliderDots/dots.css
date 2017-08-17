@@ -1,0 +1,19 @@
+w-slider-dots {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+w-slider-dots .dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background-color: rgba(216, 216, 216, 0.5);
+  margin-right: 7px;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+}
+w-slider-dots .dot.active {
+  background-color: #D8D8D8;
+  cursor: default;
+}

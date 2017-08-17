@@ -114,6 +114,10 @@
     }
   },
   "dependencies": {
-    "angular-ui-router": "^1.0.3"
+    "angular": "^1.6.5",
+    "angular-material": "^1.1.4",
+    "angular-ui-router": "^1.0.3",
+    "jquery": "^3.2.1",
+    "lodash": "^4.17.4"
   }
 }
