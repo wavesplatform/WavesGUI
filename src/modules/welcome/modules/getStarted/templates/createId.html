@@ -1,0 +1,19 @@
+<div class="welcome">
+
+    <w-logo></w-logo>
+    <p class="title text">You New ID</p>
+    <p class="text">This app stores your Waves with cutting-edge security.</p>
+
+    <div class="avatar-wrapper">
+        <w-avatar address="$ctrl.address"></w-avatar>
+    </div>
+
+    <p class="text">{{$ctrl.address}}</p>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <md-button ng-click="$ctrl.next()" class="md-raised md-primary">Next</md-button>
+    </section>
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <md-button class="text" ng-click="$ctrl.resetAddress()">{icon} Generate another address</md-button>
+    </section>
+</div>

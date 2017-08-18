@@ -55,9 +55,9 @@
             });
 
             $element.hover(() => {
-                this._stopInterval();
+                this.stopInterval();
             }, () => {
-                this._initializeInterval();
+                this.initializeInterval();
             });
 
             /**
@@ -78,7 +78,7 @@
                     this.active = 0;
                 }
 
-                this._initializeInterval();
+                this.initializeInterval();
 
                 this.content.eq(this.active).appendTo(this.node);
             };
@@ -95,7 +95,10 @@
             if (index >= 0 && index < this.length && index !== this.active) {
                 const old = this.active;
                 this.active = index;
-                this._move(this.active, old);
+                this.stopInterval();
+                this._move(this.active, old).then(() => {
+                    this.initializeInterval();
+                });
             }
         }
 
@@ -107,27 +110,16 @@
             this.goTo(this.active - 1);
         }
 
-        /**
-         * @private
-         */
-        _initializeInterval() {
+        initializeInterval() {
             if (this.interval) {
+                if (this.timer) {
+                    this.stopInterval();
+                }
                 this.timer = this.$timeout(() => this._step(), this.interval);
             }
         }
 
-        /**
-         * @private
-         */
-        _resetInterval() {
-            this._stopInterval();
-            this._initializeInterval();
-        }
-
-        /**
-         * @private
-         */
-        _stopInterval() {
+        stopInterval() {
             if (this.interval && this.timer) {
                 this.$timeout.cancel(this.timer);
                 this.timer = null;
@@ -137,35 +129,39 @@
         /**
          * @param {number} active
          * @param {number} old
+         * @returns Promise
          * @private
          */
         _move(active, old) {
-            this._resetInterval();
             const direction = active > old;
             const $active = this.content.eq(active);
             const $old = this.content.eq(old);
+
+            let collection;
+            let targetLeft;
 
             if (direction) {
                 $active.css('left', '100%');
                 $old.css('left', '0');
                 this.node.append($active);
-                $old.add($active)
-                    .stop()
-                    .animate({ left: '-=100%' }, () => {
-                        $old.remove();
-                        $active.css('left', '');
-                    });
+                collection = $old.add($active);
+                targetLeft = '-=100%';
             } else {
                 $old.css('left', '0');
                 this.node.prepend($active);
                 $active.css('left', '-100%');
-                $active.add($old)
-                    .stop()
-                    .animate({ left: '+=100%' }, () => {
+                collection = $active.add($old);
+                targetLeft = '+=100%';
+            }
+
+            return new Promise((resolve) => {
+                collection.stop()
+                    .animate({ left: targetLeft }, () => {
                         $old.remove();
                         $active.css('left', '');
+                        resolve();
                     });
-            }
+            });
         }
 
         /**
@@ -177,7 +173,6 @@
             } else {
                 this.next();
             }
-            this.timer = this.$timeout(() => this._step(), this.interval);
         }
 
         /**

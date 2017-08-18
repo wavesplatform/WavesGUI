@@ -1,0 +1,5 @@
+<div class="seed-container {{$ctrl.type}}">
+    <span ng-class="$ctrl.getClass($index)" class="seed-item {{$ctrl.type}}"
+          ng-repeat="item in $ctrl.parts track by $index">{{item
+        }}</span>
+</div>

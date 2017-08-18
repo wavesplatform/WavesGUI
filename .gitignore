@@ -4,7 +4,7 @@
 /node_modules
 /bower_components
 /**/*.js.map
-/**/less/*.css
+/src/**/*.css
 /.grunt
 /build
 /dist

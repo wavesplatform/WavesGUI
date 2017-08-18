@@ -115,8 +115,12 @@
   },
   "dependencies": {
     "angular": "^1.6.5",
+    "angular-animate": "^1.6.5",
+    "angular-aria": "^1.6.5",
     "angular-material": "^1.1.4",
+    "angular-messages": "^1.6.5",
     "angular-ui-router": "^1.0.3",
+    "identicon": "^2.1.1",
     "jquery": "^3.2.1",
     "lodash": "^4.17.4"
   }

@@ -12,7 +12,7 @@
         }
 
         getStarted() {
-            this.$state.go('create_id');
+            this.$state.go('get_started');
         }
 
         restoreBackup() {

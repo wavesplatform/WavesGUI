@@ -1,0 +1,42 @@
+.seed-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
+  height: 231px;
+  width: 520px;
+  border: 1px dotted #979797;
+  border-radius: 3px;
+  background-color: #F2F2F2;
+  box-sizing: border-box;
+}
+
+.seed-item {
+  margin: 15px 10px;
+  font-weight: bold;
+  display: inline-block;
+  transform-origin: center center;
+
+  &.random {
+    padding: 7px 5px;
+    border: 1px solid #eee;
+    background-color: #fff;
+  }
+
+  &.write {
+    transition: all 0.3s;
+    border: 1px solid #eee;
+    background-color: #fff;
+  }
+
+  &.empty {
+    display: inline-block;
+    min-width: 65px;
+    min-height: 34px;
+  }
+
+  &.full {
+    padding: 7px 5px;
+  }
+}

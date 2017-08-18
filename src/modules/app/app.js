@@ -2,6 +2,8 @@
     'use strict';
 
     const app = angular.module('app', [
+        'ngMaterial',
+        'ngMessages',
         'ui.router',
 
         'app.ui',
@@ -17,7 +19,7 @@
                 url: '/',
                 views: {
                     main: {
-                        controller: 'WelcomeCtrl',
+                        controller: 'WelcomeCtrl as $ctrl',
                         templateUrl: 'modules/welcome/templates/welcome.html'
                     }
                 }
