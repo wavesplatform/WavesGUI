@@ -1,24 +1,37 @@
 (function () {
     'use strict';
 
-    class WelcomeCtrl {
+    const PATH = 'modules/welcome/templates/';
 
-        /**
-         * @param {WelcomeService} service
-         */
-        constructor(service) {
-            this.service = service;
+    /**
+     * @param {WelcomeService} service
+     */
+    const controller = function (service, $state) {
 
-            this.service.getUserList().then((list) => {
-                if (list) {
-                    this.userList = list;
-                }
-            });
+        class WelcomeCtrl {
+
+            constructor() {
+
+                service.getUserList().then((list) => {
+                    if (list && list.length) {
+                        this.userList = list;
+                        // TODO add template ...
+                    } else {
+                        this.pageUrl = `${PATH}/welcomeNewUser.html`;
+                    }
+                });
+            }
+
+            getStarted() {
+                $state.go('get_started');
+            }
+
         }
 
-    }
+        return new WelcomeCtrl();
+    };
 
-    WelcomeCtrl.$inject = ['WelcomeService'];
+    controller.$inject = ['WelcomeService', '$state'];
 
-    angular.module('app.welcome').controller('WelcomeCtrl', WelcomeCtrl);
+    angular.module('app.welcome').controller('WelcomeCtrl', controller);
 })();
