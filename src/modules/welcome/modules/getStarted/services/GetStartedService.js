@@ -33,6 +33,14 @@
             {
                 name: 'backupSeedRepeat',
                 url: `${PATH}/backupSeedRepeat.html`
+            },
+            {
+                name: 'backupSeedDone',
+                url: `${PATH}/backupSeedDone.html`
+            },
+            {
+                name: 'end',
+                url: `${PATH}/end.html`
             }
         ];
 

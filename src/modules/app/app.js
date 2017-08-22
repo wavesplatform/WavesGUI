@@ -30,5 +30,15 @@
         '$urlRouterProvider', '$stateProvider', '$locationProvider'
     ];
 
+    const AppRun = function () {
+        setTimeout(() => {
+            const loader = $(document.querySelector('.app-loader'));
+            loader.fadeOut(300, () => {
+                loader.remove();
+            });
+        }, 200);
+    };
+
     app.config(AppConfig);
+    app.run(AppRun);
 })();

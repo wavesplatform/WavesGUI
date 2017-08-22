@@ -13,9 +13,13 @@
             constructor() {
 
                 service.getUserList().then((list) => {
-                    if (list && list.length) {
+                    if (list.length) {
                         this.userList = list;
-                        // TODO add template ...
+                        if (this.userList.length === 1) {
+                            this.pageUrl = `${PATH}/oneUser.html`;
+                        } else {
+                            this.pageUrl = `${PATH}/userList.html`;
+                        }
                     } else {
                         this.pageUrl = `${PATH}/welcomeNewUser.html`;
                     }

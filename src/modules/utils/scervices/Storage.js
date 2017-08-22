@@ -1,25 +1,40 @@
 (function () {
     'use strict';
 
-    const factory = function ($q) {
+    let read;
+    let write;
+    let clear;
+
+    if (WavesApp.isWeb()) {
+        read = function (key) {
+            return Promise.resolve(localStorage.getItem(key));
+        };
+        write = function (key, value) {
+            localStorage.setItem(key, value);
+            return Promise.resolve();
+        };
+        clear = function () {
+            localStorage.clear();
+            return Promise.resolve();
+        };
+    } else {
+        // TODO add fs API for electron
+    }
+
+    const factory = function ($q, utils) {
 
         class Storage {
 
             save(key, value) {
-                try {
-                    return $q.when(localStorage.setItem(key, Storage.stringify(value)));
-                } catch (e) {
-                    return $q.reject(e.message);
-                }
+                return utils.when(write(key, Storage.stringify(value)));
             }
 
             load(key) {
-                const data = localStorage.getItem(key);
-                return $q.when(Storage.parse(data));
+                return utils.when(read(key));
             }
 
             clear() {
-                localStorage.clear();
+                return utils.when(clear());
             }
 
             static stringify(data) {
@@ -46,7 +61,7 @@
         return new Storage();
     };
 
-    factory.$inject = ['$q'];
+    factory.$inject = ['$q', 'utils'];
 
     angular.module('app.utils').factory('Storage', factory);
 })();

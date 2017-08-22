@@ -11,7 +11,15 @@
         class WelcomeService {
 
             getUserList() {
-                return storage.load('userList');
+                return storage.load('userList').then((list) => {
+                    list = list || [];
+
+                    list.sort((a, b) => {
+                        return a.lastLogin - b.lastLogin;
+                    }).reverse();
+
+                    return list;
+                });
             }
 
         }

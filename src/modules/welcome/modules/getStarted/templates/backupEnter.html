@@ -11,10 +11,15 @@
 
     <p class="text">Your wallet is never to cloud storage standart device backups.</p>
 
-    <div class="button-wrapper">
-        <w-button type="primary" on-click="$ctrl.next()" size="big">Backup account</w-button>
-    </div>
-    <div class="button-wrapper">
-        <w-button type="transparent" on-click="$ctrl.next(4)">Do it later</w-button>
-    </div>
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <md-button ng-click="$ctrl.next()" class="md-raised md-primary">
+            Backup account
+        </md-button>
+    </section>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <md-button ng-click="$ctrl.next(6)">
+            Do it later
+        </md-button>
+    </section>
 </div>

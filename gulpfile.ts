@@ -7,7 +7,7 @@ import * as copy from 'gulp-copy';
 import { getFilesFrom, moveTo, replaceScripts, replaceStyles, run, task } from './ts-scripts/utils';
 import { join } from 'path';
 import { copy as fsCopy, outputFile, readFile, readJSON, readJSONSync } from 'fs-extra';
-import { IConfItem, IMetaJSON, IPackageJSON } from './ts-scripts/interface';
+import { IMetaJSON, IPackageJSON } from './ts-scripts/interface';
 
 const zip = require('gulp-zip');
 const s3 = require('gulp-s3');

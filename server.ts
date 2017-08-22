@@ -5,12 +5,19 @@ import { join } from 'path';
 import * as fs from 'fs-extra';
 import * as serveStatic from 'serve-static';
 import { replaceStyles, replaceScripts, getFilesFrom, moveTo } from './ts-scripts/utils';
+import { compile } from 'handlebars';
 import { IMetaJSON } from './ts-scripts/interface';
 
 
 const connectionTypes = ['mainnet', 'testnet'];
 const buildTypes = ['dev', 'normal', 'min'];
 const meta: IMetaJSON = fs.readJSONSync(path.join(__dirname, 'ts-scripts/meta.json'));
+const pack: IMetaJSON = fs.readJSONSync(path.join(__dirname, 'package.json'));
+
+const networks = connectionTypes.reduce((result, item) => {
+    result[item] = meta.configurations[item];
+    return result;
+}, Object.create(null));
 
 function createMyServer(localPath: string, port: number) {
     const app = connect();
@@ -29,6 +36,15 @@ function createMyServer(localPath: string, port: number) {
                     res.end(fs.readFileSync(path.join(__dirname, localPath, parsed.connectionType, parsed.buildType, 'index.html')));
                 } else {
                     let file = fs.readFileSync(path.join(__dirname, './src/index.html'), 'utf8');
+
+                    file = compile(file)({
+                        pack: pack,
+                        build: {
+                            type: 'web'
+                        },
+                        network: networks[parsed.connectionType]
+                    });
+
                     const dist = path.join(__dirname, './dist/build', parsed.connectionType, 'dev');
                     const processor = moveTo(dist);
                     const styles = getFilesFrom('./src', '.css');

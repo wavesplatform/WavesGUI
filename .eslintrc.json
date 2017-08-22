@@ -25,7 +25,8 @@
         "inject": true,
         "spyOn": true,
         "expect": true,
-        "it": true
+        "it": true,
+        "WavesApp": true
     },
     "extends": "eslint:recommended",
     "rules": {

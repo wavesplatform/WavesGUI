@@ -14,9 +14,15 @@
 
 .seed-item {
   margin: 15px 10px;
+  box-sizing: border-box;
   font-weight: bold;
   display: inline-block;
   transform-origin: center center;
+  user-select: none;
+
+  &.moved {
+    color: rgba(0, 0, 0, 0)
+  }
 
   &.random {
     padding: 7px 5px;
@@ -25,18 +31,24 @@
   }
 
   &.write {
-    transition: all 0.3s;
     border: 1px solid #eee;
     background-color: #fff;
   }
 
-  &.empty {
+  &.empty, &.full {
     display: inline-block;
-    min-width: 65px;
+    text-align: center;
+    min-width: 70px;
     min-height: 34px;
   }
 
   &.full {
     padding: 7px 5px;
+    min-height: inherit;
+  }
+
+  &.clone {
+    transition: transform 0.3s;
+    text-align: center;
   }
 }

@@ -1,4 +1,4 @@
-import {Stream} from "stream";
+import { Stream } from "stream";
 
 export interface IMetaJSON {
     vendors: Array<string>;
@@ -6,7 +6,7 @@ export interface IMetaJSON {
     developmentScripts: Array<string>;
     configurations: {
         testnet: IConfItem;
-        mainnet:IConfItem;
+        mainnet: IConfItem;
     }
 }
 
@@ -43,5 +43,5 @@ export interface ITaskFunction {
 }
 
 export interface ITaskCallback {
-    (done?: () => void): Stream|void;
+    (done?: () => void): Stream | void;
 }
