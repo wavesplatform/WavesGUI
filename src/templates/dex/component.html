@@ -67,3 +67,9 @@
     <p>P.S. {{::$ctrl.nonVerifiedNote}}</p>
   </div>
 </aside>
+
+<div id="dex-bad-order-confirmation" waves-dialog ok-button-caption="YES" on-dialog-ok="$ctrl.placeBadOrder()" cancel-button-caption="NO" on-dialog-cancel="$ctrl.refuseBadOrder()">
+  <div class="dialog-confirmation">
+    <p class="dialog-text">{{$ctrl.badOrderQuestion}}</p>
+  </div>
+</div>

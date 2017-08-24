@@ -21,9 +21,9 @@
             image: 'wB-bg-EUR.svg',
             displayName: Currency.EUR.displayName
         };
-        mapping[Currency.CNY.displayName] = {
-            image: 'wB-bg-RMB.svg',
-            displayName: Currency.CNY.displayName
+        mapping[Currency.ETH.displayName] = {
+            image: 'wB-bg-ETH.svg',
+            displayName: Currency.ETH.displayName
         };
 
         ctrl.$onChanges = function (changesObject) {
