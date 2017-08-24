@@ -32,6 +32,11 @@
                 } else if (tx.order1 && tx.order1.assetPair.amountAsset) {
                     assetId = tx.order1.assetPair.amountAsset;
                 }
+                var feeAssetId;
+				if(tx.feeAsset)
+				{
+				    feeAssetId = tx.feeAsset;
+				}                 
 
                 if (assetId) {
                     var cached = cache.assets[assetId];
@@ -45,6 +50,19 @@
                             });
                     }
                 }
+                
+                if (feeAssetId) {
+                    var cached = cache.assets[feeAssetId];
+                    if (!cached) {
+                        sequence = sequence
+                            .then(function () {
+                                return apiService.transactions.info(feeAssetId);
+                            })
+                            .then(function (response) {
+                                cache.putAsset(response);
+                            });
+                    }
+                }                
             });
 
             return sequence;
