@@ -1,57 +1,62 @@
 (function () {
     'use strict';
 
-    class Avatar {
+    /**
+     *
+     * @param $scope
+     * @param {AddressGenerator} addressGenerator
+     * @returns {Avatar}
+     */
+    const controller = function ($scope, addressGenerator) {
 
-        /**
-         * @constructor
-         * @param {AddressGenerator} addressGenerator
-         */
-        constructor(addressGenerator) {
-            /**
-             * Avatar size
-             * @type {number}
-             */
-            this.size = null;
-            /**
-             * Avatar id
-             * @type {string}
-             */
-            this.address = null;
-            /**
-             * Image (base64)
-             * @type {string}
-             */
-            this.src = null;
-            /**
-             * @type {AddressGenerator}
-             */
-            this.generator = addressGenerator;
-        }
+        class Avatar {
 
-        $postLink() {
-            if (!this.address) {
-                throw new Error('No address for avatar!');
-            }
-            if (!this.size) {
-                this.size = 67;
+            constructor() {
+                /**
+                 * Avatar size
+                 * @type {number}
+                 */
+                this.size = null;
+                /**
+                 * Avatar id
+                 * @type {string}
+                 */
+                this.address = null;
+                /**
+                 * Image (base64)
+                 * @type {string}
+                 */
+                this.src = null;
             }
 
-            this.generator.getAvatar(this.address, this.size).then((src) => {
-                this.src = src;
-            });
+            $postLink() {
+                if (!this.size) {
+                    this.size = 67;
+                }
+            }
+
+            $onChanges() {
+                if (this.address) {
+                    addressGenerator.getAvatar(this.address, this.size).then((src) => {
+                        this.src = src;
+                    });
+                }
+            }
+
         }
 
-    }
+        return new Avatar();
 
-    Avatar.$inject = ['AddressGenerator'];
+    };
+
+    controller.$inject = ['$scope', 'AddressGenerator'];
 
     angular.module('app.ui').component('wAvatar', {
         bindings: {
             size: '@',
-            address: '@'
+            address: '<'
         },
-        controller: Avatar,
+        controller: controller,
         templateUrl: 'modules/ui/directives/avatar/avatar.html'
     });
 })();

@@ -9,7 +9,8 @@
     "node_modules/angular-aria/angular-aria.min.js",
     "node_modules/angular-messages/angular-messages.min.js",
     "node_modules/angular-material/angular-material.js",
-    "node_modules/angular-ui-router/release/angular-ui-router.min.js"
+    "node_modules/angular-ui-router/release/angular-ui-router.min.js",
+    "node_modules/worker-wrapper/dist/WorkerWrapper.min.js"
   ],
   "vendors-old": [
     "bower_components/js-sha3/src/sha3.js",

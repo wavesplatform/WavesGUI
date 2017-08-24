@@ -1,12 +1,12 @@
 (function () {
     'use strict';
 
-    const controller = function (getStartedService, $q, $mdDialog) {
+    const controller = function (getStartedService, $q, $mdDialog, apiWorker) {
 
         class GetStartedCtrl {
 
             constructor() {
-                this.stepIndex = 4;
+                this.stepIndex = 0;
                 this.password = '';
                 this.confirmPassword = '';
                 this.moneyInApp = false;
@@ -17,7 +17,7 @@
             }
 
             canConfirm() {
-                return !(this.moneyInApp && this.restoreByBackup && this.agree)
+                return !(this.moneyInApp && this.restoreByBackup && this.agree);
             }
 
             getStepUrl() {
@@ -51,8 +51,12 @@
             }
 
             resetAddress() {
-                this.seed = getStartedService.generator.generateSeed();
-                this.address = getStartedService.generator.generateAddress(this.seed);
+                apiWorker.process((api) => {
+                    return { seed: api.getSeed(), address: api.getAddress() };
+                }).then((data) => {
+                    this.seed = data.seed;
+                    this.address = data.address;
+                });
             }
 
             showBackupSeedDonePopup() {
@@ -83,7 +87,7 @@
 
     };
 
-    controller.$inject = ['GetStartedService', '$q', '$mdDialog'];
+    controller.$inject = ['GetStartedService', '$q', '$mdDialog', 'apiWorker'];
 
     angular.module('app.welcome.getStarted').controller('GetStartedCtrl', controller);
 })();

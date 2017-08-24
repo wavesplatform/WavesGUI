@@ -90,12 +90,12 @@
 
                 $element.find('.seed-container').on('mousedown', '.seed-item', (e) => {
                     const elements = this._getParts();
-
                     const $target = $(e.target);
 
                     if ($target.hasClass('moved')) {
                         return null;
                     }
+
 
                     const index = elements.indexOf($target.get(0));
                     const $clone = Seed.createClone($target, { mouseX: e.pageX, mouseY: e.pageY });
@@ -107,7 +107,7 @@
 
                     $target.addClass('moved');
 
-                    Seed.getDragHandlers($target, $clone, (e) => {
+                    Seed.getDragHandlers(e, $target, $clone, (e) => {
                         $clone.css({
                             top: e.pageY,
                             left: e.pageX
@@ -125,7 +125,7 @@
              * @private
              */
             _mixSeed() {
-                for (let i = 0; i < 10; i++) {
+                for (let i = 0; i < 100; i++) {
                     this.parts.sort(() => {
                         const num = Math.random();
                         return num < 0.33 ? -1 : num > 0.66 ? 1 : 0;
@@ -187,7 +187,7 @@
 
                     myMove = true;
 
-                    Seed.getDragHandlers($from, $clone, (e) => {
+                    Seed.getDragHandlers(e, $from, $clone, (e) => {
                         $clone.css({
                             top: e.pageY,
                             left: e.pageX
@@ -200,6 +200,11 @@
                         }
                         const end = elements.indexOf(e.target);
                         const $target = $(e.target);
+
+                        if (end === -1) {
+                            Seed.removeClone($from.data('writeCloneFrom'), $clone);
+                            return null;
+                        }
 
                         if ($target.hasClass('full')) {
                             Seed.itemGoHome($target);
@@ -306,6 +311,7 @@
             }
 
             /**
+             * @param {Event} e
              * @param {jQuery} $target
              * @param {jQuery} $clone
              * @param {Function} [onMove]
@@ -313,16 +319,29 @@
              * @param {Function} [onBlur]
              * @returns {blur}
              */
-            static getDragHandlers($target, $clone, onMove, onEnd, onBlur) {
+            static getDragHandlers(e, $target, $clone, onMove, onEnd, onBlur) {
 
-                const move = function (e) {
-                    e.preventDefault();
+                let event = e;
+                let stop = false;
+
+                const step = function () {
                     if (onMove) {
-                        onMove(e);
+                        onMove(event);
+                    }
+                    if (!stop) {
+                        requestAnimationFrame(step);
                     }
                 };
 
+                requestAnimationFrame(step);
+
+                const move = function (e) {
+                    e.preventDefault();
+                    event = e;
+                };
+
                 const blur = function (e) {
+                    stop = true;
                     document.removeEventListener('mousemove', move, false);
                     document.removeEventListener('mouseup', up, false);
                     window.removeEventListener('blur', blur, false);
@@ -335,6 +354,7 @@
                 };
 
                 const up = function (e) {
+                    stop = true;
                     document.removeEventListener('mousemove', move, false);
                     document.removeEventListener('mouseup', up, false);
                     window.removeEventListener('blur', blur, false);
