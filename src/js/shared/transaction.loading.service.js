@@ -35,10 +35,12 @@
                 var feeAssetId;
                 if (tx.feeAsset) {
                     feeAssetId = tx.feeAsset;
-                }                 
+                }
+
+                var cached;
 
                 if (assetId) {
-                    var cached = cache.assets[assetId];
+                    cached = cache.assets[assetId];
                     if (!cached) {
                         sequence = sequence
                             .then(function () {
@@ -49,9 +51,9 @@
                             });
                     }
                 }
-                
+
                 if (feeAssetId) {
-                    var cached = cache.assets[feeAssetId];
+                    cached = cache.assets[feeAssetId];
                     if (!cached) {
                         sequence = sequence
                             .then(function () {
@@ -61,7 +63,7 @@
                                 cache.putAsset(response);
                             });
                     }
-                }                
+                }
             });
 
             return sequence;
