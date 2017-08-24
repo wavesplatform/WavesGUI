@@ -33,8 +33,7 @@
                     assetId = tx.order1.assetPair.amountAsset;
                 }
                 var feeAssetId;
-                if(tx.feeAsset)
-                {
+                if (tx.feeAsset) {
                     feeAssetId = tx.feeAsset;
                 }                 
 
