@@ -33,10 +33,10 @@
                     assetId = tx.order1.assetPair.amountAsset;
                 }
                 var feeAssetId;
-				if(tx.feeAsset)
-				{
-				    feeAssetId = tx.feeAsset;
-				}                 
+                if(tx.feeAsset)
+                {
+                    feeAssetId = tx.feeAsset;
+                }                 
 
                 if (assetId) {
                     var cached = cache.assets[assetId];
