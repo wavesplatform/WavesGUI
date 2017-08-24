@@ -46,7 +46,7 @@
             _save() {
                 return storage.getItem('userList').then((list) => {
                     list = list || [];
-                    const item = _.find(list, { address: this.address }) || Object.create(null);
+                    const item = utils.find(list, { address: this.address }) || Object.create(null);
                     list.push({ ...item, ...this });
                     return storage.save('userList', list);
                 });

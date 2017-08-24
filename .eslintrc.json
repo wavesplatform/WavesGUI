@@ -9,7 +9,7 @@
         "angular": true,
         "jQuery": true,
         "$": true,
-        "_": true,
+        "utils": true,
         "d3": true,
         "QRious": true,
         "techan": true,

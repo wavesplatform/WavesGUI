@@ -1,7 +1,7 @@
 {
   "vendors": [
     "node_modules/jquery/dist/jquery.min.js",
-    "node_modules/lodash/lodash.js",
+    "node_modules/ts-utils/dist/utils.js",
     "node_modules/identicon/dist/identicon.js",
 
     "node_modules/angular/angular.min.js",
