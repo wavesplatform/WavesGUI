@@ -1,13 +1,75 @@
-.avatar-wrapper {
-  & img {
-    margin: auto;
-    display: block;
-  }
-}
+@import '../../../../config';
 
-.backup-seed {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.get-started {
+
+  .back {
+    position: absolute;
+    left: 100px;
+    top: 100px;
+    cursor: pointer;
+  }
+
+  .create-account {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate3d(0, 0, 0);
+    background-color: @color-lite-background;
+
+    .created-animation {
+      background-color: #00C229;
+      z-index: 1;
+      width: 100%;
+      height: 0%;
+      position: fixed;
+      overflow: hidden;
+      transition: height 0.7s ease-in-out;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-direction: row;
+
+      &.active {
+        height: 100%;
+      }
+    }
+
+    .avatar-block {
+      width: 88%;
+      margin: auto;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-direction: row;
+
+      w-avatar {
+        border: 1px solid transparent;
+        border-radius: 3px;
+
+        &.active {
+          border: 1px solid #4A90E2;
+          border-radius: 3px;
+          background-color: #EFF6FF;
+        }
+      }
+    }
+
+    .block {
+      height: 599px;
+      width: 565px;
+      background-color: #FFFFFF;
+      box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
+      padding: 30px;
+      box-sizing: border-box;
+    }
+
+    .backup-seed {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }

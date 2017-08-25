@@ -29,7 +29,10 @@
         }
 
         const worker = workerWrapper.create(API, { network: WavesApp.network }, {
-            libs: ['/node_modules/waves-api/dist/waves-api.min.js']
+            libs: [
+                '/node_modules/whatwg-fetch/fetch.js',
+                '/node_modules/waves-api/dist/waves-api.min.js'
+            ]
         });
 
         return {

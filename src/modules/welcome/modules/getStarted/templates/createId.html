@@ -1,19 +1,69 @@
-<div class="welcome">
+<div class="create-account">
 
-    <w-logo></w-logo>
-    <p class="title text">You New ID</p>
-    <p class="text">This app stores your Waves with cutting-edge security.</p>
+    <div ng-click="$ctrl.back()" class="back">
+        НАВЗАД!
+    </div>
 
-    <div class="avatar-wrapper">
+    <div ng-class="{active: $ctrl.hasAccount}" class="created-animation">
         <w-avatar address="$ctrl.address"></w-avatar>
     </div>
 
-    <p class="text">{{$ctrl.address}}</p>
+    <div class="block">
 
-    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-        <md-button ng-click="$ctrl.next()" class="md-raised md-primary">Next</md-button>
-    </section>
-    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-        <md-button class="text" ng-click="$ctrl.resetAddress()">{icon} Generate another address</md-button>
-    </section>
+        <p class="title text">Create Your Account</p>
+        <p class="text">Sign up for a fee account below.</p>
+
+        <hr/>
+
+        <p class="text">Choose your address avatar</p>
+
+        <div class="avatar-block">
+            <w-avatar ng-click="$ctrl.setActiveSeed(item)" ng-repeat="item in $ctrl.seedList"
+                      ng-class="{active: item.active}"
+                      address="item.address"></w-avatar>
+        </div>
+
+        <hr/>
+
+        <p class="text">Setup password</p>
+
+        <form name="createPassword" ng-submit="createPassword.$valid && $ctrl.next()" novalidate>
+
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                <md-input-container class="md-block">
+                    <label>Password</label>
+                    <input name="password" type="password" required minlength="8"
+                           ng-pattern="/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]/g"
+                           ng-model="$ctrl.password">
+
+                    <div ng-messages="createPassword.password.$error">
+                        <div ng-message="required">This is required!</div>
+                        <div ng-message="minlength">Password to short!</div>
+                        <div ng-message="pattern">Password to simple!</div>
+                    </div>
+                </md-input-container>
+            </section>
+
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                <md-input-container class="md-block">
+                    <label>Repeat password</label>
+                    <input name="confirmPassword" type="password" required w-compare-to="$ctrl.password" minlength="8"
+                           ng-model="$ctrl.confirmPassword">
+
+                    <div ng-messages="createPassword.confirmPassword.$error" multiple md-auto-hide="false">
+                        <div ng-message="required">This is required!</div>
+                        <div ng-message="wCompareTo">Passwords not equals!</div>
+                    </div>
+                </md-input-container>
+            </section>
+
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                <md-button type="submit" class="md-raised md-primary">
+                    Create Account
+                </md-button>
+            </section>
+
+        </form>
+
+    </div>
 </div>

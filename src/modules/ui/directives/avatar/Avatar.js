@@ -4,10 +4,9 @@
     /**
      *
      * @param $scope
-     * @param {AddressGenerator} addressGenerator
      * @returns {Avatar}
      */
-    const controller = function ($scope, addressGenerator) {
+    const controller = function ($q) {
 
         class Avatar {
 
@@ -30,15 +29,24 @@
             }
 
             $postLink() {
-                if (!this.size) {
-                    this.size = 67;
-                }
+                this.style = { width: `${this.size}px`, height: `${this.size}px` };
             }
 
             $onChanges() {
+                if (!this.size) {
+                    this.size = 67;
+                }
                 if (this.address) {
-                    addressGenerator.getAvatar(this.address, this.size).then((src) => {
-                        this.src = src;
+                    $q((resolve, reject) => {
+                        identicon.generate({ id: this.address, size: this.size }, (err, buffer) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(buffer);
+                            }
+                        });
+                    }).then((path) => {
+                        this.src = path;
                     });
                 }
             }
@@ -49,7 +57,7 @@
 
     };
 
-    controller.$inject = ['$scope', 'AddressGenerator'];
+    controller.$inject = ['$q'];
 
     angular.module('app.ui').component('wAvatar', {
         bindings: {

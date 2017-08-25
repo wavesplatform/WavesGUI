@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const controller = function (getStartedService, $q, $mdDialog, apiWorker) {
+    const controller = function (getStartedService, $q, $mdDialog, apiWorker, $timeout, $state) {
 
         class GetStartedCtrl {
 
@@ -12,8 +12,21 @@
                 this.moneyInApp = false;
                 this.restoreByBackup = false;
                 this.agree = false;
+                this.seed = '';
+                this.address = '';
+                this.seedList = [];
 
                 this.resetAddress();
+            }
+
+            setActiveSeed(item) {
+                const old = utils.find(this.seedList, { active: true });
+                if (old) {
+                    old.active = false;
+                }
+                item.active = true;
+                this.seed = item.seed;
+                this.address = item.address;
             }
 
             canConfirm() {
@@ -38,9 +51,19 @@
                 });
             }
 
+            back() {
+                if (this.stepIndex) {
+                    this.stepIndex = this.stepIndex - 1;
+                } else {
+                    $state.go('welcome');
+                }
+            }
+
             checkNext() {
                 const step = getStartedService.stepList[this.stepIndex];
                 switch (step.name) {
+                    case 'id':
+                        return this.showCreateAccountAnimation();
                     case 'backupWarning':
                         return this.showBackupWarningPopup();
                     case 'backupSeedDone':
@@ -50,12 +73,22 @@
                 }
             }
 
+            showCreateAccountAnimation() {
+                this.hasAccount = true;
+                return $timeout(() => ({}), 1000);
+            }
+
             resetAddress() {
                 apiWorker.process((api) => {
-                    return { seed: api.getSeed(), address: api.getAddress() };
+                    const list = [];
+                    for (let i = 0; i < 5; i++) {
+                        list.push({ seed: api.getSeed(), address: api.getAddress() });
+                        api.resetSeed();
+                    }
+                    return list;
                 }).then((data) => {
-                    this.seed = data.seed;
-                    this.address = data.address;
+                    this.setActiveSeed(data[0]);
+                    this.seedList = data;
                 });
             }
 
@@ -87,7 +120,7 @@
 
     };
 
-    controller.$inject = ['GetStartedService', '$q', '$mdDialog', 'apiWorker'];
+    controller.$inject = ['GetStartedService', '$q', '$mdDialog', 'apiWorker', '$timeout', '$state'];
 
     angular.module('app.welcome.getStarted').controller('GetStartedCtrl', controller);
 })();

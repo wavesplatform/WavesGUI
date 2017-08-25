@@ -11,7 +11,7 @@
 
             apply(url) {
                 const parts = url.split('/');
-                let urls = Object.keys(this._routesHash)
+                const urls = Object.keys(this._routesHash)
                     .sort((a, b) => {
                         const reg = /:/g;
                         return (a.match(reg) || { length: 0 }).length - (b.match(reg) || { length: 0 }).length;
