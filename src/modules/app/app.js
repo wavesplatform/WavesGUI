@@ -2,7 +2,6 @@
     'use strict';
 
     const app = angular.module('app', [
-        'jm.i18next',
         'ngMaterial',
         'ngMessages',
         'ui.router',

@@ -122,7 +122,6 @@
     "angular-aria": "^1.6.5",
     "angular-material": "^1.1.4",
     "angular-messages": "^1.6.5",
-    "angular-sanitize": "^1.6.6",
     "angular-ui-router": "^1.0.3",
     "i18next": "^9.0.0",
     "identicon": "^2.1.1",
