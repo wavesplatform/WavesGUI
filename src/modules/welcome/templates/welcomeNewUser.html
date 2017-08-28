@@ -1,0 +1,30 @@
+<div class="no-users">
+    <w-logo></w-logo>
+    <p>You control your Waves</p>
+    <p>This app stores your Waves with cutting-edge security.</p>
+
+    <div class="slider-wrapper center">
+        <w-slider interval="6000" id="slider-welcome-new-user">
+            <div style="background: red; height: 100%"></div>
+            <div style="background: gold; height: 100%"></div>
+            <div style="background: grey; height: 100%"></div>
+            <div style="background: hotpink; height: 100%"></div>
+        </w-slider>
+    </div>
+
+    <p>Not even Waves Team</p>
+
+    <w-slider-dots slider-id="slider-welcome-new-user"></w-slider-dots>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <md-button ng-click="$ctrl.getStarted()" class="md-raised md-primary">
+            Get Started
+        </md-button>
+    </section>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <md-button ng-click="$ctrl.restoreBackup()">
+            Restore from backup
+        </md-button>
+    </section>
+</div>

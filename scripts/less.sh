@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 echo 'compile less'
-node_modules/.bin/lessc src/less/index.less tmp/style.css || exit 1
+mkdir tmp
+find src -name "*.less" -exec node_modules/.bin/lessc {} \; > tmp/style.css
 echo 'auto prefix'
 node_modules/.bin/postcss tmp/style.css -o tmp/style.css || exit 1
 echo 'uglify css'

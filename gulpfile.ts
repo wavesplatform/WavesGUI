@@ -1,15 +1,13 @@
 import * as gulp from 'gulp';
-import * as templateCache from 'gulp-angular-templatecache';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
 import * as uglify from 'gulp-uglify';
 import * as rename from 'gulp-rename';
 import * as copy from 'gulp-copy';
-import * as htmlmin from 'gulp-htmlmin';
-import { getFilesFrom, replaceNetworkConfig, replaceScripts, replaceStyles, run, task } from './ts-scripts/utils';
-import { join, relative } from 'path';
+import { getFilesFrom, moveTo, replaceScripts, replaceStyles, run, task } from './ts-scripts/utils';
+import { join } from 'path';
 import { copy as fsCopy, outputFile, readFile, readJSON, readJSONSync } from 'fs-extra';
-import { IConfItem, IMetaJSON, IPackageJSON } from './ts-scripts/interface';
+import { IMetaJSON, IPackageJSON } from './ts-scripts/interface';
 
 const zip = require('gulp-zip');
 const s3 = require('gulp-s3');
@@ -23,29 +21,22 @@ const AWS = {
     region: 'eu-central-1'
 };
 
-const sourceFiles = getFilesFrom('./src/js', '.js', function (name, path) {
+const sourceFiles = getFilesFrom('./src', '.js', function (name, path) {
     return !name.includes('.spec') && !path.includes('/test/');
 });
 
-
-function moveTo(path: string): (relativePath: string) => string {
-    return function (relativePath: string): string {
-        return relative(path, relativePath);
-    }
-}
-
-function getConfigFile(name: string, config: IConfItem): string {
-    return `var WAVES_NETWORK_CONF = ${JSON.stringify({
-        name,
-        code: config.code,
-        version: pack.version,
-        server: config.server,
-        matcher: config.matcher,
-        coinomat: config.coinomat,
-        datafeed: config.datafeed
-    })};
-    `;
-}
+// function getConfigFile(name: string, config: IConfItem): string {
+//     return `var WAVES_NETWORK_CONF = ${JSON.stringify({
+//         name,
+//         code: config.code,
+//         version: pack.version,
+//         server: config.server,
+//         matcher: config.matcher,
+//         coinomat: config.coinomat,
+//         datafeed: config.datafeed
+//     })};
+//     `;
+// }
 
 const taskHash = {
     concat: [],
@@ -58,13 +49,12 @@ const tmpJsPath = './dist/tmp/js';
 const tmpCssPath = './dist/tmp/css';
 const vendorName = 'vendors.js';
 const bundleName = 'bundle.js';
-const templateName = 'templates.js';
+// const templateName = 'templates.js';
 const cssName = `${pack.name}-styles-${pack.version}.css`;
 const vendorPath = join(tmpJsPath, vendorName);
 const bundlePath = join(tmpJsPath, bundleName);
-const templatePath = join(tmpJsPath, templateName);
+// const templatePath = join(tmpJsPath, templateName);
 const cssPath = join(tmpCssPath, cssName);
-
 
 
 const getFileName = (name, type) => {
@@ -91,7 +81,7 @@ const indexPromise = readFile('src/index.html', { encoding: 'utf8' });
 
             if (type !== 'dev') {
                 task(`concat-${taskPostfix}`, [type === 'min' ? 'uglify' : 'babel'], function (done) {
-                    const stream = gulp.src([vendorPath, getName(bundlePath), templatePath])
+                    const stream = gulp.src([vendorPath, getName(bundlePath)/*, templatePath*/])
                         .pipe(concat(jsFileName))
                         .pipe(gulp.dest(`${targetPath}/js`));
 
@@ -112,13 +102,13 @@ const indexPromise = readFile('src/index.html', { encoding: 'utf8' });
                     forCopy = [
                         fsCopy('./src/chrome', targetPath)
                     ];
-                } else if (buildName  === 'desktop') {
+                } else if (buildName === 'desktop') {
                     forCopy = [
                         fsCopy('src/desktop', targetPath)
                     ];
                 } else if (type === 'dev') {
                     forCopy = [
-                        fsCopy(templatePath, `${targetPath}/js/${templateName}`)
+                        // fsCopy(templatePath, `${targetPath}/js/${templateName}`)
                     ]
                 } else {
                     forCopy = [];
@@ -126,10 +116,10 @@ const indexPromise = readFile('src/index.html', { encoding: 'utf8' });
 
                 Promise.all([
                     fsCopy(cssPath, `${targetPath}/css/${pack.name}-styles-${pack.version}.css`),
-                    fsCopy('src/fonts', `${targetPath}/fonts`),
+                    // fsCopy('src/fonts', `${targetPath}/fonts`),
                     fsCopy('LICENSE', `${targetPath}/LICENSE`),
                     fsCopy('3RD-PARTY-LICENSES.txt', `${targetPath}/3RD-PARTY-LICENSES.txt`),
-                    fsCopy('src/img', `${targetPath}/img`)
+                    // fsCopy('src/img', `${targetPath}/img`)
                 ].concat(forCopy)).then(() => {
                     done();
                 }, (e) => {
@@ -141,18 +131,18 @@ const indexPromise = readFile('src/index.html', { encoding: 'utf8' });
 
             const htmlDeps = type === 'dev' ? [] : [`concat-${taskPostfix}`];
 
-            task(`html-${taskPostfix}`, htmlDeps.concat(['templates', `copy-${taskPostfix}`]), function (done) {
+            task(`html-${taskPostfix}`, htmlDeps.concat([/*'templates', */`copy-${taskPostfix}`]), function (done) {
                 indexPromise.then((file) => {
                     const filter = moveTo(targetPath);
 
                     file = replaceStyles(file, [`${targetPath}/css/${pack.name}-styles-${pack.version}.css`].map(filter));
                     if (type === 'dev') {
-                        file = replaceScripts(file, meta.vendors.concat(sourceFiles, `${targetPath}/js/${templateName}`).map(filter));
+                        file = replaceScripts(file, meta.vendors.concat(sourceFiles/*, `${targetPath}/js/${templateName}`*/).map(filter));
                     } else {
                         file = replaceScripts(file, [jsFilePath].map(filter));
                     }
 
-                    file = replaceNetworkConfig(file, getConfigFile(`${bundleName}-${configName}`, config));
+                    // file = replaceNetworkConfig(file, getConfigFile(`${bundleName}-${configName}`, config));
                     outputFile(`${targetPath}/index.html`, file).then(() => done());
                 });
             });
@@ -203,17 +193,17 @@ task('up-version-json', function (done) {
         });
 });
 
-task('templates', function () {
-    return gulp.src('src/templates/**/*.html')
-        .pipe(htmlmin({ collapseWhitespace: true }))
-        .pipe(templateCache({
-            module: 'app',
-            transformUrl: function (url) {
-                return url.replace('.html', '');
-            }
-        }))
-        .pipe(gulp.dest(tmpJsPath));
-});
+// task('templates', function () {
+//     return gulp.src('src/templates/**/*.html')
+//         .pipe(htmlmin({ collapseWhitespace: true }))
+//         .pipe(templateCache({
+//             module: 'app',
+//             transformUrl: function (url) {
+//                 return url.replace('.html', '');
+//             }
+//         }))
+//         .pipe(gulp.dest(tmpJsPath));
+// });
 
 task('concat-style', ['less'], function () {
     return gulp.src(meta.stylesheets.concat(join(tmpCssPath, 'style.css')))

@@ -1,0 +1,73 @@
+<!--
+/******************************************************************************
+* Copyright © 2016 The Waves Developers.                                     *
+*                                                                            *
+* See the LICENSE file at                                                    *
+* the top-level directory of this distribution for the individual copyright  *
+* holder information and the developer policies on copyright and licensing.  *
+*                                                                            *
+* Unless otherwise agreed in a custom licensing agreement, no part of the    *
+* Waves software, including this file may be copied, modified, propagated    *
+* or distributed except according to the terms contained in the LICENSE file *
+*                                                                            *
+* Removal or modification of this copyright notice is prohibited.            *
+*                                                                            *
+******************************************************************************/
+-->
+
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>Waves Lite Client</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="./img/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <style>
+        .app-loader {
+            z-index: 10000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 1);
+        }
+    </style>
+    <!-- CSS -->
+    <base href="/">
+
+    <script>
+        var WavesApp = {
+            name: '{{pack.name}}',
+            version: '{{pack.version}}',
+            type: '{{build.type}}',
+            network: {
+                server: '{{network.server}}',
+                code: '{{network.code}}',
+                matcher: '{{network.matcher}}',
+                coinomat: '{{network.coinomat}}',
+                datafeed: '{{network.datafeed}}'
+            },
+            isWeb: function () {
+                return this.type === 'web';
+            },
+            isDesktop: function () {
+                return this.type === 'desktop';
+            }
+        };
+    </script>
+
+</head>
+
+<body>
+
+<div class="app-loader">
+    <div>loading</div>
+</div>
+
+<ui-view name="main"></ui-view>
+
+<!-- JAVASCRIPT -->
+
+</body>
+</html>

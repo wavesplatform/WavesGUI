@@ -1,0 +1,19 @@
+w-slider .slider {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+w-slider .slider-content {
+  display: none;
+}
+w-slider .slide-window {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+w-slider .slide-window > * {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
