@@ -65,5 +65,5 @@
         return new SliderManager();
     };
 
-    angular.module('app.ui').factory('SliderManager', factory);
+    angular.module('app.ui').factory('sliderManager', factory);
 })();

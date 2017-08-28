@@ -184,7 +184,7 @@
 
     }
 
-    Slider.$inject = ['$scope', '$element', '$timeout', 'SliderManager'];
+    Slider.$inject = ['$scope', '$element', '$timeout', 'sliderManager'];
 
     angular.module('app.ui').component('wSlider', {
         transclude: true,

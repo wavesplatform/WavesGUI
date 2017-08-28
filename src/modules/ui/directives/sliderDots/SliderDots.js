@@ -57,7 +57,7 @@
 
     }
 
-    SliderDots.$inject = ['SliderManager'];
+    SliderDots.$inject = ['sliderManager'];
 
     angular.module('app.ui').component('wSliderDots', {
         transclude: true,
