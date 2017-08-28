@@ -91,7 +91,7 @@ createMyServer('./dist/build', 8080);
 
 function isPage(url: string): boolean {
     const staticPathPartial = [
-        'src', 'img', 'css', 'fonts', 'js', 'bower_components', 'node_modules', 'modules'
+        'src', 'img', 'css', 'fonts', 'js', 'bower_components', 'node_modules', 'modules', 'locales'
     ];
     return !staticPathPartial.some((path) => {
         return url.includes(`/${path}/`);

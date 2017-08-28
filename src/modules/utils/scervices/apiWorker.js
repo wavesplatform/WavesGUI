@@ -26,6 +26,18 @@
                 return this.seed.address;
             }
 
+            applySeed(seed) {
+                this.seed = this.waves.Seed.fromExistingPhrase(seed);
+            }
+
+            decryptSeed(encrypt, password) {
+                return this.waves.Seed.decryptSeedPhrase(encrypt, password);
+            }
+
+            encryptSeed(password) {
+                return this.seed.encrypt(password);
+            }
+
         }
 
         const worker = workerWrapper.create(API, { network: WavesApp.network }, {
@@ -36,8 +48,8 @@
         });
 
         return {
-            process: function (cb) {
-                return utils.when(worker.process(cb));
+            process: function (...args) {
+                return utils.when(worker.process.call(worker, ...args));
             },
             terminate: function () {
                 worker.terminate();

@@ -10,9 +10,8 @@
         class User {
 
             constructor() {
-                this.name = null;
                 this.address = null;
-                this.encodedSeed = null;
+                this.encryptSeed = null;
                 this.lastConfirmPassword = null;
                 this.lastNotificationTimeStamp = null;
                 this.lastLogin = Date.now();
@@ -20,9 +19,8 @@
 
             /**
              * @param {Object} data
-             * @param {string} data.name
              * @param {string} data.address
-             * @param {string} data.encodedSeed
+             * @param {string} data.encryptSeed
              */
             setUserData(data) {
                 Object.keys(data).forEach((key) => {
@@ -36,18 +34,49 @@
                 });
             }
 
+            /**
+             * @param {Object} data
+             * @param {string} data.address
+             * @param {string} data.encryptSeed
+             */
+            login(data) {
+                this.lastLogin = Date.now();
+                this.setUserData(data);
+            }
+
+            getUserList() {
+                return storage.load('userList').then((list) => {
+                    list = list || [];
+
+                    list.sort((a, b) => {
+                        return a.lastLogin - b.lastLogin;
+                    }).reverse();
+
+                    return list;
+                });
+            }
+
             _check() {
-                if (!this.address) {
+                if (!this.address || !this.encryptSeed) {
                     // TODO Need login!
                     throw new Error('No address!');
                 }
             }
 
             _save() {
-                return storage.getItem('userList').then((list) => {
+                return storage.load('userList').then((list) => {
                     list = list || [];
-                    const item = utils.find(list, { address: this.address }) || Object.create(null);
-                    list.push({ ...item, ...this });
+                    let item = utils.find(list, { address: this.address });
+
+                    if (!item) {
+                        item = Object.create(null);
+                        list.push(item);
+                    }
+
+                    utils.each(this, (value, key) => {
+                        item[key] = value;
+                    });
+
                     return storage.save('userList', list);
                 });
             }
@@ -58,7 +87,7 @@
         return new User();
     };
 
-    factory.$inject = ['Storage'];
+    factory.$inject = ['storage'];
 
-    angular.module('app').factory('User', factory);
+    angular.module('app').factory('user', factory);
 })();

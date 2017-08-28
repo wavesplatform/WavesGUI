@@ -2,6 +2,7 @@
     'use strict';
 
     const app = angular.module('app', [
+        'jm.i18next',
         'ngMaterial',
         'ngMessages',
         'ui.router',
@@ -14,6 +15,18 @@
 
     const AppConfig = function ($urlRouterProvider, $stateProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
+
+        i18next.init({
+            debug: true,
+            lng: 'en',
+            ns: 'i18n',
+            fallbackLng: 'dev', // Default is dev
+            useCookie: false,
+            useLocalStorage: false
+        }, function (err, t) {
+            // initialized and ready to go!
+            console.error(err, t);
+        });
 
         $stateProvider
             .state('welcome', {
@@ -32,6 +45,7 @@
     ];
 
     const AppRun = function ($rootScope) {
+
         setTimeout(() => {
             const loader = $(document.querySelector('.app-loader'));
             loader.fadeOut(500, () => {

@@ -1,6 +1,6 @@
 {
   "name": "waves-lite-client",
-  "version": "0.4.29",
+  "version": "1.0.0-test",
   "description": "A lite client for the Waves platform",
   "repository": {
     "type": "git",
@@ -122,12 +122,15 @@
     "angular-aria": "^1.6.5",
     "angular-material": "^1.1.4",
     "angular-messages": "^1.6.5",
+    "angular-sanitize": "^1.6.6",
     "angular-ui-router": "^1.0.3",
+    "i18next": "^9.0.0",
     "identicon": "^2.1.1",
     "jquery": "^3.2.1",
+    "ng-i18next": "^1.0.5",
     "ts-utils": "^2.0.6",
-    "waves-api": "^0.2.1",
+    "waves-api": "^0.2.3",
     "whatwg-fetch": "^2.0.3",
-    "worker-wrapper": "0.1.2"
+    "worker-wrapper": "0.1.7"
   }
 }

@@ -28,7 +28,8 @@
         "it": true,
         "WavesApp": true,
         "WavesAPI": true,
-        "workerWrapper": true
+        "workerWrapper": true,
+        "i18next": true
     },
     "extends": "eslint:recommended",
     "rules": {

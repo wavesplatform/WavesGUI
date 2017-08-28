@@ -1,7 +1,18 @@
 (function () {
     'use strict';
 
-    const controller = function (getStartedService, $q, $mdDialog, apiWorker, $timeout, $state) {
+    const controller = function ($q, $mdDialog, apiWorker, $timeout, $state, user) {
+
+        const PATH = 'modules/welcome/modules/getStarted/templates';
+        const ORDER_LIST = [
+            'createAccount',
+            'backupEnter',
+            'backupWarning',
+            'backupSeed',
+            'backupSeedRepeat',
+            'backupSeedDone',
+            'end'
+        ];
 
         class GetStartedCtrl {
 
@@ -11,6 +22,7 @@
                 this.confirmPassword = '';
                 this.moneyInApp = false;
                 this.restoreByBackup = false;
+                this.hasAccount = false;
                 this.agree = false;
                 this.seed = '';
                 this.address = '';
@@ -34,7 +46,7 @@
             }
 
             getStepUrl() {
-                return getStartedService.stepList[this.stepIndex].url;
+                return `${PATH}/${ORDER_LIST[this.stepIndex]}.html`;
             }
 
             clear() {
@@ -44,7 +56,19 @@
             next(index) {
                 this.checkNext().then(() => {
                     if (index == null) {
-                        this.stepIndex++;
+                        if (ORDER_LIST[this.stepIndex + 1]) {
+                            this.stepIndex++;
+                        } else {
+                            apiWorker.process((api, data) => {
+                                api.applySeed(data.seed);
+                                return api.encryptSeed(data.password);
+                            }, { seed: this.seed, password: this.password }).then((encryptSeed) => {
+                                user.setUserData({
+                                    address: this.address,
+                                    encryptSeed
+                                });
+                            });
+                        }
                     } else {
                         this.stepIndex = index;
                     }
@@ -60,9 +84,9 @@
             }
 
             checkNext() {
-                const step = getStartedService.stepList[this.stepIndex];
-                switch (step.name) {
-                    case 'id':
+                const step = ORDER_LIST[this.stepIndex];
+                switch (step) {
+                    case 'createAccount':
                         return this.showCreateAccountAnimation();
                     case 'backupWarning':
                         return this.showBackupWarningPopup();
@@ -120,7 +144,7 @@
 
     };
 
-    controller.$inject = ['GetStartedService', '$q', '$mdDialog', 'apiWorker', '$timeout', '$state'];
+    controller.$inject = ['$q', '$mdDialog', 'apiWorker', '$timeout', '$state', 'user'];
 
     angular.module('app.welcome.getStarted').controller('GetStartedCtrl', controller);
 })();

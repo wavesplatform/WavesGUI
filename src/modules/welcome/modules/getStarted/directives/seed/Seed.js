@@ -139,6 +139,11 @@
             _initializeWrite() {
                 this.parts = this.hiddenParts.map(() => ' ');
                 this._setWriteHandlers();
+                window.fill = () => {
+                    this.parts = this.hiddenParts.slice();
+                    $scope.$apply();
+                    this._validate();
+                };
             }
 
             /**
@@ -226,9 +231,12 @@
              */
             _validate() {
                 if (this.parts.join(' ') !== this.seed) {
-                    alert('Wrong seed!'); // TODO ...
+                    this._getParts().forEach((element) => {
+                        Seed.itemGoHome($(element));
+                    });
+                    this.parts = this.parts.map(() => ' ');
                 } else {
-                    alert('Success!'); // TODO ...
+                    this.onSuccess();
                 }
             }
 
@@ -287,12 +295,12 @@
              */
             static removeClone($element, $clone) {
                 return $q((resolve) => {
-                    $element.data('writeCloneFrom', $clone.data('copyOf'));
-                    $clone.css('transform', 'translate(0px, 0px) scale(1, 1)');
                     const offset = $element.offset();
+                    $clone.css('transform', 'translate(0px, 0px) scale(1, 1)');
+                    $element.data('writeCloneFrom', $clone.data('copyOf'));
                     $clone.animate({
                         left: offset.left,
-                        top: offset.top,
+                        top: offset.top - parseFloat($element.css('margin-top')),
                         width: $element.width()
                     }, ANIMATION_TIME, () => {
                         resolve();
@@ -307,7 +315,7 @@
             static itemGoHome($element) {
                 const $home = $element.data('writeCloneFrom');
                 const $clone = Seed.createClone($element);
-                Seed.removeClone($home, $clone);
+                return Seed.removeClone($home, $clone);
             }
 
             /**
@@ -385,7 +393,8 @@
     angular.module('app.welcome.getStarted').component('wSeed', {
         bindings: {
             type: '@',
-            seed: '@'
+            seed: '@',
+            onSuccess: '&'
         },
         controller: controller,
         templateUrl: 'modules/welcome/modules/getStarted/directives/seed/seed.html'
