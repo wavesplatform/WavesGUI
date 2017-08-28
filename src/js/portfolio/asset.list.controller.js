@@ -5,7 +5,7 @@
                                       applicationContext, apiService, formattingService) {
         var ctrl = this;
         var refreshPromise;
-        var refreshDelay = 10 * 1000; // refreshing every 10 seconds
+        var refreshDelay = 10 * 1000;
 
         ctrl.wavesBalance = new Money(0, Currency.WAVES);
         ctrl.assets = [];
@@ -116,14 +116,14 @@
                 // we need to update
                 $timeout(function() {
                     ctrl.assets = assets.sort(function (a, b) {
-                        var aVerified = (a.balance.currency.verified === true) ? '1' : '0',
-                            bVerified = (b.balance.currency.verified === true) ? '1' : '0';
+                        var aVerified = (a.balance.currency.verified === true) ? '1:' : '0:',
+                            bVerified = (b.balance.currency.verified === true) ? '1:' : '0:';
 
                         // The verified assets go first, then we sort them by timestamp
                         aVerified += new Date(a.timestamp).getTime();
                         bVerified += new Date(b.timestamp).getTime();
 
-                        return bVerified - aVerified;
+                        return (bVerified > aVerified) ? 1 : -1;
                     });
                 }, delay);
             });

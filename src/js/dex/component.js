@@ -5,7 +5,8 @@
         HISTORY_LIMIT = 50;
 
     function DexController($scope, $interval, applicationContext, assetStoreFactory, datafeedApiService,
-                           dexOrderService, dexOrderbookService, notificationService, utilsService) {
+                           dexOrderService, dexOrderbookService, notificationService, utilsService, dialogService) {
+
         var ctrl = this,
             intervalPromise,
 
@@ -26,22 +27,58 @@
         emptyDataFields();
 
         ctrl.favoritePairs = [
-            {amountAsset: Currency.WAVES, priceAsset: Currency.BTC},
-            {amountAsset: Currency.WAVES, priceAsset: Currency.USD},
-            {amountAsset: Currency.WAVES, priceAsset: Currency.EUR},
-            {amountAsset: Currency.WAVES, priceAsset: Currency.CNY},
-            {amountAsset: Currency.BTC, priceAsset: Currency.EUR},
-            {amountAsset: Currency.BTC, priceAsset: Currency.CNY},
-            {amountAsset: Currency.USD, priceAsset: Currency.BTC},
-            {amountAsset: Currency.USD, priceAsset: Currency.CNY},
-            {amountAsset: Currency.EUR, priceAsset: Currency.USD},
-            {amountAsset: Currency.WCT, priceAsset: Currency.WAVES},
-            {amountAsset: Currency.WCT, priceAsset: Currency.BTC},
-            {amountAsset: Currency.MRT, priceAsset: Currency.WAVES},
-            {amountAsset: Currency.MRT, priceAsset: Currency.BTC}
+            { amountAsset: Currency.WAVES, priceAsset: Currency.BTC },
+            { amountAsset: Currency.WAVES, priceAsset: Currency.USD },
+            { amountAsset: Currency.WAVES, priceAsset: Currency.EUR },
+            { amountAsset: Currency.BTC, priceAsset: Currency.EUR },
+            { amountAsset: Currency.BTC, priceAsset: Currency.USD },
+            { amountAsset: Currency.ETH, priceAsset: Currency.WAVES },
+            { amountAsset: Currency.ETH, priceAsset: Currency.BTC },
+            { amountAsset: Currency.ETH, priceAsset: Currency.USD },
+            { amountAsset: Currency.WCT, priceAsset: Currency.WAVES },
+            { amountAsset: Currency.WCT, priceAsset: Currency.BTC },
+            { amountAsset: Currency.MRT, priceAsset: Currency.WAVES },
+            { amountAsset: Currency.MRT, priceAsset: Currency.BTC },
+            { amountAsset: Currency.EUR, priceAsset: Currency.USD }
         ];
 
         ctrl.createOrder = function (type, price, amount, fee, callback) {
+            // TODO : add a queue for the orders which weren't yet accepted
+
+            function emptyBadOrderFields() {
+                ctrl.badOrderQuestion = '';
+                ctrl.placeBadOrder = ctrl.refuseBadOrder = function () {};
+            }
+
+            var amountName = ctrl.pair.amountAsset.displayName,
+                priceName = ctrl.pair.priceAsset.displayName,
+                badSellOrder = (type === 'sell' && ctrl.buyOrders.length && price < ctrl.buyOrders[0].price * 0.9),
+                badBuyOrder = (type === 'buy' && ctrl.sellOrders.length && price > ctrl.sellOrders[0].price * 1.1);
+
+            if (badSellOrder || badBuyOrder) {
+
+                ctrl.badOrderQuestion = 'Are you sure you want to ' + type + ' ' +
+                    amountName + ' at price ' + price + ' ' + priceName + '?';
+
+                ctrl.placeBadOrder = function () {
+                    emptyBadOrderFields();
+                    ctrl.realCreateOrder(type, price, amount, fee, callback);
+                };
+
+                ctrl.refuseBadOrder = function () {
+                    emptyBadOrderFields();
+                    callback();
+                };
+
+                dialogService.open('#dex-bad-order-confirmation');
+
+            } else {
+                ctrl.realCreateOrder(type, price, amount, fee, callback);
+            }
+
+        };
+
+        ctrl.realCreateOrder = function (type, price, amount, fee, callback) {
             // TODO : add a queue for the orders which weren't yet accepted
             dexOrderService
                 .addOrder(ctrl.pair, {
@@ -133,11 +170,6 @@
         // Enable polling for orderbooks and newly created assets
         intervalPromise = $interval(function () {
             refreshAll();
-            assetStore
-                .getAll()
-                .then(function (assetsList) {
-                    ctrl.assetsList = assetsList;
-                });
         }, POLLING_DELAY);
 
         ctrl.$onDestroy = function () {
@@ -190,7 +222,6 @@
                 })
                 .catch(function (e) {
                     console.log(e);
-                    notificationService.error('There is no such pair or one of the assets does not exist.');
                 });
         }
 
@@ -251,7 +282,7 @@
     }
 
     DexController.$inject = ['$scope', '$interval', 'applicationContext', 'assetStoreFactory', 'datafeedApiService',
-                            'dexOrderService', 'dexOrderbookService', 'notificationService', 'utilsService'];
+        'dexOrderService', 'dexOrderbookService', 'notificationService', 'utilsService', 'dialogService'];
 
     angular
         .module('app.dex')

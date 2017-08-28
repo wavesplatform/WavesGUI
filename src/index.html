@@ -465,9 +465,10 @@
             </div>
           </div>
 
-          <div class="noDisp" ng-controller="walletWithdrawController as withdraw">
-            <div id="withdraw-btc-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.confirmWithdraw(withdraw.assetForm)">
+          <div class="noDisp" ng-controller="walletWithdrawController as withdraw" data-type="crypto">
+            <div id="withdraw-crypto-dialog" waves-dialog ok-button-caption="WITHDRAW" on-dialog-ok="withdraw.confirmWithdraw(withdraw.assetForm)">
               <h2 class="sectionHeader">WITHDRAW: {{withdraw.sourceCurrency}}</h2>
+              <p class="dialog-text" ng-if="withdraw.isEthereum">Do not withdraw ETH to smart contract addresses!<br/>Your transaction may fail if their execution require additional fees.</p>
               <form id="withdraw-asset-form" name="withdraw.assetForm" novalidate ng-validate="withdraw.validationOptions">
                 <table class="form-table">
                   <div class="balanceAmt">
@@ -475,8 +476,8 @@
                   </div>
                   <tbody>
                   <tr>
-                    <td width="30%">Bitcoin Address</td>
-                    <td><input class="wInput form-control" name="withdrawAddress" type="text" placeholder="Bitcoin address" ng-model="withdraw.recipient"/></td>
+                    <td width="30%">{{withdraw.sourceCurrency}} address</td>
+                    <td><input class="wInput form-control" name="withdrawAddress" type="text" placeholder="{{withdraw.sourceCurrency}} address" ng-model="withdraw.recipient"/></td>
                   </tr>
                   <tr>
                     <td>Amount</td>
@@ -513,13 +514,13 @@
                   <span class="confirmation-value">{{withdraw.confirm.fee | moneyLong:true}}</span> fee to the Waves gateway address <br/>
                   <span class="confirmation-value">{{withdraw.confirm.gatewayAddress}}</span>.
                 </p>
-                <p class="dialog-text">The gateway will transfer these funds to your bitcoin address: <span class="confirmation-value">{{withdraw.confirm.recipient}}</span>.</p>
+                <p class="dialog-text">The gateway will transfer these funds to your {{withdraw.sourceCurrency}} address: <span class="confirmation-value">{{withdraw.confirm.recipient}}</span>.</p>
                 <p class="dialog-text">Press <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard this operation.</p>
               </div>
             </div>
           </div>
 
-          <div class="noDisp" ng-controller="walletWithdrawController as withdraw">
+          <div class="noDisp" ng-controller="walletWithdrawController as withdraw" data-type="fiat">
             <div id="withdraw-fiat-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
               <h2 class="sectionHeader">WITHDRAW: {{withdraw.sourceCurrency}}</h2>
               <p class="dialog-text textCenter">
@@ -556,7 +557,7 @@
             </div>
           </div>
 
-          <div class="noDisp" ng-controller="walletDepositController as deposit">
+          <div class="noDisp" ng-controller="walletDepositController as deposit" data-currency="BTC">
             <div id="deposit-btc-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
               <h2 class="sectionHeader">DEPOSIT: BTC</h2>
               <p class="dialog-text textCenter">
@@ -565,8 +566,8 @@
                   Buy BTC from your credit card
                 </button>
               </p>
-              <p class="dialog-text">To deposit {{deposit.currency}} to your Waves account, please send BTC to the address below.<br/>
-                The minimum amount for deposit is <span class="fontBold">{{::deposit.btc.minimumAmount}} BTC</span>.</p>
+              <p class="dialog-text">To deposit BTC to your Waves account, please send BTC to the address below.<br/>
+                The minimum amount of deposit is <span class="fontBold">{{::deposit.btc.minimumAmount}} BTC</span>.</p>
               <table class="wavesTable bitcoin-requisites">
                 <tbody>
                 <tr>
@@ -574,7 +575,7 @@
                 </tr>
                 </tbody>
               </table>
-              <p class="dialog-text">Enter this address into your bitcoin client or wallet. Once the transaction is confirmed, <br/>
+              <p class="dialog-text">Enter this address into your Bitcoin client or wallet. Once the transaction is confirmed, <br/>
                 the gateway will process the transfer of BTC to a token in your Waves account.</p>
               <p class="dialog-text">Please note that the gateway doesn't apply any fees for this operation.</p>
               <p class="dialog-text">You can scan this QR-code in order to copy the address.<br/>
@@ -590,7 +591,29 @@
             </div>
           </div>
 
-          <div class="noDisp" ng-controller="walletDepositController as deposit">
+          <div class="noDisp" ng-controller="walletDepositController as deposit" data-currency="ETH">
+            <div id="deposit-eth-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
+              <h2 class="sectionHeader">DEPOSIT: ETH</h2>
+              <p class="dialog-text">To deposit ETH to your Waves account, please send ETH to the address below.<br/>
+                The minimum amount of deposit is <span class="fontBold">{{deposit.eth.minimumAmount}} ETH</span>.</p>
+              <p class="dialog-text">Please do not deposit ERC20 tokens! Only Ethereum is allowed.</p>
+              <table class="wavesTable bitcoin-requisites">
+                <tbody>
+                <tr>
+                  <td><b>{{deposit.eth.ethereumAddress}}</b></td>
+                </tr>
+                </tbody>
+              </table>
+              <p class="dialog-text">Enter this address into your Ethereum client or wallet. Once the transaction is confirmed, <br/>
+                the gateway will process the transfer of ETH to a token in your Waves account.</p>
+              <p class="dialog-text">Please note that the gateway doesn't apply any fees for this operation.</p>
+              <div class="textCenter">
+                <waves-qr-code class="center" size="180" value="deposit.eth.ethereumAddress"></waves-qr-code>
+              </div>
+            </div>
+          </div>
+
+          <div class="noDisp" ng-controller="walletDepositController as deposit" data-currency="EUR">
             <div id="deposit-eur-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
               <h2 class="sectionHeader">DEPOSIT: EUR</h2>
               <p class="dialog-text textCenter">VERIFICATION</p>
@@ -627,7 +650,7 @@
             </div>
           </div>
 
-          <div class="noDisp" ng-controller="walletDepositController as deposit">
+          <div class="noDisp" ng-controller="walletDepositController as deposit" data-currency="USD">
             <div id="deposit-usd-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
               <h2 class="sectionHeader">DEPOSIT: USD</h2>
               <p class="dialog-text textCenter">VERIFICATION</p>

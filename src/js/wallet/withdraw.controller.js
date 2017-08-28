@@ -4,15 +4,18 @@
     var DEFAULT_FEE_AMOUNT = '0.001',
         DEFAULT_ERROR_MESSAGE = 'Connection is lost';
 
-    function WavesWalletWithdrawController ($scope, constants, events, autocomplete, dialogService,
+    function WavesWalletWithdrawController ($scope, constants, events, autocomplete, dialogService, $element,
                                             coinomatService, transactionBroadcast, notificationService,
                                             apiService, formattingService, assetService, applicationContext) {
+
         var ctrl = this;
+        var type = $element.data('type');
+
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, Currency.WAVES);
         var notPermittedBitcoinAddresses = {};
 
         ctrl.broadcast = new transactionBroadcast.instance(apiService.assets.transfer,
-            function (transaction, response) {
+            function (transaction) {
                 var amount = Money.fromCoins(transaction.amount, ctrl.assetBalance.currency);
                 var address = transaction.recipient;
                 var displayMessage = 'Sent ' + amount.formatAmount(true) + ' of ' +
@@ -85,12 +88,12 @@
 
         resetForm();
 
-        $scope.$on(events.WALLET_WITHDRAW, function (event, eventData) {
+        $scope.$on(events.WALLET_WITHDRAW + type, function (event, eventData) {
             ctrl.assetBalance = eventData.assetBalance;
             ctrl.wavesBalance = eventData.wavesBalance;
 
-            if (ctrl.assetBalance.currency === Currency.BTC) {
-                withdrawBTC();
+            if (ctrl.assetBalance.currency === Currency.BTC || ctrl.assetBalance.currency === Currency.ETH) {
+                withdrawCrypto();
             } else if (ctrl.assetBalance.currency === Currency.EUR) {
                 withdrawEUR();
             } else if (ctrl.assetBalance.currency === Currency.USD) {
@@ -100,7 +103,7 @@
             }
         });
 
-        function withdrawBTC() {
+        function withdrawCrypto() {
             coinomatService.getWithdrawRate(ctrl.assetBalance.currency)
                 .then(function (response) {
                     /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
@@ -110,6 +113,7 @@
                     var maximumPayment = Money.fromTokens(Math.min(ctrl.assetBalance.toTokens(),
                         response.in_max), ctrl.assetBalance.currency);
                     ctrl.sourceCurrency = ctrl.assetBalance.currency.displayName;
+                    ctrl.isEthereum = (ctrl.assetBalance.currency === Currency.ETH);
                     ctrl.exchangeRate = response.xrate;
                     ctrl.feeIn = response.fee_in;
                     ctrl.feeOut = response.fee_out;
@@ -129,7 +133,7 @@
 
                     refreshAmount();
 
-                    dialogService.open('#withdraw-btc-dialog');
+                    dialogService.open('#withdraw-crypto-dialog');
                 }).catch(function (exception) {
                 if (exception && exception.data && exception.data.error) {
                     notificationService.error(exception.error);
@@ -159,7 +163,7 @@
             dialogService.open('#withdraw-fiat-dialog');
         }
 
-        function validateRecipientAddress(recipient) {
+        function validateRecipientBTCAddress(recipient) {
             if (!recipient.match(/^[0-9a-z]{27,34}$/i)) {
                 throw new Error('Bitcoin address is invalid. Expected address length is from 27 to 34 symbols');
             }
@@ -183,7 +187,11 @@
             try {
                 var withdrawCost = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), Currency.WAVES);
                 validateWithdrawCost(withdrawCost, ctrl.wavesBalance);
-                validateRecipientAddress(ctrl.recipient);
+                if (ctrl.assetBalance.currency === Currency.BTC) {
+                    validateRecipientBTCAddress(ctrl.recipient);
+                } else if (ctrl.assetBalance.currency === Currency.ETH) {
+                    // TODO
+                }
             } catch (e) {
                 notificationService.error(e.message);
                 return false;
@@ -246,9 +254,11 @@
         }
     }
 
-    WavesWalletWithdrawController.$inject = ['$scope', 'constants.ui', 'wallet.events', 'autocomplete.fees',
-        'dialogService', 'coinomatService', 'transactionBroadcast', 'notificationService', 'apiService',
-        'formattingService', 'assetService', 'applicationContext'];
+    WavesWalletWithdrawController.$inject = [
+        '$scope', 'constants.ui', 'wallet.events', 'autocomplete.fees', 'dialogService', '$element',
+        'coinomatService', 'transactionBroadcast', 'notificationService',
+        'apiService', 'formattingService', 'assetService', 'applicationContext'
+    ];
 
     angular
         .module('app.wallet')
