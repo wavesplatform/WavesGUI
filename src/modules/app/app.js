@@ -54,7 +54,6 @@
 
         const activeClasses = [];
 
-
         /**
          *
          * @param {Event} event

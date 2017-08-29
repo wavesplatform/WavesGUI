@@ -3,7 +3,7 @@
 
     const factory = function ($q) {
 
-        class SliderManager {
+        class CarouselManager {
 
             constructor() {
                 this.slidersHash = Object.create(null);
@@ -13,7 +13,7 @@
 
             /**
              * @param {string} id
-             * @param {Slider} slider
+             * @param {Carousel} slider
              */
             registerSlider(id, slider) {
                 this.slidersHash[id] = slider;
@@ -43,7 +43,7 @@
 
             /**
              * @param {string} id
-             * @returns {Slider}
+             * @returns {Carousel}
              */
             getSlider(id) {
                 if (this.slidersHash[id]) {
@@ -60,10 +60,10 @@
 
         }
 
-        SliderManager.$inject = ['$q'];
+        CarouselManager.$inject = ['$q'];
 
-        return new SliderManager();
+        return new CarouselManager();
     };
 
-    angular.module('app.ui').factory('sliderManager', factory);
+    angular.module('app.ui').factory('carouselManager', factory);
 })();

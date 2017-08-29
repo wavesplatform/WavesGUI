@@ -14,7 +14,7 @@
                     const userList = data.accounts.map((account) => {
                         return {
                             address: account.address,
-                            encryptSeed: account.cipher
+                            encryptedSeed: account.cipher
                         };
                     });
                     return storage.clear().then(() => storage.save('userList', userList));
@@ -66,20 +66,20 @@
                 return result < 0;
             }
 
-            static le(v1, v2) {
-                const result = StorageMigration._comparator(v1, v2);
-                return result <= 0;
-            }
-
-            static gt(v1, v2) {
-                const result = StorageMigration._comparator(v1, v2);
-                return result > 0;
-            }
-
-            static ge(v1, v2) {
-                const result = StorageMigration._comparator(v1, v2);
-                return result >= 0;
-            }
+            // static le(v1, v2) {
+            //     const result = StorageMigration._comparator(v1, v2);
+            //     return result <= 0;
+            // }
+            //
+            // static gt(v1, v2) {
+            //     const result = StorageMigration._comparator(v1, v2);
+            //     return result > 0;
+            // }
+            //
+            // static ge(v1, v2) {
+            //     const result = StorageMigration._comparator(v1, v2);
+            //     return result >= 0;
+            // }
 
             static _comparator(v1, v2) {
                 v1 = StorageMigration._parse(v1);
@@ -108,6 +108,7 @@
                     patch: parts[2]
                 };
             }
+
         }
 
         return new StorageMigration();

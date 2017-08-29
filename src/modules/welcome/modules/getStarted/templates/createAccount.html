@@ -1,7 +1,7 @@
 <div class="create-account">
 
     <div ng-click="$ctrl.back()" class="back">
-        НАВЗАД!
+        BACK
     </div>
 
     <div ng-class="{active: $ctrl.hasAccount}" class="created-animation">
@@ -32,9 +32,12 @@
             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                 <md-input-container class="md-block">
                     <label>Password</label>
-                    <input name="password" type="password" required minlength="8"
-                           ng-pattern="/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]/g"
-                           ng-model="$ctrl.password">
+                    <input name="password"
+                           type="password"
+                           required
+                           minlength="8"
+                           ng-pattern="/(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)[0-9a-zA-Z!@#$%^&\*]*/"
+                           ng-model="$ctrl.password" />
 
                     <div ng-messages="createPassword.password.$error">
                         <div ng-message="required">This is required!</div>
