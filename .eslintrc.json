@@ -5,10 +5,11 @@
     },
     "globals": {
         "WAVES_NETWORK_CONF": true,
+        "identicon": true,
         "angular": true,
         "jQuery": true,
         "$": true,
-        "_": true,
+        "utils": true,
         "d3": true,
         "QRious": true,
         "techan": true,
@@ -24,7 +25,11 @@
         "inject": true,
         "spyOn": true,
         "expect": true,
-        "it": true
+        "it": true,
+        "WavesApp": true,
+        "WavesAPI": true,
+        "workerWrapper": true,
+        "i18next": true
     },
     "extends": "eslint:recommended",
     "rules": {
@@ -327,7 +332,7 @@
         ],
         "quotes": [
             "error",
-            "backtick",
+            "single",
             {
                 "avoidEscape": true
             }

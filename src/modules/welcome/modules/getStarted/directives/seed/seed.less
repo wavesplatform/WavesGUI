@@ -1,0 +1,56 @@
+.seed-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
+  height: 231px;
+  width: 520px;
+  border: 1px dotted #979797;
+  border-radius: 3px;
+  background-color: #F2F2F2;
+  box-sizing: border-box;
+}
+
+// Due to animations that element should be directly in <body>
+.seed-item {
+  margin: 15px 10px;
+  box-sizing: border-box;
+  font-weight: bold;
+  display: inline-block;
+  transform-origin: center center;
+  user-select: none;
+  text-align: center;
+  min-width: 70px;
+  min-height: 34px;
+
+  &.moved {
+    color: rgba(0, 0, 0, 0)
+  }
+
+  &.random {
+    padding: 7px 5px;
+    border: 1px solid #eee;
+    background-color: #fff;
+  }
+
+  &.write {
+    border: 1px solid #eee;
+    background-color: #fff;
+  }
+
+  &.empty, &.full {
+    display: inline-block;
+    text-align: center;
+  }
+
+  &.full {
+    padding: 7px 5px;
+    min-height: inherit;
+  }
+
+  &.clone {
+    transition: transform 0.3s;
+    text-align: center;
+  }
+}

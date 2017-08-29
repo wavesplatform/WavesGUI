@@ -1,0 +1,28 @@
+<div class="welcome">
+
+    <div ng-click="$ctrl.back()" class="back">
+        BACK
+    </div>
+
+    <p class="title text">No backup, no money</p>
+    <p class="text">Since only control your money, you'll need to save your backup phrase in case this app is
+        detected</p>
+
+    <div class="slider-wrapper">
+        <w-carousel></w-carousel>
+    </div>
+
+    <p class="text">Your wallet is never to cloud storage standart device backups.</p>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <md-button ng-click="$ctrl.next()" class="md-raised md-primary">
+            Backup account
+        </md-button>
+    </section>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <md-button ng-click="$ctrl.next(6)">
+            Do it later
+        </md-button>
+    </section>
+</div>

@@ -1,7 +1,7 @@
 import * as gulp from 'gulp';
 import { exec, spawn } from 'child_process';
 import { readdirSync, statSync } from 'fs';
-import { join } from 'path';
+import { join, relative } from 'path';
 import { ITaskFunction } from './interface';
 
 
@@ -83,6 +83,12 @@ export function run(command: string, args: Array<string>, noLog?: boolean): Prom
             resolve({ code, data });
         });
     });
+}
+
+export function moveTo(path: string): (relativePath: string) => string {
+    return function (relativePath: string): string {
+        return relative(path, relativePath);
+    }
 }
 
 export function replaceScripts(file: string, paths: Array<string>): string {

@@ -1,0 +1,18 @@
+<div class="backup-seed">
+
+    <div ng-click="$ctrl.back()" class="back">
+        BACK
+    </div>
+
+    <p>Please carefully write down this phrase.</p>
+
+    <w-seed type="read" seed="{{$ctrl.seed}}"></w-seed>
+
+    <p>We'll confirm on the next screen</p>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <md-button ng-click="$ctrl.next()" class="md-raised md-primary">
+            I've written it down
+        </md-button>
+    </section>
+</div>

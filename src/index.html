@@ -1,0 +1,58 @@
+<!-- See the LICENSE file at https://github.com/wavesplatform/WavesGUI/blob/master/LICENSE. Removal or modification of this copyright notice is prohibited. -->
+
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>Waves Client</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="./img/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <style>
+        .app-loader {
+            z-index: 10000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 1);
+        }
+    </style>
+    <!-- CSS -->
+    <base href="/">
+
+    <script>
+        var WavesApp = {
+            name: '{{pack.name}}',
+            version: '{{pack.version}}',
+            type: '{{build.type}}',
+            network: {
+                server: '{{network.server}}',
+                code: '{{network.code}}',
+                matcher: '{{network.matcher}}',
+                coinomat: '{{network.coinomat}}',
+                datafeed: '{{network.datafeed}}'
+            },
+            isWeb: function () {
+                return this.type === 'web';
+            },
+            isDesktop: function () {
+                return this.type === 'desktop';
+            }
+        };
+    </script>
+
+</head>
+
+<body>
+
+<div class="app-loader">
+    <div>loading</div>
+</div>
+
+<ui-view name="main"></ui-view>
+
+<!-- JAVASCRIPT -->
+
+</body>
+</html>
