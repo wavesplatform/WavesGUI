@@ -14,8 +14,8 @@
                 return this.userList[this.activeUser].address;
             }
 
-            get encryptSeed() {
-                return this.userList[this.activeUser].encryptSeed;
+            get encryptedSeed() {
+                return this.userList[this.activeUser].encryptedSeed;
             }
 
             constructor() {
@@ -38,13 +38,13 @@
 
             login() {
                 apiWorker.process((api, data) => {
-                    return api.decryptSeed(data.encryptSeed, data.password);
-                }, { password: this.password, encryptSeed: this.encryptSeed })
+                    return api.decryptSeed(data.encryptedSeed, data.password);
+                }, { password: this.password, encryptedSeed: this.encryptedSeed })
                     .then((seed) => {
                         if (seed) { // TODO remove if
                             user.login({
                                 address: this.address,
-                                encryptSeed: this.encryptSeed
+                                encryptedSeed: this.encryptedSeed
                             });
                             console.log('success');
                         }

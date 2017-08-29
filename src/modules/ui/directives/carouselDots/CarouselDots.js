@@ -1,13 +1,13 @@
 (function () {
     'use strict';
 
-    class SliderDots {
+    class CarouselDots {
 
         /**
          * @constructor
-         * @param {SliderManager} sliderManager
+         * @param {CarouselManager} carouselManager
          */
-        constructor(sliderManager) {
+        constructor(carouselManager) {
             /**
              * @type {string}
              */
@@ -17,11 +17,11 @@
              */
             this.dots = [];
             /**
-             * @type {Slider}
+             * @type {Carousel}
              */
             this.slider = null;
             this.$postLink = () => {
-                this.slider = sliderManager.getSlider(this.sliderId)
+                this.slider = carouselManager.getSlider(this.sliderId)
                     .then((slider) => {
                         this.slider = slider;
                         this.initialize();
@@ -57,14 +57,14 @@
 
     }
 
-    SliderDots.$inject = ['sliderManager'];
+    CarouselDots.$inject = ['carouselManager'];
 
-    angular.module('app.ui').component('wSliderDots', {
+    angular.module('app.ui').component('wCarouselDots', {
         transclude: true,
         bindings: {
             sliderId: '@'
         },
-        controller: SliderDots,
-        templateUrl: 'modules/ui/directives/sliderDots/dots.html'
+        controller: CarouselDots,
+        templateUrl: 'modules/ui/directives/carouselDots/dots.html'
     });
 })();

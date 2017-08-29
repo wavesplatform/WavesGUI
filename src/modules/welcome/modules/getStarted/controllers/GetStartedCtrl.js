@@ -62,10 +62,10 @@
                             apiWorker.process((api, data) => {
                                 api.applySeed(data.seed);
                                 return api.encryptSeed(data.password);
-                            }, { seed: this.seed, password: this.password }).then((encryptSeed) => {
+                            }, { seed: this.seed, password: this.password }).then((encryptedSeed) => {
                                 user.setUserData({
                                     address: this.address,
-                                    encryptSeed
+                                    encryptedSeed
                                 });
                             });
                         }

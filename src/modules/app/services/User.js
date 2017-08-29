@@ -11,7 +11,7 @@
 
             constructor() {
                 this.address = null;
-                this.encryptSeed = null;
+                this.encryptedSeed = null;
                 this.lastConfirmPassword = null;
                 this.lastNotificationTimeStamp = null;
                 this.lastLogin = Date.now();
@@ -20,7 +20,7 @@
             /**
              * @param {Object} data
              * @param {string} data.address
-             * @param {string} data.encryptSeed
+             * @param {string} data.encryptedSeed
              */
             setUserData(data) {
                 Object.keys(data).forEach((key) => {
@@ -37,13 +37,16 @@
             /**
              * @param {Object} data
              * @param {string} data.address
-             * @param {string} data.encryptSeed
+             * @param {string} data.encryptedSeed
              */
             login(data) {
                 this.lastLogin = Date.now();
                 this.setUserData(data);
             }
 
+            /**
+             * @returns {Promise}
+             */
             getUserList() {
                 return storage.load('userList').then((list) => {
                     list = list || [];
@@ -56,13 +59,20 @@
                 });
             }
 
+            /**
+             * @private
+             */
             _check() {
-                if (!this.address || !this.encryptSeed) {
+                if (!this.address || !this.encryptedSeed) {
                     // TODO Need login!
                     throw new Error('No address!');
                 }
             }
 
+            /**
+             * @returns {Promise}
+             * @private
+             */
             _save() {
                 return storage.load('userList').then((list) => {
                     list = list || [];
