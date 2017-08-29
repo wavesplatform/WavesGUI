@@ -2,13 +2,12 @@
     'use strict';
 
     /**
-     * @param $scope
      * @param {jQuery} $element
      * @param $timeout
      * @param {CarouselManager} carouselManager
      * @returns {Carousel}
      */
-    const controller = function ($scope, $element, $timeout, carouselManager) {
+    const controller = function ($element, $timeout, carouselManager) {
 
         class Carousel {
 
@@ -182,7 +181,7 @@
         return new Carousel();
     };
 
-    controller.$inject = ['$scope', '$element', '$timeout', 'carouselManager'];
+    controller.$inject = ['$element', '$timeout', 'carouselManager'];
 
     angular.module('app.ui').component('wCarousel', {
         transclude: true,
