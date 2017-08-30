@@ -4,7 +4,7 @@ import * as babel from 'gulp-babel';
 import * as uglify from 'gulp-uglify';
 import * as rename from 'gulp-rename';
 import * as copy from 'gulp-copy';
-import { getFilesFrom, moveTo, replaceScripts, replaceStyles, run, task } from './ts-scripts/utils';
+import { getFilesFrom, moveTo, prepareHTML, replaceScripts, replaceStyles, run, task } from './ts-scripts/utils';
 import { join } from 'path';
 import { copy as fsCopy, outputFile, readFile, readJSON, readJSONSync } from 'fs-extra';
 import { IMetaJSON, IPackageJSON } from './ts-scripts/interface';
@@ -25,19 +25,6 @@ const sourceFiles = getFilesFrom('./src', '.js', function (name, path) {
     return !name.includes('.spec') && !path.includes('/test/');
 });
 
-// function getConfigFile(name: string, config: IConfItem): string {
-//     return `var WAVES_NETWORK_CONF = ${JSON.stringify({
-//         name,
-//         code: config.code,
-//         version: pack.version,
-//         server: config.server,
-//         matcher: config.matcher,
-//         coinomat: config.coinomat,
-//         datafeed: config.datafeed
-//     })};
-//     `;
-// }
-
 const taskHash = {
     concat: [],
     html: [],
@@ -49,11 +36,9 @@ const tmpJsPath = './dist/tmp/js';
 const tmpCssPath = './dist/tmp/css';
 const vendorName = 'vendors.js';
 const bundleName = 'bundle.js';
-// const templateName = 'templates.js';
 const cssName = `${pack.name}-styles-${pack.version}.css`;
 const vendorPath = join(tmpJsPath, vendorName);
 const bundlePath = join(tmpJsPath, bundleName);
-// const templatePath = join(tmpJsPath, templateName);
 const cssPath = join(tmpCssPath, cssName);
 
 
@@ -81,7 +66,7 @@ const indexPromise = readFile('src/index.html', { encoding: 'utf8' });
 
             if (type !== 'dev') {
                 task(`concat-${taskPostfix}`, [type === 'min' ? 'uglify' : 'babel'], function (done) {
-                    const stream = gulp.src([vendorPath, getName(bundlePath)/*, templatePath*/])
+                    const stream = gulp.src([vendorPath, getName(bundlePath)])
                         .pipe(concat(jsFileName))
                         .pipe(gulp.dest(`${targetPath}/js`));
 
@@ -107,19 +92,15 @@ const indexPromise = readFile('src/index.html', { encoding: 'utf8' });
                         fsCopy('src/desktop', targetPath)
                     ];
                 } else if (type === 'dev') {
-                    forCopy = [
-                        // fsCopy(templatePath, `${targetPath}/js/${templateName}`)
-                    ]
+                    forCopy = []
                 } else {
                     forCopy = [];
                 }
 
                 Promise.all([
                     fsCopy(cssPath, `${targetPath}/css/${pack.name}-styles-${pack.version}.css`),
-                    // fsCopy('src/fonts', `${targetPath}/fonts`),
                     fsCopy('LICENSE', `${targetPath}/LICENSE`),
                     fsCopy('3RD-PARTY-LICENSES.txt', `${targetPath}/3RD-PARTY-LICENSES.txt`),
-                    // fsCopy('src/img', `${targetPath}/img`)
                 ].concat(forCopy)).then(() => {
                     done();
                 }, (e) => {
@@ -131,18 +112,16 @@ const indexPromise = readFile('src/index.html', { encoding: 'utf8' });
 
             const htmlDeps = type === 'dev' ? [] : [`concat-${taskPostfix}`];
 
-            task(`html-${taskPostfix}`, htmlDeps.concat([/*'templates', */`copy-${taskPostfix}`]), function (done) {
+            task(`html-${taskPostfix}`, htmlDeps.concat([`copy-${taskPostfix}`]), function (done) {
                 indexPromise.then((file) => {
-                    const filter = moveTo(targetPath);
-
-                    file = replaceStyles(file, [`${targetPath}/css/${pack.name}-styles-${pack.version}.css`].map(filter));
-                    if (type === 'dev') {
-                        file = replaceScripts(file, meta.vendors.concat(sourceFiles/*, `${targetPath}/js/${templateName}`*/).map(filter));
-                    } else {
-                        file = replaceScripts(file, [jsFilePath].map(filter));
-                    }
-
-                    // file = replaceNetworkConfig(file, getConfigFile(`${bundleName}-${configName}`, config));
+                    return prepareHTML({
+                        target: targetPath,
+                        connection: configName,
+                        scripts: type === 'dev' ? meta.vendors.concat(sourceFiles) : [jsFilePath],
+                        styles: [`${targetPath}/css/${pack.name}-styles-${pack.version}.css`]
+                    })
+                }).then((file) => {
+                    console.log('out ' + configName);
                     outputFile(`${targetPath}/index.html`, file).then(() => done());
                 });
             });

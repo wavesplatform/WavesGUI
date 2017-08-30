@@ -15,17 +15,17 @@
     const AppConfig = function ($urlRouterProvider, $stateProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
 
-        i18next.init({
-            debug: true,
-            lng: 'en',
-            ns: 'i18n',
-            fallbackLng: 'dev', // Default is dev
-            useCookie: false,
-            useLocalStorage: false
-        }, function (err, t) {
-            // initialized and ready to go!
-            console.error(err, t);
-        });
+        // i18next.init({
+        //     debug: true,
+        //     lng: 'en',
+        //     ns: 'i18n',
+        //     fallbackLng: 'dev', // Default is dev
+        //     useCookie: false,
+        //     useLocalStorage: false
+        // }, function (err, t) {
+        //     // initialized and ready to go!
+        //     console.error(err, t);
+        // });
 
         $stateProvider
             .state('welcome', {

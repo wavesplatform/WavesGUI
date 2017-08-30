@@ -60,10 +60,10 @@
 
         }
 
-        CarouselManager.$inject = ['$q'];
-
         return new CarouselManager();
     };
+
+    factory.$inject = ['$q'];
 
     angular.module('app.ui').factory('carouselManager', factory);
 })();

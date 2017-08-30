@@ -3,6 +3,8 @@ import { exec, spawn } from 'child_process';
 import { readdirSync, statSync } from 'fs';
 import { join, relative } from 'path';
 import { ITaskFunction } from './interface';
+import { readFile, readJSON } from 'fs-extra';
+import { compile } from 'handlebars';
 
 
 export const task: ITaskFunction = gulp.task.bind(gulp) as any;
@@ -103,8 +105,79 @@ export function replaceStyles(file: string, paths: Array<string>): string {
     }).join('\n'));
 }
 
-export function replaceNetworkConfig(file: string, config: string): string {
-    return file.replace('<!-- NETWORK_CONFIG -->', `<script>${config}</script>`);
+export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
+    const filter = moveTo(param.target);
+
+    return Promise.all([
+        readFile(join(__dirname, '../src/index.html'), 'utf8'),
+        readJSON(join(__dirname, '../package.json')),
+        readJSON(join(__dirname, './meta.json'))
+    ])
+        .then((data) => {
+            const [file, pack, meta] = data;
+            const connectionTypes = ['mainnet', 'testnet'];
+
+            if (!param.scripts) {
+                const sourceFiles = getFilesFrom('./src', '.js', function (name, path) {
+                    return !name.includes('.spec') && !path.includes('/test/');
+                });
+                param.scripts = meta.vendors.concat(sourceFiles);
+            }
+
+            if (!param.styles) {
+                param.styles = [`${param.target}/css/${pack.name}-styles-${pack.version}.css`];
+            }
+
+            const networks = connectionTypes.reduce((result, item) => {
+                result[item] = meta.configurations[item];
+                return result;
+            }, Object.create(null));
+
+            return compile(file)({
+                pack: pack,
+                build: {
+                    type: 'web'
+                },
+                network: networks[param.connection]
+            })
+        })
+        .then((file) => {
+            return replaceStyles(file, param.styles.map(filter));
+        }).then((file) => {
+            return replaceScripts(file, param.scripts.map(filter));
+        });
+}
+
+export function route(options: IRouteOptions): Promise<string> {
+    if (options.buildType === 'dev') {
+        return prepareHTML({
+            target: join(__dirname, '..', 'dist', 'build', options.connectionType, options.buildType),
+            connection: options.connectionType
+        });
+    } else {
+        return readFile(join(__dirname, '../dist/build', options.connectionType, options.buildType, 'index.html'), 'utf8');
+    }
+}
+
+export function isPage(url: string): boolean {
+    const staticPathPartial = [
+        'src', 'img', 'css', 'fonts', 'js', 'bower_components', 'node_modules', 'modules', 'locales'
+    ];
+    return !staticPathPartial.some((path) => {
+        return url.includes(`/${path}/`);
+    });
+}
+
+export interface IRouteOptions {
+    connectionType: string;
+    buildType: string;
+}
+
+export interface IPrepareHTMLOptions {
+    connection: string;
+    scripts?: string[];
+    styles?: string[];
+    target: string;
 }
 
 export interface IFilter {
