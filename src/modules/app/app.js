@@ -8,6 +8,7 @@
         'ui.router.state.events',
 
         'app.ui',
+        'app.wallet',
         'app.welcome',
         'app.utils'
     ]);
@@ -22,21 +23,31 @@
             fallbackLng: 'dev', // Default is dev
             useCookie: false,
             useLocalStorage: false
-        }, function (err, t) {
+        }, (err, t) => {
             // initialized and ready to go!
-            console.error(err, t);
+            // console.error(err, t);
         });
 
-        $stateProvider
-            .state('welcome', {
-                url: '/',
+        i18next.on('initialized', () => {
+            // addLocale('modules/app/locales', i18next.language, 'common');
+        });
+
+        const getState = function (name, diff) {
+            const state = {
+                url: `/${name}`,
                 views: {
                     main: {
-                        controller: 'WelcomeCtrl as $ctrl',
-                        templateUrl: 'modules/welcome/templates/welcome.html'
+                        controller: `${name.charAt(0).toUpperCase() + name.substr(1)}Ctrl as $ctrl`,
+                        templateUrl: `modules/${name}/templates/${name}.html`
                     }
                 }
-            });
+            };
+            return utils.merge(state, diff || Object.create(null));
+        };
+
+        $stateProvider
+            .state('welcome', getState('welcome', { url: '/' }))
+            .state('wallet', getState('wallet'));
     };
 
     AppConfig.$inject = [
