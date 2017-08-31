@@ -1,6 +1,17 @@
 (function () {
     'use strict';
 
+    const modules = [];
+
+    const origin = angular.module;
+    angular.module = function (...args) {
+        const [name] = args;
+        if (modules.indexOf(name) === -1) {
+            modules.push(name);
+        }
+        return origin.call(angular, ...args);
+    };
+
     const app = angular.module('app', [
         'ngMaterial',
         'ngMessages',
@@ -16,17 +27,27 @@
     const AppConfig = function ($urlRouterProvider, $stateProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
 
-        i18next.init({
-            debug: true,
-            lng: 'en',
-            ns: 'i18n',
-            fallbackLng: 'dev', // Default is dev
-            useCookie: false,
-            useLocalStorage: false
-        }, (err, t) => {
-            //initialized and ready to go!
-            console.error(err, t);
-        });
+        i18next
+            .use(i18nextXHRBackend)
+            .use(i18nextBrowserLanguageDetector)
+            .init({
+                debug: true,
+                lng: 'en',
+                ns: modules,
+                fallbackLng: 'en',
+                defaultNS: 'app',
+                useCookie: false,
+                useLocalStorage: false,
+                backend: {
+                    loadPath: function (lng, ns) {
+                        lng = lng[0];
+                        ns = ns[0];
+                        const parts = ns.split('.');
+                        const path = parts.length === 1 ? ns : parts.filter((item) => item !== 'app').join('/modules/');
+                        return `modules/${path}/locales/${lng}.json`;
+                    },
+                }
+            });
 
         i18next.on('initialized', () => {
             // addLocale('modules/app/locales', i18next.language, 'common');

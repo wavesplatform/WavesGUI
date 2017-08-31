@@ -125,6 +125,8 @@
     "angular-messages": "^1.6.5",
     "angular-ui-router": "^1.0.3",
     "i18next": "^9.0.0",
+    "i18next-browser-languagedetector": "^2.0.0",
+    "i18next-xhr-backend": "^1.4.2",
     "identicon": "^2.1.1",
     "jquery": "^3.2.1",
     "ng-i18next": "^1.0.5",

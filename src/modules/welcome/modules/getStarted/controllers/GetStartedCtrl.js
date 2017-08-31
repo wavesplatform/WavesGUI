@@ -17,15 +17,15 @@
         class GetStartedCtrl {
 
             constructor() {
-                this.stepIndex = 4;
+                this.stepIndex = 0;
                 this.password = '';
                 this.confirmPassword = '';
                 this.moneyInApp = false;
                 this.restoreByBackup = false;
                 this.hasAccount = false;
                 this.agree = false;
-                this.seed = 'service situate wedding adjust nuclear bachelor learn what grief spirit cabbage inch audit cattle gorilla';
-                this.address = '3PDiB8rcSvA5vYam5pruLEeSGUTGqcCCdiW';
+                this.seed = '';
+                this.address = '';
                 this.seedList = [];
 
                 this.resetAddress();
