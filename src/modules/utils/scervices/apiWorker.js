@@ -14,7 +14,6 @@
 
         const worker = workerWrapper.create(getWawesApi, WavesApp.network, {
             libs: [
-                '/fetch.js',
                 '/node_modules/waves-api/dist/waves-api.min.js'
             ]
         });
