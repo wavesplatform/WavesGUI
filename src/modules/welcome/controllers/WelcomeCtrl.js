@@ -37,17 +37,15 @@
             }
 
             login() {
-                apiWorker.process((api, data) => {
-                    return api.decryptSeed(data.encryptedSeed, data.password);
+                apiWorker.process((waves, data) => {
+                    return waves.Seed.decryptSeedPhrase(data.encryptedSeed, data.password);
                 }, { password: this.password, encryptedSeed: this.encryptedSeed })
-                    .then((seed) => {
-                        if (seed) { // TODO remove if
-                            user.login({
-                                address: this.address,
-                                encryptedSeed: this.encryptedSeed
-                            });
-                            console.log('success');
-                        }
+                    .then(() => {
+                        user.login({
+                            address: this.address,
+                            encryptedSeed: this.encryptedSeed
+                        });
+                        console.log('success');
                     }, () => {
                         console.error('Wrong password');
                     });

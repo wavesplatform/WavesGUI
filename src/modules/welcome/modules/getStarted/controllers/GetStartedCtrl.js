@@ -59,9 +59,9 @@
                         if (ORDER_LIST[this.stepIndex + 1]) {
                             this.stepIndex++;
                         } else {
-                            apiWorker.process((api, data) => {
-                                api.applySeed(data.seed);
-                                return api.encryptSeed(data.password);
+                            apiWorker.process((waves, data) => {
+                                const seedData = waves.Seed.fromExistingPhrase(data.seed);
+                                return seedData.encrypt(data.password);
                             }, { seed: this.seed, password: this.password }).then((encryptedSeed) => {
                                 user.setUserData({
                                     address: this.address,
@@ -103,11 +103,11 @@
             }
 
             resetAddress() {
-                apiWorker.process((api) => {
+                apiWorker.process((waves) => {
                     const list = [];
                     for (let i = 0; i < 5; i++) {
-                        list.push({ seed: api.getSeed(), address: api.getAddress() });
-                        api.resetSeed();
+                        const seedData = waves.Seed.create();
+                        list.push({ seed: seedData.phrase, address: seedData.address });
                     }
                     return list;
                 }).then((data) => {

@@ -125,7 +125,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
             }
 
             if (!param.styles) {
-                param.styles = [`${param.target}/css/${pack.name}-styles-${pack.version}.css`];
+                param.styles = meta.stylesheets.concat(getFilesFrom(join(__dirname, '../src'), '.css'));
             }
 
             const networks = connectionTypes.reduce((result, item) => {
