@@ -128,9 +128,8 @@
     "identicon": "^2.1.1",
     "jquery": "^3.2.1",
     "ng-i18next": "^1.0.5",
-    "ts-utils": "^3.0.2",
+    "ts-utils": "^4.0.0",
     "waves-api": "^0.2.3",
-    "whatwg-fetch": "^2.0.3",
-    "worker-wrapper": "0.1.7"
+    "worker-wrapper": "^1.0.0"
   }
 }

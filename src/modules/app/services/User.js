@@ -76,7 +76,7 @@
             _save() {
                 return storage.load('userList').then((list) => {
                     list = list || [];
-                    let item = utils.find(list, { address: this.address });
+                    let item = tsUtils.find(list, { address: this.address });
 
                     if (!item) {
                         item = Object.create(null);

@@ -10,7 +10,6 @@ mkdir dist
 mkdir dist/tmp
 mkdir dist/tmp/css
 node_modules/.bin/uglifycss tmp/style.css > dist/tmp/css/style.css || exit 1
-rm -rf tmp
 echo 'less >> DONE'
 
 exit 0;
