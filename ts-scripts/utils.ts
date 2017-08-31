@@ -118,7 +118,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
             const connectionTypes = ['mainnet', 'testnet'];
 
             if (!param.scripts) {
-                const sourceFiles = getFilesFrom('./src', '.js', function (name, path) {
+                const sourceFiles = getFilesFrom(join(__dirname, '../src'), '.js', function (name, path) {
                     return !name.includes('.spec') && !path.includes('/test/');
                 });
                 param.scripts = meta.vendors.concat(sourceFiles);
