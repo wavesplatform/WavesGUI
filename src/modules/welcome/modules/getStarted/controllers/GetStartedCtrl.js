@@ -32,7 +32,7 @@
             }
 
             setActiveSeed(item) {
-                const old = utils.find(this.seedList, { active: true });
+                const old = tsUtils.find(this.seedList, { active: true });
                 if (old) {
                     old.active = false;
                 }

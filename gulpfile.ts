@@ -4,7 +4,7 @@ import * as babel from 'gulp-babel';
 import * as uglify from 'gulp-uglify';
 import * as rename from 'gulp-rename';
 import * as copy from 'gulp-copy';
-import { getFilesFrom, moveTo, prepareHTML, replaceScripts, replaceStyles, run, task } from './ts-scripts/utils';
+import { getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
 import { join } from 'path';
 import { copy as fsCopy, outputFile, readFile, readJSON, readJSONSync } from 'fs-extra';
 import { IMetaJSON, IPackageJSON } from './ts-scripts/interface';

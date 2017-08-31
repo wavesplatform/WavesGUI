@@ -47,7 +47,7 @@
             }
 
             registerRouteHash(hash) {
-                utils.each(hash, (listener, url) => {
+                tsUtils.each(hash, (listener, url) => {
                     this.registerRoute(url, listener);
                 });
             }
