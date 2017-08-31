@@ -21,36 +21,25 @@
   transform-origin: center center;
   user-select: none;
   text-align: center;
-  min-width: 70px;
-  min-height: 34px;
+  width: 70px;
+  height: 34px;
+  padding: 7px 5px;
+  border: 1px solid #eee;
+  background-color: #fff;
+
+  &:focus {
+    outline: none;
+  }
 
   &.moved {
     color: rgba(0, 0, 0, 0)
   }
 
-  &.random {
-    padding: 7px 5px;
-    border: 1px solid #eee;
-    background-color: #fff;
-  }
-
-  &.write {
-    border: 1px solid #eee;
-    background-color: #fff;
-  }
-
-  &.empty, &.full {
-    display: inline-block;
-    text-align: center;
-  }
-
-  &.full {
-    padding: 7px 5px;
-    min-height: inherit;
+  &.empty {
+    background-color: transparent;
   }
 
   &.clone {
-    transition: transform 0.3s;
     text-align: center;
   }
 }
