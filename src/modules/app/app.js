@@ -49,10 +49,6 @@
                 }
             });
 
-        i18next.on('initialized', () => {
-            // addLocale('modules/app/locales', i18next.language, 'common');
-        });
-
         const getState = function (name, diff) {
             const state = {
                 url: `/${name}`,
@@ -61,6 +57,11 @@
                         controller: `${name.charAt(0).toUpperCase() + name.substr(1)}Ctrl as $ctrl`,
                         templateUrl: `modules/${name}/templates/${name}.html`
                     }
+                },
+                onEnter: function () {
+                    Object.keys(state.views).forEach((viewName) => {
+                        $(`ui-view[name="${viewName}"]`).attr('w-i18n-ns', `app.${name}`);
+                    });
                 }
             };
             return tsUtils.merge(state, diff || Object.create(null));

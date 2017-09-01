@@ -34,22 +34,12 @@
                  * @type {string}
                  */
                 this.url = null;
-                /**
-                 * @type {number}
-                 */
-                this.activePart = 0;
             }
 
             $postLink() {
-                if (!this.seed) {
-                    throw new Error('No seed!');
-                }
-
                 if (!AVAILABLE_TYPES.includes(this.type)) {
                     throw new Error('Wrong type!');
                 }
-
-                this._initialize();
             }
 
             getClass(index) {
@@ -95,6 +85,11 @@
                 controller.stopListen(this.seed);
             }
 
+            /**
+             * @param event
+             * @param index
+             * @private
+             */
             _onClick(event, index) {
                 switch (this.type) {
                     case 'write':
@@ -106,11 +101,26 @@
                 }
             }
 
+            _getInsertIndex() {
+                let i;
+                this.parts.some((word, index) => {
+                    if (!word.trim()) {
+                        i = index;
+                        return true;
+                    }
+                    return false;
+                });
+                return i;
+            }
+
+            /**
+             * @param index
+             * @private
+             */
             _show(index) {
                 const word = this.hiddenParts[index];
                 this.parts = this.parts.slice();
-                const active = this.activePart;
-                this.activePart++;
+                const active = this._getInsertIndex();
                 this.parts[active] = word;
                 $scope.$$postDigest(() => {
                     Seed.animateIn($element.find('.seed-item').eq(active)).then(() => {
@@ -121,22 +131,42 @@
                 });
             }
 
+            /**
+             * @param e
+             * @param index
+             * @private
+             */
             _removePart(e, index) {
                 const $target = $(e.target);
                 Seed.animateOut($target).then(() => {
                     controller.trigger(this.seed, 'revert', this.hiddenParts.indexOf(this.parts[index]));
-                    this.parts.splice(index, 1);
-                    this.parts.push('');
-                    this.activePart--;
+                    this.parts[index] = '';
+                    $scope.$$postDigest(() => {
+                        Seed.dropStyle($target);
+                    });
                 });
             }
 
+            /**
+             * @param index
+             * @private
+             */
             _revert(index) {
                 const movedIndex = this.parts.indexOf(this.hiddenParts[index]);
-                const $target = $element.find('.seed-item').eq(movedIndex).removeClass('moved');
-                Seed.animateIn($target);
+                const $target = $element.find('.seed-item').eq(movedIndex);
+                const $clone = Seed.createClone($target);
+                Seed.animateIn($clone).then(() => {
+                    $target.removeClass('moved');
+                    $clone.remove();
+                });
             }
 
+            /**
+             * @param e
+             * @param index
+             * @returns {null}
+             * @private
+             */
             _addNewPart(e, index) {
                 const $target = $(e.target);
                 if ($target.hasClass('moved')) {
@@ -164,16 +194,6 @@
                 }
             }
 
-            _getParts() {
-                const elements = $element.find('.seed-container')
-                    .children()
-                    .toArray();
-                if (elements && elements.length) {
-                    this._getParts = () => elements;
-                }
-                return elements;
-            }
-
             /**
              * @private
              */
@@ -183,7 +203,6 @@
                         const origin = this.hiddenParts.indexOf(part);
                         controller.trigger(this.seed, 'revert', origin);
                     });
-                    this.activePart = 0;
                     this.parts = this.hiddenParts.map(() => '');
                 } else {
                     this.onSuccess();
@@ -208,6 +227,13 @@
                 });
             }
 
+            static dropStyle($element) {
+                $element.css({
+                    opacity: '1',
+                    transform: 'scale(1)'
+                });
+            }
+
             /**
              * @param {jQuery} $element
              * @returns {jQuery}
@@ -217,6 +243,7 @@
                 const $clone = $element.clone()
                     .removeClass('write')
                     .removeClass('full')
+                    .removeClass('moved')
                     .addClass('read');
 
                 const offset = $element.offset();
