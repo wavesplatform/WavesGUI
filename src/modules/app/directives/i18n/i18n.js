@@ -4,8 +4,8 @@
     const controller = function ($element, $attrs) {
         return {
             $postLink() {
-                const isAttribute = !!$attrs['wI18n'];
-                const ns = $element.closest('[w-i18n-ns]').attr('w-i18n-ns') || '';
+                const isAttribute = !!$attrs.wI18n;
+                const ns = $attrs.wI18nNs || $element.closest('[w-i18n-ns]').attr('w-i18n-ns') || '';
 
                 let literal;
 
