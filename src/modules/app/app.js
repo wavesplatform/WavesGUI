@@ -32,7 +32,6 @@
             .use(i18nextBrowserLanguageDetector)
             .init({
                 debug: true,
-                lng: 'en',
                 ns: modules,
                 fallbackLng: 'en',
                 whitelist: ['en', 'ru'],
