@@ -3,7 +3,7 @@
 
     const controller = function ($element, $attrs, i18n) {
         return {
-            listeners: Object.create(null),
+            listener: null,
             $postLink() {
                 const isAttribute = !!$attrs.wI18n;
                 const ns = i18n.getNs($element);
@@ -20,15 +20,11 @@
                     $element.html(i18n.translate(literal, ns));
                 };
                 listener();
-                this.listeners.languageChanged = [listener];
+                this.listener = listener;
                 i18next.on('languageChanged', listener);
             },
             $onDestroy() {
-                tsUtils.each((listeners, event) => {
-                    listeners.forEach((listener) => {
-                        i18next.off(event, listener);
-                    });
-                });
+                i18next.off('languageChanged', this.listener);
             }
         };
     };

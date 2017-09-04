@@ -2,8 +2,8 @@
     'use strict';
 
     const factory = function () {
-        return {
 
+        return {
             translate(literal, ns) {
                 if (!ns) {
                     ns = 'app';
