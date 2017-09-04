@@ -17,7 +17,7 @@
         class GetStartedCtrl {
 
             constructor() {
-                this.stepIndex = 0;
+                this.stepIndex = 3;
                 this.password = '';
                 this.confirmPassword = '';
                 this.moneyInApp = false;

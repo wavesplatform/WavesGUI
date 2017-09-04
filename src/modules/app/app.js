@@ -35,6 +35,7 @@
                 lng: 'en',
                 ns: modules,
                 fallbackLng: 'en',
+                whitelist: ['en', 'ru'],
                 defaultNS: 'app',
                 useCookie: false,
                 useLocalStorage: false,
@@ -45,7 +46,7 @@
                         const parts = ns.split('.');
                         const path = parts.length === 1 ? ns : parts.filter((item) => item !== 'app').join('/modules/');
                         return `modules/${path}/locales/${lng}.json`;
-                    },
+                    }
                 }
             });
 

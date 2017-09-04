@@ -5,19 +5,13 @@
         return {
             listeners: Object.create(null),
             $postLink() {
-                const isAttribute = !!$attrs.wI18n;
                 const ns = i18n.getNs($element);
 
-                let literal;
-
-                if (isAttribute) {
-                    literal = $attrs.wI18n;
-                } else {
-                    literal = $element.text();
-                }
-
+                const list = $attrs.wI18nAttr.split(' ');
                 const listener = function () {
-                    $element.html(i18n.translate(literal, ns));
+                    list.forEach((attrName) => {
+                        $element.attr(attrName, i18n.translate($element.attr(attrName), ns));
+                    });
                 };
                 listener();
                 this.listeners.languageChanged = [listener];
@@ -35,16 +29,10 @@
 
     controller.$inject = ['$element', '$attrs', 'i18n'];
 
-    angular.module('app').directive('wI18n', () => {
+    angular.module('app').directive('wI18nAttr', () => {
         return {
-            restrict: 'AE',
-            controller: controller,
-            transclude: true,
-            template: function ($element) {
-                if ($element.get(0).tagName === 'W-I18N') {
-                    return '<span ng-transclude></span>';
-                }
-            }
+            restrict: 'A',
+            controller: controller
         };
     });
 })();

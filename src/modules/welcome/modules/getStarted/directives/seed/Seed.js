@@ -7,7 +7,7 @@
         'write'
     ];
 
-    const ANIMATION_TIME = 300;
+    const ANIMATION_TIME = 150;
 
     const controller = function ($element, $scope, $q) {
 
