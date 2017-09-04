@@ -21,10 +21,6 @@
             constructor() {
                 this.activeUser = 0;
                 this.password = '';
-                i18next.on('initialized', () => {
-                    console.log(i18next.t('app.welcome:get_started'));
-                    console.log(i18next.t('button.cancel'));
-                });
                 user.getUserList().then((list) => {
                     if (list.length) {
                         this.userList = list;
