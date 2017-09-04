@@ -1,7 +1,7 @@
 <div class="no-users">
     <w-logo></w-logo>
-    <p>You control your Waves</p>
-    <p>This app stores your Waves with cutting-edge security.</p>
+    <p w-i18n="newUser.title"></p>
+    <p w-i18n="newUser.subTitle"></p>
 
     <div class="slider-wrapper center">
         <w-carousel interval="6000" id="slider-welcome-new-user">
@@ -12,19 +12,19 @@
         </w-carousel>
     </div>
 
-    <p>Not even Waves Team</p>
+    <p w-i18n="newUser.beforeControl"></p>
 
     <w-carousel-dots slider-id="slider-welcome-new-user"></w-carousel-dots>
 
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
         <md-button ng-click="$ctrl.getStarted()" class="md-raised md-primary">
-            Get Started
+            <w-i18n>newUser.buttons.primary</w-i18n>
         </md-button>
     </section>
 
     <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
         <md-button ng-click="$ctrl.restoreBackup()">
-            Restore from backup
+            <w-i18n>newUser.buttons.transparent</w-i18n>
         </md-button>
     </section>
 </div>

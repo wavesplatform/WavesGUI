@@ -21,7 +21,6 @@
             constructor() {
                 this.activeUser = 0;
                 this.password = '';
-
                 user.getUserList().then((list) => {
                     if (list.length) {
                         this.userList = list;

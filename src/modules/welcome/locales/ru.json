@@ -1,0 +1,22 @@
+{
+  "newUser": {
+    "title": "Сам контролируй свои волны",
+    "subTitle": "Это приложение хранит ваши волны с передовой безопасности.",
+    "beforeControl": "Даже Waves Team не может получить к ней доступ.",
+    "buttons": {
+      "primary": "Начать",
+      "transparent": "Восстановление из резервной копии"
+    }
+  },
+  "userList": {
+    "title": "Login to your account",
+    "subTitle": "Sign up for a free account below",
+    "or": "or",
+    "placeholders": {
+      "password": "Password"
+    },
+    "buttons": {
+      "login": "Login"
+    }
+  }
+}

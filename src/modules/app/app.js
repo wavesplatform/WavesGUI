@@ -1,6 +1,17 @@
 (function () {
     'use strict';
 
+    const modules = [];
+
+    const origin = angular.module;
+    angular.module = function (...args) {
+        const [name] = args;
+        if (modules.indexOf(name) === -1) {
+            modules.push(name);
+        }
+        return origin.call(angular, ...args);
+    };
+
     const app = angular.module('app', [
         'ngMaterial',
         'ngMessages',
@@ -8,6 +19,7 @@
         'ui.router.state.events',
 
         'app.ui',
+        'app.wallet',
         'app.welcome',
         'app.utils'
     ]);
@@ -15,28 +27,44 @@
     const AppConfig = function ($urlRouterProvider, $stateProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
 
-        // i18next.init({
-        //     debug: true,
-        //     lng: 'en',
-        //     ns: 'i18n',
-        //     fallbackLng: 'dev', // Default is dev
-        //     useCookie: false,
-        //     useLocalStorage: false
-        // }, function (err, t) {
-        //     // initialized and ready to go!
-        //     console.error(err, t);
-        // });
-
-        $stateProvider
-            .state('welcome', {
-                url: '/',
-                views: {
-                    main: {
-                        controller: 'WelcomeCtrl as $ctrl',
-                        templateUrl: 'modules/welcome/templates/welcome.html'
+        i18next
+            .use(i18nextXHRBackend)
+            .use(i18nextBrowserLanguageDetector)
+            .init({
+                debug: true,
+                ns: modules,
+                fallbackLng: 'en',
+                whitelist: ['en', 'ru'],
+                defaultNS: 'app',
+                useCookie: false,
+                useLocalStorage: false,
+                backend: {
+                    loadPath: function (lng, ns) {
+                        lng = lng[0];
+                        ns = ns[0];
+                        const parts = ns.split('.');
+                        const path = parts.length === 1 ? ns : parts.filter((item) => item !== 'app').join('/modules/');
+                        return `modules/${path}/locales/${lng}.json`;
                     }
                 }
             });
+
+        const getState = function (name, diff) {
+            const state = {
+                url: `/${name}`,
+                views: {
+                    main: {
+                        controller: `${name.charAt(0).toUpperCase() + name.substr(1)}Ctrl as $ctrl`,
+                        templateUrl: `modules/${name}/templates/${name}.html`
+                    }
+                }
+            };
+            return tsUtils.merge(state, diff || Object.create(null));
+        };
+
+        $stateProvider
+            .state('welcome', getState('welcome', { url: '/' }))
+            .state('wallet', getState('wallet'));
     };
 
     AppConfig.$inject = [

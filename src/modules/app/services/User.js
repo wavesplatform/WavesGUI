@@ -83,7 +83,7 @@
                         list.push(item);
                     }
 
-                    utils.each(this, (value, key) => {
+                    tsUtils.each(this, (value, key) => {
                         item[key] = value;
                     });
 

@@ -7,8 +7,7 @@
         'write'
     ];
 
-    const TARGET_SCALE = 0.6;
-    const ANIMATION_TIME = 300;
+    const ANIMATION_TIME = 150;
 
     const controller = function ($element, $scope, $q) {
 
@@ -38,15 +37,9 @@
             }
 
             $postLink() {
-                if (!this.seed) {
-                    throw new Error('No seed!');
-                }
-
                 if (!AVAILABLE_TYPES.includes(this.type)) {
                     throw new Error('Wrong type!');
                 }
-
-                this._initialize();
             }
 
             getClass(index) {
@@ -65,59 +58,127 @@
                 switch (this.type) {
                     case 'random':
                         this.parts = this.seed.split(' ');
-                        this._initializeRandom();
+                        this._mixSeed();
+                        controller.listen(this.seed, 'revert', (revertIndex) => {
+                            this._revert(revertIndex);
+                        });
                         break;
                     case 'write':
-                        this._initializeWrite();
+                        this.parts = this.hiddenParts.map(() => '');
+                        controller.listen(this.seed, 'show', (showIndex) => {
+                            this._show(showIndex);
+                        });
                         break;
                     default:
                         this.parts = this.seed.split(' ');
                 }
             }
 
-            /**
-             * @private
-             */
-            _initializeRandom() {
-                this._mixSeed();
-                this._setRandomHandlers();
+            $onChanges(changes) {
+                if (changes.seed) {
+                    controller.stopListen(changes.seed.previousValue);
+                    this._initialize();
+                }
+            }
+
+            $onDestroy() {
+                controller.stopListen(this.seed);
             }
 
             /**
+             * @param event
+             * @param index
              * @private
              */
-            _setRandomHandlers() {
+            _onClick(event, index) {
+                switch (this.type) {
+                    case 'write':
+                        this._removePart(event, index);
+                        break;
+                    case 'random':
+                        this._addNewPart(event, index);
+                        break;
+                }
+            }
 
-                $element.find('.seed-container').on('mousedown', '.seed-item', (e) => {
-                    const elements = this._getParts();
-                    const $target = $(e.target);
-
-                    if ($target.hasClass('moved')) {
-                        return null;
+            _getInsertIndex() {
+                let i;
+                this.parts.some((word, index) => {
+                    if (!word.trim()) {
+                        i = index;
+                        return true;
                     }
+                    return false;
+                });
+                return i;
+            }
 
-
-                    const index = elements.indexOf($target.get(0));
-                    const $clone = Seed.createClone($target, { mouseX: e.pageX, mouseY: e.pageY });
-
-                    controller.dragData.active = {
-                        index: this.hiddenParts.indexOf(this.parts[index]),
-                        $node: $clone
-                    };
-
-                    $target.addClass('moved');
-
-                    Seed.getDragHandlers(e, $target, $clone, (e) => {
-                        $clone.css({
-                            top: e.pageY,
-                            left: e.pageX
-                        });
-                    }, () => {
-                        if (controller.dragData.active) {
-                            controller.dragData.active = null;
-                            Seed.removeClone($target, $clone);
+            /**
+             * @param index
+             * @private
+             */
+            _show(index) {
+                const word = this.hiddenParts[index];
+                this.parts = this.parts.slice();
+                const active = this._getInsertIndex();
+                this.parts[active] = word;
+                $scope.$$postDigest(() => {
+                    Seed.animateIn($element.find('.seed-item').eq(active)).then(() => {
+                        if (this.parts.filter((item) => !!item.trim()).length === this.hiddenParts.length) {
+                            this._validate();
                         }
                     });
+                });
+            }
+
+            /**
+             * @param e
+             * @param index
+             * @private
+             */
+            _removePart(e, index) {
+                const $target = $(e.target);
+                Seed.animateOut($target).then(() => {
+                    controller.trigger(this.seed, 'revert', this.hiddenParts.indexOf(this.parts[index]));
+                    this.parts[index] = '';
+                    $scope.$$postDigest(() => {
+                        Seed.dropStyle($target);
+                    });
+                });
+            }
+
+            /**
+             * @param index
+             * @private
+             */
+            _revert(index) {
+                const movedIndex = this.parts.indexOf(this.hiddenParts[index]);
+                const $target = $element.find('.seed-item').eq(movedIndex);
+                const $clone = Seed.createClone($target);
+                Seed.animateIn($clone).then(() => {
+                    $target.removeClass('moved');
+                    $clone.remove();
+                });
+            }
+
+            /**
+             * @param e
+             * @param index
+             * @returns {null}
+             * @private
+             */
+            _addNewPart(e, index) {
+                const $target = $(e.target);
+                if ($target.hasClass('moved')) {
+                    return null;
+                }
+                const $clone = Seed.createClone($target);
+                const part = this.parts[index];
+                const realIndex = this.hiddenParts.indexOf(part);
+
+                Seed.animateOut($clone).then(() => {
+                    $clone.remove();
+                    controller.trigger(this.seed, 'show', realIndex);
                 });
             }
 
@@ -136,245 +197,86 @@
             /**
              * @private
              */
-            _initializeWrite() {
-                this.parts = this.hiddenParts.map(() => ' ');
-                this._setWriteHandlers();
-                window.fill = () => {
-                    this.parts = this.hiddenParts.slice();
-                    $scope.$apply();
-                    this._validate();
-                };
-            }
-
-            /**
-             * @private
-             */
-            _setWriteHandlers() {
-                const $container = $element.find('.seed-container');
-                let myMove = false;
-
-                $container.on('mouseup', '.seed-item', (e) => {
-                    const elements = this._getParts();
-
-                    if (!myMove && controller.dragData.active != null) {
-
-                        const index = elements.indexOf(e.target);
-                        const moveIndex = controller.dragData.active.index;
-                        const $clone = controller.dragData.active.$node;
-                        const $element = $(e.target);
-
-                        if ($element.hasClass('full')) {
-                            Seed.itemGoHome($element);
-                        }
-
-                        Seed.removeClone($element, $clone).then(() => {
-
-                            this.parts[index] = this.hiddenParts[moveIndex];
-
-                            if (this.parts.every((text) => Boolean(text.trim()))) {
-                                this._validate();
-                            }
-                        });
-
-                        controller.dragData.active = null;
-                    }
-                });
-
-                $container.on('mousedown', '.seed-item.full', (e) => {
-                    const elements = this._getParts();
-                    const $from = $(e.target);
-                    const start = elements.indexOf(e.target);
-                    const $clone = Seed.createClone($from, {
-                        mouseX: e.pageX,
-                        mouseY: e.pageY,
-                        $home: $from.data('writeCloneFrom')
-                    });
-
-                    myMove = true;
-
-                    Seed.getDragHandlers(e, $from, $clone, (e) => {
-                        $clone.css({
-                            top: e.pageY,
-                            left: e.pageX
-                        });
-                    }, (e) => {
-                        myMove = false;
-                        if (e.target === $clone.get(0)) {
-                            Seed.removeClone($from, $clone);
-                            return null;
-                        }
-                        const end = elements.indexOf(e.target);
-                        const $target = $(e.target);
-
-                        if (end === -1) {
-                            Seed.removeClone($from.data('writeCloneFrom'), $clone);
-                            return null;
-                        }
-
-                        if ($target.hasClass('full')) {
-                            Seed.itemGoHome($target);
-                        }
-
-                        Seed.removeClone($target, $clone).then(() => {
-                            this.parts[end] = this.parts[start];
-                            this.parts[start] = ' ';
-                        });
-                    }, (e) => {
-                        myMove = false;
-                    });
-
-                });
-            }
-
-            /**
-             * @private
-             */
             _validate() {
                 if (this.parts.join(' ') !== this.seed) {
-                    this._getParts().forEach((element) => {
-                        Seed.itemGoHome($(element));
+                    this.parts.forEach((part) => {
+                        const origin = this.hiddenParts.indexOf(part);
+                        controller.trigger(this.seed, 'revert', origin);
                     });
-                    this.parts = this.parts.map(() => ' ');
+                    this.parts = this.hiddenParts.map(() => '');
                 } else {
                     this.onSuccess();
                 }
             }
 
-            _getParts() {
-                const elements = $element.find('.seed-container')
-                    .children()
-                    .toArray();
-                if (elements && elements.length) {
-                    this._getParts = () => elements;
-                }
-                return elements;
+            static animate($element, properties, options) {
+                return $q((resolve) => {
+                    options = options || {
+                        duration: ANIMATION_TIME
+                    };
+                    if (options.complete) {
+                        const origin = options.complete;
+                        options.complete = function () {
+                            resolve();
+                            origin();
+                        };
+                    } else {
+                        options.complete = resolve;
+                    }
+                    $element.stop(true, true).animate(properties, options);
+                });
+            }
+
+            static dropStyle($element) {
+                $element.css({
+                    opacity: '1',
+                    transform: 'scale(1)'
+                });
             }
 
             /**
              * @param {jQuery} $element
-             * @param {Object} [detail]
-             * @param {number} detail.mouseX
-             * @param {number} detail.mouseY
-             * @param {jQuery} [detail.$home]
              * @returns {jQuery}
              */
-            static createClone($element, detail) {
+            static createClone($element) {
+
                 const $clone = $element.clone()
                     .removeClass('write')
                     .removeClass('full')
+                    .removeClass('moved')
                     .addClass('read');
-                const offset = $element.offset();
 
-                detail = detail || { mouseX: offset.left, mouseY: offset.top };
+                const offset = $element.offset();
 
                 document.body.appendChild($clone.get(0));
                 $clone.addClass('clone');
                 $clone.css({
                     position: 'absolute',
-                    left: detail.mouseX,
-                    top: detail.mouseY,
-                    margin: '0',
-                    transform: `translate(-${detail.mouseX - offset.left}px, -${detail.mouseY - offset.top}px)`
+                    left: offset.left,
+                    top: offset.top,
+                    margin: '0'
                 });
-                $clone.data('copyOf', detail.$home || $element);
 
                 $element.addClass('moved');
-
-                requestAnimationFrame(() => {
-                    $clone.css({
-                        transform: `translate(5px, 5px) scale(${TARGET_SCALE}, ${TARGET_SCALE})`
-                    });
-                });
 
                 return $clone;
             }
 
-            /**
-             * @param {jQuery} $element
-             * @param {jQuery} $clone
-             */
-            static removeClone($element, $clone) {
-                return $q((resolve) => {
-                    const offset = $element.offset();
-                    $clone.css('transform', 'translate(0px, 0px) scale(1, 1)');
-                    $element.data('writeCloneFrom', $clone.data('copyOf'));
-                    $clone.animate({
-                        left: offset.left,
-                        top: offset.top - parseFloat($element.css('margin-top')),
-                        width: $element.width()
-                    }, ANIMATION_TIME, () => {
-                        resolve();
-                        requestAnimationFrame(() => {
-                            $clone.remove();
-                            $element.removeClass('moved');
-                        });
-                    });
+            static animateOut($element) {
+                return Seed.animate($element, { opacity: 0 }, {
+                    progress: (tween, progress) => {
+                        $element.css('transform', `scale(${1 - progress})`);
+                    }
                 });
             }
 
-            static itemGoHome($element) {
-                const $home = $element.data('writeCloneFrom');
-                const $clone = Seed.createClone($element);
-                return Seed.removeClone($home, $clone);
-            }
-
-            /**
-             * @param {Event} e
-             * @param {jQuery} $target
-             * @param {jQuery} $clone
-             * @param {Function} [onMove]
-             * @param {Function} [onEnd]
-             * @param {Function} [onBlur]
-             * @returns {blur}
-             */
-            static getDragHandlers(e, $target, $clone, onMove, onEnd, onBlur) {
-
-                let event = e;
-                let stop = false;
-
-                const step = function () {
-                    if (onMove) {
-                        onMove(event);
+            static animateIn($element) {
+                $element.css('opacity', 0);
+                return Seed.animate($element, { opacity: 1 }, {
+                    progress: (tween, progress) => {
+                        $element.css('transform', `scale(${progress})`);
                     }
-                    if (!stop) {
-                        requestAnimationFrame(step);
-                    }
-                };
-
-                requestAnimationFrame(step);
-
-                const move = function (e) {
-                    e.preventDefault();
-                    event = e;
-                };
-
-                const blur = function (e) {
-                    stop = true;
-                    document.removeEventListener('mousemove', move, false);
-                    document.removeEventListener('mouseup', up, false);
-                    window.removeEventListener('blur', blur, false);
-                    controller.dragData.active = null;
-                    Seed.removeClone($target, $clone);
-
-                    if (onBlur) {
-                        onBlur(e);
-                    }
-                };
-
-                const up = function (e) {
-                    stop = true;
-                    document.removeEventListener('mousemove', move, false);
-                    document.removeEventListener('mouseup', up, false);
-                    window.removeEventListener('blur', blur, false);
-                    if (onEnd) {
-                        onEnd(e);
-                    }
-                };
-
-                window.addEventListener('blur', blur, false);
-                document.addEventListener('mousemove', move, false);
-                document.addEventListener('mouseup', up, false);
-                return blur;
+                });
             }
 
         }
@@ -384,8 +286,29 @@
 
     };
 
-    controller.dragData = {
-        active: null
+
+    controller.events = Object.create(null);
+
+    controller.listen = function (seed, event, listener) {
+        if (!controller.events[seed]) {
+            controller.events[seed] = Object.create(null);
+        }
+        if (!controller.events[seed][event]) {
+            controller.events[seed][event] = [];
+        }
+        controller.events[seed][event].push(listener);
+    };
+
+    controller.stopListen = function (seed) {
+        if (controller.events[seed]) {
+            delete controller.events[seed];
+        }
+    };
+
+    controller.trigger = function (seed, event, data) {
+        if (controller.events[seed] && controller.events[seed][event]) {
+            controller.events[seed][event].slice().forEach((cb) => cb(data));
+        }
     };
 
     controller.$inject = ['$element', '$scope', '$q'];
