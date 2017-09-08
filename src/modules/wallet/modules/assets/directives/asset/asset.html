@@ -1,0 +1,28 @@
+<div ng-if="!$ctrl.isAdd" w-i18n-ns="app.wallet.assets">
+    <div class="settings">
+        <div class="setting-item" ng-click="$ctrl.onClick({asset: $ctrl.asset, action: 'send'})">
+            <div class="setting-icon send">L</div>
+            <w-i18n>directives.asset.send</w-i18n>
+        </div>
+        <div class="setting-item" ng-click="$ctrl.onClick({asset: $ctrl.asset, action: 'receive'})">
+            <div class="setting-icon receive">L</div>
+            <w-i18n>directives.asset.receive</w-i18n>
+        </div>
+    </div>
+    <div class="name">
+        <div class="logo"></div>
+        {{::$ctrl.asset.name}}
+    </div>
+    <div class="balance-title" w-i18n="directives.asset.balance"></div>
+    <div class="balance">
+        <span w-nice-number="$ctrl.asset.balance"></span>
+    </div>
+    <hr>
+    <div class="footer">
+        <div class="change-rate" ng-class="{growth: $ctrl.growth}">
+            {{$ctrl.rate}}
+        </div>
+        <div class="bid">BID {{$ctrl.asset.bid}}</div>
+        <div class="ask">ASK {{$ctrl.asset.ask}}</div>
+    </div>
+</div>

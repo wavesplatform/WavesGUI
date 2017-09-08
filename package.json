@@ -8,6 +8,7 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
+    "@types/babel-core": "^6.25.1",
     "@types/connect": "^3.4.30",
     "@types/fs-extra": "^3.0.3",
     "@types/gulp": "^4.0.4",
@@ -24,6 +25,9 @@
     "@types/node": "^8.0.11",
     "@types/serve-static": "^1.7.31",
     "autoprefixer": "^7.1.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-preset-es2015": "^6.24.1",
     "connect": "^3.6.2",
     "electron": "^1.6.8",
@@ -124,14 +128,16 @@
     "angular-material": "^1.1.4",
     "angular-messages": "^1.6.5",
     "angular-ui-router": "^1.0.3",
+    "d3": "^3.5.17",
     "i18next": "^9.0.0",
     "i18next-browser-languagedetector": "^2.0.0",
     "i18next-xhr-backend": "^1.4.2",
     "identicon": "^2.1.1",
     "jquery": "^3.2.1",
+    "n3-charts": "^2.0.28",
     "ng-i18next": "^1.0.5",
     "ts-utils": "^4.0.0",
-    "waves-api": "^0.2.3",
+    "waves-api": "^0.6.2",
     "worker-wrapper": "^1.0.0"
   }
 }

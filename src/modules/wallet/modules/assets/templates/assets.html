@@ -1,0 +1,16 @@
+<div class="chart-wrapper">
+    <span class="chart-info left">
+        Total $ {{$ctrl.total}}
+    Week <input type="radio" ng-model="$ctrl.mode" value="week" name="mode">
+    Month <input type="radio" ng-model="$ctrl.mode" value="month" name="mode">
+    Year <input type="radio" ng-model="$ctrl.mode" value="year" name="mode">
+    </span>
+    <span class="chart-info right">
+        <span w-date="$ctrl.startDate"></span> - <span w-date="$ctrl.endDate"></span>
+    </span>
+    <linechart options="$ctrl.options" data="$ctrl.data"></linechart>
+</div>
+<div class="assets-list">
+    <w-asset ng-repeat="asset in $ctrl.assets track by $index" on-click="$ctrl.onAssetClick(asset, action)"
+             asset="asset"></w-asset>
+</div>

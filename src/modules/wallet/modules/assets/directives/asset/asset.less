@@ -1,0 +1,75 @@
+@import '../../../../../config';
+
+w-asset {
+  box-sizing: border-box;
+  height: 182px;
+  width: 336px;
+  border: 1px solid #EAEAEA;
+  background-color: #FFFFFF;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 9px 20px 20px;
+  margin-right: @padding-main-layout;
+  margin-top: @padding-main-layout;
+
+  &:hover .settings {
+    display: flex;
+  }
+
+  .logo {
+    width: 32px;
+    height: 32px;
+    background-size: 100% 100%;
+    text-align: center;
+    border-radius: 50%;
+    color: #fff;
+    left: 100%;
+    font-size: 28px;
+    margin-right: 12px;
+  }
+
+  .name {
+    display: flex;
+    flex-direction: row;
+    line-height: 32px;
+    margin-bottom: 10px;
+  }
+
+  .settings {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: none;
+    flex-direction: row;
+
+    .setting-item {
+      cursor: pointer;
+      display: flex;
+      flex-direction: row;
+      margin-left: 15px;
+    }
+
+    .setting-icon {
+      margin-right: 7px;
+    }
+  }
+
+  hr {
+    border: none;
+    padding-left: 20px;
+    padding-right: 9px;
+    box-sizing: border-box;
+    width: 100%;
+    border-bottom: 1px solid #979797;
+  }
+
+  .footer {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .balance-title {
+    color: @color-lite-font;
+  }
+}

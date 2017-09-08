@@ -2,7 +2,10 @@
 
     <div class="block">
 
-        <p w-i18n="userList.title"></p>
+        <div class="title-block">
+            <h2 w-i18n="userList.title"></h2>
+            <div class="or-new">or <a ui-state="'get_started'">create new</a></div>
+        </div>
         <w-i18n>userList.subTitle</w-i18n>
 
         <div ng-if="$ctrl.userList.length === 1">

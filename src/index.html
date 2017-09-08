@@ -15,13 +15,54 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 1);
+            background: #fff;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-loader .loader {
+            background-image: url('/img/waves.svg');
+            background-size: 100% 100%;
+            width: 90px;
+            height: 90px;
+            animation: animate-main-logo 2s infinite linear;
+            -weblit-animation: animate-main-logo 2s infinite linear;
+            -moz-animation: animate-main-logo 2s infinite linear;
+        }
+
+        @keyframes animate-main-logo {
+            from {
+                transform: rotateY(0)
+            }
+            to {
+                transform: rotateY(360deg)
+            }
+        }
+
+        @-moz-keyframes animate-main-logo {
+            from {
+                transform: rotateY(0)
+            }
+            to {
+                transform: rotateY(360deg)
+            }
+        }
+
+        @-webkit-keyframes animate-main-logo {
+            from {
+                transform: rotateY(0)
+            }
+            to {
+                transform: rotateY(360deg)
+            }
         }
     </style>
-    <!-- CSS -->
-    <base href="/">
 
     <script>
+        var LOGO_IMAGE = new Image();
+        LOGO_IMAGE.src = '/img/waves.svg';
         var WavesApp = {
             name: '{{pack.name}}',
             version: '{{pack.version}}',
@@ -42,12 +83,15 @@
         };
     </script>
 
+    <!-- CSS -->
+    <base href="/">
+
 </head>
 
 <body>
 
 <div class="app-loader">
-    <div>loading</div>
+    <div class="loader"></div>
 </div>
 
 <ui-view name="main"></ui-view>

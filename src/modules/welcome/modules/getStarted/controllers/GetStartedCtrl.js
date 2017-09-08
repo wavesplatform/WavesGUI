@@ -59,15 +59,20 @@
                         if (ORDER_LIST[this.stepIndex + 1]) {
                             this.stepIndex++;
                         } else {
-                            apiWorker.process((waves, data) => {
+
+                            const workerData = { seed: this.seed, password: this.password };
+                            const workerHandler = (waves, data) => {
                                 const seedData = waves.Seed.fromExistingPhrase(data.seed);
                                 return seedData.encrypt(data.password);
-                            }, { seed: this.seed, password: this.password }).then((encryptedSeed) => {
-                                user.setUserData({
-                                    address: this.address,
-                                    encryptedSeed
+                            };
+
+                            apiWorker.process(workerHandler, workerData)
+                                .then((encryptedSeed) => {
+                                    return user.setUserData({
+                                        address: this.address,
+                                        encryptedSeed
+                                    });
                                 });
-                            });
                         }
                     } else {
                         this.stepIndex = index;

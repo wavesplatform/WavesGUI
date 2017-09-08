@@ -40,11 +40,10 @@
                     return waves.Seed.decryptSeedPhrase(data.encryptedSeed, data.password);
                 }, { password: this.password, encryptedSeed: this.encryptedSeed })
                     .then(() => {
-                        user.login({
+                        user.addUserData({
                             address: this.address,
                             encryptedSeed: this.encryptedSeed
                         });
-                        console.log('success');
                     }, () => {
                         console.error('Wrong password');
                     });

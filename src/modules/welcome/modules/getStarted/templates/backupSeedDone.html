@@ -1,27 +1,29 @@
-<div ng-click="$ctrl.back()" class="back">
-    BACK
+<div class="flex-column-center">
+    <div ng-click="$ctrl.back()" class="back">
+        BACK
+    </div>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        Let's verify your backup phrase.
+    </section>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <w-seed type="read" seed="{{$ctrl.seed}}"></w-seed>
+    </section>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        Is this correct?
+    </section>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <md-button ng-click="$ctrl.next()" class="md-raised md-primary">
+            Confirm
+        </md-button>
+    </section>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <md-button ng-click="$ctrl.clear()">
+            Clear
+        </md-button>
+    </section>
 </div>
-
-<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-    Let's verify your backup phrase.
-</section>
-
-<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-    <w-seed type="read" seed="{{$ctrl.seed}}"></w-seed>
-</section>
-
-<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-    Is this correct?
-</section>
-
-<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-    <md-button ng-click="$ctrl.next()" class="md-raised md-primary">
-        Confirm
-    </md-button>
-</section>
-
-<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-    <md-button ng-click="$ctrl.clear()">
-        Clear
-    </md-button>
-</section>

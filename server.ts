@@ -20,16 +20,7 @@ function createMyServer(localPath: string, port: number) {
             res.writeHead(302, { Location: 'http://testnet.dev.localhost:8080' });
             res.end();
         } else {
-            if (isPage(req.url)) {
-                route({
-                    connectionType: parsed.connectionType,
-                    buildType: parsed.buildType
-                }).then((file) => {
-                    res.end(file);
-                });
-            } else {
-                next();
-            }
+            route(parsed.connectionType, parsed.buildType)(req, res, next);
         }
     });
 

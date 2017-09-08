@@ -1,0 +1,29 @@
+<md-dialog>
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Set {{::$ctrl.asset.name}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
+                    X
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <w-tabs>
+                <w-tab name="Wallet Address">
+                    <w-i18n>Recipient</w-i18n>
+                    <input type="text" placeholder="Enter a {{$ctrl.asset.name}} address" />
+                    <w-i18n>Withdraw Form</w-i18n>
+                </w-tab>
+            </w-tabs>
+        </md-dialog-content>
+
+        <md-dialog-actions>
+            <md-button class="primary">
+                <w-i18n>button.continue</w-i18n>
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

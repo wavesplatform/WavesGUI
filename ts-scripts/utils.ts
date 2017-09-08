@@ -5,6 +5,7 @@ import { join, relative } from 'path';
 import { ITaskFunction } from './interface';
 import { readFile, readJSON } from 'fs-extra';
 import { compile } from 'handlebars';
+import { transform } from 'babel-core';
 
 
 export const task: ITaskFunction = gulp.task.bind(gulp) as any;
@@ -148,20 +149,56 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
         });
 }
 
-export function route(options: IRouteOptions): Promise<string> {
-    if (options.buildType === 'dev') {
-        return prepareHTML({
-            target: join(__dirname, '..', 'dist', 'build', options.connectionType, options.buildType),
-            connection: options.connectionType
-        });
-    } else {
-        return readFile(join(__dirname, '../dist/build', options.connectionType, options.buildType, 'index.html'), 'utf8');
+export function route(connectionType, buildType) {
+    return function (req, res, next) {
+        if (isPage(req.url)) {
+            if (buildType === 'dev') {
+                return prepareHTML({
+                    target: join(__dirname, '..', 'dist', 'build', connectionType, buildType),
+                    connection: connectionType
+                }).then((file) => {
+                    res.end(file);
+                });
+            } else {
+                const path = join(__dirname, '../dist/build', connectionType, buildType, 'index.html');
+                return readFile(path, 'utf8').then((file) => {
+                    res.end(file);
+                });
+            }
+        } else if (isSourceScript(req.url)) {
+            readFile(join(__dirname, '..', req.url), 'utf8')
+                .then((code) => transform(code, {
+                    plugins: [
+                        'transform-decorators-legacy',
+                        'transform-class-properties',
+                        'transform-decorators'
+                    ]
+                }).code)
+                .then((code) => res.end(code))
+                .catch((e) => {
+                    console.log(e.message, req.url);
+                });
+        } else if (isApiMock(req.url)) {
+            const mock = require(join(__dirname, '..', req.url.replace('.json', '')));
+            res.setHeader('Content-Type', 'application/json');
+            mock(req, res);
+        } else {
+            next();
+        }
     }
+}
+
+export function isSourceScript(url: string): boolean {
+    return url.includes('/src/modules/') && url.lastIndexOf('.js') === url.length - 3;
+}
+
+export function isApiMock(url: string): boolean {
+    return url.indexOf('/api/') === 0;
 }
 
 export function isPage(url: string): boolean {
     const staticPathPartial = [
-        'src', 'img', 'css', 'fonts', 'js', 'bower_components', 'node_modules', 'modules', 'locales'
+        'api', 'src', 'img', 'css', 'fonts', 'js', 'bower_components', 'node_modules', 'modules', 'locales'
     ];
     return !staticPathPartial.some((path) => {
         return url.includes(`/${path}/`);

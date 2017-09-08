@@ -1,0 +1,41 @@
+@import '../../../config';
+
+w-navigation {
+  a {
+    color: @color-link-blue;
+    display: block;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+
+    &.active {
+      color: @color-link-blue-active;
+    }
+  }
+
+  .navigation.raw {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    height: @height-header;
+
+    a {
+      padding: 15px;
+      line-height: 35px;
+
+      &.active {
+        border-bottom-color: @color-link-blue-active;
+      }
+    }
+  }
+
+  .navigation.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    a {
+      text-align: center;
+      padding: 15px 0;
+    }
+  }
+}

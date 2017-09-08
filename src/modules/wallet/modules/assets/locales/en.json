@@ -1,0 +1,9 @@
+{
+  "directives": {
+    "asset": {
+      "balance": "Current balance",
+      "receive": "Receive",
+      "send": "Send"
+    }
+  }
+}

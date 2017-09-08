@@ -1,6 +1,7 @@
 {
   "vendors": [
     "node_modules/jquery/dist/jquery.min.js",
+    "node_modules/d3/d3.min.js",
     "node_modules/ts-utils/dist/ts-utils.min.js",
     "node_modules/identicon/dist/identicon.min.js",
     "node_modules/i18next-xhr-backend/i18nextXHRBackend.min.js",
@@ -14,7 +15,8 @@
     "node_modules/@uirouter/angularjs/release/angular-ui-router.min.js",
     "node_modules/@uirouter/angularjs/release/stateEvents.min.js",
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
-    "node_modules/i18next/dist/umd/i18next.min.js"
+    "node_modules/i18next/dist/umd/i18next.min.js",
+    "node_modules/n3-charts/build/LineChart.min.js"
   ],
   "vendors-old": [
     "bower_components/js-sha3/src/sha3.js",
@@ -44,7 +46,8 @@
     "bower_components/wavesplatform-core-js/distr/wavesplatform-core.js"
   ],
   "stylesheets": [
-    "node_modules/angular-material/angular-material.min.css"
+    "node_modules/angular-material/angular-material.min.css",
+    "node_modules/n3-charts/build/LineChart.min.css"
   ],
   "developmentScripts": [
     "dist/dev/js/vendors.js",

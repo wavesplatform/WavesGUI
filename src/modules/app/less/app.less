@@ -8,6 +8,11 @@ ui-view[name="main"] {
   font-family: @font-general-family;
 }
 
+h2 {
+  font-size: 28px;
+  line-height: 33px;
+}
+
 ui-view[name="main"] {
   display: block;
 }
@@ -18,4 +23,63 @@ md-input-container {
 
 .no-animate, .no-animate * {
   transition: none !important;
+}
+
+.main-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: @color-lite-background;
+
+  .header {
+    height: @height-header;
+    width: 100%;
+    background-color: @color-lite-background-blocks;
+  }
+
+  .left-menu {
+    width: @width-left-menu-block;
+    position: absolute;
+    left: 0;
+    top: @height-header;
+    bottom: 0;
+    background-color: @color-lite-background-blocks;
+  }
+
+  .content {
+    width: calc(~"100% - "@width-left-menu-block + @padding-main-layout * 2);
+    height: calc(~"100% - "@width-left-menu-block + @padding-main-layout * 2);
+    position: absolute;
+    right: @padding-main-layout;
+    bottom: @padding-main-layout;
+  }
+}
+
+svg.chart {
+
+  .axis {
+    .tick line {
+      display: none;
+    }
+    .domain {
+      stroke: #d8e0e9;
+    }
+
+    & > .tick > text {
+      fill: #818181;
+      font-size: 13px;
+    }
+
+    &.x-axis .tick text {
+      transform: translateY(6px);
+    }
+
+    &.y-axis .tick text {
+      transform: translateX(40px);
+    }
+
+    &.y2-axis .tick text {
+      transform: translateX(-40px);
+    }
+  }
 }
