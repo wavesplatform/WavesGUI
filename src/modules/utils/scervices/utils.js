@@ -156,6 +156,10 @@
 
         return {
 
+            /**
+             * @param {*} data
+             * @return {Promise}
+             */
             when(data) {
                 if (data.then && typeof data.then === 'function') {
                     const defer = $q.defer();
@@ -168,6 +172,10 @@
 
             Base,
 
+            /**
+             * @param {{then: Function}} promiseLike
+             * @return {Promise}
+             */
             resolve(promiseLike) {
                 const getCallback = (state, resolve) => {
                     return (data) => resolve({ state, data });
@@ -183,11 +191,25 @@
              */
             moment(date) {
                 return new Moment(date && new Date(date) || new Date());
+            },
+
+            /**
+             * @param {string} url
+             * @return {Promise}
+             */
+            loadImage(url) {
+                return $q((resolve, reject) => {
+                    const img = new Image(url);
+                    img.onload = resolve;
+                    img.onerror = reject;
+                    img.src = url;
+                });
             }
         };
     };
 
     factory.$inject = ['$q', '$timeout'];
 
-    angular.module('app.utils').factory('utils', factory);
+    angular.module('app.utils')
+        .factory('utils', factory);
 })();

@@ -1,0 +1,30 @@
+@import '../../config';
+
+.dex .content ui-view[name="mainContent"] {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .block-title {
+    margin: 2px;
+    background-color: #F5F5F5;
+    padding: 11px 20px;
+  }
+
+  .block-wrapper {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #EAEAEA;
+    background-color: @color-lite-background-blocks;
+  }
+
+  .column {
+    box-sizing: border-box;
+    width: calc(~'22% - ' @padding-main-layout / 2);
+
+    &.center {
+      width: calc(~'56% - ' @padding-main-layout);
+    }
+  }
+
+}

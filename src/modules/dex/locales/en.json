@@ -1,1 +1,10 @@
-{}
+{
+  "directives": {
+    "portfolio": {
+      "title": "Portfolio"
+    },
+    "orderBook": {
+      "title": "Order book"
+    }
+  }
+}

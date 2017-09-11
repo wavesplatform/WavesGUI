@@ -1,0 +1,27 @@
+<div class="block-wrapper">
+    <div w-i18n="directives.orderBook.title" class="block-title"></div>
+    <div class="order-content">
+        <div class="order-item title">
+            <w-i18n>directives.orderBook.marketSize</w-i18n>
+            <w-i18n>directives.orderBook.priceBtc</w-i18n>
+            <w-i18n>directives.orderBook.totalBtc</w-i18n>
+        </div>
+        <div class="negative">
+            <div ng-repeat="order in $ctrl.negative track by $index">
+                <div class="size" w-nice-number="order.size"></div>
+                <div class="price" w-nice-number="order.price"></div>
+                <div class="total" w-nice-number="order.total"></div>
+            </div>
+        </div>
+        <div class="positive">
+            <div ng-repeat="order in $ctrl.positive track by $index">
+                <div class="size" w-nice-number="order.size"></div>
+                <div class="price" w-nice-number="order.price"></div>
+                <div class="total" w-nice-number="order.total"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

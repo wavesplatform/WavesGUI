@@ -1,0 +1,41 @@
+@import '../../../config';
+
+w-tabs {
+
+  .titles-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    height: 45px;
+    background-color: @color-lite-background;
+    box-sizing: border-box;
+    padding: 0 15px;
+
+    .title {
+      color: @color-link-blue;
+      display: block;
+      border: 1px solid transparent;
+      box-sizing: border-box;
+      padding: 15px;
+      line-height: 20px;
+
+      &:not(.active) {
+        cursor: pointer;
+      }
+
+      &.active {
+        color: @color-link-blue-active;
+        border-bottom-color: @color-link-blue-active;
+      }
+    }
+  }
+
+  .tab-body-wrap {
+    .tab-tem {
+      box-sizing: border-box;
+      padding: 10px;
+      position: relative;
+    }
+  }
+
+}

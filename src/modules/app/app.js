@@ -51,14 +51,16 @@
                         lng = lng[0];
                         ns = ns[0];
                         const parts = ns.split('.');
-                        const path = parts.length === 1 ? ns : parts.filter((item) => item !== 'app').join('/modules/');
+                        const path = parts.length === 1 ? ns : parts.filter((item) => item !== 'app')
+                            .join('/modules/');
                         return `modules/${path}/locales/${lng}.json`;
                     }
                 }
             });
 
         const getCtrlName = function (name) {
-            return `${name.charAt(0).toUpperCase() + name.substr(1)}Ctrl as $ctrl`;
+            return `${name.charAt(0)
+                .toUpperCase() + name.substr(1)}Ctrl as $ctrl`;
         };
         const getTemplateUrl = function (name, type) {
             return `modules/${name}/templates/${type || name}.html`;
@@ -111,7 +113,8 @@
                         templateUrl: getTemplateUrl('dex', 'leftMenu')
                     },
                     mainContent: {
-                        template: '<ui-view name="content"></ui-view>'
+                        controller: getCtrlName('dex'),
+                        templateUrl: getTemplateUrl('dex', 'dex')
                     }
                 }
             });
@@ -162,19 +165,21 @@
         const stop = $rootScope.$on('$stateChangeSuccess', (event, state, params) => {
             // ****************************************************************************************
             // REMOVE -- DEVELOP!!
-            user.getUserList().then((list) => {
-                if (list && list.length) {
-                    user.addUserData(list[0]);
-                } else {
-                    user.login().then(() => {
-                        if (state.name.indexOf('welcome') !== 0) {
-                            $state.go(state.name, params);
-                        } else {
-                            $state.go('main.wallet');
-                        }
-                    });
-                }
-            });
+            user.getUserList()
+                .then((list) => {
+                    if (list && list.length) {
+                        user.addUserData(list[0]);
+                    } else {
+                        user.login()
+                            .then(() => {
+                                if (state.name.indexOf('welcome') !== 0) {
+                                    $state.go(state.name, params);
+                                } else {
+                                    $state.go('main.wallet');
+                                }
+                            });
+                    }
+                });
             // REMOVE -- DEVELOP!!
             // ****************************************************************************************
             // user.login().then(() => {

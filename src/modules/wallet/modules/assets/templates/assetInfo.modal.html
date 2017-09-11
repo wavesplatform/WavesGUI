@@ -1,4 +1,4 @@
-<md-dialog>
+<md-dialog aria-label="asset_send">
     <form ng-cloak>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -12,10 +12,13 @@
 
         <md-dialog-content>
             <w-tabs>
-                <w-tab name="Wallet Address">
+                <w-tab title="Wallet Address">
                     <w-i18n>Recipient</w-i18n>
                     <input type="text" placeholder="Enter a {{$ctrl.asset.name}} address" />
                     <w-i18n>Withdraw Form</w-i18n>
+                </w-tab>
+                <w-tab title="Email Address">
+
                 </w-tab>
             </w-tabs>
         </md-dialog-content>

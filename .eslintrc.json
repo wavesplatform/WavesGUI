@@ -29,7 +29,9 @@
         "WavesApp": true,
         "WavesAPI": true,
         "workerWrapper": true,
-        "i18next": true
+        "i18next": true,
+        "i18nextXHRBackend": true,
+        "i18nextBrowserLanguageDetector": true
     },
     "extends": "eslint:recommended",
     "rules": {
