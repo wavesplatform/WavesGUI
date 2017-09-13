@@ -49,6 +49,7 @@ md-input-container {
   .content {
     width: calc(~"100% - "@width-left-menu-block + @padding-main-layout * 2);
     height: calc(~"100% - "@width-left-menu-block + @padding-main-layout * 2);
+    overflow: auto;
     position: absolute;
     right: @padding-main-layout;
     bottom: @padding-main-layout;
@@ -82,4 +83,20 @@ svg.chart {
       transform: translateX(-40px);
     }
   }
+}
+
+md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
+  background-color: #fff;
+  color: #000;
+  border-bottom: 1px solid #BFC6CD;
+}
+
+md-dialog md-dialog-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.chart-legend {
+  display: none;
 }

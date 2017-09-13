@@ -5,7 +5,7 @@
      * @param {Storage} storage
      * @returns {User}
      */
-    const factory = function (storage, $q, $state) {
+    const factory = function (storage, $q, $state, defaultSettings) {
 
         class User {
 
@@ -19,6 +19,10 @@
                  */
                 this.encryptedSeed = null;
                 /**
+                 * @type {Object}
+                 */
+                this.settings = Object.create(null);
+                /**
                  * @type {number}
                  */
                 this.lastConfirmPassword = null;
@@ -27,10 +31,10 @@
                  */
                 this.lastNotificationTimeStamp = null;
                 /**
-                 * @type {IUserSettings}
+                 * @type {DefaultSettings}
                  * @private
                  */
-                this._settings = Object.create(null);
+                this._settings = null;
                 /**
                  * @type {number}
                  */
@@ -45,6 +49,11 @@
                  * @private
                  */
                 this._props = Object.create(null);
+                /**
+                 * @type {number}
+                 * @private
+                 */
+                this._changeTimer = null;
 
                 this._setObserve();
             }
@@ -55,22 +64,26 @@
              * @param {string} data.encryptedSeed
              */
             setUserData(data) {
-                Object.keys(data).forEach((key) => {
-                    this[key] = data[key];
-                });
+                Object.keys(data)
+                    .forEach((key) => {
+                        this[key] = data[key];
+                    });
 
                 this._check();
 
-                return this._save().catch((e) => {
-                    console.log(e);
-                });
+                return this._save()
+                    .catch((e) => {
+                        console.log(e);
+                    });
             }
 
             /**
              * @param {string} name
+             * @return {Promise}
              */
             getSetting(name) {
-                return this._settings[name];
+                return this.onLogin()
+                    .then(() => tsUtils.cloneDeep(this._settings && this._settings.get(name)));
             }
 
             /**
@@ -78,8 +91,7 @@
              * @param {*} value
              */
             setSetting(name, value) {
-                this._settings[name] = value;
-                this._save();
+                this._settings.set(name, value);
             }
 
             /**
@@ -97,6 +109,13 @@
             /**
              * @return {Promise}
              */
+            onLogin() {
+                return this._dfr.promise;
+            }
+
+            /**
+             * @return {Promise}
+             */
             login() {
                 $state.go('welcome');
                 return this._dfr.promise;
@@ -109,29 +128,59 @@
              * @returns Promise
              */
             addUserData(data) {
-                this._loadUserByAddress(data.address).then((item) => {
-                    tsUtils.merge(this, item, data);
-                    this.lastLogin = Date.now();
+                this._loadUserByAddress(data.address)
+                    .then((item) => {
+                        tsUtils.merge(this, item, data);
+                        this.lastLogin = Date.now();
+                        if (this._settings) {
+                            this._settings.change.off();
+                        }
+                        this._settings = defaultSettings.create(this.settings);
+                        this._settings.change.on(() => this._onChangeSettings());
 
-                    return this._save().then(() => {
-                        this._dfr.resolve();
+                        return this._save()
+                            .then(() => {
+                                this._dfr.resolve();
+                            });
                     });
-                });
             }
 
             /**
              * @returns {Promise}
              */
             getUserList() {
-                return storage.load('userList').then((list) => {
-                    list = list || [];
+                return storage.load('userList')
+                    .then((list) => {
+                        list = list || [];
 
-                    list.sort((a, b) => {
-                        return a.lastLogin - b.lastLogin;
-                    }).reverse();
+                        list.sort((a, b) => {
+                            return a.lastLogin - b.lastLogin;
+                        })
+                            .reverse();
 
-                    return list;
-                });
+                        return list;
+                    });
+            }
+
+            /**
+             * @private
+             */
+            _onChangeSettings() {
+                this.settings = this._settings.getSettings();
+            }
+
+            /**
+             * @private
+             */
+            _onChangePropsForSave() {
+                if (!this._changeTimer) {
+                    this._changeTimer = setTimeout(() => {
+                        this._save()
+                            .then(() => {
+                                this._changeTimer = null;
+                            });
+                    }, 500);
+                }
             }
 
             /**
@@ -155,8 +204,10 @@
                 Object.defineProperty(target, key, {
                     get: () => this._props[key],
                     set: (value) => {
-                        this._props[key] = value;
-                        this._save();
+                        if (value !== this._props[key]) {
+                            this._props[key] = value;
+                            this._onChangePropsForSave();
+                        }
                     }
                 });
             }
@@ -176,25 +227,27 @@
              * @private
              */
             _save() {
-                return storage.load('userList').then((list) => {
-                    list = list || [];
-                    let item = tsUtils.find(list, { address: this.address });
+                return storage.load('userList')
+                    .then((list) => {
+                        list = list || [];
+                        let item = tsUtils.find(list, { address: this.address });
 
-                    if (!item) {
-                        item = Object.create(null);
-                        list.push(item);
-                    }
+                        if (!item) {
+                            item = Object.create(null);
+                            list.push(item);
+                        }
 
-                    tsUtils.merge(item, this._getPublicProps());
+                        tsUtils.merge(item, this._getPublicProps());
 
-                    return storage.save('userList', list);
-                });
+                        return storage.save('userList', list);
+                    });
             }
 
             _loadUserByAddress(address) {
-                return storage.load('userList').then((list) => {
-                    return tsUtils.find(list || [], { address }) || Object.create(null);
-                });
+                return storage.load('userList')
+                    .then((list) => {
+                        return tsUtils.find(list || [], { address }) || Object.create(null);
+                    });
             }
 
             /**
@@ -202,12 +255,13 @@
              * @private
              */
             _getPublicProps() {
-                return Object.keys(this).reduce((result, item) => {
-                    if (item.charAt(0) !== '_' && this[item]) {
-                        result[item] = this[item];
-                    }
-                    return result;
-                }, Object.create(null));
+                return Object.keys(this)
+                    .reduce((result, item) => {
+                        if (item.charAt(0) !== '_' && this[item]) {
+                            result[item] = this[item];
+                        }
+                        return result;
+                    }, Object.create(null));
             }
 
         }
@@ -216,9 +270,10 @@
         return new User();
     };
 
-    factory.$inject = ['storage', '$q', '$state'];
+    factory.$inject = ['storage', '$q', '$state', 'defaultSettings'];
 
-    angular.module('app').factory('user', factory);
+    angular.module('app')
+        .factory('user', factory);
 })();
 
 /**

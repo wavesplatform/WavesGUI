@@ -171,7 +171,8 @@ export function route(connectionType, buildType) {
                     plugins: [
                         'transform-decorators-legacy',
                         'transform-class-properties',
-                        'transform-decorators'
+                        'transform-decorators',
+                        'transform-object-rest-spread'
                     ]
                 }).code)
                 .then((code) => res.end(code))
@@ -198,7 +199,7 @@ export function isApiMock(url: string): boolean {
 
 export function isPage(url: string): boolean {
     const staticPathPartial = [
-        'api', 'src', 'img', 'css', 'fonts', 'js', 'bower_components', 'node_modules', 'modules', 'locales'
+        'vendors', 'api', 'src', 'img', 'css', 'fonts', 'js', 'bower_components', 'node_modules', 'modules', 'locales'
     ];
     return !staticPathPartial.some((path) => {
         return url.includes(`/${path}/`);

@@ -167,7 +167,7 @@
             // REMOVE -- DEVELOP!!
             user.getUserList()
                 .then((list) => {
-                    if (list && list.length) {
+                    if (list && list.length && state.name.indexOf('welcome') !== 0) {
                         user.addUserData(list[0]);
                     } else {
                         user.login()

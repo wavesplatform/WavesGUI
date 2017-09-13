@@ -31,7 +31,8 @@
         "workerWrapper": true,
         "i18next": true,
         "i18nextXHRBackend": true,
-        "i18nextBrowserLanguageDetector": true
+        "i18nextBrowserLanguageDetector": true,
+        "QRCode": true
     },
     "extends": "eslint:recommended",
     "rules": {

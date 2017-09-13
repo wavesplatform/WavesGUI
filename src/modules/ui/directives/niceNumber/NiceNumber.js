@@ -16,6 +16,7 @@
                 };
                 i18next.on('languageChanged', this.listener);
                 $scope.$watch('number', () => this.$onChanges());
+                $scope.$watch('precision', () => this.$onChanges());
             }
 
             $onChanges() {
@@ -24,14 +25,33 @@
                     return $element.html('');
                 }
 
-                const [int, float] = String($scope.number).split('.');
-                const formatted = Number(int).toLocaleString(i18next.language);
+                const [int, decimal] = String(Number($scope.number)
+                    .toFixed($scope.precision || 8))
+                    .split('.');
+                const formatted = Number(int)
+                    .toLocaleString(i18next.language);
 
-                if (float) {
-                    $element.html(`<span class="int">${formatted}.</span><span class="float">${float}</span>`);
+                if (decimal) {
+                    const decimalTpl = this._processDecimal(decimal);
+                    $element.html(`<span class="int">${formatted}.</span><span class="decimal">${decimalTpl}</span>`);
                 } else {
                     $element.html(`<span class="int">${formatted}</span>`);
                 }
+            }
+
+            _processDecimal(decimal) {
+                const mute = [];
+                decimal.split('')
+                    .reverse()
+                    .some((char) => {
+                        if (char === '0') {
+                            mute.push(0);
+                            return false;
+                        }
+                        return true;
+                    });
+                const end = decimal.length - mute.length;
+                return `${decimal.substr(0, end)}<span class="decimal-muted">${mute.join('')}</span>`;
             }
 
             $onDestroy() {
@@ -45,13 +65,15 @@
 
     controller.$inject = ['$scope', '$element'];
 
-    angular.module('app').directive('wNiceNumber', () => {
-        return {
-            restrict: 'A',
-            scope: {
-                number: '<wNiceNumber'
-            },
-            controller: controller
-        };
-    });
+    angular.module('app')
+        .directive('wNiceNumber', () => {
+            return {
+                restrict: 'A',
+                scope: {
+                    number: '<wNiceNumber',
+                    precision: '<'
+                },
+                controller: controller
+            };
+        });
 })();

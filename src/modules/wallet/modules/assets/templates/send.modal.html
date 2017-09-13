@@ -1,8 +1,8 @@
-<md-dialog aria-label="asset_send">
+<md-dialog w-i18n-ns="app.wallet.assets" aria-label="asset_send">
     <form ng-cloak>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>Set {{::$ctrl.asset.name}}</h2>
+                <h2 w-i18n="modal.send.title" params="{assetName: $ctrl.asset.name}"></h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
                     X

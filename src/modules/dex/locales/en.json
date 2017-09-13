@@ -4,7 +4,13 @@
       "title": "Portfolio"
     },
     "orderBook": {
-      "title": "Order book"
+      "title": "Order book",
+      "marketSize": "Market size",
+      "price": "Price {{assetName}}",
+      "total": "Total {{assetName}}"
+    },
+    "markets": {
+      "title": "Markets"
     }
   }
 }

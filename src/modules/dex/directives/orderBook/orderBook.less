@@ -1,48 +1,45 @@
 @import '../../../config';
 
-w-dex-portfolio {
+w-dex-order-book {
 
-  .asset-item {
-    padding: 0 15px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+  .order-content {
     box-sizing: border-box;
-    height: 40px;
+    padding: 0 20px 0 20px;
+  }
 
-    .balance .int {
-      font-weight: normal;
+  .by {
+    .price, .total {
+      color: #F27057;
+    }
+  }
+
+  .sell {
+    .price, .total {
+      color: #2B9F72;
+    }
+  }
+
+  .decimal-muted {
+    opacity: 0.6;
+  }
+
+  .order-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 11px 0;
+
+    .cell {
+      width: 33.3333%;
+      text-align: right;
     }
 
-    .currency {
-      text-transform: uppercase;
-      margin-left: 5px;
+    &.title {
+      color: @color-lite-font;
     }
 
-    &:not(:last-child) .asset-content {
+    &:last-child, &.title {
       border-bottom: 1px solid @color-lite-background;
     }
 
-    .asset-content {
-      margin-left: 7px;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 100%;
-    }
-
-    .part {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-
-      &.right {
-        justify-content: flex-end;
-      }
-    }
   }
 }
-

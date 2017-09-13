@@ -20,11 +20,15 @@
 
   .column {
     box-sizing: border-box;
-    width: calc(~'22% - ' @padding-main-layout / 2);
+    width: 310px;
 
     &.center {
-      width: calc(~'56% - ' @padding-main-layout);
+      width: calc(~'100% - ' 620px + @padding-main-layout * 2);
     }
+  }
+
+  w-dex-order-book .block-wrapper {
+    margin-top: @padding-main-layout;
   }
 
 }

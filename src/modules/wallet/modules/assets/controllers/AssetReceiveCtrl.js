@@ -3,22 +3,28 @@
 
     const controller = function ($mdDialog) {
 
-        class AssetInfoCtr {
+        class AssetReceiveCtrl {
 
             constructor(asset) {
                 this.asset = asset;
+                this.step = 0;
             }
 
             cancel() {
                 $mdDialog.cancel();
             }
 
+            ok() {
+                this.step++;
+            }
+
         }
 
-        return new AssetInfoCtr(this.asset);
+        return new AssetReceiveCtrl(this.asset);
     };
 
     controller.$inject = ['$mdDialog'];
 
-    angular.module('app.wallet.assets').controller('AssetInfoCtr', controller);
+    angular.module('app.wallet.assets')
+        .controller('AssetReceiveCtrl', controller);
 })();

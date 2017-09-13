@@ -2,22 +2,28 @@
     <div w-i18n="directives.orderBook.title" class="block-title"></div>
     <div class="order-content">
         <div class="order-item title">
-            <w-i18n>directives.orderBook.marketSize</w-i18n>
-            <w-i18n>directives.orderBook.priceBtc</w-i18n>
-            <w-i18n>directives.orderBook.totalBtc</w-i18n>
-        </div>
-        <div class="negative">
-            <div ng-repeat="order in $ctrl.negative track by $index">
-                <div class="size" w-nice-number="order.size"></div>
-                <div class="price" w-nice-number="order.price"></div>
-                <div class="total" w-nice-number="order.total"></div>
+            <div class="cell" w-i18n="directives.orderBook.marketSize"></div>
+            <div class="cell">
+                <w-i18n params="{assetName: $ctrl.priceAsset.name}">directives.orderBook.price</w-i18n>
+                {{$ctrl.asset.name}}
+            </div>
+            <div class="cell">
+                <w-i18n params="{assetName: $ctrl.priceAsset.name}">directives.orderBook.total</w-i18n>
+                {{$ctrl.asset.name}}
             </div>
         </div>
-        <div class="positive">
-            <div ng-repeat="order in $ctrl.positive track by $index">
-                <div class="size" w-nice-number="order.size"></div>
-                <div class="price" w-nice-number="order.price"></div>
-                <div class="total" w-nice-number="order.total"></div>
+        <div class="by">
+            <div class="order-item" ng-repeat="order in $ctrl.by track by $index">
+                <div class="cell size" precision="$ctrl.amountAsset.precision" w-nice-number="order.size"></div>
+                <div class="cell price" precision="$ctrl.priceAsset.precision" w-nice-number="order.price"></div>
+                <div class="cell total" precision="$ctrl.priceAsset.precision" w-nice-number="order.total"></div>
+            </div>
+        </div>
+        <div class="sell">
+            <div class="order-item" ng-repeat="order in $ctrl.sell track by $index">
+                <div class="cell size" precision="$ctrl.amountAsset.precision" w-nice-number="order.size"></div>
+                <div class="cell price" precision="$ctrl.priceAsset.precision" w-nice-number="order.price"></div>
+                <div class="cell total" precision="$ctrl.priceAsset.precision" w-nice-number="order.total"></div>
             </div>
         </div>
     </div>

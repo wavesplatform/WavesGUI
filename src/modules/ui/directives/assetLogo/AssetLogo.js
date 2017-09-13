@@ -2,12 +2,12 @@
     'use strict';
 
     const ASSET_IMAGES_MAP = {
-        waves: '/img/waves.svg'
+        [WavesApp.defaultAssets.Waves]: '/img/waves.svg'
     };
 
     const ASSET_CHARS_MAP = {
-        'euro': '€',
-        'us dollar': '$'
+        [WavesApp.defaultAssets.EUR]: '€',
+        [WavesApp.defaultAssets.USD]: '$'
     };
 
     const COLORS_MAP = {
@@ -19,7 +19,13 @@
 
     const DEFAULT_COLOR = '#FF9933';
 
-    const controller = function ($element, utils) {
+    /**
+     * @param {JQuery} $element
+     * @param utils
+     * @param {AssetsService} assetsService
+     * @return {AssetLogo}
+     */
+    const controller = function ($element, utils, assetsService) {
 
         class AssetLogo {
 
@@ -27,7 +33,7 @@
                 /**
                  * @type {string}
                  */
-                this.name = null;
+                this.assetId = null;
                 /**
                  * @type {number}
                  */
@@ -35,7 +41,7 @@
             }
 
             $postLink() {
-                if (!this.name || !this.size) {
+                if (!this.assetId || !this.size) {
                     throw new Error('Wrong params!');
                 }
                 $element.find('.asset-logo')
@@ -50,25 +56,26 @@
              * @private
              */
             _addLogo() {
-                const name = this.name.toLowerCase();
-                if (ASSET_IMAGES_MAP[name]) {
-                    utils.loadImage(ASSET_IMAGES_MAP[name])
-                        .then(() => {
-                            $element.find('.asset-logo')
-                                .css('background-image', `url(${ASSET_IMAGES_MAP[name]})`);
-                        })
-                        .catch(() => this._addLatter());
-                } else {
-                    this._addLatter();
-                }
+                assetsService.getAssetInfo(this.assetId)
+                    .then((asset) => {
+                        if (ASSET_IMAGES_MAP[asset.id]) {
+                            utils.loadImage(ASSET_IMAGES_MAP[asset.id])
+                                .then(() => {
+                                    $element.find('.asset-logo')
+                                        .css('background-image', `url(${ASSET_IMAGES_MAP[asset.id]})`);
+                                })
+                                .catch(() => this._addLatter(asset));
+                        } else {
+                            this._addLatter(asset);
+                        }
+                    });
             }
 
             /**
              * @private
              */
-            _addLatter() {
-                const name = this.name.toLowerCase();
-                const letter = ASSET_CHARS_MAP[name] || this.name.charAt(0)
+            _addLatter(asset) {
+                const letter = ASSET_CHARS_MAP[asset.id] || asset.name.charAt(0)
                     .toUpperCase();
                 const color = COLORS_MAP[letter] || DEFAULT_COLOR;
                 const fontSize = Math.round((Number(this.size) || 0) * 0.8);
@@ -86,14 +93,14 @@
         return new AssetLogo();
     };
 
-    controller.$inject = ['$element', 'utils'];
+    controller.$inject = ['$element', 'utils', 'assetsService'];
 
     angular.module('app.ui')
         .component('wAssetLogo', {
             template: '<div class="asset-logo"></div>',
             controller: controller,
             bindings: {
-                name: '@',
+                assetId: '@',
                 size: '@'
             }
         });

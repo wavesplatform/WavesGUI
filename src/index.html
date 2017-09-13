@@ -74,6 +74,13 @@
                 coinomat: '{{network.coinomat}}',
                 datafeed: '{{network.datafeed}}'
             },
+            defaultAssets: {
+                Waves: 'WAVES',
+                EUR: '{{network.assets.EUR}}',
+                USD: '{{network.assets.USD}}',
+                BTC: '{{network.assets.BTC}}',
+                ETH: '{{network.assets.ETH}}'
+            },
             isWeb: function () {
                 return this.type === 'web';
             },

@@ -140,12 +140,14 @@
                     Object.defineProperty(this, key, {
                         get: () => this._props[key],
                         set: (value) => {
-                            this._props[key] = value;
-                            if (!this._timersHash[event]) {
-                                this._timersHash[event] = $timeout(() => {
-                                    callback();
-                                    delete this._timersHash[event];
-                                }, 0);
+                            if (value !== this._props[key]) {
+                                this._props[key] = value;
+                                if (!this._timersHash[event]) {
+                                    this._timersHash[event] = $timeout(() => {
+                                        callback();
+                                        delete this._timersHash[event];
+                                    }, 0);
+                                }
                             }
                         }
                     });
@@ -171,6 +173,33 @@
             },
 
             Base,
+
+            /**
+             * @param {object} target
+             * @param {Array<string>|string} [keys]
+             * @return {object}
+             */
+            bind(target, keys) {
+                if (keys == null) {
+                    keys = Object.keys(target);
+                    if (keys.length === 0) {
+                        const proto = Object.getPrototypeOf(target);
+                        keys = Object.getOwnPropertyNames(proto)
+                            .filter((method) => {
+                                return method.charAt(0) !== '_' && method !== 'constructor';
+                            });
+                    } else {
+                        keys = keys.filter((key) => typeof target[key] === 'function');
+                    }
+                } else {
+                    keys = Array.isArray(keys) ? keys : [keys];
+                }
+
+                keys.forEach((key) => {
+                    target[key] = target[key].bind(target);
+                });
+                return target;
+            },
 
             /**
              * @param {{then: Function}} promiseLike

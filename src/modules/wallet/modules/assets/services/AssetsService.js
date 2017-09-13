@@ -2,28 +2,23 @@
     'use strict';
 
     /**
-     *
      * @param {User} user
+     * @param decorators
+     * @param apiWorker
+     * @param {AssetsService} assetsService
+     * @return {AssetsService}
      */
-    const factory = function (user, $q, decorators) {
-
-        const DEFAULT_ASSETS = ['Waves', 'Bitcoin', 'Ethereum'];
-        const EMPTY_ASSET_DATA = {
-            balance: 0,
-            bid: 0,
-            ask: 0
-        };
+    const factory = function (user, decorators, apiWorker, assetsService) {
 
         class AssetsService {
 
             getAssets() {
-                return user.getSetting('assets') || this.getDefaultAssets();
-            }
-
-            getDefaultAssets() {
-                return DEFAULT_ASSETS.map((name) => {
-                    return tsUtils.merge({ name }, EMPTY_ASSET_DATA);
-                });
+                return user.getSetting('wallet.assets.assetList')
+                    .then((assetIds) => {
+                        return Promise.all(assetIds.map((assetId) => {
+                            return assetsService.getBalance(assetId);
+                        }));
+                    });
             }
 
             getGraphOptions() {
@@ -43,7 +38,8 @@
                             key: 'y',
                             label: 'An area series',
                             color: '#FFAF01',
-                            type: ['line', 'line', 'area']
+                            type: ['line', 'line', 'area'],
+                            interpolation: { mode: 'cardinal', tension: 0.7 }
                         }
                     ],
                     axes: {
@@ -51,17 +47,21 @@
                             key: 'x',
                             type: 'date',
                             tickFormat: tsUtils.date('DD/MM')
+                        },
+                        y: {
+                            ticks: 4
                         }
                     }
-                }
+                };
             }
 
             getGraphData(start, end) {
-                return this._loadData().then((values) => {
-                    return values.filter((item) => {
-                        return item.x >= start && item.x <= end;
+                return this._loadData()
+                    .then((values) => {
+                        return values.filter((item) => {
+                            return item.x >= start && item.x <= end;
+                        });
                     });
-                });
             }
 
             @decorators.cachable(2000)
@@ -76,7 +76,8 @@
         return new AssetsService();
     };
 
-    factory.$inject = ['user', '$q', 'decorators'];
+    factory.$inject = ['user', 'decorators', 'apiWorker', 'assetsService'];
 
-    angular.module('app.wallet.assets').factory('assetsService', factory);
+    angular.module('app.wallet.assets')
+        .factory('wallet.assetsService', factory);
 })();

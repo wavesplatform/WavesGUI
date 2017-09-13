@@ -4,7 +4,7 @@
     const factory = function () {
 
         return {
-            translate(literal, ns) {
+            translate(literal, ns, params) {
                 if (!ns) {
                     ns = 'app';
                 }
@@ -12,7 +12,7 @@
                 if (ns && ns !== 'app') {
                     translate.push(`app:${literal}`);
                 }
-                return i18next.t(translate);
+                return i18next.t(translate, params);
             },
 
             getNs($element) {

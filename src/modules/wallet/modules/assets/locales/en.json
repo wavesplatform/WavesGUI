@@ -5,5 +5,16 @@
       "receive": "Receive",
       "send": "Send"
     }
+  },
+  "modal": {
+    "receive": {
+      "title": "{{assetName}} Wallet Address",
+      "text": "Only send {{assetName}} to this address",
+      "description": "Sending any other digital asset, including {{assetName}}\n Cash, will result in permanent loss.",
+      "ok": "Show Address"
+    },
+    "send": {
+      "title": "Send {{assetName}}"
+    }
   }
 }

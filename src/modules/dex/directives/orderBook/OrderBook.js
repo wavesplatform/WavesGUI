@@ -1,42 +1,43 @@
 (function () {
     'use strict';
 
-    const controller = function () {
+    const controller = function (utils) {
 
-        class Portfolio {
+        class OrderBook extends utils.Base {
 
             constructor() {
-                /**
-                 * @type {Array}
-                 */
-                this.orders = null;
-                this.positive = [];
-                this.negative = [];
+                super();
+                this._by = [];
+                this._sell = [];
+                this.observe(['_by', '_sell'], () => this._currentOrders());
             }
 
-            $onChanges(changes) {
-                if (changes.orders) {
-                    this._dorpOrders();
-
-                }
+            _currentOrders() {
+                const filter = function (item) {
+                    const clone = { ...item };
+                    clone.total = clone.size * clone.price;
+                    return clone;
+                };
+                this.by = this._by.map(filter);
+                this.sell = this._sell.map(filter);
             }
 
-            _dorpOrders() {
-                this.positive = [];
-                this.negative = [];
-            }
         }
 
-        return new Portfolio();
+        return new OrderBook();
     };
 
-    controller.$inject = [];
+    controller.$inject = ['utils'];
 
     angular.module('app.dex')
-        .component('wOrderBook', {
+        .component('wDexOrderBook', {
             bindings: {
-                orders: '<'
+                amountAsset: '<',
+                priceAsset: '<',
+                _by: '<by',
+                _sell: '<sell'
             },
-            templateUrl: '/modules/dex/directives/orderBook/orderBook.html'
+            templateUrl: '/modules/dex/directives/orderBook/orderBook.html',
+            controller
         });
 })();

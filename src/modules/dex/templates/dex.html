@@ -1,13 +1,25 @@
 <div w-i18n-ns="app.dex" class="column">
-    <w-dex-portfolio assets="$ctrl.portfolioAssets"></w-dex-portfolio>
-    <w-dex-order-book></w-dex-order-book>
+    <w-dex-portfolio price-asset="$ctrl.priceAsset"
+                     amount-asset="$ctrl.amountAsset"
+                     assets="$ctrl.portfolioAssets"></w-dex-portfolio>
+    <w-dex-order-book price-asset="$ctrl.priceAsset"
+                      amount-asset="$ctrl.amountAsset"
+                      sell="$ctrl.orders.sell"
+                      by="$ctrl.orders.by"></w-dex-order-book>
 </div>
 <div w-i18n-ns="app.dex" class="column center">
-    <w-dex-trade-view></w-dex-trade-view>
-    <w-dex-trade-graph></w-dex-trade-graph>
-    <w-dex-my-orders></w-dex-my-orders>
+    <w-dex-trade-view price-asset="$ctrl.priceAsset"
+                      amount-asset="$ctrl.amountAsset"></w-dex-trade-view>
+    <w-dex-trade-graph price-asset="$ctrl.priceAsset"
+                       amount-asset="$ctrl.amountAsset"
+                       sell="$ctrl.orders.sell"
+                       by="$ctrl.orders.by"></w-dex-trade-graph>
+    <w-dex-my-orders price-asset="$ctrl.priceAsset"
+                     amount-asset="$ctrl.amountAsset"></w-dex-my-orders>
 </div>
 <div w-i18n-ns="app.dex" class="column">
-    <w-dex-markets></w-dex-markets>
-    <w-dex-trade-history></w-dex-trade-history>
+    <w-dex-markets price-asset="$ctrl.priceAsset"
+                   amount-asset="$ctrl.amountAsset"></w-dex-markets>
+    <w-dex-trade-history price-asset="$ctrl.priceAsset"
+                         amount-asset="$ctrl.amountAsset"></w-dex-trade-history>
 </div>
