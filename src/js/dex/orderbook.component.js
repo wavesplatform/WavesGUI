@@ -66,7 +66,7 @@
                     return amountSum + order.amount;
                 }, 0);
 
-            ctrl.onClick(order.price, cumulativeAmount, order.sum);
+            ctrl.onClick(Number(order.price).toFixed(8), cumulativeAmount, order.sum);
         };
 
         ctrl.$onChanges = function (changes) {
