@@ -20,12 +20,22 @@
                 this.defaults = {
                     wallet: {
                         assets: {
-                            assetList: this._getDefaultAssets()
+                            assetList: [
+                                WavesApp.defaultAssets.Waves,
+                                WavesApp.defaultAssets.BTC,
+                                WavesApp.defaultAssets.EUR
+                            ]
                         }
                     },
                     dex: {
                         amountAssetId: WavesApp.defaultAssets.Waves,
-                        priceAssetId: WavesApp.defaultAssets.BTC
+                        priceAssetId: WavesApp.defaultAssets.BTC,
+                        directives: {
+                            markets: {
+                                activeAssetId: WavesApp.defaultAssets.ETH,
+                                favoriteIds: Object.values(WavesApp.defaultAssets)
+                            }
+                        }
                     }
                 };
             }
@@ -35,18 +45,19 @@
             }
 
             set(path, value) {
-                tsUtils.set(this.settings, path, value);
+                if (this.get(path) === value) {
+                    return null;
+                }
+                if (tsUtils.get(this.defaults, path) === value) {
+                    tsUtils.unset(this.settings, path);
+                } else {
+                    tsUtils.set(this.settings, path, value);
+                }
                 this.change.dispatch();
             }
 
             getSettings() {
                 return this.settings;
-            }
-
-            _getDefaultAssets() {
-                return ['Waves', 'BTC', 'ETH'].map((name) => {
-                    return WavesApp.defaultAssets[name];
-                });
             }
 
         }

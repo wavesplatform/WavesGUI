@@ -137,7 +137,7 @@
     "jquery": "^3.2.1",
     "n3-charts": "^2.0.28",
     "ng-i18next": "^1.0.5",
-    "ts-utils": "^4.0.0",
+    "ts-utils": "^4.2.0",
     "waves-api": "^0.7.1",
     "worker-wrapper": "^1.0.0"
   }

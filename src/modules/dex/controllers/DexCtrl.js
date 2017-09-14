@@ -7,12 +7,24 @@
      * @param {User} user
      * @return {DexCtrl}
      */
-    const controller = function (assetsService, utils, user) {
+    const controller = function (assetsService, utils, user, Base) {
 
-        class DexCtrl {
+        class DexCtrl extends Base {
 
             constructor() {
+                super();
 
+                this.amountAssetId = null;
+                this.priceAssetId = null;
+                this.syncSettings([
+                    'dex.amountAssetId',
+                    'dex.priceAssetId'
+                ]);
+
+                this._initialize();
+            }
+
+            _initialize() {
                 const promises = Object.values(WavesApp.defaultAssets)
                     .map(assetsService.getBalance);
 
@@ -20,33 +32,6 @@
                     .then((assets) => {
                         this.portfolioAssets = assets;
                     });
-
-                user.getSetting('dex.amountAssetId')
-                    .then(assetsService.getAssetInfo)
-                    .then((info) => {
-                        this.amountAsset = info;
-                    });
-
-                user.getSetting('dex.priceAssetId')
-                    .then(assetsService.getAssetInfo)
-                    .then((info) => {
-                        this.priceAsset = info;
-                    });
-
-                this.orders = {
-                    by: [
-                        { size: 162.43500787, price: 0.0000925 },
-                        { size: 110, price: 0.0000909 },
-                        { size: 54.4, price: 0.00009084 },
-                        { size: 2, price: 0.00000004 }
-                    ],
-                    sell: [
-                        { size: 162.43500787, price: 0.0000925 },
-                        { size: 110, price: 0.0000909 },
-                        { size: 54.4, price: 0.00009084 },
-                        { size: 2, price: 0.00000004 }
-                    ]
-                };
             }
 
         }
@@ -55,7 +40,7 @@
     };
 
 
-    controller.$inject = ['assetsService', 'utils', 'user'];
+    controller.$inject = ['assetsService', 'utils', 'user', 'Base'];
 
     angular.module('app.dex')
         .controller('DexCtrl', controller);

@@ -1,7 +1,13 @@
 (function () {
     'use strict';
 
-    const factory = function ($q, $timeout) {
+    /**
+     * @param $q
+     * @param $timeout
+     * @param {User} user
+     * @return {*}
+     */
+    const factory = function ($q) {
 
         class Moment {
 
@@ -120,42 +126,6 @@
 
         }
 
-        class Base {
-
-            /**
-             * @param {string[]|string} keys
-             * @param callback
-             */
-            observe(keys, callback) {
-                if (!this._timersHash) {
-                    this._timersHash = Object.create(null);
-                }
-                keys = Array.isArray(keys) ? keys : [keys];
-                const event = keys.join(' ');
-                keys.forEach((key) => {
-                    if (!this._props) {
-                        this._props = Object.create(null);
-                    }
-                    this._props[key] = this[key];
-                    Object.defineProperty(this, key, {
-                        get: () => this._props[key],
-                        set: (value) => {
-                            if (value !== this._props[key]) {
-                                this._props[key] = value;
-                                if (!this._timersHash[event]) {
-                                    this._timersHash[event] = $timeout(() => {
-                                        callback();
-                                        delete this._timersHash[event];
-                                    }, 0);
-                                }
-                            }
-                        }
-                    });
-                });
-            }
-
-        }
-
         return {
 
             /**
@@ -171,8 +141,6 @@
                     return $q.when(data);
                 }
             },
-
-            Base,
 
             /**
              * @param {object} target

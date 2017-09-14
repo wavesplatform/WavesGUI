@@ -166,7 +166,7 @@
              * @private
              */
             _onChangeSettings() {
-                this.settings = this._settings.getSettings();
+                this.settings = { ...this._settings.getSettings() };
             }
 
             /**
@@ -230,15 +230,8 @@
                 return storage.load('userList')
                     .then((list) => {
                         list = list || [];
-                        let item = tsUtils.find(list, { address: this.address });
-
-                        if (!item) {
-                            item = Object.create(null);
-                            list.push(item);
-                        }
-
-                        tsUtils.merge(item, this._getPublicProps());
-
+                        list = list.filter(tsUtils.notContains({ address: this.address }));
+                        list.push(this._getPublicProps());
                         return storage.save('userList', list);
                     });
             }

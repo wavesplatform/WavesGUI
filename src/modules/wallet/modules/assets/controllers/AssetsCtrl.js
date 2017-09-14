@@ -1,11 +1,11 @@
 (function () {
     'use strict';
 
-    const controller = function ($timeout, assetsService, $scope, utils, $mdDialog) {
+    const controller = function ($timeout, assetsService, $scope, utils, $mdDialog, Base) {
 
         const UPDATE_INTERVAL = 2000;
 
-        class Assets extends utils.Base {
+        class Assets extends Base {
 
             constructor() {
                 super();
@@ -109,7 +109,7 @@
         return new Assets();
     };
 
-    controller.$inject = ['$timeout', 'wallet.assetsService', '$scope', 'utils', '$mdDialog'];
+    controller.$inject = ['$timeout', 'wallet.assetsService', '$scope', 'utils', '$mdDialog', 'Base'];
 
     angular.module('app.wallet.assets')
         .controller('AssetsCtrl', controller);

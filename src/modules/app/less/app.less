@@ -1,4 +1,4 @@
-@import '../../config';
+@import (reference) '../../config';
 
 html,
 body,
@@ -99,4 +99,48 @@ md-dialog md-dialog-actions {
 
 .chart-legend {
   display: none;
+}
+
+.btn-wrap.btn-group {
+  box-sizing: border-box;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  .btn-active {
+    cursor: default;
+    background-color: #EBEBEB;
+    color: #000;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  & > *:first-child .btn, & > .btn:first-child {
+    border-left: 1px solid #EBEBEB;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+  }
+
+  & > *:last-child .btn, & > .btn:last-child {
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  .btn {
+    display: block;
+    box-sizing: border-box;
+    cursor: pointer;
+    padding: 4px 10px;
+    color: @color-link-blue;
+    border-bottom: 1px solid #EBEBEB;
+    border-top: 1px solid #EBEBEB;
+    border-right: 1px solid #EBEBEB;
+
+    &:active {
+      .btn-active();
+    }
+  }
 }

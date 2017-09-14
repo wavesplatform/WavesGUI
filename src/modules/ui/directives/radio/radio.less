@@ -1,0 +1,12 @@
+@import (reference) '../../../app/less/app';
+
+w-radio {
+  input {
+    position: absolute;
+    visibility: hidden;
+  }
+
+  input:checked ~ label.btn.btn-radio {
+    .btn-wrap.btn-group .btn-active();
+  }
+}

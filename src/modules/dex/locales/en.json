@@ -10,7 +10,13 @@
       "total": "Total {{assetName}}"
     },
     "markets": {
-      "title": "Markets"
+      "title": "Markets",
+      "table": {
+        "unit": "Coin",
+        "price": "Price",
+        "volume": "Volume",
+        "rate": "Change"
+      }
     }
   }
 }
