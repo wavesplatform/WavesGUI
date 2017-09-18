@@ -21,9 +21,7 @@
             }
 
             $postLink() {
-                if (this.selected != null) {
-                    this._onChangeSelected();
-                }
+                this._onChangeSelected();
             }
 
             /**
@@ -31,11 +29,12 @@
              */
             registerRow(row) {
                 this._children.push(row);
-                if (this.selected != null) {
-                    this._setRowSelected(row);
-                }
+                this._setRowSelected(row);
             }
 
+            /**
+             * @private
+             */
             _onChangeSelected() {
                 this._children.forEach(this._setRowSelected, this);
             }
@@ -45,7 +44,7 @@
              * @private
              */
             _setRowSelected(row) {
-                row.selected = row.selectValue === this.selected;
+                row.selected = (row.selectValue != null) && row.selectValue === this.selected;
             }
 
         }

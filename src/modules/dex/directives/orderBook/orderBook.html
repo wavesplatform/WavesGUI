@@ -1,31 +1,35 @@
 <div class="block-wrapper">
     <div w-i18n="directives.orderBook.title" class="block-title"></div>
     <div class="order-content">
-        <div class="order-item title">
-            <div class="cell" w-i18n="directives.orderBook.marketSize"></div>
-            <div class="cell">
-                <w-i18n params="{assetName: $ctrl.priceAsset.name}">directives.orderBook.price</w-i18n>
-                {{$ctrl.asset.name}}
-            </div>
-            <div class="cell">
-                <w-i18n params="{assetName: $ctrl.priceAsset.name}">directives.orderBook.total</w-i18n>
-                {{$ctrl.asset.name}}
-            </div>
-        </div>
-        <div class="by">
-            <div class="order-item" ng-repeat="order in $ctrl.by track by $index">
-                <div class="cell size" precision="$ctrl.amountAsset.precision" w-nice-number="order.size"></div>
-                <div class="cell price" precision="$ctrl.priceAsset.precision" w-nice-number="order.price"></div>
-                <div class="cell total" precision="$ctrl.priceAsset.precision" w-nice-number="order.total"></div>
-            </div>
-        </div>
-        <div class="sell">
-            <div class="order-item" ng-repeat="order in $ctrl.sell track by $index">
-                <div class="cell size" precision="$ctrl.amountAsset.precision" w-nice-number="order.size"></div>
-                <div class="cell price" precision="$ctrl.priceAsset.precision" w-nice-number="order.price"></div>
-                <div class="cell total" precision="$ctrl.priceAsset.precision" w-nice-number="order.total"></div>
-            </div>
-        </div>
+        <w-table>
+            <w-t-head>
+                <w-row>
+                    <w-cell>
+                        <w-i18n>directives.orderBook.marketSize</w-i18n>
+                    </w-cell>
+                    <w-cell>
+                        <w-i18n>directives.orderBook.price</w-i18n>
+                        {{$ctrl.asset.name}}
+                    </w-cell>
+                    <w-cell>
+                        <w-i18n>directives.orderBook.total</w-i18n>
+                        {{$ctrl.asset.name}}
+                    </w-cell>
+                </w-row>
+            </w-t-head>
+
+            <w-row class="by" ng-repeat="order in $ctrl.by track by $index">
+                <w-cell precision="$ctrl.amountAsset.precision" w-nice-number="order.size"></w-cell>
+                <w-cell precision="$ctrl.priceAsset.precision" w-nice-number="order.price"></w-cell>
+                <w-cell precision="$ctrl.priceAsset.precision" w-nice-number="order.total"></w-cell>
+            </w-row>
+
+            <w-row class="sell" ng-repeat="order in $ctrl.sell track by $index">
+                <w-cell precision="$ctrl.amountAsset.precision" w-nice-number="order.size"></w-cell>
+                <w-cell precision="$ctrl.priceAsset.precision" w-nice-number="order.price"></w-cell>
+                <w-cell precision="$ctrl.priceAsset.precision" w-nice-number="order.total"></w-cell>
+            </w-row>
+        </w-table>
     </div>
 </div>
 

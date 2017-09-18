@@ -143,6 +143,31 @@
             },
 
             /**
+             * @param a
+             * @param b
+             * @return {boolean}
+             */
+            isEqual(a, b) {
+                const typeA = typeof a;
+                const typeB = typeof b;
+
+                if (typeA !== typeB) {
+                    return false;
+                }
+
+                if (typeA !== 'object') {
+                    return a === b;
+                }
+
+                const pathsA = tsUtils.getPaths(a);
+                const pathsB = tsUtils.getPaths(b);
+
+                return pathsA.length === pathsB.length && pathsA.every((path, index) => {
+                    return tsUtils.get(a, path) === tsUtils.get(b, path) && (String(path) === String(pathsB[index]));
+                });
+            },
+
+            /**
              * @param {object} target
              * @param {Array<string>|string} [keys]
              * @return {object}

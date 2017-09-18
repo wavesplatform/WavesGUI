@@ -33,30 +33,34 @@
                     } else {
                         resolve(data);
                     }
-                })
+                });
             });
         };
         const getCache = function () {
-            return wrap('readFile', cachePath, 'utf8').then((text) => {
-                try {
-                    return JSON.parse(text);
-                } catch (e) {
-                    return Promise.reject(e);
-                }
-            });
+            return wrap('readFile', cachePath, 'utf8')
+                .then((text) => {
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        return Promise.reject(e);
+                    }
+                });
         };
         read = function (key) {
-            return getCache().then((data) => {
-                return data[key] || null;
-            }).catch(() => {
-                return {};
-            });
+            return getCache()
+                .then((data) => {
+                    return data[key] || null;
+                })
+                .catch(() => {
+                    return {};
+                });
         };
         write = function (key, value) {
-            return getCache().then((data) => {
-                data[key] = value;
-                return wrap('writeFile', cachePath, JSON.stringify(data));
-            });
+            return getCache()
+                .then((data) => {
+                    data[key] = value;
+                    return wrap('writeFile', cachePath, JSON.stringify(data));
+                });
         };
         clear = function () {
             return wrap('writeFile', cachePath, '{}');
@@ -68,10 +72,11 @@
         class Storage {
 
             constructor() {
-                this.load('lastVersion').then((version) => {
-                    this.save('lastVersion', WavesApp.version);
-                    storageMigration.migrateTo(version, this);
-                });
+                this.load('lastVersion')
+                    .then((version) => {
+                        this.save('lastVersion', WavesApp.version);
+                        storageMigration.migrateTo(version, this);
+                    });
             }
 
             save(key, value) {
@@ -79,7 +84,8 @@
             }
 
             load(key) {
-                return utils.when(read(key));
+                return utils.when(read(key))
+                    .then(data => Storage.myParse(data));
             }
 
             clear() {
@@ -91,17 +97,41 @@
                     case 'string':
                         return data;
                     case 'object':
-                        return JSON.stringify(data);
+                        try {
+                            return Storage.myStringify(data);
+                        } catch (e) {
+                            return String(data);
+                        }
                     default:
                         return String(data);
                 }
             }
 
-            static parse(some) {
+            static myStringify(data) {
                 try {
-                    return JSON.parse(some);
+                    const paths = tsUtils.getPaths(data);
+                    return JSON.stringify(paths.reduce((result, item) => {
+                        result[String(item)] = tsUtils.get(data, item);
+                        return result;
+                    }, Object.create(null)));
                 } catch (e) {
-                    return some;
+                    return JSON.stringify(data);
+                }
+            }
+
+            static myParse(data) {
+                if (typeof data === 'object') {
+                    let result;
+                    tsUtils.each(data, (value, path) => {
+                        if (!result) {
+                            result = tsUtils.Path.parse(path)
+                                .getItemData(0).container;
+                        }
+                        tsUtils.set(result, path, value);
+                    });
+                    return result;
+                } else {
+                    return data;
                 }
             }
 
@@ -112,5 +142,6 @@
 
     factory.$inject = ['$q', 'utils', 'storageMigration'];
 
-    angular.module('app.utils').factory('storage', factory);
+    angular.module('app.utils')
+        .factory('storage', factory);
 })();

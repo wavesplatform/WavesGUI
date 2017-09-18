@@ -1,16 +1,21 @@
-<div class="chart-wrapper">
-    <span class="chart-info left">
+<div w-i18n-ns="app.wallet.assets" class="chart-wrapper">
+    <div class="chart-info left">
         Total $ {{$ctrl.total}}
-    Week <input type="radio" ng-model="$ctrl.mode" value="week" name="mode">
-    Month <input type="radio" ng-model="$ctrl.mode" value="month" name="mode">
-    Year <input type="radio" ng-model="$ctrl.mode" value="year" name="mode">
-    </span>
+        <w-radio-wrap ng-model="$ctrl.mode">
+            <w-radio value="'week'"><w-i18n>chart.intervals.week</w-i18n></w-radio>
+            <w-radio value="'month'"><w-i18n>chart.intervals.month</w-i18n></w-radio>
+            <w-radio value="'year'"><w-i18n>chart.intervals.year</w-i18n></w-radio>
+        </w-radio-wrap>
+    </div>
     <span class="chart-info right">
         <span w-date="$ctrl.startDate"></span> - <span w-date="$ctrl.endDate"></span>
     </span>
-    <linechart options="$ctrl.options" data="$ctrl.data"></linechart>
+    <linechart ng-if="$ctrl.mode" options="$ctrl.options" data="$ctrl.data"></linechart>
 </div>
 <div class="assets-list">
-    <w-asset ng-repeat="asset in $ctrl.assets track by $index" on-click="$ctrl.onAssetClick(asset, action)"
+    <w-asset ng-repeat="asset in $ctrl.assets track by $index" on-click="$ctrl.onAssetClick(event, asset, action)"
              asset="asset"></w-asset>
+    <div class="add-asset">
+        <div ng-click="$ctrl.addAsset()" class="add-asset-btn"></div>
+    </div>
 </div>

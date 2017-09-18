@@ -1,10 +1,10 @@
-<div ng-if="!$ctrl.isAdd" w-i18n-ns="app.wallet.assets">
+<div w-i18n-ns="app.wallet.assets">
     <div class="settings">
-        <div class="setting-item" ng-click="$ctrl.onClick({asset: $ctrl.asset, action: 'send'})">
+        <div class="setting-item" ng-click="$ctrl.onClick({event: $event, asset: $ctrl.asset, action: 'send'})">
             <div class="setting-icon send">L</div>
             <w-i18n>directives.asset.send</w-i18n>
         </div>
-        <div class="setting-item" ng-click="$ctrl.onClick({asset: $ctrl.asset, action: 'receive'})">
+        <div class="setting-item" ng-click="$ctrl.onClick({event: $event, asset: $ctrl.asset, action: 'receive'})">
             <div class="setting-icon receive">L</div>
             <w-i18n>directives.asset.receive</w-i18n>
         </div>

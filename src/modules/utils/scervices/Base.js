@@ -20,10 +20,10 @@
                 const event = keys.join(' ');
                 keys.forEach((key) => {
                     if (!this._handlers[key]) {
-                        this._handlers[key] = [];
-                    }
-                    if (this._handlers[key].indexOf(callback) === -1) {
+                        this._handlers[key] = [callback];
+                    } else {
                         this._handlers[key].push(callback);
+                        return null;
                     }
                     if (!this._props) {
                         this._props = Object.create(null);
@@ -67,6 +67,14 @@
                             this[name] = value;
                         });
                 });
+            }
+
+            $onDestroy() {
+                this._handlers = Object.create(null);
+                tsUtils.each(this._timersHash, (value) => {
+                    $timeout.cancel(value);
+                });
+                this._timersHash = Object.create(null);
             }
 
         }

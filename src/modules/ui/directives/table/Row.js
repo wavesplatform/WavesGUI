@@ -19,6 +19,10 @@
                  * @type {boolean}
                  */
                 this.selected = false;
+                /**
+                 * @type {Array<Cell>}
+                 */
+                this.cells = [];
             }
 
             $postLink() {

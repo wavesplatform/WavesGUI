@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  max-height: 100%;
 
   .block-title {
     margin: 2px;
@@ -16,18 +17,35 @@
     width: 100%;
     border: 1px solid #EAEAEA;
     background-color: @color-lite-background-blocks;
+    display: flex;
+    flex-direction: column;
   }
 
   .column {
     box-sizing: border-box;
+    max-height: 100%;
     width: 310px;
+    display: flex;
+    flex-direction: column;
 
     &.center {
-      width: calc(~'100% - ' 620px + @padding-main-layout * 2);
+      width: calc(~'100% - '620px + @padding-main-layout * 2);
     }
   }
 
+  w-dex-markets {
+    display: block;
+  }
+
+  w-dex-trade-history {
+    display: flex;
+  }
+
   w-dex-order-book .block-wrapper {
+    margin-top: @padding-main-layout;
+  }
+
+  w-dex-trade-history .block-wrapper {
     margin-top: @padding-main-layout;
   }
 

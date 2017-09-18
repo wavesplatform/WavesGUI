@@ -5,6 +5,7 @@
      * @param {User} user
      * @param {*} utils
      * @param {AssetsService} assetsService
+     * @param {Base} Base
      * @return {Markets}
      */
     const controller = function (user, utils, assetsService, Base) {
@@ -26,11 +27,11 @@
                  */
                 this.favoriteIds = null;
                 /**
-                 * @type {Array}
+                 * @type {Array<IAssetInfo>}
                  */
                 this.favorites = null;
                 /**
-                 * @type {*}
+                 * @type {IAssetInfo}
                  */
                 this.activeAsset = null;
                 /**
@@ -45,10 +46,12 @@
                  * @type {string}
                  */
                 this.priceAssetId = null;
+
                 this.syncSettings([
                     'dex.directives.markets.activeAssetId',
                     'dex.directives.markets.favoriteIds'
                 ]);
+
                 this.observe('favoriteIds', this._onChangeFavoriteIds);
                 this.observe('activeAssetId', this._onChangeActiveAssetId);
                 this.observe('amountAssetId', this._onChangeAmountAssetId);
@@ -79,7 +82,7 @@
              */
             _onChangeAmountAssetId() {
                 if (this.amountAssetId === this.priceAssetId) {
-                    this.priceAssetId = this.favoriteIds.filter((id) => id !== this.amountAssetId)[0];
+                    this.priceAssetId = this.favoriteIds.filter(tsUtils.notContains(this.amountAssetId))[0];
                 }
             }
 

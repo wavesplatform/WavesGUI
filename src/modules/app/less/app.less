@@ -21,6 +21,17 @@ md-input-container {
   transform: translate3d(0, 0, 0);
 }
 
+*:focus {
+  outline: none;
+}
+
+w-scroll-box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
+}
+
 .no-animate, .no-animate * {
   transition: none !important;
 }

@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const factory = function () {
+    const factory = function (utils) {
 
         class DefaultSettings {
 
@@ -20,6 +20,7 @@
                 this.defaults = {
                     wallet: {
                         assets: {
+                            mode: 'week',
                             assetList: [
                                 WavesApp.defaultAssets.Waves,
                                 WavesApp.defaultAssets.BTC,
@@ -48,7 +49,7 @@
                 if (this.get(path) === value) {
                     return null;
                 }
-                if (tsUtils.get(this.defaults, path) === value) {
+                if (utils.isEqual(tsUtils.get(this.defaults, path), value)) {
                     tsUtils.unset(this.settings, path);
                 } else {
                     tsUtils.set(this.settings, path, value);
@@ -68,6 +69,8 @@
             }
         };
     };
+
+    factory.$inject = ['utils'];
 
     angular.module('app')
         .factory('defaultSettings', factory);

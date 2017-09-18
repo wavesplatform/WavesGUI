@@ -149,7 +149,7 @@
                 }
 
                 return new Promise((resolve) => {
-                    collection.stopWatch()
+                    collection.stop()
                         .animate({ left: targetLeft }, () => {
                             $old.remove();
                             $active.css('left', '');

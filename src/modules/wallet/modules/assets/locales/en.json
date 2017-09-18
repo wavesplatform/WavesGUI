@@ -1,4 +1,11 @@
 {
+  "chart": {
+      "intervals": {
+        "week": "1W",
+        "month": "1M",
+        "year": "1Y"
+      }
+  },
   "directives": {
     "asset": {
       "balance": "Current balance",

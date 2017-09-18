@@ -32,7 +32,8 @@
         "i18next": true,
         "i18nextXHRBackend": true,
         "i18nextBrowserLanguageDetector": true,
-        "QRCode": true
+        "QRCode": true,
+        "tsApiValidator": true
     },
     "extends": "eslint:recommended",
     "rules": {

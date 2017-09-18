@@ -9,33 +9,34 @@
 
             constructor() {
                 super();
-                assetsService.getAssets()
-                    .then((assets) => {
-                        this.assets = assets;
-                        this.total = assets.reduce((result, item) => {
-                            return result + item.balance;
-                        }, 0);
-                    });
+
+                $scope.$on('$destroy', this.$onDestroy.bind(this));
+
+                this.mode = null;
+                this.assets = null;
+                this.total = null;
+
                 this.data = { values: [{ x: 0, y: 0 }] };
-
-                this.mode = 'week';
-
                 this.options = assetsService.getGraphOptions();
+
+                this.syncSettings('wallet.assets.mode');
 
                 this.observe('mode', () => this._onChangeMode());
                 this.observe(['startDate', 'endDate'], () => this._onChangeInterval());
-                this._onChangeMode();
-                this._initializeTimeout();
 
-                const stop = $scope.$on('$destroy', () => {
-                    if (this.timer) {
-                        $timeout.cancel(this.timer);
-                    }
-                    stop();
-                });
+                this._initializeTimeout();
+                this._addAssets();
             }
 
-            onAssetClick(asset, action) {
+            $onDestroy() {
+                super.$onDestroy();
+                if (this.timer) {
+                    $timeout.cancel(this.timer);
+                }
+            }
+
+            onAssetClick(event, asset, action) {
+                event.preventDefault();
                 switch (action) {
                     case 'send':
                         this._showSendModal(asset);
@@ -46,6 +47,23 @@
                 }
             }
 
+            /**
+             * @private
+             */
+            _addAssets() {
+                assetsService.getAssets()
+                    .then((assets) => {
+                        this.assets = assets;
+                        this.total = assets.reduce((result, item) => {
+                            return result + item.balance;
+                        }, 0);
+                    });
+            }
+
+            /**
+             * @param asset
+             * @private
+             */
             _showSendModal(asset) {
                 $mdDialog.show({
                     clickOutsideToClose: true,
@@ -57,6 +75,10 @@
                 });
             }
 
+            /**
+             * @param asset
+             * @private
+             */
             _showReceiveModal(asset) {
                 $mdDialog.show({
                     clickOutsideToClose: true,
@@ -68,6 +90,9 @@
                 });
             }
 
+            /**
+             * @private
+             */
             _initializeTimeout() {
                 this.timer = $timeout(() => {
                     this._onChangeInterval();
@@ -75,6 +100,9 @@
                 }, UPDATE_INTERVAL);
             }
 
+            /**
+             * @private
+             */
             _onChangeInterval() {
                 assetsService.getGraphData(this.startDate, this.endDate)
                     .then((values) => {
@@ -83,6 +111,9 @@
                     });
             }
 
+            /**
+             * @private
+             */
             _onChangeMode() {
                 switch (this.mode) {
                     case 'week':
@@ -109,7 +140,7 @@
         return new Assets();
     };
 
-    controller.$inject = ['$timeout', 'wallet.assetsService', '$scope', 'utils', '$mdDialog', 'Base'];
+    controller.$inject = ['$timeout', 'wallet.assetsService', '$scope', 'utils', '$mdDialog', 'Base', '$scope'];
 
     angular.module('app.wallet.assets')
         .controller('AssetsCtrl', controller);

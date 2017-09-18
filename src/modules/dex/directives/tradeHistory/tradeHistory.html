@@ -1,0 +1,32 @@
+<div class="block-wrapper">
+    <div w-i18n="directives.tradeHistory.title" class="block-title"></div>
+    <w-table>
+        <w-t-head>
+            <w-row>
+                <w-cell>
+                    <w-i18n>directives.tradeHistory.tableTitle.price</w-i18n>
+                    {{$ctrl.priceAsset.name}}
+                </w-cell>
+                <w-cell>
+                    <w-i18n>directives.tradeHistory.tableTitle.size</w-i18n>
+                </w-cell>
+                <w-cell>
+                    <w-i18n>directives.tradeHistory.tableTitle.date</w-i18n>
+                </w-cell>
+            </w-row>
+        </w-t-head>
+        <w-scroll-box>
+            <w-row ng-repeat="order in $ctrl.orders track by $index" class="{{::order.type}}">
+                <w-cell>
+                    <span precision="$ctrl.priceAsset.precision" w-nice-number="order.price"></span>
+                </w-cell>
+                <w-cell class="size">
+                    <span precision="$ctrl.amountAsset.precision" w-nice-number="order.size"></span>
+                </w-cell>
+                <w-cell>
+                    <span mode="time-ago" w-date="order.date"></span>
+                </w-cell>
+        </w-scroll-box>
+        </w-row>
+    </w-table>
+</div>

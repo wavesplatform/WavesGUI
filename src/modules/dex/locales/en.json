@@ -17,6 +17,14 @@
         "volume": "Volume",
         "rate": "Change"
       }
+    },
+    "tradeHistory": {
+      "title": "Trade history",
+      "tableTitle": {
+        "price": "Price",
+        "size": "Trade Size",
+        "date": "Date & Time"
+      }
     }
   }
 }

@@ -1,7 +1,11 @@
 (function () {
     'use strict';
 
-    const factory = function () {
+    const factory = function ($q) {
+
+        const onLoad = $q((resolve) => {
+            i18next.on('initialized', resolve);
+        });
 
         return {
             translate(literal, ns, params) {
@@ -16,10 +20,16 @@
             },
 
             getNs($element) {
-                return $element.attr('w-i18n-ns') || $element.closest('[w-i18n-ns]').attr('w-i18n-ns') || '';
-            }
+                return $element.attr('w-i18n-ns') || $element.closest('[w-i18n-ns]')
+                    .attr('w-i18n-ns') || '';
+            },
+
+            onLoad
         };
     };
 
-    angular.module('app').factory('i18n', factory);
+    factory.$inject = ['$q'];
+
+    angular.module('app')
+        .factory('i18n', factory);
 })();

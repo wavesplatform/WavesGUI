@@ -5,15 +5,16 @@
      * @param apiWorker
      * @param decorators
      * @param {User} user
+     * @param utils
      * @return {AssetsService}
      */
-    const factory = function (apiWorker, decorators, user, $q, utils) {
+    const factory = function (apiWorker, decorators, user, utils) {
 
         const ASSET_NAME_MAP = {
-            'WETH': 'Ethereum',
-            'WEUR': 'Euro',
-            'WUSD': 'Usd',
-            'WBitcoin': 'Bitcoin'
+            [WavesApp.defaultAssets.ETH]: 'Ethereum',
+            [WavesApp.defaultAssets.EUR]: 'Euro',
+            [WavesApp.defaultAssets.USD]: 'Usd',
+            [WavesApp.defaultAssets.BTC]: 'Bitcoin'
         };
 
         class AssetsService {
@@ -43,7 +44,7 @@
                         }, { assetId })
                             .then((asset) => ({
                                 id: asset.id,
-                                name: this._getAssetName(asset.name),
+                                name: ASSET_NAME_MAP[asset.id] || asset.name,
                                 description: asset.description,
                                 precision: asset.decimals,
                                 reissuable: asset.reissuable,
@@ -74,21 +75,12 @@
                     });
             }
 
-            /**
-             * @param {string} name
-             * @return {string}
-             * @private
-             */
-            _getAssetName(name) {
-                return ASSET_NAME_MAP[name] || name;
-            }
-
         }
 
         return utils.bind(new AssetsService());
     };
 
-    factory.$inject = ['apiWorker', 'decorators', 'user', '$q', 'utils'];
+    factory.$inject = ['apiWorker', 'decorators', 'user', 'utils'];
 
     angular.module('app')
         .factory('assetsService', factory);
