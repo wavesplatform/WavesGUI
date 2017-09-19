@@ -64,6 +64,7 @@
             }
 
             _onChangeAssets() {
+                this.orders = [];
                 this.pool.restart();
                 assetsService.getAssetInfo(this.priceAssetId)
                     .then((asset) => {

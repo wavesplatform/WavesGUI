@@ -30,34 +30,36 @@
         <form name="createPassword" ng-submit="createPassword.$valid && $ctrl.next()" novalidate>
 
             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                <md-input-container class="md-block">
-                    <label>Password</label>
+                <w-input-container form="createPassword">
                     <input name="password"
                            type="password"
+                           placeholder="Password"
                            required
                            minlength="8"
                            ng-pattern="/(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)[0-9a-zA-Z!@#$%^&\*]*/"
-                           ng-model="$ctrl.password" />
+                           ng-model="$ctrl.password"/>
 
-                    <div ng-messages="createPassword.password.$error">
-                        <div ng-message="required">This is required!</div>
-                        <div ng-message="minlength">Password to short!</div>
-                        <div ng-message="pattern">Password to simple!</div>
-                    </div>
-                </md-input-container>
+
+                    <w-input-error message="required">This is required!</w-input-error>
+                    <w-input-error message="minlength">Password to short!</w-input-error>
+                    <w-input-error message="pattern">Password to simple!</w-input-error>
+                </w-input-container>
             </section>
 
             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                <md-input-container class="md-block">
-                    <label>Repeat password</label>
-                    <input name="confirmPassword" type="password" required w-compare-to="$ctrl.password" minlength="8"
+                <w-input-container form="createPassword">
+                    <input name="confirmPassword"
+                           type="password"
+                           required
+                           w-compare-to="$ctrl.password"
+                           minlength="8"
+                           placeholder="Repeat password"
                            ng-model="$ctrl.confirmPassword">
 
-                    <div ng-messages="createPassword.confirmPassword.$error" multiple md-auto-hide="false">
-                        <div ng-message="required">This is required!</div>
-                        <div ng-message="wCompareTo">Passwords not equals!</div>
-                    </div>
-                </md-input-container>
+
+                    <w-input-error message="required">This is required!</w-input-error>
+                    <w-input-error message="wCompareTo">Passwords not equals!</w-input-error>
+                </w-input-container>
             </section>
 
             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>

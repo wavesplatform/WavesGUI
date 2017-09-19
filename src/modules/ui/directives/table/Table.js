@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const controller = function (Base) {
+    const controller = function ($element, Base, StyleManager) {
 
         class Table extends Base {
 
@@ -16,12 +16,20 @@
                  * @type {string|number}
                  */
                 this.selected = null;
+                this.cid = tsUtils.uniqueId('tableView');
+                $element.addClass(this.cid);
+                this.styleManager = new StyleManager(this.cid);
 
                 this.observe('selected', this._onChangeSelected);
             }
 
             $postLink() {
                 this._onChangeSelected();
+                this._initColumnWidths();
+            }
+
+            $onDestroy() {
+                this.styleManager.destroy();
             }
 
             /**
@@ -39,6 +47,14 @@
                 this._children.forEach(this._setRowSelected, this);
             }
 
+            _initColumnWidths() {
+                const columnsCount = this._children[0].cells.length;
+                const width = 100 / columnsCount;
+                for (let i = 0; i < columnsCount; i++) {
+                    this.styleManager.addStyle(`.cell-${i}`, { width: `${width}%` });
+                }
+            }
+
             /**
              * @param {Row} row
              * @private
@@ -52,7 +68,7 @@
         return new Table();
     };
 
-    controller.$inject = ['Base'];
+    controller.$inject = ['$element', 'Base', 'StyleManager'];
 
     angular.module('app.ui')
         .component('wTable', {

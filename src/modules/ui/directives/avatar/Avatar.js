@@ -37,17 +37,12 @@
                     this.size = 67;
                 }
                 if (this.address) {
-                    $q((resolve, reject) => {
-                        identicon.generate({ id: this.address, size: this.size }, (err, buffer) => {
-                            if (err) {
-                                reject(err);
-                            } else {
-                                resolve(buffer);
-                            }
+                    $q((resolve) => {
+                        resolve(identityImg.create(this.address, { size: this.size }));
+                    })
+                        .then((data) => {
+                            this.src = data;
                         });
-                    }).then((path) => {
-                        this.src = path;
-                    });
                 }
             }
 
@@ -59,12 +54,13 @@
 
     controller.$inject = ['$q'];
 
-    angular.module('app.ui').component('wAvatar', {
-        bindings: {
-            size: '@',
-            address: '<'
-        },
-        controller: controller,
-        templateUrl: 'modules/ui/directives/avatar/avatar.html'
-    });
+    angular.module('app.ui')
+        .component('wAvatar', {
+            bindings: {
+                size: '@',
+                address: '<'
+            },
+            controller: controller,
+            templateUrl: 'modules/ui/directives/avatar/avatar.html'
+        });
 })();

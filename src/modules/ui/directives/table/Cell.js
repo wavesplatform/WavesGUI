@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const controller = function () {
+    const controller = function ($element) {
 
         class Cell {
 
@@ -12,10 +12,24 @@
                 this.row = null;
             }
 
+            $postLink() {
+                this.row.registerCell(this);
+            }
+
+            setIndex(index) {
+                $element.addClass(`cell-${index}`);
+            }
+
+            getWidth() {
+                return $element.width();
+            }
+
         }
 
         return new Cell();
     };
+
+    controller.$inject = ['$element'];
 
     angular.module('app.ui')
         .component('wCell', {

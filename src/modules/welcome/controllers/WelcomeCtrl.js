@@ -3,10 +3,7 @@
 
     const PATH = 'modules/welcome/templates/';
 
-    /**
-     * @param {WelcomeService} service
-     */
-    const controller = function ($state, apiWorker, user) {
+    const controller = function ($state, apiWorker, user, $timeout) {
 
         class WelcomeCtrl {
 
@@ -21,14 +18,16 @@
             constructor() {
                 this.activeUser = 0;
                 this.password = '';
-                user.getUserList().then((list) => {
-                    if (list.length) {
-                        this.userList = list;
-                        this.pageUrl = `${PATH}/userList.html`;
-                    } else {
-                        this.pageUrl = `${PATH}/welcomeNewUser.html`;
-                    }
-                });
+                this.loginForm = null;
+                user.getUserList()
+                    .then((list) => {
+                        if (list.length) {
+                            this.userList = list;
+                            this.pageUrl = `${PATH}/userList.html`;
+                        } else {
+                            this.pageUrl = `${PATH}/welcomeNewUser.html`;
+                        }
+                    });
             }
 
             getStarted() {
@@ -36,6 +35,7 @@
             }
 
             login() {
+                this.showPasswordError = false;
                 apiWorker.process((waves, data) => {
                     return waves.Seed.decryptSeedPhrase(data.encryptedSeed, data.password);
                 }, { password: this.password, encryptedSeed: this.encryptedSeed })
@@ -45,7 +45,8 @@
                             encryptedSeed: this.encryptedSeed
                         });
                     }, () => {
-                        console.error('Wrong password');
+                        this.password = '';
+                        this.showPasswordError = true;
                     });
             }
 
@@ -54,7 +55,8 @@
         return new WelcomeCtrl();
     };
 
-    controller.$inject = ['$state', 'apiWorker', 'user'];
+    controller.$inject = ['$state', 'apiWorker', 'user', '$timeout'];
 
-    angular.module('app.welcome').controller('WelcomeCtrl', controller);
+    angular.module('app.welcome')
+        .controller('WelcomeCtrl', controller);
 })();

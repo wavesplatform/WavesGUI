@@ -134,12 +134,12 @@
     "i18next": "^9.0.0",
     "i18next-browser-languagedetector": "^2.0.0",
     "i18next-xhr-backend": "^1.4.2",
-    "identicon": "^2.1.1",
+    "identity-img": "^1.0.0",
     "jquery": "^3.2.1",
     "n3-charts": "^2.0.28",
     "ng-i18next": "^1.0.5",
     "ts-api-validator": "0.0.7",
-    "ts-utils": "^4.2.1",
+    "ts-utils": "^4.3.0",
     "waves-api": "^0.7.1",
     "worker-wrapper": "^1.0.0"
   }

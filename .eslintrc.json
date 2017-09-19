@@ -5,7 +5,7 @@
     },
     "globals": {
         "WAVES_NETWORK_CONF": true,
-        "identicon": true,
+        "identityImg": true,
         "angular": true,
         "jQuery": true,
         "$": true,

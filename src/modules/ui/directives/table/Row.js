@@ -29,6 +29,15 @@
                 this.table.registerRow(this);
             }
 
+            /**
+             * @param {Cell} cell
+             */
+            registerCell(cell) {
+                const index = this.cells.length;
+                cell.setIndex(index);
+                this.cells.push(cell);
+            }
+
             select() {
                 if (this.selectValue != null) {
                     this.table.selected = this.selectValue;
