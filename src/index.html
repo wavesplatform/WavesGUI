@@ -594,6 +594,12 @@
           <div class="noDisp" ng-controller="walletDepositController as deposit" data-currency="ETH">
             <div id="deposit-eth-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
               <h2 class="sectionHeader">DEPOSIT: ETH</h2>
+              <div class="plate-warning">
+                <p><b>Do not deposit ETH from smart contracts!</b></p>
+                <p>Check if your wallet or exchange uses smart-contracts to withdraw ETH.<br/>
+                   We do not accept such transactions and can’t refund them.<br/>
+                   You will lose that money.</p>
+              </div>
               <p class="dialog-text">To deposit ETH to your Waves account, please send ETH to the address below.<br/>
                 The minimum amount of deposit is <span class="fontBold">{{deposit.eth.minimumAmount}} ETH</span>.</p>
               <p class="dialog-text">Please do not deposit ERC20 tokens! Only Ethereum is allowed.</p>
