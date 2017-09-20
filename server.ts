@@ -7,7 +7,7 @@ import { isPage, route } from './ts-scripts/utils';
 const connectionTypes = ['mainnet', 'testnet'];
 const buildTypes = ['dev', 'normal', 'min'];
 
-function createMyServer(localPath: string, port: number) {
+function createMyServer(port: number) {
     const app = connect();
 
     const connectionTypesHash = arrToHash(connectionTypes);
@@ -38,7 +38,7 @@ function createMyServer(localPath: string, port: number) {
     }
 }
 
-createMyServer('./dist/build', 8080);
+createMyServer(8080);
 
 function arrToHash(arr: Array<string>): Object {
     const result = Object.create(null);

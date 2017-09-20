@@ -2,7 +2,7 @@ import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
 import * as copy from 'gulp-copy';
-import {exec} from 'child_process';
+import { exec, execSync } from 'child_process';
 import { getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
 import { join } from 'path';
 import { copy as fsCopy, outputFile, readFile, readJSON, readJSONSync } from 'fs-extra';
@@ -210,7 +210,15 @@ task('eslint', function (done) {
 });
 
 task('less', function (done) {
-    run('sh', ['scripts/less.sh']).then(() => done());
+    Promise.all([
+        run('sh', ['scripts/less.sh']),
+    ]).then(() => {
+        getFilesFrom('./src', '.less').forEach((path) => {
+            console.log(`Compile less file ${path}`);
+            execSync(`node_modules/.bin/lessc ${path} ${path.replace('.less', '.css')}`);
+        });
+        done()
+    });
 });
 
 task('babel', ['concat-develop'], function () {
