@@ -124,23 +124,54 @@
         '$urlRouterProvider', '$stateProvider', '$locationProvider'
     ];
 
+    function loaderStop() {
+        const loader = $(document.querySelector('.app-loader'));
+        loader.fadeOut(500, () => {
+            loader.remove();
+        });
+    }
+
+    let percent = 0;
+    function progress(delta) {
+        const element = document.querySelector('.app-loader .progress');
+        percent += delta;
+        element.style.width = `${percent}%`;
+    }
+
+    progress(5);
+
     /**
      * @param $rootScope
      * @param {User} user
      * @constructor
      */
-    const AppRun = function ($rootScope, user, $state) {
+    const AppRun = function ($rootScope, user, $state, utils) {
+        progress(15);
 
         const activeClasses = [];
 
         identityImg.config({ rows: 8, cells: 8 });
 
-        i18next.on('initialized', () => {
-            const loader = $(document.querySelector('.app-loader'));
-            loader.fadeOut(500, () => {
-                loader.remove();
+        const langReady = new Promise((resolve) => {
+            i18next.on('initialized', () => {
+                progress(40);
+                resolve();
             });
         });
+
+        const imagesReady = fetch('/images-list.json')
+            .then(r => r.json())
+            .then((images) => {
+                return Promise.all(images.map((path) => {
+                    return utils.loadImage(path)
+                        .then(() => {
+                            progress(40 / images.length);
+                        });
+                }));
+            });
+
+        Promise.all([langReady, imagesReady])
+            .then(loaderStop);
 
         /**
          *
@@ -197,7 +228,7 @@
 
     };
 
-    AppRun.$inject = ['$rootScope', 'user', '$state'];
+    AppRun.$inject = ['$rootScope', 'user', '$state', 'utils'];
 
     app.config(AppConfig);
     app.run(AppRun);

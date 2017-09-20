@@ -152,6 +152,12 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
 
 export function route(connectionType, buildType) {
     return function (req, res) {
+        if (req.url === '/images-list.json') {
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify(getFilesFrom('src/img', '.svg')));
+            return null;
+        }
+
         if (isPage(req.url)) {
             if (buildType === 'dev') {
                 return prepareHTML({

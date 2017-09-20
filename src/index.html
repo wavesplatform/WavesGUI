@@ -23,6 +23,16 @@
             align-items: center;
         }
 
+        .app-loader .progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: #0065D7;
+            transition: width 0.3s;
+        }
+
         .loader {
             background-image: url('/img/waves.svg');
             background-size: 100% 100%;
@@ -99,6 +109,7 @@
 <body>
 
 <div class="app-loader">
+    <div class="progress"></div>
     <div class="loader"></div>
 </div>
 
