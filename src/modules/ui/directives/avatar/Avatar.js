@@ -38,7 +38,7 @@
                 }
                 if (this.address) {
                     $q((resolve) => {
-                        resolve(identityImg.create(this.address, { size: this.size }));
+                        resolve(identityImg.create(this.address, { size: this.size * 3 }));
                     })
                         .then((data) => {
                             this.src = data;

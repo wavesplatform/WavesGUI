@@ -1,0 +1,51 @@
+.wallet {
+
+  w-navigation a {
+
+    &::before {
+      content: '';
+      width: 22pt;
+      height: 16pt;
+      display: inline-block;
+      background-size: 100% 100%;
+      position: relative;
+      top: 2pt;
+      margin-right: 7pt;
+    }
+
+    &.assets::before {
+      background-image: url(/img/icons/assets.svg);
+    }
+    &.assets.active::before {
+      background-image: url(/img/icons/assets-active.svg);
+    }
+
+    &.portfolio::before {
+      background-image: url(/img/icons/portfolio.svg);
+    }
+    &.portfolio.active::before {
+      background-image: url(/img/icons/portfolio-active.svg);
+    }
+
+    &.transfers::before {
+      background-image: url(/img/icons/transfers.svg);
+    }
+    &.transfers.active::before {
+      background-image: url(/img/icons/transfers-active.svg);
+    }
+
+    &.transactions::before {
+      background-image: url(/img/icons/transactions.svg);
+    }
+    &.transactions.active::before {
+      background-image: url(/img/icons/transactions-active.svg);
+    }
+
+    &.leasing::before {
+      background-image: url(/img/icons/leasing.svg);
+    }
+    &.leasing.active::before {
+      background-image: url(/img/icons/leasing-active.svg);
+    }
+  }
+}
