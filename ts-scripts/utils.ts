@@ -1,4 +1,5 @@
 import * as gulp from 'gulp';
+import { getType } from 'mime';
 import { exec, spawn } from 'child_process';
 import { readdirSync, statSync } from 'fs';
 import { join, relative } from 'path';
@@ -150,7 +151,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
 }
 
 export function route(connectionType, buildType) {
-    return function (req, res, next) {
+    return function (req, res) {
         if (isPage(req.url)) {
             if (buildType === 'dev') {
                 return prepareHTML({
@@ -184,7 +185,7 @@ export function route(connectionType, buildType) {
             res.setHeader('Content-Type', 'application/json');
             mock(req, res);
         } else {
-            next();
+            routeStatic(req, res);
         }
     }
 }
@@ -204,6 +205,32 @@ export function isPage(url: string): boolean {
     return !staticPathPartial.some((path) => {
         return url.includes(`/${path}/`);
     });
+}
+
+function routeStatic(req, res) {
+    const ROOTS = [
+        join(__dirname, '..'),
+        join(__dirname, '../src')
+    ];
+    const contentType = getType(req.url);
+
+    const check = (root: string) => {
+        const path = join(root, req.url);
+        readFile(path).then((file: Buffer) => {
+            res.writeHead(200, { 'Content-Type': contentType });
+            res.end(file);
+        })
+            .catch(() => {
+                if (ROOTS.length) {
+                    check(ROOTS.pop());
+                } else {
+                    res.writeHead(404, null);
+                    res.end('404 Not found!');
+                }
+            });
+    };
+
+    check(ROOTS.pop());
 }
 
 export interface IRouteOptions {

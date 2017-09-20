@@ -1,7 +1,6 @@
 import * as connect from 'connect';
 import { createServer } from 'http';
 import { join } from 'path';
-import * as serveStatic from 'serve-static';
 import { isPage, route } from './ts-scripts/utils';
 
 
@@ -14,24 +13,15 @@ function createMyServer(localPath: string, port: number) {
     const connectionTypesHash = arrToHash(connectionTypes);
     const buildTypesHash = arrToHash(buildTypes);
 
-    app.use(function (req, res, next) {
+    app.use(function (req, res) {
         const parsed = parseDomain(req.headers.host);
         if (!parsed) {
             res.writeHead(302, { Location: 'http://testnet.dev.localhost:8080' });
             res.end();
         } else {
-            route(parsed.connectionType, parsed.buildType)(req, res, next);
+            route(parsed.connectionType, parsed.buildType)(req, res);
         }
     });
-
-    connectionTypes.forEach((connectionType) => {
-        buildTypes.forEach((buildType) => {
-            app.use(serveStatic(`dist/build/${connectionType}/${buildType}`));
-        });
-    });
-
-    app.use(serveStatic(__dirname));
-    app.use(serveStatic(join(__dirname, 'src')));
 
     createServer(app).listen(port);
     console.log(`Run server on port ${port}`);
