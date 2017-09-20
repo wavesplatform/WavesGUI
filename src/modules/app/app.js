@@ -133,6 +133,8 @@
 
         const activeClasses = [];
 
+        identityImg.config({ rows: 8, cells: 8 });
+
         i18next.on('initialized', () => {
             const loader = $(document.querySelector('.app-loader'));
             loader.fadeOut(500, () => {
@@ -163,16 +165,17 @@
         $rootScope.$on('$stateChangeSuccess', onChangeStateSuccess);
 
         const stop = $rootScope.$on('$stateChangeSuccess', (event, state, params) => {
+            const START_STATES = ['welcome', 'get_started'];
             // ****************************************************************************************
             // REMOVE -- DEVELOP!!
             user.getUserList()
                 .then((list) => {
-                    if (list && list.length && state.name.indexOf('welcome') !== 0) {
+                    if (list && list.length && START_STATES.indexOf(state.name) === -1) {
                         user.addUserData(list[0]);
                     } else {
                         user.login()
                             .then(() => {
-                                if (state.name.indexOf('welcome') !== 0) {
+                                if (START_STATES.indexOf(state.name) === -1) {
                                     $state.go(state.name, params);
                                 } else {
                                     $state.go('main.wallet');

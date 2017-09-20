@@ -2,8 +2,8 @@
 
     <w-logo></w-logo>
 
-    <h2 class="title" w-i18n="newUser.title"></h2>
-    <p class="sub-title" w-i18n="newUser.subTitle"></p>
+    <h2 w-i18n="newUser.title"></h2>
+    <span class="" w-i18n="newUser.subTitle"></span>
 
     <div class="slider-wrapper center">
         <w-carousel interval="6000" id="slider-welcome-new-user">
@@ -14,19 +14,21 @@
         </w-carousel>
     </div>
 
-    <p w-i18n="newUser.beforeControl"></p>
+    <p class="" w-i18n="newUser.beforeControl"></p>
 
     <w-carousel-dots slider-id="slider-welcome-new-user"></w-carousel-dots>
 
-    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-        <md-button ng-click="$ctrl.getStarted()" class="md-raised md-primary">
-            <w-i18n>newUser.buttons.primary</w-i18n>
-        </md-button>
-    </section>
+    <md-button ng-click="$ctrl.getStarted()" class="md-raised md-primary">
+        <w-i18n>newUser.buttons.primary</w-i18n>
+    </md-button>
 
-    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-        <md-button ng-click="$ctrl.restoreBackup()">
-            <w-i18n>newUser.buttons.transparent</w-i18n>
-        </md-button>
-    </section>
+    <div class="or-wrap">
+        <hr class="or-line"/>
+        <span class="or" w-i18n="newUser.or"></span>
+        <hr class="or-line"/>
+    </div>
+
+    <md-button ng-click="$ctrl.restoreBackup()">
+        <w-i18n>newUser.buttons.transparent</w-i18n>
+    </md-button>
 </div>

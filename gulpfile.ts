@@ -1,9 +1,8 @@
 import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
-import * as uglify from 'gulp-uglify';
-import * as rename from 'gulp-rename';
 import * as copy from 'gulp-copy';
+import {exec} from 'child_process';
 import { getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
 import { join } from 'path';
 import { copy as fsCopy, outputFile, readFile, readJSON, readJSONSync } from 'fs-extra';
@@ -217,16 +216,26 @@ task('less', function (done) {
 task('babel', ['concat-develop'], function () {
     return gulp.src(bundlePath)
         .pipe(babel({
-            presets: ['es2015']
+            presets: ['es2015'],
+            plugins: [
+                'transform-decorators-legacy',
+                'transform-class-properties',
+                'transform-decorators',
+                'transform-object-rest-spread'
+            ]
         }))
         .pipe(gulp.dest(tmpJsPath));
 });
 
-task('uglify', ['babel'], function () {
-    return gulp.src(bundlePath)
-        .pipe(uglify())
-        .pipe(rename(getFileName(bundlePath, 'min')))
-        .pipe(gulp.dest('./'));
+task('uglify', ['babel'], function (done) {
+    //node_modules/.bin/uglifyjs ./dist/ts-utils.js -o ./dist/ts-utils.min.js
+    exec(`./node_modules/.bin/uglifyjs ${bundlePath} -o ./dist/tmp/js/${getFileName(bundleName, 'min')}`, (err, l1, l2) => {
+        if (err) {
+            console.log(err);
+        }
+
+        done();
+    });
 });
 
 task('s3-testnet', function () {

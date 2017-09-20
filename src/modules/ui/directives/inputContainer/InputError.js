@@ -21,10 +21,6 @@
                     && this.inputContainer.target.$error[this.message];
             }
 
-            $onChanges(data) {
-                console.log(data);
-            }
-
         }
 
         return new InputError();

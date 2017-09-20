@@ -3,15 +3,98 @@
 .get-started {
 
   .back {
+    width: 70px;
     position: absolute;
-    left: 100px;
-    top: 100px;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background-color: #fff;
     cursor: pointer;
+
+    &::before {
+      content: '';
+      background-image: url(/img/icons/left.svg);
+      background-size: 24px 20px;
+      display: block;
+      width: 24px;
+      height: 20px;
+      position: absolute;
+      left: 23px;
+      top: 29px;
+    }
   }
 
   .create-account {
     transform: translate3d(0, 0, 0);
     background-color: @color-lite-background;
+
+    .block-content {
+      padding: 30px;
+    }
+
+    .footer {
+      height: 100px;
+      width: 100%;
+      background-color: #FAFAFA;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    hr {
+      margin: 20px 0;
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 2px;
+    }
+    .light {
+      color: @color-lite-font;
+    }
+    .bold {
+      font-weight: bold;
+    }
+
+    .inputs-container {
+      margin-top: 15px;
+    }
+
+    .my-list {
+      display: flex;
+      flex-direction: row;
+
+      .count {
+        display: inline-block;
+        width: 37px;
+        height: 37px;
+        text-align: center;
+        line-height: 37px;
+        border-radius: 50%;
+        background-color: #333;
+        color: #fff;
+        margin-right: 10px;
+      }
+
+      .content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .avatar-block {
+          margin-top: 10px;
+
+          w-avatar {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 75px;
+            height: 75px;
+          }
+        }
+      }
+    }
 
     w-input-container, ng-transclude, input {
       width: 100%;
@@ -42,7 +125,6 @@
 
     .avatar-block {
       width: 88%;
-      margin: auto;
       display: flex;
       justify-content: space-around;
       align-items: center;
@@ -61,12 +143,11 @@
     }
 
     .block {
-      height: 599px;
       width: 565px;
       background-color: #FFFFFF;
       box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
-      padding: 30px;
       box-sizing: border-box;
+      position: relative;
     }
   }
 
@@ -77,5 +158,18 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  .do-later {
+    position: absolute;
+    right: 30px;
+    top: 42px;
+
+    .icon-close {
+      position: relative;
+      top: 3px;
+      width: 16px;
+      height: 16px;
+    }
   }
 }

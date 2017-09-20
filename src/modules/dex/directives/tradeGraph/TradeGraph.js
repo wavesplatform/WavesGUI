@@ -1,11 +1,28 @@
 (function () {
     'use strict';
 
-    const controller = function () {
+    /**
+     * @param Base
+     * @param utils
+     * @param {AssetsService} assetsService
+     * @return {TradeGraph}
+     */
+    const controller = function (Base, utils, assetsService) {
 
-        class TradeGraph {
+        class TradeGraph extends Base {
 
             constructor() {
+                super();
+
+                /**
+                 * @type {string}
+                 */
+                this.amountAssetId = null;
+                /**
+                 * @type {string}
+                 */
+                this.priceAssetId = null;
+
                 this.options = {
                     margin: {
                         left: -1,
@@ -19,42 +36,55 @@
                     },
                     series: [
                         {
-                            dataset: 'by',
-                            key: 'y',
+                            dataset: 'asks',
+                            key: 'amount',
                             label: 'An area series',
                             color: '#F27057',
-                            type: ['line', 'line', 'area']
+                            type: ['line', 'line', 'area'],
                         },
                         {
-                            dataset: 'sell',
-                            key: 'y',
+                            dataset: 'bids',
+                            key: 'amount',
                             label: 'An area series',
                             color: '#2B9F72',
-                            type: ['line', 'line', 'area']
+                            type: ['line', 'line', 'area'],
                         }
                     ],
                     axes: {
-                        x: { key: 'x', type: 'linear', ticks: 10 },
-                        y: { key: 'y', ticks: 4 }
+                        x: { key: 'price', type: 'linear' },
+                        y: { key: 'amount', ticks: 4 }
                     }
                 };
 
-                this.by = [];
-                this.sell = [];
-
                 this.data = {
-                    by: [],
-                    sell: []
+                    asks: [{ amount: 0, price: 0 }],
+                    bids: [{ amount: 0, price: 0 }]
                 };
+
+                this.observe(['amountAssetId', 'priceAssetId'], this._onChangeAssets);
             }
 
-            $onChanges(changes) {
-                if (changes.by || changes.sell) {
-                    this.data = {
-                        by: this.by.map((item) => ({ x: -item.price, y: item.size })),
-                        sell: this.by.map((item) => ({ x: item.price, y: item.size }))
-                    };
-                }
+            _onChangeAssets() {
+                const amountId = this.amountAssetId, priceId = this.priceAssetId;
+                Promise.all([
+                    assetsService.getAssetInfo(priceId),
+                    assetsService.getAssetInfo(amountId)
+                ])
+                    .then((data) => {
+                        const [priceAsset, amountAsset] = data;
+                        utils.when(fetch(`${WavesApp.network.matcher}/matcher/orderbook/${amountId}/${priceId}`)
+                            .then(r => r.json()))
+                            .then((data) => {
+                                console.log(data);
+                                const mapCallback = function (item) {
+                                    item.price = item.price / (10 ** priceAsset.precision);
+                                    item.amount = item.amount / (10 ** amountAsset.precision);
+                                    return item;
+                                };
+                                this.data.asks = data.asks.map(mapCallback);
+                                this.data.bids = data.bids.map(mapCallback);
+                            });
+                    });
             }
 
         }
@@ -62,13 +92,13 @@
         return new TradeGraph();
     };
 
-    controller.$inject = [];
+    controller.$inject = ['Base', 'utils', 'assetsService'];
 
     angular.module('app.dex')
         .component('wDexTradeGraph', {
             bindings: {
-                sell: '<',
-                by: '<'
+                amountAssetId: '<',
+                priceAssetId: '<'
             },
             templateUrl: '/modules/dex/directives/tradeGraph/tradeGraph.html',
             controller

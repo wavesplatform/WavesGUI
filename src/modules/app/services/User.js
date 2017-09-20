@@ -59,25 +59,6 @@
             }
 
             /**
-             * @param {Object} data
-             * @param {string} data.address
-             * @param {string} data.encryptedSeed
-             */
-            setUserData(data) {
-                Object.keys(data)
-                    .forEach((key) => {
-                        this[key] = data[key];
-                    });
-
-                this._check();
-
-                return this._save()
-                    .catch((e) => {
-                        console.log(e);
-                    });
-            }
-
-            /**
              * @param {string} name
              * @return {Promise}
              */
@@ -117,7 +98,9 @@
              * @return {Promise}
              */
             login() {
-                $state.go('welcome');
+                if ($state.$current.name !== 'get_started') {
+                    $state.go('welcome');
+                }
                 return this._dfr.promise;
             }
 

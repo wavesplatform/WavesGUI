@@ -3,6 +3,7 @@
     "title": "You control your Waves",
     "subTitle": "This app stores your Waves with cutting-edge security.",
     "beforeControl": "Not even Waves Team can access it.",
+    "or": "or",
     "buttons": {
       "primary": "Get Started",
       "transparent": "Restore from backup"
@@ -11,7 +12,6 @@
   "userList": {
     "title": "Login to your account",
     "subTitle": "Sign up for a free account below",
-    "or": "or",
     "placeholders": {
       "password": "Password"
     },

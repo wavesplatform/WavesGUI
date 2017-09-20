@@ -68,7 +68,7 @@
 
                             apiWorker.process(workerHandler, workerData)
                                 .then((encryptedSeed) => {
-                                    return user.setUserData({
+                                    return user.addUserData({
                                         address: this.address,
                                         encryptedSeed
                                     });

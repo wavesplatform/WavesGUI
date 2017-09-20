@@ -2,5 +2,11 @@
   "button": {
     "cancel": "Cancel",
     "continue": "Continue"
-  }
+  },
+  "inputs": {
+    "errors": {
+      "required": "This field is required!"
+    }
+  },
+  "back": "Back"
 }
