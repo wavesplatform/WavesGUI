@@ -31,6 +31,43 @@ input[type="text"], input[type="password"] {
   outline: none;
 }
 
+.left-menu {
+  padding-top: 10px;
+
+  w-navigation a {
+    width: 50px;
+    height: 50px;
+    display: block;
+    border-radius: 3px;
+    background-color: transparent;
+    margin: 5px auto;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    &.active {
+      background-color: #0065D7;
+    }
+
+    &.wallet {
+      background-image: url(/img/icons/wallet.svg);
+      background-size: 25px 24px;
+
+      &.active {
+        background-image: url(/img/icons/wallet-active.svg);
+      }
+    }
+
+    &.dex {
+      background-image: url(/img/icons/dex.svg);
+      background-size: 24px 16px;
+
+      &.active {
+        background-image: url(/img/icons/dex-active.svg);
+      }
+    }
+  }
+}
+
 w-scroll-box {
   display: flex;
   flex-direction: column;

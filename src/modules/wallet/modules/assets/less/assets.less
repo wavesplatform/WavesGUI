@@ -2,20 +2,31 @@
 
 .main.wallet.assets {
 
+  .assets-list {
+    width: calc(~"100% + " @padding-main-layout);
+    position: relative;
+    left: @padding-main-layout * -1 / 2;
+  }
+
   .add-asset {
     box-sizing: border-box;
     height: 182px;
     width: 336px;
     border: 1px solid #EAEAEA;
     background-color: #FFFFFF;
-    margin-right: @padding-main-layout;
-    margin-top: @padding-main-layout;
+    margin: @padding-main-layout /2;
     padding: @padding-main-layout * 2;
 
     .add-asset-btn {
       width: 100%;
       height: 100%;
       border: 1px dotted #eee;
+      cursor: pointer;
+
+      background-image: url(/img/icons/add-asset.svg);
+      background-size: 60px 60px;
+      background-position: center center;
+      background-repeat: no-repeat;
     }
   }
 

@@ -78,7 +78,7 @@
                             },
                             leftMenu: {
                                 controller: AppConfig.getCtrlName('walletLeftMenu'),
-                                templateUrl: AppConfig.getTemplateUrl('wallet', 'leftMenu')
+                                templateUrl: AppConfig.getTemplateUrl('app', 'leftMenu')
                             },
                             mainContent: {
                                 template: '<ui-view name="content"></ui-view>'
@@ -94,7 +94,7 @@
                             },
                             leftMenu: {
                                 controller: AppConfig.getCtrlName('dexLeftMenu'),
-                                templateUrl: AppConfig.getTemplateUrl('dex', 'leftMenu')
+                                templateUrl: AppConfig.getTemplateUrl('app', 'leftMenu')
                             },
                             mainContent: {
                                 controller: AppConfig.getCtrlName('dex'),
