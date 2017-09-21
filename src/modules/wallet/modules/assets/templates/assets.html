@@ -1,14 +1,16 @@
 <div w-i18n-ns="app.wallet.assets" class="chart-wrapper">
     <div class="chart-info left">
         Total $ {{$ctrl.total}}
-        <w-radio-wrap ng-model="$ctrl.mode">
+    </div>
+    <span class="chart-info right">
+        <w-radio-wrap class="split-mode" ng-model="$ctrl.mode">
+            <w-radio value="'hour'"><w-i18n>chart.intervals.hour</w-i18n></w-radio>
+            <w-radio value="'day'"><w-i18n>chart.intervals.day</w-i18n></w-radio>
             <w-radio value="'week'"><w-i18n>chart.intervals.week</w-i18n></w-radio>
             <w-radio value="'month'"><w-i18n>chart.intervals.month</w-i18n></w-radio>
             <w-radio value="'year'"><w-i18n>chart.intervals.year</w-i18n></w-radio>
+            <w-radio value="'all'"><w-i18n>chart.intervals.all</w-i18n></w-radio>
         </w-radio-wrap>
-    </div>
-    <span class="chart-info right">
-        <span w-date="$ctrl.startDate"></span> - <span w-date="$ctrl.endDate"></span>
     </span>
     <linechart ng-if="$ctrl.mode" options="$ctrl.options" data="$ctrl.data"></linechart>
 </div>

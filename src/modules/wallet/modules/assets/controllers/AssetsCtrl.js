@@ -116,6 +116,16 @@
              */
             _onChangeMode() {
                 switch (this.mode) {
+                    case 'hour':
+                        this.startDate = utils.moment()
+                            .add
+                            .hour(-1);
+                        break;
+                    case 'day':
+                        this.startDate = utils.moment()
+                            .add
+                            .day(-1);
+                        break;
                     case 'week':
                         this.startDate = utils.moment()
                             .add

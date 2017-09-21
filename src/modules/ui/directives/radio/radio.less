@@ -1,4 +1,5 @@
 @import (reference) '../../../app/less/app';
+@import (reference) '../../../app/less/typography';
 
 w-radio {
   input {
@@ -8,5 +9,20 @@ w-radio {
 
   input:checked ~ label.btn.btn-radio {
     .btn-wrap.btn-group .btn-active();
+  }
+}
+
+w-radio-wrap.split-mode {
+  .btn-wrap.btn-group label.btn {
+    border: none;
+    color: #7995B9;
+    .foot-node();
+  }
+
+  .btn-wrap.btn-group input:checked ~ label.btn.btn-radio {
+    color: #0065D7;
+    border: 1px solid #D6D6DF;
+    border-radius: 3px;
+    background-color: transparent;
   }
 }

@@ -25,7 +25,7 @@
                 return {
                     margin: {
                         left: -1,
-                        top: 20,
+                        top: 60,
                         right: -1
                     },
                     grid: {
@@ -38,8 +38,7 @@
                             key: 'y',
                             label: 'An area series',
                             color: '#FFAF01',
-                            type: ['line', 'line', 'area'],
-                            interpolation: { mode: 'cardinal', tension: 0.7 }
+                            type: ['line', 'line', 'area']
                         }
                     ],
                     axes: {
