@@ -159,7 +159,7 @@
             });
         });
 
-        const imagesReady = fetch('/images-list.json')
+        const imagesReady = fetch('/img/images-list.json')
             .then(r => r.json())
             .then((images) => {
                 return Promise.all(images.map((path) => {
@@ -175,7 +175,7 @@
 
         /**
          *
-         * @param {Event} event
+         * @param {Event} EVENT
          * @param {Object} toState
          * @param {string} toState.name
          */
