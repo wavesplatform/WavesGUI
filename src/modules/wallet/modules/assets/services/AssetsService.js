@@ -46,7 +46,8 @@
                         x: {
                             key: 'x',
                             type: 'date',
-                            tickFormat: tsUtils.date('DD/MM')
+                            tickFormat: tsUtils.date('DD/MM'),
+                            ticks: 9
                         },
                         y: {
                             ticks: 4

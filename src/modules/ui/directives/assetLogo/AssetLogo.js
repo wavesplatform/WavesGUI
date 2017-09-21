@@ -4,19 +4,18 @@
     const ASSET_IMAGES_MAP = {
         [WavesApp.defaultAssets.Waves]: '/img/assets/waves.svg',
         [WavesApp.defaultAssets.BTC]: '/img/assets/bitcoin.svg',
-        [WavesApp.defaultAssets.ETH]: '/img/assets/ethereum.svg'
+        [WavesApp.defaultAssets.ETH]: '/img/assets/ethereum.svg',
+        [WavesApp.defaultAssets.EUR]: '/img/assets/euro.png',
+        [WavesApp.defaultAssets.USD]: '/img/assets/dollar.png'
     };
 
     const ASSET_CHARS_MAP = {
-        [WavesApp.defaultAssets.EUR]: '€',
-        [WavesApp.defaultAssets.USD]: '$'
+        // [WavesApp.defaultAssets.USD]: '$'
     };
 
     const COLORS_MAP = {
         'A': '#455A64',
-        'B': '#FF9933',
-        '€': '#029FE4',
-        '$': '#48B04C'
+        'B': '#FF9933'
     };
 
     const DEFAULT_COLOR = '#FF9933';
