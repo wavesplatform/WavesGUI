@@ -224,6 +224,7 @@ function routeStatic(req, res) {
     const check = (root: string) => {
         const path = join(root, req.url);
         readFile(path).then((file: Buffer) => {
+            res.setHeader('Cache-Control', 'public, max-age=31557600');
             res.writeHead(200, { 'Content-Type': contentType });
             res.end(file);
         })

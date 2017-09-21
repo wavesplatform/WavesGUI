@@ -10,7 +10,7 @@
         return origin.call(angular, ...args);
     };
 
-    const app = angular.module('app', [
+    angular.module('app', [
         'ngMaterial',
         'ngMessages',
         'ui.router',

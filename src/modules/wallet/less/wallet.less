@@ -2,49 +2,78 @@
 
   w-navigation a {
 
+    .size(@width, @height) {
+      width: @width;
+      height: @height;
+    }
+
     &::before {
-      width: 22pt;
-      height: 16pt;
+      content: '';
       display: inline-block;
       background-size: 100% 100%;
       position: relative;
-      top: 2pt;
-      margin-right: 7pt;
+      top: 2px;
+      margin-right: 7px;
     }
 
-    &.assets::before {
-      content: url(/img/wallet/assets.svg);
-    }
-    &.assets.active::before {
-      content: url(/img/wallet/assets-active.svg);
-    }
-
-    &.portfolio::before {
-      content: url(/img/wallet/portfolio.svg);
-    }
-    &.portfolio.active::before {
-      content: url(/img/wallet/portfolio-active.svg);
+    &.assets {
+      &::before {
+        .size(25px, 19px);
+      }
+      &::before {
+        background-image: url(/img/wallet/assets.svg);
+      }
+      &.active::before {
+        background-image: url(/img/wallet/assets-active.svg);
+      }
     }
 
-    &.transfers::before {
-      content: url(/img/wallet/transfers.svg);
-    }
-    &.transfers.active::before {
-      content: url(/img/wallet/transfers-active.svg);
-    }
-
-    &.transactions::before {
-      content: url(/img/wallet/transactions.svg);
-    }
-    &.transactions.active::before {
-      content: url(/img/wallet/transactions-active.svg);
+    &.portfolio {
+      &::before {
+        .size(22px, 20px);
+      }
+      &::before {
+        background-image: url(/img/wallet/portfolio.svg);
+      }
+      &.active::before {
+        background-image: url(/img/wallet/portfolio-active.svg);
+      }
     }
 
-    &.leasing::before {
-      content: url(/img/wallet/leasing.svg);
+    &.transfers {
+      &::before {
+        .size(22px, 22px);
+      }
+      &::before {
+        background-image: url(/img/wallet/transfers.svg);
+      }
+      &.active::before {
+        background-image: url(/img/wallet/transfers-active.svg);
+      }
     }
-    &.leasing.active::before {
-      content: url(/img/wallet/leasing-active.svg);
+
+    &.transactions {
+      &::before {
+        .size(22px, 22px);
+      }
+      &::before {
+        background-image: url(/img/wallet/transactions.svg);
+      }
+      &.active::before {
+        background-image: url(/img/wallet/transactions-active.svg);
+      }
+    }
+
+    &.leasing {
+      &::before {
+        .size(24px, 16px);
+      }
+      &::before {
+        background-image: url(/img/wallet/leasing.svg);
+      }
+      &.active::before {
+        background-image: url(/img/wallet/leasing-active.svg);
+      }
     }
   }
 }

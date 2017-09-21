@@ -1,28 +1,19 @@
 <div w-i18n-ns="app.wallet.assets">
-    <div class="settings">
-        <div class="setting-item" ng-click="$ctrl.onClick({event: $event, asset: $ctrl.asset, action: 'send'})">
-            <div class="setting-icon send">L</div>
-            <w-i18n>directives.asset.send</w-i18n>
-        </div>
-        <div class="setting-item" ng-click="$ctrl.onClick({event: $event, asset: $ctrl.asset, action: 'receive'})">
-            <div class="setting-icon receive">L</div>
-            <w-i18n>directives.asset.receive</w-i18n>
-        </div>
-    </div>
     <div class="name">
         <w-asset-logo asset-id="{{::$ctrl.asset.id}}" size="30"></w-asset-logo>
         {{::$ctrl.asset.name}}
     </div>
-    <div class="balance-title" w-i18n="directives.asset.balance"></div>
-    <div class="balance">
+    <div class="balance-title body-2" w-i18n="directives.asset.balance"></div>
+    <h2 class="balance">
         <w-balance balance="$ctrl.asset.balance" asset-id="{{::$ctrl.asset.id}}"></w-balance>
-    </div>
+    </h2>
     <hr>
     <div class="footer">
-        <div class="change-rate" ng-class="{growth: $ctrl.growth}">
-            {{$ctrl.rate}}
-        </div>
-        <div class="bid">BID {{$ctrl.asset.bid}}</div>
-        <div class="ask">ASK {{$ctrl.asset.ask}}</div>
+        <div class="send icon"
+             ng-click="$ctrl.onClick({event: $event, asset: $ctrl.asset, action: 'send'})"
+             w-i18n="directives.asset.send"></div>
+        <div class="receive icon"
+             ng-click="$ctrl.onClick({event: $event, asset: $ctrl.asset, action: 'receive'})"
+             w-i18n="directives.asset.receive"></div>
     </div>
 </div>
