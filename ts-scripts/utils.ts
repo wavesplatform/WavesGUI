@@ -154,7 +154,8 @@ export function route(connectionType, buildType) {
     return function (req, res) {
         if (req.url === '/img/images-list.json') {
             res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify(getFilesFrom(join(__dirname, '../src/img'), '.svg')));
+            const images = getFilesFrom(join(__dirname, '../src/img'), '.svg').map(moveTo(join(__dirname, '../src')));
+            res.end(JSON.stringify(images));
             return null;
         }
 

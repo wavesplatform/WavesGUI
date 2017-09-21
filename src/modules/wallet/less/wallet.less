@@ -3,7 +3,6 @@
   w-navigation a {
 
     &::before {
-      content: '';
       width: 22pt;
       height: 16pt;
       display: inline-block;
@@ -14,38 +13,38 @@
     }
 
     &.assets::before {
-      background-image: url(/img/icons/assets.svg);
+      content: url(/img/wallet/assets.svg);
     }
     &.assets.active::before {
-      background-image: url(/img/icons/assets-active.svg);
+      content: url(/img/wallet/assets-active.svg);
     }
 
     &.portfolio::before {
-      background-image: url(/img/icons/portfolio.svg);
+      content: url(/img/wallet/portfolio.svg);
     }
     &.portfolio.active::before {
-      background-image: url(/img/icons/portfolio-active.svg);
+      content: url(/img/wallet/portfolio-active.svg);
     }
 
     &.transfers::before {
-      background-image: url(/img/icons/transfers.svg);
+      content: url(/img/wallet/transfers.svg);
     }
     &.transfers.active::before {
-      background-image: url(/img/icons/transfers-active.svg);
+      content: url(/img/wallet/transfers-active.svg);
     }
 
     &.transactions::before {
-      background-image: url(/img/icons/transactions.svg);
+      content: url(/img/wallet/transactions.svg);
     }
     &.transactions.active::before {
-      background-image: url(/img/icons/transactions-active.svg);
+      content: url(/img/wallet/transactions-active.svg);
     }
 
     &.leasing::before {
-      background-image: url(/img/icons/leasing.svg);
+      content: url(/img/wallet/leasing.svg);
     }
     &.leasing.active::before {
-      background-image: url(/img/icons/leasing-active.svg);
+      content: url(/img/wallet/leasing-active.svg);
     }
   }
 }
