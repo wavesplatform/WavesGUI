@@ -19,6 +19,16 @@
                 this.data = { values: [{ x: 0, y: 0 }] };
                 this.options = assetsService.getGraphOptions();
 
+                const hours = tsUtils.date('hh:mm');
+                const dates = tsUtils.date('DD/MM');
+                this.options.axes.x.tickFormat = (date) => {
+                    if (this.mode === 'hour') {
+                        return hours(date);
+                    } else {
+                        return dates(date);
+                    }
+                };
+
                 this.syncSettings('wallet.assets.mode');
 
                 this.observe('mode', () => this._onChangeMode());

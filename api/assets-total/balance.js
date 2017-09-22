@@ -4,7 +4,7 @@ module.exports = function (req, res) {
     const values = [];
     const endDate = new Date();
     const startDate = new Date(endDate.getFullYear() - 1, endDate.getMonth(), endDate.getDate());
-    const steps = 10000;
+    const steps = 100000;
     const step = (endDate - startDate) / steps;
 
     let date = startDate.valueOf();

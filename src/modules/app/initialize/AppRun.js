@@ -26,7 +26,7 @@
         },
         stop() {
             const loader = $(this._root);
-            loader.fadeOut(500, () => {
+            loader.fadeOut(1000, () => {
                 loader.remove();
             });
         }
