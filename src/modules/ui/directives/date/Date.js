@@ -28,6 +28,11 @@
         'time-ago'
     ];
 
+    /**
+     * @param {$rootScope.Scope} $scope
+     * @param {JQuery} $element
+     * @returns {WDate}
+     */
     const controller = function ($scope, $element) {
 
         class WDate {

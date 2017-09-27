@@ -1,6 +1,14 @@
 (function () {
     'use strict';
 
+    /**
+     * @name app.defaultSetting
+     */
+
+    /**
+     * @param {app.utils} utils
+     * @returns {app.defaultSetting}
+     */
     const factory = function (utils) {
 
         class DefaultSettings {
@@ -66,6 +74,11 @@
         }
 
         return {
+            /**
+             * @name app.defaultSettings#create
+             * @param {object} settings
+             * @returns {DefaultSettings}
+             */
             create(settings) {
                 return new DefaultSettings(settings);
             }

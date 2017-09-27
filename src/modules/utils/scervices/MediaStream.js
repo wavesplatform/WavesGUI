@@ -1,6 +1,14 @@
 (function () {
     'use strict';
 
+    /**
+     * @name app.utils.mediaStream
+     */
+
+    /**
+     * @param $q
+     * @returns {app.utils.mediaStream}
+     */
     const factory = function ($q) {
 
         class MediaStream {
@@ -20,6 +28,10 @@
         }
 
         return {
+            /**
+             * @name app.utils.mediaStream#create
+             * @returns {Promise<MediaStream>}
+             */
             create() {
                 return $q((resolve, reject) => {
                     const handler = function (stream) {

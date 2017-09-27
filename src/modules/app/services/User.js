@@ -3,6 +3,9 @@
 
     /**
      * @param {Storage} storage
+     * @param {$q} $q
+     * @param {*} $state
+     * @param {app.defaultSettings} defaultSettings
      * @returns {User}
      */
     const factory = function (storage, $q, $state, defaultSettings) {

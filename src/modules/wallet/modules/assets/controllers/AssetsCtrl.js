@@ -4,12 +4,12 @@
     /**
      * @param $timeout
      * @param {AssetsService} assetsService
-     * @param assetsData
-     * @param $scope
-     * @param utils
+     * @param {AssetsData} assetsData
+     * @param {$rootScope.Scope} $scope
+     * @param {app.utils} utils
      * @param $mdDialog
-     * @param Base
-     * @param user
+     * @param {Base} Base
+     * @param {User} user
      * @returns {Assets}
      */
     const controller = function ($timeout, assetsService, assetsData, $scope, utils, $mdDialog, Base, user) {

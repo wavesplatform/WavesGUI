@@ -1,6 +1,10 @@
 (function () {
     'use strict';
 
+    /**
+     * @param {JQuery} $element
+     * @returns {QrCode}
+     */
     const controller = function ($element) {
 
         class QrCode {

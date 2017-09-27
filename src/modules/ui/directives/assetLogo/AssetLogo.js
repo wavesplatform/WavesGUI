@@ -22,7 +22,7 @@
 
     /**
      * @param {JQuery} $element
-     * @param utils
+     * @param {app.utils} utils
      * @param {AssetsService} assetsService
      * @return {AssetLogo}
      */

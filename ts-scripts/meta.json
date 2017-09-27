@@ -33,8 +33,8 @@
   "configurations": {
     "testnet": {
       "code": "T",
-      "server": "http://52.30.47.67:6869",
-      "matcher": "http://52.30.47.67:6886",
+      "server": "https://testnet1.wavesnodes.com",
+      "matcher": "https://testnet1.wavesnodes.com",
       "coinomat": "https://test.coinomat.com",
       "datafeed": "https://marketdata.wavesplatform.com",
       "assets": {

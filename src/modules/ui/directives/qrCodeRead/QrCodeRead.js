@@ -1,6 +1,13 @@
 (function () {
     'use strict';
 
+    /**
+     * @param {Base} Base
+     * @param {JQuery} $element
+     * @param {app.utils.mediaStream} mediaStream
+     * @param {Poll} Poll
+     * @returns {QrCodeRead}
+     */
     const controller = function (Base, $element, mediaStream, Poll) {
 
         class QrCodeRead extends Base {

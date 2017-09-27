@@ -3,8 +3,17 @@
 
     const factory = function (utils) {
 
+        /**
+         * @name app.utils.decorators
+         */
 
         return {
+            /**
+             * @name app.utils.decorators#readonly
+             * @param target
+             * @param key
+             * @param descriptor
+             */
             readonly(target, key, descriptor) {
                 const origin = descriptor.value;
                 descriptor.value = function (...args) {
@@ -16,6 +25,12 @@
                     return result;
                 };
             },
+
+            /**
+             * @name app.utils.decorators#cachable
+             * @param time
+             * @returns {Function}
+             */
             cachable(time) {
                 return function (target, key, descriptor) {
                     const origin = descriptor.value;

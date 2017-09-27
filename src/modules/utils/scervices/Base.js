@@ -1,6 +1,11 @@
 (function () {
     'use strict';
 
+    /**
+     * @param {User} user
+     * @param $timeout
+     * @returns {Base}
+     */
     const factory = function (user, $timeout) {
 
         class Base {

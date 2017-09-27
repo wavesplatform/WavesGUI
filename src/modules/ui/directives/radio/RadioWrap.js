@@ -1,6 +1,10 @@
 (function () {
     'use strict';
 
+    /**
+     * @param {Base} Base
+     * @returns {RadioWrap}
+     */
     const controller = function (Base) {
 
         class RadioWrap extends Base {

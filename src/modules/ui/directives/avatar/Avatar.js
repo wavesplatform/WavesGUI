@@ -3,7 +3,7 @@
 
     /**
      *
-     * @param $scope
+     * @param $q
      * @returns {Avatar}
      */
     const controller = function ($q) {

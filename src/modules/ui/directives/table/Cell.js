@@ -1,6 +1,10 @@
 (function () {
     'use strict';
 
+    /**
+     * @param {JQuery} $element
+     * @returns {Cell}
+     */
     const controller = function ($element) {
 
         class Cell {

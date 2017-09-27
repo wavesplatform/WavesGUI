@@ -6,9 +6,11 @@
      * @param {AssetsService} assetsService
      * @param {Base} Base
      * @param {Poll} Poll
+     * @param {app.utils} utils
+     * @param {app.utils.decorators} decorators
      * @return {AssetSendCtrl}
      */
-    const controller = function ($mdDialog, assetsService, Base, Poll) {
+    const controller = function ($mdDialog, assetsService, Base, Poll, utils, decorators) {
 
         class AssetSendCtrl extends Base {
 
@@ -55,12 +57,23 @@
                 this.asset = asset;
             }
 
+            @decorators.cachable(1000)
+            _getRate(amountId, aliasId) {
+                return utils.when(4); // todo add request for get rate
+            }
+
             _onChangeAmount() {
-                this.aliasAmount = tsUtils.round(this.amount * 4, this.alias.precision);
+                this._getRate(this.asset.id, this.alias.id)
+                    .then((rate) => {
+                        this.aliasAmount = tsUtils.round(this.amount * rate, this.alias.precision);
+                    });
             }
 
             _onChangeAlias() {
-                this.amount = tsUtils.round(this.aliasAmount / 4, this.asset.precision);
+                this._getRate(this.asset.id, this.alias.id)
+                    .then((rate) => {
+                        this.amount = tsUtils.round(this.aliasAmount / rate, this.asset.precision);
+                    });
             }
 
         }
@@ -68,7 +81,7 @@
         return new AssetSendCtrl(this.asset, this.alias);
     };
 
-    controller.$inject = ['$mdDialog', 'assetsService', 'Base', 'Poll'];
+    controller.$inject = ['$mdDialog', 'assetsService', 'Base', 'Poll', 'utils', 'decorators'];
 
     angular.module('app.wallet.assets')
         .controller('AssetSendCtrl', controller);

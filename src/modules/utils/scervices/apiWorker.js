@@ -1,6 +1,14 @@
 (function () {
     'use strict';
 
+    /**
+     * @name app.utils.apiWorker
+     */
+
+    /**
+     * @param {app.utils} utils
+     * @returns {{process: process, terminate: terminate}}
+     */
     const factory = function (utils) {
 
 
@@ -19,16 +27,20 @@
         });
 
         return {
-            process: function (...args) {
-                return utils.when(worker.process.call(worker, ...args));
-            },
-            terminate: function () {
-                worker.terminate();
+            /**
+             * @name app.utils.apiWorker#process
+             * @param {Function} code
+             * @param {*} [data]
+             * @returns {*|Promise}
+             */
+            process: function (code, data) {
+                return utils.when(worker.process(code, data));
             }
         };
     };
 
     factory.$inject = ['utils'];
 
-    angular.module('app.utils').factory('apiWorker', factory);
+    angular.module('app.utils')
+        .factory('apiWorker', factory);
 })();

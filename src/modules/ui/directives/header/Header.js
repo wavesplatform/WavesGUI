@@ -2,7 +2,7 @@
     'use strict';
 
     /**
-     * @param $element
+     * @param {JQuery} $element
      * @param {User} user
      * @return {Header}
      */

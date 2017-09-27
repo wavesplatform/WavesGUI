@@ -1,6 +1,12 @@
 (function () {
     'use strict';
 
+    /**
+     * @param {JQuery} $element
+     * @param {$rootScope.Scope} $scope
+     * @param {Base} Base
+     * @returns {Radio}
+     */
     const controller = function ($element, $scope, Base) {
 
         class Radio extends Base {

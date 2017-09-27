@@ -1,6 +1,13 @@
 (function () {
     'use strict';
 
+    /**
+     *
+     * @param {JQuery} $element
+     * @param {Base} Base
+     * @param {StyleManager} StyleManager
+     * @returns {Table}
+     */
     const controller = function ($element, Base, StyleManager) {
 
         class Table extends Base {

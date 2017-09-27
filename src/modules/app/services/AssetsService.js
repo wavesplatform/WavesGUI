@@ -5,7 +5,7 @@
      * @param apiWorker
      * @param decorators
      * @param {User} user
-     * @param utils
+     * @param {app.utils} utils
      * @return {AssetsService}
      */
     const factory = function (apiWorker, decorators, user, utils) {

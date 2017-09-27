@@ -1,6 +1,10 @@
 (function () {
     'use strict';
 
+    /**
+     * @param {JQuery} $element
+     * @returns {InputContainer}
+     */
     const controller = function ($element) {
 
         class InputContainer {
