@@ -18,6 +18,8 @@
                  * @private
                  */
                 this.defaults = {
+                    encryptionRounds: 5000,
+                    aliasAsset: WavesApp.defaultAssets.USD,
                     wallet: {
                         assets: {
                             mode: 'week',

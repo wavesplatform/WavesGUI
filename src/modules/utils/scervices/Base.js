@@ -8,8 +8,10 @@
             /**
              * @param {string[]|string} keys
              * @param callback
+             * @param {Object} [options]
+             * @param {Function} [options.set]
              */
-            observe(keys, callback) {
+            observe(keys, callback, options = {}) {
                 if (!this._timersHash) {
                     this._timersHash = Object.create(null);
                 }
@@ -32,6 +34,7 @@
                     Object.defineProperty(this, key, {
                         get: () => this._props[key],
                         set: (value) => {
+                            value = options.set ? options.set(value) : value;
                             const previous = this._props[key];
                             if (value !== previous) {
                                 this._props[key] = value;

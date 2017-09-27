@@ -67,6 +67,11 @@
                     .then(() => tsUtils.cloneDeep(this._settings && this._settings.get(name)));
             }
 
+            getSettingByUser(user, name) {
+                const settings = defaultSettings.create(user.settings);
+                return settings.get(name);
+            }
+
             /**
              * @param {string} name
              * @param {*} value

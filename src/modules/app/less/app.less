@@ -17,10 +17,15 @@ md-input-container {
   transform: translate3d(0, 0, 0);
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], textarea {
   padding: 15px;
-  border-radius: 3px;
-  border: 1px solid #CCCCCC;
+  border-radius: @radius-inputs;
+  border: 1px solid @color-input-border-default;
+  width: 100%;
+
+  &:focus {
+    border-color: @color-input-border-focus;
+  }
 }
 
 * {
@@ -29,6 +34,14 @@ input[type="text"], input[type="password"] {
 
 *:focus {
   outline: none;
+}
+
+.close-icon {
+  background-image: url(/img/icons/close.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  min-width: 16px;
+  min-height: 16px;
 }
 
 .left-menu {

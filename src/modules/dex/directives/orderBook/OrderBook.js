@@ -3,8 +3,8 @@
 
     /**
      *
-     * @param utils
      * @param {AssetsService} assetsService
+     * @param {Base} Base
      * @return {OrderBook}
      */
     const controller = function (assetsService, Base) {

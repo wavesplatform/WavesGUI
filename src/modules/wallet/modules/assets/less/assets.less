@@ -119,4 +119,100 @@
 
   }
 
+  .modal-send {
+    width: 540px;
+
+    w-qr-code-read {
+      position: absolute;
+      height: 48px;
+      width: 48px;
+      right: 0;
+      bottom: 0;
+    }
+
+    textarea {
+      resize: vertical;
+      max-height: 250px;
+    }
+
+    .row {
+      margin-top: 20px;
+      position: relative;
+    }
+
+    .fake-input {
+      position: relative;
+      padding: 0 15px;
+      height: 47px;
+      border-radius: @radius-inputs;
+      border: 1px solid @color-input-border-default;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      w-asset-logo {
+        margin-right: 10px;
+      }
+
+      w-balance {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+    .amount-wrap {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .amount-modal-icon {
+      background-image: url(/img/icons/amount-modal-icon.svg);
+      background-size: 100% 100%;
+      width: 24px;
+      height: 20px;
+    }
+
+    .input-wrap {
+      width: 208px;
+      position: relative;
+
+      .currency {
+        text-transform: uppercase;
+        color: @color-lite-font;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 15px;
+      }
+
+      .send-all {
+        cursor: pointer;
+        background-color: #fff;
+        font-size: 13px;
+        border: 1px solid @color-input-border-focus;
+        border-radius: @radius-inputs;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 15px;
+        padding: 8px 12px;
+      }
+    }
+
+    md-dialog-content {
+      padding: 0 40px;
+    }
+
+    .modal-content {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+  }
+
 }

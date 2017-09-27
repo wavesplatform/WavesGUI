@@ -14,11 +14,28 @@
                  * @type {string}
                  */
                 this.message = null;
+                /**
+                 * @type {string}
+                 */
+                this.name = null;
             }
 
             canShow() {
-                return (this.inputContainer.form.$submitted || this.inputContainer.target.$touched)
-                    && this.inputContainer.target.$error[this.message];
+                return (this.inputContainer.form.$submitted || this._isTouched()) && this._hasError();
+            }
+
+            _isTouched() {
+                return this.name != null ? this.inputContainer.form[this.name].$touched :
+                    this._getTarget().some((item) => item.$touched);
+            }
+
+            _hasError() {
+                return this.name != null ? this.inputContainer.form[this.name].$error[this.message] :
+                    this._getTarget().some((item) => item.$error[this.message]);
+            }
+
+            _getTarget() {
+                return this.inputContainer.target.filter((item) => item.$$element.get(0) !== document.activeElement);
             }
 
         }
@@ -35,7 +52,8 @@
                 inputContainer: '^wInputContainer'
             },
             bindings: {
-                message: '@'
+                message: '@',
+                name: '@'
             },
             template: '<div class="error" ng-class="{active: $ctrl.canShow()}"' +
             ' ng-transclude></div>',

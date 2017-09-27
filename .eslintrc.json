@@ -33,6 +33,7 @@
         "i18nextXHRBackend": true,
         "i18nextBrowserLanguageDetector": true,
         "QRCode": true,
+        "QrCode": true,
         "tsApiValidator": true
     },
     "extends": "eslint:recommended",
@@ -293,10 +294,6 @@
             {
                 "allowMultiplePropertiesPerLine": true
             }
-        ],
-        "object-shorthand": [
-            "error",
-            "consistent-as-needed"
         ],
         "one-var": "off",
         "one-var-declaration-per-line": "off",

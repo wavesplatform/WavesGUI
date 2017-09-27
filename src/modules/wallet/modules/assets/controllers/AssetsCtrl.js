@@ -1,7 +1,18 @@
 (function () {
     'use strict';
 
-    const controller = function ($timeout, assetsService, $scope, utils, $mdDialog, Base) {
+    /**
+     * @param $timeout
+     * @param {AssetsService} assetsService
+     * @param assetsData
+     * @param $scope
+     * @param utils
+     * @param $mdDialog
+     * @param Base
+     * @param user
+     * @returns {Assets}
+     */
+    const controller = function ($timeout, assetsService, assetsData, $scope, utils, $mdDialog, Base, user) {
 
         const UPDATE_INTERVAL = 2000;
 
@@ -17,7 +28,7 @@
                 this.total = null;
 
                 this.data = { values: [{ x: 0, y: 0 }] };
-                this.options = assetsService.getGraphOptions();
+                this.options = assetsData.getGraphOptions();
 
                 const hours = tsUtils.date('hh:mm');
                 const dates = tsUtils.date('DD/MM');
@@ -61,7 +72,7 @@
              * @private
              */
             _addAssets() {
-                assetsService.getAssets()
+                assetsData.getAssets()
                     .then((assets) => {
                         this.assets = assets;
                         this.total = assets.reduce((result, item) => {
@@ -75,14 +86,18 @@
              * @private
              */
             _showSendModal(asset) {
-                $mdDialog.show({
-                    clickOutsideToClose: true,
-                    escapeToClose: true,
-                    locals: { asset },
-                    bindToController: true,
-                    templateUrl: '/modules/wallet/modules/assets/templates/send.modal.html',
-                    controller: 'AssetSendCtrl as $ctrl'
-                });
+                user.getSetting('aliasAsset')
+                    .then(assetsService.getBalance)
+                    .then((alias) => {
+                        $mdDialog.show({
+                            clickOutsideToClose: true,
+                            escapeToClose: true,
+                            locals: { asset, alias },
+                            bindToController: true,
+                            templateUrl: '/modules/wallet/modules/assets/templates/send.modal.html',
+                            controller: 'AssetSendCtrl as $ctrl'
+                        });
+                    });
             }
 
             /**
@@ -114,7 +129,7 @@
              * @private
              */
             _onChangeInterval() {
-                assetsService.getGraphData(this.startDate, this.endDate)
+                assetsData.getGraphData(this.startDate, this.endDate)
                     .then((values) => {
                         this.data = { values };
                         $scope.$apply();
@@ -160,7 +175,7 @@
         return new Assets();
     };
 
-    controller.$inject = ['$timeout', 'wallet.assetsService', '$scope', 'utils', '$mdDialog', 'Base', '$scope'];
+    controller.$inject = ['$timeout', 'assetsService', 'assetsData', '$scope', 'utils', '$mdDialog', 'Base', 'user'];
 
     angular.module('app.wallet.assets')
         .controller('AssetsCtrl', controller);

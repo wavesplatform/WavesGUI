@@ -1,33 +1,30 @@
-import * as connect from 'connect';
-import { createServer } from 'http';
-import { join } from 'path';
-import { isPage, route } from './ts-scripts/utils';
+import { createServer } from 'https';
+import { route } from './ts-scripts/utils';
+import { readFileSync } from 'fs';
 
 
 const connectionTypes = ['mainnet', 'testnet'];
 const buildTypes = ['dev', 'normal', 'min'];
 
-function createMyServer(port: number) {
-    const app = connect();
+const privateKey = readFileSync('privatekey.pem').toString();
+const certificate = readFileSync('certificate.pem').toString();
+
+function createMyServer(port) {
 
     const connectionTypesHash = arrToHash(connectionTypes);
     const buildTypesHash = arrToHash(buildTypes);
-
-    app.use(function (req, res) {
+    const handler = function (req, res) {
         const parsed = parseDomain(req.headers.host);
         if (!parsed) {
-            res.writeHead(302, { Location: 'http://testnet.dev.localhost:8080' });
+            res.writeHead(302, { Location: 'https://testnet.dev.localhost' });
             res.end();
         } else {
             route(parsed.connectionType, parsed.buildType)(req, res);
         }
-    });
-
-    createServer(app).listen(port);
-    console.log(`Run server on port ${port}`);
+    };
 
     function parseDomain(host: string): { connectionType: string, buildType: string } {
-        const toParse = host.replace('localhost:8080', '');
+        const toParse = host.replace('localhost', '');
         const [connectionType, buildType] = toParse.split('.');
 
         if (!connectionType || !buildType || !buildTypesHash[buildType] || !connectionTypesHash[connectionType]) {
@@ -36,6 +33,11 @@ function createMyServer(port: number) {
 
         return { buildType, connectionType };
     }
+
+    const server = createServer({ key: privateKey, cert: certificate });
+    server.addListener('request', handler);
+    server.listen(port);
+    console.log(`Listen port ${port}...`);
 }
 
 createMyServer(8080);

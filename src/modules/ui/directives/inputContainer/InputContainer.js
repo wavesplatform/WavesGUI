@@ -7,7 +7,7 @@
 
             constructor() {
                 /**
-                 * @type {{$touched: boolean, $error: *}}
+                 * @type {{$touched: boolean, $error: *, $$element: JQuery}[]}
                  */
                 this.target = null;
                 /**
@@ -15,14 +15,17 @@
                  */
                 this.form = null;
                 /**
-                 * @type {JQuery}
+                 * @type {Array<HTMLInputElement>}
                  */
-                this.$input = null;
+                this.inputs = null;
             }
 
             $postLink() {
-                this.$input = $element.find('input');
-                this.target = this.form[this.$input.attr('name')];
+                this.inputs = $element.find('input')
+                    .toArray();
+                this.target = this.inputs.map((input) => {
+                    return this.form[input.getAttribute('name')];
+                });
             }
 
         }

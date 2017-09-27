@@ -36,9 +36,10 @@
 
             login() {
                 this.showPasswordError = false;
+                const encryptionRounds = user.getSettingByUser(this.userList[this.activeUser], 'encryptionRounds');
                 apiWorker.process((waves, data) => {
-                    return waves.Seed.decryptSeedPhrase(data.encryptedSeed, data.password);
-                }, { password: this.password, encryptedSeed: this.encryptedSeed })
+                    return waves.Seed.decryptSeedPhrase(data.encryptedSeed, data.password, data.encryptionRounds);
+                }, { password: this.password, encryptedSeed: this.encryptedSeed, encryptionRounds })
                     .then(() => {
                         user.addUserData({
                             address: this.address,

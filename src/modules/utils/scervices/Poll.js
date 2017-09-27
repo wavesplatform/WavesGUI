@@ -5,6 +5,11 @@
 
         class Poll {
 
+            /**
+             * @param {Function} getData
+             * @param {Function} applyData
+             * @param {number} time
+             */
             constructor(getData, applyData, time) {
                 /**
                  * @private

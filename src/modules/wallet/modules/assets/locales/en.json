@@ -24,7 +24,15 @@
       "ok": "Show Address"
     },
     "send": {
-      "title": "Send {{assetName}}"
+      "title": "Send {{assetName}}",
+      "recepient": "Recepient",
+      "sendMax": "Send Max",
+      "withdraw": "Withdraw From",
+      "amount": "Amount",
+      "description": "Description",
+      "descriptionPlaceholder": "Write an optional message",
+      "fee": "Network Fee",
+      "total": "Total"
     }
   }
 }

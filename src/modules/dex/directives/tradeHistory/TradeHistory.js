@@ -3,13 +3,13 @@
 
     /**
      * @param {Base} Base
-     * @param $scope
+     * @param {Scope} $scope
      * @param {Poll} Poll
      * @param {AssetsService} assetsService
      * @param {DataFeed} dataFeed
      * @return {TradeHistory}
      */
-    const controller = function (Base, $scope, Poll, assetsService, dataFeed, i18n) {
+    const controller = function (Base, $scope, Poll, assetsService, dataFeed) {
 
         class TradeHistory extends Base {
 

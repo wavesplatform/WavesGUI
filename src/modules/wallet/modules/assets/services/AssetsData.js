@@ -6,11 +6,11 @@
      * @param decorators
      * @param apiWorker
      * @param {AssetsService} assetsService
-     * @return {AssetsService}
+     * @return {AssetsData}
      */
     const factory = function (user, decorators, apiWorker, assetsService) {
 
-        class AssetsService {
+        class AssetsData {
 
             getAssets() {
                 return user.getSetting('wallet.assets.assetList')
@@ -72,11 +72,11 @@
 
         }
 
-        return new AssetsService();
+        return new AssetsData();
     };
 
     factory.$inject = ['user', 'decorators', 'apiWorker', 'assetsService'];
 
     angular.module('app.wallet.assets')
-        .factory('wallet.assetsService', factory);
+        .factory('assetsData', factory);
 })();

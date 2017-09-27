@@ -2,10 +2,12 @@
     'use strict';
 
     /**
+     * @name app.utils
+     */
+
+    /**
      * @param $q
-     * @param $timeout
-     * @param {User} user
-     * @return {*}
+     * @return {app.utils}
      */
     const factory = function ($q) {
 
@@ -74,6 +76,42 @@
                         return this;
                     }
                 };
+
+                this.startOf = {
+                    second: () => {
+                        const [y, m, d, h, mm, s] = this._getParts();
+                        this._date = new Date(y, m, d, h, mm, s);
+                        return this;
+                    },
+
+                    minute: () => {
+                        const [y, m, d, h, mm, s] = this._getParts();
+                        this._date = new Date(y, m, d, h, mm);
+                        return this;
+                    },
+
+                    hour: () => {
+                        const [y, m, d, h] = this._getParts();
+                        this._date = new Date(y, m, d, h);
+                        return this;
+                    },
+
+                    day: () => {
+                        const [y, m, d] = this._getParts();
+                        this._date = new Date(y, m, d);
+                        return this;
+                    },
+
+                    month: () => {
+                        this._date = new Date(this._date.getFullYear(), this._date.getMonth());
+                        return this;
+                    },
+
+                    year: () => {
+                        this._date = new Date(this._date.getFullYear());
+                        return this;
+                    }
+                };
             }
 
             /**
@@ -112,6 +150,10 @@
                 return this._date;
             }
 
+            /**
+             * @returns {number[]}
+             * @private
+             */
             _getParts() {
                 return [
                     this._date.getFullYear(),
@@ -126,9 +168,10 @@
 
         }
 
-        return {
+        const utils = {
 
             /**
+             * @name app.utils#when
              * @param {*} data
              * @return {Promise}
              */
@@ -143,6 +186,7 @@
             },
 
             /**
+             * @name app.utils#isEqual
              * @param a
              * @param b
              * @return {boolean}
@@ -168,6 +212,7 @@
             },
 
             /**
+             * @name app.utils#bind
              * @param {object} target
              * @param {Array<string>|string} [keys]
              * @return {object}
@@ -195,6 +240,7 @@
             },
 
             /**
+             * @name app.utils#resolve
              * @param {{then: Function}} promiseLike
              * @return {Promise}
              */
@@ -208,6 +254,7 @@
             },
 
             /**
+             * @name app.utils#moment
              * @param {Date | number} [date]
              * @return {Moment}
              */
@@ -216,6 +263,7 @@
             },
 
             /**
+             * @name app.utils#loadImage
              * @param {string} url
              * @return {Promise}
              */
@@ -226,8 +274,34 @@
                     img.onerror = reject;
                     img.src = url;
                 });
+            },
+
+            /**
+             * @name app.utils#getNiceNumber
+             * @param num
+             * @param precision
+             * @returns {string}
+             */
+            getNiceNumber(num, precision) {
+                return utils.parseNiceNumber(num)
+                    .toLocaleString(i18next.language, {
+                        minimumFractionDigits: precision
+                    });
+            },
+
+            /**
+             * @name app.utils#parseNiceNumber
+             * @param data
+             * @returns {number}
+             */
+            parseNiceNumber(data) {
+                return Number(String(data)
+                    .replace(',', '.')
+                    .replace(/\s/g, '')) || 0;
             }
         };
+
+        return utils;
     };
 
     factory.$inject = ['$q', '$timeout'];
@@ -235,3 +309,4 @@
     angular.module('app.utils')
         .factory('utils', factory);
 })();
+
