@@ -27,7 +27,9 @@
                  */
                 this.defaults = {
                     encryptionRounds: 5000,
-                    aliasAsset: WavesApp.defaultAssets.USD,
+                    confirmPassword: true,
+                    baseAssetId: WavesApp.defaultAssets.USD,
+                    events: Object.create(null),
                     wallet: {
                         assets: {
                             mode: 'week',
@@ -52,7 +54,7 @@
             }
 
             get(path) {
-                return tsUtils.get(this.settings, path) || tsUtils.get(this.defaults, path);
+                return tsUtils.get(this.settings, path) || tsUtils.get(this.defaults, path) || Object.create(null);
             }
 
             set(path, value) {

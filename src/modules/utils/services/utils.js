@@ -186,6 +186,15 @@
             },
 
             /**
+             * @name app.utils#whenAll
+             * @param {Array<Promise>} promises
+             * @return {Promise}
+             */
+            whenAll(promises) {
+                return utils.when(Promise.all(promises));
+            },
+
+            /**
              * @name app.utils#isEqual
              * @param a
              * @param b
@@ -298,6 +307,15 @@
                 return Number(String(data)
                     .replace(',', '.')
                     .replace(/\s/g, '')) || 0;
+            },
+
+            /**
+             * @name app.utils#toArray
+             * @param {*} some
+             * @return {[*]}
+             */
+            toArray(some) {
+                return Array.isArray(some) ? some : [some];
             }
         };
 

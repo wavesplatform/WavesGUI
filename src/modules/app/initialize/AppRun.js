@@ -66,52 +66,53 @@
             }
 
             _initializeLogin() {
-                // DEVELOP_MODE -----------------------
+                // ****************************************************************************************
                 // TODO remove this code before release!
-                const stop = $rootScope.$on('$stateChangeSuccess', (event, state, params) => {
-                    const START_STATES = ['welcome', 'get_started'];
-                    user.getUserList()
-                        .then((list) => {
-                            if (list && list.length && START_STATES.indexOf(state.name) === -1) {
-                                user.addUserData(list[0]);
-                            } else {
-                                user.login()
-                                    .then(() => {
-                                        if (START_STATES.indexOf(state.name) === -1) {
-                                            $state.go(state.name, params);
-                                        } else {
-                                            $state.go('main.wallet');
-                                        }
-                                    });
-                            }
-                        });
-                    // REMOVE -- DEVELOP!!
-                    // ****************************************************************************************
-                    // user.login().then(() => {
-                    //     if (state.name.indexOf('welcome') !== 0) {
-                    //         $state.go(state.name, params);
-                    //     } else {
-                    //         $state.go('main.wallet');
-                    //     }
-                    // });
-                    stop();
-                });
+                // const stop = $rootScope.$on('$stateChangeSuccess', (event, state, params) => {
+                // const START_STATES = ['welcome', 'get_started'];
+                // user.getUserList()
+                //     .then((list) => {
+                //         if (list && list.length && START_STATES.indexOf(state.name) === -1) {
+                //             user.addUserData(list[0]);
+                //         } else {
+                //             user.login()
+                //                 .then(() => {
+                //                     if (START_STATES.indexOf(state.name) === -1) {
+                //                         $state.go(state.name, params);
+                //                     } else {
+                //                         $state.go('main.wallet');
+                //                     }
+                //                 });
+                //         }
+                //     });
+                // REMOVE -- DEVELOP!!
+                // stop();
+                // });
                 // END_DEVELOP_MODE
+                // ****************************************************************************************
 
                 // MAIN CODE
-                // TODO Uncomment this code before release!
-                // const START_STATES = ['welcome', 'get_started'];
-                // const stop = $rootScope.$on('$stateChangeSuccess', (event, state, params) => {
-                //     user.login()
-                //         .then(() => {
-                //             if (START_STATES.indexOf(state.name) === -1) {
-                //                 $state.go(state.name, params);
-                //             } else {
-                //                 $state.go('main.wallet');
-                //             }
-                //         });
-                //     stop();
-                // };
+                const START_STATES = ['welcome', 'get_started'];
+                const stop = $rootScope.$on('$stateChangeSuccess', (event, state, params) => {
+                    user.login()
+                        .then(() => {
+                            if (START_STATES.indexOf(state.name) === -1) {
+                                $state.go(state.name, params);
+                            } else {
+                                $state.go('main.wallet');
+                            }
+                        });
+                    stop();
+                });
+
+                $rootScope.$on('$stateChangeStart', (event, state) => {
+                    if (user.address) {
+                        if (START_STATES.indexOf(state.name) !== -1) {
+                            event.preventDefault();
+                            user.logout();
+                        }
+                    }
+                });
             }
 
             /**

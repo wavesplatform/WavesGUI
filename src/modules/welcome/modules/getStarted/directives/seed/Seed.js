@@ -227,7 +227,7 @@
                     } else {
                         options.complete = resolve;
                     }
-                    $element.stopWatch(true, true).animate(properties, options);
+                    $element.stop(true, true).animate(properties, options);
                 });
             }
 

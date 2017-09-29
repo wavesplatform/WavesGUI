@@ -2,43 +2,111 @@
     'use strict';
 
     /**
+     * @param $scope
      * @param $mdDialog
      * @param {AssetsService} assetsService
      * @param {Base} Base
      * @param {Poll} Poll
      * @param {app.utils} utils
-     * @param {app.utils.decorators} decorators
+     * @param {app.utils.apiWorker} apiWorker
+     * @param {User} user
+     * @param {EventManager} eventManager
      * @return {AssetSendCtrl}
      */
-    const controller = function ($mdDialog, assetsService, Base, Poll, utils, decorators) {
+    const controller = function ($scope, $mdDialog, assetsService, Base, Poll, utils, apiWorker, user, eventManager) {
 
         class AssetSendCtrl extends Base {
 
-            constructor(asset, alias) {
-                super();
-                this.asset = asset;
-                this.alias = alias;
+            /**
+             * @param {string} assetId
+             * @param {string} aliasId
+             */
+            constructor(assetId, aliasId) {
+                super($scope);
+                this.step = 'send';
+                /**
+                 * @type {string}
+                 */
+                this.assetId = assetId;
+
+                /**
+                 * @type {string}
+                 */
+                this.aliasId = aliasId;
+
                 this.recepient = '';
-                this.amount = 0;
-                this.aliasAmount = 0;
-                this.poll = new Poll(this._getAsset.bind(this), this._setAsset.bind(this), 1000);
+                this.polls.updateBalance = new Poll(this._getAsset.bind(this), this._setAsset.bind(this), 1000);
+                /**
+                 * @type {IFeeData}
+                 */
+                this.feeData = null;
 
                 this.observe('amount', this._onChangeAmount);
-                this.observe('aliasAmount', this._onChangeAlias);
+                this.observe('amountAlias', this._onChangeAlias);
 
-                assetsService.getBalance(this.asset.id)
+                this.ready = utils.when(Promise.all([
+                    assetsService.getAssetInfo(assetId),
+                    assetsService.getAssetInfo(aliasId),
+                    assetsService.getFeeSend()
+                ]))
                     .then((data) => {
-                        this.balance = data.balance;
+                        const [asset, alias, feeData] = data;
+                        this.amount = 0;
+                        this.amountAlias = 0;
+                        this.feeAlias = 0;
+                        this.asset = asset;
+                        this.alias = alias;
+                        this.feeData = feeData;
+
+                        this.fee = feeData.fee;
+                        this._getRate()
+                            .then((api) => {
+                                this.feeAlias = api.exchange(this.fee);
+                            });
                     });
             }
 
-            $onDestroy() {
-                super.$onDestroy();
-                this.poll.destroy();
+            send() {
+                if (this.step === 'send') {
+                    this.step = 'confirm';
+                } else {
+                    user.getSeed()
+                        .then((data) => {
+                            return apiWorker.process((WavesApi, data) => {
+                                return WavesApi.API.Node.v1.assets.transfer({
+                                    assetId: data.assetId,
+                                    recipient: data.recepient,
+                                    amount: data.amount
+                                }, data.keyPair);
+                            }, {
+                                assetId: this.assetId,
+                                recepient: this.recepient,
+                                keyPair: data.keyPair,
+                                amount: this.amount * Math.pow(10, this.asset.precision)
+                                    .toFixed(this.asset.precision)
+                            });
+                        })
+                        .then((data) => {
+                            eventManager.addEvent({
+                                type: eventManager.getAvailableEvents().transfer,
+                                data: {
+                                    id: data.id,
+                                    amount: { ...this.asset, balance: this.amount }
+                                }
+                            });
+                            $mdDialog.hide();
+                        });
+                }
             }
 
             sendAll() {
-                this.amount = this.asset.balance;
+                if (this.asset.id === this.feeData.id) {
+                    if (this.asset.balance >= this.fee) {
+                        this.amount = this.asset.balance - this.feeData.fee;
+                    }
+                } else {
+                    this.amount = this.asset.balance;
+                }
             }
 
             cancel() {
@@ -49,39 +117,70 @@
                 this.recepient = result;
             }
 
+            /**
+             * @returns {Promise.<IAssetWithBalance>}
+             * @private
+             */
             _getAsset() {
-                return assetsService.getBalance(this.asset.id);
+                return assetsService.getBalance(this.assetId);
             }
 
+            /**
+             * @param asset
+             * @private
+             */
             _setAsset(asset) {
                 this.asset = asset;
             }
 
-            @decorators.cachable(1000)
-            _getRate(amountId, aliasId) {
-                return utils.when(4); // todo add request for get rate
-            }
-
+            /**
+             * @private
+             */
             _onChangeAmount() {
-                this._getRate(this.asset.id, this.alias.id)
-                    .then((rate) => {
-                        this.aliasAmount = tsUtils.round(this.amount * rate, this.alias.precision);
+                this._getRate()
+                    .then((api) => {
+                        if (api.exchangeReverse(this.amountAlias) !== this.amount) {
+                            this.amountAlias = api.exchange(this.amount);
+                        }
                     });
             }
 
+            /**
+             * @private
+             */
             _onChangeAlias() {
-                this._getRate(this.asset.id, this.alias.id)
-                    .then((rate) => {
-                        this.amount = tsUtils.round(this.aliasAmount / rate, this.asset.precision);
+                this._getRate()
+                    .then((api) => {
+                        if (api.exchange(this.amount) !== this.amountAlias) {
+                            this.amount = this.exchangeReverse(this.amountAlias);
+                        }
                     });
+            }
+
+            /**
+             * @returns {Promise.<AssetsService.rateApi>}
+             * @private
+             */
+            _getRate() {
+                return assetsService.getRate(this.asset.id, this.alias.id);
             }
 
         }
 
-        return new AssetSendCtrl(this.asset, this.alias);
+        return new AssetSendCtrl(this.assetId, this.aliasId);
     };
 
-    controller.$inject = ['$mdDialog', 'assetsService', 'Base', 'Poll', 'utils', 'decorators'];
+    controller.$inject = [
+        '$scope',
+        '$mdDialog',
+        'assetsService',
+        'Base',
+        'Poll',
+        'utils',
+        'apiWorker',
+        'user',
+        'eventManager'
+    ];
 
     angular.module('app.wallet.assets')
         .controller('AssetSendCtrl', controller);

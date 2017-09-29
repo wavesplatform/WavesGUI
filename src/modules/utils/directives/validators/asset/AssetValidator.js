@@ -11,7 +11,7 @@
         return {
             require: 'ngModel',
             /**
-             * @param {Scope} $scope
+             * @param {$rootScope.Scope} $scope
              * @param {object} {JQuery} $input
              * @param $attrs
              * @param {ngModel.NgModelController} $ctrl
@@ -59,6 +59,11 @@
                             $ctrl.$setValidity('input-asset', isValid(modelValue, viewValue));
                             $ctrl.$setValidity('asset-required', hasValue(modelValue));
                         };
+
+                        $scope.$watch($attrs.ngModel, () => {
+                            const value = $input.val();
+                            validate(utils.parseNiceNumber(value), value);
+                        });
 
                         $ctrl.$parsers.unshift((value) => {
                             const parsed = utils.parseNiceNumber(value);

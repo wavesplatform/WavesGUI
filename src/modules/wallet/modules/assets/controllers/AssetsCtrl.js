@@ -2,7 +2,7 @@
     'use strict';
 
     /**
-     * @param $timeout
+     * @param {Poll} Poll
      * @param {AssetsService} assetsService
      * @param {AssetsData} assetsData
      * @param {$rootScope.Scope} $scope
@@ -10,18 +10,15 @@
      * @param $mdDialog
      * @param {Base} Base
      * @param {User} user
+     * @param {EventManager} eventManager
      * @returns {Assets}
      */
-    const controller = function ($timeout, assetsService, assetsData, $scope, utils, $mdDialog, Base, user) {
-
-        const UPDATE_INTERVAL = 2000;
+    const controller = function (Poll, assetsService, assetsData, $scope, utils, $mdDialog, Base, user, eventManager) {
 
         class Assets extends Base {
 
             constructor() {
-                super();
-
-                $scope.$on('$destroy', this.$onDestroy.bind(this));
+                super($scope);
 
                 this.mode = null;
                 this.assets = null;
@@ -29,6 +26,17 @@
 
                 this.data = { values: [{ x: 0, y: 0 }] };
                 this.options = assetsData.getGraphOptions();
+
+                this.polls.updateGraph = new Poll(
+                    this._getGraphData.bind(this),
+                    this._applyGraphData.bind(this),
+                    5000
+                );
+                this.polls.updateBalances = new Poll(
+                    this._getBalances.bind(this),
+                    this._applyBalances.bind(this),
+                    5000
+                );
 
                 const hours = tsUtils.date('hh:mm');
                 const dates = tsUtils.date('DD/MM');
@@ -40,20 +48,14 @@
                     }
                 };
 
+                this.receive(eventManager.signals.balanceEventEnd, () => {
+                    this.polls.updateBalances.restart();
+                });
+
                 this.syncSettings('wallet.assets.mode');
 
                 this.observe('mode', () => this._onChangeMode());
                 this.observe(['startDate', 'endDate'], () => this._onChangeInterval());
-
-                this._initializeTimeout();
-                this._addAssets();
-            }
-
-            $onDestroy() {
-                super.$onDestroy();
-                if (this.timer) {
-                    $timeout.cancel(this.timer);
-                }
             }
 
             onAssetClick(event, asset, action) {
@@ -65,20 +67,26 @@
                     case 'receive':
                         this._showReceiveModal(asset);
                         break;
+                    default:
+                        throw new Error('Wrong action');
                 }
             }
 
             /**
+             * @returns {Promise}
              * @private
              */
-            _addAssets() {
-                assetsData.getAssets()
-                    .then((assets) => {
-                        this.assets = assets;
-                        this.total = assets.reduce((result, item) => {
-                            return result + item.balance;
-                        }, 0);
-                    });
+            _getBalances() {
+                return user.getSetting('wallet.assets.assetList')
+                    .then((list) => utils.whenAll(list.map(assetsService.getBalance)));
+            }
+
+            /**
+             * @param balances
+             * @private
+             */
+            _applyBalances(balances) {
+                this.assets = balances;
             }
 
             /**
@@ -86,17 +94,21 @@
              * @private
              */
             _showSendModal(asset) {
-                user.getSetting('aliasAsset')
-                    .then(assetsService.getBalance)
-                    .then((alias) => {
+                user.getSetting('baseAssetId')
+                    .then((aliasId) => {
                         $mdDialog.show({
                             clickOutsideToClose: true,
                             escapeToClose: true,
-                            locals: { asset, alias },
+                            locals: { assetId: asset.id, aliasId },
                             bindToController: true,
                             templateUrl: '/modules/wallet/modules/assets/templates/send.modal.html',
-                            controller: 'AssetSendCtrl as $ctrl'
-                        });
+                            controller: 'AssetSendCtrl as $ctrl',
+                            autoWrap: false,
+                            multiple: true
+                        })
+                            .then(() => {
+                                this.polls.updateBalances.restart();
+                            });
                     });
             }
 
@@ -108,8 +120,8 @@
                 $mdDialog.show({
                     clickOutsideToClose: true,
                     escapeToClose: true,
-                    locals: { asset },
                     bindToController: true,
+                    locals: { asset },
                     templateUrl: '/modules/wallet/modules/assets/templates/receive.modal.html',
                     controller: 'AssetReceiveCtrl as $ctrl'
                 });
@@ -118,22 +130,24 @@
             /**
              * @private
              */
-            _initializeTimeout() {
-                this.timer = $timeout(() => {
-                    this._onChangeInterval();
-                    this._initializeTimeout();
-                }, UPDATE_INTERVAL);
+            _onChangeInterval() {
+                this.polls.updateGraph.restart();
             }
 
             /**
+             * @return {Promise}
              * @private
              */
-            _onChangeInterval() {
-                assetsData.getGraphData(this.startDate, this.endDate)
-                    .then((values) => {
-                        this.data = { values };
-                        $scope.$apply();
-                    });
+            _getGraphData() {
+                return assetsData.getGraphData(this.startDate, this.endDate);
+            }
+
+            /**
+             * @param values
+             * @private
+             */
+            _applyGraphData(values) {
+                this.data = { values };
             }
 
             /**
@@ -175,7 +189,17 @@
         return new Assets();
     };
 
-    controller.$inject = ['$timeout', 'assetsService', 'assetsData', '$scope', 'utils', '$mdDialog', 'Base', 'user'];
+    controller.$inject = [
+        'Poll',
+        'assetsService',
+        'assetsData',
+        '$scope',
+        'utils',
+        '$mdDialog',
+        'Base',
+        'user',
+        'eventManager'
+    ];
 
     angular.module('app.wallet.assets')
         .controller('AssetsCtrl', controller);

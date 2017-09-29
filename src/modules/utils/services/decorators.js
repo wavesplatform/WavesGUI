@@ -44,13 +44,17 @@
                             } else {
                                 cache[key] = Object.create(null);
                                 cache[key].value = origin.call(this, ...args);
-                                if (cache[key].value.then && typeof cache[key].value.then === 'function') {
+                                if (cache[key].value &&
+                                    cache[key].value.then &&
+                                    typeof cache[key].value.then === 'function') {
+
                                     cache[key].timer = 1;
-                                    utils.resolve(cache[key].value).then(() => {
-                                        cache[key].timer = setTimeout(() => {
-                                            delete cache[key];
-                                        }, time);
-                                    });
+                                    utils.resolve(cache[key].value)
+                                        .then(() => {
+                                            cache[key].timer = setTimeout(() => {
+                                                delete cache[key];
+                                            }, time);
+                                        });
                                 } else {
                                     cache[key].timer = setTimeout(() => {
                                         delete cache[key];
@@ -86,5 +90,6 @@
         }
     }
 
-    angular.module('app.utils').factory('decorators', factory);
+    angular.module('app.utils')
+        .factory('decorators', factory);
 })();

@@ -132,6 +132,7 @@
 
     textarea {
       resize: vertical;
+      height: 47px;
       max-height: 250px;
     }
 
@@ -201,6 +202,34 @@
         transform: translateY(-50%);
         right: 15px;
         padding: 8px 12px;
+      }
+    }
+
+    .fee {
+      display: flex;
+      flex-direction: row;
+
+      & > div:first-child {
+        width: 50%;
+      }
+      & > div:last-child {
+        width: 50%;
+        text-align: right;
+      }
+    }
+
+    .lite {
+      color: @color-lite-font;
+
+      &::before, &::after {
+        color: @color-lite-font;
+      }
+      &::before {
+        content: '('
+      }
+
+      &::after {
+        content: ')'
       }
     }
 

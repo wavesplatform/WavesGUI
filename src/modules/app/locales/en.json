@@ -8,5 +8,11 @@
       "required": "This field is required!"
     }
   },
+  "modal": {
+    "enterPassword": {
+      "title": "Enter Password",
+      "ok": "Ok"
+    }
+  },
   "back": "Back"
 }

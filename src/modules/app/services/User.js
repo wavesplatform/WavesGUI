@@ -6,9 +6,11 @@
      * @param {$q} $q
      * @param {*} $state
      * @param {app.defaultSettings} defaultSettings
+     * @param {*} $mdDialog
+     * @param {app.utils.apiWorker} apiWorker
      * @returns {User}
      */
-    const factory = function (storage, $q, $state, defaultSettings) {
+    const factory = function (storage, $q, $state, defaultSettings, $mdDialog, apiWorker) {
 
         class User {
 
@@ -51,7 +53,12 @@
                  * @type {Object}
                  * @private
                  */
-                this._props = Object.create(null);
+                this.__props = Object.create(null);
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._password = null;
                 /**
                  * @type {number}
                  * @private
@@ -112,10 +119,44 @@
                 return this._dfr.promise;
             }
 
+            logout() {
+                window.location.reload();
+            }
+
+            getSeed() {
+                return this.onLogin()
+                    .then(() => {
+                        if (!this._password) {
+                            return $mdDialog.show({
+                                clickOutsideToClose: true,
+                                escapeToClose: true,
+                                multiple: true,
+                                preserveScope: true,
+                                templateUrl: '/modules/app/templates/enterPassword.html',
+                                controller: 'EnterPasswordCtrl as $ctrl'
+                            });
+                        } else {
+                            const data = {
+                                encryptionRounds: this._settings.get('encryptionRounds'),
+                                encryptedSeed: this.encryptedSeed,
+                                password: this._password
+                            };
+                            return apiWorker.process((WavesApi, data) => {
+                                const phrase = WavesApi
+                                    .Seed
+                                    .decryptSeedPhrase(data.encryptedSeed, data.password, data.encryptionRounds);
+
+                                return WavesApi.Seed.fromExistingPhrase(phrase);
+                            }, data);
+                        }
+                    });
+            }
+
             /**
              * @param {Object} data
              * @param {string} data.address
              * @param {string} data.encryptedSeed
+             * @param {string} data.password
              * @returns Promise
              */
             addUserData(data) {
@@ -128,6 +169,10 @@
                         }
                         this._settings = defaultSettings.create(this.settings);
                         this._settings.change.on(() => this._onChangeSettings());
+
+                        if (!this._settings.get('confirmPassword')) {
+                            this._password = data.password;
+                        }
 
                         return this._save()
                             .then(() => {
@@ -191,12 +236,12 @@
              * @private
              */
             _observe(key, target) {
-                this._props[key] = target[key];
+                this.__props[key] = target[key];
                 Object.defineProperty(target, key, {
-                    get: () => this._props[key],
+                    get: () => this.__props[key],
                     set: (value) => {
-                        if (value !== this._props[key]) {
-                            this._props[key] = value;
+                        if (value !== this.__props[key]) {
+                            this.__props[key] = value;
                             this._onChangePropsForSave();
                         }
                     }
@@ -254,7 +299,7 @@
         return new User();
     };
 
-    factory.$inject = ['storage', '$q', '$state', 'defaultSettings'];
+    factory.$inject = ['storage', '$q', '$state', 'defaultSettings', '$mdDialog', 'apiWorker'];
 
     angular.module('app')
         .factory('user', factory);
