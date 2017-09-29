@@ -33,7 +33,7 @@
                     events: Object.create(null),
                     wallet: {
                         assets: {
-                            mode: 'week',
+                            chartMode: 'week',
                             assetList: [
                                 WavesApp.defaultAssets.Waves,
                                 WavesApp.defaultAssets.BTC,

@@ -52,7 +52,7 @@
                     this.polls.updateBalances.restart();
                 });
 
-                this.syncSettings('wallet.assets.mode');
+                this.syncSettings('wallet.assets.chartMode');
 
                 this.observe('mode', () => this._onChangeMode());
                 this.observe(['startDate', 'endDate'], () => this._onChangeInterval());

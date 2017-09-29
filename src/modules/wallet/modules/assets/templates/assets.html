@@ -3,7 +3,7 @@
         Total $ {{$ctrl.total}}
     </div>
     <span class="chart-info right">
-        <w-radio-wrap class="split-mode" ng-model="$ctrl.mode">
+        <w-radio-wrap class="split-mode" ng-model="$ctrl.chartMode">
             <w-radio value="'hour'"><w-i18n>chart.intervals.hour</w-i18n></w-radio>
             <w-radio value="'day'"><w-i18n>chart.intervals.day</w-i18n></w-radio>
             <w-radio value="'week'"><w-i18n>chart.intervals.week</w-i18n></w-radio>
@@ -12,7 +12,7 @@
             <w-radio value="'all'"><w-i18n>chart.intervals.all</w-i18n></w-radio>
         </w-radio-wrap>
     </span>
-    <linechart ng-if="$ctrl.mode" options="$ctrl.options" data="$ctrl.data"></linechart>
+    <linechart ng-if="$ctrl.chartMode" options="$ctrl.options" data="$ctrl.data"></linechart>
 </div>
 <div class="assets-list">
     <w-asset ng-repeat="asset in $ctrl.assets track by $index" on-click="$ctrl.onAssetClick(event, asset, action)"
