@@ -34,7 +34,7 @@
                 /**
                  * @type {Poll}
                  */
-                this.pool = new Poll(this._getTradeHistory.bind(this), this._applyTradeHistory.bind(this), 5000);
+                this.poll = new Poll(this._getTradeHistory.bind(this), this._applyTradeHistory.bind(this), 5000);
 
                 this.shema = new tsApiValidator.Schema({
                     type: 'array',
@@ -56,16 +56,12 @@
 
             $onDestroy() {
                 super.$onDestroy();
-                this.pool.destroy();
-            }
-
-            _getHeaderCellTemplate(literal) {
-                return `<div><w-i18n w-i18n-ns="app.dex">${literal}</w-i18n></div>`;
+                this.poll.destroy();
             }
 
             _onChangeAssets() {
                 this.orders = [];
-                this.pool.restart();
+                this.poll.restart();
                 assetsService.getAssetInfo(this.priceAssetId)
                     .then((asset) => {
                         this.priceAsset = asset;
@@ -74,7 +70,7 @@
 
             _applyTradeHistory(data) {
                 if (data) {
-                    this.orders = this.shema.parse(data);
+                    this.orders = data;
                 } else {
                     this.orders = [];
                 }
@@ -84,7 +80,8 @@
                 if (!this.amountAssetId || !this.priceAssetId) {
                     return null;
                 }
-                return dataFeed.trades(this.amountAssetId, this.priceAssetId);
+                return dataFeed.trades(this.amountAssetId, this.priceAssetId)
+                    .then(data => this.shema.parse(data));
             }
 
         }
