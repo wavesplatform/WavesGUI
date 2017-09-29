@@ -31,11 +31,7 @@
                 /**
                  * @type {number}
                  */
-                this.lastConfirmPassword = null;
-                /**
-                 * @type {number}
-                 */
-                this.lastNotificationTimeStamp = null;
+                this.lastPasswordInput = null;
                 /**
                  * @type {DefaultSettings}
                  * @private
@@ -95,7 +91,7 @@
              * @return {Object} data
              * @return {string} data.address
              * @return {string} data.encryptedSeed
-             * @return {number} data.lastConfirmPassword
+             * @return {number} data.lastPasswordInput
              * @return {number} data.lastNotificationTimeStamp
              * @return {number} data.lastLogin
              */
