@@ -9,6 +9,10 @@
 
         class Poll {
 
+            get _time() {
+                return this._sleepStep ? this._originTime * this._sleepStep : this._originTime;
+            }
+
             /**
              * @param {Function} getData
              * @param {Function} applyData
@@ -16,10 +20,15 @@
              */
             constructor(getData, applyData, time) {
                 /**
-                 * @private
                  * @type {number}
+                 * @private
                  */
-                this._time = time;
+                this._originTime = time;
+                /**
+                 * @type {number}
+                 * @private
+                 */
+                this._sleepStep = null;
                 /**
                  * @private
                  * @type {number}
@@ -81,12 +90,21 @@
                 this._run();
             }
 
+            _sleep(step) {
+                this._sleepStep = step + 2;
+            }
+
+            _wakeUp() {
+                this._sleepStep = null;
+                this.restart();
+            }
+
             /**
              * @private
              */
             _setHandlers() {
-                this.receive(state.signals.window.blur, this.pause, this);
-                this.receive(state.signals.window.focus, this.play, this);
+                this.receive(state.signals.sleep, this._sleep, this);
+                this.receive(state.signals.wakeUp, this._wakeUp, this);
             }
 
             /**

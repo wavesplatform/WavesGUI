@@ -26,7 +26,7 @@
                     .use(i18nextXHRBackend)
                     .use(i18nextBrowserLanguageDetector)
                     .init({
-                        debug: true,
+                        debug: true, // TODO remove for production
                         ns: WavesApp.modules,
                         fallbackLng: 'en',
                         whitelist: ['en', 'ru'],

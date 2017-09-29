@@ -8,9 +8,10 @@
      * @param {app.defaultSettings} defaultSettings
      * @param {*} $mdDialog
      * @param {app.utils.apiWorker} apiWorker
+     * @param {State} state
      * @returns {User}
      */
-    const factory = function (storage, $q, $state, defaultSettings, $mdDialog, apiWorker) {
+    const factory = function (storage, $q, $state, defaultSettings, $mdDialog, apiWorker, state) {
 
         class User {
 
@@ -176,6 +177,14 @@
 
                         return this._save()
                             .then(() => {
+
+                                state.setMaxSleep(this._settings.get('logoutAfterMin'));
+                                this.receive(state.signals.sleep, (min) => {
+                                    if (min >= this._settings.get('logoutAfterMin')) {
+                                        this.logout();
+                                    }
+                                });
+
                                 this._dfr.resolve();
                             });
                     });
@@ -295,11 +304,26 @@
 
         }
 
+        /**
+         * @access protected
+         * @type {*|<T, R>(signal: Signal<T>, handler: Signal.IHandler<T, R>, context?: R) => void}
+         */
+        User.prototype.receive = tsUtils.Receiver.prototype.receive;
+        /**
+         * @access protected
+         * @type {*|<T, R>(signal: Signal<T>, handler: Signal.IHandler<T, R>, context?: R) => void}
+         */
+        User.prototype.receiveOnce = tsUtils.Receiver.prototype.receiveOnce;
+        /**
+         * @access protected
+         * @type {*|((item?: TStopArg1, handler?: Signal.IHandler<any, any>) => void)}
+         */
+        User.prototype.stopReceive = tsUtils.Receiver.prototype.stopReceive;
 
         return new User();
     };
 
-    factory.$inject = ['storage', '$q', '$state', 'defaultSettings', '$mdDialog', 'apiWorker'];
+    factory.$inject = ['storage', '$q', '$state', 'defaultSettings', '$mdDialog', 'apiWorker', 'state'];
 
     angular.module('app')
         .factory('user', factory);

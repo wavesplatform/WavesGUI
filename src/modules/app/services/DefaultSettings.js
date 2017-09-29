@@ -26,6 +26,7 @@
                  * @private
                  */
                 this.defaults = {
+                    logoutAfterMin: 5,
                     encryptionRounds: 5000,
                     confirmPassword: true,
                     baseAssetId: WavesApp.defaultAssets.USD,
