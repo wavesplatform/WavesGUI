@@ -43,10 +43,10 @@
                         type: 'object',
                         required: true,
                         content: {
-                            price: { type: 'number', required: true },
-                            size: { type: 'number', required: true, path: 'amount' },
-                            date: { type: 'date', required: true, path: 'timestamp' },
-                            type: { type: 'string', required: true }
+                            price: { type: tsApiValidator.NumberPart, required: true },
+                            size: { type: tsApiValidator.NumberPart, required: true, path: 'amount' },
+                            date: { type: tsApiValidator.DatePart, required: true, path: 'timestamp' },
+                            type: { type: tsApiValidator.StringPart, required: true }
                         }
                     }
                 });
