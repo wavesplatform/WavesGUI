@@ -88,18 +88,6 @@
             }
 
             /**
-             * @return {Object} data
-             * @return {string} data.address
-             * @return {string} data.encryptedSeed
-             * @return {number} data.lastPasswordInput
-             * @return {number} data.lastNotificationTimeStamp
-             * @return {number} data.lastLogin
-             */
-            getUserData() {
-                return this._getPublicProps();
-            }
-
-            /**
              * @return {Promise}
              */
             onLogin() {
