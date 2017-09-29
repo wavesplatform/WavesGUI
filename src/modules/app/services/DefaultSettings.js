@@ -28,7 +28,7 @@
                 this.defaults = {
                     logoutAfterMin: 5,
                     encryptionRounds: 5000,
-                    confirmPassword: true,
+                    savePassword: false,
                     baseAssetId: WavesApp.defaultAssets.USD,
                     events: Object.create(null),
                     wallet: {

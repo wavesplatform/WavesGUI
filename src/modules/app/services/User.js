@@ -171,7 +171,7 @@
                         this._settings = defaultSettings.create(this.settings);
                         this._settings.change.on(() => this._onChangeSettings());
 
-                        if (!this._settings.get('confirmPassword')) {
+                        if (this._settings.get('savePassword')) {
                             this._password = data.password;
                         }
 
