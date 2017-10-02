@@ -123,7 +123,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                 const sourceFiles = getFilesFrom(join(__dirname, '../src'), '.js', function (name, path) {
                     return !name.includes('.spec') && !path.includes('/test/');
                 });
-                param.scripts = meta.vendors.concat(sourceFiles);
+                param.scripts = meta.vendors.map((i) => join(__dirname, '..', i)).concat(sourceFiles);
             }
 
             if (!param.styles) {
