@@ -3,7 +3,7 @@
 
     const wallet = angular.module('app.wallet', [
         'app.wallet.assets',
-        'app.wallet.exchange'
+        'app.wallet.portfolio'
     ]);
     const getTemplatePath = function (name) {
         return `modules/wallet/modules/${name}/templates/${name}.html`;
@@ -21,11 +21,11 @@
                     }
                 }
             })
-            .state('main.wallet.exchange', {
-                url: '/exchange',
+            .state('main.wallet.portfolio', {
+                url: '/portfolio',
                 views: {
                     content: {
-                        templateUrl: getTemplatePath('exchange')
+                        templateUrl: getTemplatePath('portfolio')
                     }
                 }
             })
@@ -33,7 +33,7 @@
                 url: '/transactions',
                 views: {
                     content: {
-                        templateUrl: getTemplatePath('exchange')
+                        templateUrl: getTemplatePath('transactions')
                     }
                 }
             });

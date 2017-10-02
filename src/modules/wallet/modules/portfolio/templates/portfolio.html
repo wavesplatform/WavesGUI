@@ -1,0 +1,37 @@
+<div class="controls">
+    <div class="part left">
+
+    </div>
+    <div class="part right">
+
+    </div>
+</div>
+
+<w-table>
+    <w-row>
+        <w-cell>
+            <input type="checkbox" ng-model="$ctrl.allAssets"/>
+            Asset Name
+        </w-cell>
+        <w-cell>Balance</w-cell>
+        <w-cell>Price, USD</w-cell>
+        <w-cell>Bid</w-cell>
+        <w-cell>Ask</w-cell>
+        <w-cell>24h Change</w-cell>
+    </w-row>
+    <w-scroll-box>
+        <w-row ng-repeat="asset in $ctrl.userAssets">
+            <w-cell>
+                <input type="checkbox" ng-model="asset.checked"/>
+                <w-asset-logo size="30" asset-id="asset.id"></w-asset-logo>
+                {{::asset.name}}
+            </w-cell>
+            <w-cell>
+                <w-balance asset-id="asset.id" balance="asset.balance"></w-balance>
+            </w-cell>
+            <w-cell>null</w-cell>
+            <w-cell>null</w-cell>
+            <w-cell>null</w-cell>
+        </w-row>
+    </w-scroll-box>
+</w-table>
