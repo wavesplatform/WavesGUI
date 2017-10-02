@@ -144,7 +144,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
             })
         })
         .then((file) => {
-            return replaceStyles(file, param.styles.map(filter));
+            return replaceStyles(file, param.styles.map(filter).map(s => `/${s}`));
         }).then((file) => {
             return replaceScripts(file, param.scripts.map(filter));
         });
@@ -162,7 +162,7 @@ export function route(connectionType, buildType) {
         if (isPage(req.url)) {
             if (buildType === 'dev') {
                 return prepareHTML({
-                    target: join(__dirname, '..', 'dist', 'build', connectionType, buildType),
+                    target: join(__dirname, '..', 'src'),
                     connection: connectionType
                 }).then((file) => {
                     res.end(file);
@@ -174,9 +174,9 @@ export function route(connectionType, buildType) {
                 });
             }
         } else if (isSourceScript(req.url)) {
-            readFile(join(__dirname, '..', req.url), 'utf8')
+            readFile(join(__dirname, '../src', req.url), 'utf8')
                 .then((code) => {
-                    if (code.indexOf('@') !== -1) {
+                    if (code.indexOf('@decorators') !== -1) {
                         const result = transform(code, {
                             plugins: [
                                 'transform-decorators-legacy',
@@ -185,8 +185,6 @@ export function route(connectionType, buildType) {
                                 'transform-object-rest-spread'
                             ]
                         }).code;
-                        console.log(code);
-
                         return result;
                     } else {
                         return code;
@@ -207,7 +205,7 @@ export function route(connectionType, buildType) {
 }
 
 export function isSourceScript(url: string): boolean {
-    return url.includes('/src/modules/') && url.lastIndexOf('.js') === url.length - 3;
+    return url.includes('/modules/') && url.lastIndexOf('.js') === url.length - 3;
 }
 
 export function isApiMock(url: string): boolean {
