@@ -167,7 +167,7 @@
 
         }
 
-        return new AssetSendCtrl(this.assetId, this.mirrorId);
+        return new AssetSendCtrl(this.assetId, this.aliasId);
     };
 
     controller.$inject = [
