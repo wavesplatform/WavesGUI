@@ -619,6 +619,48 @@
             </div>
           </div>
 
+          <div class="noDisp" ng-controller="walletDepositController as deposit" data-currency="LTC">
+            <div id="deposit-ltc-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
+              <h2 class="sectionHeader">DEPOSIT: LTC</h2>
+              <p class="dialog-text">To deposit LTC to your Waves account, please send LTC to the address below.<br/>
+                The minimum amount of deposit is <span class="fontBold">{{deposit.ltc.minimumAmount}} LTC</span>.</p>
+              <table class="wavesTable bitcoin-requisites">
+                <tbody>
+                <tr>
+                  <td><b>{{deposit.ltc.litecoinAddress}}</b></td>
+                </tr>
+                </tbody>
+              </table>
+              <p class="dialog-text">Enter this address into your Litecoin client or wallet. Once the transaction is confirmed, <br/>
+                the gateway will process the transfer of LTC to a token in your Waves account.</p>
+              <p class="dialog-text">Please note that the gateway doesn't apply any fees for this operation.</p>
+              <div class="textCenter">
+                <waves-qr-code class="center" size="180" value="deposit.ltc.litecoinAddress"></waves-qr-code>
+              </div>
+            </div>
+          </div>
+
+          <div class="noDisp" ng-controller="walletDepositController as deposit" data-currency="ZEC">
+            <div id="deposit-zec-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
+              <h2 class="sectionHeader">DEPOSIT: ZEC</h2>
+              <p class="dialog-text">To deposit Zcash to your Waves account, please send Zcash to the address below.<br/>
+                The minimum amount of deposit is <span class="fontBold">{{deposit.zec.minimumAmount}} ZEC</span>.</p>
+              <table class="wavesTable bitcoin-requisites">
+                <tbody>
+                <tr>
+                  <td><b>{{deposit.zec.zcashAddress}}</b></td>
+                </tr>
+                </tbody>
+              </table>
+              <p class="dialog-text">Enter this address into your Zcash client or wallet. Once the transaction is confirmed, <br/>
+                the gateway will process the transfer of Zcash to a token in your Waves account.</p>
+              <p class="dialog-text">Please note that the gateway doesn't apply any fees for this operation.</p>
+              <div class="textCenter">
+                <waves-qr-code class="center" size="180" value="deposit.zec.zcashAddress"></waves-qr-code>
+              </div>
+            </div>
+          </div>
+
           <div class="noDisp" ng-controller="walletDepositController as deposit" data-currency="EUR">
             <div id="deposit-eur-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
               <h2 class="sectionHeader">DEPOSIT: EUR</h2>

@@ -25,6 +25,14 @@
             image: 'wB-bg-ETH.svg',
             displayName: Currency.ETH.displayName
         };
+        mapping[Currency.LTC.displayName] = {
+            image: 'wB-bg-LTC.svg',
+            displayName: Currency.LTC.displayName
+        };
+        mapping[Currency.ZEC.displayName] = {
+            image: 'wB-bg-ZEC.svg',
+            displayName: Currency.ZEC.displayName
+        };
 
         ctrl.$onChanges = function (changesObject) {
             if (changesObject.balance) {

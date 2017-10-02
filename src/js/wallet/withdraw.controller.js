@@ -92,7 +92,11 @@
             ctrl.assetBalance = eventData.assetBalance;
             ctrl.wavesBalance = eventData.wavesBalance;
 
-            if (ctrl.assetBalance.currency === Currency.BTC || ctrl.assetBalance.currency === Currency.ETH) {
+            if (ctrl.assetBalance.currency === Currency.BTC ||
+                ctrl.assetBalance.currency === Currency.ETH ||
+                ctrl.assetBalance.currency === Currency.LTC ||
+                ctrl.assetBalance.currency === Currency.ZEC
+            ) {
                 withdrawCrypto();
             } else if (ctrl.assetBalance.currency === Currency.EUR) {
                 withdrawEUR();
