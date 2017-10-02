@@ -594,6 +594,12 @@
           <div class="noDisp" ng-controller="walletDepositController as deposit" data-currency="ETH">
             <div id="deposit-eth-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
               <h2 class="sectionHeader">DEPOSIT: ETH</h2>
+              <div class="plate-warning">
+                <p><b>Do not deposit ETH from smart contracts!</b></p>
+                <p>Check if your wallet or exchange uses smart-contracts to withdraw ETH.<br/>
+                   We do not accept such transactions and can’t refund them.<br/>
+                   You will lose that money.</p>
+              </div>
               <p class="dialog-text">To deposit ETH to your Waves account, please send ETH to the address below.<br/>
                 The minimum amount of deposit is <span class="fontBold">{{deposit.eth.minimumAmount}} ETH</span>.</p>
               <p class="dialog-text">Please do not deposit ERC20 tokens! Only Ethereum is allowed.</p>
@@ -609,6 +615,48 @@
               <p class="dialog-text">Please note that the gateway doesn't apply any fees for this operation.</p>
               <div class="textCenter">
                 <waves-qr-code class="center" size="180" value="deposit.eth.ethereumAddress"></waves-qr-code>
+              </div>
+            </div>
+          </div>
+
+          <div class="noDisp" ng-controller="walletDepositController as deposit" data-currency="LTC">
+            <div id="deposit-ltc-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
+              <h2 class="sectionHeader">DEPOSIT: LTC</h2>
+              <p class="dialog-text">To deposit LTC to your Waves account, please send LTC to the address below.<br/>
+                The minimum amount of deposit is <span class="fontBold">{{deposit.ltc.minimumAmount}} LTC</span>.</p>
+              <table class="wavesTable bitcoin-requisites">
+                <tbody>
+                <tr>
+                  <td><b>{{deposit.ltc.litecoinAddress}}</b></td>
+                </tr>
+                </tbody>
+              </table>
+              <p class="dialog-text">Enter this address into your Litecoin client or wallet. Once the transaction is confirmed, <br/>
+                the gateway will process the transfer of LTC to a token in your Waves account.</p>
+              <p class="dialog-text">Please note that the gateway doesn't apply any fees for this operation.</p>
+              <div class="textCenter">
+                <waves-qr-code class="center" size="180" value="deposit.ltc.litecoinAddress"></waves-qr-code>
+              </div>
+            </div>
+          </div>
+
+          <div class="noDisp" ng-controller="walletDepositController as deposit" data-currency="ZEC">
+            <div id="deposit-zec-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
+              <h2 class="sectionHeader">DEPOSIT: ZEC</h2>
+              <p class="dialog-text">To deposit Zcash to your Waves account, please send Zcash to the address below.<br/>
+                The minimum amount of deposit is <span class="fontBold">{{deposit.zec.minimumAmount}} ZEC</span>.</p>
+              <table class="wavesTable bitcoin-requisites">
+                <tbody>
+                <tr>
+                  <td><b>{{deposit.zec.zcashAddress}}</b></td>
+                </tr>
+                </tbody>
+              </table>
+              <p class="dialog-text">Enter this address into your Zcash client or wallet. Once the transaction is confirmed, <br/>
+                the gateway will process the transfer of Zcash to a token in your Waves account.</p>
+              <p class="dialog-text">Please note that the gateway doesn't apply any fees for this operation.</p>
+              <div class="textCenter">
+                <waves-qr-code class="center" size="180" value="deposit.zec.zcashAddress"></waves-qr-code>
               </div>
             </div>
           </div>

@@ -90,10 +90,10 @@ module.exports = function (grunt) {
                 testnet: {
                     name: 'testnet',
                     code: 'T',
-                    server: 'http://52.30.47.67:6869',
+                    server: 'https://testnet1.wavesnodes.com',
                     coinomat: 'https://test.coinomat.com',
-                    matcher: 'http://52.30.47.67:6886',
-                    datafeed: 'http://marketdata.wavesplatform.com'
+                    matcher: 'https://testnet1.wavesnodes.com',
+                    datafeed: 'https://marketdata.wavesplatform.com'
                 },
                 mainnet: {
                     name: 'mainnet',

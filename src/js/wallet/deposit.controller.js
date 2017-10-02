@@ -21,6 +21,16 @@
             minimumAmount: 0.001
         };
 
+        ctrl.ltc = {
+            litecoinAddress: '',
+            minimumAmount: 0.001
+        };
+
+        ctrl.zec = {
+            zcashAddress: '',
+            minimumAmount: 0.001
+        };
+
         ctrl.fiat = {
             verificationLink: 'https://go.idnow.de/coinomat/userdata/' + applicationContext.account.address,
             email: 'support@coinomat.com'
@@ -41,12 +51,15 @@
             ctrl.assetBalance = eventData.assetBalance;
             ctrl.currency = ctrl.assetBalance.currency.displayName;
 
+            // Show deposit popups only on mainnet
             if (ctrl.assetBalance.currency === Currency.BTC && !utilsService.isTestnet()) {
-                // Show the BTC deposit popup only on mainnet
                 depositBTC();
             } else if (ctrl.assetBalance.currency === Currency.ETH && !utilsService.isTestnet()) {
-                // Show the ETH deposit popup only on mainnet
                 depositETH();
+            } else if (ctrl.assetBalance.currency === Currency.LTC && !utilsService.isTestnet()) {
+                depositLTC();
+            } else if (ctrl.assetBalance.currency === Currency.ZEC && !utilsService.isTestnet()) {
+                depositZEC();
             } else if (ctrl.assetBalance.currency === Currency.EUR) {
                 depositEUR();
             } else if (ctrl.assetBalance.currency === Currency.USD) {
@@ -56,8 +69,15 @@
             }
         });
 
-        function depositBTC() {
+        function catchErrorMessage(e) {
+            if (e && e.message) {
+                notificationService.error(e.message);
+            } else {
+                notificationService.error(DEFAULT_ERROR_MESSAGE);
+            }
+        }
 
+        function depositBTC() {
             coinomatService.getDepositDetails(ctrl.depositWith, ctrl.assetBalance.currency,
                 applicationContext.account.address)
                 .then(function (depositDetails) {
@@ -65,30 +85,37 @@
                     ctrl.btc.bitcoinAddress = depositDetails.address;
                     ctrl.btc.bitcoinUri = bitcoinUriService.generate(ctrl.btc.bitcoinAddress);
                 })
-                .catch(function (exception) {
-                    if (exception && exception.message) {
-                        notificationService.error(exception.message);
-                    } else {
-                        notificationService.error(DEFAULT_ERROR_MESSAGE);
-                    }
-                });
+                .catch(catchErrorMessage);
         }
 
         function depositETH() {
-
             coinomatService.getDepositDetails(ctrl.depositWith, ctrl.assetBalance.currency,
                 applicationContext.account.address)
                 .then(function (depositDetails) {
                     dialogService.open('#deposit-eth-dialog');
                     ctrl.eth.ethereumAddress = depositDetails.address;
                 })
-                .catch(function (exception) {
-                    if (exception && exception.message) {
-                        notificationService.error(exception.message);
-                    } else {
-                        notificationService.error(DEFAULT_ERROR_MESSAGE);
-                    }
-                });
+                .catch(catchErrorMessage);
+        }
+
+        function depositLTC() {
+            coinomatService.getDepositDetails(ctrl.depositWith, ctrl.assetBalance.currency,
+                applicationContext.account.address)
+                .then(function (depositDetails) {
+                    dialogService.open('#deposit-ltc-dialog');
+                    ctrl.ltc.litecoinAddress = depositDetails.address;
+                })
+                .catch(catchErrorMessage);
+        }
+
+        function depositZEC() {
+            coinomatService.getDepositDetails(ctrl.depositWith, ctrl.assetBalance.currency,
+                applicationContext.account.address)
+                .then(function (depositDetails) {
+                    dialogService.open('#deposit-zec-dialog');
+                    ctrl.zec.zcashAddress = depositDetails.address;
+                })
+                .catch(catchErrorMessage);
         }
 
         function depositEUR() {

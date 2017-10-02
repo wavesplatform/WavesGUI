@@ -50,7 +50,7 @@ Those commands will prepare all required dependencies. Now feel free to open src
 
 ## Downloadable distributions
 
-Here in the Releases page you can find all Lite Client packages available for download.
+Here in the [Releases page](https://github.com/wavesplatform/WavesGUI/releases) you can find all Lite Client packages available for download.
 For mainnet Client please download *waves-lite-client-mainnet-vx.y.z.zip*.
 For testnet use *waves-lite-client-testnet-vx.y.z.zip*.
 
