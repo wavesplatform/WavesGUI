@@ -19,9 +19,9 @@
 
             /**
              * @param {string} assetId
-             * @param {string} aliasId
+             * @param {string} mirrorId
              */
-            constructor(assetId, aliasId) {
+            constructor(assetId, mirrorId) {
                 super($scope);
                 this.step = 'send';
                 /**
@@ -32,9 +32,9 @@
                 /**
                  * @type {string}
                  */
-                this.aliasId = aliasId;
+                this.mirrorId = mirrorId;
 
-                this.recepient = '';
+                this.recipient = '';
                 this.polls.updateBalance = new Poll(this._getAsset.bind(this), this._setAsset.bind(this), 1000);
                 /**
                  * @type {IFeeData}
@@ -46,7 +46,7 @@
 
                 this.ready = utils.when(Promise.all([
                     assetsService.getAssetInfo(assetId),
-                    assetsService.getAssetInfo(aliasId),
+                    assetsService.getAssetInfo(mirrorId),
                     assetsService.getFeeSend()
                 ]))
                     .then((data) => {
@@ -75,12 +75,12 @@
                             return apiWorker.process((WavesApi, data) => {
                                 return WavesApi.API.Node.v1.assets.transfer({
                                     assetId: data.assetId,
-                                    recipient: data.recepient,
+                                    recipient: data.recipient,
                                     amount: data.amount
                                 }, data.keyPair);
                             }, {
                                 assetId: this.assetId,
-                                recepient: this.recepient,
+                                recipient: this.recipient,
                                 keyPair: data.keyPair,
                                 amount: this.amount * Math.pow(10, this.asset.precision)
                                     .toFixed(this.asset.precision)
@@ -99,7 +99,7 @@
                 }
             }
 
-            sendAll() {
+            fillMax() {
                 if (this.asset.id === this.feeData.id) {
                     if (this.asset.balance >= this.fee) {
                         this.amount = this.asset.balance - this.feeData.fee;
@@ -114,7 +114,7 @@
             }
 
             onReadQrCode(result) {
-                this.recepient = result;
+                this.recipient = result;
             }
 
             /**
@@ -167,7 +167,7 @@
 
         }
 
-        return new AssetSendCtrl(this.assetId, this.aliasId);
+        return new AssetSendCtrl(this.assetId, this.mirrorId);
     };
 
     controller.$inject = [

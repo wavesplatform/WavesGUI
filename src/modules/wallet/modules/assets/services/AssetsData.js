@@ -6,16 +6,17 @@
      * @param decorators
      * @param apiWorker
      * @param {AssetsService} assetsService
+     * @param {app.utils} utils
      * @return {AssetsData}
      */
-    const factory = function (user, decorators, apiWorker, assetsService) {
+    const factory = function (user, decorators, apiWorker, assetsService, utils) {
 
         class AssetsData {
 
             getAssets() {
                 return user.getSetting('wallet.assets.assetList')
                     .then((assetIds) => {
-                        return Promise.all(assetIds.map((assetId) => {
+                        return utils.whenAll(assetIds.map((assetId) => {
                             return assetsService.getBalance(assetId);
                         }));
                     });
@@ -75,7 +76,7 @@
         return new AssetsData();
     };
 
-    factory.$inject = ['user', 'decorators', 'apiWorker', 'assetsService'];
+    factory.$inject = ['user', 'decorators', 'apiWorker', 'assetsService', 'utils'];
 
     angular.module('app.wallet.assets')
         .factory('assetsData', factory);

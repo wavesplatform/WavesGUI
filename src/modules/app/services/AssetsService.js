@@ -111,7 +111,7 @@
                     RATE_MAP[`${assetId2}-${assetId1}`] = 1 / rate;
                 };
 
-                generate(WavesApp.defaultAssets.Waves, WavesApp.defaultAssets.USD, 5.11);
+                generate(WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.USD, 5.11);
                 generate(WavesApp.defaultAssets.BTC, WavesApp.defaultAssets.USD, 4050.35);
                 generate(WavesApp.defaultAssets.ETH, WavesApp.defaultAssets.USD, 294.33);
                 generate(WavesApp.defaultAssets.EUR, WavesApp.defaultAssets.USD, 1.17505);
@@ -142,7 +142,7 @@
              */
             getFeeSend() {
                 return utils.when({
-                    id: WavesApp.defaultAssets.Waves,
+                    id: WavesApp.defaultAssets.WAVES,
                     fee: 0.001
                 });
             }

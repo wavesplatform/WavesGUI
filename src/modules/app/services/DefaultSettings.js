@@ -35,14 +35,14 @@
                         assets: {
                             chartMode: 'week',
                             assetList: [
-                                WavesApp.defaultAssets.Waves,
+                                WavesApp.defaultAssets.WAVES,
                                 WavesApp.defaultAssets.BTC,
                                 WavesApp.defaultAssets.EUR
                             ]
                         }
                     },
                     dex: {
-                        amountAssetId: WavesApp.defaultAssets.Waves,
+                        amountAssetId: WavesApp.defaultAssets.WAVES,
                         priceAssetId: WavesApp.defaultAssets.BTC,
                         directives: {
                             markets: {

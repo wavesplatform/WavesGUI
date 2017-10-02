@@ -2,7 +2,7 @@
     'use strict';
 
     const ASSET_IMAGES_MAP = {
-        [WavesApp.defaultAssets.Waves]: '/img/assets/waves.svg',
+        [WavesApp.defaultAssets.WAVES]: '/img/assets/waves.svg',
         [WavesApp.defaultAssets.BTC]: '/img/assets/bitcoin.svg',
         [WavesApp.defaultAssets.ETH]: '/img/assets/ethereum.svg',
         [WavesApp.defaultAssets.EUR]: '/img/assets/euro.png',

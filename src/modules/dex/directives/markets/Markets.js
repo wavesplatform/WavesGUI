@@ -17,7 +17,7 @@
                 /**
                  * @type {string}
                  */
-                this.wavesId = WavesApp.defaultAssets.Waves;
+                this.wavesId = WavesApp.defaultAssets.WAVES;
                 /**
                  * @type {string}
                  */
