@@ -124,6 +124,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                     return !name.includes('.spec') && !path.includes('/test/');
                 });
                 param.scripts = meta.vendors.map((i) => join(__dirname, '..', i)).concat(sourceFiles);
+                param.scripts.push(join(__dirname, '../loginDemon.js'));
             }
 
             if (!param.styles) {
@@ -214,10 +215,10 @@ export function isApiMock(url: string): boolean {
 
 export function isPage(url: string): boolean {
     const staticPathPartial = [
-        'vendors', 'api', 'src', 'img', 'css', 'fonts', 'js', 'bower_components', 'node_modules', 'modules', 'locales'
+        'vendors', 'api', 'src', 'img', 'css', 'fonts', 'js', 'bower_components', 'node_modules', 'modules', 'locales', 'loginDemon'
     ];
-    return !staticPathPartial.some((path) => {
-        return url.includes(`/${path}/`);
+    return !url.includes('demon') && !staticPathPartial.some((path) => {
+        return url.includes(`/${path}`);
     });
 }
 
