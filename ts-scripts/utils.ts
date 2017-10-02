@@ -127,7 +127,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
             }
 
             if (!param.styles) {
-                param.styles = meta.stylesheets.concat(getFilesFrom(join(__dirname, '../src'), '.css'));
+                param.styles = meta.stylesheets.map((i) => join(__dirname, '..', i)).concat(getFilesFrom(join(__dirname, '../src'), '.css'));
             }
 
             const networks = connectionTypes.reduce((result, item) => {
