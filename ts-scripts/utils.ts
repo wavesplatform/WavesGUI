@@ -175,14 +175,23 @@ export function route(connectionType, buildType) {
             }
         } else if (isSourceScript(req.url)) {
             readFile(join(__dirname, '..', req.url), 'utf8')
-                .then((code) => transform(code, {
-                    plugins: [
-                        'transform-decorators-legacy',
-                        'transform-class-properties',
-                        'transform-decorators',
-                        'transform-object-rest-spread'
-                    ]
-                }).code)
+                .then((code) => {
+                    if (code.indexOf('@') !== -1) {
+                        const result = transform(code, {
+                            plugins: [
+                                'transform-decorators-legacy',
+                                'transform-class-properties',
+                                'transform-decorators',
+                                'transform-object-rest-spread'
+                            ]
+                        }).code;
+                        console.log(code);
+
+                        return result;
+                    } else {
+                        return code;
+                    }
+                })
                 .then((code) => res.end(code))
                 .catch((e) => {
                     console.log(e.message, req.url);
