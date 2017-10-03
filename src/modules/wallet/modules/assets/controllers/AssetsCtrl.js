@@ -25,18 +25,8 @@
                 this.total = null;
 
                 this.data = null;
+                this.assetList = null;
                 this.options = assetsData.getGraphOptions();
-
-                this.polls.updateGraph = new Poll(
-                    this._getGraphData.bind(this),
-                    this._applyGraphData.bind(this),
-                    5000
-                );
-                this.polls.updateBalances = new Poll(
-                    this._getBalances.bind(this),
-                    this._applyBalances.bind(this),
-                    5000
-                );
 
                 const hours = tsUtils.date('hh:mm');
                 const dates = tsUtils.date('DD/MM');
@@ -52,7 +42,21 @@
                     this.polls.updateBalances.restart();
                 });
 
-                this.syncSettings('wallet.assets.chartMode');
+                utils.whenAll([
+                    this.syncSettings('wallet.assets.chartMode'),
+                    this.syncSettings('wallet.assets.assetList')
+                ]).then(() => {
+                    this.polls.updateGraph = new Poll(
+                        this._getGraphData.bind(this),
+                        this._applyGraphData.bind(this),
+                        5000
+                    );
+                    this.polls.updateBalances = new Poll(
+                        this._getBalances.bind(this),
+                        this._applyBalances.bind(this),
+                        5000
+                    );
+                });
 
                 this.observe('chartMode', () => this._onChangeMode());
                 this.observe(['startDate', 'endDate'], () => this._onChangeInterval());
@@ -77,8 +81,7 @@
              * @private
              */
             _getBalances() {
-                return user.getSetting('wallet.assets.assetList')
-                    .then((list) => utils.whenAll(list.map(assetsService.getBalance)));
+                return assetsService.getBalanceList(this.assetList);
             }
 
             /**

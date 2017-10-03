@@ -2,11 +2,12 @@
     'use strict';
 
     /**
-     * @param {} user
+     * @param {User} user
      * @param $timeout
+     * @param {app.utils} utils
      * @returns {Base}
      */
-    const factory = function (user, $timeout) {
+    const factory = function (user, $timeout, utils) {
 
         class Base {
 
@@ -21,7 +22,9 @@
                         stop();
                     });
                 }
+
                 this.polls = Object.create(null);
+                this.__isRemoved = false;
                 this.__handlers = Object.create(null);
                 this.__props = Object.create(null);
                 this.__timersHash = Object.create(null);
@@ -59,10 +62,11 @@
 
             /**
              * @param {string|Array<string>} syncList
+             * @returns {Promise}
              */
             syncSettings(syncList) {
                 syncList = Array.isArray(syncList) ? syncList : [syncList];
-                syncList.forEach((settingsPath) => {
+                return utils.whenAll(syncList.map((settingsPath) => {
                     const words = settingsPath.split(/\W/);
                     const name = words[words.length - 1];
 
@@ -70,14 +74,15 @@
                         user.setSetting(settingsPath, this[name]);
                     });
 
-                    user.getSetting(settingsPath)
+                    return user.getSetting(settingsPath)
                         .then((value) => {
                             this[name] = value;
                         });
-                });
+                }));
             }
 
             $onDestroy() {
+                this.__isRemoved = true;
                 this.__handlers = Object.create(null);
 
                 tsUtils.each(this.__timersHash, (value) => {
@@ -150,7 +155,7 @@
         return Base;
     };
 
-    factory.$inject = ['user', '$timeout'];
+    factory.$inject = ['user', '$timeout', 'utils'];
 
     angular.module('app.utils')
         .factory('Base', factory);
