@@ -19,7 +19,7 @@
                  */
                 this.form = null;
                 /**
-                 * @type {Array<HTMLInputElement>}
+                 * @type {Array.<HTMLInputElement>}
                  */
                 this.inputs = null;
             }

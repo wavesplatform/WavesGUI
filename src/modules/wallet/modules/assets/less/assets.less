@@ -145,8 +145,8 @@
       position: relative;
       padding: 0 15px;
       height: 47px;
-      border-radius: @radius-inputs;
-      border: 1px solid @color-input-border-default;
+      border-radius: @border-radius;
+      //border: 1px solid @color-input-border-default;
       width: 100%;
       display: flex;
       flex-direction: row;
@@ -184,7 +184,7 @@
 
       .currency {
         text-transform: uppercase;
-        color: @color-lite-font;
+        //color: @color-lite-font;
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -195,8 +195,8 @@
         cursor: pointer;
         background-color: #fff;
         font-size: 13px;
-        border: 1px solid @color-input-border-focus;
-        border-radius: @radius-inputs;
+        //border: 1px solid @color-input-border-focus;
+        border-radius: @border-radius;
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -219,10 +219,10 @@
     }
 
     .lite {
-      color: @color-lite-font;
+      //color: @color-lite-font;
 
       &::before, &::after {
-        color: @color-lite-font;
+        //color: @color-lite-font;
       }
       &::before {
         content: '('

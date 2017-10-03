@@ -1,7 +1,9 @@
 (function () {
     'use strict';
 
-    const controller = function () {
+    const module = angular.module('app.ui');
+
+    const controller = function ($element, $attrs) {
 
         class Button {
 
@@ -13,11 +15,13 @@
                 /**
                  * @type {string}
                  */
-                this.mode = null;
+                this.mode = '';
             }
 
             $postLink() {
-
+                if ($attrs.type) {
+                    $element.find('button:first').attr('type', $attrs.type);
+                }
             }
 
         }
@@ -25,14 +29,19 @@
         return new Button();
     };
 
-    controller.$inject = [];
+    controller.$inject = ['$element', '$attrs'];
 
-    angular.module('app.ui')
-        .component('wButton', {
-            bindings: {
-                type: '@',
-                mode: '@'
-            },
-            controller
-        });
+    const getButtonContent = (type) => ({
+        template: `<button class="${type}" ng-class="$ctrl.mode" ng-transclude></button>`,
+        transclude: true,
+        bindings: {
+            mode: '@'
+        },
+        controller
+    });
+
+    module.component('wButtonSubmit', getButtonContent('submit'));
+    module.component('wButtonSuccess', getButtonContent('success'));
+    module.component('wButton', getButtonContent(''));
+
 })();

@@ -20,28 +20,18 @@
             constructor() {
                 super($scope);
 
-                this.mode = null;
+                this.chartMode = null;
                 this.assets = null;
                 this.total = null;
 
-                this.data = { values: [{ x: 0, y: 0 }] };
+                this.data = null;
+                this.assetList = null;
                 this.options = assetsData.getGraphOptions();
-
-                this.polls.updateGraph = new Poll(
-                    this._getGraphData.bind(this),
-                    this._applyGraphData.bind(this),
-                    5000
-                );
-                this.polls.updateBalances = new Poll(
-                    this._getBalances.bind(this),
-                    this._applyBalances.bind(this),
-                    5000
-                );
 
                 const hours = tsUtils.date('hh:mm');
                 const dates = tsUtils.date('DD/MM');
                 this.options.axes.x.tickFormat = (date) => {
-                    if (this.mode === 'hour') {
+                    if (this.chartMode === 'hour') {
                         return hours(date);
                     } else {
                         return dates(date);
@@ -52,9 +42,23 @@
                     this.polls.updateBalances.restart();
                 });
 
-                this.syncSettings('wallet.assets.chartMode');
+                utils.whenAll([
+                    this.syncSettings('wallet.assets.chartMode'),
+                    this.syncSettings('wallet.assets.assetList')
+                ]).then(() => {
+                    this.polls.updateGraph = new Poll(
+                        this._getGraphData.bind(this),
+                        this._applyGraphData.bind(this),
+                        5000
+                    );
+                    this.polls.updateBalances = new Poll(
+                        this._getBalances.bind(this),
+                        this._applyBalances.bind(this),
+                        5000
+                    );
+                });
 
-                this.observe('mode', () => this._onChangeMode());
+                this.observe('chartMode', () => this._onChangeMode());
                 this.observe(['startDate', 'endDate'], () => this._onChangeInterval());
             }
 
@@ -77,8 +81,7 @@
              * @private
              */
             _getBalances() {
-                return user.getSetting('wallet.assets.assetList')
-                    .then((list) => utils.whenAll(list.map(assetsService.getBalance)));
+                return assetsService.getBalanceList(this.assetList);
             }
 
             /**
@@ -154,7 +157,7 @@
              * @private
              */
             _onChangeMode() {
-                switch (this.mode) {
+                switch (this.chartMode) {
                     case 'hour':
                         this.startDate = utils.moment()
                             .add

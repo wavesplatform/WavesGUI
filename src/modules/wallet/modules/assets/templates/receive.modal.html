@@ -4,9 +4,9 @@
             <div class="md-toolbar-tools">
                 <h2 w-i18n="modal.receive.title" params="{assetName: $ctrl.asset.name}"></h2>
                 <span flex></span>
-                <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
+                <w-button class="md-icon-button" ng-click="$ctrl.cancel()">
                     X
-                </md-button>
+                </w-button>
             </div>
         </md-toolbar>
 
@@ -21,9 +21,9 @@
                     <p w-i18n="modal.receive.text" params="{assetName: $ctrl.asset.name}"></p>
                     <span w-i18n="modal.receive.description" params="{assetName: $ctrl.asset.name}"></span>
 
-                    <md-button class="md-raised md-primary" ng-click="$ctrl.ok()">
+                    <w-button-submit ng-click="$ctrl.ok()">
                         <w-i18n>modal.receive.ok</w-i18n>
-                    </md-button>
+                    </w-button-submit>
                 </div>
                 <div ng-class="{active: $ctrl.step === 1}" class="step step-2">
                     <w-qr-code size="160" url="$ctrl.asset.id"></w-qr-code>

@@ -14,27 +14,31 @@
 
 <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
 
-    <md-checkbox name="tos" ng-model="$ctrl.moneyInApp" required>
+    <w-checkbox-submit id="money-in-app" ng-model="$ctrl.moneyInApp"></w-checkbox-submit>
+    <label for="money-in-app">
         I understand that my funds are held securely on this device, not by a company.
-    </md-checkbox>
+    </label>
 
 </section>
 
 <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-    <md-checkbox name="tos" ng-model="$ctrl.restoreByBackup" required>
-        I understand that if this app is moved to another device or deleted my WAVES can only be recovered with the
+    <w-checkbox-submit id="get-started-restore" ng-model="$ctrl.restoreByBackup"></w-checkbox-submit>
+    <label for="get-started-restore">I understand that if this app is moved to another device or deleted my WAVES can
+        only be recovered with the
         backup phrase.
-    </md-checkbox>
+    </label>
 </section>
 
 <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-    <md-checkbox name="tos" ng-model="$ctrl.agree" required>
+    <w-checkbox-submit id="get-started-agree" ng-model="$ctrl.agree"></w-checkbox-submit>
+    <label for="get-started-agree">
         I have read, understand, and agree to the Terms of Use.
+    </label>
     </md-checkbox>
 </section>
 
 <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-    <md-button ng-disabled="$ctrl.canConfirm()" ng-click="$ctrl.next()" class="md-raised md-primary">
+    <w-button-submit ng-disabled="$ctrl.canConfirm()" ng-click="$ctrl.next()">
         Confirm & Finish
-    </md-button>
+    </w-button-submit>
 </section>

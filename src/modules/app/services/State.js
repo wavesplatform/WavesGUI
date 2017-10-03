@@ -5,6 +5,29 @@
 
         class State {
 
+            /**
+             * @returns {number}
+             * @private
+             */
+            get _seepStep() {
+                return this.__seepStep;
+            }
+
+            /**
+             * @param {number} value
+             * @private
+             */
+            set _seepStep(value) {
+                if (value) {
+                    if (this._maxSleep) {
+                        this._addBlock();
+                    }
+                } else {
+                    this._removeBlock();
+                }
+                this.__seepStep = value;
+            }
+
             constructor() {
                 /**
                  * @type {boolean}
@@ -25,7 +48,7 @@
                 this._timer = null;
                 this._seepStartTime = null;
                 this._maxSleep = null;
-                this._seepStep = null;
+                this.__seepStep = null;
                 this._block = document.createElement('DIV');
                 this._handlers = Object.create(null);
 
@@ -45,6 +68,9 @@
                 this._setHandlers();
             }
 
+            /**
+             * @private
+             */
             _addBlockStyles() {
                 this._block.classList.add('sleep-block');
             }
@@ -65,6 +91,9 @@
                 };
             }
 
+            /**
+             * @private
+             */
             _wakeUp() {
                 this._seepStartTime = null;
                 this._seepStep = null;
@@ -72,20 +101,35 @@
                     clearTimeout(this._timer);
                     this._timer = null;
                 }
-                if (this._block.parentNode === document.body) {
-                    document.body.removeChild(this._block);
-                }
                 this.signals.wakeUp.dispatch();
             }
 
+            /**
+             * @private
+             */
+            _removeBlock() {
+                if (this._block && this._block.parentNode === document.body) {
+                    document.body.removeChild(this._block);
+                }
+            }
+
+            /**
+             * @private
+             */
+            _addBlock() {
+                if (this._block && !this._block.parentNode) {
+                    document.body.appendChild(this._block);
+                }
+            }
+
+            /**
+             * @private
+             */
             _sleep() {
                 if (this._timer) {
                     this._timer = null;
                 }
                 if (!this._seepStartTime) {
-                    if (this._maxSleep) {
-                        document.body.appendChild(this._block);
-                    }
                     this._seepStartTime = Date.now();
                     this._setSleepStep(0);
                 }
@@ -98,6 +142,11 @@
                 }, 1000);
             }
 
+            /**
+             * @param step
+             * @returns {null}
+             * @private
+             */
             _setSleepStep(step) {
                 if (this._seepStep === step) {
                     return null;

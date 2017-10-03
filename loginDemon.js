@@ -12,23 +12,25 @@ window.onload = function () {
         });
     };
 
-    find()
-        .then(($input) => {
+    if (location.href.indexOf('loginDemon=false') === -1) {
+        find()
+            .then(($input) => {
 
-            if (password) {
-                $input.val(password);
-                setTimeout(() => {
-                    $input.focus();
-                    $input.change();
-                    $('body.welcome button[type="submit"]')
-                        .click();
-                }, 500);
-            } else {
-                $input.on('input', () => {
-                    localStorage.setItem('__password-demon-data', $input.val());
-                });
-            }
+                if (password) {
+                    $input.val(password);
+                    setTimeout(() => {
+                        $input.focus();
+                        $input.change();
+                        $('body.welcome button[type="submit"]')
+                            .click();
+                    }, 500);
+                } else {
+                    $input.on('input', () => {
+                        localStorage.setItem('__password-demon-data', $input.val());
+                    });
+                }
 
-        });
+            });
+    }
 
 };
