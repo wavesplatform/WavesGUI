@@ -122,6 +122,7 @@
     }
   },
   "dependencies": {
+    "@types/less": "0.0.32",
     "@uirouter/angularjs": "^1.0.6",
     "angular": "^1.6.5",
     "angular-animate": "^1.6.5",
