@@ -25,7 +25,8 @@
                 url: '/portfolio',
                 views: {
                     content: {
-                        templateUrl: getTemplatePath('portfolio')
+                        templateUrl: getTemplatePath('portfolio'),
+                        controller: 'PortfolioCtrl as $ctrl'
                     }
                 }
             })
