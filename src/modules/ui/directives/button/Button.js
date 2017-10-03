@@ -31,8 +31,8 @@
 
     controller.$inject = ['$element', '$attrs'];
 
-    module.component('wButtonSubmit', {
-        template: '<button class="submit" ng-class="$ctrl.mode" ng-transclude></button>',
+    const getButtonContent = (type) => ({
+        template: `<button class="${type}" ng-class="$ctrl.mode" ng-transclude></button>`,
         transclude: true,
         bindings: {
             mode: '@'
@@ -40,22 +40,8 @@
         controller
     });
 
-    module.component('wButtonSuccess', {
-        template: '<button class="success" ng-class="$ctrl.mode" ng-transclude></button>',
-        transclude: true,
-        bindings: {
-            mode: '@'
-        },
-        controller
-    });
-
-    module.component('wButton', {
-        template: '<button ng-class="$ctrl.mode" ng-transclude></button>',
-        transclude: true,
-        bindings: {
-            mode: '@'
-        },
-        controller
-    });
+    module.component('wButtonSubmit', getButtonContent('submit'));
+    module.component('wButtonSuccess', getButtonContent('success'));
+    module.component('wButton', getButtonContent(''));
 
 })();

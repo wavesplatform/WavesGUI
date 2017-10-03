@@ -11,6 +11,10 @@
                  * @type {string}
                  */
                 this.mode = '';
+                /**
+                 * @type {boolean}
+                 */
+                this.disabled = false;
             }
 
             $postLink() {
@@ -38,9 +42,14 @@
             bindings: {
                 mode: '@',
                 id: '@',
+                disabled: '<',
                 ngModel: '='
             },
-            template: template(['ng-checked="$ctrl.ngModel"', 'ng-class="$ctrl.mode"']),
+            template: template([
+                'ng-checked="$ctrl.ngModel"',
+                'ng-class="$ctrl.mode"',
+                'ng-disabled="$ctrl.disabled"'
+            ]),
             transclude: false,
             controller
         };

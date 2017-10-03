@@ -42,7 +42,8 @@
                         <div class="inputs-container">
                             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                                 <w-input-container form="createPassword">
-                                    <input name="password"
+                                    <input class="big"
+                                           name="password"
                                            type="password"
                                            w-i18n-attr="placeholder"
                                            placeholder="createAccount.passPlaceholder"
@@ -66,7 +67,8 @@
 
                             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                                 <w-input-container form="createPassword">
-                                    <input name="confirmPassword"
+                                    <input class="big"
+                                           name="confirmPassword"
                                            type="password"
                                            w-i18n-attr="placeholder"
                                            required
@@ -89,9 +91,9 @@
                 </div>
             </div>
             <div class="footer">
-                <md-button type="submit" class="md-raised md-primary">
+                <w-button-submit type="submit">
                     <w-i18n>createAccount.next</w-i18n>
-                </md-button>
+                </w-button-submit>
             </div>
 
         </div>

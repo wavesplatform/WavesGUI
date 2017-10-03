@@ -7,6 +7,7 @@ ui-view[name="main"] {
   height: 100%;
   min-width: 1024px;
   overflow: auto;
+  background-color: @color-background-default;
 }
 
 ui-view[name="main"] {
@@ -98,23 +99,23 @@ w-scroll-box {
   //background-color: @color-lite-background;
 
   .header {
-    //height: @height-header;
+    height: @height-header;
     width: 100%;
     //background-color: @color-lite-background-blocks;
   }
 
   .left-menu {
-    //width: @width-left-menu-block;
+    width: @width-left-menu;
     position: absolute;
     left: 0;
-    //top: @height-header;
+    top: @height-header;
     bottom: 0;
     //background-color: @color-lite-background-blocks;
   }
 
   .content {
-    //width: calc(~"100% - "@width-left-menu-block + @padding-main-layout * 2);
-    //height: calc(~"100% - "@width-left-menu-block + @padding-main-layout * 2);
+    width: calc(~"100% - "@width-left-menu + @padding-main-layout * 2);
+    height: calc(~"100% - "@width-left-menu + @padding-main-layout * 2);
     overflow: auto;
     position: absolute;
     right: @padding-main-layout;
