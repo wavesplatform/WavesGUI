@@ -1,13 +1,45 @@
 @import (reference) '../../../config';
 
+input[type="text"], input[type="password"], input[type="number"], textarea {
+  border-style: solid;
+  border-width: 1px;
+  border-color: @color-input-border;
+  background-color: @color-input-background;
+  border-radius: @border-radius;
+  height: 36px;
+  font-size: 13px;
+  padding: 8px 15px;
+  width: 100%;
+
+  &.big {
+    font-size: 15px;
+    height: 42px;
+    padding: 10px 15px;
+  }
+
+  &::placeholder {
+    color: @color-input-placeholder;
+  }
+
+  &:focus, &.focus {
+    background-color: @color-input-background-focus;
+    color: @color-input-text-focus;
+  }
+
+  &.ng-touched {
+    &.ng-valid:not(:focus) {
+      border-color: @color-input-border-valid;
+    }
+    &.ng-invalid:not(:focus) {
+      border-color: @color-input-border-invalid;
+    }
+  }
+}
+
 w-input-container {
 
   input {
     transition: all 0.3s;
-  }
-
-  .ng-touched.ng-invalid:not(:focus) {
-    //border-color: @color-input-border-error;
   }
 
   .error {
@@ -17,7 +49,7 @@ w-input-container {
     transform: scaleY(0);
     overflow: hidden;
     display: block;
-    //color: @color-error-font;
+    color: @color-warning;
 
     &.active {
       opacity: 1;
@@ -25,8 +57,4 @@ w-input-container {
       height: auto;
     }
   }
-}
-
-.ng-submitted .ng-invalid:not(:focus) {
-  //border-color: @color-input-border-error;
 }

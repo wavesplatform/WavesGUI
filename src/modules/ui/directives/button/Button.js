@@ -31,19 +31,31 @@
 
     controller.$inject = ['$element', '$attrs'];
 
-    ['submit', 'success', ''].forEach(function (type) {
-
-        const name = type ? type.charAt(0)
-            .toUpperCase() + type.substr(1) : type;
-
-        module.component(`wButton${name}`, {
-            template: `<button class="${type}" ng-class="$ctrl.mode" ng-transclude></button>`,
-            transclude: true,
-            bindings: {
-                mode: '@'
-            },
-            controller
-        });
-
+    module.component('wButtonSubmit', {
+        template: '<button class="submit" ng-class="$ctrl.mode" ng-transclude></button>',
+        transclude: true,
+        bindings: {
+            mode: '@'
+        },
+        controller
     });
+
+    module.component('wButtonSuccess', {
+        template: '<button class="success" ng-class="$ctrl.mode" ng-transclude></button>',
+        transclude: true,
+        bindings: {
+            mode: '@'
+        },
+        controller
+    });
+
+    module.component('wButton', {
+        template: '<button ng-class="$ctrl.mode" ng-transclude></button>',
+        transclude: true,
+        bindings: {
+            mode: '@'
+        },
+        controller
+    });
+
 })();
