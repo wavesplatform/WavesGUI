@@ -78,34 +78,39 @@
              * @return {Promise}
              */
             getBalanceList(assetIds, options) {
-                if (assetIds) {
-                    return utils.whenAll([
-                        Promise.all(assetIds.map(this.getAssetInfo)),
-                        eventManager.getBalanceEvents(),
-                        this._getBalanceList(assetIds, options)
-                    ])
-                        .then(([assets, events, balances]) => {
-                            return assets.map((asset) => {
-                                const balanceData = tsUtils.find(balances, { id: asset.id });
-                                const balance = balanceData && parseFloat(balanceData.amount) || 0;
-                                return { ...asset, balance: this._getAssetBalance(asset.id, balance, events) };
-                            });
-                        });
-                } else {
-                    return utils.whenAll([
-                        eventManager.getBalanceEvents(),
-                        this._getBalanceList(assetIds, options)
-                    ])
-                        .then(([list, events]) => {
-                            return Promise.all(list.map((item) => this.getAssetInfo(item.id)))
-                                .then((infoList) => {
-                                    return infoList.map((asset, i) => {
-                                        const balance = parseFloat(list[i].amount) || 0;
-                                        return { ...asset, balance: this._getAssetBalance(asset.id, balance, events) };
-                                    });
+                return user.onLogin().then(() => {
+                    if (assetIds) {
+                        return utils.whenAll([
+                            Promise.all(assetIds.map(this.getAssetInfo)),
+                            eventManager.getBalanceEvents(),
+                            this._getBalanceList(assetIds, options)
+                        ])
+                            .then(([assets, events, balances]) => {
+                                return assets.map((asset) => {
+                                    const balanceData = tsUtils.find(balances, { id: asset.id });
+                                    const balance = balanceData && parseFloat(balanceData.amount) || 0;
+                                    return { ...asset, balance: this._getAssetBalance(asset.id, balance, events) };
                                 });
-                        });
-                }
+                            });
+                    } else {
+                        return utils.whenAll([
+                            eventManager.getBalanceEvents(),
+                            this._getBalanceList(assetIds, options)
+                        ])
+                            .then(([list, events]) => {
+                                return Promise.all(list.map((item) => this.getAssetInfo(item.id)))
+                                    .then((infoList) => {
+                                        return infoList.map((asset, i) => {
+                                            const balance = parseFloat(list[i].amount) || 0;
+                                            return {
+                                                ...asset,
+                                                balance: this._getAssetBalance(asset.id, balance, events)
+                                            };
+                                        });
+                                    });
+                            });
+                    }
+                });
             }
 
             /**
