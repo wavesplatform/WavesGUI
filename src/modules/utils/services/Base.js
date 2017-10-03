@@ -5,9 +5,10 @@
      * @param {User} user
      * @param $timeout
      * @param {app.utils} utils
+     * @param {Poll} Poll
      * @returns {Base}
      */
-    const factory = function (user, $timeout, utils) {
+    const factory = function (user, $timeout, utils, Poll) {
 
         class Base {
 
@@ -58,6 +59,32 @@
                         }
                     });
                 });
+            }
+
+            /**
+             * @param {Function} getter
+             * @param {Function|string} setter
+             * @param {number} time
+             * @returns {Poll}
+             */
+            createPoll(getter, setter, time) {
+                if (typeof setter === 'string') {
+                    const name = setter;
+                    setter = (data) => {
+                        tsUtils.set(this, name, data);
+                    };
+                } else {
+                    setter = setter.bind(this);
+                }
+                /**
+                 * @type {Poll}
+                 */
+                const poll = new Poll(getter.bind(this), setter, time);
+                this.polls[poll.id] = poll;
+                this.receiveOnce(poll.signals.destroy, () => {
+                    delete this.polls[poll.id];
+                });
+                return poll;
             }
 
             /**
@@ -155,7 +182,7 @@
         return Base;
     };
 
-    factory.$inject = ['user', '$timeout', 'utils'];
+    factory.$inject = ['user', '$timeout', 'utils', 'Poll'];
 
     angular.module('app.utils')
         .factory('Base', factory);

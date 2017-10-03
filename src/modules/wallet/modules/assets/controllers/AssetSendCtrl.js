@@ -6,14 +6,13 @@
      * @param $mdDialog
      * @param {AssetsService} assetsService
      * @param {Base} Base
-     * @param {Poll} Poll
      * @param {app.utils} utils
      * @param {app.utils.apiWorker} apiWorker
      * @param {User} user
      * @param {EventManager} eventManager
      * @return {AssetSendCtrl}
      */
-    const controller = function ($scope, $mdDialog, assetsService, Base, Poll, utils, apiWorker, user, eventManager) {
+    const controller = function ($scope, $mdDialog, assetsService, Base, utils, apiWorker, user, eventManager) {
 
         class AssetSendCtrl extends Base {
 
@@ -35,7 +34,7 @@
                 this.mirrorId = mirrorId;
 
                 this.recipient = '';
-                this.polls.updateBalance = new Poll(this._getAsset.bind(this), this._setAsset.bind(this), 1000);
+                this.updateBalance = this.createPoll(this._getAsset, 'asset', 1000);
                 /**
                  * @type {IFeeData}
                  */
@@ -126,14 +125,6 @@
             }
 
             /**
-             * @param asset
-             * @private
-             */
-            _setAsset(asset) {
-                this.asset = asset;
-            }
-
-            /**
              * @private
              */
             _onChangeAmount() {
@@ -175,7 +166,6 @@
         '$mdDialog',
         'assetsService',
         'Base',
-        'Poll',
         'utils',
         'apiWorker',
         'user',

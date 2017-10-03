@@ -10,7 +10,7 @@
 <w-table>
     <w-row>
         <w-cell>
-            <input type="checkbox" ng-model="$ctrl.allAssets"/>
+            <w-checkbox-submit ng-click="$ctrl.selectAll()" ng-model="$ctrl.selectedAll"></w-checkbox-submit>
             Asset Name
         </w-cell>
         <w-cell>Balance</w-cell>
@@ -21,17 +21,18 @@
     </w-row>
     <w-scroll-box>
         <w-row ng-repeat="asset in $ctrl.portfolio">
-            <w-cell>
-                <input type="checkbox" ng-model="asset.checked"/>
-                <w-asset-logo size="30" asset-id="asset.id"></w-asset-logo>
-                {{::asset.name}}
+            <w-cell class="name">
+                <w-checkbox-submit ng-click="$ctrl.selectItem(asset)" ng-model="asset.checked"></w-checkbox-submit>
+                <w-asset-logo size="30" asset-id="{{::asset.id}}"></w-asset-logo>
+                <div>{{::asset.name}}</div>
             </w-cell>
             <w-cell>
-                <w-balance asset-id="asset.id" balance="asset.balance"></w-balance>
+                <w-balance asset-id="{{::asset.id}}" balance="asset.balance"></w-balance>
             </w-cell>
-            <w-cell>null</w-cell>
-            <w-cell>null</w-cell>
-            <w-cell>null</w-cell>
+            <w-cell>Price</w-cell>
+            <w-cell>Bid</w-cell>
+            <w-cell>Ask</w-cell>
+            <w-cell>24h Change</w-cell>
         </w-row>
     </w-scroll-box>
 </w-table>

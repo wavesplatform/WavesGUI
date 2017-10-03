@@ -17,16 +17,12 @@
                 this.disabled = false;
             }
 
-            $postLink() {
-
-            }
-
         }
 
         return new Checkbox();
     };
 
-    controller.$inject = ['Base'];
+    controller.$inject = ['Base', '$element'];
 
     const getComponentData = (type) => {
 
@@ -46,7 +42,7 @@
                 ngModel: '='
             },
             template: template([
-                'ng-checked="$ctrl.ngModel"',
+                'ng-model="$ctrl.ngModel"',
                 'ng-class="$ctrl.mode"',
                 'ng-disabled="$ctrl.disabled"'
             ]),

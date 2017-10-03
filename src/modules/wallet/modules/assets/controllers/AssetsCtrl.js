@@ -2,7 +2,6 @@
     'use strict';
 
     /**
-     * @param {Poll} Poll
      * @param {AssetsService} assetsService
      * @param {AssetsData} assetsData
      * @param {$rootScope.Scope} $scope
@@ -13,7 +12,7 @@
      * @param {EventManager} eventManager
      * @returns {Assets}
      */
-    const controller = function (Poll, assetsService, assetsData, $scope, utils, $mdDialog, Base, user, eventManager) {
+    const controller = function (assetsService, assetsData, $scope, utils, $mdDialog, Base, user, eventManager) {
 
         class Assets extends Base {
 
@@ -39,23 +38,15 @@
                 };
 
                 this.receive(eventManager.signals.balanceEventEnd, () => {
-                    this.polls.updateBalances.restart();
+                    this.updateBalances.restart();
                 });
 
                 utils.whenAll([
                     this.syncSettings('wallet.assets.chartMode'),
                     this.syncSettings('wallet.assets.assetList')
                 ]).then(() => {
-                    this.polls.updateGraph = new Poll(
-                        this._getGraphData.bind(this),
-                        this._applyGraphData.bind(this),
-                        5000
-                    );
-                    this.polls.updateBalances = new Poll(
-                        this._getBalances.bind(this),
-                        this._applyBalances.bind(this),
-                        5000
-                    );
+                    this.updateGraph = this.createPoll(this._getGraphData, 'data', 5000);
+                    this.updateBalances = this.createPoll(this._getBalances, 'assets', 5000);
                 });
 
                 this.observe('chartMode', () => this._onChangeMode());
@@ -85,14 +76,6 @@
             }
 
             /**
-             * @param balances
-             * @private
-             */
-            _applyBalances(balances) {
-                this.assets = balances;
-            }
-
-            /**
              * @param asset
              * @private
              */
@@ -110,7 +93,7 @@
                             multiple: true
                         })
                             .then(() => {
-                                this.polls.updateBalances.restart();
+                                this.updateBalances.restart();
                             });
                     });
             }
@@ -134,7 +117,7 @@
              * @private
              */
             _onChangeInterval() {
-                this.polls.updateGraph.restart();
+                this.updateGraph.restart();
             }
 
             /**
@@ -142,15 +125,7 @@
              * @private
              */
             _getGraphData() {
-                return assetsData.getGraphData(this.startDate, this.endDate);
-            }
-
-            /**
-             * @param values
-             * @private
-             */
-            _applyGraphData(values) {
-                this.data = { values };
+                return assetsData.getGraphData(this.startDate, this.endDate).then((values) => ({ values }));
             }
 
             /**
@@ -193,7 +168,6 @@
     };
 
     controller.$inject = [
-        'Poll',
         'assetsService',
         'assetsData',
         '$scope',

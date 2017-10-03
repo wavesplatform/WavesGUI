@@ -19,6 +19,13 @@
              * @param {number} time
              */
             constructor(getData, applyData, time) {
+                this.id = tsUtils.uniqueId('poll');
+                /**
+                 * @type {{destroy: Signal}}
+                 */
+                this.signals = {
+                    destroy: new tsUtils.Signal()
+                };
                 /**
                  * @type {number}
                  * @private
@@ -75,6 +82,7 @@
             destroy() {
                 this._stopTimers();
                 this.stopReceive();
+                this.signals.destroy.dispatch();
             }
 
             restart() {
@@ -90,10 +98,18 @@
                 this._run();
             }
 
+            /**
+             * @param step
+             * @private
+             */
             _sleep(step) {
                 this._sleepStep = step + 2;
             }
 
+            /**
+             *
+             * @private
+             */
             _wakeUp() {
                 this._sleepStep = null;
                 this.restart();
