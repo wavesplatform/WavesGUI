@@ -6,7 +6,7 @@
      * @param {User} user
      * @returns {ModalManager}
      */
-    const factory = function ($mdDialog, user) {
+    const factory = function ($mdDialog) {
 
 
         const DEFAULT_OPTIONS = {
@@ -21,9 +21,10 @@
 
             /**
              * @param {string} assetId
+             * @param {User} user
              * @returns {Promise}
              */
-            showSendAsset(assetId) {
+            showSendAsset(assetId, user) {
                 return user.getSetting('baseAssetId').then((baseAssetId) => this._getModal({
                     controller: 'AssetSendCtrl',
                     templateUrl: '/modules/utils/modals/sendAsset/send.modal.html',
@@ -40,6 +41,16 @@
                     locals: { asset },
                     templateUrl: '/modules/utils/modals/receiveAsset/receive.modal.html',
                     controller: 'AssetReceiveCtrl'
+                });
+            }
+
+            /**
+             * @returns {Promise}
+             */
+            getSeed() {
+                return this._getModal({
+                    templateUrl: '/modules/utils/modals/enterPassword/enterPassword.modal.html',
+                    controller: 'EnterPasswordCtrl'
                 });
             }
 
@@ -72,7 +83,7 @@
         return new ModalManager();
     };
 
-    factory.$inject = ['$mdDialog', 'user'];
+    factory.$inject = ['$mdDialog'];
 
     angular.module('app.utils').factory('modalManager', factory);
 })();

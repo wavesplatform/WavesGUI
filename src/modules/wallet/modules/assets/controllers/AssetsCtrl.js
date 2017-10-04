@@ -6,7 +6,6 @@
      * @param {AssetsData} assetsData
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
-     * @param $mdDialog
      * @param {Base} Base
      * @param {User} user
      * @param {EventManager} eventManager
@@ -81,7 +80,7 @@
              * @private
              */
             _showSendModal(asset) {
-                return modalManager.showSendAsset(asset.id)
+                return modalManager.showSendAsset(asset.id, user)
                     .then(() => {
                         this.updateBalances.restart();
                     });

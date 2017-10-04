@@ -6,13 +6,13 @@
      * @param {$q} $q
      * @param {*} $state
      * @param {app.defaultSettings} defaultSettings
-     * @param {*} $mdDialog
      * @param {app.utils.apiWorker} apiWorker
      * @param {State} state
      * @param {UserRouteState} UserRouteState
+     * @param {ModalManager} modalManager
      * @returns {User}
      */
-    const factory = function (storage, $q, $state, defaultSettings, $mdDialog, apiWorker, state, UserRouteState) {
+    const factory = function (storage, $q, $state, defaultSettings, apiWorker, state, UserRouteState, modalManager) {
 
         class User {
 
@@ -133,14 +133,7 @@
                 return this.onLogin()
                     .then(() => {
                         if (!this._password) {
-                            return $mdDialog.show({
-                                clickOutsideToClose: true,
-                                escapeToClose: true,
-                                multiple: true,
-                                preserveScope: true,
-                                templateUrl: '/modules/app/templates/enterPassword.html',
-                                controller: 'EnterPasswordCtrl as $ctrl'
-                            });
+                            return modalManager.getSeed()
                         } else {
                             const data = {
                                 encryptionRounds: this._settings.get('encryptionRounds'),
@@ -338,10 +331,10 @@
         '$q',
         '$state',
         'defaultSettings',
-        '$mdDialog',
         'apiWorker',
         'state',
-        'UserRouteState'
+        'UserRouteState',
+        'modalManager'
     ];
 
     angular.module('app')
