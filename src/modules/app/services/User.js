@@ -115,7 +115,7 @@
             }
 
             getActiveState(name) {
-                const userState = tsUtils.find(this._stateList, { name });
+                const userState = tsUtils.find(this._stateList || [], { name });
                 if (userState) {
                     return userState.state;
                 } else {

@@ -158,7 +158,7 @@
 
         }
 
-        return new AssetSendCtrl(this.assetId, this.aliasId);
+        return new AssetSendCtrl(this.assetId, this.baseAssetId);
     };
 
     controller.$inject = [
@@ -172,6 +172,6 @@
         'eventManager'
     ];
 
-    angular.module('app.wallet.assets')
+    angular.module('app.utils')
         .controller('AssetSendCtrl', controller);
 })();

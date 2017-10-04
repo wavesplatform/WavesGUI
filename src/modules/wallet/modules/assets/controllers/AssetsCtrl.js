@@ -10,9 +10,10 @@
      * @param {Base} Base
      * @param {User} user
      * @param {EventManager} eventManager
+     * @param {ModalManager} modalManager
      * @returns {Assets}
      */
-    const controller = function (assetsService, assetsData, $scope, utils, $mdDialog, Base, user, eventManager) {
+    const controller = function (assetsService, assetsData, $scope, utils, Base, user, eventManager, modalManager) {
 
         class Assets extends Base {
 
@@ -80,21 +81,9 @@
              * @private
              */
             _showSendModal(asset) {
-                user.getSetting('baseAssetId')
-                    .then((aliasId) => {
-                        $mdDialog.show({
-                            clickOutsideToClose: true,
-                            escapeToClose: true,
-                            locals: { assetId: asset.id, aliasId },
-                            bindToController: true,
-                            templateUrl: '/modules/wallet/modules/assets/templates/send.modal.html',
-                            controller: 'AssetSendCtrl as $ctrl',
-                            autoWrap: false,
-                            multiple: true
-                        })
-                            .then(() => {
-                                this.updateBalances.restart();
-                            });
+                return modalManager.showSendAsset(asset.id)
+                    .then(() => {
+                        this.updateBalances.restart();
                     });
             }
 
@@ -103,14 +92,7 @@
              * @private
              */
             _showReceiveModal(asset) {
-                $mdDialog.show({
-                    clickOutsideToClose: true,
-                    escapeToClose: true,
-                    bindToController: true,
-                    locals: { asset },
-                    templateUrl: '/modules/wallet/modules/assets/templates/receive.modal.html',
-                    controller: 'AssetReceiveCtrl as $ctrl'
-                });
+                return modalManager.showReceiveAsset(asset);
             }
 
             /**
@@ -172,10 +154,10 @@
         'assetsData',
         '$scope',
         'utils',
-        '$mdDialog',
         'Base',
         'user',
-        'eventManager'
+        'eventManager',
+        'modalManager'
     ];
 
     angular.module('app.wallet.assets')

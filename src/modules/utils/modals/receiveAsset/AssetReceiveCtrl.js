@@ -25,6 +25,6 @@
 
     controller.$inject = ['$mdDialog'];
 
-    angular.module('app.wallet.assets')
+    angular.module('app.utils')
         .controller('AssetReceiveCtrl', controller);
 })();
