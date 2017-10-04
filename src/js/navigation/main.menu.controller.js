@@ -9,6 +9,7 @@
 
         ctrl.blockHeight = 0;
         ctrl.address = applicationContext.account.address;
+        ctrl.addressQr = 'waves://' + ctrl.address;
 
         function initializeBackupFields() {
             ctrl.seed = applicationContext.account.seed;
