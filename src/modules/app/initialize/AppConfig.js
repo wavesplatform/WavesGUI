@@ -77,7 +77,7 @@
                                 templateUrl: AppConfig.getTemplateUrl('wallet', 'header')
                             },
                             leftMenu: {
-                                controller: AppConfig.getCtrlName('walletLeftMenu'),
+                                controller: AppConfig.getCtrlName('leftMenu'),
                                 templateUrl: AppConfig.getTemplateUrl('app', 'leftMenu')
                             },
                             mainContent: {
@@ -93,7 +93,7 @@
                                 templateUrl: AppConfig.getTemplateUrl('dex', 'header')
                             },
                             leftMenu: {
-                                controller: AppConfig.getCtrlName('dexLeftMenu'),
+                                controller: AppConfig.getCtrlName('leftMenu'),
                                 templateUrl: AppConfig.getTemplateUrl('app', 'leftMenu')
                             },
                             mainContent: {

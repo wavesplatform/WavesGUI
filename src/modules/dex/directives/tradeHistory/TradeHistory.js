@@ -36,10 +36,10 @@
                 this.poll = this.createPoll(this._getTradeHistory, 'orders', 2000);
 
                 this.shema = new tsApiValidator.Schema({
-                    type: 'array',
-                    required: true,
+                    type: tsApiValidator.ArrayPart,
+                    // required: true, TODO uncomment
                     content: {
-                        type: 'object',
+                        type: tsApiValidator.ObjectPart,
                         required: true,
                         content: {
                             price: { type: tsApiValidator.NumberPart, required: true },

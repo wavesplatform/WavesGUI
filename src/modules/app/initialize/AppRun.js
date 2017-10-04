@@ -34,6 +34,13 @@
 
     LOADER.addProgress(PROGRESS_MAP.RUN_SCRIPT);
 
+    /**
+     * @param $rootScope
+     * @param {User} user
+     * @param $state
+     * @param apiWorker
+     * @returns {AppRun}
+     */
     const run = function ($rootScope, user, $state, apiWorker) {
 
         class AppRun {
@@ -99,7 +106,7 @@
                             if (START_STATES.indexOf(state.name) === -1) {
                                 $state.go(state.name, params);
                             } else {
-                                $state.go('main.wallet');
+                                $state.go(user.getActiveState('wallet'));
                             }
                         });
                     stop();
@@ -133,6 +140,7 @@
                         document.body.classList.add(name);
                         this.activeClasses.push(name);
                     });
+                user.applyState(toState);
             }
 
             /**

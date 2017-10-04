@@ -171,6 +171,28 @@
         const utils = {
 
             /**
+             * @name app.utils#observe
+             * @param {object} target
+             * @param {string} key
+             * @param {Function} callback
+             * @param {object} [context]
+             */
+            observe(target, key, callback, context) {
+                const privateKey = `___${key}`;
+                target[privateKey] = target[key];
+                Object.defineProperty(target, key, {
+                    get: () => target[privateKey],
+                    set: (value) => {
+                        const prev = target[privateKey];
+                        if (value !== prev) {
+                            target[privateKey] = value;
+                            callback.call(context, prev);
+                        }
+                    }
+                });
+            },
+
+            /**
              * @name app.utils#when
              * @param {*} data
              * @return {Promise}

@@ -32,6 +32,7 @@
                     baseAssetId: WavesApp.defaultAssets.USD,
                     events: Object.create(null),
                     wallet: {
+                        activeState: 'assets',
                         assets: {
                             chartMode: 'week',
                             assetList: [

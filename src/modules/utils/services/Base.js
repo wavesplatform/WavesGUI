@@ -108,6 +108,14 @@
                 }));
             }
 
+            wrappCallback(cb) {
+                return (...args) => {
+                    if (!this.__isRemoved) {
+                        cb.call(this, ...args);
+                    }
+                };
+            }
+
             $onDestroy() {
                 this.__isRemoved = true;
                 this.__handlers = Object.create(null);

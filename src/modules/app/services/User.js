@@ -9,9 +9,10 @@
      * @param {*} $mdDialog
      * @param {app.utils.apiWorker} apiWorker
      * @param {State} state
+     * @param {UserRouteState} UserRouteState
      * @returns {User}
      */
-    const factory = function (storage, $q, $state, defaultSettings, $mdDialog, apiWorker, state) {
+    const factory = function (storage, $q, $state, defaultSettings, $mdDialog, apiWorker, state, UserRouteState) {
 
         class User {
 
@@ -61,6 +62,11 @@
                  * @private
                  */
                 this._changeTimer = null;
+                /**
+                 * @type {Array}
+                 * @private
+                 */
+                this._stateList = null;
 
                 this._setObserve();
             }
@@ -106,6 +112,21 @@
 
             logout() {
                 window.location.reload();
+            }
+
+            getActiveState(name) {
+                const userState = tsUtils.find(this._stateList, { name });
+                if (userState) {
+                    return userState.state;
+                } else {
+                    return `main.${name}`;
+                }
+            }
+
+            applyState(state) {
+                if (this._stateList) {
+                    this._stateList.some((item) => item.applyState(state, this));
+                }
             }
 
             getSeed() {
@@ -158,6 +179,11 @@
                         if (this._settings.get('savePassword')) {
                             this._password = data.password;
                         }
+
+                        this._stateList = [
+                            new UserRouteState('main', 'wallet', this._settings.get('wallet.activeState')),
+                            new UserRouteState('main', 'dex')
+                        ];
 
                         return this._save()
                             .then(() => {
@@ -307,7 +333,16 @@
         return new User();
     };
 
-    factory.$inject = ['storage', '$q', '$state', 'defaultSettings', '$mdDialog', 'apiWorker', 'state'];
+    factory.$inject = [
+        'storage',
+        '$q',
+        '$state',
+        'defaultSettings',
+        '$mdDialog',
+        'apiWorker',
+        'state',
+        'UserRouteState'
+    ];
 
     angular.module('app')
         .factory('user', factory);
