@@ -36,11 +36,16 @@
             }
         });
 
+        ctrl.showAddressQr = showAddressQr;
         ctrl.showBackupDialog = showBackupDialog;
         ctrl.showProfileDialog = showProfileDialog;
         ctrl.backup = backup;
 
-        function showProfileDialog () {
+        function showAddressQr() {
+            dialogService.open('#address-qr-modal');
+        }
+
+        function showProfileDialog() {
             $scope.$broadcast(events.NAVIGATION_CREATE_ALIAS, {});
         }
 

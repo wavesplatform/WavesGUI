@@ -10,5 +10,5 @@
           ng-class="[{wButtonDanger: isError}]" ng-click="onCancel()">
     {{::cancelButtonCaption}}
   </button>
-  <waves-support-link class="dark"></waves-support-link>
+  <waves-support-link ng-if="::!noSupportLink" class="dark"></waves-support-link>
 </div>

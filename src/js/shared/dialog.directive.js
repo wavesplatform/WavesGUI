@@ -70,7 +70,8 @@
                     okButtonEnabled: '=?',
                     cancelButtonCaption: '@',
                     isError: '=?',
-                    global: '=?'
+                    global: '=?',
+                    noSupportLink: '=?'
                 },
                 link: WavesDialogLink,
                 templateUrl: 'shared/dialog.directive'

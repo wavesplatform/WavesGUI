@@ -49,7 +49,9 @@ header {
 #version {
   font-size: 1.25rem;
   color: @color-white;
-  opacity: .5;
+  span {
+    opacity: .5;
+  }
 }
 
 #header-Iconset {
@@ -91,4 +93,16 @@ header {
 
 #copy_and_close_backup_modal {
   margin-right: 1rem;
+}
+
+/* ADDRESS QR LINK */
+
+span #wavesAccountAddressQr {
+  margin-left: 20px;
+  padding-left: 5px;
+  cursor: pointer;
+  color: #fff;
+  &:hover {
+    opacity: 1;
+  }
 }

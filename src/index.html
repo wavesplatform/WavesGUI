@@ -239,11 +239,19 @@
       <img src="img/topleftlogo.svg" />
       <p ng-class='{testnet: isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
     </div>
-    <span id="version" class="centerIt">Address:
+    <span id="version" class="centerIt">
+                <span>Address:</span>
                 <span id="wavesAccountAddress" class="clipSpan" tooltipster tooltip-theme="tooltipster-theme3" title="Copy the address to clipboard." ngclipboard data-clipboard-text="{{::menu.address}}" ngclipboard-success="clipboardOk()">{{::menu.address}}</span>
+                <span id="wavesAccountAddressQr" ng-click="menu.showAddressQr()">QR</span>
                 <span class="divider-2"></span>
                 <span class="inlineParagraph">Block:</span> <span id="blockheight">{{menu.blockHeight}}</span>
             </span>
+
+    <div class="noDisp">
+      <div id="address-qr-modal" waves-dialog global="true" no-support-link="true" cancel-button-visible="false" ok-button-caption="CLOSE">
+        <waves-qr-code size="300" value="::menu.address"></waves-qr-code>
+      </div>
+    </div>
 
     <div id="header-Iconset">
       <a ng-click="menu.showBackupDialog()">
