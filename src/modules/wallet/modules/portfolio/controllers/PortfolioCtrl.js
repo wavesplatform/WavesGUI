@@ -42,7 +42,7 @@
             }
 
             _getPortfolio() {
-                return assetsService.getBalanceList(Object.values(WavesApp.defaultAssets));
+                return assetsService.getBalanceList();
             }
 
             _applyPortfolio(data) {

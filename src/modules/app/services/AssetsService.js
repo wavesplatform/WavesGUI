@@ -87,21 +87,21 @@
                         ])
                             .then(([assets, events, balances]) => {
                                 return assets.map((asset) => {
-                                    const balanceData = tsUtils.find(balances, { id: asset.id });
-                                    const balance = balanceData && parseFloat(balanceData.amount) || 0;
+                                    const balanceData = tsUtils.find(balances, { assetId: asset.id });
+                                    const balance = balanceData && parseFloat(balanceData.tokens) || 0;
                                     return { ...asset, balance: this._getAssetBalance(asset.id, balance, events) };
                                 });
                             });
                     } else {
                         return utils.whenAll([
-                            eventManager.getBalanceEvents(),
-                            this._getBalanceList(assetIds, options)
+                            this._getBalanceList(null, options),
+                            eventManager.getBalanceEvents()
                         ])
                             .then(([list, events]) => {
-                                return Promise.all(list.map((item) => this.getAssetInfo(item.id)))
+                                return Promise.all(list.map((item) => this.getAssetInfo(item.assetId)))
                                     .then((infoList) => {
                                         return infoList.map((asset, i) => {
-                                            const balance = parseFloat(list[i].amount) || 0;
+                                            const balance = parseFloat(list[i].tokens) || 0;
                                             return {
                                                 ...asset,
                                                 balance: this._getAssetBalance(asset.id, balance, events)
@@ -136,7 +136,8 @@
             @decorators.cachable(2000)
             _getBalanceList(assets, { limit = null, offset = null } = Object.create(null)) {
                 return apiWorker.process((WavesAPI, { assets, address, limit, offset }) => {
-                    return WavesAPI.API.Node.v2.addresses.balances(address, { assets, limit, offset });
+                    return WavesAPI.API.Node.v2.addresses.balances(address, { assets, limit, offset })
+                        .then((assets) => assets.map(item => item.amount.toJSON()));
                 }, { assets, address: user.address, limit, offset });
             }
 

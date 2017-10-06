@@ -18,6 +18,7 @@
 
             constructor() {
                 super($scope);
+                window.c = this;
 
                 this.chartMode = null;
                 this.assets = null;
@@ -44,13 +45,13 @@
                 utils.whenAll([
                     this.syncSettings('wallet.assets.chartMode'),
                     this.syncSettings('wallet.assets.assetList')
-                ]).then(() => {
+                ]).then(this.wrapCallback(() => {
                     this.updateGraph = this.createPoll(this._getGraphData, 'data', 5000);
                     this.updateBalances = this.createPoll(this._getBalances, 'assets', 5000);
-                });
 
-                this.observe('chartMode', () => this._onChangeMode());
-                this.observe(['startDate', 'endDate'], () => this._onChangeInterval());
+                    this.observe('chartMode', () => this._onChangeMode());
+                    this.observe(['startDate', 'endDate'], () => this._onChangeInterval());
+                }));
             }
 
             onAssetClick(event, asset, action) {
@@ -80,10 +81,10 @@
              * @private
              */
             _showSendModal(asset) {
-                return modalManager.showSendAsset(asset.id, user)
+                return this._pausePoll(modalManager.showSendAsset(asset.id, user)
                     .then(() => {
                         this.updateBalances.restart();
-                    });
+                    }));
             }
 
             /**
@@ -91,7 +92,18 @@
              * @private
              */
             _showReceiveModal(asset) {
-                return modalManager.showReceiveAsset(asset);
+                return this._pausePoll(modalManager.showReceiveAsset(asset));
+            }
+
+            /**
+             * @param promise
+             * @private
+             */
+            _pausePoll(promise) {
+                [this.updateBalances, this.updateGraph].forEach((poll) => {
+                    poll.pause(promise);
+                });
+                return promise;
             }
 
             /**

@@ -108,7 +108,7 @@
                 }));
             }
 
-            wrappCallback(cb) {
+            wrapCallback(cb) {
                 return (...args) => {
                     if (!this.__isRemoved) {
                         cb.call(this, ...args);

@@ -221,7 +221,6 @@
             }
         };
 
-        window.utils = utils;
         return utils;
     };
 

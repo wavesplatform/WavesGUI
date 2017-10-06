@@ -19,6 +19,9 @@
              * @param {number} time
              */
             constructor(getData, applyData, time) {
+                /**
+                 * @type {string}
+                 */
                 this.id = tsUtils.uniqueId('poll');
                 /**
                  * @type {{destroy: Signal}}
@@ -26,6 +29,7 @@
                 this.signals = {
                     destroy: new tsUtils.Signal()
                 };
+                this._removed = false;
                 /**
                  * @type {number}
                  * @private
@@ -65,21 +69,23 @@
                 this._initialize();
             }
 
-            pause() {
-                if (!this._paused) {
-                    this._stopTimers();
-                    this._paused = true;
-                }
-            }
+            /**
+             * @param {Promise} promise
+             */
+            pause(promise) {
+                this._paused = true;
+                this._stopTimers();
 
-            play() {
-                if (this._paused) {
-                    this._run();
+                const handler = () => {
                     this._paused = false;
-                }
+                    this._run();
+                };
+
+                promise.then(handler, handler);
             }
 
             destroy() {
+                this._removed = true;
                 this._stopTimers();
                 this.stopReceive();
                 this.signals.destroy.dispatch();
@@ -112,7 +118,9 @@
              */
             _wakeUp() {
                 this._sleepStep = null;
-                this.restart();
+                if (!this._paused) {
+                    this.restart();
+                }
             }
 
             /**
@@ -141,6 +149,10 @@
              * @private
              */
             _run() {
+                if (this._removed) {
+                    return null;
+                }
+                if (this._paused) debugger;
                 const result = this._getData();
                 if (Poll._isPromise(result)) {
                     result.then(this._wrapCallback((data) => {

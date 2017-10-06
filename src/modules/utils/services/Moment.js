@@ -127,7 +127,7 @@
              * @private
              */
             static _parse(date, pattern) {
-                if (!date) {
+                if (tsUtils.isEmpty(date)) {
                     return new Date();
                 }
                 if (date instanceof Date) {
