@@ -14,5 +14,9 @@
       "ok": "Ok"
     }
   },
-  "back": "Back"
+  "back": "Back",
+  "header": {
+    "assets": "Assets",
+    "portfolio": "Portfolio"
+  }
 }

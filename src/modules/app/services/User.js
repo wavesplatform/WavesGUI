@@ -10,9 +10,10 @@
      * @param {State} state
      * @param {UserRouteState} UserRouteState
      * @param {ModalManager} modalManager
+     * @param {app.utils} utils
      * @returns {User}
      */
-    const factory = function (storage, $q, $state, defaultSettings, apiWorker, state, UserRouteState, modalManager) {
+    const factory = function (storage, $q, $state, defaultSettings, apiWorker, state, UserRouteState, modalManager, utils) {
 
         class User {
 
@@ -119,7 +120,7 @@
                 if (userState) {
                     return userState.state;
                 } else {
-                    return `main.${name}`;
+                    return WavesApp.stateTree.getPath(name).join('.');
                 }
             }
 
@@ -133,7 +134,7 @@
                 return this.onLogin()
                     .then(() => {
                         if (!this._password) {
-                            return modalManager.getSeed()
+                            return modalManager.getSeed();
                         } else {
                             const data = {
                                 encryptionRounds: this._settings.get('encryptionRounds'),
@@ -173,10 +174,11 @@
                             this._password = data.password;
                         }
 
-                        this._stateList = [
-                            new UserRouteState('main', 'wallet', this._settings.get('wallet.activeState')),
-                            new UserRouteState('main', 'dex')
-                        ];
+                        const states = WavesApp.stateTree.find('main').getChildren();
+                        this._stateList = states.map((baseTree) => {
+                            const id = baseTree.id;
+                            return new UserRouteState('main', id, this._settings.get(`${id}.activeState`));
+                        });
 
                         return this._save()
                             .then(() => {
@@ -334,7 +336,8 @@
         'apiWorker',
         'state',
         'UserRouteState',
-        'modalManager'
+        'modalManager',
+        'utils'
     ];
 
     angular.module('app')

@@ -39,9 +39,10 @@
      * @param {User} user
      * @param $state
      * @param apiWorker
+     * @param {State} state
      * @returns {AppRun}
      */
-    const run = function ($rootScope, user, $state, apiWorker) {
+    const run = function ($rootScope, user, $state, apiWorker, state) {
 
         class AppRun {
 
@@ -99,7 +100,7 @@
                 // ****************************************************************************************
 
                 // MAIN CODE
-                const START_STATES = ['welcome', 'get_started'];
+                const START_STATES = WavesApp.stateTree.where({noLogin: true}).map(item => item.id);
                 const stop = $rootScope.$on('$stateChangeSuccess', (event, state, params) => {
                     user.login()
                         .then(() => {
@@ -141,6 +142,7 @@
                         this.activeClasses.push(name);
                     });
                 user.applyState(toState);
+                state.signals.changeRouterState.dispatch(toState);
             }
 
             /**
@@ -212,7 +214,7 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'user', '$state', 'apiWorker'];
+    run.$inject = ['$rootScope', 'user', '$state', 'apiWorker', 'state'];
 
     angular.module('app')
         .run(run);

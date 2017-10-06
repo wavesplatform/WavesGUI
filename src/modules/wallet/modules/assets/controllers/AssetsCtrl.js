@@ -116,29 +116,31 @@
                 switch (this.chartMode) {
                     case 'hour':
                         this.startDate = utils.moment()
-                            .add
+                            .add()
                             .hour(-1);
                         break;
                     case 'day':
                         this.startDate = utils.moment()
-                            .add
+                            .add()
                             .day(-1);
                         break;
                     case 'week':
                         this.startDate = utils.moment()
-                            .add
-                            .day(-7);
+                            .add()
+                            .week(-1);
                         break;
                     case 'month':
                         this.startDate = utils.moment()
-                            .add
+                            .add()
                             .month(-1);
                         break;
                     case 'year':
                         this.startDate = utils.moment()
-                            .add
+                            .add()
                             .year(-1);
                         break;
+                    default:
+                        throw new Error('Wrong chart mode!');
                 }
                 this.endDate = utils.moment();
             }

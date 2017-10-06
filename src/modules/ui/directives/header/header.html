@@ -1,4 +1,12 @@
 <div class="logo-wrapper">
     <w-avatar size="40" address="$ctrl.address"></w-avatar>
 </div>
-<div ng-transclude></div>
+<w-navigation type="row">
+    <a ng-repeat="state in $ctrl.stateList track by $index"
+       class="{{::state.name}}"
+       ui-sref="{{::state.path}}"
+       ui-sref-active="active">{{::state.text}}</a>
+</w-navigation>
+<w-search></w-search>
+<w-notification></w-notification>
+<w-profile></w-profile>

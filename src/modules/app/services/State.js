@@ -33,8 +33,9 @@
                  * @type {boolean}
                  */
                 this.windowStateFocus = true;
+
                 /**
-                 * @type {{window: {blur: Signal, focus: Signal}, sleep: Signal, wakeUp: Signal}}
+                 * @type {{window: {blur: Signal, focus: Signal}, sleep: Signal, wakeUp: Signal, changeRouterState: Signal}}
                  */
                 this.signals = {
                     window: {
@@ -42,7 +43,8 @@
                         focus: new tsUtils.Signal()
                     },
                     sleep: new tsUtils.Signal(),
-                    wakeUp: new tsUtils.Signal()
+                    wakeUp: new tsUtils.Signal(),
+                    changeRouterState: new tsUtils.Signal()
                 };
 
                 this._timer = null;
