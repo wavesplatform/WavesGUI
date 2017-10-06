@@ -807,7 +807,7 @@
               </tr>
               <tr ng-show="!assetList.noData" ng-repeat="tx in assetList.assets | asset track by tx.id">
                 <td>
-                  <span ng-class="{verified: tx.balance.currency.verified}">{{tx.name}}</span>
+                  <span>{{tx.name}}</span>
                 </td>
                 <td>{{tx.formatted.sender}}</td>
                 <td>{{tx.reissuable}}</td>
