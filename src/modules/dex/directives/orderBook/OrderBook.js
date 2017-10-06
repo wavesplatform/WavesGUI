@@ -13,9 +13,9 @@
 
             constructor() {
                 super();
-                this._by = [];
+                this._buy = [];
                 this._sell = [];
-                this.observe(['_by', '_sell'], () => this._currentOrders());
+                this.observe(['_buy', '_sell'], () => this._currentOrders());
                 this.observe(['amountAssetId', 'priceAssetId'], () => this._getAssets());
             }
 
@@ -25,7 +25,7 @@
                     clone.total = clone.size * clone.price;
                     return clone;
                 };
-                this.by = (this._by || []).map(filter);
+                this.by = (this._buy || []).map(filter);
                 this.sell = (this._sell || []).map(filter);
             }
 

@@ -42,7 +42,7 @@
                 this.feeData = null;
 
                 this.observe('amount', this._onChangeAmount);
-                this.observe('amountAlias', this._onChangeAlias);
+                this.observe('amountMirror', this._onChangeAlias);
 
                 this.ready = utils.when(Promise.all([
                     assetsService.getAssetInfo(assetId),
@@ -52,7 +52,7 @@
                     .then((data) => {
                         const [asset, alias, feeData] = data;
                         this.amount = 0;
-                        this.amountAlias = 0;
+                        this.amountMirror = 0;
                         this.feeAlias = 0;
                         this.asset = asset;
                         this.alias = alias;
@@ -139,8 +139,8 @@
             _onChangeAmount() {
                 this._getRate()
                     .then((api) => {
-                        if (api.exchangeReverse(this.amountAlias) !== this.amount) {
-                            this.amountAlias = api.exchange(this.amount);
+                        if (api.exchangeReverse(this.amountMirror) !== this.amount) {
+                            this.amountMirror = api.exchange(this.amount);
                         }
                     });
             }
@@ -151,8 +151,8 @@
             _onChangeAlias() {
                 this._getRate()
                     .then((api) => {
-                        if (api.exchange(this.amount) !== this.amountAlias) {
-                            this.amount = this.exchangeReverse(this.amountAlias);
+                        if (api.exchange(this.amount) !== this.amountMirror) {
+                            this.amount = this.exchangeReverse(this.amountMirror);
                         }
                     });
             }

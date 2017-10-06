@@ -95,7 +95,7 @@
              */
             _applyStatuses(statuses) {
                 let needSave = false;
-                let wasBalanceEvent = false;
+                let hadBalanceEvents = false;
                 statuses.forEach((statusData) => {
 
                     if (statusData.status === AppEvent.statuses.PENDING) {
@@ -104,9 +104,10 @@
 
                     needSave = true;
                     if (BALANCE_EVENTS.indexOf(this._events[statusData.id].type) !== -1) {
-                        wasBalanceEvent = true;
+                        hadBalanceEvents = true;
                     }
 
+                    //No brakes for micro optimize
                     switch (statusData.status) {
                         case AppEvent.statuses.ERROR:
                             console.error(`Error event ${this._events[statusData.id]}`);
@@ -119,7 +120,7 @@
 
                 if (needSave) {
                     this._saveEvents();
-                    if (wasBalanceEvent) {
+                    if (hadBalanceEvents) {
                         this.signals.balanceEventEnd.dispatch();
                     }
                     this.signals.eventEnd.dispatch();

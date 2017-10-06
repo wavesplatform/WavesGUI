@@ -42,7 +42,7 @@
                  */
                 this.class = null;
 
-                this.observe('value', () => this._onChangeValueAttr());
+                this.observe('value', this._onChangeValueAttr);
             }
 
             $postLink() {
