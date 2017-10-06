@@ -20,15 +20,17 @@
         class ModalManager {
 
             /**
-             * @param {string} assetId
-             * @param {User} user
+             * @param {object} data
+             * @param {User} data.user
+             * @param {string} [data.assetId]
+             * @param {boolean} [data.canChooseAsset]
              * @returns {Promise}
              */
-            showSendAsset(assetId, user) {
-                return user.getSetting('baseAssetId').then((baseAssetId) => this._getModal({
+            showSendAsset(data) {
+                return data.user.getSetting('baseAssetId').then((baseAssetId) => this._getModal({
                     controller: 'AssetSendCtrl',
                     templateUrl: '/modules/utils/modals/sendAsset/send.modal.html',
-                    locals: { assetId, baseAssetId }
+                    locals: { assetId: data.assetId, baseAssetId, canChooseAsset: data.canChooseAsset }
                 }));
             }
 

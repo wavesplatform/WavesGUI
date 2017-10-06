@@ -77,11 +77,11 @@
             }
 
             /**
-             * @param asset
+             * @param {IAssetInfo} asset
              * @private
              */
             _showSendModal(asset) {
-                return this._pausePoll(modalManager.showSendAsset(asset.id, user)
+                return this._pausePoll(modalManager.showSendAsset({ assetId: asset.id, user })
                     .then(() => {
                         this.updateBalances.restart();
                     }));

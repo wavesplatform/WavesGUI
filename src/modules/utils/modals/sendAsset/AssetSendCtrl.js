@@ -19,29 +19,44 @@
             /**
              * @param {string} assetId
              * @param {string} mirrorId
+             * @param {boolean} canChooseAsset
              */
-            constructor(assetId, mirrorId) {
+            constructor(assetId, mirrorId, canChooseAsset) {
                 super($scope);
                 this.step = 'send';
                 /**
                  * @type {string}
                  */
-                this.assetId = assetId;
-
+                this.assetId = assetId || WavesApp.defaultAssets.WAVES;
+                /**
+                 * @type {boolean}
+                 */
+                this.canChooseAsset = !assetId || canChooseAsset;
                 /**
                  * @type {string}
                  */
                 this.mirrorId = mirrorId;
-
+                /**
+                 * @type {string}
+                 */
                 this.recipient = '';
+                /**
+                 * @type {Poll}
+                 */
                 this.updateBalance = this.createPoll(this._getAsset, 'asset', 1000);
                 /**
                  * @type {IFeeData}
                  */
                 this.feeData = null;
 
+                if (this.canChooseAsset) {
+                    assetsService.getBalanceList().then((list) => {
+                        this.assetList = list;
+                    });
+                }
+
                 this.observe('amount', this._onChangeAmount);
-                this.observe('amountAlias', this._onChangeAlias);
+                this.observe('amountMirror', this._onChangeAlias);
 
                 this.ready = utils.when(Promise.all([
                     assetsService.getAssetInfo(assetId),
@@ -51,7 +66,7 @@
                     .then((data) => {
                         const [asset, alias, feeData] = data;
                         this.amount = 0;
-                        this.amountAlias = 0;
+                        this.amountMirror = 0;
                         this.feeAlias = 0;
                         this.asset = asset;
                         this.alias = alias;
@@ -130,8 +145,8 @@
             _onChangeAmount() {
                 this._getRate()
                     .then((api) => {
-                        if (api.exchangeReverse(this.amountAlias) !== this.amount) {
-                            this.amountAlias = api.exchange(this.amount);
+                        if (api.exchangeReverse(this.amountMirror) !== this.amount) {
+                            this.amountMirror = api.exchange(this.amount);
                         }
                     });
             }
@@ -142,8 +157,8 @@
             _onChangeAlias() {
                 this._getRate()
                     .then((api) => {
-                        if (api.exchange(this.amount) !== this.amountAlias) {
-                            this.amount = this.exchangeReverse(this.amountAlias);
+                        if (api.exchange(this.amount) !== this.amountMirror) {
+                            this.amount = this.exchangeReverse(this.amountMirror);
                         }
                     });
             }
@@ -158,7 +173,7 @@
 
         }
 
-        return new AssetSendCtrl(this.assetId, this.baseAssetId);
+        return new AssetSendCtrl(this.assetId, this.baseAssetId, this.canChooseAsset);
     };
 
     controller.$inject = [

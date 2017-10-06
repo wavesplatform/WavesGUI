@@ -40,7 +40,7 @@
                 /**
                  * @type {HTMLDivElement}
                  */
-                this.popapNode = null;
+                this.popupNode = null;
                 /**
                  * @type {HTMLMediaElement}
                  */
@@ -76,8 +76,8 @@
                 if (this.worker) {
                     this.worker.terminate();
                 }
-                if (this.popapNode) {
-                    document.body.removeChild(this.popapNode);
+                if (this.popupNode) {
+                    document.body.removeChild(this.popupNode);
                 }
             }
 
@@ -88,7 +88,7 @@
                 }
 
                 this.isWatched = true;
-                if (!this.popapNode) {
+                if (!this.popupNode) {
                     this._createPopup();
                 }
                 if (!this.worker) {
@@ -111,7 +111,7 @@
              * @private
              */
             _onChangeWatched() {
-                this.popapNode.classList.toggle('active', this.isWatched);
+                this.popupNode.classList.toggle('active', this.isWatched);
             }
 
             /**
@@ -221,12 +221,12 @@
              * @private
              */
             _createPopup() {
-                this.popapNode = document.createElement('DIV');
-                this.popapNode.classList.add('qr-code-reader-popup');
-                this.popapNode.appendChild(this.video);
+                this.popupNode = document.createElement('DIV');
+                this.popupNode.classList.add('qr-code-reader-popup');
+                this.popupNode.appendChild(this.video);
                 this.canvas = document.createElement('CANVAS');
                 this.ctx = this.canvas.getContext('2d');
-                document.body.append(this.popapNode);
+                document.body.append(this.popupNode);
             }
 
             /**
@@ -235,7 +235,7 @@
             _setPopupPosition() {
                 const $btn = $element.find('.btn');
                 const offset = $btn.offset();
-                $(this.popapNode)
+                $(this.popupNode)
                     .offset({
                         top: offset.top - this.height - 10,
                         left: offset.left - (this.width - $btn.width()) / 2
@@ -248,8 +248,8 @@
             _addPopupSize() {
                 this.canvas.width = this.width;
                 this.canvas.height = this.height;
-                this.popapNode.style.width = `${this.width}px`;
-                this.popapNode.style.height = `${this.height}px`;
+                this.popupNode.style.width = `${this.width}px`;
+                this.popupNode.style.height = `${this.height}px`;
             }
 
         }
