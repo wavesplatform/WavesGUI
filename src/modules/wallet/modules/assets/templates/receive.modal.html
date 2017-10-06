@@ -1,0 +1,36 @@
+<md-dialog class="modal-receive" w-i18n-ns="app.wallet.assets" aria-label="asset_receive">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 w-i18n="modal.receive.title" params="{assetName: $ctrl.asset.name}"></h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
+                    X
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+
+            <div class="modal-content">
+                <div ng-if="$ctrl.step === 0" ng-class="{active: $ctrl.step === 0}" class="step step-1">
+                    <div class="modal-receive-warning">
+                        !
+                    </div>
+
+                    <p w-i18n="modal.receive.text" params="{assetName: $ctrl.asset.name}"></p>
+                    <span w-i18n="modal.receive.description" params="{assetName: $ctrl.asset.name}"></span>
+
+                    <md-button class="md-raised md-primary" ng-click="$ctrl.ok()">
+                        <w-i18n>modal.receive.ok</w-i18n>
+                    </md-button>
+                </div>
+                <div ng-class="{active: $ctrl.step === 1}" class="step step-2">
+                    <w-qr-code size="160" url="$ctrl.asset.id"></w-qr-code>
+                    <input type="text" ng-model="$ctrl.asset.id" readonly/>
+                </div>
+            </div>
+
+        </md-dialog-content>
+    </form>
+</md-dialog>

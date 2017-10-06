@@ -1,24 +1,7 @@
-@import '../../config';
+@import (reference) '../../config';
 
 .welcome {
   background-color: @color-lite-background;
-
-  .user-list {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-
-    .block {
-      height: 343px;
-      width: 513px;
-      padding: 30px;
-      box-sizing: border-box;
-      background-color: #FFFFFF;
-      box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
-    }
-  }
 
   .no-users {
     width: 100%;
@@ -28,9 +11,52 @@
     justify-content: center;
     align-items: center;
 
+    .or-line {
+      display: inline-block;
+      width: 90px;
+      position: relative;
+      top: 2px;
+    }
+
+    .or {
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0;
+    }
+
     .slider-wrapper {
       width: 500px;
       height: 250px;
+    }
+
+    .or-new {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
+  }
+
+  .user-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+    .title-block {
+      position: relative;
+    }
+
+    .block {
+      height: 343px;
+      width: 513px;
+      padding: 30px;
+      box-sizing: border-box;
+      background-color: #FFFFFF;
+      box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
     }
   }
 }

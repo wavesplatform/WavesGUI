@@ -1,52 +1,30 @@
-import * as connect from 'connect';
-import { createServer } from 'http';
-import { join } from 'path';
-import * as serveStatic from 'serve-static';
-import { isPage, route } from './ts-scripts/utils';
+import { createServer } from 'https';
+import { route } from './ts-scripts/utils';
+import { readFileSync } from 'fs';
 
 
 const connectionTypes = ['mainnet', 'testnet'];
 const buildTypes = ['dev', 'normal', 'min'];
 
-function createMyServer(localPath: string, port: number) {
-    const app = connect();
+const privateKey = readFileSync('privatekey.pem').toString();
+const certificate = readFileSync('certificate.pem').toString();
+
+function createMyServer(port) {
 
     const connectionTypesHash = arrToHash(connectionTypes);
     const buildTypesHash = arrToHash(buildTypes);
-
-    app.use(function (req, res, next) {
+    const handler = function (req, res) {
         const parsed = parseDomain(req.headers.host);
         if (!parsed) {
-            res.writeHead(302, { Location: 'http://testnet.dev.localhost:8080' });
+            res.writeHead(302, { Location: 'https://testnet.dev.localhost' });
             res.end();
         } else {
-            if (isPage(req.url)) {
-                route({
-                    connectionType: parsed.connectionType,
-                    buildType: parsed.buildType
-                }).then((file) => {
-                    res.end(file);
-                });
-            } else {
-                next();
-            }
+            route(parsed.connectionType, parsed.buildType)(req, res);
         }
-    });
-
-    connectionTypes.forEach((connectionType) => {
-        buildTypes.forEach((buildType) => {
-            app.use(serveStatic(`dist/build/${connectionType}/${buildType}`));
-        });
-    });
-
-    app.use(serveStatic(__dirname));
-    app.use(serveStatic(join(__dirname, 'src')));
-
-    createServer(app).listen(port);
-    console.log(`Run server on port ${port}`);
+    };
 
     function parseDomain(host: string): { connectionType: string, buildType: string } {
-        const toParse = host.replace('localhost:8080', '');
+        const toParse = host.replace('localhost', '');
         const [connectionType, buildType] = toParse.split('.');
 
         if (!connectionType || !buildType || !buildTypesHash[buildType] || !connectionTypesHash[connectionType]) {
@@ -55,9 +33,14 @@ function createMyServer(localPath: string, port: number) {
 
         return { buildType, connectionType };
     }
+
+    const server = createServer({ key: privateKey, cert: certificate });
+    server.addListener('request', handler);
+    server.listen(port);
+    console.log(`Listen port ${port}...`);
 }
 
-createMyServer('./dist/build', 8080);
+createMyServer(8080);
 
 function arrToHash(arr: Array<string>): Object {
     const result = Object.create(null);

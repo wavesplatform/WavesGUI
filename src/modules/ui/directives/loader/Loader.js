@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('app.ui').constant('wLoader', {
-        templateUrl: 'modules/ui/directives/loader/loader.html'
+    angular.module('app.ui').component('wLoader', {
+        template: '<div class="loader"></div>'
     });
 })();

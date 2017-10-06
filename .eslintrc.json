@@ -5,7 +5,7 @@
     },
     "globals": {
         "WAVES_NETWORK_CONF": true,
-        "identicon": true,
+        "identityImg": true,
         "angular": true,
         "jQuery": true,
         "$": true,
@@ -29,7 +29,12 @@
         "WavesApp": true,
         "WavesAPI": true,
         "workerWrapper": true,
-        "i18next": true
+        "i18next": true,
+        "i18nextXHRBackend": true,
+        "i18nextBrowserLanguageDetector": true,
+        "QRCode": true,
+        "QrCode": true,
+        "tsApiValidator": true
     },
     "extends": "eslint:recommended",
     "rules": {
@@ -289,10 +294,6 @@
             {
                 "allowMultiplePropertiesPerLine": true
             }
-        ],
-        "object-shorthand": [
-            "error",
-            "consistent-as-needed"
         ],
         "one-var": "off",
         "one-var-declaration-per-line": "off",

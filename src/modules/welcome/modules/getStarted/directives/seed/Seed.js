@@ -68,6 +68,10 @@
                         controller.listen(this.seed, 'show', (showIndex) => {
                             this._show(showIndex);
                         });
+                        window.fill = () => {
+                            this.parts = this.hiddenParts.slice();
+                            this._validate();
+                        };
                         break;
                     default:
                         this.parts = this.seed.split(' ');

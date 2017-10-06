@@ -1,0 +1,32 @@
+@import (reference) '../../../config';
+
+w-input-container {
+
+  input {
+    transition: all 0.3s;
+  }
+
+  .ng-touched.ng-invalid:not(:focus) {
+    border-color: @color-input-border-error;
+  }
+
+  .error {
+    transition: all 0.3s;
+    opacity: 0;
+    height: 0;
+    transform: scaleY(0);
+    overflow: hidden;
+    display: block;
+    color: @color-error-font;
+
+    &.active {
+      opacity: 1;
+      transform: scaleY(1);
+      height: auto;
+    }
+  }
+}
+
+.ng-submitted .ng-invalid:not(:focus) {
+  border-color: @color-input-border-error;
+}

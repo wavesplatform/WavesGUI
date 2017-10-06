@@ -1,0 +1,157 @@
+<md-dialog class="modal-send" w-i18n-ns="app.wallet.assets" aria-label="asset_send">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <div ng-if="$ctrl.step === 'send'"
+                 class="head-line-1"
+                 w-i18n="modal.send.title"
+                 params="{assetName: $ctrl.asset.name}"></div>
+            <div ng-if="$ctrl.step === 'confirm'"
+                 class="head-line-1"
+                 w-i18n="modal.send.titleConfirm"></div>
+            <span flex></span>
+            <div class="btn close-icon" ng-click="$ctrl.cancel()"></div>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+        <div class="modal-content">
+            <form ng-if="$ctrl.step === 'send'"
+                  class="send-form"
+                  name="send"
+                  ng-submit="send.$valid &&$ctrl.send()"
+                  novalidate>
+
+                <w-input-container form="send">
+                    <div class="row">
+                        <div class="body-2" w-i18n="modal.send.recipient"></div>
+                        <input type="text"
+                               input-address
+                               name="recipient"
+                               ng-model="$ctrl.recipient"
+                               required/>
+
+                        <w-qr-code-read on-read="$ctrl.onReadQrCode(result)" max-width="250"
+                                        max-height="160"></w-qr-code-read>
+
+                    </div>
+                    <w-input-error message="required">
+                        <w-i18n>inputs.errors.required</w-i18n>
+                    </w-input-error>
+                </w-input-container>
+
+                <div class="row">
+                    <div class="body-2" w-i18n="modal.send.withdraw"></div>
+                    <div class="fake-input">
+                        <w-asset-logo size="30" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
+                        {{$ctrl.asset.name}}
+
+                        <w-balance balance="$ctrl.asset.balance" asset-id="{{::$ctrl.assetId}}"></w-balance>
+                    </div>
+                </div>
+
+                <w-input-container form="send">
+                    <div class="row">
+                        <div class="body-2" w-i18n="modal.send.amount"></div>
+                        <div class="amount-wrap">
+                            <div class="input-wrap">
+                                <input type="text"
+                                       ng-focus="focus = 'amount'"
+                                       ng-blur="focus = ''"
+                                       name="amount"
+                                       input-asset="{{::$ctrl.assetId}}"
+                                       ng-model="$ctrl.amount"
+                                       required/>
+                                <div class="currency">{{::$ctrl.asset.name}}</div>
+                                <div ng-mousedown="$ctrl.fillMax()"
+                                     ng-touchstart="$ctrl.fillMax()"
+                                     class="send-all"
+                                     ng-if="focus === 'amount'">
+                                    <w-i18n>modal.send.sendMax</w-i18n>
+                                </div>
+                            </div>
+                            <div class="amount-modal-icon"></div>
+                            <div class="input-wrap">
+                                <input type="text"
+                                       ng-focus="focus = 'amountAlias'"
+                                       ng-blur="focus = ''"
+                                       name="amountAlias"
+                                       input-asset="{{::$ctrl.mirrorId}}"
+                                       ng-model="$ctrl.amountAlias"
+                                       required/>
+                                <div class="currency">{{::$ctrl.alias.name}}</div>
+                                <div ng-mousedown="$ctrl.fillMax()"
+                                     ng-touchstart="$ctrl.fillMax()"
+                                     class="send-all"
+                                     ng-if="focus === 'amountAlias'">
+                                    <w-i18n>modal.send.sendMax</w-i18n>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <w-input-error message="asset-required">
+                        <w-i18n>inputs.errors.required</w-i18n>
+                    </w-input-error>
+                    <w-input-error message="input-asset">
+                        <w-i18n>inputs.errors.invalidAsset</w-i18n>
+                    </w-input-error>
+                </w-input-container>
+
+                <div class="row">
+                    <div class="body-2" w-i18n="modal.send.description"></div>
+                    <textarea w-i18n-attr="placeholder" placeholder="modal.send.descriptionPlaceholder"></textarea>
+                </div>
+
+                <div class="row fee">
+                    <div class="body-2">
+                        <w-i18n>modal.send.fee</w-i18n>
+                        <span class="help"></span>
+                    </div>
+                    <div class="body">
+                        <w-balance balance="$ctrl.fee" asset-id="{{::$ctrl.assetId}}"></w-balance>
+                        {{::$ctrl.asset.name}}
+                        <span class="lite">
+                            <w-balance balance="$ctrl.feeAlias" asset-id="{{::$ctrl.mirrorId}}"></w-balance>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <md-button type="submit">
+                        <w-i18n>continue</w-i18n>
+                    </md-button>
+                </div>
+            </form>
+            <div ng-if="$ctrl.step === 'confirm'">
+                <div class="row">
+                    <w-i18n>modal.send.confirm.title</w-i18n>
+                    <table>
+                        <tr>
+                            <td w-i18n="modal.send.confirm.to"></td>
+                            <td>{{::$ctrl.recipient}}</td>
+                        </tr>
+                        <tr>
+                            <td w-i18n="modal.send.confirm.from"></td>
+                            <td>{{$ctrl.asset.name}}</td>
+                        </tr>
+                        <tr>
+                            <td w-i18n="modal.send.confirm.total"></td>
+                            <td>
+                                <div>{{::$ctrl.amount}} {{::$ctrl.asset.name}}</div>
+                                <div>~ {{$ctrl.amountAlias}}</div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="row">
+                    <md-button ng-click="$ctrl.step = 'send'">
+                        <w-i18n>modal.send.confirm.back</w-i18n>
+                    </md-button>
+                    <md-button ng-click="$ctrl.send()">
+                        <w-i18n>modal.send.confirm.confirm</w-i18n>
+                    </md-button>
+                </div>
+            </div>
+        </div>
+    </md-dialog-content>
+</md-dialog>

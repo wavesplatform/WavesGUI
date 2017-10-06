@@ -1,11 +1,12 @@
-@import '../../config';
+@import (reference) '../../config';
 
 html,
 body,
 ui-view[name="main"] {
   width: 100%;
   height: 100%;
-  font-family: @font-general-family;
+  min-width: 1024px;
+  overflow: auto;
 }
 
 ui-view[name="main"] {
@@ -16,6 +17,219 @@ md-input-container {
   transform: translate3d(0, 0, 0);
 }
 
-.no-animate, .no-animate * {
-  transition: none !important;
+input[type="text"], input[type="password"], textarea {
+  padding: 15px;
+  border-radius: @radius-inputs;
+  border: 1px solid @color-input-border-default;
+  width: 100%;
+
+  &:focus {
+    border-color: @color-input-border-focus;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+*:focus {
+  outline: none;
+}
+
+.close-icon {
+  background-image: url(/img/icons/close.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  min-width: 16px;
+  min-height: 16px;
+}
+
+.left-menu {
+  padding-top: 10px;
+
+  w-navigation a {
+    width: 50px;
+    height: 50px;
+    display: block;
+    border-radius: 3px;
+    background-color: transparent;
+    margin: 5px auto;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    &.active {
+      background-color: #0065D7;
+    }
+
+    &.wallet {
+      background-image: url(/img/icons/wallet.svg);
+      background-size: 25px 24px;
+
+      &.active {
+        background-image: url(/img/icons/wallet-active.svg);
+      }
+    }
+
+    &.dex {
+      background-image: url(/img/icons/dex.svg);
+      background-size: 24px 16px;
+
+      &.active {
+        background-image: url(/img/icons/dex-active.svg);
+      }
+    }
+  }
+}
+
+w-scroll-box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
+}
+
+.sleep-block {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #000;
+  opacity: 0;
+  transition: opacity 2s;
+  z-index: 100000;
+}
+
+.main-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: @color-lite-background;
+
+  .header {
+    height: @height-header;
+    width: 100%;
+    background-color: @color-lite-background-blocks;
+  }
+
+  .left-menu {
+    width: @width-left-menu-block;
+    position: absolute;
+    left: 0;
+    top: @height-header;
+    bottom: 0;
+    background-color: @color-lite-background-blocks;
+  }
+
+  .content {
+    width: calc(~"100% - "@width-left-menu-block + @padding-main-layout * 2);
+    height: calc(~"100% - "@width-left-menu-block + @padding-main-layout * 2);
+    overflow: auto;
+    position: absolute;
+    right: @padding-main-layout;
+    bottom: @padding-main-layout;
+  }
+}
+
+.md-dialog-backdrop:nth-of-type(even) {
+  z-index: 81;
+}
+
+.md-dialog-backdrop:nth-of-type(odd) {
+  z-index: 79;
+}
+
+.md-dialog-container:first-child:nth-of-type(even) {
+  z-index: 75;
+}
+
+.md-dialog-container:nth-of-type(odd) {
+  z-index: 82;
+}
+
+svg.chart {
+
+  .axis {
+    .tick line {
+      display: none;
+    }
+    .domain {
+      stroke: #d8e0e9;
+    }
+
+    & > .tick > text {
+      fill: #818181;
+      font-size: 13px;
+    }
+
+    &.x-axis .tick text {
+      transform: translateY(6px);
+    }
+
+    &.y-axis .tick text {
+      transform: translateX(40px);
+    }
+
+    &.y2-axis .tick text {
+      transform: translateX(-40px);
+    }
+  }
+}
+
+md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
+  background-color: #fff;
+  color: #000;
+  border-bottom: 1px solid #BFC6CD;
+}
+
+md-dialog md-dialog-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.chart-legend {
+  display: none;
+}
+
+.btn-wrap.btn-group {
+  box-sizing: border-box;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  .btn-active {
+    cursor: default;
+    background-color: #EBEBEB;
+    color: #000;
+  }
+
+  & > *:first-child .btn, & > .btn:first-child {
+    border-left: 1px solid #EBEBEB;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+  }
+
+  & > *:last-child .btn, & > .btn:last-child {
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  .btn {
+    display: block;
+    box-sizing: border-box;
+    cursor: pointer;
+    padding: 4px 10px;
+    color: @color-link-blue;
+    border-bottom: 1px solid #EBEBEB;
+    border-top: 1px solid #EBEBEB;
+    border-right: 1px solid #EBEBEB;
+
+    &:active {
+      .btn-active();
+    }
+  }
 }

@@ -1,0 +1,30 @@
+{
+  "directives": {
+    "portfolio": {
+      "title": "Portfolio"
+    },
+    "orderBook": {
+      "title": "Order book",
+      "marketSize": "Market size",
+      "price": "Price {{assetName}}",
+      "total": "Total {{assetName}}"
+    },
+    "markets": {
+      "title": "Markets",
+      "table": {
+        "unit": "Coin",
+        "price": "Price",
+        "volume": "Volume",
+        "rate": "Change"
+      }
+    },
+    "tradeHistory": {
+      "title": "Trade history",
+      "tableTitle": {
+        "price": "Price",
+        "size": "Trade Size",
+        "date": "Date & Time"
+      }
+    }
+  }
+}

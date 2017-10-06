@@ -1,10 +1,12 @@
 import * as gulp from 'gulp';
+import { getType } from 'mime';
 import { exec, spawn } from 'child_process';
 import { readdirSync, statSync } from 'fs';
 import { join, relative } from 'path';
 import { ITaskFunction } from './interface';
 import { readFile, readJSON } from 'fs-extra';
 import { compile } from 'handlebars';
+import { transform } from 'babel-core';
 
 
 export const task: ITaskFunction = gulp.task.bind(gulp) as any;
@@ -121,11 +123,12 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                 const sourceFiles = getFilesFrom(join(__dirname, '../src'), '.js', function (name, path) {
                     return !name.includes('.spec') && !path.includes('/test/');
                 });
-                param.scripts = meta.vendors.concat(sourceFiles);
+                param.scripts = meta.vendors.map((i) => join(__dirname, '..', i)).concat(sourceFiles);
+                param.scripts.push(join(__dirname, '../loginDemon.js'));
             }
 
             if (!param.styles) {
-                param.styles = meta.stylesheets.concat(getFilesFrom(join(__dirname, '../src'), '.css'));
+                param.styles = meta.stylesheets.map((i) => join(__dirname, '..', i)).concat(getFilesFrom(join(__dirname, '../src'), '.css'));
             }
 
             const networks = connectionTypes.reduce((result, item) => {
@@ -142,30 +145,108 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
             })
         })
         .then((file) => {
-            return replaceStyles(file, param.styles.map(filter));
+            return replaceStyles(file, param.styles.map(filter).map(s => `/${s}`));
         }).then((file) => {
             return replaceScripts(file, param.scripts.map(filter));
         });
 }
 
-export function route(options: IRouteOptions): Promise<string> {
-    if (options.buildType === 'dev') {
-        return prepareHTML({
-            target: join(__dirname, '..', 'dist', 'build', options.connectionType, options.buildType),
-            connection: options.connectionType
-        });
-    } else {
-        return readFile(join(__dirname, '../dist/build', options.connectionType, options.buildType, 'index.html'), 'utf8');
+export function route(connectionType, buildType) {
+    return function (req, res) {
+        if (req.url === '/img/images-list.json') {
+            res.setHeader('Content-Type', 'application/json');
+            const images = getFilesFrom(join(__dirname, '../src/img'), '.svg').map(moveTo(join(__dirname, '../src')));
+            res.end(JSON.stringify(images));
+            return null;
+        }
+
+        if (isPage(req.url)) {
+            if (buildType === 'dev') {
+                return prepareHTML({
+                    target: join(__dirname, '..', 'src'),
+                    connection: connectionType
+                }).then((file) => {
+                    res.end(file);
+                });
+            } else {
+                const path = join(__dirname, '../dist/build', connectionType, buildType, 'index.html');
+                return readFile(path, 'utf8').then((file) => {
+                    res.end(file);
+                });
+            }
+        } else if (isSourceScript(req.url)) {
+            readFile(join(__dirname, '../src', req.url), 'utf8')
+                .then((code) => {
+                    if (code.indexOf('@decorators') !== -1) {
+                        const result = transform(code, {
+                            plugins: [
+                                'transform-decorators-legacy',
+                                'transform-class-properties',
+                                'transform-decorators',
+                                'transform-object-rest-spread'
+                            ]
+                        }).code;
+                        return result;
+                    } else {
+                        return code;
+                    }
+                })
+                .then((code) => res.end(code))
+                .catch((e) => {
+                    console.log(e.message, req.url);
+                });
+        } else if (isApiMock(req.url)) {
+            const mock = require(join(__dirname, '..', req.url.replace('.json', '')));
+            res.setHeader('Content-Type', 'application/json');
+            mock(req, res);
+        } else {
+            routeStatic(req, res);
+        }
     }
+}
+
+export function isSourceScript(url: string): boolean {
+    return url.includes('/modules/') && url.lastIndexOf('.js') === url.length - 3;
+}
+
+export function isApiMock(url: string): boolean {
+    return url.indexOf('/api/') === 0;
 }
 
 export function isPage(url: string): boolean {
     const staticPathPartial = [
-        'src', 'img', 'css', 'fonts', 'js', 'bower_components', 'node_modules', 'modules', 'locales'
+        'vendors', 'api', 'src', 'img', 'css', 'fonts', 'js', 'bower_components', 'node_modules', 'modules', 'locales', 'loginDemon'
     ];
-    return !staticPathPartial.some((path) => {
-        return url.includes(`/${path}/`);
+    return !url.includes('demon') && !staticPathPartial.some((path) => {
+        return url.includes(`/${path}`);
     });
+}
+
+function routeStatic(req, res) {
+    const ROOTS = [
+        join(__dirname, '..'),
+        join(__dirname, '../src')
+    ];
+    const contentType = getType(req.url);
+
+    const check = (root: string) => {
+        const path = join(root, req.url);
+        readFile(path).then((file: Buffer) => {
+            res.setHeader('Cache-Control', 'public, max-age=31557600');
+            res.writeHead(200, { 'Content-Type': contentType });
+            res.end(file);
+        })
+            .catch(() => {
+                if (ROOTS.length) {
+                    check(ROOTS.pop());
+                } else {
+                    res.writeHead(404, null);
+                    res.end('404 Not found!');
+                }
+            });
+    };
+
+    check(ROOTS.pop());
 }
 
 export interface IRouteOptions {

@@ -1,0 +1,16 @@
+<div class="block-wrapper">
+    <div w-i18n="directives.portfolio.title" class="block-title"></div>
+    <div ng-repeat="asset in $ctrl.assets track by $index"
+         class="asset-item">
+        <w-asset-logo size="20" asset-id="{{::asset.id}}"></w-asset-logo>
+        <div class="asset-content">
+            <div class="name">{{::asset.name}}</div>
+            <div class="part right">
+                <w-balance balance="asset.balance" asset-id="{{::asset.id}}"></w-balance>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

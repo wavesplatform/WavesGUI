@@ -2,7 +2,10 @@
 
     <div class="block">
 
-        <p w-i18n="userList.title"></p>
+        <div class="title-block">
+            <h2 w-i18n="userList.title"></h2>
+            <div class="or-new">or <a ui-state="'get_started'">create new</a></div>
+        </div>
         <w-i18n>userList.subTitle</w-i18n>
 
         <div ng-if="$ctrl.userList.length === 1">
@@ -19,15 +22,23 @@
             </md-select>
         </div>
 
-        <form name="login" ng-submit="login.$valid && $ctrl.login()" novalidate>
-            <md-input-container class="md-block">
-                <label w-i18n="userList.placeholders.password"></label>
-                <input name="password" type="password" required ng-model="$ctrl.password">
+        <form name="$ctrl.loginForm" ng-submit="$ctrl.loginForm.$valid && $ctrl.login()" novalidate>
 
-                <div ng-messages="createPassword.confirmPassword.$error" multiple md-auto-hide="false">
-                    <div ng-message="required">This is required!</div>
+            <w-input-container form="$ctrl.loginForm">
+                <input name="password"
+                       type="password"
+                       ng-model="$ctrl.password"
+                       w-i18n-attr="placeholder"
+                       placeholder="userList.placeholders.password"
+                       required/>
+
+                <w-input-error message="required">
+                    This is required!
+                </w-input-error>
+                <div ng-class="{active: $ctrl.showPasswordError}" class="error">
+                    Wrong Password!
                 </div>
-            </md-input-container>
+            </w-input-container>
 
             <md-button type="submit" class="md-raised md-primary">
                 <w-i18n>userList.buttons.login</w-i18n>

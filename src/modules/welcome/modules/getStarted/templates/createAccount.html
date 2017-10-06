@@ -1,72 +1,100 @@
-<div class="create-account">
+<div class="create-account flex-column-center">
+    <form name="createPassword" ng-submit="createPassword.$valid && $ctrl.next()" novalidate>
 
-    <div ng-click="$ctrl.back()" class="back">
-        BACK
-    </div>
 
-    <div ng-class="{active: $ctrl.hasAccount}" class="created-animation">
-        <w-avatar address="$ctrl.address"></w-avatar>
-    </div>
+        <div ng-click="$ctrl.back()" class="back"></div>
 
-    <div class="block">
-
-        <p class="title text">Create Your Account</p>
-        <p class="text">Sign up for a fee account below.</p>
-
-        <hr/>
-
-        <p class="text">Choose your address avatar</p>
-
-        <div class="avatar-block">
-            <w-avatar ng-click="$ctrl.setActiveSeed(item)" ng-repeat="item in $ctrl.seedList"
-                      ng-class="{active: item.active}"
-                      address="item.address"></w-avatar>
+        <div ng-class="{active: $ctrl.hasAccount}" class="created-animation">
+            <w-avatar address="$ctrl.address"></w-avatar>
         </div>
 
-        <hr/>
+        <div class="block">
+            <div class="block-content">
+                <h2 w-i18n="createAccount.title"></h2>
+                <span class="light" w-i18n="createAccount.titleGray"></span>
 
-        <p class="text">Setup password</p>
+                <hr/>
 
-        <form name="createPassword" ng-submit="createPassword.$valid && $ctrl.next()" novalidate>
+                <div class="my-list">
+                    <div class="count">1</div>
+                    <div class="content">
+                        <div class="bold" w-i18n="createAccount.avatarTitle"></div>
+                        <div class="light" w-i18n="createAccount.avatarGray"></div>
 
-            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                <md-input-container class="md-block">
-                    <label>Password</label>
-                    <input name="password"
-                           type="password"
-                           required
-                           minlength="8"
-                           ng-pattern="/(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)[0-9a-zA-Z!@#$%^&\*]*/"
-                           ng-model="$ctrl.password" />
-
-                    <div ng-messages="createPassword.password.$error">
-                        <div ng-message="required">This is required!</div>
-                        <div ng-message="minlength">Password to short!</div>
-                        <div ng-message="pattern">Password to simple!</div>
+                        <div class="avatar-block">
+                            <w-loader ng-if="!$ctrl.seedList.length"></w-loader>
+                            <w-avatar ng-repeat="item in $ctrl.seedList"
+                                      ng-click="$ctrl.setActiveSeed(item)"
+                                      size="60"
+                                      ng-class="{active: item.active}"
+                                      address="item.address"></w-avatar>
+                        </div>
                     </div>
-                </md-input-container>
-            </section>
+                </div>
 
-            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                <md-input-container class="md-block">
-                    <label>Repeat password</label>
-                    <input name="confirmPassword" type="password" required w-compare-to="$ctrl.password" minlength="8"
-                           ng-model="$ctrl.confirmPassword">
+                <hr/>
 
-                    <div ng-messages="createPassword.confirmPassword.$error" multiple md-auto-hide="false">
-                        <div ng-message="required">This is required!</div>
-                        <div ng-message="wCompareTo">Passwords not equals!</div>
+                <div class="my-list">
+                    <div class="count">2</div>
+                    <div class="content">
+                        <div class="bold" w-i18n="createAccount.passTitle"></div>
+                        <div class="light" w-i18n="createAccount.passGray"></div>
+
+                        <div class="inputs-container">
+                            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                                <w-input-container form="createPassword">
+                                    <input name="password"
+                                           type="password"
+                                           w-i18n-attr="placeholder"
+                                           placeholder="createAccount.passPlaceholder"
+                                           required
+                                           minlength="8"
+                                           ng-pattern="/(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)[0-9a-zA-Z!@#$%^&\*]*/"
+                                           ng-model="$ctrl.password"/>
+
+
+                                    <w-input-error message="required">
+                                        <w-i18n>inputs.errors.required</w-i18n>
+                                    </w-input-error>
+                                    <w-input-error message="minlength">
+                                        <w-i18n>createAccount.inputs.errors.short</w-i18n>
+                                    </w-input-error>
+                                    <w-input-error message="pattern">
+                                        <w-i18n>createAccount.inputs.errors.simple</w-i18n>
+                                    </w-input-error>
+                                </w-input-container>
+                            </section>
+
+                            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                                <w-input-container form="createPassword">
+                                    <input name="confirmPassword"
+                                           type="password"
+                                           w-i18n-attr="placeholder"
+                                           required
+                                           w-compare-to="password"
+                                           minlength="8"
+                                           placeholder="createAccount.confirmPlaceholder"
+                                           ng-model="$ctrl.confirmPassword">
+
+
+                                    <w-input-error message="required">
+                                        <w-i18n>createAccount.inputs.errors.required</w-i18n>
+                                    </w-input-error>
+                                    <w-input-error message="wCompareTo">
+                                        <w-i18n>createAccount.inputs.errors.equal</w-i18n>
+                                    </w-input-error>
+                                </w-input-container>
+                            </section>
+                        </div>
                     </div>
-                </md-input-container>
-            </section>
-
-            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                </div>
+            </div>
+            <div class="footer">
                 <md-button type="submit" class="md-raised md-primary">
-                    Create Account
+                    <w-i18n>createAccount.next</w-i18n>
                 </md-button>
-            </section>
+            </div>
 
-        </form>
-
-    </div>
+        </div>
+    </form>
 </div>

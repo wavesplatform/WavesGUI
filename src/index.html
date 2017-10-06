@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./img/favicon.ico" type="image/x-icon" rel="shortcut icon">
     <style>
+
         .app-loader {
             z-index: 10000;
             position: fixed;
@@ -15,13 +16,66 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 1);
+            background: #fff;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-loader .progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: #0065D7;
+            transition: width 1s;
+            -weblit-transition: width 1s;
+            -moz-transition: width 1s;
+        }
+
+        .loader {
+            background-image: url('/img/waves.svg');
+            background-size: 100% 100%;
+            width: 90px;
+            height: 90px;
+            animation: animate-main-logo 2s infinite linear;
+            -weblit-animation: animate-main-logo 2s infinite linear;
+            -moz-animation: animate-main-logo 2s infinite linear;
+        }
+
+        @keyframes animate-main-logo {
+            from {
+                transform: rotateY(0)
+            }
+            to {
+                transform: rotateY(360deg)
+            }
+        }
+
+        @-moz-keyframes animate-main-logo {
+            from {
+                transform: rotateY(0)
+            }
+            to {
+                transform: rotateY(360deg)
+            }
+        }
+
+        @-webkit-keyframes animate-main-logo {
+            from {
+                transform: rotateY(0)
+            }
+            to {
+                transform: rotateY(360deg)
+            }
         }
     </style>
-    <!-- CSS -->
-    <base href="/">
 
     <script>
+        var LOGO_IMAGE = new Image();
+        LOGO_IMAGE.src = '/img/waves.svg';
         var WavesApp = {
             name: '{{pack.name}}',
             version: '{{pack.version}}',
@@ -33,6 +87,14 @@
                 coinomat: '{{network.coinomat}}',
                 datafeed: '{{network.datafeed}}'
             },
+            defaultAssets: {
+                WAVES: 'WAVES',
+                EUR: '{{network.assets.EUR}}',
+                USD: '{{network.assets.USD}}',
+                BTC: '{{network.assets.BTC}}',
+                ETH: '{{network.assets.ETH}}'
+            },
+            modules: [],
             isWeb: function () {
                 return this.type === 'web';
             },
@@ -42,12 +104,16 @@
         };
     </script>
 
+    <!-- CSS -->
+    <base href="/">
+
 </head>
 
 <body>
 
 <div class="app-loader">
-    <div>loading</div>
+    <div class="progress"></div>
+    <div class="loader"></div>
 </div>
 
 <ui-view name="main"></ui-view>

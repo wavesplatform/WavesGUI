@@ -1,1 +1,20 @@
-{}
+{
+  "createAccount": {
+    "title": "Create Your Account",
+    "titleGray": "Sign up for a fee account below.",
+    "avatarTitle": "Choose your address avatar",
+    "avatarGray": "This avatar is unique, you can't change it later.",
+    "passTitle": "Setup password",
+    "passGray": "Use at least 8 characters. Don't use a password another site.",
+    "passPlaceholder": "Password",
+    "confirmPlaceholder": "Repeat password",
+    "next": "Create Account",
+    "inputs": {
+      "errors": {
+        "short": "Password to short!",
+        "simple": "Password to simple!",
+        "equal": "Passwords not equals!"
+      }
+    }
+  }
+}
