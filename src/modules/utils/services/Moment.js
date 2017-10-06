@@ -23,6 +23,15 @@
             }
 
             /**
+             * @param {string} pattern
+             */
+            applyPattern(pattern) {
+                if (pattern) {
+                    this._formatter = tsUtils.date(pattern);
+                }
+            }
+
+            /**
              * @return {IAdd}
              */
             add() {
