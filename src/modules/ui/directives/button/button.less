@@ -1,6 +1,9 @@
 @import (reference) '../../../config';
 
 w-button, w-button-submit, w-button-success {
+  &.long, &.long > button {
+    width: 100%;
+  }
 
   button {
     font-size: 15px;
@@ -61,7 +64,7 @@ w-button, w-button-submit, w-button-success {
     }
 
     &:disabled, &.disabled {
-      // TODO add disabled style!
+      background-color: @color-submit-disabled;
     }
   }
 

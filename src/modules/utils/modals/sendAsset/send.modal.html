@@ -1,4 +1,4 @@
-<md-dialog class="modal-send" w-i18n-ns="app.wallet.assets" aria-label="asset_send">
+<md-dialog class="modal-send" w-i18n-ns="app.utils" aria-label="asset_send">
     <md-toolbar>
         <div class="md-toolbar-tools">
             <div ng-if="$ctrl.step === 'send'"
@@ -18,7 +18,7 @@
             <form ng-if="$ctrl.step === 'send'"
                   class="send-form"
                   name="send"
-                  ng-submit="send.$valid &&$ctrl.send()"
+                  ng-submit="send.$valid && $ctrl.send()"
                   novalidate>
 
                 <w-input-container form="send">
@@ -41,13 +41,14 @@
 
                 <div class="row">
                     <div class="body-2" w-i18n="modal.send.withdraw"></div>
-                    <div ng-if="!$ctrl.canChooseAsset" class="fake-input">
+                    <div ng-if="!$ctrl.canChooseAsset || $ctrl.assetList.length === 1" class="fake-input">
                         <w-asset-logo size="30" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
                         {{$ctrl.asset.name}}
 
                         <w-balance balance="$ctrl.asset.balance" asset-id="{{::$ctrl.assetId}}"></w-balance>
                     </div>
-                    <md-select ng-if="$ctrl.canChooseAsset">
+                    <md-select ng-if="$ctrl.canChooseAsset && $ctrl.assetList.length > 1"
+                               ng-model="$ctrl.assetId">
                         <md-option ng-repeat="option in $ctrl.assetList track by $index"
                                    ng-value="option.id">
                             <w-asset-logo size="30" asset-id="{{::option.id}}"></w-asset-logo>
@@ -79,17 +80,17 @@
                             <div class="amount-modal-icon"></div>
                             <div class="input-wrap">
                                 <input type="text"
-                                       ng-focus="focus = 'amountAlias'"
+                                       ng-focus="focus = 'amountMirror'"
                                        ng-blur="focus = ''"
-                                       name="amountAlias"
+                                       name="amountMirror"
                                        input-asset="{{::$ctrl.mirrorId}}"
-                                       ng-model="$ctrl.amountAlias"
+                                       ng-model="$ctrl.amountMirror"
                                        required/>
-                                <div class="currency">{{::$ctrl.alias.name}}</div>
+                                <div class="currency">{{::$ctrl.mirror.name}}</div>
                                 <div ng-mousedown="$ctrl.fillMax()"
                                      ng-touchstart="$ctrl.fillMax()"
                                      class="send-all"
-                                     ng-if="focus === 'amountAlias'">
+                                     ng-if="focus === 'amountMirror'">
                                     <w-i18n>modal.send.sendMax</w-i18n>
                                 </div>
                             </div>
@@ -123,9 +124,9 @@
                 </div>
 
                 <div class="row">
-                    <md-button type="submit">
+                    <w-button-submit disabled="send.$invalid" type="submit" class="long">
                         <w-i18n>continue</w-i18n>
-                    </md-button>
+                    </w-button-submit>
                 </div>
             </form>
             <div ng-if="$ctrl.step === 'confirm'">

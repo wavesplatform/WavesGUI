@@ -1,6 +1,6 @@
 @import (reference) '../../../config';
 
-input[type="text"], input[type="password"], input[type="number"], textarea {
+input[type="text"], input[type="password"], input[type="number"], .fake-input, textarea {
   border-style: solid;
   border-width: 1px;
   border-color: @color-input-border;
@@ -36,11 +36,15 @@ input[type="text"], input[type="password"], input[type="number"], textarea {
   }
 }
 
+input[type="text"], input[type="password"], input[type="number"], textarea {
+  &.ng-valid:not(:focus) {
+    border-color: @color-input-border-valid;
+  }
+}
+
 .ng-submitted {
   input[type="text"], input[type="password"], input[type="number"], textarea {
-    &.ng-valid:not(:focus) {
-      border-color: @color-input-border-valid;
-    }
+
     &.ng-invalid:not(:focus) {
       border-color: @color-input-border-invalid;
     }

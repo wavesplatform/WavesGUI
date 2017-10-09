@@ -81,7 +81,7 @@
              * @private
              */
             _showSendModal(asset) {
-                return this._pausePoll(modalManager.showSendAsset({ assetId: asset.id, user })
+                return this.pollsPause(modalManager.showSendAsset({ assetId: asset.id, user })
                     .then(() => {
                         this.updateBalances.restart();
                     }));
@@ -92,18 +92,7 @@
              * @private
              */
             _showReceiveModal(asset) {
-                return this._pausePoll(modalManager.showReceiveAsset(asset));
-            }
-
-            /**
-             * @param promise
-             * @private
-             */
-            _pausePoll(promise) {
-                [this.updateBalances, this.updateGraph].forEach((poll) => {
-                    poll.pause(promise);
-                });
-                return promise;
+                return this.pollsPause(modalManager.showReceiveAsset(asset));
             }
 
             /**

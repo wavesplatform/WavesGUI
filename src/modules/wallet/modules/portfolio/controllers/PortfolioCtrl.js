@@ -4,12 +4,13 @@
     /**
      * @param {Base} Base
      * @param $scope
-     * @param {Poll} Poll
      * @param {AssetsService} assetsService
      * @param {app.utils} utils
+     * @param {ModalManager} modalManager
+     * @param {User} user
      * @returns {PortfolioCtrl}
      */
-    const controller = function (Base, $scope, Poll, assetsService, utils) {
+    const controller = function (Base, $scope, assetsService, utils, modalManager, user) {
 
         class PortfolioCtrl extends Base {
 
@@ -41,6 +42,10 @@
                 }
             }
 
+            send() {
+                this.pollsPause(modalManager.showSendAsset({ user, canChooseAsset: true }));
+            }
+
             _getPortfolio() {
                 return assetsService.getBalanceList();
             }
@@ -54,7 +59,7 @@
         return new PortfolioCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'Poll', 'assetsService', 'utils'];
+    controller.$inject = ['Base', '$scope', 'assetsService', 'utils', 'modalManager', 'user'];
 
     angular.module('app.wallet.portfolio').controller('PortfolioCtrl', controller);
 })();

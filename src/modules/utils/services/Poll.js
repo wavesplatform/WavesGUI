@@ -76,12 +76,18 @@
                 this._paused = true;
                 this._stopTimers();
 
-                const handler = () => {
-                    this._paused = false;
-                    this._run();
-                };
-
+                const handler = this.play.bind(this);
                 promise.then(handler, handler);
+            }
+
+            stop() {
+                this._paused = true;
+                this._stopTimers();
+            }
+
+            play() {
+                this._paused = false;
+                this._run();
             }
 
             destroy() {

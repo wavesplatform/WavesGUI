@@ -3,11 +3,12 @@
 
     const module = angular.module('app.ui');
 
-    const controller = function ($element, $attrs) {
+    const controller = function (Base, $element, $attrs, $q) {
 
-        class Button {
+        class Button extends Base {
 
             constructor() {
+                super();
                 /**
                  * @type {string}
                  */
@@ -16,12 +17,34 @@
                  * @type {string}
                  */
                 this.mode = '';
+                /**
+                 * @type {boolean}
+                 */
+                this.disabled = false;
+
+                this.observe('disabled', this._onChangeDisabled);
             }
 
             $postLink() {
                 if ($attrs.type) {
-                    $element.find('button:first').attr('type', $attrs.type);
+                    this._getButton().attr('type', $attrs.type);
                 }
+                this._onChangeDisabled();
+            }
+
+            /**
+             * @return {JQuery}
+             * @private
+             */
+            _getButton() {
+                return $element.find('button:first');
+            }
+
+            /**
+             * @private
+             */
+            _onChangeDisabled() {
+                this._getButton().prop('disabled', this.disabled);
             }
 
         }
@@ -29,13 +52,14 @@
         return new Button();
     };
 
-    controller.$inject = ['$element', '$attrs'];
+    controller.$inject = ['Base', '$element', '$attrs', '$q'];
 
     const getButtonContent = (type) => ({
         template: `<button class="${type}" ng-class="$ctrl.mode" ng-transclude></button>`,
         transclude: true,
         bindings: {
-            mode: '@'
+            mode: '@',
+            disabled: '<'
         },
         controller
     });

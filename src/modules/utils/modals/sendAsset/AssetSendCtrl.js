@@ -16,6 +16,14 @@
 
         class AssetSendCtrl extends Base {
 
+            get asset() {
+                if (!this.assetList || !this.assetList.length) {
+                    return null;
+                }
+                return tsUtils.find(this.assetList, { id: this.assetId });
+            }
+
+
             /**
              * @param {string} assetId
              * @param {string} mirrorId
@@ -23,11 +31,12 @@
              */
             constructor(assetId, mirrorId, canChooseAsset) {
                 super($scope);
+
+                this.observe('amount', this._onChangeAmount);
+                this.observe('amountMirror', this._onChangeAmountMirror);
+                this.observe('assetId', this._onChangeAssetId);
+
                 this.step = 'send';
-                /**
-                 * @type {string}
-                 */
-                this.assetId = assetId || WavesApp.defaultAssets.WAVES;
                 /**
                  * @type {boolean}
                  */
@@ -41,43 +50,19 @@
                  */
                 this.recipient = '';
                 /**
-                 * @type {Poll}
-                 */
-                this.updateBalance = this.createPoll(this._getAsset, 'asset', 1000);
-                /**
                  * @type {IFeeData}
                  */
                 this.feeData = null;
 
                 if (this.canChooseAsset) {
-                    assetsService.getBalanceList().then((list) => {
-                        this.assetList = list;
-                    });
+                    this.createPoll(assetsService.getBalanceList, this._setAssets, 1000);
+                } else {
+                    this.createPoll(this._getAsset, this._setAssets, 1000);
                 }
-
-                this.observe('amount', this._onChangeAmount);
-                this.observe('amountMirror', this._onChangeAlias);
-
-                this.ready = utils.when(Promise.all([
-                    assetsService.getAssetInfo(assetId),
-                    assetsService.getAssetInfo(mirrorId),
-                    assetsService.getFeeSend()
-                ]))
-                    .then((data) => {
-                        const [asset, alias, feeData] = data;
-                        this.amount = 0;
-                        this.amountMirror = 0;
-                        this.feeAlias = 0;
-                        this.asset = asset;
-                        this.alias = alias;
-                        this.feeData = feeData;
-
-                        this.fee = feeData.fee;
-                        this._getRate()
-                            .then((api) => {
-                                this.feeAlias = api.exchange(this.fee);
-                            });
-                    });
+                /**
+                 * @type {string}
+                 */
+                this.assetId = assetId || WavesApp.defaultAssets.WAVES;
             }
 
             send() {
@@ -131,6 +116,34 @@
                 this.recipient = result;
             }
 
+            _onChangeAssetId() {
+                if (!this.assetId) {
+                    return null;
+                }
+                this.ready = utils.when(Promise.all([
+                    assetsService.getAssetInfo(this.assetId),
+                    assetsService.getAssetInfo(this.mirrorId),
+                    assetsService.getFeeSend()
+                ]))
+                    .then((data) => {
+                        const [asset, mirror, feeData] = data;
+                        this.amount = 0;
+                        this.amountMirror = 0;
+                        this.feeAlias = 0;
+                        this.mirror = mirror;
+                        this.feeData = feeData;
+                        if (!this.assetList) {
+                            this.assetList = [asset];
+                        }
+
+                        this.fee = feeData.fee;
+                        this._getRate()
+                            .then((api) => {
+                                this.feeAlias = api.exchange(this.fee);
+                            });
+                    });
+            }
+
             /**
              * @returns {Promise.<IAssetWithBalance>}
              * @private
@@ -140,10 +153,21 @@
             }
 
             /**
+             * @param {IAssetWithBalance|IAssetWithBalance[]} assets
+             * @private
+             */
+            _setAssets(assets) {
+                this.assetList = utils.toArray(assets);
+                if (!this.assetId) {
+                    this.assetId = this.assetList[0].id;
+                }
+            }
+
+            /**
              * @private
              */
             _onChangeAmount() {
-                this._getRate()
+                this.amount && this._getRate()
                     .then((api) => {
                         if (api.exchangeReverse(this.amountMirror) !== this.amount) {
                             this.amountMirror = api.exchange(this.amount);
@@ -154,11 +178,11 @@
             /**
              * @private
              */
-            _onChangeAlias() {
-                this._getRate()
+            _onChangeAmountMirror() {
+                this.amountMirror && this._getRate()
                     .then((api) => {
                         if (api.exchange(this.amount) !== this.amountMirror) {
-                            this.amount = this.exchangeReverse(this.amountMirror);
+                            this.amount = api.exchangeReverse(this.amountMirror);
                         }
                     });
             }
@@ -168,7 +192,7 @@
              * @private
              */
             _getRate() {
-                return assetsService.getRate(this.asset.id, this.alias.id);
+                return assetsService.getRate(this.asset.id, this.mirror.id);
             }
 
         }

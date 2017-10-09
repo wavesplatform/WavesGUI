@@ -24,16 +24,38 @@
                 return (this.inputContainer.form.$submitted || this._isTouched()) && this._hasError();
             }
 
+            /**
+             * @return {boolean}
+             * @private
+             */
             _isTouched() {
-                return this.name != null ? this.inputContainer.form[this.name].$touched :
-                    this._getTarget().some((item) => item.$touched);
+                return this._getElements()
+                    .filter((item) => item.$touched && item.$invalid)
+                    .some((item) => item.$touched);
             }
 
+            /**
+             * @return {boolean}
+             * @private
+             */
             _hasError() {
-                return this.name != null ? this.inputContainer.form[this.name].$error[this.message] :
-                    this._getTarget().some((item) => item.$error[this.message]);
+                return this._getElements().some((item) => item.$error[this.message]);
             }
 
+            /**
+             * @private
+             */
+            _getElements() {
+                const empty = tsUtils.isEmpty(this.name);
+
+                return !empty ? [this.inputContainer.form[this.name].$touched] :
+                    this._getTarget();
+            }
+
+            /**
+             * @return {Array.<{$touched: boolean, $error: *, $$element: JQuery}>}
+             * @private
+             */
             _getTarget() {
                 return this.inputContainer.target.filter((item) => item.$$element.get(0) !== document.activeElement);
             }
