@@ -73,13 +73,6 @@
                             return views;
                         }, Object.create(null));
 
-                        console.log(WavesApp.stateTree.getPath(item.id).join('.'), {
-                            abstract,
-                            url,
-                            redirectTo,
-                            views
-                        });
-
                         $stateProvider.state(WavesApp.stateTree.getPath(item.id).join('.'), {
                             abstract,
                             url,
@@ -115,8 +108,6 @@
             static getUrlFromState(state) {
                 return state.get('abstract') ? undefined : state.get('url') || `/${state.id}`;
             }
-
-            // static getStateId(state)
 
         }
 

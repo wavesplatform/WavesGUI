@@ -82,8 +82,7 @@
                                 assetId: this.assetId,
                                 recipient: this.recipient,
                                 keyPair: data.keyPair,
-                                amount: this.amount * Math.pow(10, this.asset.precision)
-                                    .toFixed(this.asset.precision)
+                                amount: Math.floor(this.amount * Math.pow(10, this.asset.precision))
                             });
                         })
                         .then((data) => {
@@ -122,7 +121,7 @@
                     return null;
                 }
                 this.ready = utils.whenAll([
-                    assetsService.getBalance(this.assetId),
+                    assetsService.getBalanceList(),
                     assetsService.getAssetInfo(this.mirrorId),
                     assetsService.getFeeSend()
                 ])
