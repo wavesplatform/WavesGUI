@@ -19,6 +19,7 @@
         'app.utils',
         'app.ui',
         'app.welcome',
+        'app.auth',
         'app.wallet',
         'app.dex'
     ]);
