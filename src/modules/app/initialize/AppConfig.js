@@ -51,12 +51,17 @@
              */
             _initStates() {
 
+                const defaultUrl = AppConfig.getUrlFromState(WavesApp.stateTree.find('welcome'));
+                $urlRouterProvider.when('', defaultUrl);
+                $urlRouterProvider.when('/', defaultUrl);
+
                 WavesApp.stateTree.toArray()
                     .slice(1)
                     .forEach((item) => {
                         const abstract = item.get('abstract');
-                        const url = !abstract && (item.get('url') || `/${item.id}`) || undefined;
+                        const url = AppConfig.getUrlFromState(item);
                         const redirectTo = item.get('redirectTo');
+
                         const views = item.get('views').reduce((views, viewData) => {
                             const controller = (abstract || viewData.noController) ? undefined :
                                 AppConfig.getCtrlName(tsUtils.camelCase(item.id));
@@ -67,6 +72,13 @@
 
                             return views;
                         }, Object.create(null));
+
+                        console.log(WavesApp.stateTree.getPath(item.id).join('.'), {
+                            abstract,
+                            url,
+                            redirectTo,
+                            views
+                        });
 
                         $stateProvider.state(WavesApp.stateTree.getPath(item.id).join('.'), {
                             abstract,
@@ -96,6 +108,15 @@
                     .replace(/\/\//g, '/')
                     .substr(1);
             }
+
+            /**
+             * @param {BaseTree} state
+             */
+            static getUrlFromState(state) {
+                return state.get('abstract') ? undefined : state.get('url') || `/${state.id}`;
+            }
+
+            // static getStateId(state)
 
         }
 

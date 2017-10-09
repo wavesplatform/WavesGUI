@@ -18,8 +18,10 @@
 
     <w-carousel-dots slider-id="slider-welcome-new-user"></w-carousel-dots>
 
-    <w-button-submit ng-click="$ctrl.getStarted()">
-        <w-i18n>newUser.buttons.primary</w-i18n>
+    <w-button-submit>
+        <a ui-sref=".get_started">
+            <w-i18n>newUser.buttons.primary</w-i18n>
+        </a>
     </w-button-submit>
 
     <div class="or-wrap">

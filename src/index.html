@@ -136,19 +136,22 @@
             {
                 id: 'welcome',
                 data: {
-                    url: '/',
                     noLogin: true,
                     views: [{ name: 'main' }]
-                },
-                children: [
-                    {
-                        id: 'get_started',
-                        data: {
-                            noLogin: true,
-                            views: [{ name: 'main' }]
+                }
+            },
+            {
+                id: 'get_started',
+                data: {
+                    url: '/auth',
+                    noLogin: true,
+                    views: [
+                        {
+                            name: 'main',
+                            templateUrl: 'modules/welcome/modules/getStarted/templates/getStarted.html'
                         }
-                    }
-                ]
+                    ]
+                }
             },
             {
                 id: 'main',

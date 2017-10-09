@@ -105,8 +105,11 @@
              * @return {Promise}
              */
             login() {
-                if ($state.$current.name !== 'get_started') {
-                    $state.go('welcome');
+                const states = WavesApp.stateTree.where({noLogin: true}).map((item) => {
+                    return WavesApp.stateTree.getPath(item.id).join('.');
+                });
+                if (states.indexOf($state.$current.name) === -1) {
+                    $state.go(states[0]);
                 }
                 return this._dfr.promise;
             }
