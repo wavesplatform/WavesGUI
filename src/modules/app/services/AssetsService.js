@@ -2,7 +2,7 @@
     'use strict';
 
     /**
-     * @param apiWorker
+     * @param {app.utils.apiWorker} apiWorker
      * @param {app.utils.decorators} decorators
      * @param {User} user
      * @param {app.utils} utils
@@ -65,11 +65,80 @@
                         const [asset, events] = data;
                         const clone = tsUtils.cloneDeep(asset);
 
-                        events.forEach((balanceEvent) => {
-                            clone.balance = clone.balance - balanceEvent.getBalanceDifference(clone.id);
-                        });
+                        clone.balance = this._getAssetBalance(clone.id, clone.balance, events);
                         return clone;
                     });
+            }
+
+            /**
+             * @param {Array<string>} [assetIds]
+             * @param {Object} [options]
+             * @param {Object} [options.limit]
+             * @param {Object} [options.offset]
+             * @return {Promise}
+             */
+            getBalanceList(assetIds, options) {
+                return user.onLogin().then(() => {
+                    if (assetIds) {
+                        return utils.whenAll([
+                            Promise.all(assetIds.map(this.getAssetInfo)),
+                            eventManager.getBalanceEvents(),
+                            this._getBalanceList(assetIds, options)
+                        ])
+                            .then(([assets, events, balances]) => {
+                                return assets.map((asset) => {
+                                    const balanceData = tsUtils.find(balances, { assetId: asset.id });
+                                    const balance = balanceData && parseFloat(balanceData.tokens) || 0;
+                                    return { ...asset, balance: this._getAssetBalance(asset.id, balance, events) };
+                                });
+                            });
+                    } else {
+                        return utils.whenAll([
+                            this._getBalanceList(null, options),
+                            eventManager.getBalanceEvents()
+                        ])
+                            .then(([list, events]) => {
+                                return utils.whenAll(list.map((item) => this.getAssetInfo(item.assetId)))
+                                    .then((infoList) => {
+                                        return infoList.map((asset, i) => {
+                                            const balance = parseFloat(list[i].tokens) || 0;
+                                            return {
+                                                ...asset,
+                                                balance: this._getAssetBalance(asset.id, balance, events)
+                                            };
+                                        });
+                                    });
+                            });
+                    }
+                });
+            }
+
+            /**
+             * @param {string} assetId
+             * @param {number} balance
+             * @param {Array<ChangeBalanceEvent>} events
+             * @return {*}
+             * @private
+             */
+            _getAssetBalance(assetId, balance, events) {
+                return events.reduce((balance, balanceEvent) => {
+                    return balance - balanceEvent.getBalanceDifference(assetId);
+                }, balance);
+            }
+
+            /**
+             * @param {Array<string>} [assets]
+             * @param {Object} [options]
+             * @param {Object} [options.limit]
+             * @param {Object} [options.offset]
+             * @private
+             */
+            @decorators.cachable(2000)
+            _getBalanceList(assets, { limit = null, offset = null } = Object.create(null)) {
+                return apiWorker.process((WavesAPI, { assets, address, limit, offset }) => {
+                    return WavesAPI.API.Node.v2.addresses.balances(address, { assets, limit, offset })
+                        .then((assets) => assets.map(item => item.amount.toJSON()));
+                }, { assets, address: user.address, limit, offset });
             }
 
             /**
@@ -81,8 +150,7 @@
             _getBalance(assetId) {
                 return this.getAssetInfo(assetId)
                     .then((info) => {
-                        const handler = (Waves, data) => {
-                            const { address, assetId } = data;
+                        const handler = (Waves, { address, assetId }) => {
                             return Waves.API.Node.v1.assets.balance(address, assetId);
                         };
                         const data = { address: user.address, assetId: info.id };

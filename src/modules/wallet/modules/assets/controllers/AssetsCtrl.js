@@ -2,46 +2,36 @@
     'use strict';
 
     /**
-     * @param {Poll} Poll
      * @param {AssetsService} assetsService
      * @param {AssetsData} assetsData
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
-     * @param $mdDialog
      * @param {Base} Base
      * @param {User} user
      * @param {EventManager} eventManager
+     * @param {ModalManager} modalManager
      * @returns {Assets}
      */
-    const controller = function (Poll, assetsService, assetsData, $scope, utils, $mdDialog, Base, user, eventManager) {
+    const controller = function (assetsService, assetsData, $scope, utils, Base, user, eventManager, modalManager) {
 
         class Assets extends Base {
 
             constructor() {
                 super($scope);
+                window.c = this;
 
-                this.mode = null;
+                this.chartMode = null;
                 this.assets = null;
                 this.total = null;
 
-                this.data = { values: [{ x: 0, y: 0 }] };
+                this.data = null;
+                this.assetList = null;
                 this.options = assetsData.getGraphOptions();
-
-                this.polls.updateGraph = new Poll(
-                    this._getGraphData.bind(this),
-                    this._applyGraphData.bind(this),
-                    5000
-                );
-                this.polls.updateBalances = new Poll(
-                    this._getBalances.bind(this),
-                    this._applyBalances.bind(this),
-                    5000
-                );
 
                 const hours = tsUtils.date('hh:mm');
                 const dates = tsUtils.date('DD/MM');
                 this.options.axes.x.tickFormat = (date) => {
-                    if (this.mode === 'hour') {
+                    if (this.chartMode === 'hour') {
                         return hours(date);
                     } else {
                         return dates(date);
@@ -49,13 +39,19 @@
                 };
 
                 this.receive(eventManager.signals.balanceEventEnd, () => {
-                    this.polls.updateBalances.restart();
+                    this.updateBalances.restart();
                 });
 
-                this.syncSettings('wallet.assets.chartMode');
+                utils.whenAll([
+                    this.syncSettings('wallet.assets.chartMode'),
+                    this.syncSettings('wallet.assets.assetList')
+                ]).then(this.wrapCallback(() => {
+                    this.updateGraph = this.createPoll(this._getGraphData, 'data', 5000);
+                    this.updateBalances = this.createPoll(this._getBalances, 'assets', 5000);
 
-                this.observe('mode', () => this._onChangeMode());
-                this.observe(['startDate', 'endDate'], () => this._onChangeInterval());
+                    this.observe('chartMode', () => this._onChangeMode());
+                    this.observe(['startDate', 'endDate'], () => this._onChangeInterval());
+                }));
             }
 
             onAssetClick(event, asset, action) {
@@ -77,39 +73,15 @@
              * @private
              */
             _getBalances() {
-                return user.getSetting('wallet.assets.assetList')
-                    .then((list) => utils.whenAll(list.map(assetsService.getBalance)));
+                return assetsService.getBalanceList(this.assetList);
             }
 
             /**
-             * @param balances
-             * @private
-             */
-            _applyBalances(balances) {
-                this.assets = balances;
-            }
-
-            /**
-             * @param asset
+             * @param {IAssetInfo} asset
              * @private
              */
             _showSendModal(asset) {
-                user.getSetting('baseAssetId')
-                    .then((aliasId) => {
-                        $mdDialog.show({
-                            clickOutsideToClose: true,
-                            escapeToClose: true,
-                            locals: { assetId: asset.id, aliasId },
-                            bindToController: true,
-                            templateUrl: '/modules/wallet/modules/assets/templates/send.modal.html',
-                            controller: 'AssetSendCtrl as $ctrl',
-                            autoWrap: false,
-                            multiple: true
-                        })
-                            .then(() => {
-                                this.polls.updateBalances.restart();
-                            });
-                    });
+                return this.pollsPause(modalManager.showSendAsset({ assetId: asset.id, user }));
             }
 
             /**
@@ -117,21 +89,14 @@
              * @private
              */
             _showReceiveModal(asset) {
-                $mdDialog.show({
-                    clickOutsideToClose: true,
-                    escapeToClose: true,
-                    bindToController: true,
-                    locals: { asset },
-                    templateUrl: '/modules/wallet/modules/assets/templates/receive.modal.html',
-                    controller: 'AssetReceiveCtrl as $ctrl'
-                });
+                return this.pollsPause(modalManager.showReceiveAsset(asset));
             }
 
             /**
              * @private
              */
             _onChangeInterval() {
-                this.polls.updateGraph.restart();
+                this.updateGraph.restart();
             }
 
             /**
@@ -139,47 +104,41 @@
              * @private
              */
             _getGraphData() {
-                return assetsData.getGraphData(this.startDate, this.endDate);
-            }
-
-            /**
-             * @param values
-             * @private
-             */
-            _applyGraphData(values) {
-                this.data = { values };
+                return assetsData.getGraphData(this.startDate, this.endDate).then((values) => ({ values }));
             }
 
             /**
              * @private
              */
             _onChangeMode() {
-                switch (this.mode) {
+                switch (this.chartMode) {
                     case 'hour':
                         this.startDate = utils.moment()
-                            .add
+                            .add()
                             .hour(-1);
                         break;
                     case 'day':
                         this.startDate = utils.moment()
-                            .add
+                            .add()
                             .day(-1);
                         break;
                     case 'week':
                         this.startDate = utils.moment()
-                            .add
-                            .day(-7);
+                            .add()
+                            .week(-1);
                         break;
                     case 'month':
                         this.startDate = utils.moment()
-                            .add
+                            .add()
                             .month(-1);
                         break;
                     case 'year':
                         this.startDate = utils.moment()
-                            .add
+                            .add()
                             .year(-1);
                         break;
+                    default:
+                        throw new Error('Wrong chart mode!');
                 }
                 this.endDate = utils.moment();
             }
@@ -190,15 +149,14 @@
     };
 
     controller.$inject = [
-        'Poll',
         'assetsService',
         'assetsData',
         '$scope',
         'utils',
-        '$mdDialog',
         'Base',
         'user',
-        'eventManager'
+        'eventManager',
+        'modalManager'
     ];
 
     angular.module('app.wallet.assets')

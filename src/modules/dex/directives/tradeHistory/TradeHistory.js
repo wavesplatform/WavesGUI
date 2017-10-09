@@ -4,12 +4,11 @@
     /**
      * @param {Base} Base
      * @param {Scope} $scope
-     * @param {Poll} Poll
      * @param {AssetsService} assetsService
      * @param {DataFeed} dataFeed
      * @return {TradeHistory}
      */
-    const controller = function (Base, $scope, Poll, assetsService, dataFeed) {
+    const controller = function (Base, $scope, assetsService, dataFeed) {
 
         class TradeHistory extends Base {
 
@@ -34,13 +33,13 @@
                 /**
                  * @type {Poll}
                  */
-                this.poll = new Poll(this._getTradeHistory.bind(this), this._applyTradeHistory.bind(this), 5000);
+                this.poll = this.createPoll(this._getTradeHistory, 'orders', 2000);
 
                 this.shema = new tsApiValidator.Schema({
-                    type: 'array',
-                    required: true,
+                    type: tsApiValidator.ArrayPart,
+                    // required: true, TODO uncomment
                     content: {
-                        type: 'object',
+                        type: tsApiValidator.ObjectPart,
                         required: true,
                         content: {
                             price: { type: tsApiValidator.NumberPart, required: true },
@@ -68,17 +67,9 @@
                     });
             }
 
-            _applyTradeHistory(data) {
-                if (data) {
-                    this.orders = data;
-                } else {
-                    this.orders = [];
-                }
-            }
-
             _getTradeHistory() {
                 if (!this.amountAssetId || !this.priceAssetId) {
-                    return null;
+                    return [];
                 }
                 return dataFeed.trades(this.amountAssetId, this.priceAssetId)
                     .then(data => this.shema.parse(data));
@@ -89,7 +80,7 @@
         return new TradeHistory();
     };
 
-    controller.$inject = ['Base', '$scope', 'Poll', 'assetsService', 'dataFeed', 'i18n'];
+    controller.$inject = ['Base', '$scope', 'assetsService', 'dataFeed', 'i18n'];
 
     angular.module('app.dex')
         .component('wDexTradeHistory', {

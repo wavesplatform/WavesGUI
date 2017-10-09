@@ -7,168 +7,34 @@
 
     /**
      * @param $q
+     * @param Moment
      * @return {app.utils}
      */
-    const factory = function ($q) {
-
-        class Moment {
-
-            constructor(date) {
-                /**
-                 * @type {Date}
-                 * @private
-                 */
-                this._date = date;
-
-                this.add = {
-                    /**
-                     * @param {number} count
-                     * @return {Moment}
-                     */
-                    second: (count) => {
-                        const [y, m, d, h, mm, s, ms] = this._getParts();
-                        this._date = new Date(y, m, d, h, mm, s + count, ms);
-                        return this;
-                    },
-                    /**
-                     * @param {number} count
-                     * @return {Moment}
-                     */
-                    minute: (count) => {
-                        const [y, m, d, h, mm, s, ms] = this._getParts();
-                        this._date = new Date(y, m, d, h, mm + count, s, ms);
-                        return this;
-                    },
-                    /**
-                     * @param {number} count
-                     * @return {Moment}
-                     */
-                    hour: (count) => {
-                        const [y, m, d, h, mm, s, ms] = this._getParts();
-                        this._date = new Date(y, m, d, h + count, mm, s, ms);
-                        return this;
-                    },
-                    /**
-                     * @param {number} count
-                     * @return {Moment}
-                     */
-                    day: (count) => {
-                        const [y, m, d, h, mm, s, ms] = this._getParts();
-                        this._date = new Date(y, m, d + count, h, mm, s, ms);
-                        return this;
-                    },
-                    /**
-                     * @param {number} count
-                     * @return {Moment}
-                     */
-                    month: (count) => {
-                        const [y, m, d, h, mm, s, ms] = this._getParts();
-                        this._date = new Date(y, m + count, d, h, mm, s, ms);
-                        return this;
-                    },
-                    /**
-                     * @param {number} count
-                     * @return {Moment}
-                     */
-                    year: (count) => {
-                        const [y, m, d, h, mm, s, ms] = this._getParts();
-                        this._date = new Date(y + count, m, d, h, mm, s, ms);
-                        return this;
-                    }
-                };
-
-                this.startOf = {
-                    second: () => {
-                        const [y, m, d, h, mm, s] = this._getParts();
-                        this._date = new Date(y, m, d, h, mm, s);
-                        return this;
-                    },
-
-                    minute: () => {
-                        const [y, m, d, h, mm, s] = this._getParts();
-                        this._date = new Date(y, m, d, h, mm);
-                        return this;
-                    },
-
-                    hour: () => {
-                        const [y, m, d, h] = this._getParts();
-                        this._date = new Date(y, m, d, h);
-                        return this;
-                    },
-
-                    day: () => {
-                        const [y, m, d] = this._getParts();
-                        this._date = new Date(y, m, d);
-                        return this;
-                    },
-
-                    month: () => {
-                        this._date = new Date(this._date.getFullYear(), this._date.getMonth());
-                        return this;
-                    },
-
-                    year: () => {
-                        this._date = new Date(this._date.getFullYear());
-                        return this;
-                    }
-                };
-            }
-
-            /**
-             * @param {string} pattern
-             * @returns {string}
-             */
-            format(pattern) {
-                return tsUtils.date(pattern)(this.date);
-            }
-
-            /**
-             * @return {Moment}
-             */
-            clone() {
-                return new Moment(this._date);
-            }
-
-            /**
-             * @return {number}
-             */
-            valueOf() {
-                return this._date.valueOf();
-            }
-
-            /**
-             * @return {string}
-             */
-            toString() {
-                return this._date.toString();
-            }
-
-            /**
-             * @return {Date}
-             */
-            getDate() {
-                return this._date;
-            }
-
-            /**
-             * @returns {number[]}
-             * @private
-             */
-            _getParts() {
-                return [
-                    this._date.getFullYear(),
-                    this._date.getMonth(),
-                    this._date.getDate(),
-                    this._date.getHours(),
-                    this._date.getMinutes(),
-                    this._date.getSeconds(),
-                    this._date.getMilliseconds()
-                ];
-            }
-
-        }
+    const factory = function ($q, Moment) {
 
         const utils = {
+
+            /**
+             * @name app.utils#observe
+             * @param {object} target
+             * @param {string} key
+             * @param {Function} callback
+             * @param {object} [context]
+             */
+            observe(target, key, callback, context) {
+                const privateKey = `___${key}`;
+                target[privateKey] = target[key];
+                Object.defineProperty(target, key, {
+                    get: () => target[privateKey],
+                    set: (value) => {
+                        const prev = target[privateKey];
+                        if (value !== prev) {
+                            target[privateKey] = value;
+                            callback.call(context, prev);
+                        }
+                    }
+                });
+            },
 
             /**
              * @name app.utils#when
@@ -192,6 +58,41 @@
              */
             whenAll(promises) {
                 return utils.when(Promise.all(promises));
+            },
+
+            /**
+             * @name app.utils#syncList
+             * @param {Array} mainList
+             * @param {Array} newList
+             * @param {string} [idKey]
+             */
+            syncList(mainList, newList, idKey = 'id') {
+                const getHash = function (list) {
+                    const hash = Object.create(null);
+                    return list.reduce((hash, item, index) => {
+                        hash[item[idKey]] = { item, index };
+                        return hash;
+                    }, hash);
+                };
+
+                const mainHash = getHash(mainList);
+                const newListHash = getHash(newList);
+
+                for (let i = mainList.length; i--;) {
+                    if (!newListHash[mainList[i][idKey]]) {
+                        mainList.splice(i, 1);
+                    } else {
+                        mainList[i] = { ...mainList[i], ...newList[mainList[i][idKey].item] };
+                    }
+                }
+                newList.forEach((item, i) => {
+                    if (!mainHash[item[idKey]]) {
+                        mainList.push(item);
+                    } else {
+                        mainList.splice(mainHash[item[idKey]].index, 1);
+                        mainList.splice(i, 0, mainHash[item[idKey]].item);
+                    }
+                });
             },
 
             /**
@@ -264,11 +165,12 @@
 
             /**
              * @name app.utils#moment
-             * @param {Date | number} [date]
+             * @param {Date | number | string} [date]
+             * @param {string} [pattern]
              * @return {Moment}
              */
-            moment(date) {
-                return new Moment(date && new Date(date) || new Date());
+            moment(date, pattern) {
+                return new Moment(date, pattern);
             },
 
             /**
@@ -322,7 +224,7 @@
         return utils;
     };
 
-    factory.$inject = ['$q', '$timeout'];
+    factory.$inject = ['$q', 'Moment'];
 
     angular.module('app.utils')
         .factory('utils', factory);

@@ -8,7 +8,6 @@
 /.grunt
 /build
 /dist
-*.pem
 /coverage
 /tmp
 /ts-scripts/*.js
@@ -20,3 +19,5 @@
 *.sh
 *.p12
 *.pfx
+**/**/.DS_Store
+WavesGUI.iml

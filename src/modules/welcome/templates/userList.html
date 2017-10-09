@@ -4,7 +4,7 @@
 
         <div class="title-block">
             <h2 w-i18n="userList.title"></h2>
-            <div class="or-new">or <a ui-state="'get_started'">create new</a></div>
+            <div class="or-new">or <a ui-sref=".get_started">create new</a></div>
         </div>
         <w-i18n>userList.subTitle</w-i18n>
 
@@ -40,9 +40,9 @@
                 </div>
             </w-input-container>
 
-            <md-button type="submit" class="md-raised md-primary">
+            <w-button-submit type="submit" class="md-raised md-primary">
                 <w-i18n>userList.buttons.login</w-i18n>
-            </md-button>
+            </w-button-submit>
         </form>
     </div>
 

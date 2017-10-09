@@ -1,0 +1,44 @@
+<div ng-click="$ctrl.back()" class="back">
+    BACK
+</div>
+
+<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+    <h3>
+        Almost done! Let's review.
+    </h3>
+</section>
+
+<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+    Waves is different - it cannot be safely held with a bank or web service.
+</section>
+
+<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+
+    <w-checkbox-submit id="money-in-app" ng-model="$ctrl.moneyInApp"></w-checkbox-submit>
+    <label for="money-in-app">
+        I understand that my funds are held securely on this device, not by a company.
+    </label>
+
+</section>
+
+<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+    <w-checkbox-submit id="get-started-restore" ng-model="$ctrl.restoreByBackup"></w-checkbox-submit>
+    <label for="get-started-restore">I understand that if this app is moved to another device or deleted my WAVES can
+        only be recovered with the
+        backup phrase.
+    </label>
+</section>
+
+<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+    <w-checkbox-submit id="get-started-agree" ng-model="$ctrl.agree"></w-checkbox-submit>
+    <label for="get-started-agree">
+        I have read, understand, and agree to the Terms of Use.
+    </label>
+    </md-checkbox>
+</section>
+
+<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+    <w-button-submit ng-disabled="$ctrl.canConfirm()" ng-click="$ctrl.next()">
+        Confirm & Finish
+    </w-button-submit>
+</section>

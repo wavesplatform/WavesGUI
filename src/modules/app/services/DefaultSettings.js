@@ -32,6 +32,7 @@
                     baseAssetId: WavesApp.defaultAssets.USD,
                     events: Object.create(null),
                     wallet: {
+                        activeState: 'assets',
                         assets: {
                             chartMode: 'week',
                             assetList: [
@@ -55,7 +56,7 @@
             }
 
             get(path) {
-                return tsUtils.get(this.settings, path) || tsUtils.get(this.defaults, path) || Object.create(null);
+                return tsUtils.get(this.settings, path) || tsUtils.get(this.defaults, path);
             }
 
             set(path, value) {

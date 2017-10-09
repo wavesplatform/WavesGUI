@@ -18,9 +18,11 @@
 
     <w-carousel-dots slider-id="slider-welcome-new-user"></w-carousel-dots>
 
-    <md-button ng-click="$ctrl.getStarted()" class="md-raised md-primary">
-        <w-i18n>newUser.buttons.primary</w-i18n>
-    </md-button>
+    <w-button-submit>
+        <a ui-sref=".get_started">
+            <w-i18n>newUser.buttons.primary</w-i18n>
+        </a>
+    </w-button-submit>
 
     <div class="or-wrap">
         <hr class="or-line"/>
@@ -28,7 +30,7 @@
         <hr class="or-line"/>
     </div>
 
-    <md-button ng-click="$ctrl.restoreBackup()">
+    <w-button ng-click="$ctrl.restoreBackup()">
         <w-i18n>newUser.buttons.transparent</w-i18n>
-    </md-button>
+    </w-button>
 </div>

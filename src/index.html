@@ -74,8 +74,15 @@
     </style>
 
     <script>
-        var LOGO_IMAGE = new Image();
-        LOGO_IMAGE.src = '/img/waves.svg';
+        (function () {
+            var img = new Image();
+            img.src = '/img/waves.svg';
+        })();
+
+        /**
+         *
+         * @type {IWavesApp}
+         */
         var WavesApp = {
             name: '{{pack.name}}',
             version: '{{pack.version}}',
@@ -100,8 +107,10 @@
             },
             isDesktop: function () {
                 return this.type === 'desktop';
-            }
+            },
+            stateTree: null
         };
+
     </script>
 
     <!-- CSS -->
@@ -119,6 +128,81 @@
 <ui-view name="main"></ui-view>
 
 <!-- JAVASCRIPT -->
+
+<script>
+    WavesApp.stateTree = new tsUtils.Tree({
+        id: 'root',
+        children: [
+            {
+                id: 'welcome',
+                data: {
+                    noLogin: true,
+                    views: [{ name: 'main' }]
+                }
+            },
+            {
+                id: 'auth',
+                data: {
+                    noLogin: true,
+                    views: [{ name: 'main' }]
+                }
+            },
+            {
+                id: 'main',
+                data: {
+                    abstract: true,
+                    views: [{ name: 'main', templateUrl: 'modules/app/templates/main.html' }],
+                },
+                children: [
+                    {
+                        id: 'wallet',
+                        data: {
+                            views: [{
+                                name: 'mainContent',
+                                noController: true,
+                                template: '<ui-view name="content"></ui-view>'
+                            }],
+                            redirectTo: 'main.wallet.assets',
+                        },
+                        children: [
+                            { id: 'assets', data: { views: [{ name: 'content' }] } },
+                            { id: 'portfolio', data: { views: [{ name: 'content' }] } }
+                        ]
+                    },
+                    {
+                        id: 'dex',
+                        data: {
+                            views: [{ name: 'mainContent' }]
+                        }
+                    }
+                ]
+            }
+        ]
+    });
+
+    /**
+     * @typedef {Object} IWavesApp
+     * @property {string} name
+     * @property {string} version
+     * @property {string} type
+     * @property {object} network
+     * @property {string} network.server
+     * @property {string} network.code
+     * @property {string} network.matcher
+     * @property {string} network.coinomat
+     * @property {string} network.datafeed
+     * @property {object} defaultAssets
+     * @property {string} defaultAssets.WAVES
+     * @property {string} defaultAssets.EUR
+     * @property {string} defaultAssets.USD
+     * @property {string} defaultAssets.BTC
+     * @property {string} defaultAssets.ETH
+     * @property {Array<string>} modules
+     * @property {Function} isWeb
+     * @property {Function} isDesktop
+     * @property {Tree} stateTree
+     */
+</script>
 
 </body>
 </html>

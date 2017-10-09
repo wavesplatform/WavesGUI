@@ -1,0 +1,79 @@
+@import (reference) '../../../config';
+
+input[type="checkbox"] {
+  position: absolute;
+  margin: 0;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    background-color: @color-input-background;
+    border: 1px solid @color-checkbox-border;
+    border-radius: @border-radius;
+    z-index: 1;
+    box-sizing: border-box;
+  }
+
+  &.success:checked::after {
+    background-color: @color-success;
+  }
+
+  &.submit:checked::after {
+    background-color: @color-submit;
+  }
+
+  &.switcher {
+    border: none;
+    transform: translate(10px, 10px);
+
+    &::before {
+      transition: background-color 0.3s;
+      transform: translate(-10px, -10px);
+      content: '';
+      display: block;
+      box-sizing: border-box;
+      background-color: @color-input-background;
+      border: 1px solid @color-checkbox-border;
+      border-radius: 26px;
+      width: 51px;
+      height: 28px;
+    }
+    &::after {
+      transition: left 0.3s;
+      transform: translate(-10px, -10px);
+      width: 22px;
+      height: 22px;
+      left: 3px;
+      top: 3px;
+      border-radius: 100%;
+    }
+
+    &:checked::before {
+      background-color: @color-success;
+    }
+    &:checked::after {
+      left: 26px;
+    }
+  }
+}
+
+w-checkbox-submit, w-checkbox-success {
+  display: inline-block;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  overflow: hidden;
+}
+
+w-checkbox-switcher {
+  display: inline-block;
+  position: relative;
+  width: 51px;
+  height: 28px;
+  overflow: hidden;
+}

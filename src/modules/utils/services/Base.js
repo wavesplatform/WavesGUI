@@ -2,11 +2,13 @@
     'use strict';
 
     /**
-     * @param {} user
+     * @param {User} user
      * @param $timeout
+     * @param {app.utils} utils
+     * @param {Poll} Poll
      * @returns {Base}
      */
-    const factory = function (user, $timeout) {
+    const factory = function (user, $timeout, utils, Poll) {
 
         class Base {
 
@@ -21,7 +23,9 @@
                         stop();
                     });
                 }
+
                 this.polls = Object.create(null);
+                this.__isRemoved = false;
                 this.__handlers = Object.create(null);
                 this.__props = Object.create(null);
                 this.__timersHash = Object.create(null);
@@ -58,11 +62,38 @@
             }
 
             /**
+             * @param {Function} getter
+             * @param {Function|string} setter
+             * @param {number} time
+             * @returns {Poll}
+             */
+            createPoll(getter, setter, time) {
+                if (typeof setter === 'string') {
+                    const name = setter;
+                    setter = (data) => {
+                        tsUtils.set(this, name, data);
+                    };
+                } else {
+                    setter = setter.bind(this);
+                }
+                /**
+                 * @type {Poll}
+                 */
+                const poll = new Poll(getter.bind(this), setter, time);
+                this.polls[poll.id] = poll;
+                this.receiveOnce(poll.signals.destroy, () => {
+                    delete this.polls[poll.id];
+                });
+                return poll;
+            }
+
+            /**
              * @param {string|Array<string>} syncList
+             * @returns {Promise}
              */
             syncSettings(syncList) {
                 syncList = Array.isArray(syncList) ? syncList : [syncList];
-                syncList.forEach((settingsPath) => {
+                return utils.whenAll(syncList.map((settingsPath) => {
                     const words = settingsPath.split(/\W/);
                     const name = words[words.length - 1];
 
@@ -70,14 +101,34 @@
                         user.setSetting(settingsPath, this[name]);
                     });
 
-                    user.getSetting(settingsPath)
+                    return user.getSetting(settingsPath)
                         .then((value) => {
                             this[name] = value;
                         });
+                }));
+            }
+
+            /**
+             * @param {Promise} promise
+             */
+            pollsPause(promise) {
+                Object.keys(this.polls).forEach((key) => {
+                    if (this.polls[key] && this.polls[key].pause) {
+                        this.polls[key].pause(promise);
+                    }
                 });
             }
 
+            wrapCallback(cb) {
+                return (...args) => {
+                    if (!this.__isRemoved) {
+                        cb.call(this, ...args);
+                    }
+                };
+            }
+
             $onDestroy() {
+                this.__isRemoved = true;
                 this.__handlers = Object.create(null);
 
                 tsUtils.each(this.__timersHash, (value) => {
@@ -150,7 +201,7 @@
         return Base;
     };
 
-    factory.$inject = ['user', '$timeout'];
+    factory.$inject = ['user', '$timeout', 'utils', 'Poll'];
 
     angular.module('app.utils')
         .factory('Base', factory);

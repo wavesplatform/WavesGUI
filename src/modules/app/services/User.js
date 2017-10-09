@@ -6,12 +6,14 @@
      * @param {$q} $q
      * @param {*} $state
      * @param {app.defaultSettings} defaultSettings
-     * @param {*} $mdDialog
      * @param {app.utils.apiWorker} apiWorker
      * @param {State} state
+     * @param {UserRouteState} UserRouteState
+     * @param {ModalManager} modalManager
+     * @param {app.utils} utils
      * @returns {User}
      */
-    const factory = function (storage, $q, $state, defaultSettings, $mdDialog, apiWorker, state) {
+    const factory = function (storage, $q, $state, defaultSettings, apiWorker, state, UserRouteState, modalManager, utils) {
 
         class User {
 
@@ -61,6 +63,11 @@
                  * @private
                  */
                 this._changeTimer = null;
+                /**
+                 * @type {Array}
+                 * @private
+                 */
+                this._stateList = null;
 
                 this._setObserve();
             }
@@ -98,8 +105,11 @@
              * @return {Promise}
              */
             login() {
-                if ($state.$current.name !== 'get_started') {
-                    $state.go('welcome');
+                const states = WavesApp.stateTree.where({noLogin: true}).map((item) => {
+                    return WavesApp.stateTree.getPath(item.id).join('.');
+                });
+                if (states.indexOf($state.$current.name) === -1) {
+                    $state.go(states[0]);
                 }
                 return this._dfr.promise;
             }
@@ -108,18 +118,26 @@
                 window.location.reload();
             }
 
+            getActiveState(name) {
+                const userState = tsUtils.find(this._stateList || [], { name });
+                if (userState) {
+                    return userState.state;
+                } else {
+                    return WavesApp.stateTree.getPath(name).join('.');
+                }
+            }
+
+            applyState(state) {
+                if (this._stateList) {
+                    this._stateList.some((item) => item.applyState(state, this));
+                }
+            }
+
             getSeed() {
                 return this.onLogin()
                     .then(() => {
                         if (!this._password) {
-                            return $mdDialog.show({
-                                clickOutsideToClose: true,
-                                escapeToClose: true,
-                                multiple: true,
-                                preserveScope: true,
-                                templateUrl: '/modules/app/templates/enterPassword.html',
-                                controller: 'EnterPasswordCtrl as $ctrl'
-                            });
+                            return modalManager.getSeed();
                         } else {
                             const data = {
                                 encryptionRounds: this._settings.get('encryptionRounds'),
@@ -158,6 +176,12 @@
                         if (this._settings.get('savePassword')) {
                             this._password = data.password;
                         }
+
+                        const states = WavesApp.stateTree.find('main').getChildren();
+                        this._stateList = states.map((baseTree) => {
+                            const id = baseTree.id;
+                            return new UserRouteState('main', id, this._settings.get(`${id}.activeState`));
+                        });
 
                         return this._save()
                             .then(() => {
@@ -307,7 +331,17 @@
         return new User();
     };
 
-    factory.$inject = ['storage', '$q', '$state', 'defaultSettings', '$mdDialog', 'apiWorker', 'state'];
+    factory.$inject = [
+        'storage',
+        '$q',
+        '$state',
+        'defaultSettings',
+        'apiWorker',
+        'state',
+        'UserRouteState',
+        'modalManager',
+        'utils'
+    ];
 
     angular.module('app')
         .factory('user', factory);

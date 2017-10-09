@@ -16,7 +16,7 @@ function createMyServer(port) {
     const handler = function (req, res) {
         const parsed = parseDomain(req.headers.host);
         if (!parsed) {
-            res.writeHead(302, { Location: 'https://testnet.dev.localhost' });
+            res.writeHead(302, { Location: `https://testnet.dev.localhost:${port}` });
             res.end();
         } else {
             route(parsed.connectionType, parsed.buildType)(req, res);

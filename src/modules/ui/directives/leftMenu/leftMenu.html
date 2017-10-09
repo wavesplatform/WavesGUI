@@ -1,0 +1,6 @@
+<w-navigation type="column">
+    <a ng-repeat="state in $ctrl.stateList track by $index"
+       class="{{::state.name}}"
+       ui-state="state.path"
+       ui-sref-active="{active: state.base + '.**'}"></a>
+</w-navigation>

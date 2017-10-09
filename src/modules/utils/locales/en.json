@@ -1,1 +1,21 @@
-{}
+{
+  "modal": {
+    "receive": {
+      "title": "{{assetName}} Wallet Address",
+      "text": "Only send {{assetName}} to this address",
+      "description": "Sending any other digital asset, including {{assetName}}\n Cash, will result in permanent loss.",
+      "ok": "Show Address"
+    },
+    "send": {
+      "title": "Send {{assetName}}",
+      "recipient": "Recipient",
+      "sendMax": "Send Max",
+      "withdraw": "Withdraw From",
+      "amount": "Amount",
+      "description": "Description",
+      "descriptionPlaceholder": "Write an optional message",
+      "fee": "Network Fee",
+      "total": "Total"
+    }
+  }
+}

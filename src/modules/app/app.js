@@ -12,15 +12,15 @@
 
     angular.module('app', [
         'ngMaterial',
-        'ngMessages',
         'ui.router',
         'ui.router.state.events',
         'n3-line-chart',
 
+        'app.utils',
         'app.ui',
-        'app.wallet',
-        'app.dex',
         'app.welcome',
-        'app.utils'
+        'app.auth',
+        'app.wallet',
+        'app.dex'
     ]);
 })();

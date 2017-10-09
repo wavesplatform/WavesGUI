@@ -7,6 +7,7 @@ import { ITaskFunction } from './interface';
 import { readFile, readJSON } from 'fs-extra';
 import { compile } from 'handlebars';
 import { transform } from 'babel-core';
+import { render } from 'less';
 
 
 export const task: ITaskFunction = gulp.task.bind(gulp) as any;
@@ -128,7 +129,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
             }
 
             if (!param.styles) {
-                param.styles = meta.stylesheets.map((i) => join(__dirname, '..', i)).concat(getFilesFrom(join(__dirname, '../src'), '.css'));
+                param.styles = meta.stylesheets.map((i) => join(__dirname, '..', i)).concat(getFilesFrom(join(__dirname, '../src'), '.less'));
             }
 
             const networks = connectionTypes.reduce((result, item) => {
@@ -174,6 +175,17 @@ export function route(connectionType, buildType) {
                     res.end(file);
                 });
             }
+        } else if (isLess(req.url)) {
+            readFile(join(__dirname, '../src', req.url), 'utf8')
+                .then((style) => {
+                    (render as any)(style, {
+                        filename: join(__dirname, '../src', req.url)
+                    } as any)
+                    .then(function (out) {
+                        res.setHeader('Content-type', 'text/css')
+                        res.end(out.css);
+                    })
+                });
         } else if (isSourceScript(req.url)) {
             readFile(join(__dirname, '../src', req.url), 'utf8')
                 .then((code) => {
@@ -207,6 +219,10 @@ export function route(connectionType, buildType) {
 
 export function isSourceScript(url: string): boolean {
     return url.includes('/modules/') && url.lastIndexOf('.js') === url.length - 3;
+}
+
+export function isLess(url: string): boolean {
+    return url.includes('/modules/') && url.lastIndexOf('.less') === url.length - 5;
 }
 
 export function isApiMock(url: string): boolean {

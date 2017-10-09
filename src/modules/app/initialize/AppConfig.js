@@ -50,57 +50,35 @@
              * @private
              */
             _initStates() {
-                $stateProvider
-                    .state('welcome', {
-                        url: '/',
-                        views: {
-                            main: {
-                                controller: AppConfig.getCtrlName('welcome'),
-                                templateUrl: AppConfig.getTemplateUrl('welcome')
-                            }
-                        }
-                    })
-                    .state('main', {
-                        abstract: true,
-                        views: {
-                            main: {
-                                templateUrl: AppConfig.getTemplateUrl('app', 'main')
-                            }
-                        }
-                    })
-                    .state('main.wallet', {
-                        url: '/wallet',
-                        redirectTo: 'main.wallet.assets',
-                        views: {
-                            header: {
-                                controller: AppConfig.getCtrlName('walletHeader'),
-                                templateUrl: AppConfig.getTemplateUrl('wallet', 'header')
-                            },
-                            leftMenu: {
-                                controller: AppConfig.getCtrlName('walletLeftMenu'),
-                                templateUrl: AppConfig.getTemplateUrl('app', 'leftMenu')
-                            },
-                            mainContent: {
-                                template: '<ui-view name="content"></ui-view>'
-                            }
-                        }
-                    })
-                    .state('main.dex', {
-                        url: '/dex',
-                        views: {
-                            header: {
-                                controller: AppConfig.getCtrlName('dexHeader'),
-                                templateUrl: AppConfig.getTemplateUrl('dex', 'header')
-                            },
-                            leftMenu: {
-                                controller: AppConfig.getCtrlName('dexLeftMenu'),
-                                templateUrl: AppConfig.getTemplateUrl('app', 'leftMenu')
-                            },
-                            mainContent: {
-                                controller: AppConfig.getCtrlName('dex'),
-                                templateUrl: AppConfig.getTemplateUrl('dex', 'dex')
-                            }
-                        }
+
+                const defaultUrl = AppConfig.getUrlFromState(WavesApp.stateTree.find('welcome'));
+                $urlRouterProvider.when('', defaultUrl);
+                $urlRouterProvider.when('/', defaultUrl);
+
+                WavesApp.stateTree.toArray()
+                    .slice(1)
+                    .forEach((item) => {
+                        const abstract = item.get('abstract');
+                        const url = AppConfig.getUrlFromState(item);
+                        const redirectTo = item.get('redirectTo');
+
+                        const views = item.get('views').reduce((views, viewData) => {
+                            const controller = (abstract || viewData.noController) ? undefined :
+                                AppConfig.getCtrlName(tsUtils.camelCase(item.id));
+                            const template = viewData.template;
+                            const templateUrl = template ? undefined : (viewData.templateUrl ||
+                                AppConfig.getTemplateUrl(WavesApp.stateTree.getPath(item.id)));
+                            views[viewData.name] = { controller, template, templateUrl };
+
+                            return views;
+                        }, Object.create(null));
+
+                        $stateProvider.state(WavesApp.stateTree.getPath(item.id).join('.'), {
+                            abstract,
+                            url,
+                            redirectTo,
+                            views
+                        });
                     });
             }
 
@@ -109,8 +87,26 @@
                     .toUpperCase() + name.substr(1)}Ctrl as $ctrl`;
             }
 
-            static getTemplateUrl(name, type) {
-                return `modules/${name}/templates/${type || name}.html`;
+            static getTemplateUrl(path) {
+                return path.filter((id) => !WavesApp.stateTree.find(id).get('abstract'))
+                    .reduce((result, item, index, array) => {
+                        item = tsUtils.camelCase(item);
+                        if (index === array.length - 1) {
+                            result += `/modules/${item}/templates/${item}.html`;
+                        } else {
+                            result += `/modules/${item}`;
+                        }
+                        return result;
+                    }, '')
+                    .replace(/\/\//g, '/')
+                    .substr(1);
+            }
+
+            /**
+             * @param {BaseTree} state
+             */
+            static getUrlFromState(state) {
+                return state.get('abstract') ? undefined : state.get('url') || `/${state.id}`;
             }
 
         }

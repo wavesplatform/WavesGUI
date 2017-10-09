@@ -3,7 +3,7 @@
 
     const PATH = 'modules/welcome/templates/';
 
-    const controller = function ($state, apiWorker, user, $timeout) {
+    const controller = function ($state, apiWorker, user) {
 
         class WelcomeCtrl {
 
@@ -16,6 +16,7 @@
             }
 
             constructor() {
+                console.log($state);
                 this.activeUser = 0;
                 this.password = '';
                 this.loginForm = null;
@@ -28,10 +29,6 @@
                             this.pageUrl = `${PATH}/welcomeNewUser.html`;
                         }
                     });
-            }
-
-            getStarted() {
-                $state.go('get_started');
             }
 
             login() {
@@ -56,7 +53,7 @@
         return new WelcomeCtrl();
     };
 
-    controller.$inject = ['$state', 'apiWorker', 'user', '$timeout'];
+    controller.$inject = ['$state', 'apiWorker', 'user'];
 
     angular.module('app.welcome')
         .controller('WelcomeCtrl', controller);

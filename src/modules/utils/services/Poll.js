@@ -20,6 +20,17 @@
              */
             constructor(getData, applyData, time) {
                 /**
+                 * @type {string}
+                 */
+                this.id = tsUtils.uniqueId('poll');
+                /**
+                 * @type {{destroy: Signal}}
+                 */
+                this.signals = {
+                    destroy: new tsUtils.Signal()
+                };
+                this._removed = false;
+                /**
                  * @type {number}
                  * @private
                  */
@@ -58,23 +69,32 @@
                 this._initialize();
             }
 
-            pause() {
-                if (!this._paused) {
-                    this._stopTimers();
-                    this._paused = true;
-                }
+            /**
+             * @param {Promise} promise
+             */
+            pause(promise) {
+                this._paused = true;
+                this._stopTimers();
+
+                const handler = this.play.bind(this);
+                promise.then(handler, handler);
+            }
+
+            stop() {
+                this._paused = true;
+                this._stopTimers();
             }
 
             play() {
-                if (this._paused) {
-                    this._run();
-                    this._paused = false;
-                }
+                this._paused = false;
+                this._run();
             }
 
             destroy() {
+                this._removed = true;
                 this._stopTimers();
                 this.stopReceive();
+                this.signals.destroy.dispatch();
             }
 
             restart() {
@@ -90,13 +110,23 @@
                 this._run();
             }
 
+            /**
+             * @param step
+             * @private
+             */
             _sleep(step) {
                 this._sleepStep = step + 2;
             }
 
+            /**
+             *
+             * @private
+             */
             _wakeUp() {
                 this._sleepStep = null;
-                this.restart();
+                if (!this._paused) {
+                    this.restart();
+                }
             }
 
             /**
@@ -125,6 +155,10 @@
              * @private
              */
             _run() {
+                if (this._removed) {
+                    return null;
+                }
+                if (this._paused) debugger; // TODO remove after debug
                 const result = this._getData();
                 if (Poll._isPromise(result)) {
                     result.then(this._wrapCallback((data) => {

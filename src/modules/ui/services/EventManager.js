@@ -14,9 +14,10 @@
      * @param {Poll} Poll
      * @param {class AppEvent} AppEvent
      * @param {class TransferEvent} TransferEvent
+     * @param {app.utils.decorators} decorators
      * @returns {EventManager}
      */
-    const factory = function (user, Poll, AppEvent, ChangeBalanceEvent, TransferEvent) {
+    const factory = function (user, Poll, AppEvent, ChangeBalanceEvent, TransferEvent, decorators) {
 
         class EventManager {
 
@@ -51,6 +52,7 @@
             /**
              * @returns {Promise<ChangeBalanceEvent>}
              */
+            @decorators.cachable(2000)
             getBalanceEvents() {
                 return this.ready.then(() => {
                     const events = [];
@@ -168,7 +170,7 @@
         return new EventManager();
     };
 
-    factory.$inject = ['user', 'Poll', 'AppEvent', 'ChangeBalanceEvent', 'TransferEvent'];
+    factory.$inject = ['user', 'Poll', 'AppEvent', 'ChangeBalanceEvent', 'TransferEvent', 'decorators'];
 
     angular.module('app.ui')
         .factory('eventManager', factory);

@@ -34,7 +34,15 @@
 
     LOADER.addProgress(PROGRESS_MAP.RUN_SCRIPT);
 
-    const run = function ($rootScope, user, $state, apiWorker) {
+    /**
+     * @param $rootScope
+     * @param {User} user
+     * @param $state
+     * @param apiWorker
+     * @param {State} state
+     * @returns {AppRun}
+     */
+    const run = function ($rootScope, user, $state, apiWorker, state) {
 
         class AppRun {
 
@@ -92,14 +100,14 @@
                 // ****************************************************************************************
 
                 // MAIN CODE
-                const START_STATES = ['welcome', 'get_started'];
+                const START_STATES = WavesApp.stateTree.where({ noLogin: true }).map(item => item.id);
                 const stop = $rootScope.$on('$stateChangeSuccess', (event, state, params) => {
                     user.login()
                         .then(() => {
                             if (START_STATES.indexOf(state.name) === -1) {
                                 $state.go(state.name, params);
                             } else {
-                                $state.go('main.wallet');
+                                $state.go(user.getActiveState('wallet'));
                             }
                         });
                     stop();
@@ -133,6 +141,8 @@
                         document.body.classList.add(name);
                         this.activeClasses.push(name);
                     });
+                user.applyState(toState);
+                state.signals.changeRouterState.dispatch(toState);
             }
 
             /**
@@ -204,7 +214,7 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'user', '$state', 'apiWorker'];
+    run.$inject = ['$rootScope', 'user', '$state', 'apiWorker', 'state'];
 
     angular.module('app')
         .run(run);

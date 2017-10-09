@@ -1,0 +1,29 @@
+<div class="flex-column-center">
+    <div ng-click="$ctrl.back()" class="back">
+        BACK
+    </div>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        Let's verify your backup phrase.
+    </section>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <w-seed type="read" seed="{{$ctrl.seed}}"></w-seed>
+    </section>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        Is this correct?
+    </section>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <w-button-submit ng-click="$ctrl.next()">
+            Confirm
+        </w-button-submit>
+    </section>
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <w-button ng-click="$ctrl.clear()">
+            Clear
+        </w-button>
+    </section>
+</div>
