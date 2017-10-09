@@ -100,7 +100,7 @@
                 // ****************************************************************************************
 
                 // MAIN CODE
-                const START_STATES = WavesApp.stateTree.where({noLogin: true}).map(item => item.id);
+                const START_STATES = WavesApp.stateTree.where({ noLogin: true }).map(item => item.id);
                 const stop = $rootScope.$on('$stateChangeSuccess', (event, state, params) => {
                     user.login()
                         .then(() => {
