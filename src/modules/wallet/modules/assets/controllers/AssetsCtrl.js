@@ -81,10 +81,7 @@
              * @private
              */
             _showSendModal(asset) {
-                return this.pollsPause(modalManager.showSendAsset({ assetId: asset.id, user })
-                    .then(() => {
-                        this.updateBalances.restart();
-                    }));
+                return this.pollsPause(modalManager.showSendAsset({ assetId: asset.id, user }));
             }
 
             /**

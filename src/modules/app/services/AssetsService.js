@@ -98,7 +98,7 @@
                             eventManager.getBalanceEvents()
                         ])
                             .then(([list, events]) => {
-                                return Promise.all(list.map((item) => this.getAssetInfo(item.assetId)))
+                                return utils.whenAll(list.map((item) => this.getAssetInfo(item.assetId)))
                                     .then((infoList) => {
                                         return infoList.map((asset, i) => {
                                             const balance = parseFloat(list[i].tokens) || 0;

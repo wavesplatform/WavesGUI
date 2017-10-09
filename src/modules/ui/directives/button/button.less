@@ -7,9 +7,9 @@ w-button, w-button-submit, w-button-success {
 
   button {
     font-size: 15px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
     border-radius: @border-radius;
     padding: 8px 20px;
+    border: 1px solid transparent;
 
     &:hover, &.hover {
       box-shadow: inset -1px 1px 0 0 rgba(255, 255, 255, 0.00);
@@ -53,35 +53,49 @@ w-button, w-button-submit, w-button-success {
 
   button.submit {
     background-color: @color-submit;
+    border-color: #307BC4;
     color: @color-text-invert;
 
     &:hover, &.hover {
       background-color: @color-submit-hover;
+      border-color: transparent;
+      color: @color-text-invert;
     }
 
     &:active, &.active {
       background-color: @color-submit-active;
+      border-color: transparent;
+      color: @color-text-invert;
     }
 
     &:disabled, &.disabled {
       background-color: @color-submit-disabled;
+      border-color: #9BBDE2;
+      color: @color-text-invert;
     }
   }
 
-  button.transparent {
+  button {
     border-color: @color-button-border;
     background-color: @color-text-invert;
+    color: @color-button-text;
 
     &:hover, &.hover {
+      border-color: @color-button-border-hover;
       background-color: @color-default-hover;
+      color: @color-button-hover-text;
     }
 
     &:active, &.active {
+      border-color: @color-button-border-active;
       background-color: @color-default-active;
+      color: @color-button-active-text;
     }
 
     &:disabled, &.disabled {
-      // TODO add disabled style!
+      border-color: @color-button-border-disabled;
+      background-color: @color-default-disabled;
+      color: @color-button-disabled-text;
     }
   }
 

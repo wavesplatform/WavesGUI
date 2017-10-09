@@ -158,7 +158,7 @@
                 if (this._removed) {
                     return null;
                 }
-                if (this._paused) debugger;
+                if (this._paused) debugger; // TODO remove after debug
                 const result = this._getData();
                 if (Poll._isPromise(result)) {
                     result.then(this._wrapCallback((data) => {

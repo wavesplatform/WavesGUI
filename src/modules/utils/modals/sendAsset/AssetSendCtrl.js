@@ -16,13 +16,6 @@
 
         class AssetSendCtrl extends Base {
 
-            get asset() {
-                if (!this.assetList || !this.assetList.length) {
-                    return null;
-                }
-                return tsUtils.find(this.assetList, { id: this.assetId });
-            }
-
 
             /**
              * @param {string} assetId
@@ -53,6 +46,14 @@
                  * @type {IFeeData}
                  */
                 this.feeData = null;
+                /**
+                 * @type {IAssetWithBalance}
+                 */
+                this.asset = null;
+                /**
+                 * @type {IAssetWithBalance}
+                 */
+                this.mirror = null;
 
                 if (this.canChooseAsset) {
                     this.createPoll(assetsService.getBalanceList, this._setAssets, 1000);
@@ -120,11 +121,11 @@
                 if (!this.assetId) {
                     return null;
                 }
-                this.ready = utils.when(Promise.all([
-                    assetsService.getAssetInfo(this.assetId),
+                this.ready = utils.whenAll([
+                    assetsService.getBalance(this.assetId),
                     assetsService.getAssetInfo(this.mirrorId),
                     assetsService.getFeeSend()
-                ]))
+                ])
                     .then((data) => {
                         const [asset, mirror, feeData] = data;
                         this.amount = 0;
@@ -132,12 +133,11 @@
                         this.feeAlias = 0;
                         this.mirror = mirror;
                         this.feeData = feeData;
-                        if (!this.assetList) {
-                            this.assetList = [asset];
-                        }
+                        this._setAssets(asset);
+                        this.asset = tsUtils.find(this.assetList, { id: this.assetId });
 
                         this.fee = feeData.fee;
-                        this._getRate()
+                        this._getRate(feeData.id)
                             .then((api) => {
                                 this.feeAlias = api.exchange(this.fee);
                             });
@@ -158,7 +158,7 @@
              */
             _setAssets(assets) {
                 this.assetList = utils.toArray(assets);
-                if (!this.assetId) {
+                if (!this.assetId && this.assetList.length) {
                     this.assetId = this.assetList[0].id;
                 }
             }
@@ -188,11 +188,12 @@
             }
 
             /**
+             * @param {string} [fromRateId]
              * @returns {Promise.<AssetsService.rateApi>}
              * @private
              */
-            _getRate() {
-                return assetsService.getRate(this.asset.id, this.mirror.id);
+            _getRate(fromRateId) {
+                return assetsService.getRate(fromRateId || this.assetId, this.mirrorId);
             }
 
         }
