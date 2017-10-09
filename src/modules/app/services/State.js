@@ -10,7 +10,7 @@
              * @private
              */
             get _sleepStep() {
-                return this.__seepStep;
+                return this.__sleepStep;
             }
 
             /**
@@ -25,7 +25,7 @@
                 } else {
                     this._removeBlock();
                 }
-                this.__seepStep = value;
+                this.__sleepStep = value;
             }
 
             constructor() {
@@ -50,7 +50,7 @@
                 this._timer = null;
                 this._seepStartTime = null;
                 this._maxSleep = null;
-                this.__seepStep = null;
+                this.__sleepStep = null;
                 this._block = document.createElement('DIV');
                 this._handlers = Object.create(null);
 

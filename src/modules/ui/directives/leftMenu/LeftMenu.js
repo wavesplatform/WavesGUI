@@ -15,7 +15,7 @@
 
             constructor() {
                 super();
-                this._initStateList(true);
+                this._initStateList();
                 this.receive(state.signals.changeRouterState, this._initStateList, this);
             }
 
