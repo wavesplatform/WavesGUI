@@ -9,7 +9,7 @@
              * @returns {number}
              * @private
              */
-            get _seepStep() {
+            get _sleepStep() {
                 return this.__seepStep;
             }
 
@@ -17,7 +17,7 @@
              * @param {number} value
              * @private
              */
-            set _seepStep(value) {
+            set _sleepStep(value) {
                 if (value) {
                     if (this._maxSleep) {
                         this._addBlock();
@@ -98,7 +98,7 @@
              */
             _wakeUp() {
                 this._seepStartTime = null;
-                this._seepStep = null;
+                this._sleepStep = null;
                 if (this._timer) {
                     clearTimeout(this._timer);
                     this._timer = null;
@@ -150,14 +150,14 @@
              * @private
              */
             _setSleepStep(step) {
-                if (this._seepStep === step) {
+                if (this._sleepStep === step) {
                     return null;
                 }
-                this._seepStep = step;
+                this._sleepStep = step;
                 if (this._maxSleep) {
-                    this._block.style.opacity = this._seepStep * (1 / this._maxSleep);
+                    this._block.style.opacity = this._sleepStep * (1 / this._maxSleep);
                 }
-                this.signals.sleep.dispatch(this._seepStep);
+                this.signals.sleep.dispatch(this._sleepStep);
             }
 
             /**
