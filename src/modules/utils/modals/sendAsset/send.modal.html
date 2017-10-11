@@ -21,19 +21,22 @@
                   ng-submit="send.$valid && $ctrl.send()"
                   novalidate>
 
-                <w-input-container form="send">
+                <w-input-container>
                     <div class="row">
                         <div class="body-2" w-i18n="modal.send.recipient"></div>
-                        <input type="text"
-                               input-address
-                               name="recipient"
-                               ng-model="$ctrl.recipient"
-                               required/>
+                        <w-input type="text"
+                                 input-address
+                                 name="recipient"
+                                 ng-model="$ctrl.recipient"
+                                 required></w-input>
 
                         <w-qr-code-read on-read="$ctrl.onReadQrCode(result)" max-width="250"
                                         max-height="160"></w-qr-code-read>
 
                     </div>
+                    <w-input-error message="inputAddress">
+                        <w-i18n>inputs.errors.invalidAddress</w-i18n>
+                    </w-input-error>
                     <w-input-error message="required">
                         <w-i18n>inputs.errors.required</w-i18n>
                     </w-input-error>
@@ -47,28 +50,35 @@
 
                         <w-balance balance="$ctrl.asset.balance" asset-id="{{::$ctrl.assetId}}"></w-balance>
                     </div>
-                    <md-select ng-if="$ctrl.canChooseAsset && $ctrl.assetList.length > 1"
-                               ng-model="$ctrl.assetId">
-                        <md-option ng-repeat="option in $ctrl.assetList track by $index"
-                                   ng-value="option.id">
-                            <w-asset-logo size="30" asset-id="{{::option.id}}"></w-asset-logo>
-                            {{option.name}}
-                        </md-option>
-                    </md-select>
+                    <w-select ng-if="$ctrl.canChooseAsset && $ctrl.assetList.length > 1"
+                              ng-model="$ctrl.assetId">
+                        <w-option ng-repeat="option in $ctrl.assetList track by $index"
+                                  value="{{::option.id}}">
+                            <div class="flex-row split-half">
+                                <div class="flex-row left">
+                                    <w-asset-logo size="30" asset-id="{{::option.id}}"></w-asset-logo>
+                                    <div class="asset-name">{{::option.name}}</div>
+                                </div>
+                                <div class="right">
+                                    <w-balance asset-id="{{::option.id}}" balance="option.balance"></w-balance>
+                                </div>
+                            </div>
+                        </w-option>
+                    </w-select>
                 </div>
 
-                <w-input-container form="send">
+                <w-input-container>
                     <div class="row">
                         <div class="body-2" w-i18n="modal.send.amount"></div>
                         <div class="amount-wrap">
                             <div class="input-wrap">
-                                <input type="text"
-                                       ng-focus="focus = 'amount'"
-                                       ng-blur="focus = ''"
-                                       name="amount"
-                                       input-asset="{{::$ctrl.assetId}}"
-                                       ng-model="$ctrl.amount"
-                                       required/>
+                                <w-input type="text"
+                                         ng-focus="focus = 'amount'"
+                                         ng-blur="focus = ''"
+                                         name="amount"
+                                         input-asset="{{::$ctrl.assetId}}"
+                                         ng-model="$ctrl.amount"
+                                         required></w-input>
                                 <div class="currency">{{$ctrl.asset.name}}</div>
                                 <div ng-mousedown="$ctrl.fillMax()"
                                      ng-touchstart="$ctrl.fillMax()"
@@ -79,13 +89,13 @@
                             </div>
                             <div class="amount-modal-icon"></div>
                             <div class="input-wrap">
-                                <input type="text"
-                                       ng-focus="focus = 'amountMirror'"
-                                       ng-blur="focus = ''"
-                                       name="amountMirror"
-                                       input-asset="{{::$ctrl.mirrorId}}"
-                                       ng-model="$ctrl.amountMirror"
-                                       required/>
+                                <w-input type="text"
+                                         ng-focus="focus = 'amountMirror'"
+                                         ng-blur="focus = ''"
+                                         name="amountMirror"
+                                         input-asset="{{::$ctrl.mirrorId}}"
+                                         ng-model="$ctrl.amountMirror"
+                                         required></w-input>
                                 <div class="currency">{{::$ctrl.mirror.name}}</div>
                                 <div ng-mousedown="$ctrl.fillMax()"
                                      ng-touchstart="$ctrl.fillMax()"
@@ -106,7 +116,8 @@
 
                 <div class="row">
                     <div class="body-2" w-i18n="modal.send.description"></div>
-                    <textarea w-i18n-attr="placeholder" placeholder="modal.send.descriptionPlaceholder"></textarea>
+                    <w-input textArea="true" w-i18n-attr="placeholder"
+                             placeholder="modal.send.descriptionPlaceholder"></w-input>
                 </div>
 
                 <div class="row fee">

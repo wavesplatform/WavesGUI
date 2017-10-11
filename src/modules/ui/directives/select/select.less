@@ -1,0 +1,66 @@
+@import (reference) '../../../config';
+
+w-select {
+
+  .select {
+    position: relative;
+
+    .title {
+      border: 1px solid @color-input-border;
+      height: @height-control;
+      font-size: @font-size-control;
+      padding: 8px 35px 8px 15px;
+      border-radius: @border-radius;
+      cursor: pointer;
+
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        width: 10px;
+        height: 5px;
+        transform: translateY(-50%);
+        background-size: 100%;
+        background-image: url(/img/icons/arrow-select.svg);
+      }
+    }
+
+    &.expanded .title {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+
+      &::after {
+        background-image: url(/img/icons/arrow-select-expanded.svg);
+      }
+    }
+
+    .select-list {
+      display: none;
+      position: absolute;
+      border: 1px solid @color-input-border;
+      border-top: none;
+      border-bottom-left-radius: @border-radius;
+      border-bottom-right-radius: @border-radius;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      left: 0;
+      top: 100%;
+      width: 100%;
+      background-color: @color-background-default;
+      z-index: 10;
+      overflow: hidden;
+
+      .option {
+        cursor: pointer;
+        padding: 8px 35px 8px 15px;
+
+        &:hover {
+          background-color: #FAFBFC;
+        }
+      }
+    }
+  }
+}
+

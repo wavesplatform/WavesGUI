@@ -21,6 +21,10 @@
                     throw new Error('Has no asset id for input validation!');
                 }
 
+                if ($input.get(0).tagName !== 'INPUT') {
+                    return null;
+                }
+
                 assetsService.getAssetInfo($attrs.inputAsset)
                     .then((asset) => {
 

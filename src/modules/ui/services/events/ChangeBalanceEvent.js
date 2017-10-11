@@ -5,21 +5,36 @@
 
         class ChangeBalanceEvent extends AppEvent {
 
-            constructor(assetId, amount) {
+            /**
+             * @constructor
+             * @param {string} assetId
+             * @param {number} amount
+             * @param {IFeeData} fee
+             */
+            constructor(assetId, amount, fee) {
                 super();
                 /**
+                 * @type {string}
                  * @private
                  */
                 this.__assetId = assetId;
                 /**
+                 * @type {number}
                  * @private
                  */
-                this.__amount = amount;
+                this.__amount = fee.id === assetId ? amount + fee.fee : amount;
+                /**
+                 * @type {IFeeData}
+                 * @private
+                 */
+                this.__fee = fee;
             }
 
             getBalanceDifference(assetId) {
                 if (this.__assetId === assetId) {
                     return this.__amount;
+                } else if (assetId === this.__fee.id) {
+                    return this.__fee.fee;
                 } else {
                     return 0;
                 }

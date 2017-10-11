@@ -5,17 +5,17 @@
      * @param {JQuery} $element
      * @returns {InputContainer}
      */
-    const controller = function ($element) {
+    const controller = function ($element, $scope) {
 
         class InputContainer {
 
             constructor() {
                 /**
-                 * @type {{$touched: boolean, $error: *, $$element: JQuery}[]}
+                 * @type {ngModel.NgModelController[]}
                  */
                 this.target = null;
                 /**
-                 * @type {{$submitted: boolean}}
+                 * @type {ngForm}
                  */
                 this.form = null;
                 /**
@@ -25,6 +25,13 @@
             }
 
             $postLink() {
+                const name = $element.closest('form').attr('name');
+                this.form = name && $scope.$parent.$eval(name);
+
+                if (!this.form) {
+                    throw new Error('Can\'t get form!');
+                }
+
                 this.inputs = $element.find('input')
                     .toArray();
                 this.target = this.inputs.map((input) => {
@@ -37,14 +44,11 @@
         return new InputContainer();
     };
 
-    controller.$inject = ['$element'];
+    controller.$inject = ['$element', '$scope'];
 
     angular.module('app.ui')
         .component('wInputContainer', {
             transclude: true,
-            bindings: {
-                form: '<'
-            },
             template: '<ng-transclude></ng-transclude>',
             controller
         });

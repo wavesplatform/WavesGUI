@@ -41,6 +41,10 @@
                 /**
                  * @type {string}
                  */
+                this.assetId = assetId || WavesApp.defaultAssets.WAVES;
+                /**
+                 * @type {string}
+                 */
                 this.recipient = '';
                 /**
                  * @type {IFeeData}
@@ -54,16 +58,16 @@
                  * @type {IAssetWithBalance}
                  */
                 this.mirror = null;
+                /**
+                 * @type {IAssetWithBalance[]}
+                 */
+                this.assetList = null;
 
                 if (this.canChooseAsset) {
                     this.createPoll(assetsService.getBalanceList, this._setAssets, 1000);
                 } else {
                     this.createPoll(this._getAsset, this._setAssets, 1000);
                 }
-                /**
-                 * @type {string}
-                 */
-                this.assetId = assetId || WavesApp.defaultAssets.WAVES;
             }
 
             send() {
@@ -90,7 +94,8 @@
                                 type: eventManager.getAvailableEvents().transfer,
                                 data: {
                                     id: data.id,
-                                    amount: { ...this.asset, balance: this.amount }
+                                    amount: { id: this.assetId, balance: this.amount },
+                                    fee: this.feeData
                                 }
                             });
                             $mdDialog.hide();

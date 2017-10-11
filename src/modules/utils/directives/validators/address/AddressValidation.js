@@ -14,6 +14,11 @@
              * @param {ngModel.NgModelController} $ngModel
              */
             link: function ($scope, $input, $attrs, $ngModel) {
+
+                if ($input.get(0).tagName !== 'INPUT') {
+                    return null;
+                }
+
                 $ngModel.$asyncValidators.inputAddress = function (address) {
                     return apiWorker.process((WavesApi, address) => {
                         return WavesApi.API.Node.v1.addresses.balance(address)

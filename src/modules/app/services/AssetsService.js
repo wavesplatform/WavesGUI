@@ -39,8 +39,7 @@
                 }
                 return user.onLogin()
                     .then(() => {
-                        return apiWorker.process((Waves, data) => {
-                            const { assetId } = data;
+                        return apiWorker.process((Waves, { assetId }) => {
                             return Waves.API.Node.v1.transactions.get(assetId);
                         }, { assetId })
                             .then((asset) => ({
