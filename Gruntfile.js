@@ -106,7 +106,7 @@ module.exports = function (grunt) {
                 devnet: {
                     name: 'devnet',
                     code: 'D',
-                    server: 'http://35.157.212.173:6869',
+                    server: 'http://13.229.61.140:16869/',
                     coinomat: 'https://test.coinomat.com',
                     matcher: 'http://52.28.66.217:6886',
                     datafeed: 'http://marketdata.wavesplatform.com'
