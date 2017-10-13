@@ -76,7 +76,7 @@
                         $ctrl.$parsers.unshift((value) => {
                             const parsed = utils.parseNiceNumber(value);
                             validate(parsed, value);
-                            return parsed;
+                            return value;
                         });
 
                         $ctrl.$formatters.unshift((value) => utils.getNiceNumber(value, asset.precision));
