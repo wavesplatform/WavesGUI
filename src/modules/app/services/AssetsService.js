@@ -39,8 +39,7 @@
                 }
                 return user.onLogin()
                     .then(() => {
-                        return apiWorker.process((Waves, data) => {
-                            const { assetId } = data;
+                        return apiWorker.process((Waves, { assetId }) => {
                             return Waves.API.Node.v1.transactions.get(assetId);
                         }, { assetId })
                             .then((asset) => ({
@@ -71,7 +70,7 @@
             }
 
             /**
-             * @param {Array<string>} [assetIds]
+             * @param {string[]} [assetIds]
              * @param {Object} [options]
              * @param {Object} [options.limit]
              * @param {Object} [options.offset]
@@ -133,7 +132,7 @@
              * @param {Object} [options.offset]
              * @private
              */
-            @decorators.cachable(2000)
+            @decorators.cachable(2)
             _getBalanceList(assets, { limit = null, offset = null } = Object.create(null)) {
                 return apiWorker.process((WavesAPI, { assets, address, limit, offset }) => {
                     return WavesAPI.API.Node.v2.addresses.balances(address, { assets, limit, offset })
@@ -146,7 +145,7 @@
              * @return {Promise<IAssetWithBalance>}
              * @private
              */
-            @decorators.cachable(2000)
+            @decorators.cachable(2)
             _getBalance(assetId) {
                 return this.getAssetInfo(assetId)
                     .then((info) => {
@@ -168,41 +167,16 @@
              * @param {string} assetIdTo
              * @return {Promise<AssetsService.rateApi>}
              */
-            @decorators.cachable(1000)
+            @decorators.cachable(60)
             getRate(assetIdFrom, assetIdTo) {
-                // TODO add request to rate when Dmitry make API
-
-                const RATE_MAP = Object.create(null);
-
-                const generate = function (assetId1, assetId2, rate) {
-                    RATE_MAP[`${assetId1}-${assetId2}`] = rate;
-                    RATE_MAP[`${assetId2}-${assetId1}`] = 1 / rate;
-                };
-
-                generate(WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.USD, 5.11);
-                generate(WavesApp.defaultAssets.BTC, WavesApp.defaultAssets.USD, 4050.35);
-                generate(WavesApp.defaultAssets.ETH, WavesApp.defaultAssets.USD, 294.33);
-                generate(WavesApp.defaultAssets.EUR, WavesApp.defaultAssets.USD, 1.17505);
-
-                const getRate = function (assetId1, assetId2) {
-                    let rate = RATE_MAP[`${assetId1}-${assetId2}`];
-                    if (!rate) {
-                        const from = RATE_MAP[`${assetId1}-${WavesApp.defaultAssets.USD}`];
-                        const to = RATE_MAP[`${assetId2}-${WavesApp.defaultAssets.USD}`];
-                        rate = from / to;
-                    }
-                    return rate;
-                };
-
-                return utils.whenAll([
+                return Promise.all([
                     this.getAssetInfo(assetIdFrom),
                     this.getAssetInfo(assetIdTo),
-                    utils.when(getRate(assetIdFrom, assetIdTo))
-                ])
-                    .then((data) => {
-                        const [assetFrom, assetTo, rate] = data;
-                        return this._generateRateApi(assetFrom, assetTo, rate);
-                    });
+                    fetch(`/api/rate/${assetIdFrom}/${assetIdTo}/rate.json`)
+                        .then((r) => r.json())
+                ]).then(([assetFrom, assetTo, rateInfo]) => {
+                    return this._generateRateApi(assetFrom, assetTo, rateInfo.rate);
+                });
             }
 
             /**

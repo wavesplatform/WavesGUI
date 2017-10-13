@@ -18,22 +18,42 @@
              * @name app.utils#observe
              * @param {object} target
              * @param {string} key
-             * @param {Function} callback
-             * @param {object} [context]
+             * @return {Signal}
              */
-            observe(target, key, callback, context) {
-                const privateKey = `___${key}`;
-                target[privateKey] = target[key];
-                Object.defineProperty(target, key, {
-                    get: () => target[privateKey],
-                    set: (value) => {
-                        const prev = target[privateKey];
-                        if (value !== prev) {
-                            target[privateKey] = value;
-                            callback.call(context, prev);
+            observe(target, key) {
+                const __ = target.__ || Object.create(null);
+                if (!target.__) {
+                    Object.defineProperty(target, '__', {
+                        writable: false,
+                        configurable: false,
+                        enumerable: false,
+                        value: __
+                    });
+                }
+
+                if (!__[key]) {
+                    __[key] = {
+                        signal: new tsUtils.Signal(),
+                        value: target[key]
+                    };
+
+                    Object.defineProperty(target, key, {
+                        enumerable: true,
+                        get: () => __[key].value,
+                        set: (value) => {
+                            const oldValue = __[key].value;
+                            if (oldValue !== value) {
+                                __[key].value = value;
+                                __[key].signal.dispatch(oldValue);
+                            }
                         }
-                    }
-                });
+                    });
+
+                    return __[key].signal;
+                } else {
+                    return __[key].signal;
+                }
+
             },
 
             /**
@@ -82,7 +102,8 @@
                     if (!newListHash[mainList[i][idKey]]) {
                         mainList.splice(i, 1);
                     } else {
-                        mainList[i] = { ...mainList[i], ...newList[mainList[i][idKey].item] };
+                        mainList[i] = { ...mainList[i], ...newListHash[mainList[i][idKey]].item };
+                        mainHash[mainList[i][idKey]].item = mainList[i];
                     }
                 }
                 newList.forEach((item, i) => {
@@ -207,7 +228,7 @@
              */
             parseNiceNumber(data) {
                 return Number(String(data)
-                    .replace(',', '.')
+                    .replace(',', '')
                     .replace(/\s/g, '')) || 0;
             },
 

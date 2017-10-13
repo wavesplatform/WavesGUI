@@ -11,7 +11,7 @@
              * @param {number} [count] blocks count (default 50)
              * @return {Promise}
              */
-            @decorators.cachable(2000)
+            @decorators.cachable(2)
             trades(amount, price, count) {
                 count = count || 50;
                 return fetch(`${WavesApp.network.datafeed}/api/trades/${amount}/${price}/${count}`)
@@ -25,7 +25,7 @@
              * @param {number} [count] blocks count (default 100)
              * @promise
              */
-            @decorators.cachable(2000)
+            @decorators.cachable(2)
             candles(amount, price, interval, count) {
                 interval = interval || 30;
                 count = count || 100;

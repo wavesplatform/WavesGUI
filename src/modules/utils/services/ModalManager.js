@@ -35,12 +35,14 @@
             }
 
             /**
-             * @param {IAssetInfo} asset
+             * @param {object} data
+             * @param {string} [data.assetId]
+             * @param {boolean} [data.canChooseAsset]
              * @returns {Promise}
              */
-            showReceiveAsset(asset) {
+            showReceiveAsset(data) {
                 return this._getModal({
-                    locals: { asset },
+                    locals: data,
                     templateUrl: '/modules/utils/modals/receiveAsset/receive.modal.html',
                     controller: 'AssetReceiveCtrl'
                 });

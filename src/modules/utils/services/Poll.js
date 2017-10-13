@@ -3,14 +3,39 @@
 
     /**
      * @param {State} state
+     * @param {typeof PromiseControl} PromiseControl
+     * @param {TimeLine} timeLine
      * @returns {Poll}
      */
-    const factory = function (state) {
+    const factory = function (state, PromiseControl, timeLine) {
 
         class Poll {
 
+            /**
+             * @return {number}
+             * @private
+             */
             get _time() {
                 return this._sleepStep ? this._originTime * this._sleepStep : this._originTime;
+            }
+
+            /**
+             * @return {PromiseControl}
+             * @private
+             */
+            get _promise() {
+                return this.__promise;
+            }
+
+            /**
+             * @param {PromiseControl} promise
+             * @private
+             */
+            set _promise(promise) {
+                if (this.__promise) {
+                    this.__promise.drop();
+                }
+                this.__promise = promise;
             }
 
             /**
@@ -29,6 +54,10 @@
                 this.signals = {
                     destroy: new tsUtils.Signal()
                 };
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
                 this._removed = false;
                 /**
                  * @type {number}
@@ -41,10 +70,15 @@
                  */
                 this._sleepStep = null;
                 /**
-                 * @private
                  * @type {number}
+                 * @private
                  */
-                this._waitTimer = null;
+                this._lastStart = null;
+                /**
+                 * @type {number}
+                 * @private
+                 */
+                this._lastEndPromise = null;
                 /**
                  * @private
                  * @type {Function}
@@ -56,15 +90,20 @@
                  */
                 this._applyData = applyData;
                 /**
-                 * @private
-                 * @type {{canPlay: boolean}}
-                 */
-                this._promiseControl = null;
-                /**
                  * @type {boolean}
                  * @private
                  */
                 this._paused = false;
+                /**
+                 * @type {PromiseControl}
+                 * @private
+                 */
+                this._timer = null;
+                /**
+                 * @type {PromiseControl}
+                 * @private
+                 */
+                this._promise = null;
 
                 this._initialize();
             }
@@ -141,14 +180,8 @@
              * @private
              */
             _stopTimers() {
-                if (this._waitTimer) {
-                    clearTimeout(this._waitTimer);
-                    this._waitTimer = null;
-                }
-                if (this._promiseControl) {
-                    this._promiseControl.canPlay = false;
-                    this._promiseControl = null;
-                }
+                timeLine.cancel(this._timer);
+                this._promise = null;
             }
 
             /**
@@ -158,14 +191,21 @@
                 if (this._removed) {
                     return null;
                 }
-                if (this._paused) debugger; // TODO remove after debug
+                if (this._paused) throw new Error('Run form pause!'); // TODO remove after debug
+
+                const time = Date.now();
+                this._lastStart = time;
+                this._lastEndPromise = null;
                 const result = this._getData();
                 if (Poll._isPromise(result)) {
-                    result.then(this._wrapCallback((data) => {
+                    this._promise = new PromiseControl(result);
+                    this._promise.always((data) => {
+                        this._lastEndPromise = Date.now();
                         this._applyData(data);
                         this._addTimeout();
-                    }, { canPlay: true }));
+                    });
                 } else {
+                    this._lastEndPromise = time;
                     this._applyData(result);
                     this._addTimeout();
                 }
@@ -175,27 +215,7 @@
              * @private
              */
             _addTimeout() {
-                this._stopTimers();
-                this._waitTimer = setTimeout(() => {
-                    this._waitTimer = null;
-                    this._run();
-                }, this._time);
-            }
-
-            /**
-             * @param cb
-             * @param control
-             * @return {Function}
-             * @private
-             */
-            _wrapCallback(cb, control) {
-                this._stopTimers();
-                this._promiseControl = control;
-                return function (data) {
-                    if (control.canPlay) {
-                        cb(data);
-                    }
-                };
+                this._timer = timeLine.timeout(() => this._run(), this._time);
             }
 
             /**
@@ -228,7 +248,7 @@
         return Poll;
     };
 
-    factory.$inject = ['state'];
+    factory.$inject = ['state', 'PromiseControl', 'timeLine'];
 
     angular.module('app.utils')
         .factory('Poll', factory);

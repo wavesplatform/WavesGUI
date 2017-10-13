@@ -52,7 +52,7 @@
             /**
              * @returns {Promise<ChangeBalanceEvent>}
              */
-            @decorators.cachable(2000)
+            @decorators.cachable(2)
             getBalanceEvents() {
                 return this.ready.then(() => {
                     const events = [];
@@ -109,13 +109,15 @@
                         hadBalanceEvents = true;
                     }
 
-                    //No brakes for micro optimize
                     switch (statusData.status) {
                         case AppEvent.statuses.ERROR:
                             console.error(`Error event ${this._events[statusData.id]}`);
+                            delete this._events[statusData.id];
+                            break;
                         case AppEvent.statuses.SUCCESS:
                             console.log(`Event with id "${statusData.id}" finished!`);
                             delete this._events[statusData.id];
+                            break;
                     }
                 });
 

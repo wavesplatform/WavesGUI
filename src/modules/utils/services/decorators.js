@@ -1,7 +1,12 @@
 (function () {
     'use strict';
 
-    const factory = function (utils) {
+    /**
+     * @param {app.utils} utils
+     * @param {TimeLine} timeLine
+     * @return {*}
+     */
+    const factory = function (utils, timeLine) {
 
         /**
          * @name app.utils.decorators
@@ -52,14 +57,14 @@
                                     cache[key].timer = 1;
                                     utils.resolve(cache[key].value)
                                         .then(() => {
-                                            cache[key].timer = setTimeout(() => {
+                                            cache[key].timer = timeLine.timeout(() => {
                                                 delete cache[key];
-                                            }, time);
+                                            }, time * 1000);
                                         });
                                 } else {
-                                    cache[key].timer = setTimeout(() => {
+                                    cache[key].timer = timeLine.timeout(() => {
                                         delete cache[key];
-                                    }, time);
+                                    }, time * 1000);
                                 }
                             }
                             return cache[key].value;
@@ -81,7 +86,7 @@
 
     };
 
-    factory.$inject = ['utils'];
+    factory.$inject = ['utils', 'timeLine'];
 
     function stringify(some) {
         try {

@@ -16,7 +16,6 @@
             }
 
             constructor() {
-                console.log($state);
                 this.activeUser = 0;
                 this.password = '';
                 this.loginForm = null;

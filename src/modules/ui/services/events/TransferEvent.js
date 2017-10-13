@@ -20,8 +20,9 @@
              * @param {ITransferEventData} data
              */
             constructor(data) {
-                super(data.amount.id, data.amount.balance);
+                super(data.amount.id, data.amount.balance, data.fee);
                 this.id = data.id;
+                this.fee = data.fee;
                 this.amount = data.amount;
                 this.type = data.type;
             }
@@ -43,7 +44,7 @@
 
             toJSON() {
                 return {
-                    data: { id: this.id, amount: this.amount, type: this.type },
+                    data: { id: this.id, amount: this.amount, type: this.type, fee: this.fee },
                     type: this.type
                 };
             }
@@ -63,5 +64,6 @@
  * @typedef {object} ITransferEventData
  * @property {string} id
  * @property {string} type
- * @property {IAssetWithBalance} amount
+ * @property {{id: string, balance: number}} amount
+ * @property {IFeeData} fee
  */

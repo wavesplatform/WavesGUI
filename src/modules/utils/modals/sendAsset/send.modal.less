@@ -17,9 +17,27 @@
     max-height: 250px;
   }
 
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &.split-half {
+      justify-content: space-between;
+    }
+  }
+
+  .select .title {
+    height: auto;
+  }
+
   .row {
     margin-top: 20px;
     position: relative;
+  }
+
+  .asset-name {
+    margin-left: 10px;
   }
 
   .fake-input {

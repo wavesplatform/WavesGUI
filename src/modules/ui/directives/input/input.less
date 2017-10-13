@@ -1,0 +1,94 @@
+@import (reference) '../../../config';
+
+.fake-input {
+  border: 1px solid @color-input-border;
+  background-color: @color-input-background;
+  border-radius: @border-radius;
+  height: @height-control;
+  font-size: @font-size-control;
+  padding: @padding-control;
+  width: 100%;
+
+  &.big {
+    font-size: @font-size-control-big;
+    height: @height-control-big;
+    padding: @padding-control-big;
+  }
+}
+
+w-input {
+  display: block;
+  width: 100%;
+
+  input[type="text"], input[type="password"], input[type="number"], textarea {
+    .fake-input();
+
+    &::placeholder {
+      color: @color-input-placeholder;
+    }
+
+    &:focus, &.focus {
+      background-color: @color-input-background-focus;
+      color: @color-input-text-focus;
+    }
+
+    &.ng-touched {
+      &.ng-valid:not(:focus) {
+        border-color: @color-input-border-valid;
+      }
+      &.ng-invalid:not(:focus) {
+        border-color: @color-input-border-invalid;
+      }
+    }
+  }
+
+  .w-input-wrap {
+    position: relative;
+    width: 100%;
+
+    &:not(.no-icon)::after {
+      content: '';
+      display: block;
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translate(0, -50%);
+      background-size: 100% 100%;
+    }
+
+    &.input-type-password::after {
+      background: url(/img/icons/input-password-icon.svg) no-repeat center center;
+      width: 15px;
+      height: 10px;
+    }
+
+    &.touched:not(.focused) {
+      &.invalid::after {
+        background: url(/img/icons/input-invalid-icon.svg) no-repeat center center;
+        width: 11px;
+        height: 11px;
+      }
+    }
+
+    &.valid::after {
+      background: url(/img/icons/input-valid-icon.svg) no-repeat center center;
+      width: 13px;
+      height: 10px;
+    }
+  }
+
+  input[type="text"], input[type="password"], input[type="number"], textarea {
+    &.ng-valid:not(:focus) {
+      border-color: @color-input-border-valid;
+    }
+  }
+}
+
+form.ng-submitted {
+  input[type="text"], input[type="password"], input[type="number"], textarea {
+
+    &.ng-invalid:not(:focus) {
+      border-color: @color-input-border-invalid;
+    }
+  }
+}

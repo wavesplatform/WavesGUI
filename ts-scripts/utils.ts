@@ -4,7 +4,7 @@ import { exec, spawn } from 'child_process';
 import { readdirSync, statSync } from 'fs';
 import { join, relative } from 'path';
 import { ITaskFunction } from './interface';
-import { readFile, readJSON } from 'fs-extra';
+import { readFile, readJSON, readJson, readJSONSync } from 'fs-extra';
 import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
@@ -93,7 +93,7 @@ export function run(command: string, args: Array<string>, noLog?: boolean): Prom
 export function moveTo(path: string): (relativePath: string) => string {
     return function (relativePath: string): string {
         return relative(path, relativePath);
-    }
+    };
 }
 
 export function replaceScripts(file: string, paths: Array<string>): string {
@@ -143,7 +143,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                     type: 'web'
                 },
                 network: networks[param.connection]
-            })
+            });
         })
         .then((file) => {
             return replaceStyles(file, param.styles.map(filter).map(s => `/${s}`));
@@ -181,10 +181,10 @@ export function route(connectionType, buildType) {
                     (render as any)(style, {
                         filename: join(__dirname, '../src', req.url)
                     } as any)
-                    .then(function (out) {
-                        res.setHeader('Content-type', 'text/css')
-                        res.end(out.css);
-                    })
+                        .then(function (out) {
+                            res.setHeader('Content-type', 'text/css');
+                            res.end(out.css);
+                        });
                 });
         } else if (isSourceScript(req.url)) {
             readFile(join(__dirname, '../src', req.url), 'utf8')
@@ -208,12 +208,62 @@ export function route(connectionType, buildType) {
                     console.log(e.message, req.url);
                 });
         } else if (isApiMock(req.url)) {
-            const mock = require(join(__dirname, '..', req.url.replace('.json', '')));
-            res.setHeader('Content-Type', 'application/json');
-            mock(req, res);
+            mock(req, res, { connection: connectionType, meta: readJSONSync(join(__dirname, 'meta.json')) });
         } else {
             routeStatic(req, res);
         }
+    };
+}
+
+export function mock(req, res, params) {
+    applyRoute(getRouter(), req, res, params);
+}
+
+export function getRouter() {
+    const mocks = getFilesFrom(join(__dirname, '../api'), '.js');
+    const routes = Object.create(null);
+    mocks.forEach((path) => {
+        routes[`/${moveTo(join(__dirname, '..'))(path).replace('.js', '.json')}`] = require(path);
+    });
+    return routes;
+}
+
+export function applyRoute(route, req, res, options) {
+    const url = req.url;
+    const parts = url.split('/');
+    const urls = Object.keys(route)
+        .sort((a, b) => {
+            const reg = /:/g;
+            return (a.match(reg) || { length: 0 }).length - (b.match(reg) || { length: 0 }).length;
+        })
+        .map((url) => url.split('/'))
+        .filter((routeParts) => routeParts.length === parts.length);
+
+    let listener = null;
+    let params = null;
+
+    urls.some((routeParts) => {
+        const urlParams = Object.create(null);
+        const valid = routeParts.every((part, i) => {
+            if (part.charAt(0) === ':') {
+                urlParams[part.substr(1)] = parts[i];
+                return true;
+            } else {
+                return part === parts[i];
+            }
+        });
+        if (valid) {
+            params = urlParams;
+            listener = route[routeParts.join('/')];
+        }
+        return valid;
+    });
+
+    if (listener) {
+        res.setHeader('Content-Type', 'application/json');
+        listener(req, res, params, options);
+    } else {
+        res.end('Not found!');
     }
 }
 

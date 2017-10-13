@@ -1,59 +1,101 @@
 (function () {
     'use strict';
 
-    /**
-     * @param {JQuery} $element
-     * @param {object} $attrs
-     * @param {app.i18n} i18n
-     * @param {$rootScope.Scope} $scope
-     * @returns {{listener: null, $postLink: (function()), $onDestroy: (function())}}
-     */
-    const controller = function ($element, $attrs, i18n, $scope) {
+    const directive = function (Base, i18n) {
         return {
-            listener: null,
-            $postLink() {
-                const isAttribute = !!$attrs.wI18n;
-                const ns = i18n.getNs($element);
+            scope: true,
+            restrict: 'AE',
+            link($scope, $element, $attrs) {
 
-                let literal;
+                class I18n extends Base {
 
-                if (isAttribute) {
-                    literal = $attrs.wI18n;
-                } else {
-                    literal = $element.text();
+                    constructor() {
+                        super($scope);
+
+                        const handler = this._getHandler();
+                        this.forStop = [() => i18next.off('languageChanged', handler)];
+
+                        i18next.on('languageChanged', handler);
+                        if ($attrs.params) {
+                            const stop = $scope.$watch($attrs.params, handler);
+                            this.forStop.push(stop);
+                        }
+
+                        handler();
+                    }
+
+                    $onDestroy() {
+                        super.$onDestroy();
+                        this.forStop.forEach((cb) => cb());
+                    }
+
+                    /**
+                     * @return {Function}
+                     * @private
+                     */
+                    _getHandler() {
+                        const literal = this._compile(I18n._getLiteral());
+                        const ns = i18n.getNs($element);
+                        return function () {
+                            const params = $attrs.params && $scope.$eval($attrs.params) || undefined;
+                            $element.html(i18n.translate(literal, ns, params));
+                        };
+                    }
+
+                    /**
+                     * @param literal
+                     * @return {*}
+                     * @private
+                     */
+                    _compile(literal) {
+                        const parts = literal.match(/{{.*?(}})/g);
+                        if (!parts) {
+                            return literal;
+                        } else {
+                            parts.forEach((part) => {
+                                if (part.indexOf('::') !== -1) {
+                                    console.warn(`No watched field "${part}"`); // TODO add watch?
+                                }
+                                const forEval = part.replace('{{', '')
+                                    .replace('}}', '')
+                                    .replace('::', '');
+                                literal = literal.replace(part, $scope.$eval(forEval));
+                            });
+                        }
+                        return literal;
+                    }
+
+                    /**
+                     * @return {*}
+                     * @private
+                     */
+                    static _getLiteral() {
+                        return I18n._isAttribute() ? $attrs.wI18n : $element.text();
+                    }
+
+                    /**
+                     * @return {boolean}
+                     * @private
+                     */
+                    static _isAttribute() {
+                        return !!$attrs.wI18n;
+                    }
+
                 }
 
-                const listener = function () {
-                    $element.html(i18n.translate(literal, ns, $scope.params));
-                };
-                listener();
-                this.listener = listener;
-                i18next.on('languageChanged', listener);
-                this.stopWatch = $scope.$watch('params', listener);
+                return new I18n();
             },
-            $onDestroy() {
-                this.stopWatch();
-                i18next.off('languageChanged', this.listener);
+            transclude: true,
+            template: function ($element) {
+                if ($element.get(0).tagName === 'W-I18N') {
+                    return '<span ng-transclude></span>';
+                }
             }
         };
     };
 
-    controller.$inject = ['$element', '$attrs', 'i18n', '$scope'];
+    directive.$inject = ['Base', 'i18n'];
 
     angular.module('app')
-        .directive('wI18n', () => {
-            return {
-                scope: {
-                    params: '<'
-                },
-                restrict: 'AE',
-                controller: controller,
-                transclude: true,
-                template: function ($element) {
-                    if ($element.get(0).tagName === 'W-I18N') {
-                        return '<span ng-transclude></span>';
-                    }
-                }
-            };
-        });
+        .directive('wI18n', directive);
 })();

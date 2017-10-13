@@ -24,13 +24,13 @@
 
         <form name="$ctrl.loginForm" ng-submit="$ctrl.loginForm.$valid && $ctrl.login()" novalidate>
 
-            <w-input-container form="$ctrl.loginForm">
-                <input name="password"
-                       type="password"
-                       ng-model="$ctrl.password"
-                       w-i18n-attr="placeholder"
-                       placeholder="userList.placeholders.password"
-                       required/>
+            <w-input-container>
+                <w-input name="password"
+                         type="password"
+                         ng-model="$ctrl.password"
+                         w-i18n-attr="placeholder"
+                         placeholder="userList.placeholders.password"
+                         required></w-input>
 
                 <w-input-error message="required">
                     This is required!

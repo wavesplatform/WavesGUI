@@ -1,0 +1,40 @@
+<ul>
+    <li class="transaction-item" ng-repeat="transaction in $ctrl.transactions track by transaction.id">
+        <div class="col date">
+            <div class="row">{{::transaction.date.month}}</div>
+            <h3 class="row body-2">{{::transaction.date.day}}</h3>
+        </div>
+        <div class="col">
+            <div class="icon {{::transaction.type}}"></div>
+        </div>
+        <div class="col">
+            <div class="row">
+                <w-i18n>transactionList.types.{{::transaction.type}}</w-i18n>
+                {{::transaction.asset.name}}
+            </div>
+            <div class="row">
+                <w-i18n>transactionList.address.{{::transaction.type}}</w-i18n>
+                <span ng-if="transaction.type === 'sent'">
+                    {{::transaction.recipient}}
+                    <w-avatar size="30" address="transaction.recipient"></w-avatar>
+                </span>
+                <span ng-if="transaction.type !== 'sent'">
+                    {{::transaction.sender}}
+                    <w-avatar size="30" address="transaction.sender"></w-avatar>
+                </span>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row {{::transaction.type}}-price">
+                <w-balance balance="transaction.amount.tokens"
+                           asset-id="{{::transaction.amount.assetId}}"></w-balance>
+                <span class="currency">{{::transaction.asset.name}}</span>
+            </div>
+            <div class="row {{::transaction.type}}-price">
+                <w-balance balance="transaction.mirror"
+                           asset-id="{{::$ctrl.mirrorId}}"></w-balance>
+                <span class="currency">{{::$ctrl.mirror.name}}</span>
+            </div>
+        </div>
+    </li>
+</ul>

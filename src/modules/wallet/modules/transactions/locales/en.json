@@ -1,1 +1,18 @@
-{}
+{
+  "transactionList": {
+    "address": {
+      "sent": "to address: ",
+      "receive": "from address: ",
+      "circle": "from address: ",
+      "issue": "from address: ",
+      "exchange": "from address: "
+    },
+    "types": {
+      "sent": "Sent ",
+      "receive": "Receive ",
+      "issue": "Token Generation",
+      "exchange": "Exchange"
+    }
+  }
+}
+

@@ -1,0 +1,28 @@
+<div w-i18n-ns="app.wallet.transactions">
+    <div class="controls">
+
+        <w-radio-wrap class="split-mode" ng-model="$ctrl.filter">
+            <w-radio value="'all'">
+                <w-i18n>all</w-i18n>
+            </w-radio>
+            <w-radio value="'sent'">
+                <w-i18n>sent</w-i18n>
+            </w-radio>
+            <w-radio value="'receive'">
+                <w-i18n>received</w-i18n>
+            </w-radio>
+            <w-radio value="'exchange'">
+                <w-i18n>exchanged</w-i18n>
+            </w-radio>
+            <w-radio value="'lease'">
+                <w-i18n>leased</w-i18n>
+            </w-radio>
+            <w-radio value="'issue'">
+                <w-i18n>issued</w-i18n>
+            </w-radio>
+        </w-radio-wrap>
+
+    </div>
+    <w-transaction-list transaction-type="$ctrl.filter"
+                        search="$ctrl.search"></w-transaction-list>
+</div>

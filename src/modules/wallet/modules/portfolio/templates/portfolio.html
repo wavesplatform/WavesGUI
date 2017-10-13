@@ -2,15 +2,8 @@
     <div class="part left">
         <w-button ng-click="$ctrl.send()">Send</w-button>
         <w-button>Receive</w-button>
-        <w-button>Exchange</w-button>
-        <w-button>...</w-button>
-    </div>
-    <div class="part right">
-        <w-button>Trash</w-button>
-        <w-button>Add Asset</w-button>
     </div>
 </div>
-
 <w-table>
     <w-row>
         <w-cell>
@@ -18,7 +11,7 @@
             Asset Name
         </w-cell>
         <w-cell>Balance</w-cell>
-        <w-cell>Price, USD</w-cell>
+        <w-cell>Price, {{$ctrl.mirror.name}}</w-cell>
         <w-cell>Bid</w-cell>
         <w-cell>Ask</w-cell>
         <w-cell>24h Change</w-cell>
@@ -33,7 +26,9 @@
             <w-cell>
                 <w-balance asset-id="{{::asset.id}}" balance="asset.balance"></w-balance>
             </w-cell>
-            <w-cell>Price</w-cell>
+            <w-cell>
+                <w-balance asset-id="{{::$ctrl.mirrorId}}" balance="asset.mirrorBalance"></w-balance>
+            </w-cell>
             <w-cell>Bid</w-cell>
             <w-cell>Ask</w-cell>
             <w-cell>24h Change</w-cell>

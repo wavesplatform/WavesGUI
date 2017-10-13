@@ -1,0 +1,78 @@
+@import (reference) '../../../../../config';
+
+w-transaction-list {
+  ul {
+    list-style: none;
+    margin: 0;
+    border-radius: @border-radius;
+    background: @color-background-default;
+  }
+
+  li {
+    display: flex;
+    flex-direction: row;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #F0F0F0;
+    }
+  }
+
+  .col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .transaction-item {
+    padding: 24px;
+  }
+
+  .col.date {
+    width: 30px;
+    text-transform: uppercase;
+  }
+
+  .row.sent-price::before {
+    content: '-'
+  }
+
+  .row.receive-price::before {
+    content: '+'
+  }
+
+  .icon {
+    width: 48px;
+    height: 48px;
+    background-size: 100% 100%;
+    background: no-repeat center center;
+
+    &.sent {
+      background-image: url(/img/icons/transaction-sent-icon.svg);
+    }
+
+    &.receive {
+      background-image: url(/img/icons/transaction-receive-icon.svg);
+    }
+
+    &.issue {
+      background-image: url(/img/icons/transaction-issue-icon.svg);
+    }
+
+    &.exchange {
+      background-image: url(/img/icons/transaction-exchange-icon.svg);
+    }
+
+    &.circle {
+      background-image: url(/img/icons/transaction-circle-icon.svg);
+    }
+  }
+}

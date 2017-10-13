@@ -24,10 +24,39 @@
                     });
                 }
 
+                /**
+                 * @type {IBaseSignals}
+                 */
+                this.signals = {
+                    destroy: new tsUtils.Signal()
+                };
+                /**
+                 * @type {string}
+                 */
+                this.cid = tsUtils.uniqueId('base');
+                /**
+                 * @type {object}
+                 */
                 this.polls = Object.create(null);
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
                 this.__isRemoved = false;
+                /**
+                 * @type {object}
+                 * @private
+                 */
                 this.__handlers = Object.create(null);
+                /**
+                 * @type {object}
+                 * @private
+                 */
                 this.__props = Object.create(null);
+                /**
+                 * @type {object}
+                 * @private
+                 */
                 this.__timersHash = Object.create(null);
             }
 
@@ -206,3 +235,8 @@
     angular.module('app.utils')
         .factory('Base', factory);
 })();
+
+/**
+ * @typedef {Object} IBaseSignals
+ * @property {Signal} destroy
+ */

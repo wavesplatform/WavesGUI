@@ -64,7 +64,7 @@
                     });
             }
 
-            @decorators.cachable(2000)
+            @decorators.cachable(2)
             _loadData() {
                 return fetch('/api/assets-total/balance.json')
                     .then(r => r.json())

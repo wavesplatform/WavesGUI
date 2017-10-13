@@ -51,6 +51,8 @@
 
                     this.observe('chartMode', () => this._onChangeMode());
                     this.observe(['startDate', 'endDate'], () => this._onChangeInterval());
+
+                    this._onChangeMode();
                 }));
             }
 

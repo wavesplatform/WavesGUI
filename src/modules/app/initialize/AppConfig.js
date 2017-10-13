@@ -53,7 +53,6 @@
 
                 const defaultUrl = AppConfig.getUrlFromState(WavesApp.stateTree.find('welcome'));
                 $urlRouterProvider.when('', defaultUrl);
-                $urlRouterProvider.when('/', defaultUrl);
 
                 WavesApp.stateTree.toArray()
                     .slice(1)

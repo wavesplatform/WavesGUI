@@ -17,8 +17,16 @@
              * @param {ngModel.NgModelController} $ctrl
              */
             link: ($scope, $input, $attrs, $ctrl) => {
+
                 if (!$attrs.inputAsset) {
                     throw new Error('Has no asset id for input validation!');
+                }
+
+                /**
+                 * $input can be both <input> and <w-input>, in the latter case we should ignore validation
+                 */
+                if ($input.get(0).tagName !== 'INPUT') {
+                    return null;
                 }
 
                 assetsService.getAssetInfo($attrs.inputAsset)
@@ -31,7 +39,7 @@
                          */
                         const isValid = function (modelValue, viewValue) {
                             const parts = String(viewValue || 0)
-                                .replace(',', '.')
+                                .replace(',', '')
                                 .split('.');
                             const quantity = asset.quantity || Number.MAX_VALUE;
                             return modelValue < quantity && (!parts[1] || parts[1].length <= asset.precision);
