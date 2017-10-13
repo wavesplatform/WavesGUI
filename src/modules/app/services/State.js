@@ -140,13 +140,13 @@
                     this._seepStartTime = Date.now();
                     this._setSleepStep(0);
                 }
-                this._timer = timeLine.wait(1000).then(() => {
+                this._timer = timeLine.timeout(() => {
                     this._timer = null;
                     const time = Date.now() - this._seepStartTime;
                     const sleepMinutes = Math.floor(time / (1000 * 60 * 5));
                     this._setSleepStep(sleepMinutes);
                     this._sleep();
-                });
+                }, 1000);
             }
 
             /**

@@ -54,7 +54,7 @@
              * @return {PromiseControl}
              */
             then(resolve, reject) {
-                const child = new PromiseControl(new Promise((res, rej) => {
+                return new PromiseControl(new Promise((res, rej) => {
                     this._resolveCallbacks.push((data) => {
                         const result = resolve(data);
                         if (PromiseControl.isPromise(result)) {
@@ -72,12 +72,6 @@
                         }
                     });
                 }));
-                child.id = this.id;
-                child.drop = () => {
-                    this.drop.call(child);
-                    this.drop();
-                };
-                return child;
             }
 
             /**

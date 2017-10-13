@@ -17,10 +17,14 @@
              * @param {ngModel.NgModelController} $ctrl
              */
             link: ($scope, $input, $attrs, $ctrl) => {
+
                 if (!$attrs.inputAsset) {
                     throw new Error('Has no asset id for input validation!');
                 }
 
+                /**
+                 * $input can be both <input> and <w-input>, in the latter case we should ignore validation
+                 */
                 if ($input.get(0).tagName !== 'INPUT') {
                     return null;
                 }

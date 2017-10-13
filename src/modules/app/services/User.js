@@ -227,13 +227,12 @@
              */
             _onChangePropsForSave() {
                 if (!this._changeTimer) {
-                    this._changeTimer = timeLine.wait(500)
-                        .then(() => {
+                    this._changeTimer = timeLine.timeout(() => {
                             this._save()
                                 .then(() => {
                                     this._changeTimer = null;
                                 });
-                        });
+                        }, 500);
                 }
             }
 

@@ -15,6 +15,9 @@
              */
             link: function ($scope, $input, $attrs, $ngModel) {
 
+                /**
+                 * $input can be both <input> and <w-input>, in the latter case we should ignore validation
+                 */
                 if ($input.get(0).tagName !== 'INPUT') {
                     return null;
                 }

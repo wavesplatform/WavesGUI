@@ -32,6 +32,10 @@
                                 const fee = item.fee && item.fee.toJSON();
                                 const amount = item.amount && item.amount.toJSON();
                                 const result = Object.create(null);
+                                /**
+                                 * Can't write "{ ...item, fee, amount, timestamp }" to compile it with babel to
+                                 * "__extends({}, item, fee, amount, timestamp)" as closure doesn't work in Web Worker
+                                 */
                                 Object.keys(item).forEach((name) => {
                                     result[name] = item[name];
                                 });

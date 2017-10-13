@@ -42,12 +42,20 @@
                         };
                     }
 
+                    /**
+                     * @param literal
+                     * @return {*}
+                     * @private
+                     */
                     _compile(literal) {
                         const parts = literal.match(/{{.*?(}})/g);
                         if (!parts) {
                             return literal;
                         } else {
                             parts.forEach((part) => {
+                                if (part.indexOf('::') !== -1) {
+                                    console.warn(`No watched field "${part}"`); // TODO add watch?
+                                }
                                 const forEval = part.replace('{{', '')
                                     .replace('}}', '')
                                     .replace('::', '');
