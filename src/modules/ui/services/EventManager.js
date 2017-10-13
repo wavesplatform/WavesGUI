@@ -12,8 +12,8 @@
     /**
      * @param {User} user
      * @param {Poll} Poll
-     * @param {class AppEvent} AppEvent
-     * @param {class TransferEvent} TransferEvent
+     * @param {typeof AppEvent} AppEvent
+     * @param {typeof TransferEvent} TransferEvent
      * @param {app.utils.decorators} decorators
      * @returns {EventManager}
      */
@@ -75,7 +75,19 @@
                 this.ready = this._loadEvents()
                     .then(() => {
                         this.poll = new Poll(this._getStatuses.bind(this), this._applyStatuses.bind(this), 2000);
+                        this._onChangeEventsCount();
                     });
+            }
+
+            /**
+             * @private
+             */
+            _onChangeEventsCount() {
+                if (Object.keys(this._events).length === 0) {
+                    this.poll.stop();
+                } else {
+                    this.poll.play();
+                }
             }
 
             /**
@@ -131,12 +143,16 @@
                 }
             }
 
+            /**
+             * @private
+             */
             _saveEvents() {
                 const result = Object.create(null);
                 tsUtils.each(this._events, (event) => {
                     result[event.id] = event.toJSON();
                 });
                 user.setSetting('events', result);
+                this._onChangeEventsCount();
             }
 
             /**
@@ -158,6 +174,10 @@
                 tsUtils.each(eventList, this._addEvent, this);
             }
 
+            /**
+             * @param event
+             * @private
+             */
             _addEvent(event) {
                 switch (event.type) {
                     case EVENT_TYPES.transfer:
