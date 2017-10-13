@@ -228,7 +228,7 @@
              */
             parseNiceNumber(data) {
                 return Number(String(data)
-                    .replace(',', '.')
+                    .replace(',', '')
                     .replace(/\s/g, '')) || 0;
             },
 

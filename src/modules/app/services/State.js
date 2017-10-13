@@ -1,7 +1,11 @@
 (function () {
     'use strict';
 
-    const factory = function () {
+    /**
+     * @param {TimeLine} timeLine
+     * @return {State}
+     */
+    const factory = function (timeLine) {
 
         class State {
 
@@ -100,7 +104,7 @@
                 this._seepStartTime = null;
                 this._sleepStep = null;
                 if (this._timer) {
-                    clearTimeout(this._timer);
+                    timeLine.cancel(this._timer);
                     this._timer = null;
                 }
                 this.signals.wakeUp.dispatch();
@@ -129,19 +133,20 @@
              */
             _sleep() {
                 if (this._timer) {
+                    timeLine.cancel(this._timer);
                     this._timer = null;
                 }
                 if (!this._seepStartTime) {
                     this._seepStartTime = Date.now();
                     this._setSleepStep(0);
                 }
-                this._timer = setTimeout(() => {
+                this._timer = timeLine.wait(1000).then(() => {
                     this._timer = null;
                     const time = Date.now() - this._seepStartTime;
                     const sleepMinutes = Math.floor(time / (1000 * 60 * 5));
                     this._setSleepStep(sleepMinutes);
                     this._sleep();
-                }, 1000);
+                });
             }
 
             /**
@@ -174,7 +179,7 @@
         return new State();
     };
 
-    factory.$inject = [];
+    factory.$inject = ['timeLine'];
 
     angular.module('app')
         .factory('state', factory);

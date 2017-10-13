@@ -1,23 +1,27 @@
 @import (reference) '../../../config';
 
+.fake-input {
+  border: 1px solid @color-input-border;
+  background-color: @color-input-background;
+  border-radius: @border-radius;
+  height: @height-control;
+  font-size: @font-size-control;
+  padding: @padding-control;
+  width: 100%;
+
+  &.big {
+    font-size: @font-size-control-big;
+    height: @height-control-big;
+    padding: @padding-control-big;
+  }
+}
+
 w-input {
   display: block;
   width: 100%;
 
-  input[type="text"], input[type="password"], input[type="number"], .fake-input, textarea {
-    border: 1px solid @color-input-border;
-    background-color: @color-input-background;
-    border-radius: @border-radius;
-    height: @height-control;
-    font-size: @font-size-control;
-    padding: @padding-control;
-    width: 100%;
-
-    &.big {
-      font-size: @font-size-control-big;
-      height: @height-control-big;
-      padding: @padding-control-big;
-    }
+  input[type="text"], input[type="password"], input[type="number"], textarea {
+    .fake-input();
 
     &::placeholder {
       color: @color-input-placeholder;

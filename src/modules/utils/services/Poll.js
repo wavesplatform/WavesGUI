@@ -4,9 +4,10 @@
     /**
      * @param {State} state
      * @param {typeof PromiseControl} PromiseControl
+     * @param {TimeLine} timeLine
      * @returns {Poll}
      */
-    const factory = function (state, PromiseControl) {
+    const factory = function (state, PromiseControl, timeLine) {
 
         class Poll {
 
@@ -97,6 +98,11 @@
                  * @type {PromiseControl}
                  * @private
                  */
+                this._timer = null;
+                /**
+                 * @type {PromiseControl}
+                 * @private
+                 */
                 this._promise = null;
 
                 this._initialize();
@@ -174,7 +180,7 @@
              * @private
              */
             _stopTimers() {
-                Poll._removePoll(this);
+                timeLine.cancel(this._timer);
                 this._promise = null;
             }
 
@@ -209,7 +215,7 @@
              * @private
              */
             _addTimeout() {
-                Poll._addPoll(this);
+                this._timer = timeLine.timeout(() => this._run(), this._time);
             }
 
             /**
@@ -221,68 +227,7 @@
                 return data && data.then && typeof data.then === 'function';
             }
 
-            /**
-             * @param {Poll} poll
-             * @private
-             */
-            static _addPoll(poll) {
-                if (!Poll._polls[poll.id]) {
-                    Poll._polls[poll.id] = poll;
-                    if (Object.keys(Poll._polls).length === 1) {
-                        this._startPollTimer();
-                    }
-                }
-            }
-
-            /**
-             * @param {Poll} poll
-             * @private
-             */
-            static _removePoll(poll) {
-                delete Poll._polls[poll.id];
-            }
-
-            /**
-             * @private
-             */
-            static _startPollTimer() {
-                if (Poll._timer) {
-                    clearTimeout(Poll._timer);
-                    Poll._timer = null;
-                }
-
-                Poll._timer = setTimeout(() => {
-                    Poll._timer = null;
-                    const time = Date.now();
-
-                    Object.keys(Poll._polls).forEach((key) => {
-                        const poll = Poll._polls[key];
-
-                        if (!poll._lastEndPromise) {
-                            return null;
-                        }
-                        if (time - poll._lastEndPromise > poll._time) {
-                            poll._run();
-                        }
-                    });
-                    if (Object.keys(Poll._polls).length) {
-                        Poll._startPollTimer();
-                    }
-                }, 500);
-            }
-
         }
-
-        /**
-         * @type {object}
-         * @private
-         */
-        Poll._polls = Object.create(null);
-        /**
-         * @type {number}
-         * @private
-         */
-        Poll._timer = null;
 
         /**
          * @access protected
@@ -303,7 +248,7 @@
         return Poll;
     };
 
-    factory.$inject = ['state', 'PromiseControl'];
+    factory.$inject = ['state', 'PromiseControl', 'timeLine'];
 
     angular.module('app.utils')
         .factory('Poll', factory);

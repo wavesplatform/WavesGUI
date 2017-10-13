@@ -1,1 +1,12 @@
-{}
+{
+  "transactionList": {
+    "address": {
+      "sent": "to address: ",
+      "receive": "from address: "
+    },
+    "types": {
+      "sent": "Sent "
+    }
+  }
+}
+

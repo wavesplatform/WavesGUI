@@ -9,6 +9,7 @@
              * @param {Promise} promise
              */
             constructor(promise) {
+                this.id = null;
                 /**
                  * @type {Array}
                  * @private
@@ -49,29 +50,34 @@
 
             /**
              * @param {Function|null} resolve
-             * @param {Function|null} reject
-             * @return {Promise}
+             * @param {Function|null} [reject]
+             * @return {PromiseControl}
              */
             then(resolve, reject) {
-                if (this._dropped) {
-                    return null;
-                }
-                if (this._state === null) {
-                    if (resolve) {
-                        this._resolveCallbacks.push(resolve);
-                    }
-                    if (reject) {
-                        this._rejectCallbacks.push(reject);
-                    }
-                } else {
-                    if (this._state && resolve) {
-                        resolve(this._data);
-                    }
-                    if (!this._state && reject) {
-                        reject(this._data);
-                    }
-                }
-                return this._promise;
+                const child = new PromiseControl(new Promise((res, rej) => {
+                    this._resolveCallbacks.push((data) => {
+                        const result = resolve(data);
+                        if (PromiseControl.isPromise(result)) {
+                            result.then(res, rej);
+                        } else {
+                            res(result);
+                        }
+                    });
+                    this._rejectCallbacks.push((data) => {
+                        const result = reject(data);
+                        if (PromiseControl.isPromise(result)) {
+                            result.then(res, rej);
+                        } else {
+                            rej(result);
+                        }
+                    });
+                }));
+                child.id = this.id;
+                child.drop = () => {
+                    this.drop.call(child);
+                    this.drop();
+                };
+                return child;
             }
 
             /**
@@ -117,6 +123,10 @@
             _removeHandlers() {
                 this._rejectCallbacks = [];
                 this._rejectCallbacks = [];
+            }
+
+            static isPromise(some) {
+                return some && some.then && typeof some.then === 'function';
             }
 
         }

@@ -17,11 +17,40 @@
 
             constructor() {
                 super($scope);
+                /**
+                 * @type {Array}
+                 */
                 this.portfolio = [];
+                /**
+                 * @type {boolean}
+                 */
                 this.selectedAll = false;
-                this.portfolioUpdate = this.createPoll(this._getPortfolio, this._applyPortfolio, 3000);
+                /**
+                 * @type {Poll}
+                 */
+                this.portfolioUpdate = null;
+                /**
+                 * @type {string}
+                 */
+                this.mirrorId = null;
+                /**
+                 * @type {IAssetInfo}
+                 */
+                this.mirror = null;
 
-                this.receive(eventManager.signals.balanceEventEnd, this.portfolioUpdate.restart, this.portfolioUpdate);
+                user.getSetting('baseAssetId')
+                    .then((mirrorId) => {
+                        const balanceSignal = eventManager.signals.balanceEventEnd;
+
+                        this.mirrorId = mirrorId;
+                        this.portfolioUpdate = this.createPoll(this._getPortfolio, this._applyPortfolio, 3000);
+                        this.receive(balanceSignal, this.portfolioUpdate.restart, this.portfolioUpdate);
+
+                        assetsService.getAssetInfo(this.mirrorId)
+                            .then((mirror) => {
+                                this.mirror = mirror;
+                            });
+                    });
             }
 
             selectAll() {
@@ -45,7 +74,15 @@
              * @private
              */
             _getPortfolio() {
-                return assetsService.getBalanceList();
+                return assetsService.getBalanceList()
+                    .then((assets) => {
+                        return Promise.all(assets.map((asset) => {
+                            return assetsService.getRate(asset.id, this.mirrorId)
+                                .then((api) => {
+                                    return { ...asset, mirrorBalance: api.exchange(asset.balance) };
+                                });
+                        }));
+                    });
             }
 
             /**

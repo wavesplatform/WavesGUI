@@ -31,9 +31,10 @@
     /**
      * @param {$rootScope.Scope} $scope
      * @param {JQuery} $element
+     * @param {TimeLine} timeLine
      * @returns {WDate}
      */
-    const controller = function ($scope, $element) {
+    const controller = function ($scope, $element, timeLine) {
 
         class WDate {
 
@@ -140,7 +141,7 @@
         return new WDate();
     };
 
-    controller.$inject = ['$scope', '$element'];
+    controller.$inject = ['$scope', '$element', 'timeLine'];
 
     controller.handlers = {
         sec: [],

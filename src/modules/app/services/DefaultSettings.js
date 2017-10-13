@@ -40,6 +40,9 @@
                                 WavesApp.defaultAssets.BTC,
                                 WavesApp.defaultAssets.EUR
                             ]
+                        },
+                        transactions: {
+                            filter: 'all'
                         }
                     },
                     dex: {

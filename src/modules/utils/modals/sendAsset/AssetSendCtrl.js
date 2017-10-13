@@ -104,7 +104,7 @@
             }
 
             fillMax() {
-                if (this.asset.id === this.feeData.id) {
+                if (this.assetId === this.feeData.id) {
                     if (this.asset.balance >= this.fee) {
                         this.amount = this.asset.balance - this.feeData.fee;
                     }
@@ -126,7 +126,7 @@
                     return null;
                 }
                 this.ready = utils.whenAll([
-                    assetsService.getBalanceList(),
+                    this.canChooseAsset ? assetsService.getBalanceList() : assetsService.getBalance(this.assetId),
                     assetsService.getAssetInfo(this.mirrorId),
                     assetsService.getFeeSend()
                 ])

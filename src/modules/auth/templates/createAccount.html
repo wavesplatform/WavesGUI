@@ -42,15 +42,15 @@
                         <div class="inputs-container">
                             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                                 <w-input-container>
-                                    <input class="big"
-                                           name="password"
-                                           type="password"
-                                           w-i18n-attr="placeholder"
-                                           placeholder="createAccount.passPlaceholder"
-                                           required
-                                           minlength="8"
-                                           ng-pattern="/(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)[0-9a-zA-Z!@#$%^&\*]*/"
-                                           ng-model="$ctrl.password"/>
+                                    <w-input class="big"
+                                             name="password"
+                                             type="password"
+                                             w-i18n-attr="placeholder"
+                                             placeholder="createAccount.passPlaceholder"
+                                             required
+                                             minlength="8"
+                                             ng-pattern="/(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)[0-9a-zA-Z!@#$%^&\*]*/"
+                                             ng-model="$ctrl.password"></w-input>
 
 
                                     <w-input-error message="required">
@@ -67,15 +67,15 @@
 
                             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                                 <w-input-container>
-                                    <input class="big"
-                                           name="confirmPassword"
-                                           type="password"
-                                           w-i18n-attr="placeholder"
-                                           required
-                                           w-compare-to="password"
-                                           minlength="8"
-                                           placeholder="createAccount.confirmPlaceholder"
-                                           ng-model="$ctrl.confirmPassword">
+                                    <w-input class="big"
+                                             name="confirmPassword"
+                                             type="password"
+                                             w-i18n-attr="placeholder"
+                                             required
+                                             w-compare-to="password"
+                                             minlength="8"
+                                             placeholder="createAccount.confirmPlaceholder"
+                                             ng-model="$ctrl.confirmPassword"></w-input>
 
 
                                     <w-input-error message="required">

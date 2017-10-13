@@ -10,10 +10,10 @@
      * @param {State} state
      * @param {UserRouteState} UserRouteState
      * @param {ModalManager} modalManager
-     * @param {app.utils} utils
+     * @param {TimeLine} timeLine
      * @returns {User}
      */
-    const factory = function (storage, $q, $state, defaultSettings, apiWorker, state, UserRouteState, modalManager, utils) {
+    const factory = function (storage, $q, $state, defaultSettings, apiWorker, state, UserRouteState, modalManager, timeLine) {
 
         class User {
 
@@ -105,7 +105,7 @@
              * @return {Promise}
              */
             login() {
-                const states = WavesApp.stateTree.where({noLogin: true}).map((item) => {
+                const states = WavesApp.stateTree.where({ noLogin: true }).map((item) => {
                     return WavesApp.stateTree.getPath(item.id).join('.');
                 });
                 if (states.indexOf($state.$current.name) === -1) {
@@ -227,12 +227,13 @@
              */
             _onChangePropsForSave() {
                 if (!this._changeTimer) {
-                    this._changeTimer = setTimeout(() => {
-                        this._save()
-                            .then(() => {
-                                this._changeTimer = null;
-                            });
-                    }, 500);
+                    this._changeTimer = timeLine.wait(500)
+                        .then(() => {
+                            this._save()
+                                .then(() => {
+                                    this._changeTimer = null;
+                                });
+                        });
                 }
             }
 
@@ -340,7 +341,7 @@
         'state',
         'UserRouteState',
         'modalManager',
-        'utils'
+        'timeLine'
     ];
 
     angular.module('app')
