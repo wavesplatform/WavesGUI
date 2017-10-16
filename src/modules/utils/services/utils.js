@@ -81,42 +81,6 @@
             },
 
             /**
-             * @name app.utils#syncList
-             * @param {Array} mainList
-             * @param {Array} newList
-             * @param {string} [idKey]
-             */
-            syncList(mainList, newList, idKey = 'id') {
-                const getHash = function (list) {
-                    const hash = Object.create(null);
-                    return list.reduce((hash, item, index) => {
-                        hash[item[idKey]] = { item, index };
-                        return hash;
-                    }, hash);
-                };
-
-                const mainHash = getHash(mainList);
-                const newListHash = getHash(newList);
-
-                for (let i = mainList.length; i--;) {
-                    if (!newListHash[mainList[i][idKey]]) {
-                        mainList.splice(i, 1);
-                    } else {
-                        mainList[i] = { ...mainList[i], ...newListHash[mainList[i][idKey]].item };
-                        mainHash[mainList[i][idKey]].item = mainList[i];
-                    }
-                }
-                newList.forEach((item, i) => {
-                    if (!mainHash[item[idKey]]) {
-                        mainList.push(item);
-                    } else {
-                        mainList.splice(mainHash[item[idKey]].index, 1);
-                        mainList.splice(i, 0, mainHash[item[idKey]].item);
-                    }
-                });
-            },
-
-            /**
              * @name app.utils#isEqual
              * @param a
              * @param b

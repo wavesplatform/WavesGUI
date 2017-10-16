@@ -68,8 +68,7 @@
              */
             _getTransactions() {
                 return transactionsService.transactions()
-                    .then((list) => list.map(this._getRate, this))
-                    .then((list) => Promise.all(list));
+                    .then((list) => list.map(this._getRate, this));
             }
 
             /**
@@ -78,23 +77,20 @@
              * @private
              */
             _getRate(item) {
-                return Promise.all([
-                    assetsService.getRate(item.amount.assetId, this.mirrorId),
-                    assetsService.getAssetInfo(item.amount.assetId)
-                ])
-                    .then(([api, asset]) => {
-                        const date = {
-                            day: item.timestamp.getDate(),
-                            month: i18n.translate(`date.month.${item.timestamp.getMonth()}`)
-                        };
-                        return {
-                            ...item,
-                            mirror: api.exchange(Number(item.amount.tokens)),
-                            asset,
-                            date,
-                            type: this._getTransactionType(item)
-                        };
+                assetsService.getRate(item.amount.assetId, this.mirrorId).then((api) => {
+                    item.mirrorBalance = api.exchange(Number(item.amount.tokens));
+                });
+                assetsService.getAssetInfo(item.amount.assetId)
+                    .then((asset) => {
+                        item.asset = asset;
                     });
+                const date = {
+                    day: item.timestamp.getDate(),
+                    month: i18n.translate(`date.month.${item.timestamp.getMonth()}`)
+                };
+                item.date = date;
+                item.type = this._getTransactionType(item);
+                return item;
             }
 
             /**

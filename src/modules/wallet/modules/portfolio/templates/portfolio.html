@@ -17,7 +17,7 @@
         <w-cell>24h Change</w-cell>
     </w-row>
     <w-scroll-box>
-        <w-row ng-repeat="asset in $ctrl.portfolio">
+        <w-row ng-repeat="asset in $ctrl.portfolio track by asset.id">
             <w-cell class="name">
                 <w-checkbox-submit ng-click="$ctrl.selectItem(asset)" ng-model="asset.checked"></w-checkbox-submit>
                 <w-asset-logo size="30" asset-id="{{::asset.id}}"></w-asset-logo>
