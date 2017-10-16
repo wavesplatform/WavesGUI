@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="body-2" w-i18n="modal.send.recipient"></div>
                         <w-input type="text"
-                                 input-address
+                                 w-validate="address"
                                  name="recipient"
                                  ng-model="$ctrl.recipient"
                                  required></w-input>
@@ -73,10 +73,11 @@
                         <div class="amount-wrap">
                             <div class="input-wrap">
                                 <w-input type="text"
+                                         w-validate="asset"
+                                         asset-id="{{::$ctrl.assetId}}"
                                          ng-focus="focus = 'amount'"
                                          ng-blur="focus = ''"
                                          name="amount"
-                                         input-asset="{{::$ctrl.assetId}}"
                                          ng-model="$ctrl.amount"
                                          required></w-input>
                                 <div class="currency">{{$ctrl.asset.name}}</div>
@@ -90,10 +91,11 @@
                             <div class="amount-modal-icon"></div>
                             <div class="input-wrap">
                                 <w-input type="text"
+                                         w-validate="asset"
                                          ng-focus="focus = 'amountMirror'"
                                          ng-blur="focus = ''"
                                          name="amountMirror"
-                                         input-asset="{{::$ctrl.mirrorId}}"
+                                         asset-id="{{::$ctrl.mirrorId}}"
                                          ng-model="$ctrl.amountMirror"
                                          required></w-input>
                                 <div class="currency">{{::$ctrl.mirror.name}}</div>

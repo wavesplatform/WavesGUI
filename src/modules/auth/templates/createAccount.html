@@ -72,6 +72,7 @@
                                              type="password"
                                              w-i18n-attr="placeholder"
                                              required
+                                             w-validate="compare"
                                              w-compare-to="password"
                                              minlength="8"
                                              placeholder="createAccount.confirmPlaceholder"
@@ -81,7 +82,7 @@
                                     <w-input-error message="required">
                                         <w-i18n>createAccount.inputs.errors.required</w-i18n>
                                     </w-input-error>
-                                    <w-input-error message="wCompareTo">
+                                    <w-input-error message="w-compare-to">
                                         <w-i18n>createAccount.inputs.errors.equal</w-i18n>
                                     </w-input-error>
                                 </w-input-container>
