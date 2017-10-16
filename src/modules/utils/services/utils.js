@@ -62,7 +62,7 @@
              * @return {Promise}
              */
             when(data) {
-                if (data.then && typeof data.then === 'function') {
+                if (data && data.then && typeof data.then === 'function') {
                     const defer = $q.defer();
                     data.then(defer.resolve, defer.reject);
                     return defer.promise;
