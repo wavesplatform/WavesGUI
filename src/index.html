@@ -59,7 +59,7 @@
         <div id="accounts">
           <h2 id="AccHeader">{{accounts.caption}}</h2>
           <div class="wavesAccounts" ng-controller="accountListController as list" ng-show="accounts.mode === 'list'">
-            <p class="loginAccountDiv" ng-repeat="account in list.accounts track by $index">
+            <p class="loginAccountDiv" ng-repeat="account in list.accounts track by account.address">
                                     <span class="loginAccount fade" tooltipster tooltip-theme="tooltipster-theme1" title="Log into this account." ng-click="list.signIn(account)"> <br/>
                                         <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::account.address}}</small>
                                     </span>
