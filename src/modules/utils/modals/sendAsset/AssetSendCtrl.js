@@ -91,12 +91,12 @@
                         })
                         .then((data) => {
                             eventManager.addEvent({
-                                type: eventManager.getAvailableEvents().transfer,
-                                data: {
-                                    id: data.id,
-                                    amount: { id: this.assetId, balance: this.amount },
-                                    fee: this.feeData
-                                }
+                                id: data.id,
+                                components: [
+                                    { name: 'transfer' },
+                                    { name: 'balance', data: { amount: this.amount, assetId: this.assetId } },
+                                    { name: 'balance', data: { amount: this.feeData.fee, assetId: this.feeData.id } }
+                                ]
                             });
                             $mdDialog.hide();
                         });

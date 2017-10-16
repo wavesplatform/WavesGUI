@@ -228,11 +228,9 @@
             _onChangePropsForSave() {
                 if (!this._changeTimer) {
                     this._changeTimer = timeLine.timeout(() => {
-                            this._save()
-                                .then(() => {
-                                    this._changeTimer = null;
-                                });
-                        }, 500);
+                        this._changeTimer = null;
+                        this._save();
+                    }, 500);
                 }
             }
 

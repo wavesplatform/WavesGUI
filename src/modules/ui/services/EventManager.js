@@ -13,11 +13,11 @@
      * @param {User} user
      * @param {Poll} Poll
      * @param {typeof AppEvent} AppEvent
-     * @param {typeof TransferEvent} TransferEvent
      * @param {app.utils.decorators} decorators
+     * @param $injector
      * @returns {EventManager}
      */
-    const factory = function (user, Poll, AppEvent, ChangeBalanceEvent, TransferEvent, decorators) {
+    const factory = function (user, Poll, AppEvent, decorators, $injector, EVENT_STATUSES, BalanceComponent) {
 
         class EventManager {
 
@@ -58,10 +58,11 @@
                     const events = [];
                     Object.keys(this._events)
                         .forEach((id) => {
-                            const event = this._events[id];
-                            if (event instanceof ChangeBalanceEvent) {
-                                events.push(event);
-                            }
+                            this._events[id].components.forEach((component) => {
+                                if (component instanceof BalanceComponent) {
+                                    events.push(component);
+                                }
+                            });
                         });
                     return events;
                 });
@@ -112,7 +113,7 @@
                 let hadBalanceEvents = false;
                 statuses.forEach((statusData) => {
 
-                    if (statusData.status === AppEvent.statuses.PENDING) {
+                    if (statusData.status === EVENT_STATUSES.PENDING) {
                         return null;
                     }
 
@@ -122,11 +123,11 @@
                     }
 
                     switch (statusData.status) {
-                        case AppEvent.statuses.ERROR:
+                        case EVENT_STATUSES.ERROR:
                             console.error(`Error event ${this._events[statusData.id]}`);
                             delete this._events[statusData.id];
                             break;
-                        case AppEvent.statuses.SUCCESS:
+                        case EVENT_STATUSES.SUCCESS:
                             console.log(`Event with id "${statusData.id}" finished!`);
                             delete this._events[statusData.id];
                             break;
@@ -179,20 +180,22 @@
              * @private
              */
             _addEvent(event) {
-                switch (event.type) {
-                    case EVENT_TYPES.transfer:
-                        this._events[event.data.id] = new TransferEvent({ ...event.data, type: event.type });
-                        break;
-                    default:
-                        throw new Error('Wrong event type!');
-                }
+                this._events[event.id] = new AppEvent(event.id);
+                this._events[event.id].addComponents(event.components.map((item) => {
+                    const Component = $injector.get(EventManager.toClassName(item.name));
+                    return new Component({ ...item.data, name: item.name });
+                }));
+            }
+
+            static toClassName(name) {
+                return name.charAt(0).toUpperCase() + name.substr(1) + 'Component';
             }
         }
 
         return new EventManager();
     };
 
-    factory.$inject = ['user', 'Poll', 'AppEvent', 'ChangeBalanceEvent', 'TransferEvent', 'decorators'];
+    factory.$inject = ['user', 'Poll', 'AppEvent', 'decorators', '$injector', 'EVENT_STATUSES', 'BalanceComponent'];
 
     angular.module('app.ui')
         .factory('eventManager', factory);
