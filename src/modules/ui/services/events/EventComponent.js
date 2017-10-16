@@ -6,7 +6,10 @@
         class EventComponent {
 
             constructor(data) {
-                this._data = data || Object.create(null);
+                if (!data) {
+                    throw new Error('Cannot create EventComponent without data');
+                }
+                this._data = data;
             }
 
             getStatus() {
