@@ -44,8 +44,11 @@
                                     return result;
                                 case EVENT_STATUSES.PENDING:
                                     result.status = EVENT_STATUSES.PENDING;
-                                    break;
+                                    return result;
+                                case EVENT_STATUSES.SUCCESS:
+                                    break; // All components must be checked
                                 default:
+                                    throw new Error('Invalid event status');
                             }
                         }
 
