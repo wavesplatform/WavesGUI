@@ -37,13 +37,18 @@
                  * @type {IAssetInfo}
                  */
                 this.mirror = null;
+                /**
+                 * @type {Object}
+                 * @private
+                 */
+                this._balancesHash = Object.create(null);
 
                 user.getSetting('baseAssetId')
                     .then((mirrorId) => {
                         const balanceSignal = eventManager.signals.balanceEventEnd;
 
                         this.mirrorId = mirrorId;
-                        this.portfolioUpdate = this.createPoll(this._getPortfolio, this._applyPortfolio, 3000);
+                        this.portfolioUpdate = this.createPoll(this._getPortfolio, 'portfolio', 3000);
                         this.receive(balanceSignal, this.portfolioUpdate.restart, this.portfolioUpdate);
 
                         assetsService.getAssetInfo(this.mirrorId)
@@ -76,23 +81,17 @@
             _getPortfolio() {
                 return assetsService.getBalanceList()
                     .then((assets) => {
-                        return Promise.all(assets.map((asset) => {
-                            return assetsService.getRate(asset.id, this.mirrorId)
+                        assets.forEach((asset) => {
+                            assetsService.getRate(asset.id, this.mirrorId)
                                 .then((api) => {
-                                    return { ...asset, mirrorBalance: api.exchange(asset.balance) };
+                                    this._balancesHash[asset.id] = api.exchange(asset.balance);
+                                    asset.mirrorBalance = this._balancesHash[asset.id];
                                 });
-                        }));
+                            asset.mirrorBalance = this._balancesHash[asset.id];
+                        });
+                        return assets;
                     });
             }
-
-            /**
-             * @param data
-             * @private
-             */
-            _applyPortfolio(data) {
-                utils.syncList(this.portfolio, data);
-            }
-
         }
 
         return new PortfolioCtrl();
