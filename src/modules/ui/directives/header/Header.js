@@ -8,9 +8,10 @@
      * @param {State} state
      * @param $state
      * @param {app.i18n} i18n
+     * @param {ModalManager} modalManager
      * @return {Header}
      */
-    const controller = function ($element, Base, user, state, $state, i18n) {
+    const controller = function ($element, Base, user, state, $state, i18n, modalManager) {
 
         class Header extends Base {
 
@@ -28,13 +29,14 @@
             }
 
             avatarClick() {
-                const handler = function (e) {
-                    e.clipboardData.setData('text/plain', user.address);
-                    e.preventDefault(); // default behaviour is to copy any selected text
-                };
-                document.addEventListener('copy', handler);
-                document.execCommand('copy');
-                document.removeEventListener('copy', handler);
+                modalManager.showAccountInfo();
+                // const handler = function (e) {
+                //     e.clipboardData.setData('text/plain', user.address);
+                //     e.preventDefault(); // default behaviour is to copy any selected text
+                // };
+                // document.addEventListener('copy', handler);
+                // document.execCommand('copy');
+                // document.removeEventListener('copy', handler);
             }
 
             _onChangeRouterState(state) {
@@ -56,7 +58,7 @@
         return new Header();
     };
 
-    controller.$inject = ['$element', 'Base', 'user', 'state', '$state', 'i18n'];
+    controller.$inject = ['$element', 'Base', 'user', 'state', '$state', 'i18n', 'modalManager'];
 
     angular.module('app.ui').component('wHeader', {
         controller: controller,

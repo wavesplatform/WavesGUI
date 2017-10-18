@@ -1,0 +1,26 @@
+<div class="row">
+    <w-i18n>address.title</w-i18n>
+    <w-copy>
+        <w-avatar size="30" address="$ctrl.address"></w-avatar>
+        {{::$ctrl.address}}
+    </w-copy>
+</div>
+
+<div class="row">
+    <w-i18n>aliases</w-i18n>
+    <w-copy ng-repeat="alias in $ctrl.aliases">
+        {{::alias}}
+    </w-copy>
+    <div class="create-alias-wrap">
+        <form>
+            <w-input></w-input>
+            <div class="close" ng-click="step = 0"></div>
+            <w-button ng-if="!step" ng-click="step = 1">
+                <w-i18n>create</w-i18n>
+            </w-button>
+            <w-button-submit type="submit" ng-if="step" ng-click="$ctrl.createAlias()">
+                <w-i18n>create</w-i18n>
+            </w-button-submit>
+        </form>
+    </div>
+</div>

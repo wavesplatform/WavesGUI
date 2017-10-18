@@ -79,8 +79,9 @@
             img.src = '/img/waves.svg';
         })();
 
+        var __controllers = Object.create(null);
+
         /**
-         *
          * @type {IWavesApp}
          */
         var WavesApp = {
@@ -102,10 +103,16 @@
                 ETH: '{{network.assets.ETH}}'
             },
             modules: [],
-            isWeb: function () {
+            addController(name, controller) {
+                __controllers[name] = controller;
+            },
+            getController(name) {
+                return __controllers[name];
+            },
+            isWeb() {
                 return this.type === 'web';
             },
-            isDesktop: function () {
+            isDesktop() {
                 return this.type === 'desktop';
             },
             stateTree: null
@@ -202,6 +209,8 @@
      * @property {Array<string>} modules
      * @property {Function} isWeb
      * @property {Function} isDesktop
+     * @property {Function} addController
+     * @property {Function} getController
      * @property {Tree} stateTree
      */
 </script>
