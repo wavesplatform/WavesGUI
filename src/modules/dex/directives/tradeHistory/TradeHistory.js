@@ -6,9 +6,10 @@
      * @param {Scope} $scope
      * @param {AssetsService} assetsService
      * @param {DataFeed} dataFeed
+     * @param {@constructor PollComponent} PollComponent
      * @return {TradeHistory}
      */
-    const controller = function (Base, $scope, assetsService, dataFeed) {
+    const controller = function (Base, $scope, assetsService, dataFeed, PollComponent) {
 
         class TradeHistory extends Base {
 
@@ -33,7 +34,7 @@
                 /**
                  * @type {Poll}
                  */
-                this.poll = this.createPoll(this._getTradeHistory, 'orders', 2000);
+                this.poll = PollComponent.craete(this).createPoll(this._getTradeHistory, 'orders', 2000);
 
                 this.shema = new tsApiValidator.Schema({
                     type: tsApiValidator.ArrayPart,
@@ -80,7 +81,7 @@
         return new TradeHistory();
     };
 
-    controller.$inject = ['Base', '$scope', 'assetsService', 'dataFeed', 'i18n'];
+    controller.$inject = ['Base', '$scope', 'assetsService', 'dataFeed', 'i18n', 'PollComponent'];
 
     angular.module('app.dex')
         .component('wDexTradeHistory', {

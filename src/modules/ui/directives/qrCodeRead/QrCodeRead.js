@@ -5,9 +5,10 @@
      * @param {Base} Base
      * @param {JQuery} $element
      * @param {app.utils.mediaStream} mediaStream
+     * @param {Function} createPoll
      * @returns {QrCodeRead}
      */
-    const controller = function (Base, $element, mediaStream) {
+    const controller = function (Base, $element, mediaStream, createPoll) {
 
         class QrCodeRead extends Base {
 
@@ -101,7 +102,7 @@
                             .then((size) => {
                                 this._currentSize(size);
                                 this.video.play();
-                                this.poll = this.createPoll(this._decodeImage, this._checkStop, 50);
+                                this.poll = createPoll(this, this._decodeImage, this._checkStop, 50);
                             });
                         this.video.src = stream.url;
                     });
@@ -257,7 +258,7 @@
         return new QrCodeRead();
     };
 
-    controller.$inject = ['Base', '$element', 'mediaStream'];
+    controller.$inject = ['Base', '$element', 'mediaStream', 'createPoll'];
 
     angular.module('app.ui')
         .component('wQrCodeRead', {

@@ -10,9 +10,10 @@
      * @param {app.utils.apiWorker} apiWorker
      * @param {User} user
      * @param {EventManager} eventManager
+     * @param {@constructor PollComponent} PollComponent
      * @return {AssetSendCtrl}
      */
-    const controller = function ($scope, $mdDialog, assetsService, Base, utils, apiWorker, user, eventManager) {
+    const controller = function ($scope, $mdDialog, assetsService, Base, utils, apiWorker, user, eventManager, createPoll) {
 
         class AssetSendCtrl extends Base {
 
@@ -64,9 +65,9 @@
                 this.assetList = null;
 
                 if (this.canChooseAsset) {
-                    this.createPoll(assetsService.getBalanceList, this._setAssets, 1000);
+                    createPoll(this, assetsService.getBalanceList, this._setAssets, 1000);
                 } else {
-                    this.createPoll(this._getAsset, this._setAssets, 1000);
+                    createPoll(this, this._getAsset, this._setAssets, 1000);
                 }
             }
 
@@ -213,7 +214,8 @@
         'utils',
         'apiWorker',
         'user',
-        'eventManager'
+        'eventManager',
+        'createPoll'
     ];
 
     angular.module('app.utils')

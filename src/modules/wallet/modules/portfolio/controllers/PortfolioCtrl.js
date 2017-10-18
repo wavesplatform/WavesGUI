@@ -9,9 +9,10 @@
      * @param {ModalManager} modalManager
      * @param {User} user
      * @param {EventManager} eventManager
+     * @param {Function} createPoll
      * @returns {PortfolioCtrl}
      */
-    const controller = function (Base, $scope, assetsService, utils, modalManager, user, eventManager) {
+    const controller = function (Base, $scope, assetsService, utils, modalManager, user, eventManager, createPoll) {
 
         class PortfolioCtrl extends Base {
 
@@ -48,7 +49,7 @@
                         const balanceSignal = eventManager.signals.balanceEventEnd;
 
                         this.mirrorId = mirrorId;
-                        this.portfolioUpdate = this.createPoll(this._getPortfolio, 'portfolio', 3000);
+                        this.portfolioUpdate = createPoll(this, this._getPortfolio, 'portfolio', 3000);
                         this.receive(balanceSignal, this.portfolioUpdate.restart, this.portfolioUpdate);
 
                         assetsService.getAssetInfo(this.mirrorId)
@@ -97,7 +98,16 @@
         return new PortfolioCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'assetsService', 'utils', 'modalManager', 'user', 'eventManager'];
+    controller.$inject = [
+        'Base',
+        '$scope',
+        'assetsService',
+        'utils',
+        'modalManager',
+        'user',
+        'eventManager',
+        'createPoll'
+    ];
 
     angular.module('app.wallet.portfolio').controller('PortfolioCtrl', controller);
 })();
