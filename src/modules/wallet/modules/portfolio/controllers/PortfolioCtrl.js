@@ -49,7 +49,8 @@
                         const balanceSignal = eventManager.signals.balanceEventEnd;
 
                         this.mirrorId = mirrorId;
-                        this.portfolioUpdate = createPoll(this, this._getPortfolio, 'portfolio', 3000);
+                        this.portfolioUpdate =
+                            createPoll(this, this._getPortfolio, 'portfolio', 3000, { isBalance: true });
                         this.receive(balanceSignal, this.portfolioUpdate.restart, this.portfolioUpdate);
 
                         assetsService.getAssetInfo(this.mirrorId)
@@ -72,7 +73,7 @@
             }
 
             send() {
-                this.pollsPause(modalManager.showSendAsset({ user, canChooseAsset: true }));
+                modalManager.showSendAsset({ user, canChooseAsset: true });
             }
 
             /**

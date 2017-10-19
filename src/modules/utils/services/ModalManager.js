@@ -19,6 +19,10 @@
 
         class ModalManager {
 
+            constructor() {
+                this.openModal = new tsUtils.Signal();
+            }
+
             /**
              * @param {object} data
              * @param {User} data.user
@@ -70,7 +74,9 @@
                 if (target.controller) {
                     target.controller = this._setCtrlName(target.controller);
                 }
-                return $mdDialog.show(target);
+                const modal = $mdDialog.show(target);
+                this.openModal.dispatch(modal);
+                return modal;
             }
 
             /**

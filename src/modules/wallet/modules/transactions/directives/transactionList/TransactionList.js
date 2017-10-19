@@ -57,7 +57,7 @@
                             .then((mirror) => {
                                 this.mirror = mirror;
 
-                                createPoll(this, this._getTransactions, '_transactions', 4000);
+                                createPoll(this, this._getTransactions, '_transactions', 4000, { isBalance: true });
                                 this.observe(['_transactions', 'transactionType', 'search'], this._onChangeFilters);
                             });
                     });

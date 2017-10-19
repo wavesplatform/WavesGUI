@@ -65,9 +65,9 @@
                 this.assetList = null;
 
                 if (this.canChooseAsset) {
-                    createPoll(this, assetsService.getBalanceList, this._setAssets, 1000);
+                    createPoll(this, assetsService.getBalanceList, this._setAssets, 1000, { isBalance: true });
                 } else {
-                    createPoll(this, this._getAsset, this._setAssets, 1000);
+                    createPoll(this, this._getAsset, this._setAssets, 1000, { isBalance: true });
                 }
             }
 

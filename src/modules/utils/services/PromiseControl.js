@@ -44,6 +44,10 @@
                 promise.then(this._getPromiseCallback(true), this._getPromiseCallback(false));
             }
 
+            promise() {
+                return this._promise;
+            }
+
             abort(error) {
                 this._getPromiseCallback(false)(error);
             }

@@ -1,7 +1,14 @@
 (function () {
     'use strict';
 
-    const factory = function (BaseClassComponent, Poll) {
+    /**
+     * @param BaseClassComponent
+     * @param {Poll} Poll
+     * @param {ModalManager} modalManager
+     * @param {EventManager} eventManager
+     * @return {Function}
+     */
+    const factory = function (BaseClassComponent, Poll, modalManager, eventManager) {
 
         const polls = Object.create(null);
 
@@ -10,15 +17,17 @@
             constructor(data) {
                 super(data);
                 this._polls = Object.create(null);
+                this.receive(modalManager.openModal, this._onOpenModal, this);
             }
 
             /**
              * @param {Function} getter
              * @param {Function|string} setter
              * @param {number} time
+             * @param {ICreatePollOptions} [options]
              * @returns {Poll}
              */
-            createPoll(getter, setter, time) {
+            createPoll(getter, setter, time, options) {
                 if (typeof setter === 'string') {
                     const name = setter;
                     setter = (data) => {
@@ -32,6 +41,9 @@
                  */
                 const poll = new Poll(getter.bind(this.parent), setter, time);
                 this._polls[poll.id] = poll;
+                if (options && options.isBalance) {
+                    this.receive(eventManager.signals.balanceEventEnd, () => poll.restart());
+                }
                 this.receiveOnce(poll.signals.destroy, () => {
                     delete this._polls[poll.id];
                 });
@@ -49,15 +61,25 @@
             }
 
             /**
+             * @private
+             */
+            _onOpenModal(modal) {
+                tsUtils.each(this._polls, (poll) => {
+                    poll.pause(modal);
+                });
+            }
+
+            /**
              * @param {Base} base
              * @param {Function} getter
              * @param {Function|string} setter
              * @param {number} time
+             * @param {ICreatePollOptions} [options]
              * @returns {Poll}
              */
-            static create(base, getter, setter, time) {
+            static create(base, getter, setter, time, options) {
                 return PollComponent._getPoll(base)
-                    .createPoll(getter, setter, time);
+                    .createPoll(getter, setter, time, options);
             }
 
             /**
@@ -76,21 +98,17 @@
 
         }
 
-        /**
-         * @param {Base} base
-         * @param {Function} getter
-         * @param {Function|string} setter
-         * @param {number} time
-         * @returns {Poll}
-         */
-        return function (base, getter, setter, time) {
-            return PollComponent.create(base, getter, setter, time);
-        };
+        return PollComponent.create;
     };
 
-    factory.$inject = ['BaseClassComponent', 'Poll'];
+    factory.$inject = ['BaseClassComponent', 'Poll', 'modalManager', 'eventManager'];
 
     angular.module('app.utils')
         .factory('createPoll', factory);
 
 })();
+
+/**
+ * @typedef {Object} ICreatePollOptions
+ * @property {boolean} [isBalance]
+ */

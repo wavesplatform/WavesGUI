@@ -107,17 +107,6 @@
                 }));
             }
 
-            /**
-             * @param {Promise} promise
-             */
-            pollsPause(promise) {
-                Object.keys(this.polls).forEach((key) => {
-                    if (this.polls[key] && this.polls[key].pause) {
-                        this.polls[key].pause(promise);
-                    }
-                });
-            }
-
             wrapCallback(cb) {
                 return (...args) => {
                     if (!this.__isRemoved) {
