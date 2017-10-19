@@ -16,6 +16,7 @@
             escapeToClose: true,
             autoWrap: false,
             multiple: true,
+            skipHide: true,
             controllerAs: '$ctrl',
             ns: 'app.utils'
         };

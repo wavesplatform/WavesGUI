@@ -1,26 +1,42 @@
-<div class="row">
-    <w-i18n>address.title</w-i18n>
-    <w-copy>
-        <w-avatar size="30" address="$ctrl.address"></w-avatar>
-        {{::$ctrl.address}}
-    </w-copy>
-</div>
+<div>
+    <div class="row">
+        <w-i18n>address.title</w-i18n>
+        <w-copy info="{{::$ctrl.address}}">
+            <w-avatar size="30" address="$ctrl.address"></w-avatar>
+            <div class="body">{{::$ctrl.address}}</div>
+        </w-copy>
+    </div>
 
-<div class="row">
-    <w-i18n>aliases</w-i18n>
-    <w-copy ng-repeat="alias in $ctrl.aliases">
-        {{::alias}}
-    </w-copy>
-    <div class="create-alias-wrap">
-        <form>
-            <w-input></w-input>
-            <div class="close" ng-click="step = 0"></div>
-            <w-button ng-if="!step" ng-click="step = 1">
-                <w-i18n>create</w-i18n>
-            </w-button>
-            <w-button-submit type="submit" ng-if="step" ng-click="$ctrl.createAlias()">
-                <w-i18n>create</w-i18n>
-            </w-button-submit>
-        </form>
+    <div class="row">
+        <w-i18n>aliases</w-i18n>
+        <div class="copy-list">
+            <w-copy ng-repeat="alias in $ctrl.aliases" info="{{::alias}}">
+                {{::alias}}
+            </w-copy>
+            <div class="create-alias-wrap">
+                <form name="form" novalidate ng-submit="form.$valid && $ctrl.createAlias()">
+                    <w-step-by-step active-step="$ctrl.createAliasStep">
+                        <w-step>
+                            <w-button w-step-next>
+                                <w-i18n>create</w-i18n>
+                            </w-button>
+                            <w-i18n>transactin.fee</w-i18n>
+                        </w-step>
+                        <w-step>
+                            <w-input ng-model="$ctrl.newAlias"
+                                     type="text"
+                                     required
+                                     ng-pattern="/[a-zA-Z0-9-]/"
+                                     maxlength="30"
+                                     minlength="3"></w-input>
+                            <div class="close" w-step-prev></div>
+                            <w-button-submit type="submit">
+                                <w-i18n>create</w-i18n>
+                            </w-button-submit>
+                        </w-step>
+                    </w-step-by-step>
+                </form>
+            </div>
+        </div>
     </div>
 </div>

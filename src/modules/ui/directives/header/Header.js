@@ -30,13 +30,6 @@
 
             avatarClick() {
                 modalManager.showAccountInfo();
-                // const handler = function (e) {
-                //     e.clipboardData.setData('text/plain', user.address);
-                //     e.preventDefault(); // default behaviour is to copy any selected text
-                // };
-                // document.addEventListener('copy', handler);
-                // document.execCommand('copy');
-                // document.removeEventListener('copy', handler);
             }
 
             _onChangeRouterState(state) {
