@@ -31,7 +31,7 @@
             showAccountInfo() {
                 return this._getModal({
                     controller: 'AccountInformationCtrl',
-                    title: 'accountInformation',
+                    title: 'modal.account.title',
                     contentUrl: '/modules/utils/modals/accountInformation/account-information.modal.html',
                     mod: 'account-info'
                 });

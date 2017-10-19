@@ -1,6 +1,6 @@
 <div>
     <div class="row">
-        <w-i18n>address.title</w-i18n>
+        <w-i18n>modal.account.address</w-i18n>
         <w-copy info="{{::$ctrl.address}}">
             <w-avatar size="30" address="$ctrl.address"></w-avatar>
             <div class="body">{{::$ctrl.address}}</div>
@@ -8,35 +8,42 @@
     </div>
 
     <div class="row">
-        <w-i18n>aliases</w-i18n>
+        <w-i18n>modal.account.aliases</w-i18n>
         <div class="copy-list">
             <w-copy ng-repeat="alias in $ctrl.aliases" info="{{::alias}}">
                 {{::alias}}
             </w-copy>
-            <div class="create-alias-wrap">
-                <form name="form" novalidate ng-submit="form.$valid && $ctrl.createAlias()">
-                    <w-step-by-step active-step="$ctrl.createAliasStep">
-                        <w-step>
+            <form name="form" novalidate ng-submit="form.$valid && $ctrl.createAlias()">
+                <w-step-by-step active-step="$ctrl.createAliasStep">
+                    <w-step>
+                        <div class="create-alias-wrap">
                             <w-button w-step-next>
                                 <w-i18n>create</w-i18n>
                             </w-button>
-                            <w-i18n>transactin.fee</w-i18n>
-                        </w-step>
-                        <w-step>
-                            <w-input ng-model="$ctrl.newAlias"
-                                     type="text"
-                                     required
-                                     ng-pattern="/[a-zA-Z0-9-]/"
-                                     maxlength="30"
-                                     minlength="3"></w-input>
-                            <div class="close" w-step-prev></div>
+                            <w-i18n params="{price: $ctrl.feeData.fee, name: $ctrl.feeData.name}">
+                                modal.account.fee
+                            </w-i18n>
+                        </div>
+                    </w-step>
+                    <w-step>
+                        <w-input ng-model="$ctrl.newAlias"
+                                 type="text"
+                                 required
+                                 ng-pattern="/[a-zA-Z0-9-.@]/"
+                                 maxlength="30"
+                                 minlength="3"></w-input>
+                        <div class="close" w-step-prev></div>
+                        <div class="create-alias-wrap">
                             <w-button-submit type="submit">
                                 <w-i18n>create</w-i18n>
                             </w-button-submit>
-                        </w-step>
-                    </w-step-by-step>
-                </form>
-            </div>
+                            <w-i18n params="{price: $ctrl.feeData.fee, name: $ctrl.feeData.name}">
+                                modal.account.fee
+                            </w-i18n>
+                        </div>
+                    </w-step>
+                </w-step-by-step>
+            </form>
         </div>
     </div>
 </div>

@@ -20,15 +20,17 @@ w-copy {
 }
 
 .copy-list {
-  &:first-child {
+  w-copy:first-child {
     border-top-left-radius: @border-radius;
     border-top-right-radius: @border-radius;
   }
-  &:last-child {
+  w-copy:last-child {
     border-bottom-left-radius: @border-radius;
     border-bottom-right-radius: @border-radius;
+    border-bottom: 1px solid #DAE1E9;
   }
   w-copy {
+    border-bottom: none;
     border-radius: 0;
   }
 }

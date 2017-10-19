@@ -16,6 +16,12 @@
       "descriptionPlaceholder": "Write an optional message",
       "fee": "Network Fee",
       "total": "Total"
+    },
+    "account": {
+      "title": "Account information",
+      "address": "Your address",
+      "aliases": "Aliases",
+      "fee": "Transaction fee {{price}} {{name}}"
     }
   }
 }

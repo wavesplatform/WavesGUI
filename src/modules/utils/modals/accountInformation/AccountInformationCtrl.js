@@ -6,9 +6,10 @@
      * @param $scope
      * @param {User} user
      * @param {app.utils.apiWorker} apiWorker
+     * @param {AssetsService} assetsService
      * @return {AccountInformationCtrl}
      */
-    const controller = function (Base, $scope, user, apiWorker) {
+    const controller = function (Base, $scope, user, apiWorker, assetsService) {
 
         class AccountInformationCtrl extends Base {
 
@@ -17,6 +18,14 @@
                 this.address = user.address;
                 this.createAliasStep = 0;
                 this.newAlias = '';
+
+                assetsService.getFeeSend().then((feeData) => {
+                    this.feeData = feeData;
+                    assetsService.getAssetInfo(feeData.id).then((info) => {
+                        this.feeData.name = info.name;
+                    });
+                });
+
                 apiWorker.process((Waves, { address, code }) => {
                     return Waves.API.Node.v1.aliases.byAddress(address)
                         .then((aliases) => aliases.map((item) => item.replace(`alias:${code}:`, '')))
@@ -43,7 +52,7 @@
         return new AccountInformationCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'apiWorker'];
+    controller.$inject = ['Base', '$scope', 'user', 'apiWorker', 'assetsService'];
 
     angular.module('app.utils').controller('AccountInformationCtrl', controller);
 })();
