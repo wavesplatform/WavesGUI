@@ -21,6 +21,8 @@
                 const defer = $q.defer();
                 const promise = new PromiseControl(defer.promise);
                 promise.id = id;
+                promise.start = start;
+                promise.time = timeout;
                 this._listeners.push({
                     handler: callback,
                     timeout,
@@ -51,13 +53,15 @@
                 }
                 promise.drop();
                 let index = null;
-                this._listeners.some((item, i) => {
+                const hasId = this._listeners.some((item, i) => {
                     if (item.id === promise.id) {
                         index = i;
                     }
                     return index !== null;
                 });
-                this._listeners.splice(index, 1);
+                if (hasId) {
+                    this._listeners.splice(index, 1);
+                }
             }
 
             /**

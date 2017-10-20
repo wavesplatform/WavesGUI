@@ -35,10 +35,6 @@
                  */
                 this.cid = tsUtils.uniqueId('base');
                 /**
-                 * @type {object}
-                 */
-                this.polls = Object.create(null);
-                /**
                  * @type {boolean}
                  * @private
                  */
@@ -91,32 +87,6 @@
             }
 
             /**
-             * @param {Function} getter
-             * @param {Function|string} setter
-             * @param {number} time
-             * @returns {Poll}
-             */
-            createPoll(getter, setter, time) {
-                if (typeof setter === 'string') {
-                    const name = setter;
-                    setter = (data) => {
-                        tsUtils.set(this, name, data);
-                    };
-                } else {
-                    setter = setter.bind(this);
-                }
-                /**
-                 * @type {Poll}
-                 */
-                const poll = new Poll(getter.bind(this), setter, time);
-                this.polls[poll.id] = poll;
-                this.receiveOnce(poll.signals.destroy, () => {
-                    delete this.polls[poll.id];
-                });
-                return poll;
-            }
-
-            /**
              * @param {string|Array<string>} syncList
              * @returns {Promise}
              */
@@ -135,17 +105,6 @@
                             this[name] = value;
                         });
                 }));
-            }
-
-            /**
-             * @param {Promise} promise
-             */
-            pollsPause(promise) {
-                Object.keys(this.polls).forEach((key) => {
-                    if (this.polls[key] && this.polls[key].pause) {
-                        this.polls[key].pause(promise);
-                    }
-                });
             }
 
             wrapCallback(cb) {

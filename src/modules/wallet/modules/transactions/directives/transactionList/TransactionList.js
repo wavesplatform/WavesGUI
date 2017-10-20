@@ -15,9 +15,10 @@
      * @param i18n
      * @param {AssetsService} assetsService
      * @param {TransactionsService} transactionsService
+     * @param {Function} createPoll
      * @return {TransactionList}
      */
-    const controller = function (Base, user, i18n, assetsService, transactionsService) {
+    const controller = function (Base, user, i18n, assetsService, transactionsService, createPoll) {
 
         class TransactionList extends Base {
 
@@ -56,7 +57,7 @@
                             .then((mirror) => {
                                 this.mirror = mirror;
 
-                                this.createPoll(this._getTransactions, '_transactions', 4000);
+                                createPoll(this, this._getTransactions, '_transactions', 4000, { isBalance: true });
                                 this.observe(['_transactions', 'transactionType', 'search'], this._onChangeFilters);
                             });
                     });
@@ -163,7 +164,7 @@
         return new TransactionList();
     };
 
-    controller.$inject = ['Base', 'user', 'i18n', 'assetsService', 'transactionsService'];
+    controller.$inject = ['Base', 'user', 'i18n', 'assetsService', 'transactionsService', 'createPoll'];
 
     angular.module('app.wallet.transactions').component('wTransactionList', {
         bindings: {

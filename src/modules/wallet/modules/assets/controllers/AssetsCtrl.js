@@ -8,17 +8,16 @@
      * @param {app.utils} utils
      * @param {Base} Base
      * @param {User} user
-     * @param {EventManager} eventManager
      * @param {ModalManager} modalManager
+     * @param {Function} createPoll
      * @returns {Assets}
      */
-    const controller = function (assetsService, assetsData, $scope, utils, Base, user, eventManager, modalManager) {
+    const controller = function (assetsService, assetsData, $scope, utils, Base, user, modalManager, createPoll) {
 
         class Assets extends Base {
 
             constructor() {
                 super($scope);
-                window.c = this;
 
                 this.chartMode = null;
                 this.assets = null;
@@ -38,16 +37,12 @@
                     }
                 };
 
-                this.receive(eventManager.signals.balanceEventEnd, () => {
-                    this.updateBalances.restart();
-                });
-
                 utils.whenAll([
                     this.syncSettings('wallet.assets.chartMode'),
                     this.syncSettings('wallet.assets.assetList')
                 ]).then(this.wrapCallback(() => {
-                    this.updateGraph = this.createPoll(this._getGraphData, 'data', 5000);
-                    this.updateBalances = this.createPoll(this._getBalances, 'assets', 5000);
+                    this.updateGraph = createPoll(this, this._getGraphData, 'data', 5000);
+                    this.updateBalances = createPoll(this, this._getBalances, 'assets', 5000, { isBalance: true });
 
                     this.observe('chartMode', () => this._onChangeMode());
                     this.observe(['startDate', 'endDate'], () => this._onChangeInterval());
@@ -83,7 +78,7 @@
              * @private
              */
             _showSendModal(asset) {
-                return this.pollsPause(modalManager.showSendAsset({ assetId: asset.id, user }));
+                return modalManager.showSendAsset({ assetId: asset.id, user });
             }
 
             /**
@@ -91,7 +86,7 @@
              * @private
              */
             _showReceiveModal(asset) {
-                return this.pollsPause(modalManager.showReceiveAsset(asset));
+                return modalManager.showReceiveAsset(asset);
             }
 
             /**
@@ -157,8 +152,8 @@
         'utils',
         'Base',
         'user',
-        'eventManager',
-        'modalManager'
+        'modalManager',
+        'createPoll'
     ];
 
     angular.module('app.wallet.assets')

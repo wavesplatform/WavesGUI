@@ -49,10 +49,6 @@
                 this._saveEvents();
             }
 
-            /**
-             * @returns {Promise<ChangeBalanceEvent>}
-             */
-            @decorators.cachable(2)
             getBalanceEvents() {
                 return this.ready.then(() => {
                     const events = [];
