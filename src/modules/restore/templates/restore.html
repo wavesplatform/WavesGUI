@@ -1,0 +1,10 @@
+<div w-i18n-ns="app.restore">
+
+    <form name="restoreFromBackup" ng-submit="restoreFromBackup.$valid && $ctrl.restore()">
+        <w-input textarea name="seed" ng-model="$ctrl.seed"></w-input>
+        <w-button type="submit">
+            <w-i18n>seedForm.buttons.proceed</w-i18n>
+        </w-button>
+    </form>
+
+</div>

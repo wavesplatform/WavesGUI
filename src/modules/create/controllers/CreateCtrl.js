@@ -3,7 +3,7 @@
 
     const controller = function ($q, $mdDialog, apiWorker, $timeout, $state, user) {
 
-        const PATH = '/modules/auth/templates';
+        const PATH = '/modules/create/templates';
         const ORDER_LIST = [
             'createAccount',
             'backupEnter',
@@ -14,7 +14,7 @@
             'end'
         ];
 
-        class AuthCtrl {
+        class CreateCtrl {
 
             constructor() {
                 this.stepIndex = 0;
@@ -145,11 +145,11 @@
 
         }
 
-        return new AuthCtrl();
+        return new CreateCtrl();
 
     };
 
     controller.$inject = ['$q', '$mdDialog', 'apiWorker', '$timeout', '$state', 'user'];
 
-    angular.module('app.auth').controller('AuthCtrl', controller);
+    angular.module('app.create').controller('CreateCtrl', controller);
 })();
