@@ -10,7 +10,7 @@
      */
     const factory = function (BaseClassComponent, Poll, modalManager, eventManager) {
 
-        const polls = Object.create(null);
+        const pollComponents = Object.create(null);
 
         class PollComponent extends BaseClassComponent {
 
@@ -52,7 +52,7 @@
 
             remove() {
                 super.remove();
-                delete polls[this.parent.cid];
+                delete pollComponents[this.parent.cid];
                 tsUtils.each(this._polls, (poll) => {
                     if (poll) {
                         poll.destroy();
@@ -89,10 +89,10 @@
              */
             static _getPoll(base) {
                 if (polls[base.cid]) {
-                    return polls[base.cid];
+                    return pollComponents[base.cid];
                 }
                 const poll = new PollComponent(base);
-                polls[base.cid] = poll;
+                pollComponents[base.cid] = poll;
                 return poll;
             }
 
