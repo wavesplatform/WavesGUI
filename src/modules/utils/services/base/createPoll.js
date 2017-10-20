@@ -88,7 +88,7 @@
              * @private
              */
             static _getPoll(base) {
-                if (polls[base.cid]) {
+                if (pollComponents[base.cid]) {
                     return pollComponents[base.cid];
                 }
                 const poll = new PollComponent(base);
