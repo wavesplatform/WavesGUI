@@ -14,8 +14,8 @@
 
         class PollComponent extends BaseClassComponent {
 
-            constructor(data) {
-                super(data);
+            constructor(parent) {
+                super(parent);
                 this._polls = Object.create(null);
                 this.receive(modalManager.openModal, this._onOpenModal, this);
             }
