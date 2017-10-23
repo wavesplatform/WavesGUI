@@ -1,0 +1,66 @@
+<div w-i18n-ns="app.restore" class="flex-column-center">
+    <form name="restoreFromBackup" ng-submit="restoreFromBackup.$valid && $ctrl.restore()" novalidate>
+
+        <div style="width: 400px;">
+
+            <w-input-container>
+                <w-input textarea
+                         name="seed"
+                         w-i18n-attr="placeholder"
+                         placeholder="seedForm.seedPlaceholder"
+                         required
+                         ng-model="$ctrl.seedPhrase"></w-input>
+
+                <!-- TODO : warnings -->
+                <w-input-error message="required">
+                    <w-i18n>inputs.errors.required</w-i18n>
+                </w-input-error>
+            </w-input-container>
+
+            <w-input-container>
+                <w-input name="password"
+                         type="password"
+                         w-i18n-attr="placeholder"
+                         placeholder="passwordForm.passwordPlaceholder"
+                         required
+                         minlength="8"
+                         ng-pattern="/(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)[0-9a-zA-Z!@#$%^&\*]*/"
+                         ng-model="$ctrl.password"></w-input>
+
+                <w-input-error message="required">
+                    <w-i18n>inputs.errors.required</w-i18n>
+                </w-input-error>
+                <w-input-error message="minlength">
+                    <w-i18n>passwordForm.inputs.errors.short</w-i18n>
+                </w-input-error>
+                <w-input-error message="pattern">
+                    <w-i18n>passwordForm.inputs.errors.simple</w-i18n>
+                </w-input-error>
+            </w-input-container>
+
+            <w-input-container>
+                <w-input name="confirmPassword"
+                         type="password"
+                         w-i18n-attr="placeholder"
+                         placeholder="passwordForm.confirmPlaceholder"
+                         required
+                         w-validate="compare"
+                         w-compare-to="password"
+                         ng-model="$ctrl.confirmPassword"></w-input>
+
+                <w-input-error message="required">
+                    <w-i18n>inputs.errors.required</w-i18n>
+                </w-input-error>
+                <w-input-error message="w-compare-to">
+                    <w-i18n>passwordForm.inputs.errors.notEqual</w-i18n>
+                </w-input-error>
+            </w-input-container>
+
+            <w-button type="submit">
+                <w-i18n>seedForm.buttons.proceed</w-i18n>
+            </w-button>
+
+        </div>
+
+    </form>
+</div>

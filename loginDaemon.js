@@ -12,7 +12,7 @@ window.onload = function () {
         });
     };
 
-    if (location.href.indexOf('loginDemon=false') === -1) {
+    if (location.href.indexOf('loginDaemon=false') === -1) {
         const fill = function () {
             find()
                 .then(($input) => {

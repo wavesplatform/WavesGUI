@@ -19,7 +19,8 @@
         'app.utils',
         'app.ui',
         'app.welcome',
-        'app.auth',
+        'app.create',
+        'app.restore',
         'app.wallet',
         'app.dex'
     ]);

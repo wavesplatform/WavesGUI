@@ -1,0 +1,19 @@
+{
+  "seedForm": {
+    "seedPlaceholder": "Please, enter your seed",
+    "buttons": {
+      "proceed": "Proceed"
+    }
+  },
+  "passwordForm": {
+    "passwordPlaceholder": "Password",
+    "confirmPlaceholder": "Repeat password",
+    "inputs": {
+      "errors": {
+        "short": "Password is too short!",
+        "simple": "Password is too simple!",
+        "notEqual": "Passwords do not match!"
+      }
+    }
+  }
+}
