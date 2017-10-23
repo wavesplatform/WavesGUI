@@ -1,40 +1,73 @@
 @import (reference) '../../config';
 
 .welcome {
-  //background-color: @color-lite-background;
+  padding-top: 100px;
 
-  .no-users {
-    width: 100%;
-    height: 100%;
+  .new-user {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    .or-line {
-      display: inline-block;
-      width: 90px;
-      position: relative;
-      top: 2px;
+    w-carousel {
+      display: block;
+      width: 358px;
+      height: 312px;
+      margin-bottom: 40px;
+
+      .slide-icon {
+        background: url(/img/icons/welcome.svg) no-repeat center center;
+        width: 132px;
+        height: 111px;
+        margin: 0 auto 45px;
+      }
+
+      .slide-title {
+        font-size: 34px;
+        line-height: 1.29;
+        letter-spacing: -0.5px;
+        text-align: center;
+        color: #221f20;
+        margin-bottom: 10px;
+      }
+
+      .slide-description {
+        width: 358px;
+        height: 60px;
+        font-family: Roboto;
+        font-size: 15px;
+        line-height: 1.33;
+        text-align: center;
+        color: #8c8c8c;
+      }
+    }
+
+    w-carousel-dots, w-button-submit, .or {
+      margin-bottom: 22px;
     }
 
     .or {
       text-transform: uppercase;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      &::before, &::after {
+        content: '';
+        display: inline-block;
+        height: 0;
+        border-bottom: 1px solid #979797;
+        width: 40px;
+        opacity: 0.3;
+        margin: 0 10px;
+      }
     }
 
-    h2 {
-      margin: 0;
-    }
-
-    .slider-wrapper {
-      width: 500px;
-      height: 250px;
-    }
-
-    .or-new {
-      position: absolute;
-      right: 0;
-      top: 0;
+    .restore {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
     }
 
   }
