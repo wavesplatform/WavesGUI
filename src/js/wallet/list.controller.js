@@ -168,7 +168,7 @@
                 Currency.EUR.id = '2xnE3EdpqXtFgCP156qt1AbyjpqdZ5jGjWo3CwTawcux';
                 Currency.USD.id = 'HyFJ3rrq5m7FxdkWtQXkZrDat1F7LjVVGfpSkUuEXQHj';
                 Currency.BTC.id = 'Fmg13HEHJHuZYbtJq8Da8wifJENq8uBxDuWoP9pVe2Qe';
-                Currency.ETH.id = 'NO_ID_YET'; // FIXME
+                Currency.ETH.id = '3fVdr1oiX39uS82ZGUPnu7atNQtFHZfPnseRDUcDxrhp';
                 Currency.LTC.id = 'NO_ID_YET'; // FIXME
                 Currency.ZEC.id = 'NO_ID_YET'; // FIXME
                 Currency.invalidateCache();
