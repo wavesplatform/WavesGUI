@@ -61,8 +61,8 @@
                         } else {
 
                             const workerData = { seed: this.seed, password: this.password };
-                            const workerHandler = (waves, data) => {
-                                const seedData = waves.Seed.fromExistingPhrase(data.seed);
+                            const workerHandler = (Waves, data) => {
+                                const seedData = Waves.Seed.fromExistingPhrase(data.seed);
                                 return seedData.encrypt(data.password);
                             };
 
@@ -70,6 +70,7 @@
                                 .then((encryptedSeed) => {
                                     return user.addUserData({
                                         address: this.address,
+                                        password: this.password,
                                         encryptedSeed
                                     });
                                 });
@@ -108,10 +109,10 @@
             }
 
             resetAddress() {
-                apiWorker.process((waves) => {
+                apiWorker.process((Waves) => {
                     const list = [];
                     for (let i = 0; i < 5; i++) {
-                        const seedData = waves.Seed.create();
+                        const seedData = Waves.Seed.create();
                         list.push({ seed: seedData.phrase, address: seedData.address });
                     }
                     return list;
