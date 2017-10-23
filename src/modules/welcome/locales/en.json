@@ -5,8 +5,8 @@
     "beforeControl": "Not even Waves Team can access it.",
     "or": "or",
     "buttons": {
-      "primary": "Get Started",
-      "transparent": "Restore from backup"
+      "getStarted": "Get Started",
+      "restoreFromBackup": "Restore from backup"
     }
   },
   "userList": {

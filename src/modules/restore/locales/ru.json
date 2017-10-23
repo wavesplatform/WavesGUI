@@ -1,0 +1,19 @@
+{
+  "seedForm": {
+    "seedPlaceholder": "Пожалуйста, введите ваш SEED",
+    "buttons": {
+      "proceed": "Продолжить"
+    }
+  },
+  "passwordForm": {
+    "passwordPlaceholder": "Пароль",
+    "confirmPlaceholder": "Повторите пароль",
+    "inputs": {
+      "errors": {
+        "short": "Пароль слишком короткий!",
+        "simple": "Пароль слишком простой!",
+        "notEqual": "Введённые пароли не совпадают!"
+      }
+    }
+  }
+}

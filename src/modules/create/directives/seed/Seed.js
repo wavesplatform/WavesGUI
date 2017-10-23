@@ -317,13 +317,13 @@
 
     controller.$inject = ['$element', '$scope', '$q'];
 
-    angular.module('app.auth').component('wSeed', {
+    angular.module('app.create').component('wSeed', {
         bindings: {
             type: '@',
             seed: '@',
             onSuccess: '&'
         },
         controller: controller,
-        templateUrl: '/modules/auth/directives/seed/seed.html'
+        templateUrl: '/modules/create/directives/seed/seed.html'
     });
 })();

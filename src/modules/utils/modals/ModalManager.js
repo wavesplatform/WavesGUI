@@ -28,6 +28,11 @@
 
         class ModalManager {
 
+            constructor() {
+                this.openModal = new tsUtils.Signal();
+            }
+
+
             showAccountInfo() {
                 return this._getModal({
                     controller: 'AccountInformationCtrl',
@@ -98,7 +103,10 @@
                     target.controller = controller;
                     target.controllerAs = controllerAs;
                     target.template = template;
-                    return $mdDialog.show(target);
+
+                    const modal = $mdDialog.show(target);
+                    this.openModal.dispatch(modal);
+                    return modal;
                 });
             }
 

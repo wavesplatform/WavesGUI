@@ -15,9 +15,10 @@
      * @param i18n
      * @param {AssetsService} assetsService
      * @param {TransactionsService} transactionsService
+     * @param {Function} createPoll
      * @return {TransactionList}
      */
-    const controller = function (Base, user, i18n, assetsService, transactionsService) {
+    const controller = function (Base, user, i18n, assetsService, transactionsService, createPoll) {
 
         class TransactionList extends Base {
 
@@ -49,17 +50,17 @@
                 this.mirror = null;
 
                 user.getSetting('baseAssetId')
-                    .then((mirrorId) => {
+                    .then(this.wrapCallback((mirrorId) => {
                         this.mirrorId = mirrorId;
 
                         assetsService.getAssetInfo(this.mirrorId)
                             .then((mirror) => {
                                 this.mirror = mirror;
 
-                                this.createPoll(this._getTransactions, '_transactions', 4000);
+                                createPoll(this, this._getTransactions, '_transactions', 4000, { isBalance: true });
                                 this.observe(['_transactions', 'transactionType', 'search'], this._onChangeFilters);
                             });
-                    });
+                    }));
 
             }
 
@@ -77,13 +78,15 @@
              * @private
              */
             _getRate(item) {
-                assetsService.getRate(item.amount.assetId, this.mirrorId).then((api) => {
-                    item.mirrorBalance = api.exchange(Number(item.amount.tokens));
-                });
-                assetsService.getAssetInfo(item.amount.assetId)
-                    .then((asset) => {
-                        item.asset = asset;
+                if (item.amount) {
+                    assetsService.getRate(item.amount.assetId, this.mirrorId).then((api) => {
+                        item.mirrorBalance = api.exchange(Number(item.amount.tokens));
                     });
+                    assetsService.getAssetInfo(item.amount.assetId)
+                        .then((asset) => {
+                            item.asset = asset;
+                        });
+                }
                 const date = {
                     day: item.timestamp.getDate(),
                     month: i18n.translate(`date.month.${item.timestamp.getMonth()}`)
@@ -144,7 +147,7 @@
                     case 'transfer':
                         return TransactionList._getTransferType(sender, recipient);
                     default:
-                        return item.transactionType;
+                        return transactionType;
                 }
             }
 
@@ -163,7 +166,7 @@
         return new TransactionList();
     };
 
-    controller.$inject = ['Base', 'user', 'i18n', 'assetsService', 'transactionsService'];
+    controller.$inject = ['Base', 'user', 'i18n', 'assetsService', 'transactionsService', 'createPoll'];
 
     angular.module('app.wallet.transactions').component('wTransactionList', {
         bindings: {

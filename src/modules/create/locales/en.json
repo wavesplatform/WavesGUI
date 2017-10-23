@@ -11,9 +11,9 @@
     "next": "Create Account",
     "inputs": {
       "errors": {
-        "short": "Password to short!",
-        "simple": "Password to simple!",
-        "equal": "Passwords not equals!"
+        "short": "Password is too short!",
+        "simple": "Password is too simple!",
+        "notEqual": "Passwords do not match!"
       }
     }
   }

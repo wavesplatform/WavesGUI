@@ -5,8 +5,8 @@
     "beforeControl": "Даже Waves Team не может получить к ней доступ.",
     "or": "или",
     "buttons": {
-      "primary": "Начать",
-      "transparent": "Восстановление из резервной копии"
+      "getStarted": "Начать",
+      "restoreFromBackup": "Восстановление из резервной копии"
     }
   },
   "userList": {

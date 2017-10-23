@@ -5,9 +5,10 @@
      * @param {State} state
      * @param {typeof PromiseControl} PromiseControl
      * @param {TimeLine} timeLine
+     * @param {app.utils} utils
      * @returns {Poll}
      */
-    const factory = function (state, PromiseControl, timeLine) {
+    const factory = function (state, PromiseControl, timeLine, utils) {
 
         class Poll {
 
@@ -104,6 +105,11 @@
                  * @private
                  */
                 this._promise = null;
+                /**
+                 * @type {PromiseControl}
+                 * @private
+                 */
+                this._pausePromise = null;
 
                 this._initialize();
             }
@@ -115,8 +121,19 @@
                 this._paused = true;
                 this._stopTimers();
 
-                const handler = this.play.bind(this);
-                promise.then(handler, handler);
+                if (this._pausePromise) {
+                    this._pausePromise.drop();
+                    const pausePromise = utils.resolve(this._pausePromise.promise()).then(() => promise);
+                    this._pausePromise = new PromiseControl(pausePromise);
+                } else {
+                    this._pausePromise = new PromiseControl(promise);
+                }
+
+                const handler = () => {
+                    this._pausePromise = null;
+                    this.play();
+                };
+                this._pausePromise.always(handler);
             }
 
             stop() {
@@ -126,6 +143,10 @@
 
             play() {
                 this._paused = false;
+                if (this._pausePromise) {
+                    this._pausePromise.drop();
+                    this._pausePromise = null;
+                }
                 this._run();
             }
 
@@ -191,7 +212,9 @@
                 if (this._removed) {
                     return null;
                 }
-                if (this._paused) throw new Error('Run form pause!'); // TODO remove after debug
+                if (this._paused) {
+                    return null;
+                }
 
                 const time = Date.now();
                 this._lastStart = time;
@@ -248,7 +271,7 @@
         return Poll;
     };
 
-    factory.$inject = ['state', 'PromiseControl', 'timeLine'];
+    factory.$inject = ['state', 'PromiseControl', 'timeLine', 'utils'];
 
     angular.module('app.utils')
         .factory('Poll', factory);

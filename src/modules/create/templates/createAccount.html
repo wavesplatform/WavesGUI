@@ -52,7 +52,6 @@
                                              ng-pattern="/(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)[0-9a-zA-Z!@#$%^&\*]*/"
                                              ng-model="$ctrl.password"></w-input>
 
-
                                     <w-input-error message="required">
                                         <w-i18n>inputs.errors.required</w-i18n>
                                     </w-input-error>
@@ -71,19 +70,17 @@
                                              name="confirmPassword"
                                              type="password"
                                              w-i18n-attr="placeholder"
+                                             placeholder="createAccount.confirmPlaceholder"
                                              required
                                              w-validate="compare"
                                              w-compare-to="password"
-                                             minlength="8"
-                                             placeholder="createAccount.confirmPlaceholder"
                                              ng-model="$ctrl.confirmPassword"></w-input>
 
-
                                     <w-input-error message="required">
-                                        <w-i18n>createAccount.inputs.errors.required</w-i18n>
+                                        <w-i18n>inputs.errors.required</w-i18n>
                                     </w-input-error>
                                     <w-input-error message="w-compare-to">
-                                        <w-i18n>createAccount.inputs.errors.equal</w-i18n>
+                                        <w-i18n>createAccount.inputs.errors.notEqual</w-i18n>
                                     </w-input-error>
                                 </w-input-container>
                             </section>

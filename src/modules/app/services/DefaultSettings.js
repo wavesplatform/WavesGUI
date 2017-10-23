@@ -38,7 +38,7 @@
                             assetList: [
                                 WavesApp.defaultAssets.WAVES,
                                 WavesApp.defaultAssets.BTC,
-                                WavesApp.defaultAssets.EUR
+                                WavesApp.defaultAssets.ETH
                             ]
                         },
                         transactions: {

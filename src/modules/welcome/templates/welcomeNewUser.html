@@ -19,8 +19,8 @@
     <w-carousel-dots slider-id="slider-welcome-new-user"></w-carousel-dots>
 
     <w-button-submit>
-        <a ui-sref="auth">
-            <w-i18n>newUser.buttons.primary</w-i18n>
+        <a ui-sref="create">
+            <w-i18n>newUser.buttons.getStarted</w-i18n>
         </a>
     </w-button-submit>
 
@@ -30,7 +30,9 @@
         <hr class="or-line"/>
     </div>
 
-    <w-button ng-click="$ctrl.restoreBackup()">
-        <w-i18n>newUser.buttons.transparent</w-i18n>
+    <w-button>
+        <a ui-sref="restore">
+            <w-i18n>newUser.buttons.restoreFromBackup</w-i18n>
+        </a>
     </w-button>
 </div>
