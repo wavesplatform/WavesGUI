@@ -21,21 +21,17 @@
                 }
 
                 const workerData = { seedPhrase: this.seedPhrase, password: this.password };
-                const workerHandler = (Waves, data) => {
-                    const seedData = Waves.Seed.fromExistingPhrase(data.seedPhrase);
+                const workerHandler = (Waves, { seedPhrase, password }) => {
+                    const seedData = Waves.Seed.fromExistingPhrase(seedPhrase);
                     return {
                         address: seedData.address,
-                        encryptedSeed: seedData.encrypt(data.password)
+                        encryptedSeed: seedData.encrypt(password)
                     };
                 };
 
                 apiWorker.process(workerHandler, workerData)
-                    .then((data) => {
-                        return user.addUserData({
-                            address: data.address,
-                            password: this.password,
-                            encryptedSeed: data.encryptedSeed
-                        })
+                    .then(({ address, password, encryptedSeed }) => {
+                        return user.addUserData({ address, password, encryptedSeed });
                     });
             }
 
