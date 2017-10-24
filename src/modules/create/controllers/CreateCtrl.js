@@ -17,7 +17,7 @@
         class CreateCtrl {
 
             constructor() {
-                this.stepIndex = 1;
+                this.stepIndex = 0;
                 this.password = '';
                 this.confirmPassword = '';
                 this.seed = '';
