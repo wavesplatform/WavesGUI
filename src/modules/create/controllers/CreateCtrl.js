@@ -17,13 +17,9 @@
         class CreateCtrl {
 
             constructor() {
-                this.stepIndex = 0;
+                this.stepIndex = 1;
                 this.password = '';
                 this.confirmPassword = '';
-                this.moneyInApp = false;
-                this.restoreByBackup = false;
-                this.hasAccount = false;
-                this.agree = false;
                 this.seed = '';
                 this.address = '';
                 this.seedList = [];
@@ -39,10 +35,6 @@
                 item.active = true;
                 this.seed = item.seed;
                 this.address = item.address;
-            }
-
-            canConfirm() {
-                return !(this.moneyInApp && this.restoreByBackup && this.agree);
             }
 
             getStepUrl() {

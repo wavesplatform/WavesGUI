@@ -1,4 +1,45 @@
-
 .no-backup-no-money {
+  width: 380px;
+  text-align: center;
+  margin: auto;
 
+  .icon {
+    background: url(/img/icons/backup.svg) no-repeat center center;
+    width: 172px;
+    height: 121px;
+    margin: 0 auto 25px;
+    transform: translateX(-25px);
+  }
+
+  h1 {
+    margin-bottom: 10px;
+  }
+
+  .grey {
+    color: #8c8c8c;
+  }
+
+  w-button-submit {
+    display: block;
+    margin-top: 50px;
+  }
+
+  .or {
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 22px 0;
+
+    &::before, &::after {
+      content: '';
+      display: inline-block;
+      height: 0;
+      border-bottom: 1px solid #979797;
+      width: 40px;
+      opacity: 0.3;
+      margin: 0 10px;
+    }
+  }
 }
