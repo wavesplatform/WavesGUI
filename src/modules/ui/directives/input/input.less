@@ -1,18 +1,34 @@
 @import (reference) '../../../config';
 
-.fake-input {
-  border: 1px solid @color-input-border;
-  background-color: @color-input-background;
-  border-radius: @border-radius;
-  height: @height-control;
-  font-size: @font-size-control;
-  padding: @padding-control;
+.input-like {
   width: 100%;
+  height: @height-control;
+  padding: @padding-control;
+  font-size: @font-size-control;
+  text-align: left;
+
+  &:not(.embed) {
+    background-color: @color-input-background;
+    border: 1px solid @color-input-border;
+    border-radius: @border-radius;
+  }
+
+  &.tiny {
+    height: @height-control-tiny;
+    padding: @padding-control-tiny;
+    font-size: @font-size-control-tiny;
+  }
+
+  &.small {
+    height: @height-control-small;
+    padding: @padding-control-small;
+    font-size: @font-size-control-small;
+  }
 
   &.big {
-    font-size: @font-size-control-big;
     height: @height-control-big;
     padding: @padding-control-big;
+    font-size: @font-size-control-big;
   }
 }
 
@@ -20,32 +36,36 @@ w-input {
   display: block;
   width: 100%;
 
-  input[type="text"], input[type="password"], input[type="number"], textarea {
-    .fake-input();
+  .w-input-wrap {
+    position: relative;
+    width: 100%;
 
-    &::placeholder {
-      color: @color-input-placeholder;
-    }
+    input[type="text"], input[type="password"], input[type="number"], textarea {
+      .input-like();
 
-    &:focus, &.focus {
-      background-color: @color-input-background-focus;
-      color: @color-input-text-focus;
-    }
-
-    &.ng-touched {
-      &.ng-valid:not(:focus) {
-        border-color: @color-input-border-valid;
+      &::placeholder {
+        color: @color-input-placeholder;
       }
-      &.ng-invalid:not(:focus) {
-        border-color: @color-input-border-invalid;
+
+      &:not(.embed) {
+        &:focus, &.focus {
+          background-color: @color-input-background-focus;
+          color: @color-input-text-focus;
+        }
+
+        &.ng-touched {
+          &.ng-valid:not(:focus):not(.focus) {
+            border-color: @color-input-border-valid;
+          }
+          &.ng-invalid:not(:focus):not(.focus) {
+            border-color: @color-input-border-invalid;
+          }
+        }
       }
     }
   }
 
   &:not(.no-icon) .w-input-wrap {
-    position: relative;
-    width: 100%;
-
     &::after {
       content: '';
       display: block;
@@ -62,32 +82,23 @@ w-input {
       height: 10px;
     }
 
-    &.touched:not(.focused) {
-      &.invalid::after {
-        background: url(/img/icons/input-invalid-icon.svg) no-repeat center center;
-        width: 11px;
-        height: 11px;
-      }
-    }
-
-    &.valid::after {
+    &.valid.touched::after {
       background: url(/img/icons/input-valid-icon.svg) no-repeat center center;
       width: 13px;
       height: 10px;
     }
-  }
 
-  input[type="text"], input[type="password"], input[type="number"], textarea {
-    &.ng-valid:not(:focus) {
-      border-color: @color-input-border-valid;
+    &.touched.invalid:not(.focused)::after {
+      background: url(/img/icons/input-invalid-icon.svg) no-repeat center center;
+      width: 11px;
+      height: 11px;
     }
   }
 }
 
 form.ng-submitted {
   input[type="text"], input[type="password"], input[type="number"], textarea {
-
-    &.ng-invalid:not(:focus) {
+    &.ng-invalid:not(.embed):not(:focus):not(.focus) {
       border-color: @color-input-border-invalid;
     }
   }

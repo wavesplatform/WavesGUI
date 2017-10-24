@@ -13,8 +13,8 @@
             </w-button-submit>
         </div>
         <div ng-class="{active: $ctrl.step === 1}" class="step step-2">
-            <w-qr-code size="160" url="$ctrl.asset.id"></w-qr-code>
-            <w-input type="text" ng-model="$ctrl.assetId" readonly></w-input>
+            <w-qr-code size="160" url="$ctrl.assetId"></w-qr-code>
+            <span class="input-like">{{::$ctrl.assetId}}</span>
         </div>
     </div>
 

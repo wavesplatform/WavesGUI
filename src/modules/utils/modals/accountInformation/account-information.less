@@ -1,46 +1,64 @@
+@import (reference) url('../../../config');
+
 md-dialog.account-info {
   width: 539px;
 
-  .row {
-    margin-top: 20px;
-  }
-
-  w-avatar {
-    margin-right: 10px;
-  }
-
-  w-copy .container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 54px;
-    padding: 0 30px 0 15px;
-  }
-
-  input {
-    background: #F9FAFD;
-    height: 54px;
-    border-left: 1px solid #DAE1E9;
-    border-right: 1px solid #DAE1E9;
-    border-top: none;
-    border-bottom: none;
-  }
-
-  .create-alias-wrap {
-    height: 54px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background: #F9FAFD;
-    border: 1px dashed #DAE1E9;
-    padding: 0 15px;
-
-    button {
-      margin-right: 10px;
-    }
-  }
-
   md-dialog-content {
     padding: 0 40px 40px 40px;
+
+    .row {
+      margin-top: 20px;
+
+      w-avatar {
+        margin-right: 10px;
+      }
+
+      .alias-list {
+        w-copy:first-child {
+          border-top-left-radius: @border-radius;
+          border-top-right-radius: @border-radius;
+        }
+        w-copy:last-child {
+          border-bottom-left-radius: @border-radius;
+          border-bottom-right-radius: @border-radius;
+          border-bottom: 1px solid #dae1e9;
+        }
+        w-copy {
+          border-bottom: none;
+          border-radius: 0;
+        }
+      }
+
+      w-copy .container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 54px;
+        padding: 0 30px 0 15px;
+      }
+
+      input {
+        background: #fff;
+        height: 54px;
+        border-left: 1px solid #dae1e9;
+        border-right: 1px solid #dae1e9;
+        border-top: none;
+        border-bottom: none;
+      }
+
+      .create-alias-wrap {
+        height: 54px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background: #f9fafd;
+        border: 1px dashed #dae1e9;
+        padding: 0 15px;
+
+        button {
+          margin-right: 10px;
+        }
+      }
+    }
   }
 }
