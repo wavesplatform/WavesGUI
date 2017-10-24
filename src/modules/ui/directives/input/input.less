@@ -42,11 +42,11 @@ w-input {
     }
   }
 
-  .w-input-wrap {
+  &:not(.no-icon) .w-input-wrap {
     position: relative;
     width: 100%;
 
-    &:not(.no-icon)::after {
+    &::after {
       content: '';
       display: block;
       position: absolute;

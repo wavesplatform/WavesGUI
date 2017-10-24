@@ -6,7 +6,7 @@
         const PATH = '/modules/create/templates';
         const ORDER_LIST = [
             'createAccount',
-            'backupEnter',
+            'noBackupNoMoney',
             'backupWarning',
             'backupSeed',
             'backupSeedRepeat',
@@ -92,8 +92,8 @@
             checkNext() {
                 const step = ORDER_LIST[this.stepIndex];
                 switch (step) {
-                    case 'createAccount':
-                        return this.showCreateAccountAnimation();
+                    // case 'createAccount':
+                    //     return this.showCreateAccountAnimation();
                     case 'backupWarning':
                         return this.showBackupWarningPopup();
                     case 'backupSeedDone':
@@ -103,10 +103,10 @@
                 }
             }
 
-            showCreateAccountAnimation() {
-                this.hasAccount = true;
-                return $timeout(() => ({}), 1000);
-            }
+            // showCreateAccountAnimation() {
+            //     this.hasAccount = true;
+            //     return $timeout(() => ({}), 1000);
+            // }
 
             resetAddress() {
                 apiWorker.process((Waves) => {

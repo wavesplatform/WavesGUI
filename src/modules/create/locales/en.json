@@ -1,20 +1,22 @@
 {
   "createAccount": {
-    "title": "Create Your Account",
-    "titleGray": "Sign up for a fee account below.",
-    "avatarTitle": "Choose your address avatar",
-    "avatarGray": "This avatar is unique, you can't change it later.",
-    "passTitle": "Setup password",
-    "passGray": "Use at least 8 characters. Don't use a password another site.",
-    "passPlaceholder": "Password",
-    "confirmPlaceholder": "Repeat password",
-    "next": "Create Account",
-    "inputs": {
-      "errors": {
-        "short": "Password is too short!",
-        "simple": "Password is too simple!",
-        "notEqual": "Passwords do not match!"
-      }
-    }
+    "createNewAccount": "Create new Account",
+    "signUp": "Sign up for a free account below or",
+    "restore": "restore account",
+    "from": "from backup",
+    "choose": "Choose your address avatar",
+    "avatarUnique": "This avatar is unique, you can’t change it later.",
+    "passTitle": "Protect your account with new password",
+    "inputHelpError": "must be at least {{minLength}} characters",
+    "inputHelpWarn": "easy, add digit or symbol",
+    "inputHelpSuccess": "secure password",
+    "repeat": "Repeat password"
+  },
+  "noBackupNoMoney": {
+    "title": "No backup, no money",
+    "description": "Now you must to save secret phrase. It is really important for access to your account.",
+    "backup": "Backup Account",
+    "or": "or",
+    "skip": "Skip"
   }
 }
