@@ -18,7 +18,8 @@
                     return result;
                 }, []);
                 const tag = ('textarea' in $data) ? 'textarea' : 'input';
-                return `<div class="w-input-wrap input-type-${$data.type || ''}"><${tag} ${attrs.join(' ')} /></div>`;
+                const typeClass = $data.type ? `input-type-${$data.type}` : '';
+                return `<div class="w-input-wrap ${typeClass}"><${tag} ${attrs.join(' ')} /></div>`;
             },
             /**
              * @param $scope
