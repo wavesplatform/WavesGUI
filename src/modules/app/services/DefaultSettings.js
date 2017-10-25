@@ -29,6 +29,7 @@
                     logoutAfterMin: 5,
                     encryptionRounds: 5000,
                     savePassword: false,
+                    termsAccepted: true,
                     baseAssetId: WavesApp.defaultAssets.USD,
                     events: Object.create(null),
                     wallet: {

@@ -1,7 +1,17 @@
 (function () {
     'use strict';
 
-    const controller = function ($q, $mdDialog, apiWorker, $timeout, $state, user) {
+    /**
+     * @param $q
+     * @param $mdDialog
+     * @param {app.utils.apiWorker} apiWorker
+     * @param $timeout
+     * @param $state
+     * @param {User} user
+     * @param {ModalManager} modalManager
+     * @return {CreateCtrl}
+     */
+    const controller = function ($q, $mdDialog, apiWorker, $timeout, $state, user, modalManager) {
 
         const PATH = '/modules/create/templates';
         const ORDER_LIST = [
@@ -86,7 +96,7 @@
                 switch (step) {
                     // case 'createAccount':
                     //     return this.showCreateAccountAnimation();
-                    case 'backupWarning':
+                    case 'noBackupNoMoney':
                         return this.showBackupWarningPopup();
                     case 'backupSeedDone':
                         return this.showBackupSeedDonePopup();
@@ -126,14 +136,11 @@
             }
 
             showBackupWarningPopup() {
-                return $mdDialog.show(
-                    $mdDialog.alert()
-                        .parent(angular.element(document.body))
-                        .clickOutsideToClose(false)
-                        .title('Screenshots are not secure')
-                        .textContent('...')
-                        .ok('I understand')
-                );
+                return modalManager.showCustomModal({
+                    templateUrl: '/modules/create/templates/noBackupNoMoney.modal.html',
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
             }
 
         }
@@ -142,7 +149,7 @@
 
     };
 
-    controller.$inject = ['$q', '$mdDialog', 'apiWorker', '$timeout', '$state', 'user'];
+    controller.$inject = ['$q', '$mdDialog', 'apiWorker', '$timeout', '$state', 'user', 'modalManager'];
 
     angular.module('app.create').controller('CreateCtrl', controller);
 })();

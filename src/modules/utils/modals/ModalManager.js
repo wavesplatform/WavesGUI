@@ -33,6 +33,13 @@
             }
 
 
+            /**
+             * @param {IModalOptions} options
+             */
+            showCustomModal(options) {
+                return this._getModal(tsUtils.merge({}, DEFAULT_OPTIONS, options));
+            }
+
             showAccountInfo() {
                 return this._getModal({
                     controller: 'AccountInformationCtrl',
@@ -132,7 +139,7 @@
              */
             static _getController(options) {
                 if (!options.controller) {
-                    return { controller: null, controllerAs: null };
+                    return { controller: ModalManager._wrapController((() => ({}))), controllerAs: null };
                 }
 
                 let controller = null;
@@ -156,8 +163,13 @@
             static _wrapController(controller) {
 
                 const $ctrl = function ($element, $mdDialog, ...args) {
+
                     $element.on('click', '[w-modal-close]', () => {
                         $mdDialog.cancel();
+                    });
+
+                    $element.on('click', '[w-modal-hide]', () => {
+                        $mdDialog.hide();
                     });
 
                     /**

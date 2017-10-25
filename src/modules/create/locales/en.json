@@ -17,6 +17,11 @@
     "description": "Now you must to save secret phrase. It is really important for access to your account.",
     "backup": "Backup Account",
     "or": "or",
-    "skip": "Skip"
+    "skip": "Skip",
+    "modal": {
+      "title": "Screenshots are not secure",
+      "description": "If you take a screenshot, your backup may be viewed by other apps.",
+      "ok": "I understand"
+    }
   }
 }
