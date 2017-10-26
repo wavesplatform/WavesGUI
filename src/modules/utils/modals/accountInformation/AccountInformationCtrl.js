@@ -7,10 +7,11 @@
      * @param {User} user
      * @param {app.utils.apiWorker} apiWorker
      * @param {AssetsService} assetsService
+     * @param {NotificationsManager} notificationsManager
      * @param {app.utils} utils
      * @return {AccountInformationCtrl}
      */
-    const controller = function (Base, $scope, user, apiWorker, assetsService, utils) {
+    const controller = function (Base, $scope, user, apiWorker, assetsService, notificationsManager, utils) {
 
         class AccountInformationCtrl extends Base {
 
@@ -44,8 +45,16 @@
                         this.aliases.push(data.alias);
                         this.newAlias = '';
                         this.createAliasStep = 0;
+                        notificationsManager.info({
+                            ns: 'app.utils',
+                            literal: 'modal.account.notifications.aliasCreated'
+                        });
                     });
                 });
+            }
+
+            reset() {
+                this.newAlias = '';
             }
 
         }
@@ -53,7 +62,7 @@
         return new AccountInformationCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'apiWorker', 'assetsService', 'utils'];
+    controller.$inject = ['Base', '$scope', 'user', 'apiWorker', 'assetsService', 'notificationsManager', 'utils'];
 
     angular.module('app.utils').controller('AccountInformationCtrl', controller);
 })();

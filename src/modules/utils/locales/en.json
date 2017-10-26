@@ -22,7 +22,10 @@
       "address": "Your address",
       "aliases": "Aliases",
       "create": "Create new",
-      "fee": "Transaction fee {{price}} {{name}}"
+      "fee": "Transaction fee {{price}} {{name}}",
+      "notifications": {
+        "aliasCreated": "New alias has been created"
+      }
     }
   }
 }
