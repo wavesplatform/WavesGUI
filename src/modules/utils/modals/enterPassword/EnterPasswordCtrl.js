@@ -45,7 +45,6 @@
             }
 
             cancel() {
-                debugger;
                 $mdDialog.cancel();
             }
 
