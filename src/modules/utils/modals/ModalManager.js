@@ -32,6 +32,18 @@
                 this.openModal = new tsUtils.Signal();
             }
 
+            /**
+             * @param {User} user
+             */
+            showTermsAccept(user) {
+                return this._getModal({
+                    templateUrl: '/modules/utils/modals/termsAccept/terms-accept.html',
+                    controller: 'TermsAcceptCtrl',
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                })
+                    .then(() => user.setSetting('termsAccepted', true));
+            }
 
             /**
              * @param {IModalOptions} options

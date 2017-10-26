@@ -6,22 +6,19 @@
      * @param $mdDialog
      * @param {app.utils.apiWorker} apiWorker
      * @param $timeout
-     * @param $state
      * @param {User} user
      * @param {ModalManager} modalManager
      * @param {ISeedService} seedService
      * @return {CreateCtrl}
      */
-    const controller = function ($q, $mdDialog, apiWorker, $timeout, $state, user, modalManager, seedService) {
+    const controller = function ($q, $mdDialog, apiWorker, $timeout, user, modalManager, seedService) {
 
         const PATH = '/modules/create/templates';
         const ORDER_LIST = [
             'createAccount',
             'noBackupNoMoney',
             'backupSeed',
-            'confirmBackup',
-            'backupSeedDone',
-            'end'
+            'confirmBackup'
         ];
 
         class CreateCtrl {
@@ -66,34 +63,37 @@
              * @param {number} [index]
              */
             next(index) {
+
+                if (!index) {
+                    index = this.stepIndex + 1;
+                }
                 if (index < 0) {
                     index = this.stepIndex + index;
                 }
-                this.checkNext().then(() => {
-                    if (index == null) {
-                        if (ORDER_LIST[this.stepIndex + 1]) {
-                            this.stepIndex++;
-                        } else {
 
-                            const workerData = { seed: this.seed, password: this.password };
-                            const workerHandler = (Waves, data) => {
-                                const seedData = Waves.Seed.fromExistingPhrase(data.seed);
-                                return seedData.encrypt(data.password);
-                            };
+                if (!ORDER_LIST[index]) {
+                    const workerData = { seed: this.seed, password: this.password };
+                    const workerHandler = (Waves, data) => {
+                        const seedData = Waves.Seed.fromExistingPhrase(data.seed);
+                        return seedData.encrypt(data.password);
+                    };
 
-                            apiWorker.process(workerHandler, workerData)
-                                .then((encryptedSeed) => {
-                                    return user.addUserData({
-                                        address: this.address,
-                                        password: this.password,
-                                        encryptedSeed
-                                    });
-                                });
-                        }
-                    } else {
+                    apiWorker.process(workerHandler, workerData)
+                        .then((encryptedSeed) => {
+                            return user.addUserData({
+                                address: this.address,
+                                password: this.password,
+                                encryptedSeed,
+                                settings: {
+                                    termsAccepted: false
+                                }
+                            });
+                        });
+                } else {
+                    this.checkNext().then(() => {
                         this.stepIndex = index;
-                    }
-                });
+                    });
+                }
             }
 
             checkNext() {
@@ -101,8 +101,6 @@
                 switch (step) {
                     case 'noBackupNoMoney':
                         return this.showBackupWarningPopup();
-                    case 'backupSeedDone':
-                        return this.showBackupSeedDonePopup();
                     default:
                         return $q.when();
                 }
@@ -122,17 +120,6 @@
                 });
             }
 
-            showBackupSeedDonePopup() {
-                return $mdDialog.show(
-                    $mdDialog.alert()
-                        .parent(angular.element(document.body))
-                        .clickOutsideToClose(false)
-                        .title('Screenshots are not secure')
-                        .textContent('...')
-                        .ok('Got it')
-                );
-            }
-
             showBackupWarningPopup() {
                 return modalManager.showCustomModal({
                     templateUrl: '/modules/create/templates/noBackupNoMoney.modal.html',
@@ -147,7 +134,7 @@
 
     };
 
-    controller.$inject = ['$q', '$mdDialog', 'apiWorker', '$timeout', '$state', 'user', 'modalManager', 'seedService'];
+    controller.$inject = ['$q', '$mdDialog', 'apiWorker', '$timeout', 'user', 'modalManager', 'seedService'];
 
     angular.module('app.create').controller('CreateCtrl', controller);
 })();

@@ -160,6 +160,8 @@
              * @param {string} data.address
              * @param {string} data.encryptedSeed
              * @param {string} data.password
+             * @param {Object} [data.settings]
+             * @param {boolean} [data.settings.termsAccepted]
              * @returns Promise
              */
             addUserData(data) {

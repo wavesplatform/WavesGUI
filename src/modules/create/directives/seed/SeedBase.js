@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const ANIMATION_TIME = 180;
+    const ANIMATION_TIME = 100;
 
     const factory = function (Base, $q) {
 
