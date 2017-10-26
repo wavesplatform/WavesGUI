@@ -1,0 +1,83 @@
+@import (reference) url('../../../config');
+
+md-dialog.account-info {
+  width: 539px;
+
+  md-dialog-content {
+    padding: 0 40px 40px 40px;
+
+    .row {
+      margin-top: 20px;
+
+      w-avatar {
+        margin-right: 10px;
+      }
+
+      w-copy {
+        border-bottom: none;
+        border-radius: 0;
+
+        &:first-child {
+          border-top-left-radius: @border-radius;
+          border-top-right-radius: @border-radius;
+        }
+
+        &:last-child {
+          border-bottom-left-radius: @border-radius;
+          border-bottom-right-radius: @border-radius;
+          border-bottom: 1px solid #dae1e9;
+        }
+
+        .container {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          height: 54px;
+          padding: 0 30px 0 15px;
+        }
+      }
+
+      .alias-list {
+        .create-alias-wrap {
+          height: 54px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          background: #f9fafd;
+          border: 1px dashed #dae1e9;
+          padding: 0 15px;
+
+          button {
+            margin-right: 10px;
+          }
+        }
+
+        input.new-alias {
+          background: #fff;
+          height: 54px;
+          border-left: 1px solid #dae1e9;
+          border-right: 1px solid #dae1e9;
+          border-top: 1px solid #dae1e9;
+          border-bottom: none;
+        }
+
+        w-step-by-step:first-child input.new-alias {
+          border-top-left-radius: @border-radius;
+          border-top-right-radius: @border-radius;
+        }
+
+        .closable-input-wrapper {
+          position: relative;
+          display: block;
+
+          .icon-close {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+          }
+        }
+      }
+    }
+  }
+}

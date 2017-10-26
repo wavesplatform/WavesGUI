@@ -18,9 +18,14 @@
                 super($scope);
                 this.password = '';
                 this.encryptionRoundsPromise = user.getSetting('encryptionRounds');
+                this.pending = false;
             }
 
             ok() {
+                if (this.pending) {
+                    return null;
+                }
+                this.pending = true;
                 this.encryptionRoundsPromise.then((encryptionRounds) => {
                     apiWorker.process((WavesApi, data) => {
 
@@ -32,6 +37,9 @@
                     }, { encryptionRounds, encryptedSeed: user.encryptedSeed, password: this.password })
                         .then((seed) => {
                             $mdDialog.hide(seed);
+                        })
+                        .catch(() => {
+                            this.pending = false;
                         });
                 });
             }

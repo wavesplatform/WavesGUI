@@ -70,7 +70,7 @@
                      * @private
                      */
                     static _getLiteral() {
-                        return I18n._isAttribute() ? $attrs.wI18n : $element.text();
+                        return String(I18n._isAttribute() ? $attrs.wI18n : $element.text()).trim();
                     }
 
                     /**

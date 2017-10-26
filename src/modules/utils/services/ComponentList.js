@@ -92,6 +92,10 @@
                 return this.components[this.components.length - 1];
             }
 
+            index(id, field) {
+                return this.components.indexOf(tsUtils.find(this.components, { [field]: id }));
+            }
+
             /**
              * @param {IComponent} component
              * @private

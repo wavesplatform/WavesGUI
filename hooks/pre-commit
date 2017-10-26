@@ -2,6 +2,9 @@
 
 echo "pre commit hook"
 sh scripts/eslint.sh || exit 1
+if grep -r -i 'TODO!' ./src
+  then echo "Cant commit with TODO!" && exit 1
+fi
 echo "pre commit hook >> DONE"
 
 exit 0

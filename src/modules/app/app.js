@@ -7,7 +7,17 @@
         if (WavesApp.modules.indexOf(name) === -1) {
             WavesApp.modules.push(name);
         }
-        return origin.call(angular, ...args);
+        const module = origin.call(angular, ...args);
+        const controller = module.controller;
+        module.controller = function (name, $ctrl) {
+            if (typeof $ctrl !== 'function') {
+                throw new Error('Wrong code style!');
+            }
+            WavesApp.addController(name, $ctrl);
+            return controller.call(this, name, $ctrl);
+        };
+
+        return module;
     };
 
     angular.module('app', [
