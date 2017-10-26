@@ -13,50 +13,69 @@ md-dialog.account-info {
         margin-right: 10px;
       }
 
-      .alias-list {
-        w-copy:first-child {
+      w-copy {
+        border-bottom: none;
+        border-radius: 0;
+
+        &:first-child {
           border-top-left-radius: @border-radius;
           border-top-right-radius: @border-radius;
         }
-        w-copy:last-child {
+
+        &:last-child {
           border-bottom-left-radius: @border-radius;
           border-bottom-right-radius: @border-radius;
           border-bottom: 1px solid #dae1e9;
         }
-        w-copy {
-          border-bottom: none;
-          border-radius: 0;
+
+        .container {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          height: 54px;
+          padding: 0 30px 0 15px;
         }
       }
 
-      w-copy .container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        height: 54px;
-        padding: 0 30px 0 15px;
-      }
+      .alias-list {
+        .create-alias-wrap {
+          height: 54px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          background: #f9fafd;
+          border: 1px dashed #dae1e9;
+          padding: 0 15px;
 
-      input {
-        background: #fff;
-        height: 54px;
-        border-left: 1px solid #dae1e9;
-        border-right: 1px solid #dae1e9;
-        border-top: none;
-        border-bottom: none;
-      }
+          button {
+            margin-right: 10px;
+          }
+        }
 
-      .create-alias-wrap {
-        height: 54px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        background: #f9fafd;
-        border: 1px dashed #dae1e9;
-        padding: 0 15px;
+        input.new-alias {
+          background: #fff;
+          height: 54px;
+          border-left: 1px solid #dae1e9;
+          border-right: 1px solid #dae1e9;
+          border-top: 1px solid #dae1e9;
+          border-bottom: none;
+        }
 
-        button {
-          margin-right: 10px;
+        w-step-by-step:first-child input.new-alias {
+          border-top-left-radius: @border-radius;
+          border-top-right-radius: @border-radius;
+        }
+
+        .closable-input-wrapper {
+          position: relative;
+          display: block;
+
+          .icon-close {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+          }
         }
       }
     }
