@@ -17,9 +17,8 @@
         const ORDER_LIST = [
             'createAccount',
             'noBackupNoMoney',
-            'backupWarning',
             'backupSeed',
-            'backupSeedRepeat',
+            'confirmBackup',
             'backupSeedDone',
             'end'
         ];
@@ -33,6 +32,8 @@
                 this.seed = '';
                 this.address = '';
                 this.seedList = [];
+                this.seedIsValid = false;
+                this.seedIsFull = false;
 
                 this.resetAddress();
             }
@@ -51,11 +52,13 @@
                 return `${PATH}/${ORDER_LIST[this.stepIndex]}.html`;
             }
 
-            clear() {
-                // TODO ???
-            }
-
+            /**
+             * @param {number} [index]
+             */
             next(index) {
+                if (index < 0) {
+                    index = this.stepIndex + index;
+                }
                 this.checkNext().then(() => {
                     if (index == null) {
                         if (ORDER_LIST[this.stepIndex + 1]) {
@@ -83,19 +86,9 @@
                 });
             }
 
-            back() {
-                if (this.stepIndex) {
-                    this.stepIndex = this.stepIndex - 1;
-                } else {
-                    $state.go('welcome');
-                }
-            }
-
             checkNext() {
                 const step = ORDER_LIST[this.stepIndex];
                 switch (step) {
-                    // case 'createAccount':
-                    //     return this.showCreateAccountAnimation();
                     case 'noBackupNoMoney':
                         return this.showBackupWarningPopup();
                     case 'backupSeedDone':
@@ -104,11 +97,6 @@
                         return $q.when();
                 }
             }
-
-            // showCreateAccountAnimation() {
-            //     this.hasAccount = true;
-            //     return $timeout(() => ({}), 1000);
-            // }
 
             resetAddress() {
                 apiWorker.process((Waves) => {

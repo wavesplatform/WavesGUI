@@ -1,0 +1,31 @@
+<div class="confirm-backup">
+
+    <h1>
+        <w-i18n>confirmBackup.confirm</w-i18n>
+    </h1>
+
+    <div class="grey">
+        <w-i18n>confirmBackup.description</w-i18n>
+        <a ng-click="$ctrl.next(-1)" w-i18n="confirmBackup.back"></a>
+    </div>
+
+    <w-seed-write is-full="$ctrl.seedIsFull"
+                  is-valid="$ctrl.seedIsValid"
+                  seed="{{::$ctrl.seed}}"></w-seed-write>
+
+    <div>
+        <w-i18n>confirmBackup.enterCorrect</w-i18n>
+    </div>
+
+    <w-seed-read type="random" seed="{{::$ctrl.seed}}"></w-seed-read>
+
+    <w-button-submit mod="big" disabled="!$ctrl.seedIsValid">
+        <w-i18n>confirmBackup.ok</w-i18n>
+    </w-button-submit>
+
+    <div>
+        <a w-i18n="confirmBackup.clear"></a>
+        <w-i18n>confirmBackup.again</w-i18n>
+    </div>
+
+</div>

@@ -23,5 +23,21 @@
       "description": "If you take a screenshot, your backup may be viewed by other apps.",
       "ok": "I understand"
     }
+  },
+  "backupSeed": {
+    "saveSecret": "Save secret phrase",
+    "warn": "Since only you control your money, you’ll need to save your backup phrase in case this app is deleted.",
+    "writeSeed": "Please carefully write down this 15 words",
+    "needConfirm": "You will to confirm this phrase on the next screen.",
+    "ok": "I’ve written it down"
+  },
+  "confirmBackup": {
+    "confirm": "Confirm saving",
+    "description": "Let’s verify your backup phrase or",
+    "back": "go back",
+    "enterCorrect": "Please, tap each word in the correct order",
+    "ok": "Confirm",
+    "clear": "Clear",
+    "again": "and tap again"
   }
 }
