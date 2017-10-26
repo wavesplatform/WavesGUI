@@ -7,9 +7,10 @@
      * @param {User} user
      * @param {app.utils.apiWorker} apiWorker
      * @param {AssetsService} assetsService
+     * @param {app.utils} utils
      * @return {AccountInformationCtrl}
      */
-    const controller = function (Base, $scope, user, apiWorker, assetsService) {
+    const controller = function (Base, $scope, user, apiWorker, assetsService, utils) {
 
         class AccountInformationCtrl extends Base {
 
@@ -29,7 +30,7 @@
                 apiWorker.process((Waves, { address, code }) => {
                     return Waves.API.Node.v1.aliases.byAddress(address)
                         .then((aliases) => aliases.map((item) => item.replace(`alias:${code}:`, '')))
-                        .then((aliases) => aliases.sort((a, b) => (a > b ? 1 : a === b ? 0 : -1)));
+                        .then((aliases) => aliases.sort(utils.comparators.asc));
                 }, { address: user.address, code: WavesApp.network.code }).then((aliases) => {
                     this.aliases = aliases;
                 });
@@ -52,7 +53,7 @@
         return new AccountInformationCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'apiWorker', 'assetsService'];
+    controller.$inject = ['Base', '$scope', 'user', 'apiWorker', 'assetsService', 'utils'];
 
     angular.module('app.utils').controller('AccountInformationCtrl', controller);
 })();

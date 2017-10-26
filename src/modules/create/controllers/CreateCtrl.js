@@ -9,9 +9,10 @@
      * @param $state
      * @param {User} user
      * @param {ModalManager} modalManager
+     * @param {ISeedService} seedService
      * @return {CreateCtrl}
      */
-    const controller = function ($q, $mdDialog, apiWorker, $timeout, $state, user, modalManager) {
+    const controller = function ($q, $mdDialog, apiWorker, $timeout, $state, user, modalManager, seedService) {
 
         const PATH = '/modules/create/templates';
         const ORDER_LIST = [
@@ -33,9 +34,18 @@
                 this.address = '';
                 this.seedList = [];
                 this.seedIsValid = false;
-                this.seedIsFull = false;
+                this.seedConfirmWasFilled = false;
 
                 this.resetAddress();
+            }
+
+            onSeedConfirmFulfilled(isValid) {
+                this.seedIsValid = isValid;
+                this.seedConfirmWasFilled = true;
+            }
+
+            clearSeedConfirm() {
+                seedService.clear.dispatch();
             }
 
             setActiveSeed(item) {
@@ -137,7 +147,7 @@
 
     };
 
-    controller.$inject = ['$q', '$mdDialog', 'apiWorker', '$timeout', '$state', 'user', 'modalManager'];
+    controller.$inject = ['$q', '$mdDialog', 'apiWorker', '$timeout', '$state', 'user', 'modalManager', 'seedService'];
 
     angular.module('app.create').controller('CreateCtrl', controller);
 })();

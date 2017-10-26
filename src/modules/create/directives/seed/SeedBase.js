@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const ANIMATION_TIME = 220;
+    const ANIMATION_TIME = 180;
 
     const factory = function (Base, $q) {
 
@@ -36,6 +36,7 @@
             }
 
             animate($element, properties, options) {
+                // TODO Optimize animations: to transform from left and top
                 return $q((resolve) => {
                     options = options || {
                         duration: ANIMATION_TIME

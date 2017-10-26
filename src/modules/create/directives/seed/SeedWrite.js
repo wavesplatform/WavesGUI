@@ -14,6 +14,10 @@
             constructor() {
                 super($element);
                 /**
+                 * @type {Function}
+                 */
+                this.onFulfilled = null;
+                /**
                  * @type {JQuery}
                  * @private
                  */
@@ -35,29 +39,34 @@
                 this._$container = $element.find('.seed-container');
                 this._containerWidth = this._$container.width();
                 this.receive(seedService.show, this._show, this);
+                this.receive(seedService.clear, this._clear, this);
             }
 
             /**
-             * @param e
-             * @param index
              * @private
              */
-            _removePart(e, index) {
-                const $target = $(e.target);
-                const partIndex = this._$container.children()
-                    .toArray()
-                    .indexOf(e.target);
+            _clear() {
+                this._children.forEach(this._removePart, this);
+            }
 
-                this.parts[partIndex] = '';
-                this.animateOut($target).then(() => {
-                    seedService.revert.dispatch(index);
-                    this._children = this._children.filter(tsUtils.notContains(this._getChildByElement($target)));
-                    $target.remove();
+            /**
+             * @param {ISeedWriteChild} child
+             * @private
+             */
+            _removePart(child) {
+                this.animateOut(child.$element).then(() => {
+                    seedService.revert.dispatch(child.randomIndex);
+                    const filter = tsUtils.notContains(this._getChildByElement(child.$element));
+                    this._children = this._children.filter(filter);
+                    child.$element.remove();
 
                     this._resetPositions();
                 });
             }
 
+            /**
+             * @private
+             */
             _resetPositions() {
                 let currentLine = SeedWrite._getPropertyGetter(this._$container, 'padding-top')();
                 let currentWidth = 0;
@@ -113,19 +122,18 @@
 
                 const child = this._createChild({ index, word, $element });
                 this._children.push(child);
+
                 $element.removeClass('hidden');
                 this._resetPositions();
 
-                $element.on('click', (e) => {
-                    this._removePart(e, index);
+                $element.on('click', () => {
+                    this._removePart(child);
                 });
 
-                // if (this.parts.filter(Boolean).length === this.hiddenParts.length) {
-                //     this.isFull = true;
-                //     this._validate();
-                // } else {
-                //     this.isFull = false;
-                // }
+                if (this.onFulfilled && this._children.length === this.parts.length) {
+                    const isValid = this._children.map((child) => child.word).join(' ') === this.seed;
+                    this.onFulfilled({ isValid });
+                }
             }
 
             /**
@@ -159,20 +167,6 @@
                     Object.defineProperty(child, item.name, { get: item.get });
                 });
                 return child;
-            }
-
-            clear() {
-                this.parts.forEach((part) => {
-                    const origin = this.hiddenParts.indexOf(part);
-                    controller.trigger(this.seed, 'revert', origin);
-                });
-                this.parts = this.hiddenParts.map(() => '');
-                this._$container.children().each((index, element) => {
-                    const $element = $(element);
-                    this.animateOut($element).then(() => {
-                        $element.remove();
-                    });
-                });
             }
 
             /**
@@ -216,7 +210,8 @@
 
     angular.module('app.create').component('wSeedWrite', {
         bindings: {
-            seed: '@'
+            seed: '@',
+            onFulfilled: '&'
         },
         template: '<div class="seed-container"></div>',
         transclude: false,

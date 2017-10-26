@@ -37,6 +37,7 @@
     "back": "go back",
     "enterCorrect": "Please, tap each word in the correct order",
     "ok": "Confirm",
+    "error": "Wrong word order, try again.",
     "clear": "Clear",
     "again": "and tap again"
   }
