@@ -88,6 +88,7 @@
             animateOut($element) {
                 return this.animate($element, { opacity: 0 }, {
                     progress: (tween, progress) => {
+                        // TODO : check for prefixes
                         $element.css('transform', `scale(${1 - progress})`);
                     }
                 });
@@ -97,6 +98,7 @@
                 $element.css('opacity', 0);
                 return this.animate($element, { opacity: 1 }, {
                     progress: (tween, progress) => {
+                        // TODO : check for prefixes
                         $element.css('transform', `scale(${progress})`);
                     }
                 });
