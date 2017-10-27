@@ -32,11 +32,6 @@
                  * @type {string}
                  */
                 this.cid = tsUtils.uniqueId('base');
-                /**
-                 * @type {object}
-                 * @private
-                 */
-                this.__props = Object.create(null);
             }
 
             /**
