@@ -60,7 +60,7 @@
             then(resolve, reject) {
                 return new PromiseControl(new Promise((res, rej) => {
                     this._resolveCallbacks.push((data) => {
-                        const result = resolve(data);
+                        const result = resolve ? resolve(data) : data;
                         if (PromiseControl.isPromise(result)) {
                             result.then(res, rej);
                         } else {
@@ -68,7 +68,7 @@
                         }
                     });
                     this._rejectCallbacks.push((data) => {
-                        const result = reject(data);
+                        const result = reject ? reject(data) : data;
                         if (PromiseControl.isPromise(result)) {
                             result.then(res, rej);
                         } else {
@@ -89,7 +89,7 @@
 
             /**
              * @param callback
-             * @return {Promise}
+             * @return {PromiseControl}
              */
             catch(callback) {
                 return this.then(null, callback);

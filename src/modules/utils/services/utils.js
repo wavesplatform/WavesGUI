@@ -17,43 +17,14 @@
             /**
              * @name app.utils#observe
              * @param {object} target
-             * @param {string} key
+             * @param {string|string[]} keys
+             * @param {Object} [options]
+             * @param {Function} [options.set]
+             * @param {Function} [options.get]
              * @return {Signal}
              */
-            observe(target, key) {
-                const __ = target.__ || Object.create(null);
-                if (!target.__) {
-                    Object.defineProperty(target, '__', {
-                        writable: false,
-                        configurable: false,
-                        enumerable: false,
-                        value: __
-                    });
-                }
-
-                if (!__[key]) {
-                    __[key] = {
-                        signal: new tsUtils.Signal(),
-                        value: target[key]
-                    };
-
-                    Object.defineProperty(target, key, {
-                        enumerable: true,
-                        get: () => __[key].value,
-                        set: (value) => {
-                            const oldValue = __[key].value;
-                            if (oldValue !== value) {
-                                __[key].value = value;
-                                __[key].signal.dispatch(oldValue);
-                            }
-                        }
-                    });
-
-                    return __[key].signal;
-                } else {
-                    return __[key].signal;
-                }
-
+            observe(target, keys, options) {
+                return _addObserverSignals(target, keys, options);
             },
 
             /**
@@ -217,6 +188,86 @@
                 }
             }
         };
+
+        function _getObserver(target) {
+            if (!target.__) {
+                const observer = Object.create(null);
+                Object.defineProperty(target, '__', {
+                    writable: false,
+                    configurable: false,
+                    enumerable: false,
+                    value: observer
+                });
+            }
+            return target.__;
+        }
+
+        function _getSignal(observer, keys) {
+            if (Array.isArray(keys)) {
+                const event = keys.sort(utils.comparators.asc).join(',');
+
+                if (!observer.__events) {
+                    observer.__events = Object.create(null);
+                }
+
+                if (!observer.__events[event]) {
+                    observer.__events[event] = new tsUtils.Signal();
+                    let canDispatch = true;
+                    keys.forEach((key) => {
+                        observer[key].signal.on(() => {
+                            if (canDispatch) {
+                                observer.__events[event].dispatch();
+                                canDispatch = false;
+                                setTimeout(() => {
+                                    canDispatch = true;
+                                }, 50);
+                            }
+                        });
+                    });
+                }
+
+                return observer.__events[event];
+            } else {
+                return observer[keys].signal;
+            }
+        }
+
+        function _addObserverSignals(target, keys, options) {
+            const observer = _getObserver(target);
+            options = options || Object.create(null);
+
+            utils.toArray(keys).forEach((key) => {
+                if (observer[key]) {
+                    return null;
+                }
+
+                const item = Object.create(null);
+                item.signal = new tsUtils.Signal();
+                item.timer = null;
+                item.value = target[key];
+                observer[key] = item;
+
+                Object.defineProperty(target, key, {
+                    enumerable: true,
+                    get: () => observer[key].value,
+                    set: (value) => {
+                        value = options.set ? options.set(value) : value;
+                        const prev = observer[key].value;
+                        if (prev !== value) {
+                            observer[key].value = value;
+                            if (!observer[key].timer) {
+                                observer[key].timer = setTimeout(() => {
+                                    observer[key].timer = null;
+                                    observer[key].signal.dispatch(prev);
+                                }, 0);
+                            }
+                        }
+                    }
+                });
+            });
+
+            return _getSignal(observer, keys);
+        }
 
         return utils;
     };
