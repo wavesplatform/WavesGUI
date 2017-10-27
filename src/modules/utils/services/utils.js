@@ -114,7 +114,7 @@
              */
             bind(target, keys) {
                 if (keys == null) {
-                    keys = Object.keys(target);
+                    keys = Object.keys(target).filter((name) => typeof target[name] === 'function');
                     if (keys.length === 0) {
                         const proto = Object.getPrototypeOf(target);
                         keys = Object.getOwnPropertyNames(proto)

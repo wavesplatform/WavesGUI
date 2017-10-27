@@ -8,10 +8,59 @@
      */
     const factory = function ($q, PromiseControl) {
 
+        class TimerList {
+
+            constructor() {
+                /**
+                 * @type {ITimerData[]}
+                 */
+                this.list = [];
+            }
+
+            /**
+             * @param {ITimerData} item
+             */
+            add(item) {
+                this.list.push(item);
+                this.list.sort(TimerList.comparator);
+            }
+
+            /**
+             * @param {ITimerData|string} item
+             */
+            remove(id) {
+                id = typeof id === 'string' ? id : id.id;
+                for (let i = this.list.length; i--;) {
+                    if (this.list[i].id === id) {
+                        this.list.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+
+            /**
+             * @param {ITimerData} a
+             * @param {ITimerData} b
+             * @return {number}
+             */
+            static comparator(a, b) {
+                return (b.start + b.timeout) - (a.start + a.timeout);
+            }
+
+        }
+
         class TimeLine {
 
             constructor() {
-                this._listeners = [];
+                /**
+                 * @type {TimerList}
+                 * @private
+                 */
+                this._listeners = new TimerList();
+                /**
+                 * @type {number}
+                 * @private
+                 */
                 this._timer = null;
             }
 
@@ -28,14 +77,14 @@
                 promise.id = id;
                 promise.start = start;
                 promise.time = timeout;
-                this._listeners.push({
+                this._listeners.add({
                     handler: callback,
                     timeout,
                     start,
                     id,
                     defer
                 });
-                if (this._listeners.length === 1) {
+                if (this._listeners.list.length === 1) {
                     this._addTimeout();
                 }
                 return promise;
@@ -57,38 +106,31 @@
                     return null;
                 }
                 promise.drop();
-                let index = null;
-                const hasId = this._listeners.some((item, i) => {
-                    if (item.id === promise.id) {
-                        index = i;
-                    }
-                    return index !== null;
-                });
-                if (hasId) {
-                    this._listeners.splice(index, 1);
-                }
+                this._listeners.remove(promise.id);
             }
 
             /**
              * @private
              */
             _run() {
-                if (!this._listeners.length) {
+                if (!this._listeners.list.length) {
                     return null;
                 }
 
                 const now = Date.now();
-                for (let i = this._listeners.length - 1; i--;) {
-                    const item = this._listeners[i];
+                for (let i = this._listeners.list.length - 1; i--;) {
+                    const item = this._listeners.list[i];
                     if (now - item.start >= item.timeout) {
                         if (item.handler) {
                             item.handler();
                         }
                         item.defer.resolve();
-                        this._listeners.splice(i, 1);
+                        this._listeners.remove(item);
+                    } else {
+                        break;
                     }
                 }
-                if (this._listeners.length) {
+                if (this._listeners.list.length) {
                     this._addTimeout();
                 }
             }
@@ -115,3 +157,12 @@
 
     angular.module('app.utils').factory('timeLine', factory);
 })();
+
+/**
+ * @typedef {Object} ITimerData
+ * @property {Function} handler
+ * @property {number} timeout
+ * @property {number} start
+ * @property {string} id
+ * @property {deferred} defer
+ */
