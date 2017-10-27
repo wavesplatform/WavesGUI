@@ -80,10 +80,11 @@
 
             /**
              * @param cb
-             * @return {Promise}
+             * @return {PromiseControl}
              */
             always(cb) {
-                return this.then(cb, cb);
+                this.then(cb, cb);
+                return this;
             }
 
             /**

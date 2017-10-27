@@ -3,7 +3,7 @@
 
     const module = angular.module('app.ui');
 
-    const controller = function (Base, $element, $attrs, $q) {
+    const controller = function (Base, $element, $attrs) {
 
         class Button extends Base {
 
@@ -29,6 +29,15 @@
                 if ($attrs.type) {
                     this._getButton().attr('type', $attrs.type);
                 }
+
+                $element.get(0).addEventListener('click', (e) => {
+                    if (this.disabled) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                    }
+                }, true);
+
                 this._onChangeDisabled();
             }
 
@@ -59,7 +68,8 @@
         transclude: true,
         bindings: {
             mode: '@',
-            disabled: '<'
+            disabled: '<',
+            ngClick: '&'
         },
         controller
     });

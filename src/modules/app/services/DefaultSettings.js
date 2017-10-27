@@ -29,6 +29,7 @@
                     logoutAfterMin: 5,
                     encryptionRounds: 5000,
                     savePassword: false,
+                    termsAccepted: true,
                     baseAssetId: WavesApp.defaultAssets.USD,
                     events: Object.create(null),
                     wallet: {
@@ -59,7 +60,8 @@
             }
 
             get(path) {
-                return tsUtils.get(this.settings, path) || tsUtils.get(this.defaults, path);
+                const setting = tsUtils.get(this.settings, path);
+                return tsUtils.isEmpty(setting) ? tsUtils.get(this.defaults, path) : setting;
             }
 
             set(path, value) {

@@ -1,38 +1,50 @@
-<div class="no-users">
+<div class="new-user">
 
-    <w-logo></w-logo>
+    <w-carousel interval="3000">
+        <div class="slide">
+            <div class="slide-icon"></div>
+            <h2 class="slide-title">
+                <w-i18n>newUser.slides.0.title</w-i18n>
+            </h2>
+            <div class="slide-description">
+                <w-i18n>newUser.slides.0.description</w-i18n>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide-icon"></div>
+            <h2 class="slide-title">
+                <w-i18n>newUser.slides.0.title</w-i18n>
+            </h2>
+            <div class="slide-description">
+                <w-i18n>newUser.slides.0.description</w-i18n>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide-icon"></div>
+            <h2 class="slide-title">
+                <w-i18n>newUser.slides.0.title</w-i18n>
+            </h2>
+            <div class="slide-description">
+                <w-i18n>newUser.slides.0.description</w-i18n>
+            </div>
+        </div>
+    </w-carousel>
 
-    <h2 w-i18n="newUser.title"></h2>
-    <span class="" w-i18n="newUser.subTitle"></span>
+    <w-carousel-dots class="square"></w-carousel-dots>
 
-    <div class="slider-wrapper center">
-        <w-carousel interval="6000" id="slider-welcome-new-user">
-            <div style="background: red; height: 100%"></div>
-            <div style="background: gold; height: 100%"></div>
-            <div style="background: grey; height: 100%"></div>
-            <div style="background: hotpink; height: 100%"></div>
-        </w-carousel>
-    </div>
-
-    <p class="" w-i18n="newUser.beforeControl"></p>
-
-    <w-carousel-dots slider-id="slider-welcome-new-user"></w-carousel-dots>
-
-    <w-button-submit>
-        <a ui-sref="create">
-            <w-i18n>newUser.buttons.getStarted</w-i18n>
-        </a>
+    <w-button-submit ui-sref="create" mode="big">
+        <w-i18n>newUser.getStarted</w-i18n>
     </w-button-submit>
 
-    <div class="or-wrap">
-        <hr class="or-line"/>
-        <span class="or" w-i18n="newUser.or"></span>
-        <hr class="or-line"/>
+    <div class="or">
+        <w-i18n>newUser.or</w-i18n>
     </div>
 
-    <w-button>
+    <div class="restore">
         <a ui-sref="restore">
-            <w-i18n>newUser.buttons.restoreFromBackup</w-i18n>
+            <w-i18n>newUser.restore</w-i18n>
         </a>
-    </w-button>
+        <w-i18n>newUser.from</w-i18n>
+    </div>
+
 </div>

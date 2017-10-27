@@ -1,12 +1,14 @@
 {
   "newUser": {
-    "title": "You control your Waves",
-    "subTitle": "This app stores your Waves with cutting-edge security.",
-    "beforeControl": "Not even Waves Team can access it.",
+    "getStarted": "Get started",
+    "restore": "Restore account",
+    "from": "from backup",
     "or": "or",
-    "buttons": {
-      "getStarted": "Get Started",
-      "restoreFromBackup": "Restore from backup"
+    "slides": {
+      "0": {
+        "title": "Get started with blockchain",
+        "description": "Gain access to the Waves platform’s solutions for storing, trading, managing and issuing your digital assets, easily and securely."
+      }
     }
   },
   "userList": {

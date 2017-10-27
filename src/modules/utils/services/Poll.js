@@ -71,16 +71,6 @@
                  */
                 this._sleepStep = null;
                 /**
-                 * @type {number}
-                 * @private
-                 */
-                this._lastStart = null;
-                /**
-                 * @type {number}
-                 * @private
-                 */
-                this._lastEndPromise = null;
-                /**
                  * @private
                  * @type {Function}
                  */
@@ -216,19 +206,15 @@
                     return null;
                 }
 
-                const time = Date.now();
-                this._lastStart = time;
-                this._lastEndPromise = null;
                 const result = this._getData();
                 if (Poll._isPromise(result)) {
                     this._promise = new PromiseControl(result);
-                    this._promise.always((data) => {
-                        this._lastEndPromise = Date.now();
-                        this._applyData(data);
+                    this._promise.always(() => {
                         this._addTimeout();
+                    }).then((data) => {
+                        this._applyData(data);
                     });
                 } else {
-                    this._lastEndPromise = time;
                     this._applyData(result);
                     this._addTimeout();
                 }

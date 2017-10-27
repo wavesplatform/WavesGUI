@@ -1,39 +1,80 @@
-.seed-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-content: center;
-  flex-wrap: wrap;
-  height: 231px;
-  width: 520px;
-  border: 1px dotted #979797;
-  border-radius: 3px;
-  background-color: #f2f2f2;
-  box-sizing: border-box;
+@import (reference) '../../../config';
+
+w-seed-read, w-seed-write {
+
+  .seed-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    padding: 15px 15px;
+    border: solid 0.5px #e2e2e2;
+    border-radius: @border-radius;
+    background-color: #fafafa;
+    box-sizing: border-box;
+  }
+
+  &[type="read"] {
+    .seed-container {
+      padding: 15px 30px;
+    }
+
+    .seed-item {
+      padding: 5px 8px;
+      font-size: 17px;
+      font-weight: 500;
+    }
+  }
+
+  &[type="random"] {
+    user-select: none;
+
+    .seed-container {
+      background-color: transparent;
+      border: none;
+      padding: 10px 5px;
+    }
+
+    .seed-item {
+      border-radius: @border-radius;
+      background-color: #1f5af6;
+      color: #ffffff;
+      font-weight: 500;
+      padding: 8px 15px;
+      margin: 3px;
+      border: solid 1px #1651ec;
+      cursor: pointer;
+
+      &.moved {
+        border: dashed 1px #1651ec;
+        background-color: transparent;
+        color: transparent;
+        cursor: default;
+      }
+    }
+  }
 }
 
-// Due to animations that element should be directly in <body>
-.seed-item {
-  margin: 10px 8px;
-  padding: 8px 17px;
-  box-sizing: border-box;
-  font-weight: bold;
-  display: inline-block;
-  transform-origin: center center;
+w-seed-write {
   user-select: none;
-  text-align: center;
-  border: 1px solid #eee;
-  background-color: #fff;
 
-  &.moved {
-    color: rgba(0, 0, 0, 0)
+  .seed-container {
+    height: 150px;
+    position: relative;
   }
 
-  &.empxy {
-    background-color: transparent;
-  }
+  .seed-item {
+    border-radius: @border-radius;
+    padding: 8px 15px;
+    margin: 3px;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    cursor: pointer;
+    position: absolute;
 
-  &.clone {
-    text-align: center;
+    &.hidden {
+      opacity: 0;
+    }
   }
 }

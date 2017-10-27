@@ -1,18 +1,24 @@
-<div class="flex-column-center">
+<div class="backup-seed">
 
-    <div ng-click="$ctrl.back()" class="back">
-        BACK
+    <h1>
+        <w-i18n>backupSeed.saveSecret</w-i18n>
+    </h1>
+
+    <div class="grey">
+        <w-i18n>backupSeed.warn</w-i18n>
     </div>
 
-    <p>Please carefully write down this phrase.</p>
+    <div>
+        <w-i18n>backupSeed.writeSeed</w-i18n>
+    </div>
 
-    <w-seed type="read" seed="{{$ctrl.seed}}"></w-seed>
+    <w-seed-read type="read" seed="{{::$ctrl.seed}}"></w-seed-read>
 
-    <p>We'll confirm on the next screen</p>
+    <div>
+        <w-i18n>backupSeed.needConfirm</w-i18n>
+    </div>
 
-    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-        <w-button-submit ng-click="$ctrl.next()">
-            I've written it down
-        </w-button-submit>
-    </section>
+    <w-button-submit mod="big" ng-click="$ctrl.next()">
+        <w-i18n>backupSeed.ok</w-i18n>
+    </w-button-submit>
 </div>

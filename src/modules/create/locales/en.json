@@ -1,20 +1,44 @@
 {
   "createAccount": {
-    "title": "Create Your Account",
-    "titleGray": "Sign up for a fee account below.",
-    "avatarTitle": "Choose your address avatar",
-    "avatarGray": "This avatar is unique, you can't change it later.",
-    "passTitle": "Setup password",
-    "passGray": "Use at least 8 characters. Don't use a password another site.",
-    "passPlaceholder": "Password",
-    "confirmPlaceholder": "Repeat password",
-    "next": "Create Account",
-    "inputs": {
-      "errors": {
-        "short": "Password is too short!",
-        "simple": "Password is too simple!",
-        "notEqual": "Passwords do not match!"
-      }
+    "createNewAccount": "Create new Account",
+    "signUp": "Sign up for a free account below or",
+    "restore": "restore account",
+    "from": "from backup",
+    "choose": "Choose your address avatar",
+    "avatarUnique": "This avatar is unique, you can’t change it later.",
+    "passTitle": "Protect your account with new password",
+    "inputHelpError": "must be at least {{minLength}} characters",
+    "inputHelpWarn": "easy, add digit or symbol",
+    "inputHelpSuccess": "secure password",
+    "repeat": "Repeat password"
+  },
+  "noBackupNoMoney": {
+    "title": "No backup, no money",
+    "description": "Now you must to save secret phrase. It is really important for access to your account.",
+    "backup": "Backup Account",
+    "or": "or",
+    "skip": "Skip",
+    "modal": {
+      "title": "Screenshots are not secure",
+      "description": "If you take a screenshot, your backup may be viewed by other apps.",
+      "ok": "I understand"
     }
+  },
+  "backupSeed": {
+    "saveSecret": "Save secret phrase",
+    "warn": "Since only you control your money, you’ll need to save your backup phrase in case this app is deleted.",
+    "writeSeed": "Please carefully write down this 15 words",
+    "needConfirm": "You will to confirm this phrase on the next screen.",
+    "ok": "I’ve written it down"
+  },
+  "confirmBackup": {
+    "confirm": "Confirm saving",
+    "description": "Let’s verify your backup phrase or",
+    "back": "go back",
+    "enterCorrect": "Please, tap each word in the correct order",
+    "ok": "Confirm",
+    "error": "Wrong word order, try again.",
+    "clear": "Clear",
+    "again": "and tap again"
   }
 }
