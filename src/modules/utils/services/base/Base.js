@@ -81,16 +81,8 @@
 
             $onDestroy() {
                 this.signals.destroy.dispatch();
-                this.__isRemoved = true;
-                this.__handlers = Object.create(null);
-
-                tsUtils.each(this.polls, (poll, key) => {
-                    if (poll) {
-                        poll.destroy();
-                        delete this.polls[key];
-                    }
-                });
                 this.stopReceive();
+                this.signals.destroy.off();
             }
 
         }
