@@ -38,7 +38,7 @@
                 super.$postLink();
                 this._$container = $element.find('.seed-container');
                 this._containerWidth = this._$container.width();
-                this.receive(seedService.show, this._show, this);
+                this.receive(seedService.pick, this._show, this);
                 this.receive(seedService.clear, this._clear, this);
             }
 

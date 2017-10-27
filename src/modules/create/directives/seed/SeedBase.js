@@ -21,10 +21,6 @@
                  * @type {Array}
                  */
                 this.parts = null;
-                /**
-                 * @type {Array}
-                 */
-                this.hiddenParts = null;
             }
 
             $postLink() {
@@ -32,7 +28,6 @@
                     throw new Error('Has no seed!');
                 }
                 this.parts = this.seed.split(/\s/);
-                this.hiddenParts = this.parts.slice();
             }
 
             animate($element, properties, options) {

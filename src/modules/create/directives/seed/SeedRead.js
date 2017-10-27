@@ -72,7 +72,7 @@
 
                 this.animateOut($clone).then(() => {
                     $clone.remove();
-                    seedService.show.dispatch({ index, word });
+                    seedService.pick.dispatch({ index, word });
                 });
             }
 
