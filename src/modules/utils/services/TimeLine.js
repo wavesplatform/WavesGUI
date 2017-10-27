@@ -1,6 +1,11 @@
 (function () {
     'use strict';
 
+    /**
+     * @param $q
+     * @param {typeof PromiseControl} PromiseControl
+     * @return {TimeLine}
+     */
     const factory = function ($q, PromiseControl) {
 
         class TimeLine {
