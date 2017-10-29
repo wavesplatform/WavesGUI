@@ -10,9 +10,10 @@
      * @param {User} user
      * @param {ModalManager} modalManager
      * @param {Function} createPoll
+     * @param {Function} createPromise
      * @returns {Assets}
      */
-    const controller = function (assetsService, assetsData, $scope, utils, Base, user, modalManager, createPoll) {
+    const controller = function (assetsService, assetsData, $scope, utils, Base, user, modalManager, createPoll, createPromise) {
 
         class Assets extends Base {
 
@@ -37,10 +38,10 @@
                     }
                 };
 
-                utils.whenAll([
+                createPromise(this, utils.whenAll([
                     this.syncSettings('wallet.assets.chartMode'),
                     this.syncSettings('wallet.assets.assetList')
-                ]).then(this.wrapCallback(() => {
+                ])).then(() => {
                     this.updateGraph = createPoll(this, this._getGraphData, 'data', 5000);
                     this.updateBalances = createPoll(this, this._getBalances, 'assets', 5000, { isBalance: true });
 
@@ -48,7 +49,7 @@
                     this.observe(['startDate', 'endDate'], () => this._onChangeInterval());
 
                     this._onChangeMode();
-                }));
+                });
             }
 
             onAssetClick(event, asset, action) {
@@ -153,7 +154,8 @@
         'Base',
         'user',
         'modalManager',
-        'createPoll'
+        'createPoll',
+        'createPromise'
     ];
 
     angular.module('app.wallet.assets')
