@@ -18,9 +18,9 @@
 
     <w-seed-read type="random" seed="{{::$ctrl.seed}}"></w-seed-read>
 
-    <w-button-submit mod="big" disabled="!$ctrl.seedIsValid" ng-click="$ctrl.next()">
+    <w-button class="submit" mod="big" disabled="!$ctrl.seedIsValid" ng-click="$ctrl.next()">
         <w-i18n>confirmBackup.ok</w-i18n>
-    </w-button-submit>
+    </w-button>
 
     <div ng-if="$ctrl.seedConfirmWasFilled && !$ctrl.seedIsValid"
          class="error-message" w-i18n="confirmBackup.error"></div>
