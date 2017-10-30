@@ -63,8 +63,8 @@
 
     controller.$inject = ['Base', '$element', '$attrs', '$q'];
 
-    const getButtonContent = (type) => ({
-        template: `<button class="${type}" ng-class="$ctrl.mode" ng-transclude></button>`,
+    module.component('wButton', {
+        template: `<button ng-class="$ctrl.mode" ng-transclude></button>`,
         transclude: true,
         bindings: {
             mode: '@',
@@ -73,9 +73,5 @@
         },
         controller
     });
-
-    module.component('wButtonSubmit', getButtonContent('submit'));
-    module.component('wButtonSuccess', getButtonContent('success'));
-    module.component('wButton', getButtonContent(''));
 
 })();

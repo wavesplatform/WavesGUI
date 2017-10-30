@@ -8,9 +8,9 @@
             <p w-i18n="modal.receive.text" params="{assetName: $ctrl.asset.name}"></p>
             <span w-i18n="modal.receive.description" params="{assetName: $ctrl.asset.name}"></span>
 
-            <w-button-submit ng-click="$ctrl.ok()">
+            <w-button class="submit" ng-click="$ctrl.ok()">
                 <w-i18n>modal.receive.ok</w-i18n>
-            </w-button-submit>
+            </w-button>
         </div>
         <div ng-class="{active: $ctrl.step === 1}" class="step step-2">
             <w-qr-code size="160" url="$ctrl.assetId"></w-qr-code>

@@ -120,9 +120,9 @@
         </div>
 
         <div class="row">
-            <w-button-submit disabled="send.$invalid" type="submit" class="long">
+            <w-button disabled="send.$invalid" type="submit" class="submit long">
                 <w-i18n>continue</w-i18n>
-            </w-button-submit>
+            </w-button>
         </div>
     </form>
     <div ng-if="$ctrl.step === 'confirm'">
@@ -151,9 +151,9 @@
             <w-button ng-click="$ctrl.step = 'send'">
                 <w-i18n>modal.send.confirm.back</w-i18n>
             </w-button>
-            <w-button-submit ng-click="$ctrl.send()">
+            <w-button class="submit" ng-click="$ctrl.send()">
                 <w-i18n>modal.send.confirm.confirm</w-i18n>
-            </w-button-submit>
+            </w-button>
         </div>
     </div>
 </div>
