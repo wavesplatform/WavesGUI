@@ -22,9 +22,9 @@
                     </label>
                 </div>
 
-                <w-button-submit w-modal-hide disabled="!$ctrl.security && !$ctrl.backup && !$ctrl.agree">
+                <w-button class="submit" w-modal-hide disabled="!$ctrl.security && !$ctrl.backup && !$ctrl.agree">
                     <w-i18n>termsAccept.body.ok</w-i18n>
-                </w-button-submit>
+                </w-button>
             </md-dialog-content>
         </w-step>
         <w-step>
@@ -48,9 +48,9 @@
                     </li>
                 </ul>
 
-                <w-button-submit w-step-prev mod="big" ng-click="$ctrl.confirm()">
+                <w-button class="submit" w-step-prev mod="big" ng-click="$ctrl.confirm()">
                     <w-i18n>confirm</w-i18n>
-                </w-button-submit>
+                </w-button>
             </md-dialog-content>
         </w-step>
     </w-step-by-step>
