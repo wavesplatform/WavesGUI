@@ -40,9 +40,10 @@
      * @param $state
      * @param apiWorker
      * @param {State} state
+     * @param {ModalManager} modalManager
      * @returns {AppRun}
      */
-    const run = function ($rootScope, user, $state, apiWorker, state) {
+    const run = function ($rootScope, user, $state, apiWorker, state, modalManager) {
 
         class AppRun {
 
@@ -109,6 +110,11 @@
                             } else {
                                 $state.go(user.getActiveState('wallet'));
                             }
+                            user.getSetting('termsAccepted').then((termsAccepted) => {
+                                if (!termsAccepted) {
+                                    modalManager.showTermsAccept(user);
+                                }
+                            });
                         });
                     stop();
                 });
@@ -214,7 +220,7 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'user', '$state', 'apiWorker', 'state'];
+    run.$inject = ['$rootScope', 'user', '$state', 'apiWorker', 'state', 'modalManager'];
 
     angular.module('app')
         .run(run);

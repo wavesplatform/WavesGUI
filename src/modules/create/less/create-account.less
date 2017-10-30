@@ -1,0 +1,61 @@
+@import (reference) '../../config';
+
+.create-account {
+  height: 100%;
+  width: 460px;
+  margin: auto;
+  text-align: center;
+
+  h1 {
+    font-size: 34px;
+  }
+
+  .left {
+    text-align: left;
+  }
+
+  .right {
+    text-align: right;
+  }
+
+  .grey {
+    color: #8c8c8c;
+  }
+
+  .separate {
+    height: 0;
+    width: 100%;
+    border-bottom: 1px solid #dae1e9;
+    margin: 30px 0;
+  }
+
+  .avatars-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 10px 0 30px 0;
+
+    .avatar-wrapper {
+      width: 84px;
+      height: 84px;
+      border: 1px solid transparent;
+      border-radius: @border-radius;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      &.active {
+        background-color: rgba(31, 90, 246, 0.05);
+        border: solid 1px #1f5af6;
+        cursor: default;
+      }
+    }
+  }
+
+  w-button-submit {
+    display: block;
+    margin-top: 30px;
+  }
+}

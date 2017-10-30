@@ -1,17 +1,24 @@
 (function () {
     'use strict';
 
-    const controller = function ($q, $mdDialog, apiWorker, $timeout, $state, user) {
+    /**
+     * @param $q
+     * @param $mdDialog
+     * @param {app.utils.apiWorker} apiWorker
+     * @param $timeout
+     * @param {User} user
+     * @param {ModalManager} modalManager
+     * @param {ISeedService} seedService
+     * @return {CreateCtrl}
+     */
+    const controller = function ($q, $mdDialog, apiWorker, $timeout, user, modalManager, seedService) {
 
         const PATH = '/modules/create/templates';
         const ORDER_LIST = [
             'createAccount',
-            'backupEnter',
-            'backupWarning',
+            'noBackupNoMoney',
             'backupSeed',
-            'backupSeedRepeat',
-            'backupSeedDone',
-            'end'
+            'confirmBackup'
         ];
 
         class CreateCtrl {
@@ -20,15 +27,22 @@
                 this.stepIndex = 0;
                 this.password = '';
                 this.confirmPassword = '';
-                this.moneyInApp = false;
-                this.restoreByBackup = false;
-                this.hasAccount = false;
-                this.agree = false;
                 this.seed = '';
                 this.address = '';
                 this.seedList = [];
+                this.seedIsValid = false;
+                this.seedConfirmWasFilled = false;
 
                 this.resetAddress();
+            }
+
+            onSeedConfirmFulfilled(isValid) {
+                this.seedIsValid = isValid;
+                this.seedConfirmWasFilled = true;
+            }
+
+            clearSeedConfirm() {
+                seedService.clear.dispatch();
             }
 
             setActiveSeed(item) {
@@ -41,71 +55,55 @@
                 this.address = item.address;
             }
 
-            canConfirm() {
-                return !(this.moneyInApp && this.restoreByBackup && this.agree);
-            }
-
             getStepUrl() {
                 return `${PATH}/${ORDER_LIST[this.stepIndex]}.html`;
             }
 
-            clear() {
-                // TODO ???
-            }
-
+            /**
+             * @param {number} [index]
+             */
             next(index) {
-                this.checkNext().then(() => {
-                    if (index == null) {
-                        if (ORDER_LIST[this.stepIndex + 1]) {
-                            this.stepIndex++;
-                        } else {
 
-                            const workerData = { seed: this.seed, password: this.password };
-                            const workerHandler = (Waves, data) => {
-                                const seedData = Waves.Seed.fromExistingPhrase(data.seed);
-                                return seedData.encrypt(data.password);
-                            };
+                if (!index) {
+                    index = this.stepIndex + 1;
+                }
+                if (index < 0) {
+                    index = this.stepIndex + index;
+                }
 
-                            apiWorker.process(workerHandler, workerData)
-                                .then((encryptedSeed) => {
-                                    return user.addUserData({
-                                        address: this.address,
-                                        password: this.password,
-                                        encryptedSeed
-                                    });
-                                });
-                        }
-                    } else {
-                        this.stepIndex = index;
-                    }
-                });
-            }
+                if (!ORDER_LIST[index]) {
+                    const workerData = { seed: this.seed, password: this.password };
+                    const workerHandler = (Waves, data) => {
+                        const seedData = Waves.Seed.fromExistingPhrase(data.seed);
+                        return seedData.encrypt(data.password);
+                    };
 
-            back() {
-                if (this.stepIndex) {
-                    this.stepIndex = this.stepIndex - 1;
+                    apiWorker.process(workerHandler, workerData)
+                        .then((encryptedSeed) => {
+                            return user.addUserData({
+                                address: this.address,
+                                password: this.password,
+                                encryptedSeed,
+                                settings: {
+                                    termsAccepted: false
+                                }
+                            });
+                        });
                 } else {
-                    $state.go('welcome');
+                    this.checkNext().then(() => {
+                        this.stepIndex = index;
+                    });
                 }
             }
 
             checkNext() {
                 const step = ORDER_LIST[this.stepIndex];
                 switch (step) {
-                    case 'createAccount':
-                        return this.showCreateAccountAnimation();
-                    case 'backupWarning':
+                    case 'noBackupNoMoney':
                         return this.showBackupWarningPopup();
-                    case 'backupSeedDone':
-                        return this.showBackupSeedDonePopup();
                     default:
                         return $q.when();
                 }
-            }
-
-            showCreateAccountAnimation() {
-                this.hasAccount = true;
-                return $timeout(() => ({}), 1000);
             }
 
             resetAddress() {
@@ -122,26 +120,12 @@
                 });
             }
 
-            showBackupSeedDonePopup() {
-                return $mdDialog.show(
-                    $mdDialog.alert()
-                        .parent(angular.element(document.body))
-                        .clickOutsideToClose(false)
-                        .title('Screenshots are not secure')
-                        .textContent('...')
-                        .ok('Got it')
-                );
-            }
-
             showBackupWarningPopup() {
-                return $mdDialog.show(
-                    $mdDialog.alert()
-                        .parent(angular.element(document.body))
-                        .clickOutsideToClose(false)
-                        .title('Screenshots are not secure')
-                        .textContent('...')
-                        .ok('I understand')
-                );
+                return modalManager.showCustomModal({
+                    templateUrl: '/modules/create/templates/noBackupNoMoney.modal.html',
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
             }
 
         }
@@ -150,7 +134,7 @@
 
     };
 
-    controller.$inject = ['$q', '$mdDialog', 'apiWorker', '$timeout', '$state', 'user'];
+    controller.$inject = ['$q', '$mdDialog', 'apiWorker', '$timeout', 'user', 'modalManager', 'seedService'];
 
     angular.module('app.create').controller('CreateCtrl', controller);
 })();

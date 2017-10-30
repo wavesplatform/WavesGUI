@@ -111,7 +111,6 @@
              * @private
              */
             _remove(component) {
-                this.stopReceive(component.signals.destroy);
                 delete this._hash[component.cid];
                 const index = this.components.indexOf(component);
                 if (index !== -1) {

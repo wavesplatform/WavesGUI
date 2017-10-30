@@ -8,7 +8,7 @@ w-carousel-dots {
     height: 8px;
     border-radius: 50%;
     background-color: rgba(0, 0, 0, 0.2);
-    margin-right: 7px;
+    margin: 0 11px;
     text-align: center;
     display: inline-block;
     cursor: pointer;
@@ -17,5 +17,10 @@ w-carousel-dots {
       background-color: #0578ff;
       cursor: default;
     }
+  }
+
+  &.square .dot {
+    border-radius: 0;
+    transform: rotate(45deg);
   }
 }
