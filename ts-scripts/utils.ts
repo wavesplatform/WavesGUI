@@ -189,7 +189,7 @@ export function route(connectionType, buildType) {
         } else if (isSourceScript(req.url)) {
             readFile(join(__dirname, '../src', req.url), 'utf8')
                 .then((code) => {
-                    if (code.indexOf('@decorators') !== -1) {
+                    if (code.indexOf('@') !== -1) {
                         const result = transform(code, {
                             plugins: [
                                 'transform-decorators-legacy',
