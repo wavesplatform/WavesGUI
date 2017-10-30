@@ -31,7 +31,7 @@
          * @returns {string}
          */
         const template = function (attrs) {
-            return `<input type="checkbox" id="{{::$ctrl.id}}" ${attrs.join(' ')} class="${type}" />`;
+            return `<input type="checkbox" id="{{::$ctrl.id}}" ${attrs.join(' ')} class="${type}">`;
         };
 
         return {
