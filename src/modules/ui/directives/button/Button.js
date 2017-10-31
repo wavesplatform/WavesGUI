@@ -7,6 +7,7 @@
 
         const SYNC_ATTRS = ['type', 'class'];
 
+
         class Button extends Base {
 
             constructor() {
@@ -31,13 +32,14 @@
                     }
                 });
 
-                $element.get(0).addEventListener('click', (e) => {
-                    if (this.disabled) {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        e.stopImmediatePropagation();
-                    }
-                }, true);
+                $element.get(0)
+                    .addEventListener('click', (e) => {
+                        if (this.disabled) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            e.stopImmediatePropagation();
+                        }
+                    }, true);
             }
 
             /**
@@ -52,7 +54,8 @@
              * @private
              */
             _onChangeDisabled() {
-                this._getButton().prop('disabled', this.disabled);
+                this._getButton()
+                    .prop('disabled', this.disabled);
             }
 
         }
