@@ -23,6 +23,7 @@
             }
 
             $postLink() {
+                // This is to avoid ID duplication in wrappers and real inputs
                 $element.removeAttr('id');
             }
 
