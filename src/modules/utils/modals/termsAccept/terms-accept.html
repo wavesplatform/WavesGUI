@@ -1,54 +1,60 @@
 <md-dialog w-i18n-ns="app.utils" class="terms-accept" aria-label="modal">
     <w-step-by-step active-step="0">
-        <w-step>
-            <md-toolbar>
-                <h1 w-i18n="termsAccept.header.title"></h1>
-                <div class="grey" w-i18n="termsAccept.header.description"></div>
-            </md-toolbar>
+        <w-step class="step-1">
             <md-dialog-content>
+                <div class="header-texts">
+                    <h1 w-i18n="modal.termsAccept.header.title"></h1>
+                    <div class="body-2 disabled-600" w-i18n="modal.termsAccept.header.description"></div>
+                </div>
+
+                <hr>
+
                 <div class="row">
-                    <w-checkbox-submit ng-model="$ctrl.security"></w-checkbox-submit>
-                    <label w-i18n="termsAccept.body.security"></label>
+                    <w-checkbox-submit id="security" ng-model="$ctrl.security"></w-checkbox-submit>
+                    <label for="security" w-i18n="modal.termsAccept.body.security"></label>
                 </div>
                 <div class="row">
-                    <w-checkbox-submit ng-model="$ctrl.backup"></w-checkbox-submit>
-                    <label w-i18n="termsAccept.body.backup"></label>
+                    <w-checkbox-submit id="backup" ng-model="$ctrl.backup"></w-checkbox-submit>
+                    <label for="backup" w-i18n="modal.termsAccept.body.backup"></label>
                 </div>
                 <div class="row">
-                    <w-checkbox-submit ng-model="$ctrl.agree"></w-checkbox-submit>
-                    <label>
-                        <w-i18n>termsAccept.body.read</w-i18n>
-                        <a w-step-next w-i18n="termsAccept.body.terms"></a>
+                    <w-checkbox-submit id="agree" ng-model="$ctrl.agree"></w-checkbox-submit>
+                    <label for="agree">
+                        <w-i18n>modal.termsAccept.body.read</w-i18n>
+                        <a class="submit-400" w-step-next w-i18n="modal.termsAccept.body.terms"></a>
                     </label>
                 </div>
 
-                <w-button class="submit" w-modal-hide disabled="!$ctrl.security && !$ctrl.backup && !$ctrl.agree">
-                    <w-i18n>termsAccept.body.ok</w-i18n>
+                <w-button class="submit long big" w-modal-hide
+                          disabled="!$ctrl.security || !$ctrl.backup || !$ctrl.agree">
+                    <w-i18n>modal.termsAccept.body.ok</w-i18n>
                 </w-button>
             </md-dialog-content>
         </w-step>
-        <w-step>
+        <w-step class="step-2">
             <md-toolbar>
                 <div class="md-toolbar-tools">
-                    <div class="headline-1" w-i18n="termsAccept.header.title2"></div>
+                    <div class="headline-2 basic-700" w-i18n="modal.termsAccept.header.title2"></div>
                     <span flex></span>
                     <div class="btn icon-close" w-step-prev></div>
                 </div>
             </md-toolbar>
             <md-dialog-content>
 
-                <ul>
-                    <li ng-repeat="item in $ctrl.license track by $index">
-                        <div class="title">
-                            {{::$index}}. {{::item.title}}
-                        </div>
-                        <div class="text">
-                            {{::item.text}}
-                        </div>
-                    </li>
+                <ul class="agree-list">
+                    <w-scroll-box>
+                        <li class="license" ng-repeat="item in $ctrl.license track by $index">
+                            <div class="title">
+                                {{::$index + 1}}. {{::item.title}}
+                            </div>
+                            <div class="text">
+                                {{::item.text}}
+                            </div>
+                        </li>
+                    </w-scroll-box>
                 </ul>
 
-                <w-button class="submit" w-step-prev mod="big" ng-click="$ctrl.confirm()">
+                <w-button class="submit big long" w-step-prev mod="big" ng-click="$ctrl.confirm()">
                     <w-i18n>confirm</w-i18n>
                 </w-button>
             </md-dialog-content>
