@@ -1,7 +1,12 @@
 (function () {
     'use strict';
 
-    const controller = function (Base) {
+    /**
+     * @param Base
+     * @param {JQuery} $element
+     * @return {Checkbox}
+     */
+    const controller = function (Base, $element) {
 
         class Checkbox extends Base {
 
@@ -15,6 +20,11 @@
                  * @type {boolean}
                  */
                 this.disabled = false;
+            }
+
+            $postLink() {
+                // This is to avoid ID duplication in wrappers and real inputs
+                $element.removeAttr('id');
             }
 
         }

@@ -1,14 +1,29 @@
 @import (reference) '../../../config';
 
 w-button {
-  &.long, &.long > .btn {
+  &.long, &.long > * {
     width: 100%;
   }
 
   & > * {
-    font-size: 15px;
     border-radius: @border-radius;
-    padding: 8px 20px;
+    font-size: @font-size-control;
+    padding: @padding-control-button-small;
+
+    &.small {
+      font-size: @font-size-control-small;
+      padding: @padding-control-button-small;
+    }
+
+    &.big {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      height: @height-control-big;
+      font-size: @font-size-control-big;
+    }
 
     &:not(.transparent) {
       border-color: @color-button-border;

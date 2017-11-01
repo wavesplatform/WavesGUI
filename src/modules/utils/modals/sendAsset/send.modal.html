@@ -6,18 +6,16 @@
           novalidate>
 
         <w-input-container>
-            <div class="row">
-                <div class="body-2" w-i18n="modal.send.recipient"></div>
-                <w-input type="text"
-                         w-validate="address"
-                         name="recipient"
-                         ng-model="$ctrl.recipient"
-                         required></w-input>
+            <div class="body-2" w-i18n="modal.send.recipient"></div>
+            <w-input type="text"
+                     w-validate="address"
+                     name="recipient"
+                     ng-model="$ctrl.recipient"
+                     required></w-input>
 
-                <w-qr-code-read on-read="$ctrl.onReadQrCode(result)" max-width="250"
-                                max-height="160"></w-qr-code-read>
+            <w-qr-code-read on-read="$ctrl.onReadQrCode(result)" max-width="250"
+                            max-height="160"></w-qr-code-read>
 
-            </div>
             <w-input-error message="inputAddress">
                 <w-i18n>inputs.errors.invalidAddress</w-i18n>
             </w-input-error>
