@@ -104,7 +104,7 @@ export function replaceScripts(file: string, paths: Array<string>): string {
 
 export function replaceStyles(file: string, paths: Array<string>): string {
     return file.replace('<!-- CSS -->', paths.map((path: string) => {
-        return `<link rel="stylesheet" href="${path}" />`;
+        return `<link rel="stylesheet" href="${path}">`;
     }).join('\n'));
 }
 

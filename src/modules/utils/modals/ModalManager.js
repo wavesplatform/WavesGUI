@@ -89,7 +89,7 @@
                 const params = 'params="{assetName: $ctrl.asset.name}"';
                 return this._getModal({
                     locals: data,
-                    titleContent: `<div class="head-line-1" ${literal} ${params}></div>`,
+                    titleContent: `<div class="headline-1" ${literal} ${params}></div>`,
                     contentUrl: '/modules/utils/modals/receiveAsset/receive.modal.html',
                     controller: 'AssetReceiveCtrl',
                     mod: 'modal-receive',
@@ -218,7 +218,7 @@
              */
             static _getHeader(options) {
                 if (options.title) {
-                    const title = `<div class="head-line-1" w-i18n="${options.title}"></div>`;
+                    const title = `<div class="headline-1" w-i18n="${options.title}"></div>`;
                     return ModalManager._loadTemplate(DEFAULT_TEMPLATES_URLS.HEADER)
                         .then((template) => template.replace('{{title}}', title));
                 } else if (options.titleContent || options.titleContentUrl) {

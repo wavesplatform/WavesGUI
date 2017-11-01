@@ -1,11 +1,13 @@
 @import (reference) '../../config';
 
 html, body {
-  .foot-node();
+  .footnote();
 }
 
+/* TITLES */
+
 h1 {
-  font-family: 'Roboto-Light', sans-serif;
+  font-family: @font-roboto-light;
   font-size: 28px;
   letter-spacing: 0;
   line-height: 34px;
@@ -13,93 +15,112 @@ h1 {
 }
 
 h2 {
-  font-family: 'Roboto-Regular', sans-serif;
+  font-family: @font-roboto-regular;
   font-size: 24px;
-  letter-spacing: 0.33px;
+  letter-spacing: 0.3px;
   line-height: 28px;
   margin: 0;
 }
 
 h3 {
-  font-family: 'Roboto-Regular', sans-serif;
+  font-family: @font-roboto-regular;
   font-size: 22px;
-  letter-spacing: 0.35px;
+  letter-spacing: 0.3px;
   line-height: 28px;
   margin: 0;
 }
 
 h4 {
-  font-family: 'Roboto-Regular', sans-serif;
+  font-family: @font-roboto-regular;
   font-size: 20px;
   letter-spacing: 0;
   line-height: 24px;
   margin: 0;
 }
 
-hr {
-  border: none;
-  //border-bottom: 1px solid @color-lite-font;
+/* TEXT */
+
+.headline-1 {
+  font-family: @font-roboto-medium;
+  font-size: 34px;
+  letter-spacing: 0;
+  line-height: 40px;
 }
 
-.head-line-1 {
-  font-family: 'Roboto-Medium', sans-serif;
+.headline-2 {
+  font-family: @font-roboto-medium;
   font-size: 17px;
   letter-spacing: 0;
   line-height: 22px;
 }
 
-.head-line-2 {
-  font-family: 'Roboto-Medium', sans-serif;
+.headline-3 {
+  font-family: @font-roboto-medium;
   font-size: 15px;
-  letter-spacing: -0.24px;
+  letter-spacing: -0.2px;
   line-height: 20px;
 }
 
-.sub-header {
-  font-family: 'Roboto-Medium', sans-serif;
+.subheader {
+  font-family: @font-roboto-medium;
   font-size: 16px;
   letter-spacing: 0;
   line-height: 21px;
 }
 
-.foot-node {
-  font-family: 'Roboto-Regular', sans-serif;
-  font-size: 13px;
-  letter-spacing: 0;
-  line-height: 18px;
-}
-
-.foot-node-grey {
-  .foot-node();
-  //color: @color-lite-font;
-}
-
-.caption {
-  font-family: 'Roboto-Regular', sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.07px;
-  line-height: 16px;
-  //color: @color-lite-font;
-}
-
-.caption-2 {
-  font-family: 'Roboto-Regular', sans-serif;
-  font-size: 11px;
-  letter-spacing: 0.07px;
-  line-height: 13px;
-  //color: @color-lite-font;
-}
-
-.body {
-  font-family: 'Roboto-Regular', sans-serif;
+.body-1 {
+  font-family: @font-roboto-regular;
   font-size: 17px;
   letter-spacing: 0;
   line-height: 22px;
 }
 
 .body-2 {
-  font-family: 'Roboto-Regular', sans-serif;
+  font-family: @font-roboto-regular;
   font-size: 15px;
   letter-spacing: 0;
   line-height: 20px;
+}
+
+.footnote {
+  font-family: @font-roboto-regular;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 18px;
+}
+
+/* CAPTIONS */
+
+.caption-1 {
+  font-family: @font-roboto-regular;
+  font-size: 12px;
+  letter-spacing: 0.1px;
+  line-height: 16px;
+  color: @color-disabled-600;
+}
+
+.caption-2 {
+  font-family: @font-roboto-regular;
+  font-size: 11px;
+  letter-spacing: 0.1px;
+  line-height: 13px;
+  color: @color-disabled-600;
+}
+
+/* TAGS */
+
+.tag-1 {
+  font-family: @font-roboto-regular;
+  font-size: 13px;
+  letter-spacing: -0.1px;
+  line-height: 15px;
+  color: @color-disabled-600;
+}
+
+.tag-2 {
+  font-family: @font-roboto-regular;
+  font-size: 11px;
+  letter-spacing: 2px;
+  line-height: 12px;
+  color: @color-info-400;
 }

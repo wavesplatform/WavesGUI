@@ -38,6 +38,7 @@ function createMyServer(port) {
     server.addListener('request', handler);
     server.listen(port);
     console.log(`Listen port ${port}...`);
+    console.log(`Open link https://testnet.dev.localhost:${port}`);
 }
 
 createMyServer(8080);

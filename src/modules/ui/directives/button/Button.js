@@ -5,6 +5,9 @@
 
     const controller = function (Base, $element, $attrs) {
 
+        const SYNC_ATTRS = ['type', 'class'];
+
+
         class Button extends Base {
 
             constructor() {
@@ -14,10 +17,6 @@
                  */
                 this.type = null;
                 /**
-                 * @type {string}
-                 */
-                this.mode = '';
-                /**
                  * @type {boolean}
                  */
                 this.disabled = false;
@@ -26,19 +25,21 @@
             }
 
             $postLink() {
-                if ($attrs.type) {
-                    this._getButton().attr('type', $attrs.type);
-                }
-
-                $element.get(0).addEventListener('click', (e) => {
-                    if (this.disabled) {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        e.stopImmediatePropagation();
+                const button = this._getButton();
+                SYNC_ATTRS.forEach((name) => {
+                    if (name in $attrs) {
+                        button.attr(name, $attrs[name]);
                     }
-                }, true);
+                });
 
-                this._onChangeDisabled();
+                $element.get(0)
+                    .addEventListener('click', (e) => {
+                        if (this.disabled) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            e.stopImmediatePropagation();
+                        }
+                    }, true);
             }
 
             /**
@@ -53,7 +54,8 @@
              * @private
              */
             _onChangeDisabled() {
-                this._getButton().prop('disabled', this.disabled);
+                this._getButton()
+                    .prop('disabled', this.disabled);
             }
 
         }
@@ -61,13 +63,12 @@
         return new Button();
     };
 
-    controller.$inject = ['Base', '$element', '$attrs', '$q'];
+    controller.$inject = ['Base', '$element', '$attrs'];
 
     module.component('wButton', {
-        template: `<button ng-class="$ctrl.mode" ng-transclude></button>`,
+        template: `<button ng-transclude></button>`,
         transclude: true,
         bindings: {
-            mode: '@',
             disabled: '<',
             ngClick: '&'
         },

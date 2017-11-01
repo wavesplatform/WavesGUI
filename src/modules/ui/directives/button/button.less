@@ -1,15 +1,38 @@
 @import (reference) '../../../config';
 
 w-button {
-  &.long, &.long > button {
+  &.long, &.long > .btn {
     width: 100%;
   }
 
-  button {
+  & > * {
     font-size: 15px;
     border-radius: @border-radius;
     padding: 8px 20px;
-    border: 1px solid transparent;
+
+    &:not(.transparent) {
+      border-color: @color-button-border;
+      background-color: @color-text-invert;
+      color: @color-button-text;
+
+      &:hover, &.hover {
+        border-color: @color-button-border-hover;
+        background-color: @color-default-hover;
+        color: @color-button-hover-text;
+      }
+
+      &:active, &.active {
+        border-color: @color-button-border-active;
+        background-color: @color-default-active;
+        color: @color-button-active-text;
+      }
+
+      &:disabled, &.disabled {
+        border-color: @color-button-border-disabled;
+        background-color: @color-default-disabled;
+        color: @color-button-disabled-text;
+      }
+    }
 
     &:hover, &.hover {
       box-shadow: inset -1px 1px 0 0 rgba(255, 255, 255, 0.00);
@@ -19,8 +42,46 @@ w-button {
       box-shadow: inset -1px 1px 0 0 rgba(255, 255, 255, 0.00);
     }
 
-    &.big {
-      padding: 10px 25px;
+    &.success {
+      background-color: @color-success-300;
+      color: @color-text-invert;
+
+      &:hover, &.hover {
+        background-color: @color-success-400;
+      }
+
+      &:active, &.active {
+        background-color: @color-success-500;
+      }
+
+      &:disabled, &.disabled {
+        background-color: @color-success-100;
+      }
+    }
+
+    &.submit {
+      background-color: @color-submit-400;
+      border: 1px solid @color-submit-500;
+      color: @color-text-invert;
+
+      &:hover, &.hover {
+        background-color: @color-submit-700;
+        border-color: transparent;
+        color: @color-text-invert;
+      }
+
+      &:active, &.active {
+        background-color: @color-submit-800;
+        border-color: transparent;
+        color: @color-text-invert;
+      }
+
+      &:disabled, &.disabled {
+        background-color: @color-submit-100;
+        border-color: @color-submit-200;
+        color: @color-text-invert;
+        box-shadow: inset -1px 1px 0 0 rgba(255, 255, 255, 0);
+      }
     }
 
     &.round {
@@ -31,71 +92,6 @@ w-button {
       flex-direction: row;
       align-items: center;
       justify-content: center;
-    }
-  }
-
-  button.success {
-    background-color: @color-success;
-    color: @color-text-invert;
-
-    &:hover, &.hover {
-      background-color: @color-success-hover;
-    }
-
-    &:active, &.active {
-      background-color: @color-success-active;
-    }
-
-    &:disabled, &.disabled {
-      // TODO add disabled style!
-    }
-  }
-
-  button.submit {
-    background-color: @color-submit;
-    border-color: #307bc4;
-    color: @color-text-invert;
-
-    &:hover, &.hover {
-      background-color: @color-submit-hover;
-      border-color: transparent;
-      color: @color-text-invert;
-    }
-
-    &:active, &.active {
-      background-color: @color-submit-active;
-      border-color: transparent;
-      color: @color-text-invert;
-    }
-
-    &:disabled, &.disabled {
-      background-color: @color-submit-disabled;
-      border-color: #9bbde2;
-      color: @color-text-invert;
-    }
-  }
-
-  button {
-    border-color: @color-button-border;
-    background-color: @color-text-invert;
-    color: @color-button-text;
-
-    &:hover, &.hover {
-      border-color: @color-button-border-hover;
-      background-color: @color-default-hover;
-      color: @color-button-hover-text;
-    }
-
-    &:active, &.active {
-      border-color: @color-button-border-active;
-      background-color: @color-default-active;
-      color: @color-button-active-text;
-    }
-
-    &:disabled, &.disabled {
-      border-color: @color-button-border-disabled;
-      background-color: @color-default-disabled;
-      color: @color-button-disabled-text;
     }
   }
 

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-node_modules/.bin/eslint -c ./.eslintrc.json ./src/js/\!\(vendor\)/**/*.js || exit 1
+node_modules/.bin/eslint -c ./.eslintrc.json ./src/modules/**/*.js || exit 1
