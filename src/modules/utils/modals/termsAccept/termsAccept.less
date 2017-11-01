@@ -1,0 +1,79 @@
+@import (reference) '../../../config';
+
+// TODO add typography
+
+md-dialog.terms-accept {
+  width: 540px;
+
+  .step-1 {
+
+    md-dialog-content {
+      display: block;
+      padding: 0 40px;
+
+      .header-texts {
+        text-align: center;
+        padding: 10px 40px 0;
+        border: none;
+      }
+
+      hr {
+        border: none;
+        border-bottom: 1px solid @color-basic-200;
+        color: @color-basic-200;
+        width: 100%;
+        margin: 30px 0;
+      }
+
+      .row {
+        position: relative;
+        margin: 20px 0;
+
+        w-checkbox-submit {
+          position: absolute;
+          left: 0;
+          top: 0;
+        }
+
+        label {
+          margin-left: 36px;
+          display: block;
+        }
+      }
+
+      .submit.long.big {
+        margin-top: 40px;
+      }
+    }
+  }
+
+  .step-2 {
+    .agree-list {
+      padding: 0;
+      list-style: none;
+      max-height: 370px;
+
+      w-scroll-box:first-child {
+        border-top: 1px solid @color-basic-200;
+      }
+
+      .license {
+        padding: 20px;
+        border: 1px solid @color-basic-200;
+        border-top: none;
+
+        &:nth-child(even) {
+          background-color: @color-basic-50;
+        }
+
+        .title {
+          font-weight: bold;
+        }
+      }
+    }
+
+    .submit.big.long {
+      margin-top: 40px;
+    }
+  }
+}
