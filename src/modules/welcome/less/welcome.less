@@ -45,8 +45,15 @@
       margin-bottom: 22px;
     }
 
+    @button-width: 224px;
+
+    .submit.big {
+      width: @button-width;
+    }
+
     .or {
       text-transform: uppercase;
+      width: @button-width;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -56,9 +63,16 @@
         display: inline-block;
         height: 0;
         border-bottom: 1px solid #979797;
-        width: 93px;
+        width: 100%;
         opacity: 0.3;
-        margin: 0 10px;
+      }
+
+      &::before {
+        margin: 0 10px 0 0;
+      }
+
+      &::after {
+        margin: 0 0 0 10px;
       }
     }
 
