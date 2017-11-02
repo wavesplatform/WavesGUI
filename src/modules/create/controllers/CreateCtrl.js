@@ -43,6 +43,7 @@
 
             clearSeedConfirm() {
                 seedService.clear.dispatch();
+                this.seedConfirmWasFilled = false;
             }
 
             setActiveSeed(item) {

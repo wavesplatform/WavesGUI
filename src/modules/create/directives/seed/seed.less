@@ -1,4 +1,5 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
 
 w-seed-read, w-seed-write {
 
@@ -8,21 +9,25 @@ w-seed-read, w-seed-write {
     justify-content: center;
     align-content: center;
     flex-wrap: wrap;
-    padding: 15px 15px;
-    border: solid 0.5px #e2e2e2;
+    padding: 15px 10px;
+    border: 1px solid @color-disabled-200;
     border-radius: @border-radius;
-    background-color: #fafafa;
+    background-color: @color-disabled-50;
     box-sizing: border-box;
   }
 
   &[type="read"] {
     .seed-container {
-      padding: 15px 30px;
+      padding: 25px 30px;
     }
 
     .seed-item {
-      padding: 5px 8px;
+      .headline-1();
       font-size: 17px;
+      line-height: 17px;
+      margin: 0;
+      color: @color-basic-900;
+      padding: 5px 8px;
       font-weight: 500;
     }
   }
@@ -37,17 +42,20 @@ w-seed-read, w-seed-write {
     }
 
     .seed-item {
+      .headline-1();
       border-radius: @border-radius;
-      background-color: #1f5af6;
-      color: #ffffff;
+      background-color: @color-submit-400;
       font-weight: 500;
-      padding: 8px 15px;
       margin: 3px;
-      border: solid 1px #1651ec;
+      border: solid 1px @color-submit-500;
       cursor: pointer;
+      font-size: 17px;
+      line-height: 17px;
+      color: @color-white;
+      padding: 8px 15px;
 
       &.moved {
-        border: dashed 1px #1651ec;
+        border: dashed 1px @color-basic-500;
         background-color: transparent;
         color: transparent;
         cursor: default;
@@ -65,13 +73,17 @@ w-seed-write {
   }
 
   .seed-item {
+    .headline-1();
     border-radius: @border-radius;
     padding: 8px 15px;
     margin: 3px;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
-    background-color: #ffffff;
+    background-color: @color-white;
     cursor: pointer;
     position: absolute;
+    font-size: 17px;
+    line-height: 17px;
+    font-weight: 500;
 
     &.hidden {
       opacity: 0;

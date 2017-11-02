@@ -3,16 +3,16 @@
         <w-asset-logo asset-id="{{::$ctrl.asset.id}}" size="30"></w-asset-logo>
         {{::$ctrl.asset.name}}
     </div>
-    <div class="balance-title body-2" w-i18n="directives.asset.balance"></div>
+    <div class="balance-title body-2 disabled-600" w-i18n="directives.asset.balance"></div>
     <h2 class="balance">
         <w-balance balance="$ctrl.asset.balance" asset-id="{{::$ctrl.asset.id}}"></w-balance>
     </h2>
     <hr>
     <div class="footer">
-        <div class="send icon"
+        <div class="btn-icon icon-send"
              ng-click="$ctrl.onClick({event: $event, asset: $ctrl.asset, action: 'send'})"
              w-i18n="directives.asset.send"></div>
-        <div class="receive icon"
+        <div class="btn-icon icon-receive"
              ng-click="$ctrl.onClick({event: $event, asset: $ctrl.asset, action: 'receive'})"
              w-i18n="directives.asset.receive"></div>
     </div>

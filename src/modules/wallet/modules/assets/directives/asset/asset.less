@@ -5,42 +5,12 @@ w-asset {
   height: 182px;
   width: 336px;
   border: 1px solid #eaeaea;
-  background-color: #ffffff;
+  background-color: @color-white;
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 20px 9px 20px 20px;
+  padding: 20px;
   margin: @padding-main-layout /2;
-
-  .footer .icon {
-    margin-top: 10px;
-    margin-right: 20px;
-    cursor: pointer;
-    //color: @color-lite-font;
-
-    &:hover {
-      color: #000;
-    }
-
-    &::before {
-      content: '';
-      display: inline-block;
-      position: relative;
-      top: 3px;
-      background-size: 100% 100%;
-      width: 14px;
-      height: 14px;
-      margin-right: 7px;
-    }
-
-    &.send::before {
-      background-image: url(/img/icons/send-grey.svg);
-    }
-
-    &.receive::before {
-      background-image: url(/img/icons/reveice-grey.svg);
-    }
-  }
 
   &:hover .settings {
     display: flex;
@@ -66,9 +36,8 @@ w-asset {
 
   hr {
     border: none;
-    padding-left: 20px;
-    padding-right: 9px;
     width: 100%;
+    margin: 8px 0;
     border-bottom: 1px dotted #e2e2e2;
   }
 
@@ -76,9 +45,16 @@ w-asset {
     display: flex;
     flex-direction: row;
     align-items: center;
-  }
+    color: @color-basic-500;
 
-  .balance-title {
-    //color: @color-lite-font;
+    .btn-icon {
+      margin-top: 10px;
+      margin-right: 20px;
+      cursor: pointer;
+
+      &:hover {
+        color: @color-black;
+      }
+    }
   }
 }

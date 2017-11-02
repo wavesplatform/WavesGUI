@@ -1,27 +1,25 @@
 <div>
-    <div class="row">
-        <w-i18n>modal.account.address</w-i18n>
-        <w-copy info="{{::$ctrl.address}}">
-            <w-avatar size="30" address="$ctrl.address"></w-avatar>
-            <div class="body">{{::$ctrl.address}}</div>
-        </w-copy>
-    </div>
+    <span class="body-2 basic-900" w-i18n="modal.account.address"></span>
+    <w-copy info="{{::$ctrl.address}}">
+        <w-avatar size="30" address="$ctrl.address"></w-avatar>
+        <div class="body-1 basic-900">{{::$ctrl.address}}</div>
+    </w-copy>
 
     <div class="row">
-        <w-i18n>modal.account.aliases</w-i18n>
+        <span class="body-2 basic-900" w-i18n="modal.account.aliases"></span>
         <div class="alias-list">
-            <w-copy ng-repeat="alias in $ctrl.aliases" info="{{::alias}}">
+            <w-copy class="body-1 basic-900" ng-repeat="alias in $ctrl.aliases" info="{{::alias}}">
                 {{::alias}}
             </w-copy>
             <w-step-by-step active-step="$ctrl.createAliasStep">
                 <w-step>
                     <div class="create-alias-wrap">
-                        <w-button w-step-next>
+                        <w-button class="tiny margin-right-1" w-step-next>
                             <w-i18n>modal.account.create</w-i18n>
                         </w-button>
-                        <w-i18n params="{price: $ctrl.feeData.fee, name: $ctrl.feeData.name}">
-                            modal.account.fee
-                        </w-i18n>
+                        <span class="caption-1 basic-700"
+                              params="{price: $ctrl.feeData.fee, name: $ctrl.feeData.name}"
+                              w-i18n="modal.account.fee"></span>
                     </div>
                 </w-step>
                 <w-step>
@@ -39,12 +37,12 @@
                                  w-step-prev></div>
                         </div>
                         <div class="create-alias-wrap">
-                            <w-button class="submit" type="submit">
+                            <w-button class="submit tiny margin-right-1" type="submit">
                                 <w-i18n>modal.account.create</w-i18n>
                             </w-button>
-                            <w-i18n params="{price: $ctrl.feeData.fee, name: $ctrl.feeData.name}">
-                                modal.account.fee
-                            </w-i18n>
+                            <span class="caption-1 basic-700"
+                                  params="{price: $ctrl.feeData.fee, name: $ctrl.feeData.name}"
+                                  w-i18n="modal.account.fee"></span>
                         </div>
                     </form>
                 </w-step>

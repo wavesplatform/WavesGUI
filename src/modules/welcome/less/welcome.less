@@ -1,4 +1,5 @@
 @import (reference) '../../config';
+@import (reference) '../../app/less/typography';
 
 .welcome {
   padding-top: 100px;
@@ -13,7 +14,10 @@
       display: block;
       width: 358px;
       height: 312px;
-      margin-bottom: 40px;
+
+      .slide {
+        text-align: center;
+      }
 
       .slide-icon {
         background: url(/img/icons/welcome.svg) no-repeat center center;
@@ -22,22 +26,9 @@
         margin: 0 auto 45px;
       }
 
-      .slide-title {
-        font-size: 34px;
-        line-height: 1.29;
-        letter-spacing: -0.5px;
-        text-align: center;
-        color: #221f20;
-        margin-bottom: 10px;
-      }
-
       .slide-description {
         width: 358px;
         height: 60px;
-        font-size: 15px;
-        line-height: 1.33;
-        text-align: center;
-        color: @color-disabled-600;
       }
     }
 
@@ -82,27 +73,37 @@
       justify-content: center;
       text-align: center;
     }
-
   }
 
   .user-list {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
+    width: 460px;
+    margin: auto;
 
-    .title-block {
-      position: relative;
+    w-input-container {
+      display: block;
     }
 
-    .block {
-      height: 343px;
-      width: 513px;
-      padding: 30px;
-      box-sizing: border-box;
-      background-color: #ffffff;
-      box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
+    .title-content, .option {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .input-like {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .center {
+      text-align: center;
+      margin: 0 auto 50px;
+      width: 380px;
+    }
+
+    .right {
+      float: right;
     }
   }
+
 }

@@ -1,49 +1,52 @@
 <div class="user-list">
 
-    <div class="block">
+    <div class="center">
+        <div class="headline-1" w-i18n="userList.title"></div>
 
-        <div class="title-block">
-            <h2 w-i18n="userList.title"></h2>
-            <div class="or-new">or <a ui-sref="create">create new</a></div>
+        <div class="body-2">
+            <span class="disabled-600" w-i18n="userList.subTitle"></span>
+            <a ui-sref="create" w-i18n="userList.create"></a>
         </div>
-        <w-i18n>userList.subTitle</w-i18n>
-
-        <div ng-if="$ctrl.userList.length === 1">
-            <w-avatar address="$ctrl.address"></w-avatar>
-            {{$ctrl.address}}
-        </div>
-
-        <div ng-if="$ctrl.userList.length > 1">
-            <md-select placeholder="Assign to user" ng-model="$ctrl.activeUser">
-                <md-option ng-value="$index" ng-repeat="user in $ctrl.userList track by $index">
-                    <w-avatar address="user.address"></w-avatar>
-                    {{user.address}}
-                </md-option>
-            </md-select>
-        </div>
-
-        <form name="$ctrl.loginForm" ng-submit="$ctrl.loginForm.$valid && $ctrl.login()" novalidate>
-
-            <w-input-container>
-                <w-input name="password"
-                         type="password"
-                         ng-model="$ctrl.password"
-                         w-i18n-attr="placeholder"
-                         placeholder="userList.placeholders.password"
-                         required></w-input>
-
-                <w-input-error message="required">
-                    This is required!
-                </w-input-error>
-                <div ng-class="{active: $ctrl.showPasswordError}" class="error">
-                    Wrong Password!
-                </div>
-            </w-input-container>
-
-            <w-button type="submit" class="submit md-raised md-primary">
-                <w-i18n>userList.buttons.login</w-i18n>
-            </w-button>
-        </form>
     </div>
+
+    <div class="body-2 basic-900" w-i18n="userList.address"></div>
+    <div ng-if="$ctrl.userList.length === 1"
+         class="input-like big margin-3">
+        <w-avatar class="margin-right-1" address="$ctrl.address" size="30"></w-avatar>
+        <span class="body-1 basic-900">{{::$ctrl.address}}</span>
+    </div>
+    <w-select ng-if="$ctrl.userList.length > 1" ng-model="$ctrl.activeUser" class="big margin-3">
+        <w-option ng-repeat="user in $ctrl.userList track by $index"
+                  value="{{::$index}}">
+            <w-avatar class="margin-right-1" address="user.address" size="30"></w-avatar>
+            <div class="body-1 basic-900">{{::user.address}}</div>
+        </w-option>
+    </w-select>
+
+    <span class="body-2 basic-900" w-i18n="userList.password"></span>
+    <a class="caption-1 submit-300 right" ui-sref="restore" w-i18n="userList.forgot"></a>
+    <form name="$ctrl.loginForm" ng-submit="$ctrl.loginForm.$valid && $ctrl.login()" novalidate>
+
+        <w-input-container class="margin-3">
+            <w-input name="password"
+                     type="password"
+                     ng-model="$ctrl.password"
+                     w-i18n-attr="placeholder"
+                     class="big"
+                     placeholder="userList.placeholders.password"
+                     required></w-input>
+
+            <w-input-error message="required">
+                This is required!
+            </w-input-error>
+            <div ng-class="{active: $ctrl.showPasswordError}" class="error">
+                Wrong Password!
+            </div>
+        </w-input-container>
+
+        <w-button type="submit" class="submit big long">
+            <w-i18n>userList.buttons.login</w-i18n>
+        </w-button>
+    </form>
 
 </div>

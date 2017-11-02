@@ -4,14 +4,24 @@ md-dialog.account-info {
   width: 539px;
 
   md-dialog-content {
-    padding: 0 40px 40px 40px;
+
+    w-avatar {
+      margin-right: 10px;
+    }
+
+    w-copy {
+
+      .container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 54px;
+        padding: 0 30px 0 15px;
+      }
+    }
 
     .row {
       margin-top: 20px;
-
-      w-avatar {
-        margin-right: 10px;
-      }
 
       w-copy {
         border-bottom: none;
@@ -27,14 +37,6 @@ md-dialog.account-info {
           border-bottom-right-radius: @border-radius;
           border-bottom: 1px solid #dae1e9;
         }
-
-        .container {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          height: 54px;
-          padding: 0 30px 0 15px;
-        }
       }
 
       .alias-list {
@@ -43,8 +45,8 @@ md-dialog.account-info {
           display: flex;
           flex-direction: row;
           align-items: center;
-          background: #f9fafd;
-          border: 1px dashed #dae1e9;
+          background: @color-basic-50;
+          border: 1px dashed @color-basic-200;
           padding: 0 15px;
 
           button {
@@ -53,11 +55,11 @@ md-dialog.account-info {
         }
 
         input.new-alias {
-          background: #fff;
+          background: @color-white;
           height: 54px;
-          border-left: 1px solid #dae1e9;
-          border-right: 1px solid #dae1e9;
-          border-top: 1px solid #dae1e9;
+          border-left: 1px solid @color-basic-200;
+          border-right: 1px solid @color-basic-200;
+          border-top: 1px solid @color-basic-200;
           border-bottom: none;
         }
 

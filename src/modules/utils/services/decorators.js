@@ -33,6 +33,23 @@
             },
 
             /**
+             * @name app.utils.decorators#scope
+             * @param defaults
+             * @return {Function}
+             */
+            scope(defaults) {
+                return function (target, key, descriptor) {
+                    const cache = defaults || Object.create(null);
+                    const origin = descriptor.value;
+
+                    descriptor.value = function (...args) {
+                        args.push(cache);
+                        return origin.call(...args);
+                    };
+                };
+            },
+
+            /**
              * @name app.utils.decorators#cachable
              * @param time
              * @returns {Function}

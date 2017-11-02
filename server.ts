@@ -38,7 +38,12 @@ function createMyServer(port) {
     server.addListener('request', handler);
     server.listen(port);
     console.log(`Listen port ${port}...`);
-    console.log(`Open link https://testnet.dev.localhost:${port}`);
+    console.log('Available urls:');
+    connectionTypes.forEach((connection) => {
+        buildTypes.forEach((build) => {
+            console.log(`https://${connection}.${build}.localhost:${port}`);
+        });
+    });
 }
 
 createMyServer(8080);

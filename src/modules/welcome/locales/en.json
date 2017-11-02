@@ -12,8 +12,12 @@
     }
   },
   "userList": {
-    "title": "Login to your account",
-    "subTitle": "Sign up for a free account below",
+    "title": "Sign in",
+    "subTitle": "The session was automatically terminated, sign in again or",
+    "create": "create new account",
+    "address": "Address",
+    "password": "Password",
+    "forgot": "Forgot password",
     "placeholders": {
       "password": "Password"
     },
