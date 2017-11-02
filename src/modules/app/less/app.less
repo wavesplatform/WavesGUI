@@ -17,6 +17,7 @@ ui-view[name="main"] {
 a {
   text-decoration: none;
   color: @color-submit-300;
+  cursor: pointer;
 }
 
 md-input-container {
@@ -235,6 +236,17 @@ md-dialog md-dialog-actions {
 
     &:active {
       .btn-active();
+    }
+  }
+}
+
+.main {
+  .main-content {
+    background-color: @color-basic-50;
+
+    .header, .left-menu {
+      background-color: @color-white;
+      backdrop-filter: blur(10px)
     }
   }
 }

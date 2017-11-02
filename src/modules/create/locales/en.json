@@ -15,9 +15,9 @@
   "noBackupNoMoney": {
     "title": "No backup, no money",
     "description": "Now you must to save secret phrase. It is really important for access to your account.",
-    "backup": "Backup Account",
+    "backup": "Backup Now",
     "or": "or",
-    "skip": "Skip",
+    "skip": "Do it later",
     "modal": {
       "title": "Screenshots are not secure",
       "description": "If you take a screenshot, your backup may be viewed by other apps.",

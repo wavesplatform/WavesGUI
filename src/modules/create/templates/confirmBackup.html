@@ -1,10 +1,10 @@
 <div class="confirm-backup">
 
-    <h1>
+    <div class="headline-1">
         <w-i18n>confirmBackup.confirm</w-i18n>
-    </h1>
+    </div>
 
-    <div class="disabled-600 description">
+    <div class="body-2 disabled-600">
         <w-i18n>confirmBackup.description</w-i18n>
         <a ng-click="$ctrl.next(-1)" w-i18n="confirmBackup.back"></a>
     </div>
@@ -12,22 +12,22 @@
     <w-seed-write on-fulfilled="$ctrl.onSeedConfirmFulfilled(isValid)"
                   seed="{{::$ctrl.seed}}"></w-seed-write>
 
-    <div>
+    <div class="body-2 basic-900">
         <w-i18n>confirmBackup.enterCorrect</w-i18n>
     </div>
 
     <w-seed-read type="random" seed="{{::$ctrl.seed}}"></w-seed-read>
 
-    <w-button class="submit" mod="big" disabled="!$ctrl.seedIsValid" ng-click="$ctrl.next()">
+    <w-button class="submit big long" disabled="!$ctrl.seedIsValid" ng-click="$ctrl.next()">
         <w-i18n>confirmBackup.ok</w-i18n>
     </w-button>
 
     <div ng-if="$ctrl.seedConfirmWasFilled && !$ctrl.seedIsValid"
          class="error-500" w-i18n="confirmBackup.error"></div>
 
-    <div>
-        <a ng-click="$ctrl.clearSeedConfirm()" w-i18n="confirmBackup.clear"></a>
-        <w-i18n>confirmBackup.again</w-i18n>
+    <div class="body-2">
+        <a class="submit-400" ng-click="$ctrl.clearSeedConfirm()" w-i18n="confirmBackup.clear"></a>
+        <span class="basic-900" w-i18n="confirmBackup.again"></span>
     </div>
 
 </div>

@@ -38,8 +38,15 @@
                             dataset: 'values',
                             key: 'y',
                             label: 'An area series',
-                            color: '#FFAF01',
+                            color: '#dfeaf8',
                             type: ['line', 'line', 'area']
+                        },
+                        {
+                            dataset: 'values',
+                            key: 'y',
+                            label: 'An area series',
+                            color: '#5a81ea',
+                            type: ['line', 'line']
                         }
                     ],
                     axes: {

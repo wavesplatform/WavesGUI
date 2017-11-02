@@ -1,23 +1,46 @@
-<div w-i18n-ns="app.wallet.assets" class="chart-wrapper">
-    <div class="chart-info left">
-        Total $ {{$ctrl.total}}
+<div w-i18n-ns="app.wallet.assets">
+
+    <div class="tool-bar">
+        <w-button ng-click="$ctrl.send()">
+            <span class="btn-icon icon-send" w-i18n="send"></span>
+        </w-button>
+        <w-button ng-click="$ctrl.receive()">
+            <span class="btn-icon icon-receive" w-i18n="receive"></span>
+        </w-button>
+        <w-button class="right" ng-click="$ctrl.addAsset()">
+            <span class="btn-icon icon-add-asset" w-i18n="addAsset"></span>
+        </w-button>
     </div>
-    <span class="chart-info right">
-        <w-radio-wrap class="split-mode" ng-model="$ctrl.chartMode">
-            <w-radio value="'hour'"><w-i18n>chart.intervals.hour</w-i18n></w-radio>
-            <w-radio value="'day'"><w-i18n>chart.intervals.day</w-i18n></w-radio>
-            <w-radio value="'week'"><w-i18n>chart.intervals.week</w-i18n></w-radio>
-            <w-radio value="'month'"><w-i18n>chart.intervals.month</w-i18n></w-radio>
-            <w-radio value="'year'"><w-i18n>chart.intervals.year</w-i18n></w-radio>
-            <w-radio value="'all'"><w-i18n>chart.intervals.all</w-i18n></w-radio>
-        </w-radio-wrap>
-    </span>
-    <linechart ng-if="$ctrl.chartMode && $ctrl.data" options="$ctrl.options" data="$ctrl.data"></linechart>
-</div>
-<div class="assets-list">
-    <w-asset ng-repeat="asset in $ctrl.assets track by $index" on-click="$ctrl.onAssetClick(event, asset, action)"
-             asset="asset"></w-asset>
-    <div class="add-asset">
-        <div ng-click="$ctrl.addAsset()" class="add-asset-btn"></div>
+
+    <div class="chart-wrapper">
+
+        <div class="chart-info right">
+            <w-radio-wrap mode="tab-mode" ng-model="$ctrl.chartMode">
+                <w-radio value="'hour'">
+                    <w-i18n>chart.intervals.hour</w-i18n>
+                </w-radio>
+                <w-radio value="'day'">
+                    <w-i18n>chart.intervals.day</w-i18n>
+                </w-radio>
+                <w-radio value="'week'">
+                    <w-i18n>chart.intervals.week</w-i18n>
+                </w-radio>
+                <w-radio value="'month'">
+                    <w-i18n>chart.intervals.month</w-i18n>
+                </w-radio>
+                <w-radio value="'year'">
+                    <w-i18n>chart.intervals.year</w-i18n>
+                </w-radio>
+                <w-radio value="'all'">
+                    <w-i18n>chart.intervals.all</w-i18n>
+                </w-radio>
+            </w-radio-wrap>
+        </div>
+        <linechart ng-if="$ctrl.chartMode && $ctrl.data" options="$ctrl.options" data="$ctrl.data"></linechart>
     </div>
+    <div class="assets-list">
+        <w-asset ng-repeat="asset in $ctrl.assets track by $index" on-click="$ctrl.onAssetClick(event, asset, action)"
+                 asset="asset"></w-asset>
+    </div>
+
 </div>

@@ -1,25 +1,25 @@
 <div class="backup-seed">
 
-    <h1>
+    <div class="headline-1">
         <w-i18n>backupSeed.saveSecret</w-i18n>
-    </h1>
+    </div>
 
-    <div class="disabled-600 description">
+    <div class="body-2 disabled-600">
         <w-i18n>backupSeed.warn</w-i18n>
         <a ng-click="$ctrl.next(-1)" w-i18n="backupSeed.back"></a>
     </div>
 
-    <div>
+    <div class="body-2 basic-900">
         <w-i18n>backupSeed.writeSeed</w-i18n>
     </div>
 
     <w-seed-read type="read" seed="{{::$ctrl.seed}}"></w-seed-read>
 
-    <div>
+    <div class="body-2 basic-900">
         <w-i18n>backupSeed.needConfirm</w-i18n>
     </div>
 
-    <w-button class="submit" mod="big" ng-click="$ctrl.next()">
+    <w-button class="submit big long" ng-click="$ctrl.next()">
         <w-i18n>backupSeed.ok</w-i18n>
     </w-button>
 </div>

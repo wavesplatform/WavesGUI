@@ -1,6 +1,8 @@
 @import (reference) '../../../config';
 
 w-button {
+  display: inline-block;
+
   &.long, &.long > * {
     width: 100%;
   }
@@ -9,6 +11,7 @@ w-button {
     border-radius: @border-radius;
     font-size: @font-size-control;
     padding: @padding-control-button-small;
+    width: 100%;
 
     &.small {
       font-size: @font-size-control-small;

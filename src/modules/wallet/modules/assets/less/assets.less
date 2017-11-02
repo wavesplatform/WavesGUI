@@ -2,65 +2,85 @@
 
 .main.wallet.assets {
 
-  .assets-list {
-    width: calc(~"100% + " @padding-main-layout);
-    position: relative;
-    left: @padding-main-layout * -1 / 2;
-  }
+  .content {
+    overflow-x: hidden;
 
-  .add-asset {
-    box-sizing: border-box;
-    height: 182px;
-    width: 336px;
-    border: 1px solid #eaeaea;
-    background-color: @color-white;
-    margin: @padding-main-layout /2;
-    padding: @padding-main-layout * 2;
+    .btn-icon::before {
+      content: '';
+      display: inline-block;
+      position: relative;
+      top: 2px;
+      background-size: 100% 100%;
+      width: 14px;
+      height: 14px;
+      margin-right: 7px;
+    }
 
-    .add-asset-btn {
-      width: 100%;
-      height: 100%;
-      border: 1px dotted #eee;
-      cursor: pointer;
+    .btn-icon.icon-send::before {
+      background-image: url(/img/icons/send-grey.svg);
+    }
 
+    .btn-icon.icon-receive::before {
+      background-image: url(/img/icons/reveice-grey.svg);
+    }
+
+    .btn-icon.icon-add-asset::before {
       background-image: url(/img/icons/add-asset.svg);
-      background-size: 60px 60px;
-      background-position: center center;
-      background-repeat: no-repeat;
     }
-  }
 
-  .chart-wrapper {
-    height: 256px;
-    box-sizing: border-box;
-    border: 0.5px solid #eaeaea;
-    background-color: @color-white;
-    position: relative;
-  }
+    .tool-bar {
+      margin: 0 0 10px 0;
+      width: calc(~"100% + "@padding-main-layout / 2);
+      position: relative;
+      left: @padding-main-layout * -1 / 4;
 
-  .chart-info {
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    top: 0;
-    z-index: 1;
+      w-button {
+        margin: 0 @padding-main-layout / 4;
+      }
 
-    &.left {
-      left: 0;
-    }
-    &.right {
-      right: 0;
-
-      w-radio-wrap {
-        margin-top: 15px;
+      .right {
+        float: right;
       }
     }
-  }
 
-  .assets-list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
+    .assets-list {
+      width: calc(~"100% + " @padding-main-layout);
+      position: relative;
+      left: @padding-main-layout * -1 / 2;
+      margin: @padding-main-layout / 2 0;
+    }
 
+    .chart-wrapper {
+      height: 256px;
+      box-sizing: border-box;
+      border: 0.5px solid #eaeaea;
+      background-color: @color-white;
+      position: relative;
+    }
+
+    .chart-info {
+      position: absolute;
+      display: flex;
+      flex-direction: row;
+      top: 0;
+      z-index: 1;
+
+      &.left {
+        left: 0;
+      }
+      &.right {
+        right: 0;
+
+        w-radio-wrap {
+          margin-top: 15px;
+        }
+      }
+    }
+
+    .assets-list {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  }
 }
