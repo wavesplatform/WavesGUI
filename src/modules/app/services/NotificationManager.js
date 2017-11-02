@@ -17,6 +17,7 @@
         class NotificationManager {
 
             constructor() {
+                this._queue = [];
                 this._list = [];
                 this.changeSignal = new tsUtils.Signal();
             }
@@ -27,7 +28,7 @@
              * @param {number} [delay]
              */
             info(notificationObj, delay) {
-                return this._create('info', notificationObj, delay);
+                return this._push('info', notificationObj, delay);
             }
 
             /**
@@ -35,7 +36,7 @@
              * @param {number} [delay]
              */
             success(notificationObj, delay) {
-                return this._create('success', notificationObj, delay);
+                return this._push('success', notificationObj, delay);
             }
 
             /**
@@ -43,7 +44,7 @@
              * @param {number} [delay]
              */
             warn(notificationObj, delay) {
-                return this._create('warn', notificationObj, delay);
+                return this._push('warn', notificationObj, delay);
             }
 
             /**
@@ -51,7 +52,7 @@
              * @param {number} [delay]
              */
             error(notificationObj, delay) {
-                return this._create('error', notificationObj, delay);
+                return this._push('error', notificationObj, delay);
             }
 
             /**
@@ -61,13 +62,36 @@
              * @return {Promise}
              * @private
              */
-            _create(type, notificationObj, delay = DEFAULT_DELAY) {
-
-                // TODO : defer the creation of a notification when the limit is matched
-
+            _push(type, notificationObj, delay) {
                 const defer = $q.defer();
+                this._queue.push([defer, type, notificationObj, delay]);
+                this._run();
+                return defer.promise;
+            }
+
+            _run() {
+                if (this._queue.length) {
+                    if (this._list.length < NOTIFICATIONS_LIMIT) {
+                        const args = this._queue.shift();
+                        this._create.apply(this, args);
+                        this._run();
+                    }
+                }
+            }
+
+            /**
+             * @param defer
+             * @param {string} type
+             * @param {INotificationObj} notificationObj
+             * @param {number} [delay]
+             * @return {null}
+             * @private
+             */
+            _create(defer, type, notificationObj, delay = DEFAULT_DELAY) {
+
                 const $scope = $rootScope.$new(true);
                 $scope.$on('$destroy', defer.resolve);
+
                 const element = this._buildNotification($scope, type, notificationObj);
 
                 const notification = {
@@ -77,7 +101,6 @@
                         if (!notification.isDestroyed) {
                             $scope.$destroy();
                             this._remove(notification);
-                            this._dispatch();
                             notification.isDestroyed = true;
                         }
                     }
@@ -96,8 +119,6 @@
 
                 this._list.push(notification);
                 this._dispatch();
-
-                return notification.promise;
             }
 
             _remove(notification) {
@@ -105,6 +126,7 @@
                     if (this._list[i] === notification) {
                         this._list.splice(i, 1);
                         this._dispatch();
+                        this._run();
                         break;
                     }
                 }
