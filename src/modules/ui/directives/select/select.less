@@ -1,17 +1,28 @@
 @import (reference) '../../../config';
 
 w-select {
+  display: block;
+  height: @height-control;
+
+  &.big {
+    height: @height-control-big;
+  }
 
   .select {
     position: relative;
+    height: 100%;
 
     .title {
       border: 1px solid @color-input-border;
-      height: @height-control;
+      height: 100%;
       font-size: @font-size-control;
       padding: 8px 35px 8px 15px;
       border-radius: @border-radius;
       cursor: pointer;
+
+      .title-content {
+        height: 100%;
+      }
 
       &::after {
         content: '';
