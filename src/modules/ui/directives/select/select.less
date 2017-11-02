@@ -41,10 +41,7 @@ w-select {
       position: absolute;
       border: 1px solid @color-input-border;
       border-top: none;
-      border-bottom-left-radius: @border-radius;
-      border-bottom-right-radius: @border-radius;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
+      border-radius: 0 0 @border-radius @border-radius;
       left: 0;
       top: 100%;
       width: 100%;
@@ -57,7 +54,7 @@ w-select {
         padding: 8px 35px 8px 15px;
 
         &:hover {
-          background-color: #fafbfc;
+          background-color: @color-basic-50;
         }
       }
     }

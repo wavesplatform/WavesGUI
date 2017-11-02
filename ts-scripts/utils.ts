@@ -184,6 +184,12 @@ export function route(connectionType, buildType) {
                         .then(function (out) {
                             res.setHeader('Content-type', 'text/css');
                             res.end(out.css);
+                        })
+                        .catch((e) => {
+                            console.error(e.message);
+                            console.error(req.url);
+                            res.statusCode = 500;
+                            res.end(e.message);
                         });
                 });
         } else if (isSourceScript(req.url)) {

@@ -6,33 +6,33 @@ w-complexity-meter {
 
     .help {
       text-align: right;
-      color: #9ba6b2
+      color: @color-basic-500;
     }
 
     &.not-secure.touched {
       .step.active {
-        background-color: #ff151f;
+        background-color: @color-error-500;
       }
       .help {
-        color: #ff151f;
+        color: @color-error-500;
       }
     }
 
     &.warn {
       .step.active {
-        background-color: #f8b700;
+        background-color: #f8b700; // TODO! What the color? Author Tsigel at 02/11/2017 08:07
       }
       .help {
-        color: #f8b700;
+        color: #f8b700; // TODO! What the color? Author Tsigel at 02/11/2017 08:07
       }
     }
 
     &.success {
       .step.active {
-        background-color: #4ece3d;
+        background-color: @color-success-300;
       }
       .help {
-        color: #4ece3d;
+        color: @color-success-300;
       }
     }
 
@@ -46,7 +46,7 @@ w-complexity-meter {
         width: 9.5%;
         height: 3px;
         border-radius: @border-radius;
-        background-color: #dae1e9;
+        background-color: @color-basic-200;
       }
     }
   }

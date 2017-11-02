@@ -16,7 +16,7 @@ ui-view[name="main"] {
 
 a {
   text-decoration: none;
-  color: #5a81ea;
+  color: @color-submit-300;
 }
 
 md-input-container {
@@ -39,13 +39,13 @@ md-input-container {
     height: 50px;
     display: block;
     border-radius: 3px;
-    background-color: transparent;
     margin: 5px auto;
+    background-color: transparent;
     background-position: center center;
     background-repeat: no-repeat;
 
     &.active {
-      background-color: #0065d7;
+      background-color: @color-submit-400;
     }
 
     &.wallet {
@@ -101,7 +101,7 @@ w-scroll-box {
   top: 0;
   bottom: 0;
   right: 0;
-  background-color: #000;
+  background-color: @color-black;
   opacity: 0;
   transition: opacity 2s;
   z-index: 100000;
@@ -161,11 +161,11 @@ svg.chart {
       display: none;
     }
     .domain {
-      stroke: #d8e0e9;
+      stroke: transparent;
     }
 
     & > .tick > text {
-      fill: #818181;
+      fill: @color-basic-500;
       font-size: 13px;
     }
 
@@ -184,8 +184,8 @@ svg.chart {
 }
 
 md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
-  background-color: #fff;
-  color: #000;
+  background-color: @color-white;
+  color: @color-black;
   border-bottom: 1px solid #bfc6cd;
 }
 
@@ -199,7 +199,7 @@ md-dialog md-dialog-actions {
   display: none;
 }
 
-.btn-wrap.btn-group {
+.btn-wrap.btn-group { // TODO add colors from config for btn-wrap
   box-sizing: border-box;
   padding: 0 10px;
   display: flex;
@@ -209,7 +209,7 @@ md-dialog md-dialog-actions {
   .btn-active {
     cursor: default;
     background-color: #ebebeb;
-    color: #000;
+    color: @color-black;
   }
 
   & > *:first-child .btn, & > .btn:first-child {

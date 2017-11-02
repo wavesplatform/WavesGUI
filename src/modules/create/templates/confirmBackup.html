@@ -4,7 +4,7 @@
         <w-i18n>confirmBackup.confirm</w-i18n>
     </h1>
 
-    <div class="grey">
+    <div class="disabled-600 description">
         <w-i18n>confirmBackup.description</w-i18n>
         <a ng-click="$ctrl.next(-1)" w-i18n="confirmBackup.back"></a>
     </div>
@@ -23,7 +23,7 @@
     </w-button>
 
     <div ng-if="$ctrl.seedConfirmWasFilled && !$ctrl.seedIsValid"
-         class="error-message" w-i18n="confirmBackup.error"></div>
+         class="error-500" w-i18n="confirmBackup.error"></div>
 
     <div>
         <a ng-click="$ctrl.clearSeedConfirm()" w-i18n="confirmBackup.clear"></a>

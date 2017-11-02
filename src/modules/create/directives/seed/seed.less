@@ -9,9 +9,9 @@ w-seed-read, w-seed-write {
     align-content: center;
     flex-wrap: wrap;
     padding: 15px 15px;
-    border: solid 0.5px #e2e2e2;
+    border: solid 0.5px @color-disabled-200;
     border-radius: @border-radius;
-    background-color: #fafafa;
+    background-color: @color-disabled-50;
     box-sizing: border-box;
   }
 
@@ -38,16 +38,16 @@ w-seed-read, w-seed-write {
 
     .seed-item {
       border-radius: @border-radius;
-      background-color: #1f5af6;
-      color: #ffffff;
+      background-color: @color-submit-400;
+      color: @color-text-invert;
       font-weight: 500;
       padding: 8px 15px;
       margin: 3px;
-      border: solid 1px #1651ec;
+      border: solid 1px @color-submit-500;
       cursor: pointer;
 
       &.moved {
-        border: dashed 1px #1651ec;
+        border: dashed 1px @color-basic-500;
         background-color: transparent;
         color: transparent;
         cursor: default;
@@ -69,7 +69,7 @@ w-seed-write {
     padding: 8px 15px;
     margin: 3px;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
-    background-color: #ffffff;
+    background-color: @color-white;
     cursor: pointer;
     position: absolute;
 

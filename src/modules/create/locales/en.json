@@ -26,7 +26,8 @@
   },
   "backupSeed": {
     "saveSecret": "Save secret phrase",
-    "warn": "Since only you control your money, you’ll need to save your backup phrase in case this app is deleted.",
+    "warn": "Since only you control your money, you’ll need to save your backup phrase in case this app is deleted or",
+    "back": "go back",
     "writeSeed": "Please carefully write down this 15 words",
     "needConfirm": "You will to confirm this phrase on the next screen.",
     "ok": "I’ve written it down"

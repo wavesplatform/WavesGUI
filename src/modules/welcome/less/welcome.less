@@ -1,4 +1,5 @@
 @import (reference) '../../config';
+@import (reference) '../../app/less/typography';
 
 .welcome {
   padding-top: 100px;
@@ -23,11 +24,9 @@
       }
 
       .slide-title {
-        font-size: 34px;
-        line-height: 1.29;
-        letter-spacing: -0.5px;
+        .headline-1();
         text-align: center;
-        color: #221f20;
+        color: @color-black;
         margin-bottom: 10px;
       }
 
@@ -101,7 +100,7 @@
       width: 513px;
       padding: 30px;
       box-sizing: border-box;
-      background-color: #ffffff;
+      background-color: @color-white;
       box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
     }
   }
