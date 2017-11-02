@@ -15,9 +15,9 @@
   "noBackupNoMoney": {
     "title": "No backup, no money",
     "description": "Now you must to save secret phrase. It is really important for access to your account.",
-    "backup": "Backup Account",
+    "backup": "Backup Now",
     "or": "or",
-    "skip": "Skip",
+    "skip": "Do it later",
     "modal": {
       "title": "Screenshots are not secure",
       "description": "If you take a screenshot, your backup may be viewed by other apps.",
@@ -26,7 +26,8 @@
   },
   "backupSeed": {
     "saveSecret": "Save secret phrase",
-    "warn": "Since only you control your money, you’ll need to save your backup phrase in case this app is deleted.",
+    "warn": "Since only you control your money, you’ll need to save your backup phrase in case this app is deleted or",
+    "back": "go back",
     "writeSeed": "Please carefully write down this 15 words",
     "needConfirm": "You will to confirm this phrase on the next screen.",
     "ok": "I’ve written it down"

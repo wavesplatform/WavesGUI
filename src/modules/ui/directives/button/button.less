@@ -1,6 +1,8 @@
 @import (reference) '../../../config';
 
 w-button {
+  display: inline-block;
+
   &.long, &.long > * {
     width: 100%;
   }
@@ -9,6 +11,12 @@ w-button {
     border-radius: @border-radius;
     font-size: @font-size-control;
     padding: @padding-control-button-small;
+    width: 100%;
+
+    &.tiny {
+      font-size: @font-size-control-tiny;
+      padding: @padding-control-tiny;
+    }
 
     &.small {
       font-size: @font-size-control-small;
@@ -26,26 +34,23 @@ w-button {
     }
 
     &:not(.transparent) {
-      border-color: @color-button-border;
-      background-color: @color-text-invert;
-      color: @color-button-text;
+      background-color: @color-white;
+      border: 1px solid @color-basic-200;
+      color: @color-basic-500;
 
       &:hover, &.hover {
-        border-color: @color-button-border-hover;
-        background-color: @color-default-hover;
-        color: @color-button-hover-text;
+        border-color: @color-basic-500;
+        color: @color-basic-700;
       }
 
       &:active, &.active {
-        border-color: @color-button-border-active;
-        background-color: @color-default-active;
-        color: @color-button-active-text;
+        border-color: @color-basic-500;
+        color: @color-basic-700;
       }
 
       &:disabled, &.disabled {
-        border-color: @color-button-border-disabled;
-        background-color: @color-default-disabled;
-        color: @color-button-disabled-text;
+        border: 1px solid @color-basic-200;
+        color: @color-basic-200;
       }
     }
 

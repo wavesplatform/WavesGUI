@@ -75,32 +75,6 @@
             }
 
             _initializeLogin() {
-                // ****************************************************************************************
-                // TODO remove this code before release!
-                // const stop = $rootScope.$on('$stateChangeSuccess', (event, state, params) => {
-                // const START_STATES = ['welcome', 'get_started'];
-                // user.getUserList()
-                //     .then((list) => {
-                //         if (list && list.length && START_STATES.indexOf(state.name) === -1) {
-                //             user.addUserData(list[0]);
-                //         } else {
-                //             user.login()
-                //                 .then(() => {
-                //                     if (START_STATES.indexOf(state.name) === -1) {
-                //                         $state.go(state.name, params);
-                //                     } else {
-                //                         $state.go('main.wallet');
-                //                     }
-                //                 });
-                //         }
-                //     });
-                // REMOVE -- DEVELOP!!
-                // stop();
-                // });
-                // END_DEVELOP_MODE
-                // ****************************************************************************************
-
-                // MAIN CODE
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true }).map(item => item.id);
                 const stop = $rootScope.$on('$stateChangeSuccess', (event, state, params) => {
                     user.login()

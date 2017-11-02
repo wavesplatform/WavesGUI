@@ -1,3 +1,5 @@
+@import (reference) '../../../config';
+
 w-carousel-dots {
   display: flex;
   flex-direction: row;
@@ -7,14 +9,15 @@ w-carousel-dots {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.2);
+    border: solid 1px @color-basic-500;
     margin: 0 11px;
     text-align: center;
     display: inline-block;
     cursor: pointer;
 
     &.active {
-      background-color: #0578ff;
+      border: none;
+      background-color: @color-submit-400;
       cursor: default;
     }
   }
