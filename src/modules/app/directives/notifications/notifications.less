@@ -6,13 +6,12 @@ w-notifications {
   flex-direction: column;
 
   .notification {
-    // TODO : rgba colors
     position: relative;
     width: 100%;
     margin-top: 10px;
     padding: 16px 21px;
-    background: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.18);
+    background: fade(@color-white, 80%);
+    box-shadow: 0 1px 3px 0 fade(@color-black, 18%);
     border-radius: @border-radius;
     overflow: hidden;
 
@@ -46,6 +45,10 @@ w-notifications {
 
     &.error:before {
       background-color: @color-error-500;
+    }
+
+    [ng-click] {
+      cursor: pointer;
     }
   }
 }

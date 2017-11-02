@@ -86,6 +86,14 @@
                 $scope.close = () => notification.destroy();
                 timeLine.timeout(() => notification.destroy(), delay);
 
+                if (notificationObj.action) {
+                    const callback = notificationObj.action.callback;
+                    $scope.doAction = () => {
+                        notification.destroy();
+                        callback && callback();
+                    };
+                }
+
                 this._list.push(notification);
                 this._dispatch();
 
@@ -120,7 +128,8 @@
                         <div class="icon-close" ng-click="close()"></div>
                         <div>${this._getTitleContent(notificationObj)}</div>
                         <div>${this._getBodyContent(notificationObj)}</div>
-                    </w-i18n>
+                        <div><span ng-click="doAction()">${this._getActionContent(notificationObj)}</span></div>
+                    </div>
                 `)($scope);
             }
 
@@ -133,7 +142,7 @@
                 if (notificationObj.title) {
                     const literal = notificationObj.title.literal;
                     const params = JSON.stringify(notificationObj.title.params);
-                    return `<w-i18n class="headline-3 basic-900" params="${params}">${literal}</w-i18n>`;
+                    return `<w-i18n class="headline-3 basic-900" params=${params}>${literal}</w-i18n>`;
                 } else {
                     return '';
                 }
@@ -148,7 +157,22 @@
                 if (notificationObj.body) {
                     const literal = notificationObj.body.literal;
                     const params = JSON.stringify(notificationObj.body.params);
-                    return `<w-i18n class="footnote basic-700" params="${params}">${literal}</w-i18n>`;
+                    return `<w-i18n class="footnote basic-700" params=${params}>${literal}</w-i18n>`;
+                } else {
+                    return '';
+                }
+            }
+
+            /**
+             * @param {INotificationObj} notificationObj
+             * @return {string}
+             * @private
+             */
+            _getActionContent(notificationObj) {
+                if (notificationObj.action) {
+                    const literal = notificationObj.action.literal;
+                    const params = JSON.stringify(notificationObj.action.params);
+                    return `<w-i18n class="footnote-2 submit-300" params=${params}>${literal}</w-i18n>`;
                 } else {
                     return '';
                 }
@@ -173,6 +197,8 @@
  * @property {object} [body]
  * @property {string} [body.literal]
  * @property {object} [body.params]
+ * @property {object} [action]
+ * @property {string} [action.literal]
+ * @property {object} [action.params]
+ * @property {function} [action.callback]
  */
-
-// TODO : add action support
