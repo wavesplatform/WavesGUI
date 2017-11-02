@@ -26,6 +26,6 @@
 
     factory.$inject = ['EventComponent'];
 
-    angular.module('app.ui')
+    angular.module('app')
         .factory('BalanceComponent', factory);
 })();

@@ -3,7 +3,7 @@
 
     /**
      * @param {JQuery} $element
-     * @returns {QrCode}
+     * @return {QrCode}
      */
     const controller = function ($element) {
 

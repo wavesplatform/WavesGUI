@@ -5,7 +5,7 @@
      * @param {jQuery} $element
      * @param $timeout
      * @param {CarouselManager} carouselManager
-     * @returns {Carousel}
+     * @return {Carousel}
      */
     const controller = function ($element, $timeout, carouselManager) {
 
@@ -123,7 +123,7 @@
             /**
              * @param {number} active
              * @param {number} old
-             * @returns Promise
+             * @return Promise
              * @private
              */
             _move(active, old) {

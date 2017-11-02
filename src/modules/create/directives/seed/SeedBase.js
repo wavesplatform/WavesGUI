@@ -54,7 +54,7 @@
 
             /**
              * @param {JQuery} $forClone
-             * @returns {JQuery}
+             * @return {JQuery}
              */
             createClone($forClone) {
 

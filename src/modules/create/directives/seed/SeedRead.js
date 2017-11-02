@@ -59,7 +59,7 @@
             /**
              * @param e
              * @param index
-             * @returns {null}
+             * @return {null}
              * @private
              */
             _onClick(e, index) {

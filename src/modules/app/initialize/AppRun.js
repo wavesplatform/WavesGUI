@@ -41,7 +41,7 @@
      * @param apiWorker
      * @param {State} state
      * @param {ModalManager} modalManager
-     * @returns {AppRun}
+     * @return {AppRun}
      */
     const run = function ($rootScope, user, $state, apiWorker, state, modalManager) {
 

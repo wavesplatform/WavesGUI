@@ -10,7 +10,7 @@
      * @param {User} user
      * @param {EventManager} eventManager
      * @param {Function} createPoll
-     * @returns {PortfolioCtrl}
+     * @return {PortfolioCtrl}
      */
     const controller = function (Base, $scope, assetsService, utils, modalManager, user, eventManager, createPoll) {
 

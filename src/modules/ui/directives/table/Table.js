@@ -6,7 +6,7 @@
      * @param {JQuery} $element
      * @param {Base} Base
      * @param {StyleManager} StyleManager
-     * @returns {Table}
+     * @return {Table}
      */
     const controller = function ($element, Base, StyleManager) {
 

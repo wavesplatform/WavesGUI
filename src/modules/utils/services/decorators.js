@@ -35,7 +35,7 @@
             /**
              * @name app.utils.decorators#cachable
              * @param time
-             * @returns {Function}
+             * @return {Function}
              */
             cachable(time) {
                 return function (target, key, descriptor) {

@@ -3,7 +3,7 @@
 
     /**
      * @param {JQuery} $element
-     * @returns {InputContainer}
+     * @return {InputContainer}
      */
     const controller = function ($element, $scope) {
 

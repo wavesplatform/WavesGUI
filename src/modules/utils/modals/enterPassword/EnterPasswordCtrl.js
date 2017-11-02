@@ -8,7 +8,7 @@
      * @param {app.utils.apiWorker} apiWorker
      * @param {app.utils} utils
      * @param {*} $mdDialog
-     * @returns {EnterPasswordCtrl}
+     * @return {EnterPasswordCtrl}
      */
     const controller = function (Base, $scope, user, apiWorker, utils, $mdDialog) {
 
