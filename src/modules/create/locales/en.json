@@ -7,7 +7,8 @@
     "choose": "Choose your address avatar",
     "avatarUnique": "This avatar is unique, you can’t change it later.",
     "passTitle": "Protect your account with new password",
-    "inputHelpError": "must be at least {{minLength}} characters",
+    "minLength": "must be at least {{minLength}} characters",
+    "secure": "secure password",
     "inputHelpWarn": "easy, add digit or symbol",
     "inputHelpSuccess": "secure password",
     "repeat": "Repeat password"

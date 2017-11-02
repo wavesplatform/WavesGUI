@@ -47,7 +47,7 @@ w-input {
         color: @color-input-placeholder;
       }
 
-      &:not(.embed) {
+      &:not(.embed):not(.no-validate) {
         &:focus, &.focus {
           background-color: @color-input-background-focus;
           color: @color-input-text-focus;
@@ -65,7 +65,8 @@ w-input {
     }
   }
 
-  &:not(.no-icon) .w-input-wrap {
+  .w-input-wrap {
+
     &::after {
       content: '';
       display: block;
@@ -76,11 +77,19 @@ w-input {
       background-size: 100% 100%;
     }
 
+  }
+
+  &:not(.no-icon) .w-input-wrap {
+
     &.input-type-password::after {
       background: url(/img/icons/input-password-icon.svg) no-repeat center center;
       width: 15px;
       height: 10px;
     }
+
+  }
+
+  &:not(.no-validate) .w-input-wrap {
 
     &.valid.touched::after {
       background: url(/img/icons/input-valid-icon.svg) no-repeat center center;
@@ -98,7 +107,7 @@ w-input {
 
 form.ng-submitted {
   input[type="text"], input[type="password"], input[type="number"], textarea {
-    &.ng-invalid:not(.embed):not(:focus):not(.focus) {
+    &.ng-invalid:not(.embed):not(:focus):not(.focus):not(.no-validate) {
       border-color: @color-input-border-invalid;
     }
   }

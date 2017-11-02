@@ -65,6 +65,9 @@
                 this._onChangeValue();
             }
 
+            /**
+             * @private
+             */
             _onChangeValue() {
                 const value = this.value;
                 const complexity = this._getComplexy([
@@ -77,6 +80,10 @@
                 this._activateSteps(Math.round(complexity / 10));
             }
 
+            /**
+             * @param activeStep
+             * @private
+             */
             _activateSteps(activeStep) {
                 activeStep = this.valid ? Math.max(activeStep, 3) : Math.min(activeStep, 2);
                 for (let i = 0; i < this.steps.length; i++) {
@@ -94,10 +101,20 @@
                 }
             }
 
+            /**
+             * @param complexityList
+             * @returns {number}
+             * @private
+             */
             _getComplexy(complexityList) {
                 return (complexityList.reduce((result, item) => result + item) / complexityList.length) * 100;
             }
 
+            /**
+             * @param value
+             * @returns {number}
+             * @private
+             */
             _getLengthComplexy(value) {
                 const minLength = (Number(this.$input.attr('min-length')) || 8);
                 const targetLength = Math.round(minLength * 1.8);
@@ -105,6 +122,13 @@
                 return value.length < minLength ? complexity / 2 : complexity;
             }
 
+            /**
+             * @param value
+             * @param reg
+             * @param targetScore
+             * @returns {number}
+             * @private
+             */
             _getComplexyByReg(value, reg, targetScore) {
                 const parts = value.match(reg);
                 if (!parts) {
@@ -144,7 +168,7 @@
             field: '@'
         },
         templateUrl: '/modules/ui/directives/complexityMeter/complexityMeter.html',
-        transclude: false,
+        transclude: true,
         controller
     });
 })();

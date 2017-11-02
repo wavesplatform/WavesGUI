@@ -38,11 +38,21 @@
             </div>
             <w-input name="password"
                      type="password"
-                     class="big"
+                     class="big no-validate"
                      ng-model="$ctrl.password"
                      minlength="8"
                      required></w-input>
-            <w-complexity-meter field="password"></w-complexity-meter>
+            <w-complexity-meter field="password">
+                <complexity-message message="minlength, required">
+                    <w-i18n params="{minLength: 8}">createAccount.minLength</w-i18n>
+                </complexity-message>
+                <complexity-warn>
+                    <w-i18n>createAccount.inputHelpWarn</w-i18n>
+                </complexity-warn>
+                <complexity-success>
+                    <w-i18n>createAccount.secure</w-i18n>
+                </complexity-success>
+            </w-complexity-meter>
         </w-input-container>
         <w-input-container>
             <div class="left body-2">
