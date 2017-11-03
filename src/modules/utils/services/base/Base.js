@@ -4,7 +4,7 @@
     /**
      * @param {User} user
      * @param {app.utils} utils
-     * @returns {Base}
+     * @return {Base}
      */
     const factory = function (user, utils) {
 
@@ -60,7 +60,7 @@
 
             /**
              * @param {string|Array<string>} syncList
-             * @returns {Promise}
+             * @return {Promise}
              */
             syncSettings(syncList) {
                 syncList = Array.isArray(syncList) ? syncList : [syncList];

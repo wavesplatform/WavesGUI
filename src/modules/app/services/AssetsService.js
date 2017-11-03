@@ -193,7 +193,7 @@
              * @param {IAssetInfo} fromAsset
              * @param {IAssetInfo} toAsset
              * @param {number} rate
-             * @returns {AssetsService.rateApi}
+             * @return {AssetsService.rateApi}
              * @private
              */
             _generateRateApi(fromAsset, toAsset, rate) {
@@ -201,7 +201,7 @@
                     /**
                      * @name AssetsService.rateApi#exchange
                      * @param {number} balance
-                     * @returns {number}
+                     * @return {number}
                      */
                     exchange(balance) {
                         return tsUtils.round(balance * rate, toAsset.precision);
@@ -210,7 +210,7 @@
                     /**
                      * @name AssetsService.rateApi#exchangeReverse
                      * @param {number} balance
-                     * @returns {number}
+                     * @return {number}
                      */
                     exchangeReverse(balance) {
                         return tsUtils.round(balance / rate, fromAsset.precision);

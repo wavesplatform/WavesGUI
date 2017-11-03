@@ -6,7 +6,7 @@
      * @param {typeof PromiseControl} PromiseControl
      * @param {TimeLine} timeLine
      * @param {app.utils} utils
-     * @returns {Poll}
+     * @return {Poll}
      */
     const factory = function (state, PromiseControl, timeLine, utils) {
 

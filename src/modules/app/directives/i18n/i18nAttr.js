@@ -6,7 +6,7 @@
      * @param {object} $attrs
      * @param {app.i18n} i18n
      * @param {$rootScope.Scope} $scope
-     * @returns {{listener: null, $postLink: (function()), $onDestroy: (function())}}
+     * @return {{listener: null, $postLink: (function()), $onDestroy: (function())}}
      */
     const controller = function ($element, $attrs, i18n, $scope) {
         return {

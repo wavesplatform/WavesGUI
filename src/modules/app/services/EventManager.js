@@ -15,7 +15,7 @@
      * @param {typeof AppEvent} AppEvent
      * @param {app.utils.decorators} decorators
      * @param $injector
-     * @returns {EventManager}
+     * @return {EventManager}
      */
     const factory = function (user, Poll, AppEvent, decorators, $injector, EVENT_STATUSES, BalanceComponent) {
 
@@ -38,7 +38,7 @@
             }
 
             /**
-             * @returns {{transfer: string}}
+             * @return {{transfer: string}}
              */
             getAvailableEvents() {
                 return EVENT_TYPES;
@@ -88,7 +88,7 @@
             }
 
             /**
-             * @returns {Promise}
+             * @return {Promise}
              * @private
              */
             _getStatuses() {
@@ -154,7 +154,7 @@
 
             /**
              *
-             * @returns {Promise}
+             * @return {Promise}
              * @private
              */
             _loadEvents() {
@@ -193,6 +193,6 @@
 
     factory.$inject = ['user', 'Poll', 'AppEvent', 'decorators', '$injector', 'EVENT_STATUSES', 'BalanceComponent'];
 
-    angular.module('app.ui')
+    angular.module('app')
         .factory('eventManager', factory);
 })();

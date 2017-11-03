@@ -32,7 +32,7 @@
             /**
              * @name app.i18n#getNs
              * @param {JQuery} $element
-             * @returns {string}
+             * @return {string}
              */
             getNs($element) {
                 return $element.attr('w-i18n-ns') || $element.closest('[w-i18n-ns]')

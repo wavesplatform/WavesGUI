@@ -4,7 +4,7 @@
     /**
      * @param {$rootScope.Scope} $scope
      * @param {JQuery} $element
-     * @returns {NiceNumber}
+     * @return {NiceNumber}
      */
     const controller = function ($scope, $element) {
 

@@ -25,7 +25,7 @@
              * @param {Function|string} setter
              * @param {number} time
              * @param {ICreatePollOptions} [options]
-             * @returns {Poll}
+             * @return {Poll}
              */
             createPoll(getter, setter, time, options) {
                 if (typeof setter === 'string') {
@@ -75,7 +75,7 @@
              * @param {Function|string} setter
              * @param {number} time
              * @param {ICreatePollOptions} [options]
-             * @returns {Poll}
+             * @return {Poll}
              */
             static create(base, getter, setter, time, options) {
                 return PollComponent._getPoll(base)
@@ -84,7 +84,7 @@
 
             /**
              * @param {Base} base
-             * @returns {PollComponent}
+             * @return {PollComponent}
              * @private
              */
             static _getPoll(base) {

@@ -4,7 +4,7 @@
     /**
      *
      * @param $q
-     * @returns {Avatar}
+     * @return {Avatar}
      */
     const controller = function ($q) {
 

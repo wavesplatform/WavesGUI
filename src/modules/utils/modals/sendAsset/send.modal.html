@@ -55,6 +55,7 @@
                 <div class="amount-wrap">
                     <div class="input-wrap">
                         <w-input type="text"
+                                 class="no-icon"
                                  w-validate="asset"
                                  asset-id="{{::$ctrl.assetId}}"
                                  ng-focus="focus = 'amount'"
@@ -73,6 +74,7 @@
                     <div class="amount-modal-icon"></div>
                     <div class="input-wrap">
                         <w-input type="text"
+                                 class="no-icon"
                                  w-validate="asset"
                                  ng-focus="focus = 'amountMirror'"
                                  ng-blur="focus = ''"
@@ -99,7 +101,8 @@
 
         <div class="row">
             <div class="body-2" w-i18n="modal.send.description"></div>
-            <w-input textArea="true" w-i18n-attr="placeholder"
+            <w-input textarea="true"
+                     w-i18n-attr="placeholder"
                      placeholder="modal.send.descriptionPlaceholder"></w-input>
         </div>
 
@@ -112,8 +115,8 @@
                 <w-balance balance="$ctrl.fee" asset-id="{{::$ctrl.assetId}}"></w-balance>
                 {{::$ctrl.asset.name}}
                 <span class="lite">
-                            <w-balance balance="$ctrl.feeAlias" asset-id="{{::$ctrl.mirrorId}}"></w-balance>
-                        </span>
+                    <w-balance balance="$ctrl.feeAlias" asset-id="{{::$ctrl.mirrorId}}"></w-balance>
+                </span>
             </div>
         </div>
 

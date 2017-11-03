@@ -150,7 +150,7 @@
             }
 
             /**
-             * @returns {Promise.<IAssetWithBalance>}
+             * @return {Promise.<IAssetWithBalance>}
              * @private
              */
             _getAsset() {
@@ -194,7 +194,7 @@
 
             /**
              * @param {string} [fromRateId]
-             * @returns {Promise.<AssetsService.rateApi>}
+             * @return {Promise.<AssetsService.rateApi>}
              * @private
              */
             _getRate(fromRateId) {

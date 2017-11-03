@@ -17,9 +17,12 @@
                     result.push(`${$data.$attr[name]}="${$data[name]}"`);
                     return result;
                 }, []);
-                const tag = ('textarea' in $data) ? 'textarea' : 'input';
                 const typeClass = $data.type ? `input-type-${$data.type}` : '';
-                return `<div class="w-input-wrap ${typeClass}"><${tag} ${attrs.join(' ')}></div>`;
+                if ('textarea' in $data) {
+                    return `<div class="w-input-wrap ${typeClass}"><textarea ${attrs.join(' ')}></textarea></div>`;
+                } else {
+                    return `<div class="w-input-wrap ${typeClass}"><input ${attrs.join(' ')}></div>`;
+                }
             },
             /**
              * @param $scope

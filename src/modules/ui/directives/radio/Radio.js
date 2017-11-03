@@ -5,7 +5,7 @@
      * @param {JQuery} $element
      * @param {$rootScope.Scope} $scope
      * @param {Base} Base
-     * @returns {Radio}
+     * @return {Radio}
      */
     const controller = function ($element, $scope, Base) {
 

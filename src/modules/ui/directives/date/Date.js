@@ -31,7 +31,7 @@
     /**
      * @param {$rootScope.Scope} $scope
      * @param {JQuery} $element
-     * @returns {WDate}
+     * @return {WDate}
      */
     const controller = function ($scope, $element) {
 

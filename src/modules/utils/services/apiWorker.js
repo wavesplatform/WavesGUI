@@ -7,7 +7,7 @@
 
     /**
      * @param {app.utils} utils
-     * @returns {{process: process, terminate: terminate}}
+     * @return {{process: process, terminate: terminate}}
      */
     const factory = function (utils) {
 
@@ -31,7 +31,7 @@
              * @name app.utils.apiWorker#process
              * @param {Function} code
              * @param {*} [data]
-             * @returns {*|Promise}
+             * @return {*|Promise}
              */
             process: function (code, data) {
                 return utils.when(worker.process(code, data));

@@ -6,7 +6,7 @@
      * @param {app.utils} utils
      * @param {app.utils.decorators} decorators
      * @param $templateRequest
-     * @returns {ModalManager}
+     * @return {ModalManager}
      */
     const factory = function ($mdDialog, utils, decorators, $templateRequest) {
 
@@ -66,7 +66,7 @@
              * @param {User} data.user
              * @param {string} [data.assetId]
              * @param {boolean} [data.canChooseAsset]
-             * @returns {Promise}
+             * @return {Promise}
              */
             showSendAsset(data) {
                 return data.user.getSetting('baseAssetId').then((baseAssetId) => this._getModal({
@@ -82,7 +82,7 @@
              * @param {object} data
              * @param {string} [data.assetId]
              * @param {boolean} [data.canChooseAsset]
-             * @returns {Promise}
+             * @return {Promise}
              */
             showReceiveAsset(data) {
                 const literal = 'w-i18n="modal.receive.title"';
@@ -97,7 +97,7 @@
             }
 
             /**
-             * @returns {Promise}
+             * @return {Promise}
              */
             getSeed() {
                 return this._getModal({

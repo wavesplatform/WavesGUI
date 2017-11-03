@@ -10,7 +10,7 @@
         class State {
 
             /**
-             * @returns {number}
+             * @return {number}
              * @private
              */
             get _sleepStep() {
@@ -151,7 +151,7 @@
 
             /**
              * @param step
-             * @returns {null}
+             * @return {null}
              * @private
              */
             _setSleepStep(step) {

@@ -7,7 +7,7 @@
      * @param Base
      * @param {User} user
      * @param {State} state
-     * @returns {LeftMenu}
+     * @return {LeftMenu}
      */
     const controller = function (Base, user, state) {
 

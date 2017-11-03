@@ -24,7 +24,7 @@
       "create": "Create new",
       "fee": "Transaction fee {{price}} {{name}}",
       "notifications": {
-        "aliasCreated": "New alias has been created"
+        "aliasCreated": "Alias has been created"
       }
     },
     "termsAccept": {
