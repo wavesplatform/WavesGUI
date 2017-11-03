@@ -38,15 +38,12 @@
                      placeholder="userList.placeholders.password"
                      required></w-input>
 
-            <w-input-error message="required">
-                This is required!
-            </w-input-error>
             <div ng-class="{active: $ctrl.showPasswordError}" class="error">
                 Wrong Password!
             </div>
         </w-input-container>
 
-        <w-button type="submit" class="submit big long">
+        <w-button disabled="$ctrl.loginForm.$invalid" type="submit" class="submit big long">
             <w-i18n>userList.buttons.login</w-i18n>
         </w-button>
     </form>
