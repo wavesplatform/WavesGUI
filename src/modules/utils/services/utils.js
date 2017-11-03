@@ -10,7 +10,7 @@
      * @param Moment
      * @return {app.utils}
      */
-    const factory = function ($q, Moment) {
+    const factory = function ($q, Moment, $timeout) {
 
         const utils = {
 
@@ -256,7 +256,7 @@
                         if (prev !== value) {
                             observer[key].value = value;
                             if (!observer[key].timer) {
-                                observer[key].timer = setTimeout(() => {
+                                observer[key].timer = $timeout(() => {
                                     observer[key].timer = null;
                                     observer[key].signal.dispatch(prev);
                                 }, 0);
@@ -272,7 +272,7 @@
         return utils;
     };
 
-    factory.$inject = ['$q', 'Moment'];
+    factory.$inject = ['$q', 'Moment', '$timeout'];
 
     angular.module('app.utils')
         .factory('utils', factory);

@@ -26,7 +26,6 @@
             constructor() {
                 this.stepIndex = 0;
                 this.password = '';
-                this.confirmPassword = '';
                 this.seed = '';
                 this.address = '';
                 this.seedList = [];
