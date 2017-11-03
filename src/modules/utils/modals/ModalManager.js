@@ -8,7 +8,7 @@
      * @param $templateRequest
      * @return {ModalManager}
      */
-    const factory = function ($mdDialog, utils, decorators, $templateRequest) {
+    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope) {
 
 
         const DEFAULT_OPTIONS = {
@@ -30,6 +30,10 @@
 
             constructor() {
                 this.openModal = new tsUtils.Signal();
+
+                $rootScope.$on('$stateChangeStart', () => {
+                    $mdDialog.hide();
+                });
             }
 
             /**
@@ -295,7 +299,7 @@
         return new ModalManager();
     };
 
-    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest'];
+    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope'];
 
     angular.module('app.utils').factory('modalManager', factory);
 })();
