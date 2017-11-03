@@ -9,7 +9,7 @@
         <a ng-click="$ctrl.next(-1)" w-i18n="confirmBackup.back"></a>
     </div>
 
-    <w-seed-write on-fulfilled="$ctrl.onSeedConfirmFulfilled(isValid)"
+    <w-seed-write class="margin-4" on-fulfilled="$ctrl.onSeedConfirmFulfilled(isValid)"
                   seed="{{::$ctrl.seed}}"></w-seed-write>
 
     <div class="body-2 basic-900">
