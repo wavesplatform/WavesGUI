@@ -8,11 +8,10 @@
      * @param $compile
      * @param $q
      * @param $rootScope
-     * @param {app.i18n} i18n
      * @param {TimeLine} timeLine
      * @return {NotificationManager}
      */
-    const factory = function ($compile, $q, $rootScope, i18n, timeLine) {
+    const factory = function ($compile, $q, $rootScope, timeLine) {
 
         class NotificationManager {
 
@@ -205,7 +204,7 @@
         return new NotificationManager();
     };
 
-    factory.$inject = ['$compile', '$q', '$rootScope', 'i18n', 'timeLine'];
+    factory.$inject = ['$compile', '$q', '$rootScope', 'timeLine'];
 
     angular.module('app').factory('notificationManager', factory);
 })();
