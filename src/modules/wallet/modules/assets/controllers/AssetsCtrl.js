@@ -56,14 +56,29 @@
                 event.preventDefault();
                 switch (action) {
                     case 'send':
-                        this._showSendModal(asset);
+                        this.showSend(asset);
                         break;
                     case 'receive':
-                        this._showReceiveModal(asset);
+                        this.showReceive(asset);
                         break;
                     default:
                         throw new Error('Wrong action');
                 }
+            }
+
+            /**
+             * @param {IAssetInfo} asset
+             */
+            showSend(asset = Object.create(null)) {
+                return modalManager.showSendAsset({ assetId: asset.id, user, canChooseAsset: !asset.id });
+            }
+
+            /**
+             * @param asset
+             * @private
+             */
+            showReceive(asset = Object.create(null)) {
+                return modalManager.showReceiveAsset({ assetId: asset.id, canChooseAsset: !asset.id });
             }
 
             /**
@@ -72,22 +87,6 @@
              */
             _getBalances() {
                 return assetsService.getBalanceList(this.assetList);
-            }
-
-            /**
-             * @param {IAssetInfo} asset
-             * @private
-             */
-            _showSendModal(asset) {
-                return modalManager.showSendAsset({ assetId: asset.id, user });
-            }
-
-            /**
-             * @param asset
-             * @private
-             */
-            _showReceiveModal(asset) {
-                return modalManager.showReceiveAsset(asset);
             }
 
             /**
