@@ -24,7 +24,7 @@
             _initLocalize() {
                 i18next
                     .use(i18nextXHRBackend)
-                    .use(i18nextBrowserLanguageDetector)
+                    // .use(i18nextBrowserLanguageDetector) // TODO Change lang detect. Author Tsigel at 03/11/2017 13:23
                     .init({
                         debug: true, // TODO remove for production
                         ns: WavesApp.modules,
