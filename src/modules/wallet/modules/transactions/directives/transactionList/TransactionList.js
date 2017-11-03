@@ -80,9 +80,10 @@
              */
             _getRate(item) {
                 if (item.amount) {
-                    assetsService.getRate(item.amount.assetId, this.mirrorId).then((api) => {
-                        item.mirrorBalance = api.exchange(Number(item.amount.tokens));
-                    });
+                    assetsService.getRate(item.amount.assetId, this.mirrorId)
+                        .then((api) => {
+                            item.mirrorBalance = api.exchange(Number(item.amount.tokens));
+                        });
                     assetsService.getAssetInfo(item.amount.assetId)
                         .then((asset) => {
                             item.asset = asset;
@@ -105,9 +106,33 @@
                     this._getTypeFilter(),
                     this._getSearchFilter()
                 );
-                this.transactions = (this._transactions || []).filter(filter);
+
+                const transactions = (this._transactions || []).filter(filter);
+                const hash = Object.create(null);
+                const toDate = tsUtils.date('DD.MM.YYYY');
+
+                transactions.forEach((transaction) => {
+                    const date = toDate(transaction.timestamp);
+                    if (!hash[date]) {
+                        hash[date] = { timestamp: transaction.timestamp, transactions: [] };
+                    }
+                    hash[date].transactions.push(transaction);
+                });
+
+                const dates = Object.keys(hash)
+                    .sort((a, b) => hash[a].timestamp - hash[b].timestamp);
+
+                this.transactions = dates.map((date) => ({
+                    timestamp: hash[date].timestamp,
+                    date,
+                    transactions: hash[date].transactions,
+                }));
             }
 
+            /**
+             * @returns {*}
+             * @private
+             */
             _getTypeFilter() {
                 if (!this.transactionType || this.transactionType === 'all') {
                     return () => true;
@@ -132,7 +157,8 @@
                         if (field instanceof Date) {
                             return `${field.getDate()}`.indexOf(this.search) !== -1;
                         }
-                        return String(field).indexOf(this.search) !== -1;
+                        return String(field)
+                            .indexOf(this.search) !== -1;
                     });
                 };
             }
@@ -169,13 +195,14 @@
 
     controller.$inject = ['Base', 'user', 'i18n', 'assetsService', 'transactionsService', 'createPoll', 'createPromise'];
 
-    angular.module('app.wallet.transactions').component('wTransactionList', {
-        bindings: {
-            transactionType: '<',
-            search: '<'
-        },
-        templateUrl: '/modules/wallet/modules/transactions/directives/transactionList/transactionList.html',
-        transclude: false,
-        controller
-    });
+    angular.module('app.wallet.transactions')
+        .component('wTransactionList', {
+            bindings: {
+                transactionType: '<',
+                search: '<'
+            },
+            templateUrl: '/modules/wallet/modules/transactions/directives/transactionList/transactionList.html',
+            transclude: false,
+            controller
+        });
 })();

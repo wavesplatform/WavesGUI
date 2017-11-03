@@ -4,16 +4,30 @@ w-transaction-list {
   ul {
     list-style: none;
     margin: 0;
+    padding: 0;
     border-radius: @border-radius;
     background: @color-background-default;
-  }
+    border: 1px solid @color-accent-50;
 
-  li {
-    display: flex;
-    flex-direction: row;
+    li {
+      padding: 0;
 
-    &:not(:last-child) {
-      border-bottom: 1px solid #f0f0f0;
+      .date {
+        line-height: 42px;
+        padding-left: 23px;
+        height: 42px;
+        text-transform: uppercase;
+        background-color: @color-basic-50;
+      }
+
+      .row {
+        height: 74px;
+        border-bottom: 1px solid @color-accent-50;
+      }
+
+      &:last-child .row {
+        border-bottom: none;
+      }
     }
   }
 
@@ -30,10 +44,6 @@ w-transaction-list {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-  }
-
-  .transaction-item {
-    padding: 24px;
   }
 
   .col.date {
