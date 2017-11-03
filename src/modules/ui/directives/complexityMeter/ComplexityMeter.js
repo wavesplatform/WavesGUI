@@ -36,10 +36,6 @@
                  */
                 this.steps = [];
                 /**
-                 * @type {string}
-                 */
-                this.helpText = null;
-                /**
                  * @type {boolean}
                  */
                 this.touched = false;
@@ -47,9 +43,15 @@
                  * @private
                  */
                 this._form = null;
+                /**
+                 * @type {ComplexityMessage[]}
+                 * @private
+                 */
+                this._messages = [];
+                this._messageWarn = null;
+                this._messageSuccess = null;
 
                 this._addSteps();
-                window.c = this;
             }
 
             $postLink() {
@@ -57,12 +59,40 @@
                 this._form = $scope.$parent.$eval(form.attr('name'));
                 this.$input = form.find(`input[name="${this.field}"]`);
 
-                this.$input.on('input', () => this._onChangeValue());
+                this.$input.on('input', () => {
+                    this._onChangeValue();
+                    $scope.$apply();
+                });
 
                 this.receive(utils.observe(this._form[this.field], '$viewValue'), this._onChangeValue, this);
                 this.receive(utils.observe(this._form[this.field], '$valid'), this._onChangeValue, this);
 
                 this._onChangeValue();
+            }
+
+            /**
+             * @param {ComplexityMessage} message
+             */
+            addMessage(message) {
+                this._messages.push(message);
+            }
+
+            addWarn(warn) {
+                this._messageWarn = warn;
+            }
+
+            addSuccess(success) {
+                this._messageSuccess = success;
+            }
+
+            /**
+             * @param {ComplexityMessage} message
+             * @private
+             */
+            _applyMessage(message) {
+                message.show = message.validators.some((name) => {
+                    return this._form[this.field].$error[name];
+                });
             }
 
             /**
@@ -78,6 +108,32 @@
                     this._getComplexyByReg(value, /\W/g, 20)
                 ]);
                 this._activateSteps(Math.round(complexity / 10));
+                this._initializeMessage();
+            }
+
+            _initializeMessage() {
+                this._hideAllMessages();
+                switch (this.state) {
+                    case 'not-secure':
+                        this._messages.forEach(this._applyMessage, this);
+                        break;
+                    case 'warn':
+                        this._messageWarn.show = true;
+                        break;
+                    case 'success':
+                        this._messageSuccess.show = true;
+                        break;
+                    default:
+                        throw new Error('Wrong status');
+                }
+            }
+
+            _hideAllMessages() {
+                this._messages.forEach((message) => {
+                    message.show = false;
+                });
+                this._messageWarn.show = false;
+                this._messageSuccess.show = false;
             }
 
             /**

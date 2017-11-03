@@ -2,19 +2,27 @@
 
 w-complexity-meter {
 
+  complexity-message {
+    color: @color-basic-500;
+
+    &[type="warn"] {
+      color: @color-warning-400;
+    }
+
+    &[type="success"] {
+      color: @color-success-300;
+    }
+  }
+
   .complexity-meter {
 
-    .help {
+    .messages-container {
       text-align: right;
-      color: @color-basic-500;
     }
 
     &.not-secure.touched {
       .step.active {
         background-color: @color-error-500;
-      }
-      .help {
-        color: @color-error-500;
       }
     }
 
@@ -22,17 +30,11 @@ w-complexity-meter {
       .step.active {
         background-color: @color-warning-400;
       }
-      .help {
-        color: @color-warning-400;
-      }
     }
 
     &.success {
       .step.active {
         background-color: @color-success-300;
-      }
-      .help {
-        color: @color-success-300;
       }
     }
 
