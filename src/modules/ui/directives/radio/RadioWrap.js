@@ -3,7 +3,7 @@
 
     /**
      * @param {Base} Base
-     * @returns {RadioWrap}
+     * @return {RadioWrap}
      */
     const controller = function (Base) {
 

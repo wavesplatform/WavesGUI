@@ -24,5 +24,5 @@
 
     factory.$inject = ['EventComponent', 'apiWorker', 'EVENT_STATUSES'];
 
-    angular.module('app.ui').factory('TransferComponent', factory);
+    angular.module('app').factory('TransferComponent', factory);
 })();

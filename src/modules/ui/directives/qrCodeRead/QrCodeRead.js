@@ -6,7 +6,7 @@
      * @param {JQuery} $element
      * @param {app.utils.mediaStream} mediaStream
      * @param {Function} createPoll
-     * @returns {QrCodeRead}
+     * @return {QrCodeRead}
      */
     const controller = function (Base, $element, mediaStream, createPoll) {
 

@@ -7,7 +7,7 @@
 
     /**
      * @param {app.utils} utils
-     * @returns {app.defaultSetting}
+     * @return {app.defaultSetting}
      */
     const factory = function (utils) {
 
@@ -86,7 +86,7 @@
             /**
              * @name app.defaultSettings#create
              * @param {object} settings
-             * @returns {DefaultSettings}
+             * @return {DefaultSettings}
              */
             create(settings) {
                 return new DefaultSettings(settings);

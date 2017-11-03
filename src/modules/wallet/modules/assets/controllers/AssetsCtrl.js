@@ -11,7 +11,7 @@
      * @param {ModalManager} modalManager
      * @param {Function} createPoll
      * @param {Function} createPromise
-     * @returns {Assets}
+     * @return {Assets}
      */
     const controller = function (assetsService, assetsData, $scope, utils, Base, user, modalManager, createPoll, createPromise) {
 
@@ -67,7 +67,7 @@
             }
 
             /**
-             * @returns {Promise}
+             * @return {Promise}
              * @private
              */
             _getBalances() {

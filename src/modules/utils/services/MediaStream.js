@@ -7,7 +7,7 @@
 
     /**
      * @param $q
-     * @returns {app.utils.mediaStream}
+     * @return {app.utils.mediaStream}
      */
     const factory = function ($q) {
 
@@ -30,7 +30,7 @@
         return {
             /**
              * @name app.utils.mediaStream#create
-             * @returns {Promise<MediaStream>}
+             * @return {Promise<MediaStream>}
              */
             create() {
                 return $q((resolve, reject) => {

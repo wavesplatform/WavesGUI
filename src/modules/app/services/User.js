@@ -11,7 +11,7 @@
      * @param {UserRouteState} UserRouteState
      * @param {ModalManager} modalManager
      * @param {TimeLine} timeLine
-     * @returns {User}
+     * @return {User}
      */
     const factory = function (storage, $q, $state, defaultSettings, apiWorker, state, UserRouteState, modalManager, timeLine) {
 
@@ -162,7 +162,7 @@
              * @param {string} data.password
              * @param {Object} [data.settings]
              * @param {boolean} [data.settings.termsAccepted]
-             * @returns Promise
+             * @return Promise
              */
             addUserData(data) {
                 this._loadUserByAddress(data.address)
@@ -201,7 +201,7 @@
             }
 
             /**
-             * @returns {Promise}
+             * @return {Promise}
              */
             getUserList() {
                 return storage.load('userList')
@@ -276,7 +276,7 @@
             }
 
             /**
-             * @returns {Promise}
+             * @return {Promise}
              * @private
              */
             _save() {

@@ -3,7 +3,7 @@
 
     /**
      * @param {JQuery} $element
-     * @returns {Cell}
+     * @return {Cell}
      */
     const controller = function ($element) {
 

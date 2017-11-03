@@ -31,5 +31,5 @@
 
     factory.$inject = ['utils', 'EVENT_STATUSES'];
 
-    angular.module('app.ui').factory('EventComponent', factory);
+    angular.module('app').factory('EventComponent', factory);
 })();

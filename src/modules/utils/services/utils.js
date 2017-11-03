@@ -147,7 +147,7 @@
              * @name app.utils#getNiceNumber
              * @param num
              * @param precision
-             * @returns {string}
+             * @return {string}
              */
             getNiceNumber(num, precision) {
                 return utils.parseNiceNumber(num)
@@ -159,7 +159,7 @@
             /**
              * @name app.utils#parseNiceNumber
              * @param data
-             * @returns {number}
+             * @return {number}
              */
             parseNiceNumber(data) {
                 return Number(String(data)

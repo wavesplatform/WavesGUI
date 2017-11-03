@@ -47,7 +47,7 @@
 
             /**
              * @param {string} pattern
-             * @returns {string}
+             * @return {string}
              */
             format(pattern) {
                 return tsUtils.date(pattern)(this.date);
@@ -105,7 +105,7 @@
             }
 
             /**
-             * @returns {number[]}
+             * @return {number[]}
              * @private
              */
             _getParts() {

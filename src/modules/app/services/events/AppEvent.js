@@ -70,7 +70,7 @@
 
     factory.$inject = ['utils', 'EVENT_STATUSES'];
 
-    angular.module('app.ui')
+    angular.module('app')
         .factory('AppEvent', factory);
 })();
 

@@ -43,7 +43,7 @@
 
             /**
              * @param {string} id
-             * @returns {Carousel}
+             * @return {Carousel}
              */
             getSlider(id) {
                 if (this.slidersHash[id]) {
