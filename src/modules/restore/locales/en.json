@@ -1,19 +1,17 @@
 {
   "seedForm": {
-    "seedPlaceholder": "Please, enter your seed",
-    "buttons": {
-      "proceed": "Proceed"
-    }
+    "title": "Welcome Back",
+    "description": "Sign in to your wallet below or",
+    "create": "create new account",
+    "seedTitle": "Your wallet seed",
+    "placeholder": "Seed - это 12 слов, вы их сохраняли при создании акка",
+    "address": "Address",
+    "continue": "Continue"
   },
   "passwordForm": {
-    "passwordPlaceholder": "Password",
-    "confirmPlaceholder": "Repeat password",
-    "inputs": {
-      "errors": {
-        "short": "Password is too short!",
-        "simple": "Password is too simple!",
-        "notEqual": "Passwords do not match!"
-      }
-    }
+    "title": "Protect Account",
+    "description": "Protect your account with new password or",
+    "back": "go back",
+    "login": "Sign in"
   }
 }

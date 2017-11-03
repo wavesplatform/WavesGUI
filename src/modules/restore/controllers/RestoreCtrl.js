@@ -1,38 +1,64 @@
 (function () {
     'use strict';
 
+    /**
+     * @param Base
+     * @param $scope
+     * @param {app.utils.apiWorker} apiWorker
+     * @param {User} user
+     * @return {RestoreCtrl}
+     */
     const controller = function (Base, $scope, apiWorker, user) {
-
-        // TODO : split in two steps
 
         class RestoreCtrl extends Base {
 
             constructor() {
                 super($scope);
-                this.seedPhrase = '';
-                this.password = '';
-                this.confirmPassword = '';
+
+                this.seedForm = null;
+                /**
+                 * @type {string}
+                 */
+                this.address = null;
+                /**
+                 * @type {string}
+                 */
+                this.seed = null;
+                /**
+                 * @type {string}
+                 */
+                this.encryptedSeed = null;
+                /**
+                 * @type {string}
+                 */
+                this.password = null;
+
+                this.observe('seed', this._onChangeSeed);
             }
 
             restore() {
-
-                if (!this.seedPhrase) {
-                    throw new Error('Seed phrase is needed');
-                }
-
-                const workerData = { seedPhrase: this.seedPhrase, password: this.password };
-                const workerHandler = (Waves, { seedPhrase, password }) => {
-                    const seedData = Waves.Seed.fromExistingPhrase(seedPhrase);
-                    return {
-                        address: seedData.address,
-                        encryptedSeed: seedData.encrypt(password)
-                    };
-                };
-
-                apiWorker.process(workerHandler, workerData)
-                    .then(({ address, password, encryptedSeed }) => {
-                        return user.addUserData({ address, password, encryptedSeed });
+                apiWorker.process((WavesAPI, { seed, password }) => {
+                    return WavesAPI.Seed.fromExistingPhrase(seed).encrypt(password);
+                }, { seed: this.seed, password: this.password }).then((encryptedSeed) => {
+                    user.addUserData({
+                        address: this.address,
+                        encryptedSeed: encryptedSeed,
+                        password: this.password,
+                        settings: { termsAccepted: false }
                     });
+                });
+            }
+
+            _onChangeSeed() {
+                if (this.seedForm.$valid) {
+                    apiWorker.process((WavesAPI, seed) => {
+                        return WavesAPI.Seed.fromExistingPhrase(seed).address;
+                    }, this.seed).then((address) => {
+                        this.address = address;
+                    });
+                } else {
+                    this.address = '';
+                }
             }
 
         }
