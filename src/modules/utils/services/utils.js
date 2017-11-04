@@ -85,7 +85,8 @@
              */
             bind(target, keys) {
                 if (keys == null) {
-                    keys = Object.keys(target).filter((name) => typeof target[name] === 'function');
+                    keys = Object.keys(target)
+                        .filter((name) => typeof target[name] === 'function');
                     if (keys.length === 0) {
                         const proto = Object.getPrototypeOf(target);
                         keys = Object.getOwnPropertyNames(proto)
@@ -185,6 +186,12 @@
                 },
                 desc: function (a, b) {
                     return a > b ? -1 : a === b ? 0 : 1;
+                },
+                process(processor) {
+                    return {
+                        asc: (a, b) => utils.comparators.asc(processor(a), processor(b)),
+                        desc: (a, b) => utils.comparators.desc(processor(a), processor(b))
+                    };
                 }
             }
         };
@@ -204,7 +211,8 @@
 
         function _getSignal(observer, keys) {
             if (Array.isArray(keys)) {
-                const event = keys.sort(utils.comparators.asc).join(',');
+                const event = keys.sort(utils.comparators.asc)
+                    .join(',');
 
                 if (!observer.__events) {
                     observer.__events = Object.create(null);
@@ -236,35 +244,36 @@
             const observer = _getObserver(target);
             options = options || Object.create(null);
 
-            utils.toArray(keys).forEach((key) => {
-                if (observer[key]) {
-                    return null;
-                }
+            utils.toArray(keys)
+                .forEach((key) => {
+                    if (observer[key]) {
+                        return null;
+                    }
 
-                const item = Object.create(null);
-                item.signal = new tsUtils.Signal();
-                item.timer = null;
-                item.value = target[key];
-                observer[key] = item;
+                    const item = Object.create(null);
+                    item.signal = new tsUtils.Signal();
+                    item.timer = null;
+                    item.value = target[key];
+                    observer[key] = item;
 
-                Object.defineProperty(target, key, {
-                    enumerable: true,
-                    get: () => observer[key].value,
-                    set: (value) => {
-                        value = options.set ? options.set(value) : value;
-                        const prev = observer[key].value;
-                        if (prev !== value) {
-                            observer[key].value = value;
-                            if (!observer[key].timer) {
-                                observer[key].timer = $timeout(() => {
-                                    observer[key].timer = null;
-                                    observer[key].signal.dispatch(prev);
-                                }, 0);
+                    Object.defineProperty(target, key, {
+                        enumerable: true,
+                        get: () => observer[key].value,
+                        set: (value) => {
+                            value = options.set ? options.set(value) : value;
+                            const prev = observer[key].value;
+                            if (prev !== value) {
+                                observer[key].value = value;
+                                if (!observer[key].timer) {
+                                    observer[key].timer = $timeout(() => {
+                                        observer[key].timer = null;
+                                        observer[key].signal.dispatch(prev);
+                                    }, 0);
+                                }
                             }
                         }
-                    }
+                    });
                 });
-            });
 
             return _getSignal(observer, keys);
         }

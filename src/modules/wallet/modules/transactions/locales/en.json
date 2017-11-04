@@ -12,6 +12,13 @@
       "receive": "Receive ",
       "issue": "Token Generation",
       "exchange": "Exchange"
+    },
+    "amount": {
+      "sent": "-",
+      "receive": "+",
+      "circle": "",
+      "issue": "+",
+      "exchange": "-"
     }
   }
 }

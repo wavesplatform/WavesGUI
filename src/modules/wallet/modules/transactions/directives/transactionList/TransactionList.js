@@ -17,9 +17,10 @@
      * @param {TransactionsService} transactionsService
      * @param {Function} createPoll
      * @param {Function} createPromise
+     * @param {app.utils} utils
      * @return {TransactionList}
      */
-    const controller = function (Base, user, i18n, assetsService, transactionsService, createPoll, createPromise) {
+    const controller = function (Base, user, i18n, assetsService, transactionsService, createPoll, createPromise, utils) {
 
         class TransactionList extends Base {
 
@@ -49,6 +50,11 @@
                  * @type {IAssetInfo}
                  */
                 this.mirror = null;
+                /**
+                 * @type {Object}
+                 * @private
+                 */
+                this._mirrorBalanceHash = Object.create(null);
 
                 createPromise(this, user.getSetting('baseAssetId'))
                     .then((mirrorId) => {
@@ -70,15 +76,15 @@
              */
             _getTransactions() {
                 return transactionsService.transactions()
-                    .then((list) => list.map(this._getRate, this));
+                    .then((list) => list.map(this._map, this));
             }
 
             /**
              * @param item
-             * @return {Promise}
+             * @return {*}
              * @private
              */
-            _getRate(item) {
+            _map(item) {
                 if (item.amount) {
                     assetsService.getRate(item.amount.assetId, this.mirrorId)
                         .then((api) => {
@@ -89,12 +95,8 @@
                             item.asset = asset;
                         });
                 }
-                const date = {
-                    day: item.timestamp.getDate(),
-                    month: i18n.translate(`date.month.${item.timestamp.getMonth()}`)
-                };
-                item.date = date;
                 item.type = this._getTransactionType(item);
+                item.address = this._getTransactionAddress(item);
                 return item;
             }
 
@@ -120,12 +122,12 @@
                 });
 
                 const dates = Object.keys(hash)
-                    .sort((a, b) => hash[a].timestamp - hash[b].timestamp);
+                    .sort(utils.comparators.process((name) => hash[name].timestamp).desc);
 
                 this.transactions = dates.map((date) => ({
                     timestamp: hash[date].timestamp,
                     date,
-                    transactions: hash[date].transactions,
+                    transactions: hash[date].transactions
                 }));
             }
 
@@ -178,6 +180,17 @@
                 }
             }
 
+            _getTransactionAddress({ type, sender, recipient }) {
+                switch (type) {
+                    case 'receive':
+                        return sender;
+                    case 'sent':
+                    case 'issue':
+                    case 'exchange':
+                        return recipient;
+                }
+            }
+
             /**
              * @param {string} sender
              * @param {string} recipient
@@ -193,7 +206,16 @@
         return new TransactionList();
     };
 
-    controller.$inject = ['Base', 'user', 'i18n', 'assetsService', 'transactionsService', 'createPoll', 'createPromise'];
+    controller.$inject = [
+        'Base',
+        'user',
+        'i18n',
+        'assetsService',
+        'transactionsService',
+        'createPoll',
+        'createPromise',
+        'utils'
+    ];
 
     angular.module('app.wallet.transactions')
         .component('wTransactionList', {

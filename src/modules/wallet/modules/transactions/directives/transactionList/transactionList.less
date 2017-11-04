@@ -21,68 +21,59 @@ w-transaction-list {
       }
 
       .row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         height: 74px;
         border-bottom: 1px solid @color-accent-50;
+
+        .icon {
+          width: 96px;
+          height: 100%;
+          background-size: 48px 48px;
+          background: no-repeat 24px 13px;
+
+          &.sent {
+            background-image: url(/img/icons/transaction-sent-icon.svg);
+          }
+
+          &.receive {
+            background-image: url(/img/icons/transaction-receive-icon.svg);
+          }
+
+          &.issue {
+            background-image: url(/img/icons/transaction-issue-icon.svg);
+          }
+
+          &.exchange {
+            background-image: url(/img/icons/transaction-exchange-icon.svg);
+          }
+
+          &.circle {
+            background-image: url(/img/icons/transaction-circle-icon.svg);
+          }
+        }
+
+        .transaction-info {
+          display: flex;
+          flex-direction: column;
+          height: 48px;
+          width: 100%;
+
+          .line {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            height: 50%;
+            padding-right: @padding-main-layout;
+          }
+        }
       }
 
-      &:last-child .row {
+      &:last-child .row:last-child {
         border-bottom: none;
       }
     }
   }
 
-  .col {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 0 5px;
-  }
-
-  .row {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .col.date {
-    width: 30px;
-    text-transform: uppercase;
-  }
-
-  .row.sent-price::before {
-    content: '-'
-  }
-
-  .row.receive-price::before {
-    content: '+'
-  }
-
-  .icon {
-    width: 48px;
-    height: 48px;
-    background-size: 100% 100%;
-    background: no-repeat center center;
-
-    &.sent {
-      background-image: url(/img/icons/transaction-sent-icon.svg);
-    }
-
-    &.receive {
-      background-image: url(/img/icons/transaction-receive-icon.svg);
-    }
-
-    &.issue {
-      background-image: url(/img/icons/transaction-issue-icon.svg);
-    }
-
-    &.exchange {
-      background-image: url(/img/icons/transaction-exchange-icon.svg);
-    }
-
-    &.circle {
-      background-image: url(/img/icons/transaction-circle-icon.svg);
-    }
-  }
 }
