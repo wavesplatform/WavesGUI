@@ -1,5 +1,6 @@
 {
   "transactionList": {
+    "noTransactions": "You do not have any transaction",
     "address": {
       "sent": "to address: ",
       "receive": "from address: ",

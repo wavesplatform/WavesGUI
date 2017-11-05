@@ -51,10 +51,9 @@
                  */
                 this.mirror = null;
                 /**
-                 * @type {Object}
-                 * @private
+                 * @type {boolean}
                  */
-                this._mirrorBalanceHash = Object.create(null);
+                this.hadResponse = false;
 
                 createPromise(this, user.getSetting('baseAssetId'))
                     .then((mirrorId) => {
@@ -76,28 +75,43 @@
              */
             _getTransactions() {
                 return transactionsService.transactions()
-                    .then((list) => list.map(this._map, this));
+                    .then((list) => list.map(this._map, this))
+                    .then((list) => utils.whenAll(list))
+                    .then((list) => {
+                        this.hadResponse = true;
+                        return list;
+                    });
             }
 
             /**
              * @param item
-             * @return {*}
+             * @return {Promise}
              * @private
              */
             _map(item) {
+                let promise;
+
                 if (item.amount) {
-                    assetsService.getRate(item.amount.assetId, this.mirrorId)
-                        .then((api) => {
-                            item.mirrorBalance = api.exchange(Number(item.amount.tokens));
-                        });
-                    assetsService.getAssetInfo(item.amount.assetId)
-                        .then((asset) => {
-                            item.asset = asset;
-                        });
+                    promise = utils.whenAll([
+                        assetsService.getRate(item.amount.assetId, this.mirrorId)
+                            .then((api) => {
+                                item.mirrorBalance = api.exchange(Number(item.amount.tokens));
+                            }),
+                        assetsService.getAssetInfo(item.amount.assetId)
+                            .then((asset) => {
+                                item.asset = asset;
+                            })
+                    ]);
+                } else {
+                    promise = utils.when();
                 }
-                item.type = this._getTransactionType(item);
-                item.address = this._getTransactionAddress(item);
-                return item;
+
+                return promise.then(() => {
+                    item.type = this._getTransactionType(item);
+                    item.address = this._getTransactionAddress(item);
+
+                    return item;
+                });
             }
 
             /**
