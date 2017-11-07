@@ -2,45 +2,38 @@
     'use strict';
 
     /**
+     * @param {@constructor Base} Base
      * @param {$rootScope.Scope} $scope
      * @param {JQuery} $element
+     * @param {app.utils} utils
      * @return {NiceNumber}
      */
-    const controller = function ($scope, $element) {
+    const controller = function (Base, $scope, $element, utils) {
 
-        class NiceNumber {
+        class NiceNumber extends Base {
 
             constructor() {
-                /**
-                 * @type {string}
-                 */
-                this.number = null;
+                super($scope);
 
-                this.listener = () => {
-                    this.$onChanges();
-                };
-                i18next.on('languageChanged', this.listener);
-                $scope.$watch('number', () => this.$onChanges());
-                $scope.$watch('precision', () => this.$onChanges());
+                this.listenEventEmitter(i18next, 'languageChanged', () => this.$onChanges());
+                this.receive(utils.observe($scope, 'number'), this.$onChanges, this);
+                this.receive(utils.observe($scope, 'precision'), this.$onChanges, this);
             }
 
             $onChanges() {
 
-                if ($scope.number == null) {
+                if ($scope.number == null || $scope.precision == null) {
                     return $element.html('');
                 }
 
-                const [int, decimal] = String(Number($scope.number)
-                    .toFixed($scope.precision || 8))
-                    .split('.');
-                const formatted = Number(int)
-                    .toLocaleString(i18next.language);
+                const num = utils.getNiceNumber($scope.number, $scope.precision);
+                const [int, decimal] = num.split('.');
 
                 if (decimal) {
                     const decimalTpl = this._processDecimal(decimal);
-                    $element.html(`<span class="int">${formatted}.</span><span class="decimal">${decimalTpl}</span>`);
+                    $element.html(`<span class="int">${int}.</span><span class="decimal">${decimalTpl}</span>`);
                 } else {
-                    $element.html(`<span class="int">${formatted}</span>`);
+                    $element.html(`<span class="int">${int}</span>`);
                 }
             }
 
@@ -58,17 +51,12 @@
                 const end = decimal.length - mute.length;
                 return `${decimal.substr(0, end)}<span class="decimal-muted">${mute.join('')}</span>`;
             }
-
-            $onDestroy() {
-                i18next.off('languageChanged', this.listener);
-            }
-
         }
 
         return new NiceNumber();
     };
 
-    controller.$inject = ['$scope', '$element'];
+    controller.$inject = ['Base', '$scope', '$element', 'utils'];
 
     angular.module('app')
         .directive('wNiceNumber', () => {

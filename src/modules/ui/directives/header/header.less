@@ -1,6 +1,12 @@
+@import (reference) '../../../config';
+
 w-header {
   display: flex;
   flex-direction: row;
+  border-bottom: 1px solid @color-disabled-100;
+  height: @height-header;
+  width: 100%;
+  background-color: @color-white;
 
   .avatar-wrap {
     margin-top: 15px;
@@ -10,7 +16,8 @@ w-header {
   .logo-wrapper {
     width: 70px;
     height: 70px;
-    border-radius: 50%;
     overflow: hidden;
+    border-right: 1px solid @color-disabled-100;
+    border-bottom: 1px solid @color-white;
   }
 }

@@ -2,25 +2,46 @@
   "transactionList": {
     "noTransactions": "You do not have any transaction",
     "address": {
-      "sent": "to address: ",
-      "receive": "from address: ",
-      "circle": "from address: ",
-      "issue": "from address: ",
-      "exchange": "from address: "
+      "sent": "to address",
+      "receive": "from address",
+      "circle": "from address",
+      "issue": "from address",
+      "reissue": "re-issuer address",
+      "exchange": "from address",
+      "alias": "for address",
+      "lease": "to node address",
+      "cancelLeasing": ""
     },
     "types": {
-      "sent": "Sent ",
-      "receive": "Receive ",
-      "issue": "Token Generation",
-      "exchange": "Exchange"
+      "reissue": "{{name}} Token Reissue",
+      "sent": "Sent {{name}} ",
+      "receive": "Receive {{name}} ",
+      "issue": "Token Generation {{name}} ",
+      "exchange": "Exchange {{name}} ",
+      "alias": "Create Alias {{name}} ",
+      "lease": "Start Leasing {{name}} "
     },
     "amount": {
       "sent": "-",
       "receive": "+",
       "circle": "",
       "issue": "+",
-      "exchange": "-"
+      "alias": "-",
+      "exchange": "-",
+      "lease": "",
+      "reissue": "+"
+    },
+    "reissuable": {
+      "false": "Not Re-issuable",
+      "true": "Re-issuable"
     }
-  }
+  },
+  "all": "All",
+  "sent": "Sent",
+  "received": "Received",
+  "exchanged": "Exchanged",
+  "leased": "Leased",
+  "issued": "Issued",
+  "export": "Export"
 }
 

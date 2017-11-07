@@ -89,29 +89,37 @@
              * @private
              */
             _map(item) {
+                item.type = this._getTransactionType(item);
+                item.address = this._getTransactionAddress(item);
+
                 let promise;
 
-                if (item.amount) {
-                    promise = utils.whenAll([
-                        assetsService.getRate(item.amount.assetId, this.mirrorId)
-                            .then((api) => {
-                                item.mirrorBalance = api.exchange(Number(item.amount.tokens));
-                            }),
-                        assetsService.getAssetInfo(item.amount.assetId)
-                            .then((asset) => {
-                                item.asset = asset;
-                            })
-                    ]);
-                } else {
-                    promise = utils.when();
+                switch (item.type) {
+                    case 'leasing':
+                        // TODO! Leasing. Author Tsigel at 07/11/2017 08:02
+                        break;
+                    case 'issue':
+                        // TODO! Issue. Author Tsigel at 07/11/2017 08:03
+                        break;
+                    case 'exchange':
+                        // TODO! Exchange. Author Tsigel at 07/11/2017 12:26
+                        break;
+                    case 'alias':
+                        item.amount = item.fee;
                 }
 
-                return promise.then(() => {
-                    item.type = this._getTransactionType(item);
-                    item.address = this._getTransactionAddress(item);
+                if (item.amount) {
+                    promise = assetsService.getRate(item.amount.asset.id, this.mirrorId)
+                        .then((api) => {
+                            item.mirrorBalance = api.exchange(item.amount.coins);
+                        });
+                } else {
+                    if (!promise) {
+                        promise = utils.when({});
+                    }
+                }
 
-                    return item;
-                });
+                return promise.then(() => item);
             }
 
             /**
@@ -137,6 +145,14 @@
 
                 const dates = Object.keys(hash)
                     .sort(utils.comparators.process((name) => hash[name].timestamp).desc);
+
+                // TODO! Remove. Author Tsigel at 07/11/2017 15:24
+                console.log(transactions.reduce((result, item) => {
+                    if (!result[item.type]) {
+                        result[item.type] = item;
+                    }
+                    return result;
+                }, Object.create(null)));
 
                 this.transactions = dates.map((date) => ({
                     timestamp: hash[date].timestamp,
@@ -189,6 +205,8 @@
                 switch (transactionType) {
                     case 'transfer':
                         return TransactionList._getTransferType(sender, recipient);
+                    case 'createAlias':
+                        return 'alias';
                     default:
                         return transactionType;
                 }
@@ -197,10 +215,12 @@
             _getTransactionAddress({ type, sender, recipient }) {
                 switch (type) {
                     case 'receive':
-                        return sender;
-                    case 'sent':
                     case 'issue':
+                    case 'reissue':
                     case 'exchange':
+                    case 'alias':
+                        return sender;
+                    default:
                         return recipient;
                 }
             }

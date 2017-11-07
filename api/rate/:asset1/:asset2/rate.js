@@ -22,7 +22,7 @@ module.exports = function (req, res, { asset1, asset2 }, { connection, meta }) {
             const to = RATE_MAP[`${assetId2}-${meta.configurations[connection].assets.USD}`];
             rate = from / to;
         }
-        return rate;
+        return rate || 0;
     };
 
     generate('WAVES', meta.configurations[connection].assets.USD, 5.11);

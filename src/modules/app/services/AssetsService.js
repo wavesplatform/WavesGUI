@@ -169,14 +169,11 @@
              */
             @decorators.cachable(60)
             getRate(assetIdFrom, assetIdTo) {
-                return Promise.all([
-                    this.getAssetInfo(assetIdFrom),
-                    this.getAssetInfo(assetIdTo),
-                    fetch(`/api/rate/${assetIdFrom}/${assetIdTo}/rate.json`)
-                        .then((r) => r.json())
-                ]).then(([assetFrom, assetTo, rateInfo]) => {
-                    return this._generateRateApi(assetFrom, assetTo, rateInfo.rate);
-                });
+                return fetch(`/api/rate/${assetIdFrom}/${assetIdTo}/rate.json`)
+                    .then((r) => r.json())
+                    .then((rateInfo) => {
+                        return this._generateRateApi(rateInfo.rate);
+                    });
             }
 
             /**
@@ -190,30 +187,28 @@
             }
 
             /**
-             * @param {IAssetInfo} fromAsset
-             * @param {IAssetInfo} toAsset
              * @param {number} rate
              * @return {AssetsService.rateApi}
              * @private
              */
-            _generateRateApi(fromAsset, toAsset, rate) {
+            _generateRateApi(rate) {
                 return {
                     /**
                      * @name AssetsService.rateApi#exchange
-                     * @param {number} balance
-                     * @return {number}
+                     * @param {BigNumber} balance
+                     * @return {BigNumber}
                      */
                     exchange(balance) {
-                        return tsUtils.round(balance * rate, toAsset.precision);
+                        return balance.mul(rate);
                     },
 
                     /**
                      * @name AssetsService.rateApi#exchangeReverse
-                     * @param {number} balance
-                     * @return {number}
+                     * @param {BigNumber} balance
+                     * @return {BigNumber}
                      */
                     exchangeReverse(balance) {
-                        return tsUtils.round(balance / rate, fromAsset.precision);
+                        return rate ? balance.div(rate) : 0;
                     }
                 };
             }

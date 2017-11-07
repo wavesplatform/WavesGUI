@@ -5,6 +5,11 @@ w-transaction-list {
   height: 100%;
   overflow: auto;
 
+  ng-include {
+    display: flex;
+    width: 100%;
+  }
+
   .transactions-mixin {
     background-color: @color-white;
     border-radius: @border-radius;
@@ -58,29 +63,79 @@ w-transaction-list {
           border-bottom: 1px solid @color-accent-50;
 
           .icon {
+            position: relative;
             width: 96px;
             height: 100%;
             background-size: 48px 48px;
-            background: no-repeat 24px 13px;
+            background: no-repeat center;
+
+            &::before {
+              content: '';
+              display: block;
+              position: absolute;
+              width: 48px;
+              height: 48px;
+              border-radius: 100%;
+              overflow: hidden;
+              left: 50%;
+              top: 50%;
+              margin: -24px;
+            }
 
             &.sent {
+              &::before {
+                background-color: rgba(255, 175, 0, 0.1);
+              }
               background-image: url(/img/icons/transaction-sent-icon.svg);
             }
 
             &.receive {
+              &::before {
+                background-color: rgba(129, 201, 38, 0.1);
+              }
               background-image: url(/img/icons/transaction-receive-icon.svg);
             }
 
-            &.issue {
+            &.reissue {
+              &::before {
+                background-color: rgba(129, 201, 38, 0.1);
+              }
               background-image: url(/img/icons/transaction-issue-icon.svg);
             }
 
+            &.issue {
+              &::before {
+                background-color: rgba(38, 193, 201, 0.1);
+              }
+              background-image: url(/img/icons/transaction-token-icon.svg);
+            }
+
             &.exchange {
+              &::before {
+                background-color: rgba(171, 125, 246, 0.1);
+              }
               background-image: url(/img/icons/transaction-exchange-icon.svg);
             }
 
             &.circle {
+              &::before {
+                // TODO!
+              }
               background-image: url(/img/icons/transaction-circle-icon.svg);
+            }
+
+            &.alias {
+              &::before {
+                background-color: rgba(53, 165, 245, 0.1);
+              }
+              background-image: url(/img/icons/transaction-alias-icon.svg);
+            }
+
+            &.lease {
+              &::before {
+                background-color: rgba(129, 201, 38, 0.1);
+              }
+              background-image: url(/img/icons/transaction-leasing-icon.svg);
             }
           }
 

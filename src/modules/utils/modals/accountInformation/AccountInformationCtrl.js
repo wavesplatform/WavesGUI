@@ -33,7 +33,7 @@
                 apiWorker.process((Waves, { address, code, comparator }) => {
                     return Waves.API.Node.v1.aliases.byAddress(address)
                         .then((aliases) => aliases.map((item) => item.replace(`alias:${code}:`, '')))
-                        .then((aliases) => aliases.sort(utils.comparators.asc));
+                        .then((aliases) => aliases.sort(comparator));
                 }, { address: user.address, code: WavesApp.network.code, comparator: utils.comparators.asc })
                     .then((aliases) => {
                         this.aliases = aliases;

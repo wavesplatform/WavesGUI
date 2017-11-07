@@ -146,15 +146,19 @@
 
             /**
              * @name app.utils#getNiceNumber
-             * @param num
+             * @param {string|number|BigNumber} num
              * @param precision
              * @return {string}
              */
             getNiceNumber(num, precision) {
-                return utils.parseNiceNumber(num)
-                    .toLocaleString(i18next.language, {
-                        minimumFractionDigits: precision
-                    });
+                switch (typeof num) {
+                    case 'string':
+                        return tsUtils.splitRange(num.replace(/,|\s/g, '').trim());
+                    case 'number':
+                        return tsUtils.splitRange(num);
+                    case 'object':
+                        return num.toFormat(precision);
+                }
             },
 
             /**

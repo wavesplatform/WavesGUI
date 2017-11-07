@@ -7,14 +7,14 @@
                 <div class="transaction-info">
                     <div class="line body-1 basic-700">
                         <div>
-                            <span w-i18n="transactionList.types.{{::transaction.type}}"></span>
-                            {{::transaction.asset.name}}
+                            <span w-i18n="transactionList.types.{{::transaction.type}}"
+                                  params="{name: transaction.amount.asset.name}"></span>
                         </div>
-                        <div>
+                        <div ng-if="transaction.amount">
                             <span w-i18n="transactionList.amount.{{::transaction.type}}"></span>
-                            <w-balance balance="transaction.amount.tokens"
-                                       asset-id="{{::transaction.amount.assetId}}"></w-balance>
-                            {{::transaction.asset.name}}
+                            <w-balance balance="transaction.amount.coins"
+                                       asset-id="{{::transaction.amount.asset.id}}"></w-balance>
+                            {{::transaction.amount.asset.name}}
                         </div>
                     </div>
                     <div class="line footnote basic-500">
@@ -23,7 +23,10 @@
                             <span w-i18n="transactionList.address.{{::transaction.type}}"></span>
                             {{::transaction.address}}
                         </div>
-                        <div>
+                        <div ng-if="transaction.type === 'issue'">
+                            <w-i18n>transactionList.reissuable.{{::transaction.reissuable}}</w-i18n>
+                        </div>
+                        <div ng-if="transaction.type !== 'issue' && transaction.amount">
                             <span w-i18n="transactionList.amount.{{::transaction.type}}"></span>
                             <w-balance balance="transaction.mirrorBalance"
                                        asset-id="{{::$ctrl.mirrorId}}"></w-balance>
@@ -37,10 +40,10 @@
     <div ng-if="$ctrl.hadResponse && !$ctrl.transactions.length" class="no-transactions-container">
         <div class="basic-700 margin-3" w-i18n="transactionList.noTransactions"></div>
         <div>
-            <w-button class="margin-right-1">
+            <w-button class="interface margin-right-1">
                 <w-i18n>send</w-i18n>
             </w-button>
-            <w-button>
+            <w-button class="interface">
                 <w-i18n>receive</w-i18n>
             </w-button>
         </div>
