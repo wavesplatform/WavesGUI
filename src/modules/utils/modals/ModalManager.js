@@ -8,7 +8,7 @@
      * @param $templateRequest
      * @return {ModalManager}
      */
-    const factory = function ($mdDialog, utils, decorators, $templateRequest) {
+    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope) {
 
 
         const DEFAULT_OPTIONS = {
@@ -30,6 +30,15 @@
 
             constructor() {
                 this.openModal = new tsUtils.Signal();
+                this._counter = 0;
+
+                $rootScope.$on('$stateChangeStart', () => {
+                    const counter = this._counter;
+
+                    for (let i = 0; i < counter; i++) {
+                        $mdDialog.cancel();
+                    }
+                });
             }
 
             /**
@@ -118,12 +127,19 @@
 
                 return ModalManager._getTemplate(target).then((template) => {
                     const { controller, controllerAs } = ModalManager._getController(options);
+                    const changeCounter = () => {
+                        this._counter--;
+                    };
 
                     target.controller = controller;
                     target.controllerAs = controllerAs;
                     target.template = template;
 
+                    this._counter++;
                     const modal = $mdDialog.show(target);
+
+                    modal.then(changeCounter, changeCounter);
+
                     this.openModal.dispatch(modal);
                     return modal;
                 });
@@ -295,7 +311,7 @@
         return new ModalManager();
     };
 
-    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest'];
+    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope'];
 
     angular.module('app.utils').factory('modalManager', factory);
 })();
