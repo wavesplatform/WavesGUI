@@ -39,7 +39,7 @@
 
     angular.module('app.ui').component('wLeftMenu', {
         bindings: {},
-        templateUrl: '/modules/ui/directives/leftMenu/leftMenu.html',
+        templateUrl: 'modules/ui/directives/leftMenu/leftMenu.html',
         transclude: false,
         controller
     });

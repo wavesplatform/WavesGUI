@@ -143,7 +143,7 @@
         bindings: {
             field: '@'
         },
-        templateUrl: '/modules/ui/directives/complexityMeter/complexityMeter.html',
+        templateUrl: 'modules/ui/directives/complexityMeter/complexityMeter.html',
         transclude: false,
         controller
     });

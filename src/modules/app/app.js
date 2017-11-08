@@ -26,6 +26,7 @@
         'ui.router.state.events',
         'n3-line-chart',
 
+        'app.templates',
         'app.utils',
         'app.ui',
         'app.welcome',

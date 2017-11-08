@@ -6,6 +6,6 @@
             bindings: {
                 assets: '<'
             },
-            templateUrl: '/modules/dex/directives/portfolio/portfolio.html'
+            templateUrl: 'modules/dex/directives/portfolio/portfolio.html'
         });
 })();

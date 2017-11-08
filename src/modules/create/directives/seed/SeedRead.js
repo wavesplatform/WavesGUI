@@ -103,6 +103,6 @@
             seed: '@'
         },
         controller: controller,
-        templateUrl: '/modules/create/directives/seed/seed.html'
+        templateUrl: 'modules/create/directives/seed/seed.html'
     });
 })();
