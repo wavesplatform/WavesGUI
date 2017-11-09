@@ -36,7 +36,7 @@
             valid: '=',
             password: '='
         },
-        templateUrl: '/modules/ui/directives/password/password.html',
+        templateUrl: 'modules/ui/directives/password/password.html',
         transclude: false,
         controller
     });
