@@ -1,13 +1,13 @@
 import * as gulp from 'gulp';
-import { getType } from 'mime';
-import { exec, spawn } from 'child_process';
-import { readdirSync, statSync } from 'fs';
-import { join, relative } from 'path';
-import { ITaskFunction } from './interface';
-import { readFile, readJSON, readJson, readJSONSync } from 'fs-extra';
-import { compile } from 'handlebars';
-import { transform } from 'babel-core';
-import { render } from 'less';
+import {getType} from 'mime';
+import {exec, spawn} from 'child_process';
+import {readdirSync, statSync} from 'fs';
+import {join, relative} from 'path';
+import {ITaskFunction} from './interface';
+import {readFile, readJSON, readJson, readJSONSync} from 'fs-extra';
+import {compile} from 'handlebars';
+import {transform} from 'babel-core';
+import {render} from 'less';
 
 
 export const task: ITaskFunction = gulp.task.bind(gulp) as any;
@@ -15,7 +15,7 @@ export const task: ITaskFunction = gulp.task.bind(gulp) as any;
 export function getBranch(): Promise<string> {
     return new Promise((resolve, reject) => {
         const command = 'git symbolic-ref --short HEAD';
-        exec(command, { encoding: 'utf8' }, (error: Error, stdout: string, stderr: string) => {
+        exec(command, {encoding: 'utf8'}, (error: Error, stdout: string, stderr: string) => {
             if (error) {
                 console.log(stderr);
                 console.log(error);
@@ -32,7 +32,7 @@ export function getBranchDetail(): Promise<{ branch: string; project: string; ti
         const parts = branch.split('-');
         const [project, ticket] = parts;
         const description = parts.slice(2).join(' ');
-        return { branch, project: project.toUpperCase(), ticket: Number(ticket), description };
+        return {branch, project: project.toUpperCase(), ticket: Number(ticket), description};
     });
 }
 
@@ -96,7 +96,7 @@ export function run(command: string, args: Array<string>, noLog?: boolean): Prom
         });
 
         task.on('close', (code: number) => {
-            resolve({ code, data });
+            resolve({code, data});
         });
     });
 }
@@ -209,26 +209,23 @@ export function route(connectionType, buildType) {
         } else if (isSourceScript(req.url)) {
             readFile(join(__dirname, '../src', req.url), 'utf8')
                 .then((code) => {
-                    if (code.indexOf('@') !== -1) {
-                        const result = transform(code, {
-                            plugins: [
-                                'transform-decorators-legacy',
-                                'transform-class-properties',
-                                'transform-decorators',
-                                'transform-object-rest-spread'
-                            ]
-                        }).code;
-                        return result;
-                    } else {
-                        return code;
-                    }
+                    const result = transform(code, {
+                        presets: ['es2015'],
+                        plugins: [
+                            'transform-decorators-legacy',
+                            'transform-class-properties',
+                            'transform-decorators',
+                            'transform-object-rest-spread'
+                        ]
+                    }).code;
+                    return result;
                 })
                 .then((code) => res.end(code))
                 .catch((e) => {
                     console.log(e.message, req.url);
                 });
         } else if (isApiMock(req.url)) {
-            mock(req, res, { connection: connectionType, meta: readJSONSync(join(__dirname, 'meta.json')) });
+            mock(req, res, {connection: connectionType, meta: readJSONSync(join(__dirname, 'meta.json'))});
         } else {
             routeStatic(req, res, connectionType, buildType);
         }
@@ -254,7 +251,7 @@ export function applyRoute(route, req, res, options) {
     const urls = Object.keys(route)
         .sort((a, b) => {
             const reg = /:/g;
-            return (a.match(reg) || { length: 0 }).length - (b.match(reg) || { length: 0 }).length;
+            return (a.match(reg) || {length: 0}).length - (b.match(reg) || {length: 0}).length;
         })
         .map((url) => url.split('/'))
         .filter((routeParts) => routeParts.length === parts.length);
@@ -322,7 +319,7 @@ function routeStatic(req, res, connectionType, buildType) {
         const path = join(root, req.url);
         readFile(path).then((file: Buffer) => {
             res.setHeader('Cache-Control', 'public, max-age=31557600');
-            res.writeHead(200, { 'Content-Type': contentType });
+            res.writeHead(200, {'Content-Type': contentType});
             res.end(file);
         })
             .catch(() => {

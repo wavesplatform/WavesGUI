@@ -77,39 +77,40 @@
              * @return {Promise}
              */
             getBalanceList(assetIds, options) {
-                return user.onLogin().then(() => {
-                    if (assetIds) {
-                        return utils.whenAll([
-                            Promise.all(assetIds.map(this.getAssetInfo)),
-                            eventManager.getBalanceEvents(),
-                            this._getBalanceList(assetIds, options)
-                        ])
-                            .then(([assets, events, balances]) => {
-                                return assets.map((asset) => {
-                                    const balanceData = tsUtils.find(balances, { assetId: asset.id });
-                                    const balance = balanceData && parseFloat(balanceData.tokens) || 0;
-                                    return { ...asset, balance: this._getAssetBalance(asset.id, balance, events) };
-                                });
-                            });
-                    } else {
-                        return utils.whenAll([
-                            this._getBalanceList(null, options),
-                            eventManager.getBalanceEvents()
-                        ])
-                            .then(([list, events]) => {
-                                return utils.whenAll(list.map((item) => this.getAssetInfo(item.assetId)))
-                                    .then((infoList) => {
-                                        return infoList.map((asset, i) => {
-                                            const balance = parseFloat(list[i].tokens) || 0;
-                                            return {
-                                                ...asset,
-                                                balance: this._getAssetBalance(asset.id, balance, events)
-                                            };
-                                        });
+                return user.onLogin()
+                    .then(() => {
+                        if (assetIds) {
+                            return utils.whenAll([
+                                Promise.all(assetIds.map(this.getAssetInfo)),
+                                eventManager.getBalanceEvents(),
+                                this._getBalanceList(assetIds, options)
+                            ])
+                                .then(([assets, events, balances]) => {
+                                    return assets.map((asset) => {
+                                        const balanceData = tsUtils.find(balances, { assetId: asset.id });
+                                        const balance = balanceData && parseFloat(balanceData.tokens) || 0;
+                                        return { ...asset, balance: this._getAssetBalance(asset.id, balance, events) };
                                     });
-                            });
-                    }
-                });
+                                });
+                        } else {
+                            return utils.whenAll([
+                                this._getBalanceList(null, options),
+                                eventManager.getBalanceEvents()
+                            ])
+                                .then(([list, events]) => {
+                                    return utils.whenAll(list.map((item) => this.getAssetInfo(item.assetId)))
+                                        .then((infoList) => {
+                                            return infoList.map((asset, i) => {
+                                                const balance = parseFloat(list[i].tokens) || 0;
+                                                return {
+                                                    ...asset,
+                                                    balance: this._getAssetBalance(asset.id, balance, events)
+                                                };
+                                            });
+                                        });
+                                });
+                        }
+                    });
             }
 
             /**
@@ -163,31 +164,64 @@
             }
 
             /**
-             * @param {string} assetIdFrom
-             * @param {string} assetIdTo
+             * @param {string} idFrom
+             * @param {string} idTo
              * @return {Promise<AssetsService.rateApi>}
              */
             @decorators.cachable(60)
-            getRate(assetIdFrom, assetIdTo) {
+            getRate(idFrom, idTo) {
                 const marketUrl = 'https://marketdata.wavesplatform.com/api/trades';
-                if (assetIdFrom === assetIdTo) {
-                    return Promise.resolve(1);
-                }
 
-                apiWorker.process((Waves, { assetIdFrom, assetIdTo, wavesId }) => {
-                    return Promise.all([
-                        Waves.AssetPair.get(assetIdFrom, wavesId).then((pair) => pair.toString()),
-                        Waves.AssetPair.get(assetIdTo, wavesId).then((pair) => pair.toString())
-                    ]);
-                }, { assetIdFrom, assetIdTo, wavesId: WavesApp.defaultAssets.WAVES })
-                    .then((pairs) => {
-                        return pairs.map((pair) => fetch(`${marketUrl}/${pair}/5`)
-                            .then(AssetsService._onFetch)
-                            .then(AssetsService._currentRate));
-                    })
-                    .then(([from, to]) => {
-                        console.log(assetIdFrom, assetIdTo, from, to);
-                        // TODO . Author Tsigel at 09/11/2017 16:21
+                const params = {
+                    onFetch: AssetsService._onFetch,
+                    currentRate: AssetsService._currentRate,
+                    wavesId: WavesApp.defaultAssets.WAVES,
+                    idFrom,
+                    idTo,
+                    marketUrl
+                };
+
+                return Promise.all([
+                    apiWorker.process((Waves, { onFetch, currentRate, wavesId, idFrom, idTo, marketUrl }) => {
+
+                        if (idFrom === idTo) {
+                            return 1;
+                        }
+
+                        const getRate = function (from, to) {
+                            return Waves.AssetPair.get(from, to)
+                                .then((pair) => {
+                                    return fetch(`${marketUrl}/${pair.toString()}/5`)
+                                        .then(onFetch)
+                                        .then(currentRate)
+                                        .then((rate) => {
+                                            if (from !== pair.priceAsset.id) {
+                                                return rate;
+                                            } else {
+                                                return rate === 0 ? 0 : 1 / rate;
+                                            }
+                                        });
+                                });
+                        };
+
+                        if (idFrom !== wavesId && idTo !== wavesId) {
+                            return Promise.all([
+                                getRate(idFrom, wavesId),
+                                getRate(idTo, wavesId)
+                            ])
+                                .then((rateList) => {
+                                    return rateList[1] === 0 ? 0 : rateList[0] / rateList[1];
+                                });
+                        } else {
+                            return getRate(idFrom, idTo);
+                        }
+
+                    }, params),
+                    this.getAssetInfo(idFrom),
+                    this.getAssetInfo(idTo)
+                ])
+                    .then(([rate, assetFrom, assetTo]) => {
+                        return this._generateRateApi(assetFrom, assetTo, rate);
                     });
             }
 
@@ -225,7 +259,7 @@
                      * @return {number}
                      */
                     exchangeReverse(balance) {
-                        return tsUtils.round(balance / rate, fromAsset.precision);
+                        return rate === 0 ? 0 : tsUtils.round(balance / rate, fromAsset.precision);
                     }
                 };
             }
@@ -238,13 +272,14 @@
                         return response.text();
                     }
                 } else {
-                    return response.text().then((error) => {
-                        try {
-                            return Promise.reject(JSON.parse(error));
-                        } catch (e) {
-                            return Promise.reject(error);
-                        }
-                    });
+                    return response.text()
+                        .then((error) => {
+                            try {
+                                return Promise.reject(JSON.parse(error));
+                            } catch (e) {
+                                return Promise.reject(error);
+                            }
+                        });
                 }
             }
 

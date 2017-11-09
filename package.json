@@ -141,6 +141,6 @@
     "ts-api-validator": "^2.0.0",
     "ts-utils": "^5.3.0",
     "waves-api": "^0.11.2",
-    "worker-wrapper": "^1.1.0"
+    "worker-wrapper": "^1.2.1"
   }
 }

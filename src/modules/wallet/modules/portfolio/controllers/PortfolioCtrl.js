@@ -28,10 +28,6 @@
                  */
                 this.selectedAll = false;
                 /**
-                 * @type {Poll}
-                 */
-                this.portfolioUpdate = null;
-                /**
                  * @type {string}
                  */
                 this.mirrorId = null;
@@ -43,11 +39,7 @@
                  * @type {string[]}
                  */
                 this.defaultAssetIds = null;
-                /**
-                 * @type {Object}
-                 * @private
-                 */
-                this._balancesHash = Object.create(null);
+
 
                 createPromise(this, utils.whenAll([
                     user.getSetting('baseAssetId'),
