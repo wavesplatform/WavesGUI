@@ -41,6 +41,16 @@
                 });
             }
 
+            showAssetInfo(asset) {
+                return this._getModal({
+                    ns: 'app.utils',
+                    title: 'assetInfo.title',
+                    titleParams: { name: asset.name },
+                    contentUrl: 'modules/utils/modals/assetInfo/assetInfo.html',
+                    locals: asset
+                });
+            }
+
             /**
              * @param {User} user
              */
@@ -78,13 +88,14 @@
              * @return {Promise}
              */
             showSendAsset(data) {
-                return data.user.getSetting('baseAssetId').then((baseAssetId) => this._getModal({
-                    controller: 'AssetSendCtrl',
-                    titleContentUrl: 'modules/utils/modals/sendAsset/send-title.modal.html',
-                    contentUrl: 'modules/utils/modals/sendAsset/send.modal.html',
-                    mod: 'modal-send',
-                    locals: { assetId: data.assetId, baseAssetId, canChooseAsset: data.canChooseAsset }
-                }));
+                return data.user.getSetting('baseAssetId')
+                    .then((baseAssetId) => this._getModal({
+                        controller: 'AssetSendCtrl',
+                        titleContentUrl: 'modules/utils/modals/sendAsset/send-title.modal.html',
+                        contentUrl: 'modules/utils/modals/sendAsset/send.modal.html',
+                        mod: 'modal-send',
+                        locals: { assetId: data.assetId, baseAssetId, canChooseAsset: data.canChooseAsset }
+                    }));
             }
 
             /**
@@ -94,15 +105,16 @@
             showReceiveAsset(user) {
                 const literal = 'w-i18n="modal.receive.title"';
                 const params = 'params="{assetName: $ctrl.asset.name}"';
-                return user.onLogin().then(() => {
-                    return this._getModal({
-                        locals: user.address,
-                        titleContent: `<div class="headline-1" ${literal} ${params}></div>`,
-                        contentUrl: 'modules/utils/modals/receiveAsset/receive.modal.html',
-                        controller: 'AssetReceiveCtrl',
-                        mod: 'modal-receive',
+                return user.onLogin()
+                    .then(() => {
+                        return this._getModal({
+                            locals: user.address,
+                            titleContent: `<div class="headline-1" ${literal} ${params}></div>`,
+                            contentUrl: 'modules/utils/modals/receiveAsset/receive.modal.html',
+                            controller: 'AssetReceiveCtrl',
+                            mod: 'modal-receive'
+                        });
                     });
-                });
             }
 
             /**
@@ -125,24 +137,25 @@
                     target.bindToController = true;
                 }
 
-                return ModalManager._getTemplate(target).then((template) => {
-                    const { controller, controllerAs } = ModalManager._getController(options);
-                    const changeCounter = () => {
-                        this._counter--;
-                    };
+                return ModalManager._getTemplate(target)
+                    .then((template) => {
+                        const { controller, controllerAs } = ModalManager._getController(options);
+                        const changeCounter = () => {
+                            this._counter--;
+                        };
 
-                    target.controller = controller;
-                    target.controllerAs = controllerAs;
-                    target.template = template;
+                        target.controller = controller;
+                        target.controllerAs = controllerAs;
+                        target.template = template;
 
-                    this._counter++;
-                    const modal = $mdDialog.show(target);
+                        this._counter++;
+                        const modal = $mdDialog.show(target);
 
-                    modal.then(changeCounter, changeCounter);
+                        modal.then(changeCounter, changeCounter);
 
-                    this.openModal.dispatch(modal);
-                    return modal;
-                });
+                        this.openModal.dispatch(modal);
+                        return modal;
+                    });
             }
 
             /**
@@ -217,14 +230,18 @@
              */
             static _createTemplate(options) {
                 return Promise.all([
-                    ModalManager._getHeader(options).then(ModalManager._wrapTemplate('md-toolbar')),
-                    ModalManager._getContent(options).then(ModalManager._wrapTemplate('md-dialog-content')),
+                    ModalManager._getHeader(options)
+                        .then(ModalManager._wrapTemplate('md-toolbar')),
+                    ModalManager._getContent(options)
+                        .then(ModalManager._wrapTemplate('md-dialog-content')),
                     ModalManager._getFooter(options)
-                ]).then((templateParts) => {
-                    const { mod, ns } = options;
-                    const content = templateParts.filter(Boolean).join('');
-                    return ModalManager._getWrapTemplate({ ns, mod, content });
-                });
+                ])
+                    .then((templateParts) => {
+                        const { mod, ns } = options;
+                        const content = templateParts.filter(Boolean)
+                            .join('');
+                        return ModalManager._getWrapTemplate({ ns, mod, content });
+                    });
             }
 
             /**
@@ -283,6 +300,11 @@
                 }
             }
 
+            /**
+             * @param {string} tagName
+             * @return {Function}
+             * @private
+             */
             static _wrapTemplate(tagName) {
                 return function (template) {
                     if (template) {
@@ -292,6 +314,13 @@
                 };
             }
 
+            /**
+             * @param {string} ns
+             * @param {string} mod
+             * @param {string} content
+             * @return {string}
+             * @private
+             */
             static _getWrapTemplate({ ns, mod, content }) {
                 const namespace = ns ? `w-i18n-ns="${ns}"` : '';
                 const classes = mod ? `class="${mod}"` : '';
@@ -314,7 +343,8 @@
 
     factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope'];
 
-    angular.module('app.utils').factory('modalManager', factory);
+    angular.module('app.utils')
+        .factory('modalManager', factory);
 })();
 
 /**
