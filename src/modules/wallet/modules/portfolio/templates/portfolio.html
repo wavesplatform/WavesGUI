@@ -32,8 +32,8 @@
             <div class="portfolio-item-ask">
                 {{::asset.ask}}
             </div>
-            <div class="portfolio-item-change">
-                {{::asset.change}}
+            <div class="portfolio-item-change" ng-class="{'error-500': asset.change < 0}">
+                {{::$ctrl.abs(asset.change)}}%
             </div>
             <div class="portfolio-item-actions">
 

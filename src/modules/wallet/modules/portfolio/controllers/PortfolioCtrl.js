@@ -74,6 +74,10 @@
                 modalManager.showSendAsset({ user, canChooseAsset: true });
             }
 
+            abs(num) {
+                return Math.abs(num).toFixed(2);
+            }
+
             /**
              * @return {Promise}
              * @private
@@ -102,7 +106,7 @@
             }
 
             _getChange(asset) {
-                return Promise.resolve(2.21);// TODO Add request. Author Tsigel at 09/11/2017 13:39
+                return assetsService.getChange(asset.id, this.mirrorId);
             }
 
             _loadAssetData(asset) {

@@ -163,6 +163,56 @@
                     });
             }
 
+            @decorators.cachable(60)
+            getChange(idFrom, idTo) {
+                const marketUrl = 'https://marketdata.wavesplatform.com/api/candles';
+
+                const params = {
+                    onFetch: AssetsService._onFetch,
+                    wavesId: WavesApp.defaultAssets.WAVES,
+                    idFrom,
+                    idTo,
+                    marketUrl
+                };
+
+                return apiWorker.process((Waves, { onFetch, wavesId, idFrom, idTo, marketUrl }) => {
+
+                    if (idFrom === idTo) {
+                        return 1;
+                    }
+
+                    const getRate = function (from, to) {
+                        return Waves.AssetPair.get(from, to)
+                            .then((pair) => {
+                                return fetch(`${marketUrl}/${pair.toString()}/1440/1`)
+                                    .then(onFetch)
+                                    .then((data) => {
+                                        const open = Number(data[0].open);
+                                        const close = Number(data[0].close);
+                                        if (open > close) {
+                                            return close === 0 ? 0 : - open / close;
+                                        } else {
+                                            return open === 0 ? 0 : close / open;
+                                        }
+                                    });
+                            });
+                    };
+
+                    if (idFrom !== wavesId && idTo !== wavesId) {
+                        return Promise.all([
+                            getRate(idFrom, wavesId),
+                            getRate(idTo, wavesId)
+                        ])
+                            .then((rateList) => {
+                                return rateList[1] === 0 ? 0 : rateList[0] / rateList[1];
+                            });
+                    } else {
+                        return getRate(idFrom, idTo);
+                    }
+
+                }, params);
+            }
+
             /**
              * @param {string} idFrom
              * @param {string} idTo
