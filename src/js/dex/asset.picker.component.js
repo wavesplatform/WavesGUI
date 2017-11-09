@@ -20,10 +20,7 @@
                 ctrl.autocomplete.assets = ctrl.assets.map(function (asset) {
                     return asset.currency;
                 }).filter(function (asset) {
-                    return asset !== ctrl.hiddenAsset;
-                }).sort(function (a, b) {
-                    // Verified assets go first.
-                    return +b.verified - +a.verified;
+                    return asset.verified && (asset !== ctrl.hiddenAsset);
                 });
             }
         };
