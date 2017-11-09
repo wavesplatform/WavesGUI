@@ -77,8 +77,8 @@
                 message: '@',
                 name: '@'
             },
-            template: '<div class="error" ng-class="{active: $ctrl.canShow()}"' +
-            ' ng-transclude></div>',
+            template: '<span class="error" ng-class="{active: $ctrl.canShow()}"' +
+            ' ng-transclude></span>',
             controller
         });
 })();

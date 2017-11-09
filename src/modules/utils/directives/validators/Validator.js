@@ -17,12 +17,12 @@
                  * @type {Array}
                  * @private
                  */
-                this._validators = [];
+                this._messages = [];
             }
 
             registerValidator(name, handler) {
-                if (!tsUtils.find(this._validators, { name })) {
-                    this._validators.push({ name, handler });
+                if (!tsUtils.find(this._messages, { name })) {
+                    this._messages.push({ name, handler });
                 } else {
                     throw new Error('Duplicate validator name!');
                 }
@@ -33,7 +33,7 @@
             }
 
             validate() {
-                this._validators.forEach((validator) => {
+                this._messages.forEach((validator) => {
                     this.$ngModel.$setValidity(
                         validator.name,
                         validator.handler(this.$ngModel.$modelValue, this.$ngModel.$viewValue)

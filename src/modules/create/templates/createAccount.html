@@ -31,36 +31,10 @@
         </div>
     </div>
 
-    <form name="create" novalidate ng-submit="create.$valid && $ctrl.next()">
-        <w-input-container>
-            <div class="left body-2">
-                <w-i18n>createAccount.passTitle</w-i18n>
-            </div>
-            <w-input name="password"
-                     type="password"
-                     class="big"
-                     ng-model="$ctrl.password"
-                     minlength="8"
-                     required></w-input>
-            <w-complexity-meter field="password"></w-complexity-meter>
-        </w-input-container>
-        <w-input-container>
-            <div class="left body-2">
-                <w-i18n>createAccount.repeat</w-i18n>
-            </div>
-            <w-input type="password"
-                     class="no-icon big"
-                     name="confirm"
-                     w-validate="compare"
-                     required
-                     w-compare-to="password"
-                     ng-model="$ctrl.confirmPassword">
-            </w-input>
-        </w-input-container>
+    <w-password password="$ctrl.password" valid="$ctrl.validNewPassword"></w-password>
 
-        <w-button class="submit long big" disabled="create.password.$invalid || create.confirm.$invalid" type="submit">
-            <w-i18n>button.continue</w-i18n>
-        </w-button>
-    </form>
+    <w-button ng-click="$ctrl.next()" class="submit long big" disabled="!$ctrl.validNewPassword" type="submit">
+        <w-i18n>button.continue</w-i18n>
+    </w-button>
 
 </div>

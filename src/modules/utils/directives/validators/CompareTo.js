@@ -14,8 +14,7 @@
                 }
 
                 $compare.on('input', () => {
-                    this.$ngModel.$validate();
-                    this.$scope.$apply();
+                    this.validate();
                 });
 
                 this.registerValidator('w-compare-to', (value) => {
