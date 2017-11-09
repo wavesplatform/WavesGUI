@@ -174,7 +174,7 @@
             transactionType: '<',
             search: '<'
         },
-        templateUrl: '/modules/wallet/modules/transactions/directives/transactionList/transactionList.html',
+        templateUrl: 'modules/wallet/modules/transactions/directives/transactionList/transactionList.html',
         transclude: false,
         controller
     });

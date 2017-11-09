@@ -58,7 +58,7 @@
                 _by: '<by',
                 _sell: '<sell'
             },
-            templateUrl: '/modules/dex/directives/orderBook/orderBook.html',
+            templateUrl: 'modules/dex/directives/orderBook/orderBook.html',
             controller
         });
 })();

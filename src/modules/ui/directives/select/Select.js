@@ -135,7 +135,7 @@
             ngModel: '=',
             disabled: '<'
         },
-        templateUrl: '/modules/ui/directives/select/select.html',
+        templateUrl: 'modules/ui/directives/select/select.html',
         transclude: true,
         controller
     });

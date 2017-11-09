@@ -36,7 +36,7 @@ export function getBranchDetail(): Promise<{ branch: string; project: string; ti
     });
 }
 
-export function getFilesFrom(dist: string, extension: string, filter?: IFilter): Array<string> {
+export function getFilesFrom(dist: string, extension: string | Array<string>, filter?: IFilter): Array<string> {
     const files = [];
 
     function read(localPath) {
@@ -49,9 +49,20 @@ export function getFilesFrom(dist: string, extension: string, filter?: IFilter):
             if (statSync(itemPath).isDirectory()) {
                 forRead.push(itemPath);
             } else {
-                if (itemName.lastIndexOf(extension) === (itemName.length - extension.length)) {
-                    if (!filter || filter(itemName, itemPath)) {
-                        files.push(itemPath);
+                if (Array.isArray(extension)) {
+                    const isNeedFile = extension.some((ext) => {
+                        return itemName.lastIndexOf(ext) === (itemName.length - ext.length);
+                    });
+                    if (isNeedFile) {
+                        if (!filter || filter(itemName, itemPath)) {
+                            files.push(itemPath);
+                        }
+                    }
+                } else {
+                    if (itemName.lastIndexOf(extension) === (itemName.length - extension.length)) {
+                        if (!filter || filter(itemName, itemPath)) {
+                            files.push(itemPath);
+                        }
                     }
                 }
             }
@@ -154,27 +165,30 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
 
 export function route(connectionType, buildType) {
     return function (req, res) {
-        if (req.url === '/img/images-list.json') {
-            res.setHeader('Content-Type', 'application/json');
-            const images = getFilesFrom(join(__dirname, '../src/img'), '.svg').map(moveTo(join(__dirname, '../src')));
-            res.end(JSON.stringify(images));
-            return null;
-        }
-
-        if (isPage(req.url)) {
-            if (buildType === 'dev') {
-                return prepareHTML({
-                    target: join(__dirname, '..', 'src'),
-                    connection: connectionType
-                }).then((file) => {
-                    res.end(file);
-                });
-            } else {
+        if (buildType !== 'dev') {
+            if (isPage(req.url)) {
                 const path = join(__dirname, '../dist/build', connectionType, buildType, 'index.html');
                 return readFile(path, 'utf8').then((file) => {
                     res.end(file);
                 });
             }
+            return routeStatic(req, res, connectionType, buildType);
+        }
+
+        if (req.url === '/img/images-list.json') {
+            res.setHeader('Content-Type', 'application/json');
+            const images = getFilesFrom(join(__dirname, '../src/img'), ['.svg', '.png', '.jpg']).map(moveTo(join(__dirname, '../src')));
+            res.end(JSON.stringify(images));
+            return null;
+        }
+
+        if (isPage(req.url)) {
+            return prepareHTML({
+                target: join(__dirname, '..', 'src'),
+                connection: connectionType
+            }).then((file) => {
+                res.end(file);
+            });
         } else if (isLess(req.url)) {
             readFile(join(__dirname, '../src', req.url), 'utf8')
                 .then((style) => {
@@ -216,7 +230,7 @@ export function route(connectionType, buildType) {
         } else if (isApiMock(req.url)) {
             mock(req, res, { connection: connectionType, meta: readJSONSync(join(__dirname, 'meta.json')) });
         } else {
-            routeStatic(req, res);
+            routeStatic(req, res, connectionType, buildType);
         }
     };
 }
@@ -294,11 +308,14 @@ export function isPage(url: string): boolean {
     });
 }
 
-function routeStatic(req, res) {
-    const ROOTS = [
-        join(__dirname, '..'),
-        join(__dirname, '../src')
-    ];
+function routeStatic(req, res, connectionType, buildType) {
+    const ROOTS = [join(__dirname, '..')];
+    if (buildType !== 'dev') {
+        ROOTS.push(join(__dirname, `../dist/build/${connectionType}/${buildType}`));
+    } else {
+        ROOTS.push(join(__dirname, '../src'));
+    }
+
     const contentType = getType(req.url);
 
     const check = (root: string) => {

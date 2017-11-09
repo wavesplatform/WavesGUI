@@ -22,7 +22,7 @@
         };
 
         const DEFAULT_TEMPLATES_URLS = {
-            HEADER: '/modules/utils/modals/templates/header.modal.html'
+            HEADER: 'modules/utils/modals/templates/header.modal.html'
         };
 
 
@@ -46,7 +46,7 @@
              */
             showTermsAccept(user) {
                 return this._getModal({
-                    templateUrl: '/modules/utils/modals/termsAccept/terms-accept.html',
+                    templateUrl: 'modules/utils/modals/termsAccept/terms-accept.html',
                     controller: 'TermsAcceptCtrl',
                     clickOutsideToClose: false,
                     escapeToClose: false
@@ -65,7 +65,7 @@
                 return this._getModal({
                     controller: 'AccountInformationCtrl',
                     title: 'modal.account.title',
-                    contentUrl: '/modules/utils/modals/accountInformation/account-information.modal.html',
+                    contentUrl: 'modules/utils/modals/accountInformation/account-information.modal.html',
                     mod: 'account-info'
                 });
             }
@@ -80,8 +80,8 @@
             showSendAsset(data) {
                 return data.user.getSetting('baseAssetId').then((baseAssetId) => this._getModal({
                     controller: 'AssetSendCtrl',
-                    titleContentUrl: '/modules/utils/modals/sendAsset/send-title.modal.html',
-                    contentUrl: '/modules/utils/modals/sendAsset/send.modal.html',
+                    titleContentUrl: 'modules/utils/modals/sendAsset/send-title.modal.html',
+                    contentUrl: 'modules/utils/modals/sendAsset/send.modal.html',
                     mod: 'modal-send',
                     locals: { assetId: data.assetId, baseAssetId, canChooseAsset: data.canChooseAsset }
                 }));
@@ -99,7 +99,7 @@
                 return this._getModal({
                     locals: data,
                     titleContent: `<div class="headline-1" ${literal} ${params}></div>`,
-                    contentUrl: '/modules/utils/modals/receiveAsset/receive.modal.html',
+                    contentUrl: 'modules/utils/modals/receiveAsset/receive.modal.html',
                     controller: 'AssetReceiveCtrl',
                     mod: 'modal-receive',
                 });
@@ -110,7 +110,7 @@
              */
             getSeed() {
                 return this._getModal({
-                    templateUrl: '/modules/utils/modals/enterPassword/enterPassword.modal.html',
+                    templateUrl: 'modules/utils/modals/enterPassword/enterPassword.modal.html',
                     controller: 'EnterPasswordCtrl'
                 });
             }

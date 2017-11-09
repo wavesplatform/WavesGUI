@@ -80,7 +80,7 @@
                 class: '@'
             },
             transclude: true,
-            templateUrl: 'src/modules/ui/directives/radio/radio.html',
+            templateUrl: 'modules/ui/directives/radio/radio.html',
             require: {
                 radioWrap: '^wRadioWrap'
             },

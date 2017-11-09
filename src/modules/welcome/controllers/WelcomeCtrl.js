@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const PATH = 'modules/welcome/templates/';
+    const PATH = 'modules/welcome/templates';
 
     const controller = function ($state, apiWorker, user) {
 
