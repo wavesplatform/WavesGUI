@@ -88,20 +88,20 @@
             }
 
             /**
-             * @param {object} data
-             * @param {string} [data.assetId]
-             * @param {boolean} [data.canChooseAsset]
+             * @param {User} user
              * @return {Promise}
              */
-            showReceiveAsset(data) {
+            showReceiveAsset(user) {
                 const literal = 'w-i18n="modal.receive.title"';
                 const params = 'params="{assetName: $ctrl.asset.name}"';
-                return this._getModal({
-                    locals: data,
-                    titleContent: `<div class="headline-1" ${literal} ${params}></div>`,
-                    contentUrl: 'modules/utils/modals/receiveAsset/receive.modal.html',
-                    controller: 'AssetReceiveCtrl',
-                    mod: 'modal-receive',
+                return user.onLogin().then(() => {
+                    return this._getModal({
+                        locals: user.address,
+                        titleContent: `<div class="headline-1" ${literal} ${params}></div>`,
+                        contentUrl: 'modules/utils/modals/receiveAsset/receive.modal.html',
+                        controller: 'AssetReceiveCtrl',
+                        mod: 'modal-receive',
+                    });
                 });
             }
 
@@ -234,7 +234,8 @@
              */
             static _getHeader(options) {
                 if (options.title) {
-                    const title = `<div class="headline-1" w-i18n="${options.title}"></div>`;
+                    const params = options.titleParams ? JSON.stringify(options.titleParams) : '';
+                    const title = `<div class="headline-1" params="${params}" w-i18n="${options.title}"></div>`;
                     return ModalManager._loadTemplate(DEFAULT_TEMPLATES_URLS.HEADER)
                         .then((template) => template.replace('{{title}}', title));
                 } else if (options.titleContent || options.titleContentUrl) {
@@ -323,6 +324,7 @@
  * @property {string} [template]
  * @property {string} [templateUrl]
  * @property {string} [title]
+ * @property {string} [titleParams]
  * @property {string} [titleContent]
  * @property {string} [titleContentUrl]
  * @property {string} [header]

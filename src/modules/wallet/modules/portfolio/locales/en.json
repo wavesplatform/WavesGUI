@@ -1,1 +1,11 @@
-{}
+{
+  "list": {
+    "name": "Asset Name",
+    "balance": "Balance",
+    "mirror": "Price, <span class=\"currency\">{{currency}}</span>",
+    "bid": "Bid",
+    "ask": "Ask",
+    "change": "24h Change",
+    "actions": "Actions"
+  }
+}

@@ -169,14 +169,26 @@
              */
             @decorators.cachable(60)
             getRate(assetIdFrom, assetIdTo) {
-                return Promise.all([
-                    this.getAssetInfo(assetIdFrom),
-                    this.getAssetInfo(assetIdTo),
-                    fetch(`/api/rate/${assetIdFrom}/${assetIdTo}/rate.json`)
-                        .then((r) => r.json())
-                ]).then(([assetFrom, assetTo, rateInfo]) => {
-                    return this._generateRateApi(assetFrom, assetTo, rateInfo.rate);
-                });
+                const marketUrl = 'https://marketdata.wavesplatform.com/api/trades';
+                if (assetIdFrom === assetIdTo) {
+                    return Promise.resolve(1);
+                }
+
+                apiWorker.process((Waves, { assetIdFrom, assetIdTo, wavesId }) => {
+                    return Promise.all([
+                        Waves.AssetPair.get(assetIdFrom, wavesId).then((pair) => pair.toString()),
+                        Waves.AssetPair.get(assetIdTo, wavesId).then((pair) => pair.toString())
+                    ]);
+                }, { assetIdFrom, assetIdTo, wavesId: WavesApp.defaultAssets.WAVES })
+                    .then((pairs) => {
+                        return pairs.map((pair) => fetch(`${marketUrl}/${pair}/5`)
+                            .then(AssetsService._onFetch)
+                            .then(AssetsService._currentRate));
+                    })
+                    .then(([from, to]) => {
+                        console.log(assetIdFrom, assetIdTo, from, to);
+                        // TODO . Author Tsigel at 09/11/2017 16:21
+                    });
             }
 
             /**
@@ -216,6 +228,30 @@
                         return tsUtils.round(balance / rate, fromAsset.precision);
                     }
                 };
+            }
+
+            static _onFetch(response) {
+                if (response.ok) {
+                    if (response.headers.get('Content-Type') === 'application/json') {
+                        return response.json();
+                    } else {
+                        return response.text();
+                    }
+                } else {
+                    return response.text().then((error) => {
+                        try {
+                            return Promise.reject(JSON.parse(error));
+                        } catch (e) {
+                            return Promise.reject(error);
+                        }
+                    });
+                }
+            }
+
+            static _currentRate(trades) {
+                return trades.reduce((result, item) => {
+                    return result + Number(item.price);
+                }, 0) / trades.length;
             }
 
         }

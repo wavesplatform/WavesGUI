@@ -32,7 +32,7 @@
     "testnet": {
       "code": "T",
       "server": "https://testnet1.wavesnodes.com",
-      "matcher": "https://testnet1.wavesnodes.com",
+      "matcher": "https://testnet1.wavesnodes.com/matcher",
       "coinomat": "https://test.coinomat.com",
       "datafeed": "https://marketdata.wavesplatform.com",
       "assets": {
@@ -45,7 +45,7 @@
     "mainnet": {
       "code": "W",
       "server": "https://nodes.wavesnodes.com",
-      "matcher": "https://nodes.wavesnodes.com",
+      "matcher": "https://nodes.wavesnodes.com/matcher",
       "coinomat": "https://coinomat.com",
       "datafeed": "https://marketdata.wavesplatform.com",
       "assets": {

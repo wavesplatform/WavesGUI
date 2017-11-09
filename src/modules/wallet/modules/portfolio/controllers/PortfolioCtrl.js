@@ -89,18 +89,43 @@
             _getPortfolio() {
                 return assetsService.getBalanceList()
                     .then((assets) => assets.length ? assets : assetsService.getBalanceList(this.defaultAssetIds))
-                    .then((assets) => assets.map(this._getRate, this))
+                    .then((assets) => assets.map(this._loadAssetData, this))
                     .then((promises) => utils.whenAll(promises));
             }
 
             /**
-             * @param {IAssetWithBalance} asset
+             * @param {*} asset
              * @private
              */
             _getRate(asset) {
-                return assetsService.getRate(asset.id, this.mirrorId)
-                    .then((api) => (asset.mirrorBalance = api.exchange(asset.balance)))
-                    .then(() => asset);
+                return assetsService.getRate(asset.id, this.mirrorId);
+            }
+
+            _getBid(asset) {
+                return Promise.resolve(0.003);// TODO Add request. Author Tsigel at 09/11/2017 13:39
+            }
+
+            _getAsk(asset) {
+                return Promise.resolve(0.003);// TODO Add request. Author Tsigel at 09/11/2017 13:39
+            }
+
+            _getChange(asset) {
+                return Promise.resolve(2.21);// TODO Add request. Author Tsigel at 09/11/2017 13:39
+            }
+
+            _loadAssetData(asset) {
+                return utils.whenAll([
+                    this._getRate(asset),
+                    this._getBid(asset),
+                    this._getAsk(asset),
+                    this._getChange(asset)
+                ]).then(([api, bid, ask, change]) => {
+                    asset.mirrorBalance = api.exchange(asset.balance);
+                    asset.bid = bid;
+                    asset.ask = ask;
+                    asset.change = change;
+                    return asset;
+                });
             }
 
         }
