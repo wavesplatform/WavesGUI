@@ -13,7 +13,7 @@
      */
     const controller = function ($q, $mdDialog, apiWorker, $timeout, user, modalManager, seedService) {
 
-        const PATH = '/modules/create/templates';
+        const PATH = 'modules/create/templates';
         const ORDER_LIST = [
             'createAccount',
             'noBackupNoMoney',
@@ -123,7 +123,7 @@
 
             showBackupWarningPopup() {
                 return modalManager.showCustomModal({
-                    templateUrl: '/modules/create/templates/noBackupNoMoney.modal.html',
+                    templateUrl: 'modules/create/templates/noBackupNoMoney.modal.html',
                     clickOutsideToClose: false,
                     escapeToClose: false
                 });

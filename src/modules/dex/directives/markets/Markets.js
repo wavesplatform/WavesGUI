@@ -99,7 +99,7 @@
                 amountAssetId: '=',
                 priceAssetId: '='
             },
-            templateUrl: '/modules/dex/directives/markets/markets.html',
+            templateUrl: 'modules/dex/directives/markets/markets.html',
             controller
         });
 })();

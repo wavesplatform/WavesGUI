@@ -55,6 +55,6 @@
 
     angular.module('app.ui').component('wHeader', {
         controller: controller,
-        templateUrl: '/modules/ui/directives/header/header.html'
+        templateUrl: 'modules/ui/directives/header/header.html'
     });
 })();

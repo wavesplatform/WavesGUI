@@ -89,7 +89,7 @@
                 amountAssetId: '<',
                 priceAssetId: '<'
             },
-            templateUrl: '/modules/dex/directives/tradeHistory/tradeHistory.html',
+            templateUrl: 'modules/dex/directives/tradeHistory/tradeHistory.html',
             controller
         });
 })();

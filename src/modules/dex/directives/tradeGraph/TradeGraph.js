@@ -100,7 +100,7 @@
                 amountAssetId: '<',
                 priceAssetId: '<'
             },
-            templateUrl: '/modules/dex/directives/tradeGraph/tradeGraph.html',
+            templateUrl: 'modules/dex/directives/tradeGraph/tradeGraph.html',
             controller
         });
 })();

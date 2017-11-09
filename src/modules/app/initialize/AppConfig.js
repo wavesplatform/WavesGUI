@@ -27,7 +27,7 @@
                     .use(i18nextBrowserLanguageDetector)
                     .init({
                         debug: true, // TODO remove for production
-                        ns: WavesApp.modules,
+                        ns: WavesApp.modules.filter(tsUtils.notContains('app.templates')),
                         fallbackLng: 'en',
                         whitelist: ['en', 'ru'],
                         defaultNS: 'app',
@@ -40,7 +40,7 @@
                                 const parts = ns.split('.');
                                 const path = parts.length === 1 ? ns : parts.filter((item) => item !== 'app')
                                     .join('/modules/');
-                                return `modules/${path}/locales/${lng}.json`;
+                                return `/modules/${path}/locales/${lng}.json`;
                             }
                         }
                     });
