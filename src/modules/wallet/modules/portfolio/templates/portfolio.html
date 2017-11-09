@@ -4,34 +4,21 @@
         <w-button>Receive</w-button>
     </div>
 </div>
-<w-table>
-    <w-row>
-        <w-cell>
-            <w-checkbox-submit ng-click="$ctrl.selectAll()" ng-model="$ctrl.selectedAll"></w-checkbox-submit>
-            Asset Name
-        </w-cell>
-        <w-cell>Balance</w-cell>
-        <w-cell>Price, {{$ctrl.mirror.name}}</w-cell>
-        <w-cell>Bid</w-cell>
-        <w-cell>Ask</w-cell>
-        <w-cell>24h Change</w-cell>
-    </w-row>
-    <w-scroll-box>
-        <w-row ng-repeat="asset in $ctrl.portfolio track by asset.id">
-            <w-cell class="name">
-                <w-checkbox-submit ng-click="$ctrl.selectItem(asset)" ng-model="asset.checked"></w-checkbox-submit>
-                <w-asset-logo size="30" asset-id="{{::asset.id}}"></w-asset-logo>
-                <div>{{::asset.name}}</div>
-            </w-cell>
-            <w-cell>
-                <w-balance asset-id="{{::asset.id}}" balance="asset.balance"></w-balance>
-            </w-cell>
-            <w-cell>
-                <w-balance asset-id="{{::$ctrl.mirrorId}}" balance="asset.mirrorBalance"></w-balance>
-            </w-cell>
-            <w-cell>Bid</w-cell>
-            <w-cell>Ask</w-cell>
-            <w-cell>24h Change</w-cell>
-        </w-row>
-    </w-scroll-box>
-</w-table>
+<ul class="portfolio-list">
+    <li class="portfolio-item title">
+
+    </li>
+    <li class="portfolio-item" ng-repeat="asset in $ctrl.portfolio track by asset.id">
+        <div class="portfolio-item-name">
+            <w-asset-logo class="margin-right-1" asset-id="{{::asset.id}}" size="30"></w-asset-logo>
+            {{::asset.name}}
+        </div>
+        <div class="portfolio-item-balance">
+            <w-balance balance="asset.balance" asset-id="{{::asset.id}}"></w-balance>
+        </div>
+        <div class="portfolio-item-mirror">
+            <w-balance balance="asset.mirrorBalance" asset-id="{{::$ctrl.mirrorId}}"></w-balance>
+        </div>
+        <div class="portfolio-item-bid"></div>
+    </li>
+</ul>

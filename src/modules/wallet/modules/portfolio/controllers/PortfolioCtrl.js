@@ -10,9 +10,10 @@
      * @param {User} user
      * @param {EventManager} eventManager
      * @param {Function} createPoll
+     * @param {Function} createPromise
      * @return {PortfolioCtrl}
      */
-    const controller = function (Base, $scope, assetsService, utils, modalManager, user, eventManager, createPoll) {
+    const controller = function (Base, $scope, assetsService, utils, modalManager, user, eventManager, createPoll, createPromise) {
 
         class PortfolioCtrl extends Base {
 
@@ -39,19 +40,24 @@
                  */
                 this.mirror = null;
                 /**
+                 * @type {string[]}
+                 */
+                this.defaultAssetIds = null;
+                /**
                  * @type {Object}
                  * @private
                  */
                 this._balancesHash = Object.create(null);
 
-                user.getSetting('baseAssetId')
-                    .then((mirrorId) => {
-                        const balanceSignal = eventManager.signals.balanceEventEnd;
+                createPromise(this, utils.whenAll([
+                    user.getSetting('baseAssetId'),
+                    user.getSetting('wallet.assets.assetList')
+                ]))
+                    .then(([mirrorId, defaultAssetIds]) => {
 
+                        this.defaultAssetIds = defaultAssetIds;
                         this.mirrorId = mirrorId;
-                        this.portfolioUpdate =
-                            createPoll(this, this._getPortfolio, 'portfolio', 3000, { isBalance: true });
-                        this.receive(balanceSignal, this.portfolioUpdate.restart, this.portfolioUpdate);
+                        createPoll(this, this._getPortfolio, 'portfolio', 3000, { isBalance: true });
 
                         assetsService.getAssetInfo(this.mirrorId)
                             .then((mirror) => {
@@ -82,18 +88,21 @@
              */
             _getPortfolio() {
                 return assetsService.getBalanceList()
-                    .then((assets) => {
-                        assets.forEach((asset) => {
-                            assetsService.getRate(asset.id, this.mirrorId)
-                                .then((api) => {
-                                    this._balancesHash[asset.id] = api.exchange(asset.balance);
-                                    asset.mirrorBalance = this._balancesHash[asset.id];
-                                });
-                            asset.mirrorBalance = this._balancesHash[asset.id];
-                        });
-                        return assets;
-                    });
+                    .then((assets) => assets.length ? assets : assetsService.getBalanceList(this.defaultAssetIds))
+                    .then((assets) => assets.map(this._getRate, this))
+                    .then((promises) => utils.whenAll(promises));
             }
+
+            /**
+             * @param {IAssetWithBalance} asset
+             * @private
+             */
+            _getRate(asset) {
+                return assetsService.getRate(asset.id, this.mirrorId)
+                    .then((api) => (asset.mirrorBalance = api.exchange(asset.balance)))
+                    .then(() => asset);
+            }
+
         }
 
         return new PortfolioCtrl();
@@ -107,7 +116,8 @@
         'modalManager',
         'user',
         'eventManager',
-        'createPoll'
+        'createPoll',
+        'createPromise'
     ];
 
     angular.module('app.wallet.portfolio').controller('PortfolioCtrl', controller);

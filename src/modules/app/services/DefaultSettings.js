@@ -37,6 +37,8 @@
                         assets: {
                             chartMode: 'week',
                             assetList: [
+                                WavesApp.defaultAssets.USD,
+                                WavesApp.defaultAssets.EUR,
                                 WavesApp.defaultAssets.WAVES,
                                 WavesApp.defaultAssets.BTC,
                                 WavesApp.defaultAssets.ETH

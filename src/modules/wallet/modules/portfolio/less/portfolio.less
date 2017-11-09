@@ -6,23 +6,19 @@
     display: inline-block;
   }
 
-  w-table {
-    background-color: @color-white;
+  .portfolio-list {
+    list-style: none;
+    margin: 0;
+    border-radius: @border-radius;
+    overflow: auto;
 
-    .table-row {
-      border-bottom: 1px solid #f0f0f0;
-      padding: 20px 0;
+    .portfolio-item {
+      display: flex;
 
-      .table-cell {
-        padding: 0 26px;
+      .portfolio-item-name {
+        display: flex;
       }
     }
-  }
-
-  .name > div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
   }
 
 }
