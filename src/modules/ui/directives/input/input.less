@@ -7,9 +7,13 @@
   font-size: @font-size-control;
   text-align: left;
 
+  &::placeholder {
+    color: @color-basic-500;
+  }
+
   &:not(.embed) {
     background-color: @color-white;
-    border: 1px solid @color-input-border;
+    border: 1px solid @color-basic-200;
     border-radius: @border-radius;
   }
 
@@ -17,18 +21,30 @@
     height: @height-control-tiny;
     padding: @padding-control-tiny;
     font-size: @font-size-control-tiny;
+
+    &::placeholder {
+      font-size: @font-size-control-tiny;
+    }
   }
 
   &.small {
     height: @height-control-small;
     padding: @padding-control-small;
     font-size: @font-size-control-small;
+
+    &::placeholder {
+      font-size: @font-size-control-small;
+    }
   }
 
   &.big {
     height: @height-control-big;
     padding: @padding-control-big;
     font-size: @font-size-control-big;
+
+    &::placeholder {
+      font-size: @font-size-control-big;
+    }
   }
 }
 
@@ -43,29 +59,26 @@ w-input {
     input[type="text"], input[type="password"], input[type="number"], textarea {
       .input-like();
 
-      &::placeholder {
-        color: @color-input-placeholder;
-      }
-
-      &:not(.embed) {
+      &:not(.embed):not(.no-validate) {
         &:focus, &.focus {
-          background-color: @color-input-background-focus;
-          color: @color-input-text-focus;
+          background-color: @color-white;
+          color: @color-basic-900;
         }
 
         &.ng-touched {
           &.ng-valid:not(:focus):not(.focus) {
-            border-color: @color-input-border-valid;
+            border-color: @color-success-300;
           }
           &.ng-invalid:not(:focus):not(.focus) {
-            border-color: @color-input-border-invalid;
+            border-color: @color-warning-400;
           }
         }
       }
     }
   }
 
-  &:not(.no-icon) .w-input-wrap {
+  .w-input-wrap {
+
     &::after {
       content: '';
       display: block;
@@ -76,11 +89,19 @@ w-input {
       background-size: 100% 100%;
     }
 
+  }
+
+  &:not(.no-icon) .w-input-wrap {
+
     &.input-type-password::after {
       background: url(/img/icons/input-password-icon.svg) no-repeat center center;
       width: 15px;
       height: 10px;
     }
+
+  }
+
+  &:not(.no-validate) .w-input-wrap {
 
     &.valid.touched::after {
       background: url(/img/icons/input-valid-icon.svg) no-repeat center center;
@@ -98,8 +119,8 @@ w-input {
 
 form.ng-submitted {
   input[type="text"], input[type="password"], input[type="number"], textarea {
-    &.ng-invalid:not(.embed):not(:focus):not(.focus) {
-      border-color: @color-input-border-invalid;
+    &.ng-invalid:not(.embed):not(:focus):not(.focus):not(.no-validate) {
+      border-color: @color-warning-400;
     }
   }
 }

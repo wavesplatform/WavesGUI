@@ -10,6 +10,14 @@ ui-view[name="main"] {
   background-color: @color-background-default;
 }
 
+html body .hidden {
+  display: none;
+}
+
+.text-center {
+  text-align: center;
+}
+
 ui-view[name="main"] {
   display: block;
 }
@@ -30,6 +38,14 @@ md-input-container {
 
 *:focus {
   outline: none;
+}
+
+.md-dialog-container {
+
+  md-dialog {
+    box-shadow: none;
+    margin-top: -10%;
+  }
 }
 
 .left-menu {

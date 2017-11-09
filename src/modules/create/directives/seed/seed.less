@@ -2,6 +2,7 @@
 @import (reference) '../../../app/less/typography';
 
 w-seed-read, w-seed-write {
+  display: block;
 
   .seed-container {
     display: flex;
@@ -49,8 +50,8 @@ w-seed-read, w-seed-write {
       margin: 3px;
       border: solid 1px @color-submit-500;
       cursor: pointer;
-      font-size: 17px;
-      line-height: 17px;
+      font-size: 15px;
+      line-height: 15px;
       color: @color-white;
       padding: 8px 15px;
 
@@ -68,7 +69,8 @@ w-seed-write {
   user-select: none;
 
   .seed-container {
-    height: 150px;
+    height: 142px;
+    padding: 15px 5px;
     position: relative;
   }
 
@@ -81,8 +83,8 @@ w-seed-write {
     background-color: @color-white;
     cursor: pointer;
     position: absolute;
-    font-size: 17px;
-    line-height: 17px;
+    font-size: 15px;
+    line-height: 15px;
     font-weight: 500;
 
     &.hidden {

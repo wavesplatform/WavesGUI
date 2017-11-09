@@ -31,7 +31,7 @@
                          * @type {Validator[]}
                          * @private
                          */
-                        this._validators = [];
+                        this._messages = [];
 
                         this._createValidators();
                         this._onReady()
@@ -60,7 +60,7 @@
                      * @private
                      */
                     _validate() {
-                        this._validators.forEach((validator) => {
+                        this._messages.forEach((validator) => {
                             validator.validate();
                         });
                     }
@@ -70,7 +70,7 @@
                      * @private
                      */
                     _onReady() {
-                        return utils.whenAll(this._validators.map((validator) => validator.onReady()));
+                        return utils.whenAll(this._messages.map((validator) => validator.onReady()));
                     }
 
                     /**
@@ -80,7 +80,7 @@
                     _getProcessors() {
                         const parsers = [];
                         const formatters = [];
-                        this._validators.forEach((item) => {
+                        this._messages.forEach((item) => {
                             const parser = item.getParser();
                             const formatter = item.getFormatter();
                             if (parser) {
@@ -136,7 +136,7 @@
                             default:
                                 throw new Error('Wrong validator name!');
                         }
-                        this._validators.push(new Constructor({ $scope, $input, $attrs, $ngModel }));
+                        this._messages.push(new Constructor({ $scope, $input, $attrs, $ngModel }));
                     }
 
                     static valueFormatReducer(result, item) {

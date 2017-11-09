@@ -1,66 +1,56 @@
-<div w-i18n-ns="app.restore" class="flex-column-center">
-    <form name="restoreFromBackup" ng-submit="restoreFromBackup.$valid && $ctrl.restore()" novalidate>
+<div w-i18n-ns="app.restore" class="restore-content">
 
-        <div style="width: 400px;">
+    <w-step-by-step active-step="0">
+        <w-step>
 
-            <w-input-container>
-                <w-input textarea
-                         name="seed"
-                         w-i18n-attr="placeholder"
-                         placeholder="seedForm.seedPlaceholder"
-                         required
-                         ng-model="$ctrl.seedPhrase"></w-input>
 
-                <!-- TODO : warnings -->
-                <w-input-error message="required">
-                    <w-i18n>inputs.errors.required</w-i18n>
-                </w-input-error>
-            </w-input-container>
+            <div class="headline-1 text-center" w-i18n="seedForm.title"></div>
+            <div class="body-2 text-center margin-5">
+                <span class="disabled-600" w-i18n="seedForm.description"></span>
+                <a ui-sref="create" w-i18n="seedForm.create"></a>
+            </div>
 
-            <w-input-container>
-                <w-input name="password"
-                         type="password"
-                         w-i18n-attr="placeholder"
-                         placeholder="passwordForm.passwordPlaceholder"
-                         required
-                         minlength="8"
-                         ng-pattern="/(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)[0-9a-zA-Z!@#$%^&\*]*/"
-                         ng-model="$ctrl.password"></w-input>
+            <div class="body-2 basic-900" w-i18n="seedForm.seedTitle"></div>
 
-                <w-input-error message="required">
-                    <w-i18n>inputs.errors.required</w-i18n>
-                </w-input-error>
-                <w-input-error message="minlength">
-                    <w-i18n>passwordForm.inputs.errors.short</w-i18n>
-                </w-input-error>
-                <w-input-error message="pattern">
-                    <w-i18n>passwordForm.inputs.errors.simple</w-i18n>
-                </w-input-error>
-            </w-input-container>
+            <form name="$ctrl.seedForm">
+                <div class="seed-block margin-3">
+                    <w-input textarea
+                             class="embed no-icon big"
+                             ng-model="$ctrl.seed"
+                             placeholder="seedForm.placeholder"
+                             w-i18n-attr="placeholder"
+                             minlength="40"
+                             required></w-input>
+                    <div class="address-block-info">
+                        <w-avatar ng-if="$ctrl.address" class="margin-right-1" address="$ctrl.address" size="40"></w-avatar>
+                        <div ng-if="!$ctrl.address" class="avatar-fake margin-right-1"></div>
+                        <div class="address-block">
+                            <div class="body-2 basic-900" w-i18n="seedForm.address"></div>
+                            <div ng-class="{empty: !$ctrl.address}" class="address body-1 basic-500">{{$ctrl.address}}</div>
+                        </div>
+                    </div>
+                </div>
 
-            <w-input-container>
-                <w-input name="confirmPassword"
-                         type="password"
-                         w-i18n-attr="placeholder"
-                         placeholder="passwordForm.confirmPlaceholder"
-                         required
-                         w-validate="compare"
-                         w-compare-to="password"
-                         ng-model="$ctrl.confirmPassword"></w-input>
+                <w-button disabled="!$ctrl.address" class="submit big long" w-step-next>
+                    <w-i18n>seedForm.continue</w-i18n>
+                </w-button>
+            </form>
 
-                <w-input-error message="required">
-                    <w-i18n>inputs.errors.required</w-i18n>
-                </w-input-error>
-                <w-input-error message="w-compare-to">
-                    <w-i18n>passwordForm.inputs.errors.notEqual</w-i18n>
-                </w-input-error>
-            </w-input-container>
+        </w-step>
+        <w-step>
 
-            <w-button type="submit">
-                <w-i18n>seedForm.buttons.proceed</w-i18n>
+            <div class="headline-1 text-center" w-i18n="passwordForm.title"></div>
+            <div class="body-2 text-center margin-5">
+                <span class="disabled-600" w-i18n="passwordForm.description"></span>
+                <a w-i18n="passwordForm.back" w-step-prev></a>
+            </div>
+
+            <w-password password="$ctrl.password" valid="$ctrl.passwordValid"></w-password>
+
+            <w-button class="big long submit" disabled="!$ctrl.passwordValid" type="submit" ng-click="$ctrl.restore()">
+                <w-i18n>passwordForm.login</w-i18n>
             </w-button>
+        </w-step>
+    </w-step-by-step>
 
-        </div>
-
-    </form>
 </div>

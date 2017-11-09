@@ -23,8 +23,10 @@
         </w-option>
     </w-select>
 
-    <span class="body-2 basic-900" w-i18n="userList.password"></span>
-    <a class="caption-1 submit-300 right" ui-sref="restore" w-i18n="userList.forgot"></a>
+    <div class="password-placeholder">
+        <div class="body-2 basic-900" w-i18n="userList.password"></div>
+        <a class="caption-1 submit-300" ui-sref="restore" w-i18n="userList.forgot"></a>
+    </div>
     <form name="$ctrl.loginForm" ng-submit="$ctrl.loginForm.$valid && $ctrl.login()" novalidate>
 
         <w-input-container class="margin-3">
@@ -36,15 +38,12 @@
                      placeholder="userList.placeholders.password"
                      required></w-input>
 
-            <w-input-error message="required">
-                This is required!
-            </w-input-error>
             <div ng-class="{active: $ctrl.showPasswordError}" class="error">
                 Wrong Password!
             </div>
         </w-input-container>
 
-        <w-button type="submit" class="submit big long">
+        <w-button disabled="$ctrl.loginForm.$invalid" type="submit" class="submit big long">
             <w-i18n>userList.buttons.login</w-i18n>
         </w-button>
     </form>

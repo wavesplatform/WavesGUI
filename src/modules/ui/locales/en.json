@@ -1,1 +1,9 @@
-{}
+{
+  "password": {
+    "title": "Protect your account with new password",
+    "minLength": "must be at least {{minLength}} characters",
+    "warn": "easy, add digit or symbol",
+    "secure": "secure password",
+    "repeat": "Repeat password"
+  }
+}
