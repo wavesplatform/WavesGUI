@@ -1,0 +1,47 @@
+@import (reference) '../../../config';
+
+w-actions {
+  display: block;
+  height: 16px;
+  width: 4px;
+  position: relative;
+  cursor: pointer;
+
+  .actions-container {
+    z-index: 1;
+    min-width: 215px;
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 17px 0;
+    background-color: @color-white;
+    box-shadow: 0 1px 4px 0 rgba(44, 64, 90, 0.25);
+
+    .action {
+      padding: 8px 20px;
+
+      &:hover {
+        background-color: @color-basic-50;
+      }
+    }
+
+    &.expanded {
+      display: block;
+    }
+  }
+
+  .dots {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+
+    .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 100%;
+      background-color: @color-basic-500;
+    }
+  }
+}

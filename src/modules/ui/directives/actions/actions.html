@@ -1,0 +1,9 @@
+<div ng-click="$ctrl.expanded = !$ctrl.expanded" class="dots">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+</div>
+<div ng-if="$ctrl.expanded"
+     ng-class="{expanded: $ctrl.expanded}"
+     ng-mouseleave="$ctrl.expanded = false"
+     class="actions-container" ng-transclude></div>

@@ -77,38 +77,181 @@
              * @return {Promise}
              */
             getBalanceList(assetIds, options) {
-                return user.onLogin().then(() => {
-                    if (assetIds) {
-                        return utils.whenAll([
-                            Promise.all(assetIds.map(this.getAssetInfo)),
-                            eventManager.getBalanceEvents(),
-                            this._getBalanceList(assetIds, options)
-                        ])
-                            .then(([assets, events, balances]) => {
-                                return assets.map((asset) => {
-                                    const balanceData = tsUtils.find(balances, { assetId: asset.id });
-                                    const balance = balanceData && parseFloat(balanceData.tokens) || 0;
-                                    return { ...asset, balance: this._getAssetBalance(asset.id, balance, events) };
+                return user.onLogin()
+                    .then(() => {
+                        if (assetIds) {
+                            return utils.whenAll([
+                                Promise.all(assetIds.map(this.getAssetInfo)),
+                                eventManager.getBalanceEvents(),
+                                this._getBalanceList(assetIds, options)
+                            ])
+                                .then(([assets, events, balances]) => {
+                                    return assets.map((asset) => {
+                                        const balanceData = tsUtils.find(balances, { assetId: asset.id });
+                                        const balance = balanceData && parseFloat(balanceData.tokens) || 0;
+                                        return { ...asset, balance: this._getAssetBalance(asset.id, balance, events) };
+                                    });
                                 });
-                            });
-                    } else {
-                        return utils.whenAll([
-                            this._getBalanceList(null, options),
-                            eventManager.getBalanceEvents()
-                        ])
-                            .then(([list, events]) => {
-                                return utils.whenAll(list.map((item) => this.getAssetInfo(item.assetId)))
-                                    .then((infoList) => {
-                                        return infoList.map((asset, i) => {
-                                            const balance = parseFloat(list[i].tokens) || 0;
-                                            return {
-                                                ...asset,
-                                                balance: this._getAssetBalance(asset.id, balance, events)
-                                            };
+                        } else {
+                            return utils.whenAll([
+                                this._getBalanceList(null, options),
+                                eventManager.getBalanceEvents()
+                            ])
+                                .then(([list, events]) => {
+                                    return utils.whenAll(list.map((item) => this.getAssetInfo(item.assetId)))
+                                        .then((infoList) => {
+                                            return infoList.map((asset, i) => {
+                                                const balance = parseFloat(list[i].tokens) || 0;
+                                                return {
+                                                    ...asset,
+                                                    balance: this._getAssetBalance(asset.id, balance, events)
+                                                };
+                                            }).filter((asset) => { // TODO Fix API error with empty balance
+                                                return asset.id === WavesApp.defaultAssets.WAVES || asset.balance !== 0;
+                                            });
                                         });
+                                });
+                        }
+                    });
+            }
+
+            @decorators.cachable(2)
+            getBidAsk(assetId1, assetId2) {
+                return apiWorker.process((Waves, { assetId1, assetId2 }) => {
+                    return Waves.API.Matcher.v1.getOrderbook(assetId1, assetId2)
+                        .then((orderbook) => {
+                            const bid = String(orderbook.bids.length && orderbook.bids[0].price || 0);
+                            const ask = String(orderbook.asks.length && orderbook.asks[0].price || 0);
+
+                            return Promise.all([
+                                Waves.OrderPrice.fromTokens(bid, assetId1, assetId2)
+                                    .then((item) => item.matcherCoins.div(item.divider).toString()),
+                                Waves.OrderPrice.fromTokens(ask, assetId1, assetId2)
+                                    .then((item) => item.matcherCoins.div(item.divider).toString())
+                            ]).then((list) => ({ bid: list[0], ask: list[1] }));
+                        });
+                }, { assetId1, assetId2 });
+            }
+
+            @decorators.cachable(60)
+            getChange(idFrom, idTo) {
+                const marketUrl = 'https://marketdata.wavesplatform.com/api/candles';
+
+                const params = {
+                    onFetch: AssetsService._onFetch,
+                    wavesId: WavesApp.defaultAssets.WAVES,
+                    idFrom,
+                    idTo,
+                    marketUrl
+                };
+
+                return apiWorker.process((Waves, { onFetch, wavesId, idFrom, idTo, marketUrl }) => {
+
+                    if (idFrom === idTo) {
+                        return 1;
+                    }
+
+                    const getRate = function (from, to) {
+                        return Waves.AssetPair.get(from, to)
+                            .then((pair) => {
+                                return fetch(`${marketUrl}/${pair.toString()}/1440/1`)
+                                    .then(onFetch)
+                                    .then((data) => {
+                                        const open = Number(data[0].open);
+                                        const close = Number(data[0].close);
+                                        if (open > close) {
+                                            return close === 0 ? 0 : -open / close;
+                                        } else {
+                                            return open === 0 ? 0 : close / open;
+                                        }
                                     });
                             });
+                    };
+
+                    if (idFrom !== wavesId && idTo !== wavesId) {
+                        return Promise.all([
+                            getRate(idFrom, wavesId),
+                            getRate(idTo, wavesId)
+                        ])
+                            .then((rateList) => {
+                                return rateList[1] === 0 ? 0 : rateList[0] / rateList[1];
+                            });
+                    } else {
+                        return getRate(idFrom, idTo);
                     }
+
+                }, params);
+            }
+
+            /**
+             * @param {string} idFrom
+             * @param {string} idTo
+             * @return {Promise<AssetsService.rateApi>}
+             */
+            @decorators.cachable(60)
+            getRate(idFrom, idTo) {
+                const marketUrl = 'https://marketdata.wavesplatform.com/api/trades';
+
+                const params = {
+                    onFetch: AssetsService._onFetch,
+                    currentRate: AssetsService._currentRate,
+                    wavesId: WavesApp.defaultAssets.WAVES,
+                    idFrom,
+                    idTo,
+                    marketUrl
+                };
+
+                return Promise.all([
+                    apiWorker.process((Waves, { onFetch, currentRate, wavesId, idFrom, idTo, marketUrl }) => {
+
+                        if (idFrom === idTo) {
+                            return 1;
+                        }
+
+                        const getRate = function (from, to) {
+                            return Waves.AssetPair.get(from, to)
+                                .then((pair) => {
+                                    return fetch(`${marketUrl}/${pair.toString()}/5`)
+                                        .then(onFetch)
+                                        .then(currentRate)
+                                        .then((rate) => {
+                                            if (from !== pair.priceAsset.id) {
+                                                return rate;
+                                            } else {
+                                                return rate === 0 ? 0 : 1 / rate;
+                                            }
+                                        });
+                                });
+                        };
+
+                        if (idFrom !== wavesId && idTo !== wavesId) {
+                            return Promise.all([
+                                getRate(idFrom, wavesId),
+                                getRate(idTo, wavesId)
+                            ])
+                                .then((rateList) => {
+                                    return rateList[1] === 0 ? 0 : rateList[0] / rateList[1];
+                                });
+                        } else {
+                            return getRate(idFrom, idTo);
+                        }
+
+                    }, params),
+                    this.getAssetInfo(idFrom),
+                    this.getAssetInfo(idTo)
+                ])
+                    .then(([rate, assetFrom, assetTo]) => {
+                        return this._generateRateApi(assetFrom, assetTo, rate);
+                    });
+            }
+
+            /**
+             * @return {Promise<IFeeData>}
+             */
+            getFeeSend() {
+                return utils.when({
+                    id: WavesApp.defaultAssets.WAVES,
+                    fee: 0.001
                 });
             }
 
@@ -163,33 +306,6 @@
             }
 
             /**
-             * @param {string} assetIdFrom
-             * @param {string} assetIdTo
-             * @return {Promise<AssetsService.rateApi>}
-             */
-            @decorators.cachable(60)
-            getRate(assetIdFrom, assetIdTo) {
-                return Promise.all([
-                    this.getAssetInfo(assetIdFrom),
-                    this.getAssetInfo(assetIdTo),
-                    fetch(`/api/rate/${assetIdFrom}/${assetIdTo}/rate.json`)
-                        .then((r) => r.json())
-                ]).then(([assetFrom, assetTo, rateInfo]) => {
-                    return this._generateRateApi(assetFrom, assetTo, rateInfo.rate);
-                });
-            }
-
-            /**
-             * @return {Promise<IFeeData>}
-             */
-            getFeeSend() {
-                return utils.when({
-                    id: WavesApp.defaultAssets.WAVES,
-                    fee: 0.001
-                });
-            }
-
-            /**
              * @param {IAssetInfo} fromAsset
              * @param {IAssetInfo} toAsset
              * @param {number} rate
@@ -204,7 +320,7 @@
                      * @return {number}
                      */
                     exchange(balance) {
-                        return tsUtils.round(balance * rate, toAsset.precision);
+                        return AssetsService._round(balance * rate, toAsset.precision);
                     },
 
                     /**
@@ -213,9 +329,44 @@
                      * @return {number}
                      */
                     exchangeReverse(balance) {
-                        return tsUtils.round(balance / rate, fromAsset.precision);
-                    }
+                        return rate === 0 ? 0 : AssetsService._round(balance / rate, fromAsset.precision);
+                    },
+
+                    /**
+                     * @name AssetsService.rateApi#rate
+                     */
+                    rate
                 };
+            }
+
+            static _round(num, len) {
+                const f = Math.pow(10, len);
+                return Math.round(num * f) / f;
+            }
+
+            static _onFetch(response) {
+                if (response.ok) {
+                    if (response.headers.get('Content-Type') === 'application/json') {
+                        return response.json();
+                    } else {
+                        return response.text();
+                    }
+                } else {
+                    return response.text()
+                        .then((error) => {
+                            try {
+                                return Promise.reject(JSON.parse(error));
+                            } catch (e) {
+                                return Promise.reject(error);
+                            }
+                        });
+                }
+            }
+
+            static _currentRate(trades) {
+                return trades.reduce((result, item) => {
+                    return result + Number(item.price);
+                }, 0) / trades.length;
             }
 
         }

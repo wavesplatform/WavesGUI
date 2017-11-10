@@ -74,11 +74,10 @@
             }
 
             /**
-             * @param asset
              * @private
              */
-            showReceive(asset = Object.create(null)) {
-                return modalManager.showReceiveAsset({ assetId: asset.id, canChooseAsset: !asset.id });
+            showReceive() {
+                return modalManager.showReceiveAsset(user);
             }
 
             /**

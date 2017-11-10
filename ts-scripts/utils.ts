@@ -209,19 +209,16 @@ export function route(connectionType, buildType) {
         } else if (isSourceScript(req.url)) {
             readFile(join(__dirname, '../src', req.url), 'utf8')
                 .then((code) => {
-                    if (code.indexOf('@') !== -1) {
-                        const result = transform(code, {
-                            plugins: [
-                                'transform-decorators-legacy',
-                                'transform-class-properties',
-                                'transform-decorators',
-                                'transform-object-rest-spread'
-                            ]
-                        }).code;
-                        return result;
-                    } else {
-                        return code;
-                    }
+                    const result = transform(code, {
+                        presets: ['es2015'],
+                        plugins: [
+                            'transform-decorators-legacy',
+                            'transform-class-properties',
+                            'transform-decorators',
+                            'transform-object-rest-spread'
+                        ]
+                    }).code;
+                    return result;
                 })
                 .then((code) => res.end(code))
                 .catch((e) => {
