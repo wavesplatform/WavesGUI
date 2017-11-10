@@ -108,12 +108,8 @@
                 return assetsService.getRate(asset.id, this.mirrorId);
             }
 
-            _getBid(asset) {
-                return Promise.resolve(0.003);// TODO Add request. Author Tsigel at 09/11/2017 13:39
-            }
-
-            _getAsk(asset) {
-                return Promise.resolve(0.003);// TODO Add request. Author Tsigel at 09/11/2017 13:39
+            _getBidAsk(asset) {
+                return assetsService.getBidAsk(asset.id, this.mirrorId);
             }
 
             _getChange(asset) {
@@ -123,10 +119,9 @@
             _loadAssetData(asset) {
                 return utils.whenAll([
                     this._getRate(asset),
-                    this._getBid(asset),
-                    this._getAsk(asset),
+                    this._getBidAsk(asset),
                     this._getChange(asset)
-                ]).then(([api, bid, ask, change]) => {
+                ]).then(([api, { bid, ask }, change]) => {
                     asset.pinned = this.assetList.indexOf(asset.id) !== -1;
                     asset.mirrorBalance = api.exchange(asset.balance);
                     asset.rate = api.rate;

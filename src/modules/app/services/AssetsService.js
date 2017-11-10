@@ -115,54 +115,22 @@
                     });
             }
 
-            /**
-             * @param {string} assetId
-             * @param {number} balance
-             * @param {Array<ChangeBalanceEvent>} events
-             * @return {*}
-             * @private
-             */
-            _getAssetBalance(assetId, balance, events) {
-                return events.reduce((balance, balanceEvent) => {
-                    return balance - balanceEvent.getBalanceDifference(assetId);
-                }, balance);
-            }
-
-            /**
-             * @param {Array<string>} [assets]
-             * @param {Object} [options]
-             * @param {Object} [options.limit]
-             * @param {Object} [options.offset]
-             * @private
-             */
             @decorators.cachable(2)
-            _getBalanceList(assets, { limit = null, offset = null } = Object.create(null)) {
-                return apiWorker.process((WavesAPI, { assets, address, limit, offset }) => {
-                    return WavesAPI.API.Node.v2.addresses.balances(address, { assets, limit, offset })
-                        .then((assets) => assets.map(item => item.amount.toJSON()));
-                }, { assets, address: user.address, limit, offset });
-            }
+            getBidAsk(assetId1, assetId2) {
+                return apiWorker.process((Waves, { assetId1, assetId2 }) => {
+                    return Waves.API.Matcher.v1.getOrderbook(assetId1, assetId2)
+                        .then((orderbook) => {
+                            const bid = String(orderbook.bids.length && orderbook.bids[0].price || 0);
+                            const ask = String(orderbook.asks.length && orderbook.asks[0].price || 0);
 
-            /**
-             * @param {string} assetId
-             * @return {Promise<IAssetWithBalance>}
-             * @private
-             */
-            @decorators.cachable(2)
-            _getBalance(assetId) {
-                return this.getAssetInfo(assetId)
-                    .then((info) => {
-                        const handler = (Waves, { address, assetId }) => {
-                            return Waves.API.Node.v1.assets.balance(address, assetId);
-                        };
-                        const data = { address: user.address, assetId: info.id };
-
-                        return apiWorker.process(handler, data)
-                            .then((data) => {
-                                // TODO remove " / Math.pow(10, info.precision)" when Phill fix api.
-                                return { ...info, balance: data.balance / Math.pow(10, info.precision) };
-                            });
-                    });
+                            return Promise.all([
+                                Waves.OrderPrice.fromTokens(bid, assetId1, assetId2)
+                                    .then((item) => item.matcherCoins.div(item.divider).toString()),
+                                Waves.OrderPrice.fromTokens(ask, assetId1, assetId2)
+                                    .then((item) => item.matcherCoins.div(item.divider).toString())
+                            ]).then((list) => ({ bid: list[0], ask: list[1] }));
+                        });
+                }, { assetId1, assetId2 });
             }
 
             @decorators.cachable(60)
@@ -285,6 +253,56 @@
                     id: WavesApp.defaultAssets.WAVES,
                     fee: 0.001
                 });
+            }
+
+            /**
+             * @param {string} assetId
+             * @param {number} balance
+             * @param {Array<ChangeBalanceEvent>} events
+             * @return {*}
+             * @private
+             */
+            _getAssetBalance(assetId, balance, events) {
+                return events.reduce((balance, balanceEvent) => {
+                    return balance - balanceEvent.getBalanceDifference(assetId);
+                }, balance);
+            }
+
+            /**
+             * @param {Array<string>} [assets]
+             * @param {Object} [options]
+             * @param {Object} [options.limit]
+             * @param {Object} [options.offset]
+             * @private
+             */
+            @decorators.cachable(2)
+            _getBalanceList(assets, { limit = null, offset = null } = Object.create(null)) {
+                return apiWorker.process((WavesAPI, { assets, address, limit, offset }) => {
+                    return WavesAPI.API.Node.v2.addresses.balances(address, { assets, limit, offset })
+                        .then((assets) => assets.map(item => item.amount.toJSON()));
+                }, { assets, address: user.address, limit, offset });
+            }
+
+            /**
+             * @param {string} assetId
+             * @return {Promise<IAssetWithBalance>}
+             * @private
+             */
+            @decorators.cachable(2)
+            _getBalance(assetId) {
+                return this.getAssetInfo(assetId)
+                    .then((info) => {
+                        const handler = (Waves, { address, assetId }) => {
+                            return Waves.API.Node.v1.assets.balance(address, assetId);
+                        };
+                        const data = { address: user.address, assetId: info.id };
+
+                        return apiWorker.process(handler, data)
+                            .then((data) => {
+                                // TODO remove " / Math.pow(10, info.precision)" when Phill fix api.
+                                return { ...info, balance: data.balance / Math.pow(10, info.precision) };
+                            });
+                    });
             }
 
             /**
