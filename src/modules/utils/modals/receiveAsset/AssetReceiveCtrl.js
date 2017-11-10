@@ -8,25 +8,15 @@
      * @param {AssetsService} assetsService
      * @return {AssetReceiveCtrl}
      */
-    const controller = function ($mdDialog, Base, $scope, assetsService) {
+    const controller = function ($mdDialog, Base, $scope) {
 
         class AssetReceiveCtrl extends Base {
 
-            constructor({ assetId, canChooseAsset }) {
+            constructor(address) {
                 super($scope);
 
-                this.observe('assetId', this._onChangeAssetId);
-
-                this.assetId = assetId || WavesApp.defaultAssets.WAVES;
-                this.asset = null;
-                this.canChooseAsset = !assetId || canChooseAsset;
                 this.step = 0;
-            }
-
-            _onChangeAssetId() {
-                assetsService.getAssetInfo(this.assetId).then((asset) => {
-                    this.asset = asset;
-                });
+                this.address = address;
             }
 
             cancel() {
@@ -39,7 +29,7 @@
 
         }
 
-        return new AssetReceiveCtrl(this);
+        return new AssetReceiveCtrl(this.locals);
     };
 
     controller.$inject = ['$mdDialog', 'Base', '$scope', 'assetsService'];

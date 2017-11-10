@@ -1,37 +1,63 @@
-<div class="controls">
-    <div class="part left">
-        <w-button ng-click="$ctrl.send()">Send</w-button>
-        <w-button>Receive</w-button>
+<div w-i18n-ns="app.wallet.portfolio">
+    <div class="controls">
+        <div class="part left">
+            <w-button ng-click="$ctrl.sendModal()">Send</w-button>
+            <w-button ng-click="$ctrl.receiveModal()">Receive</w-button>
+        </div>
     </div>
+    <ul class="portfolio-list">
+        <li class="portfolio-item title body-2 disabled-600">
+            <div class="portfolio-item-name" w-i18n="list.name"></div>
+            <div class="portfolio-item-balance" w-i18n="list.balance"></div>
+            <div class="portfolio-item-balance" w-i18n="list.rate" params="{currency: $ctrl.mirror.name}"></div>
+            <div class="portfolio-item-mirror" w-i18n="list.mirror" params="{currency: $ctrl.mirror.name}"></div>
+            <div class="portfolio-item-bid" w-i18n="list.bid"></div>
+            <div class="portfolio-item-ask" w-i18n="list.ask"></div>
+            <div class="portfolio-item-change" w-i18n="list.change"></div>
+            <div class="portfolio-item-actions" w-i18n="list.actions"></div>
+        </li>
+        <li class="portfolio-item" ng-repeat="asset in $ctrl.portfolio track by asset.id">
+            <div class="portfolio-item-name">
+                <w-asset-logo class="margin-right-1" asset-id="{{::asset.id}}" size="30"></w-asset-logo>
+                {{::asset.name}}
+            </div>
+            <div class="portfolio-item-balance">
+                <w-balance balance="asset.balance" asset-id="{{::asset.id}}"></w-balance>
+                <span class="currency">{{::asset.name}}</span>
+            </div>
+            <div class="portfolio-item-rate">
+                <span>$</span> <span w-nice-number="asset.rate" precision="2"></span>
+            </div>
+            <div class="portfolio-item-mirror">
+                <span>$</span>
+                <w-balance balance="asset.mirrorBalance" asset-id="{{::$ctrl.mirrorId}}"></w-balance>
+            </div>
+            <div class="portfolio-item-bid">
+                <span>฿</span>
+                <span>{{asset.bid}}</span>
+            </div>
+            <div class="portfolio-item-ask">
+                <span>฿</span>
+                <span>{{asset.ask}}</span>
+            </div>
+            <div class="portfolio-item-change" ng-class="{'error-500': asset.change < 0}">
+                {{$ctrl.abs(asset.change)}}%
+            </div>
+            <div class="portfolio-item-actions">
+                <w-button ng-click="$ctrl.sendModal(asset.id)" class="small">Send</w-button>
+                <w-button class="small" ng-click="$ctrl.receiveModal()">Receive</w-button>
+            </div>
+            <w-actions>
+                <w-action ng-if="asset.id !== $ctrl.wavesId && asset.pinned" ng-click="$ctrl.pinAsset(asset, false)">
+                    <w-i18n>unpin</w-i18n>
+                </w-action>
+                <w-action ng-if="asset.id !== $ctrl.wavesId && !asset.pinned" ng-click="$ctrl.pinAsset(asset, true)">
+                    <w-i18n>pin</w-i18n>
+                </w-action>
+                <w-action>
+                    <w-i18n>info</w-i18n>
+                </w-action>
+            </w-actions>
+        </li>
+    </ul>
 </div>
-<w-table>
-    <w-row>
-        <w-cell>
-            <w-checkbox-submit ng-click="$ctrl.selectAll()" ng-model="$ctrl.selectedAll"></w-checkbox-submit>
-            Asset Name
-        </w-cell>
-        <w-cell>Balance</w-cell>
-        <w-cell>Price, {{$ctrl.mirror.name}}</w-cell>
-        <w-cell>Bid</w-cell>
-        <w-cell>Ask</w-cell>
-        <w-cell>24h Change</w-cell>
-    </w-row>
-    <w-scroll-box>
-        <w-row ng-repeat="asset in $ctrl.portfolio track by asset.id">
-            <w-cell class="name">
-                <w-checkbox-submit ng-click="$ctrl.selectItem(asset)" ng-model="asset.checked"></w-checkbox-submit>
-                <w-asset-logo size="30" asset-id="{{::asset.id}}"></w-asset-logo>
-                <div>{{::asset.name}}</div>
-            </w-cell>
-            <w-cell>
-                <w-balance asset-id="{{::asset.id}}" balance="asset.balance"></w-balance>
-            </w-cell>
-            <w-cell>
-                <w-balance asset-id="{{::$ctrl.mirrorId}}" balance="asset.mirrorBalance"></w-balance>
-            </w-cell>
-            <w-cell>Bid</w-cell>
-            <w-cell>Ask</w-cell>
-            <w-cell>24h Change</w-cell>
-        </w-row>
-    </w-scroll-box>
-</w-table>

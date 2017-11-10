@@ -194,7 +194,7 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'user', '$state', 'apiWorker', 'state', 'modalManager'];
+    run.$inject = ['$rootScope', 'user', '$state', 'apiWorker', 'state', 'modalManager', 'modalRouter'];
 
     angular.module('app')
         .run(run);

@@ -6,23 +6,61 @@
     display: inline-block;
   }
 
-  w-table {
+  .portfolio-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     background-color: @color-white;
+    border-radius: @border-radius;
+    border: 1px solid @color-accent-50;
 
-    .table-row {
-      border-bottom: 1px solid #f0f0f0;
-      padding: 20px 0;
+    .portfolio-item {
+      display: flex;
+      height: 65px;
+      align-items: center;
+      border-bottom: 1px solid @color-accent-50;
+      position: relative;
+      padding: 0 20px;
 
-      .table-cell {
-        padding: 0 26px;
+      &:not(.title)::before {
+        content: '';
+        display: none;
+        width: 2px;
+        height: 100%;
+        background-color: @color-submit-400;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+
+      &.title {
+        margin: 0;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:not(.title):hover {
+        background-color: @color-basic-50;
+
+        &::before {
+          display: block;
+        }
+      }
+
+      .currency {
+        text-transform: uppercase;
+      }
+
+      & > div {
+        width: 100% / 8;
+      }
+
+      .portfolio-item-name {
+        display: flex;
       }
     }
-  }
-
-  .name > div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
   }
 
 }
