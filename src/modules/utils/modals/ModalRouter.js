@@ -15,11 +15,14 @@
 
             constructor() {
 
+                this.sleep = false;
                 router.registerRouteHash(this._wrapClose(this._getRoutes()));
 
                 window.addEventListener('hashchange', () => {
-                    this._apply();
-                });
+                    if (!this.sleep) {
+                        this._apply();
+                    }
+                }, false);
 
                 user.onLogin().then(() => {
                     const stop = $rootScope.$on('$stateChangeSuccess', () => {
@@ -44,7 +47,7 @@
                         });
                     },
                     '/receive': () => modalManager.showReceiveAsset(user),
-                    '/account-info': () => modalManager.showAccountInfo()
+                    '/account': () => modalManager.showAccountInfo()
                 };
             }
 
@@ -52,15 +55,19 @@
                 Object.keys(hash).forEach((key) => {
                     const handler = hash[key];
                     hash[key] = (data) => {
-                        const result = handler(data);
-                        if (!result || !result.then || typeof result.then !== 'function') {
-                            throw new Error('Modal result mast be a promise!');
-                        }
-                        const cb = () => {
-                            location.hash = '';
-                        };
-                        result.then(cb, cb);
-                        return result;
+                        this.sleep = true;
+                        return user.onLogin().then(() => {
+                            const result = handler(data);
+                            if (!result || !result.then || typeof result.then !== 'function') {
+                                throw new Error('Modal result mast be a promise!');
+                            }
+                            const cb = () => {
+                                this.sleep = false;
+                                location.hash = '';
+                            };
+                            result.then(cb, cb);
+                            return result;
+                        });
                     };
                 });
                 return hash;
