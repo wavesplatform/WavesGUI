@@ -140,7 +140,7 @@
                 const marketUrl = 'https://marketdata.wavesplatform.com/api/candles';
 
                 const params = {
-                    onFetch: AssetsService._onFetch,
+                    onFetch: utils.onFetch,
                     wavesId: WavesApp.defaultAssets.WAVES,
                     idFrom,
                     idTo,
@@ -195,7 +195,7 @@
                 const marketUrl = 'https://marketdata.wavesplatform.com/api/trades';
 
                 const params = {
-                    onFetch: AssetsService._onFetch,
+                    onFetch: utils.onFetch,
                     currentRate: AssetsService._currentRate,
                     wavesId: WavesApp.defaultAssets.WAVES,
                     idFrom,
@@ -344,25 +344,6 @@
             static _round(num, len) {
                 const f = Math.pow(10, len);
                 return Math.round(num * f) / f;
-            }
-
-            static _onFetch(response) {
-                if (response.ok) {
-                    if (response.headers.get('Content-Type') === 'application/json') {
-                        return response.json();
-                    } else {
-                        return response.text();
-                    }
-                } else {
-                    return response.text()
-                        .then((error) => {
-                            try {
-                                return Promise.reject(JSON.parse(error));
-                            } catch (e) {
-                                return Promise.reject(error);
-                            }
-                        });
-                }
             }
 
             static _currentRate(trades) {
