@@ -2,9 +2,10 @@
   "list": {
     "name": "Asset Name",
     "balance": "Balance",
-    "mirror": "Price, <span class=\"currency\">{{currency}}</span>",
+    "mirror": "Value, <span class=\"currency\">{{currency}}</span>",
     "bid": "Bid",
     "ask": "Ask",
+    "rate": "Price, <span class=\"currency\">{{currency}}</span>",
     "change": "24h Change",
     "actions": "Actions"
   }

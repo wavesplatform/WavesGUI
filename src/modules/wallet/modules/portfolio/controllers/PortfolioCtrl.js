@@ -24,10 +24,6 @@
                  */
                 this.portfolio = [];
                 /**
-                 * @type {boolean}
-                 */
-                this.selectedAll = false;
-                /**
                  * @type {string}
                  */
                 this.mirrorId = null;
@@ -49,29 +45,22 @@
 
                         this.defaultAssetIds = defaultAssetIds;
                         this.mirrorId = mirrorId;
-                        createPoll(this, this._getPortfolio, 'portfolio', 3000, { isBalance: true });
 
                         assetsService.getAssetInfo(this.mirrorId)
                             .then((mirror) => {
                                 this.mirror = mirror;
                             });
+
+                        createPoll(this, this._getPortfolio, 'portfolio', 3000, { isBalance: true });
                     });
             }
 
-            selectAll() {
-                const selected = this.selectedAll;
-                this.portfolio.forEach((item) => {
-                    item.checked = selected;
-                });
+            sendModal(assetId) {
+                modalManager.showSendAsset({ user, canChooseAsset: !assetId, assetId });
             }
 
-            selectItem(asset) {
-                const checked = asset.checked;
-                this.selectedAll = checked && this.portfolio.every((item) => item.checked);
-            }
-
-            send() {
-                modalManager.showSendAsset({ user, canChooseAsset: true });
+            receiveModal() {
+                modalManager.showReceiveAsset(user);
             }
 
             abs(num) {
@@ -117,6 +106,7 @@
                     this._getChange(asset)
                 ]).then(([api, bid, ask, change]) => {
                     asset.mirrorBalance = api.exchange(asset.balance);
+                    asset.rate = api.rate;
                     asset.bid = bid;
                     asset.ask = ask;
                     asset.change = change;

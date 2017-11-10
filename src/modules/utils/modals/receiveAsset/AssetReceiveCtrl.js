@@ -12,7 +12,7 @@
 
         class AssetReceiveCtrl extends Base {
 
-            constructor({ address }) {
+            constructor(address) {
                 super($scope);
 
                 this.step = 0;
@@ -29,7 +29,7 @@
 
         }
 
-        return new AssetReceiveCtrl(this);
+        return new AssetReceiveCtrl(this.locals);
     };
 
     controller.$inject = ['$mdDialog', 'Base', '$scope', 'assetsService'];

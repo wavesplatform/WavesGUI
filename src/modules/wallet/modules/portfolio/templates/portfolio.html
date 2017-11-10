@@ -1,14 +1,15 @@
 <div w-i18n-ns="app.wallet.portfolio">
     <div class="controls">
         <div class="part left">
-            <w-button ng-click="$ctrl.send()">Send</w-button>
-            <w-button>Receive</w-button>
+            <w-button ng-click="$ctrl.sendModal()">Send</w-button>
+            <w-button ng-click="$ctrl.receiveModal()">Receive</w-button>
         </div>
     </div>
     <ul class="portfolio-list">
         <li class="portfolio-item title body-2 disabled-600">
             <div class="portfolio-item-name" w-i18n="list.name"></div>
             <div class="portfolio-item-balance" w-i18n="list.balance"></div>
+            <div class="portfolio-item-balance" w-i18n="list.rate" params="{currency: $ctrl.mirror.name}"></div>
             <div class="portfolio-item-mirror" w-i18n="list.mirror" params="{currency: $ctrl.mirror.name}"></div>
             <div class="portfolio-item-bid" w-i18n="list.bid"></div>
             <div class="portfolio-item-ask" w-i18n="list.ask"></div>
@@ -23,21 +24,24 @@
             <div class="portfolio-item-balance">
                 <w-balance balance="asset.balance" asset-id="{{::asset.id}}"></w-balance>
             </div>
+            <div class="portfolio-item-rate" w-nice-number="asset.rate" precision="2"></div>
             <div class="portfolio-item-mirror">
                 <w-balance balance="asset.mirrorBalance" asset-id="{{::$ctrl.mirrorId}}"></w-balance>
             </div>
             <div class="portfolio-item-bid">
-                {{::asset.bid}}
+                {{asset.bid}}
             </div>
             <div class="portfolio-item-ask">
-                {{::asset.ask}}
+                {{asset.ask}}
             </div>
             <div class="portfolio-item-change" ng-class="{'error-500': asset.change < 0}">
-                {{::$ctrl.abs(asset.change)}}%
+                {{$ctrl.abs(asset.change)}}%
             </div>
             <div class="portfolio-item-actions">
-
+                <w-button ng-click="$ctrl.sendModal(asset.id)" class="small">Send</w-button>
+                <w-button class="small" ng-click="$ctrl.receiveModal()">Receive</w-button>
             </div>
+            <w-actions></w-actions>
         </li>
     </ul>
 </div>

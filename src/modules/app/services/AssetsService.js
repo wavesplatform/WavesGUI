@@ -106,6 +106,8 @@
                                                     ...asset,
                                                     balance: this._getAssetBalance(asset.id, balance, events)
                                                 };
+                                            }).filter((asset) => { // TODO Fix API error with empty balance
+                                                return asset.id === WavesApp.defaultAssets.WAVES || asset.balance !== 0;
                                             });
                                         });
                                 });
@@ -190,7 +192,7 @@
                                         const open = Number(data[0].open);
                                         const close = Number(data[0].close);
                                         if (open > close) {
-                                            return close === 0 ? 0 : - open / close;
+                                            return close === 0 ? 0 : -open / close;
                                         } else {
                                             return open === 0 ? 0 : close / open;
                                         }
@@ -300,7 +302,7 @@
                      * @return {number}
                      */
                     exchange(balance) {
-                        return tsUtils.round(balance * rate, toAsset.precision);
+                        return AssetsService._round(balance * rate, toAsset.precision);
                     },
 
                     /**
@@ -309,9 +311,19 @@
                      * @return {number}
                      */
                     exchangeReverse(balance) {
-                        return rate === 0 ? 0 : tsUtils.round(balance / rate, fromAsset.precision);
-                    }
+                        return rate === 0 ? 0 : AssetsService._round(balance / rate, fromAsset.precision);
+                    },
+
+                    /**
+                     * @name AssetsService.rateApi#rate
+                     */
+                    rate
                 };
+            }
+
+            static _round(num, len) {
+                const f = Math.pow(10, len);
+                return Math.round(num * f) / f;
             }
 
             static _onFetch(response) {

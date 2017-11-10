@@ -14,7 +14,7 @@
         </div>
         <div ng-class="{active: $ctrl.step === 1}" class="step step-2">
             <w-qr-code size="160" url="$ctrl.address"></w-qr-code>
-            <span class="input-like">{{::$ctrl.address}}</span>
+            <w-copy info="{{::$ctrl.address}}">{{::$ctrl.address}}</w-copy>
         </div>
     </div>
 </form>
