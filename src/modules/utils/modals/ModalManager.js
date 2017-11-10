@@ -6,6 +6,7 @@
      * @param {app.utils} utils
      * @param {app.utils.decorators} decorators
      * @param $templateRequest
+     * @param $rootScope
      * @return {ModalManager}
      */
     const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope) {

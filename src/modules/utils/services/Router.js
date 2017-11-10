@@ -39,7 +39,9 @@
                     return valid;
                 });
 
-                listener(params);
+                if (listener) {
+                    listener(params);
+                }
             }
 
             registerRoute(route, listener) {
