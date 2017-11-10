@@ -104,13 +104,11 @@
              * @return {Promise}
              */
             showReceiveAsset(user) {
-                const literal = 'w-i18n="modal.receive.title"';
-                const params = 'params="{assetName: $ctrl.asset.name}"';
                 return user.onLogin()
                     .then(() => {
                         return this._getModal({
                             locals: user.address,
-                            titleContent: `<div class="headline-1" ${literal} ${params}></div>`,
+                            title: 'modal.receive.title',
                             contentUrl: 'modules/utils/modals/receiveAsset/receive.modal.html',
                             controller: 'AssetReceiveCtrl',
                             mod: 'modal-receive'

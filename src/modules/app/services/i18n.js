@@ -17,14 +17,25 @@
              * @param {string} literal
              * @param {string} [ns]
              * @param {object} [params]
+             * @param {boolean} [skipErrors]
              */
-            translate(literal, ns, params) {
+            translate(literal, ns, params, skipErrors) {
                 if (!ns) {
                     ns = 'app';
                 }
                 const translate = [`${ns}:${literal}`];
                 if (ns && ns !== 'app') {
                     translate.push(`app:${literal}`);
+                }
+                if (skipErrors) {
+                    const has = translate.some((key) => {
+                        return i18next.exists(key, params);
+                    });
+                    if (has) {
+                        return i18next.t(translate, params);
+                    } else {
+                        return '';
+                    }
                 }
                 return i18next.t(translate, params);
             },
