@@ -18,7 +18,6 @@
         class User {
 
             constructor() {
-                modalManager.user = this;
                 /**
                  * @type {string}
                  */
