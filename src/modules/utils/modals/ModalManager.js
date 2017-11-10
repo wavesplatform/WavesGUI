@@ -6,9 +6,11 @@
      * @param {app.utils} utils
      * @param {app.utils.decorators} decorators
      * @param $templateRequest
+     * @param $rootScope
+     * @param {Router} router
      * @return {ModalManager}
      */
-    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope) {
+    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, router) {
 
 
         const DEFAULT_OPTIONS = {
@@ -31,6 +33,16 @@
             constructor() {
                 this.openModal = new tsUtils.Signal();
                 this._counter = 0;
+                /**
+                 * @type {null}
+                 */
+                this.user = null;
+
+                router.registerRouteHash(this._getRoutes());
+
+                window.addEventListener('hashchange', () => {
+                    router.apply(location.hash.replace('#', '/'));
+                });
 
                 $rootScope.$on('$stateChangeStart', () => {
                     const counter = this._counter;
@@ -88,20 +100,18 @@
             }
 
             /**
-             * @param {object} data
-             * @param {string} [data.assetId]
-             * @param {boolean} [data.canChooseAsset]
+             * @param {string} assetId
              * @return {Promise}
              */
-            showReceiveAsset(data) {
+            showReceiveAsset(assetId) {
                 const literal = 'w-i18n="modal.receive.title"';
                 const params = 'params="{assetName: $ctrl.asset.name}"';
                 return this._getModal({
-                    locals: data,
+                    locals: assetId,
                     titleContent: `<div class="headline-1" ${literal} ${params}></div>`,
                     contentUrl: 'modules/utils/modals/receiveAsset/receive.modal.html',
                     controller: 'AssetReceiveCtrl',
-                    mod: 'modal-receive',
+                    mod: 'modal-receive'
                 });
             }
 
@@ -113,6 +123,14 @@
                     templateUrl: 'modules/utils/modals/enterPassword/enterPassword.modal.html',
                     controller: 'EnterPasswordCtrl'
                 });
+            }
+
+            _getRoutes() {
+                return {
+                    '/send': () => {
+                        this.showSendAsset({ canChooseAsset: true, user });
+                    }
+                };
             }
 
             /**
@@ -311,7 +329,7 @@
         return new ModalManager();
     };
 
-    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope'];
+    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope', 'router'];
 
     angular.module('app.utils').factory('modalManager', factory);
 })();
