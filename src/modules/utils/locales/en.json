@@ -1,5 +1,13 @@
 {
   "modal": {
+    "assetInfo": {
+      "title": "Asset info",
+      "unpinned": "Pin",
+      "pinned": "Pinned",
+      "assets": {
+        "8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS": "The official Bitcoin"
+      }
+    },
     "receive": {
       "title": "{{assetName}} Wallet Address",
       "text": "Only send {{assetName}} to this address",

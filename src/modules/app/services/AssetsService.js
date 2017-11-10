@@ -26,15 +26,16 @@
              */
             @decorators.cachable()
             getAssetInfo(assetId) {
-                if (assetId === 'WAVES') {
+                if (assetId === WavesApp.defaultAssets.WAVES) {
                     return user.onLogin()
                         .then(() => ({
-                            id: 'WAVES',
+                            id: WavesApp.defaultAssets.WAVES,
                             name: 'Waves',
                             precision: 8,
                             reissuable: false,
                             quantity: 100000000,
-                            timestamp: 0
+                            timestamp: 1460408400000,
+                            sender: WavesApp.defaultAssets.WAVES
                         }));
                 }
                 return user.onLogin()
@@ -49,7 +50,8 @@
                                 precision: asset.decimals,
                                 reissuable: asset.reissuable,
                                 quantity: asset.quantity,
-                                timestamp: asset.timestamp
+                                timestamp: asset.timestamp,
+                                sender: asset.sender
                             }));
                     });
             }

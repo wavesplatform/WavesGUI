@@ -1,0 +1,42 @@
+<div class="asset-content">
+    <div class="top-content">
+        <w-asset-logo asset-id="{{::$ctrl.asset.id}}" size="65"></w-asset-logo>
+        <div class="asset-data">
+            <h4 class="basic-900">{{::$ctrl.asset.name}}</h4>
+            <div class="body-2 basic-500" w-i18n="modal.assetInfo.assets.{{::$ctrl.asset.id}}"></div>
+        </div>
+        <div ng-if="$ctrl.asset.id !== $ctrl.wavesId"
+             ng-click="$ctrl.togglePin()"
+             ng-class="{pinned: $ctrl.pinned}" class="pin">
+            <w-i18n ng-if="!$ctrl.pinned">modal.assetInfo.unpinned</w-i18n>
+            <w-i18n ng-if="$ctrl.pinned">modal.assetInfo.pinned</w-i18n>
+        </div>
+    </div>
+    <w-tabs>
+        <w-tab title="Transactions">
+            <w-transaction-list></w-transaction-list>
+        </w-tab>
+        <w-tab title="Details">
+            <div class="line">
+                <div class="body-2 basic-700" w-i18n="Issuer"></div>
+                <div class="body-2 basic-500">{{::$ctrl.asset.sender}}</div>
+            </div>
+            <div class="line">
+                <div class="body-2 basic-700" w-i18n="Identifier"></div>
+                <div class="body-2 basic-500">{{::$ctrl.asset.id}}</div>
+            </div>
+            <div class="line">
+                <div class="body-2 basic-700" w-i18n="Name"></div>
+                <div class="body-2 basic-500">{{::$ctrl.asset.name}}</div>
+            </div>
+            <div class="line">
+                <div class="body-2 basic-700" w-i18n="Reissuable"></div>
+                <div class="body-2 basic-500">{{::$ctrl.asset.reissuable}}</div>
+            </div>
+            <div class="line">
+                <div class="body-2 basic-700" w-i18n="Issue date"></div>
+                <div class="body-2 basic-500">{{::$ctrl.asset.timestamp | date:'dd.MM.yyyy hh:mm'}}</div>
+            </div>
+        </w-tab>
+    </w-tabs>
+</div>

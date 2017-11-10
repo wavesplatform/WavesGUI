@@ -45,10 +45,10 @@
             showAssetInfo(asset) {
                 return this._getModal({
                     ns: 'app.utils',
-                    title: 'assetInfo.title',
-                    titleParams: { name: asset.name },
+                    title: 'modal.assetInfo.title',
                     contentUrl: 'modules/utils/modals/assetInfo/assetInfo.html',
-                    locals: asset
+                    locals: asset,
+                    controller: 'AssetInfoCtrl'
                 });
             }
 
@@ -253,7 +253,7 @@
             static _getHeader(options) {
                 if (options.title) {
                     const params = options.titleParams ? JSON.stringify(options.titleParams) : '';
-                    const title = `<div class="headline-1" params="${params}" w-i18n="${options.title}"></div>`;
+                    const title = `<div class="headline-1" params='${params}' w-i18n="${options.title}"></div>`;
                     return ModalManager._loadTemplate(DEFAULT_TEMPLATES_URLS.HEADER)
                         .then((template) => template.replace('{{title}}', title));
                 } else if (options.titleContent || options.titleContentUrl) {
