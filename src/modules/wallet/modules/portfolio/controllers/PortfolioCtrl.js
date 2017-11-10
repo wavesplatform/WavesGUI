@@ -34,16 +34,18 @@
                 /**
                  * @type {string[]}
                  */
-                this.defaultAssetIds = null;
+                this.assetList = null;
+                /**
+                 * @type {string}
+                 */
+                this.wavesId = WavesApp.defaultAssets.WAVES;
 
 
                 createPromise(this, utils.whenAll([
                     user.getSetting('baseAssetId'),
-                    user.getSetting('wallet.assets.assetList')
+                    this.syncSettings('wallet.assets.assetList')
                 ]))
-                    .then(([mirrorId, defaultAssetIds]) => {
-
-                        this.defaultAssetIds = defaultAssetIds;
+                    .then(([mirrorId]) => {
                         this.mirrorId = mirrorId;
 
                         assetsService.getAssetInfo(this.mirrorId)
@@ -67,13 +69,33 @@
                 return Math.abs(num).toFixed(2);
             }
 
+            pinAsset(asset, state) {
+                asset.pinned = state;
+
+                const has = (id) => {
+                    return this.assetList.indexOf(id) !== -1;
+                };
+
+                if (state) {
+                    if (!has(asset.id)) {
+                        const list = this.assetList.slice();
+                        list.push(asset.id);
+                        this.assetList = list;
+                    }
+                } else if (has(asset.id)) {
+                    const list = this.assetList.slice();
+                    list.splice(this.assetList.indexOf(asset.id), 1);
+                    this.assetList = list;
+                }
+            }
+
             /**
              * @return {Promise}
              * @private
              */
             _getPortfolio() {
                 return assetsService.getBalanceList()
-                    .then((assets) => assets.length ? assets : assetsService.getBalanceList(this.defaultAssetIds))
+                    .then((assets) => assets.length ? assets : assetsService.getBalanceList(this.assetList))
                     .then((assets) => assets.map(this._loadAssetData, this))
                     .then((promises) => utils.whenAll(promises));
             }
@@ -105,6 +127,7 @@
                     this._getAsk(asset),
                     this._getChange(asset)
                 ]).then(([api, bid, ask, change]) => {
+                    asset.pinned = this.assetList.indexOf(asset.id) !== -1;
                     asset.mirrorBalance = api.exchange(asset.balance);
                     asset.rate = api.rate;
                     asset.bid = bid;

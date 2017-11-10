@@ -8,5 +8,8 @@
     "rate": "Price, <span class=\"currency\">{{currency}}</span>",
     "change": "24h Change",
     "actions": "Actions"
-  }
+  },
+  "unpin": "Unpin",
+  "pin": "Pin",
+  "info": "Asset info"
 }

@@ -23,16 +23,22 @@
             </div>
             <div class="portfolio-item-balance">
                 <w-balance balance="asset.balance" asset-id="{{::asset.id}}"></w-balance>
+                <span class="currency">{{::asset.name}}</span>
             </div>
-            <div class="portfolio-item-rate" w-nice-number="asset.rate" precision="2"></div>
+            <div class="portfolio-item-rate">
+                <span>$</span> <span w-nice-number="asset.rate" precision="2"></span>
+            </div>
             <div class="portfolio-item-mirror">
+                <span>$</span>
                 <w-balance balance="asset.mirrorBalance" asset-id="{{::$ctrl.mirrorId}}"></w-balance>
             </div>
             <div class="portfolio-item-bid">
-                {{asset.bid}}
+                <span>฿</span>
+                <span>{{asset.bid}}</span>
             </div>
             <div class="portfolio-item-ask">
-                {{asset.ask}}
+                <span>฿</span>
+                <span>{{asset.ask}}</span>
             </div>
             <div class="portfolio-item-change" ng-class="{'error-500': asset.change < 0}">
                 {{$ctrl.abs(asset.change)}}%
@@ -41,7 +47,17 @@
                 <w-button ng-click="$ctrl.sendModal(asset.id)" class="small">Send</w-button>
                 <w-button class="small" ng-click="$ctrl.receiveModal()">Receive</w-button>
             </div>
-            <w-actions></w-actions>
+            <w-actions>
+                <w-action ng-if="asset.id !== $ctrl.wavesId && asset.pinned" ng-click="$ctrl.pinAsset(asset, false)">
+                    <w-i18n>unpin</w-i18n>
+                </w-action>
+                <w-action ng-if="asset.id !== $ctrl.wavesId && !asset.pinned" ng-click="$ctrl.pinAsset(asset, true)">
+                    <w-i18n>pin</w-i18n>
+                </w-action>
+                <w-action>
+                    <w-i18n>info</w-i18n>
+                </w-action>
+            </w-actions>
         </li>
     </ul>
 </div>
