@@ -76,36 +76,32 @@
             }
 
             send() {
-                if (this.step === 'send') {
-                    this.step = 'confirm';
-                } else {
-                    user.getSeed()
-                        .then((data) => {
-                            return apiWorker.process((WavesApi, data) => {
-                                return WavesApi.API.Node.v1.assets.transfer({
-                                    assetId: data.assetId,
-                                    recipient: data.recipient,
-                                    amount: data.amount
-                                }, data.keyPair);
-                            }, {
-                                assetId: this.assetId,
-                                recipient: this.recipient,
-                                keyPair: data.keyPair,
-                                amount: Math.floor(this.amount * Math.pow(10, this.asset.precision))
-                            });
-                        })
-                        .then((data) => {
-                            eventManager.addEvent({
-                                id: data.id,
-                                components: [
-                                    { name: 'transfer' },
-                                    { name: 'balance', data: { amount: this.amount, assetId: this.assetId } },
-                                    { name: 'balance', data: { amount: this.feeData.fee, assetId: this.feeData.id } }
-                                ]
-                            });
-                            $mdDialog.hide();
+                user.getSeed()
+                    .then((data) => {
+                        return apiWorker.process((WavesApi, data) => {
+                            return WavesApi.API.Node.v1.assets.transfer({
+                                assetId: data.assetId,
+                                recipient: data.recipient,
+                                amount: data.amount
+                            }, data.keyPair);
+                        }, {
+                            assetId: this.assetId,
+                            recipient: this.recipient,
+                            keyPair: data.keyPair,
+                            amount: Math.floor(this.amount * Math.pow(10, this.asset.precision))
                         });
-                }
+                    })
+                    .then((data) => {
+                        eventManager.addEvent({
+                            id: data.id,
+                            components: [
+                                { name: 'transfer' },
+                                { name: 'balance', data: { amount: this.amount, assetId: this.assetId } },
+                                { name: 'balance', data: { amount: this.feeData.fee, assetId: this.feeData.id } }
+                            ]
+                        });
+                        this.step++;
+                    });
             }
 
             showTransaction() {

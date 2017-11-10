@@ -3,7 +3,6 @@
         <w-step>
             <form class="send-form"
                   name="send"
-                  ng-submit="send.$valid && $ctrl.send()"
                   novalidate>
 
                 <w-input-container>
@@ -136,7 +135,7 @@
                 <table>
                     <tr>
                         <td w-i18n="modal.send.confirm.to"></td>
-                        <td>{{::$ctrl.recipient}}</td>
+                        <td>{{$ctrl.recipient}}</td>
                     </tr>
                     <tr>
                         <td w-i18n="modal.send.confirm.from"></td>
@@ -145,8 +144,8 @@
                     <tr>
                         <td w-i18n="modal.send.confirm.total"></td>
                         <td>
-                            <div>{{::$ctrl.amount}} {{::$ctrl.asset.name}}</div>
-                            <div>~ {{$ctrl.amountAlias}}</div>
+                            <div>{{$ctrl.amount}} {{$ctrl.asset.name}}</div>
+                            <div>~ {{$ctrl.amountMirror}}</div>
                         </td>
                     </tr>
                 </table>
@@ -156,7 +155,7 @@
                 <w-button w-step-prev>
                     <w-i18n>modal.send.confirm.back</w-i18n>
                 </w-button>
-                <w-button class="submit" w-step-next ng-click="$ctrl.send()">
+                <w-button class="submit" ng-click="$ctrl.send()">
                     <w-i18n>modal.send.confirm.confirm</w-i18n>
                 </w-button>
             </div>
