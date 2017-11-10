@@ -8,6 +8,7 @@
     },
     "send": {
       "title": "Send {{assetName}}",
+      "titleComplete": "Send Complete",
       "recipient": "Recipient",
       "sendMax": "Send Max",
       "withdraw": "Withdraw From",

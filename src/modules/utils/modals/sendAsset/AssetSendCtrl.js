@@ -30,7 +30,11 @@
                 this.observe('amountMirror', this._onChangeAmountMirror);
                 this.observe('assetId', this._onChangeAssetId);
 
-                this.step = 'send';
+                this.step = 0;
+                /**
+                 * @type {boolean}
+                 */
+                this.valid = false;
                 /**
                  * @type {boolean}
                  */
@@ -102,6 +106,13 @@
                             $mdDialog.hide();
                         });
                 }
+            }
+
+            showTransaction() {
+                $mdDialog.hide();
+                setTimeout(() => { // Timeout for routing (if modal has route)
+                    // TODO Show transaction modal. Author Tsigel at 10/11/2017 15:18
+                }, 1000);
             }
 
             fillMax() {
@@ -178,6 +189,8 @@
                             this.amountMirror = api.exchange(this.amount);
                         }
                     });
+                this.valid = this.amount < (this.asset.id === this.feeData.id ?
+                    this.asset.balance + this.feeData.fee : this.asset.balance);
             }
 
             /**
