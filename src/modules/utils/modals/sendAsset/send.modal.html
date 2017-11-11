@@ -28,7 +28,7 @@
 
                 <div class="row">
                     <div class="body-2" w-i18n="modal.send.withdraw"></div>
-                    <div class="input-like">
+                    <div ng-if="!$ctrl.canChooseAsset || $ctrl.assetList.length === 1" class="input-like">
                         <w-asset-logo size="30" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
                         {{$ctrl.asset.name}}
 
@@ -134,18 +134,18 @@
                 <w-i18n>modal.send.confirm.title</w-i18n>
                 <table>
                     <tr>
-                        <td w-i18n="modal.send.confirm.to"></td>
+                        <td class="headline-3 basic-900" w-i18n="modal.send.confirm.to"></td>
                         <td>{{$ctrl.recipient}}</td>
                     </tr>
                     <tr>
-                        <td w-i18n="modal.send.confirm.from"></td>
+                        <td class="headline-3 basic-900" w-i18n="modal.send.confirm.from"></td>
                         <td>{{$ctrl.asset.name}}</td>
                     </tr>
                     <tr>
-                        <td w-i18n="modal.send.confirm.total"></td>
+                        <td class="headline-3 basic-900" w-i18n="modal.send.confirm.total"></td>
                         <td>
                             <div>{{$ctrl.amount}} {{$ctrl.asset.name}}</div>
-                            <div>~ {{$ctrl.amountMirror}}</div>
+                            <div>≈ ${{$ctrl.amountMirror}}</div>
                         </td>
                     </tr>
                 </table>
@@ -161,8 +161,12 @@
             </div>
         </w-step>
         <w-step>
+            <h2 class="basic-900" w-i18n="modal.send.compare.title"></h2>
+            <div params="{amount: $ctrl.amount, currency: $ctrl.asset.name, mirror: $ctrl.amountMirror}"
+                 class="body-2 disabled-600"
+                 w-i18n="modal.send.compare.description"></div>
             <w-button ng-click="$ctrl.showTransaction()">
-                <w-i18n></w-i18n>
+                <w-i18n>modal.send.compare.details</w-i18n>
             </w-button>
         </w-step>
     </w-step-by-step>
