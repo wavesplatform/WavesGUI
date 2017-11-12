@@ -36,22 +36,15 @@
                     series: [
                         {
                             dataset: 'values',
-                            key: 'y',
-                            label: 'An area series',
-                            color: '#dfeaf8',
-                            type: ['line', 'line', 'area']
-                        },
-                        {
-                            dataset: 'values',
-                            key: 'y',
-                            label: 'An area series',
+                            key: 'rate',
+                            label: 'Rate',
                             color: '#5a81ea',
-                            type: ['line', 'line']
+                            type: ['line', 'line', 'area']
                         }
                     ],
                     axes: {
                         x: {
-                            key: 'x',
+                            key: 'timestamp',
                             type: 'date',
                             ticks: 9
                         },
