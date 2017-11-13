@@ -24,6 +24,9 @@
                 this.assets = null;
                 this.total = null;
 
+                this.interval = null;
+                this.intervalCount = null;
+
                 this.data = null;
                 this.assetList = null;
                 this.options = assetsData.getGraphOptions();
@@ -31,7 +34,7 @@
                 const hours = tsUtils.date('hh:mm');
                 const dates = tsUtils.date('DD/MM');
                 this.options.axes.x.tickFormat = (date) => {
-                    if (this.chartMode === 'hour') {
+                    if (this.chartMode === 'hour' || this.chartMode === 'day') {
                         return hours(date);
                     } else {
                         return dates(date);
@@ -41,15 +44,17 @@
                 createPromise(this, utils.whenAll([
                     this.syncSettings('wallet.assets.chartMode'),
                     this.syncSettings('wallet.assets.assetList')
-                ])).then(() => {
-                    this.updateGraph = createPoll(this, this._getGraphData, 'data', 5000);
-                    this.updateBalances = createPoll(this, this._getBalances, 'assets', 5000, { isBalance: true });
+                ]))
+                    .then(() => {
+                        this._onChangeMode();
 
-                    this.observe('chartMode', () => this._onChangeMode());
-                    this.observe(['startDate', 'endDate'], () => this._onChangeInterval());
+                        this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000);
 
-                    this._onChangeMode();
-                });
+                        createPoll(this, this._getBalances, 'assets', 5000, { isBalance: true });
+
+                        this.observe('chartMode', () => this._onChangeMode());
+                        this.observe(['interval', 'intervalCount'], () => this._onChangeInterval());
+                    });
             }
 
             onAssetClick(event, asset, action) {
@@ -100,7 +105,11 @@
              * @private
              */
             _getGraphData() {
-                return assetsData.getGraphData(this.startDate, this.endDate).then((values) => ({ values }));
+                const from = WavesApp.defaultAssets.WAVES;
+                const to = WavesApp.defaultAssets.USD;
+                console.log(`Chart mode: ${this.chartMode}, interval: ${this.interval}, count: ${this.intervalCount}`);
+                return assetsService.getRateHistory(from, to, this.interval, this.intervalCount)
+                    .then((values) => ({ values }));
             }
 
             /**
@@ -109,34 +118,28 @@
             _onChangeMode() {
                 switch (this.chartMode) {
                     case 'hour':
-                        this.startDate = utils.moment()
-                            .add()
-                            .hour(-1);
+                        this.interval = 5;
+                        this.intervalCount = 60 / 5;
                         break;
                     case 'day':
-                        this.startDate = utils.moment()
-                            .add()
-                            .day(-1);
+                        this.interval = 30;
+                        this.intervalCount = 1440 / 30;
                         break;
                     case 'week':
-                        this.startDate = utils.moment()
-                            .add()
-                            .week(-1);
+                        this.interval = 240;
+                        this.intervalCount = 1440 * 7 / 240;
                         break;
                     case 'month':
-                        this.startDate = utils.moment()
-                            .add()
-                            .month(-1);
+                        this.interval = 1440;
+                        this.intervalCount = 31;
                         break;
                     case 'year':
-                        this.startDate = utils.moment()
-                            .add()
-                            .year(-1);
+                        this.interval = 1440;
+                        this.intervalCount = 100;
                         break;
                     default:
                         throw new Error('Wrong chart mode!');
                 }
-                this.endDate = utils.moment();
             }
 
         }

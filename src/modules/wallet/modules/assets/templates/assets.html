@@ -14,6 +14,16 @@
 
     <div class="chart-wrapper">
 
+        <div class="chart-info left">
+            <w-radio-wrap mode="tab-mode" ng-model="$ctrl.rateAsset">
+                <w-radio ng-repeat="asset in $ctrl.chartBalanceAssets track by asset.id"
+                         value="asset.id">
+                    <span class="radio-name">{{::asset.name}}</span>
+                    <w-balance asset-id="{{::asset.id}}" balance="asset.balance"></w-balance>
+                </w-radio>
+            </w-radio-wrap>
+        </div>
+
         <div class="chart-info right">
             <w-radio-wrap mode="tab-mode" ng-model="$ctrl.chartMode">
                 <w-radio value="'hour'">
@@ -30,9 +40,6 @@
                 </w-radio>
                 <w-radio value="'year'">
                     <w-i18n>chart.intervals.year</w-i18n>
-                </w-radio>
-                <w-radio value="'all'">
-                    <w-i18n>chart.intervals.all</w-i18n>
                 </w-radio>
             </w-radio-wrap>
         </div>
