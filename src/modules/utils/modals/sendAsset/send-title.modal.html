@@ -1,7 +1,7 @@
-<div ng-if="$ctrl.step === 'send'"
+<div ng-if="$ctrl.step === 0 || $ctrl.step === 1"
      class="headline-1"
      w-i18n="modal.send.title"
      params="{assetName: $ctrl.asset.name}"></div>
-<div ng-if="$ctrl.step === 'confirm'"
+<div ng-if="$ctrl.step === 2"
      class="headline-1"
-     w-i18n="modal.send.titleConfirm"></div>
+     w-i18n="modal.send.titleComplete"></div>

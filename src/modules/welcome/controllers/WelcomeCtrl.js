@@ -39,7 +39,8 @@
                     .then(() => {
                         user.addUserData({
                             address: this.address,
-                            encryptedSeed: this.encryptedSeed
+                            encryptedSeed: this.encryptedSeed,
+                            password: this.password
                         });
                     }, () => {
                         this.password = '';
