@@ -46,6 +46,11 @@
                             return modalManager.showSendAsset({ canChooseAsset: false, assetId, user });
                         });
                     },
+                    '/asset/:assetId': ({ assetId }) => {
+                        return assetsService.getAssetInfo(assetId).then((asset) => {
+                            return modalManager.showAssetInfo(asset);
+                        });
+                    },
                     '/receive': () => modalManager.showReceiveAsset(user),
                     '/account': () => modalManager.showAccountInfo()
                 };

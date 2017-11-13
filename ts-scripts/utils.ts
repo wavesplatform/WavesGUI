@@ -21,7 +21,7 @@ export function getBranch(): Promise<string> {
                 console.log(error);
                 reject(error);
             } else {
-                resolve(stdout);
+                resolve(stdout.trim());
             }
         });
     });

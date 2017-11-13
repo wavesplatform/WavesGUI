@@ -31,10 +31,6 @@
                  */
                 this.settings = Object.create(null);
                 /**
-                 * @type {number}
-                 */
-                this.lastPasswordInput = null;
-                /**
                  * @type {DefaultSettings}
                  * @private
                  */
@@ -68,6 +64,13 @@
                  * @private
                  */
                 this._stateList = null;
+                /**
+                 * @type {Array}
+                 * @private
+                 */
+                this._fieldsForSave = [];
+
+                window.user = this; //TODO! remove
 
                 this._setObserve();
             }
@@ -105,9 +108,11 @@
              * @return {Promise}
              */
             login() {
-                const states = WavesApp.stateTree.where({ noLogin: true }).map((item) => {
-                    return WavesApp.stateTree.getPath(item.id).join('.');
-                });
+                const states = WavesApp.stateTree.where({ noLogin: true })
+                    .map((item) => {
+                        return WavesApp.stateTree.getPath(item.id)
+                            .join('.');
+                    });
                 if (states.indexOf($state.$current.name) === -1) {
                     $state.go(states[0]);
                 }
@@ -123,7 +128,8 @@
                 if (userState) {
                     return userState.state;
                 } else {
-                    return WavesApp.stateTree.getPath(name).join('.');
+                    return WavesApp.stateTree.getPath(name)
+                        .join('.');
                 }
             }
 
@@ -167,7 +173,13 @@
             addUserData(data) {
                 this._loadUserByAddress(data.address)
                     .then((item) => {
-                        tsUtils.merge(this, item, data);
+                        this._fieldsForSave.forEach((propertyName) => {
+                            if (data[propertyName] != null) {
+                                this[propertyName] = data[propertyName];
+                            } else if (item[propertyName] != null) {
+                                this[propertyName] = item[propertyName];
+                            }
+                        });
                         this.lastLogin = Date.now();
                         if (this._settings) {
                             this._settings.change.off();
@@ -179,7 +191,8 @@
                             this._password = data.password;
                         }
 
-                        const states = WavesApp.stateTree.find('main').getChildren();
+                        const states = WavesApp.stateTree.find('main')
+                            .getChildren();
                         this._stateList = states.map((baseTree) => {
                             const id = baseTree.id;
                             return new UserRouteState('main', id, this._settings.get(`${id}.activeState`));
@@ -240,11 +253,11 @@
              * @private
              */
             _setObserve() {
-                Object.keys(this)
-                    .filter((item) => item.charAt(0) !== '_')
-                    .forEach((key) => {
-                        this._observe(key, this);
-                    });
+                this._fieldsForSave = Object.keys(this)
+                    .filter((property) => property.charAt(0) !== '_');
+                this._fieldsForSave.forEach((key) => {
+                    this._observe(key, this);
+                });
             }
 
             /**
@@ -284,7 +297,14 @@
                     .then((list) => {
                         list = list || [];
                         list = list.filter(tsUtils.notContains({ address: this.address }));
-                        list.push(this._getPublicProps());
+                        const props = this._fieldsForSave.reduce((result, propertyName) => {
+                            const property = this[propertyName];
+                            if (property != null) {
+                                result[propertyName] = property;
+                            }
+                            return result;
+                        }, Object.create(null));
+                        list.push(props);
                         return storage.save('userList', list);
                     });
             }
@@ -294,20 +314,6 @@
                     .then((list) => {
                         return tsUtils.find(list || [], { address }) || Object.create(null);
                     });
-            }
-
-            /**
-             * @return {*}
-             * @private
-             */
-            _getPublicProps() {
-                return Object.keys(this)
-                    .reduce((result, item) => {
-                        if (item.charAt(0) !== '_' && this[item]) {
-                            result[item] = this[item];
-                        }
-                        return result;
-                    }, Object.create(null));
             }
 
         }

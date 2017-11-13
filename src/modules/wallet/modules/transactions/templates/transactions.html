@@ -1,5 +1,6 @@
-<div w-i18n-ns="app.wallet.transactions">
-    <div class="controls">
+<div w-i18n-ns="app.wallet.transactions" class="transactions-content">
+
+    <div class="controls margin-1">
 
         <w-radio-wrap class="split-mode" ng-model="$ctrl.filter">
             <w-radio value="'all'">
@@ -21,6 +22,10 @@
                 <w-i18n>issued</w-i18n>
             </w-radio>
         </w-radio-wrap>
+
+        <w-button class="interface">
+            <w-i18n>export</w-i18n>
+        </w-button>
 
     </div>
     <w-transaction-list transaction-type="$ctrl.filter"

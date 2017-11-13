@@ -1,5 +1,13 @@
 {
   "modal": {
+    "assetInfo": {
+      "title": "Asset info",
+      "unpinned": "Pin",
+      "pinned": "Pinned",
+      "assets": {
+        "8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS": "The official Bitcoin"
+      }
+    },
     "receive": {
       "title": "{{assetName}} Wallet Address",
       "text": "Only send {{assetName}} to this address",
@@ -8,6 +16,7 @@
     },
     "send": {
       "title": "Send {{assetName}}",
+      "titleComplete": "Send Complete",
       "recipient": "Recipient",
       "sendMax": "Send Max",
       "withdraw": "Withdraw From",
@@ -15,7 +24,20 @@
       "description": "Description",
       "descriptionPlaceholder": "Write an optional message",
       "fee": "Network Fee",
-      "total": "Total"
+      "total": "Total",
+      "confirm": {
+        "title": "Transaction Details",
+        "to": "To",
+        "from": "From",
+        "total": "Total",
+        "back": "Go Back",
+        "confirm": "Confirm"
+      },
+      "compare": {
+        "title": "Your transaction is on the way!",
+        "description": "You send {{amount}} {{currency}} (${{mirror}}) to an external address.",
+        "details": "View Details"
+      }
     },
     "account": {
       "title": "Account information",

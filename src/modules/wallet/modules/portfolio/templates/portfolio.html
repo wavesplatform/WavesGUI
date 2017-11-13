@@ -54,7 +54,7 @@
                 <w-action ng-if="asset.id !== $ctrl.wavesId && !asset.pinned" ng-click="$ctrl.pinAsset(asset, true)">
                     <w-i18n>pin</w-i18n>
                 </w-action>
-                <w-action>
+                <w-action ng-click="$ctrl.showAssetInfo(asset)">
                     <w-i18n>info</w-i18n>
                 </w-action>
             </w-actions>

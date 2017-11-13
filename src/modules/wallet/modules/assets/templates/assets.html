@@ -1,45 +1,80 @@
 <div w-i18n-ns="app.wallet.assets">
 
     <div class="toolbar">
-        <w-button ng-click="$ctrl.showSend()">
+        <w-button class="interface" ng-click="$ctrl.showSend()">
             <span class="btn-icon icon-send" w-i18n="send"></span>
         </w-button>
-        <w-button ng-click="$ctrl.showReceive()">
+        <w-button class="interface" ng-click="$ctrl.showReceive()">
             <span class="btn-icon icon-receive" w-i18n="receive"></span>
         </w-button>
-        <w-button class="right" ng-click="$ctrl.addAsset()">
-            <span class="btn-icon icon-add-asset" w-i18n="addAsset"></span>
-        </w-button>
+        <!--<w-button class="right" ng-click="$ctrl.addAsset()">-->
+        <!--<span class="btn-icon icon-add-asset" w-i18n="addAsset"></span>-->
+        <!--</w-button>-->
     </div>
 
-    <div class="chart-wrapper">
+    <div class="chart-rate">
 
-        <div class="chart-info right">
-            <w-radio-wrap mode="tab-mode" ng-model="$ctrl.chartMode">
-                <w-radio value="'hour'">
-                    <w-i18n>chart.intervals.hour</w-i18n>
-                </w-radio>
-                <w-radio value="'day'">
-                    <w-i18n>chart.intervals.day</w-i18n>
-                </w-radio>
-                <w-radio value="'week'">
-                    <w-i18n>chart.intervals.week</w-i18n>
-                </w-radio>
-                <w-radio value="'month'">
-                    <w-i18n>chart.intervals.month</w-i18n>
-                </w-radio>
-                <w-radio value="'year'">
-                    <w-i18n>chart.intervals.year</w-i18n>
-                </w-radio>
-                <w-radio value="'all'">
-                    <w-i18n>chart.intervals.all</w-i18n>
-                </w-radio>
-            </w-radio-wrap>
+        <div class="toolbar">
+            <div>
+                <w-radio-wrap mode="tab-mode" ng-model="$ctrl.activeChartAssetId">
+                    <w-radio ng-repeat="asset in $ctrl.chartBalances track by asset.id"
+                             value="asset.id">
+                        <span class="radio-name">{{::asset.name}}</span>
+                        <w-balance asset-id="{{::asset.id}}" balance="asset.balance"></w-balance>
+                    </w-radio>
+                </w-radio-wrap>
+            </div>
+
+            <div>
+                <w-radio-wrap mode="tab-mode" ng-model="$ctrl.chartMode">
+                    <!--<w-radio value="'hour'">-->
+                    <!--<w-i18n>chart.intervals.hour</w-i18n>-->
+                    <!--</w-radio>-->
+                    <w-radio value="'day'">
+                        <w-i18n>chart.intervals.day</w-i18n>
+                    </w-radio>
+                    <w-radio value="'week'">
+                        <w-i18n>chart.intervals.week</w-i18n>
+                    </w-radio>
+                    <w-radio value="'month'">
+                        <w-i18n>chart.intervals.month</w-i18n>
+                    </w-radio>
+                    <w-radio value="'year'">
+                        <w-i18n>chart.intervals.year</w-i18n>
+                    </w-radio>
+                </w-radio-wrap>
+            </div>
         </div>
-        <linechart ng-if="$ctrl.chartMode && $ctrl.data" options="$ctrl.options" data="$ctrl.data"></linechart>
+
+        <div class="chart-info">
+            <div class="rate">
+                <h1>${{$ctrl.rate}}</h1>
+                <div class="tag info-500">
+                    {{$ctrl.chartAsset.name.toUpperCase()}} PRICE
+                </div>
+            </div>
+            <div class="change">
+                <h1>${{$ctrl.change}}</h1>
+                <div class="tag info-500">
+                    SLICE LAST {{$ctrl.chartMode.toUpperCase()}} (USD)
+                </div>
+            </div>
+            <div class="change-percent">
+                <h1>{{$ctrl.changePercent}}%</h1>
+                <div class="tag info-500">
+                    SLICE LAST {{$ctrl.chartMode.toUpperCase()}} (%)
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-wrapper">
+            <linechart ng-if="$ctrl.chartMode && $ctrl.data" options="$ctrl.options" data="$ctrl.data"></linechart>
+        </div>
     </div>
     <div class="assets-list">
-        <w-asset ng-repeat="asset in $ctrl.assets track by $index" on-click="$ctrl.onAssetClick(event, asset, action)"
+        <w-asset ng-repeat="asset in $ctrl.assets track by asset.id"
+                 ng-click="$ctrl.onAssetClick($event, asset)"
+                 on-click="$ctrl.onAssetClickCallback(event, asset, action)"
                  asset="asset"></w-asset>
     </div>
 

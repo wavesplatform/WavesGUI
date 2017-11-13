@@ -1,8 +1,10 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
 
 w-navigation {
   a {
-    //color: @color-link-blue;
+    .body-2();
+    color: @color-info-500;
     display: block;
     border: 1px solid transparent;
     box-sizing: border-box;
@@ -10,22 +12,37 @@ w-navigation {
     text-decoration: none;
 
     &.active {
-      //color: @color-link-blue-active;
+      .headline-1();
+      margin: auto;
+      font-size: 15px;
+      line-height: 15px;
+      color: @color-submit-400;
     }
   }
 
   .navigation.row {
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: flex-start;
-    //height: @height-header;
+    height: 100%;
 
     a {
-      padding: 15px;
-      line-height: 35px;
+      height: 100%;
+      position: relative;
+      margin: 0 10px;
+      display: flex;
+      align-items: center;
 
-      &.active {
-        //border-bottom-color: @color-link-blue-active;
+      &.active::after {
+        content: '';
+        width: 100%;
+        height: 1px;
+        z-index: 1;
+        background-color: @color-submit-400;
+        position: absolute;
+        bottom: 0;
+        left: 0;
       }
     }
   }

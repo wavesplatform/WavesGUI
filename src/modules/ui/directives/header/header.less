@@ -1,6 +1,27 @@
+@import (reference) '../../../config';
+
 w-header {
+  position: relative;
   display: flex;
   flex-direction: row;
+  height: @height-header;
+  width: 100%;
+  background-color: @color-white;
+
+  w-navigation {
+    display: block;
+    height: 100%;
+  }
+
+  &::after {
+    content: '';
+    height: 1px;
+    width: calc(~"100% - " @width-left-menu);
+    background-color: @color-disabled-100;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
 
   .avatar-wrap {
     margin-top: 15px;
@@ -10,7 +31,8 @@ w-header {
   .logo-wrapper {
     width: 70px;
     height: 70px;
-    border-radius: 50%;
     overflow: hidden;
+    border-right: 1px solid @color-disabled-100;
+    border-bottom: 1px solid @color-white;
   }
 }

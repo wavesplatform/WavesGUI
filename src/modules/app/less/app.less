@@ -48,43 +48,6 @@ md-input-container {
   }
 }
 
-.left-menu {
-  padding-top: 10px;
-
-  w-navigation a {
-    width: 50px;
-    height: 50px;
-    display: block;
-    border-radius: 3px;
-    margin: 5px auto;
-    background-color: transparent;
-    background-position: center center;
-    background-repeat: no-repeat;
-
-    &.active {
-      background-color: @color-submit-400;
-    }
-
-    &.wallet {
-      background-image: url(/img/icons/wallet.svg);
-      background-size: 25px 24px;
-
-      &.active {
-        background-image: url(/img/icons/wallet-active.svg);
-      }
-    }
-
-    &.dex {
-      background-image: url(/img/icons/dex.svg);
-      background-size: 24px 16px;
-
-      &.active {
-        background-image: url(/img/icons/dex-active.svg);
-      }
-    }
-  }
-}
-
 .center {
   display: flex;
   flex-direction: column;
@@ -130,21 +93,6 @@ w-scroll-box {
   height: 100%;
   //background-color: @color-lite-background;
 
-  .header {
-    height: @height-header;
-    width: 100%;
-    //background-color: @color-lite-background-blocks;
-  }
-
-  .left-menu {
-    width: @width-left-menu;
-    position: absolute;
-    left: 0;
-    top: @height-header;
-    bottom: 0;
-    //background-color: @color-lite-background-blocks;
-  }
-
   .content {
     width: calc(~"100% - "@width-left-menu + @padding-main-layout * 2);
     height: calc(~"100% - "@width-left-menu + @padding-main-layout * 2);
@@ -189,7 +137,7 @@ svg.chart {
     }
 
     & > .tick > text {
-      fill: @color-basic-500;
+      fill: @color-disabled-700;
       font-size: 13px;
     }
 
@@ -198,11 +146,11 @@ svg.chart {
     }
 
     &.y-axis .tick text {
-      transform: translateX(40px);
+      transform: translateX(80px);
     }
 
     &.y2-axis .tick text {
-      transform: translateX(-40px);
+      transform: translateX(-80px);
     }
   }
 }
@@ -272,4 +220,9 @@ md-dialog md-dialog-actions {
       backdrop-filter: blur(10px)
     }
   }
+}
+
+.content ui-view[name="mainContent"], .content ui-view[name="mainContent"] ui-view[name="content"] {
+  height: 100%;
+  display: block;
 }

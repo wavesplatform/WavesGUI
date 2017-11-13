@@ -1,4 +1,4 @@
-import { createServer } from 'https';
+import { createSecureServer } from 'http2';
 import { route } from './ts-scripts/utils';
 import { readFileSync } from 'fs';
 
@@ -13,8 +13,9 @@ function createMyServer(port) {
 
     const connectionTypesHash = arrToHash(connectionTypes);
     const buildTypesHash = arrToHash(buildTypes);
+
     const handler = function (req, res) {
-        const parsed = parseDomain(req.headers.host);
+        const parsed = parseDomain(req.headers[':authority']);
         if (!parsed) {
             res.writeHead(302, { Location: `https://testnet.dev.localhost:${port}` });
             res.end();
@@ -24,8 +25,7 @@ function createMyServer(port) {
     };
 
     function parseDomain(host: string): { connectionType: string, buildType: string } {
-        const toParse = host.replace('localhost', '');
-        const [connectionType, buildType] = toParse.split('.');
+        const [connectionType, buildType] = host.split('.');
 
         if (!connectionType || !buildType || !buildTypesHash[buildType] || !connectionTypesHash[connectionType]) {
             return null;
@@ -34,7 +34,7 @@ function createMyServer(port) {
         return { buildType, connectionType };
     }
 
-    const server = createServer({ key: privateKey, cert: certificate });
+    const server = createSecureServer({ key: privateKey, cert: certificate });
     server.addListener('request', handler);
     server.listen(port);
     console.log(`Listen port ${port}...`);

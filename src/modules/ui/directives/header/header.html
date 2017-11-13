@@ -1,9 +1,9 @@
-<div class="logo-wrapper">
+<div class="logo-wrapper margin-right-2">
     <w-avatar ng-click="$ctrl.avatarClick()" size="40" address="$ctrl.address"></w-avatar>
 </div>
 <w-navigation type="row">
     <a ng-repeat="state in $ctrl.stateList track by $index"
-       class="{{::state.name}}"
+       class="{{::state.name}} margin-right-1"
        ui-sref="{{::state.path}}"
        ui-sref-active="active">{{::state.text}}</a>
 </w-navigation>

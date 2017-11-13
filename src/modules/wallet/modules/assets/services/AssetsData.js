@@ -26,7 +26,6 @@
                 return {
                     margin: {
                         left: -1,
-                        top: 60,
                         right: -1
                     },
                     grid: {
@@ -36,22 +35,16 @@
                     series: [
                         {
                             dataset: 'values',
-                            key: 'y',
-                            label: 'An area series',
-                            color: '#dfeaf8',
-                            type: ['line', 'line', 'area']
-                        },
-                        {
-                            dataset: 'values',
-                            key: 'y',
-                            label: 'An area series',
+                            interpolation: {mode: 'cardinal', tension: 0.7},
+                            key: 'rate',
+                            label: 'Rate',
                             color: '#5a81ea',
-                            type: ['line', 'line']
+                            type: ['line', 'line', 'area']
                         }
                     ],
                     axes: {
                         x: {
-                            key: 'x',
+                            key: 'timestamp',
                             type: 'date',
                             ticks: 9
                         },

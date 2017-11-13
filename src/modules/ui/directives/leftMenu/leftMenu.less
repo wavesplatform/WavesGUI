@@ -1,0 +1,46 @@
+@import (reference) '../../../config';
+
+w-left-menu {
+  width: @width-left-menu;
+  position: absolute;
+  left: 0;
+  top: @height-header;
+  bottom: 0;
+  display: block;
+  padding-top: 10px;
+  border-right: 1px solid @color-disabled-100;
+  background-color: @color-white;
+
+  w-navigation a {
+    width: 50px;
+    height: 50px;
+    display: block;
+    border-radius: 3px;
+    margin: 5px auto;
+    background-color: transparent;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    &.active {
+      background-color: @color-submit-400;
+    }
+
+    &.wallet {
+      background-image: url(/img/icons/wallet.svg);
+      background-size: 25px 24px;
+
+      &.active {
+        background-image: url(/img/icons/wallet-active.svg);
+      }
+    }
+
+    &.dex {
+      background-image: url(/img/icons/dex.svg);
+      background-size: 24px 16px;
+
+      &.active {
+        background-image: url(/img/icons/dex-active.svg);
+      }
+    }
+  }
+}
