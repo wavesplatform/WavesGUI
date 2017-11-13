@@ -157,6 +157,9 @@
                                 return fetch(`${marketUrl}/${pair.toString()}/1440/1`)
                                     .then(onFetch)
                                     .then((data) => {
+                                        if (!data || !data.length) {
+                                            return 0;
+                                        }
                                         const open = Number(data[0].open);
                                         const close = Number(data[0].close);
                                         if (open > close) {
@@ -364,9 +367,9 @@
             }
 
             static _currentRate(trades) {
-                return trades.reduce((result, item) => {
+                return trades && trades.length ? trades.reduce((result, item) => {
                     return result + Number(item.price);
-                }, 0) / trades.length;
+                }, 0) / trades.length : 0;
             }
 
         }
