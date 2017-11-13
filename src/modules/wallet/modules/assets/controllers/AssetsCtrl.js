@@ -126,11 +126,8 @@
             _onChangeChartAssetId({ value }) {
                 utils.whenAll([
                     assetsService.getBalance(value),
-                    assetsService.getRate(value, this.mirrorId),
                 ]).then(([asset, api]) => {
                     this.chartAsset = asset;
-                    this.chartAsset.rate = api.exchange(new BigNumber(asset.balance)).toFormat(2);
-
                 });
             }
 
@@ -164,6 +161,7 @@
                     .then((values) => {
                         this.change = (values[0].rate - values[values.length - 1].rate).toFixed(2);
                         this.changePercent = (values[values.length - 1].rate / values[0].rate).toFixed(2);
+                        this.rate = new BigNumber(values[values.length - 1].rate.toFixed(8)).toFormat(2);
                         return { values };
                     });
             }

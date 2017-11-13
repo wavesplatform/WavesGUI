@@ -36,6 +36,7 @@
                     series: [
                         {
                             dataset: 'values',
+                            interpolation: {mode: 'cardinal', tension: 0.7},
                             key: 'rate',
                             label: 'Rate',
                             color: '#5a81ea',

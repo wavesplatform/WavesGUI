@@ -176,6 +176,8 @@
                         this._fieldsForSave.forEach((propertyName) => {
                             if (data[propertyName] != null) {
                                 this[propertyName] = data[propertyName];
+                            } else if (item[propertyName] != null) {
+                                this[propertyName] = item[propertyName];
                             }
                         });
                         this.lastLogin = Date.now();

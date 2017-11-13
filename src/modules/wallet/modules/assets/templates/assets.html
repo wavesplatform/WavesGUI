@@ -16,7 +16,7 @@
 
         <div class="chart-info center">
             <div class="rate">
-                <h1>${{$ctrl.chartAsset.rate}}</h1>
+                <h1>${{$ctrl.rate}}</h1>
                 <div class="tag info-500">
                     {{$ctrl.chartAsset.name.toUpperCase()}} PRICE
                 </div>
@@ -47,9 +47,9 @@
 
         <div class="chart-info right">
             <w-radio-wrap mode="tab-mode" ng-model="$ctrl.chartMode">
-                <w-radio value="'hour'">
-                    <w-i18n>chart.intervals.hour</w-i18n>
-                </w-radio>
+                <!--<w-radio value="'hour'">-->
+                    <!--<w-i18n>chart.intervals.hour</w-i18n>-->
+                <!--</w-radio>-->
                 <w-radio value="'day'">
                     <w-i18n>chart.intervals.day</w-i18n>
                 </w-radio>
