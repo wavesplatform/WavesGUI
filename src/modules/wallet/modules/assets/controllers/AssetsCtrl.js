@@ -57,7 +57,15 @@
                     });
             }
 
-            onAssetClick(event, asset, action) {
+            onAssetClick(e, asset) {
+                if (e.target.hasAttribute('ng-click')) {
+                    return null;
+                } else {
+                    this.showAsset(asset);
+                }
+            }
+
+            onAssetClickCallback(event, asset, action) {
                 event.preventDefault();
                 switch (action) {
                     case 'send':
@@ -69,6 +77,10 @@
                     default:
                         throw new Error('Wrong action');
                 }
+            }
+
+            showAsset(asset) {
+                return modalManager.showAssetInfo(asset);
             }
 
             /**

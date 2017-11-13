@@ -65,6 +65,10 @@
                 modalManager.showReceiveAsset(user);
             }
 
+            showAssetInfo(asset) {
+                modalManager.showAssetInfo(asset);
+            }
+
             abs(num) {
                 return Math.abs(num).toFixed(2);
             }

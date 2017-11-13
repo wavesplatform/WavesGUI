@@ -46,7 +46,9 @@
         <linechart ng-if="$ctrl.chartMode && $ctrl.data" options="$ctrl.options" data="$ctrl.data"></linechart>
     </div>
     <div class="assets-list">
-        <w-asset ng-repeat="asset in $ctrl.assets track by $index" on-click="$ctrl.onAssetClick(event, asset, action)"
+        <w-asset ng-repeat="asset in $ctrl.assets track by asset.id"
+                 ng-click="$ctrl.onAssetClick($event, asset)"
+                 on-click="$ctrl.onAssetClickCallback(event, asset, action)"
                  asset="asset"></w-asset>
     </div>
 

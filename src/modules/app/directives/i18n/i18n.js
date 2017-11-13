@@ -37,8 +37,9 @@
                         const literal = this._compile(I18n._getLiteral());
                         const ns = i18n.getNs($element);
                         return function () {
+                            const skipErros = 'skipErrors' in $attrs;
                             const params = $attrs.params && $scope.$eval($attrs.params) || undefined;
-                            $element.html(i18n.translate(literal, ns, params));
+                            $element.html(i18n.translate(literal, ns, params, skipErros));
                         };
                     }
 
