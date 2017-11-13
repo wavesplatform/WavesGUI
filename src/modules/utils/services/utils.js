@@ -43,6 +43,30 @@
             },
 
             /**
+             * @name app.utils#onFetch
+             * @param {Response} response
+             * @return {Promise}
+             */
+            onFetch(response) {
+                if (response.ok) {
+                    if (response.headers.get('Content-Type') === 'application/json') {
+                        return response.json();
+                    } else {
+                        return response.text();
+                    }
+                } else {
+                    return response.text()
+                        .then((error) => {
+                            try {
+                                return Promise.reject(JSON.parse(error));
+                            } catch (e) {
+                                return Promise.reject(error);
+                            }
+                        });
+                }
+            },
+
+            /**
              * @name app.utils#whenAll
              * @param {Array<Promise>} promises
              * @return {Promise}

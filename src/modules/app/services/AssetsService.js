@@ -26,15 +26,16 @@
              */
             @decorators.cachable()
             getAssetInfo(assetId) {
-                if (assetId === 'WAVES') {
+                if (assetId === WavesApp.defaultAssets.WAVES) {
                     return user.onLogin()
                         .then(() => ({
-                            id: 'WAVES',
+                            id: WavesApp.defaultAssets.WAVES,
                             name: 'Waves',
                             precision: 8,
                             reissuable: false,
                             quantity: 100000000,
-                            timestamp: 0
+                            timestamp: 1460408400000,
+                            sender: WavesApp.defaultAssets.WAVES
                         }));
                 }
                 return user.onLogin()
@@ -49,7 +50,8 @@
                                 precision: asset.decimals,
                                 reissuable: asset.reissuable,
                                 quantity: asset.quantity,
-                                timestamp: asset.timestamp
+                                timestamp: asset.timestamp,
+                                sender: asset.sender
                             }));
                     });
             }
@@ -138,7 +140,7 @@
                 const marketUrl = 'https://marketdata.wavesplatform.com/api/candles';
 
                 const params = {
-                    onFetch: AssetsService._onFetch,
+                    onFetch: utils.onFetch,
                     wavesId: WavesApp.defaultAssets.WAVES,
                     idFrom,
                     idTo,
@@ -193,7 +195,7 @@
                 const marketUrl = 'https://marketdata.wavesplatform.com/api/trades';
 
                 const params = {
-                    onFetch: AssetsService._onFetch,
+                    onFetch: utils.onFetch,
                     currentRate: AssetsService._currentRate,
                     wavesId: WavesApp.defaultAssets.WAVES,
                     idFrom,
@@ -342,25 +344,6 @@
             static _round(num, len) {
                 const f = Math.pow(10, len);
                 return Math.round(num * f) / f;
-            }
-
-            static _onFetch(response) {
-                if (response.ok) {
-                    if (response.headers.get('Content-Type') === 'application/json') {
-                        return response.json();
-                    } else {
-                        return response.text();
-                    }
-                } else {
-                    return response.text()
-                        .then((error) => {
-                            try {
-                                return Promise.reject(JSON.parse(error));
-                            } catch (e) {
-                                return Promise.reject(error);
-                            }
-                        });
-                }
             }
 
             static _currentRate(trades) {
