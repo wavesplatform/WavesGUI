@@ -124,9 +124,7 @@
              * @private
              */
             _onChangeChartAssetId({ value }) {
-                utils.whenAll([
-                    assetsService.getBalance(value),
-                ]).then(([asset, api]) => {
+                assetsService.getBalance(value).then((asset) => {
                     this.chartAsset = asset;
                 });
             }

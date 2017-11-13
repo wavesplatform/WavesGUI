@@ -26,7 +26,6 @@
                 return {
                     margin: {
                         left: -1,
-                        top: 60,
                         right: -1
                     },
                     grid: {

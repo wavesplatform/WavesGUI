@@ -50,30 +50,53 @@
       margin: @padding-main-layout / 2 0;
     }
 
-    .chart-wrapper {
-      height: 256px;
+    .chart-rate {
+      height: 394px;
       box-sizing: border-box;
       border: 0.5px solid #eaeaea;
       background-color: @color-white;
       position: relative;
-    }
 
-    .chart-info {
-      position: absolute;
-      display: flex;
-      flex-direction: row;
-      top: 0;
-      z-index: 1;
+      .toolbar {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 0;
+        padding: 0 20px;
+        height: 58px;
 
-      &.left {
-        left: 0;
-      }
-      &.right {
-        right: 0;
-
-        w-radio-wrap {
-          margin-top: 15px;
+        &::after {
+          content: '';
+          position: absolute;
+          margin: auto;
+          left: 20px;
+          right: 20px;
+          bottom: 0;
+          height: 1px;
+          background-color: @color-disabled-100;
         }
+      }
+
+      .chart-info {
+        height: 95px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        & > div:not(:last-child) {
+          text-align: center;
+          margin-right: 40px;
+        }
+
+        h1 {
+          margin: 0;
+        }
+      }
+
+      .chart-wrapper {
+        height: 239px;
       }
     }
 
