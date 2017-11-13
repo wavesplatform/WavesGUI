@@ -47,12 +47,9 @@
                             this._getBalance()
                                 .then((balance) => {
                                     this.balance = balance;
-                                    $scope.$apply();
                                 });
                         } else {
-                            createPoll(this, this._getBalance, (balance) => {
-                                this.balance = balance;
-                            }, Number(this.interval) || 5000);
+                            createPoll(this, this._getBalance, 'balance', Number(this.interval) || 5000);
                         }
 
                     });
