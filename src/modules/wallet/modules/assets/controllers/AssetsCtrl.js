@@ -138,7 +138,9 @@
              * @private
              */
             _getBalances() {
-                return assetsService.getBalanceList(this.assetList);
+                return assetsService.getBalanceList(this.assetList).then((assets) => {
+                    return assets;
+                });
             }
 
             /**

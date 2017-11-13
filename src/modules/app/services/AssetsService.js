@@ -26,6 +26,7 @@
              */
             @decorators.cachable()
             getAssetInfo(assetId) {
+                if (!assetId) debugger
                 if (assetId === WavesApp.defaultAssets.WAVES) {
                     return user.onLogin()
                         .then(() => ({
@@ -41,7 +42,7 @@
                 return user.onLogin()
                     .then(() => {
                         return apiWorker.process((Waves, { assetId }) => {
-                            return Waves.API.Node.v1.transactions.get(assetId);
+                            return Waves.API.Node.v2.transactions.get(assetId);
                         }, { assetId })
                             .then((asset) => ({
                                 id: asset.id,
@@ -49,7 +50,7 @@
                                 description: asset.description,
                                 precision: asset.decimals,
                                 reissuable: asset.reissuable,
-                                quantity: asset.quantity,
+                                quantity: asset.amount,
                                 timestamp: asset.timestamp,
                                 sender: asset.sender
                             }));
@@ -61,13 +62,9 @@
              * @return {Promise<IAssetWithBalance>}
              */
             getBalance(assetId) {
-                return Promise.all([this._getBalance(assetId), eventManager.getBalanceEvents()])
-                    .then((data) => {
-                        const [asset, events] = data;
-                        const clone = tsUtils.cloneDeep(asset);
-
-                        clone.balance = this._getAssetBalance(clone.id, clone.balance, events);
-                        return clone;
+                return this.getBalanceList([assetId])
+                    .then(([asset]) => {
+                        return asset;
                     });
             }
 
@@ -89,8 +86,8 @@
                             ])
                                 .then(([assets, events, balances]) => {
                                     return assets.map((asset) => {
-                                        const balanceData = tsUtils.find(balances, { assetId: asset.id });
-                                        const balance = balanceData && parseFloat(balanceData.tokens) || 0;
+                                        const balanceData = tsUtils.find(balances, { id: asset.id });
+                                        const balance = balanceData && balanceData.amount;
                                         return { ...asset, balance: this._getAssetBalance(asset.id, balance, events) };
                                     });
                                 });
@@ -100,10 +97,10 @@
                                 eventManager.getBalanceEvents()
                             ])
                                 .then(([list, events]) => {
-                                    return utils.whenAll(list.map((item) => this.getAssetInfo(item.assetId)))
+                                    return utils.whenAll(list.map((item) => this.getAssetInfo(item.id)))
                                         .then((infoList) => {
                                             return infoList.map((asset, i) => {
-                                                const balance = parseFloat(list[i].tokens) || 0;
+                                                const balance = list[i].amount;
                                                 return {
                                                     ...asset,
                                                     balance: this._getAssetBalance(asset.id, balance, events)
@@ -332,14 +329,14 @@
 
             /**
              * @param {string} assetId
-             * @param {number} balance
+             * @param {BigNumber} balance
              * @param {Array<ChangeBalanceEvent>} events
              * @return {*}
              * @private
              */
             _getAssetBalance(assetId, balance, events) {
                 return events.reduce((balance, balanceEvent) => {
-                    return balance - balanceEvent.getBalanceDifference(assetId);
+                    return balance.minus(balanceEvent.getBalanceDifference(assetId));
                 }, balance);
             }
 
@@ -353,31 +350,8 @@
             @decorators.cachable(2)
             _getBalanceList(assets, { limit = null, offset = null } = Object.create(null)) {
                 return apiWorker.process((WavesAPI, { assets, address, limit, offset }) => {
-                    return WavesAPI.API.Node.v2.addresses.balances(address, { assets, limit, offset })
-                        .then((assets) => assets.map(item => item.amount.toJSON()));
+                    return WavesAPI.API.Node.v2.addresses.balances(address, { assets, limit, offset });
                 }, { assets, address: user.address, limit, offset });
-            }
-
-            /**
-             * @param {string} assetId
-             * @return {Promise<IAssetWithBalance>}
-             * @private
-             */
-            @decorators.cachable(2)
-            _getBalance(assetId) {
-                return this.getAssetInfo(assetId)
-                    .then((info) => {
-                        const handler = (Waves, { address, assetId }) => {
-                            return Waves.API.Node.v1.assets.balance(address, assetId);
-                        };
-                        const data = { address: user.address, assetId: info.id };
-
-                        return apiWorker.process(handler, data)
-                            .then((data) => {
-                                // TODO remove " / Math.pow(10, info.precision)" when Phill fix api.
-                                return { ...info, balance: data.balance / Math.pow(10, info.precision) };
-                            });
-                    });
             }
 
             /**

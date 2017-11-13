@@ -47,7 +47,6 @@
                 ]))
                     .then(([mirrorId]) => {
                         this.mirrorId = mirrorId;
-
                         assetsService.getAssetInfo(this.mirrorId)
                             .then((mirror) => {
                                 this.mirror = mirror;
@@ -70,7 +69,8 @@
             }
 
             abs(num) {
-                return Math.abs(num).toFixed(2);
+                return Math.abs(num)
+                    .toFixed(2);
             }
 
             pinAsset(asset, state) {
@@ -104,14 +104,6 @@
                     .then((promises) => utils.whenAll(promises));
             }
 
-            /**
-             * @param {*} asset
-             * @private
-             */
-            _getRate(asset) {
-                return assetsService.getRate(asset.id, this.mirrorId);
-            }
-
             _getBidAsk(asset) {
                 return assetsService.getBidAsk(asset.id, this.mirrorId);
             }
@@ -122,18 +114,16 @@
 
             _loadAssetData(asset) {
                 return utils.whenAll([
-                    this._getRate(asset),
                     this._getBidAsk(asset),
                     this._getChange(asset)
-                ]).then(([api, { bid, ask }, change]) => {
-                    asset.pinned = this.assetList.indexOf(asset.id) !== -1;
-                    asset.mirrorBalance = api.exchange(asset.balance);
-                    asset.rate = api.rate;
-                    asset.bid = bid;
-                    asset.ask = ask;
-                    asset.change = change;
-                    return asset;
-                });
+                ])
+                    .then(([{ bid, ask }, change]) => {
+                        asset.pinned = this.assetList.indexOf(asset.id) !== -1;
+                        asset.bid = bid;
+                        asset.ask = ask;
+                        asset.change = change;
+                        return asset;
+                    });
             }
 
         }
@@ -153,5 +143,6 @@
         'createPromise'
     ];
 
-    angular.module('app.wallet.portfolio').controller('PortfolioCtrl', controller);
+    angular.module('app.wallet.portfolio')
+        .controller('PortfolioCtrl', controller);
 })();

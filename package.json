@@ -141,7 +141,7 @@
     "qrcode-reader": "^1.0.3",
     "ts-api-validator": "^2.0.0",
     "ts-utils": "^6.0.0",
-    "waves-api": "^0.11.5",
+    "waves-api": "^0.12.1",
     "worker-wrapper": "^1.2.1"
   }
 }

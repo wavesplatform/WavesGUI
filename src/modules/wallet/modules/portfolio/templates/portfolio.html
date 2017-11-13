@@ -22,7 +22,7 @@
                 {{::asset.name}}
             </div>
             <div class="portfolio-item-balance">
-                <w-balance balance="asset.balance" asset-id="{{::asset.id}}"></w-balance>
+                <w-balance money="asset.balance"></w-balance>
                 <span class="currency">{{::asset.name}}</span>
             </div>
             <div class="portfolio-item-rate">
@@ -30,7 +30,7 @@
             </div>
             <div class="portfolio-item-mirror">
                 <span>$</span>
-                <w-balance balance="asset.mirrorBalance" asset-id="{{::$ctrl.mirrorId}}"></w-balance>
+                <w-mirror asset-id="{{::asset.id}}"></w-mirror>
             </div>
             <div class="portfolio-item-bid">
                 <span>฿</span>
