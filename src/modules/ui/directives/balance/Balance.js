@@ -1,33 +1,38 @@
 (function () {
     'use strict';
 
-    /**
-     * @param {AssetsService} assetsService
-     */
-    const controller = function (assetsService) {
+    const controller = function (Base) {
 
-        class Balance {
+        class Balance extends Base {
 
             constructor() {
+                super();
                 /**
-                 * @type {string}
+                 * @type {IMoney}
                  */
-                this.assetId = null;
+                this.money = null;
                 /**
-                 * @type {number}
+                 * @type {BigNumber}
                  */
-                this.precision = null;
+                this.tokens = null;
+
+                this.observe('money', this._onChangeMoney, {
+                    set: function (val) {
+                        return val || null;
+                    }
+                });
             }
 
-            $postLink() {
-                if (!this.assetId) {
-                    throw new Error('Has no asset id!');
+            /**
+             * @param {IMoney} value
+             * @private
+             */
+            _onChangeMoney({ value }) {
+                if (value) {
+                    this.tokens = value.getTokens();
+                } else {
+                    this.tokens = null;
                 }
-
-                assetsService.getAssetInfo(this.assetId)
-                    .then((info) => {
-                        this.precision = info.precision;
-                    });
             }
 
         }
@@ -35,14 +40,13 @@
         return new Balance();
     };
 
-    controller.$inject = ['assetsService'];
+    controller.$inject = ['Base'];
 
     angular.module('app.ui')
         .component('wBalance', {
-            template: '<span w-nice-number="$ctrl.balance" precision="$ctrl.precision"></span>',
+            template: '<span w-nice-number="$ctrl.tokens" precision="$ctrl.money.asset.precision"></span>',
             bindings: {
-                balance: '<',
-                assetId: '@'
+                money: '<'
             },
             controller
         });

@@ -1,40 +1,51 @@
-<ul>
-    <li class="transaction-item" ng-repeat="transaction in $ctrl.transactions track by transaction.id">
-        <div class="col date">
-            <div class="row">{{::transaction.date.month}}</div>
-            <h3 class="row body-2">{{::transaction.date.day}}</h3>
-        </div>
-        <div class="col">
-            <div class="icon {{::transaction.type}}"></div>
-        </div>
-        <div class="col">
-            <div class="row">
-                <w-i18n>transactionList.types.{{::transaction.type}}</w-i18n>
-                {{transaction.asset.name}}
+<div ng-class="{'no-transactions': !$ctrl.transactions.length}" class="w-transaction-list">
+    <ul ng-if="$ctrl.hadResponse && $ctrl.transactions.length">
+        <li class="transaction-item" ng-repeat="data in $ctrl.transactions track by data.date">
+            <div class="date tag-2 info-400">{{ ::data.timestamp | date:'MMM, d, yyyy' }}</div>
+            <div class="row" ng-repeat="transaction in data.transactions track by transaction.id">
+                <div class="icon {{::transaction.type}}"></div>
+                <div class="transaction-info">
+                    <div class="line body-1 basic-700">
+                        <div>
+                            <span w-i18n="transactionList.types.{{::transaction.type}}"
+                                  params="{name: transaction.amount.asset.name}"></span>
+                        </div>
+                        <div ng-if="transaction.amount">
+                            <span w-i18n="transactionList.amount.{{::transaction.type}}"></span>
+                            <w-balance money="transaction.amount"></w-balance>
+                            {{::transaction.amount.asset.name}}
+                        </div>
+                    </div>
+                    <div class="line footnote basic-500">
+                        <div>
+                            {{::transaction.timestamp | date:'HH:mm,'}}
+                            <span w-i18n="transactionList.address.{{::transaction.type}}"></span>
+                            {{::transaction.address}}
+                        </div>
+                        <div ng-if="transaction.type === 'issue'">
+                            <w-i18n>transactionList.reissuable.{{::transaction.reissuable}}</w-i18n>
+                        </div>
+                        <div ng-if="transaction.type !== 'issue' && transaction.amount">
+                            <span w-i18n="transactionList.amount.{{::transaction.type}}"></span>
+                            <span precision="$ctrl.mirror.precision"
+                                  w-nice-number="transaction.mirrorBalance"></span>
+                            {{::$ctrl.mirror.name}}
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="row">
-                <w-i18n>transactionList.address.{{::transaction.type}}</w-i18n>
-                <span ng-if="transaction.type === 'sent'">
-                    {{::transaction.recipient}}
-                    <w-avatar size="30" address="transaction.recipient"></w-avatar>
-                </span>
-                <span ng-if="transaction.type !== 'sent'">
-                    {{::transaction.sender}}
-                    <w-avatar size="30" address="transaction.sender"></w-avatar>
-                </span>
-            </div>
+        </li>
+    </ul>
+    <div ng-if="$ctrl.hadResponse && !$ctrl.transactions.length" class="no-transactions-container">
+        <div class="basic-700 margin-3" w-i18n="transactionList.noTransactions"></div>
+        <div>
+            <w-button class="interface margin-right-1">
+                <w-i18n>send</w-i18n>
+            </w-button>
+            <w-button class="interface">
+                <w-i18n>receive</w-i18n>
+            </w-button>
         </div>
-        <div class="col">
-            <div class="row {{::transaction.type}}-price">
-                <w-balance balance="transaction.amount.tokens"
-                           asset-id="{{::transaction.amount.assetId}}"></w-balance>
-                <span class="currency">{{transaction.asset.name}}</span>
-            </div>
-            <div class="row {{::transaction.type}}-price">
-                <w-balance balance="transaction.mirrorBalance"
-                           asset-id="{{::$ctrl.mirrorId}}"></w-balance>
-                <span class="currency">{{::$ctrl.mirror.name}}</span>
-            </div>
-        </div>
-    </li>
-</ul>
+    </div>
+    <w-loader ng-if="!$ctrl.hadResponse"></w-loader>
+</div>

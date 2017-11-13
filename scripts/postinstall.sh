@@ -20,6 +20,7 @@ git config alias.p "push origin HEAD"
 git config alias.a "add ."
 git config alias.rh "reset --hard"
 git config alias.c "!node ./ts-scripts/commit.js"
+git config alias.pu "!node ./ts-scripts/pull.js"
 echo "apply aliases >> DONE"
 
 

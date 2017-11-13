@@ -104,6 +104,27 @@ w-button {
       }
     }
 
+    &.interface {
+      background-color: @color-white;
+      border: 1px solid @color-accent-50;
+      color: @color-basic-500;
+
+      &:hover, &.hover {
+        border-color: @color-basic-500;
+        color: @color-basic-500;
+      }
+
+      &:active, &.active {
+        border-color: @color-basic-500;
+        color: @color-basic-500;
+      }
+
+      &:disabled, &.disabled {
+        border: 1px solid @color-accent-50;
+        color: @color-basic-200;
+      }
+    }
+
     &.round {
       border-radius: 50%;
       min-height: 52px;

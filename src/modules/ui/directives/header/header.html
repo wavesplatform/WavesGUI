@@ -3,7 +3,7 @@
 </div>
 <w-navigation type="row">
     <a ng-repeat="state in $ctrl.stateList track by $index"
-       class="{{::state.name}}"
+       class="{{::state.name}} headline-3 submit-400"
        ui-sref="{{::state.path}}"
        ui-sref-active="active">{{::state.text}}</a>
 </w-navigation>

@@ -29,8 +29,6 @@
                         .then((list) => {
                             return list.map((item) => {
                                 const timestamp = new Date(item.timestamp);
-                                const fee = item.fee && item.fee.toJSON();
-                                const amount = item.amount && item.amount.toJSON();
                                 const result = Object.create(null);
                                 /**
                                  * Can't write "{ ...item, fee, amount, timestamp }" to compile it with babel to
@@ -39,8 +37,6 @@
                                 Object.keys(item).forEach((name) => {
                                     result[name] = item[name];
                                 });
-                                result.fee = fee;
-                                result.amount = amount;
                                 result.timestamp = timestamp;
                                 return result;
                             });

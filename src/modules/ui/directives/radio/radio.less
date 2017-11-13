@@ -15,14 +15,15 @@ w-radio {
 w-radio-wrap.split-mode {
   .btn-wrap.btn-group label.btn {
     .footnote();
-    border-color: transparent;
-    //color: #7995b9; // TODO Change colors. Author Tsigel at 02/11/2017 08:11
+    border: 1px solid transparent;
+    padding: 5px 20px;
+    color: @color-info-500;
   }
 
   .btn-wrap.btn-group input:checked ~ label.btn.btn-radio {
-    //color: #0065d7; // TODO Change colors. Author Tsigel at 02/11/2017 08:11
-    //border: 1px solid #d6d6df; // TODO Change colors. Author Tsigel at 02/11/2017 08:11
-    border-radius: 3px;
-    background-color: transparent;
+    color: @color-submit-400;
+    border: 1px solid @color-accent-50;
+    border-radius: @border-radius;
+    background-color: @color-white;
   }
 }

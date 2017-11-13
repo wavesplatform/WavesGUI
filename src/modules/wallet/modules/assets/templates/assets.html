@@ -14,9 +14,30 @@
 
     <div class="chart-wrapper">
 
+        <div class="chart-info center">
+            <div class="rate">
+                <h1>${{$ctrl.chartAsset.rate}}</h1>
+                <div class="tag info-500">
+                    {{$ctrl.chartAsset.name.toUpperCase()}} PRICE
+                </div>
+            </div>
+            <div class="change">
+                <h1>${{$ctrl.change}}</h1>
+                <div class="tag info-500">
+                    SLICE LAST {{$ctrl.chartMode.toUpperCase()}} (USD)
+                </div>
+            </div>
+            <div class="change-percent">
+                <h1>{{$ctrl.changePercent}}%</h1>
+                <div class="tag info-500">
+                    SLICE LAST {{$ctrl.chartMode.toUpperCase()}} (%)
+                </div>
+            </div>
+        </div>
+
         <div class="chart-info left">
-            <w-radio-wrap mode="tab-mode" ng-model="$ctrl.rateAsset">
-                <w-radio ng-repeat="asset in $ctrl.chartBalanceAssets track by asset.id"
+            <w-radio-wrap mode="tab-mode" ng-model="$ctrl.activeChartAssetId">
+                <w-radio ng-repeat="asset in $ctrl.chartBalances track by asset.id"
                          value="asset.id">
                     <span class="radio-name">{{::asset.name}}</span>
                     <w-balance asset-id="{{::asset.id}}" balance="asset.balance"></w-balance>

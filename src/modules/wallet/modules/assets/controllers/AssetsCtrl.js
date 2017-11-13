@@ -30,6 +30,21 @@
                 this.data = null;
                 this.assetList = null;
                 this.options = assetsData.getGraphOptions();
+                this.mirrorId = null;
+
+                /**
+                 * @type {string}
+                 */
+                this.activeChartAssetId = null;
+                this.chartAsset = null;
+                /**
+                 * @type {string[]}
+                 */
+                this.chartAssetIds = null;
+                /**
+                 * @type {IAssetWithBalance}
+                 */
+                this.chartBalances = null;
 
                 const hours = tsUtils.date('hh:mm');
                 const dates = tsUtils.date('DD/MM');
@@ -41,19 +56,26 @@
                     }
                 };
 
+                this.observe('activeChartAssetId', this._onChangeChartAssetId);
+
                 createPromise(this, utils.whenAll([
+                    user.getSetting('baseAssetId'),
+                    this.syncSettings('wallet.assets.activeChartAssetId'),
+                    this.syncSettings('wallet.assets.chartAssetIds'),
                     this.syncSettings('wallet.assets.chartMode'),
                     this.syncSettings('wallet.assets.assetList')
                 ]))
-                    .then(() => {
+                    .then(([baseAssetId]) => {
+                        this.mirrorId = baseAssetId;
                         this._onChangeMode();
 
                         this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000);
 
+                        createPoll(this, this._getChartBalances, 'chartBalances', 15000, { isBalance: true });
                         createPoll(this, this._getBalances, 'assets', 5000, { isBalance: true });
 
-                        this.observe('chartMode', () => this._onChangeMode());
-                        this.observe(['interval', 'intervalCount'], () => this._onChangeInterval());
+                        this.observe('chartMode', this._onChangeMode);
+                        this.observe(['interval', 'intervalCount', 'activeChartAssetId'], this._onChangeInterval);
                     });
             }
 
@@ -98,6 +120,25 @@
             }
 
             /**
+             * @param value
+             * @private
+             */
+            _onChangeChartAssetId({ value }) {
+                utils.whenAll([
+                    assetsService.getBalance(value),
+                    assetsService.getRate(value, this.mirrorId),
+                ]).then(([asset, api]) => {
+                    this.chartAsset = asset;
+                    this.chartAsset.rate = api.exchange(new BigNumber(asset.balance)).toFormat(2);
+
+                });
+            }
+
+            _getChartBalances() {
+                return assetsService.getBalanceList(this.chartAssetIds);
+            }
+
+            /**
              * @return {Promise}
              * @private
              */
@@ -117,11 +158,14 @@
              * @private
              */
             _getGraphData() {
-                const from = WavesApp.defaultAssets.WAVES;
+                const from = this.activeChartAssetId;
                 const to = WavesApp.defaultAssets.USD;
-                console.log(`Chart mode: ${this.chartMode}, interval: ${this.interval}, count: ${this.intervalCount}`);
                 return assetsService.getRateHistory(from, to, this.interval, this.intervalCount)
-                    .then((values) => ({ values }));
+                    .then((values) => {
+                        this.change = (values[0].rate - values[values.length - 1].rate).toFixed(2);
+                        this.changePercent = (values[values.length - 1].rate / values[0].rate).toFixed(2);
+                        return { values };
+                    });
             }
 
             /**

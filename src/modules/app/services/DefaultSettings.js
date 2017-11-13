@@ -36,6 +36,12 @@
                         activeState: 'assets',
                         assets: {
                             chartMode: 'week',
+                            activeChartAssetId: WavesApp.defaultAssets.WAVES,
+                            chartAssetIds: [
+                                WavesApp.defaultAssets.WAVES,
+                                WavesApp.defaultAssets.BTC,
+                                WavesApp.defaultAssets.ETH
+                            ],
                             assetList: [
                                 WavesApp.defaultAssets.USD,
                                 WavesApp.defaultAssets.EUR,
