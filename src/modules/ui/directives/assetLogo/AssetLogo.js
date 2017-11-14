@@ -85,9 +85,9 @@
                                     $element.find('.asset-logo')
                                         .css('background-image', `url(${ASSET_IMAGES_MAP[asset.id]})`);
                                 })
-                                .catch(() => this._addLatter(asset));
+                                .catch(() => this._addLetter(asset));
                         } else {
-                            this._addLatter(asset);
+                            this._addLetter(asset);
                         }
                     });
             }
@@ -95,7 +95,7 @@
             /**
              * @private
              */
-            _addLatter(asset) {
+            _addLetter(asset) {
                 const letter = asset.name.charAt(0)
                     .toUpperCase();
                 const color = COLORS_MAP[letter] || DEFAULT_COLOR;
