@@ -141,9 +141,9 @@
                 if (this.currentAssetId) {
                     return ({ type, amount }) => {
                         switch (type) {
-                            case 'sent':
+                            case 'send':
                             case 'receive':
-                            case 'circle':
+                            case 'circular':
                                 return amount.asset.id === this.currentAssetId;
                             default:
                                 return false;
@@ -233,7 +233,7 @@
              * @private
              */
             static _getTransferType(sender, recipient) {
-                return sender === recipient ? 'circle' : sender === user.address ? 'sent' : 'receive';
+                return sender === recipient ? 'circular' : sender === user.address ? 'send' : 'receive';
             }
 
         }

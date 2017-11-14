@@ -2,9 +2,9 @@
   "transactionList": {
     "noTransactions": "You do not have any transaction",
     "address": {
-      "sent": "to address",
+      "send": "to address",
       "receive": "from address",
-      "circle": "from address",
+      "circular": "from address",
       "issue": "from address",
       "reissue": "re-issuer address",
       "exchange": "from address",
@@ -14,7 +14,7 @@
     },
     "types": {
       "reissue": "{{name}} Token Reissue",
-      "sent": "Sent {{name}} ",
+      "send": "Sent {{name}} ",
       "receive": "Receive {{name}} ",
       "issue": "Token Generation {{name}} ",
       "exchange": "Exchange {{name}} ",
@@ -22,9 +22,9 @@
       "lease": "Start Leasing {{name}} "
     },
     "amount": {
-      "sent": "-",
+      "send": "-",
       "receive": "+",
-      "circle": "",
+      "circular": "",
       "issue": "+",
       "alias": "-",
       "exchange": "-",
