@@ -70,8 +70,6 @@
                  */
                 this._fieldsForSave = [];
 
-                window.user = this; //TODO! remove
-
                 this._setObserve();
             }
 

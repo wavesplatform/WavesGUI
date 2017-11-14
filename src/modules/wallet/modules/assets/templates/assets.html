@@ -20,7 +20,7 @@
                     <w-radio ng-repeat="asset in $ctrl.chartBalances track by asset.id"
                              value="asset.id">
                         <span class="radio-name">{{::asset.name}}</span>
-                        <w-balance asset-id="{{::asset.id}}" balance="asset.balance"></w-balance>
+                        <w-change-rate asset-id="asset.id"></w-change-rate>
                     </w-radio>
                 </w-radio-wrap>
             </div>
@@ -48,7 +48,7 @@
 
         <div class="chart-info">
             <div class="rate">
-                <h1>${{$ctrl.rate}}</h1>
+                <h1><w-change-rate asset-id="$ctrl.activeChartAssetId"></w-change-rate></h1>
                 <div class="tag info-500">
                     {{$ctrl.chartAsset.name.toUpperCase()}} PRICE
                 </div>

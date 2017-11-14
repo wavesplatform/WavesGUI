@@ -9,40 +9,36 @@
         [WavesApp.defaultAssets.USD]: '/img/assets/dollar.png'
     };
 
-    const ASSET_CHARS_MAP = {
-        // [WavesApp.defaultAssets.USD]: '$'
-    };
-
     const COLORS_MAP = {
-        'A': '#39A12C',
-        'B': '#6A737B',
-        'C': '#E49616',
-        'D': '#008CA7',
-        'E': '#FF5B38',
-        'F': '#FF6A00',
-        'G': '#C74124',
-        'H': '#00A78E',
-        'I': '#B01E53',
-        'J': '#E0C61B',
-        'K': '#5A81EA',
-        'L': '#72B7D2',
-        'M': '#A5B5C3',
-        'N': '#81C926',
-        'O': '#86A3BD',
-        'P': '#C1D82F',
-        'Q': '#5C84A8',
-        'R': '#267E1B',
-        'S': '#FBB034',
-        'T': '#FF846A',
-        'U': '#47C1FF',
-        'V': '#00A0AF',
-        'W': '#85D7C6',
-        'X': '#8A7967',
-        'Y': '#26C1C9',
-        'Z': '#72D28B'
+        'A': '#39a12c',
+        'B': '#6a737b',
+        'C': '#e49616',
+        'D': '#008ca7',
+        'E': '#ff5b38',
+        'F': '#ff6a00',
+        'G': '#c74124',
+        'H': '#00a78e',
+        'I': '#b01e53',
+        'J': '#e0c61b',
+        'K': '#5a81ea',
+        'L': '#72b7d2',
+        'M': '#a5b5c3',
+        'N': '#81c926',
+        'O': '#86a3bd',
+        'P': '#c1d82f',
+        'Q': '#5c84a8',
+        'R': '#267e1b',
+        'S': '#fbb034',
+        'T': '#ff846a',
+        'U': '#47c1ff',
+        'V': '#00a0af',
+        'W': '#85d7c6',
+        'X': '#8a7967',
+        'Y': '#26c1c9',
+        'Z': '#72d28b'
     };
 
-    const DEFAULT_COLOR = '#FF9933';
+    const DEFAULT_COLOR = '#96bca0';
 
     /**
      * @param {JQuery} $element
@@ -100,7 +96,7 @@
              * @private
              */
             _addLatter(asset) {
-                const letter = ASSET_CHARS_MAP[asset.id] || asset.name.charAt(0)
+                const letter = asset.name.charAt(0)
                     .toUpperCase();
                 const color = COLORS_MAP[letter] || DEFAULT_COLOR;
                 const fontSize = Math.round((Number(this.size) || 0) * 0.8);

@@ -98,7 +98,7 @@
              * @private
              */
             _getPortfolio() {
-                return assetsService.getBalanceList()
+                return assetsService.getBalanceList() // TODO! Fix empty waves. Author Tsigel at 14/11/2017 12:43
                     .then((assets) => assets.length ? assets : assetsService.getBalanceList(this.assetList))
                     .then((assets) => assets.map(this._loadAssetData, this))
                     .then((promises) => utils.whenAll(promises));

@@ -174,9 +174,6 @@
              */
             _wakeUp() {
                 this._sleepStep = null;
-                if (!this._paused) {
-                    this.restart();
-                }
             }
 
             /**
