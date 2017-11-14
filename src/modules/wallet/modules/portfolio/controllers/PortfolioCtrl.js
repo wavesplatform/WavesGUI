@@ -104,23 +104,14 @@
                     .then((promises) => utils.whenAll(promises));
             }
 
-            _getBidAsk(asset) {
-                return assetsService.getBidAsk(asset.id, this.mirrorId);
-            }
-
             _getChange(asset) {
                 return assetsService.getChange(asset.id, this.mirrorId);
             }
 
             _loadAssetData(asset) {
-                return utils.whenAll([
-                    this._getBidAsk(asset),
-                    this._getChange(asset)
-                ])
-                    .then(([{ bid, ask }, change]) => {
+                return this._getChange(asset)
+                    .then((change) => {
                         asset.pinned = this.assetList.indexOf(asset.id) !== -1;
-                        asset.bid = bid;
-                        asset.ask = ask;
                         asset.change = change;
                         return asset;
                     });
