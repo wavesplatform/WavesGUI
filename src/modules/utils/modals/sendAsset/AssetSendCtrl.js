@@ -114,10 +114,10 @@
             fillMax() {
                 if (this.assetId === this.feeData.id) {
                     if (this.asset.balance >= this.fee) {
-                        this.amount = this.asset.balance - this.feeData.fee;
+                        this.amount = this.asset.balance.sub(this.feeData.fee);
                     }
                 } else {
-                    this.amount = this.asset.balance;
+                    this.amount = this.asset.balance.add(0);
                 }
             }
 
@@ -140,18 +140,18 @@
                 ])
                     .then((data) => {
                         const [asset, mirror, feeData] = data;
-                        this.amount = 0;
-                        this.amountMirror = 0;
-                        this.feeAlias = 0;
+                        this.amount = new BigNumber(0);
+                        this.amountMirror = new BigNumber(0);
+                        this.feeAlias = new BigNumber(0);
                         this.mirror = mirror;
                         this.feeData = feeData;
                         this._setAssets(asset);
                         this.asset = tsUtils.find(this.assetList, { id: this.assetId });
 
-                        this.fee = feeData.fee;
+                        this.fee = feeData;
                         this._getRate(feeData.id)
                             .then((api) => {
-                                this.feeAlias = api.exchange(new BigNumber(this.fee));
+                                this.feeAlias = api.exchange(this.fee.getTokens());
                             });
                     });
             }
@@ -181,8 +181,9 @@
             _onChangeAmount() {
                 this.amount && this._getRate()
                     .then((api) => {
-                        if (api.exchangeReverse(new BigNumber(this.amountMirror)).toFixed(this.asset.precision) !== this.amount) {
-                            this.amountMirror = api.exchange(new BigNumber(this.amount)).toFixed(this.mirror.precision);
+                        if (api.exchangeReverse(this.amountMirror)
+                                .toFixed(this.asset.precision) !== this.amount.toFixed(this.asset.precision)) {
+                            this.amountMirror = api.exchange(this.amount);
                         }
                     });
                 this.valid = this.amount < (this.asset.id === this.feeData.id ?
@@ -195,8 +196,9 @@
             _onChangeAmountMirror() {
                 this.amountMirror && this._getRate()
                     .then((api) => {
-                        if (api.exchange(new BigNumber(this.amount)).toFixed(this.mirror.precision) !== this.amountMirror) {
-                            this.amount = api.exchangeReverse(new BigNumber(this.amountMirror)).toFixed(this.asset.precision);
+                        if (api.exchange(this.amount)
+                                .toFixed(this.mirror.precision) !== this.amountMirror.toFixed(this.mirror.precision)) {
+                            this.amount = api.exchangeReverse(this.amountMirror);
                         }
                     });
             }
