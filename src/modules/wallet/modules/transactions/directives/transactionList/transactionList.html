@@ -27,8 +27,7 @@
                         </div>
                         <div ng-if="transaction.type !== 'issue' && transaction.amount">
                             <span w-i18n="transactionList.amount.{{::transaction.type}}"></span>
-                            <span precision="$ctrl.mirror.precision"
-                                  w-nice-number="transaction.mirrorBalance"></span>
+                            <w-exchange no-update="true" balance="transaction.amount"></w-exchange>
                             {{::$ctrl.mirror.name}}
                         </div>
                     </div>

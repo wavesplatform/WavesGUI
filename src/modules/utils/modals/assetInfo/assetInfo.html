@@ -3,7 +3,7 @@
         <w-asset-logo asset-id="{{::$ctrl.asset.id}}" size="65"></w-asset-logo>
         <div class="asset-data">
             <h4 class="basic-900">{{::$ctrl.asset.name}}</h4>
-            <div class="body-2 basic-500">
+            <div class="body-2 basic-500 one-line">
                 {{::$ctrl.asset.description}}
             </div>
         </div>
@@ -16,7 +16,8 @@
     </div>
     <w-tabs>
         <w-tab title="Transactions">
-            <w-transaction-list></w-transaction-list>
+            <w-transaction-list current-asset-id="{{::$ctrl.asset.id}}"
+                                transaction-type="'send, receive, exchange, circular'"></w-transaction-list>
         </w-tab>
         <w-tab title="Details">
             <div class="line">
@@ -38,6 +39,11 @@
             <div class="line">
                 <div class="body-2 basic-700" w-i18n="Issue date"></div>
                 <div class="body-2 basic-500">{{::$ctrl.asset.timestamp | date:'dd.MM.yyyy hh:mm'}}</div>
+            </div>
+        </w-tab>
+        <w-tab ng-if="$ctrl.asset.description" title="Description">
+            <div class="body-2 basic-500">
+                {{::$ctrl.asset.description}}
             </div>
         </w-tab>
     </w-tabs>

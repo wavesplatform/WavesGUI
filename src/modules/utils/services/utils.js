@@ -209,6 +209,19 @@
             },
 
             /**
+             * @name app.utils#toHash
+             * @param {array} list
+             * @param {string} key
+             * @return {*}
+             */
+            toHash(list, key) {
+                return list.reduce((result, item) => {
+                    result[tsUtils.get(item, key)] = item;
+                    return result;
+                }, Object.create(null));
+            },
+
+            /**
              * @name app.utils#comparators
              */
             comparators: {

@@ -54,6 +54,10 @@
                  * @type {boolean}
                  */
                 this.hadResponse = false;
+                /**
+                 * @type {string}
+                 */
+                this.currentAssetId = null;
 
                 createPromise(this, user.getSetting('baseAssetId'))
                     .then((mirrorId) => {
@@ -76,7 +80,6 @@
             _getTransactions() {
                 return transactionsService.transactions()
                     .then((list) => list.map(this._map, this))
-                    .then((list) => utils.whenAll(list))
                     .then((list) => {
                         this.hadResponse = true;
                         return list;
@@ -92,34 +95,14 @@
                 item.type = this._getTransactionType(item);
                 item.address = this._getTransactionAddress(item);
 
-                let promise;
-
                 switch (item.type) {
-                    case 'leasing':
-                        // TODO! Leasing. Author Tsigel at 07/11/2017 08:02
-                        break;
-                    case 'issue':
-                        // TODO! Issue. Author Tsigel at 07/11/2017 08:03
-                        break;
-                    case 'exchange':
-                        // TODO! Exchange. Author Tsigel at 07/11/2017 12:26
-                        break;
                     case 'alias':
                         item.amount = item.fee;
+                        break;
+                    default:
                 }
 
-                if (item.amount) {
-                    promise = assetsService.getRate(item.amount.asset.id, this.mirrorId)
-                        .then((api) => {
-                            item.mirrorBalance = api.exchange(item.amount.getTokens());
-                        });
-                } else {
-                    if (!promise) {
-                        promise = utils.when({});
-                    }
-                }
-
-                return promise.then(() => item);
+                return item;
             }
 
             /**
@@ -127,6 +110,7 @@
              */
             _onChangeFilters() {
                 const filter = tsUtils.filterList(
+                    this._getAssetFilter(),
                     this._getTypeFilter(),
                     this._getSearchFilter()
                 );
@@ -153,6 +137,23 @@
                 }));
             }
 
+            _getAssetFilter() {
+                if (this.currentAssetId) {
+                    return ({ type, amount }) => {
+                        switch (type) {
+                            case 'send':
+                            case 'receive':
+                            case 'circular':
+                                return amount.asset.id === this.currentAssetId;
+                            default:
+                                return false;
+                        }
+                    };
+                } else {
+                    return () => true;
+                }
+            }
+
             /**
              * @returns {*}
              * @private
@@ -161,7 +162,8 @@
                 if (!this.transactionType || this.transactionType === 'all') {
                     return () => true;
                 } else {
-                    return ({ type }) => type === this.transactionType;
+                    const types = this.transactionType.split(',').map((item) => item.trim());
+                    return ({ type }) => types.indexOf(type) !== -1;
                 }
             }
 
@@ -204,6 +206,13 @@
                 }
             }
 
+            /**
+             * @param type
+             * @param sender
+             * @param recipient
+             * @return {*}
+             * @private
+             */
             _getTransactionAddress({ type, sender, recipient }) {
                 switch (type) {
                     case 'receive':
@@ -224,7 +233,7 @@
              * @private
              */
             static _getTransferType(sender, recipient) {
-                return sender === recipient ? 'circle' : sender === user.address ? 'sent' : 'receive';
+                return sender === recipient ? 'circular' : sender === user.address ? 'send' : 'receive';
             }
 
         }
@@ -246,6 +255,7 @@
     angular.module('app.wallet.transactions')
         .component('wTransactionList', {
             bindings: {
+                currentAssetId: '@',
                 transactionType: '<',
                 search: '<'
             },

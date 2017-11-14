@@ -36,13 +36,16 @@
                  * @type {string}
                  */
                 this.activeChartAssetId = null;
+                /**
+                 * @type {IAssetWithBalance}
+                 */
                 this.chartAsset = null;
                 /**
                  * @type {string[]}
                  */
                 this.chartAssetIds = null;
                 /**
-                 * @type {IAssetWithBalance}
+                 * @type {IAssetWithBalance[]}
                  */
                 this.chartBalances = null;
 
@@ -156,12 +159,12 @@
              */
             _getGraphData() {
                 const from = this.activeChartAssetId;
-                const to = WavesApp.defaultAssets.USD;
+                const to = this.mirrorId;
+
                 return assetsService.getRateHistory(from, to, this.interval, this.intervalCount)
                     .then((values) => {
                         this.change = (values[0].rate - values[values.length - 1].rate).toFixed(2);
                         this.changePercent = (values[values.length - 1].rate / values[0].rate).toFixed(2);
-                        this.rate = new BigNumber(values[values.length - 1].rate.toFixed(8)).toFormat(2);
                         return { values };
                     });
             }

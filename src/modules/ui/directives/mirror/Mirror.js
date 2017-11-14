@@ -37,11 +37,12 @@
                     throw new Error('Has no asset id');
                 }
 
+                this.interval = Number(this.interval) || 5000;
+
                 createPromise(this, user.getSetting('baseAssetId'))
                     .then(assetsService.getAssetInfo)
                     .then((mirror) => {
                         this.mirror = mirror;
-
 
                         if (this.noUpdate) {
                             this._getBalance()
@@ -49,7 +50,7 @@
                                     this.balance = balance;
                                 });
                         } else {
-                            createPoll(this, this._getBalance, 'balance', Number(this.interval) || 5000);
+                            createPoll(this, this._getBalance, 'balance', this.interval);
                         }
 
                     });
