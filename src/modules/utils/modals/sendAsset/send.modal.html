@@ -32,7 +32,7 @@
                         <w-asset-logo size="30" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
                         {{$ctrl.asset.name}}
 
-                        <w-balance balance="$ctrl.asset.balance" asset-id="{{::$ctrl.assetId}}"></w-balance>
+                        <w-balance money="$ctrl.asset.balance"></w-balance>
                     </div>
                     <w-select ng-if="$ctrl.canChooseAsset && $ctrl.assetList.length > 1"
                               ng-model="$ctrl.assetId">
