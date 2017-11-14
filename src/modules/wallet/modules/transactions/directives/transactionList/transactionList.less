@@ -1,4 +1,5 @@
 @import (reference) '../../../../../config';
+@import (reference) '../../../../../app/less/icons';
 
 w-transaction-list {
   display: flex;
@@ -82,60 +83,36 @@ w-transaction-list {
               margin: -24px;
             }
 
-            &.sent {
-              &::before {
-                background-color: rgba(255, 175, 0, 0.1);
-              }
-              background-image: url(/img/icons/transaction-sent-icon.svg);
+            &.send {
+              .icon-tx-send();
             }
 
             &.receive {
-              &::before {
-                background-color: rgba(129, 201, 38, 0.1);
-              }
-              background-image: url(/img/icons/transaction-receive-icon.svg);
+              .icon-tx-receive();
             }
 
             &.reissue {
-              &::before {
-                background-color: rgba(129, 201, 38, 0.1);
-              }
-              background-image: url(/img/icons/transaction-issue-icon.svg);
+              .icon-tx-reissue();
             }
 
             &.issue {
-              &::before {
-                background-color: rgba(38, 193, 201, 0.1);
-              }
-              background-image: url(/img/icons/transaction-token-icon.svg);
+              .icon-tx-issue();
             }
 
             &.exchange {
-              &::before {
-                background-color: rgba(171, 125, 246, 0.1);
-              }
-              background-image: url(/img/icons/transaction-exchange-icon.svg);
+              .icon-tx-exchange();
             }
 
-            &.circle {
-              &::before {
-                background-color: rgba(239, 72, 41, 0.1);
-              }
-              background-image: url(/img/icons/transaction-circle-icon.svg);
+            &.circular {
+              .icon-tx-circular();
             }
 
             &.alias {
-              &::before {
-                background-color: rgba(53, 165, 245, 0.1);
-              }
-              background-image: url(/img/icons/transaction-alias-icon.svg);
+              .icon-tx-alias();
             }
 
             &.lease {
-              &::before {
-                background-color: rgba(129, 201, 38, 0.1);
-              }
-              background-image: url(/img/icons/transaction-leasing-icon.svg);
+              .icon-tx-lease();
             }
           }
 
