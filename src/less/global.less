@@ -137,11 +137,10 @@ body {
   width: 100%;
   max-width: 1920px;
   min-width: 320px;
-  height: 100vh;
   max-height:  calc(100%);
   min-height: 320px;
   margin: 0 auto;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 
@@ -370,4 +369,46 @@ table.bitcoin-requisites {
   border-radius: 5px;
   background: #c21208;
   color: #fff;
+}
+
+.sidebar-panel{
+  position: fixed;
+  top: 0;
+  left: 0;
+  botttom: 0;
+  height: 100%;
+  width: 70px;
+  background: #fff;
+  z-index: 101;
+  border-right: 1px solid #f0f0f0;
+}
+#mBBody.fFade{
+  padding-left: 77px;
+}
+.sidebar-panel{
+  & .avatar{
+
+  }
+  & .menu-items {
+    & div {
+      width: 50px;
+      height: 50px;
+      border-radius: 5px;
+      margin: auto;
+      cursor: pointer;
+      transition: 0.3s all;
+      margin-top: 10px;
+      &.active, &:hover{
+        background: #1f5af6;
+      }
+      &.token_creation{
+        background-image: url('../../../src/img/interface_icons/token_creation.svg');
+        background-position: center center;
+        background-repeat: no-repeat;
+        &:hover, &.active {
+          background-image: url('../../../src/img/interface_icons/token_creation_white.svg');
+        }
+      }
+    }
+  }
 }

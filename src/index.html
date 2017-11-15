@@ -233,26 +233,7 @@
   <!-- /shared blocks-->
 
   <!-- HEADER -->
-  <header class="fFade noSelect" ng-controller="mainMenuController as menu">
-    <img id="topLogoH" src="img/topleftlogo_hor.svg" alt="Waves platform logo horizontal" />
-    <div id="logoNversion2">
-      <img src="img/topleftlogo.svg" />
-      <p ng-class='{testnet: isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
-    </div>
-    <span id="version" class="centerIt">
-                <span>Address:</span>
-                <span id="wavesAccountAddress" class="clipSpan" tooltipster tooltip-theme="tooltipster-theme3" title="Copy the address to clipboard." ngclipboard data-clipboard-text="{{::menu.address}}" ngclipboard-success="clipboardOk()">{{::menu.address}}</span>
-                <span id="wavesAccountAddressQr" ng-click="menu.showAddressQr()">QR</span>
-                <span class="divider-2"></span>
-                <span class="inlineParagraph">Block:</span> <span id="blockheight">{{menu.blockHeight}}</span>
-            </span>
-
-    <div class="noDisp">
-      <div id="address-qr-modal" waves-dialog global="true" no-support-link="true" cancel-button-visible="false" ok-button-caption="CLOSE">
-        <waves-qr-code size="300" value="::menu.addressQr"></waves-qr-code>
-      </div>
-    </div>
-
+  <!--<header class="fFade noSelect" ng-controller="mainMenuController as menu">
     <div id="header-Iconset">
       <a ng-click="menu.showBackupDialog()">
         <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-backup.svg" alt="Backup" title="Backup"/>
@@ -321,33 +302,34 @@
         <img class="header-Icon fade" tooltipster tooltip-theme="tooltipster-theme2" src="img/uiTB-iconset-logout.svg" alt="Log out" title="Log out" />
       </a>
     </div>
-    <waves-support-link class="in-header light"></waves-support-link>
-  </header>
+  </header>-->
   <!-- / HEADER -->
-
+  <div class="sidebar-panel">
+  	<div class="avatar"></div>
+  	<div class="menu-items">
+  		<div class="token_creation">
+  		</div>
+  	</div>
+  </div>
   <div id="navigationContainer" ng-controller="navigationController as nav">
     <!-- APPLICATION TAB SELECTORS -->
     <section id="tabs" class="fFade noSelect">
       <div id="tabs-Iconset" class="centerIt">
-                    <span waves-tab
-                          on-select="nav.changeTab(pageId)"
-                          current-page-id="nav.currentTab"
-                          page-id="wallet"
-                          caption="'Wallet tab'"
-                          tooltipster
-                          tooltip-html
-                          tooltip-theme="tooltipster-theme3"
-                          tooltip-title="<center><u>Wallet</u></center><br/>Area containing the main wallets."></span>
-        <span waves-tab
+        <div waves-tab
+              on-select="nav.changeTab(pageId)"
+              current-page-id="nav.currentTab"
+              page-id="wallet"
+              caption="'Assets'">
+              	Assets
+              </div>
+        <div waves-tab
               on-select="nav.changeTab(pageId)"
               current-page-id="nav.currentTab"
               page-id="portfolio"
-              caption="'Portfolio tab'"
-              tooltipster
-              tooltip-html
-              tooltip-theme="tooltipster-theme3"
-              tooltip-title="<center><u>Portfolio</u></center><br/>Display all your assets, both digital and physical,<br/>as well as allowing transfers."></span>
-        <span waves-tab
+              caption="'Portfolio'">
+              	Portfolio
+              </div>
+        <!--<span waves-tab
               on-select="nav.changeTab(pageId)"
               current-page-id="nav.currentTab"
               page-id="exchange"
@@ -365,9 +347,10 @@
               tooltip-html
               tooltip-theme="tooltipster-theme3"
               tooltip-title="<center><u>Leasing</u></center><br/>Lease your Waves<br/>to another wallet."></span>
+        -->
         <!--<span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="voting" caption="'Voting tab'" tooltipster tooltip-html-->
         <!--tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Voting Area</u></center><br/>Decentralized voting utility."></span>-->
-        <span waves-tab
+        <!--<span waves-tab
               on-select="nav.changeTab(pageId)"
               current-page-id="nav.currentTab"
               page-id="history"
@@ -385,9 +368,10 @@
               tooltip-html
               tooltip-theme="tooltipster-theme3"
               tooltip-title="<center><u>Tokens Creation tab</u></center><br/>Area in which assets can be created."></span>
+        -->
         <!--<span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="messages" caption="'Messages tab'" tooltipster tooltip-html-->
         <!--tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Decentralized Messenger</u></center><br/>Allows private communication between Waves users."></span>-->
-        <span waves-tab
+        <!--<span waves-tab
               on-select="nav.changeTab(pageId)"
               current-page-id="nav.currentTab"
               page-id="community"
@@ -395,7 +379,10 @@
               tooltipster
               tooltip-html
               tooltip-theme="tooltipster-theme3"
-              tooltip-title="<center><u>Community tab</u></center><br/>Resources to learn more about Waves project such as <br/>forums, blogs, websites, etc."></span>
+              tooltip-title="<center><u>Community tab</u></center><br/>Resources to learn more about Waves project such as <br/>forums, blogs, websites, etc."></span>-->
+	      <div class="header-search">
+	      	<input placeholder='Search transaction or assets' />
+	      </div>    
       </div>
     </section>
 
@@ -404,7 +391,57 @@
       <section id="mBBody" class="fFade" ng-switch on="nav.currentTab">
         <!-- WALLET TAB -->
         <div id="mBB-wallet" class="mBB-content" ng-switch-when="wallet" ng-controller="walletListController as walletList">
-
+		  <div class="wB-row">
+		  	<a href="javascript: void(0)" class="wB-btn wB-send">Send</a><a href="#" class="wB-btn wB-receive">Receive</a><a href="javascript: void(0)" class="wB-btn wB-add-asset">Add Asset</a>
+		  </div>
+		  <div class="wB-wrapper">
+		  	<div class="wB-chart-tabs">
+		  		<div class="tab active">
+		  			Waves • $10.58
+		  		</div>
+		  		<div class="tab">
+		  			Bitcoin • $4,176.35
+		  		</div>
+		  		<div class="tab">
+		  			Litecoin • $53.75
+		  		</div>
+		  	</div>
+		  	<div class="wB-chart-time">
+		  		<div class="tab active">
+		  			1H
+		  		</div>
+		  		<div class="tab">
+		  			1D
+		  		</div>
+		  		<div class="tab">
+		  			1W
+		  		</div>
+		  		<div class="tab active">
+		  			1M
+		  		</div>
+		  		<div class="tab">
+		  			1Y
+		  		</div>
+		  		<div class="tab">
+		  			ALL
+		  		</div>
+		  	</div>
+		  	<div class="wB-prices">
+		  		<div class="price-block">
+		  			<span class="title">$ 10.58</span>
+		  			<span class="label">WAVES PRICE</span>
+		  		</div>
+		  		<div class="price-block">
+					<span class="title">+$ 5.17</span>
+					<span class="label">SINCE LAST MONTH (USD)</span>
+				</div>
+				<div class="price-block">
+					<span class="title">+85.62%</span>
+					<span class="label">SINCE LAST MONTH (%)</span>
+				</div>
+		  	</div>
+		  	<div class="wB-chart" id="wB-chart-asset" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+		  </div>
           <div class="noDisp" ng-controller="walletSendController as send">
             <div id="wB-butSend-WAV" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="send.submitTransfer(send.form)">
               <form id="send-waves-form" name="send.form" class="paymentForm" novalidate ng-validate="send.validationOptions">
@@ -1256,6 +1293,7 @@
 <!-- JAVASCRIPT BEGIN -->
 <script src="../distr/devel/js/bundle.js"></script>
 <script src="../distr/devel/js/templates.js"></script>
+
 <!-- JAVASCRIPT END -->
 
 </body>

@@ -1,165 +1,263 @@
 @import "variables";
 
-#mBB-wallet {
+.mBB-content{
   width: 100%;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-
-  /* Do not eliminate this one */
-  & h2 {
-    padding: .5rem;
-  }
 }
-
-.flex-container {
-  // TODO : make a mixin.
-  display: -webkit-box;
-  display: -ms-flexbox;
+.flex-container{
+  width: 100%;
+  flex-wrap: wrap;
   display: flex;
-  width: 100%;
-  height: auto;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -ms-flex-line-pack: center;
-  align-content: center;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
+  justify-content: space-around;
 }
-
-.walletBox {
-  position: relative;
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  min-width: 260px;
-  max-width: 300px;
-  height: 220px;
-  border: 1px solid rgb(220, 220, 220);
-  margin: 5px;
-  padding: 10px;
-  border-radius: 20px 20px 20px 20px;
-  overflow: hidden;
-  & img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 90%;
-    z-index: 0;
-  }
+.wB-wrapper{
+  padding: 20px;
+  border-radius: 4px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background-color: #ffffff;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06);
+  border: solid 0.5px #dae1e9;
+  margin-bottom: 10px;
 }
-
-.walletBox > .details {
-  text-align: right;
-  float: right;
-  z-index: 100 !important;
-  position: relative;
-  margin-top: 10px;
-}
-
-.wB-name {
-  display: block;
-  position: relative;
-  float: right;
-  z-index: 100 !important;
-  font-family: @font-engo;
-  font-size: 2.5rem;
-  color: @color-navy-blue;
-}
-
-.wB-add {
-  display: block;
+.wB-wrapper.wB-wrapper-block{
+  width: 330px;
+}  
+.wB-header{
   width: 100%;
   position: relative;
-  text-align: right;
-  float: right;
-  z-index: 100 !important;
-  font-family: @font-wesli;
-  font-size: 1rem;
-  color: @color-light-grey;
 }
-
-.wB-balInt {
-  display: block;
-  position: relative;
-  width: 100%;
-  text-align: right;
-  float: right;
-  z-index: 99 !important;
-  font-family: @font-sparta;
-  font-weight: bold;
-  font-size: 2.5rem;
-  color: @color-navy-blue;
-}
-
-.wB-balDec {
-  display: block;
-  position: relative;
-  width: 100%;
-  text-align: right;
-  float: right;
-  z-index: 99 !important;
-  font-family: @font-sparta;
-  font-weight: bold;
-  font-size: 1.75rem;
-  color: @color-navy-blue;
-  line-height: .5;
-  letter-spacing: -2px;
-  opacity: .5;
-}
-
-
-/* BALANCE BOXES BUTTONS SECTION */
-
-.wB-buttons {
+.wB-header img{
   position: absolute;
-  bottom: 0;
-  left: 0;
+  top: 0px;
+  left: 0px;
+  width: 30px;
+  height: 30px;
+}
+.wB-name{
+  padding-left: 40px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 17px;
+  line-height: 1.29;
+  text-align: left;
+  color: #000000;
+  line-height: 30px;
+  font-weight: 600;
+}
+.wB-balLabel{
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  line-height: 1.33;
+  text-align: left;
+  color: #8c8c8c;
+  margin-top: 21px;
+}
+.wB-bal{
+  font-family: 'Roboto', sans-serif;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.17;
+  text-align: left;
+  color: #000000;
+}
+.wB-balInt{
+  font-weight: normal;
+}
+.wB-balDec{
+  font-weight: 300;
+}
+.wB-hr-separator{
   width: 100%;
-  height: 20%;
-  padding: 1%;
-  margin-bottom: -5px;
-  & a {
-    text-decoration: none;
-  }
+  height: 2px;
+  margin-top: 8px; 
+  background: #e2e2e2;
+  background: linear-gradient(to right, transparent 50%, #e2e2e2 50%);
+  background-size: 8px 2px;
 }
-
-.wB-but {
-  display: inline-block;
-  position: relative;
-  width: 32.4%;
-  height: 80%;
-  margin: .45%;
-  background: @color-navy-blue;
-  overflow: hidden;
-  font-family: @font-wesli;
-  font-size: 1rem;
-  color: @color-white;
-  border: none;
-  outline: none;
+.wB-buttons{
+  margin-top: 20px;
+  height: 10px;
+}
+.wB-buttons a{
+  float: left;
+}
+.wB-buttons .wB-but{
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  line-height: 11.1px;
+  text-align: left;
+  color: #9ba6b2;
+  height: 11px;
+  margin-right: 24px;
+  background-repeat: no-repeat;
   cursor: pointer;
+}
+.wB-buttons .wB-but p{
+  text-transform: capitalize;
+}
+.wB-buttons .wB-but.wB-butSend{
+  background-image: url('../../../src/img/interface_icons/send.svg');
+  background-size: 11.1px 11.1px;
+  background-position-x: 0;
+  padding-left: 15px;
+}
+.wB-buttons .wB-but.wB-butRec{
+  background-image: url('../../../src/img/interface_icons/receive.svg');
+  background-size: 11.1px 11.1px;
+  background-position-x: 0;
+  padding-left: 15px;
+}
+.wB-buttons .wB-but.wB-butTrade{
+  background-image: url('../../../src/img/interface_icons/buy.svg');
+  background-size: 11.1px 11.1px;
+  background-position-x: 0; 
+  padding-left: 15px;
+}
+.wB-row{
+  height: 50px;
+}
+.wB-btn{
+  padding: 0 20px 0 37px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: solid 1px #e9e9eb;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 40px;
+  text-align: left;
+  color: #9ba6b2;
+  text-decoration: none;
+  margin-right: 20px;
+}
+.wB-btn.wB-send{
+  background-image: url('../../../src/img/interface_icons/send.svg');
+  background-size: 14px 14px;
+  background-position-x: 15px;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  float: left;
+}
+.wB-btn.wB-receive{
+  background-image: url('../../../src/img/interface_icons/receive.svg');
+  background-size: 14px 14px;
+  background-position-x: 15px;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  float: left;
+}
+.wB-btn.wB-add-asset{
+  /*no icon to add asset*/
+  background-image: url('../../../src/img/interface_icons/send.svg');
+  background-size: 14px 14px;
+  background-position-x: 15px;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  float: right;
+}
+.wB-prices{
+  width: 580px;
+  height: 60px;
+  margin: auto; 
+  margin-top: 60px;
 
-  &:hover {
-    background: @color-soft-orange;
+  & .price-block{
+  width: 190px;  
+  text-align: center;
+  float: left;
+
+    & .title{
+      display: block;
+      font-family: 'Roboto', sans-serif;
+      font-size: 28px;
+      font-weight: 300;
+      line-height: 1.21;
+      text-align: center;
+      color: #000000;
+    }
+    & .label{
+      font-family: 'Roboto', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.6px;
+      text-align: center;
+      color: #7995b9;
+    }
   }
-
-  & p {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: 0 -50% 0 0;
-    transform: translate(-50%, -55%);
+}
+.wB-chart-tabs{
+  width: 100%;
+  height: 50px;
+  margin-top: -20px;
+  border-bottom: solid 1px #f0f0f0;
+  & .tab{
+    float: left;
+    font-family: 'Roboto', sans-serif;
+    font-size: 17px;
+    line-height: 1.29;
+    text-align: center;
+    color: #7995b9;
+    line-height: 50px;
+    height: 50px;
+    border-bottom: 1px solid transparent;
+    transition: 0.3s all;
+    cursor: pointer;
+    margin-right: 30px;
+    &:hover, &.active{
+      color: #1f5af6;
+      border-bottom: 1px solid #1f5af6;
+      
+    }
   }
 }
-
-.wB-butSend {
-  border-radius: 2px 2px 2px 16px;
+.wB-chart-tabs, .wB-chart-time{
+  float: left;
 }
-
-.wB-butRec {
-  border-radius: 2px 2px 2px 2px;
+.wB-chart-tabs{
+  width: 60%;
+  height: 50px;
+  margin-top: -20px;
+  border-bottom: solid 1px #f0f0f0;
+  & .tab{
+    float: left;
+    font-family: 'Roboto', sans-serif;
+    font-size: 17px;
+    line-height: 1.29;
+    text-align: center;
+    color: #7995b9;
+    line-height: 50px;
+    height: 50px;
+    border-bottom: 1px solid transparent;
+    transition: 0.3s all;
+    cursor: pointer;
+    margin-right: 30px;
+    &:hover, &.active{
+      color: #1f5af6;
+      border-bottom: 1px solid #1f5af6;
+      
+    }
+  }
 }
-
-.wB-butTrade {
-  border-radius: 2px 2px 16px 2px;
+.wB-chart-time{
+  width: 40%;
+  height: 50px;
+  margin-top: -20px;
+  border-bottom: solid 1px #f0f0f0;
+  & .tab{
+    float: right;
+    font-family: 'Roboto', sans-serif;
+    font-size: 17px;
+    line-height: 1.29;
+    text-align: center;
+    color: #7995b9;
+    line-height: 50px;
+    height: 50px;
+    border-bottom: 1px solid transparent;
+    transition: 0.3s all;
+    cursor: pointer;
+    margin-right: 30px;
+    &:hover, &.active{
+      color: #1f5af6;
+      border-bottom: 1px solid #1f5af6;
+      
+    }
+  }
 }
