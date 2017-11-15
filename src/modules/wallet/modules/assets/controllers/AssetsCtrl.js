@@ -86,7 +86,7 @@
             }
 
             onAssetClick(e, asset) {
-                if (e.target.hasAttribute('ng-click')) {
+                if (e.target.hasAttribute('ng-click') && e.target.tagName !== 'W-ASSET') {
                     return null;
                 } else {
                     this.showAsset(asset);

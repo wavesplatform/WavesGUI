@@ -57,7 +57,7 @@
                         <div class="amount-wrap">
                             <div class="input-wrap">
                                 <w-input type="text"
-                                         class="no-icon"
+                                         class="no-validate"
                                          w-validate="asset"
                                          asset-id="{{::$ctrl.assetId}}"
                                          ng-focus="focus = 'amount'"
@@ -76,7 +76,7 @@
                             <div class="amount-modal-icon"></div>
                             <div class="input-wrap">
                                 <w-input type="text"
-                                         class="no-icon"
+                                         class="no-validate"
                                          w-validate="asset"
                                          ng-focus="focus = 'amountMirror'"
                                          ng-blur="focus = ''"
@@ -114,11 +114,9 @@
                         <span class="help"></span>
                     </div>
                     <div class="body">
-                        <w-balance balance="$ctrl.fee" asset-id="{{::$ctrl.assetId}}"></w-balance>
-                        {{::$ctrl.asset.name}}
-                        <span class="lite">
-                    <w-balance balance="$ctrl.feeAlias" asset-id="{{::$ctrl.mirrorId}}"></w-balance>
-                </span>
+                        {{$ctrl.fee.toFormat()}}
+                        {{$ctrl.fee.asset.name}}
+                        <span class="lite" w-nice-number="$ctrl.feeAlias" precision="$ctrl.mirror.precision"></span>
                     </div>
                 </div>
 
