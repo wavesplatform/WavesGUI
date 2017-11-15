@@ -18,7 +18,7 @@
                 </w-row>
             </w-t-head>
 
-            <w-row class="by" ng-repeat="order in $ctrl.by track by $index">
+            <w-row class="buy" ng-repeat="order in $ctrl.buy track by $index">
                 <w-cell precision="$ctrl.amountAsset.precision" w-nice-number="order.size"></w-cell>
                 <w-cell precision="$ctrl.priceAsset.precision" w-nice-number="order.price"></w-cell>
                 <w-cell precision="$ctrl.priceAsset.precision" w-nice-number="order.total"></w-cell>
