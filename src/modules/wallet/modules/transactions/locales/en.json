@@ -4,36 +4,42 @@
     "address": {
       "send": "to address",
       "receive": "from address",
-      "circular": "from address",
-      "issue": "from address",
-      "reissue": "re-issuer address",
-      "exchange": "from address",
-      "alias": "for address",
+      "circular": "at address",
+      "issue": "",
+      "reissue": "",
+      "burn": "",
+      "exchange": "",
+      "create-alias": "for address",
       "lease": "to node address",
-      "cancelLeasing": ""
+      "cancel-leasing": "transaction"
     },
     "types": {
+      "send": "Sent {{name}}",
+      "receive": "Received {{name}}",
+      "circular": "Self-transferred {{name}}",
+      "issue": "{{name}} Token Generation",
       "reissue": "{{name}} Token Reissue",
-      "send": "Sent {{name}} ",
-      "receive": "Receive {{name}} ",
-      "issue": "Token Generation {{name}} ",
-      "exchange": "Exchange {{name}} ",
-      "alias": "Create Alias {{name}} ",
-      "lease": "Start Leasing {{name}} "
+      "burn": "{{name}} Token Burning",
+      "exchange": "Exchanged {{name}}",
+      "create-alias": "Created Alias \"{{name}}\"",
+      "lease": "Started Leasing",
+      "cancel-leasing": "Canceled Leasing"
     },
     "amount": {
-      "send": "-",
-      "receive": "+",
-      "circular": "",
-      "issue": "+",
-      "alias": "-",
-      "exchange": "-",
-      "lease": "",
-      "reissue": "+"
+      "send": "-{{amount}} {{name}}",
+      "receive": "+{{amount}} {{name}}",
+      "circular": "{{amount}} {{name}}",
+      "issue": "{{amount}} {{name}}",
+      "reissue": "+{{amount}} {{name}}",
+      "burn": "-{{amount}} {{name}}",
+      "exchange": "-{{amount}} {{name}}",
+      "create-alias": "-{{amount}} {{name}}",
+      "lease": "{{amount}}",
+      "cancel-leasing": "{{amount}}"
     },
     "reissuable": {
-      "false": "Not Re-issuable",
-      "true": "Re-issuable"
+      "false": "Not Reissuable",
+      "true": "Reissuable"
     }
   },
   "all": "All",

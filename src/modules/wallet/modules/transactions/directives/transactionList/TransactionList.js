@@ -96,7 +96,7 @@
                 item.address = this._getTransactionAddress(item);
 
                 switch (item.type) {
-                    case 'alias':
+                    case 'create-alias':
                         item.amount = item.fee;
                         break;
                     default:
@@ -190,6 +190,7 @@
             }
 
             /**
+             * @param {string} transactionType
              * @param {string} sender
              * @param {string} recipient
              * @return {string}
@@ -200,7 +201,9 @@
                     case 'transfer':
                         return TransactionList._getTransferType(sender, recipient);
                     case 'createAlias':
-                        return 'alias';
+                        return 'create-alias';
+                    case 'cancelLeasing':
+                        return 'cancel-leasing';
                     default:
                         return transactionType;
                 }
@@ -219,7 +222,7 @@
                     case 'issue':
                     case 'reissue':
                     case 'exchange':
-                    case 'alias':
+                    case 'create-alias':
                         return sender;
                     default:
                         return recipient;

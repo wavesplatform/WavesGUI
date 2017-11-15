@@ -3,6 +3,8 @@
         <li class="transaction-item" ng-repeat="data in $ctrl.transactions track by data.date">
             <div class="date tag-2 info-400">{{ ::data.timestamp | date:'MMM, d, yyyy' }}</div>
             <div class="row" ng-repeat="transaction in data.transactions track by transaction.id">
+
+
                 <div class="icon {{::transaction.type}}"></div>
                 <div class="transaction-info">
                     <div class="line body-1 basic-700">
@@ -11,9 +13,8 @@
                                   params="{name: transaction.amount.asset.name}"></span>
                         </div>
                         <div ng-if="transaction.amount">
-                            <span w-i18n="transactionList.amount.{{::transaction.type}}"></span>
-                            <w-balance money="transaction.amount"></w-balance>
-                            {{::transaction.amount.asset.name}}
+                            <span w-i18n="transactionList.amount.{{::transaction.type}}"
+                                  params="{amount: transaction.amount.toFormat(), name: transaction.amount.asset.name}"></span>
                         </div>
                     </div>
                     <div class="line footnote basic-500">
@@ -32,6 +33,8 @@
                         </div>
                     </div>
                 </div>
+
+
             </div>
         </li>
     </ul>

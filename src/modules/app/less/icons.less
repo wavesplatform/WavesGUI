@@ -17,7 +17,7 @@
   &::before {
     background-color: rgba(255, 175, 0, 0.1);
   }
-  background-image: url(/img/icons/transaction-sent-icon.svg);
+  background-image: url(/img/icons/transaction-send-icon.svg);
 }
 
 .icon-tx-receive {
@@ -27,18 +27,25 @@
   background-image: url(/img/icons/transaction-receive-icon.svg);
 }
 
-.icon-tx-reissue {
-  &::before {
-    background-color: rgba(129, 201, 38, 0.1);
-  }
-  background-image: url(/img/icons/transaction-issue-icon.svg);
-}
-
 .icon-tx-issue {
   &::before {
     background-color: rgba(38, 193, 201, 0.1);
   }
-  background-image: url(/img/icons/transaction-token-icon.svg);
+  background-image: url(/img/icons/transaction-issue-icon.svg);
+}
+
+.icon-tx-reissue {
+  &::before {
+    background-color: rgba(129, 201, 38, 0.1);
+  }
+  background-image: url(/img/icons/transaction-reissue-icon.svg);
+}
+
+.icon-tx-burn {
+  &::before {
+    background-color: rgba(255, 175, 0, 0.1); // TODO : check the color
+  }
+  background-image: url(/img/icons/transaction-burn-icon.svg);
 }
 
 .icon-tx-exchange {
@@ -52,19 +59,26 @@
   &::before {
     background-color: rgba(239, 72, 41, 0.1);
   }
-  background-image: url(/img/icons/transaction-circle-icon.svg);
+  background-image: url(/img/icons/transaction-circular-icon.svg);
 }
 
-.icon-tx-alias {
+.icon-tx-create-alias {
   &::before {
     background-color: rgba(53, 165, 245, 0.1);
   }
-  background-image: url(/img/icons/transaction-alias-icon.svg);
+  background-image: url(/img/icons/transaction-create-alias-icon.svg);
 }
 
 .icon-tx-lease {
   &::before {
     background-color: rgba(129, 201, 38, 0.1);
   }
-  background-image: url(/img/icons/transaction-leasing-icon.svg);
+  background-image: url(/img/icons/transaction-lease-icon.svg);
+}
+
+.icon-tx-cancel-leasing {
+  &::before {
+    background-color: rgba(239, 72, 41, 0.1);
+  }
+  background-image: url(/img/icons/transaction-cancel-leasing-icon.svg);
 }
