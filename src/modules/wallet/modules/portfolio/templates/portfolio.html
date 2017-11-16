@@ -12,7 +12,8 @@
             <div class="portfolio-item-name" w-i18n="list.name"></div>
             <div class="portfolio-item-balance" w-i18n="list.balance"></div>
             <div class="portfolio-item-rate" w-i18n="list.rate">Price, USD</div><!-- Ask-->
-            <div class="portfolio-item-mirror" w-i18n="list.mirror" params="{currency: $ctrl.mirror.name}"></div><!-- Price, USD-->
+            <div class="portfolio-item-mirror" w-i18n="list.mirror" params="{currency: $ctrl.mirror.name}"></div>
+            <!-- Price, USD-->
             <div class="portfolio-item-bid" w-i18n="list.bid">Bid</div><!-- Value, USD-->
             <div class="portfolio-item-ask" w-i18n="list.ask">Ask</div><!-- Bid-->
             <div class="portfolio-item-change" w-i18n="list.change"></div><!-- 24h Change-->
@@ -36,10 +37,10 @@
                 <w-mirror asset-id="{{::asset.id}}"></w-mirror>
             </div>
             <div class="portfolio-item-bid">
-                 <span class="currency">฿</span> 0.003984
+                <span class="currency">฿</span> 0.003984
             </div>
             <div class="portfolio-item-ask">
-                 <span class="currency">฿</span> 0.003984
+                <span class="currency">฿</span> 0.003984
             </div>
             <div class="portfolio-item-change" ng-class="{'danger': asset.change < 0, 'success': asset.change > 0}">
                 {{$ctrl.abs(asset.change)}}%
