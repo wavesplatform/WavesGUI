@@ -5,7 +5,7 @@
     },
     "orderBook": {
       "title": "Order book",
-      "marketSize": "Market size",
+      "marketSize": "Quantity",
       "price": "Price {{assetName}}",
       "total": "Total {{assetName}}"
     },

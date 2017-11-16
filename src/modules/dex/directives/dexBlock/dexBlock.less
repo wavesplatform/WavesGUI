@@ -1,0 +1,29 @@
+@import (reference) '../../../config';
+
+w-dex-block {
+  display: flex;
+
+  .block-wrapper {
+    width: 100%;
+    background-color: @color-white;
+    border: solid 1px @color-disabled-200;
+    display: flex;
+    flex-direction: column;
+
+    .block-title {
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      height: 39px;
+      background-color: @color-disabled-50;
+      border-bottom: 1px solid @color-disabled-200;
+    }
+
+    .dex-block-content {
+      height: 100%;
+      display: flex;
+      overflow: auto;
+      padding: 0 8px;
+    }
+  }
+}

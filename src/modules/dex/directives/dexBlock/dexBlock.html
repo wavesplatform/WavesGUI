@@ -1,0 +1,10 @@
+<div class="block-wrapper">
+    <div class="block-title">
+        <div class="headline-4 disabled-900">{{::$ctrl.title}}</div>
+        <div ng-if="$ctrl.hasSearch">
+            <w-input ng-model="$ctrl.search"></w-input>
+        </div>
+        <div ng-if="$ctrl.canCollapse" ng-click="$ctrl.toggleCollapse()" class="collapse-dex-block"></div>
+    </div>
+    <div class="dex-block-content" ng-transclude></div>
+</div>

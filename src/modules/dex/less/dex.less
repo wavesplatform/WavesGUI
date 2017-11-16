@@ -1,4 +1,5 @@
 @import (reference) '../../config';
+@import (reference) '../../app/less/typography';
 
 body.dex {
 
@@ -14,15 +15,6 @@ body.dex {
     overflow: hidden;
   }
 
-  w-dex-order-book {
-    display: flex;
-    flex-grow: 1;
-  }
-
-  w-dex-trade-history {
-    height: 282px;
-  }
-
   .dex-wrapper {
     width: 100%;
     height: 100%;
@@ -30,15 +22,28 @@ body.dex {
     flex-direction: row;
     flex-wrap: nowrap;
 
-    .block-wrapper {
+    w-table {
       width: 100%;
-      background-color: @color-white;
-      border: solid 1px @color-disabled-200;
+      display: block;
 
-      .block-title {
-        height: 39px;
-        background-color: @color-disabled-50;
-        border-bottom: 1px solid @color-disabled-200;
+      w-t-head {
+        .caption-1();
+        color: @color-disabled-700;
+        border-bottom: 1px solid @color-disabled-100;
+
+        .table-row {
+          height: 30px;
+          padding: 0;
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      .table-row {
+        height: 21px;
+        padding: 0;
+        display: flex;
+        align-items: center;
       }
     }
 

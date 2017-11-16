@@ -6,9 +6,11 @@
 
     </div>
     <w-column save-path="dex.layout.rightColumnState">
-        <w-dex-order-book price-asset-id="$ctrl.priceAssetId"
-                          amount-asset-id="$ctrl.amountAssetId"></w-dex-order-book>
-        <w-dex-trade-history price-asset-id="$ctrl.priceAssetId"
-                             amount-asset-id="$ctrl.amountAssetId"></w-dex-trade-history>
+        <w-dex-block title="Order book">
+            <w-dex-order-book></w-dex-order-book>
+        </w-dex-block>
+        <w-dex-block title="Trade history">
+            <w-dex-trade-history></w-dex-trade-history>
+        </w-dex-block>
     </w-column>
 </div>
