@@ -25,7 +25,7 @@
                     clone.total = clone.size * clone.price;
                     return clone;
                 };
-                this.by = (this._buy || []).map(filter);
+                this.buy = (this._buy || []).map(filter);
                 this.sell = (this._sell || []).map(filter);
             }
 

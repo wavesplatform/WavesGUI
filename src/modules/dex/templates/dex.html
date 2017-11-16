@@ -1,23 +1,16 @@
-<div w-i18n-ns="app.dex" class="column">
-    <w-dex-portfolio price-asset-id="$ctrl.priceAssetId"
-                     amount-asset-id="$ctrl.amountAssetId"
-                     assets="$ctrl.portfolioAssets"></w-dex-portfolio>
-    <w-dex-order-book price-asset-id="$ctrl.priceAssetId"
-                      amount-asset-id="$ctrl.amountAssetId"
-                      sell="$ctrl.orders.sell"
-                      by="$ctrl.orders.by"></w-dex-order-book>
-</div>
-<div w-i18n-ns="app.dex" class="column center">
-    <w-dex-trade-view price-asset-id="$ctrl.priceAssetId"
-                      amount-asset-id="$ctrl.amountAssetId"></w-dex-trade-view>
-    <w-dex-trade-graph price-asset-id="$ctrl.priceAssetId"
-                       amount-asset-id="$ctrl.amountAssetId"></w-dex-trade-graph>
-    <w-dex-my-orders price-asset-id="$ctrl.priceAssetId"
-                     amount-asset-id="$ctrl.amountAssetId"></w-dex-my-orders>
-</div>
-<div w-i18n-ns="app.dex" class="column">
-    <w-dex-markets price-asset-id="$ctrl.priceAssetId"
-                   amount-asset-id="$ctrl.amountAssetId"></w-dex-markets>
-    <w-dex-trade-history price-asset-id="$ctrl.priceAssetId"
-                         amount-asset-id="$ctrl.amountAssetId"></w-dex-trade-history>
+<div class="dex-wrapper" w-i18n-ns="app.dex">
+    <w-column>
+
+    </w-column>
+    <div class="dex-content">
+
+    </div>
+    <w-column>
+        <w-dex-order-book price-asset-id="$ctrl.priceAssetId"
+                          amount-asset-id="$ctrl.amountAssetId"
+                          sell="$ctrl.orders.sell"
+                          by="$ctrl.orders.by"></w-dex-order-book>
+        <w-dex-trade-history price-asset-id="$ctrl.priceAssetId"
+                             amount-asset-id="$ctrl.amountAssetId"></w-dex-trade-history>
+    </w-column>
 </div>

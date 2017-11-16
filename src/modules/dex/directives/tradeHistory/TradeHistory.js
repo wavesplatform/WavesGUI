@@ -66,6 +66,10 @@
                     .then((asset) => {
                         this.priceAsset = asset;
                     });
+                assetsService.getAssetInfo(this.amountAssetId)
+                    .then((asset) => {
+                        this.amountAsset = asset;
+                    });
             }
 
             _getTradeHistory() {
@@ -81,7 +85,7 @@
         return new TradeHistory();
     };
 
-    controller.$inject = ['Base', '$scope', 'assetsService', 'dataFeed', 'i18n', 'createPoll'];
+    controller.$inject = ['Base', '$scope', 'assetsService', 'dataFeed', 'createPoll'];
 
     angular.module('app.dex')
         .component('wDexTradeHistory', {

@@ -20,18 +20,6 @@
                     'dex.amountAssetId',
                     'dex.priceAssetId'
                 ]);
-
-                this._initialize();
-            }
-
-            _initialize() {
-                const promises = Object.values(WavesApp.defaultAssets)
-                    .map(assetsService.getBalance);
-
-                utils.when(Promise.all(promises))
-                    .then((assets) => {
-                        this.portfolioAssets = assets;
-                    });
             }
 
         }
