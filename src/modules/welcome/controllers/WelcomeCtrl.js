@@ -34,13 +34,19 @@
                 this.showPasswordError = false;
                 const encryptionRounds = user.getSettingByUser(this.userList[this.activeUser], 'encryptionRounds');
                 apiWorker.process((Waves, data) => {
-                    return Waves.Seed.decryptSeedPhrase(data.encryptedSeed, data.password, data.encryptionRounds);
+                    const seed = Waves.Seed.decryptSeedPhrase(data.encryptedSeed, data.password, data.encryptionRounds);
+                    const seedData = Waves.Seed.fromExistingPhrase(seed);
+                    return {
+                        encryptedSeed: seedData.encryptedSeed,
+                        publicKey: seedData.keyPair.publicKey
+                    };
                 }, { password: this.password, encryptedSeed: this.encryptedSeed, encryptionRounds })
-                    .then(() => {
+                    .then(({ publicKey, encryptedSeed }) => {
                         user.addUserData({
                             address: this.address,
-                            encryptedSeed: this.encryptedSeed,
-                            password: this.password
+                            password: this.password,
+                            encryptedSeed,
+                            publicKey
                         });
                     }, () => {
                         this.password = '';

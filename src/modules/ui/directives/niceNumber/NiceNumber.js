@@ -2,13 +2,15 @@
     'use strict';
 
     /**
-     * @param {@constructor Base} Base
+     * @param Base
      * @param {$rootScope.Scope} $scope
      * @param {JQuery} $element
      * @param {app.utils} utils
      * @return {NiceNumber}
      */
     const controller = function (Base, $scope, $element, utils) {
+
+        // TODO! : split this directive in service and directive @xenohunter
 
         class NiceNumber extends Base {
 

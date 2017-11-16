@@ -11,6 +11,8 @@
      */
     const controller = function (Base, createPromise, createPoll, user, assetsService) {
 
+        // TODO! : split this directive in service and directive @xenohunter
+
         class Exchange extends Base {
 
             constructor() {

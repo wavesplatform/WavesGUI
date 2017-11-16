@@ -1,6 +1,21 @@
 (function () {
     'use strict';
 
+    const TYPES = {
+        SEND: 'send',
+        RECEIVE: 'receive',
+        CIRCULAR: 'circular',
+        ISSUE: 'issue',
+        REISSUE: 'reissue',
+        BURN: 'burn',
+        EXCHANGE_BUY: 'exchange-buy',
+        EXCHANGE_SELL: 'exchange-sell',
+        LEASE_IN: 'lease-in',
+        LEASE_OUT: 'lease-out',
+        CANCEL_LEASING: 'cancel-leasing',
+        CREATE_ALIAS: 'create-alias'
+    };
+
     const SEARCH_FIELDS = [
         { name: 'sender', strict: false },
         { name: 'recipient', strict: false },
@@ -57,7 +72,11 @@
                 /**
                  * @type {string}
                  */
-                this.currentAssetId = null;
+                this.assetIdList = null;
+                /**
+                 * @type {object}
+                 */
+                this.TYPES = TYPES;
 
                 createPromise(this, user.getSetting('baseAssetId'))
                     .then((mirrorId) => {
@@ -79,30 +98,11 @@
              */
             _getTransactions() {
                 return transactionsService.transactions()
-                    .then((list) => list.map(this._map, this))
+                    .then((list) => list.map(TransactionList._map, this))
                     .then((list) => {
                         this.hadResponse = true;
                         return list;
                     });
-            }
-
-            /**
-             * @param item
-             * @return {Promise}
-             * @private
-             */
-            _map(item) {
-                item.type = this._getTransactionType(item);
-                item.address = this._getTransactionAddress(item);
-
-                switch (item.type) {
-                    case 'create-alias':
-                        item.amount = item.fee;
-                        break;
-                    default:
-                }
-
-                return item;
             }
 
             /**
@@ -137,14 +137,17 @@
                 }));
             }
 
+            /**
+             * @private
+             */
             _getAssetFilter() {
-                if (this.currentAssetId) {
+                if (this.assetIdList && this.assetIdList.length) {
                     return ({ type, amount }) => {
                         switch (type) {
                             case 'send':
                             case 'receive':
                             case 'circular':
-                                return amount.asset.id === this.currentAssetId;
+                                return this.assetIdList.indexOf(amount.asset.id) !== -1;
                             default:
                                 return false;
                         }
@@ -190,42 +193,45 @@
             }
 
             /**
-             * @param {string} transactionType
-             * @param {string} sender
-             * @param {string} recipient
-             * @return {string}
+             * @param item
+             * @return {Promise}
              * @private
              */
-            _getTransactionType({ transactionType, sender, recipient }) {
-                switch (transactionType) {
-                    case 'transfer':
-                        return TransactionList._getTransferType(sender, recipient);
-                    case 'createAlias':
-                        return 'create-alias';
-                    case 'cancelLeasing':
-                        return 'cancel-leasing';
-                    default:
-                        return transactionType;
-                }
+            static _map(item) {
+                item.type = TransactionList._getTransactionType(item);
+                return item;
             }
 
             /**
-             * @param type
-             * @param sender
-             * @param recipient
-             * @return {*}
+             * @param {object} tx
+             * @param {string} tx.transactionType
+             * @param {string} tx.sender
+             * @param {string} tx.recipient
+             * @param {object} tx.buyOrder
+             * @param {object} tx.sellOrder
+             * @return {string}
              * @private
              */
-            _getTransactionAddress({ type, sender, recipient }) {
-                switch (type) {
-                    case 'receive':
-                    case 'issue':
-                    case 'reissue':
+            static _getTransactionType(tx) {
+                switch (tx.transactionType) {
+                    case 'transfer':
+                        return TransactionList._getTransferType(tx.sender, tx.recipient);
                     case 'exchange':
-                    case 'create-alias':
-                        return sender;
+                        return TransactionList._getExchangeType(tx);
+                    case 'lease':
+                        return TransactionList._getLeaseType(tx.sender);
+                    case 'cancelLeasing':
+                        return TYPES.CANCEL_LEASING;
+                    case 'createAlias':
+                        return TYPES.CREATE_ALIAS;
+                    case 'issue':
+                        return TYPES.ISSUE;
+                    case 'reissue':
+                        return TYPES.REISSUE;
+                    case 'burn':
+                        return TYPES.BURN;
                     default:
-                        return recipient;
+                        throw new Error(`Unsupported transaction type ${tx.transactionType}`);
                 }
             }
 
@@ -236,7 +242,33 @@
              * @private
              */
             static _getTransferType(sender, recipient) {
-                return sender === recipient ? 'circular' : sender === user.address ? 'send' : 'receive';
+                if (sender === recipient) {
+                    return TYPES.CIRCULAR;
+                } else {
+                    return sender === user.address ? TYPES.SEND : TYPES.RECEIVE;
+                }
+            }
+
+            /**
+             * @param {string} sender
+             * @return {string}
+             * @private
+             */
+            static _getLeaseType(sender) {
+                return sender === user.address ? TYPES.LEASE_OUT : TYPES.LEASE_IN;
+            }
+
+            /**
+             * @param {object} tx
+             * @return {string}
+             * @private
+             */
+            static _getExchangeType(tx) {
+                if (tx.buyOrder.senderPublicKey === user.publicKey) {
+                    return TYPES.EXCHANGE_BUY;
+                } else {
+                    return TYPES.EXCHANGE_SELL;
+                }
             }
 
         }
@@ -255,14 +287,14 @@
         'utils'
     ];
 
-    angular.module('app.wallet.transactions')
+    angular.module('app.ui')
         .component('wTransactionList', {
             bindings: {
-                currentAssetId: '@',
+                assetIdList: '<',
                 transactionType: '<',
                 search: '<'
             },
-            templateUrl: 'modules/wallet/modules/transactions/directives/transactionList/transactionList.html',
+            templateUrl: 'modules/ui/directives/transactionList/transactionList.html',
             transclude: false,
             controller
         });

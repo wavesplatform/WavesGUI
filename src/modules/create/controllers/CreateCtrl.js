@@ -75,18 +75,20 @@
                     const workerData = { seed: this.seed, password: this.password };
                     const workerHandler = (Waves, data) => {
                         const seedData = Waves.Seed.fromExistingPhrase(data.seed);
-                        return seedData.encrypt(data.password);
+                        return {
+                            encryptedSeed: seedData.encrypt(data.password),
+                            publicKey: seedData.keyPair.publicKey
+                        };
                     };
 
                     apiWorker.process(workerHandler, workerData)
-                        .then((encryptedSeed) => {
+                        .then(({ encryptedSeed, publicKey }) => {
                             return user.addUserData({
                                 address: this.address,
                                 password: this.password,
+                                settings: { termsAccepted: false },
                                 encryptedSeed,
-                                settings: {
-                                    termsAccepted: false
-                                }
+                                publicKey
                             });
                         });
                 } else {
