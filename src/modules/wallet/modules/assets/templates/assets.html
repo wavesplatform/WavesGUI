@@ -7,9 +7,9 @@
         <w-button class="interface" ng-click="$ctrl.showReceive()">
             <span class="btn-icon icon-receive" w-i18n="receive"></span>
         </w-button>
-        <!--<w-button class="right" ng-click="$ctrl.addAsset()">-->
-        <!--<span class="btn-icon icon-add-asset" w-i18n="addAsset"></span>-->
-        <!--</w-button>-->
+        <w-button class="right" ng-click="$ctrl.addAsset()">
+            <span class="btn-icon icon-add-asset" w-i18n="addAsset"></span>
+        </w-button>
     </div>
 
     <div class="chart-rate">
@@ -19,7 +19,7 @@
                 <w-radio-wrap mode="tab-mode" ng-model="$ctrl.activeChartAssetId">
                     <w-radio ng-repeat="asset in $ctrl.chartBalances track by asset.id"
                              value="asset.id">
-                        <span class="radio-name">{{::asset.name}}</span>
+                        <span class="radio-name">{{::asset.name}} •</span>
                         <w-change-rate asset-id="asset.id"></w-change-rate>
                     </w-radio>
                 </w-radio-wrap>

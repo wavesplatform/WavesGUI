@@ -1,17 +1,21 @@
 <div w-i18n-ns="app.wallet.portfolio">
-    <div class="controls">
-        <div class="part left">
-            <w-button ng-click="$ctrl.sendModal()">Send</w-button>
-            <w-button ng-click="$ctrl.receiveModal()">Receive</w-button>
-        </div>
+    <div class="toolbar">
+        <w-button class="interface" ng-click="$ctrl.showSend()">
+            <span class="btn-icon icon-send" w-i18n="send">Send</span>
+        </w-button>
+        <w-button class="interface" ng-click="$ctrl.showReceive()">
+            <span class="btn-icon icon-receive" w-i18n="receive">Receive</span>
+        </w-button>
     </div>
     <ul class="portfolio-list">
         <li class="portfolio-item title body-2 disabled-600">
             <div class="portfolio-item-name" w-i18n="list.name"></div>
             <div class="portfolio-item-balance" w-i18n="list.balance"></div>
-            <div class="portfolio-item-mirror" w-i18n="list.mirror" params="{currency: $ctrl.mirror.name}"></div>
-            <div class="portfolio-item-balance" w-i18n="list.rate" params="{currency: $ctrl.mirror.name}"></div>
-            <div class="portfolio-item-change" w-i18n="list.change"></div>
+            <div class="portfolio-item-rate" w-i18n="list.rate">Price, USD</div><!-- Ask-->
+            <div class="portfolio-item-mirror" w-i18n="list.mirror" params="{currency: $ctrl.mirror.name}"></div><!-- Price, USD-->
+            <div class="portfolio-item-bid" w-i18n="list.bid">Bid</div><!-- Value, USD-->
+            <div class="portfolio-item-ask" w-i18n="list.ask">Ask</div><!-- Bid-->
+            <div class="portfolio-item-change" w-i18n="list.change"></div><!-- 24h Change-->
             <div class="portfolio-item-actions" w-i18n="list.actions"></div>
         </li>
         <li class="portfolio-item" ng-repeat="asset in $ctrl.portfolio track by asset.id">
@@ -23,20 +27,30 @@
                 <w-balance money="asset.balance"></w-balance>
                 <span class="currency">{{::asset.name}}</span>
             </div>
-            <div class="portfolio-item-mirror">
-                <span>$</span>
-                <w-mirror asset-id="{{::asset.id}}"></w-mirror>
-            </div>
             <div class="portfolio-item-rate">
                 <span>$</span>
                 <w-change-rate asset-id="asset.id"></w-change-rate>
             </div>
-            <div class="portfolio-item-change" ng-class="{'error-500': asset.change < 0}">
+            <div class="portfolio-item-mirror">
+                <span>$</span>
+                <w-mirror asset-id="{{::asset.id}}"></w-mirror>
+            </div>
+            <div class="portfolio-item-bid">
+                 <span class="currency">฿</span> 0.003984
+            </div>
+            <div class="portfolio-item-ask">
+                 <span class="currency">฿</span> 0.003984
+            </div>
+            <div class="portfolio-item-change" ng-class="{'danger': asset.change < 0, 'success': asset.change > 0}">
                 {{$ctrl.abs(asset.change)}}%
             </div>
             <div class="portfolio-item-actions">
-                <w-button ng-click="$ctrl.sendModal(asset.id)" class="small">Send</w-button>
-                <w-button class="small" ng-click="$ctrl.receiveModal()">Receive</w-button>
+                <w-button ng-click="$ctrl.sendModal(asset.id)" class="small">
+                    <span class="btn-icon icon-send" w-i18n="Send">Send</span>
+                </w-button>
+                <w-button class="small" ng-click="$ctrl.receiveModal()">
+                    <span class="btn-icon icon-receive" w-i18n="Receive">Receive</span>
+                </w-button>
             </div>
             <w-actions>
                 <w-action ng-if="asset.id !== $ctrl.wavesId && asset.pinned" ng-click="$ctrl.pinAsset(asset, false)">
