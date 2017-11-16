@@ -92,7 +92,8 @@
                                         return this.getMoney(balance.toFixed(asset.precision), asset.id)
                                             .then((money) => ({ ...asset, balance: money }));
                                     });
-                                });
+                                })
+                                .then(utils.whenAll);
                         } else {
                             const balances = utils.toHash(balanceList, 'id');
                             return utils.whenAll(assetIds.map(this.getAssetInfo))
