@@ -47,10 +47,10 @@
                  */
                 this.priceAssetId = null;
 
-                this.syncSettings([
-                    'dex.directives.markets.activeAssetId',
-                    'dex.directives.markets.favoriteIds'
-                ]);
+                this.syncSettings({
+                    activeAssetId: 'dex.directives.markets.activeAssetId',
+                    favoriteIds: 'dex.directives.markets.favoriteIds'
+                });
 
                 this.observe('favoriteIds', this._onChangeFavoriteIds);
                 this.observe('activeAssetId', this._onChangeActiveAssetId);

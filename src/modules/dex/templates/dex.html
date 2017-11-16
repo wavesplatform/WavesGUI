@@ -1,15 +1,13 @@
 <div class="dex-wrapper" w-i18n-ns="app.dex">
-    <w-column>
+    <w-column save-path="dex.layout.leftColumnState">
 
     </w-column>
     <div class="dex-content">
 
     </div>
-    <w-column>
+    <w-column save-path="dex.layout.rightColumnState">
         <w-dex-order-book price-asset-id="$ctrl.priceAssetId"
-                          amount-asset-id="$ctrl.amountAssetId"
-                          sell="$ctrl.orders.sell"
-                          by="$ctrl.orders.by"></w-dex-order-book>
+                          amount-asset-id="$ctrl.amountAssetId"></w-dex-order-book>
         <w-dex-trade-history price-asset-id="$ctrl.priceAssetId"
                              amount-asset-id="$ctrl.amountAssetId"></w-dex-trade-history>
     </w-column>

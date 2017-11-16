@@ -92,7 +92,8 @@
                                         return this.getMoney(balance.toFixed(asset.precision), asset.id)
                                             .then((money) => ({ ...asset, balance: money }));
                                     });
-                                });
+                                })
+                                .then(utils.whenAll);
                         } else {
                             const balances = utils.toHash(balanceList, 'id');
                             return utils.whenAll(assetIds.map(this.getAssetInfo))
@@ -125,21 +126,32 @@
             }
 
             @decorators.cachable(2)
-            getBidAsk(assetId1, assetId2) {
+            getOrders(assetId1, assetId2) {
                 return apiWorker.process((Waves, { assetId1, assetId2 }) => {
-                    return Waves.API.Matcher.v1.getOrderbook(assetId1, assetId2)
-                        .then((orderbook) => {
-                            const bid = String(orderbook.bids.length && orderbook.bids[0].price || 0);
-                            const ask = String(orderbook.asks.length && orderbook.asks[0].price || 0);
+                    return Waves.AssetPair.get(assetId1, assetId2).then((pair) => {
+                        return Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
+                            .then((orderBook) => {
 
-                            return Promise.all([
-                                Waves.OrderPrice.fromTokens(bid, assetId1, assetId2)
-                                    .then((item) => item.getTokens()),
-                                Waves.OrderPrice.fromTokens(ask, assetId1, assetId2)
-                                    .then((item) => item.getTokens())
-                            ])
-                                .then((list) => ({ bid: list[0], ask: list[1] }));
-                        });
+                                const mapOrder = (item) => {
+                                    return Promise.all([
+                                        Waves.Money.fromCoins(String(item.amount), pair.amountAsset),
+                                        Waves.OrderPrice.fromMatcherCoins(String(item.price), pair)
+                                            .then((orderPrice) => {
+                                                return Waves.Money.fromTokens(orderPrice.getTokens(), pair.priceAsset);
+                                            })
+                                    ]).then((money) => {
+                                        return { amount: money[0], price: money[1] };
+                                    });
+                                };
+
+                                return Promise.all([
+                                    Promise.all((orderBook.bids || []).map(mapOrder)),
+                                    Promise.all((orderBook.asks || []).map(mapOrder))
+                                ]).then((orders) => {
+                                    return { bids: orders[0], asks: orders[1] };
+                                });
+                            });
+                    });
                 }, { assetId1, assetId2 });
             }
 

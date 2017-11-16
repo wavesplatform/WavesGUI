@@ -7,40 +7,38 @@
      * @param {Base} Base
      * @return {OrderBook}
      */
-    const controller = function (assetsService, Base) {
+    const controller = function (assetsService, Base, createPoll) {
 
         class OrderBook extends Base {
 
             constructor() {
                 super();
-                this._buy = [];
-                this._sell = [];
-                this.observe(['_buy', '_sell'], () => this._currentOrders());
-                this.observe(['amountAssetId', 'priceAssetId'], () => this._getAssets());
+                /**
+                 * @type {Object}
+                 */
+                this.orders = null;
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._amountAssetId = null;
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._priceAssetId = null;
+
+                this.syncSettings({
+                    _amountAssetId: 'dex.amountAssetId',
+                    _priceAssetId: 'dex.priceAssetId'
+                }).then(() => {
+                    const poll = createPoll(this, this._getOrders, 'orders', 2000);
+                    this.observe(['_amountAssetId', '_priceAssetId'], () => poll.restart());
+                });
             }
 
-            _currentOrders() {
-                const filter = function (item) {
-                    const clone = { ...item };
-                    clone.total = clone.size * clone.price;
-                    return clone;
-                };
-                this.buy = (this._buy || []).map(filter);
-                this.sell = (this._sell || []).map(filter);
-            }
-
-            _getAssets() {
-                if (!this.amountAssetId || !this.priceAssetId) {
-                    return null;
-                }
-                assetsService.getAssetInfo(this.amountAssetId)
-                    .then((data) => {
-                        this.amountAsset = data;
-                    });
-                assetsService.getAssetInfo(this.priceAssetId)
-                    .then((data) => {
-                        this.priceAsset = data;
-                    });
+            _getOrders() {
+                return assetsService.getOrders(this._amountAssetId, this._priceAssetId);
             }
 
         }
@@ -48,16 +46,10 @@
         return new OrderBook();
     };
 
-    controller.$inject = ['assetsService', 'Base'];
+    controller.$inject = ['assetsService', 'Base', 'createPoll'];
 
     angular.module('app.dex')
         .component('wDexOrderBook', {
-            bindings: {
-                amountAssetId: '<',
-                priceAssetId: '<',
-                _by: '<by',
-                _sell: '<sell'
-            },
             templateUrl: 'modules/dex/directives/orderBook/orderBook.html',
             controller
         });

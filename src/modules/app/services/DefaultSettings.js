@@ -32,19 +32,19 @@
                     termsAccepted: true,
                     baseAssetId: WavesApp.defaultAssets.USD,
                     events: Object.create(null),
+                    pinnedAssetIds: [
+                        WavesApp.defaultAssets.USD,
+                        WavesApp.defaultAssets.EUR,
+                        WavesApp.defaultAssets.WAVES,
+                        WavesApp.defaultAssets.BTC,
+                        WavesApp.defaultAssets.ETH
+                    ],
                     wallet: {
                         activeState: 'assets',
                         assets: {
                             chartMode: 'week',
                             activeChartAssetId: WavesApp.defaultAssets.WAVES,
                             chartAssetIds: [
-                                WavesApp.defaultAssets.WAVES,
-                                WavesApp.defaultAssets.BTC,
-                                WavesApp.defaultAssets.ETH
-                            ],
-                            assetList: [
-                                WavesApp.defaultAssets.USD,
-                                WavesApp.defaultAssets.EUR,
                                 WavesApp.defaultAssets.WAVES,
                                 WavesApp.defaultAssets.BTC,
                                 WavesApp.defaultAssets.ETH
@@ -57,6 +57,10 @@
                     dex: {
                         amountAssetId: WavesApp.defaultAssets.WAVES,
                         priceAssetId: WavesApp.defaultAssets.BTC,
+                        layout: {
+                            leftColumnState: true,
+                            rightColumnState: true
+                        },
                         directives: {
                             markets: {
                                 activeAssetId: WavesApp.defaultAssets.ETH,

@@ -63,10 +63,10 @@
 
                 createPromise(this, utils.whenAll([
                     user.getSetting('baseAssetId'),
-                    this.syncSettings('wallet.assets.activeChartAssetId'),
-                    this.syncSettings('wallet.assets.chartAssetIds'),
-                    this.syncSettings('wallet.assets.chartMode'),
-                    this.syncSettings('wallet.assets.assetList')
+                    this.syncSettings({ activeChartAssetId: 'wallet.assets.activeChartAssetId' }),
+                    this.syncSettings({ chartAssetIds: 'wallet.assets.chartAssetIds' }),
+                    this.syncSettings({ chartMode: 'wallet.assets.chartMode' }),
+                    this.syncSettings({ assetList: 'pinnedAssetIds' })
                 ]))
                     .then(([baseAssetId]) => {
                         this.mirrorId = baseAssetId;

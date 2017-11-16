@@ -7,7 +7,20 @@ body.dex {
   }
 
   .main-content .content {
-    height: calc(~"100% - "@padding-main-layout * 2);
+    height: calc(~"100% - " @padding-main-layout);
+    width: calc(~"100% - "@width-left-menu + @padding-main-layout);
+    right: @padding-main-layout / 2;
+    bottom: @padding-main-layout / 2;
+    overflow: hidden;
+  }
+
+  w-dex-order-book {
+    display: flex;
+    flex-grow: 1;
+  }
+
+  w-dex-trade-history {
+    height: 282px;
   }
 
   .dex-wrapper {
@@ -18,6 +31,7 @@ body.dex {
     flex-wrap: nowrap;
 
     .block-wrapper {
+      width: 100%;
       background-color: @color-white;
       border: solid 1px @color-disabled-200;
 

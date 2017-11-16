@@ -31,21 +31,23 @@
                  * @type {IAssetInfo}
                  */
                 this.mirror = null;
+                /**
+                 * @type {string}
+                 */
+                this.targetAssetId = null;
                 this.noUpdate = null;
                 this.rateDate = null; // TODO Add support for rate date. Author Tsigel at 14/11/2017 08:19
                 /**
                  * @type {Poll}
                  */
                 this.poll = null;
-
-                this.observe('balance', this._onChangeBalance);
             }
 
             $postLink() {
                 this.interval = Number(this.interval) || 5000;
 
                 createPromise(this, user.getSetting('baseAssetId'))
-                    .then(assetsService.getAssetInfo)
+                    .then((baseAssetId) => assetsService.getAssetInfo(this.targetAssetId || baseAssetId))
                     .then((mirror) => {
                         this.mirror = mirror;
 
@@ -97,7 +99,8 @@
             balance: '<',
             interval: '@',
             rateDate: '@',
-            noUpdate: '@'
+            noUpdate: '@',
+            targetAssetId: '@'
         },
         template: '<span w-nice-number="$ctrl.mirrorBalance" precision="$ctrl.mirror.precision"></span>',
         transclude: false,

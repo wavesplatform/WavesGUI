@@ -28,6 +28,60 @@
             },
 
             /**
+             * @name app.utils#animate
+             * @param {JQuery} $element
+             * @param properties
+             * @param options
+             * @return {Promise}
+             */
+            animate($element, properties, options) {
+                return $q((resolve) => {
+                    options = options || Object.create(null);
+                    if (options.complete) {
+                        const origin = options.complete;
+                        options.complete = function () {
+                            resolve();
+                            origin();
+                        };
+                    } else {
+                        options.complete = resolve;
+                    }
+                    $element.stop(true, true).animate(properties, options);
+                });
+            },
+
+            /**
+             * @name app.utils#animateByClass
+             * @param {JQuery} $element
+             * @param {string} className
+             * @param {boolean} state
+             * @return {Promise}
+             */
+            animateByClass($element, className, state) {
+                return $q((resolve) => {
+
+                    const element = $element.get(0);
+                    const eventList = [
+                        'transitionend',
+                        'oTransitionEnd',
+                        'otransitionend',
+                        'webkitTransitionEnd'
+                    ];
+                    const handler = () => {
+                        resolve();
+                        eventList.forEach((eventName) => {
+                            element.removeEventListener(eventName, handler, false);
+                        });
+                    };
+                    eventList.forEach((eventName) => {
+                        element.addEventListener(eventName, handler, false);
+                    });
+
+                    $element.toggleClass(className, state);
+                });
+            },
+
+            /**
              * @name app.utils#when
              * @param {*} [data]
              * @return {Promise}
