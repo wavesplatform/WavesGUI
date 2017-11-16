@@ -1,7 +1,25 @@
 @import (reference) '../../../../config';
 
 .main.wallet.portfolio {
+  
+  .btn-icon::before {
+    content: '';
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    background-size: 100% 100%;
+    width: 14px;
+    height: 14px;
+    margin-right: 7px;
+  }
 
+  .btn-icon.icon-send::before {
+    background-image: url(/img/icons/send-grey.svg);
+  }
+
+  .btn-icon.icon-receive::before {
+    background-image: url(/img/icons/reveice-grey.svg);
+  }
   .part {
     display: inline-block;
   }
@@ -13,6 +31,7 @@
     background-color: @color-white;
     border-radius: @border-radius;
     border: 1px solid @color-accent-50;
+    margin-top: 10px;
 
     .portfolio-item {
       display: flex;
@@ -21,6 +40,9 @@
       border-bottom: 1px solid @color-accent-50;
       position: relative;
       padding: 0 20px;
+    
+      font-size: 15px;
+      line-height: 30px;
 
       &:not(.title)::before {
         content: '';
@@ -54,13 +76,52 @@
       }
 
       & > div {
-        width: 100% / 8;
+        padding-right: 40px;
       }
 
       .portfolio-item-name {
         display: flex;
+        width: 14%;
+      }
+      
+      .portfolio-item-balance {
+        text-align: right;
+        width: 14%;
+      }
+
+      .portfolio-item-rate {
+        width: 9%;
+      } 
+
+      .portfolio-item-mirror {
+        width: 12%;
+      }
+      
+      .portfolio-item-bid {
+        width: 10%;
+      }
+
+      .portfolio-item-ask {
+        width: 10%;
+      }
+      
+      .portfolio-item-change {
+        width: 14%; 
+        &.success {
+          color: @color-success-600;
+        }
+        &.danger {
+          color: @color-error-500;
+        }
+      }
+
+      .portfolio-item-actions{
+        width: 19%;
+        padding-right: 0;
+        w-button:first-child{
+          margin-right: 5px;
+        }
       }
     }
   }
-
 }
