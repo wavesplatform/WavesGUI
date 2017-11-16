@@ -29,7 +29,7 @@
 
             /**
              * @name app.utils#when
-             * @param {*} data
+             * @param {*} [data]
              * @return {Promise}
              */
             when(data) {

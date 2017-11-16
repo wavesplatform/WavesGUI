@@ -30,7 +30,7 @@
                     .hasAttribute('required');
 
                 this.registerValidator('required', (modelValue) => {
-                    return !isRequired || !!modelValue;
+                    return !isRequired || (modelValue ? !modelValue.eq(0) : false);
                 });
 
                 this.$input.on('keypress', (event) => {
