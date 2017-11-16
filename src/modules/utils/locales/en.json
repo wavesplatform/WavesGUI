@@ -1,7 +1,7 @@
 {
   "modal": {
     "assetInfo": {
-      "title": "Asset info",
+      "title": "Asset Info",
       "unpinned": "Pin",
       "pinned": "Pinned",
       "assets": {
@@ -16,10 +16,10 @@
     },
     "send": {
       "title": "Send {{assetName}}",
-      "titleComplete": "Send Complete",
+      "titleComplete": "Sending Complete",
       "recipient": "Recipient",
       "sendMax": "Send Max",
-      "withdraw": "Withdraw From",
+      "withdraw": "Withdraw from",
       "amount": "Amount",
       "description": "Description",
       "descriptionPlaceholder": "Write an optional message",
@@ -35,30 +35,30 @@
       },
       "compare": {
         "title": "Your transaction is on the way!",
-        "description": "You send {{amount}} {{currency}} (${{mirror}}) to an external address.",
+        "description": "You sent {{amount}} {{currency}} (${{mirror}}) to an external address.",
         "details": "View Details"
       }
     },
     "account": {
-      "title": "Account information",
+      "title": "Account Information",
       "address": "Your address",
       "aliases": "Aliases",
       "create": "Create new",
       "fee": "Transaction fee {{price}} {{name}}",
       "notifications": {
-        "aliasCreated": "Alias has been created"
+        "aliasCreated": "An alias has been created"
       }
     },
     "termsAccept": {
       "header": {
         "title": "Done! Let’s review",
         "title2": "Terms of Use",
-        "description": "Waves is different — it cannot be safely held with a bank or web service."
+        "description": "Waves is different—it cannot be safely held with a bank or web service."
       },
       "body": {
         "security": "I understand that my funds are held securely on this device, not by a company",
         "backup": "I understand that if this app is moved to another device or deleted, my Waves can only be recovered with the backup phrase",
-        "read": "I have read, understood, and agree to the",
+        "read": "I have read, understood and agree to the",
         "terms": "Terms of Use",
         "ok": "Confirm & Finish"
       }
