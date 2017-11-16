@@ -29,6 +29,8 @@
             </w-cell>
         </w-row>
 
+        <hr>
+
         <w-row class="buy footnote" ng-repeat="order in $ctrl.orders.asks track by $index">
             <w-cell>
                 <w-balance money="order.amount"></w-balance>

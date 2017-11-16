@@ -58,6 +58,9 @@
                         amountAssetId: WavesApp.defaultAssets.WAVES,
                         priceAssetId: WavesApp.defaultAssets.BTC,
                         layout: {
+                            tradeHistory: {
+                                collapsed: true
+                            },
                             leftColumnState: true,
                             rightColumnState: true
                         },

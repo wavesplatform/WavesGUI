@@ -14,9 +14,17 @@ w-dex-block {
       padding: 0 16px;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       height: 39px;
       background-color: @color-disabled-50;
       border-bottom: 1px solid @color-disabled-200;
+    }
+
+    .collapse-dex-block {
+      width: 20px;
+      height: 20px;
+      border-radius: 2px;
+      border: solid 1px @color-disabled-200;
     }
 
     .dex-block-content {
@@ -24,6 +32,11 @@ w-dex-block {
       display: flex;
       overflow: auto;
       padding: 0 8px;
+      transition: height 0.3s;
     }
+  }
+
+  &.collapsed .block-wrapper .dex-block-content {
+    height: 0;
   }
 }
