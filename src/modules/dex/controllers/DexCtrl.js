@@ -7,7 +7,7 @@
      * @param {User} user
      * @return {DexCtrl}
      */
-    const controller = function (assetsService, utils, user, Base) {
+    const controller = function (assetsService, utils, user, Base, $element) {
 
         class DexCtrl extends Base {
 
@@ -22,13 +22,22 @@
 				this.rightHidden = false;
 			}
 
+			// @TODO refactor
+			// hide and show graph to force its resize
+			toggleColumn(column) {
+				const $graphWrapper = $element.find('.graph-wrapper');
+				$graphWrapper.hide();
+				this[`${column}Hidden`] = !this[`${column}Hidden`];
+				setTimeout(() => $graphWrapper.show(), 100);
+			}
+
         }
 
         return new DexCtrl();
     };
 
 
-    controller.$inject = ['assetsService', 'utils', 'user', 'Base'];
+    controller.$inject = ['assetsService', 'utils', 'user', 'Base', '$element'];
 
     angular.module('app.dex')
         .controller('DexCtrl', controller);
