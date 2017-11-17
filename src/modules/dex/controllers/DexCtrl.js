@@ -16,8 +16,11 @@
 
                 this.amountAssetId = null;
                 this.priceAssetId = null;
-                this.syncSettings({ amountAssetId: 'dex.amountAssetId', priceAssetId: 'dex.priceAssetId' });
-            }
+				this.syncSettings({ amountAssetId: 'dex.amountAssetId', priceAssetId: 'dex.priceAssetId' });
+				
+				this.leftHidden = false;
+				this.rightHidden = false;
+			}
 
         }
 
