@@ -1,13 +1,10 @@
 <div class="dex-wrapper" w-i18n-ns="app.dex">
-
 	<div ng-class="{hidden: $ctrl.leftHidden}" class="dex-column dex-sidebar dex-sidebar--left dex-divided-column">
-		<w-dex-block class="dex-divided-column--fill" title="Order book">
-			123123
-			<!-- <w-dex-order-book></w-dex-order-book> -->
+		<w-dex-block class="dex-divided-column--fill" title="Order book" has-search="true">
+			<w-dex-watchlist asset-save-path="dex.watchlist.top"></w-dex-watchlist>
 		</w-dex-block>
-		<w-dex-block class="dex-divided-column--fixed" title="Order book">
-			123123
-			<!-- <w-dex-order-book></w-dex-order-book> -->
+		<w-dex-block class="dex-divided-column--fixed" title="Order book" has-search="true">
+			<w-dex-watchlist asset-save-path="dex.watchlist.bottom"></w-dex-watchlist>
 		</w-dex-block>
 	</div>
 
@@ -17,7 +14,7 @@
 
 	<div class="dex-column dex-content dex-divided-column">
 		<w-dex-block class="dex-divided-column--fill" title="DEX content">
-			charts
+			<w-dex-trade-graph></w-dex-trade-graph>
 		</w-dex-block>
 
 		<w-dex-block class="dex-divided-column--fill" title="DEX content">
@@ -31,12 +28,10 @@
 
 	<div ng-class="{hidden: $ctrl.rightHidden}" class="dex-column dex-sidebar dex-sidebar--right dex-divided-column">
 		<w-dex-block class="dex-divided-column--fill" title="Order book">
-			Order book
-			<!-- <w-dex-order-book></w-dex-order-book> -->
+			<w-dex-order-book></w-dex-order-book>
 		</w-dex-block>
 		<w-dex-block class="dex-divided-column--fixed" save-path="dex.layout.tradeHistory" can-collapse="true" title="Trade history">
-			Some bull
-			<!-- <w-dex-trade-history></w-dex-trade-history> -->
+			<w-dex-trade-history></w-dex-trade-history>
 		</w-dex-block>
 	</div>
 </div>
