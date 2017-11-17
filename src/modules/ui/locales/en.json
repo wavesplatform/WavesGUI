@@ -52,6 +52,12 @@
     "reissuable": {
       "false": "Not Reissuable",
       "true": "Reissuable"
+    },
+    "actions": {
+      "cancelLeasing": "Cancel Leasing",
+      "showTx": "TX info",
+      "copyTxId": "Copy TX ID",
+      "copyTxData": "Copy all TX data"
     }
   },
   "transactionList": {

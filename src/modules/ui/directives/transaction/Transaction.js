@@ -1,15 +1,17 @@
 (function () {
     'use strict';
 
-    const PATH = 'modules/ui/directives/transaction';
+    const PATH = 'modules/ui/directives/transaction/types';
 
     /**
      * @param Base
      * @param $filter
      * @param {AssetsService} assetsService
+     * @param {CopyService} copyService
+     * @param {User} user
      * @return {Transaction}
      */
-    const controller = function (Base, $filter, assetsService) {
+    const controller = function (Base, $filter, assetsService, copyService, user) {
 
         class Transaction extends Base {
 
@@ -20,7 +22,7 @@
             $postLink() {
                 const TYPES = this.parent.TYPES;
                 const templateType = Transaction._getTemplateType(this.transaction.type, TYPES);
-                this.templateUrl = `${PATH}/tx-${templateType}.html`;
+                this.templateUrl = `${PATH}/${templateType}.html`;
 
                 this.type = this.transaction.type;
 
@@ -32,13 +34,70 @@
 
                 // TODO : maybe for all transaction types (without `if` statement)
                 if (this.type === TYPES.SEND || this.type === TYPES.RECEIVE || this.type === TYPES.CIRCULAR) {
-                    // TODO : maybe getRateHistory()
-                    assetsService.getRate(this.amount.asset.id, WavesApp.defaultAssets.USD) // TODO!
-                        .then((api) => api.exchange(this.amount.getTokens()))
-                        .then((balance) => {
-                            this.mirrorBalance = balance.toFormat(2); // TODO!
-                        });
+                    user.getSetting('baseAssetId')
+                        .then(assetsService.getAssetInfo)
+                        .then((baseAsset) => {
+                        // TODO : change to getRateByDate()
+                        assetsService.getRate(this.amount.asset.id, baseAsset.id)
+                            .then((api) => api.exchange(this.amount.getTokens()))
+                            .then((balance) => {
+                                this.mirrorBalance = balance.toFormat(baseAsset.precision);
+                            });
+                    });
                 }
+            }
+
+            cancelLeasing() {} // TODO
+
+            showTransaction() {} // TODO
+
+            /**
+             * return {string}
+             */
+            copyId() {
+                copyService.copy(this.transaction.id);
+            }
+
+            /**
+             * return {string}
+             */
+            copyAllData() {
+                const tx = this.transaction;
+
+                const id = `Transaction ID: ${tx.id}`;
+                const type = `Type: ${tx.transactionType} (${this.type})`;
+
+                const timestamp = $filter('date')(tx.timestamp, 'MM/dd/yyyy HH:mm');
+                const datetime = `Date: ${timestamp}`;
+
+                let sender = `Sender: ${tx.sender}`;
+                if (tx.transactionType === 'exchange') {
+                    sender += ' (matcher address)';
+                }
+
+                let message = `${id}\n${type}\n${datetime}\n${sender}`;
+
+                if (tx.recipient) {
+                    const recipient = `Recipient: ${tx.recipient}`;
+                    message += `\n${recipient}`;
+                }
+
+                if (tx.amount) {
+                    const asset = tx.amount.asset;
+                    const amount = `Amount: ${tx.amount.toFormat()} ${asset.name} (${asset.id})`;
+                    message += `\n${amount}`;
+                }
+
+                if (this.price) {
+                    const asset = tx.price.asset;
+                    const price = `Price: ${tx.price.toFormat()} ${asset.name} (${asset.id})`;
+                    message += `\n${price}`;
+                }
+
+                const fee = `Fee: ${tx.fee.toFormat()} ${tx.fee.asset.name} (${tx.fee.asset.id})`;
+                message += `\n${fee}`;
+
+                copyService.copy(message);
             }
 
             /**
@@ -95,7 +154,7 @@
         return new Transaction();
     };
 
-    controller.$inject = ['Base', '$filter', 'assetsService'];
+    controller.$inject = ['Base', '$filter', 'assetsService', 'copyService', 'user'];
 
     angular.module('app.ui').component('wTransaction', {
         bindings: {

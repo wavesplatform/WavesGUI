@@ -252,6 +252,8 @@
                     });
             }
 
+            // TODO : getRateByDate as a wrapper for getRateHistory @xenohunter
+
             @decorators.cachable(20)
             getRateHistory(fromId, toId, time, count) {
                 const params = {
