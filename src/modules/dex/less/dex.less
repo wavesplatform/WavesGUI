@@ -1,6 +1,8 @@
 @import (reference) '../../config';
 @import (reference) '../../app/less/typography';
 
+@dex-lower-block-height: 300px;
+
 body.dex {
     w-header {
         display: none;
@@ -105,10 +107,12 @@ body.dex {
 		flex-direction: column;
 
         .dex-divided-column--fill {
-            flex: 1;
+			flex: 1;
+			height: calc(~"100% - "@dex-lower-block-height - @padding-main-layout);
         }
         .dex-divided-column--fixed {
-            flex: 0 0 300px;
+			flex: 0 0;
+			height: @dex-lower-block-height;
         }
     }
 }

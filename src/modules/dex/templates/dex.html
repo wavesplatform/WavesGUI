@@ -1,33 +1,41 @@
 <div class="dex-wrapper" w-i18n-ns="app.dex">
 	<div ng-class="{hidden: $ctrl.leftHidden}" class="dex-column dex-sidebar dex-sidebar--left dex-divided-column">
-		<w-dex-block class="dex-divided-column--fill" title="Order book" has-search="true">
-			<w-dex-watchlist asset-save-path="dex.watchlist.top"></w-dex-watchlist>
-		</w-dex-block>
-		<w-dex-block class="dex-divided-column--fixed" title="Order book" has-search="true">
-			<w-dex-watchlist asset-save-path="dex.watchlist.bottom"></w-dex-watchlist>
-		</w-dex-block>
+		<div class="dex-divided-column--fill">
+			<w-dex-block title="Order book" has-search="true">
+				<w-dex-watchlist asset-save-path="dex.watchlist.top"></w-dex-watchlist>
+			</w-dex-block>
+		</div>
+		<div class="dex-divided-column--fixed">
+			<w-dex-block title="Order book" has-search="true">
+				<w-dex-watchlist asset-save-path="dex.watchlist.bottom"></w-dex-watchlist>
+			</w-dex-block>
+		</div>
 	</div>
 
 	<div ng-click="$ctrl.toggleColumn('left')" ng-class="{'dex-sidebar-toggle__open': !$ctrl.leftHidden}" class="dex-sidebar-toggle dex-sidebar-toggle__left"></div>
 
 	<div class="dex-column dex-content dex-divided-column">
-		<w-dex-block class="dex-divided-column--fill" title="DEX content">
+		<w-dex-block title="DEX content">
 			<w-dex-trade-graph></w-dex-trade-graph>
 		</w-dex-block>
 
-		<w-dex-block class="dex-divided-column--fill" title="DEX content">
+		<w-dex-block title="DEX content">
 			table
 		</w-dex-block>
 	</div>
 
 	<div ng-click="$ctrl.toggleColumn('right')" ng-class="{'dex-sidebar-toggle__open': !$ctrl.rightHidden}" class="dex-sidebar-toggle dex-sidebar-toggle__right"></div>
 
-	<div class="dex-column dex-sidebar dex-sidebar--right dex-divided-column">
-		<w-dex-block class="dex-divided-column--fixed" save-path="dex.layout.tradeHistory" can-collapse="true" title="Trade history">
-			<w-dex-trade-history></w-dex-trade-history>
-		</w-dex-block>
+	<div ng-class="{hidden: $ctrl.rightHidden}" class="dex-column dex-sidebar dex-sidebar--right dex-divided-column">
+		<div class="dex-divided-column--fill">
+			<w-dex-block title="Order book">
+				<w-dex-order-book></w-dex-order-book>
+			</w-dex-block>
+		</div>
 
-		<w-dex-block class="dex-divided-column--fill" title="Order book">
-			<w-dex-order-book></w-dex-order-book>
-		</w-dex-block>
+		<div class="dex-divided-column--fixed">
+			<w-dex-block save-path="dex.layout.tradeHistory" can-collapse="true" title="Trade history">
+				<w-dex-trade-history></w-dex-trade-history>
+			</w-dex-block>
+		</div>
 	</div>
