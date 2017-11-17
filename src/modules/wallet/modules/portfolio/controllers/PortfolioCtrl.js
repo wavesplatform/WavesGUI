@@ -127,7 +127,7 @@
             }
 
             static _isEmptyBalance(list) {
-                return list.length === 1 && list[0].balance.getTokens().eq(0);
+                return list.length === 0;
             }
 
         }

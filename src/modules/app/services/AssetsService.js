@@ -78,7 +78,11 @@
              */
             getBalanceList(assetIds) {
                 return utils.whenAll([
-                    this._getBalanceList(),
+                    this._getBalanceList().then((balanceList) => {
+                        return balanceList.filter((asset) => {
+                            return !asset.amount.getTokens().eq(0);
+                        });
+                    }),
                     eventManager.getBalanceEvents()
                 ])
                     .then(([balanceList, events]) => {

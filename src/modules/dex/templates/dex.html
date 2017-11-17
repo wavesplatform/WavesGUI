@@ -1,9 +1,14 @@
 <div class="dex-wrapper" w-i18n-ns="app.dex">
     <w-column save-path="dex.layout.leftColumnState">
-
+        <w-dex-block has-search="true">
+            <w-dex-watchlist asset-save-path="dex.watchlist.top"></w-dex-watchlist>
+        </w-dex-block>
+        <w-dex-block has-search="true">
+            <w-dex-watchlist asset-save-path="dex.watchlist.bottom"></w-dex-watchlist>
+        </w-dex-block>
     </w-column>
     <div class="dex-content">
-
+        <w-dex-trade-graph></w-dex-trade-graph>
     </div>
     <w-column save-path="dex.layout.rightColumnState">
         <w-dex-block title="Order book">

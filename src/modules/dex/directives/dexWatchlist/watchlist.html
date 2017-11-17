@@ -1,0 +1,32 @@
+<w-table>
+    <w-t-head>
+        <w-row>
+            <w-cell>
+                <w-i18n>Coin</w-i18n>
+            </w-cell>
+            <w-cell>
+                <w-i18n>Name</w-i18n>
+            </w-cell>
+            <w-cell>
+                <w-i18n>Price</w-i18n>
+            </w-cell>
+            <w-cell>
+                <w-i18n>Chng</w-i18n>
+            </w-cell>
+        </w-row>
+    </w-t-head>
+    <w-row ng-repeat="asset in $ctrl.watchlist track by asset.id">
+        <w-cell>
+            {{::asset.name}}
+        </w-cell>
+        <w-cell>
+            {{::asset.name}}
+        </w-cell>
+        <w-cell>
+            <w-exchange no-update="trus" balance="$ctrl.baseMoney" target-asset-id="{{::asset.id}}"></w-exchange>
+        </w-cell>
+        <w-cell>
+            0.01%
+        </w-cell>
+    </w-row>
+</w-table>

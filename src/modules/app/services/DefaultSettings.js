@@ -57,6 +57,10 @@
                     dex: {
                         amountAssetId: WavesApp.defaultAssets.WAVES,
                         priceAssetId: WavesApp.defaultAssets.BTC,
+                        watchlist: {
+                            top: WavesApp.defaultAssets.WAVES,
+                            bottom: WavesApp.defaultAssets.BTC
+                        },
                         layout: {
                             tradeHistory: {
                                 collapsed: true
