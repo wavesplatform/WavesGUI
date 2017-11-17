@@ -32,7 +32,7 @@
   "configurations": {
     "testnet": {
       "code": "T",
-      "server": "https://testnet1.wavesnodes.com",
+      "server": "https://testnodes.wavesnodes.com",
       "matcher": "https://testnet1.wavesnodes.com/matcher",
       "coinomat": "https://test.coinomat.com",
       "datafeed": "https://marketdata.wavesplatform.com",
