@@ -2,10 +2,29 @@
 
 w-actions {
   display: block;
-  height: 16px;
-  width: 4px;
   position: relative;
-  cursor: pointer;
+
+  .click-area {
+    display: flex;
+    justify-content: center;
+    width: 24px;
+    height: 16px;
+    cursor: pointer;
+
+    .dots {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+
+      .dot {
+        width: 4px;
+        height: 4px;
+        border-radius: 100%;
+        background-color: @color-basic-500;
+      }
+    }
+  }
 
   .actions-container {
     z-index: 1;
@@ -19,24 +38,11 @@ w-actions {
 
     .action {
       padding: 8px 20px;
+      cursor: pointer;
 
       &:hover {
         background-color: @color-basic-50;
       }
-    }
-  }
-
-  .dots {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-
-    .dot {
-      width: 4px;
-      height: 4px;
-      border-radius: 100%;
-      background-color: @color-basic-500;
     }
   }
 }
