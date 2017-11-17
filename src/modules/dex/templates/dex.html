@@ -8,9 +8,7 @@
 		</w-dex-block>
 	</div>
 
-	<div ng-click="$ctrl.leftHidden = !$ctrl.leftHidden"
-		ng-class="{'dex-sidebar-toggle__open': !$ctrl.leftHidden}"
-		class="dex-sidebar-toggle dex-sidebar-toggle__left"></div>
+	<div ng-click="$ctrl.leftHidden = !$ctrl.leftHidden" ng-class="{'dex-sidebar-toggle__open': !$ctrl.leftHidden}" class="dex-sidebar-toggle dex-sidebar-toggle__left"></div>
 
 	<div class="dex-column dex-content dex-divided-column">
 		<w-dex-block class="dex-divided-column--fill" title="DEX content">
@@ -22,9 +20,7 @@
 		</w-dex-block>
 	</div>
 
-	<div ng-click="$ctrl.rightHidden = !$ctrl.rightHidden"
-		ng-class="{'dex-sidebar-toggle__open': !$ctrl.rightHidden}"
-		class="dex-sidebar-toggle dex-sidebar-toggle__right"></div>
+	<div ng-click="$ctrl.rightHidden = !$ctrl.rightHidden" ng-class="{'dex-sidebar-toggle__open': !$ctrl.rightHidden}" class="dex-sidebar-toggle dex-sidebar-toggle__right"></div>
 
 	<div ng-class="{hidden: $ctrl.rightHidden}" class="dex-column dex-sidebar dex-sidebar--right dex-divided-column">
 		<w-dex-block class="dex-divided-column--fill" title="Order book">
@@ -34,4 +30,3 @@
 			<w-dex-trade-history></w-dex-trade-history>
 		</w-dex-block>
 	</div>
-</div>
