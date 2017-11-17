@@ -95,7 +95,7 @@ w-scroll-box {
 
   .content {
     width: calc(~"100% - "@width-left-menu + @padding-main-layout * 2);
-    height: calc(~"100% - "@width-left-menu + @padding-main-layout * 2);
+    height: calc(~"100% - "@height-header + @padding-main-layout * 2);
     overflow: auto;
     position: absolute;
     right: @padding-main-layout;
@@ -173,7 +173,7 @@ md-dialog md-dialog-actions {
 
 .btn-wrap.btn-group { // TODO add colors from config for btn-wrap
   box-sizing: border-box;
-  padding: 0 10px;
+  padding: 0;
   display: flex;
   flex-direction: row;
   justify-content: center;

@@ -26,15 +26,15 @@
              */
             @decorators.cachable()
             getAssetInfo(assetId) {
-                if (!assetId) debugger;
                 if (assetId === WavesApp.defaultAssets.WAVES) {
                     return user.onLogin()
-                        .then(() => ({
+                        .then(() => this.getMoneyList([{ count: '100000000', id: WavesApp.defaultAssets.WAVES }]))
+                        .then(([quantity]) => ({
                             id: WavesApp.defaultAssets.WAVES,
                             name: 'Waves',
                             precision: 8,
                             reissuable: false,
-                            quantity: 100000000,
+                            quantity: quantity,
                             timestamp: 1460408400000,
                             sender: WavesApp.defaultAssets.WAVES
                         }));
@@ -76,45 +76,53 @@
              * @param {Object} [options.offset]
              * @return {Promise}
              */
-            getBalanceList(assetIds, options) {
+            getBalanceList(assetIds) {
                 return utils.whenAll([
                     this._getBalanceList(),
                     eventManager.getBalanceEvents()
-                ]).then(([list, events]) => {
-                    if (!assetIds) {
-                        const promiseList = list.map((item) => this.getAssetInfo(item.id));
-                        return utils.whenAll(promiseList).then((infoList) => {
-                            return infoList.map((asset, index) => {
-                                const balance = this._getAssetBalance(asset.id, list[index].amount, events);
-                                return { ...asset, balance };
-                            });
-                        });
-                    } else {
-                        const promiseList = assetIds.map(this.getAssetInfo, this);
-                        const balances = utils.toHash(list, 'id');
-                        const moneyListPromise = this.getMoney(assetIds.filter((id) => !balances[id]));
-                        return utils.whenAll([
-                            utils.whenAll(promiseList),
-                            moneyListPromise
-                        ])
-                            .then(([infoList, moneyList]) => {
-                                const moneyHash = utils.toHash(moneyList, 'asset.id');
-                                return infoList.map((asset) => {
-                                    const balance = balances[asset.id] ?
-                                        this._getAssetBalance(asset.id, balances[asset.id].amount, events) :
-                                        moneyHash[asset.id];
-                                    return { ...asset, balance };
-                                });
-                            });
-                    }
-                });
+                ])
+                    .then(([balanceList, events]) => {
+                        if (!assetIds) {
+                            const promiseList = balanceList.map((item) => this.getAssetInfo(item.id));
+                            return utils.whenAll(promiseList)
+                                .then((infoList) => {
+                                    return infoList.map((asset, index) => {
+                                        const amount = balanceList[index].amount;
+                                        const balance = this._getAssetBalance(asset.id, amount, events);
+                                        return this.getMoney(balance.toFixed(asset.precision), asset.id)
+                                            .then((money) => ({ ...asset, balance: money }));
+                                    });
+                                })
+                                .then(utils.whenAll);
+                        } else {
+                            const balances = utils.toHash(balanceList, 'id');
+                            return utils.whenAll(assetIds.map(this.getAssetInfo))
+                                .then((assetList) => {
+                                    return assetList.map((asset) => {
+                                        if (balances[asset.id]) {
+                                            const tokens = this._getAssetBalance(asset.id, balances[asset.id].amount, events);
+                                            return this.getMoney(tokens.toFixed(asset.precision), asset.id)
+                                                .then((money) => ({ ...asset, balance: money }));
+                                        } else {
+                                            return this.getMoney('0', asset.id)
+                                                .then((money) => ({ ...asset, balance: money }));
+                                        }
+                                    });
+                                })
+                                .then(utils.whenAll);
+                        }
+                    });
 
             }
 
-            getMoney(assetIds) {
-                return apiWorker.process((Waves, assetIds) => {
-                    return Promise.all(assetIds.map((assetId) => Waves.Money.fromTokens('0', assetId)));
-                }, assetIds);
+            getMoneyList(moneyData) {
+                return apiWorker.process((Waves, moneyData) => {
+                    return Promise.all(moneyData.map(({ count, id }) => Waves.Money.fromTokens(count, id)));
+                }, moneyData);
+            }
+
+            getMoney(balance, id) {
+                return this.getMoneyList([{ count: balance, id }]).then(([money]) => money);
             }
 
             @decorators.cachable(2)
@@ -154,7 +162,7 @@
                         return 1;
                     }
 
-                    const getRate = function (from, to) {
+                    const getChange = function (from, to) {
                         return Waves.AssetPair.get(from, to)
                             .then((pair) => {
                                 return fetch(`${marketUrl}/${pair.toString()}/1440/1`)
@@ -176,14 +184,14 @@
 
                     if (idFrom !== wavesId && idTo !== wavesId) {
                         return Promise.all([
-                            getRate(idFrom, wavesId),
-                            getRate(idTo, wavesId)
+                            getChange(idFrom, wavesId),
+                            getChange(idTo, wavesId)
                         ])
                             .then((rateList) => {
                                 return rateList[1] === 0 ? 0 : rateList[0] / rateList[1];
                             });
                     } else {
-                        return getRate(idFrom, idTo);
+                        return getChange(idFrom, idTo);
                     }
 
                 }, params);
@@ -215,7 +223,8 @@
                     const currentRate = (trades) => {
                         return trades && trades.length ? trades.reduce((result, item) => {
                             return result.add(new WavesAPI.BigNumber(item.price));
-                        }, new WavesAPI.BigNumber(0)).div(trades.length) : new WavesAPI.BigNumber(0);
+                        }, new WavesAPI.BigNumber(0))
+                            .div(trades.length) : new WavesAPI.BigNumber(0);
                     };
 
                     const getRate = function (from, to) {
@@ -230,6 +239,8 @@
                                         } else {
                                             return rate.eq(0) ? rate : new WavesAPI.BigNumber(1).div(rate);
                                         }
+                                    }).catch((e) => {
+                                        return new WavesAPI.BigNumber(0);
                                     });
                             });
                     };
@@ -240,7 +251,7 @@
                             getRate(idTo, wavesId)
                         ])
                             .then((rateList) => {
-                                return rateList[1] === 0 ? 0 : rateList[0] / rateList[1];
+                                return rateList[1].eq(0) ? rateList[1] : rateList[0].div(rateList[1]);
                             });
                     } else {
                         return getRate(idFrom, idTo);
@@ -325,13 +336,12 @@
             }
 
             /**
-             * @return {Promise<IFeeData>}
+             * @return {Promise<Money>}
              */
             getFeeSend() {
-                return utils.when({
-                    id: WavesApp.defaultAssets.WAVES,
-                    fee: 0.001
-                });
+                return apiWorker.process((Waves, id) => {
+                    return Waves.Money.fromTokens('0.001', id);
+                }, WavesApp.defaultAssets.WAVES);
             }
 
             /**
@@ -343,20 +353,21 @@
              */
             _getAssetBalance(assetId, money, events) {
                 return events.reduce((balance, balanceEvent) => {
-                    return money.sub(balanceEvent.getBalanceDifference(assetId));
-                }, money);
+                    return balance.sub(balanceEvent.getBalanceDifference(assetId));
+                }, money.getTokens());
             }
 
             /**
              * @private
              */
-            @decorators.cachable(2)
+            @decorators.cachable(1)
             _getBalanceList() {
-                return user.onLogin().then(() => {
-                    return apiWorker.process((WavesAPI, { address }) => {
-                        return WavesAPI.API.Node.v2.addresses.balances(address); // TODO Add limits. Author Tsigel at 14/11/2017 09:04
-                    }, { address: user.address });
-                });
+                return user.onLogin()
+                    .then(() => {
+                        return apiWorker.process((WavesAPI, { address }) => {
+                            return WavesAPI.API.Node.v2.addresses.balances(address); // TODO Add limits. Author Tsigel at 14/11/2017 09:04
+                        }, { address: user.address });
+                    });
             }
 
             /**
@@ -404,12 +415,6 @@
 
 /**
  * @name AssetsService.rateApi
- */
-
-/**
- * @typedef {Object} IFeeData
- * @property {string} id
- * @property {number} fee
  */
 
 /**

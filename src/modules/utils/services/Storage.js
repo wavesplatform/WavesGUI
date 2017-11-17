@@ -1,7 +1,6 @@
 (function () {
     'use strict';
 
-    // TODO! Add stringify and parse for BigNumber. Author Tsigel at 14/11/2017 09:16
     let read;
     let write;
     let clear;

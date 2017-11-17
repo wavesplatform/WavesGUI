@@ -17,7 +17,7 @@
     }
 
     .btn-icon.icon-send::before {
-      background-image: url(/img/icons/send-grey.svg);
+      background-image: url(/img/icons/send-white.svg);
     }
 
     .btn-icon.icon-receive::before {
@@ -35,7 +35,7 @@
       left: @padding-main-layout * -1 / 4;
 
       w-button {
-        margin: 0 @padding-main-layout / 4;
+        margin: 0 @padding-main-layout / 20;
       }
 
       .right {
@@ -87,11 +87,13 @@
 
         & > div:not(:last-child) {
           text-align: center;
-          margin-right: 40px;
+          margin-right: 42px;
+          padding-right: 42px;
+          border-right: 2px solid #f0f0f0;
         }
 
         h1 {
-          margin: 0;
+          margin: 0 0 5px;
         }
       }
 
@@ -110,7 +112,7 @@
 
 .toolbar {
   & w-radio-wrap {
-    & .btn-wrap.btn-group .btn{
+    & .btn-wrap.btn-group .btn {
       border-left: 0;
       border-bottom-left-radius: 0;
       border-top-left-radius: 0;
@@ -120,27 +122,38 @@
       color: @color-info-500;
       display: block;
       background-color: @color-background-default;
-      border: 1px solid transparent;
-      font-size: 15px;
+      font-size: 17px;
       text-decoration: none;
       line-height: 56px;
-      padding: 0 10px;
-      border:0;
+      padding: 0;
+      margin-right: 30px;
+      border: none;
       border-bottom: 1px solid transparent;
     }
-    & w-radio input:checked ~ label.btn.btn-radio{
+    & w-radio input:checked ~ label.btn.btn-radio {
       font-family: @font-roboto-regular;
-      font-size: 34px;
       letter-spacing: 0;
-      line-height: 40px;
-      margin: 10px 0;
-      margin: auto;
-      font-size: 15px;
+      margin: auto 30px auto auto;
+      font-size: 17px;
       color: @color-submit-400;
       line-height: 56px;
-      border:0;
+      border: 0;
       border-bottom-right-radius: 0;
       border-bottom: 1px solid @color-submit-400;
+    }
+    & .ng-scope[value="'day'"] .btn,
+    & .ng-scope[value="'week'"] .btn,
+    & .ng-scope[value="'month'"] .btn,
+    & .ng-scope[value="'year'"] .btn,
+    & .ng-scope[value="'day'"] input:checked ~ label.btn.btn-radio, 
+    & .ng-scope[value="'week'"] input:checked ~ label.btn.btn-radio,
+    & .ng-scope[value="'month'"] input:checked ~ label.btn.btn-radio,
+    & .ng-scope[value="'year'"] input:checked ~ label.btn.btn-radio {
+      font-size: 13px;
+    }
+    & .radio-dot {
+      display: inline-block;
+      margin: 0 5px;
     }
   }
 }

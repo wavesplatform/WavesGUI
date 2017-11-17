@@ -1,3 +1,6 @@
+<div class="logo-wrapper margin-right-2">
+    <w-avatar ng-click="$ctrl.avatarClick()" size="40" address="$ctrl.address"></w-avatar>
+</div>
 <w-navigation type="column">
     <a ng-repeat="state in $ctrl.stateList track by $index"
        class="{{::state.name}}"

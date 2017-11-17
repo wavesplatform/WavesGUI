@@ -75,15 +75,18 @@
                         this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000);
 
                         createPoll(this, this._getChartBalances, 'chartBalances', 15000, { isBalance: true });
-                        createPoll(this, this._getBalances, 'assets', 5000, { isBalance: true });
+                        const assetsPoll = createPoll(this, this._getBalances, 'assets', 5000, { isBalance: true });
 
                         this.observe('chartMode', this._onChangeMode);
+                        this.observe('assetList', () => {
+                            assetsPoll.restart();
+                        });
                         this.observe(['interval', 'intervalCount', 'activeChartAssetId'], this._onChangeInterval);
                     });
             }
 
             onAssetClick(e, asset) {
-                if (e.target.hasAttribute('ng-click')) {
+                if (e.target.hasAttribute('ng-click') && e.target.tagName !== 'W-ASSET') {
                     return null;
                 } else {
                     this.showAsset(asset);
