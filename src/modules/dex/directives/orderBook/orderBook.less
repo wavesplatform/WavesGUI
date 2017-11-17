@@ -6,11 +6,27 @@ w-dex-order-book {
   text-align: right;
 
   w-table w-row {
-    padding: 0 16px;
+    padding: 0 10px 0 5px;
   }
 
   .decimal-muted {
-    opacity: 0.6;
+    color: @color-disabled-500;
+  }
+
+  .bids .cell-1 {
+    color: @color-error-400;
+
+    .decimal-muted {
+      color: @color-error-200;
+    }
+  }
+
+  .asks .cell-1 {
+    color: @color-success-600;
+
+    .decimal-muted {
+      color: @color-success-200;
+    }
   }
 
 }

@@ -77,8 +77,8 @@
                                 processNum(item.amount),
                                 processNum(item.price),
                                 processNum(item.total)
-                            ].map((content) => {
-                                return `<w-cell>${getCell(content)}</w-cell>`;
+                            ].map((content, i) => {
+                                return `<w-cell class="cell-${i}">${getCell(content)}</w-cell>`;
                             }).join('');
                         };
 
@@ -120,13 +120,15 @@
                                     const bids = bidAsks[0];
                                     const asks = bidAsks[1];
 
-                                    return { bids: process(bids), asks: process(asks) };
+                                    return { bids: process(bids).join(''), asks: process(asks).join('') };
                                 });
                             });
                     });
                 }, { assetId1: this._amountAssetId, assetId2: this._priceAssetId })
                     .then(({ bids, asks }) => {
-                        $element.find('w-scroll-box').html(bids.join('') + asks.join(''))
+
+                        const template = `<div class="bids">${bids}</div><div class="asks"${asks}</div>`;
+                        $element.find('w-scroll-box').html(template);
                     });
             }
 
