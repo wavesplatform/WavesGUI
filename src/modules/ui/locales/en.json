@@ -58,6 +58,10 @@
       "showTx": "TX info",
       "copyTxId": "Copy TX ID",
       "copyTxData": "Copy all TX data"
+    },
+    "notifications": {
+      "txIdCopied": "Transaction ID is copied",
+      "txDataCopied": "Transaction data is copied"
     }
   },
   "transactionList": {

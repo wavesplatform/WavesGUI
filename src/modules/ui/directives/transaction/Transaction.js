@@ -6,12 +6,13 @@
     /**
      * @param Base
      * @param $filter
+     * @param {NotificationManager} notificationManager
      * @param {AssetsService} assetsService
      * @param {CopyService} copyService
      * @param {User} user
      * @return {Transaction}
      */
-    const controller = function (Base, $filter, assetsService, copyService, user) {
+    const controller = function (Base, $filter, notificationManager, assetsService, copyService, user) {
 
         class Transaction extends Base {
 
@@ -56,6 +57,10 @@
              */
             copyId() {
                 copyService.copy(this.transaction.id);
+                notificationManager.info({
+                    ns: 'app.ui',
+                    title: { literal: 'transaction.notifications.txIdCopied' }
+                });
             }
 
             /**
@@ -98,6 +103,10 @@
                 message += `\n${fee}`;
 
                 copyService.copy(message);
+                notificationManager.info({
+                    ns: 'app.ui',
+                    title: { literal: 'transaction.notifications.txDataCopied' }
+                });
             }
 
             /**
@@ -154,7 +163,7 @@
         return new Transaction();
     };
 
-    controller.$inject = ['Base', '$filter', 'assetsService', 'copyService', 'user'];
+    controller.$inject = ['Base', '$filter', 'notificationManager', 'assetsService', 'copyService', 'user'];
 
     angular.module('app.ui').component('wTransaction', {
         bindings: {
