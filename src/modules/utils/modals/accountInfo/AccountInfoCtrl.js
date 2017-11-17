@@ -9,11 +9,11 @@
      * @param {AssetsService} assetsService
      * @param {NotificationManager} notificationManager
      * @param {app.utils} utils
-     * @return {AccountInformationCtrl}
+     * @return {AccountInfoCtrl}
      */
     const controller = function (Base, $scope, user, apiWorker, assetsService, notificationManager, utils) {
 
-        class AccountInformationCtrl extends Base {
+        class AccountInfoCtrl extends Base {
 
             constructor() {
                 super($scope);
@@ -64,11 +64,11 @@
 
         }
 
-        return new AccountInformationCtrl();
+        return new AccountInfoCtrl();
     };
 
     controller.$inject = ['Base', '$scope', 'user', 'apiWorker', 'assetsService', 'notificationManager', 'utils'];
 
     angular.module('app.utils')
-        .controller('AccountInformationCtrl', controller);
+        .controller('AccountInfoCtrl', controller);
 })();
