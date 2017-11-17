@@ -103,7 +103,7 @@
              */
             onFetch(response) {
                 if (response.ok) {
-                    if (response.headers.get('Content-Type') === 'application/json') {
+                    if (response.headers.get('Content-Type').indexOf('application/json') !== -1) {
                         return response.json();
                     } else {
                         return response.text();
