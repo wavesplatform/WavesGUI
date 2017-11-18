@@ -73,7 +73,7 @@
             }
 
             set(path, value) {
-                if (this.get(path) === value) {
+                if (utils.isEqual(this.get(path), value)) {
                     return null;
                 }
                 if (utils.isEqual(tsUtils.get(this.defaults, path), value)) {
@@ -81,7 +81,7 @@
                 } else {
                     tsUtils.set(this.settings, path, value);
                 }
-                this.change.dispatch();
+                this.change.dispatch(path);
             }
 
             getSettings() {

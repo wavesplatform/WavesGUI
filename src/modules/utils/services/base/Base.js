@@ -101,7 +101,7 @@
              * @return {Promise}
              */
             syncSettings(syncList) {
-                syncList = Array.isArray(syncList) ? syncList : [syncList];
+                syncList = utils.toArray(syncList);
                 return utils.whenAll(syncList.map((settingsPath) => {
                     const words = settingsPath.split(/\W/);
                     const name = words[words.length - 1];
@@ -109,6 +109,16 @@
                     this.observe(name, () => {
                         user.setSetting(settingsPath, this[name]);
                     });
+
+                    if (user.changeSetting) {
+                        this.receive(user.changeSetting, (path) => {
+                            if (path === settingsPath) {
+                                user.getSetting(path).then((value) => {
+                                    this[name] = value;
+                                });
+                            }
+                        });
+                    }
 
                     return user.getSetting(settingsPath)
                         .then((value) => {
