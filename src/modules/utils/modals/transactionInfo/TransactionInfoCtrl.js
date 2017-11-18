@@ -24,7 +24,7 @@
                         this.transaction = transaction;
 
                         this.templateUrl = `${PATH}/${this.transaction.templateType}.html`;
-                        this.datetime = $filter('date')(this.transaction.timestamp, 'dd.MM.yyyy, hh:mm');
+                        this.datetime = $filter('date')(this.transaction.timestamp, 'dd.MM.yyyy, HH:mm');
                         this.shownAddress = this.transaction.shownAddress;
                         this.type = this.transaction.type;
 
