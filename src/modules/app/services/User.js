@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const NOT_SYNK_FIELDS = [
+    const NOT_SYNC_FIELDS = [
         'changeSetting'
     ];
 
@@ -261,7 +261,7 @@
              */
             _setObserve() {
                 this._fieldsForSave = Object.keys(this)
-                    .filter((property) => property.charAt(0) !== '_' && NOT_SYNK_FIELDS.indexOf(property) === -1);
+                    .filter((property) => property.charAt(0) !== '_' && NOT_SYNC_FIELDS.indexOf(property) === -1);
                 this._fieldsForSave.forEach((key) => {
                     this._observe(key, this);
                 });
