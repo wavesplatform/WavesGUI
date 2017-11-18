@@ -4,6 +4,7 @@ body:not(.create):not(.welcome) {
     md-toolbar {
       .md-toolbar-tools {
         height: auto;
+        padding: 0;
       }
 
       position: relative;
@@ -19,11 +20,43 @@ body:not(.create):not(.welcome) {
 
     md-dialog-content {
       display: block;
-      padding: 30px 40px 40px 40px;
+      padding: 20px 40px 40px 40px;
+      & span.body-2.basic-900.ng-scope {
+        display: inline-block;
+        margin-bottom: 4px;
+      }
+      .header-texts h1 {
+        font-size: 34px;
+        & + div {
+          margin: 0;
+        }
+      }
     }
   }
-  .asset-content .top-content w-asset-logo {
-    margin-right: 20px;
-    float: left
+  .asset-content .top-content {
+    w-asset-logo {  
+      margin-right: 20px;
+      float: left
+    }
+    .pin {
+      position: absolute;
+      top: 92px;
+      right: 40px;
+      height: 30px;
+      padding: 0 15px 0 31px;
+      border-radius: 4px;
+      border: solid 1px #5a81ea;
+      background-color: #fff;
+      color: #5a81ea;
+      line-height: 30px;
+      background-image: url(img/icons/pin.svg);
+      background-repeat: no-repeat;
+      background-position: 15px center;
+      &.pinned {
+        border: none;
+        background-color: #1f5af6;
+        color: #fff;
+      }
+    }
   }
 }

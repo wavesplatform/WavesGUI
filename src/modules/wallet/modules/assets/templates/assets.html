@@ -19,8 +19,7 @@
                 <w-radio-wrap mode="tab-mode" ng-model="$ctrl.activeChartAssetId">
                     <w-radio ng-repeat="asset in $ctrl.chartBalances track by asset.id"
                              value="asset.id">
-                        <span class="radio-name">{{::asset.name}} •</span>
-                        <w-change-rate asset-id="asset.id"></w-change-rate>
+                        <span class="radio-name">{{::asset.name}}<span class="radio-dot">•</span></span>$<w-change-rate asset-id="asset.id"></w-change-rate>
                     </w-radio>
                 </w-radio-wrap>
             </div>
@@ -49,20 +48,20 @@
         <div class="chart-info">
             <div class="rate">
                 <h1>
-                    <w-change-rate asset-id="$ctrl.activeChartAssetId"></w-change-rate>
+                    $ <w-change-rate asset-id="$ctrl.activeChartAssetId"></w-change-rate>
                 </h1>
                 <div class="tag info-500">
                     {{$ctrl.chartAsset.name.toUpperCase()}} PRICE
                 </div>
             </div>
             <div class="change">
-                <h1>${{$ctrl.change}}</h1>
+                <h1>+$ {{$ctrl.change}}</h1>
                 <div class="tag info-500">
                     SLICE LAST {{$ctrl.chartMode.toUpperCase()}} (USD)
                 </div>
             </div>
             <div class="change-percent">
-                <h1>{{$ctrl.changePercent}}%</h1>
+                <h1>+{{$ctrl.changePercent}}%</h1>
                 <div class="tag info-500">
                     SLICE LAST {{$ctrl.chartMode.toUpperCase()}} (%)
                 </div>
