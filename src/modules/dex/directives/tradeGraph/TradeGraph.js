@@ -5,9 +5,10 @@
      * @param Base
      * @param utils
      * @param {AssetsService} assetsService
+     * @param {app.utils.apiWorker} apiWorker
      * @return {TradeGraph}
      */
-    const controller = function (Base, utils, assetsService) {
+    const controller = function (Base, utils, assetsService, apiWorker) {
 
         class TradeGraph extends Base {
 
@@ -61,29 +62,41 @@
                     bids: [{ amount: 0, price: 0 }]
                 };
 
+                this.syncSettings({
+                    amountAssetId: 'dex.amountAssetId',
+                    priceAssetId: 'dex.priceAssetId'
+                });
                 this.observe(['amountAssetId', 'priceAssetId'], this._onChangeAssets);
             }
 
             _onChangeAssets() {
-                const amountId = this.amountAssetId, priceId = this.priceAssetId;
-                Promise.all([
-                    assetsService.getAssetInfo(priceId),
-                    assetsService.getAssetInfo(amountId)
-                ])
-                    .then((data) => {
-                        const [priceAsset, amountAsset] = data;
-                        utils.when(fetch(`${WavesApp.network.matcher}/matcher/orderbook/${amountId}/${priceId}`)
-                            .then(r => r.json()))
-                            .then((data) => {
-                                console.log(data);
-                                const mapCallback = function (item) {
-                                    item.price = item.price / (10 ** priceAsset.precision);
-                                    item.amount = item.amount / (10 ** amountAsset.precision);
-                                    return item;
+                return apiWorker.process((Waves, { assetId1, assetId2 }) => {
+                    return Waves.AssetPair.get(assetId1, assetId2).then((pair) => {
+                        return Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
+                            .then((orderBook) => {
+
+                                const process = function (list) {
+                                    let sum = 0;
+                                    return list.reduce((resutl, item) => {
+                                        sum = sum + item.amount;
+                                        resutl.push({
+                                            amount: sum,
+                                            price: item.price
+                                        });
+                                        return resutl;
+                                    }, [])
                                 };
-                                this.data.asks = data.asks.map(mapCallback);
-                                this.data.bids = data.bids.map(mapCallback);
+
+                                return {
+                                    bids: process(orderBook.bids || []),
+                                    asks: process(orderBook.asks || [])
+                                };
                             });
+                    });
+                }, { assetId1: this.amountAssetId, assetId2: this.priceAssetId })
+                    .then(({ bids, asks }) => {
+                        this.data.bids = bids;
+                        this.data.asks = asks;
                     });
             }
 
@@ -92,14 +105,10 @@
         return new TradeGraph();
     };
 
-    controller.$inject = ['Base', 'utils', 'assetsService'];
+    controller.$inject = ['Base', 'utils', 'assetsService', 'apiWorker'];
 
     angular.module('app.dex')
         .component('wDexTradeGraph', {
-            bindings: {
-                amountAssetId: '<',
-                priceAssetId: '<'
-            },
             templateUrl: 'modules/dex/directives/tradeGraph/tradeGraph.html',
             controller
         });

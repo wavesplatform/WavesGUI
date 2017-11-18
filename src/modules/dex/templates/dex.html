@@ -1,16 +1,41 @@
 <div class="dex-wrapper" w-i18n-ns="app.dex">
-    <w-column>
+	<div ng-class="{hidden: $ctrl._leftHidden}" class="dex-column dex-sidebar dex-sidebar--left dex-divided-column">
+		<div class="dex-divided-column--fill">
+			<w-dex-block has-search="true">
+				<w-dex-watchlist id="top"></w-dex-watchlist>
+			</w-dex-block>
+		</div>
+		<div class="dex-divided-column--fixed">
+			<w-dex-block has-search="true">
+				<w-dex-watchlist id="bottom"></w-dex-watchlist>
+			</w-dex-block>
+		</div>
+	</div>
 
-    </w-column>
-    <div class="dex-content">
+	<div ng-click="$ctrl.toggleColumn('left')" ng-class="{'dex-sidebar-toggle__open': !$ctrl._leftHidden}" class="dex-sidebar-toggle dex-sidebar-toggle__left"></div>
 
-    </div>
-    <w-column>
-        <w-dex-order-book price-asset-id="$ctrl.priceAssetId"
-                          amount-asset-id="$ctrl.amountAssetId"
-                          sell="$ctrl.orders.sell"
-                          by="$ctrl.orders.by"></w-dex-order-book>
-        <w-dex-trade-history price-asset-id="$ctrl.priceAssetId"
-                             amount-asset-id="$ctrl.amountAssetId"></w-dex-trade-history>
-    </w-column>
-</div>
+	<div class="dex-column dex-content dex-divided-column">
+		<w-dex-block title-name="DEX content">
+			<w-dex-trade-graph></w-dex-trade-graph>
+		</w-dex-block>
+
+		<w-dex-block title-name="DEX content">
+			table
+		</w-dex-block>
+	</div>
+
+	<div ng-click="$ctrl.toggleColumn('right')" ng-class="{'dex-sidebar-toggle__open': !$ctrl._rightHidden}" class="dex-sidebar-toggle dex-sidebar-toggle__right"></div>
+
+	<div ng-class="{hidden: $ctrl._rightHidden}" class="dex-column dex-sidebar dex-sidebar--right dex-divided-column">
+		<div class="dex-divided-column--fill">
+			<w-dex-block title-name="Order book">
+				<w-dex-order-book></w-dex-order-book>
+			</w-dex-block>
+		</div>
+
+		<div class="dex-divided-column--fixed">
+			<w-dex-block save-path="dex.layout.tradeHistory" can-collapse="true" title-name="Trade history">
+				<w-dex-trade-history></w-dex-trade-history>
+			</w-dex-block>
+		</div>
+	</div>

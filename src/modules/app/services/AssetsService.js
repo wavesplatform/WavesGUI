@@ -26,36 +26,27 @@
              */
             @decorators.cachable()
             getAssetInfo(assetId) {
-                if (assetId === WavesApp.defaultAssets.WAVES) {
-                    return user.onLogin()
-                        .then(() => this.getMoneyList([{ count: '100000000', id: WavesApp.defaultAssets.WAVES }]))
-                        .then(([quantity]) => ({
-                            id: WavesApp.defaultAssets.WAVES,
-                            name: 'Waves',
-                            precision: 8,
-                            reissuable: false,
-                            quantity: quantity,
-                            timestamp: 1460408400000,
-                            sender: WavesApp.defaultAssets.WAVES
-                        }));
-                }
-                return user.onLogin()
-                    .then(() => {
-                        return apiWorker.process((Waves, { assetId }) => {
-                            return Waves.API.Node.v2.transactions.get(assetId);
-                        }, { assetId })
-                            .then((asset) => ({
-                                id: asset.id,
-                                name: ASSET_NAME_MAP[asset.id] || asset.name,
-                                description: asset.description,
-                                precision: asset.precision,
-                                reissuable: asset.reissuable,
-                                quantity: asset.amount,
-                                timestamp: asset.timestamp,
-                                sender: asset.sender,
-                                height: asset.height
-                            }));
-                    });
+                return apiWorker.process((Waves, { onFetch, assetId, ASSET_NAME_MAP }) => {
+                    return fetch(`https://api.wavesplatform.com/assets/${assetId}`)
+                        .then(onFetch)
+                        .then((info) => {
+                            return Waves.Money.fromCoins(String(info.quantity), assetId).then((money) => {
+                                return {
+                                    id: info.id,
+                                    name: ASSET_NAME_MAP[info.id] || info.name,
+                                    description: info.description,
+                                    precision: info.decimals,
+                                    reissuable: info.reissuable,
+                                    quantity: money,
+                                    timestamp: info.timestamp,
+                                    sender: info.sender,
+                                    height: info.height,
+                                    ticker: info.ticker || '',
+                                    sign: info.sign || ''
+                                }
+                            });
+                        });
+                }, { onFetch: utils.onFetch, assetId, ASSET_NAME_MAP });
             }
 
             /**
@@ -78,7 +69,11 @@
              */
             getBalanceList(assetIds) {
                 return utils.whenAll([
-                    this._getBalanceList(),
+                    this._getBalanceList().then((balanceList) => {
+                        return balanceList.filter((asset) => {
+                            return !asset.amount.getTokens().eq(0);
+                        });
+                    }),
                     eventManager.getBalanceEvents()
                 ])
                     .then(([balanceList, events]) => {
@@ -126,21 +121,32 @@
             }
 
             @decorators.cachable(2)
-            getBidAsk(assetId1, assetId2) {
+            getOrders(assetId1, assetId2) {
                 return apiWorker.process((Waves, { assetId1, assetId2 }) => {
-                    return Waves.API.Matcher.v1.getOrderbook(assetId1, assetId2)
-                        .then((orderbook) => {
-                            const bid = String(orderbook.bids.length && orderbook.bids[0].price || 0);
-                            const ask = String(orderbook.asks.length && orderbook.asks[0].price || 0);
+                    return Waves.AssetPair.get(assetId1, assetId2).then((pair) => {
+                        return Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
+                            .then((orderBook) => {
 
-                            return Promise.all([
-                                Waves.OrderPrice.fromTokens(bid, assetId1, assetId2)
-                                    .then((item) => item.getTokens()),
-                                Waves.OrderPrice.fromTokens(ask, assetId1, assetId2)
-                                    .then((item) => item.getTokens())
-                            ])
-                                .then((list) => ({ bid: list[0], ask: list[1] }));
-                        });
+                                const mapOrder = (item) => {
+                                    return Promise.all([
+                                        Waves.Money.fromCoins(String(item.amount), pair.amountAsset),
+                                        Waves.OrderPrice.fromMatcherCoins(String(item.price), pair)
+                                            .then((orderPrice) => {
+                                                return Waves.Money.fromTokens(orderPrice.getTokens(), pair.priceAsset);
+                                            })
+                                    ]).then((money) => {
+                                        return { amount: money[0], price: money[1] };
+                                    });
+                                };
+
+                                return Promise.all([
+                                    Promise.all((orderBook.bids || []).map(mapOrder)),
+                                    Promise.all((orderBook.asks || []).map(mapOrder))
+                                ]).then((orders) => {
+                                    return { bids: orders[0], asks: orders[1] };
+                                });
+                            });
+                    });
                 }, { assetId1, assetId2 });
             }
 
@@ -431,8 +437,11 @@
  * @property {string} [description]
  * @property {number} precision
  * @property {boolean} reissuable
- * @property {number} quantity
+ * @property {Money} quantity
  * @property {number} timestamp
+ * @property {number} height
+ * @property {string} ticker
+ * @property {string} sign
  */
 
 /**
@@ -443,6 +452,9 @@
  * @property {number} precision
  * @property {BigNumber} balance
  * @property {boolean} reissuable
- * @property {number} quantity
+ * @property {Money} quantity
  * @property {number} timestamp
+ * @property {number} height
+ * @property {string} ticker
+ * @property {string} sign
  */

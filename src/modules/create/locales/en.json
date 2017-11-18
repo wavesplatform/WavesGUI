@@ -1,20 +1,20 @@
 {
   "createAccount": {
-    "createNewAccount": "Create new Account",
+    "createNewAccount": "Create New Account",
     "signUp": "Sign up for a free account below or",
-    "restore": "restore account",
-    "from": "from backup",
+    "restore": "restore an account",
+    "from": "from a backup",
     "choose": "Choose your address avatar",
-    "avatarUnique": "This avatar is unique, you can’t change it later."
+    "avatarUnique": "This avatar is unique; you can’t change it later."
   },
   "noBackupNoMoney": {
-    "title": "No backup, no money",
-    "description": "Now you must to save secret phrase. It is really important for access to your account.",
-    "backup": "Backup Now",
+    "title": "No Backup, No Money",
+    "description": "You must save the secret phrase. It is crucial for accessing your account.",
+    "backup": "Back Up Now",
     "or": "or",
     "skip": "Do it later",
     "modal": {
-      "title": "Screenshots are not secure",
+      "title": "Screenshots Are Not Secure",
       "description": "If you take a screenshot, your backup may be viewed by other apps.",
       "ok": "I understand"
     }
@@ -23,8 +23,8 @@
     "saveSecret": "Save secret phrase",
     "warn": "Since only you control your money, you’ll need to save your backup phrase in case this app is deleted or",
     "back": "go back",
-    "writeSeed": "Please carefully write down this 15 words",
-    "needConfirm": "You will to confirm this phrase on the next screen.",
+    "writeSeed": "Please carefully write down these 15 words",
+    "needConfirm": "You will confirm this phrase on the next screen.",
     "ok": "I’ve written it down"
   },
   "confirmBackup": {
@@ -33,7 +33,7 @@
     "back": "go back",
     "enterCorrect": "Please, tap each word in the correct order",
     "ok": "Confirm",
-    "error": "Wrong word order, try again.",
+    "error": "Wrong order, try again.",
     "clear": "Clear",
     "again": "and tap again"
   }

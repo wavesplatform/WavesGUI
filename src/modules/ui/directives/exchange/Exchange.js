@@ -7,9 +7,10 @@
      * @param createPoll
      * @param {User} user
      * @param {AssetsService} assetsService
+     * @param {app.utils} utils
      * @return {Exchange}
      */
-    const controller = function (Base, createPromise, createPoll, user, assetsService) {
+    const controller = function (Base, createPromise, createPoll, user, assetsService, utils) {
 
         class Exchange extends Base {
 
@@ -31,21 +32,23 @@
                  * @type {IAssetInfo}
                  */
                 this.mirror = null;
+                /**
+                 * @type {string}
+                 */
+                this.targetAssetId = null;
                 this.noUpdate = null;
                 this.rateDate = null; // TODO Add support for rate date. Author Tsigel at 14/11/2017 08:19
                 /**
                  * @type {Poll}
                  */
                 this.poll = null;
-
-                this.observe('balance', this._onChangeBalance);
             }
 
             $postLink() {
                 this.interval = Number(this.interval) || 5000;
 
                 createPromise(this, user.getSetting('baseAssetId'))
-                    .then(assetsService.getAssetInfo)
+                    .then((baseAssetId) => assetsService.getAssetInfo(this.targetAssetId || baseAssetId))
                     .then((mirror) => {
                         this.mirror = mirror;
 
@@ -62,6 +65,9 @@
                     });
             }
 
+            /**
+             * @private
+             */
             _onChangeBalance() {
                 if (this.balance) {
                     if (this.noUpdate) {
@@ -75,9 +81,13 @@
                 }
             }
 
+            /**
+             * @return {Promise}
+             * @private
+             */
             _getMirrorBalance() {
                 if (!this.balance) {
-                    return null;
+                    return utils.when(null);
                 }
                 return assetsService.getRate(this.balance.asset.id, this.mirror.id)
                     .then((api) => {
@@ -90,14 +100,15 @@
         return new Exchange();
     };
 
-    controller.$inject = ['Base', 'createPromise', 'createPoll', 'user', 'assetsService'];
+    controller.$inject = ['Base', 'createPromise', 'createPoll', 'user', 'assetsService', 'utils'];
 
     angular.module('app.ui').component('wExchange', {
         bindings: {
             balance: '<',
             interval: '@',
             rateDate: '@',
-            noUpdate: '@'
+            noUpdate: '@',
+            targetAssetId: '@'
         },
         template: '<span w-nice-number="$ctrl.mirrorBalance" precision="$ctrl.mirror.precision"></span>',
         transclude: false,

@@ -52,6 +52,10 @@
                 });
 
                 this.observe(['amountAssetId', 'priceAssetId'], this._onChangeAssets);
+                this.syncSettings({
+                    amountAssetId: 'dex.amountAssetId',
+                    priceAssetId: 'dex.priceAssetId'
+                });
             }
 
             $onDestroy() {
@@ -89,10 +93,6 @@
 
     angular.module('app.dex')
         .component('wDexTradeHistory', {
-            bindings: {
-                amountAssetId: '<',
-                priceAssetId: '<'
-            },
             templateUrl: 'modules/dex/directives/tradeHistory/tradeHistory.html',
             controller
         });
