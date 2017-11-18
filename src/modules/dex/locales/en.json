@@ -4,7 +4,7 @@
       "title": "Portfolio"
     },
     "orderBook": {
-      "title": "Order book",
+      "title": "Order Book",
       "marketSize": "Market size",
       "price": "Price {{assetName}}",
       "total": "Total {{assetName}}"
@@ -19,7 +19,7 @@
       }
     },
     "tradeHistory": {
-      "title": "Trade history",
+      "title": "Trade History",
       "tableTitle": {
         "price": "Price",
         "size": "Trade Size",

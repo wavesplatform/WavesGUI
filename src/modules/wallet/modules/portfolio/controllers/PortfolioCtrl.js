@@ -44,7 +44,7 @@
 
                 createPromise(this, utils.whenAll([
                     user.getSetting('baseAssetId'),
-                    this.syncSettings('wallet.assets.assetList')
+                    this.syncSettings({ assetList: 'pinnedAssetIds' })
                 ]))
                     .then(([mirrorId]) => {
                         this.mirrorId = mirrorId;
@@ -127,7 +127,7 @@
             }
 
             static _isEmptyBalance(list) {
-                return list.length === 1 && list[0].balance.getTokens().eq(0);
+                return list.length === 0;
             }
 
         }

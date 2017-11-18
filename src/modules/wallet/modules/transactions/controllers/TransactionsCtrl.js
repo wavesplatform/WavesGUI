@@ -13,7 +13,7 @@
             constructor() {
                 super($scope);
 
-                this.syncSettings('wallet.transactions.filter');
+                this.syncSettings({ filter: 'wallet.transactions.filter' });
             }
 
         }

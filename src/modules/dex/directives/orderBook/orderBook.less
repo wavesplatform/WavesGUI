@@ -1,26 +1,32 @@
 @import (reference) '../../../config';
 
 w-dex-order-book {
+  display: block;
+  width: 100%;
+  text-align: right;
 
-  .order-content {
-    box-sizing: border-box;
-    padding: 0 20px 0 20px;
-  }
-
-  .buy {
-    .price, .total { // TODO Refactor for config colors. Author Tsigel at 02/11/2017 07:56
-      color: #f27057;
-    }
-  }
-
-  .sell {
-    .price, .total { // TODO Refactor for config colors. Author Tsigel at 02/11/2017 07:57
-      color: #2b9f72;
-    }
+  w-table w-row {
+    padding: 0 10px 0 5px;
   }
 
   .decimal-muted {
-    opacity: 0.6;
+    color: @color-disabled-500;
+  }
+
+  .bids .cell-1 {
+    color: @color-error-400;
+
+    .decimal-muted {
+      color: @color-error-200;
+    }
+  }
+
+  .asks .cell-1 {
+    color: @color-success-600;
+
+    .decimal-muted {
+      color: @color-success-200;
+    }
   }
 
 }
