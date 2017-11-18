@@ -352,8 +352,7 @@
         'timeLine'
     ];
 
-    angular.module('app')
-        .factory('user', factory);
+    angular.module('app').factory('user', factory);
 })();
 
 /**

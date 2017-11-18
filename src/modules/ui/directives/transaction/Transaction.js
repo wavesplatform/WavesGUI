@@ -12,9 +12,11 @@
      * @param {AssetsService} assetsService
      * @param {CopyService} copyService
      * @param {User} user
+     * @param {BaseAssetService} baseAssetService
      * @return {Transaction}
      */
-    const controller = function (Base, $filter, transactionsService, modalManager, notificationManager, assetsService, copyService, user) {
+    const controller = function (Base, $filter, transactionsService, modalManager, notificationManager,
+                                 assetsService, copyService, user, baseAssetService) {
 
         class Transaction extends Base {
 
@@ -28,19 +30,12 @@
                 this.shownAddress = this.transaction.shownAddress;
                 this.type = this.transaction.type;
 
-                // TODO : maybe for all transaction types (without `if` statement)
                 const TYPES = transactionsService.TYPES;
                 if (this.type === TYPES.SEND || this.type === TYPES.RECEIVE || this.type === TYPES.CIRCULAR) {
-                    user.getSetting('baseAssetId')
-                        .then(assetsService.getAssetInfo)
-                        .then((baseAsset) => {
-                        // TODO : change to getRateByDate()
-                        assetsService.getRate(this.transaction.amount.asset.id, baseAsset.id)
-                            .then((api) => api.exchange(this.transaction.amount.getTokens()))
-                            .then((balance) => {
-                                this.mirrorBalance = balance.toFormat(baseAsset.precision);
-                            });
-                    });
+                    baseAssetService.convertToBaseAsset(this.transaction.amount)
+                        .then((baseMoney) => {
+                            this.mirrorBalance = baseMoney;
+                        });
                 }
             }
 
@@ -112,7 +107,10 @@
         return new Transaction();
     };
 
-    controller.$inject = ['Base', '$filter', 'transactionsService', 'modalManager', 'notificationManager', 'assetsService', 'copyService', 'user'];
+    controller.$inject = [
+        'Base', '$filter', 'transactionsService', 'modalManager', 'notificationManager',
+        'assetsService', 'copyService', 'user', 'baseAssetService'
+    ];
 
     angular.module('app.ui').component('wTransaction', {
         bindings: {

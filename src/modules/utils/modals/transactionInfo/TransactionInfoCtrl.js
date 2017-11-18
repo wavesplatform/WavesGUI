@@ -10,10 +10,12 @@
      * @param $filter
      * @param {TransactionsService} transactionsService
      * @param blocksService
-     * @param explorerLinks
+     * @param {ExplorerLinks} explorerLinks
+     * @param {BaseAssetService} baseAssetService
      * @return {TransactionInfoCtrl}
      */
-    const controller = function (Base, $scope, $filter, transactionsService, blocksService, explorerLinks) {
+    const controller = function (Base, $scope, $filter, transactionsService, blocksService, explorerLinks,
+                                 baseAssetService) {
 
         class TransactionInfoCtrl extends Base {
 
@@ -37,6 +39,14 @@
                         } else {
                             this.confirmations = -1
                         }
+
+                        const TYPES = transactionsService.TYPES;
+                        if (this.type === TYPES.SEND || this.type === TYPES.RECEIVE || this.type === TYPES.CIRCULAR) {
+                            baseAssetService.convertToBaseAsset(this.transaction.amount)
+                                .then((baseMoney) => {
+                                    this.mirrorBalance = baseMoney;
+                                });
+                        }
                     });
             }
 
@@ -45,7 +55,10 @@
         return new TransactionInfoCtrl(this.locals);
     };
 
-    controller.$inject = ['Base', '$scope', '$filter', 'transactionsService', 'blocksService', 'explorerLinks'];
+    controller.$inject = [
+        'Base', '$scope', '$filter', 'transactionsService', 'blocksService',
+        'explorerLinks', 'baseAssetService'
+    ];
 
     angular.module('app.utils').controller('TransactionInfoCtrl', controller);
 })();

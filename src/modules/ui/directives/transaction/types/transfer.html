@@ -15,6 +15,6 @@
     </div>
     <div ng-if="$ctrl.mirrorBalance">
         <span w-i18n="transaction.amounts.{{::$ctrl.type}}"
-              params="{amount: $ctrl.mirrorBalance, name: $ctrl.parent.mirror.name}"></span>
+              params="{amount: $ctrl.mirrorBalance.toFormat(), name: $ctrl.mirrorBalance.asset.name}"></span>
     </div>
 </div>
