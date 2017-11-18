@@ -21,7 +21,7 @@
      * @param {app.utils.decorators} decorators
      * @param {User} user
      * @param {app.utils} utils
-     * @return {AssetsService}
+     * @return {TransactionsService}
      */
     const factory = function (apiWorker, decorators, user, utils) {
 

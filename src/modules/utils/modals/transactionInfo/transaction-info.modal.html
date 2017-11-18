@@ -1,6 +1,20 @@
 <div ng-if="$ctrl.transaction" class="content">
+
     <div class="transaction-icon" ng-class="$ctrl.transaction.type"></div>
+
     <ng-include src="$ctrl.templateUrl"></ng-include>
+
+    <div class="section">
+        <div class="key" w-i18n="transaction.modals.confirmations"></div>
+        <div class="value" ng-if="$ctrl.confirmations >= 0">{{::$ctrl.confirmations}}</div>
+        <div class="value" ng-if="$ctrl.confirmations < 0" w-i18n="transaction.modals.noConfirmations"></div>
+    </div>
+
+    <div class="section">
+        <div class="key" w-i18n="transaction.modals.fee"></div>
+        <div class="value">{{::$ctrl.transaction.fee.toFormat()}} {{::$ctrl.transaction.fee.asset.name}}</div>
+    </div>
+
     <div class="section">
         <div class="key" w-i18n="transaction.modals.viewTransaction"></div>
         <div class="value">
@@ -9,8 +23,10 @@
                target="_blank"></a>
         </div>
     </div>
+
     <div class="section">
         <time>{{::$ctrl.datetime}}</time>
         <div>COMPLETED</div>
     </div>
+
 </div>

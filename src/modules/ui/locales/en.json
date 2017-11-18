@@ -65,8 +65,10 @@
     },
     "modals": {
       "to": "To",
+      "from": "From",
       "attachment": "Description",
       "confirmations": "Confirmations",
+      "noConfirmations": "none",
       "fee": "Fee",
       "viewTransaction": "Transaction",
       "viewTransactionLink": "View Transaction"
