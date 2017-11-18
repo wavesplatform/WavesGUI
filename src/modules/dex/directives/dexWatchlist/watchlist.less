@@ -26,7 +26,8 @@ w-dex-watchlist {
       border-color: @color-submit-200;
     }
 
-    &:hover {
+    &:not(.selected):hover {
+      cursor: pointer;
       background-color: @color-disabled-50;
       border-color: @color-disabled-200;
     }

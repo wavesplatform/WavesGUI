@@ -9,8 +9,8 @@
         <li class="portfolio-item title body-2 disabled-600">
             <div class="portfolio-item-name" w-i18n="list.name"></div>
             <div class="portfolio-item-balance" w-i18n="list.balance"></div>
-            <div class="portfolio-item-mirror" w-i18n="list.mirror" params="{currency: $ctrl.mirror.name}"></div>
-            <div class="portfolio-item-balance" w-i18n="list.rate" params="{currency: $ctrl.mirror.name}"></div>
+            <div class="portfolio-item-mirror" w-i18n="list.mirror" params="{currency: $ctrl.mirror.ticker}"></div>
+            <div class="portfolio-item-balance" w-i18n="list.rate" params="{currency: $ctrl.mirror.ticker}"></div>
             <div class="portfolio-item-change" w-i18n="list.change"></div>
             <div class="portfolio-item-actions" w-i18n="list.actions"></div>
         </li>
@@ -21,14 +21,14 @@
             </div>
             <div class="portfolio-item-balance">
                 <w-balance money="asset.balance"></w-balance>
-                <span class="currency">{{::asset.name}}</span>
+                <span class="currency">{{::(asset.ticker || asset.name)}}</span>
             </div>
             <div class="portfolio-item-mirror">
-                <span>$</span>
+                <span>{{::$ctrl.mirror.sign}}</span>
                 <w-mirror asset-id="{{::asset.id}}"></w-mirror>
             </div>
             <div class="portfolio-item-rate">
-                <span>$</span>
+                <span>{{::$ctrl.mirror.sign}}</span>
                 <w-change-rate asset-id="asset.id"></w-change-rate>
             </div>
             <div class="portfolio-item-change" ng-class="{'error-500': asset.change < 0}">
