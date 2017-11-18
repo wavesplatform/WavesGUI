@@ -23,6 +23,10 @@
                  * @type {string}
                  */
                 this.savePath = null;
+                /**
+                 * @type {string}
+                 */
+                this.title = null;
                 this._collapsed = user.address && $attrs.savePath ?
                     user.getSettingByUser(user, $attrs.savePath) : false;
 
@@ -53,7 +57,7 @@
 
     angular.module('app.dex').component('wDexBlock', {
         bindings: {
-            title: '@',
+            title: '@titleName',
             savePath: '@',
             hasSearch: '@',
             canCollapse: '@'

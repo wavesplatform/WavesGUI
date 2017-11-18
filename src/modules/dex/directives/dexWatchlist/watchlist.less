@@ -1,0 +1,51 @@
+@import (reference) "../../../config";
+
+w-dex-watchlist {
+  display: flex;
+  width: 100%;
+
+  .cell-2, .cell-3 {
+    text-align: right;
+  }
+
+  w-cell > div {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    padding: 0 1px;
+  }
+
+  w-table .table-row {
+    border: 1px solid transparent;
+    border-left: none;
+    border-right: none;
+
+    &.selected {
+      background-color: @color-submit-50;
+      border-color: @color-submit-200;
+    }
+
+    &:hover {
+      background-color: @color-disabled-50;
+      border-color: @color-disabled-200;
+    }
+  }
+
+  w-table .table w-row .table-row {
+    .cell-0 {
+      width: 20%;
+      padding-left: 8px;
+    }
+    .cell-1 {
+      width: 30%;
+    }
+    .cell-2 {
+      width: 30%;
+    }
+    .cell-3 {
+      width: 20%;
+      padding-right: 8px;
+    }
+  }
+}

@@ -58,6 +58,7 @@
                         amountAssetId: WavesApp.defaultAssets.WAVES,
                         priceAssetId: WavesApp.defaultAssets.BTC,
                         watchlist: {
+                            activeWatchListId: 'top',
                             top: WavesApp.defaultAssets.WAVES,
                             bottom: WavesApp.defaultAssets.BTC
                         },
@@ -67,12 +68,6 @@
                             },
                             leftColumnState: true,
                             rightColumnState: true
-                        },
-                        directives: {
-                            markets: {
-                                activeAssetId: WavesApp.defaultAssets.ETH,
-                                favoriteIds: Object.values(WavesApp.defaultAssets)
-                            }
                         }
                     }
                 };

@@ -1,4 +1,4 @@
-<w-table>
+<w-table selected="$ctrl.activeRowId">
     <w-t-head>
         <w-row>
             <w-cell>
@@ -15,15 +15,17 @@
             </w-cell>
         </w-row>
     </w-t-head>
-    <w-row ng-repeat="asset in $ctrl.watchlist track by asset.id">
+    <w-row class="footnote disabled-900"
+           ng-repeat="asset in $ctrl.watchlist track by asset.id"
+           select-value="{{::asset.id}}">
         <w-cell>
-            {{::asset.ticker}}
+            {{::asset.ticker || '—'}}
         </w-cell>
-        <w-cell>
+        <w-cell title="{{::asset.name}}">
             {{::asset.name}}
         </w-cell>
         <w-cell>
-            <w-exchange no-update="trus" balance="$ctrl.baseMoney" target-asset-id="{{::asset.id}}"></w-exchange>
+            <w-exchange balance="$ctrl.baseMoney" target-asset-id="{{::asset.id}}"></w-exchange>
         </w-cell>
         <w-cell>
             0.01%

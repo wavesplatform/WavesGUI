@@ -127,7 +127,7 @@
                 }, { assetId1: this._amountAssetId, assetId2: this._priceAssetId })
                     .then(({ bids, asks }) => {
 
-                        const template = `<div class="bids">${bids}</div><div class="asks"${asks}</div>`;
+                        const template = `<div class="bids">${bids}</div><div class="asks">${asks}</div>`;
                         $element.find('w-scroll-box').html(template);
                     });
             }

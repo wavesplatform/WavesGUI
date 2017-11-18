@@ -14,22 +14,32 @@
             constructor() {
                 super();
 
-                this.amountAssetId = null;
-                this.priceAssetId = null;
-				this.syncSettings({ amountAssetId: 'dex.amountAssetId', priceAssetId: 'dex.priceAssetId' });
-				
-				this.leftHidden = false;
-				this.rightHidden = false;
-			}
+                this._amountAssetId = null;
+                this._priceAssetId = null;
+                this._leftHidden = false;
+                this._rightHidden = false;
 
-			// @TODO refactor
-			// hide and show graph to force its resize
-			toggleColumn(column) {
-				const $graphWrapper = $element.find('.graph-wrapper');
-				$graphWrapper.hide();
-				this[`${column}Hidden`] = !this[`${column}Hidden`];
-				setTimeout(() => $graphWrapper.show(), 100);
-			}
+                this.syncSettings({
+                    _amountAssetId: 'dex.amountAssetId',
+                    _priceAssetId: 'dex.priceAssetId',
+                    _leftHidden: 'dex.layout.leftColumnState',
+                    _rightHidden: 'dex.layout.rightColumnState'
+                });
+
+                this.observe(['_leftHidden', '_rightHidden'], this._onChangeProperty);
+            }
+
+            // @TODO refactor
+            // hide and show graph to force its resize
+            toggleColumn(column) {
+                this[`_${column}Hidden`] = !this[`_${column}Hidden`];
+            }
+
+            _onChangeProperty() {
+                const $graphWrapper = $element.find('.graph-wrapper');
+                $graphWrapper.hide();
+                setTimeout(() => $graphWrapper.show(), 100);
+            }
 
         }
 

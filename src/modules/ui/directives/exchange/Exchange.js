@@ -7,9 +7,10 @@
      * @param createPoll
      * @param {User} user
      * @param {AssetsService} assetsService
+     * @param {app.utils} utils
      * @return {Exchange}
      */
-    const controller = function (Base, createPromise, createPoll, user, assetsService) {
+    const controller = function (Base, createPromise, createPoll, user, assetsService, utils) {
 
         class Exchange extends Base {
 
@@ -64,6 +65,9 @@
                     });
             }
 
+            /**
+             * @private
+             */
             _onChangeBalance() {
                 if (this.balance) {
                     if (this.noUpdate) {
@@ -77,9 +81,13 @@
                 }
             }
 
+            /**
+             * @return {Promise}
+             * @private
+             */
             _getMirrorBalance() {
                 if (!this.balance) {
-                    return null;
+                    return utils.when(null);
                 }
                 return assetsService.getRate(this.balance.asset.id, this.mirror.id)
                     .then((api) => {
@@ -92,7 +100,7 @@
         return new Exchange();
     };
 
-    controller.$inject = ['Base', 'createPromise', 'createPoll', 'user', 'assetsService'];
+    controller.$inject = ['Base', 'createPromise', 'createPoll', 'user', 'assetsService', 'utils'];
 
     angular.module('app.ui').component('wExchange', {
         bindings: {

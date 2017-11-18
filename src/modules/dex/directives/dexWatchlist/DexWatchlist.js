@@ -37,14 +37,30 @@
 
         class DexWatchlist extends Base {
 
+            get active() {
+                return this._id === this._activeWatchListId;
+            }
+
             constructor() {
                 super();
+                /**
+                 * @type {Array}
+                 */
                 this.watchlist = null;
+                /**
+                 * @type {string}
+                 */
+                this.activeRowId = null;
                 /**
                  * @type {string}
                  * @private
                  */
-                this._savePath = null;
+                this._id = null;
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._activeWatchListId = null;
                 /**
                  * @type {string}
                  * @private
@@ -55,21 +71,98 @@
                  * @private
                  */
                 this._parent = null;
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._amountAssetId = null;
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._priceAssetId = null;
             }
 
             $postLink() {
-                if (!this._savePath || !this._parent) {
+                if (!this._parent || !this._id) {
                     throw new Error('Wrong directive params!');
                 }
 
-                this.observe('_baseAssetId', this._onChangeBaseAsset);
-                this.syncSettings({ _baseAssetId: this._savePath });
+                assetsList.then(() => {
+                    this.observe('activeRowId', this._onChangeActiveRow);
+                    this.observe('_baseAssetId', this._onChangeBaseAsset);
+                    this.observe('_activeWatchListId', this._onChangeActiveWatchList);
+                    this.syncSettings({
+                        _amountAssetId: 'dex.amountAssetId',
+                        _priceAssetId: 'dex.priceAssetId',
+                        _baseAssetId: `dex.watchlist.${this._id}`,
+                        _activeWatchListId: 'dex.watchlist.activeWatchListId'
+                    })
+                        .then(() => {
+                            this._initRowId();
+                        });
+                });
+            }
+
+            _onChangeActiveWatchList() {
+                if (this.active) {
+                    this._activateAssets();
+                } else {
+                    this.activeRowId = null;
+                }
+            }
+
+            _activateAssets() {
+                this.activeRowId = this.activeRowId || this.watchlist[0].id;
+                if (this._amountAssetId === this.activeRowId) {
+                    this._priceAssetId = this._baseAssetId;
+                } else {
+                    this._amountAssetId = this._baseAssetId;
+                }
+            }
+
+            _initRowId() {
+                if (this.active) {
+                    let id = null;
+                    const ids = TOP_ASSTS_LIST.filter(tsUtils.notContains(this._baseAssetId));
+
+                    [this._amountAssetId, this._priceAssetId].some((assetId) => {
+                        const index = ids.indexOf(assetId);
+                        if (index !== -1) {
+                            id = assetId;
+                        }
+                        return id;
+                    });
+
+                    if (!id) {
+                        id = ids[0];
+                    }
+
+                    this.activeRowId = id;
+                }
+            }
+
+            _onChangeActiveRow() {
+                if (!this.activeRowId) {
+                    return null;
+                }
+                this._activeWatchListId = this._id;
+                if (this._baseAssetId === this._priceAssetId) {
+                    this._amountAssetId = this.activeRowId;
+                } else {
+                    this._priceAssetId = this.activeRowId;
+                }
             }
 
             _onChangeBaseAsset() {
-                assetsService.getMoney('1', this._baseAssetId).then((money) => {
-                    this.baseMoney = money;
-                });
+                assetsService.getAssetInfo(this._baseAssetId)
+                    .then((asset) => {
+                        this._parent.title = asset.name;
+                    });
+                assetsService.getMoney('1', this._baseAssetId)
+                    .then((money) => {
+                        this.baseMoney = money;
+                    });
                 assetsList.then((asstList) => {
                     this.watchlist = asstList.filter(tsUtils.notContains({ id: this._baseAssetId }));
                 });
@@ -82,15 +175,16 @@
 
     controller.$inject = ['Base', 'assetsService', 'utils'];
 
-    angular.module('app.dex').component('wDexWatchlist', {
-        bindings: {
-            _savePath: '@assetSavePath'
-        },
-        require: {
-            _parent: '^wDexBlock'
-        },
-        templateUrl: 'modules/dex/directives/dexWatchlist/watchlist.html',
-        transclude: false,
-        controller
-    });
+    angular.module('app.dex')
+        .component('wDexWatchlist', {
+            bindings: {
+                _id: '@id'
+            },
+            require: {
+                _parent: '^wDexBlock'
+            },
+            templateUrl: 'modules/dex/directives/dexWatchlist/watchlist.html',
+            transclude: false,
+            controller
+        });
 })();
