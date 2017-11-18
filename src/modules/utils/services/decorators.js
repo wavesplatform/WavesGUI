@@ -87,6 +87,7 @@
                             return cache[key].value;
                         };
                     } else {
+                        // TODO : make it limited in size (say, 1000 elements)
                         descriptor.value = function (...args) {
                             const key = stringify(args);
                             if (cache[key]) {

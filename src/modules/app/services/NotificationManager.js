@@ -178,7 +178,7 @@
                 if (notificationObj.body) {
                     const literal = notificationObj.body.literal;
                     const params = JSON.stringify(notificationObj.body.params);
-                    return `<w-i18n class="footnote basic-700" params=${params}>${literal}</w-i18n>`;
+                    return `<w-i18n class="footnote-1 basic-700" params=${params}>${literal}</w-i18n>`;
                 } else {
                     return '';
                 }

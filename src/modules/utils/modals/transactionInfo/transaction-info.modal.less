@@ -1,0 +1,49 @@
+@import (reference) '../../../config';
+@import (reference) '../../../app/less/icons';
+@import (reference) '../../../app/less/typography';
+
+.transaction-info {
+  width: 450px;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .transaction-icon {
+      width: 80px;
+      height: 80px;
+      background-size: 100%;
+
+      &.send {
+        .icon-tx-send();
+      }
+    }
+
+    .lead,
+    .section {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .section {
+      justify-content: space-between;
+      border-top: 1px solid @color-basic-200;
+
+      .key {
+        .footnote-1();
+        color: @color-disabled-600;
+      }
+
+      .value {
+        .footnote-1();
+        color: @color-basic-900;
+      }
+    }
+
+    ng-include {
+      width: 100%;
+    }
+  }
+}

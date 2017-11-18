@@ -1,0 +1,16 @@
+<div class="section">
+    <div class="key" w-i18n="transaction.modals.to"></div>
+    <div class="value">{{::$ctrl.shownAddress}}</div>
+</div>
+<div class="section description" ng-if="$ctrl.transaction.attachment">
+    <div class="key" w-i18n="transaction.modals.attachment"></div>
+    <div class="value">{{::$ctrl.transaction.attachment}}</div>
+</div>
+<div class="section">
+    <div class="key" w-i18n="transaction.modals.confirmations"></div>
+    <div class="value">{{::$ctrl.confirmations}}</div>
+</div>
+<div class="section">
+    <div class="key" w-i18n="transaction.modals.fee"></div>
+    <div class="value">{{::$ctrl.transaction.fee.toFormat()}} {{::$ctrl.transaction.fee.asset.name}}</div>
+</div>

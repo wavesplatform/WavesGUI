@@ -5,10 +5,10 @@
     <div>
         <!--TODO : canceled leasing amount-->
         <span w-i18n="transaction.amounts.{{::$ctrl.type}}"
-              params="{amount: $ctrl.amount.toFormat(), name: $ctrl.amount.asset.name}"></span>
+              params="{amount: $ctrl.transaction.amount.toFormat(), name: $ctrl.transaction.amount.asset.name}"></span>
     </div>
 </div>
-<div class="line footnote basic-500">
+<div class="line footnote-1 basic-500">
     <div>
         <span w-i18n="transaction.subheaders.{{::$ctrl.type}}"
               params="{time: $ctrl.time, transactionId: $ctrl.transaction.leaseTransactionId}"></span>

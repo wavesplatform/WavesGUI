@@ -1,21 +1,6 @@
 (function () {
     'use strict';
 
-    const TYPES = {
-        SEND: 'send',
-        RECEIVE: 'receive',
-        CIRCULAR: 'circular',
-        ISSUE: 'issue',
-        REISSUE: 'reissue',
-        BURN: 'burn',
-        EXCHANGE_BUY: 'exchange-buy',
-        EXCHANGE_SELL: 'exchange-sell',
-        LEASE_IN: 'lease-in',
-        LEASE_OUT: 'lease-out',
-        CANCEL_LEASING: 'cancel-leasing',
-        CREATE_ALIAS: 'create-alias'
-    };
-
     const SEARCH_FIELDS = [
         { name: 'sender', strict: false },
         { name: 'recipient', strict: false },
@@ -70,13 +55,9 @@
                  */
                 this.hadResponse = false;
                 /**
-                 * @type {string}
+                 * @type {Array}
                  */
                 this.assetIdList = null;
-                /**
-                 * @type {object}
-                 */
-                this.TYPES = TYPES;
 
                 createPromise(this, user.getSetting('baseAssetId'))
                     .then((mirrorId) => {
@@ -97,8 +78,7 @@
              * @private
              */
             _getTransactions() {
-                return transactionsService.transactions()
-                    .then((list) => list.map(TransactionList._map, this))
+                return transactionsService.getList()
                     .then((list) => {
                         this.hadResponse = true;
                         return list;
@@ -131,9 +111,9 @@
                     .sort(utils.comparators.process((name) => hash[name].timestamp).desc);
 
                 this.transactions = dates.map((date) => ({
+                    transactions: hash[date].transactions,
                     timestamp: hash[date].timestamp,
-                    date,
-                    transactions: hash[date].transactions
+                    date
                 }));
             }
 
@@ -142,11 +122,12 @@
              */
             _getAssetFilter() {
                 if (this.assetIdList && this.assetIdList.length) {
+                    const TYPES = transactionsService.TYPES;
                     return ({ type, amount }) => {
                         switch (type) {
-                            case 'send':
-                            case 'receive':
-                            case 'circular':
+                            case TYPES.SEND:
+                            case TYPES.RECEIVE:
+                            case TYPES.CIRCULAR:
                                 return this.assetIdList.indexOf(amount.asset.id) !== -1;
                             default:
                                 return false;
@@ -190,85 +171,6 @@
                             .indexOf(this.search) !== -1;
                     });
                 };
-            }
-
-            /**
-             * @param item
-             * @return {Promise}
-             * @private
-             */
-            static _map(item) {
-                item.type = TransactionList._getTransactionType(item);
-                return item;
-            }
-
-            /**
-             * @param {object} tx
-             * @param {string} tx.transactionType
-             * @param {string} tx.sender
-             * @param {string} tx.recipient
-             * @param {object} tx.buyOrder
-             * @param {object} tx.sellOrder
-             * @return {string}
-             * @private
-             */
-            static _getTransactionType(tx) {
-                switch (tx.transactionType) {
-                    case 'transfer':
-                        return TransactionList._getTransferType(tx.sender, tx.recipient);
-                    case 'exchange':
-                        return TransactionList._getExchangeType(tx);
-                    case 'lease':
-                        return TransactionList._getLeaseType(tx.sender);
-                    case 'cancelLeasing':
-                        return TYPES.CANCEL_LEASING;
-                    case 'createAlias':
-                        return TYPES.CREATE_ALIAS;
-                    case 'issue':
-                        return TYPES.ISSUE;
-                    case 'reissue':
-                        return TYPES.REISSUE;
-                    case 'burn':
-                        return TYPES.BURN;
-                    default:
-                        throw new Error(`Unsupported transaction type ${tx.transactionType}`);
-                }
-            }
-
-            /**
-             * @param {string} sender
-             * @param {string} recipient
-             * @return {string}
-             * @private
-             */
-            static _getTransferType(sender, recipient) {
-                if (sender === recipient) {
-                    return TYPES.CIRCULAR;
-                } else {
-                    return sender === user.address ? TYPES.SEND : TYPES.RECEIVE;
-                }
-            }
-
-            /**
-             * @param {string} sender
-             * @return {string}
-             * @private
-             */
-            static _getLeaseType(sender) {
-                return sender === user.address ? TYPES.LEASE_OUT : TYPES.LEASE_IN;
-            }
-
-            /**
-             * @param {object} tx
-             * @return {string}
-             * @private
-             */
-            static _getExchangeType(tx) {
-                if (tx.buyOrder.senderPublicKey === user.publicKey) {
-                    return TYPES.EXCHANGE_BUY;
-                } else {
-                    return TYPES.EXCHANGE_SELL;
-                }
             }
 
         }

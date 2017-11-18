@@ -22,12 +22,12 @@
       "create-alias": "Created Alias"
     },
     "amounts": {
-      "send": "-{{amount}} {{name}}",
+      "send": "–{{amount}} {{name}}",
       "receive": "+{{amount}} {{name}}",
       "circular": "{{amount}} {{name}}",
       "issue": "{{amount}} {{name}}",
       "reissue": "+{{amount}} {{name}}",
-      "burn": "-{{amount}} {{name}}",
+      "burn": "–{{amount}} {{name}}",
       "exchange-buy": "{{sign}}{{amount}} {{name}}",
       "exchange-sell": "{{sign}}{{amount}} {{name}}",
       "lease-in": "{{amount}} {{name}}",
@@ -62,6 +62,14 @@
     "notifications": {
       "txIdCopied": "Transaction ID is copied",
       "txDataCopied": "Transaction data is copied"
+    },
+    "modals": {
+      "to": "To",
+      "attachment": "Description",
+      "confirmations": "Confirmations",
+      "fee": "Fee",
+      "viewTransaction": "Transaction",
+      "viewTransactionLink": "View Transaction"
     }
   },
   "transactionList": {
