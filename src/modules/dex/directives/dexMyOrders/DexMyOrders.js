@@ -12,8 +12,8 @@
                 this._amountAssetId = null;
 
                 this.syncSettings({
-                    _priceAssetId: 'dex.priceAssetId',
-                    _amountAssetId: 'dex.amountAssetId'
+                    _priceAssetId: 'dex._priceAssetId',
+                    _amountAssetId: 'dex._amountAssetId'
                 });
 
                 this.observe(['_priceAssetId', '_amountAssetId'], this._onChangeBaseAssets);

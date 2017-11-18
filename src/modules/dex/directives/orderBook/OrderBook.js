@@ -29,8 +29,8 @@
                 this._priceAssetId = null;
 
                 this.syncSettings({
-                    _amountAssetId: 'dex.amountAssetId',
-                    _priceAssetId: 'dex.priceAssetId'
+                    _amountAssetId: 'dex._amountAssetId',
+                    _priceAssetId: 'dex._priceAssetId'
                 }).then(() => {
                     const poll = createPoll(this, this._getOrders, 'orders', 12000);
                     this.observe(['_amountAssetId', '_priceAssetId'], () => poll.restart());

@@ -20,8 +20,8 @@
                 this._rightHidden = false;
 
                 this.syncSettings({
-                    _amountAssetId: 'dex.amountAssetId',
-                    _priceAssetId: 'dex.priceAssetId',
+                    _amountAssetId: 'dex._amountAssetId',
+                    _priceAssetId: 'dex._priceAssetId',
                     _leftHidden: 'dex.layout.leftColumnState',
                     _rightHidden: 'dex.layout.rightColumnState'
                 });
