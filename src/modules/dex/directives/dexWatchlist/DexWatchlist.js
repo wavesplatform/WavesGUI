@@ -33,7 +33,15 @@
             'APz41KyoKuBBh8t3oZjqvhbbsg6f63tpZM5Ck5LYx6h'
         ];
 
-        const assetsList = utils.whenAll(TOP_ASSTS_LIST.map(assetsService.getAssetInfo));
+        const assetsList = utils.whenAll(TOP_ASSTS_LIST.map((id) => {
+            return utils.whenAll([
+                assetsService.getAssetInfo(id),
+                assetsService.getChange(id)
+            ])
+                .then(([info, change]) => {
+                    return { ...info, change };
+                });
+        }));
 
         class DexWatchlist extends Base {
 

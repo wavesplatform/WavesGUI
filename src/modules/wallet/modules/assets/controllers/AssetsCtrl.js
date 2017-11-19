@@ -63,10 +63,12 @@
 
                 createPromise(this, utils.whenAll([
                     user.getSetting('baseAssetId'),
-                    this.syncSettings({ activeChartAssetId: 'wallet.assets.activeChartAssetId' }),
-                    this.syncSettings({ chartAssetIds: 'wallet.assets.chartAssetIds' }),
-                    this.syncSettings({ chartMode: 'wallet.assets.chartMode' }),
-                    this.syncSettings({ assetList: 'pinnedAssetIds' })
+                    this.syncSettings({
+                        activeChartAssetId: 'wallet.assets.activeChartAssetId',
+                        chartAssetIds: 'wallet.assets.chartAssetIds',
+                        chartMode: 'wallet.assets.chartMode',
+                        assetList: 'pinnedAssetIds'
+                    })
                 ]))
                     .then(([baseAssetId]) => {
                         this.mirrorId = baseAssetId;
@@ -130,9 +132,10 @@
              * @private
              */
             _onChangeChartAssetId({ value }) {
-                assetsService.getBalance(value).then((asset) => {
-                    this.chartAsset = asset;
-                });
+                assetsService.getBalance(value)
+                    .then((asset) => {
+                        this.chartAsset = asset;
+                    });
             }
 
             _getChartBalances() {
@@ -144,9 +147,10 @@
              * @private
              */
             _getBalances() {
-                return assetsService.getBalanceList(this.assetList).then((assets) => {
-                    return assets;
-                });
+                return assetsService.getBalanceList(this.assetList)
+                    .then((assets) => {
+                        return assets;
+                    });
             }
 
             /**
@@ -191,7 +195,7 @@
                         break;
                     case 'month':
                         this.interval = 1440;
-                        this.intervalCount = 31;
+                        this.intervalCount = 1440 * 31 / 1440;
                         break;
                     case 'year':
                         this.interval = 1440;

@@ -35,7 +35,6 @@
                     series: [
                         {
                             dataset: 'values',
-                            interpolation: {mode: 'cardinal', tension: 0.7},
                             key: 'rate',
                             label: 'Rate',
                             color: '#5a81ea',
@@ -46,10 +45,13 @@
                         x: {
                             key: 'timestamp',
                             type: 'date',
-                            ticks: 9
+                            ticks: 4
                         },
                         y: {
-                            ticks: 4
+                            ticks: 4,
+                            padding: {
+                                max: 4
+                            }
                         }
                     }
                 };
