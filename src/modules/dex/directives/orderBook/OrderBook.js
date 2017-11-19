@@ -5,6 +5,9 @@
      *
      * @param {AssetsService} assetsService
      * @param {Base} Base
+     * @param createPoll
+     * @param apiWorker
+     * @param $element
      * @return {OrderBook}
      */
     const controller = function (assetsService, Base, createPoll, apiWorker, $element) {
@@ -31,11 +34,10 @@
                 this.syncSettings({
                     _amountAssetId: 'dex.amountAssetId',
                     _priceAssetId: 'dex.priceAssetId'
-                })
-                    .then(() => {
-                        const poll = createPoll(this, this._getOrders, 'orders', 12000);
-                        this.observe(['_amountAssetId', '_priceAssetId'], () => poll.restart());
-                    });
+                }).then(() => {
+                    const poll = createPoll(this, this._getOrders, 'orders', 12000);
+                    this.observe(['_amountAssetId', '_priceAssetId'], () => poll.restart());
+                });
             }
 
             _getOrders() {
@@ -153,9 +155,8 @@
 
     controller.$inject = ['assetsService', 'Base', 'createPoll', 'apiWorker', '$element'];
 
-    angular.module('app.dex')
-        .component('wDexOrderBook', {
-            templateUrl: 'modules/dex/directives/orderBook/orderBook.html',
-            controller
-        });
+    angular.module('app.dex').component('wDexOrderBook', {
+        templateUrl: 'modules/dex/directives/orderBook/orderBook.html',
+        controller
+    });
 })();

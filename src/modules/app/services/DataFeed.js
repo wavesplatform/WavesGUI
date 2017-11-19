@@ -1,6 +1,10 @@
 (function () {
     'use strict';
 
+    /**
+     * @param decorators
+     * @return {DataFeed}
+     */
     const factory = function (decorators) {
 
         class DataFeed {
@@ -15,7 +19,7 @@
             trades(amount, price, count) {
                 count = count || 50;
                 return fetch(`${WavesApp.network.datafeed}/api/trades/${amount}/${price}/${count}`)
-                    .then(r => r.json());
+                    .then((r) => r.json());
             }
 
             /**
@@ -30,7 +34,13 @@
                 interval = interval || 30;
                 count = count || 100;
                 return fetch(`${WavesApp.network.datafeed}/api/candles/${amount}/${price}/${interval}/${count}`)
-                    .then(r => r.json());
+                    .then((r) => r.json());
+            }
+
+            @decorators.cachable(2)
+            candlesFrame(amount, price, interval, from, to) {
+                return fetch(`${WavesApp.network.datafeed}/api/candles/${amount}/${price}/${interval}/${from}/${to}`)
+                    .then((r) => r.json());
             }
 
         }
@@ -40,6 +50,5 @@
 
     factory.$inject = ['decorators'];
 
-    angular.module('app')
-        .factory('dataFeed', factory);
+    angular.module('app').factory('dataFeed', factory);
 })();
