@@ -24,10 +24,6 @@
 
             getGraphOptions() {
                 return {
-                    margin: {
-                        left: -1,
-                        right: -1
-                    },
                     grid: {
                         x: false,
                         y: false
@@ -38,7 +34,7 @@
                             key: 'rate',
                             label: 'Rate',
                             color: '#5a81ea',
-                            type: ['line', 'line', 'area']
+                            type: ['line', 'area']
                         }
                     ],
                     axes: {
