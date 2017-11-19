@@ -1,13 +1,11 @@
+@import (reference) '../../../config';
+
 w-dex-trade-history {
   display: block;
   width: 100%;
   text-align: right;
 
-  .buy .size {
-    color: #f27057; // TODO Refactor for config colors. Author Tsigel at 02/11/2017 07:57
-  }
-
-  .sell .size {
-    color: #2b9f72; // TODO Refactor for config colors. Author Tsigel at 02/11/2017 07:57
+  .decimal-muted {
+    color: @color-disabled-500;
   }
 }

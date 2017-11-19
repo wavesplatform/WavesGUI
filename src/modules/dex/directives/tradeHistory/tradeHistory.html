@@ -14,7 +14,7 @@
         </w-row>
     </w-t-head>
     <w-scroll-box>
-        <w-row ng-repeat="order in $ctrl.orders track by $index" class="{{::order.type}}">
+        <w-row ng-repeat="order in $ctrl.orders track by $index" class="footnote disabled-900 {{::order.type}}">
             <w-cell>
                 <span precision="$ctrl.priceAsset.precision" w-nice-number="order.price"></span>
             </w-cell>
@@ -22,7 +22,7 @@
                 <span precision="$ctrl.amountAsset.precision" w-nice-number="order.size"></span>
             </w-cell>
             <w-cell>
-                <span mode="time-ago" w-date="order.date"></span>
+                {{::order.date | date:'MM-dd HH:mm:ss'}}
             </w-cell>
     </w-scroll-box>
     </w-row>
