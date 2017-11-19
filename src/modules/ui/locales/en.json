@@ -5,5 +5,84 @@
     "warn": "easy, add a digit or symbol",
     "secure": "secure password",
     "repeat": "Confirm password"
+  },
+  "transaction": {
+    "headers": {
+      "send": "Sent {{name}}",
+      "receive": "Received {{name}}",
+      "circular": "Self-transferred {{name}}",
+      "issue": "{{name}} Token Generation",
+      "reissue": "{{name}} Token Reissue",
+      "burn": "{{name}} Token Burning",
+      "exchange-buy": "Exchange Buy: {{amountAsset}}/{{priceAsset}}",
+      "exchange-sell": "Exchange Sell: {{amountAsset}}/{{priceAsset}}",
+      "lease-in": "Incoming Leasing",
+      "lease-out": "Started Leasing",
+      "cancel-leasing": "Canceled Leasing",
+      "create-alias": "Created Alias"
+    },
+    "amounts": {
+      "send": "–{{amount}} {{name}}",
+      "receive": "+{{amount}} {{name}}",
+      "circular": "{{amount}} {{name}}",
+      "issue": "{{amount}} {{name}}",
+      "reissue": "+{{amount}} {{name}}",
+      "burn": "–{{amount}} {{name}}",
+      "exchange-buy": "{{sign}}{{amount}} {{name}}",
+      "exchange-sell": "{{sign}}{{amount}} {{name}}",
+      "lease-in": "{{amount}} {{name}}",
+      "lease-out": "{{amount}} {{name}}",
+      "cancel-leasing": "{{amount}} {{name}}",
+      "create-alias": ""
+    },
+    "subheaders": {
+      "send": "{{time}}, to address {{address}}",
+      "receive": "{{time}}, from address {{address}}",
+      "circular": "{{time}}, at address {{address}}",
+      "issue": "{{time}}",
+      "reissue": "{{time}}",
+      "burn": "{{time}}",
+      "exchange-buy": "{{time}}",
+      "exchange-sell": "{{time}}",
+      "lease-in": "{{time}}, from address {{address}}",
+      "lease-out": "{{time}}, to node address {{address}}",
+      "cancel-leasing": "{{time}}, transaction {{transactionId}}",
+      "create-alias": "{{time}}, {{alias}}"
+    },
+    "reissuable": {
+      "false": "Not Reissuable",
+      "true": "Reissuable"
+    },
+    "actions": {
+      "cancelLeasing": "Cancel Leasing",
+      "showTx": "TX info",
+      "copyTxId": "Copy TX ID",
+      "copyTxData": "Copy all TX data"
+    },
+    "notifications": {
+      "txIdCopied": "Transaction ID is copied",
+      "txDataCopied": "Transaction data is copied"
+    },
+    "modals": {
+      "to": "To",
+      "from": "From",
+      "assetId": "ID",
+      "attachment": "Attachment",
+      "description": "Description",
+      "price": "{{name}} Price",
+      "type": "Type",
+      "cancelTx": "TX",
+      "confirmations": "Confirmations",
+      "fee": "Fee",
+      "viewTransactionKey": "Transaction",
+      "viewTransactionValue": "View Transaction"
+    },
+    "confirmed": {
+      "false": "UNCONFIRMED",
+      "true": "COMPLETED"
+    }
+  },
+  "transactionList": {
+    "noTransactions": "You do not have any transactions"
   }
 }

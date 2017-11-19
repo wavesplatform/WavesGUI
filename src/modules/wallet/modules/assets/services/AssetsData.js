@@ -3,7 +3,7 @@
 
     /**
      * @param {User} user
-     * @param decorators
+     * @param {app.utils.decorators} decorators
      * @param apiWorker
      * @param {AssetsService} assetsService
      * @param {app.utils} utils
@@ -24,10 +24,6 @@
 
             getGraphOptions() {
                 return {
-                    margin: {
-                        left: -1,
-                        right: -1
-                    },
                     grid: {
                         x: false,
                         y: false
@@ -35,21 +31,23 @@
                     series: [
                         {
                             dataset: 'values',
-                            interpolation: {mode: 'cardinal', tension: 0.7},
                             key: 'rate',
                             label: 'Rate',
                             color: '#5a81ea',
-                            type: ['line', 'line', 'area']
+                            type: ['line', 'area']
                         }
                     ],
                     axes: {
                         x: {
                             key: 'timestamp',
                             type: 'date',
-                            ticks: 9
+                            ticks: 4
                         },
                         y: {
-                            ticks: 4
+                            ticks: 4,
+                            padding: {
+                                max: 4
+                            }
                         }
                     }
                 };

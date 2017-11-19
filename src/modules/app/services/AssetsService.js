@@ -14,7 +14,7 @@
         const ASSET_NAME_MAP = {
             [WavesApp.defaultAssets.ETH]: 'Ethereum',
             [WavesApp.defaultAssets.EUR]: 'Euro',
-            [WavesApp.defaultAssets.USD]: 'Usd',
+            [WavesApp.defaultAssets.USD]: 'USD',
             [WavesApp.defaultAssets.BTC]: 'Bitcoin'
         };
 
@@ -153,6 +153,7 @@
             @decorators.cachable(60)
             getChange(idFrom, idTo) {
                 const marketUrl = 'https://marketdata.wavesplatform.com/api/candles';
+                idTo = idTo || user.getSettingByUser(user, 'baseAssetId');
 
                 const params = {
                     onFetch: utils.onFetch,
@@ -268,6 +269,8 @@
                         return this._generateRateApi(rate);
                     });
             }
+
+            // TODO : getRateByDate as a wrapper for getRateHistory @xenohunter
 
             @decorators.cachable(20)
             getRateHistory(fromId, toId, time, count) {

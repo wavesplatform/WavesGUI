@@ -66,8 +66,8 @@
                             tradeHistory: {
                                 collapsed: true
                             },
-                            leftColumnState: true,
-                            rightColumnState: true
+                            leftColumnState: false,
+                            rightColumnState: false
                         }
                     }
                 };

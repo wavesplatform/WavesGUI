@@ -16,8 +16,8 @@
     </div>
     <w-tabs>
         <w-tab title="Transactions">
-            <w-transaction-list current-asset-id="{{::$ctrl.asset.id}}"
-                                transaction-type="'send, receive, exchange, circular'"></w-transaction-list>
+            <w-transaction-list transaction-type="'send,receive,circular,exchange-buy,exchange-sell'"
+                                asset-id-list="[$ctrl.asset.id]"></w-transaction-list>
         </w-tab>
         <w-tab title="Details">
             <div class="line">

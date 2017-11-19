@@ -1,0 +1,11 @@
+<div class="line body-1 basic-700">
+    <div>
+        <span w-i18n="transaction.headers.{{::$ctrl.type}}"></span>
+    </div>
+</div>
+<div class="line footnote-1 basic-500">
+    <div>
+        <span w-i18n="transaction.subheaders.{{::$ctrl.type}}"
+              params="{time: $ctrl.time, alias: $ctrl.transaction.alias}"></span>
+    </div>
+</div>

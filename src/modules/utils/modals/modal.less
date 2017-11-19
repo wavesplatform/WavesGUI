@@ -18,10 +18,14 @@ body:not(.create):not(.welcome) {
       }
     }
 
+    .asset-content {
+      padding-top: 20px;
+    }
+
     md-dialog-content {
       display: block;
-      padding: 20px 40px 40px 40px;
-      & span.body-2.basic-900.ng-scope {
+      padding: 0 0 40px 0;
+      span.body-2.basic-900.ng-scope {
         display: inline-block;
         margin-bottom: 4px;
       }
@@ -30,6 +34,19 @@ body:not(.create):not(.welcome) {
         & + div {
           margin: 0;
         }
+      }
+      .asset-data h4 {
+        padding-top: 9px;
+        margin-bottom: 2px;
+      }
+      .tab-container {
+        margin-top: 76px;
+      }
+      .top-content {
+        padding: 0 40px;
+      }
+      form.send-form {
+        padding: 0 40px;
       }
     }
   }
@@ -44,18 +61,21 @@ body:not(.create):not(.welcome) {
       right: 40px;
       height: 30px;
       padding: 0 15px 0 31px;
+      font-size: 12px;
       border-radius: 4px;
-      border: solid 1px #5a81ea;
-      background-color: #fff;
-      color: #5a81ea;
+      border: none;
+      background-color: #1f5af6;
+      color: #fff;
       line-height: 30px;
-      background-image: url(img/icons/pin.svg);
+      background-image: url(/img/icons/pin.svg);
+      background-size: 8px 12px;
       background-repeat: no-repeat;
       background-position: 15px center;
       &.pinned {
-        border: none;
-        background-color: #1f5af6;
-        color: #fff;
+        border: solid 1px #5a81ea;
+        background-color: #fff;
+        color: #5a81ea;
+        background-image: url(/img/icons/pinned.svg);
       }
     }
   }

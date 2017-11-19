@@ -36,10 +36,9 @@
 
                 this.options = {
                     margin: {
-                        left: -1,
-                        top: 20,
-                        right: -1,
-                        bottom: 0
+                        top: 10,
+                        left: 70,
+                        right: 70
                     },
                     grid: {
                         x: false,
@@ -80,7 +79,7 @@
                         }
                     ],
                     axes: {
-                        x: { key: 'price', type: 'linear' },
+                        x: { key: 'price', type: 'linear', ticks: 4 },
                         y: { key: 'amount', ticks: 4 }
                     }
                 };
@@ -148,18 +147,15 @@
                                         }));
                                     };
 
-                                    return Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
-                                        .then((orderBook) => {
-                                            return Promise.all([
-                                                parse(orderBook.bids),
-                                                parse(orderBook.asks)
-                                            ])
-                                                .then((bidAsks) => {
-                                                    const bids = bidAsks[0];
-                                                    const asks = bidAsks[1];
+                                    return Promise.all([
+                                        parse(orderBook.bids),
+                                        parse(orderBook.asks)
+                                    ])
+                                        .then((bidAsks) => {
+                                            const bids = bidAsks[0];
+                                            const asks = bidAsks[1];
 
-                                                    return { bids: process(bids), asks: process(asks) };
-                                                });
+                                            return { bids: process(bids), asks: process(asks) };
                                         });
                                 });
                         });

@@ -28,7 +28,7 @@
             <w-exchange balance="$ctrl.baseMoney" target-asset-id="{{::asset.id}}"></w-exchange>
         </w-cell>
         <w-cell>
-            0.01%
+            {{::asset.change.toFixed(2)}}%
         </w-cell>
     </w-row>
 </w-table>

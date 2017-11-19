@@ -31,10 +31,6 @@
                  * @type {Array}
                  */
                 this.orders = [];
-                /**
-                 * @type {Poll}
-                 */
-                this.poll = createPoll(this, this._getTradeHistory, 'orders', 2000);
 
                 this.shema = new tsApiValidator.Schema({
                     type: tsApiValidator.ArrayPart,
@@ -53,9 +49,15 @@
 
                 this.observe(['_amountAssetId', '_priceAssetId'], this._onChangeAssets);
                 this.syncSettings({
-                    _amountAssetId: 'dex._amountAssetId',
-                    _priceAssetId: 'dex._priceAssetId'
-                });
+                    _amountAssetId: 'dex.amountAssetId',
+                    _priceAssetId: 'dex.priceAssetId'
+                })
+                    .then(() => {
+                        /**
+                         * @type {Poll}
+                         */
+                        this.poll = createPoll(this, this._getTradeHistory, 'orders', 2000);
+                    });
             }
 
             $onDestroy() {

@@ -7,9 +7,9 @@
         <w-button class="interface" ng-click="$ctrl.showReceive()">
             <span class="btn-icon icon-receive" w-i18n="receive"></span>
         </w-button>
-        <w-button class="right" ng-click="$ctrl.addAsset()">
-            <span class="btn-icon icon-add-asset" w-i18n="addAsset"></span>
-        </w-button>
+        <!--<w-button class="right" ng-click="$ctrl.addAsset()">-->
+            <!--<span class="btn-icon icon-add-asset" w-i18n="addAsset"></span>-->
+        <!--</w-button>-->
     </div>
 
     <div class="chart-rate">
@@ -55,13 +55,13 @@
                 </div>
             </div>
             <div class="change">
-                <h1>+$ {{$ctrl.change}}</h1>
+                <h1>{{$ctrl.change > 0 ? '+' : '-'}}$ {{$ctrl.abs($ctrl.change)}}</h1>
                 <div class="tag info-500">
                     SLICE LAST {{$ctrl.chartMode.toUpperCase()}} (USD)
                 </div>
             </div>
             <div class="change-percent">
-                <h1>+{{$ctrl.changePercent}}%</h1>
+                <h1>{{$ctrl.change > 0 ? '+' : '-'}}{{$ctrl.abs($ctrl.changePercent)}}%</h1>
                 <div class="tag info-500">
                     SLICE LAST {{$ctrl.chartMode.toUpperCase()}} (%)
                 </div>
