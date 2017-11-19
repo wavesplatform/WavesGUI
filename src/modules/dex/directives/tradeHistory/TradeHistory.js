@@ -18,11 +18,11 @@
                 /**
                  * @type {string}
                  */
-                this.amountAssetId = null;
+                this._amountAssetId = null;
                 /**
                  * @type {string}
                  */
-                this.priceAssetId = null;
+                this._priceAssetId = null;
                 /**
                  * @type {IAssetInfo}
                  */
@@ -51,10 +51,10 @@
                     }
                 });
 
-                this.observe(['amountAssetId', 'priceAssetId'], this._onChangeAssets);
+                this.observe(['_amountAssetId', '_priceAssetId'], this._onChangeAssets);
                 this.syncSettings({
-                    amountAssetId: 'dex.amountAssetId',
-                    priceAssetId: 'dex.priceAssetId'
+                    _amountAssetId: 'dex._amountAssetId',
+                    _priceAssetId: 'dex._priceAssetId'
                 });
             }
 
@@ -66,21 +66,21 @@
             _onChangeAssets() {
                 this.orders = [];
                 this.poll.restart();
-                assetsService.getAssetInfo(this.priceAssetId)
+                assetsService.getAssetInfo(this._priceAssetId)
                     .then((asset) => {
                         this.priceAsset = asset;
                     });
-                assetsService.getAssetInfo(this.amountAssetId)
+                assetsService.getAssetInfo(this._amountAssetId)
                     .then((asset) => {
                         this.amountAsset = asset;
                     });
             }
 
             _getTradeHistory() {
-                if (!this.amountAssetId || !this.priceAssetId) {
+                if (!this._amountAssetId || !this._priceAssetId) {
                     return [];
                 }
-                return dataFeed.trades(this.amountAssetId, this.priceAssetId)
+                return dataFeed.trades(this._amountAssetId, this._priceAssetId)
                     .then(data => this.shema.parse(data));
             }
 

@@ -1,13 +1,34 @@
+@import (reference) '../../../config';
+
 w-dex-trade-history {
   display: block;
   width: 100%;
   text-align: right;
 
-  .buy .size {
-    color: #f27057; // TODO Refactor for config colors. Author Tsigel at 02/11/2017 07:57
+  .decimal-muted {
+    color: @color-disabled-500;
   }
 
-  .sell .size {
-    color: #2b9f72; // TODO Refactor for config colors. Author Tsigel at 02/11/2017 07:57
+  .cell-0 .table-cell {
+    position: relative;
+  }
+
+  .cell-0 .table-cell::before {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 9px;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+
+  .sell .cell-0 .table-cell::before {
+    background-image: url(/img/icons/arrow_green.svg);
+  }
+
+  .buy .cell-0 .table-cell::before {
+    background-image: url(/img/icons/arrow_red.svg);
   }
 }
