@@ -8,4 +8,27 @@ w-dex-trade-history {
   .decimal-muted {
     color: @color-disabled-500;
   }
+
+  .cell-0 .table-cell {
+    position: relative;
+  }
+
+  .cell-0 .table-cell::before {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 9px;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+
+  .sell .cell-0 .table-cell::before {
+    background-image: url(/img/icons/arrow_green.svg);
+  }
+
+  .buy .cell-0 .table-cell::before {
+    background-image: url(/img/icons/arrow_red.svg);
+  }
 }
