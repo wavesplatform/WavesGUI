@@ -98,7 +98,8 @@
                             assetId: this.assetId,
                             recipient: this.recipient,
                             keyPair: data.keyPair,
-                            amount: this.amount.mul(Math.pow(10, this.asset.precision)).toString()
+                            amount: this.amount.mul(Math.pow(10, this.asset.precision))
+                                .toString()
                         });
                     })
                     .then((data) => {
@@ -137,8 +138,10 @@
 
             fillMax() {
                 if (this.assetId === this.feeData.asset.id) {
-                    if (this.asset.balance.getTokens().gt(this.fee.getTokens())) {
-                        this.amount = this.asset.balance.getTokens().sub(this.feeData.getTokens());
+                    if (this.asset.balance.getTokens()
+                            .gt(this.fee.getTokens())) {
+                        this.amount = this.asset.balance.getTokens()
+                            .sub(this.feeData.getTokens());
                     }
                 } else {
                     this.amount = this.asset.balance.getTokens();
@@ -209,8 +212,10 @@
                             this.amountMirror = api.exchange(this.amount);
                         }
                     });
-                this.valid = this.amount < (this.asset.id === this.feeData.id ?
-                    this.asset.balance + this.feeData.fee : this.asset.balance);
+                this.valid = this.amount && this.amount.lt(this.asset.id === this.feeData.asset.id ?
+                    this.asset.balance.getTokens()
+                        .add(this.feeData.getTokens()) : this.asset.balance.getTokens()) &&
+                    this.amount.gt(0);
             }
 
             /**

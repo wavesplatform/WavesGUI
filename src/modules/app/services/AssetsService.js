@@ -153,6 +153,7 @@
             @decorators.cachable(60)
             getChange(idFrom, idTo) {
                 const marketUrl = 'https://marketdata.wavesplatform.com/api/candles';
+                idTo = idTo || user.getSettingByUser(user, 'baseAssetId');
 
                 const params = {
                     onFetch: utils.onFetch,
