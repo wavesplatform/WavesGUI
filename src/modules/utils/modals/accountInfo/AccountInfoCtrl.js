@@ -24,7 +24,7 @@
                 assetsService.getFeeSend()
                     .then((feeData) => {
                         this.feeData = feeData;
-                        assetsService.getAssetInfo(feeData.id)
+                        assetsService.getAssetInfo(feeData.asset.id)
                             .then((info) => {
                                 this.feeData.name = info.name;
                             });

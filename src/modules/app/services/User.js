@@ -1,6 +1,10 @@
 (function () {
     'use strict';
 
+    const NOT_SYNC_FIELDS = [
+        'changeSetting'
+    ];
+
     /**
      * @param {Storage} storage
      * @param {$q} $q
@@ -22,6 +26,10 @@
                  * @type {string}
                  */
                 this.address = null;
+                /**
+                 * @type {Signal}
+                 */
+                this.changeSetting = null;
                 /**
                  * @type {string}
                  */
@@ -189,6 +197,7 @@
                         }
                         this._settings = defaultSettings.create(this.settings);
                         this._settings.change.on(() => this._onChangeSettings());
+                        this.changeSetting = this._settings.change;
 
                         if (this._settings.get('savePassword')) {
                             this._password = data.password;
@@ -257,7 +266,7 @@
              */
             _setObserve() {
                 this._fieldsForSave = Object.keys(this)
-                    .filter((property) => property.charAt(0) !== '_');
+                    .filter((property) => property.charAt(0) !== '_' && NOT_SYNC_FIELDS.indexOf(property) === -1);
                 this._fieldsForSave.forEach((key) => {
                     this._observe(key, this);
                 });

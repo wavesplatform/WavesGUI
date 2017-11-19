@@ -19,6 +19,7 @@
 
             constructor() {
                 super($scope);
+                // TODO Move pinned assets to top from assets list. Author Tsigel at 14/11/2017 14:22
                 /**
                  * @type {Array}
                  */
@@ -43,7 +44,7 @@
 
                 createPromise(this, utils.whenAll([
                     user.getSetting('baseAssetId'),
-                    this.syncSettings('wallet.assets.assetList')
+                    this.syncSettings({ assetList: 'pinnedAssetIds' })
                 ]))
                     .then(([mirrorId]) => {
                         this.mirrorId = mirrorId;
@@ -98,8 +99,8 @@
              * @private
              */
             _getPortfolio() {
-                return assetsService.getBalanceList() // TODO! Fix empty waves. Author Tsigel at 14/11/2017 12:43
-                    .then((assets) => assets.length ? assets : assetsService.getBalanceList(this.assetList))
+                return assetsService.getBalanceList()
+                    .then(this._checkAssets())
                     .then((assets) => assets.map(this._loadAssetData, this))
                     .then((promises) => utils.whenAll(promises));
             }
@@ -115,6 +116,18 @@
                         asset.change = change;
                         return asset;
                     });
+            }
+
+            _checkAssets() {
+                return (assets) => {
+                    return PortfolioCtrl._isEmptyBalance(assets) ?
+                        assetsService.getBalanceList(this.assetList) :
+                        assets;
+                };
+            }
+
+            static _isEmptyBalance(list) {
+                return list.length === 0;
             }
 
         }

@@ -11,7 +11,7 @@ ui-view[name="main"] {
 }
 
 html body .hidden {
-  display: none;
+  display: none !important;
 }
 
 .text-center {
@@ -45,6 +45,7 @@ md-input-container {
   md-dialog {
     box-shadow: none;
     margin-top: -10%;
+    width: 540px;
   }
 }
 
@@ -95,7 +96,7 @@ w-scroll-box {
 
   .content {
     width: calc(~"100% - "@width-left-menu + @padding-main-layout * 2);
-    height: calc(~"100% - "@width-left-menu + @padding-main-layout * 2);
+    height: calc(~"100% - "@height-header + @padding-main-layout * 2);
     overflow: auto;
     position: absolute;
     right: @padding-main-layout;
@@ -141,16 +142,12 @@ svg.chart {
       font-size: 13px;
     }
 
-    &.x-axis .tick text {
-      transform: translateY(6px);
-    }
-
     &.y-axis .tick text {
-      transform: translateX(80px);
+      transform: translateX(~'calc(100% + 50px)');
     }
 
     &.y2-axis .tick text {
-      transform: translateX(-80px);
+      transform: translateX(-100%);
     }
   }
 }
@@ -158,7 +155,7 @@ svg.chart {
 md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
   background-color: @color-white;
   color: @color-black;
-  border-bottom: 1px solid #bfc6cd;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 md-dialog md-dialog-actions {
@@ -173,7 +170,7 @@ md-dialog md-dialog-actions {
 
 .btn-wrap.btn-group { // TODO add colors from config for btn-wrap
   box-sizing: border-box;
-  padding: 0 10px;
+  padding: 0;
   display: flex;
   flex-direction: row;
   justify-content: center;

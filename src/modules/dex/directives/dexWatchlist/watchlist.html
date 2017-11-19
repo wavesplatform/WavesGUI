@@ -1,0 +1,34 @@
+<w-table selected="$ctrl.activeRowId">
+    <w-t-head>
+        <w-row>
+            <w-cell>
+                <w-i18n>Coin</w-i18n>
+            </w-cell>
+            <w-cell>
+                <w-i18n>Name</w-i18n>
+            </w-cell>
+            <w-cell>
+                <w-i18n>Price</w-i18n>
+            </w-cell>
+            <w-cell>
+                <w-i18n>Chng</w-i18n>
+            </w-cell>
+        </w-row>
+    </w-t-head>
+    <w-row class="footnote disabled-900"
+           ng-repeat="asset in $ctrl.watchlist track by asset.id"
+           select-value="{{::asset.id}}">
+        <w-cell>
+            {{::asset.ticker || '—'}}
+        </w-cell>
+        <w-cell title="{{::asset.name}}">
+            {{::asset.name}}
+        </w-cell>
+        <w-cell>
+            <w-exchange balance="$ctrl.baseMoney" target-asset-id="{{::asset.id}}"></w-exchange>
+        </w-cell>
+        <w-cell>
+            {{::asset.change.toFixed(2)}}%
+        </w-cell>
+    </w-row>
+</w-table>

@@ -32,8 +32,11 @@
                         const parts = String(viewValue || 0)
                             .replace(',', '')
                             .split('.');
+                        if (!modelValue) {
+                            return 'required' in this.$attrs;
+                        }
                         const quantity = asset.quantity || Number.MAX_VALUE;
-                        return modelValue < quantity && (!parts[1] || parts[1].length <= asset.precision);
+                        return modelValue.lt(quantity.getTokens()) && (!parts[1] || parts[1].length <= asset.precision);
                     });
                 });
             }

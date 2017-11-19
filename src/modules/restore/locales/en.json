@@ -2,15 +2,15 @@
   "seedForm": {
     "title": "Welcome Back",
     "description": "Sign in to your wallet below or",
-    "create": "create new account",
+    "create": "create a new account",
     "seedTitle": "Your wallet seed",
-    "placeholder": "Seed - это 12 слов, вы их сохраняли при создании акка",
+    "placeholder": "Your seed is the 15 words you saved when creating your account",
     "address": "Address",
     "continue": "Continue"
   },
   "passwordForm": {
-    "title": "Protect Account",
-    "description": "Protect your account with new password or",
+    "title": "Protect Your Account",
+    "description": "Protect your account with a new password or",
     "back": "go back",
     "login": "Sign in"
   }

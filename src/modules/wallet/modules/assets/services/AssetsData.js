@@ -14,7 +14,7 @@
         class AssetsData {
 
             getAssets() {
-                return user.getSetting('wallet.assets.assetList')
+                return user.getSetting('pinnedAssetIds')
                     .then((assetIds) => {
                         return utils.whenAll(assetIds.map((assetId) => {
                             return assetsService.getBalance(assetId);
@@ -35,7 +35,6 @@
                     series: [
                         {
                             dataset: 'values',
-                            interpolation: {mode: 'cardinal', tension: 0.7},
                             key: 'rate',
                             label: 'Rate',
                             color: '#5a81ea',
@@ -46,10 +45,13 @@
                         x: {
                             key: 'timestamp',
                             type: 'date',
-                            ticks: 9
+                            ticks: 4
                         },
                         y: {
-                            ticks: 4
+                            ticks: 4,
+                            padding: {
+                                max: 4
+                            }
                         }
                     }
                 };

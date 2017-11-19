@@ -63,10 +63,12 @@
 
                 createPromise(this, utils.whenAll([
                     user.getSetting('baseAssetId'),
-                    this.syncSettings('wallet.assets.activeChartAssetId'),
-                    this.syncSettings('wallet.assets.chartAssetIds'),
-                    this.syncSettings('wallet.assets.chartMode'),
-                    this.syncSettings('wallet.assets.assetList')
+                    this.syncSettings({
+                        activeChartAssetId: 'wallet.assets.activeChartAssetId',
+                        chartAssetIds: 'wallet.assets.chartAssetIds',
+                        chartMode: 'wallet.assets.chartMode',
+                        assetList: 'pinnedAssetIds'
+                    })
                 ]))
                     .then(([baseAssetId]) => {
                         this.mirrorId = baseAssetId;
@@ -75,15 +77,22 @@
                         this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000);
 
                         createPoll(this, this._getChartBalances, 'chartBalances', 15000, { isBalance: true });
-                        createPoll(this, this._getBalances, 'assets', 5000, { isBalance: true });
+                        const assetsPoll = createPoll(this, this._getBalances, 'assets', 5000, { isBalance: true });
 
                         this.observe('chartMode', this._onChangeMode);
+                        this.observe('assetList', () => {
+                            assetsPoll.restart();
+                        });
                         this.observe(['interval', 'intervalCount', 'activeChartAssetId'], this._onChangeInterval);
                     });
             }
 
+            abs(num) {
+                return Math.abs(num);
+            }
+
             onAssetClick(e, asset) {
-                if (e.target.hasAttribute('ng-click')) {
+                if (e.target.hasAttribute('ng-click') && e.target.tagName !== 'W-ASSET') {
                     return null;
                 } else {
                     this.showAsset(asset);
@@ -127,9 +136,10 @@
              * @private
              */
             _onChangeChartAssetId({ value }) {
-                assetsService.getBalance(value).then((asset) => {
-                    this.chartAsset = asset;
-                });
+                assetsService.getBalance(value)
+                    .then((asset) => {
+                        this.chartAsset = asset;
+                    });
             }
 
             _getChartBalances() {
@@ -141,9 +151,10 @@
              * @private
              */
             _getBalances() {
-                return assetsService.getBalanceList(this.assetList).then((assets) => {
-                    return assets;
-                });
+                return assetsService.getBalanceList(this.assetList)
+                    .then((assets) => {
+                        return assets;
+                    });
             }
 
             /**
@@ -188,7 +199,7 @@
                         break;
                     case 'month':
                         this.interval = 1440;
-                        this.intervalCount = 31;
+                        this.intervalCount = 1440 * 31 / 1440;
                         break;
                     case 'year':
                         this.interval = 1440;

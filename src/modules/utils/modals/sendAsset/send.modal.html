@@ -4,6 +4,31 @@
             <form class="send-form"
                   name="send"
                   novalidate>
+                
+                <div class="row">
+                    <div class="body-2" w-i18n="modal.send.withdraw"></div>
+                    <div ng-if="!$ctrl.canChooseAsset || $ctrl.assetList.length === 1" class="input-like">
+                        <w-asset-logo size="30" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
+                        {{$ctrl.asset.name}}
+
+                        <w-balance money="$ctrl.asset.balance"></w-balance>
+                    </div>
+                    <w-select ng-if="$ctrl.canChooseAsset && $ctrl.assetList.length > 1"
+                              ng-model="$ctrl.assetId">
+                        <w-option ng-repeat="option in $ctrl.assetList track by $index"
+                                  value="{{::option.id}}">
+                            <div class="flex-row split-half">
+                                <div class="flex-row left">
+                                    <w-asset-logo size="30" asset-id="{{::option.id}}"></w-asset-logo>
+                                    <div class="asset-name">{{::option.name}}</div>
+                                </div>
+                                <div class="right">
+                                    <w-balance asset-id="{{::option.id}}" balance="option.balance"></w-balance>
+                                </div>
+                            </div>
+                        </w-option>
+                    </w-select>
+                </div>
 
                 <w-input-container>
                     <div class="body-2" w-i18n="modal.send.recipient"></div>
@@ -26,38 +51,35 @@
                     </w-input-error>
                 </w-input-container>
 
-                <div class="row">
-                    <div class="body-2" w-i18n="modal.send.withdraw"></div>
-                    <div ng-if="!$ctrl.canChooseAsset || $ctrl.assetList.length === 1" class="input-like">
-                        <w-asset-logo size="30" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
-                        {{$ctrl.asset.name}}
-
-                        <w-balance balance="$ctrl.asset.balance" asset-id="{{::$ctrl.assetId}}"></w-balance>
-                    </div>
-                    <w-select ng-if="$ctrl.canChooseAsset && $ctrl.assetList.length > 1"
-                              ng-model="$ctrl.assetId">
-                        <w-option ng-repeat="option in $ctrl.assetList track by $index"
-                                  value="{{::option.id}}">
-                            <div class="flex-row split-half">
-                                <div class="flex-row left">
-                                    <w-asset-logo size="30" asset-id="{{::option.id}}"></w-asset-logo>
-                                    <div class="asset-name">{{::option.name}}</div>
-                                </div>
-                                <div class="right">
-                                    <w-balance asset-id="{{::option.id}}" balance="option.balance"></w-balance>
-                                </div>
-                            </div>
-                        </w-option>
-                    </w-select>
-                </div>
+                
 
                 <w-input-container>
                     <div class="row">
                         <div class="body-2" w-i18n="modal.send.amount"></div>
                         <div class="amount-wrap">
+                            
+                            
                             <div class="input-wrap">
                                 <w-input type="text"
-                                         class="no-icon"
+                                         class="no-validate"
+                                         w-validate="asset"
+                                         ng-focus="focus = 'amountMirror'"
+                                         ng-blur="focus = ''"
+                                         name="amountMirror"
+                                         asset-id="{{::$ctrl.mirrorId}}"
+                                         ng-model="$ctrl.amountMirror"></w-input>
+                                <div class="currency">{{::$ctrl.mirror.name}}</div>
+                                <div ng-mousedown="$ctrl.fillMax()"
+                                     ng-touchstart="$ctrl.fillMax()"
+                                     class="send-all"
+                                     ng-if="focus === 'amountMirror'">
+                                    <w-i18n>modal.send.sendMax</w-i18n>
+                                </div>
+                            </div>
+                            <div class="amount-modal-icon"></div>
+                            <div class="input-wrap">
+                                <w-input type="text"
+                                         class="no-validate"
                                          w-validate="asset"
                                          asset-id="{{::$ctrl.assetId}}"
                                          ng-focus="focus = 'amount'"
@@ -70,24 +92,6 @@
                                      ng-touchstart="$ctrl.fillMax()"
                                      class="send-all"
                                      ng-if="focus === 'amount'">
-                                    <w-i18n>modal.send.sendMax</w-i18n>
-                                </div>
-                            </div>
-                            <div class="amount-modal-icon"></div>
-                            <div class="input-wrap">
-                                <w-input type="text"
-                                         class="no-icon"
-                                         w-validate="asset"
-                                         ng-focus="focus = 'amountMirror'"
-                                         ng-blur="focus = ''"
-                                         name="amountMirror"
-                                         asset-id="{{::$ctrl.mirrorId}}"
-                                         ng-model="$ctrl.amountMirror"></w-input>
-                                <div class="currency">{{::$ctrl.mirror.name}}</div>
-                                <div ng-mousedown="$ctrl.fillMax()"
-                                     ng-touchstart="$ctrl.fillMax()"
-                                     class="send-all"
-                                     ng-if="focus === 'amountMirror'">
                                     <w-i18n>modal.send.sendMax</w-i18n>
                                 </div>
                             </div>
@@ -114,11 +118,9 @@
                         <span class="help"></span>
                     </div>
                     <div class="body">
-                        <w-balance balance="$ctrl.fee" asset-id="{{::$ctrl.assetId}}"></w-balance>
-                        {{::$ctrl.asset.name}}
-                        <span class="lite">
-                    <w-balance balance="$ctrl.feeAlias" asset-id="{{::$ctrl.mirrorId}}"></w-balance>
-                </span>
+                        {{$ctrl.fee.toFormat()}}
+                        {{$ctrl.fee.asset.name}}
+                        <span class="lite" w-nice-number="$ctrl.feeAlias" precision="$ctrl.mirror.precision"></span>
                     </div>
                 </div>
 

@@ -15,9 +15,12 @@
      * @param {typeof AppEvent} AppEvent
      * @param {app.utils.decorators} decorators
      * @param $injector
+     * @param EVENT_STATUSES
+     * @param BalanceComponent
+     * @param {app.utils} utils
      * @return {EventManager}
      */
-    const factory = function (user, Poll, AppEvent, decorators, $injector, EVENT_STATUSES, BalanceComponent) {
+    const factory = function (user, Poll, AppEvent, decorators, $injector, EVENT_STATUSES, BalanceComponent, utils) {
 
         class EventManager {
 
@@ -45,7 +48,7 @@
             }
 
             addEvent(event) {
-                this._addEvent(event);
+                this.ready = utils.whenAll([this.ready, this._addEvent(event)]);
                 this._saveEvents();
             }
 
@@ -120,7 +123,7 @@
 
                     switch (statusData.status) {
                         case EVENT_STATUSES.ERROR:
-                            console.error(`Error event ${this._events[statusData.id]}`);
+                            console.error(`Error event ${JSON.stringify(this._events[statusData.id])}`);
                             delete this._events[statusData.id];
                             break;
                         case EVENT_STATUSES.SUCCESS:
@@ -159,7 +162,8 @@
              */
             _loadEvents() {
                 return user.getSetting('events')
-                    .then(this._parseEventList.bind(this));
+                    .then(this._parseEventList.bind(this))
+                    .then(utils.whenAll);
             }
 
             /**
@@ -168,19 +172,23 @@
              * @private
              */
             _parseEventList(eventList) {
-                tsUtils.each(eventList, this._addEvent, this);
+                return Object.keys(eventList).map((name) => this._addEvent(eventList[name]));
             }
 
             /**
-             * @param event
+             * @param eventData
              * @private
              */
-            _addEvent(event) {
-                this._events[event.id] = new AppEvent(event.id);
-                this._events[event.id].addComponents(event.components.map((item) => {
-                    const Component = $injector.get(EventManager.toClassName(item.name));
-                    return new Component({ ...item.data, name: item.name });
-                }));
+            _addEvent(eventData) {
+                const event = this._events[eventData.id] = new AppEvent(eventData.id);
+                const components = eventData.components.map(EventManager.getComponetnFromStorageData);
+                event.addComponents(components);
+                return utils.whenAll(components.map((component) => component.ready || utils.when()));
+            }
+
+            static getComponetnFromStorageData(item) {
+                const Component = $injector.get(EventManager.toClassName(item.name));
+                return new Component({ ...item.data || {}, name: item.name });
             }
 
             static toClassName(name) {
@@ -191,7 +199,16 @@
         return new EventManager();
     };
 
-    factory.$inject = ['user', 'Poll', 'AppEvent', 'decorators', '$injector', 'EVENT_STATUSES', 'BalanceComponent'];
+    factory.$inject = [
+        'user',
+        'Poll',
+        'AppEvent',
+        'decorators',
+        '$injector',
+        'EVENT_STATUSES',
+        'BalanceComponent',
+        'utils'
+    ];
 
     angular.module('app')
         .factory('eventManager', factory);

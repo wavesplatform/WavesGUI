@@ -6,9 +6,7 @@
         class EventComponent {
 
             constructor(data) {
-                if (!data) {
-                    throw new Error('Cannot create EventComponent without data');
-                }
+                this._name = data.name;
                 this._data = data;
             }
 
@@ -21,7 +19,10 @@
             }
 
             toJSON() {
-                return this._data;
+                return {
+                    name: this._name,
+                    data: this._data
+                };
             }
 
         }

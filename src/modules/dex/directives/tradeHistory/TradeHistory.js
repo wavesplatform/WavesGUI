@@ -18,11 +18,11 @@
                 /**
                  * @type {string}
                  */
-                this.amountAssetId = null;
+                this._amountAssetId = null;
                 /**
                  * @type {string}
                  */
-                this.priceAssetId = null;
+                this._priceAssetId = null;
                 /**
                  * @type {IAssetInfo}
                  */
@@ -31,10 +31,6 @@
                  * @type {Array}
                  */
                 this.orders = [];
-                /**
-                 * @type {Poll}
-                 */
-                this.poll = createPoll(this, this._getTradeHistory, 'orders', 2000);
 
                 this.shema = new tsApiValidator.Schema({
                     type: tsApiValidator.ArrayPart,
@@ -51,7 +47,17 @@
                     }
                 });
 
-                this.observe(['amountAssetId', 'priceAssetId'], this._onChangeAssets);
+                this.observe(['_amountAssetId', '_priceAssetId'], this._onChangeAssets);
+                this.syncSettings({
+                    _amountAssetId: 'dex.amountAssetId',
+                    _priceAssetId: 'dex.priceAssetId'
+                })
+                    .then(() => {
+                        /**
+                         * @type {Poll}
+                         */
+                        this.poll = createPoll(this, this._getTradeHistory, 'orders', 2000);
+                    });
             }
 
             $onDestroy() {
@@ -62,17 +68,21 @@
             _onChangeAssets() {
                 this.orders = [];
                 this.poll.restart();
-                assetsService.getAssetInfo(this.priceAssetId)
+                assetsService.getAssetInfo(this._priceAssetId)
                     .then((asset) => {
                         this.priceAsset = asset;
+                    });
+                assetsService.getAssetInfo(this._amountAssetId)
+                    .then((asset) => {
+                        this.amountAsset = asset;
                     });
             }
 
             _getTradeHistory() {
-                if (!this.amountAssetId || !this.priceAssetId) {
+                if (!this._amountAssetId || !this._priceAssetId) {
                     return [];
                 }
-                return dataFeed.trades(this.amountAssetId, this.priceAssetId)
+                return dataFeed.trades(this._amountAssetId, this._priceAssetId)
                     .then(data => this.shema.parse(data));
             }
 
@@ -81,14 +91,10 @@
         return new TradeHistory();
     };
 
-    controller.$inject = ['Base', '$scope', 'assetsService', 'dataFeed', 'i18n', 'createPoll'];
+    controller.$inject = ['Base', '$scope', 'assetsService', 'dataFeed', 'createPoll'];
 
     angular.module('app.dex')
         .component('wDexTradeHistory', {
-            bindings: {
-                amountAssetId: '<',
-                priceAssetId: '<'
-            },
             templateUrl: 'modules/dex/directives/tradeHistory/tradeHistory.html',
             controller
         });

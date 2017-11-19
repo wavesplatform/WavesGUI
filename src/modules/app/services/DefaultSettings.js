@@ -32,19 +32,19 @@
                     termsAccepted: true,
                     baseAssetId: WavesApp.defaultAssets.USD,
                     events: Object.create(null),
+                    pinnedAssetIds: [
+                        WavesApp.defaultAssets.USD,
+                        WavesApp.defaultAssets.EUR,
+                        WavesApp.defaultAssets.WAVES,
+                        WavesApp.defaultAssets.BTC,
+                        WavesApp.defaultAssets.ETH
+                    ],
                     wallet: {
                         activeState: 'assets',
                         assets: {
                             chartMode: 'week',
                             activeChartAssetId: WavesApp.defaultAssets.WAVES,
                             chartAssetIds: [
-                                WavesApp.defaultAssets.WAVES,
-                                WavesApp.defaultAssets.BTC,
-                                WavesApp.defaultAssets.ETH
-                            ],
-                            assetList: [
-                                WavesApp.defaultAssets.USD,
-                                WavesApp.defaultAssets.EUR,
                                 WavesApp.defaultAssets.WAVES,
                                 WavesApp.defaultAssets.BTC,
                                 WavesApp.defaultAssets.ETH
@@ -57,11 +57,17 @@
                     dex: {
                         amountAssetId: WavesApp.defaultAssets.WAVES,
                         priceAssetId: WavesApp.defaultAssets.BTC,
-                        directives: {
-                            markets: {
-                                activeAssetId: WavesApp.defaultAssets.ETH,
-                                favoriteIds: Object.values(WavesApp.defaultAssets)
-                            }
+                        watchlist: {
+                            activeWatchListId: 'top',
+                            top: WavesApp.defaultAssets.WAVES,
+                            bottom: WavesApp.defaultAssets.BTC
+                        },
+                        layout: {
+                            tradeHistory: {
+                                collapsed: true
+                            },
+                            leftColumnState: false,
+                            rightColumnState: false
                         }
                     }
                 };
@@ -73,7 +79,7 @@
             }
 
             set(path, value) {
-                if (this.get(path) === value) {
+                if (utils.isEqual(this.get(path), value)) {
                     return null;
                 }
                 if (utils.isEqual(tsUtils.get(this.defaults, path), value)) {
@@ -81,7 +87,7 @@
                 } else {
                     tsUtils.set(this.settings, path, value);
                 }
-                this.change.dispatch();
+                this.change.dispatch(path);
             }
 
             getSettings() {

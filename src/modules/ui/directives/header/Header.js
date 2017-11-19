@@ -11,7 +11,7 @@
      * @param {ModalManager} modalManager
      * @return {Header}
      */
-    const controller = function ($element, Base, user, state, $state, i18n, modalManager) {
+    const controller = function ($element, Base, user, state, $state, i18n) {
 
         class Header extends Base {
 
@@ -26,10 +26,6 @@
                 this._onChangeRouterState($state.$current);
 
                 this.receive(state.signals.changeRouterState, this._onChangeRouterState, this);
-            }
-
-            avatarClick() {
-                modalManager.showAccountInfo();
             }
 
             _onChangeRouterState(state) {
@@ -51,7 +47,7 @@
         return new Header();
     };
 
-    controller.$inject = ['$element', 'Base', 'user', 'state', '$state', 'i18n', 'modalManager'];
+    controller.$inject = ['$element', 'Base', 'user', 'state', '$state', 'i18n'];
 
     angular.module('app.ui').component('wHeader', {
         controller: controller,

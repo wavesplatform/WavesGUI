@@ -1,10 +1,10 @@
 {
   "password": {
-    "title": "Protect your account with new password",
+    "title": "Protect Your Account with a New Password",
     "minLength": "must be at least {{minLength}} characters",
-    "warn": "easy, add digit or symbol",
+    "warn": "easy, add a digit or symbol",
     "secure": "secure password",
-    "repeat": "Repeat password"
+    "repeat": "Confirm password"
   },
   "transaction": {
     "headers": {

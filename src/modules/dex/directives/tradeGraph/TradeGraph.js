@@ -5,9 +5,10 @@
      * @param Base
      * @param utils
      * @param {AssetsService} assetsService
+     * @param {app.utils.apiWorker} apiWorker
      * @return {TradeGraph}
      */
-    const controller = function (Base, utils, assetsService) {
+    const controller = function (Base, utils, assetsService, apiWorker) {
 
         class TradeGraph extends Base {
 
@@ -17,11 +18,21 @@
                 /**
                  * @type {string}
                  */
-                this.amountAssetId = null;
+                this._amountAssetId = null;
                 /**
                  * @type {string}
                  */
-                this.priceAssetId = null;
+                this._priceAssetId = null;
+                /**
+                 * @type {IAssetInfo}
+                 * @private
+                 */
+                this._amountAsset = null;
+                /**
+                 * @type {IAssetInfo}
+                 * @private
+                 */
+                this._priceAsset = null;
 
                 this.options = {
                     margin: {
@@ -34,20 +45,38 @@
                         x: false,
                         y: false
                     },
+                    tooltipHook: (d) => {
+                        if (d) {
+                            const x = d[0].row.x;
+                            const precisionPrice = this._priceAsset && this._priceAsset.precision || 8;
+                            const precisionAmount = this._amountAsset && this._amountAsset.precision || 8;
+                            return {
+                                abscissas: `Price ${x.toFixed(precisionPrice)}`,
+                                rows: d.map((s) => {
+                                    return {
+                                        label: s.series.label,
+                                        value: s.row.y1.toFixed(precisionAmount),
+                                        color: s.series.color,
+                                        id: s.series.id
+                                    };
+                                })
+                            };
+                        }
+                    },
                     series: [
                         {
                             dataset: 'asks',
                             key: 'amount',
-                            label: 'An area series',
+                            label: 'Asks',
                             color: '#F27057',
-                            type: ['line', 'line', 'area'],
+                            type: ['line', 'line', 'area']
                         },
                         {
                             dataset: 'bids',
                             key: 'amount',
-                            label: 'An area series',
+                            label: 'Bids',
                             color: '#2B9F72',
-                            type: ['line', 'line', 'area'],
+                            type: ['line', 'line', 'area']
                         }
                     ],
                     axes: {
@@ -61,29 +90,83 @@
                     bids: [{ amount: 0, price: 0 }]
                 };
 
-                this.observe(['amountAssetId', 'priceAssetId'], this._onChangeAssets);
+                this.syncSettings({
+                    _amountAssetId: 'dex.amountAssetId',
+                    _priceAssetId: 'dex.priceAssetId'
+                });
+                this.observe(['_amountAssetId', '_priceAssetId'], this._onChangeAssets);
             }
 
             _onChangeAssets() {
-                const amountId = this.amountAssetId, priceId = this.priceAssetId;
-                Promise.all([
-                    assetsService.getAssetInfo(priceId),
-                    assetsService.getAssetInfo(amountId)
-                ])
-                    .then((data) => {
-                        const [priceAsset, amountAsset] = data;
-                        utils.when(fetch(`${WavesApp.network.matcher}/matcher/orderbook/${amountId}/${priceId}`)
-                            .then(r => r.json()))
-                            .then((data) => {
-                                console.log(data);
-                                const mapCallback = function (item) {
-                                    item.price = item.price / (10 ** priceAsset.precision);
-                                    item.amount = item.amount / (10 ** amountAsset.precision);
-                                    return item;
-                                };
-                                this.data.asks = data.asks.map(mapCallback);
-                                this.data.bids = data.bids.map(mapCallback);
-                            });
+                console.log('Graph change assets');
+                assetsService.getAssetInfo(this._priceAssetId)
+                    .then((asset) => {
+                        this._priceAsset = asset;
+                    });
+                assetsService.getAssetInfo(this._amountAssetId)
+                    .then((asset) => {
+                        this._amountAsset = asset;
+                    });
+                return apiWorker.process((Waves, { assetId1, assetId2 }) => {
+                    return Waves.AssetPair.get(assetId1, assetId2)
+                        .then((pair) => {
+                            return Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
+                                .then((orderBook) => {
+
+                                    const process = function (list) {
+                                        let sum = 0;
+                                        return list.reduce((resutl, item) => {
+                                            sum = sum + item.amount;
+                                            resutl.push({
+                                                amount: sum,
+                                                price: item.price
+                                            });
+                                            return resutl;
+                                        }, []);
+                                    };
+
+                                    const parse = function (list) {
+                                        return Promise.all((list || []).map((item) => {
+                                            return Promise.all([
+                                                Waves.Money.fromCoins(String(item.amount), pair.amountAsset)
+                                                    .then((amount) => {
+                                                        return amount.getTokens();
+                                                    }),
+                                                Waves.OrderPrice.fromMatcherCoins(String(item.price), pair)
+                                                    .then((orderPrice) => {
+                                                        return orderPrice.getTokens();
+                                                    })
+                                            ])
+                                                .then((amountPrice) => {
+                                                    const amount = amountPrice[0];
+                                                    const price = amountPrice[1];
+                                                    return {
+                                                        amount: Number(amount.toFixed(pair.amountAsset.precision)),
+                                                        price: Number(price.toFixed(pair.priceAsset.precision))
+                                                    };
+                                                });
+                                        }));
+                                    };
+
+                                    return Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
+                                        .then((orderBook) => {
+                                            return Promise.all([
+                                                parse(orderBook.bids),
+                                                parse(orderBook.asks)
+                                            ])
+                                                .then((bidAsks) => {
+                                                    const bids = bidAsks[0];
+                                                    const asks = bidAsks[1];
+
+                                                    return { bids: process(bids), asks: process(asks) };
+                                                });
+                                        });
+                                });
+                        });
+                }, { assetId1: this._amountAssetId, assetId2: this._priceAssetId })
+                    .then(({ bids, asks }) => {
+                        this.data.bids = bids;
+                        this.data.asks = asks;
                     });
             }
 
@@ -92,14 +175,10 @@
         return new TradeGraph();
     };
 
-    controller.$inject = ['Base', 'utils', 'assetsService'];
+    controller.$inject = ['Base', 'utils', 'assetsService', 'apiWorker'];
 
     angular.module('app.dex')
         .component('wDexTradeGraph', {
-            bindings: {
-                amountAssetId: '<',
-                priceAssetId: '<'
-            },
             templateUrl: 'modules/dex/directives/tradeGraph/tradeGraph.html',
             controller
         });
