@@ -23,26 +23,32 @@
                 super($scope);
                 transactionsService.get(transactionId)
                     .then((transaction) => {
-                        this.transaction = transaction;
-
-                        this.templateUrl = `${PATH}/${this.transaction.templateType}.html`;
-                        this.datetime = $filter('date')(this.transaction.timestamp, 'dd.MM.yyyy, HH:mm');
-                        this.shownAddress = this.transaction.shownAddress;
-                        this.type = this.transaction.type;
-
-                        this.explorerLink = explorerLinks.getTxLink(this.transaction.id);
-
-                        if (this.transaction.height >= 0) {
-                            blocksService.getHeight().then((height) => {
-                                this.confirmations = height - this.transaction.height;
-                            });
+                        if (transaction.height >= 0) {
+                            return blocksService.getHeight().then((height) => ({
+                                confirmations: height - transaction.height,
+                                transaction
+                            }));
                         } else {
-                            this.confirmations = -1
+                            return {
+                                confirmations: -1,
+                                transaction
+                            };
                         }
+                    })
+                    .then(({ transaction, confirmations }) => {
+                        this.transaction = transaction;
+                        this.confirmations = confirmations;
+                        this.confirmed = confirmations >= 0;
 
-                        const TYPES = transactionsService.TYPES;
-                        if (this.type === TYPES.SEND || this.type === TYPES.RECEIVE || this.type === TYPES.CIRCULAR) {
-                            baseAssetService.convertToBaseAsset(this.transaction.amount)
+                        this.templateUrl = `${PATH}/${transaction.templateType}.html`;
+                        this.datetime = $filter('date')(transaction.timestamp, 'dd.MM.yyyy, HH:mm');
+                        this.shownAddress = transaction.shownAddress;
+                        this.type = transaction.type;
+
+                        this.explorerLink = explorerLinks.getTxLink(transaction.id);
+
+                        if (transaction.amount) {
+                            baseAssetService.convertToBaseAsset(transaction.amount)
                                 .then((baseMoney) => {
                                     this.mirrorBalance = baseMoney;
                                 });

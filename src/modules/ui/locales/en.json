@@ -66,12 +66,18 @@
     "modals": {
       "to": "To",
       "from": "From",
-      "attachment": "Description",
+      "assetId": "Asset ID",
+      "attachment": "Attachment",
+      "description": "Description",
+      "type": "Type",
       "confirmations": "Confirmations",
-      "noConfirmations": "none",
       "fee": "Fee",
-      "viewTransaction": "Transaction",
-      "viewTransactionLink": "View Transaction"
+      "viewTransactionKey": "Transaction",
+      "viewTransactionValue": "View Transaction"
+    },
+    "confirmed": {
+      "false": "UNCONFIRMED",
+      "true": "COMPLETED"
     }
   },
   "transactionList": {
