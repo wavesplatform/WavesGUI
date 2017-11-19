@@ -55,13 +55,13 @@
                 </div>
             </div>
             <div class="change">
-                <h1>+$ {{$ctrl.change}}</h1>
+                <h1>{{$ctrl.change > 0 ? '+' : '-'}}$ {{$ctrl.abs($ctrl.change)}}</h1>
                 <div class="tag info-500">
                     SLICE LAST {{$ctrl.chartMode.toUpperCase()}} (USD)
                 </div>
             </div>
             <div class="change-percent">
-                <h1>+{{$ctrl.changePercent}}%</h1>
+                <h1>{{$ctrl.change > 0 ? '+' : '-'}}{{$ctrl.abs($ctrl.changePercent)}}%</h1>
                 <div class="tag info-500">
                     SLICE LAST {{$ctrl.chartMode.toUpperCase()}} (%)
                 </div>
