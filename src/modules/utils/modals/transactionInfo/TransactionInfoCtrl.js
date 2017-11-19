@@ -47,8 +47,9 @@
 
                         this.explorerLink = explorerLinks.getTxLink(transaction.id);
 
-                        if (transaction.amount) {
-                            baseAssetService.convertToBaseAsset(transaction.amount)
+                        if (transaction.amount || transaction.leaseTransactionAmount) {
+                            const amount = transaction.amount || transaction.leaseTransactionAmount;
+                            baseAssetService.convertToBaseAsset(amount)
                                 .then((baseMoney) => {
                                     this.mirrorBalance = baseMoney;
                                 });

@@ -66,10 +66,11 @@
     "modals": {
       "to": "To",
       "from": "From",
-      "assetId": "Asset ID",
+      "assetId": "ID",
       "attachment": "Attachment",
       "description": "Description",
       "type": "Type",
+      "cancelTx": "TX",
       "confirmations": "Confirmations",
       "fee": "Fee",
       "viewTransactionKey": "Transaction",
