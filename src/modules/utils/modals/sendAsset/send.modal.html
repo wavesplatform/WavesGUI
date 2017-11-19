@@ -56,10 +56,10 @@
                 <w-input-container>
                     <div class="row">
                         <div class="body-2" w-i18n="modal.send.amount"></div>
-                        <div class="amount-wrap">
+                        <div class="amount-wrap" ng-class="{'no-mirror': $ctrl.mirror.id === $ctrl.asset.id}">
 
 
-                            <div class="input-wrap">
+                            <div ng-if="$ctrl.mirror.id !== $ctrl.asset.id" class="input-wrap">
                                 <w-input type="text"
                                          class="no-validate"
                                          w-validate="asset"
