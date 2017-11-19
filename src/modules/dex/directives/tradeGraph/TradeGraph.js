@@ -48,17 +48,19 @@
                     tooltipHook: (d) => {
                         if (d) {
                             const x = d[0].row.x;
+                            const precisionPrice = this._priceAsset && this._priceAsset.precision || 8;
+                            const precisionAmount = this._amountAsset && this._amountAsset.precision || 8;
                             return {
-                                abscissas: `Price ${x.toFixed(this._priceAsset.precision)}`,
+                                abscissas: `Price ${x.toFixed(precisionPrice)}`,
                                 rows: d.map((s) => {
                                     return {
                                         label: s.series.label,
-                                        value: s.row.y1.toFixed(this._amountAsset.precision), // the y value
+                                        value: s.row.y1.toFixed(precisionAmount),
                                         color: s.series.color,
                                         id: s.series.id
-                                    }
+                                    };
                                 })
-                            }
+                            };
                         }
                     },
                     series: [
@@ -67,14 +69,14 @@
                             key: 'amount',
                             label: 'Asks',
                             color: '#F27057',
-                            type: ['line', 'line', 'area'],
+                            type: ['line', 'line', 'area']
                         },
                         {
                             dataset: 'bids',
                             key: 'amount',
                             label: 'Bids',
                             color: '#2B9F72',
-                            type: ['line', 'line', 'area'],
+                            type: ['line', 'line', 'area']
                         }
                     ],
                     axes: {
@@ -96,63 +98,71 @@
             }
 
             _onChangeAssets() {
-                assetsService.getAssetInfo(this._priceAssetId).then((asset) => {
-                    this._priceAsset = asset;
-                });
-                assetsService.getAssetInfo(this._amountAssetId).then((asset) => {
-                    this._amountAsset = asset;
-                });
-                return apiWorker.process((Waves, { assetId1, assetId2 }) => {
-                    return Waves.AssetPair.get(assetId1, assetId2).then((pair) => {
-                        return Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
-                            .then((orderBook) => {
-
-                                const process = function (list) {
-                                    let sum = 0;
-                                    return list.reduce((resutl, item) => {
-                                        sum = sum + item.amount;
-                                        resutl.push({
-                                            amount: sum,
-                                            price: item.price
-                                        });
-                                        return resutl;
-                                    }, [])
-                                };
-
-                                const parse = function (list) {
-                                    return Promise.all((list || []).map((item) => {
-                                        return Promise.all([
-                                            Waves.Money.fromCoins(String(item.amount), pair.amountAsset).then((amount) => {
-                                                return amount.getTokens()
-                                            }),
-                                            Waves.OrderPrice.fromMatcherCoins(String(item.price), pair).then((orderPrice) => {
-                                                return orderPrice.getTokens()
-                                            })
-                                        ]).then((amountPrice) => {
-                                            const amount = amountPrice[0];
-                                            const price = amountPrice[1];
-                                            return {
-                                                amount: Number(amount.toFixed(pair.amountAsset.precision)),
-                                                price: Number(price.toFixed(pair.priceAsset.precision))
-                                            }
-                                        });
-                                    }));
-                                };
-
-                                return Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
-                                    .then((orderBook) => {
-                                        return Promise.all([
-                                            parse(orderBook.bids),
-                                            parse(orderBook.asks)
-                                        ]).then((bidAsks) => {
-                                            const bids = bidAsks[0];
-                                            const asks = bidAsks[1];
-
-                                            return { bids: process(bids), asks: process(asks) };
-                                        });
-                                    });
-                            });
+                console.log('Graph change assets');
+                assetsService.getAssetInfo(this._priceAssetId)
+                    .then((asset) => {
+                        this._priceAsset = asset;
                     });
+                assetsService.getAssetInfo(this._amountAssetId)
+                    .then((asset) => {
+                        this._amountAsset = asset;
+                    });
+                return apiWorker.process((Waves, { assetId1, assetId2 }) => {
+                    return Waves.AssetPair.get(assetId1, assetId2)
+                        .then((pair) => {
+                            return Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
+                                .then((orderBook) => {
+
+                                    const process = function (list) {
+                                        let sum = 0;
+                                        return list.reduce((resutl, item) => {
+                                            sum = sum + item.amount;
+                                            resutl.push({
+                                                amount: sum,
+                                                price: item.price
+                                            });
+                                            return resutl;
+                                        }, []);
+                                    };
+
+                                    const parse = function (list) {
+                                        return Promise.all((list || []).map((item) => {
+                                            return Promise.all([
+                                                Waves.Money.fromCoins(String(item.amount), pair.amountAsset)
+                                                    .then((amount) => {
+                                                        return amount.getTokens();
+                                                    }),
+                                                Waves.OrderPrice.fromMatcherCoins(String(item.price), pair)
+                                                    .then((orderPrice) => {
+                                                        return orderPrice.getTokens();
+                                                    })
+                                            ])
+                                                .then((amountPrice) => {
+                                                    const amount = amountPrice[0];
+                                                    const price = amountPrice[1];
+                                                    return {
+                                                        amount: Number(amount.toFixed(pair.amountAsset.precision)),
+                                                        price: Number(price.toFixed(pair.priceAsset.precision))
+                                                    };
+                                                });
+                                        }));
+                                    };
+
+                                    return Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
+                                        .then((orderBook) => {
+                                            return Promise.all([
+                                                parse(orderBook.bids),
+                                                parse(orderBook.asks)
+                                            ])
+                                                .then((bidAsks) => {
+                                                    const bids = bidAsks[0];
+                                                    const asks = bidAsks[1];
+
+                                                    return { bids: process(bids), asks: process(asks) };
+                                                });
+                                        });
+                                });
+                        });
                 }, { assetId1: this._amountAssetId, assetId2: this._priceAssetId })
                     .then(({ bids, asks }) => {
                         this.data.bids = bids;

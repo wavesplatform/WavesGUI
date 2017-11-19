@@ -93,8 +93,8 @@
                     this.observe('_baseAssetId', this._onChangeBaseAsset);
                     this.observe('_activeWatchListId', this._onChangeActiveWatchList);
                     this.syncSettings({
-                        _amountAssetId: 'dex._amountAssetId',
-                        _priceAssetId: 'dex._priceAssetId',
+                        _amountAssetId: 'dex.amountAssetId',
+                        _priceAssetId: 'dex.priceAssetId',
                         _baseAssetId: `dex.watchlist.${this._id}`,
                         _activeWatchListId: 'dex.watchlist.activeWatchListId'
                     })
