@@ -196,6 +196,5 @@
 
     factory.$inject = ['apiWorker', 'decorators', 'user', 'utils'];
 
-    angular.module('app')
-        .factory('transactionsService', factory);
+    angular.module('app').factory('transactionsService', factory);
 })();

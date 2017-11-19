@@ -21,7 +21,7 @@
         <span w-i18n="transaction.amounts.{{::$ctrl.type}}"
               params="{
                 sign: $ctrl.type === 'exchange-buy' ? '–' : '+',
-                amount: $ctrl.transaction.price.toFormat(),
+                amount: $ctrl.totalPrice,
                 name: $ctrl.transaction.price.asset.name
               }"></span>
     </div>

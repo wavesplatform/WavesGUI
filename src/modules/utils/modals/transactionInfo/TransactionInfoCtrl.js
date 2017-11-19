@@ -12,10 +12,11 @@
      * @param blocksService
      * @param {ExplorerLinks} explorerLinks
      * @param {BaseAssetService} baseAssetService
+     * @param {DexService} dexService
      * @return {TransactionInfoCtrl}
      */
     const controller = function (Base, $scope, $filter, transactionsService, blocksService, explorerLinks,
-                                 baseAssetService) {
+                                 baseAssetService, dexService) {
 
         class TransactionInfoCtrl extends Base {
 
@@ -54,6 +55,11 @@
                                     this.mirrorBalance = baseMoney;
                                 });
                         }
+
+                        const TYPES = transactionsService.TYPES;
+                        if (this.type === TYPES.EXCHANGE_BUY || this.type === TYPES.EXCHANGE_SELL) {
+                            this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
+                        }
                     });
             }
 
@@ -64,7 +70,7 @@
 
     controller.$inject = [
         'Base', '$scope', '$filter', 'transactionsService', 'blocksService',
-        'explorerLinks', 'baseAssetService'
+        'explorerLinks', 'baseAssetService', 'dexService'
     ];
 
     angular.module('app.utils').controller('TransactionInfoCtrl', controller);
