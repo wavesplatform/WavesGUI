@@ -28,15 +28,14 @@
                      */
                     this.asset = asset;
 
-                    this.registerValidator('asset-input', (modelValue, viewValue) => {
+                    this.registerValidator('asset-input', (modelValue, viewValue) => { // TODO add quantity and balance validatiors
                         const parts = String(viewValue || 0)
                             .replace(',', '')
                             .split('.');
                         if (!modelValue) {
                             return 'required' in this.$attrs;
                         }
-                        const quantity = asset.quantity || Number.MAX_VALUE;
-                        return modelValue.lt(quantity.getTokens()) && (!parts[1] || parts[1].length <= asset.precision);
+                        return (!parts[1] || parts[1].length <= asset.precision);
                     });
                 });
             }
