@@ -16,13 +16,17 @@
          class="dex-sidebar-toggle dex-sidebar-toggle__left"></div>
 
     <div class="dex-column dex-content dex-divided-column">
-        <w-dex-block title-name="DEX content">
-            <w-dex-trade-graph></w-dex-trade-graph>
-        </w-dex-block>
+        <div class="dex-divided-column--fill">
+            <w-dex-block title-name="Order book">
+                <w-dex-trade-graph></w-dex-trade-graph>
+            </w-dex-block>
+        </div>
 
-        <w-dex-block title-name="DEX content">
-            table
-        </w-dex-block>
+        <!--<div class="dex-divided-column&#45;&#45;fixed" ng-class="{'collapsed': $ctrl.collapseTradeHistory}">-->
+            <!--<w-dex-block title-name="My Orders">-->
+
+            <!--</w-dex-block>-->
+        <!--</div>-->
     </div>
 
     <div ng-click="$ctrl.toggleColumn('right')" ng-class="{'dex-sidebar-toggle__open': !$ctrl._rightHidden}"
