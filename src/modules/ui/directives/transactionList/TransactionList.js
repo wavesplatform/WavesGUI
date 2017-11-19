@@ -55,9 +55,9 @@
                  */
                 this.hadResponse = false;
                 /**
-                 * @type {string}
+                 * @type {Array}
                  */
-                this.currentAssetId = null;
+                this.assetIdList = null;
 
                 createPromise(this, user.getSetting('baseAssetId'))
                     .then((mirrorId) => {
@@ -78,31 +78,11 @@
              * @private
              */
             _getTransactions() {
-                return transactionsService.transactions()
-                    .then((list) => list.map(this._map, this))
+                return transactionsService.getList()
                     .then((list) => {
                         this.hadResponse = true;
                         return list;
                     });
-            }
-
-            /**
-             * @param item
-             * @return {Promise}
-             * @private
-             */
-            _map(item) {
-                item.type = this._getTransactionType(item);
-                item.address = this._getTransactionAddress(item);
-
-                switch (item.type) {
-                    case 'alias':
-                        item.amount = item.fee;
-                        break;
-                    default:
-                }
-
-                return item;
             }
 
             /**
@@ -131,20 +111,24 @@
                     .sort(utils.comparators.process((name) => hash[name].timestamp).desc);
 
                 this.transactions = dates.map((date) => ({
+                    transactions: hash[date].transactions,
                     timestamp: hash[date].timestamp,
-                    date,
-                    transactions: hash[date].transactions
+                    date
                 }));
             }
 
+            /**
+             * @private
+             */
             _getAssetFilter() {
-                if (this.currentAssetId) {
+                if (this.assetIdList && this.assetIdList.length) {
+                    const TYPES = transactionsService.TYPES;
                     return ({ type, amount }) => {
                         switch (type) {
-                            case 'send':
-                            case 'receive':
-                            case 'circular':
-                                return amount.asset.id === this.currentAssetId;
+                            case TYPES.SEND:
+                            case TYPES.RECEIVE:
+                            case TYPES.CIRCULAR:
+                                return this.assetIdList.indexOf(amount.asset.id) !== -1;
                             default:
                                 return false;
                         }
@@ -189,53 +173,6 @@
                 };
             }
 
-            /**
-             * @param {string} sender
-             * @param {string} recipient
-             * @return {string}
-             * @private
-             */
-            _getTransactionType({ transactionType, sender, recipient }) {
-                switch (transactionType) {
-                    case 'transfer':
-                        return TransactionList._getTransferType(sender, recipient);
-                    case 'createAlias':
-                        return 'alias';
-                    default:
-                        return transactionType;
-                }
-            }
-
-            /**
-             * @param type
-             * @param sender
-             * @param recipient
-             * @return {*}
-             * @private
-             */
-            _getTransactionAddress({ type, sender, recipient }) {
-                switch (type) {
-                    case 'receive':
-                    case 'issue':
-                    case 'reissue':
-                    case 'exchange':
-                    case 'alias':
-                        return sender;
-                    default:
-                        return recipient;
-                }
-            }
-
-            /**
-             * @param {string} sender
-             * @param {string} recipient
-             * @return {string}
-             * @private
-             */
-            static _getTransferType(sender, recipient) {
-                return sender === recipient ? 'circular' : sender === user.address ? 'send' : 'receive';
-            }
-
         }
 
         return new TransactionList();
@@ -252,14 +189,14 @@
         'utils'
     ];
 
-    angular.module('app.wallet.transactions')
+    angular.module('app.ui')
         .component('wTransactionList', {
             bindings: {
-                currentAssetId: '@',
+                assetIdList: '<',
                 transactionType: '<',
                 search: '<'
             },
-            templateUrl: 'modules/wallet/modules/transactions/directives/transactionList/transactionList.html',
+            templateUrl: 'modules/ui/directives/transactionList/transactionList.html',
             transclude: false,
             controller
         });

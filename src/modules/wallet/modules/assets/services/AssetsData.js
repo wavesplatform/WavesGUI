@@ -3,7 +3,7 @@
 
     /**
      * @param {User} user
-     * @param decorators
+     * @param {app.utils.decorators} decorators
      * @param apiWorker
      * @param {AssetsService} assetsService
      * @param {app.utils} utils

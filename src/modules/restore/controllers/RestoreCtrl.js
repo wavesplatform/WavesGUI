@@ -38,15 +38,21 @@
 
             restore() {
                 apiWorker.process((WavesAPI, { seed, password }) => {
-                    return WavesAPI.Seed.fromExistingPhrase(seed).encrypt(password);
-                }, { seed: this.seed, password: this.password }).then((encryptedSeed) => {
-                    user.addUserData({
-                        address: this.address,
-                        encryptedSeed: encryptedSeed,
-                        password: this.password,
-                        settings: { termsAccepted: false }
+                    const seedData = WavesAPI.Seed.fromExistingPhrase(seed);
+                    return {
+                        encryptedSeed: seedData.encrypt(password),
+                        publicKey: seedData.keyPair.publicKey
+                    };
+                }, { seed: this.seed, password: this.password })
+                    .then(({ encryptedSeed, publicKey }) => {
+                        user.addUserData({
+                            address: this.address,
+                            password: this.password,
+                            settings: { termsAccepted: false },
+                            encryptedSeed,
+                            publicKey
+                        });
                     });
-                });
             }
 
             _onChangeSeed() {

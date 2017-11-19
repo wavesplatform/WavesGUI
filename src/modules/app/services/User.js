@@ -33,6 +33,10 @@
                 /**
                  * @type {string}
                  */
+                this.publicKey = null;
+                /**
+                 * @type {string}
+                 */
                 this.encryptedSeed = null;
                 /**
                  * @type {Object}
@@ -171,6 +175,7 @@
              * @param {Object} data
              * @param {string} data.address
              * @param {string} data.encryptedSeed
+             * @param {string} data.publicKey
              * @param {string} data.password
              * @param {Object} [data.settings]
              * @param {boolean} [data.settings.termsAccepted]
@@ -356,8 +361,7 @@
         'timeLine'
     ];
 
-    angular.module('app')
-        .factory('user', factory);
+    angular.module('app').factory('user', factory);
 })();
 
 /**

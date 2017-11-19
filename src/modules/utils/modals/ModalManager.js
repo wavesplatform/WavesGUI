@@ -74,9 +74,9 @@
 
             showAccountInfo() {
                 return this._getModal({
-                    controller: 'AccountInformationCtrl',
+                    controller: 'AccountInfoCtrl',
                     title: 'modal.account.title',
-                    contentUrl: 'modules/utils/modals/accountInformation/account-information.modal.html',
+                    contentUrl: 'modules/utils/modals/accountInfo/account-info.modal.html',
                     mod: 'account-info'
                 });
             }
@@ -114,6 +114,17 @@
                             mod: 'modal-receive'
                         });
                     });
+            }
+
+            showTransactionInfo(transactionId) {
+                return this._getModal({
+                    ns: 'app.ui',
+                    controller: 'TransactionInfoCtrl',
+                    titleContentUrl: `modules/utils/modals/transactionInfo/transaction-info-title.modal.html`,
+                    contentUrl: 'modules/utils/modals/transactionInfo/transaction-info.modal.html',
+                    mod: 'transaction-info',
+                    locals: { transactionId }
+                });
             }
 
             /**
