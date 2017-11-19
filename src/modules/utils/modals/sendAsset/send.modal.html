@@ -4,28 +4,7 @@
             <form class="send-form"
                   name="send"
                   novalidate>
-
-                <w-input-container>
-                    <div class="body-2" w-i18n="modal.send.recipient"></div>
-                    <div class="read-address-wrap">
-                        <w-input type="text"
-                                 w-validate="address"
-                                 name="recipient"
-                                 ng-model="$ctrl.recipient"
-                                 required></w-input>
-
-                        <w-qr-code-read on-read="$ctrl.onReadQrCode(result)" max-width="250"
-                                        max-height="160"></w-qr-code-read>
-                    </div>
-
-                    <w-input-error message="inputAddress">
-                        <w-i18n>inputs.errors.invalidAddress</w-i18n>
-                    </w-input-error>
-                    <w-input-error message="required">
-                        <w-i18n>inputs.errors.required</w-i18n>
-                    </w-input-error>
-                </w-input-container>
-
+                
                 <div class="row">
                     <div class="body-2" w-i18n="modal.send.withdraw"></div>
                     <div ng-if="!$ctrl.canChooseAsset || $ctrl.assetList.length === 1" class="input-like">
@@ -52,9 +31,52 @@
                 </div>
 
                 <w-input-container>
+                    <div class="body-2" w-i18n="modal.send.recipient"></div>
+                    <div class="read-address-wrap">
+                        <w-input type="text"
+                                 w-validate="address"
+                                 name="recipient"
+                                 ng-model="$ctrl.recipient"
+                                 required></w-input>
+
+                        <w-qr-code-read on-read="$ctrl.onReadQrCode(result)" max-width="250"
+                                        max-height="160"></w-qr-code-read>
+                    </div>
+
+                    <w-input-error message="inputAddress">
+                        <w-i18n>inputs.errors.invalidAddress</w-i18n>
+                    </w-input-error>
+                    <w-input-error message="required">
+                        <w-i18n>inputs.errors.required</w-i18n>
+                    </w-input-error>
+                </w-input-container>
+
+                
+
+                <w-input-container>
                     <div class="row">
                         <div class="body-2" w-i18n="modal.send.amount"></div>
                         <div class="amount-wrap">
+                            
+                            
+                            <div class="input-wrap">
+                                <w-input type="text"
+                                         class="no-validate"
+                                         w-validate="asset"
+                                         ng-focus="focus = 'amountMirror'"
+                                         ng-blur="focus = ''"
+                                         name="amountMirror"
+                                         asset-id="{{::$ctrl.mirrorId}}"
+                                         ng-model="$ctrl.amountMirror"></w-input>
+                                <div class="currency">{{::$ctrl.mirror.name}}</div>
+                                <div ng-mousedown="$ctrl.fillMax()"
+                                     ng-touchstart="$ctrl.fillMax()"
+                                     class="send-all"
+                                     ng-if="focus === 'amountMirror'">
+                                    <w-i18n>modal.send.sendMax</w-i18n>
+                                </div>
+                            </div>
+                            <div class="amount-modal-icon"></div>
                             <div class="input-wrap">
                                 <w-input type="text"
                                          class="no-validate"
@@ -70,24 +92,6 @@
                                      ng-touchstart="$ctrl.fillMax()"
                                      class="send-all"
                                      ng-if="focus === 'amount'">
-                                    <w-i18n>modal.send.sendMax</w-i18n>
-                                </div>
-                            </div>
-                            <div class="amount-modal-icon"></div>
-                            <div class="input-wrap">
-                                <w-input type="text"
-                                         class="no-validate"
-                                         w-validate="asset"
-                                         ng-focus="focus = 'amountMirror'"
-                                         ng-blur="focus = ''"
-                                         name="amountMirror"
-                                         asset-id="{{::$ctrl.mirrorId}}"
-                                         ng-model="$ctrl.amountMirror"></w-input>
-                                <div class="currency">{{::$ctrl.mirror.name}}</div>
-                                <div ng-mousedown="$ctrl.fillMax()"
-                                     ng-touchstart="$ctrl.fillMax()"
-                                     class="send-all"
-                                     ng-if="focus === 'amountMirror'">
                                     <w-i18n>modal.send.sendMax</w-i18n>
                                 </div>
                             </div>
