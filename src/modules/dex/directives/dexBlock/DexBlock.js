@@ -20,34 +20,14 @@
                  */
                 this.search = '';
                 /**
-                 * @type {string}
+                 * @type {boolean}
                  */
-                this.savePath = null;
-                /**
-                 * @type {string}
-                 */
-                this.title = null;
-                this._collapsed = user.address && $attrs.savePath ?
-                    user.getSettingByUser(user, $attrs.savePath) : false;
-
-                this.observe('_collapsed', this._onChangeCollapse);
-                this._onChangeCollapse();
-            }
-
-            $postLink() {
-                if (this.savePath) {
-                    this.syncSettings({ _collapsed: `${this.savePath}.collapsed` });
-                }
+                this.collapsed = false;
             }
 
             toggleCollapse() {
-                this._collapsed = !this._collapsed;
+                this.collapsed = !this.collapsed;
             }
-
-            _onChangeCollapse() {
-                utils.animateByClass($element, 'collapsed', this._collapsed);
-            }
-
         }
 
         return new DexBlock();
@@ -58,9 +38,9 @@
     angular.module('app.dex').component('wDexBlock', {
         bindings: {
             title: '@titleName',
-            savePath: '@',
             hasSearch: '@',
-            canCollapse: '@'
+            canCollapse: '@',
+            collapsed: '='
         },
         templateUrl: 'modules/dex/directives/dexBlock/dexBlock.html',
         transclude: true,

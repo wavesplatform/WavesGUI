@@ -1,7 +1,7 @@
 @import (reference) '../../config';
 @import (reference) '../../app/less/typography';
 
-@dex-lower-block-height: 300px;
+@dex-lower-block-height: 50%;
 
 body.dex {
     w-header {
@@ -52,7 +52,7 @@ body.dex {
 			&:hover {
                 opacity: 1;
 			}
-			
+
 			&__left {
 				margin: 0 -3px 0 2px;
 				transform: scaleX(-1);
@@ -60,7 +60,7 @@ body.dex {
             &__right {
 				margin: 0 2px 0 -3px;
 			}
-			
+
 			&::after {
 				content: "";
 				display: block;
@@ -108,11 +108,15 @@ body.dex {
 
         .dex-divided-column--fill {
 			flex: 1;
-			height: calc(~"100% - "@dex-lower-block-height - @padding-main-layout);
+			height: calc(~"50% - "@padding-main-layout);
         }
         .dex-divided-column--fixed {
 			flex: 0 0;
 			height: @dex-lower-block-height;
+
+            &.collapsed {
+              height: 40px;
+            }
         }
     }
 }

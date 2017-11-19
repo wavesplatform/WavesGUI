@@ -21,6 +21,7 @@ w-dex-block {
       height: 39px;
       background-color: @color-disabled-50;
       border-bottom: 1px solid @color-disabled-200;
+      flex-shrink: 0;
     }
 
     .collapse-dex-block {
@@ -34,11 +35,6 @@ w-dex-block {
       height: 100%;
       display: flex;
       overflow: auto;
-      transition: height 0.3s;
     }
-  }
-
-  &.collapsed .block-wrapper .dex-block-content {
-    height: 0;
   }
 }

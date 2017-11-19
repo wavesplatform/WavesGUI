@@ -46,8 +46,8 @@
                         y: false
                     },
                     tooltipHook: (d) => {
-                        const x = d[0].row.x;
                         if (d) {
+                            const x = d[0].row.x;
                             return {
                                 abscissas: `Price ${x.toFixed(this._priceAsset.precision)}`,
                                 rows: d.map((s) => {
