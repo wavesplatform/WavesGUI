@@ -1,19 +1,12 @@
 (function () {
     'use strict';
 
-    const controller = function (Base) {
+    const controller = function (Base, copyService) {
 
         class Copy extends Base {
 
             copy() {
-                const info = this.info;
-                const handler = function (e) {
-                    e.clipboardData.setData('text/plain', info);
-                    e.preventDefault();
-                };
-                document.addEventListener('copy', handler);
-                document.execCommand('copy');
-                document.removeEventListener('copy', handler);
+                copyService.copy(this.info);
             }
 
         }
@@ -21,7 +14,7 @@
         return new Copy();
     };
 
-    controller.$inject = ['Base'];
+    controller.$inject = ['Base', 'copyService'];
 
     angular.module('app.ui').component('wCopy', {
         bindings: {
