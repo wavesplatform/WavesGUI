@@ -33,11 +33,11 @@
                     baseAssetId: WavesApp.defaultAssets.USD,
                     events: Object.create(null),
                     pinnedAssetIds: [
-                        WavesApp.defaultAssets.USD,
-                        WavesApp.defaultAssets.EUR,
                         WavesApp.defaultAssets.WAVES,
                         WavesApp.defaultAssets.BTC,
-                        WavesApp.defaultAssets.ETH
+                        WavesApp.defaultAssets.ETH,
+                        WavesApp.defaultAssets.USD,
+                        WavesApp.defaultAssets.EUR
                     ],
                     wallet: {
                         activeState: 'assets',
