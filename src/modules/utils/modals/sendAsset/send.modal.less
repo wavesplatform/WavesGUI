@@ -11,6 +11,7 @@
     top: 50%;
     margin-top: -17px;
     border-left: 2px solid #dae1e9;
+
     .btn:before {
       width: 38px;
       height: 32px;
@@ -51,21 +52,21 @@
   }
 
   .row {
+    margin-top: 20px;
     position: relative;
+
+    &:first-child {
+      margin-top: 10px;
+    }
+
+    &:last-child {
+      margin-top: 10px;
+    }
+
     textarea {
       font-size: 17px;
       min-height: 54px;
       padding: 16px;
-    }
-    .body.ng-binding {
-      font-size: 12px;
-    }
-    .body-2 {
-      margin: 0 0 4px;
-    }
-    button {
-      height: 54px;
-      font-size: 17px;
     }
   }
 
@@ -118,13 +119,15 @@
       height: 54px;
     }
     .currency {
+      max-width: 40px;
+      text-overflow: ellipsis;
       text-transform: uppercase;
-      //color: @color-lite-font;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       right: 15px;
-      font-size: 17px;
+      overflow: hidden;
+      white-space: nowrap;
     }
 
     .send-all {
@@ -165,21 +168,6 @@
     & > div:last-child {
       width: 50%;
       text-align: right;
-    }
-  }
-
-  .lite {
-    //color: @color-lite-font;
-
-    &::before, &::after {
-      //color: @color-lite-font;
-    }
-    &::before {
-      content: '('
-    }
-
-    &::after {
-      content: ')'
     }
   }
 
