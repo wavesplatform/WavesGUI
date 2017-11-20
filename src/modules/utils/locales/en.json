@@ -6,10 +6,12 @@
       "pinned": "Pinned"
     },
     "receive": {
-      "title": "{{assetName}} Wallet Address",
-      "text": "Only send {{assetName}} to this address",
-      "description": "Sending any other digital asset, including {{assetName}}\n Cash, will result in permanent loss.",
-      "ok": "Show Address"
+      "title": "Receive {{asset.name}}",
+      "warningTitle": "Send only «{{asset.name}}» Waves token to this address",
+      "warningText": "Sending any other digital asset to this address will result in the permanent loss of your funds.",
+      "copyAndShare": "Copy & Share Address",
+      "or": "OR",
+      "scanQrCode": "Scan QR Code"
     },
     "send": {
       "title": "Send {{assetName}}",

@@ -354,6 +354,19 @@
             }
 
             /**
+             * Resolves a promise given asset or Waves
+             * @param asset
+             * @return {Promise|IAssetInfo}
+             */
+            resolveAsset(asset) {
+                if (asset) {
+                    return Promise.resolve(asset);
+                } else {
+                    return this.getAssetInfo(WavesApp.defaultAssets.WAVES);
+                }
+            }
+
+            /**
              * @param {string} assetId
              * @param {Money} money
              * @param {Array<ChangeBalanceEvent>} events

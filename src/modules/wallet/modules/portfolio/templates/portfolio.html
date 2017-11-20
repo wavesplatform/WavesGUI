@@ -36,10 +36,10 @@
                 {{$ctrl.abs(asset.change)}}%
             </div>
             <div class="portfolio-item-actions">
-                <w-button ng-click="$ctrl.sendModal(asset.id)" class="small">
+                <w-button ng-click="$ctrl.showSend(asset.id)" class="small">
                     <span class="btn-icon icon-send" w-i18n="Send">Send</span>
                 </w-button>
-                <w-button class="small" ng-click="$ctrl.receiveModal()">
+                <w-button class="small" ng-click="$ctrl.showReceive(asset)">
                     <span class="btn-icon icon-receive" w-i18n="Receive">Receive</span>
                 </w-button>
             </div>

@@ -125,10 +125,12 @@
             }
 
             /**
-             * @private
+             * @param {IAssetInfo} [asset]
              */
-            showReceive() {
-                return modalManager.showReceiveAsset(user);
+            showReceive(asset) {
+                return assetsService.resolveAsset(asset).then((a) => {
+                    return modalManager.showReceiveAsset(user, a);
+                });
             }
 
             /**

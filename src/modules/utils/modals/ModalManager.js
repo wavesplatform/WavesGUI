@@ -2,6 +2,7 @@
     'use strict';
 
     /**
+     * @param $injector
      * @param $mdDialog
      * @param {app.utils} utils
      * @param {app.utils.decorators} decorators
@@ -9,7 +10,7 @@
      * @param $rootScope
      * @return {ModalManager}
      */
-    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope) {
+    const factory = function ($injector, $mdDialog, utils, decorators, $templateRequest, $rootScope) {
 
 
         const DEFAULT_OPTIONS = {
@@ -102,19 +103,20 @@
 
             /**
              * @param {User} user
+             * @param asset
              * @return {Promise}
              */
-            showReceiveAsset(user) {
-                return user.onLogin()
-                    .then(() => {
-                        return this._getModal({
-                            locals: user.address,
-                            title: 'modal.receive.title',
-                            contentUrl: 'modules/utils/modals/receiveAsset/receive.modal.html',
-                            controller: 'AssetReceiveCtrl',
-                            mod: 'modal-receive'
-                        });
+            showReceiveAsset(user, asset) {
+            return user.onLogin().then(() => {
+                    return this._getModal({
+                        locals: { address: user.address, asset },
+                        title: 'modal.receive.title',
+                        titleParams: { asset },
+                        contentUrl: 'modules/utils/modals/receiveAsset/receive.modal.html',
+                        controller: 'AssetReceiveCtrl',
+                        mod: 'modal-receive'
                     });
+                });
             }
 
             showTransactionInfo(transactionId) {
@@ -352,7 +354,7 @@
         return new ModalManager();
     };
 
-    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope'];
+    factory.$inject = ['$injector', '$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope'];
 
     angular.module('app.utils')
         .factory('modalManager', factory);
@@ -365,7 +367,7 @@
  * @property {string} [template]
  * @property {string} [templateUrl]
  * @property {string} [title]
- * @property {string} [titleParams]
+ * @property {object} [titleParams]
  * @property {string} [titleContent]
  * @property {string} [titleContentUrl]
  * @property {string} [header]

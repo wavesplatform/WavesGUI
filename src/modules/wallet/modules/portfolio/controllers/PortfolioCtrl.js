@@ -57,12 +57,17 @@
                     });
             }
 
-            sendModal(assetId) {
-                modalManager.showSendAsset({ user, canChooseAsset: !assetId, assetId });
+            showSend(assetId) {
+                return modalManager.showSendAsset({ user, canChooseAsset: !assetId, assetId });
             }
 
-            receiveModal() {
-                modalManager.showReceiveAsset(user);
+            /**
+             * @param [asset]
+             */
+            showReceive(asset) {
+                return assetsService.resolveAsset(asset).then((asset) => {
+                    return modalManager.showReceiveAsset(user, asset);
+                });
             }
 
             showAssetInfo(asset) {
