@@ -67,6 +67,10 @@
                  */
                 this.asset = null;
                 /**
+                 * @type {string}
+                 */
+                this.attachment = null;
+                /**
                  * @type {IAssetWithBalance}
                  */
                 this.mirror = null;
@@ -95,12 +99,14 @@
                             return WavesApi.API.Node.v1.assets.transfer({
                                 assetId: data.assetId,
                                 recipient: data.recipient,
-                                amount: data.amount
+                                amount: data.amount,
+                                attachment: data.attachment
                             }, data.keyPair);
                         }, {
                             assetId: this.assetId,
                             recipient: this.recipient,
                             keyPair: data.keyPair,
+                            attachment: this.attachment,
                             amount: this.amount.mul(Math.pow(10, this.asset.precision))
                                 .toString()
                         });
