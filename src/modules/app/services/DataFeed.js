@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const factory = function (decorators) {
+    const factory = function (decorators, apiWorker) {
 
         class DataFeed {
 
@@ -38,7 +38,7 @@
         return new DataFeed();
     };
 
-    factory.$inject = ['decorators'];
+    factory.$inject = ['decorators', 'apiWorker'];
 
     angular.module('app')
         .factory('dataFeed', factory);
