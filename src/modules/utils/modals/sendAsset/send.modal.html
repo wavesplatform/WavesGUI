@@ -81,6 +81,7 @@
                                 <w-input type="text"
                                          class="no-validate"
                                          w-validate="asset"
+                                         max="$ctrl.asset.balance"
                                          asset-id="{{::$ctrl.assetId}}"
                                          ng-focus="focus = 'amount'"
                                          ng-blur="focus = ''"

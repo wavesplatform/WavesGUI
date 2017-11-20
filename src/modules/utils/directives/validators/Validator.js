@@ -41,6 +41,17 @@
                 });
             }
 
+            vlidateByName(name) {
+                this._messages.forEach((validator) => {
+                    if (validator.name === name) {
+                        this.$ngModel.$setValidity(
+                            validator.name,
+                            validator.handler(this.$ngModel.$modelValue, this.$ngModel.$viewValue)
+                        );
+                    }
+                })
+            }
+
             getParser() {
                 return null;
             }

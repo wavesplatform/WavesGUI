@@ -206,10 +206,7 @@
                             this.amountMirror = api.exchange(this.amount);
                         }
                     });
-                this.valid = this.amount && this.amount.lt(this.asset.id === this.feeData.asset.id ?
-                    this.asset.balance.getTokens()
-                        .add(this.feeData.getTokens()) : this.asset.balance.getTokens()) &&
-                    this.amount.gt(0);
+                this.valid = this._isValid()
             }
 
             /**
@@ -223,6 +220,14 @@
                             this.amount = api.exchangeReverse(this.amountMirror);
                         }
                     });
+            }
+
+            _isValid() {
+                if (!this.amount) {
+                    return false;
+                }
+                return this.amount.lt(this.asset.id === this.feeData.asset.id ?
+                    this.asset.balance.getTokens().add(this.feeData.getTokens()) : this.asset.balance.getTokens());
             }
 
             /**

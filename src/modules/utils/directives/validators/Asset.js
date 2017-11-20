@@ -22,22 +22,41 @@
                     throw new Error('Has no asset id attribute for asset validator');
                 }
 
-                this.onReady().then((asset) => {
-                    /**
-                     * @type {IAssetInfo}
-                     */
-                    this.asset = asset;
+                this.onReady()
+                    .then((asset) => {
+                        /**
+                         * @type {IAssetInfo}
+                         */
+                        this.asset = asset;
 
-                    this.registerValidator('asset-input', (modelValue, viewValue) => { // TODO add quantity and balance validatiors
-                        const parts = String(viewValue || 0)
-                            .replace(',', '')
-                            .split('.');
-                        if (!modelValue) {
-                            return 'required' in this.$attrs;
+                        this.registerValidator('asset-input', (modelValue, viewValue) => {
+                            const parts = String(viewValue || 0)
+                                .replace(',', '')
+                                .split('.');
+                            if (!modelValue) {
+                                return 'required' in this.$attrs;
+                            }
+                            return (!parts[1] || parts[1].length <= asset.precision);
+                        });
+
+                        if (this.$attrs.max) {
+                            let balance;
+
+                            this.registerValidator('asset-max', (modelValue) => {
+                                if (!balance || balance.getTokens()
+                                        .eq(0)) {
+                                    return true;
+                                } else {
+                                    return modelValue && modelValue.lte(balance.getTokens());
+                                }
+                            });
+
+                            this.$scope.$watch(this.$attrs.max, (value) => {
+                                balance = value;
+                                this.vlidateByName('asset-max');
+                            });
                         }
-                        return (!parts[1] || parts[1].length <= asset.precision);
                     });
-                });
             }
 
             getFormatter() {
@@ -45,7 +64,8 @@
             }
 
             onReady() {
-                return super.onReady().then(() => assetsService.getAssetInfo(this.assetId));
+                return super.onReady()
+                    .then(() => assetsService.getAssetInfo(this.assetId));
             }
 
         }
@@ -55,5 +75,6 @@
 
     factory.$inject = ['Number', 'utils', 'assetsService'];
 
-    angular.module('app.utils').factory('Asset', factory);
+    angular.module('app.utils')
+        .factory('Asset', factory);
 })();
