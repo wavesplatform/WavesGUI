@@ -1,1 +1,0 @@
-<div class="logo"></div>
