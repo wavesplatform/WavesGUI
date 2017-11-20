@@ -25,15 +25,31 @@
                 <span class="currency">&nbsp;{{::asset.ticker || asset.name}}</span>
             </div>
             <div class="portfolio-item-mirror">
-                <span>$&nbsp;</span>
-                <w-mirror asset-id="{{::asset.id}}"></w-mirror>
+                <div ng-if="asset.id !== $ctrl.mirrorId">
+                    <span>$&nbsp;</span>
+                    <w-mirror asset-id="{{::asset.id}}"></w-mirror>
+                </div>
+                <div ng-if="asset.id === $ctrl.mirrorId">
+                    —
+                </div>
             </div>
             <div class="portfolio-item-rate">
-                <span>$&nbsp;</span>
-                <w-change-rate asset-id="asset.id"></w-change-rate>
+                <div ng-if="asset.id !== $ctrl.mirrorId">
+                    <span>$&nbsp;</span>
+                    <w-change-rate asset-id="asset.id"></w-change-rate>
+                </div>
+                <div ng-if="asset.id === $ctrl.mirrorId">
+                    —
+                </div>
             </div>
-            <div class="portfolio-item-change" ng-class="{'danger': asset.change < 0, 'success': asset.change > 0}">
-                {{$ctrl.abs(asset.change)}}%
+            <div class="portfolio-item-change">
+                <div ng-class="{'danger': asset.change < 0, 'success': asset.change > 0}"
+                     ng-if="asset.id !== $ctrl.mirrorId">
+                    {{$ctrl.abs(asset.change)}}%
+                </div>
+                <div ng-if="asset.id === $ctrl.mirrorId">
+                    —
+                </div>
             </div>
             <div class="portfolio-item-actions">
                 <w-button ng-click="$ctrl.showSend(asset.id)" class="small">

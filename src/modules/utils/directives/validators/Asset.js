@@ -43,8 +43,7 @@
                             let balance;
 
                             this.registerValidator('asset-max', (modelValue) => {
-                                if (!balance || balance.getTokens()
-                                        .eq(0)) {
+                                if (!balance) {
                                     return true;
                                 } else {
                                     return modelValue && modelValue.lte(balance.getTokens());

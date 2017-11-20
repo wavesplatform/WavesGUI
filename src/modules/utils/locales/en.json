@@ -17,7 +17,7 @@
       "title": "Send {{assetName}}",
       "titleComplete": "Sending Complete",
       "recipient": "Recipient",
-      "sendMax": "Send Max",
+      "sendMax": "Max",
       "withdraw": "Currency",
       "amount": "Amount",
       "description": "Description",
@@ -25,6 +25,11 @@
       "placeholderRecipient": "Paste or scan an address",
       "fee": "Transaction Fee",
       "total": "Total",
+      "errors": {
+        "address": "The address is not valid",
+        "required": "This field is required",
+        "max": "Insufficient funds"
+      },
       "confirm": {
         "title": "Transaction Details",
         "to": "To",

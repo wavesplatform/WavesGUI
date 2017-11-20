@@ -7,11 +7,16 @@
 
                 <div class="row">
                     <div class="body-2" w-i18n="modal.send.withdraw"></div>
-                    <div ng-if="!$ctrl.canChooseAsset || $ctrl.assetList.length === 1" class="input-like">
-                        <w-asset-logo size="24" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
-                        {{$ctrl.asset.name}}
-
-                        <w-balance money="$ctrl.asset.balance"></w-balance>
+                    <div ng-if="!$ctrl.canChooseAsset || $ctrl.assetList.length === 1"
+                         class="input-like flex-row split-half">
+                        <div class="flex-row">
+                            <w-asset-logo size="24" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
+                            <div class="asset-name">{{$ctrl.asset.name}}</div>
+                        </div>
+                        <div>
+                            <w-balance money="$ctrl.asset.balance"></w-balance>
+                            <span>&nbsp;{{$ctrl.asset.ticker || $ctrl.asset.name}}</span>
+                        </div>
                     </div>
                     <w-select ng-if="$ctrl.canChooseAsset && $ctrl.assetList.length > 1"
                               ng-model="$ctrl.assetId">
@@ -48,10 +53,10 @@
                         </div>
 
                         <w-input-error message="inputAddress">
-                            <w-i18n>inputs.errors.invalidAddress</w-i18n>
+                            <w-i18n>modal.send.errors.address</w-i18n>
                         </w-input-error>
                         <w-input-error message="required">
-                            <w-i18n>inputs.errors.required</w-i18n>
+                            <w-i18n>modal.send.errors.required</w-i18n>
                         </w-input-error>
                     </w-input-container>
                 </div>
@@ -64,7 +69,7 @@
 
                             <div class="input-wrap">
                                 <w-input type="text"
-                                         class="no-validate"
+                                         class="no-validate-icons"
                                          w-validate="asset"
                                          max="$ctrl.asset.balance"
                                          asset-id="{{::$ctrl.assetId}}"
@@ -73,7 +78,7 @@
                                          name="amount"
                                          ng-model="$ctrl.amount"
                                          required></w-input>
-                                <div title="{{$ctrl.asset.ticker || $ctrl.asset.name}}"
+                                <div ng-if="focus !== 'amount'" title="{{$ctrl.asset.ticker || $ctrl.asset.name}}"
                                      class="currency basic-500 caption-2">{{$ctrl.asset.ticker || $ctrl.asset.name}}
                                 </div>
                                 <div ng-mousedown="$ctrl.fillMax()"
@@ -86,14 +91,15 @@
                             <div class="amount-modal-icon"></div>
                             <div ng-if="$ctrl.mirror.id !== $ctrl.asset.id" class="input-wrap">
                                 <w-input type="text"
-                                         class="no-validate"
+                                         class="no-validate no-validate-icons"
                                          w-validate="asset"
                                          ng-focus="focus = 'amountMirror'"
                                          ng-blur="focus = ''"
                                          name="amountMirror"
                                          asset-id="{{::$ctrl.mirrorId}}"
                                          ng-model="$ctrl.amountMirror"></w-input>
-                                <div title="{{::$ctrl.mirror.ticker || $ctrl.mirror.name}}"
+                                <div ng-if="focus !== 'amountMirror'"
+                                     title="{{::$ctrl.mirror.ticker || $ctrl.mirror.name}}"
                                      class="currency basic-500 caption-2">{{::$ctrl.mirror.ticker || $ctrl.mirror.name}}
                                 </div>
                                 <div ng-mousedown="$ctrl.fillMax()"
@@ -111,6 +117,9 @@
                     </w-input-error>
                     <w-input-error message="input-asset">
                         <w-i18n>inputs.errors.invalidAsset</w-i18n>
+                    </w-input-error>
+                    <w-input-error message="asset-max">
+                        <w-i18n>modal.send.errors.max</w-i18n>
                     </w-input-error>
                 </w-input-container>
 
