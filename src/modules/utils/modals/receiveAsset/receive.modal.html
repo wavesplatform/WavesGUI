@@ -1,5 +1,5 @@
 <div class="modal-content">
-    <div class="receive-warning">
+    <div class="receive-warning" ng-if="$ctrl.asset.id !== 'WAVES'">
         <div class="body-2 warning-500"
              w-i18n="modal.receive.warningTitle"
              params="{asset: $ctrl.asset}"></div>
