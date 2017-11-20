@@ -27,7 +27,8 @@
       "total": "Total",
       "errors": {
         "address": "The address is not valid",
-        "required": "This field is required"
+        "required": "This field is required",
+        "max": "Insufficient funds"
       },
       "confirm": {
         "title": "Transaction Details",
