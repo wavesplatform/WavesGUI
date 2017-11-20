@@ -65,7 +65,7 @@
                 <w-input-container>
                     <div class="row">
                         <div class="body-2" w-i18n="modal.send.amount"></div>
-                        <div class="amount-wrap" ng-class="{'no-mirror': $ctrl.mirror.id === $ctrl.asset.id}">
+                        <div class="amount-wrap" ng-class="{'no-mirror': $ctrl.noMirror}">
 
                             <div class="input-wrap">
                                 <w-input type="text"
@@ -89,7 +89,7 @@
                                 </div>
                             </div>
                             <div class="amount-modal-icon"></div>
-                            <div ng-if="$ctrl.mirror.id !== $ctrl.asset.id" class="input-wrap">
+                            <div ng-if="!$ctrl.noMirror" class="input-wrap">
                                 <w-input type="text"
                                          class="no-validate no-validate-icons"
                                          w-validate="asset"
@@ -164,8 +164,10 @@
                     <tr>
                         <td class="headline-3 basic-900" w-i18n="modal.send.confirm.total"></td>
                         <td>
-                            <div>{{$ctrl.amount}} {{$ctrl.asset.name}}</div>
-                            <div>≈ ${{$ctrl.amountMirror}}</div>
+                            <div>{{::$ctrl.amount && $ctrl.amount.toFixed($ctrl.asset.precision)}}
+                                {{$ctrl.asset.name}}
+                            </div>
+                            <div>≈ ${{::$ctrl.amountMirror && $ctrl.amountMirror.toFixed($ctrl.mirror.precision)}}</div>
                         </td>
                     </tr>
                 </table>

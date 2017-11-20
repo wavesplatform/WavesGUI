@@ -12,6 +12,7 @@
                  * @type {StepByStep}
                  */
                 this.list = null;
+                this.state = false;
             }
 
             $postLink() {
@@ -20,11 +21,7 @@
             }
 
             displayToggle(state) {
-                if (state) {
-                    $element.show();
-                } else {
-                    $element.hide();
-                }
+                this.state = state;
             }
 
         }
@@ -41,7 +38,7 @@
         require: {
             list: '^wStepByStep'
         },
-        template: '<div ng-transclude></div>',
+        template: '<div ng-if="$ctrl.state" ng-transclude></div>',
         transclude: true,
         controller
     });

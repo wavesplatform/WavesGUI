@@ -79,6 +79,10 @@
                  */
                 this.assetList = null;
                 /**
+                 * @type {boolean}
+                 */
+                this.noMirror = false;
+                /**
                  * Id from created transaction
                  * @type {string}
                  * @private
@@ -107,8 +111,9 @@
                             recipient: this.recipient,
                             keyPair: data.keyPair,
                             attachment: this.attachment,
-                            amount: this.amount.mul(Math.pow(10, this.asset.precision))
-                                .toString()
+                            amount: new BigNumber(this.amount.toFixed(this.asset.precision))
+                                .mul(Math.pow(10, this.asset.precision))
+                                .toFixed(0)
                         });
                     })
                     .then((data) => {
@@ -179,9 +184,11 @@
                 this.ready = utils.whenAll([
                     this.canChooseAsset ? this._getBalanceList() : assetsService.getBalance(this.assetId),
                     assetsService.getAssetInfo(this.mirrorId),
-                    assetsService.getFeeSend()
+                    assetsService.getFeeSend(),
+                    assetsService.getRate(this.assetId, this.mirrorId)
                 ])
-                    .then(([asset, mirror, feeData]) => {
+                    .then(([asset, mirror, feeData, api]) => {
+                        this.noMirror = asset.id === mirror.id || api.rate.eq(0);
                         this.amount = new BigNumber(0);
                         this.amountMirror = new BigNumber(0);
                         this.mirror = mirror;
