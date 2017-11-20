@@ -25,8 +25,8 @@
                     .then((feeData) => {
                         this.feeData = feeData;
                         assetsService.getAssetInfo(feeData.asset.id)
-                            .then((info) => {
-                                this.feeData.name = info.name;
+                            .then((mirror) => {
+                                this.mirror = mirror;
                             });
                     });
 

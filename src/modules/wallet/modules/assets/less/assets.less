@@ -11,7 +11,7 @@
       position: relative;
       top: 2px;
       background-size: 100% 100%;
-      width: 14px;
+      width: 18px;
       height: 14px;
       margin-right: 7px;
     }
@@ -32,10 +32,16 @@
       margin: 0 0 10px 0;
       width: calc(~"100% + "@padding-main-layout / 2);
       position: relative;
-      left: @padding-main-layout * -1 / 4;
 
       w-button {
-        margin: 0 @padding-main-layout / 20;
+        margin: 0 @padding-main-layout / 10;
+        button {
+          font-family: "Roboto-Medium", sans-serif;
+          padding: 11px 19px;
+        }
+        &:first-child {
+          margin-left: 0;
+        }
       }
 
       .right {
@@ -89,11 +95,12 @@
           text-align: center;
           margin-right: 42px;
           padding-right: 42px;
-          border-right: 2px solid #f0f0f0;
+          border-right: 1px solid #f0f0f0;
         }
 
         h1 {
           margin: 0 0 5px;
+          text-align: center;
         }
       }
 

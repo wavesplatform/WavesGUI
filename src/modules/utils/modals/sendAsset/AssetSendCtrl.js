@@ -168,17 +168,11 @@
                     .then(([asset, mirror, feeData]) => {
                         this.amount = new BigNumber(0);
                         this.amountMirror = new BigNumber(0);
-                        this.feeAlias = new BigNumber(0);
                         this.mirror = mirror;
                         this.feeData = feeData;
                         this._setAssets(asset);
                         this.asset = tsUtils.find(this.assetList, { id: this.assetId });
-
                         this.fee = feeData;
-                        this._getRate(feeData.id)
-                            .then((api) => {
-                                this.feeAlias = api.exchange(this.fee.getTokens());
-                            });
                     });
             }
 
@@ -212,10 +206,7 @@
                             this.amountMirror = api.exchange(this.amount);
                         }
                     });
-                this.valid = this.amount && this.amount.lt(this.asset.id === this.feeData.asset.id ?
-                    this.asset.balance.getTokens()
-                        .add(this.feeData.getTokens()) : this.asset.balance.getTokens()) &&
-                    this.amount.gt(0);
+                this.valid = this._isValid()
             }
 
             /**
@@ -229,6 +220,14 @@
                             this.amount = api.exchangeReverse(this.amountMirror);
                         }
                     });
+            }
+
+            _isValid() {
+                if (!this.amount) {
+                    return false;
+                }
+                return this.amount.lt(this.asset.id === this.feeData.asset.id ?
+                    this.asset.balance.getTokens().add(this.feeData.getTokens()) : this.asset.balance.getTokens());
             }
 
             /**

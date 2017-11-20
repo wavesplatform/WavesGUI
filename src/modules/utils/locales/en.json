@@ -3,10 +3,7 @@
     "assetInfo": {
       "title": "Asset Info",
       "unpinned": "Pin",
-      "pinned": "Pinned",
-      "assets": {
-        "8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS": "The official Bitcoin"
-      }
+      "pinned": "Pinned"
     },
     "receive": {
       "title": "{{assetName}} Wallet Address",
@@ -19,11 +16,11 @@
       "titleComplete": "Sending Complete",
       "recipient": "Recipient",
       "sendMax": "Send Max",
-      "withdraw": "Withdraw from",
+      "withdraw": "Currency",
       "amount": "Amount",
       "description": "Description",
       "descriptionPlaceholder": "Write an optional message",
-      "fee": "Network Fee",
+      "fee": "Transaction Fee",
       "total": "Total",
       "confirm": {
         "title": "Transaction Details",
@@ -44,7 +41,7 @@
       "address": "Your address",
       "aliases": "Aliases",
       "create": "Create new",
-      "fee": "Transaction fee {{price}} {{name}}",
+      "fee": "Transaction Fee {{price}} {{name}}",
       "notifications": {
         "aliasCreated": "An alias has been created"
       }

@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="body-2" w-i18n="modal.send.withdraw"></div>
                     <div ng-if="!$ctrl.canChooseAsset || $ctrl.assetList.length === 1" class="input-like">
-                        <w-asset-logo size="30" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
+                        <w-asset-logo size="24" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
                         {{$ctrl.asset.name}}
 
                         <w-balance money="$ctrl.asset.balance"></w-balance>
@@ -19,7 +19,7 @@
                                   value="{{::option.id}}">
                             <div class="flex-row split-half">
                                 <div class="flex-row left">
-                                    <w-asset-logo size="30" asset-id="{{::option.id}}"></w-asset-logo>
+                                    <w-asset-logo size="24" asset-id="{{::option.id}}"></w-asset-logo>
                                     <div class="asset-name">{{::option.name}}</div>
                                 </div>
                                 <div class="right">
@@ -81,6 +81,7 @@
                                 <w-input type="text"
                                          class="no-validate"
                                          w-validate="asset"
+                                         max="$ctrl.asset.balance"
                                          asset-id="{{::$ctrl.assetId}}"
                                          ng-focus="focus = 'amount'"
                                          ng-blur="focus = ''"
@@ -117,16 +118,15 @@
                         <w-i18n>modal.send.fee</w-i18n>
                         <span class="help"></span>
                     </div>
-                    <div class="body">
-                        {{$ctrl.fee.toFormat()}}
+                    <div class="body basic-500">
+                        <w-balance money="$ctrl.fee"></w-balance>
                         {{$ctrl.fee.asset.name}}
-                        <span class="lite" w-nice-number="$ctrl.feeAlias" precision="$ctrl.mirror.precision"></span>
                     </div>
                 </div>
 
                 <div class="row">
                     <w-button w-step-next disabled="send.$invalid || !$ctrl.valid" type="submit" class="submit long">
-                        <w-i18n>continue</w-i18n>
+                        <w-i18n>button.continue</w-i18n>
                     </w-button>
                 </div>
             </form>
@@ -163,6 +163,7 @@
             </div>
         </w-step>
         <w-step>
+            <div class="modal-send-check"></div>
             <h2 class="basic-900" w-i18n="modal.send.compare.title"></h2>
             <div params="{amount: $ctrl.amount, currency: $ctrl.asset.name, mirror: $ctrl.amountMirror}"
                  class="body-2 disabled-600"
