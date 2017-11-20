@@ -25,6 +25,10 @@
       "placeholderRecipient": "Paste or scan an address",
       "fee": "Transaction Fee",
       "total": "Total",
+      "errors": {
+        "address": "The address is not valid",
+        "required": "This field is required"
+      },
       "confirm": {
         "title": "Transaction Details",
         "to": "To",
