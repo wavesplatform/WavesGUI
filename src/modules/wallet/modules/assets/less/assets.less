@@ -33,19 +33,8 @@
       width: calc(~"100% + "@padding-main-layout / 2);
       position: relative;
 
-      w-button {
-        margin: 0 @padding-main-layout / 10;
-        button {
-          font-family: "Roboto-Medium", sans-serif;
-          padding: 11px 19px;
-        }
-        &:first-child {
-          margin-left: 0;
-        }
-      }
-
-      .right {
-        float: right;
+      w-button:not(:last-child) {
+        margin-right: 5px;
       }
     }
 
@@ -119,6 +108,7 @@
 }
 
 .toolbar {
+
   & w-radio-wrap {
     & .btn-wrap.btn-group .btn {
       border-left: 0;
@@ -148,16 +138,6 @@
       border: 0;
       border-bottom-right-radius: 0;
       border-bottom: 1px solid @color-submit-400;
-    }
-    & .ng-scope[value="'day'"] .btn,
-    & .ng-scope[value="'week'"] .btn,
-    & .ng-scope[value="'month'"] .btn,
-    & .ng-scope[value="'year'"] .btn,
-    & .ng-scope[value="'day'"] input:checked ~ label.btn.btn-radio,
-    & .ng-scope[value="'week'"] input:checked ~ label.btn.btn-radio,
-    & .ng-scope[value="'month'"] input:checked ~ label.btn.btn-radio,
-    & .ng-scope[value="'year'"] input:checked ~ label.btn.btn-radio {
-      font-size: 13px;
     }
     & .radio-dot {
       display: inline-block;

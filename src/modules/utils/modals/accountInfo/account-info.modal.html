@@ -28,7 +28,9 @@
                             <w-input ng-model="$ctrl.newAlias"
                                      class="embed no-icon new-alias"
                                      type="text"
+                                     placeholder="modal.account.placeholder"
                                      required
+                                     w-i18n-attr="placeholder"
                                      ng-pattern="/[a-z0-9-.@_]/"
                                      maxlength="30"
                                      minlength="4"></w-input>
@@ -41,7 +43,7 @@
                                 <w-i18n>modal.account.create</w-i18n>
                             </w-button>
                             <span class="caption-1 basic-700"
-                                  params="{price: $ctrl.feeData.fee, name: $ctrl.feeData.name}"
+                                  params="{price: $ctrl.feeData.getTokens().toString(), name: $ctrl.feeData.name}"
                                   w-i18n="modal.account.fee"></span>
                         </div>
                     </form>

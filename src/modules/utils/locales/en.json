@@ -43,6 +43,7 @@
       "aliases": "Aliases",
       "create": "Create new",
       "fee": "Transaction Fee {{price}} {{name}}",
+      "placeholder": "Symbolic name to your address",
       "notifications": {
         "aliasCreated": "An alias has been created"
       }

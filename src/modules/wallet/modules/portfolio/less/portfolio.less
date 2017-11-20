@@ -1,17 +1,13 @@
 @import (reference) '../../../../config';
 
 .main.wallet.portfolio {
-  
-  w-button {
-    margin: 0 1px;
-    &:first-child {
-      margin-left: 0;
-    } 
-    button {
-      font-family: "Roboto-Medium", sans-serif;
-      padding: 11px 19px;
+
+  .toolbar {
+    w-button:not(:last-child) {
+      margin-right: 5px;
     }
   }
+
   .btn-icon::before {
     content: '';
     display: inline-block;
@@ -22,7 +18,7 @@
     height: 14px;
     margin-right: 7px;
   }
-  
+
   .btn-icon {
     text-transform: capitalize;
     font-family: "Roboto-Medium", sans-serif;
@@ -53,7 +49,7 @@
       border-bottom: 1px solid @color-accent-50;
       position: relative;
       padding: 0 20px;
-    
+
       font-size: 15px;
       line-height: 30px;
       color: #4e5c6e;
@@ -97,7 +93,7 @@
         display: flex;
         width: 15%;
       }
-      
+
       .portfolio-item-balance {
         text-align: right;
         width: 24%;
@@ -106,12 +102,12 @@
 
       .portfolio-item-rate {
         width: 13%;
-      } 
+      }
 
       .portfolio-item-mirror {
         width: 10%;
       }
-      
+
       .portfolio-item-bid {
         width: 10%;
       }
@@ -119,9 +115,9 @@
       .portfolio-item-ask {
         width: 10%;
       }
-      
+
       .portfolio-item-change {
-        width: 10%; 
+        width: 10%;
         &.success {
           color: @color-success-600;
         }
@@ -130,11 +126,11 @@
         }
       }
 
-      .portfolio-item-actions{
+      .portfolio-item-actions {
         width: 25%;
         padding-right: 0;
         text-align: right;
-        w-button:first-child{
+        w-button:first-child {
           margin-right: 1px;
         }
       }
