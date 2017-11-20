@@ -111,8 +111,9 @@
                             recipient: this.recipient,
                             keyPair: data.keyPair,
                             attachment: this.attachment,
-                            amount: this.amount.mul(Math.pow(10, this.asset.precision))
-                                .toString()
+                            amount: new BigNumber(this.amount.toFixed(this.asset.precision))
+                                .mul(Math.pow(10, this.asset.precision))
+                                .toFixed(0)
                         });
                     })
                     .then((data) => {

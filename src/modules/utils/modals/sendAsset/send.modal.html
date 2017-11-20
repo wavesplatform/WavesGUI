@@ -164,8 +164,10 @@
                     <tr>
                         <td class="headline-3 basic-900" w-i18n="modal.send.confirm.total"></td>
                         <td>
-                            <div>{{$ctrl.amount}} {{$ctrl.asset.name}}</div>
-                            <div>≈ ${{$ctrl.amountMirror}}</div>
+                            <div>{{::$ctrl.amount && $ctrl.amount.toFixed($ctrl.asset.precision)}}
+                                {{$ctrl.asset.name}}
+                            </div>
+                            <div>≈ ${{::$ctrl.amountMirror && $ctrl.amountMirror.toFixed($ctrl.mirror.precision)}}</div>
                         </td>
                     </tr>
                 </table>
