@@ -11,9 +11,10 @@
      * @param {User} user
      * @param {EventManager} eventManager
      * @param {@constructor PollComponent} PollComponent
+     * @param {ModalManager} modalManager
      * @return {AssetSendCtrl}
      */
-    const controller = function ($scope, $mdDialog, assetsService, Base, utils, apiWorker, user, eventManager, createPoll) {
+    const controller = function ($scope, $mdDialog, assetsService, Base, utils, apiWorker, user, eventManager, createPoll, modalManager) {
 
         class AssetSendCtrl extends Base {
 
@@ -77,6 +78,12 @@
                  * @type {IAssetWithBalance[]}
                  */
                 this.assetList = null;
+                /**
+                 * Id from created transaction
+                 * @type {string}
+                 * @private
+                 */
+                this._transactionId = null;
 
                 if (this.canChooseAsset) {
                     createPoll(this, assetsService.getBalanceList, this._setAssets, 1000, { isBalance: true });
@@ -103,6 +110,7 @@
                         });
                     })
                     .then((data) => {
+                        this._transactionId = data.id;
                         eventManager.addEvent({
                             id: data.id,
                             components: [
@@ -132,7 +140,7 @@
             showTransaction() {
                 $mdDialog.hide();
                 setTimeout(() => { // Timeout for routing (if modal has route)
-                    // TODO Show transaction modal. Author Tsigel at 10/11/2017 15:18
+                    modalManager.showTransactionInfo(this._transactionId);
                 }, 1000);
             }
 
@@ -206,7 +214,7 @@
                             this.amountMirror = api.exchange(this.amount);
                         }
                     });
-                this.valid = this._isValid()
+                this.valid = this._isValid();
             }
 
             /**
@@ -253,7 +261,8 @@
         'apiWorker',
         'user',
         'eventManager',
-        'createPoll'
+        'createPoll',
+        'modalManager'
     ];
 
     angular.module('app.utils')
