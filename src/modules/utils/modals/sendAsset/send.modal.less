@@ -15,6 +15,7 @@
       width: 38px;
       height: 32px;
       background-size: 38px;
+      cursor: pointer;
     }
   }
 
@@ -50,7 +51,6 @@
   }
 
   .row {
-    margin-top: 23px;
     position: relative;
     textarea {
       font-size: 17px;
@@ -61,7 +61,7 @@
       font-size: 12px;
     }
     .body-2 {
-      margin: 0;
+      margin: 0 0 4px;
     }
     button {
       height: 54px;
@@ -104,14 +104,14 @@
   }
 
   .amount-modal-icon {
-    background-image: url(/img/icons/amount-modal-icon.svg);
+    background-image: url(/img/icons/arrow.svg);
     background-size: 100% 100%;
     width: 24px;
     height: 20px;
   }
 
   .input-wrap {
-    width: 208px;
+    width: 204px;
     position: relative;
     .w-input-wrap input {
       font-size: 17px;
@@ -132,11 +132,13 @@
       background-color: @color-white;
       font-size: 13px;
       border-radius: @border-radius;
+      border: 1px solid #5a81ea;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      right: 15px;
-      padding: 8px 12px;
+      right: 11px;
+      padding: 6px 12px;
+      color: #5a81ea;
     }
   }
 
@@ -185,5 +187,70 @@
     width: 100%;
     height: 100%;
     position: relative;
+    table {
+      border-collapse: collapse;
+      margin-top: 10px;
+      tr {
+        td.headline-3 {
+          width: 96px;
+          text-align: right;
+          padding: 20px 20px 40px;
+          border: 1px solid #dae1e9;
+          background-color: #f8f9fb;
+        }
+        td:last-child {
+          border: 1px solid #dae1e9;
+          padding: 20px;
+          vertical-align: top;
+          font-size: 15px;
+          width: 360px;
+          div {
+            font-family: "Roboto-Medium", sans-serif;
+            & + div {
+              font-family: "Roboto-Regular", sans-serif;
+            }
+          }
+        }
+      }
+    }
+    w-button {
+      margin-top: 10px;
+      &:not(:last-child) {
+        margin-right: 8px;
+      }
+      button {
+        min-width: 224px;
+      }
+    }
+    w-step:nth-child(3) {
+      .modal-send-check {
+        width: 80px;
+        height: 80px;
+        margin: 30px auto 20px;
+        background-image: url(/img/icons/check.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+      h2 {
+        text-align: center;
+        & + div {
+          text-align: center;
+        }
+      }
+      w-button {
+        display: block;
+        margin: 40px 0 0;
+        text-align: center;
+        button {
+          width: 224px;
+          height: 54px;
+          color: #fff;
+          font-family: "Roboto-Medium", sans-serif;
+          font-size: 17px;
+          margin: 0 auto;
+          background-color: #1f5af6;
+        }
+      }
+    }
   }
 }
