@@ -44,7 +44,11 @@ md-input-container {
 
   md-dialog {
     box-shadow: none;
-    margin-top: -10%;
+    position: absolute;
+    top: 13%;
+    left: 50%;
+    transform: translateX(-50%);
+    max-height: 74%;
     width: 540px;
   }
 }
@@ -141,14 +145,14 @@ svg.chart {
       fill: @color-disabled-700;
       font-size: 13px;
     }
-//
-//    &.y-axis .tick text {
-//      transform: translateX(~'calc(100% + 50px)');
-//    }
-//
-//    &.y2-axis .tick text {
-//      transform: translateX(-100%);
-//    }
+    //
+    //    &.y-axis .tick text {
+    //      transform: translateX(~'calc(100% + 50px)');
+    //    }
+    //
+    //    &.y2-axis .tick text {
+    //      transform: translateX(-100%);
+    //    }
   }
 }
 

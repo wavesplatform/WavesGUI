@@ -15,11 +15,11 @@ w-tabs {
     &:before, &:after {
       content: "";
       position: absolute;
-      width: calc(100% + 80px);
+      width: 100%;
       height: 1px;
       background-color: #f0f0f0;
       top: 0;
-      left: -40px;
+      left: 0;
     }
     &:after {
       top: auto;
@@ -55,26 +55,7 @@ w-tabs {
   .tab-body-wrap {
     .tab-tem {
       box-sizing: border-box;
-      padding: 40px 0 0;
       position: relative;
-      .line {
-        &:not(:last-child) {
-          border-bottom: 1px solid #f0f0f0;
-        }
-        div {
-          display: inline-block;
-          overflow-x: hidden;
-
-          &:first-child {
-            width: 27%;
-            margin: 10px 0 6px;
-          }
-          &:last-child {
-            width: 72%;
-            margin: 10px 0 6px;
-          }
-        }
-      }
     }
   }
 

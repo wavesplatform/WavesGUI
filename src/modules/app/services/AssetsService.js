@@ -34,7 +34,7 @@
                                 return {
                                     id: info.id,
                                     name: ASSET_NAME_MAP[info.id] || info.name,
-                                    description: info.description,
+                                    description: info.id !== 'WAVES' ? info.description : '',
                                     precision: info.decimals,
                                     reissuable: info.reissuable,
                                     quantity: money,
@@ -43,7 +43,7 @@
                                     height: info.height,
                                     ticker: info.ticker || '',
                                     sign: info.sign || ''
-                                }
+                                };
                             });
                         });
                 }, { onFetch: utils.onFetch, assetId, ASSET_NAME_MAP });

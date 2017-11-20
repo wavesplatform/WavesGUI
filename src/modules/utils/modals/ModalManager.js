@@ -48,7 +48,8 @@
                     title: 'modal.assetInfo.title',
                     contentUrl: 'modules/utils/modals/assetInfo/assetInfo.html',
                     locals: asset,
-                    controller: 'AssetInfoCtrl'
+                    controller: 'AssetInfoCtrl',
+                    mod: 'asset-info-modal'
                 });
             }
 
