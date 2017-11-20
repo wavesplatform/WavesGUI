@@ -20,6 +20,7 @@
       "amount": "Amount",
       "description": "Description",
       "descriptionPlaceholder": "Write an optional message",
+      "placeholderRecipient": "Paste or scan an address",
       "fee": "Transaction Fee",
       "total": "Total",
       "confirm": {
