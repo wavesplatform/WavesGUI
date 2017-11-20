@@ -161,11 +161,22 @@
     }
   }
 
+  .row.confirm-block {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+
+    w-button {
+      width: 224px;
+    }
+  }
+
   .modal-content {
     width: 100%;
     height: 100%;
     position: relative;
     table {
+      width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
       tr {
@@ -188,45 +199,6 @@
               font-family: "Roboto-Regular", sans-serif;
             }
           }
-        }
-      }
-    }
-    w-button {
-      margin-top: 10px;
-      &:not(:last-child) {
-        margin-right: 8px;
-      }
-      button {
-        min-width: 224px;
-      }
-    }
-    w-step:nth-child(3) {
-      .modal-send-check {
-        width: 80px;
-        height: 80px;
-        margin: 30px auto 20px;
-        background-image: url(/img/icons/check.svg);
-        background-repeat: no-repeat;
-        background-position: center;
-      }
-      h2 {
-        text-align: center;
-        & + div {
-          text-align: center;
-        }
-      }
-      w-button {
-        display: block;
-        margin: 40px 0 0;
-        text-align: center;
-        button {
-          width: 224px;
-          height: 54px;
-          color: #fff;
-          font-family: "Roboto-Medium", sans-serif;
-          font-size: 17px;
-          margin: 0 auto;
-          background-color: #1f5af6;
         }
       }
     }

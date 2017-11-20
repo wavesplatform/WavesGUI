@@ -172,10 +172,9 @@
                         qr.callback = function (error, result) {
                             if (error) {
                                 resolve(null);
-                            } else if (result.result.indexOf(protocol) !== -1) {
-                                resolve(result.result.replace(protocol, ''));
                             } else {
-                                resolve(result.result);
+                                resolve(result.result.replace(protocol, '')
+                                    .replace('?', ''));
                             }
                         };
                         qr.decode(frame);
