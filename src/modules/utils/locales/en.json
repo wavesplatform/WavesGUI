@@ -17,7 +17,7 @@
       "title": "Send {{assetName}}",
       "titleComplete": "Sending Complete",
       "recipient": "Recipient",
-      "sendMax": "Send Max",
+      "sendMax": "Max",
       "withdraw": "Currency",
       "amount": "Amount",
       "description": "Description",

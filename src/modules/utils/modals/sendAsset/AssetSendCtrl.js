@@ -86,7 +86,7 @@
                 this._transactionId = null;
 
                 if (this.canChooseAsset) {
-                    createPoll(this, assetsService.getBalanceList, this._setAssets, 1000, { isBalance: true });
+                    createPoll(this, this._getBalanceList, this._setAssets, 1000, { isBalance: true });
                 } else {
                     createPoll(this, this._getAsset, this._setAssets, 1000, { isBalance: true });
                 }
@@ -166,12 +166,18 @@
                 this.recipient = result;
             }
 
+            _getBalanceList() {
+                return assetsService.getBalanceList().then((list) => {
+                    return list && list.length ? list : assetsService.getBalanceList([WavesApp.defaultAssets.WAVES]);
+                });
+            }
+
             _onChangeAssetId() {
                 if (!this.assetId) {
                     return null;
                 }
                 this.ready = utils.whenAll([
-                    this.canChooseAsset ? assetsService.getBalanceList() : assetsService.getBalance(this.assetId),
+                    this.canChooseAsset ? this._getBalanceList() : assetsService.getBalance(this.assetId),
                     assetsService.getAssetInfo(this.mirrorId),
                     assetsService.getFeeSend()
                 ])
@@ -209,7 +215,7 @@
              * @private
              */
             _onChangeAmount() {
-                this.amount && this._getRate()
+                this.amount && this.asset && this._getRate()
                     .then((api) => {
                         if (api.exchangeReverse(this.amountMirror)
                                 .toFixed(this.asset.precision) !== this.amount.toFixed(this.asset.precision)) {
@@ -222,7 +228,7 @@
              * @private
              */
             _onChangeAmountMirror() {
-                this.amountMirror && this._getRate()
+                this.amountMirror && this.mirror && this._getRate()
                     .then((api) => {
                         if (api.exchange(this.amount)
                                 .toFixed(this.mirror.precision) !== this.amountMirror.toFixed(this.mirror.precision)) {
