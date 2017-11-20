@@ -168,17 +168,11 @@
                     .then(([asset, mirror, feeData]) => {
                         this.amount = new BigNumber(0);
                         this.amountMirror = new BigNumber(0);
-                        this.feeAlias = new BigNumber(0);
                         this.mirror = mirror;
                         this.feeData = feeData;
                         this._setAssets(asset);
                         this.asset = tsUtils.find(this.assetList, { id: this.assetId });
-
                         this.fee = feeData;
-                        this._getRate(feeData.id)
-                            .then((api) => {
-                                this.feeAlias = api.exchange(this.fee.getTokens());
-                            });
                     });
             }
 

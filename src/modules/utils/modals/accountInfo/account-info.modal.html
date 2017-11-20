@@ -18,7 +18,7 @@
                             <w-i18n>modal.account.create</w-i18n>
                         </w-button>
                         <span class="caption-1 basic-700"
-                              params="{price: $ctrl.feeData.fee, name: $ctrl.feeData.name}"
+                              params="{price: $ctrl.feeData.getTokens().toString(), name: $ctrl.mirror.ticker}"
                               w-i18n="modal.account.fee"></span>
                     </div>
                 </w-step>
