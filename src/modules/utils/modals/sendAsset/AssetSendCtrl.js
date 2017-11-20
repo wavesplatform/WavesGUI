@@ -45,10 +45,6 @@
                 /**
                  * @type {boolean}
                  */
-                this.valid = false;
-                /**
-                 * @type {boolean}
-                 */
                 this.canChooseAsset = !assetId || canChooseAsset;
                 /**
                  * @type {string}
@@ -214,7 +210,6 @@
                             this.amountMirror = api.exchange(this.amount);
                         }
                     });
-                this.valid = this._isValid();
             }
 
             /**

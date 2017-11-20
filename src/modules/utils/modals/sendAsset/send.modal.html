@@ -60,25 +60,6 @@
                         <div class="body-2" w-i18n="modal.send.amount"></div>
                         <div class="amount-wrap" ng-class="{'no-mirror': $ctrl.mirror.id === $ctrl.asset.id}">
 
-
-                            <div ng-if="$ctrl.mirror.id !== $ctrl.asset.id" class="input-wrap">
-                                <w-input type="text"
-                                         class="no-validate"
-                                         w-validate="asset"
-                                         ng-focus="focus = 'amountMirror'"
-                                         ng-blur="focus = ''"
-                                         name="amountMirror"
-                                         asset-id="{{::$ctrl.mirrorId}}"
-                                         ng-model="$ctrl.amountMirror"></w-input>
-                                <div class="currency">{{::$ctrl.mirror.name}}</div>
-                                <div ng-mousedown="$ctrl.fillMax()"
-                                     ng-touchstart="$ctrl.fillMax()"
-                                     class="send-all"
-                                     ng-if="focus === 'amountMirror'">
-                                    <w-i18n>modal.send.sendMax</w-i18n>
-                                </div>
-                            </div>
-                            <div class="amount-modal-icon"></div>
                             <div class="input-wrap">
                                 <w-input type="text"
                                          class="no-validate"
@@ -98,6 +79,25 @@
                                     <w-i18n>modal.send.sendMax</w-i18n>
                                 </div>
                             </div>
+                            <div class="amount-modal-icon"></div>
+                            <div ng-if="$ctrl.mirror.id !== $ctrl.asset.id" class="input-wrap">
+                                <w-input type="text"
+                                         class="no-validate"
+                                         w-validate="asset"
+                                         ng-focus="focus = 'amountMirror'"
+                                         ng-blur="focus = ''"
+                                         name="amountMirror"
+                                         asset-id="{{::$ctrl.mirrorId}}"
+                                         ng-model="$ctrl.amountMirror"></w-input>
+                                <div class="currency">{{::$ctrl.mirror.name}}</div>
+                                <div ng-mousedown="$ctrl.fillMax()"
+                                     ng-touchstart="$ctrl.fillMax()"
+                                     class="send-all"
+                                     ng-if="focus === 'amountMirror'">
+                                    <w-i18n>modal.send.sendMax</w-i18n>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <w-input-error message="asset-required">
@@ -127,7 +127,7 @@
                 </div>
 
                 <div class="row">
-                    <w-button w-step-next disabled="send.$invalid || !$ctrl.valid" type="submit" class="submit long">
+                    <w-button w-step-next disabled="send.$invalid" type="submit" class="submit long">
                         <w-i18n>button.continue</w-i18n>
                     </w-button>
                 </div>
