@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const PROTOCOL = 'waves://';
+
     /**
      * @param {Base} Base
      * @param {JQuery} $element
@@ -165,18 +167,20 @@
              * @private
              */
             _decodeImage() {
-                return this.worker.process((qr, frame) => {
+                return this.worker.process((qr, { frame, protocol }) => {
                     return new Promise((resolve) => {
                         qr.callback = function (error, result) {
                             if (error) {
                                 resolve(null);
+                            } else if (result.result.indexOf(protocol) !== -1) {
+                                resolve(result.result.replace(protocol, ''));
                             } else {
-                                resolve(result);
+                                resolve(result.result);
                             }
                         };
                         qr.decode(frame);
                     });
-                }, this._getFrame());
+                }, { frame: this._getFrame(), protocol: PROTOCOL });
             }
 
             /**
@@ -214,7 +218,7 @@
             _checkStop(data) {
                 if (data) {
                     this._stopWatchQrCode();
-                    this.onRead({ result: data.result });
+                    this.onRead({ result: data });
                 }
             }
 

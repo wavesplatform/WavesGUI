@@ -37,6 +37,8 @@
                                  w-validate="address"
                                  name="recipient"
                                  ng-model="$ctrl.recipient"
+                                 placeholder="modal.send.placeholderRecipient"
+                                 w-i18n-attr="placeholder"
                                  required></w-input>
 
                         <w-qr-code-read on-read="$ctrl.onReadQrCode(result)" max-width="250"
