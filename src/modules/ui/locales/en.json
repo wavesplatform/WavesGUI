@@ -67,7 +67,7 @@
       "to": "To",
       "from": "From",
       "assetId": "ID",
-      "attachment": "Attachment",
+      "attachment": "Attachment Message",
       "description": "Description",
       "price": "{{name}} Price",
       "type": "Type",
