@@ -45,7 +45,6 @@
              * @param {string} id
              * @private
              */
-            @decorators.cachable(1440) // TODO : make it 0 when cachable decorator is limiting its storage size
             _getTransaction(id) {
                 return apiWorker.process((Waves, id) => {
                     return Waves.API.Node.v2.transactions.get(id);

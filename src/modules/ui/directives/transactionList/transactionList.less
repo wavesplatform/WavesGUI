@@ -56,7 +56,22 @@ w-transaction-list {
         }
 
         .row {
+          position: relative;
           border-bottom: 1px solid @color-accent-50;
+
+          &:hover {
+            background-color: @color-basic-50;
+
+            &::before {
+              content: '';
+              width: 2px;
+              height: 100%;
+              background-color: @color-submit-400;
+              position: absolute;
+              left: 0;
+              top: 0;
+            }
+          }
         }
 
         &:last-child .row:last-child {

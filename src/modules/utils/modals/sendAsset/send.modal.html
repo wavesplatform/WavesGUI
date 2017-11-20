@@ -18,12 +18,12 @@
                         <w-option ng-repeat="option in $ctrl.assetList track by $index"
                                   value="{{::option.id}}">
                             <div class="flex-row split-half">
-                                <div class="flex-row left">
+                                <div class="flex-row">
                                     <w-asset-logo size="24" asset-id="{{::option.id}}"></w-asset-logo>
                                     <div class="asset-name">{{::option.name}}</div>
                                 </div>
-                                <div class="right">
-                                    <w-balance asset-id="{{::option.id}}" balance="option.balance"></w-balance>
+                                <div>
+                                    <w-balance money="option.balance"></w-balance>
                                 </div>
                             </div>
                         </w-option>
@@ -60,7 +60,26 @@
                         <div class="body-2" w-i18n="modal.send.amount"></div>
                         <div class="amount-wrap" ng-class="{'no-mirror': $ctrl.mirror.id === $ctrl.asset.id}">
 
-
+                            <div class="input-wrap">
+                                <w-input type="text"
+                                         class="no-validate"
+                                         w-validate="asset"
+                                         max="$ctrl.asset.balance"
+                                         asset-id="{{::$ctrl.assetId}}"
+                                         ng-focus="focus = 'amount'"
+                                         ng-blur="focus = ''"
+                                         name="amount"
+                                         ng-model="$ctrl.amount"
+                                         required></w-input>
+                                <div class="currency">{{$ctrl.asset.ticker || $ctrl.asset.name}}</div>
+                                <div ng-mousedown="$ctrl.fillMax()"
+                                     ng-touchstart="$ctrl.fillMax()"
+                                     class="send-all"
+                                     ng-if="focus === 'amount'">
+                                    <w-i18n>modal.send.sendMax</w-i18n>
+                                </div>
+                            </div>
+                            <div class="amount-modal-icon"></div>
                             <div ng-if="$ctrl.mirror.id !== $ctrl.asset.id" class="input-wrap">
                                 <w-input type="text"
                                          class="no-validate"
@@ -78,26 +97,7 @@
                                     <w-i18n>modal.send.sendMax</w-i18n>
                                 </div>
                             </div>
-                            <div class="amount-modal-icon"></div>
-                            <div class="input-wrap">
-                                <w-input type="text"
-                                         class="no-validate"
-                                         w-validate="asset"
-                                         max="$ctrl.asset.balance"
-                                         asset-id="{{::$ctrl.assetId}}"
-                                         ng-focus="focus = 'amount'"
-                                         ng-blur="focus = ''"
-                                         name="amount"
-                                         ng-model="$ctrl.amount"
-                                         required></w-input>
-                                <div class="currency">{{$ctrl.asset.name}}</div>
-                                <div ng-mousedown="$ctrl.fillMax()"
-                                     ng-touchstart="$ctrl.fillMax()"
-                                     class="send-all"
-                                     ng-if="focus === 'amount'">
-                                    <w-i18n>modal.send.sendMax</w-i18n>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                     <w-input-error message="asset-required">
@@ -111,6 +111,7 @@
                 <div class="row">
                     <div class="body-2" w-i18n="modal.send.description"></div>
                     <w-input textarea="true"
+                             ng-model="$ctrl.attachment"
                              w-i18n-attr="placeholder"
                              placeholder="modal.send.descriptionPlaceholder"></w-input>
                 </div>
@@ -127,7 +128,7 @@
                 </div>
 
                 <div class="row">
-                    <w-button w-step-next disabled="send.$invalid || !$ctrl.valid" type="submit" class="submit long">
+                    <w-button w-step-next disabled="send.$invalid" type="submit" class="submit long">
                         <w-i18n>button.continue</w-i18n>
                     </w-button>
                 </div>
