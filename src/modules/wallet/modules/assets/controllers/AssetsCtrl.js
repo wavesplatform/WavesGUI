@@ -43,7 +43,7 @@
                 /**
                  * @type {string[]}
                  */
-                this.chartAssetIds = null;
+                this.chartAssetIdList = null;
                 /**
                  * @type {IAssetWithBalance[]}
                  */
@@ -65,9 +65,9 @@
                     user.getSetting('baseAssetId'),
                     this.syncSettings({
                         activeChartAssetId: 'wallet.assets.activeChartAssetId',
-                        chartAssetIds: 'wallet.assets.chartAssetIds',
+                        chartAssetIdList: 'wallet.assets.chartAssetIdList',
                         chartMode: 'wallet.assets.chartMode',
-                        assetList: 'pinnedAssetIds'
+                        assetList: 'pinnedAssetIdList'
                     })
                 ]))
                     .then(([baseAssetId]) => {
@@ -145,7 +145,7 @@
             }
 
             _getChartBalances() {
-                return assetsService.getBalanceList(this.chartAssetIds);
+                return assetsService.getBalanceList(this.chartAssetIdList);
             }
 
             /**

@@ -67,14 +67,14 @@
                             dataset: 'asks',
                             key: 'amount',
                             label: 'Asks',
-                            color: '#F27057',
+                            color: '#f27057',
                             type: ['line', 'line', 'area']
                         },
                         {
                             dataset: 'bids',
                             key: 'amount',
                             label: 'Bids',
-                            color: '#2B9F72',
+                            color: '#2b9f72',
                             type: ['line', 'line', 'area']
                         }
                     ],

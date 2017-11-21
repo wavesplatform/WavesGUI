@@ -44,7 +44,7 @@
 
                 createPromise(this, utils.whenAll([
                     user.getSetting('baseAssetId'),
-                    this.syncSettings({ assetList: 'pinnedAssetIds' })
+                    this.syncSettings({ assetList: 'pinnedAssetIdList' })
                 ]))
                     .then(([mirrorId]) => {
                         this.mirrorId = mirrorId;

@@ -14,9 +14,9 @@
         class AssetsData {
 
             getAssets() {
-                return user.getSetting('pinnedAssetIds')
-                    .then((assetIds) => {
-                        return utils.whenAll(assetIds.map((assetId) => {
+                return user.getSetting('pinnedAssetIdList')
+                    .then((assetIdList) => {
+                        return utils.whenAll(assetIdList.map((assetId) => {
                             return assetsService.getBalance(assetId);
                         }));
                     });

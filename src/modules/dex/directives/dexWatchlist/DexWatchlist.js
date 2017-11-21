@@ -9,7 +9,7 @@
      */
     const controller = function (Base, assetsService, utils) {
 
-        const TOP_ASSTS_LIST = [
+        const TOP_ASSETS_LIST = [
             WavesApp.defaultAssets.WAVES,
             WavesApp.defaultAssets.BTC,
             'HzfaJp8YQWLvQG4FkUxq2Q7iYWMYQ2k8UF89vVJAjWPj',
@@ -33,7 +33,7 @@
             'APz41KyoKuBBh8t3oZjqvhbbsg6f63tpZM5Ck5LYx6h'
         ];
 
-        const assetsList = utils.whenAll(TOP_ASSTS_LIST.map((id) => {
+        const assetsList = utils.whenAll(TOP_ASSETS_LIST.map((id) => {
             return utils.whenAll([
                 assetsService.getAssetInfo(id),
                 assetsService.getChange(id)
@@ -132,10 +132,10 @@
             _initRowId() {
                 if (this.active) {
                     let id = null;
-                    const ids = TOP_ASSTS_LIST.filter(tsUtils.notContains(this._baseAssetId));
+                    const idList = TOP_ASSETS_LIST.filter(tsUtils.notContains(this._baseAssetId));
 
                     [this._amountAssetId, this._priceAssetId].some((assetId) => {
-                        const index = ids.indexOf(assetId);
+                        const index = idList.indexOf(assetId);
                         if (index !== -1) {
                             id = assetId;
                         }
@@ -143,7 +143,7 @@
                     });
 
                     if (!id) {
-                        id = ids[0];
+                        id = idList[0];
                     }
 
                     this.activeRowId = id;
