@@ -54,10 +54,11 @@
                             return literal;
                         } else {
                             parts.forEach((part) => {
-                                if (part.indexOf('::') !== -1) {
-                                    console.warn(`No watched field "${part}"`); // TODO add watch?
+                                if (part.indexOf('::') === -1) {
+                                    console.warn(`No watched field "${part}"`); // TODO! : add $scope.$watch()
                                 }
-                                const forEval = part.replace('{{', '')
+                                const forEval = part
+                                    .replace('{{', '')
                                     .replace('}}', '')
                                     .replace('::', '');
                                 literal = literal.replace(part, $scope.$eval(forEval));

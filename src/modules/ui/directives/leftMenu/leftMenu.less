@@ -4,18 +4,26 @@ w-left-menu {
   width: @width-left-menu;
   position: absolute;
   left: 0;
-  top: @height-header;
+  top: 0;
   bottom: 0;
   display: block;
   padding-top: 10px;
   border-right: 1px solid @color-disabled-100;
   background-color: @color-white;
 
+  .logo-wrapper {
+    margin: 0 auto 27px;
+  }
+
+  .logout {
+    cusor: pointer;
+  }
+
   w-navigation a {
     width: 50px;
     height: 50px;
     display: block;
-    border-radius: 3px;
+    border-radius: 3px; // TODO! : check
     margin: 5px auto;
     background-color: transparent;
     background-position: center center;

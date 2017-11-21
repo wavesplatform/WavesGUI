@@ -43,7 +43,7 @@
                 /**
                  * @type {string[]}
                  */
-                this.chartAssetIds = null;
+                this.chartAssetIdList = null;
                 /**
                  * @type {IAssetWithBalance[]}
                  */
@@ -63,10 +63,12 @@
 
                 createPromise(this, utils.whenAll([
                     user.getSetting('baseAssetId'),
-                    this.syncSettings('wallet.assets.activeChartAssetId'),
-                    this.syncSettings('wallet.assets.chartAssetIds'),
-                    this.syncSettings('wallet.assets.chartMode'),
-                    this.syncSettings('wallet.assets.assetList')
+                    this.syncSettings({
+                        activeChartAssetId: 'wallet.assets.activeChartAssetId',
+                        chartAssetIdList: 'wallet.assets.chartAssetIdList',
+                        chartMode: 'wallet.assets.chartMode',
+                        assetList: 'pinnedAssetIdList'
+                    })
                 ]))
                     .then(([baseAssetId]) => {
                         this.mirrorId = baseAssetId;
@@ -83,6 +85,10 @@
                         });
                         this.observe(['interval', 'intervalCount', 'activeChartAssetId'], this._onChangeInterval);
                     });
+            }
+
+            abs(num) {
+                return Math.abs(num);
             }
 
             onAssetClick(e, asset) {
@@ -119,10 +125,12 @@
             }
 
             /**
-             * @private
+             * @param {IAssetInfo} [asset]
              */
-            showReceive() {
-                return modalManager.showReceiveAsset(user);
+            showReceive(asset) {
+                return assetsService.resolveAsset(asset).then((a) => {
+                    return modalManager.showReceiveAsset(user, a);
+                });
             }
 
             /**
@@ -130,13 +138,14 @@
              * @private
              */
             _onChangeChartAssetId({ value }) {
-                assetsService.getBalance(value).then((asset) => {
-                    this.chartAsset = asset;
-                });
+                assetsService.getBalance(value)
+                    .then((asset) => {
+                        this.chartAsset = asset;
+                    });
             }
 
             _getChartBalances() {
-                return assetsService.getBalanceList(this.chartAssetIds);
+                return assetsService.getBalanceList(this.chartAssetIdList);
             }
 
             /**
@@ -144,9 +153,10 @@
              * @private
              */
             _getBalances() {
-                return assetsService.getBalanceList(this.assetList).then((assets) => {
-                    return assets;
-                });
+                return assetsService.getBalanceList(this.assetList)
+                    .then((assets) => {
+                        return assets;
+                    });
             }
 
             /**
@@ -191,7 +201,7 @@
                         break;
                     case 'month':
                         this.interval = 1440;
-                        this.intervalCount = 31;
+                        this.intervalCount = 1440 * 31 / 1440;
                         break;
                     case 'year':
                         this.interval = 1440;

@@ -32,19 +32,19 @@
                     termsAccepted: true,
                     baseAssetId: WavesApp.defaultAssets.USD,
                     events: Object.create(null),
+                    pinnedAssetIdList: [
+                        WavesApp.defaultAssets.WAVES,
+                        WavesApp.defaultAssets.BTC,
+                        WavesApp.defaultAssets.ETH,
+                        WavesApp.defaultAssets.USD,
+                        WavesApp.defaultAssets.EUR
+                    ],
                     wallet: {
                         activeState: 'assets',
                         assets: {
                             chartMode: 'week',
                             activeChartAssetId: WavesApp.defaultAssets.WAVES,
-                            chartAssetIds: [
-                                WavesApp.defaultAssets.WAVES,
-                                WavesApp.defaultAssets.BTC,
-                                WavesApp.defaultAssets.ETH
-                            ],
-                            assetList: [
-                                WavesApp.defaultAssets.USD,
-                                WavesApp.defaultAssets.EUR,
+                            chartAssetIdList: [
                                 WavesApp.defaultAssets.WAVES,
                                 WavesApp.defaultAssets.BTC,
                                 WavesApp.defaultAssets.ETH
@@ -57,11 +57,17 @@
                     dex: {
                         amountAssetId: WavesApp.defaultAssets.WAVES,
                         priceAssetId: WavesApp.defaultAssets.BTC,
-                        directives: {
-                            markets: {
-                                activeAssetId: WavesApp.defaultAssets.ETH,
-                                favoriteIds: Object.values(WavesApp.defaultAssets)
-                            }
+                        watchlist: {
+                            activeWatchListId: 'top',
+                            top: WavesApp.defaultAssets.WAVES,
+                            bottom: WavesApp.defaultAssets.BTC
+                        },
+                        layout: {
+                            tradeHistory: {
+                                collapsed: true
+                            },
+                            leftColumnState: false,
+                            rightColumnState: false
                         }
                     }
                 };

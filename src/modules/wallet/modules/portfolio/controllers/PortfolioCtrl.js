@@ -44,7 +44,7 @@
 
                 createPromise(this, utils.whenAll([
                     user.getSetting('baseAssetId'),
-                    this.syncSettings('wallet.assets.assetList')
+                    this.syncSettings({ assetList: 'pinnedAssetIdList' })
                 ]))
                     .then(([mirrorId]) => {
                         this.mirrorId = mirrorId;
@@ -57,12 +57,17 @@
                     });
             }
 
-            sendModal(assetId) {
-                modalManager.showSendAsset({ user, canChooseAsset: !assetId, assetId });
+            showSend(assetId) {
+                return modalManager.showSendAsset({ user, canChooseAsset: !assetId, assetId });
             }
 
-            receiveModal() {
-                modalManager.showReceiveAsset(user);
+            /**
+             * @param [asset]
+             */
+            showReceive(asset) {
+                return assetsService.resolveAsset(asset).then((asset) => {
+                    return modalManager.showReceiveAsset(user, asset);
+                });
             }
 
             showAssetInfo(asset) {
@@ -127,7 +132,7 @@
             }
 
             static _isEmptyBalance(list) {
-                return list.length === 1 && list[0].balance.getTokens().eq(0);
+                return list.length === 0;
             }
 
         }

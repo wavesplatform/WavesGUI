@@ -11,5 +11,7 @@
   },
   "unpin": "Unpin",
   "pin": "Pin",
-  "info": "Asset info"
+  "info": "Asset Info",
+  "send": "Send",
+  "receive": "Receive"
 }

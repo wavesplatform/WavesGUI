@@ -1,0 +1,17 @@
+<div class="lead">
+    <h3 class="basic-700"
+         w-i18n="transaction.amounts.{{::$ctrl.type}}"
+         params="{amount: $ctrl.transaction.amount.toFormat(), name: $ctrl.transaction.amount.asset.name}"></h3>
+    <div class="body-2 basic-500">≈ {{::$ctrl.mirrorBalance.toFormat()}} {{::$ctrl.mirrorBalance.asset.name}}</div>
+</div>
+
+<div class="section" ng-if="$ctrl.type !== 'circular'">
+    <div class="key" w-i18n="transaction.modals.to" ng-if="$ctrl.type === 'send'"></div>
+    <div class="key" w-i18n="transaction.modals.from" ng-if="$ctrl.type === 'receive'"></div>
+    <div class="value">{{::$ctrl.shownAddress}}</div>
+</div>
+
+<div class="section contains-text" ng-if="$ctrl.transaction.attachment">
+    <div class="key" w-i18n="transaction.modals.attachment"></div>
+    <div class="value text">{{::$ctrl.transaction.attachment}}</div>
+</div>

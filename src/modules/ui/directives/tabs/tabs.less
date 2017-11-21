@@ -7,10 +7,24 @@ w-tabs {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    height: 45px;
+    height: 49px;
     background-color: @color-white;
     box-sizing: border-box;
-    padding: 0 15px;
+    padding: 0 20px;
+    position: relative;
+    &:before, &:after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      background-color: @color-disabled-100;
+      top: 0;
+      left: 0;
+    }
+    &:after {
+      top: auto;
+      bottom: 0;
+    }
 
     w-row > div {
       width: 100%;
@@ -22,8 +36,8 @@ w-tabs {
       display: block;
       border: 1px solid transparent;
       box-sizing: border-box;
-      padding: 15px;
-      line-height: 20px;
+      line-height: 49px;
+      margin: 0 20px;
 
       &:not(.active) {
         cursor: pointer;
@@ -32,6 +46,8 @@ w-tabs {
       &.active {
         color: @color-submit-400;
         border-bottom-color: @color-submit-400;
+        position: relative;
+        z-index: 1;
       }
     }
   }
@@ -39,7 +55,6 @@ w-tabs {
   .tab-body-wrap {
     .tab-tem {
       box-sizing: border-box;
-      padding: 10px;
       position: relative;
     }
   }

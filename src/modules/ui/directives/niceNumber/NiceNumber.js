@@ -2,7 +2,7 @@
     'use strict';
 
     /**
-     * @param {@constructor Base} Base
+     * @param Base
      * @param {$rootScope.Scope} $scope
      * @param {JQuery} $element
      * @param {app.utils} utils

@@ -1,19 +1,19 @@
 {
   "newUser": {
-    "getStarted": "Get started",
+    "getStarted": "Get Started",
     "restore": "Restore account",
     "from": "from backup",
     "or": "or",
     "slides": {
       "0": {
-        "title": "Get started with blockchain",
-        "description": "Gain access to the Waves platform’s solutions for storing, trading, managing and issuing your digital assets, easily and securely."
+        "title": "Get Started with Blockchain",
+        "description": "Gain access to the Waves platform’s solutions for storing, trading, managing and issuing your digital assets easily and securely."
       }
     }
   },
   "userList": {
     "title": "Sign in",
-    "subTitle": "The session was automatically terminated, sign in again or",
+    "subTitle": "The session was automatically terminated; sign in again or",
     "create": "create new account",
     "address": "Address",
     "password": "Password",
@@ -22,7 +22,7 @@
       "password": "Password"
     },
     "buttons": {
-      "login": "Login"
+      "login": "Log in"
     }
   }
 }

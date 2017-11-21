@@ -48,7 +48,8 @@
                     title: 'modal.assetInfo.title',
                     contentUrl: 'modules/utils/modals/assetInfo/assetInfo.html',
                     locals: asset,
-                    controller: 'AssetInfoCtrl'
+                    controller: 'AssetInfoCtrl',
+                    mod: 'asset-info-modal'
                 });
             }
 
@@ -74,9 +75,9 @@
 
             showAccountInfo() {
                 return this._getModal({
-                    controller: 'AccountInformationCtrl',
+                    controller: 'AccountInfoCtrl',
                     title: 'modal.account.title',
-                    contentUrl: 'modules/utils/modals/accountInformation/account-information.modal.html',
+                    contentUrl: 'modules/utils/modals/accountInfo/account-info.modal.html',
                     mod: 'account-info'
                 });
             }
@@ -101,19 +102,31 @@
 
             /**
              * @param {User} user
+             * @param asset
              * @return {Promise}
              */
-            showReceiveAsset(user) {
-                return user.onLogin()
-                    .then(() => {
-                        return this._getModal({
-                            locals: user.address,
-                            title: 'modal.receive.title',
-                            contentUrl: 'modules/utils/modals/receiveAsset/receive.modal.html',
-                            controller: 'AssetReceiveCtrl',
-                            mod: 'modal-receive'
-                        });
+            showReceiveAsset(user, asset) {
+            return user.onLogin().then(() => {
+                    return this._getModal({
+                        locals: { address: user.address, asset },
+                        title: 'modal.receive.title',
+                        titleParams: { asset },
+                        contentUrl: 'modules/utils/modals/receiveAsset/receive.modal.html',
+                        controller: 'AssetReceiveCtrl',
+                        mod: 'modal-receive'
                     });
+                });
+            }
+
+            showTransactionInfo(transactionId) {
+                return this._getModal({
+                    ns: 'app.ui',
+                    controller: 'TransactionInfoCtrl',
+                    titleContentUrl: `modules/utils/modals/transactionInfo/transaction-info-title.modal.html`,
+                    contentUrl: 'modules/utils/modals/transactionInfo/transaction-info.modal.html',
+                    mod: 'transaction-info',
+                    locals: { transactionId }
+                });
             }
 
             /**
@@ -251,7 +264,7 @@
             static _getHeader(options) {
                 if (options.title) {
                     const params = options.titleParams ? JSON.stringify(options.titleParams) : '';
-                    const title = `<div class="headline-1" params='${params}' w-i18n="${options.title}"></div>`;
+                    const title = `<div class="headline-2" params='${params}' w-i18n="${options.title}"></div>`;
                     return ModalManager._loadTemplate(DEFAULT_TEMPLATES_URLS.HEADER)
                         .then((template) => template.replace('{{title}}', title));
                 } else if (options.titleContent || options.titleContentUrl) {
@@ -353,7 +366,7 @@
  * @property {string} [template]
  * @property {string} [templateUrl]
  * @property {string} [title]
- * @property {string} [titleParams]
+ * @property {object} [titleParams]
  * @property {string} [titleContent]
  * @property {string} [titleContentUrl]
  * @property {string} [header]

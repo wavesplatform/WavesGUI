@@ -1,30 +1,35 @@
 {
   "modal": {
     "assetInfo": {
-      "title": "Asset info",
+      "title": "Asset Info",
       "unpinned": "Pin",
-      "pinned": "Pinned",
-      "assets": {
-        "8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS": "The official Bitcoin"
-      }
+      "pinned": "Pinned"
     },
     "receive": {
-      "title": "{{assetName}} Wallet Address",
-      "text": "Only send {{assetName}} to this address",
-      "description": "Sending any other digital asset, including {{assetName}}\n Cash, will result in permanent loss.",
-      "ok": "Show Address"
+      "title": "Receive {{asset.name}}",
+      "warningTitle": "Send only «{{asset.name}}» Waves token to this address",
+      "warningText": "Sending any other digital asset to this address will result in the permanent loss of your funds.",
+      "copyAndShare": "Copy & Share Address",
+      "or": "OR",
+      "scanQrCode": "Scan QR Code"
     },
     "send": {
       "title": "Send {{assetName}}",
-      "titleComplete": "Send Complete",
+      "titleComplete": "Sending Complete",
       "recipient": "Recipient",
-      "sendMax": "Send Max",
-      "withdraw": "Withdraw From",
+      "sendMax": "Max",
+      "withdraw": "Currency",
       "amount": "Amount",
       "description": "Description",
       "descriptionPlaceholder": "Write an optional message",
-      "fee": "Network Fee",
+      "placeholderRecipient": "Paste or scan an address",
+      "fee": "Transaction Fee",
       "total": "Total",
+      "errors": {
+        "address": "The address is not valid",
+        "required": "This field is required",
+        "max": "Insufficient funds"
+      },
       "confirm": {
         "title": "Transaction Details",
         "to": "To",
@@ -35,18 +40,19 @@
       },
       "compare": {
         "title": "Your transaction is on the way!",
-        "description": "You send {{amount}} {{currency}} (${{mirror}}) to an external address.",
+        "description": "You sent {{amount}} {{currency}} (${{mirror}}) to an external address.",
         "details": "View Details"
       }
     },
     "account": {
-      "title": "Account information",
+      "title": "Account Information",
       "address": "Your address",
       "aliases": "Aliases",
       "create": "Create new",
-      "fee": "Transaction fee {{price}} {{name}}",
+      "fee": "Transaction Fee {{price}} {{name}}",
+      "placeholder": "Symbolic name to your address",
       "notifications": {
-        "aliasCreated": "Alias has been created"
+        "aliasCreated": "An alias has been created"
       }
     },
     "termsAccept": {
@@ -58,7 +64,7 @@
       "body": {
         "security": "I understand that my funds are held securely on this device, not by a company",
         "backup": "I understand that if this app is moved to another device or deleted, my Waves can only be recovered with the backup phrase",
-        "read": "I have read, understood, and agree to the",
+        "read": "I have read, understood and agree to the",
         "terms": "Terms of Use",
         "ok": "Confirm & Finish"
       }

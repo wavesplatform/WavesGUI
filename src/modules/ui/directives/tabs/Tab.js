@@ -21,7 +21,7 @@
             wTabs: '^wTabs'
         },
         bindings: {
-            title: '@',
+            title: '@titleName',
             id: '@'
         }
     });

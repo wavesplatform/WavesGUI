@@ -8,10 +8,9 @@
      * @param {State} state
      * @param $state
      * @param {app.i18n} i18n
-     * @param {ModalManager} modalManager
      * @return {Header}
      */
-    const controller = function ($element, Base, user, state, $state, i18n, modalManager) {
+    const controller = function ($element, Base, user, state, $state, i18n) {
 
         class Header extends Base {
 
@@ -28,13 +27,9 @@
                 this.receive(state.signals.changeRouterState, this._onChangeRouterState, this);
             }
 
-            avatarClick() {
-                modalManager.showAccountInfo();
-            }
-
             _onChangeRouterState(state) {
-                const ids = state.name.split('.');
-                const parent = ids[ids.length - 2];
+                const idList = state.name.split('.');
+                const parent = idList[idList.length - 2];
                 const stateData = WavesApp.stateTree.find(parent);
                 if (stateData && !stateData.get('abstract')) {
                     this.stateList = stateData.getChildren().map((item) => {
@@ -51,7 +46,7 @@
         return new Header();
     };
 
-    controller.$inject = ['$element', 'Base', 'user', 'state', '$state', 'i18n', 'modalManager'];
+    controller.$inject = ['$element', 'Base', 'user', 'state', '$state', 'i18n'];
 
     angular.module('app.ui').component('wHeader', {
         controller: controller,

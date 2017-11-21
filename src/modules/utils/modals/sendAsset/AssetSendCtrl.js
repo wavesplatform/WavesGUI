@@ -11,9 +11,10 @@
      * @param {User} user
      * @param {EventManager} eventManager
      * @param {@constructor PollComponent} PollComponent
+     * @param {ModalManager} modalManager
      * @return {AssetSendCtrl}
      */
-    const controller = function ($scope, $mdDialog, assetsService, Base, utils, apiWorker, user, eventManager, createPoll) {
+    const controller = function ($scope, $mdDialog, assetsService, Base, utils, apiWorker, user, eventManager, createPoll, modalManager) {
 
         class AssetSendCtrl extends Base {
 
@@ -44,10 +45,6 @@
                 /**
                  * @type {boolean}
                  */
-                this.valid = false;
-                /**
-                 * @type {boolean}
-                 */
                 this.canChooseAsset = !assetId || canChooseAsset;
                 /**
                  * @type {string}
@@ -70,6 +67,10 @@
                  */
                 this.asset = null;
                 /**
+                 * @type {string}
+                 */
+                this.attachment = null;
+                /**
                  * @type {IAssetWithBalance}
                  */
                 this.mirror = null;
@@ -77,9 +78,19 @@
                  * @type {IAssetWithBalance[]}
                  */
                 this.assetList = null;
+                /**
+                 * @type {boolean}
+                 */
+                this.noMirror = false;
+                /**
+                 * Id from created transaction
+                 * @type {string}
+                 * @private
+                 */
+                this._transactionId = null;
 
                 if (this.canChooseAsset) {
-                    createPoll(this, assetsService.getBalanceList, this._setAssets, 1000, { isBalance: true });
+                    createPoll(this, this._getBalanceList, this._setAssets, 1000, { isBalance: true });
                 } else {
                     createPoll(this, this._getAsset, this._setAssets, 1000, { isBalance: true });
                 }
@@ -92,16 +103,21 @@
                             return WavesApi.API.Node.v1.assets.transfer({
                                 assetId: data.assetId,
                                 recipient: data.recipient,
-                                amount: data.amount
+                                amount: data.amount,
+                                attachment: data.attachment
                             }, data.keyPair);
                         }, {
                             assetId: this.assetId,
                             recipient: this.recipient,
                             keyPair: data.keyPair,
-                            amount: this.amount.mul(Math.pow(10, this.asset.precision)).toString()
+                            attachment: this.attachment,
+                            amount: new BigNumber(this.amount.toFixed(this.asset.precision))
+                                .mul(Math.pow(10, this.asset.precision))
+                                .toFixed(0)
                         });
                     })
                     .then((data) => {
+                        this._transactionId = data.id;
                         eventManager.addEvent({
                             id: data.id,
                             components: [
@@ -131,14 +147,16 @@
             showTransaction() {
                 $mdDialog.hide();
                 setTimeout(() => { // Timeout for routing (if modal has route)
-                    // TODO Show transaction modal. Author Tsigel at 10/11/2017 15:18
+                    modalManager.showTransactionInfo(this._transactionId);
                 }, 1000);
             }
 
             fillMax() {
                 if (this.assetId === this.feeData.asset.id) {
-                    if (this.asset.balance.getTokens().gt(this.fee.getTokens())) {
-                        this.amount = this.asset.balance.getTokens().sub(this.feeData.getTokens());
+                    if (this.asset.balance.getTokens()
+                            .gt(this.fee.getTokens())) {
+                        this.amount = this.asset.balance.getTokens()
+                            .sub(this.feeData.getTokens());
                     }
                 } else {
                     this.amount = this.asset.balance.getTokens();
@@ -153,29 +171,31 @@
                 this.recipient = result;
             }
 
+            _getBalanceList() {
+                return assetsService.getBalanceList().then((list) => {
+                    return list && list.length ? list : assetsService.getBalanceList([WavesApp.defaultAssets.WAVES]);
+                });
+            }
+
             _onChangeAssetId() {
                 if (!this.assetId) {
                     return null;
                 }
                 this.ready = utils.whenAll([
-                    this.canChooseAsset ? assetsService.getBalanceList() : assetsService.getBalance(this.assetId),
+                    this.canChooseAsset ? this._getBalanceList() : assetsService.getBalance(this.assetId),
                     assetsService.getAssetInfo(this.mirrorId),
-                    assetsService.getFeeSend()
+                    assetsService.getFeeSend(),
+                    assetsService.getRate(this.assetId, this.mirrorId)
                 ])
-                    .then(([asset, mirror, feeData]) => {
+                    .then(([asset, mirror, feeData, api]) => {
+                        this.noMirror = asset.id === mirror.id || api.rate.eq(0);
                         this.amount = new BigNumber(0);
                         this.amountMirror = new BigNumber(0);
-                        this.feeAlias = new BigNumber(0);
                         this.mirror = mirror;
                         this.feeData = feeData;
                         this._setAssets(asset);
                         this.asset = tsUtils.find(this.assetList, { id: this.assetId });
-
                         this.fee = feeData;
-                        this._getRate(feeData.id)
-                            .then((api) => {
-                                this.feeAlias = api.exchange(this.fee.getTokens());
-                            });
                     });
             }
 
@@ -202,28 +222,34 @@
              * @private
              */
             _onChangeAmount() {
-                this.amount && this._getRate()
+                this.amount && this.asset && this._getRate()
                     .then((api) => {
                         if (api.exchangeReverse(this.amountMirror)
                                 .toFixed(this.asset.precision) !== this.amount.toFixed(this.asset.precision)) {
-                            this.amountMirror = api.exchange(this.amount);
+                            this.amountMirror = api.exchange(this.amount).round(this.mirror.precision);
                         }
                     });
-                this.valid = this.amount < (this.asset.id === this.feeData.id ?
-                    this.asset.balance + this.feeData.fee : this.asset.balance);
             }
 
             /**
              * @private
              */
             _onChangeAmountMirror() {
-                this.amountMirror && this._getRate()
+                this.amountMirror && this.mirror && this._getRate()
                     .then((api) => {
                         if (api.exchange(this.amount)
                                 .toFixed(this.mirror.precision) !== this.amountMirror.toFixed(this.mirror.precision)) {
-                            this.amount = api.exchangeReverse(this.amountMirror);
+                            this.amount = api.exchangeReverse(this.amountMirror).round(this.asset.precision);
                         }
                     });
+            }
+
+            _isValid() {
+                if (!this.amount) {
+                    return false;
+                }
+                return this.amount.lt(this.asset.id === this.feeData.asset.id ?
+                    this.asset.balance.getTokens().add(this.feeData.getTokens()) : this.asset.balance.getTokens());
             }
 
             /**
@@ -249,7 +275,8 @@
         'apiWorker',
         'user',
         'eventManager',
-        'createPoll'
+        'createPoll',
+        'modalManager'
     ];
 
     angular.module('app.utils')

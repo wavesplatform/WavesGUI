@@ -7,20 +7,26 @@
      * @param Base
      * @param {User} user
      * @param {State} state
+     * @param {ModalManager} modalManager
      * @return {LeftMenu}
      */
-    const controller = function (Base, user, state) {
+    const controller = function (Base, user, state, modalManager) {
 
         class LeftMenu extends Base {
 
             constructor() {
                 super();
                 this._initStateList();
+                this.address = user.address;
                 this.receive(state.signals.changeRouterState, this._initStateList, this);
             }
 
             logout() {
                 location.reload();
+            }
+
+            avatarClick() {
+                modalManager.showAccountInfo();
             }
 
             _initStateList() {
@@ -39,7 +45,7 @@
         return new LeftMenu();
     };
 
-    controller.$inject = ['Base', 'user', 'state'];
+    controller.$inject = ['Base', 'user', 'state', 'modalManager'];
 
     angular.module('app.ui').component('wLeftMenu', {
         bindings: {},

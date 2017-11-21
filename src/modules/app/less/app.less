@@ -6,12 +6,13 @@ ui-view[name="main"] {
   width: 100%;
   height: 100%;
   min-width: 1024px;
+  min-height: 768px;
   overflow: auto;
   background-color: @color-background-default;
 }
 
 html body .hidden {
-  display: none;
+  display: none !important;
 }
 
 .text-center {
@@ -44,7 +45,12 @@ md-input-container {
 
   md-dialog {
     box-shadow: none;
-    margin-top: -10%;
+    position: absolute;
+    top: 13%;
+    left: 50%;
+    transform: translateX(-50%);
+    max-height: 74%;
+    width: 540px;
   }
 }
 
@@ -95,7 +101,7 @@ w-scroll-box {
 
   .content {
     width: calc(~"100% - "@width-left-menu + @padding-main-layout * 2);
-    height: calc(~"100% - "@width-left-menu + @padding-main-layout * 2);
+    height: calc(~"100% - "@height-header + @padding-main-layout * 2);
     overflow: auto;
     position: absolute;
     right: @padding-main-layout;
@@ -140,25 +146,21 @@ svg.chart {
       fill: @color-disabled-700;
       font-size: 13px;
     }
-
-    &.x-axis .tick text {
-      transform: translateY(6px);
-    }
-
-    &.y-axis .tick text {
-      transform: translateX(80px);
-    }
-
-    &.y2-axis .tick text {
-      transform: translateX(-80px);
-    }
+    //
+    //    &.y-axis .tick text {
+    //      transform: translateX(~'calc(100% + 50px)');
+    //    }
+    //
+    //    &.y2-axis .tick text {
+    //      transform: translateX(-100%);
+    //    }
   }
 }
 
 md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
   background-color: @color-white;
   color: @color-black;
-  border-bottom: 1px solid #bfc6cd;
+  border-bottom: 1px solid @color-disabled-200;
 }
 
 md-dialog md-dialog-actions {
@@ -173,7 +175,7 @@ md-dialog md-dialog-actions {
 
 .btn-wrap.btn-group { // TODO add colors from config for btn-wrap
   box-sizing: border-box;
-  padding: 0 10px;
+  padding: 0;
   display: flex;
   flex-direction: row;
   justify-content: center;

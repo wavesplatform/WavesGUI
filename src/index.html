@@ -6,9 +6,7 @@
     <meta charset="utf-8">
     <title>Waves Client</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="./img/favicon.ico" type="image/x-icon" rel="shortcut icon">
     <style>
-
         .app-loader {
             z-index: 10000;
             position: fixed;
@@ -31,54 +29,164 @@
             height: 3px;
             background-color: #0065D7;
             transition: width 1s;
-            -weblit-transition: width 1s;
+            -webkit-transition: width 1s;
             -moz-transition: width 1s;
         }
 
+        .loader-wrapper {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            margin-top: -150px;
+            margin-left: -100px;
+            width: 200px;
+            height: 200px;
+            text-align: center;
+        }
+
         .loader {
-            background-image: url('/img/waves.svg');
-            background-size: 100% 100%;
-            width: 90px;
-            height: 90px;
-            animation: animate-main-logo 2s infinite linear;
-            -weblit-animation: animate-main-logo 2s infinite linear;
-            -moz-animation: animate-main-logo 2s infinite linear;
+            width: 100px;
+            height: 100px;
+            display: inline-block;
+            -moz-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
         }
 
-        @keyframes animate-main-logo {
-            from {
-                transform: rotateY(0)
+        .loader span {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            -moz-transform: scale(1.1);
+            -ms-transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+            display: inline-block;
+        }
+
+        .loader span::before {
+            content: '';
+            background-color: #1f5af6;
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: block;
+            width: 50px;
+            height: 50px;
+            -moz-transform-origin: 100% 100%;
+            -ms-transform-origin: 100% 100%;
+            -webkit-transform-origin: 100% 100%;
+            transform-origin: 100% 100%;
+            -moz-animation: folding 2.5s infinite linear both;
+            -webkit-animation: folding 2.5s infinite linear both;
+            animation: folding 2.5s infinite linear both;
+        }
+
+        .loader .leaf2 {
+            -moz-transform: rotateZ(90deg) scale(1.1);
+            -ms-transform: rotateZ(90deg) scale(1.1);
+            -webkit-transform: rotateZ(90deg) scale(1.1);
+            transform: rotateZ(90deg) scale(1.1);
+        }
+
+        .loader .leaf2::before {
+            -moz-animation-delay: 0.3s;
+            -webkit-animation-delay: 0.3s;
+            animation-delay: 0.3s;
+            background-color: #0a49f2;
+        }
+
+        .loader .leaf3 {
+            -moz-transform: rotateZ(270deg) scale(1.1);
+            -ms-transform: rotateZ(270deg) scale(1.1);
+            -webkit-transform: rotateZ(270deg) scale(1.1);
+            transform: rotateZ(270deg) scale(1.1);
+        }
+
+        .loader .leaf3::before {
+            -moz-animation-delay: 0.9s;
+            -webkit-animation-delay: 0.9s;
+            animation-delay: 0.9s;
+            background-color: #0a49f2;
+        }
+
+        .loader .leaf4 {
+            -moz-transform: rotateZ(180deg) scale(1.1);
+            -ms-transform: rotateZ(180deg) scale(1.1);
+            -webkit-transform: rotateZ(180deg) scale(1.1);
+            transform: rotateZ(180deg) scale(1.1);
+        }
+
+        .loader .leaf4::before {
+            -moz-animation-delay: 0.6s;
+            -webkit-animation-delay: 0.6s;
+            animation-delay: 0.6s;
+            background-color: #0942d9;
+        }
+
+        @-moz-keyframes folding {
+            0%, 10% {
+                -moz-transform: perspective(140px) rotateX(-180deg);
+                transform: perspective(140px) rotateX(-180deg);
+                opacity: 0;
             }
-            to {
-                transform: rotateY(360deg)
+            25%, 75% {
+                -moz-transform: perspective(140px) rotateX(0deg);
+                transform: perspective(140px) rotateX(0deg);
+                opacity: 1;
+            }
+            90%, 100% {
+                -moz-transform: perspective(140px) rotateY(180deg);
+                transform: perspective(140px) rotateY(180deg);
+                opacity: 0;
             }
         }
 
-        @-moz-keyframes animate-main-logo {
-            from {
-                transform: rotateY(0)
+        @-webkit-keyframes folding {
+            0%, 10% {
+                -webkit-transform: perspective(140px) rotateX(-180deg);
+                transform: perspective(140px) rotateX(-180deg);
+                opacity: 0;
             }
-            to {
-                transform: rotateY(360deg)
+            25%, 75% {
+                -webkit-transform: perspective(140px) rotateX(0deg);
+                transform: perspective(140px) rotateX(0deg);
+                opacity: 1;
+            }
+            90%, 100% {
+                -webkit-transform: perspective(140px) rotateY(180deg);
+                transform: perspective(140px) rotateY(180deg);
+                opacity: 0;
             }
         }
 
-        @-webkit-keyframes animate-main-logo {
-            from {
-                transform: rotateY(0)
+        @keyframes folding {
+            0%, 10% {
+                -moz-transform: perspective(140px) rotateX(-180deg);
+                -ms-transform: perspective(140px) rotateX(-180deg);
+                -webkit-transform: perspective(140px) rotateX(-180deg);
+                transform: perspective(140px) rotateX(-180deg);
+                opacity: 0;
             }
-            to {
-                transform: rotateY(360deg)
+            25%, 75% {
+                -moz-transform: perspective(140px) rotateX(0deg);
+                -ms-transform: perspective(140px) rotateX(0deg);
+                -webkit-transform: perspective(140px) rotateX(0deg);
+                transform: perspective(140px) rotateX(0deg);
+                opacity: 1;
+            }
+            90%, 100% {
+                -moz-transform: perspective(140px) rotateY(180deg);
+                -ms-transform: perspective(140px) rotateY(180deg);
+                -webkit-transform: perspective(140px) rotateY(180deg);
+                transform: perspective(140px) rotateY(180deg);
+                opacity: 0;
             }
         }
     </style>
 
     <script>
-        (function () {
-            var img = new Image();
-            img.src = '/img/waves.svg';
-        })();
-
         var __controllers = Object.create(null);
 
         /**
@@ -117,7 +225,6 @@
             },
             stateTree: null
         };
-
     </script>
 
     <!-- CSS -->
@@ -129,7 +236,7 @@
 
 <div class="app-loader">
     <div class="progress"></div>
-    <div class="loader"></div>
+    <div class="loader-wrapper"><div class="loader"><span class="leaf1"></span><span class="leaf2"></span><span class="leaf3"></span><span class="leaf4"></span></div></div>
 </div>
 
 <ui-view name="main"></ui-view>

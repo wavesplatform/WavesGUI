@@ -1,0 +1,8 @@
+<div ng-if="$ctrl.transaction"
+     class="headline-2 basic-700"
+     w-i18n="transaction.headers.{{$ctrl.transaction.type}}"
+     params="{
+       name: $ctrl.transaction.name,
+       amountAsset: $ctrl.amount.asset.name,
+       priceAsset: $ctrl.price.asset.name
+     }"></div>
