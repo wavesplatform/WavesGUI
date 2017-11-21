@@ -6,7 +6,7 @@
      * @param {app.utils} utils
      * @return {Base}
      */
-    const factory = function (user, utils, $injector) {
+    const factory = function (user, utils) {
 
         class Base {
 
@@ -98,32 +98,27 @@
 
             /**
              * @param {Object} syncList
-             * @return {Promise}
+             * @return {void}
              */
             syncSettings(syncList) {
-                const createPromise = $injector.get('createPromise');
-                return createPromise(this, utils.whenAll(Object.keys(syncList).map((name) => {
-                    const settingsPath = syncList[name];
+                return Object.keys(syncList)
+                    .forEach((name) => {
+                        const settingsPath = syncList[name];
 
-                    this.observe(name, () => {
-                        user.setSetting(settingsPath, this[name]);
+                        this.observe(name, () => {
+                            user.setSetting(settingsPath, this[name]);
+                        });
+
+                        if (user.changeSetting) {
+                            this.receive(user.changeSetting, (path) => {
+                                if (path === settingsPath) {
+                                    this[name] = user.getSetting(path);
+                                }
+                            });
+                        }
+
+                        this[name] = user.getSetting(settingsPath);
                     });
-
-                    if (user.changeSetting) {
-                        this.receive(user.changeSetting, (path) => {
-                            if (path === settingsPath) {
-                                user.getSetting(path).then((value) => {
-                                    this[name] = value;
-                                });
-                            }
-                        });
-                    }
-
-                    return user.getSetting(settingsPath)
-                        .then((value) => {
-                            this[name] = value;
-                        });
-                })));
             }
 
             $onDestroy() {
@@ -154,7 +149,7 @@
         return Base;
     };
 
-    factory.$inject = ['user', 'utils', '$injector'];
+    factory.$inject = ['user', 'utils'];
 
     angular.module('app.utils')
         .factory('Base', factory);

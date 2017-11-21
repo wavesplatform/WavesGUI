@@ -87,11 +87,10 @@
 
             /**
              * @param {string} name
-             * @return {Promise}
+             * @return {*}
              */
             getSetting(name) {
-                return this.onLogin()
-                    .then(() => tsUtils.cloneDeep(this._settings && this._settings.get(name)));
+                return this._settings.get(name);
             }
 
             getSettingByUser(user, name) {

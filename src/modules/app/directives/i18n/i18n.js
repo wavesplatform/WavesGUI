@@ -55,7 +55,7 @@
                         } else {
                             parts.forEach((part) => {
                                 if (part.indexOf('::') === -1) {
-                                    console.warn(`No watched field "${part}"`); // TODO! : add $scope.$watch()
+                                    console.warn(`No watched field "${part}"`); // TODO : add $scope.$watch()
                                 }
                                 const forEval = part
                                     .replace('{{', '')
