@@ -97,7 +97,6 @@
             }
 
             _onChangeAssets() {
-                console.log('Graph change assets');
                 assetsService.getAssetInfo(this._priceAssetId)
                     .then((asset) => {
                         this._priceAsset = asset;
