@@ -17,7 +17,6 @@
             constructor() {
                 super($scope);
                 this.password = '';
-                this.encryptionRoundsPromise = user.getSetting('encryptionRounds');
                 this.pending = false;
             }
 
@@ -26,22 +25,24 @@
                     return null;
                 }
                 this.pending = true;
-                this.encryptionRoundsPromise.then((encryptionRounds) => {
-                    apiWorker.process((WavesApi, data) => {
+                apiWorker.process((WavesApi, data) => {
 
-                        const phrase = WavesApi
-                            .Seed
-                            .decryptSeedPhrase(data.encryptedSeed, data.password, data.encryptionRounds);
+                    const phrase = WavesApi
+                        .Seed
+                        .decryptSeedPhrase(data.encryptedSeed, data.password, data.encryptionRounds);
 
-                        return WavesApi.Seed.fromExistingPhrase(phrase);
-                    }, { encryptionRounds, encryptedSeed: user.encryptedSeed, password: this.password })
-                        .then((seed) => {
-                            $mdDialog.hide(seed);
-                        })
-                        .catch(() => {
-                            this.pending = false;
-                        });
-                });
+                    return WavesApi.Seed.fromExistingPhrase(phrase);
+                }, {
+                    encryptionRounds: user.getSetting('encryptionRounds'),
+                    encryptedSeed: user.encryptedSeed,
+                    password: this.password
+                })
+                    .then((seed) => {
+                        $mdDialog.hide(seed);
+                    })
+                    .catch(() => {
+                        this.pending = false;
+                    });
             }
 
             cancel() {

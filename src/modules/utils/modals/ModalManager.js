@@ -91,14 +91,17 @@
              * @return {Promise}
              */
             showSendAsset(data) {
-                return data.user.getSetting('baseAssetId')
-                    .then((baseAssetId) => this._getModal({
-                        controller: 'AssetSendCtrl',
-                        titleContentUrl: 'modules/utils/modals/sendAsset/send-title.modal.html',
-                        contentUrl: 'modules/utils/modals/sendAsset/send.modal.html',
-                        mod: 'modal-send',
-                        locals: { assetId: data.assetId, baseAssetId, canChooseAsset: data.canChooseAsset }
-                    }));
+                return this._getModal({
+                    controller: 'AssetSendCtrl',
+                    titleContentUrl: 'modules/utils/modals/sendAsset/send-title.modal.html',
+                    contentUrl: 'modules/utils/modals/sendAsset/send.modal.html',
+                    mod: 'modal-send',
+                    locals: {
+                        assetId: data.assetId,
+                        baseAssetId: data.user.getSetting('baseAssetId'),
+                        canChooseAsset: data.canChooseAsset
+                    }
+                });
             }
 
             /**
@@ -107,7 +110,7 @@
              * @return {Promise}
              */
             showReceiveAsset(user, asset) {
-            return user.onLogin().then(() => {
+                return user.onLogin().then(() => {
                     return this._getModal({
                         locals: { address: user.address, asset },
                         title: 'modal.receive.title',
