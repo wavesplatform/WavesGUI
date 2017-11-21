@@ -221,52 +221,56 @@
                     marketUrl
                 };
 
-                return apiWorker.process((Waves, { onFetch, wavesId, idFrom, idTo, marketUrl }) => {
+                return utils.whenAll([
+                    apiWorker.process((Waves, { onFetch, wavesId, idFrom, idTo, marketUrl }) => {
 
-                    if (idFrom === idTo) {
-                        return 1;
-                    }
+                        if (idFrom === idTo) {
+                            return 1;
+                        }
 
-                    const currentRate = (trades) => {
-                        return trades && trades.length ? trades.reduce((result, item) => {
-                            return result.add(new WavesAPI.BigNumber(item.price));
-                        }, new WavesAPI.BigNumber(0))
-                            .div(trades.length) : new WavesAPI.BigNumber(0);
-                    };
+                        const currentRate = (trades) => {
+                            return trades && trades.length ? trades.reduce((result, item) => {
+                                return result.add(new WavesAPI.BigNumber(item.price));
+                            }, new WavesAPI.BigNumber(0))
+                                .div(trades.length) : new WavesAPI.BigNumber(0);
+                        };
 
-                    const getRate = function (from, to) {
-                        return Waves.AssetPair.get(from, to)
-                            .then((pair) => {
-                                return fetch(`${marketUrl}/${pair.toString()}/5`)
-                                    .then(onFetch)
-                                    .then(currentRate)
-                                    .then((rate) => {
-                                        if (from !== pair.priceAsset.id) {
-                                            return rate;
-                                        } else {
-                                            return rate.eq(0) ? rate : new WavesAPI.BigNumber(1).div(rate);
-                                        }
-                                    }).catch((e) => {
-                                        return new WavesAPI.BigNumber(0);
-                                    });
-                            });
-                    };
+                        const getRate = function (from, to) {
+                            return Waves.AssetPair.get(from, to)
+                                .then((pair) => {
+                                    return fetch(`${marketUrl}/${pair.toString()}/5`)
+                                        .then(onFetch)
+                                        .then(currentRate)
+                                        .then((rate) => {
+                                            if (from !== pair.priceAsset.id) {
+                                                return rate;
+                                            } else {
+                                                return rate.eq(0) ? rate : new WavesAPI.BigNumber(1).div(rate);
+                                            }
+                                        }).catch((e) => {
+                                            return new WavesAPI.BigNumber(0);
+                                        });
+                                });
+                        };
 
-                    if (idFrom !== wavesId && idTo !== wavesId) {
-                        return Promise.all([
-                            getRate(idFrom, wavesId),
-                            getRate(idTo, wavesId)
-                        ])
-                            .then((rateList) => {
-                                return rateList[1].eq(0) ? rateList[1] : rateList[0].div(rateList[1]);
-                            });
-                    } else {
-                        return getRate(idFrom, idTo);
-                    }
+                        if (idFrom !== wavesId && idTo !== wavesId) {
+                            return Promise.all([
+                                getRate(idFrom, wavesId),
+                                getRate(idTo, wavesId)
+                            ])
+                                .then((rateList) => {
+                                    return rateList[1].eq(0) ? rateList[1] : rateList[0].div(rateList[1]);
+                                });
+                        } else {
+                            return getRate(idFrom, idTo);
+                        }
 
-                }, params)
-                    .then((rate) => {
-                        return this._generateRateApi(rate);
+                    }, params),
+                    this.getAssetInfo(idFrom),
+                    this.getAssetInfo(idTo)
+                ])
+                    .then(([rate, from, to]) => {
+                        return this._generateRateApi(from, to, rate);
                     });
             }
 
@@ -393,11 +397,13 @@
             }
 
             /**
-             * @param {number} rate
+             * @param {IAssetInfo} from
+             * @param {IAssetInfo} to
+             * @param {BigNumber} rate
              * @return {AssetsService.rateApi}
              * @private
              */
-            _generateRateApi(rate) {
+            _generateRateApi(from, to, rate) {
                 return {
                     /**
                      * @name AssetsService.rateApi#exchange
@@ -405,7 +411,7 @@
                      * @return {BigNumber}
                      */
                     exchange(balance) {
-                        return balance.mul(rate.toFixed(8));
+                        return balance.mul(rate.toFixed(8)).round(to.precision);
                     },
 
                     /**
@@ -414,7 +420,7 @@
                      * @return {BigNumber}
                      */
                     exchangeReverse(balance) {
-                        return rate ? balance.div(rate) : 0;
+                        return (rate ? balance.div(rate) : new BigNumber(0)).round(from.precision);
                     },
 
                     /**

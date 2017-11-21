@@ -226,7 +226,7 @@
                     .then((api) => {
                         if (api.exchangeReverse(this.amountMirror)
                                 .toFixed(this.asset.precision) !== this.amount.toFixed(this.asset.precision)) {
-                            this.amountMirror = api.exchange(this.amount);
+                            this.amountMirror = api.exchange(this.amount).round(this.mirror.precision);
                         }
                     });
             }
@@ -239,7 +239,7 @@
                     .then((api) => {
                         if (api.exchange(this.amount)
                                 .toFixed(this.mirror.precision) !== this.amountMirror.toFixed(this.mirror.precision)) {
-                            this.amount = api.exchangeReverse(this.amountMirror);
+                            this.amount = api.exchangeReverse(this.amountMirror).round(this.asset.precision);
                         }
                     });
             }

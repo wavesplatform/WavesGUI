@@ -61,7 +61,7 @@
                     this._timer = $timeout(() => {
                         if (tsUtils.isEmpty(this.ngModel)) {
                             this.setActive(this._options.first());
-                        } else if (!this._options.some(this.ngModel)) {
+                        } else if (!this._options.some({ value: this.ngModel })) {
                             this.setActive(this._options.first());
                         }
                     }, 100);

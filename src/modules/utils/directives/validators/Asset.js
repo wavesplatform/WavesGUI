@@ -52,7 +52,7 @@
 
                             this.$scope.$watch(this.$attrs.max, (value) => {
                                 balance = value;
-                                this.vlidateByName('asset-max');
+                                this.validateByName('asset-max');
                             });
                         }
                     });
