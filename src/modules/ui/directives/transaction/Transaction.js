@@ -44,7 +44,7 @@
                 }
             }
 
-            cancelLeasing() {} // TODO!
+            cancelLeasing() {} // TODO
 
             showTransaction() {
                 modalManager.showTransactionInfo(this.transaction.id);

@@ -472,7 +472,7 @@
  * @property {string} name
  * @property {string} [description]
  * @property {number} precision
- * @property {BigNumber} balance
+ * @property {Money} balance
  * @property {boolean} reissuable
  * @property {Money} quantity
  * @property {number} timestamp
