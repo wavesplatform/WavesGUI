@@ -35,7 +35,7 @@
              * @return {Promise<ITransaction>}
              */
             get(id) {
-                return Waves.API.Node.v1.transactions.get(id)
+                return Waves.API.Node.v2.transactions.get(id)
                     .then(this._pipeTransaction(false));
             }
 
@@ -45,7 +45,7 @@
              * @return {Promise<ITransaction>}
              */
             getUtx(id) {
-                return Waves.API.Node.v1.transactions.utxGet(id)
+                return Waves.API.Node.v2.transactions.utxGet(id)
                     .then(this._pipeTransaction(true));
             }
 

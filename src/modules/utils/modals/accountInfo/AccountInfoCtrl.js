@@ -51,7 +51,6 @@
             createAlias() {
                 return user.getSeed().then((seed) => {
                     return waves.node.aliases.createAlias({ alias: this.newAlias, keyPair: seed.keyPaid })
-                    // TODO! KeyPair. Author Tsigel at 22/11/2017 09:44
                         .then(() => {
                             this.aliases.push(this.newAlias);
                             this.newAlias = '';

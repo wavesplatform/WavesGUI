@@ -150,7 +150,7 @@
                 this.ready = utils.whenAll([
                     this.canChooseAsset ? this._getBalanceList() : waves.node.assets.balance(this.assetId),
                     waves.node.assets.info(this.mirrorId),
-                    waves.node.assets.fee('transfer'), // TODO! Fee. Author Tsigel at 22/11/2017 08:13
+                    waves.node.assets.fee('transfer'),
                     waves.utils.getRateApi(this.assetId, this.mirrorId)
                 ])
                     .then(([asset, mirror, [fee], api]) => {

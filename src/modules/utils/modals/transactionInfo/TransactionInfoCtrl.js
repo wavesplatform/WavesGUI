@@ -55,7 +55,7 @@
                                 });
                         }
 
-                        const TYPES = transactionsService.TYPES;
+                        const TYPES = waves.node.transactions.TYPES;
                         if (this.type === TYPES.EXCHANGE_BUY || this.type === TYPES.EXCHANGE_SELL) {
                             this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
                         }

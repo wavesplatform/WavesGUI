@@ -105,8 +105,31 @@
                 }
             }
 
-            getChange() {
-                // TODO! Add method. Author Tsigel at 22/11/2017 08:04
+            /**
+             * @param {IAssetInfo|string} assetFrom
+             * @param {IAssetInfo|string} assetTo
+             * @return {Promise<number>}
+             */
+            @decorators.cachable(60)
+            getChange(assetFrom, assetTo) {
+                const idFrom = WavesUtils.toId(assetFrom);
+                const idTo = WavesUtils.toId(assetTo);
+                const wavesId = WavesApp.defaultAssets.WAVES;
+                if (idFrom === idTo) {
+                    return 1;
+                }
+
+                if (idFrom !== wavesId && idTo !== wavesId) {
+                    return Promise.all([
+                        this._getChange(idFrom, wavesId),
+                        this._getChange(idTo, wavesId)
+                    ])
+                        .then(([from, to]) => {
+                            return to === 0 ? 0 : from / to;
+                        });
+                } else {
+                    return this._getChange(idFrom, idTo);
+                }
             }
 
             /**
@@ -137,6 +160,26 @@
                 const count = Math.min(Math.floor(intervalMinutes / interval), MAX_COUNTS);
 
                 return `${interval}/${count}`;
+            }
+
+            _getChange(from, to) {
+                return Waves.AssetPair.get(from, to)
+                    .then((pair) => {
+                        return fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/1440/1`)
+                            .then(utils.onFetch)
+                            .then((data) => {
+                                if (!data || !data.length) {
+                                    return 0;
+                                }
+                                const open = Number(data[0].open);
+                                const close = Number(data[0].close);
+                                if (open > close) {
+                                    return close === 0 ? 0 : -open / close;
+                                } else {
+                                    return open === 0 ? 0 : close / open;
+                                }
+                            });
+                    });
             }
 
             /**
@@ -222,7 +265,8 @@
                      * @return {BigNumber}
                      */
                     exchange(balance) {
-                        return balance.mul(rate.toFixed(8)).round(to.precision);
+                        return balance.mul(rate.toFixed(8))
+                            .round(to.precision);
                     },
 
                     /**
@@ -256,7 +300,8 @@
 
     factory.$inject = ['assets', 'utils', 'decorators'];
 
-    angular.module('app').factory('wavesUtils', factory);
+    angular.module('app')
+        .factory('wavesUtils', factory);
 })();
 
 /**

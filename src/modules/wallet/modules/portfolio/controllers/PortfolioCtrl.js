@@ -61,9 +61,10 @@
              * @param [asset]
              */
             showReceive(asset) {
-                return waves.resolveAsset(asset).then((asset) => {
-                    return modalManager.showReceiveAsset(user, asset);
-                });
+                return waves.node.assets.info(asset && asset.id || WavesApp.defaultAssets.WAVES)
+                    .then((asset) => {
+                        return modalManager.showReceiveAsset(user, asset);
+                    });
             }
 
             showAssetInfo(asset) {
