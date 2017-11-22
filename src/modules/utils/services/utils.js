@@ -18,7 +18,7 @@
              * @name app.utils#observe
              * @param {object} target
              * @param {string|string[]} keys
-             * @param {Object} [options]
+             * @param {object} [options]
              * @param {Function} [options.set]
              * @param {Function} [options.get]
              * @return {Signal}

@@ -51,13 +51,12 @@
                 this.syncSettings({
                     _amountAssetId: 'dex.amountAssetId',
                     _priceAssetId: 'dex.priceAssetId'
-                })
-                    .then(() => {
-                        /**
-                         * @type {Poll}
-                         */
-                        this.poll = createPoll(this, this._getTradeHistory, 'orders', 2000);
-                    });
+                });
+
+                /**
+                 * @type {Poll}
+                 */
+                this.poll = createPoll(this, this._getTradeHistory, 'orders', 2000);
             }
 
             $onDestroy() {

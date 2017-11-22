@@ -107,7 +107,7 @@
 
             /**
              * @param {Event} event
-             * @param {Object} toState
+             * @param {object} toState
              * @param {string} toState.name
              * @private
              */

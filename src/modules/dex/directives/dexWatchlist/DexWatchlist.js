@@ -5,7 +5,7 @@
      * @param Base
      * @param {AssetsService} assetsService
      * @param {app.utils} utils
-     * @returns {DexWachlist}
+     * @return {DexWatchlist}
      */
     const controller = function (Base, assetsService, utils) {
 
@@ -100,15 +100,15 @@
                     this.observe('activeRowId', this._onChangeActiveRow);
                     this.observe('_baseAssetId', this._onChangeBaseAsset);
                     this.observe('_activeWatchListId', this._onChangeActiveWatchList);
+
                     this.syncSettings({
                         _amountAssetId: 'dex.amountAssetId',
                         _priceAssetId: 'dex.priceAssetId',
                         _baseAssetId: `dex.watchlist.${this._id}`,
                         _activeWatchListId: 'dex.watchlist.activeWatchListId'
-                    })
-                        .then(() => {
-                            this._initRowId();
-                        });
+                    });
+
+                    this._initRowId();
                 });
             }
 

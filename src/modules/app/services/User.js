@@ -39,7 +39,7 @@
                  */
                 this.encryptedSeed = null;
                 /**
-                 * @type {Object}
+                 * @type {object}
                  */
                 this.settings = Object.create(null);
                 /**
@@ -57,7 +57,7 @@
                  */
                 this._dfr = $q.defer();
                 /**
-                 * @type {Object}
+                 * @type {object}
                  * @private
                  */
                 this.__props = Object.create(null);
@@ -171,12 +171,12 @@
             }
 
             /**
-             * @param {Object} data
+             * @param {object} data
              * @param {string} data.address
              * @param {string} data.encryptedSeed
              * @param {string} data.publicKey
              * @param {string} data.password
-             * @param {Object} [data.settings]
+             * @param {object} [data.settings]
              * @param {boolean} [data.settings.termsAccepted]
              * @return Promise
              */
@@ -364,6 +364,6 @@
 })();
 
 /**
- * @typedef {Object} IUserSettings
+ * @typedef {object} IUserSettings
  * @property {Array<string>} assets
  */

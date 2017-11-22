@@ -60,17 +60,15 @@
 
                 this.observe('activeChartAssetId', this._onChangeChartAssetId);
 
+                this.syncSettings({
+                    activeChartAssetId: 'wallet.assets.activeChartAssetId',
+                    chartAssetIdList: 'wallet.assets.chartAssetIdList',
+                    chartMode: 'wallet.assets.chartMode',
+                    assetList: 'pinnedAssetIdList'
+                });
 
-                    this.syncSettings({
-                        activeChartAssetId: 'wallet.assets.activeChartAssetId',
-                        chartAssetIdList: 'wallet.assets.chartAssetIdList',
-                        chartMode: 'wallet.assets.chartMode',
-                        assetList: 'pinnedAssetIdList'
-                    });
-
-
-                        this.mirrorId = user.getSetting('baseAssetId');
-                        this._onChangeMode();
+                this.mirrorId = user.getSetting('baseAssetId');
+                this._onChangeMode();
 
                 this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000);
 
@@ -81,6 +79,7 @@
                 this.observe('assetList', () => {
                     assetsPoll.restart();
                 });
+
                 this.observe(['interval', 'intervalCount', 'activeChartAssetId'], this._onChangeInterval);
             }
 

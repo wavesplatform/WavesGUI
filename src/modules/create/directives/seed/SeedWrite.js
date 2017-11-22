@@ -220,7 +220,7 @@
 })();
 
 /**
- * @typedef {Object} ISeedWriteChild
+ * @typedef {object} ISeedWriteChild
  * @property {number} left
  * @property {number} width
  * @property {number} height

@@ -159,7 +159,7 @@
 })();
 
 /**
- * @typedef {Object} ITimerData
+ * @typedef {object} ITimerData
  * @property {Function} handler
  * @property {number} timeout
  * @property {number} start
