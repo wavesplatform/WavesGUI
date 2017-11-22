@@ -134,7 +134,7 @@
             }
 
             /**
-             * @returns {*}
+             * @return {*}
              * @private
              */
             _getTypeFilter() {

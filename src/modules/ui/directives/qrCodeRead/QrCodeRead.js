@@ -69,7 +69,7 @@
                 this.maxWidth = Number(this.maxWidth);
                 this.maxHeight = Number(this.maxHeight);
                 if (!this.maxWidth || !this.maxHeight) {
-                    throw new Error('Has no qrCode reader size!');
+                    throw new Error('Has no QrCode reader size!');
                 }
             }
 
@@ -169,12 +169,11 @@
             _decodeImage() {
                 return this.worker.process((qr, { frame, protocol }) => {
                     return new Promise((resolve) => {
-                        qr.callback = function (error, result) {
+                        qr.callback = function (error, response) {
                             if (error) {
                                 resolve(null);
                             } else {
-                                resolve(result.result.replace(protocol, '')
-                                    .replace('?', ''));
+                                resolve(response.result.replace(protocol, '').replace('?', ''));
                             }
                         };
                         qr.decode(frame);

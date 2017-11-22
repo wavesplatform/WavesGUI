@@ -109,6 +109,6 @@
 })();
 
 /**
- * @typedef {Object} ICreatePollOptions
+ * @typedef {object} ICreatePollOptions
  * @property {boolean} [isBalance]
  */

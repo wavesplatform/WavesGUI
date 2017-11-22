@@ -94,7 +94,7 @@
 
             /**
              * @param {string} key
-             * @return {Object}
+             * @return {object}
              * @private
              */
             _getBinded(key) {
@@ -167,7 +167,7 @@
         }
 
         /**
-         * @type {Object}
+         * @type {object}
          * @private
          */
         Moment._patterns = Object.create(null);
@@ -218,12 +218,12 @@
         }
 
         /**
-         * @type {Object}
+         * @type {object}
          * @private
          */
         Moment.prototype._add = Object.create(null);
         /**
-         * @type {Object}
+         * @type {object}
          * @private
          */
         Moment.prototype._startOf = Object.create(null);
@@ -267,7 +267,7 @@
  */
 
 /**
- * @typedef {Object} IAdd
+ * @typedef {object} IAdd
  * @property {IAddDateCallback} year
  * @property {IAddDateCallback} month
  * @property {IAddDateCallback} week
@@ -278,7 +278,7 @@
  */
 
 /**
- * @typedef {Object} IStartOf
+ * @typedef {object} IStartOf
  * @property {IStartOfCallback} year
  * @property {IStartOfCallback} month
  * @property {IStartOfCallback} day

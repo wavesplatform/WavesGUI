@@ -47,7 +47,7 @@
                 /**
                  * @type {string[]}
                  */
-                this.chartAssetIds = null;
+                this.chartAssetIdList = null;
                 /**
                  * @type {IAssetWithBalance[]}
                  */
@@ -67,9 +67,9 @@
 
                 this.syncSettings({
                     activeChartAssetId: 'wallet.assets.activeChartAssetId',
-                    chartAssetIds: 'wallet.assets.chartAssetIds',
+                    chartAssetIdList: 'wallet.assets.chartAssetIdList',
                     chartMode: 'wallet.assets.chartMode',
-                    assetList: 'pinnedAssetIds'
+                    assetList: 'pinnedAssetIdList'
                 });
 
                 this.mirrorId = user.getSetting('baseAssetId');
@@ -85,6 +85,7 @@
                 this.observe('assetList', () => {
                     assetsPoll.restart();
                 });
+
                 this.observe(['interval', 'intervalCount', 'activeChartAssetId'], this._onChangeInterval);
             }
 
@@ -147,7 +148,7 @@
             }
 
             _getChartBalances() {
-                return waves.node.assets.balanceList(this.chartAssetIds);
+                return waves.node.assets.balanceList(this.chartAssetIdList);
             }
 
             /**

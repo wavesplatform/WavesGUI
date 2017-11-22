@@ -13,8 +13,8 @@
         class AssetsData {
 
             getAssets() {
-                return utils.whenAll(user.getSetting('pinnedAssetIds').map((assetId) => {
-                    return waves.node.assets.balance(assetId);
+                return utils.whenAll(user.getSetting('pinnedAssetIdList').map((assetIdList) => {
+                    return waves.node.assets.balance(assetIdList);
                 }));
             }
 

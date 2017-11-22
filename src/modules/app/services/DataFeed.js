@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const factory = function (decorators, apiWorker) {
+    const factory = function (decorators) {
 
         // TODO! Remove file. Author Tsigel at 22/11/2017 08:24
 
@@ -40,7 +40,7 @@
         return new DataFeed();
     };
 
-    factory.$inject = ['decorators', 'apiWorker'];
+    factory.$inject = ['decorators'];
 
     angular.module('app')
         .factory('dataFeed', factory);

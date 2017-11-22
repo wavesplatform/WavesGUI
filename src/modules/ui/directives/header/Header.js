@@ -8,7 +8,6 @@
      * @param {State} state
      * @param $state
      * @param {app.i18n} i18n
-     * @param {ModalManager} modalManager
      * @return {Header}
      */
     const controller = function ($element, Base, user, state, $state, i18n) {
@@ -29,8 +28,8 @@
             }
 
             _onChangeRouterState(state) {
-                const ids = state.name.split('.');
-                const parent = ids[ids.length - 2];
+                const idList = state.name.split('.');
+                const parent = idList[idList.length - 2];
                 const stateData = WavesApp.stateTree.find(parent);
                 if (stateData && !stateData.get('abstract')) {
                     this.stateList = stateData.getChildren().map((item) => {

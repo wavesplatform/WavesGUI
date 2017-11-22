@@ -13,6 +13,8 @@
              * @param {Money} price
              */
             getTotalPrice(amount, price) {
+                // TODO : fix calculating total price for assets with different precisions
+                // TODO : use OrderPrice
                 const amountTokens = amount.getTokens();
                 const priceTokens = price.getTokens();
                 const precision = price.asset.precision;

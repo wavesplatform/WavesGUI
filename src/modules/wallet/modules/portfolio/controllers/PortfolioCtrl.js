@@ -41,7 +41,7 @@
                 this.wavesId = WavesApp.defaultAssets.WAVES;
 
 
-                this.syncSettings({ assetList: 'pinnedAssetIds' });
+                this.syncSettings({ assetList: 'pinnedAssetIdList' });
 
                 this.mirrorId = user.getSetting('baseAssetId');
                 waves.node.assets.info(this.mirrorId)

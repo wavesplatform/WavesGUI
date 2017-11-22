@@ -159,7 +159,7 @@
 
             /**
              * @param complexityList
-             * @returns {number}
+             * @return {number}
              * @private
              */
             _getComplexy(complexityList) {
@@ -168,7 +168,7 @@
 
             /**
              * @param value
-             * @returns {number}
+             * @return {number}
              * @private
              */
             _getLengthComplexy(value) {
@@ -182,7 +182,7 @@
              * @param value
              * @param reg
              * @param targetScore
-             * @returns {number}
+             * @return {number}
              * @private
              */
             _getComplexyByReg(value, reg, targetScore) {

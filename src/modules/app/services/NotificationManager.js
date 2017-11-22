@@ -210,7 +210,7 @@
 })();
 
 /**
- * @typedef {Object} INotificationObj
+ * @typedef {object} INotificationObj
  * @property {string} ns
  * @property {object} [title]
  * @property {string} [title.literal]

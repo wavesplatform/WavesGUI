@@ -75,7 +75,7 @@
             /**
              * @param {string[]|string} keys
              * @param callback
-             * @param {Object} [options]
+             * @param {object} [options]
              * @param {Function} [options.set]
              */
             observe(keys, callback, options) {
@@ -85,7 +85,7 @@
             /**
              * @param {string[]|string} keys
              * @param callback
-             * @param {Object} [options]
+             * @param {object} [options]
              * @param {Function} [options.set]
              */
             observeOnce(keys, callback, options) {
@@ -97,13 +97,13 @@
             }
 
             /**
-             * @param {Object} syncList
+             * @param {object} syncObject
              * @return {void}
              */
-            syncSettings(syncList) {
-                return Object.keys(syncList)
+            syncSettings(syncObject) {
+                return Object.keys(syncObject)
                     .forEach((name) => {
-                        const settingsPath = syncList[name];
+                        const settingsPath = syncObject[name];
 
                         this.observe(name, () => {
                             user.setSetting(settingsPath, this[name]);
@@ -156,6 +156,6 @@
 })();
 
 /**
- * @typedef {Object} IBaseSignals
+ * @typedef {object} IBaseSignals
  * @property {Signal} destroy
  */
