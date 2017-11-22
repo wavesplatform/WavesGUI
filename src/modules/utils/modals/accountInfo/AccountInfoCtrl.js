@@ -38,7 +38,7 @@
                 this.fee = null;
 
                 waves.node.aliases.fee()
-                    .then((fee) => {
+                    .then(([fee]) => {
                         this.fee = fee;
                     });
 

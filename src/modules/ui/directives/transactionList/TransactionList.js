@@ -117,7 +117,7 @@
              */
             _getAssetFilter() {
                 if (this.assetIdList && this.assetIdList.length) {
-                    const TYPES = transactionsService.TYPES;
+                    const TYPES = waves.node.transactions.TYPES;
                     return ({ type, amount }) => {
                         switch (type) {
                             case TYPES.SEND:
