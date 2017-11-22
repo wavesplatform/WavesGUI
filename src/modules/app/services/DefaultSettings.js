@@ -32,7 +32,7 @@
                     termsAccepted: true,
                     baseAssetId: WavesApp.defaultAssets.USD,
                     events: Object.create(null),
-                    pinnedAssetIds: [
+                    pinnedAssetIdList: [
                         WavesApp.defaultAssets.WAVES,
                         WavesApp.defaultAssets.BTC,
                         WavesApp.defaultAssets.ETH,
@@ -44,7 +44,7 @@
                         assets: {
                             chartMode: 'week',
                             activeChartAssetId: WavesApp.defaultAssets.WAVES,
-                            chartAssetIds: [
+                            chartAssetIdList: [
                                 WavesApp.defaultAssets.WAVES,
                                 WavesApp.defaultAssets.BTC,
                                 WavesApp.defaultAssets.ETH

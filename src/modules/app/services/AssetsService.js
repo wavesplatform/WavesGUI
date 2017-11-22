@@ -61,13 +61,13 @@
             }
 
             /**
-             * @param {string[]} [assetIds]
+             * @param {string[]} [assetIdList]
              * @param {Object} [options]
              * @param {Object} [options.limit]
              * @param {Object} [options.offset]
              * @return {Promise}
              */
-            getBalanceList(assetIds) {
+            getBalanceList(assetIdList) {
                 return utils.whenAll([
                     this._getBalanceList().then((balanceList) => {
                         return balanceList.filter((asset) => {
@@ -77,7 +77,7 @@
                     eventManager.getBalanceEvents()
                 ])
                     .then(([balanceList, events]) => {
-                        if (!assetIds) {
+                        if (!assetIdList) {
                             const promiseList = balanceList.map((item) => this.getAssetInfo(item.id));
                             return utils.whenAll(promiseList)
                                 .then((infoList) => {
@@ -91,7 +91,7 @@
                                 .then(utils.whenAll);
                         } else {
                             const balances = utils.toHash(balanceList, 'id');
-                            return utils.whenAll(assetIds.map(this.getAssetInfo))
+                            return utils.whenAll(assetIdList.map(this.getAssetInfo))
                                 .then((assetList) => {
                                     return assetList.map((asset) => {
                                         if (balances[asset.id]) {

@@ -10,7 +10,7 @@
                 this.asset = asset;
                 this.wavesId = WavesApp.defaultAssets.WAVES;
 
-                const assetList = user.getSetting('pinnedAssetIds');
+                const assetList = user.getSetting('pinnedAssetIdList');
                 this.assetList = assetList;
                 this.pinned = assetList.indexOf(asset.id) !== -1;
             }
@@ -21,7 +21,7 @@
                     this.assetList = this.assetList.concat(this.asset.id);
                 }
                 this.pinned = !this.pinned;
-                user.setSetting('pinnedAssetIds', this.assetList);
+                user.setSetting('pinnedAssetIdList', this.assetList);
             }
 
         }

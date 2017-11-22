@@ -2,7 +2,6 @@
     'use strict';
 
     /**
-     * @param $injector
      * @param $mdDialog
      * @param {app.utils} utils
      * @param {app.utils.decorators} decorators
@@ -10,7 +9,7 @@
      * @param $rootScope
      * @return {ModalManager}
      */
-    const factory = function ($injector, $mdDialog, utils, decorators, $templateRequest, $rootScope) {
+    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope) {
 
 
         const DEFAULT_OPTIONS = {
@@ -357,7 +356,7 @@
         return new ModalManager();
     };
 
-    factory.$inject = ['$injector', '$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope'];
+    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope'];
 
     angular.module('app.utils')
         .factory('modalManager', factory);

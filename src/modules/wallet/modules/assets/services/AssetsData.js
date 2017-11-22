@@ -14,9 +14,12 @@
         class AssetsData {
 
             getAssets() {
-                return utils.whenAll(user.getSetting('pinnedAssetIds').map((assetId) => {
-                    return assetsService.getBalance(assetId);
-                }));
+                return user.getSetting('pinnedAssetIdList')
+                    .then((assetIdList) => {
+                        return utils.whenAll(assetIdList.map((assetId) => {
+                            return assetsService.getBalance(assetId);
+                        }));
+                    });
             }
 
             getGraphOptions() {

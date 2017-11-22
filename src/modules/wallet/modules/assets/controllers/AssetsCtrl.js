@@ -42,7 +42,7 @@
                 /**
                  * @type {string[]}
                  */
-                this.chartAssetIds = null;
+                this.chartAssetIdList = null;
                 /**
                  * @type {IAssetWithBalance[]}
                  */
@@ -60,15 +60,17 @@
 
                 this.observe('activeChartAssetId', this._onChangeChartAssetId);
 
-                this.syncSettings({
-                    activeChartAssetId: 'wallet.assets.activeChartAssetId',
-                    chartAssetIds: 'wallet.assets.chartAssetIds',
-                    chartMode: 'wallet.assets.chartMode',
-                    assetList: 'pinnedAssetIds'
-                });
 
-                this.mirrorId = user.getSetting('baseAssetId');
-                this._onChangeMode();
+                    this.syncSettings({
+                        activeChartAssetId: 'wallet.assets.activeChartAssetId',
+                        chartAssetIdList: 'wallet.assets.chartAssetIdList',
+                        chartMode: 'wallet.assets.chartMode',
+                        assetList: 'pinnedAssetIdList'
+                    });
+
+
+                        this.mirrorId = user.getSetting('baseAssetId');
+                        this._onChangeMode();
 
                 this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000);
 
@@ -140,7 +142,7 @@
             }
 
             _getChartBalances() {
-                return assetsService.getBalanceList(this.chartAssetIds);
+                return assetsService.getBalanceList(this.chartAssetIdList);
             }
 
             /**
