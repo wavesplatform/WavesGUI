@@ -109,6 +109,7 @@
              * @return {Promise}
              */
             showReceiveAsset(user, asset) {
+                // TODO : check if `onLogin()` is required here
                 return user.onLogin().then(() => {
                     return this._getModal({
                         locals: { address: user.address, asset },
