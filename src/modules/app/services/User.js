@@ -125,6 +125,28 @@
                 return this._addUserData(data);
             }
 
+            /**
+             * @param {object} data
+             * @param {string} data.address
+             * @param {string} data.encryptedSeed
+             * @param {string} data.publicKey
+             * @param {string} data.password
+             * @param {boolean} hasBackup
+             * @return Promise
+             */
+            create(data, hasBackup) {
+                this._addUserData({
+                    address: data.address,
+                    password: data.password,
+                    encryptedSeed: data.encryptedSeed,
+                    publicKey: data.publicKey,
+                    settings: {
+                        termsAccepted: false,
+                        hasBackup: hasBackup
+                    }
+                });
+            }
+
             logout() {
                 window.location.reload();
             }
@@ -159,6 +181,23 @@
                             const phrase = Waves.Seed.decryptSeedPhrase(encryptedSeed, password, encryptionRounds);
                             return Waves.Seed.fromExistingPhrase(phrase);
                         }
+                    });
+            }
+
+            /**
+             * @return {Promise}
+             */
+            getUserList() {
+                return storage.load('userList')
+                    .then((list) => {
+                        list = list || [];
+
+                        list.sort((a, b) => {
+                            return a.lastLogin - b.lastLogin;
+                        })
+                            .reverse();
+
+                        return list;
                     });
             }
 
@@ -214,23 +253,6 @@
 
                                 this._dfr.resolve();
                             });
-                    });
-            }
-
-            /**
-             * @return {Promise}
-             */
-            getUserList() {
-                return storage.load('userList')
-                    .then((list) => {
-                        list = list || [];
-
-                        list.sort((a, b) => {
-                            return a.lastLogin - b.lastLogin;
-                        })
-                            .reverse();
-
-                        return list;
                     });
             }
 

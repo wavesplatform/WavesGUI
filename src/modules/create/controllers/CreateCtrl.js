@@ -75,17 +75,17 @@
                     const encryptedSeed = seedData.encrypt(this.password);
                     const publicKey = seedData.keyPair.publicKey;
 
-                    return user._addUserData({
+                    return user.create({
                         address: this.address,
                         password: this.password,
-                        settings: { termsAccepted: false },
                         encryptedSeed,
                         publicKey
-                    });
+                    }, index === ORDER_LIST.length);
                 } else {
-                    this.checkNext().then(() => {
-                        this.stepIndex = index;
-                    });
+                    this.checkNext()
+                        .then(() => {
+                            this.stepIndex = index;
+                        });
                 }
             }
 
@@ -107,10 +107,11 @@
                         list.push({ seed: seedData.phrase, address: seedData.address });
                     }
                     return list;
-                }).then((data) => {
-                    this.setActiveSeed(data[0]);
-                    this.seedList = data;
-                });
+                })
+                    .then((data) => {
+                        this.setActiveSeed(data[0]);
+                        this.seedList = data;
+                    });
             }
 
             showBackupWarningPopup() {
@@ -129,5 +130,6 @@
 
     controller.$inject = ['$q', '$mdDialog', '$timeout', 'user', 'modalManager', 'seedService'];
 
-    angular.module('app.create').controller('CreateCtrl', controller);
+    angular.module('app.create')
+        .controller('CreateCtrl', controller);
 })();
