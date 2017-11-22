@@ -93,6 +93,7 @@
                     _amountAssetId: 'dex.amountAssetId',
                     _priceAssetId: 'dex.priceAssetId'
                 });
+
                 this.observe(['_amountAssetId', '_priceAssetId'], this._onChangeAssets);
             }
 

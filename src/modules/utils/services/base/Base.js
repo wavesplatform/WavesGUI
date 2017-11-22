@@ -6,7 +6,7 @@
      * @param {app.utils} utils
      * @return {Base}
      */
-    const factory = function (user, utils, $injector) {
+    const factory = function (user, utils) {
 
         class Base {
 
@@ -75,7 +75,7 @@
             /**
              * @param {string[]|string} keys
              * @param callback
-             * @param {Object} [options]
+             * @param {object} [options]
              * @param {Function} [options.set]
              */
             observe(keys, callback, options) {
@@ -85,7 +85,7 @@
             /**
              * @param {string[]|string} keys
              * @param callback
-             * @param {Object} [options]
+             * @param {object} [options]
              * @param {Function} [options.set]
              */
             observeOnce(keys, callback, options) {
@@ -97,33 +97,28 @@
             }
 
             /**
-             * @param {Object} syncList
-             * @return {Promise}
+             * @param {object} syncObject
+             * @return {void}
              */
-            syncSettings(syncList) {
-                const createPromise = $injector.get('createPromise');
-                return createPromise(this, utils.whenAll(Object.keys(syncList).map((name) => {
-                    const settingsPath = syncList[name];
+            syncSettings(syncObject) {
+                return Object.keys(syncObject)
+                    .forEach((name) => {
+                        const settingsPath = syncObject[name];
 
-                    this.observe(name, () => {
-                        user.setSetting(settingsPath, this[name]);
+                        this.observe(name, () => {
+                            user.setSetting(settingsPath, this[name]);
+                        });
+
+                        if (user.changeSetting) {
+                            this.receive(user.changeSetting, (path) => {
+                                if (path === settingsPath) {
+                                    this[name] = user.getSetting(path);
+                                }
+                            });
+                        }
+
+                        this[name] = user.getSetting(settingsPath);
                     });
-
-                    if (user.changeSetting) {
-                        this.receive(user.changeSetting, (path) => {
-                            if (path === settingsPath) {
-                                user.getSetting(path).then((value) => {
-                                    this[name] = value;
-                                });
-                            }
-                        });
-                    }
-
-                    return user.getSetting(settingsPath)
-                        .then((value) => {
-                            this[name] = value;
-                        });
-                })));
             }
 
             $onDestroy() {
@@ -154,13 +149,13 @@
         return Base;
     };
 
-    factory.$inject = ['user', 'utils', '$injector'];
+    factory.$inject = ['user', 'utils'];
 
     angular.module('app.utils')
         .factory('Base', factory);
 })();
 
 /**
- * @typedef {Object} IBaseSignals
+ * @typedef {object} IBaseSignals
  * @property {Signal} destroy
  */

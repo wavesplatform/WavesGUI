@@ -67,10 +67,8 @@
     "postversion": "sh scripts/postversion.sh",
     "watchts": "sh scripts/watch-typescript.sh",
     "lessc": "sh scripts/lessc",
-    "test": "node_modules/.bin/tsc -p ./ && node_modules/.bin/karma start karma.conf.js",
-    "release": "sh scripts/release.sh",
-    "build-local": "node_modules/.bin/gulp build-local",
-    "build": "node_modules/.bin/gulp all"
+    "build": "node_modules/.bin/gulp all",
+    "server": "npm run build && node server"
   },
   "build": {
     "appId": "com.wavesplatform.client.lite",

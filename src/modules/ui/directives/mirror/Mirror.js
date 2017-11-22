@@ -6,11 +6,9 @@
      * @param {AssetsService} assetsService
      * @param {User} user
      * @param {app.utils} utils
-     * @param {function} createPromise
      * @param {function} createPoll
-     * @param $scope
      */
-    const controller = function (Base, assetsService, user, utils, createPromise, createPoll, $scope) {
+    const controller = function (Base, assetsService, user, utils, createPoll) {
 
         class Mirror extends Base {
 
@@ -39,8 +37,7 @@
 
                 this.interval = Number(this.interval) || 5000;
 
-                createPromise(this, user.getSetting('baseAssetId'))
-                    .then(assetsService.getAssetInfo)
+                assetsService.getAssetInfo(user.getSetting('baseAssetId'))
                     .then((mirror) => {
                         this.mirror = mirror;
 
@@ -71,7 +68,7 @@
         return new Mirror();
     };
 
-    controller.$inject = ['Base', 'assetsService', 'user', 'utils', 'createPromise', 'createPoll', '$scope'];
+    controller.$inject = ['Base', 'assetsService', 'user', 'utils', 'createPoll', '$scope'];
 
     angular.module('app.ui')
         .component('wMirror', {

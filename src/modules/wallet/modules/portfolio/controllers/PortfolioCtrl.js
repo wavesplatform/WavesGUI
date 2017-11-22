@@ -42,19 +42,16 @@
                 this.wavesId = WavesApp.defaultAssets.WAVES;
 
 
-                createPromise(this, utils.whenAll([
-                    user.getSetting('baseAssetId'),
-                    this.syncSettings({ assetList: 'pinnedAssetIdList' })
-                ]))
-                    .then(([mirrorId]) => {
-                        this.mirrorId = mirrorId;
-                        assetsService.getAssetInfo(this.mirrorId)
-                            .then((mirror) => {
-                                this.mirror = mirror;
-                            });
+                this.syncSettings({ assetList: 'pinnedAssetIdList' });
 
-                        createPoll(this, this._getPortfolio, 'portfolio', 3000, { isBalance: true });
+                this.mirrorId = user.getSetting('baseAssetId');
+                assetsService.getAssetInfo(this.mirrorId)
+                    .then((mirror) => {
+                        this.mirror = mirror;
                     });
+
+                createPoll(this, this._getPortfolio, 'portfolio', 3000, { isBalance: true });
+
             }
 
             showSend(assetId) {

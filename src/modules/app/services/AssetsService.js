@@ -62,9 +62,9 @@
 
             /**
              * @param {string[]} [assetIdList]
-             * @param {Object} [options]
-             * @param {Object} [options.limit]
-             * @param {Object} [options.offset]
+             * @param {object} [options]
+             * @param {object} [options.limit]
+             * @param {object} [options.offset]
              * @return {Promise}
              */
             getBalanceList(assetIdList) {
@@ -446,14 +446,14 @@
  */
 
 /**
- * @typedef {Object} IBalance
+ * @typedef {object} IBalance
  * @property {string} id
  * @property {number} precision
  * @property {number} balance
  */
 
 /**
- * @typedef {Object} IAssetInfo
+ * @typedef {object} IAssetInfo
  * @property {string} id
  * @property {string} name
  * @property {string} [description]
@@ -467,7 +467,7 @@
  */
 
 /**
- * @typedef {Object} IAssetWithBalance
+ * @typedef {object} IAssetWithBalance
  * @property {string} id
  * @property {string} name
  * @property {string} [description]

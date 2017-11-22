@@ -145,7 +145,7 @@
 })();
 
 /**
- * @typedef {Object} IComponent
+ * @typedef {object} IComponent
  * @property {IBaseSignals} signals
  * @property {string} cid
  */
