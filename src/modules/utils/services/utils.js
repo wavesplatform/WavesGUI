@@ -200,11 +200,14 @@
 
             /**
              * @name app.utils#moment
-             * @param {Date | number | string} [date]
+             * @param {Date | number | string | Moment} [date]
              * @param {string} [pattern]
              * @return {Moment}
              */
             moment(date, pattern) {
+                if (date instanceof Moment) {
+                    return date.clone(pattern);
+                }
                 return new Moment(date, pattern);
             },
 
@@ -264,7 +267,7 @@
 
             /**
              * @name app.utils#toHash
-             * @param {array} list
+             * @param {Array} list
              * @param {string} key
              * @return {*}
              */

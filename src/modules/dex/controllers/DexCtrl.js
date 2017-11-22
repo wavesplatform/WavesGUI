@@ -2,12 +2,11 @@
     'use strict';
 
     /**
-     * @param {AssetsService} assetsService
-     * @param utils
-     * @param {User} user
+     * @param {Base} Base
+     * @param {JQuery} $element
      * @return {DexCtrl}
      */
-    const controller = function (assetsService, utils, user, Base, $element) {
+    const controller = function (Base, $element) {
 
         class DexCtrl extends Base {
 
@@ -48,7 +47,7 @@
     };
 
 
-    controller.$inject = ['assetsService', 'utils', 'user', 'Base', '$element'];
+    controller.$inject = ['Base', '$element'];
 
     angular.module('app.dex')
         .controller('DexCtrl', controller);

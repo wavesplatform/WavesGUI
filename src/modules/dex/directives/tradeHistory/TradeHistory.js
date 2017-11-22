@@ -4,12 +4,12 @@
     /**
      * @param {Base} Base
      * @param {Scope} $scope
-     * @param {AssetsService} assetsService
+     * @param {Waves} waves
      * @param {DataFeed} dataFeed
      * @param {} createPoll
      * @return {TradeHistory}
      */
-    const controller = function (Base, $scope, assetsService, dataFeed, createPoll) {
+    const controller = function (Base, $scope, waves, dataFeed, createPoll) {
 
         class TradeHistory extends Base {
 
@@ -68,11 +68,11 @@
             _onChangeAssets() {
                 this.orders = [];
                 this.poll.restart();
-                assetsService.getAssetInfo(this._priceAssetId)
+                waves.node.assets.info(this._priceAssetId)
                     .then((asset) => {
                         this.priceAsset = asset;
                     });
-                assetsService.getAssetInfo(this._amountAssetId)
+                waves.node.assets.info(this._amountAssetId)
                     .then((asset) => {
                         this.amountAsset = asset;
                     });
@@ -91,7 +91,7 @@
         return new TradeHistory();
     };
 
-    controller.$inject = ['Base', '$scope', 'assetsService', 'dataFeed', 'createPoll'];
+    controller.$inject = ['Base', '$scope', 'waves', 'dataFeed', 'createPoll'];
 
     angular.module('app.dex')
         .component('wDexTradeHistory', {

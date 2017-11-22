@@ -7,118 +7,14 @@
      * @param {User} user
      * @param {app.utils} utils
      * @param {EventManager} eventManager
-     * @return {AssetsService}
+     * @return {Waves}
      */
     const factory = function (apiWorker, decorators, user, utils, eventManager) {
 
-        const ASSET_NAME_MAP = {
-            [WavesApp.defaultAssets.ETH]: 'Ethereum',
-            [WavesApp.defaultAssets.EUR]: 'Euro',
-            [WavesApp.defaultAssets.USD]: 'USD',
-            [WavesApp.defaultAssets.BTC]: 'Bitcoin'
-        };
 
-        class AssetsService {
 
-            /**
-             * @param {string} assetId
-             * @return {Promise<IAssetInfo>}
-             */
-            @decorators.cachable()
-            getAssetInfo(assetId) {
-                return apiWorker.process((Waves, { onFetch, assetId, ASSET_NAME_MAP }) => {
-                    return fetch(`https://api.wavesplatform.com/assets/${assetId}`)
-                        .then(onFetch)
-                        .then((info) => {
-                            return Waves.Money.fromCoins(String(info.quantity), assetId).then((money) => {
-                                return {
-                                    id: info.id,
-                                    name: ASSET_NAME_MAP[info.id] || info.name,
-                                    description: info.id !== 'WAVES' ? info.description : '',
-                                    precision: info.decimals,
-                                    reissuable: info.reissuable,
-                                    quantity: money,
-                                    timestamp: info.timestamp,
-                                    sender: info.sender,
-                                    height: info.height,
-                                    ticker: info.ticker || '',
-                                    sign: info.sign || ''
-                                };
-                            });
-                        });
-                }, { onFetch: utils.onFetch, assetId, ASSET_NAME_MAP });
-            }
+        class Waves {
 
-            /**
-             * @param {string} assetId
-             * @return {Promise<IAssetWithBalance>}
-             */
-            getBalance(assetId) {
-                return this.getBalanceList([assetId])
-                    .then(([asset]) => {
-                        return asset;
-                    });
-            }
-
-            /**
-             * @param {string[]} [assetIds]
-             * @param {Object} [options]
-             * @param {Object} [options.limit]
-             * @param {Object} [options.offset]
-             * @return {Promise}
-             */
-            getBalanceList(assetIds) {
-                return utils.whenAll([
-                    this._getBalanceList().then((balanceList) => {
-                        return balanceList.filter((asset) => {
-                            return !asset.amount.getTokens().eq(0);
-                        });
-                    }),
-                    eventManager.getBalanceEvents()
-                ])
-                    .then(([balanceList, events]) => {
-                        if (!assetIds) {
-                            const promiseList = balanceList.map((item) => this.getAssetInfo(item.id));
-                            return utils.whenAll(promiseList)
-                                .then((infoList) => {
-                                    return infoList.map((asset, index) => {
-                                        const amount = balanceList[index].amount;
-                                        const balance = this._getAssetBalance(asset.id, amount, events);
-                                        return this.getMoney(balance.toFixed(asset.precision), asset.id)
-                                            .then((money) => ({ ...asset, balance: money }));
-                                    });
-                                })
-                                .then(utils.whenAll);
-                        } else {
-                            const balances = utils.toHash(balanceList, 'id');
-                            return utils.whenAll(assetIds.map(this.getAssetInfo))
-                                .then((assetList) => {
-                                    return assetList.map((asset) => {
-                                        if (balances[asset.id]) {
-                                            const tokens = this._getAssetBalance(asset.id, balances[asset.id].amount, events);
-                                            return this.getMoney(tokens.toFixed(asset.precision), asset.id)
-                                                .then((money) => ({ ...asset, balance: money }));
-                                        } else {
-                                            return this.getMoney('0', asset.id)
-                                                .then((money) => ({ ...asset, balance: money }));
-                                        }
-                                    });
-                                })
-                                .then(utils.whenAll);
-                        }
-                    });
-
-            }
-
-            getMoneyList(moneyData) {
-                return apiWorker.process((Waves, moneyData) => {
-                    return Promise.all(moneyData.map(({ count, id }) => Waves.Money.fromTokens(count, id)));
-                }, moneyData);
-            }
-
-            getMoney(balance, id) {
-                return this.getMoneyList([{ count: balance, id }]).then(([money]) => money);
-            }
 
             @decorators.cachable(2)
             getOrders(assetId1, assetId2) {
@@ -207,7 +103,7 @@
             /**
              * @param {string} idFrom
              * @param {string} idTo
-             * @return {Promise<AssetsService.rateApi>}
+             * @return {Promise<Waves.rateApi>}
              */
             @decorators.cachable(60)
             getRate(idFrom, idTo) {
@@ -349,15 +245,6 @@
             }
 
             /**
-             * @return {Promise<Money>}
-             */
-            getFeeSend() {
-                return apiWorker.process((Waves, id) => {
-                    return Waves.Money.fromTokens('0.001', id);
-                }, WavesApp.defaultAssets.WAVES);
-            }
-
-            /**
              * Resolves a promise given asset or Waves
              * @param asset
              * @return {Promise|IAssetInfo}
@@ -370,80 +257,18 @@
                 }
             }
 
-            /**
-             * @param {string} assetId
-             * @param {Money} money
-             * @param {Array<ChangeBalanceEvent>} events
-             * @return {BigNumber}
-             * @private
-             */
-            _getAssetBalance(assetId, money, events) {
-                return events.reduce((balance, balanceEvent) => {
-                    return balance.sub(balanceEvent.getBalanceDifference(assetId));
-                }, money.getTokens());
-            }
 
-            /**
-             * @private
-             */
-            @decorators.cachable(1)
-            _getBalanceList() {
-                return user.onLogin()
-                    .then(() => {
-                        return apiWorker.process((WavesAPI, { address }) => {
-                            return WavesAPI.API.Node.v2.addresses.balances(address); // TODO Add limits. Author Tsigel at 14/11/2017 09:04
-                        }, { address: user.address });
-                    });
-            }
-
-            /**
-             * @param {IAssetInfo} from
-             * @param {IAssetInfo} to
-             * @param {BigNumber} rate
-             * @return {AssetsService.rateApi}
-             * @private
-             */
-            _generateRateApi(from, to, rate) {
-                return {
-                    /**
-                     * @name AssetsService.rateApi#exchange
-                     * @param {BigNumber} balance
-                     * @return {BigNumber}
-                     */
-                    exchange(balance) {
-                        return balance.mul(rate.toFixed(8)).round(to.precision);
-                    },
-
-                    /**
-                     * @name AssetsService.rateApi#exchangeReverse
-                     * @param {BigNumber} balance
-                     * @return {BigNumber}
-                     */
-                    exchangeReverse(balance) {
-                        return (rate ? balance.div(rate) : new BigNumber(0)).round(from.precision);
-                    },
-
-                    /**
-                     * @name AssetsService.rateApi#rate
-                     */
-                    rate
-                };
-            }
 
         }
 
-        return utils.bind(new AssetsService());
+        return utils.bind(new Waves());
     };
 
-    factory.$inject = ['apiWorker', 'decorators', 'user', 'utils', 'eventManager'];
+    factory.$inject = ['decorators', 'user', 'utils', 'eventManager'];
 
     angular.module('app')
         .factory('assetsService', factory);
 })();
-
-/**
- * @name AssetsService.rateApi
- */
 
 /**
  * @typedef {Object} IBalance

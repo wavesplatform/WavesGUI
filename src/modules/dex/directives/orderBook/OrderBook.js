@@ -3,11 +3,12 @@
 
     /**
      *
-     * @param {AssetsService} assetsService
      * @param {Base} Base
+     * @param {function} createPoll
+     * @param {JQuery} $element
      * @return {OrderBook}
      */
-    const controller = function (assetsService, Base, createPoll, apiWorker, $element) {
+    const controller = function (Base, createPoll, $element) {
 
         class OrderBook extends Base {
 
@@ -39,7 +40,7 @@
             }
 
             _getOrders() {
-                return apiWorker.process((Waves, { assetId1, assetId2 }) => {
+                return apiWorker.process((Waves, { assetId1, assetId2 }) => { // TODO! Do. Author Tsigel at 22/11/2017 08:35
                     return Waves.AssetPair.get(assetId1, assetId2)
                         .then((pair) => {
 
@@ -151,7 +152,7 @@
         return new OrderBook();
     };
 
-    controller.$inject = ['assetsService', 'Base', 'createPoll', 'apiWorker', '$element'];
+    controller.$inject = ['Base', 'createPoll', '$element'];
 
     angular.module('app.dex')
         .component('wDexOrderBook', {

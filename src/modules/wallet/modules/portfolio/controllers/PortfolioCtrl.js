@@ -4,16 +4,15 @@
     /**
      * @param {Base} Base
      * @param $scope
-     * @param {AssetsService} assetsService
+     * @param {Waves} waves
      * @param {app.utils} utils
      * @param {ModalManager} modalManager
      * @param {User} user
      * @param {EventManager} eventManager
      * @param {Function} createPoll
-     * @param {Function} createPromise
      * @return {PortfolioCtrl}
      */
-    const controller = function (Base, $scope, assetsService, utils, modalManager, user, eventManager, createPoll, createPromise) {
+    const controller = function (Base, $scope, waves, utils, modalManager, user, eventManager, createPoll) {
 
         class PortfolioCtrl extends Base {
 
@@ -45,7 +44,7 @@
                 this.syncSettings({ assetList: 'pinnedAssetIds' });
 
                 this.mirrorId = user.getSetting('baseAssetId');
-                assetsService.getAssetInfo(this.mirrorId)
+                waves.node.assets.info(this.mirrorId)
                     .then((mirror) => {
                         this.mirror = mirror;
                     });
@@ -62,7 +61,7 @@
              * @param [asset]
              */
             showReceive(asset) {
-                return assetsService.resolveAsset(asset).then((asset) => {
+                return waves.resolveAsset(asset).then((asset) => {
                     return modalManager.showReceiveAsset(user, asset);
                 });
             }
@@ -101,16 +100,25 @@
              * @private
              */
             _getPortfolio() {
-                return assetsService.getBalanceList()
+                return waves.node.assets.userBalances()
                     .then(this._checkAssets())
                     .then((assets) => assets.map(this._loadAssetData, this))
                     .then((promises) => utils.whenAll(promises));
             }
 
+            /**
+             * @param {*} asset
+             * @return {*}
+             * @private
+             */
             _getChange(asset) {
-                return assetsService.getChange(asset.id, this.mirrorId);
+                return waves.utils.getChange(asset.id, this.mirrorId);
             }
 
+            /**
+             * @param {*} asset
+             * @private
+             */
             _loadAssetData(asset) {
                 return this._getChange(asset)
                     .then((change) => {
@@ -120,14 +128,23 @@
                     });
             }
 
+            /**
+             * @return {function(*=)}
+             * @private
+             */
             _checkAssets() {
                 return (assets) => {
                     return PortfolioCtrl._isEmptyBalance(assets) ?
-                        assetsService.getBalanceList(this.assetList) :
+                        waves.node.assets.balanceList(this.assetList) :
                         assets;
                 };
             }
 
+            /**
+             * @param {Array} list
+             * @return {boolean}
+             * @private
+             */
             static _isEmptyBalance(list) {
                 return list.length === 0;
             }
@@ -140,13 +157,12 @@
     controller.$inject = [
         'Base',
         '$scope',
-        'assetsService',
+        'waves',
         'utils',
         'modalManager',
         'user',
         'eventManager',
-        'createPoll',
-        'createPromise'
+        'createPoll'
     ];
 
     angular.module('app.wallet.portfolio')

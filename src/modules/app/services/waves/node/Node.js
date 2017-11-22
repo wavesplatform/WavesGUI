@@ -1,7 +1,14 @@
 (function () {
     'use strict';
 
-    const factory = function (aliases, transactions, assets) {
+    /**
+     * @param aliases
+     * @param transactions
+     * @param assets
+     * @param {app.utils} utils
+     * @return {Node}
+     */
+    const factory = function (aliases, transactions, assets, utils) {
 
         class Node {
 
@@ -20,6 +27,10 @@
                 this.transactions = transactions;
             }
 
+            height() {
+                return Waves.API.Node.v1.blocks.height().then((res) => res.height);
+            }
+
             lease() {
 
             }
@@ -32,7 +43,7 @@
         return new Node();
     };
 
-    factory.$inject = ['aliases', 'transactions', 'assets'];
+    factory.$inject = ['aliases', 'transactions', 'assets', 'utils'];
 
     angular.module('app').factory('node', factory);
 })();

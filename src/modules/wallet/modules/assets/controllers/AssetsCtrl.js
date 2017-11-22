@@ -2,7 +2,7 @@
     'use strict';
 
     /**
-     * @param {AssetsService} assetsService
+     * @param {Waves} waves
      * @param {AssetsData} assetsData
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
@@ -12,7 +12,7 @@
      * @param {Function} createPoll
      * @return {Assets}
      */
-    const controller = function (assetsService, assetsData, $scope, utils, Base, user, modalManager, createPoll) {
+    const controller = function (waves, assetsData, $scope, utils, Base, user, modalManager, createPoll) {
 
         class Assets extends Base {
 
@@ -123,7 +123,7 @@
              * @param {IAssetInfo} [asset]
              */
             showReceive(asset) {
-                return assetsService.resolveAsset(asset).then((a) => {
+                return waves.resolveAsset(asset).then((a) => {// TODO! ??. Author Tsigel at 22/11/2017 08:14
                     return modalManager.showReceiveAsset(user, a);
                 });
             }
@@ -133,14 +133,14 @@
              * @private
              */
             _onChangeChartAssetId({ value }) {
-                assetsService.getBalance(value)
+                waves.node.assets.balance(value)
                     .then((asset) => {
                         this.chartAsset = asset;
                     });
             }
 
             _getChartBalances() {
-                return assetsService.getBalanceList(this.chartAssetIds);
+                return waves.node.assets.balanceList(this.chartAssetIds);
             }
 
             /**
@@ -148,7 +148,7 @@
              * @private
              */
             _getBalances() {
-                return assetsService.getBalanceList(this.assetList)
+                return waves.node.assets.balanceList(this.assetList)
                     .then((assets) => {
                         return assets;
                     });
@@ -169,7 +169,7 @@
                 const from = this.activeChartAssetId;
                 const to = this.mirrorId;
 
-                return assetsService.getRateHistory(from, to, this.interval, this.intervalCount)
+                return waves.utils.getRateHistory(from, to, this.interval, this.intervalCount*/)
                     .then((values) => {
                         this.change = (values[0].rate - values[values.length - 1].rate).toFixed(2);
                         this.changePercent = (values[values.length - 1].rate / values[0].rate).toFixed(2);
@@ -213,7 +213,7 @@
     };
 
     controller.$inject = [
-        'assetsService',
+        'waves',
         'assetsData',
         '$scope',
         'utils',

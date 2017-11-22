@@ -1,9 +1,16 @@
 (function () {
     'use strict';
 
-    const factory = function () {
+    /**
+     * @param {BaseNodeComponent} BaseNodeComponent
+     * @param {User} user
+     * @param {app.utils} utils
+     * @param {EventManager} eventManager
+     * @return {Aliases}
+     */
+    const factory = function (BaseNodeComponent, user, utils, eventManager) {
 
-        class Aliases {
+        class Aliases extends BaseNodeComponent {
 
             /**
              * Get address by alias
@@ -19,14 +26,31 @@
              * @return {Promise<string>}
              */
             getAliasList() {
+                return Waves.API.Node.v1.aliases.byAddress(user.address)
+                    .then((list) => list.map((item) => item.replace(`alias:${WavesApp.network.code}:`, '')))
+                    .then((list) => list.sort(utils.comparators.asc));
+            }
 
+            fee() {
+                return this._feeList('createAlias');
             }
 
             /**
              * Create alias (transaction)
+             * @param {string} alias
+             * @param {string} keyPair
+             * @param {Money} [fee]
+             * @return Promise<{id: string}> // TODO! Add transaction interface. Author Tsigel at 22/11/2017 09:02
              */
-            createAlias() {
-
+            createAlias({ alias, fee, keyPair }) {
+                return this.getFee('createAlias', fee).then((fee) => {
+                    return Waves.API.Node.v1.aliases.createAlias({
+                        fee: fee.toCoins(),
+                        feeAssetId: fee.asset.id,
+                        alias
+                    }, keyPair)
+                        .then(this._pipeTransaction([fee]));
+                });
             }
 
         }
@@ -34,7 +58,7 @@
         return new Aliases();
     };
 
-    factory.$inject = [];
+    factory.$inject = ['BaseNodeComponent', 'user', 'utils', 'eventManager'];
 
     angular.module('app').factory('aliases', factory);
 })();

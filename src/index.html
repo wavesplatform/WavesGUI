@@ -196,6 +196,7 @@
             name: '{{pack.name}}',
             version: '{{pack.version}}',
             type: '{{build.type}}',
+            addressLength: 35,
             network: {
                 server: '{{network.server}}',
                 code: '{{network.code}}',
@@ -226,11 +227,6 @@
             stateTree: null
         };
 
-        var Waves = WavesAPI.create({
-            networkByte: WavesApp.network.code.charCodeAt(0),
-            nodeAddress: WavesApp.network.server,
-            matcherAddress: WavesApp.network.matcher
-        });
     </script>
 
     <!-- CSS -->
@@ -253,6 +249,13 @@
 <!-- JAVASCRIPT -->
 
 <script>
+
+    var Waves = WavesAPI.create({
+        networkByte: WavesApp.network.code.charCodeAt(0),
+        nodeAddress: WavesApp.network.server,
+        matcherAddress: WavesApp.network.matcher
+    });
+
     WavesApp.stateTree = new tsUtils.Tree({
         id: 'root',
         children: [
@@ -317,6 +320,7 @@
      * @property {string} name
      * @property {string} version
      * @property {string} type
+     * @property {number} addressLength
      * @property {object} network
      * @property {string} network.server
      * @property {string} network.code

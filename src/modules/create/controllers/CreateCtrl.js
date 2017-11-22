@@ -4,14 +4,13 @@
     /**
      * @param $q
      * @param $mdDialog
-     * @param {app.utils.apiWorker} apiWorker
      * @param $timeout
      * @param {User} user
      * @param {ModalManager} modalManager
      * @param {ISeedService} seedService
      * @return {CreateCtrl}
      */
-    const controller = function ($q, $mdDialog, apiWorker, $timeout, user, modalManager, seedService) {
+    const controller = function ($q, $mdDialog, $timeout, user, modalManager, seedService) {
 
         const PATH = 'modules/create/templates';
         const ORDER_LIST = [
@@ -72,25 +71,17 @@
                 }
 
                 if (!ORDER_LIST[index]) {
-                    const workerData = { seed: this.seed, password: this.password };
-                    const workerHandler = (Waves, data) => {
-                        const seedData = Waves.Seed.fromExistingPhrase(data.seed);
-                        return {
-                            encryptedSeed: seedData.encrypt(data.password),
-                            publicKey: seedData.keyPair.publicKey
-                        };
-                    };
+                    const seedData = Waves.Seed.fromExistingPhrase(this.seed);
+                    const encryptedSeed = seedData.encrypt(this.password);
+                    const publicKey = seedData.keyPair.publicKey;
 
-                    apiWorker.process(workerHandler, workerData)
-                        .then(({ encryptedSeed, publicKey }) => {
-                            return user.addUserData({
-                                address: this.address,
-                                password: this.password,
-                                settings: { termsAccepted: false },
-                                encryptedSeed,
-                                publicKey
-                            });
-                        });
+                    return user._addUserData({
+                        address: this.address,
+                        password: this.password,
+                        settings: { termsAccepted: false },
+                        encryptedSeed,
+                        publicKey
+                    });
                 } else {
                     this.checkNext().then(() => {
                         this.stepIndex = index;
@@ -136,7 +127,7 @@
 
     };
 
-    controller.$inject = ['$q', '$mdDialog', 'apiWorker', '$timeout', 'user', 'modalManager', 'seedService'];
+    controller.$inject = ['$q', '$mdDialog', '$timeout', 'user', 'modalManager', 'seedService'];
 
     angular.module('app.create').controller('CreateCtrl', controller);
 })();

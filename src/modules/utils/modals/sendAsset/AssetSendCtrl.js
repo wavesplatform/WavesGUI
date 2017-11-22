@@ -4,17 +4,17 @@
     /**
      * @param $scope
      * @param $mdDialog
-     * @param {AssetsService} assetsService
+     * @param {Waves} waves
      * @param {Base} Base
      * @param {app.utils} utils
-     * @param {app.utils.apiWorker} apiWorker
      * @param {User} user
      * @param {EventManager} eventManager
+     * @param {function} createPoll
      * @param {@constructor PollComponent} PollComponent
      * @param {ModalManager} modalManager
      * @return {AssetSendCtrl}
      */
-    const controller = function ($scope, $mdDialog, assetsService, Base, utils, apiWorker, user, eventManager, createPoll, modalManager) {
+    const controller = function ($scope, $mdDialog, waves, Base, utils, user, eventManager, createPoll, modalManager) {
 
         class AssetSendCtrl extends Base {
 
@@ -59,10 +59,6 @@
                  */
                 this.recipient = '';
                 /**
-                 * @type {Money}
-                 */
-                this.feeData = null;
-                /**
                  * @type {IAssetWithBalance}
                  */
                 this.asset = null;
@@ -97,49 +93,19 @@
             }
 
             send() {
-                user.getSeed()
-                    .then((data) => {
-                        return apiWorker.process((WavesApi, data) => {
-                            return WavesApi.API.Node.v1.assets.transfer({
-                                assetId: data.assetId,
-                                recipient: data.recipient,
-                                amount: data.amount,
-                                attachment: data.attachment
-                            }, data.keyPair);
-                        }, {
-                            assetId: this.assetId,
-                            recipient: this.recipient,
-                            keyPair: data.keyPair,
-                            attachment: this.attachment,
-                            amount: new BigNumber(this.amount.toFixed(this.asset.precision))
-                                .mul(Math.pow(10, this.asset.precision))
-                                .toFixed(0)
-                        });
-                    })
-                    .then((data) => {
-                        this._transactionId = data.id;
-                        eventManager.addEvent({
-                            id: data.id,
-                            components: [
-                                { name: 'transfer' },
-                                {
-                                    name: 'balance',
-                                    data: {
-                                        amount: this.amount,
-                                        assetId: this.assetId,
-                                        precision: this.asset.precision
-                                    }
-                                },
-                                {
-                                    name: 'balance',
-                                    data: {
-                                        amount: this.feeData.getTokens(),
-                                        assetId: this.feeData.asset.id,
-                                        precision: this.feeData.asset.precision
-                                    }
-                                }
-                            ]
-                        });
+                return utils.whenAll([
+                    user.getSeed(),
+                    Waves.Money.fromTokens(this.amount, this.asset.id)
+                ])
+                    .then(([seed, amount]) => waves.node.assets.transfer({
+                        fee: this.fee,
+                        keyPair: seed.keyPair,
+                        attachment: this.attachment,
+                        recipient: this.recipient,
+                        amount
+                    }))
+                    .then((transaction) => {
+                        this._transactionId = transaction.id;
                         this.step++;
                     });
             }
@@ -152,11 +118,11 @@
             }
 
             fillMax() {
-                if (this.assetId === this.feeData.asset.id) {
+                if (this.assetId === this.fee.asset.id) {
                     if (this.asset.balance.getTokens()
                             .gt(this.fee.getTokens())) {
                         this.amount = this.asset.balance.getTokens()
-                            .sub(this.feeData.getTokens());
+                            .sub(this.fee.getTokens());
                     }
                 } else {
                     this.amount = this.asset.balance.getTokens();
@@ -172,8 +138,8 @@
             }
 
             _getBalanceList() {
-                return assetsService.getBalanceList().then((list) => {
-                    return list && list.length ? list : assetsService.getBalanceList([WavesApp.defaultAssets.WAVES]);
+                return waves.node.assets.userBalances().then((list) => {
+                    return list && list.length ? list : waves.node.assets.balanceList([WavesApp.defaultAssets.WAVES]);
                 });
             }
 
@@ -182,20 +148,19 @@
                     return null;
                 }
                 this.ready = utils.whenAll([
-                    this.canChooseAsset ? this._getBalanceList() : assetsService.getBalance(this.assetId),
-                    assetsService.getAssetInfo(this.mirrorId),
-                    assetsService.getFeeSend(),
-                    assetsService.getRate(this.assetId, this.mirrorId)
+                    this.canChooseAsset ? this._getBalanceList() : waves.node.assets.balance(this.assetId),
+                    waves.node.assets.info(this.mirrorId),
+                    waves.node.assets.fee('transfer'), // TODO! Fee. Author Tsigel at 22/11/2017 08:13
+                    waves.utils.getRateApi(this.assetId, this.mirrorId)
                 ])
-                    .then(([asset, mirror, feeData, api]) => {
+                    .then(([asset, mirror, [fee], api]) => {
                         this.noMirror = asset.id === mirror.id || api.rate.eq(0);
                         this.amount = new BigNumber(0);
                         this.amountMirror = new BigNumber(0);
                         this.mirror = mirror;
-                        this.feeData = feeData;
                         this._setAssets(asset);
                         this.asset = tsUtils.find(this.assetList, { id: this.assetId });
-                        this.fee = feeData;
+                        this.fee = fee;
                     });
             }
 
@@ -204,7 +169,7 @@
              * @private
              */
             _getAsset() {
-                return assetsService.getBalance(this.assetId);
+                return waves.node.assets.balance(this.assetId);
             }
 
             /**
@@ -244,21 +209,13 @@
                     });
             }
 
-            _isValid() {
-                if (!this.amount) {
-                    return false;
-                }
-                return this.amount.lt(this.asset.id === this.feeData.asset.id ?
-                    this.asset.balance.getTokens().add(this.feeData.getTokens()) : this.asset.balance.getTokens());
-            }
-
             /**
              * @param {string} [fromRateId]
-             * @return {Promise.<AssetsService.rateApi>}
+             * @return {Promise.<Waves.rateApi>}
              * @private
              */
             _getRate(fromRateId) {
-                return assetsService.getRate(fromRateId || this.assetId, this.mirrorId);
+                return waves.utils.getRateApi(fromRateId || this.assetId, this.mirrorId);
             }
 
         }
@@ -269,10 +226,9 @@
     controller.$inject = [
         '$scope',
         '$mdDialog',
-        'assetsService',
+        'waves',
         'Base',
         'utils',
-        'apiWorker',
         'user',
         'eventManager',
         'createPoll',

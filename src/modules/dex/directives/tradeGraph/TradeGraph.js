@@ -4,11 +4,11 @@
     /**
      * @param Base
      * @param utils
-     * @param {AssetsService} assetsService
+     * @param {Waves} waves
      * @param {app.utils.apiWorker} apiWorker
      * @return {TradeGraph}
      */
-    const controller = function (Base, utils, assetsService, apiWorker) {
+    const controller = function (Base, utils, waves, apiWorker) {
 
         class TradeGraph extends Base {
 
@@ -97,15 +97,15 @@
             }
 
             _onChangeAssets() {
-                assetsService.getAssetInfo(this._priceAssetId)
+                waves.node.assets.info(this._priceAssetId)
                     .then((asset) => {
                         this._priceAsset = asset;
                     });
-                assetsService.getAssetInfo(this._amountAssetId)
+                waves.node.assets.info(this._amountAssetId)
                     .then((asset) => {
                         this._amountAsset = asset;
                     });
-                return apiWorker.process((Waves, { assetId1, assetId2 }) => {
+                return apiWorker.process((Waves, { assetId1, assetId2 }) => { // TODO! Do. Author Tsigel at 22/11/2017 08:35
                     return Waves.AssetPair.get(assetId1, assetId2)
                         .then((pair) => {
                             return Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
@@ -170,7 +170,7 @@
         return new TradeGraph();
     };
 
-    controller.$inject = ['Base', 'utils', 'assetsService', 'apiWorker'];
+    controller.$inject = ['Base', 'utils', 'waves'];
 
     angular.module('app.dex')
         .component('wDexTradeGraph', {

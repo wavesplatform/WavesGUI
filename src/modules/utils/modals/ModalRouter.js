@@ -4,12 +4,12 @@
     /**
      * @param {User} user
      * @param {ModalManager} modalManager
-     * @param {AssetsService} assetsService
+     * @param {Waves} waves
      * @param {Router} router
      * @param $rootScope
      * @return {ModalRouter}
      */
-    const factory = function (user, modalManager, assetsService, router, $rootScope) {
+    const factory = function (user, modalManager, waves, router, $rootScope) {
 
         class ModalRouter {
 
@@ -42,12 +42,12 @@
                 return {
                     '/send': () => modalManager.showSendAsset({ canChooseAsset: true, user }),
                     '/send/:assetId': ({ assetId }) => {
-                        return assetsService.getAssetInfo(assetId).then(() => {
+                        return waves.node.assets.info(assetId).then(() => {
                             return modalManager.showSendAsset({ canChooseAsset: false, assetId, user });
                         });
                     },
                     '/asset/:assetId': ({ assetId }) => {
-                        return assetsService.getAssetInfo(assetId).then((asset) => {
+                        return waves.node.assets.info(assetId).then((asset) => {
                             return modalManager.showAssetInfo(asset);
                         });
                     },
@@ -83,7 +83,7 @@
         return new ModalRouter();
     };
 
-    factory.$inject = ['user', 'modalManager', 'assetsService', 'router', '$rootScope'];
+    factory.$inject = ['user', 'modalManager', 'waves', 'router', '$rootScope'];
 
     angular.module('app.ui').factory('modalRouter', factory);
 })();

@@ -3,6 +3,8 @@
 
     const factory = function (decorators, apiWorker) {
 
+        // TODO! Remove file. Author Tsigel at 22/11/2017 08:24
+
         class DataFeed {
 
             /**

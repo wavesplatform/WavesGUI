@@ -6,24 +6,19 @@
     /**
      * @param Base
      * @param $filter
-     * @param {TransactionsService} transactionsService
      * @param {ModalManager} modalManager
      * @param {NotificationManager} notificationManager
-     * @param {AssetsService} assetsService
+     * @param {Waves} waves
      * @param {CopyService} copyService
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
      * @param {DexService} dexService
      * @return {Transaction}
      */
-    const controller = function (Base, $filter, transactionsService, modalManager, notificationManager,
-                                 assetsService, copyService, user, baseAssetService, dexService) {
+    const controller = function (Base, $filter, modalManager, notificationManager,
+                                 waves, copyService, user, baseAssetService, dexService) {
 
         class Transaction extends Base {
-
-            constructor() {
-                super();
-            }
 
             $postLink() {
                 this.templateUrl = `${PATH}/${this.transaction.templateType}.html`;
@@ -38,7 +33,7 @@
                         });
                 }
 
-                const TYPES = transactionsService.TYPES;
+                const TYPES = waves.node.transactions.TYPES;
                 if (this.type === TYPES.EXCHANGE_BUY || this.type === TYPES.EXCHANGE_SELL) {
                     this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
                 }
@@ -114,13 +109,13 @@
     };
 
     controller.$inject = [
-        'Base', '$filter', 'transactionsService', 'modalManager', 'notificationManager',
-        'assetsService', 'copyService', 'user', 'baseAssetService', 'dexService'
+        'Base', '$filter', 'modalManager', 'notificationManager',
+        'waves', 'copyService', 'user', 'baseAssetService', 'dexService'
     ];
 
     angular.module('app.ui').component('wTransaction', {
         bindings: {
-            transaction: '<'
+            transaction: '<' // TODO Refactor for listen change transaction. Author Tsigel at 22/11/2017 12:09
         },
         require: {
             parent: '^wTransactionList'

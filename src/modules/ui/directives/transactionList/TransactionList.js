@@ -13,13 +13,12 @@
      * @param Base
      * @param {User} user
      * @param i18n
-     * @param {AssetsService} assetsService
-     * @param {TransactionsService} transactionsService
+     * @param {Waves} waves
      * @param {Function} createPoll
      * @param {app.utils} utils
      * @return {TransactionList}
      */
-    const controller = function (Base, user, i18n, assetsService, transactionsService, createPoll, utils) {
+    const controller = function (Base, user, i18n, waves, createPoll, utils) {
 
         class TransactionList extends Base {
 
@@ -60,7 +59,7 @@
 
                 this.mirrorId = user.getSetting('baseAssetId');
 
-                assetsService.getAssetInfo(this.mirrorId)
+                waves.node.assets.info(this.mirrorId)
                     .then((mirror) => {
                         this.mirror = mirror;
 
@@ -74,7 +73,7 @@
              * @private
              */
             _getTransactions() {
-                return transactionsService.getList()
+                return waves.node.transactions.list()
                     .then((list) => {
                         this.hadResponse = true;
                         return list;
@@ -178,8 +177,7 @@
         'Base',
         'user',
         'i18n',
-        'assetsService',
-        'transactionsService',
+        'waves',
         'createPoll',
         'utils'
     ];
@@ -187,7 +185,7 @@
     angular.module('app.ui')
         .component('wTransactionList', {
             bindings: {
-                assetIdList: '<',
+                assetIdList: '<', // TODO Refactor for watch changes. Author Tsigel at 22/11/2017 12:11
                 transactionType: '<',
                 search: '<'
             },

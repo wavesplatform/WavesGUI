@@ -5,11 +5,11 @@
      * @param Base
      * @param createPoll
      * @param {User} user
-     * @param {AssetsService} assetsService
+     * @param {Waves} waves
      * @param {app.utils} utils
      * @return {Exchange}
      */
-    const controller = function (Base, createPoll, user, assetsService, utils) {
+    const controller = function (Base, createPoll, user, waves, utils) {
 
         class Exchange extends Base {
 
@@ -46,7 +46,7 @@
             $postLink() {
                 this.interval = Number(this.interval) || 5000;
 
-                assetsService.getAssetInfo(this.targetAssetId || user.getSetting('baseAssetId'))
+                waves.node.assets.info(this.targetAssetId || user.getSetting('baseAssetId'))
                     .then((mirror) => {
                         this.mirror = mirror;
 
@@ -87,7 +87,7 @@
                 if (!this.balance) {
                     return utils.when(null);
                 }
-                return assetsService.getRate(this.balance.asset.id, this.mirror.id)
+                return waves.utils.getRateApi(this.balance.asset.id, this.mirror.id)
                     .then((api) => {
                         return this.balance && api.exchange(this.balance.getTokens()) || 0;
                     });
@@ -98,7 +98,7 @@
         return new Exchange();
     };
 
-    controller.$inject = ['Base', 'createPoll', 'user', 'assetsService', 'utils'];
+    controller.$inject = ['Base', 'createPoll', 'user', 'waves', 'utils'];
 
     angular.module('app.ui').component('wExchange', {
         bindings: {

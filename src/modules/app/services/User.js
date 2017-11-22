@@ -10,14 +10,13 @@
      * @param {$q} $q
      * @param {*} $state
      * @param {app.defaultSettings} defaultSettings
-     * @param {app.utils.apiWorker} apiWorker
      * @param {State} state
      * @param {UserRouteState} UserRouteState
      * @param {ModalManager} modalManager
      * @param {TimeLine} timeLine
      * @return {User}
      */
-    const factory = function (storage, $q, $state, defaultSettings, apiWorker, state, UserRouteState, modalManager, timeLine) {
+    const factory = function (storage, $q, $state, defaultSettings, state, UserRouteState, modalManager, timeLine) {
 
         class User {
 
@@ -114,18 +113,16 @@
             }
 
             /**
+             * @param {object} data
+             * @param {string} data.address
+             * @param {string} data.encryptedSeed
+             * @param {string} data.publicKey
+             * @param {string} data.password
              * @return {Promise}
+             *
              */
-            login() {
-                const states = WavesApp.stateTree.where({ noLogin: true })
-                    .map((item) => {
-                        return WavesApp.stateTree.getPath(item.id)
-                            .join('.');
-                    });
-                if (states.indexOf($state.$current.name) === -1) {
-                    $state.go(states[0]);
-                }
-                return this._dfr.promise;
+            login(data) {
+                return this._addUserData(data);
             }
 
             logout() {
@@ -149,23 +146,18 @@
             }
 
             getSeed() {
-                return this.onLogin()
+                return this.onLogin() // TODO! Refactor. Author Tsigel at 22/11/2017 09:35
                     .then(() => {
                         if (!this._password) {
                             return modalManager.getSeed();
                         } else {
-                            const data = {
-                                encryptionRounds: this._settings.get('encryptionRounds'),
-                                encryptedSeed: this.encryptedSeed,
-                                password: this._password
-                            };
-                            return apiWorker.process((WavesApi, data) => {
-                                const phrase = WavesApi
-                                    .Seed
-                                    .decryptSeedPhrase(data.encryptedSeed, data.password, data.encryptionRounds);
 
-                                return WavesApi.Seed.fromExistingPhrase(phrase);
-                            }, data);
+                            const encryptionRounds = this._settings.get('encryptionRounds');
+                            const encryptedSeed = this.encryptedSeed;
+                            const password = this._password;
+
+                            const phrase = Waves.Seed.decryptSeedPhrase(encryptedSeed, password, encryptionRounds);
+                            return Waves.Seed.fromExistingPhrase(phrase);
                         }
                     });
             }
@@ -179,8 +171,9 @@
              * @param {Object} [data.settings]
              * @param {boolean} [data.settings.termsAccepted]
              * @return Promise
+             * @private
              */
-            addUserData(data) {
+            _addUserData(data) {
                 this._loadUserByAddress(data.address)
                     .then((item) => {
                         this._fieldsForSave.forEach((propertyName) => {
@@ -294,7 +287,7 @@
              */
             _check() {
                 if (!this.address || !this.encryptedSeed) {
-                    // TODO Need addUserData!
+                    // TODO Need _addUserData!
                     throw new Error('No address!');
                 }
             }
@@ -353,7 +346,6 @@
         '$q',
         '$state',
         'defaultSettings',
-        'apiWorker',
         'state',
         'UserRouteState',
         'modalManager',

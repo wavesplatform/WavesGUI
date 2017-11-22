@@ -4,10 +4,10 @@
     /**
      * @param {typeof Number} Number
      * @param {app.utils} utils
-     * @param {AssetsService} assetsService
+     * @param {Waves} waves
      * @return {Asset}
      */
-    const factory = function (Number, utils, assetsService) {
+    const factory = function (Number, utils, waves) {
 
         class Asset extends Number {
 
@@ -64,7 +64,7 @@
 
             onReady() {
                 return super.onReady()
-                    .then(() => assetsService.getAssetInfo(this.assetId));
+                    .then(() => waves.node.assets.info(this.assetId));
             }
 
         }
@@ -72,7 +72,7 @@
         return Asset;
     };
 
-    factory.$inject = ['Number', 'utils', 'assetsService'];
+    factory.$inject = ['Number', 'utils', 'waves'];
 
     angular.module('app.utils')
         .factory('Asset', factory);

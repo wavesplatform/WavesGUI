@@ -43,10 +43,10 @@
     /**
      * @param {JQuery} $element
      * @param {app.utils} utils
-     * @param {AssetsService} assetsService
+     * @param {Waves} waves
      * @return {AssetLogo}
      */
-    const controller = function ($element, utils, assetsService) {
+    const controller = function ($element, utils, waves) {
 
         class AssetLogo {
 
@@ -77,7 +77,7 @@
              * @private
              */
             _addLogo() {
-                assetsService.getAssetInfo(this.assetId)
+                waves.node.assets.info(this.assetId)
                     .then((asset) => {
                         if (ASSET_IMAGES_MAP[asset.id]) {
                             utils.loadImage(ASSET_IMAGES_MAP[asset.id])
@@ -114,7 +114,7 @@
         return new AssetLogo();
     };
 
-    controller.$inject = ['$element', 'utils', 'assetsService'];
+    controller.$inject = ['$element', 'utils', 'waves'];
 
     angular.module('app.ui')
         .component('wAssetLogo', {

@@ -8,24 +8,23 @@
      * @param Base
      * @param $scope
      * @param $filter
-     * @param {TransactionsService} transactionsService
-     * @param blocksService
      * @param {ExplorerLinks} explorerLinks
      * @param {BaseAssetService} baseAssetService
      * @param {DexService} dexService
+     * @param {Waves} waves
      * @return {TransactionInfoCtrl}
      */
-    const controller = function (Base, $scope, $filter, transactionsService, blocksService, explorerLinks,
-                                 baseAssetService, dexService) {
+    const controller = function (Base, $scope, $filter, explorerLinks,
+                                 baseAssetService, dexService, waves) {
 
         class TransactionInfoCtrl extends Base {
 
             constructor({ transactionId }) {
                 super($scope);
-                transactionsService.get(transactionId)
+                waves.node.transactions.getAlways(transactionId)
                     .then((transaction) => {
-                        if (typeof transaction.height === 'number' && transaction.height >= 0) {
-                            return blocksService.getHeight().then((height) => ({
+                        if (!transaction.isUTX) {
+                            return waves.node.height().then((height) => ({
                                 confirmations: height - transaction.height,
                                 transaction
                             }));
@@ -69,8 +68,8 @@
     };
 
     controller.$inject = [
-        'Base', '$scope', '$filter', 'transactionsService', 'blocksService',
-        'explorerLinks', 'baseAssetService', 'dexService'
+        'Base', '$scope', '$filter',
+        'explorerLinks', 'baseAssetService', 'dexService', 'waves'
     ];
 
     angular.module('app.utils').controller('TransactionInfoCtrl', controller);
