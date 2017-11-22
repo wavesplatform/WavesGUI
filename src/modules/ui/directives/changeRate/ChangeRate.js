@@ -5,11 +5,10 @@
      * @param Base
      * @param {AssetsService} assetsService
      * @param {User} user
-     * @param createPromise
      * @param createPoll
      * @return {ChangeRate}
      */
-    const controller = function (Base, assetsService, user, createPromise, createPoll) {
+    const controller = function (Base, assetsService, user, createPoll) {
 
         class ChangeRate extends Base {
 
@@ -42,8 +41,7 @@
             $postLink() {
                 this.interval = Number(this.interval) || 5000;
 
-                createPromise(this, user.getSetting('baseAssetId'))
-                    .then(assetsService.getAssetInfo)
+                assetsService.getAssetInfo(user.getSetting('baseAssetId'))
                     .then((mirror) => {
                         this.mirror = mirror;
 
@@ -77,7 +75,7 @@
         return new ChangeRate();
     };
 
-    controller.$inject = ['Base', 'assetsService', 'user', 'createPromise', 'createPoll'];
+    controller.$inject = ['Base', 'assetsService', 'user', 'createPoll'];
 
     angular.module('app.ui').component('wChangeRate', {
         bindings: {

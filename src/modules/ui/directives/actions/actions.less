@@ -11,7 +11,7 @@ w-actions {
   .actions-container {
     z-index: 1;
     min-width: 215px;
-    display: none;
+    display: block;
     position: absolute;
     right: 0;
     top: 0;
@@ -31,19 +31,25 @@ w-actions {
       display: block;
     }
   }
-
-  .dots {
+  .click-area {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-
-    .dot {
-      width: 4px;
-      height: 4px;
-      border-radius: 100%;
-      background-color: @color-basic-500;
-      margin-bottom: 2px;
+    justify-content: center;
+    width: 24px;
+    height: 16px;
+    cursor: pointer;
+ 
+    .dots {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+ 
+      .dot {
+        width: 4px;
+        height: 4px;
+        border-radius: 100%;
+        background-color: @color-basic-500;
+      }
     }
   }
 }

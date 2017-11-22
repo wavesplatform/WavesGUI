@@ -3,14 +3,13 @@
 
     /**
      * @param Base
-     * @param createPromise
      * @param createPoll
      * @param {User} user
      * @param {AssetsService} assetsService
      * @param {app.utils} utils
      * @return {Exchange}
      */
-    const controller = function (Base, createPromise, createPoll, user, assetsService, utils) {
+    const controller = function (Base, createPoll, user, assetsService, utils) {
 
         class Exchange extends Base {
 
@@ -47,8 +46,7 @@
             $postLink() {
                 this.interval = Number(this.interval) || 5000;
 
-                createPromise(this, user.getSetting('baseAssetId'))
-                    .then((baseAssetId) => assetsService.getAssetInfo(this.targetAssetId || baseAssetId))
+                assetsService.getAssetInfo(this.targetAssetId || user.getSetting('baseAssetId'))
                     .then((mirror) => {
                         this.mirror = mirror;
 
@@ -100,7 +98,7 @@
         return new Exchange();
     };
 
-    controller.$inject = ['Base', 'createPromise', 'createPoll', 'user', 'assetsService', 'utils'];
+    controller.$inject = ['Base', 'createPoll', 'user', 'assetsService', 'utils'];
 
     angular.module('app.ui').component('wExchange', {
         bindings: {

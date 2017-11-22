@@ -67,14 +67,14 @@
                             dataset: 'asks',
                             key: 'amount',
                             label: 'Asks',
-                            color: '#F27057',
+                            color: '#f27057',
                             type: ['line', 'line', 'area']
                         },
                         {
                             dataset: 'bids',
                             key: 'amount',
                             label: 'Bids',
-                            color: '#2B9F72',
+                            color: '#2b9f72',
                             type: ['line', 'line', 'area']
                         }
                     ],
@@ -93,11 +93,11 @@
                     _amountAssetId: 'dex.amountAssetId',
                     _priceAssetId: 'dex.priceAssetId'
                 });
+
                 this.observe(['_amountAssetId', '_priceAssetId'], this._onChangeAssets);
             }
 
             _onChangeAssets() {
-                console.log('Graph change assets');
                 assetsService.getAssetInfo(this._priceAssetId)
                     .then((asset) => {
                         this._priceAsset = asset;

@@ -16,11 +16,10 @@
      * @param {AssetsService} assetsService
      * @param {TransactionsService} transactionsService
      * @param {Function} createPoll
-     * @param {Function} createPromise
      * @param {app.utils} utils
      * @return {TransactionList}
      */
-    const controller = function (Base, user, i18n, assetsService, transactionsService, createPoll, createPromise, utils) {
+    const controller = function (Base, user, i18n, assetsService, transactionsService, createPoll, utils) {
 
         class TransactionList extends Base {
 
@@ -59,17 +58,14 @@
                  */
                 this.assetIdList = null;
 
-                createPromise(this, user.getSetting('baseAssetId'))
-                    .then((mirrorId) => {
-                        this.mirrorId = mirrorId;
+                this.mirrorId = user.getSetting('baseAssetId');
 
-                        assetsService.getAssetInfo(this.mirrorId)
-                            .then((mirror) => {
-                                this.mirror = mirror;
+                assetsService.getAssetInfo(this.mirrorId)
+                    .then((mirror) => {
+                        this.mirror = mirror;
 
-                                createPoll(this, this._getTransactions, '_transactions', 4000, { isBalance: true });
-                                this.observe(['_transactions', 'transactionType', 'search'], this._onChangeFilters);
-                            });
+                        createPoll(this, this._getTransactions, '_transactions', 4000, { isBalance: true });
+                        this.observe(['_transactions', 'transactionType', 'search'], this._onChangeFilters);
                     });
 
             }
@@ -139,7 +135,7 @@
             }
 
             /**
-             * @returns {*}
+             * @return {*}
              * @private
              */
             _getTypeFilter() {
@@ -185,7 +181,6 @@
         'assetsService',
         'transactionsService',
         'createPoll',
-        'createPromise',
         'utils'
     ];
 

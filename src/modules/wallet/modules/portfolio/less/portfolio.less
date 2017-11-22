@@ -1,17 +1,13 @@
 @import (reference) '../../../../config';
 
 .main.wallet.portfolio {
-  
-  w-button {
-    margin: 0 1px;
-    &:first-child {
-      margin-left: 0;
-    } 
-    button {
-      font-family: "Roboto-Medium", sans-serif;
-      padding: 11px 19px;
+
+  .toolbar {
+    w-button:not(:last-child) {
+      margin-right: 5px;
     }
   }
+
   .btn-icon::before {
     content: '';
     display: inline-block;
@@ -22,7 +18,7 @@
     height: 14px;
     margin-right: 7px;
   }
-  
+
   .btn-icon {
     text-transform: capitalize;
     font-family: "Roboto-Medium", sans-serif;
@@ -52,11 +48,15 @@
       align-items: center;
       border-bottom: 1px solid @color-accent-50;
       position: relative;
-      padding: 0 20px;
-    
+      padding: 0 274px 0 20px;
+
       font-size: 15px;
       line-height: 30px;
-      color: #4e5c6e;
+      color: @color-basic-700;
+
+      &:not(.portfolio-item-name) {
+        text-align: right;
+      }
 
       &:not(.title)::before {
         content: '';
@@ -95,23 +95,22 @@
 
       .portfolio-item-name {
         display: flex;
-        width: 15%;
+        width: 22%;
       }
-      
+
       .portfolio-item-balance {
         text-align: right;
-        width: 24%;
-        padding-right: 50px;
+        width: 29%;
       }
 
       .portfolio-item-rate {
         width: 13%;
-      } 
+      }
 
       .portfolio-item-mirror {
-        width: 10%;
+        width: 14%;
       }
-      
+
       .portfolio-item-bid {
         width: 10%;
       }
@@ -119,9 +118,9 @@
       .portfolio-item-ask {
         width: 10%;
       }
-      
+
       .portfolio-item-change {
-        width: 10%; 
+        width: 14%;
         &.success {
           color: @color-success-600;
         }
@@ -130,12 +129,18 @@
         }
       }
 
-      .portfolio-item-actions{
-        width: 25%;
+      .portfolio-item-actions {
+        width: 230px;
+        position: absolute;
+        right: 44px;
+        top: 50%;
+        margin-top: -20px;
+        white-space: nowrap;
         padding-right: 0;
         text-align: right;
-        w-button:first-child{
-          margin-right: 1px;
+
+        w-button:not(:last-child) {
+          margin-right: 5px;
         }
       }
     }

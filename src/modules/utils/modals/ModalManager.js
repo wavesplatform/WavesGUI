@@ -48,7 +48,8 @@
                     title: 'modal.assetInfo.title',
                     contentUrl: 'modules/utils/modals/assetInfo/assetInfo.html',
                     locals: asset,
-                    controller: 'AssetInfoCtrl'
+                    controller: 'AssetInfoCtrl',
+                    mod: 'asset-info-modal'
                 });
             }
 
@@ -89,31 +90,36 @@
              * @return {Promise}
              */
             showSendAsset(data) {
-                return data.user.getSetting('baseAssetId')
-                    .then((baseAssetId) => this._getModal({
-                        controller: 'AssetSendCtrl',
-                        titleContentUrl: 'modules/utils/modals/sendAsset/send-title.modal.html',
-                        contentUrl: 'modules/utils/modals/sendAsset/send.modal.html',
-                        mod: 'modal-send',
-                        locals: { assetId: data.assetId, baseAssetId, canChooseAsset: data.canChooseAsset }
-                    }));
+                return this._getModal({
+                    controller: 'AssetSendCtrl',
+                    titleContentUrl: 'modules/utils/modals/sendAsset/send-title.modal.html',
+                    contentUrl: 'modules/utils/modals/sendAsset/send.modal.html',
+                    mod: 'modal-send',
+                    locals: {
+                        assetId: data.assetId,
+                        baseAssetId: data.user.getSetting('baseAssetId'),
+                        canChooseAsset: data.canChooseAsset
+                    }
+                });
             }
 
             /**
              * @param {User} user
+             * @param asset
              * @return {Promise}
              */
-            showReceiveAsset(user) {
-                return user.onLogin()
-                    .then(() => {
-                        return this._getModal({
-                            locals: user.address,
-                            title: 'modal.receive.title',
-                            contentUrl: 'modules/utils/modals/receiveAsset/receive.modal.html',
-                            controller: 'AssetReceiveCtrl',
-                            mod: 'modal-receive'
-                        });
+            showReceiveAsset(user, asset) {
+                // TODO : check if `onLogin()` is required here
+                return user.onLogin().then(() => {
+                    return this._getModal({
+                        locals: { address: user.address, asset },
+                        title: 'modal.receive.title',
+                        titleParams: { asset },
+                        contentUrl: 'modules/utils/modals/receiveAsset/receive.modal.html',
+                        controller: 'AssetReceiveCtrl',
+                        mod: 'modal-receive'
                     });
+                });
             }
 
             showTransactionInfo(transactionId) {
@@ -364,7 +370,7 @@
  * @property {string} [template]
  * @property {string} [templateUrl]
  * @property {string} [title]
- * @property {string} [titleParams]
+ * @property {object} [titleParams]
  * @property {string} [titleContent]
  * @property {string} [titleContentUrl]
  * @property {string} [header]

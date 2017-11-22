@@ -14,7 +14,7 @@
         </w-row>
     </w-t-head>
     <w-scroll-box>
-        <w-row ng-repeat="order in $ctrl.orders track by $index" class="footnote disabled-900 {{::order.type}}">
+        <w-row ng-repeat="order in $ctrl.orders track by $index" class="footnote-1 disabled-900 {{::order.type}}">
             <w-cell>
                 <span precision="$ctrl.priceAsset.precision" w-nice-number="order.price"></span>
             </w-cell>

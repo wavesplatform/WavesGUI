@@ -8,15 +8,9 @@
         </li>
     </ul>
     <div ng-if="$ctrl.hadResponse && !$ctrl.transactions.length" class="no-transactions-container">
-        <div class="basic-700 margin-3" w-i18n="transactionList.noTransactions"></div>
-        <div>
-            <w-button class="interface margin-right-1">
-                <w-i18n>send</w-i18n>
-            </w-button>
-            <w-button class="interface">
-                <w-i18n>receive</w-i18n>
-            </w-button>
-        </div>
+        <div class="icon"></div>
+        <div class="body-1 basic-700">Nothing Here…</div>
+        <div class="footnote-1 basic-500 margin-4">You do not have any transaction.</div>
     </div>
     <w-loader ng-if="!$ctrl.hadResponse"></w-loader>
 </div>

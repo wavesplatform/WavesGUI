@@ -75,7 +75,7 @@
 })();
 
 /**
- * @typedef {Object} IAppEventData
+ * @typedef {object} IAppEventData
  * @property {string} id
  * @property {IEventComponent[]} components
  */

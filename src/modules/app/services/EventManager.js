@@ -72,7 +72,8 @@
              * @private
              */
             _initialize() {
-                this.ready = this._loadEvents()
+                this.ready = user.onLogin()
+                    .then(() => this._loadEvents())
                     .then(() => {
                         this.poll = new Poll(this._getStatuses.bind(this), this._applyStatuses.bind(this), 2000);
                         this._onChangeEventsCount();
@@ -161,9 +162,7 @@
              * @private
              */
             _loadEvents() {
-                return user.getSetting('events')
-                    .then(this._parseEventList.bind(this))
-                    .then(utils.whenAll);
+                return utils.whenAll(this._parseEventList(user.getSetting('events')));
             }
 
             /**

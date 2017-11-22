@@ -34,7 +34,7 @@
                                 return {
                                     id: info.id,
                                     name: ASSET_NAME_MAP[info.id] || info.name,
-                                    description: info.description,
+                                    description: info.id !== 'WAVES' ? info.description : '',
                                     precision: info.decimals,
                                     reissuable: info.reissuable,
                                     quantity: money,
@@ -43,7 +43,7 @@
                                     height: info.height,
                                     ticker: info.ticker || '',
                                     sign: info.sign || ''
-                                }
+                                };
                             });
                         });
                 }, { onFetch: utils.onFetch, assetId, ASSET_NAME_MAP });
@@ -61,13 +61,13 @@
             }
 
             /**
-             * @param {string[]} [assetIds]
-             * @param {Object} [options]
-             * @param {Object} [options.limit]
-             * @param {Object} [options.offset]
+             * @param {string[]} [assetIdList]
+             * @param {object} [options]
+             * @param {object} [options.limit]
+             * @param {object} [options.offset]
              * @return {Promise}
              */
-            getBalanceList(assetIds) {
+            getBalanceList(assetIdList) {
                 return utils.whenAll([
                     this._getBalanceList().then((balanceList) => {
                         return balanceList.filter((asset) => {
@@ -77,7 +77,7 @@
                     eventManager.getBalanceEvents()
                 ])
                     .then(([balanceList, events]) => {
-                        if (!assetIds) {
+                        if (!assetIdList) {
                             const promiseList = balanceList.map((item) => this.getAssetInfo(item.id));
                             return utils.whenAll(promiseList)
                                 .then((infoList) => {
@@ -91,7 +91,7 @@
                                 .then(utils.whenAll);
                         } else {
                             const balances = utils.toHash(balanceList, 'id');
-                            return utils.whenAll(assetIds.map(this.getAssetInfo))
+                            return utils.whenAll(assetIdList.map(this.getAssetInfo))
                                 .then((assetList) => {
                                     return assetList.map((asset) => {
                                         if (balances[asset.id]) {
@@ -221,52 +221,56 @@
                     marketUrl
                 };
 
-                return apiWorker.process((Waves, { onFetch, wavesId, idFrom, idTo, marketUrl }) => {
+                return utils.whenAll([
+                    apiWorker.process((Waves, { onFetch, wavesId, idFrom, idTo, marketUrl }) => {
 
-                    if (idFrom === idTo) {
-                        return 1;
-                    }
+                        if (idFrom === idTo) {
+                            return 1;
+                        }
 
-                    const currentRate = (trades) => {
-                        return trades && trades.length ? trades.reduce((result, item) => {
-                            return result.add(new WavesAPI.BigNumber(item.price));
-                        }, new WavesAPI.BigNumber(0))
-                            .div(trades.length) : new WavesAPI.BigNumber(0);
-                    };
+                        const currentRate = (trades) => {
+                            return trades && trades.length ? trades.reduce((result, item) => {
+                                return result.add(new WavesAPI.BigNumber(item.price));
+                            }, new WavesAPI.BigNumber(0))
+                                .div(trades.length) : new WavesAPI.BigNumber(0);
+                        };
 
-                    const getRate = function (from, to) {
-                        return Waves.AssetPair.get(from, to)
-                            .then((pair) => {
-                                return fetch(`${marketUrl}/${pair.toString()}/5`)
-                                    .then(onFetch)
-                                    .then(currentRate)
-                                    .then((rate) => {
-                                        if (from !== pair.priceAsset.id) {
-                                            return rate;
-                                        } else {
-                                            return rate.eq(0) ? rate : new WavesAPI.BigNumber(1).div(rate);
-                                        }
-                                    }).catch((e) => {
-                                        return new WavesAPI.BigNumber(0);
-                                    });
-                            });
-                    };
+                        const getRate = function (from, to) {
+                            return Waves.AssetPair.get(from, to)
+                                .then((pair) => {
+                                    return fetch(`${marketUrl}/${pair.toString()}/5`)
+                                        .then(onFetch)
+                                        .then(currentRate)
+                                        .then((rate) => {
+                                            if (from !== pair.priceAsset.id) {
+                                                return rate;
+                                            } else {
+                                                return rate.eq(0) ? rate : new WavesAPI.BigNumber(1).div(rate);
+                                            }
+                                        }).catch((e) => {
+                                            return new WavesAPI.BigNumber(0);
+                                        });
+                                });
+                        };
 
-                    if (idFrom !== wavesId && idTo !== wavesId) {
-                        return Promise.all([
-                            getRate(idFrom, wavesId),
-                            getRate(idTo, wavesId)
-                        ])
-                            .then((rateList) => {
-                                return rateList[1].eq(0) ? rateList[1] : rateList[0].div(rateList[1]);
-                            });
-                    } else {
-                        return getRate(idFrom, idTo);
-                    }
+                        if (idFrom !== wavesId && idTo !== wavesId) {
+                            return Promise.all([
+                                getRate(idFrom, wavesId),
+                                getRate(idTo, wavesId)
+                            ])
+                                .then((rateList) => {
+                                    return rateList[1].eq(0) ? rateList[1] : rateList[0].div(rateList[1]);
+                                });
+                        } else {
+                            return getRate(idFrom, idTo);
+                        }
 
-                }, params)
-                    .then((rate) => {
-                        return this._generateRateApi(rate);
+                    }, params),
+                    this.getAssetInfo(idFrom),
+                    this.getAssetInfo(idTo)
+                ])
+                    .then(([rate, from, to]) => {
+                        return this._generateRateApi(from, to, rate);
                     });
             }
 
@@ -354,6 +358,19 @@
             }
 
             /**
+             * Resolves a promise given asset or Waves
+             * @param asset
+             * @return {Promise|IAssetInfo}
+             */
+            resolveAsset(asset) {
+                if (asset) {
+                    return Promise.resolve(asset);
+                } else {
+                    return this.getAssetInfo(WavesApp.defaultAssets.WAVES);
+                }
+            }
+
+            /**
              * @param {string} assetId
              * @param {Money} money
              * @param {Array<ChangeBalanceEvent>} events
@@ -380,11 +397,13 @@
             }
 
             /**
-             * @param {number} rate
+             * @param {IAssetInfo} from
+             * @param {IAssetInfo} to
+             * @param {BigNumber} rate
              * @return {AssetsService.rateApi}
              * @private
              */
-            _generateRateApi(rate) {
+            _generateRateApi(from, to, rate) {
                 return {
                     /**
                      * @name AssetsService.rateApi#exchange
@@ -392,7 +411,7 @@
                      * @return {BigNumber}
                      */
                     exchange(balance) {
-                        return balance.mul(rate.toFixed(8));
+                        return balance.mul(rate.toFixed(8)).round(to.precision);
                     },
 
                     /**
@@ -401,7 +420,7 @@
                      * @return {BigNumber}
                      */
                     exchangeReverse(balance) {
-                        return rate ? balance.div(rate) : 0;
+                        return (rate ? balance.div(rate) : new BigNumber(0)).round(from.precision);
                     },
 
                     /**
@@ -427,14 +446,14 @@
  */
 
 /**
- * @typedef {Object} IBalance
+ * @typedef {object} IBalance
  * @property {string} id
  * @property {number} precision
  * @property {number} balance
  */
 
 /**
- * @typedef {Object} IAssetInfo
+ * @typedef {object} IAssetInfo
  * @property {string} id
  * @property {string} name
  * @property {string} [description]
@@ -448,7 +467,7 @@
  */
 
 /**
- * @typedef {Object} IAssetWithBalance
+ * @typedef {object} IAssetWithBalance
  * @property {string} id
  * @property {string} name
  * @property {string} [description]

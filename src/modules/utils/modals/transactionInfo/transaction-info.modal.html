@@ -14,7 +14,7 @@
         <div class="value">{{::$ctrl.transaction.fee.toFormat()}} {{::$ctrl.transaction.fee.asset.name}}</div>
     </div>
 
-    <div class="section">
+    <div class="section solid-border">
         <div class="key" w-i18n="transaction.modals.viewTransactionKey"></div>
         <div class="value">
             <a w-i18n="transaction.modals.viewTransactionValue"
@@ -23,9 +23,10 @@
         </div>
     </div>
 
-    <div class="section">
+    <div class="section last">
         <time>{{::$ctrl.datetime}}</time>
-        <div ng-class="{confirmed: $ctrl.confirmed, unconfirmed: !$ctrl.confirmed}"
+        <div class="status"
+             ng-class="{confirmed: $ctrl.confirmed, unconfirmed: !$ctrl.confirmed}"
              w-i18n="transaction.confirmed.{{::$ctrl.confirmed}}"></div>
     </div>
 

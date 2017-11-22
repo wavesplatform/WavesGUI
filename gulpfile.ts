@@ -85,7 +85,7 @@ const indexPromise = readFile('src/index.html', { encoding: 'utf8' });
             task(`copy-${taskPostfix}`, ['concat-style'], function (done) {
                     let forCopy = JSON_LIST.map((path) => {
                         return fsCopy(path, path.replace(/(.*?\/src)/, `${targetPath}`));
-                    });
+                    }).concat(fsCopy(join(__dirname, 'src/fonts'), `${targetPath}/fonts`));
 
                     if (buildName === 'chrome') {
                         forCopy.push(fsCopy('./src/chrome', targetPath));

@@ -6,7 +6,7 @@
      * @param {AssetsService} assetsService
      * @param {Base} Base
      * @param createPoll
-     * @param apiWorker
+     * @param {app.utils.apiWorker} apiWorker
      * @param $element
      * @return {OrderBook}
      */
@@ -17,7 +17,7 @@
             constructor() {
                 super();
                 /**
-                 * @type {Object}
+                 * @type {object}
                  */
                 this.orders = null;
                 /**
@@ -34,10 +34,11 @@
                 this.syncSettings({
                     _amountAssetId: 'dex.amountAssetId',
                     _priceAssetId: 'dex.priceAssetId'
-                }).then(() => {
-                    const poll = createPoll(this, this._getOrders, 'orders', 12000);
-                    this.observe(['_amountAssetId', '_priceAssetId'], () => poll.restart());
-                });
+                })
+                    ;
+                        const poll = createPoll(this, this._getOrders, 'orders', 12000);
+                        this.observe(['_amountAssetId', '_priceAssetId'], () => poll.restart());
+
             }
 
             _getOrders() {
@@ -106,17 +107,16 @@
                                             .then((orderPrice) => {
                                                 return orderPrice.getTokens();
                                             })
-                                    ])
-                                        .then((amountPrice) => {
-                                            const amount = amountPrice[0];
-                                            const price = amountPrice[1];
-                                            const total = amount.mul(price);
-                                            return {
-                                                amount: amount.toFixed(pair.amountAsset.precision),
-                                                price: price.toFixed(pair.priceAsset.precision),
-                                                total: total.toFixed(pair.priceAsset.precision)
-                                            };
-                                        });
+                                    ]).then((amountPrice) => {
+                                        const amount = amountPrice[0];
+                                        const price = amountPrice[1];
+                                        const total = amount.mul(price);
+                                        return {
+                                            amount: amount.toFixed(pair.amountAsset.precision),
+                                            price: price.toFixed(pair.priceAsset.precision),
+                                            total: total.toFixed(pair.priceAsset.precision)
+                                        };
+                                    });
                                 }));
                             };
 
@@ -125,23 +125,21 @@
                                     return Promise.all([
                                         parse(orderBook.bids),
                                         parse(orderBook.asks)
-                                    ])
-                                        .then((bidAsks) => {
-                                            const bids = bidAsks[0];
-                                            const asks = bidAsks[1];
+                                    ]).then((bidAsks) => {
+                                        const bids = bidAsks[0];
+                                        const asks = bidAsks[1];
 
-                                            return {
-                                                bids: process(bids)
-                                                    .join(''),
-                                                asks: process(asks)
-                                                    .join('')
-                                            };
-                                        });
+                                        return {
+                                            bids: process(bids)
+                                                .join(''),
+                                            asks: process(asks)
+                                                .join('')
+                                        };
+                                    });
                                 });
                         });
                 }, { assetId1: this._amountAssetId, assetId2: this._priceAssetId })
                     .then(({ bids, asks }) => {
-
                         const template = `<div class="bids">${bids}</div><div class="asks">${asks}</div>`;
                         const $box = $element.find('w-scroll-box');
                         $box.html(template);

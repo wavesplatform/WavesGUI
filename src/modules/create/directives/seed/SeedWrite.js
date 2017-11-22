@@ -117,13 +117,13 @@
              */
             _show({ index, word }) {
 
-                const $element = $(`<span class="seed-item hidden">${word}</span>`);
+                const $element = $(`<span class="seed-item ghost">${word}</span>`);
                 this._$container.append($element);
 
                 const child = this._createChild({ index, word, $element });
                 this._children.push(child);
 
-                $element.removeClass('hidden');
+                $element.removeClass('ghost');
                 this._resetPositions();
 
                 $element.on('click', () => {
@@ -220,7 +220,7 @@
 })();
 
 /**
- * @typedef {Object} ISeedWriteChild
+ * @typedef {object} ISeedWriteChild
  * @property {number} left
  * @property {number} width
  * @property {number} height

@@ -24,7 +24,7 @@
                 super($scope);
                 transactionsService.get(transactionId)
                     .then((transaction) => {
-                        if (transaction.height >= 0) {
+                        if (typeof transaction.height === 'number' && transaction.height >= 0) {
                             return blocksService.getHeight().then((height) => ({
                                 confirmations: height - transaction.height,
                                 transaction

@@ -76,7 +76,11 @@
 
             _initializeLogin() {
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true }).map((item) => item.id);
-                const stop = $rootScope.$on('$stateChangeSuccess', (event, state, params) => {
+                const stop = $rootScope.$on('$stateChangeStart', (event, state, params) => {
+                    stop();
+                    if (START_STATES.indexOf(state.name) === -1) {
+                        event.preventDefault();
+                    }
                     user.login()
                         .then(() => {
                             if (START_STATES.indexOf(state.name) === -1) {
@@ -84,28 +88,26 @@
                             } else {
                                 $state.go(user.getActiveState('wallet'));
                             }
-                            user.getSetting('termsAccepted').then((termsAccepted) => {
-                                if (!termsAccepted) {
-                                    modalManager.showTermsAccept(user);
+
+                            const termsAccepted = user.getSetting('termsAccepted');
+
+                            if (!termsAccepted) {
+                                modalManager.showTermsAccept(user);
+                            }
+
+                            $rootScope.$on('$stateChangeStart', (event, state) => {
+                                if (START_STATES.indexOf(state.name) !== -1) {
+                                    event.preventDefault();
+                                    user.logout();
                                 }
                             });
                         });
-                    stop();
-                });
-
-                $rootScope.$on('$stateChangeStart', (event, state) => {
-                    if (user.address) {
-                        if (START_STATES.indexOf(state.name) !== -1) {
-                            event.preventDefault();
-                            user.logout();
-                        }
-                    }
                 });
             }
 
             /**
              * @param {Event} event
-             * @param {Object} toState
+             * @param {object} toState
              * @param {string} toState.name
              * @private
              */

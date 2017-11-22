@@ -15,7 +15,7 @@
 })();
 
 /**
- * @typedef {Object} ISeedService
+ * @typedef {object} ISeedService
  * @property {Signal} revert
  * @property {Signal} pick
  * @property {Signal} clear

@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const PROTOCOL = 'waves://';
+
     /**
      * @param {Base} Base
      * @param {JQuery} $element
@@ -67,7 +69,7 @@
                 this.maxWidth = Number(this.maxWidth);
                 this.maxHeight = Number(this.maxHeight);
                 if (!this.maxWidth || !this.maxHeight) {
-                    throw new Error('Has no qrCode reader size!');
+                    throw new Error('Has no QrCode reader size!');
                 }
             }
 
@@ -165,18 +167,18 @@
              * @private
              */
             _decodeImage() {
-                return this.worker.process((qr, frame) => {
+                return this.worker.process((qr, { frame, protocol }) => {
                     return new Promise((resolve) => {
-                        qr.callback = function (error, result) {
+                        qr.callback = function (error, response) {
                             if (error) {
                                 resolve(null);
                             } else {
-                                resolve(result);
+                                resolve(response.result.replace(protocol, '').replace('?', ''));
                             }
                         };
                         qr.decode(frame);
                     });
-                }, this._getFrame());
+                }, { frame: this._getFrame(), protocol: PROTOCOL });
             }
 
             /**
@@ -214,7 +216,7 @@
             _checkStop(data) {
                 if (data) {
                     this._stopWatchQrCode();
-                    this.onRead({ result: data.result });
+                    this.onRead({ result: data });
                 }
             }
 

@@ -1,0 +1,65 @@
+@import (reference) '../../../config';
+
+html body md-dialog.asset-info-modal {
+
+  md-dialog-content {
+    padding-bottom: 0 !important; //TODO remove!!!
+    height: calc(~'100% - 64px');
+  }
+
+  .asset-content {
+    height: 100%;
+  }
+
+  .padding-content .tab-tem {
+    padding: 40px;
+
+    .line {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      border-bottom: 1px solid @color-disabled-100;
+
+      & > div:first-child {
+        width: 120px;
+        display: flex;
+        align-items: center;
+      }
+      & > div:last-child {
+        width: calc(~'100% - 120px');
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  .tab-container {
+    width: calc(~'100% + 80px');
+    margin-left: -40px;
+
+    w-transaction-list ul {
+      border-top: none;
+
+      .transaction-item {
+        .date {
+          padding-left: 40px;
+        }
+
+        .row {
+          padding-left: 20px;
+
+          .line {
+            padding-right: 40px;
+          }
+        }
+      }
+    }
+
+    .locale-address {
+      display: none;
+    }
+    w-actions {
+      display: none;
+    }
+  }
+}

@@ -6,22 +6,30 @@
       "pinned": "Pinned"
     },
     "receive": {
-      "title": "{{assetName}} Wallet Address",
-      "text": "Only send {{assetName}} to this address",
-      "description": "Sending any other digital asset, including {{assetName}}\n Cash, will result in permanent loss.",
-      "ok": "Show Address"
+      "title": "Receive {{asset.name}}",
+      "warningTitle": "Send only «{{asset.name}}» Waves token to this address",
+      "warningText": "Sending any other digital asset to this address will result in the permanent loss of your funds.",
+      "copyAndShare": "Copy & Share Address",
+      "or": "OR",
+      "scanQrCode": "Scan QR Code"
     },
     "send": {
       "title": "Send {{assetName}}",
       "titleComplete": "Sending Complete",
       "recipient": "Recipient",
-      "sendMax": "Send Max",
+      "sendMax": "Max",
       "withdraw": "Currency",
       "amount": "Amount",
       "description": "Description",
       "descriptionPlaceholder": "Write an optional message",
+      "placeholderRecipient": "Paste or scan an address",
       "fee": "Transaction Fee",
       "total": "Total",
+      "errors": {
+        "address": "The address is not valid",
+        "required": "This field is required",
+        "max": "Insufficient funds"
+      },
       "confirm": {
         "title": "Transaction Details",
         "to": "To",
@@ -42,6 +50,7 @@
       "aliases": "Aliases",
       "create": "Create new",
       "fee": "Transaction Fee {{price}} {{name}}",
+      "placeholder": "Symbolic name to your address",
       "notifications": {
         "aliasCreated": "An alias has been created"
       }
@@ -50,7 +59,7 @@
       "header": {
         "title": "Done! Let’s review",
         "title2": "Terms of Use",
-        "description": "Waves is different—it cannot be safely held with a bank or web service."
+        "description": "Waves is different — it cannot be safely held with a bank or web service."
       },
       "body": {
         "security": "I understand that my funds are held securely on this device, not by a company",

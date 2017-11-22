@@ -15,33 +15,33 @@
         </div>
     </div>
     <w-tabs>
-        <w-tab title="Transactions">
+        <w-tab title-name="Transactions">
             <w-transaction-list transaction-type="'send,receive,circular,exchange-buy,exchange-sell'"
                                 asset-id-list="[$ctrl.asset.id]"></w-transaction-list>
         </w-tab>
-        <w-tab title="Details">
-            <div class="line">
+        <w-tab title-name="Details" class="padding-content">
+            <div class="line margin-1">
                 <div class="body-2 basic-700" w-i18n="Issuer"></div>
-                <div class="body-2 basic-500">{{::$ctrl.asset.sender}}</div>
+                <div class="footnote-1 basic-500">{{::$ctrl.asset.sender}}</div>
             </div>
-            <div class="line">
+            <div class="line margin-1">
                 <div class="body-2 basic-700" w-i18n="Identifier"></div>
-                <div class="body-2 basic-500">{{::$ctrl.asset.id}}</div>
+                <div class="footnote-1 basic-500">{{::$ctrl.asset.id}}</div>
             </div>
-            <div class="line">
+            <div class="line margin-1">
                 <div class="body-2 basic-700" w-i18n="Name"></div>
-                <div class="body-2 basic-500">{{::$ctrl.asset.name}}</div>
+                <div class="footnote-1 basic-500">{{::$ctrl.asset.name}}</div>
             </div>
-            <div class="line">
+            <div class="line margin-1">
                 <div class="body-2 basic-700" w-i18n="Reissuable"></div>
-                <div class="body-2 basic-500">{{::$ctrl.asset.reissuable}}</div>
+                <div class="footnote-1 basic-500">{{::$ctrl.asset.reissuable ? 'Yes' : 'No'}}</div>
             </div>
             <div class="line">
                 <div class="body-2 basic-700" w-i18n="Issue date"></div>
-                <div class="body-2 basic-500">{{::$ctrl.asset.timestamp | date:'dd.MM.yyyy hh:mm'}}</div>
+                <div class="footnote-1 basic-500">{{::$ctrl.asset.timestamp | date:'dd.MM.yyyy hh:mm'}}</div>
             </div>
         </w-tab>
-        <w-tab ng-if="$ctrl.asset.description" title="Description">
+        <w-tab ng-if="$ctrl.asset.description" class="padding-content" title-name="Description" class="">
             <div class="body-2 basic-500">
                 {{::$ctrl.asset.description}}
             </div>

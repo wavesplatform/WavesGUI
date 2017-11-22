@@ -9,10 +9,10 @@
                 super($scope);
                 this.asset = asset;
                 this.wavesId = WavesApp.defaultAssets.WAVES;
-                user.getSetting('pinnedAssetIds').then((assetList) => {
-                    this.assetList = assetList;
-                    this.pinned = assetList.indexOf(asset.id) !== -1;
-                });
+
+                const assetList = user.getSetting('pinnedAssetIdList');
+                this.assetList = assetList;
+                this.pinned = assetList.indexOf(asset.id) !== -1;
             }
 
             togglePin() {
@@ -21,7 +21,7 @@
                     this.assetList = this.assetList.concat(this.asset.id);
                 }
                 this.pinned = !this.pinned;
-                user.setSetting('pinnedAssetIds', this.assetList);
+                user.setSetting('pinnedAssetIdList', this.assetList);
             }
 
         }

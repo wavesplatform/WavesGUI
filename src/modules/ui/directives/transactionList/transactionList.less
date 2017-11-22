@@ -3,7 +3,6 @@
 w-transaction-list {
   display: flex;
   height: 100%;
-  overflow: auto;
 
   .transaction-list-mixin {
     background-color: @color-white;
@@ -24,6 +23,13 @@ w-transaction-list {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    .icon {
+      background-image: url(/img/icons/null_tx_2.svg);
+      width: 188px;
+      height: 183px;
+      margin: 40px 0 30px;
+    }
   }
 
   .w-transaction-list {
@@ -50,7 +56,22 @@ w-transaction-list {
         }
 
         .row {
+          position: relative;
           border-bottom: 1px solid @color-accent-50;
+
+          &:hover {
+            background-color: @color-submit-50;
+
+            &::before {
+              content: '';
+              width: 2px;
+              height: 100%;
+              background-color: @color-submit-400;
+              position: absolute;
+              left: 0;
+              top: 0;
+            }
+          }
         }
 
         &:last-child .row:last-child {

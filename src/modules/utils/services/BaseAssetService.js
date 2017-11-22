@@ -14,8 +14,7 @@
 
             @decorators.cachable()
             getBaseAsset() {
-                return user.getSetting('baseAssetId')
-                    .then(assetsService.getAssetInfo);
+                return assetsService.getAssetInfo(user.getSetting('baseAssetId'));
             }
 
             convertToBaseAsset(money) {

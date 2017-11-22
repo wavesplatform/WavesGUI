@@ -34,14 +34,12 @@
 
             validate() {
                 this._messages.forEach((validator) => {
-                    this.$ngModel.$setValidity(
-                        validator.name,
-                        validator.handler(this.$ngModel.$modelValue, this.$ngModel.$viewValue)
-                    );
+                    const state = validator.handler(this.$ngModel.$modelValue, this.$ngModel.$viewValue);
+                    this.$ngModel.$setValidity(validator.name, state);
                 });
             }
 
-            vlidateByName(name) {
+            validateByName(name) {
                 this._messages.forEach((validator) => {
                     if (validator.name === name) {
                         this.$ngModel.$setValidity(
@@ -49,7 +47,7 @@
                             validator.handler(this.$ngModel.$modelValue, this.$ngModel.$viewValue)
                         );
                     }
-                })
+                });
             }
 
             getParser() {

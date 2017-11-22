@@ -10,10 +10,9 @@
      * @param {User} user
      * @param {ModalManager} modalManager
      * @param {Function} createPoll
-     * @param {Function} createPromise
      * @return {Assets}
      */
-    const controller = function (assetsService, assetsData, $scope, utils, Base, user, modalManager, createPoll, createPromise) {
+    const controller = function (assetsService, assetsData, $scope, utils, Base, user, modalManager, createPoll) {
 
         class Assets extends Base {
 
@@ -43,7 +42,7 @@
                 /**
                  * @type {string[]}
                  */
-                this.chartAssetIds = null;
+                this.chartAssetIdList = null;
                 /**
                  * @type {IAssetWithBalance[]}
                  */
@@ -61,30 +60,27 @@
 
                 this.observe('activeChartAssetId', this._onChangeChartAssetId);
 
-                createPromise(this, utils.whenAll([
-                    user.getSetting('baseAssetId'),
-                    this.syncSettings({
-                        activeChartAssetId: 'wallet.assets.activeChartAssetId',
-                        chartAssetIds: 'wallet.assets.chartAssetIds',
-                        chartMode: 'wallet.assets.chartMode',
-                        assetList: 'pinnedAssetIds'
-                    })
-                ]))
-                    .then(([baseAssetId]) => {
-                        this.mirrorId = baseAssetId;
-                        this._onChangeMode();
+                this.syncSettings({
+                    activeChartAssetId: 'wallet.assets.activeChartAssetId',
+                    chartAssetIdList: 'wallet.assets.chartAssetIdList',
+                    chartMode: 'wallet.assets.chartMode',
+                    assetList: 'pinnedAssetIdList'
+                });
 
-                        this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000);
+                this.mirrorId = user.getSetting('baseAssetId');
+                this._onChangeMode();
 
-                        createPoll(this, this._getChartBalances, 'chartBalances', 15000, { isBalance: true });
-                        const assetsPoll = createPoll(this, this._getBalances, 'assets', 5000, { isBalance: true });
+                this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000);
 
-                        this.observe('chartMode', this._onChangeMode);
-                        this.observe('assetList', () => {
-                            assetsPoll.restart();
-                        });
-                        this.observe(['interval', 'intervalCount', 'activeChartAssetId'], this._onChangeInterval);
-                    });
+                createPoll(this, this._getChartBalances, 'chartBalances', 15000, { isBalance: true });
+                const assetsPoll = createPoll(this, this._getBalances, 'assets', 5000, { isBalance: true });
+
+                this.observe('chartMode', this._onChangeMode);
+                this.observe('assetList', () => {
+                    assetsPoll.restart();
+                });
+
+                this.observe(['interval', 'intervalCount', 'activeChartAssetId'], this._onChangeInterval);
             }
 
             abs(num) {
@@ -125,10 +121,12 @@
             }
 
             /**
-             * @private
+             * @param {IAssetInfo} [asset]
              */
-            showReceive() {
-                return modalManager.showReceiveAsset(user);
+            showReceive(asset) {
+                return assetsService.resolveAsset(asset).then((a) => {
+                    return modalManager.showReceiveAsset(user, a);
+                });
             }
 
             /**
@@ -143,7 +141,7 @@
             }
 
             _getChartBalances() {
-                return assetsService.getBalanceList(this.chartAssetIds);
+                return assetsService.getBalanceList(this.chartAssetIdList);
             }
 
             /**
@@ -223,8 +221,7 @@
         'Base',
         'user',
         'modalManager',
-        'createPoll',
-        'createPromise'
+        'createPoll'
     ];
 
     angular.module('app.wallet.assets')
