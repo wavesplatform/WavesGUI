@@ -47,7 +47,21 @@
                 return EVENT_TYPES;
             }
 
-            addEvent(event) {
+            /**
+             * @param {Money} money
+             */
+            getBalanceComponentData(money) {
+                return {
+                    name: 'balance',
+                    data: {
+                        amount: money.getTokens(),
+                        assetId: money.asset.id,
+                        precision: money.asset.precision
+                    }
+                };
+            }
+
+            addEvent() {
                 this.ready = utils.whenAll([this.ready, this._addEvent(event)]);
                 this._saveEvents();
             }

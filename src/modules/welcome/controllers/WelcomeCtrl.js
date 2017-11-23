@@ -3,7 +3,7 @@
 
     const PATH = 'modules/welcome/templates';
 
-    const controller = function ($state, apiWorker, user) {
+    const controller = function ($state, user) {
 
         class WelcomeCtrl {
 
@@ -31,27 +31,23 @@
             }
 
             login() {
-                this.showPasswordError = false;
-                const encryptionRounds = user.getSettingByUser(this.userList[this.activeUser], 'encryptionRounds');
-                apiWorker.process((Waves, data) => {
-                    const seed = Waves.Seed.decryptSeedPhrase(data.encryptedSeed, data.password, data.encryptionRounds);
-                    const seedData = Waves.Seed.fromExistingPhrase(seed);
-                    return {
-                        encryptedSeed: seedData.encryptedSeed,
-                        publicKey: seedData.keyPair.publicKey
-                    };
-                }, { password: this.password, encryptedSeed: this.encryptedSeed, encryptionRounds })
-                    .then(({ publicKey, encryptedSeed }) => {
-                        user.addUserData({
-                            address: this.address,
-                            password: this.password,
-                            encryptedSeed,
-                            publicKey
-                        });
-                    }, () => {
-                        this.password = '';
-                        this.showPasswordError = true;
+
+                try {
+                    this.showPasswordError = false;
+                    const encryptionRounds = user.getSettingByUser(this.userList[this.activeUser], 'encryptionRounds');
+                    const seed = Waves.Seed.decryptSeedPhrase(this.encryptedSeed, this.password, encryptionRounds);
+
+                    Waves.Seed.fromExistingPhrase(seed);
+
+                    user.login({
+                        address: this.address,
+                        password: this.password
                     });
+                } catch (e) {
+                    this.password = '';
+                    this.showPasswordError = true;
+                }
+
             }
 
         }
@@ -59,7 +55,7 @@
         return new WelcomeCtrl();
     };
 
-    controller.$inject = ['$state', 'apiWorker', 'user'];
+    controller.$inject = ['$state', 'user'];
 
     angular.module('app.welcome')
         .controller('WelcomeCtrl', controller);

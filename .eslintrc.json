@@ -4,6 +4,7 @@
         "es6": true
     },
     "globals": {
+        "Waves": true,
         "BigNumber": true,
         "identityImg": true,
         "angular": true,

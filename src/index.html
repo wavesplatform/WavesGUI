@@ -197,8 +197,8 @@
             version: '{{pack.version}}',
             type: '{{build.type}}',
             network: {
-                server: '{{network.server}}',
                 code: '{{network.code}}',
+                node: '{{network.node}}',
                 matcher: '{{network.matcher}}',
                 coinomat: '{{network.coinomat}}',
                 datafeed: '{{network.datafeed}}'
@@ -225,6 +225,7 @@
             },
             stateTree: null
         };
+
     </script>
 
     <!-- CSS -->
@@ -236,7 +237,10 @@
 
 <div class="app-loader">
     <div class="progress"></div>
-    <div class="loader-wrapper"><div class="loader"><span class="leaf1"></span><span class="leaf2"></span><span class="leaf3"></span><span class="leaf4"></span></div></div>
+    <div class="loader-wrapper">
+        <div class="loader"><span class="leaf1"></span><span class="leaf2"></span><span class="leaf3"></span><span
+                class="leaf4"></span></div>
+    </div>
 </div>
 
 <ui-view name="main"></ui-view>
@@ -244,6 +248,13 @@
 <!-- JAVASCRIPT -->
 
 <script>
+
+    var Waves = WavesAPI.create({
+        networkByte: WavesApp.network.code.charCodeAt(0),
+        nodeAddress: WavesApp.network.node,
+        matcherAddress: WavesApp.network.matcher
+    });
+
     WavesApp.stateTree = new tsUtils.Tree({
         id: 'root',
         children: [
@@ -308,9 +319,10 @@
      * @property {string} name
      * @property {string} version
      * @property {string} type
+     * @property {number} addressLength
      * @property {object} network
-     * @property {string} network.server
      * @property {string} network.code
+     * @property {string} network.node
      * @property {string} network.matcher
      * @property {string} network.coinomat
      * @property {string} network.datafeed

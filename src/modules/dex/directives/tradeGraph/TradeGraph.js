@@ -4,11 +4,11 @@
     /**
      * @param Base
      * @param utils
-     * @param {AssetsService} assetsService
+     * @param {Waves} waves
      * @param {app.utils.apiWorker} apiWorker
      * @return {TradeGraph}
      */
-    const controller = function (Base, utils, assetsService, apiWorker) {
+    const controller = function (Base, utils, waves, apiWorker) {
 
         class TradeGraph extends Base {
 
@@ -98,68 +98,66 @@
             }
 
             _onChangeAssets() {
-                assetsService.getAssetInfo(this._priceAssetId)
+                waves.node.assets.info(this._priceAssetId)
                     .then((asset) => {
                         this._priceAsset = asset;
                     });
-                assetsService.getAssetInfo(this._amountAssetId)
+                waves.node.assets.info(this._amountAssetId)
                     .then((asset) => {
                         this._amountAsset = asset;
                     });
-                return apiWorker.process((Waves, { assetId1, assetId2 }) => {
-                    return Waves.AssetPair.get(assetId1, assetId2)
-                        .then((pair) => {
-                            return Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
-                                .then((orderBook) => {
+                return Waves.AssetPair.get(this._amountAssetId, this._priceAssetId)
+                    .then((pair) => {
+                        return Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
+                            .then((orderBook) => {
 
-                                    const process = function (list) {
-                                        let sum = 0;
-                                        return list.reduce((resutl, item) => {
-                                            sum = sum + item.amount;
-                                            resutl.push({
-                                                amount: sum,
-                                                price: item.price
-                                            });
-                                            return resutl;
-                                        }, []);
-                                    };
-
-                                    const parse = function (list) {
-                                        return Promise.all((list || []).map((item) => {
-                                            return Promise.all([
-                                                Waves.Money.fromCoins(String(item.amount), pair.amountAsset)
-                                                    .then((amount) => {
-                                                        return amount.getTokens();
-                                                    }),
-                                                Waves.OrderPrice.fromMatcherCoins(String(item.price), pair)
-                                                    .then((orderPrice) => {
-                                                        return orderPrice.getTokens();
-                                                    })
-                                            ])
-                                                .then((amountPrice) => {
-                                                    const amount = amountPrice[0];
-                                                    const price = amountPrice[1];
-                                                    return {
-                                                        amount: Number(amount.toFixed(pair.amountAsset.precision)),
-                                                        price: Number(price.toFixed(pair.priceAsset.precision))
-                                                    };
-                                                });
-                                        }));
-                                    };
-
-                                    return Promise.all([
-                                        parse(orderBook.bids),
-                                        parse(orderBook.asks)
-                                    ])
-                                        .then((bidAsks) => {
-                                            const bids = bidAsks[0];
-                                            const asks = bidAsks[1];
-
-                                            return { bids: process(bids), asks: process(asks) };
+                                const process = function (list) {
+                                    let sum = 0;
+                                    return list.reduce((resutl, item) => {
+                                        sum = sum + item.amount;
+                                        resutl.push({
+                                            amount: sum,
+                                            price: item.price
                                         });
-                                });
-                        });
-                }, { assetId1: this._amountAssetId, assetId2: this._priceAssetId })
+                                        return resutl;
+                                    }, []);
+                                };
+
+                                const parse = function (list) {
+                                    return Promise.all((list || []).map((item) => {
+                                        return Promise.all([
+                                            Waves.Money.fromCoins(String(item.amount), pair.amountAsset)
+                                                .then((amount) => {
+                                                    return amount.getTokens();
+                                                }),
+                                            Waves.OrderPrice.fromMatcherCoins(String(item.price), pair)
+                                                .then((orderPrice) => {
+                                                    return orderPrice.getTokens();
+                                                })
+                                        ])
+                                            .then((amountPrice) => {
+                                                const amount = amountPrice[0];
+                                                const price = amountPrice[1];
+                                                return {
+                                                    amount: Number(amount.toFixed(pair.amountAsset.precision)),
+                                                    price: Number(price.toFixed(pair.priceAsset.precision))
+                                                };
+                                            });
+                                    }));
+                                };
+
+                                return Promise.all([
+                                    parse(orderBook.bids),
+                                    parse(orderBook.asks)
+                                ])
+                                    .then((bidAsks) => {
+                                        const bids = bidAsks[0];
+                                        const asks = bidAsks[1];
+
+                                        return { bids: process(bids), asks: process(asks) };
+                                    });
+                            });
+                    })
                     .then(({ bids, asks }) => {
                         this.data.bids = bids;
                         this.data.asks = asks;
@@ -171,7 +169,7 @@
         return new TradeGraph();
     };
 
-    controller.$inject = ['Base', 'utils', 'assetsService', 'apiWorker'];
+    controller.$inject = ['Base', 'utils', 'waves'];
 
     angular.module('app.dex')
         .component('wDexTradeGraph', {

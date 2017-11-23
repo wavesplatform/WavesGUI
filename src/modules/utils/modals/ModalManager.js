@@ -134,16 +134,6 @@
             }
 
             /**
-             * @return {Promise}
-             */
-            getSeed() {
-                return this._getModal({
-                    templateUrl: 'modules/utils/modals/enterPassword/enterPassword.modal.html',
-                    controller: 'EnterPasswordCtrl'
-                });
-            }
-
-            /**
              * @param {IModalOptions} options
              * @private
              */

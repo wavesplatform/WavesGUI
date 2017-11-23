@@ -13,13 +13,12 @@
      * @param Base
      * @param {User} user
      * @param i18n
-     * @param {AssetsService} assetsService
-     * @param {TransactionsService} transactionsService
+     * @param {Waves} waves
      * @param {Function} createPoll
      * @param {app.utils} utils
      * @return {TransactionList}
      */
-    const controller = function (Base, user, i18n, assetsService, transactionsService, createPoll, utils) {
+    const controller = function (Base, user, i18n, waves, createPoll, utils) {
 
         class TransactionList extends Base {
 
@@ -60,12 +59,17 @@
 
                 this.mirrorId = user.getSetting('baseAssetId');
 
-                assetsService.getAssetInfo(this.mirrorId)
+                waves.node.assets.info(this.mirrorId)
                     .then((mirror) => {
                         this.mirror = mirror;
 
                         createPoll(this, this._getTransactions, '_transactions', 4000, { isBalance: true });
-                        this.observe(['_transactions', 'transactionType', 'search'], this._onChangeFilters);
+                        this.observe([
+                            '_transactions',
+                            'assetIdList',
+                            'transactionType',
+                            'search'
+                        ], this._onChangeFilters);
                     });
 
             }
@@ -74,7 +78,7 @@
              * @private
              */
             _getTransactions() {
-                return transactionsService.getList()
+                return waves.node.transactions.list()
                     .then((list) => {
                         this.hadResponse = true;
                         return list;
@@ -118,7 +122,7 @@
              */
             _getAssetFilter() {
                 if (this.assetIdList && this.assetIdList.length) {
-                    const TYPES = transactionsService.TYPES;
+                    const TYPES = waves.node.transactions.TYPES;
                     return ({ type, amount }) => {
                         switch (type) {
                             case TYPES.SEND:
@@ -178,8 +182,7 @@
         'Base',
         'user',
         'i18n',
-        'assetsService',
-        'transactionsService',
+        'waves',
         'createPoll',
         'utils'
     ];

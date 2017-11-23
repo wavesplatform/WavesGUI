@@ -3,11 +3,11 @@
 
     /**
      * @param Base
-     * @param {AssetsService} assetsService
+     * @param {Waves} waves
      * @param {app.utils} utils
      * @return {DexWatchlist}
      */
-    const controller = function (Base, assetsService, utils) {
+    const controller = function (Base, waves, utils) {
 
         const TOP_ASSETS_LIST = [
             WavesApp.defaultAssets.WAVES,
@@ -35,8 +35,8 @@
 
         const assetsList = utils.whenAll(TOP_ASSETS_LIST.map((id) => {
             return utils.whenAll([
-                assetsService.getAssetInfo(id),
-                assetsService.getChange(id)
+                waves.node.assets.info(id),
+                waves.utils.getChange(id, WavesApp.defaultAssets.WAVES)
             ])
                 .then(([info, change]) => {
                     return { ...info, change };
@@ -163,11 +163,11 @@
             }
 
             _onChangeBaseAsset() {
-                assetsService.getAssetInfo(this._baseAssetId)
+                waves.node.assets.info(this._baseAssetId)
                     .then((asset) => {
                         this._parent.title = asset.name;
                     });
-                assetsService.getMoney('1', this._baseAssetId)
+                Waves.Money.fromTokens('1', this._baseAssetId)
                     .then((money) => {
                         this.baseMoney = money;
                     });
@@ -181,7 +181,7 @@
         return new DexWatchlist();
     };
 
-    controller.$inject = ['Base', 'assetsService', 'utils'];
+    controller.$inject = ['Base', 'waves', 'utils'];
 
     angular.module('app.dex')
         .component('wDexWatchlist', {

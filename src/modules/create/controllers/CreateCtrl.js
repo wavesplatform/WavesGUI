@@ -4,14 +4,13 @@
     /**
      * @param $q
      * @param $mdDialog
-     * @param {app.utils.apiWorker} apiWorker
      * @param $timeout
      * @param {User} user
      * @param {ModalManager} modalManager
      * @param {ISeedService} seedService
      * @return {CreateCtrl}
      */
-    const controller = function ($q, $mdDialog, apiWorker, $timeout, user, modalManager, seedService) {
+    const controller = function ($q, $mdDialog, $timeout, user, modalManager, seedService) {
 
         const PATH = 'modules/create/templates';
         const ORDER_LIST = [
@@ -59,6 +58,14 @@
                 return `${PATH}/${ORDER_LIST[this.stepIndex]}.html`;
             }
 
+            create() {
+                this._create(true);
+            }
+
+            createWithoutBackup() {
+                this._create(false);
+            }
+
             /**
              * @param {number} [index]
              */
@@ -72,29 +79,12 @@
                 }
 
                 if (!ORDER_LIST[index]) {
-                    const workerData = { seed: this.seed, password: this.password };
-                    const workerHandler = (Waves, data) => {
-                        const seedData = Waves.Seed.fromExistingPhrase(data.seed);
-                        return {
-                            encryptedSeed: seedData.encrypt(data.password),
-                            publicKey: seedData.keyPair.publicKey
-                        };
-                    };
-
-                    apiWorker.process(workerHandler, workerData)
-                        .then(({ encryptedSeed, publicKey }) => {
-                            return user.addUserData({
-                                address: this.address,
-                                password: this.password,
-                                settings: { termsAccepted: false },
-                                encryptedSeed,
-                                publicKey
-                            });
-                        });
+                    throw new Error('Wrong order list index!');
                 } else {
-                    this.checkNext().then(() => {
-                        this.stepIndex = index;
-                    });
+                    this.checkNext()
+                        .then(() => {
+                            this.stepIndex = index;
+                        });
                 }
             }
 
@@ -116,10 +106,11 @@
                         list.push({ seed: seedData.phrase, address: seedData.address });
                     }
                     return list;
-                }).then((data) => {
-                    this.setActiveSeed(data[0]);
-                    this.seedList = data;
-                });
+                })
+                    .then((data) => {
+                        this.setActiveSeed(data[0]);
+                        this.seedList = data;
+                    });
             }
 
             showBackupWarningPopup() {
@@ -130,13 +121,27 @@
                 });
             }
 
+            _create(hasBackup) {
+                const seedData = Waves.Seed.fromExistingPhrase(this.seed);
+                const encryptedSeed = seedData.encrypt(this.password);
+                const publicKey = seedData.keyPair.publicKey;
+
+                return user.create({
+                    address: this.address,
+                    password: this.password,
+                    encryptedSeed,
+                    publicKey
+                }, hasBackup);
+            }
+
         }
 
         return new CreateCtrl();
 
     };
 
-    controller.$inject = ['$q', '$mdDialog', 'apiWorker', '$timeout', 'user', 'modalManager', 'seedService'];
+    controller.$inject = ['$q', '$mdDialog', '$timeout', 'user', 'modalManager', 'seedService'];
 
-    angular.module('app.create').controller('CreateCtrl', controller);
+    angular.module('app.create')
+        .controller('CreateCtrl', controller);
 })();

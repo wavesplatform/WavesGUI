@@ -54,10 +54,11 @@
             }
 
             /**
+             * @param {string} [pattern]
              * @return {Moment}
              */
-            clone() {
-                return new Moment(this._date);
+            clone(pattern) {
+                return new Moment(this._date, pattern);
             }
 
             /**
