@@ -230,7 +230,7 @@
                             .then((list) => {
 
                                 if (!list || !list.length) {
-                                    return Promise.reject(list); // TODO! Promise ???
+                                    return Promise.reject(list);
                                 }
 
                                 return list.reduce((result, item) => {

@@ -64,7 +64,12 @@
                         this.mirror = mirror;
 
                         createPoll(this, this._getTransactions, '_transactions', 4000, { isBalance: true });
-                        this.observe(['_transactions', 'transactionType', 'search'], this._onChangeFilters);
+                        this.observe([
+                            '_transactions',
+                            'assetIdList',
+                            'transactionType',
+                            'search'
+                        ], this._onChangeFilters);
                     });
 
             }
@@ -185,7 +190,7 @@
     angular.module('app.ui')
         .component('wTransactionList', {
             bindings: {
-                assetIdList: '<', // TODO Refactor for watch changes. Author Tsigel at 22/11/2017 12:11
+                assetIdList: '<',
                 transactionType: '<',
                 search: '<'
             },

@@ -40,7 +40,7 @@
              * @param {string} alias
              * @param {string} keyPair
              * @param {Money} [fee]
-             * @return Promise<{id: string}> // TODO! Add transaction interface. Author Tsigel at 22/11/2017 09:02
+             * @return Promise<ITransaction>
              */
             createAlias({ alias, fee, keyPair }) {
                 return this.getFee('createAlias', fee).then((fee) => {

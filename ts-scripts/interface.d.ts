@@ -30,7 +30,7 @@ export interface IHash<T> {
 
 export interface IConfItem {
     code: string;
-    server: string;
+    node: string;
     coinomat: string;
     matcher: string;
     datafeed: string;

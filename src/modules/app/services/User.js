@@ -168,7 +168,7 @@
             }
 
             getSeed() {
-                return this.onLogin() // TODO! Refactor. Author Tsigel at 22/11/2017 09:35
+                return this.onLogin() // TODO Refactor. Author Tsigel at 22/11/2017 09:35
                     .then(() => {
                         if (!this._password) {
                             return modalManager.getSeed();
