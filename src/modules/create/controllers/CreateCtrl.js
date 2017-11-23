@@ -58,6 +58,14 @@
                 return `${PATH}/${ORDER_LIST[this.stepIndex]}.html`;
             }
 
+            create() {
+                this._create(true);
+            }
+
+            createWithoutBackup() {
+                this._create(false);
+            }
+
             /**
              * @param {number} [index]
              */
@@ -71,16 +79,7 @@
                 }
 
                 if (!ORDER_LIST[index]) {
-                    const seedData = Waves.Seed.fromExistingPhrase(this.seed);
-                    const encryptedSeed = seedData.encrypt(this.password);
-                    const publicKey = seedData.keyPair.publicKey;
-
-                    return user.create({
-                        address: this.address,
-                        password: this.password,
-                        encryptedSeed,
-                        publicKey
-                    }, index === ORDER_LIST.length);
+                    throw new Error('Wrong order list index!');
                 } else {
                     this.checkNext()
                         .then(() => {
@@ -120,6 +119,19 @@
                     clickOutsideToClose: false,
                     escapeToClose: false
                 });
+            }
+
+            _create(hasBackup) {
+                const seedData = Waves.Seed.fromExistingPhrase(this.seed);
+                const encryptedSeed = seedData.encrypt(this.password);
+                const publicKey = seedData.keyPair.publicKey;
+
+                return user.create({
+                    address: this.address,
+                    password: this.password,
+                    encryptedSeed,
+                    publicKey
+                }, hasBackup);
             }
 
         }
