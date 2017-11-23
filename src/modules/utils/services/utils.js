@@ -288,10 +288,26 @@
                 desc: function (a, b) {
                     return a > b ? -1 : a === b ? 0 : 1;
                 },
+                bigNumber: {
+                    asc: function (a, b) {
+                        return a.gt(b) ? 1 : a.eq(b) ? 0 : -1;
+                    },
+                    desc: function (a, b) {
+                        return a.gt(b) ? -1 : a.eq(b) ? 0 : 1;
+                    }
+                },
                 process(processor) {
                     return {
                         asc: (a, b) => utils.comparators.asc(processor(a), processor(b)),
-                        desc: (a, b) => utils.comparators.desc(processor(a), processor(b))
+                        desc: (a, b) => utils.comparators.desc(processor(a), processor(b)),
+                        bigNumber: {
+                            asc: function (a, b) {
+                                utils.comparators.bigNumber.asc(processor(a), processor(b));
+                            },
+                            desc: function (a, b) {
+                                utils.comparators.bigNumber.desc(processor(a), processor(b));
+                            }
+                        }
                     };
                 }
             }

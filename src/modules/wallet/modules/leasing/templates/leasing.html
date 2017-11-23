@@ -1,0 +1,13 @@
+<div w-i18n-ns="app.wallet.leasing" class="leasing-page">
+    <div class="left-panel">
+        <!--<w-leasing-block title-locale="chart.title">-->
+            <w-circle-chart options="$ctrl.chartOptions" data="$ctrl.chartData"></w-circle-chart>
+        <!--</w-leasing-block>-->
+        <w-leasing-block title-locale="description.title">
+
+        </w-leasing-block>
+    </div>
+    <div class="transactions-container">
+        <w-transaction-list transaction-type="'ease-in, lease-out'"></w-transaction-list>
+    </div>
+</div>
