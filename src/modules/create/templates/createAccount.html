@@ -31,10 +31,9 @@
         </div>
     </div>
 
-    <w-password password="$ctrl.password" valid="$ctrl.validNewPassword"></w-password>
-
-    <w-button ng-click="$ctrl.next()" class="submit long big" disabled="!$ctrl.validNewPassword" type="submit">
+    <w-password password="$ctrl.password"
+                on-submit="$ctrl.next()">
         <w-i18n>button.continue</w-i18n>
-    </w-button>
+    </w-password>
 
 </div>
