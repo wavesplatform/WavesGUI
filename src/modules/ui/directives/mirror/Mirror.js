@@ -3,12 +3,12 @@
 
     /**
      * @param Base
-     * @param {AssetsService} assetsService
+     * @param {Waves} waves
      * @param {User} user
      * @param {app.utils} utils
      * @param {function} createPoll
      */
-    const controller = function (Base, assetsService, user, utils, createPoll) {
+    const controller = function (Base, waves, user, utils, createPoll) {
 
         class Mirror extends Base {
 
@@ -37,7 +37,7 @@
 
                 this.interval = Number(this.interval) || 5000;
 
-                assetsService.getAssetInfo(user.getSetting('baseAssetId'))
+                waves.node.assets.info(user.getSetting('baseAssetId'))
                     .then((mirror) => {
                         this.mirror = mirror;
 
@@ -55,8 +55,8 @@
 
             _getBalance() {
                 return utils.whenAll([
-                    assetsService.getBalance(this.assetId),
-                    assetsService.getRate(this.assetId, this.mirror.id)
+                    waves.node.assets.balance(this.assetId),
+                    waves.utils.getRateApi(this.assetId, this.mirror.id)
                 ])
                     .then(([assetBalance, api]) => {
                         return api.exchange(assetBalance.balance.getTokens());
@@ -68,7 +68,7 @@
         return new Mirror();
     };
 
-    controller.$inject = ['Base', 'assetsService', 'user', 'utils', 'createPoll', '$scope'];
+    controller.$inject = ['Base', 'waves', 'user', 'utils', 'createPoll', '$scope'];
 
     angular.module('app.ui')
         .component('wMirror', {

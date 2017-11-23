@@ -17,59 +17,100 @@
     };
 
     /**
-     * @param {app.utils.apiWorker} apiWorker
-     * @param {app.utils.decorators} decorators
      * @param {User} user
      * @param {app.utils} utils
-     * @return {TransactionsService}
+     * @return {Transactions}
      */
-    const factory = function (apiWorker, decorators, user, utils) {
+    const factory = function (user, utils) {
 
-        class TransactionsService {
+        class Transactions {
 
             constructor() {
                 this.TYPES = TYPES;
             }
 
+            /**
+             * Get transaction info
+             * @param {string} id Transaction id
+             * @return {Promise<ITransaction>}
+             */
             get(id) {
-                return this._getTransaction(id);
-            }
-
-            getList() {
-                return user.onLogin().then(() => {
-                    return this._getTransactions(user.address);
-                });
+                return Waves.API.Node.v2.transactions.get(id)
+                    .then(this._pipeTransaction(false));
             }
 
             /**
-             * @param {string} id
-             * @private
+             * Get transaction info from utx
+             * @param {string} id Transaction id
+             * @return {Promise<ITransaction>}
              */
-            _getTransaction(id) {
-                return apiWorker.process((Waves, id) => {
-                    return Waves.API.Node.v2.transactions.get(id);
-                }, id).then(TransactionsService._processTransaction);
+            getUtx(id) {
+                return Waves.API.Node.v2.transactions.utxGet(id)
+                    .then(this._pipeTransaction(true));
             }
 
             /**
-             * @param {string} address
-             * @private
+             * Get transaction info
+             * @param {string} id Transaction id
+             * @return {Promise<ITransaction>}
              */
-            @decorators.cachable(2)
-            _getTransactions(address) {
-                return apiWorker.process((Waves, address) => {
-                    return Waves.API.Node.v2.addresses.transactions(address);
-                }, address).then((list) => {
-                    return list.map(TransactionsService._processTransaction);
-                });
+            getAlways(id) {
+                return this.get(id)
+                    .catch(() => this.getUtx(id));
             }
 
-            static _processTransaction(tx) {
-                tx.timestamp = new Date(tx.timestamp);
-                tx.type = TransactionsService._getTransactionType(tx);
-                tx.templateType = TransactionsService._getTemplateType(tx);
-                tx.shownAddress = TransactionsService._getTransactionAddress(tx);
-                return tx;
+            /**
+             * Get transactions list by user
+             * @return {Promise<ITransaction[]>}
+             */
+            list() {
+                return Waves.API.Node.v2.addresses.transactions(user.address)
+                    .then((list) => list && list.map(this._pipeTransaction(false))) || [];
+            }
+
+            /**
+             * Get transactions list by user from utx
+             * @return {Promise<ITransaction[]>}
+             */
+            listUtx() {
+                // TODO Get utx by user for balances. Author Tsigel at 22/11/2017 13:08
+                // return Waves.API.Node.v2.addresses.transactionsUtx(user.address)
+                //     .then((list) => list && list.length && list[0].map(this._pipeTransaction(true))) || [];
+            }
+
+            /**
+             * Get transactions list by user
+             * @return {Promise<ITransaction[]>}
+             */
+            listAlways() {
+                return utils.whenAll([
+                    this.listUtx(),
+                    this.list()
+                ])
+                    .then(([utxTxList, txList]) => {
+                        return utxTxList.map(this._pipeTransaction(true))
+                            .concat(txList.map(this._pipeTransaction(false)));
+                    });
+            }
+
+            /**
+             * Get size of utx transactions list
+             * @return {Promise<number>}
+             */
+            utxSize() {
+                Waves.API.Node.v1.transactions.utxGetList(user.address)
+                    .then((list) => list.length);
+            }
+
+            _pipeTransaction(isUTX) {
+                return (tx) => {
+                    tx.timestamp = new Date(tx.timestamp);
+                    tx.isUTX = isUTX;
+                    tx.type = Transactions._getTransactionType(tx);
+                    tx.templateType = Transactions._getTemplateType(tx);
+                    tx.shownAddress = Transactions._getTransactionAddress(tx);
+                    return tx;
+                };
             }
 
             /**
@@ -85,11 +126,11 @@
             static _getTransactionType(tx) {
                 switch (tx.transactionType) {
                     case 'transfer':
-                        return TransactionsService._getTransferType(tx);
+                        return Transactions._getTransferType(tx);
                     case 'exchange':
-                        return TransactionsService._getExchangeType(tx);
+                        return Transactions._getExchangeType(tx);
                     case 'lease':
-                        return TransactionsService._getLeaseType(tx);
+                        return Transactions._getLeaseType(tx);
                     case 'cancelLeasing':
                         return TYPES.CANCEL_LEASING;
                     case 'createAlias':
@@ -190,10 +231,18 @@
 
         }
 
-        return utils.bind(new TransactionsService());
+        return new Transactions();
     };
 
-    factory.$inject = ['apiWorker', 'decorators', 'user', 'utils'];
+    factory.$inject = ['user', 'utils'];
 
-    angular.module('app').factory('transactionsService', factory);
+    angular.module('app').factory('transactions', factory);
 })();
+
+/**
+ * @typedef {Object} ITransaction
+ * @property {string} type
+ * @property {string} transactionType
+ * @property {number} height
+ * @property {boolean} isUTX
+ */

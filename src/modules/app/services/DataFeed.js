@@ -3,6 +3,8 @@
 
     const factory = function (decorators) {
 
+        // TODO Refactor. Author Tsigel at 22/11/2017 08:24
+
         class DataFeed {
 
             /**

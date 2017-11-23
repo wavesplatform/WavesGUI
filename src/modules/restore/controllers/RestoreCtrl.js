@@ -4,11 +4,10 @@
     /**
      * @param Base
      * @param $scope
-     * @param {app.utils.apiWorker} apiWorker
      * @param {User} user
      * @return {RestoreCtrl}
      */
-    const controller = function (Base, $scope, apiWorker, user) {
+    const controller = function (Base, $scope, user) {
 
         class RestoreCtrl extends Base {
 
@@ -37,31 +36,23 @@
             }
 
             restore() {
-                apiWorker.process((WavesAPI, { seed, password }) => {
-                    const seedData = WavesAPI.Seed.fromExistingPhrase(seed);
-                    return {
-                        encryptedSeed: seedData.encrypt(password),
-                        publicKey: seedData.keyPair.publicKey
-                    };
-                }, { seed: this.seed, password: this.password })
-                    .then(({ encryptedSeed, publicKey }) => {
-                        user.addUserData({
-                            address: this.address,
-                            password: this.password,
-                            settings: { termsAccepted: false },
-                            encryptedSeed,
-                            publicKey
-                        });
-                    });
+
+                const seedData = Waves.Seed.fromExistingPhrase(this.seed);
+                const encryptedSeed = seedData.encrypt(this.password);
+                const publicKey = seedData.keyPair.publicKey;
+
+                return user.create({
+                    address: this.address,
+                    password: this.password,
+                    settings: { termsAccepted: false },
+                    encryptedSeed,
+                    publicKey
+                }, true);
             }
 
             _onChangeSeed() {
                 if (this.seedForm.$valid) {
-                    apiWorker.process((WavesAPI, seed) => {
-                        return WavesAPI.Seed.fromExistingPhrase(seed).address;
-                    }, this.seed).then((address) => {
-                        this.address = address;
-                    });
+                    this.address = Waves.Seed.fromExistingPhrase(this.seed).address;
                 } else {
                     this.address = '';
                 }
@@ -72,7 +63,7 @@
         return new RestoreCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'apiWorker', 'user'];
+    controller.$inject = ['Base', '$scope', 'user'];
 
     angular.module('app.restore').controller('RestoreCtrl', controller);
 })();

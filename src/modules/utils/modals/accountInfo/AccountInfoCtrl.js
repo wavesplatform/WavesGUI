@@ -5,57 +5,62 @@
      * @param Base
      * @param $scope
      * @param {User} user
-     * @param {app.utils.apiWorker} apiWorker
-     * @param {AssetsService} assetsService
+     * @param {Waves} waves
      * @param {NotificationManager} notificationManager
      * @param {app.utils} utils
      * @return {AccountInfoCtrl}
      */
-    const controller = function (Base, $scope, user, apiWorker, assetsService, notificationManager, utils) {
+    const controller = function (Base, $scope, user, waves, notificationManager, utils) {
 
         class AccountInfoCtrl extends Base {
 
             constructor() {
                 super($scope);
+                /**
+                 * @type {string}
+                 */
                 this.address = user.address;
+                /**
+                 * @type {number}
+                 */
                 this.createAliasStep = 0;
+                /**
+                 * @type {Array<string>}
+                 */
+                this.aliases = null;
+                /**
+                 * @type {string}
+                 */
                 this.newAlias = '';
+                /**
+                 * @type {Money}
+                 */
+                this.fee = null;
 
-                assetsService.getFeeSend()
-                    .then((feeData) => {
-                        this.feeData = feeData;
-                        assetsService.getAssetInfo(feeData.asset.id)
-                            .then((mirror) => {
-                                this.mirror = mirror;
-                            });
+                waves.node.aliases.fee()
+                    .then(([fee]) => {
+                        this.fee = fee;
                     });
 
-                apiWorker.process((Waves, { address, code, comparator }) => {
-                    return Waves.API.Node.v1.aliases.byAddress(address)
-                        .then((aliases) => aliases.map((item) => item.replace(`alias:${code}:`, '')))
-                        .then((aliases) => aliases.sort(comparator));
-                }, { address: user.address, code: WavesApp.network.code, comparator: utils.comparators.asc })
+                waves.node.aliases.getAliasList()
                     .then((aliases) => {
                         this.aliases = aliases;
                     });
             }
 
             createAlias() {
-                user.getSeed()
-                    .then((seed) => {
-                        apiWorker.process((Waves, { alias, seed }) => {
-                            return Waves.API.Node.v1.aliases.createAlias({ alias }, seed.keyPair);
-                        }, { alias: this.newAlias, seed })
-                            .then((data) => {
-                                this.aliases.push(data.alias);
-                                this.newAlias = '';
-                                this.createAliasStep = 0;
-                                notificationManager.info({
-                                    ns: 'app.utils',
-                                    title: { literal: 'modal.account.notifications.aliasCreated' }
-                                });
+                return user.getSeed().then((seed) => {
+                    return waves.node.aliases.createAlias({ alias: this.newAlias, keyPair: seed.keyPaid })
+                        .then(() => {
+                            this.aliases.push(this.newAlias);
+                            this.newAlias = '';
+                            this.createAliasStep = 0;
+                            notificationManager.info({
+                                ns: 'app.utils',
+                                title: { literal: 'modal.account.notifications.aliasCreated' }
                             });
-                    });
+                        });
+                });
             }
 
             reset() {
@@ -67,7 +72,7 @@
         return new AccountInfoCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'apiWorker', 'assetsService', 'notificationManager', 'utils'];
+    controller.$inject = ['Base', '$scope', 'user', 'waves', 'notificationManager', 'utils'];
 
     angular.module('app.utils')
         .controller('AccountInfoCtrl', controller);

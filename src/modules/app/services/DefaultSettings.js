@@ -26,9 +26,11 @@
                  * @private
                  */
                 this.defaults = {
+                    network: WavesApp.network,
                     logoutAfterMin: 5,
                     encryptionRounds: 5000,
                     savePassword: true,
+                    hasBackup: true,
                     termsAccepted: true,
                     baseAssetId: WavesApp.defaultAssets.USD,
                     events: Object.create(null),

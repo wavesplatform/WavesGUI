@@ -2,11 +2,10 @@
     'use strict';
 
     const PROGRESS_MAP = {
-        RUN_SCRIPT: 3,
-        APP_RUN: 5,
-        LOCALIZE_READY: 22,
-        IMAGES_LOADED: 45,
-        WORKER_READY: 25
+        RUN_SCRIPT: 10,
+        APP_RUN: 15,
+        LOCALIZE_READY: 25,
+        IMAGES_LOADED: 50
     };
 
     const allProgress = Object.values(PROGRESS_MAP)
@@ -38,12 +37,11 @@
      * @param $rootScope
      * @param {User} user
      * @param $state
-     * @param apiWorker
      * @param {State} state
      * @param {ModalManager} modalManager
      * @return {AppRun}
      */
-    const run = function ($rootScope, user, $state, apiWorker, state, modalManager) {
+    const run = function ($rootScope, user, $state, state, modalManager) {
 
         class AppRun {
 
@@ -81,7 +79,7 @@
                     if (START_STATES.indexOf(state.name) === -1) {
                         event.preventDefault();
                     }
-                    user.login()
+                    this.login()
                         .then(() => {
                             if (START_STATES.indexOf(state.name) === -1) {
                                 $state.go(state.name, params);
@@ -103,6 +101,18 @@
                             });
                         });
                 });
+            }
+
+            login() {
+                const states = WavesApp.stateTree.where({ noLogin: true })
+                    .map((item) => {
+                        return WavesApp.stateTree.getPath(item.id)
+                            .join('.');
+                    });
+                if (states.indexOf($state.$current.name) === -1) {
+                    $state.go(states[0]);
+                }
+                return user.onLogin();
             }
 
             /**
@@ -134,7 +144,6 @@
                 Promise.all([
                     this._getLocalizeReadyPromise(),
                     this._getImagesReadyPromise(),
-                    this._getWorkerReadyPromise()
                 ])
                     .then(() => LOADER.stop())
                     .catch((e) => {
@@ -167,16 +176,6 @@
                     });
             }
 
-            /**
-             * @private
-             */
-            _getWorkerReadyPromise() {
-                return apiWorker.process(() => null)
-                    .then(() => {
-                        LOADER.addProgress(PROGRESS_MAP.WORKER_READY);
-                    });
-            }
-
             static getLoadImagePromise(length) {
                 return function (path) {
                     return new Promise((resolve, reject) => {
@@ -196,7 +195,7 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'user', '$state', 'apiWorker', 'state', 'modalManager', 'modalRouter'];
+    run.$inject = ['$rootScope', 'user', '$state', 'state', 'modalManager', 'modalRouter'];
 
     angular.module('app')
         .run(run);

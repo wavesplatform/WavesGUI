@@ -2,7 +2,7 @@
     'use strict';
 
     /**
-     * @param {AssetsService} assetsService
+     * @param {Waves} waves
      * @param {AssetsData} assetsData
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
@@ -12,7 +12,7 @@
      * @param {Function} createPoll
      * @return {Assets}
      */
-    const controller = function (assetsService, assetsData, $scope, utils, Base, user, modalManager, createPoll) {
+    const controller = function (waves, assetsData, $scope, utils, Base, user, modalManager, createPoll) {
 
         class Assets extends Base {
 
@@ -30,6 +30,11 @@
                 this.assetList = null;
                 this.options = assetsData.getGraphOptions();
                 this.mirrorId = null;
+                /**
+                 * @type {Moment}
+                 * @private
+                 */
+                this._startDate = null;
 
                 /**
                  * @type {string}
@@ -76,6 +81,7 @@
                 const assetsPoll = createPoll(this, this._getBalances, 'assets', 5000, { isBalance: true });
 
                 this.observe('chartMode', this._onChangeMode);
+                this.observe('_startDate', this._onChangeInterval);
                 this.observe('assetList', () => {
                     assetsPoll.restart();
                 });
@@ -124,9 +130,10 @@
              * @param {IAssetInfo} [asset]
              */
             showReceive(asset) {
-                return assetsService.resolveAsset(asset).then((a) => {
-                    return modalManager.showReceiveAsset(user, a);
-                });
+                return waves.node.assets.info(asset && asset.id || WavesApp.defaultAssets.WAVES)
+                    .then((asset) => {
+                        return modalManager.showReceiveAsset(user, asset);
+                    });
             }
 
             /**
@@ -134,14 +141,14 @@
              * @private
              */
             _onChangeChartAssetId({ value }) {
-                assetsService.getBalance(value)
+                waves.node.assets.balance(value)
                     .then((asset) => {
                         this.chartAsset = asset;
                     });
             }
 
             _getChartBalances() {
-                return assetsService.getBalanceList(this.chartAssetIdList);
+                return waves.node.assets.balanceList(this.chartAssetIdList);
             }
 
             /**
@@ -149,7 +156,7 @@
              * @private
              */
             _getBalances() {
-                return assetsService.getBalanceList(this.assetList)
+                return waves.node.assets.balanceList(this.assetList)
                     .then((assets) => {
                         return assets;
                     });
@@ -170,7 +177,7 @@
                 const from = this.activeChartAssetId;
                 const to = this.mirrorId;
 
-                return assetsService.getRateHistory(from, to, this.interval, this.intervalCount)
+                return waves.utils.getRateHistory(from, to, this._startDate)
                     .then((values) => {
                         this.change = (values[0].rate - values[values.length - 1].rate).toFixed(2);
                         this.changePercent = (values[values.length - 1].rate / values[0].rate).toFixed(2);
@@ -184,24 +191,29 @@
             _onChangeMode() {
                 switch (this.chartMode) {
                     case 'hour':
-                        this.interval = 5;
-                        this.intervalCount = 60 / 5;
+                        this._startDate = utils.moment()
+                            .add()
+                            .hour(-1);
                         break;
                     case 'day':
-                        this.interval = 30;
-                        this.intervalCount = 1440 / 30;
+                        this._startDate = utils.moment()
+                            .add()
+                            .day(-1);
                         break;
                     case 'week':
-                        this.interval = 240;
-                        this.intervalCount = 1440 * 7 / 240;
+                        this._startDate = utils.moment()
+                            .add()
+                            .day(-7);
                         break;
                     case 'month':
-                        this.interval = 1440;
-                        this.intervalCount = 1440 * 31 / 1440;
+                        this._startDate = utils.moment()
+                            .add()
+                            .month(-1);
                         break;
                     case 'year':
-                        this.interval = 1440;
-                        this.intervalCount = 100;
+                        this._startDate = utils.moment()
+                            .add()
+                            .year(-1);
                         break;
                     default:
                         throw new Error('Wrong chart mode!');
@@ -214,7 +226,7 @@
     };
 
     controller.$inject = [
-        'assetsService',
+        'waves',
         'assetsData',
         '$scope',
         'utils',

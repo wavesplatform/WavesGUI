@@ -4,22 +4,18 @@
     /**
      * @param {User} user
      * @param {app.utils.decorators} decorators
-     * @param apiWorker
-     * @param {AssetsService} assetsService
+     * @param {Waves} waves
      * @param {app.utils} utils
      * @return {AssetsData}
      */
-    const factory = function (user, decorators, apiWorker, assetsService, utils) {
+    const factory = function (user, decorators, waves, utils) {
 
         class AssetsData {
 
             getAssets() {
-                return user.getSetting('pinnedAssetIdList')
-                    .then((assetIdList) => {
-                        return utils.whenAll(assetIdList.map((assetId) => {
-                            return assetsService.getBalance(assetId);
-                        }));
-                    });
+                return utils.whenAll(user.getSetting('pinnedAssetIdList').map((assetIdList) => {
+                    return waves.node.assets.balance(assetIdList);
+                }));
             }
 
             getGraphOptions() {
@@ -74,7 +70,7 @@
         return new AssetsData();
     };
 
-    factory.$inject = ['user', 'decorators', 'apiWorker', 'assetsService', 'utils'];
+    factory.$inject = ['user', 'decorators', 'waves', 'utils'];
 
     angular.module('app.wallet.assets')
         .factory('assetsData', factory);
