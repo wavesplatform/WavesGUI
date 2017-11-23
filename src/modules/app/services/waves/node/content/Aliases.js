@@ -31,6 +31,10 @@
                     .then((list) => list.sort(utils.comparators.asc));
             }
 
+            /**
+             * Get list of min values fee
+             * @return {Promise<Money[]>}
+             */
             fee() {
                 return this._feeList('createAlias');
             }

@@ -162,6 +162,12 @@
                 return `${interval}/${count}`;
             }
 
+            /**
+             * @param {string} from
+             * @param {string} to
+             * @return {Promise<Number>}
+             * @private
+             */
             _getChange(from, to) {
                 return Waves.AssetPair.get(from, to)
                     .then((pair) => {
