@@ -27,8 +27,8 @@
                         },
                     },
                     center: 34,
-                    direction: true,
-                    startFrom: 3 * Math.PI / 2
+                    direction: false,
+                    startFrom: Math.PI / 2
                 };
                 createPoll(this, this._getLeasingData, this._setLeasingData, 1000);
             }
@@ -43,6 +43,7 @@
             _setLeasingData([available, leased]) {
                 this.available = available;
                 this.leased = leased;
+                this.total = available.add(leased);
 
                 this.chartData = {
                     available,

@@ -1,10 +1,40 @@
 <div w-i18n-ns="app.wallet.leasing" class="leasing-page">
     <div class="left-panel">
-        <!--<w-leasing-block title-locale="chart.title">-->
-            <w-circle-chart options="$ctrl.chartOptions" data="$ctrl.chartData"></w-circle-chart>
-        <!--</w-leasing-block>-->
+        <w-leasing-block class="margin-1" title-locale="chart.title">
+            <div class="balance-container text-center margin-4">
+                <w-balance money="$ctrl.total"></w-balance>
+            </div>
+            <div class="chart-wrapper margin-3">
+                <w-circle-chart options="$ctrl.chartOptions" data="$ctrl.chartData"></w-circle-chart>
+            </div>
+            <div class="legend-container margin-3">
+                <div class="legend-item">
+                    <div class="legend-name">
+                        <div class="legend-title disabled-600 margin-right-1" w-i18n="chart.leased"></div>
+                        <div class="legend-color"
+                             style="background-color: {{::$ctrl.chartOptions.items.leased.color}}"></div>
+                    </div>
+                    <w-balance money="$ctrl.leased"></w-balance>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-name">
+                        <div class="legend-title disabled-600 margin-right-1" w-i18n="chart.available"></div>
+                        <div class="legend-color"
+                             style="background-color: {{::$ctrl.chartOptions.items.available.color}}"></div>
+                    </div>
+                    <w-balance money="$ctrl.available"></w-balance>
+                </div>
+            </div>
+            <w-button class="submit long">
+                <w-i18n>chart.create</w-i18n>
+            </w-button>
+        </w-leasing-block>
         <w-leasing-block title-locale="description.title">
-
+            <div class="footnote-1 basic-500" w-i18n="description.text1"></div>
+            <div class="description-split"></div>
+            <div class="icon-description footnote-1 basic-500" w-i18n="description.text2"></div>
+            <div class="description-split"></div>
+            <div class="footnote-1 basic-500" w-i18n="description.text3"></div>
         </w-leasing-block>
     </div>
     <div class="transactions-container">

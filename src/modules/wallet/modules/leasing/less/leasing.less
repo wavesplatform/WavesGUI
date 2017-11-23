@@ -1,3 +1,5 @@
+@import (reference) '../../../../config';
+
 .leasing-page {
   display: flex;
   flex-direction: row;
@@ -14,6 +16,52 @@
   }
 
   .transactions-container {
-    width: calc(~'100% - ' @leftPanelWidth + @leftPanelRightMargin);
+    width: calc(~'100% - '@leftPanelWidth + @leftPanelRightMargin);
   }
+
+  .chart-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .legend-container {
+    display: flex;
+    flex-direction: row;
+    & > .legend-item {
+      width: 50%;
+
+      .legend-name {
+        display: flex;
+
+        .legend-color {
+          width: 12px;
+          height: 12px;
+          border-radius: 100%;
+        }
+      }
+    }
+  }
+
+  .description-split {
+    margin: 30px 0;
+    height: 0;
+    border-bottom: 1px dashed @color-disabled-200;
+  }
+
+  .icon-description {
+    position: relative;
+    padding-left: 60px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 49px;
+      height: 49px;
+      //background-image: url(/img/icons/);
+    }
+  }
+
 }

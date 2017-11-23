@@ -301,12 +301,8 @@
                         asc: (a, b) => utils.comparators.asc(processor(a), processor(b)),
                         desc: (a, b) => utils.comparators.desc(processor(a), processor(b)),
                         bigNumber: {
-                            asc: function (a, b) {
-                                utils.comparators.bigNumber.asc(processor(a), processor(b));
-                            },
-                            desc: function (a, b) {
-                                utils.comparators.bigNumber.desc(processor(a), processor(b));
-                            }
+                            asc: (a, b) => utils.comparators.bigNumber.asc(processor(a), processor(b)),
+                            desc: (a, b) => utils.comparators.bigNumber.desc(processor(a), processor(b))
                         }
                     };
                 }
