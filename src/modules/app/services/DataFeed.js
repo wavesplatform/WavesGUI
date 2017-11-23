@@ -3,7 +3,7 @@
 
     const factory = function (decorators) {
 
-        // TODO! Remove file. Author Tsigel at 22/11/2017 08:24
+        // TODO Refactor. Author Tsigel at 22/11/2017 08:24
 
         class DataFeed {
 

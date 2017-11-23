@@ -196,10 +196,9 @@
             name: '{{pack.name}}',
             version: '{{pack.version}}',
             type: '{{build.type}}',
-            addressLength: 35,
             network: {
-                server: '{{network.server}}',
                 code: '{{network.code}}',
+                node: '{{network.node}}',
                 matcher: '{{network.matcher}}',
                 coinomat: '{{network.coinomat}}',
                 datafeed: '{{network.datafeed}}'
@@ -252,7 +251,7 @@
 
     var Waves = WavesAPI.create({
         networkByte: WavesApp.network.code.charCodeAt(0),
-        nodeAddress: WavesApp.network.server,
+        nodeAddress: WavesApp.network.node,
         matcherAddress: WavesApp.network.matcher
     });
 
@@ -323,8 +322,8 @@
      * @property {string} type
      * @property {number} addressLength
      * @property {object} network
-     * @property {string} network.server
      * @property {string} network.code
+     * @property {string} network.node
      * @property {string} network.matcher
      * @property {string} network.coinomat
      * @property {string} network.datafeed

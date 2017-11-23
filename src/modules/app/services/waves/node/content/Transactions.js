@@ -73,7 +73,8 @@
              * @return {Promise<ITransaction[]>}
              */
             listUtx() {
-                // return Waves.API.Node.v2.addresses.transactionsUtx(user.address) // TODO! . Author Tsigel at 22/11/2017 13:08
+                // TODO Get utx by user for balances. Author Tsigel at 22/11/2017 13:08
+                // return Waves.API.Node.v2.addresses.transactionsUtx(user.address)
                 //     .then((list) => list && list.length && list[0].map(this._pipeTransaction(true))) || [];
             }
 

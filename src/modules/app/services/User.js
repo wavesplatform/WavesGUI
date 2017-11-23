@@ -115,8 +115,6 @@
             /**
              * @param {object} data
              * @param {string} data.address
-             * @param {string} data.encryptedSeed
-             * @param {string} data.publicKey
              * @param {string} data.password
              * @return {Promise}
              *
@@ -135,7 +133,7 @@
              * @return Promise
              */
             create(data, hasBackup) {
-                this._addUserData({
+                return this._addUserData({
                     address: data.address,
                     password: data.password,
                     encryptedSeed: data.encryptedSeed,
@@ -168,7 +166,7 @@
             }
 
             getSeed() {
-                return this.onLogin() // TODO! Refactor. Author Tsigel at 22/11/2017 09:35
+                return this.onLogin() // TODO Refactor. Author Tsigel at 22/11/2017 09:35
                     .then(() => {
                         if (!this._password) {
                             return modalManager.getSeed();
@@ -204,8 +202,8 @@
             /**
              * @param {object} data
              * @param {string} data.address
-             * @param {string} data.encryptedSeed
-             * @param {string} data.publicKey
+             * @param {string} [data.encryptedSeed]
+             * @param {string} [data.publicKey]
              * @param {string} data.password
              * @param {object} [data.settings]
              * @param {boolean} [data.settings.termsAccepted]

@@ -37,15 +37,11 @@
                     const encryptionRounds = user.getSettingByUser(this.userList[this.activeUser], 'encryptionRounds');
                     const seed = Waves.Seed.decryptSeedPhrase(this.encryptedSeed, this.password, encryptionRounds);
 
-                    const seedData = Waves.Seed.fromExistingPhrase(seed);
-                    const encryptedSeed = seedData.encryptedSeed;
-                    const publicKey = seedData.keyPair.publicKey;
+                    Waves.Seed.fromExistingPhrase(seed);
 
                     user.login({
                         address: this.address,
-                        password: this.password,
-                        encryptedSeed,
-                        publicKey
+                        password: this.password
                     });
                 } catch (e) {
                     this.password = '';

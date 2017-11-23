@@ -104,6 +104,11 @@
                 });
             }
 
+            /**
+             * Get list of min values fee
+             * @param {string} type
+             * @return {Promise<Money[]>}
+             */
             fee(type) {
                 return this._feeList(type);
             }
@@ -188,3 +193,31 @@
 
     angular.module('app').factory('assets', factory);
 })();
+
+/**
+ * @typedef {object} IAssetInfo
+ * @property {string} id
+ * @property {string} name
+ * @property {string} [description]
+ * @property {number} precision
+ * @property {boolean} reissuable
+ * @property {Money} quantity
+ * @property {number} timestamp
+ * @property {number} height
+ * @property {string} ticker
+ * @property {string} sign
+ */
+/**
+ * @typedef {object} IAssetWithBalance
+ * @property {string} id
+ * @property {string} name
+ * @property {string} [description]
+ * @property {number} precision
+ * @property {BigNumber} balance
+ * @property {boolean} reissuable
+ * @property {Money} quantity
+ * @property {number} timestamp
+ * @property {number} height
+ * @property {string} ticker
+ * @property {string} sign
+ */

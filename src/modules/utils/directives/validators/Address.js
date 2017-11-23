@@ -10,7 +10,6 @@
 
                 this.$ngModel.$asyncValidators.inputAddress = function (address) {
                     // TODO : replace with address validator from `waves-api` when it's implemented
-                    // TODO! Promise??? es6???. Author Tsigel at 22/11/2017 08:39
                     return Waves.API.Node.v1.addresses.balance(address)
                         .then((data) => {
                             if (data && data.balance != null) {

@@ -52,7 +52,7 @@
                             if (hash[fee.id] && hash[fee.id].getTokens().lte(fee.getTokens())) {
                                 return fee;
                             } else {
-                                // TODO! ??? Author Tsigel at 22/11/2017 09:16
+                                throw new Error('Wrong fee!');
                             }
                         } else {
                             return list[0];

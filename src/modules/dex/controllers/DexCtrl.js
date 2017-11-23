@@ -29,7 +29,6 @@
                 this.observe(['_leftHidden', '_rightHidden'], this._onChangeProperty);
             }
 
-            // @TODO refactor
             // hide and show graph to force its resize
             toggleColumn(column) {
                 this[`_${column}Hidden`] = !this[`_${column}Hidden`];

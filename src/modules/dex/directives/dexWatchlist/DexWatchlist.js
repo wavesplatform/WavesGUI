@@ -36,7 +36,7 @@
         const assetsList = utils.whenAll(TOP_ASSETS_LIST.map((id) => {
             return utils.whenAll([
                 waves.node.assets.info(id),
-                waves.utils.getChange(id)
+                waves.utils.getChange(id, WavesApp.defaultAssets.WAVES)
             ])
                 .then(([info, change]) => {
                     return { ...info, change };

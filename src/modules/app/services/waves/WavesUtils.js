@@ -162,6 +162,12 @@
                 return `${interval}/${count}`;
             }
 
+            /**
+             * @param {string} from
+             * @param {string} to
+             * @return {Promise<Number>}
+             * @private
+             */
             _getChange(from, to) {
                 return Waves.AssetPair.get(from, to)
                     .then((pair) => {
@@ -230,7 +236,7 @@
                             .then((list) => {
 
                                 if (!list || !list.length) {
-                                    return Promise.reject(list); // TODO! Promise ???
+                                    return Promise.reject(list);
                                 }
 
                                 return list.reduce((result, item) => {
