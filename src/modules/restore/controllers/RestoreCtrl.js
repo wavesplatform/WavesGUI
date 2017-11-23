@@ -41,13 +41,13 @@
                 const encryptedSeed = seedData.encrypt(this.password);
                 const publicKey = seedData.keyPair.publicKey;
 
-                user._addUserData({
+                return user.create({
                     address: this.address,
                     password: this.password,
                     settings: { termsAccepted: false },
                     encryptedSeed,
                     publicKey
-                });
+                }, true);
             }
 
             _onChangeSeed() {

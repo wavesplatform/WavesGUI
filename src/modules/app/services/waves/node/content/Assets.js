@@ -106,10 +106,11 @@
 
             /**
              * Get list of min values fee
+             * @param {string} type
              * @return {Promise<Money[]>}
              */
-            fee() {
-                return this._feeList('transfer');
+            fee(type) {
+                return this._feeList(type);
             }
 
             /**
