@@ -36,6 +36,10 @@
                 createPoll(this, this._getLeasingData, this._setLeasingData, 1000);
             }
 
+            /**
+             * @return {*|Promise}
+             * @private
+             */
             _getLeasingData() {
                 return utils.whenAll([
                     Waves.Money.fromTokens('0', WavesApp.defaultAssets.WAVES),
