@@ -26,9 +26,9 @@
                 this.syncSettings({
                     _amountAssetId: 'dex.amountAssetId',
                     _priceAssetId: 'dex.priceAssetId'
-                }).then(() => {
-                    this.observe(['_amountAssetId', '_priceAssetId'], () => console.log('Pair changed!'));
                 });
+
+                this.observe(['_amountAssetId', '_priceAssetId'], () => console.log('Pair changed!'));
             }
 
             $postLink() {
