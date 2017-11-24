@@ -190,6 +190,7 @@
     angular.module('app.ui')
         .component('wTransactionList', {
             bindings: {
+                transactionDatePattern: '@',
                 assetIdList: '<',
                 transactionType: '<',
                 search: '<'

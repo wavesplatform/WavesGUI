@@ -13,6 +13,7 @@
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
      * @param {DexService} dexService
+     * @param {object} $attrs
      * @return {Transaction}
      */
     const controller = function (Base, $filter, modalManager, notificationManager,
@@ -22,7 +23,7 @@
 
             $postLink() {
                 this.templateUrl = `${PATH}/${this.transaction.templateType}.html`;
-                this.time = $filter('date')(this.transaction.timestamp, 'HH:mm');
+                this.time = $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm');
                 this.shownAddress = this.transaction.shownAddress;
                 this.type = this.transaction.type;
 
@@ -39,7 +40,8 @@
                 }
             }
 
-            cancelLeasing() {} // TODO
+            cancelLeasing() {
+            } // TODO
 
             showTransaction() {
                 modalManager.showTransactionInfo(this.transaction.id);
@@ -109,12 +111,20 @@
     };
 
     controller.$inject = [
-        'Base', '$filter', 'modalManager', 'notificationManager',
-        'waves', 'copyService', 'user', 'baseAssetService', 'dexService'
+        'Base',
+        '$filter',
+        'modalManager',
+        'notificationManager',
+        'waves',
+        'copyService',
+        'user',
+        'baseAssetService',
+        'dexService'
     ];
 
     angular.module('app.ui').component('wTransaction', {
         bindings: {
+            datePattern: '@',
             transaction: '<' // TODO Refactor for listen change transaction. Author Tsigel at 22/11/2017 12:09
         },
         require: {

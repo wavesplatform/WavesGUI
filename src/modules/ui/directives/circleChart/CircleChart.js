@@ -42,28 +42,23 @@
             }
 
             _resetCanvasSize() {
-                const size = Object.keys(this._data)
-                    .reduce((result, item) => Math.max(result, this._options.items[item].radius), 0) * 2 + 2;
+                const reducer = (result, item) => Math.max(result, this._options.items[item.id].radius);
+                const size = this._data.reduce(reducer, 0) * 2 + 2;
 
                 this._canvas.width = size;
                 this._canvas.height = size;
             }
 
             _getBalances() {
-                const method = this._options.direction ? 'asc' : 'desc';
-
-                return Object.keys(this._data)
-                    .map((chartItemName) => {
-                        const item = this._data[chartItemName];
-                        const value = item instanceof Waves.Money ? item.getTokens() : item;
-
-                        return { id: chartItemName, value };
-                    })
-                    .sort(utils.comparators.process((item) => item.value).bigNumber[method]);
+                return this._data
+                    .map((item) => {
+                        const value = item.value instanceof Waves.Money ? item.value.getTokens() : item.value;
+                        return { id: item.id, value };
+                    });
             }
 
             _redrawGraph() {
-                if (!this._data || !Object.keys(this._data).length) {
+                if (!this._data || !this._data.length) {
                     return null;
                 }
 
@@ -80,6 +75,12 @@
                 const total = balances.reduce((result, item) => result.add(item.value), new BigNumber(0));
                 const center = this._canvas.height / 2 + 0.5;
                 const insightRadius = this._options.center || DEFAULT_OPTIONS.center;
+
+                const empty = total.eq(0);
+                $element.toggleClass('empty-chart', empty);
+                if (empty) {
+                    return false;
+                }
 
                 let startFrom = this._options.startFrom;
 

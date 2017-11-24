@@ -83,6 +83,7 @@
     }
   },
   "transactionList": {
-    "noTransactions": "You do not have any transactions"
+    "noTransactionsTitle": "Nothing Here…",
+    "noTransactionsDescription": "You do not have any transaction."
   }
 }

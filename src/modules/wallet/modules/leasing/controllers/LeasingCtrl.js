@@ -25,9 +25,12 @@
                             color: '#ffebc0',
                             radius: 64
                         },
+                        leasedIn: {
+                            color: '#bacaf5'
+                        }
                     },
                     center: 34,
-                    direction: false,
+                    direction: true,
                     startFrom: Math.PI / 2
                 };
                 createPoll(this, this._getLeasingData, this._setLeasingData, 1000);
@@ -35,8 +38,8 @@
 
             _getLeasingData() {
                 return utils.whenAll([
-                    Waves.Money.fromTokens('2305.00633568', WavesApp.defaultAssets.WAVES),
-                    Waves.Money.fromTokens('10000', WavesApp.defaultAssets.WAVES)
+                    Waves.Money.fromTokens('0', WavesApp.defaultAssets.WAVES),
+                    Waves.Money.fromTokens('0', WavesApp.defaultAssets.WAVES)
                 ]);
             }
 
@@ -45,10 +48,10 @@
                 this.leased = leased;
                 this.total = available.add(leased);
 
-                this.chartData = {
-                    available,
-                    leased
-                };
+                this.chartData = [
+                    { id: 'leased', value: leased },
+                    { id: 'available', value: available }
+                ];
             }
 
         }
