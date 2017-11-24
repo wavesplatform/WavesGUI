@@ -117,18 +117,6 @@
                 }, 1000);
             }
 
-            fillMax() {
-                if (this.assetId === this.fee.asset.id) {
-                    if (this.asset.balance.getTokens()
-                            .gt(this.fee.getTokens())) {
-                        this.amount = this.asset.balance.getTokens()
-                            .sub(this.fee.getTokens());
-                    }
-                } else {
-                    this.amount = this.asset.balance.getTokens();
-                }
-            }
-
             cancel() {
                 $mdDialog.cancel();
             }

@@ -7,25 +7,21 @@
             <div class="chart-wrapper margin-3">
                 <w-circle-chart options="$ctrl.chartOptions" data="$ctrl.chartData"></w-circle-chart>
             </div>
-            <div class="legend-container margin-3">
-                <div class="legend-item">
-                    <div class="legend-name">
-                        <div class="legend-title disabled-600 margin-right-1" w-i18n="chart.leased"></div>
-                        <div class="legend-color"
-                             style="background-color: {{::$ctrl.chartOptions.items.leased.color}}"></div>
+            <div class="legend-container margin-2">
+                <div ng-repeat="legend in $ctrl.chartData track by legend.id"
+                     ng-if="!legend.value.getTokens().eq(0)"
+                     class="legend-item">
+                    <div class="part disabled-600 footnote-1">
+                        <div class="legend-color margin-right-1"
+                             style="background-color: {{::$ctrl.chartOptions.items[legend.id].color}}"></div>
+                        <w-i18n>{{::legend.id}}</w-i18n>
                     </div>
-                    <w-balance money="$ctrl.leased"></w-balance>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-name">
-                        <div class="legend-title disabled-600 margin-right-1" w-i18n="chart.available"></div>
-                        <div class="legend-color"
-                             style="background-color: {{::$ctrl.chartOptions.items.available.color}}"></div>
+                    <div class="part">
+                        <w-balance money="legend.value"></w-balance>
                     </div>
-                    <w-balance money="$ctrl.available"></w-balance>
                 </div>
             </div>
-            <w-button class="submit long">
+            <w-button class="submit long" ng-click="$ctrl.startLeasing()">
                 <w-i18n>chart.create</w-i18n>
             </w-button>
         </w-leasing-block>
@@ -38,6 +34,8 @@
         </w-leasing-block>
     </div>
     <div class="transactions-container">
-        <w-transaction-list transaction-date-pattern="dd.MM.yyyy HH:mm" transaction-type="'ease-in, lease-out'"></w-transaction-list>
+        <div class="transactions-title headline-4 disabled-900" w-i18n="title"></div>
+        <w-transaction-list transaction-date-pattern="dd.MM.yyyy HH:mm"
+                            transaction-type="'lease-in, lease-out, cancel-leasing'"></w-transaction-list>
     </div>
 </div>

@@ -41,7 +41,20 @@
             }
 
             cancelLeasing() {
-            } // TODO
+                return user.getSeed()
+                    .then(({ keyPair }) => waves.node.cancelLeasing(this.transaction.id, keyPair))
+                    .then((data) => {
+                        notificationManager.info({
+                            ns: 'app.ui',
+                            title: { literal: 'transaction.notifications.closedSuccess' }
+                        });
+                    }, () => {
+                        notificationManager.warn({
+                            ns: 'app.ui',
+                            title: { literal: 'transaction.notifications.closed' }
+                        });
+                    });
+            }
 
             showTransaction() {
                 modalManager.showTransactionInfo(this.transaction.id);

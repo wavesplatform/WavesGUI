@@ -7,6 +7,24 @@
   height: 100%;
   //TODO 1220 change media (remove date from transactions)
 
+  .transactions-title {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    background-color: @color-white;
+    border-top: 1px solid @color-disabled-200;
+    border-left: 1px solid @color-disabled-200;
+    border-right: 1px solid @color-disabled-200;
+    border-top-left-radius: @border-radius;
+    border-top-right-radius: @border-radius;
+  }
+
+  w-transaction-list .w-transaction-list ul {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
   .transaction-item > .date {
     display: none;
   }
@@ -31,19 +49,37 @@
   }
 
   .legend-container {
-    display: flex;
-    flex-direction: row;
-    & > .legend-item {
-      width: 50%;
 
-      .legend-name {
+    .legend-item {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 10px;
+
+      &:not(:first-child) {
+        margin-top: 10px;
+      }
+
+      .part {
         display: flex;
+        align-items: center;
 
         .legend-color {
           width: 12px;
           height: 12px;
           border-radius: 100%;
         }
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        height: 0;
+        border-bottom: 1px dashed @color-basic-200;
       }
     }
   }

@@ -1,0 +1,49 @@
+<w-step-by-step active-step="$ctrl.step">
+    <w-step>
+        <form name="lease" novalidate>
+            <div class="row">
+                <div class="body-2 basic-900" w-i18n="balance"></div>
+                <div class="balance"></div>
+            </div>
+            <div class="row">
+                <div class="body-2 basic-900" w-i18n="recipient"></div>
+                <w-input-container>
+                    <w-input w-validate="address"
+                             name="recipient"
+                             ng-model="$ctrl.recipient"
+                             required></w-input>
+                </w-input-container>
+            </div>
+            <div class="row">
+                <div class="body-2 basic-900" w-i18n="amount"></div>
+                <w-input-container>
+                    <w-balance-input name="amount"
+                                     asset-id="$ctrl.assetId"
+                                     max-balance="$ctrl.asset.balance"
+                                     amount="$ctrl.amount"></w-balance-input>
+                </w-input-container>
+            </div>
+            <div class="row basic-500 margin-2">
+                Fee 0.001 WAVES
+            </div>
+            <w-button disabled="lease.$invalid" w-step-next class="submit big long">
+                <w-i18n>start</w-i18n>
+            </w-button>
+        </form>
+    </w-step>
+    <w-step>
+        <div class="button-container">
+            <w-button w-step-prev class="big">
+                <w-i18n>back</w-i18n>
+            </w-button>
+            <w-button ng-click="$ctrl.submit()" class="submit big">
+                <w-i18n>confirm</w-i18n>
+            </w-button>
+        </div>
+    </w-step>
+    <w-step>
+        <w-button class="big submit">
+            <w-i18n>details</w-i18n>
+        </w-button>
+    </w-step>
+</w-step-by-step>

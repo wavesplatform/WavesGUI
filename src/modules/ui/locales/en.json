@@ -1,4 +1,7 @@
 {
+  "balanceInput": {
+    "max": "Max"
+  },
   "password": {
     "title": "Protect Your Account with a New Password",
     "minLength": "must be at least {{minLength}} characters",
@@ -61,7 +64,9 @@
     },
     "notifications": {
       "txIdCopied": "Transaction ID is copied",
-      "txDataCopied": "Transaction data is copied"
+      "txDataCopied": "Transaction data is copied",
+      "closed": "The leasing has been already canceled",
+      "closedSuccess": "The leasing canceled complete"
     },
     "modals": {
       "to": "To",
