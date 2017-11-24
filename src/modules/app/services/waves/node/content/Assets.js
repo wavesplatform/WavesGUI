@@ -4,7 +4,7 @@
     const ASSET_NAME_MAP = {
         [WavesApp.defaultAssets.ETH]: 'Ethereum',
         [WavesApp.defaultAssets.EUR]: 'Euro',
-        [WavesApp.defaultAssets.USD]: 'USD',
+        [WavesApp.defaultAssets.USD]: 'US Dollar',
         [WavesApp.defaultAssets.BTC]: 'Bitcoin'
     };
 
