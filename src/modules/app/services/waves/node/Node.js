@@ -29,6 +29,10 @@
                 this.transactions = transactions;
             }
 
+            fee(transactionType) {
+                return this._feeList(transactionType);
+            }
+
             get() {
                 return utils.whenAll([
                     assets.balance(WavesApp.defaultAssets.WAVES), Waves.API.Node.v2.addresses.get(user.address)

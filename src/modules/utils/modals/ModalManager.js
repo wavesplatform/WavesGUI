@@ -135,7 +135,7 @@
 
             showStartLeasing() {
                 return this._getModal({
-                    ns: 'app.ui',
+                    ns: 'app.utils',
                     controller: 'StartLeasingCtrl',
                     titleContent: '{{$ctrl.title}}',
                     mod: 'start-leasing',

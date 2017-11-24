@@ -61,7 +61,9 @@
                 }
                 waves.node.assets.info(this.assetId).then((info) => {
                     this.asset = info;
-                    this.amount = new BigNumber(0);
+                    if (!this.amount) {
+                        this.amount = new BigNumber(0);
+                    }
                 });
             }
 
