@@ -1,0 +1,9 @@
+{
+  "name": "Name of you asset",
+  "description": "Description",
+  "count": "Total tokens",
+  "precision": "Decimals",
+  "preview": "Preview",
+  "fee": "Fee 1 WAVES",
+  "create": "Generate"
+}

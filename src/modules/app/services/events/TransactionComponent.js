@@ -12,7 +12,7 @@
         class TransactionComponent extends EventComponent {
 
             getStatus() {
-                return waves.node.transactions.utxGet(this.id)
+                return waves.node.transactions.getUtx(this.id)
                     .then(() => EVENT_STATUSES.PENDING)
                     .catch(() => {
                         return waves.node.transactions.get(this.id)

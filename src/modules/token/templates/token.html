@@ -1,0 +1,38 @@
+<div w-i18n-ns="app.token" class="token-page">
+    <form name="create" novalidate>
+        <div class="row">
+            <div class="body-2 basic-900" w-i18n="name"></div>
+            <w-input-container>
+                <w-input></w-input>
+            </w-input-container>
+        </div>
+        <div class="row">
+            <div class="body-2 basic-900" w-i18n="description"></div>
+            <w-input-container>
+                <w-input textarea></w-input>
+            </w-input-container>
+        </div>
+        <div class="row">
+            <div class="body-2 basic-900" w-i18n="count"></div>
+            <w-input-container>
+                <w-input></w-input>
+            </w-input-container>
+        </div>
+        <div class="row">
+            <div class="body-2 basic-900" w-i18n="precision"></div>
+            <w-input-container>
+                <w-input></w-input>
+            </w-input-container>
+        </div>
+        <div class="row">
+            <div class="body-2 basic-900" w-i18n="preview"></div>
+        </div>
+        <div class="row">
+            <div class="footnote-1 basic-500"></div>
+        </div>
+
+        <w-button disabled="create.$invalid" class="submit long">
+            <w-i18n>create</w-i18n>
+        </w-button>
+    </form>
+</div>
