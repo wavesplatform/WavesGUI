@@ -48,8 +48,8 @@
                 return this._feeList(transactionType)
                     .then((list) => {
                         if (fee) {
-                            const hash = utils.toHash(list, 'id');
-                            if (hash[fee.id] && hash[fee.id].getTokens().lte(fee.getTokens())) {
+                            const hash = utils.toHash(list, 'asset.id');
+                            if (hash[fee.asset.id] && hash[fee.asset.id].getTokens().lte(fee.getTokens())) {
                                 return fee;
                             } else {
                                 throw new Error('Wrong fee!');

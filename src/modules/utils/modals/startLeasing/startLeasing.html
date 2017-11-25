@@ -53,18 +53,18 @@
         <div class="icon" class="lease-in margin-2"></div>
 
 
-        <h3 class="basic-700 text-center">
+        <h3 class="basic-700 text-center margin-3">
             <span w-nice-number="$ctrl.amount" precision="$ctrl.asset.precision"></span> {{::$ctrl.asset.name}}
         </h3>
 
-        <div class="list">
+        <div class="list margin-3 footnote-1">
             <div class="split-half">
-                <div class="flex-row" w-i18n="modal.startLease.recipientConfirm"></div>
-                <div>{{::$ctrl.recipient}}</div>
+                <div class="flex-row disabled-600" w-i18n="modal.startLease.recipientConfirm"></div>
+                <div class="basic-900">{{::$ctrl.recipient}}</div>
             </div>
             <div class="split-half">
-                <div class="flex-row" w-i18n="modal.startLease.fee"></div>
-                <div>{{::$ctrl.fee.getTokens().toFormat(3)}} {{::$ctrl.asset.name}}</div>
+                <div class="flex-row disabled-600" w-i18n="modal.startLease.fee"></div>
+                <div class="basic-900">{{::$ctrl.fee.getTokens().toFormat(3)}} {{::$ctrl.asset.name}}</div>
             </div>
         </div>
 
@@ -78,7 +78,13 @@
         </div>
     </w-step>
     <w-step>
-        <w-button class="big submit">
+
+        <div class="complete-icon"></div>
+        <h2 class="text-center basic-900" w-i18n="modal.startLease.leaseComplete"></h2>
+        <div class="text-center body-2 disabled-600 margin-4" w-i18n="modal.startLease.leaseCompleteDesc"
+             params="{amount: $ctrl.amount.toFormat($ctrl.asset.precision)}"></div>
+
+        <w-button class="big submit details">
             <w-i18n>modal.startLease.details</w-i18n>
         </w-button>
     </w-step>

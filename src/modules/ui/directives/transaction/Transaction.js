@@ -42,7 +42,10 @@
 
             cancelLeasing() {
                 return user.getSeed()
-                    .then(({ keyPair }) => waves.node.cancelLeasing(this.transaction.id, keyPair))
+                    .then(({ keyPair }) => waves.node.cancelLeasing({
+                        transactionId: this.transaction.id,
+                        keyPair
+                    }))
                     .then((data) => {
                         notificationManager.info({
                             ns: 'app.ui',
@@ -135,16 +138,17 @@
         'dexService'
     ];
 
-    angular.module('app.ui').component('wTransaction', {
-        bindings: {
-            datePattern: '@',
-            transaction: '<' // TODO Refactor for listen change transaction. Author Tsigel at 22/11/2017 12:09
-        },
-        require: {
-            parent: '^wTransactionList'
-        },
-        templateUrl: 'modules/ui/directives/transaction/transaction.html',
-        transclude: false,
-        controller
-    });
+    angular.module('app.ui')
+        .component('wTransaction', {
+            bindings: {
+                datePattern: '@',
+                transaction: '<' // TODO Refactor for listen change transaction. Author Tsigel at 22/11/2017 12:09
+            },
+            require: {
+                parent: '^wTransactionList'
+            },
+            templateUrl: 'modules/ui/directives/transaction/transaction.html',
+            transclude: false,
+            controller
+        });
 })();

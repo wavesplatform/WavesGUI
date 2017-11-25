@@ -61,7 +61,7 @@
             lease({ recipient, amount, fee, keyPair }) {
                 return this.getFee('lease', fee)
                     .then((fee) => {
-                        return Waves.API.Node.v1.lease({
+                        return Waves.API.Node.v1.leasing.lease({
                             amount: amount.toCoins(),
                             fee: fee.toCoins(),
                             recipient

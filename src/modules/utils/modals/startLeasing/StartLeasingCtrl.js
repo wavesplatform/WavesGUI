@@ -4,11 +4,13 @@
     /**
      * @param Base
      * @param $scope
+     * @param {User} user
+     * @param {app.utils} utils
      * @param {Waves} waves
      * @param {app.i18n} i18n
      * @return {StartLeasingCtrl}
      */
-    const controller = function (Base, $scope, waves, i18n) {
+    const controller = function (Base, $scope, user, utils, waves, i18n) {
 
         class StartLeasingCtrl extends Base {
 
@@ -20,15 +22,21 @@
                  */
                 this.title = '';
                 this.assetId = WavesApp.defaultAssets.WAVES;
-                this.recipient = '3PCAB4sHXgvtu5NPoen6EXR5yaNbvsEA8Fj'; // TODO! Remove!. Author Tsigel at 24/11/2017 18:37
-                this.ampunt = new BigNumber(0);
+                this.recipient = '';
+                this.amount = new BigNumber(0);
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._transactionId = null;
 
                 this.observe('step', this._onChangeStep);
                 this._onChangeStep();
 
-                waves.node.fee('lease').then(([money]) => {
-                    this.fee = money;
-                });
+                waves.node.fee('lease')
+                    .then(([money]) => {
+                        this.fee = money;
+                    });
 
                 waves.node.assets.balance(this.assetId)
                     .then((info) => {
@@ -37,7 +45,17 @@
             }
 
             submit() {
-                this.step++;
+                utils.whenAll([user.getSeed(), Waves.Money.fromTokens(this.amount, this.assetId)])
+                    .then(([{ keyPair }, amount]) => waves.node.lease({
+                        recipient: this.recipient,
+                        keyPair: keyPair,
+                        fee: this.fee,
+                        amount
+                    }))
+                    .then((transaction) => {
+                        this._transactionId = transaction.id;
+                        this.step++;
+                    });
             }
 
             _onChangeStep() {
@@ -59,7 +77,8 @@
         return new StartLeasingCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'waves', 'i18n'];
+    controller.$inject = ['Base', '$scope', 'user', 'utils', 'waves', 'i18n'];
 
-    angular.module('app.ui').controller('StartLeasingCtrl', controller);
+    angular.module('app.ui')
+        .controller('StartLeasingCtrl', controller);
 })();

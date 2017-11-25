@@ -61,7 +61,7 @@
                 };
             }
 
-            addEvent() {
+            addEvent(event) {
                 this.ready = utils.whenAll([this.ready, this._addEvent(event)]);
                 this._saveEvents();
             }

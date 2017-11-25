@@ -14,7 +14,11 @@
       "start": "Start Lease",
       "back": "Go Back",
       "confirm": "Confirm",
-      "details": "View Details"
+      "details": "View Details",
+      "recipientConfirm": "To node",
+      "fee": "Fee",
+      "leaseComplete": "Your transaction is on the way!",
+      "leaseCompleteDesc": "You lease {{amount}} Waves."
     },
     "receive": {
       "title": "Receive {{asset.name}}",

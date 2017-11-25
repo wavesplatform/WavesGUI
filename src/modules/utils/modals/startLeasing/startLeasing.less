@@ -33,6 +33,37 @@ md-dialog.start-leasing {
     }
   }
 
+  .complete-icon {
+    width: 80px;
+    height: 80px;
+    margin: 30px auto 20px;
+    background-image: url(/img/icons/check.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .details {
+    display: block;
+    width: 224px;
+    margin: auto;
+  }
+
+  .list {
+    border-top: 1px solid @color-basic-200;
+    border-bottom: 1px solid @color-basic-200;
+
+    .split-half {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      &:first-child {
+        border-bottom: 1px solid @color-basic-200;
+      }
+    }
+  }
+
   .button-container {
     display: flex;
     flex-direction: row;
