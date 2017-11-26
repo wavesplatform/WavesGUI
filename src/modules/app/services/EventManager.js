@@ -56,9 +56,7 @@
             addTx(tx, moneyList) {
                 this._events[tx.id] = new TxEvent(tx.id, moneyList);
                 this._syncEventList();
-                setTimeout(() => {
-                    this._createPoll();
-                }, 2000);
+                this._resetPoll();
             }
 
             /**
@@ -91,7 +89,7 @@
                             });
 
                         if (list && list.length) {
-                            this._createPoll();
+                            this._resetPoll();
                         }
                     });
             }
@@ -137,8 +135,13 @@
                 }
             }
 
-            _createPoll() {
-                this._poll = new Poll(this._waves.node.transactions.listUtx, this._addUtxList.bind(this), 1000);
+            _resetPoll() {
+                if (this._poll) {
+                    this._poll.destroy();
+                }
+                setTimeout(() => {
+                    this._poll = new Poll(this._waves.node.transactions.listUtx, this._addUtxList.bind(this), 1000);
+                }, 2000);
             }
 
             _addUtxList(list) {
@@ -165,6 +168,7 @@
                     }
                 } else if (this._poll) {
                     this._poll.destroy();
+                    this._poll = null;
                 }
             }
 
