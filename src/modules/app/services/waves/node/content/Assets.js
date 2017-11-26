@@ -53,7 +53,8 @@
              * @return {Promise<IAssetWithBalance>}
              */
             balance(assetId) {
-                return this.balanceList([assetId]).then(([asset]) => asset);
+                return this.balanceList([assetId])
+                    .then(([asset]) => asset);
             }
 
             /**
@@ -64,22 +65,21 @@
             balanceList(assetIdList) {
                 return utils.whenAll([
                     utils.whenAll(assetIdList.map(this.info, this)),
-                    this._getBalances(),
-                    eventManager.getBalanceEvents()
+                    this._getBalances()
                 ])
-                    .then(([assetList, balanceList, events]) => {
+                    .then(([assetList, balanceList]) => {
                         const balances = utils.toHash(balanceList, 'id');
                         return assetList.map((asset) => {
                             if (balances[asset.id]) {
-                                const tokens = this._getAssetBalance(asset.id, balances[asset.id].amount, events);
-                                return Waves.Money.fromTokens(tokens.toFixed(asset.precision), asset.id)
-                                    .then((money) => ({ ...asset, balance: money }));
+                                const balance = this._getAssetBalance(balances[asset.id].amount);
+                                return utils.when({ ...asset, balance });
                             } else {
                                 return Waves.Money.fromTokens('0', asset.id)
                                     .then((money) => ({ ...asset, balance: money }));
                             }
                         });
-                    }).then(utils.whenAll);
+                    })
+                    .then(utils.whenAll);
             }
 
             /**
@@ -87,21 +87,18 @@
              * @return {Promise<IAssetWithBalance[]>}
              */
             userBalances() {
-                return utils.whenAll([
-                    this._getBalances(),
-                    eventManager.getBalanceEvents()
-                ]).then(([balanceList, events]) => {
-                    return utils.whenAll(balanceList.map((balance) => this.info(balance.id)))
-                        .then((assetList) => {
-                            return assetList.map((asset, index) => {
-                                const amount = balanceList[index].amount;
-                                const balance = this._getAssetBalance(asset.id, amount, events);
-                                return Waves.Money.fromTokens(balance.toFixed(asset.precision), asset.id)
-                                    .then((money) => ({ ...asset, balance: money }));
-                            });
-                        })
-                        .then(utils.whenAll);
-                });
+                return this._getBalances()
+                    .then((balanceList) => {
+                        return utils.whenAll(balanceList.map((balance) => this.info(balance.id)))
+                            .then((assetList) => {
+                                return assetList.map((asset, index) => {
+                                    const amount = balanceList[index].amount;
+                                    const balance = this._getAssetBalance(amount);
+                                    return { ...asset, balance };
+                                });
+                            })
+                            .then(utils.whenAll);
+                    });
             }
 
             /**
@@ -123,17 +120,17 @@
              * @return {Promise<{id: string}>}
              */
             transfer({ amount, fee, recipient, attachment, keyPair }) {
-                this.getFee('transfer', fee)
+                return this.getFee('transfer', fee)
                     .then((fee) => {
                         return Waves.API.Node.v1.assets.transfer({
                             amount: amount.toCoins(),
                             assetId: amount.asset.id,
                             fee: fee.toCoins(),
                             feeAssetId: fee.asset.id,
-                            keyPair,
                             recipient,
                             attachment
-                        }).then(this._pipeTransaction([amount, fee]));
+                        }, keyPair)
+                            .then(this._pipeTransaction([amount, fee]));
                     });
             }
 
@@ -172,16 +169,12 @@
             }
 
             /**
-             * @param {string} assetId
              * @param {Money} money
-             * @param {Array<BalanceComponent>} events
-             * @return {BigNumber}
+             * @return {Money}
              * @private
              */
-            _getAssetBalance(assetId, money, events) {
-                return events.reduce((balance, balanceEvent) => {
-                    return balance.sub(balanceEvent.getBalanceDifference(assetId));
-                }, money.getTokens());
+            _getAssetBalance(money) {
+                return eventManager.updateBalance(money);
             }
 
         }
@@ -191,7 +184,8 @@
 
     factory.$inject = ['BaseNodeComponent', 'utils', 'user', 'eventManager', 'decorators'];
 
-    angular.module('app').factory('assets', factory);
+    angular.module('app')
+        .factory('assets', factory);
 })();
 
 /**

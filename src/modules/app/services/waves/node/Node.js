@@ -37,8 +37,8 @@
                 return utils.whenAll([
                     assets.balance(WavesApp.defaultAssets.WAVES), Waves.API.Node.v2.addresses.get(user.address)
                 ]).then(([available, { wavesBalance }]) => ({
-                    leased: wavesBalance.leased,
-                    leasedIn: wavesBalance.effective.sub(wavesBalance.available),
+                    leasedOut: wavesBalance.leasedOut,
+                    leasedIn: wavesBalance.leasedIn,
                     available: available.balance
                 }));
             }

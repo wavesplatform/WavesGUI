@@ -49,15 +49,15 @@
              * @param {BigNumber} leased
              * @private
              */
-            _setLeasingData({ leased, leasedIn, available }) {
+            _setLeasingData({ leasedOut, leasedIn, available }) {
                 this.available = available;
-                this.leased = leased;
+                this.leased = leasedOut;
                 this.leasedIn = leasedIn;
-                this.total = available.add(leased).add(leasedIn);
+                this.total = available.add(leasedOut).add(leasedIn);
 
                 this.chartData = [
                     { id: 'available', value: available },
-                    { id: 'leased', value: leased },
+                    { id: 'leased', value: leasedOut },
                     { id: 'leasedIn', value: leasedIn }
                 ];
             }

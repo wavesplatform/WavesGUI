@@ -7,6 +7,6 @@
 
     controller.$inject = [];
 
-    angular.module('app.token')
-        .controller('TokenCtrl', controller);
+    angular.module('app.tokens')
+        .controller('TokensCtrl', controller);
 })();
