@@ -16,6 +16,7 @@
              */
             _initUrlResolveMode() {
                 $locationProvider.html5Mode(true);
+                $urlRouterProvider.otherwise('/');
             }
 
             /**
