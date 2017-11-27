@@ -99,18 +99,14 @@
             }
 
             resetAddress() {
-                apiWorker.process((Waves) => {
-                    const list = [];
-                    for (let i = 0; i < 5; i++) {
-                        const seedData = Waves.Seed.create();
-                        list.push({ seed: seedData.phrase, address: seedData.address });
-                    }
-                    return list;
-                })
-                    .then((data) => {
-                        this.setActiveSeed(data[0]);
-                        this.seedList = data;
-                    });
+                const list = [];
+                for (let i = 0; i < 5; i++) {
+                    const seedData = Waves.Seed.create();
+                    list.push({ seed: seedData.phrase, address: seedData.address });
+                }
+
+                this.setActiveSeed(list[0]);
+                this.seedList = list;
             }
 
             showBackupWarningPopup() {
