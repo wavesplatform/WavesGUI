@@ -36,6 +36,7 @@
       "code": "T",
       "node": "https://testnodes.wavesnodes.com",
       "matcher": "https://testnet1.wavesnodes.com/matcher",
+      "api": "http://TODO.com",
       "coinomat": "https://test.coinomat.com",
       "datafeed": "https://marketdata.wavesplatform.com",
       "assets": {
@@ -49,6 +50,7 @@
       "code": "W",
       "node": "https://nodes.wavesnodes.com",
       "matcher": "https://nodes.wavesnodes.com/matcher",
+      "api": "https://api.wavesplatform.com",
       "coinomat": "https://coinomat.com",
       "datafeed": "https://marketdata.wavesplatform.com",
       "assets": {

@@ -11,10 +11,10 @@
     /**
      *
      * @param {Base} Base
-     * @param chartDatafeedSupply
+     * @param candlesService
      * @return {DexCandleChart}
      */
-    const controller = function (Base, chartDatafeedSupply) {
+    const controller = function (Base, candlesService) {
 
         class DexCandleChart extends Base {
 
@@ -35,15 +35,14 @@
                 setTimeout(() => {
                     this.chart = new TradingView.widget({
                         // debug: true,
-                        symbol: 'WAVESBTC',
-                        interval: 30,
+                        symbol: WavesApp.dex.defaultSymbol,
+                        interval: WavesApp.dex.defaultResolution,
                         container_id: this.elementId,
-                        datafeed: chartDatafeedSupply,
+                        datafeed: candlesService,
                         library_path: 'vendors/charting_library/',
                         autosize: true,
                         disabled_features: DISABLED_FEATURES
                     });
-                    console.log(this.chart);
                 }, 0);
             }
 
@@ -52,7 +51,7 @@
         return new DexCandleChart();
     };
 
-    controller.$inject = ['Base', 'chartDatafeedSupply'];
+    controller.$inject = ['Base', 'candlesService'];
 
     angular.module('app.dex').component('wDexCandleChart', {
         bindings: {},
