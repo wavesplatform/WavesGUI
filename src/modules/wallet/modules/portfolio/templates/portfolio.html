@@ -11,8 +11,8 @@
         <li class="portfolio-item title body-2 disabled-600">
             <div class="portfolio-item-name" w-i18n="list.name"></div>
             <div class="portfolio-item-balance" w-i18n="list.balance"></div>
-            <div class="portfolio-item-mirror" w-i18n="list.mirror" params="{currency: $ctrl.mirror.name}"></div>
-            <div class="portfolio-item-rate" w-i18n="list.rate" params="{currency: $ctrl.mirror.name}"></div>
+            <div class="portfolio-item-mirror" w-i18n="list.mirror" params="{currency: $ctrl.mirror.ticker}"></div>
+            <div class="portfolio-item-rate" w-i18n="list.rate" params="{currency: $ctrl.mirror.ticker}"></div>
             <div class="portfolio-item-change" w-i18n="list.change"></div>
         </li>
         <li class="portfolio-item" ng-repeat="asset in $ctrl.portfolio track by asset.id">
