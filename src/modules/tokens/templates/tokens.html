@@ -3,7 +3,10 @@
     <form class="generate-form" name="create" novalidate>
 
         <div class="row">
-            <div class="body-2 basic-900" w-i18n="name"></div>
+            <div class="body-2 basic-900">
+                <w-i18n>name</w-i18n>
+                <div class="footnote-1 basic-500" w-i18n="help.name"></div>
+            </div>
             <w-input-container>
                 <w-input type="text"
                          name="name"
@@ -27,7 +30,7 @@
         <div class="row">
             <div class="body-2 basic-900" w-i18n="description"></div>
             <w-input-container>
-                <w-input textarea
+                <w-input class="no-validate-icons" textarea
                          name="description"
                          ng-model="$ctrl.description"
                          placeholder="placeholders.description"
@@ -40,7 +43,10 @@
         </div>
 
         <div class="row">
-            <div class="body-2 basic-900" w-i18n="precision"></div>
+            <div class="body-2 basic-900">
+                <w-i18n>precision</w-i18n>
+                <div class="footnote-1 basic-500" w-i18n="help.precision"></div>
+            </div>
             <w-input-container>
                 <w-input type="text"
                          name="precision"
@@ -55,7 +61,7 @@
                          placeholder="placeholders.precision"
                          w-i18n-attr="placeholder"></w-input>
                 <!--<w-input-error message="integer">-->
-                    <!--Must be integer-->
+                <!--Must be integer-->
                 <!--</w-input-error>-->
                 <w-input-error message="min">
                     <w-i18n>minValue</w-i18n>

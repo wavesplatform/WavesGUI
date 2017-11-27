@@ -1,7 +1,13 @@
 (function () {
     'use strict';
 
-    const controller = function (Base, $scope) {
+    /**
+     * @param Base
+     * @param $scope
+     * @param {ModalManager} modalManager
+     * @return {TokensCtrl}
+     */
+    const controller = function (Base, $scope, modalManager) {
 
         class TokensCtrl extends Base {
 
@@ -14,12 +20,22 @@
                 this.precision = null;
             }
 
+            generate() {
+                modalManager.showCustomModal({
+                    ns: 'app.tokens',
+                    controller: 'TokenGenerateModalCtrl',
+                    titleContent: '{{$ctrl.title}}',
+                    mod: 'tokens-generate-modal',
+                    contentUrl: '/modules/tokens/templates/generate.modal.htm.html'
+                });
+            }
+
         }
 
         return new TokensCtrl();
     };
 
-    controller.$inject = ['Base', '$scope'];
+    controller.$inject = ['Base', '$scope', 'modalManager'];
 
     angular.module('app.tokens').controller('TokensCtrl', controller);
 })();
