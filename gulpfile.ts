@@ -51,7 +51,7 @@ const getFileName = (name, type) => {
 };
 
 
-const indexPromise = readFile('src/index.html', { encoding: 'utf8' });
+const indexPromise = readFile(join(__dirname, 'src/index.html'), { encoding: 'utf8' });
 
 ['build', 'chrome', 'desktop'].forEach((buildName) => {
 
@@ -87,12 +87,6 @@ const indexPromise = readFile('src/index.html', { encoding: 'utf8' });
                         return fsCopy(path, path.replace(/(.*?\/src)/, `${targetPath}`));
                     }).concat(fsCopy(join(__dirname, 'src/fonts'), `${targetPath}/fonts`));
 
-                    if (buildName === 'chrome') {
-                        forCopy.push(fsCopy('./src/chrome', targetPath));
-                    } else if (buildName === 'desktop') {
-                        forCopy.push(fsCopy('./src/desktop', targetPath));
-                    }
-
                     Promise.all([
                         fsCopy(join(__dirname, 'src/img'), `${targetPath}/img`).then(() => {
                             const images = IMAGE_LIST.map((path) => path.replace(/(.*?\/src)/, ''));
@@ -100,11 +94,10 @@ const indexPromise = readFile('src/index.html', { encoding: 'utf8' });
                         }),
                         fsCopy(cssPath, `${targetPath}/css/${cssName}`),
                         fsCopy('LICENSE', `${targetPath}/LICENSE`),
-                        fsCopy('3RD-PARTY-LICENSES.txt', `${targetPath}/3RD-PARTY-LICENSES.txt`),
                     ].concat(forCopy)).then(() => {
                         done();
                     }, (e) => {
-                        console.log(e.message);
+                        done(e);
                     });
                 }
             );
@@ -112,30 +105,26 @@ const indexPromise = readFile('src/index.html', { encoding: 'utf8' });
                 `copy-${taskPostfix}`
             );
 
-
-            const htmlDeps = type === 'dev' ? [] : [
-                `concat-${taskPostfix}`
+            const htmlDeps = [
+                `concat-${taskPostfix}`,
+                `copy-${taskPostfix}`
             ];
 
-            task(
-                `html-${taskPostfix}`
-                , htmlDeps.concat([
-                    `copy-${taskPostfix}`
-                ]), function (done) {
-                    indexPromise.then((file) => {
-                        return prepareHTML({
-                            target: targetPath,
-                            connection: configName,
-                            scripts: type === 'dev' ? meta.vendors.concat(SOURCE_FILES) : [jsFilePath],
-                            styles: [
-                                `${targetPath}/css/${pack.name}-styles-${pack.version}.css`
-                            ]
-                        });
-                    }).then((file) => {
-                        console.log('out ' + configName);
-                        outputFile(`${targetPath}/index.html`, file).then(() => done());
+            task(`html-${taskPostfix}`, htmlDeps, function (done) {
+                indexPromise.then((file) => {
+                    return prepareHTML({
+                        target: targetPath,
+                        connection: configName,
+                        scripts: type === 'dev' ? meta.vendors.concat(SOURCE_FILES) : [jsFilePath],
+                        styles: [
+                            `${targetPath}/css/${pack.name}-styles-${pack.version}.css`
+                        ]
                     });
+                }).then((file) => {
+                    console.log('out ' + configName);
+                    outputFile(`${targetPath}/index.html`, file).then(() => done());
                 });
+            });
             taskHash.html.push(`html-${taskPostfix}`);
 
             function getName(name) {
