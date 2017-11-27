@@ -141,7 +141,7 @@
                 }
                 setTimeout(() => {
                     this._poll = new Poll(this._waves.node.transactions.listUtx, this._addUtxList.bind(this), 1000);
-                }, 2000);
+                }, 1000);
             }
 
             _addUtxList(list) {

@@ -7,8 +7,10 @@
   height: 100%;
   //TODO 1220 change media (remove date from transactions)
 
+  @height-transaction-header: 40px;
+
   .transactions-title {
-    height: 40px;
+    height: @height-transaction-header;
     display: flex;
     align-items: center;
     padding: 0 20px;
@@ -20,9 +22,13 @@
     border-top-right-radius: @border-radius;
   }
 
-  w-transaction-list .w-transaction-list ul {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+  w-transaction-list {
+    height: calc(~'100% - ' @height-transaction-header);
+
+    .w-transaction-list ul {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
   }
 
   .transaction-item > .date {
