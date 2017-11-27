@@ -53,7 +53,7 @@
                 this.available = available;
                 this.leased = leasedOut;
                 this.leasedIn = leasedIn;
-                this.total = available.add(leasedOut).add(leasedIn);
+                this.total = available.add(leasedIn);
 
                 this.chartData = [
                     { id: 'available', value: available },

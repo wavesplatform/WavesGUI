@@ -1,9 +1,17 @@
 {
+  "pageTitle": "Token generation",
   "name": "Name of you asset",
   "description": "Description",
   "count": "Total tokens",
   "precision": "Decimals",
   "preview": "Preview",
   "fee": "Fee 1 WAVES",
-  "create": "Generate"
+  "create": "Generate",
+  "required": "This field must be filled out.",
+  "minValue": "Invalid number. Enter number from 0 to 8.",
+  "maxValue": "Invalid number. Enter number from 0 to 8.",
+  "placeholders": {
+    "description": "You can not change the description later",
+    "precision": "From 0 to 8"
+  }
 }
