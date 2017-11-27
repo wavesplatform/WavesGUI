@@ -1,6 +1,7 @@
 <div w-i18n-ns="app.tokens" class="token-page">
     <div class="page-title headline-4 disabled-900" w-i18n="pageTitle"></div>
     <form class="generate-form" name="create" novalidate>
+
         <div class="row">
             <div class="body-2 basic-900" w-i18n="name"></div>
             <w-input-container>
@@ -12,16 +13,17 @@
                          required></w-input>
 
                 <w-input-error message="minlength">
-                    Min length!
+                    <w-i18n>validators.nameLen</w-i18n>
                 </w-input-error>
                 <w-input-error message="maxlength">
-                    Max length!
+                    <w-i18n>validators.nameLen</w-i18n>
                 </w-input-error>
                 <w-input-error message="required">
-                    <w-i18n>required</w-i18n>
+                    <w-i18n>required.required</w-i18n>
                 </w-input-error>
             </w-input-container>
         </div>
+
         <div class="row">
             <div class="body-2 basic-900" w-i18n="description"></div>
             <w-input-container>
@@ -29,35 +31,14 @@
                          name="description"
                          ng-model="$ctrl.description"
                          placeholder="placeholders.description"
+                         maxlength="1000"
                          w-i18n-attr="placeholder"></w-input>
-            </w-input-container>
-        </div>
-        <div class="row">
-            <div class="body-2 basic-900" w-i18n="count"></div>
-            <w-input-container>
-                <div class="input-like">
-                    <w-input class="embed" type="text"
-                             name="count"
-                             ng-model="$ctrl.count"
-                             precision="$ctrl.precision.toString()"
-                             w-validate="number"
-                             required></w-input>
-                    <div class="select-wrap">
-                        <w-select class="issue-select tiny" ng-model="$ctrl.issue">
-                            <w-option value="false">
-                                <span class="caption-1 basic-700">Not Reissuable</span>
-                            </w-option>
-                            <w-option value="true">
-                                <span class="caption-1 basic-700">Reissuable</span>
-                            </w-option>
-                        </w-select>
-                    </div>
-                </div>
-                <w-input-error message="required">
-                    <w-i18n>required</w-i18n>
+                <w-input-error message="maxlength">
+                    <w-i18n>validators.descriptionLen</w-i18n>
                 </w-input-error>
             </w-input-container>
         </div>
+
         <div class="row">
             <div class="body-2 basic-900" w-i18n="precision"></div>
             <w-input-container>
@@ -67,6 +48,8 @@
                          required
                          w-validate="number"
                          integer
+                         include-range-min
+                         include-range-max
                          min="0"
                          max="8"
                          placeholder="placeholders.precision"
@@ -81,10 +64,46 @@
                     <w-i18n>maxValue</w-i18n>
                 </w-input-error>
                 <w-input-error message="required">
-                    <w-i18n>required</w-i18n>
+                    <w-i18n>validators.required</w-i18n>
                 </w-input-error>
             </w-input-container>
         </div>
+
+        <div class="row">
+            <div class="body-2 basic-900" w-i18n="count"></div>
+            <w-input-container>
+                <div class="input-like">
+                    <w-input class="embed" type="text"
+                             name="count"
+                             ng-model="$ctrl.count"
+                             precision="$ctrl.precision.toString()"
+                             min="'0'"
+                             max="'9223372036854775807'"
+                             w-validate="number"
+                             required></w-input>
+                    <div class="select-wrap">
+                        <w-select class="issue-select tiny" ng-model="$ctrl.issue">
+                            <w-option value="false">
+                                <span class="caption-1 basic-700">Not Reissuable</span>
+                            </w-option>
+                            <w-option value="true">
+                                <span class="caption-1 basic-700">Reissuable</span>
+                            </w-option>
+                        </w-select>
+                    </div>
+                </div>
+                <w-input-error message="required">
+                    <w-i18n>validators.required</w-i18n>
+                </w-input-error>
+                <w-input-error message="min">
+                    <w-i18n>validators.minValue</w-i18n>
+                </w-input-error>
+                <w-input-error message="max">
+                    <w-i18n>validators.maxValue</w-i18n>
+                </w-input-error>
+            </w-input-container>
+        </div>
+
         <div class="row">
             <div class="body-2 basic-900" w-i18n="preview"></div>
             <div class="preview">
@@ -102,6 +121,7 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="footnote-1 basic-500"></div>
         </div>
@@ -109,5 +129,6 @@
         <w-button disabled="create.$invalid" class="submit long">
             <w-i18n>create</w-i18n>
         </w-button>
+
     </form>
 </div>

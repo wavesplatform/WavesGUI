@@ -39,7 +39,7 @@
                             return (!parts[1] || parts[1].length <= asset.precision);
                         });
 
-                        if (this.$attrs.max) {
+                        if (this.$attrs.maxBalance) {
                             let balance;
 
                             this.registerValidator('asset-max', (modelValue) => {
@@ -50,7 +50,7 @@
                                 }
                             });
 
-                            this.$scope.$watch(this.$attrs.max, (value) => {
+                            this.$scope.$watch(this.$attrs.maxBalance, (value) => {
                                 balance = value;
                                 this.validateByName('asset-max');
                             });

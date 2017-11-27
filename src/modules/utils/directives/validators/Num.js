@@ -49,6 +49,14 @@
                 /**
                  * @type {boolean}
                  */
+                const includeRangeMin = input.hasAttribute('include-range-min');
+                /**
+                 * @type {boolean}
+                 */
+                const includeRangeMax = input.hasAttribute('include-range-max');
+                /**
+                 * @type {boolean}
+                 */
                 const hasPrecision = input.hasAttribute('precision');
 
                 if (isInteger) {
@@ -68,7 +76,11 @@
 
                 if (hasMin) {
                     let min;
-                    this.registerValidator('min', (modalValue) => !min || !modalValue || modalValue.gte(min));
+                    if (includeRangeMin) {
+                        this.registerValidator('min', (modalValue) => !min || !modalValue || modalValue.gte(min));
+                    } else {
+                        this.registerValidator('min', (modalValue) => !min || !modalValue || modalValue.gt(min));
+                    }
 
                     this.$scope.$watch(this.$attrs.min, (value) => {
                         min = new BigNumber(value);
@@ -78,7 +90,11 @@
 
                 if (hasMax) {
                     let max;
-                    this.registerValidator('max', (modalValue) => !max || !modalValue || modalValue.lte(max));
+                    if (includeRangeMax) {
+                        this.registerValidator('max', (modalValue) => !max || !modalValue || modalValue.lte(max));
+                    } else {
+                        this.registerValidator('max', (modalValue) => !max || !modalValue || modalValue.lt(max));
+                    }
 
                     this.$scope.$watch(this.$attrs.max, (value) => {
                         max = new BigNumber(value);
