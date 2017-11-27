@@ -7,9 +7,10 @@
      * @param {Assets} assets
      * @param {User} user
      * @param {app.utils} utils
+     * @param {EventManager} eventManager
      * @return {Node}
      */
-    const factory = function (BaseNodeComponent, aliases, transactions, assets, user, utils) {
+    const factory = function (BaseNodeComponent, aliases, transactions, assets, user, utils, eventManager) {
 
         class Node extends BaseNodeComponent {
 
@@ -34,20 +35,22 @@
             }
 
             get() {
-                return utils.whenAll([
-                    assets.balance(WavesApp.defaultAssets.WAVES), Waves.API.Node.v2.addresses.get(user.address)
-                ]).then(([available, { wavesBalance }]) => ({
-                    leasedOut: wavesBalance.leasedOut,
-                    leasedIn: wavesBalance.leasedIn,
-                    available: available.balance
-                }));
+                return Waves.API.Node.v2.addresses.get(user.address)
+                    .then(({ wavesBalance }) => {
+                        return {
+                            leasedOut: wavesBalance.leasedOut,
+                            leasedIn: wavesBalance.leasedIn,
+                            available: eventManager.updateBalance(wavesBalance.available)
+                        };
+                    });
             }
 
             /**
              * @return {Promise<Number>}
              */
             height() {
-                return Waves.API.Node.v1.blocks.height().then((res) => res.height);
+                return Waves.API.Node.v1.blocks.height()
+                    .then((res) => res.height);
             }
 
             /**
@@ -65,7 +68,8 @@
                             amount: amount.toCoins(),
                             fee: fee.toCoins(),
                             recipient
-                        }, keyPair).then(this._pipeTransaction([fee]));
+                        }, keyPair)
+                            .then(this._pipeTransaction([fee]));
                     });
             }
 
@@ -82,7 +86,8 @@
                         return Waves.API.Node.v1.leasing.cancelLeasing({
                             fee: fee.toCoins(),
                             transactionId
-                        }, keyPair).then(this._pipeTransaction([fee]));
+                        }, keyPair)
+                            .then(this._pipeTransaction([fee]));
                     });
             }
 
@@ -91,7 +96,8 @@
         return utils.bind(new Node());
     };
 
-    factory.$inject = ['BaseNodeComponent', 'aliases', 'transactions', 'assets', 'user', 'utils'];
+    factory.$inject = ['BaseNodeComponent', 'aliases', 'transactions', 'assets', 'user', 'utils', 'eventManager'];
 
-    angular.module('app').factory('node', factory);
+    angular.module('app')
+        .factory('node', factory);
 })();
