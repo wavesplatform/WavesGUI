@@ -73,7 +73,8 @@
             }
 
             _initializeLogin() {
-                const START_STATES = WavesApp.stateTree.where({ noLogin: true }).map((item) => item.id);
+                const START_STATES = WavesApp.stateTree.where({ noLogin: true })
+                    .map((item) => item.id);
                 const stop = $rootScope.$on('$stateChangeStart', (event, state, params) => {
                     stop();
                     if (START_STATES.indexOf(state.name) === -1) {
@@ -96,7 +97,7 @@
                             $rootScope.$on('$stateChangeStart', (event, state) => {
                                 if (START_STATES.indexOf(state.name) !== -1) {
                                     event.preventDefault();
-                                    user.logout();
+                                    $state.go(user.getActiveState('wallet'));
                                 }
                             });
                         });
@@ -143,7 +144,7 @@
             _stopLoader() {
                 Promise.all([
                     this._getLocalizeReadyPromise(),
-                    this._getImagesReadyPromise(),
+                    this._getImagesReadyPromise()
                 ])
                     .then(() => LOADER.stop())
                     .catch((e) => {

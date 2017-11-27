@@ -46,7 +46,8 @@
                     } else {
                         options.complete = resolve;
                     }
-                    $element.stop(true, true).animate(properties, options);
+                    $element.stop(true, true)
+                        .animate(properties, options);
                 });
             },
 
@@ -89,7 +90,8 @@
             when(data) {
                 if (data && data.then && typeof data.then === 'function') {
                     const defer = $q.defer();
-                    data.then(defer.resolve, defer.reject);
+                    data.then(defer.resolve, defer.reject)
+                        .catch((e) => console.error(e));
                     return defer.promise;
                 } else {
                     return $q.when(data);
@@ -103,7 +105,8 @@
              */
             onFetch(response) {
                 if (response.ok) {
-                    if (response.headers.get('Content-Type').indexOf('application/json') !== -1) {
+                    if (response.headers.get('Content-Type')
+                            .indexOf('application/json') !== -1) {
                         return response.json();
                     } else {
                         return response.text();
