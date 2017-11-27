@@ -9,6 +9,12 @@
 
   @height-transaction-header: 40px;
 
+  @media screen and (max-width: @width-media-normal) {
+    .transaction-item .locale-address {
+      display: none;
+    }
+  }
+
   .transactions-title {
     height: @height-transaction-header;
     display: flex;

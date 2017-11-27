@@ -49,7 +49,7 @@
       "exchange-sell": "{{time}}",
       "lease-in": "{{time}}<span class='locale-address'>, from address {{address}}</span>",
       "lease-out": "{{time}}<span class='locale-address'>, to node address {{address}}</span>",
-      "cancel-leasing": "{{time}}, transaction {{transactionId}}",
+      "cancel-leasing": "{{time}}<span class='locale-address'>, transaction {{transactionId}}</span>",
       "create-alias": "{{time}}, {{alias}}"
     },
     "reissuable": {
