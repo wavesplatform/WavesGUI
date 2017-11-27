@@ -33,11 +33,11 @@
 
     angular.module('app.ui').component('wPassword', {
         bindings: {
-            valid: '=',
+            onSubmit: '&',
             password: '='
         },
         templateUrl: 'modules/ui/directives/password/password.html',
-        transclude: false,
+        transclude: true,
         controller
     });
 })();
