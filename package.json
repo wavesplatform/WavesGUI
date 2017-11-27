@@ -67,7 +67,7 @@
     "postversion": "sh scripts/postversion.sh",
     "watchts": "sh scripts/watch-typescript.sh",
     "lessc": "sh scripts/lessc",
-    "build": "node_modules/.bin/gulp all",
+    "build": "node_modules/.bin/tsc -p ./ && node_modules/.bin/gulp all",
     "server": "npm run build && node server"
   },
   "build": {

@@ -119,19 +119,19 @@
                     if (!force) {
                         this.signals.changeBalanceEvent.dispatch();
                     }
-                    utils.when(this._waves.node.transactions.get(id))
-                        .then((tx) => {
-                            notificationManager.info({
-                                ns: 'app.ui',
-                                title: { literal: 'Transaction finished success!' }
-                            });
-                        }, (error) => {
-                            notificationManager.error({
-                                ns: 'app.ui',
-                                title: { literal: 'Transaction finished error!' }
-                            });
-                            console.error(error, id);
-                        });
+                    // utils.when(this._waves.node.transactions.get(id)) TODO UTX Problems
+                    //     .then((tx) => {
+                    //         notificationManager.info({
+                    //             ns: 'app.ui',
+                    //             title: { literal: 'Transaction finished success!' }
+                    //         });
+                    //     }, (error) => {
+                    //         notificationManager.error({
+                    //             ns: 'app.ui',
+                    //             title: { literal: 'Transaction finished error!' }
+                    //         });
+                    //         console.error(error, id);
+                    //     });
                 }
             }
 
@@ -141,7 +141,7 @@
                 }
                 setTimeout(() => {
                     this._poll = new Poll(this._waves.node.transactions.listUtx, this._addUtxList.bind(this), 1000);
-                }, 2000);
+                }, 1000);
             }
 
             _addUtxList(list) {

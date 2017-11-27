@@ -2,14 +2,14 @@
     'use strict';
 
     /**
-     * @param {typeof Number} Number
+     * @param {typeof Num} Num
      * @param {app.utils} utils
      * @param {Waves} waves
      * @return {Asset}
      */
-    const factory = function (Number, utils, waves) {
+    const factory = function (Num, utils, waves) {
 
-        class Asset extends Number {
+        class Asset extends Num {
 
             constructor(params) {
                 super(params);
@@ -39,7 +39,7 @@
                             return (!parts[1] || parts[1].length <= asset.precision);
                         });
 
-                        if (this.$attrs.max) {
+                        if (this.$attrs.maxBalance) {
                             let balance;
 
                             this.registerValidator('asset-max', (modelValue) => {
@@ -50,7 +50,7 @@
                                 }
                             });
 
-                            this.$scope.$watch(this.$attrs.max, (value) => {
+                            this.$scope.$watch(this.$attrs.maxBalance, (value) => {
                                 balance = value;
                                 this.validateByName('asset-max');
                             });
@@ -72,7 +72,7 @@
         return Asset;
     };
 
-    factory.$inject = ['Number', 'utils', 'waves'];
+    factory.$inject = ['Num', 'utils', 'waves'];
 
     angular.module('app.utils')
         .factory('Asset', factory);

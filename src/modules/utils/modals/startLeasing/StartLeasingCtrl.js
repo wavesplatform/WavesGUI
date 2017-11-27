@@ -8,9 +8,11 @@
      * @param {app.utils} utils
      * @param {Waves} waves
      * @param {app.i18n} i18n
+     * @param {ModalManager} modalManager
+     * @param {$mdDialog} $mdDialog
      * @return {StartLeasingCtrl}
      */
-    const controller = function (Base, $scope, user, utils, waves, i18n) {
+    const controller = function (Base, $scope, user, utils, waves, i18n, modalManager, $mdDialog) {
 
         class StartLeasingCtrl extends Base {
 
@@ -58,6 +60,13 @@
                     });
             }
 
+            showDetails() {
+                $mdDialog.hide();
+                setTimeout(() => {
+                    modalManager.showTransactionInfo(this._transactionId);
+                }, 1000);
+            }
+
             _onChangeStep() {
                 switch (this.step) {
                     case 0:
@@ -77,7 +86,7 @@
         return new StartLeasingCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'utils', 'waves', 'i18n'];
+    controller.$inject = ['Base', '$scope', 'user', 'utils', 'waves', 'i18n', 'modalManager', '$mdDialog'];
 
     angular.module('app.ui')
         .controller('StartLeasingCtrl', controller);

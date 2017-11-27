@@ -43,5 +43,5 @@ export interface ITaskFunction {
 }
 
 export interface ITaskCallback {
-    (done?: () => void): Stream | void;
+    (done?: (error?: any) => void): Stream | void;
 }

@@ -84,7 +84,7 @@
         <div class="text-center body-2 disabled-600 margin-4" w-i18n="modal.startLease.leaseCompleteDesc"
              params="{amount: $ctrl.amount.toFormat($ctrl.asset.precision)}"></div>
 
-        <w-button class="big submit details">
+        <w-button ng-click="$ctrl.showDetails()" class="big submit details">
             <w-i18n>modal.startLease.details</w-i18n>
         </w-button>
     </w-step>
