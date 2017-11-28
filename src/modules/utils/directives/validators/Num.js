@@ -134,7 +134,9 @@
             }
 
             static _toBigNumber(value) {
-                if (value instanceof BigNumber) {
+                if (!value) {
+                    return new BigNumber(0);
+                } else if (value instanceof BigNumber) {
                     return value;
                 } else {
                     return new BigNumber(value);

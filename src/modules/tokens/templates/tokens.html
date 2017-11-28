@@ -132,9 +132,13 @@
             <div class="footnote-1 basic-500"></div>
         </div>
 
-        <w-button disabled="create.$invalid" ng-click="$ctrl.generate()" class="submit long">
+        <w-button disabled="create.$invalid || $ctrl.invalid" ng-click="$ctrl.generate()" class="submit long">
             <w-i18n>create</w-i18n>
         </w-button>
+
+        <div ng-if="$ctrl.invalid" class="no-money error-400">
+            Has no money for payment fee.
+        </div>
 
     </form>
 </div>

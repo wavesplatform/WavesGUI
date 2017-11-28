@@ -7,9 +7,11 @@
      * @param Base
      * @param $scope
      * @param {ModalManager} modalManager
+     * @param {function} createPoll
+     * @param {Waves} waves
      * @return {TokensCtrl}
      */
-    const controller = function (Base, $scope, modalManager) {
+    const controller = function (Base, $scope, modalManager, createPoll, waves) {
 
         class TokensCtrl extends Base {
 
@@ -44,8 +46,30 @@
                  * @type {BigNumber}
                  */
                 this.maxCoinsCount = null;
+                /**
+                 * Has money for fee
+                 * @type {boolean}
+                 */
+                this.invalid = false;
+                /**
+                 * @type {Money}
+                 * @private
+                 */
+                this._balance = null;
+                /**
+                 * @type {Money}
+                 * @private
+                 */
+                this._fee = null;
 
                 this.observe('precision', this._onChangePrecision);
+                this.observe(['_balance', '_fee'], this._onChangeBalance);
+
+                createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true });
+
+                waves.node.assets.fee('issue').then(([money]) => {
+                    this._fee = money;
+                });
             }
 
             generate() {
@@ -66,14 +90,15 @@
                         amount,
                         precision
                     }
-                })
-                    .finally(() => {
-                        this.name = '';
-                        this.description = '';
-                        this.issue = true;
-                        this.count = null;
-                        this.precision = null;
-                    });
+                });
+            }
+
+            /**
+             * @return {Promise<Money>}
+             * @private
+             */
+            _getBalance() {
+                return waves.node.assets.balance(WavesApp.defaultAssets.WAVES).then((asset) => asset.balance);
             }
 
             /**
@@ -86,12 +111,20 @@
                 }
             }
 
+            /**
+             * Current can i send transaction (balance gt fee)
+             * @private
+             */
+            _onChangeBalance() {
+                this.invalid = (!this._fee || !this._balance) || this._balance.getTokens().lt(this._fee.getTokens());
+            }
+
         }
 
         return new TokensCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'modalManager'];
+    controller.$inject = ['Base', '$scope', 'modalManager', 'createPoll', 'waves'];
 
     angular.module('app.tokens')
         .controller('TokensCtrl', controller);

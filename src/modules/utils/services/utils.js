@@ -356,6 +356,23 @@
             }
         }
 
+        function isNotEqualValue(oldValue, newValue) {
+            if (typeof oldValue === typeof newValue) {
+                if (oldValue instanceof Waves.Money && newValue instanceof Waves.Money) {
+                    return oldValue.toTokens() !== newValue.toTokens();
+                } else if (oldValue instanceof BigNumber && newValue instanceof BigNumber) {
+                    return !oldValue.eq(newValue);
+                } else if (Array.isArray(oldValue) && Array.isArray(newValue)) {
+                    return oldValue.length !== newValue.length ||
+                        oldValue.some((item, i) => isNotEqualValue(item, newValue[i]));
+                } else {
+                    return oldValue !== newValue;
+                }
+            } else {
+                return true;
+            }
+        }
+
         function _addObserverSignals(target, keys, options) {
             const observer = _getObserver(target);
             options = options || Object.create(null);
@@ -378,7 +395,7 @@
                         set: (value) => {
                             value = options.set ? options.set(value) : value;
                             const prev = observer[key].value;
-                            if (prev !== value) {
+                            if (isNotEqualValue(prev, value)) {
                                 observer[key].value = value;
                                 if (!observer[key].timer) {
                                     observer[key].timer = $timeout(() => {
