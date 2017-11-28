@@ -4,22 +4,24 @@
     /**
      * @param Base
      * @param $scope
-     * @param {app.user} user
+     * @param {User} user
      * @param {app.i18n} i18n
+     * @param {Waves} waves
      * @return {TokenGenerateModalCtrl}
      */
-    const controller = function (Base, $scope, user, i18n) {
+    const controller = function (Base, $scope, user, i18n, waves) {
 
         class TokenGenerateModalCtrl extends Base {
 
             /**
              * @param {string} amount
              * @param {string} name
+             * @param {string} description
              * @param {string} precision
              * @param {boolean} issue
              * @param {string} shownAmount
              */
-            constructor({ amount, name, precision, issue, shownAmount }) {
+            constructor({ amount, description, name, precision, issue, shownAmount }) {
                 super($scope);
                 /**
                  * Modal step (confirm/success)
@@ -42,6 +44,11 @@
                  */
                 this.name = name;
                 /**
+                 * Token description
+                 * @type {string}
+                 */
+                this.description = description;
+                /**
                  * Token precision
                  * @type {number}
                  */
@@ -61,6 +68,21 @@
                 this._onChangeStep();
             }
 
+            generate() {
+                return user.getSeed()
+                    .then((seed) => waves.node.assets.issue({
+                        name: this.name,
+                        description: this.description,
+                        quantity: this.amount,
+                        reissuable: this.issue,
+                        precision: this.precision,
+                        keyPair: seed.keyPair
+                    }))
+                    .then(() => {
+                        this.step++;
+                    });
+            }
+
             _onChangeStep() {
                 const step = this.step;
 
@@ -75,12 +97,13 @@
                         throw new Error('Wrong step index!');
                 }
             }
+
         }
 
         return new TokenGenerateModalCtrl(this.locals);
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'i18n'];
+    controller.$inject = ['Base', '$scope', 'user', 'i18n', 'waves'];
 
     angular.module('app.tokens')
         .controller('TokenGenerateModalCtrl', controller);

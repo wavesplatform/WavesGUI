@@ -83,7 +83,7 @@
                     }
 
                     this.$scope.$watch(this.$attrs.min, (value) => {
-                        min = new BigNumber(value);
+                        min = Num._toBigNumber(value);
                         this.validateByName('min');
                     });
                 }
@@ -97,13 +97,13 @@
                     }
 
                     this.$scope.$watch(this.$attrs.max, (value) => {
-                        max = new BigNumber(value);
+                        max = Num._toBigNumber(value);
                         this.validateByName('max');
                     });
                 }
 
                 this.registerValidator('required', (modelValue) => {
-                    return !isRequired || hasMin || (modelValue ? !modelValue.eq(0) : false);
+                    return !isRequired || !!modelValue;
                 });
 
                 this.$input.on('keypress', (event) => {
@@ -131,6 +131,14 @@
 
             getParser() {
                 return utils.parseNiceNumber;
+            }
+
+            static _toBigNumber(value) {
+                if (value instanceof BigNumber) {
+                    return value;
+                } else {
+                    return new BigNumber(value);
+                }
             }
 
         }

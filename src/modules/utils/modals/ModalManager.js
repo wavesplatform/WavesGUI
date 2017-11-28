@@ -68,6 +68,7 @@
 
             /**
              * @param {IModalOptions} options
+             * @return {$q.resolve}
              */
             showCustomModal(options) {
                 return this._getModal(tsUtils.merge({}, DEFAULT_OPTIONS, options));

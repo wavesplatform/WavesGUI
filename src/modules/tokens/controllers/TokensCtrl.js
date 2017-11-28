@@ -42,6 +42,7 @@
 
             generate() {
                 const precision = Number(this.precision.toString());
+                const amount = this.count.mul(Math.pow(10, precision)).toString();
 
                 modalManager.showCustomModal({
                     ns: 'app.tokens',
@@ -51,12 +52,20 @@
                     contentUrl: 'modules/tokens/templates/generate.modal.html',
                     locals: {
                         shownAmount: this.count.toFormat(precision),
-                        amount: this.count.toFixed(precision),
                         name: this.name,
                         issue: this.issue,
+                        description: this.description,
+                        amount,
                         precision
                     }
-                });
+                })
+                    .finally(() => {
+                        this.name = '';
+                        this.description = '';
+                        this.issue = true;
+                        this.count = null;
+                        this.precision = null;
+                    });
             }
 
         }

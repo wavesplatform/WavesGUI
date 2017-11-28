@@ -136,9 +136,27 @@
 
             /**
              * Create issue transaction
+             * @param {string} name
+             * @param {string} description
+             * @param {string} quantity count of tokens from new asset
+             * @param {number} precision num in range from 0 to 8
+             * @param {boolean} reissuable can reissue token
+             * @param {Seed.keyPair} keyPair
+             * @param {Money} [fee]
+             * @return {Promise<ITransaction>}
              */
-            issue() {
-
+            issue({ name, description, quantity, precision, reissuable, fee, keyPair }) {
+                return this.getFee('issue', fee).then((fee) => {
+                    return Waves.API.Node.v1.assets.issue({
+                        name,
+                        description,
+                        precision,
+                        reissuable,
+                        quantity,
+                        fee
+                    }, keyPair)
+                        .then(this._pipeTransaction([fee]));
+                });
             }
 
             /**
