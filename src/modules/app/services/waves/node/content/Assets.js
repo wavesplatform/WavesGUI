@@ -14,9 +14,10 @@
      * @param {User} user
      * @param {EventManager} eventManager
      * @param {app.utils.decorators} decorators
+     * @param {$http} $http
      * @return {Assets}
      */
-    const factory = function (BaseNodeComponent, utils, user, eventManager, decorators) {
+    const factory = function (BaseNodeComponent, utils, user, eventManager, decorators, $http) {
 
         class Assets extends BaseNodeComponent {
 
@@ -84,6 +85,14 @@
             balance(assetId) {
                 return this.balanceList([assetId])
                     .then(([asset]) => asset);
+            }
+
+            /**
+             * @param {string} query
+             * @return {JQueryXHR}
+             */
+            search(query) {
+                return $http.get(`https://api.wavesplatform.com/assets/search/${query}`);
             }
 
             /**
@@ -241,7 +250,7 @@
         return new Assets();
     };
 
-    factory.$inject = ['BaseNodeComponent', 'utils', 'user', 'eventManager', 'decorators'];
+    factory.$inject = ['BaseNodeComponent', 'utils', 'user', 'eventManager', 'decorators', '$http'];
 
     angular.module('app')
         .factory('assets', factory);

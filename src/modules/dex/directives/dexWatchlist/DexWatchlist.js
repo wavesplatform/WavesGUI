@@ -96,6 +96,9 @@
                     throw new Error('Wrong directive params!');
                 }
 
+                this.receive(utils.observe(this._parent, 'focused'), this._onChangeSearchFocus, this);
+                this.receive(utils.observe(this._parent, 'search'), this._onChangeSearch, this);
+
                 assetsList.then(() => {
                     this.observe('activeRowId', this._onChangeActiveRow);
                     this.observe('_baseAssetId', this._onChangeBaseAsset);
@@ -110,6 +113,15 @@
 
                     this._initRowId();
                 });
+            }
+
+            _onChangeSearchFocus() {
+                const focused = this._parent.focused;
+                console.log('focused', focused);
+            }
+
+            _onChangeSearch() {
+                console.log('search', this._parent.search);
             }
 
             _onChangeActiveWatchList() {

@@ -23,6 +23,11 @@
                  * @type {boolean}
                  */
                 this.collapsed = false;
+                /**
+                 * For find assets in watchlist
+                 * @type {boolean}
+                 */
+                this.focused = false;
             }
 
             toggleCollapse() {
