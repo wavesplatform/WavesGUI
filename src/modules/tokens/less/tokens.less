@@ -6,6 +6,8 @@ body.tokens {
     display: none;
   }
 
+  @height-title: 40px;
+
   .main-content .content {
     height: calc(~'100% - '@padding-main-layout * 2);
     width: calc(~'100% - '@width-left-menu + @padding-main-layout * 2);
@@ -21,6 +23,11 @@ body.tokens {
     border-radius: @border-radius;
     border: 1px solid @color-basic-200;
 
+    .token-page__content {
+      height: calc(~'100% - 1px - ' @height-title);
+      overflow: auto;
+    }
+
     textarea {
       resize: vertical;
       min-height: 42px;
@@ -31,7 +38,7 @@ body.tokens {
       display: flex;
       align-items: center;
       padding-left: 13px;
-      height: 40px;
+      height: @height-title;
       border-bottom: 1px solid @color-basic-200;
     }
 
@@ -135,8 +142,6 @@ body.tokens {
       width: 460px;
       margin: auto;
       padding-top: 120px;
-      height: 100%;
-      overflow: auto;
 
       .row {
         margin-top: 20px;
