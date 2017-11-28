@@ -5,10 +5,9 @@
      * @param Base
      * @param utils
      * @param {Waves} waves
-     * @param {app.utils.apiWorker} apiWorker
      * @return {TradeGraph}
      */
-    const controller = function (Base, utils, waves, apiWorker) {
+    const controller = function (Base, utils, waves) {
 
         class TradeGraph extends Base {
 

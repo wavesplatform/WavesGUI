@@ -200,6 +200,7 @@
                 code: '{{network.code}}',
                 node: '{{network.node}}',
                 matcher: '{{network.matcher}}',
+                api: '{{network.api}}',
                 coinomat: '{{network.coinomat}}',
                 datafeed: '{{network.datafeed}}'
             },
@@ -209,6 +210,10 @@
                 USD: '{{network.assets.USD}}',
                 BTC: '{{network.assets.BTC}}',
                 ETH: '{{network.assets.ETH}}'
+            },
+            dex: {
+                resolutions: ['15', '30', '60', '240', '1440'], // TODO : add months
+                defaultResolution: '30'
             },
             modules: [],
             addController(name, controller) {
@@ -331,6 +336,7 @@
      * @property {string} network.code
      * @property {string} network.node
      * @property {string} network.matcher
+     * @property {string} network.api
      * @property {string} network.coinomat
      * @property {string} network.datafeed
      * @property {object} defaultAssets
@@ -339,6 +345,9 @@
      * @property {string} defaultAssets.USD
      * @property {string} defaultAssets.BTC
      * @property {string} defaultAssets.ETH
+     * @property {object} dex
+     * @property {Array<string>} dex.resolutions
+     * @property {string} dex.defaultResolution
      * @property {Array<string>} modules
      * @property {Function} isWeb
      * @property {Function} isDesktop

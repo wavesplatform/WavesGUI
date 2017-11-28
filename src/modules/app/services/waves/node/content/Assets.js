@@ -27,7 +27,7 @@
              */
             @decorators.cachable()
             info(assetId) {
-                return fetch(`https://api.wavesplatform.com/assets/${assetId}`)
+                return fetch(`${WavesApp.network.api}/assets/${assetId}`)
                     .then(utils.onFetch)
                     .then((info) => {
                         return Waves.Money.fromCoins(String(info.quantity), info.id)

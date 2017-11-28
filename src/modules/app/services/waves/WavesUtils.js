@@ -11,6 +11,12 @@
 
         class WavesUtils {
 
+            @decorators.cachable(5)
+            searchAsset(userInput) {
+                return fetch(`${WavesApp.network.api}/assets/search/${userInput}`)
+                    .then(utils.onFetch);
+            }
+
             /**
              * Get rate (now or from date)
              * @param {string|IAssetInfo} assetFrom

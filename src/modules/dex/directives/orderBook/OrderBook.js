@@ -37,10 +37,11 @@
                 this.syncSettings({
                     _amountAssetId: 'dex.amountAssetId',
                     _priceAssetId: 'dex.priceAssetId'
-                });
+                })
+                    ;
+                        const poll = createPoll(this, this._getOrders, 'orders', 12000);
+                        this.observe(['_amountAssetId', '_priceAssetId'], () => poll.restart());
 
-                const poll = createPoll(this, this._getOrders, 'orders', 12000);
-                this.observe(['_amountAssetId', '_priceAssetId'], () => poll.restart());
             }
 
             _getOrders() {
@@ -140,9 +141,8 @@
 
     controller.$inject = ['Base', 'createPoll', '$element'];
 
-    angular.module('app.dex')
-        .component('wDexOrderBook', {
-            templateUrl: 'modules/dex/directives/orderBook/orderBook.html',
-            controller
-        });
+    angular.module('app.dex').component('wDexOrderBook', {
+        templateUrl: 'modules/dex/directives/orderBook/orderBook.html',
+        controller
+    });
 })();

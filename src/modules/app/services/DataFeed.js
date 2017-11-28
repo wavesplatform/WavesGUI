@@ -1,6 +1,10 @@
 (function () {
     'use strict';
 
+    /**
+     * @param decorators
+     * @return {DataFeed}
+     */
     const factory = function (decorators) {
 
         // TODO Refactor. Author Tsigel at 22/11/2017 08:24
@@ -17,7 +21,7 @@
             trades(amount, price, count) {
                 count = count || 50;
                 return fetch(`${WavesApp.network.datafeed}/api/trades/${amount}/${price}/${count}`)
-                    .then(r => r.json());
+                    .then((r) => r.json());
             }
 
             /**
@@ -26,13 +30,23 @@
              * @param {number} [interval] from last $interval$ minutes (default 30)
              * @param {number} [count] blocks count (default 100)
              * @promise
+             * TODO : deprecated
              */
             @decorators.cachable(2)
             candles(amount, price, interval, count) {
                 interval = interval || 30;
                 count = count || 100;
                 return fetch(`${WavesApp.network.datafeed}/api/candles/${amount}/${price}/${interval}/${count}`)
-                    .then(r => r.json());
+                    .then((r) => r.json());
+            }
+
+            /**
+             * TODO : deprecated
+             */
+            @decorators.cachable(2)
+            candlesFrame(amount, price, interval, from, to) {
+                return fetch(`${WavesApp.network.datafeed}/api/candles/${amount}/${price}/${interval}/${from}/${to}`)
+                    .then((r) => r.json());
             }
 
         }
@@ -42,6 +56,5 @@
 
     factory.$inject = ['decorators'];
 
-    angular.module('app')
-        .factory('dataFeed', factory);
+    angular.module('app').factory('dataFeed', factory);
 })();
