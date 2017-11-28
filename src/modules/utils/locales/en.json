@@ -5,6 +5,21 @@
       "unpinned": "Pin",
       "pinned": "Pinned"
     },
+    "startLease": {
+      "title": "Start leasing",
+      "titleComplete": "Leasing Complete",
+      "balance": "Balance",
+      "recipient": "Recipient",
+      "amount": "Amount",
+      "start": "Start Lease",
+      "back": "Go Back",
+      "confirm": "Confirm",
+      "details": "View Details",
+      "recipientConfirm": "To node",
+      "fee": "Fee",
+      "leaseComplete": "Your transaction is on the way!",
+      "leaseCompleteDesc": "You lease {{amount}} Waves."
+    },
     "receive": {
       "title": "Receive {{asset.name}}",
       "warningTitle": "Send only «{{asset.name}}» Waves token to this address",

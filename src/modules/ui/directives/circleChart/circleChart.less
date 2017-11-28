@@ -1,0 +1,33 @@
+@import (reference) '../../../config';
+
+w-circle-chart {
+  display: block;
+  position: relative;
+
+  &::before, &::after {
+    content: '';
+    border-radius: 100%;
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &.empty-chart {
+    &::before, &::after {
+      display: block;
+    }
+
+    &::before {
+      width: 156px;
+      height: 156px;
+      background-color: @color-basic-100;
+    }
+    &::after {
+      width: 68px;
+      height: 68px;
+      background-color: @color-white;
+    }
+  }
+}

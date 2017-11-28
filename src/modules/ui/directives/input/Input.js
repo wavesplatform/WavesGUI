@@ -77,7 +77,7 @@
                     _initialize() {
                         this._$input = $element.find('input,textarea');
                         this._$inputWrap = $element.find('.w-input-wrap');
-                        const name = this._name = this._$input.attr('name');
+                        const name = this._name = this._getName();
 
                         this._$input.on('focus', () => {
                             this._$inputWrap.addClass('focused');
@@ -87,11 +87,11 @@
                             this._$inputWrap.removeClass('focused');
                         });
 
-                        const $formName = $element.closest('form').attr('name');
+                        const formName = $element.closest('form').attr('name');
 
-                        if (this._name && $formName) {
+                        if (this._name && formName) {
 
-                            const form = this._$form = $scope.$eval($formName);
+                            const form = this._$form = this._getForm(formName);
 
                             this.receive(utils.observe(form[name], '$valid'), this._onChangeValid, this);
                             this.receive(utils.observe(form[name], '$touched'), this._onChangeTouched, this);
@@ -103,6 +103,41 @@
                         if ($attrs.autoFocus) {
                             this._$input.focus();
                         }
+                    }
+
+                    _getName() {
+                        const name = this._$input.attr('name');
+
+                        if (!name) {
+                            return null;
+                        }
+
+                        if (name.indexOf('{{') === -1) {
+                            return name;
+                        } else {
+                            return $scope.$eval(name.replace('{{', '')
+                                .replace('}}', '')
+                                .replace('::', ''));
+                        }
+                    }
+
+                    _getForm(name) {
+                        let $localScope = $scope;
+                        let form = null;
+                        do {
+                            form = $localScope.$eval(name);
+                            if (form) {
+                                break;
+                            } else {
+                                $localScope = $localScope.$parent;
+                            }
+                        } while ($localScope.$parent);
+
+                        if (!form) {
+                            throw new Error('Cant find parent form data!');
+                        }
+
+                        return form;
                     }
 
                     /**

@@ -60,7 +60,7 @@
                 return utils.whenAll([
                     assets.info(WavesUtils.toId(assetFrom)),
                     assets.info(WavesUtils.toId(assetTo)),
-                    this._getRate(assetFrom, assetTo, date)
+                    this.getRate(assetFrom, assetTo, date)
                 ])
                     .then(([from, to, rate]) => {
                         return this._generateRateApi(from, to, rate);

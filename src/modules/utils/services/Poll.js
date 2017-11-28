@@ -48,7 +48,7 @@
                 /**
                  * @type {string}
                  */
-                this.id = tsUtils.uniqueId('poll');
+                this.id = tsUtils.uniqueId('_pollLeasing');
                 /**
                  * @type {{destroy: Signal}}
                  */

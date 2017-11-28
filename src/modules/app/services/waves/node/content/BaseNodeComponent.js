@@ -48,8 +48,9 @@
                 return this._feeList(transactionType)
                     .then((list) => {
                         if (fee) {
-                            const hash = utils.toHash(list, 'id');
-                            if (hash[fee.id] && hash[fee.id].getTokens().lte(fee.getTokens())) {
+                            const hash = utils.toHash(list, 'asset.id');
+                            if (hash[fee.asset.id] && hash[fee.asset.id].getTokens()
+                                    .lte(fee.getTokens())) {
                                 return fee;
                             } else {
                                 throw new Error('Wrong fee!');
@@ -67,11 +68,7 @@
              */
             _pipeTransaction(moneyList) {
                 return (transaction) => {
-                    eventManager.addEvent({
-                        id: transaction.id,
-                        components: moneyList.map(eventManager.getBalanceComponentData, eventManager)
-                            .concat({ name: 'transaction' })
-                    });
+                    eventManager.addTx(transaction, moneyList);
                     return transaction;
                 };
             }
@@ -83,5 +80,6 @@
 
     factory.$inject = ['utils', 'eventManager', 'decorators'];
 
-    angular.module('app').factory('BaseNodeComponent', factory);
+    angular.module('app')
+        .factory('BaseNodeComponent', factory);
 })();

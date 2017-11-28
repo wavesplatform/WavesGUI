@@ -290,7 +290,7 @@
                 id: 'main',
                 data: {
                     abstract: true,
-                    views: [{ name: 'main', templateUrl: 'modules/app/templates/main.html' }],
+                    views: [{ name: 'main', templateUrl: 'modules/app/templates/main.html' }]
                 },
                 children: [
                     {
@@ -301,16 +301,23 @@
                                 noController: true,
                                 template: '<ui-view name="content"></ui-view>'
                             }],
-                            redirectTo: 'main.wallet.assets',
+                            redirectTo: 'main.wallet.assets'
                         },
                         children: [
                             { id: 'assets', data: { views: [{ name: 'content' }] } },
                             { id: 'portfolio', data: { views: [{ name: 'content' }] } },
-                            { id: 'transactions', data: { views: [{ name: 'content' }] } }
+                            { id: 'transactions', data: { views: [{ name: 'content' }] } },
+                            { id: 'leasing', data: { views: [{ name: 'content' }] } }
                         ]
                     },
                     {
                         id: 'dex',
+                        data: {
+                            views: [{ name: 'mainContent' }]
+                        }
+                    },
+                    {
+                        id: 'tokens',
                         data: {
                             views: [{ name: 'mainContent' }]
                         }

@@ -12,73 +12,62 @@
     /**
      * @param {User} user
      * @param {Poll} Poll
-     * @param {typeof AppEvent} AppEvent
-     * @param {app.utils.decorators} decorators
-     * @param $injector
-     * @param EVENT_STATUSES
-     * @param BalanceComponent
+     * @param {$injector} $injector
+     * @param TxEvent
      * @param {app.utils} utils
+     * @param {NotificationManager} notificationManager
      * @return {EventManager}
      */
-    const factory = function (user, Poll, AppEvent, decorators, $injector, EVENT_STATUSES, BalanceComponent, utils) {
+    const factory = function (user, Poll, $injector, TxEvent, utils, notificationManager) {
 
         class EventManager {
 
             constructor() {
-                this._events = Object.create(null);
-                this.ready = null;
-                this.poll = null;
-
                 /**
-                 * @type {{eventEnd: Signal, balanceEventEnd: Signal}}
+                 * @type {Promise}
+                 */
+                this.ready = null;
+                /**
+                 * @type {{changeBalanceEvent: Signal}}
                  */
                 this.signals = {
-                    eventEnd: new tsUtils.Signal(),
-                    balanceEventEnd: new tsUtils.Signal()
+                    changeBalanceEvent: new tsUtils.Signal()
                 };
+                /**
+                 * @type {Poll}
+                 * @private
+                 */
+                this._poll = null;
+                /**
+                 * @type {Object}
+                 * @private
+                 */
+                this._events = Object.create(null);
+                /**
+                 * @type {Waves}
+                 * @private
+                 */
+                this._waves = null;
 
-                this._initialize();
+                user.onLogin()
+                    .then(this._initialize.bind(this));
+            }
+
+            addTx(tx, moneyList) {
+                this._events[tx.id] = new TxEvent(tx.id, moneyList);
+                this._syncEventList();
+                this._resetPoll();
             }
 
             /**
-             * @return {{transfer: string}}
+             * @param {Money} balance
+             * @return Money
              */
-            getAvailableEvents() {
-                return EVENT_TYPES;
-            }
-
-            /**
-             * @param {Money} money
-             */
-            getBalanceComponentData(money) {
-                return {
-                    name: 'balance',
-                    data: {
-                        amount: money.getTokens(),
-                        assetId: money.asset.id,
-                        precision: money.asset.precision
-                    }
-                };
-            }
-
-            addEvent() {
-                this.ready = utils.whenAll([this.ready, this._addEvent(event)]);
-                this._saveEvents();
-            }
-
-            getBalanceEvents() {
-                return this.ready.then(() => {
-                    const events = [];
-                    Object.keys(this._events)
-                        .forEach((id) => {
-                            this._events[id].components.forEach((component) => {
-                                if (component instanceof BalanceComponent) {
-                                    events.push(component);
-                                }
-                            });
-                        });
-                    return events;
-                });
+            updateBalance(balance) {
+                return Object.keys(this._events)
+                    .reduce((result, id) => {
+                        return this._events[id].updateBalance(result);
+                    }, balance);
             }
 
             /**
@@ -86,141 +75,132 @@
              * @private
              */
             _initialize() {
-                this.ready = user.onLogin()
-                    .then(() => this._loadEvents())
-                    .then(() => {
-                        this.poll = new Poll(this._getStatuses.bind(this), this._applyStatuses.bind(this), 2000);
-                        this._onChangeEventsCount();
+                this._waves = $injector.get('waves');
+                this._waves.node.transactions.listUtx()
+                    .then((list) => {
+
+                        const events = user.getSetting('events');
+                        const utxHash = utils.toHash(list, 'id');
+                        Object.keys(events)
+                            .forEach((id) => {
+                                if (!utxHash[id]) {
+                                    this._removeEvent(id, true);
+                                }
+                            });
+
+                        if (list && list.length) {
+                            this._resetPoll();
+                        }
                     });
             }
 
             /**
+             * @param {string} id
+             * @param {Money[]} moneyList
              * @private
              */
-            _onChangeEventsCount() {
-                if (Object.keys(this._events).length === 0) {
-                    this.poll.stop();
-                } else {
-                    this.poll.play();
+            _addEvent(tx) {
+                if (!this._events[tx.id]) {
+                    this._events[tx.id] = new TxEvent(tx.id, EventManager._getMoneyListData(tx));
+                    this._syncEventList();
+                    return true;
                 }
             }
 
             /**
-             * @return {Promise}
+             * @param {string} id
+             * @param {boolean} [force]
              * @private
              */
-            _getStatuses() {
-                const promises = [];
-
-                tsUtils.each(this._events, (event) => {
-                    promises.push(event.getStatus());
-                });
-
-                return Promise.all(promises);
-            }
-
-            /**
-             * @private
-             */
-            _applyStatuses(statuses) {
-                let needSave = false;
-                let hadBalanceEvents = false;
-                statuses.forEach((statusData) => {
-
-                    if (statusData.status === EVENT_STATUSES.PENDING) {
-                        return null;
+            _removeEvent(id, force) {
+                if (this._events[id] || force) {
+                    delete this._events[id];
+                    this._syncEventList();
+                    if (!force) {
+                        this.signals.changeBalanceEvent.dispatch();
                     }
-
-                    needSave = true;
-                    if (BALANCE_EVENTS.indexOf(this._events[statusData.id].type) !== -1) {
-                        hadBalanceEvents = true;
-                    }
-
-                    switch (statusData.status) {
-                        case EVENT_STATUSES.ERROR:
-                            console.error(`Error event ${JSON.stringify(this._events[statusData.id])}`);
-                            delete this._events[statusData.id];
-                            break;
-                        case EVENT_STATUSES.SUCCESS:
-                            console.log(`Event with id "${statusData.id}" finished!`);
-                            delete this._events[statusData.id];
-                            break;
-                    }
-                });
-
-
-                if (needSave) {
-                    this._saveEvents();
-                    if (hadBalanceEvents) {
-                        this.signals.balanceEventEnd.dispatch();
-                    }
-                    this.signals.eventEnd.dispatch();
+                    // utils.when(this._waves.node.transactions.get(id)) TODO UTX Problems
+                    //     .then((tx) => {
+                    //         notificationManager.info({
+                    //             ns: 'app.ui',
+                    //             title: { literal: 'Transaction finished success!' }
+                    //         });
+                    //     }, (error) => {
+                    //         notificationManager.error({
+                    //             ns: 'app.ui',
+                    //             title: { literal: 'Transaction finished error!' }
+                    //         });
+                    //         console.error(error, id);
+                    //     });
                 }
             }
 
-            /**
-             * @private
-             */
-            _saveEvents() {
+            _resetPoll() {
+                if (this._poll) {
+                    this._poll.destroy();
+                }
+                setTimeout(() => {
+                    this._poll = new Poll(this._waves.node.transactions.listUtx, this._addUtxList.bind(this), 1000);
+                }, 1000);
+            }
+
+            _addUtxList(list) {
+                let dispatch = false;
+                const utxHash = utils.toHash(list, 'id');
+
+                Object.keys(this._events)
+                    .forEach((id) => {
+                        if (!utxHash[id]) {
+                            this._removeEvent(id);
+                            dispatch = true;
+                        }
+                    });
+
+                if (list.length) {
+                    list.forEach((tx) => {
+                        if (!this._events[tx.id]) {
+                            this._addEvent(tx);
+                            dispatch = true;
+                        }
+                    });
+                    if (dispatch) {
+                        this.signals.changeBalanceEvent.dispatch();
+                    }
+                } else if (this._poll) {
+                    this._poll.destroy();
+                    this._poll = null;
+                }
+            }
+
+            _syncEventList() {
                 const result = Object.create(null);
-                tsUtils.each(this._events, (event) => {
-                    result[event.id] = event.toJSON();
-                });
+                Object.keys(this._events)
+                    .forEach((id) => {
+                        result[id] = true;
+                    });
                 user.setSetting('events', result);
-                this._onChangeEventsCount();
             }
 
-            /**
-             *
-             * @return {Promise}
-             * @private
-             */
-            _loadEvents() {
-                return utils.whenAll(this._parseEventList(user.getSetting('events')));
+            static _getMoneyListData(tx) {
+                const moneyList = [tx.fee];
+                if (tx.type === Waves.constants.TRANSFER_TX) {
+                    moneyList.push(tx.amount);
+                }
+                return moneyList;
             }
 
-            /**
-             *
-             * @param eventList
-             * @private
-             */
-            _parseEventList(eventList) {
-                return Object.keys(eventList).map((name) => this._addEvent(eventList[name]));
-            }
-
-            /**
-             * @param eventData
-             * @private
-             */
-            _addEvent(eventData) {
-                const event = this._events[eventData.id] = new AppEvent(eventData.id);
-                const components = eventData.components.map(EventManager.getComponetnFromStorageData);
-                event.addComponents(components);
-                return utils.whenAll(components.map((component) => component.ready || utils.when()));
-            }
-
-            static getComponetnFromStorageData(item) {
-                const Component = $injector.get(EventManager.toClassName(item.name));
-                return new Component({ ...item.data || {}, name: item.name });
-            }
-
-            static toClassName(name) {
-                return name.charAt(0).toUpperCase() + name.substr(1) + 'Component';
-            }
         }
 
-        return new EventManager();
+        return utils.bind(new EventManager());
     };
 
     factory.$inject = [
         'user',
         'Poll',
-        'AppEvent',
-        'decorators',
         '$injector',
-        'EVENT_STATUSES',
-        'BalanceComponent',
-        'utils'
+        'TxEvent',
+        'utils',
+        'notificationManager'
     ];
 
     angular.module('app')

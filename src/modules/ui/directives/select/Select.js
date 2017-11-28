@@ -1,7 +1,15 @@
 (function () {
     'use strict';
 
-    const controller = function (Base, ComponentList, $element, $timeout) {
+    /**
+     * @param Base
+     * @param {ComponentList} ComponentList
+     * @param {JQuery} $element
+     * @param {$timeout} $timeout
+     * @param {$q} $q
+     * @return {Select}
+     */
+    const controller = function (Base, ComponentList, $element, $timeout, $q) {
 
         class Select extends Base {
 
@@ -32,6 +40,11 @@
                  */
                 this._timer = null;
                 /**
+                 * @type {Deferred}
+                 * @private
+                 */
+                this._ready = $q.defer();
+                /**
                  * @type {boolean}
                  */
                 this.isOpend = false;
@@ -47,25 +60,29 @@
                 this._selectList = this._select.find('.select-list:first');
 
                 this._setHandlers();
+
+                this._ready.resolve();
             }
 
             /**
              * @param {Option} option
              */
             registerOption(option) {
-                this._options.push(option);
-                if (option.value === this.ngModel) {
-                    this.setActive(option);
-                }
-                if (!this._timer) {
-                    this._timer = $timeout(() => {
-                        if (tsUtils.isEmpty(this.ngModel)) {
-                            this.setActive(this._options.first());
-                        } else if (!this._options.some({ value: this.ngModel })) {
-                            this.setActive(this._options.first());
-                        }
-                    }, 100);
-                }
+                this._ready.promise.then(() => {
+                    this._options.push(option);
+                    if (option.value === this.ngModel) {
+                        this.setActive(option);
+                    }
+                    if (!this._timer) {
+                        this._timer = $timeout(() => {
+                            if (tsUtils.isEmpty(this.ngModel)) {
+                                this.setActive(this._options.first());
+                            } else if (!this._options.some({ value: this.ngModel })) {
+                                this.setActive(this._options.first());
+                            }
+                        }, 100);
+                    }
+                });
             }
 
             /**
@@ -128,7 +145,7 @@
         return new Select();
     };
 
-    controller.$inject = ['Base', 'ComponentList', '$element', '$timeout'];
+    controller.$inject = ['Base', 'ComponentList', '$element', '$timeout', '$q'];
 
     angular.module('app.ui').component('wSelect', {
         bindings: {
