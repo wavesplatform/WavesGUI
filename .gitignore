@@ -3,7 +3,6 @@
 /.idea/
 /node_modules
 /bower_components
-/vendors/charting_library
 /**/*.js.map
 /src/**/*.css
 /.grunt

@@ -49,7 +49,7 @@
                         interval: WavesApp.dex.defaultResolution,
                         container_id: this.elementId,
                         datafeed: candlesService,
-                        library_path: 'vendors/charting_library/',
+                        library_path: 'node_modules/@waves/trading-view/',
                         autosize: true,
                         disabled_features: DISABLED_FEATURES
                     });

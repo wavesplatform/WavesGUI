@@ -2,7 +2,6 @@
   "vendors": [
     "vendors/require-modules.js",
     "vendors/qrcode.min.js",
-    "vendors/charting_library/charting_library.min.js",
     "node_modules/ts-utils/dist/ts-utils.min.js",
     "node_modules/bignumber.js/bignumber.min.js",
     "node_modules/ts-api-validator/dist/ts-api-validator.partial.min.js",
@@ -18,6 +17,7 @@
     "node_modules/angular-material/angular-material.min.js",
     "node_modules/@uirouter/angularjs/release/angular-ui-router.min.js",
     "node_modules/@uirouter/angularjs/release/stateEvents.min.js",
+    "node_modules/@waves/trading-view/charting_library.min.js",
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
     "node_modules/i18next/dist/umd/i18next.min.js",
     "node_modules/n3-charts/build/LineChart.min.js"
