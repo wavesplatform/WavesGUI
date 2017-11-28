@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="body-2" w-i18n="modal.send.withdraw"></div>
                     <div ng-if="!$ctrl.canChooseAsset || $ctrl.assetList.length === 1"
-                         class="input-like flex-row split-half">
+                         class="input-like big flex-row split-half">
                         <div class="flex-row">
                             <w-asset-logo size="24" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
                             <div class="asset-name">{{$ctrl.asset.name}}</div>
@@ -18,7 +18,8 @@
                             <span>&nbsp;{{$ctrl.asset.ticker || $ctrl.asset.name}}</span>
                         </div>
                     </div>
-                    <w-select ng-if="$ctrl.canChooseAsset && $ctrl.assetList.length > 1"
+                    <w-select class="big"
+                              ng-if="$ctrl.canChooseAsset && $ctrl.assetList.length > 1"
                               ng-model="$ctrl.assetId">
                         <w-option ng-repeat="option in $ctrl.assetList track by $index"
                                   value="{{::option.id}}">
@@ -71,6 +72,7 @@
                                              asset-id="$ctrl.assetId"
                                              max-balance="$ctrl.asset.balance"
                                              fee="$ctrl.fee"
+                                             input-classes="big"
                                              amount="$ctrl.amount">
                             </w-balance-input>
                             <div class="amount-modal-icon"></div>
@@ -78,6 +80,7 @@
                                              name="amountMirror"
                                              asset-id="$ctrl.mirrorId"
                                              fee="$ctrl.fee"
+                                             input-classes="big"
                                              amount="$ctrl.amountMirror">
                             </w-balance-input>
 

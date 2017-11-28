@@ -17,7 +17,8 @@
             <div class="row">
                 <div class="body-2 basic-900" w-i18n="modal.startLease.recipient"></div>
                 <w-input-container>
-                    <w-input type="text"
+                    <w-input class="big"
+                             type="text"
                              w-validate="address"
                              name="recipient"
                              ng-model="$ctrl.recipient"
@@ -38,6 +39,7 @@
                                      asset-id="$ctrl.assetId"
                                      max-balance="$ctrl.asset.balance"
                                      fee="$ctrl.fee"
+                                     input-classes="big"
                                      amount="$ctrl.amount"></w-balance-input>
                 </w-input-container>
             </div>

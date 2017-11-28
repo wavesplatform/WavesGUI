@@ -44,6 +44,44 @@
             </div>
 
             <div class="row">
+                <div class="body-2 basic-900" w-i18n="count"></div>
+                <w-input-container>
+                    <div class="input-like">
+                        <w-input class="embed" type="text"
+                                 name="count"
+                                 ng-model="$ctrl.count"
+                                 precision="$ctrl.precision.toString()"
+                                 min="'0'"
+                                 max="$ctrl.maxCoinsCount"
+                                 w-validate="number"
+                                 required></w-input>
+                        <div class="select-wrap">
+                            <w-select class="issue-select tiny" ng-model="$ctrl.issue">
+                                <w-option option-type="boolean" value="false">
+                                    <span class="caption-1 basic-700" w-i18n-ns="app.tokens" w-i18n="reissuble.false"></span>
+                                </w-option>
+                                <w-option option-type="boolean" value="true">
+                                    <span class="caption-1 basic-700" w-i18n-ns="app.tokens" w-i18n="reissuble.true"></span>
+                                </w-option>
+                            </w-select>
+                        </div>
+                    </div>
+                    <w-input-error message="required">
+                        <w-i18n>validators.required</w-i18n>
+                    </w-input-error>
+                    <w-input-error message="min">
+                        <w-i18n>validators.minValueCount</w-i18n>
+                    </w-input-error>
+                    <w-input-error message="max">
+                        <w-i18n>validators.maxValueCount</w-i18n>
+                    </w-input-error>
+                    <w-input-error message="precision">
+                        <w-i18n>validators.precisionCount</w-i18n>
+                    </w-input-error>
+                </w-input-container>
+            </div>
+
+            <div class="row">
                 <div class="body-2 basic-900">
                     <w-i18n>precision</w-i18n>
                     <div class="footnote-1 basic-500" w-i18n="help.precision"></div>
@@ -61,9 +99,6 @@
                              max="8"
                              placeholder="placeholders.precision"
                              w-i18n-attr="placeholder"></w-input>
-                    <!--<w-input-error message="integer">-->
-                    <!--Must be integer-->
-                    <!--</w-input-error>-->
                     <w-input-error message="min">
                         <w-i18n>validators.minValuePrecision</w-i18n>
                     </w-input-error>
@@ -72,44 +107,6 @@
                     </w-input-error>
                     <w-input-error message="required">
                         <w-i18n>validators.required</w-i18n>
-                    </w-input-error>
-                </w-input-container>
-            </div>
-
-            <div class="row">
-                <div class="body-2 basic-900" w-i18n="count"></div>
-                <w-input-container>
-                    <div class="input-like">
-                        <w-input class="embed" type="text"
-                                 name="count"
-                                 ng-model="$ctrl.count"
-                                 precision="$ctrl.precision.toString()"
-                                 min="'0'"
-                                 max="$ctrl.maxCoinsCount"
-                                 w-validate="number"
-                                 required></w-input>
-                        <div class="select-wrap">
-                            <w-select class="issue-select tiny" ng-model="$ctrl.issue">
-                                <w-option option-type="boolean" value="false">
-                                    <span class="caption-1 basic-700" w-i18n="reissuble.false"></span>
-                                </w-option>
-                                <w-option option-type="boolean" value="true">
-                                    <span class="caption-1 basic-700" w-i18n="reissuble.true"></span>
-                                </w-option>
-                            </w-select>
-                        </div>
-                    </div>
-                    <w-input-error message="required">
-                        <w-i18n>validators.required</w-i18n>
-                    </w-input-error>
-                    <w-input-error message="min">
-                        <w-i18n>validators.minValueCount</w-i18n>
-                    </w-input-error>
-                    <w-input-error message="max">
-                        <w-i18n>validators.maxValueCount</w-i18n>
-                    </w-input-error>
-                    <w-input-error message="precision">
-                        <w-i18n>validators.precisionCount</w-i18n>
                     </w-input-error>
                 </w-input-container>
             </div>

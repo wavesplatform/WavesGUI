@@ -1,6 +1,6 @@
 <div w-i18n-ns="app.ui" class="input-wrap" ng-if="$ctrl.name">
     <w-input type="text"
-             class="no-validate-icons"
+             class="no-validate-icons {{::$ctrl.inputClasses}}"
              w-validate="asset"
              max-balance="$ctrl.maxBalance"
              asset-id="{{::$ctrl.assetId}}"

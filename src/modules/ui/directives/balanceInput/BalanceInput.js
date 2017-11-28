@@ -77,6 +77,7 @@
     angular.module('app.ui').component('wBalanceInput', {
         bindings: {
             name: '@',
+            inputClasses: '@',
             amount: '=',
             assetId: '<',
             maxBalance: '<',
