@@ -44,6 +44,35 @@
                                 ticker: info.ticker || '',
                                 sign: info.sign || ''
                             }));
+                    })
+                    .catch(() => {
+                        if (assetId === WavesApp.defaultAssets.WAVES) {
+                            return Waves.Money.fromTokens('100000000', assetId).then((quantity) => ({
+                                id: WavesApp.defaultAssets.WAVES,
+                                name: 'Waves',
+                                precision: 8,
+                                reissuable: false,
+                                timestamp: 1460408400000,
+                                quantity,
+                                sender: WavesApp.defaultAssets.WAVES,
+                                height: 0,
+                                ticker: '',
+                                sign: ''
+                            }));
+                        } else {
+                            return Waves.API.Node.v2.transactions.get(assetId).then((info) => ({
+                                id: info.id,
+                                name: info.name,
+                                description: info.description,
+                                reissuable: info.reissuable,
+                                timestamp: info.timestamp,
+                                quantity: info.amount,
+                                sender: info.sender,
+                                height: info.height,
+                                ticker: '',
+                                sign: ''
+                            }));
+                        }
                     });
             }
 
