@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const MAX_OF_COINS_COUNT = new BigNumber('9223372036854775807');
+
     /**
      * @param Base
      * @param $scope
@@ -38,6 +40,12 @@
                  * @type {BigNumber}
                  */
                 this.precision = null;
+                /**
+                 * @type {BigNumber}
+                 */
+                this.maxCoinsCount = null;
+
+                this.observe('precision', this._onChangePrecision);
             }
 
             generate() {
@@ -66,6 +74,16 @@
                         this.count = null;
                         this.precision = null;
                     });
+            }
+
+            /**
+             * @param {BigNumber} value
+             * @private
+             */
+            _onChangePrecision({ value }) {
+                if (value) {
+                    this.maxCoinsCount = MAX_OF_COINS_COUNT.div(Math.pow(10, Number(value)));
+                }
             }
 
         }

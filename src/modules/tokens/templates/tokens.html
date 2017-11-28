@@ -84,7 +84,7 @@
                              ng-model="$ctrl.count"
                              precision="$ctrl.precision.toString()"
                              min="'0'"
-                             max="'9223372036854775807'"
+                             max="$ctrl.maxCoinsCount"
                              w-validate="number"
                              required></w-input>
                     <div class="select-wrap">
