@@ -37,10 +37,10 @@
                 this.syncSettings({
                     _amountAssetId: 'dex.amountAssetId',
                     _priceAssetId: 'dex.priceAssetId'
-                })
-                    ;
-                        const poll = createPoll(this, this._getOrders, 'orders', 12000);
-                        this.observe(['_amountAssetId', '_priceAssetId'], () => poll.restart());
+                });
+
+                const poll = createPoll(this, this._getOrders, 'orders', 12000);
+                this.observe(['_amountAssetId', '_priceAssetId'], () => poll.restart());
 
             }
 
@@ -115,20 +115,34 @@
 
                         return Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
                             .then((orderBook) => Promise.all([parse(orderBook.bids), parse(orderBook.asks)])
-                                .then((bidAsks) => {
-                                    const bids = bidAsks[0];
-                                    const asks = bidAsks[1];
+                                .then(([bids, asks]) => {
+
+                                    const lastAsk = asks[asks.length - 1];
+                                    const [firstBid] = bids;
+
+                                    const spread = {
+                                        amount: new BigNumber(lastAsk.amount).sub(firstBid.amount)
+                                            .abs()
+                                            .toString(),
+                                        price: new BigNumber(lastAsk.price).sub(firstBid.price)
+                                            .abs()
+                                            .toString(),
+                                        total: new BigNumber(lastAsk.total).sub(firstBid.total)
+                                            .abs()
+                                            .toString()
+                                    };
 
                                     return {
-                                        bids: process(bids)
+                                        bids: process(bids.reverse())
                                             .join(''),
-                                        asks: process(asks)
+                                        spread: process([spread])[0],
+                                        asks: process(asks.reverse())
                                             .join('')
                                     };
                                 }));
                     })
-                    .then(({ bids, asks }) => {
-                        const template = `<div class="bids">${bids}</div><div class="asks">${asks}</div>`;
+                    .then(({ bids, spread, asks }) => {
+                        const template = `<div class="asks">${asks}</div><div class="spread">${spread}</div><div class="bids">${bids}</div>`;
                         const $box = $element.find('w-scroll-box');
                         $box.html(template);
                     });
