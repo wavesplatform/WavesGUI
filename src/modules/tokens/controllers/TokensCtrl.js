@@ -18,6 +18,11 @@
             constructor() {
                 super($scope);
                 /**
+                 * Link to angular form object
+                 * @type {form.FormController}
+                 */
+                this.createForm = null;
+                /**
                  * Token name
                  * @type {string}
                  */
@@ -90,7 +95,8 @@
                         amount,
                         precision
                     }
-                });
+                })
+                    .then(() => this._reset());
             }
 
             /**
@@ -117,6 +123,18 @@
              */
             _onChangeBalance() {
                 this.invalid = (!this._fee || !this._balance) || this._balance.getTokens().lt(this._fee.getTokens());
+            }
+
+            _reset() {
+
+                this.name = '';
+                this.description = '';
+                this.issue = true;
+                this.count = null;
+                this.precision = null;
+                this.maxCoinsCount = null;
+
+                this.createForm.$setUntouched();
             }
 
         }

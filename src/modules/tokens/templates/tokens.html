@@ -1,7 +1,7 @@
 <div w-i18n-ns="app.tokens" class="token-page">
     <div class="page-title headline-4 disabled-900" w-i18n="pageTitle"></div>
     <div class="token-page__content">
-        <form class="generate-form" name="create" novalidate>
+        <form class="generate-form" name="$ctrl.createForm" novalidate>
 
             <div class="row">
                 <div class="body-2 basic-900">
@@ -65,10 +65,10 @@
                     <!--Must be integer-->
                     <!--</w-input-error>-->
                     <w-input-error message="min">
-                        <w-i18n>minValue</w-i18n>
+                        <w-i18n>validators.minValuePrecision</w-i18n>
                     </w-input-error>
                     <w-input-error message="max">
-                        <w-i18n>maxValue</w-i18n>
+                        <w-i18n>validators.maxValuePrecision</w-i18n>
                     </w-input-error>
                     <w-input-error message="required">
                         <w-i18n>validators.required</w-i18n>
@@ -103,10 +103,13 @@
                         <w-i18n>validators.required</w-i18n>
                     </w-input-error>
                     <w-input-error message="min">
-                        <w-i18n>validators.minValue</w-i18n>
+                        <w-i18n>validators.minValueCount</w-i18n>
                     </w-input-error>
                     <w-input-error message="max">
-                        <w-i18n>validators.maxValue</w-i18n>
+                        <w-i18n>validators.maxValueCount</w-i18n>
+                    </w-input-error>
+                    <w-input-error message="precision">
+                        <w-i18n>validators.precisionCount</w-i18n>
                     </w-input-error>
                 </w-input-container>
             </div>
@@ -117,12 +120,12 @@
                     <div class="avatar-wrap">
                         <w-asset-logo ng-if="$ctrl.name" size="30" asset-name="$ctrl.name"></w-asset-logo>
                     </div>
-                    <div class="token-info-wrap" ng-class="{empty: create.$invalid}">
+                    <div class="token-info-wrap" ng-class="{empty: $ctrl.createForm.$invalid}">
                         <div class="line token-name headline-3 basic-900">
-                            <span ng-if="$ctrl.name && create.$valid">{{$ctrl.name}}</span>
+                            <span ng-if="$ctrl.name && $ctrl.createForm.$valid">{{$ctrl.name}}</span>
                         </div>
                         <div class="line token-value body-2 basic-700">
-                        <span ng-if="$ctrl.name && create.$valid" w-nice-number="$ctrl.count"
+                        <span ng-if="$ctrl.name && $ctrl.createForm.$valid" w-nice-number="$ctrl.count"
                               precision="$ctrl.precision.toString()"></span>
                         </div>
                     </div>
@@ -133,7 +136,7 @@
                 <div class="footnote-1 basic-500"></div>
             </div>
 
-            <w-button disabled="create.$invalid || $ctrl.invalid" ng-click="$ctrl.generate()"
+            <w-button disabled="$ctrl.createForm.$invalid || $ctrl.invalid" ng-click="$ctrl.generate()"
                       class="submit long margin-2">
                 <w-i18n>create</w-i18n>
             </w-button>
