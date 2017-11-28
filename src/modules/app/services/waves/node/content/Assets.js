@@ -72,7 +72,13 @@
                         return assetList.map((asset) => {
                             if (balances[asset.id]) {
                                 const balance = this._getAssetBalance(balances[asset.id].amount);
-                                return utils.when({ ...asset, balance });
+                                if (balance.getTokens().lt(0)) {
+                                    return Waves.Money.fromTokens('0', balance.asset.id).then((balance) => {
+                                        return { ...asset, balance };
+                                    });
+                                } else {
+                                    return utils.when({ ...asset, balance });
+                                }
                             } else {
                                 return Waves.Money.fromTokens('0', asset.id)
                                     .then((money) => ({ ...asset, balance: money }));
@@ -94,7 +100,13 @@
                                 return assetList.map((asset, index) => {
                                     const amount = balanceList[index].amount;
                                     const balance = this._getAssetBalance(amount);
-                                    return { ...asset, balance };
+                                    if (balance.getTokens().lt(0)) {
+                                        return Waves.Money.fromTokens('0', balance.asset.id).then((balance) => {
+                                            return { ...asset, balance };
+                                        });
+                                    } else {
+                                        return { ...asset, balance };
+                                    }
                                 });
                             })
                             .then(utils.whenAll);
