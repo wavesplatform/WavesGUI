@@ -33,42 +33,51 @@
 
     /**
      * @param {Waves} waves
+     * @param {app.utils.decorators} decorators
      * @return {SymbolInfoService}
      */
-    const factory = function (waves) {
+    const factory = function (waves, decorators) {
 
         class SymbolInfoService {
 
-            get(ticker) {
-                const [a, b] = ticker.split('/');
+            get(symbolName) {
+                const [partOne, partTwo] = symbolName.split('/');
 
-                if (!a || !b) {
+                if (!partOne || !partTwo) {
                     return Promise.reject();
                 } else {
-                    return this._createSymbolInfo(WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC);
+                    return this._createSymbolInfo(partOne, partTwo);
                 }
             }
 
-            search(userInput) {
-                if (!userInput) {
-                    return Promise.resolve([]);
-                } else {
-                    const [partOne, partTwo] = userInput.split('/'); // TODO : split by space
+            // search(userInput) {
+            //     userInput = userInput.trim();
+            //
+            //     if (!userInput) {
+            //         return Promise.resolve([]);
+            //     } else {
+            //         const [partOne, partTwo] = userInput.split('/');
+            //
+            //         if (!partTwo) {
+            //             return waves.utils.searchAsset(partOne)
+            //                 .then((list) => {
+            //                     return list.filter((item) => {
+            //                         return item.ticker || item.id === partOne;
+            //                     });
+            //                 })
+            //                 .then((filteredList) => {
+            //                     const pOne = filteredList[0];
+            //                     const pTwoIdList = DEFAULT_ASSETS_ID_LIST.filter((id) => id !== pOne.id);
+            //
+            //                     return Promise.all(pTwoIdList.map((id) => {
+            //                         return this._createSymbolInfo(pOne.id, id);
+            //                     }));
+            //                 });
+            //         }
+            //     }
+            // }
 
-                    if (!partTwo) {
-                        return waves.utils.searchAsset(partOne).then((list) => {
-                            const pOne = list[0];
-                            const pTwoIdList = DEFAULT_ASSETS_ID_LIST.filter((id) => id !== pOne.id);
-
-                            return Promise.all(pTwoIdList.map((id) => {
-                                return this._createSymbolInfo(pOne.id, id);
-                            }));
-                        });
-                    }
-                }
-            }
-
-            // TODO : decorate
+            @decorators.cachable(1440) // TODO : make it persistent when cachable is limited in size
             _createSymbolInfo(assetOneId, assetTwoId) {
                 return Waves.AssetPair.get(assetOneId, assetTwoId).then((pair) => {
                     const amount = pair.amountAsset;
@@ -106,7 +115,7 @@
         return new SymbolInfoService();
     };
 
-    factory.$inject = ['waves'];
+    factory.$inject = ['waves', 'decorators'];
 
     angular.module('app.dex').factory('symbolInfoService', factory);
 })();

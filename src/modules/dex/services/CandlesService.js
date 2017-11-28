@@ -29,12 +29,15 @@
             }
 
             searchSymbolsByName(userInput, exchange, symbolType, callback) {
-                symbolInfoService.search(userInput).then((list) => {
-                    callback(list.map(CandlesService._symbolInfoToSearchResult));
-                });
+                console.warn('This method should not be called');
+                setTimeout(() => callback([]), 0);
+                // symbolInfoService.search(userInput).then((list) => {
+                //     callback(list.map(CandlesService._symbolInfoToSearchResult));
+                // });
             }
 
             resolveSymbol(symbolName, resolve, reject) {
+                if (symbolName.match(/^DEX:/)) return;
                 symbolInfoService.get(symbolName)
                     .then(resolve)
                     .catch(reject); // TODO
@@ -86,14 +89,14 @@
                 }
             }
 
-            static _symbolInfoToSearchResult(symbolInfo) {
-                return {
-                    symbol: symbolInfo.name,
-                    full_name: symbolInfo.name,
-                    description: symbolInfo.name,
-                    ticker: symbolInfo.ticker
-                };
-            }
+            // static _symbolInfoToSearchResult(symbolInfo) {
+            //     return {
+            //         symbol: symbolInfo.name, // This value is shown to user
+            //         full_name: symbolInfo.ticker, // This value is passed to `this.resolveSymbol()`
+            //         description: symbolInfo.ticker,
+            //         ticker: symbolInfo.ticker
+            //     };
+            // }
 
             static _getCandles(symbolInfo, from, to = Date.now(), resolution) {
                 const amountId = symbolInfo._wavesData.amountAsset.id;

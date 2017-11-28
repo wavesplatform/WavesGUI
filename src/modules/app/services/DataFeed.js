@@ -30,6 +30,7 @@
              * @param {number} [interval] from last $interval$ minutes (default 30)
              * @param {number} [count] blocks count (default 100)
              * @promise
+             * TODO : deprecated
              */
             @decorators.cachable(2)
             candles(amount, price, interval, count) {
@@ -39,6 +40,9 @@
                     .then((r) => r.json());
             }
 
+            /**
+             * TODO : deprecated
+             */
             @decorators.cachable(2)
             candlesFrame(amount, price, interval, from, to) {
                 return fetch(`${WavesApp.network.datafeed}/api/candles/${amount}/${price}/${interval}/${from}/${to}`)

@@ -3,6 +3,7 @@
 
     const DISABLED_FEATURES = [
         'header_screenshot',
+        'header_symbol_search',
         'display_market_status'
     ];
 
@@ -21,6 +22,7 @@
             constructor() {
                 super();
                 this.chart = null;
+                this.chartReady = false;
                 this.elementId = 'tradingview' + counter++;
 
                 this.syncSettings({
@@ -28,20 +30,33 @@
                     _priceAssetId: 'dex.priceAssetId'
                 });
 
-                this.observe(['_amountAssetId', '_priceAssetId'], () => console.log('Pair changed!'));
+                this.observe(['_amountAssetId', '_priceAssetId'], () => {
+                    if (this.chartReady) {
+                        this.chart.symbolInterval(({ interval }) => {
+                            this.chart.setSymbol(`${this._amountAssetId}/${this._priceAssetId}`, interval);
+                        });
+                    } else {
+                        // TODO : wait until it's ready and switch to the active pair
+                    }
+                });
             }
 
             $postLink() {
                 setTimeout(() => {
                     this.chart = new TradingView.widget({
                         // debug: true,
-                        symbol: WavesApp.dex.defaultSymbol,
+                        symbol: `${this._amountAssetId}/${this._priceAssetId}`,
                         interval: WavesApp.dex.defaultResolution,
                         container_id: this.elementId,
                         datafeed: candlesService,
                         library_path: 'vendors/charting_library/',
                         autosize: true,
                         disabled_features: DISABLED_FEATURES
+                    });
+
+                    this.chart.onChartReady(() => {
+                        this.chartReady = true;
+                        // this.chart.subscribe('onSymbolChange', (data) => console.log(data));
                     });
                 }, 0);
             }
