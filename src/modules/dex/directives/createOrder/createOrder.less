@@ -6,7 +6,7 @@ w-create-order {
   width: 320px;
   top: 100px;
   left: 100px;
-  background: #fff;
+  background: @color-disabled-50;
   border-radius: @border-radius;
   box-shadow: 0 24px 24px 0 rgba(0, 0, 0, 0.15), 0 0 24px 0 rgba(0, 0, 0, 0.15);
 
@@ -50,35 +50,113 @@ w-create-order {
           width: 70px;
           padding-top: 22px;
           text-align: center;
-          background: @color-disabled-50;
           border-top: 1px solid @color-disabled-100;
         }
       }
 
-      .input-like {
-        padding: 0;
-        display: flex;
-        align-items: center;
+      .making-order {
+        .areas {
+          display: flex;
+          flex-direction: row;
 
-        w-input {
-          display: block;
-          width: 50%;
+          .area {
+            height: 110px;
+            flex-grow: 1;
+            padding: 24px 17px 0;
+            border-top: 1px solid @color-disabled-100;
+            border-bottom: 1px solid @color-disabled-100;
+            color: @color-disabled-400;
+            cursor: pointer;
 
-          input {
-            height: 28px;
-            border: none;
-            border-radius: @border-radius;
+            &.sell {
+              text-align: left;
+            }
+
+            &.buy {
+              text-align: right;
+            }
+          }
+
+          .spread {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 50px);
           }
         }
 
-        .asset-name-wrap {
-          position: relative;
-          height: 100%;
-          width: 50%;
-          background-color: @color-disabled-50;
-          border-top-right-radius: @border-radius;
-          border-bottom-right-radius: @border-radius;
-          text-align: right;
+        .fields {
+          padding: 19px 17px 17px;
+
+          .field-label {
+            padding-bottom: 4px;
+          }
+
+          .asset-name-wrap {
+            padding: 7px 11px;
+          }
+
+          .summary {
+            padding-top: 14px;
+          }
+        }
+
+        .input-like {
+          padding: 0;
+          display: flex;
+          align-items: center;
+
+          w-input {
+            display: block;
+            width: 50%;
+
+            input {
+              height: 28px;
+              border: none;
+              border-radius: @border-radius;
+            }
+          }
+
+          .asset-name-wrap {
+            position: relative;
+            height: 100%;
+            width: 50%;
+            background-color: @color-disabled-50;
+            border-top-right-radius: @border-radius;
+            border-bottom-right-radius: @border-radius;
+            text-align: right;
+          }
+        }
+      }
+
+      .making-order.sell {
+        .areas .area.sell {
+          background: @color-error-100;
+
+          .name,
+          .price,
+          .second-name {
+            color: @color-error-400;
+          }
+        }
+
+        .spread {
+          color: @color-error-400;
+        }
+      }
+
+      .making-order.buy {
+        .areas .area.buy {
+          background: @color-success-50;
+
+          .name,
+          .price,
+          .second-name {
+            color: @color-success-600;
+          }
+        }
+
+        .spread {
+          color: @color-success-600;
         }
       }
     }
