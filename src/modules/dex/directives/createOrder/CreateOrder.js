@@ -41,7 +41,7 @@
 
             expand(type) {
                 this.type = type;
-                this.step++;
+                this.step = 1;
             }
 
             collapse() {
