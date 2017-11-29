@@ -1,4 +1,6 @@
-<div class="create-order" ng-class="{expanded: $ctrl.step !== 0}">
+<div class="create-order"
+     ng-class="{expanded: $ctrl.step !== 0}"
+     ng-if="$ctrl.amountAsset && $ctrl.priceAsset">
     <div class="head">
         <div class="icon-drag margin-right-1"></div>
         <div class="footnote-2 disabled-900">{{$ctrl.amountDisplayName}} / {{$ctrl.priceDisplayName}}</div>
