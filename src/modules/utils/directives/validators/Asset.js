@@ -59,7 +59,13 @@
             }
 
             getFormatter() {
-                return (value) => utils.getNiceNumber(value, this.asset.precision);
+                return (value) => {
+                    if (new BigNumber(value).eq(utils.parseNiceNumber(this.$input.val()))) {
+                        return this.$input.val();
+                    } else {
+                        return value;
+                    }
+                };
             }
 
             onReady() {
