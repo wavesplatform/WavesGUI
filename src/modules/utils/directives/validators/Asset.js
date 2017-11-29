@@ -60,6 +60,7 @@
 
             getFormatter() {
                 return (value) => {
+                    // TODO! WTF!!. Author Tsigel at 29/11/2017 21:43
                     if (new BigNumber(value).eq(utils.parseNiceNumber(this.$input.val()))) {
                         return this.$input.val();
                     } else {
