@@ -18,8 +18,11 @@
     <div class="dex-column dex-content dex-divided-column">
         <w-dex-candle-chart></w-dex-candle-chart>
         <w-dex-trade-graph></w-dex-trade-graph>
-        <div class="dex-divided-column--fixed" ng-class="{'collapsed': $ctrl.collapseMyOrders}">
-            <w-dex-block title-name="My Orders" collapsed="$ctrl.collapseMyOrders" can-collapse="true">
+        <div class="orders-container" ng-class="{'collapsed': $ctrl.collapseMyOrders}">
+            <!--<w-dex-block title-name="My Orders" collapsed="$ctrl.collapseMyOrders" can-collapse="true">-->
+            <!--<w-dex-my-orders></w-dex-my-orders>-->
+            <!--</w-dex-block>-->
+            <w-dex-block title-name="My Orders">
                 <w-dex-my-orders></w-dex-my-orders>
             </w-dex-block>
         </div>

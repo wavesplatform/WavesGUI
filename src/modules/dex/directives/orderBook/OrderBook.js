@@ -117,19 +117,15 @@
                             .then((orderBook) => Promise.all([parse(orderBook.bids), parse(orderBook.asks)])
                                 .then(([bids, asks]) => {
 
-                                    const lastAsk = asks[asks.length - 1];
+                                    const [lastAsk] = asks;
                                     const [firstBid] = bids;
 
                                     const spread = firstBid && lastAsk && {
-                                        amount: new BigNumber(lastAsk.amount).sub(firstBid.amount)
-                                            .abs()
-                                            .toString(),
+                                        amount: lastAsk.price,
                                         price: new BigNumber(lastAsk.price).sub(firstBid.price)
                                             .abs()
-                                            .toString(),
-                                        total: new BigNumber(lastAsk.total).sub(firstBid.total)
-                                            .abs()
-                                            .toString()
+                                            .toFormat(pair.priceAsset.precision),
+                                        total: firstBid.price
                                     };
 
                                     return {
@@ -142,7 +138,7 @@
                                 }));
                     })
                     .then(({ bids, spread, asks }) => {
-                        const template = `<div class="asks">${asks}</div><div class="spread">${spread}</div><div class="bids">${bids}</div>`;
+                        const template = `<div class="asks">${asks}</div><div class="spread body-2">${spread}</div><div class="bids">${bids}</div>`;
                         const $box = $element.find('w-scroll-box');
                         $box.html(template);
                     });
