@@ -4,7 +4,7 @@
     const directive = (Base) => {
 
         return {
-            scope: true,
+            scope: false,
             link: ($scope, $element) => {
 
                 const position = $element.css('position');
