@@ -18,15 +18,19 @@
                 $element.on('mousedown', (e) => {
                     const startX = e.pageX;
                     const startY = e.pageY;
+                    const x = parseInt($element.css('left'), 10);
+                    const y = parseInt($element.css('top'), 10);
 
                     const move = (e) => {
+                        e.preventDefault();
                         $element.css({
-                            left: `${e.pageX - startX}px`,
-                            top: `${e.pageY - startY}px`
+                            left: `${x + (e.pageX - startX)}px`,
+                            top: `${y + (e.pageY - startY)}px`
                         });
                     };
 
                     const up = () => {
+                        e.preventDefault();
                         $document.off('mousemove', move);
                         $document.off('mouseup', up);
                     };
