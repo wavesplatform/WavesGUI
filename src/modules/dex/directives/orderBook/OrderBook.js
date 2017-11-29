@@ -117,7 +117,7 @@
                             .then((orderBook) => Promise.all([parse(orderBook.bids), parse(orderBook.asks)])
                                 .then(([bids, asks]) => {
 
-                                    const lastAsk = asks[asks.length - 1];
+                                    const [lastAsk] = asks;
                                     const [firstBid] = bids;
 
                                     const spread = firstBid && lastAsk && {
@@ -126,7 +126,7 @@
                                             .toString(),
                                         price: new BigNumber(lastAsk.price).sub(firstBid.price)
                                             .abs()
-                                            .toString(),
+                                            .toFormat(pair.priceAsset.precision),
                                         total: new BigNumber(lastAsk.total).sub(firstBid.total)
                                             .abs()
                                             .toString()

@@ -78,7 +78,7 @@
                             .then((orderBook) => Promise.all([parse(orderBook.bids), parse(orderBook.asks)])
                                 .then(([bids, asks]) => {
 
-                                    const lastAsk = asks[asks.length - 1];
+                                    const [lastAsk] = asks;
                                     const [firstBid] = bids;
 
                                     const spread = firstBid && lastAsk && {
@@ -99,7 +99,14 @@
             }
 
             _setData({ lastAsk, firstBid, spread }) {
+                this.bid = firstBid;
+                this.ask = lastAsk;
+                this.spread = spread;
 
+                const sell = Number(this.bid.price);
+                const buy = Number(this.ask.price);
+
+                this.spreadPercent = ((buy - sell) * 100 / buy).toFixed(2);
             }
 
         }
