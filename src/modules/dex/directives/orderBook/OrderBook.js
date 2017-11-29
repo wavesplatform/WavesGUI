@@ -120,7 +120,7 @@
                                     const lastAsk = asks[asks.length - 1];
                                     const [firstBid] = bids;
 
-                                    const spread = {
+                                    const spread = firstBid && lastAsk && {
                                         amount: new BigNumber(lastAsk.amount).sub(firstBid.amount)
                                             .abs()
                                             .toString(),
@@ -135,7 +135,7 @@
                                     return {
                                         bids: process(bids)
                                             .join(''),
-                                        spread: process([spread])[0],
+                                        spread: spread && process([spread])[0],
                                         asks: process(asks.reverse())
                                             .join('')
                                     };

@@ -95,6 +95,10 @@
                 return $.get(`https://api.wavesplatform.com/assets/search/${query}`);
             }
 
+            remapAssetName(id, name) {
+                return ASSET_NAME_MAP[id] || name;
+            }
+
             /**
              * Get balance list by asset id list
              * @param {string[]} assetIdList

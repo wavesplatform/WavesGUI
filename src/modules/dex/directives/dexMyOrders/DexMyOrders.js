@@ -15,7 +15,6 @@
                 super();
 
                 createPoll(this, this._getOrders, 'orders', 5000);
-                window.$ctrl = this; // TODO! Remove!. Author Tsigel at 29/11/2017 09:33
             }
 
             _getOrders() {

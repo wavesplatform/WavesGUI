@@ -14,6 +14,11 @@ w-dex-watchlist {
     background-color: @color-white;
     border-radius: @border-radius;
     overflow: auto;
+    z-index: 1;
+
+    .not-found {
+      padding: 17px 19px;
+    }
 
     .search-item {
       position: relative;
@@ -24,6 +29,10 @@ w-dex-watchlist {
       border-left: none;
       border-right: none;
       align-items: center;
+
+      &.watched {
+        background-color: @color-warning-50;
+      }
 
       .remove::after, .add::after {
         display: block;
@@ -61,6 +70,27 @@ w-dex-watchlist {
     }
   }
 
+  w-row {
+    position: relative;
+
+    .remove-item {
+      display: none;
+      width: 17px;
+      height: 17px;
+      transform: translateY(-50%);
+      position: absolute;
+      right: 3px;
+      top: 50%;
+      opacity: 0.89;
+      background: @color-error-400 url(/img/icons/white_cancel.svg) no-repeat center;
+      cursor: pointer;
+    }
+  }
+
+  w-row:hover .remove-item {
+    display: block;
+  }
+
   .cell-2, .cell-3 {
     text-align: right;
   }
@@ -77,6 +107,7 @@ w-dex-watchlist {
     border: 1px solid transparent;
     border-left: none;
     border-right: none;
+    cursor: pointer;
 
     &.selected {
       background-color: @color-submit-50;
@@ -84,7 +115,6 @@ w-dex-watchlist {
     }
 
     &:not(.selected):hover {
-      cursor: pointer;
       background-color: @color-disabled-50;
       border-color: @color-disabled-200;
     }
@@ -93,7 +123,7 @@ w-dex-watchlist {
   w-table .table w-row .table-row {
     .cell-0 {
       width: 20%;
-      padding-left: 8px;
+      padding-left: 12px;
     }
     .cell-1 {
       width: 30%;
@@ -103,7 +133,7 @@ w-dex-watchlist {
     }
     .cell-3 {
       width: 20%;
-      padding-right: 8px;
+      padding-right: 12px;
     }
   }
 }

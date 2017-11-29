@@ -111,6 +111,16 @@
                 this._initRowId();
             }
 
+            removeWatchedAsset(event, asset) {
+                event.preventDefault();
+                event.stopPropagation();
+                const newList = this._idWatchList.slice().filter((id) => id !== asset.id);
+                this._idWatchList = newList;
+                if (this.activeRowId === asset.id) {
+                    this.activeRowId = this._idWatchList[0];
+                }
+            }
+
             _onChangeSearchFocus({ value }) {
                 const state = !value || !this._$searchList.children().length;
                 this._$searchList.toggleClass('hidden', state);
@@ -138,22 +148,20 @@
                             const $elements = data.map(DexWatchlist._selectQuery(value));
                             $elements.forEach(($element, i) => {
                                 const dataItem = data[i];
+                                const isWatched = !isChangeBase && !!assetsHash[dataItem.id];
                                 const itemClass = assetsHash[dataItem.id] ? 'remove' : 'add';
                                 const $control = $(`<div class="${itemClass}"></div>`);
-                                $control.on('mousedown', (e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    if (assetsHash[dataItem.id]) {
-                                        this._addToWatchList(dataItem);
-                                    } else {
-                                        this._removeFromWatchList(item);
-                                    }
-                                });
+                                $element.toggleClass('watched', isWatched);
                                 $element.append($control);
-                                $element.on('mousedown', () => this._clickSearchItem(data[i], isChangeBase));
+                                $element.on('mousedown', () => this._clickSearchItem(data[i], isChangeBase, isWatched));
                             });
                             this._$searchList.empty();
                             this._$searchList.append($elements);
+                            this._onChangeSearchFocus({ value: this._parent.focused });
+                        }, () => {
+                            this._$searchList.empty();
+                            this._$searchList
+                                .append('<div class="not-found footnote-1 basic-500">No assets found</div>');
                             this._onChangeSearchFocus({ value: this._parent.focused });
                         });
                     }, 500);
@@ -163,21 +171,19 @@
                 }
             }
 
-            _addToWatchList({ id }) {
-                // TODO! Do. Author Tsigel at 28/11/2017 19:03
-            }
-
-            _removeFromWatchList({ id }) {
-                // TODO! Do. Author Tsigel at 28/11/2017 19:03
-            }
-
-            _clickSearchItem({ id }, isChangeBase) {
+            _clickSearchItem({ id }, isChangeBase, isWatched) {
                 if (isChangeBase) {
                     this.baseAssetId = id;
+                    if (this.activeRowId === id) {
+                        this.activeRowId = tsUtils.find(this._idWatchList, (item) => item !== this.baseAssetId);
+                    }
                 } else {
-                    const newList = this._idWatchList.slice();
-                    newList.push(id);
-                    this._idWatchList = newList;
+                    if (!isWatched) {
+                        const newList = this._idWatchList.slice();
+                        newList.push(id);
+                        this._idWatchList = newList;
+                    }
+                    this.activeRowId = id;
                 }
                 this._parent.search = '';
             }
@@ -254,7 +260,8 @@
                 return function (item) {
                     const reg = new RegExp(`(${query})`, 'i');
                     const tickerTemplate = DexWatchlist._getTickerTemplate(item.ticker, reg);
-                    const nameTemplate = DexWatchlist._getNameTemplate(item.name, reg);
+                    const name = waves.node.assets.remapAssetName(item.id, item.name);
+                    const nameTemplate = DexWatchlist._getNameTemplate(name, reg);
                     return $(`<div class="search-item">${tickerTemplate}${nameTemplate}</div>`);
                 };
             }
