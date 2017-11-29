@@ -7,6 +7,7 @@ w-create-order {
   top: 100px;
   left: 100px;
   background: #fff;
+  border-radius: @border-radius;
   box-shadow: 0 24px 24px 0 rgba(0, 0, 0, 0.15), 0 0 24px 0 rgba(0, 0, 0, 0.15);
 
   .create-order {
@@ -31,6 +32,10 @@ w-create-order {
 
         .choose {
           flex-grow: 1;
+          height: 55px;
+          padding-top: 8px;
+          text-align: center;
+          cursor: pointer;
 
           &.sell {
             background: @color-error-400;
@@ -43,6 +48,10 @@ w-create-order {
 
         .middle {
           width: 70px;
+          padding-top: 22px;
+          text-align: center;
+          background: @color-disabled-50;
+          border-top: 1px solid @color-disabled-100;
         }
       }
 
