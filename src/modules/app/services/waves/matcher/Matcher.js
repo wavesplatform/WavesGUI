@@ -11,6 +11,12 @@
                     .then(utils.whenAll);
             }
 
+            getOrdersByPair(assetid1, assetId2, keyPair) {
+                return Waves.API.Matcher.v1.getOrders(assetid1, assetId2, keyPair)
+                    .then((list) => list.map(Matcher._remapOrder))
+                    .then(utils.whenAll);
+            }
+
             static _remapOrder(order) {
                 const priceAssetId = Matcher._getAssetId(order.assetPair.priceAsset);
                 const amountAssetId = Matcher._getAssetId(order.assetPair.amountAsset);

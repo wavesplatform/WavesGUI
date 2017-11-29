@@ -39,6 +39,12 @@
                 this.collapsed = !this.collapsed;
             }
 
+            onClickTitle() {
+                if (this.hasSearch) {
+                    this.changeBaseAssetMode = true;
+                }
+            }
+
             /**
              * @param {boolean} value
              * @private

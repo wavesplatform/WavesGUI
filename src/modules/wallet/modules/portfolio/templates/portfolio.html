@@ -43,9 +43,9 @@
             </div>
             <div class="portfolio-item-change">
                 <div ng-if="asset.id !== $ctrl.mirrorId">
-                    <w-change24 asset-from="{{::asset.id}}"
+                    <w-change24 asset-from="asset.id"
                                 no-update
-                                asset-to="{{::$ctrl.mirrorId}}"></w-change24>
+                                asset-to="$ctrl.mirrorId"></w-change24>
                     %
                 </div>
                 <div ng-if="asset.id === $ctrl.mirrorId">

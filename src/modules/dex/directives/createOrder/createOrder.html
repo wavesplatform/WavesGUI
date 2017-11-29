@@ -1,0 +1,47 @@
+<div class="create-order" ng-class="{expanded: $ctrl.step !== 0}">
+    <div class="head">
+        <div class="icon-drag"></div>
+        <div class="footnote-2 disabled-900">{{$ctrl.amountAsset.ticker}} / {{$ctrl.priceAsset.ticker}}</div>
+    </div>
+    <div class="body">
+        <w-step-by-step active-step="$ctrl.step">
+            <w-step>
+                <div class="choice">
+                    <div class="choose sell" ng-click="$ctrl.startSelling()">
+                        <div>SELL</div>
+                        <div>{{44.330011}}</div>
+                    </div>
+                    <div class="middle">
+                        <div class="spread">SPREAD {{1.27}}%</div>
+                    </div>
+                    <div class="choose buy" ng-click="$ctrl.startBuying()">
+                        <div>SELL</div>
+                        <div>{{44.330011}}</div>
+                    </div>
+                </div>
+            </w-step>
+            <w-step>
+                <div class="making-order">
+                    <div class="areas">
+                        <div class="area bid"></div>
+                        <div class="spread">1.27%</div>
+                        <div class="area ask"></div>
+                    </div>
+                    <div class="order-types"></div>
+                    <form>
+                        <div class="amount"></div>
+                        <div class="price"></div>
+                        <div class="summary">
+                            <div>Total 0.00101003 BTC</div>
+                            <div>Fee 0.003 WAVES</div>
+                        </div>
+                        <w-button>
+                            <w-i18n ng-if="$ctrl.type === 'sell'">directives.createOrder.placeSellOrder</w-i18n>
+                            <w-i18n ng-if="$ctrl.type === 'buy'">directives.createOrder.placeBuyOrder</w-i18n>
+                        </w-button>
+                    </form>
+                </div>
+            </w-step>
+        </w-step-by-step>
+    </div>
+</div>
