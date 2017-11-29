@@ -275,7 +275,7 @@
             }
 
             static _wrapQuery(text, reg) {
-                return (text || '').replace(reg, `<span class="selected">$1</span>`);
+                return (text || '—').replace(reg, '<span class="selected">$1</span>');
             }
 
         }

@@ -14,11 +14,31 @@
             constructor() {
                 super();
 
-                createPoll(this, this._getOrders, 'orders', 5000);
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._amountAssetId = null;
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._priceAssetId = null;
+
+                this.syncSettings({
+                    _amountAssetId: 'dex.amountAssetId',
+                    _priceAssetId: 'dex.priceAssetId'
+                });
+
+                const poll = createPoll(this, this._getOrders, 'orders', 5000);
+                this.observe(['_amountAssetId', '_priceAssetId'], () => poll.restart());
             }
 
             _getOrders() {
-                return user.getSeed().then((seed) => waves.matcher.getOrders(seed.keyPair));
+                const asset1 = this._priceAssetId;
+                const asset2 = this._amountAssetId;
+                return Promise.all([user.getSeed(), Waves.AssetPair.get(asset1, asset2)])
+                    .then(([seed, pair]) => waves.matcher.getOrdersByPair(pair.amountAsset.id, pair.priceAsset.id, seed.keyPair));
             }
 
         }
