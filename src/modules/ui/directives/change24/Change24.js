@@ -34,21 +34,28 @@
             }
 
             $postLink() {
-                if (!this.assetFrom || !this.assetTo) {
-                    throw new Error('Wrong params!');
-                }
                 this.precision = Number(this.precision) || 2;
                 this.interval = Number(this.interval) || 5000;
 
                 if ($attrs.noUpdate) {
                     this._getChange().then(this._setChange.bind(this), this._setChange.bind(this));
+                    this.observe(['assetFrom', 'assetTo'], () => {
+                        this._getChange().then(this._setChange.bind(this), this._setChange.bind(this));
+                    });
                 } else {
-                    createPoll(this, this._getChange, this._setChange, this.interval);
+                    const poll = createPoll(this, this._getChange, this._setChange, this.interval);
+                    this.observe(['assetFrom', 'assetTo'], () => {
+                        poll.restart();
+                    });
                 }
             }
 
             _getChange() {
-                return waves.utils.getChange(this.assetFrom, this.assetTo);
+                if (this.assetFrom && this.assetTo) {
+                    return waves.utils.getChange(this.assetFrom, this.assetTo);
+                } else {
+                    return null;
+                }
             }
 
             _setChange(data) {
@@ -68,8 +75,8 @@
 
     angular.module('app.ui').component('wChange24', {
         bindings: {
-            assetFrom: '@',
-            assetTo: '@',
+            assetFrom: '<',
+            assetTo: '<',
             precision: '@',
             noUpdate: '@',
             interval: '@'

@@ -8,25 +8,43 @@
             require: null,
             transclude: false,
             template: 'modules/ui/directives/draggable/draggable.html',
-            link: ($scope, $element, $attrs) => {
+            link: ($scope, $element) => {
 
-                class Draggable extends Base {
-
-                    constructor() {
-                        super($scope);
-
-                    }
-
+                const position = $element.css('position');
+                if (position === 'static' || position === 'relative') {
+                    const offset = $element.offset();
+                    $element.css('position', 'absolute');
+                    $element.offset(offset);
                 }
+                const $document = $(document);
 
-                new Draggable();
+                $element.on('mousedown', (e) => {
+                    const startX = e.pageX;
+                    const startY = e.pageY;
+
+                    const move = (e) => {
+                        $element.css({
+                            left: `${e.pageX - startX}px`,
+                            top: `${e.pageY - startY}px`
+                        });
+                    };
+
+                    const up = () => {
+                        $document.off('mousemove', move);
+                        $document.off('mouseup', up);
+                    };
+
+                    $document.on('mousemove', move);
+                    $document.on('mouseup', up);
+                });
+
             }
         };
     };
 
     directive.$inject = ['Base'];
 
-    angular.module('app.').directive('wDraggable', directive);
+    angular.module('app.ui').directive('wDraggable', directive);
 
 })();
 
