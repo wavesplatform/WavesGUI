@@ -38,7 +38,7 @@
                     ]))
                     .then(([price, amount, filled, pair]) => {
                         const STATUS_MAP = {
-                            'Cancelled': 'Cancelled',
+                            'Cancelled': 'Canceled',
                             'Accepted': 'Active'
                         };
                         const percent = filled.getTokens().div(amount.getTokens());

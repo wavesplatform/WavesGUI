@@ -8,6 +8,27 @@ w-dex-my-orders {
     position: relative;
     padding: 0 10px;
 
+    .cell-2, .cell-3, .cell-4 {
+      text-align: right;
+      margin-right: 5%;
+    }
+
+    .order-side.sell {
+      color: @color-error-400;
+    }
+
+    .order-side.buy {
+      color: @color-success-600;
+    }
+
+    &.closed, &.canceled {
+      color: @color-disabled-500;
+
+      .order-side.sell, .order-side.buy {
+        color: @color-disabled-500;
+      }
+    }
+
     .stop {
       cursor: pointer;
       position: absolute;
