@@ -34,6 +34,10 @@
                 this.observe(['_amountAssetId', '_priceAssetId'], () => poll.restart());
             }
 
+            dropOrder(order) {
+                // TODO add drop order
+            }
+
             _getOrders() {
                 const asset1 = this._priceAssetId;
                 const asset2 = this._amountAssetId;

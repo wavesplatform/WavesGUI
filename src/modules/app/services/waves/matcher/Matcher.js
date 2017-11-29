@@ -30,8 +30,13 @@
                         Promise.resolve(`${assetPair.priceAsset.name} / ${assetPair.amountAsset.name}`)
                     ]))
                     .then(([price, amount, filled, pair]) => {
+                        const STATUS_MAP = {
+                            'Cancelled': 'Cancelled',
+                            'Accepted': 'Active'
+                        };
                         const percent = filled.getTokens().div(amount.getTokens());
-                        return { ...order, price, amount, filled, pair, percent };
+                        const state = filled.getTokens().eq(0) ? STATUS_MAP[order.status] : order.amount === order.filled ? 'Closed' : 'Filled';
+                        return { ...order, price, amount, filled, pair, percent, state };
                     });
             }
 

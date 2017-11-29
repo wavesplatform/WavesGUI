@@ -26,7 +26,10 @@
             {{::order.percent.mul(100).toFormat(2)}}%
         </w-cell>
         <w-cell>
-            {{order.filled.getTokens().eq(0) ? 'Active' : 'Filled'}}
+            {{order.state}}
         </w-cell>
+        <div ng-if="order.state === 'Active' || order.state === 'Filled'"
+             ng-click="$ctrl.dropOrder(order)"
+             class="stop"></div>
     </w-row>
 </w-table>
