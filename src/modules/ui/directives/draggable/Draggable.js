@@ -5,9 +5,6 @@
 
         return {
             scope: true,
-            require: null,
-            transclude: false,
-            template: 'modules/ui/directives/draggable/draggable.html',
             link: ($scope, $element) => {
 
                 const position = $element.css('position');
