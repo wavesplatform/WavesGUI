@@ -177,10 +177,13 @@
                 const from = this.activeChartAssetId;
                 const to = this.mirrorId;
 
-                return waves.utils.getRateHistory(from, to, this._startDate)
-                    .then((values) => {
+                return utils.whenAll([
+                    waves.utils.getRateHistory(from, to, this._startDate),
+                    waves.utils.getRate(from, to)
+                ])
+                    .then(([values, rate]) => {
                         this.change = (values[0].rate - values[values.length - 1].rate).toFixed(2);
-                        this.changePercent = (values[values.length - 1].rate / values[0].rate).toFixed(2);
+                        this.changePercent = (this.change * 100 / Number(rate.toString())).toFixed(2);
                         return { values };
                     });
             }
