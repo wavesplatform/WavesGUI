@@ -21,7 +21,7 @@ w-dex-my-orders {
       color: @color-success-600;
     }
 
-    &.closed, &.canceled {
+    &[ng-class="closed"], &[ng-class="canceled"]{
       color: @color-disabled-500;
 
       .order-side.sell, .order-side.buy {
