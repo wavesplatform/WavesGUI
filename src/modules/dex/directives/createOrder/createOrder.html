@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         <div class="summary">
-                            <div class="caption-2 disabled-700">Total 0.00101003 BTC</div>
+                            <div class="caption-2 disabled-700">Total {{$ctrl.price && $ctrl.amount ? $ctrl.price.mul($ctrl.amount).toFormat($ctrl.priceAmount.precision) : 0}} {{$ctrl.priceAsset.ticker}}</div>
                             <div class="caption-2 disabled-700">Fee 0.003 WAVES</div>
                         </div>
                         <w-button disabled="order.$invalid"
