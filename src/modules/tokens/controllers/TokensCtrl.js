@@ -46,7 +46,7 @@
                  * Precision of token
                  * @type {BigNumber}
                  */
-                this.precision = null;
+                this.precision = new BigNumber(8);
                 /**
                  * @type {BigNumber}
                  */
