@@ -35,8 +35,10 @@
                         $document.off('mouseup', up);
                     };
 
-                    $document.on('mousemove', move);
-                    $document.on('mouseup', up);
+                    if (e.button === 0) {
+                        $document.on('mousemove', move);
+                        $document.on('mouseup', up);
+                    }
                 });
 
             }
