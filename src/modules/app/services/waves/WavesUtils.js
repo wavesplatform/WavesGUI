@@ -185,10 +185,12 @@
                                 }
                                 const open = Number(data[0].open);
                                 const close = Number(data[0].close);
-                                if (open > close) {
-                                    return close === 0 ? 0 : -open / close;
+                                const percent = open ? (close - open) * 100 / open : 0;
+
+                                if (pair.amountAsset.id === from) {
+                                    return percent;
                                 } else {
-                                    return open === 0 ? 0 : close / open;
+                                    return -percent;
                                 }
                             });
                     });

@@ -20,7 +20,8 @@
             @decorators.cachable(2)
             trades(amount, price, count) {
                 count = count || 50;
-                return fetch(`${WavesApp.network.datafeed}/api/trades/${amount}/${price}/${count}`)
+                return Waves.AssetPair.get(amount, price)
+                    .then((pair) => fetch(`${WavesApp.network.datafeed}/api/trades/${pair.toString()}/${count}`))
                     .then((r) => r.json());
             }
 
