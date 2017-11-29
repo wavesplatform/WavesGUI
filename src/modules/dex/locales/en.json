@@ -1,8 +1,13 @@
 {
   "directives": {
     "createOrder": {
+      "amountField": "Amount",
+      "priceField": "Limit price",
       "placeSellOrder": "Place Sell Order",
-      "placeBuyOrder": "Place Buy Order"
+      "placeBuyOrder": "Place Buy Order",
+      "errors": {
+        "required": "This field is required"
+      }
     },
     "portfolio": {
       "title": "Portfolio"

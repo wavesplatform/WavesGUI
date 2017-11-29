@@ -37,14 +37,14 @@
 
             }
 
-            startBuying() {
-                this.type = 'buy';
+            expand(type) {
+                this.type = type;
                 this.step++;
             }
 
-            startSelling() {
-                this.type = 'sell';
-                this.step++;
+            collapse() {
+                this.type = null;
+                this.step = 0;
             }
 
         }
