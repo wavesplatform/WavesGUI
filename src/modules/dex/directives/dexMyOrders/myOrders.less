@@ -5,7 +5,19 @@ w-dex-my-orders {
   width: 100%;
 
   w-row {
+    position: relative;
     padding: 0 10px;
+
+    .stop {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      width: 8px;
+      height: 8px;
+      transform: translateY(-50%);
+      background-image: url(/img/icons/order_cancel.svg);
+    }
 
     &:not(:last-child) {
       border-bottom: 1px solid @color-disabled-100;
