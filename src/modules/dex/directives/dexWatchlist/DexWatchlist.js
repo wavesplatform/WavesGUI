@@ -207,22 +207,11 @@
 
             _initRowId() {
                 if (this.active) {
-                    let id = null;
-                    const idList = this._idWatchList.filter(tsUtils.notContains(this.baseAssetId));
-
-                    [this._amountAssetId, this._priceAssetId].some((assetId) => {
-                        const index = idList.indexOf(assetId);
-                        if (index !== -1) {
-                            id = assetId;
-                        }
-                        return id;
-                    });
-
-                    if (!id) {
-                        id = idList[0];
+                    if (this._amountAssetId === this.baseAssetId) {
+                        this.activeRowId = this._priceAssetId;
+                    } else {
+                        this.activeRowId = this._amountAssetId;
                     }
-
-                    this.activeRowId = id;
                 }
             }
 
