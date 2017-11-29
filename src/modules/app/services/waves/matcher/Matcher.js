@@ -17,11 +17,17 @@
                     .then(utils.whenAll);
             }
 
+            createOrder(orderData, keyPair) {
+                return Waves.API.Matcher.v1.getMatcherKey().then((matcherPublicKey) => {
+                    return Waves.API.Matcher.v1.createOrder({
+                        matcherPublicKey,
+                        ...orderData
+                    }, keyPair);
+                });
+            }
+
             cancelOrder(amountAssetId, priceAssetId, orderId, keyPair) {
-                return Waves.API.Matcher.v1.cancelOrder(amountAssetId, priceAssetId, orderId, keyPair)
-                    .then((res) => {
-                        console.log(res);
-                    });
+                return Waves.API.Matcher.v1.cancelOrder(amountAssetId, priceAssetId, orderId, keyPair);
             }
 
             static _remapOrder(order) {
