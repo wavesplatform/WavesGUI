@@ -92,7 +92,7 @@
              * @return {JQueryXHR}
              */
             search(query) {
-                return $http.get(`https://api.wavesplatform.com/assets/search/${query}`);
+                return $.get(`https://api.wavesplatform.com/assets/search/${query}`);
             }
 
             /**

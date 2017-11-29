@@ -42,9 +42,11 @@
                 </div>
             </div>
             <div class="portfolio-item-change">
-                <div ng-class="{'danger': asset.change < 0, 'success': asset.change > 0}"
-                     ng-if="asset.id !== $ctrl.mirrorId">
-                    {{$ctrl.abs(asset.change)}}%
+                <div ng-if="asset.id !== $ctrl.mirrorId">
+                    <w-change24 asset-from="{{::asset.id}}"
+                                no-update
+                                asset-to="{{::$ctrl.mirrorId}}"></w-change24>
+                    %
                 </div>
                 <div ng-if="asset.id === $ctrl.mirrorId">
                     —

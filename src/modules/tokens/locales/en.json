@@ -1,6 +1,6 @@
 {
   "pageTitle": "Token generation",
-  "name": "Name of you asset",
+  "name": "Name of your asset",
   "description": "Description",
   "count": "Total tokens",
   "precision": "Decimals",
@@ -9,7 +9,7 @@
   "create": "Generate",
   "help": {
     "name": "Please use only Latin letters.",
-    "precision": "This field defines the number of decimals that you asset token will be divided in."
+    "precision": "This field defines the number of decimals that your asset token will be divided in."
   },
   "validators": {
     "nameLen": "An asset name must be at least 4-16 characters’ long.",

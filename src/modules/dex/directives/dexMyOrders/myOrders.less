@@ -1,0 +1,14 @@
+@import (reference) '../../../config';
+
+w-dex-my-orders {
+  display: block;
+  width: 100%;
+
+  w-row {
+    padding: 0 10px;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid @color-disabled-100;
+    }
+  }
+}

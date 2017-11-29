@@ -23,6 +23,7 @@
                     _priceAssetId: 'dex._priceAssetId',
                     _leftHidden: 'dex.layout.leftColumnState',
                     _rightHidden: 'dex.layout.rightColumnState',
+                    collapseMyOrders: 'dex.layout.myOrders.collapsed',
                     collapseTradeHistory: 'dex.layout.tradeHistory.collapsed'
                 });
 

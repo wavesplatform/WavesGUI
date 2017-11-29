@@ -1,26 +1,25 @@
 (function () {
     'use strict';
 
-    const controller = function (Base) {
+    /**
+     * @param Base
+     * @param {Waves} waves
+     * @param {User} user
+     * @return {DexMyOrders}
+     */
+    const controller = function (Base, waves, user, createPoll) {
 
         class DexMyOrders extends Base {
 
             constructor() {
                 super();
 
-                this._priceAssetId = null;
-                this._amountAssetId = null;
-
-                this.syncSettings({
-                    _priceAssetId: 'dex._priceAssetId',
-                    _amountAssetId: 'dex._amountAssetId'
-                });
-
-                this.observe(['_priceAssetId', '_amountAssetId'], this._onChangeBaseAssets);
+                createPoll(this, this._getOrders, 'orders', 5000);
+                window.$ctrl = this; // TODO! Remove!. Author Tsigel at 29/11/2017 09:33
             }
 
-            _onChangeBaseAssets() {
-
+            _getOrders() {
+                return user.getSeed().then((seed) => waves.matcher.getOrders(seed.keyPair));
             }
 
         }
@@ -28,10 +27,11 @@
         return new DexMyOrders();
     };
 
-    controller.$inject = ['Base', ''];
+    controller.$inject = ['Base', 'waves', 'user', 'createPoll'];
 
     angular.module('app.dex').component('wDexMyOrders', {
         bindings: {},
+        templateUrl: 'modules/dex/directives/dexMyOrders/myOrders.html',
         controller
     });
 })();

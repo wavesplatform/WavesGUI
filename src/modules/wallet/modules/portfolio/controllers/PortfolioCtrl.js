@@ -71,11 +71,6 @@
                 modalManager.showAssetInfo(asset);
             }
 
-            abs(num) {
-                return Math.abs(num)
-                    .toFixed(2);
-            }
-
             pinAsset(asset, state) {
                 asset.pinned = state;
 
@@ -102,31 +97,7 @@
              */
             _getPortfolio() {
                 return waves.node.assets.userBalances()
-                    .then(this._checkAssets())
-                    .then((assets) => assets.map(this._loadAssetData, this))
-                    .then((promises) => utils.whenAll(promises));
-            }
-
-            /**
-             * @param {*} asset
-             * @return {*}
-             * @private
-             */
-            _getChange(asset) {
-                return waves.utils.getChange(asset.id, this.mirrorId);
-            }
-
-            /**
-             * @param {*} asset
-             * @private
-             */
-            _loadAssetData(asset) {
-                return this._getChange(asset)
-                    .then((change) => {
-                        asset.pinned = this.assetList.indexOf(asset.id) !== -1;
-                        asset.change = change;
-                        return asset;
-                    });
+                    .then(this._checkAssets());
             }
 
             /**

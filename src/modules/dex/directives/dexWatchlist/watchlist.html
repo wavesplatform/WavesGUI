@@ -1,3 +1,4 @@
+<div class="search-list hidden"></div>
 <w-table selected="$ctrl.activeRowId">
     <w-t-head>
         <w-row>
@@ -28,7 +29,10 @@
             <w-exchange balance="$ctrl.baseMoney" target-asset-id="{{::asset.id}}"></w-exchange>
         </w-cell>
         <w-cell>
-            {{::asset.change.toFixed(2)}}%
+            <w-change24 asset-from="{{::$ctrl.baseAssetId}}"
+                        no-update
+                        asset-to="{{::asset.id}}"></w-change24>
+            %
         </w-cell>
     </w-row>
 </w-table>
