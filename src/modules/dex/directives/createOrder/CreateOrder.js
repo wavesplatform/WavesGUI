@@ -1,0 +1,63 @@
+(function () {
+    'use strict';
+
+    /**
+     * @param Base
+     * @param {Waves} waves
+     * @param {app.utils} utils
+     * @return {CreateOrder}
+     */
+    const controller = function (Base, waves, utils) {
+
+        class CreateOrder extends Base {
+
+            constructor() {
+                super();
+
+                this.step = 0;
+                this.type = null;
+
+                this.observe(['_amountAssetId', '_priceAssetId'], () => {
+                    utils.whenAll([
+                        waves.node.assets.info(this._amountAssetId),
+                        waves.node.assets.info(this._priceAssetId)
+                    ]).then(([ amountAsset, priceAsset ]) => {
+                        this.amountAsset = amountAsset;
+                        this.priceAsset = priceAsset;
+                    });
+                });
+
+                this.syncSettings({
+                    _amountAssetId: 'dex.amountAssetId',
+                    _priceAssetId: 'dex.priceAssetId'
+                });
+            }
+
+            $postLink() {
+
+            }
+
+            startBuying() {
+                this.type = 'buy';
+                this.step++;
+            }
+
+            startSelling() {
+                this.type = 'sell';
+                this.step++;
+            }
+
+        }
+
+        return new CreateOrder();
+    };
+
+    controller.$inject = ['Base', 'waves', 'utils'];
+
+    angular.module('app.dex').component('wCreateOrder', {
+        bindings: {},
+        templateUrl: 'modules/dex/directives/createOrder/createOrder.html',
+        transclude: false,
+        controller
+    });
+})();

@@ -1,5 +1,9 @@
 {
   "directives": {
+    "createOrder": {
+      "placeSellOrder": "Place Sell Order",
+      "placeBuyOrder": "Place Buy Order"
+    },
     "portfolio": {
       "title": "Portfolio"
     },

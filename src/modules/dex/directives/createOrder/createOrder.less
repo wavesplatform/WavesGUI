@@ -1,0 +1,42 @@
+@import (reference) '../../../config';
+
+w-create-order {
+  position: absolute;
+  display: block;
+  width: 320px;
+  top: 100px;
+  left: 100px;
+  background: #fff;
+  box-shadow: 0 24px 24px 0 rgba(0, 0, 0, 0.15), 0 0 24px 0 rgba(0, 0, 0, 0.15);
+
+  .create-order {
+    position: relative;
+
+    .head {
+      padding: 8px 16px;
+    }
+
+    .body {
+      .choice {
+        display: flex;
+        flex-direction: row;
+
+        .choose {
+          flex-grow: 1;
+
+          &.sell {
+            background: @color-error-400;
+          }
+
+          &.buy {
+            background: @color-success-600;
+          }
+        }
+
+        .middle {
+          width: 70px;
+        }
+      }
+    }
+  }
+}
