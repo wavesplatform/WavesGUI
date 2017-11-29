@@ -11,10 +11,17 @@
                     .then(utils.whenAll);
             }
 
-            getOrdersByPair(assetid1, assetId2, keyPair) {
-                return Waves.API.Matcher.v1.getOrders(assetid1, assetId2, keyPair)
+            getOrdersByPair(assetId1, assetId2, keyPair) {
+                return Waves.API.Matcher.v1.getOrders(assetId1, assetId2, keyPair)
                     .then((list) => list.map(Matcher._remapOrder))
                     .then(utils.whenAll);
+            }
+
+            cancelOrder(amountAssetId, priceAssetId, orderId, keyPair) {
+                return Waves.API.Matcher.v1.cancelOrder(amountAssetId, priceAssetId, orderId, keyPair)
+                    .then((res) => {
+                        console.log(res);
+                    });
             }
 
             static _remapOrder(order) {
