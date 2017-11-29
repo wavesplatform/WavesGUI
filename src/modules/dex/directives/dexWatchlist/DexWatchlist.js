@@ -112,7 +112,8 @@
             }
 
             _onChangeSearchFocus({ value }) {
-                this._$searchList.toggleClass('hidden', !value);
+                const state = !value || !this._$searchList.children().length;
+                this._$searchList.toggleClass('hidden', state);
             }
 
             _onChangeSearch({ value }) {
@@ -120,7 +121,7 @@
                     this._activeXHR.abort();
                     this._activeXHR = null;
                 }
-                if (value.length > 2) {
+                if (value.length) {
                     if (this._findTimer) {
                         clearTimeout(this._findTimer);
                         this._findTimer = null;
@@ -129,8 +130,8 @@
                         this._activeXHR = waves.node.assets.search(value);
                         this._activeXHR.then((data) => {
                             const isChangeBase = this._parent.changeBaseAssetMode;
-                            data = data.filter(tsUtils.notContains({ id: this.baseAssetId }));
                             const assetsHash = utils.toHash(this.watchlist, 'id');
+                            data = data.filter((item) => item.id !== this.baseAssetId);
                             /**
                              * @type {JQuery[]}
                              */
@@ -153,10 +154,12 @@
                             });
                             this._$searchList.empty();
                             this._$searchList.append($elements);
+                            this._onChangeSearchFocus({ value: this._parent.focused });
                         });
                     }, 500);
                 } else {
                     this._$searchList.empty();
+                    this._onChangeSearchFocus({ value: this._parent.focused });
                 }
             }
 
@@ -168,12 +171,15 @@
                 // TODO! Do. Author Tsigel at 28/11/2017 19:03
             }
 
-            _clickSearchItem({ id, name, ticker }, isChangeBase) {
+            _clickSearchItem({ id }, isChangeBase) {
                 if (isChangeBase) {
                     this.baseAssetId = id;
                 } else {
-                    // TODO! Do. Author Tsigel at 29/11/2017 08:33
+                    const newList = this._idWatchList.slice();
+                    newList.push(id);
+                    this._idWatchList = newList;
                 }
+                this._parent.search = '';
             }
 
             _onChangeActiveWatchList() {

@@ -133,7 +133,7 @@
                                     };
 
                                     return {
-                                        bids: process(bids.reverse())
+                                        bids: process(bids)
                                             .join(''),
                                         spread: process([spread])[0],
                                         asks: process(asks.reverse())

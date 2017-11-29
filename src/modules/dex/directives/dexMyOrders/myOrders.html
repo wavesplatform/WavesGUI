@@ -10,7 +10,9 @@
         </w-row>
     </w-t-head>
     <w-row ng-repeat="order in $ctrl.orders track by order.id">
-        <w-cell>{{::order.pair}}</w-cell>
+        <w-cell>
+            <span>{{::order.pair}}</span>
+        </w-cell>
         <w-cell>
             <span class="order-side {{::order.type}}">{{::order.type}}</span>
         </w-cell>
