@@ -30,13 +30,13 @@
                     <div class="areas">
                         <div class="area sell" ng-click="$ctrl.expand('sell')">
                             <div class="name footnote-2">Bid</div>
-                            <div class="price headline-2">10.99988999</div>
+                            <div class="price headline-2">{{$ctrl.bid.price}}</div>
                             <div class="second-name caption-2">SELL</div>
                         </div>
-                        <div class="spread">1.27%</div>
+                        <div class="spread">{{$ctrl.spreadPercent}}%</div>
                         <div class="area buy" ng-click="$ctrl.expand('buy')">
-                            <div class="name footnote-2">Sell</div>
-                            <div class="price headline-2">10.99988977</div>
+                            <div class="name footnote-2">Ask</div>
+                            <div class="price headline-2">{{$ctrl.ask.price}}</div>
                             <div class="second-name caption-2">BUY</div>
                         </div>
                     </div>

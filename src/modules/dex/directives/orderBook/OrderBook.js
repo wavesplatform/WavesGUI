@@ -121,15 +121,11 @@
                                     const [firstBid] = bids;
 
                                     const spread = firstBid && lastAsk && {
-                                        amount: new BigNumber(lastAsk.amount).sub(firstBid.amount)
-                                            .abs()
-                                            .toString(),
+                                        amount: lastAsk.price,
                                         price: new BigNumber(lastAsk.price).sub(firstBid.price)
                                             .abs()
                                             .toFormat(pair.priceAsset.precision),
-                                        total: new BigNumber(lastAsk.total).sub(firstBid.total)
-                                            .abs()
-                                            .toString()
+                                        total: firstBid.price
                                     };
 
                                     return {
@@ -142,7 +138,7 @@
                                 }));
                     })
                     .then(({ bids, spread, asks }) => {
-                        const template = `<div class="asks">${asks}</div><div class="spread">${spread}</div><div class="bids">${bids}</div>`;
+                        const template = `<div class="asks">${asks}</div><div class="spread body-2">${spread}</div><div class="bids">${bids}</div>`;
                         const $box = $element.find('w-scroll-box');
                         $box.html(template);
                     });
