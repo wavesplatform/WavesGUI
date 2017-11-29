@@ -69,7 +69,6 @@
 
                 this.observe('precision', this._onChangePrecision);
                 this.observe(['_balance', '_fee'], this._onChangeBalance);
-                this._onChangeBalance();
 
                 createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true });
 
