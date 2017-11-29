@@ -7,9 +7,10 @@
      * @param {User} user
      * @param {Waves} waves
      * @param {app.utils} utils
+     * @param {JQuery} $element
      * @return {Exchange}
      */
-    const controller = function (Base, createPoll, user, waves, utils) {
+    const controller = function (Base, createPoll, user, waves, utils, $element) {
 
         class Exchange extends Base {
 
@@ -56,10 +57,12 @@
                                     this.mirrorBalance = balance;
                                 });
                         } else {
-                            this._pollLeasing = createPoll(this, this._getMirrorBalance, 'mirrorBalance', this.interval);
+                            this._pollLeasing =
+                                createPoll(this, this._getMirrorBalance, 'mirrorBalance', this.interval);
                         }
 
                         this.observe('balance', this._onChangeBalance);
+                        this.observe('mirrorBalance', this._onChangeMirrorBalance);
                     });
             }
 
@@ -93,12 +96,16 @@
                     });
             }
 
+            _onChangeMirrorBalance() {
+                $element.html(this.mirrorBalance ? this.mirrorBalance.toFormat() : ''); // TODO Investigate. Author Tsigel at 29/11/2017 17:24
+            }
+
         }
 
         return new Exchange();
     };
 
-    controller.$inject = ['Base', 'createPoll', 'user', 'waves', 'utils'];
+    controller.$inject = ['Base', 'createPoll', 'user', 'waves', 'utils', '$element'];
 
     angular.module('app.ui').component('wExchange', {
         bindings: {
@@ -108,7 +115,6 @@
             noUpdate: '@',
             targetAssetId: '@'
         },
-        template: '<span w-nice-number="$ctrl.mirrorBalance" precision="$ctrl.mirror.precision"></span>',
         transclude: false,
         controller
     });
