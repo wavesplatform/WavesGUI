@@ -34,7 +34,6 @@
     "title": "{{name}} Generation",
     "titleSuccess": "{{name}} Generation Complete",
     "descriptionTitle": "Description",
-    "description": "Unless you agree a payment date, the customer must pay you within 30 days of ... has been debited or from when the goods or services were due to be received.",
     "fee": "Fee",
     "back": "Go Back",
     "confirm": "Confirm"
