@@ -5,9 +5,11 @@
      * @param Base
      * @param {Waves} waves
      * @param {app.utils} utils
+     * @param {function} createPoll
+     * @param {JQuery} $element
      * @return {CreateOrder}
      */
-    const controller = function (Base, waves, utils, createPoll) {
+    const controller = function (Base, waves, utils, createPoll, $element) {
 
         class CreateOrder extends Base {
 
@@ -42,6 +44,19 @@
             expand(type) {
                 this.type = type;
                 this.step = 1;
+                switch (type) {
+                    case 'sell':
+                        this.price = new BigNumber(this.bid.price);
+                        break;
+                    case 'buy':
+                        this.price = new BigNumber(this.ask.price);
+                        break;
+                    default:
+                        throw new Error('Wrong type');
+                }
+                setTimeout(() => { // TODO! Do. Author Tsigel at 29/11/2017 20:57
+                    $element.find('input[name="amount"]').focus();
+                }, 600);
             }
 
             collapse() {
@@ -114,7 +129,7 @@
         return new CreateOrder();
     };
 
-    controller.$inject = ['Base', 'waves', 'utils', 'createPoll'];
+    controller.$inject = ['Base', 'waves', 'utils', 'createPoll', '$element'];
 
     angular.module('app.dex').component('wCreateOrder', {
         bindings: {},
