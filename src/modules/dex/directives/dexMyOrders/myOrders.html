@@ -9,7 +9,7 @@
             <w-cell>Status</w-cell>
         </w-row>
     </w-t-head>
-    <w-row ng-repeat="order in $ctrl.orders track by order.id">
+    <w-row ng-repeat="order in $ctrl.orders track by order.id" class="{{::order.state.toLowerCase()}}">
         <w-cell>
             <span>{{::order.pair}}</span>
         </w-cell>
