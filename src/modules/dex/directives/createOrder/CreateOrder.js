@@ -21,8 +21,8 @@
 
                 this.observe(['_amountAssetId', '_priceAssetId'], () => {
                     utils.whenAll([
-                        waves.node.assets.info(this._amountAssetId),
-                        waves.node.assets.info(this._priceAssetId)
+                        waves.node.assets.balance(this._amountAssetId),
+                        waves.node.assets.balance(this._priceAssetId)
                     ]).then(([amountAsset, priceAsset]) => {
                         this.amountAsset = amountAsset;
                         this.priceAsset = priceAsset;

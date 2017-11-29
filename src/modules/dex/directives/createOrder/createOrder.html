@@ -47,8 +47,10 @@
                             <div class="input-like tiny">
                                 <w-input class="tiny embed no-validate-icons"
                                          type="text"
-                                         w-validate="number"
+                                         w-validate="asset"
+                                         asset-id="$ctrl.amountAsset.id"
                                          name="amount"
+                                         asset-max="$ctrl.amountAsset.balance"
                                          ng-model="$ctrl.amount"
                                          required></w-input>
                                 <div class="asset-name-wrap">
