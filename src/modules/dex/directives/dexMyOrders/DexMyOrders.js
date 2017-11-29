@@ -56,6 +56,11 @@
                 });
             }
 
+            capitalize(type) {
+                if (type === 'sell') return 'Sell';
+                if (type === 'buy') return 'Buy';
+            }
+
             _getOrders() {
                 const asset1 = this._priceAssetId;
                 const asset2 = this._amountAssetId;

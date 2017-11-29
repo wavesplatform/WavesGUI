@@ -36,7 +36,7 @@
 
                 return Waves.AssetPair.get(priceAssetId, amountAssetId)
                     .then((assetPair) => Promise.all([
-                        Waves.OrderPrice.fromMatcherCoins(String(order.amount), assetPair)
+                        Waves.OrderPrice.fromMatcherCoins(String(order.price), assetPair)
                             .then((orderPrice) => Waves.Money.fromTokens(orderPrice.getTokens(), priceAssetId)),
                         Waves.Money.fromCoins(String(order.amount), amountAssetId),
                         Waves.Money.fromCoins(String(order.filled), amountAssetId),

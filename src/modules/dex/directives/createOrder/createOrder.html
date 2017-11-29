@@ -74,7 +74,9 @@
                             <div class="caption-2 disabled-700">Total 0.00101003 BTC</div>
                             <div class="caption-2 disabled-700">Fee 0.003 WAVES</div>
                         </div>
-                        <w-button disabled="order.$invalid" class="place-order tiny footnote-3">
+                        <w-button disabled="order.$invalid"
+                                  class="place-order tiny footnote-3"
+                                  ng-click="$ctrl.createOrder()">
                             <w-i18n ng-if="$ctrl.type === 'sell'">directives.createOrder.placeSellOrder</w-i18n>
                             <w-i18n ng-if="$ctrl.type === 'buy'">directives.createOrder.placeBuyOrder</w-i18n>
                         </w-button>

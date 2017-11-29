@@ -2,7 +2,7 @@
     <w-t-head>
         <w-row>
             <w-cell>Pair</w-cell>
-            <w-cell>Side</w-cell>
+            <w-cell>Type</w-cell>
             <w-cell>Price</w-cell>
             <w-cell>Quantity</w-cell>
             <w-cell>Percent</w-cell>
@@ -14,7 +14,7 @@
             <span>{{::order.pair}}</span>
         </w-cell>
         <w-cell>
-            <span class="order-side {{::order.type}}">{{::order.type}}</span>
+            <span class="order-side {{::order.type}}">{{::$ctrl.capitalize(order.type)}}</span>
         </w-cell>
         <w-cell>
             <w-balance money="order.price"></w-balance>

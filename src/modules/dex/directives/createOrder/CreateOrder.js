@@ -4,12 +4,14 @@
     /**
      * @param Base
      * @param {Waves} waves
+     * @param {User} user
      * @param {app.utils} utils
      * @param {function} createPoll
      * @param {JQuery} $element
+     * @param {NotificationManager} notificationManager
      * @return {CreateOrder}
      */
-    const controller = function (Base, waves, utils, createPoll, $element) {
+    const controller = function (Base, waves, user, utils, createPoll, $element, notificationManager) {
 
         class CreateOrder extends Base {
 
@@ -20,12 +22,14 @@
                 this.type = null;
 
                 this.observe(['_amountAssetId', '_priceAssetId'], () => {
-                    utils.whenAll([
-                        waves.node.assets.balance(this._amountAssetId),
-                        waves.node.assets.balance(this._priceAssetId)
-                    ]).then(([amountAsset, priceAsset]) => {
-                        this.amountAsset = amountAsset;
-                        this.priceAsset = priceAsset;
+                    Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
+                        return utils.whenAll([
+                            waves.node.assets.balance(pair.amountAsset.id),
+                            waves.node.assets.balance(pair.priceAsset.id)
+                        ]).then(([amountAsset, priceAsset]) => {
+                            this.amountAsset = amountAsset;
+                            this.priceAsset = priceAsset;
+                        });
                     });
                 });
 
@@ -62,6 +66,35 @@
             collapse() {
                 this.type = null;
                 this.step = 0;
+            }
+
+            createOrder() {
+                user.getSeed().then((seed) => {
+                    return Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
+                        return Promise.all([
+                            Waves.Money.fromTokens(this.amount.toFixed(), this.amountAsset.id),
+                            Waves.OrderPrice.fromTokens(this.price.toFixed(), pair)
+                        ]);
+                    }).then(([amount, price]) => {
+                        return waves.matcher.createOrder({
+                            amountAsset: this.amountAsset.id,
+                            priceAsset: this.priceAsset.id,
+                            orderType: this.type,
+                            price: price.toMatcherCoins(),
+                            amount: amount.toCoins()
+                        }, seed.keyPair);
+                    }).then((res) => {
+                        notificationManager.success({
+                            ns: 'app',
+                            title: { literal: 'The order is created' }
+                        });
+                    }).catch((err) => {
+                        notificationManager.error({
+                            ns: 'app',
+                            title: { literal: 'Something went wrong' }
+                        });
+                    });
+                });
             }
 
             _getData() {
@@ -129,7 +162,7 @@
         return new CreateOrder();
     };
 
-    controller.$inject = ['Base', 'waves', 'utils', 'createPoll', '$element'];
+    controller.$inject = ['Base', 'waves', 'user', 'utils', 'createPoll', '$element', 'notificationManager'];
 
     angular.module('app.dex').component('wCreateOrder', {
         bindings: {},
