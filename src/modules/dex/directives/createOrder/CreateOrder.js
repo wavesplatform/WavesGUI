@@ -22,6 +22,8 @@
                 this.type = null;
 
                 this.observe(['_amountAssetId', '_priceAssetId'], () => {
+                    this.amount = null;
+                    this.price = null;
                     Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
                         return utils.whenAll([
                             waves.node.assets.balance(pair.amountAsset.id),
@@ -78,6 +80,7 @@
                             Waves.OrderPrice.fromTokens(this.price.toFixed(), pair)
                         ]);
                     }).then(([amount, price]) => {
+                        this.amount = null;
                         return waves.matcher.createOrder({
                             amountAsset: this.amountAsset.id,
                             priceAsset: this.priceAsset.id,

@@ -7,9 +7,10 @@
      * @param {User} user
      * @param {app.i18n} i18n
      * @param {Waves} waves
+     * @param {NotificationManager} notificationManager
      * @return {TokenGenerateModalCtrl}
      */
-    const controller = function (Base, $scope, user, i18n, waves) {
+    const controller = function (Base, $scope, user, i18n, waves, notificationManager) {
 
         class TokenGenerateModalCtrl extends Base {
 
@@ -80,6 +81,12 @@
                     }))
                     .then(() => {
                         this.step++;
+                    })
+                    .catch(() => {
+                        notificationManager.error({
+                            ns: 'app',
+                            title: { literal: 'Token has not been created' }
+                        });
                     });
             }
 
@@ -103,7 +110,7 @@
         return new TokenGenerateModalCtrl(this.locals);
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'i18n', 'waves'];
+    controller.$inject = ['Base', '$scope', 'user', 'i18n', 'waves', 'notificationManager'];
 
     angular.module('app.tokens')
         .controller('TokenGenerateModalCtrl', controller);
