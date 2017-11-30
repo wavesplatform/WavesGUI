@@ -197,6 +197,9 @@
             }
 
             _activateAssets() {
+                if (!this.active) {
+                    return null;
+                }
                 this.activeRowId = this.activeRowId || this._idWatchList[0];
                 if (this._amountAssetId === this.activeRowId) {
                     this._priceAssetId = this.baseAssetId;
