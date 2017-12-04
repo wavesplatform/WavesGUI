@@ -6,7 +6,8 @@
     "seedTitle": "Your wallet seed",
     "placeholder": "Your seed is the 15 words you saved when creating your account",
     "address": "Address",
-    "continue": "Continue"
+    "continue": "Continue",
+    "tosaved": "to a saved account"
   },
   "passwordForm": {
     "title": "Protect Your Account",
