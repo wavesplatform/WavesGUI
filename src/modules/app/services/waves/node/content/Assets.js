@@ -14,12 +14,23 @@
      * @param {User} user
      * @param {EventManager} eventManager
      * @param {app.utils.decorators} decorators
-     * @param {$http} $http
+     * @param {PollCache} PollCache
      * @return {Assets}
      */
-    const factory = function (BaseNodeComponent, utils, user, eventManager, decorators, $http) {
+    const factory = function (BaseNodeComponent, utils, user, eventManager, decorators, PollCache) {
 
         class Assets extends BaseNodeComponent {
+
+            constructor() {
+                super();
+                user.onLogin().then(() => {
+                    this._balanceCache = new PollCache({
+                        getData: this._getBalances.bind(this),
+                        timeout: 2000,
+                        isBalance: true
+                    });
+                });
+            }
 
             /**
              * Get Asset info
@@ -107,7 +118,7 @@
             balanceList(assetIdList) {
                 return utils.whenAll([
                     utils.whenAll(assetIdList.map(this.info, this)),
-                    this._getBalances()
+                    this._balanceCache.get()
                 ])
                     .then(([assetList, balanceList]) => {
                         const balances = utils.toHash(balanceList, 'id');
@@ -135,7 +146,7 @@
              * @return {Promise<IAssetWithBalance[]>}
              */
             userBalances() {
-                return this._getBalances()
+                return this._balanceCache.get()
                     .then((balanceList) => {
                         return utils.whenAll(balanceList.map((balance) => this.info(balance.id)))
                             .then((assetList) => {
@@ -254,7 +265,7 @@
         return new Assets();
     };
 
-    factory.$inject = ['BaseNodeComponent', 'utils', 'user', 'eventManager', 'decorators', '$http'];
+    factory.$inject = ['BaseNodeComponent', 'utils', 'user', 'eventManager', 'decorators', 'PollCache'];
 
     angular.module('app')
         .factory('assets', factory);
