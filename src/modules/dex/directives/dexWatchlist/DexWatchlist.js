@@ -95,9 +95,9 @@
                 this.receive(utils.observe(this._parent, 'focused'), this._onChangeSearchFocus, this);
                 this.receive(utils.observe(this._parent, 'search'), this._onChangeSearch, this);
 
-                this.observe('_idWatchList', this._onChangeIdWatchList);
                 this.observe('activeRowId', this._onChangeActiveRow);
                 this.observe('baseAssetId', this._onChangeBaseAsset);
+                this.observe('_idWatchList', this._onChangeIdWatchList);
                 this.observe('_activeWatchListId', this._onChangeActiveWatchList);
 
                 this.syncSettings({
