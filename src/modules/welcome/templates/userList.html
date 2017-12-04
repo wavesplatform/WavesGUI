@@ -44,11 +44,17 @@
 
         <w-button disabled="$ctrl.loginForm.$invalid" type="submit" class="margin-2 submit big long">
             <w-i18n>userList.buttons.login</w-i18n>
-        </w-button></form>
+        </w-button>
+    </form>
 
     <div class="or margin-2">
-        <span w-i18n="or"></span></div>
-    <div class="text-center"><a href="#" w-i18n="userList.restore"></a><br/><span w-i18n="userList.frombackup"></span>
+        <span w-i18n="or"></span>
+    </div>
+    <div class="text-center">
+        <div>
+            <a ui-sref="restore" w-i18n="userList.restore"></a>
+        </div>
+        <span w-i18n="userList.frombackup"></span>
     </div>
 
 </div>
