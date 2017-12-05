@@ -1,9 +1,11 @@
 (function () {
-    'use strict';
+	'use strict';
 
     const NOT_SYNC_FIELDS = [
         'changeSetting'
-    ];
+	];
+	
+	const myEventSender = new eventSender.default();
 
     /**
      * @param {Storage} storage
@@ -120,7 +122,8 @@
              *
              */
             login(data) {
-                return this._addUserData(data);
+				return this._addUserData(data)
+					.then(() => myEventSender.push('User', 'Login'));
             }
 
             /**
@@ -142,7 +145,7 @@
                         termsAccepted: false,
                         hasBackup: hasBackup
                     }
-                });
+                }).then(() => myEventSender.push('User', 'Create'));
             }
 
             logout() {
@@ -211,7 +214,7 @@
              * @private
              */
             _addUserData(data) {
-                this._loadUserByAddress(data.address)
+                return this._loadUserByAddress(data.address)
                     .then((item) => {
                         this._fieldsForSave.forEach((propertyName) => {
                             if (data[propertyName] != null) {
