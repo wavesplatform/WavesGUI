@@ -107,11 +107,10 @@ body.dex {
     flex-direction: column;
 
     .dex-divided-column--fill {
-      flex: 1;
+      flex-grow: 1;
       height: calc(~"50% - " @padding-main-layout);
     }
     .dex-divided-column--fixed {
-      flex: 0 0;
       height: @dex-lower-block-height;
 
       w-dex-block .collapse-dex-block {
