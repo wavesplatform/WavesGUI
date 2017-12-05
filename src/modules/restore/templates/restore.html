@@ -12,7 +12,7 @@
 
             <div class="body-2 basic-900" w-i18n="seedForm.seedTitle"></div>
 
-            <form name="$ctrl.seedForm">
+            <form name="$ctrl.seedForm" class="margin-2">
                 <div class="seed-block margin-3">
                     <w-input textarea
                              class="embed no-icon big"
@@ -55,5 +55,13 @@
             </w-password>
         </w-step>
     </w-step-by-step>
+
+    <div class="or margin-2">
+        <span w-i18n="or"></span>
+    </div>
+    <div class="text-center flex-column-center-min">
+        <a ui-sref="welcome" w-i18n="passwordForm.login"></a>
+        <span w-i18n="seedForm.tosaved"></span>
+    </div>
 
 </div>

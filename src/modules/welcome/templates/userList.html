@@ -25,7 +25,6 @@
 
     <div class="password-placeholder">
         <div class="body-2 basic-900" w-i18n="userList.password"></div>
-        <a class="caption-1 submit-300" ui-sref="restore" w-i18n="userList.forgot"></a>
     </div>
     <form name="$ctrl.loginForm" ng-submit="$ctrl.loginForm.$valid && $ctrl.login()" novalidate>
 
@@ -43,9 +42,17 @@
             </div>
         </w-input-container>
 
-        <w-button disabled="$ctrl.loginForm.$invalid" type="submit" class="submit big long">
+        <w-button disabled="$ctrl.loginForm.$invalid" type="submit" class="margin-2 submit big long">
             <w-i18n>userList.buttons.login</w-i18n>
         </w-button>
     </form>
+
+    <div class="or margin-2">
+        <span w-i18n="or"></span>
+    </div>
+    <div class="text-center flex-column-center-min">
+        <a ui-sref="restore" w-i18n="userList.restore"></a>
+        <span w-i18n="userList.frombackup"></span>
+    </div>
 
 </div>
