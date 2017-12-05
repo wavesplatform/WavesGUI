@@ -1,13 +1,6 @@
 (function () {
     'use strict';
 
-    const ASSET_NAME_MAP = {
-        [WavesApp.defaultAssets.ETH]: 'Ethereum',
-        [WavesApp.defaultAssets.EUR]: 'Euro',
-        [WavesApp.defaultAssets.USD]: 'US Dollar',
-        [WavesApp.defaultAssets.BTC]: 'Bitcoin'
-    };
-
     /**
      * @param {BaseNodeComponent} BaseNodeComponent
      * @param {app.utils} utils
@@ -35,57 +28,11 @@
             /**
              * Get Asset info
              * @param {string} assetId
-             * @return {Promise<IAssetInfo>}
+             * @return {Promise<IAsset>}
              */
             @decorators.cachable()
             info(assetId) {
-                return fetch(`${WavesApp.network.api}/assets/${assetId}`)
-                    .then(utils.onFetch)
-                    .then((info) => {
-                        return Waves.Money.fromCoins(String(info.quantity), info.id)
-                            .then((money) => ({
-                                id: info.id,
-                                name: ASSET_NAME_MAP[info.id] || info.name,
-                                description: info.id !== WavesApp.defaultAssets.WAVES ? info.description : '',
-                                precision: info.decimals,
-                                reissuable: info.reissuable,
-                                quantity: money,
-                                timestamp: info.timestamp,
-                                sender: info.sender,
-                                height: info.height,
-                                ticker: info.ticker || '',
-                                sign: info.sign || ''
-                            }));
-                    })
-                    .catch(() => {
-                        if (assetId === WavesApp.defaultAssets.WAVES) {
-                            return Waves.Money.fromTokens('100000000', assetId).then((quantity) => ({
-                                id: WavesApp.defaultAssets.WAVES,
-                                name: 'Waves',
-                                precision: 8,
-                                reissuable: false,
-                                timestamp: 1460408400000,
-                                quantity,
-                                sender: WavesApp.defaultAssets.WAVES,
-                                height: 0,
-                                ticker: '',
-                                sign: ''
-                            }));
-                        } else {
-                            return Waves.API.Node.v2.transactions.get(assetId).then((info) => ({
-                                id: info.id,
-                                name: info.name,
-                                description: info.description,
-                                reissuable: info.reissuable,
-                                timestamp: info.timestamp,
-                                quantity: info.amount,
-                                sender: info.sender,
-                                height: info.height,
-                                ticker: '',
-                                sign: ''
-                            }));
-                        }
-                    });
+                return Waves.Asset.get(assetId);
             }
 
             /**
@@ -271,19 +218,6 @@
         .factory('assets', factory);
 })();
 
-/**
- * @typedef {object} IAssetInfo
- * @property {string} id
- * @property {string} name
- * @property {string} [description]
- * @property {number} precision
- * @property {boolean} reissuable
- * @property {Money} quantity
- * @property {number} timestamp
- * @property {number} height
- * @property {string} ticker
- * @property {string} sign
- */
 /**
  * @typedef {object} IAssetWithBalance
  * @property {string} id

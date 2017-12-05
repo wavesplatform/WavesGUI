@@ -19,8 +19,8 @@
 
             /**
              * Get rate (now or from date)
-             * @param {string|IAssetInfo} assetFrom
-             * @param {string|IAssetInfo} assetTo
+             * @param {string|IAsset} assetFrom
+             * @param {string|IAsset} assetTo
              * @param {Date|number|Moment} [date] timestamp or Date
              * @return {Promise<BigNumber>}
              */
@@ -51,8 +51,8 @@
 
             /**
              * Get api for current balance from another balance
-             * @param {string|IAssetInfo} assetFrom
-             * @param {string|IAssetInfo} assetTo
+             * @param {string|IAsset} assetFrom
+             * @param {string|IAsset} assetTo
              * @param {Date|number} [date] timestamp or Date
              * @return {Promise<WavesUtils.rateApi>}
              */
@@ -68,8 +68,8 @@
             }
 
             /**
-             * @param {string|IAssetInfo} assetFrom
-             * @param {string|IAssetInfo} assetTo
+             * @param {string|IAsset} assetFrom
+             * @param {string|IAsset} assetTo
              * @param {Date|number|Moment} from
              * @param {Date|number|Moment} [to]
              * @return {Promise<{rate: number, timestamp: Date}[]>}
@@ -112,8 +112,8 @@
             }
 
             /**
-             * @param {IAssetInfo|string} assetFrom
-             * @param {IAssetInfo|string} assetTo
+             * @param {IAsset|string} assetFrom
+             * @param {IAsset|string} assetTo
              * @return {Promise<number>}
              */
             @decorators.cachable(60)
@@ -265,8 +265,8 @@
             }
 
             /**
-             * @param {IAssetInfo} from
-             * @param {IAssetInfo} to
+             * @param {IAsset} from
+             * @param {IAsset} to
              * @param {BigNumber} rate
              * @return {WavesUtils.rateApi}
              * @private
@@ -300,7 +300,7 @@
             }
 
             /**
-             * @param {string|IAssetInfo} asset
+             * @param {string|IAsset} asset
              * @return {string}
              */
             static toId(asset) {

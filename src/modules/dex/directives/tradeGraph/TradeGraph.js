@@ -23,12 +23,12 @@
                  */
                 this._priceAssetId = null;
                 /**
-                 * @type {IAssetInfo}
+                 * @type {IAsset}
                  * @private
                  */
                 this._amountAsset = null;
                 /**
-                 * @type {IAssetInfo}
+                 * @type {IAsset}
                  * @private
                  */
                 this._priceAsset = null;

@@ -19,7 +19,7 @@
             constructor() {
                 super();
                 /**
-                 * @type {Array<IAssetInfo>}
+                 * @type {Array<IAsset>}
                  */
                 this.watchlist = null;
                 /**

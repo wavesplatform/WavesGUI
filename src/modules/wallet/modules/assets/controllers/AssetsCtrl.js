@@ -120,14 +120,14 @@
             }
 
             /**
-             * @param {IAssetInfo} asset
+             * @param {IAsset} asset
              */
             showSend(asset = Object.create(null)) {
                 return modalManager.showSendAsset({ assetId: asset.id, user, canChooseAsset: !asset.id });
             }
 
             /**
-             * @param {IAssetInfo} [asset]
+             * @param {IAsset} [asset]
              */
             showReceive(asset) {
                 return waves.node.assets.info(asset && asset.id || WavesApp.defaultAssets.WAVES)

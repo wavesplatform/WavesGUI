@@ -29,7 +29,7 @@
                  */
                 this.interval = null;
                 /**
-                 * @type {IAssetInfo}
+                 * @type {IAsset}
                  */
                 this.mirror = null;
                 /**
