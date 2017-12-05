@@ -47,14 +47,15 @@
 
             /**
              * @param {string} query
-             * @return {JQueryXHR}
+             * @return {JQuery.jqXHR}
              */
             search(query) {
-                return $.get(`https://api.wavesplatform.com/assets/search/${query}`);
-            }
-
-            remapAssetName(id, name) {
-                return ASSET_NAME_MAP[id] || name;
+                return $.get(`https://api.wavesplatform.com/assets/search/${query}`, (data) => {
+                    return data.map((item) => {
+                        item.name = WavesApp.remappedAssetNames[item.id] || item.name;
+                        return item;
+                    });
+                });
             }
 
             /**

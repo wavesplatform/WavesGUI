@@ -252,8 +252,7 @@
                 return function (item) {
                     const reg = new RegExp(`(${query})`, 'i');
                     const tickerTemplate = DexWatchlist._getTickerTemplate(item.ticker, reg);
-                    const name = waves.node.assets.remapAssetName(item.id, item.name);
-                    const nameTemplate = DexWatchlist._getNameTemplate(name, reg);
+                    const nameTemplate = DexWatchlist._getNameTemplate(item.name, reg);
                     return $(`<div class="search-item">${tickerTemplate}${nameTemplate}</div>`);
                 };
             }

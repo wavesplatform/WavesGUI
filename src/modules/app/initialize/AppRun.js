@@ -33,13 +33,6 @@
 
     LOADER.addProgress(PROGRESS_MAP.RUN_SCRIPT);
 
-    const ASSET_NAME_MAP = {
-        [WavesApp.defaultAssets.ETH]: 'Ethereum',
-        [WavesApp.defaultAssets.EUR]: 'Euro',
-        [WavesApp.defaultAssets.USD]: 'US Dollar',
-        [WavesApp.defaultAssets.BTC]: 'Bitcoin'
-    };
-
     /**
      * @param $rootScope
      * @param {User} user
@@ -56,7 +49,7 @@
             constructor(props) {
                 super({
                     ...props,
-                    name: ASSET_NAME_MAP[props.id] || props.name
+                    name: WavesApp.remappedAssetNames[props.id] || props.name
                     // ID, name, precision and description are added here
                 });
 
