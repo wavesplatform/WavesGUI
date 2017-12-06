@@ -42,7 +42,8 @@ npm install
 Since we are reorganizing the building process, there is something more you need to have a fully working Waves Client:
 ```
 npm install -g grunt
-grunt build-local
+npm install grunt
+grunt distr
 ```
 Those commands will prepare all required dependencies. Now feel free to open src/index.html in your browser.
 
