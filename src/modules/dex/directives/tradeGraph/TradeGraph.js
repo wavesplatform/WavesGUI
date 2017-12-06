@@ -122,7 +122,33 @@
                 return this._poll.restart();
             }
 
-            static _remapOrderBook([bids = [], asks = []]) {
+            static _remapOrderBook([bids = [], asks = [], pair]) {
+
+                const bidsDelta = bids.length ? new BigNumber(bids[0].price)
+                    .sub(bids[bids.length - 1].price)
+                    .abs() : new BigNumber(0);
+                const asksDelta = asks.length ? new BigNumber(asks[0].price)
+                    .sub(asks[asks.length - 1].price)
+                    .abs() : new BigNumber(0);
+
+                bids = bids.slice();
+                asks = asks.slice();
+
+                if (bidsDelta.gt(asksDelta)) {
+                    asks.push({
+                        amount: '0',
+                        price: new BigNumber(asks[0].price)
+                            .add(bidsDelta)
+                            .toFixed(pair.priceAsset.precision)
+                    });
+                } else if (asksDelta.gt(bidsDelta)) {
+                    bids.push({
+                        amount: '0',
+                        price: new BigNumber(bids[0].price)
+                            .sub(asksDelta)
+                            .toFixed(pair.priceAsset.precision)
+                    });
+                }
 
                 const sum = function (list) {
                     let amount = 0;

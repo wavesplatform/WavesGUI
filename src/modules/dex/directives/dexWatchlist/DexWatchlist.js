@@ -109,6 +109,7 @@
                 this.observe('_activeWatchListId', this._onChangeActiveWatchList);
 
                 this._initRowId();
+                this._onChangeBaseAsset();
                 this._onChangeIdWatchList();
             }
 

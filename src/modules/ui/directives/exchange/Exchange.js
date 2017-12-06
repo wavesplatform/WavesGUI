@@ -46,6 +46,7 @@
 
             $postLink() {
                 this.interval = Number(this.interval) || 5000;
+                this.noUpdate = this.noUpdate == null;
 
                 waves.node.assets.info(this.targetAssetId || user.getSetting('baseAssetId'))
                     .then((mirror) => {
@@ -63,6 +64,8 @@
 
                         this.observe('balance', this._onChangeBalance);
                         this.observe('mirrorBalance', this._onChangeMirrorBalance);
+
+                        this._onChangeBalance();
                     });
             }
 

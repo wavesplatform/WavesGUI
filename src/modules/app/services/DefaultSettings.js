@@ -117,7 +117,7 @@
                         layout: {
                             left: {
                                 collapsed: false,
-                                split: 50
+                                split: 65
                             },
                             center: {
                                 split: 80
