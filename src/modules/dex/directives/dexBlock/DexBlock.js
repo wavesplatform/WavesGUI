@@ -4,9 +4,10 @@
     /**
      * @param Base
      * @param {JQuery} $element
+     * @param {app.utils} utils
      * @return {DexBlock}
      */
-    const controller = function (Base, $element) {
+    const controller = function (Base, $element, utils) {
 
         class DexBlock extends Base {
 
@@ -49,11 +50,30 @@
             }
 
             $postLink() {
+
+                this.syncSettings({
+                    collapsed: `dex.layout.${this.column}.collapsedBlock`
+                });
+
+                this._parent.collapseBlock(this.column, this.block, this.collapsed);
                 this._parent.registerItem($element, this);
             }
 
             toggleCollapse() {
-                this.collapsed = !this.collapsed;
+                const collapsed = this.collapsed;
+                if (collapsed) {
+                    this.collapsed = !collapsed;
+                    utils.wait(100)
+                        .then(() => {
+                            this._parent.collapseBlock(this.column, this.block, this.collapsed);
+                        });
+                } else {
+                    this._parent.collapseBlock(this.column, this.block, !this.collapsed);
+                    utils.wait(300)
+                        .then(() => {
+                            this.collapsed = !collapsed;
+                        });
+                }
             }
 
             onClickTitle() {
@@ -70,7 +90,8 @@
                 if (value) {
                     this.focused = true;
                     this.search = this.title;
-                    $element.find('.change-base-asset-input').focus();
+                    $element.find('.change-base-asset-input')
+                        .focus();
                 } else {
                     this.focused = false;
                     this.search = '';
@@ -82,22 +103,22 @@
         return new DexBlock();
     };
 
-    controller.$inject = ['Base', '$element'];
+    controller.$inject = ['Base', '$element', 'utils'];
 
-    angular.module('app.dex').component('wDexBlock', {
-        require: {
-            _parent: '^wLayout'
-        },
-        bindings: {
-            title: '@titleName',
-            column: '@',
-            block: '@',
-            hasSearch: '@',
-            canCollapse: '@',
-            collapsed: '='
-        },
-        templateUrl: 'modules/dex/directives/dexBlock/dexBlock.html',
-        transclude: true,
-        controller
-    });
+    angular.module('app.dex')
+        .component('wDexBlock', {
+            require: {
+                _parent: '^wLayout'
+            },
+            bindings: {
+                title: '@titleName',
+                column: '@',
+                block: '@',
+                hasSearch: '@',
+                canCollapse: '@'
+            },
+            templateUrl: 'modules/dex/directives/dexBlock/dexBlock.html',
+            transclude: true,
+            controller
+        });
 })();

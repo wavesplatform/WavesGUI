@@ -125,6 +125,10 @@
                 });
             }
 
+            collapseBlock(column, block, collapsed) {
+                this._node.toggleClass(`dex-layout__block-${column}-${block}-collapsed`, collapsed);
+            }
+
             toggleColumn(column) {
                 switch (column) {
                     case 'left':
@@ -200,12 +204,13 @@
 
     controller.$inject = ['Base', '$q', '$element', 'utils'];
 
-    angular.module('app.dex').component('wLayout', {
-        bindings: {},
-        templateUrl: 'modules/dex/directives/layout/layout.html',
-        transclude: true,
-        controller
-    });
+    angular.module('app.dex')
+        .component('wLayout', {
+            bindings: {},
+            templateUrl: 'modules/dex/directives/layout/layout.html',
+            transclude: true,
+            controller
+        });
 })();
 
 /**

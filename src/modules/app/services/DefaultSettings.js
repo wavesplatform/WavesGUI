@@ -120,11 +120,13 @@
                                 split: 65
                             },
                             center: {
-                                split: 80
+                                split: 80,
+                                collapsedBlock: true
                             },
                             right: {
                                 collapsed: false,
-                                split: 50
+                                split: 50,
+                                collapsedBlock: true
                             }
                         }
                     }

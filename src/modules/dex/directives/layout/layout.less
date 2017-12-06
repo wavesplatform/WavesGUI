@@ -16,6 +16,17 @@ w-layout {
     height: 100%;
     position: relative;
 
+    &__block-right-bottom-collapsed {
+      .dex-layout__column-right {
+        .dex-layout__block-top {
+          height: calc(~'100% - 39px') !important;
+        }
+        .dex-layout__block-bottom {
+          height: 39px !important;
+        }
+      }
+    }
+
     &__sidebar-toggle {
       cursor: pointer;
       height: 30px;
@@ -94,6 +105,20 @@ w-layout {
       right: 0;
     }
 
+    w-dex-block .collapse-dex-block {
+      transition: transform 0.3s ease-in-out;
+      background-image: url(/img/icons/close_arrow.svg);
+    }
+
+    &__block-right-bottom-collapsed w-dex-block .collapse-dex-block {
+      transform-origin: center center;
+      transform: rotate(180deg);
+    }
+
+    &__block {
+      transition: height 0.3s ease-in-out;
+    }
+
     &__column-center {
       left: @column-width + @dex-padding;
       right: @column-width + @dex-padding;
@@ -102,7 +127,6 @@ w-layout {
         .block-title {
           display: none;
         }
-
 
       }
     }
