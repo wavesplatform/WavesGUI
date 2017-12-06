@@ -38,7 +38,7 @@
             /**
              * Get balance by asset id
              * @param {string} assetId
-             * @return {Promise<IAssetWithBalance>}
+             * @return {Promise<IMoney>}
              */
             balance(assetId) {
                 return this.balanceList([assetId])
@@ -61,28 +61,22 @@
             /**
              * Get balance list by asset id list
              * @param {string[]} assetIdList
-             * @return {Promise<IAssetWithBalance[]>}
+             * @return {Promise<IMoney[]>}
              */
             balanceList(assetIdList) {
-                return utils.whenAll([
-                    utils.whenAll(assetIdList.map(this.info, this)),
-                    this._balanceCache.get()
-                ])
-                    .then(([assetList, balanceList]) => {
+                return this._balanceCache.get()
+                    .then((balanceList) => {
                         const balances = utils.toHash(balanceList, 'id');
-                        return assetList.map((asset) => {
-                            if (balances[asset.id]) {
-                                const balance = this._getAssetBalance(balances[asset.id].amount);
-                                if (balance.getTokens().lt(0)) {
-                                    return Waves.Money.fromTokens('0', balance.asset.id).then((balance) => {
-                                        return { ...asset, balance };
-                                    });
+                        return assetIdList.map((assetId) => {
+                            if (balances[assetId]) {
+                                const amount = this._getAssetBalance(balances[assetId].amount);
+                                if (amount.lt(0)) {
+                                    return Waves.Money.fromCoins('0', assetId);
                                 } else {
-                                    return utils.when({ ...asset, balance });
+                                    return amount;
                                 }
                             } else {
-                                return Waves.Money.fromTokens('0', asset.id)
-                                    .then((money) => ({ ...asset, balance: money }));
+                                return Waves.Money.fromCoins('0', assetId);
                             }
                         });
                     })
@@ -91,27 +85,21 @@
 
             /**
              * Get balance list by user address
-             * @return {Promise<IAssetWithBalance[]>}
+             * @return {Promise<IMoney[]>}
              */
             userBalances() {
                 return this._balanceCache.get()
                     .then((balanceList) => {
-                        return utils.whenAll(balanceList.map((balance) => this.info(balance.id)))
-                            .then((assetList) => {
-                                return assetList.map((asset, index) => {
-                                    const amount = balanceList[index].amount;
-                                    const balance = this._getAssetBalance(amount);
-                                    if (balance.getTokens().lt(0)) {
-                                        return Waves.Money.fromTokens('0', balance.asset.id).then((balance) => {
-                                            return { ...asset, balance };
-                                        });
-                                    } else {
-                                        return { ...asset, balance };
-                                    }
-                                });
-                            })
-                            .then(utils.whenAll);
-                    });
+                        return balanceList.map((balance) => {
+                            const amount = this._getAssetBalance(balance);
+                            if (amount.lt(0)) {
+                                return Waves.Money.fromCoins('0', amount.asset.id);
+                            } else {
+                                return amount;
+                            }
+                        });
+                    })
+                    .then(utils.whenAll);
             }
 
             /**
@@ -191,7 +179,7 @@
             }
 
             /**
-             * @return {Promise<IAssetWithBalance[]>}
+             * @return {Promise<IMoney[]>}
              * @private
              */
             @decorators.cachable(1)
@@ -218,18 +206,3 @@
     angular.module('app')
         .factory('assets', factory);
 })();
-
-/**
- * @typedef {object} IAssetWithBalance
- * @property {string} id
- * @property {string} name
- * @property {string} [description]
- * @property {number} precision
- * @property {BigNumber} balance
- * @property {boolean} reissuable
- * @property {Money} quantity
- * @property {number} timestamp
- * @property {number} height
- * @property {string} ticker
- * @property {string} sign
- */
