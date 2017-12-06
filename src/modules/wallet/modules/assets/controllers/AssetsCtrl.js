@@ -19,15 +19,22 @@
             constructor() {
                 super($scope);
 
+                /**
+                 * @type {string[]}
+                 */
+                this.pinnedAssetIdList = null;
+                /**
+                 * @type {Money[]}
+                 */
+                this.pinnedAssetBalances = null;
+
                 this.chartMode = null;
-                this.assets = null;
                 this.total = null;
 
                 this.interval = null;
                 this.intervalCount = null;
 
                 this.data = null;
-                this.assetList = null;
                 this.options = assetsData.getGraphOptions();
                 this.mirrorId = null;
                 /**
@@ -41,17 +48,17 @@
                  */
                 this.activeChartAssetId = null;
                 /**
-                 * @type {IAssetWithBalance}
+                 * @type {Money}
                  */
-                this.chartAsset = null;
+                this.activeChartBalance = null;
                 /**
                  * @type {string[]}
                  */
                 this.chartAssetIdList = null;
                 /**
-                 * @type {IAssetWithBalance[]}
+                 * @type {Money[]}
                  */
-                this.chartBalances = null;
+                this.chartBalanceList = null;
 
                 const hours = tsUtils.date('hh:mm');
                 const dates = tsUtils.date('DD/MM');
@@ -69,7 +76,7 @@
                     activeChartAssetId: 'wallet.assets.activeChartAssetId',
                     chartAssetIdList: 'wallet.assets.chartAssetIdList',
                     chartMode: 'wallet.assets.chartMode',
-                    assetList: 'pinnedAssetIdList'
+                    pinnedAssetIdList: 'pinnedAssetIdList'
                 });
 
                 this.mirrorId = user.getSetting('baseAssetId');
@@ -77,12 +84,12 @@
 
                 this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000);
 
-                createPoll(this, this._getChartBalances, 'chartBalances', 15000, { isBalance: true });
-                const assetsPoll = createPoll(this, this._getBalances, 'assets', 5000, { isBalance: true });
+                createPoll(this, this._getChartBalances, 'chartBalanceList', 15000, { isBalance: true });
+                const assetsPoll = createPoll(this, this._getBalances, 'pinnedAssetBalances', 5000, { isBalance: true });
 
                 this.observe('chartMode', this._onChangeMode);
                 this.observe('_startDate', this._onChangeInterval);
-                this.observe('assetList', () => {
+                this.observe('pinnedAssetIdList', () => {
                     assetsPoll.restart();
                 });
 
@@ -143,7 +150,7 @@
             _onChangeChartAssetId({ value }) {
                 waves.node.assets.balance(value)
                     .then((asset) => {
-                        this.chartAsset = asset;
+                        this.activeChartBalance = asset;
                     });
             }
 
@@ -156,10 +163,7 @@
              * @private
              */
             _getBalances() {
-                return waves.node.assets.balanceList(this.assetList)
-                    .then((assets) => {
-                        return assets;
-                    });
+                return waves.node.assets.balanceList(this.pinnedAssetIdList);
             }
 
             /**
