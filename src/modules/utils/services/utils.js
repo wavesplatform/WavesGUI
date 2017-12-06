@@ -52,13 +52,41 @@
             },
 
             /**
+             * // TODO dosent work!
+             * @deprecated
+             * @name app.utils#animateTransform
+             * @param {JQuery} $element
+             * @param {{x: number, y:number}} to
+             * @return {Promise}
+             */
+            animateTransform($element, to) {
+                const prefixis = ['', '-ms-', '-moz-', '-o-', '-webkit-'];
+                return $q((resolve) => {
+                    const transform = $element.css('transform');
+                    const from = transform === 'none' ? { x: 0, y: 0 } : { x: 0, y: 0 };
+                    $element.stop(true, true).animate({}, {
+                        progress: function (tween, progress) {
+                            const x = (to.x - from.x) * progress + from.x;
+                            const y = (to.y - from.y) * progress + from.y;
+                            prefixis.forEach((prefix) => {
+                                $element.css(`${prefix}transform`, `translate(${x}px, ${y}px)`);
+                            });
+                        },
+                        complete: resolve,
+                        duration: 300
+                    });
+                });
+            },
+
+            /**
              * @name app.utils#animateByClass
              * @param {JQuery} $element
              * @param {string} className
              * @param {boolean} state
+             * @param {string} [stopProperty]
              * @return {Promise}
              */
-            animateByClass($element, className, state) {
+            animateByClass($element, className, state, stopProperty) {
                 return $q((resolve) => {
 
                     const element = $element.get(0);
@@ -68,11 +96,19 @@
                         'otransitionend',
                         'webkitTransitionEnd'
                     ];
-                    const handler = () => {
+
+                    if (element.classList.contains(className) === state) {
                         resolve();
-                        eventList.forEach((eventName) => {
-                            element.removeEventListener(eventName, handler, false);
-                        });
+                        return null;
+                    }
+
+                    const handler = (e) => {
+                        if (e.currentTarget === element && (!stopProperty || e.propertyName === stopProperty)) {
+                            resolve();
+                            eventList.forEach((eventName) => {
+                                element.removeEventListener(eventName, handler, false);
+                            });
+                        }
                     };
                     eventList.forEach((eventName) => {
                         element.addEventListener(eventName, handler, false);
@@ -282,6 +318,21 @@
             },
 
             /**
+             * @name app.utils#wait
+             * @param {number} [time]
+             * @return {Promise}
+             */
+            wait(time) {
+                return $q((resolve) => {
+                    if (!time) {
+                        requestAnimationFrame(resolve);
+                    } else {
+                        setTimeout(resolve, time);
+                    }
+                });
+            },
+
+            /**
              * @name app.utils#comparators
              */
             comparators: {
@@ -336,16 +387,9 @@
 
                 if (!observer.__events[event]) {
                     observer.__events[event] = new tsUtils.Signal();
-                    let canDispatch = true;
                     keys.forEach((key) => {
                         observer[key].signal.on(() => {
-                            if (canDispatch) {
-                                observer.__events[event].dispatch();
-                                canDispatch = false;
-                                setTimeout(() => {
-                                    canDispatch = true;
-                                }, 50);
-                            }
+                            observer.__events[event].dispatch();
                         });
                     });
                 }
@@ -397,12 +441,7 @@
                             const prev = observer[key].value;
                             if (isNotEqualValue(prev, value)) {
                                 observer[key].value = value;
-                                if (!observer[key].timer) {
-                                    observer[key].timer = $timeout(() => {
-                                        observer[key].timer = null;
-                                        observer[key].signal.dispatch({ value, prev });
-                                    }, 0);
-                                }
+                                observer[key].signal.dispatch({ value, prev });
                             }
                         }
                     });

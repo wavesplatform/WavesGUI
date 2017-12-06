@@ -307,7 +307,7 @@ export function isApiMock(url: string): boolean {
 }
 
 export function isTemplate(url: string): boolean {
-    return url.indexOf('.html') === url.length - 5;
+    return url.includes('/modules/') && url.indexOf('.html') === url.length - 5;
 }
 
 export function isPage(url: string): boolean {

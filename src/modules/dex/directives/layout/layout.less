@@ -1,0 +1,107 @@
+@import (reference) '../../../config';
+
+w-layout {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  @column-width: 320px;
+  @dex-padding: 7px;
+
+  .dex-layout {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    &__sidebar-toggle {
+      cursor: pointer;
+      height: 30px;
+      width: 7px;
+      opacity: 0.9;
+      position: absolute;
+      top: 50%;
+      z-index: 10;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &-left {
+        right: -4px;
+        margin: 0 -3px 0 2px;
+        transform: scaleX(-1);
+      }
+      &-right {
+        left: -4px;
+        margin: 0 2px 0 -3px;
+      }
+
+      &::after {
+        content: "";
+        display: block;
+        height: 100%;
+        width: 100%;
+        background: url(/img/icons/dex_column_toggle.svg);
+      }
+
+      &-open {
+        margin: 0 -3px;
+        &::after {
+          transform: scaleX(-1);
+        }
+      }
+    }
+
+    &__left-collapsed {
+      .dex-layout__column-left {
+        transform: translateX(-@column-width);
+      }
+      .dex-layout__column-center {
+        left: @dex-padding;
+      }
+    }
+
+    &__right-collapsed {
+      .dex-layout__column-right {
+        transform: translateX(@column-width);
+      }
+      .dex-layout__column-center {
+        right: @dex-padding;
+      }
+    }
+
+    &__column {
+      flex-shrink: 0;
+      height: 100%;
+      opacity: 1;
+      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      position: absolute;
+      top: 0;
+    }
+
+    &__column-left, &__column-right {
+      width: @column-width;
+    }
+
+    &__column-left {
+      left: 0;
+    }
+
+    &__column-right {
+      right: 0;
+    }
+
+    &__column-center {
+      left: @column-width + @dex-padding;
+      right: @column-width + @dex-padding;
+
+      .dex-layout__block-top .block-title {
+        display: none;
+      }
+    }
+
+  }
+}

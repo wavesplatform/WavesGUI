@@ -31,8 +31,25 @@
                  * @type {boolean}
                  */
                 this.changeBaseAssetMode = false;
+                /**
+                 * @type {string}
+                 */
+                this.block = null;
+                /**
+                 * @type {string}
+                 */
+                this.column = null;
+                /**
+                 * @type {Layout}
+                 * @private
+                 */
+                this._parent = null;
 
                 this.observe('changeBaseAssetMode', this._onChangeAssetMode);
+            }
+
+            $postLink() {
+                this._parent.registerItem($element, this);
             }
 
             toggleCollapse() {
@@ -68,8 +85,13 @@
     controller.$inject = ['Base', '$element'];
 
     angular.module('app.dex').component('wDexBlock', {
+        require: {
+            _parent: '^wLayout'
+        },
         bindings: {
             title: '@titleName',
+            column: '@',
+            block: '@',
             hasSearch: '@',
             canCollapse: '@',
             collapsed: '='

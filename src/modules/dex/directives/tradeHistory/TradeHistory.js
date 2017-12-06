@@ -34,7 +34,7 @@
 
                 this.shema = new tsApiValidator.Schema({
                     type: tsApiValidator.ArrayPart,
-                    // required: true, TODO uncomment
+                    required: true,
                     content: {
                         type: tsApiValidator.ObjectPart,
                         required: true,
@@ -47,7 +47,6 @@
                     }
                 });
 
-                this.observe(['_amountAssetId', '_priceAssetId'], this._onChangeAssets);
                 this.syncSettings({
                     _amountAssetId: 'dex.amountAssetId',
                     _priceAssetId: 'dex.priceAssetId'
@@ -57,6 +56,7 @@
                  * @type {Poll}
                  */
                 this._pollLeasing = createPoll(this, this._getTradeHistory, 'orders', 2000);
+                this.observe(['_amountAssetId', '_priceAssetId'], this._onChangeAssets);
             }
 
             $onDestroy() {

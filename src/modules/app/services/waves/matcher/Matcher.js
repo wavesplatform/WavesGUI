@@ -1,7 +1,12 @@
 (function () {
     'use strict';
 
-    const factory = function (utils) {
+    /**
+     * @param {app.utils} utils
+     * @param {app.utils.decorators} decorators
+     * @return {Matcher}
+     */
+    const factory = function (utils, decorators) {
 
         class Matcher {
 
@@ -26,8 +31,44 @@
                 });
             }
 
+            @decorators.cachable(1)
+            getOrderBook(asset1, asset2) {
+                return Waves.AssetPair.get(asset1, asset2)
+                    .then((pair) => Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
+                        .then((orderBook) => Matcher._remapOrderBook(orderBook, pair))
+                        .then(([bids, asks]) => [bids, asks, pair])
+                    );
+            }
+
             cancelOrder(amountAssetId, priceAssetId, orderId, keyPair) {
                 return Waves.API.Matcher.v1.cancelOrder(amountAssetId, priceAssetId, orderId, keyPair);
+            }
+
+            static _remapOrderBook({ bids, asks }, pair) {
+                return Promise.all([
+                    Matcher._remapBidAsks(bids, pair),
+                    Matcher._remapBidAsks(asks, pair)
+                ]);
+            }
+
+            static _remapBidAsks(list, pair) {
+                return Promise.all((list || [])
+                    .map((item) => Promise.all([
+                        Waves.Money.fromCoins(String(item.amount), pair.amountAsset)
+                            .then((amount) => amount.getTokens()),
+                        Waves.OrderPrice.fromMatcherCoins(String(item.price), pair)
+                            .then((orderPrice) => orderPrice.getTokens())
+                    ])
+                        .then((amountPrice) => {
+                            const amount = amountPrice[0];
+                            const price = amountPrice[1];
+                            const total = amount.mul(price);
+                            return {
+                                amount: amount.toFixed(pair.amountAsset.precision),
+                                price: price.toFixed(pair.priceAsset.precision),
+                                total: total.toFixed(pair.priceAsset.precision)
+                            };
+                        })));
             }
 
             static _remapOrder(order) {
@@ -62,7 +103,7 @@
         return new Matcher();
     };
 
-    factory.$inject = ['utils'];
+    factory.$inject = ['utils', 'decorators'];
 
     angular.module('app').factory('matcher', factory);
 })();

@@ -95,11 +95,6 @@
                 this.receive(utils.observe(this._parent, 'focused'), this._onChangeSearchFocus, this);
                 this.receive(utils.observe(this._parent, 'search'), this._onChangeSearch, this);
 
-                this.observe('activeRowId', this._onChangeActiveRow);
-                this.observe('baseAssetId', this._onChangeBaseAsset);
-                this.observe('_idWatchList', this._onChangeIdWatchList);
-                this.observe('_activeWatchListId', this._onChangeActiveWatchList);
-
                 this.syncSettings({
                     _idWatchList: `dex.watchlist.${this._id}.list`,
                     _amountAssetId: 'dex.amountAssetId',
@@ -108,7 +103,13 @@
                     _activeWatchListId: 'dex.watchlist.activeWatchListId'
                 });
 
+                this.observe('activeRowId', this._onChangeActiveRow);
+                this.observe('baseAssetId', this._onChangeBaseAsset);
+                this.observe('_idWatchList', this._onChangeIdWatchList);
+                this.observe('_activeWatchListId', this._onChangeActiveWatchList);
+
                 this._initRowId();
+                this._onChangeIdWatchList();
             }
 
             removeWatchedAsset(event, asset) {

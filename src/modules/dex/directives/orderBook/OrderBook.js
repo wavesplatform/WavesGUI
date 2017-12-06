@@ -6,9 +6,10 @@
      * @param {Base} Base
      * @param {function} createPoll
      * @param {JQuery} $element
+     * @param {Waves} waves
      * @return {OrderBook}
      */
-    const controller = function (Base, createPoll, $element) {
+    const controller = function (Base, createPoll, $element, waves) {
 
         class OrderBook extends Base {
 
@@ -29,10 +30,10 @@
                  */
                 this._priceAssetId = null;
                 /**
-                 * @type {Wrap}
+                 * @type {boolean}
                  * @private
                  */
-                this._worker = workerWrapper.create();
+                this._showSpread = true;
 
                 this.syncSettings({
                     _amountAssetId: 'dex.amountAssetId',
@@ -40,13 +41,15 @@
                 });
 
                 const poll = createPoll(this, this._getOrders, 'orders', 12000);
-                this.observe(['_amountAssetId', '_priceAssetId'], () => poll.restart());
+                this.observe(['_amountAssetId', '_priceAssetId'], () => {
+                    poll.restart();
+                });
 
             }
 
             _getOrders() {
-                return Waves.AssetPair.get(this._amountAssetId, this._priceAssetId)
-                    .then((pair) => {
+                return waves.matcher.getOrderBook(this._amountAssetId, this._priceAssetId)
+                    .then(([bids, asks, pair]) => {
 
                         const getCell = function (content) {
                             return `<div class="table-cell">${content}</div>`;
@@ -93,54 +96,37 @@
                             });
                         };
 
-                        const parse = function (list) {
-                            return Promise.all((list || [])
-                                .map((item) => Promise.all([
-                                    Waves.Money.fromCoins(String(item.amount), pair.amountAsset)
-                                        .then((amount) => amount.getTokens()),
-                                    Waves.OrderPrice.fromMatcherCoins(String(item.price), pair)
-                                        .then((orderPrice) => orderPrice.getTokens())
-                                ])
-                                    .then((amountPrice) => {
-                                        const amount = amountPrice[0];
-                                        const price = amountPrice[1];
-                                        const total = amount.mul(price);
-                                        return {
-                                            amount: amount.toFixed(pair.amountAsset.precision),
-                                            price: price.toFixed(pair.priceAsset.precision),
-                                            total: total.toFixed(pair.priceAsset.precision)
-                                        };
-                                    })));
+                        const [lastAsk] = asks;
+                        const [firstBid] = bids;
+
+                        const spread = firstBid && lastAsk && {
+                            amount: lastAsk.price,
+                            price: new BigNumber(lastAsk.price).sub(firstBid.price)
+                                .abs()
+                                .toFormat(pair.priceAsset.precision),
+                            total: firstBid.price
                         };
 
-                        return Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
-                            .then((orderBook) => Promise.all([parse(orderBook.bids), parse(orderBook.asks)])
-                                .then(([bids, asks]) => {
-
-                                    const [lastAsk] = asks;
-                                    const [firstBid] = bids;
-
-                                    const spread = firstBid && lastAsk && {
-                                        amount: lastAsk.price,
-                                        price: new BigNumber(lastAsk.price).sub(firstBid.price)
-                                            .abs()
-                                            .toFormat(pair.priceAsset.precision),
-                                        total: firstBid.price
-                                    };
-
-                                    return {
-                                        bids: process(bids)
-                                            .join(''),
-                                        spread: spread && process([spread])[0],
-                                        asks: process(asks.reverse())
-                                            .join('')
-                                    };
-                                }));
+                        return {
+                            bids: process(bids)
+                                .join(''),
+                            spread: spread && process([spread])[0],
+                            asks: process(asks.reverse())
+                                .join('')
+                        };
                     })
                     .then(({ bids, spread, asks }) => {
                         const template = `<div class="asks">${asks}</div><div class="spread body-2">${spread}</div><div class="bids">${bids}</div>`;
                         const $box = $element.find('w-scroll-box');
+                        const box = $box.get(0);
                         $box.html(template);
+
+                        if (this._showSpread) {
+                            this._showSpread = false;
+
+                            const spread = box.querySelector('.spread');
+                            box.scrollTop = spread.offsetTop - box.offsetTop - box.clientHeight / 2 + spread.clientHeight / 2;
+                        }
                     });
             }
 
@@ -149,7 +135,7 @@
         return new OrderBook();
     };
 
-    controller.$inject = ['Base', 'createPoll', '$element'];
+    controller.$inject = ['Base', 'createPoll', '$element', 'waves'];
 
     angular.module('app.dex').component('wDexOrderBook', {
         templateUrl: 'modules/dex/directives/orderBook/orderBook.html',

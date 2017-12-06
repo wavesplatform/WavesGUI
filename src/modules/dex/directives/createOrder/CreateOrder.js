@@ -21,6 +21,11 @@
                 this.step = 0;
                 this.type = null;
 
+                this.syncSettings({
+                    _amountAssetId: 'dex.amountAssetId',
+                    _priceAssetId: 'dex.priceAssetId'
+                });
+
                 this.observe(['_amountAssetId', '_priceAssetId'], () => {
                     this.amount = null;
                     this.price = null;
@@ -35,11 +40,6 @@
                             this.priceDisplayName = priceAsset.ticker || priceAsset.name;
                         });
                     });
-                });
-
-                this.syncSettings({
-                    _amountAssetId: 'dex.amountAssetId',
-                    _priceAssetId: 'dex.priceAssetId'
                 });
 
                 createPoll(this, this._getData, this._setData, 1000);
@@ -62,7 +62,7 @@
                     default:
                         throw new Error('Wrong type');
                 }
-                setTimeout(() => { // TODO! Do. Author Tsigel at 29/11/2017 20:57
+                setTimeout(() => { // TODO Do. Author Tsigel at 29/11/2017 20:57
                     $element.find('input[name="amount"]').focus();
                 }, 600);
             }

@@ -115,14 +115,17 @@
                             }
                         },
                         layout: {
-                            tradeHistory: {
-                                collapsed: true
+                            left: {
+                                collapsed: false,
+                                split: 50
                             },
-                            myOrders: {
-                                collapsed: true
+                            center: {
+                                split: 80
                             },
-                            leftColumnState: false,
-                            rightColumnState: false
+                            right: {
+                                collapsed: false,
+                                split: 50
+                            }
                         }
                     }
                 };
