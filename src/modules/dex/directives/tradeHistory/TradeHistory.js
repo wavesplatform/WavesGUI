@@ -57,6 +57,8 @@
                  */
                 this._pollLeasing = createPoll(this, this._getTradeHistory, 'orders', 2000);
                 this.observe(['_amountAssetId', '_priceAssetId'], this._onChangeAssets);
+
+                this._onChangeAssets();
             }
 
             $onDestroy() {

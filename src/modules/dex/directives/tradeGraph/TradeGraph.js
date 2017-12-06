@@ -51,14 +51,12 @@
                             const precisionAmount = this._amountAsset && this._amountAsset.precision || 8;
                             return {
                                 abscissas: `Price ${x.toFixed(precisionPrice)}`,
-                                rows: d.map((s) => {
-                                    return {
-                                        label: s.series.label,
-                                        value: s.row.y1.toFixed(precisionAmount),
-                                        color: s.series.color,
-                                        id: s.series.id
-                                    };
-                                })
+                                rows: d.map((s) => ({
+                                    label: s.series.label,
+                                    value: s.row.y1.toFixed(precisionAmount),
+                                    color: s.series.color,
+                                    id: s.series.id
+                                }))
                             };
                         }
                     },
@@ -103,7 +101,8 @@
             }
 
             _getOrderBook() {
-                return waves.matcher.getOrderBook(this._priceAssetId, this._amountAssetId);
+                return waves.matcher.getOrderBook(this._priceAssetId, this._amountAssetId)
+                    .then(TradeGraph._remapOrderBook);
             }
 
             _setOrderBook([bids, asks]) {
@@ -121,6 +120,26 @@
                         this._amountAsset = asset;
                     });
                 return this._poll.restart();
+            }
+
+            static _remapOrderBook([bids = [], asks = []]) {
+
+                const sum = function (list) {
+                    let amount = 0;
+                    return list.reduce((result, item) => {
+                        amount += Number(item.amount);
+                        result.push({
+                            amount,
+                            price: Number(item.price)
+                        });
+                        return result;
+                    }, []);
+                };
+
+                return [
+                    sum(bids),
+                    sum(asks)
+                ];
             }
 
         }
