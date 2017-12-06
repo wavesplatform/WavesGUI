@@ -5,9 +5,10 @@
      * @param Base
      * @param utils
      * @param {Waves} waves
+     * @param {function} createPoll
      * @return {TradeGraph}
      */
-    const controller = function (Base, utils, waves) {
+    const controller = function (Base, utils, waves, createPoll) {
 
         class TradeGraph extends Base {
 
@@ -94,6 +95,20 @@
                 });
 
                 this.observe(['_amountAssetId', '_priceAssetId'], this._onChangeAssets);
+                /**
+                 * @type {Poll}
+                 * @private
+                 */
+                this._poll = createPoll(this, this._getOrderBook, this._setOrderBook, 1000);
+            }
+
+            _getOrderBook() {
+                return waves.matcher.getOrderBook(this._priceAssetId, this._amountAssetId);
+            }
+
+            _setOrderBook([bids, asks]) {
+                this.data.bids = bids;
+                this.data.asks = asks;
             }
 
             _onChangeAssets() {
@@ -105,62 +120,7 @@
                     .then((asset) => {
                         this._amountAsset = asset;
                     });
-                return Waves.AssetPair.get(this._amountAssetId, this._priceAssetId)
-                    .then((pair) => {
-                        return Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
-                            .then((orderBook) => {
-
-                                const process = function (list) {
-                                    let sum = 0;
-                                    return list.reduce((resutl, item) => {
-                                        sum = sum + item.amount;
-                                        resutl.push({
-                                            amount: sum,
-                                            price: item.price
-                                        });
-                                        return resutl;
-                                    }, []);
-                                };
-
-                                const parse = function (list) {
-                                    return Promise.all((list || []).map((item) => {
-                                        return Promise.all([
-                                            Waves.Money.fromCoins(String(item.amount), pair.amountAsset)
-                                                .then((amount) => {
-                                                    return amount.getTokens();
-                                                }),
-                                            Waves.OrderPrice.fromMatcherCoins(String(item.price), pair)
-                                                .then((orderPrice) => {
-                                                    return orderPrice.getTokens();
-                                                })
-                                        ])
-                                            .then((amountPrice) => {
-                                                const amount = amountPrice[0];
-                                                const price = amountPrice[1];
-                                                return {
-                                                    amount: Number(amount.toFixed(pair.amountAsset.precision)),
-                                                    price: Number(price.toFixed(pair.priceAsset.precision))
-                                                };
-                                            });
-                                    }));
-                                };
-
-                                return Promise.all([
-                                    parse(orderBook.bids),
-                                    parse(orderBook.asks)
-                                ])
-                                    .then((bidAsks) => {
-                                        const bids = bidAsks[0];
-                                        const asks = bidAsks[1];
-
-                                        return { bids: process(bids), asks: process(asks) };
-                                    });
-                            });
-                    })
-                    .then(({ bids, asks }) => {
-                        this.data.bids = bids;
-                        this.data.asks = asks;
-                    });
+                return this._poll.restart();
             }
 
         }
@@ -168,7 +128,7 @@
         return new TradeGraph();
     };
 
-    controller.$inject = ['Base', 'utils', 'waves'];
+    controller.$inject = ['Base', 'utils', 'waves', 'createPoll'];
 
     angular.module('app.dex')
         .component('wDexTradeGraph', {
