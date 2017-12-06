@@ -26,7 +26,7 @@
 
         emptyDataFields();
 
-        ctrl.favoritePairs = [
+        var favoritePairs = [
             { amountAsset: Currency.WAVES, priceAsset: Currency.BTC },
             { amountAsset: Currency.WAVES, priceAsset: Currency.USD },
             { amountAsset: Currency.WAVES, priceAsset: Currency.EUR },
@@ -41,6 +41,16 @@
             { amountAsset: Currency.MRT, priceAsset: Currency.BTC },
             { amountAsset: Currency.EUR, priceAsset: Currency.USD }
         ];
+
+        // TODO : change after Dec 11, 2017
+        if (Date.now() >= 1512993600000) {
+            favoritePairs.push({
+                amountAsset: Currency.WTRY,
+                priceAsset: Currency.WAVES
+            });
+        }
+
+        ctrl.favoritePairs = favoritePairs;
 
         ctrl.createOrder = function (type, price, amount, fee, callback) {
             // TODO : add a queue for the orders which weren't yet accepted
