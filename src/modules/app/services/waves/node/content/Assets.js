@@ -38,7 +38,7 @@
             /**
              * Get balance by asset id
              * @param {string} assetId
-             * @return {Promise<IMoney>}
+             * @return {Promise<Money>}
              */
             balance(assetId) {
                 return this.balanceList([assetId])
@@ -61,7 +61,7 @@
             /**
              * Get balance list by asset id list
              * @param {string[]} assetIdList
-             * @return {Promise<IMoney[]>}
+             * @return {Promise<Money[]>}
              */
             balanceList(assetIdList) {
                 return this._balanceCache.get()
@@ -85,7 +85,7 @@
 
             /**
              * Get balance list by user address
-             * @return {Promise<IMoney[]>}
+             * @return {Promise<Money[]>}
              */
             userBalances() {
                 return this._balanceCache.get()
@@ -179,7 +179,7 @@
             }
 
             /**
-             * @return {Promise<IMoney[]>}
+             * @return {Promise<Money[]>}
              * @private
              */
             @decorators.cachable(1)
