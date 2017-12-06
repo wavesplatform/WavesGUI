@@ -66,11 +66,11 @@
             balanceList(assetIdList) {
                 return this._balanceCache.get()
                     .then((balanceList) => {
-                        const balances = utils.toHash(balanceList, 'id');
+                        const balances = utils.toHash(balanceList, 'asset.id');
                         return assetIdList.map((assetId) => {
                             if (balances[assetId]) {
-                                const amount = this._getAssetBalance(balances[assetId].amount);
-                                if (amount.lt(0)) {
+                                const amount = this._getAssetBalance(balances[assetId]);
+                                if (amount.getTokens().lt(0)) {
                                     return Waves.Money.fromCoins('0', assetId);
                                 } else {
                                     return amount;
@@ -92,7 +92,7 @@
                     .then((balanceList) => {
                         return balanceList.map((balance) => {
                             const amount = this._getAssetBalance(balance);
-                            if (amount.lt(0)) {
+                            if (amount.getTokens().lt(0)) {
                                 return Waves.Money.fromCoins('0', amount.asset.id);
                             } else {
                                 return amount;
