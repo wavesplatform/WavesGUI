@@ -135,7 +135,7 @@
                         <td class="headline-3 basic-900" w-i18n="modal.send.confirm.total"></td>
                         <td>
                             <div>{{::$ctrl.amount && $ctrl.amount.toFixed($ctrl.asset.precision)}}
-                                {{$ctrl.asset.name}}
+                                {{$ctrl.balance.asset.name}}
                             </div>
                             <div>≈ ${{::$ctrl.amountMirror && $ctrl.amountMirror.toFixed($ctrl.mirror.precision)}}</div>
                         </td>
@@ -155,7 +155,7 @@
         <w-step class="check">
             <div class="modal-send-check"></div>
             <h2 class="basic-900" w-i18n="modal.send.compare.title"></h2>
-            <div params="{amount: $ctrl.amount, currency: $ctrl.asset.name, mirror: $ctrl.amountMirror && $ctrl.amountMirror.toFixed($ctrl.mirror.precision)}"
+            <div params="{amount: $ctrl.amount, currency: $ctrl.balance.asset.name, mirror: $ctrl.amountMirror && $ctrl.amountMirror.toFixed($ctrl.mirror.precision)}"
                  class="body-2 disabled-600"
                  w-i18n="modal.send.compare.description"></div>
             <w-button ng-click="$ctrl.showTransaction()">
