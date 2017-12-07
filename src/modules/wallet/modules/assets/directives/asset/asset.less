@@ -1,9 +1,17 @@
 @import (reference) '../../../../../config';
 
+@asset-block-narrow: calc(~"25% - " @padding-main-layout);
+@asset-block-wide: calc(~"33.3% - " @padding-main-layout);
+
 w-asset {
   box-sizing: border-box;
-  height: 182px;
-  width: 336px;
+  min-height: 182px;
+  flex-basis: @asset-block-narrow;
+  max-width: @asset-block-narrow;
+  @media screen and (max-width: 1300px) {
+    flex-basis: @asset-block-wide;
+    max-width: @asset-block-wide;
+  }
   border: 1px solid #eaeaea;
   border-radius: @border-radius;
   background-color: @color-white;
@@ -11,7 +19,14 @@ w-asset {
   display: flex;
   flex-direction: column;
   padding: 20px;
+  overflow: hidden;
   margin: @padding-main-layout /2;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
 
   &:hover .settings {
     display: flex;
@@ -22,7 +37,12 @@ w-asset {
   }
 
   .balance {
-    margin: 6px 0;
+    margin: 6px 0 auto 0;
+
+    > span {
+      word-wrap: break-word;
+    }
+
     .decimal {
       font-family: @font-roboto-light;
     }
