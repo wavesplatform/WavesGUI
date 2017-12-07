@@ -18,7 +18,6 @@
 
         class AssetSendCtrl extends Base {
 
-
             /**
              * @param {string} assetId
              * @param {string} mirrorId
@@ -26,7 +25,6 @@
              */
             constructor(assetId, mirrorId, canChooseAsset) {
                 super($scope);
-
 
                 /**
                  * @type {BigNumber}
@@ -58,6 +56,7 @@
                  * @type {string}
                  */
                 this.recipient = '';
+                // TODO : replace all IAssetWithBalance with Money and refactor accordingly
                 /**
                  * @type {IAssetWithBalance}
                  */
