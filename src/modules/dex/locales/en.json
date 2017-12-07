@@ -14,7 +14,7 @@
     },
     "orderBook": {
       "title": "Order Book",
-      "marketSize": "Market size",
+      "amount": "Amount",
       "price": "Price {{assetName}}",
       "total": "Total {{assetName}}"
     },
