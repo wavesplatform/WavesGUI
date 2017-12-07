@@ -27,6 +27,17 @@ w-layout {
       }
     }
 
+    &__block-center-bottom-collapsed {
+      .dex-layout__column-center {
+        .dex-layout__block-top {
+          height: calc(~'100% - 39px') !important;
+        }
+        .dex-layout__block-bottom {
+          height: 39px !important;
+        }
+      }
+    }
+
     &__sidebar-toggle {
       cursor: pointer;
       height: 30px;
@@ -110,7 +121,7 @@ w-layout {
       background-image: url(/img/icons/close_arrow.svg);
     }
 
-    &__block-right-bottom-collapsed w-dex-block .collapse-dex-block {
+    &__block-right-bottom-collapsed w-dex-block .collapse-dex-block, &__block-center-bottom-collapsed w-dex-block .collapse-dex-block {
       transform-origin: center center;
       transform: rotate(180deg);
     }
