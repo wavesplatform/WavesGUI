@@ -2,7 +2,9 @@
 @import (reference) '../../app/less/typography';
 
 .welcome {
-  padding-top: 100px;
+  > ui-view[name="main"] {
+    padding-top: 100px;
+  }
 
   .new-user {
     display: flex;
