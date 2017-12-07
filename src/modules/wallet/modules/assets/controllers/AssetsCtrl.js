@@ -59,6 +59,14 @@
                  * @type {Money[]}
                  */
                 this.chartBalanceList = null;
+                /**
+                 * @type {string}
+                 */
+                this.change = '0.00';
+                /**
+                 * @type {string}
+                 */
+                this.changePercent = '0.00';
 
                 const hours = tsUtils.date('hh:mm');
                 const dates = tsUtils.date('DD/MM');

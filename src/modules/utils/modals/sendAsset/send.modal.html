@@ -11,11 +11,11 @@
                          class="input-like big flex-row split-half">
                         <div class="flex-row">
                             <w-asset-logo size="24" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
-                            <div class="asset-name">{{$ctrl.asset.name}}</div>
+                            <div class="asset-name">{{$ctrl.balance.asset.name}}</div>
                         </div>
                         <div>
-                            <w-balance money="$ctrl.asset.balance"></w-balance>
-                            <span>&nbsp;{{$ctrl.asset.ticker || $ctrl.asset.name}}</span>
+                            <w-balance money="$ctrl.balance"></w-balance>
+                            <span>&nbsp;{{$ctrl.balance.asset.ticker || $ctrl.balance.asset.name}}</span>
                         </div>
                     </div>
                     <w-select class="big"
@@ -70,7 +70,7 @@
 
                             <w-balance-input name="amount"
                                              asset-id="$ctrl.assetId"
-                                             max-balance="$ctrl.asset.balance"
+                                             max-balance="$ctrl.balance"
                                              fee="$ctrl.fee"
                                              input-classes="big"
                                              amount="$ctrl.amount">
@@ -130,10 +130,6 @@
                     <tr>
                         <td class="headline-3 basic-900" w-i18n="modal.send.confirm.to"></td>
                         <td>{{$ctrl.recipient}}</td>
-                    </tr>
-                    <tr>
-                        <td class="headline-3 basic-900" w-i18n="modal.send.confirm.from"></td>
-                        <td>{{$ctrl.asset.name}}</td>
                     </tr>
                     <tr>
                         <td class="headline-3 basic-900" w-i18n="modal.send.confirm.total"></td>
