@@ -50,7 +50,7 @@
 
             _getOrders() {
                 return waves.matcher.getOrderBook(this._amountAssetId, this._priceAssetId)
-                    .then(([bids, asks, pair]) => {
+                    .then(({ bids, asks, spread }) => {
 
                         const getCell = function (content) {
                             return `<div class="table-cell">${content}</div>`;
@@ -95,17 +95,6 @@
                                 const cells = getCells(item);
                                 return `<w-row><div class="table-row">${cells}</div></w-row>`;
                             });
-                        };
-
-                        const [lastAsk] = asks;
-                        const [firstBid] = bids;
-
-                        const spread = firstBid && lastAsk && {
-                            amount: lastAsk.price,
-                            price: new BigNumber(lastAsk.price).sub(firstBid.price)
-                                .abs()
-                                .toFormat(pair.priceAsset.precision),
-                            total: firstBid.price
                         };
 
                         return {

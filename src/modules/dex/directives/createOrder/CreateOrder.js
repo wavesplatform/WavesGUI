@@ -20,20 +20,33 @@
 
                 this.step = 0;
                 this.type = null;
-
-                this.syncSettings({
-                    _amountAssetId: 'dex.amountAssetId',
-                    _priceAssetId: 'dex.priceAssetId'
-                });
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._priceAssetId = null;
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._amountAssetId = null;
 
                 this.observe(['_amountAssetId', '_priceAssetId'], () => {
+
+                    if (!this._priceAssetId || !this._amountAssetId) {
+                        return null;
+                    }
+
                     this.amount = null;
                     this.price = null;
                     Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
                         return utils.whenAll([
                             waves.node.assets.balance(pair.amountAsset.id),
                             waves.node.assets.balance(pair.priceAsset.id)
-                        ]).then(([amountAsset, priceAsset]) => {
+                        ]).then(([amountMoney, priceMoney]) => {
+                            const amountAsset = amountMoney.asset;
+                            const priceAsset = priceMoney.asset;
+
                             this.amountAsset = amountAsset;
                             this.priceAsset = priceAsset;
                             this.amountDisplayName = amountAsset.ticker || amountAsset.name;
@@ -42,11 +55,17 @@
                     });
                 });
 
+                this.syncSettings({
+                    _amountAssetId: 'dex.amountAssetId',
+                    _priceAssetId: 'dex.priceAssetId'
+                });
+
+                // TODO Add directive for stop propagation (catch move for draggable)
+                $element.on('mousedown', '.body', (e) => {
+                    e.stopPropagation();
+                });
+
                 createPoll(this, this._getData, this._setData, 1000);
-            }
-
-            $postLink() {
-
             }
 
             expand(type) {
@@ -73,81 +92,44 @@
             }
 
             createOrder() {
-                user.getSeed().then((seed) => {
-                    return Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
-                        return Promise.all([
-                            Waves.Money.fromTokens(this.amount.toFixed(), this.amountAsset.id),
-                            Waves.OrderPrice.fromTokens(this.price.toFixed(), pair)
-                        ]);
-                    }).then(([amount, price]) => {
-                        this.amount = null;
-                        return waves.matcher.createOrder({
-                            amountAsset: this.amountAsset.id,
-                            priceAsset: this.priceAsset.id,
-                            orderType: this.type,
-                            price: price.toMatcherCoins(),
-                            amount: amount.toCoins()
-                        }, seed.keyPair);
-                    }).then((res) => {
-                        notificationManager.success({
-                            ns: 'app',
-                            title: { literal: 'The order is created' }
-                        });
-                    }).catch((err) => {
-                        notificationManager.error({
-                            ns: 'app',
-                            title: { literal: 'Something went wrong' }
+                user.getSeed()
+                    .then((seed) => {
+                        return Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
+                            return Promise.all([
+                                Waves.Money.fromTokens(this.amount.toFixed(), this.amountAsset.id),
+                                Waves.OrderPrice.fromTokens(this.price.toFixed(), pair)
+                            ]);
+                        }).then(([amount, price]) => {
+                            this.amount = null;
+                            return waves.matcher.createOrder({
+                                amountAsset: this.amountAsset.id,
+                                priceAsset: this.priceAsset.id,
+                                orderType: this.type,
+                                price: price.toMatcherCoins(),
+                                amount: amount.toCoins()
+                            }, seed.keyPair);
+                        }).then((res) => {
+                            notificationManager.success({
+                                ns: 'app',
+                                title: { literal: 'The order is created' }
+                            });
+                        }).catch((err) => {
+                            notificationManager.error({
+                                ns: 'app',
+                                title: { literal: 'Something went wrong' }
+                            });
                         });
                     });
-                });
             }
 
             _getData() {
 
-                return Waves.AssetPair.get(this._amountAssetId, this._priceAssetId)
-                    .then((pair) => {
+                return waves.matcher.getOrderBook(this._amountAssetId, this._priceAssetId)
+                    .then(({ bids, asks, spread }) => {
+                        const [lastAsk] = asks;
+                        const [firstBid] = bids;
 
-                        const parse = function (list) {
-                            return Promise.all((list || [])
-                                .map((item) => Promise.all([
-                                    Waves.Money.fromCoins(String(item.amount), pair.amountAsset)
-                                        .then((amount) => amount.getTokens()),
-                                    Waves.OrderPrice.fromMatcherCoins(String(item.price), pair)
-                                        .then((orderPrice) => orderPrice.getTokens())
-                                ])
-                                    .then((amountPrice) => {
-                                        const amount = amountPrice[0];
-                                        const price = amountPrice[1];
-                                        const total = amount.mul(price);
-                                        return {
-                                            amount: amount.toFixed(pair.amountAsset.precision),
-                                            price: price.toFixed(pair.priceAsset.precision),
-                                            total: total.toFixed(pair.priceAsset.precision)
-                                        };
-                                    })));
-                        };
-
-                        return Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
-                            .then((orderBook) => Promise.all([parse(orderBook.bids), parse(orderBook.asks)])
-                                .then(([bids, asks]) => {
-
-                                    const [lastAsk] = asks;
-                                    const [firstBid] = bids;
-
-                                    const spread = firstBid && lastAsk && {
-                                        amount: new BigNumber(lastAsk.amount).sub(firstBid.amount)
-                                            .abs()
-                                            .toString(),
-                                        price: new BigNumber(lastAsk.price).sub(firstBid.price)
-                                            .abs()
-                                            .toString(),
-                                        total: new BigNumber(lastAsk.total).sub(firstBid.total)
-                                            .abs()
-                                            .toString()
-                                    };
-
-                                    return { lastAsk, firstBid, spread };
-                                }));
+                        return { lastAsk, firstBid, spread };
                     });
             }
 

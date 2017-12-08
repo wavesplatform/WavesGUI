@@ -36,7 +36,7 @@
                 return Waves.AssetPair.get(asset1, asset2)
                     .then((pair) => Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
                         .then((orderBook) => Matcher._remapOrderBook(orderBook, pair))
-                        .then(([bids, asks]) => [bids, asks, pair])
+                        .then(([bids, asks]) => ({ bids, asks, pair, spread: Matcher._getSpread(bids, asks, pair) }))
                     );
             }
 
@@ -94,6 +94,31 @@
                     });
             }
 
+            /**
+             * @param {Array} bids
+             * @param {Array} asks
+             * @param {AssetPair} pair
+             * @returns {{amount: string, price: string, total: string}}
+             * @private
+             */
+            static _getSpread(bids, asks, pair) {
+                const [lastAsk] = asks;
+                const [firstBid] = bids;
+
+                return firstBid && lastAsk && {
+                    amount: lastAsk.price,
+                    price: new BigNumber(lastAsk.price).sub(firstBid.price)
+                        .abs()
+                        .toFormat(pair.priceAsset.precision),
+                    total: firstBid.price
+                } || { amount: '0', price: '0', total: '0' };
+            }
+
+            /**
+             * @param id
+             * @returns {string}
+             * @private
+             */
             static _getAssetId(id) {
                 return id || WavesApp.defaultAssets.WAVES;
             }
