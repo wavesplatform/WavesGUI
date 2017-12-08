@@ -6,9 +6,6 @@
                 <w-i18n>Coin</w-i18n>
             </w-cell>
             <w-cell>
-                <w-i18n>Name</w-i18n>
-            </w-cell>
-            <w-cell>
                 <w-i18n>Price</w-i18n>
             </w-cell>
             <w-cell>
@@ -17,15 +14,12 @@
         </w-row>
     </w-t-head>
     <w-scroll-box>
-        <w-row class="footnote-1 disabled-900"
+        <w-row class="disabled-900"
                ng-repeat="asset in $ctrl.watchlist track by asset.id"
                ng-if="asset.id !== $ctrl.baseAssetId"
                select-value="{{::asset.id}}">
             <w-cell>
                 {{::asset.ticker || '—'}}
-            </w-cell>
-            <w-cell title="{{::asset.name}}">
-                {{::asset.name}}
             </w-cell>
             <w-cell>
                 <w-exchange balance="$ctrl.baseMoney" no-update target-asset-id="{{::asset.id}}"></w-exchange>

@@ -20,6 +20,30 @@ body.dex {
     width: 100%;
     height: 100%;
 
+    w-dex-trade-history w-t-head w-row {
+      padding-right: 26px;
+    }
+
+    w-dex-trade-history w-scroll-box {
+      padding-right: @padding-main-layout;
+    }
+
+    .block-title .w-input-wrap input {
+      .caption-2-fs();
+      padding: 6px 8px;
+      background-image: url(/img/icons/input-search-icon.svg);
+      background-repeat: no-repeat;
+      background-size: 12px 12px;
+      background-position: 7px center;
+      text-indent: 17px;
+      height: 27px;
+      border: 1px solid #e2e2e2;
+    }
+
+    .search-item {
+      .caption-1-fs();
+    }
+
     w-table {
       width: 100%;
       height: 100%;
@@ -34,9 +58,17 @@ body.dex {
       }
 
       w-t-head {
-        .caption-1();
         color: @color-disabled-700;
         border-bottom: 1px solid @color-disabled-100;
+
+        w-row {
+          .caption-2-fs();
+
+          .table-row:hover {
+            background-color: #fff;
+            border-color: transparent;
+          }
+        }
 
         .table-row {
           height: 30px;
@@ -44,6 +76,14 @@ body.dex {
           display: flex;
           align-items: center;
         }
+      }
+
+      w-row {
+        .caption-1-fs();
+      }
+
+      .spread w-row {
+        .body-2();
       }
 
       .table-row {
