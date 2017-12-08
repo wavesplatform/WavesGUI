@@ -237,17 +237,14 @@
                     .then((asset) => {
                         this._parent.title = asset.name;
                     });
-                Waves.Money.fromTokens('1', this.baseAssetId)
-                    .then((money) => {
-                        this.baseMoney = money;
-                    });
                 this._activateAssets();
             }
 
             _onChangeIdWatchList() {
-                utils.whenAll(this._idWatchList.map(waves.node.assets.info)).then((list) => {
-                    this.watchlist = list;
-                });
+                utils.whenAll(this._idWatchList.map(waves.node.assets.info))
+                    .then((list) => {
+                        this.watchlist = list;
+                    });
             }
 
             static _selectQuery(query) {

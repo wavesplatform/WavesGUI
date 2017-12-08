@@ -1,5 +1,6 @@
 <div class="confirm-backup">
 
+    <div class="waves-logo"></div>
     <div class="headline-1">
         <w-i18n>confirmBackup.confirm</w-i18n>
     </div>
@@ -25,7 +26,11 @@
     <div ng-if="$ctrl.seedConfirmWasFilled && !$ctrl.seedIsValid"
          class="error-500" w-i18n="confirmBackup.error"></div>
 
-    <div class="body-2">
+    <div class="or">
+        <w-i18n>noBackupNoMoney.or</w-i18n>
+    </div>
+
+    <div class="body-2 margin-2">
         <a class="submit-400" ng-click="$ctrl.clearSeedConfirm()" w-i18n="confirmBackup.clear"></a>
         <span class="basic-900" w-i18n="confirmBackup.again"></span>
     </div>
