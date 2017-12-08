@@ -104,7 +104,7 @@
                             .then((size) => {
                                 this._currentSize(size);
                                 this.video.play();
-                                this._pollLeasing = createPoll(this, this._decodeImage, this._checkStop, 50);
+                                this.poll = createPoll(this, this._decodeImage, this._checkStop, 50);
                             });
                         this.video.src = stream.url;
                     });
@@ -144,9 +144,9 @@
              */
             _stopWatchQrCode() {
                 this.isWatched = false;
-                if (this._pollLeasing) {
-                    this._pollLeasing.destroy();
-                    this._pollLeasing = null;
+                if (this.poll) {
+                    this.poll.destroy();
+                    this.poll = null;
                 }
                 this._stopStream();
             }

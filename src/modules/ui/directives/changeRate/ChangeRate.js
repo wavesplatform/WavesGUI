@@ -33,7 +33,7 @@
                 /**
                  * @type {Poll}
                  */
-                this._pollLeasing = null;
+                this.poll = null;
 
                 this.observe('assetId', this._onChangeAssetId);
             }
@@ -46,7 +46,7 @@
                         this.mirror = mirror;
 
                         if (!this.noUpdate) {
-                            this._pollLeasing = createPoll(this, this._getRate, 'rate', this.interval);
+                            this.poll = createPoll(this, this._getRate, 'rate', this.interval);
                         } else {
                             this._onChangeAssetId();
                         }
@@ -55,8 +55,8 @@
 
             _onChangeAssetId() {
                 if (this.assetId) {
-                    if (this._pollLeasing) {
-                        this._pollLeasing.restart();
+                    if (this.poll) {
+                        this.poll.restart();
                     } else {
                         this._getRate().then((rate) => {
                             this.rate = rate;

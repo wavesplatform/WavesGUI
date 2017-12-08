@@ -41,7 +41,7 @@
                 /**
                  * @type {Poll}
                  */
-                this._pollLeasing = null;
+                this.poll = null;
             }
 
             $postLink() {
@@ -58,8 +58,7 @@
                                     this.mirrorBalance = balance;
                                 });
                         } else {
-                            const get = this._getMirrorBalance;
-                            this._pollLeasing = createPoll(this, get, 'mirrorBalance', this.interval);
+                            this.poll = createPoll(this, this._getMirrorBalance, 'mirrorBalance', this.interval);
                         }
 
                         this.observe('balance', this._onChangeBalance);
@@ -80,7 +79,7 @@
                                 this.mirrorBalance = balance;
                             });
                     } else {
-                        this._pollLeasing.restart();
+                        this.poll.restart();
                     }
                 }
             }

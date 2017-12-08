@@ -55,7 +55,7 @@
                 /**
                  * @type {Poll}
                  */
-                this._pollLeasing = createPoll(this, this._getTradeHistory, 'orders', 2000);
+                this.poll = createPoll(this, this._getTradeHistory, 'orders', 2000);
                 this.observe(['_amountAssetId', '_priceAssetId'], this._onChangeAssets);
 
                 this._onChangeAssets();
@@ -63,12 +63,12 @@
 
             $onDestroy() {
                 super.$onDestroy();
-                this._pollLeasing.destroy();
+                this.poll.destroy();
             }
 
             _onChangeAssets() {
                 this.orders = [];
-                this._pollLeasing.restart();
+                this.poll.restart();
                 waves.node.assets.info(this._priceAssetId)
                     .then((asset) => {
                         this.priceAsset = asset;

@@ -27,7 +27,6 @@
 
             constructor() {
                 this.TYPES = TYPES;
-                window.transactions = this;
             }
 
             /**
