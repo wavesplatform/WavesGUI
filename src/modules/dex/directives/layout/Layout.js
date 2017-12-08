@@ -164,7 +164,7 @@
 
                 utils.animateByClass(this._dom.center.column, 'ghost', true, 'opacity')
                     .then(() => {
-                        this._dom.center.column.css('display', 'none');
+                        this._dom.center.column.css('display', 'none'); // TODO check
                         this._dom.left.slider.toggleClass(`${base}__sidebar-toggle-open`, !left);
                         this._dom.right.slider.toggleClass(`${base}__sidebar-toggle-open`, !right);
 

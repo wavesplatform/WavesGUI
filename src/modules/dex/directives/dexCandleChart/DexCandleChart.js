@@ -25,12 +25,22 @@
                 this.chartReady = false;
                 this.elementId = 'tradingview' + counter++;
 
-                this.syncSettings({
-                    _amountAssetId: 'dex.amountAssetId',
-                    _priceAssetId: 'dex.priceAssetId'
-                });
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._amountAssetId = null;
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._priceAssetId = null;
 
                 this.observe(['_amountAssetId', '_priceAssetId'], () => {
+                    if (!this._amountAssetId || !this._priceAssetId) {
+                        return null;
+                    }
+
                     if (this.chartReady) {
                         this.chart.symbolInterval(({ interval }) => {
                             this.chart.setSymbol(`${this._amountAssetId}/${this._priceAssetId}`, interval);
@@ -38,6 +48,11 @@
                     } else {
                         // TODO : wait until it's ready and switch to the active pair
                     }
+                });
+
+                this.syncSettings({
+                    _amountAssetId: 'dex.amountAssetId',
+                    _priceAssetId: 'dex.priceAssetId'
                 });
             }
 

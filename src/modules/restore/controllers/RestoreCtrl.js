@@ -48,7 +48,7 @@
                 return user.create({
                     address: this.address,
                     password: this.password,
-                    settings: {termsAccepted: false},
+                    settings: { termsAccepted: false },
                     encryptedSeed,
                     publicKey
                 }, true);

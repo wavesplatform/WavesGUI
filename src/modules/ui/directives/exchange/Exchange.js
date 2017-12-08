@@ -58,8 +58,8 @@
                                     this.mirrorBalance = balance;
                                 });
                         } else {
-                            this._pollLeasing =
-                                createPoll(this, this._getMirrorBalance, 'mirrorBalance', this.interval);
+                            const get = this._getMirrorBalance;
+                            this._pollLeasing = createPoll(this, get, 'mirrorBalance', this.interval);
                         }
 
                         this.observe('balance', this._onChangeBalance);

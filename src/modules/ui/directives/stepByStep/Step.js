@@ -29,7 +29,7 @@
         return new Step();
     };
 
-    controller.$inject = ['Base', '$element', '$scope'];
+    controller.$inject = ['Base', '$element'];
 
     angular.module('app.ui').component('wStep', {
         bindings: {

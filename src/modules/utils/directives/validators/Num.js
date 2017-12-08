@@ -2,7 +2,7 @@
     'use strict';
 
     const factory = function (Validator, utils) {
-
+        // TODO rename all validators (add postfix "Validator")
         class Num extends Validator {
 
             constructor(data) {
@@ -106,6 +106,7 @@
                     return !isRequired || !!modelValue;
                 });
 
+                // TODO fix for ff backspace
                 this.$input.on('keypress', (event) => {
                     function getChar(event) {
                         if (event.which === null) { // IE
