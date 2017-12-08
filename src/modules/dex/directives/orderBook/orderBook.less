@@ -3,29 +3,62 @@
 w-dex-order-book {
   display: block;
   width: 100%;
+  height: 100%;
   text-align: right;
 
   w-table w-row {
     padding: 0 10px 0 5px;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+
+    &:hover {
+      background-color: @color-basic-50;
+      border-color: @color-basic-200;
+    }
   }
 
   .decimal-muted {
     color: @color-disabled-500;
   }
 
-  .bids .cell-1 {
-    color: @color-error-400;
+  .spread {
+    margin: 7px 0;
 
-    .decimal-muted {
-      color: @color-error-200;
+    .cell-0 {
+      color: @color-error-400;
+
+      .decimal-muted {
+        color: @color-error-200;
+      }
+    }
+
+    .cell-1 {
+      color: @color-submit-300;
+    }
+
+    .cell-2 {
+      color: @color-success-600;
+
+      .decimal-muted {
+        color: @color-success-200;
+      }
     }
   }
 
-  .asks .cell-1 {
+  .bids .cell-1 {
     color: @color-success-600;
 
     .decimal-muted {
       color: @color-success-200;
+    }
+  }
+
+  .asks .cell-1 {
+    color: @color-error-400;
+
+    .decimal-muted {
+      color: @color-error-200;
     }
   }
 

@@ -66,7 +66,7 @@
     controller.$inject = ['Base', '$element', '$attrs'];
 
     module.component('wButton', {
-        template: `<button ng-transclude></button>`,
+        template: '<button ng-transclude></button>',
         transclude: true,
         bindings: {
             disabled: '<',

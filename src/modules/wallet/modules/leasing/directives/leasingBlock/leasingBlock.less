@@ -1,0 +1,31 @@
+@import (reference) '../../../../../config';
+
+w-leasing-block {
+  display: block;
+  width: 100%;
+  border-radius: @border-radius;
+  background-color: @color-white;
+  border: 1px solid @color-disabled-200;
+
+  .leasing-block-title {
+    display: flex;
+    width: 100%;
+    height: 39px;
+    align-items: center;
+    color: @color-disabled-900;
+    border-bottom: 2px solid @color-disabled-100;
+    padding: 0 20px;
+  }
+
+  .leasing-block-content {
+    padding: 20px;
+
+    .balance-container {
+      // h1 mixin
+      font-family: @font-roboto-medium;
+      font-size: 28px;
+      letter-spacing: 0;
+      line-height: 34px;
+    }
+  }
+}

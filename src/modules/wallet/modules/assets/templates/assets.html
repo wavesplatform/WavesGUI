@@ -17,9 +17,10 @@
         <div class="toolbar">
             <div>
                 <w-radio-wrap mode="tab-mode" ng-model="$ctrl.activeChartAssetId">
-                    <w-radio ng-repeat="asset in $ctrl.chartBalances track by asset.id"
-                             value="asset.id">
-                        <span class="radio-name">{{::asset.name}}<span class="radio-dot">•</span></span>$<w-change-rate asset-id="asset.id"></w-change-rate>
+                    <w-radio ng-repeat="balance in $ctrl.chartBalanceList track by balance.asset.id"
+                             value="balance.asset.id">
+                        <span class="radio-name">{{::balance.asset.name}}<span class="radio-dot">•</span></span>
+                        $<w-change-rate asset-id="balance.asset.id"></w-change-rate>
                     </w-radio>
                 </w-radio-wrap>
             </div>
@@ -51,7 +52,7 @@
                     $&nbsp;<w-change-rate asset-id="$ctrl.activeChartAssetId"></w-change-rate>
                 </h1>
                 <div class="tag-1 info-500">
-                    {{$ctrl.chartAsset.name.toUpperCase()}} PRICE
+                    {{$ctrl.activeChartBalance.asset.name.toUpperCase()}} PRICE
                 </div>
             </div>
             <div class="change">
@@ -72,11 +73,12 @@
             <linechart ng-if="$ctrl.chartMode && $ctrl.data" options="$ctrl.options" data="$ctrl.data"></linechart>
         </div>
     </div>
+
     <div class="assets-list">
-        <w-asset ng-repeat="asset in $ctrl.assets track by asset.id"
-                 ng-click="$ctrl.onAssetClick($event, asset)"
-                 on-click="$ctrl.onAssetClickCallback(event, asset, action)"
-                 asset="asset"></w-asset>
+        <w-asset ng-repeat="balance in $ctrl.pinnedAssetBalances track by balance.asset.id"
+                 ng-click="$ctrl.onAssetClick($event, balance.asset)"
+                 on-click="$ctrl.onAssetClickCallback(event, balance.asset, action)"
+                 balance="balance"></w-asset>
     </div>
 
 </div>

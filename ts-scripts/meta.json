@@ -17,6 +17,7 @@
     "node_modules/angular-material/angular-material.min.js",
     "node_modules/@uirouter/angularjs/release/angular-ui-router.min.js",
     "node_modules/@uirouter/angularjs/release/stateEvents.min.js",
+    "node_modules/@waves/trading-view/charting_library.min.js",
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
     "node_modules/i18next/dist/umd/i18next.min.js",
     "node_modules/n3-charts/build/LineChart.min.js"
@@ -35,6 +36,7 @@
       "code": "T",
       "node": "https://testnodes.wavesnodes.com",
       "matcher": "https://testnet1.wavesnodes.com/matcher",
+      "api": "http://TODO.com",
       "coinomat": "https://test.coinomat.com",
       "datafeed": "https://marketdata.wavesplatform.com",
       "assets": {
@@ -48,6 +50,7 @@
       "code": "W",
       "node": "https://nodes.wavesnodes.com",
       "matcher": "https://nodes.wavesnodes.com/matcher",
+      "api": "https://api.wavesplatform.com",
       "coinomat": "https://coinomat.com",
       "datafeed": "https://marketdata.wavesplatform.com",
       "assets": {

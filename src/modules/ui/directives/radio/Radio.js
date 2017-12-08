@@ -41,8 +41,6 @@
                  * @type {string}
                  */
                 this.class = null;
-
-                this.observe('value', this._onChangeValueAttr);
             }
 
             $postLink() {
@@ -50,6 +48,8 @@
                 this.input = $element.find('input');
                 this.radioWrap.addRadio(this);
                 this._setHandlers();
+                this.observe('value', this._onChangeValueAttr);
+                this._onChangeValueAttr();
             }
 
             _setHandlers() {

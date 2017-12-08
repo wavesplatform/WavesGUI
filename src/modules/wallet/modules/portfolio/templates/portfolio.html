@@ -11,61 +11,63 @@
         <li class="portfolio-item title body-2 disabled-600">
             <div class="portfolio-item-name" w-i18n="list.name"></div>
             <div class="portfolio-item-balance" w-i18n="list.balance"></div>
-            <div class="portfolio-item-mirror" w-i18n="list.mirror" params="{currency: $ctrl.mirror.name}"></div>
-            <div class="portfolio-item-rate" w-i18n="list.rate" params="{currency: $ctrl.mirror.name}"></div>
+            <div class="portfolio-item-mirror" w-i18n="list.mirror" params="{currency: $ctrl.mirror.ticker}"></div>
+            <div class="portfolio-item-rate" w-i18n="list.rate" params="{currency: $ctrl.mirror.ticker}"></div>
             <div class="portfolio-item-change" w-i18n="list.change"></div>
         </li>
-        <li class="portfolio-item" ng-repeat="asset in $ctrl.portfolio track by asset.id">
+        <li class="portfolio-item" ng-repeat="balance in $ctrl.portfolioBalances track by balance.asset.id">
             <div class="portfolio-item-name">
-                <w-asset-logo class="margin-right-1" asset-id="{{::asset.id}}" size="30"></w-asset-logo>
-                {{::asset.name}}
+                <w-asset-logo class="margin-right-1" asset-id="{{::balance.asset.id}}" size="30"></w-asset-logo>
+                {{::balance.asset.name}}
             </div>
             <div class="portfolio-item-balance">
-                <w-balance money="asset.balance"></w-balance>
+                <w-balance money="balance"></w-balance>
             </div>
             <div class="portfolio-item-mirror">
-                <div ng-if="asset.id !== $ctrl.mirrorId">
+                <div ng-if="balance.asset.id !== $ctrl.mirrorId">
                     <span>$&nbsp;</span>
-                    <w-mirror asset-id="{{::asset.id}}"></w-mirror>
+                    <w-exchange noUpdate balance="balance"></w-exchange>
                 </div>
-                <div ng-if="asset.id === $ctrl.mirrorId">
+                <div ng-if="balance.asset.id === $ctrl.mirrorId">
                     —
                 </div>
             </div>
             <div class="portfolio-item-rate">
-                <div ng-if="asset.id !== $ctrl.mirrorId">
+                <div ng-if="balance.asset.id !== $ctrl.mirrorId">
                     <span>$&nbsp;</span>
-                    <w-change-rate asset-id="asset.id"></w-change-rate>
+                    <w-change-rate asset-id="balance.asset.id"></w-change-rate>
                 </div>
-                <div ng-if="asset.id === $ctrl.mirrorId">
+                <div ng-if="balance.asset.id === $ctrl.mirrorId">
                     —
                 </div>
             </div>
             <div class="portfolio-item-change">
-                <div ng-class="{'danger': asset.change < 0, 'success': asset.change > 0}"
-                     ng-if="asset.id !== $ctrl.mirrorId">
-                    {{$ctrl.abs(asset.change)}}%
+                <div ng-if="balance.asset.id !== $ctrl.mirrorId">
+                    <w-change24 asset-from="balance.asset.id"
+                                asset-to="$ctrl.mirrorId"
+                                no-update></w-change24>
+                    %
                 </div>
-                <div ng-if="asset.id === $ctrl.mirrorId">
+                <div ng-if="balance.asset.id === $ctrl.mirrorId">
                     —
                 </div>
             </div>
             <div class="portfolio-item-actions">
-                <w-button ng-click="$ctrl.showSend(asset.id)" class="small">
+                <w-button ng-click="$ctrl.showSend(balance.asset.id)" class="small">
                     <span class="btn-icon icon-send" w-i18n="Send">Send</span>
                 </w-button>
-                <w-button class="small" ng-click="$ctrl.showReceive(asset)">
+                <w-button class="small" ng-click="$ctrl.showReceive(balance.asset)">
                     <span class="btn-icon icon-receive" w-i18n="Receive">Receive</span>
                 </w-button>
             </div>
             <w-actions>
-                <w-action ng-if="asset.id !== $ctrl.wavesId && asset.pinned" ng-click="$ctrl.pinAsset(asset, false)">
+                <w-action ng-if="balance.asset.id !== $ctrl.wavesId && balance.asset.pinned" ng-click="$ctrl.pinAsset(balance.asset, false)">
                     <w-i18n>unpin</w-i18n>
                 </w-action>
-                <w-action ng-if="asset.id !== $ctrl.wavesId && !asset.pinned" ng-click="$ctrl.pinAsset(asset, true)">
+                <w-action ng-if="balance.asset.id !== $ctrl.wavesId && !balance.asset.pinned" ng-click="$ctrl.pinAsset(balance.asset, true)">
                     <w-i18n>pin</w-i18n>
                 </w-action>
-                <w-action ng-click="$ctrl.showAssetInfo(asset)">
+                <w-action ng-click="$ctrl.showAssetInfo(balance.asset)">
                     <w-i18n>info</w-i18n>
                 </w-action>
             </w-actions>

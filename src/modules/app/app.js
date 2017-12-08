@@ -33,6 +33,7 @@
         'app.create',
         'app.restore',
         'app.wallet',
-        'app.dex'
+        'app.dex',
+        'app.tokens'
     ]);
 })();

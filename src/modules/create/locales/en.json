@@ -7,7 +7,7 @@
     "restore": "restore an account",
     "from": "from a backup",
     "choose": "Choose your address avatar",
-    "avatarUnique": "This avatar is unique; you can’t change it later."
+    "avatarUnique": "This avatar is unique. You cannot change it later."
   },
   "noBackupNoMoney": {
     "title": "No Backup, No Money",
@@ -22,7 +22,7 @@
     }
   },
   "backupSeed": {
-    "saveSecret": "Save secret phrase",
+    "saveSecret": "Save backup phrase",
     "warn": "Since only you control your money, you’ll need to save your backup phrase in case this app is deleted or",
     "back": " go back",
     "writeSeed": "Please carefully write down these 15 words",
@@ -30,8 +30,8 @@
     "ok": "I’ve written it down"
   },
   "confirmBackup": {
-    "confirm": "Confirm saving",
-    "description": "Let’s verify your backup phrase or",
+    "confirm": "Confirm backup",
+    "description": "Verify your backup phrase or",
     "back": "go back",
     "enterCorrect": "Please, tap each word in the correct order",
     "ok": "Confirm",

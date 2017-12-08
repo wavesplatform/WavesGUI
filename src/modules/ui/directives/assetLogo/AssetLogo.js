@@ -5,8 +5,8 @@
         [WavesApp.defaultAssets.WAVES]: '/img/assets/waves.svg',
         [WavesApp.defaultAssets.BTC]: '/img/assets/bitcoin.svg',
         [WavesApp.defaultAssets.ETH]: '/img/assets/ethereum.svg',
-        [WavesApp.defaultAssets.EUR]: '/img/assets/euro.png',
-        [WavesApp.defaultAssets.USD]: '/img/assets/dollar.png'
+        [WavesApp.defaultAssets.EUR]: '/img/assets/euro.svg',
+        [WavesApp.defaultAssets.USD]: '/img/assets/usd.svg'
     };
 
     const COLORS_MAP = {
@@ -41,20 +41,26 @@
     const DEFAULT_COLOR = '#96bca0';
 
     /**
+     * @param Base
      * @param {JQuery} $element
      * @param {app.utils} utils
      * @param {Waves} waves
      * @return {AssetLogo}
      */
-    const controller = function ($element, utils, waves) {
+    const controller = function (Base, $element, utils, waves) {
 
-        class AssetLogo {
+        class AssetLogo extends Base {
 
             constructor() {
+                super();
                 /**
                  * @type {string}
                  */
                 this.assetId = null;
+                /**
+                 * @type {string}
+                 */
+                this.assetName = null;
                 /**
                  * @type {number}
                  */
@@ -62,7 +68,7 @@
             }
 
             $postLink() {
-                if (!this.assetId || !this.size) {
+                if (!this.size || !(this.assetName || this.assetId)) {
                     throw new Error('Wrong params!');
                 }
                 $element.find('.asset-logo')
@@ -77,29 +83,35 @@
              * @private
              */
             _addLogo() {
-                waves.node.assets.info(this.assetId)
-                    .then((asset) => {
-                        if (ASSET_IMAGES_MAP[asset.id]) {
-                            utils.loadImage(ASSET_IMAGES_MAP[asset.id])
-                                .then(() => {
-                                    $element.find('.asset-logo')
-                                        .css('background-image', `url(${ASSET_IMAGES_MAP[asset.id]})`);
-                                })
-                                .catch(() => this._addLetter(asset));
-                        } else {
-                            this._addLetter(asset);
-                        }
-                    });
+                if (this.assetId) {
+                    waves.node.assets.info(this.assetId)
+                        .then((asset) => {
+                            if (ASSET_IMAGES_MAP[asset.id]) {
+                                utils.loadImage(ASSET_IMAGES_MAP[asset.id])
+                                    .then(() => {
+                                        $element.find('.asset-logo')
+                                            .css('background-image', `url(${ASSET_IMAGES_MAP[asset.id]})`);
+                                    })
+                                    .catch(() => this._addLetter(asset.name));
+                            } else {
+                                this._addLetter(asset.name);
+                            }
+                        });
+                } else {
+                    this.observe('assetName', () => this._addLetter(this.assetName));
+                    this._addLetter(this.assetName);
+                }
             }
 
             /**
+             * @param {string} name
              * @private
              */
-            _addLetter(asset) {
-                const letter = asset.name.charAt(0)
+            _addLetter(name) {
+                const letter = name.charAt(0)
                     .toUpperCase();
                 const color = COLORS_MAP[letter] || DEFAULT_COLOR;
-                const fontSize = Math.round((Number(this.size) || 0) * 0.8);
+                const fontSize = Math.round((Number(this.size) || 0) * 0.43);
                 $element.find('.asset-logo')
                     .text(letter)
                     .css({
@@ -114,14 +126,15 @@
         return new AssetLogo();
     };
 
-    controller.$inject = ['$element', 'utils', 'waves'];
+    controller.$inject = ['Base', '$element', 'utils', 'waves'];
 
     angular.module('app.ui')
         .component('wAssetLogo', {
-            template: '<div class="asset-logo"></div>',
+            template: '<div class="asset-logo footnote-3"></div>',
             controller: controller,
             bindings: {
                 assetId: '@',
+                assetName: '<',
                 size: '@'
             }
         });

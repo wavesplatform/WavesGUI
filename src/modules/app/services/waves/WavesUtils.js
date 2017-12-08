@@ -11,10 +11,16 @@
 
         class WavesUtils {
 
+            @decorators.cachable(5)
+            searchAsset(userInput) {
+                return fetch(`${WavesApp.network.api}/assets/search/${userInput}`)
+                    .then(utils.onFetch);
+            }
+
             /**
              * Get rate (now or from date)
-             * @param {string|IAssetInfo} assetFrom
-             * @param {string|IAssetInfo} assetTo
+             * @param {string|IAsset} assetFrom
+             * @param {string|IAsset} assetTo
              * @param {Date|number|Moment} [date] timestamp or Date
              * @return {Promise<BigNumber>}
              */
@@ -45,8 +51,8 @@
 
             /**
              * Get api for current balance from another balance
-             * @param {string|IAssetInfo} assetFrom
-             * @param {string|IAssetInfo} assetTo
+             * @param {string|IAsset} assetFrom
+             * @param {string|IAsset} assetTo
              * @param {Date|number} [date] timestamp or Date
              * @return {Promise<WavesUtils.rateApi>}
              */
@@ -54,7 +60,7 @@
                 return utils.whenAll([
                     assets.info(WavesUtils.toId(assetFrom)),
                     assets.info(WavesUtils.toId(assetTo)),
-                    this._getRate(assetFrom, assetTo, date)
+                    this.getRate(assetFrom, assetTo, date)
                 ])
                     .then(([from, to, rate]) => {
                         return this._generateRateApi(from, to, rate);
@@ -62,8 +68,8 @@
             }
 
             /**
-             * @param {string|IAssetInfo} assetFrom
-             * @param {string|IAssetInfo} assetTo
+             * @param {string|IAsset} assetFrom
+             * @param {string|IAsset} assetTo
              * @param {Date|number|Moment} from
              * @param {Date|number|Moment} [to]
              * @return {Promise<{rate: number, timestamp: Date}[]>}
@@ -106,8 +112,8 @@
             }
 
             /**
-             * @param {IAssetInfo|string} assetFrom
-             * @param {IAssetInfo|string} assetTo
+             * @param {IAsset|string} assetFrom
+             * @param {IAsset|string} assetTo
              * @return {Promise<number>}
              */
             @decorators.cachable(60)
@@ -179,10 +185,12 @@
                                 }
                                 const open = Number(data[0].open);
                                 const close = Number(data[0].close);
-                                if (open > close) {
-                                    return close === 0 ? 0 : -open / close;
+                                const percent = open ? (close - open) * 100 / open : 0;
+
+                                if (pair.amountAsset.id === from) {
+                                    return percent;
                                 } else {
-                                    return open === 0 ? 0 : close / open;
+                                    return -percent;
                                 }
                             });
                     });
@@ -257,8 +265,8 @@
             }
 
             /**
-             * @param {IAssetInfo} from
-             * @param {IAssetInfo} to
+             * @param {IAsset} from
+             * @param {IAsset} to
              * @param {BigNumber} rate
              * @return {WavesUtils.rateApi}
              * @private
@@ -292,7 +300,7 @@
             }
 
             /**
-             * @param {string|IAssetInfo} asset
+             * @param {string|IAsset} asset
              * @return {string}
              */
             static toId(asset) {

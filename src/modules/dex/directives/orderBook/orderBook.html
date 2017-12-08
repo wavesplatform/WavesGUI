@@ -2,46 +2,17 @@
     <w-t-head>
         <w-row>
             <w-cell>
-                <w-i18n>directives.orderBook.marketSize</w-i18n>
+                <w-i18n>directives.orderBook.amount</w-i18n>
             </w-cell>
             <w-cell>
-                <w-i18n>directives.orderBook.price</w-i18n>
-                {{$ctrl.asset.name}}
+                <w-i18n>directives.orderBook.price</w-i18n>&nbsp;{{$ctrl.asset.name}}
             </w-cell>
             <w-cell>
-                <w-i18n>directives.orderBook.total</w-i18n>
-                {{$ctrl.asset.name}}
+                <w-i18n>directives.orderBook.total</w-i18n>&nbsp;{{$ctrl.asset.name}}
             </w-cell>
         </w-row>
     </w-t-head>
 
     <w-scroll-box>
-        <!--<w-row class="buy footnote-1" ng-repeat="order in $ctrl.orders.bids track by $index">-->
-            <!--<w-cell>-->
-                <!--<w-balance money="order.amount"></w-balance>-->
-            <!--</w-cell>-->
-            <!--<w-cell>-->
-                <!--<w-balance money="order.price"></w-balance>-->
-            <!--</w-cell>-->
-            <!--<w-cell>-->
-                <!--<w-exchange no-update="true" balance="order.amount"-->
-                            <!--target-asset-id="{{::order.price.asset.id}}"></w-exchange>-->
-            <!--</w-cell>-->
-        <!--</w-row>-->
-
-        <!--<hr>-->
-
-        <!--<w-row class="buy footnote-1" ng-repeat="order in $ctrl.orders.asks track by $index">-->
-            <!--<w-cell>-->
-                <!--<w-balance money="order.amount"></w-balance>-->
-            <!--</w-cell>-->
-            <!--<w-cell>-->
-                <!--<w-balance money="order.price"></w-balance>-->
-            <!--</w-cell>-->
-            <!--<w-cell>-->
-                <!--<w-exchange no-update="true" balance="order.amount"-->
-                            <!--target-asset-id="{{::order.price.id}}"></w-exchange>-->
-            <!--</w-cell>-->
-        <!--</w-row>-->
     </w-scroll-box>
 </w-table>

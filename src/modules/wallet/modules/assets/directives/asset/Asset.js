@@ -3,7 +3,7 @@
 
     angular.module('app.wallet.assets').component('wAsset', {
         bindings: {
-            asset: '<',
+            balance: '<',
             onClick: '&'
         },
         templateUrl: 'modules/wallet/modules/assets/directives/asset/asset.html'

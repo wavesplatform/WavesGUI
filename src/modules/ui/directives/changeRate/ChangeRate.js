@@ -23,7 +23,7 @@
                  */
                 this.assetId = null;
                 /**
-                 * @type {IAssetInfo}
+                 * @type {IAsset}
                  */
                 this.mirror = null;
                 /**

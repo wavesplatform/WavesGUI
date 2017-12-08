@@ -42,7 +42,7 @@
                 const poll = new Poll(getter.bind(this.parent), setter, time);
                 this._polls[poll.id] = poll;
                 if (options && options.isBalance) {
-                    this.receive(eventManager.signals.balanceEventEnd, () => poll.restart());
+                    this.receive(eventManager.signals.changeBalanceEvent, () => poll.restart());
                 }
                 this.receiveOnce(poll.signals.destroy, () => {
                     delete this._polls[poll.id];

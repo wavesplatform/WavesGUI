@@ -1,0 +1,46 @@
+{
+  "pageTitle": "Token generation",
+  "name": "Name of your asset",
+  "description": "Description",
+  "count": "Total tokens",
+  "precision": "Decimals",
+  "preview": "Preview",
+  "fee": "Fee 1 WAVES",
+  "create": "Generate",
+  "help": {
+    "name": "Please use only Latin letters.",
+    "precision": "This field defines the number of decimals that your asset token will be divided in."
+  },
+  "validators": {
+    "nameLen": "An asset name must be at least 4-16 characters’ long.",
+    "required": "This field must be filled out.",
+    "descriptionLen": "Entered description is too large.",
+    "minValuePrecision": "Invalid number. Enter number from 0 to 8.",
+    "maxValuePrecision": "Invalid number. Enter number from 0 to 8.",
+    "maxValueCount": "Entered number is too large.",
+    "minValueCount": "Entered number must be greater than zero",
+    "precisionCount": "Total asset count cannot have more decimal places than specified in the Decimals field.",
+    "noMoney": "Your balance is not enough to pay transaction fees"
+  },
+  "placeholders": {
+    "description": "You can not change the description later",
+    "precision": "From 0 to 8"
+  },
+  "reissuble": {
+    "true": "Reissuable",
+    "false": "Not reissuable"
+  },
+  "modal": {
+    "title": "{{name}} Generation",
+    "titleSuccess": "{{name}} Generation Complete",
+    "descriptionTitle": "Description",
+    "fee": "Fee",
+    "back": "Go Back",
+    "confirm": "Confirm"
+  },
+  "success": {
+    "title": "Your transaction is on the way!",
+    "description": "You generated {{amount}} {{name}}",
+    "done": "Open Portfolio"
+  }
+}

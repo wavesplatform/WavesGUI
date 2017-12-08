@@ -19,10 +19,11 @@
                 this._rightHidden = false;
 
                 this.syncSettings({
-                    _amountAssetId: 'dex._amountAssetId',
-                    _priceAssetId: 'dex._priceAssetId',
+                    _amountAssetId: 'dex.amountAssetId',
+                    _priceAssetId: 'dex.priceAssetId',
                     _leftHidden: 'dex.layout.leftColumnState',
                     _rightHidden: 'dex.layout.rightColumnState',
+                    collapseMyOrders: 'dex.layout.myOrders.collapsed',
                     collapseTradeHistory: 'dex.layout.tradeHistory.collapsed'
                 });
 
