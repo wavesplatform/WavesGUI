@@ -3,14 +3,15 @@
         <li class="transaction-item" ng-repeat="data in $ctrl.transactions track by data.date">
             <div class="date tag-2 info-400">{{ ::data.timestamp | date:'MMM, d, yyyy' }}</div>
             <div class="row" ng-repeat="transaction in data.transactions track by transaction.id">
-                <w-transaction transaction="transaction"></w-transaction>
+                <w-transaction date-pattern="{{::$ctrl.transactionDatePattern}}"
+                               transaction="transaction"></w-transaction>
             </div>
         </li>
     </ul>
     <div ng-if="$ctrl.hadResponse && !$ctrl.transactions.length" class="no-transactions-container">
         <div class="icon"></div>
-        <div class="body-1 basic-700">Nothing Here…</div>
-        <div class="footnote-1 basic-500 margin-4">You do not have any transaction.</div>
+        <div class="body-1 basic-700" w-i18n="transactionList.noTransactionsTitle"></div>
+        <div class="footnote-1 basic-500 margin-4" w-i18n="transactionList.noTransactionsDescription"></div>
     </div>
     <w-loader ng-if="!$ctrl.hadResponse"></w-loader>
 </div>

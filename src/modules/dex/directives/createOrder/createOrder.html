@@ -1,0 +1,91 @@
+<div class="create-order"
+     ng-class="{expanded: $ctrl.step !== 0}"
+     ng-if="$ctrl.amountAsset && $ctrl.priceAsset">
+    <div class="head">
+        <div class="icon-drag margin-right-1"></div>
+        <div class="footnote-2 disabled-900">{{$ctrl.amountDisplayName}} / {{$ctrl.priceDisplayName}}</div>
+        <div class="icon-close"
+             ng-if="$ctrl.step !== 0"
+             ng-click="$ctrl.collapse()"></div>
+    </div>
+    <div class="body">
+        <w-step-by-step active-step="$ctrl.step">
+
+            <w-step>
+                <div class="choice">
+                    <div class="choose sell" ng-click="$ctrl.expand('sell')">
+                        <div class="footnote-2 white-0">SELL</div>
+                        <div class="headline-2 white-0">{{$ctrl.bid.price}}</div>
+                    </div>
+                    <div class="middle">
+                        <div class="caption-3 disabled-900">SPREAD {{$ctrl.spreadPercent}}%</div>
+                    </div>
+                    <div class="choose buy" ng-click="$ctrl.expand('buy')">
+                        <div class="footnote-2 white-0">BUY</div>
+                        <div class="headline-2 white-0">{{$ctrl.ask.price}}</div>
+                    </div>
+                </div>
+            </w-step>
+
+            <w-step>
+                <div class="making-order" ng-class="$ctrl.type">
+                    <div class="areas">
+                        <div class="area sell" ng-click="$ctrl.expand('sell')">
+                            <div class="name footnote-2">Bid</div>
+                            <div class="price headline-2">{{$ctrl.bid.price}}</div>
+                            <div class="second-name caption-2">SELL</div>
+                        </div>
+                        <div class="spread">{{$ctrl.spreadPercent}}%</div>
+                        <div class="area buy" ng-click="$ctrl.expand('buy')">
+                            <div class="name footnote-2">Ask</div>
+                            <div class="price headline-2">{{$ctrl.ask.price}}</div>
+                            <div class="second-name caption-2">BUY</div>
+                        </div>
+                    </div>
+                    <!--<div class="order-types"></div>-->
+                    <form class="fields" name="order">
+                        <div class="amount">
+                            <div class="field-label footnote-1 disabled-900" w-i18n="directives.createOrder.amountField"></div>
+                            <div class="input-like tiny">
+                                <w-input class="tiny embed no-validate-icons"
+                                         type="text"
+                                         w-validate="number"
+                                         name="amount"
+                                         ng-model="$ctrl.amount"
+                                         required></w-input>
+                                <div class="asset-name-wrap">
+                                    <div class="caption-1 disabled-500">{{$ctrl.amountDisplayName}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="price">
+                            <div class="field-label footnote-1 disabled-900" w-i18n="directives.createOrder.priceField"></div>
+                            <div class="input-like tiny">
+                                <w-input class="tiny embed no-validate-icons"
+                                         type="text"
+                                         w-validate="number"
+                                         name="price"
+                                         ng-model="$ctrl.price"
+                                         required></w-input>
+                                <div class="asset-name-wrap">
+                                    <div class="caption-1 disabled-500">{{$ctrl.priceDisplayName}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="summary">
+                            <div class="caption-2 disabled-700">Total {{$ctrl.price && $ctrl.amount ? $ctrl.price.mul($ctrl.amount).toFormat($ctrl.priceAmount.precision) : 0}} {{$ctrl.priceDisplayName}}</div>
+                            <div class="caption-2 disabled-700">Fee 0.003 WAVES</div>
+                        </div>
+                        <w-button disabled="order.$invalid"
+                                  class="place-order tiny footnote-3"
+                                  ng-click="$ctrl.createOrder()">
+                            <w-i18n ng-if="$ctrl.type === 'sell'">directives.createOrder.placeSellOrder</w-i18n>
+                            <w-i18n ng-if="$ctrl.type === 'buy'">directives.createOrder.placeBuyOrder</w-i18n>
+                        </w-button>
+                    </form>
+                </div>
+            </w-step>
+
+        </w-step-by-step>
+    </div>
+</div>

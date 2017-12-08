@@ -5,6 +5,21 @@
       "unpinned": "Pin",
       "pinned": "Pinned"
     },
+    "startLease": {
+      "title": "Start leasing",
+      "titleComplete": "Leasing Complete",
+      "balance": "Balance",
+      "recipient": "Recipient",
+      "amount": "Amount",
+      "start": "Start Lease",
+      "back": "Go Back",
+      "confirm": "Confirm",
+      "details": "View Details",
+      "recipientConfirm": "To node",
+      "fee": "Fee",
+      "leaseComplete": "Your transaction is on the way!",
+      "leaseCompleteDesc": "You lease {{amount}} Waves."
+    },
     "receive": {
       "title": "Receive {{asset.name}}",
       "warningTitle": "Send only «{{asset.name}}» Waves token to this address",
@@ -59,11 +74,11 @@
       "header": {
         "title": "Done! Let’s review",
         "title2": "Terms of Use",
-        "description": "Waves is different — it cannot be safely held with a bank or web service."
+        "description": "Waves is different — it cannot be held safely by a bank or web service."
       },
       "body": {
-        "security": "I understand that my funds are held securely on this device, not by a company",
-        "backup": "I understand that if this app is moved to another device or deleted, my Waves can only be recovered with the backup phrase",
+        "security": "I understand that my funds are held securely on this device, not by a company.",
+        "backup": "I understand that if this app is moved to another device or deleted, my Waves can only be recovered with the backup phrase.",
         "read": "I have read, understood and agree to the",
         "terms": "Terms of Use",
         "ok": "Confirm & Finish"

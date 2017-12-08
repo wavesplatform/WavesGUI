@@ -19,15 +19,22 @@
             constructor() {
                 super($scope);
 
+                /**
+                 * @type {string[]}
+                 */
+                this.pinnedAssetIdList = null;
+                /**
+                 * @type {Money[]}
+                 */
+                this.pinnedAssetBalances = null;
+
                 this.chartMode = null;
-                this.assets = null;
                 this.total = null;
 
                 this.interval = null;
                 this.intervalCount = null;
 
                 this.data = null;
-                this.assetList = null;
                 this.options = assetsData.getGraphOptions();
                 this.mirrorId = null;
                 /**
@@ -41,17 +48,25 @@
                  */
                 this.activeChartAssetId = null;
                 /**
-                 * @type {IAssetWithBalance}
+                 * @type {Money}
                  */
-                this.chartAsset = null;
+                this.activeChartBalance = null;
                 /**
                  * @type {string[]}
                  */
                 this.chartAssetIdList = null;
                 /**
-                 * @type {IAssetWithBalance[]}
+                 * @type {Money[]}
                  */
-                this.chartBalances = null;
+                this.chartBalanceList = null;
+                /**
+                 * @type {string}
+                 */
+                this.change = '0.00';
+                /**
+                 * @type {string}
+                 */
+                this.changePercent = '0.00';
 
                 const hours = tsUtils.date('hh:mm');
                 const dates = tsUtils.date('DD/MM');
@@ -69,7 +84,7 @@
                     activeChartAssetId: 'wallet.assets.activeChartAssetId',
                     chartAssetIdList: 'wallet.assets.chartAssetIdList',
                     chartMode: 'wallet.assets.chartMode',
-                    assetList: 'pinnedAssetIdList'
+                    pinnedAssetIdList: 'pinnedAssetIdList'
                 });
 
                 this.mirrorId = user.getSetting('baseAssetId');
@@ -77,12 +92,12 @@
 
                 this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000);
 
-                createPoll(this, this._getChartBalances, 'chartBalances', 15000, { isBalance: true });
-                const assetsPoll = createPoll(this, this._getBalances, 'assets', 5000, { isBalance: true });
+                createPoll(this, this._getChartBalances, 'chartBalanceList', 15000, { isBalance: true });
+                const assetsPoll = createPoll(this, this._getBalances, 'pinnedAssetBalances', 5000, { isBalance: true });
 
                 this.observe('chartMode', this._onChangeMode);
                 this.observe('_startDate', this._onChangeInterval);
-                this.observe('assetList', () => {
+                this.observe('pinnedAssetIdList', () => {
                     assetsPoll.restart();
                 });
 
@@ -120,14 +135,14 @@
             }
 
             /**
-             * @param {IAssetInfo} asset
+             * @param {IAsset} asset
              */
             showSend(asset = Object.create(null)) {
                 return modalManager.showSendAsset({ assetId: asset.id, user, canChooseAsset: !asset.id });
             }
 
             /**
-             * @param {IAssetInfo} [asset]
+             * @param {IAsset} [asset]
              */
             showReceive(asset) {
                 return waves.node.assets.info(asset && asset.id || WavesApp.defaultAssets.WAVES)
@@ -143,7 +158,7 @@
             _onChangeChartAssetId({ value }) {
                 waves.node.assets.balance(value)
                     .then((asset) => {
-                        this.chartAsset = asset;
+                        this.activeChartBalance = asset;
                     });
             }
 
@@ -156,10 +171,7 @@
              * @private
              */
             _getBalances() {
-                return waves.node.assets.balanceList(this.assetList)
-                    .then((assets) => {
-                        return assets;
-                    });
+                return waves.node.assets.balanceList(this.pinnedAssetIdList);
             }
 
             /**
@@ -177,10 +189,13 @@
                 const from = this.activeChartAssetId;
                 const to = this.mirrorId;
 
-                return waves.utils.getRateHistory(from, to, this._startDate)
-                    .then((values) => {
+                return utils.whenAll([
+                    waves.utils.getRateHistory(from, to, this._startDate),
+                    waves.utils.getRate(from, to)
+                ])
+                    .then(([values, rate]) => {
                         this.change = (values[0].rate - values[values.length - 1].rate).toFixed(2);
-                        this.changePercent = (values[values.length - 1].rate / values[0].rate).toFixed(2);
+                        this.changePercent = (this.change * 100 / Number(rate.toString())).toFixed(2);
                         return { values };
                     });
             }

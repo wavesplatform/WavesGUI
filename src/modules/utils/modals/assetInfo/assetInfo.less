@@ -19,12 +19,18 @@ html body md-dialog.asset-info-modal {
       flex-direction: row;
       justify-content: space-between;
       border-bottom: 1px solid @color-disabled-100;
+      padding: 5px 0;
+
+      &:last-child {
+        border-bottom: 0 none;
+      }
 
       & > div:first-child {
         width: 120px;
         display: flex;
         align-items: center;
       }
+
       & > div:last-child {
         width: calc(~'100% - 120px');
         display: flex;

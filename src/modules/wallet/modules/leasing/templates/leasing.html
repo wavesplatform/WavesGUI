@@ -1,0 +1,41 @@
+<div w-i18n-ns="app.wallet.leasing" class="leasing-page">
+    <div class="left-panel">
+        <w-leasing-block class="margin-1" title-locale="chart.title">
+            <div class="balance-container text-center margin-4">
+                <w-balance money="$ctrl.total"></w-balance>
+            </div>
+            <div class="chart-wrapper margin-3">
+                <w-circle-chart options="$ctrl.chartOptions" data="$ctrl.chartData"></w-circle-chart>
+            </div>
+            <div class="legend-container margin-2">
+                <div ng-repeat="legend in $ctrl.chartData track by legend.id"
+                     ng-if="!legend.value.getTokens().eq(0)"
+                     class="legend-item">
+                    <div class="part disabled-600 footnote-1">
+                        <div class="legend-color margin-right-1"
+                             style="background-color: {{::$ctrl.chartOptions.items[legend.id].color}}"></div>
+                        <w-i18n>{{::legend.id}}</w-i18n>
+                    </div>
+                    <div class="part">
+                        <w-balance money="legend.value"></w-balance>
+                    </div>
+                </div>
+            </div>
+            <w-button class="submit long" ng-click="$ctrl.startLeasing()">
+                <w-i18n>chart.create</w-i18n>
+            </w-button>
+        </w-leasing-block>
+        <w-leasing-block title-locale="description.title">
+            <div class="footnote-1 basic-500" w-i18n="description.text1"></div>
+            <div class="description-split"></div>
+            <div class="icon-description footnote-1 basic-500" w-i18n="description.text2"></div>
+            <div class="description-split"></div>
+            <div class="footnote-1 basic-500" w-i18n="description.text3"></div>
+        </w-leasing-block>
+    </div>
+    <div class="transactions-container">
+        <div class="transactions-title headline-4 disabled-900" w-i18n="title"></div>
+        <w-transaction-list transaction-date-pattern="dd.MM.yyyy HH:mm"
+                            transaction-type="'lease-in, lease-out, cancel-leasing'"></w-transaction-list>
+    </div>
+</div>

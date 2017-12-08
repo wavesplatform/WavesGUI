@@ -12,7 +12,7 @@ w-left-menu {
   background-color: @color-white;
 
   .logo-wrapper {
-    margin: 0 auto 27px;
+    margin: 0 auto 30px;
   }
 
   .logout {
@@ -24,13 +24,14 @@ w-left-menu {
     height: 50px;
     display: block;
     border-radius: @border-radius;
-    margin: 5px auto;
     background-color: transparent;
     background-position: center center;
     background-repeat: no-repeat;
+    margin: 0 auto 5px auto;
 
     &.active {
       background-color: @color-submit-400;
+      margin: 0 auto 5px auto;
     }
 
     &.wallet {
@@ -48,6 +49,15 @@ w-left-menu {
 
       &.active {
         background-image: url(/img/icons/dex-active.svg);
+      }
+    }
+
+    &.tokens {
+      background-image: url(/img/icons/tokens.svg);
+      background-size: 24px 24px;
+
+      &.active {
+        background-image: url(/img/icons/tokens-active.svg);
       }
     }
   }

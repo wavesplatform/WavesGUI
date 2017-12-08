@@ -1,0 +1,93 @@
+<w-step-by-step active-step="$ctrl.step">
+    <w-step>
+        <form name="lease" novalidate>
+            <div class="row">
+                <div class="body-2 basic-900" w-i18n="modal.startLease.balance"></div>
+                <div class="input-like flex-row split-half">
+                    <div class="flex-row">
+                        <w-asset-logo size="24" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
+                        <div class="asset-name">{{$ctrl.asset.name}}</div>
+                    </div>
+                    <div>
+                        <w-balance money="$ctrl.asset.balance"></w-balance>
+                        <span>&nbsp{{$ctrl.asset.ticker || $ctrl.asset.name}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="body-2 basic-900" w-i18n="modal.startLease.recipient"></div>
+                <w-input-container>
+                    <w-input class="big"
+                             type="text"
+                             w-validate="address"
+                             name="recipient"
+                             ng-model="$ctrl.recipient"
+                             required></w-input>
+
+                    <w-input-error message="inputAddress">
+                        <w-i18n>modal.send.errors.address</w-i18n>
+                    </w-input-error>
+                    <w-input-error message="required">
+                        <w-i18n>modal.send.errors.required</w-i18n>
+                    </w-input-error>
+                </w-input-container>
+            </div>
+            <div class="row">
+                <div class="body-2 basic-900" w-i18n="modal.startLease.amount"></div>
+                <w-input-container>
+                    <w-balance-input name="amount"
+                                     asset-id="$ctrl.assetId"
+                                     max-balance="$ctrl.asset.balance"
+                                     fee="$ctrl.fee"
+                                     input-classes="big"
+                                     amount="$ctrl.amount"></w-balance-input>
+                </w-input-container>
+            </div>
+            <div class="row basic-500 margin-2">
+                Fee 0.001 WAVES
+            </div>
+            <w-button disabled="lease.$invalid" w-step-next class="submit big long">
+                <w-i18n>modal.startLease.start</w-i18n>
+            </w-button>
+        </form>
+    </w-step>
+    <w-step>
+        <div class="icon" class="lease-in margin-2"></div>
+
+
+        <h3 class="basic-700 text-center margin-3">
+            <span w-nice-number="$ctrl.amount" precision="$ctrl.asset.precision"></span> {{::$ctrl.asset.name}}
+        </h3>
+
+        <div class="list margin-3 footnote-1">
+            <div class="split-half">
+                <div class="flex-row disabled-600" w-i18n="modal.startLease.recipientConfirm"></div>
+                <div class="basic-900">{{::$ctrl.recipient}}</div>
+            </div>
+            <div class="split-half">
+                <div class="flex-row disabled-600" w-i18n="modal.startLease.fee"></div>
+                <div class="basic-900">{{::$ctrl.fee.getTokens().toFormat(3)}} {{::$ctrl.asset.name}}</div>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <w-button w-step-prev class="big">
+                <w-i18n>modal.startLease.back</w-i18n>
+            </w-button>
+            <w-button ng-click="$ctrl.submit()" class="submit big">
+                <w-i18n>modal.startLease.confirm</w-i18n>
+            </w-button>
+        </div>
+    </w-step>
+    <w-step>
+
+        <div class="complete-icon"></div>
+        <h2 class="text-center basic-900" w-i18n="modal.startLease.leaseComplete"></h2>
+        <div class="text-center body-2 disabled-600 margin-4" w-i18n="modal.startLease.leaseCompleteDesc"
+             params="{amount: $ctrl.amount.toFormat($ctrl.asset.precision)}"></div>
+
+        <w-button ng-click="$ctrl.showDetails()" class="big submit details">
+            <w-i18n>modal.startLease.details</w-i18n>
+        </w-button>
+    </w-step>
+</w-step-by-step>

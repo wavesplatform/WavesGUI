@@ -1,0 +1,85 @@
+@import (reference) '../../../config';
+@import (reference) '../../../app/less/icons';
+
+md-dialog.start-leasing {
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &.split-half {
+      justify-content: space-between;
+    }
+  }
+
+  .row {
+    margin-top: 20px;
+    position: relative;
+  }
+
+  .input-like {
+    position: relative;
+    padding: 0 20px;
+    height: 54px;
+    border-radius: @border-radius;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 17px;
+
+    .asset-name {
+      margin-left: 10px;
+    }
+  }
+
+  .complete-icon {
+    width: 80px;
+    height: 80px;
+    margin: 30px auto 20px;
+    background-image: url(/img/icons/check.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .details {
+    display: block;
+    width: 224px;
+    margin: auto;
+  }
+
+  .list {
+    border-top: 1px solid @color-basic-200;
+    border-bottom: 1px solid @color-basic-200;
+
+    .split-half {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      &:first-child {
+        border-bottom: 1px solid @color-basic-200;
+      }
+    }
+  }
+
+  .button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+
+    & > w-button {
+      width: calc(~'50% - 5px');;
+    }
+  }
+
+  .icon {
+    width: 80px;
+    height: 80px;
+    margin: 10px auto 0;
+    background-size: 100%;
+    .icon-tx-lease();
+  }
+}

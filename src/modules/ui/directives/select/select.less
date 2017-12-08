@@ -3,6 +3,14 @@
 w-select {
   display: block;
 
+  &.tiny {
+    height: @height-control-tiny;
+  }
+
+  &.small {
+    height: @height-control-small;
+  }
+
   &.big {
     height: @height-control-big;
   }
@@ -21,6 +29,9 @@ w-select {
 
       .title-content {
         height: 100%;
+        display: flex;
+        align-items: center;
+        width: 100%;
       }
 
       &::after {

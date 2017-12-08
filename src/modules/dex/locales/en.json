@@ -1,11 +1,20 @@
 {
   "directives": {
+    "createOrder": {
+      "amountField": "Amount",
+      "priceField": "Limit price",
+      "placeSellOrder": "Place Sell Order",
+      "placeBuyOrder": "Place Buy Order",
+      "errors": {
+        "required": "This field is required"
+      }
+    },
     "portfolio": {
       "title": "Portfolio"
     },
     "orderBook": {
       "title": "Order Book",
-      "marketSize": "Market size",
+      "amount": "Amount",
       "price": "Price {{assetName}}",
       "total": "Total {{assetName}}"
     },

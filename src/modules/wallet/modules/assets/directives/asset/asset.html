@@ -1,19 +1,19 @@
 <div w-i18n-ns="app.wallet.assets">
     <div class="name">
-        <w-asset-logo asset-id="{{::$ctrl.asset.id}}" size="30"></w-asset-logo>
-        {{::$ctrl.asset.name}}
+        <w-asset-logo asset-id="{{::$ctrl.balance.asset.id}}" size="30"></w-asset-logo>
+        {{::$ctrl.balance.asset.name}}
     </div>
     <div class="balance-title body-2 disabled-600" w-i18n="directives.asset.balance"></div>
     <h2 class="balance">
-        <w-balance money="$ctrl.asset.balance"></w-balance>
+        <w-balance money="$ctrl.balance"></w-balance>
     </h2>
     <hr>
     <div class="footer">
         <div class="btn-icon icon-send"
-             ng-click="$ctrl.onClick({event: $event, asset: $ctrl.asset, action: 'send'})"
+             ng-click="$ctrl.onClick({event: $event, asset: $ctrl.balance.asset, action: 'send'})"
              w-i18n="directives.asset.send"></div>
         <div class="btn-icon icon-receive"
-             ng-click="$ctrl.onClick({event: $event, asset: $ctrl.asset, action: 'receive'})"
+             ng-click="$ctrl.onClick({event: $event, asset: $ctrl.balance.asset, action: 'receive'})"
              w-i18n="directives.asset.receive"></div>
     </div>
 </div>

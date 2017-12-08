@@ -33,18 +33,30 @@
                 if (this.activeStep == null) {
                     this.activeStep = step.id;
                 }
+                this._onChangeStep();
             }
 
+            /**
+             * @private
+             */
             _onChangeStep() {
                 this._steps.forEach((step) => {
                     step.displayToggle(this.activeStep === step.id);
                 });
             }
 
+            /**
+             * @return {*}
+             * @private
+             */
             _getStepIndex() {
                 return this._steps.index(this.activeStep, 'id');
             }
 
+            /**
+             * @param index
+             * @private
+             */
             _setStep(index) {
                 if (this._steps.components[index]) {
                     this.activeStep = this._steps.components[index].id;

@@ -1,107 +1,105 @@
 (function () {
     'use strict';
 
-    const ASSET_NAME_MAP = {
-        [WavesApp.defaultAssets.ETH]: 'Ethereum',
-        [WavesApp.defaultAssets.EUR]: 'Euro',
-        [WavesApp.defaultAssets.USD]: 'US Dollar',
-        [WavesApp.defaultAssets.BTC]: 'Bitcoin'
-    };
-
     /**
      * @param {BaseNodeComponent} BaseNodeComponent
      * @param {app.utils} utils
      * @param {User} user
      * @param {EventManager} eventManager
      * @param {app.utils.decorators} decorators
+     * @param {PollCache} PollCache
      * @return {Assets}
      */
-    const factory = function (BaseNodeComponent, utils, user, eventManager, decorators) {
+    const factory = function (BaseNodeComponent, utils, user, eventManager, decorators, PollCache) {
 
         class Assets extends BaseNodeComponent {
+
+            constructor() {
+                super();
+                user.onLogin().then(() => {
+                    this._balanceCache = new PollCache({
+                        getData: this._getBalances.bind(this),
+                        timeout: 2000,
+                        isBalance: true
+                    });
+                });
+            }
 
             /**
              * Get Asset info
              * @param {string} assetId
-             * @return {Promise<IAssetInfo>}
+             * @return {Promise<IAsset>}
              */
             @decorators.cachable()
             info(assetId) {
-                return fetch(`https://api.wavesplatform.com/assets/${assetId}`)
-                    .then(utils.onFetch)
-                    .then((info) => {
-                        return Waves.Money.fromCoins(String(info.quantity), info.id)
-                            .then((money) => ({
-                                id: info.id,
-                                name: ASSET_NAME_MAP[info.id] || info.name,
-                                description: info.id !== WavesApp.defaultAssets.WAVES ? info.description : '',
-                                precision: info.decimals,
-                                reissuable: info.reissuable,
-                                quantity: money,
-                                timestamp: info.timestamp,
-                                sender: info.sender,
-                                height: info.height,
-                                ticker: info.ticker || '',
-                                sign: info.sign || ''
-                            }));
-                    });
+                return Waves.Asset.get(assetId);
             }
 
             /**
              * Get balance by asset id
              * @param {string} assetId
-             * @return {Promise<IAssetWithBalance>}
+             * @return {Promise<Money>}
              */
             balance(assetId) {
-                return this.balanceList([assetId]).then(([asset]) => asset);
+                return this.balanceList([assetId])
+                    .then(([asset]) => asset);
+            }
+
+            /**
+             * @param {string} query
+             * @return {JQuery.jqXHR}
+             */
+            search(query) {
+                return $.get(`https://api.wavesplatform.com/assets/search/${query}`, (data) => {
+                    return data.map((item) => {
+                        item.name = WavesApp.remappedAssetNames[item.id] || item.name;
+                        return item;
+                    });
+                });
             }
 
             /**
              * Get balance list by asset id list
              * @param {string[]} assetIdList
-             * @return {Promise<IAssetWithBalance[]>}
+             * @return {Promise<Money[]>}
              */
             balanceList(assetIdList) {
-                return utils.whenAll([
-                    utils.whenAll(assetIdList.map(this.info, this)),
-                    this._getBalances(),
-                    eventManager.getBalanceEvents()
-                ])
-                    .then(([assetList, balanceList, events]) => {
-                        const balances = utils.toHash(balanceList, 'id');
-                        return assetList.map((asset) => {
-                            if (balances[asset.id]) {
-                                const tokens = this._getAssetBalance(asset.id, balances[asset.id].amount, events);
-                                return Waves.Money.fromTokens(tokens.toFixed(asset.precision), asset.id)
-                                    .then((money) => ({ ...asset, balance: money }));
+                return this._balanceCache.get()
+                    .then((balanceList) => {
+                        const balances = utils.toHash(balanceList, 'asset.id');
+                        return assetIdList.map((assetId) => {
+                            if (balances[assetId]) {
+                                const amount = this._getAssetBalance(balances[assetId]);
+                                if (amount.getTokens().lt(0)) {
+                                    return Waves.Money.fromCoins('0', assetId);
+                                } else {
+                                    return amount;
+                                }
                             } else {
-                                return Waves.Money.fromTokens('0', asset.id)
-                                    .then((money) => ({ ...asset, balance: money }));
+                                return Waves.Money.fromCoins('0', assetId);
                             }
                         });
-                    }).then(utils.whenAll);
+                    })
+                    .then(utils.whenAll);
             }
 
             /**
              * Get balance list by user address
-             * @return {Promise<IAssetWithBalance[]>}
+             * @return {Promise<Money[]>}
              */
             userBalances() {
-                return utils.whenAll([
-                    this._getBalances(),
-                    eventManager.getBalanceEvents()
-                ]).then(([balanceList, events]) => {
-                    return utils.whenAll(balanceList.map((balance) => this.info(balance.id)))
-                        .then((assetList) => {
-                            return assetList.map((asset, index) => {
-                                const amount = balanceList[index].amount;
-                                const balance = this._getAssetBalance(asset.id, amount, events);
-                                return Waves.Money.fromTokens(balance.toFixed(asset.precision), asset.id)
-                                    .then((money) => ({ ...asset, balance: money }));
-                            });
-                        })
-                        .then(utils.whenAll);
-                });
+                return this._balanceCache.get()
+                    .then((balanceList) => {
+                        return balanceList.map((balance) => {
+                            const amount = this._getAssetBalance(balance);
+                            if (amount.getTokens().lt(0)) {
+                                return Waves.Money.fromCoins('0', amount.asset.id);
+                            } else {
+                                return amount;
+                            }
+                        });
+                    })
+                    .then(utils.whenAll);
             }
 
             /**
@@ -123,25 +121,43 @@
              * @return {Promise<{id: string}>}
              */
             transfer({ amount, fee, recipient, attachment, keyPair }) {
-                this.getFee('transfer', fee)
+                return this.getFee('transfer', fee)
                     .then((fee) => {
                         return Waves.API.Node.v1.assets.transfer({
                             amount: amount.toCoins(),
                             assetId: amount.asset.id,
                             fee: fee.toCoins(),
                             feeAssetId: fee.asset.id,
-                            keyPair,
                             recipient,
                             attachment
-                        }).then(this._pipeTransaction([amount, fee]));
+                        }, keyPair)
+                            .then(this._pipeTransaction([amount, fee]));
                     });
             }
 
             /**
              * Create issue transaction
+             * @param {string} name
+             * @param {string} description
+             * @param {string} quantity count of tokens from new asset
+             * @param {number} precision num in range from 0 to 8
+             * @param {boolean} reissuable can reissue token
+             * @param {Seed.keyPair} keyPair
+             * @param {Money} [fee]
+             * @return {Promise<ITransaction>}
              */
-            issue() {
-
+            issue({ name, description, quantity, precision, reissuable, fee, keyPair }) {
+                return this.getFee('issue', fee).then((fee) => {
+                    return Waves.API.Node.v1.assets.issue({
+                        name,
+                        description,
+                        precision,
+                        reissuable,
+                        quantity,
+                        fee
+                    }, keyPair)
+                        .then(this._pipeTransaction([fee]));
+                });
             }
 
             /**
@@ -163,7 +179,7 @@
             }
 
             /**
-             * @return {Promise<IAssetWithBalance[]>}
+             * @return {Promise<Money[]>}
              * @private
              */
             @decorators.cachable(1)
@@ -172,16 +188,12 @@
             }
 
             /**
-             * @param {string} assetId
              * @param {Money} money
-             * @param {Array<BalanceComponent>} events
-             * @return {BigNumber}
+             * @return {Money}
              * @private
              */
-            _getAssetBalance(assetId, money, events) {
-                return events.reduce((balance, balanceEvent) => {
-                    return balance.sub(balanceEvent.getBalanceDifference(assetId));
-                }, money.getTokens());
+            _getAssetBalance(money) {
+                return eventManager.updateBalance(money);
             }
 
         }
@@ -189,35 +201,8 @@
         return new Assets();
     };
 
-    factory.$inject = ['BaseNodeComponent', 'utils', 'user', 'eventManager', 'decorators'];
+    factory.$inject = ['BaseNodeComponent', 'utils', 'user', 'eventManager', 'decorators', 'PollCache'];
 
-    angular.module('app').factory('assets', factory);
+    angular.module('app')
+        .factory('assets', factory);
 })();
-
-/**
- * @typedef {object} IAssetInfo
- * @property {string} id
- * @property {string} name
- * @property {string} [description]
- * @property {number} precision
- * @property {boolean} reissuable
- * @property {Money} quantity
- * @property {number} timestamp
- * @property {number} height
- * @property {string} ticker
- * @property {string} sign
- */
-/**
- * @typedef {object} IAssetWithBalance
- * @property {string} id
- * @property {string} name
- * @property {string} [description]
- * @property {number} precision
- * @property {BigNumber} balance
- * @property {boolean} reissuable
- * @property {Money} quantity
- * @property {number} timestamp
- * @property {number} height
- * @property {string} ticker
- * @property {string} sign
- */

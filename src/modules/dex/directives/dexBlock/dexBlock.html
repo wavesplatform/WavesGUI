@@ -1,10 +1,19 @@
 <div class="block-wrapper">
-    <div class="block-title">
-        <div class="headline-4 disabled-900">{{$ctrl.title}}</div>
+    <div class="block-title" ng-class="{'change-base-asset': $ctrl.changeBaseAssetMode}">
+        <w-input ng-if="$ctrl.hasSearch" ng-model="$ctrl.search"
+                 ng-blur="$ctrl.changeBaseAssetMode = false;"
+                 placeholder="Base coin"
+                 class="embed change-base-asset-input" type="text"></w-input>
+        <div ng-class="{interactive: $ctrl.hasSearch}" class="headline-4 disabled-900 dex-block-title"
+             ng-click="$ctrl.onClickTitle()">
+            {{$ctrl.title}}
+        </div>
         <div ng-if="$ctrl.hasSearch">
-            <w-input ng-model="$ctrl.search"></w-input>
+            <w-input ng-focus="$ctrl.focused = true"
+                     placeholder="Add coin"
+                     ng-blur="$ctrl.focused = false" ng-model="$ctrl.search"></w-input>
         </div>
         <div ng-if="$ctrl.canCollapse" ng-click="$ctrl.toggleCollapse()" class="collapse-dex-block"></div>
     </div>
-    <div class="dex-block-content" ng-transclude></div>
+    <div ng-if="!$ctrl.canCollapse || !$ctrl.collapsed" class="dex-block-content" ng-transclude></div>
 </div>

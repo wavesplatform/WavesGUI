@@ -187,6 +187,7 @@
     </style>
 
     <script>
+
         var __controllers = Object.create(null);
 
         /**
@@ -200,6 +201,7 @@
                 code: '{{network.code}}',
                 node: '{{network.node}}',
                 matcher: '{{network.matcher}}',
+                api: '{{network.api}}',
                 coinomat: '{{network.coinomat}}',
                 datafeed: '{{network.datafeed}}'
             },
@@ -209,6 +211,16 @@
                 USD: '{{network.assets.USD}}',
                 BTC: '{{network.assets.BTC}}',
                 ETH: '{{network.assets.ETH}}'
+            },
+            remappedAssetNames: {
+                '{{network.assets.EUR}}': 'Euro',
+                '{{network.assets.USD}}': 'US Dollar',
+                '{{network.assets.BTC}}': 'Bitcoin',
+                '{{network.assets.ETH}}': 'Ethereum'
+            },
+            dex: {
+                resolutions: ['15', '30', '60', '240', '1440'], // TODO : add months
+                defaultResolution: '60'
             },
             modules: [],
             addController(name, controller) {
@@ -284,7 +296,7 @@
                 id: 'main',
                 data: {
                     abstract: true,
-                    views: [{ name: 'main', templateUrl: 'modules/app/templates/main.html' }],
+                    views: [{ name: 'main', templateUrl: 'modules/app/templates/main.html' }]
                 },
                 children: [
                     {
@@ -295,16 +307,23 @@
                                 noController: true,
                                 template: '<ui-view name="content"></ui-view>'
                             }],
-                            redirectTo: 'main.wallet.assets',
+                            redirectTo: 'main.wallet.assets'
                         },
                         children: [
                             { id: 'assets', data: { views: [{ name: 'content' }] } },
                             { id: 'portfolio', data: { views: [{ name: 'content' }] } },
-                            { id: 'transactions', data: { views: [{ name: 'content' }] } }
+                            { id: 'transactions', data: { views: [{ name: 'content' }] } },
+                            { id: 'leasing', data: { views: [{ name: 'content' }] } }
                         ]
                     },
                     {
                         id: 'dex',
+                        data: {
+                            views: [{ name: 'mainContent' }]
+                        }
+                    },
+                    {
+                        id: 'tokens',
                         data: {
                             views: [{ name: 'mainContent' }]
                         }
@@ -324,6 +343,7 @@
      * @property {string} network.code
      * @property {string} network.node
      * @property {string} network.matcher
+     * @property {string} network.api
      * @property {string} network.coinomat
      * @property {string} network.datafeed
      * @property {object} defaultAssets
@@ -332,6 +352,10 @@
      * @property {string} defaultAssets.USD
      * @property {string} defaultAssets.BTC
      * @property {string} defaultAssets.ETH
+     * @property {object} remappedAssetNames
+     * @property {object} dex
+     * @property {Array<string>} dex.resolutions
+     * @property {string} dex.defaultResolution
      * @property {Array<string>} modules
      * @property {Function} isWeb
      * @property {Function} isDesktop
@@ -339,6 +363,7 @@
      * @property {Function} getController
      * @property {Tree} stateTree
      */
+
 </script>
 
 </body>

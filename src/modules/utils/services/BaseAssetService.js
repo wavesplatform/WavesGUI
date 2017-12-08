@@ -11,7 +11,6 @@
 
         class BaseAssetService {
 
-            @decorators.cachable()
             getBaseAsset() {
                 return waves.node.assets.info(user.getSetting('baseAssetId'));
             }

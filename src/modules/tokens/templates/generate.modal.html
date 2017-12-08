@@ -1,0 +1,40 @@
+<w-step-by-step active-step="$ctrl.step">
+
+    <w-step>
+
+        <div class="icon confirm-icon margin-2"></div>
+        <h3 class="text-center">{{::$ctrl.shownAmount}} {{::$ctrl.name}}</h3>
+        <div class="text-center body-2 basic-500 margin-3" w-i18n="reissuble.{{::$ctrl.issue}}"></div>
+
+        <div class="footnote-1 disabled-600" w-i18n="modal.descriptionTitle"></div>
+        <div class="description basic-900 footnote-1 margin-3">{{$ctrl.description}}</div>
+
+        <div class="fee margin-4">
+            <div class="footnote-1 disabled-600" w-i18n="modal.fee"></div>
+            <div class="basic-900">1 WAVES</div>
+        </div>
+
+        <div class="buttons-wrapper">
+            <w-button w-modal-close class="big">
+                <w-i18n>modal.back</w-i18n>
+            </w-button>
+            <w-button ng-click="$ctrl.generate()" class="big submit">
+                <w-i18n>modal.confirm</w-i18n>
+            </w-button>
+        </div>
+
+    </w-step>
+    <w-step>
+
+        <div class="icon icon-success margin-2"></div>
+        <h2 class="text-center basic-900" w-i18n="success.title"></h2>
+        <div class="text-center body-2 disabled-600 margin-4"
+             w-i18n="success.description"
+             params="{amount: $ctrl.shownAmount, name: $ctrl.name}"></div>
+
+        <w-button class="submit big" ui-sref="main.wallet.portfolio">
+            <w-i18n>success.done</w-i18n>
+        </w-button>
+
+    </w-step>
+</w-step-by-step>
