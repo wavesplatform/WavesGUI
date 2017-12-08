@@ -59,6 +59,7 @@
             }
 
             getFormatter() {
+                // TODO refactor
                 return (value) => {
                     if (new BigNumber(value).eq(utils.parseNiceNumber(this.$input.val()))) {
                         return this.$input.val();
