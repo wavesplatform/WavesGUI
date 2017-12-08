@@ -48,10 +48,9 @@
       align-items: center;
       border-bottom: 1px solid @color-accent-50;
       position: relative;
-      padding: 0 274px 0 20px;
-
-      font-size: 15px;
       line-height: 30px;
+      padding: 0 274px 0 20px;
+      font-size: 15px;
       color: @color-basic-700;
 
       &:not(.portfolio-item-name) {
@@ -71,6 +70,8 @@
 
       &.title {
         margin: 0;
+        line-height: 1.2em;
+        color: @color-disabled-600;
       }
 
       &:last-child {
@@ -87,6 +88,10 @@
 
       .currency {
         text-transform: uppercase;
+        white-space: nowrap;
+        @media screen and (max-width: 1024px) {
+          display: block;
+        }
       }
 
       // & > div {
