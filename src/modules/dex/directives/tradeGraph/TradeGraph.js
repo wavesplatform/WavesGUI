@@ -93,6 +93,7 @@
                 });
 
                 this.observe(['_amountAssetId', '_priceAssetId'], this._onChangeAssets);
+
                 /**
                  * @type {Poll}
                  * @private
@@ -110,7 +111,7 @@
                 this.data.asks = asks;
             }
 
-            _onChangeAssets() {
+            _onChangeAssets(noRestart) {
                 waves.node.assets.info(this._priceAssetId)
                     .then((asset) => {
                         this._priceAsset = asset;
@@ -119,10 +120,12 @@
                     .then((asset) => {
                         this._amountAsset = asset;
                     });
-                return this._poll.restart();
+                if (!noRestart) {
+                    this._poll.restart();
+                }
             }
 
-            static _remapOrderBook([bids = [], asks = [], pair]) {
+            static _remapOrderBook({ bids, asks, pair }) {
 
                 const bidsDelta = bids.length ? new BigNumber(bids[0].price)
                     .sub(bids[bids.length - 1].price)
