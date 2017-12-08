@@ -5,8 +5,8 @@
         [WavesApp.defaultAssets.WAVES]: '/img/assets/waves.svg',
         [WavesApp.defaultAssets.BTC]: '/img/assets/bitcoin.svg',
         [WavesApp.defaultAssets.ETH]: '/img/assets/ethereum.svg',
-        [WavesApp.defaultAssets.EUR]: '/img/assets/euro.png',
-        [WavesApp.defaultAssets.USD]: '/img/assets/dollar.png'
+        [WavesApp.defaultAssets.EUR]: '/img/assets/euro.svg',
+        [WavesApp.defaultAssets.USD]: '/img/assets/dollar.svg'
     };
 
     const COLORS_MAP = {
