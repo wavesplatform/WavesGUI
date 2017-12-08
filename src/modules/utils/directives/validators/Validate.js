@@ -52,6 +52,7 @@
                                     this._validate();
                                 });
 
+                                $ngModel.$render();
                                 this._validate();
                             });
                     }
