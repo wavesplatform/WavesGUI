@@ -92,6 +92,11 @@
                 return this._settings.get(name);
             }
 
+            /**
+             * @param {User} user
+             * @param {string} name
+             * @return {*}
+             */
             getSettingByUser(user, name) {
                 const settings = defaultSettings.create(user.settings);
                 return settings.get(name);
@@ -149,6 +154,11 @@
                 window.location.reload();
             }
 
+            /**
+             * Get active state from children of state "name"
+             * @param {string} name     Name of state
+             * @return {string}
+             */
             getActiveState(name) {
                 const userState = tsUtils.find(this._stateList || [], { name });
                 if (userState) {
@@ -159,12 +169,19 @@
                 }
             }
 
+            /**
+             * Apply active state for children of state with name {{state}}
+             * @param {string} state    state name
+             */
             applyState(state) {
                 if (this._stateList) {
                     this._stateList.some((item) => item.applyState(state, this));
                 }
             }
 
+            /**
+             * @return {Promise<Seed>}
+             */
             getSeed() {
                 return this.onLogin() // TODO Refactor. Author Tsigel at 22/11/2017 09:35
                     .then(() => {

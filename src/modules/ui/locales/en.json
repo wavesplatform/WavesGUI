@@ -1,4 +1,7 @@
 {
+  "balanceInput": {
+    "max": "Max"
+  },
   "password": {
     "title": "Protect Your Account with a New Password",
     "minLength": "must be at least {{minLength}} characters",
@@ -46,7 +49,7 @@
       "exchange-sell": "{{time}}",
       "lease-in": "{{time}}<span class='locale-address'>, from address {{address}}</span>",
       "lease-out": "{{time}}<span class='locale-address'>, to node address {{address}}</span>",
-      "cancel-leasing": "{{time}}, transaction {{transactionId}}",
+      "cancel-leasing": "{{time}}<span class='locale-address'>, transaction {{transactionId}}</span>",
       "create-alias": "{{time}}, {{alias}}"
     },
     "reissuable": {
@@ -61,7 +64,9 @@
     },
     "notifications": {
       "txIdCopied": "Transaction ID is copied",
-      "txDataCopied": "Transaction data is copied"
+      "txDataCopied": "Transaction data is copied",
+      "closed": "The leasing has been already canceled",
+      "closedSuccess": "The leasing canceled complete"
     },
     "modals": {
       "to": "To",
@@ -83,6 +88,7 @@
     }
   },
   "transactionList": {
-    "noTransactions": "You do not have any transactions"
+    "noTransactionsTitle": "Nothing Here…",
+    "noTransactionsDescription": "You do not have any transaction."
   }
 }

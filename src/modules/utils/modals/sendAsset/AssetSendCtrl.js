@@ -18,7 +18,6 @@
 
         class AssetSendCtrl extends Base {
 
-
             /**
              * @param {string} assetId
              * @param {string} mirrorId
@@ -26,7 +25,6 @@
              */
             constructor(assetId, mirrorId, canChooseAsset) {
                 super($scope);
-
 
                 /**
                  * @type {BigNumber}
@@ -36,11 +34,9 @@
                  * @type {BigNumber}
                  */
                 this.amountMirror = null;
-
-                this.observe('amount', this._onChangeAmount);
-                this.observe('amountMirror', this._onChangeAmountMirror);
-                this.observe('assetId', this._onChangeAssetId);
-
+                /**
+                 * @type {number}
+                 */
                 this.step = 0;
                 /**
                  * @type {boolean}
@@ -59,21 +55,21 @@
                  */
                 this.recipient = '';
                 /**
-                 * @type {IAssetWithBalance}
+                 * @type {Money}
                  */
-                this.asset = null;
+                this.balance = null;
                 /**
                  * @type {string}
                  */
                 this.attachment = null;
                 /**
-                 * @type {IAssetWithBalance}
+                 * @type {Money}
                  */
-                this.mirror = null;
+                this.mirrorBalance = null;
                 /**
-                 * @type {IAssetWithBalance[]}
+                 * @type {Money[]}
                  */
-                this.assetList = null;
+                this.moneyList = null;
                 /**
                  * @type {boolean}
                  */
@@ -85,17 +81,23 @@
                  */
                 this._transactionId = null;
 
+                this.observe('amount', this._onChangeAmount);
+                this.observe('amountMirror', this._onChangeAmountMirror);
+                this.observe('assetId', this._onChangeAssetId);
+
+                this._onChangeAssetId();
+
                 if (this.canChooseAsset) {
-                    createPoll(this, this._getBalanceList, this._setAssets, 1000, { isBalance: true });
+                    createPoll(this, this._getBalanceList, this._setAssets, 1000, {isBalance: true});
                 } else {
-                    createPoll(this, this._getAsset, this._setAssets, 1000, { isBalance: true });
+                    createPoll(this, this._getAsset, this._setAssets, 1000, {isBalance: true});
                 }
             }
 
             send() {
                 return utils.whenAll([
                     user.getSeed(),
-                    Waves.Money.fromTokens(this.amount, this.asset.id)
+                    Waves.Money.fromTokens(this.amount, this.balance.asset.id)
                 ])
                     .then(([seed, amount]) => waves.node.assets.transfer({
                         fee: this.fee,
@@ -115,18 +117,6 @@
                 setTimeout(() => { // Timeout for routing (if modal has route)
                     modalManager.showTransactionInfo(this._transactionId);
                 }, 1000);
-            }
-
-            fillMax() {
-                if (this.assetId === this.fee.asset.id) {
-                    if (this.asset.balance.getTokens()
-                            .gt(this.fee.getTokens())) {
-                        this.amount = this.asset.balance.getTokens()
-                            .sub(this.fee.getTokens());
-                    }
-                } else {
-                    this.amount = this.asset.balance.getTokens();
-                }
             }
 
             cancel() {
@@ -153,19 +143,19 @@
                     waves.node.assets.fee('transfer'),
                     waves.utils.getRateApi(this.assetId, this.mirrorId)
                 ])
-                    .then(([asset, mirror, [fee], api]) => {
-                        this.noMirror = asset.id === mirror.id || api.rate.eq(0);
+                    .then(([balance, mirrorBalance, [fee], api]) => {
+                        this.noMirror = balance.id === mirrorBalance.id || api.rate.eq(0);
                         this.amount = new BigNumber(0);
                         this.amountMirror = new BigNumber(0);
-                        this.mirror = mirror;
-                        this._setAssets(asset);
-                        this.asset = tsUtils.find(this.assetList, { id: this.assetId });
+                        this.mirrorBalance = mirrorBalance;
+                        this._setAssets(balance);
+                        this.balance = tsUtils.find(this.moneyList, (item) => item.asset.id === this.assetId);
                         this.fee = fee;
                     });
             }
 
             /**
-             * @return {Promise.<IAssetWithBalance>}
+             * @return {Promise<Money>}
              * @private
              */
             _getAsset() {
@@ -173,13 +163,13 @@
             }
 
             /**
-             * @param {IAssetWithBalance|IAssetWithBalance[]} assets
+             * @param {Money|Money[]} money
              * @private
              */
-            _setAssets(assets) {
-                this.assetList = utils.toArray(assets);
-                if (!this.assetId && this.assetList.length) {
-                    this.assetId = this.assetList[0].id;
+            _setAssets(money) {
+                this.moneyList = utils.toArray(money);
+                if (!this.assetId && this.moneyList.length) {
+                    this.assetId = this.moneyList[0].asset.id;
                 }
             }
 
@@ -187,11 +177,11 @@
              * @private
              */
             _onChangeAmount() {
-                this.amount && this.asset && this._getRate()
+                this.amount && this.balance && this._getRate()
                     .then((api) => {
                         if (api.exchangeReverse(this.amountMirror)
-                                .toFixed(this.asset.precision) !== this.amount.toFixed(this.asset.precision)) {
-                            this.amountMirror = api.exchange(this.amount).round(this.mirror.precision);
+                                .toFixed(this.balance.asset.precision) !== this.amount.toFixed(this.balance.precision)) {
+                            this.amountMirror = api.exchange(this.amount).round(this.mirrorBalance.precision);
                         }
                     });
             }
@@ -200,18 +190,18 @@
              * @private
              */
             _onChangeAmountMirror() {
-                this.amountMirror && this.mirror && this._getRate()
+                this.amountMirror && this.mirrorBalance && this._getRate()
                     .then((api) => {
                         if (api.exchange(this.amount)
-                                .toFixed(this.mirror.precision) !== this.amountMirror.toFixed(this.mirror.precision)) {
-                            this.amount = api.exchangeReverse(this.amountMirror).round(this.asset.precision);
+                                .toFixed(this.mirrorBalance.precision) !== this.amountMirror.toFixed(this.mirrorBalance.precision)) {
+                            this.amount = api.exchangeReverse(this.amountMirror).round(this.balance.precision);
                         }
                     });
             }
 
             /**
              * @param {string} [fromRateId]
-             * @return {Promise.<Waves.rateApi>}
+             * @return {Promise<WavesUtils.rateApi>}
              * @private
              */
             _getRate(fromRateId) {

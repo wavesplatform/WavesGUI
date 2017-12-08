@@ -36,12 +36,54 @@
     /**
      * @param $rootScope
      * @param {User} user
+     * @param {app.utils} utils
      * @param $state
      * @param {State} state
      * @param {ModalManager} modalManager
      * @return {AppRun}
      */
-    const run = function ($rootScope, user, $state, state, modalManager) {
+    const run = function ($rootScope, utils, user, $state, state, modalManager) {
+
+        class ExtendedAsset extends Waves.Asset {
+
+            constructor(props) {
+                super({
+                    ...props,
+                    name: WavesApp.remappedAssetNames[props.id] || props.name
+                    // ID, name, precision and description are added here
+                });
+
+                this.reissuable = props.reissuable;
+                this.timestamp = props.timestamp;
+                this.sender = props.sender;
+                this.height = props.height;
+
+                const divider = new BigNumber(10).pow(this.precision);
+                this.quantity = new BigNumber(props.quantity).div(divider);
+
+                this.ticker = props.ticker || '';
+                this.sign = props.sign || '';
+            }
+
+        }
+
+        function remapAssetProps(props) {
+            props.precision = props.decimals;
+            delete props.decimals;
+            return props;
+        }
+
+        Waves.config.set({
+            assetFactory(props) {
+                return fetch(`${WavesApp.network.api}/assets/${props.id}`)
+                    .then(utils.onFetch)
+                    .then((fullProps) => new ExtendedAsset(remapAssetProps(fullProps)))
+                    .catch(() => {
+                        return Waves.API.Node.v1.transactions.get(props.id)
+                            .then((partialProps) => new ExtendedAsset(remapAssetProps(partialProps)));
+                    });
+            }
+        });
 
         class AppRun {
 
@@ -196,7 +238,7 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'user', '$state', 'state', 'modalManager', 'modalRouter'];
+    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'modalRouter'];
 
     angular.module('app')
         .run(run);

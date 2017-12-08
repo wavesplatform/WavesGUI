@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="132" height="112" viewBox="0 0 132 112">
+  <defs>
+    <rect id="4_token-a" width="78.222" height="78.222" x="36.877" y="16.885"/>
+    <rect id="4_token-b" width="78.222" height="78.222" x="26.877" y="16.885"/>
+    <rect id="4_token-c" width="78.222" height="78.222" x="17" y="17"/>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <g transform="rotate(45 75.989 55.996)">
+      <use fill="#FFF" xlink:href="#4_token-a"/>
+      <rect width="75.222" height="75.222" x="38.377" y="18.385" stroke="#1F5AF6" stroke-width="3"/>
+    </g>
+    <g transform="rotate(45 65.989 55.996)">
+      <use fill="#FFF" xlink:href="#4_token-b"/>
+      <rect width="75.222" height="75.222" x="28.377" y="18.385" stroke="#1F5AF6" stroke-width="3"/>
+    </g>
+    <g transform="rotate(45 56.111 56.111)">
+      <use fill="#FFF" xlink:href="#4_token-c"/>
+      <rect width="75.222" height="75.222" x="18.5" y="18.5" stroke="#1F5AF6" stroke-width="3"/>
+    </g>
+    <g fill="#1F5AF6" fill-rule="nonzero" transform="rotate(45 -11.52 84.855)">
+      <rect width="4" height="4" x="4" y="4"/>
+      <path d="M2,2 L10.002,2 L10.002,10.002 L2,10.002 L2,2 Z M0,12 L12,12 L12,0 L0,0 L0,12 Z"/>
+      <rect width="4" height="4" x="24" y="4"/>
+      <path d="M20,12 L32,12 L32,0 L20,0 L20,12 Z M30,10 L22,10 L22,2 L30,2 L30,10 Z"/>
+      <rect width="4" height="4" x="4" y="24"/>
+      <path d="M2.002,22 L10.004,22 L10.004,30.002 L2.002,30.002 L2.002,22 Z M0.002,32 L12,32 L12,20 L0.002,20 L0.002,32 Z"/>
+      <polygon points="14 22 14 24 16.002 24 16.002 28 18.002 28 18.002 20 16.002 20 16.002 22"/>
+      <path d="M22,24 L24,24 L24,26 L22,26 L22,24 Z M25.998,21.998 L28.002,21.998 L28.002,26.002 L25.998,26.002 L25.998,21.998 Z M16,10 L16,12 L14,12 L14,14 L16,14 L16,18 L20,18 L20,28 L22,28 L22,30 L20,30 L20,32 L24,32 L24,30 L25.998,30 L25.998,28 L28,28 L28,30 L26.25,30 L26.25,32 L32,32 L32,28 L30,28 L30,24 L32,24 L32,21.998 L30,21.998 L30,18 L28,18 L28,19.998 L25.998,19.998 L25.998,21.998 L22,21.998 L22,18 L24,18 L24,19.998 L25.998,19.998 L25.998,18 L28,18 L28,16 L25.998,16 L25.998,14 L24,14 L24,16 L22,16 L22,14 L18,14 L18,10 L16,10 Z"/>
+      <polygon points="18 6 18 0 14 0 14 2 16 2 16 4 14 4 14 10 16 10 16 6"/>
+      <rect width="2.002" height="2" x="6.002" y="14"/>
+      <polygon points="10 14 10 16 8 16 8 18 12 18 12 16 14 16 14 14"/>
+      <polygon points="28 14 28 16 30 16 30 18 32 18 32 14"/>
+      <rect width="2" height="2" x="14" y="18"/>
+      <rect width="2" height="2" x="14" y="28"/>
+      <rect width="2" height="2" x="16" y="30"/>
+      <polygon points="0 14 0 18 6 18 6 16 4 16 4 14"/>
+    </g>
+  </g>
+</svg>

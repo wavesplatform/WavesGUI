@@ -4,10 +4,11 @@ import { exec, spawn } from 'child_process';
 import { readdirSync, statSync } from 'fs';
 import { join, relative } from 'path';
 import { ITaskFunction } from './interface';
-import { readFile, readJSON, readJson, readJSONSync } from 'fs-extra';
+import { readFile, readJSON, readJSONSync } from 'fs-extra';
 import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
+import { minify } from 'html-minifier';
 
 
 export const task: ITaskFunction = gulp.task.bind(gulp) as any;
@@ -165,6 +166,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
 
 export function route(connectionType, buildType) {
     return function (req, res) {
+
         if (buildType !== 'dev') {
             if (isPage(req.url)) {
                 const path = join(__dirname, '../dist/build', connectionType, buildType, 'index.html');
@@ -189,6 +191,14 @@ export function route(connectionType, buildType) {
             }).then((file) => {
                 res.end(file);
             });
+        } else if (isTemplate(req.url)) {
+            readFile(join(__dirname, '../src', req.url), 'utf8')
+                .then((template) => {
+                    const code = minify(template, {
+                        collapseWhitespace: true // TODO @xenohunter check html minify options
+                    });
+                    res.end(code);
+                });
         } else if (isLess(req.url)) {
             readFile(join(__dirname, '../src', req.url), 'utf8')
                 .then((style) => {
@@ -294,6 +304,10 @@ export function isLess(url: string): boolean {
 
 export function isApiMock(url: string): boolean {
     return url.indexOf('/api/') === 0;
+}
+
+export function isTemplate(url: string): boolean {
+    return url.includes('/modules/') && url.indexOf('.html') === url.length - 5;
 }
 
 export function isPage(url: string): boolean {

@@ -5,12 +5,12 @@
      * @param {typeof Base} Base
      * @param {app.utils} utils
      * @param {typeof Asset} Asset
-     * @param {typeof Number} Number
+     * @param {typeof Num} Num
      * @param {typeof CompareTo} CompareTo
      * @param {typeof Address} Address
      * @return {{require: string, link: (function(*=, *, *, *))}}
      */
-    const directive = (Base, utils, Asset, Number, CompareTo, Address) => {
+    const directive = (Base, utils, Asset, Num, CompareTo, Address) => {
 
         return {
             require: 'ngModel',
@@ -128,7 +128,7 @@
                                 Constructor = Address;
                                 break;
                             case 'number':
-                                Constructor = Number;
+                                Constructor = Num;
                                 break;
                             case 'compare':
                                 Constructor = CompareTo;
@@ -150,7 +150,7 @@
         };
     };
 
-    directive.$inject = ['Base', 'utils', 'Asset', 'Number', 'CompareTo', 'Address'];
+    directive.$inject = ['Base', 'utils', 'Asset', 'Num', 'CompareTo', 'Address'];
 
     angular.module('app.utils').directive('wValidate', directive);
 

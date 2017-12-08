@@ -8,7 +8,7 @@
             constructor() {
                 super();
                 /**
-                 * @type {IMoney}
+                 * @type {Money}
                  */
                 this.money = null;
                 /**
@@ -24,7 +24,7 @@
             }
 
             /**
-             * @param {IMoney} value
+             * @param {Money} value
              * @private
              */
             _onChangeMoney({ value }) {

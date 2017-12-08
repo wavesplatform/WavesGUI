@@ -7,14 +7,26 @@
     "slides": {
       "0": {
         "title": "Get Started with Blockchain",
-        "description": "Gain access to the Waves platform’s solutions for storing, trading, managing and issuing your digital assets easily and securely."
+        "description": "Become part of a fast-growing area of the crypto world. You are the only person who can access your crypto assets."
+      },
+      "1": {
+        "title": "Wallet",
+        "description": "Store, manage and receive interest on your digital assets balance, easily and securely."
+      },
+      "2": {
+        "title": "Decentralised Exchange",
+        "description": "Trade quickly and securely. You retain complete control over your funds when trading them on our decentralised exchange."
+      },
+      "3": {
+        "title": "Issuing Tokens",
+        "description": "Issue your own tokens. These can be integrated into your business not only as an internal currency but also as a token for decentralised voting, as a rating system, or loyalty program."
       }
     }
   },
   "userList": {
     "title": "Sign in",
-    "subTitle": "The session was automatically terminated; sign in again or",
-    "create": "create new account",
+    "subTitle": "The session was automatically terminated. Sign in again or",
+    "create": "create a new account",
     "address": "Address",
     "password": "Password",
     "restore": "Restore account",

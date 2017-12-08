@@ -68,6 +68,7 @@
 
             /**
              * @param {IModalOptions} options
+             * @return {$q.resolve}
              */
             showCustomModal(options) {
                 return this._getModal(tsUtils.merge({}, DEFAULT_OPTIONS, options));
@@ -126,10 +127,20 @@
                 return this._getModal({
                     ns: 'app.ui',
                     controller: 'TransactionInfoCtrl',
-                    titleContentUrl: `modules/utils/modals/transactionInfo/transaction-info-title.modal.html`,
+                    titleContentUrl: 'modules/utils/modals/transactionInfo/transaction-info-title.modal.html',
                     contentUrl: 'modules/utils/modals/transactionInfo/transaction-info.modal.html',
                     mod: 'transaction-info',
                     locals: { transactionId }
+                });
+            }
+
+            showStartLeasing() {
+                return this._getModal({
+                    ns: 'app.utils',
+                    controller: 'StartLeasingCtrl',
+                    titleContent: '{{$ctrl.title}}',
+                    mod: 'start-leasing',
+                    contentUrl: 'modules/utils/modals/startLeasing/startLeasing.html'
                 });
             }
 
@@ -330,7 +341,7 @@
             static _getWrapTemplate({ ns, mod, content }) {
                 const namespace = ns ? `w-i18n-ns="${ns}"` : '';
                 const classes = mod ? `class="${mod}"` : '';
-                return `<md-dialog ${namespace} ${classes} aria-label="modal" >${content}</md-dialog>`;
+                return `<md-dialog ${namespace} ${classes} aria-label="modal">${content}</md-dialog>`;
             }
 
             /**

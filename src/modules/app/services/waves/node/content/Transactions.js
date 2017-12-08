@@ -73,9 +73,10 @@
              * @return {Promise<ITransaction[]>}
              */
             listUtx() {
-                // TODO Get utx by user for balances. Author Tsigel at 22/11/2017 13:08
-                // return Waves.API.Node.v2.addresses.transactionsUtx(user.address)
-                //     .then((list) => list && list.length && list[0].map(this._pipeTransaction(true))) || [];
+                return Waves.API.Node.v1.transactions.utxGetList()
+                    .then((list) => list.filter(Transactions._filterUtxTransactions))
+                    .then((list) => list.map(Transactions._mapV1UtxTransactions))
+                    .then((list) => Promise.all(list));
             }
 
             /**
@@ -111,6 +112,24 @@
                     tx.shownAddress = Transactions._getTransactionAddress(tx);
                     return tx;
                 };
+            }
+
+            static _filterUtxTransactions({ sender }) {
+                return sender === user.address;
+            }
+
+            static _mapV1UtxTransactions(tx) {
+                const wavesId = WavesApp.defaultAssets.WAVES;
+                const promiseList = [
+                    Waves.Money.fromCoins(String(tx.fee), tx.feeAsset || wavesId)
+                ];
+
+                if (tx.type === Waves.constants.TRANSFER_TX) {
+                    promiseList.push(Waves.Money.fromCoins(String(tx.amount), tx.assetId || wavesId));
+                }
+
+                return Promise.all(promiseList)
+                    .then(([fee, amount]) => ({ ...tx, fee, amount }));
             }
 
             /**
@@ -231,12 +250,13 @@
 
         }
 
-        return new Transactions();
+        return utils.bind(new Transactions());
     };
 
     factory.$inject = ['user', 'utils'];
 
-    angular.module('app').factory('transactions', factory);
+    angular.module('app')
+        .factory('transactions', factory);
 })();
 
 /**

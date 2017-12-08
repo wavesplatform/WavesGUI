@@ -1,0 +1,21 @@
+<div class="dex-layout">
+    <div data-column="left" class="dex-layout__column dex-layout__column-left">
+        <div data-block="top" class="dex-layout__block dex-layout__block-top"></div>
+        <div data-block="bottom" class="dex-layout__block dex-layout__block-bottom"></div>
+        <div data-slider
+             ng-click="$ctrl.toggleColumn('left')"
+             class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-left"></div>
+    </div>
+    <div data-column="center" class="dex-layout__column dex-layout__column-center">
+        <div data-block="top" class="dex-layout__block dex-layout__block-top"></div>
+        <div data-block="bottom" class="dex-layout__block dex-layout__block-bottom"></div>
+    </div>
+    <div data-column="right" class="dex-layout__column dex-layout__column-right">
+        <div data-slider
+             ng-click="$ctrl.toggleColumn('right')"
+             class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-right"></div>
+        <div data-block="top" class="dex-layout__block dex-layout__block-top"></div>
+        <div data-block="bottom" class="dex-layout__block dex-layout__block-bottom"></div>
+    </div>
+    <div class="hidden" ng-transclude></div>
+</div>

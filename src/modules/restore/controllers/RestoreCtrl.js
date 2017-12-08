@@ -5,9 +5,10 @@
      * @param Base
      * @param $scope
      * @param {User} user
+     * @param {app.utils} utils
      * @return {RestoreCtrl}
      */
-    const controller = function (Base, $scope, user) {
+    const controller = function (Base, $scope, user, utils) {
 
         class RestoreCtrl extends Base {
 
@@ -33,6 +34,9 @@
                 this.password = null;
 
                 this.observe('seed', this._onChangeSeed);
+                this.observeOnce('seedForm', () => {
+                    this.receive(utils.observe(this.seedForm, '$valid'), this._onChangeSeed, this);
+                });
             }
 
             restore() {
@@ -50,6 +54,9 @@
                 }, true);
             }
 
+            /**
+             * @private
+             */
             _onChangeSeed() {
                 if (this.seedForm.$valid) {
                     this.address = Waves.Seed.fromExistingPhrase(this.seed).address;
@@ -63,7 +70,7 @@
         return new RestoreCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user'];
+    controller.$inject = ['Base', '$scope', 'user', 'utils'];
 
     angular.module('app.restore').controller('RestoreCtrl', controller);
 })();

@@ -18,30 +18,29 @@
 
             constructor() {
                 super($scope);
-                // TODO Move pinned assets to top from assets list. Author Tsigel at 14/11/2017 14:22
                 /**
-                 * @type {Array}
+                 * @type {Money[]}
                  */
-                this.portfolio = [];
+                this.portfolioBalances = [];
                 /**
                  * @type {string}
                  */
                 this.mirrorId = null;
                 /**
-                 * @type {IAssetInfo}
+                 * @type {IAsset}
                  */
                 this.mirror = null;
                 /**
                  * @type {string[]}
                  */
-                this.assetList = null;
+                this.pinnedAssetIdList = null;
                 /**
                  * @type {string}
                  */
                 this.wavesId = WavesApp.defaultAssets.WAVES;
 
 
-                this.syncSettings({ assetList: 'pinnedAssetIdList' });
+                this.syncSettings({ pinnedAssetIdList: 'pinnedAssetIdList' });
 
                 this.mirrorId = user.getSetting('baseAssetId');
                 waves.node.assets.info(this.mirrorId)
@@ -49,7 +48,7 @@
                         this.mirror = mirror;
                     });
 
-                createPoll(this, this._getPortfolio, 'portfolio', 3000, { isBalance: true });
+                createPoll(this, this._getPortfolio, 'portfolioBalances', 3000, { isBalance: true });
 
             }
 
@@ -71,61 +70,37 @@
                 modalManager.showAssetInfo(asset);
             }
 
-            abs(num) {
-                return Math.abs(num)
-                    .toFixed(2);
-            }
-
             pinAsset(asset, state) {
                 asset.pinned = state;
 
-                const has = (id) => {
-                    return this.assetList.indexOf(id) !== -1;
-                };
-
-                if (state) {
-                    if (!has(asset.id)) {
-                        const list = this.assetList.slice();
-                        list.push(asset.id);
-                        this.assetList = list;
-                    }
-                } else if (has(asset.id)) {
-                    const list = this.assetList.slice();
-                    list.splice(this.assetList.indexOf(asset.id), 1);
-                    this.assetList = list;
+                if (state === true && !this._isPinned(asset.id)) {
+                    const list = this.pinnedAssetIdList.slice();
+                    list.push(asset.id);
+                    this.pinnedAssetIdList = list;
+                } else if (state === false && this._isPinned(asset.id)) {
+                    const list = this.pinnedAssetIdList.slice();
+                    list.splice(this.pinnedAssetIdList.indexOf(asset.id), 1);
+                    this.pinnedAssetIdList = list;
                 }
             }
 
             /**
-             * @return {Promise}
+             * @return {Promise<Money[]>}
              * @private
              */
             _getPortfolio() {
+                // TODO : request both userBalances() and balanceList(this.pinnedAssetIdList) @xenohunter
+                // TODO : move pinned assets to top from assets list @tsigel
                 return waves.node.assets.userBalances()
                     .then(this._checkAssets())
-                    .then((assets) => assets.map(this._loadAssetData, this))
-                    .then((promises) => utils.whenAll(promises));
-            }
+                    .then((balancesList) => {
+                        return balancesList.map((balance) => {
+                            if (this._isPinned(balance.asset.id)) {
+                                balance.asset.pinned = true;
+                            }
 
-            /**
-             * @param {*} asset
-             * @return {*}
-             * @private
-             */
-            _getChange(asset) {
-                return waves.utils.getChange(asset.id, this.mirrorId);
-            }
-
-            /**
-             * @param {*} asset
-             * @private
-             */
-            _loadAssetData(asset) {
-                return this._getChange(asset)
-                    .then((change) => {
-                        asset.pinned = this.assetList.indexOf(asset.id) !== -1;
-                        asset.change = change;
-                        return asset;
+                            return balance;
+                        });
                     });
             }
 
@@ -136,9 +111,13 @@
             _checkAssets() {
                 return (assets) => {
                     return PortfolioCtrl._isEmptyBalance(assets) ?
-                        waves.node.assets.balanceList(this.assetList) :
+                        waves.node.assets.balanceList(this.pinnedAssetIdList) :
                         assets;
                 };
+            }
+
+            _isPinned(assetId) {
+                return this.pinnedAssetIdList.indexOf(assetId) !== -1;
             }
 
             /**

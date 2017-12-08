@@ -1,0 +1,37 @@
+<w-table>
+    <w-t-head>
+        <w-row>
+            <w-cell>Pair</w-cell>
+            <w-cell>Type</w-cell>
+            <w-cell>Price</w-cell>
+            <w-cell>Quantity</w-cell>
+            <w-cell>Percent</w-cell>
+            <w-cell>Status</w-cell>
+        </w-row>
+    </w-t-head>
+    <w-scroll-box>
+        <w-row ng-repeat="order in $ctrl.orders track by order.id" ng-class="{{order.state.toLowerCase()}}">
+            <w-cell>
+                <span>{{::order.pair}}</span>
+            </w-cell>
+            <w-cell>
+                <span class="order-side {{::order.type}}">{{::$ctrl.capitalize(order.type)}}</span>
+            </w-cell>
+            <w-cell>
+                <w-balance money="order.price"></w-balance>
+            </w-cell>
+            <w-cell>
+                <w-balance money="order.amount"></w-balance>
+            </w-cell>
+            <w-cell>
+                {{::order.percent.mul(100).toFormat(2)}}%
+            </w-cell>
+            <w-cell>
+                {{order.state}}
+            </w-cell>
+            <div ng-if="order.state === 'Active' || order.state === 'Filled'"
+                 ng-click="$ctrl.dropOrder(order)"
+                 class="stop"></div>
+        </w-row>
+    </w-scroll-box>
+</w-table>

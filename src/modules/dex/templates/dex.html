@@ -1,47 +1,34 @@
 <div class="dex-wrapper" w-i18n-ns="app.dex">
-    <div ng-class="{hidden: $ctrl._leftHidden}" class="dex-column dex-sidebar dex-sidebar--left dex-divided-column">
-        <div class="dex-divided-column--fill">
-            <w-dex-block has-search="true">
-                <w-dex-watchlist id="top"></w-dex-watchlist>
-            </w-dex-block>
-        </div>
-        <div class="dex-divided-column--fixed">
-            <w-dex-block has-search="true">
-                <w-dex-watchlist id="bottom"></w-dex-watchlist>
-            </w-dex-block>
-        </div>
-    </div>
+    <w-layout>
 
-    <div ng-click="$ctrl.toggleColumn('left')" ng-class="{'dex-sidebar-toggle__open': !$ctrl._leftHidden}"
-         class="dex-sidebar-toggle dex-sidebar-toggle__left"></div>
+        <w-dex-block column="left" block="top" has-search="true">
+            <w-dex-watchlist id="top"></w-dex-watchlist>
+        </w-dex-block>
 
-    <div class="dex-column dex-content dex-divided-column">
-        <div class="dex-divided-column--fill">
-            <w-dex-block title-name="Order book">
-                <w-dex-trade-graph></w-dex-trade-graph>
-            </w-dex-block>
-        </div>
+        <w-dex-block column="left" block="bottom" has-search="true">
+            <w-dex-watchlist id="bottom"></w-dex-watchlist>
+        </w-dex-block>
 
-        <!--<div class="dex-divided-column&#45;&#45;fixed" ng-class="{'collapsed': $ctrl.collapseTradeHistory}">-->
-            <!--<w-dex-block title-name="My Orders">-->
+        <w-dex-block column="center" block="top">
+            <w-dex-candle-chart></w-dex-candle-chart>
+            <w-dex-trade-graph></w-dex-trade-graph>
+        </w-dex-block>
 
-            <!--</w-dex-block>-->
-        <!--</div>-->
-    </div>
+        <w-dex-block can-collapse="true" column="center" block="bottom" title-name="My Orders">
+            <w-dex-my-orders></w-dex-my-orders>
+        </w-dex-block>
 
-    <div ng-click="$ctrl.toggleColumn('right')" ng-class="{'dex-sidebar-toggle__open': !$ctrl._rightHidden}"
-         class="dex-sidebar-toggle dex-sidebar-toggle__right"></div>
+        <w-dex-block column="right" block="top" title-name="OrderBook">
+            <w-dex-order-book></w-dex-order-book>
+        </w-dex-block>
 
-    <div ng-class="{hidden: $ctrl._rightHidden}" class="dex-column dex-sidebar dex-sidebar--right dex-divided-column">
-        <div class="dex-divided-column--fill">
-            <w-dex-block title-name="Order book">
-                <w-dex-order-book></w-dex-order-book>
-            </w-dex-block>
-        </div>
-
-        <div class="dex-divided-column--fixed" ng-class="{'collapsed': $ctrl.collapseTradeHistory}">
-            <w-dex-block collapsed="$ctrl.collapseTradeHistory" can-collapse="true" title-name="Trade history">
-                <w-dex-trade-history></w-dex-trade-history>
-            </w-dex-block>
-        </div>
-    </div>
+        <w-dex-block column="right"
+                     block="bottom"
+                     collapsed="$ctrl.collapseTradeHistory"
+                     can-collapse="true"
+                     title-name="Trade history">
+            <w-dex-trade-history></w-dex-trade-history>
+        </w-dex-block>
+    </w-layout>
+    <w-create-order w-draggable></w-create-order>
+</div>

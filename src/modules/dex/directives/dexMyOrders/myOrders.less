@@ -1,0 +1,48 @@
+@import (reference) '../../../config';
+
+w-dex-my-orders {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  w-row {
+    position: relative;
+    padding: 0 10px;
+
+    .cell-2, .cell-3, .cell-4 {
+      text-align: right;
+      margin-right: 5%;
+    }
+
+    .order-side.sell {
+      color: @color-error-400;
+    }
+
+    .order-side.buy {
+      color: @color-success-600;
+    }
+
+    &[ng-class="closed"], &[ng-class="canceled"]{
+      color: @color-disabled-500;
+
+      .order-side.sell, .order-side.buy {
+        color: @color-disabled-500;
+      }
+    }
+
+    .stop {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      width: 8px;
+      height: 8px;
+      transform: translateY(-50%);
+      background-image: url(/img/icons/order_cancel.svg);
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid @color-disabled-100;
+    }
+  }
+}

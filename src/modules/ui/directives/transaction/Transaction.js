@@ -13,6 +13,7 @@
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
      * @param {DexService} dexService
+     * @param {object} $attrs
      * @return {Transaction}
      */
     const controller = function (Base, $filter, modalManager, notificationManager,
@@ -22,7 +23,7 @@
 
             $postLink() {
                 this.templateUrl = `${PATH}/${this.transaction.templateType}.html`;
-                this.time = $filter('date')(this.transaction.timestamp, 'HH:mm');
+                this.time = $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm');
                 this.shownAddress = this.transaction.shownAddress;
                 this.type = this.transaction.type;
 
@@ -39,7 +40,24 @@
                 }
             }
 
-            cancelLeasing() {} // TODO
+            cancelLeasing() {
+                return user.getSeed()
+                    .then(({ keyPair }) => waves.node.cancelLeasing({
+                        transactionId: this.transaction.id,
+                        keyPair
+                    }))
+                    .then((data) => {
+                        notificationManager.info({
+                            ns: 'app.ui',
+                            title: { literal: 'transaction.notifications.closedSuccess' }
+                        });
+                    }, () => {
+                        notificationManager.warn({
+                            ns: 'app.ui',
+                            title: { literal: 'transaction.notifications.closed' }
+                        });
+                    });
+            }
 
             showTransaction() {
                 modalManager.showTransactionInfo(this.transaction.id);
@@ -109,19 +127,28 @@
     };
 
     controller.$inject = [
-        'Base', '$filter', 'modalManager', 'notificationManager',
-        'waves', 'copyService', 'user', 'baseAssetService', 'dexService'
+        'Base',
+        '$filter',
+        'modalManager',
+        'notificationManager',
+        'waves',
+        'copyService',
+        'user',
+        'baseAssetService',
+        'dexService'
     ];
 
-    angular.module('app.ui').component('wTransaction', {
-        bindings: {
-            transaction: '<' // TODO Refactor for listen change transaction. Author Tsigel at 22/11/2017 12:09
-        },
-        require: {
-            parent: '^wTransactionList'
-        },
-        templateUrl: 'modules/ui/directives/transaction/transaction.html',
-        transclude: false,
-        controller
-    });
+    angular.module('app.ui')
+        .component('wTransaction', {
+            bindings: {
+                datePattern: '@',
+                transaction: '<' // TODO Refactor for listen change transaction. Author Tsigel at 22/11/2017 12:09
+            },
+            require: {
+                parent: '^wTransactionList'
+            },
+            templateUrl: 'modules/ui/directives/transaction/transaction.html',
+            transclude: false,
+            controller
+        });
 })();

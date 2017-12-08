@@ -29,6 +29,20 @@
                          * @type {string|number}
                          */
                         this.value = $attrs.value;
+
+                        if ($attrs.optionType) {
+                            switch ($attrs.optionType) {
+                                case 'boolean':
+                                    this.value = this.value === 'true';
+                                    break;
+                                case 'number':
+                                    this.value = Number(this.value);
+                                    break;
+                                default:
+                                    throw new Error('Wrong option type!');
+                            }
+                        }
+
                         /**
                          * @type {Select}
                          */

@@ -45,7 +45,7 @@
                  */
                 this.mirrorId = null;
                 /**
-                 * @type {IAssetInfo}
+                 * @type {IAsset}
                  */
                 this.mirror = null;
                 /**
@@ -190,6 +190,7 @@
     angular.module('app.ui')
         .component('wTransactionList', {
             bindings: {
+                transactionDatePattern: '@',
                 assetIdList: '<',
                 transactionType: '<',
                 search: '<'

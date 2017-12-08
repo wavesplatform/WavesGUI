@@ -8,7 +8,7 @@
      * @param {EventManager} eventManager
      * @return {Aliases}
      */
-    const factory = function (BaseNodeComponent, user, utils, eventManager) {
+    const factory = function (BaseNodeComponent, user, utils) {
 
         class Aliases extends BaseNodeComponent {
 
@@ -62,7 +62,7 @@
         return new Aliases();
     };
 
-    factory.$inject = ['BaseNodeComponent', 'user', 'utils', 'eventManager'];
+    factory.$inject = ['BaseNodeComponent', 'user', 'utils'];
 
     angular.module('app').factory('aliases', factory);
 })();
