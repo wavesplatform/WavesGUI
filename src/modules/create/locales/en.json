@@ -2,6 +2,8 @@
   "createAccount": {
     "createNewAccount": "Create New Account",
     "signUp": "Sign up for a free account below or",
+    "signIn": "Sign in",
+    "tosaved": "to a saved account",
     "restore": "restore an account",
     "from": "from a backup",
     "choose": "Choose your address avatar",

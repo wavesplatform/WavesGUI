@@ -29,7 +29,8 @@
     "create": "create a new account",
     "address": "Address",
     "password": "Password",
-    "forgot": "Restore an account from a backup",
+    "restore": "Restore account",
+    "frombackup": "from backup",
     "placeholders": {
       "password": "Password"
     },
