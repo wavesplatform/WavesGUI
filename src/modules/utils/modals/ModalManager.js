@@ -90,7 +90,7 @@
              * @param {boolean} [data.canChooseAsset]
              * @return {Promise}
              */
-            showSendAsset(data) {
+            showSendAsset(data) { // TODO : (user, asset)
                 return this._getModal({
                     controller: 'AssetSendCtrl',
                     titleContentUrl: 'modules/utils/modals/sendAsset/send-title.modal.html',
@@ -104,21 +104,26 @@
                 });
             }
 
+            showDepositAsset(asset) {
+                // return waves.node.assets.info(asset ? asset.id : WavesApp.defaultAssets.WAVES)
+                //     .then((asset) => {
+                //         // TODO
+                //     });
+            }
+
             /**
              * @param {User} user
-             * @param asset
              * @return {Promise}
              */
-            showReceiveAsset(user, asset) {
+            showAddressQrCode(user) {
                 // TODO : check if `onLogin()` is required here
                 return user.onLogin().then(() => {
                     return this._getModal({
-                        locals: { address: user.address, asset },
-                        title: 'modal.receive.title',
-                        titleParams: { asset },
-                        contentUrl: 'modules/utils/modals/receiveAsset/receive.modal.html',
-                        controller: 'AssetReceiveCtrl',
-                        mod: 'modal-receive'
+                        locals: { address: user.address },
+                        title: 'modal.qr.title',
+                        contentUrl: 'modules/utils/modals/addressQrCode/address-qr-code.modal.html',
+                        controller: 'AddressQrCode',
+                        mod: 'modal-address-qr-code'
                     });
                 });
             }

@@ -10,12 +10,12 @@
       }
   },
   "send": "Send",
-  "receive": "Receive",
+  "qr": "QR Code",
   "addAsset": "Add Asset",
   "directives": {
     "asset": {
       "balance": "Current balance",
-      "receive": "Receive",
+      "deposit": "Deposit",
       "send": "Send"
     }
   }

@@ -31,8 +31,13 @@
                 return this._loadPaymentDetails(CURRENCIES[assetId].waves, CURRENCIES[assetId].coinomat, wavesAddress);
             }
 
-            getSupportedAssetIdList() {
-                return Object.keys(CURRENCIES);
+            /**
+             * @param {string|Asset} asset
+             * @return {boolean}
+             */
+            hasSupportOf(asset) {
+                const assetId = typeof asset === 'string' ? asset : asset.id;
+                return !!CURRENCIES[assetId];
             }
 
             _loadPaymentDetails(from, to, recipientAddress) {

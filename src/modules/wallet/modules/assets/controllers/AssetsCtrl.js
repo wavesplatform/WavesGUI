@@ -93,12 +93,12 @@
                 this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000);
 
                 createPoll(this, this._getChartBalances, 'chartBalanceList', 15000, { isBalance: true });
-                const assetsPoll = createPoll(this, this._getBalances, 'pinnedAssetBalances', 5000, { isBalance: true });
+                const assetPoll = createPoll(this, this._getBalances, 'pinnedAssetBalances', 5000, { isBalance: true });
 
                 this.observe('chartMode', this._onChangeMode);
                 this.observe('_startDate', this._onChangeInterval);
                 this.observe('pinnedAssetIdList', () => {
-                    assetsPoll.restart();
+                    assetPoll.restart();
                 });
 
                 this.observe(['interval', 'intervalCount', 'activeChartAssetId'], this._onChangeInterval);
@@ -116,39 +116,43 @@
                 }
             }
 
-            onAssetClickCallback(event, asset, action) {
+            onAssetActionClick(event, asset, action) {
                 event.preventDefault();
                 switch (action) {
                     case 'send':
                         this.showSend(asset);
                         break;
-                    case 'receive':
-                        this.showReceive(asset);
+                    case 'deposit':
+                        this.showDeposit(asset);
                         break;
                     default:
                         throw new Error('Wrong action');
                 }
             }
 
+            /**
+             * @param {Asset} asset
+             */
             showAsset(asset) {
                 return modalManager.showAssetInfo(asset);
             }
 
             /**
-             * @param {IAsset} asset
+             * @param {Asset} asset
              */
             showSend(asset = Object.create(null)) {
                 return modalManager.showSendAsset({ assetId: asset.id, user, canChooseAsset: !asset.id });
             }
 
             /**
-             * @param {IAsset} [asset]
+             * @param {Asset} asset
              */
-            showReceive(asset) {
-                return waves.node.assets.info(asset && asset.id || WavesApp.defaultAssets.WAVES)
-                    .then((asset) => {
-                        return modalManager.showReceiveAsset(user, asset);
-                    });
+            showDeposit(asset) {
+                return modalManager.showDepositAsset(user, asset);
+            }
+
+            showQR() {
+                return modalManager.showAddressQrCode(user);
             }
 
             /**

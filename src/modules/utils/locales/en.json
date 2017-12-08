@@ -20,9 +20,9 @@
       "leaseComplete": "Your transaction is on the way!",
       "leaseCompleteDesc": "You lease {{amount}} Waves."
     },
-    "receive": {
-      "title": "Receive {{asset.name}}",
-      "warningTitle": "Send only «{{asset.name}}» Waves token to this address",
+    "qr": {
+      "title": "Share your address",
+      "warningTitle": "Send only Waves and Waves tokens to this address",
       "warningText": "Sending any other digital asset to this address will result in the permanent loss of your funds.",
       "copyAndShare": "Copy & Share Address",
       "or": "OR",

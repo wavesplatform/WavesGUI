@@ -8,28 +8,21 @@
     }
   }
 
-  .btn-icon::before {
-    content: '';
-    display: inline-block;
-    position: relative;
-    top: 2px;
-    background-size: 100% 100%;
-    width: 18px;
-    height: 14px;
-    margin-right: 7px;
-  }
-
   .btn-icon {
-    text-transform: capitalize;
-    font-family: "Roboto-Medium", sans-serif;
-  }
-  .btn-icon.icon-send::before {
-    background-image: url(/img/icons/send-white.svg);
+    font-family: @font-roboto-medium;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      position: relative;
+      top: 2px;
+      background-size: 100% 100%;
+      width: 18px;
+      height: 14px;
+      margin-right: 7px;
+    }
   }
 
-  .btn-icon.icon-receive::before {
-    background-image: url(/img/icons/reveice-grey.svg);
-  }
   .part {
     display: inline-block;
   }

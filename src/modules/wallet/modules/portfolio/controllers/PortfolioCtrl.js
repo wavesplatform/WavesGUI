@@ -27,7 +27,7 @@
                  */
                 this.mirrorId = null;
                 /**
-                 * @type {IAsset}
+                 * @type {Asset}
                  */
                 this.mirror = null;
                 /**
@@ -49,25 +49,29 @@
                     });
 
                 createPoll(this, this._getPortfolio, 'portfolioBalances', 3000, { isBalance: true });
+            }
 
+            /**
+             * @param {Asset} asset
+             */
+            showAsset(asset) {
+                modalManager.showAssetInfo(asset);
             }
 
             showSend(assetId) {
+                // TODO : make it by asset and put the logic of `canChooseAsset` to ModalManager
                 return modalManager.showSendAsset({ user, canChooseAsset: !assetId, assetId });
             }
 
             /**
-             * @param [asset]
+             * @param {Asset} asset
              */
-            showReceive(asset) {
-                return waves.node.assets.info(asset && asset.id || WavesApp.defaultAssets.WAVES)
-                    .then((asset) => {
-                        return modalManager.showReceiveAsset(user, asset);
-                    });
+            showDeposit(asset) {
+                return modalManager.showDepositAsset(user, asset);
             }
 
-            showAssetInfo(asset) {
-                modalManager.showAssetInfo(asset);
+            showQR() {
+                return modalManager.showAddressQrCode(user);
             }
 
             pinAsset(asset, state) {
