@@ -122,7 +122,7 @@
                     }
 
                     const char = getChar(event);
-                    if (event.keyCode !== 8) {
+                    if (event.charCode == null || event.charCode !== 0) {
                         if (!char || !checkChar(char, this.$input.val().indexOf('.') !== -1)) {
                             event.preventDefault();
                         }
