@@ -7,9 +7,10 @@
      * @param {function} createPoll
      * @param {JQuery} $element
      * @param {Waves} waves
+     * @param {DexDataService} dexDataService
      * @return {OrderBook}
      */
-    const controller = function (Base, createPoll, $element, waves) {
+    const controller = function (Base, createPoll, $element, waves, dexDataService) {
 
         class OrderBook extends Base {
 
@@ -40,17 +41,24 @@
                     _priceAssetId: 'dex.priceAssetId'
                 });
 
-                const poll = createPoll(this, this._getOrders, 'orders', 12000);
+                const poll = createPoll(this, this._getOrders, 'orders', 1000);
                 this.observe(['_amountAssetId', '_priceAssetId'], () => {
                     this._showSpread = true;
                     poll.restart();
+                });
+
+                $element.on('click', 'w-scroll-box w-row', (e) => {
+                    const amount = e.currentTarget.getAttribute('data-amount');
+                    const price = e.currentTarget.getAttribute('data-price');
+                    const type = e.currentTarget.getAttribute('data-type');
+                    dexDataService.chooseOrderBook.dispatch({ amount, price, type });
                 });
 
             }
 
             _getOrders() {
                 return waves.matcher.getOrderBook(this._amountAssetId, this._priceAssetId)
-                    .then(({ bids, asks, spread }) => {
+                    .then(({ bids, asks, spread, pair }) => {
 
                         const getCell = function (content) {
                             return `<div class="table-cell">${content}</div>`;
@@ -93,15 +101,34 @@
                         const process = function (list) {
                             return list.map((item) => {
                                 const cells = getCells(item);
-                                return `<w-row><div class="table-row">${cells}</div></w-row>`;
+                                const attrs = `data-amount="${item.totalAmount}" data-price="${item.price}" data-type="${item.type}"`;
+                                return `<w-row ${attrs}><div class="table-row">${cells}</div></w-row>`;
                             });
                         };
+
+                        const sum = (list, type) => {
+                            list = list.slice();
+                            let total = new BigNumber(0);
+                            let amountTotal = new BigNumber(0);
+
+                            list.forEach((item) => {
+                                total = total.add(item.total);
+                                amountTotal = amountTotal.add(item.amount);
+                                item.type = type;
+                                item.total = total.toFixed(pair.priceAsset.precision);
+                                item.totalAmount = amountTotal.toFixed(pair.amountAsset.precision);
+                            });
+                            return list;
+                        };
+
+                        bids = sum(bids, 'sell');
+                        asks = sum(asks, 'buy');
 
                         return {
                             bids: process(bids)
                                 .join(''),
                             spread: spread && process([spread])[0],
-                            asks: process(asks.reverse())
+                            asks: process(asks.slice().reverse())
                                 .join('')
                         };
                     })
@@ -125,7 +152,7 @@
         return new OrderBook();
     };
 
-    controller.$inject = ['Base', 'createPoll', '$element', 'waves'];
+    controller.$inject = ['Base', 'createPoll', '$element', 'waves', 'dexDataService'];
 
     angular.module('app.dex').component('wDexOrderBook', {
         templateUrl: 'modules/dex/directives/orderBook/orderBook.html',
