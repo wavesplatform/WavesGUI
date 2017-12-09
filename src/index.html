@@ -266,7 +266,8 @@
     var Waves = WavesAPI.create({
         networkByte: WavesApp.network.code.charCodeAt(0),
         nodeAddress: WavesApp.network.node,
-        matcherAddress: WavesApp.network.matcher
+        matcherAddress: WavesApp.network.matcher,
+        logLevel: 'none'
     });
 
     WavesApp.stateTree = new tsUtils.Tree({
