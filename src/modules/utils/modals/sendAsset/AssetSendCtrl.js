@@ -112,6 +112,18 @@
                     });
             }
 
+            fillMax() {
+                if (this.assetId === this.fee.asset.id) {
+                    if (this.balance.getTokens()
+                            .gt(this.fee.getTokens())) {
+                        this.amount = this.balance.getTokens()
+                            .sub(this.fee.getTokens());
+                    }
+                } else {
+                    this.amount = this.balance.getTokens();
+                }
+            }
+
             showTransaction() {
                 $mdDialog.hide();
                 setTimeout(() => { // Timeout for routing (if modal has route)
