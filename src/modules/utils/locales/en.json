@@ -62,9 +62,24 @@
     "deposit": {
       "title": "Deposit {{assetName}}",
       "currency": "Currency",
+      "copyAndShare": "Copy & Share Address",
+      "or": "OR",
+      "scanQrCode": "Scan QR Code",
       "coinomatBTC": {
-        "warningTitle": "",
-        "warningText" : ""
+        "warningTitle": "Send only BTC to this deposit address",
+        "warningText" : "Sending any other currency to this address may result in the loss of your deposit."
+      },
+      "coinomatETH": {
+        "warningTitle": "Do not deposit ETH from smart contracts!",
+        "warningText" : "Check if your wallet or exchange uses smart-contracts to withdraw ETH. We do not accept such transactions and can’t refund them. You will lose that money."
+      },
+      "coinomatLTC": {
+        "warningTitle": "TODO!",
+        "warningText" : "TODO!"
+      },
+      "coinomatZEC": {
+        "warningTitle": "TODO!",
+        "warningText" : "TODO!"
       }
     },
     "account": {

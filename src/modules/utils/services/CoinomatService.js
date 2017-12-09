@@ -4,7 +4,10 @@
     const PATH = `${WavesApp.network.coinomat}/api/v1`;
     const LANGUAGE = 'ru_RU';
 
-    const CURRENCIES = {
+    // That is used to access values from `**/locales/*.json` files
+    const MOCK_NAME_PREFIX = 'coinomat';
+
+    const SUPPORTED = {
         // TODO : move this list to a server-size DB
         [WavesApp.defaultAssets.BTC]: { waves: 'WBTC', coinomat: 'BTC' },
         [WavesApp.defaultAssets.ETH]: { waves: 'WETH', coinomat: 'ETH' },
@@ -17,27 +20,48 @@
      */
     const factory = function () {
 
+        // TODO : make this interface shared for any gateway service
+
         class CoinomatService {
 
-            // From Coinomat to Waves
-            getDepositDetails(assetId, wavesAddress) {
-                CoinomatService._isSupportedAsset(assetId);
-                return this._loadPaymentDetails(CURRENCIES[assetId].coinomat, CURRENCIES[assetId].waves, wavesAddress);
-            }
-
-            // From Waves to Coinomat
-            getWithdrawDetails(assetId, wavesAddress) {
-                CoinomatService._isSupportedAsset(assetId);
-                return this._loadPaymentDetails(CURRENCIES[assetId].waves, CURRENCIES[assetId].coinomat, wavesAddress);
+            /**
+             * From Coinomat to Waves
+             * @param {Asset} asset
+             * @param {string} wavesAddress
+             * @return {boolean}
+             */
+            getDepositDetails(asset, wavesAddress) {
+                CoinomatService._isSupportedAsset(asset.id);
+                return this._loadPaymentDetails(SUPPORTED[asset.id].coinomat, SUPPORTED[asset.id].waves, wavesAddress);
             }
 
             /**
-             * @param {string|Asset} asset
+             * From Waves to Coinomat
+             * @param {Asset} asset
+             * @param {string} wavesAddress
+             * @return {boolean}
+             */
+            getWithdrawDetails(asset, wavesAddress) {
+                CoinomatService._isSupportedAsset(asset.id);
+                return this._loadPaymentDetails(SUPPORTED[asset.id].waves, SUPPORTED[asset.id].coinomat, wavesAddress);
+            }
+
+            /**
+             * @param {Asset} asset
              * @return {boolean}
              */
             hasSupportOf(asset) {
-                const assetId = typeof asset === 'string' ? asset : asset.id;
-                return !!CURRENCIES[assetId];
+                return !!SUPPORTED[asset.id];
+            }
+
+            /**
+             * @param {Asset} asset
+             * @return {string}
+             */
+            getKeyNameFor(asset) {
+                if (SUPPORTED[asset.id]) {
+                    return `${MOCK_NAME_PREFIX}${SUPPORTED[asset.id].coinomat}`;
+                }
             }
 
             _loadPaymentDetails(from, to, recipientAddress) {
@@ -72,7 +96,7 @@
             }
 
             static _isSupportedAsset(assetId) {
-                if (!CURRENCIES[assetId]) {
+                if (!SUPPORTED[assetId]) {
                     throw new Error('Asset is not supported by Coinomat');
                 }
             }
