@@ -59,6 +59,9 @@
         "details": "View Details"
       }
     },
+    "deposit": {
+      "title": "Deposit {{assetName}}"
+    },
     "account": {
       "title": "Account Information",
       "address": "Your address",

@@ -10,9 +10,11 @@
      * @param {User} user
      * @param {EventManager} eventManager
      * @param {Function} createPoll
+     * @param {CoinomatService} coinomatService
      * @return {PortfolioCtrl}
      */
-    const controller = function (Base, $scope, waves, utils, modalManager, user, eventManager, createPoll) {
+    const controller = function (Base, $scope, waves, utils, modalManager, user,
+                                 eventManager, createPoll, coinomatService) {
 
         class PortfolioCtrl extends Base {
 
@@ -58,9 +60,11 @@
                 modalManager.showAssetInfo(asset);
             }
 
-            showSend(assetId) {
-                // TODO : make it by asset and put the logic of `canChooseAsset` to ModalManager
-                return modalManager.showSendAsset({ user, canChooseAsset: !assetId, assetId });
+            /**
+             * @param {Asset} asset
+             */
+            showSend(asset) {
+                return modalManager.showSendAsset(user, asset || Object.create(null));
             }
 
             /**
@@ -86,6 +90,10 @@
                     list.splice(this.pinnedAssetIdList.indexOf(asset.id), 1);
                     this.pinnedAssetIdList = list;
                 }
+            }
+
+            isSupportedByGateway(asset) {
+                return coinomatService.hasSupportOf(asset);
             }
 
             /**
@@ -146,7 +154,8 @@
         'modalManager',
         'user',
         'eventManager',
-        'createPoll'
+        'createPoll',
+        'coinomatService'
     ];
 
     angular.module('app.wallet.portfolio')

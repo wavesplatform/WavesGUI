@@ -84,31 +84,40 @@
             }
 
             /**
-             * @param {object} data
-             * @param {User} data.user
-             * @param {string} [data.assetId]
-             * @param {boolean} [data.canChooseAsset]
+             * @param {User} user
+             * @param {Asset} asset
              * @return {Promise}
              */
-            showSendAsset(data) { // TODO : (user, asset)
+            showSendAsset(user, asset) {
                 return this._getModal({
                     controller: 'AssetSendCtrl',
                     titleContentUrl: 'modules/utils/modals/sendAsset/send-title.modal.html',
                     contentUrl: 'modules/utils/modals/sendAsset/send.modal.html',
                     mod: 'modal-send',
                     locals: {
-                        assetId: data.assetId,
-                        baseAssetId: data.user.getSetting('baseAssetId'),
-                        canChooseAsset: data.canChooseAsset
+                        assetId: asset.id,
+                        baseAssetId: user.getSetting('baseAssetId'),
+                        canChooseAsset: !asset.id
                     }
                 });
             }
 
-            showDepositAsset(asset) {
-                // return waves.node.assets.info(asset ? asset.id : WavesApp.defaultAssets.WAVES)
-                //     .then((asset) => {
-                //         // TODO
-                //     });
+            /**
+             * @param {User} user
+             * @param {Asset} asset
+             * @return {Promise}
+             */
+            showDepositAsset(user, asset) {
+                return user.onLogin().then(() => {
+                    return this._getModal({
+                        locals: { address: user.address, asset },
+                        title: 'modal.deposit.title',
+                        titleParams: { assetName: asset.name },
+                        contentUrl: 'modules/utils/modals/depositAsset/deposit-asset.modal.html',
+                        controller: 'DepositAsset',
+                        mod: 'modal-deposit-asset'
+                    });
+                });
             }
 
             /**
@@ -116,7 +125,6 @@
              * @return {Promise}
              */
             showAddressQrCode(user) {
-                // TODO : check if `onLogin()` is required here
                 return user.onLogin().then(() => {
                     return this._getModal({
                         locals: { address: user.address },

@@ -140,8 +140,8 @@
             /**
              * @param {Asset} asset
              */
-            showSend(asset = Object.create(null)) {
-                return modalManager.showSendAsset({ assetId: asset.id, user, canChooseAsset: !asset.id });
+            showSend(asset) {
+                return modalManager.showSendAsset(user, asset || Object.create(null));
             }
 
             /**
