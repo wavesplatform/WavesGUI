@@ -11,10 +11,9 @@
 
         class AddressQrCode extends Base {
 
-            constructor({ address, asset }) {
+            constructor({ address }) {
                 super($scope);
                 this.address = address;
-                this.asset = asset;
             }
 
         }
@@ -24,6 +23,5 @@
 
     controller.$inject = ['$mdDialog', 'Base', '$scope'];
 
-    angular.module('app.utils')
-        .controller('AddressQrCode', controller);
+    angular.module('app.utils').controller('AddressQrCode', controller);
 })();
