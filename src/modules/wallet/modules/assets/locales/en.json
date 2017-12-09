@@ -10,7 +10,7 @@
       }
   },
   "send": "Send",
-  "qr": "QR Code",
+  "qr": "Your Address",
   "addAsset": "Add Asset",
   "directives": {
     "asset": {

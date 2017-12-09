@@ -33,7 +33,7 @@
       "titleComplete": "Sending Complete",
       "recipient": "Recipient",
       "sendMax": "Max",
-      "withdraw": "Currency",
+      "currency": "Currency",
       "amount": "Amount",
       "description": "Description",
       "descriptionPlaceholder": "Write an optional message",
@@ -60,7 +60,12 @@
       }
     },
     "deposit": {
-      "title": "Deposit {{assetName}}"
+      "title": "Deposit {{assetName}}",
+      "currency": "Currency",
+      "coinomatBTC": {
+        "warningTitle": "",
+        "warningText" : ""
+      }
     },
     "account": {
       "title": "Account Information",
