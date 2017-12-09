@@ -52,7 +52,10 @@
                                     this._validate();
                                 });
 
-                                $ngModel.$render();
+                                $input.get(0).value = $ngModel.$formatters.reduce((result, formatter) => {
+                                    return formatter(result);
+                                }, $ngModel.$viewValue);
+
                                 this._validate();
                             });
                     }
