@@ -223,6 +223,7 @@
                 defaultResolution: '60'
             },
             modules: [],
+            maxAliasLength: 30,
             addController(name, controller) {
                 __controllers[name] = controller;
             },
@@ -338,7 +339,7 @@
      * @property {string} name
      * @property {string} version
      * @property {string} type
-     * @property {number} addressLength
+     * @property {number} maxAliasLength
      * @property {object} network
      * @property {string} network.code
      * @property {string} network.node

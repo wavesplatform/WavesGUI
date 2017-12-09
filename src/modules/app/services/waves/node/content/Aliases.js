@@ -18,7 +18,7 @@
              * @return {Promise<string>}
              */
             getAddress(alias) {
-
+                return Waves.API.Node.v1.aliases.byAlias(alias).then(({ address }) => address)
             }
 
             /**
