@@ -10,6 +10,8 @@
      */
     const factory = function (BaseNodeComponent, user, utils) {
 
+        const AVAILABLE_CHARS = '-.0123456789@_abcdefghijklmnopqrstuvwxyz';
+
         class Aliases extends BaseNodeComponent {
 
             /**
@@ -55,6 +57,14 @@
                     }, keyPair)
                         .then(this._pipeTransaction([fee]));
                 });
+            }
+
+            validate(alias) {
+                return alias.length >= 4 &&
+                    alias.length <= WavesApp.maxAliasLength &&
+                    alias.split('').some((char) => {
+                        return AVAILABLE_CHARS.indexOf(char) !== -1;
+                    })
             }
 
         }

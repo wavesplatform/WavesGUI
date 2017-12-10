@@ -14,12 +14,15 @@
                 super(data);
 
                 this.$ngModel.$asyncValidators.inputAddress = function (address) {
-                    // TODO : replace with address validator from `waves-api` when it's implemented
-                    if (address.length <= WavesApp.maxAliasLength) {
-                        return waves.node.aliases.getAddress(address).then(() => {
-                            return Promise.resolve();
-                        })
+                    if (address.length < 4) {
+                        return Promise.reject();
+                    } else if (address.length <= WavesApp.maxAliasLength) {
+                        return waves.node.aliases.validate(address) && waves.node.aliases.getAddress(address)
+                                .then(() => {
+                                    return Promise.resolve();
+                                }) || Promise.reject();
                     } else {
+                        // TODO : replace with address validator from `waves-api` when it's implemented
                         return Waves.API.Node.v1.addresses.balance(address)
                             .then((data) => {
                                 if (data && data.balance != null) {
