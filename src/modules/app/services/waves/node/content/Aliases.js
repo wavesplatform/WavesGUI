@@ -60,6 +60,7 @@
             }
 
             validate(alias) {
+                // TODO : replace with waves-api method when it is implemented
                 return alias.length >= 4 &&
                     alias.length <= WavesApp.maxAliasLength &&
                     alias.split('').some((char) => {
