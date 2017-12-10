@@ -42,7 +42,7 @@
 
                 waves.node.assets.balance(this.assetId)
                     .then((info) => {
-                        this.asset = info;
+                        this.balance = info;
                     });
             }
 
