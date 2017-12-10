@@ -2,10 +2,10 @@
     'use strict';
 
     /**
-     * @param {CoinomatService} coinomatService
+     * @param {GatewayService} gatewayService
      * @return {Asset}
      */
-    const controller = function (coinomatService) {
+    const controller = function (gatewayService) {
 
         class Asset {
 
@@ -17,11 +17,11 @@
                 /**
                  * @type {boolean}
                  */
-                this.hasGateway = null;
+                this.isDepositSupported = false;
             }
 
             $postLink() {
-                this.hasGateway = coinomatService.hasSupportOf(this.balance.asset);
+                this.isDepositSupported = gatewayService.hasSupportOf(this.balance.asset, 'deposit');
             }
 
         }
@@ -29,7 +29,7 @@
         return new Asset();
     };
 
-    controller.$inject = ['coinomatService'];
+    controller.$inject = ['gatewayService'];
 
     angular.module('app.wallet.assets').component('wAsset', {
         bindings: {

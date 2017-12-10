@@ -5,10 +5,10 @@
      * @param $mdDialog
      * @param Base
      * @param $scope
-     * @param {CoinomatService} coinomatService
+     * @param {GatewayService} gatewayService
      * @return {DepositAsset}
      */
-    const controller = function ($mdDialog, Base, $scope, coinomatService) {
+    const controller = function ($mdDialog, Base, $scope, gatewayService) {
 
         class DepositAsset extends Base {
 
@@ -25,13 +25,13 @@
                 /**
                  * @type {string}
                  */
-                this.assetKeyName = coinomatService.getKeyNameFor(asset);
+                this.assetKeyName = gatewayService.getAssetKeyName(asset, 'deposit');
                 /**
                  * @type {string}
                  */
                 this.gatewayAddress = null;
 
-                coinomatService.getDepositDetails(asset, address).then((details) => {
+                gatewayService.getDepositDetails(asset, address).then((details) => {
                     this.gatewayAddress = details.address;
                 });
             }
@@ -41,7 +41,7 @@
         return new DepositAsset(this.locals);
     };
 
-    controller.$inject = ['$mdDialog', 'Base', '$scope', 'coinomatService'];
+    controller.$inject = ['$mdDialog', 'Base', '$scope', 'gatewayService'];
 
     angular.module('app.utils').controller('DepositAsset', controller);
 })();

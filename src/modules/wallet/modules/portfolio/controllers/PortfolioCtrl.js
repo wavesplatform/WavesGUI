@@ -10,11 +10,11 @@
      * @param {User} user
      * @param {EventManager} eventManager
      * @param {Function} createPoll
-     * @param {CoinomatService} coinomatService
+     * @param {GatewayService} gatewayService
      * @return {PortfolioCtrl}
      */
     const controller = function (Base, $scope, waves, utils, modalManager, user,
-                                 eventManager, createPoll, coinomatService) {
+                                 eventManager, createPoll, gatewayService) {
 
         class PortfolioCtrl extends Base {
 
@@ -92,8 +92,8 @@
                 }
             }
 
-            isSupportedByGateway(asset) {
-                return coinomatService.hasSupportOf(asset);
+            isDepositSupported(asset) {
+                return gatewayService.hasSupportOf(asset, 'deposit');
             }
 
             /**
@@ -155,7 +155,7 @@
         'user',
         'eventManager',
         'createPoll',
-        'coinomatService'
+        'gatewayService'
     ];
 
     angular.module('app.wallet.portfolio')
