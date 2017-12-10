@@ -122,6 +122,24 @@
 
             /**
              * @param {User} user
+             * @param {Asset} asset
+             * @return {Promise}
+             */
+            showSepaAsset(user, asset) {
+                return user.onLogin().then(() => {
+                    return this._getModal({
+                        locals: { address: user.address, asset },
+                        title: 'modal.sepa.title',
+                        titleParams: { assetName: asset.name },
+                        contentUrl: 'modules/utils/modals/sepaAsset/sepa-asset.modal.html',
+                        controller: 'SepaAsset',
+                        mod: 'modal-sepa-asset'
+                    });
+                });
+            }
+
+            /**
+             * @param {User} user
              * @return {Promise}
              */
             showAddressQrCode(user) {

@@ -20,8 +20,6 @@
      */
     const factory = function () {
 
-        // TODO : make this interface shared for any gateway service
-
         class CoinomatService {
 
             /**

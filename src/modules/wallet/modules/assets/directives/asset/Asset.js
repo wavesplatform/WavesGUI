@@ -18,10 +18,15 @@
                  * @type {boolean}
                  */
                 this.isDepositSupported = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.isSepaSupported = false;
             }
 
             $postLink() {
                 this.isDepositSupported = gatewayService.hasSupportOf(this.balance.asset, 'deposit');
+                this.isSepaSupported = gatewayService.hasSupportOf(this.balance.asset, 'sepa');
             }
 
         }

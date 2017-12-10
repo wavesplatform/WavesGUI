@@ -125,6 +125,9 @@
                     case 'deposit':
                         this.showDeposit(asset);
                         break;
+                    case 'sepa':
+                        this.showSepa(asset);
+                        break;
                     default:
                         throw new Error('Wrong action');
                 }
@@ -149,6 +152,13 @@
              */
             showDeposit(asset) {
                 return modalManager.showDepositAsset(user, asset);
+            }
+
+            /**
+             * @param {Asset} asset
+             */
+            showSepa(asset) {
+                return modalManager.showSepaAsset(user, asset);
             }
 
             showQR() {

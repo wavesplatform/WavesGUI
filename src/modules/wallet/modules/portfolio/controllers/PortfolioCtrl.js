@@ -74,6 +74,13 @@
                 return modalManager.showDepositAsset(user, asset);
             }
 
+            /**
+             * @param {Asset} asset
+             */
+            showSepa(asset) {
+                return modalManager.showSepaAsset(user, asset);
+            }
+
             showQR() {
                 return modalManager.showAddressQrCode(user);
             }
@@ -94,6 +101,10 @@
 
             isDepositSupported(asset) {
                 return gatewayService.hasSupportOf(asset, 'deposit');
+            }
+
+            isSepaSupported(asset) {
+                return gatewayService.hasSupportOf(asset, 'sepa');
             }
 
             /**

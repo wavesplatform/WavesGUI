@@ -1,0 +1,34 @@
+<div class="modal-content" ng-if="$ctrl.asset">
+
+    <div class="warning-plate">
+        <div class="body-2 warning-500" w-i18n="modal.sepa.warningTitle"></div>
+    </div>
+
+    <div class="country-list-link">
+        <a class="caption-1 submit-300"
+           w-i18n="modal.sepa.countryList"
+           ng-if="$ctrl.listOfEligibleCountries"
+           href="{{::$ctrl.listOfEligibleCountries}}"
+           target="_blank"></a>
+    </div>
+
+    <table>
+        <tr>
+            <td class="step" w-i18n="modal.sepa.step1"></td>
+            <td class="description"
+                w-i18n="modal.sepa.step1Description"
+                params="{assetName: $ctrl.asset.name, url: $ctrl.idNowSiteUrl, urlName: $ctrl.idNowSiteName}"></td>
+        </tr>
+        <tr>
+            <td class="step" w-i18n="modal.sepa.step2"></td>
+            <td class="description" w-i18n="modal.sepa.step2Description"></td>
+        </tr>
+    </table>
+
+    <a ng-if="$ctrl.idNowUserLink" href="{{::$ctrl.idNowUserLink}}" target="_blank">
+        <w-button w-modal-close class="big submit long">
+            <w-i18n>modal.sepa.proceed</w-i18n>
+        </w-button>
+    </a>
+
+</div>

@@ -82,6 +82,16 @@
         "warningText" : "TODO!"
       }
     },
+    "sepa": {
+      "title": "Deposit {{assetName}}",
+      "warningTitle": "We don't accept international wire transfers from US Citizens or from USA Banks",
+      "countryList": "List of eligible countries and IDs",
+      "step1": "Step 1",
+      "step1Description": "In order to deposit {{assetName}} directly from your bank account through SEPA transfer you must get verified by our partner <a href='{{url}}' target='_blank'>{{urlName}}</a>",
+      "step2": "Step 2",
+      "step2Description": "After you go through the verification you will receive an email with further instructions",
+      "proceed": "Get verified"
+    },
     "account": {
       "title": "Account Information",
       "address": "Your address",

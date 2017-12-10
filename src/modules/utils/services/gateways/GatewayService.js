@@ -3,15 +3,17 @@
 
     /**
      * @param {CoinomatService} coinomatService
+     * @param {CoinomatSepaService} coinomatSepaService
      * @return {GatewayService}
      */
-    const factory = function (coinomatService) {
+    const factory = function (coinomatService, coinomatSepaService) {
 
         class GatewayService {
 
             constructor() {
                 this.gateways = [
-                    coinomatService
+                    coinomatService,
+                    coinomatSepaService
                 ];
             }
 
@@ -23,6 +25,16 @@
             getDepositDetails(asset, wavesAddress) {
                 const gateway = this._findGatewayFor(asset, 'deposit');
                 return gateway.getDepositDetails(asset, wavesAddress);
+            }
+
+            /**
+             * @param {Asset} asset
+             * @param {string} wavesAddress
+             * @return {Promise}
+             */
+            getSepaDetails(asset, wavesAddress) {
+                const gateway = this._findGatewayFor(asset, 'sepa');
+                return gateway.getSepaDetails(asset, wavesAddress);
             }
 
             /**
@@ -67,7 +79,7 @@
         return new GatewayService();
     };
 
-    factory.$inject = ['coinomatService'];
+    factory.$inject = ['coinomatService', 'coinomatSepaService'];
 
     angular.module('app.utils').factory('gatewayService', factory);
 })();
