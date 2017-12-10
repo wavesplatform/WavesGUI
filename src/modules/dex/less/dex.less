@@ -21,11 +21,16 @@ body.dex {
     height: 100%;
 
     w-dex-trade-history w-t-head w-row {
-      padding-right: 26px;
+      padding-right: @padding-main-layout;
     }
 
     w-dex-trade-history w-scroll-box {
       padding-right: @padding-main-layout;
+    }
+
+    w-dex-trade-history .cell-2 div {
+      .caption-2-fs;
+      line-height: 1.2em;
     }
 
     .block-title .w-input-wrap input {
@@ -36,8 +41,12 @@ body.dex {
       background-size: 12px 12px;
       background-position: 7px center;
       text-indent: 17px;
-      height: 27px;
+      height: 29px;
       border: 1px solid #e2e2e2;
+    }
+
+    .block-title .w-input .w-input-wrap input {
+      margin-top: -1px;
     }
 
     .search-item {
