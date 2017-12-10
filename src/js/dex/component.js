@@ -45,8 +45,8 @@
         // TODO : change after Dec 11, 2017
         if (Date.now() >= 1512993600000) {
             favoritePairs.push({
-                amountAsset: Currency.WTRY,
-                priceAsset: Currency.WAVES
+                amountAsset: Currency.WAVES,
+                priceAsset: Currency.WTRY
             });
         }
 
