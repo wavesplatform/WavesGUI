@@ -51,7 +51,7 @@
                             return modalManager.showAssetInfo(asset);
                         });
                     },
-                    '/receive': () => modalManager.showReceiveAsset(user),
+                    // '/receive': () => modalManager.showReceiveAsset(user), // TODO : decide on that
                     '/account': () => modalManager.showAccountInfo()
                 };
             }

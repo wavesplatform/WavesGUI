@@ -29,7 +29,7 @@
                  */
                 this.interval = null;
                 /**
-                 * @type {IAsset}
+                 * @type {Asset}
                  */
                 this.mirror = null;
                 /**
@@ -99,7 +99,8 @@
             }
 
             _onChangeMirrorBalance() {
-                $element.html(this.mirrorBalance ? this.mirrorBalance.toFormat() : ''); // TODO Investigate. Author Tsigel at 29/11/2017 17:24
+                $element.html(this.mirrorBalance ? this.mirrorBalance.toFormat() : '');
+                // TODO Investigate. Author Tsigel at 29/11/2017 17:24
             }
 
         }

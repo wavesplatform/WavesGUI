@@ -1,8 +1,6 @@
 @import (reference) '../../../config';
 
-md-dialog.modal-receive {
-  width: 540px;
-
+md-dialog.modal-address-qr-code {
   md-dialog-content {
     height: 100%;
     position: relative;
@@ -13,11 +11,8 @@ md-dialog.modal-receive {
       right: 40px;
       bottom: 40px;
 
-      .receive-warning {
+      .warning-plate {
         margin: 10px 0 20px;
-        padding: 17px;
-        border: 1px dashed @color-warning-400;
-        border-radius: @border-radius;
       }
 
       .or {
@@ -41,3 +36,5 @@ md-dialog.modal-receive {
     }
   }
 }
+
+// TODO : this file is almost a copy of depositAsset/deposit-asset.less

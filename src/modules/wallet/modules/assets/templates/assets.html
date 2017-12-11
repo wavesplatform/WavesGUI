@@ -4,8 +4,8 @@
         <w-button class="interface" ng-click="$ctrl.showSend()">
             <span class="btn-icon icon-send" w-i18n="send"></span>
         </w-button>
-        <w-button class="interface" ng-click="$ctrl.showReceive()">
-            <span class="btn-icon icon-receive" w-i18n="receive"></span>
+        <w-button class="interface" ng-click="$ctrl.showQR()">
+            <span class="btn-icon icon-qr" w-i18n="qr"></span>
         </w-button>
         <!--<w-button class="right" ng-click="$ctrl.addAsset()">-->
             <!--<span class="btn-icon icon-add-asset" w-i18n="addAsset"></span>-->
@@ -58,13 +58,13 @@
             <div class="change">
                 <h1>{{$ctrl.change > 0 ? '+' : '-'}}$ {{$ctrl.abs($ctrl.change)}}</h1>
                 <div class="tag-1 info-500">
-                    SLICE LAST {{$ctrl.chartMode.toUpperCase()}} (USD)
+                    SINCE LAST {{$ctrl.chartMode.toUpperCase()}} (USD)
                 </div>
             </div>
             <div class="change-percent">
                 <h1>{{$ctrl.change > 0 ? '+' : '-'}}{{$ctrl.abs($ctrl.changePercent)}}%</h1>
                 <div class="tag-1 info-500">
-                    SLICE LAST {{$ctrl.chartMode.toUpperCase()}} (%)
+                    SINCE LAST {{$ctrl.chartMode.toUpperCase()}} (%)
                 </div>
             </div>
         </div>
@@ -77,7 +77,7 @@
     <div class="assets-list">
         <w-asset ng-repeat="balance in $ctrl.pinnedAssetBalances track by balance.asset.id"
                  ng-click="$ctrl.onAssetClick($event, balance.asset)"
-                 on-click="$ctrl.onAssetClickCallback(event, balance.asset, action)"
+                 on-click="$ctrl.onAssetActionClick(event, balance.asset, action)"
                  balance="balance"></w-asset>
     </div>
 

@@ -19,9 +19,10 @@
     /**
      * @param {User} user
      * @param {app.utils} utils
+     * @param {Aliases} aliases
      * @return {Transactions}
      */
-    const factory = function (user, utils) {
+    const factory = function (user, utils, aliases) {
 
         class Transactions {
 
@@ -35,8 +36,13 @@
              * @return {Promise<ITransaction>}
              */
             get(id) {
-                return Waves.API.Node.v2.transactions.get(id)
-                    .then(this._pipeTransaction(false));
+                return Promise.all([
+                    aliases.getAliasList(),
+                    Waves.API.Node.v2.transactions.get(id)
+                ]).then(([aliases, tx]) => {
+                    const pipe = this._pipeTransaction(false, aliases);
+                    return pipe(tx);
+                });
             }
 
             /**
@@ -45,8 +51,13 @@
              * @return {Promise<ITransaction>}
              */
             getUtx(id) {
-                return Waves.API.Node.v2.transactions.utxGet(id)
-                    .then(this._pipeTransaction(true));
+                return Promise.all([
+                    aliases.getAliasList(),
+                    Waves.API.Node.v2.transactions.utxGet(id)
+                ]).then(([aliases, tx]) => {
+                    const pipe = this._pipeTransaction(false, aliases);
+                    return pipe(tx);
+                });
             }
 
             /**
@@ -55,8 +66,7 @@
              * @return {Promise<ITransaction>}
              */
             getAlways(id) {
-                return this.get(id)
-                    .catch(() => this.getUtx(id));
+                return this.get(id).catch(() => this.getUtx(id));
             }
 
             /**
@@ -64,8 +74,12 @@
              * @return {Promise<ITransaction[]>}
              */
             list() {
-                return Waves.API.Node.v2.addresses.transactions(user.address)
-                    .then((list) => list && list.map(this._pipeTransaction(false))) || [];
+                return Promise.all([
+                    aliases.getAliasList(),
+                    Waves.API.Node.v2.addresses.transactions(user.address)
+                ]).then(([aliases, txList = []]) => {
+                    return txList.map(this._pipeTransaction(false, aliases));
+                });
             }
 
             /**
@@ -73,10 +87,12 @@
              * @return {Promise<ITransaction[]>}
              */
             listUtx() {
-                return Waves.API.Node.v1.transactions.utxGetList()
-                    .then((list) => list.filter(Transactions._filterUtxTransactions))
-                    .then((list) => list.map(Transactions._mapV1UtxTransactions))
-                    .then((list) => Promise.all(list));
+                return Promise.all([
+                    aliases.getAliasList(),
+                    Waves.API.Node.v2.addresses.utxTransactions(user.address)
+                ]).then(([aliases, list = []]) => {
+                    return list.map(this._pipeTransaction(true, aliases));
+                });
             }
 
             /**
@@ -87,11 +103,7 @@
                 return utils.whenAll([
                     this.listUtx(),
                     this.list()
-                ])
-                    .then(([utxTxList, txList]) => {
-                        return utxTxList.map(this._pipeTransaction(true))
-                            .concat(txList.map(this._pipeTransaction(false)));
-                    });
+                ]).then(([utxTxList, txList]) => utxTxList.concat(txList));
             }
 
             /**
@@ -103,33 +115,21 @@
                     .then((list) => list.length);
             }
 
-            _pipeTransaction(isUTX) {
+            /**
+             * @param {boolean} isUTX
+             * @param {string[]} aliasList
+             * @return {function(*=)}
+             * @private
+             */
+            _pipeTransaction(isUTX, aliasList) {
                 return (tx) => {
                     tx.timestamp = new Date(tx.timestamp);
                     tx.isUTX = isUTX;
-                    tx.type = Transactions._getTransactionType(tx);
+                    tx.type = Transactions._getTransactionType(tx, aliasList);
                     tx.templateType = Transactions._getTemplateType(tx);
                     tx.shownAddress = Transactions._getTransactionAddress(tx);
                     return tx;
                 };
-            }
-
-            static _filterUtxTransactions({ sender }) {
-                return sender === user.address;
-            }
-
-            static _mapV1UtxTransactions(tx) {
-                const wavesId = WavesApp.defaultAssets.WAVES;
-                const promiseList = [
-                    Waves.Money.fromCoins(String(tx.fee), tx.feeAsset || wavesId)
-                ];
-
-                if (tx.type === Waves.constants.TRANSFER_TX) {
-                    promiseList.push(Waves.Money.fromCoins(String(tx.amount), tx.assetId || wavesId));
-                }
-
-                return Promise.all(promiseList)
-                    .then(([fee, amount]) => ({ ...tx, fee, amount }));
             }
 
             /**
@@ -139,13 +139,15 @@
              * @param {string} tx.recipient
              * @param {object} tx.buyOrder
              * @param {object} tx.sellOrder
+             * @param {string[]} aliasList
              * @return {string}
              * @private
              */
-            static _getTransactionType(tx) {
+            static _getTransactionType(tx, aliasList) {
                 switch (tx.transactionType) {
+                    // TODO : replace `case` values with `waves-api` constants
                     case 'transfer':
-                        return Transactions._getTransferType(tx);
+                        return Transactions._getTransferType(tx, aliasList);
                     case 'exchange':
                         return Transactions._getExchangeType(tx);
                     case 'lease':
@@ -168,11 +170,16 @@
             /**
              * @param {string} sender
              * @param {string} recipient
+             * @param {string[]} aliasList
              * @return {string}
              * @private
              */
-            static _getTransferType({ sender, recipient }) {
-                if (sender === recipient) {
+            static _getTransferType({ sender, recipient }, aliasList) {
+                // TODO : move aliasList to User (as a property `user.aliases = []`)
+                // TODO : remove `aliasList` argument from `pipeTransaction()` and other methods
+                // TODO : stop requesting aliases in 4 methods above
+                // TODO : add static method `.isSameSenderAndRecipient(sender, recipient)` (rename)
+                if (sender === recipient || (sender === user.address && aliasList.indexOf(recipient) !== -1)) {
                     return TYPES.CIRCULAR;
                 } else {
                     return sender === user.address ? TYPES.SEND : TYPES.RECEIVE;
@@ -253,7 +260,7 @@
         return utils.bind(new Transactions());
     };
 
-    factory.$inject = ['user', 'utils'];
+    factory.$inject = ['user', 'utils', 'aliases'];
 
     angular.module('app')
         .factory('transactions', factory);
