@@ -14,10 +14,9 @@
     },
     "orderBook": {
       "title": "Order Book",
-      "amount": "Amount",
+      "amount": "Amount {{assetName}}",
       "price": "Price {{assetName}}",
-      "total": "Total {{assetName}}",
-      "sum": "Sum"
+      "sum": "Sum {{assetName}}"
     },
     "markets": {
       "title": "Markets",
@@ -31,7 +30,7 @@
     "tradeHistory": {
       "title": "Trade History",
       "tableTitle": {
-        "price": "Price",
+        "price": "Price {{assetName}}",
         "size": "Amount",
         "date": "Time"
       }

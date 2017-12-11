@@ -63,6 +63,7 @@
 
                 this.ticker = props.ticker || '';
                 this.sign = props.sign || '';
+                this.displayName = props.ticker || props.name;
             }
 
         }
