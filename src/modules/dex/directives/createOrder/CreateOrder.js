@@ -20,6 +20,24 @@
                 super();
 
                 this.step = 0;
+
+                this.amountAsset = null;
+                this.priceAsset = null;
+                this.amountDisplayName = null;
+                this.priceDisplayName = null;
+                /**
+                 * @type {Money}
+                 */
+                this.amountBalance = null;
+                /**
+                 * @type {Money}
+                 */
+                this.priceBalance = null;
+
+                Waves.Money.fromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
+                    this.fee = money;
+                });
+
                 this.type = null;
                 /**
                  * @type {string}
@@ -35,6 +53,13 @@
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.type = type;
                     this.step = 1;
+                    amount = new BigNumber(amount);
+
+                    if (this.amountBalance && this.amountBalance.getTokens().lt(amount)) {
+                        this.amount = this.amountBalance.getTokens();
+                    } else {
+                        this.amount = amount;
+                    }
                     this.amount = new BigNumber(amount);
                     this.price = new BigNumber(price);
                 });
@@ -55,6 +80,8 @@
                             const amountAsset = amountMoney.asset;
                             const priceAsset = priceMoney.asset;
 
+                            this.amountBalance = amountMoney;
+                            this.priceBalance = priceMoney;
                             this.amountAsset = amountAsset;
                             this.priceAsset = priceAsset;
                             this.amountDisplayName = amountAsset.displayName;
@@ -92,6 +119,29 @@
                 setTimeout(() => { // TODO Do. Author Tsigel at 29/11/2017 20:57
                     $element.find('input[name="amount"]').focus();
                 }, 600);
+            }
+
+            setMaxAmount() {
+                if (this.amountAsset.id === this.fee.asset.id) {
+                    this.amount = this.amountBalance.sub(this.fee).getTokens()
+                        .round(this.amountAsset.precision, BigNumber.ROUND_FLOOR);
+                } else {
+                    this.amount = this.amountBalance.getTokens()
+                        .round(this.amountAsset.precision, BigNumber.ROUND_FLOOR);
+                }
+            }
+
+            setMaxPrice() {
+                if (this.priceAsset.id === this.fee.asset.id) {
+                    this.amount = this.priceBalance.sub(this.fee)
+                        .getTokens()
+                        .div(this.price)
+                        .round(this.amountAsset.precision, BigNumber.ROUND_FLOOR);
+                } else {
+                    this.amount = this.priceBalance.getTokens()
+                        .div(this.price)
+                        .round(this.amountAsset.precision, BigNumber.ROUND_FLOOR);
+                }
             }
 
             collapse() {
