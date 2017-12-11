@@ -8,9 +8,10 @@
      * @param {JQuery} $element
      * @param {Waves} waves
      * @param {DexDataService} dexDataService
+     * @param {app.utils} utils
      * @return {OrderBook}
      */
-    const controller = function (Base, createPoll, $element, waves, dexDataService) {
+    const controller = function (Base, createPoll, $element, waves, dexDataService, utils) {
 
         class OrderBook extends Base {
 
@@ -64,36 +65,12 @@
                             return `<div class="table-cell">${content}</div>`;
                         };
 
-                        const processDecimal = function (decimal) {
-                            const mute = [];
-                            decimal.split('')
-                                .reverse()
-                                .some((char) => {
-                                    if (char === '0') {
-                                        mute.push(0);
-                                        return false;
-                                    }
-                                    return true;
-                                });
-                            const end = decimal.length - mute.length;
-                            return `${decimal.substr(0, end)}<span class="decimal-muted">${mute.join('')}</span>`;
-                        };
-
-                        const processNum = function (num) {
-                            const parts = String(num)
-                                .split('.');
-                            const int = parts[0], decimal = parts[1];
-
-                            if (decimal) {
-                                const decimalTpl = processDecimal(decimal);
-                                return `<span class="int">${int}.</span><span class="decimal">${decimalTpl}</span>`;
-                            } else {
-                                return `<span class="int">${int}</span>`;
-                            }
-                        };
-
                         const getCells = function (item) {
-                            return [processNum(item.amount), processNum(item.price), processNum(item.total)]
+                            return [
+                                utils.getNiceNumberTemplate(item.amount, pair.amountAsset.precision, true),
+                                utils.getNiceNumberTemplate(item.price, pair.priceAsset.precision, true),
+                                utils.getNiceNumberTemplate(item.total, pair.priceAsset.precision, true)
+                            ]
                                 .map((content, i) => `<w-cell class="cell-${i}">${getCell(content)}</w-cell>`)
                                 .join('');
                         };
@@ -107,29 +84,27 @@
                         };
 
                         const sum = (list, type) => {
-                            list = list.slice();
                             let total = new BigNumber(0);
                             let amountTotal = new BigNumber(0);
 
-                            list.forEach((item) => {
+                            return list.map((item) => {
+                                item = tsUtils.clone(item);
                                 total = total.add(item.total);
                                 amountTotal = amountTotal.add(item.amount);
                                 item.type = type;
                                 item.total = total.toFixed(pair.priceAsset.precision);
                                 item.totalAmount = amountTotal.toFixed(pair.amountAsset.precision);
+                                return item;
                             });
-                            return list;
                         };
 
                         bids = sum(bids, 'sell');
                         asks = sum(asks, 'buy');
 
                         return {
-                            bids: process(bids)
-                                .join(''),
+                            bids: process(bids).join(''),
                             spread: spread && process([spread])[0],
-                            asks: process(asks.slice().reverse())
-                                .join('')
+                            asks: process(asks.slice().reverse()).join('')
                         };
                     })
                     .then(({ bids, spread, asks }) => {
@@ -152,7 +127,7 @@
         return new OrderBook();
     };
 
-    controller.$inject = ['Base', 'createPoll', '$element', 'waves', 'dexDataService'];
+    controller.$inject = ['Base', 'createPoll', '$element', 'waves', 'dexDataService', 'utils'];
 
     angular.module('app.dex').component('wDexOrderBook', {
         templateUrl: 'modules/dex/directives/orderBook/orderBook.html',
