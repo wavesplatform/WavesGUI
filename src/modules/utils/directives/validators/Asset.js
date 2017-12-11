@@ -25,7 +25,7 @@
                 this.onReady()
                     .then((asset) => {
                         /**
-                         * @type {IAsset}
+                         * @type {Asset}
                          */
                         this.asset = asset;
 

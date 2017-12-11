@@ -42,8 +42,9 @@
                     .use(i18nextXHRBackend)
                     // .use(i18nextBrowserLanguageDetector) TODO Change lang detect. Author Tsigel at 03/11/2017 13:23
                     .init({
+                        // i18next settings
                         lng: 'en',
-                        debug: true, // TODO remove for production
+                        debug: false,
                         ns: WavesApp.modules.filter(tsUtils.notContains('app.templates')),
                         fallbackLng: 'en',
                         whitelist: ['en', 'ru'],

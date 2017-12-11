@@ -1,13 +1,13 @@
 (function () {
     'use strict';
 
-    /**
-     * @type {{transfer: string}}
-     */
-    const EVENT_TYPES = {
-        transfer: 'transfer'
-    };
-    const BALANCE_EVENTS = [EVENT_TYPES.transfer];
+    // /**
+    //  * @type {{transfer: string}}
+    //  */
+    // const EVENT_TYPES = {
+    //     transfer: 'transfer'
+    // };
+    // const BALANCE_EVENTS = [EVENT_TYPES.transfer];
 
     /**
      * @param {User} user
@@ -15,10 +15,9 @@
      * @param {$injector} $injector
      * @param TxEvent
      * @param {app.utils} utils
-     * @param {NotificationManager} notificationManager
      * @return {EventManager}
      */
-    const factory = function (user, Poll, $injector, TxEvent, utils, notificationManager) {
+    const factory = function (user, Poll, $injector, TxEvent, utils) {
 
         class EventManager {
 
@@ -49,8 +48,7 @@
                  */
                 this._waves = null;
 
-                user.onLogin()
-                    .then(this._initialize.bind(this));
+                user.onLogin().then(this._initialize.bind(this));
             }
 
             addTx(tx, moneyList) {
@@ -71,22 +69,20 @@
             }
 
             /**
-             *
              * @private
              */
             _initialize() {
                 this._waves = $injector.get('waves');
                 this._waves.node.transactions.listUtx()
                     .then((list) => {
-
                         const events = user.getSetting('events');
                         const utxHash = utils.toHash(list, 'id');
-                        Object.keys(events)
-                            .forEach((id) => {
-                                if (!utxHash[id]) {
-                                    this._removeEvent(id, true);
-                                }
-                            });
+
+                        Object.keys(events).forEach((id) => {
+                            if (!utxHash[id]) {
+                                this._removeEvent(id, true);
+                            }
+                        });
 
                         if (list && list.length) {
                             this._resetPoll();
@@ -95,8 +91,8 @@
             }
 
             /**
-             * @param {string} id
-             * @param {Money[]} moneyList
+             * @param {object} tx
+             * @param {string} [tx.id]
              * @private
              */
             _addEvent(tx) {
@@ -119,7 +115,7 @@
                     if (!force) {
                         this.signals.changeBalanceEvent.dispatch();
                     }
-                    // utils.when(this._waves.node.transactions.get(id)) TODO UTX Problems
+                    // utils.when(this._waves.node.transactions.get(id)) // TODO : UTX problems
                     //     .then((tx) => {
                     //         notificationManager.info({
                     //             ns: 'app.ui',
@@ -199,10 +195,8 @@
         'Poll',
         '$injector',
         'TxEvent',
-        'utils',
-        'notificationManager'
+        'utils'
     ];
 
-    angular.module('app')
-        .factory('eventManager', factory);
+    angular.module('app').factory('eventManager', factory);
 })();
