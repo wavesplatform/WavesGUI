@@ -40,7 +40,7 @@
                 node.style.height = `${this.size}px`;
                 $element.append(node);
                 this.qrcode = new QRCode(node, {
-                    text: `waves://${this.url}`,
+                    text: this.url,
                     width: this.size,
                     height: this.size,
                     colorDark: '#000000',

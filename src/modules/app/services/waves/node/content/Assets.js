@@ -28,7 +28,7 @@
             /**
              * Get Asset info
              * @param {string} assetId
-             * @return {Promise<IAsset>}
+             * @return {Promise<Asset>}
              */
             @decorators.cachable()
             info(assetId) {
