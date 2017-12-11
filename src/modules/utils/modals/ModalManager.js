@@ -53,6 +53,16 @@
                 });
             }
 
+            showSettings() {
+                return this._getModal({
+                    ns: 'app.utils',
+                    title: 'modal.settings.title',
+                    contentUrl: 'modules/utils/modals/settings/settings.html',
+                    controller: 'SettingsCtrl',
+                    mod: 'settings-modal'
+                });
+            }
+
             /**
              * @param {User} user
              */
