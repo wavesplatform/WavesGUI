@@ -49,7 +49,7 @@
                 /**
                  * @type {boolean}
                  */
-                const includeRangeMin = input.hasAttribute('include-range-min');
+                const includeRangeMin = input.hasAttribute('include-range-min'); // TODO refactor to watchers!
                 /**
                  * @type {boolean}
                  */
@@ -138,7 +138,9 @@
             }
 
             static _toBigNumber(value) {
-                if (!value) {
+                if (value == null) {
+                    return null
+                } else if (!value) {
                     return new BigNumber(0);
                 } else if (value instanceof BigNumber) {
                     return value;
