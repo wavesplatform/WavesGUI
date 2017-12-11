@@ -7,12 +7,14 @@
      * @param {User} user
      * @param {app.utils} utils
      * @param {function} createPoll
+     * @param $scope
      * @param {JQuery} $element
      * @param {NotificationManager} notificationManager
      * @param {DexDataService} dexDataService
      * @return {CreateOrder}
      */
-    const controller = function (Base, waves, user, utils, createPoll, $element, notificationManager, dexDataService) {
+    const controller = function (Base, waves, user, utils, createPoll, $scope,
+                                 $element, notificationManager, dexDataService) {
 
         class CreateOrder extends Base {
 
@@ -53,15 +55,10 @@
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.type = type;
                     this.step = 1;
-                    amount = new BigNumber(amount);
 
-                    if (this.amountBalance && this.amountBalance.getTokens().lt(amount)) {
-                        this.amount = this.amountBalance.getTokens();
-                    } else {
-                        this.amount = amount;
-                    }
                     this.amount = new BigNumber(amount);
                     this.price = new BigNumber(price);
+                    $scope.$apply();
                 });
 
                 this.observe(['_amountAssetId', '_priceAssetId'], () => {
@@ -207,7 +204,17 @@
         return new CreateOrder();
     };
 
-    controller.$inject = ['Base', 'waves', 'user', 'utils', 'createPoll', '$element', 'notificationManager', 'dexDataService'];
+    controller.$inject = [
+        'Base',
+        'waves',
+        'user',
+        'utils',
+        'createPoll',
+        '$scope',
+        '$element',
+        'notificationManager',
+        'dexDataService'
+    ];
 
     angular.module('app.dex').component('wCreateOrder', {
         bindings: {},
