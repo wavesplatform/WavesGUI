@@ -51,6 +51,7 @@
                 });
 
                 const poll = createPoll(this, this._getOrders, 'orders', 1000);
+
                 this.observe(['_amountAssetId', '_priceAssetId'], () => {
                     this._showSpread = true;
                     poll.restart();
