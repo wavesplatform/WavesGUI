@@ -19,7 +19,7 @@
                ng-if="asset.id !== $ctrl.baseAssetId"
                select-value="{{::asset.id}}">
             <w-cell>
-                {{::asset.ticker || '—'}}
+                {{::asset.displayName}}
             </w-cell>
             <w-cell>
                 <w-dex-exchange base-asset-id="$ctrl.baseAssetId" asset-id="{{::asset.id}}"></w-dex-exchange>

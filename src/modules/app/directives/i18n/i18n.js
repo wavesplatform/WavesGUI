@@ -45,13 +45,13 @@
 
                     /**
                      * @param literal
-                     * @return {*}
+                     * @return {string}
                      * @private
                      */
                     _compile(literal) {
                         const parts = literal.match(/{{.*?(}})/g);
                         if (!parts) {
-                            return literal;
+                            return literal.trim();
                         } else {
                             parts.forEach((part) => {
                                 if (part.indexOf('::') === -1) {
@@ -61,7 +61,7 @@
                                     .replace('{{', '')
                                     .replace('}}', '')
                                     .replace('::', '');
-                                literal = literal.replace(part, $scope.$eval(forEval));
+                                literal = literal.replace(part, $scope.$eval(forEval)).trim();
                             });
                         }
                         return literal;

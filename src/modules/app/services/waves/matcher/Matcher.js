@@ -81,7 +81,7 @@
                             .then((orderPrice) => Waves.Money.fromTokens(orderPrice.getTokens(), priceAssetId)),
                         Waves.Money.fromCoins(String(order.amount), amountAssetId),
                         Waves.Money.fromCoins(String(order.filled), amountAssetId),
-                        Promise.resolve(`${assetPair.priceAsset.name} / ${assetPair.amountAsset.name}`)
+                        Promise.resolve(`${assetPair.priceAsset.displayName} / ${assetPair.amountAsset.displayName}`)
                     ]))
                     .then(([price, amount, filled, pair]) => {
                         const STATUS_MAP = {
@@ -89,7 +89,8 @@
                             'Accepted': 'Active'
                         };
                         const percent = filled.getTokens().div(amount.getTokens());
-                        const state = filled.getTokens().eq(0) ? STATUS_MAP[order.status] : order.amount === order.filled ? 'Closed' : 'Filled';
+                        const state = filled.getTokens().eq(0) ?
+                            STATUS_MAP[order.status] : order.amount === order.filled ? 'Closed' : 'Filled';
                         return { ...order, price, amount, filled, pair, percent, state };
                     });
             }
