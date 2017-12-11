@@ -57,8 +57,8 @@
 
                             this.amountAsset = amountAsset;
                             this.priceAsset = priceAsset;
-                            this.amountDisplayName = amountAsset.ticker || amountAsset.name;
-                            this.priceDisplayName = priceAsset.ticker || priceAsset.name;
+                            this.amountDisplayName = amountAsset.displayName;
+                            this.priceDisplayName = priceAsset.displayName;
                         });
                     });
                 });

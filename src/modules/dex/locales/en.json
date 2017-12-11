@@ -31,7 +31,7 @@
       "title": "Trade History",
       "tableTitle": {
         "price": "Price {{assetName}}",
-        "size": "Amount",
+        "size": "Amount {{assetName}}",
         "date": "Time"
       }
     }

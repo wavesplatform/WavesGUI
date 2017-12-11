@@ -10,7 +10,7 @@
              ng-model="$ctrl.amount"
              required></w-input>
     <div ng-if="!$ctrl.focus" title="{{$ctrl.asset.ticker || $ctrl.asset.name}}"
-         class="currency basic-500 caption-2">{{$ctrl.asset.ticker || $ctrl.asset.name}}
+         class="currency basic-500 caption-2">{{$ctrl.asset.displayName}}
     </div>
     <div ng-mousedown="$ctrl.fillMax()"
          ng-touchstart="$ctrl.fillMax()"
