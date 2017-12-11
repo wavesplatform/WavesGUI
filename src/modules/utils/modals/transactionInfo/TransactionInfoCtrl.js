@@ -14,8 +14,7 @@
      * @param {Waves} waves
      * @return {TransactionInfoCtrl}
      */
-    const controller = function (Base, $scope, $filter, explorerLinks,
-                                 baseAssetService, dexService, waves) {
+    const controller = function (Base, $scope, $filter, explorerLinks, baseAssetService, dexService, waves) {
 
         class TransactionInfoCtrl extends Base {
 
@@ -58,6 +57,13 @@
                         const TYPES = waves.node.transactions.TYPES;
                         if (this.type === TYPES.EXCHANGE_BUY || this.type === TYPES.EXCHANGE_SELL) {
                             this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
+                            if (this.type === TYPES.EXCHANGE_BUY) {
+                                this.calculatedFee = this.transaction.buyMatcherFee.toFormat();
+                            } else {
+                                this.calculatedFee = this.transaction.sellMatcherFee.toFormat();
+                            }
+                        } else {
+                            this.calculatedFee = this.transaction.fee.toFormat();
                         }
                     });
             }
@@ -67,10 +73,7 @@
         return new TransactionInfoCtrl(this.locals);
     };
 
-    controller.$inject = [
-        'Base', '$scope', '$filter',
-        'explorerLinks', 'baseAssetService', 'dexService', 'waves'
-    ];
+    controller.$inject = ['Base', '$scope', '$filter', 'explorerLinks', 'baseAssetService', 'dexService', 'waves'];
 
     angular.module('app.utils').controller('TransactionInfoCtrl', controller);
 })();
