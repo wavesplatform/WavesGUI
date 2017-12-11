@@ -3,7 +3,7 @@
 
     /**
      * @param Base
-     * @param {-} $scope
+     * @param {*} $scope
      * @param {JQuery} $element
      * @param {app.utils} utils
      * @return {NiceNumber}
