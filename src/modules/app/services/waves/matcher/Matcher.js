@@ -4,9 +4,10 @@
     /**
      * @param {app.utils} utils
      * @param {app.utils.decorators} decorators
+     * @param {app.i18n} i18n
      * @return {Matcher}
      */
-    const factory = function (utils, decorators) {
+    const factory = function (utils, decorators, i18n) {
 
         class Matcher {
 
@@ -84,13 +85,15 @@
                         Promise.resolve(`${assetPair.priceAsset.displayName} / ${assetPair.amountAsset.displayName}`)
                     ]))
                     .then(([price, amount, filled, pair]) => {
-                        const STATUS_MAP = {
-                            'Cancelled': 'Canceled',
-                            'Accepted': 'Active'
-                        };
                         const percent = filled.getTokens().div(amount.getTokens());
-                        const state = filled.getTokens().eq(0) ?
-                            STATUS_MAP[order.status] : order.amount === order.filled ? 'Closed' : 'Filled';
+                        const STATUS_MAP = {
+                            'Cancelled': 'matcher.orders.statuses.canceled',
+                            'Accepted': 'matcher.orders.statuses.opened',
+                            'Filled': 'matcher.orders.statuses.filled',
+                            'PartiallyFilled': 'matcher.orders.statuses.filled'
+                        };
+                        const state = i18n.translate(STATUS_MAP[order.status], 'app', { percent });
+
                         return { ...order, price, amount, filled, pair, percent, state };
                     });
             }
@@ -129,7 +132,7 @@
         return new Matcher();
     };
 
-    factory.$inject = ['utils', 'decorators'];
+    factory.$inject = ['utils', 'decorators', 'i18n'];
 
     angular.module('app').factory('matcher', factory);
 })();
