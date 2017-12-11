@@ -56,7 +56,7 @@
                     poll.restart();
                 });
 
-                $element.on('click', 'w-scroll-box w-row', (e) => {
+                $element.on('mousedown touchstart', 'w-scroll-box w-row', (e) => {
                     const amount = e.currentTarget.getAttribute('data-amount');
                     const price = e.currentTarget.getAttribute('data-price');
                     const type = e.currentTarget.getAttribute('data-type');
