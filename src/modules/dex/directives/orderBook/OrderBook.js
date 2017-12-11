@@ -51,7 +51,10 @@
                     const amount = e.currentTarget.getAttribute('data-amount');
                     const price = e.currentTarget.getAttribute('data-price');
                     const type = e.currentTarget.getAttribute('data-type');
-                    dexDataService.chooseOrderBook.dispatch({ amount, price, type });
+
+                    if (amount && price && type) {
+                        dexDataService.chooseOrderBook.dispatch({ amount, price, type });
+                    }
                 });
 
             }
@@ -101,7 +104,14 @@
                         const process = function (list) {
                             return list.map((item) => {
                                 const cells = getCells(item);
-                                const attrs = `data-amount="${item.totalAmount}" data-price="${item.price}" data-type="${item.type}"`;
+                                const attrs = [
+                                    item.totalAmount ? `data-amount="${item.totalAmount}"` : null,
+                                    item.price ? `data-price="${item.price}"` : null,
+                                    item.type ? `data-type="${item.type}"` : null
+                                ]
+                                    .filter(Boolean)
+                                    .join(' ');
+
                                 return `<w-row ${attrs}><div class="table-row">${cells}</div></w-row>`;
                             });
                         };
