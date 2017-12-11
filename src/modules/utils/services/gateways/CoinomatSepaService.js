@@ -5,8 +5,6 @@
     const SEPA_COUNTRIES_URL = `${KNOWLEDGE_BASE}/1304-list-of-accepted-countries-and-documents-for-verification`;
 
     const ID_NOW_SITE_URL = 'https://idnow.eu';
-    const ID_NOW_SITE_NAME = 'IDNow.eu';
-
     const ID_NOW_PATH = 'https://go.idnow.de/coinomat/userdata';
 
     // That is used to access values from `**/locales/*.json` files
@@ -35,7 +33,6 @@
                 return Promise.resolve({
                     listOfEligibleCountries: SEPA_COUNTRIES_URL,
                     idNowSiteUrl: ID_NOW_SITE_URL,
-                    idNowSiteName: ID_NOW_SITE_NAME,
                     idNowUserLink: `${ID_NOW_PATH}/${wavesAddress}`
                 });
             }

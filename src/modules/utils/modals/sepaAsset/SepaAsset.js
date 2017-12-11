@@ -37,16 +37,11 @@
                 /**
                  * @type {string}
                  */
-                this.idNowSiteName = null;
-                /**
-                 * @type {string}
-                 */
                 this.idNowUserLink = null;
 
                 gatewayService.getSepaDetails(asset, address).then((details) => {
                     this.listOfEligibleCountries = details.listOfEligibleCountries;
                     this.idNowSiteUrl = details.idNowSiteUrl;
-                    this.idNowSiteName = details.idNowSiteName;
                     this.idNowUserLink = details.idNowUserLink;
                 });
             }
