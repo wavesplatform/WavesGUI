@@ -5,9 +5,10 @@
      * @param Base
      * @param {Waves} waves
      * @param {JQuery} $element
+     * @param {app.utils} utils
      * @returns {DexExchange}
      */
-    const controller = function (Base, waves, $element) {
+    const controller = function (Base, waves, $element, utils) {
 
         class DexExchange extends Base {
 
@@ -48,7 +49,9 @@
                                 const price = api.exchange(money.getTokens());
                                 Waves.Money.fromTokens(price, pair.priceAsset)
                                     .then((price) => {
-                                        $element.html(price ? price.toFormat() : '');
+                                        const precision = pair.priceAsset.precision;
+                                        const num = price ? price.getTokens() : new BigNumber(0);
+                                        $element.html(price ? utils.getNiceNumberTemplate(num, precision, true) : '');
                                     });
                             });
                     });
@@ -59,7 +62,7 @@
         return new DexExchange();
     };
 
-    controller.$inject = ['Base', 'waves', '$element'];
+    controller.$inject = ['Base', 'waves', '$element', 'utils'];
 
     angular.module('app.dex').component('wDexExchange', {
         bindings: {

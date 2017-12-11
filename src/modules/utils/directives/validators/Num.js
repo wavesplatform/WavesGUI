@@ -114,7 +114,9 @@
                         }
 
                         if (event.which !== 0 && event.charCode !== 0) {
-                            if (event.which < 32) return null;
+                            if (event.which < 32) {
+                                return null;
+                            }
                             return String.fromCharCode(event.which);
                         }
 

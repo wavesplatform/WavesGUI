@@ -36,5 +36,11 @@
     "portfolio": "Portfolio",
     "transactions": "Transactions",
     "leasing": "Leasing"
+  },
+  "number": {
+    "short": {
+      "million": "M",
+      "thousand": "k"
+    }
   }
 }
