@@ -4,8 +4,7 @@
             <w-cell>Pair</w-cell>
             <w-cell>Type</w-cell>
             <w-cell>Price</w-cell>
-            <w-cell>Quantity</w-cell>
-            <w-cell>Percent</w-cell>
+            <w-cell>Amount</w-cell>
             <w-cell>Status</w-cell>
         </w-row>
     </w-t-head>
@@ -22,9 +21,6 @@
             </w-cell>
             <w-cell>
                 <w-balance money="order.amount"></w-balance>
-            </w-cell>
-            <w-cell>
-                {{::order.percent.mul(100).toFormat(2)}}%
             </w-cell>
             <w-cell>
                 {{order.state}}
