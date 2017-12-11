@@ -16,7 +16,8 @@
       "title": "Order Book",
       "amount": "Amount",
       "price": "Price {{assetName}}",
-      "total": "Total {{assetName}}"
+      "total": "Total {{assetName}}",
+      "sum": "Sum"
     },
     "markets": {
       "title": "Markets",
@@ -31,7 +32,7 @@
       "title": "Trade History",
       "tableTitle": {
         "price": "Price",
-        "size": "Quantity",
+        "size": "Amount",
         "date": "Time"
       }
     }

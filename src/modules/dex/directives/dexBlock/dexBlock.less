@@ -15,11 +15,11 @@ w-dex-block {
 
     .block-title {
       position: relative;
-      padding: 0 16px;
+      padding: 0 5px 0 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 39px;
+      height: 38px;
       background-color: @color-disabled-50;
       border-bottom: 1px solid @color-disabled-200;
       flex-shrink: 0;
@@ -33,10 +33,10 @@ w-dex-block {
       .change-base-asset-input {
         display: none;
         position: absolute;
-        width: 305px;
         height: 30px;
-        left: 4px;
-        top: 3px;
+        width: calc(~'100% - 4px');
+        left: 2px;
+        top: 2px;
       }
 
       &.change-base-asset {
