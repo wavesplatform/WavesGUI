@@ -6,9 +6,10 @@
      * @param {Waves} waves
      * @return {BalanceInput}
      */
-    const controller = function (Base, waves) {
+    const controller = function (Base, waves, $attrs) {
 
         class BalanceInput extends Base {
+
 
             constructor() {
                 super();
@@ -32,8 +33,22 @@
                  * @type {Money}
                  */
                 this.fee = null;
+                /**
+                 * @type {Money}
+                 */
+                this.realMaxBalance = null;
+                /**
+                 * @type {function}
+                 */
+                this.fillMax = null;
 
                 this.observe('assetId', this._onChangeAssetId);
+                this.observe(['fee', 'maxBalance'], () => {
+                    this.realMaxBalance = this.fee &&
+                    this.maxBalance &&
+                    this.fee.asset.id === this.maxBalance.asset.id ?
+                        this.maxBalance.sub(this.fee) : this.maxBalance
+                })
             }
 
             $postLink() {
@@ -42,7 +57,11 @@
                 }
             }
 
-            fillMax() {
+            fillMaxClick() {
+                if ($attrs.fillMax) {
+                    this.fillMax();
+                    return null;
+                }
                 if (this.maxBalance) {
                     if (this.fee && this.fee.asset.id === this.assetId) {
                         this.amount = this.maxBalance.getTokens().sub(this.fee.getTokens());
@@ -72,16 +91,18 @@
         return new BalanceInput();
     };
 
-    controller.$inject = ['Base', 'waves'];
+    controller.$inject = ['Base', 'waves', '$attrs'];
 
     angular.module('app.ui').component('wBalanceInput', {
         bindings: {
             name: '@',
             inputClasses: '@',
+            fillMax: '&',
             amount: '=',
             assetId: '<',
             maxBalance: '<',
-            fee: '<'
+            fee: '<',
+            min: '<'
         },
         scope: false,
         templateUrl: 'modules/ui/directives/balanceInput/balanceInput.html',

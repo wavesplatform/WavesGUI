@@ -3,7 +3,7 @@
 
     /**
      * @param Base
-     * @param {$rootScope.Scope} $scope
+     * @param {*} $scope
      * @param {JQuery} $element
      * @param {app.utils} utils
      * @return {NiceNumber}
@@ -20,37 +20,19 @@
                 this.receive(utils.observe($scope, 'precision'), this.$onChanges, this);
             }
 
-            $onChanges() {
+            $postLink() {
+                $scope.shortMode = $scope.shortMode === 'true';
+            }
 
+            $onChanges() {
                 if ($scope.number == null || $scope.precision == null) {
                     return $element.html('');
                 }
 
-                const num = utils.getNiceNumber($scope.number, $scope.precision);
-                const [int, decimal] = num.split('.');
-
-                if (decimal) {
-                    const decimalTpl = this._processDecimal(decimal);
-                    $element.html(`<span class="int">${int}.</span><span class="decimal">${decimalTpl}</span>`);
-                } else {
-                    $element.html(`<span class="int">${int}</span>`);
-                }
+                $element.html(utils.getNiceNumberTemplate($scope.number, $scope.precision, $scope.shortMode));
             }
 
-            _processDecimal(decimal) {
-                const mute = [];
-                decimal.split('')
-                    .reverse()
-                    .some((char) => {
-                        if (char === '0') {
-                            mute.push(0);
-                            return false;
-                        }
-                        return true;
-                    });
-                const end = decimal.length - mute.length;
-                return `${decimal.substr(0, end)}<span class="decimal-muted">${mute.join('')}</span>`;
-            }
+
         }
 
         return new NiceNumber();
@@ -64,7 +46,8 @@
                 restrict: 'A',
                 scope: {
                     number: '<wNiceNumber',
-                    precision: '<'
+                    precision: '<',
+                    shortMode: '@'
                 },
                 controller: controller
             };

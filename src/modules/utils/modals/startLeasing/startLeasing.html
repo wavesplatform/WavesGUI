@@ -6,11 +6,11 @@
                 <div class="input-like flex-row split-half">
                     <div class="flex-row">
                         <w-asset-logo size="24" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
-                        <div class="asset-name">{{$ctrl.asset.name}}</div>
+                        <div class="asset-name">{{$ctrl.balance.asset.name}}</div>
                     </div>
                     <div>
-                        <w-balance money="$ctrl.asset.balance"></w-balance>
-                        <span>&nbsp{{$ctrl.asset.ticker || $ctrl.asset.name}}</span>
+                        <w-balance money="$ctrl.balance"></w-balance>
+                        <span>&nbsp{{$ctrl.balance.asset.ticker || $ctrl.balance.asset.name}}</span>
                     </div>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                 <w-input-container>
                     <w-balance-input name="amount"
                                      asset-id="$ctrl.assetId"
-                                     max-balance="$ctrl.asset.balance"
+                                     max-balance="$ctrl.balance"
                                      fee="$ctrl.fee"
                                      input-classes="big"
                                      amount="$ctrl.amount"></w-balance-input>
@@ -56,7 +56,8 @@
 
 
         <h3 class="basic-700 text-center margin-3">
-            <span w-nice-number="$ctrl.amount" precision="$ctrl.asset.precision"></span> {{::$ctrl.asset.name}}
+            <span w-nice-number="$ctrl.amount" precision="$ctrl.balance.asset.precision"></span>
+            {{::$ctrl.balance.asset.name}}
         </h3>
 
         <div class="list margin-3 footnote-1">
@@ -66,7 +67,7 @@
             </div>
             <div class="split-half">
                 <div class="flex-row disabled-600" w-i18n="modal.startLease.fee"></div>
-                <div class="basic-900">{{::$ctrl.fee.getTokens().toFormat(3)}} {{::$ctrl.asset.name}}</div>
+                <div class="basic-900">{{::$ctrl.fee.getTokens().toFormat(3)}} {{::$ctrl.balance.asset.name}}</div>
             </div>
         </div>
 
@@ -84,7 +85,7 @@
         <div class="complete-icon"></div>
         <h2 class="text-center basic-900" w-i18n="modal.startLease.leaseComplete"></h2>
         <div class="text-center body-2 disabled-600 margin-4" w-i18n="modal.startLease.leaseCompleteDesc"
-             params="{amount: $ctrl.amount.toFormat($ctrl.asset.precision)}"></div>
+             params="{amount: $ctrl.amount.toFormat($ctrl.balance.asset.precision)}"></div>
 
         <w-button ng-click="$ctrl.showDetails()" class="big submit details">
             <w-i18n>modal.startLease.details</w-i18n>
