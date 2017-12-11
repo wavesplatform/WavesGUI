@@ -22,6 +22,14 @@
                  */
                 this.orders = null;
                 /**
+                 * @type {Asset}
+                 */
+                this.amountAsset = null;
+                /**
+                 * @type {Asset}
+                 */
+                this.priceAsset = null;
+                /**
                  * @type {string}
                  * @private
                  */
@@ -43,6 +51,7 @@
                 });
 
                 const poll = createPoll(this, this._getOrders, 'orders', 1000);
+
                 this.observe(['_amountAssetId', '_priceAssetId'], () => {
                     this._showSpread = true;
                     poll.restart();
@@ -63,6 +72,9 @@
             _getOrders() {
                 return waves.matcher.getOrderBook(this._amountAssetId, this._priceAssetId)
                     .then(({ bids, asks, spread, pair }) => {
+
+                        this.amountAsset = pair.amountAsset;
+                        this.priceAsset = pair.priceAsset;
 
                         const getCell = function (content) {
                             return `<div class="table-cell">${content}</div>`;

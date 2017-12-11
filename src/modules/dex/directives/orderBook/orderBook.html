@@ -2,13 +2,13 @@
     <w-t-head>
         <w-row>
             <w-cell>
-                <w-i18n>directives.orderBook.amount</w-i18n>
+                <w-i18n params="{assetName: $ctrl.amountAsset.displayName}">directives.orderBook.amount</w-i18n>
             </w-cell>
             <w-cell>
-                <w-i18n>directives.orderBook.price</w-i18n>&nbsp;{{$ctrl.asset.name}}
+                <w-i18n params="{assetName: $ctrl.priceAsset.displayName}">directives.orderBook.price</w-i18n>
             </w-cell>
             <w-cell>
-                <w-i18n>directives.orderBook.sum</w-i18n>&nbsp;{{$ctrl.asset.name}}
+                <w-i18n params="{assetName: $ctrl.priceAsset.displayName}">directives.orderBook.sum</w-i18n>
             </w-cell>
         </w-row>
     </w-t-head>
