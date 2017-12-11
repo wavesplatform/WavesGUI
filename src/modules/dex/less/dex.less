@@ -23,14 +23,26 @@ body.dex {
     height: 100%;
 
     w-dex-trade-history w-t-head w-row {
-      padding-right: 26px;
+      padding-right: @padding-main-layout;
+
+      .table-cell {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
 
     w-dex-trade-history w-scroll-box {
       padding-right: @padding-main-layout;
     }
 
+    w-dex-trade-history .cell-2 div {
+      font-size: @font-size-caption-2;
+      line-height: 1.2em;
+    }
+
     .block-title .w-input-wrap input {
+      font-size: @font-size-caption-2;
       padding: 6px 8px;
       background-image: url(/img/icons/input-search-icon.svg);
       background-repeat: no-repeat;
@@ -38,7 +50,7 @@ body.dex {
       background-position: 7px center;
       text-indent: 17px;
       font-size: @font-size-caption-2;
-      height: 27px;
+      height: 29px;
       border: 1px solid #e2e2e2;
     }
 
