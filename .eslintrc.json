@@ -40,7 +40,7 @@
     ],
     "array-callback-return": "error",
     "array-element-newline": "off",
-    "arrow-body-style": "error",
+    "arrow-body-style": "off",
     "arrow-parens": [
       "error",
       "always"
@@ -175,7 +175,7 @@
     "new-parens": "error",
     "newline-after-var": "off",
     "newline-before-return": "off",
-    "newline-per-chained-call": "error",
+    "newline-per-chained-call": "off",
     "no-alert": "error",
     "no-array-constructor": "error",
     "no-await-in-loop": "error",
@@ -337,16 +337,7 @@
       "always"
     ],
     "require-await": "error",
-    "require-jsdoc": [
-      "warn",
-      {
-        "require": {
-          "FunctionDeclaration": false,
-          "MethodDefinition": true,
-          "ClassDeclaration": true
-        }
-      }
-    ],
+    "require-jsdoc": "off",
     "rest-spread-spacing": "error",
     "semi": "error",
     "semi-spacing": [

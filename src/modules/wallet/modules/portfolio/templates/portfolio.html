@@ -1,13 +1,16 @@
 <div w-i18n-ns="app.wallet.portfolio">
+
     <div class="toolbar">
         <w-button class="interface" ng-click="$ctrl.showSend()">
-            <span class="btn-icon icon-send" w-i18n="send">Send</span>
+            <span class="btn-icon icon-send" w-i18n="send"></span>
         </w-button>
-        <w-button class="interface" ng-click="$ctrl.showReceive()">
-            <span class="btn-icon icon-receive" w-i18n="receive">Receive</span>
+        <w-button class="interface" ng-click="$ctrl.showQR()">
+            <span class="btn-icon icon-qr" w-i18n="qr"></span>
         </w-button>
     </div>
+
     <ul class="portfolio-list">
+
         <li class="portfolio-item title body-2 disabled-600">
             <div class="portfolio-item-name" w-i18n="list.name"></div>
             <div class="portfolio-item-balance" w-i18n="list.balance"></div>
@@ -15,6 +18,7 @@
             <div class="portfolio-item-rate" w-i18n="list.rate" params="{currency: $ctrl.mirror.ticker}"></div>
             <div class="portfolio-item-change" w-i18n="list.change"></div>
         </li>
+
         <li class="portfolio-item" ng-repeat="balance in $ctrl.portfolioBalances track by balance.asset.id">
             <div class="portfolio-item-name">
                 <w-asset-logo class="margin-right-1" asset-id="{{::balance.asset.id}}" size="30"></w-asset-logo>
@@ -53,11 +57,18 @@
                 </div>
             </div>
             <div class="portfolio-item-actions">
-                <w-button ng-click="$ctrl.showSend(balance.asset.id)" class="small">
-                    <span class="btn-icon icon-send" w-i18n="Send">Send</span>
+                <w-button class="small" ng-click="$ctrl.showSend(balance.asset)">
+                    <span class="btn-icon icon-send" w-i18n="send"></span>
                 </w-button>
-                <w-button class="small" ng-click="$ctrl.showReceive(balance.asset)">
-                    <span class="btn-icon icon-receive" w-i18n="Receive">Receive</span>
+                <w-button class="small"
+                          ng-click="$ctrl.showDeposit(balance.asset)"
+                          ng-if="$ctrl.isDepositSupported(balance.asset)">
+                    <span class="btn-icon icon-deposit" w-i18n="deposit"></span>
+                </w-button>
+                <w-button class="small"
+                          ng-click="$ctrl.showSepa(balance.asset)"
+                          ng-if="!$ctrl.isDepositSupported(balance.asset) && $ctrl.isSepaSupported(balance.asset)">
+                    <span class="btn-icon icon-deposit" w-i18n="deposit"></span>
                 </w-button>
             </div>
             <w-actions>
@@ -67,10 +78,12 @@
                 <w-action ng-if="balance.asset.id !== $ctrl.wavesId && !balance.asset.pinned" ng-click="$ctrl.pinAsset(balance.asset, true)">
                     <w-i18n>pin</w-i18n>
                 </w-action>
-                <w-action ng-click="$ctrl.showAssetInfo(balance.asset)">
+                <w-action ng-click="$ctrl.showAsset(balance.asset)">
                     <w-i18n>info</w-i18n>
                 </w-action>
             </w-actions>
         </li>
+
     </ul>
+
 </div>

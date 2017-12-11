@@ -203,14 +203,17 @@
                 matcher: '{{network.matcher}}',
                 api: '{{network.api}}',
                 coinomat: '{{network.coinomat}}',
-                datafeed: '{{network.datafeed}}'
+                datafeed: '{{network.datafeed}}',
+                support: '{{network.support}}'
             },
             defaultAssets: {
                 WAVES: 'WAVES',
                 EUR: '{{network.assets.EUR}}',
                 USD: '{{network.assets.USD}}',
                 BTC: '{{network.assets.BTC}}',
-                ETH: '{{network.assets.ETH}}'
+                ETH: '{{network.assets.ETH}}',
+                LTC: '{{network.assets.LTC}}',
+                ZEC: '{{network.assets.ZEC}}'
             },
             remappedAssetNames: {
                 '{{network.assets.EUR}}': 'Euro',
@@ -265,7 +268,8 @@
     var Waves = WavesAPI.create({
         networkByte: WavesApp.network.code.charCodeAt(0),
         nodeAddress: WavesApp.network.node,
-        matcherAddress: WavesApp.network.matcher
+        matcherAddress: WavesApp.network.matcher,
+        logLevel: 'none'
     });
 
     WavesApp.stateTree = new tsUtils.Tree({
@@ -347,6 +351,7 @@
      * @property {string} network.api
      * @property {string} network.coinomat
      * @property {string} network.datafeed
+     * @property {string} network.support
      * @property {object} defaultAssets
      * @property {string} defaultAssets.WAVES
      * @property {string} defaultAssets.EUR

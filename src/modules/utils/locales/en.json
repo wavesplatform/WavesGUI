@@ -20,9 +20,9 @@
       "leaseComplete": "Your transaction is on the way!",
       "leaseCompleteDesc": "You lease {{amount}} Waves."
     },
-    "receive": {
-      "title": "Receive {{asset.name}}",
-      "warningTitle": "Send only «{{asset.name}}» Waves token to this address",
+    "qr": {
+      "title": "Share your address",
+      "warningTitle": "Send only Waves and Waves tokens to this address",
       "warningText": "Sending any other digital asset to this address will result in the permanent loss of your funds.",
       "copyAndShare": "Copy & Share Address",
       "or": "OR",
@@ -33,7 +33,7 @@
       "titleComplete": "Sending Complete",
       "recipient": "Recipient",
       "sendMax": "Max",
-      "withdraw": "Currency",
+      "currency": "Currency",
       "amount": "Amount",
       "description": "Description",
       "descriptionPlaceholder": "Write an optional message",
@@ -58,6 +58,39 @@
         "description": "You sent {{amount}} {{currency}} (${{mirror}}) to an external address.",
         "details": "View Details"
       }
+    },
+    "deposit": {
+      "title": "Deposit {{assetName}}",
+      "currency": "Currency",
+      "copyAndShare": "Copy & Share Address",
+      "or": "OR",
+      "scanQrCode": "Scan QR Code",
+      "coinomatBTC": {
+        "warningTitle": "Send only BTC to this deposit address",
+        "warningText" : "Sending any other currency to this address may result in the loss of your deposit."
+      },
+      "coinomatETH": {
+        "warningTitle": "Do not deposit ETH from smart contracts!",
+        "warningText" : "Check if your wallet or exchange uses smart-contracts to withdraw ETH. We do not accept such transactions and can’t refund them. You will lose that money."
+      },
+      "coinomatLTC": {
+        "warningTitle": "Send only LTC to this deposit address",
+        "warningText" : "Sending any other currency to this address may result in the loss of your deposit."
+      },
+      "coinomatZEC": {
+        "warningTitle": "Send only Zcash to this deposit address",
+        "warningText" : "Sending any other currency to this address may result in the loss of your deposit."
+      }
+    },
+    "sepa": {
+      "title": "Deposit {{assetName}}",
+      "warningTitle": "We don't accept international wire transfers from US Citizens or from USA Banks",
+      "countryList": "List of eligible countries and IDs",
+      "step1": "Step 1",
+      "step1Description": "In order to deposit {{assetName}} directly from your bank account through SEPA transfer you must get verified by our partner <a href='{{url}}' target='_blank'>IDNow.eu</a>",
+      "step2": "Step 2",
+      "step2Description": "After you go through the verification you will receive an email with further instructions",
+      "proceed": "Get verified"
     },
     "account": {
       "title": "Account Information",
