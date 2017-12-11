@@ -6,11 +6,12 @@
      */
 
     /**
-     * @param $q
-     * @param Moment
+     * @param {$q} $q
+     * @param {Moment} Moment
+     * @param {$injector} $injector
      * @return {app.utils}
      */
-    const factory = function ($q, Moment, $timeout) {
+    const factory = function ($q, Moment, $injector) {
 
         const utils = {
 
@@ -141,8 +142,7 @@
              */
             onFetch(response) {
                 if (response.ok) {
-                    if (response.headers.get('Content-Type')
-                            .indexOf('application/json') !== -1) {
+                    if (response.headers.get('Content-Type').indexOf('application/json') !== -1) {
                         return response.json();
                     } else {
                         return response.text();
@@ -296,6 +296,50 @@
             },
 
             /**
+             * @name app.utils#getNiceNumberTemplate
+             * @param {BigNumber|string|number} num
+             * @param {number} precision
+             * @param {boolean} [shortMode]
+             * @return {string}
+             */
+            getNiceNumberTemplate(num, precision, shortMode) {
+                const bigNum = this.parseNiceNumber(num);
+                const formatted = this.getNiceNumber(num, precision);
+
+                if (shortMode && bigNum.gte(10000)) {
+                    /**
+                     * @type {app.i18n}
+                     */
+                    const i18n = $injector.get('i18n');
+                    let stringNum;
+                    let postfix;
+
+                    if (bigNum.gte(1000000)) {
+                        stringNum = bigNum.div(1000000)
+                            .toFormat(1)
+                            .replace('.0', ''); // TODO localize separator!
+                        postfix = i18n.translate('number.short.million');
+                    } else {
+                        stringNum = bigNum.div(10000)
+                            .toFormat(1)
+                            .replace('.0', ''); // TODO localize separator!;
+                        postfix = i18n.translate('number.short.thousand');
+                    }
+
+                    return `${stringNum}${postfix}`;
+                } else {
+                    const [int, decimal] = formatted.split('.'); // TODO localize separator!
+                    if (decimal) {
+                        const decimalTpl = _processDecimal(decimal);
+                        // TODO localize separator!
+                        return `<span class="int">${int}.</span><span class="decimal">${decimalTpl}</span>`;
+                    } else {
+                        return `<span class="int">${int}</span>`;
+                    }
+                }
+            },
+
+            /**
              * @name app.utils#toArray
              * @param {*} some
              * @return {[*]}
@@ -362,6 +406,21 @@
                 }
             }
         };
+
+        function _processDecimal(decimal) {
+            const mute = [];
+            decimal.split('')
+                .reverse()
+                .some((char) => {
+                    if (char === '0') {
+                        mute.push(0);
+                        return false;
+                    }
+                    return true;
+                });
+            const end = decimal.length - mute.length;
+            return `${decimal.substr(0, end)}<span class="decimal-muted">${mute.join('')}</span>`;
+        }
 
         function _getObserver(target) {
             if (!target.__) {
@@ -453,7 +512,7 @@
         return utils;
     };
 
-    factory.$inject = ['$q', 'Moment', '$timeout'];
+    factory.$inject = ['$q', 'Moment', '$injector'];
 
     angular.module('app.utils')
         .factory('utils', factory);

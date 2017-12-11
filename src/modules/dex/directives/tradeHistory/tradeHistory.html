@@ -15,10 +15,10 @@
     <w-scroll-box>
         <w-row ng-repeat="order in $ctrl.orders track by $index" class="footnote-1 disabled-900 {{::order.type}}">
             <w-cell>
-                <span precision="$ctrl.priceAsset.precision" w-nice-number="order.price"></span>
+                <span precision="$ctrl.priceAsset.precision" short-mode="true" w-nice-number="order.price"></span>
             </w-cell>
             <w-cell class="size">
-                <span precision="$ctrl.amountAsset.precision" w-nice-number="order.size"></span>
+                <span precision="$ctrl.amountAsset.precision" short-mode="true" w-nice-number="order.size"></span>
             </w-cell>
             <w-cell>
                 {{::order.date | date:'MM-dd HH:mm:ss'}}
