@@ -58,13 +58,13 @@
             <div class="change">
                 <h1>{{$ctrl.change > 0 ? '+' : '-'}}$ {{$ctrl.abs($ctrl.change)}}</h1>
                 <div class="tag-1 info-500">
-                    SLICE LAST {{$ctrl.chartMode.toUpperCase()}} (USD)
+                    SINCE LAST {{$ctrl.chartMode.toUpperCase()}} (USD)
                 </div>
             </div>
             <div class="change-percent">
                 <h1>{{$ctrl.change > 0 ? '+' : '-'}}{{$ctrl.abs($ctrl.changePercent)}}%</h1>
                 <div class="tag-1 info-500">
-                    SLICE LAST {{$ctrl.chartMode.toUpperCase()}} (%)
+                    SINCE LAST {{$ctrl.chartMode.toUpperCase()}} (%)
                 </div>
             </div>
         </div>
@@ -76,7 +76,6 @@
 
     <div class="assets-list">
         <w-asset ng-repeat="balance in $ctrl.pinnedAssetBalances track by balance.asset.id"
-                 ng-click="$ctrl.onAssetClick($event, balance.asset)"
                  on-click="$ctrl.onAssetActionClick(event, balance.asset, action)"
                  balance="balance"></w-asset>
     </div>

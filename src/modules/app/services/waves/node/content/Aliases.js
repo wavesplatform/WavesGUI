@@ -5,10 +5,11 @@
      * @param {BaseNodeComponent} BaseNodeComponent
      * @param {User} user
      * @param {app.utils} utils
-     * @param {EventManager} eventManager
      * @return {Aliases}
      */
     const factory = function (BaseNodeComponent, user, utils) {
+
+        const AVAILABLE_CHARS = '-.0123456789@_abcdefghijklmnopqrstuvwxyz';
 
         class Aliases extends BaseNodeComponent {
 
@@ -18,7 +19,7 @@
              * @return {Promise<string>}
              */
             getAddress(alias) {
-
+                return Waves.API.Node.v2.aliases.getAddress(alias).then(({ address }) => address);
             }
 
             /**
@@ -26,8 +27,7 @@
              * @return {Promise<string>}
              */
             getAliasList() {
-                return Waves.API.Node.v1.aliases.byAddress(user.address)
-                    .then((list) => list.map((item) => item.replace(`alias:${WavesApp.network.code}:`, '')))
+                return Waves.API.Node.v2.addresses.aliasList(user.address)
                     .then((list) => list.sort(utils.comparators.asc));
             }
 
@@ -55,6 +55,15 @@
                     }, keyPair)
                         .then(this._pipeTransaction([fee]));
                 });
+            }
+
+            validate(alias) {
+                // TODO : replace with waves-api method when it is implemented
+                return alias.length >= 4 &&
+                    alias.length <= WavesApp.maxAliasLength &&
+                    alias.split('').some((char) => {
+                        return AVAILABLE_CHARS.indexOf(char) !== -1;
+                    });
             }
 
         }

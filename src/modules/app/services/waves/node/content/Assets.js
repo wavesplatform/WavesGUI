@@ -8,9 +8,10 @@
      * @param {EventManager} eventManager
      * @param {app.utils.decorators} decorators
      * @param {PollCache} PollCache
+     * @param {Aliases} aliases
      * @return {Assets}
      */
-    const factory = function (BaseNodeComponent, utils, user, eventManager, decorators, PollCache) {
+    const factory = function (BaseNodeComponent, utils, user, eventManager, decorators, PollCache, aliases) {
 
         class Assets extends BaseNodeComponent {
 
@@ -121,14 +122,17 @@
              * @return {Promise<{id: string}>}
              */
             transfer({ amount, fee, recipient, attachment, keyPair }) {
-                return this.getFee('transfer', fee)
-                    .then((fee) => {
+                const address = recipient <= WavesApp.maxAliasLength ?
+                    aliases.getAddress(recipient) : Promise.resolve(recipient)
+
+                return Promise.all([address, this.getFee('transfer', fee)])
+                    .then(([address, fee]) => {
                         return Waves.API.Node.v1.assets.transfer({
                             amount: amount.toCoins(),
                             assetId: amount.asset.id,
                             fee: fee.toCoins(),
                             feeAssetId: fee.asset.id,
-                            recipient,
+                            recipient: address,
                             attachment
                         }, keyPair)
                             .then(this._pipeTransaction([amount, fee]));
@@ -201,7 +205,7 @@
         return new Assets();
     };
 
-    factory.$inject = ['BaseNodeComponent', 'utils', 'user', 'eventManager', 'decorators', 'PollCache'];
+    factory.$inject = ['BaseNodeComponent', 'utils', 'user', 'eventManager', 'decorators', 'PollCache', 'aliases'];
 
     angular.module('app')
         .factory('assets', factory);
