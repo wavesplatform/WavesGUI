@@ -82,7 +82,7 @@
                         }
                     ],
                     axes: {
-                        x: { key: 'price', type: 'linear', ticks: 4 },
+                        x: { key: 'price', type: 'linear', ticks: 2 },
                         y: { key: 'amount', ticks: 4 }
                     }
                 };
@@ -123,7 +123,7 @@
                     .sub(bids[0].price)
                     .div(2)
                     .add(bids[0].price);
-                const delta = spreadPrice.mul(this._chartCropRate);
+                const delta = spreadPrice.mul(this._chartCropRate).div(2);
                 const max = spreadPrice.add(delta);
                 const min = BigNumber.max(0, spreadPrice.sub(delta));
 

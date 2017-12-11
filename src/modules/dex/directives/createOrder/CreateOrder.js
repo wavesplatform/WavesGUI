@@ -55,13 +55,6 @@
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.type = type;
                     this.step = 1;
-                    amount = new BigNumber(amount);
-
-                    if (this.amountBalance && this.amountBalance.getTokens().lt(amount)) {
-                        this.amount = this.amountBalance.getTokens();
-                    } else {
-                        this.amount = amount;
-                    }
 
                     this.amount = new BigNumber(amount);
                     this.price = new BigNumber(price);
