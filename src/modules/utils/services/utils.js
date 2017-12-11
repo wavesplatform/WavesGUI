@@ -315,14 +315,10 @@
                     let postfix;
 
                     if (bigNum.gte(1000000)) {
-                        stringNum = bigNum.div(1000000)
-                            .toFormat(1)
-                            .replace('.0', ''); // TODO localize separator!
+                        stringNum = bigNum.div(1000000).toFormat(1);
                         postfix = i18n.translate('number.short.million');
                     } else {
-                        stringNum = bigNum.div(10000)
-                            .toFormat(1)
-                            .replace('.0', ''); // TODO localize separator!;
+                        stringNum = bigNum.div(1000).toFormat(1);
                         postfix = i18n.translate('number.short.thousand');
                     }
 
