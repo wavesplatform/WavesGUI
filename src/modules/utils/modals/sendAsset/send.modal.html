@@ -73,12 +73,14 @@
                                              max-balance="$ctrl.balance"
                                              fee="$ctrl.fee"
                                              input-classes="big"
+                                             min="0"
                                              amount="$ctrl.amount">
                             </w-balance-input>
                             <div class="amount-modal-icon"></div>
                             <w-balance-input ng-if="!$ctrl.noMirror"
                                              name="amountMirror"
                                              asset-id="$ctrl.mirrorId"
+                                             fill-max="$ctrl.fillMax()"
                                              fee="$ctrl.fee"
                                              input-classes="big"
                                              amount="$ctrl.amountMirror">
