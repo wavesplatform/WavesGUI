@@ -306,7 +306,7 @@
                 const bigNum = this.parseNiceNumber(num);
                 const formatted = this.getNiceNumber(num, precision);
 
-                if (shortMode && bigNum.gt(10000)) {
+                if (shortMode && bigNum.gte(10000)) {
                     /**
                      * @type {app.i18n}
                      */
