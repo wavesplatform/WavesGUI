@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const controller = function (Base, $element, ComponentList) {
+    const controller = function (Base, $element, ComponentList, $scope) {
 
         class StepByStep extends Base {
 
@@ -16,10 +16,12 @@
 
                 $element.on('click', '[w-step-next]', () => {
                     this._setStep(this._getStepIndex() + 1);
+                    $scope.$apply();
                 });
 
                 $element.on('click', '[w-step-prev]', () => {
                     this._setStep(this._getStepIndex() - 1);
+                    $scope.$apply();
                 });
             }
 
@@ -68,7 +70,7 @@
         return new StepByStep();
     };
 
-    controller.$inject = ['Base', '$element', 'ComponentList'];
+    controller.$inject = ['Base', '$element', 'ComponentList', '$scope'];
 
     angular.module('app.ui').component('wStepByStep', {
         bindings: {
