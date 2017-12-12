@@ -8,9 +8,12 @@
      * @param {User} user
      * @param {ModalManager} modalManager
      * @param {ISeedService} seedService
+     * @param {CopyService} copyService
+     * @param {NotificationManager} notificationManager
      * @return {CreateCtrl}
      */
-    const controller = function ($q, $mdDialog, $timeout, user, modalManager, seedService) {
+    const controller = function ($q, $mdDialog, $timeout, user, modalManager,
+                                 seedService, copyService, notificationManager) {
 
         const PATH = 'modules/create/templates';
         const ORDER_LIST = [
@@ -98,6 +101,21 @@
                 }
             }
 
+            copySeed() {
+                if (this.seed) {
+                    copyService.copy(this.seed);
+                    notificationManager.info({
+                        ns: 'app.create',
+                        title: { literal: 'backupSeed.seedCopied' }
+                    });
+                } else {
+                    notificationManager.error({
+                        ns: 'app.create',
+                        title: { literal: 'backupSeed.noSeedToCopy' }
+                    });
+                }
+            }
+
             resetAddress() {
                 const list = [];
                 for (let i = 0; i < 5; i++) {
@@ -136,7 +154,9 @@
 
     };
 
-    controller.$inject = ['$q', '$mdDialog', '$timeout', 'user', 'modalManager', 'seedService'];
+    controller.$inject = [
+        '$q', '$mdDialog', '$timeout', 'user', 'modalManager', 'seedService', 'copyService', 'notificationManager'
+    ];
 
     angular.module('app.create')
         .controller('CreateCtrl', controller);
