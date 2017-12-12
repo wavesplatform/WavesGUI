@@ -13,7 +13,6 @@
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
      * @param {DexService} dexService
-     * @param {object} $attrs
      * @return {Transaction}
      */
     const controller = function (Base, $filter, modalManager, notificationManager,
@@ -41,22 +40,20 @@
             }
 
             cancelLeasing() {
-                return user.getSeed()
-                    .then(({ keyPair }) => waves.node.cancelLeasing({
-                        transactionId: this.transaction.id,
-                        keyPair
-                    }))
-                    .then((data) => {
-                        notificationManager.info({
-                            ns: 'app.ui',
-                            title: { literal: 'transaction.notifications.closedSuccess' }
-                        });
-                    }, () => {
-                        notificationManager.warn({
-                            ns: 'app.ui',
-                            title: { literal: 'transaction.notifications.closed' }
-                        });
+                return user.getSeed().then((seed) => waves.node.cancelLeasing({
+                    transactionId: this.transaction.id,
+                    keyPair: seed.keyPair
+                })).then(() => {
+                    notificationManager.info({
+                        ns: 'app.ui',
+                        title: { literal: 'transaction.notifications.closedSuccess' }
                     });
+                }, () => {
+                    notificationManager.warn({
+                        ns: 'app.ui',
+                        title: { literal: 'transaction.notifications.closed' }
+                    });
+                });
             }
 
             showTransaction() {

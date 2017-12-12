@@ -247,7 +247,7 @@
                     case TYPES.RECEIVE:
                     case TYPES.ISSUE:
                     case TYPES.REISSUE:
-                    case TYPES.LEASE_OUT:
+                    case TYPES.LEASE_IN:
                     case TYPES.CREATE_ALIAS:
                         return sender;
                     default:

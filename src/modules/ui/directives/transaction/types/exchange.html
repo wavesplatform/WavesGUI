@@ -1,7 +1,10 @@
 <div class="line body-1 basic-700">
     <div>
         <span w-i18n="transaction.headers.{{::$ctrl.type}}"
-              params="{amountAsset: $ctrl.transaction.amount.asset.name, priceAsset: $ctrl.transaction.price.asset.name}"></span>
+              params="{
+                amountAsset: $ctrl.transaction.amount.asset.name,
+                priceAsset: $ctrl.transaction.price.pair.priceAsset.name
+              }"></span>
     </div>
     <div>
         <span w-i18n="transaction.amounts.{{::$ctrl.type}}"
@@ -22,7 +25,7 @@
               params="{
                 sign: $ctrl.type === 'exchange-buy' ? '–' : '+',
                 amount: $ctrl.totalPrice,
-                name: $ctrl.transaction.price.asset.name
+                name: $ctrl.transaction.price.pair.priceAsset.name
               }"></span>
     </div>
 </div>
