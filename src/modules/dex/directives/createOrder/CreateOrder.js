@@ -208,7 +208,7 @@
                         }).catch((err) => {
                             // TODO : refactor this
                             const notEnough = 'Not enough tradable balance';
-                            const isNotEnough = (err.data.message.slice(notEnough.length) === notEnough);
+                            const isNotEnough = (err.data.message.slice(0, notEnough.length) === notEnough);
                             notificationManager.error({
                                 ns: 'app',
                                 title: { literal: isNotEnough ? notEnough : 'Something went wrong' }
