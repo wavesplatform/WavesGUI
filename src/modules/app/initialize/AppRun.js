@@ -86,6 +86,13 @@
             }
         });
 
+        user.onLogin().then(() => {
+            Waves.config.set({
+                nodeAddress: user.getSetting('network.node'),
+                matcherAddress: user.getSetting('network.matcher')
+            });
+        });
+
         class AppRun {
 
             constructor() {

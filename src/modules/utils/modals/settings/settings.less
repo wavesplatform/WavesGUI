@@ -1,6 +1,19 @@
-.settings-modal {
+@import (reference) '../../../config';
 
-  @color-basic-200: #dae1e9;
+md-dialog.settings-modal {
+  width: 740px;
+
+  .modal-content {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+
+    .navigation-menu {
+      width: 199px;
+      height: 100%;
+      border-right: 1px solid @color-basic-200;
+    }
+  }
 
   .flex-row {
     display: flex;
