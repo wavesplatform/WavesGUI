@@ -16,12 +16,28 @@ w-dex-my-orders {
 
     w-row {
       padding: 6px 16px 6px 16px;
+
+      &:hover {
+        .stop {
+          opacity: .89;
+          background-color: @color-error-400;
+          background-image: url(/img/icons/white_cancel.svg);
+        }
+      }
     }
   }
 
   w-row {
     position: relative;
     padding: 0 16px 0 16px;
+
+    &[ng-class="cancelled"], &[ng-class="filled"] {
+      color: @color-disabled-500;
+
+      .order-side.sell, .order-side.buy {
+        color: @color-disabled-500;
+      }
+    }
 
     .cell-0 {
       span {
@@ -61,19 +77,11 @@ w-dex-my-orders {
       color: @color-success-600;
     }
 
-    &[ng-class="closed"], &[ng-class="canceled"] {
-      color: @color-disabled-500;
-
-      .order-side.sell, .order-side.buy {
-        color: @color-disabled-500;
-      }
-    }
-
     .stop {
       cursor: pointer;
       position: absolute;
       top: 50%;
-      right: 7px;
+      right: 16px;
       width: 17px;
       height: 17px;
       transform: translateY(-50%);
@@ -81,12 +89,6 @@ w-dex-my-orders {
       background-size: 8px 8px;
       background-repeat: no-repeat;
       background-position: center;
-
-      &:hover {
-        opacity: .89;
-        background-color: @color-error-400;
-        background-image: url(/img/icons/white_cancel.svg);
-      }
     }
 
     &:not(:last-child) {

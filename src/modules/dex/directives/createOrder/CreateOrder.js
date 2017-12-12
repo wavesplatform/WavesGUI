@@ -181,7 +181,7 @@
                 this.step = 0;
             }
 
-            createOrder() {
+            createOrder(form) {
                 user.getSeed()
                     .then((seed) => {
                         return Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
@@ -191,6 +191,8 @@
                             ]);
                         }).then(([amount, price]) => {
                             this.amount = null;
+                            form.$setUntouched();
+                            $scope.$apply();
                             return waves.matcher.createOrder({
                                 amountAsset: this.amountBalance.asset.id,
                                 priceAsset: this.priceBalance.asset.id,

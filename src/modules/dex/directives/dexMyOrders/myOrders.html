@@ -25,7 +25,7 @@
             <w-cell>
                 {{order.state}}
             </w-cell>
-            <div ng-if="order.status === 'Accepted' || order.status === 'Filled'"
+            <div ng-if="order.status === 'Accepted' || order.status === 'PartiallyFilled'"
                  ng-click="$ctrl.dropOrder(order)"
                  class="stop"></div>
         </w-row>

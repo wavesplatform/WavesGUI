@@ -78,6 +78,11 @@
                                 <w-input-error message="required">
                                     <w-i18n>directives.createOrder.errors.required</w-i18n>
                                 </w-input-error>
+                                <w-input-error message="asset-input">
+                                    <w-i18n params="{precision: $ctrl.amountBalance.asset.precision}">
+                                        directives.createOrder.errors.precision
+                                    </w-i18n>
+                                </w-input-error>
                                 <w-input-error message="asset-max">
                                     <w-i18n params="{name: $ctrl.amountBalance.asset.displayName}">
                                         directives.createOrder.errors.balance
@@ -98,7 +103,8 @@
                                 <div class="input-like tiny">
                                     <w-input class="tiny embed no-validate-icons"
                                              type="text"
-                                             w-validate="number"
+                                             w-validate="asset"
+                                             asset-id="{{$ctrl.priceBalance.asset.id}}"
                                              name="price"
                                              ng-model="$ctrl.price"
                                              required></w-input>
@@ -106,6 +112,11 @@
                                         <div class="caption-1 disabled-500">{{$ctrl.priceDisplayName}}</div>
                                     </div>
                                 </div>
+                                <w-input-error message="asset-input">
+                                    <w-i18n params="{precision: $ctrl.priceBalance.asset.precision}">
+                                        directives.createOrder.errors.precision
+                                    </w-i18n>
+                                </w-input-error>
                                 <w-input-error message="required">
                                     <w-i18n>directives.createOrder.errors.required</w-i18n>
                                 </w-input-error>
@@ -122,7 +133,7 @@
 
                         <w-button disabled="order.$invalid || $ctrl.cantByOrder"
                                   class="place-order tiny footnote-3"
-                                  ng-click="$ctrl.createOrder()">
+                                  ng-click="$ctrl.createOrder(order)">
                             <w-i18n ng-if="$ctrl.type === 'sell'">directives.createOrder.placeSellOrder</w-i18n>
                             <w-i18n ng-if="$ctrl.type === 'buy'">directives.createOrder.placeBuyOrder</w-i18n>
                         </w-button>
