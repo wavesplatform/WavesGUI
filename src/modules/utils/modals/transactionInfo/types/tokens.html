@@ -1,8 +1,9 @@
 <div class="lead">
     <h3 class="basic-700"
         w-i18n="transaction.amounts.{{::$ctrl.type}}"
-        params="{amount: $ctrl.transaction.amount.toFormat(), name: $ctrl.transaction.amount.asset.name}"></h3>
-    <div class="body-2 basic-500">≈ {{::$ctrl.mirrorBalance.toFormat()}} {{::$ctrl.mirrorBalance.asset.name}}</div>
+        params="{amount: $ctrl.transaction.quantity.toFormat(), name: $ctrl.transaction.quantity.asset.name}"></h3>
+    <div class="body-2 basic-500" ng-if="$ctrl.mirrorBalance">≈ {{::$ctrl.mirrorBalance.toFormat()}} {{::$ctrl.mirrorBalance.asset.name}}</div>
+    <!--TODO : no mirrorBalance for some (or all) assets-->
 </div>
 
 <div class="section">
