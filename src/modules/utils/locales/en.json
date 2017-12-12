@@ -112,6 +112,7 @@
       "body": {
         "security": "I understand that my funds are held securely on this device, not by a company.",
         "backup": "I understand that if this app is moved to another device or deleted, my Waves can only be recovered with the backup phrase.",
+        "analytics": "I would like to help improve the Waves platform by sending anonymous usage statistics to the developers (optional).",
         "read": "I have read, understood and agree to the",
         "terms": "Terms of Use",
         "ok": "Confirm and Begin"

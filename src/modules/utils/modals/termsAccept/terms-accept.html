@@ -20,12 +20,7 @@
 
                 <div class="row">
                     <w-checkbox-submit id="shareAnalytics" ng-model="$ctrl.shareAnalytics"></w-checkbox-submit>
-                    <label for="shareAnalytics">
-                        <span>
-                            I understand that if this app is moved to another device or deleted, my Waves can only
-                            be recovered with the backup phrase.
-                        </span>
-                    </label>
+                    <label for="shareAnalytics" w-i18n="modal.termsAccept.body.analytics"></label>
                 </div>
 
                 <w-button class="submit long big" ng-click="$ctrl.confirm()"

@@ -18,10 +18,7 @@
 
             <w-step id="general" class="general">
                 <w-checkbox-submit id="shareStat" ng-model="$ctrl.shareStat"></w-checkbox-submit>
-                <label for="shareStat">
-                    I understand that if this app is moved to another device or deleted, my Waves can
-                    only be recovered with the backup phrase.
-                </label>
+                <label for="shareStat" w-i18n="modal.termsAccept.body.analytics"></label>
             </w-step>
 
             <w-step id="security" class="security">
@@ -88,7 +85,13 @@
 
             <w-step id="info" class="info">
 
-                <span class="label">{{::$ctrl.version}}</span>
+                <div class="row margin-1">
+                    <span class="label">{{::$ctrl.appName}} {{::$ctrl.appVersion}}</span>
+                </div>
+
+                <div class="row margin-1">
+                    <a href="{{::$ctrl.supportLink}}" target="_blank">{{::$ctrl.supportLinkName}}</a>
+                </div>
 
             </w-step>
 

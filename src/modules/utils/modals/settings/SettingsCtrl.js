@@ -21,7 +21,11 @@
                 this.node = '';
                 this.matcher = '';
                 this.shareStat = user.getSetting('shareAnalytics');
-                this.version = WavesApp.version;
+
+                this.appName = WavesApp.name;
+                this.appVersion = WavesApp.version;
+                this.supportLink = WavesApp.network.support;
+                this.supportLinkName = WavesApp.network.support.replace(/^https?:\/\//, '');
 
                 this.syncSettings({
                     node: 'network.node',
