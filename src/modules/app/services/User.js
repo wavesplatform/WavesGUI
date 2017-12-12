@@ -126,9 +126,7 @@
              */
             login(data) {
                 return this._addUserData(data)
-                    .then(() = > analytics.push('User', 'Login')
-            )
-                ;
+                    .then(() => analytics.push('User', 'Login'));
             }
 
             /**
@@ -150,9 +148,7 @@
                         termsAccepted: false,
                         hasBackup: hasBackup
                     }
-                }).then(() = > analytics.push('User', 'Create')
-            )
-                ;
+                }).then(() => analytics.push('User', 'Create'));
             }
 
             logout() {

@@ -35,20 +35,15 @@
                     });
                 });
 
-                this.observe('shareStat', () = > {
-                    if(this.shareStat
-            )
-                {
-                    analytics.activate();
-                    user.setSetting('shareAnalytics', true);
-                }
-            else
-                {
-                    analytics.deactivate();
-                    user.setSetting('shareAnalytics', false);
-                }
-            })
-                ;
+                this.observe('shareStat', () => {
+                    if (this.shareStat) {
+                        analytics.activate();
+                        user.setSetting('shareAnalytics', true);
+                    } else {
+                        analytics.deactivate();
+                        user.setSetting('shareAnalytics', false);
+                    }
+                });
 
                 user.getSeed().then((seed) => {
                     this.phrase = seed.phrase;

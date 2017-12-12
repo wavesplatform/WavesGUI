@@ -200,15 +200,15 @@
                                 price: price.toMatcherCoins(),
                                 amount: amount.toCoins()
                             }, seed.keyPair);
-                        }).then((res) => {
+                        }).then(() => {
                             notificationManager.success({
                                 ns: 'app',
                                 title: { literal: 'The order is created' }
                             });
                         }).catch((err) => {
-                    // TODO : refactor this
-                    const notEnough = 'Not enough tradable balance';
-                const isNotEnough = (err.data.message.slice(0, notEnough.length) === notEnough);
+                            // TODO : refactor this
+                            const notEnough = 'Not enough tradable balance';
+                            const isNotEnough = (err.data.message.slice(0, notEnough.length) === notEnough);
                             notificationManager.error({
                                 ns: 'app',
                                 title: { literal: isNotEnough ? notEnough : 'Something went wrong' }

@@ -141,18 +141,13 @@
                             const termsAccepted = user.getSetting('termsAccepted');
 
                             if (!termsAccepted) {
-                                modalManager.showTermsAccept(user).then(() = > {
-                                    if(user.getSetting('shareAnalytics')
-                            )
-                                {
-                                    analytics.activate();
-                                }
-                            })
-                                ;
-                            } else {
-                                if (user.getSetting('shareAnalytics')) {
-                                    analytics.activate();
-                                }
+                                modalManager.showTermsAccept(user).then(() => {
+                                    if (user.getSetting('shareAnalytics')) {
+                                        analytics.activate();
+                                    }
+                                });
+                            } else if (user.getSetting('shareAnalytics')) {
+                                analytics.activate();
                             }
 
                             $rootScope.$on('$stateChangeStart', (event, state) => {
@@ -232,7 +227,7 @@
              */
             _getImagesReadyPromise() {
                 return fetch(`/img/images-list.json?v=${WavesApp.version}`)
-                    .then(r => r.json())
+                    .then((r) => r.json())
                     .then((list) => {
                         return Promise.all(list.map(AppRun.getLoadImagePromise(list.length)));
                     });
