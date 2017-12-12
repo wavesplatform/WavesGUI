@@ -24,7 +24,7 @@
             <w-step id="security" class="security">
 
                 <div class="row margin-1">
-                    <div class="footnote disabled-600 label">Backup pharse</div>
+                    <div class="footnote disabled-600 label">Backup phrase</div>
                     <div class="data-field">
                         <w-button ng-if="!$ctrl.shownSeed" class="tiny" ng-click="$ctrl.shownSeed = true">
                             <w-i18n>Show</w-i18n>
@@ -43,21 +43,13 @@
                     </div>
                 </div>
                 <div class="row flex-row">
-                    <div class="footnote disabled-600">
-                        Public Key
-                    </div>
-                    <div>
-                        {{::$ctrl.publicKey}}
-                    </div>
+                    <div class="footnote disabled-600">Public Key</div>
+                    <div>{{::$ctrl.publicKey}}</div>
                 </div>
 
                 <div class="row flex-row">
-                    <div class="footnote disabled-600">
-                        Adress
-                    </div>
-                    <div>
-                        {{::$ctrl.address}}
-                    </div>
+                    <div class="footnote disabled-600">Address</div>
+                    <div>{{::$ctrl.address}}</div>
                 </div>
             </w-step>
 
