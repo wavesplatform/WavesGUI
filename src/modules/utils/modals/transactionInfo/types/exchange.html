@@ -11,7 +11,7 @@
          params="{
                 sign: $ctrl.type === 'exchange-buy' ? '–' : '+',
                 amount: $ctrl.totalPrice,
-                name: $ctrl.transaction.price.asset.name
+                name: $ctrl.transaction.price.pair.priceAsset.name
               }"></div>
 </div>
 
@@ -19,5 +19,5 @@
     <div class="key"
          w-i18n="transaction.modals.price"
          params="{name: $ctrl.transaction.amount.asset.name}"></div>
-    <div class="value">{{::$ctrl.transaction.price.toFormat()}} {{::$ctrl.transaction.price.asset.name}}</div>
+    <div class="value">{{::$ctrl.transaction.price.toFormat()}} {{::$ctrl.transaction.price.pair.priceAsset.name}}</div>
 </div>
