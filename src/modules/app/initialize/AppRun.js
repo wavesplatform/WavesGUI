@@ -63,6 +63,7 @@
 
                 this.ticker = props.ticker || '';
                 this.sign = props.sign || '';
+                this.displayName = props.ticker || props.name;
             }
 
         }
@@ -212,7 +213,7 @@
              * @private
              */
             _getImagesReadyPromise() {
-                return fetch('/img/images-list.json')
+                return fetch(`/img/images-list.json?v=${WavesApp.version}`)
                     .then(r => r.json())
                     .then((list) => {
                         return Promise.all(list.map(AppRun.getLoadImagePromise(list.length)));

@@ -60,6 +60,9 @@
 
             getFormatter() {
                 return (value) => {
+                    if (value == null) {
+                        return '';
+                    }
                     if (new BigNumber(value).eq(utils.parseNiceNumber(this.$input.val()))) {
                         if (value.indexOf('e') !== -1) {
                             return new BigNumber(value).toFixed(this.asset.precision);

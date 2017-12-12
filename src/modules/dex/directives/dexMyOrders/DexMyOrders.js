@@ -67,9 +67,9 @@
                 return Promise.all([user.getSeed(), Waves.AssetPair.get(asset1, asset2)])
                     .then(([seed, pair]) => waves.matcher.getOrdersByPair(pair.amountAsset.id, pair.priceAsset.id, seed.keyPair))
                     .then((orders) => {
-                        const active = orders.filter(tsUtils.contains({ state: 'Active' }));
-                        const filled = orders.filter(tsUtils.contains({ state: 'Filled' }));
-                        const others = orders.filter((item) => item.state !== 'Active' && item.state !== 'Filled');
+                        const active = orders.filter(({ status }) => status === 'Accepted');
+                        const filled = orders.filter(({ status }) => status === 'Filled');
+                        const others = orders.filter(({ status }) => status !== 'Accepted' && status !== 'Filled');
                         return active.concat(filled).concat(others);
                     });
             }

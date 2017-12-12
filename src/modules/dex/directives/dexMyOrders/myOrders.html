@@ -9,7 +9,7 @@
         </w-row>
     </w-t-head>
     <w-scroll-box>
-        <w-row ng-repeat="order in $ctrl.orders track by order.id" ng-class="{{order.state.toLowerCase()}}">
+        <w-row ng-repeat="order in $ctrl.orders track by order.id" ng-class="{{order.status.toLowerCase()}}">
             <w-cell>
                 <span>{{::order.pair}}</span>
             </w-cell>
@@ -25,7 +25,7 @@
             <w-cell>
                 {{order.state}}
             </w-cell>
-            <div ng-if="order.state === 'Active' || order.state === 'Filled'"
+            <div ng-if="order.status === 'Accepted' || order.status === 'Filled'"
                  ng-click="$ctrl.dropOrder(order)"
                  class="stop"></div>
         </w-row>

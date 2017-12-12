@@ -22,6 +22,14 @@
                  */
                 this.orders = null;
                 /**
+                 * @type {Asset}
+                 */
+                this.amountAsset = null;
+                /**
+                 * @type {Asset}
+                 */
+                this.priceAsset = null;
+                /**
                  * @type {string}
                  * @private
                  */
@@ -49,7 +57,7 @@
                     poll.restart();
                 });
 
-                $element.on('click', 'w-scroll-box w-row', (e) => {
+                $element.on('mousedown touchstart', 'w-scroll-box w-row', (e) => {
                     const amount = e.currentTarget.getAttribute('data-amount');
                     const price = e.currentTarget.getAttribute('data-price');
                     const type = e.currentTarget.getAttribute('data-type');
@@ -64,6 +72,9 @@
             _getOrders() {
                 return waves.matcher.getOrderBook(this._amountAssetId, this._priceAssetId)
                     .then(({ bids, asks, spread, pair }) => {
+
+                        this.amountAsset = pair.amountAsset;
+                        this.priceAsset = pair.priceAsset;
 
                         const getCell = function (content) {
                             return `<div class="table-cell">${content}</div>`;

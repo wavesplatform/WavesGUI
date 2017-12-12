@@ -44,7 +44,7 @@
                     wallet: {
                         activeState: 'assets',
                         assets: {
-                            chartMode: 'week',
+                            chartMode: 'month',
                             activeChartAssetId: WavesApp.defaultAssets.WAVES,
                             chartAssetIdList: [
                                 WavesApp.defaultAssets.WAVES,
@@ -121,12 +121,12 @@
                                 split: 65
                             },
                             center: {
-                                split: 80,
+                                split: 75,
                                 collapsedBlock: true
                             },
                             right: {
                                 collapsed: false,
-                                split: 50,
+                                split: 65,
                                 collapsedBlock: true
                             }
                         }
