@@ -58,7 +58,7 @@
                                 const parts = ns.split('.');
                                 const path = parts.length === 1 ? ns : parts.filter((item) => item !== 'app')
                                     .join('/modules/');
-                                return `/modules/${path}/locales/${lng}.json`;
+                                return `/modules/${path}/locales/${lng}.json?v=${WavesApp.version}`;
                             }
                         }
                     });

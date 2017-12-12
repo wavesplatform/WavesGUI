@@ -7,6 +7,7 @@
 
             constructor() {
                 super($scope);
+                this.tab = 'security';
             }
 
         }
