@@ -17,17 +17,18 @@
                     <w-checkbox-submit id="backup" ng-model="$ctrl.backup"></w-checkbox-submit>
                     <label for="backup" w-i18n="modal.termsAccept.body.backup"></label>
                 </div>
-                <!--<div class="row">-->
-                    <!--<w-checkbox-submit id="agree" ng-model="$ctrl.agree"></w-checkbox-submit>-->
-                    <!--<label for="agree">-->
-                        <!--<span w-i18n="modal.termsAccept.body.read"></span>-->
-                        <!--<a class="submit-400" w-step-next w-i18n="modal.termsAccept.body.terms"></a>-->
-                    <!--</label>-->
-                <!--</div>-->
 
-                <!--<w-button class="submit long big" w-modal-hide-->
-                          <!--disabled="!$ctrl.security || !$ctrl.backup || !$ctrl.agree">-->
-                <w-button class="submit long big" w-modal-hide
+                <div class="row">
+                    <w-checkbox-submit id="shareAnalytics" ng-model="$ctrl.shareAnalytics"></w-checkbox-submit>
+                    <label for="shareAnalytics">
+                        <span>
+                            I understand that if this app is moved to another device or deleted, my Waves can only
+                            be recovered with the backup phrase.
+                        </span>
+                    </label>
+                </div>
+
+                <w-button class="submit long big" ng-click="$ctrl.confirm()"
                           disabled="!$ctrl.security || !$ctrl.backup">
                     <w-i18n>modal.termsAccept.body.ok</w-i18n>
                 </w-button>
