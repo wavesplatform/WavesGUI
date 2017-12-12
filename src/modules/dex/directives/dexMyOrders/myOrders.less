@@ -23,6 +23,14 @@ w-dex-my-orders {
     position: relative;
     padding: 0 16px 0 16px;
 
+    &[ng-class="cancelled"], &[ng-class="filled"] {
+      color: @color-disabled-500;
+
+      .order-side.sell, .order-side.buy {
+        color: @color-disabled-500;
+      }
+    }
+
     .cell-0 {
       span {
         display: block;
@@ -59,14 +67,6 @@ w-dex-my-orders {
 
     .order-side.buy {
       color: @color-success-600;
-    }
-
-    &[ng-class="closed"], &[ng-class="canceled"] {
-      color: @color-disabled-500;
-
-      .order-side.sell, .order-side.buy {
-        color: @color-disabled-500;
-      }
     }
 
     .stop {

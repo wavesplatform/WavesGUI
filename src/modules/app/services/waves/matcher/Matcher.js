@@ -85,7 +85,7 @@
                         Promise.resolve(`${assetPair.priceAsset.displayName} / ${assetPair.amountAsset.displayName}`)
                     ]))
                     .then(([price, amount, filled, pair]) => {
-                        const percent = filled.getTokens().div(amount.getTokens());
+                        const percent = filled.getTokens().div(amount.getTokens()).mul(100);
                         const STATUS_MAP = {
                             'Cancelled': 'matcher.orders.statuses.canceled',
                             'Accepted': 'matcher.orders.statuses.opened',
