@@ -206,9 +206,12 @@
                                 title: { literal: 'The order is created' }
                             });
                         }).catch((err) => {
+                            // TODO : refactor this
+                            const notEnough = 'Not enough tradable balance';
+                            const isNotEnough = (err.data.message.slice(notEnough.length) === notEnough);
                             notificationManager.error({
                                 ns: 'app',
-                                title: { literal: 'Something went wrong' }
+                                title: { literal: isNotEnough ? notEnough : 'Something went wrong' }
                             });
                         });
                     });
