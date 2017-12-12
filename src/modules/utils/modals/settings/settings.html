@@ -1,32 +1,94 @@
 <div class="modal-content settings-modal">
-    <!--<div class="row">-->
-    <!--<div class="footnote disabled-600">Backup pharse</div>-->
-    <!--<div class="data-field"/>-->
-    <!--<a href="#">Show</a>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="row">-->
-    <!--<div class="footnote disabled-600">Private key</div>-->
-    <!--<div class="data-field"/>-->
-    <!--<a href="#">Show</a>-->
-    <!--</div>-->
-    <!--</div>-->
-    <div class="row flex-row">
-        <div class="footnote disabled-600">
-            Public Key
+    <div class="navigation-menu" ng-class="$ctrl.page">
+        <div class="menu-item" ng-click="$ctrl.setState('general')">
+            <w-i18n>General</w-i18n>
         </div>
-        <div>
-            EwTHK218NL4Ps8xu5Z8kHYeM3e4YJC1222bnEyy6Z83e
+        <div class="menu-item" ng-click="$ctrl.setState('security')">
+            <w-i18n>Security</w-i18n>
+        </div>
+        <div class="menu-item" ng-click="$ctrl.setState('network')">
+            <w-i18n>Network</w-i18n>
+        </div>
+        <div class="menu-item" ng-click="$ctrl.setState('info')">
+            <w-i18n>Info</w-i18n>
         </div>
     </div>
+    <div class="settings-content">
+        <w-step-by-step active-step="$ctrl.tab">
 
-    <div class="row flex-row">
-        <div class="footnote disabled-600">
-            Adress
-        </div>
-        <div>
-            3PERwLXbW6sczH6o2Tfy6dA5k1mRAMDZ9LC
-        </div>
+            <w-step id="general">
+                <w-checkbox-submit ng-model="$ctrl.shareStat"></w-checkbox-submit>
+                <label w-i18n="modal.settings.shareStat"></label>
+            </w-step>
+
+            <w-step id="security">
+
+                <div class="row">
+                    <div class="footnote disabled-600">Backup pharse</div>
+                    <div class="data-field">
+                        <w-button ng-if="!$ctrl.shownSeed" class="tiny" ng-click="$ctrl.shownSeed = true">
+                            <w-i18n>Show</w-i18n>
+                        </w-button>
+                        <div ng-if="$ctrl.shownSeed">{{::$ctrl.phrase}}</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="footnote disabled-600">Private key</div>
+                    <div class="data-field">
+                        <w-button ng-if="!$ctrl.shownKey" class="tiny" ng-click="$ctrl.shownKey = true">
+                            <w-i18n>Show</w-i18n>
+                        </w-button>
+                        <div ng-if="$ctrl.shownKey">{{::$ctrl.privateKey}}</div>
+                    </div>
+                </div>
+                <div class="row flex-row">
+                    <div class="footnote disabled-600">
+                        Public Key
+                    </div>
+                    <div>
+                        {{::$ctrl.publicKey}}
+                    </div>
+                </div>
+
+                <div class="row flex-row">
+                    <div class="footnote disabled-600">
+                        Adress
+                    </div>
+                    <div>
+                        {{::$ctrl.address}}
+                    </div>
+                </div>
+            </w-step>
+
+            <w-step id="network">
+
+                <div class="row">
+                    <div>Node address</div>
+                    <div>
+                        <w-input ng-model="$ctrl.node"></w-input>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div>Matcher address</div>
+                    <div>
+                        <w-input ng-model="$ctrl.matcher"></w-input>
+                    </div>
+                </div>
+
+                <w-button ng-click="$ctrl.setNetworkDefault()">
+                    <w-i18n>Set default</w-i18n>
+                </w-button>
+
+            </w-step>
+
+            <w-step id="info">
+
+                {{::$ctrl.version}}
+
+            </w-step>
+
+        </w-step-by-step>
     </div>
 </div>
