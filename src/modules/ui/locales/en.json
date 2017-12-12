@@ -90,5 +90,6 @@
   "transactionList": {
     "noTransactionsTitle": "Nothing Here…",
     "noTransactionsDescription": "You do not have any transaction."
-  }
+  },
+  "copySuccess": "The data is copied"
 }
