@@ -116,6 +116,9 @@
         "terms": "Terms of Use",
         "ok": "Confirm and Begin"
       }
+    },
+    "settings": {
+      "title": "Settings"
     }
   }
 }
