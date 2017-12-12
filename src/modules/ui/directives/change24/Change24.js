@@ -71,7 +71,7 @@
         return new Change24();
     };
 
-    controller.$inject = ['Base', '$attrs', 'createPoll', '$element', 'waves'];
+    controller.$inject = ['Base', '$attrs', 'createPoll', '$element', 'waves', 'i18n'];
 
     angular.module('app.ui').component('wChange24', {
         bindings: {
@@ -79,7 +79,8 @@
             assetTo: '<',
             precision: '@',
             noUpdate: '@',
-            interval: '@'
+            interval: '@',
+            ns: '@'
         },
         transclude: false,
         controller

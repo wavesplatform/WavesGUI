@@ -18,29 +18,58 @@
 
         class CreateOrder extends Base {
 
+            /**
+             * @return {string}
+             */
+            get amountDisplayName() {
+                return this.amountBalance && this.amountBalance.asset.displayName || '';
+            }
+
+            /**
+             * @return {string}
+             */
+            get priceDisplayName() {
+                return this.priceBalance && this.priceBalance.asset.displayName || '';
+            }
+
             constructor() {
                 super();
 
-                this.step = 0;
-
-                this.amountAsset = null;
-                this.priceAsset = null;
-                this.amountDisplayName = null;
-                this.priceDisplayName = null;
                 /**
+                 * Expanded state
+                 * @type {number}
+                 */
+                this.step = 0;
+                /**
+                 * Max amount (with fee)
+                 * @type {Money}
+                 */
+                this.maxAmountBalance = null;
+                /**
+                 * Has price balance for buy amount
+                 * @type {boolean}
+                 */
+                this.cantByOrder = false;
+                /**
+                 * Amount asset balance
                  * @type {Money}
                  */
                 this.amountBalance = null;
                 /**
+                 * Price asset balance
                  * @type {Money}
                  */
                 this.priceBalance = null;
-
-                Waves.Money.fromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
-                    this.fee = money;
-                });
-
+                /**
+                 * Order type
+                 * @type {string}
+                 */
                 this.type = null;
+                /**
+                 * Total price (amount multiply price)
+                 * @type {BigNumber}
+                 */
+                this.totalPrice = null;
                 /**
                  * @type {string}
                  * @private
@@ -51,6 +80,10 @@
                  * @private
                  */
                 this._amountAssetId = null;
+
+                Waves.Money.fromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
+                    this.fee = money;
+                });
 
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.type = type;
@@ -74,15 +107,8 @@
                             waves.node.assets.balance(pair.amountAsset.id),
                             waves.node.assets.balance(pair.priceAsset.id)
                         ]).then(([amountMoney, priceMoney]) => {
-                            const amountAsset = amountMoney.asset;
-                            const priceAsset = priceMoney.asset;
-
                             this.amountBalance = amountMoney;
                             this.priceBalance = priceMoney;
-                            this.amountAsset = amountAsset;
-                            this.priceAsset = priceAsset;
-                            this.amountDisplayName = amountAsset.displayName;
-                            this.priceDisplayName = priceAsset.displayName;
                         });
                     });
                 });
@@ -91,6 +117,8 @@
                     _amountAssetId: 'dex.amountAssetId',
                     _priceAssetId: 'dex.priceAssetId'
                 });
+
+                this.observe(['amount', 'price', 'step', 'type'], this._currentTotal);
 
                 // TODO Add directive for stop propagation (catch move for draggable)
                 $element.on('mousedown', '.body', (e) => {
@@ -106,38 +134,45 @@
                 switch (type) {
                     case 'sell':
                         this.price = new BigNumber(this.bid.price);
+                        if (this.amountBalance.asset.id === this.fee.asset.id) {
+                            this.maxAmountBalance = this.amountBalance.sub(this.fee);
+                        } else {
+                            this.maxAmountBalance = this.amountBalance;
+                        }
                         break;
                     case 'buy':
                         this.price = new BigNumber(this.ask.price);
+                        this.maxAmountBalance = null;
                         break;
                     default:
                         throw new Error('Wrong type');
                 }
-                setTimeout(() => { // TODO Do. Author Tsigel at 29/11/2017 20:57
+
+                $scope.$$postDigest(() => {
                     $element.find('input[name="amount"]').focus();
-                }, 600);
+                });
             }
 
             setMaxAmount() {
-                if (this.amountAsset.id === this.fee.asset.id) {
+                if (this.amountBalance.asset.id === this.fee.asset.id) {
                     this.amount = this.amountBalance.sub(this.fee).getTokens()
-                        .round(this.amountAsset.precision, BigNumber.ROUND_FLOOR);
+                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR);
                 } else {
                     this.amount = this.amountBalance.getTokens()
-                        .round(this.amountAsset.precision, BigNumber.ROUND_FLOOR);
+                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR);
                 }
             }
 
             setMaxPrice() {
-                if (this.priceAsset.id === this.fee.asset.id) {
+                if (this.priceBalance.asset.id === this.fee.asset.id) {
                     this.amount = this.priceBalance.sub(this.fee)
                         .getTokens()
                         .div(this.price)
-                        .round(this.amountAsset.precision, BigNumber.ROUND_FLOOR);
+                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR);
                 } else {
                     this.amount = this.priceBalance.getTokens()
                         .div(this.price)
-                        .round(this.amountAsset.precision, BigNumber.ROUND_FLOOR);
+                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR);
                 }
             }
 
@@ -151,14 +186,14 @@
                     .then((seed) => {
                         return Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
                             return Promise.all([
-                                Waves.Money.fromTokens(this.amount.toFixed(), this.amountAsset.id),
+                                Waves.Money.fromTokens(this.amount.toFixed(), this.amountBalance.asset.id),
                                 Waves.OrderPrice.fromTokens(this.price.toFixed(), pair)
                             ]);
                         }).then(([amount, price]) => {
                             this.amount = null;
                             return waves.matcher.createOrder({
-                                amountAsset: this.amountAsset.id,
-                                priceAsset: this.priceAsset.id,
+                                amountAsset: this.amountBalance.asset.id,
+                                priceAsset: this.priceBalance.asset.id,
                                 orderType: this.type,
                                 price: price.toMatcherCoins(),
                                 amount: amount.toCoins()
@@ -177,8 +212,31 @@
                     });
             }
 
-            _getData() {
+            /**
+             * @private
+             */
+            _currentTotal() {
+                if (this.step !== 1) {
+                    return null;
+                }
 
+                if (!this.price || !this.amount) {
+                    this.totalPrice = new BigNumber(0);
+                } else {
+                    this.totalPrice = this.price.mul(this.amount);
+                }
+
+                if (this.type === 'buy') {
+                    this.cantByOrder = this.priceBalance.getTokens().lte(this.totalPrice);
+                } else {
+                    this.cantByOrder = false;
+                }
+            }
+
+            /**
+             * @private
+             */
+            _getData() {
                 return waves.matcher.getOrderBook(this._amountAssetId, this._priceAssetId)
                     .then(({ bids, asks, spread }) => {
                         const [lastAsk] = asks;
@@ -188,6 +246,12 @@
                     });
             }
 
+            /**
+             * @param lastAsk
+             * @param firstBid
+             * @param spread
+             * @private
+             */
             _setData({ lastAsk, firstBid, spread }) {
                 this.bid = firstBid;
                 this.ask = lastAsk;

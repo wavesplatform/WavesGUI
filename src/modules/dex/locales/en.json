@@ -6,7 +6,8 @@
       "placeSellOrder": "Place Sell Order",
       "placeBuyOrder": "Place Buy Order",
       "errors": {
-        "required": "This field is required"
+        "required": "This field is required",
+        "balance": "Not enough {{name}}"
       }
     },
     "portfolio": {
