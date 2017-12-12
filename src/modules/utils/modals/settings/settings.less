@@ -1,18 +1,152 @@
 @import (reference) '../../../config';
 
 md-dialog.settings-modal {
-  width: 740px;
+  width: 100%;
+  max-width: 740px;
 
   .modal-content {
     display: flex;
     flex-direction: row;
     flex-shrink: 0;
+    position: relative;
+    min-height: 300px;
+
+    .settings-content {
+      position: relative;
+      margin-left: 200px;
+      background: #ccc;
+      right: 0;
+      width: 100%;
+
+      .general {
+        line-height: 1.2em;
+
+        input {
+          margin-left: 20px;
+        }
+      }
+      .security {
+
+        .data-field {
+          height: 54px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          background: #f8f9fb;
+          position: relative;
+          border-radius: 4px;
+          border: 1px dashed #dae1e9;
+          padding: 0 15px;
+        }
+
+        .data-show-btn {
+          line-height: 26px;
+          background: #fff;
+          padding: 10px;
+          position: absolute;
+          left: 10px;
+          top: 50%;
+          margin-top: -15px;
+        }
+
+        .settings-tabs ul li {
+          display: block;
+
+          a::before {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            margin-right: 6px;
+            background-size: cover;
+          }
+
+          a.general::before {
+
+          }
+
+        }
+
+      }
+      #network {
+
+      }
+      #info {
+
+      }
+
+    }
 
     .navigation-menu {
       width: 199px;
       height: 100%;
+      position: absolute;
+      font-size: 15px;
+      left: -40px;
+      top: 0;
       border-right: 1px solid @color-basic-200;
+
+      .menu-item {
+        line-height: 50px;
+        color: @settings-menu-item;
+        position: relative;
+        padding-left: 75px;
+
+        &.active {
+          background: @color-submit-400;
+          color: @color-white;
+        }
+
+        &::before {
+          position: absolute;
+          left: 50px;
+          top: 50%;
+          content: '';
+          background-size: contain;
+          display: block;
+          background-repeat: no-repeat;
+        }
+      }
+
+      .general::before {
+        width: 16px;
+        height: 17px;
+        margin-top: -9px;
+        background-image: url(/img/icons/settings-icon/general.svg);
+      }
+      .security::before {
+        width: 17px;
+        height: 19px;
+        margin-top: -10px;
+        background-image: url(/img/icons/settings-icon/security.svg);
+      }
+      .network::before {
+        width: 16px;
+        height: 17px;
+        margin-top: -9px;
+        background-image: url(/img/icons/settings-icon/network.svg);
+      }
+      .info::before {
+        width: 17px;
+        height: 17px;
+        margin-top: -9px;
+        background-image: url(/img/icons/settings-icon/info.svg);
+      }
     }
+
+    .navigation-menu.general .menu-item.general::before {
+      background-image: url(/img/icons/settings-icon/general-active.svg);
+    }
+    .navigation-menu.security .menu-item.secutity::before {
+      background-image: url(/img/icons/settings-icon/security-active.svg);
+    }
+    .navigation-menu.network .menu-item.network::before {
+      background-image: url(/img/icons/settings-icon/network-active.svg);
+    }
+    .navigation-menu.info .menu-item.info::before {
+      background-image: url(/img/icons/settings-icon/info-active.svg);
+    }
+
+
   }
 
   .flex-row {
@@ -38,3 +172,5 @@ md-dialog.settings-modal {
   }
 
 }
+
+
