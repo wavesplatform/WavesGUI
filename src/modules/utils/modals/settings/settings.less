@@ -1,0 +1,27 @@
+.settings-modal {
+
+  @color-basic-200: #dae1e9;
+
+  .flex-row {
+    display: flex;
+    padding: 12px 0;
+
+    &:first-child {
+      border-bottom: 1px dashed @color-basic-200;
+    }
+
+    &:first-child + div {
+      border-bottom: 1px solid @color-basic-200;
+    }
+
+    > div:first-child {
+      flex-basis: 25%;
+    }
+
+    > div:first-child + div {
+      flex-basis: 75%;
+    }
+
+  }
+
+}
