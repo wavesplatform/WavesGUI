@@ -267,7 +267,7 @@
 
 <script>
 
-    var analytics = new eventSender.default();
+    var analytics = eventSender.default.inactive();
 
     var Waves = WavesAPI.create({
         networkByte: WavesApp.network.code.charCodeAt(0),

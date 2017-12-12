@@ -146,6 +146,10 @@
                                         analytics.activate();
                                     }
                                 });
+                            } else {
+                                if (user.getSetting('shareAnalytics')) {
+                                    analytics.activate();
+                                }
                             }
 
                             $rootScope.$on('$stateChangeStart', (event, state) => {
