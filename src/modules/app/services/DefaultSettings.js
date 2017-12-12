@@ -27,6 +27,7 @@
                  */
                 this.defaults = {
                     network: WavesApp.network,
+                    shareAnalytics: false,
                     logoutAfterMin: 5,
                     encryptionRounds: 5000,
                     savePassword: true,

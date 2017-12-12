@@ -141,7 +141,15 @@
                             const termsAccepted = user.getSetting('termsAccepted');
 
                             if (!termsAccepted) {
-                                modalManager.showTermsAccept(user);
+                                modalManager.showTermsAccept(user).then(() => {
+                                    if (user.getSetting('shareAnalytics')) {
+                                        analytics.activate();
+                                    }
+                                });
+                            } else {
+                                if (user.getSetting('shareAnalytics')) {
+                                    analytics.activate();
+                                }
                             }
 
                             $rootScope.$on('$stateChangeStart', (event, state) => {

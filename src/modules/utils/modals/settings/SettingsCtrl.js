@@ -20,6 +20,7 @@
                 this.shownKey = false;
                 this.node = '';
                 this.matcher = '';
+                this.shareStat = user.getSetting('shareAnalytics');
                 this.version = WavesApp.version;
 
                 this.syncSettings({
@@ -32,6 +33,16 @@
                         nodeAddress: this.node,
                         matcherAddress: this.matcher
                     });
+                });
+
+                this.observe('shareStat', () => {
+                    if (this.shareStat) {
+                        analytics.activate();
+                        user.setSetting('shareAnalytics', true);
+                    } else {
+                        analytics.deactivate();
+                        user.setSetting('shareAnalytics', false);
+                    }
                 });
 
                 user.getSeed().then((seed) => {
