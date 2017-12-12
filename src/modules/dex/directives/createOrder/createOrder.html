@@ -78,6 +78,11 @@
                                 <w-input-error message="required">
                                     <w-i18n>directives.createOrder.errors.required</w-i18n>
                                 </w-input-error>
+                                <w-input-error message="asset-input">
+                                    <w-i18n params="{precision: $ctrl.amountBalance.asset.precision}">
+                                        directives.createOrder.errors.precision
+                                    </w-i18n>
+                                </w-input-error>
                                 <w-input-error message="asset-max">
                                     <w-i18n params="{name: $ctrl.amountBalance.asset.displayName}">
                                         directives.createOrder.errors.balance
@@ -107,6 +112,11 @@
                                         <div class="caption-1 disabled-500">{{$ctrl.priceDisplayName}}</div>
                                     </div>
                                 </div>
+                                <w-input-error message="asset-input">
+                                    <w-i18n params="{precision: $ctrl.priceBalance.asset.precision}">
+                                        directives.createOrder.errors.precision
+                                    </w-i18n>
+                                </w-input-error>
                                 <w-input-error message="required">
                                     <w-i18n>directives.createOrder.errors.required</w-i18n>
                                 </w-input-error>
