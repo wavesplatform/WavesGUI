@@ -39,7 +39,9 @@
                         WavesApp.defaultAssets.BTC,
                         WavesApp.defaultAssets.ETH,
                         WavesApp.defaultAssets.USD,
-                        WavesApp.defaultAssets.EUR
+                        WavesApp.defaultAssets.EUR,
+                        WavesApp.defaultAssets.LTC,
+                        WavesApp.defaultAssets.ZEC
                     ],
                     wallet: {
                         activeState: 'assets',
