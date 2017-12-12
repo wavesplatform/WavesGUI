@@ -27,6 +27,7 @@
                  */
                 this.defaults = {
                     network: WavesApp.network,
+                    shareAnalytics: false,
                     logoutAfterMin: 5,
                     encryptionRounds: 5000,
                     savePassword: true,
@@ -87,7 +88,8 @@
                                     'FLbGXzrpqkvucZqsHDcNxePTkh2ChmEi4GdBfDRRJVof',
                                     '5ZPuAVxAwYvptbCgSVKdTzeud9dhbZ7vvxHVnZUoxf4h',
                                     'zMFqXuoyrn5w17PFurTqxB7GsS71fp9dfk6XFwxbPCy',
-                                    'APz41KyoKuBBh8t3oZjqvhbbsg6f63tpZM5Ck5LYx6h'
+                                    'APz41KyoKuBBh8t3oZjqvhbbsg6f63tpZM5Ck5LYx6h',
+                                    'AxAmJaro7BJ4KasYiZhw7HkjwgYtt2nekPuF2CN9LMym'
                                 ]
                             },
                             bottom: {
@@ -113,7 +115,8 @@
                                     'FLbGXzrpqkvucZqsHDcNxePTkh2ChmEi4GdBfDRRJVof',
                                     '5ZPuAVxAwYvptbCgSVKdTzeud9dhbZ7vvxHVnZUoxf4h',
                                     'zMFqXuoyrn5w17PFurTqxB7GsS71fp9dfk6XFwxbPCy',
-                                    'APz41KyoKuBBh8t3oZjqvhbbsg6f63tpZM5Ck5LYx6h'
+                                    'APz41KyoKuBBh8t3oZjqvhbbsg6f63tpZM5Ck5LYx6h',
+                                    'AxAmJaro7BJ4KasYiZhw7HkjwgYtt2nekPuF2CN9LMym'
                                 ]
                             }
                         },

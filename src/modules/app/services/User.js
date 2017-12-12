@@ -5,8 +5,6 @@
         'changeSetting'
     ];
 
-    const myEventSender = new eventSender.default();
-
     /**
      * @param {Storage} storage
      * @param {$q} $q
@@ -128,7 +126,7 @@
              */
             login(data) {
                 return this._addUserData(data)
-                    .then(() => myEventSender.push('User', 'Login'));
+                    .then(() => analytics.push('User', 'Login'));
             }
 
             /**
@@ -150,7 +148,7 @@
                         termsAccepted: false,
                         hasBackup: hasBackup
                     }
-                }).then(() => myEventSender.push('User', 'Create'));
+                }).then(() => analytics.push('User', 'Create'));
             }
 
             logout() {

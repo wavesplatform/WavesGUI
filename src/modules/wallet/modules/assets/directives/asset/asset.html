@@ -4,10 +4,14 @@
             <w-asset-logo asset-id="{{::$ctrl.balance.asset.id}}" size="30"></w-asset-logo>
             {{::$ctrl.balance.asset.name}}
         </div>
-        <div class="balance-title body-2 disabled-600" w-i18n="directives.asset.balance"></div>
         <h2 class="balance">
             <w-balance money="$ctrl.balance"></w-balance>
         </h2>
+        <!--TODO-->
+        <div ng-class="{ghost: $ctrl.balance.asset.id !== 'WAVES'}"
+             class="balance-title body-2 disabled-600"
+             w-i18n="directives.asset.ofTotalBalance"
+             params="{totalBalance: $ctrl.totalBalance.toFormat()}"></div>
     </div>
     <hr>
     <div class="footer">

@@ -28,7 +28,8 @@
     "i18nextBrowserLanguageDetector": true,
     "QRCode": true,
     "QrCode": true,
-    "tsApiValidator": true
+    "tsApiValidator": true,
+    "analytics": true
   },
   "extends": "eslint:recommended",
   "rules": {
