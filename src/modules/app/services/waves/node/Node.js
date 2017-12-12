@@ -45,6 +45,7 @@
                                 return {
                                     leasedOut: wavesBalance.leasedOut,
                                     leasedIn: wavesBalance.leasedIn,
+                                    regular: wavesBalance.regular,
                                     available
                                 };
                             });
@@ -52,6 +53,7 @@
                             return {
                                 leasedOut: wavesBalance.leasedOut,
                                 leasedIn: wavesBalance.leasedIn,
+                                regular: wavesBalance.regular,
                                 available: eventManager.updateBalance(wavesBalance.available)
                             };
                         }
