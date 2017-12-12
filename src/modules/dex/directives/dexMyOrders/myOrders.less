@@ -16,6 +16,14 @@ w-dex-my-orders {
 
     w-row {
       padding: 6px 16px 6px 16px;
+
+      &:hover {
+        .stop {
+          opacity: .89;
+          background-color: @color-error-400;
+          background-image: url(/img/icons/white_cancel.svg);
+        }
+      }
     }
   }
 
@@ -81,12 +89,6 @@ w-dex-my-orders {
       background-size: 8px 8px;
       background-repeat: no-repeat;
       background-position: center;
-
-      &:hover {
-        opacity: .89;
-        background-color: @color-error-400;
-        background-image: url(/img/icons/white_cancel.svg);
-      }
     }
 
     &:not(:last-child) {
