@@ -34,9 +34,10 @@
                 this.isSepaSupported = gatewayService.hasSupportOf(this.balance.asset, 'sepa');
 
                 if (this.balance.asset.id === WavesApp.defaultAssets.WAVES) {
-                    waves.node.get().then(({ regular }) => {
+                    waves.node.get().then(({ regular }) = > {
                         this.totalBalance = regular;
-                    });
+                })
+                    ;
                 }
             }
 

@@ -141,11 +141,14 @@
                             const termsAccepted = user.getSetting('termsAccepted');
 
                             if (!termsAccepted) {
-                                modalManager.showTermsAccept(user).then(() => {
-                                    if (user.getSetting('shareAnalytics')) {
-                                        analytics.activate();
-                                    }
-                                });
+                                modalManager.showTermsAccept(user).then(() = > {
+                                    if(user.getSetting('shareAnalytics')
+                            )
+                                {
+                                    analytics.activate();
+                                }
+                            })
+                                ;
                             } else {
                                 if (user.getSetting('shareAnalytics')) {
                                     analytics.activate();

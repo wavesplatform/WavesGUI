@@ -16,7 +16,7 @@
     <div class="settings-content">
         <w-step-by-step active-step="$ctrl.tab">
 
-            <w-step id="general">
+            <w-step id="general" class="general">
                 <w-checkbox-submit id="shareStat" ng-model="$ctrl.shareStat"></w-checkbox-submit>
                 <label for="shareStat">
                     I understand that if this app is moved to another device or deleted, my Waves can
@@ -24,10 +24,10 @@
                 </label>
             </w-step>
 
-            <w-step id="security">
+            <w-step id="security" class="security">
 
-                <div class="row">
-                    <div class="footnote disabled-600">Backup pharse</div>
+                <div class="row margin-1">
+                    <div class="footnote disabled-600 label">Backup pharse</div>
                     <div class="data-field">
                         <w-button ng-if="!$ctrl.shownSeed" class="tiny" ng-click="$ctrl.shownSeed = true">
                             <w-i18n>Show</w-i18n>
@@ -36,8 +36,8 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="footnote disabled-600">Private key</div>
+                <div class="row margin-1">
+                    <div class="footnote disabled-600 label">Private key</div>
                     <div class="data-field">
                         <w-button ng-if="!$ctrl.shownKey" class="tiny" ng-click="$ctrl.shownKey = true">
                             <w-i18n>Show</w-i18n>
@@ -64,18 +64,18 @@
                 </div>
             </w-step>
 
-            <w-step id="network">
+            <w-step id="network" class="network">
 
-                <div class="row">
-                    <div>Node address</div>
-                    <div>
+                <div class="row margin-1">
+                    <div class="footnote disabled-600 label">Node address</div>
+                    <div class="data-field">
                         <w-input ng-model="$ctrl.node"></w-input>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div>Matcher address</div>
-                    <div>
+                <div class="row margin-3">
+                    <div class="footnote disabled-600 label">Matcher address</div>
+                    <div class="data-field">
                         <w-input ng-model="$ctrl.matcher"></w-input>
                     </div>
                 </div>
@@ -86,9 +86,9 @@
 
             </w-step>
 
-            <w-step id="info">
+            <w-step id="info" class="info">
 
-                {{::$ctrl.version}}
+                <span class="label">{{::$ctrl.version}}</span>
 
             </w-step>
 
