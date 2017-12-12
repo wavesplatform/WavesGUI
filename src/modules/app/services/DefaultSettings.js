@@ -44,7 +44,7 @@
                     wallet: {
                         activeState: 'assets',
                         assets: {
-                            chartMode: 'week',
+                            chartMode: 'month',
                             activeChartAssetId: WavesApp.defaultAssets.WAVES,
                             chartAssetIdList: [
                                 WavesApp.defaultAssets.WAVES,
