@@ -114,31 +114,29 @@ body.dex {
     height: 20%;
   }
 
-  /* Let's get this party started */
-  w-scroll-box::-webkit-scrollbar {
+  ::-webkit-scrollbar {
     width: 4px;
-    right: 0;
+    height: 4px;
   }
 
-  w-scroll-box:hover::-webkit-scrollbar {
+  :hover::-webkit-scrollbar {
     display: block;
   }
-  /* Track */
-  w-scroll-box::-webkit-scrollbar-track {
+
+  ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 3px @color-basic-100;
     -webkit-border-radius: @zeropx;
     border-radius: @zeropx;
   }
 
-  /* Handle */
-  w-scroll-box::-webkit-scrollbar-thumb {
+  ::-webkit-scrollbar-thumb {
     -webkit-border-radius: @zeropx;
     border-radius: @zeropx;
     background: @color-basic-100;
     -webkit-box-shadow: inset 0 0 3px @color-basic-500;
   }
 
-  w-scroll-box::-webkit-scrollbar-thumb:window-inactive {
+  ::-webkit-scrollbar-thumb:window-inactive {
     background: @color-basic-200;
   }
 
