@@ -7,10 +7,9 @@
      * @param {User} user
      * @param {Waves} waves
      * @param {NotificationManager} notificationManager
-     * @param {app.utils} utils
      * @return {AccountInfoCtrl}
      */
-    const controller = function (Base, $scope, user, waves, notificationManager, utils) {
+    const controller = function (Base, $scope, user, waves, notificationManager) {
 
         class AccountInfoCtrl extends Base {
 
@@ -72,7 +71,7 @@
         return new AccountInfoCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'waves', 'notificationManager', 'utils'];
+    controller.$inject = ['Base', '$scope', 'user', 'waves', 'notificationManager'];
 
     angular.module('app.utils')
         .controller('AccountInfoCtrl', controller);
