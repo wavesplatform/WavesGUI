@@ -125,8 +125,9 @@
 
                         <div class="summary">
                             <div class="caption-2 disabled-700">
-                                Total {{$ctrl.totalPrice.toFormat($ctrl.priceBalance.asset.precision)}}
-                                {{$ctrl.priceDisplayName}}
+                                <w-i18n>directives.createOrder.total</w-i18n>
+                                <span>&nbsp;{{$ctrl.totalPrice.toFormat($ctrl.priceBalance.asset.precision)}}</span>
+                                <span>&nbsp;{{$ctrl.priceDisplayName}}</span>
                             </div>
                             <div class="caption-2 disabled-700">Fee 0.003 WAVES</div>
                         </div>

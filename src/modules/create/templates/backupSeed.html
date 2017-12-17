@@ -11,8 +11,7 @@
 
     <div class="body-2 basic-900">
         <w-i18n>backupSeed.writeSeed</w-i18n>
-        <!--TODO : move words to locales-->
-        <span> or <a ng-click="$ctrl.copySeed()">copy them</a></span>
+        <span>&nbsp;<w-i18n>backupSeed.or</w-i18n>&nbsp;<a ng-click="$ctrl.copySeed()" w-i18n="backupSeed.copySeed"></a></span>
     </div>
 
     <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select"></w-seed-read>
@@ -26,4 +25,4 @@
     </w-button>
 </div>
 
-<w-notifications class="welcome-notifications"></w-notifications> <!--TODO-->
+<w-notifications class="welcome-notifications"></w-notifications> <!--TODO : make it uniform throughout the project-->

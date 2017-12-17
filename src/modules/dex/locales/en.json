@@ -3,6 +3,7 @@
     "createOrder": {
       "amountField": "Amount",
       "priceField": "Limit price",
+      "total": "Total",
       "placeSellOrder": "Place Sell Order",
       "placeBuyOrder": "Place Buy Order",
       "errors": {
@@ -36,6 +37,18 @@
         "size": "Amount {{assetName}}",
         "date": "Time"
       }
+    },
+    "watchlist": {
+      "coin": "Coin",
+      "price": "Price",
+      "change": "Change"
+    },
+    "myOrders": {
+      "pair": "Pair",
+      "type": "Type",
+      "price": "Price",
+      "amount": "Amount",
+      "status": "Status"
     }
   }
 }

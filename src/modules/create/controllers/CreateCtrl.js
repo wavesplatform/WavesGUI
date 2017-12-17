@@ -109,6 +109,7 @@
                         title: { literal: 'backupSeed.seedCopied' }
                     });
                 } else {
+                    // TODO : is this conditional branch needed?
                     notificationManager.error({
                         ns: 'app.create',
                         title: { literal: 'backupSeed.noSeedToCopy' }
@@ -151,13 +152,11 @@
         }
 
         return new CreateCtrl();
-
     };
 
     controller.$inject = [
         '$q', '$mdDialog', '$timeout', 'user', 'modalManager', 'seedService', 'copyService', 'notificationManager'
     ];
 
-    angular.module('app.create')
-        .controller('CreateCtrl', controller);
+    angular.module('app.create').controller('CreateCtrl', controller);
 })();

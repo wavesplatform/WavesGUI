@@ -1,13 +1,13 @@
 {
   "chart": {
-      "intervals": {
-        "hour": "1H",
-        "day": "1D",
-        "week": "1W",
-        "month": "1M",
-        "year": "1Y",
-        "all": "All"
-      }
+    "intervals": {
+      "hour": "1H",
+      "day": "1D",
+      "week": "1W",
+      "month": "1M",
+      "year": "1Y",
+      "all": "All"
+    }
   },
   "send": "Send",
   "qr": "Your Address",
