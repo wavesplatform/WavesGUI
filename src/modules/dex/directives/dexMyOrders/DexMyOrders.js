@@ -43,14 +43,14 @@
                             const canceledOrder = tsUtils.find(this.orders, { id: order.id });
                             canceledOrder.state = 'Canceled';
                             notificationManager.info({
-                                ns: 'app',
-                                title: { literal: 'The order has been canceled' }
+                                ns: 'app.dex',
+                                title: { literal: 'directives.myOrders.notifications.isCanceled' }
                             });
                         })
                         .catch(() => {
                             notificationManager.error({
-                                ns: 'app',
-                                title: { literal: 'Something went wrong' }
+                                ns: 'app.dex',
+                                title: { literal: 'directives.myOrders.notifications.somethingWentWrong' }
                             });
                         });
                 });

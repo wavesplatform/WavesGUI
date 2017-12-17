@@ -42,5 +42,8 @@
     "title": "Your transaction is on the way!",
     "description": "You generated {{amount}} {{name}}",
     "done": "Open Portfolio"
+  },
+  "notifications": {
+    "isNotCreated": "Token has not been created"
   }
 }

@@ -202,16 +202,20 @@
                             }, seed.keyPair);
                         }).then(() => {
                             notificationManager.success({
-                                ns: 'app',
-                                title: { literal: 'The order is created' }
+                                ns: 'app.dex',
+                                title: { literal: 'directives.createOrder.notifications.isCreated' }
                             });
                         }).catch((err) => {
                             // TODO : refactor this
                             const notEnough = 'Not enough tradable balance';
                             const isNotEnough = (err.data.message.slice(0, notEnough.length) === notEnough);
                             notificationManager.error({
-                                ns: 'app',
-                                title: { literal: isNotEnough ? notEnough : 'Something went wrong' }
+                                ns: 'app.dex',
+                                title: {
+                                    literal: isNotEnough ?
+                                        'directives.createOrder.notifications.notEnoughBalance' :
+                                        'directives.createOrder.notifications.somethingWendWrong'
+                                }
                             });
                         });
                     });

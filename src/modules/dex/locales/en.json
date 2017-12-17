@@ -10,6 +10,11 @@
         "required": "This field is required",
         "balance": "Not enough {{name}}",
         "precision": "Exceeded maximum of {{precision}} decimal places"
+      },
+      "notifications": {
+        "isCreated": "The order is created",
+        "notEnoughBalance": "Not enough tradable balance",
+        "somethingWendWrong": "Something went wrong"
       }
     },
     "portfolio": {
@@ -48,7 +53,11 @@
       "type": "Type",
       "price": "Price",
       "amount": "Amount",
-      "status": "Status"
+      "status": "Status",
+      "notifications": {
+        "isCanceled": "The order has been canceled",
+        "somethingWentWrong": "Something went wrong"
+      }
     }
   }
 }
