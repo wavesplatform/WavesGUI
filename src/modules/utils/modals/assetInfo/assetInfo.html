@@ -15,33 +15,37 @@
         </div>-->
     </div>
     <w-tabs>
-        <w-tab title-name="Transactions">
+        <w-tab title-name="modal.assetInfo.transactions">
             <w-transaction-list transaction-type="'send,receive,circular,exchange-buy,exchange-sell'"
                                 asset-id-list="[$ctrl.asset.id]"></w-transaction-list>
         </w-tab>
-        <w-tab title-name="Details" class="padding-content">
+        <w-tab title-name="modal.assetInfo.details" class="padding-content">
             <div class="line">
-                <div class="body-2 basic-700" w-i18n="Issuer"></div>
+                <div class="body-2 basic-700" w-i18n="modal.assetInfo.issuer"></div>
                 <div class="footnote-1 basic-500">{{::$ctrl.asset.sender}}</div>
             </div>
             <div class="line">
-                <div class="body-2 basic-700" w-i18n="Identifier"></div>
+                <div class="body-2 basic-700" w-i18n="modal.assetInfo.identifier"></div>
                 <div class="footnote-1 basic-500">{{::$ctrl.asset.id}}</div>
             </div>
             <div class="line">
-                <div class="body-2 basic-700" w-i18n="Name"></div>
+                <div class="body-2 basic-700" w-i18n="modal.assetInfo.name"></div>
                 <div class="footnote-1 basic-500">{{::$ctrl.asset.name}}</div>
             </div>
             <div class="line">
-                <div class="body-2 basic-700" w-i18n="Reissuable"></div>
-                <div class="footnote-1 basic-500">{{::$ctrl.asset.reissuable ? 'Yes' : 'No'}}</div>
+                <div class="body-2 basic-700" w-i18n="modal.assetInfo.type"></div>
+                <div class="footnote-1 basic-500">
+                    <w-i18n>modal.assetInfo.reissue.{{::$ctrl.asset.reissuable ? 'yes' : 'no'}}</w-i18n>
+                </div>
             </div>
             <div class="line">
-                <div class="body-2 basic-700" w-i18n="Issue date"></div>
+                <div class="body-2 basic-700" w-i18n="modal.assetInfo.date"></div>
                 <div class="footnote-1 basic-500">{{::$ctrl.asset.timestamp | date:'dd.MM.yyyy hh:mm'}}</div>
             </div>
         </w-tab>
-        <w-tab ng-if="$ctrl.asset.description" class="padding-content" title-name="Description" class="">
+        <w-tab ng-if="$ctrl.asset.description"
+               class="padding-content"
+               title-name="modal.assetInfo.description">
             <div class="body-2 basic-500">
                 {{::$ctrl.asset.description}}
             </div>

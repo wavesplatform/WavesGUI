@@ -3,7 +3,19 @@
     "assetInfo": {
       "title": "О токене",
       "unpinned": "Прикрепить",
-      "pinned": "Прикреплён"
+      "pinned": "Прикреплён",
+      "transactions": "Транзакции",
+      "details": "Подробнее",
+      "description": "Описание",
+      "issuer": "Эмитент",
+      "identifier": "ID",
+      "name": "Название",
+      "type": "Тип",
+      "date": "Дата выпуска",
+      "reissue": {
+        "yes": "Перевыпускаемый",
+        "no": "Не перевыпускаемый"
+      }
     },
     "startLease": {
       "title": "Передать в лизинг",
