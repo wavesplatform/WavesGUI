@@ -71,12 +71,13 @@
 
             /**
              * Get transactions list by user
+             * @param {number} [limit]
              * @return {Promise<ITransaction[]>}
              */
-            list() {
+            list(limit = 0) {
                 return Promise.all([
                     aliases.getAliasList(),
-                    Waves.API.Node.v2.addresses.transactions(user.address, { limit: 200 }) // TODO : infinite scroll
+                    Waves.API.Node.v2.addresses.transactions(user.address, { limit })
                 ]).then(([aliases, txList = []]) => {
                     return txList.map(this._pipeTransaction(false, aliases));
                 });

@@ -21,7 +21,7 @@
   "directives": {
     "asset": {
       "ofTotalBalance": "из общего баланса {{totalBalance}}",
-      "deposit": "Зачислить",
+      "deposit": "Пополнить",
       "send": "Отправить"
     }
   }

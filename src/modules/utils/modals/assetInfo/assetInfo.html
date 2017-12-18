@@ -17,7 +17,8 @@
     <w-tabs>
         <w-tab title-name="modal.assetInfo.transactions">
             <w-transaction-list transaction-type="'send,receive,circular,exchange-buy,exchange-sell'"
-                                asset-id-list="[$ctrl.asset.id]"></w-transaction-list>
+                                asset-id-list="[$ctrl.asset.id]"
+                                page-size="1000"></w-transaction-list>
         </w-tab>
         <w-tab title-name="modal.assetInfo.details" class="padding-content">
             <div class="line">

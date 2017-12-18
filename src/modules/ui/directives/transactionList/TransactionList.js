@@ -56,6 +56,10 @@
                  * @type {Array}
                  */
                 this.assetIdList = null;
+                /**
+                 * @type {number}
+                 */
+                this.pageSize = null;
 
                 this.mirrorId = user.getSetting('baseAssetId');
 
@@ -71,14 +75,15 @@
                             'search'
                         ], this._onChangeFilters);
                     });
-
             }
 
             /**
              * @private
              */
             _getTransactions() {
-                return waves.node.transactions.list()
+                const size = Number(this.pageSize);
+                const limit = isNaN(size) ? 0 : size;
+                return waves.node.transactions.list(limit)
                     .then((list) => {
                         this.hadResponse = true;
                         return list;
@@ -191,6 +196,7 @@
         .component('wTransactionList', {
             bindings: {
                 transactionDatePattern: '@',
+                pageSize: '@',
                 assetIdList: '<',
                 transactionType: '<',
                 search: '<'

@@ -22,7 +22,7 @@
     },
     "orderBook": {
       "title": "Биржевой стакан",
-      "amount": "Количество {{assetName}}",
+      "amount": "Кол-во {{assetName}}",
       "price": "Цена {{assetName}}",
       "sum": "Сумма {{assetName}}"
     },
@@ -39,7 +39,7 @@
       "title": "История сделок",
       "tableTitle": {
         "price": "Цена {{assetName}}",
-        "size": "Количество {{assetName}}",
+        "size": "Кол-во {{assetName}}",
         "date": "Время"
       }
     },
