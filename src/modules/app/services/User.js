@@ -146,7 +146,8 @@
                     publicKey: data.publicKey,
                     settings: {
                         termsAccepted: false,
-                        hasBackup: hasBackup
+                        hasBackup: hasBackup,
+                        lng: i18next.language
                     }
                 }).then(() => analytics.push('User', 'Create'));
             }

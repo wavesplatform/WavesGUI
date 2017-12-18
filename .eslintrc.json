@@ -34,7 +34,8 @@
     "QRCode": true,
     "QrCode": true,
     "tsApiValidator": true,
-    "analytics": true
+    "analytics": true,
+    "Cookies": true
   },
   "extends": "eslint:recommended",
   "rules": {

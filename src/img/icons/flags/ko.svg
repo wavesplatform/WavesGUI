@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 20 16">
+  <g fill="none" transform="translate(1 2)">
+    <path fill="#DAE1E9" d="M0.5,0.625 L0.5,11.625 L17.5,11.625 L17.5,0.625 L0.5,0.625 Z M18.5,-0.375 L18.5,12.625 L-0.5,12.625 L-0.5,-0.375 L18.5,-0.375 Z"/>
+    <g transform="translate(1)">
+      <g fill="#000" transform="rotate(56.31 5.1 12.385)">
+        <g transform="translate(0 1.5)">
+          <rect width="1.375" height="1"/>
+          <rect width="1.375" height="1" x="1.625"/>
+        </g>
+        <rect width="3" height="1" transform="translate(0 .75)"/>
+        <rect width="1.375" height="1"/>
+        <rect width="1.375" height="1" x="1.625"/>
+        <rect width="3" height="1" transform="translate(0 11)"/>
+        <g transform="translate(0 11.75)">
+          <rect width="1.375" height="1"/>
+          <rect width="1.375" height="1" x="1.625"/>
+        </g>
+        <g transform="translate(0 12.5)">
+          <rect width="3" height="1"/>
+        </g>
+      </g>
+      <g transform="rotate(-56.31 5.15 1.641)">
+        <rect width="3" height="1" fill="#000" transform="translate(1.5 1.5)"/>
+        <rect width="3" height="1" fill="#000" transform="translate(1.5 .75)"/>
+        <rect width="3" height="1" fill="#000" transform="translate(1.5)"/>
+        <g fill="#000" transform="translate(1.5 11)">
+          <rect width="1.375" height="1"/>
+          <rect width="1.375" height="1" x="1.625"/>
+        </g>
+        <g fill="#000" transform="translate(1.5 11.75)">
+          <rect width="1.375" height="1"/>
+          <rect width="1.375" height="1" x="1.625"/>
+        </g>
+        <g fill="#000" transform="translate(1.5 12.5)">
+          <rect width="1.375" height="1"/>
+          <rect width="1.375" height="1" x="1.625"/>
+        </g>
+        <path fill="#C60C30" d="M3,9.5 C4.65685425,9.5 6,8.15685425 6,6.5 C6,4.84314575 4.65685425,3.5 3,3.5 C1.75735931,3.5 0.75,4.50735931 0.75,5.75 C0.75,6.99264069 1.75735931,8 3,8"/>
+        <path fill="#1F5AF6" d="M3,3.5 C2.17157288,3.5 1.5,4.17157288 1.5,5 C1.5,5.82842712 2.17157288,6.5 3,6.5 C3.82842712,6.5 4.5,7.17157288 4.5,8 C4.5,8.82842712 3.82842712,9.5 3,9.5 C1.34314575,9.5 4.4408921e-16,8.15685425 0,6.5 C0,4.84314575 1.34314575,3.5 3,3.5"/>
+      </g>
+    </g>
+  </g>
+</svg>
