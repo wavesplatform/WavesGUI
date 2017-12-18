@@ -1,16 +1,16 @@
 <div class="modal-content settings-modal">
     <div class="navigation-menu {{$ctrl.tab}}">
         <div class="menu-item general" ng-click="$ctrl.setState('general')">
-            <w-i18n>General</w-i18n>
+            <w-i18n>modal.settings.general.title</w-i18n>
         </div>
         <div class="menu-item security" ng-click="$ctrl.setState('security')">
-            <w-i18n>Security</w-i18n>
+            <w-i18n>modal.settings.security.title</w-i18n>
         </div>
         <div class="menu-item network" ng-click="$ctrl.setState('network')">
-            <w-i18n>Network</w-i18n>
+            <w-i18n>modal.settings.network.title</w-i18n>
         </div>
         <div class="menu-item info" ng-click="$ctrl.setState('info')">
-            <w-i18n>Info</w-i18n>
+            <w-i18n>modal.settings.info.title</w-i18n>
         </div>
     </div>
     <div class="settings-content">
@@ -24,31 +24,31 @@
             <w-step id="security" class="security">
 
                 <div class="row margin-1">
-                    <div class="footnote disabled-600 label">Backup phrase</div>
+                    <div class="footnote disabled-600 label" w-i18n="modal.settings.security.backupPhrase"></div>
                     <div class="data-field">
                         <w-button ng-if="!$ctrl.shownSeed" class="tiny" ng-click="$ctrl.shownSeed = true">
-                            <w-i18n>Show</w-i18n>
+                            <w-i18n>modal.settings.security.show</w-i18n>
                         </w-button>
                         <div ng-if="$ctrl.shownSeed">{{::$ctrl.phrase}}</div>
                     </div>
                 </div>
 
                 <div class="row margin-1">
-                    <div class="footnote disabled-600 label">Private key</div>
+                    <div class="footnote disabled-600 label" w-i18n="modal.settings.security.privateKey"></div>
                     <div class="data-field">
                         <w-button ng-if="!$ctrl.shownKey" class="tiny" ng-click="$ctrl.shownKey = true">
-                            <w-i18n>Show</w-i18n>
+                            <w-i18n>modal.settings.security.show</w-i18n>
                         </w-button>
                         <div ng-if="$ctrl.shownKey">{{::$ctrl.privateKey}}</div>
                     </div>
                 </div>
                 <div class="row flex-row">
-                    <div class="footnote disabled-600">Public Key</div>
+                    <div class="footnote disabled-600" w-i18n="modal.settings.security.publicKey"></div>
                     <div>{{::$ctrl.publicKey}}</div>
                 </div>
 
                 <div class="row flex-row">
-                    <div class="footnote disabled-600">Address</div>
+                    <div class="footnote disabled-600" w-i18n="modal.settings.security.address"></div>
                     <div>{{::$ctrl.address}}</div>
                 </div>
             </w-step>
@@ -56,21 +56,21 @@
             <w-step id="network" class="network">
 
                 <div class="row margin-1">
-                    <div class="footnote disabled-600 label">Node address</div>
+                    <div class="footnote disabled-600 label" w-i18n="modal.settings.network.nodeAddress"></div>
                     <div class="data-field">
                         <w-input ng-model="$ctrl.node"></w-input>
                     </div>
                 </div>
 
                 <div class="row margin-3">
-                    <div class="footnote disabled-600 label">Matcher address</div>
+                    <div class="footnote disabled-600 label" w-i18n="modal.settings.network.matcherAddress"></div>
                     <div class="data-field">
                         <w-input ng-model="$ctrl.matcher"></w-input>
                     </div>
                 </div>
 
                 <w-button ng-click="$ctrl.setNetworkDefault()">
-                    <w-i18n>Set default</w-i18n>
+                    <w-i18n>modal.settings.setDefault</w-i18n>
                 </w-button>
 
             </w-step>

@@ -119,7 +119,27 @@
       }
     },
     "settings": {
-      "title": "Настройки"
+      "title": "Настройки",
+      "setDefault": "По умолчанию",
+      "general": {
+        "title": "Основные"
+      },
+      "security": {
+        "title": "Безопасность",
+        "backupPhrase": "Секретная фраза",
+        "privateKey": "Приватный ключ",
+        "show": "Показать",
+        "publicKey": "Публичный ключ",
+        "address": "Адрес"
+      },
+      "network": {
+        "title": "Сеть",
+        "nodeAddress": "Адрес ноды",
+        "matcherAddress": "Адрес матчера"
+      },
+      "info": {
+        "title": "О программе"
+      }
     }
   }
 }

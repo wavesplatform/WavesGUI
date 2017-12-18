@@ -119,7 +119,27 @@
       }
     },
     "settings": {
-      "title": "Settings"
+      "title": "Settings",
+      "setDefault": "Set default",
+      "general": {
+        "title": "General"
+      },
+      "security": {
+        "title": "Security",
+        "backupPhrase": "Backup phrase",
+        "privateKey": "Private key",
+        "show": "Show",
+        "publicKey": "Public Key",
+        "address": "Address"
+      },
+      "network": {
+        "title": "Network",
+        "nodeAddress": "Node address",
+        "matcherAddress": "Matcher address"
+      },
+      "info": {
+        "title": "Info"
+      }
     }
   }
 }
