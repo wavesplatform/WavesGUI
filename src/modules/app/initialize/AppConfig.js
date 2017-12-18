@@ -46,7 +46,7 @@
                         debug: false,
                         ns: WavesApp.modules.filter(tsUtils.notContains('app.templates')),
                         fallbackLng: 'en',
-                        whitelist: WavesApp.langList,
+                        whitelist: WavesApp.langList.slice(),
                         defaultNS: 'app',
                         useCookie: false,
                         useLocalStorage: false,

@@ -10,7 +10,7 @@
             },
             transclude: true,
             template: '<div class="option" ng-transclude></div>',
-            link: ($scope, $element, $attrs, { select }) => {
+            link: ($scope, $element, $attrs, {select}) => {
 
                 class Option extends Base {
 
@@ -64,6 +64,7 @@
 
                     onClick() {
                         this.select.setActive(this);
+                        $scope.$apply();
                     }
 
                     setActive(active) {
