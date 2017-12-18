@@ -2,7 +2,7 @@
     <a ng-repeat="state in $ctrl.stateList track by $index"
        class="{{::state.name}} margin-right-1"
        ui-sref="{{::state.path}}"
-       ui-sref-active="active">{{::state.text}}</a>
+       ui-sref-active="active">{{state.text}}</a>
 </w-navigation>
 <w-search>
     <input type="w-search" placeholder="Search transaction or assets">

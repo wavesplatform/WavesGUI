@@ -10,7 +10,7 @@
      * @param {app.i18n} i18n
      * @return {Header}
      */
-    const controller = function ($element, Base, user, state, $state, i18n) {
+    const controller = function ($element, Base, user, state, $state, i18n, $scope) {
 
         class Header extends Base {
 
@@ -22,9 +22,12 @@
                 this.address = user.address;
                 this.stateList = [];
 
+                this.receive(state.signals.changeRouterState, this._onChangeRouterState, this);
                 this._onChangeRouterState($state.$current);
 
-                this.receive(state.signals.changeRouterState, this._onChangeRouterState, this);
+                i18next.on('languageChanged', () => {
+                    this._onChangeRouterState($state.$current);
+                });
             }
 
             _onChangeRouterState(state) {
@@ -46,7 +49,7 @@
         return new Header();
     };
 
-    controller.$inject = ['$element', 'Base', 'user', 'state', '$state', 'i18n'];
+    controller.$inject = ['$element', 'Base', 'user', 'state', '$state', 'i18n', '$scope'];
 
     angular.module('app.ui').component('wHeader', {
         controller: controller,

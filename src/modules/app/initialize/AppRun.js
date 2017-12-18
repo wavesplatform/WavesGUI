@@ -108,7 +108,7 @@
                 /**
                  * Configure library generation avatar by address
                  */
-                identityImg.config({ rows: 8, cells: 8 });
+                identityImg.config({rows: 8, cells: 8});
 
                 this._setHandlers();
                 this._stopLoader();
@@ -123,7 +123,7 @@
             }
 
             _initializeLogin() {
-                const START_STATES = WavesApp.stateTree.where({ noLogin: true })
+                const START_STATES = WavesApp.stateTree.where({noLogin: true})
                     .map((item) => item.id);
                 const stop = $rootScope.$on('$stateChangeStart', (event, state, params) => {
                     stop();
@@ -139,6 +139,7 @@
                             }
 
                             const termsAccepted = user.getSetting('termsAccepted');
+                            i18next.changeLanguage(user.getSetting('lng'));
 
                             if (!termsAccepted) {
                                 modalManager.showTermsAccept(user).then(() => {
@@ -161,7 +162,7 @@
             }
 
             login() {
-                const states = WavesApp.stateTree.where({ noLogin: true })
+                const states = WavesApp.stateTree.where({noLogin: true})
                     .map((item) => {
                         return WavesApp.stateTree.getPath(item.id)
                             .join('.');

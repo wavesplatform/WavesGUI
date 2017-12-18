@@ -55,6 +55,10 @@
                 });
             }
 
+            onChangeLanguage(language) {
+                user.setSetting('lng', language);
+            }
+
             setNetworkDefault() {
                 this.node = WavesApp.network.node;
                 this.matcher = WavesApp.network.matcher;

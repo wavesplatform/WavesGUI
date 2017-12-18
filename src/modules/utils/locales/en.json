@@ -122,7 +122,8 @@
       "title": "Settings",
       "setDefault": "Set default",
       "general": {
-        "title": "General"
+        "title": "General",
+        "language": "Language"
       },
       "security": {
         "title": "Security",

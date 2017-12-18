@@ -35,6 +35,7 @@
                     termsAccepted: true,
                     baseAssetId: WavesApp.defaultAssets.USD,
                     events: Object.create(null),
+                    lng: 'en',
                     pinnedAssetIdList: [
                         WavesApp.defaultAssets.WAVES,
                         WavesApp.defaultAssets.BTC,

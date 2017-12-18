@@ -122,7 +122,8 @@
       "title": "Настройки",
       "setDefault": "По умолчанию",
       "general": {
-        "title": "Основные"
+        "title": "Основные",
+        "language": "Язык"
       },
       "security": {
         "title": "Безопасность",

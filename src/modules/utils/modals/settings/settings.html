@@ -17,8 +17,15 @@
         <w-step-by-step active-step="$ctrl.tab">
 
             <w-step id="general" class="general">
-                <w-checkbox-submit id="shareStat" ng-model="$ctrl.shareStat"></w-checkbox-submit>
-                <label for="shareStat" w-i18n="modal.termsAccept.body.analytics"></label>
+                <div class="row">
+                    <w-checkbox-submit id="shareStat" ng-model="$ctrl.shareStat"></w-checkbox-submit>
+                    <label for="shareStat" w-i18n="modal.termsAccept.body.analytics"></label>
+                </div>
+
+                <div class="row">
+                    <div class="footnote-1 disabled-600" w-i18n="modal.settings.general.language"></div>
+                    <w-change-language on-change="$ctrl.onChangeLanguage(language)"></w-change-language>
+                </div>
             </w-step>
 
             <w-step id="security" class="security">
