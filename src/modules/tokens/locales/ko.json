@@ -42,5 +42,8 @@
     "title": "거래가 진행중입니다!",
     "description": "{{amount}} {{name}} 발행되었습니다.",
     "done": "포트폴리오 열기"
+  },
+  "notifications": {
+    "isNotCreated": "토큰이 생성되지 않았습니다"
   }
 }
