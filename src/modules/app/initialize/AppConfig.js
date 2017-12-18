@@ -40,14 +40,13 @@
 
                 i18next
                     .use(i18nextXHRBackend)
-                    // .use(i18nextBrowserLanguageDetector) TODO Change lang detect. Author Tsigel at 03/11/2017 13:23
                     .init({
                         // i18next settings
-                        lng: 'ru',
+                        lng: 'ru', // TODO @xenohanter
                         debug: false,
                         ns: WavesApp.modules.filter(tsUtils.notContains('app.templates')),
                         fallbackLng: 'en',
-                        whitelist: ['en', 'ru'],
+                        whitelist: WavesApp.langList,
                         defaultNS: 'app',
                         useCookie: false,
                         useLocalStorage: false,
@@ -104,7 +103,7 @@
                             const template = viewData.template;
                             const templateUrl = template ? undefined : (viewData.templateUrl ||
                                 AppConfig.getTemplateUrl(WavesApp.stateTree.getPath(item.id)));
-                            views[viewData.name] = { controller, template, templateUrl };
+                            views[viewData.name] = {controller, template, templateUrl};
 
                             return views;
                         }, Object.create(null));

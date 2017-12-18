@@ -10,7 +10,6 @@
     "node_modules/d3/d3.min.js",
     "node_modules/identity-img/dist/identity-img.min.js",
     "node_modules/i18next-xhr-backend/i18nextXHRBackend.min.js",
-    "node_modules/i18next-browser-languagedetector/i18nextBrowserLanguageDetector.min.js",
     "node_modules/angular/angular.min.js",
     "node_modules/angular-animate/angular-animate.min.js",
     "node_modules/angular-aria/angular-aria.min.js",
