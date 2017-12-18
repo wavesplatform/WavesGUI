@@ -90,13 +90,15 @@
                     return null;
                 }
 
-                this.isWatched = true;
                 if (!this.popupNode) {
                     this._createPopup();
                 }
+
                 if (!this.worker) {
                     this._createWorker();
                 }
+
+                this.isWatched = true;
                 mediaStream.create()
                     .then((stream) => {
                         this.stream = stream;
