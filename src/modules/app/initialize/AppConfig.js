@@ -24,11 +24,6 @@
              */
             _initLocalize() {
 
-                const LOCAL_NUMBER_GROUP_SEPARATROS = {
-                    en: ',',
-                    ru: ' '
-                };
-
                 const BIG_NUMBER_FORMAT = {
                     decimalSeparator: '.',
                     groupSeparator: ',',
@@ -42,11 +37,11 @@
                     .use(i18nextXHRBackend)
                     .init({
                         // i18next settings
-                        lng: 'ru', // TODO @xenohanter
+                        lng: AppConfig.getUserLang(),
                         debug: false,
                         ns: WavesApp.modules.filter(tsUtils.notContains('app.templates')),
                         fallbackLng: 'en',
-                        whitelist: WavesApp.langList.slice(),
+                        whitelist: Object.keys(WavesApp.localize),
                         defaultNS: 'app',
                         useCookie: false,
                         useLocalStorage: false,
@@ -63,19 +58,24 @@
                     });
 
                 i18next.on('initialized', () => {
+                    const localeData = WavesApp.getLocaleData().separators;
 
                     BigNumber.config({
                         ROUNDING_MODE: BigNumber.ROUND_DOWN,
                         FORMAT: tsUtils.merge(Object.create(null), BIG_NUMBER_FORMAT, {
-                            groupSeparator: LOCAL_NUMBER_GROUP_SEPARATROS[i18next.language]
+                            groupSeparator: localeData.group,
+                            decimalSeparator: localeData.decimal
                         })
                     });
 
                     i18next.on('languageChanged', () => {
+                        const localeData = WavesApp.getLocaleData().separators;
+
                         BigNumber.config({
                             ROUNDING_MODE: BigNumber.ROUND_DOWN,
                             FORMAT: tsUtils.merge(Object.create(null), BIG_NUMBER_FORMAT, {
-                                groupSeparator: LOCAL_NUMBER_GROUP_SEPARATROS[i18next.language]
+                                groupSeparator: localeData.group,
+                                decimalSeparator: localeData.decimal
                             })
                         });
                     });
@@ -103,7 +103,7 @@
                             const template = viewData.template;
                             const templateUrl = template ? undefined : (viewData.templateUrl ||
                                 AppConfig.getTemplateUrl(WavesApp.stateTree.getPath(item.id)));
-                            views[viewData.name] = {controller, template, templateUrl};
+                            views[viewData.name] = { controller, template, templateUrl };
 
                             return views;
                         }, Object.create(null));
@@ -135,6 +135,36 @@
                     }, '')
                     .replace(/\/\//g, '/')
                     .substr(1);
+            }
+
+            static getUserLang() {
+                const available = Object.keys(WavesApp.localize);
+                const cookieLng = Cookies.get('locale');
+                const userLang = navigator.language || navigator.userLanguage;
+
+                if (available.indexOf(cookieLng) !== -1) {
+                    return cookieLng;
+                }
+
+                if (!userLang) {
+                    return 'en';
+                } else {
+                    if (available.indexOf(userLang) !== -1) {
+                        return userLang;
+                    } else {
+                        let lng = null;
+                        userLang.split(/\W/).some((part) => {
+                            if (available.indexOf(part) !== -1) {
+                                lng = part;
+                            } else if (available.indexOf(part.toLowerCase()) !== -1) {
+                                lng = part.toLowerCase();
+                            }
+                            return !!lng;
+                        });
+
+                        return lng || 'en';
+                    }
+                }
             }
 
             /**
