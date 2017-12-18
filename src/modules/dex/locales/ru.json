@@ -1,1 +1,63 @@
-{}
+{
+  "directives": {
+    "createOrder": {
+      "amountField": "Количество",
+      "priceField": "Цена",
+      "total": "Сумма",
+      "placeSellOrder": "Поставить ордер на продажу",
+      "placeBuyOrder": "Поставить ордер на покупку",
+      "errors": {
+        "required": "Это поле необходимо заполнить",
+        "balance": "Недостаточно {{name}}",
+        "precision": "Десятичных знаков больше, чем {{precision}}"
+      },
+      "notifications": {
+        "isCreated": "Ордер поставлен",
+        "notEnoughBalance": "Недостаточно баланса",
+        "somethingWendWrong": "Произошла ошибка"
+      }
+    },
+    "portfolio": {
+      "title": "Портфолио"
+    },
+    "orderBook": {
+      "title": "Биржевой стакан",
+      "amount": "Количество {{assetName}}",
+      "price": "Цена {{assetName}}",
+      "sum": "Сумма {{assetName}}"
+    },
+    "markets": {
+      "title": "Рынки",
+      "table": {
+        "unit": "Валюта",
+        "price": "Цена",
+        "volume": "Объём",
+        "rate": "Изменение"
+      }
+    },
+    "tradeHistory": {
+      "title": "История сделок",
+      "tableTitle": {
+        "price": "Цена {{assetName}}",
+        "size": "Количество {{assetName}}",
+        "date": "Время"
+      }
+    },
+    "watchlist": {
+      "coin": "Валюта",
+      "price": "Цена",
+      "change": "Изменение"
+    },
+    "myOrders": {
+      "pair": "Пара",
+      "type": "Тип",
+      "price": "Цена",
+      "amount": "Количество",
+      "status": "Статус",
+      "notifications": {
+        "isCanceled": "Ордер был отменён",
+        "somethingWentWrong": "Произошла ошибка"
+      }
+    }
+  }
+}

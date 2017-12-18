@@ -8,18 +8,18 @@
   "fee": "Fee 1 WAVES",
   "create": "Generate",
   "help": {
-    "name": "Please use only Latin letters.",
-    "precision": "This field defines the number of decimals that your asset token will be divided in."
+    "name": "Please use only Latin letters",
+    "precision": "This field defines the number of decimal signs for your token"
   },
   "validators": {
-    "nameLen": "An asset name must be at least 4-16 characters’ long.",
-    "required": "This field must be filled out.",
-    "descriptionLen": "Entered description is too large.",
-    "minValuePrecision": "Invalid number. Enter number from 0 to 8.",
-    "maxValuePrecision": "Invalid number. Enter number from 0 to 8.",
-    "maxValueCount": "Entered number is too large.",
+    "nameLen": "An asset name must be at least 4-16 characters’ long",
+    "required": "This field must be filled",
+    "descriptionLen": "Entered description is too large",
+    "minValuePrecision": "Invalid number. Enter number from 0 to 8",
+    "maxValuePrecision": "Invalid number. Enter number from 0 to 8",
+    "maxValueCount": "Entered number is too large",
     "minValueCount": "Entered number must be greater than zero",
-    "precisionCount": "Total asset count cannot have more decimal places than specified in the Decimals field.",
+    "precisionCount": "Total asset count cannot have more decimal places than specified in the Decimals field",
     "noMoney": "Your balance is not enough to pay transaction fees"
   },
   "placeholders": {
