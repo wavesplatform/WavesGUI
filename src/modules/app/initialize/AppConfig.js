@@ -37,7 +37,7 @@
                     .use(i18nextXHRBackend)
                     .init({
                         // i18next settings
-                        lng: 'ru', // TODO @xenohanter
+                        lng: AppConfig.getUserLang(),
                         debug: false,
                         ns: WavesApp.modules.filter(tsUtils.notContains('app.templates')),
                         fallbackLng: 'en',
@@ -135,6 +135,30 @@
                     }, '')
                     .replace(/\/\//g, '/')
                     .substr(1);
+            }
+
+            static getUserLang() {
+                const available = Object.keys(WavesApp.localize);
+                const userLang = navigator.language || navigator.userLanguage;
+                if (!userLang) {
+                    return 'en';
+                } else {
+                    if (available.indexOf(userLang) !== -1) {
+                        return userLang;
+                    } else {
+                        let lng = null;
+                        userLang.split(/\W/).some((part) => {
+                            if (available.indexOf(part) !== -1) {
+                                lng = part;
+                            } else if (available.indexOf(part.toLowerCase()) !== -1) {
+                                lng = part.toLowerCase();
+                            }
+                            return !!lng;
+                        });
+
+                        return lng || 'en';
+                    }
+                }
             }
 
             /**
