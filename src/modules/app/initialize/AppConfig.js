@@ -139,7 +139,13 @@
 
             static getUserLang() {
                 const available = Object.keys(WavesApp.localize);
+                const cookieLng = Cookies.get('locale');
                 const userLang = navigator.language || navigator.userLanguage;
+
+                if (available.indexOf(cookieLng) !== -1) {
+                    return cookieLng;
+                }
+
                 if (!userLang) {
                     return 'en';
                 } else {
