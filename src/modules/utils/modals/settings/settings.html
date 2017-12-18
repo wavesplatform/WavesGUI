@@ -17,12 +17,12 @@
         <w-step-by-step active-step="$ctrl.tab">
 
             <w-step id="general" class="general">
-                <div class="row">
+                <div class="row row-style">
                     <w-checkbox-submit id="shareStat" ng-model="$ctrl.shareStat"></w-checkbox-submit>
                     <label for="shareStat" w-i18n="modal.termsAccept.body.analytics"></label>
                 </div>
 
-                <div class="row">
+                <div class="row flex-row row-style">
                     <div class="footnote-1 disabled-600" w-i18n="modal.settings.general.language"></div>
                     <w-change-language on-change="$ctrl.onChangeLanguage(language)"></w-change-language>
                 </div>
@@ -49,12 +49,12 @@
                         <div ng-if="$ctrl.shownKey">{{::$ctrl.privateKey}}</div>
                     </div>
                 </div>
-                <div class="row flex-row">
+                <div class="row flex-row row-style">
                     <div class="footnote disabled-600" w-i18n="modal.settings.security.publicKey"></div>
                     <div>{{::$ctrl.publicKey}}</div>
                 </div>
 
-                <div class="row flex-row">
+                <div class="row flex-row row-style">
                     <div class="footnote disabled-600" w-i18n="modal.settings.security.address"></div>
                     <div>{{::$ctrl.address}}</div>
                 </div>
@@ -84,14 +84,20 @@
 
             <w-step id="info" class="info">
 
-                <div class="row margin-1">
-                    <span class="label">{{::$ctrl.appName}} {{::$ctrl.appVersion}}</span>
+                <div class="row flex-row row-style">
+                    <div>Version</div>
+                    <div><span class="label">{{::$ctrl.appName}} {{::$ctrl.appVersion}}</span></div>
                 </div>
 
-                <div class="row margin-1">
-                    <a href="{{::$ctrl.supportLink}}" target="_blank">{{::$ctrl.supportLinkName}}</a>
+                <div class="row flex-row row-style">
+                    <div>Support</div>
+                    <div><a href="{{::$ctrl.supportLink}}" target="_blank">{{::$ctrl.supportLinkName}}</a></div>
                 </div>
 
+                <div class="row flex-row row-style">
+                    <div>&copy; 2017 Waves Platform</div>
+                    <div><span class="waves-logo"></span></div>
+                </div>
             </w-step>
 
         </w-step-by-step>

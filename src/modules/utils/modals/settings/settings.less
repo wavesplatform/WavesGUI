@@ -1,4 +1,9 @@
 @import (reference) '../../../config';
+@import (reference) '../../../ui/directives/changeLanguage/changeLanguage';
+
+@row-short: 25%;
+@row-long: 75%;
+@row-normal: 50%;
 
 md-dialog.settings-modal {
 
@@ -116,22 +121,84 @@ md-dialog.settings-modal {
     }
   }
 
-  .flex-row {
-    display: flex;
+  .row-style {
     padding: 12px 0;
     border-bottom: 1px dashed @color-basic-200;
 
     &:last-child {
       border-bottom: 1px solid @color-basic-200;
     }
+  }
+
+  .flex-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
 
     > div:first-child {
-      flex-basis: 25%;
+      flex-basis: @row-short;
     }
 
     > div:first-child + div {
-      flex-basis: 75%;
+      flex-basis: @row-long;
     }
+
+  }
+
+  .general {
+
+    w-change-language {
+      width: 100%;
+    }
+
+    .flex-row {
+      > div:first-child {
+        flex-basis: @row-long;
+      }
+
+      > div:first-child + div {
+        flex-basis: @row-short;
+      }
+    }
+
+    .row-style {
+      padding: 5px 0;
+
+      &:first-child {
+        padding: 5px 0 26px 0;
+      }
+    }
+  }
+
+  .info {
+    .flex-row {
+      > div:first-child {
+        flex-basis: @row-normal;
+        color: @color-disabled-600;
+      }
+
+      > div:first-child + div {
+        flex-basis: @row-normal;
+        text-align: right;
+      }
+    }
+
+    span.waves-logo {
+      width: 60px;
+      height: 13px;
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      background-size: contain;
+      margin-top: 3px;
+    }
+  }
+
+  w-change-language w-select {
+    float: right;
+    position: relative;
+    top: 0;
+    right: 0;
   }
 
   .data-field {
