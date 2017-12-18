@@ -3,7 +3,19 @@
     "assetInfo": {
       "title": "Asset Info",
       "unpinned": "Pin",
-      "pinned": "Pinned"
+      "pinned": "Pinned",
+      "transactions": "Transactions",
+      "details": "Details",
+      "description": "Description",
+      "issuer": "Issuer",
+      "identifier": "ID",
+      "name": "Name",
+      "type": "Type",
+      "date": "Issue date",
+      "reissue": {
+        "yes": "Reissuable",
+        "no": "Not reissuable"
+      }
     },
     "startLease": {
       "title": "Start leasing",
@@ -67,19 +79,19 @@
       "scanQrCode": "Scan QR Code",
       "coinomatBTC": {
         "warningTitle": "Send only BTC to this deposit address",
-        "warningText" : "Sending any other currency to this address may result in the loss of your deposit."
+        "warningText": "Sending any other currency to this address may result in the loss of your deposit."
       },
       "coinomatETH": {
         "warningTitle": "Do not deposit ETH from smart contracts!",
-        "warningText" : "Check if your wallet or exchange uses smart-contracts to withdraw ETH. We do not accept such transactions and can’t refund them. You will lose that money."
+        "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw ETH. We do not accept such transactions and can’t refund them. You will lose that money."
       },
       "coinomatLTC": {
         "warningTitle": "Send only LTC to this deposit address",
-        "warningText" : "Sending any other currency to this address may result in the loss of your deposit."
+        "warningText": "Sending any other currency to this address may result in the loss of your deposit."
       },
       "coinomatZEC": {
         "warningTitle": "Send only Zcash to this deposit address",
-        "warningText" : "Sending any other currency to this address may result in the loss of your deposit."
+        "warningText": "Sending any other currency to this address may result in the loss of your deposit."
       }
     },
     "sepa": {
