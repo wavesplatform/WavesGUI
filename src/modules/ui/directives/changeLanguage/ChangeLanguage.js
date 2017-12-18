@@ -19,7 +19,7 @@
                 /**
                  * @type {string[]}
                  */
-                this.list = WavesApp.langList.slice();
+                this.list = Object.keys(WavesApp.localize);
                 /**
                  * @type {string}
                  */

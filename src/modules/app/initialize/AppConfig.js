@@ -24,11 +24,6 @@
              */
             _initLocalize() {
 
-                const LOCAL_NUMBER_GROUP_SEPARATROS = {
-                    en: ',',
-                    ru: ' '
-                };
-
                 const BIG_NUMBER_FORMAT = {
                     decimalSeparator: '.',
                     groupSeparator: ',',
@@ -46,7 +41,7 @@
                         debug: false,
                         ns: WavesApp.modules.filter(tsUtils.notContains('app.templates')),
                         fallbackLng: 'en',
-                        whitelist: WavesApp.langList.slice(),
+                        whitelist: Object.keys(WavesApp.localize),
                         defaultNS: 'app',
                         useCookie: false,
                         useLocalStorage: false,
@@ -63,19 +58,24 @@
                     });
 
                 i18next.on('initialized', () => {
+                    const localeData = WavesApp.getLocaleData().separators;
 
                     BigNumber.config({
                         ROUNDING_MODE: BigNumber.ROUND_DOWN,
                         FORMAT: tsUtils.merge(Object.create(null), BIG_NUMBER_FORMAT, {
-                            groupSeparator: LOCAL_NUMBER_GROUP_SEPARATROS[i18next.language]
+                            groupSeparator: localeData.group,
+                            decimalSeparator: localeData.decimal
                         })
                     });
 
                     i18next.on('languageChanged', () => {
+                        const localeData = WavesApp.getLocaleData().separators;
+
                         BigNumber.config({
                             ROUNDING_MODE: BigNumber.ROUND_DOWN,
                             FORMAT: tsUtils.merge(Object.create(null), BIG_NUMBER_FORMAT, {
-                                groupSeparator: LOCAL_NUMBER_GROUP_SEPARATROS[i18next.language]
+                                groupSeparator: localeData.group,
+                                decimalSeparator: localeData.decimal
                             })
                         });
                     });
@@ -103,7 +103,7 @@
                             const template = viewData.template;
                             const templateUrl = template ? undefined : (viewData.templateUrl ||
                                 AppConfig.getTemplateUrl(WavesApp.stateTree.getPath(item.id)));
-                            views[viewData.name] = {controller, template, templateUrl};
+                            views[viewData.name] = { controller, template, templateUrl };
 
                             return views;
                         }, Object.create(null));

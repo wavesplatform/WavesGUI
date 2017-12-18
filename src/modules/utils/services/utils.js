@@ -324,11 +324,11 @@
 
                     return `${stringNum}${postfix}`;
                 } else {
-                    const [int, decimal] = formatted.split('.'); // TODO localize separator!
+                    const separatorDecimal = WavesApp.getLocaleData().separators.decimal;
+                    const [int, decimal] = formatted.split(separatorDecimal);
                     if (decimal) {
                         const decimalTpl = _processDecimal(decimal);
-                        // TODO localize separator!
-                        return `<span class="int">${int}.</span><span class="decimal">${decimalTpl}</span>`;
+                        return `<span class="int">${int}${separatorDecimal}</span><span class="decimal">${decimalTpl}</span>`;
                     } else {
                         return `<span class="int">${int}</span>`;
                     }

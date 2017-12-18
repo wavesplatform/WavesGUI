@@ -198,6 +198,20 @@
             version: '{{pack.version}}',
             type: '{{build.type}}',
             langList: ['en', 'ru'],
+            localize: {
+                en: {
+                    separators: {
+                        group: ',',
+                        decimal: '.'
+                    }
+                },
+                ru: {
+                    separators: {
+                        group: ' ',
+                        decimal: '.'
+                    }
+                }
+            },
             network: {
                 code: '{{network.code}}',
                 node: '{{network.node}}',
@@ -228,6 +242,9 @@
             },
             modules: [],
             maxAliasLength: 30,
+            getLocaleData() {
+                return WavesApp.localize[i18next.language];
+            },
             addController(name, controller) {
                 __controllers[name] = controller;
             },
@@ -348,7 +365,7 @@
      * @property {string} name
      * @property {string} version
      * @property {string} type
-     * @property {string[]} langList
+     * @property {Object} localize
      * @property {number} maxAliasLength
      * @property {object} network
      * @property {string} network.code
@@ -373,6 +390,7 @@
      * @property {Function} isDesktop
      * @property {Function} addController
      * @property {Function} getController
+     * @property {Function} getLocaleData
      * @property {Tree} stateTree
      */
 
