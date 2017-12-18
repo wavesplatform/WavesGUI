@@ -10,6 +10,12 @@
     }
   },
   "send": "Send",
+  "price": "PRICE {{currency}}",
+  "since": {
+    "day": "SINCE LAST DAY",
+    "week": "SINCE LAST WEEK",
+    "month": "SINCE LAST MONTH"
+  },
   "qr": "Your Address",
   "addAsset": "Add Asset",
   "directives": {
