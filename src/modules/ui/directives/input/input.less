@@ -92,16 +92,23 @@ w-input {
   }
 
   &:not(.no-icon) .w-input-wrap {
+    &.input-type-password {
+      input[type="password"] {
+        padding-right: 50px;
+      }
 
-    &.input-type-password::after {
-      background: url(/img/icons/input-password-icon.svg) no-repeat center center;
-      width: 15px;
-      height: 10px;
+      &::after {
+        background: url(/img/icons/input-password-icon.svg) no-repeat center center;
+        width: 15px;
+        height: 10px;
+      }
     }
-
   }
 
   &:not(.no-validate-icons) .w-input-wrap {
+    &.input-type-password input[type="password"] {
+      padding-right: 50px;
+    }
 
     &.valid.touched::after {
       background: url(/img/icons/input-valid-icon.svg) no-repeat center center;
