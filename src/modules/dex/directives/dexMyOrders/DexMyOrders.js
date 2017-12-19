@@ -56,16 +56,13 @@
                 });
             }
 
-            capitalize(type) {
-                if (type === 'sell') return 'Sell';
-                if (type === 'buy') return 'Buy';
-            }
-
+            /**
+             * @returns {Promise}
+             * @private
+             */
             _getOrders() {
-                const asset1 = this._priceAssetId;
-                const asset2 = this._amountAssetId;
-                return Promise.all([user.getSeed(), Waves.AssetPair.get(asset1, asset2)])
-                    .then(([seed, pair]) => waves.matcher.getOrdersByPair(pair.amountAsset.id, pair.priceAsset.id, seed.keyPair))
+                return user.getSeed()
+                    .then((seed) => waves.matcher.getOrders(seed.keyPair))
                     .then((orders) => {
                         const active = orders.filter(({ status }) => status === 'Accepted');
                         const filled = orders.filter(({ status }) => status === 'Filled');

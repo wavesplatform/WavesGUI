@@ -262,8 +262,8 @@
              * @private
              */
             _setData({ lastAsk, firstBid, spread }) {
-                this.bid = firstBid;
-                this.ask = lastAsk;
+                this.bid = firstBid || { price: 0 };
+                this.ask = lastAsk || { price: 0 };
                 this.spread = spread;
 
                 const sell = Number(this.bid.price);

@@ -55,6 +55,10 @@
     "myOrders": {
       "pair": "Пара",
       "type": "Тип",
+      "orderType": {
+        "sell": "Продажа",
+        "buy": "Покупка"
+      },
       "price": "Цена",
       "amount": "Количество",
       "status": "Статус",

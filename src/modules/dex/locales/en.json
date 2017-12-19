@@ -55,6 +55,10 @@
     "myOrders": {
       "pair": "Pair",
       "type": "Type",
+      "orderType": {
+        "sell": "Sell",
+        "buy": "Buy"
+      },
       "price": "Price",
       "amount": "Amount",
       "status": "Status",
