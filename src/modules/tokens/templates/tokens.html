@@ -130,14 +130,12 @@
             </div>
 
             <div class="row">
-                <div class="footnote-1 basic-500" w-i18n="fee"></div>
-                <!--TODO-->
-                <!--<div ng-class="{'error-400': $ctrl.invalid}" class="footnote-1 basic-500" w-i18n="fee"></div>-->
-                <!--<div ng-if="$ctrl.invalid" class="error-400" w-i18n="validators.noMoney"></div>-->
+                <div ng-class="{'error-400': $ctrl.invalid}" class="footnote-1 basic-500" w-i18n="fee"></div>
+                <div ng-if="$ctrl.invalid" class="error-400" w-i18n="validators.noMoney"></div>
             </div>
 
             <div class="row">
-                <w-button disabled="$ctrl.createForm.$invalid" ng-click="$ctrl.generate()"
+                <w-button disabled="$ctrl.createForm.$invalid || $ctrl.invalid" ng-click="$ctrl.generate()"
                           class="submit long margin-2">
                     <w-i18n>create</w-i18n>
                 </w-button>

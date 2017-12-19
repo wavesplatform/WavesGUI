@@ -67,13 +67,15 @@
                  */
                 this._fee = null;
 
+                const poll = createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true });
+
                 this.observe('precision', this._onChangePrecision);
-                this.observe(['_balance', '_fee'], this._onChangeBalance);
 
-                createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true });
-
-                waves.node.assets.fee('issue').then(([money]) => {
+                Promise.all([waves.node.assets.fee('issue'), poll.ready]).then(([[money]]) => {
                     this._fee = money;
+                    this.observe(['_balance', '_fee'], this._onChangeBalance);
+
+                    this._onChangeBalance();
                 });
             }
 
@@ -104,7 +106,7 @@
              * @private
              */
             _getBalance() {
-                return waves.node.assets.balance(WavesApp.defaultAssets.WAVES).then((asset) => asset.balance);
+                return waves.node.assets.balance(WavesApp.defaultAssets.WAVES);
             }
 
             /**
