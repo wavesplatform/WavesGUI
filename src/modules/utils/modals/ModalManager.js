@@ -95,10 +95,10 @@
 
             /**
              * @param {User} user
-             * @param {Asset} asset
+             * @param {Asset} [asset]
              * @return {Promise}
              */
-            showSendAsset(user, asset) {
+            showSendAsset(user, asset = Object.create(null)) {
                 return this._getModal({
                     controller: 'AssetSendCtrl',
                     titleContentUrl: 'modules/utils/modals/sendAsset/send-title.modal.html',

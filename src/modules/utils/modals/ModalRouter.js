@@ -40,10 +40,10 @@
 
             _getRoutes() {
                 return {
-                    '/send': () => modalManager.showSendAsset({ canChooseAsset: true, user }),
+                    '/send': () => modalManager.showSendAsset(user),
                     '/send/:assetId': ({ assetId }) => {
                         return waves.node.assets.info(assetId).then(() => {
-                            return modalManager.showSendAsset({ canChooseAsset: false, assetId, user });
+                            return modalManager.showSendAsset(user, { assetId });
                         });
                     },
                     '/asset/:assetId': ({ assetId }) => {
