@@ -59,5 +59,14 @@
         "somethingWentWrong": "Something went wrong"
       }
     }
+  },
+  "layout": {
+    "right": {
+      "top": "Order Book",
+      "bottom": "Trade history"
+    },
+    "center": {
+      "bottom": "My Orders"
+    }
   }
 }

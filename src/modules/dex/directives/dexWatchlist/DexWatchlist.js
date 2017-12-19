@@ -8,7 +8,7 @@
      * @param {JQuery} $element
      * @return {DexWatchlist}
      */
-    const controller = function (Base, waves, utils, $element) {
+    const controller = function (Base, waves, utils, $element, $scope) {
 
         class DexWatchlist extends Base {
 
@@ -267,6 +267,7 @@
                 waves.node.assets.info(this.baseAssetId)
                     .then((asset) => {
                         this._parent.title = asset.name;
+                        $scope.$apply();
                     });
                 this._activateAssets();
             }
@@ -330,7 +331,7 @@
         return new DexWatchlist();
     };
 
-    controller.$inject = ['Base', 'waves', 'utils', '$element'];
+    controller.$inject = ['Base', 'waves', 'utils', '$element', '$scope'];
 
     angular.module('app.dex')
         .component('wDexWatchlist', {
