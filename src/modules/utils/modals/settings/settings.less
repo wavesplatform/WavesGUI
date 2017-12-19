@@ -6,7 +6,6 @@
 @row-normal: 50%;
 
 md-dialog.settings-modal {
-
   width: 100%;
   max-width: 740px;
   min-width: 740px;
@@ -28,12 +27,6 @@ md-dialog.settings-modal {
       .label {
         line-height: 1.8em;
       }
-
-      .general label {
-        display: block;
-        width: calc(100% ~' - 34px');
-        float: right;
-      }
     }
   }
 
@@ -53,6 +46,11 @@ md-dialog.settings-modal {
       padding-left: 65px;
       cursor: pointer;
 
+      &.active {
+        background: @color-submit-400;
+        color: @color-white;
+      }
+
       &::before {
         position: absolute;
         left: 40px;
@@ -68,57 +66,31 @@ md-dialog.settings-modal {
       width: 16px;
       height: 17px;
       margin-top: -9px;
-      background-image: url(/img/icons/settings-icon/general.svg);
     }
+
     .security::before {
       width: 17px;
       height: 19px;
       margin-top: -10px;
-      background-image: url(/img/icons/settings-icon/security.svg);
     }
+
     .network::before {
       width: 16px;
       height: 17px;
       margin-top: -9px;
-      background-image: url(/img/icons/settings-icon/network.svg);
     }
+
     .info::before {
       width: 17px;
       height: 17px;
       margin-top: -9px;
-      background-image: url(/img/icons/settings-icon/info.svg);
     }
   }
 
-  .navigation-menu.general .menu-item.general {
-    background: @color-submit-400;
-    color: @color-white;
-    &::before {
-      background-image: url(/img/icons/settings-icon/general-active.svg);
-    }
-  }
-
-  .navigation-menu.security .menu-item.security {
-    background: @color-submit-400;
-    color: @color-white;
-    &::before {
-      background-image: url(/img/icons/settings-icon/security-active.svg);
-    }
-  }
-
-  .navigation-menu.network .menu-item.network {
-    background: @color-submit-400;
-    color: @color-white;
-    &::before {
-      background-image: url(/img/icons/settings-icon/network-active.svg);
-    }
-  }
-  .navigation-menu.info .menu-item.info {
-    background: @color-submit-400;
-    color: @color-white;
-    &::before {
-      background-image: url(/img/icons/settings-icon/info-active.svg);
-    }
+  .flex-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }
 
   .row-style {
@@ -126,71 +98,36 @@ md-dialog.settings-modal {
     border-bottom: 1px dashed @color-basic-200;
 
     &:last-child {
-      border-bottom: 1px solid @color-basic-200;
-    }
-  }
-
-  .flex-row {
-    display: flex;
-    align-items: center;
-    width: 100%;
-
-    > div:first-child {
-      flex-basis: @row-short;
+      border-bottom-style: solid;
     }
 
-    > div:first-child + div {
-      flex-basis: @row-long;
-    }
-
-  }
-
-  .general {
-
-    w-change-language {
-      width: 100%;
-    }
-
-    .flex-row {
-      > div:first-child {
-        flex-basis: @row-long;
-      }
-
-      > div:first-child + div {
-        flex-basis: @row-short;
+    &.unit-checkbox {
+      // TODO : make it work properly without magic
+      padding-top: 5px;
+      w-checkbox-submit {
+        display: block;
+        margin-right: 18px;
+        padding-right: 18px;
       }
     }
 
-    .row-style {
+    &.unit-language {
+      // TODO : align to the middle without magic
       padding: 5px 0;
-
-      &:first-child {
-        padding: 5px 0 26px 0;
+      & > div {
+        line-height: 2.8em;
       }
     }
   }
 
   .info {
-    .flex-row {
-      > div:first-child {
-        flex-basis: @row-normal;
-        color: @color-disabled-600;
-      }
-
-      > div:first-child + div {
-        flex-basis: @row-normal;
-        text-align: right;
-      }
-    }
-
     span.waves-logo {
       width: 60px;
       height: 13px;
       display: inline-block;
-      margin: 0;
+      margin: 3px 0 0;
       padding: 0;
       background-size: contain;
-      margin-top: 3px;
     }
   }
 
