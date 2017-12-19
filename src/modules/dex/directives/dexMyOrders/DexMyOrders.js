@@ -7,9 +7,10 @@
      * @param {User} user
      * @param createPoll
      * @param {NotificationManager} notificationManager
+     * @param {app.utils} utils
      * @return {DexMyOrders}
      */
-    const controller = function (Base, waves, user, createPoll, notificationManager) {
+    const controller = function (Base, waves, user, createPoll, notificationManager, utils) {
 
         class DexMyOrders extends Base {
 
@@ -64,9 +65,26 @@
                 return user.getSeed()
                     .then((seed) => waves.matcher.getOrders(seed.keyPair))
                     .then((orders) => {
-                        const active = orders.filter(({ status }) => status === 'Accepted');
-                        const filled = orders.filter(({ status }) => status === 'Filled');
-                        const others = orders.filter(({ status }) => status !== 'Accepted' && status !== 'Filled');
+                        const active = [];
+                        const filled = [];
+                        const others = [];
+                        orders.forEach((order) => {
+                            switch (order.status) {
+                                case 'Accepted':
+                                    active.push(order);
+                                    break;
+                                case 'Filled':
+                                    filled.push(order);
+                                    break;
+                                default:
+                                    others.push(order);
+                            }
+                        });
+
+                        active.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
+                        filled.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
+                        others.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
+
                         return active.concat(filled).concat(others);
                     });
             }
@@ -76,7 +94,7 @@
         return new DexMyOrders();
     };
 
-    controller.$inject = ['Base', 'waves', 'user', 'createPoll', 'notificationManager'];
+    controller.$inject = ['Base', 'waves', 'user', 'createPoll', 'notificationManager', 'utils'];
 
     angular.module('app.dex').component('wDexMyOrders', {
         bindings: {},
