@@ -49,7 +49,7 @@
 
             createAlias() {
                 return user.getSeed().then((seed) => {
-                    return waves.node.aliases.createAlias({ alias: this.newAlias, keyPair: seed.keyPaid })
+                    return waves.node.aliases.createAlias({ alias: this.newAlias, keyPair: seed.keyPair })
                         .then(() => {
                             this.aliases.push(this.newAlias);
                             this.newAlias = '';

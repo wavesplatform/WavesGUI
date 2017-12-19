@@ -34,6 +34,9 @@
                 });
             }
 
+            /**
+             * @private
+             */
             _apply() {
                 router.apply(`/${decodeURIComponent(location.hash.replace('#', ''))}`);
             }
@@ -56,6 +59,11 @@
                 };
             }
 
+            /**
+             * @param hash
+             * @returns {*}
+             * @private
+             */
             _wrapClose(hash) {
                 Object.keys(hash).forEach((key) => {
                     const handler = hash[key];
