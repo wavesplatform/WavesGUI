@@ -44,6 +44,10 @@
       }
     },
     "watchlist": {
+      "placeholders": {
+        "base": "Base coin",
+        "coin": "Add coin"
+      },
       "coin": "Coin",
       "price": "Price",
       "change": "Change"
