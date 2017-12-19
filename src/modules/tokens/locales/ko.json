@@ -26,7 +26,7 @@
     "description": "설명은 추후 수정이 불가능합니다.",
     "precision": "0과 8사이"
   },
-  "reissuble": {
+  "reissuable": {
     "true": "재발행 가능",
     "false": "재발행 불가능"
   },
