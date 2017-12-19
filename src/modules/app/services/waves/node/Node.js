@@ -84,7 +84,7 @@
                             fee: fee.toCoins(),
                             recipient
                         }, keyPair)
-                            .then(this._pipeTransaction([fee]));
+                            .then(this._pipeTransaction([amount, fee]));
                     });
             }
 
