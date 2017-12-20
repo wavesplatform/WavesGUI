@@ -12,13 +12,9 @@
 
             constructor() {
                 /**
-                 * @type {Money}
+                 * @type {IBalanceDetails}
                  */
                 this.balance = null;
-                /**
-                 * @type {Money}
-                 */
-                this.totalBalance = null;
                 /**
                  * @type {boolean}
                  */
@@ -32,12 +28,6 @@
             $postLink() {
                 this.isDepositSupported = gatewayService.hasSupportOf(this.balance.asset, 'deposit');
                 this.isSepaSupported = gatewayService.hasSupportOf(this.balance.asset, 'sepa');
-
-                if (this.balance.asset.id === WavesApp.defaultAssets.WAVES) {
-                    waves.node.get().then(({ regular }) => {
-                        this.totalBalance = regular;
-                    });
-                }
             }
 
         }

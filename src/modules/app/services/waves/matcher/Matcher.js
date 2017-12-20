@@ -5,16 +5,31 @@
      * @param {app.utils} utils
      * @param {app.utils.decorators} decorators
      * @param {app.i18n} i18n
+     * @param {User} user
+     * @param {PollCache} PollCache
      * @return {Matcher}
      */
-    const factory = function (utils, decorators, i18n) {
+    const factory = function (utils, decorators, i18n, user, PollCache) {
 
         class Matcher {
 
-            getOrders(keyPair) {
-                return Waves.API.Matcher.v1.getAllOrders(keyPair)
-                    .then((list) => list.map(Matcher._remapOrder))
-                    .then(utils.whenAll);
+            constructor() {
+                user.onLogin().then(() => {
+                    /**
+                     * @type {Promise<Seed>}
+                     * @private
+                     */
+                    this._seedPromise = user.getSeed();
+                    /**
+                     * @type {PollCache}
+                     * @private
+                     */
+                    this._ordersCache = new PollCache({
+                        getData: this._getOrdersData.bind(this),
+                        timeout: 2000,
+                        isBalance: true
+                    });
+                });
             }
 
             getOrdersByPair(assetId1, assetId2, keyPair) {
@@ -32,6 +47,10 @@
                 });
             }
 
+            getOrders() {
+                return this._ordersCache.get();
+            }
+
             @decorators.cachable(1)
             getOrderBook(asset1, asset2) {
                 return Waves.AssetPair.get(asset1, asset2)
@@ -45,6 +64,32 @@
                 return Waves.API.Matcher.v1.cancelOrder(amountAssetId, priceAssetId, orderId, keyPair);
             }
 
+            /**
+             * @param keyPair
+             * @returns {Promise<any>}
+             * @private
+             */
+            _getOrders(keyPair) {
+                return Waves.API.Matcher.v1.getAllOrders(keyPair)
+                    .then((list) => list.map(Matcher._remapOrder))
+                    .then(utils.whenAll);
+            }
+
+            /**
+             * @returns {Promise<T>}
+             * @private
+             */
+            _getOrdersData() {
+                return this._seedPromise.then((seed) => this._getOrders(seed.keyPair));
+            }
+
+            /**
+             * @param bids
+             * @param asks
+             * @param pair
+             * @returns {Promise<any[]>}
+             * @private
+             */
             static _remapOrderBook({ bids, asks }, pair) {
                 return Promise.all([
                     Matcher._remapBidAsks(bids, pair),
@@ -52,6 +97,12 @@
                 ]);
             }
 
+            /**
+             * @param list
+             * @param pair
+             * @returns {Promise<(any[])[]>}
+             * @private
+             */
             static _remapBidAsks(list, pair) {
                 return Promise.all((list || [])
                     .map((item) => Promise.all([
@@ -72,6 +123,11 @@
                         })));
             }
 
+            /**
+             * @param order
+             * @returns {Promise<*[]>}
+             * @private
+             */
             static _remapOrder(order) {
                 const priceAssetId = Matcher._getAssetId(order.assetPair.priceAsset);
                 const amountAssetId = Matcher._getAssetId(order.assetPair.amountAsset);
@@ -132,7 +188,7 @@
         return new Matcher();
     };
 
-    factory.$inject = ['utils', 'decorators', 'i18n'];
+    factory.$inject = ['utils', 'decorators', 'i18n', 'user', 'PollCache'];
 
     angular.module('app').factory('matcher', factory);
 })();
