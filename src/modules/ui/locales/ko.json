@@ -39,7 +39,7 @@
       "create-alias": ""
     },
     "subheaders": {
-      "send": "{{time}}<span class='locale-address'>, 주소로{{address}}</span>",
+      "send": "{{time}}<span class='locale-address'>, 주소로 {{address}}</span>",
       "receive": "{{time}}<span class='locale-address'>, 주소에서 {{address}}</span>",
       "circular": "{{time}}<span class='locale-address'>, 주소에 {{address}}</span>",
       "issue": "{{time}}",
@@ -48,7 +48,7 @@
       "exchange-buy": "{{time}}",
       "exchange-sell": "{{time}}",
       "lease-in": "{{time}}<span class='locale-address'>, 주소에서 {{address}}</span>",
-      "lease-out": "{{time}}<span class='locale-address'>, 노드 주소로 {{address}}</span>",
+      "lease-out": "{{time}}<span class='locale-address'>, 주소로 {{address}}</span>",
       "cancel-leasing": "{{time}}<span class='locale-address'>, 거래 {{transactionId}}</span>",
       "create-alias": "{{time}}, {{alias}}"
     },
