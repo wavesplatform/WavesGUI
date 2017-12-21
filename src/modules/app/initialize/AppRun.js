@@ -108,7 +108,7 @@
                 /**
                  * Configure library generation avatar by address
                  */
-                identityImg.config({rows: 8, cells: 8});
+                identityImg.config({ rows: 8, cells: 8 });
 
                 this._setHandlers();
                 this._stopLoader();
@@ -122,15 +122,18 @@
                 $rootScope.$on('$stateChangeSuccess', this._onChangeStateSuccess.bind(this));
             }
 
+            /**
+             * @private
+             */
             _initializeLogin() {
-                const START_STATES = WavesApp.stateTree.where({noLogin: true})
+                const START_STATES = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => item.id);
                 const stop = $rootScope.$on('$stateChangeStart', (event, state, params) => {
                     stop();
                     if (START_STATES.indexOf(state.name) === -1) {
                         event.preventDefault();
                     }
-                    this.login()
+                    this._login(state)
                         .then(() => {
                             if (START_STATES.indexOf(state.name) === -1) {
                                 $state.go(state.name, params);
@@ -161,13 +164,18 @@
                 });
             }
 
-            login() {
-                const states = WavesApp.stateTree.where({noLogin: true})
+            /**
+             * @param {{name: string}} currentState
+             * @return {Promise}
+             * @private
+             */
+            _login(currentState) {
+                const states = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => {
                         return WavesApp.stateTree.getPath(item.id)
                             .join('.');
                     });
-                if (states.indexOf($state.$current.name) === -1) {
+                if (states.indexOf(currentState.name) === -1) {
                     $state.go(states[0]);
                 }
                 return user.onLogin();
