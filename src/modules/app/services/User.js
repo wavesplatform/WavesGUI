@@ -218,6 +218,12 @@
                     });
             }
 
+            removeUserByAddress(removeAddress) {
+                return storage.load('userList')
+                    .then((list) => list.filter(({ address }) => address !== removeAddress))
+                    .then((list) => storage.save('userList', list));
+            }
+
             /**
              * @param {object} data
              * @param {string} data.address
