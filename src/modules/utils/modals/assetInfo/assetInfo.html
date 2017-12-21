@@ -13,6 +13,10 @@
             <w-i18n ng-if="!$ctrl.pinned">modal.assetInfo.unpinned</w-i18n>
             <w-i18n ng-if="$ctrl.pinned">modal.assetInfo.pinned</w-i18n>
         </div>-->
+        <div class="chart-wrapper">
+            <linechart ng-if="$ctrl.chartData" options="$ctrl.options" data="$ctrl.chartData"></linechart>
+            <div class="interactive-stop"></div>
+        </div>
     </div>
     <w-tabs>
         <w-tab title-name="modal.assetInfo.transactions">
