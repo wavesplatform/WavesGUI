@@ -250,14 +250,14 @@
 
                 const wavesNodeRegular = wavesDetails.wavesBalance.regular;
                 const wavesNodeAvailable = wavesDetails.wavesBalance.available;
-                const wavesTx = eventsMoneyHash[WavesApp.defaultAssets.WAVES] || wavesNodeRegular.cloneWithCoins(0);
-                const wavesOrders = orderMoneyHash[WavesApp.defaultAssets.WAVES] || wavesNodeRegular.cloneWithCoins(0);
+                const wavesTx = eventsMoneyHash[WavesApp.defaultAssets.WAVES] || wavesNodeRegular.cloneWithCoins('0');
+                const wavesOrder = orderMoneyHash[WavesApp.defaultAssets.WAVES] || wavesNodeRegular.cloneWithCoins('0');
 
                 return [{
                     asset: wavesNodeRegular.asset,
                     regular: Assets._getMoneySub(wavesNodeRegular, wavesTx),
-                    available: Assets._getMoneySub(wavesNodeAvailable, wavesTx, wavesOrders),
-                    inOrders: wavesOrders,
+                    available: Assets._getMoneySub(wavesNodeAvailable, wavesTx, wavesOrder),
+                    inOrders: wavesOrder,
                     leasedOut: wavesDetails.wavesBalance.leasedOut,
                     leasedIn: wavesDetails.wavesBalance.leasedIn
                 }].concat(moneyList.slice(1).map(Assets._remapAssetsMoney(orderMoneyHash, eventsMoneyHash)));
@@ -265,16 +265,16 @@
 
             static _remapAssetsMoney(orderMoneyHash, eventsMoneyHash) {
                 return function (money) {
-                    const eventsMoney = eventsMoneyHash[money.asset.id] || money.cloneWithCoins(0);
-                    const inOrders = orderMoneyHash[money.asset.id] || money.cloneWithCoins(0);
+                    const eventsMoney = eventsMoneyHash[money.asset.id] || money.cloneWithCoins('0');
+                    const inOrders = orderMoneyHash[money.asset.id] || money.cloneWithCoins('0');
 
                     return {
                         asset: money.asset,
                         regular: Assets._getMoneySub(money, eventsMoney),
                         available: Assets._getMoneySub(money, eventsMoney, inOrders),
                         inOrders,
-                        leasedOut: money.cloneWithCoins(0),
-                        leasedIn: money.cloneWithCoins(0)
+                        leasedOut: money.cloneWithCoins('0'),
+                        leasedIn: money.cloneWithCoins('0')
                     };
                 };
             }
@@ -284,7 +284,7 @@
                     return result.sub(toSub);
                 }, money);
                 if (result.getTokens().lt(0)) {
-                    return result.cloneWithCoins(0);
+                    return result.cloneWithCoins('0');
                 } else {
                     return result;
                 }

@@ -58,6 +58,10 @@
             }
 
             _redrawGraph() {
+                if (!this._canvas) {
+                    return null;
+                }
+
                 if (!this._data || !this._data.length) {
                     return null;
                 }
