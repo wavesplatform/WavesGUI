@@ -40,6 +40,42 @@
   cursor: pointer;
 }
 
+.icon-settings-general {
+  &::before {
+    background-image: url(/img/icons/settings-icon/general.svg);
+  }
+  &.active::before {
+    background-image: url(/img/icons/settings-icon/general-active.svg);
+  }
+}
+
+.icon-settings-security {
+  &::before {
+    background-image: url(/img/icons/settings-icon/security.svg);
+  }
+  &.active::before {
+    background-image: url(/img/icons/settings-icon/security-active.svg);
+  }
+}
+
+.icon-settings-network {
+  &::before {
+    background-image: url(/img/icons/settings-icon/network.svg);
+  }
+  &.active::before {
+    background-image: url(/img/icons/settings-icon/network-active.svg);
+  }
+}
+
+.icon-settings-info {
+  &::before {
+    background-image: url(/img/icons/settings-icon/info.svg);
+  }
+  &.active::before {
+    background-image: url(/img/icons/settings-icon/info-active.svg);
+  }
+}
+
 .icon-send::before {
   background-image: url(/img/icons/send.svg);
 }

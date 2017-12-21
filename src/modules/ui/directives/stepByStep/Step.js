@@ -33,7 +33,7 @@
 
     angular.module('app.ui').component('wStep', {
         bindings: {
-            id: '@'
+            id: '@stepId'
         },
         require: {
             list: '^wStepByStep'
