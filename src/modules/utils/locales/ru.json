@@ -135,6 +135,7 @@
       "setDefault": "По умолчанию",
       "general": {
         "title": "Основные",
+        "blockHeight": "Текущая высота",
         "language": "Язык"
       },
       "security": {
@@ -151,7 +152,9 @@
         "matcherAddress": "Адрес матчера"
       },
       "info": {
-        "title": "О программе"
+        "title": "О программе",
+        "version": "Версия",
+        "support": "Поддержка"
       }
     }
   }

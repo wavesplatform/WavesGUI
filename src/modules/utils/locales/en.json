@@ -135,6 +135,7 @@
       "setDefault": "Set default",
       "general": {
         "title": "General",
+        "blockHeight": "Current height",
         "language": "Language"
       },
       "security": {
@@ -151,7 +152,9 @@
         "matcherAddress": "Matcher address"
       },
       "info": {
-        "title": "Info"
+        "title": "Info",
+        "version": "Version",
+        "support": "Support"
       }
     }
   }

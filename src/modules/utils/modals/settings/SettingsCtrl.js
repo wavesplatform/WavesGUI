@@ -4,10 +4,12 @@
     /**
      * @param Base
      * @param $scope
+     * @param {Waves} waves
      * @param {User} user
+     * @param {Function} createPoll
      * @return {SettingsCtrl}
      */
-    const controller = function (Base, $scope, user) {
+    const controller = function (Base, $scope, waves, user, createPoll) {
 
         class SettingsCtrl extends Base {
 
@@ -26,6 +28,7 @@
                 this.appVersion = WavesApp.version;
                 this.supportLink = WavesApp.network.support;
                 this.supportLinkName = WavesApp.network.support.replace(/^https?:\/\//, '');
+                this.blockHeight = 0;
 
                 this.syncSettings({
                     node: 'network.node',
@@ -48,6 +51,8 @@
                         user.setSetting('shareAnalytics', false);
                     }
                 });
+
+                createPoll(this, waves.node.height, 'blockHeight', 5000);
 
                 user.getSeed().then((seed) => {
                     this.phrase = seed.phrase;
@@ -73,7 +78,7 @@
         return new SettingsCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user'];
+    controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll'];
 
     angular.module('app.utils').controller('SettingsCtrl', controller);
 })();
