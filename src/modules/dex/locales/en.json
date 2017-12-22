@@ -1,5 +1,8 @@
 {
   "directives": {
+    "candleChart": {
+      "error": "The chart could not be downloaded. If you want to use this chart in your application, please send a request to <a href=\"https://tradingview.com\" target=\"_blank\">tradingview.com</a>"
+    },
     "createOrder": {
       "amountField": "Amount",
       "priceField": "Limit price",

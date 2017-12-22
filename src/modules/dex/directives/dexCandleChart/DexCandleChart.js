@@ -101,7 +101,7 @@
 
     angular.module('app.dex').component('wDexCandleChart', {
         bindings: {},
-        template: '<div class="candle-chart-wrapper" id="{{::$ctrl.elementId}}"></div>',
+        templateUrl: 'modules/dex/directives/dexCandleChart/dex-candle-chart.html',
         transclude: false,
         controller
     });
