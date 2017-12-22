@@ -63,7 +63,7 @@
              */
             _getOrders() {
                 return user.getSeed()
-                    .then((seed) => waves.matcher.getOrders(seed.keyPair))
+                    .then((seed) => waves.matcher._getOrders(seed.keyPair))
                     .then((orders) => {
                         const active = [];
                         const filled = [];

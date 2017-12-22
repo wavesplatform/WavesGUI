@@ -25,12 +25,12 @@
                 {{::balance.asset.name}}
             </div>
             <div class="portfolio-item-balance">
-                <w-balance money="balance"></w-balance>
+                <w-balance money="balance.available"></w-balance>
             </div>
             <div class="portfolio-item-mirror">
                 <div ng-if="balance.asset.id !== $ctrl.mirrorId">
                     <span>$&nbsp;</span>
-                    <w-exchange noUpdate balance="balance"></w-exchange>
+                    <w-exchange noUpdate balance="balance.available"></w-exchange>
                 </div>
                 <div ng-if="balance.asset.id === $ctrl.mirrorId">
                     —
