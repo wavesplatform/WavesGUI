@@ -244,6 +244,13 @@
                 return status === 'Accepted' || status === 'PartiallyFilled';
             }
 
+            /**
+             * @param wavesDetails
+             * @param moneyList
+             * @param orderMoneyList
+             * @return {IBalanceDetails[]}
+             * @private
+             */
             static _remapBalance([wavesDetails, moneyList, orderMoneyList]) {
                 const orderMoneyHash = Assets._getMoneyHashFromMoneyList(orderMoneyList);
                 const eventsMoneyHash = Assets._getMoneyHashFromMoneyList(eventManager.getReservedMoneyList());
@@ -263,6 +270,12 @@
                 }].concat(moneyList.slice(1).map(Assets._remapAssetsMoney(orderMoneyHash, eventsMoneyHash)));
             }
 
+            /**
+             * @param orderMoneyHash
+             * @param eventsMoneyHash
+             * @return {Function}
+             * @private
+             */
             static _remapAssetsMoney(orderMoneyHash, eventsMoneyHash) {
                 return function (money) {
                     const eventsMoney = eventsMoneyHash[money.asset.id] || money.cloneWithCoins('0');
@@ -279,6 +292,13 @@
                 };
             }
 
+            /**
+             *
+             * @param {Money} money
+             * @param {Money[]} toSubMoneyList
+             * @return {*}
+             * @private
+             */
             static _getMoneySub(money, ...toSubMoneyList) {
                 const result = toSubMoneyList.reduce((result, toSub) => {
                     return result.sub(toSub);
