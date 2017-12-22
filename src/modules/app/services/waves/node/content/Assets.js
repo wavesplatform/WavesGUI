@@ -300,7 +300,7 @@
                     if (!hash[orderMoney.asset.id]) {
                         hash[orderMoney.asset.id] = orderMoney;
                     } else {
-                        hash[orderMoney.asset.id].add(orderMoney);
+                        hash[orderMoney.asset.id] = hash[orderMoney.asset.id].add(orderMoney);
                     }
                     return hash;
                 }, Object.create(null));
