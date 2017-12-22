@@ -24,7 +24,8 @@
         };
     } else {
         const fs = require('fs');
-        const cachePath = '';
+        const path = require('path');
+        const cachePath = path.join(__dirname, './storage.json');
         const wrap = function (method, args) {
             return new Promise((resolve, reject) => {
                 fs[method](...args, function (err, data) {

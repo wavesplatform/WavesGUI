@@ -152,7 +152,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
             return compile(file)({
                 pack: pack,
                 build: {
-                    type: 'web'
+                    type: param.type || 'web'
                 },
                 network: networks[param.connection]
             });
@@ -359,6 +359,7 @@ export interface IPrepareHTMLOptions {
     scripts?: string[];
     styles?: string[];
     target: string;
+    type?: string;
 }
 
 export interface IFilter {

@@ -2,11 +2,11 @@ import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
 import * as copy from 'gulp-copy';
-import { exec, execSync } from 'child_process';
-import { getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
-import { join } from 'path';
-import { copy as fsCopy, outputFile, readFile, readJSON, readJSONSync, writeFile } from 'fs-extra';
-import { IMetaJSON, IPackageJSON } from './ts-scripts/interface';
+import {exec, execSync} from 'child_process';
+import {getFilesFrom, prepareHTML, run, task} from './ts-scripts/utils';
+import {join} from 'path';
+import {copy as fsCopy, outputFile, readFile, readJSON, readJSONSync, writeFile} from 'fs-extra';
+import {IMetaJSON, IPackageJSON} from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
 
@@ -51,9 +51,9 @@ const getFileName = (name, type) => {
 };
 
 
-const indexPromise = readFile(join(__dirname, 'src/index.html'), { encoding: 'utf8' });
+const indexPromise = readFile(join(__dirname, 'src/index.html'), {encoding: 'utf8'});
 
-['build', 'chrome', 'desktop'].forEach((buildName) => {
+['build', 'desktop'].forEach((buildName) => {
 
     configurations.forEach((configName) => {
 
@@ -73,7 +73,7 @@ const indexPromise = readFile(join(__dirname, 'src/index.html'), { encoding: 'ut
                     .pipe(gulp.dest(`${targetPath}/js`));
 
                 stream.on('end', function () {
-                    readFile(`${targetPath}/js/${jsFileName}`, { encoding: 'utf8' }).then((file) => {
+                    readFile(`${targetPath}/js/${jsFileName}`, {encoding: 'utf8'}).then((file) => {
                         outputFile(`${targetPath}/js/${jsFileName}`, file)
                             .then(() => done());
                     });
@@ -86,6 +86,11 @@ const indexPromise = readFile(join(__dirname, 'src/index.html'), { encoding: 'ut
                     let forCopy = JSON_LIST.map((path) => {
                         return fsCopy(path, path.replace(/(.*?\/src)/, `${targetPath}`));
                     }).concat(fsCopy(join(__dirname, 'src/fonts'), `${targetPath}/fonts`));
+
+                    if (buildName === 'desktop') {
+                        forCopy.push(fsCopy(join(__dirname, 'electron/main.js'), `${targetPath}/main.js`));
+                        forCopy.push(fsCopy(join(__dirname, 'electron/package.json'), `${targetPath}/package.json`));
+                    }
 
                     Promise.all([
                         fsCopy(join(__dirname, 'src/img'), `${targetPath}/img`).then(() => {
@@ -115,10 +120,11 @@ const indexPromise = readFile(join(__dirname, 'src/index.html'), { encoding: 'ut
                     return prepareHTML({
                         target: targetPath,
                         connection: configName,
-                        scripts: type === 'dev' ? meta.vendors.concat(SOURCE_FILES) : [jsFilePath],
+                        scripts: [jsFilePath],
                         styles: [
                             `${targetPath}/css/${pack.name}-styles-${pack.version}.css`
-                        ]
+                        ],
+                        type: buildName
                     });
                 }).then((file) => {
                     console.log('out ' + configName);
@@ -174,7 +180,7 @@ task('up-version-json', function (done) {
 
 task('templates', function () {
     return gulp.src('src/!(index.html)/**/*.html')
-        .pipe(htmlmin({ collapseWhitespace: true }))
+        .pipe(htmlmin({collapseWhitespace: true}))
         .pipe(templateCache({
             module: 'app.templates',
             // transformUrl: function (url) {
@@ -257,13 +263,13 @@ task('uglify', ['babel', 'templates'], function (done) {
 task('s3-testnet', function () {
     const bucket = 'testnet.waveswallet.io';
     return gulp.src('./dist/testnet/**/*')
-        .pipe(s3({ ...AWS, bucket }));
+        .pipe(s3({...AWS, bucket}));
 });
 
 task('s3-mainnet', function () {
     const bucket = 'waveswallet.io';
     return gulp.src('./dist/mainnet/**/*')
-        .pipe(s3({ ...AWS, bucket }));
+        .pipe(s3({...AWS, bucket}));
 });
 
 task('s3', ['s3-testnet', 's3-mainnet']);

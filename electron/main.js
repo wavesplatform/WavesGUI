@@ -34,6 +34,16 @@ function createWindow() {
     });
 }
 
+app.on('ready', () => {
+    electron.protocol.registerFileProtocol('atom', (request, callback) => {
+        const url = request.url.substr(7);
+        console.log(url);
+        callback({ path: path.normalize(`${__dirname}/${url}`) });
+    }, (error) => {
+        if (error) console.error('Failed to register protocol');
+    });
+});
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
