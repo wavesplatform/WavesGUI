@@ -16,12 +16,14 @@
          class="input-like big margin-3">
         <w-avatar class="margin-right-1" address="$ctrl.address" size="30"></w-avatar>
         <span class="body-1 basic-900">{{::$ctrl.address}}</span>
+        <div class="icon-remove-user icon-close" ng-click="$ctrl.removeUser($ctrl.address)"></div>
     </div>
     <w-select ng-if="$ctrl.userList.length > 1" ng-model="$ctrl.activeUser" class="big margin-3">
-        <w-option ng-repeat="user in $ctrl.userList track by $index"
-                  value="{{::$index}}">
+        <w-option ng-repeat="user in $ctrl.userList track by user.address"
+                  value="{{::user.address}}">
             <w-avatar class="margin-right-1" address="user.address" size="30"></w-avatar>
             <div class="body-1 basic-900">{{::user.address}}</div>
+            <div class="icon-remove-user icon-close" ng-click="$ctrl.removeUser(user.address)"></div>
         </w-option>
     </w-select>
 

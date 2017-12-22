@@ -236,6 +236,11 @@
                 LTC: '{{network.assets.LTC}}',
                 ZEC: '{{network.assets.ZEC}}'
             },
+            otherAssetsWithIcons: {
+                // TODO @xenohunter : remove that when icons are in @dvshur's service
+                EFYT: '{{network.assets.EFYT}}',
+                WNET: '{{network.assets.WNET}}'
+            },
             remappedAssetNames: {
                 '{{network.assets.EUR}}': 'Euro',
                 '{{network.assets.USD}}': 'US Dollar',
@@ -388,6 +393,8 @@
      * @property {string} defaultAssets.USD
      * @property {string} defaultAssets.BTC
      * @property {string} defaultAssets.ETH
+     * @property {string} defaultAssets.LTC
+     * @property {string} defaultAssets.ZEC
      * @property {object} remappedAssetNames
      * @property {object} dex
      * @property {Array<string>} dex.resolutions
