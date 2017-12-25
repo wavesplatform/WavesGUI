@@ -84,8 +84,8 @@
                     })
                     .catch(() => {
                         notificationManager.error({
-                            ns: 'app',
-                            title: { literal: 'Token has not been created' }
+                            ns: 'app.tokens',
+                            title: { literal: 'notifications.isNotCreated' }
                         });
                     });
             }

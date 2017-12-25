@@ -25,7 +25,7 @@
                 this.onReady()
                     .then((asset) => {
                         /**
-                         * @type {IAsset}
+                         * @type {Asset}
                          */
                         this.asset = asset;
 
@@ -59,10 +59,16 @@
             }
 
             getFormatter() {
-                // TODO refactor
                 return (value) => {
+                    if (value == null) {
+                        return '';
+                    }
                     if (new BigNumber(value).eq(utils.parseNiceNumber(this.$input.val()))) {
-                        return this.$input.val();
+                        if (value.indexOf('e') !== -1) {
+                            return new BigNumber(value).toFixed(this.asset.precision);
+                        } else {
+                            return this.$input.val();
+                        }
                     } else {
                         return value;
                     }

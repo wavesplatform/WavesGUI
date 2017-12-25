@@ -24,7 +24,7 @@
                  */
                 this._priceAssetId = null;
                 /**
-                 * @type {IAsset}
+                 * @type {Asset}
                  */
                 this.priceAsset = null;
                 /**

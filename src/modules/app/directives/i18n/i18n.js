@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const directive = function (Base, i18n) {
+    const directive = function (Base, i18n, decorators) {
         return {
             scope: true,
             restrict: 'AE',
@@ -12,8 +12,10 @@
                     constructor() {
                         super($scope);
 
+                        this.watchers = Object.create(null);
+                        this.forStop = [];
                         const handler = this._getHandler();
-                        this.forStop = [() => i18next.off('languageChanged', handler)];
+                        this.forStop.push(() => i18next.off('languageChanged', handler));
 
                         i18next.on('languageChanged', handler);
                         if ($attrs.params) {
@@ -45,23 +47,28 @@
 
                     /**
                      * @param literal
-                     * @return {*}
+                     * @return {string}
                      * @private
                      */
                     _compile(literal) {
                         const parts = literal.match(/{{.*?(}})/g);
+                        let addWatcher = false;
                         if (!parts) {
-                            return literal;
+                            return literal.trim();
                         } else {
                             parts.forEach((part) => {
                                 if (part.indexOf('::') === -1) {
-                                    console.warn(`No watched field "${part}"`); // TODO : add $scope.$watch()
+                                    addWatcher = true;
                                 }
                                 const forEval = part
                                     .replace('{{', '')
                                     .replace('}}', '')
                                     .replace('::', '');
-                                literal = literal.replace(part, $scope.$eval(forEval));
+                                literal = literal.replace(part, $scope.$eval(forEval)).trim();
+                                if (!this.watchers[literal]) {
+                                    this.forStop.push($scope.$watch(forEval, () => this._getHandler()()));
+                                    this.watchers[literal] = true;
+                                }
                             });
                         }
                         return literal;
@@ -71,6 +78,7 @@
                      * @return {*}
                      * @private
                      */
+                    @decorators.cachable()
                     static _getLiteral() {
                         return String(I18n._isAttribute() ? $attrs.wI18n : $element.text()).trim();
                     }
@@ -96,7 +104,7 @@
         };
     };
 
-    directive.$inject = ['Base', 'i18n'];
+    directive.$inject = ['Base', 'i18n', 'decorators'];
 
     angular.module('app')
         .directive('wI18n', directive);

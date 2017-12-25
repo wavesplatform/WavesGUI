@@ -1,5 +1,8 @@
 @import (reference) '../../config';
 
+@font-size-caption-1: 12px;
+@font-size-caption-2: 11px;
+
 html, body {
   .footnote-1();
 }
@@ -118,7 +121,7 @@ h4 {
 
 .caption-1 {
   font-family: @font-roboto-regular;
-  font-size: 12px;
+  font-size: @font-size-caption-1;
   letter-spacing: 0.07px;
   line-height: 16px;
   color: @color-disabled-600;
@@ -126,11 +129,12 @@ h4 {
 
 .caption-2 {
   font-family: @font-roboto-regular;
-  font-size: 11px;
+  font-size: @font-size-caption-2;
   letter-spacing: 0.07px;
   line-height: 13px;
   color: @color-disabled-600;
 }
+
 
 .caption-3 {
   font-family: @font-roboto-regular;
@@ -174,6 +178,7 @@ hr {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  white-space: nowrap;
 
   &::before, &::after {
     content: '';

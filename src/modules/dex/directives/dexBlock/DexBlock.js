@@ -5,9 +5,10 @@
      * @param Base
      * @param {JQuery} $element
      * @param {app.utils} utils
+     * @param {app.i18n} i18n
      * @return {DexBlock}
      */
-    const controller = function (Base, $element, utils) {
+    const controller = function (Base, $element, utils, i18n) {
 
         class DexBlock extends Base {
 
@@ -18,6 +19,11 @@
                  * @type {string}
                  */
                 this.search = '';
+                /**
+                 * Literal for i18n
+                 * @type {string}
+                 */
+                this.titleLiteral = null;
                 /**
                  * @type {boolean}
                  */
@@ -46,6 +52,7 @@
                  */
                 this._parent = null;
 
+                i18n.translateField(this, 'titleLiteral', 'title', 'app.dex');
                 this.observe('changeBaseAssetMode', this._onChangeAssetMode);
             }
 
@@ -103,7 +110,7 @@
         return new DexBlock();
     };
 
-    controller.$inject = ['Base', '$element', 'utils'];
+    controller.$inject = ['Base', '$element', 'utils', 'i18n'];
 
     angular.module('app.dex')
         .component('wDexBlock', {
@@ -111,7 +118,7 @@
                 _parent: '^wLayout'
             },
             bindings: {
-                title: '@titleName',
+                titleLiteral: '@titleName',
                 column: '@',
                 block: '@',
                 hasSearch: '@',

@@ -1,4 +1,10 @@
 {
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
   "env": {
     "browser": true,
     "es6": true
@@ -25,10 +31,11 @@
     "workerWrapper": true,
     "i18next": true,
     "i18nextXHRBackend": true,
-    "i18nextBrowserLanguageDetector": true,
     "QRCode": true,
     "QrCode": true,
-    "tsApiValidator": true
+    "tsApiValidator": true,
+    "analytics": true,
+    "Cookies": true
   },
   "extends": "eslint:recommended",
   "rules": {
@@ -40,7 +47,7 @@
     ],
     "array-callback-return": "error",
     "array-element-newline": "off",
-    "arrow-body-style": "error",
+    "arrow-body-style": "off",
     "arrow-parens": [
       "error",
       "always"
@@ -175,7 +182,7 @@
     "new-parens": "error",
     "newline-after-var": "off",
     "newline-before-return": "off",
-    "newline-per-chained-call": "error",
+    "newline-per-chained-call": "off",
     "no-alert": "error",
     "no-array-constructor": "error",
     "no-await-in-loop": "error",
@@ -337,16 +344,7 @@
       "always"
     ],
     "require-await": "error",
-    "require-jsdoc": [
-      "warn",
-      {
-        "require": {
-          "FunctionDeclaration": false,
-          "MethodDefinition": true,
-          "ClassDeclaration": true
-        }
-      }
-    ],
+    "require-jsdoc": "off",
     "rest-spread-spacing": "error",
     "semi": "error",
     "semi-spacing": [

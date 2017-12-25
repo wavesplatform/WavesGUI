@@ -53,6 +53,16 @@
                 });
             }
 
+            showSettings() {
+                return this._getModal({
+                    ns: 'app.utils',
+                    title: 'modal.settings.title',
+                    contentUrl: 'modules/utils/modals/settings/settings.html',
+                    controller: 'SettingsCtrl',
+                    mod: 'settings-modal'
+                });
+            }
+
             /**
              * @param {User} user
              */
@@ -84,41 +94,72 @@
             }
 
             /**
-             * @param {object} data
-             * @param {User} data.user
-             * @param {string} [data.assetId]
-             * @param {boolean} [data.canChooseAsset]
+             * @param {User} user
+             * @param {Asset} [asset]
              * @return {Promise}
              */
-            showSendAsset(data) {
+            showSendAsset(user, asset = Object.create(null)) {
                 return this._getModal({
                     controller: 'AssetSendCtrl',
                     titleContentUrl: 'modules/utils/modals/sendAsset/send-title.modal.html',
                     contentUrl: 'modules/utils/modals/sendAsset/send.modal.html',
                     mod: 'modal-send',
                     locals: {
-                        assetId: data.assetId,
-                        baseAssetId: data.user.getSetting('baseAssetId'),
-                        canChooseAsset: data.canChooseAsset
+                        assetId: asset.id,
+                        baseAssetId: user.getSetting('baseAssetId'),
+                        canChooseAsset: !asset.id
                     }
                 });
             }
 
             /**
              * @param {User} user
-             * @param asset
+             * @param {Asset} asset
              * @return {Promise}
              */
-            showReceiveAsset(user, asset) {
-                // TODO : check if `onLogin()` is required here
+            showDepositAsset(user, asset) {
                 return user.onLogin().then(() => {
                     return this._getModal({
                         locals: { address: user.address, asset },
-                        title: 'modal.receive.title',
-                        titleParams: { asset },
-                        contentUrl: 'modules/utils/modals/receiveAsset/receive.modal.html',
-                        controller: 'AssetReceiveCtrl',
-                        mod: 'modal-receive'
+                        title: 'modal.deposit.title',
+                        titleParams: { assetName: asset.name },
+                        contentUrl: 'modules/utils/modals/depositAsset/deposit-asset.modal.html',
+                        controller: 'DepositAsset',
+                        mod: 'modal-deposit-asset'
+                    });
+                });
+            }
+
+            /**
+             * @param {User} user
+             * @param {Asset} asset
+             * @return {Promise}
+             */
+            showSepaAsset(user, asset) {
+                return user.onLogin().then(() => {
+                    return this._getModal({
+                        locals: { address: user.address, asset },
+                        title: 'modal.sepa.title',
+                        titleParams: { assetName: asset.name },
+                        contentUrl: 'modules/utils/modals/sepaAsset/sepa-asset.modal.html',
+                        controller: 'SepaAsset',
+                        mod: 'modal-sepa-asset'
+                    });
+                });
+            }
+
+            /**
+             * @param {User} user
+             * @return {Promise}
+             */
+            showAddressQrCode(user) {
+                return user.onLogin().then(() => {
+                    return this._getModal({
+                        locals: { address: user.address },
+                        title: 'modal.qr.title',
+                        contentUrl: 'modules/utils/modals/addressQrCode/address-qr-code.modal.html',
+                        controller: 'AddressQrCode',
+                        mod: 'modal-address-qr-code'
                     });
                 });
             }

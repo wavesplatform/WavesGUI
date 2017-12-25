@@ -34,16 +34,19 @@
                 });
             }
 
+            /**
+             * @private
+             */
             _apply() {
                 router.apply(`/${decodeURIComponent(location.hash.replace('#', ''))}`);
             }
 
             _getRoutes() {
                 return {
-                    '/send': () => modalManager.showSendAsset({ canChooseAsset: true, user }),
+                    '/send': () => modalManager.showSendAsset(user),
                     '/send/:assetId': ({ assetId }) => {
                         return waves.node.assets.info(assetId).then(() => {
-                            return modalManager.showSendAsset({ canChooseAsset: false, assetId, user });
+                            return modalManager.showSendAsset(user, { assetId });
                         });
                     },
                     '/asset/:assetId': ({ assetId }) => {
@@ -51,11 +54,16 @@
                             return modalManager.showAssetInfo(asset);
                         });
                     },
-                    '/receive': () => modalManager.showReceiveAsset(user),
+                    // '/receive': () => modalManager.showReceiveAsset(user), // TODO : decide on that
                     '/account': () => modalManager.showAccountInfo()
                 };
             }
 
+            /**
+             * @param hash
+             * @returns {*}
+             * @private
+             */
             _wrapClose(hash) {
                 Object.keys(hash).forEach((key) => {
                     const handler = hash[key];

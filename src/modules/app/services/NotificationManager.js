@@ -221,5 +221,5 @@
  * @property {object} [action]
  * @property {string} [action.literal]
  * @property {object} [action.params]
- * @property {function} [action.callback]
+ * @property {Function} [action.callback]
  */

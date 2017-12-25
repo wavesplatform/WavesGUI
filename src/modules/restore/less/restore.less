@@ -1,7 +1,10 @@
 @import (reference) '../../config';
 
 body.restore {
-  padding-top: 90px;
+
+  ui-view[name="main"] {
+    position: relative;
+  }
 
   .restore-content {
     width: 460px;

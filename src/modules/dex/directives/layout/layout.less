@@ -121,7 +121,8 @@ w-layout {
       background-image: url(/img/icons/close_arrow.svg);
     }
 
-    &__block-right-bottom-collapsed w-dex-block .collapse-dex-block, &__block-center-bottom-collapsed w-dex-block .collapse-dex-block {
+    &__block-right-bottom-collapsed .dex-layout__column-right w-dex-block .collapse-dex-block,
+    &__block-center-bottom-collapsed .dex-layout__column-center w-dex-block .collapse-dex-block {
       transform-origin: center center;
       transform: rotate(180deg);
     }

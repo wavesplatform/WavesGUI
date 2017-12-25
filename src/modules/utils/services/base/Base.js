@@ -35,6 +35,12 @@
                 this.cid = tsUtils.uniqueId('base');
             }
 
+            /**
+             * Method for listen outside event emitters like i18next or jQuery
+             * @param {{on: function, off: function}} emitter
+             * @param {string} event
+             * @param {function} handler
+             */
             listenEventEmitter(emitter, event, handler) {
                 if (!this.__emitterListeners[event]) {
                     this.__emitterListeners[event] = [];
@@ -43,7 +49,37 @@
                 emitter.on(event, handler);
             }
 
-            stopListenEventEmitter(event, handler, emitter) {
+            /**
+             * @param {string} [event]
+             * @param {function} [handler]
+             * @param {{on: function, off: function}} [emitter]
+             * @return {null}
+             */
+            stopListenEventEmitter(...args) {
+                let event, handler, emitter;
+
+                if (args[0] && typeof args[0] === 'object') {
+                    event = null;
+                    handler = null;
+                    emitter = args[0];
+                } else if (args[0] && typeof args[0] === 'function') {
+                    event = null;
+                    handler = args[0];
+                    emitter = null;
+                } else {
+                    event = args[0];
+                }
+
+                if (args[1] && typeof args[1] === 'object') {
+                    emitter = args[1];
+                } else {
+                    handler = args[1];
+                }
+
+                if (args[2]) {
+                    emitter = args[2];
+                }
+
                 if (!event) {
                     Object.keys(this.__emitterListeners).forEach((myEvent) => {
                         this.stopListenEventEmitter(myEvent, handler, emitter);
@@ -54,6 +90,7 @@
                     this.__emitterListeners[event].forEach((data) => {
                         this.stopListenEventEmitter(event, data.handler, emitter);
                     });
+                    return null;
                 }
                 this.__emitterListeners[event] = this.__emitterListeners[event].filter((data) => {
                     if (emitter) {

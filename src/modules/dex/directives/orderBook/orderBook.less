@@ -8,9 +8,27 @@ w-dex-order-book {
 
   w-table w-row {
     padding: 0 10px 0 5px;
-    cursor: pointer;
     border-bottom: 1px solid transparent;
     border-top: 1px solid transparent;
+  }
+
+  w-table w-t-head w-row {
+    padding: 0 14px 0 5px;
+
+    &:hover {
+      background-color: #fff;
+      border-color: transparent;
+    }
+
+    .table-cell {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  w-scroll-box .asks w-row, w-scroll-box .bids w-row {
+    cursor: pointer;
 
     &:hover {
       background-color: @color-basic-50;

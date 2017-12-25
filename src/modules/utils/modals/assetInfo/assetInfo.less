@@ -7,6 +7,26 @@ html body md-dialog.asset-info-modal {
     height: calc(~'100% - 64px');
   }
 
+  .chart-wrapper {
+    opacity: 0.5;
+    position: relative;
+    margin-left: -40px;
+    margin-right: -40px;
+    height: 76px;
+
+    .interactive-stop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    .chart-tooltip, .chart-legend { // Lib ng3-charts
+      display: none !important;
+    }
+  }
+
   .asset-content {
     height: 100%;
   }
@@ -68,4 +88,9 @@ html body md-dialog.asset-info-modal {
       display: none;
     }
   }
+
+  .no-transactions {
+    border: 0 none;
+  }
+
 }

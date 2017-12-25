@@ -63,6 +63,7 @@
 
                 this.ticker = props.ticker || '';
                 this.sign = props.sign || '';
+                this.displayName = props.ticker || props.name;
             }
 
         }
@@ -83,6 +84,13 @@
                             .then((partialProps) => new ExtendedAsset(remapAssetProps(partialProps)));
                     });
             }
+        });
+
+        user.onLogin().then(() => {
+            Waves.config.set({
+                nodeAddress: user.getSetting('network.node'),
+                matcherAddress: user.getSetting('network.matcher')
+            });
         });
 
         class AppRun {
@@ -114,6 +122,9 @@
                 $rootScope.$on('$stateChangeSuccess', this._onChangeStateSuccess.bind(this));
             }
 
+            /**
+             * @private
+             */
             _initializeLogin() {
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => item.id);
@@ -122,7 +133,7 @@
                     if (START_STATES.indexOf(state.name) === -1) {
                         event.preventDefault();
                     }
-                    this.login()
+                    this._login(state)
                         .then(() => {
                             if (START_STATES.indexOf(state.name) === -1) {
                                 $state.go(state.name, params);
@@ -131,9 +142,16 @@
                             }
 
                             const termsAccepted = user.getSetting('termsAccepted');
+                            i18next.changeLanguage(user.getSetting('lng'));
 
                             if (!termsAccepted) {
-                                modalManager.showTermsAccept(user);
+                                modalManager.showTermsAccept(user).then(() => {
+                                    if (user.getSetting('shareAnalytics')) {
+                                        analytics.activate();
+                                    }
+                                });
+                            } else if (user.getSetting('shareAnalytics')) {
+                                analytics.activate();
                             }
 
                             $rootScope.$on('$stateChangeStart', (event, state) => {
@@ -146,13 +164,18 @@
                 });
             }
 
-            login() {
+            /**
+             * @param {{name: string}} currentState
+             * @return {Promise}
+             * @private
+             */
+            _login(currentState) {
                 const states = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => {
                         return WavesApp.stateTree.getPath(item.id)
                             .join('.');
                     });
-                if (states.indexOf($state.$current.name) === -1) {
+                if (states.indexOf(currentState.name) === -1) {
                     $state.go(states[0]);
                 }
                 return user.onLogin();
@@ -212,8 +235,8 @@
              * @private
              */
             _getImagesReadyPromise() {
-                return fetch('/img/images-list.json')
-                    .then(r => r.json())
+                return fetch(`/img/images-list.json?v=${WavesApp.version}`)
+                    .then((r) => r.json())
                     .then((list) => {
                         return Promise.all(list.map(AppRun.getLoadImagePromise(list.length)));
                     });

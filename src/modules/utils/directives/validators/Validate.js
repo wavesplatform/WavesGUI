@@ -52,6 +52,10 @@
                                     this._validate();
                                 });
 
+                                $input.get(0).value = $ngModel.$formatters.reduce((result, formatter) => {
+                                    return formatter(result);
+                                }, $ngModel.$viewValue);
+
                                 this._validate();
                             });
                     }

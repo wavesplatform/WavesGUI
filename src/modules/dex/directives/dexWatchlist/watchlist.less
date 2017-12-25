@@ -121,24 +121,27 @@ w-dex-watchlist {
     }
   }
 
-  w-table w-t-head .table-row {
-    cursor: default;
-  }
-
-  w-table .table w-row .table-row {
+  w-table w-row .table-row {
     .cell-0 {
-      width: 20%;
-      padding-left: 12px;
+      width: 30%;
+      padding-left: 15px;
     }
     .cell-1 {
-      width: 30%;
+      width: 35%;
+      text-align: right;
     }
     .cell-2 {
-      width: 30%;
-    }
-    .cell-3 {
-      width: 20%;
-      padding-right: 12px;
+      width: 35%;
+      padding-right: 26px;
     }
   }
+
+  w-table w-t-head w-row .table-row {
+    cursor: default;
+
+    .cell-2 {
+      padding-right: 30px
+    }
+  }
+
 }

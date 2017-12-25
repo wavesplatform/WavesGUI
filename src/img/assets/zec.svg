@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48 (47235) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="wallet_assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-440.000000, -728.000000)">
+        <g id="Group" transform="translate(440.000000, 728.000000)" fill-rule="nonzero">
+            <circle id="Combined-Shape" fill="#F5A623" cx="14.9033453" cy="14.9033453" r="14.8744068"></circle>
+            <g id="XMLID_2_" transform="translate(9.318208, 6.208936)" fill="#FFFFFF">
+                <path d="M0.0108914123,12.989442 L3.8119943,7.90296148 C4.50359898,7.03069312 5.0481696,6.40013769 5.73432857,5.61194339 L5.73432857,5.5593971 L0.430210785,5.5593971 L0.430210785,2.39085603 L10.2978303,2.39085603 L10.2978303,4.78696669 L6.67099003,9.66326207 C6.00661388,10.5092573 5.38580338,11.3237247 4.6996444,12.0330996 L4.6996444,12.0856459 L10.4993214,12.0856459 L10.4993214,15.2752055 L0.0108914123,15.2752055 L0.0108914123,12.989442 Z" id="XMLID_6_"></path>
+                <rect id="XMLID_5_" x="3.69763447" y="0.0420370291" width="3.0114755" height="2.83749947"></rect>
+                <rect id="XMLID_8_" x="3.69763447" y="14.7234695" width="3.0114755" height="2.83749947"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

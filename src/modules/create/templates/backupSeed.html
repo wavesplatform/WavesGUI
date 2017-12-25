@@ -1,4 +1,5 @@
 <div class="backup-seed">
+    <div class="waves-logo"></div>
     <div class="headline-1">
         <w-i18n>backupSeed.saveSecret</w-i18n>
     </div>
@@ -10,9 +11,10 @@
 
     <div class="body-2 basic-900">
         <w-i18n>backupSeed.writeSeed</w-i18n>
+        <span>&nbsp;<w-i18n>backupSeed.or</w-i18n>&nbsp;<a ng-click="$ctrl.copySeed()" w-i18n="backupSeed.copySeed"></a></span>
     </div>
 
-    <w-seed-read type="read" seed="{{::$ctrl.seed}}"></w-seed-read>
+    <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select"></w-seed-read>
 
     <div class="body-2 basic-900">
         <w-i18n>backupSeed.needConfirm</w-i18n>
@@ -22,3 +24,5 @@
         <w-i18n>backupSeed.ok</w-i18n>
     </w-button>
 </div>
+
+<w-notifications class="welcome-notifications"></w-notifications> <!--TODO : make it uniform throughout the project-->

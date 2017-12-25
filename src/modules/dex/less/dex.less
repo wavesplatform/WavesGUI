@@ -2,8 +2,11 @@
 @import (reference) '../../app/less/typography';
 
 @dex-lower-block-height: 50%;
+@zeropx: 0px;
 
 body.dex {
+  min-width: 1024px;
+
   w-header {
     display: none;
   }
@@ -20,6 +23,42 @@ body.dex {
     width: 100%;
     height: 100%;
 
+    w-dex-trade-history w-t-head w-row {
+      padding-right: 14px;
+
+      .table-cell {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    w-dex-trade-history w-scroll-box {
+      padding-right: @padding-main-layout;
+    }
+
+    w-dex-trade-history .cell-2 div {
+      font-size: @font-size-caption-2;
+      line-height: 1.2em;
+    }
+
+    .block-title .w-input-wrap input {
+      font-size: @font-size-caption-2;
+      padding: 6px 8px;
+      background-image: url(/img/icons/input-search-icon.svg);
+      background-repeat: no-repeat;
+      background-size: 12px 12px;
+      background-position: 7px center;
+      text-indent: 17px;
+      font-size: @font-size-caption-2;
+      height: 29px;
+      border: 1px solid #e2e2e2;
+    }
+
+    .search-item {
+      font-size: @font-size-caption-1;
+    }
+
     w-table {
       width: 100%;
       height: 100%;
@@ -34,9 +73,17 @@ body.dex {
       }
 
       w-t-head {
-        .caption-1();
         color: @color-disabled-700;
         border-bottom: 1px solid @color-disabled-100;
+
+        w-row {
+          font-size: @font-size-caption-2;
+
+          .table-row:hover {
+            background-color: white;
+            border-color: transparent;
+          }
+        }
 
         .table-row {
           height: 30px;
@@ -44,6 +91,14 @@ body.dex {
           display: flex;
           align-items: center;
         }
+      }
+
+      w-row {
+        font-size: @font-size-caption-1;
+      }
+
+      .spread w-row {
+        .body-2();
       }
 
       .table-row {
@@ -58,4 +113,31 @@ body.dex {
   w-dex-trade-graph {
     height: 20%;
   }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  :hover::-webkit-scrollbar {
+    display: block;
+  }
+
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 3px @color-basic-100;
+    -webkit-border-radius: @zeropx;
+    border-radius: @zeropx;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: @zeropx;
+    border-radius: @zeropx;
+    background: @color-basic-100;
+    -webkit-box-shadow: inset 0 0 3px @color-basic-500;
+  }
+
+  ::-webkit-scrollbar-thumb:window-inactive {
+    background: @color-basic-200;
+  }
+
 }

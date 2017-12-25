@@ -1,3 +1,14 @@
+.waves-logo {
+  width: 100px;
+  height: 21px;
+  background-image: url(/img/icons/waves_logo.svg);
+  background-repeat: no-repeat;
+  display: block;
+  margin: 40px auto 80px auto;
+  // TODO : icons should be only declared images
+  // TODO : move all unrelated styles to different LESS files
+}
+
 .icon-close {
   width: 16px;
   height: 16px;
@@ -13,9 +24,72 @@
   margin: 0 0 0 -12px;
   background-image: url(/img/icons/exit.svg);
   position: absolute;
-  left: 50%;
   bottom: 30px;
+  left: 50%;
   cursor: pointer;
+}
+
+.icon-settings {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  bottom: 86px;
+  left: 50%;
+  margin: 0 0 0 -12px;
+  background-image: url(/img/icons/icon-settings.svg);
+  cursor: pointer;
+}
+
+.icon-settings-general {
+  &::before {
+    background-image: url(/img/icons/settings-icon/general.svg);
+  }
+  &.active::before {
+    background-image: url(/img/icons/settings-icon/general-active.svg);
+  }
+}
+
+.icon-settings-security {
+  &::before {
+    background-image: url(/img/icons/settings-icon/security.svg);
+  }
+  &.active::before {
+    background-image: url(/img/icons/settings-icon/security-active.svg);
+  }
+}
+
+.icon-settings-network {
+  &::before {
+    background-image: url(/img/icons/settings-icon/network.svg);
+  }
+  &.active::before {
+    background-image: url(/img/icons/settings-icon/network-active.svg);
+  }
+}
+
+.icon-settings-info {
+  &::before {
+    background-image: url(/img/icons/settings-icon/info.svg);
+  }
+  &.active::before {
+    background-image: url(/img/icons/settings-icon/info-active.svg);
+  }
+}
+
+.icon-send::before {
+  background-image: url(/img/icons/send.svg);
+}
+
+.icon-deposit::before {
+  background-image: url(/img/icons/deposit.svg);
+}
+
+.icon-qr::before {
+  background-image: url(/img/icons/qr-code-small.svg);
+}
+
+.icon-add-asset::before {
+  background-image: url(/img/icons/add-asset.svg);
 }
 
 .icon-tx-send {

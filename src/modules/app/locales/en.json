@@ -14,6 +14,15 @@
       "ok": "OK"
     }
   },
+  "matcher": {
+    "orders": {
+      "statuses": {
+        "opened": "Opened",
+        "canceled": "Canceled",
+        "filled": "Filled ({{percent}}%)"
+      }
+    }
+  },
   "date": {
     "month": {
       "0": "Jan",
@@ -36,5 +45,11 @@
     "portfolio": "Portfolio",
     "transactions": "Transactions",
     "leasing": "Leasing"
+  },
+  "number": {
+    "short": {
+      "million": "M",
+      "thousand": "k"
+    }
   }
 }

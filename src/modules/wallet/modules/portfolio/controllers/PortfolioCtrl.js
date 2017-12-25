@@ -10,9 +10,11 @@
      * @param {User} user
      * @param {EventManager} eventManager
      * @param {Function} createPoll
+     * @param {GatewayService} gatewayService
      * @return {PortfolioCtrl}
      */
-    const controller = function (Base, $scope, waves, utils, modalManager, user, eventManager, createPoll) {
+    const controller = function (Base, $scope, waves, utils, modalManager, user,
+                                 eventManager, createPoll, gatewayService) {
 
         class PortfolioCtrl extends Base {
 
@@ -27,7 +29,7 @@
                  */
                 this.mirrorId = null;
                 /**
-                 * @type {IAsset}
+                 * @type {Asset}
                  */
                 this.mirror = null;
                 /**
@@ -49,25 +51,38 @@
                     });
 
                 createPoll(this, this._getPortfolio, 'portfolioBalances', 3000, { isBalance: true });
-
-            }
-
-            showSend(assetId) {
-                return modalManager.showSendAsset({ user, canChooseAsset: !assetId, assetId });
             }
 
             /**
-             * @param [asset]
+             * @param {Asset} asset
              */
-            showReceive(asset) {
-                return waves.node.assets.info(asset && asset.id || WavesApp.defaultAssets.WAVES)
-                    .then((asset) => {
-                        return modalManager.showReceiveAsset(user, asset);
-                    });
+            showAsset(asset) {
+                modalManager.showAssetInfo(asset);
             }
 
-            showAssetInfo(asset) {
-                modalManager.showAssetInfo(asset);
+            /**
+             * @param {Asset} asset
+             */
+            showSend(asset) {
+                return modalManager.showSendAsset(user, asset || Object.create(null));
+            }
+
+            /**
+             * @param {Asset} asset
+             */
+            showDeposit(asset) {
+                return modalManager.showDepositAsset(user, asset);
+            }
+
+            /**
+             * @param {Asset} asset
+             */
+            showSepa(asset) {
+                return modalManager.showSepaAsset(user, asset);
+            }
+
+            showQR() {
+                return modalManager.showAddressQrCode(user);
             }
 
             pinAsset(asset, state) {
@@ -82,6 +97,14 @@
                     list.splice(this.pinnedAssetIdList.indexOf(asset.id), 1);
                     this.pinnedAssetIdList = list;
                 }
+            }
+
+            isDepositSupported(asset) {
+                return gatewayService.hasSupportOf(asset, 'deposit');
+            }
+
+            isSepaSupported(asset) {
+                return gatewayService.hasSupportOf(asset, 'sepa');
             }
 
             /**
@@ -142,7 +165,8 @@
         'modalManager',
         'user',
         'eventManager',
-        'createPoll'
+        'createPoll',
+        'gatewayService'
     ];
 
     angular.module('app.wallet.portfolio')

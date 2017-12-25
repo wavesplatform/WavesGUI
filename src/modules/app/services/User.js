@@ -125,7 +125,8 @@
              *
              */
             login(data) {
-                return this._addUserData(data);
+                return this._addUserData(data)
+                    .then(() => analytics.push('User', 'Login'));
             }
 
             /**
@@ -145,9 +146,10 @@
                     publicKey: data.publicKey,
                     settings: {
                         termsAccepted: false,
-                        hasBackup: hasBackup
+                        hasBackup: hasBackup,
+                        lng: i18next.language
                     }
-                });
+                }).then(() => analytics.push('User', 'Create'));
             }
 
             logout() {
@@ -216,6 +218,12 @@
                     });
             }
 
+            removeUserByAddress(removeAddress) {
+                return storage.load('userList')
+                    .then((list) => list.filter(({ address }) => address !== removeAddress))
+                    .then((list) => storage.save('userList', list));
+            }
+
             /**
              * @param {object} data
              * @param {string} data.address
@@ -228,7 +236,7 @@
              * @private
              */
             _addUserData(data) {
-                this._loadUserByAddress(data.address)
+                return this._loadUserByAddress(data.address)
                     .then((item) => {
                         this._fieldsForSave.forEach((propertyName) => {
                             if (data[propertyName] != null) {

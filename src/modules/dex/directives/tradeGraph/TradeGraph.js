@@ -24,15 +24,20 @@
                  */
                 this._priceAssetId = null;
                 /**
-                 * @type {IAsset}
+                 * @type {Asset}
                  * @private
                  */
                 this._amountAsset = null;
                 /**
-                 * @type {IAsset}
+                 * @type {Asset}
                  * @private
                  */
                 this._priceAsset = null;
+                /**
+                 * @type {number}
+                 * @private
+                 */
+                this._chartCropRate = null;
 
                 this.options = {
                     margin: {
@@ -77,7 +82,7 @@
                         }
                     ],
                     axes: {
-                        x: { key: 'price', type: 'linear', ticks: 4 },
+                        x: { key: 'price', type: 'linear', ticks: 2 },
                         y: { key: 'amount', ticks: 4 }
                     }
                 };
@@ -89,10 +94,11 @@
 
                 this.syncSettings({
                     _amountAssetId: 'dex.amountAssetId',
-                    _priceAssetId: 'dex.priceAssetId'
+                    _priceAssetId: 'dex.priceAssetId',
+                    _chartCropRate: 'dex.chartCropRate'
                 });
 
-                this.observe(['_amountAssetId', '_priceAssetId'], this._onChangeAssets);
+                this.observe(['_amountAssetId', '_priceAssetId', '_chartCropRate'], this._onChangeAssets);
 
                 /**
                  * @type {Poll}
@@ -103,12 +109,28 @@
 
             _getOrderBook() {
                 return waves.matcher.getOrderBook(this._priceAssetId, this._amountAssetId)
+                    .then((data) => this._filterOrders(data))
                     .then(TradeGraph._remapOrderBook);
             }
 
             _setOrderBook([bids, asks]) {
                 this.data.bids = bids;
                 this.data.asks = asks;
+            }
+
+            _filterOrders({ bids, asks }) {
+                const spreadPrice = new BigNumber(asks[0].price)
+                    .sub(bids[0].price)
+                    .div(2)
+                    .add(bids[0].price);
+                const delta = spreadPrice.mul(this._chartCropRate).div(2);
+                const max = spreadPrice.add(delta);
+                const min = BigNumber.max(0, spreadPrice.sub(delta));
+
+                return {
+                    bids: bids.filter((bid) => new BigNumber(bid.price).gte(min)),
+                    asks: asks.filter((ask) => new BigNumber(ask.price).lte(max))
+                };
             }
 
             _onChangeAssets(noRestart) {
@@ -125,33 +147,7 @@
                 }
             }
 
-            static _remapOrderBook({ bids, asks, pair }) {
-
-                const bidsDelta = bids.length ? new BigNumber(bids[0].price)
-                    .sub(bids[bids.length - 1].price)
-                    .abs() : new BigNumber(0);
-                const asksDelta = asks.length ? new BigNumber(asks[0].price)
-                    .sub(asks[asks.length - 1].price)
-                    .abs() : new BigNumber(0);
-
-                bids = bids.slice();
-                asks = asks.slice();
-
-                if (bidsDelta.gt(asksDelta)) {
-                    asks.push({
-                        amount: '0',
-                        price: new BigNumber(asks[0].price)
-                            .add(bidsDelta)
-                            .toFixed(pair.priceAsset.precision)
-                    });
-                } else if (asksDelta.gt(bidsDelta)) {
-                    bids.push({
-                        amount: '0',
-                        price: new BigNumber(bids[0].price)
-                            .sub(asksDelta)
-                            .toFixed(pair.priceAsset.precision)
-                    });
-                }
+            static _remapOrderBook({ bids, asks }) {
 
                 const sum = function (list) {
                     let amount = 0;

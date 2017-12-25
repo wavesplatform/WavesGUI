@@ -12,13 +12,18 @@
         return {
             listener: null,
             $postLink() {
-                const ns = i18n.getNs($element);
 
+                const ns = i18n.getNs($element);
                 const list = $attrs.wI18nAttr.split(' ');
+                const hash = list.reduce((result, attrName) => {
+                    result[attrName] = $element.attr(attrName);
+                    return result;
+                }, Object.create(null));
                 const listener = function () {
-                    list.forEach((attrName) => {
+                    Object.keys(hash).forEach((attrName) => {
+                        const literal = hash[attrName];
                         const params = $scope.attrParams || Object.create(null);
-                        const value = i18n.translate($element.attr(attrName), ns, params[attrName]);
+                        const value = i18n.translate(literal, ns, params[attrName]);
                         $element.attr(attrName, value);
                     });
                 };

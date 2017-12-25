@@ -4,11 +4,11 @@
         <w-button class="interface" ng-click="$ctrl.showSend()">
             <span class="btn-icon icon-send" w-i18n="send"></span>
         </w-button>
-        <w-button class="interface" ng-click="$ctrl.showReceive()">
-            <span class="btn-icon icon-receive" w-i18n="receive"></span>
+        <w-button class="interface" ng-click="$ctrl.showQR()">
+            <span class="btn-icon icon-qr" w-i18n="qr"></span>
         </w-button>
         <!--<w-button class="right" ng-click="$ctrl.addAsset()">-->
-            <!--<span class="btn-icon icon-add-asset" w-i18n="addAsset"></span>-->
+        <!--<span class="btn-icon icon-add-asset" w-i18n="addAsset"></span>-->
         <!--</w-button>-->
     </div>
 
@@ -20,12 +20,13 @@
                     <w-radio ng-repeat="balance in $ctrl.chartBalanceList track by balance.asset.id"
                              value="balance.asset.id">
                         <span class="radio-name">{{::balance.asset.name}}<span class="radio-dot">•</span></span>
-                        $<w-change-rate asset-id="balance.asset.id"></w-change-rate>
+                        $
+                        <w-change-rate asset-id="balance.asset.id"></w-change-rate>
                     </w-radio>
                 </w-radio-wrap>
             </div>
 
-            <div>
+            <div class="date-btns">
                 <w-radio-wrap mode="tab-mode" ng-model="$ctrl.chartMode">
                     <!--<w-radio value="'hour'">-->
                     <!--<w-i18n>chart.intervals.hour</w-i18n>-->
@@ -52,19 +53,19 @@
                     $&nbsp;<w-change-rate asset-id="$ctrl.activeChartAssetId"></w-change-rate>
                 </h1>
                 <div class="tag-1 info-500">
-                    {{$ctrl.activeChartBalance.asset.name.toUpperCase()}} PRICE
+                    <w-i18n params="{currency: $ctrl.activeChartBalance.asset.name.toUpperCase()}">price</w-i18n>
                 </div>
             </div>
             <div class="change">
                 <h1>{{$ctrl.change > 0 ? '+' : '-'}}$ {{$ctrl.abs($ctrl.change)}}</h1>
                 <div class="tag-1 info-500">
-                    SLICE LAST {{$ctrl.chartMode.toUpperCase()}} (USD)
+                    <w-i18n>since.{{$ctrl.chartMode}}</w-i18n>&nbsp;(USD)
                 </div>
             </div>
             <div class="change-percent">
                 <h1>{{$ctrl.change > 0 ? '+' : '-'}}{{$ctrl.abs($ctrl.changePercent)}}%</h1>
                 <div class="tag-1 info-500">
-                    SLICE LAST {{$ctrl.chartMode.toUpperCase()}} (%)
+                    <w-i18n>since.{{$ctrl.chartMode}}</w-i18n>&nbsp;(%)
                 </div>
             </div>
         </div>
@@ -76,8 +77,7 @@
 
     <div class="assets-list">
         <w-asset ng-repeat="balance in $ctrl.pinnedAssetBalances track by balance.asset.id"
-                 ng-click="$ctrl.onAssetClick($event, balance.asset)"
-                 on-click="$ctrl.onAssetClickCallback(event, balance.asset, action)"
+                 on-click="$ctrl.onAssetActionClick(event, balance.asset, action)"
                  balance="balance"></w-asset>
     </div>
 

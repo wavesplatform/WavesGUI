@@ -1,4 +1,7 @@
 <div w-i18n-ns="app.restore" class="restore-content">
+    <w-change-language></w-change-language>
+
+    <div class="waves-logo"></div>
 
     <w-step-by-step active-step="0">
         <w-step>
@@ -19,7 +22,7 @@
                              ng-model="$ctrl.seed"
                              placeholder="seedForm.placeholder"
                              w-i18n-attr="placeholder"
-                             minlength="40"
+                             minlength="25"
                              required></w-input>
                     <div class="address-block-info">
                         <w-avatar ng-if="$ctrl.address" class="margin-right-1" address="$ctrl.address"
@@ -57,10 +60,12 @@
         </w-step>
     </w-step-by-step>
 
+    <!--TODO @xenohunter #wrap-in-component-->
+
     <div class="or margin-2">
-        <span w-i18n="or"></span>
+        <span w-i18n="seedForm.or"></span>
     </div>
-    <div class="text-center flex-column-center-min">
+    <div class="text-center body-2 flex-column-center-min margin-2">
         <a ui-sref="welcome" w-i18n="passwordForm.login"></a>
         <span w-i18n="seedForm.tosaved"></span>
     </div>

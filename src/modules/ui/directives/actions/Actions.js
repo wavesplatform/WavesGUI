@@ -8,7 +8,7 @@
      * @param $timeout
      * @return {Actions}
      */
-    const controller = function (Base, $timeout) {
+    const controller = function (Base, $timeout, $element) {
 
         class Actions extends Base {
 
@@ -16,6 +16,27 @@
                 super();
                 this.expanded = false;
                 this.collapseTimer = null;
+
+                this._handler = (e) => {
+                    if ($(e.target).closest($element).length === 0) {
+                        this.expanded = false;
+                    }
+                };
+
+                this.observe('expanded', () => {
+                    const expanded = this.expanded;
+
+                    if (expanded) {
+                        $(document).on('mousedown', this._handler);
+                    } else {
+                        $(document).off('mousedown', this._handler);
+                    }
+                });
+            }
+
+            $onDestroy() {
+                super.$onDestroy();
+                $(document).off('mousedown', this._handler);
             }
 
             onClick() {
@@ -39,7 +60,7 @@
         return new Actions();
     };
 
-    controller.$inject = ['Base', '$timeout'];
+    controller.$inject = ['Base', '$timeout', '$element'];
 
     angular.module('app.ui').component('wActions', {
         bindings: {},

@@ -6,8 +6,8 @@
                   novalidate>
 
                 <div class="row">
-                    <div class="body-2" w-i18n="modal.send.withdraw"></div>
-                    <div ng-if="!$ctrl.canChooseAsset || $ctrl.assetList.length === 1"
+                    <div class="body-2" w-i18n="modal.send.currency"></div>
+                    <div ng-if="!$ctrl.canChooseAsset || $ctrl.moneyList.length === 1"
                          class="input-like big flex-row split-half">
                         <div class="flex-row">
                             <w-asset-logo size="24" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
@@ -15,22 +15,22 @@
                         </div>
                         <div>
                             <w-balance money="$ctrl.balance"></w-balance>
-                            <span>&nbsp;{{$ctrl.balance.asset.ticker || $ctrl.balance.asset.name}}</span>
+                            <span>&nbsp;{{$ctrl.balance.asset.displayName}}</span>
                         </div>
                     </div>
                     <w-select class="big"
-                              ng-if="$ctrl.canChooseAsset && $ctrl.assetList.length > 1"
+                              ng-if="$ctrl.canChooseAsset && $ctrl.moneyList.length > 1"
                               ng-model="$ctrl.assetId">
-                        <w-option ng-repeat="option in $ctrl.assetList track by $index"
-                                  value="{{::option.id}}">
+                        <w-option ng-repeat="option in $ctrl.moneyList track by $index"
+                                  value="{{::option.asset.id}}">
                             <div class="flex-row split-half">
                                 <div class="flex-row">
-                                    <w-asset-logo size="24" asset-id="{{::option.id}}"></w-asset-logo>
-                                    <div class="asset-name">{{::option.name}}</div>
+                                    <w-asset-logo size="24" asset-id="{{::option.asset.id}}"></w-asset-logo>
+                                    <div class="asset-name">{{::option.asset.name}}</div>
                                 </div>
                                 <div>
-                                    <w-balance money="option.balance"></w-balance>
-                                    <span>&nbsp;{{::option.ticker || option.name}}</span>
+                                    <w-balance money="option"></w-balance>
+                                    <span>&nbsp;{{::option.asset.displayName}}</span>
                                 </div>
                             </div>
                         </w-option>
@@ -73,12 +73,14 @@
                                              max-balance="$ctrl.balance"
                                              fee="$ctrl.fee"
                                              input-classes="big"
+                                             min="0"
                                              amount="$ctrl.amount">
                             </w-balance-input>
                             <div class="amount-modal-icon"></div>
                             <w-balance-input ng-if="!$ctrl.noMirror"
                                              name="amountMirror"
                                              asset-id="$ctrl.mirrorId"
+                                             fill-max="$ctrl.fillMax()"
                                              fee="$ctrl.fee"
                                              input-classes="big"
                                              amount="$ctrl.amountMirror">
