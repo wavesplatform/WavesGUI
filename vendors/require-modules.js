@@ -8,14 +8,10 @@
     };
 
     if (window.require) {
-        Object.keys(MODULES_MAP).forEach((nodeName) => {
-            const winName = MODULES_MAP[nodeName];
-            window[winName] = require(nodeName);
-        });
         const origin = require;
         window.require = function (name) {
             if (name in MODULES_MAP) {
-                return window[MODULES_MAP[name]];
+                return window[MODULES_MAP[name]] || origin(name);
             } else {
                 return origin(name);
             }

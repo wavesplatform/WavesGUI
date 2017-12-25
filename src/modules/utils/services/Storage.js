@@ -26,15 +26,16 @@
         const fs = require('fs');
         const path = require('path');
         const cachePath = path.join(__dirname, './storage.json');
-        const wrap = function (method, args) {
+        const wrap = function (method, ...args) {
             return new Promise((resolve, reject) => {
-                fs[method](...args, function (err, data) {
+                args.push(function (err, data) {
                     if (err) {
                         reject(err);
                     } else {
                         resolve(data);
                     }
                 });
+                fs[method](...args);
             });
         };
         const getCache = function () {

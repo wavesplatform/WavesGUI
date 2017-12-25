@@ -1,12 +1,11 @@
 import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
-import * as copy from 'gulp-copy';
-import {exec, execSync} from 'child_process';
-import {getFilesFrom, prepareHTML, run, task} from './ts-scripts/utils';
-import {join} from 'path';
-import {copy as fsCopy, outputFile, readFile, readJSON, readJSONSync, writeFile} from 'fs-extra';
-import {IMetaJSON, IPackageJSON} from './ts-scripts/interface';
+import { exec, execSync } from 'child_process';
+import { getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
+import { join } from 'path';
+import { copy as fsCopy, outputFile, readFile, readJSON, readJSONSync, writeFile } from 'fs-extra';
+import { IMetaJSON, IPackageJSON } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
 
@@ -51,7 +50,7 @@ const getFileName = (name, type) => {
 };
 
 
-const indexPromise = readFile(join(__dirname, 'src/index.html'), {encoding: 'utf8'});
+const indexPromise = readFile(join(__dirname, 'src/index.html'), { encoding: 'utf8' });
 
 ['build', 'desktop'].forEach((buildName) => {
 
@@ -73,7 +72,10 @@ const indexPromise = readFile(join(__dirname, 'src/index.html'), {encoding: 'utf
                     .pipe(gulp.dest(`${targetPath}/js`));
 
                 stream.on('end', function () {
-                    readFile(`${targetPath}/js/${jsFileName}`, {encoding: 'utf8'}).then((file) => {
+                    readFile(`${targetPath}/js/${jsFileName}`, { encoding: 'utf8' }).then((file) => {
+                        if (buildName === 'desktop') {
+                            file = `(function () {\nvar module = undefined;\n${file}})();`
+                        }
                         outputFile(`${targetPath}/js/${jsFileName}`, file)
                             .then(() => done());
                     });
@@ -106,9 +108,7 @@ const indexPromise = readFile(join(__dirname, 'src/index.html'), {encoding: 'utf
                     });
                 }
             );
-            taskHash.copy.push(
-                `copy-${taskPostfix}`
-            );
+            taskHash.copy.push(`copy-${taskPostfix}`);
 
             const htmlDeps = [
                 `concat-${taskPostfix}`,
@@ -180,7 +180,7 @@ task('up-version-json', function (done) {
 
 task('templates', function () {
     return gulp.src('src/!(index.html)/**/*.html')
-        .pipe(htmlmin({collapseWhitespace: true}))
+        .pipe(htmlmin({ collapseWhitespace: true }))
         .pipe(templateCache({
             module: 'app.templates',
             // transformUrl: function (url) {
@@ -217,14 +217,7 @@ task('eslint', function (done) {
 });
 
 task('less', function () {
-    // Promise.all([
     execSync('sh scripts/less.sh');
-    // ]).then(() => {
-    // getFilesFrom('./src', '.less').forEach((path) => {
-    //     console.log(`Compile less file ${path}`);
-    //     execSync(`node_modules/.bin/lessc ${path} ${path.replace('.less', '.css')}`);
-    // });
-    // });
 });
 
 task('babel', ['concat-develop'], function () {
@@ -263,13 +256,13 @@ task('uglify', ['babel', 'templates'], function (done) {
 task('s3-testnet', function () {
     const bucket = 'testnet.waveswallet.io';
     return gulp.src('./dist/testnet/**/*')
-        .pipe(s3({...AWS, bucket}));
+        .pipe(s3({ ...AWS, bucket }));
 });
 
 task('s3-mainnet', function () {
     const bucket = 'waveswallet.io';
     return gulp.src('./dist/mainnet/**/*')
-        .pipe(s3({...AWS, bucket}));
+        .pipe(s3({ ...AWS, bucket }));
 });
 
 task('s3', ['s3-testnet', 's3-mainnet']);

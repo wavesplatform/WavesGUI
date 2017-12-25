@@ -17,7 +17,7 @@ function createWindow() {
 
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
+        pathname: './index.html',
         protocol: 'file:',
         slashes: true
     }));
@@ -35,10 +35,11 @@ function createWindow() {
 }
 
 app.on('ready', () => {
-    electron.protocol.registerFileProtocol('atom', (request, callback) => {
+    electron.protocol.unregisterProtocol('file');
+    electron.protocol.registerFileProtocol('file', (request, callback) => {
         const url = request.url.substr(7);
         console.log(url);
-        callback({ path: path.normalize(`${__dirname}/${url}`) });
+        callback(path.join(__dirname, url));
     }, (error) => {
         if (error) console.error('Failed to register protocol');
     });

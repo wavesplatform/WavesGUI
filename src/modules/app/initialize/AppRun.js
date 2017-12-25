@@ -212,8 +212,7 @@
              * @private
              */
             _getImagesReadyPromise() {
-                return fetch('/img/images-list.json')
-                    .then(r => r.json())
+                return $.ajax({ url: '/img/images-list.json', dataType: 'json' })
                     .then((list) => {
                         return Promise.all(list.map(AppRun.getLoadImagePromise(list.length)));
                     });
