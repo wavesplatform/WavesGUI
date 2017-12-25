@@ -6,6 +6,7 @@
      * @param {Waves} waves
      * @param {app.utils} utils
      * @param {JQuery} $element
+     * @param $scope
      * @return {DexWatchlist}
      */
     const controller = function (Base, waves, utils, $element, $scope) {
