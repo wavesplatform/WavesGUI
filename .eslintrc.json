@@ -1,4 +1,10 @@
 {
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
   "env": {
     "browser": true,
     "es6": true
@@ -25,10 +31,11 @@
     "workerWrapper": true,
     "i18next": true,
     "i18nextXHRBackend": true,
-    "i18nextBrowserLanguageDetector": true,
     "QRCode": true,
     "QrCode": true,
-    "tsApiValidator": true
+    "tsApiValidator": true,
+    "analytics": true,
+    "Cookies": true
   },
   "extends": "eslint:recommended",
   "rules": {

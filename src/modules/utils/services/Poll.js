@@ -6,11 +6,19 @@
      * @param {typeof PromiseControl} PromiseControl
      * @param {TimeLine} timeLine
      * @param {app.utils} utils
+     * @param {$q} $q
      * @return {Poll}
      */
-    const factory = function (state, PromiseControl, timeLine, utils) {
+    const factory = function (state, PromiseControl, timeLine, utils, $q) {
 
         class Poll {
+
+            /**
+             * @returns {Promise}
+             */
+            get ready() {
+                return this._ready.promise;
+            }
 
             /**
              * @return {number}
@@ -55,6 +63,10 @@
                 this.signals = {
                     destroy: new tsUtils.Signal()
                 };
+                /**
+                 * @type {Deferred}
+                 */
+                this._ready = $q.defer();
                 /**
                  * @type {boolean}
                  * @private
@@ -210,6 +222,7 @@
                         this._addTimeout();
                     }).then((data) => {
                         this._applyData(data);
+                        this._ready.resolve();
                     });
                 } else {
                     this._applyData(result);
@@ -254,7 +267,7 @@
         return Poll;
     };
 
-    factory.$inject = ['state', 'PromiseControl', 'timeLine', 'utils'];
+    factory.$inject = ['state', 'PromiseControl', 'timeLine', 'utils', '$q'];
 
     angular.module('app.utils')
         .factory('Poll', factory);

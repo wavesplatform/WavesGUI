@@ -69,6 +69,15 @@ w-select {
       background-color: @color-background-default;
       z-index: 10;
       overflow: hidden;
+      flex-direction: column;
+
+      w-option {
+        position: relative;
+
+        &.active {
+          background-color: @color-basic-50;
+        }
+      }
 
       .option {
         cursor: pointer;

@@ -42,9 +42,12 @@
       border-bottom: 1px solid @color-accent-50;
       position: relative;
       line-height: 30px;
-      padding: 0 274px 0 20px;
+      padding: 0 355px 0 20px;
       font-size: 15px;
       color: @color-basic-700;
+      @media screen and (max-width: 1240px) {
+        padding: 0 0 0 20px;
+      }
 
       &:not(.portfolio-item-name) {
         text-align: right;
@@ -65,6 +68,7 @@
         margin: 0;
         line-height: 1.2em;
         color: @color-disabled-600;
+        white-space: nowrap;
       }
 
       &:last-child {
@@ -82,9 +86,6 @@
       .currency {
         text-transform: uppercase;
         white-space: nowrap;
-        @media screen and (max-width: 1024px) {
-          display: block;
-        }
       }
 
       // & > div {
@@ -94,6 +95,7 @@
       .portfolio-item-name {
         display: flex;
         width: 22%;
+        white-space: nowrap;
       }
 
       .portfolio-item-balance {
@@ -128,7 +130,8 @@
       }
 
       .portfolio-item-actions {
-        width: 230px;
+        width: 100%;
+        max-width: 280px;
         position: absolute;
         right: 44px;
         top: 50%;
@@ -136,6 +139,9 @@
         white-space: nowrap;
         padding-right: 0;
         text-align: left;
+        @media screen and (max-width: 1240px) {
+          display: none;
+        }
 
         w-button:not(:last-child) {
           margin-right: 5px;
@@ -143,4 +149,9 @@
       }
     }
   }
+}
+
+.send-form w-select .select .select-list {
+  max-height: 400px;
+  overflow-y: auto;
 }

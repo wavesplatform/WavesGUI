@@ -1,0 +1,50 @@
+@import (reference) '../../../config';
+
+w-change-language {
+  w-select {
+    width: 96px;
+    border: 0 none;
+    position: absolute;
+    right: 40px;
+    top: 34px;
+
+    .select .title {
+      border: 1px solid transparent;
+    }
+
+    .select.expanded .title {
+      border: 1px solid @color-basic-200;
+      border-bottom: 1px solid transparent;
+    }
+
+    .lng-item {
+      text-transform: capitalize;
+      font-size: 13px;
+      white-space: nowrap;
+
+      &::before {
+        content: '';
+        width: 20px;
+        height: 14px;
+        display: inline-block;
+        margin-right: 6px;
+        vertical-align: top;
+        background-position: center center;
+      }
+    }
+
+    .lng-ru::before {
+      background: url(/img/icons/flags/ru.svg);
+    }
+
+    .lng-en::before {
+      background: url(/img/icons/flags/en.svg);
+      margin-top: 1px;
+    }
+
+    .lng-ko::before {
+      background: url(/img/icons/flags/ko.svg);
+    }
+
+  }
+}

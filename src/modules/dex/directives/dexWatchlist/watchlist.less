@@ -121,11 +121,7 @@ w-dex-watchlist {
     }
   }
 
-  w-table w-t-head .table-row {
-    cursor: default;
-  }
-
-  w-table .table w-row .table-row {
+  w-table w-row .table-row {
     .cell-0 {
       width: 30%;
       padding-left: 15px;
@@ -139,4 +135,13 @@ w-dex-watchlist {
       padding-right: 26px;
     }
   }
+
+  w-table w-t-head w-row .table-row {
+    cursor: default;
+
+    .cell-2 {
+      padding-right: 30px
+    }
+  }
+
 }

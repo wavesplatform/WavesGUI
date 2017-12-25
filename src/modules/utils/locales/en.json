@@ -3,7 +3,19 @@
     "assetInfo": {
       "title": "Asset Info",
       "unpinned": "Pin",
-      "pinned": "Pinned"
+      "pinned": "Pinned",
+      "transactions": "Transactions",
+      "details": "Details",
+      "description": "Description",
+      "issuer": "Issuer",
+      "identifier": "ID",
+      "name": "Name",
+      "type": "Type",
+      "date": "Issue date",
+      "reissue": {
+        "yes": "Reissuable",
+        "no": "Not reissuable"
+      }
     },
     "startLease": {
       "title": "Start leasing",
@@ -18,11 +30,11 @@
       "recipientConfirm": "To node",
       "fee": "Fee",
       "leaseComplete": "Your transaction is on the way!",
-      "leaseCompleteDesc": "You lease {{amount}} Waves."
+      "leaseCompleteDesc": "You leased {{amount}} WAVES."
     },
     "qr": {
       "title": "Share your address",
-      "warningTitle": "Send only Waves and Waves tokens to this address",
+      "warningTitle": "Send only WAVES and Waves tokens to this address",
       "warningText": "Sending any other digital asset to this address will result in the permanent loss of your funds.",
       "copyAndShare": "Copy & Share Address",
       "or": "OR",
@@ -55,7 +67,7 @@
       },
       "compare": {
         "title": "Your transaction is on the way!",
-        "description": "You sent {{amount}} {{currency}} (${{mirror}}) to an external address.",
+        "description": "You sent {{amount}} {{currency}} (${{mirror}})",
         "details": "View Details"
       }
     },
@@ -67,19 +79,19 @@
       "scanQrCode": "Scan QR Code",
       "coinomatBTC": {
         "warningTitle": "Send only BTC to this deposit address",
-        "warningText" : "Sending any other currency to this address may result in the loss of your deposit."
+        "warningText": "Sending any other currency to this address may result in the loss of your deposit."
       },
       "coinomatETH": {
         "warningTitle": "Do not deposit ETH from smart contracts!",
-        "warningText" : "Check if your wallet or exchange uses smart-contracts to withdraw ETH. We do not accept such transactions and can’t refund them. You will lose that money."
+        "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw ETH. We do not accept such transactions and can’t refund them. You will lose that money."
       },
       "coinomatLTC": {
         "warningTitle": "Send only LTC to this deposit address",
-        "warningText" : "Sending any other currency to this address may result in the loss of your deposit."
+        "warningText": "Sending any other currency to this address may result in the loss of your deposit."
       },
       "coinomatZEC": {
         "warningTitle": "Send only Zcash to this deposit address",
-        "warningText" : "Sending any other currency to this address may result in the loss of your deposit."
+        "warningText": "Sending any other currency to this address may result in the loss of your deposit."
       }
     },
     "sepa": {
@@ -107,14 +119,42 @@
       "header": {
         "title": "Done! Let’s review",
         "title2": "Terms of Use",
-        "description": "Waves is different — it cannot be held safely by a bank or web service."
+        "description": "Waves is different — the wallet is stored safely on your device"
       },
       "body": {
-        "security": "I understand that my funds are held securely on this device, not by a company.",
+        "security": "I understand that my funds are held securely on this device, not by a company",
         "backup": "I understand that if this app is moved to another device or deleted, my Waves can only be recovered with the backup phrase.",
+        "analytics": "I would like to help improve the Waves platform by sending anonymous usage statistics to the developers.",
         "read": "I have read, understood and agree to the",
         "terms": "Terms of Use",
-        "ok": "Confirm & Finish"
+        "ok": "Confirm and Begin"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "setDefault": "Set default",
+      "general": {
+        "title": "General",
+        "blockHeight": "Current height",
+        "language": "Language"
+      },
+      "security": {
+        "title": "Security",
+        "backupPhrase": "Backup phrase",
+        "privateKey": "Private key",
+        "show": "Show",
+        "publicKey": "Public Key",
+        "address": "Address"
+      },
+      "network": {
+        "title": "Network",
+        "nodeAddress": "Node address",
+        "matcherAddress": "Matcher address"
+      },
+      "info": {
+        "title": "Info",
+        "version": "Version",
+        "support": "Support"
       }
     }
   }

@@ -7,7 +7,8 @@
     "placeholder": "Your seed is the 15 words you saved when creating your account",
     "address": "Address",
     "continue": "Continue",
-    "tosaved": "to a saved account"
+    "tosaved": "to a saved account",
+    "or": "or"
   },
   "passwordForm": {
     "title": "Protect Your Account",

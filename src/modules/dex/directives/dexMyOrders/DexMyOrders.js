@@ -7,9 +7,10 @@
      * @param {User} user
      * @param createPoll
      * @param {NotificationManager} notificationManager
+     * @param {app.utils} utils
      * @return {DexMyOrders}
      */
-    const controller = function (Base, waves, user, createPoll, notificationManager) {
+    const controller = function (Base, waves, user, createPoll, notificationManager, utils) {
 
         class DexMyOrders extends Base {
 
@@ -43,33 +44,47 @@
                             const canceledOrder = tsUtils.find(this.orders, { id: order.id });
                             canceledOrder.state = 'Canceled';
                             notificationManager.info({
-                                ns: 'app',
-                                title: { literal: 'The order has been canceled' }
+                                ns: 'app.dex',
+                                title: { literal: 'directives.myOrders.notifications.isCanceled' }
                             });
                         })
                         .catch(() => {
                             notificationManager.error({
-                                ns: 'app',
-                                title: { literal: 'Something went wrong' }
+                                ns: 'app.dex',
+                                title: { literal: 'directives.myOrders.notifications.somethingWentWrong' }
                             });
                         });
                 });
             }
 
-            capitalize(type) {
-                if (type === 'sell') return 'Sell';
-                if (type === 'buy') return 'Buy';
-            }
-
+            /**
+             * @returns {Promise}
+             * @private
+             */
             _getOrders() {
-                const asset1 = this._priceAssetId;
-                const asset2 = this._amountAssetId;
-                return Promise.all([user.getSeed(), Waves.AssetPair.get(asset1, asset2)])
-                    .then(([seed, pair]) => waves.matcher.getOrdersByPair(pair.amountAsset.id, pair.priceAsset.id, seed.keyPair))
+                return user.getSeed()
+                    .then((seed) => waves.matcher.getOrders(seed.keyPair))
                     .then((orders) => {
-                        const active = orders.filter(tsUtils.contains({ state: 'Active' }));
-                        const filled = orders.filter(tsUtils.contains({ state: 'Filled' }));
-                        const others = orders.filter((item) => item.state !== 'Active' && item.state !== 'Filled');
+                        const active = [];
+                        const filled = [];
+                        const others = [];
+                        orders.forEach((order) => {
+                            switch (order.status) {
+                                case 'Accepted':
+                                    active.push(order);
+                                    break;
+                                case 'Filled':
+                                    filled.push(order);
+                                    break;
+                                default:
+                                    others.push(order);
+                            }
+                        });
+
+                        active.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
+                        filled.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
+                        others.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
+
                         return active.concat(filled).concat(others);
                     });
             }
@@ -79,7 +94,7 @@
         return new DexMyOrders();
     };
 
-    controller.$inject = ['Base', 'waves', 'user', 'createPoll', 'notificationManager'];
+    controller.$inject = ['Base', 'waves', 'user', 'createPoll', 'notificationManager', 'utils'];
 
     angular.module('app.dex').component('wDexMyOrders', {
         bindings: {},

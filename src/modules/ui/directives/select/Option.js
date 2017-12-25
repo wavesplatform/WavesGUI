@@ -64,11 +64,14 @@
 
                     onClick() {
                         this.select.setActive(this);
+                        $scope.$apply();
                     }
 
                     setActive(active) {
                         this._isActive = active;
-                        $element.css('display', active ? 'none' : 'block');
+                        const index = this.select.getOptionIndex(this);
+                        // Get the active option to the top of the dropdown list
+                        $element.css('order', active ? -index : 0).toggleClass('active', active);
                     }
 
                     /**

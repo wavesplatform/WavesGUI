@@ -8,25 +8,21 @@
         class WelcomeCtrl {
 
             get address() {
-                return this.userList[this.activeUser].address;
+                return this.activeUser;
             }
 
             get encryptedSeed() {
-                return this.userList[this.activeUser].encryptedSeed;
+                return tsUtils.find(this.userList, { address: this.activeUser }).encryptedSeed;
             }
 
             constructor() {
-                this.activeUser = 0;
                 this.password = '';
                 this.loginForm = null;
                 user.getUserList()
                     .then((list) => {
-                        if (list.length) {
-                            this.userList = list;
-                            this.pageUrl = `${PATH}/userList.html`;
-                        } else {
-                            this.pageUrl = `${PATH}/welcomeNewUser.html`;
-                        }
+                        this.activeUser = list.length && list[0].address;
+                        this.userList = list;
+                        this._updatePageUrl();
                     });
             }
 
@@ -34,7 +30,8 @@
 
                 try {
                     this.showPasswordError = false;
-                    const encryptionRounds = user.getSettingByUser(this.userList[this.activeUser], 'encryptionRounds');
+                    const activeUser = tsUtils.find(this.userList, { address: this.activeUser });
+                    const encryptionRounds = user.getSettingByUser(activeUser, 'encryptionRounds');
                     const seed = Waves.Seed.decryptSeedPhrase(this.encryptedSeed, this.password, encryptionRounds);
 
                     Waves.Seed.fromExistingPhrase(seed);
@@ -48,6 +45,26 @@
                     this.showPasswordError = true;
                 }
 
+            }
+
+            removeUser(address) {
+                user.removeUserByAddress(address);
+                this.userList = this.userList.filter((user) => user.address !== address);
+                this._updatePageUrl();
+                if (address === this.activeUser) {
+                    this.activeUser = this.userList.length && this.userList[0].address;
+                }
+            }
+
+            /**
+             * @private
+             */
+            _updatePageUrl() {
+                if (this.userList.length) {
+                    this.pageUrl = `${PATH}/userList.html`;
+                } else {
+                    this.pageUrl = `${PATH}/welcomeNewUser.html`;
+                }
             }
 
         }

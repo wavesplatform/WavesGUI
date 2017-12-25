@@ -26,8 +26,12 @@
     "warn": "Since only you control your money, you’ll need to save your backup phrase in case this app is deleted or",
     "back": " go back",
     "writeSeed": "Please carefully write down these 15 words",
+    "or": "or",
+    "copySeed": "copy them",
     "needConfirm": "You will confirm this phrase on the next screen.",
-    "ok": "I’ve written it down"
+    "ok": "I’ve written it down",
+    "seedCopied": "The seed is copied",
+    "noSeedToCopy": "There is no seed in scope"
   },
   "confirmBackup": {
     "confirm": "Confirm backup",

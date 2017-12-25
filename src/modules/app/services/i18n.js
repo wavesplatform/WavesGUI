@@ -41,6 +41,29 @@
             },
 
             /**
+             * @name app.i18n#translateField
+             * @param {Base} controller
+             * @param {string} from name field with literal
+             * @param {string} to name field with translate result
+             * @param {string} [ns]
+             * @param {object} [params]
+             */
+            translateField(controller, from, to, ns, params) {
+                const apply = () => {
+                    if (controller[from] != null) {
+                        controller[to] = this.translate(controller[from], ns, params);
+                    }
+                };
+
+                controller.observe(from, apply);
+                i18next.on('languageChanged', apply);
+
+                controller.signals.destroy.once(() => {
+                    i18next.off('languageChanged');
+                });
+            },
+
+            /**
              * @name app.i18n#getNs
              * @param {JQuery} $element
              * @return {string}

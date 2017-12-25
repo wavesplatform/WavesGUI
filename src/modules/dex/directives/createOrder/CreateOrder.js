@@ -7,20 +7,69 @@
      * @param {User} user
      * @param {app.utils} utils
      * @param {function} createPoll
+     * @param $scope
      * @param {JQuery} $element
      * @param {NotificationManager} notificationManager
      * @param {DexDataService} dexDataService
      * @return {CreateOrder}
      */
-    const controller = function (Base, waves, user, utils, createPoll, $element, notificationManager, dexDataService) {
+    const controller = function (Base, waves, user, utils, createPoll, $scope,
+                                 $element, notificationManager, dexDataService) {
 
         class CreateOrder extends Base {
+
+            /**
+             * @return {string}
+             */
+            get amountDisplayName() {
+                return this.amountBalance && this.amountBalance.asset.displayName || '';
+            }
+
+            /**
+             * @return {string}
+             */
+            get priceDisplayName() {
+                return this.priceBalance && this.priceBalance.asset.displayName || '';
+            }
 
             constructor() {
                 super();
 
+                /**
+                 * Expanded state
+                 * @type {number}
+                 */
                 this.step = 0;
+                /**
+                 * Max amount (with fee)
+                 * @type {Money}
+                 */
+                this.maxAmountBalance = null;
+                /**
+                 * Has price balance for buy amount
+                 * @type {boolean}
+                 */
+                this.cantByOrder = false;
+                /**
+                 * Amount asset balance
+                 * @type {Money}
+                 */
+                this.amountBalance = null;
+                /**
+                 * Price asset balance
+                 * @type {Money}
+                 */
+                this.priceBalance = null;
+                /**
+                 * Order type
+                 * @type {string}
+                 */
                 this.type = null;
+                /**
+                 * Total price (amount multiply price)
+                 * @type {BigNumber}
+                 */
+                this.totalPrice = null;
                 /**
                  * @type {string}
                  * @private
@@ -32,11 +81,17 @@
                  */
                 this._amountAssetId = null;
 
+                Waves.Money.fromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
+                    this.fee = money;
+                });
+
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.type = type;
                     this.step = 1;
+
                     this.amount = new BigNumber(amount);
                     this.price = new BigNumber(price);
+                    $scope.$apply();
                 });
 
                 this.observe(['_amountAssetId', '_priceAssetId'], () => {
@@ -52,13 +107,8 @@
                             waves.node.assets.balance(pair.amountAsset.id),
                             waves.node.assets.balance(pair.priceAsset.id)
                         ]).then(([amountMoney, priceMoney]) => {
-                            const amountAsset = amountMoney.asset;
-                            const priceAsset = priceMoney.asset;
-
-                            this.amountAsset = amountAsset;
-                            this.priceAsset = priceAsset;
-                            this.amountDisplayName = amountAsset.ticker || amountAsset.name;
-                            this.priceDisplayName = priceAsset.ticker || priceAsset.name;
+                            this.amountBalance = amountMoney;
+                            this.priceBalance = priceMoney;
                         });
                     });
                 });
@@ -67,6 +117,8 @@
                     _amountAssetId: 'dex.amountAssetId',
                     _priceAssetId: 'dex.priceAssetId'
                 });
+
+                this.observe(['amount', 'price', 'step', 'type'], this._currentTotal);
 
                 // TODO Add directive for stop propagation (catch move for draggable)
                 $element.on('mousedown', '.body', (e) => {
@@ -82,16 +134,46 @@
                 switch (type) {
                     case 'sell':
                         this.price = new BigNumber(this.bid.price);
+                        if (this.amountBalance.asset.id === this.fee.asset.id) {
+                            this.maxAmountBalance = this.amountBalance.sub(this.fee);
+                        } else {
+                            this.maxAmountBalance = this.amountBalance;
+                        }
                         break;
                     case 'buy':
                         this.price = new BigNumber(this.ask.price);
+                        this.maxAmountBalance = null;
                         break;
                     default:
                         throw new Error('Wrong type');
                 }
-                setTimeout(() => { // TODO Do. Author Tsigel at 29/11/2017 20:57
+
+                $scope.$$postDigest(() => {
                     $element.find('input[name="amount"]').focus();
-                }, 600);
+                });
+            }
+
+            setMaxAmount() {
+                if (this.amountBalance.asset.id === this.fee.asset.id) {
+                    this.amount = this.amountBalance.sub(this.fee).getTokens()
+                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR);
+                } else {
+                    this.amount = this.amountBalance.getTokens()
+                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR);
+                }
+            }
+
+            setMaxPrice() {
+                if (this.priceBalance.asset.id === this.fee.asset.id) {
+                    this.amount = this.priceBalance.sub(this.fee)
+                        .getTokens()
+                        .div(this.price)
+                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR);
+                } else {
+                    this.amount = this.priceBalance.getTokens()
+                        .div(this.price)
+                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR);
+                }
             }
 
             collapse() {
@@ -99,39 +181,71 @@
                 this.step = 0;
             }
 
-            createOrder() {
+            createOrder(form) {
                 user.getSeed()
                     .then((seed) => {
                         return Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
                             return Promise.all([
-                                Waves.Money.fromTokens(this.amount.toFixed(), this.amountAsset.id),
+                                Waves.Money.fromTokens(this.amount.toFixed(), this.amountBalance.asset.id),
                                 Waves.OrderPrice.fromTokens(this.price.toFixed(), pair)
                             ]);
                         }).then(([amount, price]) => {
                             this.amount = null;
+                            form.$setUntouched();
+                            $scope.$apply();
                             return waves.matcher.createOrder({
-                                amountAsset: this.amountAsset.id,
-                                priceAsset: this.priceAsset.id,
+                                amountAsset: this.amountBalance.asset.id,
+                                priceAsset: this.priceBalance.asset.id,
                                 orderType: this.type,
                                 price: price.toMatcherCoins(),
                                 amount: amount.toCoins()
                             }, seed.keyPair);
-                        }).then((res) => {
+                        }).then(() => {
                             notificationManager.success({
-                                ns: 'app',
-                                title: { literal: 'The order is created' }
+                                ns: 'app.dex',
+                                title: { literal: 'directives.createOrder.notifications.isCreated' }
                             });
                         }).catch((err) => {
+                            // TODO : refactor this
+                            const notEnough = 'Not enough tradable balance';
+                            const isNotEnough = (err.data.message.slice(0, notEnough.length) === notEnough);
                             notificationManager.error({
-                                ns: 'app',
-                                title: { literal: 'Something went wrong' }
+                                ns: 'app.dex',
+                                title: {
+                                    literal: isNotEnough ?
+                                        'directives.createOrder.notifications.notEnoughBalance' :
+                                        'directives.createOrder.notifications.somethingWendWrong'
+                                }
                             });
                         });
                     });
             }
 
-            _getData() {
+            /**
+             * @private
+             */
+            _currentTotal() {
+                if (this.step !== 1) {
+                    return null;
+                }
 
+                if (!this.price || !this.amount) {
+                    this.totalPrice = new BigNumber(0);
+                } else {
+                    this.totalPrice = this.price.mul(this.amount);
+                }
+
+                if (this.type === 'buy') {
+                    this.cantByOrder = this.priceBalance.getTokens().lte(this.totalPrice);
+                } else {
+                    this.cantByOrder = false;
+                }
+            }
+
+            /**
+             * @private
+             */
+            _getData() {
                 return waves.matcher.getOrderBook(this._amountAssetId, this._priceAssetId)
                     .then(({ bids, asks, spread }) => {
                         const [lastAsk] = asks;
@@ -141,9 +255,15 @@
                     });
             }
 
+            /**
+             * @param lastAsk
+             * @param firstBid
+             * @param spread
+             * @private
+             */
             _setData({ lastAsk, firstBid, spread }) {
-                this.bid = firstBid;
-                this.ask = lastAsk;
+                this.bid = firstBid || { price: 0 };
+                this.ask = lastAsk || { price: 0 };
                 this.spread = spread;
 
                 const sell = Number(this.bid.price);
@@ -157,7 +277,17 @@
         return new CreateOrder();
     };
 
-    controller.$inject = ['Base', 'waves', 'user', 'utils', 'createPoll', '$element', 'notificationManager', 'dexDataService'];
+    controller.$inject = [
+        'Base',
+        'waves',
+        'user',
+        'utils',
+        'createPoll',
+        '$scope',
+        '$element',
+        'notificationManager',
+        'dexDataService'
+    ];
 
     angular.module('app.dex').component('wCreateOrder', {
         bindings: {},
