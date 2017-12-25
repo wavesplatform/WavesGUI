@@ -5,7 +5,17 @@
         <div class="footnote-1 basic-500" w-i18n="modal.deposit.{{::$ctrl.assetKeyName}}.warningText"></div>
     </div>
 
-    <div class="body-2 basic-900" w-i18n="modal.deposit.copyAndShare"></div>
+
+    <div class="body-2 basic-900">
+        <span w-i18n="modal.deposit.copyAndShare"></span>
+        <i class="help-icon"></i>
+        <div class="help-content footnote-1 body-1">
+            <div class="headline-3"><w-i18n>modal.deposit.{{::$ctrl.assetKeyName}}.helpDescrHeader</w-i18n></div>
+            <div><w-i18n>modal.deposit.{{::$ctrl.assetKeyName}}.helpDescr</w-i18n></div>
+            <div><w-i18n>modal.deposit.pleaseNote</w-i18n></div>
+        </div>
+    </div>
+
     <w-copy class="body-1 basic-900" info="{{$ctrl.gatewayAddress}}">{{$ctrl.gatewayAddress}}</w-copy>
 
     <div class="or">

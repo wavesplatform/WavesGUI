@@ -77,21 +77,30 @@
       "copyAndShare": "Copy & Share Address",
       "or": "OR",
       "scanQrCode": "Scan QR Code",
+      "pleaseNote": "Please note that the gateway doesn't apply any fees for this operation.",
       "coinomatBTC": {
         "warningTitle": "Send only BTC to this deposit address",
-        "warningText": "Sending any other currency to this address may result in the loss of your deposit."
+        "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
+        "helpDescrHeader": "Enter this address into your Bitcoin client or wallet.",
+        "helpDescr": "Once the transaction is confirmed, the gateway will process the transfer of BTC to a token in your Waves account."
       },
       "coinomatETH": {
         "warningTitle": "Do not deposit ETH from smart contracts!",
-        "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw ETH. We do not accept such transactions and can’t refund them. You will lose that money."
+        "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw ETH. We do not accept such transactions and can’t refund them. You will lose that money.",
+        "helpDescrHeader": "Enter this address into your Ethereum client or wallet.",
+        "helpDescr": "Once the transaction is confirmed, the gateway will process the transfer of ETH to a token in your Waves account."
       },
       "coinomatLTC": {
         "warningTitle": "Send only LTC to this deposit address",
-        "warningText": "Sending any other currency to this address may result in the loss of your deposit."
+        "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
+        "helpDescrHeader": "Enter this address into your Litecoin client or wallet.",
+        "helpDescr": "Once the transaction is confirmed, the gateway will process the transfer of LTC to a token in your Waves account."
       },
       "coinomatZEC": {
         "warningTitle": "Send only Zcash to this deposit address",
-        "warningText": "Sending any other currency to this address may result in the loss of your deposit."
+        "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
+        "helpDescrHeader": "Enter this address into your Zcash client or wallet.",
+        "helpDescr": "Once the transaction is confirmed, the gateway will process the transfer of ZEC to a token in your Waves account."
       }
     },
     "sepa": {

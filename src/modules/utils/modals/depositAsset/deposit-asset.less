@@ -1,4 +1,5 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
 
 md-dialog.modal-deposit-asset {
   md-dialog-content {
@@ -35,6 +36,72 @@ md-dialog.modal-deposit-asset {
       }
     }
   }
+
+  i.help-icon {
+    position: relative;
+
+    &::before {
+      content: '?';
+      background: @color-accent-100;
+      color: @color-white;
+      border-radius: 50%;
+      display: inline-block;
+      width: @text-icon-size;
+      height: @text-icon-size;
+      text-align: center;
+      font-style: normal;
+      font-weight: bold;
+      vertical-align: middle;
+      margin-top: -3px;
+      font-size: @font-size-caption-2;
+      line-height: @text-icon-size;
+    }
+
+    &:hover::before {
+      background: @color-submit-300;
+    }
+
+    &:after {
+      display: none;
+      width: 10px;
+      height: 10px;
+      background: @color-submit-300;
+      transform: rotate(-45deg);
+      left: 3px;
+      top: 21px;
+      position: absolute;
+      content: '';
+      z-index: 0;
+    }
+
+    &:hover::after {
+      display: block;
+    }
+  }
+
+  div.help-content {
+    display: none;
+    z-index: 1;
+    position: absolute;
+    background: @color-white;
+    border-top: 5px solid @color-submit-300;
+    border-radius: @border-radius;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.18);
+    width: 50%;
+    padding: 15px;
+    margin-top: 4px;
+    left: 25%;
+
+    div {
+      margin-bottom: 5px;
+    }
+  }
+
+  i.help-icon:hover + div.help-content {
+    display: block;
+  }
+
 }
 
 // TODO : this file is almost a copy of addressQrCode/address-qr-code.less
+
