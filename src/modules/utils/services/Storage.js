@@ -25,7 +25,9 @@
     } else {
         const fs = require('fs');
         const path = require('path');
-        const cachePath = path.join(__dirname, './storage.json');
+        const remote = require('electron').remote;
+        const cachePath = path.join(remote.app.getAppPath(), './storage.json');
+
         const wrap = function (method, ...args) {
             return new Promise((resolve, reject) => {
                 args.push(function (err, data) {
@@ -38,6 +40,11 @@
                 fs[method](...args);
             });
         };
+
+        if (!fs.existsSync(cachePath)) {
+            fs.writeFileSync(cachePath, '{}');
+        }
+
         const getCache = function () {
             return wrap('readFile', cachePath, 'utf8')
                 .then((text) => {
@@ -51,7 +58,11 @@
         read = function (key) {
             return getCache()
                 .then((data) => {
-                    return data[key] || null;
+                    try {
+                        return JSON.parse(data[key] || '');
+                    } catch (e) {
+                        return {};
+                    }
                 })
                 .catch(() => {
                     return {};

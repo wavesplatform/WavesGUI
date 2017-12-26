@@ -37,7 +37,7 @@ function createWindow() {
 app.on('ready', () => {
     electron.protocol.unregisterProtocol('file');
     electron.protocol.registerFileProtocol('file', (request, callback) => {
-        const url = request.url.substr(7);
+        const url = request.url.substr(7).replace(/(#.*)|(\?.*)/, '');
         console.log(url);
         callback(path.join(__dirname, url));
     }, (error) => {
