@@ -265,6 +265,10 @@ task('s3-mainnet', function () {
         .pipe(s3({ ...AWS, bucket }));
 });
 
+task('electron', ['copy', 'html'], () => {
+    execSync('cd ./dist && electron-packager ./desktop/mainnet/min/ --platform=all');
+});
+
 task('s3', ['s3-testnet', 's3-mainnet']);
 
 task('zip', configurations.map(name => `zip-${name}`));
@@ -287,6 +291,7 @@ task('all', [
     'concat',
     'copy',
     'html',
+    'electron',
     'zip'
 ]);
 
