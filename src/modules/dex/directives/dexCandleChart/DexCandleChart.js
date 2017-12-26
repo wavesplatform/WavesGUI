@@ -24,6 +24,7 @@
                 this.chart = null;
                 this.chartReady = false;
                 this.elementId = 'tradingview' + counter++;
+                this.notLoaded = false;
 
                 /**
                  * @type {string}
@@ -37,7 +38,7 @@
                 this._priceAssetId = null;
 
                 this.observe(['_amountAssetId', '_priceAssetId'], () => {
-                    if (!this._amountAssetId || !this._priceAssetId) {
+                    if (this.notLoaded || !this._amountAssetId || !this._priceAssetId) {
                         return null;
                     }
 
@@ -57,7 +58,7 @@
             }
 
             $postLink() {
-                setTimeout(() => {
+                controller.load().then(() => {
                     this.chart = new TradingView.widget({
                         // debug: true,
                         symbol: `${this._amountAssetId}/${this._priceAssetId}`,
@@ -73,7 +74,10 @@
                         this.chartReady = true;
                         // this.chart.subscribe('onSymbolChange', (data) => console.log(data));
                     });
-                }, 0);
+                }, () => {
+                    console.warn('Error 403!');
+                    this.notLoaded = true;
+                });
             }
 
         }
@@ -83,9 +87,21 @@
 
     controller.$inject = ['Base', 'candlesService'];
 
+    controller.load = function () {
+        const script = document.createElement('script');
+        script.src = 'https://jslib.wavesnodes.com/charting_library.min.js';
+        const promise = new Promise((resolve, reject) => {
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+        controller.load = () => promise;
+        return promise;
+    };
+
     angular.module('app.dex').component('wDexCandleChart', {
         bindings: {},
-        template: '<div class="candle-chart-wrapper" id="{{::$ctrl.elementId}}"></div>',
+        templateUrl: 'modules/dex/directives/dexCandleChart/dex-candle-chart.html',
         transclude: false,
         controller
     });

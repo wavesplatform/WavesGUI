@@ -1,5 +1,8 @@
 {
   "directives": {
+    "candleChart": {
+      "error": "Невозможно загрузить график. Если вы хотите использовать график в своем приложении, отправьте заявку <a href=\"https://tradingview.com\" target=\"_blank\">tradingview.com</a>"
+    },
     "createOrder": {
       "amountField": "Количество",
       "priceField": "Цена",
