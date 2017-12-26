@@ -44,7 +44,7 @@
         return new Header();
     };
 
-    controller.$inject = ['$element', 'Base', 'user', 'state', '$state', 'i18n', '$scope'];
+    controller.$inject = ['$element', 'Base', 'user', 'state', '$state'];
 
     angular.module('app.ui').component('wHeader', {
         controller: controller,
