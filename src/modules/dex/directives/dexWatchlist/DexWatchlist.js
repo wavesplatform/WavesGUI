@@ -6,9 +6,10 @@
      * @param {Waves} waves
      * @param {app.utils} utils
      * @param {JQuery} $element
+     * @param $scope
      * @return {DexWatchlist}
      */
-    const controller = function (Base, waves, utils, $element) {
+    const controller = function (Base, waves, utils, $element, $scope) {
 
         class DexWatchlist extends Base {
 
@@ -123,11 +124,19 @@
                 }
             }
 
+            /**
+             * @param value
+             * @private
+             */
             _onChangeSearchFocus({ value }) {
                 const state = !value || !this._$searchList.children().length;
                 this._$searchList.toggleClass('hidden', state);
             }
 
+            /**
+             * @param value
+             * @private
+             */
             _onChangeSearch({ value }) {
                 if (this._activeXHR) {
                     this._activeXHR.abort();
@@ -173,6 +182,12 @@
                 }
             }
 
+            /**
+             * @param id
+             * @param isChangeBase
+             * @param isWatched
+             * @private
+             */
             _clickSearchItem({ id }, isChangeBase, isWatched) {
                 if (isChangeBase) {
                     this.baseAssetId = id;
@@ -190,6 +205,9 @@
                 this._parent.search = '';
             }
 
+            /**
+             * @private
+             */
             _onChangeActiveWatchList() {
                 if (this.active) {
                     this._activateAssets();
@@ -198,6 +216,10 @@
                 }
             }
 
+            /**
+             * @return {null}
+             * @private
+             */
             _activateAssets() {
                 if (!this.active) {
                     return null;
@@ -210,6 +232,9 @@
                 }
             }
 
+            /**
+             * @private
+             */
             _initRowId() {
                 if (this.active) {
                     if (this._amountAssetId === this.baseAssetId) {
@@ -220,6 +245,10 @@
                 }
             }
 
+            /**
+             * @return {null}
+             * @private
+             */
             _onChangeActiveRow() {
                 if (!this.activeRowId) {
                     return null;
@@ -232,14 +261,21 @@
                 }
             }
 
+            /**
+             * @private
+             */
             _onChangeBaseAsset() {
                 waves.node.assets.info(this.baseAssetId)
                     .then((asset) => {
                         this._parent.title = asset.name;
+                        $scope.$apply();
                     });
                 this._activateAssets();
             }
 
+            /**
+             * @private
+             */
             _onChangeIdWatchList() {
                 utils.whenAll(this._idWatchList.map(waves.node.assets.info))
                     .then((list) => {
@@ -247,6 +283,11 @@
                     });
             }
 
+            /**
+             * @param {string} query
+             * @return {Function}
+             * @private
+             */
             static _selectQuery(query) {
                 return function (item) {
                     const reg = new RegExp(`(${query})`, 'i');
@@ -256,14 +297,32 @@
                 };
             }
 
+            /**
+             * @param {string} ticker
+             * @param {RegExp} reg
+             * @return {string}
+             * @private
+             */
             static _getTickerTemplate(ticker, reg) {
                 return `<div class="ticker">${DexWatchlist._wrapQuery(ticker, reg)}</div>`;
             }
 
+            /**
+             * @param {string} name
+             * @param {RegExp} reg
+             * @return {string}
+             * @private
+             */
             static _getNameTemplate(name, reg) {
                 return `<div class="name">${DexWatchlist._wrapQuery(name, reg)}</div>`;
             }
 
+            /**
+             * @param {string} text
+             * @param {RegExp} reg
+             * @return {string}
+             * @private
+             */
             static _wrapQuery(text, reg) {
                 return (text || '—').replace(reg, '<span class="selected">$1</span>');
             }
@@ -273,7 +332,7 @@
         return new DexWatchlist();
     };
 
-    controller.$inject = ['Base', 'waves', 'utils', '$element'];
+    controller.$inject = ['Base', 'waves', 'utils', '$element', '$scope'];
 
     angular.module('app.dex')
         .component('wDexWatchlist', {

@@ -53,6 +53,16 @@
                 });
             }
 
+            showSettings() {
+                return this._getModal({
+                    ns: 'app.utils',
+                    title: 'modal.settings.title',
+                    contentUrl: 'modules/utils/modals/settings/settings.html',
+                    controller: 'SettingsCtrl',
+                    mod: 'settings-modal'
+                });
+            }
+
             /**
              * @param {User} user
              */
@@ -85,10 +95,10 @@
 
             /**
              * @param {User} user
-             * @param {Asset} asset
+             * @param {Asset} [asset]
              * @return {Promise}
              */
-            showSendAsset(user, asset) {
+            showSendAsset(user, asset = Object.create(null)) {
                 return this._getModal({
                     controller: 'AssetSendCtrl',
                     titleContentUrl: 'modules/utils/modals/sendAsset/send-title.modal.html',

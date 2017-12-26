@@ -108,14 +108,6 @@
                 return Math.abs(num);
             }
 
-            onAssetClick(e, asset) {
-                if (e.target.hasAttribute('ng-click') && e.target.tagName !== 'W-ASSET') {
-                    return null;
-                } else {
-                    this.showAsset(asset);
-                }
-            }
-
             onAssetActionClick(event, asset, action) {
                 event.preventDefault();
                 switch (action) {
@@ -127,6 +119,9 @@
                         break;
                     case 'sepa':
                         this.showSepa(asset);
+                        break;
+                    case 'info':
+                        this.showAsset(asset);
                         break;
                     default:
                         throw new Error('Wrong action');

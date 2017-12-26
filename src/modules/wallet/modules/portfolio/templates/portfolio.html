@@ -72,14 +72,27 @@
                 </w-button>
             </div>
             <w-actions>
-                <w-action ng-if="balance.asset.id !== $ctrl.wavesId && balance.asset.pinned" ng-click="$ctrl.pinAsset(balance.asset, false)">
+                <!--<w-action ng-if="balance.asset.id !== $ctrl.wavesId && balance.asset.pinned"
+                          ng-click="$ctrl.pinAsset(balance.asset, false)">
                     <w-i18n>unpin</w-i18n>
-                </w-action>
-                <w-action ng-if="balance.asset.id !== $ctrl.wavesId && !balance.asset.pinned" ng-click="$ctrl.pinAsset(balance.asset, true)">
+                </w-action>-->
+                <w-action ng-if="balance.asset.id !== $ctrl.wavesId && !balance.asset.pinned"
+                          ng-click="$ctrl.pinAsset(balance.asset, true)">
                     <w-i18n>pin</w-i18n>
                 </w-action>
                 <w-action ng-click="$ctrl.showAsset(balance.asset)">
                     <w-i18n>info</w-i18n>
+                </w-action>
+                <w-action ng-click="$ctrl.showSend(balance.asset)">
+                    <w-i18n>send</w-i18n>
+                </w-action>
+                <w-action ng-if="$ctrl.isDepositSupported(balance.asset)"
+                          ng-click="$ctrl.showDeposit(balance.asset)">
+                    <w-i18n>deposit</w-i18n>
+                </w-action>
+                <w-action ng-if="!$ctrl.isDepositSupported(balance.asset) && $ctrl.isSepaSupported(balance.asset)"
+                          ng-click="$ctrl.showDeposit(balance.asset)">
+                    <w-i18n>deposit</w-i18n>
                 </w-action>
             </w-actions>
         </li>

@@ -71,12 +71,13 @@
 
             /**
              * Get transactions list by user
+             * @param {number} [limit]
              * @return {Promise<ITransaction[]>}
              */
-            list() {
+            list(limit = 0) {
                 return Promise.all([
                     aliases.getAliasList(),
-                    Waves.API.Node.v2.addresses.transactions(user.address)
+                    Waves.API.Node.v2.addresses.transactions(user.address, { limit })
                 ]).then(([aliases, txList = []]) => {
                     return txList.map(this._pipeTransaction(false, aliases));
                 });
@@ -247,7 +248,7 @@
                     case TYPES.RECEIVE:
                     case TYPES.ISSUE:
                     case TYPES.REISSUE:
-                    case TYPES.LEASE_OUT:
+                    case TYPES.LEASE_IN:
                     case TYPES.CREATE_ALIAS:
                         return sender;
                     default:

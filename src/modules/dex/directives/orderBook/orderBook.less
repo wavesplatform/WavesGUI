@@ -12,19 +12,27 @@ w-dex-order-book {
     border-top: 1px solid transparent;
   }
 
+  w-table w-t-head w-row {
+    padding: 0 14px 0 5px;
+
+    &:hover {
+      background-color: #fff;
+      border-color: transparent;
+    }
+
+    .table-cell {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
   w-scroll-box .asks w-row, w-scroll-box .bids w-row {
     cursor: pointer;
 
     &:hover {
       background-color: @color-basic-50;
       border-color: @color-basic-200;
-    }
-  }
-
-  w-table w-t-head w-row {
-    &:hover {
-      background-color: #fff;
-      border-color: transparent;
     }
   }
 

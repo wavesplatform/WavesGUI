@@ -102,7 +102,7 @@
                 }
 
                 if (this.type === 'exchange-buy' || this.type === 'exchange-sell') {
-                    const asset = tx.price.asset;
+                    const asset = tx.price.pair.priceAsset;
                     const price = `Price: ${tx.price.toFormat()} ${asset.name} (${asset.id})`;
                     const totalPrice = `Total price: ${this.totalPrice} ${asset.name}`;
                     message += `\n${price}\n${totalPrice}`;

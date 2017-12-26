@@ -1,12 +1,17 @@
 (function () {
     'use strict';
 
+    // TODO @xenohunter : remove that when icons are in @dvshur's service
     const ASSET_IMAGES_MAP = {
         [WavesApp.defaultAssets.WAVES]: '/img/assets/waves.svg',
         [WavesApp.defaultAssets.BTC]: '/img/assets/bitcoin.svg',
         [WavesApp.defaultAssets.ETH]: '/img/assets/ethereum.svg',
+        [WavesApp.defaultAssets.LTC]: '/img/assets/ltc.svg',
+        [WavesApp.defaultAssets.ZEC]: '/img/assets/zec.svg',
         [WavesApp.defaultAssets.EUR]: '/img/assets/euro.svg',
-        [WavesApp.defaultAssets.USD]: '/img/assets/usd.svg'
+        [WavesApp.defaultAssets.USD]: '/img/assets/usd.svg',
+        [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
+        [WavesApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
     };
 
     const COLORS_MAP = {

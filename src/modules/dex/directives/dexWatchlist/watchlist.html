@@ -3,13 +3,13 @@
     <w-t-head>
         <w-row>
             <w-cell>
-                <w-i18n>Coin</w-i18n>
+                <w-i18n>directives.watchlist.coin</w-i18n>
             </w-cell>
             <w-cell>
-                <w-i18n>Price</w-i18n>
+                <w-i18n>directives.watchlist.price</w-i18n>
             </w-cell>
             <w-cell>
-                <w-i18n>Chng</w-i18n>
+                <w-i18n>directives.watchlist.change</w-i18n>
             </w-cell>
         </w-row>
     </w-t-head>
@@ -19,7 +19,7 @@
                ng-if="asset.id !== $ctrl.baseAssetId"
                select-value="{{::asset.id}}">
             <w-cell>
-                {{::asset.ticker || '—'}}
+                <w-dex-pair asset-id="{{::asset.id}}" base-asset-id="$ctrl.baseAssetId"></w-dex-pair>
             </w-cell>
             <w-cell>
                 <w-dex-exchange base-asset-id="$ctrl.baseAssetId" asset-id="{{::asset.id}}"></w-dex-exchange>

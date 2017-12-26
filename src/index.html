@@ -194,9 +194,30 @@
          * @type {IWavesApp}
          */
         var WavesApp = {
-            name: '{{pack.name}}',
+            name: 'Waves Client',
             version: '{{pack.version}}',
             type: '{{build.type}}',
+            langList: ['en', 'ru', 'ko'],
+            localize: {
+                en: {
+                    separators: {
+                        group: ',',
+                        decimal: '.'
+                    }
+                },
+                ru: {
+                    separators: {
+                        group: ' ',
+                        decimal: '.'
+                    }
+                },
+                ko: {
+                    separators: {
+                        group: ',',
+                        decimal: '.'
+                    }
+                }
+            },
             network: {
                 code: '{{network.code}}',
                 node: '{{network.node}}',
@@ -215,6 +236,11 @@
                 LTC: '{{network.assets.LTC}}',
                 ZEC: '{{network.assets.ZEC}}'
             },
+            otherAssetsWithIcons: {
+                // TODO @xenohunter : remove that when icons are in @dvshur's service
+                EFYT: '{{network.assets.EFYT}}',
+                WNET: '{{network.assets.WNET}}'
+            },
             remappedAssetNames: {
                 '{{network.assets.EUR}}': 'Euro',
                 '{{network.assets.USD}}': 'US Dollar',
@@ -227,6 +253,9 @@
             },
             modules: [],
             maxAliasLength: 30,
+            getLocaleData() {
+                return WavesApp.localize[i18next.language];
+            },
             addController(name, controller) {
                 __controllers[name] = controller;
             },
@@ -243,6 +272,8 @@
         };
 
     </script>
+
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon"/>
 
     <!-- CSS -->
 
@@ -264,10 +295,13 @@
 
 <script>
 
+    var analytics = eventSender.default.inactive();
+
     var Waves = WavesAPI.create({
         networkByte: WavesApp.network.code.charCodeAt(0),
         nodeAddress: WavesApp.network.node,
         matcherAddress: WavesApp.network.matcher,
+        minimumSeedLength: 25,
         logLevel: 'none'
     });
 
@@ -342,6 +376,7 @@
      * @property {string} name
      * @property {string} version
      * @property {string} type
+     * @property {Object} localize
      * @property {number} maxAliasLength
      * @property {object} network
      * @property {string} network.code
@@ -357,6 +392,8 @@
      * @property {string} defaultAssets.USD
      * @property {string} defaultAssets.BTC
      * @property {string} defaultAssets.ETH
+     * @property {string} defaultAssets.LTC
+     * @property {string} defaultAssets.ZEC
      * @property {object} remappedAssetNames
      * @property {object} dex
      * @property {Array<string>} dex.resolutions
@@ -366,6 +403,7 @@
      * @property {Function} isDesktop
      * @property {Function} addController
      * @property {Function} getController
+     * @property {Function} getLocaleData
      * @property {Tree} stateTree
      */
 

@@ -1,7 +1,8 @@
 {
-  "name": "waves-lite-client",
-  "version": "1.0.0-test",
-  "description": "A lite client for the Waves platform",
+  "name": "waves-client",
+  "version": "1.0.0-beta.4",
+  "description": "The official client application for the Waves platform",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/wavesplatform/WavesGUI.git"
@@ -18,8 +19,10 @@
     "@types/gulp-copy": "0.0.3",
     "@types/gulp-htmlmin": "^1.3.30",
     "@types/handlebars": "^4.0.36",
+    "@types/i18next": "^8.4.2",
     "@types/jasmine": "^2.6.0",
     "@types/jquery": "^3.2.13",
+    "@types/js-cookie": "^2.1.0",
     "@types/less": "0.0.32",
     "@types/mime": "^2.0.0",
     "@types/node": "^8.0.34",
@@ -71,7 +74,7 @@
   "dependencies": {
     "@types/html-minifier": "^1.1.30",
     "@uirouter/angularjs": "^1.0.8",
-    "@waves/trading-view": "^1.11.0",
+    "@waves/event-sender": "^0.4.3",
     "angular": "^1.6.6",
     "angular-animate": "^1.6.6",
     "angular-aria": "^1.6.6",
@@ -81,16 +84,16 @@
     "d3": "^3.5.17",
     "html-minifier": "^3.5.7",
     "i18next": "^9.1.0",
-    "i18next-browser-languagedetector": "^2.0.0",
     "i18next-xhr-backend": "^1.4.3",
     "identity-img": "^1.0.0",
     "jquery": "^3.2.1",
+    "js-cookie": "^2.2.0",
     "n3-charts": "^2.0.28",
     "ng-i18next": "^1.0.5",
     "qrcode-reader": "^1.0.3",
     "ts-api-validator": "^2.0.0",
     "ts-utils": "^6.0.0",
-    "waves-api": "^0.21.1",
+    "waves-api": "^0.21.3",
     "worker-wrapper": "^1.2.2"
   }
 }

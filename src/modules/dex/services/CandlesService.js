@@ -60,7 +60,7 @@
                         }
                     })
                     .catch((e) => {
-                        console.error(e);
+                        // console.error(e);
                         onErrorCallback(e);
                     });
             }

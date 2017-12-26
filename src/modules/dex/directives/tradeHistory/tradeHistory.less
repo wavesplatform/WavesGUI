@@ -10,11 +10,11 @@ w-dex-trade-history {
     color: @color-disabled-500;
   }
 
-  .cell-0 .table-cell {
+  .cell-1 .table-cell {
     position: relative;
   }
 
-  .cell-0 .table-cell::before {
+  .cell-1 .table-cell::before {
     content: '';
     display: block;
     width: 8px;
@@ -25,11 +25,11 @@ w-dex-trade-history {
     transform: translate(0, -50%);
   }
 
-  .sell .cell-0 .table-cell::before {
+  .sell .cell-1 .table-cell::before {
     background-image: url(/img/icons/arrow_up.svg);
   }
 
-  .buy .cell-0 .table-cell::before {
+  .buy .cell-1 .table-cell::before {
     background-image: url(/img/icons/arrow_down.svg);
   }
 }

@@ -3,9 +3,10 @@
 
     /**
      * @param {GatewayService} gatewayService
+     * @param {Waves} waves
      * @return {Asset}
      */
-    const controller = function (gatewayService) {
+    const controller = function (gatewayService, waves) {
 
         class Asset {
 
@@ -14,6 +15,10 @@
                  * @type {Money}
                  */
                 this.balance = null;
+                /**
+                 * @type {Money}
+                 */
+                this.totalBalance = null;
                 /**
                  * @type {boolean}
                  */
@@ -27,6 +32,12 @@
             $postLink() {
                 this.isDepositSupported = gatewayService.hasSupportOf(this.balance.asset, 'deposit');
                 this.isSepaSupported = gatewayService.hasSupportOf(this.balance.asset, 'sepa');
+
+                if (this.balance.asset.id === WavesApp.defaultAssets.WAVES) {
+                    waves.node.get().then(({ regular }) => {
+                        this.totalBalance = regular;
+                    });
+                }
             }
 
         }
@@ -34,7 +45,7 @@
         return new Asset();
     };
 
-    controller.$inject = ['gatewayService'];
+    controller.$inject = ['gatewayService', 'waves'];
 
     angular.module('app.wallet.assets').component('wAsset', {
         bindings: {

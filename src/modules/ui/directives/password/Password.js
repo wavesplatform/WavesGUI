@@ -14,6 +14,7 @@
                 super();
                 this.create = null;
                 this.valid = false;
+                this.confirmPassword = '';
             }
 
             $postLink() {
