@@ -7,6 +7,7 @@ body {
   min-height: 380px;
   overflow: auto;
   background-color: @color-background-default;
+  .scroll();
 }
 
 ui-view[name="main"] {
@@ -282,7 +283,16 @@ md-dialog md-dialog-actions {
   height: 100%;
   max-height: calc(~'100vh - 90px');
   overflow: hidden;
+  .scroll();
 
+  .left-panel {
+    height: 100%;
+    max-height: calc(~'100vh - 90px');
+    overflow-y: auto;
+  }
+}
+
+.scroll {
   ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
@@ -307,11 +317,5 @@ md-dialog md-dialog-actions {
 
   ::-webkit-scrollbar-thumb:window-inactive {
     background: @color-basic-200;
-  }
-
-  .left-panel {
-    height: 100%;
-    max-height: calc(~'100vh - 90px');
-    overflow-y: auto;
   }
 }
