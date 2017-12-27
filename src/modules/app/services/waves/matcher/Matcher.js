@@ -14,6 +14,9 @@
         class Matcher {
 
             constructor() {
+
+                this._orderBookCacheHash = Object.create(null);
+
                 user.onLogin().then(() => {
                     /**
                      * @type {Promise<Seed>}
@@ -51,13 +54,8 @@
                 return this._ordersCache.get();
             }
 
-            @decorators.cachable(1)
             getOrderBook(asset1, asset2) {
-                return Waves.AssetPair.get(asset1, asset2)
-                    .then((pair) => Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
-                        .then((orderBook) => Matcher._remapOrderBook(orderBook, pair))
-                        .then(([bids, asks]) => ({ bids, asks, pair, spread: Matcher._getSpread(bids, asks, pair) }))
-                    );
+                return this._getOrderBookCache(asset1, asset2).get();
             }
 
             cancelOrder(amountAssetId, priceAssetId, orderId, keyPair) {
@@ -73,6 +71,50 @@
                 return Waves.API.Matcher.v1.getAllOrders(keyPair)
                     .then((list) => list.map(Matcher._remapOrder))
                     .then(utils.whenAll);
+            }
+
+            /**
+             * @param {string} asset1
+             * @param {string} asset2
+             * @return {Promise<{bids, asks, pair: IAssetPair, spread: {amount: string, price: string, total: string}}>}
+             * @private
+             */
+            _getOrderBook(asset1, asset2) {
+                return Waves.AssetPair.get(asset1, asset2)
+                    .then((pair) => Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
+                        .then((orderBook) => Matcher._remapOrderBook(orderBook, pair))
+                        .then(([bids, asks]) => ({ bids, asks, pair, spread: Matcher._getSpread(bids, asks, pair) }))
+                    );
+            }
+
+            /**
+             * @param {string} asset1
+             * @param {string} asset2
+             * @private
+             */
+            _getOrderBookCache(asset1, asset2) {
+                const hash = this._orderBookCacheHash;
+                const id = [asset1, asset2].sort(utils.comparators.asc).join('-');
+                if (hash[id]) {
+                    clearTimeout(hash[id].timer);
+                    hash[id].timer = setTimeout(() => {
+                        hash[id].cache.destroy();
+                        delete hash[id];
+                    }, 5000);
+                    return hash[id].cache;
+                } else {
+                    hash[id] = {
+                        timer: setTimeout(() => {
+                            hash[id].cache.destroy();
+                            delete hash[id];
+                        }, 5000),
+                        cache: new PollCache({
+                            getData: () => this._getOrderBook(asset1, asset2),
+                            timeout: 1000
+                        })
+                    };
+                    return hash[id].cache;
+                }
             }
 
             /**
