@@ -35,8 +35,12 @@
     </div>
     <div class="transactions-container">
         <div class="transactions-title headline-4 disabled-900" w-i18n="title"></div>
-        <w-transaction-list transaction-date-pattern="dd.MM.yyyy HH:mm"
-                            transaction-type="'lease-in, lease-out, cancel-leasing'"
-                            page-size="5000"></w-transaction-list>
+        <w-scroll-box>
+            <div class="scroll-list">
+                <w-transaction-list transaction-date-pattern="dd.MM.yyyy HH:mm"
+                                    transaction-type="'lease-in, lease-out, cancel-leasing'"
+                                    page-size="5000"></w-transaction-list>
+            </div>
+        </w-scroll-box>
     </div>
 </div>
