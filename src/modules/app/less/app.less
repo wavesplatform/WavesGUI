@@ -7,6 +7,7 @@ body {
   min-height: 380px;
   overflow: auto;
   background-color: @color-background-default;
+  .scroll();
 }
 
 ui-view[name="main"] {
@@ -256,5 +257,65 @@ md-dialog md-dialog-actions {
 }
 
 .hide-selection() {
-  background:none transparent;
+  background: none transparent;
+}
+
+.assets-wrapper {
+  max-height: calc(~'100vh - 140px');
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.portfolio-list w-scroll-box .scroll-list {
+  max-height: calc(~'100vh - 207px');
+}
+
+.transactions w-scroll-box .scroll-list {
+  max-height: calc(~'100vh - 207px');
+}
+
+.transactions-container w-scroll-box .scroll-list {
+  max-height: calc(~'100vh - 130px');
+  overflow-y: auto;
+}
+
+.leasing-page {
+  height: 100%;
+  max-height: calc(~'100vh - 90px');
+  overflow: hidden;
+  .scroll();
+
+  .left-panel {
+    height: 100%;
+    max-height: calc(~'100vh - 90px');
+    overflow-y: auto;
+  }
+}
+
+.scroll {
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  :hover::-webkit-scrollbar {
+    display: block;
+  }
+
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 3px @color-basic-100;
+    -webkit-border-radius: @zeropx;
+    border-radius: @zeropx;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: @zeropx;
+    border-radius: @zeropx;
+    background: @color-basic-100;
+    -webkit-box-shadow: inset 0 0 3px @color-basic-500;
+  }
+
+  ::-webkit-scrollbar-thumb:window-inactive {
+    background: @color-basic-200;
+  }
 }
