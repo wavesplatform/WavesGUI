@@ -15,12 +15,7 @@
              * @private
              */
             _initUrlResolveMode() {
-                if (WavesApp.isWeb()) {
-                    const base = document.createElement('base');
-                    base.href = '/';
-                    document.head.appendChild(base);
-                    $locationProvider.html5Mode(true);
-                }
+                $locationProvider.html5Mode(true);
                 $urlRouterProvider.otherwise('/');
             }
 
