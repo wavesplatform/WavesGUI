@@ -1,7 +1,7 @@
 {
   "directives": {
     "candleChart": {
-      "error": "The chart could not be downloaded. If you want to use this chart in your application, please send a request to <a href=\"https://tradingview.com\" target=\"_blank\">tradingview.com</a>"
+      "error": "<div>The chart could not be downloaded.</div><div>If you want to use this chart in your application, please send a request to <a href=\"https://tradingview.com\" target=\"_blank\">tradingview.com</a></div>"
     },
     "createOrder": {
       "amountField": "Amount",
