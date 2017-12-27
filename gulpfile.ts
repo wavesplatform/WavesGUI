@@ -1,6 +1,7 @@
 import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
+import * as copy from 'gulp-copy';
 import { exec, execSync } from 'child_process';
 import { getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
 import { join } from 'path';
@@ -52,7 +53,7 @@ const getFileName = (name, type) => {
 
 const indexPromise = readFile(join(__dirname, 'src/index.html'), { encoding: 'utf8' });
 
-['build', 'desktop'].forEach((buildName) => {
+['build', 'chrome', 'desktop'].forEach((buildName) => {
 
     configurations.forEach((configName) => {
 
@@ -73,9 +74,6 @@ const indexPromise = readFile(join(__dirname, 'src/index.html'), { encoding: 'ut
 
                 stream.on('end', function () {
                     readFile(`${targetPath}/js/${jsFileName}`, { encoding: 'utf8' }).then((file) => {
-                        if (buildName === 'desktop') {
-                            file = `(function () {\nvar module = undefined;\n${file}})();`
-                        }
                         outputFile(`${targetPath}/js/${jsFileName}`, file)
                             .then(() => done());
                     });
@@ -88,11 +86,6 @@ const indexPromise = readFile(join(__dirname, 'src/index.html'), { encoding: 'ut
                     let forCopy = JSON_LIST.map((path) => {
                         return fsCopy(path, path.replace(/(.*?\/src)/, `${targetPath}`));
                     }).concat(fsCopy(join(__dirname, 'src/fonts'), `${targetPath}/fonts`));
-
-                    if (buildName === 'desktop') {
-                        forCopy.push(fsCopy(join(__dirname, 'electron/main.js'), `${targetPath}/main.js`));
-                        forCopy.push(fsCopy(join(__dirname, 'electron/package.json'), `${targetPath}/package.json`));
-                    }
 
                     Promise.all([
                         fsCopy(join(__dirname, 'src/img'), `${targetPath}/img`).then(() => {
@@ -108,7 +101,9 @@ const indexPromise = readFile(join(__dirname, 'src/index.html'), { encoding: 'ut
                     });
                 }
             );
-            taskHash.copy.push(`copy-${taskPostfix}`);
+            taskHash.copy.push(
+                `copy-${taskPostfix}`
+            );
 
             const htmlDeps = [
                 `concat-${taskPostfix}`,
@@ -120,11 +115,10 @@ const indexPromise = readFile(join(__dirname, 'src/index.html'), { encoding: 'ut
                     return prepareHTML({
                         target: targetPath,
                         connection: configName,
-                        scripts: [jsFilePath],
+                        scripts: type === 'dev' ? meta.vendors.concat(SOURCE_FILES) : [jsFilePath],
                         styles: [
                             `${targetPath}/css/${pack.name}-styles-${pack.version}.css`
-                        ],
-                        type: buildName
+                        ]
                     });
                 }).then((file) => {
                     console.log('out ' + configName);
@@ -217,7 +211,14 @@ task('eslint', function (done) {
 });
 
 task('less', function () {
+    // Promise.all([
     execSync('sh scripts/less.sh');
+    // ]).then(() => {
+    // getFilesFrom('./src', '.less').forEach((path) => {
+    //     console.log(`Compile less file ${path}`);
+    //     execSync(`node_modules/.bin/lessc ${path} ${path.replace('.less', '.css')}`);
+    // });
+    // });
 });
 
 task('babel', ['concat-develop'], function () {
@@ -265,10 +266,6 @@ task('s3-mainnet', function () {
         .pipe(s3({ ...AWS, bucket }));
 });
 
-task('electron', ['copy', 'html'], () => {
-    execSync('cd ./dist && electron-packager ./desktop/mainnet/min/ --platform=all');
-});
-
 task('s3', ['s3-testnet', 's3-mainnet']);
 
 task('zip', configurations.map(name => `zip-${name}`));
@@ -291,7 +288,6 @@ task('all', [
     'concat',
     'copy',
     'html',
-    'electron',
     'zip'
 ]);
 
