@@ -262,6 +262,13 @@
         <h2 class="sectionHeader">ACCOUNT INFO BACKUP</h2>
         <p>This area contains your account's basic information. Click the <span class="fontBold">COPY</span> button in order to copy the contents to the clipboard or <span class="fontBold">CLOSE</span> to exit.</p></br>
         <form id="backupForm">
+          <div class="plate-warning">
+            <p class="dialog-text" style="font-weight: bold;">Treat your SEED (backup phrase) with care!</p>
+            <p class="dialog-text">Only SEED can provide access to your wallet.</p>
+            <p class="dialog-text">1. Don't put your SEED anywhere except official<br/>Waves clients (look at the site domain).</p>
+            <p class="dialog-text">If someone else accesses it you will lose your funds.</p>
+            <p class="dialog-text">2. Store your SEED safely, it is the only<br/>way to restore your wallet.</p>
+          </div>
           <label for="seedBackup">SEED</label><br/>
           <textarea id="seedBackup" class="wInput" rows="4" readonly ng-model="menu.seed"></textarea><br/>
           <label for="encodedSeedBackup">ENCODED SEED</label><br/>
