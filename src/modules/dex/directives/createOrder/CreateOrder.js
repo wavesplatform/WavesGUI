@@ -102,15 +102,7 @@
 
                     this.amount = null;
                     this.price = null;
-                    Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
-                        return utils.whenAll([
-                            waves.node.assets.balance(pair.amountAsset.id),
-                            waves.node.assets.balance(pair.priceAsset.id)
-                        ]).then(([amountMoney, priceMoney]) => {
-                            this.amountBalance = amountMoney;
-                            this.priceBalance = priceMoney;
-                        });
-                    });
+                    this.updateBalances();
                 });
 
                 this.syncSettings({
@@ -126,6 +118,18 @@
                 });
 
                 createPoll(this, this._getData, this._setData, 1000);
+            }
+
+            updateBalances() {
+                Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
+                    return utils.whenAll([
+                        waves.node.assets.balance(pair.amountAsset.id),
+                        waves.node.assets.balance(pair.priceAsset.id)
+                    ]).then(([amountMoney, priceMoney]) => {
+                        this.amountBalance = amountMoney.available;
+                        this.priceBalance = priceMoney.available;
+                    });
+                });
             }
 
             expand(type) {
@@ -205,6 +209,7 @@
                                 ns: 'app.dex',
                                 title: { literal: 'directives.createOrder.notifications.isCreated' }
                             });
+                            this.updateBalances();
                         }).catch((err) => {
                             // TODO : refactor this
                             const notEnough = 'Not enough tradable balance';

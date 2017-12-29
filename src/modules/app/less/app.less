@@ -193,6 +193,13 @@ md-dialog md-dialog-actions {
 
 .chart-legend {
   display: none;
+  margin-left: 40px;
+
+  .legend-item {
+    display: block;
+    padding: 12px 0;
+  }
+
 }
 
 .btn-wrap.btn-group { // TODO add colors from config for btn-wrap
@@ -310,13 +317,13 @@ md-dialog md-dialog-actions {
 
   ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 3px @color-basic-100;
-    -webkit-border-radius: @zeropx;
-    border-radius: @zeropx;
+    -webkit-border-radius: 0;
+    border-radius: 0;
   }
 
   ::-webkit-scrollbar-thumb {
-    -webkit-border-radius: @zeropx;
-    border-radius: @zeropx;
+    -webkit-border-radius: 0;
+    border-radius: 0;
     background: @color-basic-100;
     -webkit-box-shadow: inset 0 0 3px @color-basic-500;
   }

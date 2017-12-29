@@ -1,7 +1,7 @@
 {
   "directives": {
     "candleChart": {
-      "error": "Невозможно загрузить график. Если вы хотите использовать график в своем приложении, отправьте заявку <a href=\"https://tradingview.com\" target=\"_blank\">tradingview.com</a>"
+      "error": "<div>Невозможно загрузить график.</div><div>Если вы хотите использовать график в своем приложении, отправьте заявку <a href=\"https://tradingview.com\" target=\"_blank\">tradingview.com</a></div>"
     },
     "createOrder": {
       "amountField": "Количество",

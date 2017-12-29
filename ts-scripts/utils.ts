@@ -341,8 +341,8 @@ function routeStatic(req, res, connectionType, buildType) {
                 if (ROOTS.length) {
                     check(ROOTS.pop());
                 } else {
-                    res.writeHead(404, null);
-                    res.end('404 Not found!');
+                    res.writeHead(404, {'Content-Type': 'text/plain'});
+                    res.end('404 Not Found\n');
                 }
             });
     };

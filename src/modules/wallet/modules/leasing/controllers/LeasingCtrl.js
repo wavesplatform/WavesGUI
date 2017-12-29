@@ -36,7 +36,9 @@
                     direction: true,
                     startFrom: Math.PI / 2
                 };
-                createPoll(this, waves.node.get, this._setLeasingData, 1000);
+
+                const getter = waves.node.assets.balance.bind(waves.node.assets, WavesApp.defaultAssets.WAVES);
+                createPoll(this, getter, this._setLeasingData, 1000);
             }
 
             startLeasing() {
