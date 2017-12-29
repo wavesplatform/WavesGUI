@@ -88,9 +88,9 @@
                 this._onChangeAssetId();
 
                 if (this.canChooseAsset) {
-                    createPoll(this, this._getBalanceList, this._setAssets, 1000, {isBalance: true});
+                    createPoll(this, this._getBalanceList, this._setAssets, 1000, { isBalance: true });
                 } else {
-                    createPoll(this, this._getAsset, this._setAssets, 1000, {isBalance: true});
+                    createPoll(this, this._getAsset, this._setAssets, 1000, { isBalance: true });
                 }
             }
 
@@ -142,7 +142,7 @@
             _getBalanceList() {
                 return waves.node.assets.userBalances().then((list) => {
                     return list && list.length ? list : waves.node.assets.balanceList([WavesApp.defaultAssets.WAVES]);
-                });
+                }).then((list) => list.map(({ available }) => available));
             }
 
             _onChangeAssetId() {
@@ -161,7 +161,7 @@
                         this.amountMirror = new BigNumber(0);
                         this.mirrorBalance = mirrorBalance;
                         this._setAssets(balance);
-                        this.balance = tsUtils.find(this.moneyList, (item) => item.asset.id === this.assetId);
+                        this.balance = tsUtils.find(this.moneyList, (item) => item.asset.id === this.assetId).available;
                         this.fee = fee;
                     });
             }
@@ -171,7 +171,7 @@
              * @private
              */
             _getAsset() {
-                return waves.node.assets.balance(this.assetId);
+                return waves.node.assets.balance(this.assetId).then(({ available }) => available);
             }
 
             /**

@@ -24,17 +24,12 @@
             }
 
             /**
-             * @param {Money} balance
-             * @return {Money}
+             * @returns {Money[]}
              */
-            updateBalance(balance) {
-                return this.moneyList.reduce((result, item) => {
-                    if (result.asset.id === item.asset.id) {
-                        result = result.sub(item);
-                    }
-                    return result;
-                }, balance);
+            getReservedMoneyList() {
+                return this.moneyList;
             }
+
         }
 
         return TxEvent;

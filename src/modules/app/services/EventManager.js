@@ -1,19 +1,11 @@
 (function () {
     'use strict';
 
-    // /**
-    //  * @type {{transfer: string}}
-    //  */
-    // const EVENT_TYPES = {
-    //     transfer: 'transfer'
-    // };
-    // const BALANCE_EVENTS = [EVENT_TYPES.transfer];
-
     /**
      * @param {User} user
      * @param {Poll} Poll
      * @param {$injector} $injector
-     * @param TxEvent
+     * @param {TxEvent} TxEvent
      * @param {app.utils} utils
      * @return {EventManager}
      */
@@ -57,15 +49,10 @@
                 this._resetPoll();
             }
 
-            /**
-             * @param {Money} balance
-             * @return Money
-             */
-            updateBalance(balance) {
-                return Object.keys(this._events)
-                    .reduce((result, id) => {
-                        return this._events[id].updateBalance(result);
-                    }, balance);
+            getReservedMoneyList() {
+                return Object.keys(this._events).reduce((list, eventId) => {
+                    return list.concat(this._events[eventId].getReservedMoneyList());
+                }, []);
             }
 
             /**
