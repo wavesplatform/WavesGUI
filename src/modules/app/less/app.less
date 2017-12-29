@@ -274,8 +274,14 @@ md-dialog md-dialog-actions {
   overflow-y: auto;
 }
 
-.portfolio-list w-scroll-box .scroll-list {
+.portfolio-list w-scroll-box {
+  overflow: auto;
+  min-height: calc(~'100vh - 207px');
   max-height: calc(~'100vh - 207px');
+
+  .scroll-list {
+    height: 100%;
+  }
 }
 
 .transactions w-scroll-box .scroll-list {
@@ -291,7 +297,6 @@ md-dialog md-dialog-actions {
   height: 100%;
   max-height: calc(~'100vh - 90px');
   overflow: hidden;
-  .scroll();
 
   .left-panel {
     height: 100%;

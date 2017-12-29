@@ -112,10 +112,65 @@
       position: absolute;
       left: 0;
       top: 0;
-      width: 49px;
-      height: 49px;
+      width: 50px;
+      height: 48px;
       background-image: url(/img/icons/leasing_note.svg);
     }
   }
 
+}
+
+w-leasing-block.leasingNote {
+  position: relative;
+  overflow: hidden;
+
+  .leasing-block-title {
+    display: none;
+  }
+
+  .transactions-title {
+    border: 0 none;
+  }
+
+  .leasing-block-content {
+    padding: 0;
+  }
+
+  .collapse-trigger {
+    display: none;
+
+    &:checked + label {
+      transform: rotate(-180deg);
+
+      & + div.collapse-container {
+        height: auto;
+        border-top: 1px solid #e2e2e2;
+        padding: 20px;
+      }
+    }
+
+    & + label {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: block;
+      width: 20px;
+      height: 20px;
+      z-index: 1;
+      text-align: center;
+      cursor: pointer;
+      transform-origin: center;
+      transition: transform 0.3s ease-in-out;
+      background-image: url(/img/icons/close_arrow.svg);
+
+      & + div.collapse-container {
+        height: 0px;
+        transition: .4s;
+        overflow: hidden;
+        padding: 0 20px;
+        border-bottom: 0 none;
+        border-top:0 none;
+      }
+    }
+  }
 }
