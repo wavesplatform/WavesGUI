@@ -30,21 +30,25 @@
   .portfolio-list {
     list-style: none;
     padding: 0;
-    background-color: @color-white;
-    border-radius: @border-radius;
-    border: 1px solid @color-accent-50;
+
+
+
     margin: 10px 0 0;
 
     .portfolio-item {
       display: flex;
+      background-color: @color-white;
       height: 65px;
+      border:1px solid @color-accent-50;
       align-items: center;
-      border-bottom: 1px solid @color-accent-50;
+      border: 1px solid @color-accent-50;
+      border-bottom: 0 none;
       position: relative;
       line-height: 30px;
       padding: 0 355px 0 20px;
       font-size: 15px;
       color: @color-basic-700;
+
       @media screen and (max-width: 1240px) {
         padding: 0 0 0 20px;
       }
@@ -69,10 +73,12 @@
         line-height: 1.2em;
         color: @color-disabled-600;
         white-space: nowrap;
+        border-radius: @border-radius @border-radius 0 0;
       }
 
       &:last-child {
-        border-bottom: none;
+        border-bottom: 1px solid @color-accent-50;
+        border-radius: 0 0 @border-radius @border-radius;
       }
 
       &:not(.title):hover {
