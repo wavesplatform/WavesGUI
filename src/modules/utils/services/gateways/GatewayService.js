@@ -32,6 +32,16 @@
              * @param {string} wavesAddress
              * @return {Promise}
              */
+            getWithdrawDetails(asset, wavesAddress) {
+                const gateway = this._findGatewayFor(asset, 'withdraw');
+                return gateway.getWithdrawDetails(asset, wavesAddress);
+            }
+
+            /**
+             * @param {Asset} asset
+             * @param {string} wavesAddress
+             * @return {Promise}
+             */
             getSepaDetails(asset, wavesAddress) {
                 const gateway = this._findGatewayFor(asset, 'sepa');
                 return gateway.getSepaDetails(asset, wavesAddress);

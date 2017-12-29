@@ -41,7 +41,21 @@
              */
             getWithdrawDetails(asset, wavesAddress) {
                 CoinomatService._isSupportedAsset(asset.id);
-                return this._loadPaymentDetails(CURRENCIES[asset.id].waves, CURRENCIES[asset.id].gateway, wavesAddress);
+                const from = CURRENCIES[asset.id].waves;
+                const to = CURRENCIES[asset.id].gateway;
+                return Promise.all([
+                    this._loadPaymentDetails(from, to, wavesAddress),
+                    this._loadWithdrawRate(from, to)
+                ]).then(([details, rate]) => {
+                    return {
+                        address: details.tunnel.wallet_from,
+                        attachment: details.tunnel.attachment,
+                        minimumAmount: new BigNumber(rate.in_min),
+                        maximumAmount: new BigNumber(rate.in_max),
+                        exchangeRate: new BigNumber(rate.xrate),
+                        gatewayFee: new BigNumber(rate.fee_in + rate.fee_out)
+                    };
+                });
             }
 
             /**
@@ -77,10 +91,15 @@
                     });
                 }).then((res) => {
                     CoinomatService._isEligibleResponse(res, 'tunnel');
-                    return {
-                        address: res.tunnel.wallet_from,
-                        attachment: res.tunnel.attachment
-                    };
+                    return res;
+                });
+            }
+
+            _loadWithdrawRate(from, to) {
+                return $.get(`${PATH}/get_xrate.php`, {
+                    f: from,
+                    t: to,
+                    lang: LANGUAGE
                 });
             }
 
