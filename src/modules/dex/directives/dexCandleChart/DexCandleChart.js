@@ -65,7 +65,7 @@
                         interval: WavesApp.dex.defaultResolution,
                         container_id: this.elementId,
                         datafeed: candlesService,
-                        library_path: 'https://jslib.wavesnodes.com/',
+                        library_path: 'trading-view/',
                         autosize: true,
                         disabled_features: DISABLED_FEATURES
                     });
