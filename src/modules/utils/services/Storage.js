@@ -24,27 +24,18 @@
         };
     } else {
         const fs = require('fs');
-        const path = require('path');
-        const remote = require('electron').remote;
-        const cachePath = path.join(remote.app.getAppPath(), './storage.json');
-
-        const wrap = function (method, ...args) {
+        const cachePath = '';
+        const wrap = function (method, args) {
             return new Promise((resolve, reject) => {
-                args.push(function (err, data) {
+                fs[method](...args, function (err, data) {
                     if (err) {
                         reject(err);
                     } else {
                         resolve(data);
                     }
                 });
-                fs[method](...args);
             });
         };
-
-        if (!fs.existsSync(cachePath)) {
-            fs.writeFileSync(cachePath, '{}');
-        }
-
         const getCache = function () {
             return wrap('readFile', cachePath, 'utf8')
                 .then((text) => {
@@ -58,11 +49,7 @@
         read = function (key) {
             return getCache()
                 .then((data) => {
-                    try {
-                        return JSON.parse(data[key] || '');
-                    } catch (e) {
-                        return {};
-                    }
+                    return data[key] || null;
                 })
                 .catch(() => {
                     return {};
