@@ -172,6 +172,23 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
 export function route(connectionType, buildType) {
     return function (req, res) {
 
+        if (isTradingView(req.url)) {
+            get(`https://jslib.wavesnodes.com/${req.url.replace('trading-view/', '')}`, (resp) => {
+                let data = '';
+
+                // A chunk of data has been recieved.
+                resp.on('data', (chunk) => {
+                    data += chunk;
+                });
+
+                // The whole response has been received. Print out the result.
+                resp.on('end', () => {
+                    res.end(data);
+                });
+            });
+            return null;
+        }
+
         if (buildType !== 'dev') {
             if (isPage(req.url)) {
                 const path = join(__dirname, '../dist/build', connectionType, buildType, 'index.html');
@@ -189,21 +206,7 @@ export function route(connectionType, buildType) {
             return null;
         }
 
-        if (isTradingView(req.url)) {
-            get(`https://jslib.wavesnodes.com/${req.url.replace('trading-view/', '')}`, (resp) => {
-                let data = '';
-
-                // A chunk of data has been recieved.
-                resp.on('data', (chunk) => {
-                    data += chunk;
-                });
-
-                // The whole response has been received. Print out the result.
-                resp.on('end', () => {
-                    res.end(data);
-                });
-            });
-        } else if (isPage(req.url)) {
+        if (isPage(req.url)) {
             return prepareHTML({
                 target: join(__dirname, '..', 'src'),
                 connection: connectionType
