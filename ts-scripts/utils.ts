@@ -1,14 +1,15 @@
 import * as gulp from 'gulp';
-import {getType} from 'mime';
-import {exec, spawn} from 'child_process';
-import {readdirSync, statSync} from 'fs';
-import {join, relative} from 'path';
-import {ITaskFunction} from './interface';
-import {readFile, readJSON, readJSONSync} from 'fs-extra';
-import {compile} from 'handlebars';
-import {transform} from 'babel-core';
-import {render} from 'less';
-import {minify} from 'html-minifier';
+import { getType } from 'mime';
+import { exec, spawn } from 'child_process';
+import { readdirSync, statSync } from 'fs';
+import { join, relative } from 'path';
+import { ITaskFunction } from './interface';
+import { readFile, readJSON, readJSONSync } from 'fs-extra';
+import { compile } from 'handlebars';
+import { transform } from 'babel-core';
+import { render } from 'less';
+import { minify } from 'html-minifier';
+import { get } from 'https';
 
 
 export const task: ITaskFunction = gulp.task.bind(gulp) as any;
@@ -16,7 +17,7 @@ export const task: ITaskFunction = gulp.task.bind(gulp) as any;
 export function getBranch(): Promise<string> {
     return new Promise((resolve, reject) => {
         const command = 'git symbolic-ref --short HEAD';
-        exec(command, {encoding: 'utf8'}, (error: Error, stdout: string, stderr: string) => {
+        exec(command, { encoding: 'utf8' }, (error: Error, stdout: string, stderr: string) => {
             if (error) {
                 console.log(stderr);
                 console.log(error);
@@ -33,7 +34,7 @@ export function getBranchDetail(): Promise<{ branch: string; project: string; ti
         const parts = branch.split('-');
         const [project, ticket] = parts;
         const description = parts.slice(2).join(' ');
-        return {branch, project: project.toUpperCase(), ticket: Number(ticket), description};
+        return { branch, project: project.toUpperCase(), ticket: Number(ticket), description };
     });
 }
 
@@ -97,7 +98,7 @@ export function run(command: string, args: Array<string>, noLog?: boolean): Prom
         });
 
         task.on('close', (code: number) => {
-            resolve({code, data});
+            resolve({ code, data });
         });
     });
 }
@@ -118,6 +119,10 @@ export function replaceStyles(file: string, paths: Array<string>): string {
     return file.replace('<!-- CSS -->', paths.map((path: string) => {
         return `<link rel="stylesheet" href="${path}">`;
     }).join('\n'));
+}
+
+export function isTradingView(url: string): boolean {
+    return url.indexOf('/trading-view') !== -1;
 }
 
 export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
@@ -184,7 +189,21 @@ export function route(connectionType, buildType) {
             return null;
         }
 
-        if (isPage(req.url)) {
+        if (isTradingView(req.url)) {
+            get(`https://jslib.wavesnodes.com/${req.url.replace('trading-view/', '')}`, (resp) => {
+                let data = '';
+
+                // A chunk of data has been recieved.
+                resp.on('data', (chunk) => {
+                    data += chunk;
+                });
+
+                // The whole response has been received. Print out the result.
+                resp.on('end', () => {
+                    res.end(data);
+                });
+            });
+        } else if (isPage(req.url)) {
             return prepareHTML({
                 target: join(__dirname, '..', 'src'),
                 connection: connectionType
@@ -235,7 +254,7 @@ export function route(connectionType, buildType) {
                     console.log(e.message, req.url);
                 });
         } else if (isApiMock(req.url)) {
-            mock(req, res, {connection: connectionType, meta: readJSONSync(join(__dirname, 'meta.json'))});
+            mock(req, res, { connection: connectionType, meta: readJSONSync(join(__dirname, 'meta.json')) });
         } else {
             routeStatic(req, res, connectionType, buildType);
         }
@@ -261,7 +280,7 @@ export function applyRoute(route, req, res, options) {
     const urls = Object.keys(route)
         .sort((a, b) => {
             const reg = /:/g;
-            return (a.match(reg) || {length: 0}).length - (b.match(reg) || {length: 0}).length;
+            return (a.match(reg) || { length: 0 }).length - (b.match(reg) || { length: 0 }).length;
         })
         .map((url) => url.split('/'))
         .filter((routeParts) => routeParts.length === parts.length);
@@ -334,14 +353,14 @@ function routeStatic(req, res, connectionType, buildType) {
         const path = join(root, url);
         readFile(path).then((file: Buffer) => {
             res.setHeader('Cache-Control', 'public, max-age=31557600');
-            res.writeHead(200, {'Content-Type': contentType});
+            res.writeHead(200, { 'Content-Type': contentType });
             res.end(file);
         })
             .catch(() => {
                 if (ROOTS.length) {
                     check(ROOTS.pop());
                 } else {
-                    res.writeHead(404, {'Content-Type': 'text/plain'});
+                    res.writeHead(404, { 'Content-Type': 'text/plain' });
                     res.end('404 Not Found\n');
                 }
             });
