@@ -6,6 +6,7 @@ body {
   width: 100%;
   height: 100%;
   min-height: 380px;
+  min-width: 360px;
   overflow: auto;
   background-color: @color-background-default;
   .scroll();
@@ -403,3 +404,19 @@ div.help-content {
     margin-bottom: 5px;
   }
 }
+
+/* responsive */
+
+@media screen and (max-width: 420px) {
+
+  .md-dialog-container md-dialog {
+    width: calc(100% - '20px');
+    height: calc(100vh - '20px');
+    top:10px;
+    left:10px;
+    transform: translateX(0);
+  }
+
+}
+
+/* end */

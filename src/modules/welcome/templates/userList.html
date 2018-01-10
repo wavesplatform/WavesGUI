@@ -22,7 +22,7 @@
         <w-option ng-repeat="user in $ctrl.userList track by user.address"
                   value="{{::user.address}}">
             <w-avatar class="margin-right-1" address="user.address" size="30"></w-avatar>
-            <div class="body-1 basic-900">{{::user.address}}</div>
+            <div class="body-1 basic-900 mobile-caption-2">{{::user.address}}</div>
             <div class="icon-remove-user icon-close" ng-click="$ctrl.removeUser(user.address)"></div>
         </w-option>
     </w-select>
