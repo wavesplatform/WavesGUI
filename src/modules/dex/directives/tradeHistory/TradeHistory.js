@@ -69,14 +69,10 @@
             _onChangeAssets() {
                 this.orders = [];
                 this.poll.restart();
-                waves.node.assets.info(this._priceAssetId)
-                    .then((asset) => {
-                        this.priceAsset = asset;
-                    });
-                waves.node.assets.info(this._amountAssetId)
-                    .then((asset) => {
-                        this.amountAsset = asset;
-                    });
+                Waves.AssetPair.get(this._priceAssetId, this._amountAssetId).then((pair) => {
+                    this.priceAsset = pair.priceAsset;
+                    this.amountAsset = pair.amountAsset;
+                });
             }
 
             _getTradeHistory() {
