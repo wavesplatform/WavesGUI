@@ -1,6 +1,15 @@
 (function () {
     'use strict';
 
+    /**
+     * @param Base
+     * @param $scope
+     * @param {User} user
+     * @param createPoll
+     * @param {app.utils} utils
+     * @param {Waves} waves
+     * @return {AssetInfoCtrl}
+     */
     const controller = function (Base, $scope, user, createPoll, utils, waves) {
 
         class AssetInfoCtrl extends Base {
@@ -14,6 +23,28 @@
                 this.assetList = assetList;
                 this.pinned = assetList.indexOf(asset.id) !== -1;
                 this.chartData = null;
+                this.circleChartData = null;
+                this.totalBalance = null;
+
+                this.chartOptions = {
+                    items: {
+                        available: {
+                            color: '#66bf00',
+                            radius: 66
+                        },
+                        leased: {
+                            color: '#ffebc0',
+                            radius: 50
+                        },
+                        inOrders: {
+                            color: '#bacaf5',
+                            radius: 58
+                        }
+                    },
+                    center: 27,
+                    direction: true,
+                    startFrom: Math.PI / 2
+                };
 
                 this.options = {
                     grid: {
@@ -45,6 +76,7 @@
                 };
 
                 createPoll(this, this._getGraphData, 'chartData', 15000);
+                createPoll(this, this._getCircleGraphData, this._setCircleGraphData, 15000);
             }
 
             togglePin() {
@@ -64,6 +96,19 @@
                 const startDate = utils.moment().add().day(-100);
                 return waves.utils.getRateHistory(this.asset.id, user.getSetting('baseAssetId'), startDate)
                     .then((values) => ({ values }));
+            }
+
+            _getCircleGraphData() {
+                return waves.node.assets.balance(this.asset.id);
+            }
+
+            _setCircleGraphData({ available, leasedOut, inOrders }) {
+                this.circleChartData = [
+                    { id: 'available', value: available },
+                    { id: 'leased', value: leasedOut },
+                    { id: 'inOrders', value: inOrders }
+                ];
+                this.totalBalance = available.add(leasedOut).add(inOrders);
             }
 
         }

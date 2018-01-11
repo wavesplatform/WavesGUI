@@ -5,13 +5,13 @@
             {{::$ctrl.balance.asset.name}}
         </div>
         <h2 class="balance">
-            <w-balance money="$ctrl.balance"></w-balance>
+            <w-balance money="$ctrl.balance.available"></w-balance>
         </h2>
-        <!--TODO-->
-        <div ng-class="{ghost: $ctrl.balance.asset.id !== 'WAVES'}"
+
+        <div ng-if="!$ctrl.balance.regular.eq($ctrl.balance.available)"
              class="balance-title body-2 disabled-600"
              w-i18n="directives.asset.ofTotalBalance"
-             params="{totalBalance: $ctrl.totalBalance.toFormat()}"></div>
+             params="{totalBalance: $ctrl.balance.regular.toFormat()}"></div>
     </div>
     <hr>
     <div class="footer">

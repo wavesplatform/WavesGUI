@@ -1,4 +1,5 @@
 @import (reference) '../../config';
+@import (reference) '../../app/less/typography';
 
 html,
 body {
@@ -192,6 +193,13 @@ md-dialog md-dialog-actions {
 
 .chart-legend {
   display: none;
+  margin-left: 40px;
+
+  .legend-item {
+    display: block;
+    padding: 12px 0;
+  }
+
 }
 
 .btn-wrap.btn-group { // TODO add colors from config for btn-wrap
@@ -251,7 +259,7 @@ md-dialog md-dialog-actions {
 }
 
 .warning-plate {
-  padding: 17px;
+  padding: 12px;
   border: 1px dashed @color-warning-400;
   border-radius: @border-radius;
 }
@@ -266,8 +274,14 @@ md-dialog md-dialog-actions {
   overflow-y: auto;
 }
 
-.portfolio-list w-scroll-box .scroll-list {
+.portfolio-list w-scroll-box {
+  overflow: auto;
+  min-height: calc(~'100vh - 207px');
   max-height: calc(~'100vh - 207px');
+
+  .scroll-list {
+    height: 100%;
+  }
 }
 
 .transactions w-scroll-box .scroll-list {
@@ -283,7 +297,6 @@ md-dialog md-dialog-actions {
   height: 100%;
   max-height: calc(~'100vh - 90px');
   overflow: hidden;
-  .scroll();
 
   .left-panel {
     height: 100%;
@@ -304,18 +317,89 @@ md-dialog md-dialog-actions {
 
   ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 3px @color-basic-100;
-    -webkit-border-radius: @zeropx;
-    border-radius: @zeropx;
+    -webkit-border-radius: 0;
+    border-radius: 0;
   }
 
   ::-webkit-scrollbar-thumb {
-    -webkit-border-radius: @zeropx;
-    border-radius: @zeropx;
+    -webkit-border-radius: 0;
+    border-radius: 0;
     background: @color-basic-100;
     -webkit-box-shadow: inset 0 0 3px @color-basic-500;
   }
 
   ::-webkit-scrollbar-thumb:window-inactive {
     background: @color-basic-200;
+  }
+}
+
+i.help-icon {
+  position: relative;
+  margin-left: 7px;
+
+  &::before {
+    content: '?';
+    background: @color-accent-100;
+    color: @color-white;
+    border-radius: 50%;
+    display: inline-block;
+    width: @text-icon-size;
+    height: 14px;
+    padding-top: 2px;
+    text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    vertical-align: middle;
+    margin-top: -3px;
+    font-size: @font-size-caption-2;
+    line-height: 13px;
+  }
+
+  &:hover::before {
+    background: @color-submit-300;
+  }
+
+  &:after {
+    display: none;
+    width: 10px;
+    height: 10px;
+    background: @color-submit-300;
+    transform: rotate(-45deg);
+    left: 3px;
+    top: 21px;
+    position: absolute;
+    content: '';
+    z-index: 0;
+  }
+
+  &:hover::after {
+    display: block;
+  }
+
+  &:hover + div.help-content {
+    display: block;
+  }
+
+}
+
+div.help-content {
+  display: none;
+  z-index: 1;
+  position: absolute;
+  background: @color-white;
+  border-top: 5px solid @color-submit-300;
+  border-radius: @border-radius;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.18);
+  width: 50%;
+  padding: 15px;
+  margin-top: 4px;
+  left: 25%;
+
+  &:hover {
+    display: block;
+  }
+
+  div {
+    margin-bottom: 5px;
   }
 }

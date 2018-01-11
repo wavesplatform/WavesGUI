@@ -39,6 +39,7 @@
             $postLink() {
                 this._canvas = $element.find('canvas').get(0);
                 this._ctx = this._canvas.getContext('2d');
+                this._redrawGraph();
             }
 
             _resetCanvasSize() {
@@ -58,6 +59,10 @@
             }
 
             _redrawGraph() {
+                if (!this._canvas) {
+                    return null;
+                }
+
                 if (!this._data || !this._data.length) {
                     return null;
                 }

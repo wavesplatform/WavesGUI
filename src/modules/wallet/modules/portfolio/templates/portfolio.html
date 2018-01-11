@@ -1,9 +1,9 @@
 <div w-i18n-ns="app.wallet.portfolio">
 
     <div class="toolbar">
-        <w-button class="interface" ng-click="$ctrl.showSend()">
-            <span class="btn-icon icon-send" w-i18n="send"></span>
-        </w-button>
+        <!--<w-button class="interface" ng-click="$ctrl.showSend()">-->
+            <!--<span class="btn-icon icon-send" w-i18n="send"></span>-->
+        <!--</w-button>-->
         <w-button class="interface" ng-click="$ctrl.showQR()">
             <span class="btn-icon icon-qr" w-i18n="qr"></span>
         </w-button>
@@ -28,12 +28,12 @@
                         {{::balance.asset.name}}
                     </div>
                     <div class="portfolio-item-balance">
-                        <w-balance money="balance"></w-balance>
+                        <w-balance money="balance.available"></w-balance>
                     </div>
                     <div class="portfolio-item-mirror">
                         <div ng-if="balance.asset.id !== $ctrl.mirrorId">
                             <span>$&nbsp;</span>
-                            <w-exchange noUpdate balance="balance"></w-exchange>
+                            <w-exchange noUpdate balance="balance.available"></w-exchange>
                         </div>
                         <div ng-if="balance.asset.id === $ctrl.mirrorId">
                             —
