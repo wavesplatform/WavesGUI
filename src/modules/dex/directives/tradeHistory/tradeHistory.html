@@ -3,12 +3,12 @@
         <w-row>
             <w-cell>
 
-                <w-i18n params="{assetName: $ctrl.priceAsset.displayName}">
+                <w-i18n params="{assetName: $ctrl.amountAsset.displayName}">
                     directives.tradeHistory.tableTitle.size
                 </w-i18n>
             </w-cell>
             <w-cell>
-                <w-i18n params="{assetName: $ctrl.amountAsset.displayName}">
+                <w-i18n params="{assetName: $ctrl.priceAsset.displayName}">
                     directives.tradeHistory.tableTitle.price
                 </w-i18n>
             </w-cell>
@@ -20,10 +20,10 @@
     <w-scroll-box>
         <w-row ng-repeat="order in $ctrl.orders track by $index" class="footnote-1 disabled-900 {{::order.type}}">
             <w-cell>
-                <span precision="$ctrl.priceAsset.precision" short-mode="true" w-nice-number="order.size"></span>
+                <span precision="$ctrl.amountAsset.precision" short-mode="true" w-nice-number="order.size"></span>
             </w-cell>
             <w-cell class="size">
-                <span precision="$ctrl.amountAsset.precision" short-mode="true" w-nice-number="order.price"></span>
+                <span precision="$ctrl.priceAsset.precision" short-mode="true" w-nice-number="order.price"></span>
             </w-cell>
             <w-cell>
                 {{::order.date | date:'MM-dd HH:mm:ss'}}
