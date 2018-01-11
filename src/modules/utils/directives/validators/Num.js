@@ -103,7 +103,9 @@
                 }
 
                 this.registerValidator('required', (modelValue) => {
-                    return !isRequired || !!modelValue;
+                    const req = !isRequired || Num._isEmpty(modelValue);
+                    console.log(`Required ${req}`);
+                    return req;
                 });
 
                 this.$input.on('keypress', (event) => {
@@ -137,9 +139,13 @@
                 return utils.parseNiceNumber;
             }
 
+            static _isEmpty(value) {
+                return value instanceof BigNumber ? value.gt(0) : !!value;
+            }
+
             static _toBigNumber(value) {
                 if (value == null) {
-                    return null
+                    return null;
                 } else if (!value) {
                     return new BigNumber(0);
                 } else if (value instanceof BigNumber) {
