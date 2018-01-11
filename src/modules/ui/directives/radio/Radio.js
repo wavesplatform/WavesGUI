@@ -52,6 +52,10 @@
                 this._onChangeValueAttr();
             }
 
+            init() {
+                this._setChecked();
+            }
+
             _setHandlers() {
                 this.input.on('change', () => {
                     this.radioWrap.setValue(this.value);
