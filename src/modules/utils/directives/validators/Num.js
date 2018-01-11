@@ -103,9 +103,7 @@
                 }
 
                 this.registerValidator('required', (modelValue) => {
-                    const req = !isRequired || Num._isEmpty(modelValue);
-                    console.log(`Required ${req}`);
-                    return req;
+                    return !isRequired || Num._isEmpty(modelValue);
                 });
 
                 this.$input.on('keypress', (event) => {

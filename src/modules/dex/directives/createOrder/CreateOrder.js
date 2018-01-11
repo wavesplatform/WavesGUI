@@ -282,7 +282,7 @@
                     return null;
                 }
                 if (amount.asset.id === fee.asset.id) {
-                    return amount.sub(this.fee);
+                    return amount.sub(fee);
                 } else {
                     return amount;
                 }
