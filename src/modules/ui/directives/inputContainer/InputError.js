@@ -30,7 +30,7 @@
              */
             _isTouched() {
                 return this._getElements()
-                    .filter((item) => item.$touched && item.$invalid)
+                    .filter((item) => item.$touched && !item.$valid)
                     .some((item) => item.$touched);
             }
 

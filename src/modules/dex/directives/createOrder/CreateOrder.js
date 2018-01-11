@@ -91,11 +91,9 @@
                 const balancesPoll = createPoll(this, this._getBalances, this._setBalances, 1000);
 
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
-                    this.type = type;
-                    this.step = 1;
-
                     this.amount = new BigNumber(amount);
                     this.price = new BigNumber(price);
+                    this.expand(type);
                     $scope.$apply();
                 });
 
@@ -128,18 +126,13 @@
             expand(type) {
                 this.type = type;
                 this.step = 1;
+                this.maxAmountBalance = CreateOrder._getMaxAmountBalance(this.type, this.amountBalance, this.fee);
                 switch (type) {
                     case 'sell':
                         this.price = new BigNumber(this.bid.price);
-                        if (this.amountBalance.asset.id === this.fee.asset.id) {
-                            this.maxAmountBalance = this.amountBalance.sub(this.fee);
-                        } else {
-                            this.maxAmountBalance = this.amountBalance;
-                        }
                         break;
                     case 'buy':
                         this.price = new BigNumber(this.ask.price);
-                        this.maxAmountBalance = null;
                         break;
                     default:
                         throw new Error('Wrong type');
@@ -284,6 +277,24 @@
                 const buy = Number(this.ask.price);
 
                 this.spreadPercent = ((buy - sell) * 100 / buy).toFixed(2);
+            }
+
+            /**
+             * @param {string} type
+             * @param {Money} amount
+             * @param {Money} fee
+             * @return {Money}
+             * @private
+             */
+            static _getMaxAmountBalance(type, amount, fee) {
+                if (type === 'buy') {
+                    return null;
+                }
+                if (amount.asset.id === fee.asset.id) {
+                    return amount.sub(fee);
+                } else {
+                    return amount;
+                }
             }
 
         }
