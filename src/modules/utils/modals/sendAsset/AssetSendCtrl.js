@@ -161,7 +161,7 @@
                         this.amountMirror = new BigNumber(0);
                         this.mirrorBalance = mirrorBalance;
                         this._setAssets(balance);
-                        this.balance = tsUtils.find(this.moneyList, (item) => item.asset.id === this.assetId).available;
+                        this.balance = tsUtils.find(this.moneyList, (item) => item.asset.id === this.assetId);
                         this.fee = fee;
                     });
             }
