@@ -85,6 +85,11 @@
                     this.fee = money;
                 });
 
+                /**
+                 * @type {Poll}
+                 */
+                const balancesPoll = createPoll(this, this._getBalances, this._setBalances, 1000);
+
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.type = type;
                     this.step = 1;
@@ -102,7 +107,7 @@
 
                     this.amount = null;
                     this.price = null;
-                    this.updateBalances();
+                    balancesPoll.restart();
                 });
 
                 this.syncSettings({
@@ -118,18 +123,6 @@
                 });
 
                 createPoll(this, this._getData, this._setData, 1000);
-            }
-
-            updateBalances() {
-                Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
-                    return utils.whenAll([
-                        waves.node.assets.balance(pair.amountAsset.id),
-                        waves.node.assets.balance(pair.priceAsset.id)
-                    ]).then(([amountMoney, priceMoney]) => {
-                        this.amountBalance = amountMoney.available;
-                        this.priceBalance = priceMoney.available;
-                    });
-                });
             }
 
             expand(type) {
@@ -209,7 +202,6 @@
                                 ns: 'app.dex',
                                 title: { literal: 'directives.createOrder.notifications.isCreated' }
                             });
-                            this.updateBalances();
                         }).catch((err) => {
                             // TODO : refactor this
                             const notEnough = 'Not enough tradable balance';
@@ -224,6 +216,23 @@
                             });
                         });
                     });
+            }
+
+            _getBalances() {
+                return Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
+                    return utils.whenAll([
+                        waves.node.assets.balance(pair.amountAsset.id),
+                        waves.node.assets.balance(pair.priceAsset.id)
+                    ]).then(([amountMoney, priceMoney]) => ({
+                        amountBalance: amountMoney.available,
+                        priceBalance: priceMoney.available
+                    }));
+                });
+            }
+
+            _setBalances({ amountBalance, priceBalance }) {
+                this.amountBalance = amountBalance;
+                this.priceBalance = priceBalance;
             }
 
             /**
