@@ -55,6 +55,13 @@
                                 this.validateByName('asset-max');
                             });
                         }
+
+                        this.$scope.$watch(this.assetId, (id) => {
+                            waves.node.assets.info(id).then((asset) => {
+                                this.asset = asset;
+                                this.validate();
+                            });
+                        });
                     });
             }
 
@@ -77,7 +84,7 @@
 
             onReady() {
                 return super.onReady()
-                    .then(() => waves.node.assets.info(this.assetId));
+                    .then(() => waves.node.assets.info(this.$scope.$eval(this.assetId)));
             }
 
         }

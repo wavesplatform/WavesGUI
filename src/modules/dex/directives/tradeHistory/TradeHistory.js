@@ -6,7 +6,7 @@
      * @param {Scope} $scope
      * @param {Waves} waves
      * @param {DataFeed} dataFeed
-     * @param {} createPoll
+     * @param {function} createPoll
      * @return {TradeHistory}
      */
     const controller = function (Base, $scope, waves, dataFeed, createPoll) {
@@ -69,14 +69,10 @@
             _onChangeAssets() {
                 this.orders = [];
                 this.poll.restart();
-                waves.node.assets.info(this._priceAssetId)
-                    .then((asset) => {
-                        this.priceAsset = asset;
-                    });
-                waves.node.assets.info(this._amountAssetId)
-                    .then((asset) => {
-                        this.amountAsset = asset;
-                    });
+                Waves.AssetPair.get(this._priceAssetId, this._amountAssetId).then((pair) => {
+                    this.priceAsset = pair.priceAsset;
+                    this.amountAsset = pair.amountAsset;
+                });
             }
 
             _getTradeHistory() {
@@ -84,7 +80,7 @@
                     return [];
                 }
                 return dataFeed.trades(this._amountAssetId, this._priceAssetId)
-                    .then(data => this.shema.parse(data));
+                    .then((data) => this.shema.parse(data));
             }
 
         }

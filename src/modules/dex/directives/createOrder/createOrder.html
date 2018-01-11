@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <!--<div class="order-types"></div>-->
-                    <form class="fields" name="order">
+                    <form class="fields" novalidate name="order">
                         <div class="amount">
                             <div class="split-half field-label">
                                 <div class="footnote-1 disabled-900"
@@ -65,7 +65,7 @@
                                     <w-input class="tiny embed no-validate-icons"
                                              type="text"
                                              w-validate="asset"
-                                             asset-id="{{$ctrl.amountBalance.asset.id}}"
+                                             asset-id="$ctrl.amountBalance.asset.id"
                                              max-balance="$ctrl.maxAmountBalance"
                                              name="amount"
                                              ng-model="$ctrl.amount"
@@ -104,7 +104,7 @@
                                     <w-input class="tiny embed no-validate-icons"
                                              type="text"
                                              w-validate="asset"
-                                             asset-id="{{$ctrl.priceBalance.asset.id}}"
+                                             asset-id="$ctrl.priceBalance.asset.id"
                                              name="price"
                                              ng-model="$ctrl.price"
                                              required></w-input>
@@ -132,7 +132,8 @@
                             <div class="caption-2 disabled-700">Fee 0.003 WAVES</div>
                         </div>
 
-                        <w-button disabled="order.$invalid || $ctrl.cantByOrder"
+                        <!--TODO WTF? Has no property $valid and $invalid in form when remove all char from input amount-->
+                        <w-button disabled="!order.$valid || $ctrl.cantByOrder"
                                   class="place-order tiny footnote-3"
                                   ng-click="$ctrl.createOrder(order)">
                             <w-i18n ng-if="$ctrl.type === 'sell'">directives.createOrder.placeSellOrder</w-i18n>
