@@ -228,9 +228,9 @@
             static _remapOrders(order) {
                 switch (order.type) {
                     case 'sell':
-                        return Promise.resolve(order.amount);
+                        return Promise.resolve(order.amount.sub(order.filled));
                     case 'buy':
-                        const tokens = order.amount.getTokens().mul(order.price.getTokens());
+                        const tokens = order.amount.sub(order.filled).getTokens().mul(order.price.getTokens());
                         return Waves.Money.fromTokens(tokens, order.price.asset.id);
                 }
             }
