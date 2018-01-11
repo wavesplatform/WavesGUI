@@ -6,7 +6,7 @@
      * @param {Scope} $scope
      * @param {Waves} waves
      * @param {DataFeed} dataFeed
-     * @param {} createPoll
+     * @param {function} createPoll
      * @return {TradeHistory}
      */
     const controller = function (Base, $scope, waves, dataFeed, createPoll) {
@@ -84,7 +84,7 @@
                     return [];
                 }
                 return dataFeed.trades(this._amountAssetId, this._priceAssetId)
-                    .then(data => this.shema.parse(data));
+                    .then((data) => this.shema.parse(data));
             }
 
         }
