@@ -107,6 +107,9 @@
                 if ($state.params.assetId1 && $state.params.assetId2) {
                     this._amountAssetId = $state.params.assetId1;
                     this._priceAssetId = $state.params.assetId2;
+                    const list = this._idWatchList.slice();
+                    utils.addUniqueToArray([this._amountAssetId, this._priceAssetId], list);
+                    this._idWatchList = list;
                 } else {
                     $location.search('assetId2', this._priceAssetId);
                     $location.search('assetId1', this._amountAssetId);
