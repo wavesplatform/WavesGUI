@@ -85,16 +85,16 @@
                     this.fee = money;
                 });
 
-                /**
-                 * @type {Poll}
-                 */
-                const balancesPoll = createPoll(this, this._getBalances, this._setBalances, 1000);
-
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.amount = new BigNumber(amount);
                     this.price = new BigNumber(price);
                     this.expand(type);
                     $scope.$apply();
+                });
+
+                this.syncSettings({
+                    _amountAssetId: 'dex.amountAssetId',
+                    _priceAssetId: 'dex.priceAssetId'
                 });
 
                 this.observe(['_amountAssetId', '_priceAssetId'], () => {
@@ -108,10 +108,10 @@
                     balancesPoll.restart();
                 });
 
-                this.syncSettings({
-                    _amountAssetId: 'dex.amountAssetId',
-                    _priceAssetId: 'dex.priceAssetId'
-                });
+                /**
+                 * @type {Poll}
+                 */
+                const balancesPoll = createPoll(this, this._getBalances, this._setBalances, 1000);
 
                 this.observe(['amount', 'price', 'step', 'type'], this._currentTotal);
 
