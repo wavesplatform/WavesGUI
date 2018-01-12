@@ -37,9 +37,12 @@ a {
 }
 
 /* Mac button text centering fix */
-w-button > button w-i18n {
+w-button {
+  & > button w-i18n,
+  & > button div.fullwidth  {
     width: 100%;
-    text-align: center;
+    display: block;
+  }
 }
 
 md-input-container {
