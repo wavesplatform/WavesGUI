@@ -32,6 +32,7 @@ body.tokens {
       resize: vertical;
       min-height: 42px;
       max-height: 300px;
+      overflow-y: hidden;
     }
 
     .page-title {
@@ -146,6 +147,34 @@ body.tokens {
       .row {
         margin-top: 20px;
       }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body.tokens {
+
+     .main-content .content {
+       height: calc(100vh ~'- 90px');
+       width: calc(100% ~'- 20px');
+     }
+
+     .token-page {
+
+      .generate-form {
+        padding:0 10px;
+        width:100%;
+        max-width: calc(100% ~'- 20px');
+      }
+
+      .input-like .select-wrap .issue-select {
+        width: calc(100% ~'- 12px');
+      }
+
+      textarea {
+        font-size: 14px;
+      }
+
     }
   }
 }

@@ -20,7 +20,6 @@ body:not(.create):not(.welcome) {
 
     md-dialog-content {
       display: block;
-      padding: 20px 40px 40px;
       overflow-x: hidden;
       span.body-2.basic-900.ng-scope {
         display: inline-block;
@@ -39,7 +38,7 @@ body:not(.create):not(.welcome) {
     }
   }
   .asset-content .top-content {
-    w-asset-logo {  
+    w-asset-logo {
       margin-right: 20px;
       float: left
     }
@@ -66,5 +65,15 @@ body:not(.create):not(.welcome) {
         background-image: url(/img/icons/pinned.svg);
       }
     }
+  }
+}
+
+md-dialog-content {
+  padding: 20px 40px 40px;
+}
+
+@media screen and (max-width: 768px) {
+  md-dialog-content {
+    padding: 10px;
   }
 }

@@ -161,3 +161,56 @@ md-dialog.settings-modal {
   }
 
 }
+
+@media screen and (max-width: 768px) {
+
+  body:not(.create):not(.welcome) md-dialog.settings-modal md-dialog-content {
+    padding: 0 0 20px 0;
+    height: 100%;
+  }
+
+  md-dialog.settings-modal {
+    width: calc(100% ~'- 20px');
+    min-width: 340px;
+    max-width: 400px;
+    max-height: 100%;
+    left: 50%;
+    transform-origin: center;
+    transform: translateX(-50%);
+
+    .settings-modal {
+      flex-direction: column;
+
+      .navigation-menu {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        position: relative;
+        left: 0;
+        top: 0;
+        border-right: 0 none;
+        margin-bottom: 20px;
+        border-bottom: 1px solid @color-basic-200;
+
+        .menu-item {
+          flex-basis: 50%;
+        }
+      }
+
+      .settings-content {
+        margin-left: 0;
+        padding: 0 10px;
+
+        .row-mobile {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .step-list .info .flex-row:first-child {
+          padding-top: 3px;
+        }
+      }
+
+    }
+  }
+}

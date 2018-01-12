@@ -12,6 +12,7 @@ w-navigation {
     box-sizing: border-box;
     font-size: 15px;
     text-decoration: none;
+    white-space: nowrap;
 
     &.active {
       .headline-1();
@@ -59,5 +60,14 @@ w-navigation {
       text-align: center;
       padding: 15px 0;
     }
+  }
+}
+
+
+
+@media screen and (max-width: 768px) {
+  w-navigation .navigation.column {
+    flex-direction: row;
+    margin-left:20px
   }
 }

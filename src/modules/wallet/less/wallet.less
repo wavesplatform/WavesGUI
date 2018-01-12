@@ -1,7 +1,7 @@
 @import (reference) '../../config';
 
 body.wallet {
-  min-width: 1024px;
+  /*min-width: 1024px;*/
 }
 
 .wallet {
@@ -78,6 +78,18 @@ body.wallet {
       &.active::before {
         background-image: url(/img/wallet/leasing-active.svg);
       }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body.wallet {
+    min-width: 100%;
+
+    .content ui-view[name="mainContent"],
+    .content ui-view[name="mainContent"] ui-view[name="content"] {
+      display: block;
+      height: 100%;
     }
   }
 }

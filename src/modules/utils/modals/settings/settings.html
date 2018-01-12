@@ -59,18 +59,18 @@
                         <w-button ng-if="!$ctrl.shownKey" class="tiny" ng-click="$ctrl.shownKey = true">
                             <w-i18n>modal.settings.security.show</w-i18n>
                         </w-button>
-                        <div ng-if="$ctrl.shownKey">{{::$ctrl.privateKey}}</div>
+                        <div class="mobile-low-fsize" ng-if="$ctrl.shownKey">{{::$ctrl.privateKey}}</div>
                     </div>
                 </div>
-                <div class="row flex-row row-style">
+                <div class="row flex-row row-style row-mobile">
                     <div class="footnote disabled-600" w-i18n="modal.settings.security.publicKey"></div>
-                    <div>{{::$ctrl.publicKey}}</div>
+                    <div class="mobile-low-fsize">{{::$ctrl.publicKey}}</div>
+                </div>
+                <div class="row flex-row row-style row-mobile">
+                    <div class="footnote disabled-600" w-i18n="modal.settings.security.address"></div>
+                    <div class="mobile-low-fsize">{{::$ctrl.address}}</div>
                 </div>
 
-                <div class="row flex-row row-style">
-                    <div class="footnote disabled-600" w-i18n="modal.settings.security.address"></div>
-                    <div>{{::$ctrl.address}}</div>
-                </div>
             </w-step>
 
             <w-step step-id="network" class="network">

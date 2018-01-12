@@ -72,7 +72,7 @@
       }
 
       .chart-info {
-        height: 95px;
+        min-height: 95px;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -112,7 +112,7 @@
       border-left: 0;
       border-bottom-left-radius: 0;
       border-top-left-radius: 0;
-
+      white-space: nowrap;
       font-family: @font-roboto-regular;
       letter-spacing: 0;
       color: @color-info-500;
@@ -151,6 +151,91 @@
       & w-radio input:checked ~ label.btn.btn-radio {
         font-size: 13px;
       }
+    }
+  }
+
+}
+
+/* responsive */
+
+.chart-prices-toggle {
+  display:none;
+}
+
+.toolbar-balance-select {
+  margin-top: 10px;
+  display:none;
+}
+
+@media screen and (max-width: 768px) {
+  .chart-prices-toggle {
+    display: block;
+    width: 40px;
+    height: 40px;
+    background: #ccc;
+    color: #fff;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
+    border-radius: 50%;
+    position: absolute;
+    right: -50px;
+    top: 50%;
+    margin-top: -32px;
+    cursor: pointent;
+  }
+
+  .toolbar-balance-radio {
+    display: none;
+  }
+
+  .toolbar-balance-select {
+    display: block;
+  }
+
+
+  .main.wallet.assets .content .chart-rate .chart-wrapper {
+    margin-top: 95px;
+  }
+
+  .main.wallet.assets .content .chart-rate .chart-info .change,
+  .main.wallet.assets .content .chart-rate .chart-info .change-percent {
+    display:none;
+  }
+
+  .main.wallet.assets .content .chart-rate .chart-info {
+      flex-direction: column;
+      max-width: 300px;
+      position: absolute;
+      top: 95px;
+      width: 100%;
+      left: 50%;
+      margin-left: -150px;
+      justify-content: flex-start;
+      z-index: 1;
+
+    h1 {
+      white-space: nowrap;
+      /*visibility: hidden;*/
+    }
+
+    .rate {
+      position: relative;
+    }
+
+    > div:not(:last-child) {
+      margin-right: 0;
+      padding-right: 0;
+      margin-top:10px;
+      margin-bottom:10px;
+      border-right:0 none;
+    }
+
+    &:hover .rate {
+        & + div,
+        & + div + div {
+          display: block;
+        }
     }
   }
 

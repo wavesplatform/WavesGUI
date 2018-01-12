@@ -8,6 +8,7 @@ w-header {
   padding-left: @width-left-menu;
   width: 100%;
   background-color: @color-white;
+  overflow: hidden;
 
   w-navigation {
     display: block;
@@ -57,4 +58,16 @@ w-header {
     border-right: 1px solid @color-disabled-100;
     border-bottom: 1px solid @color-white;
   }
+}
+
+
+
+
+@media screen and (max-width:768px) {
+   w-header {
+     position:absolute;
+     top: 70px;
+     border-top:1px solid @color-disabled-100;
+     padding-left:0;
+   }
 }

@@ -2,6 +2,8 @@
 
 @asset-block-narrow: calc(~"25% - " @padding-main-layout);
 @asset-block-wide: calc(~"33.3% - " @padding-main-layout);
+@asset-block-wide50: calc(~"50% - " @padding-main-layout);
+@asset-block-full: calc(~"100% - " @padding-main-layout);
 
 w-asset {
   box-sizing: border-box;
@@ -11,6 +13,14 @@ w-asset {
   @media screen and (max-width: 1300px) {
     flex-basis: @asset-block-wide;
     max-width: @asset-block-wide;
+  }
+  @media screen and (max-width: 768px) {
+    flex-basis: @asset-block-wide50;
+    max-width: @asset-block-wide50;
+  }
+  @media screen and (max-width: 560px) {
+    flex-basis: @asset-block-full;
+    max-width: @asset-block-full;
   }
   border: 1px solid #eaeaea;
   border-radius: @border-radius;
