@@ -9,7 +9,7 @@
      * @param $scope
      * @return {DexWatchlist}
      */
-    const controller = function (Base, waves, utils, $element, $scope) {
+    const controller = function (Base, waves, utils, $element, $scope, $state, $location) {
 
         class DexWatchlist extends Base {
 
@@ -104,6 +104,18 @@
                     _activeWatchListId: 'dex.watchlist.activeWatchListId'
                 });
 
+                if ($state.params.assetId1 && $state.params.assetId2) {
+                    this._amountAssetId = $state.params.assetId1;
+                    this._priceAssetId = $state.params.assetId2;
+                } else {
+                    $location.search('assetId2', this._priceAssetId);
+                    $location.search('assetId1', this._amountAssetId);
+                }
+
+                this.observe(['_amountAssetId', '_priceAssetId'], () => {
+                    $location.search('assetId2', this._priceAssetId);
+                    $location.search('assetId1', this._amountAssetId);
+                });
                 this.observe('activeRowId', this._onChangeActiveRow);
                 this.observe('baseAssetId', this._onChangeBaseAsset);
                 this.observe('_idWatchList', this._onChangeIdWatchList);
@@ -332,7 +344,7 @@
         return new DexWatchlist();
     };
 
-    controller.$inject = ['Base', 'waves', 'utils', '$element', '$scope'];
+    controller.$inject = ['Base', 'waves', 'utils', '$element', '$scope', '$state', '$location'];
 
     angular.module('app.dex')
         .component('wDexWatchlist', {
