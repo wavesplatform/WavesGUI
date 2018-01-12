@@ -191,8 +191,9 @@
                             'PartiallyFilled': 'matcher.orders.statuses.filled'
                         };
                         const state = i18n.translate(STATUS_MAP[order.status], 'app', { percent });
+                        const isActive = ['Accepted', 'PartiallyFilled'].indexOf(order.status) !== -1;
 
-                        return { ...order, price, amount, filled, pair, percent, state };
+                        return { ...order, isActive, price, amount, filled, pair, percent, state };
                     });
             }
 
