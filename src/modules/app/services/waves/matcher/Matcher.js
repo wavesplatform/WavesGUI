@@ -63,6 +63,7 @@
             }
 
             /**
+             * TODO Paulo add id for order for optimize draw trade history
              * @param keyPair
              * @returns {Promise<any>}
              * @private
