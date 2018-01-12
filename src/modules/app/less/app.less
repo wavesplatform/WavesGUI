@@ -37,9 +37,10 @@ a {
 }
 
 /* Mac button text centering fix */
-w-button {
-  & > button w-i18n,
-  & > button div.fullwidth  {
+w-button > button {
+  w-i18n,
+  div.fullwidth,
+  div.fullwidth * {
     width: 100%;
     display: block;
   }
