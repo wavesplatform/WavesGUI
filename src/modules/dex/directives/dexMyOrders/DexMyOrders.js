@@ -66,15 +66,14 @@
                     .then((seed) => waves.matcher.getOrders(seed.keyPair))
                     .then((orders) => {
                         const active = [];
-                        const filled = [];
                         const others = [];
                         orders.forEach((order) => {
                             switch (order.status) {
                                 case 'Accepted':
                                     active.push(order);
                                     break;
-                                case 'Filled':
-                                    filled.push(order);
+                                case 'PartiallyFilled':
+                                    active.push(order);
                                     break;
                                 default:
                                     others.push(order);
@@ -82,10 +81,9 @@
                         });
 
                         active.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
-                        filled.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
                         others.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
 
-                        return active.concat(filled).concat(others);
+                        return active.concat(others);
                     });
             }
 
