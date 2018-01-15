@@ -13,14 +13,10 @@
             constructor() {
                 super();
 
-                this._amountAssetId = null;
-                this._priceAssetId = null;
                 this._leftHidden = false;
                 this._rightHidden = false;
 
                 this.syncSettings({
-                    _amountAssetId: 'dex.amountAssetId',
-                    _priceAssetId: 'dex.priceAssetId',
                     _leftHidden: 'dex.layout.leftColumnState',
                     _rightHidden: 'dex.layout.rightColumnState',
                     collapseMyOrders: 'dex.layout.myOrders.collapsed',

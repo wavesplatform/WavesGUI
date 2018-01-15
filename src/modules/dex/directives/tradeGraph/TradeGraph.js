@@ -16,13 +16,10 @@
                 super();
 
                 /**
-                 * @type {string}
+                 * @type {{amount: string, price: string}}
+                 * @private
                  */
-                this._amountAssetId = null;
-                /**
-                 * @type {string}
-                 */
-                this._priceAssetId = null;
+                this._assetIdPair = null;
                 /**
                  * @type {Asset}
                  * @private
@@ -93,12 +90,11 @@
                 };
 
                 this.syncSettings({
-                    _amountAssetId: 'dex.amountAssetId',
-                    _priceAssetId: 'dex.priceAssetId',
+                    _assetIdPair: 'dex.assetIdPair',
                     _chartCropRate: 'dex.chartCropRate'
                 });
 
-                this.observe(['_amountAssetId', '_priceAssetId', '_chartCropRate'], this._onChangeAssets);
+                this.observe(['_assetIdPair', '_chartCropRate'], this._onChangeAssets);
 
                 /**
                  * @type {Poll}
@@ -108,7 +104,7 @@
             }
 
             _getOrderBook() {
-                return waves.matcher.getOrderBook(this._priceAssetId, this._amountAssetId)
+                return waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
                     .then((data) => this._filterOrders(data))
                     .then(TradeGraph._remapOrderBook);
             }
@@ -134,15 +130,12 @@
             }
 
             _onChangeAssets(noRestart) {
-                if (this._priceAssetId === this._amountAssetId || !this._priceAssetId || !this._amountAssetId) {
-                    return null;
-                }
 
-                waves.node.assets.info(this._priceAssetId)
+                waves.node.assets.info(this._assetIdPair.price)
                     .then((asset) => {
                         this._priceAsset = asset;
                     });
-                waves.node.assets.info(this._amountAssetId)
+                waves.node.assets.info(this._assetIdPair.amount)
                     .then((asset) => {
                         this._amountAsset = asset;
                     });

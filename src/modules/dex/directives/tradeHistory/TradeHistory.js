@@ -16,13 +16,10 @@
             constructor() {
                 super();
                 /**
-                 * @type {string}
+                 * @type {{amount: string, price: string}}
+                 * @private
                  */
-                this._amountAssetId = null;
-                /**
-                 * @type {string}
-                 */
-                this._priceAssetId = null;
+                this._assetIdPair = null;
                 /**
                  * @type {Asset}
                  */
@@ -39,24 +36,23 @@
                         type: tsApiValidator.ObjectPart,
                         required: true,
                         content: {
-                            price: {type: tsApiValidator.NumberPart, required: true},
-                            size: {type: tsApiValidator.NumberPart, required: true, path: 'amount'},
-                            date: {type: tsApiValidator.DatePart, required: true, path: 'timestamp'},
-                            type: {type: tsApiValidator.StringPart, required: true}
+                            price: { type: tsApiValidator.NumberPart, required: true },
+                            size: { type: tsApiValidator.NumberPart, required: true, path: 'amount' },
+                            date: { type: tsApiValidator.DatePart, required: true, path: 'timestamp' },
+                            type: { type: tsApiValidator.StringPart, required: true }
                         }
                     }
                 });
 
                 this.syncSettings({
-                    _amountAssetId: 'dex.amountAssetId',
-                    _priceAssetId: 'dex.priceAssetId'
+                    _assetIdPair: 'dex.assetIdPair'
                 });
 
                 /**
                  * @type {Poll}
                  */
                 this.poll = createPoll(this, this._getTradeHistory, 'orders', 2000);
-                this.observe(['_amountAssetId', '_priceAssetId'], this._onChangeAssets);
+                this.observe('_assetIdPair', this._onChangeAssets);
 
                 this._onChangeAssets();
             }
@@ -67,23 +63,16 @@
             }
 
             _onChangeAssets() {
-                if (this._priceAssetId === this._amountAssetId || !this._priceAssetId || !this._amountAssetId) {
-                    return null;
-                }
-
                 this.orders = [];
                 this.poll.restart();
-                Waves.AssetPair.get(this._priceAssetId, this._amountAssetId).then((pair) => {
+                Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                     this.priceAsset = pair.priceAsset;
                     this.amountAsset = pair.amountAsset;
                 });
             }
 
             _getTradeHistory() {
-                if (!this._amountAssetId || !this._priceAssetId) {
-                    return [];
-                }
-                return dataFeed.trades(this._amountAssetId, this._priceAssetId)
+                return dataFeed.trades(this._assetIdPair.amount, this._assetIdPair.price)
                     .then((data) => this.shema.parse(data));
             }
 

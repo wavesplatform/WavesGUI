@@ -50,6 +50,27 @@
             },
 
             /**
+             * @name app.utils.decorators#async
+             * @param timeout
+             * @returns {Function}
+             */
+            async(timeout) {
+                return function (target, key, descriptor) {
+                    const origin = descriptor.value;
+
+                    descriptor.value = function (...args) {
+                        if (this[`__${key}_timer`]) {
+                            clearTimeout(this[`__${key}_timer`]);
+                        }
+                        this[`__${key}_timer`] = setTimeout(() => {
+                            this[`__${key}_timer`] = null;
+                            origin.call(this, ...args);
+                        }, timeout || 0);
+                    };
+                };
+            },
+
+            /**
              * @name app.utils.decorators#cachable
              * @param time
              * @return {Function}

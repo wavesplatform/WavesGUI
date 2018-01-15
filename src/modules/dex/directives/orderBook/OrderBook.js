@@ -30,15 +30,10 @@
                  */
                 this.priceAsset = null;
                 /**
-                 * @type {string}
+                 * @type {{amount: string, price: string}}
                  * @private
                  */
-                this._amountAssetId = null;
-                /**
-                 * @type {string}
-                 * @private
-                 */
-                this._priceAssetId = null;
+                this._assetIdPair = null;
                 /**
                  * @type {boolean}
                  * @private
@@ -46,16 +41,12 @@
                 this._showSpread = true;
 
                 this.syncSettings({
-                    _amountAssetId: 'dex.amountAssetId',
-                    _priceAssetId: 'dex.priceAssetId'
+                    _assetIdPair: 'dex.assetIdPair'
                 });
 
                 const poll = createPoll(this, this._getOrders, 'orders', 1000);
 
-                this.observe(['_amountAssetId', '_priceAssetId'], () => {
-                    if (this._priceAssetId === this._amountAssetId || !this._priceAssetId || !this._amountAssetId) {
-                        return null;
-                    }
+                this.observe('_assetIdPair', () => {
                     this._showSpread = true;
                     poll.restart();
                 });
@@ -73,7 +64,7 @@
             }
 
             _getOrders() {
-                return waves.matcher.getOrderBook(this._amountAssetId, this._priceAssetId)
+                return waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
                     .then(({ bids, asks, spread, pair }) => {
 
                         this.amountAsset = pair.amountAsset;
