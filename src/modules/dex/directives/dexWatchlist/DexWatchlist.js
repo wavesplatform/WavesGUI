@@ -7,6 +7,8 @@
      * @param {app.utils} utils
      * @param {JQuery} $element
      * @param $scope
+     * @param {$state} $state
+     * @param {$location} $location
      * @return {DexWatchlist}
      */
     const controller = function (Base, waves, utils, $element, $scope, $state, $location) {
@@ -104,29 +106,20 @@
                     _activeWatchListId: 'dex.watchlist.activeWatchListId'
                 });
 
-                if ($state.params.assetId1 && $state.params.assetId2) {
-                    this._amountAssetId = $state.params.assetId1;
-                    this._priceAssetId = $state.params.assetId2;
-                    const list = this._idWatchList.slice();
-                    utils.addUniqueToArray([this._amountAssetId, this._priceAssetId], list);
-                    this._idWatchList = list;
-                } else {
-                    $location.search('assetId2', this._priceAssetId);
-                    $location.search('assetId1', this._amountAssetId);
-                }
+                this._resolveState().then(() => {
+                    this.observe(['_amountAssetId', '_priceAssetId'], () => {
+                        $location.search('assetId2', this._priceAssetId);
+                        $location.search('assetId1', this._amountAssetId);
+                    });
+                    this.observe('activeRowId', this._onChangeActiveRow);
+                    this.observe('baseAssetId', this._onChangeBaseAsset);
+                    this.observe('_idWatchList', this._onChangeIdWatchList);
+                    this.observe('_activeWatchListId', this._onChangeActiveWatchList);
 
-                this.observe(['_amountAssetId', '_priceAssetId'], () => {
-                    $location.search('assetId2', this._priceAssetId);
-                    $location.search('assetId1', this._amountAssetId);
+                    this._initRowId();
+                    this._onChangeBaseAsset();
+                    this._onChangeIdWatchList();
                 });
-                this.observe('activeRowId', this._onChangeActiveRow);
-                this.observe('baseAssetId', this._onChangeBaseAsset);
-                this.observe('_idWatchList', this._onChangeIdWatchList);
-                this.observe('_activeWatchListId', this._onChangeActiveWatchList);
-
-                this._initRowId();
-                this._onChangeBaseAsset();
-                this._onChangeIdWatchList();
             }
 
             removeWatchedAsset(event, asset) {
@@ -143,16 +136,48 @@
              * @param value
              * @private
              */
-            _onChangeSearchFocus({ value }) {
+            _onChangeSearchFocus({value}) {
                 const state = !value || !this._$searchList.children().length;
                 this._$searchList.toggleClass('hidden', state);
+            }
+
+            /**
+             * @returns {Promise}
+             * @private
+             */
+            _resolveState() {
+                if ($state.params.assetId1 && $state.params.assetId2) {
+                    return Waves.AssetPair.get($state.params.assetId1, $state.params.assetId2)
+                        .then((pair) => {
+                            this._amountAssetId = pair.amountAsset.id;
+                            this._priceAssetId = pair.priceAsset.id;
+                            const list = this._idWatchList.slice();
+                            utils.addUniqueToArray([this._amountAssetId, this._priceAssetId], list);
+                            this._idWatchList = list;
+                        }).catch(() => {
+                            return Waves.AssetPair.get(WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC)
+                                .then((pair) => {
+                                    this._amountAssetId = pair.amountAsset.id;
+                                    this._priceAssetId = pair.priceAsset.id;
+                                    $location.search('assetId2', this._priceAssetId);
+                                    $location.search('assetId1', this._amountAssetId);
+                                    const list = this._idWatchList.slice();
+                                    utils.addUniqueToArray([this._amountAssetId, this._priceAssetId], list);
+                                    this._idWatchList = list;
+                                });
+                        });
+                } else {
+                    $location.search('assetId2', this._priceAssetId);
+                    $location.search('assetId1', this._amountAssetId);
+                    return Promise.resolve();
+                }
             }
 
             /**
              * @param value
              * @private
              */
-            _onChangeSearch({ value }) {
+            _onChangeSearch({value}) {
                 if (this._activeXHR) {
                     this._activeXHR.abort();
                     this._activeXHR = null;
@@ -183,17 +208,17 @@
                             });
                             this._$searchList.empty();
                             this._$searchList.append($elements);
-                            this._onChangeSearchFocus({ value: this._parent.focused });
+                            this._onChangeSearchFocus({value: this._parent.focused});
                         }, () => {
                             this._$searchList.empty();
                             this._$searchList
                                 .append('<div class="not-found footnote-1 basic-500">No assets found</div>');
-                            this._onChangeSearchFocus({ value: this._parent.focused });
+                            this._onChangeSearchFocus({value: this._parent.focused});
                         });
                     }, 500);
                 } else {
                     this._$searchList.empty();
-                    this._onChangeSearchFocus({ value: this._parent.focused });
+                    this._onChangeSearchFocus({value: this._parent.focused});
                 }
             }
 
@@ -203,7 +228,7 @@
              * @param isWatched
              * @private
              */
-            _clickSearchItem({ id }, isChangeBase, isWatched) {
+            _clickSearchItem({id}, isChangeBase, isWatched) {
                 if (isChangeBase) {
                     this.baseAssetId = id;
                     if (this.activeRowId === id) {
