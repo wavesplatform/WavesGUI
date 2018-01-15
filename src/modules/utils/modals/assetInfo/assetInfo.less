@@ -3,8 +3,7 @@
 html body md-dialog.asset-info-modal {
 
   md-dialog-content {
-    padding-bottom: 0 !important; //TODO remove!!!
-    height: calc(~'100% - 64px');
+    padding-bottom: 0;
     overflow-y: hidden;
   }
 
@@ -143,4 +142,53 @@ html body md-dialog.asset-info-modal {
     border: 0 none;
   }
 
+}
+
+@media screen and (max-width: 768px) {
+  html body md-dialog.asset-info-modal {
+    padding-bottom: 0;
+    .chart-wrapper {
+      margin-left: -10px;
+      margin-right: -10px;
+    }
+
+    .asset-content {
+      .padding-content .tab-tem {
+        padding: 10px;
+      }
+
+      .tab-tem {
+        max-height: calc(100vh ~'- 290px');
+        padding: 0;
+
+        .line {
+          flex-direction: column;
+
+          & > div:first-child,
+          & > div:last-child {
+            width: 100%;
+          }
+
+          w-circle-chart {
+            margin: 0 auto;
+          }
+
+          .chart-legend {
+            margin-left: 0;
+          }
+        }
+
+      }
+
+      .footnote-1.fs-mobile {
+        font-size: @mobile-low-fsize;
+      }
+
+    }
+
+    .tab-container {
+      width: calc(100% ~'+ 20px');
+      margin-left: -10px;
+    }
+  }
 }

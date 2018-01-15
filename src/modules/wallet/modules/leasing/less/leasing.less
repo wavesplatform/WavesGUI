@@ -178,34 +178,29 @@ w-leasing-block.leasingNote {
 @media screen and (max-width: 768px) {
 
   .leasing-page {
-    /*flex-direction: column;*/
     overflow-y:auto;
     height: auto;
     max-height: 100%;
     display:block;
-  }
 
-  .leasing-page .left-panel {
-    width: 100%;
-    overflow-y: visible;
-    max-height: 100%;
-  }
+    .left-panel {
+      width: 100%;
+      overflow-y: visible;
+      max-height: 100%;
+    }
 
-  .leasing-page .transactions-container {
-    width: 100%;
+    .transactions-container {
+      width: 100%;
+
+      w-scroll-box .scroll-list {
+        max-height: 100%;
+        overflow:visible;
+      }
+    }
   }
 
   .leasingNote {
     margin-bottom:10px;
-  }
-
-  /*.transactions-container {
-    margin-top: 300px;
-  }*/
-
-  .transactions-container w-scroll-box .scroll-list {
-    max-height: 100%;
-    overflow:visible;
   }
 
   w-transaction .transaction {

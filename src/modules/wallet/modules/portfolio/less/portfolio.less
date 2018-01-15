@@ -158,3 +158,41 @@
   max-height: 400px;
   overflow-y: auto;
 }
+
+.mobile-col-title {
+  display: none;
+}
+
+@media screen and (max-width: 786px) {
+  .main.wallet.portfolio .portfolio-list .portfolio-item {
+    flex-direction: column;
+    height: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    &:first-child {
+      display: none;
+    }
+
+    .portfolio-item-name,
+    .portfolio-item-balance,
+    .portfolio-item-mirror,
+    .portfolio-item-rate,
+    .portfolio-item-change {
+      display: flex;
+      width: 100%;
+      padding: 0px;
+      text-align: left;
+      font-size: @mobile-mid-fsize;
+      span.mobile-col-title {
+        flex-basis: 40%;
+      }
+    }
+
+    .mobile-col-title {
+      display: block;
+      color: @color-disabled-600;
+    }
+
+  }
+}
