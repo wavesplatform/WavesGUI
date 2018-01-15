@@ -134,6 +134,10 @@
             }
 
             _onChangeAssets(noRestart) {
+                if (this._priceAssetId === this._amountAssetId || !this._priceAssetId || !this._amountAssetId) {
+                    return null;
+                }
+
                 waves.node.assets.info(this._priceAssetId)
                     .then((asset) => {
                         this._priceAsset = asset;

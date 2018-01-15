@@ -39,10 +39,10 @@
                         type: tsApiValidator.ObjectPart,
                         required: true,
                         content: {
-                            price: { type: tsApiValidator.NumberPart, required: true },
-                            size: { type: tsApiValidator.NumberPart, required: true, path: 'amount' },
-                            date: { type: tsApiValidator.DatePart, required: true, path: 'timestamp' },
-                            type: { type: tsApiValidator.StringPart, required: true }
+                            price: {type: tsApiValidator.NumberPart, required: true},
+                            size: {type: tsApiValidator.NumberPart, required: true, path: 'amount'},
+                            date: {type: tsApiValidator.DatePart, required: true, path: 'timestamp'},
+                            type: {type: tsApiValidator.StringPart, required: true}
                         }
                     }
                 });
@@ -67,6 +67,10 @@
             }
 
             _onChangeAssets() {
+                if (this._priceAssetId === this._amountAssetId || !this._priceAssetId || !this._amountAssetId) {
+                    return null;
+                }
+
                 this.orders = [];
                 this.poll.restart();
                 Waves.AssetPair.get(this._priceAssetId, this._amountAssetId).then((pair) => {

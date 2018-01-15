@@ -212,6 +212,10 @@
             }
 
             _getBalances() {
+                if (this._priceAssetId === this._amountAssetId || !this._priceAssetId || !this._amountAssetId) {
+                    return null;
+                }
+
                 return Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
                     return utils.whenAll([
                         waves.node.assets.balance(pair.amountAsset.id),
@@ -223,9 +227,11 @@
                 });
             }
 
-            _setBalances({ amountBalance, priceBalance }) {
-                this.amountBalance = amountBalance;
-                this.priceBalance = priceBalance;
+            _setBalances(data) {
+                if (data) {
+                    this.amountBalance = data.amountBalance;
+                    this.priceBalance = data.priceBalance;
+                }
             }
 
             /**

@@ -53,6 +53,9 @@
                 const poll = createPoll(this, this._getOrders, 'orders', 1000);
 
                 this.observe(['_amountAssetId', '_priceAssetId'], () => {
+                    if (this._priceAssetId === this._amountAssetId || !this._priceAssetId || !this._amountAssetId) {
+                        return null;
+                    }
                     this._showSpread = true;
                     poll.restart();
                 });
