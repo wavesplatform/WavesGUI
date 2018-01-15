@@ -74,8 +74,8 @@
                     });
                 }
 
+                let min;
                 if (hasMin) {
-                    let min;
                     if (includeRangeMin) {
                         this.registerValidator('min', (modalValue) => !min || !modalValue || modalValue.gte(min));
                     } else {
@@ -103,7 +103,7 @@
                 }
 
                 this.registerValidator('required', (modelValue) => {
-                    return !isRequired || Num._isEmpty(modelValue);
+                    return !isRequired || Num._isEmpty(modelValue, includeRangeMin, min);
                 });
 
                 this.$input.on('keypress', (event) => {
@@ -137,7 +137,10 @@
                 return utils.parseNiceNumber;
             }
 
-            static _isEmpty(value) {
+            static _isEmpty(value, include, min) {
+                if (include) {
+                    return value instanceof BigNumber ? value.gte(min) : !!value;
+                }
                 return value instanceof BigNumber ? value.gt(0) : !!value;
             }
 
