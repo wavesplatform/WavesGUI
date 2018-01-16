@@ -163,12 +163,6 @@ md-dialog.settings-modal {
 }
 
 @media screen and (max-width: 768px) {
-
-  body:not(.create):not(.welcome) md-dialog.settings-modal md-dialog-content {
-    padding: 0 0 20px 0;
-    height: 100%;
-  }
-
   md-dialog.settings-modal {
     width: calc(100% ~'- 20px');
     min-width: 340px;
@@ -210,7 +204,11 @@ md-dialog.settings-modal {
           padding-top: 3px;
         }
       }
+    }
 
+    md-dialog-content {
+      padding: 0 0 20px 0;
+      height: 100%;
     }
   }
 }

@@ -66,29 +66,29 @@ w-navigation {
 @media screen and (max-width: 768px) {
   w-left-menu w-navigation .navigation.column {
     flex-direction: row;
-    margin-left:20px
+    margin-left: 20px
   }
 
   w-header w-navigation {
     width:100%;
     max-width: 360px;
-  }
 
-  w-header w-navigation .navigation.row a {
-    padding:10px 0;
-    font-size: 0;
-    margin:0;
-    flex-basis:20%;
-    justify-content: center;
+    .navigation.row a {
+      padding:10px 0;
+      font-size: 0;
+      margin:0;
+      flex-basis: 20%;
+      justify-content: center;
 
-    &::before {
-      margin-right:0;
-    }
+      &::before {
+        margin-right: 0;
+      }
 
-    &.active {
-      flex-basis:40%;
-      font-size:15px;
-      text-indent: 10px;
+      &.active {
+        flex-basis: 40%;
+        font-size: 15px;
+        text-indent: 10px;
+      }
     }
   }
 }

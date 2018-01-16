@@ -94,6 +94,7 @@
     background-size: 100% 100%;
     width: 24px;
     height: 20px;
+    margin: 7px;
   }
 
   w-balance-input {
@@ -183,9 +184,6 @@
       }
       h2 {
         text-align: center;
-        & + div {
-          text-align: center;
-        }
       }
       w-button {
         display: block;
@@ -200,6 +198,28 @@
           margin: 0 auto;
           background-color: #1f5af6;
         }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .modal-send {
+    .modal-content {
+      table tr {
+        td {
+          font-size: @mobile-low-fsize;
+        }
+        td.headline-3 {
+          padding: 10px;
+        }
+        td:last-child {
+          padding: 10px;
+          font-size: @mobile-low-fsize;
+        }
+      }
+      .confirm-block w-button {
+        width: 45%;
       }
     }
   }

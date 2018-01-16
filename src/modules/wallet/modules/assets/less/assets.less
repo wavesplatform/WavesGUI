@@ -156,15 +156,13 @@
 
 }
 
-/* responsive */
-
 .chart-prices-toggle {
-  display:none;
+  display: none;
 }
 
 .toolbar-balance-select {
   margin-top: 10px;
-  display:none;
+  display: none;
 }
 
 @media screen and (max-width: 768px) {
@@ -182,7 +180,7 @@
     right: -50px;
     top: 50%;
     margin-top: -32px;
-    cursor: pointent;
+    cursor: pointer;
   }
 
   .toolbar-balance-radio {
@@ -194,49 +192,51 @@
   }
 
 
-  .main.wallet.assets .content .chart-rate .chart-wrapper {
-    margin-top: 95px;
-  }
+  .main.wallet.assets {
+    .content .chart-rate {
+      .chart-wrapper {
+        margin-top: 95px;
+      }
 
-  .main.wallet.assets .content .chart-rate .chart-info .change,
-  .main.wallet.assets .content .chart-rate .chart-info .change-percent {
-    display:none;
-  }
+      .chart-info {
+        flex-direction: column;
+        max-width: 300px;
+        position: absolute;
+        top: 95px;
+        width: 100%;
+        left: 50%;
+        margin-left: -150px;
+        justify-content: flex-start;
+        z-index: 1;
 
-  .main.wallet.assets .content .chart-rate .chart-info {
-      flex-direction: column;
-      max-width: 300px;
-      position: absolute;
-      top: 95px;
-      width: 100%;
-      left: 50%;
-      margin-left: -150px;
-      justify-content: flex-start;
-      z-index: 1;
-
-    h1 {
-      white-space: nowrap;
-      /*visibility: hidden;*/
-    }
-
-    .rate {
-      position: relative;
-    }
-
-    > div:not(:last-child) {
-      margin-right: 0;
-      padding-right: 0;
-      margin-top:10px;
-      margin-bottom:10px;
-      border-right:0 none;
-    }
-
-    &:hover .rate {
-        & + div,
-        & + div + div {
-          display: block;
+        h1 {
+          white-space: nowrap;
         }
+
+        .rate {
+          position: relative;
+        }
+
+        & > div:not(:last-child) {
+          margin-right: 0;
+          padding-right: 0;
+          margin-top: 10px;
+          margin-bottom: 10px;
+          border-right: 0 none;
+        }
+
+        &:hover .rate {
+          & + div,
+          & + div + div {
+            display: block;
+          }
+        }
+
+        .change,
+        .change-percent {
+          display: none;
+        }
+      }
     }
   }
-
 }
