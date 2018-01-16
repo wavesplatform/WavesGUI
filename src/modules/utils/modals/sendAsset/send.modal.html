@@ -41,16 +41,17 @@
                     <w-input-container>
                         <div class="body-2" w-i18n="modal.send.recipient"></div>
                         <div class="read-address-wrap">
-                            <w-input type="text"
+                            <w-input w-autofocus
+                                     type="text"
                                      w-validate="address"
                                      name="recipient"
                                      ng-model="$ctrl.recipient"
                                      placeholder="modal.send.placeholderRecipient"
                                      w-i18n-attr="placeholder"
-                                     required></w-input>
+                                     required></w-inputw-autofocus>
 
-                            <w-qr-code-read on-read="$ctrl.onReadQrCode(result)" max-width="250"
-                                            max-height="160"></w-qr-code-read>
+                                <w-qr-code-read on-read="$ctrl.onReadQrCode(result)" max-width="250"
+                                                max-height="160"></w-qr-code-read>
                         </div>
 
                         <w-input-error message="inputAddress">
