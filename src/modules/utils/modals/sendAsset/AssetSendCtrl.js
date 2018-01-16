@@ -150,7 +150,7 @@
                     return null;
                 }
                 this.ready = utils.whenAll([
-                    this.canChooseAsset ? this._getBalanceList() : waves.node.assets.balance(this.assetId),
+                    this.canChooseAsset ? this._getBalanceList() : waves.node.assets.balance(this.assetId).then(({ available }) => available),
                     waves.node.assets.info(this.mirrorId),
                     waves.node.assets.fee('transfer'),
                     waves.utils.getRateApi(this.assetId, this.mirrorId)

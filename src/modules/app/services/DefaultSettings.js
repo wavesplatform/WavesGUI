@@ -62,8 +62,10 @@
                     },
                     dex: {
                         chartCropRate: 1.5,
-                        amountAssetId: WavesApp.defaultAssets.WAVES,
-                        priceAssetId: WavesApp.defaultAssets.BTC,
+                        assetIdPair: {
+                            amount: WavesApp.defaultAssets.WAVES,
+                            price: WavesApp.defaultAssets.BTC
+                        },
                         watchlist: {
                             activeWatchListId: 'top',
                             top: {

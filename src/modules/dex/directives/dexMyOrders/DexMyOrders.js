@@ -18,23 +18,17 @@
                 super();
 
                 /**
-                 * @type {string}
+                 * @type {{amount: string, price: string}}
                  * @private
                  */
-                this._amountAssetId = null;
-                /**
-                 * @type {string}
-                 * @private
-                 */
-                this._priceAssetId = null;
+                this._assetIdPair = null;
 
                 this.syncSettings({
-                    _amountAssetId: 'dex.amountAssetId',
-                    _priceAssetId: 'dex.priceAssetId'
+                    _assetIdPair: 'dex.assetIdPair'
                 });
 
                 const poll = createPoll(this, this._getOrders, 'orders', 5000);
-                this.observe(['_amountAssetId', '_priceAssetId'], () => poll.restart());
+                this.observe('_assetIdPair', () => poll.restart());
             }
 
             dropOrder(order) {
@@ -67,6 +61,7 @@
                     .then((orders) => {
                         const active = [];
                         const others = [];
+
                         orders.forEach((order) => {
                             switch (order.status) {
                                 case 'Accepted':
