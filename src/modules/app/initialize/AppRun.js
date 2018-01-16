@@ -113,6 +113,7 @@
                 this._setHandlers();
                 this._stopLoader();
                 this._initializeLogin();
+                this._initializeOutLinks();
             }
 
             /**
@@ -120,6 +121,22 @@
              */
             _setHandlers() {
                 $rootScope.$on('$stateChangeSuccess', this._onChangeStateSuccess.bind(this));
+            }
+
+            /**
+             * Initialize handler for out links for electron
+             * @private
+             */
+            _initializeOutLinks() {
+                if (WavesApp.isDesktop()) {
+                    $(document).on('click', '[target="_blank"]', (e) => {
+                        const $link = $(e.currentTarget);
+                        const shell = require('electron').shell;
+                        e.preventDefault();
+
+                        shell.openExternal($link.attr('href'));
+                    });
+                }
             }
 
             /**

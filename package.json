@@ -69,7 +69,9 @@
     "watchts": "sh scripts/watch-typescript.sh",
     "lessc": "sh scripts/lessc",
     "build": "node_modules/.bin/tsc -p ./ && node_modules/.bin/gulp all",
-    "server": "npm run build && node server"
+    "server": "npm run build && node server",
+    "electron": "gulp all && cd ./dist && electron-packager ./desktop/mainnet/min/ --platform=all --osx-sign.type=development",
+    "electron-debug": "gulp html-desktop-mainnet-min && node_modules/.bin/electron ./dist/desktop/mainnet/min/"
   },
   "dependencies": {
     "@types/html-minifier": "^1.1.30",
