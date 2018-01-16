@@ -101,6 +101,7 @@
                         const abstract = item.get('abstract');
                         const url = AppConfig.getUrlFromState(item);
                         const redirectTo = item.get('redirectTo');
+                        const reloadOnSearch = item.get('reloadOnSearch');
 
                         const views = item.get('views').reduce((views, viewData) => {
                             const controller = (abstract || viewData.noController) ? undefined :
@@ -117,7 +118,8 @@
                             abstract,
                             url,
                             redirectTo,
-                            views
+                            views,
+                            reloadOnSearch
                         });
                     });
             }

@@ -373,6 +373,19 @@
             },
 
             /**
+             * @name app.utils#addUniqueToArray
+             * @param {Array} list
+             * @param {Array} array
+             */
+            addUniqueToArray(list, array) {
+                list.forEach((item) => {
+                    if (array.indexOf(item) === -1) {
+                        array.push(item);
+                    }
+                });
+            },
+
+            /**
              * @name app.utils#comparators
              */
             comparators: {

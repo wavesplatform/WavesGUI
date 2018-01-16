@@ -71,24 +71,14 @@
                  */
                 this.totalPrice = null;
                 /**
-                 * @type {string}
+                 * @type {{amount: string, price: string}}
                  * @private
                  */
-                this._priceAssetId = null;
-                /**
-                 * @type {string}
-                 * @private
-                 */
-                this._amountAssetId = null;
+                this._assetIdPair = null;
 
                 Waves.Money.fromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
                     this.fee = money;
                 });
-
-                /**
-                 * @type {Poll}
-                 */
-                const balancesPoll = createPoll(this, this._getBalances, this._setBalances, 1000);
 
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.amount = new BigNumber(amount);
@@ -97,21 +87,20 @@
                     $scope.$apply();
                 });
 
-                this.observe(['_amountAssetId', '_priceAssetId'], () => {
+                this.syncSettings({
+                    _assetIdPair: 'dex.assetIdPair'
+                });
 
-                    if (!this._priceAssetId || !this._amountAssetId) {
-                        return null;
-                    }
-
+                this.observe('_assetIdPair', () => {
                     this.amount = null;
                     this.price = null;
                     balancesPoll.restart();
                 });
 
-                this.syncSettings({
-                    _amountAssetId: 'dex.amountAssetId',
-                    _priceAssetId: 'dex.priceAssetId'
-                });
+                /**
+                 * @type {Poll}
+                 */
+                const balancesPoll = createPoll(this, this._getBalances, this._setBalances, 1000);
 
                 this.observe(['amount', 'price', 'step', 'type'], this._currentTotal);
 
@@ -174,7 +163,7 @@
             createOrder(form) {
                 user.getSeed()
                     .then((seed) => {
-                        return Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
+                        return Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                             return Promise.all([
                                 Waves.Money.fromTokens(this.amount.toFixed(), this.amountBalance.asset.id),
                                 Waves.OrderPrice.fromTokens(this.price.toFixed(), pair)
@@ -212,7 +201,7 @@
             }
 
             _getBalances() {
-                return Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
+                return Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                     return utils.whenAll([
                         waves.node.assets.balance(pair.amountAsset.id),
                         waves.node.assets.balance(pair.priceAsset.id)
@@ -223,9 +212,11 @@
                 });
             }
 
-            _setBalances({ amountBalance, priceBalance }) {
-                this.amountBalance = amountBalance;
-                this.priceBalance = priceBalance;
+            _setBalances(data) {
+                if (data) {
+                    this.amountBalance = data.amountBalance;
+                    this.priceBalance = data.priceBalance;
+                }
             }
 
             /**
@@ -253,7 +244,7 @@
              * @private
              */
             _getData() {
-                return waves.matcher.getOrderBook(this._amountAssetId, this._priceAssetId)
+                return waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
                     .then(({ bids, asks, spread }) => {
                         const [lastAsk] = asks;
                         const [firstBid] = bids;
