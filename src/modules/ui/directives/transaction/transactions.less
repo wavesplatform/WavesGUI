@@ -12,7 +12,7 @@ w-transaction .transaction {
   .icon {
     position: relative;
     width: 96px;
-    height: 96px;
+    height: 76px;
     background-size: 48px 48px;
     background-repeat: no-repeat;
     background-position: center center;
@@ -102,10 +102,10 @@ w-transaction .transaction {
 }
 
 @media screen and (max-width: 840px) {
-
-  .leasing w-transaction .transaction {
+  .leasing w-transaction .transaction { //for leasing page
     .icon {
       zoom: .7;
+      margin-right: 20px;
     }
 
     .transaction-info {
@@ -139,13 +139,13 @@ w-transaction .transaction {
       }
     }
   }
-
 }
 
 @media screen and (max-width: 768px) {
   w-transaction .transaction {
     .icon {
       zoom: .7;
+      margin-right: 20px;
     }
 
     .transaction-info {

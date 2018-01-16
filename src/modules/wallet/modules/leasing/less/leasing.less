@@ -29,7 +29,7 @@
   }
 
   w-transaction-list {
-    height: calc(~'100% - ' @height-transaction-header);
+    height: calc(~'100vh - ' 130px);
 
     .w-transaction-list ul {
       border-top-left-radius: 0;
@@ -180,7 +180,7 @@ w-leasing-block.leasingNote {
     overflow-y:auto;
     height: auto;
     max-height: 100%;
-    display:block;
+    display: block;
 
     .left-panel {
       width: 100%;
@@ -193,17 +193,21 @@ w-leasing-block.leasingNote {
 
       w-scroll-box .scroll-list {
         max-height: 100%;
-        overflow:visible;
+        overflow: visible;
       }
+    }
+
+    w-transaction-list {
+       height: calc(~'100vh - ' 200px);
     }
   }
 
   .leasingNote {
-    margin-bottom:10px;
+    margin-bottom: 10px;
   }
 
   w-transaction .transaction {
-    height:auto;
+    height: auto;
     min-height: 74px;
   }
 }
