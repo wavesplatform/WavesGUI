@@ -27,24 +27,16 @@
                 this.notLoaded = false;
 
                 /**
-                 * @type {string}
+                 * @type {{price: string, amount: string}}
                  * @private
                  */
-                this._amountAssetId = null;
-                /**
-                 * @type {string}
-                 * @private
-                 */
-                this._priceAssetId = null;
+                this._assetIdPair = null;
 
-                this.observe(['_amountAssetId', '_priceAssetId'], () => {
-                    if (this.notLoaded || !this._amountAssetId || !this._priceAssetId) {
-                        return null;
-                    }
+                this.observe('_assetIdPair', () => {
 
                     if (this.chartReady) {
                         this.chart.symbolInterval(({ interval }) => {
-                            this.chart.setSymbol(`${this._amountAssetId}/${this._priceAssetId}`, interval);
+                            this.chart.setSymbol(`${this._assetIdPair.amount}/${this._assetIdPair.price}`, interval);
                         });
                     } else {
                         // TODO : wait until it's ready and switch to the active pair
@@ -52,8 +44,7 @@
                 });
 
                 this.syncSettings({
-                    _amountAssetId: 'dex.amountAssetId',
-                    _priceAssetId: 'dex.priceAssetId'
+                    _assetIdPair: 'dex.assetIdPair'
                 });
             }
 
@@ -61,7 +52,7 @@
                 controller.load().then(() => {
                     this.chart = new TradingView.widget({
                         // debug: true,
-                        symbol: `${this._amountAssetId}/${this._priceAssetId}`,
+                        symbol: `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
                         interval: WavesApp.dex.defaultResolution,
                         container_id: this.elementId,
                         datafeed: candlesService,
