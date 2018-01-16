@@ -13,6 +13,10 @@
                 super();
                 this.children = [];
                 this.name = `name-${Math.random()}-${Date.now()}`;
+
+                this.observe('value', () => {
+                    this.children.forEach((item) => item.init());
+                });
             }
 
             addRadio(item) {

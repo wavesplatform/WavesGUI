@@ -18,23 +18,17 @@
                 super();
 
                 /**
-                 * @type {string}
+                 * @type {{amount: string, price: string}}
                  * @private
                  */
-                this._amountAssetId = null;
-                /**
-                 * @type {string}
-                 * @private
-                 */
-                this._priceAssetId = null;
+                this._assetIdPair = null;
 
                 this.syncSettings({
-                    _amountAssetId: 'dex.amountAssetId',
-                    _priceAssetId: 'dex.priceAssetId'
+                    _assetIdPair: 'dex.assetIdPair'
                 });
 
                 const poll = createPoll(this, this._getOrders, 'orders', 5000);
-                this.observe(['_amountAssetId', '_priceAssetId'], () => poll.restart());
+                this.observe('_assetIdPair', () => poll.restart());
             }
 
             dropOrder(order) {
@@ -66,15 +60,15 @@
                     .then((seed) => waves.matcher.getOrders(seed.keyPair))
                     .then((orders) => {
                         const active = [];
-                        const filled = [];
                         const others = [];
+
                         orders.forEach((order) => {
                             switch (order.status) {
                                 case 'Accepted':
                                     active.push(order);
                                     break;
-                                case 'Filled':
-                                    filled.push(order);
+                                case 'PartiallyFilled':
+                                    active.push(order);
                                     break;
                                 default:
                                     others.push(order);
@@ -82,10 +76,9 @@
                         });
 
                         active.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
-                        filled.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
                         others.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
 
-                        return active.concat(filled).concat(others);
+                        return active.concat(others);
                     });
             }
 

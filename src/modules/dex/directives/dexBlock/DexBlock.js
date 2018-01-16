@@ -86,6 +86,9 @@
             onClickTitle() {
                 if (this.hasSearch) {
                     this.changeBaseAssetMode = true;
+                    utils.wait().then(() => {
+                        $element.find('input.change-base-asset-input').focus();
+                    });
                 }
             }
 

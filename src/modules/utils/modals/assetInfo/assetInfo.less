@@ -4,7 +4,7 @@ html body md-dialog.asset-info-modal {
 
   md-dialog-content {
     padding-bottom: 0 !important; //TODO remove!!!
-    height: calc(~'100% - 64px');
+    overflow-y: hidden;
   }
 
   .chart-wrapper {
@@ -29,6 +29,11 @@ html body md-dialog.asset-info-modal {
 
   .asset-content {
     height: 100%;
+
+    .tab-tem {
+      overflow-y: auto;
+      max-height: calc(~'74vh - 300px');
+    }
   }
 
   .padding-content .tab-tem {
@@ -40,6 +45,7 @@ html body md-dialog.asset-info-modal {
       justify-content: space-between;
       border-bottom: 1px solid @color-disabled-100;
       padding: 5px 0;
+      align-items: center;
 
       &:last-child {
         border-bottom: 0 none;
@@ -47,15 +53,58 @@ html body md-dialog.asset-info-modal {
 
       & > div:first-child {
         width: 120px;
-        display: flex;
         align-items: center;
+        display: flex;
       }
 
       & > div:last-child {
-        width: calc(~'100% - 120px');
-        display: flex;
+        width: calc(~'100% - 130px');
         align-items: center;
+        display: flex;
+        flex-direction: column;
+
+        .legend-item, .total {
+          display: flex;
+          padding: 12px 0;
+          width: 100%;
+          border-bottom: 1px solid @color-disabled-100;
+          align-items: center;
+
+          > div {
+            flex-basis: 50%;
+
+            &:last-child {
+              text-align: right;
+            }
+
+            .legend-color {
+              width: 12px;
+              height: 12px;
+              border-radius: 50%;
+              display: inline-block;
+              margin: -3px 7px 0 0;
+              vertical-align: middle;
+            }
+          }
+        }
+
+        .total {
+          font-weight: bold;
+          border-bottom: 0 none;
+
+          div:first-child {
+            color: @color-disabled-600;
+          }
+        }
+
       }
+    }
+
+  }
+
+  .padding-content.tab-details .tab-tem {
+    .line > div:last-child {
+      display: block;
     }
   }
 

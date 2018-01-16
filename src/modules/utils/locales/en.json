@@ -12,6 +12,11 @@
       "name": "Name",
       "type": "Type",
       "date": "Issue date",
+      "balance": "Balance",
+      "total": "Total",
+      "available": "Available",
+      "leased": "Leased",
+      "inOrders": "Reserved in orders",
       "reissue": {
         "yes": "Reissuable",
         "no": "Not reissuable"

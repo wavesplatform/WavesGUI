@@ -25,12 +25,19 @@
                 <w-i18n>chart.create</w-i18n>
             </w-button>
         </w-leasing-block>
-        <w-leasing-block title-locale="description.title">
-            <div class="footnote-1 basic-500" w-i18n="description.text1"></div>
-            <div class="description-split"></div>
-            <div class="icon-description footnote-1 basic-500" w-i18n="description.text2"></div>
-            <div class="description-split"></div>
-            <div class="footnote-1 basic-500" w-i18n="description.text3"></div>
+        <w-leasing-block class="leasingNote">
+            <div class="transactions-title headline-4 disabled-900">
+                <w-i18n>description.title</w-i18n>
+            </div>
+            <input class="collapse-trigger" type="checkbox" id="note" />
+            <label for="note"></label>
+            <div class="collapse-container" class="collapseable">
+                <div class="footnote-1 basic-500" w-i18n="description.text1"></div>
+                <div class="description-split"></div>
+                <div class="icon-description footnote-1 basic-500" w-i18n="description.text2"></div>
+                <div class="description-split"></div>
+                <div class="footnote-1 basic-500" w-i18n="description.text3"></div>
+            </div>
         </w-leasing-block>
     </div>
     <div class="transactions-container">

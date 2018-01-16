@@ -159,7 +159,7 @@
             _getBalanceList() {
                 return waves.node.assets.userBalances().then((list) => {
                     return list && list.length ? list : waves.node.assets.balanceList([WavesApp.defaultAssets.WAVES]);
-                });
+                }).then((list) => list.map(({ available }) => available));
             }
 
             _onChangeAssetId() {
@@ -168,7 +168,7 @@
                 }
 
                 this.ready = utils.whenAll([
-                    this.canChooseAsset ? this._getBalanceList() : waves.node.assets.balance(this.assetId),
+                    this.canChooseAsset ? this._getBalanceList() : waves.node.assets.balance(this.assetId).then(({ available }) => available),
                     waves.node.assets.info(this.mirrorId),
                     waves.node.assets.fee('transfer'),
                     waves.utils.getRateApi(this.assetId, this.mirrorId)
@@ -188,7 +188,7 @@
              * @private
              */
             _getAsset() {
-                return waves.node.assets.balance(this.assetId);
+                return waves.node.assets.balance(this.assetId).then(({ available }) => available);
             }
 
             /**

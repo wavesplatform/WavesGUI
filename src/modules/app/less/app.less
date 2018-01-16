@@ -36,6 +36,16 @@ a {
   cursor: pointer;
 }
 
+/* Mac button text centering fix */
+w-button > button {
+  w-i18n,
+  div.full-width,
+  div.full-width * {
+    width: 100%;
+    display: block;
+  }
+}
+
 md-input-container {
   transform: translate3d(0, 0, 0);
 }
@@ -193,6 +203,13 @@ md-dialog md-dialog-actions {
 
 .chart-legend {
   display: none;
+  margin-left: 40px;
+
+  .legend-item {
+    display: block;
+    padding: 12px 0;
+  }
+
 }
 
 .btn-wrap.btn-group { // TODO add colors from config for btn-wrap
@@ -267,8 +284,14 @@ md-dialog md-dialog-actions {
   overflow-y: auto;
 }
 
-.portfolio-list w-scroll-box .scroll-list {
+.portfolio-list w-scroll-box {
+  overflow: auto;
+  min-height: calc(~'100vh - 207px');
   max-height: calc(~'100vh - 207px');
+
+  .scroll-list {
+    height: 100%;
+  }
 }
 
 .transactions w-scroll-box .scroll-list {
@@ -284,7 +307,6 @@ md-dialog md-dialog-actions {
   height: 100%;
   max-height: calc(~'100vh - 90px');
   overflow: hidden;
-  .scroll();
 
   .left-panel {
     height: 100%;
@@ -305,13 +327,13 @@ md-dialog md-dialog-actions {
 
   ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 3px @color-basic-100;
-    -webkit-border-radius: @zeropx;
-    border-radius: @zeropx;
+    -webkit-border-radius: 0;
+    border-radius: 0;
   }
 
   ::-webkit-scrollbar-thumb {
-    -webkit-border-radius: @zeropx;
-    border-radius: @zeropx;
+    -webkit-border-radius: 0;
+    border-radius: 0;
     background: @color-basic-100;
     -webkit-box-shadow: inset 0 0 3px @color-basic-500;
   }

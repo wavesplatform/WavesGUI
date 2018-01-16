@@ -41,7 +41,7 @@
   "success": {
     "title": "Транзакция отправлена!",
     "description": "Вы выпустили {{amount}} {{name}}",
-    "done": "Открыть портфолио"
+    "done": "Открыть портфель"
   },
   "notifications": {
     "isNotCreated": "Токен не был выпущен"

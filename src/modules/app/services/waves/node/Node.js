@@ -34,32 +34,6 @@
                 return this._feeList(transactionType);
             }
 
-            get() {
-                return Waves.API.Node.v2.addresses.get(user.address)
-                    .then(({ wavesBalance }) => {
-
-                        const available = eventManager.updateBalance(wavesBalance.available);
-
-                        if (available.getTokens().lt(0)) {
-                            return Waves.Money.fromTokens('0', available.asset.id).then((available) => {
-                                return {
-                                    leasedOut: wavesBalance.leasedOut,
-                                    leasedIn: wavesBalance.leasedIn,
-                                    regular: wavesBalance.regular,
-                                    available
-                                };
-                            });
-                        } else {
-                            return {
-                                leasedOut: wavesBalance.leasedOut,
-                                leasedIn: wavesBalance.leasedIn,
-                                regular: wavesBalance.regular,
-                                available: eventManager.updateBalance(wavesBalance.available)
-                            };
-                        }
-                    });
-            }
-
             /**
              * @return {Promise<Number>}
              */

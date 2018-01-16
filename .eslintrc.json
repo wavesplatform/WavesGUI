@@ -26,6 +26,7 @@
     "spyOn": true,
     "expect": true,
     "it": true,
+    "TradingView": true,
     "WavesApp": true,
     "WavesAPI": true,
     "workerWrapper": true,

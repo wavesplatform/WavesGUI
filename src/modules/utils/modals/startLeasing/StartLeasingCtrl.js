@@ -41,8 +41,8 @@
                     });
 
                 waves.node.assets.balance(this.assetId)
-                    .then((info) => {
-                        this.balance = info;
+                    .then((balance) => {
+                        this.balance = balance.available;
                     });
             }
 

@@ -71,52 +71,36 @@
                  */
                 this.totalPrice = null;
                 /**
-                 * @type {string}
+                 * @type {{amount: string, price: string}}
                  * @private
                  */
-                this._priceAssetId = null;
-                /**
-                 * @type {string}
-                 * @private
-                 */
-                this._amountAssetId = null;
+                this._assetIdPair = null;
 
                 Waves.Money.fromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
                     this.fee = money;
                 });
 
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
-                    this.type = type;
-                    this.step = 1;
-
                     this.amount = new BigNumber(amount);
                     this.price = new BigNumber(price);
+                    this.expand(type);
                     $scope.$apply();
                 });
 
-                this.observe(['_amountAssetId', '_priceAssetId'], () => {
+                this.syncSettings({
+                    _assetIdPair: 'dex.assetIdPair'
+                });
 
-                    if (!this._priceAssetId || !this._amountAssetId) {
-                        return null;
-                    }
-
+                this.observe('_assetIdPair', () => {
                     this.amount = null;
                     this.price = null;
-                    Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
-                        return utils.whenAll([
-                            waves.node.assets.balance(pair.amountAsset.id),
-                            waves.node.assets.balance(pair.priceAsset.id)
-                        ]).then(([amountMoney, priceMoney]) => {
-                            this.amountBalance = amountMoney;
-                            this.priceBalance = priceMoney;
-                        });
-                    });
+                    balancesPoll.restart();
                 });
 
-                this.syncSettings({
-                    _amountAssetId: 'dex.amountAssetId',
-                    _priceAssetId: 'dex.priceAssetId'
-                });
+                /**
+                 * @type {Poll}
+                 */
+                const balancesPoll = createPoll(this, this._getBalances, this._setBalances, 1000);
 
                 this.observe(['amount', 'price', 'step', 'type'], this._currentTotal);
 
@@ -131,18 +115,13 @@
             expand(type) {
                 this.type = type;
                 this.step = 1;
+                this.maxAmountBalance = CreateOrder._getMaxAmountBalance(this.type, this.amountBalance, this.fee);
                 switch (type) {
                     case 'sell':
                         this.price = new BigNumber(this.bid.price);
-                        if (this.amountBalance.asset.id === this.fee.asset.id) {
-                            this.maxAmountBalance = this.amountBalance.sub(this.fee);
-                        } else {
-                            this.maxAmountBalance = this.amountBalance;
-                        }
                         break;
                     case 'buy':
                         this.price = new BigNumber(this.ask.price);
-                        this.maxAmountBalance = null;
                         break;
                     default:
                         throw new Error('Wrong type');
@@ -184,7 +163,7 @@
             createOrder(form) {
                 user.getSeed()
                     .then((seed) => {
-                        return Waves.AssetPair.get(this._amountAssetId, this._priceAssetId).then((pair) => {
+                        return Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                             return Promise.all([
                                 Waves.Money.fromTokens(this.amount.toFixed(), this.amountBalance.asset.id),
                                 Waves.OrderPrice.fromTokens(this.price.toFixed(), pair)
@@ -221,6 +200,25 @@
                     });
             }
 
+            _getBalances() {
+                return Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
+                    return utils.whenAll([
+                        waves.node.assets.balance(pair.amountAsset.id),
+                        waves.node.assets.balance(pair.priceAsset.id)
+                    ]).then(([amountMoney, priceMoney]) => ({
+                        amountBalance: amountMoney.available,
+                        priceBalance: priceMoney.available
+                    }));
+                });
+            }
+
+            _setBalances(data) {
+                if (data) {
+                    this.amountBalance = data.amountBalance;
+                    this.priceBalance = data.priceBalance;
+                }
+            }
+
             /**
              * @private
              */
@@ -246,7 +244,7 @@
              * @private
              */
             _getData() {
-                return waves.matcher.getOrderBook(this._amountAssetId, this._priceAssetId)
+                return waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
                     .then(({ bids, asks, spread }) => {
                         const [lastAsk] = asks;
                         const [firstBid] = bids;
@@ -270,6 +268,24 @@
                 const buy = Number(this.ask.price);
 
                 this.spreadPercent = ((buy - sell) * 100 / buy).toFixed(2);
+            }
+
+            /**
+             * @param {string} type
+             * @param {Money} amount
+             * @param {Money} fee
+             * @return {Money}
+             * @private
+             */
+            static _getMaxAmountBalance(type, amount, fee) {
+                if (type === 'buy') {
+                    return null;
+                }
+                if (amount.asset.id === fee.asset.id) {
+                    return amount.sub(fee);
+                } else {
+                    return amount;
+                }
             }
 
         }

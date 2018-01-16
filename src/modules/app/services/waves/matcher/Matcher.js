@@ -5,16 +5,34 @@
      * @param {app.utils} utils
      * @param {app.utils.decorators} decorators
      * @param {app.i18n} i18n
+     * @param {User} user
+     * @param {PollCache} PollCache
      * @return {Matcher}
      */
-    const factory = function (utils, decorators, i18n) {
+    const factory = function (utils, decorators, i18n, user, PollCache) {
 
         class Matcher {
 
-            getOrders(keyPair) {
-                return Waves.API.Matcher.v1.getAllOrders(keyPair)
-                    .then((list) => list.map(Matcher._remapOrder))
-                    .then(utils.whenAll);
+            constructor() {
+
+                this._orderBookCacheHash = Object.create(null);
+
+                user.onLogin().then(() => {
+                    /**
+                     * @type {Promise<Seed>}
+                     * @private
+                     */
+                    this._seedPromise = user.getSeed();
+                    /**
+                     * @type {PollCache}
+                     * @private
+                     */
+                    this._ordersCache = new PollCache({
+                        getData: this._getOrdersData.bind(this),
+                        timeout: 2000,
+                        isBalance: true
+                    });
+                });
             }
 
             getOrdersByPair(assetId1, assetId2, keyPair) {
@@ -32,8 +50,37 @@
                 });
             }
 
-            @decorators.cachable(1)
+            getOrders() {
+                return this._ordersCache.get();
+            }
+
             getOrderBook(asset1, asset2) {
+                return this._getOrderBookCache(asset1, asset2).get();
+            }
+
+            cancelOrder(amountAssetId, priceAssetId, orderId, keyPair) {
+                return Waves.API.Matcher.v1.cancelOrder(amountAssetId, priceAssetId, orderId, keyPair);
+            }
+
+            /**
+             * TODO Paulo add id for order for optimize draw trade history
+             * @param keyPair
+             * @returns {Promise<any>}
+             * @private
+             */
+            _getOrders(keyPair) {
+                return Waves.API.Matcher.v1.getAllOrders(keyPair)
+                    .then((list) => list.map(Matcher._remapOrder))
+                    .then(utils.whenAll);
+            }
+
+            /**
+             * @param {string} asset1
+             * @param {string} asset2
+             * @return {Promise<{bids, asks, pair: IAssetPair, spread: {amount: string, price: string, total: string}}>}
+             * @private
+             */
+            _getOrderBook(asset1, asset2) {
                 return Waves.AssetPair.get(asset1, asset2)
                     .then((pair) => Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
                         .then((orderBook) => Matcher._remapOrderBook(orderBook, pair))
@@ -41,10 +88,51 @@
                     );
             }
 
-            cancelOrder(amountAssetId, priceAssetId, orderId, keyPair) {
-                return Waves.API.Matcher.v1.cancelOrder(amountAssetId, priceAssetId, orderId, keyPair);
+            /**
+             * @param {string} asset1
+             * @param {string} asset2
+             * @private
+             */
+            _getOrderBookCache(asset1, asset2) {
+                const hash = this._orderBookCacheHash;
+                const id = [asset1, asset2].sort(utils.comparators.asc).join('-');
+                if (hash[id]) {
+                    clearTimeout(hash[id].timer);
+                    hash[id].timer = setTimeout(() => {
+                        hash[id].cache.destroy();
+                        delete hash[id];
+                    }, 5000);
+                    return hash[id].cache;
+                } else {
+                    hash[id] = {
+                        timer: setTimeout(() => {
+                            hash[id].cache.destroy();
+                            delete hash[id];
+                        }, 5000),
+                        cache: new PollCache({
+                            getData: () => this._getOrderBook(asset1, asset2),
+                            timeout: 1000
+                        })
+                    };
+                    return hash[id].cache;
+                }
             }
 
+            /**
+             * @returns {Promise<T>}
+             * @private
+             */
+            _getOrdersData() {
+                return this._seedPromise.then((seed) => this._getOrders(seed.keyPair));
+            }
+
+            /**
+             * @param bids
+             * @param asks
+             * @param pair
+             * @returns {Promise<any[]>}
+             * @private
+             */
             static _remapOrderBook({ bids, asks }, pair) {
                 return Promise.all([
                     Matcher._remapBidAsks(bids, pair),
@@ -52,6 +140,12 @@
                 ]);
             }
 
+            /**
+             * @param list
+             * @param pair
+             * @returns {Promise<(any[])[]>}
+             * @private
+             */
             static _remapBidAsks(list, pair) {
                 return Promise.all((list || [])
                     .map((item) => Promise.all([
@@ -72,6 +166,11 @@
                         })));
             }
 
+            /**
+             * @param order
+             * @returns {Promise<*[]>}
+             * @private
+             */
             static _remapOrder(order) {
                 const priceAssetId = Matcher._getAssetId(order.assetPair.priceAsset);
                 const amountAssetId = Matcher._getAssetId(order.assetPair.amountAsset);
@@ -93,8 +192,9 @@
                             'PartiallyFilled': 'matcher.orders.statuses.filled'
                         };
                         const state = i18n.translate(STATUS_MAP[order.status], 'app', { percent });
+                        const isActive = ['Accepted', 'PartiallyFilled'].indexOf(order.status) !== -1;
 
-                        return { ...order, price, amount, filled, pair, percent, state };
+                        return { ...order, isActive, price, amount, filled, pair, percent, state };
                     });
             }
 
@@ -132,7 +232,7 @@
         return new Matcher();
     };
 
-    factory.$inject = ['utils', 'decorators', 'i18n'];
+    factory.$inject = ['utils', 'decorators', 'i18n', 'user', 'PollCache'];
 
     angular.module('app').factory('matcher', factory);
 })();
