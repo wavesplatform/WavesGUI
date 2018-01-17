@@ -124,7 +124,8 @@
              * @private
              */
             _onChangeBalance() {
-                this.invalid = (!this._fee || !this._balance) || this._balance.getTokens().lt(this._fee.getTokens());
+                this.invalid = (!this._fee || !this._balance) ||
+                    this._balance.available.getTokens().lt(this._fee.getTokens());
             }
 
             _reset() {

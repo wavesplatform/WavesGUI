@@ -7,9 +7,12 @@
      * @param {app.utils} utils
      * @param {JQuery} $element
      * @param $scope
+     * @param {$state} $state
+     * @param {$location} $location
+     * @param {app.utils.decorators} decorators
      * @return {DexWatchlist}
      */
-    const controller = function (Base, waves, utils, $element, $scope) {
+    const controller = function (Base, waves, utils, $element, $scope, $state, $location, decorators) {
 
         class DexWatchlist extends Base {
 
@@ -75,15 +78,10 @@
                  */
                 this._parent = null;
                 /**
-                 * @type {string}
+                 * @type {{amount: string, price: string}}
                  * @private
                  */
-                this._amountAssetId = null;
-                /**
-                 * @type {string}
-                 * @private
-                 */
-                this._priceAssetId = null;
+                this._assetIdPair = null;
             }
 
             $postLink() {
@@ -98,20 +96,27 @@
 
                 this.syncSettings({
                     _idWatchList: `dex.watchlist.${this._id}.list`,
-                    _amountAssetId: 'dex.amountAssetId',
-                    _priceAssetId: 'dex.priceAssetId',
+                    _assetIdPair: 'dex.assetIdPair',
                     baseAssetId: `dex.watchlist.${this._id}.baseAssetId`,
                     _activeWatchListId: 'dex.watchlist.activeWatchListId'
                 });
 
-                this.observe('activeRowId', this._onChangeActiveRow);
-                this.observe('baseAssetId', this._onChangeBaseAsset);
-                this.observe('_idWatchList', this._onChangeIdWatchList);
-                this.observe('_activeWatchListId', this._onChangeActiveWatchList);
+                this._resolveState().then(() => {
+                    this.observe('_assetIdPair', () => {
+                        if (this.active) {
+                            $location.search('assetId2', this._assetIdPair.amount);
+                            $location.search('assetId1', this._assetIdPair.price);
+                        }
+                    });
+                    this.observe('activeRowId', this._onChangeActiveRow);
+                    this.observe('baseAssetId', this._onChangeBaseAsset);
+                    this.observe('_idWatchList', this._onChangeIdWatchList);
+                    this.observe('_activeWatchListId', this._onChangeActiveWatchList);
 
-                this._initRowId();
-                this._onChangeBaseAsset();
-                this._onChangeIdWatchList();
+                    this._initRowId();
+                    this._onChangeBaseAsset();
+                    this._onChangeIdWatchList();
+                });
             }
 
             removeWatchedAsset(event, asset) {
@@ -131,6 +136,45 @@
             _onChangeSearchFocus({ value }) {
                 const state = !value || !this._$searchList.children().length;
                 this._$searchList.toggleClass('hidden', state);
+            }
+
+            /**
+             * @returns {Promise}
+             * @private
+             */
+            _resolveState() {
+                if (!this.active) {
+                    return Promise.resolve();
+                }
+                if ($state.params.assetId1 && $state.params.assetId2) {
+                    return Waves.AssetPair.get($state.params.assetId1, $state.params.assetId2)
+                        .then((pair) => {
+                            this._assetIdPair = {
+                                amount: pair.amountAsset.id,
+                                price: pair.priceAsset.id
+                            };
+                            const list = this._idWatchList.slice();
+                            utils.addUniqueToArray([pair.amountAsset.id, pair.priceAsset.id], list);
+                            this._idWatchList = list;
+                        }).catch(() => {
+                            return Waves.AssetPair.get(WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC)
+                                .then((pair) => {
+                                    this._assetIdPair = {
+                                        amount: pair.amountAsset.id,
+                                        price: pair.priceAsset.id
+                                    };
+                                    $location.search('assetId2', pair.amountAsset.id);
+                                    $location.search('assetId1', pair.priceAsset.id);
+                                    const list = this._idWatchList.slice();
+                                    utils.addUniqueToArray([pair.amountAsset.id, pair.priceAsset.id], list);
+                                    this._idWatchList = list;
+                                });
+                        });
+                } else {
+                    $location.search('assetId2', this._assetIdPair.amount);
+                    $location.search('assetId1', this._assetIdPair.price);
+                    return Promise.resolve();
+                }
             }
 
             /**
@@ -225,11 +269,7 @@
                     return null;
                 }
                 this.activeRowId = this.activeRowId || this._idWatchList[0];
-                if (this._amountAssetId === this.activeRowId) {
-                    this._priceAssetId = this.baseAssetId;
-                } else {
-                    this._amountAssetId = this.baseAssetId;
-                }
+                this._setNewAssetPair();
             }
 
             /**
@@ -237,10 +277,10 @@
              */
             _initRowId() {
                 if (this.active) {
-                    if (this._amountAssetId === this.baseAssetId) {
-                        this.activeRowId = this._priceAssetId;
+                    if (this._assetIdPair.amount === this.baseAssetId) {
+                        this.activeRowId = this._assetIdPair.price;
                     } else {
-                        this.activeRowId = this._amountAssetId;
+                        this.activeRowId = this._assetIdPair.amount;
                     }
                 }
             }
@@ -253,12 +293,8 @@
                 if (!this.activeRowId) {
                     return null;
                 }
+                this._setNewAssetPair();
                 this._activeWatchListId = this._id;
-                if (this.baseAssetId === this._priceAssetId) {
-                    this._amountAssetId = this.activeRowId;
-                } else {
-                    this._priceAssetId = this.activeRowId;
-                }
             }
 
             /**
@@ -281,6 +317,23 @@
                     .then((list) => {
                         this.watchlist = list;
                     });
+            }
+
+            /**
+             * @private
+             */
+            @decorators.async()
+            _setNewAssetPair() {
+                if (this.active) {
+                    Waves.AssetPair.get(this.baseAssetId, this.activeRowId).then((pair) => {
+                        if (this.active) {
+                            this._assetIdPair = {
+                                amount: pair.amountAsset.id,
+                                price: pair.priceAsset.id
+                            };
+                        }
+                    });
+                }
             }
 
             /**
@@ -332,7 +385,7 @@
         return new DexWatchlist();
     };
 
-    controller.$inject = ['Base', 'waves', 'utils', '$element', '$scope'];
+    controller.$inject = ['Base', 'waves', 'utils', '$element', '$scope', '$state', '$location', 'decorators'];
 
     angular.module('app.dex')
         .component('wDexWatchlist', {

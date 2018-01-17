@@ -150,7 +150,7 @@
                     return null;
                 }
                 this.ready = utils.whenAll([
-                    this.canChooseAsset ? this._getBalanceList() : waves.node.assets.balance(this.assetId),
+                    this.canChooseAsset ? this._getBalanceList() : waves.node.assets.balance(this.assetId).then(({ available }) => available),
                     waves.node.assets.info(this.mirrorId),
                     waves.node.assets.fee('transfer'),
                     waves.utils.getRateApi(this.assetId, this.mirrorId)
@@ -161,7 +161,7 @@
                         this.amountMirror = new BigNumber(0);
                         this.mirrorBalance = mirrorBalance;
                         this._setAssets(balance);
-                        this.balance = tsUtils.find(this.moneyList, (item) => item.asset.id === this.assetId).available;
+                        this.balance = tsUtils.find(this.moneyList, (item) => item.asset.id === this.assetId);
                         this.fee = fee;
                     });
             }
