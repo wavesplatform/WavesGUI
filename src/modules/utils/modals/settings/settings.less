@@ -1,0 +1,163 @@
+@import (reference) '../../../config';
+@import (reference) '../../../ui/directives/changeLanguage/changeLanguage';
+
+@row-short: 25%;
+@row-long: 75%;
+@row-normal: 50%;
+
+md-dialog.settings-modal {
+  width: 100%;
+  max-width: 740px;
+  min-width: 740px;
+
+  .modal-content {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    position: relative;
+    min-height: 300px;
+
+    .settings-content {
+      position: relative;
+      margin-left: 200px;
+      right: 0;
+      width: 100%;
+      padding: 10px 0;
+
+      .label {
+        line-height: 1.8em;
+      }
+    }
+  }
+
+  .navigation-menu {
+    width: 199px;
+    height: calc(100% ~' + 60px');
+    position: absolute;
+    font-size: 15px;
+    left: -40px;
+    top: -20px;
+    border-right: 1px solid @color-basic-200;
+
+    .menu-item {
+      line-height: 50px;
+      color: @color-info-500;
+      position: relative;
+      padding-left: 65px;
+      cursor: pointer;
+
+      &.active {
+        background: @color-submit-400;
+        color: @color-white;
+      }
+
+      &::before {
+        position: absolute;
+        left: 40px;
+        top: 50%;
+        content: '';
+        background-size: contain;
+        display: block;
+        background-repeat: no-repeat;
+      }
+    }
+
+    .general::before {
+      width: 16px;
+      height: 17px;
+      margin-top: -9px;
+    }
+
+    .security::before {
+      width: 17px;
+      height: 19px;
+      margin-top: -10px;
+    }
+
+    .network::before {
+      width: 16px;
+      height: 17px;
+      margin-top: -9px;
+    }
+
+    .info::before {
+      width: 17px;
+      height: 17px;
+      margin-top: -9px;
+    }
+  }
+
+  .flex-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .row-style {
+    padding: 12px 0;
+    border-bottom: 1px dashed @color-basic-200;
+
+    &:last-child {
+      border-bottom-style: solid;
+      align-items: center;
+    }
+
+    &.unit-checkbox {
+      // TODO : make it work properly without magic
+      padding-top: 5px;
+      w-checkbox-submit {
+        display: block;
+        margin-right: 18px;
+        padding-right: 18px;
+      }
+    }
+
+    &.unit-language {
+      // TODO : align to the middle without magic
+      padding: 5px 0;
+      & > div {
+        line-height: 2.8em;
+      }
+    }
+  }
+
+  .info {
+    span.waves-logo {
+      width: 60px;
+      height: 13px;
+      display: inline-block;
+      margin: 3px 0 0;
+      padding: 0;
+      background-size: contain;
+    }
+  }
+
+  w-change-language w-select {
+    float: right;
+    position: relative;
+    top: 0;
+    right: 0;
+  }
+
+  .data-field {
+    height: 54px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: @color-basic-50;
+    position: relative;
+    border-radius: 4px;
+    border: 1px dashed @color-basic-200;
+    padding: 0 15px;
+
+    input {
+      border-radius: @border-radius;
+      padding: 0 @padding-main-layout;
+      height: 30px;
+      line-height: 30px;
+      width: 100%;
+      border: 1px solid @color-basic-200;
+    }
+  }
+
+}

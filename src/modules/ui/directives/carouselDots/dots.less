@@ -1,0 +1,29 @@
+@import (reference) '../../../config';
+
+w-carousel-dots {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: solid 1px @color-basic-500;
+    margin: 0 11px;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+
+    &.active {
+      border: none;
+      background-color: @color-submit-400;
+      cursor: default;
+    }
+  }
+
+  &.square .dot {
+    border-radius: 0;
+    transform: rotate(45deg);
+  }
+}

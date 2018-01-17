@@ -1,0 +1,168 @@
+<div class="modal-content">
+    <w-step-by-step active-step="$ctrl.step">
+        <w-step>
+            <form class="send-form"
+                  name="send"
+                  novalidate>
+
+                <div class="row">
+                    <div class="body-2" w-i18n="modal.send.currency"></div>
+                    <div ng-if="!$ctrl.canChooseAsset || $ctrl.moneyList.length === 1"
+                         class="input-like big flex-row split-half">
+                        <div class="flex-row">
+                            <w-asset-logo size="24" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
+                            <div class="asset-name">{{$ctrl.balance.asset.name}}</div>
+                        </div>
+                        <div>
+                            <w-balance money="$ctrl.balance"></w-balance>
+                            <span>&nbsp;{{$ctrl.balance.asset.displayName}}</span>
+                        </div>
+                    </div>
+                    <w-select class="big"
+                              ng-if="$ctrl.canChooseAsset && $ctrl.moneyList.length > 1"
+                              ng-model="$ctrl.assetId">
+                        <w-option ng-repeat="option in $ctrl.moneyList track by $index"
+                                  value="{{::option.asset.id}}">
+                            <div class="flex-row split-half">
+                                <div class="flex-row">
+                                    <w-asset-logo size="24" asset-id="{{::option.asset.id}}"></w-asset-logo>
+                                    <div class="asset-name">{{::option.asset.name}}</div>
+                                </div>
+                                <div>
+                                    <w-balance money="option"></w-balance>
+                                    <span>&nbsp;{{::option.asset.displayName}}</span>
+                                </div>
+                            </div>
+                        </w-option>
+                    </w-select>
+                </div>
+
+                <div class="row">
+                    <w-input-container>
+                        <div class="body-2" w-i18n="modal.send.recipient"></div>
+                        <div class="read-address-wrap">
+                            <w-input type="text"
+                                     w-validate="address"
+                                     name="recipient"
+                                     ng-model="$ctrl.recipient"
+                                     placeholder="modal.send.placeholderRecipient"
+                                     w-i18n-attr="placeholder"
+                                     required></w-input>
+
+                            <w-qr-code-read on-read="$ctrl.onReadQrCode(result)" max-width="250"
+                                            max-height="160"></w-qr-code-read>
+                        </div>
+
+                        <w-input-error message="inputAddress">
+                            <w-i18n>modal.send.errors.address</w-i18n>
+                        </w-input-error>
+                        <w-input-error message="required">
+                            <w-i18n>modal.send.errors.required</w-i18n>
+                        </w-input-error>
+                    </w-input-container>
+                </div>
+
+
+                <w-input-container>
+                    <div class="row">
+                        <div class="body-2" w-i18n="modal.send.amount"></div>
+                        <div class="amount-wrap" ng-class="{'no-mirror': $ctrl.noMirror}">
+
+                            <w-balance-input name="amount"
+                                             asset-id="$ctrl.assetId"
+                                             max-balance="$ctrl.balance"
+                                             fee="$ctrl.fee"
+                                             input-classes="big"
+                                             min="0"
+                                             amount="$ctrl.amount">
+                            </w-balance-input>
+                            <div class="amount-modal-icon"></div>
+                            <w-balance-input ng-if="!$ctrl.noMirror"
+                                             name="amountMirror"
+                                             asset-id="$ctrl.mirrorId"
+                                             fill-max="$ctrl.fillMax()"
+                                             fee="$ctrl.fee"
+                                             input-classes="big"
+                                             amount="$ctrl.amountMirror">
+                            </w-balance-input>
+
+                        </div>
+                    </div>
+                    <w-input-error message="asset-required">
+                        <w-i18n>inputs.errors.required</w-i18n>
+                    </w-input-error>
+                    <w-input-error message="input-asset">
+                        <w-i18n>inputs.errors.invalidAsset</w-i18n>
+                    </w-input-error>
+                    <w-input-error message="asset-max">
+                        <w-i18n>modal.send.errors.max</w-i18n>
+                    </w-input-error>
+                </w-input-container>
+
+                <div class="row">
+                    <div class="body-2" w-i18n="modal.send.description"></div>
+                    <w-input textarea="true"
+                             ng-model="$ctrl.attachment"
+                             w-i18n-attr="placeholder"
+                             placeholder="modal.send.descriptionPlaceholder"></w-input>
+                </div>
+
+                <div class="row fee">
+                    <div class="body-2">
+                        <w-i18n>modal.send.fee</w-i18n>
+                        <span class="help"></span>
+                    </div>
+                    <div class="body basic-500">
+                        <w-balance money="$ctrl.fee"></w-balance>
+                        {{$ctrl.fee.asset.name}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <w-button w-step-next disabled="send.$invalid" type="submit" class="big submit long">
+                        <w-i18n>button.continue</w-i18n>
+                    </w-button>
+                </div>
+            </form>
+        </w-step>
+        <w-step>
+            <div class="row">
+                <w-i18n>modal.send.confirm.title</w-i18n>
+                <table>
+                    <tr>
+                        <td class="headline-3 basic-900" w-i18n="modal.send.confirm.to"></td>
+                        <td>{{$ctrl.recipient}}</td>
+                    </tr>
+                    <tr>
+                        <td class="headline-3 basic-900" w-i18n="modal.send.confirm.total"></td>
+                        <td>
+                            <div>{{::$ctrl.amount && $ctrl.amount.toFixed($ctrl.asset.precision)}}
+                                {{$ctrl.balance.asset.name}}
+                            </div>
+                            <div>≈ ${{::$ctrl.amountMirror && $ctrl.amountMirror.toFixed($ctrl.mirror.precision)}}</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="row confirm-block">
+                <w-button class="big" w-step-prev>
+                    <w-i18n>modal.send.confirm.back</w-i18n>
+                </w-button>
+                <w-button class="big submit" ng-click="$ctrl.send()">
+                    <w-i18n>modal.send.confirm.confirm</w-i18n>
+                </w-button>
+            </div>
+        </w-step>
+        <w-step class="check">
+            <div class="modal-send-check"></div>
+            <h2 class="basic-900" w-i18n="modal.send.compare.title"></h2>
+            <div params="{amount: $ctrl.amount, currency: $ctrl.balance.asset.name, mirror: $ctrl.amountMirror && $ctrl.amountMirror.toFixed($ctrl.mirror.precision)}"
+                 class="body-2 disabled-600"
+                 w-i18n="modal.send.compare.description"></div>
+            <w-button ng-click="$ctrl.showTransaction()">
+                <w-i18n>modal.send.compare.details</w-i18n>
+            </w-button>
+        </w-step>
+    </w-step-by-step>
+</div>

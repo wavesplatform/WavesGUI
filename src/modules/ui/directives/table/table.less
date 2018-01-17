@@ -1,0 +1,37 @@
+@import (reference) '../../../config';
+
+w-table {
+  display: flex;
+
+  .table {
+    width: 100%;
+  }
+
+  .table-thead {
+    //color: @color-lite-font;
+    //border-bottom: 1px solid @color-lite-background;
+  }
+
+  w-t-head {
+    display: block;
+  }
+
+  w-row {
+    display: block;
+  }
+
+  w-cell {
+    display: block;
+  }
+
+  .table-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 11px 0;
+
+    &.selected {
+      background-color: #eee; // TODO Color from config. Author Tsigel at 02/11/2017 08:16
+    }
+  }
+}

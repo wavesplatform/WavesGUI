@@ -1,0 +1,8 @@
+<div ng-class="$ctrl.state" class="complexity-meter">
+    <div class="step-list">
+        <div class="step"
+             ng-repeat="step in $ctrl.steps track by $index"
+             ng-class="{active: step.active}"></div>
+    </div>
+    <div class="messages-container" ng-transclude></div>
+</div>

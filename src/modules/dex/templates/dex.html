@@ -1,0 +1,34 @@
+<div class="dex-wrapper" w-i18n-ns="app.dex">
+    <w-layout>
+
+        <w-dex-block column="left" block="top" has-search="true">
+            <w-dex-watchlist id="top"></w-dex-watchlist>
+        </w-dex-block>
+
+        <w-dex-block column="left" block="bottom" has-search="true">
+            <w-dex-watchlist id="bottom"></w-dex-watchlist>
+        </w-dex-block>
+
+        <w-dex-block column="center" block="top">
+            <w-dex-candle-chart></w-dex-candle-chart>
+            <w-dex-trade-graph></w-dex-trade-graph>
+        </w-dex-block>
+
+        <w-dex-block can-collapse="true" column="center" block="bottom" title-name="layout.center.bottom">
+            <w-dex-my-orders></w-dex-my-orders>
+        </w-dex-block>
+
+        <w-dex-block column="right" block="top" title-name="layout.right.top">
+            <w-dex-order-book></w-dex-order-book>
+        </w-dex-block>
+
+        <w-dex-block column="right"
+                     block="bottom"
+                     collapsed="$ctrl.collapseTradeHistory"
+                     can-collapse="true"
+                     title-name="layout.right.bottom">
+            <w-dex-trade-history></w-dex-trade-history>
+        </w-dex-block>
+    </w-layout>
+    <w-create-order w-draggable></w-create-order>
+</div>

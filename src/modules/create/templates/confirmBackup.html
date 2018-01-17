@@ -1,0 +1,44 @@
+<div class="confirm-backup">
+
+    <div class="waves-logo"></div>
+    <div class="headline-1">
+        <w-i18n>confirmBackup.confirm</w-i18n>
+    </div>
+
+    <div class="body-2 disabled-600">
+        <span w-i18n="confirmBackup.description"></span>
+        <a ng-click="$ctrl.next(-1)" w-i18n="confirmBackup.back"></a>
+    </div>
+
+    <w-seed-write class="margin-4"
+                  on-fulfilled="$ctrl.onSeedConfirmFulfilled(isValid)"
+                  seed="{{::$ctrl.seed}}"></w-seed-write>
+
+    <div class="body-2 basic-900">
+        <w-i18n>confirmBackup.enterCorrect</w-i18n>
+    </div>
+
+    <w-seed-read type="random" seed="{{::$ctrl.seed}}"></w-seed-read>
+
+    <div class="error-500"
+         ng-if="$ctrl.seedConfirmWasFilled && !$ctrl.seedIsValid"
+         w-i18n="confirmBackup.error"></div>
+
+    <w-button class="submit big long"
+              disabled="!$ctrl.seedIsValid"
+              ng-click="$ctrl.create()">
+        <w-i18n>confirmBackup.ok</w-i18n>
+    </w-button>
+
+    <div class="or">
+        <w-i18n>noBackupNoMoney.or</w-i18n>
+    </div>
+
+    <div class="body-2 margin-2">
+        <a class="submit-400"
+           ng-click="$ctrl.clearSeedConfirm()"
+           w-i18n="confirmBackup.clear"></a>
+        <span class="basic-900" w-i18n="confirmBackup.again"></span>
+    </div>
+
+</div>

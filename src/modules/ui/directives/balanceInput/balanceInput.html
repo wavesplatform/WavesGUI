@@ -1,0 +1,22 @@
+<div w-i18n-ns="app.ui" class="input-wrap" ng-if="$ctrl.name">
+    <w-input type="text"
+             class="no-validate-icons {{::$ctrl.inputClasses}}"
+             w-validate="asset"
+             max-balance="$ctrl.realMaxBalance"
+             asset-id="$ctrl.assetId"
+             ng-focus="$ctrl.focus = true"
+             ng-blur="$ctrl.focus = false"
+             name="{{::$ctrl.name}}"
+             min="$ctrl.min"
+             ng-model="$ctrl.amount"
+             required></w-input>
+    <div ng-if="!$ctrl.focus" title="{{$ctrl.asset.ticker || $ctrl.asset.name}}"
+         class="currency basic-500 caption-2">{{$ctrl.asset.displayName}}
+    </div>
+    <div ng-mousedown="$ctrl.fillMaxClick()"
+         ng-touchstart="$ctrl.fillMaxClick()"
+         class="send-all"
+         ng-if="$ctrl.focus">
+        <w-i18n>balanceInput.max</w-i18n>
+    </div>
+</div>

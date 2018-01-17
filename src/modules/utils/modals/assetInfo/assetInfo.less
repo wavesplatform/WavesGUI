@@ -1,0 +1,145 @@
+@import (reference) '../../../config';
+
+html body md-dialog.asset-info-modal {
+
+  md-dialog-content {
+    padding-bottom: 0 !important; //TODO remove!!!
+    overflow-y: hidden;
+  }
+
+  .chart-wrapper {
+    opacity: 0.5;
+    position: relative;
+    margin-left: -40px;
+    margin-right: -40px;
+    height: 76px;
+
+    .interactive-stop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    .chart-tooltip, .chart-legend { // Lib ng3-charts
+      display: none !important;
+    }
+  }
+
+  .asset-content {
+    height: 100%;
+
+    .tab-tem {
+      overflow-y: auto;
+      max-height: calc(~'74vh - 300px');
+    }
+  }
+
+  .padding-content .tab-tem {
+    padding: 40px;
+
+    .line {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      border-bottom: 1px solid @color-disabled-100;
+      padding: 5px 0;
+      align-items: center;
+
+      &:last-child {
+        border-bottom: 0 none;
+      }
+
+      & > div:first-child {
+        width: 120px;
+        align-items: center;
+        display: flex;
+      }
+
+      & > div:last-child {
+        width: calc(~'100% - 130px');
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+
+        .legend-item, .total {
+          display: flex;
+          padding: 12px 0;
+          width: 100%;
+          border-bottom: 1px solid @color-disabled-100;
+          align-items: center;
+
+          > div {
+            flex-basis: 50%;
+
+            &:last-child {
+              text-align: right;
+            }
+
+            .legend-color {
+              width: 12px;
+              height: 12px;
+              border-radius: 50%;
+              display: inline-block;
+              margin: -3px 7px 0 0;
+              vertical-align: middle;
+            }
+          }
+        }
+
+        .total {
+          font-weight: bold;
+          border-bottom: 0 none;
+
+          div:first-child {
+            color: @color-disabled-600;
+          }
+        }
+
+      }
+    }
+
+  }
+
+  .padding-content.tab-details .tab-tem {
+    .line > div:last-child {
+      display: block;
+    }
+  }
+
+  .tab-container {
+    width: calc(~'100% + 80px');
+    margin-left: -40px;
+
+    w-transaction-list ul {
+      border-top: none;
+
+      .transaction-item {
+        .date {
+          padding-left: 40px;
+        }
+
+        .row {
+          padding-left: 20px;
+
+          .line {
+            padding-right: 40px;
+          }
+        }
+      }
+    }
+
+    .locale-address {
+      display: none;
+    }
+    w-actions {
+      display: none;
+    }
+  }
+
+  .no-transactions {
+    border: 0 none;
+  }
+
+}

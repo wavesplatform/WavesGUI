@@ -1,0 +1,106 @@
+@import (reference) '../../../config';
+
+w-dex-my-orders {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overflow-x: auto;
+
+  w-table {
+    min-width: 500px;
+  }
+
+  w-scroll-box {
+    overflow-x: visible;
+
+    w-row {
+      padding: 6px 16px 6px 16px;
+
+      &:last-child {
+        margin-bottom: 10px;
+      }
+
+      &:hover {
+        .stop {
+          opacity: .89;
+          background-color: @color-error-400;
+          background-image: url(/img/icons/white_cancel.svg);
+        }
+      }
+    }
+  }
+
+  w-row {
+    position: relative;
+    padding: 0 16px 0 16px;
+
+    &[ng-class="cancelled"], &[ng-class="filled"] {
+      color: @color-disabled-500;
+
+      .order-side.sell, .order-side.buy {
+        color: @color-disabled-500;
+      }
+    }
+
+    .cell-0 {
+      span {
+        display: block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        max-width: 160px;
+        display: block;
+      }
+    }
+
+    .cell-1 {
+      max-width: 5%;
+      padding: 0 14px;
+      white-space: nowrap;
+    }
+
+    .cell-2, .cell-3, .cell-4 {
+      text-align: right;
+      min-width: 100px;
+      padding-right: 20px;
+    }
+
+    .cell-2 {
+      min-width: 140px;
+    }
+
+    .cell-4 {
+      margin-right: 30px;
+      padding-right: 0;
+      width: 26%;
+      white-space: nowrap;
+    }
+
+    .order-side.sell {
+      color: @color-error-400;
+    }
+
+    .order-side.buy {
+      color: @color-success-600;
+    }
+
+    .stop {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      right: 16px;
+      width: 17px;
+      height: 17px;
+      transform: translateY(-50%);
+      background-image: url(/img/icons/order_cancel.svg);
+      background-size: 8px 8px;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid @color-disabled-100;
+    }
+  }
+}

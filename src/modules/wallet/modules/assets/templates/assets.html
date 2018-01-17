@@ -1,0 +1,84 @@
+<div w-i18n-ns="app.wallet.assets" class="toolbar">
+    <w-button class="interface" ng-click="$ctrl.showSend()">
+        <span class="btn-icon icon-send" w-i18n="send"></span>
+    </w-button>
+    <w-button class="interface" ng-click="$ctrl.showQR()">
+        <span class="btn-icon icon-qr" w-i18n="qr"></span>
+    </w-button>
+    <!--<w-button class="right" ng-click="$ctrl.addAsset()">-->
+        <!--<span class="btn-icon icon-add-asset" w-i18n="addAsset"></span>-->
+    <!--</w-button>-->
+</div>
+
+<div w-i18n-ns="app.wallet.assets" class="assets-wrapper">
+
+    <div class="chart-rate">
+
+        <div class="toolbar">
+            <div>
+                <w-radio-wrap mode="tab-mode" ng-model="$ctrl.activeChartAssetId">
+                    <w-radio ng-repeat="balance in $ctrl.chartBalanceList track by balance.asset.id"
+                             value="balance.asset.id">
+                        <span class="radio-name">{{::balance.asset.name}}<span class="radio-dot">•</span></span>
+                        $
+                        <w-change-rate asset-id="balance.asset.id"></w-change-rate>
+                    </w-radio>
+                </w-radio-wrap>
+            </div>
+
+            <div class="date-btns">
+                <w-radio-wrap mode="tab-mode" ng-model="$ctrl.chartMode">
+                    <!--<w-radio value="'hour'">-->
+                    <!--<w-i18n>chart.intervals.hour</w-i18n>-->
+                    <!--</w-radio>-->
+                    <w-radio value="'day'">
+                        <w-i18n>chart.intervals.day</w-i18n>
+                    </w-radio>
+                    <w-radio value="'week'">
+                        <w-i18n>chart.intervals.week</w-i18n>
+                    </w-radio>
+                    <w-radio value="'month'">
+                        <w-i18n>chart.intervals.month</w-i18n>
+                    </w-radio>
+                    <!--<w-radio value="'year'">
+                        <w-i18n>chart.intervals.year</w-i18n>
+                    </w-radio>-->
+                </w-radio-wrap>
+            </div>
+        </div>
+
+        <div class="chart-info">
+            <div class="rate">
+                <h1>
+                    $&nbsp;<w-change-rate asset-id="$ctrl.activeChartAssetId"></w-change-rate>
+                </h1>
+                <div class="tag-1 info-500">
+                    <w-i18n params="{currency: $ctrl.activeChartBalance.asset.name.toUpperCase()}">price</w-i18n>
+                </div>
+            </div>
+            <div class="change">
+                <h1>{{$ctrl.change > 0 ? '+' : '-'}}$ {{$ctrl.abs($ctrl.change)}}</h1>
+                <div class="tag-1 info-500">
+                    <w-i18n>since.{{$ctrl.chartMode}}</w-i18n>&nbsp;(USD)
+                </div>
+            </div>
+            <div class="change-percent">
+                <h1>{{$ctrl.change > 0 ? '+' : '-'}}{{$ctrl.abs($ctrl.changePercent)}}%</h1>
+                <div class="tag-1 info-500">
+                    <w-i18n>since.{{$ctrl.chartMode}}</w-i18n>&nbsp;(%)
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-wrapper">
+            <linechart ng-if="$ctrl.chartMode && $ctrl.data" options="$ctrl.options" data="$ctrl.data"></linechart>
+        </div>
+    </div>
+
+    <div class="assets-list">
+        <w-asset ng-repeat="balance in $ctrl.pinnedAssetBalances track by balance.asset.id"
+                 on-click="$ctrl.onAssetActionClick(event, balance.asset, action)"
+                 balance="balance"></w-asset>
+    </div>
+
+</div>

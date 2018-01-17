@@ -1,0 +1,61 @@
+<md-dialog w-i18n-ns="app.utils" class="terms-accept" aria-label="modal">
+    <w-step-by-step active-step="0">
+        <w-step class="step-1">
+            <md-dialog-content>
+                <div class="header-texts">
+                    <h1 w-i18n="modal.termsAccept.header.title"></h1>
+                    <div class="body-2 disabled-600" w-i18n="modal.termsAccept.header.description"></div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <w-checkbox-submit id="security" ng-model="$ctrl.security"></w-checkbox-submit>
+                    <label for="security" w-i18n="modal.termsAccept.body.security"></label>
+                </div>
+                <div class="row">
+                    <w-checkbox-submit id="backup" ng-model="$ctrl.backup"></w-checkbox-submit>
+                    <label for="backup" w-i18n="modal.termsAccept.body.backup"></label>
+                </div>
+
+                <div class="row">
+                    <w-checkbox-submit id="shareAnalytics" ng-model="$ctrl.shareAnalytics"></w-checkbox-submit>
+                    <label for="shareAnalytics" w-i18n="modal.termsAccept.body.analytics"></label>
+                </div>
+
+                <w-button class="submit long big" ng-click="$ctrl.confirm()"
+                          disabled="!$ctrl.security || !$ctrl.backup">
+                    <w-i18n>modal.termsAccept.body.ok</w-i18n>
+                </w-button>
+            </md-dialog-content>
+        </w-step>
+        <w-step class="step-2">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <div class="headline-2 basic-700" w-i18n="modal.termsAccept.header.title2"></div>
+                    <span flex></span>
+                    <div class="btn icon-close" w-step-prev></div>
+                </div>
+            </md-toolbar>
+            <md-dialog-content>
+
+                <ul class="agree-list">
+                    <w-scroll-box>
+                        <li class="license" ng-repeat="item in $ctrl.license track by $index">
+                            <div class="title">
+                                {{::$index + 1}}. {{::item.title}}
+                            </div>
+                            <div class="text">
+                                {{::item.text}}
+                            </div>
+                        </li>
+                    </w-scroll-box>
+                </ul>
+
+                <w-button class="submit big long" w-step-prev mod="big" ng-click="$ctrl.confirm()">
+                    <w-i18n>confirm</w-i18n>
+                </w-button>
+            </md-dialog-content>
+        </w-step>
+    </w-step-by-step>
+</md-dialog>

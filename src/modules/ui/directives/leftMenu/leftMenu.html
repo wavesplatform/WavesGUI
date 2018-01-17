@@ -1,0 +1,15 @@
+<div class="logo-wrapper">
+    <w-avatar ng-click="$ctrl.avatarClick()" size="40" address="$ctrl.address"></w-avatar>
+</div>
+<w-navigation type="column">
+    <a ng-repeat="state in $ctrl.stateList track by $index"
+       class="{{::state.name}}"
+       ui-state="state.path"
+       ui-sref-active="{active: state.base + '.**'}"></a>
+</w-navigation>
+<div ng-click="$ctrl.settings()" class="bottom-controls">
+    <div class="icon-settings"></div>
+</div>
+<div ng-click="$ctrl.logout()" class="logout bottom-controls">
+    <div class="icon-logout"></div>
+</div>

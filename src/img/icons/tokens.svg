@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="31px" height="31px" viewBox="0 0 31 31" version="1.1"
+     xmlns="http://www.w3.org/2000/svg">
+    <!-- Generator: Sketch 48 (47235) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 10</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="wallet_assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
+       transform="translate(-19.000000, -212.000000)">
+        <g id="Group-10" transform="translate(19.000000, 212.000000)">
+            <rect id="Rectangle-7-Copy" stroke="#4E5C6E"
+                  transform="translate(15.556349, 15.556349) rotate(45.000000) translate(-15.556349, -15.556349) "
+                  x="5.05634919" y="5.05634919" width="21" height="21" rx="1"></rect>
+            <rect id="Rectangle-7-Copy-2" stroke="#4E5C6E"
+                  transform="translate(15.556349, 15.556349) rotate(45.000000) translate(-15.556349, -15.556349) "
+                  x="9.05634919" y="9.05634919" width="13" height="13" rx="1"></rect>
+            <g id="Group-15-Copy" transform="translate(15.000000, 11.000000)" fill="#4E5C6E">
+                <circle id="Oval-6" cx="1" cy="1" r="1"></circle>
+                <circle id="Oval-6-Copy-6" cx="4" cy="4" r="1"></circle>
+                <circle id="Oval-6-Copy-9" cx="1" cy="4" r="1"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

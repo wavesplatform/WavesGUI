@@ -1,0 +1,183 @@
+{
+  "modal": {
+    "assetInfo": {
+      "title": "Asset Info",
+      "unpinned": "Pin",
+      "pinned": "Pinned",
+      "transactions": "Transactions",
+      "details": "Details",
+      "description": "Description",
+      "issuer": "Issuer",
+      "identifier": "ID",
+      "name": "Name",
+      "type": "Type",
+      "date": "Issue date",
+      "balance": "Balance",
+      "total": "Total",
+      "available": "Available",
+      "leased": "Leased",
+      "inOrders": "Reserved in orders",
+      "reissue": {
+        "yes": "Reissuable",
+        "no": "Not reissuable"
+      }
+    },
+    "startLease": {
+      "title": "Start leasing",
+      "titleComplete": "Leasing Complete",
+      "balance": "Balance",
+      "recipient": "Recipient",
+      "amount": "Amount",
+      "start": "Start Lease",
+      "back": "Go Back",
+      "confirm": "Confirm",
+      "details": "View Details",
+      "recipientConfirm": "To node",
+      "fee": "Fee",
+      "leaseComplete": "Your transaction is on the way!",
+      "leaseCompleteDesc": "You leased {{amount}} WAVES."
+    },
+    "qr": {
+      "title": "Share your address",
+      "warningTitle": "Send only WAVES and Waves tokens to this address",
+      "warningText": "Sending any other digital asset to this address will result in the permanent loss of your funds.",
+      "copyAndShare": "Copy & Share Address",
+      "or": "OR",
+      "scanQrCode": "Scan QR Code"
+    },
+    "send": {
+      "title": "Send {{assetName}}",
+      "titleComplete": "Sending Complete",
+      "recipient": "Recipient",
+      "sendMax": "Max",
+      "currency": "Currency",
+      "amount": "Amount",
+      "description": "Description",
+      "descriptionPlaceholder": "Write an optional message",
+      "placeholderRecipient": "Paste or scan an address",
+      "fee": "Transaction Fee",
+      "total": "Total",
+      "errors": {
+        "address": "The address is not valid",
+        "required": "This field is required",
+        "max": "Insufficient funds"
+      },
+      "confirm": {
+        "title": "Transaction Details",
+        "to": "To",
+        "from": "From",
+        "total": "Total",
+        "back": "Go Back",
+        "confirm": "Confirm"
+      },
+      "compare": {
+        "title": "Your transaction is on the way!",
+        "description": "You sent {{amount}} {{currency}} (${{mirror}})",
+        "details": "View Details"
+      }
+    },
+    "deposit": {
+      "title": "Deposit {{assetName}}",
+      "currency": "Currency",
+      "copyAndShare": "Copy & Share Address",
+      "or": "OR",
+      "scanQrCode": "Scan QR Code",
+      "pleaseNote": "Please note that the gateway doesn't apply any fees for this operation.",
+      "coinomatBTC": {
+        "warningTitle": "Send only BTC to this deposit address",
+        "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
+        "warningMinAmountTitle": "The minimum amount of deposit is 0.001 BTC.",
+        "warningMinAmountText": "If you will send less than 0.001 BTC, you will lose that money.",
+        "helpDescrTitle": "Enter this address into your Bitcoin client or wallet.",
+        "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of BTC to a token in your Waves account."
+      },
+      "coinomatETH": {
+        "warningTitle": "Please do not deposit ETH from smart contracts! Do not deposit ERC20 tokens! Only Ethereum is allowed.",
+        "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw ETH. We do not accept such transactions and can’t refund them. You will lose that money.",
+        "warningMinAmountTitle": "The minimum amount of deposit is 0.001 ETH.",
+        "warningMinAmountText": "If you will send less than 0.001 ETH, you will lose that money.",
+        "helpDescrTitle": "Enter this address into your Ethereum client or wallet.",
+        "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ETH to a token in your Waves account."
+      },
+      "coinomatLTC": {
+        "warningTitle": "Send only LTC to this deposit address",
+        "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
+        "warningMinAmountTitle": "The minimum amount of deposit is 0.001 LTC.",
+        "warningMinAmountText": "If you will send less than 0.001 LTC, you will lose that money.",
+        "helpDescrTitle": "Enter this address into your Litecoin client or wallet.",
+        "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of LTC to a token in your Waves account."
+      },
+      "coinomatZEC": {
+        "warningTitle": "Send only Zcash to this deposit address",
+        "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
+        "warningMinAmountTitle": "The minimum amount of deposit is 0.001 ZEC.",
+        "warningMinAmountText": "If you will send less than 0.001 ZEC, you will lose that money.",
+        "helpDescrTitle": "Enter this address into your Zcash client or wallet.",
+        "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ZEC to a token in your Waves account."
+      }
+    },
+    "sepa": {
+      "title": "Deposit {{assetName}}",
+      "warningTitle": "We don't accept international wire transfers from US Citizens or from USA Banks",
+      "countryList": "List of eligible countries and IDs",
+      "step1": "Step 1",
+      "step1Description": "In order to deposit {{assetName}} directly from your bank account through SEPA transfer you must get verified by our partner <a href='{{url}}' target='_blank'>IDNow.eu</a>",
+      "step2": "Step 2",
+      "step2Description": "After you go through the verification you will receive an email with further instructions",
+      "proceed": "Get verified"
+    },
+    "account": {
+      "title": "Account Information",
+      "address": "Your address",
+      "aliases": "Aliases",
+      "create": "Create new",
+      "fee": "Transaction Fee {{price}} {{name}}",
+      "placeholder": "Symbolic name to your address",
+      "notifications": {
+        "aliasCreated": "An alias has been created"
+      }
+    },
+    "termsAccept": {
+      "header": {
+        "title": "Done! Let’s review",
+        "title2": "Terms of Use",
+        "description": "Waves is different — the wallet is stored safely on your device"
+      },
+      "body": {
+        "security": "I understand that my funds are held securely on this device, not by a company",
+        "backup": "I understand that if this app is moved to another device or deleted, my Waves can only be recovered with the backup phrase.",
+        "analytics": "I would like to help improve the Waves platform by sending anonymous usage statistics to the developers.",
+        "read": "I have read, understood and agree to the",
+        "terms": "Terms of Use",
+        "ok": "Confirm and Begin"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "setDefault": "Set default",
+      "general": {
+        "title": "General",
+        "blockHeight": "Current height",
+        "language": "Language"
+      },
+      "security": {
+        "title": "Security",
+        "backupPhrase": "Backup phrase",
+        "privateKey": "Private key",
+        "show": "Show",
+        "publicKey": "Public Key",
+        "address": "Address"
+      },
+      "network": {
+        "title": "Network",
+        "nodeAddress": "Node address",
+        "matcherAddress": "Matcher address"
+      },
+      "info": {
+        "title": "Info",
+        "version": "Version",
+        "support": "Support"
+      }
+    }
+  }
+}

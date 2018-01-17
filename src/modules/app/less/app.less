@@ -1,0 +1,415 @@
+@import (reference) '../../config';
+@import (reference) '../../app/less/typography';
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  min-height: 380px;
+  overflow: auto;
+  background-color: @color-background-default;
+  .scroll();
+}
+
+ui-view[name="main"] {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: @color-background-default;
+}
+
+html body .hidden {
+  display: none !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+ui-view[name="main"] {
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: @color-submit-300;
+  cursor: pointer;
+}
+
+/* Mac button text centering fix */
+w-button > button {
+  w-i18n,
+  div.full-width,
+  div.full-width * {
+    width: 100%;
+    display: block;
+  }
+}
+
+md-input-container {
+  transform: translate3d(0, 0, 0);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+*:focus {
+  outline: none;
+}
+
+.ghost {
+  opacity: 0 !important;
+}
+
+.no-user-select {
+  user-select: none;
+}
+
+.md-dialog-container {
+  md-dialog {
+    box-shadow: none;
+    position: absolute;
+    top: 13%;
+    left: 50%;
+    transform: translateX(-50%);
+    max-height: 74%;
+    width: 540px;
+  }
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+w-scroll-box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
+}
+
+.flex-column-center {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-column-center-min {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sleep-block {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: @color-black;
+  opacity: 0;
+  transition: opacity 2s;
+  z-index: 100000;
+}
+
+.main-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  //background-color: @color-lite-background;
+
+  .content {
+    width: calc(~"100% - "@width-left-menu + @padding-main-layout * 2);
+    height: calc(~"100% - "@height-header + @padding-main-layout * 2);
+    overflow: auto;
+    position: absolute;
+    right: @padding-main-layout;
+    bottom: @padding-main-layout;
+  }
+
+  .notifications {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 10000;
+  }
+}
+
+.md-dialog-backdrop:nth-of-type(even) {
+  z-index: 81;
+}
+
+.md-dialog-backdrop:nth-of-type(odd) {
+  z-index: 79;
+}
+
+.md-dialog-container:first-child:nth-of-type(even) {
+  z-index: 75;
+}
+
+.md-dialog-container:nth-of-type(odd) {
+  z-index: 82;
+}
+
+svg.chart {
+
+  .axis {
+    .tick line {
+      display: none;
+    }
+    .domain {
+      stroke: transparent;
+    }
+
+    & > .tick > text {
+      fill: @color-disabled-700;
+      font-size: 13px;
+    }
+    //
+    //    &.y-axis .tick text {
+    //      transform: translateX(~'calc(100% + 50px)');
+    //    }
+    //
+    //    &.y2-axis .tick text {
+    //      transform: translateX(-100%);
+    //    }
+  }
+}
+
+md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
+  background-color: @color-white;
+  color: @color-black;
+  border-bottom: 1px solid @color-disabled-200;
+}
+
+md-dialog md-dialog-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.chart-legend {
+  display: none;
+  margin-left: 40px;
+
+  .legend-item {
+    display: block;
+    padding: 12px 0;
+  }
+
+}
+
+.btn-wrap.btn-group { // TODO add colors from config for btn-wrap
+  box-sizing: border-box;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  .btn-active {
+    cursor: default;
+    background-color: #ebebeb;
+    color: @color-black;
+  }
+
+  & > *:first-child .btn, & > .btn:first-child {
+    border-left: 1px solid #ebebeb;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+  }
+
+  & > *:last-child .btn, & > .btn:last-child {
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  .btn {
+    display: block;
+    box-sizing: border-box;
+    cursor: pointer;
+    padding: 4px 10px;
+    //color: @color-link-blue;
+    border-bottom: 1px solid #ebebeb;
+    border-top: 1px solid #ebebeb;
+    border-right: 1px solid #ebebeb;
+
+    &:active {
+      .btn-active();
+    }
+  }
+}
+
+.main {
+  .main-content {
+    background-color: @color-basic-50;
+
+    .header, .left-menu {
+      background-color: @color-white;
+      backdrop-filter: blur(10px)
+    }
+  }
+}
+
+.content ui-view[name="mainContent"], .content ui-view[name="mainContent"] ui-view[name="content"] {
+  height: 100%;
+  display: block;
+}
+
+.warning-plate {
+  padding: 12px;
+  border: 1px dashed @color-warning-400;
+  border-radius: @border-radius;
+}
+
+.hide-selection() {
+  background: none transparent;
+}
+
+.assets-wrapper {
+  max-height: calc(~'100vh - 140px');
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.portfolio-list w-scroll-box {
+  overflow: auto;
+  min-height: calc(~'100vh - 207px');
+  max-height: calc(~'100vh - 207px');
+
+  .scroll-list {
+    height: 100%;
+  }
+}
+
+.transactions w-scroll-box .scroll-list {
+  max-height: calc(~'100vh - 207px');
+}
+
+.transactions-container w-scroll-box .scroll-list {
+  max-height: calc(~'100vh - 130px');
+  overflow-y: auto;
+}
+
+.leasing-page {
+  height: 100%;
+  max-height: calc(~'100vh - 90px');
+  overflow: hidden;
+
+  .left-panel {
+    height: 100%;
+    max-height: calc(~'100vh - 90px');
+    overflow-y: auto;
+  }
+}
+
+.scroll {
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  :hover::-webkit-scrollbar {
+    display: block;
+  }
+
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 3px @color-basic-100;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    background: @color-basic-100;
+    -webkit-box-shadow: inset 0 0 3px @color-basic-500;
+  }
+
+  ::-webkit-scrollbar-thumb:window-inactive {
+    background: @color-basic-200;
+  }
+}
+
+i.help-icon {
+  position: relative;
+  margin-left: 7px;
+
+  &::before {
+    content: '?';
+    background: @color-accent-100;
+    color: @color-white;
+    border-radius: 50%;
+    display: inline-block;
+    width: @text-icon-size;
+    height: 14px;
+    padding-top: 2px;
+    text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    vertical-align: middle;
+    margin-top: -3px;
+    font-size: @font-size-caption-2;
+    line-height: 13px;
+  }
+
+  &:hover::before {
+    background: @color-submit-300;
+  }
+
+  &:after {
+    display: none;
+    width: 10px;
+    height: 10px;
+    background: @color-submit-300;
+    transform: rotate(-45deg);
+    left: 3px;
+    top: 21px;
+    position: absolute;
+    content: '';
+    z-index: 0;
+  }
+
+  &:hover::after {
+    display: block;
+  }
+
+  &:hover + div.help-content {
+    display: block;
+  }
+
+}
+
+div.help-content {
+  display: none;
+  z-index: 1;
+  position: absolute;
+  background: @color-white;
+  border-top: 5px solid @color-submit-300;
+  border-radius: @border-radius;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.18);
+  width: 50%;
+  padding: 15px;
+  margin-top: 4px;
+  left: 25%;
+
+  &:hover {
+    display: block;
+  }
+
+  div {
+    margin-bottom: 5px;
+  }
+}

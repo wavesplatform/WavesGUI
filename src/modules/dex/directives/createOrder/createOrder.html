@@ -1,0 +1,148 @@
+<div class="create-order"
+     ng-class="{expanded: $ctrl.step !== 0}"
+     ng-if="$ctrl.amountBalance && $ctrl.priceBalance">
+    <div class="head">
+        <div class="icon-drag margin-right-1"></div>
+        <div class="footnote-2 disabled-900">{{$ctrl.amountDisplayName}} / {{$ctrl.priceDisplayName}}</div>
+        <div class="icon-close"
+             ng-if="$ctrl.step !== 0"
+             ng-click="$ctrl.collapse()"></div>
+    </div>
+    <div class="body">
+        <w-step-by-step active-step="$ctrl.step">
+
+            <w-step>
+                <div class="choice">
+                    <div class="choose sell" ng-click="$ctrl.expand('sell')">
+                        <div class="footnote-2 white-0">SELL</div>
+                        <div class="headline-2 white-0">{{$ctrl.bid.price}}</div>
+                    </div>
+                    <div class="middle">
+                        <div class="caption-3 disabled-900">SPREAD {{$ctrl.spreadPercent}}%</div>
+                    </div>
+                    <div class="choose buy" ng-click="$ctrl.expand('buy')">
+                        <div class="footnote-2 white-0">BUY</div>
+                        <div class="headline-2 white-0">{{$ctrl.ask.price}}</div>
+                    </div>
+                </div>
+            </w-step>
+
+            <w-step>
+                <div class="making-order" ng-class="$ctrl.type">
+                    <div class="areas">
+                        <div class="area sell" ng-click="$ctrl.expand('sell')">
+                            <div class="name footnote-2">SELL</div>
+                            <div class="price headline-2">{{$ctrl.bid.price}}</div>
+                        </div>
+                        <div class="spread">
+                            <span class="spread-label">SPREAD</span>
+                            <span>{{$ctrl.spreadPercent}}%</span>
+                        </div>
+                        <div class="area buy" ng-click="$ctrl.expand('buy')">
+                            <div class="name footnote-2">BUY</div>
+                            <div class="price headline-2">{{$ctrl.ask.price}}</div>
+                        </div>
+                    </div>
+                    <!--<div class="order-types"></div>-->
+                    <form class="fields" novalidate name="order">
+                        <div class="amount">
+                            <div class="split-half field-label">
+                                <div class="footnote-1 disabled-900"
+                                     w-i18n="directives.createOrder.amountField"></div>
+                                <div ng-if="$ctrl.type === 'buy'"
+                                     ng-click="$ctrl.setMaxPrice()"
+                                     class="caption-1 disabled-900 amount-balance">
+                                    <w-balance money="$ctrl.priceBalance"></w-balance>&nbsp;{{$ctrl.priceBalance.asset.displayName}}
+                                </div>
+                                <div ng-if="$ctrl.type === 'sell'"
+                                     ng-click="$ctrl.setMaxAmount()"
+                                     class="caption-1 disabled-900 amount-balance">
+                                    <w-balance money="$ctrl.amountBalance"></w-balance>&nbsp;{{$ctrl.amountBalance.asset.displayName}}
+                                </div>
+                            </div>
+                            <w-input-container>
+                                <div class="input-like tiny">
+                                    <w-input class="tiny embed no-validate-icons"
+                                             type="text"
+                                             w-validate="asset"
+                                             asset-id="$ctrl.amountBalance.asset.id"
+                                             max-balance="$ctrl.maxAmountBalance"
+                                             name="amount"
+                                             ng-model="$ctrl.amount"
+                                             required></w-input>
+                                    <div class="asset-name-wrap">
+                                        <div class="caption-1 disabled-500">{{$ctrl.amountDisplayName}}</div>
+                                    </div>
+                                </div>
+
+                                <w-input-error message="required">
+                                    <w-i18n>directives.createOrder.errors.required</w-i18n>
+                                </w-input-error>
+                                <w-input-error message="asset-input">
+                                    <w-i18n params="{precision: $ctrl.amountBalance.asset.precision}">
+                                        directives.createOrder.errors.precision
+                                    </w-i18n>
+                                </w-input-error>
+                                <w-input-error message="asset-max">
+                                    <w-i18n params="{name: $ctrl.amountBalance.asset.displayName}">
+                                        directives.createOrder.errors.balance
+                                    </w-i18n>
+                                </w-input-error>
+                                <div ng-if="$ctrl.cantByOrder" class="error active error-400">
+                                    <w-i18n params="{name: $ctrl.priceBalance.asset.displayName}">
+                                        directives.createOrder.errors.balance
+                                    </w-i18n>
+                                </div>
+                            </w-input-container>
+                        </div>
+
+                        <div class="price">
+                            <w-input-container>
+                                <div class="field-label footnote-1 disabled-900"
+                                     w-i18n="directives.createOrder.priceField"></div>
+                                <div class="input-like tiny">
+                                    <w-input class="tiny embed no-validate-icons"
+                                             type="text"
+                                             w-validate="asset"
+                                             asset-id="$ctrl.priceBalance.asset.id"
+                                             name="price"
+                                             ng-model="$ctrl.price"
+                                             required></w-input>
+                                    <div class="asset-name-wrap">
+                                        <div class="caption-1 disabled-500">{{$ctrl.priceDisplayName}}</div>
+                                    </div>
+                                </div>
+                                <w-input-error message="asset-input">
+                                    <w-i18n params="{precision: $ctrl.priceBalance.asset.precision}">
+                                        directives.createOrder.errors.precision
+                                    </w-i18n>
+                                </w-input-error>
+                                <w-input-error message="required">
+                                    <w-i18n>directives.createOrder.errors.required</w-i18n>
+                                </w-input-error>
+                            </w-input-container>
+                        </div>
+
+                        <div class="summary">
+                            <div class="caption-2 disabled-700">
+                                <w-i18n>directives.createOrder.total</w-i18n>
+                                <span>&nbsp;{{$ctrl.totalPrice.toFormat($ctrl.priceBalance.asset.precision)}}</span>
+                                <span>&nbsp;{{$ctrl.priceDisplayName}}</span>
+                            </div>
+                            <div class="caption-2 disabled-700">Fee 0.003 WAVES</div>
+                        </div>
+
+                        <!--TODO WTF? Has no property $valid and $invalid in form when remove all char from input amount-->
+                        <w-button disabled="!order.$valid || $ctrl.cantByOrder"
+                                  class="place-order tiny footnote-3"
+                                  ng-click="$ctrl.createOrder(order)">
+                            <w-i18n ng-if="$ctrl.type === 'sell'">directives.createOrder.placeSellOrder</w-i18n>
+                            <w-i18n ng-if="$ctrl.type === 'buy'">directives.createOrder.placeBuyOrder</w-i18n>
+                        </w-button>
+                    </form>
+                </div>
+            </w-step>
+
+        </w-step-by-step>
+    </div>
+</div>

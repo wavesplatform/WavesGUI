@@ -1,0 +1,23 @@
+<div class="lead">
+    <h3 class="basic-700"
+        w-i18n="transaction.amounts.{{::$ctrl.type}}"
+        params="{
+                sign: $ctrl.type === 'exchange-buy' ? '+' : '–',
+                amount: $ctrl.transaction.amount.toFormat(),
+                name: $ctrl.transaction.amount.asset.name
+              }"></h3>
+    <div class="body-2 basic-500"
+         w-i18n="transaction.amounts.{{::$ctrl.type}}"
+         params="{
+                sign: $ctrl.type === 'exchange-buy' ? '–' : '+',
+                amount: $ctrl.totalPrice,
+                name: $ctrl.transaction.price.pair.priceAsset.name
+              }"></div>
+</div>
+
+<div class="section">
+    <div class="key"
+         w-i18n="transaction.modals.price"
+         params="{name: $ctrl.transaction.amount.asset.name}"></div>
+    <div class="value">{{::$ctrl.transaction.price.toFormat()}} {{::$ctrl.transaction.price.pair.priceAsset.name}}</div>
+</div>

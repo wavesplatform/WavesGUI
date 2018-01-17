@@ -1,0 +1,199 @@
+@import (reference) '../../config';
+
+@font-size-caption-1: 12px;
+@font-size-caption-2: 11px;
+
+html, body {
+  .footnote-1();
+}
+
+/* TITLES */
+
+h1 {
+  font-family: @font-roboto-light;
+  font-size: 28px;
+  letter-spacing: 0;
+  line-height: 34px;
+  margin: 10px 0;
+}
+
+h2 {
+  font-family: @font-roboto-regular;
+  font-size: 24px;
+  letter-spacing: 0.3px;
+  line-height: 28px;
+  margin: 10px 0;
+}
+
+h3 {
+  font-family: @font-roboto-regular;
+  font-size: 22px;
+  letter-spacing: 0.35px;
+  line-height: 28px;
+  margin: 10px 0;
+}
+
+h4 {
+  font-family: @font-roboto-regular;
+  font-size: 20px;
+  letter-spacing: 0;
+  line-height: 24px;
+  margin: 10px 0;
+}
+
+/* TEXT */
+
+.headline-1 {
+  font-family: @font-roboto-regular;
+  font-size: 34px;
+  letter-spacing: 0;
+  line-height: 40px;
+  margin: 10px 0;
+}
+
+.headline-2 {
+  font-family: @font-roboto-medium;
+  font-size: 17px;
+  letter-spacing: 0;
+  line-height: 22px;
+  margin: 0;
+  color: @color-basic-700;
+}
+
+.headline-3 {
+  font-family: @font-roboto-medium;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: -0.24px;
+}
+
+.headline-4 {
+  font-family: @font-roboto-medium;
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 18px;
+}
+
+.subheader {
+  font-family: @font-roboto-regular;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 21px;
+}
+
+.body-1 {
+  font-family: @font-roboto-regular;
+  font-size: 17px;
+  letter-spacing: 0;
+  line-height: 22px;
+}
+
+.body-2 {
+  font-family: @font-roboto-regular;
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 20px;
+  margin: 4px 0;
+}
+
+.footnote-1 {
+  font-family: @font-roboto-regular;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 18px;
+}
+
+.footnote-2 {
+  font-family: @font-roboto-medium;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 18px;
+}
+
+.footnote-3 {
+  font-family: @font-roboto-medium;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 18px;
+}
+
+/* CAPTIONS */
+
+.caption-1 {
+  font-family: @font-roboto-regular;
+  font-size: @font-size-caption-1;
+  letter-spacing: 0.07px;
+  line-height: 16px;
+  color: @color-disabled-600;
+}
+
+.caption-2 {
+  font-family: @font-roboto-regular;
+  font-size: @font-size-caption-2;
+  letter-spacing: 0.07px;
+  line-height: 13px;
+  color: @color-disabled-600;
+}
+
+
+.caption-3 {
+  font-family: @font-roboto-regular;
+  font-size: 9px;
+  color: @color-disabled-600;
+  letter-spacing: 0;
+  line-height: 12px;
+}
+
+/* TAGS */
+
+.tag-1 {
+  font-family: @font-roboto-regular;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 18px;
+  color: @color-disabled-600;
+  text-transform: uppercase;
+}
+
+.tag-2 {
+  font-family: @font-roboto-regular;
+  font-size: 11px;
+  letter-spacing: 2px;
+  line-height: 12px;
+  color: @color-info-400;
+  text-transform: uppercase;
+}
+
+hr {
+  border: none;
+  border-bottom: 1px solid @color-basic-200;
+  margin: 30px 0;
+  width: 100%;
+}
+
+.or {
+  text-transform: uppercase;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+
+  &::before, &::after {
+    content: '';
+    display: inline-block;
+    height: 0;
+    border-bottom: 1px solid @color-disabled-200;
+    width: 100%;
+    opacity: 0.3;
+  }
+
+  &::before {
+    margin: 0 10px 0 0;
+  }
+
+  &::after {
+    margin: 0 0 0 10px;
+  }
+}

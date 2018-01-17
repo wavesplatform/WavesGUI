@@ -1,0 +1,22 @@
+<div class="line body-1 basic-700">
+    <div>
+        <span w-i18n="transaction.headers.{{::$ctrl.type}}"
+              params="{name: $ctrl.transaction.quantity.asset.name}"></span>
+    </div>
+    <div>
+        <span w-i18n="transaction.amounts.{{::$ctrl.type}}"
+              params="{
+                amount: $ctrl.transaction.quantity.toFormat(),
+                name: $ctrl.transaction.quantity.asset.name
+              }"></span>
+    </div>
+</div>
+<div class="line footnote-1 basic-500">
+    <div>
+        <span w-i18n="transaction.subheaders.{{::$ctrl.type}}"
+              params="{time: $ctrl.time}"></span>
+    </div>
+    <div ng-if="$ctrl.type === 'issue' || $ctrl.type === 'reissue'">
+        <w-i18n>transaction.reissuable.{{::$ctrl.transaction.reissuable}}</w-i18n>
+    </div>
+</div>

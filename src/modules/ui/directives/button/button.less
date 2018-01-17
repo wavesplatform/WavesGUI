@@ -1,0 +1,141 @@
+@import (reference) '../../../config';
+
+w-button {
+  display: inline-block;
+
+   &.long, &.long > * {
+    width: 100%;
+    cursor: pointer;
+  }
+
+  & > * {
+    border-radius: @border-radius;
+    font-size: @font-size-control;
+    padding: @padding-control-button-small;
+    width: 100%;
+
+    &.tiny {
+      font-size: @font-size-control-tiny;
+      padding: @padding-control-tiny;
+    }
+
+    &.small {
+      font-size: @font-size-control-small;
+      padding: @padding-control-button-small;
+    }
+
+    &.big {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0;
+      height: @height-control-big;
+      font-size: @font-size-control-big;
+    }
+
+    &:not(.transparent) {
+      background-color: @color-white;
+      border: 1px solid @color-basic-200;
+      color: @color-basic-500;
+
+      &:hover, &.hover {
+        border-color: @color-basic-500;
+        color: @color-basic-700;
+      }
+
+      &:active, &.active {
+        border-color: @color-basic-500;
+        color: @color-basic-700;
+      }
+
+      &:disabled, &.disabled {
+        border: 1px solid @color-basic-200;
+        color: @color-basic-200;
+      }
+    }
+
+    &:hover, &.hover {
+      box-shadow: inset -1px 1px 0 0 rgba(255, 255, 255, 0.00);
+    }
+
+    &:active, &.active {
+      box-shadow: inset -1px 1px 0 0 rgba(255, 255, 255, 0.00);
+    }
+
+    &.success {
+      background-color: @color-success-300;
+      color: @color-text-invert;
+
+      &:hover, &.hover {
+        background-color: @color-success-400;
+      }
+
+      &:active, &.active {
+        background-color: @color-success-500;
+      }
+
+      &:disabled, &.disabled {
+        background-color: @color-success-100;
+      }
+    }
+
+    &.submit {
+      background-color: @color-submit-400;
+      border: 1px solid @color-submit-500;
+      color: @color-text-invert;
+
+      &:hover, &.hover {
+        background-color: @color-submit-700;
+        border-color: transparent;
+        color: @color-text-invert;
+      }
+
+      &:active, &.active {
+        background-color: @color-submit-800;
+        border-color: transparent;
+        color: @color-text-invert;
+      }
+
+      &:disabled, &.disabled {
+        background-color: @color-submit-100;
+        border-color: @color-submit-200;
+        color: @color-text-invert;
+        box-shadow: inset -1px 1px 0 0 rgba(255, 255, 255, 0);
+      }
+    }
+
+    &.interface {
+      background-color: @color-white;
+      border: 1px solid @color-accent-50;
+      color: @color-basic-500;
+
+      &:hover, &.hover {
+        border-color: @color-basic-500;
+        color: @color-basic-500;
+      }
+
+      &:active, &.active {
+        border-color: @color-basic-500;
+        color: @color-basic-500;
+      }
+
+      &:disabled, &.disabled {
+        border: 1px solid @color-accent-50;
+        color: @color-basic-200;
+      }
+    }
+
+    &.round {
+      border-radius: 50%;
+      min-height: 52px;
+      min-width: 52px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+}

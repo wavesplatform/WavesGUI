@@ -1,0 +1,50 @@
+<div class="create-account">
+
+    <div class="waves-logo"></div>
+    <div class="headline-1">
+        <w-i18n>createAccount.createNewAccount</w-i18n>
+    </div>
+
+    <div class="body-2 disabled-600">
+        <span w-i18n="createAccount.signUp"></span>
+        <a ui-sref="restore">
+            <span w-i18n="createAccount.restore"></span>
+        </a>
+        <span w-i18n="createAccount.from"></span>
+    </div>
+
+    <hr>
+
+    <div class="left body-2">
+        <w-i18n>createAccount.choose</w-i18n>
+    </div>
+    <div class="left footnote-1 disabled-500">
+        <w-i18n>createAccount.avatarUnique</w-i18n>
+    </div>
+
+    <div class="avatars-list">
+        <div class="avatar-wrapper"
+             ng-repeat="seed in $ctrl.seedList track by seed.address"
+             ng-class="{active: seed.active}"
+             ng-click="$ctrl.setActiveSeed(seed)">
+            <w-avatar size="49"
+                      address="seed.address"></w-avatar>
+        </div>
+    </div>
+
+    <w-password class="margin-2" password="$ctrl.password"
+                on-submit="$ctrl.next()">
+        <w-i18n>button.continue</w-i18n>
+    </w-password>
+
+    <!--TODO @xenohunter #wrap-in-component-->
+
+    <div class="or margin-2">
+        <span w-i18n="noBackupNoMoney.or"></span>
+    </div>
+    <div class="text-center body-2 flex-column-center-min margin-2">
+        <a ui-sref="welcome" w-i18n="createAccount.signIn"></a>
+        <span w-i18n="createAccount.tosaved"></span>
+    </div>
+
+</div>

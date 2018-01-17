@@ -1,0 +1,83 @@
+@import (reference) '../../config';
+
+body.wallet {
+  min-width: 1024px;
+}
+
+.wallet {
+  w-navigation a {
+
+    .size(@width, @height) {
+      width: @width;
+      height: @height;
+    }
+
+    &::before {
+      content: '';
+      display: inline-block;
+      background-size: 100% 100%;
+      position: relative;
+      margin-right: 7px;
+    }
+
+    &.assets {
+      &::before {
+        .size(25px, 19px);
+      }
+      &::before {
+        background-image: url(/img/wallet/assets.svg);
+      }
+      &.active::before {
+        background-image: url(/img/wallet/assets-active.svg);
+      }
+    }
+
+    &.portfolio {
+      &::before {
+        .size(22px, 20px);
+      }
+      &::before {
+        background-image: url(/img/wallet/portfolio.svg);
+      }
+      &.active::before {
+        background-image: url(/img/wallet/portfolio-active.svg);
+      }
+    }
+
+    &.transfers {
+      &::before {
+        .size(22px, 22px);
+      }
+      &::before {
+        background-image: url(/img/wallet/transfers.svg);
+      }
+      &.active::before {
+        background-image: url(/img/wallet/transfers-active.svg);
+      }
+    }
+
+    &.transactions {
+      &::before {
+        .size(22px, 22px);
+      }
+      &::before {
+        background-image: url(/img/wallet/transactions.svg);
+      }
+      &.active::before {
+        background-image: url(/img/wallet/transactions-active.svg);
+      }
+    }
+
+    &.leasing {
+      &::before {
+        .size(24px, 16px);
+      }
+      &::before {
+        background-image: url(/img/wallet/leasing.svg);
+      }
+      &.active::before {
+        background-image: url(/img/wallet/leasing-active.svg);
+      }
+    }
+  }
+}

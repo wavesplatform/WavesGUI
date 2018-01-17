@@ -1,0 +1,43 @@
+<w-table>
+    <w-t-head>
+        <w-row>
+            <w-cell>
+                <w-i18n>directives.myOrders.pair</w-i18n>
+            </w-cell>
+            <w-cell>
+                <w-i18n>directives.myOrders.type</w-i18n>
+            </w-cell>
+            <w-cell>
+                <w-i18n>directives.myOrders.price</w-i18n>
+            </w-cell>
+            <w-cell>
+                <w-i18n>directives.myOrders.amount</w-i18n>
+            </w-cell>
+            <w-cell>
+                <w-i18n>directives.myOrders.status</w-i18n>
+            </w-cell>
+        </w-row>
+    </w-t-head>
+    <w-scroll-box>
+        <w-row ng-repeat="order in $ctrl.orders track by order.id" ng-class="{{order.status.toLowerCase()}}">
+            <w-cell>
+                <span>{{::order.pair}}</span>
+            </w-cell>
+            <w-cell>
+                <span class="order-side {{::order.type}}" w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
+            </w-cell>
+            <w-cell>
+                <w-balance money="order.price"></w-balance>
+            </w-cell>
+            <w-cell>
+                <w-balance money="order.amount"></w-balance>
+            </w-cell>
+            <w-cell>
+                {{order.state}}
+            </w-cell>
+            <div ng-if="order.status === 'Accepted' || order.status === 'PartiallyFilled'"
+                 ng-click="$ctrl.dropOrder(order)"
+                 class="stop"></div>
+        </w-row>
+    </w-scroll-box>
+</w-table>

@@ -1,0 +1,87 @@
+@import (reference) '../../../../../config';
+
+@asset-block-narrow: calc(~"25% - " @padding-main-layout);
+@asset-block-wide: calc(~"33.3% - " @padding-main-layout);
+
+w-asset {
+  box-sizing: border-box;
+  min-height: 182px;
+  flex-basis: @asset-block-narrow;
+  max-width: @asset-block-narrow;
+  @media screen and (max-width: 1300px) {
+    flex-basis: @asset-block-wide;
+    max-width: @asset-block-wide;
+  }
+  border: 1px solid #eaeaea;
+  border-radius: @border-radius;
+  background-color: @color-white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow: hidden;
+  margin: @padding-main-layout /2;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .info {
+    cursor: pointer;
+    height: 101px;
+  }
+
+  &:hover .settings {
+    display: flex;
+  }
+
+  w-asset-logo {
+    margin-right: 7px;
+  }
+
+  .balance {
+    margin: 6px 0 auto 0;
+
+    w-balance > span {
+      word-wrap: break-word;
+    }
+
+    .decimal {
+      font-family: @font-roboto-light;
+    }
+  }
+
+  .name {
+    font-weight: 500;
+    font-size: 17px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+    align-items: center;
+  }
+
+  hr {
+    border: none;
+    width: 100%;
+    margin: 8px 0;
+    border-bottom: 1px dashed @color-disabled-200;
+  }
+
+  .footer {
+    color: @color-basic-500;
+
+    .btn-icon {
+      display: inline-block;
+      margin-top: 10px;
+      margin-right: 20px;
+      cursor: pointer;
+      font-size: 15px;
+
+      &:hover {
+        color: @color-black;
+      }
+    }
+  }
+}

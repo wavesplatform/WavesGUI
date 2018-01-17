@@ -1,0 +1,95 @@
+{
+  "balanceInput": {
+    "max": "Max"
+  },
+  "password": {
+    "title": "Protect Your Account with a New Password",
+    "minLength": "must be at least {{minLength}} characters",
+    "warn": "easy, add a digit or symbol",
+    "secure": "secure password",
+    "repeat": "Confirm password"
+  },
+  "transaction": {
+    "headers": {
+      "send": "Sent {{name}}",
+      "receive": "Received {{name}}",
+      "circular": "Self-transferred {{name}}",
+      "issue": "{{name}} Token Generation",
+      "reissue": "{{name}} Token Reissue",
+      "burn": "{{name}} Token Burning",
+      "exchange-buy": "Exchange Buy: {{amountAsset}}/{{priceAsset}}",
+      "exchange-sell": "Exchange Sell: {{amountAsset}}/{{priceAsset}}",
+      "lease-in": "Incoming Leasing",
+      "lease-out": "Started Leasing",
+      "cancel-leasing": "Canceled Leasing",
+      "create-alias": "Created Alias"
+    },
+    "amounts": {
+      "send": "–{{amount}} {{name}}",
+      "receive": "+{{amount}} {{name}}",
+      "circular": "{{amount}} {{name}}",
+      "issue": "{{amount}} {{name}}",
+      "reissue": "+{{amount}} {{name}}",
+      "burn": "–{{amount}} {{name}}",
+      "exchange-buy": "{{sign}}{{amount}} {{name}}",
+      "exchange-sell": "{{sign}}{{amount}} {{name}}",
+      "lease-in": "{{amount}} {{name}}",
+      "lease-out": "{{amount}} {{name}}",
+      "cancel-leasing": "{{amount}} {{name}}",
+      "create-alias": ""
+    },
+    "subheaders": {
+      "send": "{{time}}<span class='locale-address'>, to address {{address}}</span>",
+      "receive": "{{time}}<span class='locale-address'>, from address {{address}}</span>",
+      "circular": "{{time}}<span class='locale-address'>, at address {{address}}</span>",
+      "issue": "{{time}}",
+      "reissue": "{{time}}",
+      "burn": "{{time}}",
+      "exchange-buy": "{{time}}",
+      "exchange-sell": "{{time}}",
+      "lease-in": "{{time}}<span class='locale-address'>, from address {{address}}</span>",
+      "lease-out": "{{time}}<span class='locale-address'>, to address {{address}}</span>",
+      "cancel-leasing": "{{time}}<span class='locale-address'>, transaction {{transactionId}}</span>",
+      "create-alias": "{{time}}, {{alias}}"
+    },
+    "reissuable": {
+      "false": "Not Reissuable",
+      "true": "Reissuable"
+    },
+    "actions": {
+      "cancelLeasing": "Cancel Leasing",
+      "showTx": "TX info",
+      "copyTxId": "Copy TX ID",
+      "copyTxData": "Copy all TX data"
+    },
+    "notifications": {
+      "txIdCopied": "Transaction ID is copied",
+      "txDataCopied": "Transaction data is copied",
+      "closed": "The leasing has been already canceled",
+      "closedSuccess": "The leasing canceled complete"
+    },
+    "modals": {
+      "to": "To",
+      "from": "From",
+      "assetId": "ID",
+      "attachment": "Attachment Message",
+      "description": "Description",
+      "price": "{{name}} Price",
+      "type": "Type",
+      "cancelTx": "TX",
+      "confirmations": "Confirmations",
+      "fee": "Fee",
+      "viewTransactionKey": "Transaction",
+      "viewTransactionValue": "View Transaction"
+    },
+    "confirmed": {
+      "false": "UNCONFIRMED",
+      "true": "COMPLETED"
+    }
+  },
+  "transactionList": {
+    "noTransactionsTitle": "Nothing Here…",
+    "noTransactionsDescription": "You do not have any transactions"
+  },
+  "copySuccess": "The data is copied"
+}

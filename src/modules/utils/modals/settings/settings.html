@@ -1,0 +1,115 @@
+<div class="modal-content settings-modal">
+    <div class="navigation-menu">
+        <div class="menu-item general icon-settings-general"
+             ng-class="{active: $ctrl.tab === 'general'}"
+             ng-click="$ctrl.setState('general')">
+            <w-i18n>modal.settings.general.title</w-i18n>
+        </div>
+        <div class="menu-item security icon-settings-security"
+             ng-class="{active: $ctrl.tab === 'security'}"
+             ng-click="$ctrl.setState('security')">
+            <w-i18n>modal.settings.security.title</w-i18n>
+        </div>
+        <div class="menu-item network icon-settings-network"
+             ng-class="{active: $ctrl.tab === 'network'}"
+             ng-click="$ctrl.setState('network')">
+            <w-i18n>modal.settings.network.title</w-i18n>
+        </div>
+        <div class="menu-item info icon-settings-info"
+             ng-class="{active: $ctrl.tab === 'info'}"
+             ng-click="$ctrl.setState('info')">
+            <w-i18n>modal.settings.info.title</w-i18n>
+        </div>
+    </div>
+
+    <div class="settings-content">
+        <w-step-by-step active-step="$ctrl.tab">
+
+            <w-step step-id="general" class="general">
+                <div class="row flex-row row-style unit-checkbox">
+                    <w-checkbox-submit id="shareStat" ng-model="$ctrl.shareStat"></w-checkbox-submit>
+                    <label for="shareStat" w-i18n="modal.termsAccept.body.analytics"></label>
+                </div>
+
+                <div class="row flex-row row-style unit-language">
+                    <div class="footnote-1 disabled-600" w-i18n="modal.settings.general.language"></div>
+                    <w-change-language on-change="$ctrl.onChangeLanguage(language)"></w-change-language>
+                </div>
+
+                <div class="row flex-row row-style">
+                    <div class="footnote-1 disabled-600" w-i18n="modal.settings.general.blockHeight"></div>
+                    <div><span class="label">{{$ctrl.blockHeight}}</span></div>
+                </div>
+            </w-step>
+
+            <w-step step-id="security" class="security">
+                <div class="row margin-1">
+                    <div class="footnote disabled-600 label" w-i18n="modal.settings.security.backupPhrase"></div>
+                    <div class="data-field">
+                        <w-button ng-if="!$ctrl.shownSeed" class="tiny" ng-click="$ctrl.shownSeed = true">
+                            <w-i18n>modal.settings.security.show</w-i18n>
+                        </w-button>
+                        <div ng-if="$ctrl.shownSeed">{{::$ctrl.phrase}}</div>
+                    </div>
+                </div>
+
+                <div class="row margin-1">
+                    <div class="footnote disabled-600 label" w-i18n="modal.settings.security.privateKey"></div>
+                    <div class="data-field">
+                        <w-button ng-if="!$ctrl.shownKey" class="tiny" ng-click="$ctrl.shownKey = true">
+                            <w-i18n>modal.settings.security.show</w-i18n>
+                        </w-button>
+                        <div ng-if="$ctrl.shownKey">{{::$ctrl.privateKey}}</div>
+                    </div>
+                </div>
+                <div class="row flex-row row-style">
+                    <div class="footnote disabled-600" w-i18n="modal.settings.security.publicKey"></div>
+                    <div>{{::$ctrl.publicKey}}</div>
+                </div>
+
+                <div class="row flex-row row-style">
+                    <div class="footnote disabled-600" w-i18n="modal.settings.security.address"></div>
+                    <div>{{::$ctrl.address}}</div>
+                </div>
+            </w-step>
+
+            <w-step step-id="network" class="network">
+                <div class="row margin-1">
+                    <div class="footnote disabled-600 label" w-i18n="modal.settings.network.nodeAddress"></div>
+                    <div class="data-field">
+                        <w-input ng-model="$ctrl.node"></w-input>
+                    </div>
+                </div>
+
+                <div class="row margin-3">
+                    <div class="footnote disabled-600 label" w-i18n="modal.settings.network.matcherAddress"></div>
+                    <div class="data-field">
+                        <w-input ng-model="$ctrl.matcher"></w-input>
+                    </div>
+                </div>
+
+                <w-button ng-click="$ctrl.setNetworkDefault()">
+                    <w-i18n>modal.settings.setDefault</w-i18n>
+                </w-button>
+            </w-step>
+
+            <w-step step-id="info" class="info">
+                <div class="row flex-row row-style">
+                    <div class="footnote disabled-600" w-i18n="modal.settings.info.version"></div>
+                    <div>{{::$ctrl.appName}} {{::$ctrl.appVersion}}</div>
+                </div>
+
+                <div class="row flex-row row-style">
+                    <div class="footnote disabled-600" w-i18n="modal.settings.info.support"></div>
+                    <div><a href="{{::$ctrl.supportLink}}" target="_blank">{{::$ctrl.supportLinkName}}</a></div>
+                </div>
+
+                <div class="row flex-row row-style">
+                    <div class="footnote disabled-600">&copy; 2017 Waves Platform</div>
+                    <div><span class="waves-logo"></span></div>
+                </div>
+            </w-step>
+
+        </w-step-by-step>
+    </div>
+</div>

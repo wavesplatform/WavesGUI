@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="23px" height="23px" viewBox="0 0 23 23" version="1.1"
+     xmlns="http://www.w3.org/2000/svg">
+    <!-- Generator: Sketch 48 (47235) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 15</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
+       transform="translate(-215.000000, -429.000000)">
+        <g id="Group-15" transform="translate(215.000000, 429.000000)" fill="#FFFFFF">
+            <path d="M2,0.5 L2,7 L3,7 L3,0.5 C3,0.223857625 2.77614237,-5.07265313e-17 2.5,0 L2.5,0 C2.22385763,5.07265313e-17 2,0.223857625 2,0.5 Z"
+                  id="Line-5" fill-rule="nonzero"></path>
+            <path d="M2,19 L2,22.5 C2,22.7761424 2.22385763,23 2.5,23 L2.5,23 C2.77614237,23 3,22.7761424 3,22.5 L3,19 L2,19 Z"
+                  id="Line-5-Copy-3" fill-rule="nonzero"></path>
+            <path d="M11,0.5 L11,4 L12,4 L12,0.5 C12,0.223857625 11.7761424,-5.07265313e-17 11.5,0 L11.5,0 C11.2238576,5.07265313e-17 11,0.223857625 11,0.5 Z"
+                  id="Line-5-Copy-2" fill-rule="nonzero"></path>
+            <path d="M11,12 L11,14.5 C11,14.7761424 11.2238576,15 11.5,15 L11.5,15 C11.7761424,15 12,14.7761424 12,14.5 L12,12 L11,12 Z"
+                  id="Line-5-Copy-4" fill-rule="nonzero"></path>
+            <rect id="Rectangle-2" x="0" y="8" width="5" height="10"></rect>
+            <rect id="Rectangle-2-Copy" x="9" y="5" width="5" height="6"></rect>
+            <path d="M20,0.5 L20,4 L21,4 L21,0.5 C21,0.223857625 20.7761424,-5.07265313e-17 20.5,0 L20.5,0 C20.2238576,5.07265313e-17 20,0.223857625 20,0.5 Z"
+                  id="Line-5-Copy-2" fill-rule="nonzero"></path>
+            <path d="M20,17 L20,22.5 C20,22.7761424 20.2238576,23 20.5,23 L20.5,23 C20.7761424,23 21,22.7761424 21,22.5 L21,17 L20,17 Z"
+                  id="Line-5-Copy-4" fill-rule="nonzero"></path>
+            <rect id="Rectangle-2-Copy" x="18" y="5" width="5" height="11"></rect>
+        </g>
+    </g>
+</svg>

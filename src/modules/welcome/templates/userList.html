@@ -1,0 +1,65 @@
+<div class="user-list">
+
+    <div class="center">
+
+        <div class="waves-logo"></div>
+        <div class="headline-1" w-i18n="userList.title"></div>
+
+        <div class="body-2">
+            <span class="disabled-600" w-i18n="userList.subTitle"></span>
+            <a ui-sref="create" w-i18n="userList.create"></a>
+        </div>
+    </div>
+
+    <div class="body-2 basic-900" w-i18n="userList.address"></div>
+    <div ng-if="$ctrl.userList.length === 1"
+         class="input-like big margin-3">
+        <w-avatar class="margin-right-1" address="$ctrl.address" size="30"></w-avatar>
+        <span class="body-1 basic-900">{{::$ctrl.address}}</span>
+        <div class="icon-remove-user icon-close" ng-click="$ctrl.removeUser($ctrl.address)"></div>
+    </div>
+    <w-select ng-if="$ctrl.userList.length > 1" ng-model="$ctrl.activeUser" class="big margin-3">
+        <w-option ng-repeat="user in $ctrl.userList track by user.address"
+                  value="{{::user.address}}">
+            <w-avatar class="margin-right-1" address="user.address" size="30"></w-avatar>
+            <div class="body-1 basic-900">{{::user.address}}</div>
+            <div class="icon-remove-user icon-close" ng-click="$ctrl.removeUser(user.address)"></div>
+        </w-option>
+    </w-select>
+
+    <div class="password-placeholder">
+        <div class="body-2 basic-900" w-i18n="userList.password"></div>
+    </div>
+    <form class="margin-2"
+          name="$ctrl.loginForm"
+          ng-submit="$ctrl.loginForm.$valid && $ctrl.login()"
+          novalidate>
+
+        <w-input-container class="margin-3">
+            <w-input name="password"
+                     type="password"
+                     ng-model="$ctrl.password"
+                     w-i18n-attr="placeholder"
+                     class="big no-icon"
+                     placeholder="userList.placeholders.password"
+                     required></w-input>
+
+            <div ng-class="{active: $ctrl.showPasswordError}" class="error">
+                Wrong Password!
+            </div>
+        </w-input-container>
+
+        <w-button disabled="$ctrl.loginForm.$invalid" type="submit" class="submit big long">
+            <w-i18n>userList.buttons.login</w-i18n>
+        </w-button>
+    </form>
+
+    <div class="or margin-2">
+        <span w-i18n="newUser.or"></span>
+    </div>
+    <div class="text-center body-2 flex-column-center-min margin-2">
+        <a ui-sref="restore" w-i18n="userList.restore"></a>
+        <span w-i18n="userList.frombackup"></span>
+    </div>
+
+</div>

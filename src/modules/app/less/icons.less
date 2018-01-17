@@ -1,0 +1,163 @@
+.waves-logo {
+  width: 100px;
+  height: 21px;
+  background-image: url(/img/icons/waves_logo.svg);
+  background-repeat: no-repeat;
+  display: block;
+  margin: 40px auto 80px auto;
+  // TODO : icons should be only declared images
+  // TODO : move all unrelated styles to different LESS files
+}
+
+.icon-close {
+  width: 16px;
+  height: 16px;
+  background-image: url(/img/icons/close.svg);
+  background-size: 100% 100%;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.icon-logout {
+  width: 24px;
+  height: 26px;
+  margin: 0 0 0 -12px;
+  background-image: url(/img/icons/exit.svg);
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  cursor: pointer;
+}
+
+.icon-settings {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  bottom: 86px;
+  left: 50%;
+  margin: 0 0 0 -12px;
+  background-image: url(/img/icons/icon-settings.svg);
+  cursor: pointer;
+}
+
+.icon-settings-general {
+  &::before {
+    background-image: url(/img/icons/settings-icon/general.svg);
+  }
+  &.active::before {
+    background-image: url(/img/icons/settings-icon/general-active.svg);
+  }
+}
+
+.icon-settings-security {
+  &::before {
+    background-image: url(/img/icons/settings-icon/security.svg);
+  }
+  &.active::before {
+    background-image: url(/img/icons/settings-icon/security-active.svg);
+  }
+}
+
+.icon-settings-network {
+  &::before {
+    background-image: url(/img/icons/settings-icon/network.svg);
+  }
+  &.active::before {
+    background-image: url(/img/icons/settings-icon/network-active.svg);
+  }
+}
+
+.icon-settings-info {
+  &::before {
+    background-image: url(/img/icons/settings-icon/info.svg);
+  }
+  &.active::before {
+    background-image: url(/img/icons/settings-icon/info-active.svg);
+  }
+}
+
+.icon-send::before {
+  background-image: url(/img/icons/send.svg);
+}
+
+.icon-deposit::before {
+  background-image: url(/img/icons/deposit.svg);
+}
+
+.icon-qr::before {
+  background-image: url(/img/icons/qr-code-small.svg);
+}
+
+.icon-add-asset::before {
+  background-image: url(/img/icons/add-asset.svg);
+}
+
+.icon-tx-send {
+  &::before {
+    background-color: rgba(255, 175, 0, 0.1);
+  }
+  background-image: url(/img/icons/transaction-send-icon.svg);
+}
+
+.icon-tx-receive {
+  &::before {
+    background-color: rgba(129, 201, 38, 0.1);
+  }
+  background-image: url(/img/icons/transaction-receive-icon.svg);
+}
+
+.icon-tx-issue {
+  &::before {
+    background-color: rgba(38, 193, 201, 0.1);
+  }
+  background-image: url(/img/icons/transaction-issue-icon.svg);
+}
+
+.icon-tx-reissue {
+  &::before {
+    background-color: rgba(129, 201, 38, 0.1);
+  }
+  background-image: url(/img/icons/transaction-reissue-icon.svg);
+}
+
+.icon-tx-burn {
+  &::before {
+    background-color: rgba(255, 175, 0, 0.1);
+  }
+  background-image: url(/img/icons/transaction-burn-icon.svg);
+}
+
+.icon-tx-exchange {
+  &::before {
+    background-color: rgba(171, 125, 246, 0.1);
+  }
+  background-image: url(/img/icons/transaction-exchange-icon.svg);
+}
+
+.icon-tx-circular {
+  &::before {
+    background-color: rgba(239, 72, 41, 0.1);
+  }
+  background-image: url(/img/icons/transaction-circular-icon.svg);
+}
+
+.icon-tx-create-alias {
+  &::before {
+    background-color: rgba(53, 165, 245, 0.1);
+  }
+  background-image: url(/img/icons/transaction-create-alias-icon.svg);
+}
+
+.icon-tx-lease {
+  &::before {
+    background-color: rgba(129, 201, 38, 0.1);
+  }
+  background-image: url(/img/icons/transaction-lease-icon.svg);
+}
+
+.icon-tx-cancel-leasing {
+  &::before {
+    background-color: rgba(239, 72, 41, 0.1);
+  }
+  background-image: url(/img/icons/transaction-cancel-leasing-icon.svg);
+}

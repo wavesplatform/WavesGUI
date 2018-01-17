@@ -1,0 +1,27 @@
+@import (reference) '../../../config';
+
+w-input-container {
+  display: block;
+
+  input {
+    transition: all 0.3s;
+  }
+
+  .error {
+    transition: all 0.3s;
+    opacity: 0;
+    height: 0;
+    transform: scaleY(0);
+    overflow: hidden;
+    display: block;
+    color: @color-error-500;
+    position: relative;
+    top: 6px;
+
+    &.active {
+      opacity: 1;
+      transform: scaleY(1);
+      height: auto;
+    }
+  }
+}

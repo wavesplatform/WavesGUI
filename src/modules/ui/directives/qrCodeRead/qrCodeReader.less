@@ -1,0 +1,67 @@
+@import (reference) '../../../config';
+
+w-qr-code-read {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .btn::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 24px;
+    background-image: url(/img/icons/qr-code-big.svg);
+    background-size: 100% 100%;
+  }
+}
+
+.qr-code-reader-popup {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  padding: 3px;
+  border-radius: 3px;
+  background-color: @color-white;
+  border: 1px solid #dae1e9;
+  z-index: 80;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 50%;
+    bottom: -1px;
+    transform: translate(-50%, 100%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+
+    border-top: 8px solid #dae1e9;
+  }
+
+  video {
+    width: 100%;
+    height: 100%;
+  }
+
+  &.active {
+    display: block;
+  }
+
+  &::before {
+    top: 50%;
+    left: 50%;
+    content: '';
+    width: 140px;
+    height: 140px;
+    display: block;
+    position: absolute;
+    border: 2px dashed #f5f7f9;
+    transform: translate(-50%, -50%);
+  }
+}

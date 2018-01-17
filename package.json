@@ -1,48 +1,147 @@
 {
-  "name": "waves-lite-client",
-  "version": "0.5.14",
-  "description": "A lite client for the Waves platform",
+  "name": "waves-client",
+  "version": "1.0.0-beta.8",
+  "description": "The official client application for the Waves platform",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/wavesplatform/WavesGUI.git"
   },
   "license": "Apache-2.0",
-  "engines": {
-    "node": ">= 0.10.0"
-  },
   "devDependencies": {
-    "autoprefixer": "^6.7.6",
-    "cssnano": "^3.10.0",
-    "electron": "^1.6.8",
-    "electron-builder": "^17.5.0",
-    "electron-packager": "^8.7.0",
-    "electron-prebuilt": "^1.4.13",
-    "grunt": "^1.0.1",
-    "grunt-angular-templates": "^1.1.0",
-    "grunt-aws": "^0.6.2",
-    "grunt-bump": "0.8.0",
-    "grunt-contrib-clean": "1.0.0",
-    "grunt-contrib-compress": "1.3.0",
-    "grunt-contrib-concat": "1.0.1",
-    "grunt-contrib-copy": "1.0.0",
-    "grunt-contrib-jasmine": "1.0.3",
-    "grunt-contrib-jshint": "~1.0.0",
-    "grunt-contrib-less": "~1.4.0",
-    "grunt-contrib-uglify": "2.0.0",
-    "grunt-contrib-watch": "~1.0.0",
-    "grunt-conventional-changelog": "6.1.0",
-    "grunt-jscs": "~3.0.1",
-    "grunt-karma": "*",
-    "grunt-postcss": "^0.8.0",
-    "grunt-shell": "1.3.0",
-    "grunt-webstore-upload": "0.9.3",
-    "karma": "^0.13.0",
-    "karma-jasmine": "1.0.2",
-    "karma-phantomjs-launcher": "1.0.1",
-    "pixrem": "^3.0.2",
-    "waves-grunt-github-releaser": "^0.2.0"
+    "@types/babel-core": "^6.25.2",
+    "@types/connect": "^3.4.31",
+    "@types/fs-extra": "^3.0.3",
+    "@types/gulp": "^4.0.4",
+    "@types/gulp-angular-templatecache": "^2.0.3",
+    "@types/gulp-babel": "^6.1.29",
+    "@types/gulp-concat": "0.0.30",
+    "@types/gulp-copy": "0.0.3",
+    "@types/gulp-htmlmin": "^1.3.30",
+    "@types/handlebars": "^4.0.36",
+    "@types/i18next": "^8.4.2",
+    "@types/jasmine": "^2.6.0",
+    "@types/jquery": "^3.2.13",
+    "@types/js-cookie": "^2.1.0",
+    "@types/less": "0.0.32",
+    "@types/mime": "^2.0.0",
+    "@types/node": "^8.0.34",
+    "@types/serve-static": "^1.7.32",
+    "autoprefixer": "^7.1.5",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "browserify": "^14.4.0",
+    "connect": "^3.6.5",
+    "eslint": "^4.9.0",
+    "fs-extra": "^4.0.2",
+    "gulp": "^3.9.1",
+    "gulp-angular-templatecache": "^2.0.0",
+    "gulp-babel": "^6.1.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-copy": "^1.0.0",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-s3": "^0.11.0",
+    "gulp-zip": "^4.0.0",
+    "handlebars": "^4.0.10",
+    "jasmine-core": "^2.8.0",
+    "karma": "^1.7.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.1.0",
+    "less": "^2.7.2",
+    "mime": "^2.0.3",
+    "pixrem": "^4.0.1",
+    "postcss-cli": "^4.1.1",
+    "serve-static": "^1.13.1",
+    "typescript": "^2.5.3",
+    "uglify-es": "^3.1.3",
+    "uglifycss": "0.0.27"
   },
   "scripts": {
-    "postinstall": "bower install"
+    "postinstall": "sh scripts/postinstall.sh",
+    "preversion": "sh scripts/preversion.sh",
+    "postversion": "sh scripts/postversion.sh",
+    "watchts": "sh scripts/watch-typescript.sh",
+    "lessc": "sh scripts/lessc",
+    "build": "node_modules/.bin/tsc -p ./ && node_modules/.bin/gulp all",
+    "server": "npm run build && node server"
+  },
+  "build": {
+    "appId": "com.wavesplatform.client.lite",
+    "copyright": "Waves Platform",
+    "productName": "Waves Lite Client",
+    "files": "**/*",
+    "asar": true,
+    "compression": "normal",
+    "npmRebuild": false,
+    "npmSkipBuildFromSource": true,
+    "directories": {
+      "buildResources": "src/desktop/resources"
+    },
+    "artifactName": "${productName}[${env.WAVES_CONFIGURATION}]-${version}-${os}.${ext}",
+    "linux": {
+      "category": "Utility",
+      "target": [
+        "deb",
+        "zip"
+      ],
+      "executableName": "waves-lite-client",
+      "icon": "src/desktop/resources"
+    },
+    "mac": {
+      "category": "public.app-category.finance",
+      "target": [
+        "dmg"
+      ],
+      "icon": "src/desktop/resources/icon.icns"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ],
+      "legalTrademarks": "Waves Platform",
+      "icon": "src/desktop/resources/icon.ico"
+    },
+    "nsis": {
+      "artifactName": "waves-lite-client[${env.WAVES_CONFIGURATION}]-setup-${version}.${ext}"
+    },
+    "dmg": {
+      "icon": null,
+      "window": {
+        "x": 400,
+        "y": 100,
+        "width": 540,
+        "height": 280
+      }
+    }
+  },
+  "dependencies": {
+    "@types/html-minifier": "^1.1.30",
+    "@uirouter/angularjs": "^1.0.8",
+    "@waves/event-sender": "^0.4.3",
+    "angular": "^1.6.6",
+    "angular-animate": "^1.6.6",
+    "angular-aria": "^1.6.6",
+    "angular-material": "^1.1.5",
+    "angular-ui-router": "^1.0.3",
+    "bignumber.js": "^4.1.0",
+    "d3": "^3.5.17",
+    "html-minifier": "^3.5.7",
+    "i18next": "^9.1.0",
+    "i18next-xhr-backend": "^1.4.3",
+    "identity-img": "^1.0.0",
+    "jquery": "^3.2.1",
+    "js-cookie": "^2.2.0",
+    "n3-charts": "^2.0.28",
+    "ng-i18next": "^1.0.5",
+    "qrcode-reader": "^1.0.3",
+    "ts-api-validator": "^2.0.0",
+    "ts-utils": "^6.0.0",
+    "waves-api": "^0.21.4",
+    "worker-wrapper": "^1.2.2"
   }
 }

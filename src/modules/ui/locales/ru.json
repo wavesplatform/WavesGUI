@@ -1,0 +1,95 @@
+{
+  "balanceInput": {
+    "max": "Max"
+  },
+  "password": {
+    "title": "Защитите ваш кошелёк паролем",
+    "minLength": "минимум {{minLength}} символов",
+    "warn": "очень простой пароль, добавьте цифру или символ",
+    "secure": "надёжный пароль",
+    "repeat": "Подтвердите пароль"
+  },
+  "transaction": {
+    "headers": {
+      "send": "Отправка {{name}}",
+      "receive": "Получение {{name}}",
+      "circular": "Отправка себе {{name}}",
+      "issue": "Выпуск токена \"{{name}}\"",
+      "reissue": "Перевыпуск токена \"{{name}}\"",
+      "burn": "Сожжение токена \"{{name}}\"",
+      "exchange-buy": "Покупка: {{amountAsset}}/{{priceAsset}}",
+      "exchange-sell": "Продажа: {{amountAsset}}/{{priceAsset}}",
+      "lease-in": "Входящий лизинг",
+      "lease-out": "Передача в лизинг",
+      "cancel-leasing": "Отмена лизинга",
+      "create-alias": "Создание алиаса"
+    },
+    "amounts": {
+      "send": "–{{amount}} {{name}}",
+      "receive": "+{{amount}} {{name}}",
+      "circular": "{{amount}} {{name}}",
+      "issue": "{{amount}} {{name}}",
+      "reissue": "+{{amount}} {{name}}",
+      "burn": "–{{amount}} {{name}}",
+      "exchange-buy": "{{sign}}{{amount}} {{name}}",
+      "exchange-sell": "{{sign}}{{amount}} {{name}}",
+      "lease-in": "{{amount}} {{name}}",
+      "lease-out": "{{amount}} {{name}}",
+      "cancel-leasing": "{{amount}} {{name}}",
+      "create-alias": ""
+    },
+    "subheaders": {
+      "send": "{{time}}<span class='locale-address'>, на адрес {{address}}</span>",
+      "receive": "{{time}}<span class='locale-address'>, с адреса {{address}}</span>",
+      "circular": "{{time}}<span class='locale-address'>, на адрес {{address}}</span>",
+      "issue": "{{time}}",
+      "reissue": "{{time}}",
+      "burn": "{{time}}",
+      "exchange-buy": "{{time}}",
+      "exchange-sell": "{{time}}",
+      "lease-in": "{{time}}<span class='locale-address'>, с адреса {{address}}</span>",
+      "lease-out": "{{time}}<span class='locale-address'>, на адрес {{address}}</span>",
+      "cancel-leasing": "{{time}}<span class='locale-address'>, транзакция {{transactionId}}</span>",
+      "create-alias": "{{time}}, {{alias}}"
+    },
+    "reissuable": {
+      "false": "Не перевыпускаемый",
+      "true": "Перевыпускаемый"
+    },
+    "actions": {
+      "cancelLeasing": "Отменить лизинг",
+      "showTx": "Информация о транзакции",
+      "copyTxId": "Скопировать ID транзакции",
+      "copyTxData": "Скопировать данные транзакции"
+    },
+    "notifications": {
+      "txIdCopied": "ID транзакции скопирован",
+      "txDataCopied": "Данные транзакции скопированы",
+      "closed": "Лизинг уже был отменён ранее",
+      "closedSuccess": "Лизинг отменён"
+    },
+    "modals": {
+      "to": "Куда",
+      "from": "Откуда",
+      "assetId": "ID",
+      "attachment": "Прикреплённое сообщение",
+      "description": "Описание",
+      "price": "Цена {{name}}",
+      "type": "Тип",
+      "cancelTx": "TX",
+      "confirmations": "Подтверждениий",
+      "fee": "Комиссия",
+      "viewTransactionKey": "Детали",
+      "viewTransactionValue": "Посмотреть транзакцию"
+    },
+    "confirmed": {
+      "false": "НЕ ПОДТВЕРЖДЕНО",
+      "true": "ВЫПОЛНЕНО"
+    }
+  },
+  "transactionList": {
+    "noTransactionsTitle": "Пока ничего нет…",
+    "noTransactionsDescription": "У вас пока что нет транзакций"
+  },
+  "copySuccess": "Данные скопированы"
+}

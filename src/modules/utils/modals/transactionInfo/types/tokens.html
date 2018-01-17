@@ -1,0 +1,22 @@
+<div class="lead">
+    <h3 class="basic-700"
+        w-i18n="transaction.amounts.{{::$ctrl.type}}"
+        params="{amount: $ctrl.transaction.quantity.toFormat(), name: $ctrl.transaction.quantity.asset.name}"></h3>
+    <div class="body-2 basic-500" ng-if="$ctrl.mirrorBalance">≈ {{::$ctrl.mirrorBalance.toFormat()}} {{::$ctrl.mirrorBalance.asset.name}}</div>
+    <!--TODO : no mirrorBalance for some (or all) assets-->
+</div>
+
+<div class="section">
+    <div class="key" w-i18n="transaction.modals.assetId"></div>
+    <div class="value">{{::$ctrl.transaction.assetId}}</div>
+</div>
+
+<div class="section" ng-if="$ctrl.transaction.reissuable === true || $ctrl.transaction.reissuable === false">
+    <div class="key" w-i18n="transaction.modals.type"></div>
+    <div class="value" w-i18n="transaction.reissuable.{{::$ctrl.transaction.reissuable}}"></div>
+</div>
+
+<div class="section contains-text" ng-if="$ctrl.transaction.description">
+    <div class="key" w-i18n="transaction.modals.description"></div>
+    <div class="value text">{{::$ctrl.transaction.description}}</div>
+</div>

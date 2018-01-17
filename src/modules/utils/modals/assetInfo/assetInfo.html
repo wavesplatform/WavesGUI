@@ -1,0 +1,84 @@
+<div class="asset-content">
+    <div class="top-content">
+        <w-asset-logo asset-id="{{::$ctrl.asset.id}}" size="65"></w-asset-logo>
+        <div class="asset-data">
+            <h4 class="basic-900">{{::$ctrl.asset.name}}</h4>
+            <div class="body-2 basic-500 one-line">
+                {{::$ctrl.asset.description}}
+            </div>
+        </div>
+        <!--<div ng-if="$ctrl.asset.id !== $ctrl.wavesId"
+             ng-click="$ctrl.togglePin()"
+             ng-class="{pinned: $ctrl.pinned}" class="pin">
+            <w-i18n ng-if="!$ctrl.pinned">modal.assetInfo.unpinned</w-i18n>
+            <w-i18n ng-if="$ctrl.pinned">modal.assetInfo.pinned</w-i18n>
+        </div>-->
+        <div class="chart-wrapper">
+            <linechart ng-if="$ctrl.chartData" options="$ctrl.options" data="$ctrl.chartData"></linechart>
+            <div class="interactive-stop"></div>
+        </div>
+    </div>
+    <w-tabs>
+        <w-tab title-name="modal.assetInfo.transactions">
+            <w-transaction-list transaction-type="'send,receive,circular,exchange-buy,exchange-sell'"
+                                asset-id-list="[$ctrl.asset.id]"
+                                page-size="1000"></w-transaction-list>
+        </w-tab>
+        <w-tab title-name="modal.assetInfo.details" class="padding-content tab-details">
+            <div class="line">
+                <div class="body-2 basic-700" w-i18n="modal.assetInfo.issuer"></div>
+                <div class="footnote-1 basic-500">{{::$ctrl.asset.sender}}</div>
+            </div>
+            <div class="line">
+                <div class="body-2 basic-700" w-i18n="modal.assetInfo.identifier"></div>
+                <div class="footnote-1 basic-500">{{::$ctrl.asset.id}}</div>
+            </div>
+            <div class="line">
+                <div class="body-2 basic-700" w-i18n="modal.assetInfo.name"></div>
+                <div class="footnote-1 basic-500">{{::$ctrl.asset.name}}</div>
+            </div>
+            <div class="line">
+                <div class="body-2 basic-700" w-i18n="modal.assetInfo.type"></div>
+                <div class="footnote-1 basic-500">
+                    <w-i18n>modal.assetInfo.reissue.{{::$ctrl.asset.reissuable ? 'yes' : 'no'}}</w-i18n>
+                </div>
+            </div>
+            <div class="line">
+                <div class="body-2 basic-700" w-i18n="modal.assetInfo.date"></div>
+                <div class="footnote-1 basic-500">{{::$ctrl.asset.timestamp | date:'dd.MM.yyyy hh:mm'}}</div>
+            </div>
+            <div ng-if="$ctrl.asset.description" class="line">
+                <div class="body-2 basic-700" w-i18n="modal.assetInfo.description"></div>
+                <div class="footnote-1 basic-500">{{::$ctrl.asset.description}}</div>
+            </div>
+        </w-tab>
+        <w-tab class="padding-content"
+               title-name="modal.assetInfo.balance">
+            <div class="line">
+                <div>
+                    <w-circle-chart options="$ctrl.chartOptions" data="$ctrl.circleChartData"></w-circle-chart>
+                </div>
+                <div class="chart-legend">
+                    <div ng-repeat="legend in $ctrl.circleChartData track by legend.id"
+                         ng-if="!legend.value.getTokens().eq(0)"
+                         class="legend-item">
+                        <div class="part disabled-600 footnote-1">
+                            <div class="legend-color margin-right-1"
+                                 style="background-color: {{::$ctrl.chartOptions.items[legend.id].color}}"></div>
+                            <w-i18n>modal.assetInfo.{{::legend.id}}</w-i18n>
+                        </div>
+                        <div class="part">
+                            <w-balance money="legend.value"></w-balance>
+                        </div>
+                    </div>
+                    <div class="total">
+                        <div w-i18n="modal.assetInfo.total"></div>
+                        <div>
+                            <w-balance money="$ctrl.totalBalance"></w-balance>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </w-tab>
+    </w-tabs>
+</div>

@@ -1,0 +1,26 @@
+@import (reference) '../../../../config';
+
+.transactions {
+
+  .transactions-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .controls {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin: 6px 0 16px;
+
+      .btn-wrap.btn-group {
+        padding: 0;
+        .btn.btn-radio {
+          font-size: 15px;
+          font-family: @font-roboto-medium;
+        }
+      }
+    }
+  }
+}
