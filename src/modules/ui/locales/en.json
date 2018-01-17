@@ -94,6 +94,8 @@
   "copySuccess": "The data is copied",
   "confirmTransaction": {
     "back": "Back",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "success": "Your transaction is on the way!",
+    "details": "View details"
   }
 }

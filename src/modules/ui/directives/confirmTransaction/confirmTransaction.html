@@ -6,18 +6,21 @@
                 <w-button class="big" ng-click="$ctrl.onClickBack()">
                     <w-i18n>confirmTransaction.back</w-i18n>
                 </w-button>
-                <w-button ng-click="$ctrl.confirm()" class="big submit">
+                <w-button w-next-step ng-click="$ctrl.confirm()" class="big submit">
                     <w-i18n>confirmTransaction.confirm</w-i18n>
                 </w-button>
             </div>
         </w-step>
         <w-step>
 
-            <div class="icon icon-success margin-2"></div>
-            <h2 class="text-center basic-900" w-i18n="success.title"></h2>
+            <div class="icon icon-tx-success margin-2"></div>
+
+            <h2 class="text-center basic-900" w-i18n="confirmTransaction.success"></h2>
+            <div class="disabled-600 body-2 text-center"
+                 w-i18n="confirmTransaction.description.{{::$ctrl.tx.type}}"></div>
 
             <w-button class="submit big" ng-click="$ctrl.showTxInfo()">
-                <w-i18n>success.done</w-i18n>
+                <w-i18n>confirmTransaction.details</w-i18n>
             </w-button>
 
         </w-step>
