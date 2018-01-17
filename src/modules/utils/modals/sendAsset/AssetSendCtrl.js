@@ -26,6 +26,11 @@
             constructor(assetId, mirrorId, canChooseAsset) {
                 super($scope);
 
+                this.tx = Object.create(null);
+                /**
+                 * @type {Money}
+                 */
+                this.fee = null;
                 /**
                  * @type {BigNumber}
                  */
@@ -137,6 +142,24 @@
 
             onReadQrCode(result) {
                 this.recipient = result;
+            }
+
+            createTx() {
+                return Waves.Money.fromTokens(this.amount, this.assetId)
+                    .then((amount) => waves.node.transactions.createTransaction('transfer', {
+                        amount,
+                        sender: user.address,
+                        fee: this.fee,
+                        recipient: this.recipient,
+                        attachment: this.attachment
+                    })).then((tx) => {
+                        this.tx = tx;
+                        this.step++;
+                    });
+            }
+
+            back() {
+                this.step--;
             }
 
             _getBalanceList() {

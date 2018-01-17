@@ -116,6 +116,15 @@
                     .then((list) => list.length);
             }
 
+            createTransaction(transactionType, txData) {
+                return aliases.getAliasList().then((aliasList) => {
+                    return this._pipeTransaction(false, aliasList)({
+                        transactionType,
+                        ...txData
+                    });
+                });
+            }
+
             /**
              * @param {boolean} isUTX
              * @param {string[]} aliasList

@@ -38,33 +38,7 @@
                         this.transaction = transaction;
                         this.confirmations = confirmations;
                         this.confirmed = confirmations >= 0;
-
-                        this.templateUrl = `${PATH}/${transaction.templateType}.html`;
-                        this.datetime = $filter('date')(transaction.timestamp, 'dd.MM.yyyy, HH:mm');
-                        this.shownAddress = transaction.shownAddress;
-                        this.type = transaction.type;
-
-                        this.explorerLink = explorerLinks.getTxLink(transaction.id);
-
-                        if (transaction.amount || transaction.leaseTransactionAmount) {
-                            const amount = transaction.amount || transaction.leaseTransactionAmount;
-                            baseAssetService.convertToBaseAsset(amount)
-                                .then((baseMoney) => {
-                                    this.mirrorBalance = baseMoney;
-                                });
-                        }
-
-                        const TYPES = waves.node.transactions.TYPES;
-                        if (this.type === TYPES.EXCHANGE_BUY || this.type === TYPES.EXCHANGE_SELL) {
-                            this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
-                            if (this.type === TYPES.EXCHANGE_BUY) {
-                                this.calculatedFee = this.transaction.buyMatcherFee.toFormat();
-                            } else {
-                                this.calculatedFee = this.transaction.sellMatcherFee.toFormat();
-                            }
-                        } else {
-                            this.calculatedFee = this.transaction.fee.toFormat();
-                        }
+                        // TODO Move to component 16.01.18 16:47 from Tsigel
                     });
             }
 

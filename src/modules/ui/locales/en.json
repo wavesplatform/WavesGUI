@@ -91,5 +91,9 @@
     "noTransactionsTitle": "Nothing Here…",
     "noTransactionsDescription": "You do not have any transactions"
   },
-  "copySuccess": "The data is copied"
+  "copySuccess": "The data is copied",
+  "confirmTransaction": {
+    "back": "Back",
+    "confirm": "Confirm"
+  }
 }
