@@ -189,7 +189,7 @@
              */
             _onChangeStateSuccess(event, toState, some, fromState) {
                 if (fromState.name) {
-                    analytics.pushPageView(AppRun._getUrlFromState(toState), AppRun._getUrlFromState(fromState));
+                    // analytics.pushPageView(AppRun._getUrlFromState(toState), AppRun._getUrlFromState(fromState));
                 }
                 this.activeClasses.forEach((className) => {
                     document.body.classList.remove(className);
