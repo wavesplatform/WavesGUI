@@ -51,6 +51,7 @@
                 return user.getSeed().then((seed) => {
                     return waves.node.aliases.createAlias({ alias: this.newAlias, keyPair: seed.keyPair })
                         .then(() => {
+                            analytics.push('User', 'User.CreateAlias.Success');
                             this.aliases.push(this.newAlias);
                             this.newAlias = '';
                             this.createAliasStep = 0;
@@ -58,8 +59,15 @@
                                 ns: 'app.utils',
                                 title: { literal: 'modal.account.notifications.aliasCreated' }
                             });
+                        })
+                        .catch(() => {
+                            analytics.push('User', 'User.CreateAlias.Error');
                         });
                 });
+            }
+
+            onCopyAddress() {
+                analytics.push('User', 'User.CopyAddress');
             }
 
             reset() {
