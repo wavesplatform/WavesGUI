@@ -4,6 +4,7 @@ export interface IMetaJSON {
     vendors: Array<string>;
     stylesheets: Array<string>;
     developmentScripts: Array<string>;
+    domain: string;
     configurations: {
         testnet: IConfItem;
         mainnet: IConfItem;
