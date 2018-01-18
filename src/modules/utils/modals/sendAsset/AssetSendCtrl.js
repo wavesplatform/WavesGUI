@@ -85,7 +85,7 @@
                 this.observe('amountMirror', this._onChangeAmountMirror);
                 this.observe('assetId', this._onChangeAssetId);
 
-                this._onChangeAssetId(true);
+                this._onChangeAssetId({});
 
                 if (this.canChooseAsset) {
                     createPoll(this, this._getBalanceList, this._setAssets, 1000, { isBalance: true });
