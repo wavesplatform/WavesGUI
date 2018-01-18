@@ -32,7 +32,7 @@
     "dist/dev/js/templates.js"
   ],
   "tradingView": {
-    "domain": "https://jslib.wavesnodes.com",
+    "domain": "https://beta.wavesplatform.com/trading-view/",
     "files": [
       "charting_library.min.js",
       "datafeed/udf/datafeed.js",
