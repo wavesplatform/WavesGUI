@@ -8,6 +8,10 @@ export interface IMetaJSON {
     configurations: {
         testnet: IConfItem;
         mainnet: IConfItem;
+    };
+    tradingView: {
+        domain: string;
+        files: Array<string>;
     }
 }
 
