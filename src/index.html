@@ -277,6 +277,10 @@
 
     <!-- CSS -->
 
+    {{#if isWeb}}
+    <base href="/">
+    {{/if}}
+
 </head>
 
 <body>
@@ -357,7 +361,7 @@
                     {
                         id: 'dex',
                         data: {
-                            url:'/dex?assetId1&assetId2',
+                            url: '/dex?assetId1&assetId2',
                             reloadOnSearch: false,
                             views: [{ name: 'mainContent' }]
                         }

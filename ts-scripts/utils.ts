@@ -156,6 +156,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
 
             return compile(file)({
                 pack: pack,
+                isWeb: !param.type || param.type === 'web',
                 build: {
                     type: param.type || 'web'
                 },
