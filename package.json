@@ -70,9 +70,9 @@
     "lessc": "sh scripts/lessc",
     "build": "node_modules/.bin/tsc -p ./ && node_modules/.bin/gulp all",
     "server": "npm run build && node server",
-    "electron:linux": "electron-packager ./dist/desktop/mainnet/min/ --platform=linux --out=./dist/linux",
-    "electron:win": "electron-packager ./dist/desktop/mainnet/min/ --platform=win32 --out=./dist/win",
-    "electron:osx": "electron-packager ./dist/desktop/mainnet/min/ --platform=darwin --out=./dist/osx",
+    "electron:linux": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.png --platform=linux --out=./dist/linux",
+    "electron:win": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.ico --platform=win32 --out=./dist/win",
+    "electron:osx": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.icns --platform=darwin --out=./dist/osx",
     "electron": "gulp all && npm run electron:linux && npm run electron:win && npm run electron:osx",
     "electron-debug": "gulp html-desktop-mainnet-min && node_modules/.bin/electron ./dist/desktop/mainnet/min/"
   },
