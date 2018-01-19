@@ -8,7 +8,10 @@
     <div class="row">
         <span class="body-2 basic-900" w-i18n="modal.account.aliases"></span>
         <div class="alias-list">
-            <w-copy class="body-1 basic-900" ng-repeat="alias in $ctrl.aliases" info="{{::alias}}">
+            <w-copy class="body-1 basic-900"
+                    ng-repeat="alias in $ctrl.aliases"
+                    ng-click="$ctrl.onCopyAlias()"
+                    info="{{::alias}}">
                 {{::alias}}
             </w-copy>
             <w-step-by-step active-step="$ctrl.createAliasStep">

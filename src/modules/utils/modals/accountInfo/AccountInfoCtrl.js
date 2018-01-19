@@ -70,6 +70,10 @@
                 analytics.push('User', 'User.CopyAddress');
             }
 
+            onCopyAlias() {
+                analytics.push('User', 'User.CopyAlias');
+            }
+
             reset() {
                 this.newAlias = '';
             }
