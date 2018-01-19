@@ -5,6 +5,7 @@ export interface IMetaJSON {
     stylesheets: Array<string>;
     developmentScripts: Array<string>;
     domain: string;
+    copyNodeModules: Array<string>;
     configurations: {
         testnet: IConfItem;
         mainnet: IConfItem;
@@ -43,7 +44,9 @@ export interface IConfItem {
 
 export interface ITaskFunction {
     (name: string, deps: Array<string>): void;
+
     (name: string, deps: Array<string>, cb: ITaskCallback): void;
+
     (name: string, cb: ITaskCallback): void;
 }
 

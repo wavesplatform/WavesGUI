@@ -60,7 +60,7 @@ task('load-trading-view', (done) => {
     })).then(() => done());
 });
 
-['build', 'desktop'].forEach((buildName) => {
+['web', 'desktop'].forEach((buildName) => {
 
     configurations.forEach((configName) => {
 
@@ -108,6 +108,9 @@ task('load-trading-view', (done) => {
                     }
 
                     Promise.all([
+                        Promise.all(meta.copyNodeModules.map((path) => {
+                            return fsCopy(join(__dirname, path), `${targetPath}/${path}`);
+                        })) as Promise<any>,
                         fsCopy(join(__dirname, 'src/img'), `${targetPath}/img`).then(() => {
                             const images = IMAGE_LIST.map((path) => path.replace(/(.*?\/src)/, ''));
                             return writeFile(`${targetPath}/img/images-list.json`, JSON.stringify(images));

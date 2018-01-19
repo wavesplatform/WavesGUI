@@ -215,7 +215,7 @@ export function route(connectionType, buildType) {
 
         if (buildType !== 'dev') {
             if (isPage(req.url)) {
-                const path = join(__dirname, '../dist/build', connectionType, buildType, 'index.html');
+                const path = join(__dirname, '../dist/web', connectionType, buildType, 'index.html');
                 return readFile(path, 'utf8').then((file) => {
                     res.end(file);
                 });
@@ -368,7 +368,7 @@ export function isPage(url: string): boolean {
 function routeStatic(req, res, connectionType, buildType) {
     const ROOTS = [join(__dirname, '..')];
     if (buildType !== 'dev') {
-        ROOTS.push(join(__dirname, `../dist/build/${connectionType}/${buildType}`));
+        ROOTS.push(join(__dirname, `../dist/web/${connectionType}/${buildType}`));
     } else {
         ROOTS.push(join(__dirname, '../src'));
     }
