@@ -1,4 +1,5 @@
 import { createSecureServer } from 'http2';
+import { createServer } from 'https';
 import { route, parseArguments } from './ts-scripts/utils';
 import { readFileSync } from 'fs';
 const ip = require('my-local-ip')();
@@ -52,7 +53,7 @@ function createSimpleServer({ port = 8000, type = 'dev', connection = 'mainnet' 
         route(connection, type)(req, res);
     };
 
-    const server = createSecureServer({ key: privateKey, cert: certificate });
+    const server = createServer({ key: privateKey, cert: certificate });
     server.addListener('request', handler);
     server.listen(port);
     console.log(`Listen port ${port}, type ${type}, connection ${connection} for simple server`);
