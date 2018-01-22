@@ -42,7 +42,13 @@
                 return user.getSeed().then(({ keyPair }) => {
                     switch (this.tx.transactionType) {
                         case 'transfer':
-                            return waves.node.assets.transfer({ ...this.tx, keyPair });
+                            return waves.node.assets.transfer({ ...this.tx, keyPair }).then((data) => {
+                                analytics.push('Send', 'Send.Success', this.assetId, this.amount.toString());
+                                return data;
+                            }, (e) => {
+                                analytics.push('Send', 'Send.Error', this.assetId, this.amount.toString());
+                                return Promise.reject(e);
+                            });
                         case 'exchange':
                             throw new Error('Can\'t create exchange transaction!');
                         case 'lease':

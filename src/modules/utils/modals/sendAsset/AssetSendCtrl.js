@@ -99,29 +99,6 @@
                 }
             }
 
-            send() {
-                return utils.whenAll([
-                    user.getSeed(),
-                    Waves.Money.fromTokens(this.amount, this.balance.asset.id)
-                ])
-                    .then(([seed, amount]) => waves.node.assets.transfer({
-                        fee: this.fee,
-                        keyPair: seed.keyPair,
-                        attachment: this.attachment,
-                        recipient: this.recipient,
-                        amount
-                    }))
-                    .then((transaction) => {
-                        analytics.push('Send', 'Send.Success', this.assetId, this.amount.toString());
-                        this._transactionId = transaction.id;
-                        this.step++;
-                    })
-                    .catch(() => {
-                        analytics.push('Send', 'Send.Error', this.assetId, this.amount.toString());
-                        // TODO add error;
-                    });
-            }
-
             fillMax() {
                 if (this.assetId === this.fee.asset.id) {
                     if (this.balance.getTokens()
