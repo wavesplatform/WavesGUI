@@ -2,15 +2,10 @@
 
     <div class="body-2 basic-900">
         <w-i18n>modal.qr.copyAndShare</w-i18n>
-        <i class="help-icon"></i>
-        <div class="help-content footnote-1 body-1">
-            <div class="headline-3">
-                <w-i18n>modal.qr.warningTitle</w-i18n>
-            </div>
-            <div>
-                <w-i18n>modal.qr.warningText</w-i18n>
-            </div>
-        </div>
+        <w-help-icon>
+            <div class="headline-3"><w-i18n>modal.qr.warningTitle</w-i18n></div>
+            <div><w-i18n>modal.qr.warningText</w-i18n></div>
+        </w-help-icon>
     </div>
 
     <w-copy class="body-1 basic-900" ng-click="$ctrl.onCopyAddress()" info="{{::$ctrl.address}}">
