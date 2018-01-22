@@ -156,6 +156,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
 
             return compile(file)({
                 pack: pack,
+                domain: meta.domain,
                 build: {
                     type: 'web'
                 },
@@ -167,6 +168,21 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
         }).then((file) => {
             return replaceScripts(file, param.scripts.map(filter));
         });
+}
+
+export function parseArguments<T>(): T {
+    const result = Object.create(null);
+    process.argv.forEach((argument) => {
+        if (argument.includes('=')) {
+            const index = argument.indexOf('=');
+            const name = argument.substr(0, index);
+            const value = argument.substr(index + 1);
+            result[name] = value;
+        } else {
+            result[argument] = true;
+        }
+    });
+    return result;
 }
 
 export function route(connectionType, buildType) {
