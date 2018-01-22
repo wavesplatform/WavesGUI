@@ -35,7 +35,7 @@
                 const active = this.active;
                 if (active) {
                     i18next.changeLanguage(active);
-                    this.onChange({language: active});
+                    this.onChange({ language: active });
                 }
             }
 

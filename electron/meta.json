@@ -1,0 +1,19 @@
+{
+  "window": {
+    "open": {
+      "maxSize": {
+        "width": 1440,
+        "height": 960
+      },
+      "minSize": {
+        "width": 1024,
+        "height": 768
+      }
+    },
+    "minSize": {
+      "width": 400,
+      "height": 500
+    }
+  }
+}
+

@@ -104,6 +104,7 @@
                  * @type {Array<string>}
                  */
                 this.activeClasses = [];
+                this._changeLangHandler = null;
 
                 /**
                  * Configure library generation avatar by address
@@ -139,19 +140,36 @@
                 }
             }
 
+            _listenChangeLanguage() {
+                this._changeLangHandler = () => {
+                    localStorage.setItem('lng', i18next.language);
+                };
+                i18next.on('languageChanged', this._changeLangHandler);
+            }
+
+            _stopListenChangeLanguage() {
+                i18next.off('languageChanged', this._changeLangHandler);
+                this._changeLangHandler = null;
+            }
+
             /**
              * @private
              */
             _initializeLogin() {
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => item.id);
+
+                this._listenChangeLanguage();
                 const stop = $rootScope.$on('$stateChangeStart', (event, state, params) => {
                     stop();
+
                     if (START_STATES.indexOf(state.name) === -1) {
                         event.preventDefault();
                     }
+
                     this._login(state)
                         .then(() => {
+                            this._stopListenChangeLanguage();
                             if (START_STATES.indexOf(state.name) === -1) {
                                 $state.go(state.name, params);
                             } else {

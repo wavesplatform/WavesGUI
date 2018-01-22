@@ -42,7 +42,7 @@
                     .use(i18nextXHRBackend)
                     .init({
                         // i18next settings
-                        lng: AppConfig.getUserLang(),
+                        lng: localStorage.getItem('lng') || AppConfig.getUserLang(),
                         debug: false,
                         ns: WavesApp.modules.filter(tsUtils.notContains('app.templates')),
                         fallbackLng: 'en',
