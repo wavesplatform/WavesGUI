@@ -45,6 +45,18 @@
                         defaultNS: 'app',
                         useCookie: false,
                         useLocalStorage: false,
+                        interpolation: {
+                            format: function (value, format) {
+                                switch (format) {
+                                    case 'money':
+                                        return value.toFormat();
+                                    case 'money-currency':
+                                        return `${value.toFormat()} ${value.asset.displayName}`;
+                                    default:
+                                        throw new Error('Wrong format type!');
+                                }
+                            }
+                        },
                         backend: {
                             loadPath: function (lng, ns) {
                                 lng = lng[0];

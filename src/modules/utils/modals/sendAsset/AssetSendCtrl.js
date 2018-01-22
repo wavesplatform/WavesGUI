@@ -134,17 +134,6 @@
                 }
             }
 
-            showTransaction() {
-                $mdDialog.hide();
-                setTimeout(() => { // Timeout for routing (if modal has route)
-                    modalManager.showTransactionInfo(this._transactionId);
-                }, 1000);
-            }
-
-            cancel() {
-                $mdDialog.cancel();
-            }
-
             onReadQrCode(result) {
                 this.recipient = result;
             }

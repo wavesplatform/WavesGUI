@@ -17,7 +17,7 @@
 
             <h2 class="text-center basic-900" w-i18n="confirmTransaction.success"></h2>
             <div class="disabled-600 body-2 text-center"
-                 w-i18n="confirmTransaction.description.{{::$ctrl.tx.type}}"></div>
+                 w-i18n="confirmTransaction.description.{{::$ctrl.tx.type}}" params="$ctrl.tx"></div>
 
             <w-button class="submit big" ng-click="$ctrl.showTxInfo()">
                 <w-i18n>confirmTransaction.details</w-i18n>

@@ -96,6 +96,9 @@
     "back": "Back",
     "confirm": "Confirm",
     "success": "Your transaction is on the way!",
-    "details": "View details"
+    "details": "View details",
+    "description": {
+      "send": "You have sent {{amount, money-currency}} to an external address"
+    }
   }
 }
