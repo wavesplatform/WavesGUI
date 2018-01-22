@@ -16,6 +16,10 @@
                 this.address = address;
             }
 
+            onCopyAddress() {
+                analytics.push('User', 'User.CopyAddress');
+            }
+
         }
 
         return new AddressQrCode(this.locals);
