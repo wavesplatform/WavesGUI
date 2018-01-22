@@ -254,19 +254,19 @@
             },
             modules: [],
             maxAliasLength: 30,
-            getLocaleData() {
+            getLocaleData: function () {
                 return WavesApp.localize[i18next.language];
             },
-            addController(name, controller) {
+            addController: function (name, controller) {
                 __controllers[name] = controller;
             },
-            getController(name) {
+            getController: function (name) {
                 return __controllers[name];
             },
-            isWeb() {
+            isWeb: function () {
                 return this.type === 'web';
             },
-            isDesktop() {
+            isDesktop: function () {
                 return this.type === 'desktop';
             },
             stateTree: null
