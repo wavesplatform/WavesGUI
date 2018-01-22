@@ -8,7 +8,7 @@ html body md-dialog.asset-info-modal {
   }
 
   .chart-wrapper {
-    opacity: 0.5;
+    opacity: 0.2;
     position: relative;
     margin-left: -40px;
     margin-right: -40px;
@@ -34,6 +34,13 @@ html body md-dialog.asset-info-modal {
       overflow-y: auto;
       max-height: calc(~'74vh - 300px');
     }
+
+    .one-line {
+      max-height: 1.3em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 
   .padding-content .tab-tem {
@@ -55,6 +62,7 @@ html body md-dialog.asset-info-modal {
         width: 120px;
         align-items: center;
         display: flex;
+        align-self: flex-start;
       }
 
       & > div:last-child {
