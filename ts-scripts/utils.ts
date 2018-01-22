@@ -156,6 +156,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
 
             return compile(file)({
                 pack: pack,
+                domain: meta.domain,
                 build: {
                     type: 'web'
                 },
