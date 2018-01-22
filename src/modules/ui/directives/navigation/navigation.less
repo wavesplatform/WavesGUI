@@ -64,12 +64,12 @@ w-navigation {
 }
 
 @media screen and (max-width: 768px) {
-  w-left-menu w-navigation .navigation.column {
+  body:not(.dex) w-left-menu w-navigation .navigation.column {
     flex-direction: row;
     margin-left: 20px
   }
 
-  w-header w-navigation {
+  body:not(.dex) w-header w-navigation {
     width:100%;
     max-width: 360px;
 
