@@ -93,13 +93,14 @@
   },
   "copySuccess": "The data is copied",
   "confirmTransaction": {
-    "back": "Back",
+    "back": "Go Back",
     "confirm": "Confirm",
     "success": "Your transaction is on the way!",
     "details": "View details",
     "description": {
       "send": "You have sent {{amount, money-currency}} to an external address",
-      "issue": ""
+      "issue": "",
+      "circular": "You have sent {{amount, money-currency}} to yourself"
     }
   }
 }

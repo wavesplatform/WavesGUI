@@ -94,6 +94,13 @@
   "copySuccess": "Данные скопированы",
   "confirmTransaction": {
     "back": "Назад",
-    "confirm": "Подтвердить"
+    "confirm": "Подтвердить",
+    "success": "Your transaction is on the way!",
+    "details": "View details",
+    "description": {
+      "send": "You have sent {{amount, money-currency}} to an external address",
+      "issue": "",
+      "circular": "You have sent {{amount, money-currency}} to yourself"
+    }
   }
 }
