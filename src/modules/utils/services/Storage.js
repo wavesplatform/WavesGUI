@@ -26,7 +26,7 @@
         const fs = require('fs');
         const path = require('path');
         const remote = require('electron').remote;
-        const cachePath = path.join(remote.app.getAppPath(), './storage.json');
+        const cachePath = path.join(remote.app.getPath('userData'), './storage.json');
 
         const wrap = function (method, ...args) {
             return new Promise((resolve, reject) => {
