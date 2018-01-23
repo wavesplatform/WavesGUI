@@ -7,9 +7,10 @@
      * @param {app.utils.decorators} decorators
      * @param $templateRequest
      * @param $rootScope
+     * @param {$injector} $injector
      * @return {ModalManager}
      */
-    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope) {
+    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector) {
 
 
         const DEFAULT_OPTIONS = {
@@ -44,6 +45,7 @@
 
             showAssetInfo(asset) {
                 return this._getModal({
+                    id: 'asset-info',
                     ns: 'app.utils',
                     title: 'modal.assetInfo.title',
                     contentUrl: 'modules/utils/modals/assetInfo/assetInfo.html',
@@ -55,6 +57,7 @@
 
             showSettings() {
                 return this._getModal({
+                    id: 'user-settings',
                     ns: 'app.utils',
                     title: 'modal.settings.title',
                     contentUrl: 'modules/utils/modals/settings/settings.html',
@@ -68,6 +71,7 @@
              */
             showTermsAccept(user) {
                 return this._getModal({
+                    id: 'terms-accept',
                     templateUrl: 'modules/utils/modals/termsAccept/terms-accept.html',
                     controller: 'TermsAcceptCtrl',
                     clickOutsideToClose: false,
@@ -76,16 +80,9 @@
                     .then(() => user.setSetting('termsAccepted', true));
             }
 
-            /**
-             * @param {IModalOptions} options
-             * @return {$q.resolve}
-             */
-            showCustomModal(options) {
-                return this._getModal(tsUtils.merge({}, DEFAULT_OPTIONS, options));
-            }
-
             showAccountInfo() {
                 return this._getModal({
+                    id: 'account-info',
                     controller: 'AccountInfoCtrl',
                     title: 'modal.account.title',
                     contentUrl: 'modules/utils/modals/accountInfo/account-info.modal.html',
@@ -100,6 +97,7 @@
              */
             showSendAsset(user, asset = Object.create(null)) {
                 return this._getModal({
+                    id: 'send-asset',
                     controller: 'AssetSendCtrl',
                     titleContentUrl: 'modules/utils/modals/sendAsset/send-title.modal.html',
                     contentUrl: 'modules/utils/modals/sendAsset/send.modal.html',
@@ -120,6 +118,7 @@
             showDepositAsset(user, asset) {
                 return user.onLogin().then(() => {
                     return this._getModal({
+                        id: 'deposit-asset',
                         locals: { address: user.address, asset },
                         title: 'modal.deposit.title',
                         titleParams: { assetName: asset.name },
@@ -138,6 +137,7 @@
             showSepaAsset(user, asset) {
                 return user.onLogin().then(() => {
                     return this._getModal({
+                        id: 'sepa-asset',
                         locals: { address: user.address, asset },
                         title: 'modal.sepa.title',
                         titleParams: { assetName: asset.name },
@@ -155,6 +155,7 @@
             showAddressQrCode(user) {
                 return user.onLogin().then(() => {
                     return this._getModal({
+                        id: 'user-address-qr-code',
                         locals: { address: user.address },
                         title: 'modal.qr.title',
                         contentUrl: 'modules/utils/modals/addressQrCode/address-qr-code.modal.html',
@@ -166,6 +167,7 @@
 
             showTransactionInfo(transactionId) {
                 return this._getModal({
+                    id: 'transaction-info',
                     ns: 'app.ui',
                     controller: 'TransactionInfoCtrl',
                     titleContentUrl: 'modules/utils/modals/transactionInfo/transaction-info-title.modal.html',
@@ -177,6 +179,7 @@
 
             showStartLeasing() {
                 return this._getModal({
+                    id: 'start-leasing',
                     ns: 'app.utils',
                     controller: 'StartLeasingCtrl',
                     titleContent: '{{$ctrl.title}}',
@@ -185,12 +188,33 @@
                 });
             }
 
+            showConformTx(type, txData) {
+                return $injector.get('waves').node.transactions.createTransaction(type, txData).then((tx) => {
+                    return this._getModal({
+                        id: 'confirm-tx',
+                        ns: 'app.ui',
+                        locals: { tx },
+                        controller: 'ConfirmTxCtrl',
+                        contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
+                    });
+                });
+            }
+
+            /**
+             * @param {IModalOptions} options
+             * @return {$q.resolve}
+             */
+            showCustomModal(options) {
+                return this._getModal(tsUtils.merge({}, DEFAULT_OPTIONS, options));
+            }
+
             /**
              * @param {IModalOptions} options
              * @private
              */
             _getModal(options) {
-                const target = tsUtils.merge(Object.create(null), DEFAULT_OPTIONS, options);
+                const target = { ...DEFAULT_OPTIONS, ...options };
+
                 if (target.locals) {
                     target.bindToController = true;
                 }
@@ -200,6 +224,10 @@
                         const { controller, controllerAs } = ModalManager._getController(options);
                         const changeCounter = () => {
                             this._counter--;
+
+                            if (options.id) {
+                                analytics.push('Modal', 'Modal.Close', options.id);
+                            }
                         };
 
                         target.controller = controller;
@@ -208,6 +236,10 @@
 
                         this._counter++;
                         const modal = $mdDialog.show(target);
+
+                        if (options.id) {
+                            analytics.push('Modal', 'Modal.Open', options.id);
+                        }
 
                         modal.then(changeCounter, changeCounter);
 
@@ -399,7 +431,7 @@
         return new ModalManager();
     };
 
-    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope'];
+    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope', '$injector'];
 
     angular.module('app.utils')
         .factory('modalManager', factory);
@@ -407,6 +439,7 @@
 
 /**
  * @typedef {object} IModalOptions
+ * @property {string} [id] // for analytics
  * @property {string} [ns]
  * @property {string} [mod]
  * @property {string} [template]

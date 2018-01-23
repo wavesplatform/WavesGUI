@@ -129,50 +129,17 @@
                 </div>
 
                 <div class="row">
-                    <w-button w-step-next disabled="send.$invalid" type="submit" class="big submit long">
+                    <w-button ng-click="$ctrl.createTx()"
+                              disabled="send.$invalid"
+                              type="submit"
+                              class="big submit long">
                         <w-i18n>button.continue</w-i18n>
                     </w-button>
                 </div>
             </form>
         </w-step>
         <w-step>
-            <div class="row">
-                <w-i18n>modal.send.confirm.title</w-i18n>
-                <table>
-                    <tr>
-                        <td class="headline-3 basic-900" w-i18n="modal.send.confirm.to"></td>
-                        <td>{{$ctrl.recipient}}</td>
-                    </tr>
-                    <tr>
-                        <td class="headline-3 basic-900" w-i18n="modal.send.confirm.total"></td>
-                        <td>
-                            <div>{{::$ctrl.amount && $ctrl.amount.toFixed($ctrl.asset.precision)}}
-                                {{$ctrl.balance.asset.name}}
-                            </div>
-                            <div>≈ ${{::$ctrl.amountMirror && $ctrl.amountMirror.toFixed($ctrl.mirror.precision)}}</div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="row confirm-block">
-                <w-button class="big" w-step-prev>
-                    <w-i18n>modal.send.confirm.back</w-i18n>
-                </w-button>
-                <w-button class="big submit" ng-click="$ctrl.send()">
-                    <w-i18n>modal.send.confirm.confirm</w-i18n>
-                </w-button>
-            </div>
-        </w-step>
-        <w-step class="check">
-            <div class="modal-send-check"></div>
-            <h2 class="basic-900" w-i18n="modal.send.compare.title"></h2>
-            <div params="{amount: $ctrl.amount, currency: $ctrl.balance.asset.name, mirror: $ctrl.amountMirror && $ctrl.amountMirror.toFixed($ctrl.mirror.precision)}"
-                 class="body-2 disabled-600"
-                 w-i18n="modal.send.compare.description"></div>
-            <w-button ng-click="$ctrl.showTransaction()">
-                <w-i18n>modal.send.compare.details</w-i18n>
-            </w-button>
+            <w-confirm-transaction on-click-back="$ctrl.back()" tx="$ctrl.tx"></w-confirm-transaction>
         </w-step>
     </w-step-by-step>
 </div>

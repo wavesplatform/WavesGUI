@@ -91,5 +91,9 @@
     "noTransactionsTitle": "Пока ничего нет…",
     "noTransactionsDescription": "У вас пока что нет транзакций"
   },
-  "copySuccess": "Данные скопированы"
+  "copySuccess": "Данные скопированы",
+  "confirmTransaction": {
+    "back": "Назад",
+    "confirm": "Подтвердить"
+  }
 }

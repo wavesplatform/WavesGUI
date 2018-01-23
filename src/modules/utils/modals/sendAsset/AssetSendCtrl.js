@@ -30,6 +30,11 @@
             constructor(assetId, mirrorId, canChooseAsset) {
                 super($scope);
 
+                this.tx = Object.create(null);
+                /**
+                 * @type {Money}
+                 */
+                this.fee = null;
                 /**
                  * @type {BigNumber}
                  */
@@ -102,31 +107,13 @@
                 this.observe('assetId', this._onChangeAssetId);
                 this.observe('recipient', this._updateGatewayDetails);
 
-                this._onChangeAssetId();
+                this._onChangeAssetId({});
 
                 if (this.canChooseAsset) {
                     createPoll(this, this._getBalanceList, this._setAssets, 1000, { isBalance: true });
                 } else {
                     createPoll(this, this._getAsset, this._setAssets, 1000, { isBalance: true });
                 }
-            }
-
-            send() {
-                const toGateway = this.outerSendMode && this.gatewayDetails;
-
-                return utils.whenAll([
-                    user.getSeed(), // TODO : shouldn't it be in Waves service?
-                    Waves.Money.fromTokens(this.amount, this.balance.asset)
-                ]).then(([seed, amount]) => waves.node.assets.transfer({
-                    fee: this.fee,
-                    keyPair: seed.keyPair,
-                    attachment: toGateway ? this.gatewayDetails.attachment : this.attachment,
-                    recipient: toGateway ? this.gatewayDetails.address : this.recipient,
-                    amount
-                })).then((transaction) => {
-                    this._transactionId = transaction.id;
-                    this.step++;
-                });
             }
 
             fillMax() {
@@ -141,19 +128,26 @@
                 }
             }
 
-            showTransaction() {
-                $mdDialog.hide();
-                setTimeout(() => { // Timeout for routing (if modal has route)
-                    modalManager.showTransactionInfo(this._transactionId);
-                }, 1000);
-            }
-
-            cancel() {
-                $mdDialog.cancel();
-            }
-
             onReadQrCode(result) {
                 this.recipient = result;
+            }
+
+            createTx() {
+                return Waves.Money.fromTokens(this.amount, this.assetId)
+                    .then((amount) => waves.node.transactions.createTransaction('transfer', {
+                        amount,
+                        sender: user.address,
+                        fee: this.fee,
+                        recipient: this.recipient,
+                        attachment: this.attachment
+                    })).then((tx) => {
+                        this.tx = tx;
+                        this.step++;
+                    });
+            }
+
+            back() {
+                this.step--;
             }
 
             _getBalanceList() {
@@ -162,9 +156,13 @@
                 }).then((list) => list.map(({ available }) => available));
             }
 
-            _onChangeAssetId() {
+            _onChangeAssetId({ prev }) {
                 if (!this.assetId) {
                     return null;
+                }
+
+                if (prev) {
+                    analytics.push('Send', 'Send.ChangeCurrency', this.assetId);
                 }
 
                 this.ready = utils.whenAll([

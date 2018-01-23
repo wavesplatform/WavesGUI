@@ -116,6 +116,17 @@
                     .then((list) => list.length);
             }
 
+            createTransaction(transactionType, txData) {
+                return aliases.getAliasList().then((aliasList) => {
+                    return this._pipeTransaction(false, aliasList)({
+                        transactionType,
+                        sender: user.address,
+                        timestamp: Date.now(),
+                        ...txData
+                    });
+                });
+            }
+
             /**
              * @param {boolean} isUTX
              * @param {string[]} aliasList

@@ -24,18 +24,11 @@
     },
     "startLease": {
       "title": "Start leasing",
-      "titleComplete": "Leasing Complete",
       "balance": "Balance",
       "recipient": "Recipient",
       "amount": "Amount",
       "start": "Start Lease",
-      "back": "Go Back",
-      "confirm": "Confirm",
-      "details": "View Details",
-      "recipientConfirm": "To node",
-      "fee": "Fee",
-      "leaseComplete": "Your transaction is on the way!",
-      "leaseCompleteDesc": "You leased {{amount}} WAVES."
+      "fee": "Fee"
     },
     "qr": {
       "title": "Share your address",
