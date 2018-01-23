@@ -24,18 +24,11 @@
     },
     "startLease": {
       "title": "Передать в лизинг",
-      "titleComplete": "Передача в лизинг выполнена",
       "balance": "Баланс",
       "recipient": "Получатель",
       "amount": "Количество",
       "start": "Передать в лизинг",
-      "back": "Вернуться",
-      "confirm": "Подтвердить",
-      "details": "Посмотреть детали",
-      "recipientConfirm": "На адрес ноды",
-      "fee": "Комиссия",
-      "leaseComplete": "Транзакция отправлена!",
-      "leaseCompleteDesc": "Вы передали в лизинг {{amount}} WAVES."
+      "fee": "Комиссия"
     },
     "qr": {
       "title": "Ваш адрес",

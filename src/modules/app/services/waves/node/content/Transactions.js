@@ -120,6 +120,8 @@
                 return aliases.getAliasList().then((aliasList) => {
                     return this._pipeTransaction(false, aliasList)({
                         transactionType,
+                        sender: user.address,
+                        timestamp: Date.now(),
                         ...txData
                     });
                 });

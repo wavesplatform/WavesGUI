@@ -98,7 +98,8 @@
     "success": "Your transaction is on the way!",
     "details": "View details",
     "description": {
-      "send": "You have sent {{amount, money-currency}} to an external address"
+      "send": "You have sent {{amount, money-currency}} to an external address",
+      "issue": ""
     }
   }
 }

@@ -7,9 +7,10 @@
      * @param {app.utils.decorators} decorators
      * @param $templateRequest
      * @param $rootScope
+     * @param {$injector} $injector
      * @return {ModalManager}
      */
-    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope) {
+    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector) {
 
 
         const DEFAULT_OPTIONS = {
@@ -187,6 +188,18 @@
                 });
             }
 
+            showConformTx(type, txData) {
+                return $injector.get('waves').node.transactions.createTransaction(type, txData).then((tx) => {
+                    return this._getModal({
+                        id: 'confirm-tx',
+                        ns: 'app.ui',
+                        locals: { tx },
+                        controller: 'ConfirmTxCtrl',
+                        contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
+                    });
+                });
+            }
+
             /**
              * @param {IModalOptions} options
              * @return {$q.resolve}
@@ -200,7 +213,7 @@
              * @private
              */
             _getModal(options) {
-                const target = tsUtils.merge(Object.create(null), DEFAULT_OPTIONS, options);
+                const target = { ...DEFAULT_OPTIONS, ...options };
 
                 if (target.locals) {
                     target.bindToController = true;
@@ -418,7 +431,7 @@
         return new ModalManager();
     };
 
-    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope'];
+    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope', '$injector'];
 
     angular.module('app.utils')
         .factory('modalManager', factory);

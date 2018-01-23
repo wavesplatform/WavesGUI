@@ -40,33 +40,55 @@
 
             sendTransaction() {
                 return user.getSeed().then(({ keyPair }) => {
+                    let txPromise = null;
+
                     switch (this.tx.transactionType) {
                         case 'transfer':
-                            return waves.node.assets.transfer({ ...this.tx, keyPair }).then((data) => {
-                                analytics.push('Send', 'Send.Success', this.assetId, this.amount.toString());
-                                return data;
-                            }, (e) => {
-                                analytics.push('Send', 'Send.Error', this.assetId, this.amount.toString());
-                                return Promise.reject(e);
-                            });
+                            txPromise = waves.node.assets.transfer({ ...this.tx, keyPair });
+                            break;
                         case 'exchange':
                             throw new Error('Can\'t create exchange transaction!');
                         case 'lease':
-                            return waves.node.lease({ ...this.tx, keyPair });
+                            txPromise = waves.node.lease({ ...this.tx, keyPair });
+                            break;
                         case 'cancelLeasing':
-                            return waves.node.cancelLeasing({ ...this.tx, keyPair });
+                            txPromise = waves.node.cancelLeasing({ ...this.tx, keyPair });
+                            break;
                         case 'createAlias':
-                            return waves.node.aliases.createAlias({ ...this.tx, keyPair });
+                            txPromise = waves.node.aliases.createAlias({ ...this.tx, keyPair });
+                            break;
                         case 'issue':
-                            return waves.node.assets.issue({ ...this.tx, keyPair });
+                            txPromise = waves.node.assets.issue({ ...this.tx, keyPair });
+                            break;
                         case 'reissue':
-                            return waves.node.assets.reissue({ ...this.tx, keyPair });
+                            txPromise = waves.node.assets.reissue({ ...this.tx, keyPair });
+                            break;
                         case 'burn':
-                            return waves.node.assets.burn({ ...this.tx, keyPair });
+                            txPromise = waves.node.assets.burn({ ...this.tx, keyPair });
+                            break;
                         default:
                             throw new Error('Wrong transaction type!');
                     }
+
+                    const txType = ConfirmTransaction.upFirstChar(this.tx.transactionType);
+                    const amount = this.tx.amount && this.tx.amount.toFormat() || undefined;
+
+                    return txPromise.then((data) => {
+                        analytics.push(txType, `${txType}.Success`, amount);
+                        return data;
+                    }, (error) => {
+                        analytics.push(txType, `${txType}.Error`, amount);
+                        return Promise.reject(error);
+                    });
                 });
+            }
+
+            /**
+             * @param {string} str
+             * @returns {string}
+             */
+            static upFirstChar(str) {
+                return str.charAt(0).toUpperCase() + str.slice(1);
             }
 
         }
