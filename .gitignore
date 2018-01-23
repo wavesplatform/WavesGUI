@@ -2,12 +2,11 @@
 /nbproject/private/
 /.idea/
 /node_modules
-/bower_components
 /**/*.js.map
 /src/**/*.css
-/.grunt
 /build
 /dist
+/electron/main.js
 /coverage
 /tmp
 /ts-scripts/*.js
