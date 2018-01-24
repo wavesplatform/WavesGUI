@@ -1,6 +1,8 @@
 import { createSecureServer } from 'http2';
-import { route } from './ts-scripts/utils';
+import { createServer } from 'https';
+import { route, parseArguments } from './ts-scripts/utils';
 import { readFileSync } from 'fs';
+const ip = require('my-local-ip')();
 
 
 const connectionTypes = ['mainnet', 'testnet'];
@@ -46,7 +48,24 @@ function createMyServer(port) {
     });
 }
 
+function createSimpleServer({ port = 8000, type = 'dev', connection = 'mainnet' }) {
+    const handler = function (req, res) {
+        route(connection, type)(req, res);
+    };
+
+    const server = createServer({ key: privateKey, cert: certificate });
+    server.addListener('request', handler);
+    server.listen(port);
+    console.log(`Listen port ${port}, type ${type}, connection ${connection} for simple server`);
+    console.log(`https://${ip}:${port}`);
+}
+
 createMyServer(8080);
+const args = parseArguments() || Object.create(null);
+if (args.startSimple) {
+    createSimpleServer(args);
+}
+
 
 function arrToHash(arr: Array<string>): Object {
     const result = Object.create(null);
