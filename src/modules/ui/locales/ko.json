@@ -98,7 +98,7 @@
     "success": "Your transaction is on the way!",
     "details": "View details",
     "description": {
-      "send": "You have sent {{amount, money-currency}} to an external address",
+      "send": "You have sent {{amount, money-currency}}",
       "issue": "You have generated {{quantityStr}} {{name}}",
       "circular": "You have sent {{amount, money-currency}} to yourself"
     }
