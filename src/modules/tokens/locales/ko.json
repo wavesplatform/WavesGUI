@@ -8,8 +8,15 @@
   "fee": "수수료 1 WAVES",
   "create": "발행",
   "help": {
-    "name": "라틴 문자만 가능합니다.",
-    "precision": "자산 토큰이 분리될 소수 자릿수를 정하는 항목입니다."
+    "name": "라틴 문자만 가능합니다."
+  },
+  "helpIcon": {
+    "totalTokens": {
+      "headline": "This field defines the total tokens supply that your asset will contain.",
+      "reissuable": "Reissuability allows for additional tokens creation that will be added to the total token supply of asset.",
+      "notReissuable": "A Non Reissuability asset will be permanently limited to the total token supply defined on this process. "
+    },
+    "demicals": "자산 토큰이 분리될 소수 자릿수를 정하는 항목입니다."
   },
   "validators": {
     "nameLen": "자산의 이름은 4-16자 이상이어야 합니다.",

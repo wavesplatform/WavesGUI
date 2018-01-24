@@ -9,7 +9,14 @@
   "create": "Выпустить",
   "help": {
     "name": "Пожалуйста, используйте только латинские буквы",
-    "precision": "В этом поле укажите, сколько знаков после запятой будет у токена"
+  },
+  "helpIcon": {
+    "totalTokens": {
+      "headline": "This field defines the total tokens supply that your asset will contain.",
+      "reissuable": "Reissuability allows for additional tokens creation that will be added to the total token supply of asset.",
+      "notReissuable": "A Non Reissuability asset will be permanently limited to the total token supply defined on this process. "
+    },
+    "demicals": "В этом поле укажите, сколько знаков после запятой будет у токена"
   },
   "validators": {
     "nameLen": "Имя токена должно содержать от 4 до 16 символов",

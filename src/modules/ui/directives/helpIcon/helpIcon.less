@@ -58,16 +58,22 @@ div.help-content {
   border-top: 5px solid @color-submit-300;
   border-radius: @border-radius;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.18);
-  width: 50%;
   padding: 15px;
   margin-top: 4px;
-  left: 25%;
 
   &:hover {
     display: block;
   }
 
-  div {
+  .row-help {
     margin-bottom: 5px;
+    margin-top: 0;
+  }
+}
+
+md-dialog {
+  div.help-content {
+    left: 25%;
+    width: 50%;
   }
 }

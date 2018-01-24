@@ -8,8 +8,15 @@
   "fee": "Fee 1 WAVES",
   "create": "Generate",
   "help": {
-    "name": "Please use only Latin letters",
-    "precision": "This field defines the number of decimal signs for your token"
+    "name": "Please use only Latin letters"
+  },
+  "helpIcon": {
+    "totalTokens": {
+      "headline": "This field defines the total tokens supply that your asset will contain.",
+      "reissuable": "Reissuability allows for additional tokens creation that will be added to the total token supply of asset.",
+      "notReissuable": "A Non Reissuability asset will be permanently limited to the total token supply defined on this process. "
+    },
+    "demicals": "This field defines the number of decimals that you asset token will be divided in."
   },
   "validators": {
     "nameLen": "An asset name must be at least 4-16 characters’ long",
