@@ -279,6 +279,7 @@
                         if (num != null) {
                             return num.toFormat(precision);
                         }
+                        throw new Error('Wrong format!');
                     default:
                         throw new Error('Wrong format!');
                 }
