@@ -37,6 +37,7 @@
     "browserify": "^14.4.0",
     "connect": "^3.6.5",
     "electron": "^1.8.1",
+    "electron-builder": "^19.55.2",
     "electron-packager": "^8.7.2",
     "eslint": "^4.9.0",
     "fs-extra": "^4.0.2",
