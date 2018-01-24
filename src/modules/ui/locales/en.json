@@ -101,5 +101,12 @@
       "send": "You have sent {{amount, money-currency}} to an external address",
       "issue": ""
     }
+  },
+  "confirmGatewayTransaction": {
+    "back": "Back",
+    "confirm": "Confirm",
+    "success": "Your transaction is on the way!",
+    "warningTitle": "External blockchain transaction",
+    "warningText": "You're about to send {{amount, money-currency}} to {{address}} via the gateway"
   }
 }

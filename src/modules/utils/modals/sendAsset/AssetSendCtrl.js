@@ -95,12 +95,6 @@
                  * @type {object}
                  */
                 this.gatewayDetails = null;
-                /**
-                 * Id from created transaction
-                 * @type {string}
-                 * @private
-                 */
-                this._transactionId = null;
 
                 this.observe('amount', this._onChangeAmount);
                 this.observe('amountMirror', this._onChangeAmountMirror);
@@ -133,13 +127,15 @@
             }
 
             createTx() {
+                const toGateway = this.outerSendMode && this.gatewayDetails;
+
                 return Waves.Money.fromTokens(this.amount, this.assetId)
                     .then((amount) => waves.node.transactions.createTransaction('transfer', {
                         amount,
                         sender: user.address,
                         fee: this.fee,
-                        recipient: this.recipient,
-                        attachment: this.attachment
+                        recipient: toGateway ? this.gatewayDetails.address : this.recipient,
+                        attachment: toGateway ? this.gatewayDetails.attachment : this.attachment
                     })).then((tx) => {
                         this.tx = tx;
                         this.step++;
