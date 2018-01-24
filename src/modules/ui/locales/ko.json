@@ -99,7 +99,7 @@
     "details": "View details",
     "description": {
       "send": "You have sent {{amount, money-currency}} to an external address",
-      "issue": "",
+      "issue": "You have generated {{quantityStr}} {{name}}",
       "circular": "You have sent {{amount, money-currency}} to yourself"
     }
   }

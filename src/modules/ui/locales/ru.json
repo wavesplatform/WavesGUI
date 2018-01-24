@@ -95,12 +95,12 @@
   "confirmTransaction": {
     "back": "Назад",
     "confirm": "Подтвердить",
-    "success": "Your transaction is on the way!",
-    "details": "View details",
+    "success": "Ваша транзакция отправлена!",
+    "details": "Подробнее",
     "description": {
-      "send": "You have sent {{amount, money-currency}} to an external address",
-      "issue": "",
-      "circular": "You have sent {{amount, money-currency}} to yourself"
+      "send": "Вы отправили {{amount, money-currency}}",
+      "issue": "Вы выпустили {{quantityStr}} {{name}}",
+      "circular": "Вы отправили себе {{amount, money-currency}}"
     }
   }
 }
