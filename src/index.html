@@ -5,9 +5,10 @@
 <head>
     <meta charset="utf-8">
     <title>Waves Client</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="height=900, width=1300, initial-scale=0.1, user-scalable=yes">
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
     <style>
+
         .app-loader {
             z-index: 10000;
             position: fixed;
@@ -254,19 +255,19 @@
             },
             modules: [],
             maxAliasLength: 30,
-            getLocaleData() {
+            getLocaleData: function () {
                 return WavesApp.localize[i18next.language];
             },
-            addController(name, controller) {
+            addController: function (name, controller) {
                 __controllers[name] = controller;
             },
-            getController(name) {
+            getController: function (name) {
                 return __controllers[name];
             },
-            isWeb() {
+            isWeb: function () {
                 return this.type === 'web';
             },
-            isDesktop() {
+            isDesktop: function () {
                 return this.type === 'desktop';
             },
             stateTree: null

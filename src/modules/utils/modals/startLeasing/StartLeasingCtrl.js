@@ -55,8 +55,12 @@
                         amount
                     }))
                     .then((transaction) => {
+                        analytics.push('Leasing', 'Leasing.Success', 'WAVES', this.amount.toString());
                         this._transactionId = transaction.id;
                         this.step++;
+                    })
+                    .catch(() => {
+                        analytics.push('Leasing', 'Leasing.Error', 'WAVES', this.amount.toString());
                     });
             }
 
