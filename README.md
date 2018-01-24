@@ -10,6 +10,7 @@ You will need Node.js 8.9.4 (or higher) and npm v5 (or higher).
 
 ```
 npm i
+node_modules/.bin/tsc -p ./
 npm run server
 ```
 
