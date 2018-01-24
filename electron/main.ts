@@ -1,14 +1,28 @@
 import { app, BrowserWindow, screen, protocol } from 'electron';
-import { IMetaJSON, ISize } from './package';
+import { ISize, IMetaJSON } from './package';
 import { format } from 'url';
-import { readFile, writeFile, writeFileSync } from 'fs';
+import { readFile, stat, writeFile } from 'fs';
 import { join } from 'path';
 
 import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions;
 
 const CONFIG = {
-    META_PATH: join(__dirname, 'meta.json'),
-    INDEX_PATH: './index.html'
+    META_PATH: join(app.getPath('userData'), 'meta.json'),
+    INDEX_PATH: './index.html',
+    MIN_SIZE: {
+        width: 400,
+        height: 500
+    },
+    FIRST_OPEN_SIZES: {
+        MIN_SIZE: {
+            width: 1024,
+            height: 768
+        },
+        MAX_SIZE: {
+            width: 1440,
+            height: 960
+        }
+    }
 };
 
 
@@ -40,7 +54,7 @@ class Main {
                 const [width, height] = this.mainWindow.getSize();
                 const isFullScreen = this.mainWindow.isFullScreen();
 
-                Main.updateMeta({ x, y, width, height, isFullScreen });
+                return Main.updateMeta({ x, y, width, height, isFullScreen });
             }, 200);
 
             this.mainWindow.on('move', onChangeWindow);
@@ -54,7 +68,6 @@ class Main {
         protocol.unregisterProtocol('file');
         protocol.registerFileProtocol('file', (request, callback) => {
             const url = request.url.substr(7).replace(/(#.*)|(\?.*)/, '');
-            console.log(url);
             callback(join(__dirname, url));
         }, (error) => {
             if (error) {
@@ -91,37 +104,30 @@ class Main {
     }
 
     private static loadMeta(): Promise<IMetaJSON> {
-        return new Promise((resolve, reject) => {
-            readFile(CONFIG.META_PATH, 'utf8', (err, file) => {
-                err ? reject(err) : resolve(JSON.parse(file));
-            });
-        });
+        return Main.readJSON(CONFIG.META_PATH) as Promise<IMetaJSON>;
     }
 
     private static updateMeta({ x, y, width, height, isFullScreen }) {
         return Main.loadMeta().then((meta) => {
-            meta.window.lastOpen = {
+            meta.lastOpen = {
                 width, height, x, y, isFullScreen
             };
-            writeFile(CONFIG.META_PATH, JSON.stringify(meta, null, 4), () => null);
+            return Main.writeJSON(CONFIG.META_PATH, meta);
         });
     }
 
-    private static getWindowOptions(pack: IMetaJSON): BrowserWindowConstructorOptions {
-        const fullscreen = pack.window.lastOpen && pack.window.lastOpen.isFullScreen;
+    private static getWindowOptions(meta: IMetaJSON): BrowserWindowConstructorOptions {
+        const fullscreen = meta.lastOpen && meta.lastOpen.isFullScreen;
         const display = screen.getPrimaryDisplay();
         let width, height, x, y;
 
-        if (pack.window.lastOpen) {
-            width = pack.window.lastOpen.width;
-            height = pack.window.lastOpen.height;
-            x = pack.window.lastOpen.x;
-            y = pack.window.lastOpen.y;
+        if (meta.lastOpen) {
+            width = meta.lastOpen.width;
+            height = meta.lastOpen.height;
+            x = meta.lastOpen.x;
+            y = meta.lastOpen.y;
         } else {
-            const size = Main.getStartSize({
-                width: display.workAreaSize.width,
-                height: display.size.height
-            }, pack);
+            const size = Main.getStartSize({ width: display.workAreaSize.width, height: display.size.height });
 
             width = size.width;
             height = size.height;
@@ -130,16 +136,22 @@ class Main {
         }
 
         return {
-            minWidth: pack.window.minSize.width,
-            minHeight: pack.window.minSize.height,
+            minWidth: CONFIG.MIN_SIZE.width,
+            minHeight: CONFIG.MIN_SIZE.height,
             icon: join(__dirname, 'img/icon.png'),
             fullscreen, width, height, x, y
         };
     }
 
-    private static getStartSize(size: ISize, pack: IMetaJSON): ISize {
-        const width = Math.max(Math.min(size.width, pack.window.open.maxSize.width), pack.window.open.minSize.width);
-        const height = Math.max(Math.min(size.height, pack.window.open.maxSize.height), pack.window.open.minSize.height);
+    private static getStartSize(size: ISize): ISize {
+        const width = Math.max(
+            Math.min(size.width, CONFIG.FIRST_OPEN_SIZES.MAX_SIZE.width),
+            CONFIG.FIRST_OPEN_SIZES.MIN_SIZE.width
+        );
+        const height = Math.max(
+            Math.min(size.height, CONFIG.FIRST_OPEN_SIZES.MAX_SIZE.height),
+            CONFIG.FIRST_OPEN_SIZES.MIN_SIZE.height
+        );
 
         return { width, height };
     }
@@ -157,6 +169,53 @@ class Main {
         };
     }
 
+    private static exists(path): Promise<void> {
+        return new Promise((resolve, reject) => {
+            stat(path, (err, stat) => {
+                if (err) {
+                    reject();
+                } else {
+                    resolve();
+                }
+            });
+        });
+    }
+
+    private static readJSON(path): Promise<object> {
+        return Main.readFile(path)
+            .then((data) => JSON.parse(data))
+            .catch(() => Object.create(null));
+    }
+
+    private static readFile(path): Promise<string> {
+        return Main.exists(path).then(() => {
+            return new Promise((resolve, reject) => {
+                readFile(path, 'utf8', (err, data) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(data);
+                    }
+                });
+            }) as Promise<string>;
+        });
+    }
+
+    private static writeFile(path: string, content: string): Promise<void> {
+        return new Promise((resolve, reject) => {
+            writeFile(path, content, (err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
+        });
+    }
+
+    private static writeJSON(path: string, data: object): Promise<void> {
+        return Main.writeFile(path, JSON.stringify(data, null, 4));
+    }
 }
 
 new Main();
