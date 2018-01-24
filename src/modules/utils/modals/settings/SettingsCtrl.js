@@ -52,6 +52,14 @@
                     }
                 });
 
+                this.observe('shownSeed', () => {
+                    analytics.push('Settings', 'Settings.ShowSeed');
+                });
+
+                this.observe('shownKey', () => {
+                    analytics.push('Settings', 'Settings.ShowKeyPair');
+                });
+
                 createPoll(this, waves.node.height, 'blockHeight', 5000);
 
                 user.getSeed().then((seed) => {
@@ -62,6 +70,7 @@
 
             onChangeLanguage(language) {
                 user.setSetting('lng', language);
+                analytics.push('Settings', 'Settings.ChangeLanguage', language);
             }
 
             setNetworkDefault() {

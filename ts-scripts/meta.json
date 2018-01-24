@@ -31,6 +31,7 @@
     "dist/dev/js/bundle.js",
     "dist/dev/js/templates.js"
   ],
+  "domain": "https://beta.wavesplatform.com",
   "configurations": {
     "testnet": {
       "code": "T",
