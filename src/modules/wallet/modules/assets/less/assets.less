@@ -168,19 +168,38 @@
 @media screen and (max-width: 768px) {
   .chart-prices-toggle {
     display: block;
-    width: 40px;
-    height: 40px;
-    background: #ccc;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border: 1px solid @color-accent-50;
     color: #fff;
     text-align: center;
     line-height: 40px;
     font-size: 20px;
     border-radius: 50%;
     position: absolute;
-    right: -50px;
+    right: -42px;
     top: 50%;
-    margin-top: -32px;
+    margin-top: -28px;
     cursor: pointer;
+
+    &:hover {
+      transform: rotate(180deg);
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 54%;
+      width: 10px;
+      height: 5px;
+      transform: translate(-50%, -50%);
+      background-size: 100%;
+      background-image: url(/img/icons/arrow-select.svg);
+    }
+
   }
 
   .toolbar-balance-radio {

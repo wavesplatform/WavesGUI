@@ -428,12 +428,12 @@ div.help-content {
       width: calc(100% ~'- 20px');
       max-width: 540px;
       min-width: 340px;
-      height: calc(100vh ~'- 20px');
+      /* height: calc(100vh ~'- 20px'); */
       max-height: calc(100vh ~'- 20px');
-      padding-bottom: 20px;
-      top: 10px;
+      /* padding-bottom: 20px; */
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translate(-50%, -50%);
     }
   }
 
@@ -441,6 +441,7 @@ div.help-content {
     font-size: @mobile-low-fsize;
   }
 
+  /* TODO @uisk */
   body.dex {
     height: 100vh;
     min-height: 900px;

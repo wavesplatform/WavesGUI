@@ -36,7 +36,7 @@
       display: flex;
       background-color: @color-white;
       height: 65px;
-      border:1px solid @color-accent-50;
+      border: 1px solid @color-accent-50;
       align-items: center;
       border: 1px solid @color-accent-50;
       border-bottom: 0 none;
@@ -91,10 +91,6 @@
         white-space: nowrap;
       }
 
-      // & > div {
-      //   padding-right: 40px;
-      // }
-
       .portfolio-item-name {
         display: flex;
         width: 22%;
@@ -142,6 +138,7 @@
         white-space: nowrap;
         padding-right: 0;
         text-align: left;
+
         @media screen and (max-width: 1240px) {
           display: none;
         }
@@ -164,35 +161,40 @@
 }
 
 @media screen and (max-width: 786px) {
-  .main.wallet.portfolio .portfolio-list .portfolio-item {
-    flex-direction: column;
-    height: auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
+  .main.wallet.portfolio {
 
-    &:first-child {
-      display: none;
-    }
+    .portfolio-list .portfolio-item {
+      flex-direction: column;
+      height: auto;
+      padding-top: 10px;
+      padding-bottom: 10px;
 
-    .portfolio-item-name,
-    .portfolio-item-balance,
-    .portfolio-item-mirror,
-    .portfolio-item-rate,
-    .portfolio-item-change {
-      display: flex;
-      width: 100%;
-      padding: 0px;
-      text-align: left;
-      font-size: @mobile-mid-fsize;
+      .portfolio-item-name,
+      .portfolio-item-balance,
+      .portfolio-item-mirror,
+      .portfolio-item-rate,
+      .portfolio-item-change {
+        display: flex;
+        width: 100%;
+        padding: 0px;
+        text-align: left;
+        font-size: @mobile-mid-fsize;
 
-      span.mobile-col-title {
-        flex-basis: 40%;
+        span.mobile-col-title {
+          flex-basis: 40%;
+        }
+      }
+
+      .mobile-col-title {
+        display: block;
+        color: @color-disabled-600;
       }
     }
 
-    .mobile-col-title {
-      display: block;
-      color: @color-disabled-600;
+    .portfolio-list > .portfolio-item {
+      &:first-child {
+        display: none;
+      }
     }
   }
 }
