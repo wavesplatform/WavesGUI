@@ -104,7 +104,7 @@ task('load-trading-view', (done) => {
                     if (buildName === 'desktop') {
                         forCopy.push(fsCopy(join(__dirname, 'electron/main.js'), `${targetPath}/main.js`));
                         forCopy.push(fsCopy(join(__dirname, 'electron/package.json'), `${targetPath}/package.json`));
-                        forCopy.push(fsCopy(join(__dirname, 'electron/icons/icon.png'), `${targetPath}/img/icon.png`));
+                        forCopy.push(fsCopy(join(__dirname, 'electron/icons/icon128x128.png'), `${targetPath}/img/icon.png`));
                         forCopy.push(fsCopy(join(__dirname, '/dist/tmp/trading-view'), `${targetPath}/trading-view`));
                     }
 
