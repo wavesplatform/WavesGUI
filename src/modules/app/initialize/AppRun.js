@@ -222,7 +222,10 @@
              * @param {string} toState.name
              * @private
              */
-            _onChangeStateSuccess(event, toState) {
+            _onChangeStateSuccess(event, toState, some, fromState) {
+                if (fromState.name) {
+                    analytics.pushPageView(AppRun._getUrlFromState(toState), AppRun._getUrlFromState(fromState));
+                }
                 this.activeClasses.forEach((className) => {
                     document.body.classList.remove(className);
                 });
@@ -288,6 +291,13 @@
                         img.src = path;
                     });
                 };
+            }
+
+            static _getUrlFromState(state) {
+                return '/' + WavesApp.stateTree.getPath(state.name.split('.').slice(-1)[0])
+                    .filter((id) => !WavesApp.stateTree.find(id).get('abstract'))
+                    .map((id) => WavesApp.stateTree.find(id).get('url') || id)
+                    .join('/');
             }
 
         }
