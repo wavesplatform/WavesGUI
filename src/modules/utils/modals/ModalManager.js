@@ -188,7 +188,7 @@
                 });
             }
 
-            showConformTx(type, txData) {
+            showConfirmTx(type, txData) {
                 return $injector.get('waves').node.transactions.createTransaction(type, txData).then((tx) => {
                     return this._getModal({
                         id: 'confirm-tx',

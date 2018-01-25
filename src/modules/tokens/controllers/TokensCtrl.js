@@ -82,7 +82,7 @@
             generate() {
                 const precision = Number(this.precision.toString());
 
-                return modalManager.showConformTx('issue', {
+                return modalManager.showConfirmTx('issue', {
                     name: this.name,
                     description: this.description,
                     reissuable: this.issue,
