@@ -199,7 +199,8 @@
                 pageSize: '@',
                 assetIdList: '<',
                 transactionType: '<',
-                search: '<'
+                search: '<',
+                transactions: '='
             },
             templateUrl: 'modules/ui/directives/transactionList/transactionList.html',
             transclude: false,

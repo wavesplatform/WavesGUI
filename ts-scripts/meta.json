@@ -1,5 +1,6 @@
 {
   "vendors": [
+    "node_modules/csv-gen/dist/CSV.min.js",
     "node_modules/js-cookie/src/js.cookie.js",
     "vendors/require-modules.js",
     "vendors/qrcode.min.js",

@@ -5,5 +5,42 @@
   "exchanged": "Exchanged",
   "leased": "Leased",
   "issued": "Issued",
-  "export": "Export"
+  "export": "Export",
+  "csv": {
+    "date": "Date",
+    "id": "Transaction id",
+    "type": "Transaction type",
+    "transactionType": "Blockchain transaction type",
+    "price": {
+      "ticker": "Price asset ticker",
+      "name": "Price asset name",
+      "value": "Price asset value",
+      "id": "Price asset id"
+    },
+    "amount": {
+      "ticker": "Amount asset ticker",
+      "name": "Amount asset name",
+      "value": "Amount asset value",
+      "id": "Amount asset id"
+    },
+    "fee": {
+      "ticker": "Fee ticker",
+      "name": "Fee name",
+      "value": "Fee value",
+      "id": "Fee id"
+    },
+    "sender": "Transaction author",
+    "recipient": "Transaction recipient",
+    "attachment": "Transaction attachment",
+    "height": "Transaction height",
+    "alias": "Alias name",
+    "description": "Asset description",
+    "name": "Asset name",
+    "reissuable": {
+      "name": "Can reissue asset",
+      "true": "Reissuable",
+      "false": "No reissuable"
+    },
+    "precision": "Precision"
+  }
 }
