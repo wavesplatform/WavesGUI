@@ -85,7 +85,7 @@
                 this.observe('amountMirror', this._onChangeAmountMirror);
                 this.observe('assetId', this._onChangeAssetId);
 
-                this._onChangeAssetId();
+                this._onChangeAssetId({});
 
                 if (this.canChooseAsset) {
                     createPoll(this, this._getBalanceList, this._setAssets, 1000, { isBalance: true });
@@ -107,8 +107,13 @@
                         amount
                     }))
                     .then((transaction) => {
+                        analytics.push('Send', 'Send.Success', this.assetId, this.amount.toString());
                         this._transactionId = transaction.id;
                         this.step++;
+                    })
+                    .catch(() => {
+                        analytics.push('Send', 'Send.Error', this.assetId, this.amount.toString());
+                        // TODO add error;
                     });
             }
 
@@ -145,10 +150,15 @@
                 }).then((list) => list.map(({ available }) => available));
             }
 
-            _onChangeAssetId() {
+            _onChangeAssetId({ prev }) {
                 if (!this.assetId) {
                     return null;
                 }
+
+                if (prev) {
+                    analytics.push('Send', 'Send.ChangeCurrency', this.assetId);
+                }
+
                 this.ready = utils.whenAll([
                     this.canChooseAsset ? this._getBalanceList() : waves.node.assets.balance(this.assetId).then(({ available }) => available),
                     waves.node.assets.info(this.mirrorId),

@@ -103,6 +103,7 @@
 
             copySeed() {
                 if (this.seed) {
+                    analytics.push('Welcome', 'Welcome.CopySeed');
                     copyService.copy(this.seed);
                     notificationManager.info({
                         ns: 'app.create',

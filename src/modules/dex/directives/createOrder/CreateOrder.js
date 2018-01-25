@@ -180,11 +180,15 @@
                                 amount: amount.toCoins()
                             }, seed.keyPair);
                         }).then(() => {
+                            const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
+                            analytics.push('DEX', `DEX.Order.${this.type}.Success`, pair);
                             notificationManager.success({
                                 ns: 'app.dex',
                                 title: { literal: 'directives.createOrder.notifications.isCreated' }
                             });
                         }).catch((err) => {
+                            const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
+                            analytics.push('DEX', `DEX.Order.${this.type}.Error`, pair);
                             // TODO : refactor this
                             const notEnough = 'Not enough tradable balance';
                             const isNotEnough = (err.data.message.slice(0, notEnough.length) === notEnough);
