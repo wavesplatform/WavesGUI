@@ -1,5 +1,7 @@
 @import (reference) '../../../config';
 
+@mobile-leftmenu-height: 70px;
+
 w-left-menu {
   width: @width-left-menu;
   position: absolute;
@@ -63,16 +65,70 @@ w-left-menu {
   }
 }
 
+.sub-navigation {
+  display: none;
+}
+
 @media screen and (max-width: 768px) {
- body:not(.dex) w-left-menu {
+
+  body:not(.dex) w-left-menu {
+
     width: 100%;
-    height: 70px;
+    height: @mobile-leftmenu-height;
     bottom: auto;
     display: flex;
     border-right: 0 none;
+    position: relative;
+    border-bottom: 1px solid @color-disabled-100;
+
+    w-navigation,
+    .bottom-controls {
+      display: none;
+    }
 
     .logo-wrapper {
       margin: 5px 10px;
     }
+
+    input.nav-toggler {
+      display: none;
+    }
+
+    label[for="nav-toggler"] {
+      display:block;
+      position:absolute;
+      right:20px;
+      top:20px;
+      width:24px;
+      height:24px;
+      background:red;
+      z-index:10;
+    }
+
+    input.nav-toggler:checked + label[for="nav-toggler"] ~ w-navigation {
+      display:block;
+      position:fixed;
+      top:70px;
+      min-height: 200px;
+      background: #fff;
+      padding:20px;
+      z-index:10;
+      width:100%;
+      border-bottom: 1px solid @color-accent-50;
+
+      div.sub-navigation {
+        display:block;
+      }
+
+        div.navigation.column {
+          flex-direction: column;
+          a {
+            margin-left:0;
+            margign-right:0;
+          }
+        }
+    }
+
+
   }
 }

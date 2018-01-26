@@ -340,87 +340,26 @@ md-dialog md-dialog-actions {
   }
 }
 
-i.help-icon {
-  position: relative;
-  margin-left: 7px;
-
-  &::before {
-    content: '?';
-    background: @color-accent-100;
-    color: @color-white;
-    border-radius: 50%;
-    display: inline-block;
-    width: @text-icon-size;
-    height: 14px;
-    padding-top: 2px;
-    text-align: center;
-    font-style: normal;
-    font-weight: bold;
-    vertical-align: middle;
-    margin-top: -3px;
-    font-size: @font-size-caption-2;
-    line-height: 13px;
-  }
-
-  &:hover::before {
-    background: @color-submit-300;
-  }
-
-  &:after {
-    display: none;
-    width: 10px;
-    height: 10px;
-    background: @color-submit-300;
-    transform: rotate(-45deg);
-    left: 3px;
-    top: 21px;
-    position: absolute;
-    content: '';
-    z-index: 0;
-  }
-
-  &:hover::after {
-    display: block;
-  }
-
-  &:hover + div.help-content {
-    display: block;
-  }
-
-}
-
-div.help-content {
-  display: none;
-  z-index: 1;
-  position: absolute;
-  background: @color-white;
-  border-top: 5px solid @color-submit-300;
-  border-radius: @border-radius;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.18);
-  width: 50%;
-  padding: 15px;
-  margin-top: 4px;
-  left: 25%;
-
-  &:hover {
-    display: block;
-  }
-
-  div {
-    margin-bottom: 5px;
-  }
-}
-
 @media screen and (max-width: 768px) {
 
+  .main-content .content {
+    height: calc(100vh ~'-  90px');
+  }
+
   .assets-wrapper {
-    max-height: calc(100vh ~'-  200px');
+    max-height: 100%;
+    overflow-y: visible;
   }
 
   .main-content .content {
     overflow: hidden;
     width: calc(100% ~'-  20px');
-    height: calc(100% ~'-  160px');
+    position: relative;
+    right: auto;
+    left: 0;
+    top: 0;
+    bottom: auto;
+    margin: 10px;
   }
 
   .md-dialog-container {
@@ -428,9 +367,7 @@ div.help-content {
       width: calc(100% ~'- 20px');
       max-width: 540px;
       min-width: 340px;
-      /* height: calc(100vh ~'- 20px'); */
       max-height: calc(100vh ~'- 20px');
-      /* padding-bottom: 20px; */
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -441,11 +378,28 @@ div.help-content {
     font-size: @mobile-low-fsize;
   }
 
-  /* TODO @uisk */
   body.dex {
     height: 100vh;
     min-height: 900px;
     min-width: 1100px;
+  }
+
+  body:not(.dex) {
+    .main-content {
+      display: flex;
+      flex-direction: column;
+
+      & > w-header {
+        order: 1;
+      }
+      & > w-left-menu {
+        order: 0;
+      }
+      & > div.content {
+        order: 2;
+      }
+    }
+
   }
 
 }

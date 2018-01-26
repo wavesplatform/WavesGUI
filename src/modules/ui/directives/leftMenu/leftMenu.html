@@ -1,15 +1,33 @@
 <div class="logo-wrapper">
     <w-avatar ng-click="$ctrl.avatarClick()" size="40" address="$ctrl.address"></w-avatar>
 </div>
+
+<input class="nav-toggler" type="checkbox" id="nav-toggler" />
+<label for="nav-toggler"></label>
+
 <w-navigation type="column">
+    <!-- TODO @tsigel -->
     <a ng-repeat="state in $ctrl.stateList track by $index"
        class="{{::state.name}}"
        ui-state="state.path"
        ui-sref-active="{active: state.base + '.**'}"></a>
+
+<!-- subnav to insert after wallet btn -->
+<!-- wallet / portfolio / transactions / leasing -->
+    <!--<div class="sub-navigation">-->
+        <!--<a ng-repeat="state in $ctrl.stateList track by state.name"-->
+           <!--class="{{::state.name}} margin-right-1"-->
+           <!--ui-sref="{{::state.path}}"-->
+           <!--ui-sref-active="active">-->
+            <!--<w-i18n>header.{{::state.name}}</w-i18n>-->
+        <!--</a>-->
+    <!--</div>-->
 </w-navigation>
+
 <div ng-click="$ctrl.settings()" class="bottom-controls">
     <div class="icon-settings"></div>
 </div>
 <div ng-click="$ctrl.logout()" class="logout bottom-controls">
     <div class="icon-logout"></div>
 </div>
+
