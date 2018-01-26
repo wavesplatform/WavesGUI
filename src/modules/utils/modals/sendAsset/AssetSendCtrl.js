@@ -229,7 +229,7 @@
                 this.outerSendMode = outerChain && outerChain.isValidAddress(this.recipient);
 
                 if (this.outerSendMode) {
-                    gatewayService.getWithdrawDetails(this.balance.asset, user.address).then((details) => {
+                    gatewayService.getWithdrawDetails(this.balance.asset, this.recipient).then((details) => {
                         this.assetKeyName = gatewayService.getAssetKeyName(this.balance.asset, 'withdraw');
                         this.gatewayDetails = details;
                         // TODO : validate amount field for gateway minimumAmount and maximumAmount
