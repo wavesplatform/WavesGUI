@@ -71,6 +71,18 @@
       "coinomatBTC": {
         "feeTitle": "Gateway fee is {{fee}} BTC",
         "feeExplanation": "We detected Bitcoin address and will send your money through Coinomat gateway to that address."
+      },
+      "coinomatETH": {
+        "feeTitle": "Gateway fee is {{fee}} ETH",
+        "feeExplanation": "We detected Ethereum address and will send your money through Coinomat gateway to that address."
+      },
+      "coinomatLTC": {
+        "feeTitle": "Gateway fee is {{fee}} LTC",
+        "feeExplanation": "We detected Litecoin address and will send your money through Coinomat gateway to that address."
+      },
+      "coinomatZEC": {
+        "feeTitle": "Gateway fee is {{fee}} ZEC",
+        "feeExplanation": "We detected Zcash address and will send your money through Coinomat gateway to that address."
       }
     },
     "deposit": {
