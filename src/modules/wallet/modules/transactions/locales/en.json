@@ -8,36 +8,36 @@
   "export": "Export",
   "csv": {
     "date": "Date",
-    "id": "Transaction id",
+    "id": "Transaction ID",
     "type": "Transaction type",
     "transactionType": "Blockchain transaction type",
     "price": {
       "ticker": "Price asset ticker",
       "name": "Price asset name",
       "value": "Price asset value",
-      "id": "Price asset id"
+      "id": "Price asset ID"
     },
     "amount": {
       "ticker": "Amount asset ticker",
       "name": "Amount asset name",
       "value": "Amount asset value",
-      "id": "Amount asset id"
+      "id": "Amount asset ID"
     },
     "fee": {
       "ticker": "Fee ticker",
       "name": "Fee name",
       "value": "Fee value",
-      "id": "Fee id"
+      "id": "Fee ID"
     },
-    "sender": "Transaction author",
+    "sender": "Transaction sender",
     "recipient": "Transaction recipient",
     "attachment": "Transaction attachment",
     "height": "Transaction height",
     "alias": "Alias name",
-    "description": "Asset description",
-    "name": "Asset name",
+    "description": "Token description",
+    "name": "Token name",
     "reissuable": {
-      "name": "Can reissue asset",
+      "name": "Can reissue token",
       "true": "Reissuable",
       "false": "No reissuable"
     },
