@@ -198,6 +198,30 @@ md-dialog.settings-modal {
         border-right: 0 none;
         margin-bottom: 20px;
 
+        .navigation-menu {
+          display: flex;
+          flex-direction: column;
+          w-responsive-menu-item {
+            order: 2;
+            &.menu-item-to-top {
+              order: 0;
+            }
+          }
+
+          .responsive-menu-item-content:not(.active) {
+            height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: .13s;
+          }
+
+          &.active .responsive-menu-item-content,
+          .responsive-menu-item-content.active {
+            height: 50px;
+            opacity: 1;
+          }
+        }
+
         w-button {
           display:block;
 
@@ -233,29 +257,6 @@ md-dialog.settings-modal {
             }
           }
         }
-
-        w-button.active > button.nav-toggler .dots .dot {
-          background-color: red;
-        }
-
-
-
-        .responsive-menu-item-content:not(.active) {
-          height: 0;
-          opacity: 0;
-          transition: .3s;
-        }
-
-        .navigation-menu.active .responsive-menu-item-content,
-        .navigation-menu .responsive-menu-item-content.active {
-          height: 50px;
-          opacity: 1;
-        }
-
-        .navigation-menu.active {
-
-        }
-
       }
 
       .settings-content {

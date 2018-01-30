@@ -78,11 +78,6 @@
                 this.matcher = WavesApp.network.matcher;
             }
 
-            setState(state) {
-                this.tab = state;
-                //.navigation-menu
-            }
-
         }
 
         return new SettingsCtrl();

@@ -19,28 +19,13 @@
             }
 
             menuToggle() {
-                $element.find('w-button.nav-toggler').removeClass('active');
-
                 $element.find('.navigation-menu').toggleClass('active');
-                // $element.find('w-button').toggleClass('active');
-
-
-                if ($element.find('.navigation-menu.active w-responsive-menu-item:first .responsive-menu-item-content').hasClass('active')) {
-                    $element.find('w-button.nav-toggler').removeClass('active');
-                } else {
-                    $element.find('w-button.nav-toggler').addClass('active');
-                }
-                // if ($element.find('.menu-item:first').hasClass('active')) {
-                //     $element.find('.nav-toggler').addClass('active');
-                //     $element.find('.navigation-menu').toggleClass('active');
-                // } else {
-                //     $element.find('.navigation-menu').toggleClass('active');
-                // }
+                $element.find('.responsive-menu-item-content').closest('w-responsive-menu-item').removeClass('menu-item-to-top');
+                $element.find('.responsive-menu-item-content.active').closest('w-responsive-menu-item').addClass('menu-item-to-top');
             }
 
-            menuClose() {
+            chooseItem() {
                 $element.find('.navigation-menu').removeClass('active');
-                $element.find('w-button.nav-toggler').removeClass('active');
             }
 
             /**
@@ -48,9 +33,8 @@
              */
             setActive(item) {
                 this.activeMenu = item.value;
-                this.menuClose();
+                this.chooseItem();
             }
-
 
         }
 
