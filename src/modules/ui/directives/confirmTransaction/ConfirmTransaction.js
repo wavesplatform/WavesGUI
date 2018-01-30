@@ -74,10 +74,10 @@
                     const amount = this.tx.amount && this.tx.amount.toFormat() || undefined;
 
                     return txPromise.then((data) => {
-                        analytics.push(txType, `${txType}.Success`, amount);
+                        analytics.push('Transaction', `Transaction.${txType}.Success`, amount);
                         return data;
                     }, (error) => {
-                        analytics.push(txType, `${txType}.Error`, amount);
+                        analytics.push('Transaction', `Transaction.${txType}.Error`, amount);
                         return Promise.reject(error);
                     });
                 });

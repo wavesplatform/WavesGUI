@@ -36,15 +36,15 @@
             /**
              * From Waves to Coinomat
              * @param {Asset} asset
-             * @param {string} wavesAddress
+             * @param {string} targetAddress
              * @return {Promise}
              */
-            getWithdrawDetails(asset, wavesAddress) {
+            getWithdrawDetails(asset, targetAddress) {
                 CoinomatService._isSupportedAsset(asset.id);
                 const from = CURRENCIES[asset.id].waves;
                 const to = CURRENCIES[asset.id].gateway;
                 return Promise.all([
-                    this._loadPaymentDetails(from, to, wavesAddress),
+                    this._loadPaymentDetails(from, to, targetAddress),
                     this._loadWithdrawRate(from, to)
                 ]).then(([details, rate]) => {
                     return {

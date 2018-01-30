@@ -96,12 +96,6 @@
                  */
                 this.gatewayDetails = null;
                 /**
-                 * Id from created transaction
-                 * @type {string}
-                 * @private
-                 */
-                this._transactionId = null;
-                /**
                  * @type {boolean}
                  */
                 this.hasComission = true;
@@ -138,13 +132,15 @@
             }
 
             createTx() {
+                const toGateway = this.outerSendMode && this.gatewayDetails;
+
                 return Waves.Money.fromTokens(this.amount, this.assetId)
                     .then((amount) => waves.node.transactions.createTransaction('transfer', {
                         amount,
                         sender: user.address,
                         fee: this.fee,
-                        recipient: this.recipient,
-                        attachment: this.attachment
+                        recipient: toGateway ? this.gatewayDetails.address : this.recipient,
+                        attachment: toGateway ? this.gatewayDetails.attachment : this.attachment
                     })).then((tx) => {
                         this.tx = tx;
                         this.step++;
@@ -261,7 +257,7 @@
                 this.outerSendMode = outerChain && outerChain.isValidAddress(this.recipient);
 
                 if (this.outerSendMode) {
-                    gatewayService.getWithdrawDetails(this.balance.asset, user.address).then((details) => {
+                    gatewayService.getWithdrawDetails(this.balance.asset, this.recipient).then((details) => {
                         this.assetKeyName = gatewayService.getAssetKeyName(this.balance.asset, 'withdraw');
                         this.gatewayDetails = details;
                         // TODO : validate amount field for gateway minimumAmount and maximumAmount
