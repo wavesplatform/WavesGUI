@@ -54,7 +54,7 @@
     },
     "mainnet": {
       "code": "W",
-      "node": "https://nodes.wavesnodes.com",
+      "node": "https://nodes.wavesplatform.com",
       "matcher": "https://matcher.wavesnodes.com/matcher",
       "api": "https://api.wavesplatform.com",
       "coinomat": "https://coinomat.com",
