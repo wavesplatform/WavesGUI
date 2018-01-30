@@ -80,6 +80,7 @@
 
             setState(state) {
                 this.tab = state;
+                //.navigation-menu
             }
 
         }
@@ -90,4 +91,5 @@
     controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll'];
 
     angular.module('app.utils').controller('SettingsCtrl', controller);
+
 })();

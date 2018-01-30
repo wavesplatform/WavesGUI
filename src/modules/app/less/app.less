@@ -353,7 +353,7 @@ md-dialog md-dialog-actions {
 
   .main-content .content {
     overflow: hidden;
-    width: calc(100% ~'-  20px');
+    width: calc(100% ~' -  20px');
     position: relative;
     right: auto;
     left: 0;
@@ -364,13 +364,17 @@ md-dialog md-dialog-actions {
 
   .md-dialog-container {
     md-dialog {
-      width: calc(100% ~'- 20px');
+      width: calc(100% ~' - 20px');
       max-width: 540px;
       min-width: 340px;
-      max-height: calc(100vh ~'- 20px');
-      top: 50%;
+      height: calc(100vh ~' - 20px');
+      max-height: calc(100vh ~' - 20px');
       left: 50%;
-      transform: translate(-50%, -50%);
+      top: 10px;
+
+      md-dialog-content {
+        padding: 10px;
+      }
     }
   }
 
