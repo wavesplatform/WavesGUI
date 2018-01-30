@@ -101,19 +101,24 @@
                  * @private
                  */
                 this._transactionId = null;
+                /**
+                 * @type {boolean}
+                 */
+                this.hasComission = true;
+                /**
+                 * @type {Array}
+                 */
+                this.feeList = null;
 
                 this.observe('amount', this._onChangeAmount);
                 this.observe('amountMirror', this._onChangeAmountMirror);
                 this.observe('assetId', this._onChangeAssetId);
                 this.observe('recipient', this._updateGatewayDetails);
+                this.observe(['gatewayDetails', 'fee', 'amount'], this._currentHasCommission);
 
                 this._onChangeAssetId({});
 
-                if (this.canChooseAsset) {
-                    createPoll(this, this._getBalanceList, this._setAssets, 1000, { isBalance: true });
-                } else {
-                    createPoll(this, this._getAsset, this._setAssets, 1000, { isBalance: true });
-                }
+                createPoll(this, this._getBalanceList, this._setAssets, 1000, { isBalance: true });
             }
 
             fillMax() {
@@ -171,7 +176,7 @@
                     waves.node.assets.fee('transfer'),
                     waves.utils.getRateApi(this.assetId, this.mirrorId)
                 ]).then(([balance, mirrorBalance, [fee], api]) => {
-                    this.noMirror = balance.id === mirrorBalance.id || api.rate.eq(0);
+                    this.noMirror = balance.asset.id === mirrorBalance.id || api.rate.eq(0);
                     this.amount = new BigNumber(0);
                     this.amountMirror = new BigNumber(0);
                     this.mirrorBalance = mirrorBalance;
@@ -179,6 +184,29 @@
                     this.balance = tsUtils.find(this.moneyList, (item) => item.asset.id === this.assetId);
                     this.fee = fee;
                 }).then(() => this._updateGatewayDetails());
+            }
+
+            _currentHasCommission() {
+                const details = this.gatewayDetails;
+
+                const check = (feeList) => {
+                    const feeHash = utils.groupMoney(feeList);
+                    const balanceHash = utils.toHash(this.moneyList, 'asset.id');
+                    this.hasComission = Object.keys(feeHash).every((feeAssetId) => {
+                        const fee = feeHash[feeAssetId];
+                        return balanceHash[fee.asset.id] && balanceHash[fee.asset.id].gt(fee);
+                    });
+                };
+
+                if (details) {
+                    Waves.Money.fromTokens(details.gatewayFee, this.assetId).then((fee) => {
+                        check([this.fee, fee]);
+                        this.feeList = [this.fee, fee];
+                    });
+                } else {
+                    check([this.fee]);
+                    this.feeList = [this.fee];
+                }
             }
 
             /**
