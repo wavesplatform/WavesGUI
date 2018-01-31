@@ -8,6 +8,9 @@
   "npmRebuild": false,
   "npmSkipBuildFromSource": true,
   "artifactName": "${productName}[${env.WAVES_CONFIGURATION}]-${version}-${os}.${ext}",
+  "directories": {
+    "buildResources": "electron/"
+  },
   "linux": {
     "category": "Utility",
     "target": [
@@ -15,7 +18,7 @@
       "zip"
     ],
     "executableName": "waves-lite-client",
-    "icon": "electron/icons"
+    "icon": "electron/icons/icon128x128.png"
   },
   "mac": {
     "category": "public.app-category.finance",
