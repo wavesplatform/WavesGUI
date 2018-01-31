@@ -265,7 +265,9 @@
 
             _updateGatewayDetails() {
                 const outerChain = outerBlockchains[this.assetId];
-                this.outerSendMode = outerChain && outerChain.isValidAddress(this.recipient);
+                const isValidWavesAddress = waves.node.isValidAddress(this.recipient);
+
+                this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.recipient);
 
                 if (this.outerSendMode) {
                     gatewayService.getWithdrawDetails(this.balance.asset, this.recipient).then((details) => {

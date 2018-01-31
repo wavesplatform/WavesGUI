@@ -86,8 +86,8 @@
         "feeExplanation": "We detected Zcash address and will send your money through Coinomat gateway to that address."
       },
       "validationError": {
-        "enoughFundsWD": "You don't have enough funds to pay the required fees. You must pay {{fee, money-currency}} transaction fee and {{getawayFee, BigNumber}} {{currency}} gateway fee.",
-        "enoughFunds": "You don't have enough funds to pay the required fees. You must pay {{fee, money-currency}} transaction fee."
+        "notEnoughFundsWithdraw": "You don't have enough funds to pay the required fees. You must pay {{fee, money-currency}} transaction fee and {{getawayFee, BigNumber}} {{currency}} gateway fee.",
+        "notEnoughFunds": "You don't have enough funds to pay the required fees. You must pay {{fee, money-currency}} transaction fee."
       }
     },
     "deposit": {
