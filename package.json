@@ -11,6 +11,7 @@
   "devDependencies": {
     "@types/babel-core": "^6.25.2",
     "@types/connect": "^3.4.31",
+    "@types/electron": "^1.6.10",
     "@types/fs-extra": "^3.0.3",
     "@types/gulp": "^4.0.4",
     "@types/gulp-angular-templatecache": "^2.0.3",
@@ -35,6 +36,8 @@
     "babel-preset-es2015": "^6.24.1",
     "browserify": "^14.4.0",
     "connect": "^3.6.5",
+    "electron": "^1.8.1",
+    "electron-packager": "^8.7.2",
     "eslint": "^4.9.0",
     "fs-extra": "^4.0.2",
     "gulp": "^3.9.1",
@@ -68,57 +71,12 @@
     "watchts": "sh scripts/watch-typescript.sh",
     "lessc": "sh scripts/lessc",
     "build": "node_modules/.bin/tsc -p ./ && node_modules/.bin/gulp all",
-    "server": "npm run build && node server"
-  },
-  "build": {
-    "appId": "com.wavesplatform.client.lite",
-    "copyright": "Waves Platform",
-    "productName": "Waves Lite Client",
-    "files": "**/*",
-    "asar": true,
-    "compression": "normal",
-    "npmRebuild": false,
-    "npmSkipBuildFromSource": true,
-    "directories": {
-      "buildResources": "src/desktop/resources"
-    },
-    "artifactName": "${productName}[${env.WAVES_CONFIGURATION}]-${version}-${os}.${ext}",
-    "linux": {
-      "category": "Utility",
-      "target": [
-        "deb",
-        "zip"
-      ],
-      "executableName": "waves-lite-client",
-      "icon": "src/desktop/resources"
-    },
-    "mac": {
-      "category": "public.app-category.finance",
-      "target": [
-        "dmg"
-      ],
-      "icon": "src/desktop/resources/icon.icns"
-    },
-    "win": {
-      "target": [
-        "nsis",
-        "zip"
-      ],
-      "legalTrademarks": "Waves Platform",
-      "icon": "src/desktop/resources/icon.ico"
-    },
-    "nsis": {
-      "artifactName": "waves-lite-client[${env.WAVES_CONFIGURATION}]-setup-${version}.${ext}"
-    },
-    "dmg": {
-      "icon": null,
-      "window": {
-        "x": 400,
-        "y": 100,
-        "width": 540,
-        "height": 280
-      }
-    }
+    "server": "npm run build && node server",
+    "electron:linux": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.png --platform=linux --out=./dist/linux",
+    "electron:win": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.ico --platform=win32 --out=./dist/win",
+    "electron:osx": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.icns --platform=darwin --out=./dist/osx",
+    "electron": "gulp all && npm run electron:linux && npm run electron:win && npm run electron:osx",
+    "electron-debug": "gulp html-desktop-mainnet-min && node_modules/.bin/electron ./dist/desktop/mainnet/min/"
   },
   "dependencies": {
     "@types/html-minifier": "^1.1.30",

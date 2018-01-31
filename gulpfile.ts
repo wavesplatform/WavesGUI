@@ -1,11 +1,10 @@
 import * as gulp from 'gulp';
 import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
-import * as copy from 'gulp-copy';
 import { exec, execSync } from 'child_process';
-import { getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
+import { download, getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
 import { join } from 'path';
-import { copy as fsCopy, outputFile, readFile, readJSON, readJSONSync, writeFile } from 'fs-extra';
+import { copy as fsCopy, mkdirp, outputFile, readFile, readJSON, readJSONSync, writeFile } from 'fs-extra';
 import { IMetaJSON, IPackageJSON } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
@@ -44,7 +43,6 @@ const bundlePath = join(tmpJsPath, bundleName);
 const templatePath = join(tmpJsPath, templatesName);
 const cssPath = join(tmpCssPath, cssName);
 
-
 const getFileName = (name, type) => {
     const postfix = type === 'min' ? '.min' : '';
     return `${name.replace('.js', '')}${postfix}.js`;
@@ -53,7 +51,16 @@ const getFileName = (name, type) => {
 
 const indexPromise = readFile(join(__dirname, 'src/index.html'), { encoding: 'utf8' });
 
-['build', 'chrome', 'desktop'].forEach((buildName) => {
+task('load-trading-view', (done) => {
+    Promise.all(meta.tradingView.files.map((relativePath) => {
+        const url = `${meta.tradingView.domain}/${relativePath}`;
+        return download(url, join(__dirname, `dist/tmp/trading-view/${relativePath}`)).then(() => {
+            console.log(`Download "${relativePath}" done`);
+        });
+    })).then(() => done());
+});
+
+['web', 'desktop'].forEach((buildName) => {
 
     configurations.forEach((configName) => {
 
@@ -74,6 +81,9 @@ const indexPromise = readFile(join(__dirname, 'src/index.html'), { encoding: 'ut
 
                 stream.on('end', function () {
                     readFile(`${targetPath}/js/${jsFileName}`, { encoding: 'utf8' }).then((file) => {
+                        if (buildName === 'desktop') {
+                            file = `(function () {\nvar module = undefined;\n${file}})();`;
+                        }
                         outputFile(`${targetPath}/js/${jsFileName}`, file)
                             .then(() => done());
                     });
@@ -81,13 +91,27 @@ const indexPromise = readFile(join(__dirname, 'src/index.html'), { encoding: 'ut
             });
             taskHash.concat.push(`concat-${taskPostfix}`);
 
+            const copyDeps = ['concat-style'];
+            if (buildName === 'desktop') {
+                copyDeps.push('load-trading-view');
+            }
 
-            task(`copy-${taskPostfix}`, ['concat-style'], function (done) {
+            task(`copy-${taskPostfix}`, copyDeps, function (done) {
                     let forCopy = JSON_LIST.map((path) => {
                         return fsCopy(path, path.replace(/(.*?\/src)/, `${targetPath}`));
                     }).concat(fsCopy(join(__dirname, 'src/fonts'), `${targetPath}/fonts`));
 
+                    if (buildName === 'desktop') {
+                        forCopy.push(fsCopy(join(__dirname, 'electron/main.js'), `${targetPath}/main.js`));
+                        forCopy.push(fsCopy(join(__dirname, 'electron/package.json'), `${targetPath}/package.json`));
+                        forCopy.push(fsCopy(join(__dirname, 'electron/icons/icon.png'), `${targetPath}/img/icon.png`));
+                        forCopy.push(fsCopy(join(__dirname, '/dist/tmp/trading-view'), `${targetPath}/trading-view`));
+                    }
+
                     Promise.all([
+                        Promise.all(meta.copyNodeModules.map((path) => {
+                            return fsCopy(join(__dirname, path), `${targetPath}/${path}`);
+                        })) as Promise<any>,
                         fsCopy(join(__dirname, 'src/img'), `${targetPath}/img`).then(() => {
                             const images = IMAGE_LIST.map((path) => path.replace(/(.*?\/src)/, ''));
                             return writeFile(`${targetPath}/img/images-list.json`, JSON.stringify(images));
@@ -101,9 +125,7 @@ const indexPromise = readFile(join(__dirname, 'src/index.html'), { encoding: 'ut
                     });
                 }
             );
-            taskHash.copy.push(
-                `copy-${taskPostfix}`
-            );
+            taskHash.copy.push(`copy-${taskPostfix}`);
 
             const htmlDeps = [
                 `concat-${taskPostfix}`,
@@ -115,10 +137,11 @@ const indexPromise = readFile(join(__dirname, 'src/index.html'), { encoding: 'ut
                     return prepareHTML({
                         target: targetPath,
                         connection: configName,
-                        scripts: type === 'dev' ? meta.vendors.concat(SOURCE_FILES) : [jsFilePath],
+                        scripts: [jsFilePath],
                         styles: [
                             `${targetPath}/css/${pack.name}-styles-${pack.version}.css`
-                        ]
+                        ],
+                        type: buildName
                     });
                 }).then((file) => {
                     console.log('out ' + configName);
@@ -211,14 +234,7 @@ task('eslint', function (done) {
 });
 
 task('less', function () {
-    // Promise.all([
     execSync('sh scripts/less.sh');
-    // ]).then(() => {
-    // getFilesFrom('./src', '.less').forEach((path) => {
-    //     console.log(`Compile less file ${path}`);
-    //     execSync(`node_modules/.bin/lessc ${path} ${path.replace('.less', '.css')}`);
-    // });
-    // });
 });
 
 task('babel', ['concat-develop'], function () {
