@@ -49,11 +49,11 @@
                             format: function (value, format) {
                                 switch (format) {
                                     case 'money':
-                                        return value.toFormat();
+                                        return value.getTokens().toFixed();
                                     case 'money-currency':
-                                        return `${value.toFormat()} ${value.asset.displayName}`;
+                                        return `${value.getTokens().toFixed()} ${value.asset.displayName}`;
                                     case 'BigNumber':
-                                        return value.toFormat();
+                                        return value && value.toFixed() || '';
                                     default:
                                         throw new Error('Wrong format type!');
                                 }

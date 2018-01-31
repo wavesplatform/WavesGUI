@@ -168,12 +168,12 @@
                 }
 
                 this.ready = utils.whenAll([
-                    this.canChooseAsset ? this._getBalanceList() : waves.node.assets.balance(this.assetId).then(({ available }) => available),
+                    this._getBalanceList(),
                     waves.node.assets.info(this.mirrorId),
                     waves.node.assets.fee('transfer'),
                     waves.utils.getRateApi(this.assetId, this.mirrorId)
                 ]).then(([balance, mirrorBalance, [fee], api]) => {
-                    this.noMirror = balance.asset.id === mirrorBalance.id || api.rate.eq(0);
+                    this.noMirror = this.assetId === mirrorBalance.id || api.rate.eq(0);
                     this.amount = new BigNumber(0);
                     this.amountMirror = new BigNumber(0);
                     this.mirrorBalance = mirrorBalance;

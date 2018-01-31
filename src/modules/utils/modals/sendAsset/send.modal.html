@@ -111,7 +111,8 @@
                 </div>
 
                 <!-- if LTC -->
-                <div ng-if="$ctrl.outerSendMode && $ctrl.assetKeyName && $ctrl.assetId === $ctrl.defaultAssets.LTC" class="row">
+                <div ng-if="$ctrl.outerSendMode && $ctrl.assetKeyName && $ctrl.assetId === $ctrl.defaultAssets.LTC"
+                     class="row">
                     <div class="warning-plate">
                         <div class="body-2 warning-500"
                              w-i18n="modal.send.coinomatLTC.minAmount"
@@ -139,9 +140,12 @@
 
                 <div class="row commission-error margin-2 footnote error-500" ng-if="!$ctrl.hasComission">
                     <w-i18n ng-show="$ctrl.outerSendMode && $ctrl.assetKeyName"
-                            params="{fee: $ctrl.fee, getawayFee: $ctrl.gatewayDetails.gatewayFee}">modal.send.validationError.enoughFundsWD</w-i18n>
+                            params="{fee: $ctrl.fee, getawayFee: $ctrl.gatewayDetails.gatewayFee, currency: $ctrl.balance.asset.displayName}">
+                        modal.send.validationError.enoughFundsWD
+                    </w-i18n>
                     <w-i18n ng-hide="$ctrl.outerSendMode && $ctrl.assetKeyName"
-                            params="{fee: $ctrl.fee}">modal.send.validationError.enoughFunds</w-i18n>
+                            params="{fee: $ctrl.fee}">modal.send.validationError.enoughFunds
+                    </w-i18n>
                 </div>
 
                 <div class="row margin-2">
