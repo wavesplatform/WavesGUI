@@ -134,7 +134,7 @@
              * Create issue transaction
              * @param {string} name
              * @param {string} description
-             * @param {string} quantity count of tokens from new asset
+             * @param {BigNumber} quantity count of tokens from new asset
              * @param {number} precision num in range from 0 to 8
              * @param {boolean} reissuable can reissue token
              * @param {Seed.keyPair} keyPair
@@ -142,6 +142,7 @@
              * @return {Promise<ITransaction>}
              */
             issue({ name, description, quantity, precision, reissuable, fee, keyPair }) {
+                quantity = quantity.mul(Math.pow(10, precision));
                 return this.getFee('issue', fee).then((fee) => {
                     return Waves.API.Node.v1.assets.issue({
                         name,

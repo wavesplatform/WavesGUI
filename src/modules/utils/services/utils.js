@@ -359,6 +359,22 @@
             },
 
             /**
+             * @name app.utils#groupMoney
+             * @param {Money[]} moneyList
+             * @return {object}
+             */
+            groupMoney(moneyList) {
+                return moneyList.filter(Boolean).reduce((result, money) => {
+                    if (result[money.asset.id]) {
+                        result[money.asset.id] = result[money.asset.id].add(money);
+                    } else {
+                        result[money.asset.id] = money;
+                    }
+                    return result;
+                }, Object.create(null));
+            },
+
+            /**
              * @name app.utils#wait
              * @param {number} [time]
              * @return {Promise}

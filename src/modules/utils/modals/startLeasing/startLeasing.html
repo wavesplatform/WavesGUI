@@ -44,51 +44,14 @@
                 </w-input-container>
             </div>
             <div class="row basic-500 margin-2">
-                Fee 0.001 WAVES
+                <w-i18n>modal.startLease.fee</w-i18n>&nbsp;0.001 WAVES
             </div>
-            <w-button disabled="lease.$invalid" w-step-next class="submit big long">
+            <w-button disabled="lease.$invalid" ng-click="$ctrl.next()" class="submit big long">
                 <w-i18n>modal.startLease.start</w-i18n>
             </w-button>
         </form>
     </w-step>
     <w-step>
-        <div class="icon" class="lease-in margin-2"></div>
-
-
-        <h3 class="basic-700 text-center margin-3">
-            <span w-nice-number="$ctrl.amount" precision="$ctrl.balance.asset.precision"></span>
-            {{::$ctrl.balance.asset.name}}
-        </h3>
-
-        <div class="list margin-3 footnote-1">
-            <div class="split-half">
-                <div class="flex-row disabled-600" w-i18n="modal.startLease.recipientConfirm"></div>
-                <div class="basic-900">{{::$ctrl.recipient}}</div>
-            </div>
-            <div class="split-half">
-                <div class="flex-row disabled-600" w-i18n="modal.startLease.fee"></div>
-                <div class="basic-900">{{::$ctrl.fee.getTokens().toFormat(3)}} {{::$ctrl.balance.asset.name}}</div>
-            </div>
-        </div>
-
-        <div class="button-container">
-            <w-button w-step-prev class="big">
-                <w-i18n>modal.startLease.back</w-i18n>
-            </w-button>
-            <w-button ng-click="$ctrl.submit()" class="submit big">
-                <w-i18n>modal.startLease.confirm</w-i18n>
-            </w-button>
-        </div>
-    </w-step>
-    <w-step>
-
-        <div class="complete-icon"></div>
-        <h2 class="text-center basic-900" w-i18n="modal.startLease.leaseComplete"></h2>
-        <div class="text-center body-2 disabled-600 margin-4" w-i18n="modal.startLease.leaseCompleteDesc"
-             params="{amount: $ctrl.amount.toFormat($ctrl.balance.asset.precision)}"></div>
-
-        <w-button ng-click="$ctrl.showDetails()" class="big submit details">
-            <w-i18n>modal.startLease.details</w-i18n>
-        </w-button>
+        <w-confirm-transaction on-click-back="$ctrl.back()" tx="$ctrl.tx"></w-confirm-transaction>
     </w-step>
 </w-step-by-step>

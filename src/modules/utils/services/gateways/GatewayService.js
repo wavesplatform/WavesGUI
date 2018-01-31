@@ -29,6 +29,16 @@
 
             /**
              * @param {Asset} asset
+             * @param {string} targetAddress
+             * @return {Promise}
+             */
+            getWithdrawDetails(asset, targetAddress) {
+                const gateway = this._findGatewayFor(asset, 'withdraw');
+                return gateway.getWithdrawDetails(asset, targetAddress);
+            }
+
+            /**
+             * @param {Asset} asset
              * @param {string} wavesAddress
              * @return {Promise}
              */

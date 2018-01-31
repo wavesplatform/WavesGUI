@@ -50,6 +50,20 @@
                         defaultNS: 'app',
                         useCookie: false,
                         useLocalStorage: false,
+                        interpolation: {
+                            format: function (value, format) {
+                                switch (format) {
+                                    case 'money':
+                                        return value.getTokens().toFixed();
+                                    case 'money-currency':
+                                        return `${value.getTokens().toFixed()} ${value.asset.displayName}`;
+                                    case 'BigNumber':
+                                        return value && value.toFixed() || '';
+                                    default:
+                                        throw new Error('Wrong format type!');
+                                }
+                            }
+                        },
                         backend: {
                             loadPath: function (lng, ns) {
                                 lng = lng[0];

@@ -32,16 +32,7 @@
   },
   "modal": {
     "title": "Выпуск токена \"{{name}}\"",
-    "titleSuccess": "Токен \"{{name}}\" выпущен",
-    "descriptionTitle": "Описание",
-    "fee": "Комиссия",
-    "back": "Назад",
-    "confirm": "Подтвердить"
-  },
-  "success": {
-    "title": "Транзакция отправлена!",
-    "description": "Вы выпустили {{amount}} {{name}}",
-    "done": "Открыть портфель"
+    "titleSuccess": "Токен \"{{name}}\" выпущен"
   },
   "notifications": {
     "isNotCreated": "Токен не был выпущен"
