@@ -1,33 +1,45 @@
 (function () {
     'use strict';
 
-    const factory = function (Validator) {
+    const directive = function () {
+        return {
+            require: 'ngModel',
+            /**
+             * @param $scope
+             * @param {JQuery} $input
+             * @param $attrs
+             * @param $ngModel
+             */
+            link: ($scope, $input, { wCompareTo, ngModel }, $ngModel) => {
 
-        class CompareTo extends Validator {
+                /**
+                 * $input can be both <input> and <w-input>, in the latter case we should ignore validation
+                 */
+                if ($input.get(0).tagName !== 'INPUT') {
+                    return null;
+                }
 
-            constructor(data) {
-                super(data);
+                const $compare = $input.closest('form').find(`input[name="${wCompareTo}"]`);
 
-                const $compare = this.$input.closest('form').find(`input[name="${this.$attrs.wCompareTo}"]`);
                 if (!$compare.length) {
                     throw new Error('Element for compare not found!');
                 }
 
+                const validate = function () {
+                    $ngModel.$setValidity('w-compare-to', $compare.val() === $input.val());
+                };
+
                 $compare.on('input', () => {
-                    this.validate();
+                    validate();
+                    $scope.$apply();
                 });
 
-                this.registerValidator('w-compare-to', (value) => {
-                    return value === $compare.val();
-                });
+                $scope.$watch(ngModel, validate);
             }
-
-        }
-
-        return CompareTo;
+        };
     };
 
-    factory.$inject = ['Validator', 'utils'];
+    directive.$inject = [];
 
-    angular.module('app.utils').factory('CompareTo', factory);
+    angular.module('app.utils').directive('wCompareTo', directive);
 })();

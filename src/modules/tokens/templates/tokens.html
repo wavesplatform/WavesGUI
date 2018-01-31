@@ -50,18 +50,19 @@
                         <w-input class="embed" type="text"
                                  name="count"
                                  ng-model="$ctrl.count"
-                                 precision="$ctrl.precision.toString()"
-                                 min="'0'"
-                                 max="$ctrl.maxCoinsCount"
-                                 w-validate="number"
+                                 w-validator-precision="$ctrl.precision.toString()"
+                                 w-validator-gt="'0'"
+                                 w-validator-lt="$ctrl.maxCoinsCount"
                                  required></w-input>
                         <div class="select-wrap">
                             <w-select class="issue-select tiny" ng-model="$ctrl.issue">
                                 <w-option option-type="boolean" value="false">
-                                    <span class="caption-1 basic-700" w-i18n-ns="app.tokens" w-i18n="reissuable.false"></span>
+                                    <span class="caption-1 basic-700" w-i18n-ns="app.tokens"
+                                          w-i18n="reissuable.false"></span>
                                 </w-option>
                                 <w-option option-type="boolean" value="true">
-                                    <span class="caption-1 basic-700" w-i18n-ns="app.tokens" w-i18n="reissuable.true"></span>
+                                    <span class="caption-1 basic-700" w-i18n-ns="app.tokens"
+                                          w-i18n="reissuable.true"></span>
                                 </w-option>
                             </w-select>
                         </div>
