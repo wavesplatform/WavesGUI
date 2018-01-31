@@ -99,7 +99,6 @@
                     </w-input-error>
                 </w-input-container>
 
-
                 <div ng-if="$ctrl.outerSendMode && $ctrl.assetKeyName" class="row">
                     <div class="warning-plate">
                         <div class="body-2 warning-500"
@@ -141,10 +140,10 @@
                 <div class="row commission-error margin-2 footnote error-500" ng-if="!$ctrl.hasComission">
                     <w-i18n ng-show="$ctrl.outerSendMode && $ctrl.assetKeyName"
                             params="{fee: $ctrl.fee, getawayFee: $ctrl.gatewayDetails.gatewayFee, currency: $ctrl.balance.asset.displayName}">
-                        modal.send.validationError.enoughFundsWD
+                        modal.send.validationError.notEnoughFundsWithdraw
                     </w-i18n>
                     <w-i18n ng-hide="$ctrl.outerSendMode && $ctrl.assetKeyName"
-                            params="{fee: $ctrl.fee}">modal.send.validationError.enoughFunds
+                            params="{fee: $ctrl.fee}">modal.send.validationError.notEnoughFunds
                     </w-i18n>
                 </div>
 
