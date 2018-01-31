@@ -68,7 +68,7 @@
 
                     $onDestroy() {
                         super.$onDestroy();
-                        this._stopScopeHandlers.forEach(cb => cb());
+                        this._stopScopeHandlers.forEach((cb) => cb());
                     }
 
                     /**
@@ -77,17 +77,11 @@
                     _initialize() {
                         this._$input = $element.find('input,textarea');
                         this._$inputWrap = $element.find('.w-input-wrap');
+
                         const name = this._name = this._getName();
-
-                        this._$input.on('focus', () => {
-                            this._$inputWrap.addClass('focused');
-                        });
-
-                        this._$input.on('blur', () => {
-                            this._$inputWrap.removeClass('focused');
-                        });
-
                         const formName = $element.closest('form').attr('name');
+
+                        this._setHandlers();
 
                         if (this._name && formName) {
 
@@ -102,6 +96,36 @@
 
                         if ($attrs.autoFocus) {
                             this._$input.focus();
+                        }
+                    }
+
+                    _setHandlers() {
+                        this._$input.on('focus', () => {
+                            this._$inputWrap.addClass('focused');
+                        });
+
+                        this._$input.on('blur', () => {
+                            this._$inputWrap.removeClass('focused');
+                        });
+
+                        if ($attrs.wType === 'number') {
+
+                            const reg = /[0-9.]/;
+                            this._$input.on('keypress', (event) => {
+                                if (event.keyCode != null) {
+                                    const char = String.fromCharCode(event.keyCode);
+                                    if (char != null) {
+                                        if (reg.test(char)) {
+                                            if (char === '.' && this._$input.val().includes('.')) {
+                                                // TODO add separator from locale
+                                                event.preventDefault();
+                                            }
+                                        } else {
+                                            event.preventDefault();
+                                        }
+                                    }
+                                }
+                            });
                         }
                     }
 

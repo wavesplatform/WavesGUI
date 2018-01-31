@@ -47,7 +47,9 @@
                 <div class="body-2 basic-900" w-i18n="count"></div>
                 <w-input-container>
                     <div class="input-like">
-                        <w-input class="embed" type="text"
+                        <w-input class="embed"
+                                 type="text"
+                                 w-type="number"
                                  name="count"
                                  ng-model="$ctrl.count"
                                  w-validator-precision="$ctrl.precision.toString()"
@@ -90,6 +92,7 @@
                 <w-input-container>
                     <w-input type="text"
                              name="precision"
+                             w-type="number"
                              ng-model="$ctrl.precision"
                              required
                              w-validate="number"
