@@ -30,7 +30,11 @@
              */
             getDepositDetails(asset, wavesAddress) {
                 CoinomatService._isSupportedAsset(asset.id);
-                return this._loadPaymentDetails(CURRENCIES[asset.id].gateway, CURRENCIES[asset.id].waves, wavesAddress);
+                const from = CURRENCIES[asset.id].gateway;
+                const to = CURRENCIES[asset.id].waves;
+                return this._loadPaymentDetails(from, to, wavesAddress).then((details) => {
+                    return { address: details.tunnel.wallet_from };
+                });
             }
 
             /**
