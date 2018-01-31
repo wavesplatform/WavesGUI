@@ -155,7 +155,17 @@
             _getBalanceList() {
                 return waves.node.assets.userBalances().then((list) => {
                     return list && list.length ? list : waves.node.assets.balanceList([WavesApp.defaultAssets.WAVES]);
-                }).then((list) => list.map(({ available }) => available));
+                }).then((list) => list.map(({ available }) => available))
+                    .then((list) => {
+                        if (list.some(({ asset }) => asset.id === this.assetId)) {
+                            return list;
+                        } else {
+                            return Waves.Money.fromTokens('0', this.assetId).then((money) => {
+                                list.push(money);
+                                return list;
+                            });
+                        }
+                    });
             }
 
             _onChangeAssetId({ prev }) {
