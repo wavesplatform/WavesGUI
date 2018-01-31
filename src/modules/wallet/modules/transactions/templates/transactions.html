@@ -22,9 +22,9 @@
             </w-radio>
         </w-radio-wrap>
 
-        <!--<w-button class="interface">
+        <w-button class="download" ng-click="$ctrl.exportTransactions()" class="interface">
             <w-i18n>export</w-i18n>
-        </w-button>-->
+        </w-button>
 
     </div>
 
@@ -32,7 +32,8 @@
         <div class="scroll-list">
             <w-transaction-list transaction-type="$ctrl.filter"
                                 search="$ctrl.search"
-                                page-size="1000"></w-transaction-list>
+                                page-size="1000"
+                                transactions="$ctrl.transactions"></w-transaction-list>
         </div>
     </w-scroll-box>
 </div>
