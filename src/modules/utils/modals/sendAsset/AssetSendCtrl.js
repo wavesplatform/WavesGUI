@@ -30,6 +30,7 @@
             constructor(assetId, mirrorId, canChooseAsset) {
                 super($scope);
 
+                this.defaultAssets = WavesApp.defaultAssets;
                 this.tx = Object.create(null);
                 /**
                  * @type {Money}

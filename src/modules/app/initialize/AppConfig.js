@@ -52,6 +52,8 @@
                                         return value.toFormat();
                                     case 'money-currency':
                                         return `${value.toFormat()} ${value.asset.displayName}`;
+                                    case 'BigNumber':
+                                        return value.toFormat();
                                     default:
                                         throw new Error('Wrong format type!');
                                 }

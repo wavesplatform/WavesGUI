@@ -67,6 +67,27 @@
         "title": "Транзакция отправлена!",
         "description": "Вы отправили {{amount}} {{currency}} (${{mirror}})",
         "details": "Посмотреть детали"
+      },
+      "coinomatBTC": {
+        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} BTC",
+        "feeExplanation": "Введенный адрес определен как Bitcoin-адресс, ваши средства будут отправлены на него через шлюз Coinomat."
+      },
+      "coinomatETH": {
+        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} ETH",
+        "feeExplanation": "Введенный адрес определен как Ethereum-адресс, ваши средства будут отправлены на него через шлюз Coinomat."
+      },
+      "coinomatLTC": {
+        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} LTC",
+        "feeExplanation": "Введенный адрес определен как Litecoin-адресс, ваши средства будут отправлены на него через шлюз Coinomat.",
+        "minAmount": "Минимальная сумма вывода - {{minAmount, BigNumber}} LTC"
+      },
+      "coinomatZEC": {
+        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} ZEC",
+        "feeExplanation": "Введенный адрес определен как Zcash-адресс, ваши средства будут отправлены на него через шлюз Coinomat."
+      },
+      "validationError": {
+        "enoughFundsWD": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}} и комиссию шлюза {{getawayFee, BigNumber}}.",
+        "enoughFunds": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}}."
       }
     },
     "deposit": {
