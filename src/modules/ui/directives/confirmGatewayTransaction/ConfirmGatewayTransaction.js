@@ -43,6 +43,7 @@
             targetRecipient: '@',
             tx: '<',
             gatewayDetails: '<',
+            assetKeyName: '<',
             onClickBack: '&'
         },
         templateUrl: 'modules/ui/directives/confirmGatewayTransaction/confirmGatewayTransaction.html',
