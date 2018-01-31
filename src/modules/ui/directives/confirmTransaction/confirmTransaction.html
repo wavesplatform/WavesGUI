@@ -12,18 +12,15 @@
             </div>
         </w-step>
         <w-step>
-
-            <div class="icon icon-tx-success margin-2"></div>
-
-            <h2 class="text-center basic-900" w-i18n="confirmTransaction.success"></h2>
-            <div class="disabled-600 body-2 text-center"
-                 w-i18n="confirmTransaction.description.{{::$ctrl.tx.type}}"
-                 params="$ctrl.tx"></div>
-
-            <w-button class="submit big" ng-click="$ctrl.showTxInfo()">
-                <w-i18n>confirmTransaction.details</w-i18n>
-            </w-button>
-
+            <div class="text-center">
+                <div class="icon-tx-success"></div>
+                <h2 class="text-center basic-900" w-i18n="confirmTransaction.success"></h2>
+                <div class="disabled-600 margin-4 body-2 text-center"
+                     w-i18n="confirmTransaction.description.{{::$ctrl.tx.type}}" params="$ctrl.tx"></div>
+                <w-button class="submit half big" ng-click="$ctrl.showTxInfo()">
+                    <w-i18n>confirmTransaction.details</w-i18n>
+                </w-button>
+            </div>
         </w-step>
     </w-step-by-step>
 </div>

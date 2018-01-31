@@ -22,13 +22,13 @@
             }
 
             confirm() {
-                this.sendTransaction().then(({ id }) => {
-                    this.tx.id = id;
+                // this.sendTransaction().then(({ id }) => {
+                //     this.tx.id = id;
                     this.step++;
-                }).catch((e) => {
-                    console.error(e);
-                    console.error('Transaction error!');
-                });
+                // }).catch((e) => {
+                //     console.error(e);
+                //     console.error('Transaction error!');
+                // });
             }
 
             showTxInfo() {

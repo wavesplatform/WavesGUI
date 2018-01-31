@@ -9,7 +9,7 @@
     <div class="value">{{::$ctrl.transaction.assetId}}</div>
 </div>
 
-<div class="section">
+<div class="section" ng-if="$ctrl.transaction.reissuable != null">
     <div class="key" w-i18n="transaction.modals.type"></div>
     <div class="value" w-i18n="transaction.reissuable.{{::$ctrl.transaction.reissuable}}"></div>
 </div>
