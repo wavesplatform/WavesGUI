@@ -70,20 +70,19 @@
       },
       "coinomatBTC": {
         "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} BTC",
-        "feeExplanation": "Введенный адрес определен как Bitcoin-адресс, ваши средства будут отправлены на него через шлюз Coinomat."
+        "feeExplanation": "Введенный адрес определен как Bitcoin-адресс, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} BTC, максимальная — {{max, BigNumber}} BTC."
       },
       "coinomatETH": {
         "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} ETH",
-        "feeExplanation": "Введенный адрес определен как Ethereum-адресс, ваши средства будут отправлены на него через шлюз Coinomat."
+        "feeExplanation": "Введенный адрес определен как Ethereum-адресс, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} ETH, максимальная — {{max, BigNumber}} ETH."
       },
       "coinomatLTC": {
         "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} LTC",
-        "feeExplanation": "Введенный адрес определен как Litecoin-адресс, ваши средства будут отправлены на него через шлюз Coinomat.",
-        "minAmount": "Минимальная сумма вывода - {{minAmount, BigNumber}} LTC"
+        "feeExplanation": "Введенный адрес определен как Litecoin-адресс, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} LTC, максимальная — {{max, BigNumber}} LTC."
       },
       "coinomatZEC": {
         "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} ZEC",
-        "feeExplanation": "Введенный адрес определен как Zcash-адресс, ваши средства будут отправлены на него через шлюз Coinomat."
+        "feeExplanation": "Введенный адрес определен как Zcash-адресс, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} ZEC, максимальная — {{max, BigNumber}} ZEC."
       },
       "validationError": {
         "notEnoughFundsWithdraw": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}} и комиссию шлюза {{getawayFee, BigNumber}} {{currency}}.",

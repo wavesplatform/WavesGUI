@@ -70,20 +70,19 @@
       },
       "coinomatBTC": {
         "feeTitle": "Gateway fee is {{fee, BigNumber}} BTC",
-        "feeExplanation": "We detected Bitcoin address and will send your money through Coinomat gateway to that address."
+        "feeExplanation": "We detected Bitcoin address and will send your money through Coinomat gateway to that address. Minimum amount is {{min, BigNumber}} BTC, maximum amount is {{max, BigNumber}} BTC."
       },
       "coinomatETH": {
         "feeTitle": "Gateway fee is {{fee, BigNumber}} ETH",
-        "feeExplanation": "We detected Ethereum address and will send your money through Coinomat gateway to that address."
+        "feeExplanation": "We detected Ethereum address and will send your money through Coinomat gateway to that address. Minimum amount is {{min, BigNumber}} ETH, maximum amount is {{max, BigNumber}} ETH."
       },
       "coinomatLTC": {
         "feeTitle": "Gateway fee is {{fee, BigNumber}} LTC",
-        "feeExplanation": "We detected Litecoin address and will send your money through Coinomat gateway to that address.",
-        "minAmount": "The minimum amount of withdraw is {{minAmount, BigNumber}} LTC"
+        "feeExplanation": "We detected Litecoin address and will send your money through Coinomat gateway to that address. Minimum amount is {{min, BigNumber}} LTC, maximum amount is {{max, BigNumber}} LTC."
       },
       "coinomatZEC": {
         "feeTitle": "Gateway fee is {{fee, BigNumber}} ZEC",
-        "feeExplanation": "We detected Zcash address and will send your money through Coinomat gateway to that address."
+        "feeExplanation": "We detected Zcash address and will send your money through Coinomat gateway to that address. Minimum amount is {{min, BigNumber}} ZEC, maximum amount is {{max, BigNumber}} ZEC."
       },
       "validationError": {
         "notEnoughFundsWithdraw": "You don't have enough funds to pay the required fees. You must pay {{fee, money-currency}} transaction fee and {{getawayFee, BigNumber}} {{currency}} gateway fee.",

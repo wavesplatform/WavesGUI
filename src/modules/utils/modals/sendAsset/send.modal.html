@@ -64,6 +64,20 @@
                     </w-input-container>
                 </div>
 
+                <div ng-if="$ctrl.outerSendMode && $ctrl.assetKeyName" class="row">
+                    <div class="warning-plate">
+                        <div class="body-2 warning-500"
+                             w-i18n="modal.send.{{$ctrl.assetKeyName}}.feeTitle"
+                             params="{fee: $ctrl.gatewayDetails.gatewayFee}"></div>
+                        <div class="footnote-1 basic-500"
+                             w-i18n="modal.send.{{$ctrl.assetKeyName}}.feeExplanation"
+                             params="{
+                               min: $ctrl.gatewayDetails.minimumAmount,
+                               max: $ctrl.gatewayDetails.maximumAmount
+                             }"></div>
+                    </div>
+                </div>
+
                 <w-input-container class="row">
                     <div class="body-2" w-i18n="modal.send.amount"></div>
                     <div class="amount-wrap" ng-class="{'no-mirror': $ctrl.noMirror}">
@@ -98,28 +112,6 @@
                         <w-i18n>modal.send.errors.max</w-i18n>
                     </w-input-error>
                 </w-input-container>
-
-                <div ng-if="$ctrl.outerSendMode && $ctrl.assetKeyName" class="row">
-                    <div class="warning-plate">
-                        <div class="body-2 warning-500"
-                             w-i18n="modal.send.{{$ctrl.assetKeyName}}.feeTitle"
-                             params="{fee: $ctrl.gatewayDetails.gatewayFee}"></div>
-                        <div class="footnote-1 basic-500"
-                             w-i18n="modal.send.{{$ctrl.assetKeyName}}.feeExplanation"></div>
-                    </div>
-                </div>
-
-                <!-- if LTC -->
-                <div ng-if="$ctrl.outerSendMode && $ctrl.assetKeyName && $ctrl.assetId === $ctrl.defaultAssets.LTC"
-                     class="row">
-                    <div class="warning-plate">
-                        <div class="body-2 warning-500"
-                             w-i18n="modal.send.coinomatLTC.minAmount"
-                             params="{minAmount: $ctrl.gatewayDetails.minimumAmount}">
-                        </div>
-                    </div>
-                </div>
-                <!-- endif -->
 
                 <div ng-if="!$ctrl.outerSendMode" class="row">
                     <div class="body-2" w-i18n="modal.send.description"></div>
