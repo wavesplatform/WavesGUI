@@ -99,8 +99,13 @@
     "details": "View details",
     "description": {
       "send": "You have sent {{amount, money-currency}}",
+      "circular": "You have sent {{amount, money-currency}} to yourself",
       "issue": "You have generated {{quantityStr}} {{name}}",
-      "circular": "You have sent {{amount, money-currency}} to yourself"
+      "reissue": "You have generated additional {{quantityStr}} {{name}}",
+      "burn": "You have burned {{quantityStr}} {{name}}",
+      "lease-out": "You have leased {{amount, money-currency}}",
+      "cancel-leasing": "You have canceled a leasing transaction",
+      "create-alias": "You have created an alias"
     }
   },
   "confirmGatewayTransaction": {
