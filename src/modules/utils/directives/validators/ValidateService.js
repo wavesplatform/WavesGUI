@@ -35,8 +35,9 @@
             }
 
             @notNullArgs
+            @toBigNumberArgs
             precision(inputValue, precision) {
-                const [int, dec] = inputValue.split('.'); //TODO add separator
+                const [int, dec] = inputValue.toFixed().split('.'); //TODO add separator
                 return dec ? dec.length <= precision : true; //TODO remove empty zero
             }
 
@@ -44,6 +45,11 @@
             byte(inputValue, bytes) {
                 const blob = new Blob([inputValue], { type: 'text/html' });
                 return blob.size <= bytes;
+            }
+
+            @notNullArgs
+            integer(inputValue) {
+                return inputValue.round().eq(inputValue);
             }
 
             static toBigNumber(item) {
@@ -67,7 +73,7 @@
         function notNullArgs(target, key, descriptor) {
             const origin = descriptor.value;
             descriptor.value = function (...args) {
-                if (args.some((value) => value == null)) {
+                if (args.some((value) => value == null || value === '')) {
                     return true;
                 } else {
                     return origin.call(this, ...args);

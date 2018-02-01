@@ -42,7 +42,7 @@
                         <div class="body-2" w-i18n="modal.send.recipient"></div>
                         <div class="read-address-wrap">
                             <w-input type="text"
-                                     w-validate="address"
+                                     w-validate
                                      name="recipient"
                                      ng-model="$ctrl.recipient"
                                      placeholder="modal.send.placeholderRecipient"
@@ -88,13 +88,16 @@
 
                         </div>
                     </div>
-                    <w-input-error message="asset-required">
+                    <w-input-error message="gt">
                         <w-i18n>inputs.errors.required</w-i18n>
                     </w-input-error>
-                    <w-input-error message="input-asset">
+                    <w-input-error message="required">
+                        <w-i18n>inputs.errors.required</w-i18n>
+                    </w-input-error>
+                    <w-input-error message="precision">
                         <w-i18n>inputs.errors.invalidAsset</w-i18n>
                     </w-input-error>
-                    <w-input-error message="asset-max">
+                    <w-input-error message="lte">
                         <w-i18n>modal.send.errors.max</w-i18n>
                     </w-input-error>
                 </w-input-container>

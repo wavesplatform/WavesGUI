@@ -9,19 +9,28 @@
 
         class InputContainer {
 
+            /**
+             * @type {Array.<HTMLInputElement>}
+             */
+            get inputs() {
+                return $element.find('input')
+                    .toArray();
+            }
+
+            /**
+             * @type {ngModel.NgModelController[]}
+             */
+            get target() {
+                return this.inputs.map((input) => {
+                    return this.form[input.getAttribute('name')];
+                });
+            }
+
             constructor() {
-                /**
-                 * @type {ngModel.NgModelController[]}
-                 */
-                this.target = null;
                 /**
                  * @type {ngForm}
                  */
                 this.form = null;
-                /**
-                 * @type {Array.<HTMLInputElement>}
-                 */
-                this.inputs = null;
             }
 
             $postLink() {
@@ -32,11 +41,6 @@
                     throw new Error('Can\'t get form!');
                 }
 
-                this.inputs = $element.find('input')
-                    .toArray();
-                this.target = this.inputs.map((input) => {
-                    return this.form[input.getAttribute('name')];
-                });
             }
 
         }

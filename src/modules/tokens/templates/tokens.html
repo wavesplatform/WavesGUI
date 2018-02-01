@@ -95,18 +95,16 @@
                              w-type="number"
                              ng-model="$ctrl.precision"
                              required
-                             w-validate="number"
-                             integer
-                             include-range-min
-                             include-range-max
-                             min="0"
-                             max="8"
+                             w-validator-lte="'8'"
+                             w-validator-gte="'0'"
+                             w-validator-integer
                              placeholder="placeholders.precision"
                              w-i18n-attr="placeholder"></w-input>
-                    <w-input-error message="min">
+
+                    <w-input-error message="lte">
                         <w-i18n>validators.minValuePrecision</w-i18n>
                     </w-input-error>
-                    <w-input-error message="max">
+                    <w-input-error message="gte">
                         <w-i18n>validators.maxValuePrecision</w-i18n>
                     </w-input-error>
                     <w-input-error message="required">

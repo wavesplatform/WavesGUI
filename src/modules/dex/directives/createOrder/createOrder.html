@@ -64,9 +64,10 @@
                                 <div class="input-like tiny">
                                     <w-input class="tiny embed no-validate-icons"
                                              type="text"
-                                             w-validate="asset"
-                                             asset-id="$ctrl.amountBalance.asset.id"
-                                             max-balance="$ctrl.maxAmountBalance"
+                                             w-type="number"
+                                             w-validator-precision="$ctrl.amountBalance.asset.precision"
+                                             w-validator-lte="$ctrl.maxAmountBalance"
+                                             w-validator-gt="'0'"
                                              name="amount"
                                              ng-model="$ctrl.amount"
                                              required></w-input>
@@ -78,17 +79,20 @@
                                 <w-input-error message="required">
                                     <w-i18n>directives.createOrder.errors.required</w-i18n>
                                 </w-input-error>
-                                <w-input-error message="asset-input">
+                                <w-input-error message="gt">
+                                    <w-i18n>directives.createOrder.errors.required</w-i18n>
+                                </w-input-error>
+                                <w-input-error message="precision">
                                     <w-i18n params="{precision: $ctrl.amountBalance.asset.precision}">
                                         directives.createOrder.errors.precision
                                     </w-i18n>
                                 </w-input-error>
-                                <w-input-error message="asset-max">
+                                <w-input-error message="lte">
                                     <w-i18n params="{name: $ctrl.amountBalance.asset.displayName}">
                                         directives.createOrder.errors.balance
                                     </w-i18n>
                                 </w-input-error>
-                                <div ng-if="$ctrl.cantByOrder" class="error active error-400">
+                                <div ng-show="$ctrl.cantByOrder" class="error active error-400">
                                     <w-i18n params="{name: $ctrl.priceBalance.asset.displayName}">
                                         directives.createOrder.errors.balance
                                     </w-i18n>
@@ -103,8 +107,9 @@
                                 <div class="input-like tiny">
                                     <w-input class="tiny embed no-validate-icons"
                                              type="text"
-                                             w-validate="asset"
-                                             asset-id="$ctrl.priceBalance.asset.id"
+                                             w-type="number"
+                                             w-validator-precision="$ctrl.priceBalance.asset.precision"
+                                             w-validator-gt="'0'"
                                              name="price"
                                              ng-model="$ctrl.price"
                                              required></w-input>
@@ -112,10 +117,13 @@
                                         <div class="caption-1 disabled-500">{{$ctrl.priceDisplayName}}</div>
                                     </div>
                                 </div>
-                                <w-input-error message="asset-input">
+                                <w-input-error message="precision">
                                     <w-i18n params="{precision: $ctrl.priceBalance.asset.precision}">
                                         directives.createOrder.errors.precision
                                     </w-i18n>
+                                </w-input-error>
+                                <w-input-error message="gt">
+                                    <w-i18n>directives.createOrder.errors.required</w-i18n>
                                 </w-input-error>
                                 <w-input-error message="required">
                                     <w-i18n>directives.createOrder.errors.required</w-i18n>
