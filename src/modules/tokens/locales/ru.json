@@ -8,15 +8,15 @@
   "fee": "Комиссия 1 WAVES",
   "create": "Выпустить",
   "help": {
-    "name": "Пожалуйста, используйте только латинские буквы",
+    "name": "Пожалуйста, используйте только латинские буквы"
   },
   "helpIcon": {
     "totalTokens": {
-      "headline": "This field defines the total tokens supply that your asset will contain.",
-      "reissuable": "Reissuability allows for additional tokens creation that will be added to the total token supply of asset.",
-      "notReissuable": "A Non Reissuability asset will be permanently limited to the total token supply defined on this process. "
+      "headline": "Количество выпускаемых токенов.",
+      "reissuable": "Перевыпускаемый тип позволяет при необходимости увеличить количество токенов.",
+      "notReissuable": "Количество токенов неперевыпускаемого типа не может быть изменено в будущем. "
     },
-    "demicals": "В этом поле укажите, сколько знаков после запятой будет у токена"
+    "demicals": "Это поле определяет, сколько знаков после запятой будет у создаваемого токена."
   },
   "validators": {
     "nameLen": "Имя токена должно содержать от 4 до 16 символов",
