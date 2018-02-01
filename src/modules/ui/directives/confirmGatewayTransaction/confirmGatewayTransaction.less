@@ -1,6 +1,29 @@
+@import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
+
 w-confirm-gateway-transaction {
   display: block;
   width: 100%;
+
+  .section {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    justify-content: space-between;
+    padding: 13px 0;
+    border-bottom: 1px dotted @color-basic-200;
+
+    .key {
+      .footnote-1();
+      color: @color-disabled-600;
+    }
+
+    .value {
+      .footnote-1();
+      color: @color-basic-900;
+    }
+  }
 
   .buttons-wrapper {
     display: flex;

@@ -19,7 +19,11 @@
 
             confirm() {
                 return user.getSeed().then(({ keyPair }) => {
-                    waves.node.assets.transfer({ ...this.tx, keyPair }).then(({ id }) => {
+
+                    let amount = this.tx.amount;
+                    amount = amount.cloneWithTokens(amount.getTokens().add(this.gatewayDetails.gatewayFee));
+
+                    waves.node.assets.transfer({ ...this.tx, amount, keyPair }).then(({ id }) => {
                         this.tx.id = id;
                         this.step++;
                         analytics.push('Gateway', 'Gateway.Send.Success', this.tx.amount);
@@ -28,6 +32,7 @@
                         console.error('Gateway transaction error!');
                         analytics.push('Gateway', 'Gateway.Send.Error', this.tx.amount);
                     });
+
                 });
             }
 
@@ -40,10 +45,9 @@
 
     angular.module('app.ui').component('wConfirmGatewayTransaction', {
         bindings: {
-            targetRecipient: '@',
             tx: '<',
             gatewayDetails: '<',
-            assetKeyName: '<',
+            targetRecipient: '<',
             onClickBack: '&'
         },
         templateUrl: 'modules/ui/directives/confirmGatewayTransaction/confirmGatewayTransaction.html',

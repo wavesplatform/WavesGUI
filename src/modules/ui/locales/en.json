@@ -113,6 +113,11 @@
     "confirm": "Confirm",
     "success": "Your transaction is on the way!",
     "warningTitle": "External blockchain transaction",
-    "warningText": "You're about to send {{amount, money-currency}} to {{address}} via the gateway"
+    "warningText": "You're about to send money to {{name}} blockchain.",
+    "fieldAddress": "Target address",
+    "fieldAmount": "Amount",
+    "fieldFee": "Fee",
+    "fieldGatewayAddress": "Gateway address",
+    "fieldGatewayFee": "Gateway fee"
   }
 }

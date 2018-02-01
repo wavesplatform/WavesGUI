@@ -107,5 +107,17 @@
       "cancel-leasing": "Вы отменили транзакцию лизинга",
       "create-alias": "Вы создали алиас"
     }
+  },
+  "confirmGatewayTransaction": {
+    "back": "Назад",
+    "confirm": "Подтвердить",
+    "success": "Ваша транзакция отправлена!",
+    "warningTitle": "Транзакция во внешний блокчейн",
+    "warningText": "Вы собираетесь отправить деньги в блокчейн сети {{name}}.",
+    "fieldAddress": "Целевой адрес",
+    "fieldAmount": "Количество",
+    "fieldFee": "Комиссия",
+    "fieldGatewayAddress": "Адрес шлюза",
+    "fieldGatewayFee": "Комиссия шлюза"
   }
 }

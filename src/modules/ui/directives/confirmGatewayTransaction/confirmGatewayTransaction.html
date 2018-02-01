@@ -2,23 +2,49 @@
     <w-step-by-step active-step="$ctrl.step">
         <w-step>
 
-            <!--TODO : resolve locales differently-->
-            <!--TODO : maybe move gateway warnings to a separate component-->
-            <div w-i18n-ns="app.utils" ng-if="$ctrl.assetKeyName" class="row margin-2">
+            <div ng-if="$ctrl.tx" class="row margin-2">
                 <div class="warning-plate">
                     <div class="body-2 warning-500"
-                         w-i18n="modal.send.{{::$ctrl.assetKeyName}}.feeTitle"
-                         params="{fee: $ctrl.gatewayDetails.gatewayFee}"></div>
+                         w-i18n="confirmGatewayTransaction.warningTitle"></div>
                     <div class="footnote-1 basic-500"
-                         w-i18n="modal.send.{{::$ctrl.assetKeyName}}.feeExplanation"
-                         params="{
-                           min: $ctrl.gatewayDetails.minimumAmount,
-                           max: $ctrl.gatewayDetails.maximumAmount
-                         }"></div>
+                         w-i18n="confirmGatewayTransaction.warningText"
+                         params="{name: $ctrl.tx.amount.asset.name}"></div>
                 </div>
             </div>
 
-            <!--TODO : add info transaction (amount, address, Waves address, etc)-->
+            <div ng-if="$ctrl.tx && $ctrl.gatewayDetails && $ctrl.targetRecipient" class="row margin-2">
+
+                <div class="section">
+                    <div class="key"
+                         w-i18n="confirmGatewayTransaction.fieldAddress"></div>
+                    <div class="value">{{::$ctrl.targetRecipient}}</div>
+                </div>
+
+                <div class="section">
+                    <div class="key"
+                         w-i18n="confirmGatewayTransaction.fieldAmount"></div>
+                    <div class="value">{{::$ctrl.tx.amount.toFormat()}} {{::$ctrl.tx.amount.asset.displayName}}</div>
+                </div>
+
+                <div class="section">
+                    <div class="key"
+                         w-i18n="confirmGatewayTransaction.fieldFee"></div>
+                    <div class="value">{{::$ctrl.tx.fee}}</div>
+                </div>
+
+                <div class="section">
+                    <div class="key"
+                         w-i18n="confirmGatewayTransaction.fieldGatewayAddress"></div>
+                    <div class="value">{{::$ctrl.gatewayDetails.address}}</div>
+                </div>
+
+                <div class="section">
+                    <div class="key"
+                         w-i18n="confirmGatewayTransaction.fieldGatewayFee"></div>
+                    <div class="value">{{::$ctrl.gatewayDetails.gatewayFee}} {{::$ctrl.tx.amount.asset.displayName}}</div>
+                </div>
+
+            </div>
 
             <div class="buttons-wrapper">
                 <w-button class="big" ng-click="$ctrl.onClickBack()">
