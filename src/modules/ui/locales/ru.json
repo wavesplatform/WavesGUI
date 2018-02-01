@@ -91,5 +91,33 @@
     "noTransactionsTitle": "Пока ничего нет…",
     "noTransactionsDescription": "У вас пока что нет транзакций"
   },
-  "copySuccess": "Данные скопированы"
+  "copySuccess": "Данные скопированы",
+  "confirmTransaction": {
+    "back": "Назад",
+    "confirm": "Подтвердить",
+    "success": "Ваша транзакция отправлена!",
+    "details": "Подробнее",
+    "description": {
+      "send": "Вы отправили {{amount, money-currency}}",
+      "circular": "Вы отправили себе {{amount, money-currency}}",
+      "issue": "Вы выпустили {{quantityStr}} {{name}}",
+      "reissue": "Вы довыпустили {{quantityStr}} {{name}}",
+      "burn": "Вы сожгли {{quantityStr}} {{name}}",
+      "lease-out": "Вы отправили в лизинг {{amount, money-currency}}",
+      "cancel-leasing": "Вы отменили транзакцию лизинга",
+      "create-alias": "Вы создали алиас"
+    }
+  },
+  "confirmGatewayTransaction": {
+    "back": "Назад",
+    "confirm": "Подтвердить",
+    "success": "Ваша транзакция отправлена!",
+    "warningTitle": "Транзакция во внешний блокчейн",
+    "warningText": "Вы собираетесь отправить деньги в блокчейн сети {{name}}.",
+    "fieldAddress": "Целевой адрес",
+    "fieldAmount": "Количество",
+    "fieldFee": "Комиссия",
+    "fieldGatewayAddress": "Адрес шлюза",
+    "fieldGatewayFee": "Комиссия шлюза"
+  }
 }

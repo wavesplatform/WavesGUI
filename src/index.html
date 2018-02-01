@@ -254,6 +254,7 @@
                 defaultResolution: '60'
             },
             modules: [],
+            minAliasLength: 4,
             maxAliasLength: 30,
             getLocaleData: function () {
                 return WavesApp.localize[i18next.language];
@@ -276,7 +277,10 @@
     </script>
 
     <!-- CSS -->
+
+    {{#if isWeb}}
     <base href="/">
+    {{/if}}
 
 </head>
 
@@ -358,7 +362,7 @@
                     {
                         id: 'dex',
                         data: {
-                            url:'/dex?assetId1&assetId2',
+                            url: '/dex?assetId1&assetId2',
                             reloadOnSearch: false,
                             views: [{ name: 'mainContent' }]
                         }
@@ -380,6 +384,7 @@
      * @property {string} version
      * @property {string} type
      * @property {Object} localize
+     * @property {number} minAliasLength
      * @property {number} maxAliasLength
      * @property {object} network
      * @property {string} network.code

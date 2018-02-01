@@ -104,6 +104,7 @@
                  * @type {Array<string>}
                  */
                 this.activeClasses = [];
+                this._changeLangHandler = null;
 
                 /**
                  * Configure library generation avatar by address
@@ -113,6 +114,7 @@
                 this._setHandlers();
                 this._stopLoader();
                 this._initializeLogin();
+                this._initializeOutLinks();
             }
 
             /**
@@ -123,18 +125,51 @@
             }
 
             /**
+             * Initialize handler for out links for electron
+             * @private
+             */
+            _initializeOutLinks() {
+                if (WavesApp.isDesktop()) {
+                    $(document).on('click', '[target="_blank"]', (e) => {
+                        const $link = $(e.currentTarget);
+                        const shell = require('electron').shell;
+                        e.preventDefault();
+
+                        shell.openExternal($link.attr('href'));
+                    });
+                }
+            }
+
+            _listenChangeLanguage() {
+                this._changeLangHandler = () => {
+                    localStorage.setItem('lng', i18next.language);
+                };
+                i18next.on('languageChanged', this._changeLangHandler);
+            }
+
+            _stopListenChangeLanguage() {
+                i18next.off('languageChanged', this._changeLangHandler);
+                this._changeLangHandler = null;
+            }
+
+            /**
              * @private
              */
             _initializeLogin() {
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => item.id);
+
+                this._listenChangeLanguage();
                 const stop = $rootScope.$on('$stateChangeStart', (event, state, params) => {
                     stop();
+
                     if (START_STATES.indexOf(state.name) === -1) {
                         event.preventDefault();
                     }
+
                     this._login(state)
                         .then(() => {
+                            this._stopListenChangeLanguage();
                             if (START_STATES.indexOf(state.name) === -1) {
                                 $state.go(state.name, params);
                             } else {
@@ -238,8 +273,7 @@
              * @private
              */
             _getImagesReadyPromise() {
-                return fetch(`/img/images-list.json?v=${WavesApp.version}`)
-                    .then((r) => r.json())
+                return $.ajax({ url: `/img/images-list.json?v=${WavesApp.version}`, dataType: 'json' })
                     .then((list) => {
                         return Promise.all(list.map(AppRun.getLoadImagePromise(list.length)));
                     });

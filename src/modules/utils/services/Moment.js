@@ -50,7 +50,7 @@
              * @return {string}
              */
             format(pattern) {
-                return tsUtils.date(pattern)(this.date);
+                return tsUtils.date(pattern)(this._date);
             }
 
             /**

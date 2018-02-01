@@ -91,5 +91,33 @@
     "noTransactionsTitle": "Nothing Here…",
     "noTransactionsDescription": "You do not have any transactions"
   },
-  "copySuccess": "The data is copied"
+  "copySuccess": "The data is copied",
+  "confirmTransaction": {
+    "back": "Go Back",
+    "confirm": "Confirm",
+    "success": "Your transaction is on the way!",
+    "details": "View details",
+    "description": {
+      "send": "You have sent {{amount, money-currency}}",
+      "circular": "You have sent {{amount, money-currency}} to yourself",
+      "issue": "You have generated {{quantityStr}} {{name}}",
+      "reissue": "You have generated additional {{quantityStr}} {{name}}",
+      "burn": "You have burned {{quantityStr}} {{name}}",
+      "lease-out": "You have leased {{amount, money-currency}}",
+      "cancel-leasing": "You have canceled a leasing transaction",
+      "create-alias": "You have created an alias"
+    }
+  },
+  "confirmGatewayTransaction": {
+    "back": "Back",
+    "confirm": "Confirm",
+    "success": "Your transaction is on the way!",
+    "warningTitle": "External blockchain transaction",
+    "warningText": "You're about to send money to {{name}} blockchain.",
+    "fieldAddress": "Target address",
+    "fieldAmount": "Amount",
+    "fieldFee": "Fee",
+    "fieldGatewayAddress": "Gateway address",
+    "fieldGatewayFee": "Gateway fee"
+  }
 }

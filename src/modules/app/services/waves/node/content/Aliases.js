@@ -24,7 +24,7 @@
 
             /**
              * Get alias list by user
-             * @return {Promise<string>}
+             * @return {Promise<string[]>}
              */
             getAliasList() {
                 return Waves.API.Node.v2.addresses.aliasList(user.address)

@@ -24,18 +24,11 @@
     },
     "startLease": {
       "title": "Передать в лизинг",
-      "titleComplete": "Передача в лизинг выполнена",
       "balance": "Баланс",
       "recipient": "Получатель",
       "amount": "Количество",
       "start": "Передать в лизинг",
-      "back": "Вернуться",
-      "confirm": "Подтвердить",
-      "details": "Посмотреть детали",
-      "recipientConfirm": "На адрес ноды",
-      "fee": "Комиссия",
-      "leaseComplete": "Транзакция отправлена!",
-      "leaseCompleteDesc": "Вы передали в лизинг {{amount}} WAVES."
+      "fee": "Комиссия"
     },
     "qr": {
       "title": "Ваш адрес",
@@ -74,6 +67,26 @@
         "title": "Транзакция отправлена!",
         "description": "Вы отправили {{amount}} {{currency}} (${{mirror}})",
         "details": "Посмотреть детали"
+      },
+      "coinomatBTC": {
+        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} BTC",
+        "feeExplanation": "Введенный адрес определен как Bitcoin-адресс, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} BTC, максимальная — {{max, BigNumber}} BTC."
+      },
+      "coinomatETH": {
+        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} ETH",
+        "feeExplanation": "Введенный адрес определен как Ethereum-адресс, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} ETH, максимальная — {{max, BigNumber}} ETH."
+      },
+      "coinomatLTC": {
+        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} LTC",
+        "feeExplanation": "Введенный адрес определен как Litecoin-адресс, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} LTC, максимальная — {{max, BigNumber}} LTC."
+      },
+      "coinomatZEC": {
+        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} ZEC",
+        "feeExplanation": "Введенный адрес определен как Zcash-адресс, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} ZEC, максимальная — {{max, BigNumber}} ZEC."
+      },
+      "validationError": {
+        "notEnoughFundsWithdraw": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}} и комиссию шлюза {{getawayFee, BigNumber}} {{currency}}.",
+        "notEnoughFunds": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}}."
       }
     },
     "deposit": {
@@ -84,7 +97,7 @@
       "scanQrCode": "Просканируйте QR-код",
       "pleaseNote": "Обратите внимание, что шлюз не взимает комиссию за эту операцию.",
       "coinomatBTC": {
-        "warningTitle": "Отправляйте только BTCна этот адрес",
+        "warningTitle": "Отправляйте только BTC на этот адрес",
         "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
         "warningMinAmountTitle": "Минимальная сумма депозита 0.001 BTC.",
         "warningMinAmountText": "Если вы отправите меньше чем 0.001 BTC, вы потеряете деньги.",

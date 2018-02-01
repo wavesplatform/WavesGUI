@@ -81,24 +81,15 @@
 
             generate() {
                 const precision = Number(this.precision.toString());
-                const amount = this.count.mul(Math.pow(10, precision)).toString();
 
-                modalManager.showCustomModal({
-                    ns: 'app.tokens',
-                    controller: 'TokenGenerateModalCtrl',
-                    titleContent: '{{$ctrl.title}}',
-                    mod: 'tokens-generate-modal',
-                    contentUrl: 'modules/tokens/templates/generate.modal.html',
-                    locals: {
-                        shownAmount: this.count.toFormat(precision),
-                        name: this.name,
-                        issue: this.issue,
-                        description: this.description,
-                        amount,
-                        precision
-                    }
-                })
-                    .then(() => this._reset());
+                return modalManager.showConfirmTx('issue', {
+                    name: this.name,
+                    description: this.description,
+                    reissuable: this.issue,
+                    quantity: this.count,
+                    precision,
+                    fee: this._fee
+                }).then(() => this._reset());
             }
 
             /**
