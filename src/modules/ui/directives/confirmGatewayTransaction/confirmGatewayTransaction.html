@@ -1,0 +1,37 @@
+<div w-i18n-ns="app.ui" class="transaction-confirm">
+    <w-step-by-step active-step="$ctrl.step">
+        <w-step>
+
+            <!--TODO : resolve locales differently-->
+            <!--TODO : maybe move gateway warnings to a separate component-->
+            <div w-i18n-ns="app.utils" ng-if="$ctrl.assetKeyName" class="row margin-2">
+                <div class="warning-plate">
+                    <div class="body-2 warning-500"
+                         w-i18n="modal.send.{{::$ctrl.assetKeyName}}.feeTitle"
+                         params="{fee: $ctrl.gatewayDetails.gatewayFee}"></div>
+                    <div class="footnote-1 basic-500"
+                         w-i18n="modal.send.{{::$ctrl.assetKeyName}}.feeExplanation"
+                         params="{
+                           min: $ctrl.gatewayDetails.minimumAmount,
+                           max: $ctrl.gatewayDetails.maximumAmount
+                         }"></div>
+                </div>
+            </div>
+
+            <!--TODO : add info transaction (amount, address, Waves address, etc)-->
+
+            <div class="buttons-wrapper">
+                <w-button class="big" ng-click="$ctrl.onClickBack()">
+                    <w-i18n>confirmGatewayTransaction.back</w-i18n>
+                </w-button>
+                <w-button class="big submit" w-next-step ng-click="$ctrl.confirm()">
+                    <w-i18n>confirmGatewayTransaction.confirm</w-i18n>
+                </w-button>
+            </div>
+        </w-step>
+        <w-step>
+            <div class="icon icon-tx-success margin-2"></div>
+            <h2 class="text-center basic-900" w-i18n="confirmGatewayTransaction.success"></h2>
+        </w-step>
+    </w-step-by-step>
+</div>

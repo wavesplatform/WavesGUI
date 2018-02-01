@@ -9,12 +9,16 @@
      * @param {app.utils} utils
      * @param {User} user
      * @param {EventManager} eventManager
+     * @param {NotificationManager} notificationManager
      * @param {function} createPoll
      * @param {@constructor PollComponent} PollComponent
      * @param {ModalManager} modalManager
+     * @param outerBlockchains
+     * @param {GatewayService} gatewayService
      * @return {AssetSendCtrl}
      */
-    const controller = function ($scope, $mdDialog, waves, Base, utils, user, eventManager, createPoll, modalManager) {
+    const controller = function ($scope, $mdDialog, waves, Base, utils, user, eventManager, notificationManager,
+                                 createPoll, modalManager, outerBlockchains, gatewayService) {
 
         class AssetSendCtrl extends Base {
 
@@ -26,6 +30,12 @@
             constructor(assetId, mirrorId, canChooseAsset) {
                 super($scope);
 
+                this.defaultAssets = WavesApp.defaultAssets;
+                this.tx = Object.create(null);
+                /**
+                 * @type {Money}
+                 */
+                this.fee = null;
                 /**
                  * @type {BigNumber}
                  */
@@ -75,52 +85,41 @@
                  */
                 this.noMirror = false;
                 /**
-                 * Id from created transaction
-                 * @type {string}
-                 * @private
+                 * @type {boolean}
                  */
-                this._transactionId = null;
+                this.outerSendMode = false;
+                /**
+                 * @type {string}
+                 */
+                this.assetKeyName = '';
+                /**
+                 * @type {object}
+                 */
+                this.gatewayDetails = null;
+                /**
+                 * @type {boolean}
+                 */
+                this.hasComission = true;
+                /**
+                 * @type {Array}
+                 */
+                this.feeList = null;
 
                 this.observe('amount', this._onChangeAmount);
                 this.observe('amountMirror', this._onChangeAmountMirror);
                 this.observe('assetId', this._onChangeAssetId);
+                this.observe('recipient', this._updateGatewayDetails);
+                this.observe(['gatewayDetails', 'fee', 'amount'], this._currentHasCommission);
 
                 this._onChangeAssetId({});
 
-                if (this.canChooseAsset) {
-                    createPoll(this, this._getBalanceList, this._setAssets, 1000, { isBalance: true });
-                } else {
-                    createPoll(this, this._getAsset, this._setAssets, 1000, { isBalance: true });
-                }
-            }
-
-            send() {
-                return utils.whenAll([
-                    user.getSeed(),
-                    Waves.Money.fromTokens(this.amount, this.balance.asset.id)
-                ])
-                    .then(([seed, amount]) => waves.node.assets.transfer({
-                        fee: this.fee,
-                        keyPair: seed.keyPair,
-                        attachment: this.attachment,
-                        recipient: this.recipient,
-                        amount
-                    }))
-                    .then((transaction) => {
-                        analytics.push('Send', 'Send.Success', this.assetId, this.amount.toString());
-                        this._transactionId = transaction.id;
-                        this.step++;
-                    })
-                    .catch(() => {
-                        analytics.push('Send', 'Send.Error', this.assetId, this.amount.toString());
-                        // TODO add error;
-                    });
+                createPoll(this, this._getBalanceList, this._setAssets, 1000, { isBalance: true });
             }
 
             fillMax() {
+                // TODO : consider gateway fee
                 if (this.assetId === this.fee.asset.id) {
-                    if (this.balance.getTokens()
-                            .gt(this.fee.getTokens())) {
+                    if (this.balance.getTokens().gt(this.fee.getTokens())) {
                         this.amount = this.balance.getTokens()
                             .sub(this.fee.getTokens());
                     }
@@ -129,25 +128,44 @@
                 }
             }
 
-            showTransaction() {
-                $mdDialog.hide();
-                setTimeout(() => { // Timeout for routing (if modal has route)
-                    modalManager.showTransactionInfo(this._transactionId);
-                }, 1000);
-            }
-
-            cancel() {
-                $mdDialog.cancel();
-            }
-
             onReadQrCode(result) {
                 this.recipient = result;
+            }
+
+            createTx() {
+                const toGateway = this.outerSendMode && this.gatewayDetails;
+
+                return Waves.Money.fromTokens(this.amount, this.assetId)
+                    .then((amount) => waves.node.transactions.createTransaction('transfer', {
+                        amount,
+                        sender: user.address,
+                        fee: this.fee,
+                        recipient: toGateway ? this.gatewayDetails.address : this.recipient,
+                        attachment: toGateway ? this.gatewayDetails.attachment : this.attachment
+                    })).then((tx) => {
+                        this.tx = tx;
+                        this.step++;
+                    });
+            }
+
+            back() {
+                this.step--;
             }
 
             _getBalanceList() {
                 return waves.node.assets.userBalances().then((list) => {
                     return list && list.length ? list : waves.node.assets.balanceList([WavesApp.defaultAssets.WAVES]);
-                }).then((list) => list.map(({ available }) => available));
+                }).then((list) => list.map(({ available }) => available))
+                    .then((list) => {
+                        if (list.some(({ asset }) => asset.id === this.assetId)) {
+                            return list;
+                        } else {
+                            return Waves.Money.fromTokens('0', this.assetId).then((money) => {
+                                list.push(money);
+                                return list;
+                            });
+                        }
+                    });
             }
 
             _onChangeAssetId({ prev }) {
@@ -160,20 +178,42 @@
                 }
 
                 this.ready = utils.whenAll([
-                    this.canChooseAsset ? this._getBalanceList() : waves.node.assets.balance(this.assetId).then(({ available }) => available),
+                    this._getBalanceList(),
                     waves.node.assets.info(this.mirrorId),
                     waves.node.assets.fee('transfer'),
                     waves.utils.getRateApi(this.assetId, this.mirrorId)
-                ])
-                    .then(([balance, mirrorBalance, [fee], api]) => {
-                        this.noMirror = balance.id === mirrorBalance.id || api.rate.eq(0);
-                        this.amount = new BigNumber(0);
-                        this.amountMirror = new BigNumber(0);
-                        this.mirrorBalance = mirrorBalance;
-                        this._setAssets(balance);
-                        this.balance = tsUtils.find(this.moneyList, (item) => item.asset.id === this.assetId);
-                        this.fee = fee;
+                ]).then(([balance, mirrorBalance, [fee], api]) => {
+                    this.noMirror = this.assetId === mirrorBalance.id || api.rate.eq(0);
+                    this.amount = new BigNumber(0);
+                    this.amountMirror = new BigNumber(0);
+                    this.mirrorBalance = mirrorBalance;
+                    this._setAssets(balance);
+                    this.balance = tsUtils.find(this.moneyList, (item) => item.asset.id === this.assetId);
+                    this.fee = fee;
+                }).then(() => this._updateGatewayDetails());
+            }
+
+            _currentHasCommission() {
+                const details = this.gatewayDetails;
+
+                const check = (feeList) => {
+                    const feeHash = utils.groupMoney(feeList);
+                    const balanceHash = utils.toHash(this.moneyList, 'asset.id');
+                    this.hasComission = Object.keys(feeHash).every((feeAssetId) => {
+                        const fee = feeHash[feeAssetId];
+                        return balanceHash[fee.asset.id] && balanceHash[fee.asset.id].gt(fee);
                     });
+                };
+
+                if (details) {
+                    Waves.Money.fromTokens(details.gatewayFee, this.assetId).then((fee) => {
+                        check([this.fee, fee]);
+                        this.feeList = [this.fee, fee];
+                    });
+                } else {
+                    check([this.fee]);
+                    this.feeList = [this.fee];
+                }
             }
 
             /**
@@ -199,26 +239,46 @@
              * @private
              */
             _onChangeAmount() {
-                this.amount && this.balance && this._getRate()
-                    .then((api) => {
-                        if (api.exchangeReverse(this.amountMirror)
-                                .toFixed(this.balance.asset.precision) !== this.amount.toFixed(this.balance.precision)) {
+                if (this.amount && this.balance) {
+                    this._getRate().then((api) => {
+                        const mirrorVal = api.exchangeReverse(this.amountMirror).toFixed(this.balance.asset.precision);
+                        if (mirrorVal !== this.amount.toFixed(this.balance.precision)) {
                             this.amountMirror = api.exchange(this.amount).round(this.mirrorBalance.precision);
                         }
                     });
+                }
             }
 
             /**
              * @private
              */
             _onChangeAmountMirror() {
-                this.amountMirror && this.mirrorBalance && this._getRate()
-                    .then((api) => {
-                        if (api.exchange(this.amount)
-                                .toFixed(this.mirrorBalance.precision) !== this.amountMirror.toFixed(this.mirrorBalance.precision)) {
+                if (this.amountMirror && this.mirrorBalance) {
+                    this._getRate().then((api) => {
+                        const amountVal = api.exchange(this.amount).toFixed(this.mirrorBalance.precision);
+                        if (amountVal !== this.amountMirror.toFixed(this.mirrorBalance.precision)) {
                             this.amount = api.exchangeReverse(this.amountMirror).round(this.balance.precision);
                         }
                     });
+                }
+            }
+
+            _updateGatewayDetails() {
+                const outerChain = outerBlockchains[this.assetId];
+                const isValidWavesAddress = waves.node.isValidAddress(this.recipient);
+
+                this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.recipient);
+
+                if (this.outerSendMode) {
+                    gatewayService.getWithdrawDetails(this.balance.asset, this.recipient).then((details) => {
+                        this.assetKeyName = gatewayService.getAssetKeyName(this.balance.asset, 'withdraw');
+                        this.gatewayDetails = details;
+                        // TODO : validate amount field for gateway minimumAmount and maximumAmount
+                    });
+                } else {
+                    this.assetKeyName = '';
+                    this.gatewayDetails = null;
+                }
             }
 
             /**
@@ -243,8 +303,11 @@
         'utils',
         'user',
         'eventManager',
+        'notificationManager',
         'createPoll',
-        'modalManager'
+        'modalManager',
+        'outerBlockchains',
+        'gatewayService'
     ];
 
     angular.module('app.utils')

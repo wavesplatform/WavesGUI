@@ -1,5 +1,6 @@
 {
   "vendors": [
+    "node_modules/csv-gen/dist/CSV.min.js",
     "node_modules/js-cookie/src/js.cookie.js",
     "vendors/require-modules.js",
     "vendors/qrcode.min.js",
@@ -144,8 +145,8 @@
     },
     "mainnet": {
       "code": "W",
-      "node": "https://nodes.wavesnodes.com",
-      "matcher": "https://matcher.wavesnodes.com/matcher",
+      "node": "https://nodes.wavesplatform.com",
+      "matcher": "https://matcher.wavesplatform.com/matcher",
       "api": "https://api.wavesplatform.com",
       "coinomat": "https://coinomat.com",
       "datafeed": "https://marketdata.wavesplatform.com",

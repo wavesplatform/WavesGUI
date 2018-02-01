@@ -91,5 +91,23 @@
     "noTransactionsTitle": "Nothing Here…",
     "noTransactionsDescription": "You do not have any transactions"
   },
-  "copySuccess": "The data is copied"
+  "copySuccess": "The data is copied",
+  "confirmTransaction": {
+    "back": "Go Back",
+    "confirm": "Confirm",
+    "success": "Your transaction is on the way!",
+    "details": "View details",
+    "description": {
+      "send": "You have sent {{amount, money-currency}}",
+      "issue": "You have generated {{quantityStr}} {{name}}",
+      "circular": "You have sent {{amount, money-currency}} to yourself"
+    }
+  },
+  "confirmGatewayTransaction": {
+    "back": "Back",
+    "confirm": "Confirm",
+    "success": "Your transaction is on the way!",
+    "warningTitle": "External blockchain transaction",
+    "warningText": "You're about to send {{amount, money-currency}} to {{address}} via the gateway"
+  }
 }
