@@ -20,13 +20,6 @@ md-dialog.settings-modal {
     border-right: 1px solid @color-basic-200;
 
     .responsive-menu-item-content {
-      .menu-item {
-        position: relative;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        height: 50px;
-      }
 
       i {
         flex-basis: 65px;
@@ -34,26 +27,63 @@ md-dialog.settings-modal {
         background-repeat: no-repeat;
         background-position: 40px center;
       }
-    }
 
-    .general i {
-      height: 17px;
-      background-size: 16px 17px;
-    }
+      .menu-item {
+        position: relative;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        height: 50px;
 
-    .security i {
-      height: 19px;
-      background-size: 17px 19px;
-    }
+        w-responsive-menu-item {
+          order: 2;
+          &.menu-item-to-top {
+            order: 0;
+          }
+        }
 
-    .network i {
-      height: 17px;
-      background-size: 16px 17px;
-    }
+        &.general i {
+          background-image: url(/img/icons/settings-icon/general.svg);
+          height: 17px;
+          background-size: 16px 17px;
+        }
 
-    .info i {
-      height: 17px;
-      background-size: 17px 17px;
+        &.security i {
+          background-image: url(/img/icons/settings-icon/security.svg);
+          height: 19px;
+          background-size: 17px 19px;
+        }
+
+        &.network i {
+          background-image: url(/img/icons/settings-icon/network.svg);
+          height: 17px;
+          background-size: 16px 17px;
+        }
+
+        &.info i {
+          background-image: url(/img/icons/settings-icon/info.svg);
+          height: 17px;
+          background-size: 17px 17px;
+        }
+      }
+
+      &.active {
+        .menu-item {
+          &.general i {
+            background-image: url(/img/icons/settings-icon/general-active.svg);
+          }
+          &.security i {
+            background-image: url(/img/icons/settings-icon/security-active.svg);
+          }
+          &.network i {
+            background-image: url(/img/icons/settings-icon/network-active.svg);
+          }
+          &.info i {
+            background-image: url(/img/icons/settings-icon/info-active.svg);
+          }
+        }
+      }
+
     }
   }
 

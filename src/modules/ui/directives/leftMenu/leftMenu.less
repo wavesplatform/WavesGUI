@@ -13,7 +13,7 @@ w-left-menu {
   background-color: @color-white;
 
   .logo-wrapper {
-    margin: 0 auto 30px;
+    margin: 15px auto 20px auto;
   }
 
   .logout {
@@ -32,6 +32,8 @@ w-left-menu {
       background-position: center center;
       background-repeat: no-repeat;
       margin: 0 auto 5px auto;
+      font-size: 0;
+      cursor: pointer;
 
       &.active {
         background-color: @color-submit-400;
@@ -61,6 +63,17 @@ w-left-menu {
           background-image: url(/img/icons/tokens-active.svg);
         }
       }
+
+      &.logout {
+        background-image: url(/img/icons/exit.svg);
+        background-size: 24px 26px;
+      }
+
+      &.settings {
+        background-image: url(/img/icons/icon-settings.svg);
+        background-size: 24px 24px;
+      }
+
     }
   }
 }
@@ -91,6 +104,13 @@ w-left-menu {
         .responsive-menu-item-content {
           height: 0;
           opacity: 0;
+          .menu-item {
+            font-size: 15px;
+            margin: 0;
+            padding-left: 50px;
+            display: flex;
+            align-items: center;
+          }
         }
 
         &:not(.active) .responsive-menu-item-content.active {
@@ -109,7 +129,6 @@ w-left-menu {
           right: 10px;
           top: -40px;
           display: block;
-
           width: 24px;
           height: 24px;
 

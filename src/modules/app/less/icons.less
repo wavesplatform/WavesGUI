@@ -18,64 +18,6 @@
   cursor: pointer;
 }
 
-.icon-logout {
-  width: 24px;
-  height: 26px;
-  margin: 0 0 0 -12px;
-  background-image: url(/img/icons/exit.svg);
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  cursor: pointer;
-}
-
-.icon-settings {
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  bottom: 86px;
-  left: 50%;
-  margin: 0 0 0 -12px;
-  background-image: url(/img/icons/icon-settings.svg);
-  cursor: pointer;
-}
-
-.responsive-menu-item-content {
-  .icon-settings-general i {
-    background-image: url(/img/icons/settings-icon/general.svg);
-  }
-  &.active .icon-settings-general i {
-    background-image: url(/img/icons/settings-icon/general-active.svg);
-  }
-}
-
-.responsive-menu-item-content {
-  .icon-settings-security i {
-    background-image: url(/img/icons/settings-icon/security.svg);
-  }
-  &.active .icon-settings-security i {
-    background-image: url(/img/icons/settings-icon/security-active.svg);
-  }
-}
-
-.responsive-menu-item-content {
-  .icon-settings-network i {
-    background-image: url(/img/icons/settings-icon/network.svg);
-  }
-  &.active .icon-settings-network i {
-    background-image: url(/img/icons/settings-icon/network-active.svg);
-  }
-}
-
-.responsive-menu-item-content {
-  .icon-settings-info i {
-    background-image: url(/img/icons/settings-icon/info.svg);
-  }
-  &.active .icon-settings-info i {
-    background-image: url(/img/icons/settings-icon/info-active.svg);
-  }
-}
-
 .icon-send::before {
   background-image: url(/img/icons/send.svg);
 }
@@ -160,18 +102,4 @@
     background-color: rgba(239, 72, 41, 0.1);
   }
   background-image: url(/img/icons/transaction-cancel-leasing-icon.svg);
-}
-
-@media screen and (max-width: 768px) {
-  body:not(.dex) .icon-logout {
-    bottom: 23px;
-    left: auto;
-    right: 10px;
-  }
-
-  body:not(.dex) .icon-settings {
-    bottom: 23px;
-    left: auto;
-    right: 60px;
-  }
 }
