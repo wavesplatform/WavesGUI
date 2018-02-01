@@ -24,7 +24,7 @@
                 $element.find('.responsive-menu-item-content.active').closest('w-responsive-menu-item').addClass('menu-item-to-top');
             }
 
-            chooseItem() {
+            clickItem() {
                 $element.find('.navigation-menu').removeClass('active');
             }
 
@@ -33,7 +33,7 @@
              */
             setActive(item) {
                 this.activeMenu = item.value;
-                this.chooseItem();
+                this.clickItem();
             }
 
         }

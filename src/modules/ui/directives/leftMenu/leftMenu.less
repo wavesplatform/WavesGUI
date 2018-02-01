@@ -9,7 +9,6 @@ w-left-menu {
   top: 0;
   bottom: 0;
   display: block;
-  padding-top: 10px;
   border-right: 1px solid @color-disabled-100;
   background-color: @color-white;
 
@@ -21,114 +20,117 @@ w-left-menu {
     cursor: pointer;
   }
 
-  w-navigation a {
-    width: 50px;
-    height: 50px;
-    display: block;
-    border-radius: @border-radius;
-    background-color: transparent;
-    background-position: center center;
-    background-repeat: no-repeat;
-    margin: 0 auto 5px auto;
+  w-responsive-menu {
+    height: calc(100vh ~' - 100px');
+    width: 100%;
 
-    &.active {
-      background-color: @color-submit-400;
+    .menu-item {
+      width: 50px;
+      height: 50px;
+      border-radius: @border-radius;
+      background-color: transparent;
+      background-position: center center;
+      background-repeat: no-repeat;
       margin: 0 auto 5px auto;
-    }
-
-    &.wallet {
-      background-image: url(/img/icons/wallet.svg);
-      background-size: 25px 24px;
 
       &.active {
-        background-image: url(/img/icons/wallet-active.svg);
+        background-color: @color-submit-400;
+        margin: 0 auto 5px auto;
       }
-    }
 
-    &.dex {
-      background-image: url(/img/icons/dex.svg);
-      background-size: 25px 23px;
-
-      &.active {
-        background-image: url(/img/icons/dex-active.svg);
+      &.wallet {
+        background-image: url(/img/icons/wallet.svg);
+        background-size: 25px 24px;
+        &.active {
+          background-image: url(/img/icons/wallet-active.svg);
+        }
       }
-    }
 
-    &.tokens {
-      background-image: url(/img/icons/tokens.svg);
-      background-size: 31px 31px;
+      &.dex {
+        background-image: url(/img/icons/dex.svg);
+        background-size: 25px 23px;
+        &.active {
+          background-image: url(/img/icons/dex-active.svg);
+        }
+      }
 
-      &.active {
-        background-image: url(/img/icons/tokens-active.svg);
+      &.tokens {
+        background-image: url(/img/icons/tokens.svg);
+        background-size: 31px 31px;
+        &.active {
+          background-image: url(/img/icons/tokens-active.svg);
+        }
       }
     }
   }
 }
 
-.sub-navigation {
-  display: none;
-}
-
 @media screen and (max-width: 768px) {
-
   body:not(.dex) w-left-menu {
-
     width: 100%;
-    height: @mobile-leftmenu-height;
+    height: auto;
     bottom: auto;
     display: flex;
     border-right: 0 none;
     position: relative;
     border-bottom: 1px solid @color-disabled-100;
 
-    w-navigation,
-    .bottom-controls {
-      display: none;
-    }
-
     .logo-wrapper {
       margin: 5px 10px;
     }
+  }
 
-    input.nav-toggler {
-      display: none;
-    }
-
-    label[for="nav-toggler"] {
-      display:block;
-      position:absolute;
-      right:20px;
-      top:20px;
-      width:24px;
-      height:24px;
-      background:red;
-      z-index:10;
-    }
-
-    input.nav-toggler:checked + label[for="nav-toggler"] ~ w-navigation {
-      display:block;
-      position:fixed;
-      top:70px;
-      min-height: 200px;
-      background: #fff;
-      padding:20px;
-      z-index:10;
-      width:100%;
+  w-left-menu {
+    w-responsive-menu {
+      width: 100%;
+      top: 50px;
+      height: auto;
       border-bottom: 1px solid @color-accent-50;
 
-      div.sub-navigation {
-        display:block;
+      .navigation-menu {
+        .responsive-menu-item-content {
+          height: 0;
+          opacity: 0;
+        }
+
+        &:not(.active) .responsive-menu-item-content.active {
+          height: 0;
+          opacity: 0;
+        }
+
+        &active .responsive-menu-item-content {
+          height: 50px;
+          opacity: 1;
+        }
       }
 
-        div.navigation.column {
-          flex-direction: column;
-          a {
-            margin-left:0;
-            margign-right:0;
+      w-button.nav-toggler {
+        & > button.nav-toggler {
+          right: 10px;
+          top: -40px;
+          display: block;
+
+          width: 24px;
+          height: 24px;
+
+          .dots {
+            width: 14px;
+            height: 14px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .dot {
+              width: 14px;
+              height: 4px;
+              margin: 0 1px;
+              background-color: orangered;
+              border-radius: 0;
+            }
           }
         }
+      }
     }
-
-
   }
+
 }

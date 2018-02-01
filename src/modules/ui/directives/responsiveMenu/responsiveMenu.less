@@ -1,0 +1,91 @@
+@import (reference) '../../../config';
+
+w-responsive-menu {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: @color-white;
+
+  .navigation-menu {
+    width: 100%;
+  }
+
+  w-button.nav-toggler {
+    display: none;
+    cursor: pointer;
+  }
+
+  .responsive-menu-item-content {
+    color: @color-info-500;
+
+    &.active {
+      background: @color-submit-400;
+      color: @color-white;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+
+  w-responsive-menu {
+    height: auto;
+    position: absolute;
+    z-index: 2;
+    height: auto;
+
+    .menu-item {
+      display: block;
+    }
+
+    .navigation-menu {
+      display: flex;
+      flex-direction: column;
+
+      w-responsive-menu-item {
+        order: 2;
+        &.menu-item-to-top {
+          order: 0;
+        }
+      }
+
+      .responsive-menu-item-content {
+        overflow: hidden;
+        transition: .13s;
+      }
+
+      .responsive-menu-item-content:not(.active) {
+        height: 0;
+        opacity: 0;
+       }
+
+      &.active .responsive-menu-item-content,
+      .responsive-menu-item-content.active {
+        height: 50px;
+        opacity: 1;
+      }
+
+    }
+
+    w-button.nav-toggler {
+      display: block;
+
+      & > button.nav-toggler {
+        position: absolute;
+        cursor: pointer;
+        display: block;
+        border: 0 none;
+        padding: 0;
+        z-index: 10;
+        background: none transparent;
+
+        .dots {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+}

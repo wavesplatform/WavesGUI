@@ -10,26 +10,6 @@ md-dialog.settings-modal {
   max-width: 740px;
   min-width: 740px;
 
-  .modal-content {
-    display: flex;
-    flex-direction: row;
-    flex-shrink: 0;
-    position: relative;
-    min-height: 300px;
-
-    .settings-content {
-      position: relative;
-      margin-left: 200px;
-      right: 0;
-      width: 100%;
-      padding: 10px 0;
-
-      .label {
-        line-height: 1.8em;
-      }
-    }
-  }
-
   w-responsive-menu {
     width: 199px;
     height: calc(100% ~' + 60px');
@@ -39,18 +19,7 @@ md-dialog.settings-modal {
     top: -20px;
     border-right: 1px solid @color-basic-200;
 
-    w-button.nav-toggler {
-      display: none;
-    }
-
     .responsive-menu-item-content {
-      color: @color-info-500;
-
-      &.active {
-        background: @color-submit-400;
-        color: @color-white;
-      }
-
       .menu-item {
         position: relative;
         cursor: pointer;
@@ -85,6 +54,26 @@ md-dialog.settings-modal {
     .info i {
       height: 17px;
       background-size: 17px 17px;
+    }
+  }
+
+  .modal-content {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    position: relative;
+    min-height: 300px;
+
+    .settings-content {
+      position: relative;
+      margin-left: 200px;
+      right: 0;
+      width: 100%;
+      padding: 10px 0;
+
+      .label {
+        line-height: 1.8em;
+      }
     }
   }
 
@@ -161,10 +150,6 @@ md-dialog.settings-modal {
     }
   }
 
-  .settings-nav-toggler {
-    display: none;
-  }
-
 }
 
 @media screen and (max-width: 768px) {
@@ -179,85 +164,42 @@ md-dialog.settings-modal {
     transform-origin: center;
     transition: .3s;
 
-    .settings-modal {
-      flex-direction: column;
+    w-responsive-menu {
+      width: calc(100% ~' + 20px');
+      border-bottom: 1px solid @color-accent-50;
+      left: 0;
+      top: 0;
+      margin: -10px -10px 20px -10px;
+      border-right: 0 none;
+      height: auto;
 
-      w-responsive-menu {
-
-        width: calc(100% ~' + 20px');
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        background: @color-white;
-        z-index: 2;
-        left: 0;
-        top: 0;
-        border-bottom: 1px solid @color-accent-50;
-        margin: -10px -10px 0 -10px;
-        border-right: 0 none;
-        margin-bottom: 20px;
-
-        .navigation-menu {
+      w-button {
+        & > button.nav-toggler {
+          right: 20px;
+          top: 10px;
           display: flex;
-          flex-direction: column;
-          w-responsive-menu-item {
-            order: 2;
-            &.menu-item-to-top {
-              order: 0;
-            }
-          }
+          justify-content: center;
+          align-items: center;
+          width: 30px;
+          height: 30px;
 
-          .responsive-menu-item-content:not(.active) {
-            height: 0;
-            overflow: hidden;
-            opacity: 0;
-            transition: .13s;
-          }
+          .dots {
+            width: 16px;
+            height: 4px;
 
-          &.active .responsive-menu-item-content,
-          .responsive-menu-item-content.active {
-            height: 50px;
-            opacity: 1;
-          }
-        }
-
-        w-button {
-          display:block;
-
-          & > button.nav-toggler {
-            position: absolute;
-            right: 20px;
-            top: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 30px;
-            height: 30px;
-            z-index: 10;
-            background: none transparent;
-            border: 0 none;
-            padding: 0;
-            cursor: pointer;
-
-            .dots {
-              display: flex;
-              flex-direction: row;
-              justify-content: space-between;
-              width: 16px;
+            .dot {
+              width: 4px;
               height: 4px;
-              cursor: pointer;
-
-              .dot {
-                width: 4px;
-                height: 4px;
-                border-radius: 100%;
-                background-color: @color-white;
-              }
+              border-radius: 100%;
+              background-color: @color-white;
             }
           }
         }
       }
+    }
+
+    .settings-modal {
+      flex-direction: column;
 
       .settings-content {
         margin-left: 0;

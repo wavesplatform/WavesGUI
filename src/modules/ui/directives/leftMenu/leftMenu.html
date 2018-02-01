@@ -2,32 +2,63 @@
     <w-avatar ng-click="$ctrl.avatarClick()" size="40" address="$ctrl.address"></w-avatar>
 </div>
 
-<input class="nav-toggler" type="checkbox" id="nav-toggler" />
-<label for="nav-toggler"></label>
+<w-responsive-menu active-menu="">
 
-<w-navigation type="column">
+    <w-responsive-menu-item value="wallet">
+        <div class="menu-item wallet">
+            <i></i>
+            <w-i18n></w-i18n>Wallet
+        </div>
+    </w-responsive-menu-item>
+
+    <!-- ui/directives/header -->
+
+        <!--w-responsive-menu-item ng-repeat="state in $ctrl.stateList track by header.state.name"
+           value="{{::state.name}}"
+           class="{{::state.name}} sub-menu"
+           ui-sref="{{::state.path}}"
+           ui-sref-active="active">
+            <div class="menu-item wallet">
+                <i></i>
+                <w-i18n>header.{{::state.name}}</w-i18n>
+            </div>
+        </w-responsive-menu-item-->
+
+    <!-- end -->
+
+    <w-responsive-menu-item value="dex">
+        <div class="menu-item dex">
+            <i></i>
+            <w-i18n><!--DEX--></w-i18n>Decentralised Exchange
+        </div>
+    </w-responsive-menu-item>
+
+    <w-responsive-menu-item value="tokens">
+        <div class="menu-item">
+            <i></i>
+            <w-i18n><!--Token Generation--></w-i18n>Tokens
+        </div>
+    </w-responsive-menu-item>
+
+    <w-responsive-menu-item value="settings" ng-click="$ctrl.settings()">
+        <div class="menu-item settings">
+            <i></i>
+            <w-i18n>Settings</w-i18n>
+        </div>
+    </w-responsive-menu-item>
+
+    <w-responsive-menu-item value="logout" ng-click="$ctrl.logout()">
+        <div class="menu-item logout">
+            <i></i>
+            <w-i18n></w-i18n><div>Logout</div>
+        </div>
+    </w-responsive-menu-item>
+
+</w-responsive-menu>
+
     <!-- TODO @tsigel -->
+    <!-- сделать отдельными кнопкми и раскидать по w-responsive-menu-item -->
     <a ng-repeat="state in $ctrl.stateList track by $index"
        class="{{::state.name}}"
        ui-state="state.path"
        ui-sref-active="{active: state.base + '.**'}"></a>
-
-<!-- subnav to insert after wallet btn -->
-<!-- wallet / portfolio / transactions / leasing -->
-    <!--<div class="sub-navigation">-->
-        <!--<a ng-repeat="state in $ctrl.stateList track by state.name"-->
-           <!--class="{{::state.name}} margin-right-1"-->
-           <!--ui-sref="{{::state.path}}"-->
-           <!--ui-sref-active="active">-->
-            <!--<w-i18n>header.{{::state.name}}</w-i18n>-->
-        <!--</a>-->
-    <!--</div>-->
-</w-navigation>
-
-<div ng-click="$ctrl.settings()" class="bottom-controls">
-    <div class="icon-settings"></div>
-</div>
-<div ng-click="$ctrl.logout()" class="logout bottom-controls">
-    <div class="icon-logout"></div>
-</div>
-
