@@ -42,9 +42,8 @@
             }
 
             @notNullArgs
-            @toBigNumberArgs
             precision(inputValue, precision) {
-                const [int, dec] = inputValue.toFixed().split('.'); //TODO add separator
+                const [int, dec] = inputValue.split('.'); //TODO add separator
                 return dec ? dec.length <= precision : true; //TODO remove empty zero
             }
 
@@ -67,7 +66,7 @@
                 return utils.whenAll([
                     this.alias(address),
                     this.address(address)
-                ]).then(([alias, address]) => {
+                ]).then(([alias = true, address = true]) => {
                     return (alias || address) ? $q.resolve() : $q.reject();
                 });
             }

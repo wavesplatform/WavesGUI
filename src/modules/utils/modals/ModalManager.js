@@ -104,7 +104,6 @@
                     mod: 'modal-send',
                     locals: {
                         assetId: asset.id,
-                        baseAssetId: user.getSetting('baseAssetId'),
                         canChooseAsset: !asset.id
                     }
                 });

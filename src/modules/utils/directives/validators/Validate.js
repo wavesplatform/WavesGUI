@@ -88,7 +88,7 @@
                         /**
                          * @private
                          */
-                        @decorators.async(100)
+                        @decorators.async()
                         _validate() {
                             this._applyValidators(Object.keys(this._validators).map((name) => this._validators[name]));
                             $scope.$apply();
@@ -151,11 +151,11 @@
                             }
 
                             if (this._validators[name].parser) {
-                                $ngModel.$parsers.unshift(this._validators[name].parser);
+                                $ngModel.$parsers.push(this._validators[name].parser);
                             }
 
                             if (this._validators[name].formatter) {
-                                $ngModel.$formatters.unshift(this._validators[name].formatter);
+                                $ngModel.$formatters.push(this._validators[name].formatter);
                             }
 
                             return this._validators[name];
@@ -305,12 +305,24 @@
                          * @private
                          */
                         _createSimpleValidator(name) {
+
+                            let handler;
+                            switch (name) {
+                                case 'precision':
+                                    handler = function (modelValue, viewValue) {
+                                        return validateService[name](viewValue, validator.value);
+                                    };
+                                    break;
+                                default:
+                                    handler = function (modelValue) {
+                                        return validateService[name](modelValue, validator.value);
+                                    };
+                            }
+
                             const validator = {
                                 name,
                                 value: null,
-                                handler: function (modelValue) {
-                                    return validateService[name](modelValue, validator.value);
-                                }
+                                handler
                             };
 
                             this._listenValidatorChanges(name, validator);
@@ -392,7 +404,7 @@
                             if (value instanceof BigNumber) {
                                 return value.toFixed();
                             } else if (value instanceof Waves.Money) {
-                                return value.getTokens().toFixed();
+                                return value.toFormat();
                             } else if (!value) {
                                 return '';
                             } else {

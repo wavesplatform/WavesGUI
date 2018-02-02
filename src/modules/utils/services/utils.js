@@ -507,7 +507,7 @@
         function isNotEqualValue(oldValue, newValue) {
             if (typeof oldValue === typeof newValue) {
                 if (oldValue instanceof Waves.Money && newValue instanceof Waves.Money) {
-                    return oldValue.toTokens() !== newValue.toTokens();
+                    return oldValue.asset.id !== newValue.asset.id || oldValue.toTokens() !== newValue.toTokens();
                 } else if (oldValue instanceof BigNumber && newValue instanceof BigNumber) {
                     return !oldValue.eq(newValue);
                 } else if (Array.isArray(oldValue) && Array.isArray(newValue)) {

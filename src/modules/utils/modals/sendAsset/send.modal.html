@@ -7,7 +7,7 @@
 
                 <div class="row">
                     <div class="body-2" w-i18n="modal.send.currency"></div>
-                    <div ng-if="!$ctrl.canChooseAsset || $ctrl.moneyList.length === 1"
+                    <div ng-if="!$ctrl.canChooseAsset || $ctrl.moneyLength === 1"
                          class="input-like big flex-row split-half">
                         <div class="flex-row">
                             <w-asset-logo size="24" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
@@ -19,9 +19,9 @@
                         </div>
                     </div>
                     <w-select class="big"
-                              ng-if="$ctrl.canChooseAsset && $ctrl.moneyList.length > 1"
+                              ng-if="$ctrl.canChooseAsset && $ctrl.moneyLength > 1"
                               ng-model="$ctrl.assetId">
-                        <w-option ng-repeat="option in $ctrl.moneyList track by $index"
+                        <w-option ng-repeat="option in $ctrl.moneyHash track by option.asset.id"
                                   value="{{::option.asset.id}}">
                             <div class="flex-row split-half">
                                 <div class="flex-row">
@@ -43,7 +43,7 @@
                         <div class="read-address-wrap">
                             <w-input type="text"
                                      name="recipient"
-                                     ng-model="$ctrl.recipient"
+                                     ng-model="$ctrl.tx.recipient"
                                      placeholder="modal.send.placeholderRecipient"
                                      w-i18n-attr="placeholder"
                                      w-validate
@@ -54,7 +54,7 @@
                                             max-height="160"></w-qr-code-read>
                         </div>
 
-                        <w-input-error message="inputAddress">
+                        <w-input-error message="anyAddress">
                             <w-i18n>modal.send.errors.address</w-i18n>
                         </w-input-error>
                         <w-input-error message="required">
@@ -87,16 +87,20 @@
                                          fee="$ctrl.feeList"
                                          input-classes="big"
                                          min="0"
-                                         amount="$ctrl.amount">
+                                         on-focus="$ctrl.focus = 'amount'"
+                                         on-blur="$ctrl.focus = ''"
+                                         amount="$ctrl.tx.amount">
                         </w-balance-input>
                         <div class="amount-modal-icon"></div>
                         <w-balance-input ng-if="!$ctrl.noMirror"
+                                         on-focus="$ctrl.focus = 'mirror'"
+                                         on-blur="$ctrl.focus = ''"
                                          name="amountMirror"
                                          asset-id="$ctrl.mirrorId"
                                          fill-max="$ctrl.fillMax()"
-                                         fee="$ctrl.fee"
+                                         fee="$ctrl.tx.fee"
                                          input-classes="big"
-                                         amount="$ctrl.amountMirror">
+                                         amount="$ctrl.mirror">
                         </w-balance-input>
 
                     </div>
@@ -118,7 +122,7 @@
                 <div ng-if="!$ctrl.outerSendMode" class="row">
                     <div class="body-2" w-i18n="modal.send.description"></div>
                     <w-input textarea="true"
-                             ng-model="$ctrl.attachment"
+                             ng-model="$ctrl.tx.attachment"
                              w-i18n-attr="placeholder"
                              placeholder="modal.send.descriptionPlaceholder"></w-input>
                 </div>
@@ -126,18 +130,18 @@
                 <div class="row fee margin-2">
                     <div class="body basic-500">
                         <w-i18n>modal.send.fee</w-i18n>&nbsp;
-                        <w-balance money="$ctrl.fee"></w-balance>
-                        {{$ctrl.fee.asset.name}}
+                        <w-balance money="$ctrl.tx.fee"></w-balance>
+                        {{$ctrl.tx.fee.asset.displayName}}
                     </div>
                 </div>
 
                 <div class="row commission-error margin-2 footnote error-500" ng-if="!$ctrl.hasComission">
                     <w-i18n ng-show="$ctrl.outerSendMode && $ctrl.assetKeyName"
-                            params="{fee: $ctrl.fee, getawayFee: $ctrl.gatewayDetails.gatewayFee, currency: $ctrl.balance.asset.displayName}">
+                            params="{fee: $ctrl.tx.fee, getawayFee: $ctrl.gatewayDetails.gatewayFee, currency: $ctrl.balance.asset.displayName}">
                         modal.send.validationError.notEnoughFundsWithdraw
                     </w-i18n>
                     <w-i18n ng-hide="$ctrl.outerSendMode && $ctrl.assetKeyName"
-                            params="{fee: $ctrl.fee}">modal.send.validationError.notEnoughFunds
+                            params="{fee: $ctrl.tx.fee}">modal.send.validationError.notEnoughFunds
                     </w-i18n>
                 </div>
 
@@ -155,13 +159,13 @@
 
             <w-confirm-transaction ng-if="!$ctrl.outerSendMode"
                                    on-click-back="$ctrl.back()"
-                                   tx="$ctrl.tx"></w-confirm-transaction>
+                                   tx="$ctrl.txInfo"></w-confirm-transaction>
 
             <w-confirm-gateway-transaction ng-if="$ctrl.outerSendMode"
                                            on-click-back="$ctrl.back()"
                                            gateway-details="$ctrl.gatewayDetails"
-                                           target-recipient="$ctrl.recipient"
-                                           tx="$ctrl.tx"></w-confirm-gateway-transaction>
+                                           target-recipient="$ctrl.tx.recipient"
+                                           tx="$ctrl.txInfo"></w-confirm-gateway-transaction>
 
         </w-step>
     </w-step-by-step>

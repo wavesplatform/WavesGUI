@@ -20,7 +20,11 @@
                  */
                 this.name = null;
                 /**
-                 * @type {BigNumber}
+                 * @type {boolean}
+                 */
+                this.focus = false;
+                /**
+                 * @type {Money}
                  */
                 this.amount = null;
                 /**
@@ -46,6 +50,13 @@
 
                 this.observe('assetId', this._onChangeAssetId);
                 this.observe(['fee', 'maxBalance'], this._setMaxBalance);
+                this.observe('focus', () => {
+                    if (this.focus) {
+                        this.onFocus();
+                    } else {
+                        this.onBlur();
+                    }
+                });
             }
 
             $postLink() {
@@ -117,6 +128,8 @@
             name: '@',
             inputClasses: '@',
             fillMax: '&',
+            onFocus: '&',
+            onBlur: '&',
             amount: '=',
             assetId: '<',
             maxBalance: '<',
