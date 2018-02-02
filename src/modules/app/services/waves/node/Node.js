@@ -2,15 +2,15 @@
     'use strict';
 
     /**
+     * @param {BaseNodeComponent} BaseNodeComponent
      * @param {Aliases} aliases
      * @param {Transactions} transactions
      * @param {Assets} assets
      * @param {User} user
      * @param {app.utils} utils
-     * @param {EventManager} eventManager
      * @return {Node}
      */
-    const factory = function (BaseNodeComponent, aliases, transactions, assets, user, utils, eventManager) {
+    const factory = function (BaseNodeComponent, aliases, transactions, assets, user, utils) {
 
         class Node extends BaseNodeComponent {
 
@@ -28,6 +28,14 @@
                  * @type {Transactions}
                  */
                 this.transactions = transactions;
+            }
+
+            isValidAddress(address) {
+                try {
+                    return Waves.crypto.isValidAddress(address);
+                } catch (e) {
+                    return false;
+                }
             }
 
             fee(transactionType) {
@@ -85,7 +93,7 @@
         return utils.bind(new Node());
     };
 
-    factory.$inject = ['BaseNodeComponent', 'aliases', 'transactions', 'assets', 'user', 'utils', 'eventManager'];
+    factory.$inject = ['BaseNodeComponent', 'aliases', 'transactions', 'assets', 'user', 'utils'];
 
     angular.module('app')
         .factory('node', factory);

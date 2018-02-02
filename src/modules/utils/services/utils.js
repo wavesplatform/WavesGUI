@@ -279,6 +279,7 @@
                         if (num != null) {
                             return num.toFormat(precision);
                         }
+                        throw new Error('Wrong format!');
                     default:
                         throw new Error('Wrong format!');
                 }
@@ -353,6 +354,22 @@
             toHash(list, key) {
                 return list.reduce((result, item) => {
                     result[tsUtils.get(item, key)] = item;
+                    return result;
+                }, Object.create(null));
+            },
+
+            /**
+             * @name app.utils#groupMoney
+             * @param {Money[]} moneyList
+             * @return {object}
+             */
+            groupMoney(moneyList) {
+                return moneyList.filter(Boolean).reduce((result, money) => {
+                    if (result[money.asset.id]) {
+                        result[money.asset.id] = result[money.asset.id].add(money);
+                    } else {
+                        result[money.asset.id] = money;
+                    }
                     return result;
                 }, Object.create(null));
             },

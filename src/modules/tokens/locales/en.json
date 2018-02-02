@@ -32,11 +32,7 @@
   },
   "modal": {
     "title": "{{name}} Generation",
-    "titleSuccess": "{{name}} Generation Complete",
-    "descriptionTitle": "Description",
-    "fee": "Fee",
-    "back": "Go Back",
-    "confirm": "Confirm"
+    "titleSuccess": "{{name}} Generation Complete"
   },
   "success": {
     "title": "Your transaction is on the way!",

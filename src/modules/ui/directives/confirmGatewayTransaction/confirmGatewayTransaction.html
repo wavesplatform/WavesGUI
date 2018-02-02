@@ -1,0 +1,63 @@
+<div w-i18n-ns="app.ui" class="transaction-confirm">
+    <w-step-by-step active-step="$ctrl.step">
+        <w-step>
+
+            <div ng-if="$ctrl.tx" class="row margin-2">
+                <div class="warning-plate">
+                    <div class="body-2 warning-500"
+                         w-i18n="confirmGatewayTransaction.warningTitle"></div>
+                    <div class="footnote-1 basic-500"
+                         w-i18n="confirmGatewayTransaction.warningText"
+                         params="{name: $ctrl.tx.amount.asset.name}"></div>
+                </div>
+            </div>
+
+            <div ng-if="$ctrl.tx && $ctrl.gatewayDetails && $ctrl.targetRecipient" class="row margin-2">
+
+                <div class="section">
+                    <div class="key"
+                         w-i18n="confirmGatewayTransaction.fieldAddress"></div>
+                    <div class="value">{{::$ctrl.targetRecipient}}</div>
+                </div>
+
+                <div class="section">
+                    <div class="key"
+                         w-i18n="confirmGatewayTransaction.fieldAmount"></div>
+                    <div class="value">{{::$ctrl.tx.amount.toFormat()}} {{::$ctrl.tx.amount.asset.displayName}}</div>
+                </div>
+
+                <div class="section">
+                    <div class="key"
+                         w-i18n="confirmGatewayTransaction.fieldFee"></div>
+                    <div class="value">{{::$ctrl.tx.fee}}</div>
+                </div>
+
+                <div class="section">
+                    <div class="key"
+                         w-i18n="confirmGatewayTransaction.fieldGatewayAddress"></div>
+                    <div class="value">{{::$ctrl.gatewayDetails.address}}</div>
+                </div>
+
+                <div class="section">
+                    <div class="key"
+                         w-i18n="confirmGatewayTransaction.fieldGatewayFee"></div>
+                    <div class="value">{{::$ctrl.gatewayDetails.gatewayFee}} {{::$ctrl.tx.amount.asset.displayName}}</div>
+                </div>
+
+            </div>
+
+            <div class="buttons-wrapper">
+                <w-button class="big" ng-click="$ctrl.onClickBack()">
+                    <w-i18n>confirmGatewayTransaction.back</w-i18n>
+                </w-button>
+                <w-button class="big submit" w-next-step ng-click="$ctrl.confirm()">
+                    <w-i18n>confirmGatewayTransaction.confirm</w-i18n>
+                </w-button>
+            </div>
+        </w-step>
+        <w-step>
+            <div class="icon icon-tx-success margin-2"></div>
+            <h2 class="text-center basic-900" w-i18n="confirmGatewayTransaction.success"></h2>
+        </w-step>
+    </w-step-by-step>
+</div>

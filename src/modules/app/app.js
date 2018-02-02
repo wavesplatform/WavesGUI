@@ -21,6 +21,7 @@
     };
 
     angular.module('app', [
+        'ngAnimate',
         'ngMaterial',
         'ui.router',
         'ui.router.state.events',
