@@ -4,9 +4,11 @@
     /**
      * @param Base
      * @param {Waves} waves
+     * @param {object} $attrs
+     * @param {app.utils} utils
      * @return {BalanceInput}
      */
-    const controller = function (Base, waves, $attrs) {
+    const controller = function (Base, waves, $attrs, utils) {
 
         class BalanceInput extends Base {
 
@@ -30,7 +32,7 @@
                  */
                 this.maxBalance = null;
                 /**
-                 * @type {Money}
+                 * @type {Money|Array<Money>}
                  */
                 this.fee = null;
                 /**
@@ -43,12 +45,7 @@
                 this.fillMax = null;
 
                 this.observe('assetId', this._onChangeAssetId);
-                this.observe(['fee', 'maxBalance'], () => {
-                    this.realMaxBalance = this.fee &&
-                    this.maxBalance &&
-                    this.fee.asset.id === this.maxBalance.asset.id ?
-                        this.maxBalance.sub(this.fee) : this.maxBalance
-                })
+                this.observe(['fee', 'maxBalance'], this._setMaxBalance);
             }
 
             $postLink() {
@@ -63,11 +60,33 @@
                     return null;
                 }
                 if (this.maxBalance) {
-                    if (this.fee && this.fee.asset.id === this.assetId) {
-                        this.amount = this.maxBalance.getTokens().sub(this.fee.getTokens());
+                    const feeHash = utils.groupMoney(utils.toArray(this.fee));
+                    if (feeHash[this.assetId]) {
+                        this.amount = BigNumber.max(
+                            this.maxBalance.getTokens().sub(feeHash[this.assetId].getTokens()),
+                            new BigNumber(0)
+                        );
                     } else {
                         this.amount = this.maxBalance.getTokens();
                     }
+                }
+            }
+
+            _setMaxBalance() {
+                if (this.fee && this.maxBalance) {
+                    /**
+                     * @type {Money[]}
+                     */
+                    const feeList = utils.toArray(this.fee);
+                    const feeHash = utils.groupMoney(feeList);
+
+                    if (feeHash[this.maxBalance.asset.id]) {
+                        this.realMaxBalance = this.maxBalance.sub(feeHash[this.maxBalance.asset.id]);
+                    } else {
+                        this.realMaxBalance = this.maxBalance;
+                    }
+                } else {
+                    this.realMaxBalance = this.maxBalance;
                 }
             }
 
@@ -91,7 +110,7 @@
         return new BalanceInput();
     };
 
-    controller.$inject = ['Base', 'waves', '$attrs'];
+    controller.$inject = ['Base', 'waves', '$attrs', 'utils'];
 
     angular.module('app.ui').component('wBalanceInput', {
         bindings: {

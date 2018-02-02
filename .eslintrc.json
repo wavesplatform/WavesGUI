@@ -211,7 +211,7 @@
       "error",
       "functions"
     ],
-    "no-invalid-this": "error",
+    "no-invalid-this": "off",
     "no-iterator": "error",
     "no-label-var": "error",
     "no-labels": "error",
@@ -324,7 +324,7 @@
     "prefer-const": "error",
     "prefer-destructuring": "off",
     "prefer-numeric-literals": "error",
-    "prefer-promise-reject-errors": "error",
+    "prefer-promise-reject-errors": "off",
     "prefer-reflect": "off",
     "prefer-rest-params": "error",
     "prefer-spread": "error",

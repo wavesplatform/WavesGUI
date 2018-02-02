@@ -4,7 +4,7 @@ import { exec, spawn } from 'child_process';
 import { readdirSync, statSync } from 'fs';
 import { join, relative } from 'path';
 import { ITaskFunction } from './interface';
-import { readFile, readJSON, readJSONSync } from 'fs-extra';
+import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync } from 'fs-extra';
 import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
@@ -38,7 +38,7 @@ export function getBranchDetail(): Promise<{ branch: string; project: string; ti
     });
 }
 
-export function getFilesFrom(dist: string, extension: string | Array<string>, filter?: IFilter): Array<string> {
+export function getFilesFrom(dist: string, extension?: string | Array<string>, filter?: IFilter): Array<string> {
     const files = [];
 
     function read(localPath) {
@@ -60,11 +60,15 @@ export function getFilesFrom(dist: string, extension: string | Array<string>, fi
                             files.push(itemPath);
                         }
                     }
-                } else {
+                } else if (extension) {
                     if (itemName.lastIndexOf(extension) === (itemName.length - extension.length)) {
                         if (!filter || filter(itemName, itemPath)) {
                             files.push(itemPath);
                         }
+                    }
+                } else {
+                    if (!filter || filter(itemName, itemPath)) {
+                        files.push(itemPath);
                     }
                 }
             }
@@ -156,9 +160,10 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
 
             return compile(file)({
                 pack: pack,
+                isWeb: !param.type || param.type === 'web',
                 domain: meta.domain,
                 build: {
-                    type: 'web'
+                    type: param.type || 'web'
                 },
                 network: networks[param.connection]
             });
@@ -168,6 +173,24 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
         }).then((file) => {
             return replaceScripts(file, param.scripts.map(filter));
         });
+}
+
+export function download(url: string, filePath: string): Promise<void> {
+    return new Promise<void>((resolve) => {
+
+        try {
+            mkdirpSync(filePath.split('/').slice(0, -1).join('/'));
+        } catch (e) {
+            console.log(e);
+        }
+
+        const file = createWriteStream(filePath);
+
+        get(url, (response) => {
+            response.pipe(file);
+            response.on('end', resolve);
+        });
+    });
 }
 
 export function parseArguments<T>(): T {
@@ -207,7 +230,7 @@ export function route(connectionType, buildType) {
 
         if (buildType !== 'dev') {
             if (isPage(req.url)) {
-                const path = join(__dirname, '../dist/build', connectionType, buildType, 'index.html');
+                const path = join(__dirname, '../dist/web', connectionType, buildType, 'index.html');
                 return readFile(path, 'utf8').then((file) => {
                     res.end(file);
                 });
@@ -360,7 +383,7 @@ export function isPage(url: string): boolean {
 function routeStatic(req, res, connectionType, buildType) {
     const ROOTS = [join(__dirname, '..')];
     if (buildType !== 'dev') {
-        ROOTS.push(join(__dirname, `../dist/build/${connectionType}/${buildType}`));
+        ROOTS.push(join(__dirname, `../dist/web/${connectionType}/${buildType}`));
     } else {
         ROOTS.push(join(__dirname, '../src'));
     }
@@ -398,6 +421,7 @@ export interface IPrepareHTMLOptions {
     scripts?: string[];
     styles?: string[];
     target: string;
+    type?: string;
 }
 
 export interface IFilter {

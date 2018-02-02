@@ -32,11 +32,7 @@
   },
   "modal": {
     "title": "{{name}} 발행하기",
-    "titleSuccess": "{{name}} 발행 완료",
-    "descriptionTitle": "설명",
-    "fee": "수수료",
-    "back": "뒤로",
-    "confirm": "확인"
+    "titleSuccess": "{{name}} 발행 완료"
   },
   "success": {
     "title": "거래가 진행중입니다!",

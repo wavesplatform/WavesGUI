@@ -15,7 +15,12 @@
              * @private
              */
             _initUrlResolveMode() {
-                $locationProvider.html5Mode(true);
+                if (WavesApp.isWeb()) {
+                    const base = document.createElement('base');
+                    base.href = '/';
+                    document.head.appendChild(base);
+                    $locationProvider.html5Mode(true);
+                }
                 $urlRouterProvider.otherwise('/');
             }
 
@@ -37,7 +42,7 @@
                     .use(i18nextXHRBackend)
                     .init({
                         // i18next settings
-                        lng: AppConfig.getUserLang(),
+                        lng: localStorage.getItem('lng') || AppConfig.getUserLang(),
                         debug: false,
                         ns: WavesApp.modules.filter(tsUtils.notContains('app.templates')),
                         fallbackLng: 'en',
@@ -45,6 +50,20 @@
                         defaultNS: 'app',
                         useCookie: false,
                         useLocalStorage: false,
+                        interpolation: {
+                            format: function (value, format) {
+                                switch (format) {
+                                    case 'money':
+                                        return value.getTokens().toFixed();
+                                    case 'money-currency':
+                                        return `${value.getTokens().toFixed()} ${value.asset.displayName}`;
+                                    case 'BigNumber':
+                                        return value && value.toFixed() || '';
+                                    default:
+                                        throw new Error('Wrong format type!');
+                                }
+                            }
+                        },
                         backend: {
                             loadPath: function (lng, ns) {
                                 lng = lng[0];
