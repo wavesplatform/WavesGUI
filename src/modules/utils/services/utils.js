@@ -29,6 +29,25 @@
             },
 
             /**
+             * @name app.utils#debounce
+             * @param {function} handler
+             * @param {number} [timeout]
+             * @return {Function}
+             */
+            debounce(handler, timeout) {
+                let timer = null;
+                return function (...args) {
+                    if (timer) {
+                        clearTimeout(timer);
+                    }
+                    timer = setTimeout(() => {
+                        timer = null;
+                        handler.call(...args);
+                    }, timeout);
+                };
+            },
+
+            /**
              * @name app.utils#animate
              * @param {JQuery} $element
              * @param properties

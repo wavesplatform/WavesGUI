@@ -24,8 +24,9 @@
      *
      * @param {app.utils} utils
      * @param {ValidateService} validateService
+     * @param {app.utils.decorators} decorators
      */
-    const directive = function (utils, validateService) {
+    const directive = function (utils, validateService, decorators) {
         return {
             require: 'ngModel',
             priority: 10000,
@@ -87,8 +88,10 @@
                         /**
                          * @private
                          */
-                        _validate() {// TODO async
+                        @decorators.async(100)
+                        _validate() {
                             this._applyValidators(Object.keys(this._validators).map((name) => this._validators[name]));
+                            $scope.$apply();
                         }
 
                         /**
@@ -454,7 +457,7 @@
         };
     };
 
-    directive.$inject = ['utils', 'validateService'];
+    directive.$inject = ['utils', 'validateService', 'decorators'];
 
     angular.module('app.utils').directive('wValidate', directive);
 
