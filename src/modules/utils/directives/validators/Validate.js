@@ -10,16 +10,22 @@
         'integer',
         'precision',
         'byte',
-        'asset'
+        'asset',
+        'compare',
+        'number',
+        'alias',
+        'address',
+        'wavesAddress',
+        'outerBlockchains',
+        'anyAddress'
     ];
 
     /**
      *
      * @param {app.utils} utils
      * @param {ValidateService} validateService
-     * @param {Waves} waves
      */
-    const directive = function (utils, validateService, waves) {
+    const directive = function (utils, validateService) {
         return {
             require: 'ngModel',
             priority: 10000,
@@ -116,6 +122,27 @@
                                 case 'asset':
                                     this._validators[name] = this._createAssetValidator(name);
                                     break;
+                                case 'compare':
+                                    this._validators[name] = this._createCompareValidator(name);
+                                    break;
+                                case 'number':
+                                    this._validators[name] = Validate._createBigNumberValidator(name);
+                                    break;
+                                case 'alias':
+                                    this._validators[name] = Validate._createAliasValidator(name);
+                                    break;
+                                case 'address':
+                                    this._validators[name] = Validate._createAddressValidator(name);
+                                    break;
+                                case 'wavesAddress':
+                                    this._validators[name] = Validate._createWavesAddressValidator(name);
+                                    break;
+                                case 'outerBlockchains':
+                                    this._validators[name] = this._createOuterBlockchainsValidator(name);
+                                    break;
+                                case 'anyAddress':
+                                    this._validators[name] = this._createAnyAddressValidator(name);
+                                    break;
                                 default:
                                     this._validators[name] = this._createSimpleValidator(name);
                             }
@@ -131,6 +158,91 @@
                             return this._validators[name];
                         }
 
+                        _createOuterBlockchainsValidator(name) {
+
+                            let value = null;
+
+                            const validator = {
+                                name,
+                                value: null,
+                                handler: function (address) {
+                                    return validateService.outerBlockchains(address, validator.value);
+                                }
+                            };
+
+                            Object.defineProperty(validator, 'value', {
+                                get: () => value,
+                                set: (data) => {
+                                    value = Validate._toAssetId(data);
+                                }
+                            });
+
+                            this._listenValidatorChanges(name, validator);
+
+                            return validator;
+                        }
+
+                        _createAnyAddressValidator(name) {
+
+                            let value = null;
+
+                            const validator = {
+                                name,
+                                value: null,
+                                handler: function (address) {
+                                    return validateService.anyAddress(address, validator.value);
+                                }
+                            };
+
+                            Object.defineProperty(validator, 'value', {
+                                get: () => value,
+                                set: (data) => {
+                                    value = Validate._toAssetId(data);
+                                }
+                            });
+
+                            this._listenValidatorChanges(name, validator);
+
+                            return validator;
+                        }
+
+                        _createCompareValidator(name) {
+
+                            let value = null;
+
+                            const validator = {
+                                name,
+                                value: null,
+                                $compare: null,
+                                $compareHandler: () => {
+                                    this._validateByName(name);
+                                    $scope.$apply();
+                                },
+                                handler: (value) => {
+                                    return value === validator.$compare.val();
+                                },
+                                destroy: function () {
+                                    this.$compare.off('input', this.$compareHandler);
+                                }
+                            };
+
+                            Object.defineProperty(validator, 'value', {
+                                get: () => value,
+                                set: (val) => {
+                                    if (validator.$compare) {
+                                        validator.$compare.off('input', validator.$compareHandler);
+                                    }
+                                    validator.$compare = $input.closest('form').find(`input[name="${val}"]`);
+                                    validator.$compare.on('input', validator.$compareHandler);
+                                    value = val;
+                                }
+                            });
+
+                            this._listenValidatorChanges(name, validator);
+
+                            return validator;
+                        }
+
                         /**
                          *
                          * @param name
@@ -139,10 +251,10 @@
                          */
                         _createAssetValidator(name) {
                             const precisionValidator = this._createValidator('precision');
-                            let value;
+                            let value = null;
 
                             const validator = {
-                                name: name,
+                                name,
                                 asset: null,
                                 money: null,
                                 value: null,
@@ -154,9 +266,7 @@
                                 parser: (value) => {
                                     return Validate._toMoney(value, validator.money);
                                 },
-                                formatter: (value) => {
-                                    return Validate._toString(value);
-                                }
+                                formatter: Validate._toString
                             };
 
                             Object.defineProperty(validator, 'value', {
@@ -170,10 +280,9 @@
                                         return null;
                                     }
 
-                                    const id = (typeof assetData === 'string' ? assetData : assetData.id);
-                                    value = id;
-                                    if (id) {
-                                        Waves.Money.fromTokens('0', id).then((money) => {
+                                    value = Validate._toAssetId(assetData);
+                                    if (value) {
+                                        Waves.Money.fromTokens('0', value).then((money) => {
                                             validator.asset = money.asset;
                                             validator.money = money;
                                             validator.apply();
@@ -231,6 +340,51 @@
                             }
                         }
 
+                        static _createAddressValidator(name) {
+                            return {
+                                name,
+                                value: null,
+                                handler: validateService.address
+                            };
+                        }
+
+                        static _createAliasValidator(name) {
+                            return {
+                                name,
+                                value: null,
+                                handler: validateService.alias
+                            };
+                        }
+
+                        static _createWavesAddressValidator(name) {
+                            return {
+                                name,
+                                value: null,
+                                handler: validateService.wavesAddress
+                            };
+                        }
+
+                        static _createBigNumberValidator(name) {
+                            return {
+                                name,
+                                handler: () => true,
+                                parser: Validate._toBigNumber,
+                                formatter: Validate._toString
+                            };
+                        }
+
+                        static _toAssetId(data) {
+                            if (typeof data === 'string') {
+                                return data;
+                            } else if (data instanceof Waves.Money) {
+                                return data.asset.id;
+                            } else if (data instanceof Waves.Asset) {
+                                return data.id;
+                            } else {
+                                return null;
+                            }
+                        }
+
                         static _toString(value) {
                             if (value instanceof BigNumber) {
                                 return value.toFixed();
@@ -248,6 +402,14 @@
                                 return null;
                             } else {
                                 return target.cloneWithTokens(utils.parseNiceNumber(value));
+                            }
+                        }
+
+                        static _toBigNumber(value) {
+                            try {
+                                return new BigNumber(utils.parseNiceNumber(value));
+                            } catch (e) {
+                                return null;
                             }
                         }
 
@@ -292,7 +454,7 @@
         };
     };
 
-    directive.$inject = ['utils', 'validateService', 'waves'];
+    directive.$inject = ['utils', 'validateService'];
 
     angular.module('app.utils').directive('wValidate', directive);
 

@@ -1,7 +1,14 @@
 (function () {
     'use strict';
 
-    const factory = function () {
+    /**
+     * @param {Waves} waves
+     * @param {$q} $q
+     * @param {Object.<string, {function} isValidAddress>} outerBlockchains
+     * @param {app.utils} utils
+     * @return {ValidateService}
+     */
+    const factory = function (waves, $q, outerBlockchains, utils) {
 
         class ValidateService {
 
@@ -52,6 +59,78 @@
                 return inputValue.round().eq(inputValue);
             }
 
+            anyAddress(address, assetId) {
+                return this.outerBlockchains(address, assetId) ? true : this.wavesAddress(address);
+            }
+
+            wavesAddress(address) {
+                return utils.whenAll([
+                    this.alias(address),
+                    this.address(address)
+                ]).then(([alias, address]) => {
+                    return (alias || address) ? $q.resolve() : $q.reject();
+                });
+            }
+
+            outerBlockchains(address, assetId) {
+                if (!address || !assetId) {
+                    return true;
+                }
+
+                const outerChain = outerBlockchains[assetId];
+
+                if (!outerChain) {
+                    return false;
+                }
+
+                return outerChain.isValidAddress(address);
+            }
+
+            alias(address) {
+                if (!address) {
+                    return true;
+                }
+
+                if (address.length < WavesApp.minAliasLength) {
+                    return false;
+                }
+
+                if (address.length > WavesApp.maxAliasLength) {
+                    return false;
+                }
+
+                if (!waves.node.aliases.validate(address)) {
+                    return false;
+                } else {
+                    return waves.node.aliases.getAddress(address);
+                }
+            }
+
+            address(address) {
+                if (!address) {
+                    return true;
+                }
+
+                if (address.length <= WavesApp.maxAliasLength) {
+                    return false;
+                }
+
+                if (address.length >= WavesApp.maxAddressLength) {
+                    return false;
+                }
+
+                return Waves.API.Node.v1.addresses.balance(address)
+                    .then((data) => {
+                        if (data && data.balance != null) {
+                            return $q.resolve();
+                        } else {
+                            return $q.reject();
+                        }
+                    }, (e) => {
+                        return $q.reject(e.message);
+                    });
+            }
+
             static toBigNumber(item) {
                 switch (typeof item) {
                     case 'string':
@@ -91,7 +170,7 @@
         return new ValidateService();
     };
 
-    factory.$inject = [];
+    factory.$inject = ['waves', '$q', 'outerBlockchains', 'utils'];
 
     angular.module('app.utils').factory('validateService', factory);
 })();

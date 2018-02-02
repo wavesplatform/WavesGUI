@@ -42,14 +42,12 @@
                         <div class="body-2" w-i18n="modal.send.recipient"></div>
                         <div class="read-address-wrap">
                             <w-input type="text"
-                                     w-validate="address"
-                                     with-gateways="true"
-                                     asset-id="{{$ctrl.assetId}}"
-                                     w-validate
                                      name="recipient"
                                      ng-model="$ctrl.recipient"
                                      placeholder="modal.send.placeholderRecipient"
                                      w-i18n-attr="placeholder"
+                                     w-validate
+                                     w-validator-any-address="{{$ctrl.assetId}}"
                                      required></w-input>
 
                             <w-qr-code-read on-read="$ctrl.onReadQrCode(result)" max-width="250"
