@@ -129,9 +129,7 @@
 
                 <div class="row fee margin-2">
                     <div class="body basic-500">
-                        <w-i18n>modal.send.fee</w-i18n>&nbsp;
-                        <w-balance money="$ctrl.tx.fee"></w-balance>
-                        {{$ctrl.tx.fee.asset.displayName}}
+                        <w-i18n params="{fee: $ctrl.tx.fee}">modal.send.fee</w-i18n>
                     </div>
                 </div>
 

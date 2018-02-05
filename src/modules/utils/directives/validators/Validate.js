@@ -17,7 +17,8 @@
         'address',
         'wavesAddress',
         'outerBlockchains',
-        'anyAddress'
+        'anyAddress',
+        'pattern'
     ];
 
     /**
@@ -30,6 +31,11 @@
         return {
             require: 'ngModel',
             priority: 10000,
+            /**
+             * @param {JQuery} $input
+             * @param {object} $attrs
+             * @return {*}
+             */
             compile: function ($input, $attrs) {
 
                 /**
@@ -45,6 +51,11 @@
 
                         constructor() {
                             this._validators = Object.create(null);
+                            /**
+                             * @type {Signal}
+                             * @private
+                             */
+                            this._validatorsReady = new tsUtils.Signal();
 
                             this._createValidatorList();
                             $scope.$watch($attrs.ngModel, () => this._validate());
@@ -68,7 +79,7 @@
                                             const onEnd = () => {
                                                 $ngModel.$setValidity(`pending-${name}`, true);
                                             };
-                                            result.then(() => {
+                                            utils.when(result).then(() => {
                                                 $ngModel.$setValidity(name, true);
                                                 onEnd();
                                             }, () => {
@@ -109,6 +120,8 @@
                             AVAILABLE_VALIDATORS.filter(Validate._hasValidator).forEach((name) => {
                                 this._createValidator(name);
                             });
+
+                            this._validatorsReady.dispatch();
                         }
 
                         /**
@@ -146,6 +159,9 @@
                                 case 'anyAddress':
                                     this._validators[name] = this._createAnyAddressValidator(name);
                                     break;
+                                case 'pattern':
+                                    this._validators[name] = this._createPatternValidator(name);
+                                    break;
                                 default:
                                     this._validators[name] = this._createSimpleValidator(name);
                             }
@@ -157,6 +173,7 @@
                             if (this._validators[name].formatter) {
                                 $ngModel.$formatters.push(this._validators[name].formatter);
                             }
+
 
                             return this._validators[name];
                         }
@@ -246,6 +263,46 @@
                             return validator;
                         }
 
+                        _createPatternValidator(name) {
+
+                            let value;
+
+                            const validator = {
+                                name,
+                                value: null,
+                                handler: (modelValue, viewValue) => {
+                                    return true; // TODO
+                                }
+                            };
+
+                            Object.defineProperty(validator, 'value', {
+                                get: () => value,
+                                set: (val) => {
+                                    value = new RegExp(`[${val}]`);
+                                }
+                            });
+
+                            $input.on('keypress', (event) => {
+                                if (event.keyCode != null) {
+                                    const char = String.fromCharCode(event.keyCode);
+                                    if (char != null) {
+                                        if (validator.value.test(char)) {
+                                            if (char === '.' && $input.val().includes('.')) {
+                                                // TODO add separator from locale
+                                                event.preventDefault();
+                                            }
+                                        } else {
+                                            event.preventDefault();
+                                        }
+                                    }
+                                }
+                            });
+
+                            this._listenValidatorChanges(name, validator);
+
+                            return validator;
+                        }
+
                         /**
                          *
                          * @param name
@@ -254,6 +311,15 @@
                          */
                         _createAssetValidator(name) {
                             const precisionValidator = this._createValidator('precision');
+
+                            this._validatorsReady.once(() => {
+                                const patternName = Validate._getAttrName('pattern');
+                                if (!$attrs[patternName]) {
+                                    $attrs[patternName] = '0-9.';
+                                    this._createValidator('pattern');
+                                }
+                            });
+
                             let value = null;
 
                             const validator = {
@@ -269,7 +335,16 @@
                                 parser: (value) => {
                                     return Validate._toMoney(value, validator.money);
                                 },
-                                formatter: Validate._toString
+                                formatter: (value) => {
+
+                                    const money = Validate._toMoney($input.val(), validator.money);
+
+                                    if (Validate._isFocused() && (!money || money.eq(value))) {
+                                        return $input.val();
+                                    } else {
+                                        return Validate._toString(value);
+                                    }
+                                }
                             };
 
                             Object.defineProperty(validator, 'value', {
@@ -353,6 +428,10 @@
                             } else {
                                 validator.value = attrValue;
                             }
+                        }
+
+                        static _isFocused() {
+                            return document.activeElement === $input.get(0);
                         }
 
                         static _createAddressValidator(name) {

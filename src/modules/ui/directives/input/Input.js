@@ -107,26 +107,6 @@
                         this._$input.on('blur', () => {
                             this._$inputWrap.removeClass('focused');
                         });
-
-                        if ($attrs.wType === 'number') {
-
-                            const reg = /[0-9.]/;
-                            this._$input.on('keypress', (event) => {
-                                if (event.keyCode != null) {
-                                    const char = String.fromCharCode(event.keyCode);
-                                    if (char != null) {
-                                        if (reg.test(char)) {
-                                            if (char === '.' && this._$input.val().includes('.')) {
-                                                // TODO add separator from locale
-                                                event.preventDefault();
-                                            }
-                                        } else {
-                                            event.preventDefault();
-                                        }
-                                    }
-                                }
-                            });
-                        }
                     }
 
                     _getName() {

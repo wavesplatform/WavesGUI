@@ -71,14 +71,20 @@
                     return null;
                 }
                 if (this.maxBalance) {
+
                     const feeHash = utils.groupMoney(utils.toArray(this.fee));
+                    let amount = null;
+
                     if (feeHash[this.assetId]) {
-                        this.amount = BigNumber.max(
-                            this.maxBalance.getTokens().sub(feeHash[this.assetId].getTokens()),
-                            new BigNumber(0)
-                        );
+                        amount = this.maxBalance.sub(feeHash[this.assetId]);
                     } else {
-                        this.amount = this.maxBalance.getTokens();
+                        amount = this.maxBalance;
+                    }
+
+                    if (amount.getTokens().lt(0)) {
+                        this.amount = this.maxBalance.cloneWithTokens('0');
+                    } else {
+                        this.amount = amount;
                     }
                 }
             }
@@ -108,10 +114,10 @@
                 if (!this.assetId) {
                     return null;
                 }
-                waves.node.assets.info(this.assetId).then((info) => {
-                    this.asset = info;
+                Waves.Money.fromTokens('0', this.assetId).then((money) => {
+                    this.asset = money.asset;
                     if (!this.amount) {
-                        this.amount = new BigNumber(0);
+                        this.amount = money;
                     }
                 });
             }
@@ -138,7 +144,6 @@
         },
         scope: false,
         templateUrl: 'modules/ui/directives/balanceInput/balanceInput.html',
-        transclude: false,
         controller
     });
 })();

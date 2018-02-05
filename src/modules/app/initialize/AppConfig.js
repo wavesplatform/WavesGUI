@@ -56,7 +56,7 @@
                                     case 'money':
                                         return value.getTokens().toFixed();
                                     case 'money-currency':
-                                        return `${value.getTokens().toFixed()} ${value.asset.displayName}`;
+                                        return value && `${value.getTokens().toFixed()} ${value.asset.displayName}` || '';
                                     case 'BigNumber':
                                         return value && value.toFixed() || '';
                                     default:

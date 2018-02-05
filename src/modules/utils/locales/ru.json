@@ -48,7 +48,7 @@
       "description": "Описание",
       "descriptionPlaceholder": "Напишите сообщение (не обязательно)",
       "placeholderRecipient": "Вставьте или просканируйте адрес",
-      "fee": "Комиссия",
+      "fee": "Комиссия {{fee, money-currency}}",
       "total": "Всего",
       "errors": {
         "address": "Неверный адрес",

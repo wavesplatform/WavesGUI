@@ -48,7 +48,7 @@
       "description": "Description",
       "descriptionPlaceholder": "Write an optional message",
       "placeholderRecipient": "Paste or scan an address",
-      "fee": "Transaction Fee",
+      "fee": "Transaction Fee {{fee, money-currency}}",
       "total": "Total",
       "errors": {
         "address": "The address is not valid",
