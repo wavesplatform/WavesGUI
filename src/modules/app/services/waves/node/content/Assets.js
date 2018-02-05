@@ -113,17 +113,14 @@
              * @return {Promise<{id: string}>}
              */
             transfer({ amount, fee, recipient, attachment, keyPair }) {
-                const address = recipient <= WavesApp.maxAliasLength ?
-                    aliases.getAddress(recipient) : Promise.resolve(recipient);
-
-                return Promise.all([address, this.getFee('transfer', fee)])
-                    .then(([address, fee]) => {
+                return this.getFee('transfer', fee)
+                    .then((fee) => {
                         return Waves.API.Node.v1.assets.transfer({
                             amount: amount.toCoins(),
                             assetId: amount.asset.id,
                             fee: fee.toCoins(),
                             feeAssetId: fee.asset.id,
-                            recipient: address,
+                            recipient,
                             attachment
                         }, keyPair)
                             .then(this._pipeTransaction([amount, fee]));
@@ -260,6 +257,8 @@
                 const wavesNodeAvailable = wavesDetails.wavesBalance.available;
                 const wavesTx = eventsMoneyHash[WavesApp.defaultAssets.WAVES] || wavesNodeRegular.cloneWithCoins('0');
                 const wavesOrder = orderMoneyHash[WavesApp.defaultAssets.WAVES] || wavesNodeRegular.cloneWithCoins('0');
+
+                aliases.aliases = wavesDetails.aliases;
 
                 return [{
                     asset: wavesNodeRegular.asset,

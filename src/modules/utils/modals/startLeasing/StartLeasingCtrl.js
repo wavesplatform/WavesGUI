@@ -23,7 +23,7 @@
                 this.title = i18n.translate('modal.startLease.title', 'app.utils');
                 this.assetId = WavesApp.defaultAssets.WAVES;
                 this.recipient = '';
-                this.amount = new BigNumber(0);
+                this.amount = null;
 
                 waves.node.fee('lease')
                     .then(([money]) => {
@@ -36,13 +36,15 @@
                     });
             }
 
+            back() {
+                this.step--;
+            }
+
             next() {
-                return Waves.Money.fromTokens(this.amount, this.assetId).then((amount) => {
-                    return waves.node.transactions.createTransaction('lease', {
-                        recipient: this.recipient,
-                        fee: this.fee,
-                        amount
-                    });
+                return waves.node.transactions.createTransaction('lease', {
+                    recipient: this.recipient,
+                    fee: this.fee,
+                    amount: this.amount
                 }).then((tx) => {
                     this.tx = tx;
                     this.step++;

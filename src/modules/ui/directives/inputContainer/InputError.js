@@ -48,8 +48,12 @@
             _getElements() {
                 const empty = tsUtils.isEmpty(this.name);
 
-                return !empty ? [this.inputContainer.form[this.name].$touched] :
-                    this._getTarget();
+                if (empty) {
+                    return this._getTarget();
+                } else {
+                    const target = this.inputContainer.form[this.name];
+                    return target ? [target] : [];
+                }
             }
 
             /**

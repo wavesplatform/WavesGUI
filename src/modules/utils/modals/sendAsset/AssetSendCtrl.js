@@ -144,7 +144,7 @@
                     amount = this.balance;
                 }
                 waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
-                    this.mirror = amount.convertTo(this.mirror.asset, rate);
+                    this.mirror = amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
                     this.tx.amount = amount;
                 });
             }
@@ -156,19 +156,26 @@
             createTx() {
                 const toGateway = this.outerSendMode && this.gatewayDetails;
 
-                return waves.node.transactions.createTransaction('transfer', {
+                const tx = waves.node.transactions.createTransaction('transfer', {
                     ...this.tx,
                     sender: user.address,
                     recipient: toGateway ? this.gatewayDetails.address : this.tx.recipient,
                     attachment: toGateway ? this.gatewayDetails.attachment : this.tx.attachment
-                }).then((tx) => {
-                    this.txInfo = tx;
-                    this.step++;
                 });
+
+                this.txInfo = tx;
+                this.step++;
             }
 
             back() {
                 this.step--;
+            }
+
+            onBlurMirror() {
+                if (!this.mirror) {
+                    this._fillMirror();
+                }
+                this.focus = '';
             }
 
             /**
@@ -261,11 +268,8 @@
              * @private
              */
             _onChangeAmount() {
-                if (!this.noMirror && this.tx.amount && this.mirror && this.focus === 'amount') {
-                    waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
-                        const mirror = this.tx.amount.convertTo(this.mirror.asset, rate);
-                        this.mirror = mirror;
-                    });
+                if (!this.noMirror && this.tx.amount && this.focus === 'amount') {
+                    this._fillMirror();
                 }
             }
 
@@ -273,12 +277,25 @@
              * @private
              */
             _onChangeAmountMirror() {
-                if (this.mirror && this.tx.amount && this.focus === 'mirror') {
-                    waves.utils.getRate(this.mirrorId, this.assetId).then((rate) => {
-                        const amount = this.mirror.convertTo(this.tx.amount.asset, rate);
-                        this.tx.amount = amount;
-                    });
+                if (this.mirror && this.focus === 'mirror') {
+                    this._fillAmount();
                 }
+            }
+
+            _fillMirror() {
+                waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
+                    const mirror = this.tx.amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
+                    this.mirror = mirror;
+                    $scope.$apply();
+                });
+            }
+
+            _fillAmount() {
+                waves.utils.getRate(this.mirrorId, this.assetId).then((rate) => {
+                    const amount = this.mirror.convertTo(this.moneyHash[this.assetId].asset, rate);
+                    this.tx.amount = amount;
+                    $scope.$apply();
+                });
             }
 
             _updateGatewayDetails() {

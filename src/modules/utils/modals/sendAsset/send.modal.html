@@ -94,7 +94,7 @@
                         <div class="amount-modal-icon"></div>
                         <w-balance-input ng-if="!$ctrl.noMirror"
                                          on-focus="$ctrl.focus = 'mirror'"
-                                         on-blur="$ctrl.focus = ''"
+                                         on-blur="$ctrl.onBlurMirror()"
                                          name="amountMirror"
                                          asset-id="$ctrl.mirrorId"
                                          fill-max="$ctrl.fillMax()"
@@ -105,16 +105,16 @@
 
                     </div>
 
-                    <w-input-error message="gt">
+                    <w-input-error name="amount" message="gt">
                         <w-i18n>inputs.errors.required</w-i18n>
                     </w-input-error>
-                    <w-input-error message="required">
+                    <w-input-error name="amount" message="required">
                         <w-i18n>inputs.errors.required</w-i18n>
                     </w-input-error>
-                    <w-input-error message="precision">
+                    <w-input-error name="amount" message="precision">
                         <w-i18n>inputs.errors.invalidAsset</w-i18n>
                     </w-input-error>
-                    <w-input-error message="lte">
+                    <w-input-error name="amount" message="lte">
                         <w-i18n>modal.send.errors.max</w-i18n>
                     </w-input-error>
                 </w-input-container>

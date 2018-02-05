@@ -166,7 +166,7 @@
             };
         }
 
-        return new ValidateService();
+        return utils.bind(new ValidateService());
     };
 
     factory.$inject = ['waves', '$q', 'outerBlockchains', 'utils'];

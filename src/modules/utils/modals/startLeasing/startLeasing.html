@@ -19,7 +19,8 @@
                 <w-input-container>
                     <w-input class="big"
                              type="text"
-                             w-validate="address"
+                             w-validate
+                             w-validator-waves-address="no-self"
                              name="recipient"
                              ng-model="$ctrl.recipient"
                              required></w-input>
@@ -38,6 +39,7 @@
                     <w-balance-input name="amount"
                                      asset-id="$ctrl.assetId"
                                      max-balance="$ctrl.balance"
+                                     min="0"
                                      fee="$ctrl.fee"
                                      input-classes="big"
                                      amount="$ctrl.amount"></w-balance-input>
