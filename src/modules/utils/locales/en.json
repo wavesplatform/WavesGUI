@@ -49,6 +49,7 @@
       "descriptionPlaceholder": "Write an optional message",
       "placeholderRecipient": "Paste or scan an address",
       "fee": "Transaction Fee {{fee, money-currency}}",
+      "attachmentLength": "The description is too long",
       "total": "Total",
       "errors": {
         "address": "The address is not valid",

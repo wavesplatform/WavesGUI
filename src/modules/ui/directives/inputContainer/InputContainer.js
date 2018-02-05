@@ -13,7 +13,7 @@
              * @type {Array.<HTMLInputElement>}
              */
             get inputs() {
-                return $element.find('input')
+                return $element.find('input,textarea')
                     .toArray();
             }
 

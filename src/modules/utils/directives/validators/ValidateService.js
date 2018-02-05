@@ -50,7 +50,7 @@
             @notNullArgs
             byte(inputValue, bytes) {
                 const blob = new Blob([inputValue], { type: 'text/html' });
-                return blob.size <= bytes;
+                return blob.size <= Number(bytes);
             }
 
             @notNullArgs

@@ -121,10 +121,19 @@
 
                 <div ng-if="!$ctrl.outerSendMode" class="row">
                     <div class="body-2" w-i18n="modal.send.description"></div>
-                    <w-input textarea="true"
-                             ng-model="$ctrl.tx.attachment"
-                             w-i18n-attr="placeholder"
-                             placeholder="modal.send.descriptionPlaceholder"></w-input>
+                    <w-input-container>
+                        <w-input textarea="true"
+                                 name="attachment"
+                                 ng-model="$ctrl.tx.attachment"
+                                 w-i18n-attr="placeholder"
+                                 w-validate
+                                 w-validator-byte="140"
+                                 placeholder="modal.send.descriptionPlaceholder"></w-input>
+
+                        <w-input-error message="byte">
+                            <w-i18n>modal.send.attachmentLength</w-i18n>
+                        </w-input-error>
+                    </w-input-container>
                 </div>
 
                 <div class="row fee margin-2">
