@@ -41,14 +41,14 @@
             }
 
             next() {
-                return waves.node.transactions.createTransaction('lease', {
+                const tx = waves.node.transactions.createTransaction('lease', {
                     recipient: this.recipient,
                     fee: this.fee,
                     amount: this.amount
-                }).then((tx) => {
-                    this.tx = tx;
-                    this.step++;
                 });
+
+                this.tx = tx;
+                this.step++;
             }
 
         }

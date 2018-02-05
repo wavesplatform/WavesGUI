@@ -331,7 +331,9 @@
                                     precisionValidator.value = validator.asset.precision;
                                     this._validateByName(name);
                                 },
-                                handler: () => true,
+                                handler: (modelValue, viewValue) => {
+                                    return (viewValue && !!modelValue) || !viewValue;
+                                },
                                 parser: (value) => {
                                     return Validate._toMoney(value, validator.money);
                                 },
@@ -339,7 +341,7 @@
 
                                     const money = Validate._toMoney($input.val(), validator.money);
 
-                                    if (Validate._isFocused() && (!money || money.eq(value))) {
+                                    if (Validate._isFocused() && (!value || (money && money.eq(value)))) {
                                         return $input.val();
                                     } else {
                                         return Validate._toString(value);
@@ -383,6 +385,10 @@
 
                             let handler;
                             switch (name) {
+                                case 'lt':
+                                case 'gt':
+                                case 'lte':
+                                case 'gte':
                                 case 'precision':
                                     handler = function (modelValue, viewValue) {
                                         return validateService[name](viewValue, validator.value);
@@ -495,7 +501,11 @@
                             if (!target) {
                                 return null;
                             } else {
-                                return target.cloneWithTokens(utils.parseNiceNumber(value));
+                                try {
+                                    return target.cloneWithTokens(utils.parseNiceNumber(value));
+                                } catch (e) {
+                                    return null;
+                                }
                             }
                         }
 

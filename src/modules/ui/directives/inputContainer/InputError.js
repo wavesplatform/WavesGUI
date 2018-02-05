@@ -52,7 +52,7 @@
                     return this._getTarget();
                 } else {
                     const target = this.inputContainer.form[this.name];
-                    return target ? [target] : [];
+                    return target && target.$$element.get(0) !== document.activeElement ? [target] : [];
                 }
             }
 

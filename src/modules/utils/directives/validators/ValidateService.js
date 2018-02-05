@@ -12,26 +12,26 @@
 
         class ValidateService {
 
-            @notNullArgs
             @toBigNumberArgs
+            @notNullArgs
             gt(inputValue, validateValue) {
                 return inputValue.gt(validateValue);
             }
 
-            @notNullArgs
             @toBigNumberArgs
+            @notNullArgs
             gte(inputValue, validateValue) {
                 return inputValue.gte(validateValue);
             }
 
-            @notNullArgs
             @toBigNumberArgs
+            @notNullArgs
             lt(inputValue, validateValue) {
                 return inputValue.lt(validateValue);
             }
 
-            @notNullArgs
             @toBigNumberArgs
+            @notNullArgs
             lte(inputValue, validateValue) {
                 return inputValue.lte(validateValue);
             }
@@ -41,9 +41,10 @@
                 return String(inputValue).length <= length;
             }
 
+            @toBigNumberArgs
             @notNullArgs
             precision(inputValue, precision) {
-                const [int, dec] = inputValue.split('.'); //TODO add separator
+                const [int, dec] = inputValue.toFixed().split('.'); //TODO add separator
                 return dec ? dec.length <= precision : true; //TODO remove empty zero
             }
 
@@ -134,14 +135,18 @@
                 switch (typeof item) {
                     case 'string':
                     case 'number':
-                        return new BigNumber(item);
+                        try {
+                            return new BigNumber(item);
+                        } catch (e) {
+                            return null;
+                        }
                     case 'object':
                         if (item instanceof BigNumber) {
                             return item;
                         } else if (item instanceof Waves.Money) {
                             return item.getTokens();
                         } else {
-                            throw new Error('Cant convert data to BigNumber');
+                            return null;
                         }
                 }
             }
