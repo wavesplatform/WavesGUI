@@ -6,9 +6,10 @@
      * @param {$q} $q
      * @param {Object.<string, {function} isValidAddress>} outerBlockchains
      * @param {app.utils} utils
+     * @param {User} user
      * @return {ValidateService}
      */
-    const factory = function (waves, $q, outerBlockchains, utils) {
+    const factory = function (waves, $q, outerBlockchains, utils, user) {
 
         class ValidateService {
 
@@ -63,10 +64,10 @@
                 return this.outerBlockchains(address, assetId) ? true : this.wavesAddress(address);
             }
 
-            wavesAddress(address) {
+            wavesAddress(address, value) {
                 return utils.whenAll([
-                    this.alias(address),
-                    this.address(address)
+                    this.alias(address, value),
+                    this.address(address, value)
                 ]).then(([alias = true, address = true]) => {
                     return (alias || address) ? $q.resolve() : $q.reject();
                 });
@@ -86,7 +87,7 @@
                 return outerChain.isValidAddress(address);
             }
 
-            alias(address) {
+            alias(address, value = '') {
                 if (!address) {
                     return true;
                 }
@@ -102,11 +103,16 @@
                 if (!waves.node.aliases.validate(address)) {
                     return false;
                 } else {
-                    return waves.node.aliases.getAddress(address);
+                    if (value && value === 'no-self') {
+                        return !waves.node.aliases.getAliasList().includes(address) &&
+                            waves.node.aliases.getAddress(address);
+                    } else {
+                        return waves.node.aliases.getAddress(address);
+                    }
                 }
             }
 
-            address(address) {
+            address(address, value = '') {
                 if (!address) {
                     return true;
                 }
@@ -116,6 +122,10 @@
                 }
 
                 if (address.length >= WavesApp.maxAddressLength) {
+                    return false;
+                }
+
+                if (value && value === 'no-self' && address === user.address) {
                     return false;
                 }
 
@@ -174,7 +184,7 @@
         return utils.bind(new ValidateService());
     };
 
-    factory.$inject = ['waves', '$q', 'outerBlockchains', 'utils'];
+    factory.$inject = ['waves', '$q', 'outerBlockchains', 'utils', 'user'];
 
     angular.module('app.utils').factory('validateService', factory);
 })();

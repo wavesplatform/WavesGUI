@@ -145,19 +145,15 @@
                                     this._validators[name] = Validate._createBigNumberValidator(name);
                                     break;
                                 case 'alias':
-                                    this._validators[name] = Validate._createAliasValidator(name);
-                                    break;
                                 case 'address':
-                                    this._validators[name] = Validate._createAddressValidator(name);
-                                    break;
                                 case 'wavesAddress':
-                                    this._validators[name] = Validate._createWavesAddressValidator(name);
-                                    break;
-                                case 'outerBlockchains':
-                                    this._validators[name] = this._createOuterBlockchainsValidator(name);
+                                    this._validators[name] = this._createAddressValidator(name);
                                     break;
                                 case 'anyAddress':
                                     this._validators[name] = this._createAnyAddressValidator(name);
+                                    break;
+                                case 'outerBlockchains':
+                                    this._validators[name] = this._createOuterBlockchainsValidator(name);
                                     break;
                                 case 'pattern':
                                     this._validators[name] = this._createPatternValidator(name);
@@ -377,6 +373,17 @@
                             return validator;
                         }
 
+                        _createAddressValidator(name) {
+                            const validator = {
+                                name,
+                                value: null,
+                                handler: (value) => validateService[name](value, validator.value)
+                            };
+                            this._listenValidatorChanges(name, validator);
+
+                            return validator;
+                        }
+
                         /**
                          * @param name
                          * @private
@@ -438,30 +445,6 @@
 
                         static _isFocused() {
                             return document.activeElement === $input.get(0);
-                        }
-
-                        static _createAddressValidator(name) {
-                            return {
-                                name,
-                                value: null,
-                                handler: validateService.address
-                            };
-                        }
-
-                        static _createAliasValidator(name) {
-                            return {
-                                name,
-                                value: null,
-                                handler: validateService.alias
-                            };
-                        }
-
-                        static _createWavesAddressValidator(name) {
-                            return {
-                                name,
-                                value: null,
-                                handler: validateService.wavesAddress
-                            };
                         }
 
                         static _createBigNumberValidator(name) {
