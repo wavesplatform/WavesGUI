@@ -177,8 +177,7 @@
             _getBalanceOrders() {
                 return matcher.getOrders()
                     .then((orders) => orders.filter(Assets._filterOrders))
-                    .then((orders) => orders.map(Assets._remapOrders))
-                    .then(Promise.all.bind(Promise));
+                    .then((orders) => orders.map(Assets._remapOrders));
             }
 
             /**
@@ -226,10 +225,10 @@
             static _remapOrders(order) {
                 switch (order.type) {
                     case 'sell':
-                        return Promise.resolve(order.amount.sub(order.filled));
+                        return order.amount.sub(order.filled);
                     case 'buy':
                         const tokens = order.amount.sub(order.filled).getTokens().mul(order.price.getTokens());
-                        return Waves.Money.fromTokens(tokens, order.price.asset.id);
+                        return order.price.cloneWithTokens(tokens);
                 }
             }
 
@@ -250,8 +249,8 @@
              * @private
              */
             static _remapBalance([wavesDetails, moneyList, orderMoneyList]) {
-                const orderMoneyHash = Assets._getMoneyHashFromMoneyList(orderMoneyList);
-                const eventsMoneyHash = Assets._getMoneyHashFromMoneyList(eventManager.getReservedMoneyList());
+                const orderMoneyHash = utils.groupMoney(orderMoneyList);
+                const eventsMoneyHash = utils.groupMoney(eventManager.getReservedMoneyList());
 
                 const wavesNodeRegular = wavesDetails.wavesBalance.regular;
                 const wavesNodeAvailable = wavesDetails.wavesBalance.available;
@@ -308,22 +307,6 @@
                 } else {
                     return result;
                 }
-            }
-
-            /**
-             * @param {Money[]} orderMoneyList
-             * @return {object}
-             * @private
-             */
-            static _getMoneyHashFromMoneyList(orderMoneyList) {
-                return orderMoneyList.reduce((hash, orderMoney) => {
-                    if (!hash[orderMoney.asset.id]) {
-                        hash[orderMoney.asset.id] = orderMoney;
-                    } else {
-                        hash[orderMoney.asset.id] = hash[orderMoney.asset.id].add(orderMoney);
-                    }
-                    return hash;
-                }, Object.create(null));
             }
 
         }

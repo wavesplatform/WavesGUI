@@ -449,7 +449,14 @@
                         }
                     };
                 }
-            }
+            },
+
+            /**
+             * @name app.utils#isNotEqualValue
+             * @param {*} oldValue
+             * @param {*} newValue
+             */
+            isNotEqualValue: isNotEqualValue
         };
 
         function _processDecimal(decimal) {

@@ -21,7 +21,8 @@
         'wavesAddress',
         'outerBlockchains',
         'anyAddress',
-        'pattern'
+        'pattern',
+        'custom'
     ];
 
     const NUMBER_PATTERN = '[0-9.]'; //TODO Add locale separators
@@ -167,6 +168,9 @@
                                 case 'compare':
                                     this._validators[name] = this._createCompareValidator(name);
                                     break;
+                                case 'custom':
+                                    this._validators[name] = this._createCustomValidator(name);
+                                    break;
                                 case 'number':
                                     this._validators[name] = this._createBigNumberValidator(name);
                                     break;
@@ -201,6 +205,27 @@
 
 
                             return this._validators[name];
+                        }
+
+                        _createCustomValidator(name) {
+
+                            const validator = {
+                                name,
+                                value: null,
+                                handler: function () {
+                                    if (validator.value == null) {
+                                        return true;
+                                    } else if (typeof validator.value === 'function') {
+                                        return validator.value();
+                                    } else {
+                                        return !!validator.value;
+                                    }
+                                }
+                            };
+
+                            this._listenValidatorChanges(name, validator);
+
+                            return validator;
                         }
 
                         _createIntegerValidator(name) {
@@ -291,12 +316,14 @@
                             Object.defineProperty(validator, 'value', {
                                 get: () => value,
                                 set: (val) => {
-                                    if (validator.$compare) {
-                                        validator.$compare.off('input', validator.$compareHandler);
+                                    if (utils.isNotEqualValue(value, val)) {
+                                        if (validator.$compare) {
+                                            validator.$compare.off('input', validator.$compareHandler);
+                                        }
+                                        validator.$compare = $input.closest('form').find(`input[name="${val}"]`);
+                                        validator.$compare.on('input', validator.$compareHandler);
+                                        value = val;
                                     }
-                                    validator.$compare = $input.closest('form').find(`input[name="${val}"]`);
-                                    validator.$compare.on('input', validator.$compareHandler);
-                                    value = val;
                                 }
                             });
 
@@ -360,11 +387,10 @@
 
                             const validator = {
                                 name,
-                                asset: null,
                                 money: null,
                                 value: null,
                                 apply: () => {
-                                    precisionValidator.value = validator.asset.precision;
+                                    precisionValidator.value = validator.money.asset.precision;
                                     this._validateByName(name);
                                 },
                                 handler: (modelValue, viewValue) => {
@@ -389,7 +415,6 @@
                                 get: () => value,
                                 set: (assetData) => {
 
-                                    validator.asset = null;
                                     validator.money = null;
 
                                     if (!assetData) {
@@ -399,10 +424,11 @@
                                     value = Validate._toAssetId(assetData);
                                     if (value) {
                                         Waves.Money.fromTokens('0', value).then((money) => {
-                                            validator.asset = money.asset;
-                                            validator.money = money;
-                                            validator.apply();
-                                            $ngModel.$modelValue = validator.parser($ngModel.$viewValue);
+                                            if (utils.isNotEqualValue(validator.money, money)) {
+                                                validator.money = money;
+                                                validator.apply();
+                                                $ngModel.$modelValue = validator.parser($ngModel.$viewValue);
+                                            }
                                         });
                                     }
                                 }
@@ -438,7 +464,19 @@
                                 case 'gte':
                                 case 'precision':
                                     handler = function (modelValue, viewValue) {
-                                        return validateService[name](viewValue, validator.value);
+                                        let value;
+
+                                        try {
+                                            if (viewValue) {
+                                                value = utils.parseNiceNumber(viewValue);
+                                            } else {
+                                                value = null;
+                                            }
+                                        } catch (e) {
+                                            value = null;
+                                        }
+
+                                        return validateService[name](value, validator.value);
                                     };
                                     break;
                                 default:
