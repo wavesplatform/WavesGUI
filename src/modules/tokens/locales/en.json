@@ -12,9 +12,12 @@
     "precision": "This field defines the number of decimal signs for your token"
   },
   "validators": {
-    "nameLen": "An asset name must be at least 4-16 characters’ long",
+    "byte": {
+      "lte": "Asset name must be between 4 and 16 bytes long",
+      "gte": "Asset name must be between 4 and 16 bytes long"
+    },
     "required": "This field must be filled",
-    "descriptionLen": "Entered description is too large",
+    "descriptionLen": "The description is too long. It must be no more than 1,000 bytes.",
     "minValuePrecision": "Invalid number. Enter number from 0 to 8",
     "maxValuePrecision": "Invalid number. Enter number from 0 to 8",
     "maxValueCount": "Entered number is too large",
