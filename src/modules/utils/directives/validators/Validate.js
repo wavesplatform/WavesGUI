@@ -9,10 +9,13 @@
         'length',
         'integer',
         'precision',
-        'byte',
+        'byteLt',
+        'byteLte',
+        'byteGt',
+        'byteGte',
+        'number',
         'asset',
         'compare',
-        'number',
         'alias',
         'address',
         'wavesAddress',
@@ -20,6 +23,8 @@
         'anyAddress',
         'pattern'
     ];
+
+    const NUMBER_PATTERN = '[0-9.]'; //TODO Add locale separators
 
     /**
      *
@@ -56,9 +61,30 @@
                              * @private
                              */
                             this._validatorsReady = new tsUtils.Signal();
+                            this._ready = false;
+
+                            this._validatorsReady.once(() => {
+                                this._ready = true;
+                            });
 
                             this._createValidatorList();
                             $scope.$watch($attrs.ngModel, () => this._validate());
+                        }
+
+                        _addInputPattern(pattern) {
+                            const create = () => {
+                                const patternName = Validate._getAttrName('pattern');
+                                if (!$attrs[patternName]) {
+                                    $attrs[patternName] = pattern;
+                                    this._createValidator('pattern');
+                                }
+                            };
+
+                            if (this._ready) {
+                                create();
+                            } else {
+                                this._validatorsReady.once(create);
+                            }
                         }
 
                         /**
@@ -142,12 +168,15 @@
                                     this._validators[name] = this._createCompareValidator(name);
                                     break;
                                 case 'number':
-                                    this._validators[name] = Validate._createBigNumberValidator(name);
+                                    this._validators[name] = this._createBigNumberValidator(name);
                                     break;
                                 case 'alias':
                                 case 'address':
                                 case 'wavesAddress':
                                     this._validators[name] = this._createAddressValidator(name);
+                                    break;
+                                case 'integer':
+                                    this._validators[name] = this._createIntegerValidator(name);
                                     break;
                                 case 'anyAddress':
                                     this._validators[name] = this._createAnyAddressValidator(name);
@@ -172,6 +201,23 @@
 
 
                             return this._validators[name];
+                        }
+
+                        _createIntegerValidator(name) {
+                            this._createPatternValidator('[0-9]');
+
+                            return {
+                                name,
+                                value: null,
+                                handler: (modelValue) => {
+                                    try {
+                                        const num = Validate._toBigNumber(modelValue);
+                                        return !modelValue || num.round(0).eq(Validate._toBigNumber(modelValue));
+                                    } catch (e) {
+                                        return false;
+                                    }
+                                }
+                            };
                         }
 
                         _createOuterBlockchainsValidator(name) {
@@ -274,7 +320,7 @@
                             Object.defineProperty(validator, 'value', {
                                 get: () => value,
                                 set: (val) => {
-                                    value = new RegExp(`[${val}]`);
+                                    value = new RegExp(val);
                                 }
                             });
 
@@ -308,13 +354,7 @@
                         _createAssetValidator(name) {
                             const precisionValidator = this._createValidator('precision');
 
-                            this._validatorsReady.once(() => {
-                                const patternName = Validate._getAttrName('pattern');
-                                if (!$attrs[patternName]) {
-                                    $attrs[patternName] = '0-9.';
-                                    this._createValidator('pattern');
-                                }
-                            });
+                            this._addInputPattern(NUMBER_PATTERN);
 
                             let value = null;
 
@@ -418,6 +458,19 @@
                             return validator;
                         }
 
+                        _createBigNumberValidator(name) {
+
+                            this._addInputPattern(NUMBER_PATTERN);
+
+                            return {
+                                name,
+                                handler: () => true,
+                                parser: Validate._toBigNumber,
+                                formatter: Validate._toString
+                            };
+                        }
+
+
                         /**
                          * @param name
                          * @param validator
@@ -445,15 +498,6 @@
 
                         static _isFocused() {
                             return document.activeElement === $input.get(0);
-                        }
-
-                        static _createBigNumberValidator(name) {
-                            return {
-                                name,
-                                handler: () => true,
-                                parser: Validate._toBigNumber,
-                                formatter: Validate._toString
-                            };
                         }
 
                         static _toAssetId(data) {

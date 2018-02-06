@@ -50,9 +50,27 @@
             }
 
             @notNullArgs
-            byte(inputValue, bytes) {
+            byteLt(inputValue, bytes) {
+                const blob = new Blob([inputValue], { type: 'text/html' });
+                return blob.size < Number(bytes);
+            }
+
+            @notNullArgs
+            byteLte(inputValue, bytes) {
                 const blob = new Blob([inputValue], { type: 'text/html' });
                 return blob.size <= Number(bytes);
+            }
+
+            @notNullArgs
+            byteGt(inputValue, bytes) {
+                const blob = new Blob([inputValue], { type: 'text/html' });
+                return blob.size > Number(bytes);
+            }
+
+            @notNullArgs
+            byteGte(inputValue, bytes) {
+                const blob = new Blob([inputValue], { type: 'text/html' });
+                return blob.size >= Number(bytes);
             }
 
             @notNullArgs

@@ -133,10 +133,10 @@
                                  ng-model="$ctrl.tx.attachment"
                                  w-i18n-attr="placeholder"
                                  w-validate
-                                 w-validator-byte="140"
+                                 w-validator-byte-lte="140"
                                  placeholder="modal.send.descriptionPlaceholder"></w-input>
 
-                        <w-input-error message="byte">
+                        <w-input-error message="byteLte">
                             <w-i18n>modal.send.attachmentLength</w-i18n>
                         </w-input-error>
                     </w-input-container>

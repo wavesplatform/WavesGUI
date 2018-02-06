@@ -105,7 +105,7 @@
              * @private
              */
             _onChangePrecision({ value }) {
-                if (value) {
+                if (value && value.lte(8)) {
                     this.maxCoinsCount = MAX_OF_COINS_COUNT.div(Math.pow(10, Number(value)));
                 }
             }
@@ -128,6 +128,7 @@
                 this.precision = null;
                 this.maxCoinsCount = null;
 
+                this.createForm.$setPristine();
                 this.createForm.$setUntouched();
             }
 
