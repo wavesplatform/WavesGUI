@@ -139,14 +139,14 @@
              * @return {Promise<ITransaction>}
              */
             issue({ name, description, quantity, precision, reissuable, fee, keyPair }) {
-                quantity = quantity.mul(Math.pow(10, precision));
+                const coins = quantity.mul(Math.pow(10, precision)).toFixed();
                 return this.getFee('issue', fee).then((fee) => {
                     return Waves.API.Node.v1.assets.issue({
                         name,
                         description,
                         precision,
                         reissuable,
-                        quantity,
+                        quantity: coins,
                         fee
                     }, keyPair)
                         .then(this._pipeTransaction([fee]));
