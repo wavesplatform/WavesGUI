@@ -94,6 +94,7 @@ w-create-order {
         .areas {
           display: flex;
           flex-direction: row;
+          position: relative;
 
           .area {
             height: 110px;
@@ -247,3 +248,57 @@ w-create-order {
     }
   }
 }
+
+@media screen and (max-width: 480px) {
+  w-create-order {
+    transform: translateY(calc(100vh ~' - 100%'));
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-width: 360px;
+    overflow: visible;
+
+    .create-order .body .making-order {
+      .areas {
+        .area {
+          height: auto;
+          padding: 11px 17px;
+        }
+        .spread {
+          transform: translate(-50%, 28px);
+        }
+      }
+      .summary {
+        padding-bottom: 10px;
+      }
+    }
+
+    .create-order.expanded {
+      &::before {
+        transition: .3s;
+        position: fixed;
+        content: '';
+        background: black;
+        display: block;
+        width: 100%;
+        height: 100vh;
+        z-index: 0;
+        opacity: .3;
+        top: -100vh;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) and (max-height: 420px) {
+  w-create-order {
+    bottom: 0;
+
+    .step-list {
+      max-height: calc(100vh ~' - 84px');
+      overflow-y: auto;
+    }
+  }
+}
+

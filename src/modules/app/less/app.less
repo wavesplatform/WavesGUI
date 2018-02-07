@@ -382,28 +382,19 @@ md-dialog md-dialog-actions {
     font-size: @mobile-low-fsize;
   }
 
-  body.dex {
-    height: 100vh;
-    min-height: 900px;
-    min-width: 1100px;
-  }
+  .main-content {
+    display: flex;
+    flex-direction: column;
 
-  body:not(.dex) {
-    .main-content {
-      display: flex;
-      flex-direction: column;
-
-      & > w-header {
-        order: 1;
-      }
-      & > w-left-menu {
-        order: 0;
-      }
-      & > div.content {
-        order: 2;
-      }
+    & > w-header {
+      order: 1;
     }
-
+    & > w-left-menu {
+      order: 0;
+    }
+    & > div.content {
+      order: 2;
+    }
   }
 
 }

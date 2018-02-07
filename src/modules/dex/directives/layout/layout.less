@@ -144,4 +144,321 @@ w-layout {
     }
 
   }
+
+  //Collapse dex graph button
+  .chart-toggler {
+    display: none;
+  }
+
+}
+
+/* Tablet */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+
+  body.dex {
+    w-dex-trade-graph,
+    w-dex-trade-graph .graph-wrapper {
+      height: 150px;
+    }
+  }
+
+  w-layout {
+
+    w-dex-candle-chart {
+      height: calc(50vh ~' - 195px');
+    }
+
+    .dex-layout {
+      flex-direction: column;
+      padding-left: 60px;
+      height: calc(100vh ~' - 80px');
+      margin-top: 10px;
+    }
+
+    .dex-layout .dex-layout__column-left {
+      width: 360px;
+      padding-right: 48px;
+      min-width: 360px;
+      z-index: 3;
+      height: calc(100vh ~' - 60px');
+      top: -10px;
+      background: #fff;
+      border-right: 1px solid #dfdfdf;
+      box-shadow: 3px 0 10px 0 rgba(20, 47, 85, 0.06);
+
+      .dex-layout__block.dex-layout__block-top {
+        height: 50% !important;
+      }
+      .dex-layout__block.dex-layout__block-bottom {
+        height: 50% !important;
+      }
+    }
+
+    .dex-layout .dex-layout__column-right {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      margin-top: 10px;
+      margin-bottom: 10px;
+
+      w-dex-block {
+        height: calc(50vh ~' - 114px');
+      }
+
+      .dex-layout__block-top {
+        flex-basis: 50%;
+        margin-right: 5px;
+      }
+      .dex-layout__block-bottom {
+        flex-basis: 50%;
+        margin-left: 5px;
+      }
+
+      .dex-layout__sidebar-toggle-right {
+        display: none;
+      }
+
+    }
+
+    .dex-layout__column {
+      height: auto;
+    }
+
+    .dex-layout .dex-layout__column-center {
+      left: 0;
+      position: relative;
+
+      .dex-layout__block-top {
+        .block-wrapper {
+          border: 0 none;
+          background: transparent;
+        }
+      }
+
+      .dex-layout__block-bottom {
+        margin-top: 10px;
+        height: 15vh;
+      }
+    }
+    .dex-layout .dex-layout__sidebar-toggle-left {
+      width: 30px;
+      height: 30px;
+      border: 0 none;
+      right: 11px;
+      transition: .3s;
+
+      &:hover {
+        opacity: .7;
+      }
+
+      &::after {
+        background: url(/img/icons/dex-mobile-column-toggler.svg) center center no-repeat;
+      }
+    }
+
+    //different collapse states
+    .dex-layout__block-center-bottom-collapsed .dex-layout__column-center .dex-layout__block-top {
+      height: auto !important;
+    }
+
+    .dex-layout__left-collapsed .dex-layout__column-left {
+      transform: translateX(-312px);
+    }
+
+    .dex-layout__left-collapsed .dex-layout__column-center {
+      left: 0;
+    }
+
+    .dex-layout .dex-layout__column-right .collapse-dex-block {
+      display: none;
+    }
+
+    .dex-layout.dex-layout__right-collapsed .dex-layout__column-right {
+      transform: translateX(0);
+    }
+
+    .dex-layout__block-right-bottom-collapsed .dex-layout__column-right .dex-layout__block-top {
+      height: auto !important;
+    }
+
+    //if chart is Opened
+    .dex-layout:not(.chart-collapsed) {
+      .dex-layout__column-center w-dex-candle-chart {
+        height: calc(50vh ~' - 190px');
+      }
+
+      .dex-layout__column-right {
+        .w-dex-block {
+          height: calc(50vh ~' - 190px')
+        }
+      }
+
+      //bottom blocks height if MyOrders Opened
+      &:not(.dex-layout__block-center-bottom-collapsed) {
+        .dex-layout__column-center {
+          .dex-layout__block.dex-layout__block-bottom {
+            height: calc(50vh ~' - 114px') !important;
+          }
+        }
+
+        .dex-layout__column-right w-dex-block {
+          height: 39px;
+        }
+      }
+    }
+
+
+    //if chart is Closed
+    .dex-layout.chart-collapsed {
+      .dex-layout__column-center w-dex-candle-chart {
+        height: 39px;
+      }
+
+      .dex-layout__column-right {
+        .w-dex-block {
+          height: calc(85vh ~' - 190px')
+        }
+      }
+
+      //bottom blocks height if MyOrders Opened
+      &:not(.dex-layout__block-center-bottom-collapsed) {
+        .dex-layout__column-center {
+          .dex-layout__block.dex-layout__block-bottom {
+           height: calc(50vh  ~' + 191px');
+          }
+        }
+
+        .dex-layout__block-bottom w-dex-block {
+          height: calc(100vh ~' - 342px');
+        }
+
+        .dex-layout__column-right w-dex-block {
+          height: 39px;
+        }
+      }
+
+      //bottom blocks height if MyOrders Closed
+      &.dex-layout__block-center-bottom-collapsed {
+        .dex-layout__column-right w-dex-block {
+          height: calc(100vh ~' - 342px');
+        }
+      }
+
+
+    }
+
+    w-dex-candle-chart {
+      margin-bottom: 10px;
+      border: 1px solid @color-disabled-200;
+    }
+
+    w-dex-trade-graph {
+      border: 1px solid @color-disabled-200;
+    }
+
+    //Collapse dex graph button
+    .chart-toggler {
+      display: block;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      background: #ccc;
+      width: 24px;
+      height: 24px;
+    }
+
+  }
+
+} /* end Tablet */
+
+/* Mobile */
+@media screen and (max-width: 480px) {
+
+  w-layout {
+    padding-bottom: 90px;
+
+    .dex-layout {
+      flex-direction: column;
+      flex-shrink: 0;
+
+      &__column-left,
+      &__column-right,
+      &__column-center {
+        width: 100%;
+        left: auto;
+        top: auto;
+        right: auto;
+        position: relative;
+        height: auto;
+      }
+
+      &__column-left .dex-layout__block-top,
+      &__column-center .dex-layout__block-bottom,
+      &__column-right .dex-layout__block-top,
+      &__column-right .dex-layout__block-bottom {
+        max-height: 290px;
+        overflow: hidden;
+        margin-top: 10px;
+      }
+
+      &__column-left .dex-layout__block-top {
+        margin-top: 0;
+        margin-bottom: 10px;
+      }
+
+      &__column {
+        display: block;
+      }
+
+      &__column-left .dex-layout__block-bottom {
+        display: none;
+      }
+
+      &__block-center-bottom-collapsed .dex-layout__column-center .dex-layout__block-top {
+        height: auto;
+      }
+
+      &__column.dex-layout__column-center .dex-layout__block-top .block-wrapper {
+        border: 0 none;
+        background: none transparent;
+      }
+
+      .dex-layout .dex-layout__right-collapsed .dex-layout__column-right {
+        transform: translateX(0);
+      }
+
+      &__block-center-bottom-collapsed .dex-layout__column-center .dex-layout__block-top {
+        height: auto !important;
+      }
+
+      &__left-collapsed .dex-layout__column-left {
+        transform: translateX(0);
+      }
+
+      &__left-collapsed .dex-layout__column-center {
+        left: 0;
+      }
+
+    }
+  }
+
+  w-dex-candle-chart {
+    margin-bottom: 10px;
+    border: 1px solid @color-disabled-200;
+
+    .candle-chart-wrapper {
+      height: 420px;
+    }
+  }
+
+  w-dex-trade-graph {
+    border: 1px solid @color-disabled-200;
+
+    .graph-wrapper {
+      height: 100%;
+      max-height: 150px;
+    }
+  }
+
 }
