@@ -44,17 +44,17 @@
 
             <w-step step-id="security" class="security">
                 <div class="row margin-1">
-                    <div class="footnote disabled-600 label" w-i18n="modal.settings.security.backupPhrase"></div>
+                    <div class="footnote-1 disabled-600 label" w-i18n="modal.settings.security.backupPhrase"></div>
                     <div class="data-field">
                         <w-button ng-if="!$ctrl.shownSeed" class="tiny" ng-click="$ctrl.shownSeed = true">
                             <w-i18n>modal.settings.security.show</w-i18n>
                         </w-button>
-                        <pre ng-if="$ctrl.shownSeed">{{::$ctrl.phrase}}</pre>
+                        <pre class="footnote-1" ng-if="$ctrl.shownSeed">{{::$ctrl.phrase}}</pre>
                     </div>
                 </div>
 
                 <div class="row margin-1">
-                    <div class="footnote disabled-600 label" w-i18n="modal.settings.security.privateKey"></div>
+                    <div class="footnote-1 disabled-600 label" w-i18n="modal.settings.security.privateKey"></div>
                     <div class="data-field">
                         <w-button ng-if="!$ctrl.shownKey" class="tiny" ng-click="$ctrl.shownKey = true">
                             <w-i18n>modal.settings.security.show</w-i18n>
@@ -63,26 +63,26 @@
                     </div>
                 </div>
                 <div class="row flex-row row-style">
-                    <div class="footnote disabled-600" w-i18n="modal.settings.security.publicKey"></div>
+                    <div class="footnote-1 disabled-600" w-i18n="modal.settings.security.publicKey"></div>
                     <div>{{::$ctrl.publicKey}}</div>
                 </div>
 
                 <div class="row flex-row row-style">
-                    <div class="footnote disabled-600" w-i18n="modal.settings.security.address"></div>
+                    <div class="footnote-1 disabled-600" w-i18n="modal.settings.security.address"></div>
                     <div>{{::$ctrl.address}}</div>
                 </div>
             </w-step>
 
             <w-step step-id="network" class="network">
                 <div class="row margin-1">
-                    <div class="footnote disabled-600 label" w-i18n="modal.settings.network.nodeAddress"></div>
+                    <div class="footnote-1 disabled-600 label" w-i18n="modal.settings.network.nodeAddress"></div>
                     <div class="data-field">
                         <w-input ng-model="$ctrl.node"></w-input>
                     </div>
                 </div>
 
                 <div class="row margin-3">
-                    <div class="footnote disabled-600 label" w-i18n="modal.settings.network.matcherAddress"></div>
+                    <div class="footnote-1 disabled-600 label" w-i18n="modal.settings.network.matcherAddress"></div>
                     <div class="data-field">
                         <w-input ng-model="$ctrl.matcher"></w-input>
                     </div>
@@ -95,17 +95,17 @@
 
             <w-step step-id="info" class="info">
                 <div class="row flex-row row-style">
-                    <div class="footnote disabled-600" w-i18n="modal.settings.info.version"></div>
+                    <div class="footnote-1 disabled-600" w-i18n="modal.settings.info.version"></div>
                     <div>{{::$ctrl.appName}} {{::$ctrl.appVersion}}</div>
                 </div>
 
                 <div class="row flex-row row-style">
-                    <div class="footnote disabled-600" w-i18n="modal.settings.info.support"></div>
+                    <div class="footnote-1 disabled-600" w-i18n="modal.settings.info.support"></div>
                     <div><a href="{{::$ctrl.supportLink}}" target="_blank">{{::$ctrl.supportLinkName}}</a></div>
                 </div>
 
                 <div class="row flex-row row-style">
-                    <div class="footnote disabled-600">&copy; 2017 Waves Platform</div>
+                    <div class="footnote-1 disabled-600">&copy; 2017 Waves Platform</div>
                     <div><span class="waves-logo"></span></div>
                 </div>
             </w-step>
