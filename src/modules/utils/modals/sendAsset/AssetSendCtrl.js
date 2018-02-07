@@ -102,6 +102,11 @@
                  * @type {Object.<string, Money>}
                  */
                 this.moneyHash = null;
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
+                this._noCurrentRate = false;
 
                 this.syncSettings({
                     mirrorId: 'baseAssetId'
@@ -144,8 +149,10 @@
                     amount = this.balance;
                 }
                 waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
+                    this._noCurrentRate = true;
                     this.mirror = amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
                     this.tx.amount = amount;
+                    this._noCurrentRate = false;
                 });
             }
 
@@ -268,7 +275,7 @@
              * @private
              */
             _onChangeAmount() {
-                if (!this.noMirror && this.tx.amount && this.focus === 'amount') {
+                if (!this._noCurrentRate && !this.noMirror && this.tx.amount && this.focus === 'amount') {
                     this._fillMirror();
                 }
             }
@@ -277,7 +284,7 @@
              * @private
              */
             _onChangeAmountMirror() {
-                if (this.mirror && this.focus === 'mirror') {
+                if (!this._noCurrentRate && this.mirror && this.focus === 'mirror') {
                     this._fillAmount();
                 }
             }
