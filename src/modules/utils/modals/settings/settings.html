@@ -49,7 +49,7 @@
                         <w-button ng-if="!$ctrl.shownSeed" class="tiny" ng-click="$ctrl.shownSeed = true">
                             <w-i18n>modal.settings.security.show</w-i18n>
                         </w-button>
-                        <div ng-if="$ctrl.shownSeed">{{::$ctrl.phrase}}</div>
+                        <pre ng-if="$ctrl.shownSeed">{{::$ctrl.phrase}}</pre>
                     </div>
                 </div>
 
