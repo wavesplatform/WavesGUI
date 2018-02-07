@@ -293,18 +293,16 @@
             }
 
             _fillMirror() {
-                waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
+                utils.when(waves.utils.getRate(this.assetId, this.mirrorId)).then((rate) => {
                     const mirror = this.tx.amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
                     this.mirror = mirror;
-                    $scope.$apply();
                 });
             }
 
             _fillAmount() {
-                waves.utils.getRate(this.mirrorId, this.assetId).then((rate) => {
+                utils.when(waves.utils.getRate(this.mirrorId, this.assetId)).then((rate) => {
                     const amount = this.mirror.convertTo(this.moneyHash[this.assetId].asset, rate);
                     this.tx.amount = amount;
-                    $scope.$apply();
                 });
             }
 
