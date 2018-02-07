@@ -411,6 +411,11 @@
                                 }
                             };
 
+                            $input.on('input', () => {
+                                this._validateByName(precisionValidator.name);
+                                $scope.$apply();
+                            });
+
                             Object.defineProperty(validator, 'value', {
                                 get: () => value,
                                 set: (assetData) => {
