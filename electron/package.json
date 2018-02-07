@@ -1,5 +1,7 @@
 {
-  "name": "Waves Client",
+  "name": "waves-client",
   "version": "1.0.0-beta.X",
+  "description": "The official client application for the Waves platform",
+  "license": "Apache-2.0",
   "main": "main.js"
 }
