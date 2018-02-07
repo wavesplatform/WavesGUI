@@ -405,7 +405,9 @@
                                 },
                                 formatter: (value) => {
 
-                                    const money = Validate._toMoney($input.val(), validator.money);
+                                    const viewValue = $input.val();
+                                    const money = precisionValidator.handler($ngModel.$modelValue, viewValue) &&
+                                        Validate._toMoney(viewValue, validator.money);
 
                                     if (Validate._isFocused() && (!value || (money && money.eq(value)))) {
                                         return $input.val();
@@ -467,10 +469,6 @@
 
                             let handler;
                             switch (name) {
-                                case 'lt':
-                                case 'gt':
-                                case 'lte':
-                                case 'gte':
                                 case 'precision':
                                     handler = function (modelValue, viewValue) {
                                         let value;

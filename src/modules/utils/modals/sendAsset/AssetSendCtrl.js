@@ -129,12 +129,14 @@
                     this.tx.amount = this.moneyHash[this.assetId].cloneWithTokens('0');
                     this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
 
-                    this.observe(['assetId', 'mirrorId'], () => this.poll.restart());
                     this.observe('assetId', this._onChangeAssetId);
                     this.observe('mirrorId', this._onChangeMirrorId);
+                    this.observe(['assetId', 'mirrorId'], () => this.poll.restart());
                     this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
                     this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
                     this.observe('mirror', this._onChangeAmountMirror);
+
+                    this._onChangeBaseAssets();
 
                     this._updateGatewayDetails();
                 });
@@ -244,6 +246,7 @@
                 }
 
                 this.tx.amount = this.moneyHash[this.assetId].cloneWithTokens('0');
+                this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
                 this._updateGatewayDetails();
 
                 analytics.push('Send', 'Send.ChangeCurrency', this.assetId);
