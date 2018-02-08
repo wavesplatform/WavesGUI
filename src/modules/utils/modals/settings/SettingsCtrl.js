@@ -60,7 +60,10 @@
                     analytics.push('Settings', 'Settings.ShowKeyPair');
                 });
 
-                createPoll(this, waves.node.height, 'blockHeight', 5000);
+                createPoll(this, waves.node.height, (height) => {
+                    this.blockHeight = height;
+                    $scope.$apply();
+                }, 5000);
 
                 user.getSeed().then((seed) => {
                     this.phrase = seed.phrase;

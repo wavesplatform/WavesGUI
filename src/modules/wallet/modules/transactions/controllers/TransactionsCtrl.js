@@ -4,9 +4,10 @@
     /**
      * @param Base
      * @param $scope
+     * @param {TransactionsCsvGen} transactionsCsvGen
      * @return {TransactionsCtrl}
      */
-    const controller = function (Base, $scope) {
+    const controller = function (Base, $scope, transactionsCsvGen) {
 
         class TransactionsCtrl extends Base {
 
@@ -16,12 +17,15 @@
                 this.syncSettings({ filter: 'wallet.transactions.filter' });
             }
 
+            exportTransactions() {
+                transactionsCsvGen.generate(this.transactions);
+            }
         }
 
         return new TransactionsCtrl();
     };
 
-    controller.$inject = ['Base', '$scope'];
+    controller.$inject = ['Base', '$scope', 'transactionsCsvGen'];
 
     angular.module('app.wallet.transactions').controller('TransactionsCtrl', controller);
 })();

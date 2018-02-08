@@ -116,6 +116,17 @@
                     .then((list) => list.length);
             }
 
+            createTransaction(transactionType, txData) {
+                return aliases.getAliasList().then((aliasList) => {
+                    return this._pipeTransaction(false, aliasList)({
+                        transactionType,
+                        sender: user.address,
+                        timestamp: Date.now(),
+                        ...txData
+                    });
+                });
+            }
+
             /**
              * @param {boolean} isUTX
              * @param {string[]} aliasList
@@ -129,6 +140,9 @@
                     tx.type = Transactions._getTransactionType(tx, aliasList);
                     tx.templateType = Transactions._getTemplateType(tx);
                     tx.shownAddress = Transactions._getTransactionAddress(tx);
+                    if (tx.transactionType === TYPES.ISSUE) {
+                        tx.quantityStr = tx.quantity.toFormat(tx.precision);
+                    }
                     return tx;
                 };
             }

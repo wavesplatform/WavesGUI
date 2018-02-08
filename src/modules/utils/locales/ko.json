@@ -7,18 +7,11 @@
     },
     "startLease": {
       "title": "리스 시작",
-      "titleComplete": "리스 완료",
       "balance": "잔액",
       "recipient": "수령인",
       "amount": "금액",
       "start": "리스 시작하기",
-      "back": "뒤로",
-      "confirm": "확인",
-      "details": "상세 보기",
-      "recipientConfirm": "노드로",
-      "fee": "수수료",
-      "leaseComplete": "거래가 진행중입니다!",
-      "leaseCompleteDesc": "{{amount}} Waves를 리스했습니다."
+      "fee": "수수료"
     },
     "qr": {
       "title": "주소 공유",
