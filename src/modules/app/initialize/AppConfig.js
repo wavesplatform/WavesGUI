@@ -54,9 +54,13 @@
                             format: function (value, format) {
                                 switch (format) {
                                     case 'money':
-                                        return value.getTokens().toFixed();
+                                        return value && value.getTokens().toFixed() || '';
                                     case 'money-currency':
-                                        return `${value.getTokens().toFixed()} ${value.asset.displayName}`;
+                                        if (value) {
+                                            return `${value.getTokens().toFixed()} ${value.asset.displayName}`;
+                                        } else {
+                                            return '';
+                                        }
                                     case 'BigNumber':
                                         return value && value.toFixed() || '';
                                     default:

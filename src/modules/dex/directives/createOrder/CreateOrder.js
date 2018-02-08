@@ -49,7 +49,7 @@
                  * Has price balance for buy amount
                  * @type {boolean}
                  */
-                this.cantByOrder = false;
+                this.canByOrder = true;
                 /**
                  * Amount asset balance
                  * @type {Money}
@@ -75,14 +75,22 @@
                  * @private
                  */
                 this._assetIdPair = null;
+                /**
+                 * @type {Money}
+                 */
+                this.amount = null;
+                /**
+                 * @type {Money}
+                 */
+                this.price = null;
 
                 Waves.Money.fromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
                     this.fee = money;
                 });
 
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
-                    this.amount = new BigNumber(amount);
-                    this.price = new BigNumber(price);
+                    this.amount = this.amountBalance.cloneWithTokens(amount);
+                    this.price = this.priceBalance.cloneWithTokens(price);
                     this.expand(type);
                     $scope.$apply();
                 });
@@ -118,10 +126,10 @@
                 this.maxAmountBalance = CreateOrder._getMaxAmountBalance(this.type, this.amountBalance, this.fee);
                 switch (type) {
                     case 'sell':
-                        this.price = new BigNumber(this.bid.price);
+                        this.price = this.priceBalance.cloneWithTokens(this.bid.price);
                         break;
                     case 'buy':
-                        this.price = new BigNumber(this.ask.price);
+                        this.price = this.priceBalance.cloneWithTokens(this.ask.price);
                         break;
                     default:
                         throw new Error('Wrong type');
@@ -134,24 +142,24 @@
 
             setMaxAmount() {
                 if (this.amountBalance.asset.id === this.fee.asset.id) {
-                    this.amount = this.amountBalance.sub(this.fee).getTokens()
-                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR);
+                    this.amount = this.amountBalance.cloneWithTokens(this.amountBalance.sub(this.fee).getTokens()
+                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
                 } else {
-                    this.amount = this.amountBalance.getTokens()
-                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR);
+                    this.amount = this.amountBalance.cloneWithTokens(this.amountBalance.getTokens()
+                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
                 }
             }
 
             setMaxPrice() {
                 if (this.priceBalance.asset.id === this.fee.asset.id) {
-                    this.amount = this.priceBalance.sub(this.fee)
+                    this.amount = this.amountBalance.cloneWithTokens(this.priceBalance.sub(this.fee)
                         .getTokens()
-                        .div(this.price)
-                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR);
+                        .div(this.price.getTokens())
+                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
                 } else {
-                    this.amount = this.priceBalance.getTokens()
-                        .div(this.price)
-                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR);
+                    this.amount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens()
+                        .div(this.price.getTokens())
+                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
                 }
             }
 
@@ -164,11 +172,9 @@
                 user.getSeed()
                     .then((seed) => {
                         return Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
-                            return Promise.all([
-                                Waves.Money.fromTokens(this.amount.toFixed(), this.amountBalance.asset.id),
-                                Waves.OrderPrice.fromTokens(this.price.toFixed(), pair)
-                            ]);
-                        }).then(([amount, price]) => {
+                            return Waves.OrderPrice.fromTokens(this.price.getTokens(), pair);
+                        }).then((price) => {
+                            const amount = this.amount;
                             this.amount = null;
                             form.$setUntouched();
                             $scope.$apply();
@@ -232,15 +238,17 @@
                 }
 
                 if (!this.price || !this.amount) {
-                    this.totalPrice = new BigNumber(0);
+                    this.totalPrice = this.priceBalance.cloneWithTokens('0');
                 } else {
-                    this.totalPrice = this.price.mul(this.amount);
+                    this.totalPrice = this.priceBalance.cloneWithTokens(
+                        this.price.getTokens().mul(this.amount.getTokens())
+                    );
                 }
 
                 if (this.type === 'buy') {
-                    this.cantByOrder = this.priceBalance.getTokens().lte(this.totalPrice);
+                    this.canByOrder = !this.priceBalance.lte(this.totalPrice);
                 } else {
-                    this.cantByOrder = false;
+                    this.canByOrder = true;
                 }
             }
 

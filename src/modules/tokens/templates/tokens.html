@@ -12,18 +12,19 @@
                     <w-input type="text"
                              name="name"
                              ng-model="$ctrl.name"
-                             minlength="4"
-                             maxlength="40"
+                             w-validate
+                             w-validator-byte-gte="4"
+                             w-validator-byte-lte="16"
                              required></w-input>
 
-                    <w-input-error message="minlength">
-                        <w-i18n>validators.nameLen</w-i18n>
-                    </w-input-error>
-                    <w-input-error message="maxlength">
-                        <w-i18n>validators.nameLen</w-i18n>
-                    </w-input-error>
                     <w-input-error message="required">
                         <w-i18n>validators.required</w-i18n>
+                    </w-input-error>
+                    <w-input-error message="byteLte">
+                        <w-i18n>validators.byte.lte</w-i18n>
+                    </w-input-error>
+                    <w-input-error message="byteGte">
+                        <w-i18n>validators.byte.gte</w-i18n>
                     </w-input-error>
                 </w-input-container>
             </div>
@@ -35,9 +36,11 @@
                              name="description"
                              ng-model="$ctrl.description"
                              placeholder="placeholders.description"
-                             maxlength="1000"
+                             w-validate
+                             w-validator-byte-lte="1000"
                              w-i18n-attr="placeholder"></w-input>
-                    <w-input-error message="maxlength">
+
+                    <w-input-error message="byteLte">
                         <w-i18n>validators.descriptionLen</w-i18n>
                     </w-input-error>
                 </w-input-container>
@@ -47,21 +50,27 @@
                 <div class="body-2 basic-900" w-i18n="count"></div>
                 <w-input-container>
                     <div class="input-like">
-                        <w-input class="embed" type="text"
+                        <w-input class="embed"
+                                 type="text"
                                  name="count"
                                  ng-model="$ctrl.count"
-                                 precision="$ctrl.precision.toString()"
-                                 min="'0'"
-                                 max="$ctrl.maxCoinsCount"
-                                 w-validate="number"
+                                 w-validate
+                                 w-validator-precision="{{$ctrl.precision.toString()}}"
+                                 w-validator-gt="0"
+                                 w-validator-lt="{{$ctrl.maxCoinsCount}}"
+                                 w-validator-integer
+                                 w-validator-number
                                  required></w-input>
+
                         <div class="select-wrap">
                             <w-select class="issue-select tiny" ng-model="$ctrl.issue">
                                 <w-option option-type="boolean" value="false">
-                                    <span class="caption-1 basic-700" w-i18n-ns="app.tokens" w-i18n="reissuable.false"></span>
+                                    <span class="caption-1 basic-700" w-i18n-ns="app.tokens"
+                                          w-i18n="reissuable.false"></span>
                                 </w-option>
                                 <w-option option-type="boolean" value="true">
-                                    <span class="caption-1 basic-700" w-i18n-ns="app.tokens" w-i18n="reissuable.true"></span>
+                                    <span class="caption-1 basic-700" w-i18n-ns="app.tokens"
+                                          w-i18n="reissuable.true"></span>
                                 </w-option>
                             </w-select>
                         </div>
@@ -69,10 +78,10 @@
                     <w-input-error message="required">
                         <w-i18n>validators.required</w-i18n>
                     </w-input-error>
-                    <w-input-error message="min">
+                    <w-input-error message="gt">
                         <w-i18n>validators.minValueCount</w-i18n>
                     </w-input-error>
-                    <w-input-error message="max">
+                    <w-input-error message="lt">
                         <w-i18n>validators.maxValueCount</w-i18n>
                     </w-input-error>
                     <w-input-error message="precision">
@@ -91,21 +100,24 @@
                              name="precision"
                              ng-model="$ctrl.precision"
                              required
-                             w-validate="number"
-                             integer
-                             include-range-min
-                             include-range-max
-                             min="0"
-                             max="8"
+                             w-validate
+                             w-validator-lte="8"
+                             w-validator-gte="0"
+                             w-validator-integer
+                             w-validator-number
                              placeholder="placeholders.precision"
                              w-i18n-attr="placeholder"></w-input>
-                    <w-input-error message="min">
+
+                    <w-input-error message="lte">
                         <w-i18n>validators.minValuePrecision</w-i18n>
                     </w-input-error>
-                    <w-input-error message="max">
+                    <w-input-error message="gte">
                         <w-i18n>validators.maxValuePrecision</w-i18n>
                     </w-input-error>
                     <w-input-error message="required">
+                        <w-i18n>validators.required</w-i18n>
+                    </w-input-error>
+                    <w-input-error message="integer">
                         <w-i18n>validators.required</w-i18n>
                     </w-input-error>
                 </w-input-container>
@@ -122,7 +134,8 @@
                             <span ng-if="$ctrl.name && $ctrl.createForm.$valid">{{$ctrl.name}}</span>
                         </div>
                         <div class="line token-value body-2 basic-700">
-                        <span ng-if="$ctrl.name && $ctrl.createForm.$valid" w-nice-number="$ctrl.count"
+                        <span ng-if="$ctrl.name && $ctrl.createForm.$valid"
+                              w-nice-number="$ctrl.count"
                               precision="$ctrl.precision.toString()"></span>
                         </div>
                     </div>
