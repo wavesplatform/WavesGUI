@@ -6,8 +6,7 @@
 
     <w-responsive-menu-item value="wallet">
         <div class="menu-item wallet">
-            <i></i>
-            <w-i18n></w-i18n>Wallet
+            <w-i18n></w-i18n><div>Wallet</div>
         </div>
     </w-responsive-menu-item>
 
@@ -19,7 +18,6 @@
            ui-sref="{{::state.path}}"
            ui-sref-active="active">
             <div class="menu-item wallet">
-                <i></i>
                 <w-i18n>header.{{::state.name}}</w-i18n>
             </div>
         </w-responsive-menu-item-->
@@ -28,28 +26,24 @@
 
     <w-responsive-menu-item value="dex">
         <div class="menu-item dex">
-            <i></i>
-            <w-i18n><!--DEX--></w-i18n>Decentralised Exchange
+            <w-i18n><!--DEX--></w-i18n><div>Decentralised Exchange</div>
         </div>
     </w-responsive-menu-item>
 
     <w-responsive-menu-item value="tokens">
         <div class="menu-item tokens">
-            <i></i>
-            <w-i18n><!--Token Generation--></w-i18n>Tokens
+            <w-i18n><!--Token Generation--></w-i18n><div>Tokens</div>
         </div>
     </w-responsive-menu-item>
 
     <w-responsive-menu-item value="settings" ng-click="$ctrl.settings()">
         <div class="menu-item settings">
-            <i></i>
-            <w-i18n><!--Settings--></w-i18n>Settings
+            <w-i18n><!--Settings--></w-i18n><div>Settings</div>
         </div>
     </w-responsive-menu-item>
 
     <w-responsive-menu-item value="logout" ng-click="$ctrl.logout()">
         <div class="menu-item logout">
-            <i></i>
             <w-i18n><!--Logout--></w-i18n><div>Logout</div>
         </div>
     </w-responsive-menu-item>

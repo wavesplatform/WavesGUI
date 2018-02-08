@@ -44,6 +44,10 @@
     &.split-half {
       justify-content: space-between;
       width: 100%;
+
+      & > div.flex-row:last-child {
+        text-align: right;
+      }
     }
   }
 
@@ -150,4 +154,10 @@
       }
     }
   }
+
+  .modal-send .flex-row.split-half {
+    white-space: nowrap;
+    font-size: 14px;
+  }
+
 }

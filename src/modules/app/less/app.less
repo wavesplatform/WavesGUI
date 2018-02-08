@@ -342,24 +342,53 @@ md-dialog md-dialog-actions {
 
 @media screen and (max-width: 768px) {
 
-  .main-content .content {
-    height: calc(100vh ~'-  90px');
-  }
-
   .assets-wrapper {
     max-height: 100%;
     overflow-y: visible;
+    overflow-x: visible;
   }
 
   .main-content .content {
-    overflow: hidden;
-    width: calc(100% ~' -  20px');
+    overflow: auto;
+    height: calc(100vh ~'-  60px');
+    width: 100%;
     position: relative;
     right: auto;
     left: 0;
     top: 0;
     bottom: auto;
-    margin: 10px;
+    margin: 0;
+    padding: 10px;
+  }
+
+  body.wallet {
+    min-width: 100%;
+
+    .content ui-view[name="mainContent"],
+    .content ui-view[name="mainContent"] ui-view[name="content"] {
+      height: auto;
+    }
+
+  }
+
+
+  body.transactions .main-content {
+    overflow: auto;
+
+    w-scroll-box {
+      overflow: hidden;
+    }
+  }
+
+  body.portfolio {
+    .portfolio-list {
+      overflow: auto;
+
+      w-scroll-box {
+        min-height: 100%;
+        max-height: 100%;
+      }
+    }
   }
 
   .md-dialog-container {
