@@ -397,7 +397,7 @@
                                     return (viewValue && !!modelValue) || !viewValue;
                                 },
                                 parser: (value) => {
-                                    if (precisionValidator.handler($ngModel.$modelValue, value)) {
+                                    if (value && precisionValidator.handler($ngModel.$modelValue, value)) {
                                         return Validate._toMoney(value, validator.money);
                                     } else {
                                         return null;
