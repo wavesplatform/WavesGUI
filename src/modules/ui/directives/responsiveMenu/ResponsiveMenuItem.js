@@ -1,7 +1,14 @@
 (function () {
     'use strict';
 
-    const controller = function (Base, $element, $scope) {
+    /**
+     * @param Base
+     * @param $element
+     * @param $scope
+     * @param {app.utils} utils
+     * @return {ResponsiveMenuItem}
+     */
+    const controller = function (Base, $element, $scope, utils) {
 
         class ResponsiveMenuItem extends Base {
 
@@ -25,6 +32,11 @@
 
             $postLink() {
                 this.parent.registerItem(this);
+
+                this.receive(utils.observe(this.parent, 'activeMenu'), () => {
+                    $element.toggleClass('active', this.parent.activeMenu === this.value);
+                });
+                $element.toggleClass('active', this.parent.activeMenu === this.value);
             }
 
         }
@@ -33,10 +45,10 @@
 
     };
 
-    controller.$inject = ['Base', '$element', '$scope'];
+    controller.$inject = ['Base', '$element', '$scope', 'utils'];
 
     angular.module('app.ui').component('wResponsiveMenuItem', {
-        template: '<div ng-class="{active: $ctrl.value === $ctrl.parent.activeMenu}" class="responsive-menu-item-content" ng-transclude></div>',
+        template: '<div class="responsive-menu-item-content" ng-transclude></div>',
         require: { parent: '^wResponsiveMenu' },
         bindings: {
             value: '@'
