@@ -49,6 +49,10 @@ class Main {
                 this.mainWindow = null;
             });
 
+            this.mainWindow.webContents.on('will-navigate', function (event) {
+                event.preventDefault();
+            });
+
             const onChangeWindow = Main.asyncHandler(() => {
                 const [x, y] = this.mainWindow.getPosition();
                 const [width, height] = this.mainWindow.getSize();
@@ -139,7 +143,10 @@ class Main {
             minWidth: CONFIG.MIN_SIZE.width,
             minHeight: CONFIG.MIN_SIZE.height,
             icon: join(__dirname, 'img/icon.png'),
-            fullscreen, width, height, x, y
+            fullscreen, width, height, x, y,
+            webPreferences: {
+                contextIsolation: true
+            }
         };
     }
 
