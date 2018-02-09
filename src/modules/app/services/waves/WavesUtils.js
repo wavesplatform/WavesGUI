@@ -177,15 +177,24 @@
             _getChange(from, to) {
                 return Waves.AssetPair.get(from, to)
                     .then((pair) => {
-                        return fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/1440/1`)
+                        return fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/15/97`)
                             .then(utils.onFetch)
                             .then((data) => {
-                                if (!data || !data.length) {
+                                if (!data) {
                                     return 0;
                                 }
+
+                                data = data.filter(({ open, close }) => Number(open) !== 0 && Number(close) !== 0)
+                                    .sort(utils.comparators.process(({ timestamp }) => timestamp).asc);
+
+                                if (!data.length) {
+                                    return 0;
+                                }
+
                                 const open = Number(data[0].open);
-                                const close = Number(data[0].close);
-                                const percent = open ? (close - open) * 100 / open : 0;
+                                const close = Number(data[data.length - 1].close);
+
+                                const percent = open ? ((close - open) / open * 100) : 0;
 
                                 if (pair.amountAsset.id === from) {
                                     return percent;
@@ -258,7 +267,8 @@
                                         });
                                     }
 
-                                    return result.filter((item) => item.timestamp > from && item.timestamp < to);
+                                    return result.filter((item) => item.timestamp > from && item.timestamp < to)
+                                        .sort(utils.comparators.process(({ timestamp }) => timestamp).asc);
                                 }, []);
                             });
                     });
