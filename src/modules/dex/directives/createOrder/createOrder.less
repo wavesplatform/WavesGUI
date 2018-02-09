@@ -2,7 +2,7 @@
 
 w-create-order {
   position: absolute;
-  z-index: 5;
+  z-index: 22;
   display: block;
   width: 320px;
   top: 80px;
@@ -251,10 +251,21 @@ w-create-order {
 
 @media screen and (max-width: 480px) {
   w-create-order {
+    /*
     transform: translateY(calc(100vh ~' - 100%'));
     position: fixed;
     top: 0;
     left: 0;
+    width: 100%;
+    min-width: 360px;
+    overflow: visible;
+    */
+
+    position: fixed;
+    transform: translateY(0);
+    top: auto!important;
+    left: 0;
+    bottom: 0!important;
     width: 100%;
     min-width: 360px;
     overflow: visible;
