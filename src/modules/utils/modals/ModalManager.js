@@ -104,7 +104,6 @@
                     mod: 'modal-send',
                     locals: {
                         assetId: asset.id,
-                        baseAssetId: user.getSetting('baseAssetId'),
                         canChooseAsset: !asset.id
                     }
                 });
@@ -189,14 +188,14 @@
             }
 
             showConfirmTx(type, txData) {
-                return $injector.get('waves').node.transactions.createTransaction(type, txData).then((tx) => {
-                    return this._getModal({
-                        id: 'confirm-tx',
-                        ns: 'app.ui',
-                        locals: { tx },
-                        controller: 'ConfirmTxCtrl',
-                        contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
-                    });
+                const tx = $injector.get('waves').node.transactions.createTransaction(type, txData);
+
+                return this._getModal({
+                    id: 'confirm-tx',
+                    ns: 'app.ui',
+                    locals: { tx },
+                    controller: 'ConfirmTxCtrl',
+                    contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
                 });
             }
 

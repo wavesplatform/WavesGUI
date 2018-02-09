@@ -41,10 +41,7 @@
                         this.fee = fee;
                     });
 
-                waves.node.aliases.getAliasList()
-                    .then((aliases) => {
-                        this.aliases = aliases;
-                    });
+                this.aliases = waves.node.aliases.getAliasList();
             }
 
             createAlias() {

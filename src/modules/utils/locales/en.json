@@ -48,12 +48,15 @@
       "description": "Description",
       "descriptionPlaceholder": "Write an optional message",
       "placeholderRecipient": "Paste or scan an address",
-      "fee": "Transaction Fee",
+      "fee": "Transaction Fee {{fee, money-currency}}",
+      "attachmentLength": "The description is too long",
       "total": "Total",
       "errors": {
         "address": "The address is not valid",
         "required": "This field is required",
-        "max": "Insufficient funds"
+        "max": "Insufficient funds",
+        "precision": "The number in this field is invalid. It can include a maximum of {{precision}} digits after the decimal point.",
+        "invalidChars": "The field can only contain numbers"
       },
       "confirm": {
         "title": "Transaction Details",
