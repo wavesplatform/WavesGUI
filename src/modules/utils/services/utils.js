@@ -29,6 +29,25 @@
             },
 
             /**
+             * @name app.utils#debounce
+             * @param {function} handler
+             * @param {number} [timeout]
+             * @return {Function}
+             */
+            debounce(handler, timeout) {
+                let timer = null;
+                return function (...args) {
+                    if (timer) {
+                        clearTimeout(timer);
+                    }
+                    timer = setTimeout(() => {
+                        timer = null;
+                        handler.call(...args);
+                    }, timeout);
+                };
+            },
+
+            /**
              * @name app.utils#animate
              * @param {JQuery} $element
              * @param properties
@@ -430,7 +449,14 @@
                         }
                     };
                 }
-            }
+            },
+
+            /**
+             * @name app.utils#isNotEqualValue
+             * @param {*} oldValue
+             * @param {*} newValue
+             */
+            isNotEqualValue: isNotEqualValue
         };
 
         function _processDecimal(decimal) {
@@ -488,7 +514,7 @@
         function isNotEqualValue(oldValue, newValue) {
             if (typeof oldValue === typeof newValue) {
                 if (oldValue instanceof Waves.Money && newValue instanceof Waves.Money) {
-                    return oldValue.toTokens() !== newValue.toTokens();
+                    return oldValue.asset.id !== newValue.asset.id || oldValue.toTokens() !== newValue.toTokens();
                 } else if (oldValue instanceof BigNumber && newValue instanceof BigNumber) {
                     return !oldValue.eq(newValue);
                 } else if (Array.isArray(oldValue) && Array.isArray(newValue)) {

@@ -36,11 +36,8 @@
              * @return {Promise<ITransaction>}
              */
             get(id) {
-                return Promise.all([
-                    aliases.getAliasList(),
-                    Waves.API.Node.v2.transactions.get(id)
-                ]).then(([aliases, tx]) => {
-                    const pipe = this._pipeTransaction(false, aliases);
+                return Waves.API.Node.v2.transactions.get(id).then((tx) => {
+                    const pipe = this._pipeTransaction(false);
                     return pipe(tx);
                 });
             }
@@ -51,11 +48,8 @@
              * @return {Promise<ITransaction>}
              */
             getUtx(id) {
-                return Promise.all([
-                    aliases.getAliasList(),
-                    Waves.API.Node.v2.transactions.utxGet(id)
-                ]).then(([aliases, tx]) => {
-                    const pipe = this._pipeTransaction(false, aliases);
+                return Waves.API.Node.v2.transactions.utxGet(id).then((tx) => {
+                    const pipe = this._pipeTransaction(false);
                     return pipe(tx);
                 });
             }
@@ -75,12 +69,8 @@
              * @return {Promise<ITransaction[]>}
              */
             list(limit = 0) {
-                return Promise.all([
-                    aliases.getAliasList(),
-                    Waves.API.Node.v2.addresses.transactions(user.address, { limit })
-                ]).then(([aliases, txList = []]) => {
-                    return txList.map(this._pipeTransaction(false, aliases));
-                });
+                return Waves.API.Node.v2.addresses.transactions(user.address, { limit })
+                    .then((txList = []) => txList.map(this._pipeTransaction(false)));
             }
 
             /**
@@ -88,12 +78,8 @@
              * @return {Promise<ITransaction[]>}
              */
             listUtx() {
-                return Promise.all([
-                    aliases.getAliasList(),
-                    Waves.API.Node.v2.addresses.utxTransactions(user.address)
-                ]).then(([aliases, list = []]) => {
-                    return list.map(this._pipeTransaction(true, aliases));
-                });
+                return Waves.API.Node.v2.addresses.utxTransactions(user.address)
+                    .then((list = []) => list.map(this._pipeTransaction(true)));
             }
 
             /**
@@ -117,13 +103,11 @@
             }
 
             createTransaction(transactionType, txData) {
-                return aliases.getAliasList().then((aliasList) => {
-                    return this._pipeTransaction(false, aliasList)({
-                        transactionType,
-                        sender: user.address,
-                        timestamp: Date.now(),
-                        ...txData
-                    });
+                return this._pipeTransaction(false)({
+                    transactionType,
+                    sender: user.address,
+                    timestamp: Date.now(),
+                    ...txData
                 });
             }
 
@@ -133,7 +117,9 @@
              * @return {function(*=)}
              * @private
              */
-            _pipeTransaction(isUTX, aliasList) {
+            _pipeTransaction(isUTX) {
+                const aliasList = aliases.getAliasList();
+
                 return (tx) => {
                     tx.timestamp = new Date(tx.timestamp);
                     tx.isUTX = isUTX;

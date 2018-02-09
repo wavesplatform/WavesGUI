@@ -8,9 +8,10 @@
      * @param {$mdDialog} $mdDialog
      * @param {ModalManager} modalManager
      * @param {User} user
+     * @param {app.utils} utils
      * @returns {ConfirmTransaction}
      */
-    const controller = function (Base, waves, $attrs, $mdDialog, modalManager, user) {
+    const controller = function (Base, waves, $attrs, $mdDialog, modalManager, user, utils) {
 
         class ConfirmTransaction extends Base {
 
@@ -22,7 +23,7 @@
             }
 
             confirm() {
-                this.sendTransaction().then(({ id }) => {
+                utils.when(this.sendTransaction()).then(({ id }) => {
                     this.tx.id = id;
                     this.step++;
                 }).catch((e) => {
@@ -96,7 +97,7 @@
         return new ConfirmTransaction();
     };
 
-    controller.$inject = ['Base', 'waves', '$attrs', '$mdDialog', 'modalManager', 'user'];
+    controller.$inject = ['Base', 'waves', '$attrs', '$mdDialog', 'modalManager', 'user', 'utils'];
 
     angular.module('app.ui').component('wConfirmTransaction', {
         bindings: {
