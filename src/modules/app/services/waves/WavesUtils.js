@@ -142,17 +142,17 @@
              * @param {Moment} from
              * @private
              */
+            @decorators.cachable()
             _getChangeByInterval(from) {
-
                 const MINUTE_TIME = 1000 * 60;
-                const INTERVALS = [5, 30, 240, 1440];
+                const INTERVALS = [5, 15, 30, 60, 240, 1440];
                 const MAX_COUNTS = 100;
 
                 const intervalMinutes = (Date.now() - from.getDate()) / MINUTE_TIME;
 
                 let interval, i = 0;
                 do {
-                    if (intervalMinutes / INTERVALS[i] < MAX_COUNTS) {
+                    if ((intervalMinutes / INTERVALS[i]) < MAX_COUNTS) {
                         interval = INTERVALS[i];
                     } else {
                         i++;
@@ -177,7 +177,8 @@
             _getChange(from, to) {
                 return Waves.AssetPair.get(from, to)
                     .then((pair) => {
-                        return fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/15/97`)
+                        const interval = this._getChangeByInterval(utils.moment().add().day(-1));
+                        return fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
                             .then(utils.onFetch)
                             .then((data) => {
                                 if (!data) {
