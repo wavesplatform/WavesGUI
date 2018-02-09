@@ -113,17 +113,14 @@
              * @return {Promise<{id: string}>}
              */
             transfer({ amount, fee, recipient, attachment, keyPair }) {
-                const address = recipient <= WavesApp.maxAliasLength ?
-                    aliases.getAddress(recipient) : Promise.resolve(recipient);
-
-                return Promise.all([address, this.getFee('transfer', fee)])
-                    .then(([address, fee]) => {
+                return this.getFee('transfer', fee)
+                    .then((fee) => {
                         return Waves.API.Node.v1.assets.transfer({
                             amount: amount.toCoins(),
                             assetId: amount.asset.id,
                             fee: fee.toCoins(),
                             feeAssetId: fee.asset.id,
-                            recipient: address,
+                            recipient,
                             attachment
                         }, keyPair)
                             .then(this._pipeTransaction([amount, fee]));
@@ -180,8 +177,7 @@
             _getBalanceOrders() {
                 return matcher.getOrders()
                     .then((orders) => orders.filter(Assets._filterOrders))
-                    .then((orders) => orders.map(Assets._remapOrders))
-                    .then(Promise.all.bind(Promise));
+                    .then((orders) => orders.map(Assets._remapOrders));
             }
 
             /**
@@ -229,10 +225,10 @@
             static _remapOrders(order) {
                 switch (order.type) {
                     case 'sell':
-                        return Promise.resolve(order.amount.sub(order.filled));
+                        return order.amount.sub(order.filled);
                     case 'buy':
                         const tokens = order.amount.sub(order.filled).getTokens().mul(order.price.getTokens());
-                        return Waves.Money.fromTokens(tokens, order.price.asset.id);
+                        return order.price.cloneWithTokens(tokens);
                 }
             }
 
@@ -253,13 +249,15 @@
              * @private
              */
             static _remapBalance([wavesDetails, moneyList, orderMoneyList]) {
-                const orderMoneyHash = Assets._getMoneyHashFromMoneyList(orderMoneyList);
-                const eventsMoneyHash = Assets._getMoneyHashFromMoneyList(eventManager.getReservedMoneyList());
+                const orderMoneyHash = utils.groupMoney(orderMoneyList);
+                const eventsMoneyHash = utils.groupMoney(eventManager.getReservedMoneyList());
 
                 const wavesNodeRegular = wavesDetails.wavesBalance.regular;
                 const wavesNodeAvailable = wavesDetails.wavesBalance.available;
                 const wavesTx = eventsMoneyHash[WavesApp.defaultAssets.WAVES] || wavesNodeRegular.cloneWithCoins('0');
                 const wavesOrder = orderMoneyHash[WavesApp.defaultAssets.WAVES] || wavesNodeRegular.cloneWithCoins('0');
+
+                aliases.aliases = wavesDetails.aliases;
 
                 return [{
                     asset: wavesNodeRegular.asset,
@@ -309,22 +307,6 @@
                 } else {
                     return result;
                 }
-            }
-
-            /**
-             * @param {Money[]} orderMoneyList
-             * @return {object}
-             * @private
-             */
-            static _getMoneyHashFromMoneyList(orderMoneyList) {
-                return orderMoneyList.reduce((hash, orderMoney) => {
-                    if (!hash[orderMoney.asset.id]) {
-                        hash[orderMoney.asset.id] = orderMoney;
-                    } else {
-                        hash[orderMoney.asset.id] = hash[orderMoney.asset.id].add(orderMoney);
-                    }
-                    return hash;
-                }, Object.create(null));
             }
 
         }
