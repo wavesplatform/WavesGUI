@@ -19,6 +19,13 @@ md-dialog.settings-modal {
     top: -20px;
     border-right: 1px solid @color-basic-200;
 
+    w-responsive-menu-item {
+      order: 2;
+      &.menu-item-to-top {
+        order: 0;
+      }
+    }
+
     .responsive-menu-item-content {
 
       i {
@@ -34,13 +41,6 @@ md-dialog.settings-modal {
         display: flex;
         align-items: center;
         height: 50px;
-
-        w-responsive-menu-item {
-          order: 2;
-          &.menu-item-to-top {
-            order: 0;
-          }
-        }
 
         &.general i {
           background-image: url(/img/icons/settings-icon/general.svg);
@@ -176,7 +176,7 @@ md-dialog.settings-modal {
       position: absolute;
       line-height: 1em;
       margin: 0;
-      padding: 19px 0 10px 0;
+      padding: 20px 20px 10px 0;
       top: 0;
     }
 
