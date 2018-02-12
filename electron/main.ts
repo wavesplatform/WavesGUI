@@ -143,10 +143,7 @@ class Main {
             minWidth: CONFIG.MIN_SIZE.width,
             minHeight: CONFIG.MIN_SIZE.height,
             icon: join(__dirname, 'img/icon.png'),
-            fullscreen, width, height, x, y,
-            webPreferences: {
-                contextIsolation: true
-            }
+            fullscreen, width, height, x, y
         };
     }
 
