@@ -25,18 +25,22 @@
                 this.value = null;
 
                 $element.on('click', () => {
-                    this.parent.setActive(this);
-                    $scope.$apply();
+                    if (this.value != null) {
+                        this.parent.setActive(this);
+                        $scope.$apply();
+                    }
                 });
             }
 
             $postLink() {
                 this.parent.registerItem(this);
 
-                this.receive(utils.observe(this.parent, 'activeMenu'), () => {
+                if (this.value != null) {
+                    this.receive(utils.observe(this.parent, 'activeMenu'), () => {
+                        $element.toggleClass('active', this.parent.activeMenu === this.value);
+                    });
                     $element.toggleClass('active', this.parent.activeMenu === this.value);
-                });
-                $element.toggleClass('active', this.parent.activeMenu === this.value);
+                }
             }
 
         }

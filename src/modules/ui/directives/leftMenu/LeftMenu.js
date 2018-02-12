@@ -5,20 +5,24 @@
 
     /**
      * @param Base
-     * @param {User} user
-     * @param {State} state
+     * @param {Router} router
      * @param {ModalManager} modalManager
+     * @param {*} $scope
      * @return {LeftMenu}
      */
-    const controller = function (Base, user, state, modalManager) {
+    const controller = function (Base, router, modalManager, $scope) {
 
         class LeftMenu extends Base {
 
             constructor() {
                 super();
-                this._initStateList();
-                this.address = user.address;
-                this.receive(state.signals.changeRouterState, this._initStateList, this);
+                this.receive(router.changeRouteState, () => {
+                    this.subStateList = router.subStateList;
+                    this.rootStateList = router.rootStateList;
+                    $scope.$apply();
+                });
+                this.rootStateList = router.rootStateList;
+                this.subStateList = router.subStateList;
             }
 
             logout() {
@@ -33,23 +37,12 @@
                 modalManager.showSettings();
             }
 
-            _initStateList() {
-                const root = WavesApp.stateTree.find(LEFT_MENU_ROOT_ID);
-                const rootPath = WavesApp.stateTree.getPath(LEFT_MENU_ROOT_ID).join('.');
-                this.stateList = root.getChildren()
-                    .map((item) => {
-                        const path = user.getActiveState(item.id);
-                        const base = `${rootPath}.${item.id}`;
-                        return { path, name: item.id, base };
-                    });
-            }
-
         }
 
         return new LeftMenu();
     };
 
-    controller.$inject = ['Base', 'user', 'state', 'modalManager'];
+    controller.$inject = ['Base', 'router', 'modalManager', '$scope'];
 
     angular.module('app.ui').component('wLeftMenu', {
         bindings: {},
