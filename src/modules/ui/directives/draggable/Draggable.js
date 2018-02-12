@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const directive = (Base) => {
+    const directive = () => {
 
         return {
             scope: false,
@@ -16,6 +16,7 @@
                 const $document = $(document);
 
                 $element.on('mousedown', (e) => {
+                    e.preventDefault();
                     const startX = e.pageX;
                     const startY = e.pageY;
                     const x = parseInt($element.css('left'), 10);
@@ -45,7 +46,7 @@
         };
     };
 
-    directive.$inject = ['Base'];
+    directive.$inject = [];
 
     angular.module('app.ui').directive('wDraggable', directive);
 
