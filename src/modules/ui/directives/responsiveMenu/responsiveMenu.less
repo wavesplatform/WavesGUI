@@ -15,13 +15,13 @@ w-responsive-menu {
     cursor: pointer;
   }
 
-  .responsive-menu-item-content {
+  w-responsive-menu-item .responsive-menu-item-content {
     color: @color-info-500;
+  }
 
-    &.active {
+  w-responsive-menu-item.active .responsive-menu-item-content {
       background: @color-submit-400;
       color: @color-white;
-    }
   }
 }
 
@@ -40,21 +40,23 @@ w-responsive-menu {
       display: flex;
       flex-direction: column;
 
-      .responsive-menu-item-content {
-        overflow: hidden;
-        transition: .13s;
-      }
-
-      .responsive-menu-item-content:not(.active) {
+      w-responsive-menu-item {
         height: 0;
         opacity: 0;
        }
 
-      &.active .responsive-menu-item-content,
-      .responsive-menu-item-content.active {
+      &.active w-responsive-menu-item,
+      w-responsive-menu-item.active {
         height: 50px;
         opacity: 1;
       }
+
+    }
+
+
+    .responsive-menu-item-content {
+      overflow: hidden;
+      transition: .13s;
     }
 
     w-button.nav-toggler {

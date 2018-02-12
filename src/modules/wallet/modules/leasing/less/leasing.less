@@ -28,13 +28,11 @@
     border-top-right-radius: @border-radius;
   }
 
-  w-transaction-list {
-    height: calc(~'100vh - ' 130px);
 
-    .w-transaction-list ul {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
+  w-scroll-box {
+    border: 1px solid #e9e9eb;
+    border-radius: 0 0 @border-radius @border-radius;
+    height: calc(~'100vh - ' 130px);
   }
 
   .transaction-item > .date {
@@ -169,7 +167,7 @@ w-leasing-block.leasingNote {
         overflow: hidden;
         padding: 0 20px;
         border-bottom: 0 none;
-        border-top:0 none;
+        border-top: 0 none;
       }
     }
   }
@@ -177,28 +175,23 @@ w-leasing-block.leasingNote {
 
 @media screen and (max-width: 768px) {
   .leasing-page {
-    overflow-y:auto;
     height: auto;
-    max-height: 100%;
     display: block;
+    overflow: visible;
+
+    w-scroll-box {
+      height: auto;
+      margin-bottom:10px;
+    }
 
     .left-panel {
       width: 100%;
-      overflow-y: visible;
       max-height: 100%;
+      overflow-y: visible;
     }
 
     .transactions-container {
       width: 100%;
-
-      w-scroll-box .scroll-list {
-        max-height: 100%;
-        overflow: visible;
-      }
-    }
-
-    w-transaction-list {
-       height: 100%;
     }
   }
 

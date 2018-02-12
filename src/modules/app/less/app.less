@@ -95,8 +95,9 @@ md-input-container {
 w-scroll-box {
   display: flex;
   flex-direction: column;
-  height: 100%;
   overflow: auto;
+  height: 100%;
+  background: @color-white;
 }
 
 .flex-column-center {
@@ -294,14 +295,6 @@ md-dialog md-dialog-actions {
   overflow: auto;
   min-height: calc(~'100vh - 207px');
   max-height: calc(~'100vh - 207px');
-
-  .scroll-list {
-    height: 100%;
-  }
-}
-
-.transactions-container w-scroll-box .scroll-list {
-  overflow-y: auto;
 }
 
 .leasing-page {
@@ -375,19 +368,12 @@ md-dialog md-dialog-actions {
   }
 
 
-  body.transactions .main-content {
-    overflow: auto;
-
-    w-scroll-box {
-      overflow: hidden;
-    }
+  body .main-content w-scroll-box {
+    overflow: visible;
   }
 
   body.portfolio {
     .portfolio-list {
-      overflow: auto;
-
-
       w-scroll-box {
         min-height: calc(100vh ~'- 130px');
         max-height: 100%;

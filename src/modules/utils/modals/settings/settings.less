@@ -20,13 +20,7 @@ md-dialog.settings-modal {
     border-right: 1px solid @color-basic-200;
 
     w-responsive-menu-item {
-      order: 2;
-      &.menu-item-to-top {
-        order: 0;
-      }
-    }
 
-    .responsive-menu-item-content {
 
       i {
         flex-basis: 65px;
@@ -212,6 +206,15 @@ md-dialog.settings-modal {
       margin: -20px -10px 0 -20px;
       border-right: 0 none;
       height: auto;
+
+      .navigation-menu {
+        w-responsive-menu-item {
+          order: 2;
+        }
+        &.active w-responsive-menu-item.active {
+          order: 0;
+        }
+      }
 
       w-button {
         & > button.nav-toggler {

@@ -36,11 +36,17 @@ w-left-menu {
       bottom: 0;
     }
 
+    .navigation-menu.active {
+      w-responsive-menu-item {
+        height: 60px;
+      }
+    }
+
     .navigation-menu {
       margin-top: 5px;
     }
 
-    .responsive-menu-item-content {
+    w-responsive-menu-item {
       color: @color-black;
 
       .menu-item {
@@ -78,31 +84,31 @@ w-left-menu {
           background-image: url(/img/icons/icon-settings.svg);
           background-size: 24px 24px;
         }
-
       }
+    }
 
-      &.active {
-        color: @color-black;
+    w-responsive-menu-item.active {
 
-        .menu-item {
-          background-color: @color-submit-400;
+      .menu-item {
+        background-color: @color-submit-400;
 
-          &.wallet {
-            background-image: url(/img/icons/wallet-active.svg);
-          }
-          &.dex {
-            background-image: url(/img/icons/dex-active.svg);
-          }
-          &.tokens {
-            background-image: url(/img/icons/tokens-active.svg);
-          }
-          &.logout,
-          &.settings {
-            background-color: transparent;
-          }
+        &.wallet {
+          background-image: url(/img/icons/wallet-active.svg);
+        }
+        &.dex {
+          background-image: url(/img/icons/dex-active.svg);
+        }
+        &.tokens {
+          background-image: url(/img/icons/tokens-active.svg);
+        }
+
+        &.logout,
+        &.settings {
+          background-color: transparent;
         }
       }
     }
+
   }
 }
 
@@ -149,16 +155,13 @@ w-left-menu {
           }
         }
 
+
+
         w-responsive-menu-item {
           border-bottom: 0 none;
 
-          &.menu-item-selected {
-            background-color: @color-submit-400;
-
-            .menu-item {
-              color: @color-white;
-              background-color: transparent;
-            }
+          .menu-item {
+            background-color: transparent;
           }
 
           &[value="logout"],
@@ -166,7 +169,7 @@ w-left-menu {
             position: relative;
             bottom: auto;
             left: auto;
-            &.menu-item-selected {
+            &.active {
               background-color: transparent;
               .menu-item {
                 color: @color-basic-700;
@@ -174,6 +177,22 @@ w-left-menu {
             }
           }
 
+          &.active .menu-item,
+          &.active .menu-item div {
+            color: @color-white;
+          }
+        }
+
+        w-responsive-menu-item.active {
+          height: 60px;
+        }
+
+
+        &:not(.active) {
+          w-responsive-menu-item.active {
+            opacity: 0;
+            height: 0;
+          }
         }
 
         &:not(.active) .responsive-menu-item-content.active {
@@ -185,6 +204,7 @@ w-left-menu {
         &.active .responsive-menu-item-content {
           height: 60px;
           opacity: 1;
+
           &:not(first-child) {
             border-bottom: 1px solid @color-accent-50;
           }
