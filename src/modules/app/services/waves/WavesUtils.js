@@ -142,7 +142,6 @@
              * @param {Moment} from
              * @private
              */
-            @decorators.cachable()
             _getChangeByInterval(from) {
                 const MINUTE_TIME = 1000 * 60;
                 const INTERVALS = [5, 15, 30, 60, 240, 1440];
