@@ -5,61 +5,25 @@
 <w-responsive-menu active-menu="">
 
     <w-responsive-menu-item value="wallet">
-        <div class="menu-item wallet">
-            <w-i18n></w-i18n>
-            <div>Wallet</div>
-        </div>
+        <div class="menu-item wallet"></div>
     </w-responsive-menu-item>
 
-    <!-- ui/directives/header -->
-
-    <!--w-responsive-menu-item ng-repeat="state in $ctrl.stateList track by header.state.name"
-       value="{{::state.name}}"
-       class="{{::state.name}} sub-menu"
-       ui-sref="{{::state.path}}"
-       ui-sref-active="active">
-        <div class="menu-item wallet">
-            <w-i18n>header.{{::state.name}}</w-i18n>
-        </div>
-    </w-responsive-menu-item-->
-
-    <!-- end -->
-
     <w-responsive-menu-item value="dex">
-        <div class="menu-item dex">
-            <w-i18n><!--DEX--></w-i18n>
-            <div>Decentralised Exchange</div>
-        </div>
+        <div class="menu-item dex"></div>
     </w-responsive-menu-item>
 
     <w-responsive-menu-item value="tokens">
-        <div class="menu-item tokens">
-            <w-i18n><!--Token Generation--></w-i18n>
-            <div>Tokens</div>
-        </div>
+        <div class="menu-item tokens"></div>
     </w-responsive-menu-item>
 
     <w-responsive-menu-item ng-click="$ctrl.settings()">
-        <div class="menu-item settings">
-            <w-i18n><!--Settings--></w-i18n>
-            <div>Settings</div>
-        </div>
+        <div class="menu-item settings"></div>
     </w-responsive-menu-item>
 
     <w-responsive-menu-item ng-click="$ctrl.logout()">
-        <div class="menu-item logout">
-            <w-i18n><!--Logout--></w-i18n>
-            <div>Logout</div>
-        </div>
+        <div class="menu-item logout"></div>
     </w-responsive-menu-item>
 
 </w-responsive-menu>
 
 <w-navigation-tree></w-navigation-tree>
-
-<!-- TODO @tsigel -->
-<!-- сделать отдельными кнопкми и раскидать по w-responsive-menu-item -->
-<a ng-repeat="state in $ctrl.stateList track by $index"
-   class="{{::state.name}}"
-   ui-state="state.path"
-   ui-sref-active="{active: state.base + '.**'}"></a>

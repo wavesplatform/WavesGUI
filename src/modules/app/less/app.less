@@ -183,18 +183,11 @@ svg.chart {
       fill: @color-disabled-700;
       font-size: 13px;
     }
-    //
-    //    &.y-axis .tick text {
-    //      transform: translateX(~'calc(100% + 50px)');
-    //    }
-    //
-    //    &.y2-axis .tick text {
-    //      transform: translateX(-100%);
-    //    }
   }
 }
 
-md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
+md-toolbar.md-default-theme:not(.md-menu-toolbar),
+md-toolbar:not(.md-menu-toolbar) {
   background-color: @color-white;
   color: @color-black;
   border-bottom: 1px solid @color-disabled-200;
@@ -217,7 +210,7 @@ md-dialog md-dialog-actions {
 
 }
 
-.btn-wrap.btn-group { // TODO add colors from config for btn-wrap
+.btn-wrap.btn-group {
   box-sizing: border-box;
   padding: 0;
   display: flex;
@@ -226,12 +219,12 @@ md-dialog md-dialog-actions {
 
   .btn-active {
     cursor: default;
-    background-color: #ebebeb;
+    background-color: @color-disabled-100;
     color: @color-black;
   }
 
   & > *:first-child .btn, & > .btn:first-child {
-    border-left: 1px solid #ebebeb;
+    border-left: 1px solid @color-disabled-100;
     border-bottom-left-radius: 5px;
     border-top-left-radius: 5px;
   }
@@ -246,10 +239,9 @@ md-dialog md-dialog-actions {
     box-sizing: border-box;
     cursor: pointer;
     padding: 4px 10px;
-    //color: @color-link-blue;
-    border-bottom: 1px solid #ebebeb;
-    border-top: 1px solid #ebebeb;
-    border-right: 1px solid #ebebeb;
+    border-bottom: 1px solid @color-disabled-100;
+    border-top: 1px solid @color-disabled-100;
+    border-right: 1px solid @color-disabled-100;
 
     &:active {
       .btn-active();
@@ -405,7 +397,9 @@ md-dialog md-dialog-actions {
       padding: 10px;
     }
   }
+}
 
+@media screen and (max-width: 767px) {
   .md-dialog-container {
     md-dialog {
       width: calc(100% ~' - 20px');
@@ -421,5 +415,4 @@ md-dialog md-dialog-actions {
       }
     }
   }
-
 }
