@@ -1,0 +1,7 @@
+<div class="navigation-tree-item">
+    <a ui-sref="$ctrl.item.sref">
+        <w-i18n>{{$ctrl.item.sref}}</w-i18n>
+    </a>
+    <w-navigation-tree-item ng-repeat="item in $ctrl.item.list track by item.sref"
+                            item="item"></w-navigation-tree-item>
+</div>
