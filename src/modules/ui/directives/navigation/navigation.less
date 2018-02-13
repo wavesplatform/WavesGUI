@@ -62,31 +62,3 @@ w-navigation {
     }
   }
 }
-
-@media screen and (max-width: 768px) {
-  body:not(.dex) w-left-menu w-navigation .navigation.column {
-    flex-direction: row;
-    margin-left: 20px
-  }
-
-  body:not(.dex) w-header w-navigation {
-    width: 100%;
-
-    .navigation.row {
-      flex-direction: column;
-    }
-
-    .navigation.row a {
-      padding: 0 10px;
-      margin: 0;
-      line-height: 60px;
-      display: inline-block;
-      width: 100%;
-      border-bottom: 1px solid red;
-
-      &.active {
-        font-size: 15px;
-      }
-    }
-  }
-}

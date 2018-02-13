@@ -54,10 +54,13 @@ w-dex-my-orders {
       }
     }
 
+    w-cell {
+      white-space: nowrap;
+    }
+
     .cell-1 {
       max-width: 5%;
       padding: 0 14px;
-      white-space: nowrap;
     }
 
     .cell-2, .cell-3, .cell-4 {
@@ -74,7 +77,6 @@ w-dex-my-orders {
       margin-right: 30px;
       padding-right: 0;
       width: 26%;
-      white-space: nowrap;
     }
 
     .order-side.sell {
@@ -103,4 +105,125 @@ w-dex-my-orders {
       border-bottom: 1px solid @color-disabled-100;
     }
   }
+
+  .cell-label {
+    display: none;
+    color: @color-disabled-700;
+    margin-right: 7px;
+    font-size: 9px;
+  }
+
 }
+
+@media screen and (max-width: 480px) {
+
+  body.dex .dex-wrapper {
+    w-dex-my-orders {
+      w-table {
+        min-width: 100%;
+
+        w-t-head {
+
+          w-row {
+            padding: 8px 0;
+
+            .table-row {
+              margin: 0 30px 0 10px;
+              height: auto;
+
+              w-cell.cell-0 {
+                width: 45%;
+              }
+              w-cell.cell-1 {
+                width: 15%;
+                max-width: 15%;
+                padding: 0;
+              }
+              w-cell.cell-2,
+              w-cell.cell-3 {
+                display: none;
+              }
+              w-cell.cell-4 {
+                width: 40%;
+                margin-right: 0;
+              }
+            }
+          }
+        }
+
+        w-scroll-box w-row {
+          padding: 5px 0;
+
+          .table-row {
+            display: flex;
+            flex-wrap: wrap;
+            height: auto;
+            margin: 0 30px 0 10px;
+
+            .stop {
+              right: 8px;
+            }
+
+            w-cell {
+              padding: 0;
+              .cell-label {
+                display: inline-block;
+              }
+
+            }
+            w-cell.cell-0 {
+              flex-basis: 45%;
+              width: 45%;
+              order: 0;
+
+              span {
+                max-width: 120px;
+              }
+            }
+            w-cell.cell-1 {
+              max-width: 15%;
+              flex-basis: 15%;
+              width: 15%;
+              order: 1;
+            }
+
+            w-cell.cell-2 {
+              flex-basis: 40%;
+              width: 40%;
+              min-width: 40%;
+              order: 3;
+              text-align: left;
+            }
+
+            w-cell.cell-3 {
+              flex-basis: 60%;
+              width: 60%;
+              order: 4;
+              text-align: right;
+            }
+            w-cell.cell-4 {
+              flex-basis: 40%;
+              width: 40%;
+              margin-right: 0;
+              order: 2;
+            }
+          }
+
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 380px) {
+
+  body.dex .dex-wrapper {
+    w-dex-my-orders {
+      w-scroll-box w-row {
+        font-size: 11px;
+      }
+    }
+  }
+
+}
+

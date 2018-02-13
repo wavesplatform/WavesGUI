@@ -337,7 +337,40 @@ md-dialog md-dialog-actions {
   }
 }
 
+
+@media screen and (min-width: 1024px) {
+  w-left-menu w-responsive-menu {
+    min-height: 270px;
+  }
+}
+
 @media screen and (max-width: 768px) {
+
+  body {
+
+    .main-content w-scroll-box {
+      overflow: visible;
+    }
+
+    &.wallet {
+      min-width: 100%;
+
+      .content ui-view[name="mainContent"],
+      .content ui-view[name="mainContent"] ui-view[name="content"] {
+        height: auto;
+      }
+    }
+
+    &.portfolio {
+      .portfolio-list {
+        w-scroll-box {
+          min-height: calc(100vh ~'- 130px');
+          max-height: 100%;
+        }
+      }
+    }
+
+  } // end body
 
   .assets-wrapper {
     max-height: 100%;
@@ -345,39 +378,31 @@ md-dialog md-dialog-actions {
     overflow-x: visible;
   }
 
-  .main-content .content {
-    overflow: auto;
-    height: calc(100vh ~'-  60px');
-    width: 100%;
-    position: relative;
-    right: auto;
-    left: 0;
-    top: 0;
-    bottom: auto;
-    margin: 0;
-    padding: 10px;
-  }
+  .main-content {
+    display: flex;
+    flex-direction: column;
 
-  body.wallet {
-    min-width: 100%;
-
-    .content ui-view[name="mainContent"],
-    .content ui-view[name="mainContent"] ui-view[name="content"] {
-      height: auto;
+    & > w-header {
+      order: 1;
     }
-  }
+    & > w-left-menu {
+      order: 0;
+    }
+    & > div.content {
+      order: 2;
+    }
 
-
-  body .main-content w-scroll-box {
-    overflow: visible;
-  }
-
-  body.portfolio {
-    .portfolio-list {
-      w-scroll-box {
-        min-height: calc(100vh ~'- 130px');
-        max-height: 100%;
-      }
+    .content {
+      overflow: auto;
+      height: calc(100vh ~'-  60px');
+      width: 100%;
+      position: relative;
+      right: auto;
+      left: 0;
+      top: 0;
+      bottom: auto;
+      margin: 0;
+      padding: 10px;
     }
   }
 
@@ -394,25 +419,6 @@ md-dialog md-dialog-actions {
       md-dialog-content {
         padding: 20px;
       }
-    }
-  }
-
-  body .mobile-low-fsize {
-    font-size: @mobile-low-fsize;
-  }
-
-  .main-content {
-    display: flex;
-    flex-direction: column;
-
-    & > w-header {
-      order: 1;
-    }
-    & > w-left-menu {
-      order: 0;
-    }
-    & > div.content {
-      order: 2;
     }
   }
 
