@@ -38,6 +38,7 @@
     "connect": "^3.6.5",
     "electron": "^1.8.2-beta.5",
     "electron-builder": "^19.55.3",
+    "electron-packager": "^11.0.1",
     "eslint": "^4.9.0",
     "fs-extra": "^4.0.2",
     "gulp": "^3.9.1",
