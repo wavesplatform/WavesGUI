@@ -213,7 +213,7 @@
                     amount: lastAsk.price,
                     price: new BigNumber(lastAsk.price).sub(firstBid.price)
                         .abs()
-                        .toFormat(pair.priceAsset.precision),
+                        .toFixed(pair.priceAsset.precision),
                     total: firstBid.price
                 } || { amount: '0', price: '0', total: '0' };
             }
