@@ -3,22 +3,22 @@
 
     /**
      * @param {Base} Base
-     * @param {Router} router
+     * @param {StateManager} stateManager
      * @param {*} $scope
      * @return {Header}
      */
-    const controller = function (Base, router, $scope) {
+    const controller = function (Base, stateManager, $scope) {
 
         class Header extends Base {
 
             constructor() {
                 super();
 
-                this.receive(router.changeRouteState, () => {
-                    this.stateList = router.subStateList;
+                this.receive(stateManager.changeRouteState, () => {
+                    this.stateList = stateManager.subStateList;
                     $scope.$apply();
                 });
-                this.stateList = router.subStateList;
+                this.stateList = stateManager.subStateList;
             }
 
         }
@@ -26,7 +26,7 @@
         return new Header();
     };
 
-    controller.$inject = ['Base', 'router', '$scope'];
+    controller.$inject = ['Base', 'stateManager', '$scope'];
 
     angular.module('app.ui').component('wHeader', {
         controller: controller,

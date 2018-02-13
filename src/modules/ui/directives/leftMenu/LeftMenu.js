@@ -5,24 +5,24 @@
 
     /**
      * @param Base
-     * @param {Router} router
+     * @param {StateManager} stateManager
      * @param {ModalManager} modalManager
      * @param {*} $scope
      * @return {LeftMenu}
      */
-    const controller = function (Base, router, modalManager, $scope) {
+    const controller = function (Base, stateManager, modalManager, $scope) {
 
         class LeftMenu extends Base {
 
             constructor() {
                 super();
-                this.receive(router.changeRouteState, () => {
-                    this.subStateList = router.subStateList;
-                    this.rootStateList = router.rootStateList;
+                this.receive(stateManager.changeRouteState, () => {
+                    this.subStateList = stateManager.subStateList;
+                    this.rootStateList = stateManager.rootStateList;
                     $scope.$apply();
                 });
-                this.rootStateList = router.rootStateList;
-                this.subStateList = router.subStateList;
+                this.rootStateList = stateManager.rootStateList;
+                this.subStateList = stateManager.subStateList;
             }
 
             logout() {
@@ -42,7 +42,7 @@
         return new LeftMenu();
     };
 
-    controller.$inject = ['Base', 'router', 'modalManager', '$scope'];
+    controller.$inject = ['Base', 'stateManager', 'modalManager', '$scope'];
 
     angular.module('app.ui').component('wLeftMenu', {
         bindings: {},

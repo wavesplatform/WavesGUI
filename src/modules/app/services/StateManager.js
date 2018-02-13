@@ -6,11 +6,11 @@
      * @param {State} state
      * @param {User} user
      * @param {$state} $state
-     * @return {Router}
+     * @return {StateManager}
      */
     const factory = function (state, user, $state) {
 
-        class Router {
+        class StateManager {
 
             constructor() {
                 this.rootStateList = [];
@@ -46,10 +46,10 @@
             }
         }
 
-        return new Router();
+        return new StateManager();
     };
 
     factory.$inject = ['state', 'user', '$state'];
 
-    angular.module('app').factory('router', factory);
+    angular.module('app').factory('stateManager', factory);
 })();
