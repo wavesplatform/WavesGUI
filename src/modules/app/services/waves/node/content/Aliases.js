@@ -13,6 +13,11 @@
 
         class Aliases extends BaseNodeComponent {
 
+            constructor() {
+                super();
+                this.aliases = [];
+            }
+
             /**
              * Get address by alias
              * @param {string} alias
@@ -24,11 +29,10 @@
 
             /**
              * Get alias list by user
-             * @return {Promise<string[]>}
+             * @return {string[]}
              */
             getAliasList() {
-                return Waves.API.Node.v2.addresses.aliasList(user.address)
-                    .then((list) => list.sort(utils.comparators.asc));
+                return this.aliases;
             }
 
             /**
