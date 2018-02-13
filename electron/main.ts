@@ -30,8 +30,6 @@ const MENU_LIST: MenuItemConstructorOptions[] = [
     {
         label: 'Application',
         submenu: [
-            { label: 'About Application', selector: 'orderFrontStandardAboutPanel:' },
-            { type: 'separator' },
             { label: 'Quit', accelerator: 'Command+Q', click: () => app.quit() }
         ]
     } as MenuItemConstructorOptions, {
@@ -57,8 +55,6 @@ class Main {
         this.mainWindow = null;
 
         this.setHandlers();
-
-        Menu.setApplicationMenu(Menu.buildFromTemplate(MENU_LIST));
     }
 
     private createWindow() {
@@ -110,6 +106,7 @@ class Main {
     private onAppReady() {
         this.replaceProtocol();
         this.createWindow();
+        Menu.setApplicationMenu(Menu.buildFromTemplate(MENU_LIST));
     }
 
     private onActivate() {
