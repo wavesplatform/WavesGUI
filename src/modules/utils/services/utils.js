@@ -422,6 +422,51 @@
             },
 
             /**
+             * @name app.utils#parseAngularParam
+             * @param {string} attribute
+             * @param $scope
+             * @param {Signal} destroy
+             * @return {{attribute: string, exp: string, change: Signal, value: *}}
+             */
+            parseAngularParam(attribute, $scope, destroy) {
+                const exp = _hasExp(attribute) && attribute;
+                const change = new tsUtils.Signal();
+
+                const result = utils.liteObject({
+                    attribute, exp, change, value: null
+                });
+
+                if (exp) {
+                    if (exp.indexOf('::') !== -1) {
+                        result.value = $scope.$eval(exp.replace('::', '').replace(/{{(.*)?(}})/, '$1'));
+                    } else {
+                        const stop = $scope.$watch(exp, (value) => {
+                            result.value = value;
+                            change.dispatch(value);
+                        });
+                        destroy.once(() => {
+                            stop();
+                        });
+                    }
+                } else {
+                    result.value = attribute;
+                }
+
+                return result;
+            },
+
+            /**
+             * @name app.utils#liteObject
+             * @param {T} props
+             * @return {T}
+             */
+            liteObject(props) {
+                const result = Object.create(null);
+                Object.assign(result, props);
+                return result;
+            },
+
+            /**
              * @name app.utils#comparators
              */
             comparators: {
@@ -458,6 +503,21 @@
              */
             isNotEqualValue: isNotEqualValue
         };
+
+        /**
+         * @param value
+         * @return {boolean}
+         * @private
+         */
+        function _hasExp(value) {
+            if (!value) {
+                return false;
+            }
+
+            const openIndex = value.indexOf('{{');
+            const closeIndex = value.indexOf('}}');
+            return openIndex !== -1 && closeIndex !== -1 && openIndex < closeIndex;
+        }
 
         function _processDecimal(decimal) {
             const mute = [];
