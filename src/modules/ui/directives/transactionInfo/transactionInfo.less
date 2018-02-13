@@ -72,7 +72,7 @@ w-transaction-info {
 
     .section {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       width: 100%;
 
       justify-content: space-between;
@@ -87,6 +87,11 @@ w-transaction-info {
       .value {
         .footnote-1();
         color: @color-basic-900;
+
+        &:not(.text) {
+          max-width: 90%;
+          word-wrap: break-word;
+        }
       }
 
       &.contains-text {
