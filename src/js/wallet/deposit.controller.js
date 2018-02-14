@@ -13,17 +13,17 @@
             bitcoinAddress: '',
             bitcoinAmount: '',
             bitcoinUri: '',
-            minimumAmount: 0.01
+            minimumAmount: 0.001
         };
 
         ctrl.eth = {
             ethereumAddress: '',
-            minimumAmount: 0.001
+            minimumAmount: 0.005
         };
 
         ctrl.ltc = {
             litecoinAddress: '',
-            minimumAmount: 0.001
+            minimumAmount: 0.1
         };
 
         ctrl.zec = {
