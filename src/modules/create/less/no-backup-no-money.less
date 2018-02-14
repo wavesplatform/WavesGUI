@@ -26,11 +26,20 @@
 }
 
 .no-backup-no-money-modal {
-  padding: 40px 50px;
+  padding: 40px 50px 0 50px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   text-align: center;
+
+  //FF ignores padding bottom fix
+  &::after {
+    content: '';
+    min-height: 40px;
+    display: block;
+    position: relative;
+    width: 100%;
+  }
 
   .icon {
     background: url(/img/icons/seed.svg) no-repeat center center;
@@ -56,5 +65,10 @@
     padding: 20px;
     min-height: calc(100vh ~'- 20px');
     min-width: calc(100vw ~'- 20px');
+
+    //FF ignores padding bottom fix
+    &::after {
+      min-height: 20px;
+    }
   }
 }

@@ -67,18 +67,6 @@ md-input-container {
   user-select: none;
 }
 
-.md-dialog-container {
-  md-dialog {
-    box-shadow: none;
-    position: absolute;
-    top: 13%;
-    left: 50%;
-    transform: translateX(-50%);
-    max-height: 74%;
-    width: 540px;
-  }
-}
-
 .center {
   display: flex;
   flex-direction: column;
@@ -186,6 +174,24 @@ svg.chart {
   }
 }
 
+.md-dialog-container {
+  md-dialog {
+    box-shadow: none;
+    position: absolute;
+    top: 13%;
+    left: 50%;
+    transform: translateX(-50%);
+    max-height: 74%;
+    width: 540px;
+
+    md-dialog-actions {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+}
+
 md-toolbar.md-default-theme:not(.md-menu-toolbar),
 md-toolbar:not(.md-menu-toolbar) {
   background-color: @color-white;
@@ -193,11 +199,6 @@ md-toolbar:not(.md-menu-toolbar) {
   border-bottom: 1px solid @color-disabled-200;
 }
 
-md-dialog md-dialog-actions {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
 
 .chart-legend {
   display: none;
@@ -411,7 +412,7 @@ md-dialog md-dialog-actions {
       top: 10px;
 
       md-dialog-content {
-        padding: 20px;
+        padding: 20px 20px 0 20px;
       }
     }
   }

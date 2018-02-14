@@ -19,7 +19,15 @@ md-dialog {
   md-dialog-content {
     display: block;
     overflow-x: hidden;
-    padding: 20px 40px 40px 40px;
+    padding: 20px 40px 0 40px;
+
+    //FF ignores padding bottom fix
+    &::after {
+      content: '';
+      min-height: 20px;
+      display: block;
+      width: 100%;
+    }
 
     .modal-header {
       display: inline-block;
