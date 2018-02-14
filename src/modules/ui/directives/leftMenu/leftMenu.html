@@ -6,15 +6,15 @@
 
     <div class="menu-list"
          ng-repeat="menu in $ctrl.menuList track by menu.id"
-         ng-include="'modules/ui/directives/leftMenu/reqursiceMenuItem.html'"
-    ></div>
+         ng-include="'modules/ui/directives/leftMenu/reqursiceMenuItem.html'">
+    </div>
 
     <w-responsive-menu-item ng-click="$ctrl.settings()">
-        <div class="menu-item settings"></div>
+        <div class="menu-item settings"><w-i18n>leftmenu.settings</w-i18n></div>
     </w-responsive-menu-item>
 
     <w-responsive-menu-item ng-click="$ctrl.logout()">
-        <div class="menu-item logout"></div>
+        <div class="menu-item logout"><w-i18n>leftmenu.logout</w-i18n></div>
     </w-responsive-menu-item>
 
 </w-responsive-menu>

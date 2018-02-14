@@ -41,10 +41,17 @@
   },
   "back": "Назад",
   "header": {
-    "assets": "Кошелёк",
+    "wallet": "Кошелёк",
+    "assets": "Ассеты",
     "portfolio": "Портфель",
     "transactions": "Транзакции",
-    "leasing": "Лизинг"
+    "leasing": "Лизинг",
+    "dex": "Децентрализованный обменник",
+    "tokens": "Выпуск токена"
+  },
+  "leftmenu": {
+    "settings": "Настройки",
+    "logout": "Выход"
   },
   "number": {
     "short": {

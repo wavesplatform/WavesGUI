@@ -41,10 +41,17 @@
   },
   "back": "Back",
   "header": {
+    "wallet": "Wallet",
     "assets": "Assets",
     "portfolio": "Portfolio",
     "transactions": "Transactions",
-    "leasing": "Leasing"
+    "leasing": "Leasing",
+    "dex": "Decentralised exchanger",
+    "tokens": "Tokens"
+  },
+  "leftmenu": {
+    "settings": "Settings",
+    "logout": "Logout"
   },
   "number": {
     "short": {

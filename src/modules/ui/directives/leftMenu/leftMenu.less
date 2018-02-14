@@ -38,7 +38,7 @@ w-left-menu {
 
     .navigation-menu.active {
       w-responsive-menu-item {
-        height: 60px;
+        //height: 60px;
       }
     }
 
@@ -48,6 +48,10 @@ w-left-menu {
 
     w-responsive-menu-item {
       color: @color-black;
+
+      .child-menu-list {
+        display: none;
+      }
 
       .menu-item {
         width: 50px;
@@ -138,8 +142,8 @@ w-left-menu {
         margin: 0;
 
         .responsive-menu-item-content {
-          height: 0;
-          opacity: 0;
+          //height: 0;
+          //opacity: 0;
 
           .menu-item {
             white-space: nowrap;
@@ -155,10 +159,13 @@ w-left-menu {
           }
         }
 
-
-
         w-responsive-menu-item {
           border-bottom: 0 none;
+
+          .child-menu-list {
+            display: flex;
+            flex-direction: column;
+          }
 
           .menu-item {
             background-color: transparent;
@@ -183,34 +190,27 @@ w-left-menu {
           }
         }
 
-        w-responsive-menu-item.active {
-          height: 60px;
-        }
-
-
         w-responsive-menu-item[value="logout"].active .responsive-menu-item-content
         w-responsive-menu-item[value=settings].active .responsive-menu-item-content {
-          background: none transparent!important;
+          background: none transparent !important;
         }
-
-
 
         &:not(.active) {
           w-responsive-menu-item.active {
-            opacity: 0;
-            height: 0;
+           // opacity: 0;
+            //v height: 0;
           }
         }
 
         &:not(.active) .responsive-menu-item-content.active {
-          height: 0;
-          opacity: 0;
+          //height: 0;
+          //opacity: 0;
           border-bottom: 0 none;
         }
 
         &.active .responsive-menu-item-content {
-          height: 60px;
-          opacity: 1;
+          //height: 60px;
+          //opacity: 1;
 
           &:not(first-child) {
             border-bottom: 1px solid @color-accent-50;
@@ -220,6 +220,8 @@ w-left-menu {
             background-color: transparent;
           }
         }
+
+
       }
 
       w-button.nav-toggler {
@@ -299,8 +301,8 @@ w-left-menu {
   }
 }
 
-@media screen and (min-width:769px) {
+@media screen and (min-width: 769px) {
   w-responsive-menu w-responsive-menu-item.active .responsive-menu-item-content {
-    background: none transparent!important;
+    background: none transparent !important;
   }
 }
