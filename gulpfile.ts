@@ -68,7 +68,7 @@ task('load-trading-view', (done) => {
 
         ['normal', 'min'].forEach((type) => {
 
-            const targetPath = `./dist/${buildName}/${configName}/${type}`;
+            const targetPath = `.${sep}dist${sep}${buildName}${sep}${configName}${sep}${type}`;
             const jsFileName = getName(`${pack.name}-${buildName}-${configName}-${pack.version}.js`);
             const jsFilePath = join(targetPath, 'js', jsFileName);
             const taskPostfix = `${buildName}-${configName}-${type}`;
@@ -77,14 +77,14 @@ task('load-trading-view', (done) => {
             task(`concat-${taskPostfix}`, [type === 'min' ? 'uglify' : 'babel'], function (done) {
                 const stream = gulp.src([vendorPath, getName(bundlePath), getName(templatePath)])
                     .pipe(concat(jsFileName))
-                    .pipe(gulp.dest(normalize(`${targetPath}/js`)));
+                    .pipe(gulp.dest(normalize(`${targetPath}${sep}js`)));
 
                 stream.on('end', function () {
-                    readFile(normalize(`${targetPath}/js/${jsFileName}`), { encoding: 'utf8' }).then((file) => {
+                    readFile(normalize(`${targetPath}${sep}js${sep}${jsFileName}`), { encoding: 'utf8' }).then((file) => {
                         if (buildName === 'desktop') {
                             file = `(function () {\nvar module = undefined;\n${file}})();`;
                         }
-                        outputFile(normalize(`${targetPath}/js/${jsFileName}`), file)
+                        outputFile(normalize(`${targetPath}${sep}js${sep}${jsFileName}`), file)
                             .then(() => done());
                     });
                 });
