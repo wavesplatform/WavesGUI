@@ -25,12 +25,12 @@ w-left-menu {
     width: 100%;
     position: relative;
 
-    w-responsive-menu-item[value="settings"] {
+    w-responsive-menu-item.settings {
       position: absolute;
       left: 10px;
       bottom: 50px;
     }
-    w-responsive-menu-item[value="logout"] {
+    w-responsive-menu-item.logout {
       position: absolute;
       left: 10px;
       bottom: 0;
@@ -135,6 +135,12 @@ w-left-menu {
 
       .navigation-menu {
         margin: 0;
+        display: none;
+
+        &.active {
+          display: flex;
+        }
+
 
         .responsive-menu-item-content {
           //height: 0;
