@@ -24,6 +24,10 @@
              * @private
              */
             _currentStateLists() {
+                if (!$state.$current || $state.$current.name) {
+                    return false;
+                }
+
                 const root = WavesApp.stateTree.find('main');
                 const rootPath = WavesApp.stateTree.getPath(root.id).join('.');
                 this.rootStateList = root.getChildren()

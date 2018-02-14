@@ -1,11 +1,16 @@
 <div class="navigation-tree-item">
-    <a ng-if="$ctrl.isLeaf" class="{{::$ctrl.item.id}}" ui-sref="$ctrl.item.sref">
+
+    <a ng-if="$ctrl.item.isLeaf === true"
+       class="{{::$ctrl.item.id}}"
+       ui-sref="{{::$ctrl.item.sref}}">
         <w-i18n>{{$ctrl.item.id}}</w-i18n>
     </a>
-    <div ng-if="!$ctrl.isLeaf" class="{{::$ctrl.item.id}}">
+    <div ng-if="$ctrl.item.isLeaf === false"
+         class="{{::$ctrl.item.id}}">
         <w-i18n>{{$ctrl.item.id}}</w-i18n>
     </div>
-    <w-navigation-tree-item ng-if="!$ctrl.isLeaf"
+
+    <w-navigation-tree-item ng-if="$ctrl.item.isLeaf === false"
                             ng-repeat="item in $ctrl.item.list track by item.sref"
                             item="item"></w-navigation-tree-item>
 </div>
