@@ -10,9 +10,13 @@ md-dialog.settings-modal {
   max-width: 740px;
   min-width: 740px;
 
+  md-dialog-content::after {
+    display: none;
+  }
+
   w-responsive-menu {
     width: 199px;
-    height: calc(100% ~' + 60px');
+    height: calc(100% ~' + 20px');
     position: absolute;
     font-size: 15px;
     left: -40px;
@@ -20,7 +24,6 @@ md-dialog.settings-modal {
     border-right: 1px solid @color-basic-200;
 
     w-responsive-menu-item {
-
 
       i {
         flex-basis: 65px;
