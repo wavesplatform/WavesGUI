@@ -23,7 +23,7 @@
                 const isLeaf = list.length === 0;
                 const sref = NavigationTree._getSref(item);
 
-                return { list, isLeaf, sref };
+                return { list, isLeaf, sref, id: item.id };
             }
 
             static _getSref(state) {
