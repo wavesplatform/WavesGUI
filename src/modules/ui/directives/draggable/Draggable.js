@@ -13,7 +13,7 @@
 
                 const $document = $(document);
                 const position = $element.css('position');
-                const $block = $('<div class="draggable-block">');
+                const $block = $('<div class="drag-overlay">');
 
                 if (position === 'static' || position === 'relative') {
                     const offset = $element.offset();
