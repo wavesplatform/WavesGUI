@@ -3,7 +3,7 @@ import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
 import { download, getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
-import { join } from 'path';
+import { join, normalize, sep } from 'path';
 import { copy as fsCopy, mkdirp, outputFile, readFile, readJSON, readJSONSync, writeFile } from 'fs-extra';
 import { IMetaJSON, IPackageJSON } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
@@ -97,8 +97,9 @@ task('load-trading-view', (done) => {
             }
 
             task(`copy-${taskPostfix}`, copyDeps, function (done) {
+                    const reg = new RegExp(`(.*?\\${sep}src)`);
                     let forCopy = JSON_LIST.map((path) => {
-                        return fsCopy(path, path.replace(/(.*?\/src)/, `${targetPath}`));
+                        return fsCopy(path, path.replace(reg, `${targetPath}`));
                     }).concat(fsCopy(join(__dirname, 'src/fonts'), `${targetPath}/fonts`));
 
                     if (buildName === 'desktop') {
@@ -113,11 +114,11 @@ task('load-trading-view', (done) => {
                             return fsCopy(join(__dirname, path), `${targetPath}/${path}`);
                         })) as Promise<any>,
                         fsCopy(join(__dirname, 'src/img'), `${targetPath}/img`).then(() => {
-                            const images = IMAGE_LIST.map((path) => path.replace(/(.*?\/src)/, ''));
+                            const images = IMAGE_LIST.map((path) => normalize(path.replace(reg, '')));
                             return writeFile(`${targetPath}/img/images-list.json`, JSON.stringify(images));
                         }),
                         fsCopy(cssPath, `${targetPath}/css/${cssName}`),
-                        fsCopy('LICENSE', `${targetPath}/LICENSE`),
+                        fsCopy('LICENSE', join(`${targetPath}`, 'LICENSE')),
                     ].concat(forCopy)).then(() => {
                         done();
                     }, (e) => {
