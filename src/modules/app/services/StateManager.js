@@ -18,6 +18,7 @@
 
                 state.signals.changeRouterState.on(this._currentStateLists, this);
                 this.changeRouteState = state.signals.changeRouterState;
+                this._currentStateLists();
             }
 
             getSrefByState(state) {
@@ -34,7 +35,7 @@
              * @private
              */
             _currentStateLists() {
-                if (!$state.$current || $state.$current.name) {
+                if (!$state.$current || !$state.$current.name) {
                     return false;
                 }
 
@@ -46,7 +47,7 @@
                         const base = `${rootPath}.${item.id}`;
                         return { path, name: item.id, base };
                     });
-                const idList = $state.$current.split('.');
+                const idList = $state.$current.name.split('.');
                 const parent = idList[idList.length - 2];
                 const stateData = WavesApp.stateTree.find(parent);
                 if (stateData && !stateData.get('abstract')) {

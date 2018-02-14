@@ -1,7 +1,7 @@
 <w-responsive-menu-item value="{{::menu.id}}">
-    <div class="menu-item {{::menu.id}}">
+    <a ui-sref="{{::menu.sref}}" class="menu-item {{::menu.id}}">
         <w-i18n>header.{{::menu.id}}</w-i18n>
-    </div>
+    </a>
     <div ng-if="menu.list.length" class="child-menu-list">
         <div class="child-menu-item"
              ng-repeat="menu in menu.list track by menu.id"

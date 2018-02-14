@@ -2,7 +2,7 @@
     <w-avatar ng-click="$ctrl.avatarClick()" size="40" address="$ctrl.address"></w-avatar>
 </div>
 
-<w-responsive-menu active-menu="">
+<w-responsive-menu active-menu="$ctrl.activeState">
 
     <div class="menu-list"
          ng-repeat="menu in $ctrl.menuList track by menu.id"
@@ -10,11 +10,15 @@
     </div>
 
     <w-responsive-menu-item ng-click="$ctrl.settings()">
-        <div class="menu-item settings"><w-i18n>leftmenu.settings</w-i18n></div>
+        <div class="menu-item settings">
+            <w-i18n>leftmenu.settings</w-i18n>
+        </div>
     </w-responsive-menu-item>
 
     <w-responsive-menu-item ng-click="$ctrl.logout()">
-        <div class="menu-item logout"><w-i18n>leftmenu.logout</w-i18n></div>
+        <div class="menu-item logout">
+            <w-i18n>leftmenu.logout</w-i18n>
+        </div>
     </w-responsive-menu-item>
 
 </w-responsive-menu>

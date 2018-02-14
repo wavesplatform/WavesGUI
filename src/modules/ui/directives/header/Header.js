@@ -7,7 +7,7 @@
      * @param {*} $scope
      * @return {Header}
      */
-    const controller = function (Base, stateManager, $scope) {
+    const controller = function (Base, stateManager) {
 
         class Header extends Base {
 
@@ -16,7 +16,6 @@
 
                 this.receive(stateManager.changeRouteState, () => {
                     this.stateList = stateManager.subStateList;
-                    $scope.$apply();
                 });
                 this.stateList = stateManager.subStateList;
             }
@@ -26,7 +25,7 @@
         return new Header();
     };
 
-    controller.$inject = ['Base', 'stateManager', '$scope'];
+    controller.$inject = ['Base', 'stateManager'];
 
     angular.module('app.ui').component('wHeader', {
         controller: controller,
