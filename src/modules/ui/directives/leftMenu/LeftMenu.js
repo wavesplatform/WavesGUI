@@ -1,21 +1,22 @@
 (function () {
     'use strict';
 
-    const LEFT_MENU_ROOT_ID = 'main';
-
     /**
      * @param Base
      * @param {StateManager} stateManager
      * @param {ModalManager} modalManager
      * @param {*} $scope
+     * @param {User} user
      * @return {LeftMenu}
      */
-    const controller = function (Base, stateManager, modalManager, $scope) {
+    const controller = function (Base, stateManager, modalManager, $scope, user) {
 
         class LeftMenu extends Base {
 
             constructor() {
                 super();
+
+                this.address = user.address;
                 this.receive(stateManager.changeRouteState, () => {
                     this.subStateList = stateManager.subStateList;
                     this.rootStateList = stateManager.rootStateList;
@@ -43,7 +44,7 @@
         return new LeftMenu();
     };
 
-    controller.$inject = ['Base', 'stateManager', 'modalManager', '$scope'];
+    controller.$inject = ['Base', 'stateManager', 'modalManager', '$scope', 'user'];
 
     angular.module('app.ui').component('wLeftMenu', {
         bindings: {},
