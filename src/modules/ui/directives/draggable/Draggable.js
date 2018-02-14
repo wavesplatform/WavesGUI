@@ -13,7 +13,7 @@
 
                 const $document = $(document);
                 const position = $element.css('position');
-                const $block = $('<div class="drag-overlay">');
+                const $overlay = $('<div class="drag-overlay">');
 
                 if (position === 'static' || position === 'relative') {
                     const offset = $element.offset();
@@ -31,7 +31,7 @@
                 const stop = $scope.$on('$destroy', () => {
                     stop();
                     $element.remove();
-                    $block.remove();
+                    $overlay.remove();
                 });
 
                 let x = 0;
@@ -39,7 +39,7 @@
 
                 $element.on('mousedown', (e) => {
                     e.preventDefault();
-                    $block.insertBefore($element);
+                    $overlay.insertBefore($element);
                     const startX = e.pageX - x;
                     const startY = e.pageY - y;
 
@@ -52,7 +52,7 @@
 
                     const up = () => {
                         e.preventDefault();
-                        $block.detach();
+                        $overlay.detach();
                         $document.off('mousemove', move);
                         $document.off('mouseup', up);
                     };
