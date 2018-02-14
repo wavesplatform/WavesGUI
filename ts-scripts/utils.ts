@@ -2,7 +2,7 @@ import * as gulp from 'gulp';
 import { getType } from 'mime';
 import { exec, spawn } from 'child_process';
 import { readdirSync, statSync } from 'fs';
-import { join, relative } from 'path';
+import { join, relative, sep } from 'path';
 import { ITaskFunction } from './interface';
 import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync } from 'fs-extra';
 import { compile } from 'handlebars';
@@ -179,7 +179,7 @@ export function download(url: string, filePath: string): Promise<void> {
     return new Promise<void>((resolve) => {
 
         try {
-            mkdirpSync(filePath.split('/').slice(0, -1).join('/'));
+            mkdirpSync(filePath.split(sep).slice(0, -1).join(sep));
         } catch (e) {
             console.log(e);
         }
@@ -230,7 +230,7 @@ export function route(connectionType, buildType) {
 
         if (buildType !== 'dev') {
             if (isPage(req.url)) {
-                const path = join(__dirname, '../dist/web', connectionType, buildType, 'index.html');
+                const path = join(__dirname, `..${sep}dist${sep}web`, connectionType, buildType, 'index.html');
                 return readFile(path, 'utf8').then((file) => {
                     res.end(file);
                 });
