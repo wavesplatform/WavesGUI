@@ -1,0 +1,10 @@
+<w-responsive-menu-item value="{{::menu.id}}">
+    <div class="menu-item {{::menu.id}}">
+
+    </div>
+    <div ng-if="menu.list.length" class="child-menu-list">
+        <div class="child-menu-item"
+             ng-repeat="menu in menu.list track by menu.id"
+             ng-include="'modules/ui/directives/leftMenu/reqursiceMenuItem.html'"></div>
+    </div>
+</w-responsive-menu-item>

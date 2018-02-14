@@ -23,6 +23,7 @@
                 });
                 this.rootStateList = stateManager.rootStateList;
                 this.subStateList = stateManager.subStateList;
+                this.menuList = stateManager.getStateTree();
             }
 
             logout() {

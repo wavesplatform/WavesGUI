@@ -3,17 +3,11 @@
 </div>
 
 <w-responsive-menu active-menu="">
-    <w-responsive-menu-item value="wallet">
-        <div class="menu-item wallet"></div>
-    </w-responsive-menu-item>
 
-    <w-responsive-menu-item value="dex">
-        <div class="menu-item dex"></div>
-    </w-responsive-menu-item>
-
-    <w-responsive-menu-item value="tokens">
-        <div class="menu-item tokens"></div>
-    </w-responsive-menu-item>
+    <div class="menu-list"
+         ng-repeat="menu in $ctrl.menuList track by menu.id"
+         ng-include="'modules/ui/directives/leftMenu/reqursiceMenuItem.html'"
+    ></div>
 
     <w-responsive-menu-item ng-click="$ctrl.settings()">
         <div class="menu-item settings"></div>
@@ -24,5 +18,3 @@
     </w-responsive-menu-item>
 
 </w-responsive-menu>
-
-<w-navigation-tree></w-navigation-tree>

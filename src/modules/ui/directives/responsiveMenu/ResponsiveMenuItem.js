@@ -55,7 +55,7 @@
         template: '<div class="responsive-menu-item-content" ng-transclude></div>',
         require: { parent: '^wResponsiveMenu' },
         bindings: {
-            value: '@'
+            
         },
         transclude: true,
         controller

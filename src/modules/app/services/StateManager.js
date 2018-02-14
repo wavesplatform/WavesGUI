@@ -20,6 +20,16 @@
                 this.changeRouteState = state.signals.changeRouterState;
             }
 
+            getSrefByState(state) {
+                return WavesApp.stateTree.getPath(state.id).join('.');
+            }
+
+            getStateTree(fromId = 'main') {
+                const root = WavesApp.stateTree.find(fromId);
+                return root.getChildren()
+                    .map(StateManager._remapStateItem);
+            }
+
             /**
              * @private
              */
@@ -47,6 +57,18 @@
                 } else {
                     this.subStateList = [];
                 }
+            }
+
+            static _remapStateItem(item) {
+                const list = item.getChildren().map(StateManager._remapStateItem);
+                const isLeaf = list.length === 0;
+                const sref = StateManager._getSref(item);
+
+                return { list, isLeaf, sref, id: item.id };
+            }
+
+            static _getSref(state) {
+                return WavesApp.stateTree.getPath(state.id).join('.');
             }
         }
 
