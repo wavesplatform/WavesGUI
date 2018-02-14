@@ -77,14 +77,14 @@ task('load-trading-view', (done) => {
             task(`concat-${taskPostfix}`, [type === 'min' ? 'uglify' : 'babel'], function (done) {
                 const stream = gulp.src([vendorPath, getName(bundlePath), getName(templatePath)])
                     .pipe(concat(jsFileName))
-                    .pipe(gulp.dest(`${targetPath}/js`));
+                    .pipe(gulp.dest(normalize(`${targetPath}/js`)));
 
                 stream.on('end', function () {
-                    readFile(`${targetPath}/js/${jsFileName}`, { encoding: 'utf8' }).then((file) => {
+                    readFile(normalize(`${targetPath}/js/${jsFileName}`), { encoding: 'utf8' }).then((file) => {
                         if (buildName === 'desktop') {
                             file = `(function () {\nvar module = undefined;\n${file}})();`;
                         }
-                        outputFile(`${targetPath}/js/${jsFileName}`, file)
+                        outputFile(normalize(`${targetPath}/js/${jsFileName}`), file)
                             .then(() => done());
                     });
                 });
