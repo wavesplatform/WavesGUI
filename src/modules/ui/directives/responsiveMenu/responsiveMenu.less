@@ -37,9 +37,12 @@ w-responsive-menu {
     }
 
     .navigation-menu {
-      display: flex;
+      display:none;
       flex-direction: column;
 
+      &.active {
+        display: flex;
+      }
       //w-responsive-menu-item {
       //  height: 0;
       //  opacity: 0;
