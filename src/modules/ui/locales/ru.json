@@ -1,4 +1,6 @@
 {
+  "copySuccess": "Данные скопированы",
+  "copyError": "Не получается скопировать! Возможно, ваш браузер устарел",
   "balanceInput": {
     "max": "Max"
   },
@@ -63,8 +65,6 @@
       "copyTxData": "Скопировать данные транзакции"
     },
     "notifications": {
-      "txIdCopied": "ID транзакции скопирован",
-      "txDataCopied": "Данные транзакции скопированы",
       "closed": "Лизинг уже был отменён ранее",
       "closedSuccess": "Лизинг отменён"
     },
@@ -91,7 +91,6 @@
     "noTransactionsTitle": "Пока ничего нет…",
     "noTransactionsDescription": "У вас пока что нет транзакций"
   },
-  "copySuccess": "Данные скопированы",
   "confirmTransaction": {
     "back": "Назад",
     "confirm": "Подтвердить",

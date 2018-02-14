@@ -62,16 +62,6 @@
             /**
              * return {string}
              */
-            copyId() {
-                notificationManager.info({
-                    ns: 'app.ui',
-                    title: { literal: 'transaction.notifications.txIdCopied' }
-                });
-            }
-
-            /**
-             * return {string}
-             */
             getCopyAllData() {
                 const tx = this.transaction;
 
@@ -110,13 +100,6 @@
                 message += `\n${fee}`;
 
                 return message;
-            }
-
-            copyAllData() {
-                notificationManager.info({
-                    ns: 'app.ui',
-                    title: { literal: 'transaction.notifications.txDataCopied' }
-                });
             }
 
         }

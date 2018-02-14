@@ -3,9 +3,10 @@
 
     /**
      * @param {app.utils} utils
+     * @param {NotificationManager} notificationManager
      * @return {*}
      */
-    const directive = function (utils) {
+    const directive = function (utils, notificationManager) {
         return {
             restrict: 'A',
             priority: 100,
@@ -25,6 +26,20 @@
                         container: $element.get(0)
                     });
 
+                    clipboard.on('success', () => {
+                        notificationManager.info({
+                            ns: 'app.ui',
+                            title: { literal: 'copySuccess' }
+                        });
+                    });
+
+                    clipboard.on('error', () => {
+                        notificationManager.error({
+                            ns: 'app.ui',
+                            title: { literal: 'copyError' }
+                        });
+                    });
+
                     destroy.once(() => {
                         clipboard.destroy();
                     });
@@ -34,7 +49,7 @@
         };
     };
 
-    directive.$inject = ['utils'];
+    directive.$inject = ['utils', 'notificationManager'];
 
     angular.module('app.ui').directive('wCopy', directive);
 })();

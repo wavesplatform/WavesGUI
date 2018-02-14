@@ -100,22 +100,6 @@
                 }
             }
 
-            copySeed() {
-                if (this.seed) {
-                    analytics.push('Welcome', 'Welcome.CopySeed');
-                    notificationManager.info({
-                        ns: 'app.create',
-                        title: { literal: 'backupSeed.seedCopied' }
-                    });
-                } else {
-                    // TODO : is this conditional branch needed?
-                    notificationManager.error({
-                        ns: 'app.create',
-                        title: { literal: 'backupSeed.noSeedToCopy' }
-                    });
-                }
-            }
-
             resetAddress() {
                 const list = [];
                 for (let i = 0; i < 5; i++) {
