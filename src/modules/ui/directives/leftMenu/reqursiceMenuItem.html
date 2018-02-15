@@ -1,5 +1,5 @@
-<w-responsive-menu-item value="{{::menu.id}}">
-    <a ui-sref="{{::menu.sref}}" class="menu-item {{::menu.id}}">
+<w-responsive-menu-item value="{{::menu.id}}" active-by-state="true">
+    <a ui-state="menu.sref" class="menu-item {{::menu.id}}">
         <w-i18n>header.{{::menu.id}}</w-i18n>
     </a>
     <div ng-if="menu.list.length" class="child-menu-list">

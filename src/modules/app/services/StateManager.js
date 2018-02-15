@@ -63,13 +63,17 @@
             static _remapStateItem(item) {
                 const list = item.getChildren().map(StateManager._remapStateItem);
                 const isLeaf = list.length === 0;
-                const sref = StateManager._getSref(item);
+                const result = { list, isLeaf, id: item.id };
 
-                return { list, isLeaf, sref, id: item.id };
-            }
+                if (list.length) {
+                    Object.defineProperty(result, 'sref', {
+                        get: () => user.getActiveState(item.id)
+                    });
+                } else {
+                    result.sref = user.getActiveState(item.id);
+                }
 
-            static _getSref(state) {
-                return WavesApp.stateTree.getPath(state.id).join('.');
+                return result;
             }
         }
 
