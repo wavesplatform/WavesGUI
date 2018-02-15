@@ -70,6 +70,10 @@ class Main {
                 this.mainWindow = null;
             });
 
+            this.mainWindow.webContents.on('will-navigate', function (event) {
+                event.preventDefault();
+            });
+
             const onChangeWindow = Main.asyncHandler(() => {
                 const [x, y] = this.mainWindow.getPosition();
                 const [width, height] = this.mainWindow.getSize();
