@@ -9,6 +9,10 @@
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
     <style>
 
+        .not-supported-browser {
+            display: none;
+        }
+
         .app-loader {
             z-index: 10000;
             position: fixed;
@@ -287,6 +291,13 @@
 
 <body>
 
+<div class="not-supported-browser">
+    <div class="overlay"></div>
+    <div class="not-supported-modal">
+        Ваш браузер - говно!
+    </div>
+</div>
+
 <div class="app-loader">
     <div class="progress"></div>
     <div class="loader-wrapper">
@@ -303,13 +314,17 @@
 
     var analytics = eventSender.default.inactive();
 
-    var Waves = WavesAPI.create({
-        networkByte: WavesApp.network.code.charCodeAt(0),
-        nodeAddress: WavesApp.network.node,
-        matcherAddress: WavesApp.network.matcher,
-        minimumSeedLength: 25,
-        logLevel: 'none'
-    });
+    try {
+        var Waves = WavesAPI.create({
+            networkByte: WavesApp.network.code.charCodeAt(0),
+            nodeAddress: WavesApp.network.node,
+            matcherAddress: WavesApp.network.matcher,
+            minimumSeedLength: 25,
+            logLevel: 'none'
+        });
+    } catch (e) {
+        console.error(e);
+    }
 
     WavesApp.stateTree = new tsUtils.Tree({
         id: 'root',

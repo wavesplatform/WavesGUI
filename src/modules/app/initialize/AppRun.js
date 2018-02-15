@@ -42,56 +42,33 @@
      * @param {ModalManager} modalManager
      * @return {AppRun}
      */
-    const run = function ($rootScope, utils, user, $state, state, modalManager) {
+    const run = function ($rootScope, utils, user, $state, state, modalManager, ExtendedAsset) {
 
-        class ExtendedAsset extends Waves.Asset {
+        user.onLogin().then(() => {
 
-            constructor(props) {
-                super({
-                    ...props,
-                    name: WavesApp.remappedAssetNames[props.id] || props.name
-                    // ID, name, precision and description are added here
-                });
+            Waves.config.set({
+                assetFactory(props) {
+                    return fetch(`${WavesApp.network.api}/assets/${props.id}`)
+                        .then(utils.onFetch)
+                        .then((fullProps) => new ExtendedAsset(remapAssetProps(fullProps)))
+                        .catch(() => {
+                            return Waves.API.Node.v1.transactions.get(props.id)
+                                .then((partialProps) => new ExtendedAsset(remapAssetProps(partialProps)));
+                        });
+                }
+            });
 
-                this.reissuable = props.reissuable;
-                this.timestamp = props.timestamp;
-                this.sender = props.sender;
-                this.height = props.height;
-
-                const divider = new BigNumber(10).pow(this.precision);
-                this.quantity = new BigNumber(props.quantity).div(divider);
-
-                this.ticker = props.ticker || '';
-                this.sign = props.sign || '';
-                this.displayName = props.ticker || props.name;
-            }
-
-        }
+            Waves.config.set({
+                nodeAddress: user.getSetting('network.node'),
+                matcherAddress: user.getSetting('network.matcher')
+            });
+        });
 
         function remapAssetProps(props) {
             props.precision = props.decimals;
             delete props.decimals;
             return props;
         }
-
-        Waves.config.set({
-            assetFactory(props) {
-                return fetch(`${WavesApp.network.api}/assets/${props.id}`)
-                    .then(utils.onFetch)
-                    .then((fullProps) => new ExtendedAsset(remapAssetProps(fullProps)))
-                    .catch(() => {
-                        return Waves.API.Node.v1.transactions.get(props.id)
-                            .then((partialProps) => new ExtendedAsset(remapAssetProps(partialProps)));
-                    });
-            }
-        });
-
-        user.onLogin().then(() => {
-            Waves.config.set({
-                nodeAddress: user.getSetting('network.node'),
-                matcherAddress: user.getSetting('network.matcher')
-            });
-        });
 
         class AppRun {
 
@@ -110,6 +87,7 @@
                  * Configure library generation avatar by address
                  */
                 identityImg.config({ rows: 8, cells: 8 });
+
 
                 this._setHandlers();
                 this._stopLoader();
@@ -206,13 +184,12 @@
              */
             _login(currentState) {
                 const states = WavesApp.stateTree.where({ noLogin: true })
-                    .map((item) => {
-                        return WavesApp.stateTree.getPath(item.id)
-                            .join('.');
-                    });
+                    .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
+
                 if (states.indexOf(currentState.name) === -1) {
                     $state.go(states[0]);
                 }
+
                 return user.onLogin();
             }
 
@@ -305,7 +282,7 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'modalRouter'];
+    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'ExtendedAsset'];
 
     angular.module('app')
         .run(run);
