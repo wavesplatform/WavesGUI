@@ -1,12 +1,13 @@
 @import (reference) '../../../config';
 
-@mobile-leftmenu-height: 70px;
+@mobile-leftmenu-height: 60px;
 
 w-left-menu {
   width: @width-left-menu;
   position: absolute;
   left: 0;
   top: 0;
+  height: 100vh;
   bottom: 0;
   display: block;
   border-right: 1px solid @color-disabled-100;
@@ -21,9 +22,9 @@ w-left-menu {
   }
 
   w-responsive-menu {
-    height: calc(100vh ~' - 90px');
     width: 100%;
     position: relative;
+    height: calc(100vh ~'- 90px');
 
     w-responsive-menu-item.settings {
       position: absolute;
@@ -84,31 +85,28 @@ w-left-menu {
           background-size: 24px 24px;
         }
       }
-    }
 
-    w-responsive-menu-item.active,
-    w-responsive-menu-item.has-active {
-
-      .menu-item {
+      &.active {
         background-color: @color-submit-400;
+      }
 
-        &.wallet {
-          background-image: url(/img/icons/wallet-active.svg);
-        }
-        &.dex {
-          background-image: url(/img/icons/dex-active.svg);
-        }
-        &.tokens {
-          background-image: url(/img/icons/tokens-active.svg);
-        }
+      &.active,
+      &.has-active {
+        .menu-item {
+          background-color: @color-submit-400;
 
-        &.logout,
-        &.settings {
-          background-color: transparent;
+          &.wallet {
+            background-image: url(/img/icons/wallet-active.svg);
+          }
+          &.dex {
+            background-image: url(/img/icons/dex-active.svg);
+          }
+          &.tokens {
+            background-image: url(/img/icons/tokens-active.svg);
+          }
         }
       }
     }
-
   }
 }
 
@@ -133,19 +131,30 @@ w-left-menu {
       height: auto;
       position: absolute;
       z-index: 6;
+      box-shadow: 0px 5px 5px @color-basic-50;
 
       .navigation-menu {
         margin: 0;
-        display: none;
+        height: 0;
+        overflow: hidden;
+        transition: .3s;
+        opacity: 0;
+        border-color: @color-accent-50;
 
         &.active {
+          opacity: 1;
           display: flex;
+          height: auto;
           border-bottom: 1px solid @color-accent-50;
+
+          w-responsive-menu-item {
+            border-top: 1px solid @color-accent-50;
+          }
         }
 
         w-responsive-menu-item {
           display: block;
-          border-top: 1px solid @color-accent-50;
+          border-color: @color-accent-50;
 
           .child-menu-list {
             display: flex;
@@ -160,7 +169,8 @@ w-left-menu {
             margin: 0;
             padding-left: 50px;
             width: 100%;
-            margin-left:  @padding-main-layout;
+            background-position: 10px center;
+            margin-left: @padding-main-layout;
             display: flex;
             align-items: center;
             height: 60px;
@@ -173,11 +183,18 @@ w-left-menu {
             }
           }
 
-          &[value="wallet"] {border-top:0 none;}
+          &[value="wallet"] {
+            border-top: 0 none;
+          }
+
           &.has-active {
             .wallet {
               background-image: url(/img/icons/wallet.svg);
             }
+          }
+
+          .menu-item.tokens {
+            background-position: 7px center;
           }
 
           &.logout,
@@ -185,11 +202,9 @@ w-left-menu {
             position: relative;
             bottom: auto;
             left: auto;
-
           }
 
         }
-
       }
 
       w-button.nav-toggler {
@@ -200,19 +215,15 @@ w-left-menu {
           width: 17px;
           height: 17px;
           overflow: visible;
-
           &:hover {
             opacity: .7;
           }
-
           .dots {
             width: 17px;
             height: 17px;
             position: relative;
-
             transition: .3s;
             transform-origin: center;
-
             .dot {
               width: 17px;
               height: 1px;
@@ -222,15 +233,12 @@ w-left-menu {
               border-radius: 0;
               transition: .3s;
               transform-origin: center;
-
               &:first-child {
                 top: 3px;
               }
-
               &:first-child + .dot {
                 top: 8px;
               }
-
               &:last-child {
                 bottom: 3px;
               }
@@ -244,33 +252,21 @@ w-left-menu {
           .dots {
             transform: rotate(-180deg);
             .dot {
-
               &:first-child {
                 top: 8px;
                 transform: rotate(135deg);
               }
-
               &:first-child + .dot {
                 opacity: 0;
               }
-
               &:last-child {
                 transform: rotate(-135deg);
                 bottom: 8px;
-
               }
-
             }
           }
         }
       }
-
     }
-  }
-}
-
-@media screen and (min-width: 769px) {
-  w-responsive-menu w-responsive-menu-item.active .responsive-menu-item-content {
-    background: none transparent !important;
   }
 }

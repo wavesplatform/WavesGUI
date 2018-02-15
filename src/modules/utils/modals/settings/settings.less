@@ -4,6 +4,7 @@
 @row-short: 25%;
 @row-long: 75%;
 @row-normal: 50%;
+@mobile-settings-item-height: 50px;
 
 md-dialog.settings-modal {
   width: 100%;
@@ -24,6 +25,7 @@ md-dialog.settings-modal {
     border-right: 1px solid @color-basic-200;
 
     w-responsive-menu-item {
+      display: block;
 
       i {
         flex-basis: 65px;
@@ -38,6 +40,7 @@ md-dialog.settings-modal {
         display: flex;
         align-items: center;
         height: 50px;
+        color: @color-info-500;
 
         &.general i {
           background-image: url(/img/icons/settings-icon/general.svg);
@@ -65,7 +68,11 @@ md-dialog.settings-modal {
       }
 
       &.active {
+        background-color: @color-submit-400;
+
         .menu-item {
+          color: @color-white;
+
           &.general i {
             background-image: url(/img/icons/settings-icon/general-active.svg);
           }
@@ -209,14 +216,47 @@ md-dialog.settings-modal {
       margin: -20px -10px 0 -20px;
       border-right: 0 none;
       height: auto;
+      transition: .3s;
 
       .navigation-menu {
+        height: 50px;
+        overflow: hidden;
+
+        &::before {
+          background-color: @color-submit-400;
+          content:'';
+          display:block;
+          position: absolute;
+          top:0;
+          left:0;
+          height: @mobile-settings-item-height;
+          width: 100%;
+        }
+
         w-responsive-menu-item {
           order: 2;
+          opacity:0;
+          height: 0;
         }
-        &.active w-responsive-menu-item.active {
+
+        w-responsive-menu-item.active {
           order: 0;
+          opacity:1;
+          height: @mobile-settings-item-height;
         }
+
+        w-responsive-menu-item:not(.active) {
+          transition: .3s;
+        }
+
+        &.active {
+          height: auto;
+          w-responsive-menu-item {
+            opacity:1;
+            height: @mobile-settings-item-height;
+          }
+        }
+
       }
 
       w-button {

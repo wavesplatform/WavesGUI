@@ -14,15 +14,6 @@ w-responsive-menu {
     display: none;
     cursor: pointer;
   }
-
-  w-responsive-menu-item .responsive-menu-item-content {
-    color: @color-info-500;
-  }
-
-  w-responsive-menu-item.active .responsive-menu-item-content {
-      background: @color-submit-400;
-      color: @color-white;
-  }
 }
 
 @media screen and (max-width: 768px) {
@@ -37,27 +28,8 @@ w-responsive-menu {
     }
 
     .navigation-menu {
-
       display: flex;
       flex-direction: column;
-
-      //w-responsive-menu-item {
-      //  height: 0;
-      //  opacity: 0;
-      // }
-      //
-      //&.active w-responsive-menu-item,
-      //w-responsive-menu-item.active {
-      //  height: 50px;
-      //  opacity: 1;
-      //}
-
-    }
-
-
-    .responsive-menu-item-content {
-      overflow: hidden;
-      transition: .13s;
     }
 
     w-button.nav-toggler {
