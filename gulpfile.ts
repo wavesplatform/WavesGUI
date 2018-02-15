@@ -207,7 +207,7 @@ task('templates', function () {
 });
 
 task('concat-style', ['less'], function () {
-    return gulp.src(meta.stylesheets.concat(join(__dirname, tmpCssPath, 'style.css')))
+    return gulp.src(meta.stylesheets.concat(join(tmpCssPath, 'style.css')))
         .pipe(concat(cssName))
         .pipe(gulp.dest(tmpCssPath));
 });
@@ -233,7 +233,7 @@ task('eslint', function (done) {
 });
 
 task('less', function () {
-    execSync('sh scripts/less.sh');
+    execSync(`sh ${join('scripts', 'less.sh')}`);
 });
 
 task('babel', ['concat-develop'], function () {
