@@ -251,9 +251,13 @@ task('babel', ['concat-develop'], function () {
 });
 
 task('uglify', ['babel', 'templates'], function (done) {
+    const PATH_HASH = {
+        bin: join(__dirname, 'node_modules', '.bin', 'uglifyjs'),
+        out: join(__dirname, 'dist', 'tmp', 'js')
+    };
     const run = function (path, name) {
         return new Promise((resolve, reject) => {
-            exec(`./node_modules/.bin/uglifyjs ${path} -o ./dist/tmp/js/${name}`, (err, l1, l2) => {
+            exec(`${PATH_HASH.bin} ${path} -o ${join(PATH_HASH.out, name)}`, (err, l1, l2) => {
                 if (err) {
                     reject(err);
                 } else {
