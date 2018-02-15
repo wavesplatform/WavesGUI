@@ -240,7 +240,11 @@ export function route(connectionType, buildType) {
 
         if (req.url.indexOf('/img/images-list.json') !== -1) {
             res.setHeader('Content-Type', 'application/json');
-            const images = getFilesFrom(join(__dirname, '../src/img'), ['.svg', '.png', '.jpg']).map(moveTo(join(__dirname, '../src')));
+            const images = getFilesFrom(
+                join(__dirname, '../src/img'),
+                ['.svg', '.png', '.jpg'],
+                (name, path) => path.indexOf('no-preload') === -1
+            ).map(moveTo(join(__dirname, '../src')));
             res.end(JSON.stringify(images));
             return null;
         }
