@@ -3,7 +3,7 @@ import { getType } from 'mime';
 import { exec, spawn } from 'child_process';
 import { readdirSync, statSync } from 'fs';
 import { join, relative } from 'path';
-import { ITaskFunction } from './interface';
+import { IPackageJSON, ITaskFunction, IMetaJSON } from './interface';
 import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync } from 'fs-extra';
 import { compile } from 'handlebars';
 import { transform } from 'babel-core';
@@ -133,12 +133,11 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
     const filter = moveTo(param.target);
 
     return Promise.all([
-        readFile(join(__dirname, '../src/index.html'), 'utf8'),
-        readJSON(join(__dirname, '../package.json')),
-        readJSON(join(__dirname, './meta.json'))
+        readFile(join(__dirname, '../src/index.html'), 'utf8') as Promise<string>,
+        readJSON(join(__dirname, '../package.json')) as Promise<IPackageJSON>,
+        readJSON(join(__dirname, './meta.json')) as Promise<IMetaJSON>
     ])
-        .then((data) => {
-            const [file, pack, meta] = data;
+        .then(([file, pack, meta]) => {
             const connectionTypes = ['mainnet', 'testnet'];
 
             if (!param.scripts) {
@@ -146,7 +145,9 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                     return !name.includes('.spec') && !path.includes('/test/');
                 });
                 param.scripts = meta.vendors.map((i) => join(__dirname, '..', i)).concat(sourceFiles);
-                param.scripts.push(join(__dirname, '../loginDaemon.js'));
+                meta.debugInjections.forEach((path) => {
+                    param.scripts.push(join(__dirname, '../', path));
+                });
             }
 
             if (!param.styles) {
@@ -377,7 +378,7 @@ export function isTemplate(url: string): boolean {
 
 export function isPage(url: string): boolean {
     const staticPathPartial = [
-        'vendors', 'api', 'src', 'img', 'css', 'fonts', 'js', 'bower_components', 'node_modules', 'modules', 'locales', 'loginDaemon'
+        'vendors', 'api', 'src', 'img', 'css', 'fonts', 'js', 'bower_components', 'node_modules', 'modules', 'locales', 'ts-scripts'
     ];
     return !url.includes('demon') && !staticPathPartial.some((path) => {
         return url.includes(`/${path}`);

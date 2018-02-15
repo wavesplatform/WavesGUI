@@ -1,9 +1,9 @@
-window.onload = function () {
+window.addEventListener('load', function () {
     const password = localStorage.getItem('__password-demon-data');
 
-    const find = function () {
+    const find = function (): Promise<JQuery> {
         const get = function (resolve) {
-            const $input = $('input[name="password"]');
+            const $input: JQuery = $('input[name="password"]');
             $input.length ? resolve($input) : setTimeout(() => get(resolve), 500);
         };
 
@@ -27,10 +27,10 @@ window.onload = function () {
                                 .click();
 
                             fill();
-                        }, 500);
+                        }, 5000);
                     } else {
                         $input.on('input', () => {
-                            localStorage.setItem('__password-demon-data', $input.val());
+                            localStorage.setItem('__password-demon-data', String($input.val()));
                         });
                     }
 
@@ -39,4 +39,4 @@ window.onload = function () {
         fill();
     }
 
-};
+});

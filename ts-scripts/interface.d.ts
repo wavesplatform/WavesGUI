@@ -1,4 +1,4 @@
-import { Stream } from "stream";
+import { Stream } from 'stream';
 
 export interface IMetaJSON {
     vendors: Array<string>;
@@ -6,6 +6,7 @@ export interface IMetaJSON {
     developmentScripts: Array<string>;
     domain: string;
     copyNodeModules: Array<string>;
+    debugInjections: Array<string>;
     configurations: {
         testnet: IConfItem;
         mainnet: IConfItem;
