@@ -144,10 +144,12 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                 const sourceFiles = getFilesFrom(join(__dirname, '../src'), '.js', function (name, path) {
                     return !name.includes('.spec') && !path.includes('/test/');
                 });
+                const cacheKiller = `?v${Date.now()}`;
                 param.scripts = meta.vendors.map((i) => join(__dirname, '..', i)).concat(sourceFiles);
                 meta.debugInjections.forEach((path) => {
-                    param.scripts.push(join(__dirname, '../', path));
+                    param.scripts.unshift(join(__dirname, '../', path));
                 });
+                param.scripts = param.scripts.map((path) => `${path}${cacheKiller}`);
             }
 
             if (!param.styles) {
@@ -211,9 +213,10 @@ export function parseArguments<T>(): T {
 
 export function route(connectionType, buildType) {
     return function (req, res) {
+        const url = req.url.replace(/\?.*/, '');
 
-        if (isTradingView(req.url)) {
-            get(`https://jslib.wavesnodes.com/${req.url.replace('trading-view/', '')}`, (resp) => {
+        if (isTradingView(url)) {
+            get(`https://jslib.wavesnodes.com/${url.replace('trading-view/', '')}`, (resp) => {
                 let data = '';
 
                 // A chunk of data has been recieved.
@@ -230,7 +233,7 @@ export function route(connectionType, buildType) {
         }
 
         if (buildType !== 'dev') {
-            if (isPage(req.url)) {
+            if (isPage(url)) {
                 const path = join(__dirname, '../dist/web', connectionType, buildType, 'index.html');
                 return readFile(path, 'utf8').then((file) => {
                     res.end(file);
@@ -239,7 +242,7 @@ export function route(connectionType, buildType) {
             return routeStatic(req, res, connectionType, buildType);
         }
 
-        if (req.url.indexOf('/img/images-list.json') !== -1) {
+        if (url.indexOf('/img/images-list.json') !== -1) {
             res.setHeader('Content-Type', 'application/json');
             const images = getFilesFrom(
                 join(__dirname, '../src/img'),
@@ -250,26 +253,26 @@ export function route(connectionType, buildType) {
             return null;
         }
 
-        if (isPage(req.url)) {
+        if (isPage(url)) {
             return prepareHTML({
                 target: join(__dirname, '..', 'src'),
                 connection: connectionType
             }).then((file) => {
                 res.end(file);
             });
-        } else if (isTemplate(req.url)) {
-            readFile(join(__dirname, '../src', req.url), 'utf8')
+        } else if (isTemplate(url)) {
+            readFile(join(__dirname, '../src', url), 'utf8')
                 .then((template) => {
                     const code = minify(template, {
                         collapseWhitespace: true // TODO @xenohunter check html minify options
                     });
                     res.end(code);
                 });
-        } else if (isLess(req.url)) {
-            readFile(join(__dirname, '../src', req.url), 'utf8')
+        } else if (isLess(url)) {
+            readFile(join(__dirname, '../src', url), 'utf8')
                 .then((style) => {
                     (render as any)(style, {
-                        filename: join(__dirname, '../src', req.url)
+                        filename: join(__dirname, '../src', url)
                     } as any)
                         .then(function (out) {
                             res.setHeader('Content-type', 'text/css');
@@ -277,13 +280,13 @@ export function route(connectionType, buildType) {
                         })
                         .catch((e) => {
                             console.error(e.message);
-                            console.error(req.url);
+                            console.error(url);
                             res.statusCode = 500;
                             res.end(e.message);
                         });
                 });
-        } else if (isSourceScript(req.url)) {
-            readFile(join(__dirname, '../src', req.url), 'utf8')
+        } else if (isSourceScript(url)) {
+            readFile(join(__dirname, '../src', url), 'utf8')
                 .then((code) => {
                     const result = transform(code, {
                         presets: ['es2015'],
@@ -298,9 +301,9 @@ export function route(connectionType, buildType) {
                 })
                 .then((code) => res.end(code))
                 .catch((e) => {
-                    console.log(e.message, req.url);
+                    console.log(e.message, url);
                 });
-        } else if (isApiMock(req.url)) {
+        } else if (isApiMock(url)) {
             mock(req, res, { connection: connectionType, meta: readJSONSync(join(__dirname, 'meta.json')) });
         } else {
             routeStatic(req, res, connectionType, buildType);

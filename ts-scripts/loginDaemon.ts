@@ -26,8 +26,8 @@ window.addEventListener('load', function () {
                                 .find('button[type="submit"]')
                                 .click();
 
-                            fill();
-                        }, 5000);
+                            setTimeout(fill, 5000);
+                        }, 500);
                     } else {
                         $input.on('input', () => {
                             localStorage.setItem('__password-demon-data', String($input.val()));
