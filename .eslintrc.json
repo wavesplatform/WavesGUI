@@ -31,7 +31,7 @@
     "WavesAPI": true,
     "workerWrapper": true,
     "i18next": true,
-    "i18nextXHRBackend": true,
+    "i18nextLocizeBackend": true,
     "QRCode": true,
     "QrCode": true,
     "tsApiValidator": true,

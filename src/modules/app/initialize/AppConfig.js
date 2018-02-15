@@ -39,7 +39,7 @@
                 };
 
                 i18next
-                    .use(i18nextXHRBackend)
+                    .use(i18nextLocizeBackend)
                     .init({
                         // i18next settings
                         lng: localStorage.getItem('lng') || AppConfig.getUserLang(),
@@ -69,14 +69,9 @@
                             }
                         },
                         backend: {
-                            loadPath: function (lng, ns) {
-                                lng = lng[0];
-                                ns = ns[0];
-                                const parts = ns.split('.');
-                                const path = parts.length === 1 ? ns : parts.filter((item) => item !== 'app')
-                                    .join('/modules/');
-                                return `/modules/${path}/locales/${lng}.json?v=${WavesApp.version}`;
-                            }
+                            projectId: '30ffe655-de56-4196-b274-5edc3080c724',
+                            apiKey: '5af41ced-a862-4947-a079-2c7999367925',
+                            referenceLng: 'en'
                         }
                     });
 
