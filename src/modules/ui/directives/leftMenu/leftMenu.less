@@ -86,7 +86,8 @@ w-left-menu {
       }
     }
 
-    w-responsive-menu-item.active {
+    w-responsive-menu-item.active,
+    w-responsive-menu-item.has-active {
 
       .menu-item {
         background-color: @color-submit-400;
@@ -139,37 +140,44 @@ w-left-menu {
 
         &.active {
           display: flex;
-        }
-
-
-        .responsive-menu-item-content {
-          //height: 0;
-          //opacity: 0;
-
-          .menu-item {
-            white-space: nowrap;
-            font-size: 15px;
-            margin: 0;
-            padding-left: 50px;
-            margin-left: @padding-main-layout;
-            display: flex;
-            align-items: center;
-            height: 60px;
-            color: @color-basic-700;
-            background-color: transparent;
-          }
+          border-bottom: 1px solid @color-accent-50;
         }
 
         w-responsive-menu-item {
-          border-bottom: 0 none;
+          display: block;
+          border-top: 1px solid @color-accent-50;
 
           .child-menu-list {
             display: flex;
             flex-direction: column;
+            background-color: @color-basic-50;
           }
 
           .menu-item {
             background-color: transparent;
+            white-space: nowrap;
+            font-size: 15px;
+            margin: 0;
+            padding-left: 50px;
+            width: 100%;
+            margin-left:  @padding-main-layout;
+            display: flex;
+            align-items: center;
+            height: 60px;
+            color: @color-basic-700;
+          }
+
+          &.active {
+            .menu-item {
+              color: #fff;
+            }
+          }
+
+          &[value="wallet"] {border-top:0 none;}
+          &.has-active {
+            .wallet {
+              background-image: url(/img/icons/wallet.svg);
+            }
           }
 
           &.logout,
@@ -177,51 +185,10 @@ w-left-menu {
             position: relative;
             bottom: auto;
             left: auto;
-            &.active {
-              background-color: transparent;
-              .menu-item {
-                color: @color-basic-700;
-              }
-            }
+
           }
 
-          &.active .menu-item,
-          &.active .menu-item div {
-            color: @color-white;
-          }
         }
-
-        w-responsive-menu-item[value="logout"].active .responsive-menu-item-content
-        w-responsive-menu-item[value=settings].active .responsive-menu-item-content {
-          background: none transparent !important;
-        }
-
-        &:not(.active) {
-          w-responsive-menu-item.active {
-           // opacity: 0;
-            //v height: 0;
-          }
-        }
-
-        &:not(.active) .responsive-menu-item-content.active {
-          //height: 0;
-          //opacity: 0;
-          border-bottom: 0 none;
-        }
-
-        &.active .responsive-menu-item-content {
-          //height: 60px;
-          //opacity: 1;
-
-          &:not(first-child) {
-            border-bottom: 1px solid @color-accent-50;
-          }
-
-          .menu-item {
-            background-color: transparent;
-          }
-        }
-
 
       }
 
