@@ -126,10 +126,10 @@
                 this.maxAmountBalance = CreateOrder._getMaxAmountBalance(this.type, this.amountBalance, this.fee);
                 switch (type) {
                     case 'sell':
-                        this.price = this.priceBalance.cloneWithTokens(this.bid.price);
+                        this.price = this.priceBalance.cloneWithTokens(String(this.bid.price));
                         break;
                     case 'buy':
-                        this.price = this.priceBalance.cloneWithTokens(this.ask.price);
+                        this.price = this.priceBalance.cloneWithTokens(String(this.ask.price));
                         break;
                     default:
                         throw new Error('Wrong type');
@@ -271,15 +271,14 @@
              * @param spread
              * @private
              */
-            _setData({ lastAsk, firstBid, spread }) {
+            _setData({ lastAsk, firstBid }) {
                 this.bid = firstBid || { price: 0 };
                 this.ask = lastAsk || { price: 0 };
-                this.spread = spread;
 
                 const sell = Number(this.bid.price);
                 const buy = Number(this.ask.price);
 
-                this.spreadPercent = ((buy - sell) * 100 / buy).toFixed(2);
+                this.spreadPercent = (((buy - sell) * 100 / buy) || 0).toFixed(2);
             }
 
             /**

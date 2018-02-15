@@ -324,7 +324,7 @@
              */
             getNiceNumberTemplate(num, precision, shortMode) {
                 const bigNum = this.parseNiceNumber(num);
-                const formatted = this.getNiceNumber(num, precision);
+                const formatted = this.getNiceNumber(bigNum, precision);
 
                 if (shortMode && bigNum.gte(10000)) {
                     /**
