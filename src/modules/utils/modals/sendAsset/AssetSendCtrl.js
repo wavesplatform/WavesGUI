@@ -17,13 +17,6 @@
         class AssetSendCtrl extends Base {
 
             /**
-             * @return {number}
-             */
-            get moneyLength() {
-                return this.moneyHash && Object.keys(this.moneyHash).length;
-            }
-
-            /**
              * @return {Money}
              */
             get balance() {
@@ -50,6 +43,10 @@
                  * @type {{BTC: string, USD: string, LTC: string, ETH: string, WAVES: string, EUR: string, ZEC: string}}
                  */
                 this.defaultAssets = WavesApp.defaultAssets;
+                /**
+                 * @type {Array<Money>}
+                 */
+                this.cooseMoneyList = [];
                 /**
                  * @type {string}
                  */
@@ -112,6 +109,8 @@
                     mirrorId: 'baseAssetId'
                 });
 
+                this.observe('moneyHash', this._onChangeMoneyHash);
+
                 /**
                  * @type {Poll}
                  */
@@ -150,6 +149,11 @@
                 } else {
                     amount = this.balance;
                 }
+
+                if (amount.getTokens().lt(0)) {
+                    amount = this.moneyHash[this.assetId].cloneWithTokens('0');
+                }
+
                 waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
                     this._noCurrentRate = true;
                     this.mirror = amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
@@ -185,6 +189,19 @@
                     this._fillMirror();
                 }
                 this.focus = '';
+            }
+
+            /**
+             * @private
+             */
+            _onChangeMoneyHash() {
+                const hash = this.moneyHash;
+                const list = Object.values(hash).filter((money) => !money.getTokens().eq(0));
+                if (list.length) {
+                    this.cooseMoneyList = list;
+                } else {
+                    this.cooseMoneyList = [this.moneyHash[WavesApp.defaultAssets.WAVES]];
+                }
             }
 
             /**
