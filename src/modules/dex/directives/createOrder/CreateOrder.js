@@ -157,10 +157,15 @@
 
             setMaxPrice() {
                 if (this.priceBalance.asset.id === this.fee.asset.id) {
-                    this.amount = this.amountBalance.cloneWithTokens(this.priceBalance.sub(this.fee)
+                    const amount = this.amountBalance.cloneWithTokens(this.priceBalance.sub(this.fee)
                         .getTokens()
                         .div(this.price.getTokens())
                         .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
+                    if (amount.getTokens().lt(0)) {
+                        this.amount = amount.cloneWithTokens('0');
+                    } else {
+                        this.amount = amount;
+                    }
                 } else {
                     this.amount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens()
                         .div(this.price.getTokens())
