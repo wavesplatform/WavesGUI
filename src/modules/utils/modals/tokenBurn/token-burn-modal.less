@@ -1,20 +1,65 @@
-.token-burn {
+@import (reference) '../../../config';
 
-  &__chart-container {
+html body md-dialog.token-burn {
+
+  md-dialog-content {
+    overflow-y: hidden;
+  }
+
+  .rows {
+    .flex-row {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .row-style {
+      padding: 12px 0;
+      border-bottom: 1px dashed @color-basic-200;
+      align-items: center;
+
+      &:first-child {
+        border-top: 1px solid @color-basic-200;
+      }
+
+      &:last-child {
+        border-bottom: 1px solid @color-basic-200;
+      }
+    }
+  }
+
+
+  .chart-wrapper {
     opacity: 0.2;
     position: relative;
+    margin-left: -40px;
+    margin-right: -40px;
     height: 76px;
-    left: -40px;
-    width: calc(~'100% + 80px');
-    overflow: auto;
+
+    .token-burn__chart-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    .chart-tooltip, .chart-legend { // Lib ng3-charts
+      display: none !important;
+    }
   }
 
-  &__chart-overlay {
-    position: absolute;
-    width: 100%;
+  .asset-content {
     height: 100%;
-    top: 0;
-    left: 0;
-  }
 
+
+
+    .one-line {
+      max-height: 1.3em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 }
+

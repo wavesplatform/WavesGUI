@@ -168,6 +168,13 @@
         "ok": "Confirm and Begin"
       }
     },
+    "tokenBurn": {
+      "id": "ID",
+      "quantity": "Token released",
+      "balance": "Balance",
+      "burn": "Quantity of tokens to be burned",
+      "fee": "Transaction Fee 0.001 WAVES"
+    },
     "settings": {
       "title": "Settings",
       "setDefault": "Set default",

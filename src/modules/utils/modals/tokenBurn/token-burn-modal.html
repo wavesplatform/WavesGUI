@@ -1,36 +1,43 @@
 <w-step-by-step active-step="$ctrl.step">
     <w-step>
-        <div class="token-burn__header">
-            <div class="token-burn__asset-name">
+        <div class="asset-content token-burn__header">
+            <div class="top-content token-burn__asset-name">
                 <w-asset-logo asset-id="{{::$ctrl.asset.id}}" size="65"></w-asset-logo>
-                {{::$ctrl.asset.name}}
-                {{::$ctrl.asset.description}}
-            </div>
-            <div class="token-burn__chart-container">
-                <linechart ng-if="$ctrl.chartData" options="$ctrl.options" data="$ctrl.chartData"></linechart>
-                <div class="token-burn__chart-overlay"></div>
+
+                <div class="asset-data">
+                    <h4 class="basic-900">{{::$ctrl.asset.name}}</h4>
+                    <div class="body-2 basic-500 one-line"> {{::$ctrl.asset.description}}</div>
+                </div>
+
+                <!-- chartwrapper -->
+                <div class="chart-wrapper token-burn__chart-container">
+                    <linechart ng-if="$ctrl.chartData" options="$ctrl.options" data="$ctrl.chartData"></linechart>
+                    <div class="token-burn__chart-overlay"></div>
+                </div>
             </div>
         </div>
         <div class="token-burn__info">
 
-            <div class="token-burn__info-line">
+        <div class="rows">
+            <div class="row row-style flex-row token-burn__info-line">
                 <div class="token-burn__info-line-part" w-i18n="modal.tokenBurn.id"></div>
                 <div class="token-burn__info-line-part">{{::$ctrl.asset.id}}</div>
             </div>
 
-            <div class="token-burn__info-line">
+            <div class="row row-style flex-row token-burn__info-line">
                 <div class="token-burn__info-line-part" w-i18n="modal.tokenBurn.quantity"></div>
                 <div class="token-burn__info-line-part">{{::$ctrl.asset.quantity.toFixed()}}</div>
             </div>
 
-            <div class="token-burn__info-line">
+            <div class="row row-style flex-row margin-2 token-burn__info-line">
                 <div class="token-burn__info-line-part" w-i18n="modal.tokenBurn.balance"></div>
                 <div class="token-burn__info-line-part"><w-balance money="$ctrl.balance"></w-balance></div>
             </div>
+        </div>
 
             <form name="burn">
                 <div w-i18n="modal.tokenBurn.burn"></div>
-                <w-input-container>
+                <w-input-container class="margin-2">
                     <w-balance-input input-classes="big"
                                      asset-id="$ctrl.asset.id"
                                      name="burn"
