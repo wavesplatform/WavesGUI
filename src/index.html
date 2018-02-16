@@ -7,6 +7,7 @@
     <title>Waves Client</title>
     <meta name="viewport" content="height=900, width=1300, initial-scale=0.1, user-scalable=yes">
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
+
     <style>
 
         .not-supported-browser {
@@ -294,7 +295,13 @@
 <div class="not-supported-browser">
     <div class="overlay"></div>
     <div class="not-supported-modal">
-        Ваш браузер - говно!
+        <i></i>
+        <h1 class="margin-2">
+                <w-i18n>not-supported.header</w-i18n>
+        </h1>
+        <div class="body-2 disabled-600">
+            <w-i18n>not-supported.message</w-i18n>
+        </div>
     </div>
 </div>
 
