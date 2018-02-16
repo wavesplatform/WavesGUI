@@ -199,6 +199,16 @@
                 });
             }
 
+            showBurnModal(assetId) {
+                return $injector.get('waves').node.assets.balance(assetId).then(({ available }) => this._getModal({
+                    id: 'token-burn',
+                    mod: 'token-burn',
+                    locals: { money: available },
+                    contentUrl: 'modules/utils/modals/tokenBurn/token-burn-modal.html',
+                    controller: 'TokenBurnModalCtrl'
+                }));
+            }
+
             /**
              * @param {IModalOptions} options
              * @return {$q.resolve}

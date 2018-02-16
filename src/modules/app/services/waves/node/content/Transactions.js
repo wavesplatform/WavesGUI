@@ -126,6 +126,9 @@
                     tx.type = Transactions._getTransactionType(tx, aliasList);
                     tx.templateType = Transactions._getTemplateType(tx);
                     tx.shownAddress = Transactions._getTransactionAddress(tx);
+                    if (tx.type === 'burn') {
+                        tx.name = tx.name || tx.quantity.asset.name;
+                    }
                     if (tx.transactionType === TYPES.ISSUE) {
                         tx.quantityStr = tx.quantity.toFormat(tx.precision);
                     }

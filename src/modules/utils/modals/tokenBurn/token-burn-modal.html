@@ -1,4 +1,4 @@
-<w-step-by-step>
+<w-step-by-step active-step="$ctrl.step">
     <w-step>
         <div class="token-burn__header">
             <div class="token-burn__asset-name">
@@ -6,7 +6,10 @@
                 {{::$ctrl.asset.name}}
                 {{::$ctrl.asset.description}}
             </div>
-            <linechart></linechart>
+            <div class="token-burn__chart-container">
+                <linechart ng-if="$ctrl.chartData" options="$ctrl.options" data="$ctrl.chartData"></linechart>
+                <div class="token-burn__chart-overlay"></div>
+            </div>
         </div>
         <div class="token-burn__info">
 
@@ -17,29 +20,55 @@
 
             <div class="token-burn__info-line">
                 <div class="token-burn__info-line-part" w-i18n="modal.tokenBurn.quantity"></div>
-                <div class="token-burn__info-line-part">{{::$ctrl.asset.quantity}}</div>
+                <div class="token-burn__info-line-part">{{::$ctrl.asset.quantity.toFixed()}}</div>
             </div>
 
             <div class="token-burn__info-line">
                 <div class="token-burn__info-line-part" w-i18n="modal.tokenBurn.balance"></div>
-                <div class="token-burn__info-line-part">{{::$ctrl.balance}}</div>
+                <div class="token-burn__info-line-part"><w-balance money="$ctrl.balance"></w-balance></div>
             </div>
 
-            <form>
+            <form name="burn">
                 <div w-i18n="modal.tokenBurn.burn"></div>
                 <w-input-container>
-                    <w-balance-input></w-balance-input>
+                    <w-balance-input input-classes="big"
+                                     asset-id="$ctrl.asset.id"
+                                     name="burn"
+                                     amount="$ctrl.burn"
+                                     min="'0'"
+                                     max-balance="$ctrl.balance"></w-balance-input>
+
+                    <w-input-error message="required">
+                        required
+                    </w-input-error>
+
+                    <w-input-error message="gt">
+                        gt 0
+                    </w-input-error>
+
+                    <w-input-error message="lte">
+                        lte max balance
+                    </w-input-error>
+
+                    <w-input-error message="asset">
+                        invalid asset
+                    </w-input-error>
+
+                    <w-input-error message="precision">
+                        invalid precision
+                    </w-input-error>
+
                 </w-input-container>
 
                 <div class="token-burn__fee" w-i18n="modal.tokenBurn.fee" params="{fee: $ctrl.fee}"></div>
 
-                <w-button class="submit big long">
+                <w-button disabled="burn.$invalid" class="submit big long" type="submit" w-step-next>
                     <w-i18n>button.continue</w-i18n>
                 </w-button>
             </form>
         </div>
     </w-step>
     <w-step>
-
+        <w-confirm-transaction tx="$ctrl.tx" on-click-back="$ctrl.step = $ctrl.step - 1"></w-confirm-transaction>
     </w-step>
 </w-step-by-step>

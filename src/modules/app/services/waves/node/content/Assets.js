@@ -163,8 +163,12 @@
             /**
              * Create burn transaction
              */
-            burn() {
-
+            burn({ quantity, fee, keyPair }) {
+                return this.getFee('burn', fee).then((fee) => Waves.API.Node.v1.assets.burn({
+                    quantity: quantity.toCoins(),
+                    fee: fee.toCoins(),
+                    assetId: quantity.asset.id
+                }, keyPair));
             }
 
             distribution() {

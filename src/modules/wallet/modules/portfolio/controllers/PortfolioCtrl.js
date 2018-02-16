@@ -40,6 +40,10 @@
                  * @type {string}
                  */
                 this.wavesId = WavesApp.defaultAssets.WAVES;
+                /**
+                 * @type {string}
+                 */
+                this.address = user.address;
 
 
                 this.syncSettings({ pinnedAssetIdList: 'pinnedAssetIdList' });
@@ -83,6 +87,10 @@
 
             showQR() {
                 return modalManager.showAddressQrCode(user);
+            }
+
+            showBurn(assetId) {
+                return modalManager.showBurnModal(assetId);
             }
 
             pinAsset(asset, state) {
