@@ -100,9 +100,9 @@
                     if (feeHash[this.maxBalance.asset.id]) {
                         const max = this.maxBalance.sub(feeHash[this.maxBalance.asset.id]);
                         if (max.getTokens().lt(0)) {
-                            this.maxBalance = this.maxBalance.cloneWithTokens('0');
+                            this.realMaxBalance = this.maxBalance.cloneWithTokens('0');
                         } else {
-                            this.maxBalance = max;
+                            this.realMaxBalance = max;
                         }
                     } else {
                         this.realMaxBalance = this.maxBalance;
