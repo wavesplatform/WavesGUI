@@ -141,7 +141,7 @@
       "step2": "Step 2",
       "step2Description": "After you go through the verification you will receive an email with further instructions",
       "proceed": "Get verified",
-      "warning": "In case of problems with verification or payment processing, please contact the Coinomat support team - <a href='mailto:support@coinomat.com' target='_blank'>support@coinomat.com</a>"
+      "warning": "In case of problems with verification or payment processing, please contact the Coinomat support team — <a href='mailto:support@coinomat.com' target='_blank'>support@coinomat.com</a>"
     },
     "account": {
       "title": "Account Information",
