@@ -48,6 +48,28 @@
             },
 
             /**
+             * @name app.utils#debounceRequestAnimationFrame
+             * @param callback
+             * @return {function(...[*])}
+             */
+            debounceRequestAnimationFrame(callback) {
+                const control = {
+                    queued: false,
+                    args: null
+                };
+                return (...args) => {
+                    control.args = args;
+                    if (!control.queued) {
+                        requestAnimationFrame(() => {
+                            control.queued = false;
+                            callback(...control.args);
+                        });
+                    }
+                    control.queued = true;
+                };
+            },
+
+            /**
              * @name app.utils#animate
              * @param {JQuery} $element
              * @param properties
