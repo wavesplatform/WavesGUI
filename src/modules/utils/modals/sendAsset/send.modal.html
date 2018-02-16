@@ -7,7 +7,7 @@
 
                 <div class="row">
                     <div class="body-2" w-i18n="modal.send.currency"></div>
-                    <div ng-if="!$ctrl.canChooseAsset || $ctrl.cooseMoneyList.length === 1"
+                    <div ng-if="!$ctrl.canChooseAsset || $ctrl.choosableMoneyList.length === 1"
                          class="input-like big flex-row split-half">
                         <div class="flex-row">
                             <w-asset-logo size="24" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
@@ -19,9 +19,9 @@
                         </div>
                     </div>
                     <w-select class="big"
-                              ng-if="$ctrl.canChooseAsset && $ctrl.cooseMoneyList.length > 1"
+                              ng-if="$ctrl.canChooseAsset && $ctrl.choosableMoneyList.length > 1"
                               ng-model="$ctrl.assetId">
-                        <w-option ng-repeat="option in $ctrl.cooseMoneyList track by option.asset.id"
+                        <w-option ng-repeat="option in $ctrl.choosableMoneyList track by option.asset.id"
                                   value="{{::option.asset.id}}">
                             <div class="flex-row split-half">
                                 <div class="flex-row">

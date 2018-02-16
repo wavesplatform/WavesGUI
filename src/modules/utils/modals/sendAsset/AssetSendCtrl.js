@@ -46,7 +46,7 @@
                 /**
                  * @type {Array<Money>}
                  */
-                this.cooseMoneyList = [];
+                this.choosableMoneyList = [];
                 /**
                  * @type {string}
                  */
@@ -198,9 +198,9 @@
                 const hash = this.moneyHash;
                 const list = Object.values(hash).filter((money) => !money.getTokens().eq(0));
                 if (list.length) {
-                    this.cooseMoneyList = list;
+                    this.choosableMoneyList = list;
                 } else {
-                    this.cooseMoneyList = [this.moneyHash[WavesApp.defaultAssets.WAVES]];
+                    this.choosableMoneyList = [this.moneyHash[WavesApp.defaultAssets.WAVES]];
                 }
             }
 
