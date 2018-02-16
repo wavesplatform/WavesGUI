@@ -140,7 +140,8 @@
       "step1Description": "In order to deposit {{assetName}} directly from your bank account through SEPA transfer you must get verified by our partner <a href='{{url}}' target='_blank'>IDNow.eu</a>",
       "step2": "Step 2",
       "step2Description": "After you go through the verification you will receive an email with further instructions",
-      "proceed": "Get verified"
+      "proceed": "Get verified",
+      "warning": "In case of problems with verification or payment processing, please contact the Coinomat support team - <a href='mailto:support@coinomat.com' target='_blank'>support@coinomat.com</a>"
     },
     "account": {
       "title": "Account Information",
