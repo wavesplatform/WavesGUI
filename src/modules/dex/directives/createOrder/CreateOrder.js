@@ -142,8 +142,13 @@
 
             setMaxAmount() {
                 if (this.amountBalance.asset.id === this.fee.asset.id) {
-                    this.amount = this.amountBalance.cloneWithTokens(this.amountBalance.sub(this.fee).getTokens()
+                    const amount = this.amountBalance.cloneWithTokens(this.amountBalance.sub(this.fee).getTokens()
                         .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
+                    if (amount.getTokens().lt(0)) {
+                        this.amount = this.amountBalance.cloneWithTokens('0');
+                    } else {
+                        this.amount = amount;
+                    }
                 } else {
                     this.amount = this.amountBalance.cloneWithTokens(this.amountBalance.getTokens()
                         .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
@@ -152,10 +157,15 @@
 
             setMaxPrice() {
                 if (this.priceBalance.asset.id === this.fee.asset.id) {
-                    this.amount = this.amountBalance.cloneWithTokens(this.priceBalance.sub(this.fee)
+                    const amount = this.amountBalance.cloneWithTokens(this.priceBalance.sub(this.fee)
                         .getTokens()
                         .div(this.price.getTokens())
                         .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
+                    if (amount.getTokens().lt(0)) {
+                        this.amount = amount.cloneWithTokens('0');
+                    } else {
+                        this.amount = amount;
+                    }
                 } else {
                     this.amount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens()
                         .div(this.price.getTokens())
@@ -246,7 +256,7 @@
                 }
 
                 if (this.type === 'buy') {
-                    this.canByOrder = !this.priceBalance.lte(this.totalPrice);
+                    this.canByOrder = !(this.priceBalance.lte(this.totalPrice) && this.priceBalance.getTokens().gt(0));
                 } else {
                     this.canByOrder = true;
                 }
@@ -293,7 +303,12 @@
                     return null;
                 }
                 if (amount.asset.id === fee.asset.id) {
-                    return amount.sub(fee);
+                    const result = amount.sub(fee);
+                    if (result.getTokens().gte('0')) {
+                        return result;
+                    } else {
+                        return amount.cloneWithTokens('0');
+                    }
                 } else {
                     return amount;
                 }
