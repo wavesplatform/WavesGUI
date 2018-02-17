@@ -123,6 +123,7 @@
                     ctrl.feeOut = response.fee_out;
                     ctrl.targetCurrency = response.to_txt;
                     ctrl.total = response.in_def;
+                    ctrl.minimumPayment = minimumPayment;
                     /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
                     ctrl.validationOptions.rules.withdrawAmount.decimal = ctrl.assetBalance.currency.precision;
                     ctrl.validationOptions.rules.withdrawAmount.max = maximumPayment.toTokens();

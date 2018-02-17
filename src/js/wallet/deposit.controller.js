@@ -18,12 +18,12 @@
 
         ctrl.eth = {
             ethereumAddress: '',
-            minimumAmount: 0.005
+            minimumAmount: 0.001
         };
 
         ctrl.ltc = {
             litecoinAddress: '',
-            minimumAmount: 0.1
+            minimumAmount: 0.001
         };
 
         ctrl.zec = {
