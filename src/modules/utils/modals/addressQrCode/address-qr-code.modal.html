@@ -8,9 +8,9 @@
         </w-help-icon>
     </div>
 
-    <w-copy class="body-1 basic-900 mobile-low-fsize" ng-click="$ctrl.onCopyAddress()" info="{{::$ctrl.address}}">
+    <w-copy-wrap class="body-1 basic-900 mobile-low-fsize" info="{{::$ctrl.address}}" ng-click="$ctrl.onCopyAddress()">
         {{::$ctrl.address}}
-    </w-copy>
+    </w-copy-wrap>
 
     <div class="or">
         <w-i18n>modal.qr.or</w-i18n>

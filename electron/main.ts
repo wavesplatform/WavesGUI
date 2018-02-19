@@ -1,10 +1,11 @@
-import { app, BrowserWindow, screen, protocol } from 'electron';
+import { app, BrowserWindow, screen, protocol, Menu } from 'electron';
 import { ISize, IMetaJSON } from './package';
 import { format } from 'url';
 import { readFile, stat, writeFile } from 'fs';
 import { join } from 'path';
 
 import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions;
+import MenuItemConstructorOptions = Electron.MenuItemConstructorOptions;
 
 const CONFIG = {
     META_PATH: join(app.getPath('userData'), 'meta.json'),
@@ -24,6 +25,26 @@ const CONFIG = {
         }
     }
 };
+
+const MENU_LIST: MenuItemConstructorOptions[] = [
+    {
+        label: 'Application',
+        submenu: [
+            { label: 'Quit', accelerator: 'Command+Q', click: () => app.quit() }
+        ]
+    } as MenuItemConstructorOptions, {
+        label: 'Edit',
+        submenu: [
+            { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
+            { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
+            { type: 'separator' },
+            { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+            { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+            { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+            { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
+        ]
+    } as MenuItemConstructorOptions
+];
 
 
 class Main {
@@ -47,6 +68,10 @@ class Main {
 
             this.mainWindow.on('closed', () => {
                 this.mainWindow = null;
+            });
+
+            this.mainWindow.webContents.on('will-navigate', function (event) {
+                event.preventDefault();
             });
 
             const onChangeWindow = Main.asyncHandler(() => {
@@ -85,6 +110,7 @@ class Main {
     private onAppReady() {
         this.replaceProtocol();
         this.createWindow();
+        Menu.setApplicationMenu(Menu.buildFromTemplate(MENU_LIST));
     }
 
     private onActivate() {

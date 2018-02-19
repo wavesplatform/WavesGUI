@@ -1,36 +1,58 @@
 (function () {
     'use strict';
 
-    const directive = (Base) => {
+    /**
+     * @param {app.utils} utils
+     * @return {{scope: boolean, link: function(*, *=)}}
+     */
+    const directive = (utils) => {
 
         return {
             scope: false,
             link: ($scope, $element) => {
 
+                const $document = $(document);
                 const position = $element.css('position');
+                const $overlay = $('<div class="drag-overlay">');
+
                 if (position === 'static' || position === 'relative') {
                     const offset = $element.offset();
-                    $element.css('position', 'absolute');
+                    $element.css({
+                        position: 'absolute',
+                        transformOrigin: 'left top',
+                        willChange: 'transform'
+                    });
                     $element.offset(offset);
                 }
-                const $document = $(document);
+
+                $element.css('zIndex', 10);
+
+                document.body.appendChild($element.get(0));
+                const stop = $scope.$on('$destroy', () => {
+                    stop();
+                    $element.remove();
+                    $overlay.remove();
+                });
+
+                let x = 0;
+                let y = 0;
 
                 $element.on('mousedown', (e) => {
-                    const startX = e.pageX;
-                    const startY = e.pageY;
-                    const x = parseInt($element.css('left'), 10);
-                    const y = parseInt($element.css('top'), 10);
+                    e.preventDefault();
+                    $overlay.insertBefore($element);
+                    const startX = e.pageX - x;
+                    const startY = e.pageY - y;
 
-                    const move = (e) => {
+                    const move = utils.debounceRequestAnimationFrame((e) => {
                         e.preventDefault();
-                        $element.css({
-                            left: `${x + (e.pageX - startX)}px`,
-                            top: `${y + (e.pageY - startY)}px`
-                        });
-                    };
+                        x = (e.pageX - startX);
+                        y = (e.pageY - startY);
+                        $element.css('transform', `translate(${x}px, ${y}px)`);
+                    });
 
                     const up = () => {
                         e.preventDefault();
+                        $overlay.detach();
                         $document.off('mousemove', move);
                         $document.off('mouseup', up);
                     };
@@ -45,7 +67,7 @@
         };
     };
 
-    directive.$inject = ['Base'];
+    directive.$inject = ['utils'];
 
     angular.module('app.ui').directive('wDraggable', directive);
 

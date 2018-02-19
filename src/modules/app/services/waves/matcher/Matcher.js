@@ -184,7 +184,8 @@
                         Promise.resolve(`${assetPair.priceAsset.displayName} / ${assetPair.amountAsset.displayName}`)
                     ]))
                     .then(([price, amount, filled, pair]) => {
-                        const percent = filled.getTokens().div(amount.getTokens()).mul(100);
+                        const percent = filled.getTokens().div(amount.getTokens()).mul(100).round(2); // TODO
+                        // TODO Move to component myOrders (dex refactor);
                         const STATUS_MAP = {
                             'Cancelled': 'matcher.orders.statuses.canceled',
                             'Accepted': 'matcher.orders.statuses.opened',
@@ -213,7 +214,7 @@
                     amount: lastAsk.price,
                     price: new BigNumber(lastAsk.price).sub(firstBid.price)
                         .abs()
-                        .toFormat(pair.priceAsset.precision),
+                        .toFixed(pair.priceAsset.precision),
                     total: firstBid.price
                 } || { amount: '0', price: '0', total: '0' };
             }

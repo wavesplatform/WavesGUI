@@ -1,4 +1,5 @@
 {
+  "copySuccess": "데이터가 복사되었습니다.",
   "balanceInput": {
     "max": "최대"
   },
@@ -63,8 +64,6 @@
       "copyTxData": "모든 TX 데이터 복사"
     },
     "notifications": {
-      "txIdCopied": "거래 ID 복사되었습니다.",
-      "txDataCopied": "거래 데이터가 복사되었습니다",
       "closed": "리스가 이미 취소되었습니다",
       "closedSuccess": "리스 취소가 완료되었습니다"
     },
@@ -91,7 +90,6 @@
     "noTransactionsTitle": "아무것도 없습니다…",
     "noTransactionsDescription": "거래가 없습니다."
   },
-  "copySuccess": "데이터가 복사되었습니다.",
   "confirmTransaction": {
     "back": "Go Back",
     "confirm": "Confirm",
