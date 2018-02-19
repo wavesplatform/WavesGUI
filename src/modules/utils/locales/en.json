@@ -174,8 +174,8 @@
         "label": "Quantity of tokens to be burned"
       },
       "reissue": {
-        "title": "Reissue title {{name}}",
-        "label": "Reissue label"
+        "title": "{{name}} Token Reissue",
+        "label": "Quantity of tokens to be reissued"
       },
       "id": "ID",
       "quantity": "Token released",
@@ -183,10 +183,10 @@
       "fee": "Transaction Fee {{fee, money-currency}}",
       "validation": {
         "required": "This field is required",
-        "gt0": "",
-        "lte-max-balance": "",
-        "invalid-asset": "",
-        "invalid-precision": ""
+        "gt0": "Entered number must be greater than zero",
+        "lte-max-balance": "Quantity can't be more than balance",
+        "invalid-asset": "The field can only contain numbers",
+        "invalid-precision": "Exceeded maximum of 8 decimal places"
       }
     },
     "settings": {

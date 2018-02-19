@@ -174,19 +174,19 @@
         "label": "Количество токенов для сжигания"
       },
       "reissue": {
-        "title": "Reissue title {{name}}",
-        "label": "Reissue label"
+        "title": "Выпуск токена {{name}}",
+        "label": "Количество токенов для выпуска"
       },
       "id": "ID",
       "quantity": "Токенов выпущено",
       "balance": "Баланс",
       "fee": "Комиссия {{fee, money-currency}}",
       "validation": {
-        "required": "This field is required",
-        "gt0": "",
-        "lte-max-balance": "",
-        "invalid-asset": "",
-        "invalid-precision": ""
+        "required": "Это поле должно быть заполнено",
+        "gt0": "Введённое число должно быть больше нуля",
+        "lte-max-balance": "Количество сжигаемых токенов не может превышать количество токенов на балансе",
+        "invalid-asset": "Поле может содержать только числа",
+        "invalid-precision": "Число может содержать максимум 8 знаков после запятой"
       }
     },
     "settings": {

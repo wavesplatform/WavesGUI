@@ -215,7 +215,7 @@
                     id: 'token-burn',
                     mod: 'change-token',
                     locals: { money: available, txType: 'reissue' },
-                    titleContent: '<w-i18n params="{name: $ctrl.tx.name}">modal.token.issue.title</w-i18n>',
+                    titleContent: '<w-i18n params="{name: $ctrl.tx.name}">modal.token.reissue.title</w-i18n>',
                     contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
                     controller: 'TokenChangeModalCtrl'
                 }));

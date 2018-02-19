@@ -15,5 +15,6 @@
   "send": "Send",
   "deposit": "Deposit",
   "burn": "Token Burn",
+  "reissue": "Token Reissue",
   "qr": "Your Address"
 }

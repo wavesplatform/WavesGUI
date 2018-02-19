@@ -38,7 +38,7 @@
 
             <form name="burn">
                 <div class="body-2">
-                    <w-i18n>modal.{{::$ctrl.txType}}.label</w-i18n>
+                    <w-i18n>modal.token.{{::$ctrl.txType}}.label</w-i18n>
                 </div>
                 <w-input-container class="margin-2">
 
@@ -75,24 +75,23 @@
                                      max-balance="$ctrl.balance"></w-balance-input>
 
                     <w-input-error message="required">
-                        required
+                        <w-i18n>modal.token.validation.required</w-i18n>
                     </w-input-error>
 
                     <w-input-error message="gt">
-                        gt 0
+                        <w-i18n>modal.token.validation.gt0</w-i18n>
                     </w-input-error>
 
                     <w-input-error message="lt">
-                        lt max coins count
+                        <w-i18n>modal.token.validation.lte-max-balance</w-i18n>
                     </w-input-error>
 
                     <w-input-error message="lte">
-                        lte max balance
+                        <w-i18n>modal.token.validation.invalid-asset</w-i18n>
                     </w-input-error>
 
                     <w-input-error message="asset">
-                        <w-i18n></w-i18n>
-                        invalid asset
+                        <w-i18n>modal.token.validation.invalid-precision</w-i18n>
                     </w-input-error>
 
                 </w-input-container>
