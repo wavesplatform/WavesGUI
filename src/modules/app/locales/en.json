@@ -52,7 +52,7 @@
       "thousand": "k"
     }
   },
-  "not-supported": {
+  "notSupported": {
     "header": "Your browser is out-of-date",
     "message": "Update your browser to view this website correctly."
   }
