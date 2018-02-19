@@ -71,6 +71,7 @@
         "description": "You sent {{amount}} {{currency}} (${{mirror}})",
         "details": "View Details"
       },
+      "icoWarning": "Do not withdraw {{assetName}} to an ICO. We will not credit your account with tokens from that sale.",
       "coinomatBTC": {
         "feeTitle": "Gateway fee is {{fee, BigNumber}} BTC",
         "feeExplanation": "We detected Bitcoin address and will send your money through Coinomat gateway to that address. Minimum amount is {{min, BigNumber}} BTC, maximum amount is {{max, BigNumber}} BTC."
