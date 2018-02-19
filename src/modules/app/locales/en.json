@@ -51,5 +51,9 @@
       "million": "M",
       "thousand": "k"
     }
+  },
+  "not-supported": {
+    "header": "Your browser is out-of-date",
+    "message": "Update your browser to view this website correctly."
   }
 }

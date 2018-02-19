@@ -1,0 +1,49 @@
+@import (reference) '../../config';
+@import (reference) '../../app/less/typography';
+
+.not-supported-browser {
+  height: 100vh;
+  position: absolute;
+  width: 100%;
+
+  .overlay {
+    background: @color-black;
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    z-index: 2;
+    opacity: .4;
+  }
+
+  .not-supported-modal {
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+    transform: translate(-50%, -50%);
+    background: @color-white;
+    position: absolute;
+    width: 100%;
+    max-width: 400px;
+    height: 350px;
+    padding: 40px;
+    text-align: center;
+    z-index: 5;
+    border-radius: @border-radius;
+
+    i {
+      display: block;
+      margin: 20px auto 20px auto;
+      width: 79px;
+      height: 74px;
+      background: url(/img/no-preload/not-supported-browser.svg) center top no-repeat;
+    }
+
+    h1 {
+      width: 100%;
+      padding: 0 10%;
+      font-size: 34px;
+      line-height: 1.2em;
+    }
+
+  }
+}
