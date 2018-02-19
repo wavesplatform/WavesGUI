@@ -33,6 +33,10 @@
                  */
                 this.issue = money.asset.reissuable;
                 /**
+                 * @type {BigNumber}
+                 */
+                this.maxCoinsCount = WavesApp.maxCoinsCount.div(money.asset.quantity);
+                /**
                  * @type {Money}
                  */
                 this.balance = money;

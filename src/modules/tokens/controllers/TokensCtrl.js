@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    const MAX_OF_COINS_COUNT = new BigNumber('9223372036854775807');
-
     /**
      * @param Base
      * @param $scope
@@ -106,7 +104,7 @@
              */
             _onChangePrecision({ value }) {
                 if (value && value.lte(8)) {
-                    this.maxCoinsCount = MAX_OF_COINS_COUNT.div(Math.pow(10, Number(value)));
+                    this.maxCoinsCount = WavesApp.maxCoinsCount.div(Math.pow(10, Number(value)));
                 }
             }
 

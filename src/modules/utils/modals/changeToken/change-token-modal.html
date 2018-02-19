@@ -50,8 +50,7 @@
                                  w-validate
                                  w-validator-asset="{{::$ctrl.asset}}"
                                  w-validator-gt="0"
-                                 w-validator-lt="{{$ctrl.maxCoinsCount}}"
-                                 w-validator-number
+                                 w-validator-lt="{{::$ctrl.maxCoinsCount}}"
                                  required></w-input>
 
                         <div class="select-wrap">
@@ -81,6 +80,10 @@
 
                     <w-input-error message="gt">
                         gt 0
+                    </w-input-error>
+
+                    <w-input-error message="lt">
+                        lt max coins count
                     </w-input-error>
 
                     <w-input-error message="lte">
