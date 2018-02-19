@@ -16,12 +16,18 @@
             <div class="row-help headline-3">
                 <w-i18n>modal.deposit.{{::$ctrl.assetKeyName}}.helpDescrTitle</w-i18n>
             </div>
-            <div class="row-help"><w-i18n>modal.deposit.{{::$ctrl.assetKeyName}}.helpDescrText</w-i18n></div>
-            <div class="row-help"><w-i18n>modal.deposit.pleaseNote</w-i18n></div>
+            <div class="row-help">
+                <w-i18n>modal.deposit.{{::$ctrl.assetKeyName}}.helpDescrText</w-i18n>
+            </div>
+            <div class="row-help">
+                <w-i18n>modal.deposit.pleaseNote</w-i18n>
+            </div>
         </w-help-icon>
     </div>
 
-    <w-copy class="body-1 basic-900" info="{{$ctrl.gatewayAddress}}">{{$ctrl.gatewayAddress}}</w-copy>
+    <w-copy-wrap ng-if="$ctrl.gatewayAddress" class="body-1 basic-900" info="{{$ctrl.gatewayAddress}}">
+        {{$ctrl.gatewayAddress}}
+    </w-copy-wrap>
 
     <div class="or">
         <w-i18n>modal.deposit.or</w-i18n>

@@ -126,10 +126,10 @@
                 this.maxAmountBalance = CreateOrder._getMaxAmountBalance(this.type, this.amountBalance, this.fee);
                 switch (type) {
                     case 'sell':
-                        this.price = this.priceBalance.cloneWithTokens(this.bid.price);
+                        this.price = this.priceBalance.cloneWithTokens(String(this.bid.price));
                         break;
                     case 'buy':
-                        this.price = this.priceBalance.cloneWithTokens(this.ask.price);
+                        this.price = this.priceBalance.cloneWithTokens(String(this.ask.price));
                         break;
                     default:
                         throw new Error('Wrong type');
@@ -142,8 +142,13 @@
 
             setMaxAmount() {
                 if (this.amountBalance.asset.id === this.fee.asset.id) {
-                    this.amount = this.amountBalance.cloneWithTokens(this.amountBalance.sub(this.fee).getTokens()
+                    const amount = this.amountBalance.cloneWithTokens(this.amountBalance.sub(this.fee).getTokens()
                         .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
+                    if (amount.getTokens().lt(0)) {
+                        this.amount = this.amountBalance.cloneWithTokens('0');
+                    } else {
+                        this.amount = amount;
+                    }
                 } else {
                     this.amount = this.amountBalance.cloneWithTokens(this.amountBalance.getTokens()
                         .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
@@ -152,10 +157,19 @@
 
             setMaxPrice() {
                 if (this.priceBalance.asset.id === this.fee.asset.id) {
-                    this.amount = this.amountBalance.cloneWithTokens(this.priceBalance.sub(this.fee)
-                        .getTokens()
-                        .div(this.price.getTokens())
-                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
+                    if (this.price.getTokens().eq(0)) {
+                        this.amount = this.amountBalance.cloneWithTokens('0');
+                    } else {
+                        const amount = this.amountBalance.cloneWithTokens(this.priceBalance.sub(this.fee)
+                            .getTokens()
+                            .div(this.price.getTokens())
+                            .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
+                        if (amount.getTokens().lt(0)) {
+                            this.amount = amount.cloneWithTokens('0');
+                        } else {
+                            this.amount = amount;
+                        }
+                    }
                 } else {
                     this.amount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens()
                         .div(this.price.getTokens())
@@ -246,7 +260,7 @@
                 }
 
                 if (this.type === 'buy') {
-                    this.canByOrder = !this.priceBalance.lte(this.totalPrice);
+                    this.canByOrder = !(this.priceBalance.lte(this.totalPrice) && this.priceBalance.getTokens().gt(0));
                 } else {
                     this.canByOrder = true;
                 }
@@ -271,15 +285,14 @@
              * @param spread
              * @private
              */
-            _setData({ lastAsk, firstBid, spread }) {
+            _setData({ lastAsk, firstBid }) {
                 this.bid = firstBid || { price: 0 };
                 this.ask = lastAsk || { price: 0 };
-                this.spread = spread;
 
                 const sell = Number(this.bid.price);
                 const buy = Number(this.ask.price);
 
-                this.spreadPercent = ((buy - sell) * 100 / buy).toFixed(2);
+                this.spreadPercent = buy ? (((buy - sell) * 100 / buy) || 0).toFixed(2) : '0.00';
             }
 
             /**
@@ -294,7 +307,12 @@
                     return null;
                 }
                 if (amount.asset.id === fee.asset.id) {
-                    return amount.sub(fee);
+                    const result = amount.sub(fee);
+                    if (result.getTokens().gte('0')) {
+                        return result;
+                    } else {
+                        return amount.cloneWithTokens('0');
+                    }
                 } else {
                     return amount;
                 }

@@ -1,10 +1,10 @@
 import * as gulp from 'gulp';
 import { getType } from 'mime';
 import { exec, spawn } from 'child_process';
-import { readdirSync, statSync } from 'fs';
-import { join, relative } from 'path';
+import { existsSync, readdirSync, statSync } from 'fs';
+import { join, relative, sep, extname, dirname } from 'path';
 import { ITaskFunction } from './interface';
-import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync } from 'fs-extra';
+import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync, copy } from 'fs-extra';
 import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
@@ -53,7 +53,7 @@ export function getFilesFrom(dist: string, extension?: string | Array<string>, f
             } else {
                 if (Array.isArray(extension)) {
                     const isNeedFile = extension.some((ext) => {
-                        return itemName.lastIndexOf(ext) === (itemName.length - ext.length);
+                        return isEqualExtension(itemName, ext);
                     });
                     if (isNeedFile) {
                         if (!filter || filter(itemName, itemPath)) {
@@ -61,7 +61,7 @@ export function getFilesFrom(dist: string, extension?: string | Array<string>, f
                         }
                     }
                 } else if (extension) {
-                    if (itemName.lastIndexOf(extension) === (itemName.length - extension.length)) {
+                    if (isEqualExtension(itemName, extension)) {
                         if (!filter || filter(itemName, itemPath)) {
                             files.push(itemPath);
                         }
@@ -80,6 +80,10 @@ export function getFilesFrom(dist: string, extension?: string | Array<string>, f
     read(dist);
 
     return files;
+}
+
+export function isEqualExtension(fileName: string, extension: string): boolean {
+    return extname(fileName).replace('.', '') === extension.replace('.', '');
 }
 
 export function run(command: string, args: Array<string>, noLog?: boolean): Promise<{ code: number; data: string[] }> {
@@ -178,18 +182,24 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
 export function download(url: string, filePath: string): Promise<void> {
     return new Promise<void>((resolve) => {
 
-        try {
-            mkdirpSync(filePath.split('/').slice(0, -1).join('/'));
-        } catch (e) {
-            console.log(e);
+        const cachePath = join(process.cwd(), '.cache-download', filePath.replace(process.cwd(), ''));
+        if (existsSync(cachePath)) {
+            copy(cachePath, filePath).then(resolve);
+        } else {
+
+            try {
+                mkdirpSync(dirname(filePath));
+            } catch (e) {
+                console.log(e);
+            }
+
+            const file = createWriteStream(filePath);
+
+            get(url, (response) => {
+                response.pipe(file);
+                response.on('end', () => copy(filePath, cachePath).then(resolve));
+            });
         }
-
-        const file = createWriteStream(filePath);
-
-        get(url, (response) => {
-            response.pipe(file);
-            response.on('end', resolve);
-        });
     });
 }
 
@@ -230,7 +240,7 @@ export function route(connectionType, buildType) {
 
         if (buildType !== 'dev') {
             if (isPage(req.url)) {
-                const path = join(__dirname, '../dist/web', connectionType, buildType, 'index.html');
+                const path = join(__dirname, `..${sep}dist${sep}web`, connectionType, buildType, 'index.html');
                 return readFile(path, 'utf8').then((file) => {
                     res.end(file);
                 });

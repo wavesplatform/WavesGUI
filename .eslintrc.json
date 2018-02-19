@@ -12,6 +12,7 @@
   "globals": {
     "Waves": true,
     "BigNumber": true,
+    "Clipboard": true,
     "identityImg": true,
     "angular": true,
     "jQuery": true,
