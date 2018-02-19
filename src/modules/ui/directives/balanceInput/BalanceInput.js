@@ -98,7 +98,12 @@
                     const feeHash = utils.groupMoney(feeList);
 
                     if (feeHash[this.maxBalance.asset.id]) {
-                        this.realMaxBalance = this.maxBalance.sub(feeHash[this.maxBalance.asset.id]);
+                        const max = this.maxBalance.sub(feeHash[this.maxBalance.asset.id]);
+                        if (max.getTokens().lt(0)) {
+                            this.realMaxBalance = this.maxBalance.cloneWithTokens('0');
+                        } else {
+                            this.realMaxBalance = max;
+                        }
                     } else {
                         this.realMaxBalance = this.maxBalance;
                     }

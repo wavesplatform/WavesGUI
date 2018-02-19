@@ -9,14 +9,13 @@
      * @param {ModalManager} modalManager
      * @param {NotificationManager} notificationManager
      * @param {Waves} waves
-     * @param {CopyService} copyService
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
      * @param {DexService} dexService
      * @return {Transaction}
      */
     const controller = function (Base, $filter, modalManager, notificationManager,
-                                 waves, copyService, user, baseAssetService, dexService) {
+                                 waves, user, baseAssetService, dexService) {
 
         class Transaction extends Base {
 
@@ -63,18 +62,7 @@
             /**
              * return {string}
              */
-            copyId() {
-                copyService.copy(this.transaction.id);
-                notificationManager.info({
-                    ns: 'app.ui',
-                    title: { literal: 'transaction.notifications.txIdCopied' }
-                });
-            }
-
-            /**
-             * return {string}
-             */
-            copyAllData() {
+            getCopyAllData() {
                 const tx = this.transaction;
 
                 const id = `Transaction ID: ${tx.id}`;
@@ -111,11 +99,7 @@
                 const fee = `Fee: ${tx.fee.toFormat()} ${tx.fee.asset.name} (${tx.fee.asset.id})`;
                 message += `\n${fee}`;
 
-                copyService.copy(message);
-                notificationManager.info({
-                    ns: 'app.ui',
-                    title: { literal: 'transaction.notifications.txDataCopied' }
-                });
+                return message;
             }
 
         }
@@ -129,7 +113,6 @@
         'modalManager',
         'notificationManager',
         'waves',
-        'copyService',
         'user',
         'baseAssetService',
         'dexService'
