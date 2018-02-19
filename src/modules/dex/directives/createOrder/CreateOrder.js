@@ -157,14 +157,18 @@
 
             setMaxPrice() {
                 if (this.priceBalance.asset.id === this.fee.asset.id) {
-                    const amount = this.amountBalance.cloneWithTokens(this.priceBalance.sub(this.fee)
-                        .getTokens()
-                        .div(this.price.getTokens())
-                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
-                    if (amount.getTokens().lt(0)) {
-                        this.amount = amount.cloneWithTokens('0');
+                    if (this.price.getTokens().eq(0)) {
+                        this.amount = this.amountBalance.cloneWithTokens('0');
                     } else {
-                        this.amount = amount;
+                        const amount = this.amountBalance.cloneWithTokens(this.priceBalance.sub(this.fee)
+                            .getTokens()
+                            .div(this.price.getTokens())
+                            .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
+                        if (amount.getTokens().lt(0)) {
+                            this.amount = amount.cloneWithTokens('0');
+                        } else {
+                            this.amount = amount;
+                        }
                     }
                 } else {
                     this.amount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens()
@@ -288,7 +292,7 @@
                 const sell = Number(this.bid.price);
                 const buy = Number(this.ask.price);
 
-                this.spreadPercent = (((buy - sell) * 100 / buy) || 0).toFixed(2);
+                this.spreadPercent = buy ? (((buy - sell) * 100 / buy) || 0).toFixed(2) : '0.00';
             }
 
             /**
