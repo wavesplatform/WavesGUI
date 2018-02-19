@@ -173,7 +173,15 @@
       "quantity": "Token released",
       "balance": "Balance",
       "burn": "Quantity of tokens to be burned",
-      "fee": "Transaction Fee 0.001 WAVES"
+      "fee": "Transaction Fee {{fee, money-currency}}",
+      "title": "{{name}} Token Burn",
+      "validation": {
+        "required": "This field is required",
+        "gt0": "",
+        "lte-max-balance": "",
+        "invalid-asset": "",
+        "invalid-precision": ""
+      }
     },
     "settings": {
       "title": "Settings",

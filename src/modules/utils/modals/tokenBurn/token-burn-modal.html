@@ -1,7 +1,7 @@
 <w-step-by-step active-step="$ctrl.step">
     <w-step>
-        <div class="asset-content token-burn__header">
-            <div class="top-content token-burn__asset-name">
+        <div class="asset-content">
+            <div class="top-content">
                 <w-asset-logo asset-id="{{::$ctrl.asset.id}}" size="65"></w-asset-logo>
 
                 <div class="asset-data">
@@ -9,8 +9,7 @@
                     <div class="body-2 basic-500 one-line"> {{::$ctrl.asset.description}}</div>
                 </div>
 
-                <!-- chartwrapper -->
-                <div class="chart-wrapper token-burn__chart-container">
+                <div class="chart-wrapper">
                     <linechart ng-if="$ctrl.chartData" options="$ctrl.options" data="$ctrl.chartData"></linechart>
                     <div class="token-burn__chart-overlay"></div>
                 </div>
@@ -18,25 +17,27 @@
         </div>
         <div class="token-burn__info">
 
-        <div class="rows">
-            <div class="row row-style flex-row token-burn__info-line">
-                <div class="token-burn__info-line-part" w-i18n="modal.tokenBurn.id"></div>
-                <div class="token-burn__info-line-part">{{::$ctrl.asset.id}}</div>
-            </div>
+            <div class="rows">
+                <div class="row row-style flex-row token-burn__info-line">
+                    <div class="footnote-1 disabled-600" w-i18n="modal.tokenBurn.id"></div>
+                    <div>{{::$ctrl.asset.id}}</div>
+                </div>
 
-            <div class="row row-style flex-row token-burn__info-line">
-                <div class="token-burn__info-line-part" w-i18n="modal.tokenBurn.quantity"></div>
-                <div class="token-burn__info-line-part">{{::$ctrl.asset.quantity.toFixed()}}</div>
-            </div>
+                <div class="row row-style flex-row token-burn__info-line">
+                    <div class="footnote-1 disabled-600" w-i18n="modal.tokenBurn.quantity"></div>
+                    <div>{{::$ctrl.asset.quantity.toFixed()}}</div>
+                </div>
 
-            <div class="row row-style flex-row margin-2 token-burn__info-line">
-                <div class="token-burn__info-line-part" w-i18n="modal.tokenBurn.balance"></div>
-                <div class="token-burn__info-line-part"><w-balance money="$ctrl.balance"></w-balance></div>
+                <div class="row row-style flex-row margin-2 token-burn__info-line">
+                    <div class="footnote-1 disabled-600" w-i18n="modal.tokenBurn.balance"></div>
+                    <div class="bold"><w-balance money="$ctrl.balance"></w-balance></div>
+                </div>
             </div>
-        </div>
 
             <form name="burn">
-                <div w-i18n="modal.tokenBurn.burn"></div>
+                <div class="body-2">
+                    <w-i18n>modal.tokenBurn.burn</w-i18n>
+                </div>
                 <w-input-container class="margin-2">
                     <w-balance-input input-classes="big"
                                      asset-id="$ctrl.asset.id"
@@ -58,7 +59,7 @@
                     </w-input-error>
 
                     <w-input-error message="asset">
-                        invalid asset
+                        <w-i18n></w-i18n>invalid asset
                     </w-input-error>
 
                     <w-input-error message="precision">
@@ -67,7 +68,7 @@
 
                 </w-input-container>
 
-                <div class="token-burn__fee" w-i18n="modal.tokenBurn.fee" params="{fee: $ctrl.fee}"></div>
+                <div class="footnote-1 disabled-600 margin-2" w-i18n="modal.tokenBurn.fee" params="{fee: $ctrl.fee}"></div>
 
                 <w-button disabled="burn.$invalid" class="submit big long" type="submit" w-step-next>
                     <w-i18n>button.continue</w-i18n>

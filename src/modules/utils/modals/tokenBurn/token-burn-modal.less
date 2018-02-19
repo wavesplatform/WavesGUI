@@ -7,6 +7,8 @@ html body md-dialog.token-burn {
   }
 
   .rows {
+    margin-top: 50px;
+
     .flex-row {
       display: flex;
       justify-content: space-between;
@@ -28,13 +30,14 @@ html body md-dialog.token-burn {
     }
   }
 
-
   .chart-wrapper {
     opacity: 0.2;
     position: relative;
     margin-left: -40px;
     margin-right: -40px;
+    padding-bottom: 4px;
     height: 76px;
+    border-bottom: 1px solid @color-submit-300;
 
     .token-burn__chart-overlay {
       position: absolute;
@@ -51,8 +54,6 @@ html body md-dialog.token-burn {
 
   .asset-content {
     height: 100%;
-
-
 
     .one-line {
       max-height: 1.3em;

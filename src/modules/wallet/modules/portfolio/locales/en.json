@@ -14,5 +14,6 @@
   "info": "Asset Info",
   "send": "Send",
   "deposit": "Deposit",
+  "burn": "Token Burn",
   "qr": "Your Address"
 }

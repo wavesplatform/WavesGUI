@@ -168,6 +168,21 @@
         "ok": "Подтвердить и начать"
       }
     },
+    "tokenBurn": {
+      "id": "ID",
+      "quantity": "Токенов выпущено",
+      "balance": "Баланс",
+      "burn": "Количество токенов для сжигания",
+      "fee": "Комиссия {{fee, money-currency}}",
+      "title": "Сжигание токена {{name}}",
+      "validation": {
+        "required": "This field is required",
+        "gt0": "",
+        "lte-max-balance": "",
+        "invalid-asset": "",
+        "invalid-precision": ""
+      }
+    },
     "settings": {
       "title": "Настройки",
       "setDefault": "По умолчанию",

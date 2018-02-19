@@ -204,6 +204,7 @@
                     id: 'token-burn',
                     mod: 'token-burn',
                     locals: { money: available },
+                    titleContent: '<w-i18n params="{name: $ctrl.tx.name}">modal.tokenBurn.title</w-i18n>',
                     contentUrl: 'modules/utils/modals/tokenBurn/token-burn-modal.html',
                     controller: 'TokenBurnModalCtrl'
                 }));
