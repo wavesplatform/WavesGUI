@@ -106,7 +106,6 @@
 }
 
 .toolbar {
-
   & w-radio-wrap {
     & .btn-wrap.btn-group .btn {
       border-left: 0;
@@ -152,7 +151,6 @@
       }
     }
   }
-
 }
 
 .chart-prices-toggle {
@@ -188,7 +186,9 @@ label[for="chart-toggler"] {
     display: block;
   }
 
+
   .toolbar {
+    width: 100%;
     & w-radio-wrap {
       & .btn-wrap.btn-group w-radio:last-child .btn {
         margin-right: 0;
@@ -199,6 +199,10 @@ label[for="chart-toggler"] {
   .main.wallet.assets {
     .content .assets-list {
       margin-bottom: 0;
+    }
+
+    .content .toolbar {
+      width: 100%;
     }
 
     .content .chart-rate {
