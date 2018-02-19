@@ -53,7 +53,7 @@
     }
   },
   "notSupported": {
-    "header": "Your browser is out-of-date",
+    "header": "Your browser is outdated",
     "message": "Update your browser to view this website correctly."
   }
 }
