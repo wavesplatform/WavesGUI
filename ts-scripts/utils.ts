@@ -144,7 +144,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
                 const sourceFiles = getFilesFrom(join(__dirname, '../src'), '.js', function (name, path) {
                     return !name.includes('.spec') && !path.includes('/test/');
                 });
-                const cacheKiller = `?v${Date.now()}`;
+                const cacheKiller = `?v${pack.version}`;
                 param.scripts = meta.vendors.map((i) => join(__dirname, '..', i)).concat(sourceFiles);
                 meta.debugInjections.forEach((path) => {
                     param.scripts.unshift(join(__dirname, '../', path));
