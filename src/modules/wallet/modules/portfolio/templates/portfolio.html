@@ -102,6 +102,10 @@
                                   ng-click="$ctrl.showBurn(balance.asset.id)">
                             <w-i18n>burn</w-i18n>
                         </w-action>
+                        <w-action ng-if="balance.asset.sender === $ctrl.address"
+                                  ng-click="$ctrl.showReissue(balance.asset.id)">
+                            <w-i18n>reissue</w-i18n>
+                        </w-action>
                     </w-actions>
                 </li>
             </div>

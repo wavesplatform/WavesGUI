@@ -19,18 +19,20 @@
 
             <div class="rows">
                 <div class="row row-style flex-row token-burn__info-line">
-                    <div class="footnote-1 disabled-600" w-i18n="modal.tokenBurn.id"></div>
+                    <div class="footnote-1 disabled-600" w-i18n="modal.token.id"></div>
                     <div>{{::$ctrl.asset.id}}</div>
                 </div>
 
                 <div class="row row-style flex-row token-burn__info-line">
-                    <div class="footnote-1 disabled-600" w-i18n="modal.tokenBurn.quantity"></div>
+                    <div class="footnote-1 disabled-600" w-i18n="modal.token.quantity"></div>
                     <div>{{::$ctrl.asset.quantity.toFixed()}}</div>
                 </div>
 
                 <div class="row row-style flex-row margin-2 token-burn__info-line">
-                    <div class="footnote-1 disabled-600" w-i18n="modal.tokenBurn.balance"></div>
-                    <div class="bold"><w-balance money="$ctrl.balance"></w-balance></div>
+                    <div class="footnote-1 disabled-600" w-i18n="modal.token.balance"></div>
+                    <div class="bold">
+                        <w-balance money="$ctrl.balance"></w-balance>
+                    </div>
                 </div>
             </div>
 
@@ -39,9 +41,36 @@
                     <w-i18n>modal.{{::$ctrl.txType}}.label</w-i18n>
                 </div>
                 <w-input-container class="margin-2">
-                    <w-balance-input input-classes="big"
+
+                    <div ng-if="$ctrl.txType === 'reissue'" class="input-like">
+                        <w-input class="embed"
+                                 type="text"
+                                 name="input"
+                                 ng-model="$ctrl.input"
+                                 w-validate
+                                 w-validator-asset="{{::$ctrl.asset}}"
+                                 w-validator-gt="0"
+                                 w-validator-lt="{{$ctrl.maxCoinsCount}}"
+                                 w-validator-number
+                                 required></w-input>
+
+                        <div class="select-wrap">
+                            <w-select class="issue-select tiny" ng-model="$ctrl.issue">
+                                <w-option option-type="boolean" value="false">
+                                    <span class="caption-1 basic-700" w-i18n-ns="app.tokens"
+                                          w-i18n="reissuable.false"></span>
+                                </w-option>
+                                <w-option option-type="boolean" value="true">
+                                    <span class="caption-1 basic-700" w-i18n-ns="app.tokens"
+                                          w-i18n="reissuable.true"></span>
+                                </w-option>
+                            </w-select>
+                        </div>
+                    </div>
+
+                    <w-balance-input ng-if="$ctrl.txType === 'burn'" input-classes="big"
                                      asset-id="$ctrl.asset.id"
-                                     name="burn"
+                                     name="input"
                                      amount="$ctrl.input"
                                      min="'0'"
                                      max-balance="$ctrl.balance"></w-balance-input>
@@ -59,12 +88,14 @@
                     </w-input-error>
 
                     <w-input-error message="asset">
-                        <w-i18n></w-i18n>invalid asset
+                        <w-i18n></w-i18n>
+                        invalid asset
                     </w-input-error>
 
                 </w-input-container>
 
-                <div class="footnote-1 disabled-600 margin-2" w-i18n="modal.tokenBurn.fee" params="{fee: $ctrl.fee}"></div>
+                <div class="footnote-1 disabled-600 margin-2" w-i18n="modal.token.fee"
+                     params="{fee: $ctrl.fee}"></div>
 
                 <w-button disabled="burn.$invalid" class="submit big long" type="submit" w-step-next>
                     <w-i18n>button.continue</w-i18n>

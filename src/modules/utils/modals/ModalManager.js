@@ -203,7 +203,7 @@
                 return $injector.get('waves').node.assets.balance(assetId).then(({ available }) => this._getModal({
                     id: 'token-burn',
                     mod: 'change-token',
-                    locals: { money: available, mod: 'burn' },
+                    locals: { money: available, txType: 'burn' },
                     titleContent: '<w-i18n params="{name: $ctrl.tx.name}">modal.token.burn.title</w-i18n>',
                     contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
                     controller: 'TokenChangeModalCtrl'
@@ -214,7 +214,7 @@
                 return $injector.get('waves').node.assets.balance(assetId).then(({ available }) => this._getModal({
                     id: 'token-burn',
                     mod: 'change-token',
-                    locals: { money: available, mod: 'reissue' },
+                    locals: { money: available, txType: 'reissue' },
                     titleContent: '<w-i18n params="{name: $ctrl.tx.name}">modal.token.issue.title</w-i18n>',
                     contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
                     controller: 'TokenChangeModalCtrl'

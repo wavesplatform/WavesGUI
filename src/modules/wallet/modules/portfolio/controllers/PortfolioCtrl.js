@@ -93,6 +93,10 @@
                 return modalManager.showBurnModal(assetId);
             }
 
+            showReissue(assetId) {
+                return modalManager.showReissueModal(assetId);
+            }
+
             pinAsset(asset, state) {
                 asset.pinned = state;
 

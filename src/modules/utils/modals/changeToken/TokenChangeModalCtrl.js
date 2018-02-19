@@ -14,7 +14,7 @@
 
         class TokenChangeModalCtrl extends Base {
 
-            constructor({ money, mod }) {
+            constructor({ money, txType }) {
                 super($scope);
                 /**
                  * @type {number}
@@ -23,11 +23,15 @@
                 /**
                  * @type {'burn'|'reissue'}
                  */
-                this.txType = mod;
+                this.txType = txType;
                 /**
                  * @type {ExtendedAsset}
                  */
                 this.asset = money.asset;
+                /**
+                 * @type {boolean}
+                 */
+                this.issue = money.asset.reissuable;
                 /**
                  * @type {Money}
                  */
@@ -72,7 +76,7 @@
 
                 createPoll(this, this._getGraphData, 'chartData', 15000);
 
-                this.observe('input', this._createTx);
+                this.observe(['input', 'issue'], this._createTx);
             }
 
             _createTx() {
@@ -83,7 +87,7 @@
                     fee: this.fee,
                     quantity: input,
                     precision: input.asset.precision,
-                    reissuable: input.asset.reissuable
+                    reissuable: this.issue
                 });
             }
 
@@ -99,8 +103,8 @@
 
         }
 
-        const { money, mod } = this;
-        return new TokenChangeModalCtrl({ money, mod });
+        const { money, txType } = this;
+        return new TokenChangeModalCtrl({ money, txType });
     };
 
     controller.$inject = ['Base', '$scope', 'createPoll', 'utils', 'waves', 'user'];
