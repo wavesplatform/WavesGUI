@@ -202,11 +202,22 @@
             showBurnModal(assetId) {
                 return $injector.get('waves').node.assets.balance(assetId).then(({ available }) => this._getModal({
                     id: 'token-burn',
-                    mod: 'token-burn',
-                    locals: { money: available },
-                    titleContent: '<w-i18n params="{name: $ctrl.tx.name}">modal.tokenBurn.title</w-i18n>',
-                    contentUrl: 'modules/utils/modals/tokenBurn/token-burn-modal.html',
-                    controller: 'TokenBurnModalCtrl'
+                    mod: 'change-token',
+                    locals: { money: available, mod: 'burn' },
+                    titleContent: '<w-i18n params="{name: $ctrl.tx.name}">modal.token.burn.title</w-i18n>',
+                    contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
+                    controller: 'TokenChangeModalCtrl'
+                }));
+            }
+
+            showReissueModal(assetId) {
+                return $injector.get('waves').node.assets.balance(assetId).then(({ available }) => this._getModal({
+                    id: 'token-burn',
+                    mod: 'change-token',
+                    locals: { money: available, mod: 'reissue' },
+                    titleContent: '<w-i18n params="{name: $ctrl.tx.name}">modal.token.issue.title</w-i18n>',
+                    contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
+                    controller: 'TokenChangeModalCtrl'
                 }));
             }
 
@@ -255,6 +266,9 @@
 
                         this.openModal.dispatch(modal);
                         return modal;
+                    })
+                    .catch((e) => {
+                        console.error(e);
                     });
             }
 

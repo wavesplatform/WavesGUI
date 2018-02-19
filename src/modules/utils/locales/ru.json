@@ -168,13 +168,19 @@
         "ok": "Подтвердить и начать"
       }
     },
-    "tokenBurn": {
+    "token": {
+      "burn": {
+        "title": "Сжигание токена {{name}}",
+        "label": "Количество токенов для сжигания"
+      },
+      "reissue": {
+        "title": "Reissue title {{name}}",
+        "label": "Reissue label"
+      },
       "id": "ID",
       "quantity": "Токенов выпущено",
       "balance": "Баланс",
-      "burn": "Количество токенов для сжигания",
       "fee": "Комиссия {{fee, money-currency}}",
-      "title": "Сжигание токена {{name}}",
       "validation": {
         "required": "This field is required",
         "gt0": "",

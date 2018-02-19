@@ -36,13 +36,13 @@
 
             <form name="burn">
                 <div class="body-2">
-                    <w-i18n>modal.tokenBurn.burn</w-i18n>
+                    <w-i18n>modal.{{::$ctrl.txType}}.label</w-i18n>
                 </div>
                 <w-input-container class="margin-2">
                     <w-balance-input input-classes="big"
                                      asset-id="$ctrl.asset.id"
                                      name="burn"
-                                     amount="$ctrl.burn"
+                                     amount="$ctrl.input"
                                      min="'0'"
                                      max-balance="$ctrl.balance"></w-balance-input>
 
@@ -60,10 +60,6 @@
 
                     <w-input-error message="asset">
                         <w-i18n></w-i18n>invalid asset
-                    </w-input-error>
-
-                    <w-input-error message="precision">
-                        invalid precision
                     </w-input-error>
 
                 </w-input-container>

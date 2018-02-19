@@ -8,18 +8,22 @@
      * @param {app.utils} utils
      * @param {Waves} waves
      * @param {User} user
-     * @return {TokenBurnModalCtrl}
+     * @return {TokenChangeModalCtrl}
      */
     const controller = function (Base, $scope, createPoll, utils, waves, user) {
 
-        class TokenBurnModalCtrl extends Base {
+        class TokenChangeModalCtrl extends Base {
 
-            constructor(money) {
+            constructor({ money, mod }) {
                 super($scope);
                 /**
                  * @type {number}
                  */
                 this.step = 0;
+                /**
+                 * @type {'burn'|'reissue'}
+                 */
+                this.txType = mod;
                 /**
                  * @type {ExtendedAsset}
                  */
@@ -31,7 +35,7 @@
                 /**
                  * @type {Money}
                  */
-                this.burn = null;
+                this.input = null;
 
                 this.options = {
                     grid: {
@@ -68,18 +72,18 @@
 
                 createPoll(this, this._getGraphData, 'chartData', 15000);
 
-                this.observe('burn', this._createTx);
+                this.observe('input', this._createTx);
             }
 
             _createTx() {
-                const burn = this.burn;
-                this.tx = waves.node.transactions.createTransaction('burn', {
-                    assetId: burn.asset.id,
-                    description: burn.asset.description,
+                const input = this.input;
+                this.tx = waves.node.transactions.createTransaction(this.txType, {
+                    assetId: input.asset.id,
+                    description: input.asset.description,
                     fee: this.fee,
-                    quantity: burn,
-                    precision: burn.asset.precision,
-                    reissuable: burn.asset.reissuable
+                    quantity: input,
+                    precision: input.asset.precision,
+                    reissuable: input.asset.reissuable
                 });
             }
 
@@ -95,10 +99,11 @@
 
         }
 
-        return new TokenBurnModalCtrl(this.money);
+        const { money, mod } = this;
+        return new TokenChangeModalCtrl({ money, mod });
     };
 
     controller.$inject = ['Base', '$scope', 'createPoll', 'utils', 'waves', 'user'];
 
-    angular.module('app.utils').controller('TokenBurnModalCtrl', controller);
+    angular.module('app.utils').controller('TokenChangeModalCtrl', controller);
 })();

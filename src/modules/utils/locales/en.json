@@ -168,13 +168,19 @@
         "ok": "Confirm and Begin"
       }
     },
-    "tokenBurn": {
+    "token": {
+      "burn": {
+        "title": "{{name}} Token Burn",
+        "label": "Quantity of tokens to be burned"
+      },
+      "reissue": {
+        "title": "Reissue title {{name}}",
+        "label": "Reissue label"
+      },
       "id": "ID",
       "quantity": "Token released",
       "balance": "Balance",
-      "burn": "Quantity of tokens to be burned",
       "fee": "Transaction Fee {{fee, money-currency}}",
-      "title": "{{name}} Token Burn",
       "validation": {
         "required": "This field is required",
         "gt0": "",
