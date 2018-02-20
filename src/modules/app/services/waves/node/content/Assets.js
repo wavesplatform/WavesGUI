@@ -156,8 +156,13 @@
             /**
              * Create reissue transaction
              */
-            reissue() {
-
+            reissue({ quantity, reissuable, fee, keyPair }) {
+                return this.getFee('reissue', fee).then((fee) => Waves.API.Node.v1.assets.reissue({
+                    assetId: quantity.asset.id,
+                    fee: fee.toCoins(),
+                    quantity: quantity.toCoins(),
+                    reissuable
+                }, keyPair));
             }
 
             /**

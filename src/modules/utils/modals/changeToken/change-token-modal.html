@@ -96,10 +96,15 @@
 
                 </w-input-container>
 
-                <div class="footnote-1 disabled-600 margin-2" w-i18n="modal.token.fee"
-                     params="{fee: $ctrl.fee}"></div>
+                <div class="footnote-1 margin-2">
+                    <div ng-class="{'error-400': $ctrl.noFee}"
+                         class="disabled-600"
+                         w-i18n="modal.token.fee"
+                         params="{fee: $ctrl.fee}"></div>
+                    <div ng-if="$ctrl.noFee" w-i18n="modal.token.noFee"></div>
+                </div>
 
-                <w-button disabled="burn.$invalid" class="submit big long" type="submit" w-step-next>
+                <w-button disabled="burn.$invalid || $ctrl.noFee" class="submit big long" type="submit" w-step-next>
                     <w-i18n>button.continue</w-i18n>
                 </w-button>
             </form>

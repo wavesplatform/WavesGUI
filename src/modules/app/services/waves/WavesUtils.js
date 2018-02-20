@@ -180,7 +180,7 @@
                         return fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
                             .then(utils.onFetch)
                             .then((data) => {
-                                if (!data) {
+                                if (!data || data.status === 'error') {
                                     return 0;
                                 }
 

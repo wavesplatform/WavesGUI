@@ -21,6 +21,14 @@
                  */
                 this.step = 0;
                 /**
+                 * @type {boolean}
+                 */
+                this.noFee = false;
+                /**
+                 * @type {Money}
+                 */
+                this.balance = null;
+                /**
                  * @type {'burn'|'reissue'}
                  */
                 this.txType = txType;
@@ -74,13 +82,23 @@
                     }
                 };
 
-                utils.when(waves.node.getFee('burn')).then((fee) => {
+                utils.when(waves.node.getFee(this.txType)).then((fee) => {
                     this.fee = fee;
                 });
 
                 createPoll(this, this._getGraphData, 'chartData', 15000);
+                createPoll(this, this._getWavesBalance, 'balance', 1000);
 
                 this.observe(['input', 'issue'], this._createTx);
+                this.observe('balance', this._changeHasFee);
+            }
+
+            _getWavesBalance() {
+                return waves.node.assets.balance(WavesApp.defaultAssets.WAVES).then(({ available }) => available);
+            }
+
+            _changeHasFee() {
+                this.noFee = this.balance.lt(this.fee);
             }
 
             _createTx() {
