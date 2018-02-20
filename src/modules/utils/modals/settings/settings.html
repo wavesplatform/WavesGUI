@@ -46,7 +46,7 @@
                 <div class="row margin-1">
                     <div class="footnote-1 disabled-600 label" w-i18n="modal.settings.security.backupPhrase"></div>
                     <div class="data-field">
-                        <w-button ng-if="!$ctrl.shownSeed" class="tiny" ng-click="$ctrl.shownSeed = true">
+                        <w-button ng-if="!$ctrl.shownSeed" class="tiny" on-click="$ctrl.shownSeed = true">
                             <w-i18n>modal.settings.security.show</w-i18n>
                         </w-button>
                         <pre class="footnote-1" ng-if="$ctrl.shownSeed">{{::$ctrl.phrase}}</pre>
@@ -56,7 +56,7 @@
                 <div class="row margin-1">
                     <div class="footnote-1 disabled-600 label" w-i18n="modal.settings.security.privateKey"></div>
                     <div class="data-field">
-                        <w-button ng-if="!$ctrl.shownKey" class="tiny" ng-click="$ctrl.shownKey = true">
+                        <w-button ng-if="!$ctrl.shownKey" class="tiny" on-click="$ctrl.shownKey = true">
                             <w-i18n>modal.settings.security.show</w-i18n>
                         </w-button>
                         <div ng-if="$ctrl.shownKey">{{::$ctrl.privateKey}}</div>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
 
-                <w-button ng-click="$ctrl.setNetworkDefault()">
+                <w-button on-click="$ctrl.setNetworkDefault()">
                     <w-i18n>modal.settings.setDefault</w-i18n>
                 </w-button>
             </w-step>

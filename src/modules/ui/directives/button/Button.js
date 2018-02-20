@@ -1,9 +1,18 @@
 (function () {
     'use strict';
 
+    const DEFAULT_PENDING_TIME = 700;
     const module = angular.module('app.ui');
 
-    const controller = function (Base, $element, $attrs) {
+    /**
+     *
+     * @param Base
+     * @param $element
+     * @param $attrs
+     * @param {app.utils} utils
+     * @return {Button}
+     */
+    const controller = function (Base, $element, $attrs, utils) {
 
         const SYNC_ATTRS = ['type', 'class'];
 
@@ -13,15 +22,15 @@
             constructor() {
                 super();
                 /**
-                 * @type {string}
-                 */
-                this.type = null;
-                /**
                  * @type {boolean}
                  */
                 this.disabled = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.pending = false;
 
-                this.observe('disabled', this._onChangeDisabled);
+                this.observe(['disabled', 'pending'], this._onChangeDisabled);
             }
 
             $postLink() {
@@ -32,14 +41,44 @@
                     }
                 });
 
-                $element.get(0)
+                this._getButton().get(0)
                     .addEventListener('click', (e) => {
-                        if (this.disabled) {
+                        if (this.disabled || this.pending) {
                             e.stopPropagation();
                             e.preventDefault();
                             e.stopImmediatePropagation();
+                        } else {
+                            const result = this.onClick({ $event: e });
+                            this._applyClick(result);
                         }
-                    }, true);
+                    }, false);
+            }
+
+            /**
+             * @param result
+             * @private
+             */
+            _applyClick(result) {
+                const $button = this._getButton();
+                $button.toggleClass('pending', true);
+                setTimeout(() => {
+                    this.pending = true;
+                }, 0);
+
+                const onEnd = () => {
+                    if (this.pending) {
+                        this.pending = false;
+                    } else {
+                        throw new Error('Already drop pending state!');
+                    }
+                    $button.toggleClass('pending', false);
+                };
+
+                if (result && typeof result.then === 'function') {
+                    result.then(onEnd, onEnd);
+                } else {
+                    utils.wait(DEFAULT_PENDING_TIME).then(onEnd);
+                }
             }
 
             /**
@@ -55,7 +94,7 @@
              */
             _onChangeDisabled() {
                 this._getButton()
-                    .prop('disabled', this.disabled);
+                    .prop('disabled', this.disabled || this.pending);
             }
 
         }
@@ -63,14 +102,14 @@
         return new Button();
     };
 
-    controller.$inject = ['Base', '$element', '$attrs'];
+    controller.$inject = ['Base', '$element', '$attrs', 'utils'];
 
     module.component('wButton', {
-        template: '<button ng-transclude></button>',
+        template: '<button type="submit" ng-transclude></button>',
         transclude: true,
         bindings: {
             disabled: '<',
-            ngClick: '&'
+            onClick: '&'
         },
         controller
     });

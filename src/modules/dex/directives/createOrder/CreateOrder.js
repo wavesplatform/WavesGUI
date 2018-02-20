@@ -183,7 +183,7 @@
             }
 
             createOrder(form) {
-                user.getSeed()
+                return user.getSeed()
                     .then((seed) => {
                         return Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                             return Waves.OrderPrice.fromTokens(this.price.getTokens(), pair);
