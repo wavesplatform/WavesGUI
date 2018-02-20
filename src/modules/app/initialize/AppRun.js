@@ -179,6 +179,8 @@
                             const termsAccepted = user.getSetting('termsAccepted');
                             i18next.changeLanguage(user.getSetting('lng'));
 
+                            modalManager.showTutorialModals();
+
                             if (!termsAccepted) {
                                 modalManager.showTermsAccept(user).then(() => {
                                     if (user.getSetting('shareAnalytics')) {
