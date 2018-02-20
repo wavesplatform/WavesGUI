@@ -188,6 +188,12 @@
         }
     </style>
 
+    {{#if isProduction}}
+    <!-- Sentry error logging -->
+    <script src="https://cdn.ravenjs.com/3.22.3/raven.min.js" crossorigin="anonymous"></script>
+    <script>Raven.config('https://edc3970622f446d7aa0c9cb38be44a4f@sentry.io/291068').install();</script>
+    {{/if}}
+
     <script>
 
         var __controllers = Object.create(null);

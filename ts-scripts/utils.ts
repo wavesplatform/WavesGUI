@@ -165,6 +165,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
             return compile(file)({
                 pack: pack,
                 isWeb: !param.type || param.type === 'web',
+                isProduction: param.buildType && param.buildType === 'min',
                 domain: meta.domain,
                 build: {
                     type: param.type || 'web'
@@ -427,6 +428,7 @@ export interface IRouteOptions {
 }
 
 export interface IPrepareHTMLOptions {
+    buildType?: string;
     connection: string;
     scripts?: string[];
     styles?: string[];

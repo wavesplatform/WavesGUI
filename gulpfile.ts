@@ -134,6 +134,7 @@ task('load-trading-view', (done) => {
             task(`html-${taskPostfix}`, htmlDeps, function (done) {
                 indexPromise.then((file) => {
                     return prepareHTML({
+                        buildType: type,
                         target: targetPath,
                         connection: configName,
                         scripts: [jsFilePath],
