@@ -199,13 +199,14 @@
                 const from = this.activeChartAssetId;
                 const to = this.mirrorId;
 
-                return utils.whenAll([
-                    waves.utils.getRateHistory(from, to, this._startDate),
-                    waves.utils.getRate(from, to)
-                ])
-                    .then(([values, rate]) => {
-                        this.change = (values[0].rate - values[values.length - 1].rate).toFixed(2);
-                        this.changePercent = (this.change * 100 / Number(rate.toString())).toFixed(2);
+                return utils.when(waves.utils.getRateHistory(from, to, this._startDate))
+                    .then((values) => {
+                        const first = values[0].rate;
+                        const last = values[values.length - 1].rate;
+
+                        this.change = (last - first).toFixed(2);
+                        this.changePercent = ((last - first) / first * 100).toFixed(2);
+
                         return { values };
                     });
             }
