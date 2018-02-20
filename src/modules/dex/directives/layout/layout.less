@@ -122,7 +122,8 @@ w-layout {
     }
 
     &__block-right-bottom-collapsed .dex-layout__column-right w-dex-block .collapse-dex-block,
-    &__block-center-bottom-collapsed .dex-layout__column-center w-dex-block .collapse-dex-block {
+    &__block-center-bottom-collapsed .dex-layout__column-center .dex-layout__block-bottom w-dex-block .collapse-dex-block,
+    &.chart-collapsed .dex-layout__column-center w-dex-candle-chart .collapse-dex-block {
       transform-origin: center center;
       transform: rotate(180deg);
     }
@@ -145,9 +146,12 @@ w-layout {
 
   }
 
-  //Collapse dex graph button
   .chart-toggler {
     display: none;
+    position: absolute;
+    right: 5px;
+    top: 10px;
+    z-index: 1;
   }
 
 }
@@ -163,10 +167,6 @@ w-layout {
   }
 
   w-layout {
-
-    w-dex-candle-chart {
-      height: calc(50vh ~' - 195px');
-    }
 
     .dex-layout {
       flex-direction: column;
@@ -326,7 +326,7 @@ w-layout {
       &:not(.dex-layout__block-center-bottom-collapsed) {
         .dex-layout__column-center {
           .dex-layout__block.dex-layout__block-bottom {
-           height: calc(50vh  ~' + 191px');
+            height: calc(50vh ~' + 191px');
           }
         }
 
@@ -345,11 +345,10 @@ w-layout {
           height: calc(100vh ~' - 342px');
         }
       }
-
-
     }
 
     w-dex-candle-chart {
+      height: calc(50vh ~' - 195px');
       margin-bottom: 10px;
       border: 1px solid @color-disabled-200;
     }
@@ -358,20 +357,15 @@ w-layout {
       border: 1px solid @color-disabled-200;
     }
 
-    //Collapse dex graph button
     .chart-toggler {
       display: block;
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      background: #ccc;
-      width: 24px;
-      height: 24px;
     }
 
   }
 
-} /* end Tablet */
+}
+
+/* end Tablet */
 
 /* Mobile */
 @media screen and (max-width: 480px) {
@@ -384,7 +378,7 @@ w-layout {
       flex-shrink: 0;
 
       &__sidebar-toggle {
-        display:none;
+        display: none;
       }
 
       &__column-left,
@@ -449,15 +443,26 @@ w-layout {
       }
 
     }
+
+    .chart-toggler {
+      display: block;
+    }
+
   }
 
   w-dex-candle-chart {
     margin-bottom: 10px;
+    min-height: 39px;
     border: 1px solid @color-disabled-200;
 
     .candle-chart-wrapper {
       height: 420px;
     }
+  }
+
+  .dex-layout.chart-collapsed w-dex-candle-chart {
+    height: 39px;
+    overflow: hidden;
   }
 
   w-dex-trade-graph {
