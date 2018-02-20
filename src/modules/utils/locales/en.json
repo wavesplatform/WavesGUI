@@ -184,9 +184,10 @@
       "validation": {
         "required": "This field is required",
         "gt0": "Entered number must be greater than zero",
-        "lte-max-balance": "Quantity can't be more than balance",
-        "invalid-asset": "The field can only contain numbers",
-        "invalid-precision": "Exceeded maximum of 8 decimal places"
+        "lteMaxBalance": "Quantity can't be more than balance",
+        "invalidAsset": "The field can only contain numbers",
+        "invalidPrecision": "Exceeded maximum of 8 decimal places",
+        "noMoney": "Your balance is not enough to pay transaction fees"
       }
     },
     "settings": {

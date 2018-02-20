@@ -83,15 +83,15 @@
                     </w-input-error>
 
                     <w-input-error message="lt">
-                        <w-i18n>modal.token.validation.lte-max-balance</w-i18n>
+                        <w-i18n>modal.token.validation.lteMaxBalance</w-i18n>
                     </w-input-error>
 
                     <w-input-error message="lte">
-                        <w-i18n>modal.token.validation.invalid-asset</w-i18n>
+                        <w-i18n>modal.token.validation.invalidAsset</w-i18n>
                     </w-input-error>
 
                     <w-input-error message="asset">
-                        <w-i18n>modal.token.validation.invalid-precision</w-i18n>
+                        <w-i18n>modal.token.validation.invalidPrecision</w-i18n>
                     </w-input-error>
 
                 </w-input-container>
@@ -101,7 +101,7 @@
                          class="disabled-600"
                          w-i18n="modal.token.fee"
                          params="{fee: $ctrl.fee}"></div>
-                    <div ng-if="$ctrl.noFee" w-i18n="modal.token.noFee"></div>
+                    <div class="error-400" ng-if="$ctrl.noFee" w-i18n="modal.token.validation.noMoney"></div>
                 </div>
 
                 <w-button disabled="burn.$invalid || $ctrl.noFee" class="submit big long" type="submit" w-step-next>
