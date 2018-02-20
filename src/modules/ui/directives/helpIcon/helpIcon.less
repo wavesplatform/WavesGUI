@@ -52,6 +52,8 @@ i.help-icon {
 
 div.help-content {
   display: none;
+  left: 40px;
+  width: calc(100% ~'- 80px');
   z-index: 1;
   position: absolute;
   background: @color-white;
@@ -60,6 +62,7 @@ div.help-content {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.18);
   padding: 15px;
   margin-top: 4px;
+
 
   &:hover {
     display: block;
@@ -73,7 +76,7 @@ div.help-content {
 
 md-dialog {
   div.help-content {
-    left: 25%;
-    width: 50%;
+    left: 80px;
+    width: calc(100% ~'- 160px');
   }
 }
