@@ -25,10 +25,6 @@
                  */
                 this.noFee = false;
                 /**
-                 * @type {Money}
-                 */
-                this.balance = null;
-                /**
                  * @type {'burn'|'reissue'}
                  */
                 this.txType = txType;
@@ -52,6 +48,11 @@
                  * @type {Money}
                  */
                 this.input = null;
+                /**
+                 * @type {Money}
+                 * @private
+                 */
+                this._waves = null;
 
                 this.options = {
                     grid: {
@@ -87,10 +88,10 @@
                 });
 
                 createPoll(this, this._getGraphData, 'chartData', 15000);
-                createPoll(this, this._getWavesBalance, 'balance', 1000);
+                createPoll(this, this._getWavesBalance, '_waves', 1000);
 
                 this.observe(['input', 'issue'], this._createTx);
-                this.observe('balance', this._changeHasFee);
+                this.observe('_waves', this._changeHasFee);
             }
 
             _getWavesBalance() {
@@ -98,7 +99,7 @@
             }
 
             _changeHasFee() {
-                this.noFee = this.balance.lt(this.fee);
+                this.noFee = this._waves.lt(this.fee);
             }
 
             _createTx() {

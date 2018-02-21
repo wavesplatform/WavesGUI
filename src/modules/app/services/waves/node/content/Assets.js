@@ -10,14 +10,20 @@
      * @param {PollCache} PollCache
      * @param {Aliases} aliases
      * @param {Matcher} matcher
+     * @param {Cache} Cache
      * @return {Assets}
      */
-    const factory = function (BaseNodeComponent, utils, user, eventManager, decorators, PollCache, aliases, matcher) {
+    const factory = function (BaseNodeComponent, utils, user, eventManager, decorators, PollCache, aliases, matcher, Cache) {
 
         class Assets extends BaseNodeComponent {
 
             constructor() {
                 super();
+                /**
+                 * @type {Cache}
+                 * @private
+                 */
+                this._assets = new Cache();
                 user.onLogin().then(() => {
                     this._balanceCache = new PollCache({
                         getData: this._getBalances.bind(this),
@@ -32,9 +38,17 @@
              * @param {string} assetId
              * @return {Promise<Asset>}
              */
-            @decorators.cachable()
             info(assetId) {
-                return Waves.Asset.get(assetId);
+                const cached = this._assets.get(assetId);
+
+                if (cached) {
+                    return Promise.resolve(cached);
+                }
+
+                return Waves.Asset.get(assetId).then((info) => {
+                    this._assets.set(assetId, info);
+                    return info;
+                });
             }
 
             /**
@@ -190,13 +204,23 @@
             }
 
             /**
+             * @return {Promise<Response>}
+             * @private
+             */
+            _getUserAssetBalances() {
+                return fetch(`${user.getSetting('network.node')}/assets/balance/${user.address}`)
+                    .then(utils.onFetch)
+                    .then(({ balances }) => this._remapBalanceList(balances));
+            }
+
+            /**
              * @return {Promise<IBalanceDetails[]>}
              * @private
              */
             _getBalances() {
                 return Promise.all([
                     Waves.API.Node.v2.addresses.get(user.address),
-                    Waves.API.Node.v2.addresses.balances(user.address),
+                    this._getUserAssetBalances(),
                     this._getBalanceOrders()
                 ]).then(Assets._remapBalance);
             }
@@ -211,19 +235,31 @@
             }
 
             /**
-             * @param {Money} money
-             * @param {Money[]} orderMoneyList
-             * @return {Money}
+             * @param balances
+             * @return {Promise<Money[]>}
              * @private
              */
-            _getAssetBalance(money, orderMoneyList) {
-                let result = eventManager.updateBalance(money);
-                orderMoneyList.forEach((order) => {
-                    if (result.asset.id === order.asset.id) {
-                        result = result.sub(order);
+            _remapBalanceList(balances) {
+                return Promise.all(balances.map((balance) => {
+                    const id = balance.assetId;
+                    const cached = this._assets.get(id);
+
+                    const _create = (asset) => {
+                        const divider = new BigNumber(10).pow(balance.issueTransaction.decimals);
+                        const quantity = new BigNumber(balance.quantity).div(divider);
+                        const reissuable = balance.reissuable;
+
+                        this._assets.update(asset.id, { quantity, reissuable });
+
+                        return Promise.resolve(new Waves.Money(String(balance.balance), asset));
+                    };
+
+                    if (cached) {
+                        return Promise.resolve(_create(cached));
+                    } else {
+                        return this.info(id).then(_create);
                     }
-                });
-                return result;
+                }));
             }
 
             /**
@@ -331,7 +367,8 @@
         'decorators',
         'PollCache',
         'aliases',
-        'matcher'
+        'matcher',
+        'Cache'
     ];
 
     angular.module('app')
