@@ -266,9 +266,6 @@
 
                         this.openModal.dispatch(modal);
                         return modal;
-                    })
-                    .catch((e) => {
-                        console.error(e);
                     });
             }
 

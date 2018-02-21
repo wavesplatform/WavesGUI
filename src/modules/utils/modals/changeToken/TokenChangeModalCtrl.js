@@ -104,14 +104,19 @@
 
             _createTx() {
                 const input = this.input;
-                this.tx = waves.node.transactions.createTransaction(this.txType, {
-                    assetId: input.asset.id,
-                    description: input.asset.description,
-                    fee: this.fee,
-                    quantity: input,
-                    precision: input.asset.precision,
-                    reissuable: this.issue
-                });
+
+                if (input) {
+                    this.tx = waves.node.transactions.createTransaction(this.txType, {
+                        assetId: input.asset.id,
+                        description: input.asset.description,
+                        fee: this.fee,
+                        quantity: input,
+                        precision: input.asset.precision,
+                        reissuable: this.issue
+                    });
+                } else {
+                    this.tx = null;
+                }
             }
 
             /**

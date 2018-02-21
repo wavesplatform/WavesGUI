@@ -356,7 +356,7 @@
 
         }
 
-        return new Assets();
+        return utils.bind(new Assets());
     };
 
     factory.$inject = [
