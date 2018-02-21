@@ -278,6 +278,9 @@
             isDesktop: function () {
                 return this.type === 'desktop';
             },
+            isProduction: function () {
+                return {{#if isProduction}}true;{{else}}false;{{/if}}
+            },
             stateTree: null
         };
 
@@ -417,6 +420,7 @@
      * @property {Array<string>} modules
      * @property {Function} isWeb
      * @property {Function} isDesktop
+     * @property {Function} isProduction
      * @property {Function} addController
      * @property {Function} getController
      * @property {Function} getLocaleData
