@@ -2,7 +2,9 @@
     <w-avatar ng-click="$ctrl.avatarClick()" size="40" address="$ctrl.address"></w-avatar>
 </div>
 
-<w-responsive-menu active-menu="$ctrl.activeState">
+<w-responsive-menu w-toggle-class-container active-menu="$ctrl.activeState">
+
+    <i class="wallet-toggler" w-toggle-class="wallet-items-hide"></i>
 
     <div class="menu-list"
          ng-repeat="menu in $ctrl.menuList track by menu.id"
