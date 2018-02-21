@@ -9,6 +9,10 @@ body.dex {
     display: none;
   }
 
+  w-t-head {
+    height: 30px;
+  }
+
   .main-content .content {
     height: calc(~'100vh - ' @padding-main-layout);
     width: calc(~'100% - '@width-left-menu + @padding-main-layout);
@@ -153,16 +157,17 @@ body.dex {
 
 }
 
-
+//Tablet
 @media screen and (min-width: 481px) and (max-width: 768px) {
    body.dex {
     min-width: 580px;
 
     .main-content .content {
-      height: calc(100vh ~' - 60px');
+      height: auto;
       width: 100%;
       margin: 0;
-      overflow: hidden;
+      overflow: auto;
+      padding-bottom: 90px;
     }
 
     .block-wrapper w-scroll-box w-row {
@@ -172,11 +177,12 @@ body.dex {
     .dex-wrapper w-table > div.table w-scroll-box {
       height: auto;
       overflow: auto;
-      max-height: calc(100% ~' - 31px');
+      max-height: calc(50vh ~'- 100px');
     }
   }
 }
 
+//Mobile
 @media screen and (max-width: 480px) {
   body.dex {
     ui-view[name="main"] {

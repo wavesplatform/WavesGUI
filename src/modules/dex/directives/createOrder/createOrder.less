@@ -250,26 +250,18 @@ w-create-order {
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
   w-create-order {
-    /*
-    transform: translateY(calc(100vh ~' - 100%'));
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-width: 360px;
-    overflow: visible;
-    */
 
     position: fixed;
     transform: translateY(0);
-    top: auto!important;
-    left: 0;
-    bottom: 0!important;
-    width: 100%;
+    top: auto !important;
+    right: 0;
+    left: 49px;
+    bottom: 0 !important;
     min-width: 360px;
     overflow: visible;
+    width: calc(100% ~'- 49px');
 
     .create-order .body .making-order {
       .areas {
@@ -295,11 +287,18 @@ w-create-order {
         display: block;
         width: 100%;
         height: 100vh;
-        z-index: 0;
+        z-index: -1;
         opacity: .3;
         top: -100vh;
       }
     }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  w-create-order {
+    width: 100%;
+    left: 0;
   }
 }
 

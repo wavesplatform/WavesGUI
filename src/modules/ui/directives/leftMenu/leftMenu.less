@@ -12,6 +12,7 @@ w-left-menu {
   display: block;
   border-right: 1px solid @color-disabled-100;
   background-color: @color-white;
+  z-index: 19;
 
   .logo-wrapper {
     margin: 15px auto 20px auto;
@@ -152,7 +153,7 @@ w-left-menu {
       top: 61px;
       height: auto;
       position: absolute;
-      z-index: 6;
+      z-index: 16;
       box-shadow: 0 5px 5px @color-basic-50;
 
       &.wallet-items-hide {
@@ -174,10 +175,7 @@ w-left-menu {
             background: url(/img/icons/wallet-active.svg) 10px center no-repeat;
             color: @color-white;
           }
-
         }
-
-
       }
 
       .navigation-menu {

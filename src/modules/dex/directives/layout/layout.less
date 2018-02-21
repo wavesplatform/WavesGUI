@@ -140,7 +140,6 @@ w-layout {
         .block-title {
           display: none;
         }
-
       }
     }
 
@@ -162,7 +161,7 @@ w-layout {
   body.dex {
     w-dex-trade-graph,
     w-dex-trade-graph .graph-wrapper {
-      height: 150px;
+      height: 130px;
     }
   }
 
@@ -171,7 +170,6 @@ w-layout {
     .dex-layout {
       flex-direction: column;
       padding-left: 48px;
-      height: calc(100vh ~' - 80px');
 
       .dex-layout__column {
         height: auto;
@@ -181,9 +179,10 @@ w-layout {
         width: 360px;
         padding-right: 48px;
         min-width: 360px;
-        z-index: 3;
-        height: calc(100vh ~' - 60px');
-        top: -10px;
+        z-index: 18;
+        top:60px;
+        height: calc(100vh ~'- 60px');
+        position: fixed;
         background: #fff;
         border-right: 1px solid #dfdfdf;
         box-shadow: 3px 0 10px 0 rgba(20, 47, 85, 0.06);
@@ -203,10 +202,6 @@ w-layout {
         width: 100%;
         margin-top: 10px;
         margin-bottom: 10px;
-
-        w-dex-block {
-          height: calc(50vh ~' - 114px');
-        }
 
         .dex-layout__block-top {
           flex-basis: 50%;
@@ -245,7 +240,7 @@ w-layout {
         border: 0 none;
         right: 11px;
         transition: .3s;
-        top: calc(50vh ~'- 50px');
+        top: calc(50vh ~'- 15px');
 
         &:hover {
           opacity: .7;
@@ -259,12 +254,14 @@ w-layout {
     }
 
     //different collapse states
+    .dex-layout__block-right-bottom-collapsed .dex-layout__column-right .dex-layout__block-top,
+    .dex-layout__block-right-bottom-collapsed .dex-layout__column-right .dex-layout__block-bottom,
     .dex-layout__block-center-bottom-collapsed .dex-layout__column-center .dex-layout__block-top {
       height: auto !important;
     }
 
     .dex-layout__left-collapsed .dex-layout__column-left {
-      transform: translateX(-322px);
+      transform: translateX(-311px);
     }
 
     .dex-layout__left-collapsed .dex-layout__column-center {
@@ -279,34 +276,13 @@ w-layout {
       transform: translateX(0);
     }
 
-    .dex-layout__block-right-bottom-collapsed .dex-layout__column-right .dex-layout__block-top {
-      height: auto !important;
-    }
+
 
     //if chart is Opened
     .dex-layout:not(.chart-collapsed) {
       .dex-layout__column-center w-dex-candle-chart {
-        height: calc(50vh ~' - 190px');
+        height: 50vh;
         min-height: 39px;
-      }
-
-      .dex-layout__column-right {
-        .w-dex-block {
-          height: calc(50vh ~' - 190px')
-        }
-      }
-
-      //bottom blocks height if MyOrders Opened
-      &:not(.dex-layout__block-center-bottom-collapsed) {
-        .dex-layout__column-center {
-          .dex-layout__block.dex-layout__block-bottom {
-            height: calc(50vh ~' - 114px') !important;
-          }
-        }
-
-        .dex-layout__column-right w-dex-block {
-          height: 39px;
-        }
       }
     }
 
@@ -316,35 +292,6 @@ w-layout {
         height: 39px;
       }
 
-      .dex-layout__column-right {
-        .w-dex-block {
-          height: calc(85vh ~' - 190px')
-        }
-      }
-
-      //bottom blocks height if MyOrders Opened
-      &:not(.dex-layout__block-center-bottom-collapsed) {
-        .dex-layout__column-center {
-          .dex-layout__block.dex-layout__block-bottom {
-            height: calc(50vh ~' + 191px');
-          }
-        }
-
-        .dex-layout__block-bottom w-dex-block {
-          height: calc(100vh ~' - 342px');
-        }
-
-        .dex-layout__column-right w-dex-block {
-          height: 39px;
-        }
-      }
-
-      //bottom blocks height if MyOrders Closed
-      &.dex-layout__block-center-bottom-collapsed {
-        .dex-layout__column-right w-dex-block {
-          height: calc(100vh ~' - 342px');
-        }
-      }
     }
 
     w-dex-candle-chart {
@@ -366,7 +313,6 @@ w-layout {
 }
 
 /* end Tablet */
-
 /* Mobile */
 @media screen and (max-width: 480px) {
 
