@@ -80,16 +80,28 @@
         };
     }
 
+    /**
+     * @param {$q} $q
+     * @param {app.utils} utils
+     * @param {StorageMigration} storageMigration
+     */
     const factory = function ($q, utils, storageMigration) {
 
         class Storage {
 
             constructor() {
+                this._isNewDefer = $q.defer();
+
                 this.load('lastVersion')
                     .then((version) => {
+                        this._isNewDefer.resolve(!version);
                         this.save('lastVersion', WavesApp.version);
                         storageMigration.migrateTo(version, this);
                     });
+            }
+
+            onReady() {
+                return this._isNewDefer.promise;
             }
 
             save(key, value) {
