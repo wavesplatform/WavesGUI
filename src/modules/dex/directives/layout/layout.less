@@ -240,7 +240,7 @@ w-layout {
         border: 0 none;
         right: 11px;
         transition: .3s;
-        top: calc(50vh ~'- 15px');
+        top: calc(50vh ~'- 50px');
 
         &:hover {
           opacity: .7;
@@ -268,15 +268,13 @@ w-layout {
       left: 0;
     }
 
-    .dex-layout .dex-layout__column-right .collapse-dex-block {
+    .dex-layout__column-right .collapse-dex-block {
       display: none;
     }
 
     .dex-layout.dex-layout__right-collapsed .dex-layout__column-right {
       transform: translateX(0);
     }
-
-
 
     //if chart is Opened
     .dex-layout:not(.chart-collapsed) {
@@ -291,7 +289,6 @@ w-layout {
       .dex-layout__column-center w-dex-candle-chart {
         height: 39px;
       }
-
     }
 
     w-dex-candle-chart {
