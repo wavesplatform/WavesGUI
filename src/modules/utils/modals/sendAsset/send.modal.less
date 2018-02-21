@@ -154,11 +154,15 @@
         width: 45%;
       }
     }
-  }
 
-  .modal-send .flex-row.split-half {
-    white-space: nowrap;
-    font-size: 14px;
+    .flex-row.split-half {
+      white-space: nowrap;
+      font-size: 12px;
+
+      span {
+        vertical-align: top;
+      }
+    }
   }
 }
 
@@ -169,6 +173,14 @@
         padding-right: 50px;
         font-size: @font-size-caption-2;
       }
+    }
+
+    .mobile-ellipsis {
+      display: inline-block;
+      max-width: 50px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
 
     w-balance-input w-input .w-input-wrap input[type="text"].big {

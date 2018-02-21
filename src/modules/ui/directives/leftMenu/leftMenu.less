@@ -132,7 +132,6 @@ w-left-menu {
     }
 
     .wallet-toggler {
-      display: block;
       background: url(/img/icons/arrow-dropdown.svg) no-repeat;
       background-position: 20px center;
       transform: rotate(180deg);
@@ -194,6 +193,10 @@ w-left-menu {
           display: flex;
           height: auto;
           border-bottom: 1px solid @color-accent-50;
+
+          .wallet-toggler {
+            display: block;
+          }
 
           w-responsive-menu-item {
             border-top: 1px solid @color-accent-50;
