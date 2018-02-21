@@ -31,9 +31,7 @@
     "or": "or",
     "copySeed": "copy them",
     "needConfirm": "You will confirm this phrase on the next screen.",
-    "ok": "I’ve written it down",
-    "seedCopied": "The seed is copied",
-    "noSeedToCopy": "There is no seed in scope"
+    "ok": "I’ve written it down"
   },
   "confirmBackup": {
     "confirm": "Confirm backup",

@@ -20,3 +20,4 @@
 *.pfx
 **/**/.DS_Store
 WavesGUI.iml
+/.cache-download

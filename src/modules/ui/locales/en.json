@@ -1,4 +1,6 @@
 {
+  "copySuccess": "The data is copied",
+  "copyError": "Cannot copy! Your browser may be outdated",
   "balanceInput": {
     "max": "Max"
   },
@@ -63,8 +65,6 @@
       "copyTxData": "Copy all TX data"
     },
     "notifications": {
-      "txIdCopied": "Transaction ID is copied",
-      "txDataCopied": "Transaction data is copied",
       "closed": "The leasing has been already canceled",
       "closedSuccess": "The leasing canceled complete"
     },
@@ -91,7 +91,6 @@
     "noTransactionsTitle": "Nothing Here…",
     "noTransactionsDescription": "You do not have any transactions"
   },
-  "copySuccess": "The data is copied",
   "confirmTransaction": {
     "back": "Go Back",
     "confirm": "Confirm",
