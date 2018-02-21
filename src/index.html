@@ -7,7 +7,12 @@
     <title>Waves Client</title>
     <meta name="viewport" content="height=900, width=1300, initial-scale=0.1, user-scalable=yes">
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
+
     <style>
+
+        .not-supported-browser {
+            display: none;
+        }
 
         .app-loader {
             z-index: 10000;
@@ -288,11 +293,25 @@
 
 <body>
 
+
 <div class="app-loader">
     <div class="progress"></div>
     <div class="loader-wrapper">
         <div class="loader"><span class="leaf1"></span><span class="leaf2"></span><span class="leaf3"></span><span
                 class="leaf4"></span></div>
+    </div>
+</div>
+
+<div class="not-supported-browser">
+    <div class="overlay"></div>
+    <div class="not-supported-modal">
+        <i></i>
+        <h1 class="margin-2">
+            Your browser is outdated
+        </h1>
+        <div class="body-2 disabled-600">
+            Update your browser to view this website correctly.
+        </div>
     </div>
 </div>
 
@@ -304,15 +323,27 @@
 
     WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
 
+    function isBrowserSupported() {
+        return window.Promise && window.fetch && Object.values && (window.crypto || window.msCrypto);
+    }
+
+    if (!isBrowserSupported()) {
+        document.body.querySelector('.not-supported-browser').style.display = 'block';
+    }
+
     var analytics = eventSender.default.inactive();
 
-    var Waves = WavesAPI.create({
-        networkByte: WavesApp.network.code.charCodeAt(0),
-        nodeAddress: WavesApp.network.node,
-        matcherAddress: WavesApp.network.matcher,
-        minimumSeedLength: 25,
-        logLevel: 'none'
-    });
+    try {
+        var Waves = WavesAPI.create({
+            networkByte: WavesApp.network.code.charCodeAt(0),
+            nodeAddress: WavesApp.network.node,
+            matcherAddress: WavesApp.network.matcher,
+            minimumSeedLength: 25,
+            logLevel: 'none'
+        });
+    } catch (e) {
+        console.error(e);
+    }
 
     WavesApp.stateTree = new tsUtils.Tree({
         id: 'root',

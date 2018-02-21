@@ -33,6 +33,10 @@
     "dist/dev/js/bundle.js",
     "dist/dev/js/templates.js"
   ],
+  "debugInjections": [
+    "ts-scripts/loginDaemon.js",
+    "ts-scripts/mobileConsole.js"
+  ],
   "tradingView": {
     "domain": "https://beta.wavesplatform.com/trading-view/",
     "files": [
