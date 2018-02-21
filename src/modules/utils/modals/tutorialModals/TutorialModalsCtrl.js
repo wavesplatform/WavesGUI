@@ -7,11 +7,7 @@
 
             constructor() {
                 super($scope);
-            }
-
-            confirm() {
-                user.setSetting('shareAnalytics', this.shareAnalytics);
-                $mdDialog.hide();
+                this.url = location.href;
             }
 
         }
