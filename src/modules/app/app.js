@@ -20,14 +20,6 @@
         return module;
     };
 
-    function isBrowserSupported() {
-        return window.Promise && window.fetch && Object.values && (window.crypto || window.msCrypto);
-    }
-
-    if (!isBrowserSupported()) {
-        document.body.querySelector('.not-supported-browser').style.display = 'block';
-    }
-
     angular.module('app', [
         'ngAnimate',
         'ngMaterial',

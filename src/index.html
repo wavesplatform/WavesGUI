@@ -292,18 +292,6 @@
 
 <body>
 
-<div class="not-supported-browser">
-    <div class="overlay"></div>
-    <div class="not-supported-modal">
-        <i></i>
-        <h1 class="margin-2">
-            <w-i18n>notSupported.header</w-i18n>
-        </h1>
-        <div class="body-2 disabled-600">
-            <w-i18n>notSupported.message</w-i18n>
-        </div>
-    </div>
-</div>
 
 <div class="app-loader">
     <div class="progress"></div>
@@ -313,11 +301,32 @@
     </div>
 </div>
 
+<div class="not-supported-browser">
+    <div class="overlay"></div>
+    <div class="not-supported-modal">
+        <i></i>
+        <h1 class="margin-2">
+            Your browser is outdated
+        </h1>
+        <div class="body-2 disabled-600">
+            Update your browser to view this website correctly.
+        </div>
+    </div>
+</div>
+
 <ui-view name="main"></ui-view>
 
 <!-- JAVASCRIPT -->
 
 <script>
+
+    function isBrowserSupported() {
+        return window.Promise && window.fetch && Object.values && (window.crypto || window.msCrypto);
+    }
+
+    if (!isBrowserSupported()) {
+        document.body.querySelector('.not-supported-browser').style.display = 'block';
+    }
 
     var analytics = eventSender.default.inactive();
 

@@ -51,9 +51,5 @@
       "million": "M",
       "thousand": "k"
     }
-  },
-  "notSupported": {
-    "header": "Your browser is outdated",
-    "message": "Update your browser to view this website correctly."
   }
 }

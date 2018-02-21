@@ -3,7 +3,7 @@
     if (location.href.indexOf('console=true') !== -1) {
 
         var css = function (element: HTMLElement, styles) {
-            Object.keys(styles).forEach((styleName) => {
+            Object.keys(styles).forEach(function (styleName) {
                 var value = styles[styleName];
                 element.style[styleName] = value;
             });
@@ -30,16 +30,16 @@
         window.onerror = function (message: string, filename?: string, lineno?: number, colno?: number, error?: Error) {
             origin(message, filename, lineno, colno, error);
             var line = document.createElement('div');
-            line.innerText = `Message: ${message}\nFile name: ${filename}\nLine: ${lineno}\nStack: ${error.stack}`;
+            line.innerText = 'Message: ' + message + '\nFile name: ' + filename + 'Line: ' + lineno + '\nStack: ' + error.stack;
             out.appendChild(line);
         };
 
-        ['log', 'warn', 'error'].forEach((methodName) => {
+        ['log', 'warn', 'error'].forEach(function (methodName) {
             var method = console[methodName];
             console[methodName] = function () {
                 method.apply(console, arguments);
                 var line = document.createElement('DIV');
-                line.innerText = `Type: ${methodName}\nMessage: ${Array.prototype.join.call(arguments, ', ')}`;
+                line.innerText = 'Type: ' + methodName + '\nMessage: ' + Array.prototype.join.call(arguments, ', ');
                 out.appendChild(line);
             };
         });

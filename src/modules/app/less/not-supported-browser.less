@@ -5,6 +5,7 @@
   height: 100vh;
   position: absolute;
   width: 100%;
+  z-index: 1000000;
 
   .overlay {
     background: @color-black;
@@ -20,6 +21,7 @@
     left: 50%;
     transform-origin: center;
     transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
     background: @color-white;
     position: absolute;
     width: 100%;
