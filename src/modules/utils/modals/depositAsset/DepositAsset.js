@@ -30,8 +30,10 @@
                  * @type {string}
                  */
                 this.gatewayAddress = '';
+                this.hadResponse = false;
 
                 gatewayService.getDepositDetails(asset, address).then((details) => {
+                    this.hadResponse = true;
                     this.gatewayAddress = details.address;
                 });
             }
