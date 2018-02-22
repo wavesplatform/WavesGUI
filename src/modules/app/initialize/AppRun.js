@@ -115,6 +115,7 @@
                 this._stopLoader();
                 this._initializeLogin();
                 this._initializeOutLinks();
+
             }
 
             /**

@@ -86,7 +86,8 @@
             showTutorialModals() {
                 return this._getModal({
                     id: 'tutorial-modals',
-                    templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html'
+                    templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
+                    controller: 'TutorialModalsCtrl'
                 });
             }
 
