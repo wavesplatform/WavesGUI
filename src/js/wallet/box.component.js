@@ -39,7 +39,7 @@
         };
         mapping[Currency.BCC.displayName] = {
             image: 'wB-bg-ZEC.svg',
-            displayName: Currency.BCC.displayName
+            displayName: 'BCH'
         };
 
         ctrl.$onChanges = function (changesObject) {
