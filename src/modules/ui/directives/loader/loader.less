@@ -1,7 +1,10 @@
 @import (reference) '../../../config';
-@import (reference) '../../../app/less/typography';
 
 @preloader-size: 13px;
+
+w-loader {
+  width: 100%;
+}
 
 .preloader-holder {
   overflow: hidden;
@@ -13,10 +16,20 @@
   left: 0;
 }
 
-md-dialog .preloader-holder {
-  margin: 120px auto 140px;
-  position: relative;
-  top: 0;
+md-dialog {
+  .preloader-holder {
+    margin: 120px auto 140px;
+    position: relative;
+    top: 0;
+  }
+
+  w-copy-wrap .preloader-holder {
+    margin: 0 auto;
+  }
+
+  .qr-wrapper .preloader-holder {
+    margin: 60px auto;
+  }
 }
 
 .preloader {
