@@ -37,6 +37,10 @@
             image: 'wB-bg-WTRY.png',
             displayName: Currency.WTRY.displayName
         };
+        mapping[Currency.BCC.displayName] = {
+            image: 'wB-bg-ZEC.svg',
+            displayName: Currency.BCC.displayName
+        };
 
         ctrl.$onChanges = function (changesObject) {
             if (changesObject.balance) {

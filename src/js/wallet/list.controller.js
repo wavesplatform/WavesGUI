@@ -55,6 +55,10 @@
             {
                 balance: new Money(0, Currency.WTRY),
                 depositWith: Currency.WTRY
+            },
+            {
+                balance: new Money(0, Currency.BCC),
+                depositWith: Currency.BCC
             }
         ];
 
