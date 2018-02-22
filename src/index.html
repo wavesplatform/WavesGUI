@@ -305,11 +305,33 @@
     <div class="overlay"></div>
     <div class="not-supported-modal">
         <i></i>
-        <h1 class="margin-2">
-            Your browser is outdated
-        </h1>
-        <div class="body-2 disabled-600">
-            Update your browser to view this website correctly.
+        <h2 class="margin-2">
+            Your browser is not supported
+        </h2>
+        <div class="body-2 disabled-600 margin-4">
+            Please update to the latest version of one of the following browsers:
+        </div>
+        <div class="browsers-icons">
+            <div class="browser-icon-block">
+                <img src="/img/no-preload/chrome-icon.svg" />
+                <div>Chrome</div>
+                <div><a href="https://www.google.ru/chrome/index.html" target="_blank">Install or update</a></div>
+            </div>
+            <div class="browser-icon-block">
+                <img src="/img/no-preload/firefox-icon.svg" />
+                <div>Firefox</div>
+                <div><a href="https://www.mozilla.org/en-US/firefox/" target="_blank">Install or update</a></div>
+            </div>
+            <div class="browser-icon-block">
+                <img src="/img/no-preload/safari-icon.svg" />
+                <div>Safari</div>
+                <div><a href="https://support.apple.com/downloads/safari" target="_blank">Install or update</a></div>
+            </div>
+            <div class="browser-icon-block">
+                <img src="/img/no-preload/opera-icon.svg" />
+                <div>Opera</div>
+                <div><a href="http://www.opera.com/" target="_blank">Install or update</a></div>
+            </div>
         </div>
     </div>
 </div>
@@ -319,8 +341,6 @@
 <!-- JAVASCRIPT -->
 
 <script>
-
-    fetch = null;
 
     function isBrowserSupported() {
         return window.Promise && window.fetch && Object.values && (window.crypto || window.msCrypto);
