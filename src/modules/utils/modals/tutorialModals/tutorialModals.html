@@ -43,40 +43,36 @@
                     <div class="flex-wrap-50">
                         <div class="cell margin-4">
                             <img src="/img/icons/tutorial-modals/anonym.svg"/>
-                            <div>
-                                <w-i18n>modal.tutorialModals.step2.cell1</w-i18n>
-                            </div>
+                            <div w-i18n="modal.tutorialModals.step2.cell1"></div>
                         </div>
 
                         <div class="cell margin-4">
                             <img src="/img/icons/tutorial-modals/password.svg"/>
-                            <div>
-                                <w-i18n>modal.tutorialModals.step2.cell2</w-i18n>
-                            </div>
+                            <div w-i18n="modal.tutorialModals.step2.cell2"></div>
                         </div>
 
                         <div class="cell margin-4">
                             <img src="/img/icons/tutorial-modals/backup.svg"/>
-                            <div>
-                                <w-i18n>modal.tutorialModals.step2.cell3</w-i18n>
-                            </div>
+                            <div w-i18n="modal.tutorialModals.step2.cell3"></div>
                         </div>
 
                         <div class="cell margin-4">
                             <img src="/img/icons/tutorial-modals/paper.svg"/>
-                            <div>
-                                <w-i18n>modal.tutorialModals.step2.cell4</w-i18n>
-                            </div>
+                            <div w-i18n="modal.tutorialModals.step2.cell4"></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="flex-wrap-50 buttons-wrapper">
                     <div>
-                        <w-button class="big long" w-step-prev><w-i18n>modal.tutorialModals.step2.backButton</w-i18n></w-button>
+                        <w-button class="big long" w-step-prev>
+                            <w-i18n>modal.tutorialModals.step2.backButton</w-i18n>
+                        </w-button>
                     </div>
                     <div>
-                        <w-button class="big long submit" w-step-next><w-i18n>modal.tutorialModals.step2.nextButton</w-i18n></w-button>
+                        <w-button class="big long submit" w-step-next>
+                            <w-i18n>modal.tutorialModals.step2.nextButton</w-i18n>
+                        </w-button>
                     </div>
                 </div>
 
@@ -84,6 +80,7 @@
         </w-step>
 
         <w-step class="step-3">
+
             <md-dialog-content>
                 <div class="content-wrapper disabled-600 body-2">
                     <h1><w-i18n>modal.tutorialModals.step3.title</w-i18n></h1>
@@ -93,41 +90,34 @@
                     </div>
 
                     <div class="flex-wrap-50">
-                        <div class="cell margin-4">
+                        <div class="cell margin-4" ng-if="$ctrl.isWeb">
                             <img src="/img/icons/tutorial-modals/url.svg"/>
-                            <div>
-                                <w-i18n params="{url: $ctrl.url}">modal.tutorialModals.step3.cell1</w-i18n>
-                            </div>
+                            <div w-i18n="modal.tutorialModals.step3.cell1"></div>
                         </div>
-                        <div class="cell margin-4">
+                        <div class="cell margin-4" ng-if="$ctrl.isWeb">
                             <img src="/img/icons/tutorial-modals/plugin.svg"/>
-                            <div>
-                                <w-i18n>modal.tutorialModals.step3.cell2</w-i18n>
-                            </div>
+                            <div w-i18n="modal.tutorialModals.step3.cell2"></div>
                         </div>
                         <div class="cell margin-4">
                             <img src="/img/icons/tutorial-modals/mail.svg"/>
-                            <div>
-                                <w-i18n>modal.tutorialModals.step3.cell3</w-i18n>
-                            </div>
+                            <div w-i18n="modal.tutorialModals.step3.cell3"></div>
                         </div>
                         <div class="cell margin-4">
                             <img src="/img/icons/tutorial-modals/refresh.svg"/>
-                            <div>
+                            <div ng-if="$ctrl.isDesktop">
                                 <w-i18n>modal.tutorialModals.step3.cell4</w-i18n>
+                            </div>
+                            <div ng-if="$ctrl.isWeb">
+                                <w-i18n>modal.tutorialModals.step3.cell4Web</w-i18n>
                             </div>
                         </div>
                         <div class="cell margin-4">
                             <img src="/img/icons/tutorial-modals/os.svg"/>
-                            <div>
-                                <w-i18n>modal.tutorialModals.step3.cell5</w-i18n>
-                            </div>
+                            <div w-i18n="modal.tutorialModals.step3.cell5"></div>
                         </div>
                         <div class="cell margin-4">
                             <img src="/img/icons/tutorial-modals/wifi.svg"/>
-                            <div>
-                                <w-i18n>modal.tutorialModals.step3.cell6</w-i18n>
-                            </div>
+                            <div w-i18n="modal.tutorialModals.step3.cell6"></div>
                         </div>
                     </div>
                 </div>
