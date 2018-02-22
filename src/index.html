@@ -320,6 +320,8 @@
 
 <script>
 
+    fetch = null;
+
     function isBrowserSupported() {
         return window.Promise && window.fetch && Object.values && (window.crypto || window.msCrypto);
     }
