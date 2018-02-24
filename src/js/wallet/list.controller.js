@@ -90,7 +90,8 @@
                 id === Currency.ETH.id ||
                 id === Currency.WAVES.id ||
                 id === Currency.LTC.id ||
-                id === Currency.ZEC.id
+                id === Currency.ZEC.id ||
+                id === Currency.BCC.id
             ) {
                 type = 'crypto';
             } else if (id === Currency.EUR.id || id === Currency.USD.id) {
