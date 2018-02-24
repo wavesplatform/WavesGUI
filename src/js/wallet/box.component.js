@@ -38,7 +38,7 @@
             displayName: Currency.WTRY.displayName
         };
         mapping[Currency.BCC.displayName] = {
-            image: 'wB-bg-ZEC.svg',
+            image: 'wB-bg-BCC.svg',
             displayName: 'BCH'
         };
 
