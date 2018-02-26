@@ -83,6 +83,13 @@ md-dialog {
 
 @media screen and (max-width: 767px) {
   md-dialog {
+
+    md-dialog-content {
+      &::after {
+        min-height: 20px;
+      }
+    }
+
     md-toolbar {
       min-height: 62px;
       padding: 20px;
@@ -93,4 +100,5 @@ md-dialog {
       }
     }
   }
+
 }
