@@ -1,4 +1,10 @@
 md-dialog {
+
+  &.md-transition-in,
+  &.md-transition-out {
+    transition: none;
+  }
+
   md-toolbar {
     position: relative;
     padding: 20px 40px;
@@ -24,7 +30,7 @@ md-dialog {
     //FF ignores padding bottom fix
     &::after {
       content: '';
-      min-height: 20px;
+      min-height: 40px;
       display: block;
       width: 100%;
     }
