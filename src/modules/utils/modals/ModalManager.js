@@ -79,6 +79,19 @@
                     .then(() => user.setSetting('termsAccepted', true));
             }
 
+            /**
+             * @param {User} user
+             */
+            showTutorialModals() {
+                return this._getModal({
+                    id: 'tutorial-modals',
+                    templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
+                    controller: 'TutorialModalsCtrl',
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
             showAccountInfo() {
                 return this._getModal({
                     id: 'account-info',
