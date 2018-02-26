@@ -211,7 +211,7 @@
         "cell3": "If you forget your password, you can easily create a new one by using the account recovery form via your secret phrase. If you lose your secret phrase.",
         "cell4": "You cannot change your secret phrase. If you accidentally sent it to someone or suspect that scammers have taken it over, then create a new Waves wallet immediately and transfer your funds to it.",
         "backButton": "Go Back",
-        "nextButton": "Protect Youtself"
+        "nextButton": "Protect Yourself"
       },
       "step3": {
         "title": "How To Protect Yourself from Phishers",
@@ -222,7 +222,7 @@
         "cell4": "Regularly update your operating system.",
         "cell4Web": "Regularly update your browser and operating system.",
         "cell5": "Use official security software. Do not install unknown software which could be hacked.",
-        "cell6": "Do not access your wallet when using public WiFi or someone else’s device.",
+        "cell6": "Do not access your wallet when using public Wi-Fi or someone else’s device.",
         "backButton": "Go Back",
         "nextButton": "I Understand"
       }
