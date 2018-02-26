@@ -30,31 +30,13 @@
     </tbody>
   </table>
 
-  <div id="cancel-leasing-confirmation" waves-dialog ok-button-caption="CONFIRM" on-dialog-ok="$ctrl.cancelLeasing($ctrl.form)">
+  <div id="cancel-leasing-confirmation" waves-dialog ok-button-caption="CONFIRM" on-dialog-ok="$ctrl.cancelLeasing()">
     <div class="dialog-confirmation">
       <p class="dialog-text">You are going to cancel leasing of <span class="confirmation-value">{{$ctrl.confirm.amount}}</span>
-        <span class="confirmation-value">{{$ctrl.confirm.asset}}</span><br/>
+        <span class="confirmation-value">{{$ctrl.confirm.asset}}</span> with
+        <span class="confirmation-value">{{$ctrl.confirm.fee | moneyLong:true}}</span> fee <br/>
         for the address <span class="confirmation-value">{{$ctrl.confirm.recipient}}</span>
       </p>
-        <form name="$ctrl.form" novalidate ng-validate="$ctrl.validationOptions">
-            <table>
-                <tbody>
-                    <tr>
-                        <td>Waves fee</td>
-                        <td>
-                            <md-autocomplete md-input-name="cancelFee" md-selected-item="$ctrl.autocomplete.selectedFee" md-search-text="$ctrl.autocomplete.searchText"
-                                             md-items="item in $ctrl.autocomplete.querySearch($ctrl.autocomplete.searchText)"
-                                             md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
-                                             md-menu-class="popup-autocomplete" class="fee-autocomplete">
-                                <md-item-template>
-                                    <span md-highlight-text="$ctrl.autocomplete.searchText">{{item.displayText}}</span>
-                                </md-item-template>
-                            </md-autocomplete>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
       <p class="dialog-text">Please <span class="fontBold"> CONFIRM </span>to execute or <span class="fontBold"> CANCEL </span> to discard.</p>
     </div>
   </div>
