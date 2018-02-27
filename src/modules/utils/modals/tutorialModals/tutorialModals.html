@@ -6,9 +6,9 @@
                 <div class="content-wrapper disabled-600 body-2">
                     <h1><w-i18n>modal.tutorialModals.step1.title</w-i18n></h1>
 
-                    <div class="flex-wrap-50 margin-8">
-                        <div class="cell">
-                            <img src="/img/icons/tutorial-modals/tutorial-computer.svg"/>
+                    <div class="flex-cols">
+                        <div class="relative">
+                            <img class="computer" src="/img/icons/tutorial-modals/tutorial-computer.svg"/>
                         </div>
                         <div>
                             <div class="margin-2">
@@ -24,9 +24,11 @@
                     </div>
                 </div>
 
+            <div class="buttons-wrapper">
                 <w-button class="big long submit" w-step-next>
                     <w-i18n>modal.tutorialModals.step1.button</w-i18n>
                 </w-button>
+            </div>
 
             </md-dialog-content>
         </w-step>
@@ -40,7 +42,7 @@
                         <w-i18n>modal.tutorialModals.step2.p1</w-i18n>
                     </div>
 
-                    <div class="flex-wrap-50">
+                    <div class="flex-cols">
                         <div class="cell margin-4">
                             <img src="/img/icons/tutorial-modals/anonym.svg"/>
                             <div w-i18n="modal.tutorialModals.step2.cell1"></div>
@@ -63,7 +65,7 @@
                     </div>
                 </div>
 
-                <div class="flex-wrap-50 buttons-wrapper">
+                <div class="flex-cols buttons-wrapper">
                     <div>
                         <w-button class="big long" w-step-prev>
                             <w-i18n>modal.tutorialModals.step2.backButton</w-i18n>
@@ -89,7 +91,7 @@
                         <w-i18n>modal.tutorialModals.step3.p1</w-i18n>
                     </div>
 
-                    <div class="flex-wrap-50">
+                    <div class="flex-cols">
                         <div class="cell margin-4" ng-if="$ctrl.isWeb">
                             <img src="/img/icons/tutorial-modals/url.svg"/>
                             <div w-i18n="modal.tutorialModals.step3.cell1"></div>
@@ -122,7 +124,7 @@
                     </div>
                 </div>
 
-                <div class="flex-wrap-50 buttons-wrapper">
+                <div class="flex-cols buttons-wrapper">
                     <div>
                         <w-button class="big long" w-step-prev>
                             <w-i18n>modal.tutorialModals.step3.backButton</w-i18n>

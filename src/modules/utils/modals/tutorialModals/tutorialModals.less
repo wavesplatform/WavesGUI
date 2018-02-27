@@ -1,13 +1,45 @@
 @import (reference) '../../../config';
 
+
 body md-dialog.tutorial-modals {
 
-  width: 780px;
-  min-width: 780px;
-  max-height: 96vh;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
+  h1 {
+    padding: 40px 0;
+    margin-top: 0;
+    text-align: center;
+    width: 100%;
+    font-size: 34px;
+    color: @color-black;
+  }
+
+  .flex-cols {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .cell {
+    padding-left: 60px;
+    position: relative;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    position: absolute;
+    left: 0;
+    top: 5px;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  body md-dialog.tutorial-modals {
+    width: 780px;
+    min-width: 780px;
+    max-height: 96vh;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
 
   .content-wrapper {
     padding: 0 20px;
@@ -23,38 +55,46 @@ body md-dialog.tutorial-modals {
     }
   }
 
-  h1 {
-    padding: 40px 0;
-    margin-top: 0;
-    text-align: center;
-    width: 100%;
-    font-size: 34px;
-    color: @color-black;
-  }
+  .flex-cols {
+    & > div {
+      flex-basis: calc(50% ~'- 20px');
 
-  .cell {
-    padding-left: 60px;
-    position: relative;
-  }
-
-  img {
-    max-width: 100%;
-    height: auto;
-    float: left;
-    position: absolute;
-    left: 0;
-    top: 5px;
-  }
-
-  .flex-wrap-50 > div {
-    flex-basis: calc(50% ~'- 20px');
-
-    &:nth-child(odd) {
-      margin-right: 20px;
+      &:nth-child(odd) {
+        margin-right: 20px;
+      }
+      &:nth-child(even) {
+        margin-left: 20px;
+      }
     }
-    &:nth-child(even) {
-      margin-left: 20px;
+  }
+
+}
+
+@media screen and (max-width: 800px) {
+
+  body md-dialog.tutorial-modals {
+
+    img.computer {
+      position: relative;
+      margin: 0 auto 20px auto;
+      display: block;
     }
+
+    .flex-cols {
+      flex-direction: column;
+      & > div {
+        flex-basis: 100%;
+      }
+    }
+
+    .buttons-wrapper {
+      & > div:last-child {
+        w-button {
+          margin-top: 20px;
+        }
+      }
+    }
+
   }
 
 }

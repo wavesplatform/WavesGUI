@@ -116,7 +116,6 @@
                 this._initializeLogin();
                 this._initializeOutLinks();
 
-                $rootScope.WavesApp = WavesApp;
             }
 
             /**
