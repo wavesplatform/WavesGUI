@@ -8,11 +8,9 @@
      * @param {User} user
      * @param {ModalManager} modalManager
      * @param {ISeedService} seedService
-     * @param {NotificationManager} notificationManager
      * @return {CreateCtrl}
      */
-    const controller = function ($q, $mdDialog, $timeout, user, modalManager,
-                                 seedService, notificationManager) {
+    const controller = function ($q, $mdDialog, $timeout, user, modalManager, seedService) {
 
         const PATH = 'modules/create/templates';
         const ORDER_LIST = [
@@ -34,6 +32,10 @@
                 this.seedConfirmWasFilled = false;
 
                 this.resetAddress();
+            }
+
+            showTutorialModals() {
+                return modalManager.showTutorialModals();
             }
 
             onSeedConfirmFulfilled(isValid) {
@@ -138,7 +140,7 @@
     };
 
     controller.$inject = [
-        '$q', '$mdDialog', '$timeout', 'user', 'modalManager', 'seedService', 'notificationManager'
+        '$q', '$mdDialog', '$timeout', 'user', 'modalManager', 'seedService'
     ];
 
     angular.module('app.create').controller('CreateCtrl', controller);
