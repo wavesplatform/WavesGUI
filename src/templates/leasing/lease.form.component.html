@@ -1,6 +1,6 @@
 <section-header>BALANCE LEASING</section-header>
 <form name="$ctrl.form" novalidate ng-validate="$ctrl.validationOptions">
-  <table>
+  <table class="form-table">
     <tbody>
     <tr>
       <td>Recipient</td>
@@ -11,20 +11,8 @@
       <td><input class="wInput form-control" name="leasingAmount" type="text" placeholder="Leasing amount" ng-model="$ctrl.amount" decimal-input-restrictor/></td>
     </tr>
     <tr>
-      <td class="padded">Fee</td>
-      <td class="padded padded-more">
-        <md-autocomplete md-input-name="leasingFee" md-selected-item="$ctrl.autocomplete.selectedFee" md-search-text="$ctrl.autocomplete.searchText"
-                         md-items="item in $ctrl.autocomplete.querySearch($ctrl.autocomplete.searchText)"
-                         md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
-                         md-menu-class="popup-autocomplete" class="fee-autocomplete">
-          <md-item-template>
-            <span md-highlight-text="$ctrl.autocomplete.searchText">{{item.displayText}}</span>
-          </md-item-template>
-        </md-autocomplete>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" class="button-container">Please change fees only if you know what you're doing!</td>
+      <td class="fee">Fee</td>
+      <td class="fee">{{$ctrl.fee | moneyLong:true}}</td>
     </tr>
     <tr>
       <td colspan="2" class="button-container">

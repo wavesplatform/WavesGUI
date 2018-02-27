@@ -1,16 +1,15 @@
 (function () {
     'use strict';
 
-    var DEFAULT_FEE_AMOUNT = '0.001';
     var FEE_CURRENCY = Currency.WAVES;
 
-    function LeasingFormController($timeout, constants, autocomplete, applicationContext,
+    function LeasingFormController($timeout, constants, applicationContext,
                                    apiService, dialogService, notificationService, transactionBroadcast,
                                    formattingService, addressService, leasingService, leasingRequestService) {
         var ctrl = this;
         var minimumFee = new Money(constants.MINIMUM_TRANSACTION_FEE, FEE_CURRENCY);
 
-        ctrl.autocomplete = autocomplete;
+        ctrl.fee = minimumFee;
         ctrl.availableBalance = Money.fromCoins(0, Currency.WAVES);
 
         ctrl.broadcast = new transactionBroadcast.instance(apiService.leasing.lease,
@@ -35,11 +34,6 @@
                     decimal: 8, // stub value updated on validation
                     min: 0, // stub value updated on validation
                     max: constants.JAVA_MAX_LONG // stub value updated on validation
-                },
-                leasingFee: {
-                    required: true,
-                    decimal: Currency.WAVES.precision,
-                    min: minimumFee.toTokens()
                 }
             },
             messages: {
@@ -48,13 +42,6 @@
                 },
                 leasingAmount: {
                     required: 'Amount to lease is required'
-                },
-                leasingFee: {
-                    required: 'Transaction fee is required',
-                    decimal: 'Transaction fee must be with no more than ' +
-                        minimumFee.currency.precision + ' digits after the decimal point (.)',
-                    min: 'Transaction fee is too small. It should be greater or equal to ' +
-                        minimumFee.formatAmount(true)
                 }
             }
         };
@@ -96,7 +83,7 @@
             }
 
             var amount = Money.fromTokens(ctrl.amount, ctrl.availableBalance.currency);
-            var transferFee = Money.fromTokens(ctrl.autocomplete.getFeeAmount(), FEE_CURRENCY);
+            var transferFee = ctrl.fee;
 
             // We assume here that amount and fee are in Waves, however it's not hardcoded
             var leasingCost = amount.plus(transferFee);
@@ -141,12 +128,11 @@
             ctrl.amount = '0';
             ctrl.recipient = '';
             ctrl.confirm.amount = Money.fromTokens(0, Currency.WAVES);
-            ctrl.confirm.fee = Money.fromTokens(DEFAULT_FEE_AMOUNT, FEE_CURRENCY);
-            ctrl.autocomplete.defaultFee(Number(DEFAULT_FEE_AMOUNT));
+            ctrl.confirm.fee = minimumFee;
         }
     }
 
-    LeasingFormController.$inject = ['$timeout', 'constants.ui', 'autocomplete.fees', 'applicationContext',
+    LeasingFormController.$inject = ['$timeout', 'constants.ui', 'applicationContext',
                                      'apiService', 'dialogService', 'notificationService', 'transactionBroadcast',
                                      'formattingService', 'addressService', 'leasingService', 'leasingRequestService'];
 
