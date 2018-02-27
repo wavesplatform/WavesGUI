@@ -11,7 +11,6 @@ export class Bridge {
     constructor(main: { mainWindow: BrowserWindow; menu: Menu }) {
         this.main = main;
 
-
         this.bridgeCommands = {
             'addDevToolsMenu': this.addDevToolsMenu,
             'reload': this.reload,

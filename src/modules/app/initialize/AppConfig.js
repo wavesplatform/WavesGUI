@@ -38,8 +38,6 @@
                     fractionGroupSize: 0
                 };
 
-                console.log(localStorage.getItem('lng') || AppConfig.getUserLang());
-
                 i18next
                     .use(i18nextXHRBackend)
                     .init({
