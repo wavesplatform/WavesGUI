@@ -1,6 +1,8 @@
 <i class="icon-information"></i>
-<span class="icon-information-tooltip">
-    <a w-i18n-ns="app.welcome" w-i18n="infoTooltip"></a>
+<span ng-click="$ctrl.showTutorialModals()"
+      w-i18n-ns="app.welcome"
+      w-i18n="infoTooltip"
+      class="icon-information-tooltip">
 </span>
 <w-change-language></w-change-language>
 <ng-include w-i18n-ns="app.welcome" src="$ctrl.pageUrl"></ng-include>
