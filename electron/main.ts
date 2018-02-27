@@ -1,11 +1,13 @@
 import { app, BrowserWindow, screen, protocol, Menu } from 'electron';
+import { Bridge } from './Bridge';
 import { ISize, IMetaJSON } from './package';
 import { format } from 'url';
-import { readFile, stat, writeFile } from 'fs';
 import { join } from 'path';
+import { readJSON, writeJSON } from './utils';
 
 import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions;
 import MenuItemConstructorOptions = Electron.MenuItemConstructorOptions;
+
 
 const CONFIG = {
     META_PATH: join(app.getPath('userData'), 'meta.json'),
@@ -49,10 +51,13 @@ const MENU_LIST: MenuItemConstructorOptions[] = [
 
 class Main {
 
-    private mainWindow: BrowserWindow;
+    public mainWindow: BrowserWindow;
+    public menu: Menu;
+    private bridge: Bridge;
 
     constructor() {
         this.mainWindow = null;
+        this.bridge = new Bridge(this);
 
         this.setHandlers();
     }
@@ -101,6 +106,10 @@ class Main {
         });
     }
 
+    private addBridgeProtocol() {
+        protocol.registerStringProtocol('cmd', this.bridge.getProtocolHandler());
+    }
+
     private setHandlers() {
         app.on('ready', () => this.onAppReady());
         app.on('window-all-closed', Main.onAllWindowClosed);
@@ -109,8 +118,10 @@ class Main {
 
     private onAppReady() {
         this.replaceProtocol();
+        this.addBridgeProtocol();
         this.createWindow();
-        Menu.setApplicationMenu(Menu.buildFromTemplate(MENU_LIST));
+        this.menu = Menu.buildFromTemplate(MENU_LIST);
+        Menu.setApplicationMenu(this.menu);
     }
 
     private onActivate() {
@@ -130,7 +141,7 @@ class Main {
     }
 
     private static loadMeta(): Promise<IMetaJSON> {
-        return Main.readJSON(CONFIG.META_PATH) as Promise<IMetaJSON>;
+        return readJSON(CONFIG.META_PATH) as Promise<IMetaJSON>;
     }
 
     private static updateMeta({ x, y, width, height, isFullScreen }) {
@@ -138,7 +149,7 @@ class Main {
             meta.lastOpen = {
                 width, height, x, y, isFullScreen
             };
-            return Main.writeJSON(CONFIG.META_PATH, meta);
+            return writeJSON(CONFIG.META_PATH, meta);
         });
     }
 
@@ -165,7 +176,12 @@ class Main {
             minWidth: CONFIG.MIN_SIZE.width,
             minHeight: CONFIG.MIN_SIZE.height,
             icon: join(__dirname, 'img/icon.png'),
-            fullscreen, width, height, x, y
+            fullscreen, width, height, x, y,
+            webPreferences: {
+                preload: join(__dirname, 'preload.js'),
+                nodeIntegration: false,
+                contextIsolation: true
+            }
         };
     }
 
@@ -193,54 +209,6 @@ class Main {
                 handler();
             }, timeout);
         };
-    }
-
-    private static exists(path): Promise<void> {
-        return new Promise((resolve, reject) => {
-            stat(path, (err, stat) => {
-                if (err) {
-                    reject();
-                } else {
-                    resolve();
-                }
-            });
-        });
-    }
-
-    private static readJSON(path): Promise<object> {
-        return Main.readFile(path)
-            .then((data) => JSON.parse(data))
-            .catch(() => Object.create(null));
-    }
-
-    private static readFile(path): Promise<string> {
-        return Main.exists(path).then(() => {
-            return new Promise((resolve, reject) => {
-                readFile(path, 'utf8', (err, data) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(data);
-                    }
-                });
-            }) as Promise<string>;
-        });
-    }
-
-    private static writeFile(path: string, content: string): Promise<void> {
-        return new Promise((resolve, reject) => {
-            writeFile(path, content, (err) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve();
-                }
-            });
-        });
-    }
-
-    private static writeJSON(path: string, data: object): Promise<void> {
-        return Main.writeFile(path, JSON.stringify(data, null, 4));
     }
 }
 

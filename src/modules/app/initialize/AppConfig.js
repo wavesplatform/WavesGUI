@@ -38,6 +38,8 @@
                     fractionGroupSize: 0
                 };
 
+                console.log(localStorage.getItem('lng') || AppConfig.getUserLang());
+
                 i18next
                     .use(i18nextXHRBackend)
                     .init({
@@ -163,6 +165,7 @@
             }
 
             static getUserLang() {
+
                 const available = Object.keys(WavesApp.localize);
                 const cookieLng = Cookies.get('locale');
                 const userLang = navigator.language || navigator.userLanguage;
