@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    const PROTOCOL = 'waves://';
-
     /**
      * @param {Base} Base
      * @param {JQuery} $element
