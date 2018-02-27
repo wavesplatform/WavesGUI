@@ -8,9 +8,10 @@
      * @param {JQuery} $element
      * @param {app.utils.mediaStream} mediaStream
      * @param {Function} createPoll
+     * @param {app.utils} utils
      * @return {QrCodeRead}
      */
-    const controller = function (Base, $element, mediaStream, createPoll) {
+    const controller = function (Base, $element, mediaStream, createPoll, utils) {
 
         class QrCodeRead extends Base {
 
@@ -169,18 +170,24 @@
              * @private
              */
             _decodeImage() {
-                return this.worker.process((qr, { frame, protocol }) => {
+                return this.worker.process((qr, { frame }) => {
                     return new Promise((resolve) => {
                         qr.callback = function (error, response) {
                             if (error) {
                                 resolve(null);
                             } else {
-                                resolve(response.result.replace(protocol, '').replace('?', ''));
+                                resolve(response);
                             }
                         };
                         qr.decode(frame);
                     });
-                }, { frame: this._getFrame(), protocol: PROTOCOL });
+                }, { frame: this._getFrame() });
+            }
+
+            _parseQrCode({ result }) {
+                const [protocol, data] = result.split('://');
+                const [body, search] = data.split('?');
+                return { protocol, body, params: utils.parseSearchParams(search) };
             }
 
             /**
@@ -218,7 +225,7 @@
             _checkStop(data) {
                 if (data) {
                     this._stopWatchQrCode();
-                    this.onRead({ result: data });
+                    this.onRead({ result: this._parseQrCode(data) });
                 }
             }
 
@@ -262,7 +269,7 @@
         return new QrCodeRead();
     };
 
-    controller.$inject = ['Base', '$element', 'mediaStream', 'createPoll'];
+    controller.$inject = ['Base', '$element', 'mediaStream', 'createPoll', 'utils'];
 
     angular.module('app.ui')
         .component('wQrCodeRead', {
