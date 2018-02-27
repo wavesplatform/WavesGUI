@@ -18,6 +18,7 @@
             }
 
             exportTransactions() {
+                analytics.push('Transaction', 'Transaction.CSV', 'download');
                 transactionsCsvGen.generate(this.transactions);
             }
         }
