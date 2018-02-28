@@ -178,7 +178,7 @@
         "label": "Quantity of tokens to be reissued"
       },
       "id": "ID",
-      "quantity": "Token released",
+      "quantity": "Tokens released",
       "balance": "Balance",
       "fee": "Transaction Fee {{fee, money-currency}}",
       "validation": {

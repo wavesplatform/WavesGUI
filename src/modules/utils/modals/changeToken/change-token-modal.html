@@ -25,7 +25,7 @@
 
                 <div class="row row-style flex-row token-burn__info-line">
                     <div class="footnote-1 disabled-600" w-i18n="modal.token.quantity"></div>
-                    <div>{{::$ctrl.asset.quantity.toFixed()}}</div>
+                    <div>{{::$ctrl.asset.quantity.toFormat($ctrl.asset.precision)}}</div>
                 </div>
 
                 <div class="row row-style flex-row margin-2 token-burn__info-line">
