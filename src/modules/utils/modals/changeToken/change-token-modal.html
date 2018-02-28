@@ -83,15 +83,15 @@
                     </w-input-error>
 
                     <w-input-error message="lt">
-                        <w-i18n>modal.token.validation.lteMaxBalance</w-i18n>
-                    </w-input-error>
-
-                    <w-input-error message="lte">
                         <w-i18n>modal.token.validation.invalidAsset</w-i18n>
                     </w-input-error>
 
+                    <w-input-error message="lte">
+                        <w-i18n>modal.token.validation.lteMaxBalance</w-i18n>
+                    </w-input-error>
+
                     <w-input-error message="asset">
-                        <w-i18n>modal.token.validation.invalidPrecision</w-i18n>
+                        <w-i18n params="{precision: $ctrl.precision}">modal.token.validation.invalidPrecision</w-i18n>
                     </w-input-error>
 
                 </w-input-container>

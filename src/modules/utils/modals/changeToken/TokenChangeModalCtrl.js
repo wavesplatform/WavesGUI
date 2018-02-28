@@ -47,6 +47,10 @@
                 /**
                  * @type {Money}
                  */
+                this.precision = money.asset.precision;
+                /**
+                 * @type {Precision}
+                 */
                 this.input = null;
                 /**
                  * @type {Money}

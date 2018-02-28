@@ -186,7 +186,7 @@
         "gt0": "Entered number must be greater than zero",
         "lteMaxBalance": "Quantity can't be more than balance",
         "invalidAsset": "The field can only contain numbers",
-        "invalidPrecision": "Exceeded maximum of 8 decimal places",
+        "invalidPrecision": "Exceeded maximum of {{precision}} decimal places",
         "noMoney": "Your balance is not enough to pay transaction fees"
       }
     },
