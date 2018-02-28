@@ -23,7 +23,7 @@ md-dialog.terms-accept {
 
       .row {
         position: relative;
-        margin: 20px 0;
+        margin-bottom: @padding-main-layout * 2;
 
         w-checkbox-submit {
           position: absolute;
@@ -36,10 +36,10 @@ md-dialog.terms-accept {
           display: block;
           font-size: 15px;
         }
-      }
 
-      button.submit.long.big {
-        margin-top: 20px;
+        &:last-of-type {
+          margin-bottom: @padding-main-layout * 4;
+        }
       }
     }
   }
