@@ -29,11 +29,9 @@
                 /**
                  * @type {string}
                  */
-                this.gatewayAddress = '';
-                this.hadResponse = false;
+                this.gatewayAddress = null;
 
                 gatewayService.getDepositDetails(asset, address).then((details) => {
-                    this.hadResponse = true;
                     this.gatewayAddress = details.address;
                 });
             }
