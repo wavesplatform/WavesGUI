@@ -10,8 +10,18 @@ w-loader {
   width: @preloader-size * 4;
 }
 
-md-dialog w-loader {
-  margin: 120px auto 140px;
+md-dialog {
+  w-loader {
+    margin: 120px auto 140px;
+  }
+
+  w-copy-wrap w-loader {
+    margin: 0 auto;
+  }
+
+  .qr-wrapper w-loader {
+    margin: 60px auto;
+  }
 }
 
 .loader-dots {
