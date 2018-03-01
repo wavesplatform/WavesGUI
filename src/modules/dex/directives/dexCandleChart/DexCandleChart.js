@@ -86,7 +86,7 @@
 
     controller.load = function () {
         const script = document.createElement('script');
-        const root = '/trading-view/';
+        const root = WavesApp.isWeb() ? 'https://jslib.wavesnodes.com/' : '/trading-view/';
         script.src = `${root}charting_library.min.js`;
         const promise = new Promise((resolve, reject) => {
             script.onload = resolve;
