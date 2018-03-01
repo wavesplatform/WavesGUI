@@ -58,6 +58,7 @@
             getAlways(id) {
                 return this.get(id)
                     .catch(() => this.getUtx(id))
+                    // Get a transaction even on the edge of its move from UTX to blockchain.
                     .catch(() => this.get(id));
             }
 
