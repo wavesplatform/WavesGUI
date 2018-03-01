@@ -88,25 +88,35 @@
         }
 
         const tagCompile = ({ main, content }) => {
-            const firstDotIndex = main.indexOf('.');
-            const tagName = firstDotIndex === 0 ? 'span' : main.slice(0, firstDotIndex);
-            const classes = main.slice(firstDotIndex + 1).split('.').join(' ');
+            try {
+                const firstDotIndex = main.indexOf('.');
+                const tagName = firstDotIndex === 0 ? 'span' : main.slice(0, firstDotIndex);
+                const classes = main.slice(firstDotIndex + 1).split('.').join(' ');
 
-            if (AVAILABLE_TAGS.indexOf(tagName) === -1) {
-                throw new Error(`Locale parser: Wrong tag name! ${tagName}`);
+                if (AVAILABLE_TAGS.indexOf(tagName) === -1) {
+                    throw new Error(`Locale parser: Wrong tag name! ${tagName}`);
+                }
+
+                return `<${tagName} class="${classes}">${content}</${tagName}>`;
+            } catch (e) {
+                console.warn(`Locale: parse tag error. ${e.message}`);
+                return content;
             }
-
-            return `<${tagName} class="${classes}">${content}</${tagName}>`;
         };
 
         const linkCompile = ({ main, content }) => {
-            const url = new URL(content);
+            try {
+                const url = new URL(content);
 
-            if (AVAILABLE_URL_PROTOCOLS.indexOf(url.protocol) === -1) {
-                throw new Error(`Locale parser: Wrong url protocol! ${url.protocol}`);
+                if (AVAILABLE_URL_PROTOCOLS.indexOf(url.protocol) === -1) {
+                    throw new Error(`Locale parser: Wrong url protocol! ${url.protocol}`);
+                }
+
+                return `<a href="${content}" target="_blank">${main}</a>`;
+            } catch (e) {
+                console.warn(`Locale: localize url parse error. ${e.message}`);
+                return '';
             }
-
-            return `<a href="${content}" target="_blank">${main}</a>`;
         };
 
         const tagParser = new LocaleParser('{', '}', '[', ']', tagCompile);
