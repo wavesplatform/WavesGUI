@@ -57,7 +57,8 @@
              */
             getAlways(id) {
                 return this.get(id)
-                    .catch(() => this.getUtx(id));
+                    .catch(() => this.getUtx(id))
+                    .catch(() => this.get(id));
             }
 
             /**
