@@ -121,6 +121,8 @@ body.dex {
 
   w-dex-trade-graph {
     height: 20%;
+    max-height: 20%;
+    overflow: hidden;
   }
 
 
@@ -158,6 +160,23 @@ body.dex {
 
 }
 
+@media screen and (max-width: 768px) {
+  //firefox fixes
+  w-layout .dex-layout__block {
+    height: auto!important;
+  }
+
+  body.dex {
+    w-dex-trade-graph,
+    w-dex-trade-graph .graph-wrapper {
+      height: 130px;
+      min-height: 130px;
+      max-height: 130px;
+      overflow: hidden;
+    }
+  }
+}
+
 //Tablet
 @media screen and (min-width: 481px) and (max-width: 768px) {
    body.dex {
@@ -168,8 +187,12 @@ body.dex {
       width: 100%;
       margin: 0;
       overflow: auto;
-      padding-bottom: 90px;
+      padding: 10px 10px 0 10px;
     }
+
+     .dex-layout__column-right {
+       padding-bottom: 100px;
+     }
 
     .block-wrapper w-scroll-box w-row {
       font-size: 80%;
@@ -195,7 +218,10 @@ body.dex {
       height: auto;
       width: 100%;
       overflow-y: auto;
-      padding-bottom: 100px;
+    }
+
+    .dex-layout__column-right {
+      padding-bottom: 90px;
     }
 
     .dex-wrapper w-table > div.table w-scroll-box {
