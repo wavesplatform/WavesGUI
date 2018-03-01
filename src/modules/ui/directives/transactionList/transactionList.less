@@ -82,11 +82,15 @@ w-transaction-list {
 }
 
 @media screen and (max-width: 768px) {
-  w-transaction-list {
-    min-height: calc(100vh ~'- 160px');
 
-    ul .transaction-item .date {
+  ul .transaction-item .date {
       padding-left: 23px;
     }
+
+  .main-content {
+    w-transaction-list {
+      min-height: calc(100vh ~'- 140px');
+    }
   }
+
 }
