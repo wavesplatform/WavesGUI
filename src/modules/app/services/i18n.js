@@ -64,7 +64,7 @@
                         return '';
                     }
                 }
-                return parse(i18next.t(translate, params));
+                return parse(i18next.t(translate, { ...params, interpolation: { escapeValue: false } }));
             },
 
             /**
