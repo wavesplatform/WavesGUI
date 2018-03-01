@@ -184,7 +184,8 @@ body.dex {
 }
 
 //Mobile
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 480px),
+       (min-width: 481px) and (max-width: 768px) and (max-height:480px) {
   body.dex {
     ui-view[name="main"] {
       height: auto;
@@ -194,6 +195,7 @@ body.dex {
       height: auto;
       width: 100%;
       overflow-y: auto;
+      padding-bottom: 100px;
     }
 
     .dex-wrapper w-table > div.table w-scroll-box {

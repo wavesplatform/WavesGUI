@@ -253,8 +253,18 @@ w-create-order {
 @media screen and (max-width: 768px) {
   w-create-order {
 
+    .create-order {
+      .head {
+        cursor: default;
+      }
+    }
+
+    .icon-drag {
+      display: none;
+    }
+
     position: fixed;
-    transform: translateY(0);
+    transform: translateY(0) !important;
     top: auto !important;
     right: 0;
     left: 49px;
@@ -295,14 +305,17 @@ w-create-order {
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 480px),
+(min-width: 481px) and (max-width: 768px) and (max-height: 480px) {
+
   w-create-order {
     width: 100%;
     left: 0;
   }
 }
 
-@media screen and (max-width: 480px) and (max-height: 420px) {
+@media screen and (max-width: 480px) and (max-height: 420px),
+(min-width: 481px) and (max-width: 768px) and (max-height: 480px) {
   w-create-order {
     bottom: 0;
 
