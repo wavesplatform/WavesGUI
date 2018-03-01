@@ -1,6 +1,7 @@
 @import (reference) '../../../config';
 
 @preloader-size: 13px;
+@loader-animation: loaderDotsAnimation 1.6s infinite ease-in-out;
 
 w-loader {
   display: block;
@@ -24,25 +25,26 @@ md-dialog {
   }
 }
 
-.loader-dots {
+.loader-dots() {
   position: absolute;
   width: @preloader-size;
   height: @preloader-size;
   border-radius: 50%;
+  left: 0;
   display: inline-block;
   animation-fill-mode: both;
-  animation: animationFrames 1.6s infinite ease-in-out;
+  animation: @loader-animation;
 }
 
 .preloader {
-  &:extend(.loader-dots);
+  .loader-dots();
   left: 20px;
   top: -15px;
   animation-delay: .16s;
 
   &::before,
   &::after {
-    &:extend(.loader-dots);
+    .loader-dots();
     top: 0;
     content: '';
   }
@@ -58,7 +60,7 @@ md-dialog {
   }
 }
 
-@keyframes animationFrames {
+@keyframes loaderDotsAnimation {
   0%,
   80%,
   100% {

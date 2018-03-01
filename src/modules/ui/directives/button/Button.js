@@ -105,7 +105,7 @@
     controller.$inject = ['Base', '$element', '$attrs', 'utils'];
 
     module.component('wButton', {
-        template: '<button type="submit" ng-transclude></button>',
+        templateUrl: 'modules/ui/directives/button/button.html',
         transclude: true,
         bindings: {
             disabled: '<',
