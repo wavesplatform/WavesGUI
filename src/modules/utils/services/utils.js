@@ -614,7 +614,7 @@
             const observer = _getObserver(target);
             options = options || Object.create(null);
 
-            utils.toArray(keys)
+            utils.toArray(keys).sort()
                 .forEach((key) => {
                     if (observer[key]) {
                         return null;
