@@ -127,9 +127,12 @@
 
     factory.$inject = ['utils', 'timeLine'];
 
+    /**
+     * @param {Array} some
+     */
     function stringify(some) {
         try {
-            return JSON.stringify(some);
+            return JSON.stringify(some.slice().sort());
         } catch (e) {
             return String(some);
         }

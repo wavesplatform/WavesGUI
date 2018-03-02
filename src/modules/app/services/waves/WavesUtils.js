@@ -120,22 +120,12 @@
             getChange(assetFrom, assetTo) {
                 const idFrom = WavesUtils.toId(assetFrom);
                 const idTo = WavesUtils.toId(assetTo);
-                const wavesId = WavesApp.defaultAssets.WAVES;
+
                 if (idFrom === idTo) {
                     return 1;
                 }
 
-                if (idFrom !== wavesId && idTo !== wavesId) {
-                    return Promise.all([
-                        this._getChange(idFrom, wavesId),
-                        this._getChange(idTo, wavesId)
-                    ])
-                        .then(([from, to]) => {
-                            return to === 0 ? 0 : from / to;
-                        });
-                } else {
-                    return this._getChange(idFrom, idTo);
-                }
+                return this._getChange(idFrom, idTo);
             }
 
             /**
@@ -180,7 +170,8 @@
                         return fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
                             .then(utils.onFetch)
                             .then((data) => {
-                                if (!data) {
+
+                                if (!data || (typeof data === 'object' && data.status === 'error')) {
                                     return 0;
                                 }
 
