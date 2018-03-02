@@ -1,6 +1,7 @@
 {
   "copySuccess": "The data is copied",
   "copyError": "Cannot copy! Your browser may be outdated",
+  "transactionFailed": "The transaction was not processed.",
   "balanceInput": {
     "max": "Max"
   },

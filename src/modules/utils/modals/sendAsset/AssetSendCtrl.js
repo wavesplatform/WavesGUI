@@ -104,6 +104,10 @@
                  * @private
                  */
                 this._noCurrentRate = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.gatewayError = false;
 
                 this.syncSettings({
                     mirrorId: 'baseAssetId'
@@ -333,8 +337,12 @@
                     gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient).then((details) => {
                         this.assetKeyName = gatewayService.getAssetKeyName(this.tx.amount.asset, 'withdraw');
                         this.gatewayDetails = details;
+                        this.gatewayError = false;
                         $scope.$apply();
                         // TODO : validate amount field for gateway minimumAmount and maximumAmount
+                    }, () => {
+                        this.gatewayError = true;
+                        $scope.$apply();
                     });
                 } else {
                     this.assetKeyName = '';

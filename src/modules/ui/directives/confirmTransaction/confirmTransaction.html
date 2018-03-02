@@ -2,6 +2,10 @@
     <w-step-by-step active-step="$ctrl.step">
         <w-step>
             <w-transaction-info class="margin-3" transaction="$ctrl.tx"></w-transaction-info>
+            <div class="row error-500 margin-2" ng-if="$ctrl.txNotValidError || $ctrl.networkError">
+                <w-i18n ng-if="$ctrl.txNotValidError">modal.send.validationError.wasNotProcessed.notValid</w-i18n>
+                <w-i18n ng-if="$ctrl.networkError"">modal.send.validationError.wasNotProcessed.networkError</w-i18n>
+            </div>
             <div class="buttons-wrapper">
                 <w-button class="big" ng-click="$ctrl.onClickBack()">
                     <w-i18n>confirmTransaction.back</w-i18n>

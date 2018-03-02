@@ -19,6 +19,8 @@
                 super();
 
                 this.locale = $attrs.locale || 'app.ui';
+                this.txNotValidError = false;
+                this.networkError = false;
                 this.step = 0;
             }
 
@@ -27,8 +29,11 @@
                     this.tx.id = id;
                     this.step++;
                 }).catch((e) => {
-                    console.error(e);
-                    console.error('Transaction error!');
+                    if (e.status === 400) {
+                        this.txNotValidError = true;
+                    } else {
+                        this.networkError = true;
+                    }
                 });
             }
 

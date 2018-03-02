@@ -89,7 +89,12 @@
       },
       "validationError": {
         "notEnoughFundsWithdraw": "You don't have enough funds to pay the required fees. You must pay {{fee, money-currency}} transaction fee and {{getawayFee, BigNumber}} {{currency}} gateway fee.",
-        "notEnoughFunds": "You don't have enough funds to pay the required fees. You must pay {{fee, money-currency}} transaction fee."
+        "notEnoughFunds": "You don't have enough funds to pay the required fees. You must pay {{fee, money-currency}} transaction fee.",
+        "cannotConnectService": "Cannot connect to Coinomat gateway. Please try again later.",
+        "wasNotProcessed": {
+          "networkError": "The transaction was not processed. Please try again.",
+          "txNotValidError": "The transaction was refused."
+        }
       }
     },
     "deposit": {

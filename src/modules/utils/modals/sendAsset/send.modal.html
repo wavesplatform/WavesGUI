@@ -6,6 +6,7 @@
                   novalidate>
 
                 <div class="row">
+
                     <div class="body-2" w-i18n="modal.send.currency"></div>
                     <div ng-if="!$ctrl.canChooseAsset || $ctrl.choosableMoneyList.length === 1"
                          class="input-like big flex-row split-half">
@@ -18,6 +19,7 @@
                             <span>&nbsp;{{$ctrl.balance.asset.displayName}}</span>
                         </div>
                     </div>
+
                     <w-select class="big"
                               ng-if="$ctrl.canChooseAsset && $ctrl.choosableMoneyList.length > 1"
                               ng-model="$ctrl.assetId">
@@ -158,9 +160,13 @@
                     </w-i18n>
                 </div>
 
+                <div class="row error-500 margin-2" ng-if="$ctrl.gatewayError">
+                    <w-i18n>modal.send.validationError.cannotConnectService</w-i18n>
+                </div>
+
                 <div class="row margin-2">
                     <w-button ng-click="$ctrl.createTx()"
-                              disabled="send.$invalid || (!send.$invalid && !$ctrl.hasComission)"
+                              disabled="send.$invalid || (!send.$invalid && !$ctrl.hasComission) || $ctrl.gatewayError"
                               type="submit"
                               class="big submit long">
                         <w-i18n>button.continue</w-i18n>

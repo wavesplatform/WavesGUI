@@ -89,7 +89,12 @@
       },
       "validationError": {
         "notEnoughFundsWithdraw": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}} и комиссию шлюза {{getawayFee, BigNumber}} {{currency}}.",
-        "notEnoughFunds": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}}."
+        "notEnoughFunds": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}}.",
+        "cannotConnectService": "Не удалось подключиться к шлюзу Coinomat. Попробуйте еще раз позже.",
+        "wasNotProcessed": {
+          "networkError": "Что-то пошло не так. Транзакция не прошла. Попробуйте еще раз.",
+          "txNotValidError": "Транзакция отклонена."
+        }
       }
     },
     "deposit": {
