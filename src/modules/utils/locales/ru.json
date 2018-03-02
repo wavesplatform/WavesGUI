@@ -71,6 +71,7 @@
         "description": "Вы отправили {{amount}} {{currency}} (${{mirror}})",
         "details": "Посмотреть детали"
       },
+      "icoWarning": "Не выводите {{assetName}} на адреса ICO, так как мы не зачислим вам токены полученные после окончания распродажи.",
       "coinomatBTC": {
         "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} BTC",
         "feeExplanation": "Введенный адрес определен как Bitcoin-адресс, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} BTC, максимальная — {{max, BigNumber}} BTC."
