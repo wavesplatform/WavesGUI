@@ -133,6 +133,11 @@
                 if (this.onFulfilled && this._children.length === this.parts.length) {
                     const isValid = this._children.map((child) => child.word).join(' ') === this.seed;
                     this.onFulfilled({ isValid });
+                    if (isValid) {
+                        this._$container.children().each((i, element) => {
+                            $(element).off('click');
+                        });
+                    }
                 }
             }
 
