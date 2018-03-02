@@ -143,7 +143,7 @@
                 this._timer = timeLine.timeout(() => {
                     this._timer = null;
                     const time = Date.now() - this._seepStartTime;
-                    const sleepMinutes = Math.floor(time / (1000 * 60 * 5));
+                    const sleepMinutes = Math.floor(time / (1000 * 60));
                     this._setSleepStep(sleepMinutes);
                     this._sleep();
                 }, 1000);
