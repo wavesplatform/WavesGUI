@@ -32,7 +32,7 @@ export class Storage {
         readJSON(this.storagePath).then((cache) => {
             Object.assign(this.storageCache, cache);
         }).catch(() => {
-            writeJSON(this.storagePath, this.storageCache);
+            return writeJSON(this.storagePath, this.storageCache);
         });
     }
 }

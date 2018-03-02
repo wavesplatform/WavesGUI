@@ -1,5 +1,5 @@
 import { Storage } from './Storage';
-import { shell } from 'electron';
+import { shell, webFrame } from 'electron';
 
 process.once('loaded', () => {
     (global as any).WebStorage = new Storage();

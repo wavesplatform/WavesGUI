@@ -141,7 +141,9 @@ class Main {
     }
 
     private static loadMeta(): Promise<IMetaJSON> {
-        return readJSON(CONFIG.META_PATH) as Promise<IMetaJSON>;
+        return readJSON(CONFIG.META_PATH).catch(() => {
+            return writeJSON(CONFIG.META_PATH, {}).then(() => ({}));
+        }) as Promise<IMetaJSON>;
     }
 
     private static updateMeta({ x, y, width, height, isFullScreen }) {
@@ -175,12 +177,11 @@ class Main {
         return {
             minWidth: CONFIG.MIN_SIZE.width,
             minHeight: CONFIG.MIN_SIZE.height,
-            icon: join(__dirname, 'img/icon.png'),
+            icon: join(__dirname, 'img', 'icon.png'),
             fullscreen, width, height, x, y,
             webPreferences: {
                 preload: join(__dirname, 'preload.js'),
-                nodeIntegration: false,
-                contextIsolation: true
+                nodeIntegration: false
             }
         };
     }

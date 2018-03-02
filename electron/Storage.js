@@ -24,7 +24,7 @@ class Storage {
         utils_1.readJSON(this.storagePath).then((cache) => {
             Object.assign(this.storageCache, cache);
         }).catch(() => {
-            utils_1.writeJSON(this.storagePath, this.storageCache);
+            return utils_1.writeJSON(this.storagePath, this.storageCache);
         });
     }
 }
