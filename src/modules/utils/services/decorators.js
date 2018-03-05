@@ -100,7 +100,7 @@
                                     });
 
                                     cache[key].timer = 1;
-                                    utils.resolve(cache[key].value)
+                                    cache[key].value
                                         .then(() => {
                                             cache[key].timer = timeLine.timeout(() => {
                                                 delete cache[key];
