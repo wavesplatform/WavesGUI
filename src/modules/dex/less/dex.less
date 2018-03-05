@@ -164,6 +164,11 @@ body.dex {
   //firefox fixes
   w-layout .dex-layout__block {
     height: auto!important;
+
+    &-center-bottom-collapsed w-dex-block .block-wrapper .block-title {
+      height: auto;
+      min-height: 39px;
+    }
   }
 
   body.dex {
@@ -187,7 +192,8 @@ body.dex {
 
 //Tablet
 @media screen and (min-width: 481px) and (max-width: 768px) {
-   body.dex {
+
+  body.dex {
     min-width: 580px;
 
     .main-content .content {
@@ -212,11 +218,13 @@ body.dex {
       max-height: calc(50vh ~'- 100px');
     }
   }
+
 }
 
 //Mobile
 @media screen and (max-width: 480px),
        (min-width: 481px) and (max-width: 768px) and (max-height:480px) {
+
   body.dex {
     ui-view[name="main"] {
       height: auto;
@@ -238,4 +246,5 @@ body.dex {
       max-height: 217px;
     }
   }
+
 }

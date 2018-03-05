@@ -40,19 +40,6 @@
     }
   },
   "back": "Назад",
-  "header": {
-    "wallet": "Кошелёк",
-    "assets": "Ассеты",
-    "portfolio": "Портфель",
-    "transactions": "Транзакции",
-    "leasing": "Лизинг",
-    "dex": "Децентрализованный обменник",
-    "tokens": "Выпуск токена"
-  },
-  "leftmenu": {
-    "settings": "Настройки",
-    "logout": "Выход"
-  },
   "number": {
     "short": {
       "million": "M",
