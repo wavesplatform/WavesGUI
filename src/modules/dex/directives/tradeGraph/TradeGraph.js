@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const ORDERS_STUB = [{ amount: 0, price: 0 }];
+
     /**
      * @param Base
      * @param utils
@@ -20,16 +22,7 @@
                  * @private
                  */
                 this._assetIdPair = null;
-                /**
-                 * @type {Asset}
-                 * @private
-                 */
-                this._amountAsset = null;
-                /**
-                 * @type {Asset}
-                 * @private
-                 */
-                this._priceAsset = null;
+
                 /**
                  * @type {number}
                  * @private
@@ -45,22 +38,6 @@
                     grid: {
                         x: false,
                         y: false
-                    },
-                    tooltipHook: (d) => {
-                        if (d) {
-                            const x = d[0].row.x;
-                            const precisionPrice = this._priceAsset && this._priceAsset.precision || 8;
-                            const precisionAmount = this._amountAsset && this._amountAsset.precision || 8;
-                            return {
-                                abscissas: `Price ${x.toFixed(precisionPrice)}`,
-                                rows: d.map((s) => ({
-                                    label: s.series.label,
-                                    value: s.row.y1.toFixed(precisionAmount),
-                                    color: s.series.color,
-                                    id: s.series.id
-                                }))
-                            };
-                        }
                     },
                     series: [
                         {
@@ -85,8 +62,8 @@
                 };
 
                 this.data = {
-                    asks: [{ amount: 0, price: 0 }],
-                    bids: [{ amount: 0, price: 0 }]
+                    asks: ORDERS_STUB,
+                    bids: ORDERS_STUB
                 };
 
                 this.syncSettings({
@@ -103,18 +80,27 @@
                 this._poll = createPoll(this, this._getOrderBook, this._setOrderBook, 1000);
             }
 
+            _onChangeAssets(noRestart) {
+                if (!noRestart) {
+                    this._poll.restart();
+                }
+            }
+
             _getOrderBook() {
-                return waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
-                    .then((data) => this._filterOrders(data))
-                    .then(TradeGraph._remapOrderBook);
+                return (
+                    waves.matcher
+                        .getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
+                        .then((data) => this._cutOffOutlyingOrders(data))
+                        .then((data) => this._buildCumulativeOrderBook(data))
+                );
             }
 
-            _setOrderBook([bids, asks]) {
-                this.data.bids = bids;
+            _setOrderBook({ asks, bids }) {
                 this.data.asks = asks;
+                this.data.bids = bids;
             }
 
-            _filterOrders({ bids, asks }) {
+            _cutOffOutlyingOrders({ asks, bids }) {
                 const spreadPrice = new BigNumber(asks[0].price)
                     .sub(bids[0].price)
                     .div(2)
@@ -124,44 +110,28 @@
                 const min = BigNumber.max(0, spreadPrice.sub(delta));
 
                 return {
-                    bids: bids.filter((bid) => new BigNumber(bid.price).gte(min)),
-                    asks: asks.filter((ask) => new BigNumber(ask.price).lte(max))
+                    asks: asks.filter((ask) => new BigNumber(ask.price).lte(max)),
+                    bids: bids.filter((bid) => new BigNumber(bid.price).gte(min))
                 };
             }
 
-            _onChangeAssets(noRestart) {
-
-                waves.node.assets.info(this._assetIdPair.price)
-                    .then((asset) => {
-                        this._priceAsset = asset;
-                    });
-                waves.node.assets.info(this._assetIdPair.amount)
-                    .then((asset) => {
-                        this._amountAsset = asset;
-                    });
-                if (!noRestart) {
-                    this._poll.restart();
-                }
+            _buildCumulativeOrderBook({ asks, bids }) {
+                return {
+                    asks: this._buildCumulativeOrderList(asks),
+                    bids: this._buildCumulativeOrderList(bids)
+                };
             }
 
-            static _remapOrderBook({ bids, asks }) {
-
-                const sum = function (list) {
-                    let amount = 0;
-                    return list.reduce((result, item) => {
-                        amount += Number(item.amount);
-                        result.push({
-                            amount,
-                            price: Number(item.price)
-                        });
-                        return result;
-                    }, []);
-                };
-
-                return [
-                    sum(bids),
-                    sum(asks)
-                ];
+            _buildCumulativeOrderList(list) {
+                let amount = 0;
+                return list.reduce((result, item) => {
+                    amount += Number(item.amount);
+                    result.push({
+                        amount,
+                        price: Number(item.price)
+                    });
+                    return result;
+                }, []);
             }
 
         }
