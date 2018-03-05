@@ -118,18 +118,5 @@
     "fieldFee": "Комиссия",
     "fieldGatewayAddress": "Адрес шлюза",
     "fieldGatewayFee": "Комиссия шлюза"
-  },
-  "header": {
-    "wallet": "Кошелёк",
-    "assets": "Ассеты",
-    "portfolio": "Портфель",
-    "transactions": "Транзакции",
-    "leasing": "Лизинг",
-    "dex": "Децентрализованный обменник",
-    "tokens": "Выпуск токена"
-  },
-  "leftmenu": {
-    "settings": "Настройки",
-    "logout": "Выход"
   }
 }

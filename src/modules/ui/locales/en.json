@@ -118,18 +118,5 @@
     "fieldFee": "Fee",
     "fieldGatewayAddress": "Gateway address",
     "fieldGatewayFee": "Gateway fee"
-  },
-  "header": {
-    "wallet": "Wallet",
-    "assets": "Assets",
-    "portfolio": "Portfolio",
-    "transactions": "Transactions",
-    "leasing": "Leasing",
-    "dex": "Decentralised exchanger",
-    "tokens": "Tokens"
-  },
-  "leftmenu": {
-    "settings": "Settings",
-    "logout": "Logout"
   }
 }

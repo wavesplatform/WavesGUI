@@ -1,4 +1,17 @@
 {
+  "header": {
+    "wallet": "Кошелёк",
+    "assets": "Ассеты",
+    "portfolio": "Портфель",
+    "transactions": "Транзакции",
+    "leasing": "Лизинг",
+    "dex": "Децентрализованный обменник",
+    "tokens": "Выпуск токена"
+  },
+  "leftmenu": {
+    "settings": "Настройки",
+    "logout": "Выход"
+  },
   "button": {
     "cancel": "Отмена",
     "continue": "Продолжить"

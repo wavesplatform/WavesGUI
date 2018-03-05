@@ -1,4 +1,17 @@
 {
+  "header": {
+    "wallet": "Wallet",
+    "assets": "Assets",
+    "portfolio": "Portfolio",
+    "transactions": "Transactions",
+    "leasing": "Leasing",
+    "dex": "Decentralised exchanger",
+    "tokens": "Tokens"
+  },
+  "leftmenu": {
+    "settings": "Settings",
+    "logout": "Logout"
+  },
   "button": {
     "cancel": "Cancel",
     "continue": "Continue"
