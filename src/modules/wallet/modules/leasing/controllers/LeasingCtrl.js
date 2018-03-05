@@ -17,6 +17,7 @@
             constructor() {
                 super($scope);
 
+                this.pending = true;
                 this.chartOptions = {
                     items: {
                         available: {
@@ -37,12 +38,48 @@
                     startFrom: Math.PI / 2
                 };
 
-                const getter = waves.node.assets.balance.bind(waves.node.assets, WavesApp.defaultAssets.WAVES);
-                createPoll(this, getter, this._setLeasingData, 1000);
+                /**
+                 * @type {ITransaction[]}
+                 * @private
+                 */
+                this._txList = [];
+                /**
+                 * @type {ITransaction[]}
+                 * @private
+                 */
+                this._allActiveLeasing = [];
+                /**
+                 * @type {ITransaction[]}
+                 */
+                this.transactions = [];
+
+                waves.node.transactions.getActiveLeasingTx().then((txList) => {
+                    this._allActiveLeasing = txList;
+                });
+
+                createPoll(this, this._getBalances, this._setLeasingData, 1000, { isBalance: true });
+                createPoll(this, this._getTransactions, this._setTxList, 3000, { isBalance: true });
+
+                this.observe(['_txList', '_allActiveLeasing'], this._currentLeasingList);
             }
 
             startLeasing() {
                 return modalManager.showStartLeasing();
+            }
+
+            /**
+             * @return {Promise<IBalanceDetails>}
+             * @private
+             */
+            _getBalances() {
+                return waves.node.assets.balance(WavesApp.defaultAssets.WAVES);
+            }
+
+            /**
+             * @private
+             */
+            _getTransactions() {
+                return waves.node.transactions.list(5000);
             }
 
             /**
@@ -62,6 +99,44 @@
                     { id: 'leased', value: leasedOut },
                     { id: 'leasedIn', value: leasedIn }
                 ];
+            }
+
+            /**
+             * @param {ITransaction[]} txList
+             * @private
+             */
+            _setTxList(txList) {
+                this.pending = false;
+
+                const AVAILABLE_TYPES_HASH = {
+                    [waves.node.transactions.TYPES.LEASE_IN]: true,
+                    [waves.node.transactions.TYPES.LEASE_OUT]: true,
+                    [waves.node.transactions.TYPES.CANCEL_LEASING]: true
+                };
+
+                this._txList = txList.filter(({ type }) => AVAILABLE_TYPES_HASH[type]);
+            }
+
+            /**
+             * @private
+             */
+            _currentLeasingList() {
+                const txList = this._txList;
+
+                if (!this._allActiveLeasing.length) {
+                    this.transactions = txList.slice();
+                    return null;
+                }
+
+                const idHash = utils.toHash(txList, 'id');
+                const result = txList.slice();
+
+                this._allActiveLeasing.forEach((tx) => {
+                    if (!idHash[tx.id]) {
+                        result.push(tx);
+                    }
+                });
+                this.transactions = result;
             }
 
         }

@@ -68,15 +68,20 @@
              * @param {number} [limit]
              * @return {Promise<ITransaction[]>}
              */
-            list(limit = 0) {
-                return Waves.API.Node.v2.addresses.transactions(user.address, { limit })
-                    .then((txList = []) => txList.map(this._pipeTransaction(false)));
+            list(limit = 1000) {
+                return fetch(`${user.getSetting('network.node')}/transactions/address/${user.address}/limit/${limit}`)
+                    .then(utils.onFetch)
+                    .then(([txList = []]) => Promise.all(txList.map(Waves.tools.siftTransaction)))
+                    .then((list) => list.map(this._pipeTransaction(false)));
             }
 
+            /**
+             * @return {Promise<ITransaction[]>}
+             */
             getActiveLeasingTx() {
                 return fetch(`${user.getSetting('network.node')}/leasing/active/${user.address}`)
                     .then(utils.onFetch)
-                    .then(Transactions._remapV1Transactions)
+                    .then((txList = []) => Promise.all(txList.map(Waves.tools.siftTransaction)))
                     .then((list) => list.map(this._pipeTransaction(false)));
             }
 
