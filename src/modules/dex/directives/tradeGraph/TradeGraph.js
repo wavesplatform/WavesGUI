@@ -53,6 +53,12 @@
                  */
                 this._chartCropRate = null;
 
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
+                this._canShowGraph = false;
+
                 this.options = {
                     margin: {
                         top: 10,
@@ -90,6 +96,20 @@
                  * @private
                  */
                 this._poll = createPoll(this, this._getOrderBook, this._setOrderBook, 1000);
+            }
+
+            /**
+             * @returns {boolean}
+             */
+            shouldShowGraph() {
+                return this._canShowGraph;
+            }
+
+            /**
+             * @returns {boolean}
+             */
+            shouldShowStub() {
+                return !this.shouldShowGraph();
             }
 
             _onChangeAssets(noRestart) {
@@ -137,6 +157,25 @@
             }
 
             _updateGraphAccordingToOrderBook(orderBook) {
+                if (this._areSomeOrdersToShow(orderBook)) {
+                    this._prepareGraphForOrders(orderBook);
+                } else {
+                    this._hideGraphAndShowStub();
+                }
+
+                return orderBook;
+            }
+
+            _areSomeOrdersToShow(orderBook) {
+                return !(
+                    this._isLackOfAsks(orderBook) &&
+                    this._isLackOfBids(orderBook)
+                );
+            }
+
+            _prepareGraphForOrders(orderBook) {
+                this._showGraphAndHideStub();
+
                 if (this._areEnoughOrders(orderBook)) {
                     this._setGraphToShowAsksAndBids();
                 }
@@ -148,8 +187,10 @@
                 if (this._isLackOfBids(orderBook)) {
                     this._setGraphToShowOnly(ORDERS_TYPES.asks);
                 }
+            }
 
-                return orderBook;
+            _showGraphAndHideStub() {
+                this._canShowGraph = true;
             }
 
             _areEnoughOrders(orderBook) {
@@ -182,6 +223,11 @@
                 this._updateGraphSeriesOptions([
                     SERIES_SETTINGS[orderType]
                 ]);
+            }
+
+            _hideGraphAndShowStub() {
+                this._updateGraphSeriesOptions([]);
+                this._canShowGraph = false;
             }
 
             _updateGraphSeriesOptions(seriesOptions) {

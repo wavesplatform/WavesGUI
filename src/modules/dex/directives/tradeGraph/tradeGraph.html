@@ -1,6 +1,12 @@
 <div class="graph-wrapper">
-    <linechart options="$ctrl.options" data="$ctrl.data"></linechart>
+    <linechart
+        options="$ctrl.options"
+        data="$ctrl.data"
+        ng-if="$ctrl.shouldShowGraph()"
+    ></linechart>
+    <div
+        ng-if="$ctrl.shouldShowStub()"
+    >
+        <!-- todo: add markup here -->
+    </div>
 </div>
-
-
-
