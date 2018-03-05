@@ -1,16 +1,20 @@
 (function () {
     'use strict';
 
+    const ORDERS_TYPES = {
+        asks: 'asks',
+        bids: 'bids'
+    };
     const SERIES_SETTINGS = {
-        ASKS: {
-            dataset: 'asks',
+        asks: {
+            dataset: ORDERS_TYPES.asks,
             key: 'amount',
             label: 'Asks',
             color: '#f27057',
             type: ['line', 'line', 'area']
         },
-        BIDS: {
-            dataset: 'bids',
+        bids: {
+            dataset: ORDERS_TYPES.bids,
             key: 'amount',
             label: 'Bids',
             color: '#2b9f72',
@@ -19,7 +23,8 @@
     };
     const ORDER_LIST_STUB = [{ amount: 0, price: 0 }];
     const THRESHOLD_VALUES = {
-        ASKS: 2
+        asks: 2,
+        bids: 2
     };
 
     /**
@@ -59,8 +64,8 @@
                         y: false
                     },
                     series: [
-                        SERIES_SETTINGS.ASKS,
-                        SERIES_SETTINGS.BIDS
+                        SERIES_SETTINGS.asks,
+                        SERIES_SETTINGS.bids
                     ],
                     axes: {
                         x: { key: 'price', type: 'linear', ticks: 2 },
@@ -132,36 +137,55 @@
             }
 
             _updateGraphAccordingToOrderBook(orderBook) {
-                if (this._isLackOfAsks(orderBook)) {
-                    this._setGraphToShowOnlyBids();
-                }
-
                 if (this._areEnoughOrders(orderBook)) {
                     this._setGraphToShowAsksAndBids();
+                }
+
+                if (this._isLackOfAsks(orderBook)) {
+                    this._setGraphToShowOnly(ORDERS_TYPES.bids);
+                }
+
+                if (this._isLackOfBids(orderBook)) {
+                    this._setGraphToShowOnly(ORDERS_TYPES.asks);
                 }
 
                 return orderBook;
             }
 
-            _setGraphToShowOnlyBids() {
-                this.options.series = [
-                    SERIES_SETTINGS.BIDS
-                ];
-            }
-
             _areEnoughOrders(orderBook) {
-                return !this._isLackOfAsks(orderBook);
+                return !(
+                    this._isLackOfAsks(orderBook) ||
+                    this._isLackOfBids(orderBook)
+                );
             }
 
             _isLackOfAsks(orderBook) {
-                return orderBook.asks.length < THRESHOLD_VALUES.ASKS;
+                return this._isLackOf(orderBook, ORDERS_TYPES.asks);
+            }
+
+            _isLackOfBids(orderBook) {
+                return this._isLackOf(orderBook, ORDERS_TYPES.bids);
+            }
+
+            _isLackOf(orderBook, ordersType) {
+                return orderBook[ordersType].length < THRESHOLD_VALUES[ordersType];
             }
 
             _setGraphToShowAsksAndBids() {
-                this.options.series = [
-                    SERIES_SETTINGS.ASKS,
-                    SERIES_SETTINGS.BIDS
-                ];
+                this._updateGraphSeriesOptions([
+                    SERIES_SETTINGS.asks,
+                    SERIES_SETTINGS.bids
+                ]);
+            }
+
+            _setGraphToShowOnly(orderType) {
+                this._updateGraphSeriesOptions([
+                    SERIES_SETTINGS[orderType]
+                ]);
+            }
+
+            _updateGraphSeriesOptions(seriesOptions) {
+                this.options.series = seriesOptions;
             }
 
             _buildCumulativeOrderBook({ asks, bids }) {
