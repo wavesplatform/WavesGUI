@@ -123,18 +123,19 @@
                     waves.matcher
                         .getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
                         .then((orderBook) => this._cutOffOutlyingOrdersIfNecessary(orderBook))
-                        .then((orderBook) => this._updateGraphAccordingToOrderBook(orderBook))
-                        .then((orderBook) => this._buildCumulativeOrderBook(orderBook))
+                        .then(TradeGraph._buildCumulativeOrderBook)
                 );
             }
 
-            _setOrderBook({ asks, bids }) {
-                this.data.asks = asks;
-                this.data.bids = bids;
+            _setOrderBook(orderBook) {
+                this._updateGraphAccordingToOrderBook(orderBook);
+
+                this.data.asks = orderBook.asks;
+                this.data.bids = orderBook.bids;
             }
 
             _cutOffOutlyingOrdersIfNecessary(orderBook) {
-                if (this._areEnoughOrders(orderBook)) {
+                if (TradeGraph._areEnoughOrders(orderBook)) {
                     return this._cutOffOutlyingOrders(orderBook);
                 }
 
@@ -157,7 +158,7 @@
             }
 
             _updateGraphAccordingToOrderBook(orderBook) {
-                if (this._areSomeOrdersToShow(orderBook)) {
+                if (TradeGraph._areSomeOrdersToShow(orderBook)) {
                     this._prepareGraphForOrders(orderBook);
                 } else {
                     this._hideGraphAndShowStub();
@@ -166,50 +167,24 @@
                 return orderBook;
             }
 
-            _areSomeOrdersToShow(orderBook) {
-                return !(
-                    this._isLackOfAsks(orderBook) &&
-                    this._isLackOfBids(orderBook)
-                );
-            }
-
             _prepareGraphForOrders(orderBook) {
                 this._showGraphAndHideStub();
 
-                if (this._areEnoughOrders(orderBook)) {
+                if (TradeGraph._areEnoughOrders(orderBook)) {
                     this._setGraphToShowAsksAndBids();
                 }
 
-                if (this._isLackOfAsks(orderBook)) {
+                if (TradeGraph._isLackOfAsks(orderBook)) {
                     this._setGraphToShowOnly(ORDERS_TYPES.bids);
                 }
 
-                if (this._isLackOfBids(orderBook)) {
+                if (TradeGraph._isLackOfBids(orderBook)) {
                     this._setGraphToShowOnly(ORDERS_TYPES.asks);
                 }
             }
 
             _showGraphAndHideStub() {
                 this._canShowGraph = true;
-            }
-
-            _areEnoughOrders(orderBook) {
-                return !(
-                    this._isLackOfAsks(orderBook) ||
-                    this._isLackOfBids(orderBook)
-                );
-            }
-
-            _isLackOfAsks(orderBook) {
-                return this._isLackOf(orderBook, ORDERS_TYPES.asks);
-            }
-
-            _isLackOfBids(orderBook) {
-                return this._isLackOf(orderBook, ORDERS_TYPES.bids);
-            }
-
-            _isLackOf(orderBook, ordersType) {
-                return orderBook[ordersType].length < THRESHOLD_VALUES[ordersType];
             }
 
             _setGraphToShowAsksAndBids() {
@@ -234,21 +209,49 @@
                 this.options.series = seriesOptions;
             }
 
-            _buildCumulativeOrderBook({ asks, bids }) {
+            static _areSomeOrdersToShow(orderBook) {
+                return !(
+                    TradeGraph._isLackOfAsks(orderBook) &&
+                    TradeGraph._isLackOfBids(orderBook)
+                );
+            }
+
+            static _areEnoughOrders(orderBook) {
+                return !(
+                    TradeGraph._isLackOfAsks(orderBook) ||
+                    TradeGraph._isLackOfBids(orderBook)
+                );
+            }
+
+            static _isLackOfAsks(orderBook) {
+                return TradeGraph._isLackOf(orderBook, ORDERS_TYPES.asks);
+            }
+
+            static _isLackOfBids(orderBook) {
+                return TradeGraph._isLackOf(orderBook, ORDERS_TYPES.bids);
+            }
+
+            static _isLackOf(orderBook, ordersType) {
+                return orderBook[ordersType].length < THRESHOLD_VALUES[ordersType];
+            }
+
+            static _buildCumulativeOrderBook({ asks, bids }) {
                 return {
-                    asks: this._buildCumulativeOrderList(asks),
-                    bids: this._buildCumulativeOrderList(bids)
+                    asks: TradeGraph._buildCumulativeOrderList(asks),
+                    bids: TradeGraph._buildCumulativeOrderList(bids)
                 };
             }
 
-            _buildCumulativeOrderList(list) {
+            static _buildCumulativeOrderList(list) {
                 let amount = 0;
+
                 return list.reduce((result, item) => {
                     amount += Number(item.amount);
                     result.push({
                         amount,
                         price: Number(item.price)
                     });
+
                     return result;
                 }, []);
             }
