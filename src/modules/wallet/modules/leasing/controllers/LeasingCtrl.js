@@ -42,12 +42,12 @@
                  * @type {ITransaction[]}
                  * @private
                  */
-                this._txList = [];
+                this._txList = null;
                 /**
                  * @type {ITransaction[]}
                  * @private
                  */
-                this._allActiveLeasing = [];
+                this._allActiveLeasing = null;
                 /**
                  * @type {ITransaction[]}
                  */
@@ -106,8 +106,6 @@
              * @private
              */
             _setTxList(txList) {
-                this.pending = false;
-
                 const AVAILABLE_TYPES_HASH = {
                     [waves.node.transactions.TYPES.LEASE_IN]: true,
                     [waves.node.transactions.TYPES.LEASE_OUT]: true,
@@ -122,8 +120,11 @@
              */
             _currentLeasingList() {
                 const txList = this._txList;
+                const allActiveLeasing = this._allActiveLeasing;
 
-                if (!this._allActiveLeasing.length) {
+                this.pending = !txList.length && !allActiveLeasing;
+
+                if (!allActiveLeasing || !allActiveLeasing.length) {
                     this.transactions = txList.slice();
                     return null;
                 }
@@ -131,7 +132,7 @@
                 const idHash = utils.toHash(txList, 'id');
                 const result = txList.slice();
 
-                this._allActiveLeasing.forEach((tx) => {
+                allActiveLeasing.forEach((tx) => {
                     if (!idHash[tx.id]) {
                         result.push(tx);
                     }
