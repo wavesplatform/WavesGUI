@@ -1,0 +1,63 @@
+@import (reference) '../../../config';
+
+body md-dialog.tutorial-modals {
+
+  width: 780px;
+  min-width: 780px;
+  max-height: 96vh;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+
+  md-dialog-content {
+    padding: 20px 60px 60px;
+  }
+
+  .content-wrapper {
+    min-height: 550px;
+  }
+
+  .buttons-wrapper {
+    div:nth-child(odd) {
+      margin-right: 10px;
+    }
+    div:nth-child(even) {
+      margin-left: 10px;
+    }
+  }
+
+  h1 {
+    padding: 40px 0;
+    margin-top: 0;
+    text-align: center;
+    width: 100%;
+    font-size: 34px;
+    color: @color-black;
+  }
+
+  .cell {
+    padding-left: 60px;
+    position: relative;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    float: left;
+    position: absolute;
+    left: 0;
+    top: 5px;
+  }
+
+  .flex-wrap-50 > div {
+    flex-basis: calc(50% ~'- 20px');
+
+    &:nth-child(odd) {
+      margin-right: 20px;
+    }
+    &:nth-child(even) {
+      margin-left: 20px;
+    }
+  }
+
+}
