@@ -104,7 +104,10 @@
                             return tx.amount.asset.id === this.asset.id;
                         case TYPES.EXCHANGE_BUY:
                         case TYPES.EXCHANGE_SELL:
-                            return tx.amount.asset.id === this.asset.id;
+                            return (
+                                tx.amount.asset.id === this.asset.id ||
+                                tx.price.pair.priceAsset.id === this.asset.id
+                            );
                         case TYPES.LEASE_IN:
                         case TYPES.LEASE_OUT:
                         case TYPES.CANCEL_LEASING:
