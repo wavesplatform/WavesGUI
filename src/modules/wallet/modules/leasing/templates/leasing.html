@@ -47,6 +47,9 @@
                 <w-transaction-list transaction-date-pattern="dd.MM.yyyy HH:mm"
                                     pending="$ctrl.pending"
                                     transactions="$ctrl.transactions"></w-transaction-list>
+                <div class="fake-transaction-line" ng-if="$ctrl.txList && !$ctrl.allActiveLeasing">
+                    <w-loader></w-loader>
+                </div>
             </div>
         </w-scroll-box>
     </div>

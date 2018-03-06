@@ -42,25 +42,24 @@
                  * @type {ITransaction[]}
                  * @private
                  */
-                this._txList = null;
+                this.txList = null;
                 /**
                  * @type {ITransaction[]}
-                 * @private
                  */
-                this._allActiveLeasing = null;
+                this.allActiveLeasing = null;
                 /**
                  * @type {ITransaction[]}
                  */
                 this.transactions = [];
 
                 waves.node.transactions.getActiveLeasingTx().then((txList) => {
-                    this._allActiveLeasing = txList;
+                    this.allActiveLeasing = txList;
                 });
 
                 createPoll(this, this._getBalances, this._setLeasingData, 1000, { isBalance: true });
                 createPoll(this, this._getTransactions, this._setTxList, 3000, { isBalance: true });
 
-                this.observe(['_txList', '_allActiveLeasing'], this._currentLeasingList);
+                this.observe(['txList', 'allActiveLeasing'], this._currentLeasingList);
             }
 
             startLeasing() {
@@ -112,15 +111,15 @@
                     [waves.node.transactions.TYPES.CANCEL_LEASING]: true
                 };
 
-                this._txList = txList.filter(({ type }) => AVAILABLE_TYPES_HASH[type]);
+                this.txList = txList.filter(({ type }) => AVAILABLE_TYPES_HASH[type]);
             }
 
             /**
              * @private
              */
             _currentLeasingList() {
-                const txList = this._txList;
-                const allActiveLeasing = this._allActiveLeasing;
+                const txList = this.txList;
+                const allActiveLeasing = this.allActiveLeasing;
 
                 this.pending = !txList.length && !allActiveLeasing;
 

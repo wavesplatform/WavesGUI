@@ -31,13 +31,13 @@
                  * @type {ITransaction[]}
                  * @private
                  */
-                this._txList = [];
+                this.txList = [];
 
                 this.syncSettings({ filter: 'wallet.transactions.filter' });
 
                 createPoll(this, waves.node.transactions.list, this._setTxList, 4000, { isBalance: true });
 
-                this.observe(['_txList', 'filter'], this._applyTransactionList);
+                this.observe(['txList', 'filter'], this._applyTransactionList);
             }
 
             exportTransactions() {
@@ -49,7 +49,7 @@
              */
             _applyTransactionList() {
                 const filter = this.filter;
-                const list = this._txList;
+                const list = this.txList;
                 const availableTypes = filter.split(',')
                     .map((type) => type.trim())
                     .reduce((result, type) => {
@@ -70,7 +70,7 @@
              */
             _setTxList(transactions) {
                 this.pending = false;
-                this._txList = transactions;
+                this.txList = transactions;
                 $scope.$apply();
             }
 
