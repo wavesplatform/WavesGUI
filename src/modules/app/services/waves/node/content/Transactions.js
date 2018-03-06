@@ -20,9 +20,10 @@
      * @param {User} user
      * @param {app.utils} utils
      * @param {Aliases} aliases
+     * @param {app.utils.decorators} decorators
      * @return {Transactions}
      */
-    const factory = function (user, utils, aliases) {
+    const factory = function (user, utils, aliases, decorators) {
 
         class Transactions {
 
@@ -68,6 +69,7 @@
              * @param {number} [limit]
              * @return {Promise<ITransaction[]>}
              */
+            @decorators.cachable(1)
             list(limit = 1000) {
                 return fetch(`${user.getSetting('network.node')}/transactions/address/${user.address}/limit/${limit}`)
                     .then(utils.onFetch)
@@ -78,6 +80,7 @@
             /**
              * @return {Promise<ITransaction[]>}
              */
+            @decorators.cachable(120)
             getActiveLeasingTx() {
                 return fetch(`${user.getSetting('network.node')}/leasing/active/${user.address}`)
                     .then(utils.onFetch)
@@ -267,7 +270,7 @@
         return utils.bind(new Transactions());
     };
 
-    factory.$inject = ['user', 'utils', 'aliases'];
+    factory.$inject = ['user', 'utils', 'aliases', 'decorators'];
 
     angular.module('app')
         .factory('transactions', factory);

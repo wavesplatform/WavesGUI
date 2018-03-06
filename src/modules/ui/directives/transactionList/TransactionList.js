@@ -36,7 +36,6 @@
              * @private
              */
             _onChangeTransactions() {
-
                 const transactions = (this._transactions || []);
                 const hash = Object.create(null);
                 const toDate = tsUtils.date('DD.MM.YYYY');
