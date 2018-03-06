@@ -4,9 +4,10 @@
     /**
      * @param Base
      * @param {JQuery} $element
+     * @param {TimeLine} timeLine
      * @return {DexPair}
      */
-    const controller = function (Base, $element) {
+    const controller = function (Base, $element, timeLine) {
 
         class DexPair extends Base {
 
@@ -20,6 +21,7 @@
                  * @type {string}
                  */
                 this.baseAssetId = null;
+                this._requestTimer = null;
             }
 
             $postLink() {
@@ -34,12 +36,17 @@
              * @private
              */
             _onChangeAssetId() {
+                if (this._requestTimer) {
+                    timeLine.cancel(this._requestTimer);
+                }
                 if (this.assetId && this.baseAssetId) {
                     Waves.AssetPair.get(this.assetId, this.baseAssetId)
                         .then((pair) => {
                             const amount = pair.amountAsset.displayName;
                             const price = pair.priceAsset.displayName;
                             this._addTemplate(`${amount} / ${price}`);
+                        }, () => {
+                            timeLine.timeout(() => this._onChangeAssetId(), 1000);
                         });
                 } else {
                     this._addTemplate('');
@@ -60,7 +67,7 @@
         return new DexPair();
     };
 
-    controller.$inject = ['Base', '$element'];
+    controller.$inject = ['Base', '$element', 'timeLine'];
 
     angular.module('app.dex').component('wDexPair', {
         bindings: {
