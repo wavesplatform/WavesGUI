@@ -18,8 +18,9 @@
       "issue": "{{name}} 토큰 발행하기",
       "reissue": "{{name}} 토큰 재발행",
       "burn": "{{name}} 토큰 버닝",
-      "exchange-buy": "거래소 구매: {{amountAsset}}/{{priceAsset}}",
-      "exchange-sell": "거래소 판매: {{amountAsset}}/{{priceAsset}}",
+      "exchange-buy": "거래소 구매:",
+      "exchange-sell": "거래소 판매:",
+      "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
       "lease-in": "수신 리스",
       "lease-out": "시작된 리스",
       "cancel-leasing": "취소된 리스",
@@ -37,7 +38,6 @@
       "lease-in": "{{amount}} {{name}}",
       "lease-out": "{{amount}} {{name}}",
       "cancel-leasing": "{{amount}} {{name}}",
-      "create-alias": ""
     },
     "subheaders": {
       "send": "{{time}}<span class='locale-address'>, 주소로 {{address}}</span>",
@@ -58,7 +58,7 @@
       "true": "재발행 가능"
     },
     "actions": {
-      "cancelLeasing": "리스 취소",
+      "cancel-leasing": "리스 취소",
       "showTx": "TX 정보",
       "copyTxId": "TX ID 복사",
       "copyTxData": "모든 TX 데이터 복사"

@@ -19,8 +19,9 @@
       "issue": "Выпуск токена \"{{name}}\"",
       "reissue": "Перевыпуск токена \"{{name}}\"",
       "burn": "Сожжение токена \"{{name}}\"",
-      "exchange-buy": "Покупка: {{amountAsset}}/{{priceAsset}}",
-      "exchange-sell": "Продажа: {{amountAsset}}/{{priceAsset}}",
+      "exchange-buy": "Покупка:",
+      "exchange-sell": "Продажа:",
+      "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
       "lease-in": "Входящий лизинг",
       "lease-out": "Передача в лизинг",
       "cancel-leasing": "Отмена лизинга",
@@ -59,7 +60,7 @@
       "true": "Перевыпускаемый"
     },
     "actions": {
-      "cancelLeasing": "Отменить лизинг",
+      "cancel-leasing": "Отменить лизинг",
       "showTx": "Информация о транзакции",
       "copyTxId": "Скопировать ID транзакции",
       "copyTxData": "Скопировать данные транзакции"
