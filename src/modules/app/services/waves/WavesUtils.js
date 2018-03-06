@@ -171,7 +171,7 @@
                             .then(utils.onFetch)
                             .then((data) => {
 
-                                if (!data || (typeof data === 'object' && data.status === 'error')) {
+                                if (!data || data.status === 'error') {
                                     return 0;
                                 }
 
