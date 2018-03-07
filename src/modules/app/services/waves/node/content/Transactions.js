@@ -20,9 +20,10 @@
      * @param {User} user
      * @param {app.utils} utils
      * @param {Aliases} aliases
+     * @param {app.utils.decorators} decorators
      * @return {Transactions}
      */
-    const factory = function (user, utils, aliases) {
+    const factory = function (user, utils, aliases, decorators) {
 
         class Transactions {
 
@@ -68,9 +69,23 @@
              * @param {number} [limit]
              * @return {Promise<ITransaction[]>}
              */
-            list(limit = 0) {
-                return Waves.API.Node.v2.addresses.transactions(user.address, { limit })
-                    .then((txList = []) => txList.map(this._pipeTransaction(false)));
+            @decorators.cachable(1)
+            list(limit = 1000) {
+                return fetch(`${user.getSetting('network.node')}/transactions/address/${user.address}/limit/${limit}`)
+                    .then(utils.onFetch)
+                    .then(([txList = []]) => Promise.all(txList.map(Waves.tools.siftTransaction)))
+                    .then((list) => list.map(this._pipeTransaction(false)));
+            }
+
+            /**
+             * @return {Promise<ITransaction[]>}
+             */
+            @decorators.cachable(120)
+            getActiveLeasingTx() {
+                return fetch(`${user.getSetting('network.node')}/leasing/active/${user.address}`)
+                    .then(utils.onFetch)
+                    .then((txList = []) => Promise.all(txList.map(Waves.tools.siftTransaction)))
+                    .then((list) => list.map(this._pipeTransaction(false)));
             }
 
             /**
@@ -118,12 +133,11 @@
              * @private
              */
             _pipeTransaction(isUTX) {
-                const aliasList = aliases.getAliasList();
 
                 return (tx) => {
                     tx.timestamp = new Date(tx.timestamp);
                     tx.isUTX = isUTX;
-                    tx.type = Transactions._getTransactionType(tx, aliasList);
+                    tx.type = Transactions._getTransactionType(tx);
                     tx.templateType = Transactions._getTemplateType(tx);
                     tx.shownAddress = Transactions._getTransactionAddress(tx);
                     if (tx.transactionType === TYPES.ISSUE) {
@@ -140,15 +154,14 @@
              * @param {string} tx.recipient
              * @param {object} tx.buyOrder
              * @param {object} tx.sellOrder
-             * @param {string[]} aliasList
              * @return {string}
              * @private
              */
-            static _getTransactionType(tx, aliasList) {
+            static _getTransactionType(tx) {
                 switch (tx.transactionType) {
                     // TODO : replace `case` values with `waves-api` constants
                     case 'transfer':
-                        return Transactions._getTransferType(tx, aliasList);
+                        return Transactions._getTransferType(tx);
                     case 'exchange':
                         return Transactions._getExchangeType(tx);
                     case 'lease':
@@ -171,15 +184,11 @@
             /**
              * @param {string} sender
              * @param {string} recipient
-             * @param {string[]} aliasList
              * @return {string}
              * @private
              */
-            static _getTransferType({ sender, recipient }, aliasList) {
-                // TODO : move aliasList to User (as a property `user.aliases = []`)
-                // TODO : remove `aliasList` argument from `pipeTransaction()` and other methods
-                // TODO : stop requesting aliases in 4 methods above
-                // TODO : add static method `.isSameSenderAndRecipient(sender, recipient)` (rename)
+            static _getTransferType({ sender, recipient }) {
+                const aliasList = aliases.getAliasList();
                 if (sender === recipient || (sender === user.address && aliasList.indexOf(recipient) !== -1)) {
                     return TYPES.CIRCULAR;
                 } else {
@@ -261,7 +270,7 @@
         return utils.bind(new Transactions());
     };
 
-    factory.$inject = ['user', 'utils', 'aliases'];
+    factory.$inject = ['user', 'utils', 'aliases', 'decorators'];
 
     angular.module('app')
         .factory('transactions', factory);

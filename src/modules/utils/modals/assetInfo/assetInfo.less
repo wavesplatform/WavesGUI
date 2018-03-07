@@ -1,4 +1,5 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
 
 html body md-dialog.asset-info-modal {
 
@@ -35,6 +36,21 @@ html body md-dialog.asset-info-modal {
       max-height: calc(~'74vh - 300px');
     }
 
+    .padding-content {
+      .tab-tem {
+        padding: 40px;
+
+        .line {
+          border-bottom: 1px solid @color-disabled-100;
+          padding: 5px 0;
+
+          &:last-child {
+            border-bottom: 0 none;
+          }
+        }
+      }
+    }
+
     .one-line {
       max-height: 1.3em;
       overflow: hidden;
@@ -43,15 +59,19 @@ html body md-dialog.asset-info-modal {
     }
   }
 
-  .padding-content .tab-tem {
-    padding: 40px;
+  .chart-legend {
+    flex-grow: 1;
 
+    .part:last-child {
+      text-align: right;
+    }
+  }
+
+  .tab-tem {
     .line {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      border-bottom: 1px solid @color-disabled-100;
-      padding: 5px 0;
       align-items: center;
 
       &-description div:last-child {
@@ -64,15 +84,11 @@ html body md-dialog.asset-info-modal {
       }
 
       & > div:first-child {
-        width: 120px;
-        align-items: center;
         display: flex;
         align-self: flex-start;
       }
 
       & > div:last-child {
-        width: calc(~'100% - 130px');
-        align-items: center;
         display: flex;
         flex-direction: column;
 
@@ -83,12 +99,8 @@ html body md-dialog.asset-info-modal {
           border-bottom: 1px solid @color-disabled-100;
           align-items: center;
 
-          > div {
+          & > div {
             flex-basis: 50%;
-
-            &:last-child {
-              text-align: right;
-            }
 
             .legend-color {
               width: 12px;
@@ -113,6 +125,13 @@ html body md-dialog.asset-info-modal {
       }
     }
 
+    .transaction-header {
+      .body-2();
+
+      div:not(:first-child):last-of-type {
+        text-align: right;
+      }
+    }
   }
 
   .padding-content.tab-details .tab-tem {
@@ -146,6 +165,7 @@ html body md-dialog.asset-info-modal {
     .locale-address {
       display: none;
     }
+
     w-actions {
       display: none;
     }
