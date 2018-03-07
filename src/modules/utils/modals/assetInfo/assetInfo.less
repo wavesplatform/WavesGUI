@@ -81,6 +81,7 @@ html body md-dialog.asset-info-modal {
         align-items: center;
         display: flex;
         flex-direction: column;
+        text-align: right;
 
         .legend-item, .total {
           display: flex;
@@ -92,6 +93,9 @@ html body md-dialog.asset-info-modal {
           & > div {
             flex-basis: 50%;
 
+            &:first-child {
+              text-align: left;
+            }
             &:last-child {
               text-align: right;
             }
@@ -184,11 +188,11 @@ html body md-dialog.asset-info-modal {
       }
 
       .tab-tem {
+        overflow-y: hidden;
         max-height: 100%;
         padding: 0;
 
         .line {
-          flex-direction: column;
 
           & > div:first-child,
           & > div:last-child {
