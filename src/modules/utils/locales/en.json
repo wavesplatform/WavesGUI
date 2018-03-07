@@ -210,7 +210,7 @@
         "p1": "When registering your account, you will be asked to save your secret phrase (Seed) and to protect your account with a password. On normal centralized servers, special attention is paid to the password, which can be changed and reset via email, if the need arises. However, on decentralized platforms such as Waves, everything is arranged differently:",
         "cell1": "You use your wallet anonymously, meaning your account is not connected to an email account or any other identifying data.",
         "cell2": "Your password protects your account when working on a certain device or browser. It is needed in order to ensure that your secret phrase is not saved in storage.",
-        "cell3": "If you forget your password, you can easily create a new one by using the account recovery form via your secret phrase. If you lose your secret phrase.",
+        "cell3": "If you forget your password, you can easily create a new one by using the account recovery form via your secret phrase. If you lose your secret phrase, however, you will have no way to access your account.",
         "cell4": "You cannot change your secret phrase. If you accidentally sent it to someone or suspect that scammers have taken it over, then create a new Waves wallet immediately and transfer your funds to it.",
         "backButton": "Go Back",
         "nextButton": "Protect Yourself"

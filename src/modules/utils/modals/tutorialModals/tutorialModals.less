@@ -39,20 +39,24 @@ body md-dialog.tutorial-modals {
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
-  }
 
-  .content-wrapper {
-    padding: 0 20px;
-    min-height: 550px;
-  }
+    md-dialog-content {
+      padding: 20px 60px 60px;
+    }
 
-  .buttons-wrapper {
-    div:nth-child(odd) {
-      margin-right: 10px;
+    .content-wrapper {
+      min-height: 550px;
     }
-    div:nth-child(even) {
-      margin-left: 10px;
+
+    .buttons-wrapper {
+      div:nth-child(odd) {
+        margin-right: 10px;
+      }
+      div:nth-child(even) {
+        margin-left: 10px;
+      }
     }
+
   }
 
   .flex-cols {
