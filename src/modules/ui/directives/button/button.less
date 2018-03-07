@@ -2,6 +2,7 @@
 
 w-button {
   display: inline-block;
+  border-radius: @border-radius;
 
   &.long {
     width: 100%;
@@ -138,18 +139,7 @@ w-button {
         color: @color-basic-200;
       }
     }
-
-    &.round {
-      border-radius: 50%;
-      min-height: 52px;
-      min-width: 52px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-    }
   }
-
 }
 
 @media screen and (max-width: 768px) {

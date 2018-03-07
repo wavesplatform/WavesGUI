@@ -48,6 +48,23 @@
             },
 
             /**
+             * @name app.utils#parseSearchParams
+             * @param {string} search
+             * @return {object}
+             */
+            parseSearchParams(search) {
+                const hashes = search.slice(search.indexOf('?') + 1).split('&');
+                const params = Object.create(null);
+
+                hashes.map((hash) => {
+                    const [key, val] = hash.split('=');
+                    params[key] = decodeURIComponent(val);
+                });
+
+                return params;
+            },
+
+            /**
              * @name app.utils#debounceRequestAnimationFrame
              * @param callback
              * @return {function(...[*])}
