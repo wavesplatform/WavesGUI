@@ -19,7 +19,10 @@
                 /**
                  * @type {string[]}
                  */
-                this.list = Object.keys(WavesApp.localize);
+                this.list = Object.keys(WavesApp.localize).map((key) => ({
+                    code: key,
+                    name: WavesApp.localize[key].name
+                }));
                 /**
                  * @type {string}
                  */

@@ -192,6 +192,17 @@
 
         var __controllers = Object.create(null);
 
+        var localeSeparators = {
+            world: {
+                group: ',',
+                decimal: '.'
+            },
+            russian: {
+                group: ' ',
+                decimal: '.'
+            }
+        };
+
         /**
          * @type {IWavesApp}
          */
@@ -199,25 +210,22 @@
             name: 'Waves Client',
             version: '{{pack.version}}',
             type: '{{build.type}}',
-            langList: ['en', 'ru', 'ko'],
             localize: {
-                en: {
-                    separators: {
-                        group: ',',
-                        decimal: '.'
-                    }
+                'en': {
+                    name: 'En',
+                    separators: localeSeparators.world
                 },
-                ru: {
-                    separators: {
-                        group: ' ',
-                        decimal: '.'
-                    }
+                'ru': {
+                    name: 'Ru',
+                    separators: localeSeparators.russian
                 },
-                ko: {
-                    separators: {
-                        group: ',',
-                        decimal: '.'
-                    }
+                'ko': {
+                    name: 'Ko',
+                    separators: localeSeparators.world
+                },
+                'zh-Hans-CN': {
+                    name: 'Zh',
+                    separators: localeSeparators.world
                 }
             },
             network: {
