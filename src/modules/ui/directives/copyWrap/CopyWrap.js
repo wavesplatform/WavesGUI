@@ -5,7 +5,7 @@
         bindings: {
             info: '@'
         },
-        template: '<div class="container" ng-transclude></div><div w-copy="{{::$ctrl.info}}" ng-click="$ctrl.copy();" class="copy-icon"></div>',
+        template: '<div class="container" ng-transclude></div><div w-copy="{{::$ctrl.info}}" class="copy-icon"></div>',
         transclude: true
     });
 })();

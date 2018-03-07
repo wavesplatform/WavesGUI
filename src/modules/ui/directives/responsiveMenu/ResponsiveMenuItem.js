@@ -41,7 +41,7 @@
                 this.parent.registerItem(this);
 
                 if (this.value != null && $attrs.activeByState) {
-                    this.receive(state.signals.changeRouterState, this._onChangeState, this);
+                    this.receive(state.signals.changeRouterStateSuccess, this._onChangeState, this);
                     this._onChangeState();
                 } else if (this.value != null) {
                     this.receive(utils.observe(this.parent, 'activeMenu'), () => {

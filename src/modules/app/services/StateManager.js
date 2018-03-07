@@ -16,8 +16,8 @@
                 this.rootStateList = [];
                 this.subStateList = [];
 
-                state.signals.changeRouterState.on(this._currentStateLists, this);
-                this.changeRouteState = state.signals.changeRouterState;
+                state.signals.changeRouterStateSuccess.on(this._currentStateLists, this);
+                this.changeRouteState = state.signals.changeRouterStateSuccess;
                 this._currentStateLists();
             }
 

@@ -64,7 +64,7 @@
                 </div>
 
                 <div ng-if="$ctrl.outerSendMode && $ctrl.assetKeyName" class="row">
-                    <div class="warning-plate">
+                    <div class="warning-plate margin-2">
                         <div class="body-2 warning-500"
                              w-i18n="modal.send.{{::$ctrl.assetKeyName}}.feeTitle"
                              params="{fee: $ctrl.gatewayDetails.gatewayFee}"></div>
@@ -74,6 +74,10 @@
                                min: $ctrl.gatewayDetails.minimumAmount,
                                max: $ctrl.gatewayDetails.maximumAmount
                              }"></div>
+                    </div>
+
+                    <div class="warning-plate basic-500">
+                        <w-i18n params="{assetName: $ctrl.moneyHash[$ctrl.assetId].asset.name}">modal.send.icoWarning</w-i18n>
                     </div>
                 </div>
 

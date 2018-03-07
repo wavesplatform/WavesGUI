@@ -64,6 +64,10 @@ body.dex {
 
     .search-item {
       font-size: @font-size-caption-1;
+
+      &.has-ticker {
+        font-weight: bold;
+      }
     }
 
     w-table {
@@ -125,7 +129,6 @@ body.dex {
     overflow: hidden;
   }
 
-
   .candle-chart-wrapper.error {
     display: flex;
 
@@ -161,9 +164,17 @@ body.dex {
 }
 
 @media screen and (max-width: 768px) {
+
+  w-layout .dex-layout w-dex-block .collapse-dex-block {
+    background-image: url(/img/icons/close_arrow.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 15px;
+  }
+
   //firefox fixes
   w-layout .dex-layout__block {
-    height: auto!important;
+    height: auto !important;
 
     &-center-bottom-collapsed w-dex-block .block-wrapper .block-title {
       height: auto;
@@ -172,14 +183,6 @@ body.dex {
   }
 
   body.dex {
-
-    w-layout .dex-layout w-dex-block .collapse-dex-block {
-      background-image: url(/img/icons/close_arrow.svg);
-      background-position: center;
-      background-repeat: no-repeat;
-      padding: 15px;
-    }
-
     w-dex-trade-graph,
     w-dex-trade-graph .graph-wrapper {
       height: 130px;
@@ -204,9 +207,9 @@ body.dex {
       padding: 10px 10px 0 10px;
     }
 
-     .dex-layout__column-right {
-       padding-bottom: 100px;
-     }
+    .dex-layout__column-right {
+      padding-bottom: 100px;
+    }
 
     .block-wrapper w-scroll-box w-row {
       font-size: 80%;
@@ -223,7 +226,7 @@ body.dex {
 
 //Mobile
 @media screen and (max-width: 480px),
-       (min-width: 481px) and (max-width: 768px) and (max-height:480px) {
+(min-width: 481px) and (max-width: 768px) and (max-height: 480px) {
 
   body.dex {
     ui-view[name="main"] {
