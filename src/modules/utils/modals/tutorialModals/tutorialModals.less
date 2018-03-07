@@ -1,5 +1,64 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
 
+.icon-information {
+  position: absolute;
+  display: block;
+  right: 141px;
+  top: 43px;
+  background: url(/img/icons/icon-info.svg) center no-repeat;
+  width: 16px;
+  height: 16px;
+}
+
+.icon-information-tooltip {
+  display: none;
+  position: absolute;
+  padding: 0 10px;
+  top: 0;
+  right: 149px;
+  transform-origin: center;
+  transform: translate(50%, 8px);
+  z-index: 1;
+  padding-bottom: 20px;
+  color: @color-white;
+  font-size: @font-size-caption-2;
+  line-height: 28px;
+  cursor: pointer;
+
+  &::before {
+    position: absolute;
+    bottom: 17px;
+    left: calc(50% ~'- 5px');
+    width: 10px;
+    height: 10px;
+    content: '';
+    transform-origin: center;
+    transform: rotate(45deg);
+    background: @color-basic-700;
+    z-index: -1;
+  }
+
+  &::after {
+    border-radius: @border-radius;
+    position: absolute;
+    background: @color-basic-700;
+    width: 100%;
+    height: 28px;
+    content: '';
+    left: 0;
+    top: 0;
+    z-index: -1;
+  }
+
+  &:hover {
+    display: inline-block;
+  }
+}
+
+.icon-information:hover + .icon-information-tooltip {
+  display: inline-block;
+}
 
 body md-dialog.tutorial-modals {
 
@@ -41,7 +100,11 @@ body md-dialog.tutorial-modals {
     transform: translateX(-50%) translateY(-50%);
 
     md-dialog-content {
-      padding: 20px 60px 60px;
+      padding: 20px 60px 0px;
+
+      &::after {
+        height: 60px;
+      }
     }
 
     .content-wrapper {
@@ -107,4 +170,20 @@ body md-dialog.tutorial-modals {
   body w-button.mobile-mid-fsize > *.big {
     font-size: 14px;
   }
+
+  .icon-information {
+    right: auto;
+    left: 20px;
+  }
+
+  .icon-information-tooltip {
+    right: auto;
+    left: 10px;
+    transform: translate(0, 8px);
+
+    &::before {
+      left: 13px;
+    }
+  }
+
 }
