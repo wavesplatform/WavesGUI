@@ -35,6 +35,10 @@
             type: '',
             processor: processExchangeTransaction
         };
+        TRANSACTION_SPEC[constants.MASS_PAYMENT_TRANSACTION_TYPE] = {
+            type: 'Mass Payment',
+            processor: processMassPaymentTransaction
+        };
 
         function buildTransactionType (number) {
             var spec = TRANSACTION_SPEC[number];
@@ -116,6 +120,20 @@
 
         function processCancelLeasingTransaction(transaction) {
             transaction.formatted.asset = Currency.WAVES.displayName;
+        }
+
+        function processMassPaymentTransaction(transaction) {
+            var currency = currency = Currency.WAVES;
+            var assetId = transaction.assetId;
+            if (assetId) {
+                var asset = applicationContext.cache.assets[assetId];
+                if (asset) {
+                    currency = asset.currency;
+                }
+            }
+
+            transaction.formatted.asset = currency.displayName;
+            transaction.formatted.amount = Money.fromCoins(transaction.totalAmount, currency).formatAmount();
         }
 
         function processExchangeTransaction(transaction) {
