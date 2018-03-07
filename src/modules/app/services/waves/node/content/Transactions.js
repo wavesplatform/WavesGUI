@@ -13,7 +13,8 @@
         LEASE_IN: 'lease-in',
         LEASE_OUT: 'lease-out',
         CANCEL_LEASING: 'cancel-leasing',
-        CREATE_ALIAS: 'create-alias'
+        CREATE_ALIAS: 'create-alias',
+        UNKNOWN: 'unknown'
     };
 
     /**
@@ -29,6 +30,14 @@
 
             constructor() {
                 this.TYPES = TYPES;
+
+                Promise.all([
+                    Waves.Money.fromCoins('0', WavesApp.defaultAssets.WAVES)
+                ]).then(([waves]) => {
+                    this.EMPTY_MONEY = {
+                        [WavesApp.defaultAssets.WAVES]: waves
+                    };
+                });
             }
 
             /**
@@ -135,15 +144,33 @@
             _pipeTransaction(isUTX) {
 
                 return (tx) => {
+
+                    if (tx.type && tx.originalTx.type === 2) {
+                        const originalTx = tx.originalTx;
+                        delete tx.originalTx;
+                        Object.assign(tx, this._remapOldSendTransaction(originalTx));
+                    }
+
                     tx.timestamp = new Date(tx.timestamp);
                     tx.isUTX = isUTX;
                     tx.type = Transactions._getTransactionType(tx);
                     tx.templateType = Transactions._getTemplateType(tx);
                     tx.shownAddress = Transactions._getTransactionAddress(tx);
+
                     if (tx.transactionType === TYPES.ISSUE) {
                         tx.quantityStr = tx.quantity.toFormat(tx.precision);
                     }
+
                     return tx;
+                };
+            }
+
+            _remapOldSendTransaction(tx) {
+                return {
+                    ...tx,
+                    transactionType: 'transfer',
+                    amount: this.EMPTY_MONEY[WavesApp.defaultAssets.WAVES].cloneWithCoins(String(tx.amount)),
+                    fee: this.EMPTY_MONEY[WavesApp.defaultAssets.WAVES].cloneWithCoins(String(tx.fee))
                 };
             }
 
@@ -177,7 +204,7 @@
                     case 'burn':
                         return TYPES.BURN;
                     default:
-                        throw new Error(`Unsupported transaction type ${tx.transactionType}`);
+                        return TYPES.UNKNOWN;
                 }
             }
 
@@ -239,6 +266,8 @@
                     case TYPES.EXCHANGE_BUY:
                     case TYPES.EXCHANGE_SELL:
                         return 'exchange';
+                    case TYPES.UNKNOWN:
+                        return 'unknown';
                     default:
                         return type;
                 }

@@ -25,7 +25,7 @@
                 this.shownAddress = this.transaction.shownAddress;
                 this.type = this.transaction.type;
 
-                if (this.transaction.amount) {
+                if (this.transaction.amount && this.transaction.amount instanceof Waves.Money) {
                     baseAssetService.convertToBaseAsset(this.transaction.amount)
                         .then((baseMoney) => {
                             this.mirrorBalance = baseMoney;
@@ -39,20 +39,16 @@
             }
 
             cancelLeasing() {
-                return user.getSeed().then((seed) => waves.node.cancelLeasing({
-                    transactionId: this.transaction.id,
-                    keyPair: seed.keyPair
-                })).then(() => {
-                    notificationManager.info({
-                        ns: 'app.ui',
-                        title: { literal: 'transaction.notifications.closedSuccess' }
+                const leaseTransactionAmount = this.transaction.amount;
+                const leaseTransactionId = this.transaction.id;
+                return waves.node.getFee('cancelLeasing')
+                    .then((fee) => modalManager.showConfirmTx('cancelLeasing', {
+                        fee,
+                        leaseTransactionAmount,
+                        leaseTransactionId
+                    })).then(() => {
+                        this.transaction.isActive = false;
                     });
-                }, () => {
-                    notificationManager.warn({
-                        ns: 'app.ui',
-                        title: { literal: 'transaction.notifications.closed' }
-                    });
-                });
             }
 
             showTransaction() {
@@ -83,7 +79,7 @@
                     message += `\n${recipient}`;
                 }
 
-                if (tx.amount) {
+                if (tx.amount && tx.amount instanceof Waves.Money) {
                     const asset = tx.amount.asset;
                     const amount = `Amount: ${tx.amount.toFormat()} ${asset.name} (${asset.id})`;
                     message += `\n${amount}`;
