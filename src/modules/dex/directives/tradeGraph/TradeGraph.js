@@ -57,7 +57,7 @@
                  * @type {boolean}
                  * @private
                  */
-                this._canShowGraph = false;
+                this.canShowGraph = false;
 
                 this.options = {
                     margin: {
@@ -96,20 +96,6 @@
                  * @private
                  */
                 this._poll = createPoll(this, this._getOrderBook, this._setOrderBook, 1000);
-            }
-
-            /**
-             * @returns {boolean}
-             */
-            shouldShowGraph() {
-                return this._canShowGraph;
-            }
-
-            /**
-             * @returns {boolean}
-             */
-            shouldShowStub() {
-                return !this.shouldShowGraph();
             }
 
             _onChangeAssets(noRestart) {
@@ -184,7 +170,7 @@
             }
 
             _showGraphAndHideStub() {
-                this._canShowGraph = true;
+                this.canShowGraph = true;
             }
 
             _setGraphToShowAsksAndBids() {
@@ -202,7 +188,7 @@
 
             _hideGraphAndShowStub() {
                 this._updateGraphSeriesOptions([]);
-                this._canShowGraph = false;
+                this.canShowGraph = false;
             }
 
             _updateGraphSeriesOptions(seriesOptions) {

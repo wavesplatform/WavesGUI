@@ -1,8 +1,8 @@
 <div class="graph-wrapper">
     <linechart options="$ctrl.options"
                data="$ctrl.data"
-               ng-if="$ctrl.shouldShowGraph()"></linechart>
-    <div class="no-transactions-container" ng-if="$ctrl.shouldShowStub()">
+               ng-if="$ctrl.canShowGraph"></linechart>
+    <div class="no-transactions-container" ng-if="!$ctrl.canShowGraph">
         <div class="icon"></div>
         <div class="body-1 basic-700" w-i18n="directives.noChartDataTitle"></div>
         <div class="footnote-1 basic-500" w-i18n="directives.noChartDataMessage"></div>
