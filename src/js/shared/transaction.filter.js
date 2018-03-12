@@ -123,7 +123,7 @@
         }
 
         function processMassPaymentTransaction(transaction) {
-            var currency = currency = Currency.WAVES;
+            var currency = Currency.WAVES;
             var assetId = transaction.assetId;
             if (assetId) {
                 var asset = applicationContext.cache.assets[assetId];
