@@ -21,7 +21,7 @@
                 this.address = user.address;
                 this.stateList = [];
 
-                this.receive(state.signals.changeRouterState, this._onChangeRouterState, this);
+                this.receive(state.signals.changeRouterStateSuccess, this._onChangeRouterState, this);
                 this._onChangeRouterState($state.$current);
             }
 

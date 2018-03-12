@@ -29,7 +29,7 @@
                 /**
                  * @type {string}
                  */
-                this.gatewayAddress = '';
+                this.gatewayAddress = null;
 
                 gatewayService.getDepositDetails(asset, address).then((details) => {
                     this.gatewayAddress = details.address;
