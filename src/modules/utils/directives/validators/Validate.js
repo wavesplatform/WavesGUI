@@ -53,11 +53,6 @@
 
                 return function ($scope, $input, $compiledAttrs, $ngModel) {
 
-                    function replaceInputValue(newValue) {
-                        $ngModel.$viewValue = newValue;
-                        $ngModel.$render();
-                    }
-
                     class Validate {
 
                         constructor() {
@@ -357,7 +352,7 @@
                                     const correspondingToPatternPartOfInput = getCorrespondingToPatternPartOf(value);
 
                                     if (correspondingToPatternPartOfInput !== value) {
-                                        replaceInputValue(correspondingToPatternPartOfInput);
+                                        Validate._replaceInputValue(correspondingToPatternPartOfInput);
                                     }
 
                                     parserWorkedBeforeInputEvent = true;
@@ -379,7 +374,7 @@
                                 if (parserWorkedBeforeInputEvent) {
                                     parserWorkedBeforeInputEvent = false;
                                 } else {
-                                    replaceInputValue(
+                                    Validate._replaceInputValue(
                                         getCorrespondingToPatternPartOf($input.val())
                                     );
                                 }
@@ -640,6 +635,14 @@
                             return Validate._getAttrName(name) in $attrs;
                         }
 
+                        /**
+                         * @param newValue
+                         * @private
+                         */
+                        static _replaceInputValue(newValue) {
+                            $ngModel.$viewValue = newValue;
+                            $ngModel.$render();
+                        }
                     }
 
                     return new Validate();
