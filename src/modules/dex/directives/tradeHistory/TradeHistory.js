@@ -39,7 +39,8 @@
                             price: { type: tsApiValidator.StringPart, required: true },
                             size: { type: tsApiValidator.StringPart, required: true, path: 'amount' },
                             date: { type: tsApiValidator.DatePart, required: true, path: 'timestamp' },
-                            type: { type: tsApiValidator.StringPart, required: true }
+                            type: { type: tsApiValidator.StringPart, required: true },
+                            id: { type: tsApiValidator.StringPart, required: true }
                         }
                     }
                 });
@@ -73,12 +74,7 @@
 
             _getTradeHistory() {
                 return dataFeed.trades(this._assetIdPair.amount, this._assetIdPair.price)
-                    .then((data) => this.shema.parse(data)).then((orderList) => {
-                        return orderList.map((item) => ({
-                            ...item,
-                            id: `${item.price}-${item.size}-${item.type}-${item.date.valueOf()}`
-                        }));
-                    });
+                    .then((data) => this.shema.parse(data));
             }
 
         }
