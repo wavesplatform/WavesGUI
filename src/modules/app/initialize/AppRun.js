@@ -77,7 +77,6 @@
         Waves.config.set({
             assetFactory(props) {
                 return fetch(`${WavesApp.network.api}/assets/${props.id}`)
-                    .then(utils.onFetch)
                     .then((fullProps) => new ExtendedAsset(remapAssetProps(fullProps)))
                     .catch(() => {
                         return Waves.API.Node.v1.transactions.get(props.id)

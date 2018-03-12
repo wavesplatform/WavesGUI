@@ -105,7 +105,6 @@
 
                 const path = `${WavesApp.network.api}/candles/${amountId}/${priceId}`;
                 return fetch(`${path}?timeStart=${from}&timeEnd=${to}&interval=${interval}`)
-                    .then(utils.onFetch)
                     .then((res) => res.candles);
             }
 

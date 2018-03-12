@@ -301,6 +301,39 @@
 
 <script>
 
+    window.fetch = (function (fetch) {
+        if (!fetch) {
+            return undefined;
+        }
+
+        var DEFAULT_OPTIONS = {
+            credentials: 'include'
+        };
+
+        return function (url, options) {
+            options = options || Object.create(null);
+            return fetch(url, Object.assign(options, DEFAULT_OPTIONS))
+                .then(function (response) {
+                    if (response.ok) {
+                        if (response.headers.get('Content-Type').indexOf('application/json') !== -1) {
+                            return response.json();
+                        } else {
+                            return response.text();
+                        }
+                    } else {
+                        return response.text()
+                            .then(function (error) {
+                                try {
+                                    return Promise.reject(JSON.parse(error));
+                                } catch (e) {
+                                    return Promise.reject(error);
+                                }
+                            });
+                    }
+                });
+        };
+    })(window.fetch);
+
     var analytics = eventSender.default.inactive();
 
     var Waves = WavesAPI.create({
