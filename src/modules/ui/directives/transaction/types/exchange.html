@@ -1,10 +1,13 @@
-<div class="line body-1 basic-700">
+<div class="line transaction-header exchange basic-700">
     <div>
-        <span w-i18n="transaction.headers.{{::$ctrl.type}}"
-              params="{
-                amountAsset: $ctrl.transaction.amount.asset.name,
-                priceAsset: $ctrl.transaction.price.pair.priceAsset.name
-              }"></span>
+        <div>
+            <span w-i18n="transaction.headers.{{::$ctrl.type}}"></span>
+            <span class="nowrap" w-i18n="transaction.headers.exchange-amount"
+                  params="{
+                    amountAsset: $ctrl.transaction.amount.asset.name,
+                    priceAsset: $ctrl.transaction.price.pair.priceAsset.name
+                  }"></span>
+        </div>
     </div>
     <div>
         <span w-i18n="transaction.amounts.{{::$ctrl.type}}"

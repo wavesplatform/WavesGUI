@@ -1,5 +1,6 @@
 @import (reference) '../../../config';
 @import (reference) '../../../app/less/icons';
+@import (reference) '../../../app/less/typography';
 
 w-transaction .transaction {
   display: flex;
@@ -84,5 +85,14 @@ w-transaction .transaction {
       height: 50%;
       padding-right: @padding-main-layout * 4.4;
     }
+
+    .transaction-header {
+      .body-1();
+
+      div:not(:first-child):last-of-type {
+        text-align: right;
+      }
+    }
+
   }
 }
