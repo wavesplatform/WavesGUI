@@ -164,6 +164,9 @@
 
             onReadQrCode(result) {
                 this.tx.recipient = result.body;
+
+                analytics.push('Send', 'Send.QrCodeRead', 'Send.QrCodeRead.Success');
+
                 if (result.params) {
 
                     const applyAmount = () => {

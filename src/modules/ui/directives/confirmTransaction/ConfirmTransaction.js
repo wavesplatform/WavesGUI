@@ -72,13 +72,13 @@
                     }
 
                     const txType = ConfirmTransaction.upFirstChar(this.tx.transactionType);
-                    const amount = this.tx.amount && this.tx.amount.toFormat() || undefined;
+                    const amount = ConfirmTransaction.toBigNumber(this.tx.amount && this.tx.amount.toFormat());
 
                     return txPromise.then((data) => {
-                        analytics.push('Transaction', `Transaction.${txType}.Success`, amount);
+                        analytics.push('Transaction', `Transaction.${txType}`, `Transaction.${txType}.Success`, amount);
                         return data;
                     }, (error) => {
-                        analytics.push('Transaction', `Transaction.${txType}.Error`, amount);
+                        analytics.push('Transaction', `Transaction.${txType}`, `Transaction.${txType}.Error`, amount);
                         return Promise.reject(error);
                     });
                 });
@@ -90,6 +90,10 @@
              */
             static upFirstChar(str) {
                 return str.charAt(0).toUpperCase() + str.slice(1);
+            }
+
+            static toBigNumber(amount) {
+                return amount && amount.getTokens().toFixed() || undefined;
             }
 
         }
