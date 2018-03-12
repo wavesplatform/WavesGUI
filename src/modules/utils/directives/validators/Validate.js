@@ -25,7 +25,7 @@
         'custom'
     ];
 
-    const NUMBER_PATTERN = '[0-9.]'; //TODO Add locale separators
+    const NUMBER_PATTERN = '\\d*\\.?\\d*'; //TODO Add locale separators
 
     /**
      *
@@ -52,6 +52,11 @@
                 }
 
                 return function ($scope, $input, $compiledAttrs, $ngModel) {
+
+                    function replaceInputValue(newValue) {
+                        $ngModel.$viewValue = newValue;
+                        $ngModel.$render();
+                    }
 
                     class Validate {
 
@@ -196,7 +201,7 @@
                             }
 
                             if (this._validators[name].parser) {
-                                $ngModel.$parsers.push(this._validators[name].parser);
+                                $ngModel.$parsers.unshift(this._validators[name].parser);
                             }
 
                             if (this._validators[name].formatter) {
@@ -333,14 +338,31 @@
                         }
 
                         _createPatternValidator(name) {
-
                             let value;
+                            let parserWorkedBeforeInputEvent = false;
+
+                            function getCorrespondingToPatternPartOf(value) {
+                                const correspondingParts = validator.value.exec(value) || [];
+
+                                return correspondingParts[0] || '';
+                            }
 
                             const validator = {
                                 name,
                                 value: null,
                                 handler: (modelValue, viewValue) => {
                                     return true; // TODO
+                                },
+                                parser: (value) => {
+                                    const correspondingToPatternPartOfInput = getCorrespondingToPatternPartOf(value);
+
+                                    if (correspondingToPatternPartOfInput !== value) {
+                                        replaceInputValue(correspondingToPatternPartOfInput);
+                                    }
+
+                                    parserWorkedBeforeInputEvent = true;
+
+                                    return correspondingToPatternPartOfInput;
                                 }
                             };
 
@@ -351,19 +373,15 @@
                                 }
                             });
 
-                            $input.on('keypress', (event) => {
-                                if (event.keyCode != null) {
-                                    const char = String.fromCharCode(event.keyCode);
-                                    if (char != null) {
-                                        if (validator.value.test(char)) {
-                                            if (char === '.' && $input.val().includes('.')) {
-                                                // TODO add separator from locale
-                                                event.preventDefault();
-                                            }
-                                        } else {
-                                            event.preventDefault();
-                                        }
-                                    }
+                            // Once there is empty or invalid value in an input, parsers do not always run, thus there
+                            // is a need for clearing the wrong state of the input.
+                            $input.on('input', () => {
+                                if (parserWorkedBeforeInputEvent) {
+                                    parserWorkedBeforeInputEvent = false;
+                                } else {
+                                    replaceInputValue(
+                                        getCorrespondingToPatternPartOf($input.val())
+                                    );
                                 }
                             });
 
