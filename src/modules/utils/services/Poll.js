@@ -51,8 +51,9 @@
              * @param {Function} getData
              * @param {Function} applyData
              * @param {number} time
+             * @param {number} [errorRequestTime]
              */
-            constructor(getData, applyData, time) {
+            constructor(getData, applyData, time, errorRequestTime) {
                 /**
                  * @type {string}
                  */
@@ -63,6 +64,11 @@
                 this.signals = {
                     destroy: new tsUtils.Signal()
                 };
+                /**
+                 * @type {number}
+                 * @private
+                 */
+                this._errorRequestTime = errorRequestTime || 1000;
                 /**
                  * @type {Deferred}
                  */
@@ -218,11 +224,12 @@
                 const result = this._getData();
                 if (Poll._isPromise(result)) {
                     this._promise = new PromiseControl(result);
-                    this._promise.always(() => {
+                    this._promise.then((data) => {
                         this._addTimeout();
-                    }).then((data) => {
                         this._applyData(data);
                         this._ready.resolve();
+                    }, () => {
+                        this._timer = timeLine.timeout(() => this._run(), this._errorRequestTime);
                     });
                 } else {
                     this._applyData(result);

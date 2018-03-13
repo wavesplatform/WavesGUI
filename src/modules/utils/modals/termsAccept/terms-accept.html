@@ -29,33 +29,5 @@
                 </w-button>
             </md-dialog-content>
         </w-step>
-        <w-step class="step-2">
-            <md-toolbar>
-                <div class="md-toolbar-tools">
-                    <div class="headline-2 basic-700" w-i18n="modal.termsAccept.header.title2"></div>
-                    <span flex></span>
-                    <div class="btn icon-close" w-step-prev></div>
-                </div>
-            </md-toolbar>
-            <md-dialog-content>
-
-                <ul class="agree-list">
-                    <w-scroll-box>
-                        <li class="license" ng-repeat="item in $ctrl.license track by $index">
-                            <div class="title">
-                                {{::$index + 1}}. {{::item.title}}
-                            </div>
-                            <div class="text">
-                                {{::item.text}}
-                            </div>
-                        </li>
-                    </w-scroll-box>
-                </ul>
-
-                <w-button class="submit big long" w-step-prev mod="big" ng-click="$ctrl.confirm()">
-                    <w-i18n>confirm</w-i18n>
-                </w-button>
-            </md-dialog-content>
-        </w-step>
     </w-step-by-step>
 </md-dialog>

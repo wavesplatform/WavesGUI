@@ -91,6 +91,7 @@
             /**
              * @param {string} asset1
              * @param {string} asset2
+             * @return {PollCache}
              * @private
              */
             _getOrderBookCache(asset1, asset2) {
