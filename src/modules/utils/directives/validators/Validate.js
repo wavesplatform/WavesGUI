@@ -25,7 +25,10 @@
         'custom'
     ];
 
-    const NUMBER_PATTERN = '\\d*\\.?\\d*'; //TODO Add locale separators
+    const PATTERNS = {
+        NUMBER: '\\d*\\.?\\d*', //TODO Add locale separators
+        INTEGER: '\\d*'
+    };
 
     /**
      *
@@ -229,7 +232,7 @@
                         }
 
                         _createIntegerValidator(name) {
-                            this._createPatternValidator('[0-9]');
+                            this._addInputPattern(PATTERNS.INTEGER);
 
                             return {
                                 name,
@@ -394,7 +397,7 @@
                         _createAssetValidator(name) {
                             const precisionValidator = this._createValidator('precision');
 
-                            this._addInputPattern(NUMBER_PATTERN);
+                            this._addInputPattern(PATTERNS.NUMBER);
 
                             let value = null;
 
@@ -517,13 +520,18 @@
                         }
 
                         _createBigNumberValidator(name) {
-
-                            this._addInputPattern(NUMBER_PATTERN);
+                            this._addInputPattern(PATTERNS.NUMBER);
 
                             return {
                                 name,
                                 handler: () => true,
-                                parser: Validate._toBigNumber,
+                                parser: (value) => {
+                                    if (value === '') {
+                                        return;
+                                    }
+
+                                    return Validate._toBigNumber(value);
+                                },
                                 formatter: Validate._toString
                             };
                         }
