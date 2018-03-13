@@ -58,7 +58,7 @@
       "true": "재발행 가능"
     },
     "actions": {
-      "cancel-leasing": "리스 취소",
+      "cancelLeasing": "리스 취소",
       "showTx": "TX 정보",
       "copyTxId": "TX ID 복사",
       "copyTxData": "모든 TX 데이터 복사"
