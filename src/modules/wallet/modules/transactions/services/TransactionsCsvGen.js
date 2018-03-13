@@ -79,7 +79,7 @@
                     }
                 });
 
-                CSV.download(csv, 'transactions.csv');
+                CSV.download(csv, 'transactions.csv', { target: '_blank' });
             }
 
         }
