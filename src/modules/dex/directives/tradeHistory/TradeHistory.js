@@ -7,9 +7,10 @@
      * @param {Waves} waves
      * @param {DataFeed} dataFeed
      * @param {function} createPoll
+     * @param {app.utils} utils
      * @return {TradeHistory}
      */
-    const controller = function (Base, $scope, waves, dataFeed, createPoll) {
+    const controller = function (Base, $scope, waves, dataFeed, createPoll, utils) {
 
         class TradeHistory extends Base {
 
@@ -63,6 +64,9 @@
                 this.poll.destroy();
             }
 
+            /**
+             * @private
+             */
             _onChangeAssets() {
                 this.orders = [];
                 this.poll.restart();
@@ -72,9 +76,29 @@
                 });
             }
 
+            /**
+             * @return {Promise<any>}
+             * @private
+             */
             _getTradeHistory() {
                 return dataFeed.trades(this._assetIdPair.amount, this._assetIdPair.price)
-                    .then((data) => this.shema.parse(data));
+                    .then((data) => this.shema.parse(data))
+                    .then(TradeHistory._filterDuplicate); // TODO remove with Dima's service
+            }
+
+            /**
+             * @param list
+             * @private
+             */
+            static _filterDuplicate(list) {
+                const hash = Object.create(null);
+                return list.reduce((result, item) => {
+                    if (!hash[item.id]) {
+                        result.push(item);
+                    }
+                    hash[item.id] = true;
+                    return result;
+                }, []);
             }
 
         }
@@ -82,7 +106,7 @@
         return new TradeHistory();
     };
 
-    controller.$inject = ['Base', '$scope', 'waves', 'dataFeed', 'createPoll'];
+    controller.$inject = ['Base', '$scope', 'waves', 'dataFeed', 'createPoll', 'utils'];
 
     angular.module('app.dex')
         .component('wDexTradeHistory', {
