@@ -72,7 +72,7 @@
                     }
 
                     const txType = ConfirmTransaction.upFirstChar(this.tx.transactionType);
-                    const amount = ConfirmTransaction.toBigNumber(this.tx.amount && this.tx.amount.toFormat());
+                    const amount = ConfirmTransaction.toBigNumber(this.tx.amount);
 
                     return txPromise.then((data) => {
                         analytics.push('Transaction', `Transaction.${txType}`, `Transaction.${txType}.Success`, amount);
