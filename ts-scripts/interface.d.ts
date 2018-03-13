@@ -1,11 +1,11 @@
-import { Stream } from "stream";
+import { Stream } from 'stream';
 
 export interface IMetaJSON {
     vendors: Array<string>;
     stylesheets: Array<string>;
-    developmentScripts: Array<string>;
     domain: string;
     copyNodeModules: Array<string>;
+    electronScripts: Array<string>;
     configurations: {
         testnet: IConfItem;
         mainnet: IConfItem;

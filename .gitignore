@@ -6,7 +6,7 @@
 /src/**/*.css
 /build
 /dist
-/electron/main.js
+/electron/*.js
 /coverage
 /tmp
 /ts-scripts/*.js
