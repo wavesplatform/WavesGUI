@@ -136,6 +136,7 @@
                     if (isValid) {
                         this._$container.children().each((i, element) => {
                             $(element).off('click');
+                            this._$container.addClass('seed-confirmed');
                         });
                     }
                 }
