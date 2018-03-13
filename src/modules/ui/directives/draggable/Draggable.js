@@ -9,7 +9,7 @@
 
         return {
             scope: false,
-            link: ($scope, $element) => {
+            link: ($scope, $element, $attrs) => {
 
                 const $document = $(document);
                 const position = $element.css('position');
@@ -37,21 +37,54 @@
                 let x = 0;
                 let y = 0;
 
+                function getEvent(event) {
+                    const touch = getTouch(event.originalEvent);
+                    return {
+                        preventDefault: () => event.originalEvent.preventDefault(),
+                        pageX: event.pageX || touch.pageX,
+                        pageY: event.pageY || touch.pageY,
+                        button: event.button == null ? 0 : event.button
+                    };
+                }
+
+                let id = 0;
+
+                /**
+                 * @param {TouchEvent} event
+                 */
+                function getTouch(event) {
+                    switch (event.type) {
+                        case 'touchstart':
+                            id = event.targetTouches[0].identifier;
+                        case 'touchmove':
+                            return Array.prototype.filter
+                                .call(event.targetTouches, ({ identifier }) => identifier === id)[0];
+                        case 'touchend':
+                            id = 0;
+                            return event.changedTouches[0];
+                        default:
+                            return null;
+                    }
+                }
+
                 $element.on('mousedown touchstart', (e) => {
-                    e.preventDefault();
+                    e = getEvent(e);
                     $overlay.insertBefore($element);
                     const startX = e.pageX - x;
                     const startY = e.pageY - y;
 
-                    const move = utils.debounceRequestAnimationFrame((e) => {
-                        e.preventDefault();
+                    const handler = utils.debounceRequestAnimationFrame((e) => {
+                        e = getEvent(e);
                         x = (e.pageX - startX);
                         y = (e.pageY - startY);
                         $element.css('transform', `translate(${x}px, ${y}px)`);
                     });
+                    const move = (e) => {
+                        e.preventDefault();
+                        handler(e);
+                    };
 
                     const up = () => {
-                        e.preventDefault();
                         $overlay.detach();
                         $document.off('mousemove touchmove', move);
                         $document.off('mouseup touchend', up);
