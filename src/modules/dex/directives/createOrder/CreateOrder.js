@@ -99,16 +99,26 @@
                     _assetIdPair: 'dex.assetIdPair'
                 });
 
-                this.observe('_assetIdPair', () => {
-                    this.amount = null;
-                    this.price = null;
-                    balancesPoll.restart();
-                });
-
                 /**
                  * @type {Poll}
                  */
                 const balancesPoll = createPoll(this, this._getBalances, this._setBalances, 1000);
+                const spreadPoll = createPoll(this, this._getData, this._setData, 1000);
+
+                this.observe('_assetIdPair', () => {
+                    this.amount = null;
+                    this.price = null;
+                    this.bid = null;
+                    this.ask = null;
+                    balancesPoll.restart();
+                    spreadPoll.restart();
+                    this.observeOnce(['bid', 'ask'], utils.debounce(() => {
+                        if (this.type) {
+                            this.price = this._getCurrentPrice();
+                            $scope.$apply();
+                        }
+                    }));
+                });
 
                 this.observe(['amount', 'price', 'step', 'type'], this._currentTotal);
 
@@ -116,24 +126,13 @@
                 $element.on('mousedown', '.body', (e) => {
                     e.stopPropagation();
                 });
-
-                createPoll(this, this._getData, this._setData, 1000);
             }
 
             expand(type) {
                 this.type = type;
                 this.step = 1;
                 this.maxAmountBalance = CreateOrder._getMaxAmountBalance(this.type, this.amountBalance, this.fee);
-                switch (type) {
-                    case 'sell':
-                        this.price = this.priceBalance.cloneWithTokens(String(this.bid.price));
-                        break;
-                    case 'buy':
-                        this.price = this.priceBalance.cloneWithTokens(String(this.ask.price));
-                        break;
-                    default:
-                        throw new Error('Wrong type');
-                }
+                this.price = this._getCurrentPrice();
 
                 $scope.$$postDigest(() => {
                     $element.find('input[name="amount"]').focus();
@@ -224,6 +223,17 @@
                     });
             }
 
+            _getCurrentPrice() {
+                switch (this.type) {
+                    case 'sell':
+                        return this.priceBalance.cloneWithTokens(String(this.bid.price));
+                    case 'buy':
+                        return this.priceBalance.cloneWithTokens(String(this.ask.price));
+                    default:
+                        throw new Error('Wrong type');
+                }
+            }
+
             _getBalances() {
                 return Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                     return utils.whenAll([
@@ -236,6 +246,10 @@
                 });
             }
 
+            /**
+             * @param data
+             * @private
+             */
             _setBalances(data) {
                 if (data) {
                     this.amountBalance = data.amountBalance;
