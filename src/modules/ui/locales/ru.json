@@ -53,7 +53,8 @@
       "lease-in": "{{time}}<span class='locale-address'>, с адреса {{address}}</span>",
       "lease-out": "{{time}}<span class='locale-address'>, на адрес {{address}}</span>",
       "cancel-leasing": "{{time}}<span class='locale-address'>, транзакция {{transactionId}}</span>",
-      "create-alias": "{{time}}, {{alias}}"
+      "create-alias": "{{time}}, {{alias}}",
+      "activeLeasing": "активен"
     },
     "reissuable": {
       "false": "Не перевыпускаемый",

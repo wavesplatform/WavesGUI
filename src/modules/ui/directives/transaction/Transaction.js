@@ -20,6 +20,7 @@
         class Transaction extends Base {
 
             $postLink() {
+
                 this.templateUrl = `${PATH}/${this.transaction.templateType}.html`;
                 this.time = $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm');
                 this.shownAddress = this.transaction.shownAddress;

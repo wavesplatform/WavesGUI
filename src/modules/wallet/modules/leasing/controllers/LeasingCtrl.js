@@ -121,14 +121,14 @@
                 const txList = this.txList;
                 const allActiveLeasing = this.allActiveLeasing;
 
-                this.pending = !txList.length && !allActiveLeasing;
+                this.pending = !txList || (!txList.length && !allActiveLeasing);
 
                 if (!allActiveLeasing || !allActiveLeasing.length) {
                     this.transactions = txList.slice();
                     return null;
                 }
 
-                const idHash = utils.toHash(txList, 'id');
+                const idHash = utils.toHash(txList || [], 'id');
                 const result = txList.slice();
 
                 allActiveLeasing.forEach((tx) => {
@@ -136,7 +136,7 @@
                         result.push(tx);
                     }
                 });
-                this.transactions = result;
+                this.transactions = result; //TODO!
             }
 
         }
