@@ -3,7 +3,6 @@
 
     /**
      * @param Base
-     * @param {$scope} $scope
      * @returns {ChangeLanguage}
      */
     const controller = function (Base) {
