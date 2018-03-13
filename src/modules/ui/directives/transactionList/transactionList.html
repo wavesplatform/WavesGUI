@@ -1,5 +1,5 @@
 <div w-i18n-ns="app.ui" ng-class="{'no-transactions': !$ctrl.transactions.length}" class="w-transaction-list">
-    <ul ng-if="$ctrl.hadResponse && $ctrl.transactions.length">
+    <ul ng-if="!$ctrl.pending && $ctrl.transactions.length">
         <li class="transaction-item" ng-repeat="data in $ctrl.transactions track by data.date">
             <div class="date tag-2 info-400">{{ ::data.timestamp | date:'MMM, d, yyyy' }}</div>
             <div class="row" ng-repeat="transaction in data.transactions track by transaction.id">
@@ -8,10 +8,10 @@
             </div>
         </li>
     </ul>
-    <div ng-if="$ctrl.hadResponse && !$ctrl.transactions.length" class="no-transactions-container">
+    <div ng-if="!$ctrl.pending && !$ctrl.transactions.length" class="no-transactions-container">
         <div class="icon"></div>
         <div class="body-1 basic-700" w-i18n="transactionList.noTransactionsTitle"></div>
         <div class="footnote-1 basic-500 margin-4" w-i18n="transactionList.noTransactionsDescription"></div>
     </div>
-    <w-loader ng-if="!$ctrl.hadResponse"></w-loader>
+    <w-loader ng-if="$ctrl.pending"></w-loader>
 </div>

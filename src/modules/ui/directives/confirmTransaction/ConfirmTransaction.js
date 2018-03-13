@@ -53,7 +53,12 @@
                             txPromise = waves.node.lease({ ...this.tx, keyPair });
                             break;
                         case 'cancelLeasing':
-                            txPromise = waves.node.cancelLeasing({ ...this.tx, keyPair });
+                            txPromise = waves.node.cancelLeasing({
+                                fee: this.tx.fee,
+                                timestamp: this.tx.timestamp,
+                                transactionId: this.tx.leaseTransactionId,
+                                keyPair
+                            });
                             break;
                         case 'createAlias':
                             txPromise = waves.node.aliases.createAlias({ ...this.tx, keyPair });

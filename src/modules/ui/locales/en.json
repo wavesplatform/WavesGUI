@@ -19,8 +19,9 @@
       "issue": "{{name}} Token Generation",
       "reissue": "{{name}} Token Reissue",
       "burn": "{{name}} Token Burning",
-      "exchange-buy": "Exchange Buy: {{amountAsset}}/{{priceAsset}}",
-      "exchange-sell": "Exchange Sell: {{amountAsset}}/{{priceAsset}}",
+      "exchange-buy": "Exchange Buy:",
+      "exchange-sell": "Exchange Sell:",
+      "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
       "lease-in": "Incoming Leasing",
       "lease-out": "Started Leasing",
       "cancel-leasing": "Canceled Leasing",
@@ -59,7 +60,7 @@
       "true": "Reissuable"
     },
     "actions": {
-      "cancelLeasing": "Cancel Leasing",
+      "cancel-leasing": "Cancel Leasing",
       "showTx": "TX info",
       "copyTxId": "Copy TX ID",
       "copyTxData": "Copy all TX data"
