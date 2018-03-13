@@ -4,6 +4,11 @@
 
     <ng-include src="$ctrl.templateUrl"></ng-include>
 
+    <div ng-if="$ctrl.transaction.height" class="section">
+        <div class="key" w-i18n="transaction.modals.height"></div>
+        <div class="value">{{::$ctrl.transaction.height}}</div>
+    </div>
+
     <div class="section">
         <div class="key" w-i18n="transaction.modals.fee"></div>
         <div class="value">{{::$ctrl.calculatedFee}} {{::$ctrl.transaction.fee.asset.name}}</div>
