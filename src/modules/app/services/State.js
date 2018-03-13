@@ -38,9 +38,6 @@
                  */
                 this.windowStateFocus = true;
 
-                /**
-                 * @type {{window: {blur: Signal, focus: Signal}, sleep: Signal, wakeUp: Signal, changeRouterState: Signal}}
-                 */
                 this.signals = {
                     window: {
                         blur: new tsUtils.Signal(),
@@ -48,7 +45,8 @@
                     },
                     sleep: new tsUtils.Signal(),
                     wakeUp: new tsUtils.Signal(),
-                    changeRouterState: new tsUtils.Signal()
+                    changeRouterStateSuccess: new tsUtils.Signal(),
+                    changeRouterStateStart: new tsUtils.Signal()
                 };
 
                 this._timer = null;
@@ -143,7 +141,7 @@
                 this._timer = timeLine.timeout(() => {
                     this._timer = null;
                     const time = Date.now() - this._seepStartTime;
-                    const sleepMinutes = Math.floor(time / (1000 * 60 * 5));
+                    const sleepMinutes = Math.floor(time / (1000 * 60));
                     this._setSleepStep(sleepMinutes);
                     this._sleep();
                 }, 1000);

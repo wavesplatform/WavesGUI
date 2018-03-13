@@ -159,18 +159,18 @@
                     .map((item) => item.id);
 
                 this._listenChangeLanguage();
-                const stop = $rootScope.$on('$stateChangeStart', (event, state, params) => {
+                const stop = $rootScope.$on('$stateChangeStart', (event, toState, params) => {
                     stop();
 
-                    if (START_STATES.indexOf(state.name) === -1) {
+                    if (START_STATES.indexOf(toState.name) === -1) {
                         event.preventDefault();
                     }
 
-                    this._login(state)
+                    this._login(toState)
                         .then(() => {
                             this._stopListenChangeLanguage();
-                            if (START_STATES.indexOf(state.name) === -1) {
-                                $state.go(state.name, params);
+                            if (START_STATES.indexOf(toState.name) === -1) {
+                                $state.go(toState.name, params);
                             } else {
                                 $state.go(user.getActiveState('wallet'));
                             }
@@ -188,10 +188,11 @@
                                 analytics.activate();
                             }
 
-                            $rootScope.$on('$stateChangeStart', (event, state) => {
-                                if (START_STATES.indexOf(state.name) !== -1) {
+                            $rootScope.$on('$stateChangeStart', (event, current) => {
+                                if (START_STATES.indexOf(current.name) !== -1) {
                                     event.preventDefault();
-                                    $state.go(user.getActiveState('wallet'));
+                                } else {
+                                    state.signals.changeRouterStateStart.dispatch(event);
                                 }
                             });
                         });
@@ -237,7 +238,7 @@
                         this.activeClasses.push(name);
                     });
                 user.applyState(toState);
-                state.signals.changeRouterState.dispatch(toState);
+                state.signals.changeRouterStateSuccess.dispatch(toState);
             }
 
             /**

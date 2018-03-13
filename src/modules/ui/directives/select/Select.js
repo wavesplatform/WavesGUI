@@ -97,7 +97,9 @@
                             if (tsUtils.isEmpty(this.ngModel)) {
                                 this.setActive(this._options.first());
                             } else if (!this._options.some({ value: this.ngModel })) {
-                                this.setActive(this._options.first());
+                                if (this._options.length) {
+                                    this.setActive(this._options.first());
+                                }
                             }
                         }, 100);
                     }
