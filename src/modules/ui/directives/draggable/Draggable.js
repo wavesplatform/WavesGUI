@@ -37,7 +37,7 @@
                 let x = 0;
                 let y = 0;
 
-                $element.on('mousedown', (e) => {
+                $element.on('mousedown touchstart', (e) => {
                     e.preventDefault();
                     $overlay.insertBefore($element);
                     const startX = e.pageX - x;
@@ -53,13 +53,13 @@
                     const up = () => {
                         e.preventDefault();
                         $overlay.detach();
-                        $document.off('mousemove', move);
-                        $document.off('mouseup', up);
+                        $document.off('mousemove touchmove', move);
+                        $document.off('mouseup touchend', up);
                     };
 
                     if (e.button === 0) {
-                        $document.on('mousemove', move);
-                        $document.on('mouseup', up);
+                        $document.on('mousemove touchmove', move);
+                        $document.on('mouseup touchend', up);
                     }
                 });
 
