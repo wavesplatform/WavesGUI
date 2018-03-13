@@ -24,9 +24,8 @@ w-dex-my-orders {
 
       &:hover {
         .stop {
-          opacity: .89;
-          background-color: @color-error-400;
-          background-image: url(/img/icons/white_cancel.svg);
+          background-image: url(/img/icons/red-cancel.svg);
+          background-size: 16px 16px;
         }
       }
     }
@@ -90,15 +89,14 @@ w-dex-my-orders {
     .stop {
       cursor: pointer;
       position: absolute;
-      top: 50%;
-      right: 16px;
-      width: 17px;
-      height: 17px;
-      transform: translateY(-50%);
+      right: 10px;
       background-image: url(/img/icons/order_cancel.svg);
       background-size: 8px 8px;
       background-repeat: no-repeat;
       background-position: center;
+      top: 2px;
+      width: 30px;
+      height: calc(100% ~'- 4px');
     }
 
     &:not(:last-child) {
@@ -165,11 +163,8 @@ w-dex-my-orders {
             margin: 0 30px 0 10px;
 
             .stop {
-              right: 4px;
-              top: 5px;
-              width: 20px;
-              height: calc(100% ~'- 10px');
-              transform: translate(0, 0);
+              right: 2px;
+              width: 26px;
             }
 
             w-cell {
