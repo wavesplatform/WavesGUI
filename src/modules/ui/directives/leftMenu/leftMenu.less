@@ -320,4 +320,18 @@ w-left-menu {
       }
     }
   }
+
 }
+
+@media screen and (max-width: 480px) {
+  body.dex w-left-menu {
+    position: fixed;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) and (max-height: 480px) {
+  w-layout .dex-layout__column-left .dex-layout__block-top {
+    margin-top: 0;
+  }
+}
+
