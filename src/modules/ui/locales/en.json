@@ -26,6 +26,7 @@
       "lease-out": "Started Leasing",
       "cancel-leasing": "Canceled Leasing",
       "create-alias": "Created Alias",
+      "activeLeasing": "active now"
     },
     "amounts": {
       "send": "–{{amount}} {{name}}",
@@ -53,8 +54,7 @@
       "lease-in": "{{time}}<span class='locale-address'>, from address {{address}}</span>",
       "lease-out": "{{time}}<span class='locale-address'>, to address {{address}}</span>",
       "cancel-leasing": "{{time}}<span class='locale-address'>, transaction {{transactionId}}</span>",
-      "create-alias": "{{time}}, {{alias}}",
-      "activeLeasing": "active now"
+      "create-alias": "{{time}}, {{alias}}"
     },
     "reissuable": {
       "false": "Not Reissuable",
