@@ -25,6 +25,7 @@
                 this.chartReady = false;
                 this.elementId = 'tradingview' + counter++;
                 this.notLoaded = false;
+                this._assetIdPairWasChanged = false;
 
                 /**
                  * @type {{price: string, amount: string}}
@@ -39,7 +40,7 @@
                             this.chart.setSymbol(`${this._assetIdPair.amount}/${this._assetIdPair.price}`, interval);
                         });
                     } else {
-                        // TODO : wait until it's ready and switch to the active pair
+                        this._assetIdPairWasChanged = true;
                     }
                 });
 
@@ -64,6 +65,11 @@
                     this.chart.onChartReady(() => {
                         this.chartReady = true;
                         // this.chart.subscribe('onSymbolChange', (data) => console.log(data));
+                        if (this._assetIdPairWasChanged) {
+                            this.chart.symbolInterval(({ interval }) => {
+                                this.chart.setSymbol(`${this._assetIdPair.amount}/${this._assetIdPair.price}`, interval);
+                            });
+                        }
                     });
                 }, () => {
                     console.warn('Error 403!');

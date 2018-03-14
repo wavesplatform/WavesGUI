@@ -25,9 +25,8 @@
         </w-help-icon>
     </div>
 
-    <w-copy-wrap class="body-1 basic-900" info="{{$ctrl.gatewayAddress}}">
+    <w-copy-wrap ng-if="$ctrl.gatewayAddress" class="body-1 basic-900" info="{{::$ctrl.gatewayAddress}}">
         {{$ctrl.gatewayAddress}}
-        <w-loader ng-if="!$ctrl.gatewayAddress"></w-loader>
     </w-copy-wrap>
 
     <div class="or">

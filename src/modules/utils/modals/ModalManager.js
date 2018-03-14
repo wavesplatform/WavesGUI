@@ -8,9 +8,10 @@
      * @param $templateRequest
      * @param $rootScope
      * @param {$injector} $injector
+     * @param {State} state
      * @return {ModalManager}
      */
-    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector) {
+    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state) {
 
 
         const DEFAULT_OPTIONS = {
@@ -34,7 +35,11 @@
                 this.openModal = new tsUtils.Signal();
                 this._counter = 0;
 
-                $rootScope.$on('$stateChangeStart', () => {
+                state.signals.changeRouterStateStart.on((event) => {
+                    if (event.defaultPrevented) {
+                        return null;
+                    }
+
                     const counter = this._counter;
 
                     for (let i = 0; i < counter; i++) {
@@ -430,7 +435,7 @@
         return new ModalManager();
     };
 
-    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope', '$injector'];
+    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope', '$injector', 'state'];
 
     angular.module('app.utils')
         .factory('modalManager', factory);
