@@ -85,7 +85,12 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    font-size: 17px;
+    font-size: 15px;
+    overflow-x: hidden;
+  }
+
+  w-select .title {
+    overflow-x: hidden;
   }
 
   .amount-wrap {
@@ -101,6 +106,10 @@
     width: 24px;
     height: 20px;
     margin: 7px;
+  }
+
+  w-balance {
+    vertical-align: top;
   }
 
   w-balance-input {
@@ -133,9 +142,18 @@
     width: 100%;
     position: relative;
   }
+
+  .ellipsis {
+    display: inline-block;
+    max-width: 60px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: top;
+  }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   .modal-send {
     .modal-content {
       table tr {
@@ -181,6 +199,7 @@
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
+      vertical-align: top;
     }
 
     w-balance-input w-input .w-input-wrap input[type="text"].big {
