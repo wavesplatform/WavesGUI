@@ -20,12 +20,25 @@
                  * @type {string[]}
                  */
                 this.list = Object.keys(WavesApp.localize);
-                /**
-                 * @type {string}
-                 */
-                this.active = i18next.language;
 
-                this.observe('active', this._onChangeLanguage);
+                if (i18next.language) {
+                    /**
+                     * @type {string}
+                     */
+                    this.active = i18next.language;
+                    this.observe('active', this._onChangeLanguage);
+                } else {
+                    const handler = () => {
+                        /**
+                         * @type {string}
+                         */
+                        this.active = i18next.language;
+                        this.observe('active', this._onChangeLanguage);
+
+                        i18next.off('initialized', handler);
+                    };
+                    i18next.on('initialized', handler);
+                }
             }
 
             /**
