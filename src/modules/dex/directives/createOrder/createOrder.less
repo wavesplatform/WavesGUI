@@ -317,12 +317,29 @@ w-create-order {
       min-width: 32px;
       min-height: 32px;
     }
+
+    .create-order .body .making-order .fields {
+      .input-like.tiny {
+        height: 36px;
+
+        .asset-name-wrap {
+          padding: 9px 11px;
+        }
+
+        w-input input {
+          height: 34px;
+        }
+      }
+
+      .place-order {
+        height: 36px;
+      }
+    }
   }
 }
 
 @media screen and (max-width: 480px),
 (min-width: 481px) and (max-width: 768px) and (max-height: 480px) {
-
   w-create-order {
     width: 100%;
     left: 0;

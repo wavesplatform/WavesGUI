@@ -90,7 +90,22 @@ w-transaction-list {
   .main-content {
     w-transaction-list {
       min-height: calc(100vh ~'- 140px');
+
+      .w-transaction-list {
+        &.no-transactions {
+          min-height: 250px;
+        }
+      }
+
+      .no-transactions-container {
+        margin: 100px auto;
+      }
+
     }
   }
+
+}
+
+@media screen and (min-height: 768px) {
 
 }

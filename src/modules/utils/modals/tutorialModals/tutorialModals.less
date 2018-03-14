@@ -167,6 +167,19 @@ body md-dialog.tutorial-modals {
 }
 
 @media screen and (max-width: 480px) {
+
+  body md-dialog.tutorial-modals {
+    h1 {
+      padding: 0 40px 20px 40px;
+    }
+
+    img.computer {
+      width: 75%;
+      height: auto;
+      margin: 0 auto 50px auto;
+    }
+  }
+
   body w-button.mobile-mid-fsize > *.big {
     font-size: 14px;
   }
@@ -177,12 +190,16 @@ body md-dialog.tutorial-modals {
   }
 
   .icon-information-tooltip {
+    width: 36px;
     right: auto;
     left: 10px;
-    transform: translate(0, 8px);
+    transform: translate(0, 28px);
+    font-size: 0;
+    opacity: 0;
 
+    &::after,
     &::before {
-      left: 13px;
+      display: none;
     }
   }
 
