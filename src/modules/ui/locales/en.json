@@ -78,6 +78,7 @@
       "description": "Description",
       "price": "{{name}} Price",
       "type": "Type",
+      "height": "Block",
       "cancelTx": "TX",
       "confirmations": "Confirmations",
       "fee": "Fee",
