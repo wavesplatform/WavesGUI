@@ -133,10 +133,9 @@
                 if (WavesApp.isDesktop()) {
                     $(document).on('click', '[target="_blank"]', (e) => {
                         const $link = $(e.currentTarget);
-                        const shell = require('electron').shell;
                         e.preventDefault();
 
-                        shell.openExternal($link.attr('href'));
+                        openInBrowser($link.attr('href'));
                     });
                 }
             }

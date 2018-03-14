@@ -36,10 +36,8 @@
              * @return {Promise<ITransaction>}
              */
             get(id) {
-                return Waves.API.Node.v2.transactions.get(id).then((tx) => {
-                    const pipe = this._pipeTransaction(false);
-                    return pipe(tx);
-                });
+                return Waves.API.Node.v2.transactions.get(id)
+                    .then(this._pipeTransaction(false));
             }
 
             /**
@@ -48,10 +46,8 @@
              * @return {Promise<ITransaction>}
              */
             getUtx(id) {
-                return Waves.API.Node.v2.transactions.utxGet(id).then((tx) => {
-                    const pipe = this._pipeTransaction(false);
-                    return pipe(tx);
-                });
+                return Waves.API.Node.v2.transactions.utxGet(id)
+                    .then(this._pipeTransaction(true));
             }
 
             /**
@@ -60,7 +56,10 @@
              * @return {Promise<ITransaction>}
              */
             getAlways(id) {
-                return this.get(id).catch(() => this.getUtx(id));
+                return this.get(id)
+                    .catch(() => this.getUtx(id))
+                    // Get a transaction even on the edge of its move from UTX to blockchain.
+                    .catch(() => this.get(id));
             }
 
             /**

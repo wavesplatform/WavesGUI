@@ -27,7 +27,7 @@
             }
 
             logout() {
-                location.reload();
+                user.logout();
             }
 
             avatarClick() {

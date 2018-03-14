@@ -299,6 +299,16 @@
 
 <script>
 
+    if (WavesApp.isDesktop()) {
+        var listenDevTools = false;
+        Mousetrap.bind('i d d q d', function () {
+            if (!listenDevTools) {
+                transfer('addDevToolsMenu');
+                listenDevTools = true;
+            }
+        });
+    }
+
     var analytics = eventSender.default.inactive();
 
     var Waves = WavesAPI.create({
