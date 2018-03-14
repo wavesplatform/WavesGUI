@@ -21,16 +21,29 @@
 
             constructor() {
                 super();
-                /**
-                 * @type {boolean}
-                 */
-                this.disabled = false;
-                /**
-                 * @type {boolean}
-                 */
-                this.pending = false;
 
-                this.observe(['disabled', 'pending'], this._onChangeDisabled);
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
+                this._disabled = false;
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
+                this._pending = false;
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
+                this._canClick = false;
+
+                this.observe(['_disabled', '_pending'], this._currentCanClick);
+                this.observe('_canClick', utils.debounceRequestAnimationFrame(this._onChangeDisabled));
+            }
+
+            _currentCanClick() {
+                this._canClick = this._disabled || this._pending;
             }
 
             $postLink() {
@@ -61,13 +74,11 @@
             _applyClick(result) {
                 const $button = this._getButton();
                 $button.toggleClass('pending', true);
-                setTimeout(() => {
-                    this.pending = true;
-                }, 0);
+                this._pending = true;
 
                 const onEnd = () => {
-                    if (this.pending) {
-                        this.pending = false;
+                    if (this._pending) {
+                        this._pending = false;
                     } else {
                         throw new Error('Already drop pending state!');
                     }
@@ -94,7 +105,7 @@
              */
             _onChangeDisabled() {
                 this._getButton()
-                    .prop('disabled', this.disabled || this.pending);
+                    .prop('disabled', this._canClick);
             }
 
         }
