@@ -38,6 +38,10 @@
                  */
                 this._canClick = false;
 
+                if ($element.attr('ng-click')) {
+                    throw new Error('Wrong use w-button component! Use on-click!');
+                }
+
                 this.observe(['_disabled', '_pending'], this._currentCanClick);
                 this.observe('_canClick', utils.debounceRequestAnimationFrame(this._onChangeDisabled));
             }
