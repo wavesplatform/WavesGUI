@@ -1,7 +1,12 @@
 (function () {
     'use strict';
 
-    const directive = function (Base, i18n) {
+    /**
+     * @param Base
+     * @param i18n
+     * @param {app.utils} utils
+     */
+    const directive = function (Base, i18n, utils) {
         return {
             scope: true,
             restrict: 'AE',
@@ -12,11 +17,31 @@
                     constructor() {
                         super($scope);
 
+                        /**
+                         * @type {Array}
+                         * @private
+                         */
                         this._forStop = [];
+                        /**
+                         * @type {Object.<boolean>}
+                         * @private
+                         */
                         this._watchers = Object.create(null);
+                        /**
+                         * @type {string}
+                         * @private
+                         */
                         this._literalTemplate = I18n._getLiteralTemplate();
-                        this._parts = this._literalTemplate.match(/{{.*?(}})/g);
-                        this._handler = this._getHandler();
+                        /**
+                         * @type {{part: string, evalTpl: string, needWatch: boolean}[]}
+                         * @private
+                         */
+                        this._parts = I18n._getParts(this._literalTemplate);
+                        /**
+                         * @type {Function}
+                         * @private
+                         */
+                        this._handler = utils.debounce(this._getHandler());
 
                         this._addWatchers();
 
@@ -55,13 +80,8 @@
                      */
                     _compile(literal) {
                         if (this._parts) {
-                            this._parts.forEach((part) => {
-                                const forEval = part
-                                    .replace('{{', '')
-                                    .replace('}}', '')
-                                    .replace('::', '');
-
-                                literal = literal.replace(part, $scope.$eval(forEval));
+                            this._parts.forEach(({ part, evalTpl }) => {
+                                literal = literal.replace(part, $scope.$eval(evalTpl));
                             });
                         }
                         return literal;
@@ -75,23 +95,16 @@
                             return null;
                         }
 
-                        this._parts.forEach((part) => {
-                            const needWatcher = part.indexOf('::') === -1;
-
-                            if (needWatcher && !this._watchers[part]) {
-                                const forEval = part
-                                    .replace('{{', '')
-                                    .replace('}}', '')
-                                    .replace('::', '');
-
-                                this._forStop.push($scope.$watch(forEval, this._handler));
+                        this._parts.forEach(({ part, needWatch, evalTpl }) => {
+                            if (needWatch && !this._watchers[part]) {
+                                this._forStop.push($scope.$watch(evalTpl, this._handler));
                                 this._watchers[part] = true;
                             }
                         });
                     }
 
                     /**
-                     * @return {*}
+                     * @return {string}
                      * @private
                      */
                     static _getLiteralTemplate() {
@@ -104,6 +117,26 @@
                      */
                     static _isAttribute() {
                         return !!$attrs.wI18n;
+                    }
+
+                    /**
+                     * @param template
+                     * @return {{part: string, evalTpl: string, needWatch: boolean}[]}
+                     * @private
+                     */
+                    static _getParts(template) {
+                        const parts = template.match(/{{.*?(}})/g);
+                        if (parts) {
+                            return parts.map((part) => {
+                                return {
+                                    part,
+                                    evalTpl: part.replace('{{', '').replace('}}', '').replace('::', ''),
+                                    needWatch: part.indexOf('::') === -1
+                                };
+                            });
+                        } else {
+                            return null;
+                        }
                     }
 
                 }
@@ -119,7 +152,7 @@
         };
     };
 
-    directive.$inject = ['Base', 'i18n'];
+    directive.$inject = ['Base', 'i18n', 'utils'];
 
     angular.module('app')
         .directive('wI18n', directive);
