@@ -163,6 +163,7 @@
             }
 
             static getUserLang() {
+
                 const available = Object.keys(WavesApp.localize);
                 const cookieLng = Cookies.get('locale');
                 const userLang = navigator.language || navigator.userLanguage;
