@@ -185,7 +185,7 @@
             _parseQrCode({ result }) {
                 const [protocol, data] = result.split('://');
                 const [body, search] = data.split('?');
-                return { protocol, body, params: utils.parseSearchParams(search || '') };
+                return { protocol, body, params: utils.parseSearchParams(search) };
             }
 
             /**
