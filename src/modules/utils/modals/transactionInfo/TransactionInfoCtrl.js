@@ -16,6 +16,9 @@
 
             constructor({ transactionId }) {
                 super($scope);
+
+                this.id = transactionId;
+
                 waves.node.transactions.getAlways(transactionId)
                     .then((transaction) => {
                         if (!transaction.isUTX) {
@@ -37,18 +40,35 @@
                         this.confirmed = confirmations >= 0;
                         this.explorerLink = explorerLinks.getTxLink(transaction.id);
 
-                        createPoll(this, this._getHeight, this._setHeight, 2000);
+                        createPoll(this, this._getHeight, this._setHeight, 1000);
                     });
             }
 
+            /**
+             * @return {Promise<Array>}
+             * @private
+             */
             _getHeight() {
-                return waves.node.height();
+                return Promise.all([
+                    waves.node.height(),
+                    waves.node.transactions.getAlways(this.id)
+                ]);
             }
 
-            _setHeight(height) {
-                this.confirmations = height - this.transaction.height;
-                this.confirmed = this.confirmations >= 0;
+            /**
+             * @param {number} height
+             * @param tx
+             * @private
+             */
+            _setHeight([height, tx]) {
+                Object.assign(this.transaction, tx);
+                if (!tx.isUTX) {
+                    this.confirmations = height - tx.height;
+                    this.confirmed = this.confirmations >= 0;
+                    $scope.$apply();
+                }
             }
+
         }
 
         return new TransactionInfoCtrl(this.locals);

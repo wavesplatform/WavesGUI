@@ -92,8 +92,15 @@
                                     cache[key].value.then &&
                                     typeof cache[key].value.then === 'function') {
 
+                                    cache[key].value.catch(() => {
+                                        if (cache[key].timer) {
+                                            clearTimeout(cache[key].timer);
+                                        }
+                                        delete cache[key];
+                                    });
+
                                     cache[key].timer = 1;
-                                    utils.resolve(cache[key].value)
+                                    cache[key].value
                                         .then(() => {
                                             cache[key].timer = timeLine.timeout(() => {
                                                 delete cache[key];
@@ -127,9 +134,12 @@
 
     factory.$inject = ['utils', 'timeLine'];
 
+    /**
+     * @param {Array} some
+     */
     function stringify(some) {
         try {
-            return JSON.stringify(some);
+            return JSON.stringify(some.slice().sort());
         } catch (e) {
             return String(some);
         }
