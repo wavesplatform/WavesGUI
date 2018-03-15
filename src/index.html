@@ -301,6 +301,16 @@
 
 <script>
 
+    if (WavesApp.isDesktop()) {
+        var listenDevTools = false;
+        Mousetrap.bind('i d d q d', function () {
+            if (!listenDevTools) {
+                transfer('addDevToolsMenu');
+                listenDevTools = true;
+            }
+        });
+    }
+
     /**
      * @type {EventSender}
      */
