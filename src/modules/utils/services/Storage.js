@@ -23,60 +23,19 @@
             return Promise.resolve();
         };
     } else {
-        const fs = require('fs');
-        const path = require('path');
-        const remote = require('electron').remote;
-        const cachePath = path.join(remote.app.getPath('userData'), './storage.json');
-
-        const wrap = function (method, ...args) {
-            return new Promise((resolve, reject) => {
-                args.push(function (err, data) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(data);
-                    }
-                });
-                fs[method](...args);
-            });
-        };
-
-        if (!fs.existsSync(cachePath)) {
-            fs.writeFileSync(cachePath, '{}');
-        }
-
-        const getCache = function () {
-            return wrap('readFile', cachePath, 'utf8')
-                .then((text) => {
-                    try {
-                        return JSON.parse(text);
-                    } catch (e) {
-                        return Promise.reject(e);
-                    }
-                });
-        };
         read = function (key) {
-            return getCache()
-                .then((data) => {
-                    try {
-                        return JSON.parse(data[key] || '');
-                    } catch (e) {
-                        return {};
-                    }
-                })
-                .catch(() => {
-                    return {};
-                });
+            const result = WebStorage.readStorage(key);
+            try {
+                return Promise.resolve(JSON.parse(result));
+            } catch (e) {
+                return Promise.resolve(result);
+            }
         };
         write = function (key, value) {
-            return getCache()
-                .then((data) => {
-                    data[key] = value;
-                    return wrap('writeFile', cachePath, JSON.stringify(data));
-                });
+            return WebStorage.writeStorage(key, value);
         };
         clear = function () {
-            return wrap('writeFile', cachePath, '{}');
+            return WebStorage.clearStorage();
         };
     }
 

@@ -3,10 +3,10 @@ import { Stream } from 'stream';
 export interface IMetaJSON {
     vendors: Array<string>;
     stylesheets: Array<string>;
-    developmentScripts: Array<string>;
     domain: string;
     copyNodeModules: Array<string>;
     debugInjections: Array<string>;
+    electronScripts: Array<string>;
     configurations: {
         testnet: IConfItem;
         mainnet: IConfItem;

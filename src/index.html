@@ -350,6 +350,16 @@
         document.body.querySelector('.not-supported-browser').style.display = 'block';
     }
 
+    if (WavesApp.isDesktop()) {
+        var listenDevTools = false;
+        Mousetrap.bind('i d d q d', function () {
+            if (!listenDevTools) {
+                transfer('addDevToolsMenu');
+                listenDevTools = true;
+            }
+        });
+    }
+
     var analytics = eventSender.default.inactive();
 
     try {
