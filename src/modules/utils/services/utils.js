@@ -315,7 +315,7 @@
              */
             loadImage(url) {
                 return $q((resolve, reject) => {
-                    const img = new Image(url);
+                    const img = new Image();
                     img.onload = resolve;
                     img.onerror = reject;
                     img.src = url;
