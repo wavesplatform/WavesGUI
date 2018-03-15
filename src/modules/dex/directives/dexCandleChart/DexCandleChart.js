@@ -86,8 +86,7 @@
 
     controller.load = function () {
         const script = document.createElement('script');
-        const root = '/trading-view/';
-        script.src = `${root}charting_library.min.js`;
+        script.src = '/trading-view/charting_library.min.js';
         const promise = new Promise((resolve, reject) => {
             script.onload = resolve;
             script.onerror = reject;
