@@ -272,6 +272,7 @@
             isDesktop: function () {
                 return this.type === 'desktop';
             },
+            parseJSON: null,
             stateTree: null
         };
 
@@ -300,6 +301,8 @@
 <!-- JAVASCRIPT -->
 
 <script>
+
+    WavesApp.parseJSON = parseJsonBignumber();
 
     if (WavesApp.isDesktop()) {
         var listenDevTools = false;
@@ -424,6 +427,7 @@
      * @property {Function} addController
      * @property {Function} getController
      * @property {Function} getLocaleData
+     * @property {Function} parseJSON
      * @property {Tree} stateTree
      */
 
