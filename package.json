@@ -95,7 +95,7 @@
     "n3-charts": "2.0.28",
     "ng-i18next": "1.0.5",
     "qrcode-reader": "1.0.3",
-    "ts-api-validator": "2.0.0",
+    "ts-api-validator": "2.1.0",
     "ts-utils": "6.0.0",
     "waves-api": "0.24.0",
     "worker-wrapper": "1.2.2"
