@@ -203,7 +203,8 @@
         "p1": "Please take some time to understand some important things for your own safety. 🙏",
         "p2": "We cannot recover your funds or freeze your account if you visit a phishing site or lose your backup phrase (aka SEED phrase).",
         "p3": "By continuing to use our platform, you agree to accept all risks associated with the loss of your SEED, including but not limited to the inability to obtain your funds and dispose of them. In case you lose your SEED, you agree and acknowledge that the Waves Platform would not be responsible for the negative consequences of this.",
-        "button": "What you need to know about your SEED"
+        "button": "What you need to know about your SEED",
+        "buttonMobile": "Next"
       },
       "step2": {
         "title": "What you need to know about your SEED",

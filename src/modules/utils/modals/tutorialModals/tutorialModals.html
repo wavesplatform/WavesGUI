@@ -1,10 +1,13 @@
 <md-dialog w-i18n-ns="app.utils" class="tutorial-modals" aria-label="modal">
+    <div class="btn icon-close mobile-only" w-modal-close></div>
     <w-step-by-step active-step="0">
         <w-step class="step-1">
             <md-dialog-content>
 
                 <div class="content-wrapper disabled-600 body-2">
-                    <h1><w-i18n>modal.tutorialModals.step1.title</w-i18n></h1>
+                    <h1>
+                        <w-i18n>modal.tutorialModals.step1.title</w-i18n>
+                    </h1>
 
                     <div class="flex-cols">
                         <div class="relative">
@@ -24,11 +27,14 @@
                     </div>
                 </div>
 
-            <div class="buttons-wrapper">
-                <w-button class="big long submit mobile-mid-fsize" w-step-next>
-                    <w-i18n>modal.tutorialModals.step1.button</w-i18n>
-                </w-button>
-            </div>
+                <div class="buttons-wrapper">
+                    <w-button class="big long submit desktop-only" w-step-next>
+                        <w-i18n>modal.tutorialModals.step1.button</w-i18n>
+                    </w-button>
+                    <w-button class="big long submit mobile-only" w-step-next>
+                        <w-i18n>modal.tutorialModals.step1.buttonMobile</w-i18n>
+                    </w-button>
+                </div>
 
             </md-dialog-content>
         </w-step>
@@ -36,7 +42,9 @@
         <w-step class="step-2">
             <md-dialog-content>
                 <div class="content-wrapper disabled-600 body-2">
-                    <h1><w-i18n>modal.tutorialModals.step2.title</w-i18n></h1>
+                    <h1>
+                        <w-i18n>modal.tutorialModals.step2.title</w-i18n>
+                    </h1>
 
                     <div class="margin-4">
                         <w-i18n>modal.tutorialModals.step2.p1</w-i18n>
@@ -85,7 +93,9 @@
 
             <md-dialog-content>
                 <div class="content-wrapper disabled-600 body-2">
-                    <h1><w-i18n>modal.tutorialModals.step3.title</w-i18n></h1>
+                    <h1>
+                        <w-i18n>modal.tutorialModals.step3.title</w-i18n>
+                    </h1>
 
                     <div class="margin-4">
                         <w-i18n>modal.tutorialModals.step3.p1</w-i18n>
