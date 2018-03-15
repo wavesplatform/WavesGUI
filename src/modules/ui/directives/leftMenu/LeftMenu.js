@@ -18,11 +18,11 @@
                 super();
                 this._initStateList();
                 this.address = user.address;
-                this.receive(state.signals.changeRouterState, this._initStateList, this);
+                this.receive(state.signals.changeRouterStateSuccess, this._initStateList, this);
             }
 
             logout() {
-                location.reload();
+                user.logout();
             }
 
             avatarClick() {

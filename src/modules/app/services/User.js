@@ -153,7 +153,11 @@
             }
 
             logout() {
-                window.location.reload();
+                if (WavesApp.isDesktop()) {
+                    transfer('reload');
+                } else {
+                    window.location.reload();
+                }
             }
 
             /**

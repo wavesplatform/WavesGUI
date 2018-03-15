@@ -167,7 +167,34 @@
             }
 
             onReadQrCode(result) {
-                this.tx.recipient = result;
+                this.tx.recipient = result.body;
+                if (result.params) {
+
+                    const applyAmount = () => {
+                        if (result.params.amount) {
+                            this.tx.amount = this.moneyHash[this.assetId].cloneWithCoins(result.params.amount);
+                            this._fillMirror();
+                        }
+                    };
+
+                    if (result.params.assetId) {
+                        waves.node.assets.balance(result.params.assetId).then(({ available }) => {
+                            this.moneyHash[available.asset.id] = available;
+
+                            if (this.assetId !== available.asset.id) {
+                                const myAssetId = this.assetId;
+                                this.assetId = available.asset.id;
+                                this.canChooseAsset = true;
+                                // TODO fix (hack for render asset avatar)
+                                this.choosableMoneyList = [this.moneyHash[myAssetId], available];
+                            }
+
+                            applyAmount();
+                        }, applyAmount);
+                    } else {
+                        applyAmount();
+                    }
+                }
             }
 
             createTx() {
@@ -204,7 +231,7 @@
                 if (list.length) {
                     this.choosableMoneyList = list;
                 } else {
-                    this.choosableMoneyList = [this.moneyHash[WavesApp.defaultAssets.WAVES]];
+                    this.choosableMoneyList = [this.moneyHash[this.assetId]];
                 }
             }
 
