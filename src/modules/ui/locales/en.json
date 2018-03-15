@@ -26,6 +26,7 @@
       "lease-out": "Started Leasing",
       "cancel-leasing": "Canceled Leasing",
       "create-alias": "Created Alias",
+      "unknown": "Unknown transaction",
       "activeLeasing": "active now"
     },
     "amounts": {
@@ -54,6 +55,7 @@
       "lease-in": "{{time}}<span class='locale-address'>, from address {{address}}</span>",
       "lease-out": "{{time}}<span class='locale-address'>, to address {{address}}</span>",
       "cancel-leasing": "{{time}}<span class='locale-address'>, transaction {{transactionId}}</span>",
+      "unknown": "{{time}}",
       "create-alias": "{{time}}, {{alias}}"
     },
     "reissuable": {

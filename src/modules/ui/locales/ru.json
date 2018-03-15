@@ -25,6 +25,7 @@
       "lease-in": "Входящий лизинг",
       "lease-out": "Передача в лизинг",
       "cancel-leasing": "Отмена лизинга",
+      "unknown": "Неизвестная тразнакция",
       "create-alias": "Создание алиаса",
       "activeLeasing": "активен"
     },
@@ -54,6 +55,7 @@
       "lease-in": "{{time}}<span class='locale-address'>, с адреса {{address}}</span>",
       "lease-out": "{{time}}<span class='locale-address'>, на адрес {{address}}</span>",
       "cancel-leasing": "{{time}}<span class='locale-address'>, транзакция {{transactionId}}</span>",
+      "unknown": "{{time}}",
       "create-alias": "{{time}}, {{alias}}"
     },
     "reissuable": {
