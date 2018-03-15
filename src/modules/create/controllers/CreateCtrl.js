@@ -44,6 +44,10 @@
                 this.observeOnce('stepIndex', this.clearSeedConfirm);
             }
 
+            seedOnTouch() {
+                this.seedConfirmWasFilled = false;
+            }
+
             clearSeedConfirm() {
                 seedService.clear.dispatch();
                 this.seedIsValid = false;
