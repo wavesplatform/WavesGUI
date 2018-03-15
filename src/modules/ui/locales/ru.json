@@ -76,6 +76,7 @@
       "description": "Описание",
       "price": "Цена {{name}}",
       "type": "Тип",
+      "height": "Высота блока",
       "cancelTx": "TX",
       "confirmations": "Подтверждениий",
       "fee": "Комиссия",
