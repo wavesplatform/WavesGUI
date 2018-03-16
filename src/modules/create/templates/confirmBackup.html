@@ -12,6 +12,7 @@
 
     <w-seed-write class="margin-4"
                   on-fulfilled="$ctrl.onSeedConfirmFulfilled(isValid)"
+                  on-touch="$ctrl.seedOnTouch()"
                   seed="{{::$ctrl.seed}}"></w-seed-write>
 
     <div class="body-2 basic-900">
