@@ -2,6 +2,8 @@ import { createSecureServer } from 'http2';
 import { createServer } from 'https';
 import { route, parseArguments } from './ts-scripts/utils';
 import { readFileSync } from 'fs';
+import { TBuilds, TConnection, TPlatforms } from './ts-scripts/interface';
+
 const ip = require('my-local-ip')();
 
 
@@ -22,25 +24,28 @@ function createMyServer(port) {
             res.writeHead(302, { Location: `https://testnet.dev.localhost:${port}` });
             res.end();
         } else {
-            route(parsed.connectionType, parsed.buildType)(req, res);
+            route(parsed.connectionType, parsed.buildType, 'web')(req, res);
         }
     };
 
-    function parseDomain(host: string): { connectionType: string, buildType: string } {
+    function parseDomain(host: string): { connectionType: TConnection, buildType: TBuilds } {
         const [connectionType, buildType] = host.split('.');
 
         if (!connectionType || !buildType || !buildTypesHash[buildType] || !connectionTypesHash[connectionType]) {
             return null;
         }
 
-        return { buildType, connectionType };
+        return { buildType, connectionType } as any;
     }
 
     const server = createSecureServer({ key: privateKey, cert: certificate });
+
     server.addListener('request', handler);
     server.listen(port);
+
     console.log(`Listen port ${port}...`);
     console.log('Available urls:');
+
     connectionTypes.forEach((connection) => {
         buildTypes.forEach((build) => {
             console.log(`https://${connection}.${build}.localhost:${port}`);
@@ -50,7 +55,7 @@ function createMyServer(port) {
 
 function createSimpleServer({ port = 8000, type = 'dev', connection = 'mainnet' }) {
     const handler = function (req, res) {
-        route(connection, type)(req, res);
+        route(connection as TConnection, type as TBuilds, 'web')(req, res);
     };
 
     const server = createServer({ key: privateKey, cert: certificate });

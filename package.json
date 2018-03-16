@@ -7,6 +7,11 @@
     "type": "git",
     "url": "https://github.com/wavesplatform/WavesGUI.git"
   },
+  "author": {
+    "name": "Waves Platform",
+    "email": "info@wavesplatform.com",
+    "url": "https://wavesplatform.com"
+  },
   "license": "Apache-2.0",
   "devDependencies": {
     "@types/babel-core": "6.25.2",

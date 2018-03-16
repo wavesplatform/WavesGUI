@@ -13,6 +13,14 @@ export interface IMetaJSON {
     tradingView: {
         domain: string;
         files: Array<string>;
+    };
+    electron: {
+        createPackageJSONFields: Array<string>;
+        defaults: object;
+        server: {
+            development: string;
+            prod: string;
+        }
     }
 }
 
@@ -20,6 +28,11 @@ export interface IPackageJSON {
     name: string;
     version: string;
     description: string;
+    author: {
+        name: string;
+        email: string;
+        url: string;
+    };
     repository: {
         type: string;
         url: string;
@@ -41,6 +54,10 @@ export interface IConfItem {
     matcher: string;
     datafeed: string;
 }
+
+export type TConnection = 'mainnet' | 'testnet';
+export type TBuilds = 'dev' | 'normal' | 'min';
+export type TPlatforms = 'web' | 'desktop';
 
 export interface ITaskFunction {
     (name: string, deps: Array<string>): void;

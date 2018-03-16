@@ -3,7 +3,7 @@ import { getType } from 'mime';
 import { exec, spawn } from 'child_process';
 import { existsSync, readdirSync, statSync } from 'fs';
 import { join, relative, sep, extname, dirname } from 'path';
-import { ITaskFunction } from './interface';
+import { ITaskFunction, TBuilds, TConnection, TPlatforms } from './interface';
 import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync, copy } from 'fs-extra';
 import { compile } from 'handlebars';
 import { transform } from 'babel-core';
@@ -164,10 +164,10 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
 
             return compile(file)({
                 pack: pack,
-                isWeb: !param.type || param.type === 'web',
+                isWeb: param.type === 'web',
                 domain: meta.domain,
                 build: {
-                    type: param.type || 'web'
+                    type: param.type
                 },
                 network: networks[param.connection]
             });
@@ -218,7 +218,7 @@ export function parseArguments<T>(): T {
     return result;
 }
 
-export function route(connectionType, buildType) {
+export function route(connectionType: TConnection, buildType: TBuilds, type: TPlatforms) {
     return function (req, res) {
 
         if (isTradingView(req.url)) {
@@ -258,7 +258,8 @@ export function route(connectionType, buildType) {
         if (isPage(req.url)) {
             return prepareHTML({
                 target: join(__dirname, '..', 'src'),
-                connection: connectionType
+                connection: connectionType,
+                type
             }).then((file) => {
                 res.end(file);
             });
@@ -427,11 +428,11 @@ export interface IRouteOptions {
 }
 
 export interface IPrepareHTMLOptions {
-    connection: string;
+    connection: TConnection;
     scripts?: string[];
     styles?: string[];
     target: string;
-    type?: string;
+    type: TPlatforms;
 }
 
 export interface IFilter {

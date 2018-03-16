@@ -4,8 +4,8 @@ import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
 import { download, getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
 import { basename, join, sep } from 'path';
-import { copy as fsCopy, outputFile, readFile, readJSON, readJSONSync, writeFile } from 'fs-extra';
-import { IMetaJSON, IPackageJSON } from './ts-scripts/interface';
+import { copy as fsCopy, outputFile, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
+import { IMetaJSON, IPackageJSON, TBuilds, TConnection, TPlatforms } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
 
@@ -29,7 +29,8 @@ const taskHash = {
     concat: [],
     html: [],
     copy: [],
-    zip: []
+    zip: [],
+    forElectron: []
 };
 
 const tmpJsPath = join(__dirname, 'dist', 'tmp', 'js');
@@ -60,17 +61,16 @@ task('load-trading-view', (done) => {
     })).then(() => done());
 });
 
-['web', 'desktop'].forEach((buildName) => {
+['web', 'desktop'].forEach((buildName: TPlatforms) => {
 
-    configurations.forEach((configName) => {
+    configurations.forEach((configName: TConnection) => {
 
-        ['normal', 'min'].forEach((type) => {
+        ['normal', 'min'].forEach((type: TBuilds) => {
 
             const targetPath = join(__dirname, 'dist', buildName, configName, type);
             const jsFileName = getName(`${pack.name}-${buildName}-${configName}-${pack.version}.js`);
             const jsFilePath = join(targetPath, 'js', jsFileName);
             const taskPostfix = `${buildName}-${configName}-${type}`;
-
 
             task(`concat-${taskPostfix}`, [type === 'min' ? 'uglify' : 'babel'], function (done) {
                 const stream = gulp.src([vendorPath, getName(bundlePath), getName(templatePath)])
@@ -106,7 +106,6 @@ task('load-trading-view', (done) => {
                             const name = basename(path);
                             forCopy.push(fsCopy(path, join(targetPath, name)));
                         });
-                        forCopy.push(fsCopy(join(__dirname, 'electron', 'package.json'), join(targetPath, 'package.json')));
                         forCopy.push(fsCopy(join(__dirname, 'electron', 'icons', 'icon128x128.png'), join(targetPath, 'img', 'icon.png')));
                         forCopy.push(fsCopy(join(__dirname, 'dist', 'tmp', 'trading-view'), join(targetPath, 'trading-view')));
                     }
@@ -160,6 +159,22 @@ task('load-trading-view', (done) => {
                 });
             });
             taskHash.html.push(`html-${taskPostfix}`);
+
+            if (buildName === 'desktop') {
+                task(`electron-create-package-json-${taskPostfix}`, [`html-${taskPostfix}`], function (done) {
+                    const targetPackage = Object.create(null);
+
+                    meta.electron.createPackageJSONFields.forEach((name) => {
+                        targetPackage[name] = pack[name];
+                    });
+
+                    Object.assign(targetPackage, meta.electron.defaults);
+
+                    writeFile(join(targetPath, 'package.json'), JSON.stringify(targetPackage, null, 4))
+                        .then(() => done());
+                });
+                taskHash.forElectron.push(`electron-create-package-json-${taskPostfix}`);
+            }
 
             function getName(name) {
                 return getFileName(name, type);
@@ -309,6 +324,7 @@ task('concat-develop', [
 task('build-main', getTasksFrom('build', taskHash.concat, taskHash.copy, taskHash.html));
 
 task('concat', taskHash.concat.concat('concat-develop'));
+task('electron-task-list', taskHash.forElectron);
 task('copy', taskHash.copy);
 task('html', taskHash.html);
 task('zip', taskHash.zip);
@@ -319,6 +335,7 @@ task('all', [
     'concat',
     'copy',
     'html',
+    'electron-task-list',
     'zip'
 ]);
 
