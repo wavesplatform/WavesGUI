@@ -201,7 +201,7 @@
             onFetch(response) {
                 if (response.ok) {
                     if (response.headers.get('Content-Type').indexOf('application/json') !== -1) {
-                        return response.json();
+                        return response.text().then(WavesApp.parseJSON);
                     } else {
                         return response.text();
                     }
