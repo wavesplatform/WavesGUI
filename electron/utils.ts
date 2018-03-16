@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 
-export function exist(path): Promise<void> {
+export function exist(path: string): Promise<void> {
     return new Promise((resolve, reject) => {
         fs.exists(path, function (exists) {
             exists ? resolve() : reject(new Error(`File with path ${path} does not exist!`));
