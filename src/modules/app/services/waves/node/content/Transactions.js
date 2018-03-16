@@ -4,6 +4,8 @@
     const TYPES = {
         SEND: 'send',
         RECEIVE: 'receive',
+        MASS_SEND: 'mass-send',
+        MASS_RECEIVE: 'mass-receive',
         CIRCULAR: 'circular',
         ISSUE: 'issue',
         REISSUE: 'reissue',
@@ -14,6 +16,14 @@
         LEASE_OUT: 'lease-out',
         CANCEL_LEASING: 'cancel-leasing',
         CREATE_ALIAS: 'create-alias'
+    };
+
+    const reduceToCumulativeAmount = (result, transfer) => {
+        if (!result) {
+            return transfer.amount;
+        } else {
+            return result.plus(transfer.amount);
+        }
     };
 
     /**
@@ -113,7 +123,6 @@
 
             /**
              * @param {boolean} isUTX
-             * @param {string[]} aliasList
              * @return {function(*=)}
              * @private
              */
@@ -126,9 +135,17 @@
                     tx.type = Transactions._getTransactionType(tx, aliasList);
                     tx.templateType = Transactions._getTemplateType(tx);
                     tx.shownAddress = Transactions._getTransactionAddress(tx);
+
                     if (tx.transactionType === TYPES.ISSUE) {
                         tx.quantityStr = tx.quantity.toFormat(tx.precision);
+                    } else if (tx.transactionType === TYPES.MASS_SEND) {
+                        tx.amount = tx.transfers.reduce(reduceToCumulativeAmount);
+                    } else if (tx.transactionType === TYPES.MASS_RECEIVE) {
+                        tx.amount = tx.transfers.filter((transfer) => {
+                            return transfer.recipient === user.address || aliasList.indexOf(transfer.recipient) !== -1;
+                        }).reduce(reduceToCumulativeAmount);
                     }
+
                     return tx;
                 };
             }
@@ -146,22 +163,23 @@
              */
             static _getTransactionType(tx, aliasList) {
                 switch (tx.transactionType) {
-                    // TODO : replace `case` values with `waves-api` constants
-                    case 'transfer':
+                    case Waves.constants.TRANSFER_TX_NAME:
                         return Transactions._getTransferType(tx, aliasList);
-                    case 'exchange':
+                    case Waves.constants.MASS_TRANSFER_TX_NAME:
+                        return Transactions._getMassTransferType(tx.sender);
+                    case Waves.constants.EXCHANGE_TX_NAME:
                         return Transactions._getExchangeType(tx);
-                    case 'lease':
+                    case Waves.constants.LEASE_TX_NAME:
                         return Transactions._getLeaseType(tx);
-                    case 'cancelLeasing':
+                    case Waves.constants.CANCEL_LEASING_TX_NAME:
                         return TYPES.CANCEL_LEASING;
-                    case 'createAlias':
+                    case Waves.constants.CREATE_ALIAS_TX_NAME:
                         return TYPES.CREATE_ALIAS;
-                    case 'issue':
+                    case Waves.constants.ISSUE_TX_NAME:
                         return TYPES.ISSUE;
-                    case 'reissue':
+                    case Waves.constants.REISSUE_TX_NAME:
                         return TYPES.REISSUE;
-                    case 'burn':
+                    case Waves.constants.BURN_TX_NAME:
                         return TYPES.BURN;
                     default:
                         throw new Error(`Unsupported transaction type ${tx.transactionType}`);
@@ -185,6 +203,10 @@
                 } else {
                     return sender === user.address ? TYPES.SEND : TYPES.RECEIVE;
                 }
+            }
+
+            static _getMassTransferType(sender) {
+                return sender === user.address ? TYPES.MASS_SEND : TYPES.MASS_RECEIVE;
             }
 
             /**
@@ -218,6 +240,8 @@
                 switch (type) {
                     case TYPES.SEND:
                     case TYPES.RECEIVE:
+                    case TYPES.MASS_SEND:
+                    case TYPES.MASS_RECEIVE:
                     case TYPES.CIRCULAR:
                         return 'transfer';
                     case TYPES.ISSUE:
