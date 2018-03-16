@@ -17,10 +17,7 @@ export interface IMetaJSON {
     electron: {
         createPackageJSONFields: Array<string>;
         defaults: object;
-        server: {
-            development: string;
-            prod: string;
-        }
+        server: string;
     }
 }
 

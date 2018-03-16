@@ -11,7 +11,6 @@ import MenuItemConstructorOptions = Electron.MenuItemConstructorOptions;
 
 const CONFIG = {
     META_PATH: join(app.getPath('userData'), 'meta.json'),
-    INDEX_PATH: './index.html',
     MIN_SIZE: {
         width: 400,
         height: 500
@@ -54,20 +53,26 @@ class Main {
     public mainWindow: BrowserWindow;
     public menu: Menu;
     private bridge: Bridge;
+    private dataPromise: Promise<[{ server: string }, { meta: IMetaJSON }]>;
 
     constructor() {
         this.mainWindow = null;
         this.bridge = new Bridge(this);
 
+        this.dataPromise = Promise.all([
+            readJSON(join('package.json')) as Promise<{ server: string }>,
+            Main.loadMeta()
+        ]);
         this.setHandlers();
     }
 
     private createWindow() {
-        Main.loadMeta().then((pack: IMetaJSON) => {
-            this.mainWindow = new BrowserWindow(Main.getWindowOptions(pack));
+        this.dataPromise.then(([pack, meta]) => {
+            this.mainWindow = new BrowserWindow(Main.getWindowOptions(meta));
+
             this.mainWindow.loadURL(format({
-                pathname: CONFIG.INDEX_PATH,
-                protocol: 'file:',
+                pathname: `${pack.server}/index.html`,
+                protocol: 'https:',
                 slashes: true
             }));
 

@@ -134,10 +134,7 @@
     "defaults": {
       "main": "main.js"
     },
-    "server": {
-      "development": "https://{{platform}}.{{connection}}.{{type}}.localhost:{{port}}",
-      "prod": "https://desktop.wavesplatform.com"
-    }
+    "server": "https://desktop.wavesplatform.com"
   },
   "configurations": {
     "testnet": {
