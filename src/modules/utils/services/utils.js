@@ -52,7 +52,7 @@
              * @param {string} search
              * @return {object}
              */
-            parseSearchParams(search) {
+            parseSearchParams(search = '') {
                 const hashes = search.slice(search.indexOf('?') + 1).split('&');
                 const params = Object.create(null);
 
