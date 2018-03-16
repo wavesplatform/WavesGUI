@@ -147,6 +147,8 @@ w-transaction .transaction {
 
 @media screen and (max-width: 768px) {
   w-transaction .transaction {
+    height: auto;
+
     .icon {
       zoom: .71;
       margin-right: 20px;
@@ -168,12 +170,15 @@ w-transaction .transaction {
             display:none;
           }
 
-          .footnote-1.fs-mobile {
-            font-size: @mobile-low-fsize;
-          }
-
           .body-1.fs-mobile {
             font-size: @mobile-mid-fsize;
+            line-height: 1.2em;
+          }
+
+          .footnote-1.fs-mobile {
+            font-size: @mobile-low-fsize;
+            line-height: 1.2em;
+            padding-top: 3px;
           }
 
           &:last-child {
