@@ -139,7 +139,7 @@
      */
     function stringify(some) {
         try {
-            return JSON.stringify(some.slice().sort());
+            return JSON.stringify(some);
         } catch (e) {
             return String(some);
         }
