@@ -38,16 +38,24 @@ w-tabs {
       box-sizing: border-box;
       line-height: 49px;
       margin: 0 20px;
+      position: relative;
+      z-index: 1;
 
       &:not(.active) {
         cursor: pointer;
       }
 
+      &:hover {
+        border-bottom: 1px solid @color-info-500;
+      }
+
       &.active {
         color: @color-submit-400;
-        border-bottom-color: @color-submit-400;
+        border-bottom: 1px solid @color-submit-400;
         position: relative;
-        z-index: 1;
+        &:hover {
+          border-bottom-color: 1px solid @color-submit-400;
+        }
       }
     }
   }
