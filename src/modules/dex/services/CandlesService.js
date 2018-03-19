@@ -1,7 +1,6 @@
 (function () {
     'use strict';
 
-    const DEX_START = new Date('Apr 12 2017');
     const POLL_DELAY = 3000;
 
     /**
@@ -50,8 +49,7 @@
                         onHistoryCallback(candles);
                     } else {
                         onHistoryCallback([], {
-                            noData: true,
-                            nextTime: DEX_START.getTime() // TODO : get `nextTime` from server
+                            noData: true
                         });
                     }
                 };
