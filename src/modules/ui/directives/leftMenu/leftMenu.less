@@ -331,6 +331,21 @@ w-left-menu {
           }
         }
       }
+
+      div.menu-overlay::after {
+        background: #000;
+        opacity: 0.3;
+        width: 100%;
+        height: 100vh;
+        display: block;
+        content: '';
+        position: fixed;
+      }
+
+      .navigation-menu.active + w-button.nav-toggler + div.menu-overlay {
+        display: block;
+      }
+
     }
   }
 
