@@ -25,6 +25,8 @@
                 this.chartData = null;
                 this.circleChartData = null;
                 this.totalBalance = null;
+                this.transactions = [];
+                this.transactionsPending = true;
 
                 this.chartOptions = {
                     items: {
@@ -77,6 +79,7 @@
 
                 createPoll(this, this._getGraphData, 'chartData', 15000);
                 createPoll(this, this._getCircleGraphData, this._setCircleGraphData, 15000);
+                createPoll(this, waves.node.transactions.list, this._setTxList, 4000, { isBalance: true });
             }
 
             togglePin() {
@@ -86,6 +89,37 @@
                 }
                 this.pinned = !this.pinned;
                 user.setSetting('pinnedAssetIdList', this.assetList);
+            }
+
+            _setTxList(transactions) {
+                this.transactionsPending = false;
+
+                this.transactions = transactions.filter((tx) => {
+                    const TYPES = waves.node.transactions.TYPES;
+
+                    switch (tx.type) {
+                        case TYPES.SEND:
+                        case TYPES.RECEIVE:
+                        case TYPES.CIRCULAR:
+                            return tx.amount.asset.id === this.asset.id;
+                        case TYPES.EXCHANGE_BUY:
+                        case TYPES.EXCHANGE_SELL:
+                            return (
+                                tx.amount.asset.id === this.asset.id ||
+                                tx.price.pair.priceAsset.id === this.asset.id
+                            );
+                        case TYPES.LEASE_IN:
+                        case TYPES.LEASE_OUT:
+                        case TYPES.CANCEL_LEASING:
+                            return this.asset.id === WavesApp.defaultAssets.WAVES;
+                        case TYPES.ISSUE:
+                        case TYPES.REISSUE:
+                        case TYPES.BURN:
+                            return tx.quantity.asset.id === this.asset.id;
+                        default:
+                            return false;
+                    }
+                });
             }
 
             /**

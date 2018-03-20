@@ -53,7 +53,12 @@
                             txPromise = waves.node.lease({ ...this.tx, keyPair });
                             break;
                         case 'cancelLeasing':
-                            txPromise = waves.node.cancelLeasing({ ...this.tx, keyPair });
+                            txPromise = waves.node.cancelLeasing({
+                                fee: this.tx.fee,
+                                timestamp: this.tx.timestamp,
+                                transactionId: this.tx.leaseTransactionId,
+                                keyPair
+                            });
                             break;
                         case 'createAlias':
                             txPromise = waves.node.aliases.createAlias({ ...this.tx, keyPair });
@@ -72,13 +77,13 @@
                     }
 
                     const txType = ConfirmTransaction.upFirstChar(this.tx.transactionType);
-                    const amount = this.tx.amount && this.tx.amount.toFormat() || undefined;
+                    const amount = ConfirmTransaction.toBigNumber(this.tx.amount);
 
                     return txPromise.then((data) => {
-                        analytics.push('Transaction', `Transaction.${txType}.Success`, amount);
+                        analytics.push('Transaction', `Transaction.${txType}`, `Transaction.${txType}.Success`, amount);
                         return data;
                     }, (error) => {
-                        analytics.push('Transaction', `Transaction.${txType}.Error`, amount);
+                        analytics.push('Transaction', `Transaction.${txType}`, `Transaction.${txType}.Error`, amount);
                         return Promise.reject(error);
                     });
                 });
@@ -90,6 +95,10 @@
              */
             static upFirstChar(str) {
                 return str.charAt(0).toUpperCase() + str.slice(1);
+            }
+
+            static toBigNumber(amount) {
+                return amount && amount.getTokens().toFixed() || undefined;
             }
 
         }
