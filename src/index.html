@@ -346,7 +346,7 @@
     WavesApp.parseJSON = parseJsonBignumber();
 
     function isBrowserSupported() {
-        return window.Promise && window.fetch && Object.values && (window.crypto || window.msCrypto);
+        return window.Promise && window.fetch && Object.values && Object.assign && (window.crypto || window.msCrypto);
     }
 
     if (!isBrowserSupported()) {
