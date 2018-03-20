@@ -26,11 +26,11 @@
                     waves.node.assets.transfer({ ...this.tx, amount, keyPair }).then(({ id }) => {
                         this.tx.id = id;
                         this.step++;
-                        analytics.push('Gateway', 'Gateway.Send.Success', this.tx.amount);
+                        analytics.push('Gateway', 'Gateway.Send', 'Gateway.Send.Success', this.tx.amount);
                     }).catch((e) => {
                         console.error(e);
                         console.error('Gateway transaction error!');
-                        analytics.push('Gateway', 'Gateway.Send.Error', this.tx.amount);
+                        analytics.push('Gateway', 'Gateway.Send', 'Gateway.Send.Error', this.tx.amount);
                     });
 
                 });

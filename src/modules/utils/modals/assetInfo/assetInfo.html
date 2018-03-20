@@ -20,10 +20,8 @@
     </div>
     <w-tabs>
         <w-tab title-name="modal.assetInfo.transactions">
-            <w-transaction-list transaction-type="'send,receive,circular,exchange-buy,exchange-sell'"
-                                transactions="$ctrl.transactions"
-                                asset-id-list="[$ctrl.asset.id]"
-                                page-size="1000"></w-transaction-list>
+            <w-transaction-list transactions="$ctrl.transactions"
+                                pending="$ctrl.transactionsPending"></w-transaction-list>
         </w-tab>
         <w-tab title-name="modal.assetInfo.details" class="padding-content tab-details">
             <div class="line">
@@ -74,7 +72,7 @@
                     </div>
                     <div class="total">
                         <div w-i18n="modal.assetInfo.total"></div>
-                        <div>
+                        <div class="part">
                             <w-balance money="$ctrl.totalBalance"></w-balance>
                         </div>
                     </div>

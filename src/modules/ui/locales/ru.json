@@ -19,12 +19,15 @@
       "issue": "Выпуск токена \"{{name}}\"",
       "reissue": "Перевыпуск токена \"{{name}}\"",
       "burn": "Сожжение токена \"{{name}}\"",
-      "exchange-buy": "Покупка: {{amountAsset}}/{{priceAsset}}",
-      "exchange-sell": "Продажа: {{amountAsset}}/{{priceAsset}}",
+      "exchange-buy": "Покупка:",
+      "exchange-sell": "Продажа:",
+      "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
       "lease-in": "Входящий лизинг",
       "lease-out": "Передача в лизинг",
       "cancel-leasing": "Отмена лизинга",
-      "create-alias": "Создание алиаса"
+      "unknown": "Неизвестная тразнакция",
+      "create-alias": "Создание алиаса",
+      "activeLeasing": "активен"
     },
     "amounts": {
       "send": "–{{amount}} {{name}}",
@@ -52,6 +55,7 @@
       "lease-in": "{{time}}<span class='locale-address'>, с адреса {{address}}</span>",
       "lease-out": "{{time}}<span class='locale-address'>, на адрес {{address}}</span>",
       "cancel-leasing": "{{time}}<span class='locale-address'>, транзакция {{transactionId}}</span>",
+      "unknown": "{{time}}",
       "create-alias": "{{time}}, {{alias}}"
     },
     "reissuable": {
