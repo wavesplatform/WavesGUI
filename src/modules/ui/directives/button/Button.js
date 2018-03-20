@@ -46,10 +46,6 @@
                 this.observe('_canClick', utils.debounceRequestAnimationFrame(this._onChangeDisabled));
             }
 
-            _currentCanClick() {
-                this._canClick = this._disabled || this._pending;
-            }
-
             $postLink() {
                 const button = this._getButton();
                 SYNC_ATTRS.forEach((name) => {
@@ -69,6 +65,13 @@
                             this._applyClick(result);
                         }
                     }, false);
+            }
+
+            /**
+             * @private
+             */
+            _currentCanClick() {
+                this._canClick = this._disabled || this._pending;
             }
 
             /**
@@ -123,7 +126,7 @@
         templateUrl: 'modules/ui/directives/button/button.html',
         transclude: true,
         bindings: {
-            disabled: '<',
+            _disabled: '<disabled',
             onClick: '&'
         },
         controller
