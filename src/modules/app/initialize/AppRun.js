@@ -46,15 +46,28 @@
 
         user.onLogin().then(() => {
 
+            const cache = Object.create(null);
             Waves.config.set({
                 assetFactory(props) {
-                    return fetch(`${WavesApp.network.api}/assets/${props.id}`)
+
+                    if (cache[props.id]) {
+                        return cache[props.id];
+                    }
+
+                    const promise = fetch(`${WavesApp.network.api}/assets/${props.id}`)
                         .then(utils.onFetch)
                         .then((fullProps) => new ExtendedAsset(remapAssetProps(fullProps)))
                         .catch(() => {
                             return Waves.API.Node.v1.transactions.get(props.id)
                                 .then((partialProps) => new ExtendedAsset(remapAssetProps(partialProps)));
                         });
+
+                    cache[props.id] = promise;
+                    cache[props.id].catch(() => {
+                        delete cache[props.id];
+                    });
+
+                    return cache[props.id];
                 }
             });
 

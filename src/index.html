@@ -277,6 +277,7 @@
             isDesktop: function () {
                 return this.type === 'desktop';
             },
+            parseJSON: null,
             stateTree: null
         };
 
@@ -342,6 +343,8 @@
 
 <script>
 
+    WavesApp.parseJSON = parseJsonBignumber();
+
     function isBrowserSupported() {
         return window.Promise && window.fetch && Object.values && (window.crypto || window.msCrypto);
     }
@@ -360,6 +363,9 @@
         });
     }
 
+    /**
+     * @type {EventSender}
+     */
     var analytics = eventSender.default.inactive();
 
     try {
@@ -477,6 +483,7 @@
      * @property {Function} addController
      * @property {Function} getController
      * @property {Function} getLocaleData
+     * @property {Function} parseJSON
      * @property {Tree} stateTree
      */
 

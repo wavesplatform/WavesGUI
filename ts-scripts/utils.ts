@@ -226,7 +226,7 @@ export function route(connectionType, buildType) {
         const url = req.url.replace(/\?.*/, '');
 
         if (isTradingView(url)) {
-            get(`https://jslib.wavesnodes.com/${url.replace('trading-view/', '')}`, (resp) => {
+            get(`https://beta.wavesplatform.com/${url}`, (resp) => {
                 let data = '';
 
                 // A chunk of data has been recieved.

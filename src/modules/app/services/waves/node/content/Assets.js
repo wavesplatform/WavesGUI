@@ -34,7 +34,8 @@
              */
             @decorators.cachable()
             info(assetId) {
-                return Waves.Asset.get(assetId);
+                return Waves.Asset.get(assetId)
+                    .catch(() => Waves.Asset.get(assetId));
             }
 
             /**
