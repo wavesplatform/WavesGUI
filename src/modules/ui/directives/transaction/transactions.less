@@ -82,13 +82,20 @@ w-transaction .transaction {
       .icon-tx-create-alias();
     }
 
-    &.lease-in,
+    &.lease-in {
+      .icon-tx-incoming-leasing();
+    }
+
     &.lease-out {
       .icon-tx-lease();
     }
 
     &.cancel-leasing {
       .icon-tx-cancel-leasing();
+    }
+
+    &.unknown {
+      .icon-tx-unknown();
     }
   }
 
@@ -120,7 +127,7 @@ w-transaction .transaction {
   }
 }
 
-@media screen and (max-width: 840px) {
+@media screen and (max-width: 960px) {
   .leasing w-transaction .transaction { //for leasing page
     .icon {
       zoom: .71;
