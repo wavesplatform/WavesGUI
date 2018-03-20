@@ -2,7 +2,7 @@ import * as gulp from 'gulp';
 import { getType } from 'mime';
 import { exec, spawn } from 'child_process';
 import { existsSync, readdirSync, statSync } from 'fs';
-import { join, relative, sep, extname, dirname } from 'path';
+import { join, relative, extname, dirname } from 'path';
 import { ITaskFunction, TBuilds, TConnection, TPlatforms } from './interface';
 import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync, copy } from 'fs-extra';
 import { compile } from 'handlebars';
@@ -240,12 +240,12 @@ export function route(connectionType: TConnection, buildType: TBuilds, type: TPl
 
         if (buildType !== 'dev') {
             if (isPage(req.url)) {
-                const path = join(__dirname, `..${sep}dist${sep}web`, connectionType, buildType, 'index.html');
+                const path = join(__dirname, '..', 'dist', type, connectionType, buildType, 'index.html');
                 return readFile(path, 'utf8').then((file) => {
                     res.end(file);
                 });
             }
-            return routeStatic(req, res, connectionType, buildType);
+            return routeStatic(req, res, connectionType, buildType, type);
         }
 
         if (req.url.indexOf('/img/images-list.json') !== -1) {
@@ -309,7 +309,7 @@ export function route(connectionType: TConnection, buildType: TBuilds, type: TPl
         } else if (isApiMock(req.url)) {
             mock(req, res, { connection: connectionType, meta: readJSONSync(join(__dirname, 'meta.json')) });
         } else {
-            routeStatic(req, res, connectionType, buildType);
+            routeStatic(req, res, connectionType, buildType, type);
         }
     };
 }
@@ -384,19 +384,31 @@ export function isTemplate(url: string): boolean {
 
 export function isPage(url: string): boolean {
     const staticPathPartial = [
-        'vendors', 'api', 'src', 'img', 'css', 'fonts', 'js', 'bower_components', 'node_modules', 'modules', 'locales', 'loginDaemon'
+        'vendors',
+        'api',
+        'src',
+        'img',
+        'css',
+        'fonts',
+        'js',
+        'bower_components',
+        'node_modules',
+        'modules',
+        'locales',
+        'loginDaemon',
+        'transfer.js'
     ];
-    return !url.includes('demon') && !staticPathPartial.some((path) => {
+    return !staticPathPartial.some((path) => {
         return url.includes(`/${path}`);
     });
 }
 
-function routeStatic(req, res, connectionType, buildType) {
+function routeStatic(req, res, connectionType: TConnection, buildType: TBuilds, platform: TPlatforms) {
     const ROOTS = [join(__dirname, '..')];
     if (buildType !== 'dev') {
-        ROOTS.push(join(__dirname, `../dist/web/${connectionType}/${buildType}`));
+        ROOTS.push(join(__dirname, '..', 'dist', platform, connectionType, buildType));
     } else {
-        ROOTS.push(join(__dirname, '../src'));
+        ROOTS.push(join(__dirname, '..', 'src'));
     }
 
     const [url] = req.url.split('?');

@@ -9,9 +9,10 @@ const ip = require('my-local-ip')();
 
 const connectionTypes = ['mainnet', 'testnet'];
 const buildTypes = ['dev', 'normal', 'min'];
+const platforms = ['desktop', 'web'];
 
-const privateKey = readFileSync('privatekey.pem').toString();
-const certificate = readFileSync('certificate.pem').toString();
+const privateKey = readFileSync('localhost.key').toString();
+const certificate = readFileSync('localhost.crt').toString();
 
 function createMyServer(port) {
 
@@ -21,21 +22,21 @@ function createMyServer(port) {
     const handler = function (req, res) {
         const parsed = parseDomain(req.headers[':authority']);
         if (!parsed) {
-            res.writeHead(302, { Location: `https://testnet.dev.localhost:${port}` });
-            res.end();
+            // res.writeHead(302, { Location: `https://web.testnet.dev.localhost:${port}` });
+            res.end('Hello World!');
         } else {
-            route(parsed.connectionType, parsed.buildType, 'web')(req, res);
+            route(parsed.connectionType, parsed.buildType, parsed.platform)(req, res);
         }
     };
 
-    function parseDomain(host: string): { connectionType: TConnection, buildType: TBuilds } {
-        const [connectionType, buildType] = host.split('.');
+    function parseDomain(host: string): { platform: TPlatforms, connectionType: TConnection, buildType: TBuilds } {
+        const [platform, connectionType, buildType] = host.split('.');
 
         if (!connectionType || !buildType || !buildTypesHash[buildType] || !connectionTypesHash[connectionType]) {
             return null;
         }
 
-        return { buildType, connectionType } as any;
+        return { platform, buildType, connectionType } as any;
     }
 
     const server = createSecureServer({ key: privateKey, cert: certificate });
@@ -48,7 +49,9 @@ function createMyServer(port) {
 
     connectionTypes.forEach((connection) => {
         buildTypes.forEach((build) => {
-            console.log(`https://${connection}.${build}.localhost:${port}`);
+            platforms.forEach((platform) => {
+                console.log(`https://${platform}.${connection}.${build}.localhost:${port}`);
+            });
         });
     });
 }

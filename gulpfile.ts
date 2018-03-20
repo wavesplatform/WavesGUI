@@ -330,13 +330,7 @@ task('copy', taskHash.copy);
 task('html', taskHash.html);
 task('zip', taskHash.zip);
 
-task('electron-debug', [
-    'templates',
-    'concat',
-    'copy',
-    'html',
-    'electron-task-list'
-], function (done) {
+task('electron-debug', function (done) {
     const root = join(__dirname, 'dist', 'desktop');
     const promiseList = [];
 
@@ -347,7 +341,7 @@ task('electron-debug', [
             .then((list) => Promise.all(list))
             .then(() => readJSON(join(__dirname, 'dist', 'desktop', 'mainnet', 'normal', 'package.json')))
             .then((pack) => {
-                pack.server = `https://desktop.${connection}.${build}.localhost:8080`;
+                pack.server = `desktop.${connection}.${build}.localhost:8080`;
                 return writeFile(join(to, 'package.json'), JSON.stringify(pack, null, 4));
             });
 

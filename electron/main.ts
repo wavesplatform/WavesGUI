@@ -53,7 +53,7 @@ class Main {
     public mainWindow: BrowserWindow;
     public menu: Menu;
     private bridge: Bridge;
-    private dataPromise: Promise<[{ server: string }, { meta: IMetaJSON }]>;
+    private dataPromise: Promise<[{ server: string }, IMetaJSON]>;
 
     constructor() {
         this.mainWindow = null;
@@ -71,7 +71,7 @@ class Main {
             this.mainWindow = new BrowserWindow(Main.getWindowOptions(meta));
 
             this.mainWindow.loadURL(format({
-                pathname: `${pack.server}/index.html`,
+                pathname: pack.server,
                 protocol: 'https:',
                 slashes: true
             }));
@@ -99,18 +99,6 @@ class Main {
         });
     }
 
-    private replaceProtocol() {
-        protocol.unregisterProtocol('file');
-        protocol.registerFileProtocol('file', (request, callback) => {
-            const url = request.url.substr(7).replace(/(#.*)|(\?.*)/, '');
-            callback(join(__dirname, url));
-        }, (error) => {
-            if (error) {
-                console.error('Failed to register protocol');
-            }
-        });
-    }
-
     private addBridgeProtocol() {
         protocol.registerStringProtocol('cmd', this.bridge.getProtocolHandler());
     }
@@ -122,7 +110,6 @@ class Main {
     }
 
     private onAppReady() {
-        this.replaceProtocol();
         this.addBridgeProtocol();
         this.createWindow();
         this.menu = Menu.buildFromTemplate(MENU_LIST);
