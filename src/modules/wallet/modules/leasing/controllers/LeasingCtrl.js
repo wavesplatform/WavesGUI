@@ -121,6 +121,10 @@
                 const txList = this.txList;
                 const allActiveLeasing = this.allActiveLeasing;
 
+                if (!txList) {
+                    return null;
+                }
+
                 this.pending = !txList.length && !allActiveLeasing;
 
                 if (!allActiveLeasing || !allActiveLeasing.length) {
@@ -136,6 +140,7 @@
                         result.push(tx);
                     }
                 });
+
                 this.transactions = result;
             }
 

@@ -10,89 +10,111 @@ w-transaction .transaction {
   align-items: center;
   position: relative;
 
-  .icon {
-    position: relative;
-    width: 96px;
-    height: 100%;
-    background-size: 48px 48px;
-    background: no-repeat center;
+  .status {
+    .caption-3();
+    padding: 3px 6px;
+    margin-top: 4px;
+    border-radius: @border-radius / 2;
+    text-transform: uppercase;
 
-    &::before {
-      content: '';
-      display: block;
-      position: absolute;
-      width: 48px;
-      height: 48px;
-      border-radius: 100%;
-      overflow: hidden;
-      left: 50%;
-      top: 50%;
-      margin: -24px;
-    }
-
-    &.send {
-      .icon-tx-send();
-    }
-
-    &.receive {
-      .icon-tx-receive();
-    }
-
-    &.circular {
-      .icon-tx-circular();
-    }
-
-    &.issue {
-      .icon-tx-issue();
-    }
-
-    &.reissue {
-      .icon-tx-reissue();
-    }
-
-    &.burn {
-      .icon-tx-burn();
-    }
-
-    &.exchange-buy,
-    &.exchange-sell {
-      .icon-tx-exchange();
-    }
-
-    &.create-alias {
-      .icon-tx-create-alias();
-    }
-
-    &.lease-in,
-    &.lease-out {
-      .icon-tx-lease();
-    }
-
-    &.cancel-leasing {
-      .icon-tx-cancel-leasing();
+    &.active {
+      background: @color-success-50;
+      color: @color-success-400;
     }
   }
 
-  .transaction-info {
+
+.icon {
+  position: relative;
+  width: 96px;
+  height: 100%;
+  background-size: 48px 48px;
+  background: no-repeat center;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    border-radius: 100%;
+    overflow: hidden;
+    left: 50%;
+    top: 50%;
+    margin: -24px;
+  }
+
+  &.send {
+    .icon-tx-send();
+  }
+
+  &.receive {
+    .icon-tx-receive();
+  }
+
+  &.circular {
+    .icon-tx-circular();
+  }
+
+  &.issue {
+    .icon-tx-issue();
+  }
+
+  &.reissue {
+    .icon-tx-reissue();
+  }
+
+  &.burn {
+    .icon-tx-burn();
+  }
+
+  &.exchange-buy,
+  &.exchange-sell {
+    .icon-tx-exchange();
+  }
+
+  &.create-alias {
+    .icon-tx-create-alias();
+  }
+
+  &.lease-in {
+    .icon-tx-incoming-leasing();
+  }
+
+  &.lease-out {
+    .icon-tx-lease();
+  }
+
+  &.unknown {
+    .icon-tx-unknown();
+  }
+
+  &.cancel-leasing {
+    .icon-tx-cancel-leasing();
+  }
+}
+
+.transaction-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .line {
     display: flex;
-    flex-direction: column;
-    width: 100%;
-
-    .line {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      height: 50%;
-      padding-right: @padding-main-layout * 4.4;
-    }
-
-    .transaction-header {
-      .body-1();
-
-      div:not(:first-child):last-of-type {
-        text-align: right;
-      }
-    }
-
+    flex-direction: row;
+    justify-content: space-between;
+    height: 50%;
+    padding-right: @padding-main-layout * 4.4;
   }
+
+  .transaction-header {
+    .body-1();
+
+    div:not(:first-child):last-of-type {
+      text-align: right;
+    }
+  }
+
+}
+
 }

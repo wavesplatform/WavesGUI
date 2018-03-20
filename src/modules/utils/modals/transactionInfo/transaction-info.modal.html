@@ -1,6 +1,6 @@
 <div ng-if="$ctrl.transaction" class="content">
 
-    <w-transaction-info transaction="$ctrl.transaction"></w-transaction-info>
+    <w-transaction-info transaction="::$ctrl.transaction"></w-transaction-info>
 
     <div class="section" ng-if="$ctrl.confirmed">
         <div class="key" w-i18n="transaction.modals.confirmations"></div>

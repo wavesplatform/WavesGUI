@@ -272,6 +272,7 @@
             isDesktop: function () {
                 return this.type === 'desktop';
             },
+            parseJSON: null,
             stateTree: null
         };
 
@@ -301,6 +302,21 @@
 
 <script>
 
+    WavesApp.parseJSON = parseJsonBignumber();
+
+    if (WavesApp.isDesktop()) {
+        var listenDevTools = false;
+        Mousetrap.bind('i d d q d', function () {
+            if (!listenDevTools) {
+                transfer('addDevToolsMenu');
+                listenDevTools = true;
+            }
+        });
+    }
+
+    /**
+     * @type {EventSender}
+     */
     var analytics = eventSender.default.inactive();
 
     var Waves = WavesAPI.create({
@@ -414,6 +430,7 @@
      * @property {Function} addController
      * @property {Function} getController
      * @property {Function} getLocaleData
+     * @property {Function} parseJSON
      * @property {Tree} stateTree
      */
 
