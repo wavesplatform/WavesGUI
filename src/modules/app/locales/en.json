@@ -58,5 +58,6 @@
       "million": "M",
       "thousand": "k"
     }
-  }
+  },
+  "fee": "{{money, money-fee}}"
 }
