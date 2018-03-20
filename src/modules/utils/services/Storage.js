@@ -24,12 +24,13 @@
         };
     } else {
         read = function (key) {
-            const result = WebStorage.readStorage(key);
-            try {
-                return Promise.resolve(JSON.parse(result));
-            } catch (e) {
-                return Promise.resolve(result);
-            }
+            return WebStorage.readStorage(key).then((result) => {
+                try {
+                    return JSON.parse(result);
+                } catch (e) {
+                    return result;
+                }
+            });
         };
         write = function (key, value) {
             return WebStorage.writeStorage(key, value);
