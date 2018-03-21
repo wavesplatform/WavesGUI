@@ -3,7 +3,7 @@ import { getType } from 'mime';
 import { exec, spawn } from 'child_process';
 import { existsSync, readdirSync, statSync } from 'fs';
 import { join, relative, extname, dirname } from 'path';
-import { ITaskFunction, TBuilds, TConnection, TPlatforms } from './interface';
+import { ITaskFunction, TBuild, TConnection, TPlatform } from './interface';
 import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync, copy } from 'fs-extra';
 import { compile } from 'handlebars';
 import { transform } from 'babel-core';
@@ -218,7 +218,7 @@ export function parseArguments<T>(): T {
     return result;
 }
 
-export function route(connectionType: TConnection, buildType: TBuilds, type: TPlatforms) {
+export function route(connectionType: TConnection, buildType: TBuild, type: TPlatform) {
     return function (req, res) {
 
         if (isTradingView(req.url)) {
@@ -403,7 +403,7 @@ export function isPage(url: string): boolean {
     });
 }
 
-function routeStatic(req, res, connectionType: TConnection, buildType: TBuilds, platform: TPlatforms) {
+function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, platform: TPlatform) {
     const ROOTS = [join(__dirname, '..')];
     if (buildType !== 'dev') {
         ROOTS.push(join(__dirname, '..', 'dist', platform, connectionType, buildType));
@@ -444,7 +444,7 @@ export interface IPrepareHTMLOptions {
     scripts?: string[];
     styles?: string[];
     target: string;
-    type: TPlatforms;
+    type: TPlatform;
 }
 
 export interface IFilter {

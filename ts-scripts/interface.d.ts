@@ -53,8 +53,8 @@ export interface IConfItem {
 }
 
 export type TConnection = 'mainnet' | 'testnet';
-export type TBuilds = 'dev' | 'normal' | 'min';
-export type TPlatforms = 'web' | 'desktop';
+export type TBuild = 'dev' | 'normal' | 'min';
+export type TPlatform = 'web' | 'desktop';
 
 export interface ITaskFunction {
     (name: string, deps: Array<string>): void;

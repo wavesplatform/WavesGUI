@@ -2,42 +2,51 @@ import { createSecureServer } from 'http2';
 import { createServer } from 'https';
 import { route, parseArguments } from './ts-scripts/utils';
 import { readFileSync } from 'fs';
-import { TBuilds, TConnection, TPlatforms } from './ts-scripts/interface';
+import { serialize, parse as parserCookie } from 'cookie';
+import { compile } from 'handlebars';
+import { parse } from 'url';
+import { TBuild, TConnection, TPlatform } from './ts-scripts/interface';
+import { readFile } from 'fs-extra';
+import { join } from 'path';
 
 const ip = require('my-local-ip')();
 
 
-const connectionTypes = ['mainnet', 'testnet'];
-const buildTypes = ['dev', 'normal', 'min'];
-const platforms = ['desktop', 'web'];
+const connectionTypes: Array<TConnection> = ['mainnet', 'testnet'];
+const buildTypes: Array<TBuild> = ['dev', 'normal', 'min'];
 
 const privateKey = readFileSync('localhost.key').toString();
 const certificate = readFileSync('localhost.crt').toString();
 
-function createMyServer(port) {
+const handler = function (req, res) {
+    const url = parse(req.url);
 
-    const connectionTypesHash = arrToHash(connectionTypes);
-    const buildTypesHash = arrToHash(buildTypes);
+    if (url.href.includes('/choose/')) {
+        const [platform, connection, build] = url.href.replace('/choose/', '').split('/');
+        const cookie = serialize('session', `${platform},${connection},${build}`, {
+            maxAge: 60 * 60 * 24,
+            path: '/'
+        });
 
-    const handler = function (req, res) {
-        const parsed = parseDomain(req.headers[':authority']);
-        if (!parsed) {
-            // res.writeHead(302, { Location: `https://web.testnet.dev.localhost:${port}` });
-            res.end('Hello World!');
-        } else {
-            route(parsed.connectionType, parsed.buildType, parsed.platform)(req, res);
-        }
-    };
+        res.setHeader('Set-Cookie', cookie);
+        res.statusCode = 302;
+        res.setHeader('Location', 'https://localhost:8080');
+        res.end();
 
-    function parseDomain(host: string): { platform: TPlatforms, connectionType: TConnection, buildType: TBuilds } {
-        const [platform, connectionType, buildType] = host.split('.');
-
-        if (!connectionType || !buildType || !buildTypesHash[buildType] || !connectionTypesHash[connectionType]) {
-            return null;
-        }
-
-        return { platform, buildType, connectionType } as any;
+        return null;
     }
+
+    const parsed = parseCookie(req.headers.cookie);
+    if (!parsed) {
+        readFile(join(__dirname, 'chooseBuild.hbs'), 'utf8').then((file) => {
+            res.end(compile(file)({ links: getBuildsLinks(req.headers['user-agent']) }));
+        });
+    } else {
+        route(parsed.connection, parsed.build, parsed.platform)(req, res);
+    }
+};
+
+function createMyServer(port) {
 
     const server = createSecureServer({ key: privateKey, cert: certificate });
 
@@ -47,24 +56,14 @@ function createMyServer(port) {
     console.log(`Listen port ${port}...`);
     console.log('Available urls:');
 
-    connectionTypes.forEach((connection) => {
-        buildTypes.forEach((build) => {
-            platforms.forEach((platform) => {
-                console.log(`https://${platform}.${connection}.${build}.localhost:${port}`);
-            });
-        });
-    });
+    console.log(`https://localhost:${port}`);
 }
 
-function createSimpleServer({ port = 8000, type = 'dev', connection = 'mainnet' }) {
-    const handler = function (req, res) {
-        route(connection as TConnection, type as TBuilds, 'web')(req, res);
-    };
-
+function createSimpleServer({ port = 8000 }) {
     const server = createServer({ key: privateKey, cert: certificate });
     server.addListener('request', handler);
     server.listen(port);
-    console.log(`Listen port ${port}, type ${type}, connection ${connection} for simple server`);
+    console.log(`Listen port ${port}, for simple server`);
     console.log(`https://${ip}:${port}`);
 }
 
@@ -74,9 +73,33 @@ if (args.startSimple) {
     createSimpleServer(args);
 }
 
+function getBuildsLinks(userAgent: string = ''): Array<{ url: string; text: string }> {
+    const result = [];
+    const platform = userAgent.includes('Electron') ? 'desktop' : 'web';
 
-function arrToHash(arr: Array<string>): Object {
-    const result = Object.create(null);
-    arr.forEach((some) => result[some] = true);
+    connectionTypes.forEach((connection) => {
+        buildTypes.forEach((build) => {
+            result.push({
+                url: `/choose/${platform}/${connection}/${build}`,
+                text: `${platform} ${connection} ${build}`
+            });
+        });
+    });
+
     return result;
+}
+
+function parseCookie(header = ''): IRequestData {
+    const [platform, connection, build] = ((parserCookie(header) || Object.create(null)).session || '').split(',');
+    if (!build || !connection || !platform) {
+        return null;
+    } else {
+        return { platform, connection, build } as IRequestData;
+    }
+}
+
+interface IRequestData {
+    platform: TPlatform;
+    connection: TConnection;
+    build: TBuild;
 }

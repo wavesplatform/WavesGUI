@@ -80,8 +80,10 @@ class Main {
                 this.mainWindow = null;
             });
 
-            this.mainWindow.webContents.on('will-navigate', function (event) {
-                event.preventDefault();
+            this.mainWindow.webContents.on('will-navigate', function (event: Event, url: string) {
+                if (!url.includes(pack.server)) {
+                    event.preventDefault();
+                }
             });
 
             const onChangeWindow = Main.asyncHandler(() => {

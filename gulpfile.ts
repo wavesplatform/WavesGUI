@@ -5,7 +5,7 @@ import { exec, execSync } from 'child_process';
 import { download, getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
 import { basename, join, sep } from 'path';
 import { copy, mkdirp, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
-import { IMetaJSON, IPackageJSON, TBuilds, TConnection, TPlatforms } from './ts-scripts/interface';
+import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
 
@@ -61,11 +61,11 @@ task('load-trading-view', (done) => {
     })).then(() => done());
 });
 
-['web', 'desktop'].forEach((buildName: TPlatforms) => {
+['web', 'desktop'].forEach((buildName: TPlatform) => {
 
     configurations.forEach((configName: TConnection) => {
 
-        ['normal', 'min'].forEach((type: TBuilds) => {
+        ['normal', 'min'].forEach((type: TBuild) => {
 
             const targetPath = join(__dirname, 'dist', buildName, configName, type);
             const jsFileName = getName(`${pack.name}-${buildName}-${configName}-${pack.version}.js`);
@@ -332,32 +332,24 @@ task('zip', taskHash.zip);
 
 task('electron-debug', function (done) {
     const root = join(__dirname, 'dist', 'desktop');
-    const promiseList = [];
 
-    const process = function (to: string, connection: TConnection, build: TBuilds) {
+    const process = function (to: string) {
         const promise = readdir(join(__dirname, 'electron'))
             .then((list) => list.filter((name) => name.indexOf('js') !== -1))
             .then((list) => list.map((name) => copy(join(__dirname, 'electron', name), join(to, name))))
             .then((list) => Promise.all(list))
             .then(() => readJSON(join(__dirname, 'dist', 'desktop', 'mainnet', 'normal', 'package.json')))
             .then((pack) => {
-                pack.server = `desktop.${connection}.${build}.localhost:8080`;
+                pack.server = `localhost:8080`;
                 return writeFile(join(to, 'package.json'), JSON.stringify(pack, null, 4));
             });
 
-        promiseList.push(promise);
         return promise;
     };
 
-    ['mainnet', 'testnet'].forEach((connection: TConnection) => {
-        ['min', 'normal'].forEach((build: TBuilds) => {
-            const copyTo = join(root, 'electron-debug', connection, build);
-            process(copyTo, connection, build);
-        });
 
-        process(join(root, 'electron-debug', connection, 'dev'), connection, 'dev');
-    });
-    Promise.all(promiseList)
+    const copyTo = join(root, 'electron-debug');
+    process(copyTo)
         .then(() => done())
         .catch((e) => console.log(e.stack));
 });
