@@ -330,7 +330,7 @@ task('copy', taskHash.copy);
 task('html', taskHash.html);
 task('zip', taskHash.zip);
 
-task('electron-debug', function (done) {
+task('electron-debug', ['electron-task-list'], function (done) {
     const root = join(__dirname, 'dist', 'desktop');
 
     const process = function (to: string) {
@@ -361,6 +361,7 @@ task('all', [
     'copy',
     'html',
     'electron-task-list',
+    'electron-debug',
     'zip'
 ]);
 
