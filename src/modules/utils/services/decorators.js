@@ -1,3 +1,4 @@
+/* global tsUtils */
 (function () {
     'use strict';
 
@@ -20,7 +21,7 @@
              * @param descriptor
              */
             readonly(target, key, descriptor) {
-                //TODO fix for parents frozen!
+                // TODO fix for parents frozen!
                 const origin = descriptor.value;
                 descriptor.value = function (...args) {
                     const result = origin.call(this, ...args);

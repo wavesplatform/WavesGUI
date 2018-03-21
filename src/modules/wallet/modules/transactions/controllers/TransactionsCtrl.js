@@ -21,6 +21,7 @@
                 analytics.push('TransactionsPage', 'TransactionsPage.CSV', 'download');
                 transactionsCsvGen.generate(this.transactions);
             }
+
         }
 
         return new TransactionsCtrl();

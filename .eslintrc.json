@@ -1,9 +1,11 @@
 {
+  "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 2017,
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true
-    }
+    },
+    "sourceType": "script"
   },
   "env": {
     "browser": true,
@@ -197,7 +199,7 @@
     "no-div-regex": "error",
     "no-duplicate-imports": "error",
     "no-else-return": "off",
-    "no-empty-function": "error",
+    "no-empty-function": ["error", { "allow": ["methods"] }],
     "no-eq-null": "off",
     "no-eval": "error",
     "no-extend-native": "error",

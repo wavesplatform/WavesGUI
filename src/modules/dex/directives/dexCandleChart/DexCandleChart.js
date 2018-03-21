@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 (function () {
     'use strict';
 
@@ -23,7 +24,7 @@
                 super();
                 this.chart = null;
                 this.chartReady = false;
-                this.elementId = 'tradingview' + counter++;
+                this.elementId = `tradingview${counter++}`;
                 this.notLoaded = false;
                 this._assetIdPairWasChanged = false;
 
@@ -67,7 +68,10 @@
                         // this.chart.subscribe('onSymbolChange', (data) => console.log(data));
                         if (this._assetIdPairWasChanged) {
                             this.chart.symbolInterval(({ interval }) => {
-                                this.chart.setSymbol(`${this._assetIdPair.amount}/${this._assetIdPair.price}`, interval);
+                                this.chart.setSymbol(
+                                    `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
+                                    interval
+                                );
                             });
                         }
                     });

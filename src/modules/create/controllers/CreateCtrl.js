@@ -8,11 +8,9 @@
      * @param {User} user
      * @param {ModalManager} modalManager
      * @param {ISeedService} seedService
-     * @param {NotificationManager} notificationManager
      * @return {CreateCtrl}
      */
-    const controller = function ($q, $mdDialog, $timeout, user, modalManager,
-                                 seedService, notificationManager) {
+    const controller = function ($q, $mdDialog, $timeout, user, modalManager, seedService) {
 
         const PATH = 'modules/create/templates';
         const ORDER_LIST = [
