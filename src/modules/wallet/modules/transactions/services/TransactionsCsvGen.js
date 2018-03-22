@@ -1,3 +1,4 @@
+/* global CSV */
 (function () {
     'use strict';
 

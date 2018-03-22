@@ -79,8 +79,9 @@
                                 lng = lng[0];
                                 ns = ns[0];
                                 const parts = ns.split('.');
-                                const path = parts.length === 1 ? ns : parts.filter((item) => item !== 'app')
-                                    .join('/modules/');
+                                const path = (
+                                    parts.length === 1 ? ns : parts.filter((item) => item !== 'app').join('/modules/')
+                                );
                                 return `/modules/${path}/locales/${lng}.json?v=${WavesApp.version}`;
                             }
                         }
@@ -128,11 +129,20 @@
                         const reloadOnSearch = item.get('reloadOnSearch');
 
                         const views = item.get('views').reduce((views, viewData) => {
-                            const controller = (abstract || viewData.noController) ? undefined :
-                                AppConfig.getCtrlName(tsUtils.camelCase(item.id));
+                            const controller = (
+                                (abstract || viewData.noController) ?
+                                    undefined :
+                                    AppConfig.getCtrlName(tsUtils.camelCase(item.id))
+                            );
                             const template = viewData.template;
-                            const templateUrl = template ? undefined : (viewData.templateUrl ||
-                                AppConfig.getTemplateUrl(WavesApp.stateTree.getPath(item.id)));
+                            const templateUrl = (
+                                template ?
+                                    undefined :
+                                    (
+                                        viewData.templateUrl ||
+                                        AppConfig.getTemplateUrl(WavesApp.stateTree.getPath(item.id))
+                                    )
+                            );
                             views[viewData.name] = { controller, template, templateUrl };
 
                             return views;
@@ -180,22 +190,20 @@
 
                 if (!userLang) {
                     return 'en';
+                } else if (available.indexOf(userLang) !== -1) {
+                    return userLang;
                 } else {
-                    if (available.indexOf(userLang) !== -1) {
-                        return userLang;
-                    } else {
-                        let lng = null;
-                        userLang.split(/\W/).some((part) => {
-                            if (available.indexOf(part) !== -1) {
-                                lng = part;
-                            } else if (available.indexOf(part.toLowerCase()) !== -1) {
-                                lng = part.toLowerCase();
-                            }
-                            return !!lng;
-                        });
+                    let lng = null;
+                    userLang.split(/\W/).some((part) => {
+                        if (available.indexOf(part) !== -1) {
+                            lng = part;
+                        } else if (available.indexOf(part.toLowerCase()) !== -1) {
+                            lng = part.toLowerCase();
+                        }
+                        return !!lng;
+                    });
 
-                        return lng || 'en';
-                    }
+                    return lng || 'en';
                 }
             }
 

@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 (function () {
     'use strict';
 
@@ -203,33 +204,26 @@
             }
 
             /**
-             * @param {Money} money
-             * @param {Money[]} orderMoneyList
-             * @return {Money}
-             * @private
-             */
-            _getAssetBalance(money, orderMoneyList) {
-                let result = eventManager.updateBalance(money);
-                orderMoneyList.forEach((order) => {
-                    if (result.asset.id === order.asset.id) {
-                        result = result.sub(order);
-                    }
-                });
-                return result;
-            }
-
-            /**
              * @param order
              * @returns {*}
              * @private
              */
             static _remapOrders(order) {
+                const amountWithoutFilled = order.amount.sub(order.filled);
+
                 switch (order.type) {
                     case 'sell':
-                        return order.amount.sub(order.filled);
+                        return amountWithoutFilled;
                     case 'buy':
-                        const tokens = order.amount.sub(order.filled).getTokens().mul(order.price.getTokens());
-                        return order.price.cloneWithTokens(tokens);
+                        return (
+                            order
+                                .price
+                                .cloneWithTokens(
+                                    amountWithoutFilled
+                                        .getTokens()
+                                        .mul(order.price.getTokens())
+                                )
+                        );
                 }
             }
 

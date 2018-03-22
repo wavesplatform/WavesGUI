@@ -1,3 +1,4 @@
+/* global BigNumber, tsUtils */
 (function () {
     'use strict';
 
@@ -125,7 +126,11 @@
                     })
                     .then(({ bids, spread, asks }) => {
 
-                        const template = `<div class="asks">${asks}</div><div class="spread body-2">${spread}</div><div class="bids">${bids}</div>`;
+                        const template = (
+                            `<div class="asks">${asks}</div>` +
+                            `<div class="spread body-2">${spread}</div>` +
+                            `<div class="bids">${bids}</div>`
+                        );
                         const $box = $element.find('w-scroll-box');
                         const box = $box.get(0);
                         $box.html(template);
@@ -134,7 +139,9 @@
                             this._showSpread = false;
 
                             const spread = box.querySelector('.spread');
-                            box.scrollTop = spread.offsetTop - box.offsetTop - box.clientHeight / 2 + spread.clientHeight / 2;
+                            box.scrollTop = (
+                                spread.offsetTop - box.offsetTop - box.clientHeight / 2 + spread.clientHeight / 2
+                            );
                         }
                     });
             }
