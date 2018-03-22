@@ -1,5 +1,6 @@
 {
   "vendors": [
+    "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js",
     "node_modules/mousetrap/mousetrap.min.js",
     "node_modules/clipboard/dist/clipboard.min.js",
     "node_modules/csv-gen/dist/CSV.min.js",

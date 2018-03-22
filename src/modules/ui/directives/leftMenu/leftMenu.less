@@ -1,64 +1,349 @@
 @import (reference) '../../../config';
 
+@mobile-leftmenu-height: 60px;
+
 w-left-menu {
   width: @width-left-menu;
   position: absolute;
   left: 0;
   top: 0;
+  height: 100vh;
   bottom: 0;
   display: block;
-  padding-top: 10px;
   border-right: 1px solid @color-disabled-100;
   background-color: @color-white;
+  z-index: 30;
 
   .logo-wrapper {
-    margin: 0 auto 30px;
+    margin: 15px auto 20px auto;
   }
 
   .logout {
-    cusor: pointer;
+    cursor: pointer;
   }
 
-  w-navigation a {
-    width: 50px;
-    height: 50px;
-    display: block;
-    border-radius: @border-radius;
-    background-color: transparent;
-    background-position: center center;
-    background-repeat: no-repeat;
-    margin: 0 auto 5px auto;
+  .wallet-toggler {
+    display: none;
+  }
 
-    &.active {
-      background-color: @color-submit-400;
-      margin: 0 auto 5px auto;
+  w-responsive-menu {
+    width: 100%;
+    position: relative;
+    height: calc(100vh ~'- 90px');
+
+    w-responsive-menu-item.settings {
+      position: absolute;
+      left: 10px;
+      bottom: 50px;
+    }
+    w-responsive-menu-item.logout {
+      position: absolute;
+      left: 10px;
+      bottom: 0;
     }
 
-    &.wallet {
-      background-image: url(/img/icons/wallet.svg);
-      background-size: 25px 24px;
+    .navigation-menu {
+      margin-top: 5px;
+    }
+
+    w-responsive-menu-item {
+      color: @color-black;
+
+      .child-menu-list {
+        display: none;
+        transition: .3s;
+      }
+
+      .menu-item {
+        display: block;
+        width: 50px;
+        height: 50px;
+        border-radius: @border-radius;
+        background-color: transparent;
+        background-position: center center;
+        background-repeat: no-repeat;
+        margin: 0 auto 5px auto;
+        font-size: 0;
+        cursor: pointer;
+
+        &.wallet {
+          background-image: url(/img/icons/wallet.svg);
+          background-size: 25px 24px;
+        }
+
+        &.dex {
+          background-image: url(/img/icons/dex.svg);
+          background-size: 25px 23px;
+        }
+
+        &.tokens {
+          background-image: url(/img/icons/tokens.svg);
+          background-size: 31px 31px;
+        }
+
+        &.logout {
+          background-image: url(/img/icons/exit.svg);
+          background-size: 24px 26px;
+        }
+
+        &.settings {
+          background-image: url(/img/icons/icon-settings.svg);
+          background-size: 24px 24px;
+        }
+      }
+
+      @media screen and (min-width: 769px) {
+        &:hover .menu-item {
+          background-color: @color-info-50;
+        }
+      }
 
       &.active {
-        background-image: url(/img/icons/wallet-active.svg);
+        background-color: @color-submit-400;
+      }
+
+      &.active,
+      &.has-active {
+        .menu-item {
+          background-color: @color-submit-400;
+
+          &.wallet {
+            background-image: url(/img/icons/wallet-active.svg);
+          }
+          &.dex {
+            background-image: url(/img/icons/dex-active.svg);
+          }
+          &.tokens {
+            background-image: url(/img/icons/tokens-active.svg);
+          }
+        }
+
+        @media screen and (min-width: 769px) {
+          &:hover .menu-item {
+            background-color: @color-submit-400;
+          }
+        }
+
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+
+  w-left-menu {
+    width: 100%;
+    height: auto;
+    min-height: 60px;
+    bottom: auto;
+    display: flex;
+    border-right: 0 none;
+    position: relative;
+    border-bottom: 1px solid @color-disabled-100;
+
+    .logo-wrapper {
+      margin: @padding-main-layout;
+    }
+
+    .wallet-toggler {
+      background: url(/img/icons/arrow-dropdown.svg) no-repeat;
+      background-position: 20px center;
+      transform: rotate(180deg);
+      width: 100%;
+      height: 60px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      cursor: pointer;
+
+      &:hover {
+        opacity: .6;
       }
     }
 
-    &.dex {
-      background-image: url(/img/icons/dex.svg);
-      background-size: 25px 23px;
+    w-responsive-menu {
+      width: 100%;
+      top: 60px;
+      height: auto;
+      position: absolute;
+      z-index: 16;
+      box-shadow: 0 5px 5px @color-basic-50;
+      margin-top:-1px;
 
-      &.active {
-        background-image: url(/img/icons/dex-active.svg);
+      &.wallet-items-hide {
+
+        .wallet-toggler {
+          transform: rotate(0deg);
+          background-position: calc(100% ~'- 20px') center
+        }
+
+        w-responsive-menu-item[value="wallet"] .child-menu-list  {
+            transition: .3s;
+            height: 0;
+            overflow: hidden;
+        }
+
+        w-responsive-menu-item.has-active[value="wallet"] {
+          background: @color-submit-400;
+          .menu-item {
+            background: url(/img/icons/wallet-active.svg) 10px center no-repeat;
+            color: @color-white;
+          }
+        }
+      }
+
+      .navigation-menu {
+        margin: 0;
+        height: 0;
+        overflow: hidden;
+        transition: .3s;
+        opacity: 0;
+        border-color: @color-accent-50;
+
+        &.active {
+          opacity: 1;
+          display: flex;
+          height: auto;
+          border-bottom: 1px solid @color-accent-50;
+          border-top: 1px solid @color-accent-50;
+
+          .wallet-toggler {
+            display: block;
+          }
+
+          w-responsive-menu-item:not([value="wallet"]) {
+            border-top: 1px solid @color-accent-50;
+          }
+        }
+
+        w-responsive-menu-item {
+          display: block;
+          border-color: @color-accent-50;
+
+          .child-menu-list {
+            display: flex;
+            flex-direction: column;
+            background-color: @color-basic-50;
+          }
+
+          .menu-item {
+            background-color: transparent;
+            white-space: nowrap;
+            font-size: 15px;
+            margin: 0;
+            padding-left: 50px;
+            width: 100%;
+            background-position: 10px center;
+            margin-left: @padding-main-layout;
+            display: flex;
+            align-items: center;
+            height: 60px;
+            color: @color-basic-700;
+          }
+
+          &.active {
+            .menu-item {
+              color: @color-white;
+            }
+          }
+
+          &[value="wallet"] {
+            border-top: 0 none;
+          }
+
+          &.has-active {
+            .wallet {
+              background-image: url(/img/icons/wallet.svg);
+            }
+          }
+
+          .menu-item.tokens {
+            background-position: 7px center;
+          }
+
+          &.logout,
+          &.settings {
+            position: relative;
+            bottom: auto;
+            left: auto;
+          }
+
+        }
+      }
+
+      w-button.nav-toggler {
+        & > button.nav-toggler {
+          right: 10px;
+          top: -40px;
+          display: block;
+          width: 17px;
+          height: 17px;
+          overflow: visible;
+          &:hover {
+            opacity: .7;
+          }
+          .dots {
+            width: 17px;
+            height: 17px;
+            position: relative;
+            transition: .3s;
+            transform-origin: center;
+            .dot {
+              width: 17px;
+              height: 1px;
+              display: block;
+              position: absolute;
+              background-color: @color-info-500;
+              border-radius: 0;
+              transition: .3s;
+              transform-origin: center;
+              &:first-child {
+                top: 3px;
+              }
+              &:first-child + .dot {
+                top: 8px;
+              }
+              &:last-child {
+                bottom: 3px;
+              }
+            }
+          }
+        }
+      }
+
+      .navigation-menu.active + w-button.nav-toggler {
+        & > button.nav-toggler {
+          .dots {
+            transform: rotate(-180deg);
+            .dot {
+              &:first-child {
+                top: 8px;
+                transform: rotate(135deg);
+              }
+              &:first-child + .dot {
+                opacity: 0;
+              }
+              &:last-child {
+                transform: rotate(-135deg);
+                bottom: 8px;
+              }
+            }
+          }
+        }
       }
     }
+  }
 
-    &.tokens {
-      background-image: url(/img/icons/tokens.svg);
-      background-size: 31px 31px;
+}
 
-      &.active {
-        background-image: url(/img/icons/tokens-active.svg);
-      }
-    }
+@media screen and (max-width: 480px) {
+  body.dex w-left-menu {
+    position: fixed;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) and (max-height: 480px) {
+  w-layout .dex-layout__column-left .dex-layout__block-top {
+    margin-top: 0;
   }
 }

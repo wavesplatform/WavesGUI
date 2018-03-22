@@ -24,12 +24,13 @@
         };
     } else {
         read = function (key) {
-            const result = WebStorage.readStorage(key);
-            try {
-                return Promise.resolve(JSON.parse(result));
-            } catch (e) {
-                return Promise.resolve(result);
-            }
+            return WebStorage.readStorage(key).then((result) => {
+                try {
+                    return JSON.parse(result);
+                } catch (e) {
+                    return result;
+                }
+            });
         };
         write = function (key, value) {
             return WebStorage.writeStorage(key, value);
@@ -39,16 +40,28 @@
         };
     }
 
+    /**
+     * @param {$q} $q
+     * @param {app.utils} utils
+     * @param {StorageMigration} storageMigration
+     */
     const factory = function ($q, utils, storageMigration) {
 
         class Storage {
 
             constructor() {
+                this._isNewDefer = $q.defer();
+
                 this.load('lastVersion')
                     .then((version) => {
+                        this._isNewDefer.resolve(!version);
                         this.save('lastVersion', WavesApp.version);
                         storageMigration.migrateTo(version, this);
                     });
+            }
+
+            onReady() {
+                return this._isNewDefer.promise;
             }
 
             save(key, value) {
