@@ -123,7 +123,7 @@
                 this.observe(['amount', 'price', 'step', 'type'], this._currentTotal);
 
                 // TODO Add directive for stop propagation (catch move for draggable)
-                $element.on('mousedown', '.body', (e) => {
+                $element.on('mousedown touchstart', '.body', (e) => {
                     e.stopPropagation();
                 });
             }

@@ -5,7 +5,7 @@ md-dialog.terms-accept {
 
     md-dialog-content {
       display: block;
-      padding: 0 40px;
+      padding: 20px 40px 0 40px;
 
       .header-texts {
         text-align: center;
@@ -42,5 +42,11 @@ md-dialog.terms-accept {
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  md-dialog.terms-accept .step-1 md-dialog-content {
+    padding: 20px 20px 0 20px;
   }
 }

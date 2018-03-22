@@ -24,13 +24,18 @@
 
                 <li class="portfolio-item" ng-repeat="balance in $ctrl.portfolioBalances track by balance.asset.id">
                     <div class="portfolio-item-name">
+                        <span class="mobile-col-title" w-i18n="list.name"></span>
                         <w-asset-logo class="margin-right-1" asset-id="{{::balance.asset.id}}" size="30"></w-asset-logo>
                         {{::balance.asset.name}}
                     </div>
                     <div class="portfolio-item-balance">
+                        <span class="mobile-col-title" w-i18n="list.balance"></span>
                         <w-balance money="balance.available"></w-balance>
                     </div>
                     <div class="portfolio-item-mirror">
+                        <span class="mobile-col-title"
+                              w-i18n="list.mirror"
+                              params="{currency: $ctrl.mirror.ticker}"></span>
                         <div ng-if="balance.asset.id !== $ctrl.mirrorId">
                             <span>$&nbsp;</span>
                             <w-exchange noUpdate balance="balance.available"></w-exchange>
@@ -40,6 +45,9 @@
                         </div>
                     </div>
                     <div class="portfolio-item-rate">
+                        <span class="mobile-col-title"
+                              w-i18n="list.rate"
+                              params="{currency: $ctrl.mirror.ticker}"></span>
                         <div ng-if="balance.asset.id !== $ctrl.mirrorId">
                             <span>$&nbsp;</span>
                             <w-change-rate asset-id="balance.asset.id"></w-change-rate>
@@ -49,6 +57,7 @@
                         </div>
                     </div>
                     <div class="portfolio-item-change">
+                        <span class="mobile-col-title" w-i18n="list.change"></span>
                         <div ng-if="balance.asset.id !== $ctrl.mirrorId">
                             <w-change24 asset-from="balance.asset.id"
                                         asset-to="$ctrl.mirrorId"
