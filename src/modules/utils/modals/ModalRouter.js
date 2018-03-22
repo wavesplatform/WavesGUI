@@ -5,7 +5,7 @@
      * @param {User} user
      * @param {ModalManager} modalManager
      * @param {Waves} waves
-     * @param {Router} router
+     * @param {StateManager} router
      * @param $rootScope
      * @return {ModalRouter}
      */
