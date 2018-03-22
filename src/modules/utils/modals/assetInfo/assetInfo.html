@@ -26,11 +26,11 @@
         <w-tab title-name="modal.assetInfo.details" class="padding-content tab-details">
             <div class="line">
                 <div class="body-2 basic-700" w-i18n="modal.assetInfo.issuer"></div>
-                <div class="footnote-1 basic-500">{{::$ctrl.asset.sender}}</div>
+                <div class="footnote-1 basic-500 fs-mobile">{{::$ctrl.asset.sender}}</div>
             </div>
             <div class="line">
                 <div class="body-2 basic-700" w-i18n="modal.assetInfo.identifier"></div>
-                <div class="footnote-1 basic-500">{{::$ctrl.asset.id}}</div>
+                <div class="footnote-1 basic-500 fs-mobile">{{::$ctrl.asset.id}}</div>
             </div>
             <div class="line">
                 <div class="body-2 basic-700" w-i18n="modal.assetInfo.name"></div>
@@ -53,7 +53,7 @@
         </w-tab>
         <w-tab class="padding-content"
                title-name="modal.assetInfo.balance">
-            <div class="line">
+            <div class="line chart-container">
                 <div>
                     <w-circle-chart options="$ctrl.chartOptions" data="$ctrl.circleChartData"></w-circle-chart>
                 </div>

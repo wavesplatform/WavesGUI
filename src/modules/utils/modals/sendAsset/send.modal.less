@@ -1,6 +1,8 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
 
 .modal-send {
+
   w-qr-code-read {
     position: absolute;
     height: 34px;
@@ -44,6 +46,10 @@
     &.split-half {
       justify-content: space-between;
       width: 100%;
+
+      & > div.flex-row:last-child {
+        text-align: right;
+      }
     }
   }
 
@@ -79,7 +85,12 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    font-size: 17px;
+    font-size: 15px;
+    overflow-x: hidden;
+  }
+
+  w-select .title {
+    overflow-x: hidden;
   }
 
   .amount-wrap {
@@ -94,6 +105,11 @@
     background-size: 100% 100%;
     width: 24px;
     height: 20px;
+    margin: 7px;
+  }
+
+  w-balance {
+    vertical-align: top;
   }
 
   w-balance-input {
@@ -124,7 +140,70 @@
 
   .modal-content {
     width: 100%;
-    height: 100%;
     position: relative;
+  }
+
+  .ellipsis {
+    display: inline-block;
+    max-width: 60px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: top;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .modal-send {
+    .modal-content {
+      table tr {
+        td {
+          font-size: @mobile-low-fsize;
+        }
+        td.headline-3 {
+          padding: 10px;
+        }
+        td:last-child {
+          padding: 10px;
+          font-size: @mobile-low-fsize;
+        }
+      }
+      .confirm-block w-button {
+        width: 45%;
+      }
+    }
+
+    .flex-row.split-half {
+      white-space: nowrap;
+      font-size: 12px;
+
+      span {
+        vertical-align: top;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .modal-send {
+    .read-address-wrap {
+      .w-input-wrap input {
+        padding-right: 50px;
+        font-size: @font-size-caption-2;
+      }
+    }
+
+    .mobile-ellipsis {
+      display: inline-block;
+      max-width: 50px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      vertical-align: top;
+    }
+
+    w-balance-input w-input .w-input-wrap input[type="text"].big {
+      font-size: @font-size-caption-2;
+    }
   }
 }

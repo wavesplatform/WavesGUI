@@ -122,7 +122,6 @@
                     .css({
                         'background-color': color,
                         'font-size': `${fontSize}px`,
-                        'line-height': `${this.size}px`
                     });
             }
 

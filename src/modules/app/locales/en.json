@@ -1,4 +1,17 @@
 {
+  "header": {
+    "wallet": "Wallet",
+    "assets": "Assets",
+    "portfolio": "Portfolio",
+    "transactions": "Transactions",
+    "leasing": "Leasing",
+    "dex": "Decentralised exchanger",
+    "tokens": "Tokens"
+  },
+  "leftmenu": {
+    "settings": "Settings",
+    "logout": "Logout"
+  },
   "button": {
     "cancel": "Cancel",
     "continue": "Continue"
@@ -40,12 +53,6 @@
     }
   },
   "back": "Back",
-  "header": {
-    "assets": "Assets",
-    "portfolio": "Portfolio",
-    "transactions": "Transactions",
-    "leasing": "Leasing"
-  },
   "number": {
     "short": {
       "million": "M",

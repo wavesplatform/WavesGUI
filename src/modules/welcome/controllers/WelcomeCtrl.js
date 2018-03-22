@@ -3,7 +3,7 @@
 
     const PATH = 'modules/welcome/templates';
 
-    const controller = function ($state, user) {
+    const controller = function ($state, user, modalManager) {
 
         class WelcomeCtrl {
 
@@ -24,6 +24,10 @@
                         this.userList = list;
                         this._updatePageUrl();
                     });
+            }
+
+            showTutorialModals() {
+                return modalManager.showTutorialModals();
             }
 
             login() {
@@ -72,7 +76,7 @@
         return new WelcomeCtrl();
     };
 
-    controller.$inject = ['$state', 'user'];
+    controller.$inject = ['$state', 'user', 'modalManager'];
 
     angular.module('app.welcome')
         .controller('WelcomeCtrl', controller);

@@ -60,3 +60,17 @@ body.restore {
 
   }
 }
+
+@media screen and (max-width: 480px) {
+  body.restore .restore-content {
+    width: calc(100% ~'- 20px');
+    padding: 0 10px;
+
+    .seed-block .address-block-info .address-block {
+      width: 80%;
+      .address.empty {
+        width: 100%;
+      }
+    }
+  }
+}
