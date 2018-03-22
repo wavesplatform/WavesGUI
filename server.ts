@@ -75,7 +75,7 @@ if (args.startSimple) {
 
 function getBuildsLinks(userAgent: string = ''): Array<{ url: string; text: string }> {
     const result = [];
-    const platform = userAgent.includes('Electron') ? 'desktop' : 'web';
+    const platform: TPlatform = userAgent.includes('Electron') ? 'desktop' : 'web';
 
     connectionTypes.forEach((connection) => {
         buildTypes.forEach((build) => {
@@ -91,11 +91,10 @@ function getBuildsLinks(userAgent: string = ''): Array<{ url: string; text: stri
 
 function parseCookie(header = ''): IRequestData {
     const [platform, connection, build] = ((parserCookie(header) || Object.create(null)).session || '').split(',');
-    if (!build || !connection || !platform) {
+    if (!(build && connection && platform)) {
         return null;
-    } else {
-        return { platform, connection, build } as IRequestData;
     }
+    return { platform, connection, build } as IRequestData;
 }
 
 interface IRequestData {
