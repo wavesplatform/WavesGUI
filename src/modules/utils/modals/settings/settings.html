@@ -47,7 +47,10 @@
 
             <w-step step-id="security" class="security">
                 <div class="row margin-1">
-                    <div class="footnote-1 disabled-600 label" w-i18n="modal.settings.security.backupPhrase"></div>
+                    <div class="footnote-1 disabled-600 label">
+                        <w-i18n>modal.settings.security.backupPhrase</w-i18n>
+                        <a class="settings-copy" w-copy="{{::$ctrl.phrase}}" w-i18n="modal.settings.network.copy"></a>
+                    </div>
                     <div class="data-field">
                         <w-button ng-if="!$ctrl.shownSeed" class="tiny" ng-click="$ctrl.shownSeed = true">
                             <w-i18n>modal.settings.security.show</w-i18n>
@@ -57,7 +60,10 @@
                 </div>
 
                 <div class="row margin-1">
-                    <div class="footnote-1 disabled-600 label" w-i18n="modal.settings.security.privateKey"></div>
+                    <div class="footnote-1 disabled-600 label">
+                        <w-i18n>modal.settings.security.privateKey</w-i18n>
+                        <a class="settings-copy" w-copy="{{::$ctrl.privateKey}}" w-i18n="modal.settings.network.copy"></a>
+                    </div>
                     <div class="data-field">
                         <w-button ng-if="!$ctrl.shownKey" class="tiny" ng-click="$ctrl.shownKey = true">
                             <w-i18n>modal.settings.security.show</w-i18n>
