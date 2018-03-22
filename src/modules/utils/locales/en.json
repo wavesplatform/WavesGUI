@@ -189,7 +189,8 @@
       "network": {
         "title": "Network",
         "nodeAddress": "Node address",
-        "matcherAddress": "Matcher address"
+        "matcherAddress": "Matcher address",
+        "copy": "copy"
       },
       "info": {
         "title": "Info",

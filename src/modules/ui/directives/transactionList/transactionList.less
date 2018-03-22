@@ -82,6 +82,13 @@ w-transaction-list {
   }
 }
 
+.fake-transaction-line {
+  display: block;
+  position: relative;
+  margin: 0 0 30px 0;
+  height: 60px;
+}
+
 @media screen and (max-width: 768px) {
 
   ul .transaction-item .date {
@@ -107,13 +114,10 @@ w-transaction-list {
 
 }
 
-@media screen and (min-height: 768px) {
-
-}
-
-.fake-transaction-line {
-  display: block;
-  position: relative;
-  margin: 0 0 30px 0;
-  height: 60px;
+@media screen and (max-width: 480px) {
+  .main-content {
+    w-transaction-list {
+      min-height: 200px;
+    }
+  }
 }

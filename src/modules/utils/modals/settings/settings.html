@@ -77,14 +77,20 @@
 
             <w-step step-id="network" class="network">
                 <div class="row margin-1">
-                    <div class="footnote-1 disabled-600 label" w-i18n="modal.settings.network.nodeAddress"></div>
+                    <div class="footnote-1 disabled-600 label">
+                        <w-i18n>modal.settings.network.nodeAddress</w-i18n>
+                        <a class="settings-copy" w-copy="{{::$ctrl.node}}" w-i18n="modal.settings.network.copy"></a>
+                    </div>
                     <div class="data-field">
                         <w-input ng-model="$ctrl.node"></w-input>
                     </div>
                 </div>
 
                 <div class="row margin-3">
-                    <div class="footnote-1 disabled-600 label" w-i18n="modal.settings.network.matcherAddress"></div>
+                    <div class="footnote-1 disabled-600 label">
+                        <w-i18n>modal.settings.network.matcherAddress</w-i18n>
+                        <a class="settings-copy" w-copy="{{::$ctrl.matcher}}" w-i18n="modal.settings.network.copy"></a>
+                    </div>
                     <div class="data-field">
                         <w-input ng-model="$ctrl.matcher"></w-input>
                     </div>

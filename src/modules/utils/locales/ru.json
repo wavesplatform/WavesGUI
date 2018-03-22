@@ -189,7 +189,8 @@
       "network": {
         "title": "Сеть",
         "nodeAddress": "Адрес ноды",
-        "matcherAddress": "Адрес матчера"
+        "matcherAddress": "Адрес матчера",
+        "copy": "копировать"
       },
       "info": {
         "title": "О программе",
