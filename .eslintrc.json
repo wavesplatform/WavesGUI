@@ -317,13 +317,7 @@
       }
     ],
     "padding-line-between-statements": "error",
-    "prefer-arrow-callback": [
-      "error",
-      {
-        "allowNamedFunctions": true,
-        "allowUnboundThis": false
-      }
-    ],
+    "prefer-arrow-callback": "off",
     "prefer-const": "error",
     "prefer-destructuring": "off",
     "prefer-numeric-literals": "error",
