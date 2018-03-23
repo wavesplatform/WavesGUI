@@ -80,10 +80,6 @@
                  */
                 this.outerSendMode = false;
                 /**
-                 * @type {string}
-                 */
-                this.assetKeyName = '';
-                /**
                  * @type {object}
                  */
                 this.gatewayDetails = null;
@@ -341,15 +337,13 @@
 
             _fillMirror() {
                 utils.when(waves.utils.getRate(this.assetId, this.mirrorId)).then((rate) => {
-                    const mirror = this.tx.amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
-                    this.mirror = mirror;
+                    this.mirror = this.tx.amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
                 });
             }
 
             _fillAmount() {
                 utils.when(waves.utils.getRate(this.mirrorId, this.assetId)).then((rate) => {
-                    const amount = this.mirror.convertTo(this.moneyHash[this.assetId].asset, rate);
-                    this.tx.amount = amount;
+                    this.tx.amount = this.mirror.convertTo(this.moneyHash[this.assetId].asset, rate);
                 });
             }
 
@@ -361,13 +355,11 @@
 
                 if (this.outerSendMode) {
                     gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient).then((details) => {
-                        this.assetKeyName = gatewayService.getAssetKeyName(this.tx.amount.asset, 'withdraw');
                         this.gatewayDetails = details;
                         $scope.$apply();
                         // TODO : validate amount field for gateway minimumAmount and maximumAmount
                     });
                 } else {
-                    this.assetKeyName = '';
                     this.gatewayDetails = null;
                 }
             }
