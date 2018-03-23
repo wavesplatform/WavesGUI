@@ -42,13 +42,15 @@
                 this.interval = Number(this.interval) || 5000;
 
                 if ($attrs.noUpdate) {
-                    const change = this._getChange();
-                    if (change) {
-                        this._getChange().then(this._setChange.bind(this), this._setChange.bind(this));
-                        this.observe(['assetFrom', 'assetTo'], () => {
+
+                    const apply = () => {
+                        if (this.assetFrom && this.assetTo) {
                             this._getChange().then(this._setChange.bind(this), this._setChange.bind(this));
-                        });
-                    }
+                        }
+                    };
+
+                    apply();
+                    this.observe(['assetFrom', 'assetTo'], apply);
                 } else {
                     const poll = createPoll(this, this._getChange, this._setChange, this.interval);
                     this.observe(['assetFrom', 'assetTo'], () => {
