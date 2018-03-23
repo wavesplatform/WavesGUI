@@ -138,7 +138,7 @@ w-left-menu {
     bottom: auto;
     display: flex;
     border-right: 0 none;
-    position: relative;
+    position: fixed;
     border-bottom: 1px solid @color-disabled-100;
 
     .logo-wrapper {
@@ -167,35 +167,15 @@ w-left-menu {
       height: auto;
       position: absolute;
       z-index: 16;
-      box-shadow: 0 5px 5px @color-basic-50;
-      margin-top:-1px;
-
-      &.wallet-items-hide {
-
-        .wallet-toggler {
-          transform: rotate(0deg);
-          background-position: calc(100% ~'- 20px') center
-        }
-
-        w-responsive-menu-item[value="wallet"] .child-menu-list  {
-            transition: .3s;
-            height: 0;
-            overflow: hidden;
-        }
-
-        w-responsive-menu-item.has-active[value="wallet"] {
-          background: @color-submit-400;
-          .menu-item {
-            background: url(/img/icons/wallet-active.svg) 10px center no-repeat;
-            color: @color-white;
-          }
-        }
-      }
+      margin-top: -1px;
+      max-height: calc(100vh ~'- 60px');
 
       .navigation-menu {
         margin: 0;
         height: 0;
-        overflow: hidden;
+        position: relative;
+        overflow-x: hidden;
+        overflow-y: auto;
         transition: .3s;
         opacity: 0;
         border-color: @color-accent-50;
@@ -206,6 +186,17 @@ w-left-menu {
           height: auto;
           border-bottom: 1px solid @color-accent-50;
           border-top: 1px solid @color-accent-50;
+
+          & + w-button + .navigation-menu-overlay {
+            display: block;
+            position: fixed;
+            height: 5000px;
+            z-index: -1;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+          }
 
           .wallet-toggler {
             display: block;
@@ -219,6 +210,7 @@ w-left-menu {
         w-responsive-menu-item {
           display: block;
           border-color: @color-accent-50;
+          background: @color-white;
 
           .child-menu-list {
             display: flex;
@@ -242,6 +234,8 @@ w-left-menu {
           }
 
           &.active {
+            background-color: @color-submit-400;
+
             .menu-item {
               color: @color-white;
             }
@@ -268,6 +262,28 @@ w-left-menu {
             left: auto;
           }
 
+        }
+      }
+
+      &.wallet-items-hide {
+
+        .wallet-toggler {
+          transform: rotate(0deg);
+          background-position: calc(100% ~'- 20px') center
+        }
+
+        w-responsive-menu-item[value="wallet"] .child-menu-list {
+          transition: .3s;
+          height: 0;
+          overflow: hidden;
+        }
+
+        w-responsive-menu-item.has-active[value="wallet"] {
+          background: @color-submit-400;
+          .menu-item {
+            background: url(/img/icons/wallet-active.svg) 10px center no-repeat;
+            color: @color-white;
+          }
         }
       }
 
@@ -336,14 +352,10 @@ w-left-menu {
 
 }
 
-@media screen and (max-width: 480px) {
-  body.dex w-left-menu {
-    position: fixed;
-  }
-}
-
-@media screen and (min-width: 481px) and (max-width: 768px) and (max-height: 480px) {
-  w-layout .dex-layout__column-left .dex-layout__block-top {
-    margin-top: 0;
-  }
-}
+// TODO @uIsk
+//@media screen and (min-width: 481px) and (max-width: 768px) and (max-height: 480px) {
+//
+//  w-layout .dex-layout__column-left .dex-layout__block-top {
+//    margin-top: 0;
+//  }
+//}
