@@ -41,22 +41,24 @@
                 this.precision = Number(this.precision) || 2;
                 this.interval = Number(this.interval) || 5000;
 
+                let handler = null;
                 if ($attrs.noUpdate) {
 
                     const apply = () => {
-                        if (this.assetFrom && this.assetTo) {
-                            this._getChange().then(this._setChange.bind(this), this._setChange.bind(this));
-                        }
+                        const onFulfilled = this._setChange.bind(this);
+                        this._getChange().then(onFulfilled, onFulfilled);
                     };
 
                     apply();
-                    this.observe(['assetFrom', 'assetTo'], apply);
+                    handler = apply;
                 } else {
                     const poll = createPoll(this, this._getChange, this._setChange, this.interval);
-                    this.observe(['assetFrom', 'assetTo'], () => {
+                    handler = () => {
                         poll.restart();
-                    });
+                    };
                 }
+
+                this.observe(['assetFrom', 'assetTo'], handler);
             }
 
             /**
@@ -72,7 +74,7 @@
                     }
                     return waves.utils.getChange(this.assetFrom, this.assetTo);
                 } else {
-                    return null;
+                    return Promise.resolve(null);
                 }
             }
 
