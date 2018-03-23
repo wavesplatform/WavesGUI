@@ -16,14 +16,25 @@
 
         <div class="toolbar">
             <div>
-                <w-radio-wrap mode="tab-mode" ng-model="$ctrl.activeChartAssetId">
+                <w-radio-wrap class="toolbar-balance-radio"
+                              mode="tab-mode"
+                              ng-model="$ctrl.activeChartAssetId">
                     <w-radio ng-repeat="balance in $ctrl.chartBalanceList track by balance.asset.id"
                              value="balance.asset.id">
                         <span class="radio-name">{{::balance.asset.name}}<span class="radio-dot">•</span></span>
-                        $
+                        <span class="radio-symb">$</span>
                         <w-change-rate asset-id="balance.asset.id"></w-change-rate>
                     </w-radio>
                 </w-radio-wrap>
+
+                <w-select class="toolbar-balance-select"
+                          ng-model="$ctrl.activeChartAssetId">
+                    <w-option ng-repeat="balance in $ctrl.chartBalanceList track by balance.asset.id"
+                              value="{{::balance.asset.id}}">
+                        <span class="radio-name">{{::balance.asset.name}}</span>
+                    </w-option>
+                </w-select>
+
             </div>
 
             <div class="date-btns">
@@ -46,6 +57,9 @@
                 </w-radio-wrap>
             </div>
         </div>
+
+        <input class="chart-toggler" id="chart-toggler" type="checkbox" />
+        <label for="chart-toggler"></label>
 
         <div class="chart-info">
             <div class="rate">

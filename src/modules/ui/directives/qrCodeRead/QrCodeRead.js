@@ -60,6 +60,7 @@
                  */
                 this.onRead = null;
 
+                this._addVideoAttrs();
                 this.observe(['width', 'height'], this._onChangeSize);
                 this.observe('isWatched', this._onChangeWatched);
             }
@@ -104,11 +105,20 @@
                         this._loadVideoSize()
                             .then((size) => {
                                 this._currentSize(size);
-                                this.video.play();
                                 this.poll = createPoll(this, this._decodeImage, this._checkStop, 50);
                             });
-                        this.video.src = stream.url;
+                        this.video.srcObject = stream.stream;
                     });
+            }
+
+            /**
+             * @private
+             */
+            _addVideoAttrs() {
+                this.video.setAttribute('autoplay', 'true');
+                this.video.setAttribute('preload', 'auto');
+                this.video.setAttribute('muted', 'true');
+                this.video.setAttribute('playsinline', 'true');
             }
 
             /**

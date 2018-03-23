@@ -4,11 +4,98 @@
 @row-short: 25%;
 @row-long: 75%;
 @row-normal: 50%;
+@mobile-settings-item-height: 50px;
 
 md-dialog.settings-modal {
   width: 100%;
   max-width: 740px;
   min-width: 740px;
+
+  md-dialog-content::after {
+    display: none;
+  }
+
+  w-responsive-menu {
+    width: 199px;
+    height: calc(100% ~' + 20px');
+    position: absolute;
+    font-size: 15px;
+    left: -40px;
+    top: -20px;
+    border-right: 1px solid @color-basic-200;
+
+    w-responsive-menu-item {
+      display: block;
+
+      i {
+        flex-basis: 65px;
+        display: block;
+        background-repeat: no-repeat;
+        background-position: 32px center;
+      }
+
+      .menu-item {
+        position: relative;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        height: 50px;
+        color: @color-info-500;
+
+        &.general i {
+          background-image: url(/img/icons/settings-icon/general.svg);
+          height: 17px;
+          background-size: 16px 17px;
+        }
+
+        &.security i {
+          background-image: url(/img/icons/settings-icon/security.svg);
+          height: 19px;
+          background-size: 17px 19px;
+        }
+
+        &.network i {
+          background-image: url(/img/icons/settings-icon/network.svg);
+          height: 17px;
+          background-size: 16px 17px;
+        }
+
+        &.info i {
+          background-image: url(/img/icons/settings-icon/info.svg);
+          height: 17px;
+          background-size: 17px 17px;
+        }
+      }
+
+      &:hover {
+        background-color: @color-basic-50;
+      }
+
+      &.active {
+        background-color: @color-submit-400;
+
+        &:hover {background-color: @color-submit-400;}
+
+        .menu-item {
+          color: @color-white;
+
+          &.general i {
+            background-image: url(/img/icons/settings-icon/general-active.svg);
+          }
+          &.security i {
+            background-image: url(/img/icons/settings-icon/security-active.svg);
+          }
+          &.network i {
+            background-image: url(/img/icons/settings-icon/network-active.svg);
+          }
+          &.info i {
+            background-image: url(/img/icons/settings-icon/info-active.svg);
+          }
+        }
+      }
+
+    }
+  }
 
   .modal-content {
     display: flex;
@@ -27,63 +114,6 @@ md-dialog.settings-modal {
       .label {
         line-height: 1.8em;
       }
-    }
-  }
-
-  .navigation-menu {
-    width: 199px;
-    height: calc(100% ~' + 60px');
-    position: absolute;
-    font-size: 15px;
-    left: -40px;
-    top: -20px;
-    border-right: 1px solid @color-basic-200;
-
-    .menu-item {
-      line-height: 50px;
-      color: @color-info-500;
-      position: relative;
-      padding-left: 65px;
-      cursor: pointer;
-
-      &.active {
-        background: @color-submit-400;
-        color: @color-white;
-      }
-
-      &::before {
-        position: absolute;
-        left: 40px;
-        top: 50%;
-        content: '';
-        background-size: contain;
-        display: block;
-        background-repeat: no-repeat;
-      }
-    }
-
-    .general::before {
-      width: 16px;
-      height: 17px;
-      margin-top: -9px;
-    }
-
-    .security::before {
-      width: 17px;
-      height: 19px;
-      margin-top: -10px;
-    }
-
-    .network::before {
-      width: 16px;
-      height: 17px;
-      margin-top: -9px;
-    }
-
-    .info::before {
-      width: 17px;
-      height: 17px;
-      margin-top: -9px;
     }
   }
 
@@ -121,6 +151,10 @@ md-dialog.settings-modal {
     }
   }
 
+  .settings-copy {
+    display: none;
+  }
+
   .info {
     span.waves-logo {
       width: 60px;
@@ -156,7 +190,7 @@ md-dialog.settings-modal {
       position: absolute;
       line-height: 1em;
       margin: 0;
-      padding: 19px 0 10px 0;
+      padding: 20px 20px 10px 0;
       top: 0;
     }
 
@@ -170,4 +204,118 @@ md-dialog.settings-modal {
     }
   }
 
+}
+
+@media screen and (max-width: 767px) {
+
+  md-dialog.settings-modal {
+    width: calc(100% ~' - 20px');
+    min-width: 340px;
+    max-width: 400px;
+    height: 82vh;
+    max-height: 82vh;
+    left: 50%;
+    transform-origin: center;
+    transition: .3s;
+
+    w-responsive-menu {
+      width: calc(100% ~' + 40px');
+      border-bottom: 1px solid @color-accent-50;
+      left: 0;
+      top: 0;
+      margin: -20px -10px 0 -20px;
+      border-right: 0 none;
+      height: auto;
+      transition: .3s;
+
+      .navigation-menu {
+        height: 50px;
+        overflow: hidden;
+
+        &::before {
+          background-color: @color-submit-400;
+          content:'';
+          display:block;
+          position: absolute;
+          top:0;
+          left:0;
+          height: @mobile-settings-item-height;
+          width: 100%;
+        }
+
+        w-responsive-menu-item {
+          order: 2;
+          opacity:0;
+          height: 0;
+        }
+
+        w-responsive-menu-item.active {
+          order: 0;
+          opacity:1;
+          height: @mobile-settings-item-height;
+        }
+
+        w-responsive-menu-item:not(.active) {
+          transition: .3s;
+        }
+
+        &.active {
+          height: auto;
+          w-responsive-menu-item {
+            opacity:1;
+            height: @mobile-settings-item-height;
+          }
+        }
+
+      }
+
+      w-button {
+        & > button.nav-toggler {
+          right: 20px;
+          top: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 30px;
+          height: 30px;
+
+          .dots {
+            width: 16px;
+            height: 4px;
+
+            .dot {
+              width: 4px;
+              height: 4px;
+              border-radius: 100%;
+              background-color: @color-white;
+            }
+          }
+        }
+      }
+    }
+
+    .settings-modal {
+      flex-direction: column;
+
+      .settings-content {
+        margin-left: 0;
+        margin-top: 50px;
+        padding: 0 10px;
+
+        .row-mobile {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .step-list .info .flex-row:first-child {
+          padding-top: 3px;
+        }
+      }
+
+      .settings-copy {
+        display: inline-block;
+        float: right;
+      }
+    }
+  }
 }
