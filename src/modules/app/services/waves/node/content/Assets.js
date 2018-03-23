@@ -93,7 +93,7 @@
              * @return {Promise<IBalanceDetails[]>}
              */
             userBalances() {
-                return this._balanceCache.get();
+                return user.onLogin().then(() => this._balanceCache.get());
             }
 
             /**
@@ -141,14 +141,14 @@
              * @return {Promise<ITransaction>}
              */
             issue({ name, description, quantity, precision, reissuable, fee, keyPair }) {
-                const coins = quantity.mul(Math.pow(10, precision)).toFixed();
+                quantity = quantity.mul(Math.pow(10, precision));
                 return this.getFee('issue', fee).then((fee) => {
                     return Waves.API.Node.v1.assets.issue({
                         name,
                         description,
                         precision,
                         reissuable,
-                        quantity: coins,
+                        quantity,
                         fee
                     }, keyPair)
                         .then(this._pipeTransaction([fee]));

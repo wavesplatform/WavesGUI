@@ -1,4 +1,5 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
 
 w-dex-my-orders {
   display: block;
@@ -23,9 +24,8 @@ w-dex-my-orders {
 
       &:hover {
         .stop {
-          opacity: .89;
-          background-color: @color-error-400;
-          background-image: url(/img/icons/white_cancel.svg);
+          background-image: url(/img/icons/red-cancel.svg);
+          background-size: 16px 16px;
         }
       }
     }
@@ -43,6 +43,10 @@ w-dex-my-orders {
       }
     }
 
+    w-cell {
+      white-space: nowrap;
+    }
+
     .cell-0 {
       span {
         display: block;
@@ -50,14 +54,12 @@ w-dex-my-orders {
         overflow: hidden;
         white-space: nowrap;
         max-width: 160px;
-        display: block;
       }
     }
 
     .cell-1 {
       max-width: 5%;
       padding: 0 14px;
-      white-space: nowrap;
     }
 
     .cell-2, .cell-3, .cell-4 {
@@ -74,7 +76,6 @@ w-dex-my-orders {
       margin-right: 30px;
       padding-right: 0;
       width: 26%;
-      white-space: nowrap;
     }
 
     .order-side.sell {
@@ -88,19 +89,146 @@ w-dex-my-orders {
     .stop {
       cursor: pointer;
       position: absolute;
-      top: 50%;
-      right: 16px;
-      width: 17px;
-      height: 17px;
-      transform: translateY(-50%);
+      right: 10px;
       background-image: url(/img/icons/order_cancel.svg);
       background-size: 8px 8px;
       background-repeat: no-repeat;
       background-position: center;
+      top: 2px;
+      width: 30px;
+      height: calc(100% ~'- 4px');
     }
 
     &:not(:last-child) {
       border-bottom: 1px solid @color-disabled-100;
     }
   }
+
+  .cell-label {
+    display: none;
+    color: @color-disabled-700;
+    margin-right: 7px;
+    font-size: 9px;
+  }
+
+}
+
+@media screen and (max-width: 480px) {
+
+  body.dex .dex-wrapper {
+    w-dex-my-orders {
+      w-table {
+        min-width: 100%;
+
+        w-t-head {
+          w-row {
+            padding: 8px 0;
+
+            .table-row {
+              margin: 0 30px 0 10px;
+              height: auto;
+
+              w-cell {
+                &.cell-0 {
+                  width: 45%;
+                }
+
+                &.cell-1 {
+                  width: 15%;
+                  max-width: 15%;
+                  padding: 0;
+                }
+
+                &.cell-2,
+                &.cell-3 {
+                  display: none;
+                }
+
+                &.cell-4 {
+                  width: 40%;
+                  margin-right: 0;
+                }
+              }
+            }
+          }
+        }
+
+        w-scroll-box w-row {
+          padding: 8px 0;
+
+          .table-row {
+            display: flex;
+            flex-wrap: wrap;
+            height: auto;
+            margin: 0 30px 0 10px;
+
+            .stop {
+              right: 2px;
+              width: 26px;
+            }
+
+            w-cell {
+              padding: 0;
+
+              .cell-label {
+                display: inline-block;
+              }
+
+              &.cell-0 {
+                flex-basis: 45%;
+                width: 45%;
+                order: 0;
+
+                span {
+                  max-width: 120px;
+                }
+              }
+
+              &.cell-1 {
+                max-width: 15%;
+                flex-basis: 15%;
+                width: 15%;
+                order: 1;
+              }
+
+              &.cell-2 {
+                flex-basis: 40%;
+                width: 40%;
+                min-width: 40%;
+                order: 3;
+                text-align: left;
+              }
+
+              &.cell-3 {
+                flex-basis: 60%;
+                width: 60%;
+                order: 4;
+                text-align: right;
+              }
+
+              &.cell-4 {
+                flex-basis: 40%;
+                width: 40%;
+                margin-right: 0;
+                order: 2;
+              }
+            }
+
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 380px) {
+
+  body.dex .dex-wrapper {
+    w-dex-my-orders {
+      w-scroll-box w-row {
+        font-size: @font-size-caption-2;
+      }
+    }
+  }
+
 }

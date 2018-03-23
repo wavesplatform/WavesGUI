@@ -121,8 +121,7 @@
                     .text(letter)
                     .css({
                         'background-color': color,
-                        'font-size': `${fontSize}px`,
-                        'line-height': `${this.size}px`
+                        'font-size': `${fontSize}px`
                     });
             }
 

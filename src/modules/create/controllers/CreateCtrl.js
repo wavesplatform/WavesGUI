@@ -36,6 +36,10 @@
                 this.resetAddress();
             }
 
+            showTutorialModals() {
+                return modalManager.showTutorialModals();
+            }
+
             onSeedConfirmFulfilled(isValid) {
                 this.seedIsValid = isValid;
                 this.seedConfirmWasFilled = true;
