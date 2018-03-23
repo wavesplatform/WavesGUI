@@ -28,11 +28,6 @@
                 }), 0);
             }
 
-            searchSymbolsByName(userInput, exchange, symbolType, callback) {
-                console.warn('This method should not be called');
-                setTimeout(() => callback([]), 0);
-            }
-
             resolveSymbol(symbolName, resolve, reject) {
                 if (symbolName.match(/^DEX:/)) {
                     return;
