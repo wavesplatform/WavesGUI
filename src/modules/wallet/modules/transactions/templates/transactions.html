@@ -22,6 +22,27 @@
             </w-radio>
         </w-radio-wrap>
 
+        <w-select class="split-mode" ng-model="$ctrl.filter">
+            <w-option value="all">
+                <w-i18n>all</w-i18n>
+            </w-option>
+            <w-option value="send">
+                <w-i18n>sent</w-i18n>
+            </w-option>
+            <w-option value="receive">
+                <w-i18n>received</w-i18n>
+            </w-option>
+            <w-option value="exchange-buy,exchange-sell">
+                <w-i18n>exchanged</w-i18n>
+            </w-option>
+            <w-option value="lease-in,lease-out,cancel-leasing">
+                <w-i18n>leased</w-i18n>
+            </w-option>
+            <w-option value="issue,reissue,burn">
+                <w-i18n>issued</w-i18n>
+            </w-option>
+        </w-select>
+
         <w-button class="download interface" ng-click="$ctrl.exportTransactions()">
             <w-i18n>export</w-i18n>
         </w-button>

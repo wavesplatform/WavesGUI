@@ -8,7 +8,7 @@
      * @param {app.utils} utils
      * @return {RestoreCtrl}
      */
-    const controller = function (Base, $scope, user, utils) {
+    const controller = function (Base, $scope, user, utils, modalManager) {
 
         class RestoreCtrl extends Base {
 
@@ -37,6 +37,10 @@
                 this.observeOnce('seedForm', () => {
                     this.receive(utils.observe(this.seedForm, '$valid'), this._onChangeSeed, this);
                 });
+            }
+
+            showTutorialModals() {
+                return modalManager.showTutorialModals();
             }
 
             restore() {
@@ -70,7 +74,7 @@
         return new RestoreCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'utils'];
+    controller.$inject = ['Base', '$scope', 'user', 'utils', 'modalManager'];
 
     angular.module('app.restore').controller('RestoreCtrl', controller);
 })();
