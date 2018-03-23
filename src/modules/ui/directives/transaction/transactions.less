@@ -16,6 +16,9 @@ w-transaction .transaction {
     margin-top: 4px;
     border-radius: @border-radius / 2;
     text-transform: uppercase;
+    position: absolute;
+    right: 43px;
+    bottom: 15px;
 
     &.active {
       background: @color-success-50;
@@ -23,98 +26,206 @@ w-transaction .transaction {
     }
   }
 
-
-.icon {
-  position: relative;
-  width: 96px;
-  height: 100%;
-  background-size: 48px 48px;
-  background: no-repeat center;
-
-  &::before {
-    content: '';
-    display: block;
-    position: absolute;
+  .icon {
+    position: relative;
     width: 48px;
     height: 48px;
-    border-radius: 100%;
-    overflow: hidden;
-    left: 50%;
-    top: 50%;
-    margin: -24px;
-  }
+    background-size: 72%;
+    margin: auto 25px auto 20px;
+    background-repeat: no-repeat;
+    background-position: center center;
 
-  &.send {
-    .icon-tx-send();
-  }
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      border-radius: 100%;
+      overflow: hidden;
+      left: 50%;
+      top: 50%;
+      margin: -24px;
+    }
 
-  &.receive {
-    .icon-tx-receive();
-  }
+    &.send {
+      .icon-tx-send();
+    }
 
-  &.circular {
-    .icon-tx-circular();
-  }
+    &.receive {
+      .icon-tx-receive();
+    }
 
-  &.issue {
-    .icon-tx-issue();
-  }
+    &.circular {
+      .icon-tx-circular();
+    }
 
-  &.reissue {
-    .icon-tx-reissue();
-  }
+    &.issue {
+      .icon-tx-issue();
+    }
 
-  &.burn {
-    .icon-tx-burn();
-  }
+    &.reissue {
+      .icon-tx-reissue();
+    }
 
-  &.exchange-buy,
-  &.exchange-sell {
-    .icon-tx-exchange();
-  }
+    &.burn {
+      .icon-tx-burn();
+      background-size: 64%;
+    }
 
-  &.create-alias {
-    .icon-tx-create-alias();
-  }
+    &.exchange-buy,
+    &.exchange-sell {
+      .icon-tx-exchange();
+    }
 
-  &.lease-in {
-    .icon-tx-incoming-leasing();
-  }
+    &.create-alias {
+      .icon-tx-create-alias();
+    }
 
-  &.lease-out {
-    .icon-tx-lease();
-  }
+    &.lease-in {
+      .icon-tx-incoming-leasing();
+    }
 
-  &.unknown {
-    .icon-tx-unknown();
-  }
+    &.lease-out {
+      .icon-tx-lease();
+    }
 
-  &.cancel-leasing {
-    .icon-tx-cancel-leasing();
-  }
-}
+    &.cancel-leasing {
+      .icon-tx-cancel-leasing();
+    }
 
-.transaction-info {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-
-  .line {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    height: 50%;
-    padding-right: @padding-main-layout * 4.4;
-  }
-
-  .transaction-header {
-    .body-1();
-
-    div:not(:first-child):last-of-type {
-      text-align: right;
+    &.unknown {
+      .icon-tx-unknown();
     }
   }
 
+  .transaction-info {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+    .full-width {
+      width: 100%;
+    }
+
+    .line-wrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .line {
+        flex-basis: 50%;
+        height: 50%;
+
+        &:last-child {
+          padding-right: @padding-main-layout * 4.4;
+          text-align: right;
+        }
+      }
+    }
+
+  }
 }
 
+@media screen and (max-width: 960px) {
+  .leasing w-transaction .transaction { //for leasing page
+    .icon {
+      zoom: .71;
+      margin-right: 20px;
+      background-size: 90%;
+    }
+
+    .transaction-info {
+
+      .line-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 5px 0;
+
+        .line {
+          height: 50%;
+
+          .locale-address {
+            display:none;
+          }
+
+          .footnote-1.fs-mobile {
+            font-size: @mobile-low-fsize;
+          }
+
+          .body-1.fs-mobile {
+            font-size: @mobile-mid-fsize;
+          }
+
+          &:last-child {
+            padding-right: 0;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  w-transaction .transaction {
+    height: auto;
+
+    .status {
+      right: 43px;
+      bottom: auto;
+      top: 10px;
+    }
+
+    .icon {
+      zoom: .71;
+      margin-right: 20px;
+      background-size: 90%;
+    }
+
+    .transaction-info {
+
+      .line-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 5px 0;
+
+        .line {
+          height: 50%;
+
+          .locale-address {
+            display:none;
+          }
+
+          .body-1.fs-mobile {
+            font-size: @mobile-mid-fsize;
+            line-height: 1.2em;
+          }
+
+          .footnote-1.fs-mobile {
+            font-size: @mobile-low-fsize;
+            line-height: 1.2em;
+            padding-top: 3px;
+          }
+
+          &:last-child {
+            padding-right: 0;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  md-dialog {
+    w-transaction .transaction {
+      .status {
+        right: 10px;
+      }
+    }
+  }
 }
