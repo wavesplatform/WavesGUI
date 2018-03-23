@@ -1,6 +1,7 @@
 @import (reference) '../../../config';
 
 @mobile-leftmenu-height: 60px;
+@left-menu-icon: 28px;
 
 w-left-menu {
   width: @width-left-menu;
@@ -65,36 +66,55 @@ w-left-menu {
         margin: 0 auto 5px auto;
         font-size: 0;
         cursor: pointer;
+        transition: .3s;
+        position: relative;
 
-        &.wallet {
-          background-image: url(/img/icons/wallet.svg);
-          background-size: 25px 24px;
+        &::after {
+          display: none;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          content: '';
+          width: @left-menu-icon;
+          height: @left-menu-icon;
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: auto;
+          background-image: url(/img/icons/left-menu-icons.svg);
+          transition: 0;
         }
 
-        &.dex {
-          background-image: url(/img/icons/dex.svg);
-          background-size: 25px 23px;
+        &.wallet::after {
+          display: block;
+          background-position: 0 0;
         }
 
-        &.tokens {
-          background-image: url(/img/icons/tokens.svg);
-          background-size: 31px 31px;
+        &.dex::after {
+          display: block;
+          background-position: -@left-menu-icon 0;
         }
 
-        &.logout {
-          background-image: url(/img/icons/exit.svg);
-          background-size: 24px 26px;
+        &.tokens::after {
+          display: block;
+          background-position: (-@left-menu-icon * 2) 0;
         }
 
-        &.settings {
-          background-image: url(/img/icons/icon-settings.svg);
-          background-size: 24px 24px;
+        &.settings::after {
+          display: block;
+          background-position: (-@left-menu-icon * 3) 0;
         }
+
+        &.logout::after {
+          display: block;
+          background-position: (-@left-menu-icon * 4) 0;
+        }
+
       }
 
       @media screen and (min-width: 769px) {
         &:hover .menu-item {
-          background-color: @color-info-50;
+          background-color: @color-submit-50;
         }
       }
 
@@ -107,14 +127,14 @@ w-left-menu {
         .menu-item {
           background-color: @color-submit-400;
 
-          &.wallet {
-            background-image: url(/img/icons/wallet-active.svg);
+          &.wallet::after {
+            background-position: 0 -@left-menu-icon;
           }
-          &.dex {
-            background-image: url(/img/icons/dex-active.svg);
+          &.dex::after {
+            background-position: -@left-menu-icon -@left-menu-icon;
           }
-          &.tokens {
-            background-image: url(/img/icons/tokens-active.svg);
+          &.tokens::after {
+            background-position: (-@left-menu-icon * 2) -@left-menu-icon;
           }
         }
 
@@ -155,6 +175,7 @@ w-left-menu {
       left: 0;
       top: 0;
       cursor: pointer;
+      z-index: 10;
 
       &:hover {
         opacity: .6;
@@ -185,9 +206,13 @@ w-left-menu {
 
         w-responsive-menu-item.has-active[value="wallet"] {
           background: @color-submit-400;
+
           .menu-item {
-            background: url(/img/icons/wallet-active.svg) 10px center no-repeat;
             color: @color-white;
+
+            &::after {
+              background-position: 0 -@left-menu-icon;
+            }
           }
         }
       }
@@ -239,6 +264,11 @@ w-left-menu {
             align-items: center;
             height: 60px;
             color: @color-basic-700;
+
+            &::after {
+              transform:translate(0, -50%);
+              left: 7px;
+            }
           }
 
           &.active {
@@ -252,13 +282,9 @@ w-left-menu {
           }
 
           &.has-active {
-            .wallet {
-              background-image: url(/img/icons/wallet.svg);
+            .wallet::after {
+              background-position: 0 0;
             }
-          }
-
-          .menu-item.tokens {
-            background-position: 7px center;
           }
 
           &.logout,
