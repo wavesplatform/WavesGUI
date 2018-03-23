@@ -72,7 +72,7 @@
     "electron:win": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.ico --platform=win32 --out=./dist/win",
     "electron:osx": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.icns --platform=darwin --out=./dist/osx",
     "electron": "gulp all && npm run electron:linux && npm run electron:win && npm run electron:osx",
-    "electron-debug": "gulp html-desktop-mainnet-min && node_modules/.bin/electron ./dist/desktop/mainnet/min/"
+    "electron-debug": "gulp html-desktop-mainnet-min && node_modules/.bin/electron ./dist/desktop/mainnet/min/ --inspect"
   },
   "dependencies": {
     "@uirouter/angularjs": "1.0.8",
