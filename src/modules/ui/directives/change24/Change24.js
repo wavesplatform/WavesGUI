@@ -31,6 +31,10 @@
                  * @type {number}
                  */
                 this.interval = null;
+                /**
+                 * @type {boolean}
+                 */
+                this.directionByPair = null;
             }
 
             $postLink() {
@@ -38,10 +42,13 @@
                 this.interval = Number(this.interval) || 5000;
 
                 if ($attrs.noUpdate) {
-                    this._getChange().then(this._setChange.bind(this), this._setChange.bind(this));
-                    this.observe(['assetFrom', 'assetTo'], () => {
+                    const change = this._getChange();
+                    if (change) {
                         this._getChange().then(this._setChange.bind(this), this._setChange.bind(this));
-                    });
+                        this.observe(['assetFrom', 'assetTo'], () => {
+                            this._getChange().then(this._setChange.bind(this), this._setChange.bind(this));
+                        });
+                    }
                 } else {
                     const poll = createPoll(this, this._getChange, this._setChange, this.interval);
                     this.observe(['assetFrom', 'assetTo'], () => {
@@ -50,14 +57,27 @@
                 }
             }
 
+            /**
+             * @return {Promise}
+             * @private
+             */
             _getChange() {
                 if (this.assetFrom && this.assetTo) {
+                    if (this.directionByPair) {
+                        return Waves.AssetPair.get(this.assetFrom, this.assetTo).then((pair) => {
+                            return waves.utils.getChange(pair.amountAsset.id, pair.priceAsset.id);
+                        });
+                    }
                     return waves.utils.getChange(this.assetFrom, this.assetTo);
                 } else {
                     return null;
                 }
             }
 
+            /**
+             * @param data
+             * @private
+             */
             _setChange(data) {
                 if (typeof data === 'number') {
                     $element.html(data.toFixed(this.precision));
@@ -77,6 +97,7 @@
         bindings: {
             assetFrom: '<',
             assetTo: '<',
+            directionByPair: '<',
             precision: '@',
             noUpdate: '@',
             interval: '@',

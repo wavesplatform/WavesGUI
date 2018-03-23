@@ -176,7 +176,7 @@
                                 }
 
                                 data = data.filter(({ open, close }) => Number(open) !== 0 && Number(close) !== 0)
-                                    .sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
+                                    .sort(utils.comparators.process(({ timestamp }) => timestamp).asc);
 
                                 if (!data.length) {
                                     return 0;

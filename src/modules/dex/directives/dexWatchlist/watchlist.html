@@ -25,7 +25,7 @@
                 <w-dex-exchange base-asset-id="$ctrl.baseAssetId" asset-id="{{::asset.id}}"></w-dex-exchange>
             </w-cell>
             <w-cell>
-                <w-change24 asset-from="$ctrl.baseAssetId"
+                <w-change24 direction-by-pair="::true" asset-from="$ctrl.baseAssetId"
                             asset-to="asset.id"></w-change24>
                 %
             </w-cell>
