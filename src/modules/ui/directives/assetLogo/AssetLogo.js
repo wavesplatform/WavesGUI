@@ -96,7 +96,7 @@
                                 utils.loadImage(ASSET_IMAGES_MAP[asset.id])
                                     .then(() => {
                                         $element.find('.asset-logo')
-                                            .css('background-image', `url(${ASSET_IMAGES_MAP[asset.id]})`);
+                                            .css('backgroundImage', `url(${ASSET_IMAGES_MAP[asset.id]})`);
                                     })
                                     .catch(() => this._addLetter(asset.name));
                             } else {
