@@ -1,7 +1,6 @@
 @import (reference) '../../../config';
 
 @mobile-leftmenu-height: 60px;
-@left-menu-icon: 28px;
 
 w-left-menu {
   width: @width-left-menu;
@@ -71,17 +70,17 @@ w-left-menu {
 
         &::after {
           display: none;
+          content: '';
           position: absolute;
           top: 50%;
           left: 50%;
+          width: @default-icon-size;
+          height: @default-icon-size;
           transform: translate(-50%, -50%);
-          content: '';
-          width: @left-menu-icon;
-          height: @left-menu-icon;
+          background-image: url(/img/icons/menu-icons.svg);
           background-repeat: no-repeat;
           background-position: center;
           background-size: auto;
-          background-image: url(/img/icons/left-menu-icons.svg);
           transition: 0;
         }
 
@@ -92,22 +91,22 @@ w-left-menu {
 
         &.dex::after {
           display: block;
-          background-position: -@left-menu-icon 0;
+          background-position: -@default-icon-size 0;
         }
 
         &.tokens::after {
           display: block;
-          background-position: (-@left-menu-icon * 2) 0;
+          background-position: (-@default-icon-size * 2) 0;
         }
 
         &.settings::after {
           display: block;
-          background-position: (-@left-menu-icon * 3) 0;
+          background-position: (-@default-icon-size * 3) 0;
         }
 
         &.logout::after {
           display: block;
-          background-position: (-@left-menu-icon * 4) 0;
+          background-position: (-@default-icon-size * 4) 0;
         }
 
       }
@@ -128,13 +127,13 @@ w-left-menu {
           background-color: @color-submit-400;
 
           &.wallet::after {
-            background-position: 0 -@left-menu-icon;
+            background-position: 0 calc(-@default-icon-size ~'- 1px');
           }
           &.dex::after {
-            background-position: -@left-menu-icon -@left-menu-icon;
+            background-position: -@default-icon-size -@default-icon-size;
           }
           &.tokens::after {
-            background-position: (-@left-menu-icon * 2) -@left-menu-icon;
+            background-position: (-@default-icon-size * 2) -@default-icon-size;
           }
         }
 
@@ -211,7 +210,7 @@ w-left-menu {
             color: @color-white;
 
             &::after {
-              background-position: 0 -@left-menu-icon;
+              background-position: 0 -@default-icon-size;
             }
           }
         }
