@@ -12,10 +12,10 @@ w-navigation {
     box-sizing: border-box;
     font-size: 15px;
     text-decoration: none;
+    white-space: nowrap;
 
     &.active {
       .headline-1();
-      font-family: @font-roboto-medium;
       margin: auto;
       font-size: 15px;
       line-height: 15px;
@@ -37,16 +37,26 @@ w-navigation {
       display: flex;
       align-items: center;
 
-      &.active::after {
+      &::after {
         content: '';
         width: 100%;
         height: 1px;
         z-index: 1;
-        background-color: @color-submit-400;
+        background-color: transparent;
         position: absolute;
         bottom: 0;
         left: 0;
       }
+
+      &.active:hover::after,
+      &.active::after {
+        background-color: @color-submit-400;
+      }
+
+      &:hover::after {
+        background-color: @color-info-500;
+      }
+
     }
   }
 

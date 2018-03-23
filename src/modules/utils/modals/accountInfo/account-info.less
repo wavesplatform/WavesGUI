@@ -7,7 +7,6 @@ md-dialog.account-info {
     }
 
     w-copy-wrap {
-
       .container {
         display: flex;
         flex-direction: row;
@@ -79,6 +78,16 @@ md-dialog.account-info {
             transform: translateY(-50%);
           }
         }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 380px) {
+  md-dialog.account-info {
+    md-dialog-content {
+      w-avatar {
+        display: none;
       }
     }
   }

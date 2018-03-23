@@ -10,7 +10,7 @@
      * @param {ISeedService} seedService
      * @return {CreateCtrl}
      */
-    const controller = function ($q, $mdDialog, $timeout, user, modalManager, seedService) {
+    const controller = function (Base, $scope, $q, $mdDialog, $timeout, user, modalManager, seedService) {
 
         const PATH = 'modules/create/templates';
         const ORDER_LIST = [
@@ -20,9 +20,11 @@
             'confirmBackup'
         ];
 
-        class CreateCtrl {
+        class CreateCtrl extends Base {
 
             constructor() {
+                super($scope);
+
                 this.stepIndex = 0;
                 this.password = '';
                 this.seed = '';
@@ -34,13 +36,24 @@
                 this.resetAddress();
             }
 
+            showTutorialModals() {
+                return modalManager.showTutorialModals();
+            }
+
             onSeedConfirmFulfilled(isValid) {
                 this.seedIsValid = isValid;
                 this.seedConfirmWasFilled = true;
+
+                this.observeOnce('stepIndex', this.clearSeedConfirm);
+            }
+
+            seedOnTouch() {
+                this.seedConfirmWasFilled = false;
             }
 
             clearSeedConfirm() {
                 seedService.clear.dispatch();
+                this.seedIsValid = false;
                 this.seedConfirmWasFilled = false;
             }
 
@@ -74,6 +87,7 @@
                 if (!index) {
                     index = this.stepIndex + 1;
                 }
+
                 if (index < 0) {
                     index = this.stepIndex + index;
                 }
@@ -136,7 +150,7 @@
     };
 
     controller.$inject = [
-        '$q', '$mdDialog', '$timeout', 'user', 'modalManager', 'seedService', 'notificationManager'
+        'Base', '$scope', '$q', '$mdDialog', '$timeout', 'user', 'modalManager', 'seedService'
     ];
 
     angular.module('app.create').controller('CreateCtrl', controller);

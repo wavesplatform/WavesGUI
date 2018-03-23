@@ -61,6 +61,12 @@
                                         } else {
                                             return '';
                                         }
+                                    case 'money-fee':
+                                        return (
+                                            value &&
+                                            `${value.getTokens().toFixed()} ${value.asset.displayName}` ||
+                                            ''
+                                        );
                                     case 'BigNumber':
                                         return value && value.toFixed() || '';
                                     default:
