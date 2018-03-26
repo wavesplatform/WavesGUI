@@ -10,7 +10,7 @@
      * @param {app.utils} utils
      * @return {Select}
      */
-    const controller = function (Base, ComponentList, $element, $timeout, $q, utils) {
+    const controller = function (Base, ComponentList, $element, $timeout, $q, utils, createPromise) {
 
         const $_DOCUMENT = $(document);
 
@@ -80,7 +80,7 @@
 
                 this._setHandlers();
 
-                this._ready.resolve();
+                createPromise(this, utils.wait(200)).then(this._ready.resolve);
             }
 
             /**
@@ -204,7 +204,7 @@
         return new Select();
     };
 
-    controller.$inject = ['Base', 'ComponentList', '$element', '$timeout', '$q', 'utils'];
+    controller.$inject = ['Base', 'ComponentList', '$element', '$timeout', '$q', 'utils', 'createPromise'];
 
     angular.module('app.ui').component('wSelect', {
         bindings: {

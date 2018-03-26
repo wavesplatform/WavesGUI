@@ -42,7 +42,7 @@
      * @param {ModalManager} modalManager
      * @return {AppRun}
      */
-    const run = function ($rootScope, utils, user, $state, state, modalManager) {
+    const run = function ($rootScope, utils, user, $state, state, modalManager, storage) {
 
         class ExtendedAsset extends Waves.Asset {
 
@@ -74,15 +74,28 @@
             return props;
         }
 
+        const cache = Object.create(null);
         Waves.config.set({
             assetFactory(props) {
-                return fetch(`${WavesApp.network.api}/assets/${props.id}`)
+
+                if (cache[props.id]) {
+                    return cache[props.id];
+                }
+
+                const promise = fetch(`${WavesApp.network.api}/assets/${props.id}`)
                     .then(utils.onFetch)
                     .then((fullProps) => new ExtendedAsset(remapAssetProps(fullProps)))
                     .catch(() => {
                         return Waves.API.Node.v1.transactions.get(props.id)
                             .then((partialProps) => new ExtendedAsset(remapAssetProps(partialProps)));
                     });
+
+                cache[props.id] = promise;
+                cache[props.id].catch(() => {
+                    delete cache[props.id];
+                });
+
+                return cache[props.id];
             }
         });
 
@@ -115,6 +128,7 @@
                 this._stopLoader();
                 this._initializeLogin();
                 this._initializeOutLinks();
+
             }
 
             /**
@@ -132,10 +146,9 @@
                 if (WavesApp.isDesktop()) {
                     $(document).on('click', '[target="_blank"]', (e) => {
                         const $link = $(e.currentTarget);
-                        const shell = require('electron').shell;
                         e.preventDefault();
 
-                        shell.openExternal($link.attr('href'));
+                        openInBrowser($link.attr('href'));
                     });
                 }
             }
@@ -156,6 +169,13 @@
              * @private
              */
             _initializeLogin() {
+
+                storage.onReady().then((isNew) => {
+                    if (isNew) {
+                        modalManager.showTutorialModals();
+                    }
+                });
+
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => item.id);
 
@@ -206,6 +226,7 @@
              * @private
              */
             _login(currentState) {
+
                 const states = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => {
                         return WavesApp.stateTree.getPath(item.id)
@@ -306,7 +327,7 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'modalRouter'];
+    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'storage'];
 
     angular.module('app')
         .run(run);
