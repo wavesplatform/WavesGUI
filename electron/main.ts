@@ -79,10 +79,6 @@ class Main {
                 event.preventDefault();
             });
 
-            this.mainWindow.webContents.session.on('will-download', (event2, item, webContents) => {
-                console.log(event2, item, webContents);
-            });
-
             const onChangeWindow = Main.asyncHandler(() => {
                 const [x, y] = this.mainWindow.getPosition();
                 const [width, height] = this.mainWindow.getSize();
