@@ -222,7 +222,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
     return function (req, res) {
 
         if (isTradingView(req.url)) {
-            get(`https://jslib.wavesnodes.com/${req.url.replace('trading-view/', '')}`, (resp) => {
+            get(`https://beta.wavesplatform.com/${req.url}`, (resp) => {
                 let data = '';
 
                 // A chunk of data has been recieved.

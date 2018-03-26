@@ -78,7 +78,7 @@ w-button {
 
     &.success {
       background-color: @color-success-300;
-      color: @color-text-invert;
+      color: @color-white;
 
       &:hover, &.hover {
         background-color: @color-success-400;
@@ -96,24 +96,24 @@ w-button {
     &.submit {
       background-color: @color-submit-400;
       border: 1px solid @color-submit-500;
-      color: @color-text-invert;
+      color: @color-white;
 
       &:hover, &.hover {
         background-color: @color-submit-700;
         border-color: transparent;
-        color: @color-text-invert;
+        color: @color-white;
       }
 
       &:active, &.active {
         background-color: @color-submit-800;
         border-color: transparent;
-        color: @color-text-invert;
+        color: @color-white;
       }
 
       &:disabled, &.disabled {
         background-color: @color-submit-100;
         border-color: @color-submit-200;
-        color: @color-text-invert;
+        color: @color-white;
         box-shadow: inset -1px 1px 0 0 rgba(255, 255, 255, 0);
       }
     }
@@ -123,6 +123,7 @@ w-button {
       border: 1px solid @color-accent-50;
       color: @color-basic-500;
       font-family: @font-roboto-medium;
+      height: 42px;
 
       &:hover, &.hover {
         border-color: @color-basic-500;
@@ -138,6 +139,16 @@ w-button {
         border: 1px solid @color-accent-50;
         color: @color-basic-200;
       }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  w-button {
+    & > * {
+      padding-top: 8px;
+      padding-bottom: 8px;
+      white-space: nowrap;
     }
   }
 }

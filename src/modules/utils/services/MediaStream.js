@@ -14,17 +14,24 @@
         class MediaStream {
 
             constructor(stream) {
-                this._stream = stream;
-                /**
-                 * @type {string}
-                 */
-                this.url = window.URL.createObjectURL(stream);
+                this.stream = stream;
             }
 
             stop() {
-                this._stream.getTracks()[0].stop();
+                this.stream.getTracks()[0].stop();
             }
 
+        }
+
+        function getFirstVideoDevice(list) {
+            let item = null;
+            list.some((device) => {
+                if (device.kind === 'videoinput') {
+                    item = device;
+                }
+                return !!item;
+            });
+            return item;
         }
 
         return {
@@ -38,16 +45,17 @@
                         resolve(new MediaStream(stream));
                     };
 
-                    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                        navigator.mediaDevices.getUserMedia({ video: true })
-                            .then(handler, reject);
-                    } else if (navigator.getUserMedia) { // Standard
-                        navigator.getUserMedia({ video: true }, handler, reject);
-                    } else if (navigator.webkitGetUserMedia) { // WebKit-prefixed
-                        navigator.webkitGetUserMedia({ video: true }, handler, reject);
-                    } else if (navigator.mozGetUserMedia) { // Mozilla-prefixed
-                        navigator.mozGetUserMedia({ video: true }, handler, reject);
-                    }
+                    navigator.mediaDevices.enumerateDevices().then((deviceList) => {
+                        const deviceInfo = getFirstVideoDevice(deviceList);
+
+                        const constraints = {
+                            video: {
+                                deviceId: { exact: deviceInfo.deviceId }
+                            }
+                        };
+
+                        return navigator.mediaDevices.getUserMedia(constraints);
+                    }).then(handler, reject).catch((e) => alert(error.stack));
                 });
             }
         };

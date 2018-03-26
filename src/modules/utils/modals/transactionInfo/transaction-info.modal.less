@@ -19,7 +19,7 @@
 
     .section {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       width: 100%;
 
       justify-content: space-between;
@@ -76,7 +76,7 @@
           }
 
           &.unconfirmed {
-            background: rgba(255, 175, 0, 0.1); // TODO : name the color
+            background: @color-warning-50;
             color: @color-warning-500;
           }
         }
