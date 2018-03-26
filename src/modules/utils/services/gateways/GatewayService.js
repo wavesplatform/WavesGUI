@@ -63,7 +63,7 @@
              * @return {string}
              */
             getAssetKeyName(asset, type) {
-                // TODO : find a way to refactor
+                // TODO : find a way to not use it and remove this method
                 const gateway = this._findGatewayFor(asset, type);
                 return gateway.getAssetKeyName(asset);
             }
