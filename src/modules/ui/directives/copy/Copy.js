@@ -14,9 +14,11 @@
 
             constructor() {
                 super($scope);
-                const clipboard = new Clipboard($element.get(0), {
+                const element = $element.get(0);
+
+                const clipboard = new Clipboard(element, {
                     text: () => $scope.wCopy,
-                    container: $element.get(0)
+                    container: element
                 });
 
                 clipboard.on('success', () => {
