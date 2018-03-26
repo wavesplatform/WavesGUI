@@ -53,21 +53,19 @@ class Main {
     public mainWindow: BrowserWindow;
     public menu: Menu;
     private bridge: Bridge;
-    private dataPromise: Promise<[{ server: string }, IMetaJSON]>;
+    private dataPromise: Promise<IMetaJSON>;
 
     constructor() {
         this.mainWindow = null;
         this.bridge = new Bridge(this);
 
-        this.dataPromise = Promise.all([
-            readJSON(join('package.json')) as Promise<{ server: string }>,
-            Main.loadMeta()
-        ]);
+        this.dataPromise = Main.loadMeta();
         this.setHandlers();
     }
 
     private createWindow() {
-        this.dataPromise.then(([pack, meta]) => {
+        this.dataPromise.then((meta) => {
+            const pack = require('./package.json');
             this.mainWindow = new BrowserWindow(Main.getWindowOptions(meta));
 
             this.mainWindow.loadURL(format({
