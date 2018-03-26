@@ -147,7 +147,7 @@
                         description,
                         precision,
                         reissuable,
-                        quantity,
+                        quantity: quantity.toFixed(),
                         fee
                     }, keyPair)
                         .then(this._pipeTransaction([fee]));
