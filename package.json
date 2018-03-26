@@ -98,7 +98,7 @@
     "qrcode-reader": "1.0.3",
     "ts-api-validator": "2.1.0",
     "ts-utils": "6.0.0",
-    "waves-api": "0.24.2",
+    "@waves/waves-api": "0.24.3",
     "worker-wrapper": "1.2.2"
   }
 }
