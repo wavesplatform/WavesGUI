@@ -8,5 +8,4 @@ process.once('loaded', () => {
         shell.openExternal(url);
     };
     (global as any).transfer = remote.require('./transfer').transfer;
-    debugger;
 });
