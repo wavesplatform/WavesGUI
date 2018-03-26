@@ -61,6 +61,12 @@
                                         } else {
                                             return '';
                                         }
+                                    case 'money-fee':
+                                        return (
+                                            value &&
+                                            `${value.getTokens().toFixed()} ${value.asset.displayName}` ||
+                                            ''
+                                        );
                                     case 'BigNumber':
                                         return value && value.toFixed() || '';
                                     default:
@@ -163,6 +169,7 @@
             }
 
             static getUserLang() {
+
                 const available = Object.keys(WavesApp.localize);
                 const cookieLng = Cookies.get('locale');
                 const userLang = navigator.language || navigator.userLanguage;

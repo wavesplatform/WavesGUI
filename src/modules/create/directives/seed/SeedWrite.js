@@ -7,7 +7,7 @@
      * @param {ISeedService} seedService
      * @return {SeedWrite}
      */
-    const controller = function (SeedBase, $element, seedService) {
+    const controller = function (SeedBase, $element, seedService, $scope) {
 
         class SeedWrite extends SeedBase {
 
@@ -17,6 +17,10 @@
                  * @type {Function}
                  */
                 this.onFulfilled = null;
+                /**
+                 * @type {Function}
+                 */
+                this.onTouch = null;
                 /**
                  * @type {JQuery}
                  * @private
@@ -128,11 +132,21 @@
 
                 $element.on('click', () => {
                     this._removePart(child);
+                    this.onTouch();
+                    $scope.$digest();
                 });
 
                 if (this.onFulfilled && this._children.length === this.parts.length) {
                     const isValid = this._children.map((child) => child.word).join(' ') === this.seed;
                     this.onFulfilled({ isValid });
+                    if (isValid) {
+                        this._$container.children().each((i, element) => {
+                            $(element).off('click');
+                            this._$container.addClass('seed-confirmed');
+                        });
+                    }
+                } else {
+                    this.onTouch();
                 }
             }
 
@@ -206,12 +220,13 @@
         return new SeedWrite();
     };
 
-    controller.$inject = ['SeedBase', '$element', 'seedService'];
+    controller.$inject = ['SeedBase', '$element', 'seedService', '$scope'];
 
     angular.module('app.create').component('wSeedWrite', {
         bindings: {
             seed: '@',
-            onFulfilled: '&'
+            onFulfilled: '&',
+            onTouch: '&'
         },
         template: '<div class="seed-container"></div>',
         transclude: false,

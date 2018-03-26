@@ -81,10 +81,6 @@
                 this.matcher = WavesApp.network.matcher;
             }
 
-            setState(state) {
-                this.tab = state;
-            }
-
         }
 
         return new SettingsCtrl();
@@ -93,4 +89,5 @@
     controller.$inject = ['Base', '$scope', 'waves', 'user', 'createPoll'];
 
     angular.module('app.utils').controller('SettingsCtrl', controller);
+
 })();

@@ -121,7 +121,7 @@
                 const idTo = WavesUtils.toId(assetTo);
 
                 if (idFrom === idTo) {
-                    return 1;
+                    return Promise.resolve(1);
                 }
 
                 return this._getChange(idFrom, idTo);
