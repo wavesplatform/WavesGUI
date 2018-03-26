@@ -42,14 +42,3 @@ export function writeFile(path: string, content: string): Promise<void> {
 export function writeJSON(path: string, content: object | Array<object>): Promise<void> {
     return writeFile(path, JSON.stringify(content));
 }
-
-export function download(content: string, name: string): Promise<void> {
-    return new Promise<void>((resolve) => {
-        debugger;
-        const dialog = remote.require('dialog');
-        const result = dialog.showSaveDialog(remote.getCurrentWindow(), {}, (...args) => {
-            console.log(args);
-        });
-        console.log(result);
-    });
-}
