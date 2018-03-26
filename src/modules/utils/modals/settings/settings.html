@@ -52,7 +52,7 @@
                         <a class="settings-copy" w-copy="{{::$ctrl.phrase}}" w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
-                        <w-button ng-if="!$ctrl.shownSeed" class="tiny" ng-click="$ctrl.shownSeed = true">
+                        <w-button ng-if="!$ctrl.shownSeed" class="tiny" on-click="$ctrl.shownSeed = true">
                             <w-i18n>modal.settings.security.show</w-i18n>
                         </w-button>
                         <pre class="footnote-1" ng-if="$ctrl.shownSeed">{{::$ctrl.phrase}}</pre>
@@ -65,7 +65,7 @@
                         <a class="settings-copy" w-copy="{{::$ctrl.privateKey}}" w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
-                        <w-button ng-if="!$ctrl.shownKey" class="tiny" ng-click="$ctrl.shownKey = true">
+                        <w-button ng-if="!$ctrl.shownKey" class="tiny" on-click="$ctrl.shownKey = true">
                             <w-i18n>modal.settings.security.show</w-i18n>
                         </w-button>
                         <div class="mobile-low-fsize" ng-if="$ctrl.shownKey">{{::$ctrl.privateKey}}</div>
@@ -102,7 +102,7 @@
                     </div>
                 </div>
 
-                <w-button class="interface" ng-click="$ctrl.setNetworkDefault()">
+                <w-button class="interface" on-click="$ctrl.setNetworkDefault()">
                     <w-i18n>modal.settings.setDefault</w-i18n>
                 </w-button>
             </w-step>
