@@ -42,6 +42,8 @@
         class TransactionsCsvGen {
 
             generate(data) {
+                const fileName = 'transactions.csv';
+
                 const csv = CSV.generate({
                     header: HEADERS.map((item) => {
                         return {
@@ -51,6 +53,7 @@
                     }),
                     body: data.map((tx) => {
                         const clone = { ...tx };
+
                         MONEY_FIELDS.forEach((id) => {
                             if (clone[id]) {
                                 clone[`${id}Name`] = clone[id].asset.name;
@@ -81,10 +84,10 @@
                 if (WavesApp.isDesktop()) {
                     transfer('download', {
                         fileContent: csv,
-                        fileName: 'transactions.csv'
+                        fileName: fileName
                     });
                 } else {
-                    CSV.download(csv, 'transactions.csv', { target: '_blank' });
+                    CSV.download(csv, fileName, { target: '_blank' });
                 }
             }
 

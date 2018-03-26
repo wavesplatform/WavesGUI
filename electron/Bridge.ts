@@ -21,7 +21,7 @@ export class Bridge {
     }
 
     public transfer(command: string, data: object): Promise<any> {
-        if (command in this.bridgeCommands) {
+        if (this.bridgeCommands.hasOwnProperty(command)) {
             try {
                 const result = this.bridgeCommands[command].call(this, data);
                 if (result && result.then) {
@@ -33,7 +33,7 @@ export class Bridge {
                 return Promise.reject(e);
             }
         } else {
-            return Promise.reject(new Error('Wring command!'));
+            return Promise.reject(new Error('Wrong command!'));
         }
     }
 
