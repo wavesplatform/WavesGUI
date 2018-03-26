@@ -78,7 +78,14 @@
                     }
                 });
 
-                CSV.download(csv, 'transactions.csv');
+                if (WavesApp.isDesktop()) {
+                    transfer('download', {
+                        fileContent: csv,
+                        fileName: 'transactions.csv'
+                    });
+                } else {
+                    CSV.download(csv, 'transactions.csv', { target: '_blank' });
+                }
             }
 
         }

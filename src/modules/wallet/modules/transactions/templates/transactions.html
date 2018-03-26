@@ -43,7 +43,7 @@
             </w-option>
         </w-select>
 
-        <w-button class="download interface" ng-click="$ctrl.exportTransactions()">
+        <w-button disabled="$ctrl.pending" class="download interface" ng-click="$ctrl.exportTransactions()">
             <w-i18n>export</w-i18n>
         </w-button>
 

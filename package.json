@@ -79,7 +79,7 @@
     "electron:win": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.ico --platform=win32 --out=./dist/win",
     "electron:osx": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.icns --platform=darwin --out=./dist/osx",
     "electron": "gulp all && npm run electron:linux && npm run electron:win && npm run electron:osx",
-    "electron-debug": "cd dist/desktop/electron-debug && ../../../node_modules/.bin/electron ./"
+    "electron-debug": "gulp html-desktop-mainnet-min && node_modules/.bin/electron ./dist/desktop/mainnet/min/ --inspect"
   },
   "dependencies": {
     "@uirouter/angularjs": "1.0.8",
@@ -91,7 +91,7 @@
     "angular-ui-router": "1.0.3",
     "bignumber.js": "4.1.0",
     "clipboard": "1.7.1",
-    "csv-gen": "0.0.6",
+    "csv-gen": "0.0.8",
     "d3": "3.5.17",
     "i18next": "9.1.0",
     "i18next-xhr-backend": "1.4.3",
