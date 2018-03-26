@@ -1,5 +1,7 @@
-import { app, BrowserWindow, Menu, MenuItem } from 'electron';
+import { app, BrowserWindow, Menu, MenuItem, dialog } from 'electron';
 import { IHash } from '../ts-scripts/interface';
+import { join } from 'path';
+import { writeFile } from './utils';
 
 export class Bridge {
 
@@ -13,7 +15,8 @@ export class Bridge {
         this.bridgeCommands = {
             'addDevToolsMenu': this.addDevToolsMenu,
             'reload': this.reload,
-            'getLocale': this.getLocale
+            'getLocale': this.getLocale,
+            'download': this.download
         };
     }
 
@@ -34,6 +37,21 @@ export class Bridge {
         }
     }
 
+    private download(data: IDownloadData): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            const path = app.getPath('downloads');
+            const options = { defaultPath: join(path, data.fileName) };
+
+            dialog.showSaveDialog(this.main.mainWindow, options, function (filename) {
+                if (filename) {
+                    return writeFile(filename, data.fileContent).then(resolve, reject);
+                } else {
+                    return reject(new Error('Cancel'));
+                }
+            });
+        });
+    }
+
     private getLocale(): string {
         return app.getLocale() || 'en';
     }
@@ -52,4 +70,9 @@ export class Bridge {
     private reload() {
         this.main.mainWindow.reload();
     }
+}
+
+export interface IDownloadData {
+    fileContent: string;
+    fileName: string;
 }

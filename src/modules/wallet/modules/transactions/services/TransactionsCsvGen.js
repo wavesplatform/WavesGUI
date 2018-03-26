@@ -80,8 +80,8 @@
 
                 if (WavesApp.isDesktop()) {
                     transfer('download', {
-                        content: csv,
-                        name: 'transactions.csv'
+                        fileContent: csv,
+                        fileName: 'transactions.csv'
                     });
                 } else {
                     CSV.download(csv, 'transactions.csv', { target: '_blank' });
