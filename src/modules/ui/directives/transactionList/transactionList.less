@@ -69,6 +69,10 @@ w-transaction-list {
   position: relative;
   margin: 0 0 30px 0;
   height: 60px;
+
+  w-loader {
+       margin: 80px auto 0px auto;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -79,7 +83,7 @@ w-transaction-list {
 
   .main-content {
     w-transaction-list {
-      min-height: calc(100vh ~'- 140px');
+      min-height: calc(100vh ~'- 148px');
 
       .w-transaction-list {
         &.no-transactions {
@@ -94,12 +98,4 @@ w-transaction-list {
     }
   }
 
-}
-
-@media screen and (max-width: 480px) {
-  .main-content {
-    w-transaction-list {
-      min-height: 200px;
-    }
-  }
 }

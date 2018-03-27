@@ -51,7 +51,6 @@ w-left-menu {
 
       .child-menu-list {
         display: none;
-        transition: .3s;
       }
 
       .menu-item {
@@ -65,7 +64,6 @@ w-left-menu {
         margin: 0 auto 5px auto;
         font-size: 0;
         cursor: pointer;
-        transition: .3s;
         position: relative;
 
         &::after {
@@ -127,7 +125,7 @@ w-left-menu {
           background-color: @color-submit-400;
 
           &.wallet::after {
-            background-position: 0 calc(-@default-icon-size ~'- 1px');
+            background-position: 0 calc(-@default-icon-size~'- 1px');
           }
           &.dex::after {
             background-position: -@default-icon-size -@default-icon-size;
@@ -184,11 +182,12 @@ w-left-menu {
     w-responsive-menu {
       width: 100%;
       top: 60px;
+      max-height: calc(100vh ~'- 60px');
       height: auto;
       position: absolute;
       z-index: 16;
       box-shadow: 0 5px 5px @color-basic-50;
-      margin-top:-1px;
+      margin-top: -1px;
 
       &.wallet-items-hide {
 
@@ -197,10 +196,9 @@ w-left-menu {
           background-position: calc(100% ~'- 20px') center
         }
 
-        w-responsive-menu-item[value="wallet"] .child-menu-list  {
-            transition: .3s;
-            height: 0;
-            overflow: hidden;
+        w-responsive-menu-item[value="wallet"] .child-menu-list {
+          height: 0;
+          overflow: hidden;
         }
 
         w-responsive-menu-item.has-active[value="wallet"] {
@@ -222,7 +220,6 @@ w-left-menu {
         position: relative;
         overflow-x: hidden;
         overflow-y: auto;
-        transition: .3s;
         opacity: 0;
         border-color: @color-accent-50;
 
@@ -279,7 +276,7 @@ w-left-menu {
             color: @color-basic-700;
 
             &::after {
-              transform:translate(0, -50%);
+              transform: translate(0, -50%);
               left: 7px;
             }
           }
@@ -398,11 +395,3 @@ w-left-menu {
   }
 
 }
-
-// TODO @uIsk
-//@media screen and (min-width: 481px) and (max-width: 768px) and (max-height: 480px) {
-//
-//  w-layout .dex-layout__column-left .dex-layout__block-top {
-//    margin-top: 0;
-//  }
-//}
