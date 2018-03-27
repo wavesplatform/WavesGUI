@@ -65,36 +65,55 @@ w-left-menu {
         margin: 0 auto 5px auto;
         font-size: 0;
         cursor: pointer;
+        transition: .3s;
+        position: relative;
 
-        &.wallet {
-          background-image: url(/img/icons/wallet.svg);
-          background-size: 25px 24px;
+        &::after {
+          display: none;
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: @default-icon-size;
+          height: @default-icon-size;
+          transform: translate(-50%, -50%);
+          background-image: url(/img/icons/menu-icons.svg);
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: auto;
+          transition: 0;
         }
 
-        &.dex {
-          background-image: url(/img/icons/dex.svg);
-          background-size: 25px 23px;
+        &.wallet::after {
+          display: block;
+          background-position: 0 0;
         }
 
-        &.tokens {
-          background-image: url(/img/icons/tokens.svg);
-          background-size: 31px 31px;
+        &.dex::after {
+          display: block;
+          background-position: -@default-icon-size 0;
         }
 
-        &.logout {
-          background-image: url(/img/icons/exit.svg);
-          background-size: 24px 26px;
+        &.tokens::after {
+          display: block;
+          background-position: (-@default-icon-size * 2) 0;
         }
 
-        &.settings {
-          background-image: url(/img/icons/icon-settings.svg);
-          background-size: 24px 24px;
+        &.settings::after {
+          display: block;
+          background-position: (-@default-icon-size * 3) 0;
         }
+
+        &.logout::after {
+          display: block;
+          background-position: (-@default-icon-size * 4) 0;
+        }
+
       }
 
       @media screen and (min-width: 769px) {
         &:hover .menu-item {
-          background-color: @color-info-50;
+          background-color: @color-submit-50;
         }
       }
 
@@ -107,14 +126,14 @@ w-left-menu {
         .menu-item {
           background-color: @color-submit-400;
 
-          &.wallet {
-            background-image: url(/img/icons/wallet-active.svg);
+          &.wallet::after {
+            background-position: 0 calc(-@default-icon-size ~'- 1px');
           }
-          &.dex {
-            background-image: url(/img/icons/dex-active.svg);
+          &.dex::after {
+            background-position: -@default-icon-size -@default-icon-size;
           }
-          &.tokens {
-            background-image: url(/img/icons/tokens-active.svg);
+          &.tokens::after {
+            background-position: (-@default-icon-size * 2) -@default-icon-size;
           }
         }
 
@@ -155,6 +174,7 @@ w-left-menu {
       left: 0;
       top: 0;
       cursor: pointer;
+      z-index: 10;
 
       &:hover {
         opacity: .6;
@@ -167,8 +187,34 @@ w-left-menu {
       height: auto;
       position: absolute;
       z-index: 16;
-      margin-top: -1px;
-      max-height: calc(100vh ~'- 60px');
+      box-shadow: 0 5px 5px @color-basic-50;
+      margin-top:-1px;
+
+      &.wallet-items-hide {
+
+        .wallet-toggler {
+          transform: rotate(0deg);
+          background-position: calc(100% ~'- 20px') center
+        }
+
+        w-responsive-menu-item[value="wallet"] .child-menu-list  {
+            transition: .3s;
+            height: 0;
+            overflow: hidden;
+        }
+
+        w-responsive-menu-item.has-active[value="wallet"] {
+          background: @color-submit-400;
+
+          .menu-item {
+            color: @color-white;
+
+            &::after {
+              background-position: 0 -@default-icon-size;
+            }
+          }
+        }
+      }
 
       .navigation-menu {
         margin: 0;
@@ -231,6 +277,11 @@ w-left-menu {
             align-items: center;
             height: 60px;
             color: @color-basic-700;
+
+            &::after {
+              transform:translate(0, -50%);
+              left: 7px;
+            }
           }
 
           &.active {
@@ -246,13 +297,9 @@ w-left-menu {
           }
 
           &.has-active {
-            .wallet {
-              background-image: url(/img/icons/wallet.svg);
+            .wallet::after {
+              background-position: 0 0;
             }
-          }
-
-          .menu-item.tokens {
-            background-position: 7px center;
           }
 
           &.logout,
