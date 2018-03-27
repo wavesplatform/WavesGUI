@@ -48,6 +48,10 @@
                     changeRouterStateSuccess: new tsUtils.Signal(),
                     changeRouterStateStart: new tsUtils.Signal()
                 };
+                /**
+                 * @type {string}
+                 */
+                this.lastOpenVersion = '';
 
                 this._timer = null;
                 this._seepStartTime = null;

@@ -209,7 +209,7 @@
              * @return {Promise}
              */
             getUserList() {
-                return storage.load('userList')
+                return storage.onReady().then(() => storage.load('userList'))
                     .then((list) => {
                         list = list || [];
 

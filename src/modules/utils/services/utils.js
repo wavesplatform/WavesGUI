@@ -506,6 +506,33 @@
             },
 
             /**
+             * @name app.utils#chainCall
+             * @param {function[]} functionList
+             * @return {Promise<void>}
+             */
+            chainCall(functionList) {
+                return new Promise((resolve, reject) => {
+                    const callList = functionList.slice().reverse();
+
+                    const apply = () => {
+                        if (callList.length) {
+                            const func = callList.pop();
+                            const result = func();
+                            if (result && result.then && typeof result.then === 'function') {
+                                result.then(apply, reject);
+                            } else {
+                                apply();
+                            }
+                        } else {
+                            resolve();
+                        }
+                    };
+
+                    apply();
+                });
+            },
+
+            /**
              * @name app.utils#comparators
              */
             comparators: {

@@ -54,6 +54,10 @@
                 return this._push('error', notificationObj, delay);
             }
 
+            getActiveNotificationsList() {
+                return this._list.map((item) => item.element);
+            }
+
             /**
              * @param {string} type
              * @param {INotificationObj} notificationObj
@@ -91,22 +95,31 @@
                 const $scope = $rootScope.$new(true);
                 $scope.$on('$destroy', defer.resolve);
 
-                const element = this._buildNotification($scope, type, notificationObj);
+                const $element = this._buildNotification($scope, type, notificationObj);
 
                 const notification = {
                     promise: defer.promise,
-                    element: element,
+                    element: $element,
                     destroy: () => {
                         if (!notification.isDestroyed) {
                             $scope.$destroy();
                             this._remove(notification);
                             notification.isDestroyed = true;
+                            if (notificationObj.onClose) {
+                                notificationObj.onClose();
+                            }
                         }
                     }
                 };
 
-                $scope.close = () => notification.destroy();
-                timeLine.timeout(() => notification.destroy(), delay);
+                $element.on('click', '[w-notification-close]', () => {
+                    notification.destroy();
+                    $element.off();
+                });
+
+                if (delay > 0) {
+                    timeLine.timeout(() => notification.destroy(), delay);
+                }
 
                 if (notificationObj.action) {
                     const callback = notificationObj.action.callback;
@@ -132,7 +145,7 @@
             }
 
             _dispatch() {
-                this.changeSignal.dispatch(this._list.map((item) => item.element));
+                this.changeSignal.dispatch(this.getActiveNotificationsList());
             }
 
             /**
@@ -140,13 +153,13 @@
              * @param $scope
              * @param {string} type
              * @param {INotificationObj} notificationObj
-             * @return {*}
+             * @return {JQuery}
              * @private
              */
             _buildNotification($scope, type, notificationObj) {
                 return $compile(`
                     <div w-i18n-ns="${notificationObj.ns}" class="notification ${type}">
-                        <div class="icon-close" ng-click="close()"></div>
+                        <div class="icon-close" w-notification-close></div>
                         <div>${this._getTitleContent(notificationObj)}</div>
                         <div>${this._getBodyContent(notificationObj)}</div>
                         <div><span ng-click="doAction()">${this._getActionContent(notificationObj)}</span></div>
@@ -222,4 +235,5 @@
  * @property {string} [action.literal]
  * @property {object} [action.params]
  * @property {Function} [action.callback]
+ * @property {Function} [onClose]
  */
