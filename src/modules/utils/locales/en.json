@@ -55,8 +55,7 @@
         "address": "The address is not valid",
         "required": "This field is required",
         "max": "Insufficient funds",
-        "precision": "The number in this field is invalid. It can include a maximum of {{precision}} digits after the decimal point.",
-        "invalidChars": "This field can only contain numeric values"
+        "precision": "The number in this field is invalid. It can include a maximum of {{precision}} digits after the decimal point."
       },
       "confirm": {
         "title": "Transaction Details",
