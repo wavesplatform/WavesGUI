@@ -254,13 +254,7 @@
                 if (data) {
                     this.amountBalance = data.amountBalance;
                     this.priceBalance = data.priceBalance;
-                    if (this.type) {
-                        this.maxAmountBalance = CreateOrder._getMaxAmountBalance(
-                            this.type,
-                            this.amountBalance,
-                            this.fee
-                        );
-                    }
+                    this.maxAmountBalance = CreateOrder._getMaxAmountBalance(this.type, this.amountBalance, this.fee);
                 }
             }
 
