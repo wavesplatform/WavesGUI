@@ -69,7 +69,7 @@
             },
             '1.0.0-beta.21': function (storage) {
                 return storage.load('userList').then((list) => {
-                    const newList = list.map((item) => ({ ...item, lastOpenVersion: '1.0.0-beta.21' }));
+                    const newList = list.map((item) => ({ ...item, lastOpenVersion: '1.0.0-beta.19' }));
                     return storage.save('userList', newList);
                 });
             }
