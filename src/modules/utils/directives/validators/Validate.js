@@ -409,8 +409,8 @@
                                     precisionValidator.value = validator.money.asset.precision;
                                     this._validateByName(name);
                                 },
-                                handler: (modelValue, viewValue) => {
-                                    return (viewValue && !!modelValue) || !viewValue;
+                                handler: () => {
+                                    return true; // Can't write no number values! :)
                                 },
                                 parser: (value) => {
                                     if (value && precisionValidator.handler($ngModel.$modelValue, value)) {
