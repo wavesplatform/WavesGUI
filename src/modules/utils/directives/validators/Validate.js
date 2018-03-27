@@ -36,7 +36,7 @@
      * @param {ValidateService} validateService
      * @param {app.utils.decorators} decorators
      */
-    const directive = function (utils, validateService, decorators) {
+    const directive = function (utils, validateService, decorators, $rootScope, $compile) {
         return {
             require: 'ngModel',
             priority: 10000,
@@ -193,6 +193,12 @@
                                     break;
                                 case 'pattern':
                                     this._validators[name] = this._createPatternValidator(name);
+                                    break;
+                                case 'byteLt':
+                                case 'byteLte':
+                                case 'byteGt':
+                                case 'byteGte':
+                                    this._validators[name] = this._createByteValidator(name);
                                     break;
                                 default:
                                     this._validators[name] = this._createSimpleValidator(name);
@@ -477,6 +483,32 @@
                             return validator;
                         }
 
+                        _createByteValidator(name) {
+                            const validator = this._createSimpleValidator(name);
+                            const $byteScope = $rootScope.$new(true);
+                            const attrs = [
+                                'w-i18n-ns="app.utils"',
+                                'class="byte-validator__help"',
+                                'w-i18n="validators.byte.help"',
+                                'params="{bytes: bytes}"'
+                            ];
+                            const $element = $compile(`<div ${attrs.join(' ')}></div>`)($byteScope);
+                            $input.before($element);
+                            $scope.$on('$destroy', () => {
+                                $byteScope.$destroy();
+                            });
+
+                            const origin = validator.handler;
+                            validator.handler = function (modelValue) {
+                                const stringBytes = validateService.getByteFromString(modelValue);
+                                $byteScope.bytes = Number(validator.value) - stringBytes;
+                                $byteScope.$digest();
+                                return origin(modelValue);
+                            };
+
+                            return validator;
+                        }
+
                         /**
                          * @param name
                          * @private
@@ -659,7 +691,7 @@
         };
     };
 
-    directive.$inject = ['utils', 'validateService', 'decorators'];
+    directive.$inject = ['utils', 'validateService', 'decorators', '$rootScope', '$compile'];
 
     angular.module('app.utils').directive('wValidate', directive);
 

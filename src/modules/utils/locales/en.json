@@ -1,4 +1,9 @@
 {
+  "validators": {
+    "byte": {
+      "help": "{{bytes}} bytes"
+    }
+  },
   "modal": {
     "assetInfo": {
       "title": "Asset Info",
