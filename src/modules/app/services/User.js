@@ -132,6 +132,7 @@
             /**
              * @param {object} data
              * @param {string} data.address
+             * @param {string} data.name
              * @param {string} data.encryptedSeed
              * @param {string} data.publicKey
              * @param {string} data.password
@@ -142,6 +143,7 @@
                 return this._addUserData({
                     address: data.address,
                     password: data.password,
+                    name: data.name,
                     encryptedSeed: data.encryptedSeed,
                     publicKey: data.publicKey,
                     settings: {
