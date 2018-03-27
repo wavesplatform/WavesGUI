@@ -270,6 +270,7 @@
                 switch (type) {
                     // TODO : clear this list as there is no need for address in some getList
                     case TYPES.RECEIVE:
+                    case TYPES.MASS_RECEIVE:
                     case TYPES.ISSUE:
                     case TYPES.REISSUE:
                     case TYPES.LEASE_IN:

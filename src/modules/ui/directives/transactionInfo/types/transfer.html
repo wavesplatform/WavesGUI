@@ -6,6 +6,7 @@
 </div>
 
 <div class="section" ng-if="$ctrl.type !== 'circular'">
+    <!-- TODO @xenohunter // fix if/else (mass-send || mass-receive) with literal 'transaction.modals.recipients' -->
     <div class="key" w-i18n="transaction.modals.to" ng-if="$ctrl.type === 'send'"></div>
     <div class="key" w-i18n="transaction.modals.from" ng-if="$ctrl.type === 'receive'"></div>
     <div class="value">{{::$ctrl.shownAddress}}</div>
