@@ -19,14 +19,6 @@
         UNKNOWN: 'unknown'
     };
 
-    const reduceToCumulativeAmount = (result, transfer) => {
-        if (!result) {
-            return transfer.amount;
-        } else {
-            return result.plus(transfer.amount);
-        }
-    };
-
     /**
      * @param {User} user
      * @param {app.utils} utils
@@ -150,7 +142,6 @@
              * @private
              */
             _pipeTransaction(isUTX) {
-
                 return (tx) => {
 
                     if (tx.type && tx.originalTx.type === 2) {
@@ -165,14 +156,15 @@
                     tx.templateType = Transactions._getTemplateType(tx);
                     tx.shownAddress = Transactions._getTransactionAddress(tx);
 
-                    if (tx.transactionType === TYPES.ISSUE) {
+                    if (tx.type === TYPES.ISSUE) {
                         tx.quantityStr = tx.quantity.toFormat(tx.precision);
-                    } else if (tx.transactionType === TYPES.MASS_SEND) {
-                        tx.amount = tx.transfers.reduce(reduceToCumulativeAmount);
-                    } else if (tx.transactionType === TYPES.MASS_RECEIVE) {
+                    } else if (tx.type === TYPES.MASS_SEND) {
+                        tx.amount = tx.transfers.map((t) => t.amount).reduce((acc, val) => acc.add(val));
+                    } else if (tx.type === TYPES.MASS_RECEIVE) {
+                        const aliasList = aliases.getAliasList();
                         tx.amount = tx.transfers.filter((transfer) => {
                             return transfer.recipient === user.address || aliasList.indexOf(transfer.recipient) !== -1;
-                        }).reduce(reduceToCumulativeAmount);
+                        }).map((t) => t.amount).reduce((acc, val) => acc.add(val));
                     }
 
                     return tx;
