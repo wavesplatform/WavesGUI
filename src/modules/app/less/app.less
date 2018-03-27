@@ -5,7 +5,7 @@ html,
 body {
   width: 100%;
   height: 100%;
-  min-height: 380px;
+  min-width: 360px;
   overflow: auto;
   background-color: @color-background-default;
   .scroll();
@@ -36,16 +36,6 @@ a {
   cursor: pointer;
 }
 
-/* Mac button text centering fix */
-w-button > button {
-  w-i18n,
-  div.full-width,
-  div.full-width * {
-    width: 100%;
-    display: block;
-  }
-}
-
 md-input-container {
   transform: translate3d(0, 0, 0);
 }
@@ -58,24 +48,30 @@ md-input-container {
   outline: none;
 }
 
+.empty-block-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 200px auto;
+
+  .icon {
+    background-image: url(/img/icons/null.svg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 50px;
+    height: 52px;
+    margin: 40px 0 30px;
+  }
+}
+
 .ghost {
   opacity: 0 !important;
 }
 
 .no-user-select {
   user-select: none;
-}
-
-.md-dialog-container {
-  md-dialog {
-    box-shadow: none;
-    position: absolute;
-    top: 13%;
-    left: 50%;
-    transform: translateX(-50%);
-    max-height: 74%;
-    width: 540px;
-  }
 }
 
 .center {
@@ -94,8 +90,9 @@ md-input-container {
 w-scroll-box {
   display: flex;
   flex-direction: column;
-  height: 100%;
   overflow: auto;
+  height: 100%;
+  background: @color-white;
 }
 
 .flex-column-center {
@@ -133,7 +130,6 @@ w-scroll-box {
   position: relative;
   width: 100%;
   height: 100%;
-  //background-color: @color-lite-background;
 
   .content {
     width: calc(~"100% - "@width-left-menu + @padding-main-layout * 2);
@@ -182,27 +178,32 @@ svg.chart {
       fill: @color-disabled-700;
       font-size: 13px;
     }
-    //
-    //    &.y-axis .tick text {
-    //      transform: translateX(~'calc(100% + 50px)');
-    //    }
-    //
-    //    &.y2-axis .tick text {
-    //      transform: translateX(-100%);
-    //    }
   }
 }
 
-md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
+.md-dialog-container {
+  md-dialog {
+    box-shadow: none;
+    position: absolute;
+    top: 13%;
+    left: 50%;
+    transform: translateX(-50%);
+    max-height: 74%;
+    width: 540px;
+
+    md-dialog-actions {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+}
+
+md-toolbar.md-default-theme:not(.md-menu-toolbar),
+md-toolbar:not(.md-menu-toolbar) {
   background-color: @color-white;
   color: @color-black;
   border-bottom: 1px solid @color-disabled-200;
-}
-
-md-dialog md-dialog-actions {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
 }
 
 .chart-legend {
@@ -216,7 +217,7 @@ md-dialog md-dialog-actions {
 
 }
 
-.btn-wrap.btn-group { // TODO add colors from config for btn-wrap
+.btn-wrap.btn-group {
   box-sizing: border-box;
   padding: 0;
   display: flex;
@@ -225,12 +226,12 @@ md-dialog md-dialog-actions {
 
   .btn-active {
     cursor: default;
-    background-color: #ebebeb;
+    background-color: @color-disabled-100;
     color: @color-black;
   }
 
   & > *:first-child .btn, & > .btn:first-child {
-    border-left: 1px solid #ebebeb;
+    border-left: 1px solid @color-disabled-100;
     border-bottom-left-radius: 5px;
     border-top-left-radius: 5px;
   }
@@ -245,10 +246,9 @@ md-dialog md-dialog-actions {
     box-sizing: border-box;
     cursor: pointer;
     padding: 4px 10px;
-    //color: @color-link-blue;
-    border-bottom: 1px solid #ebebeb;
-    border-top: 1px solid #ebebeb;
-    border-right: 1px solid #ebebeb;
+    border-bottom: 1px solid @color-disabled-100;
+    border-top: 1px solid @color-disabled-100;
+    border-right: 1px solid @color-disabled-100;
 
     &:active {
       .btn-active();
@@ -260,16 +260,18 @@ md-dialog md-dialog-actions {
   .main-content {
     background-color: @color-basic-50;
 
-    .header, .left-menu {
+    .header,
+    .left-menu {
       background-color: @color-white;
       backdrop-filter: blur(10px);
     }
   }
 }
 
-.content ui-view[name="mainContent"], .content ui-view[name="mainContent"] ui-view[name="content"] {
-  height: 100%;
+.content ui-view[name="mainContent"],
+.content ui-view[name="mainContent"] ui-view[name="content"] {
   display: block;
+  height: 100%;
 }
 
 .warning-plate {
@@ -282,6 +284,10 @@ md-dialog md-dialog-actions {
   background: none transparent;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 .assets-wrapper {
   max-height: calc(~'100vh - 140px');
   overflow-x: hidden;
@@ -292,31 +298,6 @@ md-dialog md-dialog-actions {
   overflow: auto;
   min-height: calc(~'100vh - 207px');
   max-height: calc(~'100vh - 207px');
-
-  .scroll-list {
-    height: 100%;
-  }
-}
-
-.transactions w-scroll-box .scroll-list {
-  max-height: calc(~'100vh - 207px');
-}
-
-.transactions-container w-scroll-box .scroll-list {
-  max-height: calc(~'100vh - 130px');
-  overflow-y: auto;
-}
-
-.leasing-page {
-  height: 100%;
-  max-height: calc(~'100vh - 90px');
-  overflow: hidden;
-
-  .left-panel {
-    height: 100%;
-    max-height: calc(~'100vh - 90px');
-    overflow-y: auto;
-  }
 }
 
 .scroll {
@@ -344,5 +325,102 @@ md-dialog md-dialog-actions {
 
   ::-webkit-scrollbar-thumb:window-inactive {
     background: @color-basic-200;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  w-left-menu w-responsive-menu {
+    min-height: 270px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+
+  body {
+
+    .main-content w-scroll-box {
+      overflow: visible;
+    }
+
+    &.wallet {
+      min-width: 100%;
+
+      .content ui-view[name="mainContent"],
+      .content ui-view[name="mainContent"] ui-view[name="content"] {
+        height: auto;
+      }
+    }
+
+    &.portfolio {
+      .portfolio-list {
+        w-scroll-box {
+          min-height: calc(100vh ~'- 130px');
+          max-height: 100%;
+        }
+      }
+    }
+
+  }
+
+  // end body
+  .assets-wrapper {
+    max-height: 100%;
+    overflow-y: visible;
+    overflow-x: visible;
+  }
+
+  .main-content {
+    display: flex;
+    flex-direction: column;
+
+    & > w-header {
+      order: 1;
+    }
+    & > w-left-menu {
+      order: 0;
+    }
+    & > div.content {
+      order: 2;
+    }
+
+    .content {
+      overflow: auto;
+      height: calc(100vh ~'-  50px');
+      width: 100%;
+      position: relative;
+      right: auto;
+      left: 0;
+      top: 0;
+      bottom: auto;
+      margin: 0;
+      padding: 10px;
+    }
+  }
+
+  .app-loader .loader {
+    zoom: .6;
+    transform-origin: center;
+    transform: translateX(40px) rotate(45deg);
+  }
+
+}
+
+@media screen and (max-width: 767px) {
+  .md-dialog-container {
+    md-dialog {
+      width: calc(100% ~' - 20px');
+      max-width: 540px;
+      min-width: 340px;
+      height: 85vh;
+      max-height: 85vh;
+      left: 50%;
+      top: 50%;
+      transform-origin: center;
+      transform: translateY(-50%) translateX(-50%);
+
+      md-dialog-content {
+        padding: 20px 20px 0;
+      }
+    }
   }
 }

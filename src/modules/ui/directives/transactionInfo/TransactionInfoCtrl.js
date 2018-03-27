@@ -49,12 +49,12 @@
                 if (this.type === TYPES.EXCHANGE_BUY || this.type === TYPES.EXCHANGE_SELL) {
                     this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
                     if (this.type === TYPES.EXCHANGE_BUY) {
-                        this.calculatedFee = this.transaction.buyMatcherFee.toFormat();
+                        this.calculatedFee = this.transaction.buyMatcherFee;
                     } else {
-                        this.calculatedFee = this.transaction.sellMatcherFee.toFormat();
+                        this.calculatedFee = this.transaction.sellMatcherFee;
                     }
                 } else {
-                    this.calculatedFee = this.transaction.fee.toFormat();
+                    this.calculatedFee = this.transaction.fee;
                 }
             }
 

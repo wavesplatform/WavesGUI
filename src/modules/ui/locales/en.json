@@ -21,12 +21,15 @@
       "issue": "{{name}} Token Generation",
       "reissue": "{{name}} Token Reissue",
       "burn": "{{name}} Token Burning",
-      "exchange-buy": "Exchange Buy: {{amountAsset}}/{{priceAsset}}",
-      "exchange-sell": "Exchange Sell: {{amountAsset}}/{{priceAsset}}",
+      "exchange-buy": "Exchange Buy:",
+      "exchange-sell": "Exchange Sell:",
+      "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
       "lease-in": "Incoming Leasing",
       "lease-out": "Started Leasing",
       "cancel-leasing": "Canceled Leasing",
-      "create-alias": "Created Alias"
+      "create-alias": "Created Alias",
+      "unknown": "Unknown transaction",
+      "activeLeasing": "active now"
     },
     "amounts": {
       "send": "–{{amount}} {{name}}",
@@ -58,6 +61,7 @@
       "lease-in": "{{time}}<span class='locale-address'>, from address {{address}}</span>",
       "lease-out": "{{time}}<span class='locale-address'>, to address {{address}}</span>",
       "cancel-leasing": "{{time}}<span class='locale-address'>, transaction {{transactionId}}</span>",
+      "unknown": "{{time}}",
       "create-alias": "{{time}}, {{alias}}"
     },
     "reissuable": {
@@ -82,6 +86,7 @@
       "description": "Description",
       "price": "{{name}} Price",
       "type": "Type",
+      "height": "Block",
       "cancelTx": "TX",
       "confirmations": "Confirmations",
       "fee": "Fee",

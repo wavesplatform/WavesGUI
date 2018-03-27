@@ -1,16 +1,18 @@
-<div class="line body-1 basic-700">
-    <div>
-        <span w-i18n="transaction.headers.{{::$ctrl.type}}"></span>
+<div class="line-wrapper">
+    <div class="line">
+        <div class="body-1 basic-700 fs-mobile">
+            <span w-i18n="transaction.headers.{{::$ctrl.type}}"></span>
+        </div>
+        <div class="footnote-1 basic-500 fs-mobile">
+            <span w-i18n="transaction.subheaders.{{::$ctrl.type}}"
+                  params="{time: $ctrl.time, transactionId: $ctrl.transaction.leaseTransactionId}"></span>
+        </div>
     </div>
-    <div>
-        <!--TODO : canceled leasing amount-->
-        <span w-i18n="transaction.amounts.{{::$ctrl.type}}"
-              params="{amount: $ctrl.transaction.amount.toFormat(), name: $ctrl.transaction.amount.asset.name}"></span>
-    </div>
-</div>
-<div class="line footnote-1 basic-500">
-    <div>
-        <span w-i18n="transaction.subheaders.{{::$ctrl.type}}"
-              params="{time: $ctrl.time, transactionId: $ctrl.transaction.leaseTransactionId}"></span>
+    <div class="line">
+        <div class="footnote-1 basic-500 fs-mobile">
+            <!--TODO : canceled leasing amount-->
+            <span w-i18n="transaction.amounts.{{::$ctrl.type}}"
+                  params="{amount: $ctrl.transaction.amount.toFormat(), name: $ctrl.transaction.amount.asset.name}"></span>
+        </div>
     </div>
 </div>

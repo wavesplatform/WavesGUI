@@ -23,73 +23,45 @@
             return Promise.resolve();
         };
     } else {
-        const fs = require('fs');
-        const path = require('path');
-        const remote = require('electron').remote;
-        const cachePath = path.join(remote.app.getPath('userData'), './storage.json');
-
-        const wrap = function (method, ...args) {
-            return new Promise((resolve, reject) => {
-                args.push(function (err, data) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(data);
-                    }
-                });
-                fs[method](...args);
+        read = function (key) {
+            return WebStorage.readStorage(key).then((result) => {
+                try {
+                    return JSON.parse(result);
+                } catch (e) {
+                    return result;
+                }
             });
         };
-
-        if (!fs.existsSync(cachePath)) {
-            fs.writeFileSync(cachePath, '{}');
-        }
-
-        const getCache = function () {
-            return wrap('readFile', cachePath, 'utf8')
-                .then((text) => {
-                    try {
-                        return JSON.parse(text);
-                    } catch (e) {
-                        return Promise.reject(e);
-                    }
-                });
-        };
-        read = function (key) {
-            return getCache()
-                .then((data) => {
-                    try {
-                        return JSON.parse(data[key] || '');
-                    } catch (e) {
-                        return {};
-                    }
-                })
-                .catch(() => {
-                    return {};
-                });
-        };
         write = function (key, value) {
-            return getCache()
-                .then((data) => {
-                    data[key] = value;
-                    return wrap('writeFile', cachePath, JSON.stringify(data));
-                });
+            return WebStorage.writeStorage(key, value);
         };
         clear = function () {
-            return wrap('writeFile', cachePath, '{}');
+            return WebStorage.clearStorage();
         };
     }
 
+    /**
+     * @param {$q} $q
+     * @param {app.utils} utils
+     * @param {StorageMigration} storageMigration
+     */
     const factory = function ($q, utils, storageMigration) {
 
         class Storage {
 
             constructor() {
+                this._isNewDefer = $q.defer();
+
                 this.load('lastVersion')
                     .then((version) => {
+                        this._isNewDefer.resolve(!version);
                         this.save('lastVersion', WavesApp.version);
                         storageMigration.migrateTo(version, this);
                     });
+            }
+
+            onReady() {
+                return this._isNewDefer.promise;
             }
 
             save(key, value) {
