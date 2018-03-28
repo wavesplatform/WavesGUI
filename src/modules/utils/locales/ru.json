@@ -1,4 +1,12 @@
 {
+  "utils": {
+    "whatsNew": {
+      "title": "Новое в этом обновлении {{version}}",
+      "body": {
+        "1_0_0-beta_20": "<span class=\"line\">1. Мы добавили раздел «Что нового»</span><span class=\"line\">2. Включена поддержка MassTransfer транзакций.</span><span class=\"line\">3. Десктопные приложения теперь будут обновляться автоматически.</span><span class=\"line\">4. Были исправлены несколько мелких багов.</span>"
+      }
+    }
+  },
   "modal": {
     "assetInfo": {
       "title": "О токене",
