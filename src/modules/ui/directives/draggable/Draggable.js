@@ -38,6 +38,7 @@
             link: ($scope, $element) => {
 
                 const $document = $(document);
+                const jWindow = $(window);
                 const position = $element.css('position');
                 const $overlay = $('<div class="drag-overlay">');
 
@@ -65,13 +66,29 @@
                     y: 0
                 };
 
+                let translationLimits = {
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0
+                };
+
+                const initialOffset = {
+                    x: $element.offset().left,
+                    y: $element.offset().top
+                };
+
                 let id = 0;
+
+                $scope.$watch(() => $element.width(), updateTranslationLimits);
+                $scope.$watch(() => $element.height(), updateTranslationLimits);
 
                 $element.on(POINTER_EVENTS.START, (startEvent) => {
                     $overlay.insertBefore($element);
 
                     startEvent = getDistilledEvent(startEvent);
                     if (mainMouseButtonUsed(startEvent)) {
+                        updateTranslationLimits();
                         const onMove = getMoveHandler(startEvent);
                         $document.on(POINTER_EVENTS.MOVE, onMove);
                         $document.one(POINTER_EVENTS.END, getPointerEndHandler(onMove));
@@ -122,6 +139,20 @@
                     return event.button === MAIN_MOUSE_BUTTON;
                 }
 
+                function updateTranslationLimits() {
+                    const scroll = {
+                        x: jWindow.scrollLeft(),
+                        y: jWindow.scrollTop()
+                    };
+
+                    translationLimits = {
+                        left: scroll.x - initialOffset.x,
+                        right: scroll.x + jWindow.width() - (initialOffset.x + $element.width()),
+                        top: scroll.y - initialOffset.y,
+                        bottom: scroll.y + jWindow.height() - (initialOffset.y + $element.height())
+                    };
+                }
+
                 function getMoveHandler(startEvent) {
                     const setTranslation = buildTranslationSetter(startEvent);
 
@@ -151,6 +182,8 @@
 
                 function updateTranslationCoordinates(moveEvent, start) {
                     updateCoordinates(translation, moveEvent, start);
+                    translation.x = getBoundedValue(translationLimits.left, translation.x, translationLimits.right);
+                    translation.y = getBoundedValue(translationLimits.top, translation.y, translationLimits.bottom);
                 }
 
                 function updateCoordinates(coordinatesToUpdate, event, basicCoordinates) {
@@ -158,6 +191,16 @@
                         const eventCoordinate = event[PAGE_COORDINATES[coordinate]];
                         coordinatesToUpdate[coordinate] = eventCoordinate - basicCoordinates[coordinate];
                     });
+                }
+
+                function getBoundedValue(lowerBound, value, upperBound) {
+                    return Math.min(
+                        Math.max(
+                            lowerBound,
+                            value
+                        ),
+                        upperBound
+                    );
                 }
 
                 function getPointerEndHandler(onMove) {
