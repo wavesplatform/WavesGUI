@@ -10,6 +10,7 @@
         [WavesApp.defaultAssets.ZEC]: '/img/assets/zec.svg',
         [WavesApp.defaultAssets.EUR]: '/img/assets/euro.svg',
         [WavesApp.defaultAssets.USD]: '/img/assets/usd.svg',
+        [WavesApp.defaultAssets.BCH]: '/img/assets/bitcoin-cash.svg',
         [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
         [WavesApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
     };
@@ -95,7 +96,7 @@
                                 utils.loadImage(ASSET_IMAGES_MAP[asset.id])
                                     .then(() => {
                                         $element.find('.asset-logo')
-                                            .css('background-image', `url(${ASSET_IMAGES_MAP[asset.id]})`);
+                                            .css('backgroundImage', `url(${ASSET_IMAGES_MAP[asset.id]})`);
                                     })
                                     .catch(() => this._addLetter(asset.name));
                             } else {
@@ -122,7 +123,6 @@
                     .css({
                         'background-color': color,
                         'font-size': `${fontSize}px`,
-                        'line-height': `${this.size}px`
                     });
             }
 

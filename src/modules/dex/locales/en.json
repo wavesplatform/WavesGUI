@@ -69,7 +69,9 @@
         "isCanceled": "The order has been canceled",
         "somethingWentWrong": "Something went wrong"
       }
-    }
+    },
+    "noChartDataTitle": "Nothing Here…",
+    "noChartDataMessage": "Not enough bids and asks to create market depth chart"
   },
   "layout": {
     "right": {

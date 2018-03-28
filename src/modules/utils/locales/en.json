@@ -72,21 +72,9 @@
         "details": "View Details"
       },
       "icoWarning": "Do not withdraw {{assetName}} to an ICO. We will not credit your account with tokens from that sale.",
-      "coinomatBTC": {
-        "feeTitle": "Gateway fee is {{fee, BigNumber}} BTC",
-        "feeExplanation": "We detected Bitcoin address and will send your money through Coinomat gateway to that address. Minimum amount is {{min, BigNumber}} BTC, maximum amount is {{max, BigNumber}} BTC."
-      },
-      "coinomatETH": {
-        "feeTitle": "Gateway fee is {{fee, BigNumber}} ETH",
-        "feeExplanation": "We detected Ethereum address and will send your money through Coinomat gateway to that address. Minimum amount is {{min, BigNumber}} ETH, maximum amount is {{max, BigNumber}} ETH."
-      },
-      "coinomatLTC": {
-        "feeTitle": "Gateway fee is {{fee, BigNumber}} LTC",
-        "feeExplanation": "We detected Litecoin address and will send your money through Coinomat gateway to that address. Minimum amount is {{min, BigNumber}} LTC, maximum amount is {{max, BigNumber}} LTC."
-      },
-      "coinomatZEC": {
-        "feeTitle": "Gateway fee is {{fee, BigNumber}} ZEC",
-        "feeExplanation": "We detected Zcash address and will send your money through Coinomat gateway to that address. Minimum amount is {{min, BigNumber}} ZEC, maximum amount is {{max, BigNumber}} ZEC."
+      "coinomat": {
+        "feeTitle": "Gateway fee is {{fee, BigNumber}} {{assetTicker}}",
+        "feeExplanation": "We detected {{assetName}} address and will send your money through Coinomat gateway to that address. Minimum amount is {{min, BigNumber}} {{assetTicker}}, maximum amount is {{max, BigNumber}} {{assetTicker}}."
       },
       "validationError": {
         "notEnoughFundsWithdraw": "You don't have enough funds to pay the required fees. You must pay {{fee, money-currency}} transaction fee and {{getawayFee, BigNumber}} {{currency}} gateway fee.",
@@ -131,6 +119,14 @@
         "warningMinAmountText": "If you will send less than 0.001 ZEC, you will lose that money.",
         "helpDescrTitle": "Enter this address into your Zcash client or wallet",
         "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ZEC to a token in your Waves account."
+      },
+      "coinomatBCH": {
+        "warningTitle": "Send only BCH to this deposit address",
+        "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
+        "warningMinAmountTitle": "The minimum amount of deposit is 0.001 BCH",
+        "warningMinAmountText": "If you will send less than 0.001 BCH, you will lose that money.",
+        "helpDescrTitle": "Enter this address into your Bitcoin Cash client or wallet",
+        "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of BCH to a token in your Waves account."
       }
     },
     "sepa": {
@@ -189,12 +185,46 @@
       "network": {
         "title": "Network",
         "nodeAddress": "Node address",
-        "matcherAddress": "Matcher address"
+        "matcherAddress": "Matcher address",
+        "copy": "copy"
       },
       "info": {
         "title": "Info",
         "version": "Version",
         "support": "Support"
+      }
+    },
+    "tutorialModals": {
+      "step1": {
+        "title": "Welcome to the Waves Platform!",
+        "p1": "Please take some time to understand some important things for your own safety. 🙏",
+        "p2": "We cannot recover your funds or freeze your account if you visit a phishing site or lose your backup phrase (aka SEED phrase).",
+        "p3": "By continuing to use our platform, you agree to accept all risks associated with the loss of your SEED, including but not limited to the inability to obtain your funds and dispose of them. In case you lose your SEED, you agree and acknowledge that the Waves Platform would not be responsible for the negative consequences of this.",
+        "button": "What you need to know about your SEED",
+        "buttonMobile": "Next"
+      },
+      "step2": {
+        "title": "What you need to know about your SEED",
+        "p1": "When registering your account, you will be asked to save your secret phrase (Seed) and to protect your account with a password. On normal centralized servers, special attention is paid to the password, which can be changed and reset via email, if the need arises. However, on decentralized platforms such as Waves, everything is arranged differently:",
+        "cell1": "You use your wallet anonymously, meaning your account is not connected to an email account or any other identifying data.",
+        "cell2": "Your password protects your account when working on a certain device or browser. It is needed in order to ensure that your secret phrase is not saved in storage.",
+        "cell3": "If you forget your password, you can easily create a new one by using the account recovery form via your secret phrase. If you lose your secret phrase, however, you will have no way to access your account.",
+        "cell4": "You cannot change your secret phrase. If you accidentally sent it to someone or suspect that scammers have taken it over, then create a new Waves wallet immediately and transfer your funds to it.",
+        "backButton": "Go Back",
+        "nextButton": "Protect Yourself"
+      },
+      "step3": {
+        "title": "How To Protect Yourself from Phishers",
+        "p1": "One of the most common forms of scamming is phishing, which is when scammers create fake communities on Facebook or other websites that look similar to the authentic ones.",
+        "cell1": "Always check the URL: <a href=\"https://beta.wavesplatform.com\" target=\"_blank\">https://beta.wavesplatform.com</a>",
+        "cell2": "Do not use browsers that have extensions or plugins to access acc.",
+        "cell3": "Do not open emails or links from unknown senders.",
+        "cell4": "Regularly update your operating system.",
+        "cell4Web": "Regularly update your browser and operating system.",
+        "cell5": "Use official security software. Do not install unknown software which could be hacked.",
+        "cell6": "Do not access your wallet when using public Wi-Fi or someone else’s device.",
+        "backButton": "Go Back",
+        "nextButton": "I Understand"
       }
     }
   }

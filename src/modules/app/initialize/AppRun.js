@@ -42,7 +42,24 @@
      * @param {ModalManager} modalManager
      * @return {AppRun}
      */
-    const run = function ($rootScope, utils, user, $state, state, modalManager, ExtendedAsset) {
+    const run = function ($rootScope, utils, user, $state, state, modalManager, storage) {
+
+        class ExtendedAsset extends Waves.Asset {
+
+            constructor(props) {
+                super({
+                    ...props,
+                    name: WavesApp.remappedAssetNames[props.id] || props.name
+                    // ID, name, precision and description are added here
+                });
+
+                this.reissuable = props.reissuable;
+                this.timestamp = props.timestamp;
+                this.sender = props.sender;
+                this.height = props.height;
+
+                const divider = new BigNumber(10).pow(this.precision);
+                this.quantity = new BigNumber(props.quantity).div(divider);
 
         user.onLogin().then(() => {
 
@@ -106,6 +123,7 @@
                 this._stopLoader();
                 this._initializeLogin();
                 this._initializeOutLinks();
+
             }
 
             /**
@@ -146,6 +164,13 @@
              * @private
              */
             _initializeLogin() {
+
+                storage.onReady().then((isNew) => {
+                    if (isNew) {
+                        modalManager.showTutorialModals();
+                    }
+                });
+
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => item.id);
 
@@ -196,6 +221,7 @@
              * @private
              */
             _login(currentState) {
+
                 const states = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
 
@@ -295,7 +321,7 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'ExtendedAsset'];
+    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'modalRouter'];
 
     angular.module('app')
         .run(run);

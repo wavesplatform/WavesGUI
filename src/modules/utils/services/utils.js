@@ -42,7 +42,7 @@
                     }
                     timer = setTimeout(() => {
                         timer = null;
-                        handler.call(...args);
+                        handler.call(this, ...args);
                     }, timeout);
                 };
             },
@@ -74,12 +74,12 @@
                     queued: false,
                     args: null
                 };
-                return (...args) => {
+                return function (...args) {
                     control.args = args;
                     if (!control.queued) {
                         requestAnimationFrame(() => {
                             control.queued = false;
-                            callback(...control.args);
+                            callback.call(this, ...control.args);
                         });
                     }
                     control.queued = true;
@@ -315,7 +315,7 @@
              */
             loadImage(url) {
                 return $q((resolve, reject) => {
-                    const img = new Image(url);
+                    const img = new Image();
                     img.onload = resolve;
                     img.onerror = reject;
                     img.src = url;
