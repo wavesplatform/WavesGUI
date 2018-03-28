@@ -29,37 +29,17 @@
 
     /**
      * @param {app.utils} utils
+     * @param $document
      * @return {{scope: boolean, link: function(*, *=)}}
      */
-    const directive = (utils) => {
+    const directive = (utils, $document) => {
 
         return {
             scope: false,
             link: ($scope, $element) => {
 
-                const $document = $(document);
-                const jWindow = $(window);
-                const position = $element.css('position');
+                const $window = $(window);
                 const $overlay = $('<div class="drag-overlay">');
-
-                if (position === 'static' || position === 'relative') {
-                    const offset = $element.offset();
-                    $element.css({
-                        position: 'absolute',
-                        transformOrigin: 'left top',
-                        willChange: 'transform'
-                    });
-                    $element.offset(offset);
-                }
-
-                $element.css('zIndex', 10);
-
-                document.body.appendChild($element.get(0));
-                const stop = $scope.$on('$destroy', () => {
-                    stop();
-                    $element.remove();
-                    $overlay.remove();
-                });
 
                 const translation = {
                     x: 0,
@@ -74,26 +54,81 @@
                 };
 
                 const initialOffset = {
-                    x: $element.offset().left,
-                    y: $element.offset().top
+                    x: 0,
+                    y: 0
                 };
 
                 let id = 0;
 
-                $scope.$watch(() => $element.width(), updateTranslationLimits);
-                $scope.$watch(() => $element.height(), updateTranslationLimits);
+                init();
 
-                $element.on(POINTER_EVENTS.START, (startEvent) => {
-                    $overlay.insertBefore($element);
-
-                    startEvent = getDistilledEvent(startEvent);
-                    if (mainMouseButtonUsed(startEvent)) {
-                        updateTranslationLimits();
-                        const onMove = getMoveHandler(startEvent);
-                        $document.on(POINTER_EVENTS.MOVE, onMove);
-                        $document.one(POINTER_EVENTS.END, getPointerEndHandler(onMove));
+                function init() {
+                    const position = $element.css('position');
+                    if (position === 'static' || position === 'relative') {
+                        const offset = $element.offset();
+                        $element.css({
+                            position: 'absolute',
+                            transformOrigin: 'left top',
+                            willChange: 'transform'
+                        });
+                        $element.offset(offset);
                     }
-                });
+
+                    $element.css('zIndex', 10);
+                    document.body.appendChild($element.get(0));
+
+                    updateInitialOffset();
+
+                    const stop = $scope.$on('$destroy', () => {
+                        stop();
+                        $element.remove();
+                        $overlay.remove();
+                    });
+
+                    $scope.$watch(() => $element.width(), updateTranslationLimits);
+                    $scope.$watch(() => $element.height(), updateTranslationLimits);
+                    $window.resize(() => {
+                        updateInitialOffset();
+                        placeElementOnInitialPlace();
+                        updateTranslationLimits();
+                    });
+
+                    $element.on(POINTER_EVENTS.START, (startEvent) => {
+                        $overlay.insertBefore($element);
+
+                        startEvent = getDistilledEvent(startEvent);
+                        if (mainMouseButtonUsed(startEvent)) {
+                            const onMove = getMoveHandler(startEvent);
+                            $document.on(POINTER_EVENTS.MOVE, onMove);
+                            $document.one(POINTER_EVENTS.END, getPointerEndHandler(onMove));
+                        }
+                    });
+                }
+
+                function updateTranslationLimits() {
+                    const scroll = {
+                        x: $window.scrollLeft(),
+                        y: $window.scrollTop()
+                    };
+
+                    translationLimits = {
+                        left: scroll.x - initialOffset.x,
+                        right: scroll.x + $window.width() - (initialOffset.x + $element.width()),
+                        top: scroll.y - initialOffset.y,
+                        bottom: scroll.y + $window.height() - (initialOffset.y + $element.height())
+                    };
+                }
+
+                function updateInitialOffset() {
+                    initialOffset.x = $element.offset().left - translation.x;
+                    initialOffset.y = $element.offset().top - translation.y;
+                }
+
+                function placeElementOnInitialPlace() {
+                    translation.x = 0;
+                    translation.y = 0;
+                    placeItem();
+                }
 
                 function getDistilledEvent(event) {
                     const touch = getTouch(event.originalEvent);
@@ -139,20 +174,6 @@
                     return event.button === MAIN_MOUSE_BUTTON;
                 }
 
-                function updateTranslationLimits() {
-                    const scroll = {
-                        x: jWindow.scrollLeft(),
-                        y: jWindow.scrollTop()
-                    };
-
-                    translationLimits = {
-                        left: scroll.x - initialOffset.x,
-                        right: scroll.x + jWindow.width() - (initialOffset.x + $element.width()),
-                        top: scroll.y - initialOffset.y,
-                        bottom: scroll.y + jWindow.height() - (initialOffset.y + $element.height())
-                    };
-                }
-
                 function getMoveHandler(startEvent) {
                     const setTranslation = buildTranslationSetter(startEvent);
 
@@ -168,7 +189,7 @@
                     return utils.debounceRequestAnimationFrame((moveEvent) => {
                         moveEvent = getDistilledEvent(moveEvent);
                         updateTranslationCoordinates(moveEvent, start);
-                        $element.css('transform', `translate(${translation.x}px, ${translation.y}px)`);
+                        placeItem();
                     });
                 }
 
@@ -203,6 +224,10 @@
                     );
                 }
 
+                function placeItem() {
+                    $element.css('transform', `translate(${translation.x}px, ${translation.y}px)`);
+                }
+
                 function getPointerEndHandler(onMove) {
                     return () => {
                         $overlay.detach();
@@ -214,7 +239,7 @@
         };
     };
 
-    directive.$inject = ['utils'];
+    directive.$inject = ['utils', '$document'];
 
     angular.module('app.ui').directive('wDraggable', directive);
 
