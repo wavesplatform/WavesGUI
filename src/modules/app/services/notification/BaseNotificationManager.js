@@ -9,7 +9,7 @@
      * @param {Queue} Queue
      * @param {function} $templateRequest
      * @param {app.utils} utils
-     * @return {BaseNotificationManager}
+     * @return {INotification}
      */
     const factory = function ($compile, $q, $rootScope, timeLine, Queue, $templateRequest, utils) {
 

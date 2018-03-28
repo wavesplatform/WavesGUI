@@ -3,7 +3,7 @@
 
     /**
      * @param {app.utils} utils
-     * @param {BaseNotificationManager} notification
+     * @param {INotification} notification
      * @return {*}
      */
     const directive = function (utils, notification) {

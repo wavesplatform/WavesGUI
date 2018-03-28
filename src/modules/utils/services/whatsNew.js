@@ -3,7 +3,7 @@
 
     /**
      *
-     * @param {BaseNotificationManager} notification
+     * @param {INotification} notification
      * @param {User} user
      * @param {Migration} migration
      * @param {app.utils} utils

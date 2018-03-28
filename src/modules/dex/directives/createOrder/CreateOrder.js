@@ -9,7 +9,7 @@
      * @param {function} createPoll
      * @param $scope
      * @param {JQuery} $element
-     * @param {BaseNotificationManager} notification
+     * @param {INotification} notification
      * @param {DexDataService} dexDataService
      * @return {CreateOrder}
      */

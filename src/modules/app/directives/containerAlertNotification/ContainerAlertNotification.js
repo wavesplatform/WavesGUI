@@ -26,7 +26,7 @@
                 }
 
                 /**
-                 * @type {BaseNotificationManager}
+                 * @type {INotification}
                  */
                 const notification = $injector.get(this.type);
                 this.receive(notification.changeSignal, this._onChangeNotifications, this);

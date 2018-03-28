@@ -6,7 +6,7 @@
      * @param $scope
      * @param {User} user
      * @param {Waves} waves
-     * @param {BaseNotificationManager} notification
+     * @param {INotification} notification
      * @return {AccountInfoCtrl}
      */
     const controller = function (Base, $scope, user, waves, notification) {

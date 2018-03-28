@@ -6,7 +6,7 @@
      * @param {Waves} waves
      * @param {User} user
      * @param createPoll
-     * @param {BaseNotificationManager} notification
+     * @param {INotification} notification
      * @param {app.utils} utils
      * @return {DexMyOrders}
      */

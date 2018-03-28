@@ -7,7 +7,7 @@
      * @param Base
      * @param $filter
      * @param {ModalManager} modalManager
-     * @param {BaseNotificationManager} notification
+     * @param {INotification} notification
      * @param {Waves} waves
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
