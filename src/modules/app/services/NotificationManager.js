@@ -3,22 +3,29 @@
 
     const DEFAULT_DELAY = 3000;
     const NOTIFICATIONS_LIMIT = 5;
+    const TEMPLATE_URL = 'modules/app/services/templates/notification.html';
 
     /**
      * @param $compile
      * @param $q
      * @param $rootScope
      * @param {TimeLine} timeLine
+     * @param {Queue} Queue
+     * @param {function} $templateRequest
+     * @param {app.utils} utils
      * @return {NotificationManager}
      */
-    const factory = function ($compile, $q, $rootScope, timeLine) {
+    const factory = function ($compile, $q, $rootScope, timeLine, Queue, $templateRequest, utils) {
 
         class NotificationManager {
 
             constructor() {
-                this._queue = [];
-                this._list = [];
+                this._queue = new Queue({ queueLimit: NOTIFICATIONS_LIMIT });
+                /**
+                 * @type {Signal<Array<INotificationObj>>}
+                 */
                 this.changeSignal = new tsUtils.Signal();
+                this._setHandlers();
             }
 
 
@@ -55,7 +62,11 @@
             }
 
             getActiveNotificationsList() {
-                return this._list.map((item) => item.element);
+                return this._queue.getActiveList();
+            }
+
+            _setHandlers() {
+                this._queue.signals.change.on(this._run, this);
             }
 
             /**
@@ -65,83 +76,77 @@
              * @return {Promise}
              * @private
              */
-            _push(type, notificationObj, delay) {
+            _push(type, notificationObj, delay = DEFAULT_DELAY) {
                 const defer = $q.defer();
-                this._queue.push([defer, type, notificationObj, delay]);
-                this._run();
-                return defer.promise;
-            }
+                const promise = defer.promise;
 
-            _run() {
-                if (this._queue.length) {
-                    if (this._list.length < NOTIFICATIONS_LIMIT) {
-                        const args = this._queue.shift();
-                        this._create.apply(this, args);
-                        this._run();
-                    }
-                }
+                /**
+                 * @type {_INotificationItem}
+                 */
+                const notification = utils.liteObject({
+                    defer,
+                    promise,
+                    notificationObj,
+                    delay,
+                    type,
+                    $element: null,
+                    destroy: null
+                });
+
+                this._queue.push(notification);
+
+                return promise;
             }
 
             /**
-             * @param defer
-             * @param {string} type
-             * @param {INotificationObj} notificationObj
-             * @param {number} [delay]
-             * @return {null}
+             *
+             * @param {Deferred} defer
+             * @return {Promise<JQuery>}
              * @private
              */
-            _create(defer, type, notificationObj, delay = DEFAULT_DELAY) {
-
-                const $scope = $rootScope.$new(true);
-                $scope.$on('$destroy', defer.resolve);
-
-                const $element = this._buildNotification($scope, type, notificationObj);
-
-                const notification = {
-                    promise: defer.promise,
-                    element: $element,
-                    destroy: () => {
-                        if (!notification.isDestroyed) {
-                            $scope.$destroy();
-                            this._remove(notification);
-                            notification.isDestroyed = true;
-                            if (notificationObj.onClose) {
-                                notificationObj.onClose();
-                            }
-                        }
-                    }
-                };
-
-                $element.on('click', '[w-notification-close]', () => {
-                    notification.destroy();
-                    $element.off();
+            _createElement($scope) {
+                return NotificationManager._loadTemplate(TEMPLATE_URL).then((html) => {
+                    return $compile(html)($scope);
                 });
-
-                if (delay > 0) {
-                    timeLine.timeout(() => notification.destroy(), delay);
-                }
-
-                if (notificationObj.action) {
-                    const callback = notificationObj.action.callback;
-                    $scope.doAction = () => {
-                        notification.destroy();
-                        callback && callback();
-                    };
-                }
-
-                this._list.push(notification);
-                this._dispatch();
             }
 
-            _remove(notification) {
-                for (let i = 0; i < this._list.length; i++) {
-                    if (this._list[i] === notification) {
-                        this._list.splice(i, 1);
-                        this._dispatch();
-                        this._run();
-                        break;
-                    }
-                }
+            /**
+             * @param {Array<_INotificationItem>} list
+             * @private
+             */
+            _run(list) {
+                const promises = list.filter((item) => !item.$element)
+                    .map((item) => {
+                        const $scope = $rootScope.$new(true);
+                        $scope.$on('$destroy', item.defer.resolve);
+
+                        Object.assign($scope, item.notificationObj);
+                        $scope.type = item.type;
+
+                        item.destroy = () => {
+                            $scope.$destroy();
+                            if (item.notificationObj.onClose) {
+                                item.notificationObj.onClose();
+                            }
+                        };
+
+                        return this._createElement($scope)
+                            .then(($element) => {
+
+                                item.$element = $element;
+
+                                $element.on('click', '[w-notification-close]', () => {
+                                    item.destroy();
+                                    $element.off();
+                                });
+
+                                if (item.delay > 0) {
+                                    timeLine.timeout(item.destroy, item.delay);
+                                }
+                            });
+                    });
+
+                Promise.all(promises).then(() => this._dispatch());
             }
 
             _dispatch() {
@@ -149,67 +154,12 @@
             }
 
             /**
-             *
-             * @param $scope
-             * @param {string} type
-             * @param {INotificationObj} notificationObj
-             * @return {JQuery}
+             * @param {string} url
+             * @return {Promise<string>}
              * @private
              */
-            _buildNotification($scope, type, notificationObj) {
-                return $compile(`
-                    <div w-i18n-ns="${notificationObj.ns}" class="notification ${type}">
-                        <div class="icon-close" w-notification-close></div>
-                        <div>${this._getTitleContent(notificationObj)}</div>
-                        <div>${this._getBodyContent(notificationObj)}</div>
-                        <div><span ng-click="doAction()">${this._getActionContent(notificationObj)}</span></div>
-                    </div>
-                `)($scope);
-            }
-
-            /**
-             * @param {INotificationObj} notificationObj
-             * @return {string}
-             * @private
-             */
-            _getTitleContent(notificationObj) {
-                if (notificationObj.title) {
-                    const literal = notificationObj.title.literal;
-                    const params = JSON.stringify(notificationObj.title.params);
-                    return `<w-i18n class="headline-3 basic-900" params=${params}>${literal}</w-i18n>`;
-                } else {
-                    return '';
-                }
-            }
-
-            /**
-             * @param {INotificationObj} notificationObj
-             * @return {string}
-             * @private
-             */
-            _getBodyContent(notificationObj) {
-                if (notificationObj.body) {
-                    const literal = notificationObj.body.literal;
-                    const params = JSON.stringify(notificationObj.body.params);
-                    return `<w-i18n class="footnote-1 basic-700" params=${params}>${literal}</w-i18n>`;
-                } else {
-                    return '';
-                }
-            }
-
-            /**
-             * @param {INotificationObj} notificationObj
-             * @return {string}
-             * @private
-             */
-            _getActionContent(notificationObj) {
-                if (notificationObj.action) {
-                    const literal = notificationObj.action.literal;
-                    const params = JSON.stringify(notificationObj.action.params);
-                    return `<w-i18n class="footnote-2 submit-300" params=${params}>${literal}</w-i18n>`;
-                } else {
-                    return '';
-                }
+            static _loadTemplate(url) {
+                return $templateRequest(url);
             }
 
         }
@@ -217,7 +167,7 @@
         return new NotificationManager();
     };
 
-    factory.$inject = ['$compile', '$q', '$rootScope', 'timeLine'];
+    factory.$inject = ['$compile', '$q', '$rootScope', 'timeLine', 'Queue', '$templateRequest', 'utils'];
 
     angular.module('app').factory('notificationManager', factory);
 })();
@@ -231,9 +181,16 @@
  * @property {object} [body]
  * @property {string} [body.literal]
  * @property {object} [body.params]
- * @property {object} [action]
- * @property {string} [action.literal]
- * @property {object} [action.params]
- * @property {Function} [action.callback]
  * @property {Function} [onClose]
+ */
+
+/**
+ * @typedef {object} _INotificationItem
+ * @property {Deferred} defer
+ * @property {Promise} promise
+ * @property {number} delay
+ * @property {INotificationObj} notificationObj
+ * @property {string} type
+ * @property {JQuery} $element
+ * @property {function} destroy
  */

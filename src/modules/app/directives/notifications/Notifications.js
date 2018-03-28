@@ -26,7 +26,7 @@
             }
 
             _onChangeNotifications(list) {
-                $element.children().detach().end().append(list);
+                $element.children().detach().end().append(list.map(({ $element }) => $element));
             }
 
         }
