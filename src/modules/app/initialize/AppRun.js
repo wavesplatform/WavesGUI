@@ -61,44 +61,50 @@
                 const divider = new BigNumber(10).pow(this.precision);
                 this.quantity = new BigNumber(props.quantity).div(divider);
 
-        user.onLogin().then(() => {
+                this.ticker = props.ticker || '';
+                this.sign = props.sign || '';
+                this.displayName = props.ticker || props.name;
+            }
 
-            const cache = Object.create(null);
-            Waves.config.set({
-                assetFactory(props) {
-
-                    if (cache[props.id]) {
-                        return cache[props.id];
-                    }
-
-                    const promise = fetch(`${WavesApp.network.api}/assets/${props.id}`)
-                        .then(utils.onFetch)
-                        .then((fullProps) => new ExtendedAsset(remapAssetProps(fullProps)))
-                        .catch(() => {
-                            return Waves.API.Node.v1.transactions.get(props.id)
-                                .then((partialProps) => new ExtendedAsset(remapAssetProps(partialProps)));
-                        });
-
-                    cache[props.id] = promise;
-                    cache[props.id].catch(() => {
-                        delete cache[props.id];
-                    });
-
-                    return cache[props.id];
-                }
-            });
-
-            Waves.config.set({
-                nodeAddress: user.getSetting('network.node'),
-                matcherAddress: user.getSetting('network.matcher')
-            });
-        });
+        }
 
         function remapAssetProps(props) {
             props.precision = props.decimals;
             delete props.decimals;
             return props;
         }
+
+        const cache = Object.create(null);
+        Waves.config.set({
+            assetFactory(props) {
+
+                if (cache[props.id]) {
+                    return cache[props.id];
+                }
+
+                const promise = fetch(`${WavesApp.network.api}/assets/${props.id}`)
+                    .then(utils.onFetch)
+                    .then((fullProps) => new ExtendedAsset(remapAssetProps(fullProps)))
+                    .catch(() => {
+                        return Waves.API.Node.v1.transactions.get(props.id)
+                            .then((partialProps) => new ExtendedAsset(remapAssetProps(partialProps)));
+                    });
+
+                cache[props.id] = promise;
+                cache[props.id].catch(() => {
+                    delete cache[props.id];
+                });
+
+                return cache[props.id];
+            }
+        });
+
+        user.onLogin().then(() => {
+            Waves.config.set({
+                nodeAddress: user.getSetting('network.node'),
+                matcherAddress: user.getSetting('network.matcher')
+            });
+        });
 
         class AppRun {
 
@@ -117,7 +123,6 @@
                  * Configure library generation avatar by address
                  */
                 identityImg.config({ rows: 8, cells: 8 });
-
 
                 this._setHandlers();
                 this._stopLoader();
@@ -223,12 +228,13 @@
             _login(currentState) {
 
                 const states = WavesApp.stateTree.where({ noLogin: true })
-                    .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
-
+                    .map((item) => {
+                        return WavesApp.stateTree.getPath(item.id)
+                            .join('.');
+                    });
                 if (states.indexOf(currentState.name) === -1) {
                     $state.go(states[0]);
                 }
-
                 return user.onLogin();
             }
 
@@ -321,7 +327,7 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'modalRouter'];
+    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'storage'];
 
     angular.module('app')
         .run(run);
