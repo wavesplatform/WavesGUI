@@ -49,13 +49,13 @@
 
             migration.sort(unique(newVersionList, notShownUpdates)).forEach((version) => {
                 notification.info({
-                    ns: 'utils',
+                    ns: 'app.utils',
                     title: {
                         literal: 'utils.whatsNew.title',
                         params: { version }
                     },
                     body: {
-                        literal: `utils.whatsNew.body.${version}`
+                        literal: `utils.whatsNew.body.${version.replace(/\./g, '_')}`
                     },
                     onClose() {
                         removeVersion(version);
