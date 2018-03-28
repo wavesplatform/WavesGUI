@@ -1,4 +1,5 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
 
 input[type="checkbox"] {
   box-shadow: none;
@@ -132,6 +133,14 @@ w-input {
       width: 11px;
       height: 11px;
     }
+  }
+
+  .byte-validator__help {
+    position: absolute;
+    top: -22px;
+    right: 0;
+    color: @color-basic-500;
+    .footnote-1();
   }
 }
 

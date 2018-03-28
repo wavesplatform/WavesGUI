@@ -196,8 +196,6 @@
                                     break;
                                 case 'byteLt':
                                 case 'byteLte':
-                                case 'byteGt':
-                                case 'byteGte':
                                     this._validators[name] = this._createByteValidator(name);
                                     break;
                                 default:

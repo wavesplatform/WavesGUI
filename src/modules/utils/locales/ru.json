@@ -1,4 +1,9 @@
 {
+  "validators": {
+    "byte": {
+      "help": "{{bytes}} байт"
+    }
+  },
   "modal": {
     "assetInfo": {
       "title": "О токене",
