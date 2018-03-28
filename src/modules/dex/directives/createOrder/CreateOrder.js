@@ -9,12 +9,12 @@
      * @param {function} createPoll
      * @param $scope
      * @param {JQuery} $element
-     * @param {NotificationManager} notificationManager
+     * @param {BaseNotificationManager} notification
      * @param {DexDataService} dexDataService
      * @return {CreateOrder}
      */
     const controller = function (Base, waves, user, utils, createPoll, $scope,
-                                 $element, notificationManager, dexDataService) {
+                                 $element, notification, dexDataService) {
 
         class CreateOrder extends Base {
 
@@ -201,7 +201,7 @@
                         }).then(() => {
                             const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                             analytics.push('DEX', `DEX.Order.${this.type}.Success`, pair);
-                            notificationManager.success({
+                            notification.success({
                                 ns: 'app.dex',
                                 title: { literal: 'directives.createOrder.notifications.isCreated' }
                             });
@@ -211,7 +211,7 @@
                             // TODO : refactor this
                             const notEnough = 'Not enough tradable balance';
                             const isNotEnough = (err.data.message.slice(0, notEnough.length) === notEnough);
-                            notificationManager.error({
+                            notification.error({
                                 ns: 'app.dex',
                                 title: {
                                     literal: isNotEnough ?
@@ -345,7 +345,7 @@
         'createPoll',
         '$scope',
         '$element',
-        'notificationManager',
+        'notification',
         'dexDataService'
     ];
 

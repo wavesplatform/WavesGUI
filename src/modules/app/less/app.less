@@ -9,6 +9,13 @@ body {
   overflow: auto;
   background-color: @color-background-default;
   .scroll();
+
+  .notifications {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 10000;
+  }
 }
 
 ui-view[name="main"] {
@@ -138,13 +145,6 @@ w-scroll-box {
     position: absolute;
     right: @padding-main-layout;
     bottom: @padding-main-layout;
-  }
-
-  .notifications {
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-    z-index: 10000;
   }
 }
 

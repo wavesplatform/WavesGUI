@@ -7,14 +7,14 @@
      * @param Base
      * @param $filter
      * @param {ModalManager} modalManager
-     * @param {NotificationManager} notificationManager
+     * @param {BaseNotificationManager} notification
      * @param {Waves} waves
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
      * @param {DexService} dexService
      * @return {Transaction}
      */
-    const controller = function (Base, $filter, modalManager, notificationManager,
+    const controller = function (Base, $filter, modalManager, notification,
                                  waves, user, baseAssetService, dexService) {
 
         class Transaction extends Base {
@@ -106,7 +106,7 @@
         'Base',
         '$filter',
         'modalManager',
-        'notificationManager',
+        'notification',
         'waves',
         'user',
         'baseAssetService',

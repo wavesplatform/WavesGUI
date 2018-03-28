@@ -1,10 +1,6 @@
 (function () {
     'use strict';
 
-    const DEFAULT_DELAY = 3000;
-    const NOTIFICATIONS_LIMIT = 5;
-    const TEMPLATE_URL = 'modules/app/services/templates/notification.html';
-
     /**
      * @param $compile
      * @param $q
@@ -13,18 +9,31 @@
      * @param {Queue} Queue
      * @param {function} $templateRequest
      * @param {app.utils} utils
-     * @return {NotificationManager}
+     * @return {BaseNotificationManager}
      */
     const factory = function ($compile, $q, $rootScope, timeLine, Queue, $templateRequest, utils) {
 
-        class NotificationManager {
+        class BaseNotificationManager {
 
-            constructor() {
-                this._queue = new Queue({ queueLimit: NOTIFICATIONS_LIMIT });
+            /**
+             * @param {IBaseNotificationManagerOptions} options
+             */
+            constructor(options) {
+                /**
+                 * @type {Queue}
+                 * @private
+                 */
+                this._queue = new Queue({ queueLimit: options.queueLimit });
+                /**
+                 * @type {IBaseNotificationManagerOptions}
+                 * @private
+                 */
+                this._options = options;
                 /**
                  * @type {Signal<Array<INotificationObj>>}
                  */
                 this.changeSignal = new tsUtils.Signal();
+
                 this._setHandlers();
             }
 
@@ -76,7 +85,7 @@
              * @return {Promise}
              * @private
              */
-            _push(type, notificationObj, delay = DEFAULT_DELAY) {
+            _push(type, notificationObj, delay = this._options.defaultDelay) {
                 const defer = $q.defer();
                 const promise = defer.promise;
 
@@ -105,7 +114,7 @@
              * @private
              */
             _createElement($scope) {
-                return NotificationManager._loadTemplate(TEMPLATE_URL).then((html) => {
+                return BaseNotificationManager._loadTemplate(this._options.templateUrl).then((html) => {
                     return $compile(html)($scope);
                 });
             }
@@ -164,20 +173,27 @@
 
         }
 
-        return new NotificationManager();
+        return BaseNotificationManager;
     };
 
     factory.$inject = ['$compile', '$q', '$rootScope', 'timeLine', 'Queue', '$templateRequest', 'utils'];
 
-    angular.module('app').factory('notificationManager', factory);
+    angular.module('app').factory('BaseNotificationManager', factory);
 })();
+
+/**
+ * @typedef {object} IBaseNotificationManagerOptions
+ * @property {string} templateUrl
+ * @property {number} queueLimit
+ * @property {number} defaultDelay
+ */
 
 /**
  * @typedef {object} INotificationObj
  * @property {string} ns
- * @property {object} [title]
- * @property {string} [title.literal]
- * @property {object} [title.params]
+ * @property {object} [title] Except for alerts
+ * @property {string} [title.literal] Except for alerts
+ * @property {object} [title.params] Except for alerts
  * @property {object} [body]
  * @property {string} [body.literal]
  * @property {object} [body.params]

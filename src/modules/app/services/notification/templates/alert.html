@@ -1,0 +1,10 @@
+<div w-i18n-ns="{{::ns}}" class="notification {{::type}}">
+    <div class="icon-close" w-notification-close></div>
+    <div>
+        <w-i18n ng-if="::!!body"
+                class="footnote-1 basic-700"
+                params="::body.params">
+            {{::body.literal}}
+        </w-i18n>
+    </div>
+</div>
