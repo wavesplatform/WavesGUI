@@ -159,6 +159,7 @@
                     if (tx.type === TYPES.ISSUE) {
                         tx.quantityStr = tx.quantity.toFormat(tx.precision);
                     } else if (tx.type === TYPES.MASS_SEND) {
+                        tx.numberOfRecipients = tx.transfers.length;
                         tx.amount = tx.transfers.map((t) => t.amount).reduce((acc, val) => acc.add(val));
                     } else if (tx.type === TYPES.MASS_RECEIVE) {
                         const aliasList = aliases.getAliasList();
