@@ -92,7 +92,7 @@
       "fee": "Комиссия",
       "viewTransactionKey": "Детали",
       "viewTransactionValue": "Посмотреть транзакцию",
-      "recipients": "Количество получателей"
+      "numberOfRecipients": "Количество получателей"
     },
     "confirmed": {
       "false": "НЕ ПОДТВЕРЖДЕНО",

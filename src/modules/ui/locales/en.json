@@ -92,7 +92,7 @@
       "fee": "Fee",
       "viewTransactionKey": "Transaction",
       "viewTransactionValue": "View Transaction",
-      "recipients": "The number of recipients"
+      "numberOfRecipients": "The Number of Recipients"
     },
     "confirmed": {
       "false": "UNCONFIRMED",
