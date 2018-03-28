@@ -50,7 +50,7 @@
     "subheaders": {
       "send": "{{time}}<span class='locale-address'>, to address {{address}}</span>",
       "receive": "{{time}}<span class='locale-address'>, from address {{address}}</span>",
-      "mass-send": "{{time}}<span class='locale-address'>, from address {{address}}</span>",
+      "mass-send": "{{time}}",
       "mass-receive": "{{time}}<span class='locale-address'>, from address {{address}}</span>",
       "circular": "{{time}}<span class='locale-address'>, at address {{address}}</span>",
       "issue": "{{time}}",
