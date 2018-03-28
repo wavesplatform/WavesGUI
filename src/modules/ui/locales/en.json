@@ -5,6 +5,7 @@
     "max": "Max"
   },
   "password": {
+    "name": "Account name",
     "title": "Protect Your Account with a New Password",
     "minLength": "must be at least {{minLength}} characters",
     "warn": "easy, add a digit or symbol",
