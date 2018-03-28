@@ -15,7 +15,8 @@ w-transaction-info {
       width: 80px;
       height: 80px;
       margin-top: 10px;
-      background-size: 100%;
+      background-size: contain;
+      background-position: center;
       background-repeat: no-repeat;
 
       &.send {
@@ -51,9 +52,16 @@ w-transaction-info {
         .icon-tx-create-alias();
       }
 
-      &.lease-in,
+      &.lease-in {
+        .icon-tx-incoming-leasing();
+      }
+
       &.lease-out {
         .icon-tx-lease();
+      }
+
+      &.unknown {
+        .icon-tx-unknown();
       }
 
       &.cancel-leasing {
@@ -72,7 +80,7 @@ w-transaction-info {
 
     .section {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       width: 100%;
 
       justify-content: space-between;
@@ -87,6 +95,11 @@ w-transaction-info {
       .value {
         .footnote-1();
         color: @color-basic-900;
+
+        &:not(.text) {
+          max-width: 80%;
+          word-wrap: break-word;
+        }
       }
 
       &.contains-text {

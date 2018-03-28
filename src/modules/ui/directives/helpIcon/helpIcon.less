@@ -52,7 +52,7 @@ i.help-icon {
 
 div.help-content {
   display: none;
-  z-index: 1;
+  z-index: 19;
   position: absolute;
   background: @color-white;
   border-top: 5px solid @color-submit-300;
@@ -60,6 +60,8 @@ div.help-content {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.18);
   padding: 15px;
   margin-top: 4px;
+  left: 40px;
+  width: calc(100% ~'- 80px');
 
   &:hover {
     display: block;
@@ -73,7 +75,21 @@ div.help-content {
 
 md-dialog {
   div.help-content {
-    left: 25%;
-    width: 50%;
+    left: 80px;
+    width: calc(100% ~'- 160px');
+  }
+}
+
+@media screen and (max-width: 767px) {
+  div.help-content {
+    left: 20px;
+    width: calc(100% ~'- 40px');
+  }
+
+  md-dialog {
+    div.help-content {
+      left: 40px;
+      width: calc(100% ~'- 80px');
+    }
   }
 }

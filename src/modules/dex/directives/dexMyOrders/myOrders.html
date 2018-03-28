@@ -27,10 +27,10 @@
                 <span class="order-side {{::order.type}}" w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
             </w-cell>
             <w-cell>
-                <w-balance money="order.price"></w-balance>
+                <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n>:</span><w-balance money="order.price"></w-balance>
             </w-cell>
             <w-cell>
-                <w-balance money="order.amount"></w-balance>
+                <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n>:</span><w-balance money="order.amount"></w-balance>
             </w-cell>
             <w-cell>
                 {{order.state}}

@@ -1,5 +1,5 @@
 export interface IMetaJSON {
-    lastOpen: {
+    lastOpen?: {
         isFullScreen: boolean;
         x: number;
         y: number;

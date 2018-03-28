@@ -10,7 +10,7 @@
      * @param {app.utils} utils
      * @return {Select}
      */
-    const controller = function (Base, ComponentList, $element, $timeout, $q, utils) {
+    const controller = function (Base, ComponentList, $element, $timeout, $q, utils, createPromise) {
 
         const $_DOCUMENT = $(document);
 
@@ -80,7 +80,7 @@
 
                 this._setHandlers();
 
-                this._ready.resolve();
+                createPromise(this, utils.wait(200)).then(this._ready.resolve);
             }
 
             /**
@@ -97,7 +97,9 @@
                             if (tsUtils.isEmpty(this.ngModel)) {
                                 this.setActive(this._options.first());
                             } else if (!this._options.some({ value: this.ngModel })) {
-                                this.setActive(this._options.first());
+                                if (this._options.length) {
+                                    this.setActive(this._options.first());
+                                }
                             }
                         }, 100);
                     }
@@ -202,7 +204,7 @@
         return new Select();
     };
 
-    controller.$inject = ['Base', 'ComponentList', '$element', '$timeout', '$q', 'utils'];
+    controller.$inject = ['Base', 'ComponentList', '$element', '$timeout', '$q', 'utils', 'createPromise'];
 
     angular.module('app.ui').component('wSelect', {
         bindings: {

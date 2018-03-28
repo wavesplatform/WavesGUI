@@ -42,9 +42,26 @@
                     }
                     timer = setTimeout(() => {
                         timer = null;
-                        handler.call(...args);
+                        handler.call(this, ...args);
                     }, timeout);
                 };
+            },
+
+            /**
+             * @name app.utils#parseSearchParams
+             * @param {string} search
+             * @return {object}
+             */
+            parseSearchParams(search = '') {
+                const hashes = search.slice(search.indexOf('?') + 1).split('&');
+                const params = Object.create(null);
+
+                hashes.map((hash) => {
+                    const [key, val] = hash.split('=');
+                    params[key] = decodeURIComponent(val);
+                });
+
+                return params;
             },
 
             /**
@@ -57,12 +74,12 @@
                     queued: false,
                     args: null
                 };
-                return (...args) => {
+                return function (...args) {
                     control.args = args;
                     if (!control.queued) {
                         requestAnimationFrame(() => {
                             control.queued = false;
-                            callback(...control.args);
+                            callback.call(this, ...control.args);
                         });
                     }
                     control.queued = true;
@@ -184,7 +201,7 @@
             onFetch(response) {
                 if (response.ok) {
                     if (response.headers.get('Content-Type').indexOf('application/json') !== -1) {
-                        return response.json();
+                        return response.text().then(WavesApp.parseJSON);
                     } else {
                         return response.text();
                     }
@@ -298,7 +315,7 @@
              */
             loadImage(url) {
                 return $q((resolve, reject) => {
-                    const img = new Image(url);
+                    const img = new Image();
                     img.onload = resolve;
                     img.onerror = reject;
                     img.src = url;

@@ -345,8 +345,9 @@
                 return function (item) {
                     const reg = new RegExp(`(${query})`, 'i');
                     const tickerTemplate = DexWatchlist._getTickerTemplate(item.ticker, reg);
+                    const itemClass = item.ticker ? 'has-ticker' : '';
                     const nameTemplate = DexWatchlist._getNameTemplate(item.name, reg);
-                    return $(`<div class="search-item">${tickerTemplate}${nameTemplate}</div>`);
+                    return $(`<div class="search-item ${itemClass}">${tickerTemplate}${nameTemplate}</div>`);
                 };
             }
 

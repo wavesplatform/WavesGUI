@@ -25,7 +25,7 @@
         </w-help-icon>
     </div>
 
-    <w-copy-wrap ng-if="$ctrl.gatewayAddress" class="body-1 basic-900" info="{{$ctrl.gatewayAddress}}">
+    <w-copy-wrap ng-if="$ctrl.gatewayAddress" class="body-1 basic-900 mobile-low-fsize" info="{{$ctrl.gatewayAddress}}">
         {{$ctrl.gatewayAddress}}
     </w-copy-wrap>
 
@@ -33,9 +33,10 @@
         <w-i18n>modal.deposit.or</w-i18n>
     </div>
 
-    <div class="center">
-        <div class="scan body-2 basic-900" w-i18n="modal.deposit.scanQrCode"></div>
+    <div class="qr-wrapper">
+        <div class="scan body-2 center basic-900" w-i18n="modal.deposit.scanQrCode"></div>
         <w-qr-code size="160" url="$ctrl.gatewayAddress"></w-qr-code>
+        <w-loader ng-if="!$ctrl.gatewayAddress"></w-loader>
     </div>
 
 </div>

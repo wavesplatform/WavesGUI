@@ -8,9 +8,10 @@
      * @param $templateRequest
      * @param $rootScope
      * @param {$injector} $injector
+     * @param {State} state
      * @return {ModalManager}
      */
-    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector) {
+    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state) {
 
 
         const DEFAULT_OPTIONS = {
@@ -27,14 +28,17 @@
             HEADER: 'modules/utils/modals/templates/header.modal.html'
         };
 
-
         class ModalManager {
 
             constructor() {
                 this.openModal = new tsUtils.Signal();
                 this._counter = 0;
 
-                $rootScope.$on('$stateChangeStart', () => {
+                state.signals.changeRouterStateStart.on((event) => {
+                    if (event.defaultPrevented) {
+                        return null;
+                    }
+
                     const counter = this._counter;
 
                     for (let i = 0; i < counter; i++) {
@@ -78,6 +82,19 @@
                     escapeToClose: false
                 })
                     .then(() => user.setSetting('termsAccepted', true));
+            }
+
+            /**
+             * @param {User} user
+             */
+            showTutorialModals() {
+                return this._getModal({
+                    id: 'tutorial-modals',
+                    templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
+                    controller: 'TutorialModalsCtrl',
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
             }
 
             showAccountInfo() {
@@ -430,7 +447,7 @@
         return new ModalManager();
     };
 
-    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope', '$injector'];
+    factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope', '$injector', 'state'];
 
     angular.module('app.utils')
         .factory('modalManager', factory);

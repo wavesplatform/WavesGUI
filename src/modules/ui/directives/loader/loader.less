@@ -1,64 +1,71 @@
 @import (reference) '../../../config';
-@import (reference) '../../../app/less/typography';
 
 @preloader-size: 13px;
+@loader-animation: loaderDotsAnimation 1.6s infinite ease-in-out;
 
-.preloader-holder {
-  overflow: hidden;
-  width: 100%;
-  height: 40px;
-  margin: auto;
-  position:absolute;
-  top: 48%;
-  left: 0;
+w-loader {
+  display: block;
+  position: relative;
+  margin: 36vh auto;
+  height: @preloader-size;
+  width: @preloader-size * 4;
 }
 
-md-dialog .preloader-holder {
-  margin: 120px auto 140px;
-  position: relative;
-  top: 0;
-}
+md-dialog {
+  w-loader {
+    margin: 120px auto 140px;
+  }
 
-.preloader {
-  margin: -2px auto 10px auto;
-  position: relative;
-  width: 75px;
-  height: 20px;
+  w-copy-wrap w-loader {
+    margin: 0 auto;
+  }
 
-  i {
-    width: @preloader-size;
-    height: @preloader-size;
-    display: inline-block;
-    position: relative;
-    margin: 0 6px;
-
-    &:before {
-      border-radius: 50%;
-      width: @preloader-size;
-      height: @preloader-size;
-      content: '';
-      position: absolute;
-      animation-fill-mode: both;
-      animation: animationFrames 1.6s infinite ease-in-out;
-      display: inline-block;
-    }
-
-    &:first-child + i::before {
-      animation-delay: 0.16s;
-    }
-
-    &:last-child::before {
-      animation-delay: 0.32s;
-    }
+  .qr-wrapper w-loader {
+    margin: 60px auto;
   }
 }
 
-@keyframes animationFrames {
+.loader-dots() {
+  position: absolute;
+  width: @preloader-size;
+  height: @preloader-size;
+  border-radius: 50%;
+  left: 0;
+  display: inline-block;
+  animation-fill-mode: both;
+  animation: @loader-animation;
+}
+
+.preloader {
+  .loader-dots();
+  left: 20px;
+  top: -15px;
+  animation-delay: .16s;
+
+  &::before,
+  &::after {
+    .loader-dots();
+    top: 0;
+    content: '';
+  }
+
+  &::before {
+    transform: translateX(-20px);
+    animation-delay: 0s;
+  }
+
+  &::after {
+    transform: translateX(20px);
+    animation-delay: .32s;
+  }
+}
+
+@keyframes loaderDotsAnimation {
   0%,
   80%,
   100% {
     box-shadow: 0 15px 0 0 @color-submit-400,
-                0 17px 0 0 transparent;
+    0 17px 0 0 transparent;
   }
   40% {
     box-shadow: 0 15px 0 -15px @color-submit-400;

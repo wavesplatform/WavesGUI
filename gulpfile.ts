@@ -3,7 +3,7 @@ import * as concat from 'gulp-concat';
 import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
 import { download, getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
-import { join, sep } from 'path';
+import { basename, join, sep } from 'path';
 import { copy as fsCopy, outputFile, readFile, readJSON, readJSONSync, writeFile } from 'fs-extra';
 import { IMetaJSON, IPackageJSON } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
@@ -22,7 +22,7 @@ const AWS = {
 };
 
 const SOURCE_FILES = getFilesFrom(join(__dirname, 'src'), '.js');
-const IMAGE_LIST = getFilesFrom(join(__dirname, 'src', 'img'), ['.png', '.svg', '.jpg']);
+const IMAGE_LIST = getFilesFrom(join(__dirname, 'src', 'img'), ['.png', '.jpg']);
 const JSON_LIST = getFilesFrom(join(__dirname, 'src'), '.json');
 
 const taskHash = {
@@ -101,7 +101,11 @@ task('load-trading-view', (done) => {
                     }).concat(fsCopy(join(__dirname, 'src/fonts'), `${targetPath}/fonts`));
 
                     if (buildName === 'desktop') {
-                        forCopy.push(fsCopy(join(__dirname, 'electron', 'main.js'), join(targetPath, 'main.js')));
+                        const electronFiles = getFilesFrom(join(__dirname, 'electron'), '.js');
+                        electronFiles.forEach((path) => {
+                            const name = basename(path);
+                            forCopy.push(fsCopy(path, join(targetPath, name)));
+                        });
                         forCopy.push(fsCopy(join(__dirname, 'electron', 'package.json'), join(targetPath, 'package.json')));
                         forCopy.push(fsCopy(join(__dirname, 'electron', 'icons', 'icon128x128.png'), join(targetPath, 'img', 'icon.png')));
                         forCopy.push(fsCopy(join(__dirname, 'dist', 'tmp', 'trading-view'), join(targetPath, 'trading-view')));
@@ -132,12 +136,20 @@ task('load-trading-view', (done) => {
             ];
 
             task(`html-${taskPostfix}`, htmlDeps, function (done) {
+                const scripts = [jsFilePath];
+
+                if (buildName === 'desktop') {
+                    meta.electronScripts.forEach((fileName) => {
+                        scripts.push(join(targetPath, fileName));
+                    });
+                }
+
                 indexPromise.then((file) => {
                     return prepareHTML({
                         buildType: type,
                         target: targetPath,
                         connection: configName,
-                        scripts: [jsFilePath],
+                        scripts: scripts,
                         styles: [
                             join(targetPath, 'css', `${pack.name}-styles-${pack.version}.css`)
                         ],
