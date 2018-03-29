@@ -36,6 +36,7 @@
     "@types/node": "8.0.34",
     "@types/serve-static": "1.7.32",
     "autoprefixer": "7.1.5",
+    "babel-eslint": "8.2.2",
     "babel-plugin-transform-class-properties": "6.24.1",
     "babel-plugin-transform-decorators": "6.24.1",
     "babel-plugin-transform-decorators-legacy": "1.3.4",
