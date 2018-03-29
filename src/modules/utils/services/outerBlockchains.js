@@ -6,7 +6,7 @@
         [WavesApp.defaultAssets.ETH]: /^0x[0-9a-f]{40}$/i,
         [WavesApp.defaultAssets.LTC]: /^[LM3][a-km-zA-HJ-NP-Z1-9]{26,33}$/,
         [WavesApp.defaultAssets.ZEC]: /^t[0-9a-z]{34}$/i,
-        [WavesApp.defaultAssets.BCH]: /[a-km-zA-HJ-NP-Z1-9]{25,34}$/
+        [WavesApp.defaultAssets.BCH]: /^([13][a-km-zA-HJ-NP-Z1-9]{25,34}|[qp][a-zA-Z0-9]{41})$/
     };
 
     const factory = function () {
