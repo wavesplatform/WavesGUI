@@ -27,7 +27,6 @@
     "node_modules/@waves/event-sender/dist/umd.js"
   ],
   "electronScripts": [
-    "transfer.js"
   ],
   "stylesheets": [
     "node_modules/angular-material/angular-material.min.css",

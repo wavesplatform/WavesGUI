@@ -53,7 +53,7 @@ class Main {
 
     public mainWindow: BrowserWindow;
     public menu: Menu;
-    private bridge: Bridge;
+    public bridge: Bridge;
 
     constructor() {
         this.mainWindow = null;
@@ -106,10 +106,6 @@ class Main {
         });
     }
 
-    private addBridgeProtocol() {
-        protocol.registerStringProtocol('cmd', this.bridge.getProtocolHandler());
-    }
-
     private setHandlers() {
         app.on('ready', () => this.onAppReady());
         app.on('window-all-closed', Main.onAllWindowClosed);
@@ -118,7 +114,6 @@ class Main {
 
     private onAppReady() {
         this.replaceProtocol();
-        this.addBridgeProtocol();
         this.createWindow();
         this.menu = Menu.buildFromTemplate(MENU_LIST);
         Menu.setApplicationMenu(this.menu);
@@ -213,4 +208,4 @@ class Main {
     }
 }
 
-new Main();
+export const main = new Main();
