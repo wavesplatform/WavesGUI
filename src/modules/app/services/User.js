@@ -26,6 +26,10 @@
                  */
                 this.address = null;
                 /**
+                 * @type {string}
+                 */
+                this.name = null;
+                /**
                  * @type {Signal}
                  */
                 this.changeSetting = null;

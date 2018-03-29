@@ -20,13 +20,6 @@
                 this.loginForm = null;
                 user.getUserList()
                     .then((list) => {
-                        //TODO @tsigel
-                        list = list.map((item, i) => {
-                            if (i % 2) {
-                                item.name = 'Some name ' + i;
-                            }
-                            return item;
-                        });
                         this.activeUser = list.length && list[0].address;
                         this.userList = list;
                         this._updatePageUrl();
