@@ -63,7 +63,6 @@
             }
 
             /**
-             * TODO Paulo add id for order for optimize draw trade history
              * @param keyPair
              * @returns {Promise<any>}
              * @private
@@ -182,7 +181,7 @@
                             .then((orderPrice) => Waves.Money.fromTokens(orderPrice.getTokens(), priceAssetId)),
                         Waves.Money.fromCoins(String(order.amount), amountAssetId),
                         Waves.Money.fromCoins(String(order.filled), amountAssetId),
-                        Promise.resolve(`${assetPair.priceAsset.displayName} / ${assetPair.amountAsset.displayName}`)
+                        Promise.resolve(`${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`)
                     ]))
                     .then(([price, amount, filled, pair]) => {
                         const percent = filled.getTokens().div(amount.getTokens()).mul(100).round(2); // TODO
