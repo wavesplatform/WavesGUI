@@ -20,6 +20,7 @@
 
             menuToggle() {
                 $element.find('.navigation-menu').toggleClass('active');
+                $element.find('.navigation-menu-overlay').toggleClass('active');
             }
 
             clickItem() {
