@@ -4,8 +4,8 @@ import * as babel from 'gulp-babel';
 import { exec, execSync } from 'child_process';
 import { download, getFilesFrom, prepareHTML, run, task } from './ts-scripts/utils';
 import { basename, join, sep } from 'path';
-import { copy as fsCopy, outputFile, readFile, readJSON, readJSONSync, writeFile } from 'fs-extra';
-import { IMetaJSON, IPackageJSON } from './ts-scripts/interface';
+import { copy, mkdirp, outputFile, readdir, readFile, readJSON, readJSONSync, writeFile, writeJSON } from 'fs-extra';
+import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import * as templateCache from 'gulp-angular-templatecache';
 import * as htmlmin from 'gulp-htmlmin';
 
@@ -29,7 +29,8 @@ const taskHash = {
     concat: [],
     html: [],
     copy: [],
-    zip: []
+    zip: [],
+    forElectron: []
 };
 
 const tmpJsPath = join(__dirname, 'dist', 'tmp', 'js');
@@ -60,17 +61,16 @@ task('load-trading-view', (done) => {
     })).then(() => done());
 });
 
-['web', 'desktop'].forEach((buildName) => {
+['web', 'desktop'].forEach((buildName: TPlatform) => {
 
-    configurations.forEach((configName) => {
+    configurations.forEach((configName: TConnection) => {
 
-        ['normal', 'min'].forEach((type) => {
+        ['normal', 'min'].forEach((type: TBuild) => {
 
             const targetPath = join(__dirname, 'dist', buildName, configName, type);
             const jsFileName = getName(`${pack.name}-${buildName}-${configName}-${pack.version}.js`);
             const jsFilePath = join(targetPath, 'js', jsFileName);
             const taskPostfix = `${buildName}-${configName}-${type}`;
-
 
             task(`concat-${taskPostfix}`, [type === 'min' ? 'uglify' : 'babel'], function (done) {
                 const stream = gulp.src([vendorPath, getName(bundlePath), getName(templatePath)])
@@ -97,30 +97,29 @@ task('load-trading-view', (done) => {
             task(`copy-${taskPostfix}`, copyDeps, function (done) {
                     const reg = new RegExp(`(.*?\\${sep}src)`);
                     let forCopy = JSON_LIST.map((path) => {
-                        return fsCopy(path, path.replace(reg, `${targetPath}`));
-                    }).concat(fsCopy(join(__dirname, 'src/fonts'), `${targetPath}/fonts`));
+                        return copy(path, path.replace(reg, `${targetPath}`));
+                    }).concat(copy(join(__dirname, 'src/fonts'), `${targetPath}/fonts`));
 
                     if (buildName === 'desktop') {
                         const electronFiles = getFilesFrom(join(__dirname, 'electron'), '.js');
                         electronFiles.forEach((path) => {
                             const name = basename(path);
-                            forCopy.push(fsCopy(path, join(targetPath, name)));
+                            forCopy.push(copy(path, join(targetPath, name)));
                         });
-                        forCopy.push(fsCopy(join(__dirname, 'electron', 'package.json'), join(targetPath, 'package.json')));
-                        forCopy.push(fsCopy(join(__dirname, 'electron', 'icons', 'icon128x128.png'), join(targetPath, 'img', 'icon.png')));
-                        forCopy.push(fsCopy(join(__dirname, 'dist', 'tmp', 'trading-view'), join(targetPath, 'trading-view')));
+                        forCopy.push(copy(join(__dirname, 'electron', 'icons', 'icon128x128.png'), join(targetPath, 'img', 'icon.png')));
+                        forCopy.push(copy(join(__dirname, 'dist', 'tmp', 'trading-view'), join(targetPath, 'trading-view')));
                     }
 
                     Promise.all([
                         Promise.all(meta.copyNodeModules.map((path) => {
-                            return fsCopy(join(__dirname, path), `${targetPath}/${path}`);
+                            return copy(join(__dirname, path), `${targetPath}/${path}`);
                         })) as Promise<any>,
-                        fsCopy(join(__dirname, 'src/img'), `${targetPath}/img`).then(() => {
+                        copy(join(__dirname, 'src/img'), `${targetPath}/img`).then(() => {
                             const images = IMAGE_LIST.map((path) => path.replace(reg, ''));
                             return writeFile(join(targetPath, 'img', 'images-list.json'), JSON.stringify(images));
                         }),
-                        fsCopy(cssPath, join(targetPath, 'css', cssName)),
-                        fsCopy('LICENSE', join(`${targetPath}`, 'LICENSE')),
+                        copy(cssPath, join(targetPath, 'css', cssName)),
+                        copy('LICENSE', join(`${targetPath}`, 'LICENSE')),
                     ].concat(forCopy)).then(() => {
                         done();
                     }, (e) => {
@@ -160,6 +159,23 @@ task('load-trading-view', (done) => {
                 });
             });
             taskHash.html.push(`html-${taskPostfix}`);
+
+            if (buildName === 'desktop') {
+                task(`electron-create-package-json-${taskPostfix}`, [`html-${taskPostfix}`], function (done) {
+                    const targetPackage = Object.create(null);
+
+                    meta.electron.createPackageJSONFields.forEach((name) => {
+                        targetPackage[name] = pack[name];
+                    });
+
+                    Object.assign(targetPackage, meta.electron.defaults);
+                    targetPackage.server = meta.electron.server;
+
+                    writeFile(join(targetPath, 'package.json'), JSON.stringify(targetPackage, null, 4))
+                        .then(() => done());
+                });
+                taskHash.forElectron.push(`electron-create-package-json-${taskPostfix}`);
+            }
 
             function getName(name) {
                 return getFileName(name, type);
@@ -309,9 +325,34 @@ task('concat-develop', [
 task('build-main', getTasksFrom('build', taskHash.concat, taskHash.copy, taskHash.html));
 
 task('concat', taskHash.concat.concat('concat-develop'));
+task('electron-task-list', taskHash.forElectron);
 task('copy', taskHash.copy);
 task('html', taskHash.html);
 task('zip', taskHash.zip);
+
+task('electron-debug', ['electron-task-list'], function (done) {
+    const root = join(__dirname, 'dist', 'desktop');
+
+    const process = function (to: string) {
+        const promise = readdir(join(__dirname, 'electron'))
+            .then((list) => list.filter((name) => name.indexOf('js') !== -1))
+            .then((list) => list.map((name) => copy(join(__dirname, 'electron', name), join(to, name))))
+            .then((list) => Promise.all(list))
+            .then(() => readJSON(join(__dirname, 'dist', 'desktop', 'mainnet', 'normal', 'package.json')))
+            .then((pack) => {
+                pack.server = `localhost:8080`;
+                return writeFile(join(to, 'package.json'), JSON.stringify(pack, null, 4));
+            });
+
+        return promise;
+    };
+
+
+    const copyTo = join(root, 'electron-debug');
+    process(copyTo)
+        .then(() => done())
+        .catch((e) => console.log(e.stack));
+});
 
 task('all', [
     'clean',
@@ -319,6 +360,8 @@ task('all', [
     'concat',
     'copy',
     'html',
+    'electron-task-list',
+    'electron-debug',
     'zip'
 ]);
 
