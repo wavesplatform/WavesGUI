@@ -145,6 +145,7 @@ task('load-trading-view', (done) => {
 
                 indexPromise.then((file) => {
                     return prepareHTML({
+                        buildType: type,
                         target: targetPath,
                         connection: configName,
                         scripts: scripts,
