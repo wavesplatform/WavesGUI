@@ -21,12 +21,16 @@ declare class IAlert extends BaseNotificationManager<IAlertObj> {
 interface IAlertObj {
     ns: string;
     content: IPart;
+    onClose: () => void;
+    action: (data: { destroy: Function }) => void;
 }
 
 interface INotificationObj {
     ns: string;
     title: IPart;
     body: IPart;
+    onClose: () => void;
+    action: (data: { destroy: Function }) => void;
 }
 
 interface IPart {

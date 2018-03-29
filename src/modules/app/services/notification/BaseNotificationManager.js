@@ -74,6 +74,9 @@
                 return this._queue.getActiveList();
             }
 
+            /**
+             * @private
+             */
             _setHandlers() {
                 this._queue.signals.change.on(this._run, this);
             }
@@ -149,6 +152,12 @@
                                     $element.off();
                                 });
 
+                                if (item.notificationObj.action) {
+                                    $element.on('click', '.js-notification-action', () => {
+                                        item.notificationObj.action(item);
+                                    });
+                                }
+
                                 if (item.delay > 0) {
                                     timeLine.timeout(item.destroy, item.delay);
                                 }
@@ -197,6 +206,7 @@
  * @property {object} [body]
  * @property {string} [body.literal]
  * @property {object} [body.params]
+ * @property {function} [action]
  * @property {Function} [onClose]
  */
 
