@@ -186,6 +186,12 @@
         }
     </style>
 
+    {{#if isProduction}}
+    <!-- Sentry error logging -->
+    <script src="https://cdn.ravenjs.com/3.22.3/raven.min.js" crossorigin="anonymous"></script>
+    <script>Raven.config('https://edc3970622f446d7aa0c9cb38be44a4f@sentry.io/291068').install();</script>
+    {{/if}}
+
     <script>
 
         var __controllers = Object.create(null);
@@ -234,7 +240,8 @@
                 BTC: '{{network.assets.BTC}}',
                 ETH: '{{network.assets.ETH}}',
                 LTC: '{{network.assets.LTC}}',
-                ZEC: '{{network.assets.ZEC}}'
+                ZEC: '{{network.assets.ZEC}}',
+                BCH: '{{network.assets.BCH}}'
             },
             otherAssetsWithIcons: {
                 // TODO @xenohunter : remove that when icons are in @dvshur's service
@@ -269,6 +276,9 @@
             },
             isDesktop: function () {
                 return this.type === 'desktop';
+            },
+            isProduction: function () {
+                return {{#if isProduction}}true;{{else}}false;{{/if}}
             },
             parseJSON: null,
             stateTree: null
@@ -418,6 +428,7 @@
      * @property {string} defaultAssets.ETH
      * @property {string} defaultAssets.LTC
      * @property {string} defaultAssets.ZEC
+     * @property {string} defaultAssets.BCH
      * @property {object} remappedAssetNames
      * @property {object} dex
      * @property {Array<string>} dex.resolutions
@@ -425,6 +436,7 @@
      * @property {Array<string>} modules
      * @property {Function} isWeb
      * @property {Function} isDesktop
+     * @property {Function} isProduction
      * @property {Function} addController
      * @property {Function} getController
      * @property {Function} getLocaleData

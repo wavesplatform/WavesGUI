@@ -41,9 +41,8 @@
                 i18next
                     .use(i18nextXHRBackend)
                     .init({
-                        // i18next settings
                         lng: localStorage.getItem('lng') || AppConfig.getUserLang(),
-                        debug: false,
+                        debug: !WavesApp.isProduction(),
                         ns: WavesApp.modules.filter(tsUtils.notContains('app.templates')),
                         fallbackLng: 'en',
                         whitelist: Object.keys(WavesApp.localize),

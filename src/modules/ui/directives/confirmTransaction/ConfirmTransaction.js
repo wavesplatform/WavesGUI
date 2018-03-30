@@ -24,7 +24,7 @@
             }
 
             confirm() {
-                utils.when(this.sendTransaction()).then(({ id }) => {
+                return utils.when(this.sendTransaction()).then(({ id }) => {
                     this.tx.id = id;
                     this.step++;
                 }).catch((e) => {

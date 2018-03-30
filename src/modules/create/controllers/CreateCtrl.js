@@ -72,11 +72,11 @@
             }
 
             create() {
-                this._create(true);
+                return this._create(true);
             }
 
             createWithoutBackup() {
-                this._create(false);
+                return this._create(false);
             }
 
             /**
@@ -95,7 +95,7 @@
                 if (!ORDER_LIST[index]) {
                     throw new Error('Wrong order list index!');
                 } else {
-                    this.checkNext()
+                    return this.checkNext()
                         .then(() => {
                             this.stepIndex = index;
                         });
