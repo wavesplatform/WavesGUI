@@ -16,6 +16,8 @@
     "headers": {
       "send": "Sent {{name}}",
       "receive": "Received {{name}}",
+      "mass-send": "Sent {{name}}",
+      "mass-receive": "Received {{name}}",
       "circular": "Self-transferred {{name}}",
       "issue": "{{name}} Token Generation",
       "reissue": "{{name}} Token Reissue",
@@ -33,6 +35,8 @@
     "amounts": {
       "send": "–{{amount}} {{name}}",
       "receive": "+{{amount}} {{name}}",
+      "mass-send": "–{{amount}} {{name}}",
+      "mass-receive": "+{{amount}} {{name}}",
       "circular": "{{amount}} {{name}}",
       "issue": "{{amount}} {{name}}",
       "reissue": "+{{amount}} {{name}}",
@@ -47,6 +51,8 @@
     "subheaders": {
       "send": "{{time}}<span class='locale-address'>, to address {{address}}</span>",
       "receive": "{{time}}<span class='locale-address'>, from address {{address}}</span>",
+      "mass-send": "{{time}}",
+      "mass-receive": "{{time}}<span class='locale-address'>, from address {{address}}</span>",
       "circular": "{{time}}<span class='locale-address'>, at address {{address}}</span>",
       "issue": "{{time}}",
       "reissue": "{{time}}",
@@ -86,7 +92,8 @@
       "confirmations": "Confirmations",
       "fee": "Fee",
       "viewTransactionKey": "Transaction",
-      "viewTransactionValue": "View Transaction"
+      "viewTransactionValue": "View Transaction",
+      "numberOfRecipients": "The Number of Recipients"
     },
     "confirmed": {
       "false": "UNCONFIRMED",

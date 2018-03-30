@@ -11,7 +11,6 @@ import MenuItemConstructorOptions = Electron.MenuItemConstructorOptions;
 
 const CONFIG = {
     META_PATH: join(app.getPath('userData'), 'meta.json'),
-    INDEX_PATH: './index.html',
     MIN_SIZE: {
         width: 400,
         height: 500
@@ -53,21 +52,25 @@ class Main {
 
     public mainWindow: BrowserWindow;
     public menu: Menu;
-    private bridge: Bridge;
+    public bridge: Bridge;
+    private dataPromise: Promise<IMetaJSON>;
 
     constructor() {
         this.mainWindow = null;
         this.bridge = new Bridge(this);
 
+        this.dataPromise = Main.loadMeta();
         this.setHandlers();
     }
 
     private createWindow() {
-        Main.loadMeta().then((pack: IMetaJSON) => {
-            this.mainWindow = new BrowserWindow(Main.getWindowOptions(pack));
+        this.dataPromise.then((meta) => {
+            const pack = require('./package.json');
+            this.mainWindow = new BrowserWindow(Main.getWindowOptions(meta));
+
             this.mainWindow.loadURL(format({
-                pathname: CONFIG.INDEX_PATH,
-                protocol: 'file:',
+                pathname: pack.server,
+                protocol: 'https:',
                 slashes: true
             }));
 
@@ -75,8 +78,10 @@ class Main {
                 this.mainWindow = null;
             });
 
-            this.mainWindow.webContents.on('will-navigate', function (event) {
-                event.preventDefault();
+            this.mainWindow.webContents.on('will-navigate', function (event: Event, url: string) {
+                if (!url.includes(pack.server)) {
+                    event.preventDefault();
+                }
             });
 
             const onChangeWindow = Main.asyncHandler(() => {
@@ -94,22 +99,6 @@ class Main {
         });
     }
 
-    private replaceProtocol() {
-        protocol.unregisterProtocol('file');
-        protocol.registerFileProtocol('file', (request, callback) => {
-            const url = request.url.substr(7).replace(/(#.*)|(\?.*)/, '');
-            callback(join(__dirname, url));
-        }, (error) => {
-            if (error) {
-                console.error('Failed to register protocol');
-            }
-        });
-    }
-
-    private addBridgeProtocol() {
-        protocol.registerStringProtocol('cmd', this.bridge.getProtocolHandler());
-    }
-
     private setHandlers() {
         app.on('ready', () => this.onAppReady());
         app.on('window-all-closed', Main.onAllWindowClosed);
@@ -117,8 +106,6 @@ class Main {
     }
 
     private onAppReady() {
-        this.replaceProtocol();
-        this.addBridgeProtocol();
         this.createWindow();
         this.menu = Menu.buildFromTemplate(MENU_LIST);
         Menu.setApplicationMenu(this.menu);
@@ -213,4 +200,4 @@ class Main {
     }
 }
 
-new Main();
+export const main = new Main();

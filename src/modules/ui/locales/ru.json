@@ -16,6 +16,8 @@
     "headers": {
       "send": "Отправка {{name}}",
       "receive": "Получение {{name}}",
+      "mass-send": "Отправка {{name}}",
+      "mass-receive": "Получение {{name}}",
       "circular": "Отправка себе {{name}}",
       "issue": "Выпуск токена \"{{name}}\"",
       "reissue": "Перевыпуск токена \"{{name}}\"",
@@ -33,6 +35,8 @@
     "amounts": {
       "send": "–{{amount}} {{name}}",
       "receive": "+{{amount}} {{name}}",
+      "mass-send": "–{{amount}} {{name}}",
+      "mass-receive": "+{{amount}} {{name}}",
       "circular": "{{amount}} {{name}}",
       "issue": "{{amount}} {{name}}",
       "reissue": "+{{amount}} {{name}}",
@@ -47,6 +51,8 @@
     "subheaders": {
       "send": "{{time}}<span class='locale-address'>, на адрес {{address}}</span>",
       "receive": "{{time}}<span class='locale-address'>, с адреса {{address}}</span>",
+      "mass-send": "{{time}}",
+      "mass-receive": "{{time}}<span class='locale-address'>, с адреса {{address}}</span>",
       "circular": "{{time}}<span class='locale-address'>, на адрес {{address}}</span>",
       "issue": "{{time}}",
       "reissue": "{{time}}",
@@ -86,7 +92,8 @@
       "confirmations": "Подтверждениий",
       "fee": "Комиссия",
       "viewTransactionKey": "Детали",
-      "viewTransactionValue": "Посмотреть транзакцию"
+      "viewTransactionValue": "Посмотреть транзакцию",
+      "numberOfRecipients": "Количество получателей"
     },
     "confirmed": {
       "false": "НЕ ПОДТВЕРЖДЕНО",

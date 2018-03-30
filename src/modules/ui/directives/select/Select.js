@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* global tsUtils */
 (function () {
     'use strict';
 
@@ -120,7 +122,7 @@
                         item.setActive(false);
                     }
                 });
-                this._activeCid = option.cid;
+
                 this._activeNode.empty();
                 this.ngModel = option.value;
                 this._activeNode.append(option.getContent());

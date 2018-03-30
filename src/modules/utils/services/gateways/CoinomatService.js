@@ -12,8 +12,8 @@
         [WavesApp.defaultAssets.BTC]: { waves: 'WBTC', gateway: 'BTC' },
         [WavesApp.defaultAssets.ETH]: { waves: 'WETH', gateway: 'ETH' },
         [WavesApp.defaultAssets.LTC]: { waves: 'WLTC', gateway: 'LTC' },
-        [WavesApp.defaultAssets.ZEC]: { waves: 'WZEC', gateway: 'ZEC' }
-        // [WavesApp.defaultAssets.BCH]: { waves: 'WBCH', gateway: 'BCH' }
+        [WavesApp.defaultAssets.ZEC]: { waves: 'WZEC', gateway: 'ZEC' },
+        [WavesApp.defaultAssets.BCH]: { waves: 'WBCH', gateway: 'BCH' }
     };
 
     /**
