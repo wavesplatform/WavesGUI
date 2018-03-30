@@ -499,7 +499,7 @@
 
                             const origin = validator.handler;
                             validator.handler = function (modelValue) {
-                                const stringBytes = validateService.getByteFromString(modelValue);
+                                const stringBytes = validateService.getByteFromString(modelValue || '');
                                 $byteScope.bytes = Number(validator.value) - stringBytes;
                                 $byteScope.$digest();
                                 return origin(modelValue);
