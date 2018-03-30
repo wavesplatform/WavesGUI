@@ -492,7 +492,7 @@
                                 'params="{bytes: bytes}"'
                             ];
                             const $element = $compile(`<div ${attrs.join(' ')}></div>`)($byteScope);
-                            $input.before($element);
+                            $input.after($element);
                             $scope.$on('$destroy', () => {
                                 $byteScope.$destroy();
                             });
