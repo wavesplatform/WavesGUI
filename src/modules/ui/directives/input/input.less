@@ -135,6 +135,7 @@ w-input {
     }
   }
 
+
   .byte-validator__help {
     position: absolute;
     top: -22px;
@@ -142,6 +143,11 @@ w-input {
     color: @color-basic-500;
     .footnote-1();
   }
+
+  .invalid .byte-validator__help {
+    color: @color-error-500;
+  }
+
 }
 
 form.ng-submitted {
