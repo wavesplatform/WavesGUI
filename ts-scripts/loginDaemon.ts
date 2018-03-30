@@ -18,15 +18,17 @@ window.addEventListener('load', function () {
                 .then(($input) => {
 
                     if (password) {
-                        $input.val(password);
                         setTimeout(() => {
                             $input.focus();
+                            $input.val(password);
                             $input.change();
-                            $input.closest('form')
-                                .find('button[type="submit"]')
-                                .click();
+                            setTimeout(() => {
+                                $input.closest('form')
+                                    .find('button[type="submit"]')
+                                    .click();
 
-                            setTimeout(fill, 5000);
+                                setTimeout(fill, 5000);
+                            }, 500);
                         }, 500);
                     } else {
                         $input.on('input', () => {

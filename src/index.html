@@ -359,6 +359,9 @@
 
     if (!isBrowserSupported()) {
         document.body.querySelector('.not-supported-browser').style.display = 'block';
+    } else {
+        var modal = document.body.querySelector('.not-supported-browser');
+        modal.parentNode.removeChild(modal);
     }
 
     if (WavesApp.isDesktop()) {
