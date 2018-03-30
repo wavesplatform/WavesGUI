@@ -30,11 +30,7 @@
                  * @type {string}
                  */
                 this.activeRowId = null;
-                /**
-                 * Has focus in input in dexBlock
-                 * @type {boolean}
-                 */
-                this.activeSearch = false;
+
                 /**
                  * @type {Array<string>}
                  * @private
@@ -122,8 +118,7 @@
             removeWatchedAsset(event, asset) {
                 event.preventDefault();
                 event.stopPropagation();
-                const newList = this._idWatchList.slice().filter((id) => id !== asset.id);
-                this._idWatchList = newList;
+                this._idWatchList = this._idWatchList.slice().filter((id) => id !== asset.id);
                 if (this.activeRowId === asset.id) {
                     this.activeRowId = this._idWatchList[0];
                 }

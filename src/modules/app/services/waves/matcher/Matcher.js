@@ -35,12 +35,6 @@
                 });
             }
 
-            getOrdersByPair(assetId1, assetId2, keyPair) {
-                return Waves.API.Matcher.v1.getOrders(assetId1, assetId2, keyPair)
-                    .then((list) => list.map(Matcher._remapOrder))
-                    .then(utils.whenAll);
-            }
-
             createOrder(orderData, keyPair) {
                 return Waves.API.Matcher.v1.getMatcherKey().then((matcherPublicKey) => {
                     return Waves.API.Matcher.v1.createOrder({
@@ -188,10 +182,10 @@
                         const percent = filled.getTokens().div(amount.getTokens()).mul(100).round(2); // TODO
                         // TODO Move to component myOrders (dex refactor);
                         const STATUS_MAP = {
-                            'Cancelled': 'matcher.orders.statuses.canceled',
-                            'Accepted': 'matcher.orders.statuses.opened',
-                            'Filled': 'matcher.orders.statuses.filled',
-                            'PartiallyFilled': 'matcher.orders.statuses.filled'
+                            Cancelled: 'matcher.orders.statuses.canceled',
+                            Accepted: 'matcher.orders.statuses.opened',
+                            Filled: 'matcher.orders.statuses.filled',
+                            PartiallyFilled: 'matcher.orders.statuses.filled'
                         };
                         const state = i18n.translate(STATUS_MAP[order.status], 'app', { percent });
                         const isActive = ['Accepted', 'PartiallyFilled'].indexOf(order.status) !== -1;

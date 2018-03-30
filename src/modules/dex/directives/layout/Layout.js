@@ -25,7 +25,22 @@
                  */
                 this._dom = null;
                 /**
-                 * @type {{left: {top: LayoutItem, bottom: LayoutItem}, center: {top: LayoutItem, bottom: LayoutItem}, right: {top: LayoutItem, bottom: LayoutItem}}}
+                 * @type {
+                 *  {
+                 *      left: {
+                 *          top: LayoutItem,
+                 *          bottom: LayoutItem
+                 *      },
+                 *      center: {
+                 *          top: LayoutItem,
+                 *          bottom: LayoutItem
+                 *      },
+                 *      right: {
+                 *          top: LayoutItem,
+                 *          bottom: LayoutItem
+                 *      }
+                 *  }
+                 * }
                  * @private
                  */
                 this._children = {
