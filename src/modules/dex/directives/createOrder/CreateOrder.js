@@ -49,7 +49,7 @@
                  * Has price balance for buy amount
                  * @type {boolean}
                  */
-                this.canByOrder = true;
+                this.canBuyOrder = true;
                 /**
                  * Amount asset balance
                  * @type {Money}
@@ -274,11 +274,11 @@
                 }
 
                 if (this.type === 'buy') {
-                    this.canByOrder = (
+                    this.canBuyOrder = (
                         this.totalPrice.lte(this.priceBalance) && this.priceBalance.getTokens().gt(0)
                     );
                 } else {
-                    this.canByOrder = true;
+                    this.canBuyOrder = true;
                 }
             }
 
