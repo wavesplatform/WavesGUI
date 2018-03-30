@@ -2,8 +2,8 @@ import * as gulp from 'gulp';
 import { getType } from 'mime';
 import { exec, spawn } from 'child_process';
 import { existsSync, readdirSync, statSync } from 'fs';
-import { join, relative, sep, extname, dirname } from 'path';
-import { IPackageJSON, ITaskFunction, IMetaJSON } from './interface';
+import { join, relative, extname, dirname } from 'path';
+import { IPackageJSON, IMetaJSON, ITaskFunction, TBuild, TConnection, TPlatform } from './interface';
 import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync, copy } from 'fs-extra';
 import { compile } from 'handlebars';
 import { transform } from 'babel-core';
@@ -167,10 +167,11 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
 
             return compile(file)({
                 pack: pack,
-                isWeb: !param.type || param.type === 'web',
+                isWeb: param.type === 'web',
+                isProduction: param.buildType && param.buildType === 'min',
                 domain: meta.domain,
                 build: {
-                    type: param.type || 'web'
+                    type: param.type
                 },
                 network: networks[param.connection]
             });
@@ -221,7 +222,7 @@ export function parseArguments<T>(): T {
     return result;
 }
 
-export function route(connectionType, buildType) {
+export function route(connectionType: TConnection, buildType: TBuild, type: TPlatform) {
     return function (req, res) {
         const url = req.url.replace(/\?.*/, '');
 
@@ -243,13 +244,13 @@ export function route(connectionType, buildType) {
         }
 
         if (buildType !== 'dev') {
-            if (isPage(url)) {
-                const path = join(__dirname, `..${sep}dist${sep}web`, connectionType, buildType, 'index.html');
+            if (isPage(req.url)) {
+                const path = join(__dirname, '..', 'dist', type, connectionType, buildType, 'index.html');
                 return readFile(path, 'utf8').then((file) => {
                     res.end(file);
                 });
             }
-            return routeStatic(req, res, connectionType, buildType);
+            return routeStatic(req, res, connectionType, buildType, type);
         }
 
         if (url.indexOf('/img/images-list.json') !== -1) {
@@ -266,7 +267,8 @@ export function route(connectionType, buildType) {
         if (isPage(url)) {
             return prepareHTML({
                 target: join(__dirname, '..', 'src'),
-                connection: connectionType
+                connection: connectionType,
+                type
             }).then((file) => {
                 res.end(file);
             });
@@ -316,7 +318,7 @@ export function route(connectionType, buildType) {
         } else if (isApiMock(url)) {
             mock(req, res, { connection: connectionType, meta: readJSONSync(join(__dirname, 'meta.json')) });
         } else {
-            routeStatic(req, res, connectionType, buildType);
+            routeStatic(req, res, connectionType, buildType, type);
         }
     };
 }
@@ -391,19 +393,32 @@ export function isTemplate(url: string): boolean {
 
 export function isPage(url: string): boolean {
     const staticPathPartial = [
-        'vendors', 'api', 'src', 'img', 'css', 'fonts', 'js', 'bower_components', 'node_modules', 'modules', 'locales', 'ts-scripts'
+        'vendors',
+        'api',
+        'src',
+        'img',
+        'css',
+        'fonts',
+        'js',
+        'bower_components',
+        'node_modules',
+        'ts-scripts',
+        'modules',
+        'locales',
+        'loginDaemon',
+        'transfer.js'
     ];
-    return !url.includes('demon') && !staticPathPartial.some((path) => {
+    return !staticPathPartial.some((path) => {
         return url.includes(`/${path}`);
     });
 }
 
-function routeStatic(req, res, connectionType, buildType) {
+function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, platform: TPlatform) {
     const ROOTS = [join(__dirname, '..')];
     if (buildType !== 'dev') {
-        ROOTS.push(join(__dirname, `../dist/web/${connectionType}/${buildType}`));
+        ROOTS.push(join(__dirname, '..', 'dist', platform, connectionType, buildType));
     } else {
-        ROOTS.push(join(__dirname, '../src'));
+        ROOTS.push(join(__dirname, '..', 'src'));
     }
 
     const [url] = req.url.split('?');
@@ -435,11 +450,12 @@ export interface IRouteOptions {
 }
 
 export interface IPrepareHTMLOptions {
-    connection: string;
+    buildType?: TBuild;
+    connection: TConnection;
     scripts?: string[];
     styles?: string[];
     target: string;
-    type?: string;
+    type: TPlatform;
 }
 
 export interface IFilter {

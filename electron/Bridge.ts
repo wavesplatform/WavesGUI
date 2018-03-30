@@ -1,6 +1,7 @@
-import { app, BrowserWindow, Menu, MenuItem } from 'electron';
+import { app, BrowserWindow, Menu, MenuItem, dialog } from 'electron';
 import { IHash } from '../ts-scripts/interface';
-import RegisterStringProtocolRequest = Electron.RegisterStringProtocolRequest;
+import { join } from 'path';
+import { writeFile } from './utils';
 
 export class Bridge {
 
@@ -14,35 +15,41 @@ export class Bridge {
         this.bridgeCommands = {
             'addDevToolsMenu': this.addDevToolsMenu,
             'reload': this.reload,
-            'getLocale': this.getLocale
+            'getLocale': this.getLocale,
+            'download': this.download
         };
     }
 
-    public getProtocolHandler() {
-        return (request: RegisterStringProtocolRequest, callback: (data?: string) => void) => {
-
-            const url = request.url.replace('cmd:', '');
-            const [command, dataString] = url.split('/');
-
-            if (command in this.bridgeCommands) {
-                try {
-                    const result = this.bridgeCommands[command].call(this, JSON.parse(dataString));
-                    if (result && result instanceof Promise) {
-                        result.then((data) => {
-                            callback(JSON.stringify({ status: 'success', data: data || {} }));
-                        }, (error) => {
-                            callback(JSON.stringify({ status: 'error', message: error.message }));
-                        });
-                    } else {
-                        callback(JSON.stringify({ status: 'success', data: result || {} }));
-                    }
-                } catch (e) {
-                    callback(JSON.stringify({ status: 'error', message: e.message }));
+    public transfer(command: string, data: object): Promise<any> {
+        if (this.bridgeCommands.hasOwnProperty(command)) {
+            try {
+                const result = this.bridgeCommands[command].call(this, data);
+                if (result && result.then) {
+                    return result;
+                } else {
+                    return Promise.resolve(result);
                 }
-            } else {
-                callback(JSON.stringify({ status: 'error', message: 'Wrong url!' }));
+            } catch (e) {
+                return Promise.reject(e);
             }
-        };
+        } else {
+            return Promise.reject(new Error('Wrong command!'));
+        }
+    }
+
+    private download(data: IDownloadData): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            const path = app.getPath('downloads');
+            const options = { defaultPath: join(path, data.fileName) };
+
+            dialog.showSaveDialog(this.main.mainWindow, options, function (filename) {
+                if (filename) {
+                    return writeFile(filename, data.fileContent).then(resolve, reject);
+                } else {
+                    return reject(new Error('Cancel'));
+                }
+            });
+        });
     }
 
     private getLocale(): string {
@@ -63,4 +70,9 @@ export class Bridge {
     private reload() {
         this.main.mainWindow.reload();
     }
+}
+
+export interface IDownloadData {
+    fileContent: string;
+    fileName: string;
 }

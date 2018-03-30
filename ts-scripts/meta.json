@@ -27,7 +27,6 @@
     "node_modules/@waves/event-sender/dist/umd.js"
   ],
   "electronScripts": [
-    "transfer.js"
   ],
   "stylesheets": [
     "node_modules/angular-material/angular-material.min.css",
@@ -133,6 +132,19 @@
   "copyNodeModules": [
     "node_modules/qrcode-reader/dist/index.min.js"
   ],
+  "electron": {
+    "createPackageJSONFields": [
+      "name",
+      "version",
+      "author",
+      "description",
+      "license"
+    ],
+    "defaults": {
+      "main": "main.js"
+    },
+    "server": "desktop.wavesplatform.com"
+  },
   "configurations": {
     "testnet": {
       "code": "T",

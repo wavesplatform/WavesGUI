@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import { remote } from 'electron';
 
 export function exist(path: string): Promise<void> {
     return new Promise((resolve, reject) => {
