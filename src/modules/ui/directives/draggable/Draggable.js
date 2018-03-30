@@ -1,4 +1,3 @@
-/* eslint-disable no-fallthrough */
 (function () {
     'use strict';
 
@@ -41,21 +40,21 @@
                 const $window = $(window);
                 const $overlay = $('<div class="drag-overlay">');
 
-                const translation = {
+                let translation = {
                     x: 0,
                     y: 0
-                };
-
-                let translationLimits = {
-                    left: 0,
-                    right: 0,
-                    top: 0,
-                    bottom: 0
                 };
 
                 const initialOffset = {
                     x: 0,
                     y: 0
+                };
+
+                let bounds = {
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0
                 };
 
                 let id = 0;
@@ -77,7 +76,7 @@
                     $element.css('zIndex', 10);
                     document.body.appendChild($element.get(0));
 
-                    updateInitialOffset();
+                    updateCoordinatesAndInscribeElement();
 
                     const stop = $scope.$on('$destroy', () => {
                         stop();
@@ -85,19 +84,16 @@
                         $overlay.remove();
                     });
 
-                    $scope.$watch(() => $element.width(), updateTranslationLimits);
-                    $scope.$watch(() => $element.height(), updateTranslationLimits);
-                    $window.resize(() => {
-                        updateInitialOffset();
-                        placeElementOnInitialPlace();
-                        updateTranslationLimits();
-                    });
+                    $scope.$watch(() => $element.width(), updateBoundsAndInscribeElement);
+                    $scope.$watch(() => $element.height(), updateBoundsAndInscribeElement);
+                    $window.resize(updateCoordinatesAndInscribeElement);
+                    $document.scroll(updateCoordinates);
 
                     $element.on(POINTER_EVENTS.START, (startEvent) => {
                         $overlay.insertBefore($element);
 
                         startEvent = getDistilledEvent(startEvent);
-                        if (mainMouseButtonUsed(startEvent)) {
+                        if (startEvent.button === MAIN_MOUSE_BUTTON) {
                             const onMove = getMoveHandler(startEvent);
                             $document.on(POINTER_EVENTS.MOVE, onMove);
                             $document.one(POINTER_EVENTS.END, getPointerEndHandler(onMove));
@@ -105,18 +101,19 @@
                     });
                 }
 
-                function updateTranslationLimits() {
-                    const scroll = {
-                        x: $window.scrollLeft(),
-                        y: $window.scrollTop()
-                    };
+                function updateCoordinatesAndInscribeElement() {
+                    updateCoordinates();
+                    inscribeElementInBounds();
+                }
 
-                    translationLimits = {
-                        left: scroll.x - initialOffset.x,
-                        right: scroll.x + $window.width() - (initialOffset.x + $element.width()),
-                        top: scroll.y - initialOffset.y,
-                        bottom: scroll.y + $window.height() - (initialOffset.y + $element.height())
-                    };
+                function updateCoordinates() {
+                    updateInitialOffset();
+                    updateBounds();
+                }
+
+                function updateBoundsAndInscribeElement() {
+                    updateBounds();
+                    inscribeElementInBounds();
                 }
 
                 function updateInitialOffset() {
@@ -124,10 +121,48 @@
                     initialOffset.y = $element.offset().top - translation.y;
                 }
 
-                function placeElementOnInitialPlace() {
-                    translation.x = 0;
-                    translation.y = 0;
-                    placeItem();
+                function updateBounds() {
+                    const scroll = {
+                        x: $window.scrollLeft(),
+                        y: $window.scrollTop()
+                    };
+
+                    bounds = {
+                        left: scroll.x - initialOffset.x,
+                        right: scroll.x + window.innerWidth - (initialOffset.x + $element.width()),
+                        top: scroll.y - initialOffset.y,
+                        bottom: scroll.y + window.innerHeight - (initialOffset.y + $element.height())
+                    };
+                }
+
+                function getMoveHandler(startEvent) {
+                    const setTranslation = buildTranslationSetter(startEvent);
+
+                    return (moveEvent) => {
+                        moveEvent.preventDefault();
+                        setTranslation(moveEvent);
+                    };
+                }
+
+                function buildTranslationSetter(startEvent) {
+                    const start = calculateRelativeCoordinates(startEvent, translation);
+
+                    return utils.debounceRequestAnimationFrame((moveEvent) => {
+                        moveEvent = getDistilledEvent(moveEvent);
+                        translation = calculateRelativeCoordinates(moveEvent, start);
+                        inscribeElementInBounds();
+                    });
+                }
+
+                function calculateRelativeCoordinates(event, basicCoordinates) {
+                    const relativeCoordinates = {};
+
+                    Object.keys(PAGE_COORDINATES).forEach((coordinate) => {
+                        const eventCoordinate = event[PAGE_COORDINATES[coordinate]];
+                        relativeCoordinates[coordinate] = eventCoordinate - basicCoordinates[coordinate];
+                    });
+
+                    return relativeCoordinates;
                 }
 
                 function getDistilledEvent(event) {
@@ -151,15 +186,19 @@
                     switch (event.type) {
                         case TOUCH_EVENTS.START:
                             id = event.targetTouches[0].identifier;
+                            return getTouchEventById(event);
                         case TOUCH_EVENTS.MOVE:
-                            return Array.prototype.filter
-                                .call(event.targetTouches, ({ identifier }) => identifier === id)[0];
+                            return getTouchEventById(event);
                         case TOUCH_EVENTS.END:
                             id = 0;
                             return event.changedTouches[0];
                         default:
                             return {};
                     }
+                }
+
+                function getTouchEventById(event) {
+                    return Array.prototype.filter.call(event.targetTouches, ({ identifier }) => identifier === id)[0];
                 }
 
                 function getCoordinateValue(event, touch, coordinate) {
@@ -170,48 +209,10 @@
                     return event[coordinate];
                 }
 
-                function mainMouseButtonUsed(event) {
-                    return event.button === MAIN_MOUSE_BUTTON;
-                }
-
-                function getMoveHandler(startEvent) {
-                    const setTranslation = buildTranslationSetter(startEvent);
-
-                    return (moveEvent) => {
-                        moveEvent.preventDefault();
-                        setTranslation(moveEvent);
-                    };
-                }
-
-                function buildTranslationSetter(startEvent) {
-                    const start = calculateStartCoordinates(startEvent);
-
-                    return utils.debounceRequestAnimationFrame((moveEvent) => {
-                        moveEvent = getDistilledEvent(moveEvent);
-                        updateTranslationCoordinates(moveEvent, start);
-                        placeItem();
-                    });
-                }
-
-                function calculateStartCoordinates(startEvent) {
-                    const start = {};
-
-                    updateCoordinates(start, startEvent, translation);
-
-                    return start;
-                }
-
-                function updateTranslationCoordinates(moveEvent, start) {
-                    updateCoordinates(translation, moveEvent, start);
-                    translation.x = getBoundedValue(translationLimits.left, translation.x, translationLimits.right);
-                    translation.y = getBoundedValue(translationLimits.top, translation.y, translationLimits.bottom);
-                }
-
-                function updateCoordinates(coordinatesToUpdate, event, basicCoordinates) {
-                    Object.keys(PAGE_COORDINATES).forEach((coordinate) => {
-                        const eventCoordinate = event[PAGE_COORDINATES[coordinate]];
-                        coordinatesToUpdate[coordinate] = eventCoordinate - basicCoordinates[coordinate];
-                    });
+                function inscribeElementInBounds() {
+                    translation.x = getBoundedValue(bounds.left, translation.x, bounds.right);
+                    translation.y = getBoundedValue(bounds.top, translation.y, bounds.bottom);
+                    $element.css('transform', `translate(${translation.x}px, ${translation.y}px)`);
                 }
 
                 function getBoundedValue(lowerBound, value, upperBound) {
@@ -222,10 +223,6 @@
                         ),
                         upperBound
                     );
-                }
-
-                function placeItem() {
-                    $element.css('transform', `translate(${translation.x}px, ${translation.y}px)`);
                 }
 
                 function getPointerEndHandler(onMove) {
