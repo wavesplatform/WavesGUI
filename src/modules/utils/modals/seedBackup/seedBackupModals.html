@@ -4,8 +4,6 @@
         <!-- Save back-up pharse -->
         <div class="backup-seed">
 
-                                                                        <w-i18n>backupSeed.saveSecret</w-i18n>
-
             <div class="body-2 basic-900">
                 <w-i18n>backupSeed.writeSeed</w-i18n>
                 <span>&nbsp;<w-i18n>backupSeed.or</w-i18n>&nbsp;
@@ -31,12 +29,10 @@
 
         <div class="confirm-backup">
 
-                                                                        <w-i18n>confirmBackup.confirm</w-i18n>
-
             <div class="body-2 disabled-600">
-            <span w-i18n="confirmBackup.description"></span>
+                <span w-i18n="confirmBackup.description"></span>
 
-        </div>
+            </div>
 
             <w-seed-write class="margin-4"
                           on-fulfilled="$ctrl.onSeedConfirmFulfilled(isValid)"
@@ -67,7 +63,6 @@
     </w-step>
     <w-step>
         <!-- Success -->
-
 
         <div class="text-center">
             <div class="icon-tx-success"></div>
