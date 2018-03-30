@@ -67,7 +67,7 @@
                 this.type = null;
                 /**
                  * Total price (amount multiply price)
-                 * @type {BigNumber}
+                 * @type {Money}
                  */
                 this.totalPrice = null;
                 /**
@@ -274,7 +274,9 @@
                 }
 
                 if (this.type === 'buy') {
-                    this.canByOrder = !(this.priceBalance.lte(this.totalPrice) && this.priceBalance.getTokens().gt(0));
+                    this.canByOrder = (
+                        this.totalPrice.lte(this.priceBalance) && this.priceBalance.getTokens().gt(0)
+                    );
                 } else {
                     this.canByOrder = true;
                 }

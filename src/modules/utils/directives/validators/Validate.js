@@ -583,7 +583,7 @@
                             if (value instanceof BigNumber) {
                                 return value.toFixed();
                             } else if (value instanceof Waves.Money) {
-                                return value.toFormat();
+                                return value.getTokens().toFixed();
                             } else if (!value) {
                                 return '';
                             } else {
