@@ -39,19 +39,20 @@
                     constructor() {
                         super($scope);
 
-                        const startRect = $element.get(0).getBoundingClientRect();
+                        const element = $element.get(0);
+                        const startRect = element.getBoundingClientRect();
 
-                        this.$overlay = $('<div class="drag-overlay">');
                         this.delta = { x: 0, y: 0 };
+                        this.touchId = 0;
+                        this.element = element;
+                        this.$overlay = $('<div class="drag-overlay">');
                         this.translation = { x: startRect.left, y: startRect.top };
-                        this.id = 0;
                         this.moveHandler = this._getMoveHandler();
                         this.resizeHandler = utils.debounceRequestAnimationFrame(() => this._onResize());
 
                         this._initializeElementPosition();
                         this._setHandlers();
                         this._draw();
-
                     }
 
                     $onDestroy() {
@@ -182,12 +183,12 @@
                     _getTouch(event) {
                         switch (event.type) {
                             case TOUCH_EVENTS.START:
-                                this.id = event.targetTouches[0].identifier;
+                                this.touchId = event.targetTouches[0].identifier;
                                 return this._getTouchEventById(event);
                             case TOUCH_EVENTS.MOVE:
                                 return this._getTouchEventById(event);
                             case TOUCH_EVENTS.END:
-                                this.id = 0;
+                                this.touchId = 0;
                                 return event.changedTouches[0];
                             default:
                                 return {};
@@ -201,7 +202,7 @@
                      */
                     _getTouchEventById(event) {
                         return Array.prototype.filter
-                            .call(event.targetTouches, ({ identifier }) => identifier === this.id)[0];
+                            .call(event.targetTouches, ({ identifier }) => identifier === this.touchId)[0];
                     }
 
                     /**
