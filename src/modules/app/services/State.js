@@ -1,3 +1,4 @@
+/* global tsUtils */
 (function () {
     'use strict';
 
@@ -33,11 +34,6 @@
             }
 
             constructor() {
-                /**
-                 * @type {boolean}
-                 */
-                this.windowStateFocus = true;
-
                 this.signals = {
                     window: {
                         blur: new tsUtils.Signal(),
@@ -84,12 +80,10 @@
              */
             _createHandlers() {
                 this._handlers.focus = () => {
-                    this.windowStateFocus = true;
                     this.signals.window.focus.dispatch();
                     this._wakeUp();
                 };
                 this._handlers.blur = () => {
-                    this.windowStateFocus = false;
                     this.signals.window.blur.dispatch();
                     this._sleep();
                 };
@@ -172,6 +166,7 @@
                         window.addEventListener(event, this._handlers[event], false);
                     });
             }
+
         }
 
         return new State();

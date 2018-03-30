@@ -42,6 +42,8 @@
                             index = i;
                             return true;
                         }
+
+                        return false;
                     });
                     if (index != null) {
                         applyStack = versions.slice(index);

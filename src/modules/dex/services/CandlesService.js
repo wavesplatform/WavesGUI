@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 (function () {
     'use strict';
 
@@ -107,7 +108,7 @@
                 this._lastTime = candles[candles.length - 1].time;
             }
 
-            static _getAndHandleCandles(symbolInfo, from, to, resolution, handleCandles, onErrorCallback = () => {}) {
+            static _getAndHandleCandles(symbolInfo, from, to, resolution, handleCandles, handleError = angular.noop) {
                 CandlesService
                     ._getCandles(
                         symbolInfo,
@@ -116,7 +117,7 @@
                         resolution
                     )
                     .then(handleCandles)
-                    .catch(onErrorCallback);
+                    .catch(handleError);
             }
 
             static _getCandles(symbolInfo, from, to = Date.now(), resolution) {

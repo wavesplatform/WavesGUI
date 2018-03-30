@@ -1,3 +1,4 @@
+/* global transfer */
 (function () {
     'use strict';
 
@@ -329,16 +330,6 @@
                         }
                     }
                 });
-            }
-
-            /**
-             * @private
-             */
-            _check() {
-                if (!this.address || !this.encryptedSeed) {
-                    // TODO Need _addUserData!
-                    throw new Error('No address!');
-                }
             }
 
             /**

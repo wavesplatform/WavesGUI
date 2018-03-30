@@ -116,7 +116,7 @@
                 }
                 const list = (this._state ? this._resolveCallbacks : this._rejectCallbacks).slice();
                 this._removeHandlers();
-                list.forEach(cb => cb(this._data));
+                list.forEach((cb) => cb(this._data));
             }
 
             _removeHandlers() {
