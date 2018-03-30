@@ -1,0 +1,83 @@
+<w-step-by-step w-i18n-ns="app.create" active-step="$ctrl.step">
+    <w-step>
+
+        <!-- Save back-up pharse -->
+        <div class="backup-seed">
+
+                                                                        <w-i18n>backupSeed.saveSecret</w-i18n>
+
+            <div class="body-2 basic-900">
+                <w-i18n>backupSeed.writeSeed</w-i18n>
+                <span>&nbsp;<w-i18n>backupSeed.or</w-i18n>&nbsp;
+                <a w-copy="{{::$ctrl.seed}}" w-i18n="backupSeed.copySeed"></a></span>
+            </div>
+
+            <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select"></w-seed-read>
+
+            <div class="body-2 basic-900">
+                <w-i18n>backupSeed.needConfirm</w-i18n>
+            </div>
+
+            <div class="margin-4">
+                <w-button class="submit big long" w-step-next>
+                    <w-i18n>backupSeed.ok</w-i18n>
+                </w-button>
+            </div>
+        </div>
+
+    </w-step>
+    <w-step>
+        <!-- Confirm backup-->
+
+        <div class="confirm-backup">
+
+                                                                        <w-i18n>confirmBackup.confirm</w-i18n>
+
+            <div class="body-2 disabled-600">
+            <span w-i18n="confirmBackup.description"></span>
+
+        </div>
+
+            <w-seed-write class="margin-4"
+                          on-fulfilled="$ctrl.onSeedConfirmFulfilled(isValid)"
+                          on-touch="$ctrl.seedOnTouch()"
+                          seed="{{::$ctrl.seed}}"></w-seed-write>
+
+            <div class="body-2 basic-900">
+                <w-i18n>confirmBackup.enterCorrect</w-i18n>
+            </div>
+
+            <w-seed-read type="random" seed="{{::$ctrl.seed}}"></w-seed-read>
+
+            <div class="error-500"
+                 ng-if="$ctrl.seedConfirmWasFilled && !$ctrl.seedIsValid"
+                 w-i18n="confirmBackup.error"></div>
+
+            <div class="buttons-wrapper">
+                <w-button class="big long submit" w-step-prev>
+                    <w-i18n>modal.prev</w-i18n>
+                </w-button>
+                <w-button class="big long submit" w-step-next>
+                    <w-i18n>modal.next</w-i18n>
+                </w-button>
+            </div>
+
+        </div>
+
+    </w-step>
+    <w-step>
+        <!-- Success -->
+
+
+        <div class="text-center">
+            <div class="icon-tx-success"></div>
+            <h2 class="text-center basic-900" w-i18n="modal.successHeadline"></h2>
+            <div class="disabled-600 margin-4 body-2 text-center"
+                 w-i18n="modal.successContent"></div>
+            <w-button class="submit half big" w-modal-hide>
+                <w-i18n>modal.understand</w-i18n>
+            </w-button>
+        </div>
+
+    </w-step>
+</w-step-by-step>
