@@ -1,3 +1,4 @@
+/* global tsUtils, BigNumber */
 (function () {
     'use strict';
 
@@ -26,7 +27,7 @@
     ];
 
     const PATTERNS = {
-        NUMBER: '\\d*\\.?\\d*', //TODO Add locale separators
+        NUMBER: '\\d*\\.?\\d*', // TODO Add locale separators
         INTEGER: '\\d*'
     };
 
@@ -352,7 +353,7 @@
                             const validator = {
                                 name,
                                 value: null,
-                                handler: (modelValue, viewValue) => {
+                                handler: () => {
                                     return true; // TODO
                                 },
                                 parser: (value) => {
@@ -413,8 +414,8 @@
                                     precisionValidator.value = validator.money.asset.precision;
                                     this._validateByName(name);
                                 },
-                                handler: (modelValue, viewValue) => {
-                                    return (viewValue && !!modelValue) || !viewValue;
+                                handler: () => {
+                                    return true; // Can't write no number values! :)
                                 },
                                 parser: (value) => {
                                     if (value && precisionValidator.handler($ngModel.$modelValue, value)) {
@@ -681,6 +682,7 @@
                             $ngModel.$viewValue = newValue;
                             $ngModel.$render();
                         }
+
                     }
 
                     return new Validate();

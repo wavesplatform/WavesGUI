@@ -102,7 +102,7 @@
 
                             return from.reduce((result, item) => {
                                 if (hash[item.timestamp.valueOf()]) {
-                                    item.rate = item.rate / hash[item.timestamp.valueOf()].rate;
+                                    item.rate /= hash[item.timestamp.valueOf()].rate;
                                     result.push(item);
                                 }
                                 return result;
@@ -204,11 +204,18 @@
              */
             _getRate(fromId, toId) {
 
+                const calculateCurrentRate = function (trades) {
+                    return (
+                        trades
+                            .reduce((result, item) => {
+                                return result.add(new BigNumber(item.price));
+                            }, new BigNumber(0))
+                            .div(trades.length)
+                    );
+                };
+
                 const currentRate = (trades) => {
-                    return trades && trades.length ? trades.reduce((result, item) => {
-                        return result.add(new BigNumber(item.price));
-                    }, new BigNumber(0))
-                        .div(trades.length) : new BigNumber(0);
+                    return trades && trades.length ? calculateCurrentRate(trades) : new BigNumber(0);
                 };
 
                 return Waves.AssetPair.get(fromId, toId)
@@ -249,7 +256,7 @@
 
                                 return list.reduce((result, item) => {
                                     const close = Number(item.close);
-                                    let rate = fromId !== pair.priceAsset.id ? close : 1 / close;
+                                    const rate = fromId !== pair.priceAsset.id ? close : 1 / close;
 
                                     if (close !== 0) {
                                         result.push({

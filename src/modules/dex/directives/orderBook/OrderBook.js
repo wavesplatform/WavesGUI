@@ -1,3 +1,4 @@
+/* global BigNumber, tsUtils */
 (function () {
     'use strict';
 
@@ -155,7 +156,11 @@
                     return null;
                 }
 
-                const template = `<div class="asks">${asks}</div><div class="spread body-2">${spread}</div><div class="bids">${bids}</div>`;
+                const template = (
+                    `<div class="asks">${asks}</div>` +
+                    `<div class="spread body-2">${spread}</div>` +
+                    `<div class="bids">${bids}</div>`
+                );
                 const $box = $element.find('w-scroll-box');
                 const box = $box.get(0);
                 $box.html(template);

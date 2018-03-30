@@ -1,3 +1,4 @@
+/* eslint-disable default-case,no-unused-vars */
 (function () {
     'use strict';
 
@@ -45,8 +46,8 @@
             @toBigNumberArgs
             @notNullArgs
             precision(inputValue, precision) {
-                const [int, dec] = inputValue.toFixed().split('.'); //TODO add separator
-                return dec ? dec.length <= precision : true; //TODO remove empty zero
+                const [int, dec] = inputValue.toFixed().split('.'); // TODO add separator
+                return dec ? dec.length <= precision : true; // TODO remove empty zero
             }
 
             @notNullArgs
@@ -116,13 +117,11 @@
 
                 if (!waves.node.aliases.validate(address)) {
                     return false;
-                } else {
-                    if (value && value === 'no-self') {
-                        return !waves.node.aliases.getAliasList().includes(address) &&
+                } else if (value && value === 'no-self') {
+                    return !waves.node.aliases.getAliasList().includes(address) &&
                             waves.node.aliases.getAddress(address);
-                    } else {
-                        return waves.node.aliases.getAddress(address);
-                    }
+                } else {
+                    return waves.node.aliases.getAddress(address);
                 }
             }
 

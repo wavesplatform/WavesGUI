@@ -1,3 +1,4 @@
+/* global tsApiValidator */
 (function () {
     'use strict';
 
@@ -7,10 +8,9 @@
      * @param {Waves} waves
      * @param {DataFeed} dataFeed
      * @param {function} createPoll
-     * @param {app.utils} utils
      * @return {TradeHistory}
      */
-    const controller = function (Base, $scope, waves, dataFeed, createPoll, utils) {
+    const controller = function (Base, $scope, waves, dataFeed, createPoll) {
 
         class TradeHistory extends Base {
 
