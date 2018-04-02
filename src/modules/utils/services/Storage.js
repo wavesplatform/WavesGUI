@@ -68,9 +68,12 @@
                     return storage.clear().then(() => storage.save('userList', userList));
                 });
             },
-            '1.0.0-beta.21': function (storage) {
-                return storage.load('userList').then((list) => {
-                    const newList = list.map((item) => ({ ...item, lastOpenVersion: '1.0.0-beta.19' }));
+            '1.0.0-beta.23': function (storage) {
+                return storage.load('userList').then((list = []) => {
+                    const newList = list.map((item) => {
+                        tsUtils.set(item, 'settings.lastOpenVersion', '1.0.0-beta.22');
+                        return item;
+                    });
                     return storage.save('userList', newList);
                 });
             }
@@ -85,11 +88,17 @@
                     .then((version) => {
                         this.save('lastVersion', WavesApp.version);
                         state.lastOpenVersion = version;
-                        const versions = migration.migrateFrom(version, Object.keys(MIGRATION_MAP));
-                        return utils.chainCall(versions.map((version) => MIGRATION_MAP[version].bind(null, this)))
-                            .then(() => {
-                                this._isNewDefer.resolve();
-                            });
+
+                        if (version) {
+                            const versions = migration.migrateFrom(version, Object.keys(MIGRATION_MAP));
+                            return utils.chainCall(versions.map((version) => MIGRATION_MAP[version].bind(null, this)))
+                                .then(() => {
+                                    this._isNewDefer.resolve(version);
+                                });
+                        } else {
+                            this._isNewDefer.resolve(version);
+                            return Promise.resolve();
+                        }
                     });
             }
 

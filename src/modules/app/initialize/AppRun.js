@@ -172,8 +172,8 @@
              */
             _initializeLogin() {
 
-                storage.onReady().then((isNew) => {
-                    if (isNew) {
+                storage.onReady().then((oldVersion) => {
+                    if (!oldVersion) {
                         modalManager.showTutorialModals();
                     }
                 });
