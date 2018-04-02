@@ -156,20 +156,28 @@
                     tx.templateType = Transactions._getTemplateType(tx);
                     tx.shownAddress = Transactions._getTransactionAddress(tx);
 
-                    if (tx.type === TYPES.BURN) {
-                        tx.name = tx.name || tx.quantity.asset.name;
-                    }
+                    const list = aliases.getAliasList();
 
-                    if (tx.type === TYPES.ISSUE) {
-                        tx.quantityStr = tx.quantity.toFormat(tx.precision);
-                    } else if (tx.type === TYPES.MASS_SEND) {
-                        tx.numberOfRecipients = tx.transfers.length;
-                        tx.amount = tx.totalAmount;
-                    } else if (tx.type === TYPES.MASS_RECEIVE) {
-                        const aliasList = aliases.getAliasList();
-                        tx.amount = tx.transfers.filter((transfer) => {
-                            return transfer.recipient === user.address || aliasList.indexOf(transfer.recipient) !== -1;
-                        }).map((t) => t.amount).reduce((acc, val) => acc.add(val));
+                    switch (tx.type) {
+                        case TYPES.BURN:
+                        case TYPES.REISSUE:
+                            tx.name = tx.name || tx.quantity.asset.name;
+                            break;
+                        case TYPES.ISSUE:
+                            tx.quantityStr = tx.quantity.toFormat(tx.precision);
+                            break;
+                        case TYPES.MASS_SEND:
+                            tx.numberOfRecipients = tx.transfers.length;
+                            tx.amount = tx.totalAmount;
+                            break;
+                        case TYPES.MASS_RECEIVE:
+                            tx.amount = tx.transfers
+                                .filter(({ recipient }) => recipient === user.address || list.indexOf(recipient) !== -1)
+                                .map(({ amount }) => amount)
+                                .reduce((acc, val) => acc.add(val));
+                            break;
+                        default:
+                            break;
                     }
 
                     return tx;
