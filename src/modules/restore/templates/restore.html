@@ -1,4 +1,10 @@
 <div w-i18n-ns="app.restore" class="restore-content">
+    <i class="icon-information"></i>
+    <span ng-click="$ctrl.showTutorialModals()"
+          w-i18n-ns="app.welcome"
+          w-i18n="infoTooltip"
+          class="icon-information-tooltip">
+    </span>
     <w-change-language></w-change-language>
 
     <div class="waves-logo"></div>
@@ -31,7 +37,7 @@
                         <div ng-if="!$ctrl.address" class="avatar-fake margin-right-1"></div>
                         <div class="address-block">
                             <div class="body-2 basic-900" w-i18n="seedForm.address"></div>
-                            <div ng-class="{empty: !$ctrl.address}" class="address body-1 basic-500">{{$ctrl.address}}
+                            <div ng-class="{empty: !$ctrl.address}" class="address body-1 basic-500 mobile-caption-2">{{$ctrl.address}}
                             </div>
                         </div>
                     </div>
@@ -61,7 +67,7 @@
         </w-step>
     </w-step-by-step>
 
-    <!--TODO @xenohunter #wrap-in-component-->
+    <!--TODO #wrap-in-component-->
 
     <div class="or margin-2">
         <span w-i18n="seedForm.or"></span>

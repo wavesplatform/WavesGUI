@@ -123,7 +123,7 @@
                 this.observe(['amount', 'price', 'step', 'type'], this._currentTotal);
 
                 // TODO Add directive for stop propagation (catch move for draggable)
-                $element.on('mousedown', '.body', (e) => {
+                $element.on('mousedown touchstart', '.body', (e) => {
                     e.stopPropagation();
                 });
             }
@@ -182,7 +182,7 @@
             }
 
             createOrder(form) {
-                user.getSeed()
+                return user.getSeed()
                     .then((seed) => {
                         return Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                             return Waves.OrderPrice.fromTokens(this.price.getTokens(), pair);

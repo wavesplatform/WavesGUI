@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 (function () {
     'use strict';
 
@@ -34,7 +35,8 @@
              */
             @decorators.cachable()
             info(assetId) {
-                return Waves.Asset.get(assetId);
+                return Waves.Asset.get(assetId)
+                    .catch(() => Waves.Asset.get(assetId));
             }
 
             /**
@@ -91,7 +93,7 @@
              * @return {Promise<IBalanceDetails[]>}
              */
             userBalances() {
-                return this._balanceCache.get();
+                return user.onLogin().then(() => this._balanceCache.get());
             }
 
             /**
@@ -139,14 +141,14 @@
              * @return {Promise<ITransaction>}
              */
             issue({ name, description, quantity, precision, reissuable, fee, keyPair }) {
-                const coins = quantity.mul(Math.pow(10, precision)).toFixed();
+                quantity = quantity.mul(Math.pow(10, precision));
                 return this.getFee('issue', fee).then((fee) => {
                     return Waves.API.Node.v1.assets.issue({
                         name,
                         description,
                         precision,
                         reissuable,
-                        quantity: coins,
+                        quantity: quantity.toFixed(),
                         fee
                     }, keyPair)
                         .then(this._pipeTransaction([fee]));
@@ -202,33 +204,26 @@
             }
 
             /**
-             * @param {Money} money
-             * @param {Money[]} orderMoneyList
-             * @return {Money}
-             * @private
-             */
-            _getAssetBalance(money, orderMoneyList) {
-                let result = eventManager.updateBalance(money);
-                orderMoneyList.forEach((order) => {
-                    if (result.asset.id === order.asset.id) {
-                        result = result.sub(order);
-                    }
-                });
-                return result;
-            }
-
-            /**
              * @param order
              * @returns {*}
              * @private
              */
             static _remapOrders(order) {
+                const amountWithoutFilled = order.amount.sub(order.filled);
+
                 switch (order.type) {
                     case 'sell':
-                        return order.amount.sub(order.filled);
+                        return amountWithoutFilled;
                     case 'buy':
-                        const tokens = order.amount.sub(order.filled).getTokens().mul(order.price.getTokens());
-                        return order.price.cloneWithTokens(tokens);
+                        return (
+                            order
+                                .price
+                                .cloneWithTokens(
+                                    amountWithoutFilled
+                                        .getTokens()
+                                        .mul(order.price.getTokens())
+                                )
+                        );
                 }
             }
 

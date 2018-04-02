@@ -1,5 +1,6 @@
 @import (reference) '../../../config';
 @import (reference) '../../../app/less/icons';
+@import (reference) '../../../app/less/typography';
 
 w-transaction .transaction {
   display: flex;
@@ -9,12 +10,30 @@ w-transaction .transaction {
   align-items: center;
   position: relative;
 
+  .status {
+    .caption-3();
+    padding: 3px 6px;
+    margin-top: 4px;
+    border-radius: @border-radius / 2;
+    text-transform: uppercase;
+    position: absolute;
+    right: 43px;
+    bottom: 15px;
+
+    &.active {
+      background: @color-success-50;
+      color: @color-success-400;
+    }
+  }
+
   .icon {
     position: relative;
-    width: 96px;
-    height: 100%;
-    background-size: 48px 48px;
-    background: no-repeat center;
+    width: 48px;
+    height: 48px;
+    background-size: 72%;
+    margin: auto 25px auto 20px;
+    background-repeat: no-repeat;
+    background-position: center center;
 
     &::before {
       content: '';
@@ -37,6 +56,11 @@ w-transaction .transaction {
       .icon-tx-receive();
     }
 
+    &.mass-send,
+    &.mass-receive {
+      .icon-tx-mass-transfer();
+    }
+
     &.circular {
       .icon-tx-circular();
     }
@@ -51,6 +75,7 @@ w-transaction .transaction {
 
     &.burn {
       .icon-tx-burn();
+      background-size: 64%;
     }
 
     &.exchange-buy,
@@ -62,7 +87,10 @@ w-transaction .transaction {
       .icon-tx-create-alias();
     }
 
-    &.lease-in,
+    &.lease-in {
+      .icon-tx-incoming-leasing();
+    }
+
     &.lease-out {
       .icon-tx-lease();
     }
@@ -70,19 +98,139 @@ w-transaction .transaction {
     &.cancel-leasing {
       .icon-tx-cancel-leasing();
     }
+
+    &.unknown {
+      .icon-tx-unknown();
+    }
   }
 
   .transaction-info {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
 
-    .line {
+    .full-width {
+      width: 100%;
+    }
+
+    .line-wrapper {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      height: 50%;
-      padding-right: @padding-main-layout * 4.4;
+
+      .line {
+        flex-basis: 50%;
+        height: 50%;
+
+        &:last-child {
+          padding-right: @padding-main-layout * 4.4;
+          text-align: right;
+        }
+      }
+    }
+
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .leasing w-transaction .transaction { //for leasing page
+    .icon {
+      zoom: .71;
+      margin-right: 20px;
+      background-size: 90%;
+    }
+
+    .transaction-info {
+
+      .line-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 5px 0;
+
+        .line {
+          height: 50%;
+
+          .locale-address {
+            display:none;
+          }
+
+          .footnote-1.fs-mobile {
+            font-size: @mobile-low-fsize;
+          }
+
+          .body-1.fs-mobile {
+            font-size: @mobile-mid-fsize;
+          }
+
+          &:last-child {
+            padding-right: 0;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  w-transaction .transaction {
+    height: auto;
+
+    .status {
+      right: 43px;
+      bottom: auto;
+      top: 10px;
+    }
+
+    .icon {
+      zoom: .71;
+      margin-right: 20px;
+      background-size: 90%;
+    }
+
+    .transaction-info {
+
+      .line-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 5px 0;
+
+        .line {
+          height: 50%;
+
+          .locale-address {
+            display:none;
+          }
+
+          .body-1.fs-mobile {
+            font-size: @mobile-mid-fsize;
+            line-height: 1.2em;
+          }
+
+          .footnote-1.fs-mobile {
+            font-size: @mobile-low-fsize;
+            line-height: 1.2em;
+            padding-top: 3px;
+          }
+
+          &:last-child {
+            padding-right: 0;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  md-dialog {
+    w-transaction .transaction {
+      .status {
+        right: 10px;
+      }
     }
   }
 }

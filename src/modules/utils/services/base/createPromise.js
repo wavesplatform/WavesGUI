@@ -67,6 +67,7 @@
                     return componentsHash[base.cid];
                 }
             }
+
         }
 
         return PromiseComponent.create;

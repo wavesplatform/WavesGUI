@@ -1,3 +1,4 @@
+/* global transfer */
 (function () {
     'use strict';
 
@@ -153,7 +154,11 @@
             }
 
             logout() {
-                window.location.reload();
+                if (WavesApp.isDesktop()) {
+                    transfer('reload');
+                } else {
+                    window.location.reload();
+                }
             }
 
             /**
@@ -325,16 +330,6 @@
                         }
                     }
                 });
-            }
-
-            /**
-             * @private
-             */
-            _check() {
-                if (!this.address || !this.encryptedSeed) {
-                    // TODO Need _addUserData!
-                    throw new Error('No address!');
-                }
             }
 
             /**
