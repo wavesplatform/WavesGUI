@@ -97,6 +97,18 @@
                 });
             }
 
+            /**
+             * @param {User} user
+             */
+            showSeedBackupModals() {
+                return this._getModal({
+                    id: 'seed-backup',
+                    title: 'modal.seed.backup.title',
+                    contentUrl: 'modules/utils/modals/seedBackup/seedBackupModals.html',
+                    controller: 'SeedBackupModalsCtrl'
+                });
+            }
+
             showAccountInfo() {
                 return this._getModal({
                     id: 'account-info',

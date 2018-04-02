@@ -128,6 +128,10 @@
                 }
             }
 
+            showSeedBackupModals() {
+                return modalManager.showSeedBackupModals();
+            }
+
             /**
              * @param {Asset} asset
              */
