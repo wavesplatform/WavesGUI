@@ -661,17 +661,7 @@
                          */
                         static _replaceGroupSeparator(value) {
                             const separator = WavesApp.localize[i18next.language].separators.group;
-                            let reg;
-                            switch (separator) {
-                                case ' ':
-                                    reg = /\s/g;
-                                    break;
-                                case ',':
-                                    reg = /,/g;
-                                    break;
-                                default:
-                                    throw new Error('Wrong separator!');
-                            }
+                            const reg = new RegExp(`\\${separator}`, 'g');
                             return value.replace(reg, '');
                         }
 
