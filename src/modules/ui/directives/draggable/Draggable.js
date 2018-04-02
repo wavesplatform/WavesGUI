@@ -42,11 +42,12 @@
                         const element = $element.get(0);
                         const startRect = element.getBoundingClientRect();
 
+                        this.x = startRect.left;
+                        this.y = startRect.top;
                         this.delta = { x: 0, y: 0 };
                         this.touchId = 0;
                         this.element = element;
                         this.$overlay = $('<div class="drag-overlay">');
-                        this.translation = { x: startRect.left, y: startRect.top };
                         this.moveHandler = this._getMoveHandler();
                         this.resizeHandler = utils.debounceRequestAnimationFrame(() => this._onResize());
 
@@ -68,23 +69,17 @@
                         if (position === 'static' || position === 'relative') {
                             $element.css('position', 'absolute');
                         }
-                        $element.css({
-                            transformOrigin: 'left top',
-                            willChange: 'transform',
-                            zIndex: 40,
-                            left: 0,
-                            top: 0
-                        });
-                        document.body.appendChild($element.get(0));
+                        $element.addClass('drag-element');
+                        document.body.appendChild(this.element);
                     }
 
                     /**
                      * @private
                      */
                     _setHandlers() {
-                        this.listenEventEmitter($element, POINTER_EVENTS.START, this._onStart.bind(this));
+                        this.listenEventEmitter($element, POINTER_EVENTS.START, (e) => this._onStart(e));
                         this.listenEventEmitter($(window), 'resize', this.resizeHandler);
-                        $scope.$watch(Draggable._getResizeWatchCb(), this.resizeHandler);
+                        $scope.$watch(() => this._getElementSize(), this.resizeHandler);
                     }
 
                     /**
@@ -101,12 +96,12 @@
 
                         this.$overlay.insertBefore($element);
 
-                        const rect = $element.get(0).getBoundingClientRect();
+                        const rect = this.element.getBoundingClientRect();
                         this.delta.x = e.pageX - rect.left;
                         this.delta.y = e.pageY - rect.top;
 
                         this.listenEventEmitter($document, POINTER_EVENTS.MOVE, this.moveHandler);
-                        this.listenEventEmitter($document, POINTER_EVENTS.END, this._onEnd.bind(this));
+                        this.listenEventEmitter($document, POINTER_EVENTS.END, () => this._onEnd());
                     }
 
                     /**
@@ -114,7 +109,7 @@
                      * @private
                      */
                     _onMove(e) {
-                        const rect = $element.get(0).getBoundingClientRect();
+                        const rect = this.element.getBoundingClientRect();
                         const x = e.pageX - this.delta.x;
                         const y = e.pageY - this.delta.y;
 
@@ -126,7 +121,7 @@
                      * @private
                      */
                     _onResize() {
-                        const rect = $element.get(0).getBoundingClientRect();
+                        const rect = this.element.getBoundingClientRect();
 
                         this._updateTranslation(rect);
                         this._draw();
@@ -136,6 +131,7 @@
                      * @private
                      */
                     _onEnd() {
+                        this.$overlay.detach();
                         this.stopListenEventEmitter(POINTER_EVENTS.MOVE, $document);
                         this.stopListenEventEmitter(POINTER_EVENTS.END, $document);
                     }
@@ -146,12 +142,21 @@
                      * @private
                      */
                     _updateTranslation(rect, coordinates = { x: rect.left, y: rect.top }) {
-                        this.translation.x = Math.min(Math.max(coordinates.x, 0), innerWidth - rect.width);
-                        this.translation.y = Math.min(Math.max(coordinates.y, 0), innerHeight - rect.height);
+                        const min = 0;
+                        this.x = Draggable._getValueInRange({
+                            min,
+                            max: innerWidth - rect.width,
+                            value: coordinates.x
+                        });
+                        this.y = Draggable._getValueInRange({
+                            min,
+                            max: innerHeight - rect.height,
+                            value: coordinates.y
+                        });
                     }
 
                     /**
-                     * @param {MouseEvent|TouchEvent} e
+                     * @param {MouseEvent|TouchEvent|JQuery.Event<any, any>} e
                      * @return {IDistilledEvent}
                      * @private
                      */
@@ -209,15 +214,28 @@
                      * @private
                      */
                     _draw() {
-                        $element.css('transform', `translate(${this.translation.x}px, ${this.translation.y}px)`);
+                        $element.css('transform', `translate(${this.x}px, ${this.y}px)`);
                     }
 
-                    static _getResizeWatchCb() {
-                        /**
-                         * @type {HTMLElement}
-                         */
-                        const element = $element.get(0);
-                        return () => `${element.clientWidth} / ${element.clientHeight}`;
+                    /**
+                     * @returns {string}
+                     * @private
+                     */
+                    _getElementSize() {
+                        return `${this.element.clientWidth} / ${this.element.clientHeight}`;
+                    }
+
+                    /**
+                     * @param {object} parameters
+                     * @param {number} parameters.min
+                     * @param {number} parameters.max
+                     * @param {number} parameters.value
+                     * @returns {number}
+                     * @private
+                     */
+                    static _getValueInRange(parameters) {
+                        const { min, max, value } = parameters;
+                        return Math.min(Math.max(value, min), max);
                     }
 
                     static _getCoordinateValue(event, touch, coordinate) {

@@ -1,8 +1,18 @@
-.drag-overlay {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 9;
+.drag {
+  &-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+  }
+
+  &-element {
+    transform-origin: left top;
+    will-change: transform;
+    z-index: 40;
+    left: 0;
+    top: 0;
+  }
 }
