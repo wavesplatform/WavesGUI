@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* global tsUtils, BigNumber */
 (function () {
     'use strict';
 
@@ -42,7 +44,7 @@
                     }
                     timer = setTimeout(() => {
                         timer = null;
-                        handler.call(...args);
+                        handler.call(this, ...args);
                     }, timeout);
                 };
             },
@@ -52,11 +54,11 @@
              * @param {string} search
              * @return {object}
              */
-            parseSearchParams(search) {
+            parseSearchParams(search = '') {
                 const hashes = search.slice(search.indexOf('?') + 1).split('&');
                 const params = Object.create(null);
 
-                hashes.map((hash) => {
+                hashes.forEach((hash) => {
                     const [key, val] = hash.split('=');
                     params[key] = decodeURIComponent(val);
                 });
@@ -74,12 +76,12 @@
                     queued: false,
                     args: null
                 };
-                return (...args) => {
+                return function (...args) {
                     control.args = args;
                     if (!control.queued) {
                         requestAnimationFrame(() => {
                             control.queued = false;
-                            callback(...control.args);
+                            callback.call(this, ...control.args);
                         });
                     }
                     control.queued = true;
@@ -201,7 +203,7 @@
             onFetch(response) {
                 if (response.ok) {
                     if (response.headers.get('Content-Type').indexOf('application/json') !== -1) {
-                        return response.json();
+                        return response.text().then(WavesApp.parseJSON);
                     } else {
                         return response.text();
                     }
@@ -315,7 +317,7 @@
              */
             loadImage(url) {
                 return $q((resolve, reject) => {
-                    const img = new Image(url);
+                    const img = new Image();
                     img.onload = resolve;
                     img.onerror = reject;
                     img.src = url;
@@ -387,7 +389,10 @@
                     const [int, decimal] = formatted.split(separatorDecimal);
                     if (decimal) {
                         const decimalTpl = _processDecimal(decimal);
-                        return `<span class="int">${int}${separatorDecimal}</span><span class="decimal">${decimalTpl}</span>`;
+                        return (
+                            `<span class="int">${int}${separatorDecimal}</span>` +
+                            `<span class="decimal">${decimalTpl}</span>`
+                        );
                     } else {
                         return `<span class="int">${int}</span>`;
                     }
@@ -510,17 +515,49 @@
              */
             comparators: {
                 asc: function (a, b) {
-                    return a > b ? 1 : a === b ? 0 : -1;
+                    if (a > b) {
+                        return 1;
+                    }
+
+                    if (a === b) {
+                        return 0;
+                    }
+
+                    return -1;
                 },
                 desc: function (a, b) {
-                    return a > b ? -1 : a === b ? 0 : 1;
+                    if (a > b) {
+                        return -1;
+                    }
+
+                    if (a === b) {
+                        return 0;
+                    }
+
+                    return 1;
                 },
                 bigNumber: {
                     asc: function (a, b) {
-                        return a.gt(b) ? 1 : a.eq(b) ? 0 : -1;
+                        if (a.gt(b)) {
+                            return 1;
+                        }
+
+                        if (a.eq(b)) {
+                            return 0;
+                        }
+
+                        return -1;
                     },
                     desc: function (a, b) {
-                        return a.gt(b) ? -1 : a.eq(b) ? 0 : 1;
+                        if (a.gt(b)) {
+                            return -1;
+                        }
+
+                        if (a.eq(b)) {
+                            return 0;
+                        }
+
+                        return 1;
                     }
                 },
                 process(processor) {

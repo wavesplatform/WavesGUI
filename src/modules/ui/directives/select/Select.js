@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* global tsUtils */
 (function () {
     'use strict';
 
@@ -10,7 +12,7 @@
      * @param {app.utils} utils
      * @return {Select}
      */
-    const controller = function (Base, ComponentList, $element, $timeout, $q, utils) {
+    const controller = function (Base, ComponentList, $element, $timeout, $q, utils, createPromise) {
 
         const $_DOCUMENT = $(document);
 
@@ -80,7 +82,7 @@
 
                 this._setHandlers();
 
-                this._ready.resolve();
+                createPromise(this, utils.wait(200)).then(this._ready.resolve);
             }
 
             /**
@@ -120,7 +122,7 @@
                         item.setActive(false);
                     }
                 });
-                this._activeCid = option.cid;
+
                 this._activeNode.empty();
                 this.ngModel = option.value;
                 this._activeNode.append(option.getContent());
@@ -204,7 +206,7 @@
         return new Select();
     };
 
-    controller.$inject = ['Base', 'ComponentList', '$element', '$timeout', '$q', 'utils'];
+    controller.$inject = ['Base', 'ComponentList', '$element', '$timeout', '$q', 'utils', 'createPromise'];
 
     angular.module('app.ui').component('wSelect', {
         bindings: {

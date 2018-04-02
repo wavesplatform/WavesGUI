@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 (function () {
     'use strict';
 
@@ -23,7 +24,7 @@
                 super();
                 this.chart = null;
                 this.chartReady = false;
-                this.elementId = 'tradingview' + counter++;
+                this.elementId = `tradingview${counter++}`;
                 this.notLoaded = false;
                 this._assetIdPairWasChanged = false;
 
@@ -67,7 +68,10 @@
                         // this.chart.subscribe('onSymbolChange', (data) => console.log(data));
                         if (this._assetIdPairWasChanged) {
                             this.chart.symbolInterval(({ interval }) => {
-                                this.chart.setSymbol(`${this._assetIdPair.amount}/${this._assetIdPair.price}`, interval);
+                                this.chart.setSymbol(
+                                    `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
+                                    interval
+                                );
                             });
                         }
                     });
@@ -86,8 +90,7 @@
 
     controller.load = function () {
         const script = document.createElement('script');
-        const root = WavesApp.isWeb() ? 'https://jslib.wavesnodes.com/' : '/trading-view/';
-        script.src = `${root}charting_library.min.js`;
+        script.src = '/trading-view/charting_library.min.js';
         const promise = new Promise((resolve, reject) => {
             script.onload = resolve;
             script.onerror = reject;

@@ -1,15 +1,16 @@
 import { app, BrowserWindow, screen, protocol, Menu } from 'electron';
+import { Bridge } from './Bridge';
 import { ISize, IMetaJSON } from './package';
 import { format } from 'url';
-import { readFile, stat, writeFile } from 'fs';
 import { join } from 'path';
+import { readJSON, writeJSON } from './utils';
 
 import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions;
 import MenuItemConstructorOptions = Electron.MenuItemConstructorOptions;
 
+
 const CONFIG = {
     META_PATH: join(app.getPath('userData'), 'meta.json'),
-    INDEX_PATH: './index.html',
     MIN_SIZE: {
         width: 400,
         height: 500
@@ -49,20 +50,27 @@ const MENU_LIST: MenuItemConstructorOptions[] = [
 
 class Main {
 
-    private mainWindow: BrowserWindow;
+    public mainWindow: BrowserWindow;
+    public menu: Menu;
+    public bridge: Bridge;
+    private dataPromise: Promise<IMetaJSON>;
 
     constructor() {
         this.mainWindow = null;
+        this.bridge = new Bridge(this);
 
+        this.dataPromise = Main.loadMeta();
         this.setHandlers();
     }
 
     private createWindow() {
-        Main.loadMeta().then((pack: IMetaJSON) => {
-            this.mainWindow = new BrowserWindow(Main.getWindowOptions(pack));
+        this.dataPromise.then((meta) => {
+            const pack = require('./package.json');
+            this.mainWindow = new BrowserWindow(Main.getWindowOptions(meta));
+
             this.mainWindow.loadURL(format({
-                pathname: CONFIG.INDEX_PATH,
-                protocol: 'file:',
+                pathname: pack.server,
+                protocol: 'https:',
                 slashes: true
             }));
 
@@ -70,8 +78,10 @@ class Main {
                 this.mainWindow = null;
             });
 
-            this.mainWindow.webContents.on('will-navigate', function (event) {
-                event.preventDefault();
+            this.mainWindow.webContents.on('will-navigate', function (event: Event, url: string) {
+                if (!url.includes(pack.server)) {
+                    event.preventDefault();
+                }
             });
 
             const onChangeWindow = Main.asyncHandler(() => {
@@ -89,18 +99,6 @@ class Main {
         });
     }
 
-    private replaceProtocol() {
-        protocol.unregisterProtocol('file');
-        protocol.registerFileProtocol('file', (request, callback) => {
-            const url = request.url.substr(7).replace(/(#.*)|(\?.*)/, '');
-            callback(join(__dirname, url));
-        }, (error) => {
-            if (error) {
-                console.error('Failed to register protocol');
-            }
-        });
-    }
-
     private setHandlers() {
         app.on('ready', () => this.onAppReady());
         app.on('window-all-closed', Main.onAllWindowClosed);
@@ -108,9 +106,9 @@ class Main {
     }
 
     private onAppReady() {
-        this.replaceProtocol();
         this.createWindow();
-        Menu.setApplicationMenu(Menu.buildFromTemplate(MENU_LIST));
+        this.menu = Menu.buildFromTemplate(MENU_LIST);
+        Menu.setApplicationMenu(this.menu);
     }
 
     private onActivate() {
@@ -130,7 +128,9 @@ class Main {
     }
 
     private static loadMeta(): Promise<IMetaJSON> {
-        return Main.readJSON(CONFIG.META_PATH) as Promise<IMetaJSON>;
+        return readJSON(CONFIG.META_PATH).catch(() => {
+            return writeJSON(CONFIG.META_PATH, {}).then(() => ({}));
+        }) as Promise<IMetaJSON>;
     }
 
     private static updateMeta({ x, y, width, height, isFullScreen }) {
@@ -138,7 +138,7 @@ class Main {
             meta.lastOpen = {
                 width, height, x, y, isFullScreen
             };
-            return Main.writeJSON(CONFIG.META_PATH, meta);
+            return writeJSON(CONFIG.META_PATH, meta);
         });
     }
 
@@ -164,8 +164,12 @@ class Main {
         return {
             minWidth: CONFIG.MIN_SIZE.width,
             minHeight: CONFIG.MIN_SIZE.height,
-            icon: join(__dirname, 'img/icon.png'),
-            fullscreen, width, height, x, y
+            icon: join(__dirname, 'img', 'icon.png'),
+            fullscreen, width, height, x, y,
+            webPreferences: {
+                preload: join(__dirname, 'preload.js'),
+                nodeIntegration: false
+            }
         };
     }
 
@@ -194,54 +198,6 @@ class Main {
             }, timeout);
         };
     }
-
-    private static exists(path): Promise<void> {
-        return new Promise((resolve, reject) => {
-            stat(path, (err, stat) => {
-                if (err) {
-                    reject();
-                } else {
-                    resolve();
-                }
-            });
-        });
-    }
-
-    private static readJSON(path): Promise<object> {
-        return Main.readFile(path)
-            .then((data) => JSON.parse(data))
-            .catch(() => Object.create(null));
-    }
-
-    private static readFile(path): Promise<string> {
-        return Main.exists(path).then(() => {
-            return new Promise((resolve, reject) => {
-                readFile(path, 'utf8', (err, data) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(data);
-                    }
-                });
-            }) as Promise<string>;
-        });
-    }
-
-    private static writeFile(path: string, content: string): Promise<void> {
-        return new Promise((resolve, reject) => {
-            writeFile(path, content, (err) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve();
-                }
-            });
-        });
-    }
-
-    private static writeJSON(path: string, data: object): Promise<void> {
-        return Main.writeFile(path, JSON.stringify(data, null, 4));
-    }
 }
 
-new Main();
+export const main = new Main();

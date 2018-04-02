@@ -13,6 +13,7 @@
       align-items: center;
       justify-content: space-between;
       margin: 6px 0 16px;
+      min-height: 32px;
 
       .btn-wrap.btn-group {
         padding: 0;
@@ -24,9 +25,31 @@
     }
   }
 
+  w-select.split-mode {
+    display: none;
+  }
+
   button.download {
     background: url(/img/icons/download.svg) 20px center no-repeat @color-white;
     padding-left: 40px;
   }
+}
 
+@media screen and (max-width: 768px) {
+  .transactions {
+    w-radio-wrap.split-mode {
+      display: none;
+    }
+
+    w-select.split-mode {
+      display: block;
+      width: 100%;
+      margin-right: 10px;
+      background: @color-white;
+
+      .title {
+        height: 42px;
+      }
+    }
+  }
 }

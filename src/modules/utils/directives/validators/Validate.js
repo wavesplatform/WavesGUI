@@ -1,3 +1,4 @@
+/* global tsUtils, BigNumber */
 (function () {
     'use strict';
 
@@ -25,7 +26,10 @@
         'custom'
     ];
 
-    const NUMBER_PATTERN = '[0-9.]'; //TODO Add locale separators
+    const PATTERNS = {
+        NUMBER: '\\d*\\.?\\d*', // TODO Add locale separators
+        INTEGER: '\\d*'
+    };
 
     /**
      *
@@ -196,7 +200,7 @@
                             }
 
                             if (this._validators[name].parser) {
-                                $ngModel.$parsers.push(this._validators[name].parser);
+                                $ngModel.$parsers.unshift(this._validators[name].parser);
                             }
 
                             if (this._validators[name].formatter) {
@@ -229,7 +233,7 @@
                         }
 
                         _createIntegerValidator(name) {
-                            this._createPatternValidator('[0-9]');
+                            this._addInputPattern(PATTERNS.INTEGER);
 
                             return {
                                 name,
@@ -333,14 +337,31 @@
                         }
 
                         _createPatternValidator(name) {
-
                             let value;
+                            let parserWorkedBeforeInputEvent = false;
+
+                            function getCorrespondingToPatternPartOf(value) {
+                                const correspondingParts = validator.value.exec(value) || [];
+
+                                return correspondingParts[0] || '';
+                            }
 
                             const validator = {
                                 name,
                                 value: null,
-                                handler: (modelValue, viewValue) => {
+                                handler: () => {
                                     return true; // TODO
+                                },
+                                parser: (value) => {
+                                    const correspondingToPatternPartOfInput = getCorrespondingToPatternPartOf(value);
+
+                                    if (correspondingToPatternPartOfInput !== value) {
+                                        Validate._replaceInputValue(correspondingToPatternPartOfInput);
+                                    }
+
+                                    parserWorkedBeforeInputEvent = true;
+
+                                    return correspondingToPatternPartOfInput;
                                 }
                             };
 
@@ -351,19 +372,15 @@
                                 }
                             });
 
-                            $input.on('keypress', (event) => {
-                                if (event.keyCode != null) {
-                                    const char = String.fromCharCode(event.keyCode);
-                                    if (char != null) {
-                                        if (validator.value.test(char)) {
-                                            if (char === '.' && $input.val().includes('.')) {
-                                                // TODO add separator from locale
-                                                event.preventDefault();
-                                            }
-                                        } else {
-                                            event.preventDefault();
-                                        }
-                                    }
+                            // Once there is empty or invalid value in an input, parsers do not always run, thus there
+                            // is a need for clearing the wrong state of the input.
+                            $input.on('input', () => {
+                                if (parserWorkedBeforeInputEvent) {
+                                    parserWorkedBeforeInputEvent = false;
+                                } else {
+                                    Validate._replaceInputValue(
+                                        getCorrespondingToPatternPartOf($input.val())
+                                    );
                                 }
                             });
 
@@ -381,7 +398,7 @@
                         _createAssetValidator(name) {
                             const precisionValidator = this._createValidator('precision');
 
-                            this._addInputPattern(NUMBER_PATTERN);
+                            this._addInputPattern(PATTERNS.NUMBER);
 
                             let value = null;
 
@@ -393,8 +410,8 @@
                                     precisionValidator.value = validator.money.asset.precision;
                                     this._validateByName(name);
                                 },
-                                handler: (modelValue, viewValue) => {
-                                    return (viewValue && !!modelValue) || !viewValue;
+                                handler: () => {
+                                    return true; // Can't write no number values! :)
                                 },
                                 parser: (value) => {
                                     if (value && precisionValidator.handler($ngModel.$modelValue, value)) {
@@ -504,13 +521,18 @@
                         }
 
                         _createBigNumberValidator(name) {
-
-                            this._addInputPattern(NUMBER_PATTERN);
+                            this._addInputPattern(PATTERNS.NUMBER);
 
                             return {
                                 name,
                                 handler: () => true,
-                                parser: Validate._toBigNumber,
+                                parser: (value) => {
+                                    if (value === '') {
+                                        return;
+                                    }
+
+                                    return Validate._toBigNumber(value);
+                                },
                                 formatter: Validate._toString
                             };
                         }
@@ -620,6 +642,15 @@
                          */
                         static _hasValidator(name) {
                             return Validate._getAttrName(name) in $attrs;
+                        }
+
+                        /**
+                         * @param newValue
+                         * @private
+                         */
+                        static _replaceInputValue(newValue) {
+                            $ngModel.$viewValue = newValue;
+                            $ngModel.$render();
                         }
 
                     }

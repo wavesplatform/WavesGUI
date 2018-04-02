@@ -16,6 +16,12 @@ w-seed-read, w-seed-write {
     background-color: @color-disabled-50;
     box-sizing: border-box;
     -moz-user-select: none;
+
+    &.seed-confirmed {
+      .seed-item {
+        cursor: default;
+      }
+    }
   }
 
   &[type="read"] {
@@ -87,5 +93,12 @@ w-seed-write {
     line-height: 15px;
     font-weight: 500;
     max-height: 30px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  w-seed-write .seed-container {
+    min-height: 178px;
+    height: auto;
   }
 }
