@@ -357,10 +357,12 @@
         return window.Promise && window.fetch && Object.values && Object.assign && (window.crypto || window.msCrypto);
     }
 
+    var notSupportedSelector = '.not-supported-browser';
+
     if (!isBrowserSupported()) {
-        document.body.querySelector('.not-supported-browser').style.display = 'block';
+        document.body.querySelector(notSupportedSelector).style.display = 'block';
     } else {
-        var modal = document.body.querySelector('.not-supported-browser');
+        var modal = document.body.querySelector(notSupportedSelector);
         modal.parentNode.removeChild(modal);
     }
 
