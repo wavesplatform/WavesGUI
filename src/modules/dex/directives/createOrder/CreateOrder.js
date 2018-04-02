@@ -131,7 +131,7 @@
             expand(type) {
                 this.type = type;
                 this.step = 1;
-                this.maxAmountBalance = CreateOrder._getMaxAmountBalance(this.type, this.amountBalance, this.fee);
+                this.maxAmountBalance = this._getMaxAmountBalance();
                 this.price = this._getCurrentPrice();
 
                 $scope.$$postDigest(() => {
@@ -254,6 +254,7 @@
                 if (data) {
                     this.amountBalance = data.amountBalance;
                     this.priceBalance = data.priceBalance;
+                    this.maxAmountBalance = this._getMaxAmountBalance();
                 }
             }
 
@@ -307,6 +308,14 @@
                 const buy = Number(this.ask.price);
 
                 this.spreadPercent = buy ? (((buy - sell) * 100 / buy) || 0).toFixed(2) : '0.00';
+            }
+
+            /**
+             * @return {Money}
+             * @private
+             */
+            _getMaxAmountBalance() {
+                return CreateOrder._getMaxAmountBalance(this.type, this.amountBalance, this.fee);
             }
 
             /**

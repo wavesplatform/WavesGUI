@@ -55,7 +55,7 @@
                         };
 
                         return navigator.mediaDevices.getUserMedia(constraints);
-                    }).then(handler, reject).catch((e) => alert(error.stack));
+                    }).then(handler, reject);
                 });
             }
         };

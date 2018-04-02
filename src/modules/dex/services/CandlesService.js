@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 (function () {
     'use strict';
 
@@ -25,11 +26,6 @@
                     supports_marks: false,
                     supports_timescale_marks: false
                 }), 0);
-            }
-
-            searchSymbolsByName(userInput, exchange, symbolType, callback) {
-                console.warn('This method should not be called');
-                setTimeout(() => callback([]), 0);
             }
 
             resolveSymbol(symbolName, resolve, reject) {
@@ -107,7 +103,7 @@
                 this._lastTime = candles[candles.length - 1].time;
             }
 
-            static _getAndHandleCandles(symbolInfo, from, to, resolution, handleCandles, onErrorCallback = () => {}) {
+            static _getAndHandleCandles(symbolInfo, from, to, resolution, handleCandles, handleError = angular.noop) {
                 CandlesService
                     ._getCandles(
                         symbolInfo,
@@ -116,7 +112,7 @@
                         resolution
                     )
                     .then(handleCandles)
-                    .catch(onErrorCallback);
+                    .catch(handleError);
             }
 
             static _getCandles(symbolInfo, from, to = Date.now(), resolution) {

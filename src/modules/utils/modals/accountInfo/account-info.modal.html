@@ -1,6 +1,6 @@
 <div>
     <span class="body-2 basic-900" w-i18n="modal.account.address"></span>
-    <w-copy-wrap info="{{::$ctrl.address}}" ng-click="$ctrl.onCopyAddress()">
+    <w-copy-wrap info="::$ctrl.address" ng-click="$ctrl.onCopyAddress()">
         <w-avatar size="30" address="$ctrl.address"></w-avatar>
         <div class="body-1 basic-900 mobile-low-fsize">{{::$ctrl.address}}</div>
     </w-copy-wrap>
@@ -11,7 +11,7 @@
             <w-copy-wrap class="body-1 basic-900"
                          ng-repeat="alias in $ctrl.aliases"
                          ng-click="$ctrl.onCopyAlias()"
-                         info="{{::alias}}">
+                         info="::alias">
                 {{::alias}}
             </w-copy-wrap>
             <w-step-by-step active-step="$ctrl.createAliasStep">

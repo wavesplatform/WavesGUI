@@ -12,13 +12,7 @@
 
 <div w-i18n-ns="app.wallet.assets" class="assets-wrapper">
 
-
-    <div ng-click="$ctrl.showSeedBackupModals()"
-         style="padding: 20px; cursor: pointer; display: inline-block; border: 1px solid #ccc; color: #333; margin-bottom: 20px;">
-        Open Seed backup modals
-    </div>
-
-    <div class="chart-rate">
+    <div class="chart-rate" w-toggle-class-container>
 
         <div class="toolbar">
             <div>
@@ -35,7 +29,7 @@
 
                 <w-select class="toolbar-balance-select"
                           ng-model="$ctrl.activeChartAssetId">
-                    <w-option ng-repeat="balance in $ctrl.chartBalanceList track by balance.asset.id"
+                    <w-option w-add-class ng-repeat="balance in $ctrl.chartBalanceList track by balance.asset.id"
                               value="{{::balance.asset.id}}">
                         <span class="radio-name">{{::balance.asset.name}}</span>
                     </w-option>
@@ -48,13 +42,13 @@
                     <!--<w-radio value="'hour'">-->
                     <!--<w-i18n>chart.intervals.hour</w-i18n>-->
                     <!--</w-radio>-->
-                    <w-radio value="'day'">
+                    <w-radio value="'day'" w-add-class>
                         <w-i18n>chart.intervals.day</w-i18n>
                     </w-radio>
-                    <w-radio value="'week'">
+                    <w-radio value="'week'" w-add-class>
                         <w-i18n>chart.intervals.week</w-i18n>
                     </w-radio>
-                    <w-radio value="'month'">
+                    <w-radio value="'month'" w-add-class>
                         <w-i18n>chart.intervals.month</w-i18n>
                     </w-radio>
                     <!--<w-radio value="'year'">
@@ -64,8 +58,7 @@
             </div>
         </div>
 
-        <input class="chart-toggler" id="chart-toggler" type="checkbox" />
-        <label for="chart-toggler"></label>
+        <i class="chart-toggler" w-toggle-class></i>
 
         <div class="chart-info">
             <div class="rate">

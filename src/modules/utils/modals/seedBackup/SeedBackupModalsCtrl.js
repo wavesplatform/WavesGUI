@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const controller = function (Base, $scope, seedService) {
+    const controller = function (Base, $scope) {
 
         class SeedBackupModalsCtrl extends Base {
 

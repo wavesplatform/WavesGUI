@@ -168,7 +168,7 @@
     controller.trigger = function (type) {
         const handlers = controller.handlers[type].slice();
         controller.handlers[type] = [];
-        handlers.forEach(cb => cb());
+        handlers.forEach((cb) => cb());
     };
 
     controller.isNeedStart = function (type) {
