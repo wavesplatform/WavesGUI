@@ -1,0 +1,41 @@
+{
+  "newUser": {
+    "getStarted": "Starten",
+    "restore": "Account terugzetten",
+    "from": "van backup",
+    "or": "of",
+    "slides": {
+      "0": {
+        "title": "Begin met Blockchain",
+        "description": "Word onderdeel van het snelst groeiende gebied binnen de cryptowereld. U bent de enige persoon die toegang heeft tot uw crypto assets."
+      },
+      "1": {
+        "title": "Wallet",
+        "description": "Het opslaan, beheren en het verkrijgen van rendement op uw digitale assets saldo, gemakkelijk en veilig."
+      },
+      "2": {
+        "title": "Gedecentraliseerde Exchange",
+        "description": "Handel snel en veilig. U behoudt volledige controle over uw middelen terwijl u ermee handelt op onze decentrale exchange."
+      },
+      "3": {
+        "title": "Token Launcher",
+        "description": "Creeër uw eigen tokens. Deze kunnen geïntegreerd worden binnen uw bedrijf. Niet alleen als interne valuta maar ook als een token voor gedecentraliseerd stemmen, een beoordelingssysteem, of loyaliteitsprogramma."
+      }
+    }
+  },
+  "userList": {
+    "title": "Inloggen",
+    "subTitle": "De sessie is automatisch beëindigd. Log opnieuw in of",
+    "create": "Maak een nieuw account",
+    "address": "Adres",
+    "password": "Wachtwoord",
+    "restore": "Zet account terug",
+    "frombackup": "van backup",
+    "placeholders": {
+      "password": "Wachtwoord"
+    },
+    "buttons": {
+      "login": "Log in"
+    }
+  }
+}

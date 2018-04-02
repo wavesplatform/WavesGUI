@@ -199,8 +199,14 @@
             name: 'Waves Client',
             version: '{{pack.version}}',
             type: '{{build.type}}',
-            langList: ['en', 'ru', 'ko'],
+            langList: ['en', 'ru', 'ko','nl'],
             localize: {
+                nl: {
+                    separators: {
+                        group: '.',
+                        decimal: ','
+                    }
+                },
                 en: {
                     separators: {
                         group: ',',
@@ -413,7 +419,7 @@
      * @property {Function} isDesktop
      * @property {Function} addController
      * @property {Function} getController
-     * @property {Function} getLocaleData
+     * @property {Function} getLocaleDataF
      * @property {Tree} stateTree
      */
 

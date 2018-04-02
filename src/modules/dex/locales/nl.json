@@ -1,0 +1,83 @@
+{
+  "directives": {
+    "candleChart": {
+      "error": "<div>De grafiek kon niet gedownload worden.</div><div>Als u deze grafiek wilt gebruiken in uw applicatie, stuur een verzoek naar <a href=\"https://tradingview.com\" target=\"_blank\">tradingview.com</a></div>"
+    },
+    "createOrder": {
+      "amountField": "Hoeveelheid",
+      "priceField": "Limiet prijs",
+      "total": "Totaal",
+      "placeSellOrder": "Plaats Verkoop Order",
+      "placeBuyOrder": "Plaats Koop Order",
+      "errors": {
+        "required": "Dit veld is verplicht",
+        "balance": "Niet voldoende {{name}}",
+        "precision": "Overstijgt maximum van {{precision}} decimalen"
+      },
+      "notifications": {
+        "isCreated": "Order is aangemaakt",
+        "notEnoughBalance": "Onvoldoende verhandelbaar saldo",
+        "somethingWendWrong": "Er is iets misgegaan"
+      }
+    },
+    "portfolio": {
+      "title": "Portfolio"
+    },
+    "orderBook": {
+      "title": "Orderboek",
+      "amount": "Hoeveelheid {{assetName}}",
+      "price": "Prijs {{assetName}}",
+      "sum": "Totaal {{assetName}}"
+    },
+    "markets": {
+      "title": "Markten",
+      "table": {
+        "unit": "Coin",
+        "price": "Prijs",
+        "volume": "Volume",
+        "rate": "Wijziging"
+      }
+    },
+    "tradeHistory": {
+      "title": "Handel Historie",
+      "tableTitle": {
+        "price": "Prijs {{assetName}}",
+        "size": "Hoeveelheid {{assetName}}",
+        "date": "Tijd"
+      }
+    },
+    "watchlist": {
+      "placeholders": {
+        "base": "Basis coin",
+        "coin": "Coin toevoegen"
+      },
+      "coin": "Coin",
+      "price": "Prijs",
+      "change": "Wijziging"
+    },
+    "myOrders": {
+      "pair": "Pair",
+      "type": "Type",
+      "orderType": {
+        "sell": "Verkoop",
+        "buy": "Koop"
+      },
+      "price": "Prijs",
+      "amount": "Hoeveelheid",
+      "status": "Status",
+      "notifications": {
+        "isCanceled": "Uw order is geannuleerd.",
+        "somethingWentWrong": "Er is iets misgegaan"
+      }
+    }
+  },
+  "layout": {
+    "right": {
+      "top": "Orderboek",
+      "bottom": "Handel historie"
+    },
+    "center": {
+      "bottom": "Mijn Orders"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "list": {
+    "name": "Asset Naam",
+    "balance": "Saldo",
+    "mirror": "Waarde, <span class=\"currency\">{{currency}}</span>",
+    "bid": "Bied",
+    "ask": "Vraag",
+    "rate": "Prijs, <span class=\"currency\">{{currency}}</span>",
+    "change": "24h Verandering",
+    "actions": "Acties"
+  },
+  "unpin": "Unpin",
+  "pin": "Pin",
+  "info": "Asset Info",
+  "send": "Verstuur",
+  "deposit": "Deposit",
+  "qr": "Uw Adres"
+}

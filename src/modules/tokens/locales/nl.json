@@ -1,0 +1,55 @@
+{
+  "pageTitle": "Token creëren",
+  "name": "Naam van uw token",
+  "description": "Beschrijving",
+  "count": "Totaal aantal tokens",
+  "precision": "Decimalen",
+  "preview": "Preview",
+  "fee": "Fee 1 WAVES",
+  "create": "Creëer",
+  "help": {
+    "name": "Gelieve enkel Latijnse letters gebruiken"
+  },
+  "helpIcon": {
+    "totalTokens": {
+      "headline": "Dit veld beschrijft het totaal aantal tokens dat deze asset zal bevatten.",
+      "reissuable": "Heruitgeefbaar betekent dat er later nog tokens aan de totale hoeveelheid tokens toegevoegd kunnen worden.",
+      "notReissuable": "Een niet heruitgeefbare asset is permanent gelimiteerd aan de totale hoeveelheid tokens die tijdens dit proces gedefinieerd worden. "
+    },
+    "demicals": "Dit veld definieert het aantal decimalen waar uw token in opgesplitst kan worden."
+  },
+  "validators": {
+    "byte": {
+      "lte": "Asset naam moet tussen 4 en 16 bytes lang zijn",
+      "gte": "Asset naam moet tussen 4 en 16 bytes lang zijn"
+    },
+    "required": "Dit veld is verplicht.",
+    "descriptionLen": "De beschrijving is te lang. Deze mag niet langer dan 1,000 bytes zijn.",
+    "minValuePrecision": "Foutief nummer. Voer nummer in tussen 0 en 8.",
+    "maxValuePrecision": "Foutief nummer. Voer nummer in tussen 0 en 8.",
+    "maxValueCount": "Het ingevoerde nummer is te lang.",
+    "minValueCount": "Het ingevoerde nummer moet hoger dan 0 zijn.",
+    "precisionCount": "Het totale Asset aantal kan niet meer decimalen hebben dan gespecificeerd in het Decimalen veld.",
+    "noMoney": "Uw heeft onvoldoende saldo om te voldoen aan de transactie fee."
+  },
+  "placeholders": {
+    "description": "De beschrijving kan niet later aangepast worden.",
+    "precision": "Van 0 tot 8"
+  },
+  "reissuable": {
+    "true": "Heruitgeefbaar",
+    "false": "Niet heruitgeefbaar"
+  },
+  "modal": {
+    "title": "{{name}} Creatie",
+    "titleSuccess": "{{name}} Creatie Compleet"
+  },
+  "success": {
+    "title": "Uw transactie is verzonden!",
+    "description": "Je hebt {{amount}} {{name}} gecreeërd.",
+    "done": "Open Portfolio"
+  },
+  "notifications": {
+    "isNotCreated": "Token is niet gecreeërd"
+  }
+}
