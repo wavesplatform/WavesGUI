@@ -1,0 +1,103 @@
+@import (reference) '../../config';
+@import (reference) '../../app/less/typography';
+
+.not-supported-browser {
+  height: 100vh;
+  position: absolute;
+  width: 100%;
+  z-index: 100000;
+
+  .overlay {
+    background: @color-black;
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    z-index: 2;
+    opacity: .4;
+  }
+
+  .not-supported-modal {
+    top: 50%;
+    left: 50%;
+    margin-left: -270px;
+    margin-top: -220px;
+    transform: translate(0, 0);
+    background: @color-white;
+    position: absolute;
+    width: 100%;
+    max-width: 540px;
+    height: 440px;
+    padding: 40px;
+    text-align: center;
+    z-index: 5;
+    border-radius: @border-radius;
+
+    .browser-icon-block {
+      width: 50%;
+      margin-bottom: 30px;
+      float: left;
+      position: relative;
+      display: inline-block;
+      padding-left: 60px;
+      text-align: left;
+      height: 42px;
+      line-height: 21px;
+
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+
+    i {
+      display: block;
+      margin: 20px auto 20px auto;
+      width: 80px;
+      height: 80px;
+      background: url(/img/no-preload/not-supported-browser.svg) center top no-repeat;
+    }
+
+    h2 {
+      width: 100%;
+      padding: 0;
+      font-size: 24px;
+      line-height: 1.2em;
+      font-weight: normal;
+      font-family: @font-roboto-regular;
+    }
+
+  }
+}
+
+@media screen and (max-width: 767px) {
+
+  .not-supported-browser {
+    .not-supported-modal {
+      max-width: 94%;
+      max-height: 94%;
+      height: 94%;
+      width: 94%;
+      margin: 0;
+      left: 3%;
+      right: 3%;
+      top: 3%;
+      bottom: 3%;
+    }
+  }
+
+}
+
+@media screen and (max-width: 480px) {
+
+  .not-supported-browser {
+    .not-supported-modal {
+      overflow: auto;
+
+      .browser-icon-block {
+        width: 100%;
+      }
+    }
+  }
+
+}
