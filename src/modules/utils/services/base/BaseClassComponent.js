@@ -18,9 +18,7 @@
                 this.receiveOnce(parent.signals.destroy, this.remove, this);
             }
 
-            remove() {
-
-            }
+            remove() {}
 
         }
 
@@ -43,7 +41,7 @@
         return BaseClassComponent;
     };
 
-    factory.$inject = ['Base']
+    factory.$inject = ['Base'];
 
     angular.module('app.utils').factory('BaseClassComponent', factory);
 

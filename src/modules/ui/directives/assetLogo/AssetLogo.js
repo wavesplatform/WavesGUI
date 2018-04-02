@@ -122,7 +122,7 @@
                     .text(letter)
                     .css({
                         'background-color': color,
-                        'font-size': `${fontSize}px`,
+                        'font-size': `${fontSize}px`
                     });
             }
 

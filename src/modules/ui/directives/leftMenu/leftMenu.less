@@ -51,7 +51,6 @@ w-left-menu {
 
       .child-menu-list {
         display: none;
-        transition: .3s;
       }
 
       .menu-item {
@@ -65,36 +64,54 @@ w-left-menu {
         margin: 0 auto 5px auto;
         font-size: 0;
         cursor: pointer;
+        position: relative;
 
-        &.wallet {
-          background-image: url(/img/icons/wallet.svg);
-          background-size: 25px 24px;
+        &::after {
+          display: none;
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: @default-icon-size;
+          height: @default-icon-size;
+          transform: translate(-50%, -50%);
+          background-image: url(/img/icons/menu-icons.svg);
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: auto;
+          transition: 0;
         }
 
-        &.dex {
-          background-image: url(/img/icons/dex.svg);
-          background-size: 25px 23px;
+        &.wallet::after {
+          display: block;
+          background-position: 0 0;
         }
 
-        &.tokens {
-          background-image: url(/img/icons/tokens.svg);
-          background-size: 31px 31px;
+        &.dex::after {
+          display: block;
+          background-position: -@default-icon-size 0;
         }
 
-        &.logout {
-          background-image: url(/img/icons/exit.svg);
-          background-size: 24px 26px;
+        &.tokens::after {
+          display: block;
+          background-position: (-@default-icon-size * 2) 0;
         }
 
-        &.settings {
-          background-image: url(/img/icons/icon-settings.svg);
-          background-size: 24px 24px;
+        &.settings::after {
+          display: block;
+          background-position: (-@default-icon-size * 3) 0;
         }
+
+        &.logout::after {
+          display: block;
+          background-position: (-@default-icon-size * 4) 0;
+        }
+
       }
 
       @media screen and (min-width: 769px) {
         &:hover .menu-item {
-          background-color: @color-info-50;
+          background-color: @color-submit-50;
         }
       }
 
@@ -107,14 +124,14 @@ w-left-menu {
         .menu-item {
           background-color: @color-submit-400;
 
-          &.wallet {
-            background-image: url(/img/icons/wallet-active.svg);
+          &.wallet::after {
+            background-position: 0 calc(-@default-icon-size~'- 1px');
           }
-          &.dex {
-            background-image: url(/img/icons/dex-active.svg);
+          &.dex::after {
+            background-position: -@default-icon-size -@default-icon-size;
           }
-          &.tokens {
-            background-image: url(/img/icons/tokens-active.svg);
+          &.tokens::after {
+            background-position: (-@default-icon-size * 2) -@default-icon-size;
           }
         }
 
@@ -138,7 +155,7 @@ w-left-menu {
     bottom: auto;
     display: flex;
     border-right: 0 none;
-    position: relative;
+    position: fixed;
     border-bottom: 1px solid @color-disabled-100;
 
     .logo-wrapper {
@@ -155,6 +172,7 @@ w-left-menu {
       left: 0;
       top: 0;
       cursor: pointer;
+      z-index: 10;
 
       &:hover {
         opacity: .6;
@@ -164,11 +182,12 @@ w-left-menu {
     w-responsive-menu {
       width: 100%;
       top: 60px;
+      max-height: calc(100vh ~'- 60px');
       height: auto;
       position: absolute;
       z-index: 16;
       box-shadow: 0 5px 5px @color-basic-50;
-      margin-top:-1px;
+      margin-top: -1px;
 
       &.wallet-items-hide {
 
@@ -177,17 +196,20 @@ w-left-menu {
           background-position: calc(100% ~'- 20px') center
         }
 
-        w-responsive-menu-item[value="wallet"] .child-menu-list  {
-            transition: .3s;
-            height: 0;
-            overflow: hidden;
+        w-responsive-menu-item[value="wallet"] .child-menu-list {
+          height: 0;
+          overflow: hidden;
         }
 
         w-responsive-menu-item.has-active[value="wallet"] {
           background: @color-submit-400;
+
           .menu-item {
-            background: url(/img/icons/wallet-active.svg) 10px center no-repeat;
             color: @color-white;
+
+            &::after {
+              background-position: 0 -@default-icon-size;
+            }
           }
         }
       }
@@ -195,8 +217,9 @@ w-left-menu {
       .navigation-menu {
         margin: 0;
         height: 0;
-        overflow: hidden;
-        transition: .3s;
+        position: relative;
+        overflow-x: hidden;
+        overflow-y: auto;
         opacity: 0;
         border-color: @color-accent-50;
 
@@ -206,6 +229,17 @@ w-left-menu {
           height: auto;
           border-bottom: 1px solid @color-accent-50;
           border-top: 1px solid @color-accent-50;
+
+          & + w-button + .navigation-menu-overlay {
+            display: block;
+            position: fixed;
+            height: 5000px;
+            z-index: -1;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+          }
 
           .wallet-toggler {
             display: block;
@@ -219,6 +253,7 @@ w-left-menu {
         w-responsive-menu-item {
           display: block;
           border-color: @color-accent-50;
+          background: @color-white;
 
           .child-menu-list {
             display: flex;
@@ -239,9 +274,16 @@ w-left-menu {
             align-items: center;
             height: 60px;
             color: @color-basic-700;
+
+            &::after {
+              transform: translate(0, -50%);
+              left: 7px;
+            }
           }
 
           &.active {
+            background-color: @color-submit-400;
+
             .menu-item {
               color: @color-white;
             }
@@ -252,13 +294,9 @@ w-left-menu {
           }
 
           &.has-active {
-            .wallet {
-              background-image: url(/img/icons/wallet.svg);
+            .wallet::after {
+              background-position: 0 0;
             }
-          }
-
-          .menu-item.tokens {
-            background-position: 7px center;
           }
 
           &.logout,
@@ -268,6 +306,28 @@ w-left-menu {
             left: auto;
           }
 
+        }
+      }
+
+      &.wallet-items-hide {
+
+        .wallet-toggler {
+          transform: rotate(0deg);
+          background-position: calc(100% ~'- 20px') center
+        }
+
+        w-responsive-menu-item[value="wallet"] .child-menu-list {
+          transition: .3s;
+          height: 0;
+          overflow: hidden;
+        }
+
+        w-responsive-menu-item.has-active[value="wallet"] {
+          background: @color-submit-400;
+          .menu-item {
+            background: url(/img/icons/wallet-active.svg) 10px center no-repeat;
+            color: @color-white;
+          }
         }
       }
 
@@ -334,16 +394,4 @@ w-left-menu {
     }
   }
 
-}
-
-@media screen and (max-width: 480px) {
-  body.dex w-left-menu {
-    position: fixed;
-  }
-}
-
-@media screen and (min-width: 481px) and (max-width: 768px) and (max-height: 480px) {
-  w-layout .dex-layout__column-left .dex-layout__block-top {
-    margin-top: 0;
-  }
 }

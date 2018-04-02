@@ -34,6 +34,7 @@
                 this.datetime = $filter('date')(transaction.timestamp, 'dd.MM.yyyy, HH:mm');
                 this.shownAddress = transaction.shownAddress;
                 this.type = transaction.type;
+                this.numberOfRecipients = transaction.numberOfRecipients;
 
                 this.explorerLink = explorerLinks.getTxLink(transaction.id);
 
