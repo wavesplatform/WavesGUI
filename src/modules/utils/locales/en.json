@@ -1,7 +1,7 @@
 {
   "validators": {
     "byte": {
-      "help": "{{bytes}} bytes"
+      "help": "Bytes left: {{bytes}}"
     }
   },
   "modal": {
