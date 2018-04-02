@@ -7,8 +7,11 @@
 
 <div class="section" ng-if="$ctrl.type !== 'circular'">
     <div class="key" w-i18n="transaction.modals.to" ng-if="$ctrl.type === 'send'"></div>
-    <div class="key" w-i18n="transaction.modals.from" ng-if="$ctrl.type === 'receive'"></div>
-    <div class="value">{{::$ctrl.shownAddress}}</div>
+    <div class="key" w-i18n="transaction.modals.from" ng-if="$ctrl.type === 'receive' || $ctrl.type === 'mass-receive'"></div>
+    <div class="value" ng-if="$ctrl.type !== 'mass-send'">{{::$ctrl.shownAddress}}</div>
+
+    <div class="key" w-i18n="transaction.modals.numberOfRecipients" ng-if="$ctrl.type === 'mass-send'"></div>
+    <div class="value" ng-if="$ctrl.type === 'mass-send'">{{::$ctrl.numberOfRecipients}}</div>
 </div>
 
 <div class="section contains-text" ng-if="$ctrl.transaction.attachment">

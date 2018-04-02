@@ -63,8 +63,7 @@
         "address": "The address is not valid",
         "required": "This field is required",
         "max": "Insufficient funds",
-        "precision": "The number in this field is invalid. It can include a maximum of {{precision}} digits after the decimal point.",
-        "invalidChars": "The field can only contain numbers"
+        "precision": "The number in this field is invalid. It can include a maximum of {{precision}} digits after the decimal point."
       },
       "confirm": {
         "title": "Transaction Details",
@@ -168,7 +167,7 @@
       "body": {
         "security": "I understand that my funds are held securely on this device, not by a company",
         "backup": "I understand that if this app is moved to another device or deleted, my Waves can only be recovered with the backup phrase.",
-        "analytics": "I would like to help improve the Waves platform by sending anonymous usage statistics to the developers.",
+        "analytics": "I would like to help improve the Waves platform by sending anonymous usage statistics and error reporting data to the developers.",
         "read": "I have read, understood and agree to the",
         "terms": "Terms of Use",
         "ok": "Confirm and Begin"

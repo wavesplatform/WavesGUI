@@ -1,3 +1,4 @@
+/* global tsUtils */
 (function () {
     'use strict';
 
@@ -76,7 +77,7 @@
                 if (this._queue.length) {
                     if (this._list.length < NOTIFICATIONS_LIMIT) {
                         const args = this._queue.shift();
-                        this._create.apply(this, args);
+                        this._create(...args);
                         this._run();
                     }
                 }
@@ -125,7 +126,9 @@
                     const callback = notificationObj.action.callback;
                     $scope.doAction = () => {
                         notification.destroy();
-                        callback && callback();
+                        if (callback) {
+                            callback();
+                        }
                     };
                 }
 

@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* global tsUtils, BigNumber */
 (function () {
     'use strict';
 
@@ -56,7 +58,7 @@
                 const hashes = search.slice(search.indexOf('?') + 1).split('&');
                 const params = Object.create(null);
 
-                hashes.map((hash) => {
+                hashes.forEach((hash) => {
                     const [key, val] = hash.split('=');
                     params[key] = decodeURIComponent(val);
                 });
@@ -387,7 +389,10 @@
                     const [int, decimal] = formatted.split(separatorDecimal);
                     if (decimal) {
                         const decimalTpl = _processDecimal(decimal);
-                        return `<span class="int">${int}${separatorDecimal}</span><span class="decimal">${decimalTpl}</span>`;
+                        return (
+                            `<span class="int">${int}${separatorDecimal}</span>` +
+                            `<span class="decimal">${decimalTpl}</span>`
+                        );
                     } else {
                         return `<span class="int">${int}</span>`;
                     }
@@ -537,17 +542,49 @@
              */
             comparators: {
                 asc: function (a, b) {
-                    return a > b ? 1 : a === b ? 0 : -1;
+                    if (a > b) {
+                        return 1;
+                    }
+
+                    if (a === b) {
+                        return 0;
+                    }
+
+                    return -1;
                 },
                 desc: function (a, b) {
-                    return a > b ? -1 : a === b ? 0 : 1;
+                    if (a > b) {
+                        return -1;
+                    }
+
+                    if (a === b) {
+                        return 0;
+                    }
+
+                    return 1;
                 },
                 bigNumber: {
                     asc: function (a, b) {
-                        return a.gt(b) ? 1 : a.eq(b) ? 0 : -1;
+                        if (a.gt(b)) {
+                            return 1;
+                        }
+
+                        if (a.eq(b)) {
+                            return 0;
+                        }
+
+                        return -1;
                     },
                     desc: function (a, b) {
-                        return a.gt(b) ? -1 : a.eq(b) ? 0 : 1;
+                        if (a.gt(b)) {
+                            return -1;
+                        }
+
+                        if (a.eq(b)) {
+                            return 0;
+                        }
+
+                        return 1;
                     }
                 },
                 process(processor) {

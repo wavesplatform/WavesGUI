@@ -1,3 +1,4 @@
+/* global WebStorage */
 (function () {
     'use strict';
 
@@ -102,7 +103,7 @@
 
             load(key) {
                 return utils.when(read(key))
-                    .then(data => Storage.myParse(data));
+                    .then((data) => Storage.myParse(data));
             }
 
             clear() {
