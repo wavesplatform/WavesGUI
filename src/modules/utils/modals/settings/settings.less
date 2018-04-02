@@ -121,6 +121,7 @@ md-dialog.settings-modal {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    align-items: center;
   }
 
   .row-style {
@@ -135,19 +136,18 @@ md-dialog.settings-modal {
     &.unit-checkbox {
       // TODO : make it work properly without magic
       padding-top: 5px;
+
       w-checkbox-submit {
         display: block;
         margin-right: 18px;
         padding-right: 18px;
+        align-self: flex-start;
       }
     }
 
-    &.unit-language {
+    &.unit-select {
       // TODO : align to the middle without magic
       padding: 5px 0;
-      & > div {
-        line-height: 2.8em;
-      }
     }
   }
 

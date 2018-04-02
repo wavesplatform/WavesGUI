@@ -176,6 +176,7 @@
       "general": {
         "title": "Основные",
         "blockHeight": "Текущая высота",
+        "timeout": "Время жизни сессии",
         "language": "Язык"
       },
       "security": {

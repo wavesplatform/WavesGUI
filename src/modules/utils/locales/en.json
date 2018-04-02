@@ -176,6 +176,7 @@
       "general": {
         "title": "General",
         "blockHeight": "Current height",
+        "timeout": "Session timeout in",
         "language": "Language"
       },
       "security": {
