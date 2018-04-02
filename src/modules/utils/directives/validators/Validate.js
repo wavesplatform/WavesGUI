@@ -341,7 +341,8 @@
                             let parserWorkedBeforeInputEvent = false;
 
                             function getCorrespondingToPatternPartOf(value) {
-                                const correspondingParts = validator.value.exec(value) || [];
+                                const inputWithoutGroup = Validate._replaceGroupSeparator(value);
+                                const correspondingParts = validator.value.exec(inputWithoutGroup) || [];
 
                                 return correspondingParts[0] || '';
                             }
@@ -651,6 +652,27 @@
                         static _replaceInputValue(newValue) {
                             $ngModel.$viewValue = newValue;
                             $ngModel.$render();
+                        }
+
+                        /**
+                         * @param {string} value
+                         * @return {string}
+                         * @private
+                         */
+                        static _replaceGroupSeparator(value) {
+                            const separator = WavesApp.localize[i18next.language].separators.group;
+                            let reg;
+                            switch (separator) {
+                                case ' ':
+                                    reg = /\s/g;
+                                    break;
+                                case ',':
+                                    reg = /,/g;
+                                    break;
+                                default:
+                                    throw new Error('Wrong separator!');
+                            }
+                            return value.replace(reg, '');
                         }
 
                     }
