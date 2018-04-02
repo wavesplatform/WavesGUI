@@ -144,7 +144,8 @@
       "warning": "При возникновении проблем с верификацией или обработкой платежей, пожалуйста отправьте ваш запрос на официальный адрес поддержки — <a href='mailto:support@coinomat.com' target='_blank'>support@coinomat.com</a>"
     },
     "account": {
-      "title": "Информация о кошельке",
+      "title": "Информация о кошельке {{name}}",
+      "title_default_name": "",
       "address": "Ваш адрес",
       "aliases": "Алиасы",
       "create": "Создать новый",
