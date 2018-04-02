@@ -7,12 +7,16 @@
         <w-action ng-click="$ctrl.showTransaction()">
             <w-i18n>transaction.actions.showTx</w-i18n>
         </w-action>
-        <w-action w-copy="{{::$ctrl.transaction.id}}">
-            <w-i18n>transaction.actions.copyTxId</w-i18n>
-        </w-action>
-        <w-action w-copy="{{::$ctrl.getCopyAllData()}}">
-            <w-i18n>transaction.actions.copyTxData</w-i18n>
-        </w-action>
+        <div w-copy="::$ctrl.transaction.id">
+            <w-action>
+                <w-i18n>transaction.actions.copyTxId</w-i18n>
+            </w-action>
+        </div>
+        <div w-copy="::$ctrl.getCopyAllData()">
+            <w-action>
+                <w-i18n>transaction.actions.copyTxData</w-i18n>
+            </w-action>
+        </div>
         <!--TODO : isActive-->
         <w-action ng-if="$ctrl.type === 'lease-out' && $ctrl.transaction.isActive"
                   ng-click="$ctrl.cancelLeasing()">

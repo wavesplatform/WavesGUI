@@ -7,7 +7,12 @@
     <title>Waves Client</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
+
     <style>
+
+        .not-supported-browser {
+            display: none;
+        }
 
         .app-loader {
             z-index: 10000;
@@ -186,6 +191,12 @@
         }
     </style>
 
+    {{#if isProduction}}
+    <!-- Sentry error logging -->
+    <script src="https://cdn.ravenjs.com/3.22.3/raven.min.js" crossorigin="anonymous"></script>
+    <script>Raven.config('https://edc3970622f446d7aa0c9cb38be44a4f@sentry.io/291068').install();</script>
+    {{/if}}
+
     <script>
 
         var __controllers = Object.create(null);
@@ -271,6 +282,9 @@
             isDesktop: function () {
                 return this.type === 'desktop';
             },
+            isProduction: function () {
+                return {{#if isProduction}}true;{{else}}false;{{/if}}
+            },
             parseJSON: null,
             stateTree: null
         };
@@ -280,18 +294,54 @@
     <!-- CSS -->
 
     {{#if isWeb}}
-    <base href="/">
+        <base href="/">
     {{/if}}
 
 </head>
 
 <body>
 
+
 <div class="app-loader">
     <div class="progress"></div>
     <div class="loader-wrapper">
         <div class="loader"><span class="leaf1"></span><span class="leaf2"></span><span class="leaf3"></span><span
                 class="leaf4"></span></div>
+    </div>
+</div>
+
+<div class="not-supported-browser">
+    <div class="overlay"></div>
+    <div class="not-supported-modal">
+        <i></i>
+        <h2 class="margin-2">
+            Your browser is not supported
+        </h2>
+        <div class="body-2 disabled-600 margin-4">
+            Please update to the latest version of one of the following browsers:
+        </div>
+        <div class="browsers-icons">
+            <div class="browser-icon-block">
+                <img src="/img/no-preload/chrome-icon.svg" />
+                <div>Chrome</div>
+                <div><a href="https://www.google.ru/chrome/index.html" target="_blank">Install or update</a></div>
+            </div>
+            <div class="browser-icon-block">
+                <img src="/img/no-preload/firefox-icon.svg" />
+                <div>Firefox</div>
+                <div><a href="https://www.mozilla.org/en-US/firefox/" target="_blank">Install or update</a></div>
+            </div>
+            <div class="browser-icon-block">
+                <img src="/img/no-preload/safari-icon.svg" />
+                <div>Safari</div>
+                <div><a href="https://support.apple.com/downloads/safari" target="_blank">Install or update</a></div>
+            </div>
+            <div class="browser-icon-block">
+                <img src="/img/no-preload/opera-icon.svg" />
+                <div>Opera</div>
+                <div><a href="http://www.opera.com/" target="_blank">Install or update</a></div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -302,6 +352,19 @@
 <script>
 
     WavesApp.parseJSON = parseJsonBignumber();
+
+    function isBrowserSupported() {
+        return window.Promise && window.fetch && Object.values && Object.assign && (window.crypto || window.msCrypto);
+    }
+
+    var notSupportedSelector = '.not-supported-browser';
+
+    if (!isBrowserSupported()) {
+        document.body.querySelector(notSupportedSelector).style.display = 'block';
+    } else {
+        var modal = document.body.querySelector(notSupportedSelector);
+        modal.parentNode.removeChild(modal);
+    }
 
     if (WavesApp.isDesktop()) {
         var listenDevTools = false;
@@ -318,13 +381,17 @@
      */
     var analytics = eventSender.default.inactive();
 
-    var Waves = WavesAPI.create({
-        networkByte: WavesApp.network.code.charCodeAt(0),
-        nodeAddress: WavesApp.network.node,
-        matcherAddress: WavesApp.network.matcher,
-        minimumSeedLength: 25,
-        logLevel: 'none'
-    });
+    try {
+        var Waves = WavesAPI.create({
+            networkByte: WavesApp.network.code.charCodeAt(0),
+            nodeAddress: WavesApp.network.node,
+            matcherAddress: WavesApp.network.matcher,
+            minimumSeedLength: 25,
+            logLevel: 'none'
+        });
+    } catch (e) {
+        console.error(e);
+    }
 
     WavesApp.stateTree = new tsUtils.Tree({
         id: 'root',
@@ -427,6 +494,7 @@
      * @property {Array<string>} modules
      * @property {Function} isWeb
      * @property {Function} isDesktop
+     * @property {Function} isProduction
      * @property {Function} addController
      * @property {Function} getController
      * @property {Function} getLocaleData
