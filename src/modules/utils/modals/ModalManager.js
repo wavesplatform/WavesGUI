@@ -97,16 +97,19 @@
                 });
             }
 
-            /**
-             * @param {User} user
-             */
-            showSeedBackupModals() {
-                return this._getModal({
-                    id: 'seed-backup',
-                    title: 'modal.seed.backup.title',
-                    contentUrl: 'modules/utils/modals/seedBackup/seedBackupModals.html',
-                    controller: 'SeedBackupModalsCtrl'
-                });
+            showSeedBackupModal() {
+                const user = this._getUser();
+
+                return user.getSeed()
+                    .then((seed) => {
+                        return this._getModal({
+                            id: 'seed-backup',
+                            title: 'modal.backup.title.{{$ctrl.titleLiteral}}',
+                            contentUrl: 'modules/utils/modals/seedBackup/seedBackupModals.html',
+                            controller: 'SeedBackupModalsCtrl',
+                            locals: { seed }
+                        });
+                    });
             }
 
             showAccountInfo() {
@@ -234,6 +237,14 @@
              */
             showCustomModal(options) {
                 return this._getModal(tsUtils.merge({}, DEFAULT_OPTIONS, options));
+            }
+
+            /**
+             * @return {User}
+             * @private
+             */
+            _getUser() {
+                return $injector.get('user');
             }
 
             /**
@@ -456,7 +467,7 @@
 
         }
 
-        return new ModalManager();
+        return utils.bind(new ModalManager());
     };
 
     factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope', '$injector', 'state'];

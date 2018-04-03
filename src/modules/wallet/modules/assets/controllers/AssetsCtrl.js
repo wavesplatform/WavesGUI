@@ -129,7 +129,7 @@
             }
 
             showSeedBackupModals() {
-                return modalManager.showSeedBackupModals();
+                return modalManager.showSeedBackupModal();
             }
 
             /**

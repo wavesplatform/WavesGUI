@@ -42,9 +42,11 @@
      * @param $state
      * @param {State} state
      * @param {ModalManager} modalManager
+     * @param {Storage} storage
+     * @param {INotification} notification
      * @return {AppRun}
      */
-    const run = function ($rootScope, utils, user, $state, state, modalManager, storage) {
+    const run = function ($rootScope, utils, user, $state, state, modalManager, storage, notification) {
 
         class ExtendedAsset extends Waves.Asset {
 
@@ -198,18 +200,12 @@
                                 $state.go(user.getActiveState('wallet'));
                             }
 
-                            const termsAccepted = user.getSetting('termsAccepted');
                             i18next.changeLanguage(user.getSetting('lng'));
 
-                            if (!termsAccepted) {
-                                modalManager.showTermsAccept(user).then(() => {
-                                    if (user.getSetting('shareAnalytics')) {
-                                        analytics.activate();
-                                    }
+                            this._initializeTermsAccepted()
+                                .then(() => {
+                                    this._initializeBackupWarning();
                                 });
-                            } else if (user.getSetting('shareAnalytics')) {
-                                analytics.activate();
-                            }
 
                             $rootScope.$on('$stateChangeStart', (event, current) => {
                                 if (START_STATES.indexOf(current.name) !== -1) {
@@ -220,6 +216,54 @@
                             });
                         });
                 });
+            }
+
+            /**
+             * @return Promise
+             * @private
+             */
+            _initializeTermsAccepted() {
+                if (!user.getSetting('termsAccepted')) {
+                    return modalManager.showTermsAccept(user).then(() => {
+                        if (user.getSetting('shareAnalytics')) {
+                            analytics.activate();
+                        }
+                    })
+                        .catch(() => false);
+                } else if (user.getSetting('shareAnalytics')) {
+                    analytics.activate();
+                }
+                return Promise.resolve();
+            }
+
+            /**
+             * @private
+             */
+            _initializeBackupWarning() {
+                if (!user.getSetting('hasBackup')) {
+                    notification.error({
+                        ns: 'app.utils',
+                        noCloseIcon: true,
+                        title: {
+                            literal: 'notification.backup.title'
+                        },
+                        body: {
+                            literal: 'notification.backup.body'
+                        },
+                        action: {
+                            literal: 'notification.backup.action',
+                            callback: (api) => {
+                                modalManager.showSeedBackupModal()
+                                    .catch(() => null)
+                                    .then(() => {
+                                        if (user.getSetting('hasBackup')) {
+                                            api.destroy();
+                                        }
+                                    });
+                            }
+                        }
+                    }, -1);
+                }
             }
 
             /**
@@ -335,7 +379,17 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'storage', 'whatsNew'];
+    run.$inject = [
+        '$rootScope',
+        'utils',
+        'user',
+        '$state',
+        'state',
+        'modalManager',
+        'storage',
+        'notification',
+        'whatsNew'
+    ];
 
     angular.module('app')
         .run(run);

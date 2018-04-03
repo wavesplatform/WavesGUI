@@ -7,10 +7,11 @@
             <div class="body-2 basic-900">
                 <w-i18n>backupSeed.writeSeed</w-i18n>
                 <span>&nbsp;<w-i18n>backupSeed.or</w-i18n>&nbsp;
-                <a w-copy="{{::$ctrl.seed}}" w-i18n="backupSeed.copySeed"></a></span>
+                    <a w-copy="::$ctrl.seed.phrase" w-i18n="backupSeed.copySeed"></a>
+                </span>
             </div>
 
-            <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select"></w-seed-read>
+            <w-seed-read type="read" seed="{{::$ctrl.seed.phrase}}" class="no-user-select"></w-seed-read>
 
             <div class="body-2 basic-900">
                 <w-i18n>backupSeed.needConfirm</w-i18n>
@@ -37,23 +38,27 @@
             <w-seed-write class="margin-4"
                           on-fulfilled="$ctrl.onSeedConfirmFulfilled(isValid)"
                           on-touch="$ctrl.seedOnTouch()"
-                          seed="{{::$ctrl.seed}}"></w-seed-write>
+                          seed="{{::$ctrl.seed.phrase}}"></w-seed-write>
 
             <div class="body-2 basic-900">
                 <w-i18n>confirmBackup.enterCorrect</w-i18n>
             </div>
 
-            <w-seed-read type="random" seed="{{::$ctrl.seed}}"></w-seed-read>
+            <w-seed-read type="random" seed="{{::$ctrl.seed.phrase}}"></w-seed-read>
 
             <div class="error-500"
                  ng-if="$ctrl.seedConfirmWasFilled && !$ctrl.seedIsValid"
                  w-i18n="confirmBackup.error"></div>
 
+            <w-delegate selector="'a.clear'" handler="$ctrl.clear()">
+                <w-i18n w-i18n-ns="app.utils">modal.backup.clearSeed</w-i18n>
+            </w-delegate>
+
             <div class="buttons-wrapper">
                 <w-button class="big long submit" w-step-prev>
                     <w-i18n>modal.prev</w-i18n>
                 </w-button>
-                <w-button class="big long submit" w-step-next>
+                <w-button disabled="!$ctrl.seedIsValid" class="big long submit" w-step-next>
                     <w-i18n>modal.next</w-i18n>
                 </w-button>
             </div>

@@ -233,6 +233,14 @@
         "backButton": "Go Back",
         "nextButton": "I Understand"
       }
+    },
+    "backup": {
+      "title": {
+        "title_0": "Save backup phrase",
+        "title_1": "Confirm backup",
+        "title_2": "Success"
+      },
+      "clearSeed": "<a class=\"clear\">Clear</a> and tap again"
     }
   }
 }

@@ -149,7 +149,10 @@
 
                                 $element.on('click', '[w-notification-close]', () => {
                                     item.destroy();
-                                    $element.off();
+                                });
+
+                                $element.on('click', '[w-notification-action]', () => {
+                                    item.notificationObj.action.callback(item);
                                 });
 
                                 if (item.notificationObj.action) {
@@ -206,7 +209,11 @@
  * @property {object} [body]
  * @property {string} [body.literal]
  * @property {object} [body.params]
- * @property {function} [action]
+ * @property {object} [action]
+ * @property {string} [action.literal]
+ * @property {object} [action.params]
+ * @property {function} [action.callback]
+ * @property {boolean} [noCloseIcon]
  * @property {Function} [onClose]
  */
 
