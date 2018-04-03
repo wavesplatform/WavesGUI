@@ -63,8 +63,8 @@
             static getCurrentVersionFilter(lastVersion) {
                 return function (version) {
                     return (
-                        Migration.gte(WavesApp.version, version) &&
-                        Migration.lte(lastVersion, version)
+                        Migration.gt(version, lastVersion) &&
+                        Migration.lte(version, WavesApp.version)
                     );
                 };
             }
