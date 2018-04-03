@@ -97,8 +97,8 @@
                         this.$overlay.insertBefore($element);
 
                         const rect = this.element.getBoundingClientRect();
-                        this.delta.x = e.pageX - rect.left;
-                        this.delta.y = e.pageY - rect.top;
+                        this.delta.x = event.pageX - rect.left;
+                        this.delta.y = event.pageY - rect.top;
 
                         this.listenEventEmitter($document, POINTER_EVENTS.MOVE, this.moveHandler);
                         this.listenEventEmitter($document, POINTER_EVENTS.END, () => this._onEnd());
