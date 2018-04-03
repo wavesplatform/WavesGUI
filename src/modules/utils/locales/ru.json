@@ -75,10 +75,6 @@
         "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} {{assetTicker}}",
         "feeExplanation": "Введенный адрес определен как {{assetName}}-адрес, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} {{assetTicker}}, максимальная — {{max, BigNumber}} {{assetTicker}}."
       },
-
-
-
-
       "validationError": {
         "notEnoughFundsWithdraw": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}} и комиссию шлюза {{getawayFee, BigNumber}} {{currency}}.",
         "notEnoughFunds": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}}."
