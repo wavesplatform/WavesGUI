@@ -75,6 +75,13 @@
         "feeTitle": "Gateway fee is {{fee, BigNumber}} {{assetTicker}}",
         "feeExplanation": "We detected {{assetName}} address and will send your money through Coinomat gateway to that address. Minimum amount is {{min, BigNumber}} {{assetTicker}}, maximum amount is {{max, BigNumber}} {{assetTicker}}."
       },
+      "toBank": {
+        "bankAccount": "Bank account",
+        "warning": "If you have been verified and have deposited US dollars, you can withdraw these dollars back to your bank account. Otherwise, get verified by our partner <a href=\"https://idnow.eu/\" target=\"_blank\">IDNow.eu</a>",
+        "feeTitle": "Fees are 1% from the amount transferred.",
+        "feeExplanation": "The minimum amount is 500 US Dollar. If you have any questions, please just send an email to <a href=\"https://support@coinomat.com/\" target=\"_blank\">support@coinomat.com</a>",
+        "withdrawToBankLink": "Withdraw to bank"
+      },
       "validationError": {
         "notEnoughFundsWithdraw": "You don't have enough funds to pay the required fees. You must pay {{fee, money-currency}} transaction fee and {{getawayFee, BigNumber}} {{currency}} gateway fee.",
         "notEnoughFunds": "You don't have enough funds to pay the required fees. You must pay {{fee, money-currency}} transaction fee."

@@ -38,9 +38,9 @@
                 </div>
 
                 <div class="row">
-                    <w-input-container>
-                        <div class="body-2" w-i18n="modal.send.recipient"></div>
-                        <div class="read-address-wrap">
+                    <w-input-container w-toggle-class-container>
+                        <div class="body-2" w-i18n="modal.send.recipient">
+                            <div class="read-address-wrap"></div><!-- ng-if default TODO @tsigel-->
                             <w-input type="text"
                                      name="recipient"
                                      ng-model="$ctrl.tx.recipient"
@@ -54,14 +54,38 @@
                                             max-height="160"></w-qr-code-read>
                         </div>
 
-                        <w-input-error message="anyAddress">
-                            <w-i18n>modal.send.errors.address</w-i18n>
-                        </w-input-error>
-                        <w-input-error message="required">
-                            <w-i18n>modal.send.errors.required</w-i18n>
-                        </w-input-error>
+                        <!-- to bank account input-->
+                        <div class="to-bank-account" ng-if="$ctrl.toBankMode"><!-- ng-if to bank mode TODO @tsigel-->
+                            <div class="bank-recipient">
+                                <span w-i18n="modal.send.toBank.bankAccount"></span>
+                                <i class="toggle-mode" w-toggle-class="to-bank-mode"></i>
+                            </div>
+
+                            <w-input type="hidden"
+                                     name="recipient"
+                                     ng-model="$ctrl.tx.recipient"
+                                     placeholder="modal.send.placeholderRecipient"
+                                                                  <!-- ng-if coinomat adress from API TODO @tsigel-->
+                                     w-i18n-attr="placeholder"
+                                     w-validate
+                                     w-validator-any-address="{{$ctrl.assetId}}"
+                                     required></w-input>
+                        </div>
+
                     </w-input-container>
                 </div>
+
+                <!-- TO BANK warning -->
+                <div class="row"ng-if="$ctrl.toBankMode"> <!-- ng-if to bank mode TODO @tsigel-->
+                    <div class="warning-plate basic-500 margin-2" w-i18n="modal.send.toBank.warning"></div>
+                </div>
+
+                <div class="warning-plate margin-2" ng-if="$ctrl.toBankMode"> <!-- ng-if to bank mode TODO @tsigel-->
+                    <div class="body-2 warning-500" w-i18n="modal.send.toBank.feeTitle"></div>
+                    <div class="footnote-1 basic-500" w-i18n="modal.send.toBank.feeExplanation"></div>
+                </div>
+
+
 
                 <div ng-if="$ctrl.outerSendMode" class="row">
                     <div class="warning-plate margin-2">
@@ -82,7 +106,8 @@
                     </div>
 
                     <div class="warning-plate basic-500">
-                        <w-i18n params="{assetName: $ctrl.moneyHash[$ctrl.assetId].asset.name}">modal.send.icoWarning</w-i18n>
+                        <w-i18n params="{assetName: $ctrl.moneyHash[$ctrl.assetId].asset.name}">modal.send.icoWarning
+                        </w-i18n>
                     </div>
                 </div>
 
