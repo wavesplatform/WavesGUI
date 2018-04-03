@@ -143,9 +143,14 @@ w-input {
     .footnote-1();
   }
 
-  div.invalid.touched.focused .byte-validator__help {
-    color: @color-error-500;
+  div.focused .byte-validator__help {
     display: block;
+    color: @color-disabled-500;
+  }
+
+  div.touched.invalid .byte-validator__help {
+    display: block;
+    color: @color-error-500;
   }
 
 }
