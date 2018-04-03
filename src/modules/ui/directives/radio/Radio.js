@@ -70,6 +70,7 @@
             _setChecked() {
                 this.input.prop('checked', this.checked);
             }
+
         }
 
         return new Radio();

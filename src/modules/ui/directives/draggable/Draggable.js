@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 (function () {
     'use strict';
 
@@ -9,7 +10,7 @@
 
         return {
             scope: false,
-            link: ($scope, $element, $attrs) => {
+            link: ($scope, $element) => {
 
                 const $document = $(document);
                 const position = $element.css('position');

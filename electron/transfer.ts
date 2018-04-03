@@ -1,26 +1,5 @@
-function transfer(message: string, data: object = Object.create(null)) {
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
+import { main } from './main';
 
-        xhr.open('POST', `cmd:${message}/${JSON.stringify(data)}`, true);
-
-        xhr.addEventListener('readystatechange', () => {
-            if (xhr.readyState !== 4) {
-                return null;
-            }
-
-            try {
-                const result = JSON.parse(xhr.responseText);
-                if (result.status === 'error') {
-                    reject(result);
-                } else {
-                    resolve(result.data);
-                }
-            } catch (e) {
-                reject(e);
-            }
-        });
-
-        xhr.send();
-    });
+export function transfer(message: string, data: object = Object.create(null)): Promise<any> {
+    return main.bridge.transfer(message, data);
 }

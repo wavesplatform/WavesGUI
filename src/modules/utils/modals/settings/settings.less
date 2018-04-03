@@ -27,48 +27,47 @@ md-dialog.settings-modal {
     w-responsive-menu-item {
       display: block;
 
-      i {
-        flex-basis: 65px;
-        display: block;
-        background-repeat: no-repeat;
-        background-position: 32px center;
-      }
-
       .menu-item {
         position: relative;
         cursor: pointer;
         display: flex;
         align-items: center;
         height: 50px;
+        padding-left: 65px;
         color: @color-info-500;
 
-        &.general i {
-          background-image: url(/img/icons/settings-icon/general.svg);
-          height: 17px;
-          background-size: 16px 17px;
+        &::after {
+          content: '';
+          display: block;
+          position: absolute;
+          top: 50%;
+          left: 34px;
+          height: @low-icon-size;
+          width: @low-icon-size;
+          transform: translate(0, -50%);
+          background-image: url(/img/icons/settings-menu-icons.svg);
+          background-size: auto;
         }
 
-        &.security i {
-          background-image: url(/img/icons/settings-icon/security.svg);
-          height: 19px;
-          background-size: 17px 19px;
+        &.general::after {
+          background-position: 0 0;
         }
 
-        &.network i {
-          background-image: url(/img/icons/settings-icon/network.svg);
-          height: 17px;
-          background-size: 16px 17px;
+        &.security::after {
+          background-position: -@low-icon-size 0;
         }
 
-        &.info i {
-          background-image: url(/img/icons/settings-icon/info.svg);
-          height: 17px;
-          background-size: 17px 17px;
+        &.network::after {
+          background-position: (-@low-icon-size * 2) 0;
+        }
+
+        &.info::after {
+          background-position: (-@low-icon-size * 3) 0;
         }
       }
 
       &:hover {
-        background-color: @color-basic-50;
+        background-color: @color-submit-50;
       }
 
       &.active {
@@ -79,21 +78,20 @@ md-dialog.settings-modal {
         .menu-item {
           color: @color-white;
 
-          &.general i {
-            background-image: url(/img/icons/settings-icon/general-active.svg);
+          &.general::after {
+            background-position: 0 -@low-icon-size;
           }
-          &.security i {
-            background-image: url(/img/icons/settings-icon/security-active.svg);
+          &.security::after {
+            background-position: -@low-icon-size -@low-icon-size;
           }
-          &.network i {
-            background-image: url(/img/icons/settings-icon/network-active.svg);
+          &.network::after {
+            background-position: (-@low-icon-size * 2) -@low-icon-size;
           }
-          &.info i {
-            background-image: url(/img/icons/settings-icon/info-active.svg);
+          &.info::after {
+            background-position: (-@low-icon-size * 3) -@low-icon-size;
           }
         }
       }
-
     }
   }
 
@@ -113,6 +111,11 @@ md-dialog.settings-modal {
 
       .label {
         line-height: 1.8em;
+      }
+
+      .settings-copy {
+        display: inline-block;
+        float: right;
       }
     }
   }
@@ -149,10 +152,6 @@ md-dialog.settings-modal {
       // TODO : align to the middle without magic
       padding: 5px 0;
     }
-  }
-
-  .settings-copy {
-    display: none;
   }
 
   .info {
@@ -312,10 +311,6 @@ md-dialog.settings-modal {
         }
       }
 
-      .settings-copy {
-        display: inline-block;
-        float: right;
-      }
     }
   }
 }

@@ -2,61 +2,68 @@ import { createSecureServer } from 'http2';
 import { createServer } from 'https';
 import { route, parseArguments } from './ts-scripts/utils';
 import { readFileSync } from 'fs';
+import { serialize, parse as parserCookie } from 'cookie';
+import { compile } from 'handlebars';
+import { parse } from 'url';
+import { TBuild, TConnection, TPlatform } from './ts-scripts/interface';
+import { readFile } from 'fs-extra';
+import { join } from 'path';
+
 const ip = require('my-local-ip')();
 
 
-const connectionTypes = ['mainnet', 'testnet'];
-const buildTypes = ['dev', 'normal', 'min'];
+const connectionTypes: Array<TConnection> = ['mainnet', 'testnet'];
+const buildTypes: Array<TBuild> = ['dev', 'normal', 'min'];
 
-const privateKey = readFileSync('privatekey.pem').toString();
-const certificate = readFileSync('certificate.pem').toString();
+const privateKey = readFileSync('localhost.key').toString();
+const certificate = readFileSync('localhost.crt').toString();
+
+const handler = function (req, res) {
+    const url = parse(req.url);
+
+    if (url.href.includes('/choose/')) {
+        const [platform, connection, build] = url.href.replace('/choose/', '').split('/');
+        const cookie = serialize('session', `${platform},${connection},${build}`, {
+            maxAge: 60 * 60 * 24,
+            path: '/'
+        });
+
+        res.setHeader('Set-Cookie', cookie);
+        res.statusCode = 302;
+        res.setHeader('Location', 'https://localhost:8080');
+        res.end();
+
+        return null;
+    }
+
+    const parsed = parseCookie(req.headers.cookie);
+    if (!parsed) {
+        readFile(join(__dirname, 'chooseBuild.hbs'), 'utf8').then((file) => {
+            res.end(compile(file)({ links: getBuildsLinks(req.headers['user-agent']) }));
+        });
+    } else {
+        route(parsed.connection, parsed.build, parsed.platform)(req, res);
+    }
+};
 
 function createMyServer(port) {
 
-    const connectionTypesHash = arrToHash(connectionTypes);
-    const buildTypesHash = arrToHash(buildTypes);
-
-    const handler = function (req, res) {
-        const parsed = parseDomain(req.headers[':authority']);
-        if (!parsed) {
-            res.writeHead(302, { Location: `https://testnet.dev.localhost:${port}` });
-            res.end();
-        } else {
-            route(parsed.connectionType, parsed.buildType)(req, res);
-        }
-    };
-
-    function parseDomain(host: string): { connectionType: string, buildType: string } {
-        const [connectionType, buildType] = host.split('.');
-
-        if (!connectionType || !buildType || !buildTypesHash[buildType] || !connectionTypesHash[connectionType]) {
-            return null;
-        }
-
-        return { buildType, connectionType };
-    }
-
     const server = createSecureServer({ key: privateKey, cert: certificate });
+
     server.addListener('request', handler);
     server.listen(port);
+
     console.log(`Listen port ${port}...`);
     console.log('Available urls:');
-    connectionTypes.forEach((connection) => {
-        buildTypes.forEach((build) => {
-            console.log(`https://${connection}.${build}.localhost:${port}`);
-        });
-    });
+
+    console.log(`https://localhost:${port}`);
 }
 
-function createSimpleServer({ port = 8000, type = 'dev', connection = 'mainnet' }) {
-    const handler = function (req, res) {
-        route(connection, type)(req, res);
-    };
-
+function createSimpleServer({ port = 8000 }) {
     const server = createServer({ key: privateKey, cert: certificate });
     server.addListener('request', handler);
     server.listen(port);
-    console.log(`Listen port ${port}, type ${type}, connection ${connection} for simple server`);
+    console.log(`Listen port ${port}, for simple server`);
     console.log(`https://${ip}:${port}`);
 }
 
@@ -66,9 +73,32 @@ if (args.startSimple) {
     createSimpleServer(args);
 }
 
+function getBuildsLinks(userAgent: string = ''): Array<{ url: string; text: string }> {
+    const result = [];
+    const platform: TPlatform = userAgent.includes('Electron') ? 'desktop' : 'web';
 
-function arrToHash(arr: Array<string>): Object {
-    const result = Object.create(null);
-    arr.forEach((some) => result[some] = true);
+    connectionTypes.forEach((connection) => {
+        buildTypes.forEach((build) => {
+            result.push({
+                url: `/choose/${platform}/${connection}/${build}`,
+                text: `${platform} ${connection} ${build}`
+            });
+        });
+    });
+
     return result;
+}
+
+function parseCookie(header = ''): IRequestData {
+    const [platform, connection, build] = ((parserCookie(header) || Object.create(null)).session || '').split(',');
+    if (!(build && connection && platform)) {
+        return null;
+    }
+    return { platform, connection, build } as IRequestData;
+}
+
+interface IRequestData {
+    platform: TPlatform;
+    connection: TConnection;
+    build: TBuild;
 }
