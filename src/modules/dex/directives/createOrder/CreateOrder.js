@@ -112,6 +112,7 @@
                     this.ask = null;
                     balancesPoll.restart();
                     spreadPoll.restart();
+                    this.maxAmountBalance = CreateOrder._getMaxAmountBalance(this.type, this.amount, this.fee);
                     this.observeOnce(['bid', 'ask'], utils.debounce(() => {
                         if (this.type) {
                             this.price = this._getCurrentPrice();
@@ -223,17 +224,25 @@
                     });
             }
 
+            /**
+             * @return {Money}
+             * @private
+             */
             _getCurrentPrice() {
                 switch (this.type) {
                     case 'sell':
-                        return this.priceBalance.cloneWithTokens(String(this.bid.price));
+                        return this.priceBalance.cloneWithTokens(String(this.bid && this.bid.price || 0));
                     case 'buy':
-                        return this.priceBalance.cloneWithTokens(String(this.ask.price));
+                        return this.priceBalance.cloneWithTokens(String(this.ask && this.ask.price || 0));
                     default:
                         throw new Error('Wrong type');
                 }
             }
 
+            /**
+             * @return {Promise<IAssetPair>}
+             * @private
+             */
             _getBalances() {
                 return Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                     return utils.whenAll([
@@ -319,7 +328,7 @@
              * @private
              */
             static _getMaxAmountBalance(type, amount, fee) {
-                if (type === 'buy') {
+                if (!this.type || type === 'buy') {
                     return null;
                 }
                 if (amount.asset.id === fee.asset.id) {
