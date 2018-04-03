@@ -27,7 +27,7 @@
       "lease-in": "Входящий лизинг",
       "lease-out": "Передача в лизинг",
       "cancel-leasing": "Отмена лизинга",
-      "unknown": "Неизвестная тразнакция",
+      "unknown": "Неизвестная транзакция",
       "create-alias": "Создание алиаса",
       "activeLeasing": "активен"
     },
@@ -88,7 +88,7 @@
       "type": "Тип",
       "height": "Высота блока",
       "cancelTx": "TX",
-      "confirmations": "Подтверждениий",
+      "confirmations": "Подтверждений",
       "fee": "Комиссия",
       "viewTransactionKey": "Детали",
       "viewTransactionValue": "Посмотреть транзакцию",
