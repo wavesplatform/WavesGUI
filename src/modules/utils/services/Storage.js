@@ -12,8 +12,17 @@
         } catch (e) {
             const storage = {
                 _data: Object.create(null),
+                get length() {
+                    return Object.keys(this._data).length;
+                },
+                key(n) {
+                    return Object.keys(this._data)[n];
+                },
                 setItem(name, value) {
                     this._data[name] = String(value);
+                },
+                removeItem(key) {
+                    delete this._data[key];
                 },
                 getItem(name) {
                     if (name in this._data) {
