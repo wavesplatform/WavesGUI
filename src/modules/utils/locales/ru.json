@@ -176,7 +176,9 @@
         "title": "Основные",
         "blockHeight": "Текущая высота",
         "timeout": "Время жизни сессии",
-        "language": "Язык"
+        "language": "Язык",
+        "minutes": "{{minutes}} мин",
+        "hours": "{{hours}} час"
       },
       "security": {
         "title": "Безопасность",

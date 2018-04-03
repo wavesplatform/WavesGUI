@@ -23,6 +23,10 @@
                 this.node = '';
                 this.matcher = '';
                 this.shareStat = user.getSetting('shareAnalytics');
+                /**
+                 * @type {number}
+                 */
+                this.logoutAfterMin = null;
 
                 this.appName = WavesApp.name;
                 this.appVersion = WavesApp.version;
@@ -33,6 +37,10 @@
                 this.syncSettings({
                     node: 'network.node',
                     matcher: 'network.matcher'
+                });
+
+                this.syncSettings({
+                    logoutAfterMin: 'logoutAfterMin'
                 });
 
                 this.observe(['node', 'matcher'], () => {
