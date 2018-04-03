@@ -91,9 +91,7 @@
                 return this._getModal({
                     id: 'tutorial-modals',
                     templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
-                    controller: 'TutorialModalsCtrl',
-                    clickOutsideToClose: false,
-                    escapeToClose: false
+                    controller: 'TutorialModalsCtrl'
                 });
             }
 
