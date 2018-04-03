@@ -15,6 +15,13 @@ md-dialog.settings-modal {
     display: none;
   }
 
+  w-select.with-scroll {
+    .select-list {
+      overflow-y: auto;
+      max-height: 140px;
+    }
+  }
+
   w-responsive-menu {
     width: 199px;
     height: calc(100% ~' + 20px');
@@ -73,7 +80,9 @@ md-dialog.settings-modal {
       &.active {
         background-color: @color-submit-400;
 
-        &:hover {background-color: @color-submit-400;}
+        &:hover {
+          background-color: @color-submit-400;
+        }
 
         .menu-item {
           color: @color-white;
@@ -233,24 +242,24 @@ md-dialog.settings-modal {
 
         &::before {
           background-color: @color-submit-400;
-          content:'';
-          display:block;
+          content: '';
+          display: block;
           position: absolute;
-          top:0;
-          left:0;
+          top: 0;
+          left: 0;
           height: @mobile-settings-item-height;
           width: 100%;
         }
 
         w-responsive-menu-item {
           order: 2;
-          opacity:0;
+          opacity: 0;
           height: 0;
         }
 
         w-responsive-menu-item.active {
           order: 0;
-          opacity:1;
+          opacity: 1;
           height: @mobile-settings-item-height;
         }
 
@@ -261,7 +270,7 @@ md-dialog.settings-modal {
         &.active {
           height: auto;
           w-responsive-menu-item {
-            opacity:1;
+            opacity: 1;
             height: @mobile-settings-item-height;
           }
         }
@@ -291,6 +300,10 @@ md-dialog.settings-modal {
           }
         }
       }
+    }
+
+    .modal-content {
+      min-height: 360px;
     }
 
     .settings-modal {
