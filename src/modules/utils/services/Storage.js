@@ -7,6 +7,29 @@
     let clear;
 
     if (WavesApp.isWeb()) {
+        try {
+            localStorage.setItem('___test', String(Date.now()));
+        } catch (e) {
+            const storage = {
+                _data: Object.create(null),
+                setItem(name, value) {
+                    this._data[name] = String(value);
+                },
+                getItem(name) {
+                    if (name in this._data) {
+                        return this._data[name];
+                    } else {
+                        return null;
+                    }
+                },
+                clear() {
+                    this._data = Object.create(null);
+                }
+            };
+            Object.defineProperty(window, 'localStorage', {
+                get: () => storage
+            });
+        }
         read = function (key) {
             const data = localStorage.getItem(key);
             try {
