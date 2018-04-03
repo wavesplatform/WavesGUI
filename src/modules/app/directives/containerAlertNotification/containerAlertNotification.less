@@ -22,6 +22,30 @@ w-container-alert-notification {
     border-radius: @border-radius;
     overflow: hidden;
 
+    &.error {
+      div:not(:last-child) {
+        margin-bottom: 10px;
+      }
+
+      & [w-notification-action] {
+        cursor: pointer;
+        color: @color-error-500;
+        text-decoration: underline;
+
+        &::after {
+          content: '→';
+          display: inline-block;
+          font-size: inherit;
+          margin-left: 3px;
+          text-decoration: none;
+        }
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+
     span.line {
       display: block;
 

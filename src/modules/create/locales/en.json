@@ -36,7 +36,6 @@
   "confirmBackup": {
     "confirm": "Confirm backup",
     "description": "Verify your backup phrase or",
-    "descriptionModal": "Verify your backup phrase",
     "back": "go back",
     "enterCorrect": "Please, tap each word in the correct order",
     "ok": "Confirm",
@@ -45,13 +44,11 @@
     "again": "and tap again"
   },
   "modal": {
-    "title1": "Save backup phrase",
-    "title2": "Confirm backup",
-    "title3": "Success",
     "prev": "Go back",
     "next": "Confirm",
     "understand": "I Understand",
-    "succesHeadline": "Treat your backup phrase with care!",
-    "sucesContent": "You cannot change your secret phrase. If you accidentally sent it to someone or suspect that scammers have taken it over, then create a new Waves wallet immediately and transfer your funds to it."
+    "successHeadline": "Treat your backup phrase with care!",
+    "successContent": "You cannot change your secret phrase. If you accidentally sent it to someone or suspect that scammers have taken it over, then create a new Waves wallet immediately and transfer your funds to it.",
+    "confirmBackupDescription": "Verify your backup phrase"
   }
 }

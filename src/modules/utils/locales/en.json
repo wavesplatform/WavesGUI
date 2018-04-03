@@ -242,5 +242,12 @@
       },
       "clearSeed": "<a class=\"clear\">Clear</a> and tap again"
     }
+  },
+  "notification": {
+    "backup": {
+      "title": "Save your backup phrase (SEED)",
+      "body": "Store your SEED safely, it is the only way to restore your wallet.",
+      "action": "Save"
+    }
   }
 }
