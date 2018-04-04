@@ -35,7 +35,8 @@
     angular.module('app.ui').component('wPassword', {
         bindings: {
             onSubmit: '&',
-            password: '='
+            password: '=',
+            name: '='
         },
         templateUrl: 'modules/ui/directives/password/password.html',
         transclude: true,

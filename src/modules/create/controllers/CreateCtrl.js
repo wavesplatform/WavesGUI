@@ -27,6 +27,7 @@
 
                 this.stepIndex = 0;
                 this.password = '';
+                this.name = '';
                 this.seed = '';
                 this.address = '';
                 this.seedList = [];
@@ -138,6 +139,7 @@
 
                 return user.create({
                     address: this.address,
+                    name: this.name,
                     password: this.password,
                     encryptedSeed,
                     publicKey

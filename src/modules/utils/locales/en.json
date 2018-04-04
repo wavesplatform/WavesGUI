@@ -148,7 +148,8 @@
       "warning": "In case of problems with verification or payment processing, please contact the Coinomat support team — <a href='mailto:support@coinomat.com' target='_blank'>support@coinomat.com</a>"
     },
     "account": {
-      "title": "Account Information",
+      "title": "Account {{name}}",
+      "title_default_name": "information",
       "address": "Your address",
       "aliases": "Aliases",
       "create": "Create new",

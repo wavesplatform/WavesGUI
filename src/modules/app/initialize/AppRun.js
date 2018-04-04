@@ -202,7 +202,7 @@
                             i18next.changeLanguage(user.getSetting('lng'));
 
                             if (!termsAccepted) {
-                                modalManager.showTermsAccept(user).then(() => {
+                                modalManager.showTermsAccept().then(() => {
                                     if (user.getSetting('shareAnalytics')) {
                                         analytics.activate();
                                     }
