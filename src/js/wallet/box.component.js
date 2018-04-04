@@ -37,8 +37,8 @@
             image: 'wB-bg-WTRY.png',
             displayName: Currency.WTRY.displayName
         };
-        mapping[Currency.BCC.displayName] = {
-            image: 'wB-bg-BCC.svg',
+        mapping[Currency.BCH.displayName] = {
+            image: 'wB-bg-BCH.svg',
             displayName: 'BCH'
         };
 

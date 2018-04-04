@@ -96,7 +96,7 @@
                 ctrl.assetBalance.currency === Currency.ETH ||
                 ctrl.assetBalance.currency === Currency.LTC ||
                 ctrl.assetBalance.currency === Currency.ZEC ||
-                ctrl.assetBalance.currency === Currency.BCC
+                ctrl.assetBalance.currency === Currency.BCH
             ) {
                 withdrawCrypto();
             } else if (ctrl.assetBalance.currency === Currency.EUR) {

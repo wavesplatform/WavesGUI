@@ -57,8 +57,8 @@
                 depositWith: Currency.WTRY
             },
             {
-                balance: new Money(0, Currency.BCC),
-                depositWith: Currency.BCC
+                balance: new Money(0, Currency.BCH),
+                depositWith: Currency.BCH
             }
         ];
 
@@ -91,7 +91,7 @@
                 id === Currency.WAVES.id ||
                 id === Currency.LTC.id ||
                 id === Currency.ZEC.id ||
-                id === Currency.BCC.id
+                id === Currency.BCH.id
             ) {
                 type = 'crypto';
             } else if (id === Currency.EUR.id || id === Currency.USD.id) {
