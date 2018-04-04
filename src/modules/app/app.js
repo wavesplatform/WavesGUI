@@ -35,6 +35,7 @@
         'app.restore',
         'app.wallet',
         'app.dex',
-        'app.tokens'
+        'app.tokens',
+        'app.sessions'
     ]);
 })();

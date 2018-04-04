@@ -42,9 +42,11 @@
      * @param $state
      * @param {State} state
      * @param {ModalManager} modalManager
+     * @param {Storage} storage
+     * @param {SessionBridge} sessionBridge
      * @return {AppRun}
      */
-    const run = function ($rootScope, utils, user, $state, state, modalManager, storage) {
+    const run = function ($rootScope, utils, user, $state, state, modalManager, storage, sessionBridge) {
 
         class ExtendedAsset extends Waves.Asset {
 
@@ -229,13 +231,19 @@
              */
             _login(currentState) {
 
+                const sessions = sessionBridge.getSessionsData();
+
                 const states = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => {
                         return WavesApp.stateTree.getPath(item.id)
                             .join('.');
                     });
                 if (states.indexOf(currentState.name) === -1) {
-                    $state.go(states[0]);
+                    if (sessions.length) {
+                        $state.go('sessions');
+                    } else {
+                        $state.go(states[0]);
+                    }
                 }
                 return user.onLogin();
             }
@@ -335,7 +343,7 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'storage'];
+    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'storage', 'sessionBridge'];
 
     angular.module('app')
         .run(run);

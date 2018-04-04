@@ -1,0 +1,10 @@
+<ul>
+    <li ng-repeat="session in $ctrl.sessions track by session.address"
+        ng-click="$ctrl.chooseSession(session)">
+        <w-avatar size="30" address="session.address"></w-avatar>
+        <div ng-class="::{'has-name': !!session.name}">
+            <span class="session-name">{{::session.name}}</span>
+            <span class="session-address">{{::session.address}}</span>
+        </div>
+    </li>
+</ul>
