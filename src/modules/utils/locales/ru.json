@@ -84,21 +84,9 @@
         "details": "Посмотреть детали"
       },
       "icoWarning": "Не выводите {{assetName}} на адреса ICO, так как мы не зачислим вам токены полученные после окончания распродажи.",
-      "coinomatBTC": {
-        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} BTC",
-        "feeExplanation": "Введенный адрес определен как Bitcoin-адрес, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} BTC, максимальная — {{max, BigNumber}} BTC."
-      },
-      "coinomatETH": {
-        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} ETH",
-        "feeExplanation": "Введенный адрес определен как Ethereum-адрес, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} ETH, максимальная — {{max, BigNumber}} ETH."
-      },
-      "coinomatLTC": {
-        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} LTC",
-        "feeExplanation": "Введенный адрес определен как Litecoin-адрес, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} LTC, максимальная — {{max, BigNumber}} LTC."
-      },
-      "coinomatZEC": {
-        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} ZEC",
-        "feeExplanation": "Введенный адрес определен как Zcash-адрес, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} ZEC, максимальная — {{max, BigNumber}} ZEC."
+      "coinomat": {
+        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} {{assetTicker}}",
+        "feeExplanation": "Введенный адрес определен как {{assetName}}-адрес, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} {{assetTicker}}, максимальная — {{max, BigNumber}} {{assetTicker}}."
       },
       "validationError": {
         "notEnoughFundsWithdraw": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}} и комиссию шлюза {{getawayFee, BigNumber}} {{currency}}.",
