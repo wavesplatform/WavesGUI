@@ -341,7 +341,8 @@
                             let parserWorkedBeforeInputEvent = false;
 
                             function getCorrespondingToPatternPartOf(value) {
-                                const correspondingParts = validator.value.exec(value) || [];
+                                const inputWithoutGroup = Validate._replaceGroupSeparator(value);
+                                const correspondingParts = validator.value.exec(inputWithoutGroup) || [];
 
                                 return correspondingParts[0] || '';
                             }
@@ -583,7 +584,7 @@
                             if (value instanceof BigNumber) {
                                 return value.toFixed();
                             } else if (value instanceof Waves.Money) {
-                                return value.toFormat();
+                                return value.getTokens().toFixed();
                             } else if (!value) {
                                 return '';
                             } else {
@@ -651,6 +652,17 @@
                         static _replaceInputValue(newValue) {
                             $ngModel.$viewValue = newValue;
                             $ngModel.$render();
+                        }
+
+                        /**
+                         * @param {string} value
+                         * @return {string}
+                         * @private
+                         */
+                        static _replaceGroupSeparator(value) {
+                            const separator = WavesApp.localize[i18next.language].separators.group;
+                            const reg = new RegExp(`\\${separator}`, 'g');
+                            return value.replace(reg, '');
                         }
 
                     }
