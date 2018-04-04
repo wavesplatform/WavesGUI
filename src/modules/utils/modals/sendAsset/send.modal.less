@@ -3,13 +3,17 @@
 
 .modal-send {
 
+  w-input-container {
+    position: relative;
+  }
+
   w-qr-code-read {
     position: absolute;
     height: 34px;
     width: 56px;
     right: 0;
     top: 50%;
-    margin-top: -17px;
+    transform: translateY(-50%);
     border-left: 1px solid #dae1e9;
 
     .btn:before {
@@ -152,6 +156,57 @@
     white-space: nowrap;
     vertical-align: top;
   }
+
+  //toBankMode
+  .to-bank-account {
+    background: @color-basic-50;
+    border: 1px solid @color-basic-200;
+    height: 54px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-radius: @border-radius;
+
+    i {
+      position: absolute;
+      height: 34px;
+      width: 56px;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      border-left: 1px solid #dae1e9;
+      background: url(/img/icons/close.svg) center no-repeat;
+      background-size: 18px 18px;
+      cursor: pointer;
+
+      &::before {
+        width: 38px;
+        height: 32px;
+        background-size: 38px;
+        cursor: pointer;
+      }
+    }
+
+    span {
+      .body-2();
+    }
+  }
+
+  .flex-row-title {
+    display: flex;
+    align-items: center;
+
+    div {
+      flex-grow: 1;
+
+    }
+    a {
+      flex-grow: 0;
+      margin: 4px 0;
+    }
+  }
+
 }
 
 @media screen and (max-width: 767px) {

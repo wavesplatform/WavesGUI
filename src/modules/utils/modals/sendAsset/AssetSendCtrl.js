@@ -100,6 +100,10 @@
                  * @private
                  */
                 this._noCurrentRate = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.toBankMode = false;
 
                 this.syncSettings({
                     mirrorId: 'baseAssetId'
