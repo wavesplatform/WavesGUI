@@ -1,4 +1,12 @@
 {
+  "utils": {
+    "whatsNew": {
+      "title": "What's new in this update {{version}}",
+      "body": {
+        "1_0_0-beta_20": "<span class=\"line\">1. We added «What's new» section!</span><span class=\"line\">2. Bitcoin Cash gateway has been launched.</span><span class=\"line\">3. MassTransfer transactions support is enabled.</span><span class=\"line\">4. Desktop apps will update automatically from now on.</span><span class=\"line\">5. Some minor bugs were fixed.</span>"
+      }
+    }
+  },
   "modal": {
     "assetInfo": {
       "title": "Asset Info",

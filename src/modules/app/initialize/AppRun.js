@@ -172,8 +172,8 @@
              */
             _initializeLogin() {
 
-                storage.onReady().then((isNew) => {
-                    if (isNew) {
+                storage.onReady().then((oldVersion) => {
+                    if (!oldVersion) {
                         modalManager.showTutorialModals();
                     }
                 });
@@ -335,7 +335,7 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'storage'];
+    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'storage', 'whatsNew'];
 
     angular.module('app')
         .run(run);

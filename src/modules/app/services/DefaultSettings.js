@@ -27,6 +27,8 @@
                  */
                 this.defaults = {
                     network: WavesApp.network,
+                    lastOpenVersion: '',
+                    whatsNewList: [],
                     shareAnalytics: false,
                     logoutAfterMin: 5,
                     encryptionRounds: 5000,
