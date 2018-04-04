@@ -1,10 +1,39 @@
-<ul>
-    <li ng-repeat="session in $ctrl.sessions track by session.address"
-        ng-click="$ctrl.chooseSession(session)">
-        <w-avatar size="30" address="session.address"></w-avatar>
-        <div ng-class="::{'has-name': !!session.name}">
-            <span class="session-name">{{::session.name}}</span>
-            <span class="session-address">{{::session.address}}</span>
-        </div>
-    </li>
-</ul>
+<div class="sessions">
+
+    <div class="waves-logo"></div>
+    <div class="headline-1">
+        <w-i18n>session.headline</w-i18n>
+    </div>
+
+    <div class="body-2 disabled-600">
+        <span w-i18n="session.signIn"></span>
+    </div>
+
+    <ul class="sessions">
+        <li class="margin-2" ng-repeat="session in $ctrl.sessions track by session.address"
+            ng-click="$ctrl.chooseSession(session)">
+            <w-avatar size="30" address="session.address"></w-avatar>
+            <div ng-class="::{'has-name': !!session.name}">
+                <span class="session-name">{{::session.name}}</span>
+                <span class="session-address">{{::session.address}}</span>
+            </div>
+        </li>
+    </ul>
+
+    <div class="or margin-2">
+        <span w-i18n="noBackupNoMoney.or"></span>
+    </div>
+
+    <w-button class="big submit long">
+        <w-i18n>session.createNew</w-i18n>
+    </w-button>
+
+</div>
+
+
+
+
+
+
+
+
