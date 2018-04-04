@@ -7,6 +7,11 @@
       }
     }
   },
+  "validators": {
+    "byte": {
+      "help": "Осталось байт: {{bytes}}"
+    }
+  },
   "modal": {
     "assetInfo": {
       "title": "О токене",
