@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-/* global openInBrowser, i18next, BigNumber, Waves, identityImg */
+/* global openInBrowser, BigNumber */
 (function () {
     'use strict';
 
@@ -43,10 +43,10 @@
      * @param {State} state
      * @param {ModalManager} modalManager
      * @param {Storage} storage
-     * @param {SessionBridge} sessionBridge
+     * @param {ModalRouter} ModalRouter
      * @return {AppRun}
      */
-    const run = function ($rootScope, utils, user, $state, state, modalManager, storage, sessionBridge) {
+    const run = function ($rootScope, utils, user, $state, state, modalManager, storage, ModalRouter) {
 
         class ExtendedAsset extends Waves.Asset {
 
@@ -113,6 +113,7 @@
         class AppRun {
 
             constructor() {
+                const identityImg = require('identity-img');
 
                 LOADER.addProgress(PROGRESS_MAP.APP_RUN);
 
@@ -121,6 +122,15 @@
                  * @type {Array<string>}
                  */
                 this.activeClasses = [];
+                /**
+                 * @type {ModalRouter}
+                 * @private
+                 */
+                this._modalManager = new ModalRouter();
+                /**
+                 * @type {function}
+                 * @private
+                 */
                 this._changeLangHandler = null;
 
                 /**
@@ -230,8 +240,7 @@
              * @private
              */
             _login(currentState) {
-
-                const sessions = sessionBridge.getSessionsData();
+                // const sessions = sessionBridge.getSessionsData();
 
                 const states = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => {
@@ -239,11 +248,11 @@
                             .join('.');
                     });
                 if (states.indexOf(currentState.name) === -1) {
-                    if (sessions.length) {
-                        $state.go('sessions');
-                    } else {
-                        $state.go(states[0]);
-                    }
+                    // if (sessions.length) {
+                    //     $state.go('sessions');
+                    // } else {
+                    $state.go(states[0]);
+                    // }
                 }
                 return user.onLogin();
             }
@@ -343,7 +352,16 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'storage', 'sessionBridge'];
+    run.$inject = [
+        '$rootScope',
+        'utils',
+        'user',
+        '$state',
+        'state',
+        'modalManager',
+        'storage',
+        'ModalRouter'
+    ];
 
     angular.module('app')
         .run(run);

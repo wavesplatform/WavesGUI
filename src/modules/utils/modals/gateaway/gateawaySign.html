@@ -1,0 +1,13 @@
+<div ng-if="$ctrl.hasIcon">
+    <img src="{{::$ctrl.iconPath}}"/>
+</div>
+<div ng-if="!$ctrl.hasIcon">
+    {{::$ctrl.appName}}
+</div>
+<w-i18n params="{name: $ctrl.appName}">modal.gateawaySign.body</w-i18n>
+<w-button class="big" on-click="$ctrl.cancel()">
+    <w-i18n>cancel</w-i18n>
+</w-button>
+<w-button class="big submit" on-click="$ctrl.send()">
+    <w-i18n>continue</w-i18n>
+</w-button>

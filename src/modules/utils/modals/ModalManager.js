@@ -47,10 +47,21 @@
                 });
             }
 
+            showGateawaySign(search) {
+                return this._getModal({
+                    id: 'gateaway-sign-in',
+                    title: 'modal.gateawaySign.title',
+                    contentUrl: 'modules/utils/modals/gateaway/gateawaySign.html',
+                    controller: 'GateawaySignCtrl',
+                    locals: { search },
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
             showAssetInfo(asset) {
                 return this._getModal({
                     id: 'asset-info',
-                    ns: 'app.utils',
                     title: 'modal.assetInfo.title',
                     contentUrl: 'modules/utils/modals/assetInfo/assetInfo.html',
                     locals: asset,
