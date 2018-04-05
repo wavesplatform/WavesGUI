@@ -1,4 +1,5 @@
 @import (reference) '../../config';
+@import (reference) '../../app/less/typography';
 
 .sessions {
   width: 460px;
@@ -7,51 +8,46 @@
 
   .sessions-holder {
     list-style-type: none;
+    padding: 0;
+    margin: 60px 0 30px 0;
 
-    li {
-      paddong: 0;
+    .input-like {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      position: relative;
+      cursor: pointer;
+
+      .has-name {
+        display: flex;
+        flex-direction: column;
+
+        .session-address {
+          .footnote-1();
+          color: @color-basic-500;
+          line-height: 1em;
+        }
+        .session-name {
+          .body-2();
+          line-height: 1em;
+          margin: 0 0 4px 0;
+        }
+      }
+
+      .icon-remove-user {
+        position: absolute;
+        top: 50%;
+        right: 5px;
+        transform: translateY(-50%);
+        width: 30px;
+        height: 30px;
+        background-size: 10px 10px;
+        background-position: center;
+      }
+
     }
   }
 }
-
-
-//
-//.create-account {
-//
-//
-//  .left {
-//    text-align: left;
-//  }
-//
-//  .right {
-//    text-align: right;
-//  }
-//
-//  .avatars-list {
-//    display: flex;
-//    flex-direction: row;
-//    justify-content: space-around;
-//    margin: 10px 0 30px 0;
-//
-//    .avatar-wrapper {
-//      width: 84px;
-//      height: 84px;
-//      border: 1px solid transparent;
-//      border-radius: @border-radius;
-//      display: flex;
-//      flex-direction: column;
-//      align-items: center;
-//      justify-content: center;
-//      cursor: pointer;
-//
-//      &.active {
-//        background-color: rgba(31, 90, 246, 0.05);
-//        border: solid 1px @color-submit-400;
-//        cursor: default;
-//      }
-//    }
-//  }
-//}
 
 @media screen and (max-width: 480px) {
   .sessions {
