@@ -89,11 +89,11 @@
     },
     "tradeHistory": {
       "title": "Nothing Here…",
-      "description": "You do not have trade history."
+      "description": "The trading history is empty."
     },
     "orderBook": {
       "title": "Nothing Here…",
-      "description": "You do not have any orders."
+      "description": "The order book is empty."
     }
   }
 }
