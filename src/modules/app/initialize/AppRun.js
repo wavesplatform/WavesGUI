@@ -3,6 +3,8 @@
 (function () {
     'use strict';
 
+    const tsUtils = require('ts-utils');
+
     const PROGRESS_MAP = {
         RUN_SCRIPT: 10,
         APP_RUN: 15,
@@ -36,7 +38,7 @@
     LOADER.addProgress(PROGRESS_MAP.RUN_SCRIPT);
 
     /**
-     * @param $rootScope
+     * @param {$rootScope.Scope} $rootScope
      * @param {User} user
      * @param {app.utils} utils
      * @param $state
@@ -44,33 +46,12 @@
      * @param {ModalManager} modalManager
      * @param {Storage} storage
      * @param {INotification} notification
+     * @param {ExtendedAsset} ExtendedAsset
+     * @param {app.utils.decorators} decorators
      * @return {AppRun}
      */
-    const run = function ($rootScope, utils, user, $state, state, modalManager, storage, notification) {
-
-        class ExtendedAsset extends Waves.Asset {
-
-            constructor(props) {
-                super({
-                    ...props,
-                    name: WavesApp.remappedAssetNames[props.id] || props.name
-                    // ID, name, precision and description are added here
-                });
-
-                this.reissuable = props.reissuable;
-                this.timestamp = props.timestamp;
-                this.sender = props.sender;
-                this.height = props.height;
-
-                const divider = new BigNumber(10).pow(this.precision);
-                this.quantity = new BigNumber(props.quantity).div(divider);
-
-                this.ticker = props.ticker || '';
-                this.sign = props.sign || '';
-                this.displayName = props.ticker || props.name;
-            }
-
-        }
+    const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
+                          notification, ExtendedAsset, decorators) {
 
         function remapAssetProps(props) {
             props.precision = props.decimals;
@@ -237,13 +218,35 @@
             }
 
             /**
+             * @param {object} [scope]
+             * @param {boolean} scope.closeByModal
              * @private
              */
-            _initializeBackupWarning() {
+            @decorators.scope({ closeByModal: false })
+            _initializeBackupWarning(scope) {
                 if (!user.getSetting('hasBackup')) {
+
+                    const id = tsUtils.uniqueId('n');
+
+                    const changeModalsHandler = (modal) => {
+
+                        scope.closeByModal = true;
+                        notification.remove(id);
+                        scope.closeByModal = false;
+
+                        modal.catch(() => null)
+                            .then(() => {
+                                if (!user.getSetting('hasBackup')) {
+                                    this._initializeBackupWarning();
+                                }
+                            });
+                    };
+
+                    modalManager.openModal.once(changeModalsHandler);
+
                     notification.error({
+                        id,
                         ns: 'app.utils',
-                        noCloseIcon: true,
                         title: {
                             literal: 'notification.backup.title'
                         },
@@ -252,15 +255,21 @@
                         },
                         action: {
                             literal: 'notification.backup.action',
-                            callback: (api) => {
-                                modalManager.showSeedBackupModal()
-                                    .catch(() => null)
-                                    .then(() => {
-                                        if (user.getSetting('hasBackup')) {
-                                            api.destroy();
-                                        }
-                                    });
+                            callback: () => {
+                                modalManager.showSeedBackupModal();
                             }
+                        },
+                        onClose: () => {
+                            if (scope.closeByModal || user.getSetting('hasBackup')) {
+                                return null;
+                            }
+
+                            modalManager.openModal.off(changeModalsHandler);
+
+                            const stop = $rootScope.$on('$stateChangeSuccess', () => {
+                                stop();
+                                this._initializeBackupWarning();
+                            });
                         }
                     }, -1);
                 }
@@ -388,6 +397,8 @@
         'modalManager',
         'storage',
         'notification',
+        'ExtendedAsset',
+        'decorators',
         'whatsNew'
     ];
 

@@ -13,6 +13,7 @@
      */
     const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state) {
 
+        const tsUtils = require('ts-utils');
 
         const DEFAULT_OPTIONS = {
             clickOutsideToClose: true,
@@ -31,7 +32,14 @@
         class ModalManager {
 
             constructor() {
+                /**
+                 * @type {Signal<Promise>}
+                 */
                 this.openModal = new tsUtils.Signal();
+                /**
+                 * @type {number}
+                 * @private
+                 */
                 this._counter = 0;
 
                 state.signals.changeRouterStateStart.on((event) => {

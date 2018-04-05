@@ -34,14 +34,24 @@
                  * @private
                  */
                 this._activeList = [];
+                /**
+                 * @type {Object.<IQueueItem>}
+                 * @private
+                 */
+                this._queueHash = Object.create(null);
             }
 
             /**
              * @param {IQueueItem} item
              */
             push(item) {
+                if (this._queueHash[item.id]) {
+                    throw new Error('Duplicate queue id!');
+                }
+
                 const handler = this._getEndPromiseHandler(item);
                 item.promise.then(handler, handler);
+                this._queueHash[item.id] = item;
 
                 if (this._activeList.length === this._queueLimit) {
                     this._list.push(item);
@@ -49,6 +59,26 @@
                     this._activeList.push(item);
                     this._dispatch();
                 }
+            }
+
+            /**
+             * @param {string} id
+             * @return {*}
+             */
+            remove(id) {
+                if (this._queueHash[id]) {
+                    const item = this._queueHash[id];
+                    this._getEndPromiseHandler(item)();
+                    return item;
+                }
+            }
+
+            /**
+             * @param {string} id
+             * @return {boolean}
+             */
+            has(id) {
+                return !!this._queueHash[id];
             }
 
             /**
@@ -71,6 +101,9 @@
              * @private
              */
             _getEndPromiseHandler(item) {
+                if (this._queueHash[item.id]) {
+                    delete this._queueHash[item.id];
+                }
                 return () => {
                     [this._list, this._activeList].forEach((list, isActiveList) => {
                         const index = list.indexOf(item);
@@ -113,4 +146,5 @@
 /**
  * @typedef {object} IQueueItem
  * @property {Promise} promise
+ * @property {string} id
  */

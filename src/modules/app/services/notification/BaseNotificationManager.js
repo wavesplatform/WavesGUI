@@ -13,6 +13,8 @@
      */
     const factory = function ($compile, $q, $rootScope, timeLine, Queue, $templateRequest, utils) {
 
+        const tsUtils = require('ts-utils');
+
         class BaseNotificationManager {
 
             /**
@@ -37,6 +39,26 @@
                 this._setHandlers();
             }
 
+            /**
+             * @param {string} id
+             */
+            remove(id) {
+                /**
+                 * @type {_INotificationItem}
+                 */
+                const item = this._queue.remove(id);
+                if (item && item.destroy) {
+                    item.destroy();
+                }
+            }
+
+            /**
+             * @param {string} id
+             * @return {boolean}
+             */
+            has(id) {
+                return this._queue.has(id);
+            }
 
             /**
              * @param {INotificationObj} notificationObj
@@ -70,6 +92,9 @@
                 return this._push('error', notificationObj, delay);
             }
 
+            /**
+             * @return {Array<IQueueItem>}
+             */
             getActiveNotificationsList() {
                 return this._queue.getActiveList();
             }
@@ -91,11 +116,13 @@
             _push(type, notificationObj, delay = this._options.defaultDelay) {
                 const defer = $q.defer();
                 const promise = defer.promise;
+                notificationObj.id = notificationObj.id || tsUtils.uniqueId('n');
 
                 /**
                  * @type {_INotificationItem}
                  */
                 const notification = utils.liteObject({
+                    id: notificationObj.id,
                     defer,
                     promise,
                     notificationObj,
@@ -170,6 +197,9 @@
                 Promise.all(promises).then(() => this._dispatch());
             }
 
+            /**
+             * @private
+             */
             _dispatch() {
                 this.changeSignal.dispatch(this.getActiveNotificationsList());
             }
@@ -203,6 +233,7 @@
 /**
  * @typedef {object} INotificationObj
  * @property {string} ns
+ * @property {string} [id]
  * @property {object} [title] Except for alerts
  * @property {string} [title.literal] Except for alerts
  * @property {object} [title.params] Except for alerts
