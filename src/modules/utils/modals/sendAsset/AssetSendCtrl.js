@@ -1,6 +1,11 @@
 (function () {
     'use strict';
 
+    const FIAT_ASSETS = {
+        [WavesApp.defaultAssets.USD]: true,
+        [WavesApp.defaultAssets.EUR]: true
+    };
+
     /**
      * @param $scope
      * @param {Waves} waves
@@ -21,6 +26,10 @@
              */
             get balance() {
                 return this.moneyHash && this.moneyHash[this.assetId];
+            }
+
+            get hasSendToBank() {
+                return FIAT_ASSETS[this.assetId];
             }
 
             /**
