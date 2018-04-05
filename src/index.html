@@ -382,6 +382,9 @@
     var analytics = eventSender.default.inactive();
 
     try {
+        /**
+         * @type {IWavesAPI}
+         */
         var Waves = WavesAPI.create({
             networkByte: WavesApp.network.code.charCodeAt(0),
             nodeAddress: WavesApp.network.node,
