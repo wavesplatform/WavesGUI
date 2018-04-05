@@ -5,7 +5,8 @@
         'ts-utils': 'tsUtils',
         'bignumber.js': 'BigNumber',
         'ts-api-validator': 'tsApiValidator',
-        'parse-json-bignumber': 'parseJsonBignumber'
+        'parse-json-bignumber': 'parseJsonBignumber',
+        'waves-api': 'WavesAPI'
     };
 
     if (window.require) {

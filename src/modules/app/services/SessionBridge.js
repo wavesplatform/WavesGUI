@@ -44,6 +44,7 @@
 
                 this._api = utils.liteObject({
                     getLoginData: (commandData) => this._getLoginData(commandData),
+                    sign: (commandData) => this._sign(commandData),
                     response: (commandData) => this._onResponse(commandData)
                 });
 
@@ -90,49 +91,117 @@
             }
 
             /**
-             * @param data
-             * @param {string} data.id
-             * @param {string} data.referer
+             * @param {string} type
+             * @param {object} tx
+             */
+            sign(type, tx) {
+                /**
+                 * @type {void|ISessionUserData}
+                 */
+                const master = this._getMasterSessionId(user.address);
+                return this._runCommand('sign', master && master.id, { type, tx });
+            }
+
+            /**
+             * @param request
+             * @param {string} request.id
+             * @param {string} request.referer
              * @private
              */
-            _getLoginData(data) {
-                return this._setResponseSuccess(data.id, data.referer, {
-                    address: user.address,
-                    password: user._password
+            _getLoginData(request) {
+                return this._setResponseSuccess(request, {
+                    address: user.address
                 });
             }
 
             /**
-             * @param {string} id
-             * @param {string} referer
-             * @param {object} body
+             * @param request
+             * @param {string} request.id
+             * @param {string} request.referer
+             * @param {object} request.data
+             * @param {string} request.data.type
+             * @param {object} request.data.tx
              * @private
              */
-            _setResponseSuccess(id, referer, body) {
-                this._setResponse(id, referer, 'success', { data: body });
+            _sign(request) {
+                /**
+                 * @type {ITransactionClass}
+                 */
+                let transaction;
+
+                switch (request.data.type) {
+                    case 'order':
+                        transaction = new Waves.Transactions.Order(request.data.tx);
+                        break;
+                    case Waves.constants.ISSUE_TX_NAME:
+                        transaction = new Waves.Transactions.IssueTransaction(request.data.tx);
+                        break;
+                    case Waves.constants.TRANSFER_TX_NAME:
+                        transaction = new Waves.Transactions.TransferTransaction(request.data.tx);
+                        break;
+                    case Waves.constants.REISSUE_TX_NAME:
+                        transaction = new Waves.Transactions.ReissueTransaction(request.data.tx);
+                        break;
+                    case Waves.constants.BURN_TX_NAME:
+                        transaction = new Waves.Transactions.BurnTransaction(request.data.tx);
+                        break;
+                    case Waves.constants.LEASE_TX_NAME:
+                        transaction = new Waves.Transactions.LeaseTransaction(request.data.tx);
+                        break;
+                    case Waves.constants.CANCEL_LEASING_TX_NAME:
+                        transaction = new Waves.Transactions.CancelLeasingTransaction(request.data.tx);
+                        break;
+                    case Waves.constants.CREATE_ALIAS_TX_NAME:
+                        transaction = new Waves.Transactions.CreateAliasTransaction(request.data.tx);
+                        break;
+                    case Waves.constants.MASS_TRANSFER_TX_NAME:
+                        throw new Error('Unsupported method mass transfer!');
+                    default:
+                        throw new Error('Unknown transaction type!');
+                }
+
+                user.getSeed()
+                    .then((seed) => transaction.prepareForAPI(seed.keyPair.privateKey))
+                    .then((prepareData) => this._setResponseSuccess(request, prepareData))
+                    .catch((e) => {
+                        this._setResponseError(request, e);
+                    });
             }
 
             /**
-             * @param {string} id
-             * @param {string} referer
+             * @param {object} request
+             * @param {string} request.id
+             * @param {string} request.referer
              * @param {object} body
              * @private
              */
-            _setResponseError(id, referer, message) {
-                this._setResponse(id, referer, 'error', { message });
+            _setResponseSuccess(request, body) {
+                this._setResponse(request, 'success', { data: body });
             }
 
             /**
-             * @param {string} id
-             * @param {string} referer
+             * @param {object} request
+             * @param {string} request.id
+             * @param {string} request.referer
+             * @param {object} body
+             * @private
+             */
+            _setResponseError(request, message) {
+                this._setResponse(request, 'error', { message });
+            }
+
+            /**
+             * @param {object} request
+             * @param {string} request.id
+             * @param {string} request.referer
              * @param {'error'|'success'} status
              * @param {object} data
              * @private
              */
-            _setResponse(id, referer, status, data) {
-                const command = this._getCommandKey(referer, 'response');
+            _setResponse(request, status, data) {
+                const command = this._getCommandKey(request.referer, 'response');
                 this._dispatch(command, {
-                    id,
+                    id: request.id,
                     referer: this._sessionId,
                     data: {
                         status,
@@ -147,7 +216,7 @@
             /**
              * @param {string} apiMethod
              * @param {string} targetSessionId
-             * @param {any} [data]
+             * @param {*} [data]
              * @return {Promise<IResponce>}
              * @private
              */
@@ -220,7 +289,13 @@
                     const cmd = this._parseCommand(event.key);
                     if (cmd && cmd in this._api) {
                         const commandData = JSON.parse(localStorage.getItem(event.key));
-                        this._api[cmd](commandData);
+                        try {
+                            this._api[cmd](commandData);
+                        } catch (e) {
+                            if (cmd !== 'response') {
+                                this._setResponseError(commandData, e);
+                            }
+                        }
                     } else if (event.key === this._sessionListKey) {
                         this.signals.changeSessions.dispatch(this.getSessionsData());
                     }
@@ -263,8 +338,18 @@
                 localStorage.setItem(this._getSessionDataKey(), JSON.stringify({
                     name: user.name,
                     address: user.address,
-                    id: this._sessionId
+                    id: this._sessionId,
+                    isMaster: user.isMaster()
                 }));
+            }
+
+            /**
+             * @param {string} address
+             * @return {void | ISessionUserData}
+             * @private
+             */
+            _getMasterSessionId(address) {
+                return tsUtils.find(this.getSessionsData(), { address, isMaster: true });
             }
 
             /**
@@ -343,6 +428,7 @@
  * @property {string} name
  * @property {string} address
  * @property {string} id
+ * @property {boolean} isMaster
  */
 
 /**
