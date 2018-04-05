@@ -244,7 +244,7 @@
         "title_1": "Подтверждение бэкапа",
         "title_2": "Бэкап успешно сохранён"
       },
-      "clearSeed": "<a class=\"clear\">Clear</a> and tap again"
+      "clearSeed": "<a class=\"clear\">Очистить</a> и попробовать снова"
     }
   },
   "notification": {
