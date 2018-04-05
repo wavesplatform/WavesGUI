@@ -15,10 +15,16 @@ md-dialog.settings-modal {
     display: none;
   }
 
-  w-select.with-scroll {
-    .select-list {
-      overflow-y: auto;
-      max-height: 140px;
+  w-select {
+    &.with-scroll {
+      .select-list {
+        overflow-y: auto;
+        max-height: 140px;
+      }
+    }
+
+    .select:not(.expanded) .title {
+      border: 1px solid transparent;
     }
   }
 
