@@ -2,6 +2,7 @@
   "session": {
     "headline": "Select account",
     "signIn": "Sign into account",
-    "createNew": "createNew"
+    "signInNew": "Sign into a new session",
+    "or": "OR"
   }
 }
