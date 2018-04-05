@@ -88,7 +88,10 @@
                      */
                     _onStart(e) {
                         const event = this._getDistilledEvent(e);
-                        event.preventDefault();
+                        // Disallow text selection, but allow clicking for touch devices.
+                        if (event.type !== TOUCH_EVENTS.START) {
+                            event.preventDefault();
+                        }
 
                         if (event.button !== MAIN_MOUSE_BUTTON) {
                             return false;
@@ -166,7 +169,8 @@
                             preventDefault: () => e.originalEvent.preventDefault(),
                             button: e.button || MAIN_MOUSE_BUTTON,
                             pageX: Draggable._getCoordinateValue(e, touch, 'pageX'),
-                            pageY: Draggable._getCoordinateValue(e, touch, 'pageY')
+                            pageY: Draggable._getCoordinateValue(e, touch, 'pageY'),
+                            type: e.type
                         };
                     }
 
