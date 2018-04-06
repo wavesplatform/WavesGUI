@@ -49,10 +49,11 @@
              * @private
              */
             _getHeight() {
-                return Promise.all([
-                    waves.node.height(),
-                    waves.node.transactions.getAlways(this.id)
-                ]);
+                const promiseList = [waves.node.height()];
+                if (!this.confirmed) {
+                    promiseList.push(waves.node.transactions.getAlways(this.id));
+                }
+                return Promise.all(promiseList);
             }
 
             /**
@@ -61,12 +62,14 @@
              * @private
              */
             _setHeight([height, tx]) {
-                Object.assign(this.transaction, tx);
-                if (!tx.isUTX) {
+                if (tx) {
+                    Object.assign(this.transaction, tx);
                     this.confirmations = height - tx.height;
                     this.confirmed = this.confirmations >= 0;
-                    $scope.$apply();
+                } else {
+                    this.confirmations = height - this.transaction.height;
                 }
+                $scope.$apply();
             }
 
         }
