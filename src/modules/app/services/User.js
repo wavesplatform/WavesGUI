@@ -1,3 +1,4 @@
+/* global transfer */
 (function () {
     'use strict';
 
@@ -25,6 +26,10 @@
                  * @type {string}
                  */
                 this.address = null;
+                /**
+                 * @type {string}
+                 */
+                this.name = null;
                 /**
                  * @type {Signal}
                  */
@@ -132,6 +137,7 @@
             /**
              * @param {object} data
              * @param {string} data.address
+             * @param {string} data.name
              * @param {string} data.encryptedSeed
              * @param {string} data.publicKey
              * @param {string} data.password
@@ -142,6 +148,7 @@
                 return this._addUserData({
                     address: data.address,
                     password: data.password,
+                    name: data.name,
                     encryptedSeed: data.encryptedSeed,
                     publicKey: data.publicKey,
                     settings: {
@@ -209,7 +216,7 @@
              * @return {Promise}
              */
             getUserList() {
-                return storage.load('userList')
+                return storage.onReady().then(() => storage.load('userList'))
                     .then((list) => {
                         list = list || [];
 
@@ -329,16 +336,6 @@
                         }
                     }
                 });
-            }
-
-            /**
-             * @private
-             */
-            _check() {
-                if (!this.address || !this.encryptedSeed) {
-                    // TODO Need _addUserData!
-                    throw new Error('No address!');
-                }
             }
 
             /**

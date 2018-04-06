@@ -58,6 +58,7 @@
             </div>
 
             <w-password class="margin-2"
+                        name="$ctrl.name"
                         password="$ctrl.password"
                         on-submit="$ctrl.restore()">
                 <span w-i18n-ns="app.restore">
@@ -67,7 +68,7 @@
         </w-step>
     </w-step-by-step>
 
-    <!--TODO @xenohunter #wrap-in-component-->
+    <!--TODO #wrap-in-component-->
 
     <div class="or margin-2">
         <span w-i18n="seedForm.or"></span>

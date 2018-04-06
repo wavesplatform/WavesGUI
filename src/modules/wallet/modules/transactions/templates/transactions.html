@@ -5,10 +5,10 @@
             <w-radio value="'all'">
                 <w-i18n>all</w-i18n>
             </w-radio>
-            <w-radio value="'send'">
+            <w-radio value="'send,mass-send'">
                 <w-i18n>sent</w-i18n>
             </w-radio>
-            <w-radio value="'receive'">
+            <w-radio value="'receive,mass-receive'">
                 <w-i18n>received</w-i18n>
             </w-radio>
             <w-radio value="'exchange-buy,exchange-sell'">
@@ -43,7 +43,7 @@
             </w-option>
         </w-select>
 
-        <w-button class="download interface" ng-click="$ctrl.exportTransactions()">
+        <w-button disabled="$ctrl.pending" class="download interface" on-click="$ctrl.exportTransactions()">
             <w-i18n>export</w-i18n>
         </w-button>
 

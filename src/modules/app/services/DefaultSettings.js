@@ -27,6 +27,8 @@
                  */
                 this.defaults = {
                     network: WavesApp.network,
+                    lastOpenVersion: '',
+                    whatsNewList: [],
                     shareAnalytics: false,
                     logoutAfterMin: 5,
                     encryptionRounds: 5000,
@@ -43,7 +45,8 @@
                         WavesApp.defaultAssets.USD,
                         WavesApp.defaultAssets.EUR,
                         WavesApp.defaultAssets.LTC,
-                        WavesApp.defaultAssets.ZEC
+                        WavesApp.defaultAssets.ZEC,
+                        WavesApp.defaultAssets.BCH
                     ],
                     wallet: {
                         activeState: 'assets',

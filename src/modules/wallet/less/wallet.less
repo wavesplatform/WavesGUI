@@ -3,77 +3,55 @@
 .wallet {
   w-navigation a {
 
-    .size(@width, @height) {
-      width: @width;
-      height: @height;
-    }
-
     &::before {
-      content: '';
       display: inline-block;
-      background-size: 100% 100%;
       position: relative;
+      width: @default-icon-size;
+      height: @default-icon-size;
       margin-right: 7px;
+      content: '';
+      background-image: url(/img/icons/menu-icons.svg);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: auto;
     }
 
     &.assets {
       &::before {
-        .size(25px, 19px);
-      }
-      &::before {
-        background-image: url(/img/wallet/assets.svg);
+        background-position: (-@default-icon-size * 5) 0;
       }
       &.active::before {
-        background-image: url(/img/wallet/assets-active.svg);
+        background-position: (-@default-icon-size * 5) -@default-icon-size;
       }
     }
 
     &.portfolio {
       &::before {
-        .size(22px, 20px);
-      }
-      &::before {
-        background-image: url(/img/wallet/portfolio.svg);
+        margin-top: -3px;
+        background-position: (-@default-icon-size * 7) 0;
       }
       &.active::before {
-        background-image: url(/img/wallet/portfolio-active.svg);
-      }
-    }
-
-    &.transfers {
-      &::before {
-        .size(22px, 22px);
-      }
-      &::before {
-        background-image: url(/img/wallet/transfers.svg);
-      }
-      &.active::before {
-        background-image: url(/img/wallet/transfers-active.svg);
+        background-position: (-@default-icon-size * 7) -@default-icon-size;
       }
     }
 
     &.transactions {
       &::before {
-        .size(22px, 22px);
-      }
-      &::before {
-        background-image: url(/img/wallet/transactions.svg);
+        background-position: (-@default-icon-size * 6) 0;
       }
       &.active::before {
-        background-image: url(/img/wallet/transactions-active.svg);
+        background-position: (-@default-icon-size * 6) -@default-icon-size;
       }
     }
 
     &.leasing {
       &::before {
-        .size(24px, 16px);
-      }
-      &::before {
-        background-image: url(/img/wallet/leasing.svg);
+        background-position: (-@default-icon-size * 8) 0;
       }
       &.active::before {
-        background-image: url(/img/wallet/leasing-active.svg);
+        background-position: (-@default-icon-size * 8) -@default-icon-size;
       }
     }
   }
 }
+

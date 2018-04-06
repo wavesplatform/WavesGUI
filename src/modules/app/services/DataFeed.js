@@ -3,10 +3,9 @@
 
     /**
      * @param decorators
-     * @param {app.utils} utils
      * @return {DataFeed}
      */
-    const factory = function (decorators, utils) {
+    const factory = function (decorators) {
 
         // TODO Refactor. Author Tsigel at 22/11/2017 08:24
 
@@ -55,7 +54,7 @@
         return new DataFeed();
     };
 
-    factory.$inject = ['decorators', 'utils'];
+    factory.$inject = ['decorators'];
 
     angular.module('app').factory('dataFeed', factory);
 })();

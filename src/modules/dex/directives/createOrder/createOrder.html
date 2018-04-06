@@ -68,7 +68,7 @@
                                              w-validate
                                              w-validator-asset="{{$ctrl.amountBalance.asset}}"
                                              w-validator-lte="{{$ctrl.maxAmountBalance}}"
-                                             w-validator-custom="{{$ctrl.canByOrder}}"
+                                             w-validator-custom="{{$ctrl.canBuyOrder}}"
                                              w-validator-gt="0"
                                              name="amount"
                                              ng-model="$ctrl.amount"
@@ -144,7 +144,7 @@
 
                         <w-button disabled="order.$invalid"
                                   class="place-order tiny footnote-3"
-                                  ng-click="$ctrl.createOrder(order)">
+                                  on-click="$ctrl.createOrder(order)">
                             <w-i18n ng-if="$ctrl.type === 'sell'">directives.createOrder.placeSellOrder</w-i18n>
                             <w-i18n ng-if="$ctrl.type === 'buy'">directives.createOrder.placeBuyOrder</w-i18n>
                         </w-button>

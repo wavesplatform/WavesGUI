@@ -9,6 +9,10 @@
                 $element.toggleClass(className);
             }
 
+            addClass(className) {
+                $element.addClass(className);
+            }
+
         }
 
         return new ToggleClassContainer();

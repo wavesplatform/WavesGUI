@@ -4,6 +4,8 @@
     const TYPES = {
         SEND: 'send',
         RECEIVE: 'receive',
+        MASS_SEND: 'mass-send',
+        MASS_RECEIVE: 'mass-receive',
         CIRCULAR: 'circular',
         ISSUE: 'issue',
         REISSUE: 'reissue',
@@ -136,12 +138,10 @@
 
             /**
              * @param {boolean} isUTX
-             * @param {string[]} aliasList
              * @return {function(*=)}
              * @private
              */
             _pipeTransaction(isUTX) {
-
                 return (tx) => {
 
                     if (tx.type && tx.originalTx.type === 2) {
@@ -156,8 +156,28 @@
                     tx.templateType = Transactions._getTemplateType(tx);
                     tx.shownAddress = Transactions._getTransactionAddress(tx);
 
-                    if (tx.transactionType === TYPES.ISSUE) {
-                        tx.quantityStr = tx.quantity.toFormat(tx.precision);
+                    const list = aliases.getAliasList();
+
+                    switch (tx.type) {
+                        case TYPES.BURN:
+                        case TYPES.REISSUE:
+                            tx.name = tx.name || tx.quantity.asset.name;
+                            break;
+                        case TYPES.ISSUE:
+                            tx.quantityStr = tx.quantity.toFormat(tx.precision);
+                            break;
+                        case TYPES.MASS_SEND:
+                            tx.numberOfRecipients = tx.transfers.length;
+                            tx.amount = tx.totalAmount;
+                            break;
+                        case TYPES.MASS_RECEIVE:
+                            tx.amount = tx.transfers
+                                .filter(({ recipient }) => recipient === user.address || list.indexOf(recipient) !== -1)
+                                .map(({ amount }) => amount)
+                                .reduce((acc, val) => acc.add(val));
+                            break;
+                        default:
+                            break;
                     }
 
                     return tx;
@@ -185,22 +205,23 @@
              */
             static _getTransactionType(tx) {
                 switch (tx.transactionType) {
-                    // TODO : replace `case` values with `waves-api` constants
-                    case 'transfer':
+                    case Waves.constants.TRANSFER_TX_NAME:
                         return Transactions._getTransferType(tx);
-                    case 'exchange':
+                    case Waves.constants.MASS_TRANSFER_TX_NAME:
+                        return Transactions._getMassTransferType(tx.sender);
+                    case Waves.constants.EXCHANGE_TX_NAME:
                         return Transactions._getExchangeType(tx);
-                    case 'lease':
+                    case Waves.constants.LEASE_TX_NAME:
                         return Transactions._getLeaseType(tx);
-                    case 'cancelLeasing':
+                    case Waves.constants.CANCEL_LEASING_TX_NAME:
                         return TYPES.CANCEL_LEASING;
-                    case 'createAlias':
+                    case Waves.constants.CREATE_ALIAS_TX_NAME:
                         return TYPES.CREATE_ALIAS;
-                    case 'issue':
+                    case Waves.constants.ISSUE_TX_NAME:
                         return TYPES.ISSUE;
-                    case 'reissue':
+                    case Waves.constants.REISSUE_TX_NAME:
                         return TYPES.REISSUE;
-                    case 'burn':
+                    case Waves.constants.BURN_TX_NAME:
                         return TYPES.BURN;
                     default:
                         return TYPES.UNKNOWN;
@@ -220,6 +241,10 @@
                 } else {
                     return sender === user.address ? TYPES.SEND : TYPES.RECEIVE;
                 }
+            }
+
+            static _getMassTransferType(sender) {
+                return sender === user.address ? TYPES.MASS_SEND : TYPES.MASS_RECEIVE;
             }
 
             /**
@@ -253,6 +278,8 @@
                 switch (type) {
                     case TYPES.SEND:
                     case TYPES.RECEIVE:
+                    case TYPES.MASS_SEND:
+                    case TYPES.MASS_RECEIVE:
                     case TYPES.CIRCULAR:
                         return 'transfer';
                     case TYPES.ISSUE:
@@ -283,6 +310,7 @@
                 switch (type) {
                     // TODO : clear this list as there is no need for address in some getList
                     case TYPES.RECEIVE:
+                    case TYPES.MASS_RECEIVE:
                     case TYPES.ISSUE:
                     case TYPES.REISSUE:
                     case TYPES.LEASE_IN:

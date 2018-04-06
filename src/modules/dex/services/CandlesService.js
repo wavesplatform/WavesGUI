@@ -1,7 +1,7 @@
+/* eslint-disable no-console */
 (function () {
     'use strict';
 
-    const DEX_START = new Date('Apr 12 2017');
     const POLL_DELAY = 3000;
 
     /**
@@ -28,58 +28,68 @@
                 }), 0);
             }
 
-            searchSymbolsByName(userInput, exchange, symbolType, callback) {
-                console.warn('This method should not be called');
-                setTimeout(() => callback([]), 0);
-                // symbolInfoService.search(userInput).then((list) => {
-                //     callback(list.map(CandlesService._symbolInfoToSearchResult));
-                // });
-            }
-
             resolveSymbol(symbolName, resolve, reject) {
-                if (symbolName.match(/^DEX:/)) return;
+                if (symbolName.match(/^DEX:/)) {
+                    return;
+                }
+
                 symbolInfoService.get(symbolName)
                     .then(resolve)
                     .catch(reject); // TODO
             }
 
-            getBars(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
-                from = from * 1000;
-                to = to * 1000;
+            getBars(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback) {
+                const handleCandles = (candles) => {
+                    if (candles.length) {
+                        this._updateLastTime(candles);
+                        onHistoryCallback(candles);
+                    } else {
+                        onHistoryCallback([], {
+                            noData: true
+                        });
+                    }
+                };
 
-                CandlesService._getCandles(symbolInfo, from, to, resolution)
-                    .then((candles) => {
-                        if (candles.length) {
-                            this._lastTime = candles[candles.length - 1].time;
-                            onHistoryCallback(candles);
-                        } else {
-                            onHistoryCallback([], {
-                                noData: true,
-                                nextTime: DEX_START.getTime() // TODO : get `nextTime` from server
-                            });
-                        }
-                    })
-                    .catch((e) => {
-                        // console.error(e);
-                        onErrorCallback(e);
-                    });
+                CandlesService._getAndHandleCandles(
+                    symbolInfo,
+                    CandlesService.convertToMilliseconds(from),
+                    CandlesService.convertToMilliseconds(to),
+                    resolution,
+                    handleCandles,
+                    onErrorCallback
+                );
             }
 
             subscribeBars(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
-                const args = arguments;
                 this._subscriber = subscriberUID;
 
+                const handleCandles = (candles) => {
+                    if (this._subscriber !== subscriberUID) {
+                        return;
+                    }
+
+                    this.subscribeBars(
+                        symbolInfo,
+                        resolution,
+                        onRealtimeCallback,
+                        subscriberUID,
+                        onResetCacheNeededCallback
+                    );
+
+                    if (candles.length) {
+                        this._updateLastTime(candles);
+                        candles.forEach(onRealtimeCallback);
+                    }
+                };
+
                 timeLine.timeout(() => {
-                    CandlesService._getCandles(symbolInfo, this._lastTime, Date.now(), resolution)
-                        .then((candles) => {
-                            if (this._subscriber === subscriberUID) {
-                                this.subscribeBars.apply(this, args);
-                                if (candles.length) {
-                                    this._lastTime = candles[candles.length - 1].time;
-                                    candles.forEach(onRealtimeCallback);
-                                }
-                            }
-                        });
+                    CandlesService._getAndHandleCandles(
+                        symbolInfo,
+                        this._lastTime,
+                        Date.now(),
+                        resolution,
+                        handleCandles
+                    );
                 }, POLL_DELAY);
             }
 
@@ -89,14 +99,21 @@
                 }
             }
 
-            // static _symbolInfoToSearchResult(symbolInfo) {
-            //     return {
-            //         symbol: symbolInfo.name, // This value is shown to user
-            //         full_name: symbolInfo.ticker, // This value is passed to `this.resolveSymbol()`
-            //         description: symbolInfo.ticker,
-            //         ticker: symbolInfo.ticker
-            //     };
-            // }
+            _updateLastTime(candles) {
+                this._lastTime = candles[candles.length - 1].time;
+            }
+
+            static _getAndHandleCandles(symbolInfo, from, to, resolution, handleCandles, handleError = angular.noop) {
+                CandlesService
+                    ._getCandles(
+                        symbolInfo,
+                        from,
+                        to,
+                        resolution
+                    )
+                    .then(handleCandles)
+                    .catch(handleError);
+            }
 
             static _getCandles(symbolInfo, from, to = Date.now(), resolution) {
                 const amountId = symbolInfo._wavesData.amountAsset.id;
@@ -111,6 +128,10 @@
             static _normalizeInterval(interval) {
                 const char = interval.charAt(interval.length - 1);
                 return interval + (isNaN(+char) ? '' : 'm');
+            }
+
+            static convertToMilliseconds(seconds) {
+                return seconds * 1000;
             }
 
         }

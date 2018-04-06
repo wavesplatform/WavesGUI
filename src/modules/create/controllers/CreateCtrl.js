@@ -10,8 +10,7 @@
      * @param {ISeedService} seedService
      * @return {CreateCtrl}
      */
-    const controller = function (Base, $scope, $q, $mdDialog, $timeout, user, modalManager,
-                                 seedService) {
+    const controller = function (Base, $scope, $q, $mdDialog, $timeout, user, modalManager, seedService) {
 
         const PATH = 'modules/create/templates';
         const ORDER_LIST = [
@@ -28,6 +27,7 @@
 
                 this.stepIndex = 0;
                 this.password = '';
+                this.name = '';
                 this.seed = '';
                 this.address = '';
                 this.seedList = [];
@@ -73,11 +73,11 @@
             }
 
             create() {
-                this._create(true);
+                return this._create(true);
             }
 
             createWithoutBackup() {
-                this._create(false);
+                return this._create(false);
             }
 
             /**
@@ -96,7 +96,7 @@
                 if (!ORDER_LIST[index]) {
                     throw new Error('Wrong order list index!');
                 } else {
-                    this.checkNext()
+                    return this.checkNext()
                         .then(() => {
                             this.stepIndex = index;
                         });
@@ -139,6 +139,7 @@
 
                 return user.create({
                     address: this.address,
+                    name: this.name,
                     password: this.password,
                     encryptedSeed,
                     publicKey

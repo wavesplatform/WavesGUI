@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* global tsUtils */
 (function () {
     'use strict';
 
@@ -120,7 +122,7 @@
                         item.setActive(false);
                     }
                 });
-                this._activeCid = option.cid;
+
                 this._activeNode.empty();
                 this.ngModel = option.value;
                 this._activeNode.append(option.getContent());
@@ -189,7 +191,7 @@
             _animate() {
                 if (this.isOpend) {
                     this._selectList.css({ display: 'flex', height: 'auto' });
-                    const height = this._selectList.height();
+                    const height = this._selectList.outerHeight();
                     this._selectList.css('height', 0);
                     return utils.animate(this._selectList, { height }, { duration: 100 });
                 } else {

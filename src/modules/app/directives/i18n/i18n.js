@@ -8,7 +8,7 @@
      */
     const directive = function (Base, i18n, utils) {
         return {
-            scope: true,
+            scope: false,
             restrict: 'AE',
             link($scope, $element, $attrs) {
 
