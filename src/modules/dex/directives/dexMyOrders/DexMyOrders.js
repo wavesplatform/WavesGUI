@@ -5,7 +5,7 @@
      * @param Base
      * @param {Waves} waves
      * @param {User} user
-     * @param createPoll
+     * @param {IPollCreate} createPoll
      * @param {INotification} notification
      * @param {app.utils} utils
      * @return {DexMyOrders}

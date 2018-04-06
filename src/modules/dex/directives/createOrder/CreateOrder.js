@@ -6,7 +6,7 @@
      * @param {Waves} waves
      * @param {User} user
      * @param {app.utils} utils
-     * @param {function} createPoll
+     * @param {IPollCreate} createPoll
      * @param $scope
      * @param {JQuery} $element
      * @param {INotification} notification
@@ -103,6 +103,9 @@
                  * @type {Poll}
                  */
                 const balancesPoll = createPoll(this, this._getBalances, this._setBalances, 1000);
+                /**
+                 * @type {Poll}
+                 */
                 const spreadPoll = createPoll(this, this._getData, this._setData, 1000);
 
                 this.observe('_assetIdPair', () => {

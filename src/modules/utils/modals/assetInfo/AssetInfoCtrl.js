@@ -5,7 +5,7 @@
      * @param Base
      * @param $scope
      * @param {User} user
-     * @param createPoll
+     * @param {IPollCreate} createPoll
      * @param {app.utils} utils
      * @param {Waves} waves
      * @return {AssetInfoCtrl}

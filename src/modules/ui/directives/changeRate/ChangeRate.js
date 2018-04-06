@@ -5,7 +5,7 @@
      * @param Base
      * @param {Waves} waves
      * @param {User} user
-     * @param createPoll
+     * @param {IPollCreate} createPoll
      * @return {ChangeRate}
      */
     const controller = function (Base, waves, user, createPoll) {

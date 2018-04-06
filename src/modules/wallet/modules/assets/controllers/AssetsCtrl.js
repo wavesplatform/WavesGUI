@@ -9,7 +9,7 @@
      * @param {Base} Base
      * @param {User} user
      * @param {ModalManager} modalManager
-     * @param {Function} createPoll
+     * @param {IPollCreate} createPoll
      * @return {Assets}
      */
     const controller = function (waves, assetsData, $scope, utils, Base, user, modalManager, createPoll) {

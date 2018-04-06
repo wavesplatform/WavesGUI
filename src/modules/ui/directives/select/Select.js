@@ -10,6 +10,7 @@
      * @param {$timeout} $timeout
      * @param {$q} $q
      * @param {app.utils} utils
+     * @param {IPromiseControlCreate} createPromise
      * @return {Select}
      */
     const controller = function (Base, ComponentList, $element, $timeout, $q, utils, createPromise) {

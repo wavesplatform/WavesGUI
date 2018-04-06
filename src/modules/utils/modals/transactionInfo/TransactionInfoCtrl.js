@@ -7,7 +7,7 @@
      * @param $scope
      * @param {ExplorerLinks} explorerLinks
      * @param {Waves} waves
-     * @param {function} createPoll
+     * @param {IPollCreate} createPoll
      * @return {TransactionInfoCtrl}
      */
     const controller = function (Base, $scope, explorerLinks, waves, createPoll) {
