@@ -225,6 +225,13 @@
         "backButton": "Go Back",
         "nextButton": "I Understand"
       }
+    },
+    "gateawaySign": {
+      "title": "Sign in with Waves",
+      "headline": "The Coinomat.com application will see your Waves address.",
+      "description": "The application will not get your SEED or Private key.",
+      "cancel": "Cancel",
+      "continue": "Continue"
     }
   }
 }
