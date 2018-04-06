@@ -86,6 +86,10 @@
 
             }
 
+            /**
+             * @return {Promise}
+             * @private
+             */
             _getOrders() {
                 return waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
                     .then(({ bids, asks, spread, pair }) => {
@@ -149,11 +153,24 @@
                     .then((data) => this._render(data));
             }
 
+            /**
+             * @param bids
+             * @param spread
+             * @param asks
+             * @return {null}
+             * @private
+             */
             _render({ bids, spread, asks }) {
 
                 if (this._noRender) {
                     this._lastResopse = { bids, spread, asks };
                     return null;
+                }
+
+                if (!(bids && asks)) {
+                    this.hasOrderBook = false;
+                } else {
+                    this.hasOrderBook = true;
                 }
 
                 const template = (
