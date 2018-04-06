@@ -1,8 +1,8 @@
 {
   "session": {
-    "headline": "Select account",
-    "signIn": "Sign into account",
-    "signInNew": "Sign into a new session",
-    "or": "OR"
+    "headline": "Выберите аккаунт",
+    "signIn": "Войдите в аккаунт",
+    "signInNew": "Начать новую сессию",
+    "or": "ИЛИ"
   }
 }
