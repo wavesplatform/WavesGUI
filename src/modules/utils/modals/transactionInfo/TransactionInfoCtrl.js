@@ -37,7 +37,7 @@
 
                         this.transaction = transaction;
                         this.confirmations = confirmations;
-                        this.confirmed = confirmations >= 0;
+                        this.confirmed = !transaction.isUTX;
                         this.explorerLink = explorerLinks.getTxLink(transaction.id);
 
                         createPoll(this, this._getHeight, this._setHeight, 1000);
@@ -64,8 +64,12 @@
             _setHeight([height, tx]) {
                 if (tx) {
                     Object.assign(this.transaction, tx);
-                    this.confirmations = height - tx.height;
-                    this.confirmed = this.confirmations >= 0;
+                    this.confirmed = !tx.isUTX;
+                    if (!this.confirmed) {
+                        this.confirmations = 0;
+                    } else {
+                        this.confirmations = height - tx.height;
+                    }
                 } else {
                     this.confirmations = height - this.transaction.height;
                 }
