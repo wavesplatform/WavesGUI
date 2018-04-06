@@ -192,7 +192,7 @@
             _animate() {
                 if (this.isOpend) {
                     this._selectList.css({ display: 'flex', height: 'auto' });
-                    const height = this._selectList.height();
+                    const height = this._selectList.outerHeight();
                     this._selectList.css('height', 0);
                     return utils.animate(this._selectList, { height }, { duration: 100 });
                 } else {

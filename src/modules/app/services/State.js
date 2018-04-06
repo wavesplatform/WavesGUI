@@ -49,6 +49,10 @@
                     changeRouterStateSuccess: new tsUtils.Signal(),
                     changeRouterStateStart: new tsUtils.Signal()
                 };
+                /**
+                 * @type {string}
+                 */
+                this.lastOpenVersion = '';
 
                 /**
                  * @type {PromiseControl}
