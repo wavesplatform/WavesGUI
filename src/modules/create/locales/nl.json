@@ -1,0 +1,46 @@
+{
+  "createAccount": {
+    "createNewAccount": "Maak nieuw account aan",
+    "signUp": "Maak hier onder een nieuw account aan of",
+    "signIn": "Meld je aan",
+    "tosaved": "op een opgeslagen account",
+    "restore": "bestaand account terug zetten",
+    "from": "van een backup",
+    "choose": "Kies een afbeelding voor dit adres",
+    "avatarUnique": "Deze afbeelding is uniek en kunt u later niet wijzigen."
+  },
+  "noBackupNoMoney": {
+    "title": "Geen Backup, Geen Geld",
+    "description": "U moet uw geheime zin opslaan. Dit is cruciaal om in uw account te komen.",
+    "backup": "Maak nu een backup",
+    "or": "of",
+    "skip": "Doe het later",
+    "modal": {
+      "title": "Sla uw backup regel goed op!",
+      "descriptionP1": "Waves Platform waarschuwt u voor de steeds vaker terugkerende scam en phishing aanvallen. Fraudeurs verbergen hun malware in eigen versies van Waves software en beloven bonussen en korting om gebruikers te lokken.",
+      "descriptionP2": "Kijk uit voor deze scams en voer nooit uw SEED bij deze clients in. Uw account is dan gecompromitteerd en u raakt de gehele inhoud van uw account kwijt.",
+      "descriptionP3": "Gebruik enkel de officiële Waves client.",
+      "ok": "Ik begrijp het"
+    }
+  },
+  "backupSeed": {
+    "saveSecret": "Backup regel opslaan",
+    "warn": "Omdat u de enige bent die uw geld beheert moet u uw backup regel opslaan voor als dit programma wordt verwijderd of",
+    "back": " ga terug",
+    "writeSeed": "Noteer de volgende 15 woorden zorgvuldig",
+    "or": "of",
+    "copySeed": "kopieer deze",
+    "needConfirm": "U moet deze woorden op het volgende scherm bevestigen.",
+    "ok": "Ik heb de woorden genoteerd"
+  },
+  "confirmBackup": {
+    "confirm": "Bevestig backup",
+    "description": "Verifieer uw backup woorden of",
+    "back": "ga terug",
+    "enterCorrect": "Voer elk woord in de correcte volgorde in",
+    "ok": "Bevestig",
+    "error": "Verkeerde volgorde, probeer opnieuw.",
+    "clear": "Maak leeg",
+    "again": "en vul opnieuw in"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "chart": {
+    "title": "WAVES Saldo",
+    "leased": "Leased",
+    "available": "Beschikbaar",
+    "create": "Start Lease"
+  },
+  "description": {
+    "title": "Snelle notitie",
+    "text1": "U kunt enkel WAVES vesturen of met WAVES handelen die niet geleased zijn. Het aantal geleasde WAVES kunnen niet verhandeld of verstuurd worden door u of iemand anders.",
+    "text2": "U kunt een lease transactie annuleren zodra deze in de blockchain opgenomen is. Normaal gesproken gebeurt dit binnen één minuut.",
+    "text3": "Het genererende saldo wordt na 1000 blocks geüpdatet."
+  },
+  "available": "Beschikbaar",
+  "leased": "Leased",
+  "leasedIn": "Leased in",
+  "title": "Leasing transacties"
+}

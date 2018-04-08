@@ -1,0 +1,201 @@
+{
+  "modal": {
+    "assetInfo": {
+      "title": "Asset Info",
+      "unpinned": "Pin",
+      "pinned": "Pinned",
+      "transactions": "Transacties",
+      "details": "Details",
+      "description": "Beschrijving",
+      "issuer": "Uitgever",
+      "identifier": "ID",
+      "name": "Naam",
+      "type": "Type",
+      "date": "Datum van uitgave",
+      "balance": "Saldo",
+      "total": "Totaal",
+      "available": "Beschikbaar",
+      "leased": "Leased",
+      "inOrders": "Gereserveerd in orders",
+      "reissue": {
+        "yes": "Heruitgeefbaar",
+        "no": "Niet heruitgeefbaar"
+      }
+    },
+    "startLease": {
+      "title": "Start leasen",
+      "balance": "Saldo",
+      "recipient": "Ontvanger",
+      "amount": "Hoeveelheid",
+      "start": "Start Lease",
+      "fee": "Fee"
+    },
+    "qr": {
+      "title": "Deel uw adres",
+      "warningTitle": "Stuur enkel WAVES and WAVES tokens naar dit adres",
+      "warningText": "Het versturen van elke andere digitale asset naar dit adres resulteert in permanent verlies van deze assets.",
+      "copyAndShare": "Kopieer & deel Adres",
+      "or": "OF",
+      "scanQrCode": "Scan QR Code"
+    },
+    "send": {
+      "title": "Verstuur {{assetName}}",
+      "titleComplete": "Versturen Compleet",
+      "recipient": "Ontvanger",
+      "sendMax": "Max",
+      "currency": "Currency",
+      "amount": "Hoeveelheid",
+      "description": "Beschrijving",
+      "descriptionPlaceholder": "Schrijf een optioneel bericht",
+      "placeholderRecipient": "Plak of scan een adres",
+      "fee": "Transactie Fee {{fee, money-currency}}",
+      "attachmentLength": "De beschrijving is te lang",
+      "total": "Totaal",
+      "errors": {
+        "address": "Ongeldig adres",
+        "required": "Dit veld is verplicht",
+        "max": "Onvoldoende saldo",
+        "precision": "Het getal in dit veld is ongeldig. Dit getal mag enkel het maximale aantal van {{precision}} cijfers achter de komma bevatten.",
+        "invalidChars": "Dit veld mag enkel nummers bevatten"
+      },
+      "confirm": {
+        "title": "Transactie Details",
+        "to": "Van",
+        "from": "Naar",
+        "total": "Totaal",
+        "back": "Ga Terug",
+        "confirm": "Bevestig"
+      },
+      "compare": {
+        "title": "Uw transactie is verzonden!",
+        "description": "U verstuurde {{amount}} {{currency}} (${{mirror}})",
+        "details": "Bekijk Details"
+      },
+      "icoWarning": "Withdraw {{assetName}} niet naar een ICO. Uw account wordt niet gecrediteerd met tokens van deze sale.",
+      "coinomatBTC": {
+        "feeTitle": "Gateway fee is {{fee, BigNumber}} BTC",
+        "feeExplanation": "We hebben een Bitcoin adres gedetecteerd en zenden uw geld via de Coinomat gateway naar dat adres. Het minimale aantal is {{min, BigNumber}} BTC, het maximale aantal is {{max, BigNumber}} BTC."
+      },
+      "coinomatETH": {
+        "feeTitle": "Gateway fee is {{fee, BigNumber}} ETH",
+        "feeExplanation": "We hebben een Ethereum adres gedetecteerd en zenden uw geld via de Coinomat gateway naar dat adres. Het minimale aantal is {{min, BigNumber}} ETH, het maximale aantal is {{max, BigNumber}} ETH."
+      },
+      "coinomatLTC": {
+        "feeTitle": "Gateway fee is {{fee, BigNumber}} LTC",
+        "feeExplanation": "We hebben een Litecoin adres gedetecteerd en zenden uw geld via de Coinomat gateway naar dat adres. Het minimale aantal is {{min, BigNumber}} LTC, het maximale aantal is {{max, BigNumber}} LTC."
+      },
+      "coinomatZEC": {
+        "feeTitle": "Gateway fee is {{fee, BigNumber}} ZEC",
+        "feeExplanation": "We hebben een Zcash adres gedetecteerd en zenden uw geld via de Coinomat gateway naar dat adres. Het minimale aantal is {{min, BigNumber}} ZEC, het maximale aantal is {{max, BigNumber}} ZEC."
+      },
+      "validationError": {
+        "notEnoughFundsWithdraw": "You don't have enough funds to pay the required fees. You must pay {{fee, money-currency}} transaction fee and {{getawayFee, BigNumber}} {{currency}} gateway fee.",
+        "notEnoughFunds": "You don't have enough funds to pay the required fees. You must pay {{fee, money-currency}} transaction fee."
+      }
+    },
+    "deposit": {
+      "title": "Storten van {{assetName}}",
+      "currency": "Currency",
+      "copyAndShare": "Kopieer & Deel Adres",
+      "or": "OF",
+      "scanQrCode": "Scan QR Code",
+      "pleaseNote": "Let op: de gateway rekent geen fee voor deze actie.",
+      "coinomatBTC": {
+        "warningTitle": "Verstuur enkel BTC naar dit deposit adres",
+        "warningText": "Het versturen van elke andere currency naar dit adres kan resulteren in het verlies van uw storting.",
+        "warningMinAmountTitle": "Het minimumbedrag om te storten is 0.001 BTC",
+        "warningMinAmountText": "Als u minder dan 0.001 BTC verstuurd raakt u dit geld kwijt.",
+        "helpDescrTitle": "Voer dit adres in in uw Bitcoin client of wallet.",
+        "helpDescrText": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een BTC token in uw Waves account."
+      },
+      "coinomatETH": {
+        "warningTitle": "Verstuur geen ETH vanuit smart contracts naar dit adres. Stort geen ERC20 tokens! Alleen Ethereum is toegestaan.",
+        "warningText": "Controleer of uw wallet of exchange smart-contracts gebruikt om ETH the withdrawen. Wij accepteren zulke transacties niet en kunnen dit niet terug betalen. U raakt op deze manier uw geld kwijt.",
+        "warningMinAmountTitle": "Het minimumbedrag om te storten is 0.001 ETH",
+        "warningMinAmountText": "Als u minder dan 0.001 ETH verstuurd raakt u dit geld kwijt.",
+        "helpDescrTitle": "Voer dit adres in in uw Ethereum client of wallet",
+        "helpDescrText": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een ETH token in uw Waves account."
+      },
+      "coinomatLTC": {
+        "warningTitle": "Send only LTC to this deposit address",
+        "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
+        "warningMinAmountTitle": "Het minimumbedrag om te storten is 0.001 LTC",
+        "warningMinAmountText": "Als u minder dan 0.001 LTC verstuurd raakt u dit geld kwijt.",
+        "helpDescrTitle": "Voer dit adres in in uw Litecoin client of wallet",
+        "helpDescrText": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een LTC token in uw Waves account."
+      },
+      "coinomatZEC": {
+        "warningTitle": "Send only Zcash to this deposit address",
+        "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
+        "warningMinAmountTitle": "Het minimumbedrag om te storten is 0.001 ZEC",
+        "warningMinAmountText": "Als u minder dan 0.001 ZEC verstuurd raakt u dit geld kwijt.",
+        "helpDescrTitle": "Voer dit adres in in uw Zcash client of wallet",
+        "helpDescrText": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een ZEC token in uw Waves account."
+      }
+    },
+    "sepa": {
+      "title": "Storten {{assetName}}",
+      "warningTitle": "We accepteren geen internationale overschrijvingen van Amerikaanse (US) staatsburgers of Amerikaanse (USA) banken.",
+      "countryList": "Lijst van landen en ID's die in aanmerking komen",
+      "step1": "Stap 1",
+      "step1Description": "Om in aanmerking te komen voor een storting van {{assetName}} direct vanaf uw bankrekening door middel van een SEPA transfer moet u eerst geverifieerd worden door onze partner <a href='{{url}}' target='_blank'>IDNow.eu</a>",
+      "step2": "Stap 2",
+      "step2Description": "Na de verificatie ontvangt u een email met verdere instructies",
+      "proceed": "Mijzelf verifiëren",
+      "warning": "Als er problemen zijn met de verificatie of de afhandeling van een transactie kunt u contact opnemen met het Coinomat support team — <a href='mailto:support@coinomat.com' target='_blank'>support@coinomat.com</a>"
+    },
+    "account": {
+      "title": "Account Informatie",
+      "address": "Uw adres",
+      "aliases": "Aliases",
+      "create": "Nieuw aanmaken",
+      "fee": "Transactie Fee {{price}} {{name}}",
+      "placeholder": "Symbolische naam van uw adres",
+      "notifications": {
+        "aliasCreated": "Er is een alias gecreeërd"
+      }
+    },
+    "termsAccept": {
+      "header": {
+        "title": "Klaar! Laten we eens kijken",
+        "title2": "Gebruiksvoorwaarden",
+        "description": "Waves is anders — de wallet is veilig opgeslagen op uw apparaat"
+      },
+      "body": {
+        "security": "Ik begrijp dat de inhoud van mijn account veilig op dit apparaat opgeslagen is en niet bij een bedrijf",
+        "backup": "Ik begrijp dat als deze software verplaatst of verwijderd wordt, mijn Waves account alleen terug gezet kan worden door middel van de backup regel.",
+        "analytics": "Ik help graag het Waves platform door anoniem gebruikstatistieken te verzenden naar de ontwikkelaars.",
+        "read": "Ik heb de gebruiksvoorwaarden gelezen, begrepen en ga akkoord met de",
+        "terms": "Gebruiksvoorwaarden",
+        "ok": "Bevestig en Begin"
+      }
+    },
+    "settings": {
+      "title": "Instellingen",
+      "setDefault": "Standaardinstellingen",
+      "general": {
+        "title": "Algemeen",
+        "blockHeight": "Huidige hoogte",
+        "language": "Taal"
+      },
+      "security": {
+        "title": "Beveiliging",
+        "backupPhrase": "Backup regel",
+        "privateKey": "Private key",
+        "show": "Bekijk",
+        "publicKey": "Public Key",
+        "address": "Adres"
+      },
+      "network": {
+        "title": "Netwerk",
+        "nodeAddress": "Node adres",
+        "matcherAddress": "Matcher adres"
+      },
+      "info": {
+        "title": "Info",
+        "version": "Versie",
+        "support": "Support"
+      }
+    }
+  }
+}

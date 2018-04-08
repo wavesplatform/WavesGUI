@@ -1,0 +1,28 @@
+{
+  "chart": {
+    "intervals": {
+      "hour": "1U",
+      "day": "1D",
+      "week": "1W",
+      "month": "1M",
+      "year": "1Y",
+      "all": "All"
+    }
+  },
+  "send": "Verstuur",
+  "price": "PRIJS {{currency}}",
+  "since": {
+    "day": "SINDS GISTEREN",
+    "week": "SINDS VORIGE WEEK",
+    "month": "SINDS VORIGE MAAND"
+  },
+  "qr": "Uw Adres",
+  "addAsset": "Voeg Asset Toe",
+  "directives": {
+    "asset": {
+      "ofTotalBalance": "van totaal saldo {{totalBalance}}",
+      "deposit": "Deposit",
+      "send": "Verstuur"
+    }
+  }
+}

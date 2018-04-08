@@ -1,0 +1,127 @@
+{
+  "copySuccess": "De data is gekopieerd",
+  "copyError": "Kan niet kopiëren! Wellicht is uw browser niet up to date",
+  "balanceInput": {
+    "max": "Max"
+  },
+  "password": {
+    "title": "Bescherm uw account met een nieuw wachtwoord",
+    "minLength": "moet tenminste {{minLength}} karakters lang zijn",
+    "warn": "te makkelijk, voeg een cijfer of symbool toe",
+    "secure": "veilig wachtwoord",
+    "repeat": "Bevestig wachtwoord"
+  },
+  "transaction": {
+    "headers": {
+      "send": "Verzonden {{name}}",
+      "receive": "Ontvangen {{name}}",
+      "circular": "Zelf-verzonden {{name}}",
+      "issue": "{{name}} Token Creatie",
+      "reissue": "{{name}} Token Heruitgave",
+      "burn": "{{name}} Token Burning",
+      "exchange-buy": "Exchange Koop:",
+      "exchange-sell": "Exchange Verkoop:",
+      "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
+      "lease-in": "Inkomende Leasing",
+      "lease-out": "Gestarte Leasing",
+      "cancel-leasing": "Geannuleerde Leasing",
+      "create-alias": "Gecreeërde Alias",
+      "unknown": "Onbekende transactie",
+      "activeLeasing": "nu actief"
+    },
+    "amounts": {
+      "send": "–{{amount}} {{name}}",
+      "receive": "+{{amount}} {{name}}",
+      "circular": "{{amount}} {{name}}",
+      "issue": "{{amount}} {{name}}",
+      "reissue": "+{{amount}} {{name}}",
+      "burn": "–{{amount}} {{name}}",
+      "exchange-buy": "{{sign}}{{amount}} {{name}}",
+      "exchange-sell": "{{sign}}{{amount}} {{name}}",
+      "lease-in": "{{amount}} {{name}}",
+      "lease-out": "{{amount}} {{name}}",
+      "cancel-leasing": "{{amount}} {{name}}",
+      "create-alias": ""
+    },
+    "subheaders": {
+      "send": "{{time}}<span class='locale-address'>, naar adres {{address}}</span>",
+      "receive": "{{time}}<span class='locale-address'>, van adres {{address}}</span>",
+      "circular": "{{time}}<span class='locale-address'>, op adres {{address}}</span>",
+      "issue": "{{time}}",
+      "reissue": "{{time}}",
+      "burn": "{{time}}",
+      "exchange-buy": "{{time}}",
+      "exchange-sell": "{{time}}",
+      "lease-in": "{{time}}<span class='locale-address'>, van adres {{address}}</span>",
+      "lease-out": "{{time}}<span class='locale-address'>, naar adres {{address}}</span>",
+      "cancel-leasing": "{{time}}<span class='locale-address'>, transactie {{transactionId}}</span>",
+      "unknown": "{{time}}",
+      "create-alias": "{{time}}, {{alias}}"
+    },
+    "reissuable": {
+      "false": "Not Reissuable",
+      "true": "Reissuable"
+    },
+    "actions": {
+      "cancelLeasing": "Annuleer Leasing",
+      "showTx": "TX info",
+      "copyTxId": "Kopieer TX ID",
+      "copyTxData": "Kopieer alle TX data"
+    },
+    "notifications": {
+      "closed": "De leasing is al geannuleerd",
+      "closedSuccess": "De annulering van de leasing is gelukt"
+    },
+    "modals": {
+      "to": "Naar",
+      "from": "Van",
+      "assetId": "ID",
+      "attachment": "Bijlage Bericht",
+      "description": "Beschrijving",
+      "price": "{{name}} Prijs",
+      "type": "Type",
+      "height": "Block",
+      "cancelTx": "TX",
+      "confirmations": "Bevestigingen",
+      "fee": "Fee",
+      "viewTransactionKey": "Transactie",
+      "viewTransactionValue": "Bekijk Transactie"
+    },
+    "confirmed": {
+      "false": "NIET BEVESTIGD",
+      "true": "VOLTOOID"
+    }
+  },
+  "transactionList": {
+    "noTransactionsTitle": "Niks te zien…",
+    "noTransactionsDescription": "U heeft geen transacties"
+  },
+  "confirmTransaction": {
+    "back": "Ga terug",
+    "confirm": "Bevestig",
+    "success": "Uw transactie is verzonden!",
+    "details": "Bekijk details",
+    "description": {
+      "send": "U heeft {{amount, money-currency}} verzonden",
+      "circular": "U heeft {{amount, money-currency}} naar uzelf verzonden",
+      "issue": "U heeft {{quantityStr}} {{name}} gecreeërd",
+      "reissue": "U heeft {{quantityStr}} toegevoegde {{name}} gecreeërd",
+      "burn": "U heeft {{quantityStr}} {{name}} geburned",
+      "lease-out": "U heeft {{amount, money-currency}} geleased",
+      "cancel-leasing": "U heeft een leasing transactie geannuleerd",
+      "create-alias": "U heeft een alias gecreeërd"
+    }
+  },
+  "confirmGatewayTransaction": {
+    "back": "Terug",
+    "confirm": "Bevestig",
+    "success": "Uw transactie is verzonden!",
+    "warningTitle": "Externe blockchain transactie",
+    "warningText": "U staat op het punt geld te sturen naar de {{name}} blockchain.",
+    "fieldAddress": "Doel adres",
+    "fieldAmount": "Hoeveelheid",
+    "fieldFee": "Fee",
+    "fieldGatewayAddress": "Gateway adres",
+    "fieldGatewayFee": "Gateway fee"
+  }
+}

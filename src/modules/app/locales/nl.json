@@ -1,0 +1,56 @@
+{
+  "button": {
+    "cancel": "Annuleer",
+    "continue": "Ga veder"
+  },
+  "inputs": {
+    "errors": {
+      "required": "Dit veld is verplicht!"
+    }
+  },
+  "modal": {
+    "enterPassword": {
+      "title": "Voer wachtwoord in",
+      "ok": "OK"
+    }
+  },
+  "matcher": {
+    "orders": {
+      "statuses": {
+        "opened": "Geopend",
+        "canceled": "Geannuleerd",
+        "filled": "Gevuld ({{percent}}%)"
+      }
+    }
+  },
+  "date": {
+    "month": {
+      "0": "Jan",
+      "1": "Feb",
+      "2": "Mar",
+      "3": "Apr",
+      "4": "Mei",
+      "5": "Jun",
+      "6": "Jul",
+      "7": "Aug",
+      "8": "Sep",
+      "9": "Okt",
+      "10": "Nov",
+      "11": "Dec"
+    }
+  },
+  "back": "Terug",
+  "header": {
+    "assets": "Assets",
+    "portfolio": "Portfolio",
+    "transactions": "Transacties",
+    "leasing": "Leasing"
+  },
+  "number": {
+    "short": {
+      "million": "M",
+      "thousand": "k"
+    }
+  },
+  "fee": "{{money, money-fee}}"
+}

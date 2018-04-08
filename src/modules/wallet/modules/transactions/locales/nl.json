@@ -1,0 +1,46 @@
+{
+  "all": "Alle",
+  "sent": "Verstuurd",
+  "received": "Ontvangen",
+  "exchanged": "Verhandeld",
+  "leased": "Leased",
+  "issued": "Gecreeërd",
+  "export": "Export",
+  "csv": {
+    "date": "Datum",
+    "id": "Transactie ID",
+    "type": "Transactie type",
+    "transactionType": "Blockchain transactie type",
+    "price": {
+      "ticker": "Prijs asset ticker",
+      "name": "Prijs asset naam",
+      "value": "Prijs asset waarde",
+      "id": "Prijs asset ID"
+    },
+    "amount": {
+      "ticker": "Hoeveelheid asset ticker",
+      "name": "Hoeveelheid asset naam",
+      "value": "Hoeveelheid asset waarde",
+      "id": "Hoeveelheid asset ID"
+    },
+    "fee": {
+      "ticker": "Fee ticker",
+      "name": "Fee naam",
+      "value": "Fee waarde",
+      "id": "Fee ID"
+    },
+    "sender": "Transactie zender",
+    "recipient": "Transaction ontvanger",
+    "attachment": "Transaction bijlage",
+    "height": "Transaction hoogte",
+    "alias": "Alias naam",
+    "description": "Token beschrijving",
+    "name": "Token naam",
+    "reissuable": {
+      "name": "Kan token heruitgeven",
+      "true": "Heruitgeefbaar",
+      "false": "Niet heruitgeefbaar"
+    },
+    "precision": "Precisie"
+  }
+}

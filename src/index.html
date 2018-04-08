@@ -167,27 +167,27 @@
         }
 
         @keyframes folding {
-           0%, 10% {
+            0%, 10% {
                 -moz-transform: perspective(140px) rotateX(-180deg);
                 -ms-transform: perspective(140px) rotateX(-180deg);
                 -webkit-transform: perspective(140px) rotateX(-180deg);
                 transform: perspective(140px) rotateX(-180deg);
                 opacity: 0;
-           }
-           25%, 75% {
-               -moz-transform: perspective(140px) rotateX(0deg);
-               -ms-transform: perspective(140px) rotateX(0deg);
-               -webkit-transform: perspective(140px) rotateX(0deg);
-               transform: perspective(140px) rotateX(0deg);
-               opacity: 1;
-           }
-           90%, 100% {
-               -moz-transform: perspective(140px) rotateY(180deg);
-               -ms-transform: perspective(140px) rotateY(180deg);
-               -webkit-transform: perspective(140px) rotateY(180deg);
-               transform: perspective(140px) rotateY(180deg);
-               opacity: 0;
-           }
+            }
+            25%, 75% {
+                -moz-transform: perspective(140px) rotateX(0deg);
+                -ms-transform: perspective(140px) rotateX(0deg);
+                -webkit-transform: perspective(140px) rotateX(0deg);
+                transform: perspective(140px) rotateX(0deg);
+                opacity: 1;
+            }
+            90%, 100% {
+                -moz-transform: perspective(140px) rotateY(180deg);
+                -ms-transform: perspective(140px) rotateY(180deg);
+                -webkit-transform: perspective(140px) rotateY(180deg);
+                transform: perspective(140px) rotateY(180deg);
+                opacity: 0;
+            }
         }
     </style>
 
@@ -208,8 +208,15 @@
             name: 'Waves Client',
             version: '{{pack.version}}',
             type: '{{build.type}}',
-            langList: ['en', 'ru', 'ko'],
+            langList: ['en', 'ru', 'ko','nl'],
             localize: {
+                nl: {
+                    separators: {
+                        group: '.',
+                        decimal: ','
+                    }
+                },
+
                 en: {
                     separators: {
                         group: ',',
@@ -284,10 +291,10 @@
             },
             isProduction: function () {
                 return {{#if isProduction}}true;{{else}}false;{{/if}}
-            },
-            parseJSON: null,
-            stateTree: null
-        };
+                },
+                    parseJSON: null,
+                        stateTree: null
+                };
 
     </script>
 

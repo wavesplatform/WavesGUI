@@ -1,0 +1,19 @@
+{
+  "seedForm": {
+    "title": "Welkom terug",
+    "description": "Inloggen in uw account kan hier beneden of",
+    "create": "maak een nieuw account aan",
+    "seedTitle": "Uw account seed",
+    "placeholder": "Uw seed zijn de 15 woorden die u heeft genoteerd toen u uw account aanmaakte.",
+    "address": "Adres",
+    "continue": "Ga verder",
+    "tosaved": "naar een opgeslagen account",
+    "or": "of"
+  },
+  "passwordForm": {
+    "title": "Beveilig uw account",
+    "description": "Beveilig uw account met een nieuw wachtwoord of",
+    "back": "ga terug",
+    "login": "Inloggen"
+  }
+}
