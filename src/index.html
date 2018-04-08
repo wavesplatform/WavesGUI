@@ -345,15 +345,15 @@
     <!-- APPLICATION TAB SELECTORS -->
     <section id="tabs" class="fFade noSelect">
       <div id="tabs-Iconset" class="centerIt">
-                    <span waves-tab
-                          on-select="nav.changeTab(pageId)"
-                          current-page-id="nav.currentTab"
-                          page-id="wallet"
-                          caption="'Wallet tab'"
-                          tooltipster
-                          tooltip-html
-                          tooltip-theme="tooltipster-theme3"
-                          tooltip-title="<center><u>Wallet</u></center><br/>Area containing the main wallets."></span>
+        <span waves-tab
+              on-select="nav.changeTab(pageId)"
+              current-page-id="nav.currentTab"
+              page-id="wallet"
+              caption="'Wallet tab'"
+              tooltipster
+              tooltip-html
+              tooltip-theme="tooltipster-theme3"
+              tooltip-title="<center><u>Wallet</u></center><br/>Area containing the main wallets."></span>
         <span waves-tab
               on-select="nav.changeTab(pageId)"
               current-page-id="nav.currentTab"
@@ -381,8 +381,6 @@
               tooltip-html
               tooltip-theme="tooltipster-theme3"
               tooltip-title="<center><u>Leasing</u></center><br/>Lease your Waves<br/>to another wallet."></span>
-        <!--<span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="voting" caption="'Voting tab'" tooltipster tooltip-html-->
-        <!--tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Voting Area</u></center><br/>Decentralized voting utility."></span>-->
         <span waves-tab
               on-select="nav.changeTab(pageId)"
               current-page-id="nav.currentTab"
@@ -401,8 +399,6 @@
               tooltip-html
               tooltip-theme="tooltipster-theme3"
               tooltip-title="<center><u>Tokens Creation tab</u></center><br/>Area in which assets can be created."></span>
-        <!--<span waves-tab on-select="nav.changeTab(pageId)" current-page-id="nav.currentTab" page-id="messages" caption="'Messages tab'" tooltipster tooltip-html-->
-        <!--tooltip-theme="tooltipster-theme3" tooltip-title="<center><u>Decentralized Messenger</u></center><br/>Allows private communication between Waves users."></span>-->
         <span waves-tab
               on-select="nav.changeTab(pageId)"
               current-page-id="nav.currentTab"
@@ -690,6 +686,27 @@
               <p class="dialog-text">Please note that the gateway doesn't apply any fees for this operation.</p>
               <div class="textCenter">
                 <waves-qr-code class="center" size="180" value="deposit.zec.zcashAddress"></waves-qr-code>
+              </div>
+            </div>
+          </div>
+
+          <div class="noDisp" ng-controller="walletDepositController as deposit" data-currency="BCH">
+            <div id="deposit-bch-dialog" waves-dialog ok-button-caption="CLOSE" cancel-button-visible="false">
+              <h2 class="sectionHeader">DEPOSIT: BCH</h2>
+              <p class="dialog-text">To deposit BCH to your Waves account, please send BCH to the address below.<br/>
+                The minimum amount of deposit is <span class="fontBold">{{deposit.zec.minimumAmount}} BCH</span>.</p>
+              <table class="wavesTable bitcoin-requisites">
+                <tbody>
+                <tr>
+                  <td><b>{{deposit.bch.cashAddress}}</b></td>
+                </tr>
+                </tbody>
+              </table>
+              <p class="dialog-text">Enter this address into your BCH client or wallet. Once the transaction is confirmed, <br/>
+                the gateway will process the transfer of BCH to a token in your Waves account.</p>
+              <p class="dialog-text">Please note that the gateway doesn't apply any fees for this operation.</p>
+              <div class="textCenter">
+                <waves-qr-code class="center" size="180" value="deposit.bch.cashAddress"></waves-qr-code>
               </div>
             </div>
           </div>
