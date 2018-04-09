@@ -44,9 +44,40 @@
     /**
      * @param {$q} $q
      * @param {app.utils} utils
-     * @param {StorageMigration} storageMigration
+     * @param {Migration} migration
+     * @param {State} state
      */
-    const factory = function ($q, utils, storageMigration) {
+    const factory = function ($q, utils, migration, state) {
+
+        const MIGRATION_MAP = {
+            '1.0.0': function (storage) {
+                return storage.load('Wavesmainnet').then((data) => {
+                    if (!data) {
+                        return null;
+                    }
+
+                    const userList = data.accounts.map((account) => {
+                        return {
+                            address: account.address,
+                            encryptedSeed: account.cipher,
+                            settings: {
+                                encryptionRounds: 1000
+                            }
+                        };
+                    });
+                    return storage.clear().then(() => storage.save('userList', userList));
+                });
+            },
+            '1.0.0-beta.23': function (storage) {
+                return storage.load('userList').then((list = []) => {
+                    const newList = list.map((item) => {
+                        tsUtils.set(item, 'settings.lastOpenVersion', '1.0.0-beta.22');
+                        return item;
+                    });
+                    return storage.save('userList', newList);
+                });
+            }
+        };
 
         class Storage {
 
@@ -55,9 +86,19 @@
 
                 this.load('lastVersion')
                     .then((version) => {
-                        this._isNewDefer.resolve(!version);
                         this.save('lastVersion', WavesApp.version);
-                        storageMigration.migrateTo(version, this);
+                        state.lastOpenVersion = version;
+
+                        if (version) {
+                            const versions = migration.migrateFrom(version, Object.keys(MIGRATION_MAP));
+                            return utils.chainCall(versions.map((version) => MIGRATION_MAP[version].bind(null, this)))
+                                .then(() => {
+                                    this._isNewDefer.resolve(version);
+                                });
+                        } else {
+                            this._isNewDefer.resolve(version);
+                            return Promise.resolve();
+                        }
                     });
             }
 
@@ -126,7 +167,7 @@
         return new Storage();
     };
 
-    factory.$inject = ['$q', 'utils', 'storageMigration'];
+    factory.$inject = ['$q', 'utils', 'migration', 'state'];
 
     angular.module('app.utils')
         .factory('storage', factory);

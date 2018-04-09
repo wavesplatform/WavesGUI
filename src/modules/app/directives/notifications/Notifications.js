@@ -17,12 +17,16 @@
 
             constructor() {
                 super();
-                this._list = [];
-                this.receive(notificationManager.changeSignal, (list) => $element.empty().append(list));
+                this.receive(notificationManager.changeSignal, this._onChangeNotifications, this);
+                this._onChangeNotifications(notificationManager.getActiveNotificationsList());
             }
 
             $onDestroy() {
                 controller.instance = null;
+            }
+
+            _onChangeNotifications(list) {
+                $element.children().detach().end().append(list);
             }
 
         }
