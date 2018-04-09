@@ -75,6 +75,7 @@ w-input {
         &:focus, &.focus {
           background-color: @color-white;
           color: @color-basic-900;
+          border-color: @color-submit-400;
         }
 
         &.ng-touched {
@@ -86,6 +87,12 @@ w-input {
           }
         }
       }
+
+      &.no-validate:focus,
+      &.embed:focus {
+        border: 1px solid @color-submit-400;
+      }
+
     }
   }
 
