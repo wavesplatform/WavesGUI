@@ -1,4 +1,17 @@
 {
+  "utils": {
+    "whatsNew": {
+      "title": "Новое в этом обновлении {{version}}",
+      "body": {
+        "1_0_0-beta_23": "<span class=\"line\">1. Мы добавили раздел «Что нового»</span><span class=\"line\">2. Теперь вы можете добавлять название к вашему аккаунту</span><span class=\"line\">3. Были исправлены несколько мелких багов</span>"
+      }
+    }
+  },
+  "validators": {
+    "byte": {
+      "help": "Осталось байт: {{bytes}}"
+    }
+  },
   "modal": {
     "assetInfo": {
       "title": "О токене",
@@ -55,7 +68,7 @@
         "address": "Неверный адрес",
         "required": "Это обязательное поле",
         "max": "Недостаточно средств",
-        "precision": "Число в этом поле не может содрержать более {{precision}} знаков после точки."
+        "precision": "Число в этом поле не может содержать более {{precision}} знаков после точки."
       },
       "confirm": {
         "title": "Детали транзакции",
@@ -71,21 +84,9 @@
         "details": "Посмотреть детали"
       },
       "icoWarning": "Не выводите {{assetName}} на адреса ICO, так как мы не зачислим вам токены полученные после окончания распродажи.",
-      "coinomatBTC": {
-        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} BTC",
-        "feeExplanation": "Введенный адрес определен как Bitcoin-адресс, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} BTC, максимальная — {{max, BigNumber}} BTC."
-      },
-      "coinomatETH": {
-        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} ETH",
-        "feeExplanation": "Введенный адрес определен как Ethereum-адресс, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} ETH, максимальная — {{max, BigNumber}} ETH."
-      },
-      "coinomatLTC": {
-        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} LTC",
-        "feeExplanation": "Введенный адрес определен как Litecoin-адресс, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} LTC, максимальная — {{max, BigNumber}} LTC."
-      },
-      "coinomatZEC": {
-        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} ZEC",
-        "feeExplanation": "Введенный адрес определен как Zcash-адресс, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} ZEC, максимальная — {{max, BigNumber}} ZEC."
+      "coinomat": {
+        "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} {{assetTicker}}",
+        "feeExplanation": "Введенный адрес определен как {{assetName}}-адрес, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} {{assetTicker}}, максимальная — {{max, BigNumber}} {{assetTicker}}."
       },
       "validationError": {
         "notEnoughFundsWithdraw": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}} и комиссию шлюза {{getawayFee, BigNumber}} {{currency}}.",
@@ -144,7 +145,8 @@
       "warning": "При возникновении проблем с верификацией или обработкой платежей, пожалуйста отправьте ваш запрос на официальный адрес поддержки — <a href='mailto:support@coinomat.com' target='_blank'>support@coinomat.com</a>"
     },
     "account": {
-      "title": "Информация о кошельке",
+      "title": "Информация о кошельке {{name}}",
+      "title_default_name": "",
       "address": "Ваш адрес",
       "aliases": "Алиасы",
       "create": "Создать новый",

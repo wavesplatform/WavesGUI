@@ -5,6 +5,7 @@ export interface IMetaJSON {
     stylesheets: Array<string>;
     domain: string;
     copyNodeModules: Array<string>;
+    debugInjections: Array<string>;
     electronScripts: Array<string>;
     configurations: {
         testnet: IConfItem;

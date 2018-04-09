@@ -5,6 +5,7 @@
     "max": "Max"
   },
   "password": {
+    "name": "Название аккаунта",
     "title": "Защитите ваш кошелёк паролем",
     "minLength": "минимум {{minLength}} символов",
     "warn": "очень простой пароль, добавьте цифру или символ",
@@ -27,7 +28,7 @@
       "lease-in": "Входящий лизинг",
       "lease-out": "Передача в лизинг",
       "cancel-leasing": "Отмена лизинга",
-      "unknown": "Неизвестная тразнакция",
+      "unknown": "Неизвестная транзакция",
       "create-alias": "Создание алиаса",
       "activeLeasing": "активен"
     },
@@ -88,7 +89,7 @@
       "type": "Тип",
       "height": "Высота блока",
       "cancelTx": "TX",
-      "confirmations": "Подтверждениий",
+      "confirmations": "Подтверждений",
       "fee": "Комиссия",
       "viewTransactionKey": "Детали",
       "viewTransactionValue": "Посмотреть транзакцию",

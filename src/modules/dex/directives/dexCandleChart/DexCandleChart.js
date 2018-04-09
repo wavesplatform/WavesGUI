@@ -5,6 +5,7 @@
     const DISABLED_FEATURES = [
         'header_screenshot',
         'header_symbol_search',
+        'symbol_search_hot_key',
         'display_market_status'
     ];
 
