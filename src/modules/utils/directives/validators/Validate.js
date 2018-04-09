@@ -37,7 +37,7 @@
      * @param {ValidateService} validateService
      * @param {app.utils.decorators} decorators
      */
-    const directive = function (utils, validateService, decorators) {
+    const directive = function (utils, validateService, decorators, $rootScope, $compile) {
         return {
             require: 'ngModel',
             priority: 10000,
@@ -195,6 +195,10 @@
                                 case 'pattern':
                                     this._validators[name] = this._createPatternValidator(name);
                                     break;
+                                case 'byteLt':
+                                case 'byteLte':
+                                    this._validators[name] = this._createByteValidator(name);
+                                    break;
                                 default:
                                     this._validators[name] = this._createSimpleValidator(name);
                             }
@@ -341,7 +345,8 @@
                             let parserWorkedBeforeInputEvent = false;
 
                             function getCorrespondingToPatternPartOf(value) {
-                                const correspondingParts = validator.value.exec(value) || [];
+                                const inputWithoutGroup = Validate._replaceGroupSeparator(value);
+                                const correspondingParts = validator.value.exec(inputWithoutGroup) || [];
 
                                 return correspondingParts[0] || '';
                             }
@@ -478,6 +483,32 @@
                             return validator;
                         }
 
+                        _createByteValidator(name) {
+                            const validator = this._createSimpleValidator(name);
+                            const $byteScope = $rootScope.$new(true);
+                            const attrs = [
+                                'w-i18n-ns="app.utils"',
+                                'class="byte-validator__help"',
+                                'w-i18n="validators.byte.help"',
+                                'params="{bytes: bytes}"'
+                            ];
+                            const $element = $compile(`<div ${attrs.join(' ')}></div>`)($byteScope);
+                            $input.after($element);
+                            $scope.$on('$destroy', () => {
+                                $byteScope.$destroy();
+                            });
+
+                            const origin = validator.handler;
+                            validator.handler = function (modelValue) {
+                                const stringBytes = validateService.getByteFromString(modelValue || '');
+                                $byteScope.bytes = Number(validator.value) - stringBytes;
+                                $byteScope.$digest();
+                                return origin(modelValue);
+                            };
+
+                            return validator;
+                        }
+
                         /**
                          * @param name
                          * @private
@@ -583,7 +614,7 @@
                             if (value instanceof BigNumber) {
                                 return value.toFixed();
                             } else if (value instanceof Waves.Money) {
-                                return value.toFormat();
+                                return value.getTokens().toFixed();
                             } else if (!value) {
                                 return '';
                             } else {
@@ -653,6 +684,17 @@
                             $ngModel.$render();
                         }
 
+                        /**
+                         * @param {string} value
+                         * @return {string}
+                         * @private
+                         */
+                        static _replaceGroupSeparator(value) {
+                            const separator = WavesApp.localize[i18next.language].separators.group;
+                            const reg = new RegExp(`\\${separator}`, 'g');
+                            return value.replace(reg, '');
+                        }
+
                     }
 
                     return new Validate();
@@ -661,7 +703,7 @@
         };
     };
 
-    directive.$inject = ['utils', 'validateService', 'decorators'];
+    directive.$inject = ['utils', 'validateService', 'decorators', '$rootScope', '$compile'];
 
     angular.module('app.utils').directive('wValidate', directive);
 
