@@ -340,7 +340,7 @@
              * @private
              */
             static _getMaxAmountBalance(type, amount, fee) {
-                if (!this.type || type === 'buy') {
+                if (!type || type === 'buy') {
                     return null;
                 }
                 if (amount.asset.id === fee.asset.id) {
