@@ -78,26 +78,26 @@
 
         const cache = Object.create(null);
         Waves.config.set({
-            assetFactory(props) {
+            assetFactory(id) {
 
-                if (cache[props.id]) {
-                    return cache[props.id];
+                if (cache[id]) {
+                    return cache[id];
                 }
 
-                const promise = fetch(`${WavesApp.network.api}/assets/${props.id}`)
+                const promise = fetch(`${WavesApp.network.api}/assets/${id}`)
                     .then(utils.onFetch)
                     .then((fullProps) => new ExtendedAsset(remapAssetProps(fullProps)))
                     .catch(() => {
-                        return Waves.API.Node.v1.transactions.get(props.id)
+                        return Waves.API.Node.v1.transactions.get(id)
                             .then((partialProps) => new ExtendedAsset(remapAssetProps(partialProps)));
                     });
 
-                cache[props.id] = promise;
-                cache[props.id].catch(() => {
-                    delete cache[props.id];
+                cache[id.id] = promise;
+                cache[id.id].catch(() => {
+                    delete cache[id.id];
                 });
 
-                return cache[props.id];
+                return cache[id.id];
             }
         });
 
@@ -172,8 +172,8 @@
              */
             _initializeLogin() {
 
-                storage.onReady().then((isNew) => {
-                    if (isNew) {
+                storage.onReady().then((oldVersion) => {
+                    if (!oldVersion) {
                         modalManager.showTutorialModals();
                     }
                 });
@@ -202,7 +202,7 @@
                             i18next.changeLanguage(user.getSetting('lng'));
 
                             if (!termsAccepted) {
-                                modalManager.showTermsAccept(user).then(() => {
+                                modalManager.showTermsAccept().then(() => {
                                     if (user.getSetting('shareAnalytics')) {
                                         analytics.activate();
                                     }
@@ -335,7 +335,7 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'storage'];
+    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'storage', 'whatsNew'];
 
     angular.module('app')
         .run(run);

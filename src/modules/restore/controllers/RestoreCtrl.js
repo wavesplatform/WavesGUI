@@ -27,6 +27,10 @@
                 /**
                  * @type {string}
                  */
+                this.name = '';
+                /**
+                 * @type {string}
+                 */
                 this.encryptedSeed = null;
                 /**
                  * @type {string}
@@ -51,6 +55,7 @@
 
                 return user.create({
                     address: this.address,
+                    name: this.name,
                     password: this.password,
                     settings: { termsAccepted: false },
                     encryptedSeed,
