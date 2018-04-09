@@ -81,5 +81,19 @@
     "center": {
       "bottom": "My Orders"
     }
+  },
+  "emptyBlocks": {
+    "myOrders": {
+      "title": "Nothing Here…",
+      "description": "You do not have any orders."
+    },
+    "tradeHistory": {
+      "title": "Nothing Here…",
+      "description": "The trading history is empty."
+    },
+    "orderBook": {
+      "title": "Nothing Here…",
+      "description": "The order book is empty."
+    }
   }
 }
