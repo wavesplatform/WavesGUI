@@ -61,13 +61,14 @@
 
             }
 
+            /**
+             * @param {string} address
+             */
             removeUser(address) {
                 user.removeUserByAddress(address);
-                this.userList = this.userList.filter((user) => user.address !== address);
                 this._updatePageUrl();
-                if (address === this.activeUserIndex) {
-                    this.activeUserIndex = this.userList.length && this.userList[0].address;
-                }
+                this.userList = this.userList.filter((user) => user.address !== address);
+                this.activeUserIndex = 0;
             }
 
             /**

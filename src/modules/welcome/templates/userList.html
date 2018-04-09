@@ -19,7 +19,7 @@
             <div class="name">{{::$ctrl.user.name}}</div>
             <div class="address">{{::$ctrl.user.address}}</div>
         </div>
-        <div class="icon-remove-user icon-close" ng-click="$ctrl.removeUser($ctrl.address)"></div>
+        <div class="icon-remove-user icon-close" ng-click="$ctrl.removeUser($ctrl.user.address)"></div>
     </div>
     <w-select ng-if="$ctrl.userList.length > 1" ng-model="$ctrl.activeUserIndex" class="big margin-3">
         <w-option ng-repeat="user in $ctrl.userList track by user.address"
