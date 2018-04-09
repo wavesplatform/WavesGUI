@@ -70,10 +70,11 @@
                 });
             }
 
-            /**
-             * @param {User} user
-             */
-            showTermsAccept(user) {
+            showTermsAccept() {
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
                 return this._getModal({
                     id: 'terms-accept',
                     templateUrl: 'modules/utils/modals/termsAccept/terms-accept.html',
@@ -84,9 +85,6 @@
                     .then(() => user.setSetting('termsAccepted', true));
             }
 
-            /**
-             * @param {User} user
-             */
             showTutorialModals() {
                 return this._getModal({
                     id: 'tutorial-modals',
@@ -98,10 +96,18 @@
             }
 
             showAccountInfo() {
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
                 return this._getModal({
                     id: 'account-info',
                     controller: 'AccountInfoCtrl',
                     title: 'modal.account.title',
+                    titleParams: {
+                        name: user.name || $injector.get('i18n')
+                            .translate('modal.account.title_default_name', 'app.utils')
+                    },
                     contentUrl: 'modules/utils/modals/accountInfo/account-info.modal.html',
                     mod: 'account-info'
                 });
