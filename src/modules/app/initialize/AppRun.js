@@ -78,6 +78,10 @@
 
         const cache = Object.create(null);
         Waves.config.set({
+            /**
+             * @param {string} id
+             * @return {Promise<ExtendedAsset>}
+             */
             assetFactory(id) {
 
                 if (cache[id]) {
@@ -92,12 +96,12 @@
                             .then((partialProps) => new ExtendedAsset(remapAssetProps(partialProps)));
                     });
 
-                cache[id.id] = promise;
-                cache[id.id].catch(() => {
-                    delete cache[id.id];
+                cache[id] = promise;
+                cache[id].catch(() => {
+                    delete cache[id];
                 });
 
-                return cache[id.id];
+                return cache[id];
             }
         });
 
