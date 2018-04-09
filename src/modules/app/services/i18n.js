@@ -43,24 +43,28 @@
             /**
              * @name app.i18n#translateField
              * @param {Base} controller
-             * @param {string} from name field with literal
-             * @param {string} to name field with translate result
+             * @param {string} literalField name field with literal
+             * @param {string} translatedField name field with translate result
              * @param {string} [ns]
              * @param {object} [params]
              */
-            translateField(controller, from, to, ns, params) {
+            translateField(controller, literalField, translatedField, ns, params) {
                 const apply = () => {
-                    if (controller[from] != null) {
-                        controller[to] = this.translate(controller[from], ns, params);
+                    if (controller[literalField] != null) {
+                        controller[translatedField] = this.translate(controller[literalField], ns, params);
                     }
                 };
 
-                controller.observe(from, apply);
+                controller.observe(literalField, apply);
                 i18next.on('languageChanged', apply);
 
                 controller.signals.destroy.once(() => {
                     i18next.off('languageChanged');
                 });
+
+                if (!controller[translatedField]) {
+                    apply();
+                }
             },
 
             /**

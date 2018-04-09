@@ -3,7 +3,8 @@
     "whatsNew": {
       "title": "What's new in this update {{version}}",
       "body": {
-        "1_0_0-beta_23": "<span class=\"line\">1. We have added a 'What's new' section!</span><span class=\"line\">2. You can now add a name to your account.</span><span class=\"line\">3. Some minor bugs have been fixed.</span>"
+        "1_0_0-beta_23": "<span class=\"line\">1. We have added a 'What's new' section!</span><span class=\"line\">2. You can now add a name to your account.</span><span class=\"line\">3. Some minor bugs have been fixed.</span>",
+        "1_0_0-beta_25": "<span class=\"line\">1. You can now change session time in Settings.</span><span class=\"line\">2. We have fixed the bug with the Buy/Sell window in DEX to prevent it being moved outside the viewing area.</span><span class=\"line\">3. We will now remind you if you have not saved your SEED.</span><span class=\"line\">4. Some minor bugs have been fixed.</span>"
       }
     }
   },
@@ -185,7 +186,10 @@
       "general": {
         "title": "General",
         "blockHeight": "Current height",
-        "language": "Language"
+        "timeout": "Session timeout in",
+        "language": "Language",
+        "minutes": "{{minutes}} min",
+        "hours": "{{hours}} hour"
       },
       "security": {
         "title": "Security",
@@ -239,6 +243,21 @@
         "backButton": "Go Back",
         "nextButton": "I Understand"
       }
+    },
+    "backup": {
+      "title": {
+        "title_0": "Save backup phrase",
+        "title_1": "Confirm backup",
+        "title_2": "Success"
+      },
+      "clearSeed": "<a class=\"clear\">Clear</a> and tap again"
+    }
+  },
+  "notification": {
+    "backup": {
+      "title": "Save your backup phrase (SEED)",
+      "body": "Store your SEED safely, it is the only way to restore your wallet.",
+      "action": "Save"
     }
   }
 }

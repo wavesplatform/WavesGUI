@@ -3,7 +3,7 @@
 
     /**
      * @param Base
-     * @param createPoll
+     * @param {IPollCreate} createPoll
      * @param {User} user
      * @param {Waves} waves
      * @param {app.utils} utils

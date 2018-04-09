@@ -57,8 +57,11 @@ body.tokens {
 
         input {
           height: 40px;
-          border: none;
           border-radius: @border-radius;
+        }
+
+        input:not(:focus) {
+          border: none;
         }
       }
 

@@ -6,7 +6,7 @@
      * @param $scope
      * @param {TransactionsCsvGen} transactionsCsvGen
      * @param {Waves} waves
-     * @param {function} createPoll
+     * @param {IPollCreate} createPoll
      * @return {TransactionsCtrl}
      */
     const controller = function (Base, $scope, transactionsCsvGen, waves, createPoll) {

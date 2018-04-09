@@ -4,7 +4,7 @@
     /**
      * @param Base
      * @param {object} $attrs
-     * @param {function} createPoll
+     * @param {IPollCreate} createPoll
      * @param {JQuery} $element
      * @param {Waves} waves
      * @return {Change24}

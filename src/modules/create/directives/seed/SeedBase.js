@@ -70,10 +70,9 @@
                 $clone.addClass('clone');
                 $clone.css({
                     position: 'absolute',
-                    left: offset.left,
-                    top: offset.top,
                     margin: '0'
                 });
+                $clone.offset(offset);
 
                 $forClone.addClass('moved');
 

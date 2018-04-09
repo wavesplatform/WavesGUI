@@ -7,7 +7,7 @@
      * @param {app.utils} utils
      * @param {Waves} waves
      * @param {ModalManager} modalManager
-     * @param createPoll
+     * @param {IPollCreate} createPoll
      * @return {LeasingCtrl}
      */
     const controller = function (Base, $scope, utils, waves, modalManager, createPoll) {
