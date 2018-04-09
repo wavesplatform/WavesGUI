@@ -239,6 +239,21 @@
         "backButton": "Go Back",
         "nextButton": "I Understand"
       }
+    },
+    "backup": {
+      "title": {
+        "title_0": "Save backup phrase",
+        "title_1": "Confirm backup",
+        "title_2": "Success"
+      },
+      "clearSeed": "<a class=\"clear\">Clear</a> and tap again"
+    }
+  },
+  "notification": {
+    "backup": {
+      "title": "Save your backup phrase (SEED)",
+      "body": "Store your SEED safely, it is the only way to restore your wallet.",
+      "action": "Save"
     }
   }
 }

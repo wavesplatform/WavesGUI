@@ -5,7 +5,7 @@
     /**
      *
      * @param {Base} Base
-     * @param {function} createPoll
+     * @param {IPollCreate} createPoll
      * @param {JQuery} $element
      * @param {Waves} waves
      * @param {DexDataService} dexDataService

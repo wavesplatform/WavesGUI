@@ -6,7 +6,7 @@
      * @param $scope
      * @param {Waves} waves
      * @param {User} user
-     * @param {Function} createPoll
+     * @param {IPollCreate} createPoll
      * @return {SettingsCtrl}
      */
     const controller = function (Base, $scope, waves, user, createPoll) {
