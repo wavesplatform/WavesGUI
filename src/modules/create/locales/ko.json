@@ -32,6 +32,7 @@
   "confirmBackup": {
     "confirm": "백업 확인",
     "description": "백업 구절 확인 또는",
+    "descriptionModal": "백업 구절 확인 또",
     "back": "뒤로",
     "enterCorrect": "올바른 순서로 각 단어를 입력하십시오",
     "ok": "확인",

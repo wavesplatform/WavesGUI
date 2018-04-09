@@ -9,6 +9,13 @@ body {
   overflow: auto;
   background-color: @color-background-default;
   .scroll();
+
+  .notifications {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 10000;
+  }
 }
 
 ui-view[name="main"] {
@@ -64,6 +71,7 @@ md-input-container {
   align-items: center;
   justify-content: center;
   margin: 200px auto;
+  text-align: center;
 
   .icon {
     background-image: url(/img/icons/null.svg);
@@ -147,13 +155,6 @@ w-scroll-box {
     position: absolute;
     right: @padding-main-layout;
     bottom: @padding-main-layout;
-  }
-
-  .notifications {
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-    z-index: 10000;
   }
 }
 

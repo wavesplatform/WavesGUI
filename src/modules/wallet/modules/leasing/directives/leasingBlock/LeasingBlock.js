@@ -13,7 +13,8 @@
 
             constructor() {
                 super();
-                this.title = i18n.translate($attrs.titleLocale, i18n.getNs($element));
+                this.titleLiteral = $attrs.titleLocale;
+                i18n.translateField(this, 'titleLiteral', 'title', i18n.getNs($element));
             }
 
         }

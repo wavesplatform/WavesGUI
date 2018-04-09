@@ -31,7 +31,7 @@
                  */
                 this.name = null;
                 /**
-                 * @type {Signal}
+                 * @type {Signal<string>} setting path
                  */
                 this.changeSetting = null;
                 /**
@@ -277,8 +277,6 @@
 
                         return this._save()
                             .then(() => {
-
-                                state.setMaxSleep(this._settings.get('logoutAfterMin'));
                                 this.receive(state.signals.sleep, (min) => {
                                     if (min >= this._settings.get('logoutAfterMin')) {
                                         this.logout();

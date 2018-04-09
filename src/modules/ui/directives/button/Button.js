@@ -10,9 +10,10 @@
      * @param $element
      * @param $attrs
      * @param {app.utils} utils
+     * @param {IPromiseControlCreate} createPromise
      * @return {Button}
      */
-    const controller = function (Base, $element, $attrs, utils) {
+    const controller = function (Base, $element, $attrs, utils, createPromise) {
 
         const SYNC_ATTRS = ['type', 'class'];
 
@@ -36,27 +37,34 @@
                  * @type {boolean}
                  * @private
                  */
-                this._canClick = false;
+                this._canClick = true;
+                /**
+                 * @type {JQuery}
+                 * @private
+                 */
+                this._$button = null;
 
                 if ($element.attr('ng-click')) {
                     throw new Error('Wrong use w-button component! Use on-click!');
                 }
 
                 this.observe(['_disabled', '_pending'], this._currentCanClick);
+                this.observe('_pending', this._togglePendingClass);
                 this.observe('_canClick', utils.debounceRequestAnimationFrame(this._onChangeDisabled));
             }
 
             $postLink() {
-                const button = this._getButton();
+                this._$button = $element.find('button:first');
+
                 SYNC_ATTRS.forEach((name) => {
                     if (name in $attrs) {
-                        button.attr(name, $attrs[name]);
+                        this._$button.attr(name, $attrs[name]);
                     }
                 });
 
-                this._getButton().get(0)
+                $element.get(0)
                     .addEventListener('click', (e) => {
-                        if (this.disabled || this.pending) {
+                        if (!this._canClick) {
                             e.stopPropagation();
                             e.preventDefault();
                             e.stopImmediatePropagation();
@@ -71,16 +79,14 @@
              * @private
              */
             _currentCanClick() {
-                this._canClick = this._disabled || this._pending;
+                this._canClick = !(this._disabled || this._pending);
             }
 
             /**
-             * @param result
+             * @param {*} result
              * @private
              */
             _applyClick(result) {
-                const $button = this._getButton();
-                $button.toggleClass('pending', true);
                 this._pending = true;
 
                 const onEnd = () => {
@@ -89,30 +95,27 @@
                     } else {
                         throw new Error('Already drop pending state!');
                     }
-                    $button.toggleClass('pending', false);
                 };
 
                 if (result && typeof result.then === 'function') {
-                    result.then(onEnd, onEnd);
+                    createPromise(this, result).then(onEnd, onEnd);
                 } else {
-                    utils.wait(DEFAULT_PENDING_TIME).then(onEnd);
+                    createPromise(this, utils.wait(DEFAULT_PENDING_TIME)).then(onEnd);
                 }
             }
 
             /**
-             * @return {JQuery}
              * @private
              */
-            _getButton() {
-                return $element.find('button:first');
+            _togglePendingClass() {
+                this._$button.toggleClass('pending', this._pending);
             }
 
             /**
              * @private
              */
             _onChangeDisabled() {
-                this._getButton()
-                    .prop('disabled', this._canClick);
+                this._$button.prop('disabled', !this._canClick);
             }
 
         }
@@ -120,7 +123,7 @@
         return new Button();
     };
 
-    controller.$inject = ['Base', '$element', '$attrs', 'utils'];
+    controller.$inject = ['Base', '$element', '$attrs', 'utils', 'createPromise'];
 
     module.component('wButton', {
         templateUrl: 'modules/ui/directives/button/button.html',
