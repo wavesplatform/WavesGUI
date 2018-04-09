@@ -1,31 +1,32 @@
 <div class="gateaway text-center">
-
-    <div class="gateaway-icon" ng-if="$ctrl.hasIcon">
-        <img src="{{::$ctrl.iconPath}}"/>
+    <div ng-if="::$ctrl.noReferer">
+        <!-- TODO add error content! -->
     </div>
-    <div class="app-name headline-2 basic-700" ng-if="!$ctrl.hasIcon">
-        {{::$ctrl.appName}}
-    </div>
+    <div ng-if="::!$ctrl.noReferer">
+        <div class="gateaway-icon" ng-if="$ctrl.hasIcon">
+            <img src="{{::$ctrl.iconPath}}"/>
+        </div>
+        <div class="app-name headline-2 basic-700" ng-if="!$ctrl.hasIcon">
+            {{::$ctrl.appName}}
+        </div>
 
-    <h3 class="basic-700">
-        <w-i18n params="{name: $ctrl.appName}">modal.gateawaySign.headline</w-i18n>
-    </h3>
+        <h3 class="basic-700">
+            <w-i18n params="{name: $ctrl.appName}">modal.gateawaySign.headline</w-i18n>
+        </h3>
 
-    <div class="content margin-4 body-2 basic-500">
-        <i class="icon-lock"></i>
-        <w-i18n>modal.gateawaySign.description</w-i18n>
-    </div>
+        <div class="content margin-4 body-2 basic-500">
+            <i class="icon-lock"></i>
+            <w-i18n>modal.gateawaySign.description</w-i18n>
+        </div>
 
-    <div class="error" ng-if="$ctrl.referrer">
 
-    </div>
-
-    <div class="buttons-wrapper">
-        <w-button class="big" on-click="$ctrl.cancel()">
-            <w-i18n>modal.gateawaySign.cancel</w-i18n>
-        </w-button>
-        <w-button class="big submit" on-click="$ctrl.send()">
-            <w-i18n>modal.gateawaySign.continue</w-i18n>
-        </w-button>
+        <div class="buttons-wrapper">
+            <w-button class="big" on-click="$ctrl.cancel()">
+                <w-i18n>modal.gateawaySign.cancel</w-i18n>
+            </w-button>
+            <w-button class="big submit" on-click="$ctrl.send()">
+                <w-i18n>modal.gateawaySign.continue</w-i18n>
+            </w-button>
+        </div>
     </div>
 </div>

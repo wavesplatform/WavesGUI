@@ -30,6 +30,7 @@
                 this.successPath = search.s;
                 this.errorPath = search.e;
                 this.hasIcon = false;
+                this.noReferer = false;
 
                 this._checkParams();
 
@@ -58,12 +59,15 @@
                          * @type {ITransactionClass}
                          */
                         const Sign = Waves.Transactions.createSignableData([
-                            'WavesWalletAuthentication',
-                            GateawaySignCtrl._getDomain(this.referrer),
+                            new Waves.byteProcessors.StringWithLength('prefix'),
+                            new Waves.byteProcessors.StringWithLength('host'),
                             new Waves.byteProcessors.StringWithLength('data')
                         ]);
 
-                        return new Sign({ data: this.data })
+                        const prefix = 'WavesWalletAuthentication';
+                        const host = GateawaySignCtrl._getDomain(this.referrer);
+
+                        return new Sign({ prefix, host, data: this.data })
                             .prepareForAPI(seed.keyPair.privateKey)
                             .then(({ signature }) => {
                                 const search = `?s=${signature}&p=${seed.keyPair.publicKey}&a=${user.address}`;
@@ -81,7 +85,7 @@
              */
             _checkParams() {
                 if (!this.referrer) {
-                    // TODO show error here
+                    this.noReferer = true;
                 }
 
                 if (!this.data) {
@@ -109,7 +113,11 @@
              * @private
              */
             static _getDomain(referer) {
-                return new URL(referer).hostname;
+                const url = new URL(referer);
+                if (url.protocol !== 'https:') {
+                    throw new Error('Protocol must be "https:"');
+                }
+                return url.hostname;
             }
 
             /**
