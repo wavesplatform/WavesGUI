@@ -58,7 +58,8 @@
                          * @type {ITransactionClass}
                          */
                         const Sign = Waves.Transactions.createSignableData([
-                            0,
+                            'WavesWalletAuthentication',
+                            GateawaySignCtrl._getDomain(this.referrer),
                             new Waves.byteProcessors.StringWithLength('data')
                         ]);
 
@@ -102,6 +103,20 @@
                 location.href = GateawaySignCtrl._normalizeUrl(url);
             }
 
+            /**
+             * @param {string} referer
+             * @return {string}
+             * @private
+             */
+            static _getDomain(referer) {
+                return new URL(referer).hostname;
+            }
+
+            /**
+             * @param {string} url
+             * @return {string}
+             * @private
+             */
             static _normalizeUrl(url) {
                 return url.replace(/\/\//g, '/');
             }
