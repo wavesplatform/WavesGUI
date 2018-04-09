@@ -185,7 +185,10 @@
       "general": {
         "title": "General",
         "blockHeight": "Current height",
-        "language": "Language"
+        "timeout": "Session timeout in",
+        "language": "Language",
+        "minutes": "{{minutes}} min",
+        "hours": "{{hours}} hour"
       },
       "security": {
         "title": "Security",
