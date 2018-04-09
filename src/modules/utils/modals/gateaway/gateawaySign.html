@@ -1,13 +1,31 @@
-<div ng-if="$ctrl.hasIcon">
-    <img src="{{::$ctrl.iconPath}}"/>
+<div class="gateaway text-center">
+
+    <div class="gateaway-icon" ng-if="$ctrl.hasIcon">
+        <img src="{{::$ctrl.iconPath}}"/>
+    </div>
+    <div class="app-name headline-2 basic-700" ng-if="!$ctrl.hasIcon">
+        {{::$ctrl.appName}}
+    </div>
+
+    <h3 class="basic-700">
+        <w-i18n params="{name: $ctrl.appName}">modal.gateawaySign.headline</w-i18n>
+    </h3>
+
+    <div class="content margin-4 body-2 basic-500">
+        <i class="icon-lock"></i>
+        <w-i18n>modal.gateawaySign.description</w-i18n>
+    </div>
+
+    <div class="error" ng-if="$ctrl.referrer">
+
+    </div>
+
+    <div class="buttons-wrapper">
+        <w-button class="big" on-click="$ctrl.cancel()">
+            <w-i18n>modal.gateawaySign.cancel</w-i18n>
+        </w-button>
+        <w-button class="big submit" on-click="$ctrl.send()">
+            <w-i18n>modal.gateawaySign.continue</w-i18n>
+        </w-button>
+    </div>
 </div>
-<div ng-if="!$ctrl.hasIcon">
-    {{::$ctrl.appName}}
-</div>
-<w-i18n params="{name: $ctrl.appName}">modal.gateawaySign.body</w-i18n>
-<w-button class="big" on-click="$ctrl.cancel()">
-    <w-i18n>cancel</w-i18n>
-</w-button>
-<w-button class="big submit" on-click="$ctrl.send()">
-    <w-i18n>continue</w-i18n>
-</w-button>
