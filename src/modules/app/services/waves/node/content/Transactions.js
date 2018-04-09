@@ -28,6 +28,8 @@
      */
     const factory = function (user, utils, aliases, decorators) {
 
+        const HOST = location.host;
+
         class Transactions {
 
             constructor() {
@@ -48,7 +50,9 @@
              * @return {Promise<ITransaction>}
              */
             get(id) {
-                return Waves.API.Node.v2.transactions.get(id)
+                return fetch(`${user.getSetting('network.node')}/transactions/info/${id}?h=${HOST}`)
+                    .then(utils.onFetch)
+                    .then(Waves.tools.siftTransaction)
                     .then(this._pipeTransaction(false));
             }
 
