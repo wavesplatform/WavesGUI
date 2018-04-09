@@ -235,7 +235,12 @@
       "headline": "Приложение Coinomat.com увидит ваш Waves адрес.",
       "description": "Приложение не получит доступ к вашей секретной фразе (SEED) или приватному ключу.",
       "cancel": "Закрыть",
-      "continue": "Продолжить"
+      "continue": "Продолжить",
+      "error": {
+        "headline": "",
+        "description": "",
+        "button": ""
+      }
     }
   }
 }

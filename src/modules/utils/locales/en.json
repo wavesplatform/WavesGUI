@@ -231,7 +231,12 @@
       "headline": "The Coinomat.com application will see your Waves address.",
       "description": "The application will not get your SEED or Private key.",
       "cancel": "Cancel",
-      "continue": "Continue"
+      "continue": "Continue",
+      "error": {
+        "headline": "",
+        "description": "",
+        "button": ""
+      }
     }
   }
 }
