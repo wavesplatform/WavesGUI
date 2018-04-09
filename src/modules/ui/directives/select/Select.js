@@ -64,16 +64,7 @@
                  */
                 this._activateTransactionMode = false;
 
-                this.observe('ngModel', () => {
-                    if (!this._activateTransactionMode) {
-                        const option = tsUtils.find(this._options.components, { value: this.ngModel });
-                        if (option) {
-                            this.setActive(option);
-                        } else {
-                            console.warn('Wrong option activate!');
-                        }
-                    }
-                });
+                this.observe('ngModel', this._renderActiveOption);
             }
 
             $postLink() {
@@ -84,6 +75,11 @@
                 this._setHandlers();
 
                 createPromise(this, utils.wait(200)).then(this._ready.resolve);
+            }
+
+            remove(option) {
+                this._options.remove(option);
+                this._renderActiveOption();
             }
 
             /**
@@ -130,6 +126,20 @@
                 option.setActive(true);
                 this._toggleList(false);
                 this._activateTransactionMode = false;
+            }
+
+            /**
+             * @private
+             */
+            _renderActiveOption() {
+                if (!this._activateTransactionMode) {
+                    const option = tsUtils.find(this._options.components, { value: this.ngModel });
+                    if (option) {
+                        this.setActive(option);
+                    } else if (this._options.length) {
+                        this.setActive(this._options.first());
+                    }
+                }
             }
 
             /**
