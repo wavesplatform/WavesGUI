@@ -14,6 +14,10 @@
 
         class LeasingCtrl extends Base {
 
+            get pendingAllLeasing() {
+                return !this.pending && this.allActiveLeasing == null;
+            }
+
             constructor() {
                 super($scope);
 

@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* global openInBrowser, i18next, BigNumber, Waves, identityImg */
 (function () {
     'use strict';
 
@@ -76,26 +78,26 @@
 
         const cache = Object.create(null);
         Waves.config.set({
-            assetFactory(props) {
+            assetFactory(id) {
 
-                if (cache[props.id]) {
-                    return cache[props.id];
+                if (cache[id]) {
+                    return cache[id];
                 }
 
-                const promise = fetch(`${WavesApp.network.api}/assets/${props.id}`)
+                const promise = fetch(`${WavesApp.network.api}/assets/${id}`)
                     .then(utils.onFetch)
                     .then((fullProps) => new ExtendedAsset(remapAssetProps(fullProps)))
                     .catch(() => {
-                        return Waves.API.Node.v1.transactions.get(props.id)
+                        return Waves.API.Node.v1.transactions.get(id)
                             .then((partialProps) => new ExtendedAsset(remapAssetProps(partialProps)));
                     });
 
-                cache[props.id] = promise;
-                cache[props.id].catch(() => {
-                    delete cache[props.id];
+                cache[id.id] = promise;
+                cache[id.id].catch(() => {
+                    delete cache[id.id];
                 });
 
-                return cache[props.id];
+                return cache[id.id];
             }
         });
 
@@ -170,8 +172,8 @@
              */
             _initializeLogin() {
 
-                storage.onReady().then((isNew) => {
-                    if (isNew) {
+                storage.onReady().then((oldVersion) => {
+                    if (!oldVersion) {
                         modalManager.showTutorialModals();
                     }
                 });
@@ -200,7 +202,7 @@
                             i18next.changeLanguage(user.getSetting('lng'));
 
                             if (!termsAccepted) {
-                                modalManager.showTermsAccept(user).then(() => {
+                                modalManager.showTermsAccept().then(() => {
                                     if (user.getSetting('shareAnalytics')) {
                                         analytics.activate();
                                     }
@@ -241,6 +243,8 @@
             /**
              * @param {Event} event
              * @param {object} toState
+             * @param some
+             * @param fromState
              * @param {string} toState.name
              * @private
              */
@@ -316,10 +320,14 @@
             }
 
             static _getUrlFromState(state) {
-                return '/' + WavesApp.stateTree.getPath(state.name.split('.').slice(-1)[0])
-                    .filter((id) => !WavesApp.stateTree.find(id).get('abstract'))
-                    .map((id) => WavesApp.stateTree.find(id).get('url') || id)
-                    .join('/');
+                return (
+                    WavesApp
+                        .stateTree
+                        .getPath(state.name.split('.').slice(-1)[0])
+                        .filter((id) => !WavesApp.stateTree.find(id).get('abstract'))
+                        .map((id) => WavesApp.stateTree.find(id).get('url') || id)
+                        .reduce((url, id) => `${url}/${id}`, '')
+                );
             }
 
         }
@@ -327,7 +335,7 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'storage'];
+    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'storage', 'whatsNew'];
 
     angular.module('app')
         .run(run);

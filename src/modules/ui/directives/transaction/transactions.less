@@ -56,6 +56,11 @@ w-transaction .transaction {
       .icon-tx-receive();
     }
 
+    &.mass-send,
+    &.mass-receive {
+      .icon-tx-mass-transfer();
+    }
+
     &.circular {
       .icon-tx-circular();
     }
@@ -135,6 +140,12 @@ w-transaction .transaction {
       background-size: 90%;
     }
 
+    .status {
+      right: 43px;
+      bottom: auto;
+      top: 10px;
+    }
+
     .transaction-info {
 
       .line-wrapper {
@@ -171,12 +182,6 @@ w-transaction .transaction {
 @media screen and (max-width: 768px) {
   w-transaction .transaction {
     height: auto;
-
-    .status {
-      right: 43px;
-      bottom: auto;
-      top: 10px;
-    }
 
     .icon {
       zoom: .71;
