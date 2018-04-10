@@ -6,11 +6,11 @@
      * @param {$rootScope.Scope} $scope
      * @param {User} user
      * @param {app.utils} utils
-     * @return {GateawaySignCtrl}
+     * @return {GatewaySignCtrl}
      */
     const controller = function (Base, $scope, user, utils) {
 
-        class GateawaySignCtrl extends Base {
+        class GatewaySignCtrl extends Base {
 
             /**
              * @param {object} search
@@ -32,21 +32,10 @@
                 this.hasIcon = false;
                 this.noReferer = false;
                 this.titleLiteral = 'modal.gateawaySign.title';
+                this.imageSrc = null;
 
                 this._checkParams();
-
-                if (this.iconPath) {
-                    utils.loadImage(this.iconPath)
-                        .catch(() => {
-                            return utils.loadImage(GateawaySignCtrl._normalizeUrl(`${this.referrer}/${this.iconPath}`));
-                        })
-                        .then(() => {
-                            this.hasIcon = true;
-                        })
-                        .catch(() => {
-                            this.hasIcon = false;
-                        });
-                }
+                this._setImageUrl();
             }
 
             cancel() {
@@ -66,7 +55,7 @@
                         ]);
 
                         const prefix = 'WavesWalletAuthentication';
-                        const host = GateawaySignCtrl._getDomain(this.referrer);
+                        const host = GatewaySignCtrl._getDomain(this.referrer);
 
                         return new Sign({ prefix, host, data: this.data })
                             .prepareForAPI(seed.keyPair.privateKey)
@@ -74,11 +63,36 @@
                                 const search = `?s=${signature}&p=${seed.keyPair.publicKey}&a=${user.address}`;
                                 const successPath = this.successPath || '';
                                 const url = `${this.referrer}/${successPath}${search}`;
-                                location.replace(GateawaySignCtrl._normalizeUrl(url));
+                                location.replace(GatewaySignCtrl._normalizeUrl(url));
                             });
                     }).catch((e) => {
                         this._sendError(String(e));
                     });
+            }
+
+            _setImageUrl() {
+                if (!this.iconPath) {
+                    this.hasIcon = false;
+                    return null;
+                }
+
+                try {
+                    const url = new URL(this.iconPath);
+                    utils.loadImage(url.href).then(() => {
+                        this.imageSrc = url.href;
+                        this.hasIcon = true;
+                    }).catch(() => {
+                        this.hasIcon = false;
+                    });
+                } catch (e) {
+                    const url = GatewaySignCtrl._normalizeUrl(`${this.referrer}/${this.iconPath}`);
+                    utils.loadImage(url).then(() => {
+                        this.imageSrc = url;
+                        this.hasIcon = true;
+                    }).catch(() => {
+                        this.hasIcon = false;
+                    });
+                }
             }
 
             /**
@@ -106,7 +120,7 @@
             _sendError(message) {
                 const errorPath = this.errorPath || '';
                 const url = `${this.referrer}/${errorPath}?m=${message}`;
-                location.replace(GateawaySignCtrl._normalizeUrl(url));
+                location.replace(GatewaySignCtrl._normalizeUrl(url));
             }
 
             /**
@@ -129,15 +143,17 @@
              */
             static _normalizeUrl(urlString) {
                 const url = new URL(urlString);
-                return `${url.protocol}//${url.host}${url.pathname.replace(/\/\//g, '')}${url.search}${url.hash}`;
+                const protocol = `${url.protocol}//`;
+                return protocol + (`${url.host}/${url.pathname}/${url.search}${url.hash}`.replace(/\/\//g, ''))
+                    .replace(/\/$/, '');
             }
 
         }
 
-        return new GateawaySignCtrl(this.search);
+        return new GatewaySignCtrl(this.search);
     };
 
     controller.$inject = ['Base', '$scope', 'user', 'utils'];
 
-    angular.module('app.utils').controller('GateawaySignCtrl', controller);
+    angular.module('app.utils').controller('GatewaySignCtrl', controller);
 })();

@@ -1,7 +1,7 @@
 <div class="gateaway text-center">
     <div ng-if="::!$ctrl.noReferer">
         <div class="gateaway-icon" ng-if="$ctrl.hasIcon">
-            <img src="{{::$ctrl.iconPath}}"/>
+            <img ng-src="{{$ctrl.imageSrc}}"/>
         </div>
         <div class="app-name headline-2 basic-700" ng-if="!$ctrl.hasIcon">
             {{::$ctrl.appName}}

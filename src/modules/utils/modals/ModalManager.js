@@ -47,12 +47,12 @@
                 });
             }
 
-            showGateawaySign(search) {
+            showGatewaySign(search) {
                 return this._getModal({
-                    id: 'gateaway-sign-in',
+                    id: 'gateway-sign-in',
                     title: '{{$ctrl.titleLiteral}}',
-                    contentUrl: 'modules/utils/modals/gateaway/gateawaySign.html',
-                    controller: 'GateawaySignCtrl',
+                    contentUrl: 'modules/utils/modals/gateway/gatewaySign.html',
+                    controller: 'GatewaySignCtrl',
                     locals: { search },
                     clickOutsideToClose: false,
                     escapeToClose: false

@@ -66,7 +66,7 @@
                     },
                     // '/receive': () => modalManager.showReceiveAsset(user), // TODO : decide on that
                     '/account': () => modalManager.showAccountInfo(),
-                    '/gateaway/auth': (params, search) => modalManager.showGateawaySign(search)
+                    '/gateway/auth': (params, search) => modalManager.showGatewaySign(search)
                 };
             }
 
