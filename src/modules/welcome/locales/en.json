@@ -27,7 +27,7 @@
     "title": "Sign in",
     "subTitle": "The session was automatically terminated. Sign in again or",
     "create": "create a new account",
-    "address": "Address",
+    "address": "Address / Account name",
     "password": "Password",
     "restore": "Restore account",
     "frombackup": "from backup",
@@ -37,5 +37,9 @@
     "buttons": {
       "login": "Log in"
     }
+  },
+  "infoTooltip": "Important information",
+  "password": {
+    "error": "Wrong Password!"
   }
 }

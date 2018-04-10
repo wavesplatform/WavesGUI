@@ -1,9 +1,14 @@
 (function () {
     'use strict';
 
-    const directive = function (Base, i18n, decorators) {
+    /**
+     * @param Base
+     * @param i18n
+     * @param {app.utils} utils
+     */
+    const directive = function (Base, i18n, utils) {
         return {
-            scope: true,
+            scope: false,
             restrict: 'AE',
             link($scope, $element, $attrs) {
 
@@ -12,23 +17,47 @@
                     constructor() {
                         super($scope);
 
-                        this.watchers = Object.create(null);
-                        this.forStop = [];
-                        const handler = this._getHandler();
-                        this.forStop.push(() => i18next.off('languageChanged', handler));
+                        /**
+                         * @type {Array}
+                         * @private
+                         */
+                        this._forStop = [];
+                        /**
+                         * @type {Object.<boolean>}
+                         * @private
+                         */
+                        this._watchers = Object.create(null);
+                        /**
+                         * @type {string}
+                         * @private
+                         */
+                        this._literalTemplate = I18n._getLiteralTemplate();
+                        /**
+                         * @type {{part: string, evalTpl: string, needWatch: boolean}[]}
+                         * @private
+                         */
+                        this._parts = I18n._getParts(this._literalTemplate);
+                        /**
+                         * @type {Function}
+                         * @private
+                         */
+                        this._handler = utils.debounce(this._getHandler());
 
-                        i18next.on('languageChanged', handler);
+                        this._addWatchers();
+
+                        this.listenEventEmitter(i18next, 'languageChanged', this._handler);
                         if ($attrs.params) {
-                            const stop = $scope.$watch($attrs.params, handler);
-                            this.forStop.push(stop);
+                            const stop = $scope.$watch($attrs.params, this._handler);
+                            this._forStop.push(stop);
                         }
 
-                        handler();
+                        this._handler();
                     }
 
                     $onDestroy() {
                         super.$onDestroy();
-                        this.forStop.forEach((cb) => cb());
+                        this._forStop.forEach((cb) => cb());
+                        this._forStop = [];
                     }
 
                     /**
@@ -36,52 +65,50 @@
                      * @private
                      */
                     _getHandler() {
-                        const literal = this._compile(I18n._getLiteral());
                         const ns = i18n.getNs($element);
-                        return function () {
-                            const skipErros = 'skipErrors' in $attrs;
+                        return () => {
+                            const skipErrors = 'skipErrors' in $attrs;
                             const params = $attrs.params && $scope.$eval($attrs.params) || undefined;
-                            $element.html(i18n.translate(literal, ns, params, skipErros));
+                            $element.html(i18n.translate(this._compile(this._literalTemplate), ns, params, skipErrors));
                         };
                     }
 
                     /**
-                     * @param literal
+                     * @param {string} literal
                      * @return {string}
                      * @private
                      */
                     _compile(literal) {
-                        const parts = literal.match(/{{.*?(}})/g);
-                        let addWatcher = false;
-                        if (!parts) {
-                            return literal.trim();
-                        } else {
-                            parts.forEach((part) => {
-                                if (part.indexOf('::') === -1) {
-                                    addWatcher = true;
-                                }
-                                const forEval = part
-                                    .replace('{{', '')
-                                    .replace('}}', '')
-                                    .replace('::', '');
-                                literal = literal.replace(part, $scope.$eval(forEval)).trim();
-                                if (!this.watchers[literal]) {
-                                    this.forStop.push($scope.$watch(forEval, () => this._getHandler()()));
-                                    this.watchers[literal] = true;
-                                }
+                        if (this._parts) {
+                            this._parts.forEach(({ part, evalTpl }) => {
+                                literal = literal.replace(part, $scope.$eval(evalTpl));
                             });
                         }
-
                         return literal;
                     }
 
                     /**
-                     * @return {*}
                      * @private
                      */
-                    @decorators.cachable()
-                    static _getLiteral() {
-                        return String(I18n._isAttribute() ? $attrs.wI18n : $element.text()).trim();
+                    _addWatchers() {
+                        if (!this._parts) {
+                            return null;
+                        }
+
+                        this._parts.forEach(({ part, needWatch, evalTpl }) => {
+                            if (needWatch && !this._watchers[part]) {
+                                this._forStop.push($scope.$watch(evalTpl, this._handler));
+                                this._watchers[part] = true;
+                            }
+                        });
+                    }
+
+                    /**
+                     * @return {string}
+                     * @private
+                     */
+                    static _getLiteralTemplate() {
+                        return String(I18n._isAttribute() ? $element.attr('w-i18n') : $element.text()).trim();
                     }
 
                     /**
@@ -90,6 +117,26 @@
                      */
                     static _isAttribute() {
                         return !!$attrs.wI18n;
+                    }
+
+                    /**
+                     * @param template
+                     * @return {{part: string, evalTpl: string, needWatch: boolean}[]}
+                     * @private
+                     */
+                    static _getParts(template) {
+                        const parts = template.match(/{{.*?(}})/g);
+                        if (parts) {
+                            return parts.map((part) => {
+                                return {
+                                    part,
+                                    evalTpl: part.replace('{{', '').replace('}}', '').replace('::', ''),
+                                    needWatch: part.indexOf('::') === -1
+                                };
+                            });
+                        } else {
+                            return null;
+                        }
                     }
 
                 }
@@ -105,7 +152,7 @@
         };
     };
 
-    directive.$inject = ['Base', 'i18n', 'decorators'];
+    directive.$inject = ['Base', 'i18n', 'utils'];
 
     angular.module('app')
         .directive('wI18n', directive);

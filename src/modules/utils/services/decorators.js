@@ -1,3 +1,4 @@
+/* global tsUtils */
 (function () {
     'use strict';
 
@@ -20,7 +21,7 @@
              * @param descriptor
              */
             readonly(target, key, descriptor) {
-                //TODO fix for parents frozen!
+                // TODO fix for parents frozen!
                 const origin = descriptor.value;
                 descriptor.value = function (...args) {
                     const result = origin.call(this, ...args);
@@ -44,7 +45,7 @@
 
                     descriptor.value = function (...args) {
                         args.push(cache);
-                        return origin.call(...args);
+                        return origin.call(this, ...args);
                     };
                 };
             },
@@ -139,7 +140,7 @@
      */
     function stringify(some) {
         try {
-            return JSON.stringify(some.slice().sort());
+            return JSON.stringify(some);
         } catch (e) {
             return String(some);
         }

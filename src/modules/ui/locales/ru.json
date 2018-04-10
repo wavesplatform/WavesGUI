@@ -5,6 +5,7 @@
     "max": "Max"
   },
   "password": {
+    "name": "Название аккаунта",
     "title": "Защитите ваш кошелёк паролем",
     "minLength": "минимум {{minLength}} символов",
     "warn": "очень простой пароль, добавьте цифру или символ",
@@ -15,20 +16,27 @@
     "headers": {
       "send": "Отправка {{name}}",
       "receive": "Получение {{name}}",
+      "mass-send": "Отправка {{name}}",
+      "mass-receive": "Получение {{name}}",
       "circular": "Отправка себе {{name}}",
       "issue": "Выпуск токена \"{{name}}\"",
       "reissue": "Перевыпуск токена \"{{name}}\"",
       "burn": "Сожжение токена \"{{name}}\"",
-      "exchange-buy": "Покупка: {{amountAsset}}/{{priceAsset}}",
-      "exchange-sell": "Продажа: {{amountAsset}}/{{priceAsset}}",
+      "exchange-buy": "Покупка:",
+      "exchange-sell": "Продажа:",
+      "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
       "lease-in": "Входящий лизинг",
       "lease-out": "Передача в лизинг",
       "cancel-leasing": "Отмена лизинга",
-      "create-alias": "Создание алиаса"
+      "unknown": "Неизвестная транзакция",
+      "create-alias": "Создание алиаса",
+      "activeLeasing": "активен"
     },
     "amounts": {
       "send": "–{{amount}} {{name}}",
       "receive": "+{{amount}} {{name}}",
+      "mass-send": "–{{amount}} {{name}}",
+      "mass-receive": "+{{amount}} {{name}}",
       "circular": "{{amount}} {{name}}",
       "issue": "{{amount}} {{name}}",
       "reissue": "+{{amount}} {{name}}",
@@ -43,6 +51,8 @@
     "subheaders": {
       "send": "{{time}}<span class='locale-address'>, на адрес {{address}}</span>",
       "receive": "{{time}}<span class='locale-address'>, с адреса {{address}}</span>",
+      "mass-send": "{{time}}",
+      "mass-receive": "{{time}}<span class='locale-address'>, с адреса {{address}}</span>",
       "circular": "{{time}}<span class='locale-address'>, на адрес {{address}}</span>",
       "issue": "{{time}}",
       "reissue": "{{time}}",
@@ -52,6 +62,7 @@
       "lease-in": "{{time}}<span class='locale-address'>, с адреса {{address}}</span>",
       "lease-out": "{{time}}<span class='locale-address'>, на адрес {{address}}</span>",
       "cancel-leasing": "{{time}}<span class='locale-address'>, транзакция {{transactionId}}</span>",
+      "unknown": "{{time}}",
       "create-alias": "{{time}}, {{alias}}"
     },
     "reissuable": {
@@ -76,11 +87,13 @@
       "description": "Описание",
       "price": "Цена {{name}}",
       "type": "Тип",
+      "height": "Высота блока",
       "cancelTx": "TX",
-      "confirmations": "Подтверждениий",
+      "confirmations": "Подтверждений",
       "fee": "Комиссия",
       "viewTransactionKey": "Детали",
-      "viewTransactionValue": "Посмотреть транзакцию"
+      "viewTransactionValue": "Посмотреть транзакцию",
+      "numberOfRecipients": "Количество получателей"
     },
     "confirmed": {
       "false": "НЕ ПОДТВЕРЖДЕНО",

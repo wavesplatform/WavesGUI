@@ -9,7 +9,7 @@
      * @param {ModalManager} modalManager
      * @param {User} user
      * @param {EventManager} eventManager
-     * @param {Function} createPoll
+     * @param {IPollCreate} createPoll
      * @param {GatewayService} gatewayService
      * @return {PortfolioCtrl}
      */

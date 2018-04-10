@@ -1,4 +1,12 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
+
+input[type="checkbox"] {
+  box-shadow: none;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
 
 .input-like {
   width: 100%;
@@ -6,6 +14,10 @@
   padding: @padding-control;
   font-size: @font-size-control;
   text-align: left;
+  box-shadow: none;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
 
   &::placeholder {
     color: @color-basic-500;
@@ -63,6 +75,7 @@ w-input {
         &:focus, &.focus {
           background-color: @color-white;
           color: @color-basic-900;
+          border-color: @color-submit-400;
         }
 
         &.ng-touched {
@@ -74,6 +87,12 @@ w-input {
           }
         }
       }
+
+      &.no-validate:focus,
+      &.embed:focus {
+        border: 1px solid @color-submit-400;
+      }
+
     }
   }
 
@@ -85,7 +104,7 @@ w-input {
       position: absolute;
       right: 21px;
       top: 50%;
-      transform: translate(0, -50%);
+      transform: translateY(-50%);
       background-size: 100% 100%;
     }
 
@@ -122,6 +141,27 @@ w-input {
       height: 11px;
     }
   }
+
+  .byte-validator__help {
+    position: absolute;
+    top: -22px;
+    display: none;
+    right: 0;
+    color: @color-basic-500;
+    .footnote-1();
+  }
+
+  div.focused .byte-validator__help {
+    display: block;
+    color: @color-disabled-500;
+  }
+
+  div.touched.invalid .byte-validator__help,
+  div.focused.invalid .byte-validator__help {
+    display: block;
+    color: @color-error-500;
+  }
+
 }
 
 form.ng-submitted {

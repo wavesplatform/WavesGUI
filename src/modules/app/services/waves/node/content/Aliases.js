@@ -3,11 +3,9 @@
 
     /**
      * @param {BaseNodeComponent} BaseNodeComponent
-     * @param {User} user
-     * @param {app.utils} utils
      * @return {Aliases}
      */
-    const factory = function (BaseNodeComponent, user, utils) {
+    const factory = function (BaseNodeComponent) {
 
         const AVAILABLE_CHARS = '-.0123456789@_abcdefghijklmnopqrstuvwxyz';
 
@@ -75,7 +73,7 @@
         return new Aliases();
     };
 
-    factory.$inject = ['BaseNodeComponent', 'user', 'utils'];
+    factory.$inject = ['BaseNodeComponent'];
 
     angular.module('app').factory('aliases', factory);
 })();

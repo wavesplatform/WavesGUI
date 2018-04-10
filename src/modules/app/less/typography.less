@@ -1,8 +1,5 @@
 @import (reference) '../../config';
 
-@font-size-caption-1: 12px;
-@font-size-caption-2: 11px;
-
 html, body {
   .footnote-1();
 }
@@ -12,7 +9,6 @@ html, body {
 h1 {
   font-family: @font-roboto-light;
   font-size: 28px;
-  letter-spacing: 0;
   line-height: 34px;
   margin: 10px 0;
 }
@@ -20,7 +16,6 @@ h1 {
 h2 {
   font-family: @font-roboto-regular;
   font-size: 24px;
-  letter-spacing: 0.3px;
   line-height: 28px;
   margin: 10px 0;
 }
@@ -28,7 +23,6 @@ h2 {
 h3 {
   font-family: @font-roboto-regular;
   font-size: 22px;
-  letter-spacing: 0.35px;
   line-height: 28px;
   margin: 10px 0;
 }
@@ -36,7 +30,6 @@ h3 {
 h4 {
   font-family: @font-roboto-regular;
   font-size: 20px;
-  letter-spacing: 0;
   line-height: 24px;
   margin: 10px 0;
 }
@@ -49,7 +42,6 @@ h4 {
 .headline-1 {
   font-family: @font-roboto-regular;
   font-size: 34px;
-  letter-spacing: 0;
   line-height: 40px;
   margin: 10px 0;
 }
@@ -57,9 +49,7 @@ h4 {
 .headline-2 {
   font-family: @font-roboto-medium;
   font-size: 17px;
-  letter-spacing: 0;
   line-height: 22px;
-  margin: 0;
   color: @color-basic-700;
 }
 
@@ -67,34 +57,29 @@ h4 {
   font-family: @font-roboto-medium;
   font-size: 15px;
   line-height: 20px;
-  letter-spacing: -0.24px;
 }
 
 .headline-4 {
   font-family: @font-roboto-medium;
   font-size: 14px;
-  letter-spacing: 0;
   line-height: 18px;
 }
 
 .subheader {
   font-family: @font-roboto-regular;
   font-size: 16px;
-  letter-spacing: 0;
   line-height: 21px;
 }
 
 .body-1 {
   font-family: @font-roboto-regular;
   font-size: 17px;
-  letter-spacing: 0;
   line-height: 22px;
 }
 
 .body-2 {
   font-family: @font-roboto-regular;
   font-size: 15px;
-  letter-spacing: 0;
   line-height: 20px;
   margin: 4px 0;
 }
@@ -102,21 +87,18 @@ h4 {
 .footnote-1 {
   font-family: @font-roboto-regular;
   font-size: 13px;
-  letter-spacing: 0;
   line-height: 18px;
 }
 
 .footnote-2 {
   font-family: @font-roboto-medium;
   font-size: 13px;
-  letter-spacing: 0;
   line-height: 18px;
 }
 
 .footnote-3 {
   font-family: @font-roboto-medium;
   font-size: 13px;
-  letter-spacing: 0;
   line-height: 18px;
 }
 
@@ -125,7 +107,6 @@ h4 {
 .caption-1 {
   font-family: @font-roboto-regular;
   font-size: @font-size-caption-1;
-  letter-spacing: 0.07px;
   line-height: 16px;
   color: @color-disabled-600;
 }
@@ -133,17 +114,14 @@ h4 {
 .caption-2 {
   font-family: @font-roboto-regular;
   font-size: @font-size-caption-2;
-  letter-spacing: 0.07px;
   line-height: 13px;
   color: @color-disabled-600;
 }
-
 
 .caption-3 {
   font-family: @font-roboto-regular;
   font-size: 9px;
   color: @color-disabled-600;
-  letter-spacing: 0;
   line-height: 12px;
 }
 
@@ -152,18 +130,21 @@ h4 {
 .tag-1 {
   font-family: @font-roboto-regular;
   font-size: 13px;
-  letter-spacing: 0;
   line-height: 18px;
-  color: @color-disabled-600;
   text-transform: uppercase;
 }
 
 .tag-2 {
   font-family: @font-roboto-regular;
   font-size: 11px;
-  letter-spacing: 2px;
   line-height: 12px;
-  color: @color-info-400;
+  text-transform: uppercase;
+}
+
+.tag-3 {
+  font-family: @font-roboto-regular;
+  font-size: 9px;
+  line-height: 9px;
   text-transform: uppercase;
 }
 
@@ -199,4 +180,52 @@ hr {
   &::after {
     margin: 0 0 0 10px;
   }
+}
+
+.bold {
+  font-family: @font-roboto-medium;
+}
+
+.center {
+  text-align: center;
+}
+
+/* mobile font-sizes */
+@font-size-caption-1: 12px;
+@font-size-caption-2: 11px;
+@font-size-caption-3: 10px;
+@font-size-caption-4: 9px;
+
+@mobile-low-fsize: 11px;
+@mobile-mid-fsize: 14px;
+
+
+@media screen and (max-width: 480px) {
+
+  body {
+    .mobile-caption-1 {
+      font-size: @font-size-caption-1;
+    }
+
+    .mobile-caption-2 {
+      font-size: @font-size-caption-2;
+    }
+
+    .mobile-caption-3 {
+      font-size: @font-size-caption-3;
+    }
+
+    .mobile-caption-4 {
+      font-size: @font-size-caption-4;
+    }
+
+    .mobile-low-fsize {
+      font-size: @mobile-low-fsize;
+    }
+
+    .mobile-mid-fsize {
+      font-size: @mobile-mid-fsize;
+    }
+  }
+
 }

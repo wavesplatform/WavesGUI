@@ -1,5 +1,7 @@
 {
   "vendors": [
+    "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js",
+    "node_modules/mousetrap/mousetrap.min.js",
     "node_modules/clipboard/dist/clipboard.min.js",
     "node_modules/csv-gen/dist/CSV.min.js",
     "node_modules/js-cookie/src/js.cookie.js",
@@ -8,7 +10,7 @@
     "node_modules/ts-utils/dist/ts-utils.min.js",
     "node_modules/bignumber.js/bignumber.min.js",
     "node_modules/ts-api-validator/dist/ts-api-validator.partial.min.js",
-    "node_modules/waves-api/dist/waves-api.partial.js",
+    "node_modules/@waves/waves-api/dist/waves-api.partial.js",
     "node_modules/jquery/dist/jquery.min.js",
     "node_modules/d3/d3.min.js",
     "node_modules/identity-img/dist/identity-img.min.js",
@@ -23,6 +25,8 @@
     "node_modules/i18next/dist/umd/i18next.min.js",
     "node_modules/n3-charts/build/LineChart.min.js",
     "node_modules/@waves/event-sender/dist/umd.js"
+  ],
+  "electronScripts": [
   ],
   "stylesheets": [
     "node_modules/angular-material/angular-material.min.css",
@@ -128,6 +132,19 @@
   "copyNodeModules": [
     "node_modules/qrcode-reader/dist/index.min.js"
   ],
+  "electron": {
+    "createPackageJSONFields": [
+      "name",
+      "version",
+      "author",
+      "description",
+      "license"
+    ],
+    "defaults": {
+      "main": "main.js"
+    },
+    "server": "desktop.wavesplatform.com"
+  },
   "configurations": {
     "testnet": {
       "code": "T",
@@ -144,6 +161,7 @@
         "ETH": "3fVdr1oiX39uS82ZGUPnu7atNQtFHZfPnseRDUcDxrhp",
         "LTC": "no-asset-id",
         "ZEC": "no-asset-id",
+        "BCH": "no-asset-id",
         "EFYT": "no-asset-id",
         "WNET": "no-asset-id"
       }
@@ -163,6 +181,7 @@
         "ETH": "474jTeYx2r2Va35794tCScAXWJG9hU2HcgxzMowaZUnu",
         "LTC": "HZk1mbfuJpmxU1Fs4AX5MWLVYtctsNcg6e2C6VKqK8zk",
         "ZEC": "BrjUWjndUanm5VsJkbUip8VRYy6LWJePtxya3FNv4TQa",
+        "BCH": "zMFqXuoyrn5w17PFurTqxB7GsS71fp9dfk6XFwxbPCy",
         "EFYT": "725Yv9oceWsB4GsYwyy4A52kEwyVrL5avubkeChSnL46",
         "WNET": "AxAmJaro7BJ4KasYiZhw7HkjwgYtt2nekPuF2CN9LMym"
       }

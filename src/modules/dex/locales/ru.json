@@ -69,7 +69,9 @@
         "isCanceled": "Ордер был отменён",
         "somethingWentWrong": "Произошла ошибка"
       }
-    }
+    },
+    "noChartDataTitle": "Нет данных…",
+    "noChartDataMessage": "Недостаточно данных для построения графика глубины рынка."
   },
   "layout": {
     "right": {
@@ -78,6 +80,20 @@
     },
     "center": {
       "bottom": "Мои ордеры"
+    }
+  },
+  "emptyBlocks": {
+    "myOrders": {
+      "title": "Пока ничего нет…",
+      "description": "У вас пока нет выставленных ордеров."
+    },
+    "tradeHistory": {
+      "title": "Пока ничего нет…",
+      "description": "Нет данных по истории торгов."
+    },
+    "orderBook": {
+      "title": "Пока ничего нет…",
+      "description": "По выбраной паре нет выставленных ордеров."
     }
   }
 }

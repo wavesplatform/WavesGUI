@@ -1,8 +1,7 @@
-<w-table>
+<w-table ng-if="$ctrl.orders.length">
     <w-t-head>
         <w-row>
             <w-cell>
-
                 <w-i18n params="{assetName: $ctrl.amountAsset.displayName}">
                     directives.tradeHistory.tableTitle.size
                 </w-i18n>
@@ -31,3 +30,8 @@
     </w-scroll-box>
     </w-row>
 </w-table>
+<div ng-if="!$ctrl.orders.length" class="empty-block-container">
+    <div class="icon"></div>
+    <div class="body-1 basic-700" w-i18n="emptyBlocks.tradeHistory.title"></div>
+    <div class="footnote-1 basic-500 margin-2" w-i18n="emptyBlocks.tradeHistory.description"></div>
+</div>

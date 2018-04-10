@@ -12,6 +12,7 @@
 
     <w-seed-write class="margin-4"
                   on-fulfilled="$ctrl.onSeedConfirmFulfilled(isValid)"
+                  on-touch="$ctrl.seedOnTouch()"
                   seed="{{::$ctrl.seed}}"></w-seed-write>
 
     <div class="body-2 basic-900">
@@ -26,7 +27,7 @@
 
     <w-button class="submit big long"
               disabled="!$ctrl.seedIsValid"
-              ng-click="$ctrl.create()">
+              on-click="$ctrl.create()">
         <w-i18n>confirmBackup.ok</w-i18n>
     </w-button>
 

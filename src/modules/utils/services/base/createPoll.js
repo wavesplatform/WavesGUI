@@ -71,8 +71,8 @@
 
             /**
              * @param {Base} base
-             * @param {Function} getter
-             * @param {Function|string} setter
+             * @param {IPollGetter} getter
+             * @param {IPollSetter} setter
              * @param {number} time
              * @param {ICreatePollOptions} [options]
              * @return {Poll}
@@ -111,4 +111,22 @@
 /**
  * @typedef {object} ICreatePollOptions
  * @property {boolean} [isBalance]
+ */
+
+/**
+ * @typedef {function():*} IPollGetter
+ */
+
+/**
+ * @typedef {string|function(data: *): *} IPollSetter
+ */
+
+/**
+ * @typedef {function} IPollCreate
+ * @param {Base} base
+ * @param {IPollGetter} getter
+ * @param {IPollSetter} setter
+ * @param {number} time
+ * @param {ICreatePollOptions} [options]
+ * @return {Poll}
  */

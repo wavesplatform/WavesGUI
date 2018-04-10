@@ -4,7 +4,8 @@
     var MODULES_MAP = {
         'ts-utils': 'tsUtils',
         'bignumber.js': 'BigNumber',
-        'ts-api-validator': 'tsApiValidator'
+        'ts-api-validator': 'tsApiValidator',
+        'parse-json-bignumber': 'parseJsonBignumber'
     };
 
     if (window.require) {
