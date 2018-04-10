@@ -228,14 +228,13 @@
     },
     "gateawaySign": {
       "title": "Sign in with Waves",
-      "headline": "The Coinomat.com application will see your Waves address.",
+      "headline": "The {{name}} application will see your Waves address.",
       "description": "The application will not get your SEED or Private key.",
       "cancel": "Cancel",
       "continue": "Continue",
       "error": {
-        "headline": "",
-        "description": "",
-        "button": ""
+        "headline": "The redirect URL is not found",
+        "button": "Cancel"
       }
     }
   }

@@ -232,14 +232,13 @@
     },
     "gateawaySign": {
       "title": "Войти через Waves",
-      "headline": "Приложение Coinomat.com увидит ваш Waves адрес.",
+      "headline": "Приложение {{name}} увидит ваш Waves адрес.",
       "description": "Приложение не получит доступ к вашей секретной фразе (SEED) или приватному ключу.",
       "cancel": "Закрыть",
       "continue": "Продолжить",
       "error": {
-        "headline": "",
-        "description": "",
-        "button": ""
+        "headline": "Обратная ссылка не найдена",
+        "button": "Отмена"
       }
     }
   }
