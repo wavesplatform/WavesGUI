@@ -1,6 +1,6 @@
 @import (reference) '../../../config';
 
-w-notifications {
+w-container-alert-notification {
   display: flex;
   width: 330px;
   flex-direction: column;
@@ -17,10 +17,42 @@ w-notifications {
     width: 100%;
     margin-top: 10px;
     padding: 16px 21px;
-    background: fade(@color-white, 80%);
+    background: @color-white;
     box-shadow: 0 1px 3px 0 fade(@color-black, 18%);
     border-radius: @border-radius;
     overflow: hidden;
+
+    &.error {
+      div:not(:last-child) {
+        margin-bottom: 10px;
+      }
+
+      & [w-notification-action] {
+        cursor: pointer;
+        color: @color-error-500;
+        text-decoration: underline;
+
+        &::after {
+          content: '→';
+          display: inline-block;
+          font-size: inherit;
+          margin-left: 3px;
+          text-decoration: none;
+        }
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+
+    span.line {
+      display: block;
+
+      &:first-child {
+        margin-top: 10px;
+      }
+    }
 
     .icon-close {
       position: absolute;

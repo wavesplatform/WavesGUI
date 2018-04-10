@@ -45,7 +45,7 @@
 
                     descriptor.value = function (...args) {
                         args.push(cache);
-                        return origin.call(...args);
+                        return origin.call(this, ...args);
                     };
                 };
             },

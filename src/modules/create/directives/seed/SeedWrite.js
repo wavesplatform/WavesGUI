@@ -5,9 +5,13 @@
      * @param SeedBase
      * @param $element
      * @param {ISeedService} seedService
+     * @param {$rootScope.Scope} $scope
+     * @param {IPromiseControlCreate} createPromise
      * @return {SeedWrite}
      */
-    const controller = function (SeedBase, $element, seedService, $scope) {
+    const controller = function (SeedBase, $element, seedService, $scope, createPromise) {
+
+        const tsUtils = require('ts-utils');
 
         class SeedWrite extends SeedBase {
 
@@ -58,7 +62,7 @@
              * @private
              */
             _removePart(child) {
-                this.animateOut(child.$element).then(() => {
+                createPromise(this, this.animateOut(child.$element)).then(() => {
                     seedService.revert.dispatch(child.randomIndex);
                     const filter = tsUtils.notContains(this._getChildByElement(child.$element));
                     this._children = this._children.filter(filter);
@@ -220,7 +224,7 @@
         return new SeedWrite();
     };
 
-    controller.$inject = ['SeedBase', '$element', 'seedService', '$scope'];
+    controller.$inject = ['SeedBase', '$element', 'seedService', '$scope', 'createPromise'];
 
     angular.module('app.create').component('wSeedWrite', {
         bindings: {

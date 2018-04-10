@@ -31,7 +31,7 @@
      * @param Base
      * @param utils
      * @param {Waves} waves
-     * @param {function} createPoll
+     * @param {IPollCreate} createPoll
      * @return {TradeGraph}
      */
     const controller = function (Base, utils, waves, createPoll) {

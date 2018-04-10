@@ -77,3 +77,7 @@
 
     angular.module('app.utils').factory('createPromise', factory);
 })();
+
+/**
+ * @typedef {function(base: Base, promise: Promise|PromiseControl): PromiseControl} IPromiseControlCreate
+ */

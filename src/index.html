@@ -167,27 +167,27 @@
         }
 
         @keyframes folding {
-           0%, 10% {
+            0%, 10% {
                 -moz-transform: perspective(140px) rotateX(-180deg);
                 -ms-transform: perspective(140px) rotateX(-180deg);
                 -webkit-transform: perspective(140px) rotateX(-180deg);
                 transform: perspective(140px) rotateX(-180deg);
                 opacity: 0;
-           }
-           25%, 75% {
-               -moz-transform: perspective(140px) rotateX(0deg);
-               -ms-transform: perspective(140px) rotateX(0deg);
-               -webkit-transform: perspective(140px) rotateX(0deg);
-               transform: perspective(140px) rotateX(0deg);
-               opacity: 1;
-           }
-           90%, 100% {
-               -moz-transform: perspective(140px) rotateY(180deg);
-               -ms-transform: perspective(140px) rotateY(180deg);
-               -webkit-transform: perspective(140px) rotateY(180deg);
-               transform: perspective(140px) rotateY(180deg);
-               opacity: 0;
-           }
+            }
+            25%, 75% {
+                -moz-transform: perspective(140px) rotateX(0deg);
+                -ms-transform: perspective(140px) rotateX(0deg);
+                -webkit-transform: perspective(140px) rotateX(0deg);
+                transform: perspective(140px) rotateX(0deg);
+                opacity: 1;
+            }
+            90%, 100% {
+                -moz-transform: perspective(140px) rotateY(180deg);
+                -ms-transform: perspective(140px) rotateY(180deg);
+                -webkit-transform: perspective(140px) rotateY(180deg);
+                transform: perspective(140px) rotateY(180deg);
+                opacity: 0;
+            }
         }
     </style>
 
@@ -347,6 +347,10 @@
 
 <ui-view name="main"></ui-view>
 
+<div class="notifications">
+    <w-container-alert-notification type="notification"></w-container-alert-notification>
+</div>
+
 <!-- JAVASCRIPT -->
 
 <script>
@@ -404,6 +408,14 @@
             matcherAddress: WavesApp.network.matcher,
             minimumSeedLength: 25,
             logLevel: 'none'
+        });
+
+        Waves.API.Node.v1.utils.time().then(function (nodeTime) {
+            var timeDiff = Waves.tools.calculateTimeDiff(nodeTime, Date.now());
+            var tenMinutes = 10 * 60 * 1000;
+            if (Math.abs(timeDiff) > tenMinutes) {
+                Waves.config.set({ timeDiff: timeDiff });
+            }
         });
     } catch (e) {
         console.error(e);
@@ -489,7 +501,7 @@
      * @property {string} name
      * @property {string} version
      * @property {string} type
-     * @property {Object} localize
+     * @property {Object.<{separators: {group: string, decimal: string}}>} localize
      * @property {number} minAliasLength
      * @property {number} maxAliasLength
      * @property {number} maxAddressLength
