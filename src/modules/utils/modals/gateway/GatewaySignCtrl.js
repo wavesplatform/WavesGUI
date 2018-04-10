@@ -33,6 +33,7 @@
                 this.noReferer = false;
                 this.titleLiteral = 'modal.gateawaySign.title';
                 this.imageSrc = null;
+                this.noCloseIcon = true;
 
                 this._checkParams();
                 this._setImageUrl();
