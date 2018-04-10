@@ -233,6 +233,7 @@
       "cancel": "Cancel",
       "continue": "Continue",
       "error": {
+        "title": "Error",
         "headline": "The redirect URL is not found",
         "button": "Cancel"
       }
