@@ -7,7 +7,6 @@ md-dialog.account-info {
     }
 
     w-copy-wrap {
-
       .container {
         display: flex;
         flex-direction: row;
@@ -61,6 +60,10 @@ md-dialog.account-info {
           border-right: 1px solid @color-basic-200;
           border-top: 1px solid @color-basic-200;
           border-bottom: none;
+
+          &:focus {
+            border: 1px solid @color-submit-400;
+          }
         }
 
         w-step-by-step:first-child input.new-alias {
@@ -79,6 +82,16 @@ md-dialog.account-info {
             transform: translateY(-50%);
           }
         }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 380px) {
+  md-dialog.account-info {
+    md-dialog-content {
+      w-avatar {
+        display: none;
       }
     }
   }

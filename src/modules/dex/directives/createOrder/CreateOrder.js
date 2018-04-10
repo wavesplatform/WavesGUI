@@ -6,15 +6,15 @@
      * @param {Waves} waves
      * @param {User} user
      * @param {app.utils} utils
-     * @param {function} createPoll
+     * @param {IPollCreate} createPoll
      * @param $scope
      * @param {JQuery} $element
-     * @param {NotificationManager} notificationManager
+     * @param {INotification} notification
      * @param {DexDataService} dexDataService
      * @return {CreateOrder}
      */
     const controller = function (Base, waves, user, utils, createPoll, $scope,
-                                 $element, notificationManager, dexDataService) {
+                                 $element, notification, dexDataService) {
 
         class CreateOrder extends Base {
 
@@ -49,7 +49,7 @@
                  * Has price balance for buy amount
                  * @type {boolean}
                  */
-                this.canByOrder = true;
+                this.canBuyOrder = true;
                 /**
                  * Amount asset balance
                  * @type {Money}
@@ -67,7 +67,7 @@
                 this.type = null;
                 /**
                  * Total price (amount multiply price)
-                 * @type {BigNumber}
+                 * @type {Money}
                  */
                 this.totalPrice = null;
                 /**
@@ -99,41 +99,44 @@
                     _assetIdPair: 'dex.assetIdPair'
                 });
 
-                this.observe('_assetIdPair', () => {
-                    this.amount = null;
-                    this.price = null;
-                    balancesPoll.restart();
-                });
-
                 /**
                  * @type {Poll}
                  */
                 const balancesPoll = createPoll(this, this._getBalances, this._setBalances, 1000);
+                /**
+                 * @type {Poll}
+                 */
+                const spreadPoll = createPoll(this, this._getData, this._setData, 1000);
+
+                this.observe('_assetIdPair', () => {
+                    this.amount = null;
+                    this.price = null;
+                    this.bid = null;
+                    this.ask = null;
+                    balancesPoll.restart();
+                    spreadPoll.restart();
+                    this.maxAmountBalance = CreateOrder._getMaxAmountBalance(this.type, this.amount, this.fee);
+                    this.observeOnce(['bid', 'ask'], utils.debounce(() => {
+                        if (this.type) {
+                            this.price = this._getCurrentPrice();
+                            $scope.$apply();
+                        }
+                    }));
+                });
 
                 this.observe(['amount', 'price', 'step', 'type'], this._currentTotal);
 
                 // TODO Add directive for stop propagation (catch move for draggable)
-                $element.on('mousedown', '.body', (e) => {
+                $element.on('mousedown touchstart', '.body', (e) => {
                     e.stopPropagation();
                 });
-
-                createPoll(this, this._getData, this._setData, 1000);
             }
 
             expand(type) {
                 this.type = type;
                 this.step = 1;
-                this.maxAmountBalance = CreateOrder._getMaxAmountBalance(this.type, this.amountBalance, this.fee);
-                switch (type) {
-                    case 'sell':
-                        this.price = this.priceBalance.cloneWithTokens(String(this.bid.price));
-                        break;
-                    case 'buy':
-                        this.price = this.priceBalance.cloneWithTokens(String(this.ask.price));
-                        break;
-                    default:
-                        throw new Error('Wrong type');
-                }
+                this.maxAmountBalance = this._getMaxAmountBalance();
+                this.price = this._getCurrentPrice();
 
                 $scope.$$postDigest(() => {
                     $element.find('input[name="amount"]').focus();
@@ -183,7 +186,7 @@
             }
 
             createOrder(form) {
-                user.getSeed()
+                return user.getSeed()
                     .then((seed) => {
                         return Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                             return Waves.OrderPrice.fromTokens(this.price.getTokens(), pair);
@@ -202,7 +205,7 @@
                         }).then(() => {
                             const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                             analytics.push('DEX', `DEX.Order.${this.type}.Success`, pair);
-                            notificationManager.success({
+                            notification.success({
                                 ns: 'app.dex',
                                 title: { literal: 'directives.createOrder.notifications.isCreated' }
                             });
@@ -212,7 +215,7 @@
                             // TODO : refactor this
                             const notEnough = 'Not enough tradable balance';
                             const isNotEnough = (err.data.message.slice(0, notEnough.length) === notEnough);
-                            notificationManager.error({
+                            notification.error({
                                 ns: 'app.dex',
                                 title: {
                                     literal: isNotEnough ?
@@ -224,6 +227,25 @@
                     });
             }
 
+            /**
+             * @return {Money}
+             * @private
+             */
+            _getCurrentPrice() {
+                switch (this.type) {
+                    case 'sell':
+                        return this.priceBalance.cloneWithTokens(String(this.bid && this.bid.price || 0));
+                    case 'buy':
+                        return this.priceBalance.cloneWithTokens(String(this.ask && this.ask.price || 0));
+                    default:
+                        throw new Error('Wrong type');
+                }
+            }
+
+            /**
+             * @return {Promise<IAssetPair>}
+             * @private
+             */
             _getBalances() {
                 return Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                     return utils.whenAll([
@@ -236,10 +258,15 @@
                 });
             }
 
+            /**
+             * @param data
+             * @private
+             */
             _setBalances(data) {
                 if (data) {
                     this.amountBalance = data.amountBalance;
                     this.priceBalance = data.priceBalance;
+                    this.maxAmountBalance = this._getMaxAmountBalance();
                 }
             }
 
@@ -260,9 +287,11 @@
                 }
 
                 if (this.type === 'buy') {
-                    this.canByOrder = !(this.priceBalance.lte(this.totalPrice) && this.priceBalance.getTokens().gt(0));
+                    this.canBuyOrder = (
+                        this.totalPrice.lte(this.priceBalance) && this.priceBalance.getTokens().gt(0)
+                    );
                 } else {
-                    this.canByOrder = true;
+                    this.canBuyOrder = true;
                 }
             }
 
@@ -296,6 +325,14 @@
             }
 
             /**
+             * @return {Money}
+             * @private
+             */
+            _getMaxAmountBalance() {
+                return CreateOrder._getMaxAmountBalance(this.type, this.amountBalance, this.fee);
+            }
+
+            /**
              * @param {string} type
              * @param {Money} amount
              * @param {Money} fee
@@ -303,7 +340,7 @@
              * @private
              */
             static _getMaxAmountBalance(type, amount, fee) {
-                if (type === 'buy') {
+                if (!this.type || type === 'buy') {
                     return null;
                 }
                 if (amount.asset.id === fee.asset.id) {
@@ -331,7 +368,7 @@
         'createPoll',
         '$scope',
         '$element',
-        'notificationManager',
+        'notification',
         'dexDataService'
     ];
 

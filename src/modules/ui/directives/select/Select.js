@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* global tsUtils */
 (function () {
     'use strict';
 
@@ -8,9 +10,10 @@
      * @param {$timeout} $timeout
      * @param {$q} $q
      * @param {app.utils} utils
+     * @param {IPromiseControlCreate} createPromise
      * @return {Select}
      */
-    const controller = function (Base, ComponentList, $element, $timeout, $q, utils) {
+    const controller = function (Base, ComponentList, $element, $timeout, $q, utils, createPromise) {
 
         const $_DOCUMENT = $(document);
 
@@ -61,16 +64,7 @@
                  */
                 this._activateTransactionMode = false;
 
-                this.observe('ngModel', () => {
-                    if (!this._activateTransactionMode) {
-                        const option = tsUtils.find(this._options.components, { value: this.ngModel });
-                        if (option) {
-                            this.setActive(option);
-                        } else {
-                            console.warn('Wrong option activate!');
-                        }
-                    }
-                });
+                this.observe('ngModel', this._renderActiveOption);
             }
 
             $postLink() {
@@ -80,7 +74,12 @@
 
                 this._setHandlers();
 
-                this._ready.resolve();
+                createPromise(this, utils.wait(200)).then(this._ready.resolve);
+            }
+
+            remove(option) {
+                this._options.remove(option);
+                this._renderActiveOption();
             }
 
             /**
@@ -97,7 +96,9 @@
                             if (tsUtils.isEmpty(this.ngModel)) {
                                 this.setActive(this._options.first());
                             } else if (!this._options.some({ value: this.ngModel })) {
-                                this.setActive(this._options.first());
+                                if (this._options.length) {
+                                    this.setActive(this._options.first());
+                                }
                             }
                         }, 100);
                     }
@@ -118,13 +119,27 @@
                         item.setActive(false);
                     }
                 });
-                this._activeCid = option.cid;
+
                 this._activeNode.empty();
                 this.ngModel = option.value;
                 this._activeNode.append(option.getContent());
                 option.setActive(true);
                 this._toggleList(false);
                 this._activateTransactionMode = false;
+            }
+
+            /**
+             * @private
+             */
+            _renderActiveOption() {
+                if (!this._activateTransactionMode) {
+                    const option = tsUtils.find(this._options.components, { value: this.ngModel });
+                    if (option) {
+                        this.setActive(option);
+                    } else if (this._options.length) {
+                        this.setActive(this._options.first());
+                    }
+                }
             }
 
             /**
@@ -187,7 +202,7 @@
             _animate() {
                 if (this.isOpend) {
                     this._selectList.css({ display: 'flex', height: 'auto' });
-                    const height = this._selectList.height();
+                    const height = this._selectList.outerHeight();
                     this._selectList.css('height', 0);
                     return utils.animate(this._selectList, { height }, { duration: 100 });
                 } else {
@@ -202,7 +217,7 @@
         return new Select();
     };
 
-    controller.$inject = ['Base', 'ComponentList', '$element', '$timeout', '$q', 'utils'];
+    controller.$inject = ['Base', 'ComponentList', '$element', '$timeout', '$q', 'utils', 'createPromise'];
 
     angular.module('app.ui').component('wSelect', {
         bindings: {

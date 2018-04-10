@@ -7,7 +7,7 @@
      * @param {Base} Base
      * @param {app.utils} utils
      * @param {User} user
-     * @param {function} createPoll
+     * @param {IPollCreate} createPoll
      * @param outerBlockchains
      * @param {GatewayService} gatewayService
      * @return {AssetSendCtrl}
@@ -79,10 +79,6 @@
                  * @type {boolean}
                  */
                 this.outerSendMode = false;
-                /**
-                 * @type {string}
-                 */
-                this.assetKeyName = '';
                 /**
                  * @type {object}
                  */
@@ -163,7 +159,37 @@
             }
 
             onReadQrCode(result) {
-                this.tx.recipient = result;
+                this.tx.recipient = result.body;
+
+                analytics.push('Send', 'Send.QrCodeRead', 'Send.QrCodeRead.Success');
+
+                if (result.params) {
+
+                    const applyAmount = () => {
+                        if (result.params.amount) {
+                            this.tx.amount = this.moneyHash[this.assetId].cloneWithCoins(result.params.amount);
+                            this._fillMirror();
+                        }
+                    };
+
+                    if (result.params.assetId) {
+                        waves.node.assets.balance(result.params.assetId).then(({ available }) => {
+                            this.moneyHash[available.asset.id] = available;
+
+                            if (this.assetId !== available.asset.id) {
+                                const myAssetId = this.assetId;
+                                this.assetId = available.asset.id;
+                                this.canChooseAsset = true;
+                                // TODO fix (hack for render asset avatar)
+                                this.choosableMoneyList = [this.moneyHash[myAssetId], available];
+                            }
+
+                            applyAmount();
+                        }, applyAmount);
+                    } else {
+                        applyAmount();
+                    }
+                }
             }
 
             createTx() {
@@ -200,7 +226,7 @@
                 if (list.length) {
                     this.choosableMoneyList = list;
                 } else {
-                    this.choosableMoneyList = [this.moneyHash[WavesApp.defaultAssets.WAVES]];
+                    this.choosableMoneyList = [this.moneyHash[this.assetId]];
                 }
             }
 
@@ -311,15 +337,13 @@
 
             _fillMirror() {
                 utils.when(waves.utils.getRate(this.assetId, this.mirrorId)).then((rate) => {
-                    const mirror = this.tx.amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
-                    this.mirror = mirror;
+                    this.mirror = this.tx.amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
                 });
             }
 
             _fillAmount() {
                 utils.when(waves.utils.getRate(this.mirrorId, this.assetId)).then((rate) => {
-                    const amount = this.mirror.convertTo(this.moneyHash[this.assetId].asset, rate);
-                    this.tx.amount = amount;
+                    this.tx.amount = this.mirror.convertTo(this.moneyHash[this.assetId].asset, rate);
                 });
             }
 
@@ -331,13 +355,11 @@
 
                 if (this.outerSendMode) {
                     gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient).then((details) => {
-                        this.assetKeyName = gatewayService.getAssetKeyName(this.tx.amount.asset, 'withdraw');
                         this.gatewayDetails = details;
                         $scope.$apply();
                         // TODO : validate amount field for gateway minimumAmount and maximumAmount
                     });
                 } else {
-                    this.assetKeyName = '';
                     this.gatewayDetails = null;
                 }
             }

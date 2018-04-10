@@ -3,9 +3,12 @@
 
     /**
      * @param {TimeLine} timeLine
+     * @param {$injector} $injector
      * @return {State}
      */
-    const factory = function (timeLine) {
+    const factory = function (timeLine, $injector) {
+
+        const tsUtils = require('ts-utils');
 
         class State {
 
@@ -34,12 +37,7 @@
 
             constructor() {
                 /**
-                 * @type {boolean}
-                 */
-                this.windowStateFocus = true;
-
-                /**
-                 * @type {{window: {blur: Signal, focus: Signal}, sleep: Signal, wakeUp: Signal, changeRouterState: Signal}}
+                 * @type {IStateSignals}
                  */
                 this.signals = {
                     window: {
@@ -48,21 +46,61 @@
                     },
                     sleep: new tsUtils.Signal(),
                     wakeUp: new tsUtils.Signal(),
-                    changeRouterState: new tsUtils.Signal()
+                    changeRouterStateSuccess: new tsUtils.Signal(),
+                    changeRouterStateStart: new tsUtils.Signal()
                 };
+                /**
+                 * @type {string}
+                 */
+                this.lastOpenVersion = '';
 
+                /**
+                 * @type {PromiseControl}
+                 * @private
+                 */
                 this._timer = null;
+                /**
+                 * @type {number}
+                 * @private
+                 */
                 this._seepStartTime = null;
+                /**
+                 * @type {number}
+                 * @private
+                 */
                 this._maxSleep = null;
+                /**
+                 * @type {number}
+                 * @private
+                 */
                 this.__sleepStep = null;
+                /**
+                 * @type {HTMLElement}
+                 * @private
+                 */
                 this._block = document.createElement('DIV');
+                /**
+                 * @type {Object.<function>}
+                 * @private
+                 */
                 this._handlers = Object.create(null);
 
-                this._initialize();
-            }
+                timeLine.wait(100).then(() => {
+                    /**
+                     * @type {User}
+                     */
+                    const user = $injector.get('user');
+                    user.onLogin().then(() => {
+                        this._maxSleep = user.getSetting('logoutAfterMin');
+                        user.changeSetting.on((path) => {
+                            if (path === 'logoutAfterMin') {
+                                this._maxSleep = user.getSetting('logoutAfterMin');
+                            }
+                        });
+                    });
+                });
 
-            setMaxSleep(max) {
-                this._maxSleep = max;
+                this._initialize();
             }
 
             /**
@@ -86,12 +124,10 @@
              */
             _createHandlers() {
                 this._handlers.focus = () => {
-                    this.windowStateFocus = true;
                     this.signals.window.focus.dispatch();
                     this._wakeUp();
                 };
                 this._handlers.blur = () => {
-                    this.windowStateFocus = false;
                     this.signals.window.blur.dispatch();
                     this._sleep();
                 };
@@ -143,7 +179,7 @@
                 this._timer = timeLine.timeout(() => {
                     this._timer = null;
                     const time = Date.now() - this._seepStartTime;
-                    const sleepMinutes = Math.floor(time / (1000 * 60 * 5));
+                    const sleepMinutes = Math.floor(time / (1000 * 60));
                     this._setSleepStep(sleepMinutes);
                     this._sleep();
                 }, 1000);
@@ -160,7 +196,7 @@
                 }
                 this._sleepStep = step;
                 if (this._maxSleep) {
-                    this._block.style.opacity = this._sleepStep * (1 / this._maxSleep);
+                    this._block.style.opacity = String(this._sleepStep * (1 / this._maxSleep));
                 }
                 this.signals.sleep.dispatch(this._sleepStep);
             }
@@ -174,13 +210,25 @@
                         window.addEventListener(event, this._handlers[event], false);
                     });
             }
+
         }
 
         return new State();
     };
 
-    factory.$inject = ['timeLine'];
+    factory.$inject = ['timeLine', '$injector'];
 
     angular.module('app')
         .factory('state', factory);
 })();
+
+/**
+ * @typedef {Object} IStateSignals
+ * @property {object} window
+ * @property {Signal} window.blur
+ * @property {Signal} window.focus
+ * @property {Signal} sleep
+ * @property {Signal} wakeUp
+ * @property {Signal} changeRouterStateSuccess
+ * @property {Signal} changeRouterStateStart
+ */

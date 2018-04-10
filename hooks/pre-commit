@@ -1,13 +1,20 @@
 #!/usr/bin/env bash
 
 echo "pre-commit hook"
-sh scripts/eslint.sh || echo 'Bad code! :('
-if grep -r -i 'TODO!' ./src
+sh scripts/eslint.sh
+
+if [ $? -ne 0 ]
+  then echo "Bad code! :(" && exit 1
+fi
+
+if grep -r --ignore-case "TODO!" ./src
   then echo "Can't commit with TODO!" && exit 1
 fi
-if grep -r -i 'debugger' ./src
+
+if grep -r --ignore-case "debugger" ./src
   then echo "Can't commit with debugger" && exit 1
 fi
+
 echo "pre-commit hook >> DONE"
 
 exit 0

@@ -7,25 +7,26 @@
      * @param Base
      * @param $filter
      * @param {ModalManager} modalManager
-     * @param {NotificationManager} notificationManager
+     * @param {INotification} notification
      * @param {Waves} waves
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
      * @param {DexService} dexService
      * @return {Transaction}
      */
-    const controller = function (Base, $filter, modalManager, notificationManager,
+    const controller = function (Base, $filter, modalManager, notification,
                                  waves, user, baseAssetService, dexService) {
 
         class Transaction extends Base {
 
             $postLink() {
+
                 this.templateUrl = `${PATH}/${this.transaction.templateType}.html`;
                 this.time = $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm');
                 this.shownAddress = this.transaction.shownAddress;
                 this.type = this.transaction.type;
 
-                if (this.transaction.amount) {
+                if (this.transaction.amount && this.transaction.amount instanceof Waves.Money) {
                     baseAssetService.convertToBaseAsset(this.transaction.amount)
                         .then((baseMoney) => {
                             this.mirrorBalance = baseMoney;
@@ -39,20 +40,14 @@
             }
 
             cancelLeasing() {
-                return user.getSeed().then((seed) => waves.node.cancelLeasing({
-                    transactionId: this.transaction.id,
-                    keyPair: seed.keyPair
-                })).then(() => {
-                    notificationManager.info({
-                        ns: 'app.ui',
-                        title: { literal: 'transaction.notifications.closedSuccess' }
-                    });
-                }, () => {
-                    notificationManager.warn({
-                        ns: 'app.ui',
-                        title: { literal: 'transaction.notifications.closed' }
-                    });
-                });
+                const leaseTransactionAmount = this.transaction.amount;
+                const leaseTransactionId = this.transaction.id;
+                return waves.node.getFee('cancelLeasing')
+                    .then((fee) => modalManager.showConfirmTx('cancelLeasing', {
+                        fee,
+                        leaseTransactionAmount,
+                        leaseTransactionId
+                    }));
             }
 
             showTransaction() {
@@ -83,7 +78,7 @@
                     message += `\n${recipient}`;
                 }
 
-                if (tx.amount) {
+                if (tx.amount && tx.amount instanceof Waves.Money) {
                     const asset = tx.amount.asset;
                     const amount = `Amount: ${tx.amount.toFormat()} ${asset.name} (${asset.id})`;
                     message += `\n${amount}`;
@@ -111,7 +106,7 @@
         'Base',
         '$filter',
         'modalManager',
-        'notificationManager',
+        'notification',
         'waves',
         'user',
         'baseAssetService',
@@ -122,7 +117,7 @@
         .component('wTransaction', {
             bindings: {
                 datePattern: '@',
-                transaction: '<' // TODO Refactor for listen change transaction. Author Tsigel at 22/11/2017 12:09
+                transaction: '<'
             },
             require: {
                 parent: '^wTransactionList'

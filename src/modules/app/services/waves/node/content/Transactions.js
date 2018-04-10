@@ -4,6 +4,8 @@
     const TYPES = {
         SEND: 'send',
         RECEIVE: 'receive',
+        MASS_SEND: 'mass-send',
+        MASS_RECEIVE: 'mass-receive',
         CIRCULAR: 'circular',
         ISSUE: 'issue',
         REISSUE: 'reissue',
@@ -13,21 +15,33 @@
         LEASE_IN: 'lease-in',
         LEASE_OUT: 'lease-out',
         CANCEL_LEASING: 'cancel-leasing',
-        CREATE_ALIAS: 'create-alias'
+        CREATE_ALIAS: 'create-alias',
+        UNKNOWN: 'unknown'
     };
 
     /**
      * @param {User} user
      * @param {app.utils} utils
      * @param {Aliases} aliases
+     * @param {app.utils.decorators} decorators
      * @return {Transactions}
      */
-    const factory = function (user, utils, aliases) {
+    const factory = function (user, utils, aliases, decorators) {
+
+        const HOST = location.host;
 
         class Transactions {
 
             constructor() {
                 this.TYPES = TYPES;
+
+                Promise.all([
+                    Waves.Money.fromCoins('0', WavesApp.defaultAssets.WAVES)
+                ]).then(([waves]) => {
+                    this.EMPTY_MONEY = {
+                        [WavesApp.defaultAssets.WAVES]: waves
+                    };
+                });
             }
 
             /**
@@ -36,10 +50,10 @@
              * @return {Promise<ITransaction>}
              */
             get(id) {
-                return Waves.API.Node.v2.transactions.get(id).then((tx) => {
-                    const pipe = this._pipeTransaction(false);
-                    return pipe(tx);
-                });
+                return fetch(`${user.getSetting('network.node')}/transactions/info/${id}?h=${HOST}`)
+                    .then(utils.onFetch)
+                    .then(Waves.tools.siftTransaction)
+                    .then(this._pipeTransaction(false));
             }
 
             /**
@@ -48,10 +62,8 @@
              * @return {Promise<ITransaction>}
              */
             getUtx(id) {
-                return Waves.API.Node.v2.transactions.utxGet(id).then((tx) => {
-                    const pipe = this._pipeTransaction(false);
-                    return pipe(tx);
-                });
+                return Waves.API.Node.v2.transactions.utxGet(id)
+                    .then(this._pipeTransaction(true));
             }
 
             /**
@@ -60,7 +72,10 @@
              * @return {Promise<ITransaction>}
              */
             getAlways(id) {
-                return this.get(id).catch(() => this.getUtx(id));
+                return this.get(id)
+                    .catch(() => this.getUtx(id))
+                    // Get a transaction even on the edge of its move from UTX to blockchain.
+                    .catch(() => this.get(id));
             }
 
             /**
@@ -68,9 +83,23 @@
              * @param {number} [limit]
              * @return {Promise<ITransaction[]>}
              */
-            list(limit = 0) {
-                return Waves.API.Node.v2.addresses.transactions(user.address, { limit })
-                    .then((txList = []) => txList.map(this._pipeTransaction(false)));
+            @decorators.cachable(1)
+            list(limit = 1000) {
+                return fetch(`${user.getSetting('network.node')}/transactions/address/${user.address}/limit/${limit}`)
+                    .then(utils.onFetch)
+                    .then(([txList = []]) => Promise.all(txList.map(Waves.tools.siftTransaction)))
+                    .then((list) => list.map(this._pipeTransaction(false)));
+            }
+
+            /**
+             * @return {Promise<ITransaction[]>}
+             */
+            @decorators.cachable(120)
+            getActiveLeasingTx() {
+                return fetch(`${user.getSetting('network.node')}/leasing/active/${user.address}`)
+                    .then(utils.onFetch)
+                    .then((txList = []) => Promise.all(txList.map(Waves.tools.siftTransaction)))
+                    .then((list) => list.map(this._pipeTransaction(false)));
             }
 
             /**
@@ -113,23 +142,58 @@
 
             /**
              * @param {boolean} isUTX
-             * @param {string[]} aliasList
              * @return {function(*=)}
              * @private
              */
             _pipeTransaction(isUTX) {
-                const aliasList = aliases.getAliasList();
-
                 return (tx) => {
+
+                    if (tx.type && tx.originalTx.type === 2) {
+                        const originalTx = tx.originalTx;
+                        delete tx.originalTx;
+                        Object.assign(tx, this._remapOldSendTransaction(originalTx));
+                    }
+
                     tx.timestamp = new Date(tx.timestamp);
                     tx.isUTX = isUTX;
-                    tx.type = Transactions._getTransactionType(tx, aliasList);
+                    tx.type = Transactions._getTransactionType(tx);
                     tx.templateType = Transactions._getTemplateType(tx);
                     tx.shownAddress = Transactions._getTransactionAddress(tx);
-                    if (tx.transactionType === TYPES.ISSUE) {
-                        tx.quantityStr = tx.quantity.toFormat(tx.precision);
+
+                    const list = aliases.getAliasList();
+
+                    switch (tx.type) {
+                        case TYPES.BURN:
+                        case TYPES.REISSUE:
+                            tx.name = tx.name || tx.quantity.asset.name;
+                            break;
+                        case TYPES.ISSUE:
+                            tx.quantityStr = tx.quantity.toFormat(tx.precision);
+                            break;
+                        case TYPES.MASS_SEND:
+                            tx.numberOfRecipients = tx.transfers.length;
+                            tx.amount = tx.totalAmount;
+                            break;
+                        case TYPES.MASS_RECEIVE:
+                            tx.amount = tx.transfers
+                                .filter(({ recipient }) => recipient === user.address || list.indexOf(recipient) !== -1)
+                                .map(({ amount }) => amount)
+                                .reduce((acc, val) => acc.add(val));
+                            break;
+                        default:
+                            break;
                     }
+
                     return tx;
+                };
+            }
+
+            _remapOldSendTransaction(tx) {
+                return {
+                    ...tx,
+                    transactionType: 'transfer',
+                    amount: this.EMPTY_MONEY[WavesApp.defaultAssets.WAVES].cloneWithCoins(String(tx.amount)),
+                    fee: this.EMPTY_MONEY[WavesApp.defaultAssets.WAVES].cloneWithCoins(String(tx.fee))
                 };
             }
 
@@ -140,51 +204,51 @@
              * @param {string} tx.recipient
              * @param {object} tx.buyOrder
              * @param {object} tx.sellOrder
-             * @param {string[]} aliasList
              * @return {string}
              * @private
              */
-            static _getTransactionType(tx, aliasList) {
+            static _getTransactionType(tx) {
                 switch (tx.transactionType) {
-                    // TODO : replace `case` values with `waves-api` constants
-                    case 'transfer':
-                        return Transactions._getTransferType(tx, aliasList);
-                    case 'exchange':
+                    case Waves.constants.TRANSFER_TX_NAME:
+                        return Transactions._getTransferType(tx);
+                    case Waves.constants.MASS_TRANSFER_TX_NAME:
+                        return Transactions._getMassTransferType(tx.sender);
+                    case Waves.constants.EXCHANGE_TX_NAME:
                         return Transactions._getExchangeType(tx);
-                    case 'lease':
+                    case Waves.constants.LEASE_TX_NAME:
                         return Transactions._getLeaseType(tx);
-                    case 'cancelLeasing':
+                    case Waves.constants.CANCEL_LEASING_TX_NAME:
                         return TYPES.CANCEL_LEASING;
-                    case 'createAlias':
+                    case Waves.constants.CREATE_ALIAS_TX_NAME:
                         return TYPES.CREATE_ALIAS;
-                    case 'issue':
+                    case Waves.constants.ISSUE_TX_NAME:
                         return TYPES.ISSUE;
-                    case 'reissue':
+                    case Waves.constants.REISSUE_TX_NAME:
                         return TYPES.REISSUE;
-                    case 'burn':
+                    case Waves.constants.BURN_TX_NAME:
                         return TYPES.BURN;
                     default:
-                        throw new Error(`Unsupported transaction type ${tx.transactionType}`);
+                        return TYPES.UNKNOWN;
                 }
             }
 
             /**
              * @param {string} sender
              * @param {string} recipient
-             * @param {string[]} aliasList
              * @return {string}
              * @private
              */
-            static _getTransferType({ sender, recipient }, aliasList) {
-                // TODO : move aliasList to User (as a property `user.aliases = []`)
-                // TODO : remove `aliasList` argument from `pipeTransaction()` and other methods
-                // TODO : stop requesting aliases in 4 methods above
-                // TODO : add static method `.isSameSenderAndRecipient(sender, recipient)` (rename)
+            static _getTransferType({ sender, recipient }) {
+                const aliasList = aliases.getAliasList();
                 if (sender === recipient || (sender === user.address && aliasList.indexOf(recipient) !== -1)) {
                     return TYPES.CIRCULAR;
                 } else {
                     return sender === user.address ? TYPES.SEND : TYPES.RECEIVE;
                 }
+            }
+
+            static _getMassTransferType(sender) {
+                return sender === user.address ? TYPES.MASS_SEND : TYPES.MASS_RECEIVE;
             }
 
             /**
@@ -218,6 +282,8 @@
                 switch (type) {
                     case TYPES.SEND:
                     case TYPES.RECEIVE:
+                    case TYPES.MASS_SEND:
+                    case TYPES.MASS_RECEIVE:
                     case TYPES.CIRCULAR:
                         return 'transfer';
                     case TYPES.ISSUE:
@@ -230,6 +296,8 @@
                     case TYPES.EXCHANGE_BUY:
                     case TYPES.EXCHANGE_SELL:
                         return 'exchange';
+                    case TYPES.UNKNOWN:
+                        return 'unknown';
                     default:
                         return type;
                 }
@@ -246,6 +314,7 @@
                 switch (type) {
                     // TODO : clear this list as there is no need for address in some getList
                     case TYPES.RECEIVE:
+                    case TYPES.MASS_RECEIVE:
                     case TYPES.ISSUE:
                     case TYPES.REISSUE:
                     case TYPES.LEASE_IN:
@@ -261,7 +330,7 @@
         return utils.bind(new Transactions());
     };
 
-    factory.$inject = ['user', 'utils', 'aliases'];
+    factory.$inject = ['user', 'utils', 'aliases', 'decorators'];
 
     angular.module('app')
         .factory('transactions', factory);

@@ -1,0 +1,58 @@
+@import (reference) '../../../config';
+
+w-responsive-menu {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: @color-white;
+
+  .navigation-menu {
+    width: 100%;
+  }
+
+  w-button.nav-toggler {
+    display: none;
+    cursor: pointer;
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+
+  w-responsive-menu {
+    height: auto;
+    position: absolute;
+    z-index: 2;
+
+    .menu-item {
+      display: block;
+    }
+
+    .navigation-menu {
+      display: flex;
+      flex-direction: column;
+    }
+
+    w-button.nav-toggler {
+      display: block;
+
+      & > button.nav-toggler {
+        position: absolute;
+        cursor: pointer;
+        display: block;
+        border: 0 none;
+        padding: 0;
+        z-index: 10;
+        background: none transparent;
+
+        .dots {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+}

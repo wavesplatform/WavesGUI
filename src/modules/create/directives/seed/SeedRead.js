@@ -83,7 +83,16 @@
                 for (let i = 0; i < 100; i++) {
                     this.parts.sort(() => {
                         const num = Math.random();
-                        return num < 0.33 ? -1 : num > 0.66 ? 1 : 0;
+
+                        if (num < 0.33) {
+                            return -1;
+                        }
+
+                        if (num > 0.66) {
+                            return 1;
+                        }
+
+                        return 0;
                     });
                 }
             }

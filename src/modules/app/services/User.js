@@ -1,3 +1,4 @@
+/* global transfer */
 (function () {
     'use strict';
 
@@ -26,7 +27,11 @@
                  */
                 this.address = null;
                 /**
-                 * @type {Signal}
+                 * @type {string}
+                 */
+                this.name = null;
+                /**
+                 * @type {Signal<string>} setting path
                  */
                 this.changeSetting = null;
                 /**
@@ -132,6 +137,7 @@
             /**
              * @param {object} data
              * @param {string} data.address
+             * @param {string} data.name
              * @param {string} data.encryptedSeed
              * @param {string} data.publicKey
              * @param {string} data.password
@@ -142,6 +148,7 @@
                 return this._addUserData({
                     address: data.address,
                     password: data.password,
+                    name: data.name,
                     encryptedSeed: data.encryptedSeed,
                     publicKey: data.publicKey,
                     settings: {
@@ -153,7 +160,11 @@
             }
 
             logout() {
-                window.location.reload();
+                if (WavesApp.isDesktop()) {
+                    transfer('reload');
+                } else {
+                    window.location.reload();
+                }
             }
 
             /**
@@ -205,7 +216,7 @@
              * @return {Promise}
              */
             getUserList() {
-                return storage.load('userList')
+                return storage.onReady().then(() => storage.load('userList'))
                     .then((list) => {
                         list = list || [];
 
@@ -266,8 +277,6 @@
 
                         return this._save()
                             .then(() => {
-
-                                state.setMaxSleep(this._settings.get('logoutAfterMin'));
                                 this.receive(state.signals.sleep, (min) => {
                                     if (min >= this._settings.get('logoutAfterMin')) {
                                         this.logout();
@@ -325,16 +334,6 @@
                         }
                     }
                 });
-            }
-
-            /**
-             * @private
-             */
-            _check() {
-                if (!this.address || !this.encryptedSeed) {
-                    // TODO Need _addUserData!
-                    throw new Error('No address!');
-                }
             }
 
             /**

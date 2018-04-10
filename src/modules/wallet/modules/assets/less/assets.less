@@ -29,6 +29,7 @@
       margin: 0 0 10px 0;
       width: calc(~"100% + "@padding-main-layout / 2);
       position: relative;
+      height: 42px;
 
       w-button:not(:last-child) {
         margin-right: 5px;
@@ -49,6 +50,10 @@
       background-color: @color-white;
       position: relative;
       border-radius: 4px;
+
+      .chart-toggler {
+        display: none;
+      }
 
       .toolbar {
         position: relative;
@@ -72,7 +77,7 @@
       }
 
       .chart-info {
-        height: 95px;
+        min-height: 95px;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -88,6 +93,7 @@
         h1 {
           margin: 0 0 5px;
           text-align: center;
+          font-weight: normal;
         }
       }
 
@@ -106,13 +112,12 @@
 }
 
 .toolbar {
-
   & w-radio-wrap {
     & .btn-wrap.btn-group .btn {
       border-left: 0;
       border-bottom-left-radius: 0;
       border-top-left-radius: 0;
-
+      white-space: nowrap;
       font-family: @font-roboto-regular;
       letter-spacing: 0;
       color: @color-info-500;
@@ -129,7 +134,6 @@
     & w-radio input:checked ~ label.btn.btn-radio {
       font-family: @font-roboto-regular;
       letter-spacing: 0;
-      margin: auto 30px auto auto;
       font-size: 17px;
       color: @color-submit-400;
       line-height: @toolbar-radio-line-height;
@@ -151,6 +155,112 @@
       & w-radio input:checked ~ label.btn.btn-radio {
         font-size: 13px;
       }
+    }
+  }
+}
+
+.chart-prices-toggle {
+  display: none;
+}
+
+.toolbar-balance-select {
+  margin-top: 10px;
+  display: none;
+}
+
+i.chart-toggler {
+  width: 100%;
+  height: 28px;
+  background: url(/img/icons/arrow-dropdown.svg) center center no-repeat;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: block;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .toolbar-balance-radio {
+    display: none;
+  }
+
+  .toolbar-balance-select {
+    display: block;
+  }
+
+  .toolbar {
+    width: 100%;
+    & w-radio-wrap {
+      & .btn-wrap.btn-group w-radio:last-child .btn {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .main.wallet.assets {
+    .content .assets-list {
+      margin-bottom: 0;
+    }
+
+    .content .toolbar {
+      width: 100%;
+    }
+
+    .content .chart-rate {
+      height: auto;
+      padding-bottom: 28px;
+
+      .chart-toggler {
+        display: block;
+      }
+
+      .chart-info,
+      .chart-wrapper {
+        display: none;
+      }
+
+      &.active {
+
+        .chart-info {
+          display: flex;
+        }
+
+        .chart-wrapper {
+          display: block;
+        }
+
+        .chart-toggler {
+          transform: rotate(180deg);
+        }
+
+      }
+
+      .chart-info {
+
+        & > div:not(:last-child) {
+          margin-right: 10px;
+          padding-right: 10px;
+          border-right: 0 none;
+        }
+
+        .tag-1 {
+          font-size: 11px;
+        }
+
+        h1 {
+          white-space: nowrap;
+          font-size: 24px;
+        }
+
+        .rate {
+          position: relative;
+        }
+
+        .change {
+          display: none;
+        }
+      }
+
     }
   }
 

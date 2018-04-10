@@ -1,9 +1,11 @@
+/* eslint-disable no-console */
 (function () {
     'use strict';
 
     const DISABLED_FEATURES = [
         'header_screenshot',
         'header_symbol_search',
+        'symbol_search_hot_key',
         'display_market_status'
     ];
 
@@ -23,8 +25,9 @@
                 super();
                 this.chart = null;
                 this.chartReady = false;
-                this.elementId = 'tradingview' + counter++;
+                this.elementId = `tradingview${counter++}`;
                 this.notLoaded = false;
+                this._assetIdPairWasChanged = false;
 
                 /**
                  * @type {{price: string, amount: string}}
@@ -39,7 +42,7 @@
                             this.chart.setSymbol(`${this._assetIdPair.amount}/${this._assetIdPair.price}`, interval);
                         });
                     } else {
-                        // TODO : wait until it's ready and switch to the active pair
+                        this._assetIdPairWasChanged = true;
                     }
                 });
 
@@ -64,6 +67,14 @@
                     this.chart.onChartReady(() => {
                         this.chartReady = true;
                         // this.chart.subscribe('onSymbolChange', (data) => console.log(data));
+                        if (this._assetIdPairWasChanged) {
+                            this.chart.symbolInterval(({ interval }) => {
+                                this.chart.setSymbol(
+                                    `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
+                                    interval
+                                );
+                            });
+                        }
                     });
                 }, () => {
                     console.warn('Error 403!');
@@ -80,8 +91,7 @@
 
     controller.load = function () {
         const script = document.createElement('script');
-        const root = WavesApp.isWeb() ? 'https://jslib.wavesnodes.com/' : '/trading-view/';
-        script.src = `${root}charting_library.min.js`;
+        script.src = '/trading-view/charting_library.min.js';
         const promise = new Promise((resolve, reject) => {
             script.onload = resolve;
             script.onerror = reject;

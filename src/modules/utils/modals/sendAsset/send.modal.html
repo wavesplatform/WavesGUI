@@ -13,9 +13,9 @@
                             <w-asset-logo size="24" asset-id="{{::$ctrl.assetId}}"></w-asset-logo>
                             <div class="asset-name">{{$ctrl.balance.asset.name}}</div>
                         </div>
-                        <div>
+                        <div class="flex-row">
                             <w-balance money="$ctrl.balance"></w-balance>
-                            <span>&nbsp;{{$ctrl.balance.asset.displayName}}</span>
+                            <span class="mobile-ellipsis ellipsis">&nbsp;{{$ctrl.balance.asset.displayName}}</span>
                         </div>
                     </div>
                     <w-select class="big"
@@ -30,7 +30,7 @@
                                 </div>
                                 <div>
                                     <w-balance money="option"></w-balance>
-                                    <span>&nbsp;{{::option.asset.displayName}}</span>
+                                    <span class="mobile-ellipsis ellipsis">&nbsp;{{::option.asset.displayName}}</span>
                                 </div>
                             </div>
                         </w-option>
@@ -63,17 +63,26 @@
                     </w-input-container>
                 </div>
 
-                <div ng-if="$ctrl.outerSendMode && $ctrl.assetKeyName" class="row">
-                    <div class="warning-plate">
+                <div ng-if="$ctrl.outerSendMode" class="row">
+                    <div class="warning-plate margin-2">
                         <div class="body-2 warning-500"
-                             w-i18n="modal.send.{{::$ctrl.assetKeyName}}.feeTitle"
-                             params="{fee: $ctrl.gatewayDetails.gatewayFee}"></div>
+                             w-i18n="modal.send.coinomat.feeTitle"
+                             params="{
+                               fee: $ctrl.gatewayDetails.gatewayFee,
+                               assetTicker: $ctrl.balance.asset.displayName
+                             }"></div>
                         <div class="footnote-1 basic-500"
-                             w-i18n="modal.send.{{::$ctrl.assetKeyName}}.feeExplanation"
+                             w-i18n="modal.send.coinomat.feeExplanation"
                              params="{
                                min: $ctrl.gatewayDetails.minimumAmount,
-                               max: $ctrl.gatewayDetails.maximumAmount
+                               max: $ctrl.gatewayDetails.maximumAmount,
+                               assetTicker: $ctrl.balance.asset.displayName,
+                               assetName: $ctrl.balance.asset.name
                              }"></div>
+                    </div>
+
+                    <div class="warning-plate basic-500">
+                        <w-i18n params="{assetName: $ctrl.moneyHash[$ctrl.assetId].asset.name}">modal.send.icoWarning</w-i18n>
                     </div>
                 </div>
 
@@ -111,9 +120,6 @@
                     <w-input-error name="amount" message="required">
                         <w-i18n>inputs.errors.required</w-i18n>
                     </w-input-error>
-                    <w-input-error name="amount" message="asset">
-                        <w-i18n>modal.send.errors.invalidChars</w-i18n>
-                    </w-input-error>
                     <w-input-error name="amount" message="precision">
                         <w-i18n params="{precision: $ctrl.balance.asset.precision}">modal.send.errors.precision</w-i18n>
                     </w-input-error>
@@ -149,17 +155,17 @@
                 </div>
 
                 <div class="row commission-error margin-2 footnote error-500" ng-if="!$ctrl.hasComission">
-                    <w-i18n ng-show="$ctrl.outerSendMode && $ctrl.assetKeyName"
+                    <w-i18n ng-show="$ctrl.outerSendMode"
                             params="{fee: $ctrl.tx.fee, getawayFee: $ctrl.gatewayDetails.gatewayFee, currency: $ctrl.balance.asset.displayName}">
                         modal.send.validationError.notEnoughFundsWithdraw
                     </w-i18n>
-                    <w-i18n ng-hide="$ctrl.outerSendMode && $ctrl.assetKeyName"
+                    <w-i18n ng-hide="$ctrl.outerSendMode"
                             params="{fee: $ctrl.tx.fee}">modal.send.validationError.notEnoughFunds
                     </w-i18n>
                 </div>
 
-                <div class="row margin-2">
-                    <w-button ng-click="$ctrl.createTx()"
+                <div class="row">
+                    <w-button on-click="$ctrl.createTx()"
                               disabled="send.$invalid || (!send.$invalid && !$ctrl.hasComission)"
                               type="submit"
                               class="big submit long">

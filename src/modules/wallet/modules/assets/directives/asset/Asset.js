@@ -3,10 +3,9 @@
 
     /**
      * @param {GatewayService} gatewayService
-     * @param {Waves} waves
      * @return {Asset}
      */
-    const controller = function (gatewayService, waves) {
+    const controller = function (gatewayService) {
 
         class Asset {
 

@@ -1,3 +1,4 @@
+/* global BigNumber */
 (function () {
     'use strict';
 
@@ -11,10 +12,9 @@
      *
      * @param Base
      * @param $element
-     * @param {app.utils} utils
      * @return {CircleChart}
      */
-    const controller = function (Base, $element, utils) {
+    const controller = function (Base, $element) {
 
         class CircleChart extends Base {
 

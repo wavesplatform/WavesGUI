@@ -1,10 +1,15 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
 
 html body md-dialog.asset-info-modal {
 
   md-dialog-content {
-    padding-bottom: 0 !important; //TODO remove!!!
+    padding-bottom: 0;
     overflow-y: hidden;
+
+    &::after {
+      display: none;
+    }
   }
 
   .chart-wrapper {
@@ -22,7 +27,8 @@ html body md-dialog.asset-info-modal {
       bottom: 0;
     }
 
-    .chart-tooltip, .chart-legend { // Lib ng3-charts
+    .chart-tooltip,
+    .chart-legend { // Lib ng3-charts
       display: none !important;
     }
   }
@@ -54,6 +60,24 @@ html body md-dialog.asset-info-modal {
       padding: 5px 0;
       align-items: center;
 
+      &.chart-container {
+
+        .legend-item {
+          white-space: nowrap;
+        }
+
+        & > div:first-child {
+          width: 140px;
+          flex-grow: 0;
+        }
+
+        & > div:last-child {
+          width: calc(100% ~'- 140px');
+          flex-grow: 1;
+          margin-left: 30px;
+        }
+      }
+
       &-description div:last-child {
         padding-top: 6px;
         min-height: 30px;
@@ -64,17 +88,16 @@ html body md-dialog.asset-info-modal {
       }
 
       & > div:first-child {
-        width: 120px;
         align-items: center;
         display: flex;
         align-self: flex-start;
       }
 
       & > div:last-child {
-        width: calc(~'100% - 130px');
         align-items: center;
         display: flex;
         flex-direction: column;
+        text-align: right;
 
         .legend-item, .total {
           display: flex;
@@ -83,9 +106,12 @@ html body md-dialog.asset-info-modal {
           border-bottom: 1px solid @color-disabled-100;
           align-items: center;
 
-          > div {
+          & > div {
             flex-basis: 50%;
 
+            &:first-child {
+              text-align: left;
+            }
             &:last-child {
               text-align: right;
             }
@@ -131,6 +157,7 @@ html body md-dialog.asset-info-modal {
       .transaction-item {
         .date {
           padding-left: 40px;
+          letter-spacing: 2px;
         }
 
         .row {
@@ -146,13 +173,81 @@ html body md-dialog.asset-info-modal {
     .locale-address {
       display: none;
     }
+
     w-actions {
       display: none;
     }
   }
 
   .no-transactions {
-    border: 0 none;
+    .empty-block-container {
+      margin: 20px auto;
+    }
   }
 
+}
+
+@media screen and (max-width: 767px) {
+  html body md-dialog.asset-info-modal {
+    padding-bottom: 0;
+
+    md-dialog-content {
+      overflow-y: auto;
+    }
+
+    .chart-wrapper {
+      margin-left: -20px;
+      margin-right: -20px;
+    }
+
+    .asset-content {
+      .padding-content .tab-tem {
+        padding: 20px;
+      }
+
+      .tab-tem {
+        overflow-y: hidden;
+        max-height: 100%;
+        padding: 0;
+
+        .line {
+          w-circle-chart {
+            margin: 0 auto;
+          }
+        }
+
+      }
+
+      .footnote-1.fs-mobile {
+        font-size: @mobile-low-fsize;
+      }
+    }
+
+    .tab-container {
+      width: calc(100% ~'+ 40px');
+      margin-left: -20px;
+
+      w-transaction-list ul .transaction-item .date {
+        padding-left: 23px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 420px) {
+  html body md-dialog.asset-info-modal {
+    .padding-content .tab-tem {
+      .line.chart-container {
+        flex-direction: column;
+
+        & > div:first-child {
+          width: 100%;
+        }
+        & > div:last-child {
+          margin: 0;
+          width: 100%;
+        }
+      }
+    }
+  }
 }

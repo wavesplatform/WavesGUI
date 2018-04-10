@@ -55,11 +55,16 @@
                         this._setHandlers();
                     }
 
+                    $onDestroy() {
+                        super.$onDestroy();
+                        this.select.remove(this);
+                    }
+
                     /**
                      * @return {JQuery}
                      */
                     getContent() {
-                        return $compile(this._getContentHTML())($scope);
+                        return $compile(Option._getContentHTML())($scope);
                     }
 
                     onClick() {
@@ -78,8 +83,13 @@
                      * @return {string}
                      * @private
                      */
-                    _getContentHTML() {
-                        return `<div class="title-content">${$element.find('.option').html()}</div>`;
+                    static _getContentHTML() {
+                        return `<div class="title-content">${Option._getOptionHTML()}</div>`;
+                    }
+
+                    static _getOptionHTML() {
+                        return $element.find('.option:first')
+                            .html();
                     }
 
                     /**

@@ -1,18 +1,23 @@
 @import (reference) '../../../../config';
 @import (reference) '../../../../app/less/typography';
 
+@leftPanelWidth: 330px;
+@leftPanelRightMargin: 10px;
+@height-transaction-header: 40px;
+
 .leasing-page {
   display: flex;
   flex-direction: row;
   width: 100%;
   height: 100%;
+  max-height: calc(~'100vh - 90px');
 
-  @height-transaction-header: 40px;
-
-  @media screen and (max-width: @width-media-normal) {
-    .transaction-item .locale-address {
-      display: none;
-    }
+  .left-panel {
+    height: 100%;
+    max-height: calc(~'100vh - 90px');
+    overflow-y: auto;
+    width: @leftPanelWidth;
+    margin-right: @leftPanelRightMargin;
   }
 
   .transactions-title {
@@ -28,26 +33,14 @@
     border-top-right-radius: @border-radius;
   }
 
-  w-transaction-list {
-    min-height: calc(~'100vh -'  130px);
-
-    .w-transaction-list ul {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
+  w-scroll-box {
+    border: 1px solid #e9e9eb;
+    border-radius: 0 0 @border-radius @border-radius;
+    height: calc(~'100vh - ' 130px);
   }
 
   .transaction-item > .date {
     display: none;
-  }
-
-  @leftPanelWidth: 330px;
-  @leftPanelRightMargin: 10px;
-
-  .left-panel {
-    width: @leftPanelWidth;
-    height: 100%;
-    margin-right: @leftPanelRightMargin;
   }
 
   .transactions-container {
@@ -136,41 +129,77 @@ w-leasing-block.leasingNote {
     padding: 0;
   }
 
-  .collapse-trigger {
+  i.collapse-trigger {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    z-index: 1;
+    text-align: center;
+    cursor: pointer;
+    transform-origin: center;
+    transition: transform 0.3s ease-in-out;
+    background-image: url(/img/icons/close_arrow.svg);
+  }
+
+  div.collapse-container {
+    height: 0px;
+    transition: .4s;
+    overflow: hidden;
+    padding: 0 20px;
+    border-bottom: 0 none;
+    border-top: 0 none;
+  }
+
+  &.active {
+    div.collapse-container {
+      height: auto;
+      border-top: 1px solid #e2e2e2;
+      padding: 20px;
+    }
+
+    i.collapse-trigger {
+      transform: rotate(-180deg)
+    }
+  }
+
+}
+
+@media screen and (max-width: @width-media-normal) {
+  .transaction-item .locale-address {
     display: none;
+  }
+}
 
-    &:checked + label {
-      transform: rotate(-180deg);
+@media screen and (max-width: 768px) {
+  .leasing-page {
+    height: auto;
+    display: block;
+    overflow: visible;
 
-      & + div.collapse-container {
-        height: auto;
-        border-top: 1px solid #e2e2e2;
-        padding: 20px;
-      }
+    w-scroll-box {
+      height: auto;
+      margin-bottom: 10px;
     }
 
-    & + label {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: block;
-      width: 20px;
-      height: 20px;
-      z-index: 1;
-      text-align: center;
-      cursor: pointer;
-      transform-origin: center;
-      transition: transform 0.3s ease-in-out;
-      background-image: url(/img/icons/close_arrow.svg);
-
-      & + div.collapse-container {
-        height: 0px;
-        transition: .4s;
-        overflow: hidden;
-        padding: 0 20px;
-        border-bottom: 0 none;
-        border-top:0 none;
-      }
+    .left-panel {
+      width: 100%;
+      max-height: 100%;
+      overflow-y: visible;
     }
+
+    .transactions-container {
+      width: 100%;
+    }
+  }
+
+  .leasingNote {
+    margin-bottom: 10px;
+  }
+
+  w-transaction .transaction {
+    height: auto;
+    min-height: 74px;
   }
 }

@@ -1,4 +1,5 @@
 @import (reference) '../../../../../config';
+@import (reference) '../../../../../app/less/typography';
 
 w-leasing-block {
   display: block;
@@ -13,7 +14,7 @@ w-leasing-block {
     height: 39px;
     align-items: center;
     color: @color-disabled-900;
-    border-bottom: 2px solid @color-disabled-100;
+    border-bottom: 1px solid @color-disabled-100;
     padding: 0 20px;
   }
 
@@ -21,11 +22,16 @@ w-leasing-block {
     padding: 20px;
 
     .balance-container {
-      // h1 mixin
-      font-family: @font-roboto-medium;
       font-size: 28px;
-      letter-spacing: 0;
       line-height: 34px;
+      font-weight: normal;
+
+      .int {
+        font-family: @font-roboto-regular;
+      }
+      .decimal-muted {
+        font-family: @font-roboto-light;
+      }
     }
   }
 }

@@ -1,10 +1,11 @@
+/* global BigNumber, tsUtils */
 (function () {
     'use strict';
 
     /**
      *
      * @param {Base} Base
-     * @param {function} createPoll
+     * @param {IPollCreate} createPoll
      * @param {JQuery} $element
      * @param {Waves} waves
      * @param {DexDataService} dexDataService
@@ -39,6 +40,16 @@
                  * @private
                  */
                 this._showSpread = true;
+                /**
+                 * @type {*}
+                 * @private
+                 */
+                this._lastResopse = null;
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
+                this._noRender = false;
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
@@ -51,7 +62,19 @@
                     poll.restart();
                 });
 
-                $element.on('mousedown touchstart', 'w-scroll-box w-row', (e) => {
+                $element.on('mousedown touchstart', 'w-scroll-box w-row', () => {
+                    this._noRender = true;
+                });
+
+                $element.on('mouseup touchend', 'w-scroll-box w-row', () => {
+                    this._noRender = false;
+                    if (this._lastResopse) {
+                        this._render(this._lastResopse);
+                        this._lastResopse = null;
+                    }
+                });
+
+                $element.on('click', 'w-scroll-box w-row', (e) => {
                     const amount = e.currentTarget.getAttribute('data-amount');
                     const price = e.currentTarget.getAttribute('data-price');
                     const type = e.currentTarget.getAttribute('data-type');
@@ -63,6 +86,10 @@
 
             }
 
+            /**
+             * @return {Promise}
+             * @private
+             */
             _getOrders() {
                 return waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
                     .then(({ bids, asks, spread, pair }) => {
@@ -123,20 +150,44 @@
                             asks: process(asks.slice().reverse()).join('')
                         };
                     })
-                    .then(({ bids, spread, asks }) => {
+                    .then((data) => this._render(data));
+            }
 
-                        const template = `<div class="asks">${asks}</div><div class="spread body-2">${spread}</div><div class="bids">${bids}</div>`;
-                        const $box = $element.find('w-scroll-box');
-                        const box = $box.get(0);
-                        $box.html(template);
+            /**
+             * @param bids
+             * @param spread
+             * @param asks
+             * @return {null}
+             * @private
+             */
+            _render({ bids, spread, asks }) {
 
-                        if (this._showSpread) {
-                            this._showSpread = false;
+                if (this._noRender) {
+                    this._lastResopse = { bids, spread, asks };
+                    return null;
+                }
 
-                            const spread = box.querySelector('.spread');
-                            box.scrollTop = spread.offsetTop - box.offsetTop - box.clientHeight / 2 + spread.clientHeight / 2;
-                        }
-                    });
+                if (!(bids && asks)) {
+                    this.hasOrderBook = false;
+                } else {
+                    this.hasOrderBook = true;
+                }
+
+                const template = (
+                    `<div class="asks">${asks}</div>` +
+                    `<div class="spread body-2">${spread}</div>` +
+                    `<div class="bids">${bids}</div>`
+                );
+                const $box = $element.find('w-scroll-box');
+                const box = $box.get(0);
+                $box.html(template);
+
+                if (this._showSpread) {
+                    this._showSpread = false;
+
+                    const spread = box.querySelector('.spread');
+                    box.scrollTop = spread.offsetTop - box.offsetTop - box.clientHeight / 2 + spread.clientHeight / 2;
+                }
             }
 
         }

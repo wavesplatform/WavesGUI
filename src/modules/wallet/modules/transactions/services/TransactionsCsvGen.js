@@ -1,3 +1,4 @@
+/* global CSV */
 (function () {
     'use strict';
 
@@ -42,6 +43,8 @@
         class TransactionsCsvGen {
 
             generate(data) {
+                const fileName = 'transactions.csv';
+
                 const csv = CSV.generate({
                     header: HEADERS.map((item) => {
                         return {
@@ -49,26 +52,26 @@
                             name: i18n.translate(item.name, NS)
                         };
                     }),
-                    body: data.reduce((result, item) => result.concat(item.transactions), [])
-                        .map((tx) => {
-                            const clone = { ...tx };
-                            MONEY_FIELDS.forEach((id) => {
-                                if (clone[id]) {
-                                    clone[`${id}Name`] = clone[id].asset.name;
-                                    clone[`${id}Ticker`] = clone[id].asset.ticker;
-                                    clone[`${id}Id`] = clone[id].asset.id;
-                                    clone[`${id}Value`] = clone[id].toFormat();
-                                }
-                            });
-                            if (clone.price) {
-                                clone.priceTicker = clone.price.pair.priceAsset.ticker;
-                                clone.priceName = clone.price.pair.priceAsset.name;
-                                clone.priceId = clone.price.pair.priceAsset.id;
-                                clone.priceValue = clone.price.getTokens()
-                                    .toFormat(clone.price.pair.priceAsset.precision);
+                    body: data.map((tx) => {
+                        const clone = { ...tx };
+
+                        MONEY_FIELDS.forEach((id) => {
+                            if (clone[id]) {
+                                clone[`${id}Name`] = clone[id].asset.name;
+                                clone[`${id}Ticker`] = clone[id].asset.ticker;
+                                clone[`${id}Id`] = clone[id].asset.id;
+                                clone[`${id}Value`] = clone[id].toFormat();
                             }
-                            return clone;
-                        }),
+                        });
+                        if (clone.price) {
+                            clone.priceTicker = clone.price.pair.priceAsset.ticker;
+                            clone.priceName = clone.price.pair.priceAsset.name;
+                            clone.priceId = clone.price.pair.priceAsset.id;
+                            clone.priceValue = clone.price.getTokens()
+                                .toFormat(clone.price.pair.priceAsset.precision);
+                        }
+                        return clone;
+                    }),
                     processors: {
                         timestamp: (date) => {
                             return date && utils.moment(date).format('DD.MM.YYYY hh:mm:ss') || date;
@@ -79,7 +82,14 @@
                     }
                 });
 
-                CSV.download(csv, 'transactions.csv');
+                if (WavesApp.isDesktop()) {
+                    transfer('download', {
+                        fileContent: csv,
+                        fileName: fileName
+                    });
+                } else {
+                    CSV.download(csv, fileName, { target: '_blank' });
+                }
             }
 
         }

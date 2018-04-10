@@ -5,10 +5,10 @@
             <w-radio value="'all'">
                 <w-i18n>all</w-i18n>
             </w-radio>
-            <w-radio value="'send'">
+            <w-radio value="'send,mass-send'">
                 <w-i18n>sent</w-i18n>
             </w-radio>
-            <w-radio value="'receive'">
+            <w-radio value="'receive,mass-receive'">
                 <w-i18n>received</w-i18n>
             </w-radio>
             <w-radio value="'exchange-buy,exchange-sell'">
@@ -22,7 +22,28 @@
             </w-radio>
         </w-radio-wrap>
 
-        <w-button class="download interface" ng-click="$ctrl.exportTransactions()">
+        <w-select class="split-mode" ng-model="$ctrl.filter">
+            <w-option value="all">
+                <w-i18n>all</w-i18n>
+            </w-option>
+            <w-option value="send,mass-send">
+                <w-i18n>sent</w-i18n>
+            </w-option>
+            <w-option value="receive,mass-receive">
+                <w-i18n>received</w-i18n>
+            </w-option>
+            <w-option value="exchange-buy,exchange-sell">
+                <w-i18n>exchanged</w-i18n>
+            </w-option>
+            <w-option value="lease-in,lease-out,cancel-leasing">
+                <w-i18n>leased</w-i18n>
+            </w-option>
+            <w-option value="issue,reissue,burn">
+                <w-i18n>issued</w-i18n>
+            </w-option>
+        </w-select>
+
+        <w-button disabled="$ctrl.pending" class="download interface" on-click="$ctrl.exportTransactions()">
             <w-i18n>export</w-i18n>
         </w-button>
 
@@ -30,10 +51,8 @@
 
     <w-scroll-box>
         <div class="scroll-list">
-            <w-transaction-list transaction-type="$ctrl.filter"
-                                search="$ctrl.search"
-                                page-size="1000"
-                                transactions="$ctrl.transactions"></w-transaction-list>
+            <w-transaction-list transactions="$ctrl.transactions"
+                                pending="$ctrl.pending"></w-transaction-list>
         </div>
     </w-scroll-box>
 </div>

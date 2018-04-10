@@ -32,12 +32,14 @@
         </div>
     </div>
 
-    <w-password class="margin-2" password="$ctrl.password"
+    <w-password class="margin-2"
+                name="$ctrl.name"
+                password="$ctrl.password"
                 on-submit="$ctrl.next()">
         <w-i18n>button.continue</w-i18n>
     </w-password>
 
-    <!--TODO @xenohunter #wrap-in-component-->
+    <!--TODO #wrap-in-component-->
 
     <div class="or margin-2">
         <span w-i18n="noBackupNoMoney.or"></span>

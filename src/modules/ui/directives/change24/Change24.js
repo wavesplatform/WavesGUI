@@ -4,7 +4,7 @@
     /**
      * @param Base
      * @param {object} $attrs
-     * @param {function} createPoll
+     * @param {IPollCreate} createPoll
      * @param {JQuery} $element
      * @param {Waves} waves
      * @return {Change24}
@@ -31,33 +31,57 @@
                  * @type {number}
                  */
                 this.interval = null;
+                /**
+                 * @type {boolean}
+                 */
+                this.directionByPair = null;
             }
 
             $postLink() {
                 this.precision = Number(this.precision) || 2;
                 this.interval = Number(this.interval) || 5000;
 
+                let handler = null;
                 if ($attrs.noUpdate) {
-                    this._getChange().then(this._setChange.bind(this), this._setChange.bind(this));
-                    this.observe(['assetFrom', 'assetTo'], () => {
-                        this._getChange().then(this._setChange.bind(this), this._setChange.bind(this));
-                    });
+
+                    const apply = () => {
+                        const onFulfilled = this._setChange.bind(this);
+                        this._getChange().then(onFulfilled, onFulfilled);
+                    };
+
+                    apply();
+                    handler = apply;
                 } else {
                     const poll = createPoll(this, this._getChange, this._setChange, this.interval);
-                    this.observe(['assetFrom', 'assetTo'], () => {
+                    handler = () => {
                         poll.restart();
-                    });
+                    };
                 }
+
+                this.observe(['assetFrom', 'assetTo'], handler);
             }
 
+            /**
+             * @return {Promise}
+             * @private
+             */
             _getChange() {
                 if (this.assetFrom && this.assetTo) {
+                    if (this.directionByPair) {
+                        return Waves.AssetPair.get(this.assetFrom, this.assetTo).then((pair) => {
+                            return waves.utils.getChange(pair.amountAsset.id, pair.priceAsset.id);
+                        });
+                    }
                     return waves.utils.getChange(this.assetFrom, this.assetTo);
                 } else {
-                    return null;
+                    return Promise.resolve(null);
                 }
             }
 
+            /**
+             * @param data
+             * @private
+             */
             _setChange(data) {
                 if (typeof data === 'number') {
                     $element.html(data.toFixed(this.precision));
@@ -77,6 +101,7 @@
         bindings: {
             assetFrom: '<',
             assetTo: '<',
+            directionByPair: '<',
             precision: '@',
             noUpdate: '@',
             interval: '@',

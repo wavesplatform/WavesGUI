@@ -1,3 +1,4 @@
+/* global WebStorage */
 (function () {
     'use strict';
 
@@ -6,6 +7,38 @@
     let clear;
 
     if (WavesApp.isWeb()) {
+        try {
+            localStorage.setItem('___test', String(Date.now()));
+        } catch (e) {
+            const storage = {
+                _data: Object.create(null),
+                get length() {
+                    return Object.keys(this._data).length;
+                },
+                key(n) {
+                    return Object.keys(this._data)[n];
+                },
+                setItem(name, value) {
+                    this._data[name] = String(value);
+                },
+                removeItem(key) {
+                    delete this._data[key];
+                },
+                getItem(name) {
+                    if (name in this._data) {
+                        return this._data[name];
+                    } else {
+                        return null;
+                    }
+                },
+                clear() {
+                    this._data = Object.create(null);
+                }
+            };
+            Object.defineProperty(window, 'localStorage', {
+                get: () => storage
+            });
+        }
         read = function (key) {
             const data = localStorage.getItem(key);
             try {
@@ -23,73 +56,86 @@
             return Promise.resolve();
         };
     } else {
-        const fs = require('fs');
-        const path = require('path');
-        const remote = require('electron').remote;
-        const cachePath = path.join(remote.app.getPath('userData'), './storage.json');
-
-        const wrap = function (method, ...args) {
-            return new Promise((resolve, reject) => {
-                args.push(function (err, data) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(data);
-                    }
-                });
-                fs[method](...args);
+        read = function (key) {
+            return WebStorage.readStorage(key).then((result) => {
+                try {
+                    return JSON.parse(result);
+                } catch (e) {
+                    return result;
+                }
             });
         };
-
-        if (!fs.existsSync(cachePath)) {
-            fs.writeFileSync(cachePath, '{}');
-        }
-
-        const getCache = function () {
-            return wrap('readFile', cachePath, 'utf8')
-                .then((text) => {
-                    try {
-                        return JSON.parse(text);
-                    } catch (e) {
-                        return Promise.reject(e);
-                    }
-                });
-        };
-        read = function (key) {
-            return getCache()
-                .then((data) => {
-                    try {
-                        return JSON.parse(data[key] || '');
-                    } catch (e) {
-                        return {};
-                    }
-                })
-                .catch(() => {
-                    return {};
-                });
-        };
         write = function (key, value) {
-            return getCache()
-                .then((data) => {
-                    data[key] = value;
-                    return wrap('writeFile', cachePath, JSON.stringify(data));
-                });
+            return WebStorage.writeStorage(key, value);
         };
         clear = function () {
-            return wrap('writeFile', cachePath, '{}');
+            return WebStorage.clearStorage();
         };
     }
 
-    const factory = function ($q, utils, storageMigration) {
+    /**
+     * @param {$q} $q
+     * @param {app.utils} utils
+     * @param {Migration} migration
+     * @param {State} state
+     */
+    const factory = function ($q, utils, migration, state) {
+
+        const MIGRATION_MAP = {
+            '1.0.0': function (storage) {
+                return storage.load('Wavesmainnet').then((data) => {
+                    if (!data) {
+                        return null;
+                    }
+
+                    const userList = data.accounts.map((account) => {
+                        return {
+                            address: account.address,
+                            encryptedSeed: account.cipher,
+                            settings: {
+                                encryptionRounds: 1000
+                            }
+                        };
+                    });
+                    return storage.clear().then(() => storage.save('userList', userList));
+                });
+            },
+            '1.0.0-beta.23': function (storage) {
+                return storage.load('userList').then((list = []) => {
+                    const newList = list.map((item) => {
+                        tsUtils.set(item, 'settings.lastOpenVersion', '1.0.0-beta.22');
+                        return item;
+                    });
+                    return storage.save('userList', newList);
+                });
+            }
+        };
 
         class Storage {
 
             constructor() {
+                this._isNewDefer = $q.defer();
+
                 this.load('lastVersion')
                     .then((version) => {
                         this.save('lastVersion', WavesApp.version);
-                        storageMigration.migrateTo(version, this);
+                        state.lastOpenVersion = version;
+
+                        if (version) {
+                            const versions = migration.migrateFrom(version, Object.keys(MIGRATION_MAP));
+                            return utils.chainCall(versions.map((version) => MIGRATION_MAP[version].bind(null, this)))
+                                .then(() => {
+                                    this._isNewDefer.resolve(version);
+                                });
+                        } else {
+                            this._isNewDefer.resolve(version);
+                            return Promise.resolve();
+                        }
                     });
+            }
+
+            onReady() {
+                return this._isNewDefer.promise;
             }
 
             save(key, value) {
@@ -98,7 +144,7 @@
 
             load(key) {
                 return utils.when(read(key))
-                    .then(data => Storage.myParse(data));
+                    .then((data) => Storage.myParse(data));
             }
 
             clear() {
@@ -153,7 +199,7 @@
         return new Storage();
     };
 
-    factory.$inject = ['$q', 'utils', 'storageMigration'];
+    factory.$inject = ['$q', 'utils', 'migration', 'state'];
 
     angular.module('app.utils')
         .factory('storage', factory);

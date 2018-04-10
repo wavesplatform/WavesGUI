@@ -7,16 +7,21 @@
      * @param {app.utils} utils
      * @param {Waves} waves
      * @param {ModalManager} modalManager
-     * @param createPoll
+     * @param {IPollCreate} createPoll
      * @return {LeasingCtrl}
      */
     const controller = function (Base, $scope, utils, waves, modalManager, createPoll) {
 
         class LeasingCtrl extends Base {
 
+            get pendingAllLeasing() {
+                return !this.pending && this.allActiveLeasing == null;
+            }
+
             constructor() {
                 super($scope);
 
+                this.pending = true;
                 this.chartOptions = {
                     items: {
                         available: {
@@ -37,12 +42,47 @@
                     startFrom: Math.PI / 2
                 };
 
-                const getter = waves.node.assets.balance.bind(waves.node.assets, WavesApp.defaultAssets.WAVES);
-                createPoll(this, getter, this._setLeasingData, 1000);
+                /**
+                 * @type {ITransaction[]}
+                 * @private
+                 */
+                this.txList = null;
+                /**
+                 * @type {ITransaction[]}
+                 */
+                this.allActiveLeasing = null;
+                /**
+                 * @type {ITransaction[]}
+                 */
+                this.transactions = [];
+
+                waves.node.transactions.getActiveLeasingTx().then((txList) => {
+                    this.allActiveLeasing = txList;
+                });
+
+                createPoll(this, this._getBalances, this._setLeasingData, 1000, { isBalance: true });
+                createPoll(this, this._getTransactions, this._setTxList, 3000, { isBalance: true });
+
+                this.observe(['txList', 'allActiveLeasing'], this._currentLeasingList);
             }
 
             startLeasing() {
                 return modalManager.showStartLeasing();
+            }
+
+            /**
+             * @return {Promise<IBalanceDetails>}
+             * @private
+             */
+            _getBalances() {
+                return waves.node.assets.balance(WavesApp.defaultAssets.WAVES);
+            }
+
+            /**
+             * @private
+             */
+            _getTransactions() {
+                return waves.node.transactions.list(5000);
             }
 
             /**
@@ -62,6 +102,50 @@
                     { id: 'leased', value: leasedOut },
                     { id: 'leasedIn', value: leasedIn }
                 ];
+            }
+
+            /**
+             * @param {ITransaction[]} txList
+             * @private
+             */
+            _setTxList(txList) {
+                const AVAILABLE_TYPES_HASH = {
+                    [waves.node.transactions.TYPES.LEASE_IN]: true,
+                    [waves.node.transactions.TYPES.LEASE_OUT]: true,
+                    [waves.node.transactions.TYPES.CANCEL_LEASING]: true
+                };
+
+                this.txList = txList.filter(({ type }) => AVAILABLE_TYPES_HASH[type]);
+            }
+
+            /**
+             * @private
+             */
+            _currentLeasingList() {
+                const txList = this.txList;
+                const allActiveLeasing = this.allActiveLeasing;
+
+                if (!txList) {
+                    return null;
+                }
+
+                this.pending = !txList.length && !allActiveLeasing;
+
+                if (!allActiveLeasing || !allActiveLeasing.length) {
+                    this.transactions = txList.slice();
+                    return null;
+                }
+
+                const idHash = utils.toHash(txList, 'id');
+                const result = txList.slice();
+
+                allActiveLeasing.forEach((tx) => {
+                    if (!idHash[tx.id]) {
+                        result.push(tx);
+                    }
+                });
+
+                this.transactions = result;
             }
 
         }

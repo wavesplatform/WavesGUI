@@ -1,5 +1,9 @@
+/* eslint-disable no-console */
+/* global openInBrowser, i18next, BigNumber, Waves, identityImg */
 (function () {
     'use strict';
+
+    const tsUtils = require('ts-utils');
 
     const PROGRESS_MAP = {
         RUN_SCRIPT: 10,
@@ -34,39 +38,20 @@
     LOADER.addProgress(PROGRESS_MAP.RUN_SCRIPT);
 
     /**
-     * @param $rootScope
+     * @param {$rootScope.Scope} $rootScope
      * @param {User} user
      * @param {app.utils} utils
      * @param $state
      * @param {State} state
      * @param {ModalManager} modalManager
+     * @param {Storage} storage
+     * @param {INotification} notification
+     * @param {ExtendedAsset} ExtendedAsset
+     * @param {app.utils.decorators} decorators
      * @return {AppRun}
      */
-    const run = function ($rootScope, utils, user, $state, state, modalManager) {
-
-        class ExtendedAsset extends Waves.Asset {
-
-            constructor(props) {
-                super({
-                    ...props,
-                    name: WavesApp.remappedAssetNames[props.id] || props.name
-                    // ID, name, precision and description are added here
-                });
-
-                this.reissuable = props.reissuable;
-                this.timestamp = props.timestamp;
-                this.sender = props.sender;
-                this.height = props.height;
-
-                const divider = new BigNumber(10).pow(this.precision);
-                this.quantity = new BigNumber(props.quantity).div(divider);
-
-                this.ticker = props.ticker || '';
-                this.sign = props.sign || '';
-                this.displayName = props.ticker || props.name;
-            }
-
-        }
+    const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
+                          notification, ExtendedAsset, decorators) {
 
         function remapAssetProps(props) {
             props.precision = props.decimals;
@@ -74,15 +59,35 @@
             return props;
         }
 
+        const cache = Object.create(null);
         Waves.config.set({
-            assetFactory(props) {
-                return fetch(`${WavesApp.network.api}/assets/${props.id}`)
+            /**
+             * @param {string} id
+             * @return {Promise<ExtendedAsset>}
+             */
+            assetFactory(id) {
+
+                if (cache[id]) {
+                    return cache[id];
+                }
+
+                const promise = fetch(`${WavesApp.network.api}/assets/${id}`)
                     .then(utils.onFetch)
                     .then((fullProps) => new ExtendedAsset(remapAssetProps(fullProps)))
                     .catch(() => {
-                        return Waves.API.Node.v1.transactions.get(props.id)
+                        if (id === Waves.constants.WAVES_PROPS.id) {
+                            return Promise.resolve(Waves.constants.WAVES_PROPS);
+                        }
+                        return Waves.API.Node.v1.transactions.get(id)
                             .then((partialProps) => new ExtendedAsset(remapAssetProps(partialProps)));
                     });
+
+                cache[id] = promise;
+                cache[id].catch(() => {
+                    delete cache[id];
+                });
+
+                return cache[id];
             }
         });
 
@@ -115,6 +120,7 @@
                 this._stopLoader();
                 this._initializeLogin();
                 this._initializeOutLinks();
+
             }
 
             /**
@@ -132,10 +138,9 @@
                 if (WavesApp.isDesktop()) {
                     $(document).on('click', '[target="_blank"]', (e) => {
                         const $link = $(e.currentTarget);
-                        const shell = require('electron').shell;
                         e.preventDefault();
 
-                        shell.openExternal($link.attr('href'));
+                        openInBrowser($link.attr('href'));
                     });
                 }
             }
@@ -156,47 +161,125 @@
              * @private
              */
             _initializeLogin() {
+
+                storage.onReady().then((oldVersion) => {
+                    if (!oldVersion) {
+                        modalManager.showTutorialModals();
+                    }
+                });
+
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => item.id);
 
                 this._listenChangeLanguage();
-                const stop = $rootScope.$on('$stateChangeStart', (event, state, params) => {
+                const stop = $rootScope.$on('$stateChangeStart', (event, toState, params) => {
                     stop();
 
-                    if (START_STATES.indexOf(state.name) === -1) {
+                    if (START_STATES.indexOf(toState.name) === -1) {
                         event.preventDefault();
                     }
 
-                    this._login(state)
+                    this._login(toState)
                         .then(() => {
                             this._stopListenChangeLanguage();
-                            if (START_STATES.indexOf(state.name) === -1) {
-                                $state.go(state.name, params);
+                            if (START_STATES.indexOf(toState.name) === -1) {
+                                $state.go(toState.name, params);
                             } else {
                                 $state.go(user.getActiveState('wallet'));
                             }
 
-                            const termsAccepted = user.getSetting('termsAccepted');
                             i18next.changeLanguage(user.getSetting('lng'));
 
-                            if (!termsAccepted) {
-                                modalManager.showTermsAccept(user).then(() => {
-                                    if (user.getSetting('shareAnalytics')) {
-                                        analytics.activate();
-                                    }
+                            this._initializeTermsAccepted()
+                                .then(() => {
+                                    this._initializeBackupWarning();
                                 });
-                            } else if (user.getSetting('shareAnalytics')) {
-                                analytics.activate();
-                            }
 
-                            $rootScope.$on('$stateChangeStart', (event, state) => {
-                                if (START_STATES.indexOf(state.name) !== -1) {
+                            $rootScope.$on('$stateChangeStart', (event, current) => {
+                                if (START_STATES.indexOf(current.name) !== -1) {
                                     event.preventDefault();
-                                    $state.go(user.getActiveState('wallet'));
+                                } else {
+                                    state.signals.changeRouterStateStart.dispatch(event);
                                 }
                             });
                         });
                 });
+            }
+
+            /**
+             * @return Promise
+             * @private
+             */
+            _initializeTermsAccepted() {
+                if (!user.getSetting('termsAccepted')) {
+                    return modalManager.showTermsAccept(user).then(() => {
+                        if (user.getSetting('shareAnalytics')) {
+                            analytics.activate();
+                        }
+                    })
+                        .catch(() => false);
+                } else if (user.getSetting('shareAnalytics')) {
+                    analytics.activate();
+                }
+                return Promise.resolve();
+            }
+
+            /**
+             * @param {object} [scope]
+             * @param {boolean} scope.closeByModal
+             * @private
+             */
+            @decorators.scope({ closeByModal: false })
+            _initializeBackupWarning(scope) {
+                if (!user.getSetting('hasBackup')) {
+
+                    const id = tsUtils.uniqueId('n');
+
+                    const changeModalsHandler = (modal) => {
+
+                        scope.closeByModal = true;
+                        notification.remove(id);
+                        scope.closeByModal = false;
+
+                        modal.catch(() => null)
+                            .then(() => {
+                                if (!user.getSetting('hasBackup')) {
+                                    this._initializeBackupWarning();
+                                }
+                            });
+                    };
+
+                    modalManager.openModal.once(changeModalsHandler);
+
+                    notification.error({
+                        id,
+                        ns: 'app.utils',
+                        title: {
+                            literal: 'notification.backup.title'
+                        },
+                        body: {
+                            literal: 'notification.backup.body'
+                        },
+                        action: {
+                            literal: 'notification.backup.action',
+                            callback: () => {
+                                modalManager.showSeedBackupModal();
+                            }
+                        },
+                        onClose: () => {
+                            if (scope.closeByModal || user.getSetting('hasBackup')) {
+                                return null;
+                            }
+
+                            modalManager.openModal.off(changeModalsHandler);
+
+                            const stop = $rootScope.$on('$stateChangeSuccess', () => {
+                                stop();
+                                this._initializeBackupWarning();
+                            });
+                        }
+                    }, -1);
+                }
             }
 
             /**
@@ -205,6 +288,7 @@
              * @private
              */
             _login(currentState) {
+
                 const states = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => {
                         return WavesApp.stateTree.getPath(item.id)
@@ -219,6 +303,8 @@
             /**
              * @param {Event} event
              * @param {object} toState
+             * @param some
+             * @param fromState
              * @param {string} toState.name
              * @private
              */
@@ -238,7 +324,7 @@
                         this.activeClasses.push(name);
                     });
                 user.applyState(toState);
-                state.signals.changeRouterState.dispatch(toState);
+                state.signals.changeRouterStateSuccess.dispatch(toState);
             }
 
             /**
@@ -294,10 +380,14 @@
             }
 
             static _getUrlFromState(state) {
-                return '/' + WavesApp.stateTree.getPath(state.name.split('.').slice(-1)[0])
-                    .filter((id) => !WavesApp.stateTree.find(id).get('abstract'))
-                    .map((id) => WavesApp.stateTree.find(id).get('url') || id)
-                    .join('/');
+                return (
+                    WavesApp
+                        .stateTree
+                        .getPath(state.name.split('.').slice(-1)[0])
+                        .filter((id) => !WavesApp.stateTree.find(id).get('abstract'))
+                        .map((id) => WavesApp.stateTree.find(id).get('url') || id)
+                        .reduce((url, id) => `${url}/${id}`, '')
+                );
             }
 
         }
@@ -305,7 +395,19 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'modalRouter'];
+    run.$inject = [
+        '$rootScope',
+        'utils',
+        'user',
+        '$state',
+        'state',
+        'modalManager',
+        'storage',
+        'notification',
+        'ExtendedAsset',
+        'decorators',
+        'whatsNew'
+    ];
 
     angular.module('app')
         .run(run);

@@ -7,6 +7,7 @@ w-change-language {
     position: absolute;
     right: 40px;
     top: 34px;
+    z-index: 1;
 
     .select .title {
       border: 1px solid transparent;
@@ -21,6 +22,8 @@ w-change-language {
       text-transform: capitalize;
       font-size: 13px;
       white-space: nowrap;
+      width: 100%;
+      text-align: right;
 
       &::before {
         content: '';
@@ -55,4 +58,12 @@ w-change-language {
     }
 
   }
+}
+
+@media screen and (max-width: 420px) {
+
+  w-change-language w-select {
+    right: 10px;
+  }
+
 }

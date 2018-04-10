@@ -8,7 +8,7 @@
      * @param {app.utils} utils
      * @return {RestoreCtrl}
      */
-    const controller = function (Base, $scope, user, utils) {
+    const controller = function (Base, $scope, user, utils, modalManager) {
 
         class RestoreCtrl extends Base {
 
@@ -27,6 +27,10 @@
                 /**
                  * @type {string}
                  */
+                this.name = '';
+                /**
+                 * @type {string}
+                 */
                 this.encryptedSeed = null;
                 /**
                  * @type {string}
@@ -39,6 +43,10 @@
                 });
             }
 
+            showTutorialModals() {
+                return modalManager.showTutorialModals();
+            }
+
             restore() {
 
                 const seedData = Waves.Seed.fromExistingPhrase(this.seed);
@@ -47,6 +55,7 @@
 
                 return user.create({
                     address: this.address,
+                    name: this.name,
                     password: this.password,
                     settings: { termsAccepted: false },
                     encryptedSeed,
@@ -70,7 +79,7 @@
         return new RestoreCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'utils'];
+    controller.$inject = ['Base', '$scope', 'user', 'utils', 'modalManager'];
 
     angular.module('app.restore').controller('RestoreCtrl', controller);
 })();

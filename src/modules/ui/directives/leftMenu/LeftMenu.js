@@ -1,28 +1,33 @@
 (function () {
     'use strict';
 
-    const LEFT_MENU_ROOT_ID = 'main';
-
     /**
      * @param Base
-     * @param {User} user
-     * @param {State} state
+     * @param {StateManager} stateManager
      * @param {ModalManager} modalManager
+     * @param {User} user
      * @return {LeftMenu}
      */
-    const controller = function (Base, user, state, modalManager) {
+    const controller = function (Base, stateManager, modalManager, user, $state) {
 
         class LeftMenu extends Base {
 
             constructor() {
                 super();
-                this._initStateList();
+
                 this.address = user.address;
-                this.receive(state.signals.changeRouterState, this._initStateList, this);
+                this.receive(stateManager.changeRouteState, () => {
+                    this.subStateList = stateManager.subStateList;
+                    this.rootStateList = stateManager.rootStateList;
+                });
+                this.rootStateList = stateManager.rootStateList;
+                this.subStateList = stateManager.subStateList;
+                this.menuList = stateManager.getStateTree();
+                this.activeState = $state.$current.name.slice($state.$current.name.lastIndexOf('.') + 1);
             }
 
             logout() {
-                location.reload();
+                user.logout();
             }
 
             avatarClick() {
@@ -33,23 +38,12 @@
                 modalManager.showSettings();
             }
 
-            _initStateList() {
-                const root = WavesApp.stateTree.find(LEFT_MENU_ROOT_ID);
-                const rootPath = WavesApp.stateTree.getPath(LEFT_MENU_ROOT_ID).join('.');
-                this.stateList = root.getChildren()
-                    .map((item) => {
-                        const path = user.getActiveState(item.id);
-                        const base = `${rootPath}.${item.id}`;
-                        return { path, name: item.id, base };
-                    });
-            }
-
         }
 
         return new LeftMenu();
     };
 
-    controller.$inject = ['Base', 'user', 'state', 'modalManager'];
+    controller.$inject = ['Base', 'stateManager', 'modalManager', 'user', '$state'];
 
     angular.module('app.ui').component('wLeftMenu', {
         bindings: {},

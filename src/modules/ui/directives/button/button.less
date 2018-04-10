@@ -1,7 +1,11 @@
 @import (reference) '../../../config';
 
+@candy-animation: candyDotsAnimation 1.6s infinite ease-in-out;
+@candy-size: 10px;
+
 w-button {
   display: inline-block;
+  border-radius: @border-radius;
 
   &.long {
     width: 100%;
@@ -77,7 +81,7 @@ w-button {
 
     &.success {
       background-color: @color-success-300;
-      color: @color-text-invert;
+      color: @color-white;
 
       &:hover, &.hover {
         background-color: @color-success-400;
@@ -95,24 +99,24 @@ w-button {
     &.submit {
       background-color: @color-submit-400;
       border: 1px solid @color-submit-500;
-      color: @color-text-invert;
+      color: @color-white;
 
       &:hover, &.hover {
         background-color: @color-submit-700;
         border-color: transparent;
-        color: @color-text-invert;
+        color: @color-white;
       }
 
       &:active, &.active {
         background-color: @color-submit-800;
         border-color: transparent;
-        color: @color-text-invert;
+        color: @color-white;
       }
 
       &:disabled, &.disabled {
         background-color: @color-submit-100;
         border-color: @color-submit-200;
-        color: @color-text-invert;
+        color: @color-white;
         box-shadow: inset -1px 1px 0 0 rgba(255, 255, 255, 0);
       }
     }
@@ -122,6 +126,7 @@ w-button {
       border: 1px solid @color-accent-50;
       color: @color-basic-500;
       font-family: @font-roboto-medium;
+      height: 42px;
 
       &:hover, &.hover {
         border-color: @color-basic-500;
@@ -138,16 +143,93 @@ w-button {
         color: @color-basic-200;
       }
     }
+  }
+}
 
-    &.round {
-      border-radius: 50%;
-      min-height: 52px;
-      min-width: 52px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
+//Candy effect
+w-button {
+  w-loader {
+    display: none;
+  }
+
+  &.pending {
+
+    .button__content {
+      display: none;
+    }
+
+    w-loader {
+      display:block;
+      margin: 0 auto;
+
+      .loader-dots() {
+        position: absolute;
+        width: @candy-size;
+        height: @candy-size;
+        border-radius: 50%;
+        top: -12px;
+        left: calc(50% ~'- 5px');
+        display: inline-block;
+        animation-fill-mode: both;
+        animation: @candy-animation;
+      }
+
+      .preloader {
+        .loader-dots();
+        top: -12px;
+        animation-delay: .16s;
+
+        &::before,
+        &::after {
+          .loader-dots();
+          top: 0;
+          content: '';
+        }
+
+        &::before {
+          transform: translateX(-15px);
+          animation-delay: 0s;
+        }
+
+        &::after {
+          transform: translateX(15px);
+          animation-delay: .32s;
+        }
+      }
+
     }
   }
 
+  @keyframes candyDotsAnimation {
+    0%,
+    80%,
+    100% {
+      box-shadow: 0 13px 0 0 @color-white,
+      0 15px 0 0 transparent;
+    }
+    40% {
+      box-shadow: 0 13px 0 -13px @color-white;
+    }
+  }
+}
+
+/* Mac button text centering fix */
+w-button > button {
+  w-i18n,
+  div.button__content,
+  div.full-width,
+  div.full-width * {
+    width: 100%;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  w-button {
+    & > * {
+      padding-top: 8px;
+      padding-bottom: 8px;
+      white-space: nowrap;
+    }
+  }
 }

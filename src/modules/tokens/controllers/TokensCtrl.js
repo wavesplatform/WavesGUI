@@ -7,7 +7,7 @@
      * @param Base
      * @param $scope
      * @param {ModalManager} modalManager
-     * @param {function} createPoll
+     * @param {IPollCreate} createPoll
      * @param {Waves} waves
      * @return {TokensCtrl}
      */

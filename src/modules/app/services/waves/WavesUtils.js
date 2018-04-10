@@ -102,7 +102,7 @@
 
                             return from.reduce((result, item) => {
                                 if (hash[item.timestamp.valueOf()]) {
-                                    item.rate = item.rate / hash[item.timestamp.valueOf()].rate;
+                                    item.rate /= hash[item.timestamp.valueOf()].rate;
                                     result.push(item);
                                 }
                                 return result;
@@ -120,22 +120,12 @@
             getChange(assetFrom, assetTo) {
                 const idFrom = WavesUtils.toId(assetFrom);
                 const idTo = WavesUtils.toId(assetTo);
-                const wavesId = WavesApp.defaultAssets.WAVES;
+
                 if (idFrom === idTo) {
-                    return 1;
+                    return Promise.resolve(1);
                 }
 
-                if (idFrom !== wavesId && idTo !== wavesId) {
-                    return Promise.all([
-                        this._getChange(idFrom, wavesId),
-                        this._getChange(idTo, wavesId)
-                    ])
-                        .then(([from, to]) => {
-                            return to === 0 ? 0 : from / to;
-                        });
-                } else {
-                    return this._getChange(idFrom, idTo);
-                }
+                return this._getChange(idFrom, idTo);
             }
 
             /**
@@ -180,7 +170,8 @@
                         return fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
                             .then(utils.onFetch)
                             .then((data) => {
-                                if (!data) {
+
+                                if (!data || data.status === 'error') {
                                     return 0;
                                 }
 
@@ -213,11 +204,18 @@
              */
             _getRate(fromId, toId) {
 
+                const calculateCurrentRate = function (trades) {
+                    return (
+                        trades
+                            .reduce((result, item) => {
+                                return result.add(new BigNumber(item.price));
+                            }, new BigNumber(0))
+                            .div(trades.length)
+                    );
+                };
+
                 const currentRate = (trades) => {
-                    return trades && trades.length ? trades.reduce((result, item) => {
-                        return result.add(new BigNumber(item.price));
-                    }, new BigNumber(0))
-                        .div(trades.length) : new BigNumber(0);
+                    return trades && trades.length ? calculateCurrentRate(trades) : new BigNumber(0);
                 };
 
                 return Waves.AssetPair.get(fromId, toId)
@@ -258,7 +256,7 @@
 
                                 return list.reduce((result, item) => {
                                     const close = Number(item.close);
-                                    let rate = fromId !== pair.priceAsset.id ? close : 1 / close;
+                                    const rate = fromId !== pair.priceAsset.id ? close : 1 / close;
 
                                     if (close !== 0) {
                                         result.push({

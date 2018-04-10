@@ -30,11 +30,7 @@
                  * @type {string}
                  */
                 this.activeRowId = null;
-                /**
-                 * Has focus in input in dexBlock
-                 * @type {boolean}
-                 */
-                this.activeSearch = false;
+
                 /**
                  * @type {Array<string>}
                  * @private
@@ -122,8 +118,7 @@
             removeWatchedAsset(event, asset) {
                 event.preventDefault();
                 event.stopPropagation();
-                const newList = this._idWatchList.slice().filter((id) => id !== asset.id);
-                this._idWatchList = newList;
+                this._idWatchList = this._idWatchList.slice().filter((id) => id !== asset.id);
                 if (this.activeRowId === asset.id) {
                     this.activeRowId = this._idWatchList[0];
                 }
@@ -345,8 +340,9 @@
                 return function (item) {
                     const reg = new RegExp(`(${query})`, 'i');
                     const tickerTemplate = DexWatchlist._getTickerTemplate(item.ticker, reg);
+                    const itemClass = item.ticker ? 'has-ticker' : '';
                     const nameTemplate = DexWatchlist._getNameTemplate(item.name, reg);
-                    return $(`<div class="search-item">${tickerTemplate}${nameTemplate}</div>`);
+                    return $(`<div class="search-item ${itemClass}">${tickerTemplate}${nameTemplate}</div>`);
                 };
             }
 

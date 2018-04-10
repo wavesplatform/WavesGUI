@@ -8,11 +8,9 @@
      * @param {User} user
      * @param {ModalManager} modalManager
      * @param {ISeedService} seedService
-     * @param {NotificationManager} notificationManager
      * @return {CreateCtrl}
      */
-    const controller = function ($q, $mdDialog, $timeout, user, modalManager,
-                                 seedService, notificationManager) {
+    const controller = function (Base, $scope, $q, $mdDialog, $timeout, user, modalManager, seedService) {
 
         const PATH = 'modules/create/templates';
         const ORDER_LIST = [
@@ -22,11 +20,14 @@
             'confirmBackup'
         ];
 
-        class CreateCtrl {
+        class CreateCtrl extends Base {
 
             constructor() {
+                super($scope);
+
                 this.stepIndex = 0;
                 this.password = '';
+                this.name = '';
                 this.seed = '';
                 this.address = '';
                 this.seedList = [];
@@ -36,13 +37,24 @@
                 this.resetAddress();
             }
 
+            showTutorialModals() {
+                return modalManager.showTutorialModals();
+            }
+
             onSeedConfirmFulfilled(isValid) {
                 this.seedIsValid = isValid;
                 this.seedConfirmWasFilled = true;
+
+                this.observeOnce('stepIndex', this.clearSeedConfirm);
+            }
+
+            seedOnTouch() {
+                this.seedConfirmWasFilled = false;
             }
 
             clearSeedConfirm() {
                 seedService.clear.dispatch();
+                this.seedIsValid = false;
                 this.seedConfirmWasFilled = false;
             }
 
@@ -61,11 +73,11 @@
             }
 
             create() {
-                this._create(true);
+                return this._create(true);
             }
 
             createWithoutBackup() {
-                this._create(false);
+                return this._create(false);
             }
 
             /**
@@ -76,6 +88,7 @@
                 if (!index) {
                     index = this.stepIndex + 1;
                 }
+
                 if (index < 0) {
                     index = this.stepIndex + index;
                 }
@@ -83,7 +96,7 @@
                 if (!ORDER_LIST[index]) {
                     throw new Error('Wrong order list index!');
                 } else {
-                    this.checkNext()
+                    return this.checkNext()
                         .then(() => {
                             this.stepIndex = index;
                         });
@@ -126,6 +139,7 @@
 
                 return user.create({
                     address: this.address,
+                    name: this.name,
                     password: this.password,
                     encryptedSeed,
                     publicKey
@@ -138,7 +152,7 @@
     };
 
     controller.$inject = [
-        '$q', '$mdDialog', '$timeout', 'user', 'modalManager', 'seedService', 'notificationManager'
+        'Base', '$scope', '$q', '$mdDialog', '$timeout', 'user', 'modalManager', 'seedService'
     ];
 
     angular.module('app.create').controller('CreateCtrl', controller);
