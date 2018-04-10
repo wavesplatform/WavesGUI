@@ -26,20 +26,21 @@
                  */
                 this.loginForm = null;
                 /**
+                 * @type {string}
+                 */
+                this.activeUserAddress = null;
+                /**
                  * @type {number}
+                 * @private
                  */
                 this._activeUserIndex = null;
-                this.activeUserAddress = null;
 
-                this.observe('activeUserAddress', this._currentActiveIndex);
+                this.observe('activeUserAddress', this._calculateActiveIndex);
 
                 user.getUserList()
                     .then((list) => {
                         this.userList = list;
-                        if (list.length) {
-                            this.activeUserAddress = list[0].address;
-                        }
-                        this._updatePageUrl();
+                        this._updateActiveUserAddress();
                     });
             }
 
@@ -74,6 +75,13 @@
             removeUser(address) {
                 user.removeUserByAddress(address);
                 this.userList = this.userList.filter((user) => user.address !== address);
+                this._updateActiveUserAddress();
+            }
+
+            /**
+             * @private
+             */
+            _updateActiveUserAddress() {
                 if (this.userList.length) {
                     this.activeUserAddress = this.userList[0].address;
                 } else {
@@ -96,7 +104,7 @@
             /**
              * @private
              */
-            _currentActiveIndex() {
+            _calculateActiveIndex() {
                 const activeAddress = this.activeUserAddress;
                 let index = null;
 
