@@ -31,6 +31,7 @@
                 this.errorPath = search.e;
                 this.hasIcon = false;
                 this.noReferer = false;
+                this.titleLiteral = 'modal.gateawaySign.title';
 
                 this._checkParams();
 
@@ -73,7 +74,7 @@
                                 const search = `?s=${signature}&p=${seed.keyPair.publicKey}&a=${user.address}`;
                                 const successPath = this.successPath || '';
                                 const url = `${this.referrer}/${successPath}${search}`;
-                                location.href = GateawaySignCtrl._normalizeUrl(url);
+                                location.replace(GateawaySignCtrl._normalizeUrl(url));
                             });
                     }).catch((e) => {
                         this._sendError(String(e));
@@ -85,6 +86,7 @@
              */
             _checkParams() {
                 if (!this.referrer) {
+                    this.titleLiteral = 'modal.gateawaySign.error.title';
                     this.noReferer = true;
                 }
 
@@ -104,7 +106,7 @@
             _sendError(message) {
                 const errorPath = this.errorPath || '';
                 const url = `${this.referrer}/${errorPath}?m=${message}`;
-                location.href = GateawaySignCtrl._normalizeUrl(url);
+                location.replace(GateawaySignCtrl._normalizeUrl(url));
             }
 
             /**
@@ -121,12 +123,13 @@
             }
 
             /**
-             * @param {string} url
+             * @param {string} urlString
              * @return {string}
              * @private
              */
-            static _normalizeUrl(url) {
-                return url.replace(/\/\//g, '/');
+            static _normalizeUrl(urlString) {
+                const url = new URL(urlString);
+                return `${url.protocol}//${url.host}${url.pathname.replace(/\/\//g, '')}${url.search}${url.hash}`;
             }
 
         }

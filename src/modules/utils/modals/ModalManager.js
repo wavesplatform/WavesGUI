@@ -50,7 +50,7 @@
             showGateawaySign(search) {
                 return this._getModal({
                     id: 'gateaway-sign-in',
-                    title: 'modal.gateawaySign.title',
+                    title: '{{$ctrl.titleLiteral}}',
                     contentUrl: 'modules/utils/modals/gateaway/gateawaySign.html',
                     controller: 'GateawaySignCtrl',
                     locals: { search },
