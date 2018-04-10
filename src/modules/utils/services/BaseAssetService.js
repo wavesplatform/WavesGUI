@@ -12,7 +12,7 @@
         class BaseAssetService {
 
             getBaseAsset() {
-                return waves.node.assets.info(user.getSetting('baseAssetId'));
+                return waves.node.assets.getExtendedAsset(user.getSetting('baseAssetId'));
             }
 
             convertToBaseAsset(money) {

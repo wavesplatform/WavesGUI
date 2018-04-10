@@ -90,7 +90,7 @@
              */
             _addLogo() {
                 if (this.assetId) {
-                    waves.node.assets.info(this.assetId)
+                    waves.node.assets.getExtendedAsset(this.assetId)
                         .then((asset) => {
                             if (ASSET_IMAGES_MAP[asset.id]) {
                                 utils.loadImage(ASSET_IMAGES_MAP[asset.id])

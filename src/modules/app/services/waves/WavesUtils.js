@@ -58,8 +58,8 @@
              */
             getRateApi(assetFrom, assetTo, date) {
                 return utils.whenAll([
-                    assets.info(WavesUtils.toId(assetFrom)),
-                    assets.info(WavesUtils.toId(assetTo)),
+                    assets.getExtendedAsset(WavesUtils.toId(assetFrom)),
+                    assets.getExtendedAsset(WavesUtils.toId(assetTo)),
                     this.getRate(assetFrom, assetTo, date)
                 ])
                     .then(([from, to, rate]) => {

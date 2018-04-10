@@ -49,7 +49,7 @@
                 this.syncSettings({ pinnedAssetIdList: 'pinnedAssetIdList' });
 
                 this.mirrorId = user.getSetting('baseAssetId');
-                waves.node.assets.info(this.mirrorId)
+                waves.node.assets.getExtendedAsset(this.mirrorId)
                     .then((mirror) => {
                         this.mirror = mirror;
                     });
