@@ -145,7 +145,7 @@
             static _normalizeUrl(urlString) {
                 const url = new URL(urlString);
                 const protocol = `${url.protocol}//`;
-                return protocol + (`${url.host}/${url.pathname}/${url.search}${url.hash}`.replace(/\/\//g, '/'))
+                return protocol + (`${url.host}/${url.pathname}/${url.search}${url.hash}`.replace(/\/+/g, '/'))
                     .replace(/\/$/, '');
             }
 
