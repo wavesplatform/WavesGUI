@@ -3,12 +3,12 @@
 
     const PATH = 'modules/welcome/templates';
 
-    const controller = function ($state, user, modalManager) {
+    const controller = function (Base, $scope, $state, user, modalManager) {
 
-        class WelcomeCtrl {
+        class WelcomeCtrl extends Base {
 
             get user() {
-                return this.userList[this.activeUserIndex];
+                return this.userList[this._activeUserIndex];
             }
 
             get encryptedSeed() {
@@ -16,6 +16,7 @@
             }
 
             constructor() {
+                super($scope);
                 /**
                  * @type {string}
                  */
@@ -27,11 +28,17 @@
                 /**
                  * @type {number}
                  */
-                this.activeUserIndex = 0;
+                this._activeUserIndex = null;
+                this.activeUserAddress = null;
+
+                this.observe('activeUserAddress', this._currentActiveIndex);
 
                 user.getUserList()
                     .then((list) => {
                         this.userList = list;
+                        if (list.length) {
+                            this.activeUserAddress = list[0].address;
+                        }
                         this._updatePageUrl();
                     });
             }
@@ -66,9 +73,13 @@
              */
             removeUser(address) {
                 user.removeUserByAddress(address);
-                this._updatePageUrl();
                 this.userList = this.userList.filter((user) => user.address !== address);
-                this.activeUserIndex = 0;
+                if (this.userList.length) {
+                    this.activeUserAddress = this.userList[0].address;
+                } else {
+                    this.activeUserAddress = null;
+                }
+                this._updatePageUrl();
             }
 
             /**
@@ -82,12 +93,34 @@
                 }
             }
 
+            /**
+             * @private
+             */
+            _currentActiveIndex() {
+                const activeAddress = this.activeUserAddress;
+                let index = null;
+
+                if (!activeAddress) {
+                    return null;
+                }
+
+                this.userList.some(({ address }, i) => {
+                    if (address === activeAddress) {
+                        index = i;
+                        return true;
+                    }
+                    return false;
+                });
+
+                this._activeUserIndex = index;
+            }
+
         }
 
         return new WelcomeCtrl();
     };
 
-    controller.$inject = ['$state', 'user', 'modalManager'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager'];
 
     angular.module('app.welcome')
         .controller('WelcomeCtrl', controller);
