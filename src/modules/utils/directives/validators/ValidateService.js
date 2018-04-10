@@ -119,7 +119,7 @@
                     return false;
                 } else if (value && value === 'no-self') {
                     return !waves.node.aliases.getAliasList().includes(address) &&
-                            waves.node.aliases.getAddress(address);
+                        waves.node.aliases.getAddress(address);
                 } else {
                     return waves.node.aliases.getAddress(address);
                 }
@@ -135,6 +135,10 @@
                 }
 
                 if (address.length >= WavesApp.maxAddressLength) {
+                    return false;
+                }
+
+                if (!waves.node.isValidAddress(address)) {
                     return false;
                 }
 
