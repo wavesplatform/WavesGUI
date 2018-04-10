@@ -31,7 +31,7 @@
                 this.errorPath = search.e;
                 this.hasIcon = false;
                 this.noReferer = false;
-                this.titleLiteral = 'modal.gateawaySign.title';
+                this.titleLiteral = 'modal.gatewaySign.title';
                 this.imageSrc = null;
                 this.noCloseIcon = true;
 
@@ -101,7 +101,7 @@
              */
             _checkParams() {
                 if (!this.referrer) {
-                    this.titleLiteral = 'modal.gateawaySign.error.title';
+                    this.titleLiteral = 'modal.gatewaySign.error.title';
                     this.noReferer = true;
                 }
 

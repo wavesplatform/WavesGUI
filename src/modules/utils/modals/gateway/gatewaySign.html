@@ -1,6 +1,6 @@
-<div class="gateaway text-center">
+<div class="gateway text-center">
     <div ng-if="::!$ctrl.noReferer">
-        <div class="gateaway-icon" ng-if="$ctrl.hasIcon">
+        <div class="gateway-icon" ng-if="$ctrl.hasIcon">
             <img ng-src="{{$ctrl.imageSrc}}"/>
         </div>
         <div class="app-name headline-2 basic-700" ng-if="!$ctrl.hasIcon">
@@ -8,20 +8,20 @@
         </div>
 
         <h3 class="basic-700">
-            <w-i18n params="{name: $ctrl.appName}">modal.gateawaySign.headline</w-i18n>
+            <w-i18n params="{name: $ctrl.appName}">modal.gatewaySign.headline</w-i18n>
         </h3>
 
         <div class="content margin-4 body-2 basic-500">
             <i class="icon-lock"></i>
-            <w-i18n>modal.gateawaySign.description</w-i18n>
+            <w-i18n>modal.gatewaySign.description</w-i18n>
         </div>
 
         <div class="buttons-wrapper">
             <w-button class="big" on-click="$ctrl.cancel()">
-                <w-i18n>modal.gateawaySign.cancel</w-i18n>
+                <w-i18n>modal.gatewaySign.cancel</w-i18n>
             </w-button>
             <w-button class="big submit" on-click="$ctrl.send()">
-                <w-i18n>modal.gateawaySign.continue</w-i18n>
+                <w-i18n>modal.gatewaySign.continue</w-i18n>
             </w-button>
         </div>
     </div>
@@ -29,11 +29,11 @@
         <div class="icon-disconnected"></div>
 
         <h3 class="margin-4 basic-700">
-            <w-i18n params="{name: $ctrl.appName}">modal.gateawaySign.error.headline</w-i18n>
+            <w-i18n params="{name: $ctrl.appName}">modal.gatewaySign.error.headline</w-i18n>
         </h3>
 
         <w-button class="big long white" w-modal-close>
-            <w-i18n>modal.gateawaySign.error.button</w-i18n>
+            <w-i18n>modal.gatewaySign.error.button</w-i18n>
         </w-button>
     </div>
 </div>
