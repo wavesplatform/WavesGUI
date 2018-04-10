@@ -76,7 +76,8 @@
                     .then((fullProps) => new ExtendedAsset(remapAssetProps(fullProps)))
                     .catch(() => {
                         if (id === Waves.constants.WAVES_PROPS.id) {
-                            return Promise.resolve(Waves.constants.WAVES_PROPS);
+                            const wavesTx = remapAssetProps(Waves.constants.WAVES_V1_ISSUE_TX);
+                            return Promise.resolve(new ExtendedAsset(wavesTx));
                         }
                         return Waves.API.Node.v1.transactions.get(id)
                             .then((partialProps) => new ExtendedAsset(remapAssetProps(partialProps)));
