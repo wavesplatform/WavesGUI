@@ -14,6 +14,7 @@ w-left-menu {
   background-color: @color-white;
   z-index: 30;
 
+
   .logo-wrapper {
     margin: 15px auto 20px auto;
   }
@@ -30,6 +31,7 @@ w-left-menu {
     width: 100%;
     position: relative;
     height: calc(100vh ~'- 90px');
+    min-height: 280px;
 
     w-responsive-menu-item.settings {
       position: absolute;
@@ -188,6 +190,7 @@ w-left-menu {
       z-index: 16;
       box-shadow: 0 5px 5px @color-basic-50;
       margin-top: -1px;
+      min-height: auto;
 
       &.wallet-items-hide {
 
