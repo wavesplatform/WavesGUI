@@ -99,7 +99,6 @@
 
                 return `<${tagName} class="${classes}">${content}</${tagName}>`;
             } catch (e) {
-                console.warn(`Locale: parse tag error. ${e.message}`);
                 return content;
             }
         };
@@ -114,7 +113,6 @@
 
                 return `<a href="${content}" target="_blank">${main}</a>`;
             } catch (e) {
-                console.warn(`Locale: localize url parse error. ${e.message}`);
                 return '';
             }
         };
