@@ -22,3 +22,13 @@
 
     angular.module('app.utils').factory('outerBlockchains', factory);
 })();
+
+/**
+ * @typedef {function} IIsValidAddress
+ * @param {string} address
+ * @return {boolean}
+ */
+
+/**
+ * @typedef {Object.<string, IIsValidAddress>} IOuterBlockchains
+ */

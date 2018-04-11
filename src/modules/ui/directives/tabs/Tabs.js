@@ -24,6 +24,9 @@
             this._initializeSelected();
         }
 
+        /**
+         * @private
+         */
         _initializeSelected() {
             if (this.selected) {
                 const selected = tsUtils.find(this.tabs, { id: this.selected });

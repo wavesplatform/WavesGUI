@@ -1,0 +1,324 @@
+(function () {
+    'use strict';
+
+    /**
+     * @param {Base} Base
+     * @param {$rootScope.Scope} $scope
+     * @param {app.utils} utils
+     * @param {IPollCreate} createPoll
+     * @param {IOuterBlockchains} outerBlockchains
+     * @param {User} user
+     * @param {Waves} waves
+     */
+    const controller = function (Base, $scope, utils, createPoll, waves, outerBlockchains, user) {
+
+        class SingleSend extends Base {
+
+            constructor() {
+                super();
+                /**
+                 * @type {string}
+                 */
+                this.assetId = null;
+                /**
+                 * @type {Function}
+                 */
+                this.onContinue = null;
+                /**
+                 * @type {string}
+                 */
+                this.focus = null;
+                /**
+                 * @type {string}
+                 */
+                this.mirrorId = null;
+                /**
+                 * @type {Money}
+                 */
+                this.mirror = null;
+                /**
+                 * @type {boolean}
+                 */
+                this.noMirror = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.outerSendMode = false;
+                /**
+                 * @type {object}
+                 */
+                this.gatewayDetails = null;
+                /**
+                 * @type {boolean}
+                 */
+                this.hasComission = true;
+                /**
+                 * @type {Array}
+                 */
+                this.feeList = null;
+                /**
+                 * @type {Object.<string, Money>}
+                 */
+                this.moneyHash = null;
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
+                this._noCurrentRate = false;
+
+                this.syncSettings({
+                    mirrorId: 'baseAssetId'
+                });
+
+                utils.whenAll([
+                    waves.node.assets.fee('transfer'),
+                    this.poll.ready
+                ]).then(([[fee]]) => {
+
+                    this.observe('gatewayDetails', this._currentHasCommission);
+                    this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
+
+                    this.tx.fee = fee;
+                    this.tx.amount = this.moneyHash[this.assetId].cloneWithTokens('0');
+                    this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
+
+                    this.observe('assetId', this._onChangeAssetId);
+                    this.observe('mirrorId', this._onChangeMirrorId);
+                    this.observe(['assetId', 'mirrorId'], () => this.poll.restart());
+                    this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
+                    this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
+                    this.observe('mirror', this._onChangeAmountMirror);
+
+                    this._onChangeBaseAssets();
+                    this._updateGatewayDetails();
+                });
+            }
+
+            createTx() {
+                const toGateway = this.outerSendMode && this.gatewayDetails;
+
+                const tx = waves.node.transactions.createTransaction('transfer', {
+                    ...this.tx,
+                    sender: user.address,
+                    recipient: toGateway ? this.gatewayDetails.address : this.tx.recipient,
+                    attachment: toGateway ? this.gatewayDetails.attachment : this.tx.attachment
+                });
+
+                this.txInfo = tx;
+                this.step++;
+            }
+
+            fillMax() {
+                let amount = null;
+                const moneyHash = utils.groupMoney(this.feeList);
+                if (moneyHash[this.assetId]) {
+                    amount = this.balance.sub(moneyHash[this.assetId]);
+                } else {
+                    amount = this.balance;
+                }
+
+                if (amount.getTokens().lt(0)) {
+                    amount = this.moneyHash[this.assetId].cloneWithTokens('0');
+                }
+
+                waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
+                    this._noCurrentRate = true;
+                    this.mirror = amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
+                    this.tx.amount = amount;
+                    this._noCurrentRate = false;
+                });
+            }
+
+            onBlurMirror() {
+                if (!this.mirror) {
+                    this._fillMirror();
+                }
+                this.focus = '';
+            }
+
+            onReadQrCode(result) {
+                this.tx.recipient = result.body;
+
+                analytics.push('Send', 'Send.QrCodeRead', 'Send.QrCodeRead.Success');
+
+                if (result.params) {
+
+                    const applyAmount = () => {
+                        if (result.params.amount) {
+                            this.tx.amount = this.moneyHash[this.assetId].cloneWithCoins(result.params.amount);
+                            this._fillMirror();
+                        }
+                    };
+
+                    if (result.params.assetId) {
+                        waves.node.assets.balance(result.params.assetId).then(({ available }) => {
+                            this.moneyHash[available.asset.id] = available;
+
+                            if (this.assetId !== available.asset.id) {
+                                const myAssetId = this.assetId;
+                                this.assetId = available.asset.id;
+                                this.canChooseAsset = true;
+                                // TODO fix (hack for render asset avatar)
+                                this.choosableMoneyList = [this.moneyHash[myAssetId], available];
+                            }
+
+                            applyAmount();
+                        }, applyAmount);
+                    } else {
+                        applyAmount();
+                    }
+                }
+            }
+
+            /**
+             * @private
+             */
+            _onChangeMirrorId() {
+                if (!this.mirrorId) {
+                    throw new Error('Has no asset id!');
+                }
+
+                this._onChangeBaseAssets();
+
+                if (!this.moneyHash[this.mirrorId]) {
+                    return null;
+                }
+
+                this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
+                this._onChangeAmount();
+            }
+
+            /**
+             * @private
+             */
+            _onChangeAssetId() {
+                if (!this.assetId) {
+                    throw new Error('Has no asset id!');
+                }
+
+                this._onChangeBaseAssets();
+
+                if (!this.moneyHash[this.assetId]) {
+                    return null;
+                }
+
+                this.tx.amount = this.moneyHash[this.assetId].cloneWithTokens('0');
+                this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
+                this._updateGatewayDetails();
+
+                analytics.push('Send', 'Send.ChangeCurrency', this.assetId);
+            }
+
+            /**
+             * @private
+             */
+            _currentHasCommission() {
+                const details = this.gatewayDetails;
+
+                const check = (feeList) => {
+                    const feeHash = utils.groupMoney(feeList);
+                    const balanceHash = this.moneyHash;
+                    this.hasComission = Object.keys(feeHash).every((feeAssetId) => {
+                        const fee = feeHash[feeAssetId];
+                        return balanceHash[fee.asset.id] && balanceHash[fee.asset.id].gt(fee);
+                    });
+                };
+
+                if (details) {
+                    const gatewayFee = this.balance.cloneWithTokens(details.gatewayFee);
+                    this.feeList = [this.tx.fee, gatewayFee];
+                    check(this.feeList);
+                } else {
+                    this.feeList = [this.tx.fee];
+                    check(this.feeList);
+                }
+            }
+
+            /**
+             * @private
+             */
+            _onChangeBaseAssets() {
+                if (this.assetId === this.mirrorId) {
+                    this.noMirror = true;
+                } else {
+                    waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
+                        this.noMirror = rate.eq(0);
+                    });
+                }
+            }
+
+            /**
+             * @private
+             */
+            _onChangeAmount() {
+                if (!this._noCurrentRate && !this.noMirror && this.tx.amount && this.focus === 'amount') {
+                    this._fillMirror();
+                }
+            }
+
+            /**
+             * @private
+             */
+            _onChangeAmountMirror() {
+                if (!this._noCurrentRate && this.mirror && this.focus === 'mirror') {
+                    this._fillAmount();
+                }
+            }
+
+            /**
+             * @private
+             */
+            _fillMirror() {
+                utils.when(waves.utils.getRate(this.assetId, this.mirrorId)).then((rate) => {
+                    this.mirror = this.tx.amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
+                });
+            }
+
+            /**
+             * @private
+             */
+            _fillAmount() {
+                utils.when(waves.utils.getRate(this.mirrorId, this.assetId)).then((rate) => {
+                    this.tx.amount = this.mirror.convertTo(this.moneyHash[this.assetId].asset, rate);
+                });
+            }
+
+            /**
+             * @private
+             */
+            _updateGatewayDetails() {
+                const outerChain = outerBlockchains[this.assetId];
+                const isValidWavesAddress = waves.node.isValidAddress(this.tx.recipient);
+
+                this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
+
+                if (this.outerSendMode) {
+                    // TODO uncoment!
+                    // gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient).then((details) => {
+                    //     this.gatewayDetails = details;
+                    // $scope.$digest();
+                    // TODO : validate amount field for gateway minimumAmount and maximumAmount
+                    // });
+                } else {
+                    this.gatewayDetails = null;
+                }
+            }
+
+        }
+
+        return new SingleSend();
+    };
+
+    controller.$inject = ['Base', '$scope', 'utils', 'createPoll', 'waves', 'outerBlockchains', 'user'];
+
+    angular.module('app.ui').component('w', {
+        bindings: {
+            assetId: '<',
+            moneyHash: '<',
+            onContinue: '&'
+        },
+        templateUrl: '.html',
+        transclude: false,
+        controller
+    });
+})();
