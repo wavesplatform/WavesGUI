@@ -14,12 +14,43 @@
 
         class SingleSend extends Base {
 
+            /**
+             * @return {ISingleSendTx}
+             */
+            get tx() {
+                return this.state.singleSend;
+            }
+
+            /**
+             * @return {string}
+             */
+            get assetId() {
+                return this.state.assetId;
+            }
+
+            /**
+             * @return {string}
+             */
+            get mirrorId() {
+                return this.state.mirrorId;
+            }
+
+            /**
+             * @return {Object<string, Money>}
+             */
+            get moneyHash() {
+                return this.state.moneyHash;
+            }
+
+            /**
+             * @return {Money}
+             */
+            get balance() {
+                return this.moneyHash[this.assetId];
+            }
+
             constructor() {
                 super();
-                /**
-                 * @type {string}
-                 */
-                this.assetId = null;
                 /**
                  * @type {Function}
                  */
@@ -28,10 +59,6 @@
                  * @type {string}
                  */
                 this.focus = null;
-                /**
-                 * @type {string}
-                 */
-                this.mirrorId = null;
                 /**
                  * @type {Money}
                  */
@@ -57,40 +84,37 @@
                  */
                 this.feeList = null;
                 /**
-                 * @type {Object.<string, Money>}
+                 * @type {ISendState}
                  */
-                this.moneyHash = null;
+                this.state = Object.create(null);
                 /**
                  * @type {boolean}
                  * @private
                  */
                 this._noCurrentRate = false;
+            }
 
-                this.syncSettings({
-                    mirrorId: 'baseAssetId'
-                });
+            $postLink() {
+                this.receiveOnce(utils.observe(this.state, 'moneyHash'), () => {
+                    waves.node.assets.fee('transfer').then(([fee]) => {
 
-                utils.whenAll([
-                    waves.node.assets.fee('transfer'),
-                    this.poll.ready
-                ]).then(([[fee]]) => {
+                        this.observe('gatewayDetails', this._currentHasCommission);
+                        this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
 
-                    this.observe('gatewayDetails', this._currentHasCommission);
-                    this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
+                        this.tx.fee = fee;
+                        this.tx.amount = this.tx.amount || this.moneyHash[this.assetId].cloneWithTokens('0');
+                        this._fillMirror();
 
-                    this.tx.fee = fee;
-                    this.tx.amount = this.moneyHash[this.assetId].cloneWithTokens('0');
-                    this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
+                        this.receive(utils.observe(this.state, 'assetId'), this._onChangeAssetId, this);
+                        this.receive(utils.observe(this.state, 'mirrorId'), this._onChangeMirrorId, this);
 
-                    this.observe('assetId', this._onChangeAssetId);
-                    this.observe('mirrorId', this._onChangeMirrorId);
-                    this.observe(['assetId', 'mirrorId'], () => this.poll.restart());
-                    this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
-                    this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
-                    this.observe('mirror', this._onChangeAmountMirror);
+                        this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
+                        this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
+                        this.observe('mirror', this._onChangeAmountMirror);
 
-                    this._onChangeBaseAssets();
-                    this._updateGatewayDetails();
+                        this._onChangeBaseAssets();
+                        this._updateGatewayDetails();
+                    });
                 });
             }
 
@@ -104,8 +128,7 @@
                     attachment: toGateway ? this.gatewayDetails.attachment : this.tx.attachment
                 });
 
-                this.txInfo = tx;
-                this.step++;
+                this.onContinue({ tx });
             }
 
             fillMax() {
@@ -218,6 +241,7 @@
                 const check = (feeList) => {
                     const feeHash = utils.groupMoney(feeList);
                     const balanceHash = this.moneyHash;
+
                     this.hasComission = Object.keys(feeHash).every((feeAssetId) => {
                         const fee = feeHash[feeAssetId];
                         return balanceHash[fee.asset.id] && balanceHash[fee.asset.id].gt(fee);
@@ -311,14 +335,21 @@
 
     controller.$inject = ['Base', '$scope', 'utils', 'createPoll', 'waves', 'outerBlockchains', 'user'];
 
-    angular.module('app.ui').component('w', {
+    angular.module('app.ui').component('wSingleSend', {
         bindings: {
-            assetId: '<',
-            moneyHash: '<',
+            state: '<',
             onContinue: '&'
         },
-        templateUrl: '.html',
-        transclude: false,
+        templateUrl: 'modules/utils/modals/sendAsset/components/singleSend/single-send.html',
+        transclude: true,
         controller
     });
 })();
+
+/**
+ * @typedef {object} ISendTx
+ * @property {Money} fee
+ * @property {Money} amount
+ * @property {string} recipient
+ * @property {string} attachment
+ */

@@ -3,15 +3,15 @@
         <w-step>
             <w-tabs selected="{{::$ctrl.defaultTab}}">
                 <w-tab title-name="modal.send.sendTitle" id="send">
-                    <w-send-single asset-id="$ctrl.assetId" on-continue="$ctrl.nextStep()">
+                    <w-single-send state="$ctrl.state"
+                                   on-continue="$ctrl.nextStep(tx)">
                         <ng-include src="::$ctrl.headerPath"></ng-include>
-                    </w-send-single>
-                    <w-mass-send asset-id="$ctrl.assetId" on-continue="$ctrl.nextStep()">
-                        <ng-include src="::$ctrl.headerPath"></ng-include>
-                    </w-mass-send>
+                    </w-single-send>
                 </w-tab>
                 <w-tab title-name="modal.send.massSendTitle" id="massSend">
-
+                    <w-mass-send state="$ctrl.state" on-continue="$ctrl.nextStep()">
+                        <ng-include src="::$ctrl.headerPath"></ng-include>
+                    </w-mass-send>
                 </w-tab>
             </w-tabs>
         </w-step>

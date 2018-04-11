@@ -6,13 +6,11 @@
      * @param {Waves} waves
      * @param {Base} Base
      * @param {app.utils} utils
-     * @param {User} user
      * @param {IPollCreate} createPoll
-     * @param outerBlockchains
-     * @param {GatewayService} gatewayService
+     * @param {User} user
      * @return {AssetSendCtrl}
      */
-    const controller = function ($scope, waves, Base, utils, createPoll) {
+    const controller = function ($scope, waves, Base, utils, createPoll, user) {
 
         class AssetSendCtrl extends Base {
 
@@ -20,7 +18,7 @@
              * @return {Money}
              */
             get balance() {
-                return this.moneyHash && this.moneyHash[this.assetId];
+                return this.state.moneyHash && this.state.moneyHash[this.state.assetId];
             }
 
             /**
@@ -33,7 +31,7 @@
                 /**
                  * @type {string}
                  */
-                this.recipient = '';
+                this.headerPath = 'modules/utils/modals/sendAsset/send-header.html';
                 /**
                  * @type {typeof WavesApp.defaultAssets}
                  */
@@ -51,35 +49,51 @@
                  */
                 this.canChooseAsset = !assetId || canChooseAsset;
                 /**
-                 * @type {string}
-                 */
-                this.assetId = assetId || WavesApp.defaultAssets.WAVES;
-                /**
                  * @type {Object.<string, Money>}
                  */
                 this.moneyHash = null;
                 /**
+                 * @type {ISendState}
+                 */
+                this.state = {
+                    assetId: assetId || WavesApp.defaultAssets.WAVES,
+                    mirrorId: user.getSetting('baseAssetId'),
+                    moneyHash: null,
+                    singleSend: Object.create(null),
+                    massSend: Object.create(null)
+                };
+                /**
                  * @type {Poll}
                  */
-                this.poll = createPoll(this, this._getBalanceList, 'moneyHash', 1000, { isBalance: true });
+                this.poll = createPoll(this, this._getBalanceList, 'state.moneyHash', 1000, { isBalance: true });
+                /**
+                 * @type {*}
+                 */
+                this.txInfo = Object.create(null);
 
-                this.observe('moneyHash', this._onChangeMoneyHash);
+                this.receive(utils.observe(this.state, 'moneyHash'), this._onChangeMoneyHash, this);
+                this.receive(utils.observe(this.state, 'assetId'), () => this.poll.restart());
             }
 
             back() {
                 this.step--;
             }
 
+            nextStep(tx) {
+                this.txInfo = tx;
+                this.step++;
+            }
+
             /**
              * @private
              */
             _onChangeMoneyHash() {
-                const hash = this.moneyHash;
+                const hash = this.state.moneyHash;
                 const list = Object.values(hash).filter((money) => !money.getTokens().eq(0));
                 if (list.length) {
                     this.choosableMoneyList = list;
                 } else {
-                    this.choosableMoneyList = [this.moneyHash[this.assetId]];
+                    this.choosableMoneyList = [this.state.moneyHash[this.state.assetId]];
                 }
             }
 
@@ -92,8 +106,8 @@
                     .then((list) => list.map(({ available }) => available))
                     .then((list) => list.filter((money) => money.getTokens().gt(0)))
                     .then((list) => utils.toHash(list, 'asset.id'))
-                    .then(AssetSendCtrl._getAddMoneyProcessor(this.assetId))
-                    .then(AssetSendCtrl._getAddMoneyProcessor(this.mirrorId));
+                    .then(AssetSendCtrl._getAddMoneyProcessor(this.state.assetId))
+                    .then(AssetSendCtrl._getAddMoneyProcessor(this.state.mirrorId));
             }
 
             /**
@@ -124,7 +138,8 @@
         'waves',
         'Base',
         'utils',
-        'createPoll'
+        'createPoll',
+        'user'
     ];
 
     angular.module('app.utils')
@@ -135,4 +150,33 @@
  * @typedef {function} AssetSendCtrl.IMoneyProcessor
  * @param {Object.<IMoney>} hash
  * @return {Object.<Money>}
+ */
+
+/**
+ * @typedef {object} ISingleSendTx
+ * @property {string} recipient
+ * @property {Money} amount
+ * @property {Money} fee
+ * @property {string} attachment
+ */
+
+/**
+ * @typedef {object} IMassSendTx
+ * @property {string} attachment
+ * @property {Array<ITransferItem>} transfers
+ */
+
+/**
+ * @typedef {object} ITransferItem
+ * @property {string} recipient
+ * @property {Money} amount
+ */
+
+/**
+ * @typedef {object} ISendState
+ * @property {string} assetId
+ * @property {string} mirrorId
+ * @property {Object.<string, Money>} moneyHash
+ * @property {ISingleSendTx} singleSend
+ * @property {IMassSendTx} massSend
  */
