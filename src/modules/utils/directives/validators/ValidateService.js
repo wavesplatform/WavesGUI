@@ -52,26 +52,22 @@
 
             @notNullArgs
             byteLt(inputValue, bytes) {
-                const blob = new Blob([inputValue], { type: 'text/html' });
-                return blob.size < Number(bytes);
+                return this.getByteFromString(inputValue) < Number(bytes);
             }
 
             @notNullArgs
             byteLte(inputValue, bytes) {
-                const blob = new Blob([inputValue], { type: 'text/html' });
-                return blob.size <= Number(bytes);
+                return this.getByteFromString(inputValue) <= Number(bytes);
             }
 
             @notNullArgs
             byteGt(inputValue, bytes) {
-                const blob = new Blob([inputValue], { type: 'text/html' });
-                return blob.size > Number(bytes);
+                return this.getByteFromString(inputValue) > Number(bytes);
             }
 
             @notNullArgs
             byteGte(inputValue, bytes) {
-                const blob = new Blob([inputValue], { type: 'text/html' });
-                return blob.size >= Number(bytes);
+                return this.getByteFromString(inputValue) >= Number(bytes);
             }
 
             @notNullArgs
@@ -156,6 +152,10 @@
                     }, (e) => {
                         return $q.reject(e.message);
                     });
+            }
+
+            getByteFromString(str) {
+                return new Blob([str], { type: 'text/html' }).size;
             }
 
             static toBigNumber(item) {

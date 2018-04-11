@@ -42,5 +42,13 @@
     "error": "Wrong order, try again.",
     "clear": "Clear",
     "again": "and tap again"
+  },
+  "modal": {
+    "prev": "Go back",
+    "next": "Confirm",
+    "understand": "I Understand",
+    "successHeadline": "Treat your backup phrase with care!",
+    "successContent": "You cannot change your secret phrase. If you accidentally sent it to someone or suspect that scammers have taken it over, then create a new Waves wallet immediately and transfer your funds to it.",
+    "confirmBackupDescription": "Verify your backup phrase"
   }
 }

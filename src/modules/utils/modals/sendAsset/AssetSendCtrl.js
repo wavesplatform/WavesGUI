@@ -7,7 +7,7 @@
      * @param {Base} Base
      * @param {app.utils} utils
      * @param {User} user
-     * @param {function} createPoll
+     * @param {IPollCreate} createPoll
      * @param outerBlockchains
      * @param {GatewayService} gatewayService
      * @return {AssetSendCtrl}

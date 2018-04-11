@@ -7,7 +7,7 @@
      * @param {Scope} $scope
      * @param {Waves} waves
      * @param {DataFeed} dataFeed
-     * @param {function} createPoll
+     * @param {IPollCreate} createPoll
      * @return {TradeHistory}
      */
     const controller = function (Base, $scope, waves, dataFeed, createPoll) {

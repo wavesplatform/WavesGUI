@@ -5,7 +5,7 @@
      * @param {Base} Base
      * @param {JQuery} $element
      * @param {app.utils.mediaStream} mediaStream
-     * @param {Function} createPoll
+     * @param {IPollCreate} createPoll
      * @param {app.utils} utils
      * @return {QrCodeRead}
      */

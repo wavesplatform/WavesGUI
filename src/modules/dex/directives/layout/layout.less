@@ -152,6 +152,34 @@ w-layout {
       }
     }
 
+    w-dex-my-orders,
+    w-dex-trade-history {
+      .empty-block-container {
+        margin: 4vh auto;
+
+        .icon {
+          margin-top: 0;
+        }
+      }
+    }
+
+    w-dex-order-book {
+      position: relative;
+      min-height: 200px;
+
+      .empty-block-container {
+        position: absolute;
+        margin: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        .icon {
+          margin-top: 0;
+        }
+      }
+    }
+
   }
 
   .chart-toggler {
@@ -164,6 +192,11 @@ w-layout {
 
 }
 
+html body.dex .notifications,
+body.dex .notifications {
+  position: fixed
+}
+
 w-dex-candle-chart {
   .candle-chart-wrapper {
     height: 100%
@@ -171,7 +204,7 @@ w-dex-candle-chart {
 }
 
 /* Tablet */
-@media screen and (min-width: 481px) and (max-width: 768px) and (min-height:481px) {
+@media screen and (min-width: 481px) and (max-width: 768px) and (min-height: 481px) {
 
   w-layout {
 
@@ -188,7 +221,7 @@ w-dex-candle-chart {
         padding-right: 48px;
         min-width: 360px;
         z-index: 18;
-        padding-top:60px;
+        padding-top: 60px;
         height: 100vh;
         position: fixed;
         background: #fff;
@@ -322,7 +355,7 @@ w-dex-candle-chart {
 /* end Tablet */
 /* Mobile */
 @media screen and (max-width: 480px),
-              (min-width: 481px) and (max-width: 768px) and (max-height:480px) {
+(min-width: 481px) and (max-width: 768px) and (max-height: 480px) {
 
   w-layout {
 

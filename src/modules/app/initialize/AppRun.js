@@ -3,6 +3,8 @@
 (function () {
     'use strict';
 
+    const tsUtils = require('ts-utils');
+
     const PROGRESS_MAP = {
         RUN_SCRIPT: 10,
         APP_RUN: 15,
@@ -36,39 +38,20 @@
     LOADER.addProgress(PROGRESS_MAP.RUN_SCRIPT);
 
     /**
-     * @param $rootScope
+     * @param {$rootScope.Scope} $rootScope
      * @param {User} user
      * @param {app.utils} utils
      * @param $state
      * @param {State} state
      * @param {ModalManager} modalManager
+     * @param {Storage} storage
+     * @param {INotification} notification
+     * @param {ExtendedAsset} ExtendedAsset
+     * @param {app.utils.decorators} decorators
      * @return {AppRun}
      */
-    const run = function ($rootScope, utils, user, $state, state, modalManager, storage) {
-
-        class ExtendedAsset extends Waves.Asset {
-
-            constructor(props) {
-                super({
-                    ...props,
-                    name: WavesApp.remappedAssetNames[props.id] || props.name
-                    // ID, name, precision and description are added here
-                });
-
-                this.reissuable = props.reissuable;
-                this.timestamp = props.timestamp;
-                this.sender = props.sender;
-                this.height = props.height;
-
-                const divider = new BigNumber(10).pow(this.precision);
-                this.quantity = new BigNumber(props.quantity).div(divider);
-
-                this.ticker = props.ticker || '';
-                this.sign = props.sign || '';
-                this.displayName = props.ticker || props.name;
-            }
-
-        }
+    const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
+                          notification, ExtendedAsset, decorators) {
 
         function remapAssetProps(props) {
             props.precision = props.decimals;
@@ -78,26 +61,33 @@
 
         const cache = Object.create(null);
         Waves.config.set({
-            assetFactory(props) {
+            /**
+             * @param {string} id
+             * @return {Promise<ExtendedAsset>}
+             */
+            assetFactory(id) {
 
-                if (cache[props.id]) {
-                    return cache[props.id];
+                if (cache[id]) {
+                    return cache[id];
                 }
 
-                const promise = fetch(`${WavesApp.network.api}/assets/${props.id}`)
+                const promise = fetch(`${WavesApp.network.api}/assets/${id}`)
                     .then(utils.onFetch)
                     .then((fullProps) => new ExtendedAsset(remapAssetProps(fullProps)))
                     .catch(() => {
-                        return Waves.API.Node.v1.transactions.get(props.id)
+                        if (id === Waves.constants.WAVES_PROPS.id) {
+                            return Promise.resolve(Waves.constants.WAVES_PROPS);
+                        }
+                        return Waves.API.Node.v1.transactions.get(id)
                             .then((partialProps) => new ExtendedAsset(remapAssetProps(partialProps)));
                     });
 
-                cache[props.id] = promise;
-                cache[props.id].catch(() => {
-                    delete cache[props.id];
+                cache[id] = promise;
+                cache[id].catch(() => {
+                    delete cache[id];
                 });
 
-                return cache[props.id];
+                return cache[id];
             }
         });
 
@@ -172,8 +162,8 @@
              */
             _initializeLogin() {
 
-                storage.onReady().then((isNew) => {
-                    if (isNew) {
+                storage.onReady().then((oldVersion) => {
+                    if (!oldVersion) {
                         modalManager.showTutorialModals();
                     }
                 });
@@ -198,18 +188,12 @@
                                 $state.go(user.getActiveState('wallet'));
                             }
 
-                            const termsAccepted = user.getSetting('termsAccepted');
                             i18next.changeLanguage(user.getSetting('lng'));
 
-                            if (!termsAccepted) {
-                                modalManager.showTermsAccept(user).then(() => {
-                                    if (user.getSetting('shareAnalytics')) {
-                                        analytics.activate();
-                                    }
+                            this._initializeTermsAccepted()
+                                .then(() => {
+                                    this._initializeBackupWarning();
                                 });
-                            } else if (user.getSetting('shareAnalytics')) {
-                                analytics.activate();
-                            }
 
                             $rootScope.$on('$stateChangeStart', (event, current) => {
                                 if (START_STATES.indexOf(current.name) !== -1) {
@@ -220,6 +204,82 @@
                             });
                         });
                 });
+            }
+
+            /**
+             * @return Promise
+             * @private
+             */
+            _initializeTermsAccepted() {
+                if (!user.getSetting('termsAccepted')) {
+                    return modalManager.showTermsAccept(user).then(() => {
+                        if (user.getSetting('shareAnalytics')) {
+                            analytics.activate();
+                        }
+                    })
+                        .catch(() => false);
+                } else if (user.getSetting('shareAnalytics')) {
+                    analytics.activate();
+                }
+                return Promise.resolve();
+            }
+
+            /**
+             * @param {object} [scope]
+             * @param {boolean} scope.closeByModal
+             * @private
+             */
+            @decorators.scope({ closeByModal: false })
+            _initializeBackupWarning(scope) {
+                if (!user.getSetting('hasBackup')) {
+
+                    const id = tsUtils.uniqueId('n');
+
+                    const changeModalsHandler = (modal) => {
+
+                        scope.closeByModal = true;
+                        notification.remove(id);
+                        scope.closeByModal = false;
+
+                        modal.catch(() => null)
+                            .then(() => {
+                                if (!user.getSetting('hasBackup')) {
+                                    this._initializeBackupWarning();
+                                }
+                            });
+                    };
+
+                    modalManager.openModal.once(changeModalsHandler);
+
+                    notification.error({
+                        id,
+                        ns: 'app.utils',
+                        title: {
+                            literal: 'notification.backup.title'
+                        },
+                        body: {
+                            literal: 'notification.backup.body'
+                        },
+                        action: {
+                            literal: 'notification.backup.action',
+                            callback: () => {
+                                modalManager.showSeedBackupModal();
+                            }
+                        },
+                        onClose: () => {
+                            if (scope.closeByModal || user.getSetting('hasBackup')) {
+                                return null;
+                            }
+
+                            modalManager.openModal.off(changeModalsHandler);
+
+                            const stop = $rootScope.$on('$stateChangeSuccess', () => {
+                                stop();
+                                this._initializeBackupWarning();
+                            });
+                        }
+                    }, -1);
+                }
             }
 
             /**
@@ -335,7 +395,19 @@
         return new AppRun();
     };
 
-    run.$inject = ['$rootScope', 'utils', 'user', '$state', 'state', 'modalManager', 'storage'];
+    run.$inject = [
+        '$rootScope',
+        'utils',
+        'user',
+        '$state',
+        'state',
+        'modalManager',
+        'storage',
+        'notification',
+        'ExtendedAsset',
+        'decorators',
+        'whatsNew'
+    ];
 
     angular.module('app')
         .run(run);

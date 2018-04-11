@@ -60,19 +60,19 @@
       "scanQrCode": "QR 코드 스캔",
       "coinomatBTC": {
         "warningTitle": "이 주소로 BTC만 보내십시오.",
-        "warningText" : "이 주소로 다른 통화를 보낼 경우 예금이 소멸될 수 있습니다."
+        "warningText": "이 주소로 다른 통화를 보낼 경우 예금이 소멸될 수 있습니다."
       },
       "coinomatETH": {
         "warningTitle": "스마트 계약에서의 ETH를 예금하지 마십시오!",
-        "warningText" : "귀하의 지갑 또는 거래소가 ETH를 인출할 때 스마트 계약 사용 여부를 확인하십시오. 우리는 이런 거래를 받아들이지 않으며 환불해드릴 수 없습니다. 그 금액이 소멸됩니다."
+        "warningText": "귀하의 지갑 또는 거래소가 ETH를 인출할 때 스마트 계약 사용 여부를 확인하십시오. 우리는 이런 거래를 받아들이지 않으며 환불해드릴 수 없습니다. 그 금액이 소멸됩니다."
       },
       "coinomatLTC": {
         "warningTitle": "이 주소로 LTC만 보내십시오.",
-        "warningText" : "이 주소로 다른 통화를 보낼 경우 예금이 소멸될 수 있습니다."
+        "warningText": "이 주소로 다른 통화를 보낼 경우 예금이 소멸될 수 있습니다."
       },
       "coinomatZEC": {
         "warningTitle": "이 주소로 Zcash만 보내십시오.",
-        "warningText" : "이 주소로 다른 통화를 보낼 경우 예금이 소멸될 수 있습니다."
+        "warningText": "이 주소로 다른 통화를 보낼 경우 예금이 소멸될 수 있습니다."
       }
     },
     "sepa": {
@@ -87,6 +87,7 @@
     },
     "account": {
       "title": "계정 정보",
+      "title_default_name": "",
       "address": "주소",
       "aliases": "별칭",
       "create": "새로 만들기",
