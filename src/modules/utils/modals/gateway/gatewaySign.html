@@ -1,15 +1,20 @@
-<div class="gateway text-center">
+<div class="gateway">
     <div ng-if="::!$ctrl.noReferer">
-        <div class="gateway-icon" ng-if="$ctrl.hasIcon">
+        <div class="text-center gateway-icon" ng-if="$ctrl.hasIcon">
             <img ng-src="{{$ctrl.imageSrc}}"/>
         </div>
-        <div class="app-name headline-2 basic-700" ng-if="!$ctrl.hasIcon">
-            {{::$ctrl.appName}}
+        <div class="headline-2 basic-700" ng-if="!$ctrl.hasIcon">
+            <i class="icon-connected"></i>
         </div>
 
-        <h3 class="basic-700">
-            <w-i18n params="{name: $ctrl.appName}">modal.gatewaySign.headline</w-i18n>
+        <h3 class="text-center margin-3 basic-700">
+            <w-i18n params="{url: $ctrl.referrer}">modal.gatewaySign.headline</w-i18n>
+            <!-- TODO @tsigel - add title -->
         </h3>
+
+        <div class="warning-plate margin-2 body-2 warning-500">
+            <w-i18n>modal.gatewaySign.warning</w-i18n>
+        </div>
 
         <div class="content margin-4 body-2 basic-500">
             <i class="icon-lock"></i>
@@ -28,9 +33,13 @@
     <div ng-if="::$ctrl.noReferer">
         <div class="icon-disconnected"></div>
 
-        <h3 class="margin-4 basic-700">
-            <w-i18n params="{name: $ctrl.appName}">modal.gatewaySign.error.headline</w-i18n>
+        <h3 class="text-center margin-4 basic-700">
+            <w-i18n>modal.gatewaySign.error.headline</w-i18n>
         </h3>
+
+        <div class="note-plate margin-4"><!-- TODO @tsigel - if debug -->
+            <pre class="body-2"><!-- TODO @tsigel - debug data--></pre>
+        </div>
 
         <w-button class="big long white" w-modal-close>
             <w-i18n>modal.gatewaySign.error.button</w-i18n>

@@ -1,3 +1,6 @@
+@import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
+
 .gateway {
 
   .gateway-icon {
@@ -12,8 +15,10 @@
     }
   }
 
-  .app-name {
-    margin: 50px auto 70px auto;
+  h3 {
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   .content {
@@ -31,6 +36,14 @@
     & > w-button {
       flex-basis: 48%;
     }
+  }
+
+  .note-plate {
+    background: @color-basic-50;
+    border-radius: @border-radius;
+    border: 1px dashed @color-basic-200;
+    padding: 12px;
+    overflow: auto;
   }
 
 }

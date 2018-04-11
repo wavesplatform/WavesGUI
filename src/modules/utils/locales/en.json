@@ -254,13 +254,14 @@
     },
     "gatewaySign": {
       "title": "Sign in with Waves",
-      "headline": "The {{name}} application will see your Waves address.",
-      "description": "The application will not get your SEED or Private key.",
+      "headline": "You will be redirect to {{url}}",
+      "description": "The application will have access your Waves address. It will not get your SEED or Private key.",
+      "warning": "Don't enter your secret phrase (SEED) on websites you will be redirected on.",
       "cancel": "Cancel",
       "continue": "Continue",
       "error": {
         "title": "Error",
-        "headline": "The redirect URL is not found",
+        "headline": "Something went wrong",
         "button": "Cancel"
       }
     }
