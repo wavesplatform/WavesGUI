@@ -7,6 +7,8 @@
      */
     const factory = function (utils) {
 
+        const tsUtils = require('ts-utils');
+
         class ComponentList {
 
             get length() {
@@ -22,6 +24,13 @@
                 if (components && components.length) {
                     this.add(components);
                 }
+                /**
+                 * @type {IComponentListSignals}
+                 */
+                this.signals = utils.liteObject({
+                    add: new tsUtils.Signal(),
+                    remove: new tsUtils.Signal()
+                });
             }
 
             /**
@@ -52,6 +61,15 @@
 
             filter(cb, context) {
                 return new ComponentList(this.components.filter(cb, context));
+            }
+
+            /**
+             * @param {Partial<IComponent>} props
+             * @return {ComponentList}
+             */
+            where(props) {
+                const filter = tsUtils.contains(props);
+                return new ComponentList(this.components.filter(filter));
             }
 
             /**
@@ -104,6 +122,7 @@
                 this.receiveOnce(component.signals.destroy, () => this.remove(component));
                 this._hash[component.cid] = component;
                 this.components.push(component);
+                this.signals.add.dispatch(component);
             }
 
             /**
@@ -115,6 +134,7 @@
                 const index = this.components.indexOf(component);
                 if (index !== -1) {
                     this.components.splice(index, 1);
+                    this.signals.remove.dispatch(component);
                 }
             }
 
@@ -148,4 +168,10 @@
  * @typedef {object} IComponent
  * @property {IBaseSignals} signals
  * @property {string} cid
+ */
+
+/**
+ * @typedef {object} IComponentListSignals
+ * @property {Signal<IComponent>} add
+ * @property {Signal<IComponent>} remove
  */

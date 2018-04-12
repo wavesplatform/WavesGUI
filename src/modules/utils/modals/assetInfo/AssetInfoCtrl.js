@@ -27,6 +27,10 @@
                 this.totalBalance = null;
                 this.transactions = [];
                 this.transactionsPending = true;
+                /**
+                 * @type {string}
+                 */
+                this.tab = null;
 
                 this.chartOptions = {
                     items: {
