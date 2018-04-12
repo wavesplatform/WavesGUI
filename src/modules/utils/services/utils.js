@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
-/* global tsUtils, BigNumber */
+/* global BigNumber */
 (function () {
     'use strict';
+
+    const tsUtils = require('ts-utils');
 
     /**
      * @name app.utils
@@ -691,6 +693,19 @@
             }
         }
 
+        function _getOriginalDescriptor(target, key) {
+            const descriptor = Object.getOwnPropertyDescriptor(target, key);
+
+            if (descriptor) {
+                return descriptor;
+            }
+
+            if (target.constructor && target.constructor !== Object.constructor && target.constructor.prototype) {
+                return Object.getOwnPropertyDescriptor(target.constructor.prototype, key);
+            }
+            return null;
+        }
+
         function _addObserverSignals(target, keys, options) {
             const observer = _getObserver(target);
             options = options || Object.create(null);
@@ -705,20 +720,46 @@
                     item.signal = new tsUtils.Signal();
                     item.timer = null;
                     item.value = target[key];
+
+                    const originalDescriptor = _getOriginalDescriptor(target, key);
                     observer[key] = item;
 
-                    Object.defineProperty(target, key, {
-                        enumerable: true,
-                        get: () => observer[key].value,
-                        set: (value) => {
-                            value = options.set ? options.set(value) : value;
-                            const prev = observer[key].value;
-                            if (isNotEqualValue(prev, value)) {
-                                observer[key].value = value;
-                                observer[key].signal.dispatch({ value, prev });
-                            }
+                    if (originalDescriptor && originalDescriptor.get) {
+
+                        const descriptor = {
+                            enumerable: originalDescriptor.enumerable,
+                            get: originalDescriptor.get
+                        };
+
+                        if (originalDescriptor.set) {
+                            descriptor.set = (value) => {
+                                const prev = originalDescriptor.get.call(target);
+                                if (isNotEqualValue(prev, value)) {
+                                    originalDescriptor.set.call(target, value);
+                                    observer[key].signal.dispatch({ value, prev });
+                                }
+                            };
+                        } else {
+                            descriptor.set = () => {
+                                throw new Error('Original descriptor has\'t set property!');
+                            };
                         }
-                    });
+
+                        Object.defineProperty(target, key, descriptor);
+                    } else {
+                        Object.defineProperty(target, key, {
+                            enumerable: true,
+                            get: () => observer[key].value,
+                            set: (value) => {
+                                value = options.set ? options.set(value) : value;
+                                const prev = observer[key].value;
+                                if (isNotEqualValue(prev, value)) {
+                                    observer[key].value = value;
+                                    observer[key].signal.dispatch({ value, prev });
+                                }
+                            }
+                        });
+                    }
                 });
 
             return _getSignal(observer, keys);
