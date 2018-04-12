@@ -4,10 +4,9 @@
     /**
      * @param {app.utils} utils
      * @param {EventManager} eventManager
-     * @param {app.utils.decorators} decorators
      * @return {BaseNodeComponent}
      */
-    const factory = function (utils, eventManager, decorators) {
+    const factory = function (utils, eventManager) {
 
         class BaseNodeComponent {
 
@@ -17,7 +16,6 @@
              * @return {Promise<Money[]>}
              * @protected
              */
-            @decorators.cachable()
             _feeList(transactionType) {
                 switch (transactionType) {
                     case 'transfer':
@@ -77,7 +75,7 @@
         return BaseNodeComponent;
     };
 
-    factory.$inject = ['utils', 'eventManager', 'decorators'];
+    factory.$inject = ['utils', 'eventManager'];
 
     angular.module('app')
         .factory('BaseNodeComponent', factory);

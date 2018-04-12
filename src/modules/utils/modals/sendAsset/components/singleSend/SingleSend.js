@@ -244,7 +244,7 @@
 
                     this.hasComission = Object.keys(feeHash).every((feeAssetId) => {
                         const fee = feeHash[feeAssetId];
-                        return balanceHash[fee.asset.id] && balanceHash[fee.asset.id].gt(fee);
+                        return balanceHash[fee.asset.id] && balanceHash[fee.asset.id].gte(fee);
                     });
                 };
 
