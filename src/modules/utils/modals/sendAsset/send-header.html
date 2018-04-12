@@ -13,7 +13,7 @@
     </div>
     <w-select class="big"
               ng-if="$ctrl.canChooseAsset && $ctrl.choosableMoneyList.length > 1"
-              ng-model="$ctrl.assetId">
+              ng-model="$ctrl.state.assetId">
         <w-option ng-repeat="option in $ctrl.choosableMoneyList track by option.asset.id"
                   value="::option.asset.id">
             <div class="flex-row split-half">
