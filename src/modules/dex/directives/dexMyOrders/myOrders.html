@@ -1,4 +1,4 @@
-<w-table>
+<w-table ng-if="$ctrl.orders.length">
     <w-t-head>
         <w-row>
             <w-cell>
@@ -41,3 +41,8 @@
         </w-row>
     </w-scroll-box>
 </w-table>
+<div ng-if="!$ctrl.orders.length" class="empty-block-container">
+    <div class="icon"></div>
+    <div class="body-1 basic-700" w-i18n="emptyBlocks.myOrders.title"></div>
+    <div class="footnote-1 basic-500 margin-2" w-i18n="emptyBlocks.myOrders.description"></div>
+</div>

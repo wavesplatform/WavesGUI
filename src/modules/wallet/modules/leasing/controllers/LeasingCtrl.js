@@ -7,12 +7,16 @@
      * @param {app.utils} utils
      * @param {Waves} waves
      * @param {ModalManager} modalManager
-     * @param createPoll
+     * @param {IPollCreate} createPoll
      * @return {LeasingCtrl}
      */
     const controller = function (Base, $scope, utils, waves, modalManager, createPoll) {
 
         class LeasingCtrl extends Base {
+
+            get pendingAllLeasing() {
+                return !this.pending && this.allActiveLeasing == null;
+            }
 
             constructor() {
                 super($scope);
