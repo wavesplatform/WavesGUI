@@ -3,7 +3,6 @@
 
     /**
      * @param Base
-     * @param {$scope} $scope
      * @returns {ChangeLanguage}
      */
     const controller = function (Base) {
@@ -19,7 +18,10 @@
                 /**
                  * @type {string[]}
                  */
-                this.list = Object.keys(WavesApp.localize);
+                this.list = Object.keys(WavesApp.localize).map((key) => ({
+                    code: key,
+                    name: WavesApp.localize[key].name
+                }));
 
                 if (i18next.language) {
                     /**

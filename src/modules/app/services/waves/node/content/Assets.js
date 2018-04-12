@@ -74,7 +74,7 @@
                     .then(Assets._remapAssetProps)
                     .catch(() => {
                         if (assetId === Waves.constants.WAVES_PROPS.id) {
-                            return Waves.constants.WAVES_PROPS;
+                            return Assets._remapAssetProps(Waves.constants.WAVES_V1_ISSUE_TX);
                         } else {
                             return fetch(`${user.getSetting('network.node')}/transactions/info/${assetId}`)
                                 .then(utils.onFetch);
