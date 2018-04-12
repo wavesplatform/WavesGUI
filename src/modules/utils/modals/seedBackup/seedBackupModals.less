@@ -1,3 +1,5 @@
+@import (reference) '../../../config';
+
 md-dialog md-dialog-content {
   padding: 30px 40px 0;
 
@@ -13,6 +15,12 @@ md-dialog md-dialog-content {
 
   w-seed-write .seed-container {
     margin: 10px 0 50px 0;
+  }
+
+  span.clear {
+    text-decoration: none;
+    color: @color-submit-300;
+    cursor: pointer;
   }
 
   .confirm-backup {
