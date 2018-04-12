@@ -19,11 +19,11 @@
              * @param {IComponent[]} [components]
              */
             constructor(components) {
+                /**
+                 * @type {Object.<string, IComponent>}
+                 * @private
+                 */
                 this._hash = Object.create(null);
-                this.components = [];
-                if (components && components.length) {
-                    this.add(components);
-                }
                 /**
                  * @type {IComponentListSignals}
                  */
@@ -31,6 +31,13 @@
                     add: new tsUtils.Signal(),
                     remove: new tsUtils.Signal()
                 });
+                /**
+                 * @type {Array}
+                 */
+                this.components = [];
+                if (components && components.length) {
+                    this.add(components);
+                }
             }
 
             /**

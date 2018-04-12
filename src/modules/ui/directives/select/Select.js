@@ -7,14 +7,13 @@
      * @param Base
      * @param {ComponentList} ComponentList
      * @param {JQuery} $element
-     * @param {$timeout} $timeout
-     * @param {$q} $q
      * @param {app.utils} utils
-     * @param {IPromiseControlCreate} createPromise
+     * @param {$rootScope.Scope} $scope
      * @return {Select}
      */
-    const controller = function (Base, ComponentList, $element, $timeout, $q, utils, createPromise) {
+    const controller = function (Base, ComponentList, $element, utils, $scope) {
 
+        const tsUtils = require('ts-utils');
         const $_DOCUMENT = $(document);
 
         class Select extends Base {
@@ -41,16 +40,6 @@
                  */
                 this._select = null;
                 /**
-                 * @type {*}
-                 * @private
-                 */
-                this._timer = null;
-                /**
-                 * @type {Deferred}
-                 * @private
-                 */
-                this._ready = $q.defer();
-                /**
                  * @type {boolean}
                  */
                 this.isOpend = false;
@@ -59,12 +48,13 @@
                  */
                 this.disabled = false;
                 /**
-                 * @type {boolean}
+                 * @type {Function}
                  * @private
                  */
-                this._activateTransactionMode = false;
-
-                this.observe('ngModel', this._renderActiveOption);
+                this._render = utils.debounce(() => {
+                    this._initializeSelected();
+                    $scope.$digest();
+                }, 100);
             }
 
             $postLink() {
@@ -72,39 +62,20 @@
                 this._activeNode = this._select.find('.title:first');
                 this._selectList = this._select.find('.select-list:first');
 
+                this._render();
                 this._setHandlers();
-
-                createPromise(this, utils.wait(200)).then(this._ready.resolve);
-            }
-
-            remove(option) {
-                this._options.remove(option);
-                this._renderActiveOption();
             }
 
             /**
              * @param {Option} option
              */
             registerOption(option) {
-                this._ready.promise.then(() => {
-                    this._options.push(option);
-                    if (option.value === this.ngModel) {
-                        this.setActive(option);
-                    }
-                    if (!this._timer) {
-                        this._timer = $timeout(() => {
-                            if (tsUtils.isEmpty(this.ngModel)) {
-                                this.setActive(this._options.first());
-                            } else if (!this._options.some({ value: this.ngModel })) {
-                                if (this._options.length) {
-                                    this.setActive(this._options.first());
-                                }
-                            }
-                        }, 100);
-                    }
-                });
+                this._options.add(option);
             }
 
+            /**
+             * @param {Option} option
+             */
             getOptionIndex(option) {
                 return this._options.components.indexOf(option);
             }
@@ -131,23 +102,34 @@
             /**
              * @private
              */
-            _renderActiveOption() {
-                if (!this._activateTransactionMode) {
-                    const option = tsUtils.find(this._options.components, { value: this.ngModel });
-                    if (option) {
-                        this.setActive(option);
-                    } else if (this._options.length) {
-                        this.setActive(this._options.first());
-                    }
-                }
+            _setHandlers() {
+                this.listenEventEmitter(this._activeNode, 'click', () => this._onClick());
+                this.observe('disabled', this._onChangeDisabled);
+                this.receive(this._options.signals.remove, this._render, this);
+                this.receive(this._options.signals.add, this._render, this);
+                this.observe('ngModel', this._render);
             }
 
             /**
              * @private
              */
-            _setHandlers() {
-                this.listenEventEmitter(this._activeNode, 'click', () => this._onClick());
-                this.observe('disabled', this._onChangeDisabled);
+            _initializeSelected() {
+
+                if (!this._options.length) {
+                    throw new Error('Has no options!');
+                }
+
+                if (tsUtils.isEmpty(this.ngModel)) {
+                    this.setActive(this._options.first());
+                    return null;
+                }
+
+                const [active] = this._options.where({ value: this.ngModel }).components;
+                if (active) {
+                    this.setActive(active);
+                } else {
+                    this.setActive(this._options.first());
+                }
             }
 
             /**
@@ -174,6 +156,7 @@
              */
             _onChangeDisabled() {
                 this._select.toggleClass('disabled', this.disabled);
+                this._toggleList(false);
             }
 
             /**
@@ -217,7 +200,7 @@
         return new Select();
     };
 
-    controller.$inject = ['Base', 'ComponentList', '$element', '$timeout', '$q', 'utils', 'createPromise'];
+    controller.$inject = ['Base', 'ComponentList', '$element', 'utils', '$scope'];
 
     angular.module('app.ui').component('wSelect', {
         bindings: {

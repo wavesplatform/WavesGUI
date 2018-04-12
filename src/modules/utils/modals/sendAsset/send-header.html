@@ -15,7 +15,7 @@
               ng-if="$ctrl.canChooseAsset && $ctrl.choosableMoneyList.length > 1"
               ng-model="$ctrl.assetId">
         <w-option ng-repeat="option in $ctrl.choosableMoneyList track by option.asset.id"
-                  value="{{::option.asset.id}}">
+                  value="::option.asset.id">
             <div class="flex-row split-half">
                 <div class="flex-row">
                     <w-asset-logo size="24" asset-id="{{::option.asset.id}}"></w-asset-logo>

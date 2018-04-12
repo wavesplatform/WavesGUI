@@ -55,7 +55,7 @@
                     return null;
                 }
 
-                const [active] = this.tabs.where({ id: this.ngModel });
+                const [active] = this.tabs.where({ id: this.ngModel }).components;
                 if (active) {
                     this.select(active);
                 } else {

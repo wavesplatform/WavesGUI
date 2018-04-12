@@ -23,7 +23,7 @@
     </div>
     <w-select ng-if="$ctrl.userList.length > 1" ng-model="$ctrl.activeUserAddress" class="big margin-3">
         <w-option ng-repeat="user in $ctrl.userList track by user.address"
-                  value="{{::user.address}}">
+                  value="::user.address">
             <w-avatar class="margin-right-1" address="user.address" size="30"></w-avatar>
             <div class="mobile-caption-2" ng-class="::{'has-name': !!user.name}">
                 <div class="name">{{::user.name}}</div>

@@ -7,7 +7,7 @@
      * @param {JQuery} $element
      * @param {$rootScope.Scope} $scope
      */
-    const controller = function (Base, $compile, $element, $scope) {
+    const controller = function (Base, $element, $scope) {
 
         const tsUtils = require('ts-utils');
 
@@ -18,7 +18,7 @@
                 /**
                  * @type {Select}
                  */
-                this.select = null;
+                this.wSelect = null;
                 /**
                  * @type {string|number}
                  */
@@ -32,28 +32,28 @@
             }
 
             $onInit() {
-                this.select.registerOption(this);
+                this.wSelect.registerOption(this);
             }
 
             $onDestroy() {
                 super.$onDestroy();
-                this.select.remove(this);
+                this.wSelect.remove(this);
             }
 
             /**
              * @return {JQuery}
              */
             getContent() {
-                return $compile(Option._getContentHTML())($scope);
+                return $(Option._getContentHTML());
             }
 
             onClick() {
-                this.select.setActive(this);
+                this.wSelect.setActive(this);
                 $scope.$digest();
             }
 
             setActive(active) {
-                const index = this.select.getOptionIndex(this);
+                const index = this.wSelect.getOptionIndex(this);
                 // Get the active option to the top of the dropdown list
                 $element.css('order', active ? -index : 0).toggleClass('active', active);
             }
@@ -93,16 +93,17 @@
 
         }
 
-        new Option();
+        return new Option();
     };
 
-    controller.$inject = ['Base', '$compile', '$element', '$scope'];
+    controller.$inject = ['Base', '$element', '$scope'];
 
     angular.module('app.ui').component('wOption', {
         transclude: true,
         template: '<div class="option" ng-transclude></div>',
+        controller,
         require: {
-            select: '^wSelect'
+            wSelect: '^wSelect'
         },
         bindings: {
             value: '<'
