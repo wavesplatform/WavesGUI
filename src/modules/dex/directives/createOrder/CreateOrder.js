@@ -108,6 +108,8 @@
                  */
                 const spreadPoll = createPoll(this, this._getData, this._setData, 1000);
 
+                this.observe(['amountBalance', 'type', 'fee'], this._updateMaxAmountBalance);
+
                 this.observe('_assetIdPair', () => {
                     this.amount = null;
                     this.price = null;
@@ -115,7 +117,6 @@
                     this.ask = null;
                     balancesPoll.restart();
                     spreadPoll.restart();
-                    this.maxAmountBalance = CreateOrder._getMaxAmountBalance(this.type, this.amount, this.fee);
                     this.observeOnce(['bid', 'ask'], utils.debounce(() => {
                         if (this.type) {
                             this.price = this._getCurrentPrice();
@@ -135,7 +136,6 @@
             expand(type) {
                 this.type = type;
                 this.step = 1;
-                this.maxAmountBalance = this._getMaxAmountBalance();
                 this.price = this._getCurrentPrice();
 
                 $scope.$$postDigest(() => {
@@ -227,6 +227,29 @@
                     });
             }
 
+            _updateMaxAmountBalance() {
+                const { type, amountBalance, fee } = this;
+
+                if (!type || type === 'buy' || !amountBalance || !fee) {
+                    return null;
+                }
+
+                const apply = function () {
+                    if (amountBalance.asset.id === fee.asset.id) {
+                        const result = amountBalance.sub(fee);
+                        if (result.getTokens().gte('0')) {
+                            return result;
+                        } else {
+                            return amountBalance.cloneWithTokens('0');
+                        }
+                    } else {
+                        return amountBalance;
+                    }
+                };
+
+                this.maxAmountBalance = apply();
+            }
+
             /**
              * @return {Money}
              * @private
@@ -266,7 +289,6 @@
                 if (data) {
                     this.amountBalance = data.amountBalance;
                     this.priceBalance = data.priceBalance;
-                    this.maxAmountBalance = this._getMaxAmountBalance();
                 }
             }
 
@@ -322,37 +344,6 @@
                 const buy = Number(this.ask.price);
 
                 this.spreadPercent = buy ? (((buy - sell) * 100 / buy) || 0).toFixed(2) : '0.00';
-            }
-
-            /**
-             * @return {Money}
-             * @private
-             */
-            _getMaxAmountBalance() {
-                return CreateOrder._getMaxAmountBalance(this.type, this.amountBalance, this.fee);
-            }
-
-            /**
-             * @param {string} type
-             * @param {Money} amount
-             * @param {Money} fee
-             * @return {Money}
-             * @private
-             */
-            static _getMaxAmountBalance(type, amount, fee) {
-                if (!type || type === 'buy') {
-                    return null;
-                }
-                if (amount.asset.id === fee.asset.id) {
-                    const result = amount.sub(fee);
-                    if (result.getTokens().gte('0')) {
-                        return result;
-                    } else {
-                        return amount.cloneWithTokens('0');
-                    }
-                } else {
-                    return amount;
-                }
             }
 
         }
