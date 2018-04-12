@@ -22,6 +22,20 @@
             }
 
             /**
+             * @return {boolean}
+             */
+            get outerSendMode() {
+                return this.state.outerSendMode;
+            }
+
+            /**
+             * @return {IGatewayDetails}
+             */
+            get gatewayDetails() {
+                return this.state.gatewayDetails;
+            }
+
+            /**
              * @param {string} assetId
              * @param {boolean} canChooseAsset
              */
@@ -58,6 +72,8 @@
                 this.state = {
                     assetId: assetId || WavesApp.defaultAssets.WAVES,
                     mirrorId: user.getSetting('baseAssetId'),
+                    outerSendMode: false,
+                    gatewayDetails: null,
                     moneyHash: null,
                     singleSend: Object.create(null),
                     massSend: Object.create(null)
@@ -176,6 +192,8 @@
  * @typedef {object} ISendState
  * @property {string} assetId
  * @property {string} mirrorId
+ * @property {boolean} outerSendMode
+ * @property {IGatewayDetails} gatewayDetails
  * @property {Object.<string, Money>} moneyHash
  * @property {ISingleSendTx} singleSend
  * @property {IMassSendTx} massSend

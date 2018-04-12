@@ -8,9 +8,10 @@
      * @param {IPollCreate} createPoll
      * @param {IOuterBlockchains} outerBlockchains
      * @param {User} user
+     * @param {GatewayService} gatewayService
      * @param {Waves} waves
      */
-    const controller = function (Base, $scope, utils, createPoll, waves, outerBlockchains, user) {
+    const controller = function (Base, $scope, utils, createPoll, waves, outerBlockchains, user, gatewayService) {
 
         class SingleSend extends Base {
 
@@ -49,6 +50,28 @@
                 return this.moneyHash[this.assetId];
             }
 
+            /**
+             * @return {boolean}
+             */
+            get outerSendMode() {
+                return this.state.outerSendMode;
+            }
+
+            set outerSendMode(value) {
+                this.state.outerSendMode = value;
+            }
+
+            /**
+             * @return {IGatewayDetails}
+             */
+            get gatewayDetails() {
+                return this.state.gatewayDetails;
+            }
+
+            set gatewayDetails(value) {
+                this.state.gatewayDetails = value;
+            }
+
             constructor() {
                 super();
                 /**
@@ -67,14 +90,6 @@
                  * @type {boolean}
                  */
                 this.noMirror = false;
-                /**
-                 * @type {boolean}
-                 */
-                this.outerSendMode = false;
-                /**
-                 * @type {object}
-                 */
-                this.gatewayDetails = null;
                 /**
                  * @type {boolean}
                  */
@@ -317,12 +332,11 @@
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
-                    // TODO uncoment!
-                    // gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient).then((details) => {
-                    //     this.gatewayDetails = details;
-                    // $scope.$digest();
-                    // TODO : validate amount field for gateway minimumAmount and maximumAmount
-                    // });
+                    gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient).then((details) => {
+                        this.gatewayDetails = details;
+                        $scope.$digest();
+                        // TODO : validate amount field for gateway minimumAmount and maximumAmount
+                    });
                 } else {
                     this.gatewayDetails = null;
                 }
@@ -333,7 +347,16 @@
         return new SingleSend();
     };
 
-    controller.$inject = ['Base', '$scope', 'utils', 'createPoll', 'waves', 'outerBlockchains', 'user'];
+    controller.$inject = [
+        'Base',
+        '$scope',
+        'utils',
+        'createPoll',
+        'waves',
+        'outerBlockchains',
+        'user',
+        'gatewayService'
+    ];
 
     angular.module('app.ui').component('wSingleSend', {
         bindings: {

@@ -35,11 +35,6 @@
                 this.wSelect.registerOption(this);
             }
 
-            $onDestroy() {
-                super.$onDestroy();
-                this.wSelect.remove(this);
-            }
-
             /**
              * @return {JQuery}
              */

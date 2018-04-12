@@ -1,14 +1,14 @@
 <div class="modal-content">
     <w-step-by-step active-step="$ctrl.step">
         <w-step>
-            <w-tabs selected="{{::$ctrl.defaultTab}}">
-                <w-tab title-name="modal.send.sendTitle" id="send">
+            <w-tabs ng-model="$ctrl.tab">
+                <w-tab title-name="::'modal.send.sendTitle'" id="::'singleSend'">
                     <w-single-send state="$ctrl.state"
                                    on-continue="$ctrl.nextStep(tx)">
                         <ng-include src="::$ctrl.headerPath"></ng-include>
                     </w-single-send>
                 </w-tab>
-                <w-tab title-name="modal.send.massSendTitle" id="massSend">
+                <w-tab title-name="::'modal.send.massSendTitle'" id="::'massSend'">
                     <w-mass-send state="$ctrl.state" on-continue="$ctrl.nextStep()">
                         <ng-include src="::$ctrl.headerPath"></ng-include>
                     </w-mass-send>
@@ -23,7 +23,7 @@
             <w-confirm-gateway-transaction ng-if="$ctrl.outerSendMode"
                                            on-click-back="$ctrl.back()"
                                            gateway-details="$ctrl.gatewayDetails"
-                                           target-recipient="$ctrl.tx.recipient"
+                                           target-recipient="$ctrl.state.singleSend.recipient"
                                            tx="$ctrl.txInfo"></w-confirm-gateway-transaction>
         </w-step>
     </w-step-by-step>

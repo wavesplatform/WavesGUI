@@ -30,7 +30,7 @@
             /**
              * @param {Asset} asset
              * @param {string} targetAddress
-             * @return {Promise}
+             * @return {Promise<IGatewayDetails>}
              */
             getWithdrawDetails(asset, targetAddress) {
                 const gateway = this._findGatewayFor(asset, 'withdraw');
@@ -114,4 +114,14 @@
  * @property {boolean} [withdraw]
  * @property {boolean} [sepa]
  * @property {boolean} [card]
+ */
+
+/**
+ * @typedef {object} IGatewayDetails
+ * @property {string} address
+ * @property {string} attachment
+ * @property {BigNumber} exchangeRate
+ * @property {BigNumber} gatewayFee
+ * @property {BigNumber} maximumAmount
+ * @property {BigNumber} minimumAmount
  */
