@@ -76,11 +76,11 @@
         "feeExplanation": "Введенный адрес определен как Bitcoin-адрес, ваши средства будут отправлены на него через шлюз Coinomat. Минимальная сумма перевода — {{min, BigNumber}} BTC, максимальная — {{max, BigNumber}} BTC."
       },
       "toBank": {
-        "bankAccount": "Bank account",
-        "warning": "If you have been verified and have deposited US dollars, you can withdraw these dollars back to your bank account. Otherwise, get verified by our partner <a href=\"https://idnow.eu/\" target=\"_blank\">IDNow.eu</a>",
-        "feeTitle": "Fees are 1% from the amount transferred.",
-        "feeExplanation": "The minimum amount is 500 US Dollar. If you have any questions, please just send an email to <a href=\"https://support@coinomat.com/\" target=\"_blank\">support@coinomat.com</a>",
-        "toBankLink": "Withdraw to bank"
+        "bankAccount": "Банковский счет",
+        "warning": "Если вы уже прошли верификацию и заводили средства на платформу, вы можете вывести их на тот же счет, с которого было пополнение. Иначе, пройдите верификацию у нашего партнера  <a href=\"https://idnow.eu/\" target=\"_blank\">IDNow.eu</a>",
+        "feeTitle": "Комиссия — 1% от суммы перевода.",
+        "feeExplanation": "Минимальная сумма — 500 долларов. Если у вас остались вопросы, напишите на почту <a href=\"https://support@coinomat.com/\" target=\"_blank\">support@coinomat.com</a>",
+        "toBankLink": "Вывести через банк"
       },
       "coinomatETH": {
         "feeTitle": "Комиссия шлюза - {{fee, BigNumber}} ETH",
