@@ -116,7 +116,7 @@
             _initializeSelected() {
 
                 if (!this._options.length) {
-                    throw new Error('Has no options!');
+                    return null;
                 }
 
                 if (tsUtils.isEmpty(this.ngModel)) {

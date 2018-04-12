@@ -15,6 +15,10 @@
              * @param {$rootScope.Scope} [$scope]
              */
             constructor($scope) {
+                /**
+                 * @type {boolean}
+                 */
+                this.wasDestroed = false;
                 this.__emitterListeners = Object.create(null);
                 if ($scope) {
                     const stop = $scope.$on('$destroy', () => {
@@ -163,6 +167,7 @@
                 this.stopReceive();
                 this.signals.destroy.off();
                 this.stopListenEventEmitter();
+                this.wasDestroed = true;
             }
 
         }
