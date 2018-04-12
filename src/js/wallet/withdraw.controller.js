@@ -95,7 +95,8 @@
             if (ctrl.assetBalance.currency === Currency.BTC ||
                 ctrl.assetBalance.currency === Currency.ETH ||
                 ctrl.assetBalance.currency === Currency.LTC ||
-                ctrl.assetBalance.currency === Currency.ZEC
+                ctrl.assetBalance.currency === Currency.ZEC ||
+                ctrl.assetBalance.currency === Currency.BCH
             ) {
                 withdrawCrypto();
             } else if (ctrl.assetBalance.currency === Currency.EUR) {
@@ -128,6 +129,8 @@
                     ctrl.validationOptions.rules.withdrawAmount.decimal = ctrl.assetBalance.currency.precision;
                     ctrl.validationOptions.rules.withdrawAmount.max = maximumPayment.toTokens();
                     ctrl.validationOptions.rules.withdrawAmount.min = minimumPayment.toTokens();
+                    ctrl.validationOptions.messages.withdrawAddress.required = minimumPayment.currency.displayName +
+                        ' address is required';
                     ctrl.validationOptions.messages.withdrawAmount.decimal = 'The amount to withdraw must be ' +
                         'a number with no more than ' + minimumPayment.currency.precision +
                         ' digits after the decimal point (.)';

@@ -43,7 +43,7 @@ function AngularApplicationConfig($provide, $compileProvider, $validatorProvider
         angular.extend(applicationSettings, {
             CLIENT_VERSION: '0.4.1a',
             NODE_ADDRESS: 'https://testnet1.wavesnodes.com',
-            COINOMAT_ADDRESS: 'https://test.coinomat.com',
+            COINOMAT_ADDRESS: 'https://coinomat.com',
             MATCHER_ADDRESS: 'https://testnet1.wavesnodes.com',
             DATAFEED_ADDRESS: 'https://marketdata.wavesplatform.com'
         }));

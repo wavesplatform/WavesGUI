@@ -37,6 +37,10 @@
             image: 'wB-bg-WTRY.png',
             displayName: Currency.WTRY.displayName
         };
+        mapping[Currency.BCH.displayName] = {
+            image: 'wB-bg-BCH.svg',
+            displayName: 'BCH'
+        };
 
         ctrl.$onChanges = function (changesObject) {
             if (changesObject.balance) {

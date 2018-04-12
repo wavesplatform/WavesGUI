@@ -31,6 +31,11 @@
             minimumAmount: 0.001
         };
 
+        ctrl.bch = {
+            cashAddress: '',
+            minimumAmount: 0.001
+        };
+
         ctrl.fiat = {
             verificationLink: 'https://go.idnow.de/coinomat/userdata/' + applicationContext.account.address,
             email: 'support@coinomat.com'
@@ -60,6 +65,8 @@
                 depositLTC();
             } else if (ctrl.assetBalance.currency === Currency.ZEC && !utilsService.isTestnet()) {
                 depositZEC();
+            } else if (ctrl.assetBalance.currency === Currency.BCH && !utilsService.isTestnet()) {
+                depositBCH();
             } else if (ctrl.assetBalance.currency === Currency.EUR) {
                 depositEUR();
             } else if (ctrl.assetBalance.currency === Currency.USD) {
@@ -114,6 +121,16 @@
                 .then(function (depositDetails) {
                     dialogService.open('#deposit-zec-dialog');
                     ctrl.zec.zcashAddress = depositDetails.address;
+                })
+                .catch(catchErrorMessage);
+        }
+
+        function depositBCH() {
+            coinomatService.getDepositDetails(ctrl.depositWith, ctrl.assetBalance.currency,
+                applicationContext.account.address)
+                .then(function (depositDetails) {
+                    dialogService.open('#deposit-bch-dialog');
+                    ctrl.bch.cashAddress = depositDetails.address;
                 })
                 .catch(catchErrorMessage);
         }
