@@ -71,15 +71,15 @@
             getExtendedAsset(assetId) {
                 return fetch(`${WavesApp.network.api}/assets/${assetId}`)
                     .then(utils.onFetch)
-                    .then(Assets._remapAssetProps)
                     .catch(() => {
                         if (assetId === Waves.constants.WAVES_PROPS.id) {
-                            return Assets._remapAssetProps(Waves.constants.WAVES_V1_ISSUE_TX);
+                            return Waves.constants.WAVES_V1_ISSUE_TX;
                         } else {
                             return fetch(`${user.getSetting('network.node')}/transactions/info/${assetId}`)
                                 .then(utils.onFetch);
                         }
                     })
+                    .then(Assets._remapAssetProps)
                     .then((assetData) => new ExtendedAsset(assetData));
             }
 

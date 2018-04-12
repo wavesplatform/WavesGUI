@@ -50,12 +50,12 @@
                 if (this.type === TYPES.EXCHANGE_BUY || this.type === TYPES.EXCHANGE_SELL) {
                     this.totalPrice = dexService.getTotalPrice(this.transaction.amount, this.transaction.price);
                     if (this.type === TYPES.EXCHANGE_BUY) {
-                        this.calculatedFee = this.transaction.buyMatcherFee.getTokens().toFixed();
+                        this.calculatedFee = this.transaction.buyMatcherFee;
                     } else {
-                        this.calculatedFee = this.transaction.sellMatcherFee.getTokens().toFixed();
+                        this.calculatedFee = this.transaction.sellMatcherFee;
                     }
                 } else {
-                    this.calculatedFee = this.transaction.fee.getTokens().toFixed();
+                    this.calculatedFee = this.transaction.fee;
                 }
             }
 
