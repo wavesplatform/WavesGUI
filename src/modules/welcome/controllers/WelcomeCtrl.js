@@ -3,12 +3,12 @@
 
     const PATH = 'modules/welcome/templates';
 
-    const controller = function ($state, user, modalManager) {
+    const controller = function (Base, $scope, $state, user, modalManager) {
 
-        class WelcomeCtrl {
+        class WelcomeCtrl extends Base {
 
             get user() {
-                return this.userList[this.activeUserIndex];
+                return this.userList[this._activeUserIndex];
             }
 
             get encryptedSeed() {
@@ -16,6 +16,7 @@
             }
 
             constructor() {
+                super($scope);
                 /**
                  * @type {string}
                  */
@@ -25,14 +26,21 @@
                  */
                 this.loginForm = null;
                 /**
-                 * @type {number}
+                 * @type {string}
                  */
-                this.activeUserIndex = 0;
+                this.activeUserAddress = null;
+                /**
+                 * @type {number}
+                 * @private
+                 */
+                this._activeUserIndex = null;
+
+                this.observe('activeUserAddress', this._calculateActiveIndex);
 
                 user.getUserList()
                     .then((list) => {
                         this.userList = list;
-                        this._updatePageUrl();
+                        this._updateActiveUserAddress();
                     });
             }
 
@@ -61,13 +69,25 @@
 
             }
 
+            /**
+             * @param {string} address
+             */
             removeUser(address) {
                 user.removeUserByAddress(address);
                 this.userList = this.userList.filter((user) => user.address !== address);
-                this._updatePageUrl();
-                if (address === this.activeUserIndex) {
-                    this.activeUserIndex = this.userList.length && this.userList[0].address;
+                this._updateActiveUserAddress();
+            }
+
+            /**
+             * @private
+             */
+            _updateActiveUserAddress() {
+                if (this.userList.length) {
+                    this.activeUserAddress = this.userList[0].address;
+                } else {
+                    this.activeUserAddress = null;
                 }
+                this._updatePageUrl();
             }
 
             /**
@@ -81,12 +101,34 @@
                 }
             }
 
+            /**
+             * @private
+             */
+            _calculateActiveIndex() {
+                const activeAddress = this.activeUserAddress;
+                let index = null;
+
+                if (!activeAddress) {
+                    return null;
+                }
+
+                this.userList.some(({ address }, i) => {
+                    if (address === activeAddress) {
+                        index = i;
+                        return true;
+                    }
+                    return false;
+                });
+
+                this._activeUserIndex = index;
+            }
+
         }
 
         return new WelcomeCtrl();
     };
 
-    controller.$inject = ['$state', 'user', 'modalManager'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager'];
 
     angular.module('app.welcome')
         .controller('WelcomeCtrl', controller);
