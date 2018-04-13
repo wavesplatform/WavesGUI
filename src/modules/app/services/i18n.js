@@ -29,7 +29,7 @@
                 }
                 if (skipErrors) {
                     const has = translate.some((key) => {
-                        return i18next.exists(key, params);
+                        return i18next.extantion(key, params);
                     });
                     if (has) {
                         return i18next.t(translate, params);

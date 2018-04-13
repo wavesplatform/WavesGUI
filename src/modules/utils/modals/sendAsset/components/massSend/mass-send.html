@@ -1,0 +1,45 @@
+<form novalidate name="massSend">
+    <w-i18n params="{count: $ctrl.tx.transfers.length, max: $ctrl.maxTransfersCount}">
+        modal.send.massSend.recipient
+    </w-i18n>
+
+    <w-import-file ng-if="$ctrl.tx.transfers.length === 0"
+                   extantions="::'csv'"
+                   on-change="$ctrl.importFile(file)">
+        <span w-i18n="modal.send.massSend.importFile"></span>
+    </w-import-file>
+    <span ng-if="$ctrl.tx.transfers.length > 0"
+          ng-click="$ctrl.clear()"
+          w-i18n="modal.send.massSend.clear"></span>
+
+    <w-input-container>
+        <w-input textarea="true"
+                 name="recipientCsv"
+                 ng-model="$ctrl.recipientCsv"></w-input>
+    </w-input-container>
+
+    <w-i18n>modal.send.massSend.description</w-i18n>
+    <w-input-container>
+        <w-input textarea="true"
+                 name="attachment"
+                 ng-model="$ctrl.tx.attachment"
+                 w-i18n-attr="placeholder"
+                 w-validate
+                 w-validator-byte-lte="140"
+                 placeholder="modal.send.descriptionPlaceholder"></w-input>
+
+        <w-input-error message="byteLte">
+            <w-i18n>modal.send.attachmentLength</w-i18n>
+        </w-input-error>
+    </w-input-container>
+
+    <div class="row fee margin-2">
+        <div class="body basic-500">
+            <w-i18n params="{fee: $ctrl.tx.fee}">modal.send.fee</w-i18n>
+        </div>
+    </div>
+
+    <w-button disabled="massSend.$invalid" class="submit long big" on-click="$ctrl.continue()">
+        <w-i18n>button.continue</w-i18n>
+    </w-button>
+</form>

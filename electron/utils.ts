@@ -3,7 +3,7 @@ import { remote } from 'electron';
 
 export function exist(path: string): Promise<void> {
     return new Promise((resolve, reject) => {
-        fs.exists(path, function (exists) {
+        fs.extantion(path, function (exists) {
             exists ? resolve() : reject(new Error(`File with path ${path} does not exist!`));
         });
     });
