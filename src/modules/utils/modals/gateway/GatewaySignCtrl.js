@@ -1,6 +1,13 @@
 (function () {
     'use strict';
 
+    const LOCALIZATION = {
+        title: {
+            normal: 'modal.gatewaySign.title',
+            error: 'modal.gatewaySign.error.title'
+        }
+    };
+
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
@@ -9,6 +16,20 @@
      * @return {GatewaySignCtrl}
      */
     const controller = function (Base, $scope, user, utils) {
+
+        const tsApiValidator = require('ts-api-validator');
+        const schema = new tsApiValidator.Schema({
+            type: tsApiValidator.ObjectPart,
+            required: true,
+            content: {
+                referrer: { type: tsApiValidator.StringPart, path: 'r', required: true },
+                name: { type: tsApiValidator.StringPart, path: 'n', required: true },
+                iconPath: { type: tsApiValidator.StringPart, path: 'i', required: false },
+                data: { type: tsApiValidator.StringPart, path: 'd', required: true },
+                successPath: { type: tsApiValidator.StringPart, path: 's', required: false },
+                debug: { type: tsApiValidator.BooleanPart, required: false, defaultValue: false }
+            }
+        });
 
         class GatewaySignCtrl extends Base {
 
@@ -19,33 +40,56 @@
              * @param {string} search.i Gateaway icon path
              * @param {string} search.d Gateaway data for sign
              * @param {string} search.s Gateaway path for success auth
-             * @param {string} search.e Gateaway path for error auth
+             * @param {string} search.debug Gateaway show errors
              */
             constructor(search) {
                 super($scope);
-                this.appName = search.n;
-                this.referrer = search.r;
-                this.iconPath = search.i;
-                this.data = search.d;
-                this.successPath = search.s;
-                this.errorPath = search.e;
-                this.hasIcon = false;
-                this.noReferer = false;
-                this.titleLiteral = 'modal.gatewaySign.title';
-                this.imageSrc = null;
-                this.noCloseIcon = true;
 
-                this._checkParams();
-                this._setImageUrl();
-            }
+                this.hasError = false;
+                /**
+                 * @type {string}
+                 */
+                this.imageSrc = '';
+                /**
+                 * @type {string}
+                 */
+                this.successPath = '';
+                /**
+                 * @type {string}
+                 */
+                this.referrer = '';
+                /**
+                 * @type {string}
+                 */
+                this.name = '';
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._successUrl = '';
 
-            cancel() {
-                this._sendError('User cancel!');
-            }
+                this.observe('hasError', (value) => {
+                    if (value) {
+                        this.titleLiteral = LOCALIZATION.title.error;
+                    } else {
+                        this.titleLiteral = LOCALIZATION.title.normal;
+                    }
+                });
 
-            send() {
-                return user.getSeed()
-                    .then((seed) => {
+                schema.parse(search)
+                    .then((data) => {
+                        return user.getSeed().then((seed) => ({ seed, data }));
+                    })
+                    .then((params) => {
+                        const seed = params.seed;
+                        const search = params.data;
+                        const { referrer, name, data, iconPath, successPath, debug } = search;
+
+                        this.referrer = referrer;
+                        this.name = name;
+                        this.debug = debug;
+
+                        this._setImageUrl(referrer, iconPath);
                         /**
                          * @type {ITransactionClass}
                          */
@@ -56,61 +100,47 @@
                         ]);
 
                         const prefix = 'WavesWalletAuthentication';
-                        const host = GatewaySignCtrl._getDomain(this.referrer);
+                        const host = GatewaySignCtrl._getDomain(referrer);
 
-                        return new Sign({ prefix, host, data: this.data })
+                        return new Sign({ prefix, host, data })
                             .prepareForAPI(seed.keyPair.privateKey)
                             .then(({ signature }) => {
                                 const search = `?s=${signature}&p=${seed.keyPair.publicKey}&a=${user.address}`;
-                                const successPath = this.successPath || '';
-                                const url = `${this.referrer}/${successPath}${search}`;
-                                location.replace(GatewaySignCtrl._normalizeUrl(url));
+                                const path = successPath || '';
+                                const url = `${referrer}/${path}${search}`;
+                                this._successUrl = location.replace(GatewaySignCtrl._normalizeUrl(url));
                             });
-                    }).catch((e) => {
-                        this._sendError(String(e));
+                    })
+                    .catch((e) => {
+                        this._sendError(e.message || e);
                     });
             }
 
-            _setImageUrl() {
-                if (!this.iconPath) {
-                    this.hasIcon = false;
+            send() {
+                location.href = this._successUrl;
+            }
+
+            /**
+             * @param {string} referrer
+             * @param {string} iconPath
+             * @return {null}
+             * @private
+             */
+            _setImageUrl(referrer, iconPath) {
+                if (!iconPath) {
                     return null;
                 }
 
                 try {
-                    const url = new URL(this.iconPath);
+                    const url = new URL(iconPath);
                     utils.loadImage(url.href).then(() => {
                         this.imageSrc = url.href;
-                        this.hasIcon = true;
-                    }).catch(() => {
-                        this.hasIcon = false;
                     });
                 } catch (e) {
-                    const url = GatewaySignCtrl._normalizeUrl(`${this.referrer}/${this.iconPath}`);
+                    const url = GatewaySignCtrl._normalizeUrl(`${referrer}/${iconPath}`);
                     utils.loadImage(url).then(() => {
                         this.imageSrc = url;
-                        this.hasIcon = true;
-                    }).catch(() => {
-                        this.hasIcon = false;
                     });
-                }
-            }
-
-            /**
-             * @private
-             */
-            _checkParams() {
-                if (!this.referrer) {
-                    this.titleLiteral = 'modal.gatewaySign.error.title';
-                    this.noReferer = true;
-                }
-
-                if (!this.data) {
-                    this._sendError('Has no data for sign!');
-                }
-
-                if (!this.appName) {
-                    this._sendError('Has no app name!');
                 }
             }
 
@@ -119,9 +149,8 @@
              * @private
              */
             _sendError(message) {
-                const errorPath = this.errorPath || '';
-                const url = `${this.referrer}/${errorPath}?m=${message}`;
-                location.replace(GatewaySignCtrl._normalizeUrl(url));
+                this.hasError = true;
+                this.errorMessage = message;
             }
 
             /**
