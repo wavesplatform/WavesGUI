@@ -108,7 +108,8 @@
                         return new Sign({ prefix, host, data })
                             .prepareForAPI(seed.keyPair.privateKey)
                             .then(({ signature }) => {
-                                const search = `?s=${signature}&p=${seed.keyPair.publicKey}&a=${user.address}`;
+                                const publicKey = seed.keyPair.publicKey;
+                                const search = `?s=${signature}&p=${publicKey}&a=${user.address}&d=${data}`;
                                 const path = successPath || '';
                                 const url = `${referrer}/${path}${search}`;
                                 this._successUrl = GatewaySignCtrl._normalizeUrl(url);
