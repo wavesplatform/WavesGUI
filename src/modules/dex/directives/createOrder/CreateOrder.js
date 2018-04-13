@@ -159,20 +159,21 @@
             }
 
             setMaxPrice() {
+                if (this.price.getTokens().eq(0)) {
+                    this.amount = this.amountBalance.cloneWithTokens('0');
+                    return null;
+                }
                 if (this.priceBalance.asset.id === this.fee.asset.id) {
-                    if (this.price.getTokens().eq(0)) {
-                        this.amount = this.amountBalance.cloneWithTokens('0');
+                    const amount = this.amountBalance.cloneWithTokens(this.priceBalance.sub(this.fee)
+                        .getTokens()
+                        .div(this.price.getTokens())
+                        .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
+                    if (amount.getTokens().lt(0)) {
+                        this.amount = amount.cloneWithTokens('0');
                     } else {
-                        const amount = this.amountBalance.cloneWithTokens(this.priceBalance.sub(this.fee)
-                            .getTokens()
-                            .div(this.price.getTokens())
-                            .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
-                        if (amount.getTokens().lt(0)) {
-                            this.amount = amount.cloneWithTokens('0');
-                        } else {
-                            this.amount = amount;
-                        }
+                        this.amount = amount;
                     }
+
                 } else {
                     this.amount = this.amountBalance.cloneWithTokens(this.priceBalance.getTokens()
                         .div(this.price.getTokens())
@@ -227,10 +228,14 @@
                     });
             }
 
+            /**
+             * @private
+             */
             _updateMaxAmountBalance() {
                 const { type, amountBalance, fee } = this;
 
                 if (!type || type === 'buy' || !amountBalance || !fee) {
+                    this.maxAmountBalance = null;
                     return null;
                 }
 
