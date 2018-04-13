@@ -111,7 +111,8 @@
 
                 return fetch(`${this.network.node}/transactions/unconfirmed`)
                     .then((list) => list.filter((item) => item.recipient === address || item.sender === address))
-                    .then(Waves.tools.siftTransaction)
+                    .then((list) => list.map(Waves.tools.siftTransaction))
+                    .then((list) => Promise.all(list))
                     .then((list = []) => list.map(this._pipeTransaction(true)));
             }
 
