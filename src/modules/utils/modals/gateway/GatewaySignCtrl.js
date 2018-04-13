@@ -24,8 +24,8 @@
             content: {
                 referrer: { type: tsApiValidator.StringPart, path: 'r', required: true },
                 name: { type: tsApiValidator.StringPart, path: 'n', required: true },
-                iconPath: { type: tsApiValidator.StringPart, path: 'i', required: false },
                 data: { type: tsApiValidator.StringPart, path: 'd', required: true },
+                iconPath: { type: tsApiValidator.StringPart, path: 'i', required: false },
                 successPath: { type: tsApiValidator.StringPart, path: 's', required: false },
                 debug: { type: tsApiValidator.BooleanPart, required: false, defaultValue: false }
             }
@@ -67,6 +67,10 @@
                  * @private
                  */
                 this._successUrl = '';
+                /**
+                 * @type {boolean}
+                 */
+                this.debug = !!search.debug;
 
                 this.observe('hasError', (value) => {
                     if (value) {
@@ -83,11 +87,10 @@
                     .then((params) => {
                         const seed = params.seed;
                         const search = params.data;
-                        const { referrer, name, data, iconPath, successPath, debug } = search;
+                        const { referrer, name, data, iconPath, successPath } = search;
 
                         this.referrer = referrer;
                         this.name = name;
-                        this.debug = debug;
 
                         this._setImageUrl(referrer, iconPath);
                         /**
@@ -108,7 +111,7 @@
                                 const search = `?s=${signature}&p=${seed.keyPair.publicKey}&a=${user.address}`;
                                 const path = successPath || '';
                                 const url = `${referrer}/${path}${search}`;
-                                this._successUrl = location.replace(GatewaySignCtrl._normalizeUrl(url));
+                                this._successUrl = GatewaySignCtrl._normalizeUrl(url);
                             });
                     })
                     .catch((e) => {
