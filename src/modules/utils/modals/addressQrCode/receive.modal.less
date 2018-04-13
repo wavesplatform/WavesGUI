@@ -1,0 +1,89 @@
+@import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
+
+md-dialog.modal-address-qr-code {
+  md-dialog-content {
+    position: relative;
+
+
+    //temp
+    .temp {
+      height: 20px;
+      background: green;
+      margin: 20px 0;
+      color:#fff;
+    }
+
+    .modal-content {
+      left: 40px;
+      top: 40px;
+      right: 40px;
+      bottom: 40px;
+
+      .qr-code-wrap {
+        margin: auto;
+      }
+
+      .warning-plate {
+        margin: 10px 0 20px;
+      }
+
+      .note-plate {
+        margin: 10px 0 20px;
+        background: @color-basic-50;
+        border: 1px dashed @color-basic-200;
+        padding: 0 12px;
+        border-radius: @border-radius;
+        line-height: 54px;
+      }
+
+      .or {
+        margin: 33px 0 22px;
+      }
+
+      .scan {
+        margin-bottom: 20px;
+      }
+
+      .center {
+        background-color: @color-white;
+        width: 100%;
+        height: 100%;
+      }
+
+      .country-list-link {
+        margin-top: 10px;
+        text-align: right;
+      }
+
+      .sepa-warning {
+        position: relative;
+        padding-left: 30px;
+        color: @color-basic-500;
+
+        i {
+          position: absolute;
+          left: 0;
+          top: 2px;
+        }
+      }
+
+      table.steps {
+        margin: 16px 0 30px;
+        border-collapse: collapse;
+
+        td {
+          padding: 16px;
+          border: 1px solid @color-basic-200;
+          vertical-align: top;
+
+          &.step {
+            min-width: 80px;
+            background: @color-basic-50;
+          }
+        }
+      }
+
+    }
+  }
+}

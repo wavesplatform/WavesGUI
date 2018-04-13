@@ -1,13 +1,19 @@
 <div class="modal-content" ng-if="$ctrl.asset">
 
     <div class="warning-plate">
-        <div class="body-2 warning-500" w-i18n="modal.deposit.{{::$ctrl.assetKeyName}}.warningTitle"></div>
+        <div class="body-2 warning-500" w-i18n="modal.deposit.usd.warningTitle"></div>
+        <!-- usd to {{::$ctrl.assetKeyName}} -->
         <div class="footnote-1 basic-500" w-i18n="modal.deposit.{{::$ctrl.assetKeyName}}.warningText"></div>
+        <!-- usd to {{::$ctrl.assetKeyName}} -->
     </div>
 
     <div class="warning-plate">
-        <div class="body-2 warning-500" w-i18n="modal.deposit.{{::$ctrl.assetKeyName}}.warningMinAmountTitle"></div>
-        <div class="footnote-1 basic-500" w-i18n="modal.deposit.{{::$ctrl.assetKeyName}}.warningMinAmountText"></div>
+        <div class="body-2 warning-500"
+             w-i18n="modal.deposit.{{::$ctrl.assetKeyName}}.warningMinAmountTitle"></div>
+        <!-- usd to {{::$ctrl.assetKeyName}} -->
+        <div class="footnote-1 basic-500"
+             w-i18n="modal.deposit.{{::$ctrl.assetKeyName}}.warningMinAmountText"></div>
+        <!-- usd to {{::$ctrl.assetKeyName}} -->
     </div>
 
     <div class="body-2 basic-900">

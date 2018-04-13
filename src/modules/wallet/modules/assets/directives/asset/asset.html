@@ -18,8 +18,9 @@
         <div class="btn-icon icon-send"
              ng-click="$ctrl.onClick({event: $event, asset: $ctrl.balance.asset, action: 'send'})"
              w-i18n="directives.asset.send"></div>
+        <!-- TODO @tsigel RECEIVE ng-if="$ctrl.isReceiveSupported -->
         <div ng-if="$ctrl.isDepositSupported"
-             class="btn-icon icon-deposit"
+             class="btn-icon icon-receive"
              ng-click="$ctrl.onClick({event: $event, asset: $ctrl.balance.asset, action: 'deposit'})"
              w-i18n="directives.asset.deposit"></div>
         <div ng-if="!$ctrl.isDepositSupported && $ctrl.isSepaSupported"
