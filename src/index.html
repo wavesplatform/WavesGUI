@@ -310,7 +310,7 @@
     <!-- CSS -->
 
     {{#if isWeb}}
-        <base href="/">
+    <base href="/">
     {{/if}}
 
 </head>
@@ -338,22 +338,22 @@
         </div>
         <div class="browsers-icons">
             <div class="browser-icon-block">
-                <img src="/img/no-preload/chrome-icon.svg" />
+                <img src="/img/no-preload/chrome-icon.svg"/>
                 <div>Chrome</div>
                 <div><a href="https://www.google.ru/chrome/index.html" target="_blank">Install or update</a></div>
             </div>
             <div class="browser-icon-block">
-                <img src="/img/no-preload/firefox-icon.svg" />
+                <img src="/img/no-preload/firefox-icon.svg"/>
                 <div>Firefox</div>
                 <div><a href="https://www.mozilla.org/en-US/firefox/" target="_blank">Install or update</a></div>
             </div>
             <div class="browser-icon-block">
-                <img src="/img/no-preload/safari-icon.svg" />
+                <img src="/img/no-preload/safari-icon.svg"/>
                 <div>Safari</div>
                 <div><a href="https://support.apple.com/downloads/safari" target="_blank">Install or update</a></div>
             </div>
             <div class="browser-icon-block">
-                <img src="/img/no-preload/opera-icon.svg" />
+                <img src="/img/no-preload/opera-icon.svg"/>
                 <div>Opera</div>
                 <div><a href="http://www.opera.com/" target="_blank">Install or update</a></div>
             </div>
@@ -520,13 +520,13 @@
      * @property {Array<string>} dex.resolutions
      * @property {string} dex.defaultResolution
      * @property {Array<string>} modules
-     * @property {Function} isWeb
-     * @property {Function} isDesktop
-     * @property {Function} isProduction
+     * @property {function():boolean} isWeb
+     * @property {function():boolean} isDesktop
+     * @property {function():boolean} isProduction
      * @property {Function} addController
      * @property {Function} getController
-     * @property {Function} getLocaleData
-     * @property {Function} parseJSON
+     * @property {function():{group: string, decimal: string}} getLocaleData
+     * @property {function(data: string): object} parseJSON
      * @property {Tree} stateTree
      */
 

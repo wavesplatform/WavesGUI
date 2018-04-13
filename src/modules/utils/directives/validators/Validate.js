@@ -27,7 +27,10 @@
     ];
 
     const PATTERNS = {
-        NUMBER: '\\d*\\.?\\d*', // TODO Add locale separators
+        get NUMBER() {
+            const decimal = WavesApp.getLocaleData().decimal;
+            return `\\d*\\${decimal}?\\d*`;
+        },
         INTEGER: '\\d*'
     };
 
@@ -37,7 +40,7 @@
      * @param {ValidateService} validateService
      * @param {app.utils.decorators} decorators
      */
-    const directive = function (utils, validateService, decorators, $rootScope, $compile) {
+    const directive = function (utils, validateService, decorators, $rootScope, $compile, Base) {
         return {
             require: 'ngModel',
             priority: 10000,
@@ -57,9 +60,10 @@
 
                 return function ($scope, $input, $compiledAttrs, $ngModel) {
 
-                    class Validate {
+                    class Validate extends Base {
 
                         constructor() {
+                            super($scope);
                             this._validators = Object.create(null);
                             /**
                              * @type {Signal}
@@ -77,19 +81,21 @@
                         }
 
                         _addInputPattern(pattern) {
-                            const create = () => {
-                                const patternName = Validate._getAttrName('pattern');
-                                if (!$attrs[patternName]) {
-                                    $attrs[patternName] = pattern;
-                                    this._createValidator('pattern');
-                                }
-                            };
+                            return new Promise((resolve) => {
+                                const create = () => {
+                                    const patternName = Validate._getAttrName('pattern');
+                                    if (!$attrs[patternName]) {
+                                        $attrs[patternName] = pattern;
+                                        resolve(this._createValidator('pattern'));
+                                    }
+                                };
 
-                            if (this._ready) {
-                                create();
-                            } else {
-                                this._validatorsReady.once(create);
-                            }
+                                if (this._ready) {
+                                    create();
+                                } else {
+                                    this._validatorsReady.once(create);
+                                }
+                            });
                         }
 
                         /**
@@ -403,7 +409,11 @@
                         _createAssetValidator(name) {
                             const precisionValidator = this._createValidator('precision');
 
-                            this._addInputPattern(PATTERNS.NUMBER);
+                            this._addInputPattern(PATTERNS.NUMBER).then((validator) => {
+                                this.listenEventEmitter(i18next, 'languageChanged', () => {
+                                    validator.value = PATTERNS.NUMBER;
+                                });
+                            });
 
                             let value = null;
 
@@ -703,7 +713,7 @@
         };
     };
 
-    directive.$inject = ['utils', 'validateService', 'decorators', '$rootScope', '$compile'];
+    directive.$inject = ['utils', 'validateService', 'decorators', '$rootScope', '$compile', 'Base'];
 
     angular.module('app.utils').directive('wValidate', directive);
 
