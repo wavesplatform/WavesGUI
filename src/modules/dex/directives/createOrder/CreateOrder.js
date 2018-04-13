@@ -6,15 +6,15 @@
      * @param {Waves} waves
      * @param {User} user
      * @param {app.utils} utils
-     * @param {function} createPoll
+     * @param {IPollCreate} createPoll
      * @param $scope
      * @param {JQuery} $element
-     * @param {NotificationManager} notificationManager
+     * @param {INotification} notification
      * @param {DexDataService} dexDataService
      * @return {CreateOrder}
      */
     const controller = function (Base, waves, user, utils, createPoll, $scope,
-                                 $element, notificationManager, dexDataService) {
+                                 $element, notification, dexDataService) {
 
         class CreateOrder extends Base {
 
@@ -103,7 +103,12 @@
                  * @type {Poll}
                  */
                 const balancesPoll = createPoll(this, this._getBalances, this._setBalances, 1000);
+                /**
+                 * @type {Poll}
+                 */
                 const spreadPoll = createPoll(this, this._getData, this._setData, 1000);
+
+                this.observe(['amountBalance', 'type', 'fee'], this._updateMaxAmountBalance);
 
                 this.observe('_assetIdPair', () => {
                     this.amount = null;
@@ -112,7 +117,6 @@
                     this.ask = null;
                     balancesPoll.restart();
                     spreadPoll.restart();
-                    this.maxAmountBalance = CreateOrder._getMaxAmountBalance(this.type, this.amount, this.fee);
                     this.observeOnce(['bid', 'ask'], utils.debounce(() => {
                         if (this.type) {
                             this.price = this._getCurrentPrice();
@@ -132,7 +136,6 @@
             expand(type) {
                 this.type = type;
                 this.step = 1;
-                this.maxAmountBalance = this._getMaxAmountBalance();
                 this.price = this._getCurrentPrice();
 
                 $scope.$$postDigest(() => {
@@ -202,7 +205,7 @@
                         }).then(() => {
                             const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                             analytics.push('DEX', `DEX.Order.${this.type}.Success`, pair);
-                            notificationManager.success({
+                            notification.success({
                                 ns: 'app.dex',
                                 title: { literal: 'directives.createOrder.notifications.isCreated' }
                             });
@@ -212,7 +215,7 @@
                             // TODO : refactor this
                             const notEnough = 'Not enough tradable balance';
                             const isNotEnough = (err.data.message.slice(0, notEnough.length) === notEnough);
-                            notificationManager.error({
+                            notification.error({
                                 ns: 'app.dex',
                                 title: {
                                     literal: isNotEnough ?
@@ -222,6 +225,29 @@
                             });
                         });
                     });
+            }
+
+            _updateMaxAmountBalance() {
+                const { type, amountBalance, fee } = this;
+
+                if (!type || type === 'buy' || !amountBalance || !fee) {
+                    return null;
+                }
+
+                const apply = function () {
+                    if (amountBalance.asset.id === fee.asset.id) {
+                        const result = amountBalance.sub(fee);
+                        if (result.getTokens().gte('0')) {
+                            return result;
+                        } else {
+                            return amountBalance.cloneWithTokens('0');
+                        }
+                    } else {
+                        return amountBalance;
+                    }
+                };
+
+                this.maxAmountBalance = apply();
             }
 
             /**
@@ -263,7 +289,6 @@
                 if (data) {
                     this.amountBalance = data.amountBalance;
                     this.priceBalance = data.priceBalance;
-                    this.maxAmountBalance = this._getMaxAmountBalance();
                 }
             }
 
@@ -321,37 +346,6 @@
                 this.spreadPercent = buy ? (((buy - sell) * 100 / buy) || 0).toFixed(2) : '0.00';
             }
 
-            /**
-             * @return {Money}
-             * @private
-             */
-            _getMaxAmountBalance() {
-                return CreateOrder._getMaxAmountBalance(this.type, this.amountBalance, this.fee);
-            }
-
-            /**
-             * @param {string} type
-             * @param {Money} amount
-             * @param {Money} fee
-             * @return {Money}
-             * @private
-             */
-            static _getMaxAmountBalance(type, amount, fee) {
-                if (!this.type || type === 'buy') {
-                    return null;
-                }
-                if (amount.asset.id === fee.asset.id) {
-                    const result = amount.sub(fee);
-                    if (result.getTokens().gte('0')) {
-                        return result;
-                    } else {
-                        return amount.cloneWithTokens('0');
-                    }
-                } else {
-                    return amount;
-                }
-            }
-
         }
 
         return new CreateOrder();
@@ -365,7 +359,7 @@
         'createPoll',
         '$scope',
         '$element',
-        'notificationManager',
+        'notification',
         'dexDataService'
     ];
 

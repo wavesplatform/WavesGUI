@@ -1,5 +1,6 @@
 .backup-seed {
-  width: 460px;
+  width: 100%;
+  max-width: 460px;
   margin: auto;
   text-align: center;
 
@@ -18,8 +19,10 @@
 }
 
 @media screen and (max-width: 480px) {
-  .backup-seed {
-    width: calc(100% ~'- 20px');
-    padding: 0 10px;
+  body.create {
+    .backup-seed {
+      width: calc(100% ~'- 20px');
+      padding: 0 10px;
+    }
   }
 }

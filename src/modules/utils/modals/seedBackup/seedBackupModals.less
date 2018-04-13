@@ -1,0 +1,50 @@
+@import (reference) '../../../config';
+
+md-dialog md-dialog-content {
+  padding: 30px 40px 0;
+
+  .button-margin {
+    margin-top: 100px;
+  }
+
+  .backup-seed {
+    w-button.submit {
+      margin-top: 90px;
+    }
+  }
+
+  w-seed-write .seed-container {
+    margin: 10px 0 50px 0;
+  }
+
+  span.clear {
+    text-decoration: none;
+    color: @color-submit-300;
+    cursor: pointer;
+  }
+
+  .confirm-backup {
+    .buttons-wrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      & > w-button.submit {
+        flex-basis: 48%;
+        margin-bottom: 0;
+        margin-top: 30px;
+      }
+    }
+  }
+
+}
+
+@media screen and (max-width: 480px) {
+  md-dialog md-dialog-content {
+    .backup-seed {
+      w-button.submit {
+        margin-top: 50px;
+      }
+    }
+  }
+}

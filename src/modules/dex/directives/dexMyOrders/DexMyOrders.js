@@ -5,12 +5,12 @@
      * @param Base
      * @param {Waves} waves
      * @param {User} user
-     * @param createPoll
-     * @param {NotificationManager} notificationManager
+     * @param {IPollCreate} createPoll
+     * @param {INotification} notification
      * @param {app.utils} utils
      * @return {DexMyOrders}
      */
-    const controller = function (Base, waves, user, createPoll, notificationManager, utils) {
+    const controller = function (Base, waves, user, createPoll, notification, utils) {
 
         class DexMyOrders extends Base {
 
@@ -37,13 +37,13 @@
                         .then(() => {
                             const canceledOrder = tsUtils.find(this.orders, { id: order.id });
                             canceledOrder.state = 'Canceled';
-                            notificationManager.info({
+                            notification.info({
                                 ns: 'app.dex',
                                 title: { literal: 'directives.myOrders.notifications.isCanceled' }
                             });
                         })
                         .catch(() => {
-                            notificationManager.error({
+                            notification.error({
                                 ns: 'app.dex',
                                 title: { literal: 'directives.myOrders.notifications.somethingWentWrong' }
                             });
@@ -87,7 +87,7 @@
         return new DexMyOrders();
     };
 
-    controller.$inject = ['Base', 'waves', 'user', 'createPoll', 'notificationManager', 'utils'];
+    controller.$inject = ['Base', 'waves', 'user', 'createPoll', 'notification', 'utils'];
 
     angular.module('app.dex').component('wDexMyOrders', {
         bindings: {},

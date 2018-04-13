@@ -167,27 +167,27 @@
         }
 
         @keyframes folding {
-           0%, 10% {
+            0%, 10% {
                 -moz-transform: perspective(140px) rotateX(-180deg);
                 -ms-transform: perspective(140px) rotateX(-180deg);
                 -webkit-transform: perspective(140px) rotateX(-180deg);
                 transform: perspective(140px) rotateX(-180deg);
                 opacity: 0;
-           }
-           25%, 75% {
-               -moz-transform: perspective(140px) rotateX(0deg);
-               -ms-transform: perspective(140px) rotateX(0deg);
-               -webkit-transform: perspective(140px) rotateX(0deg);
-               transform: perspective(140px) rotateX(0deg);
-               opacity: 1;
-           }
-           90%, 100% {
-               -moz-transform: perspective(140px) rotateY(180deg);
-               -ms-transform: perspective(140px) rotateY(180deg);
-               -webkit-transform: perspective(140px) rotateY(180deg);
-               transform: perspective(140px) rotateY(180deg);
-               opacity: 0;
-           }
+            }
+            25%, 75% {
+                -moz-transform: perspective(140px) rotateX(0deg);
+                -ms-transform: perspective(140px) rotateX(0deg);
+                -webkit-transform: perspective(140px) rotateX(0deg);
+                transform: perspective(140px) rotateX(0deg);
+                opacity: 1;
+            }
+            90%, 100% {
+                -moz-transform: perspective(140px) rotateY(180deg);
+                -ms-transform: perspective(140px) rotateY(180deg);
+                -webkit-transform: perspective(140px) rotateY(180deg);
+                transform: perspective(140px) rotateY(180deg);
+                opacity: 0;
+            }
         }
     </style>
 
@@ -201,6 +201,21 @@
 
         var __controllers = Object.create(null);
 
+        var localeSeparators = {
+            world: {
+                group: ',',
+                decimal: '.'
+            },
+            russian: {
+                group: ' ',
+                decimal: '.'
+            },
+            turkish: {
+                group: '.',
+                decimal: ','
+            }
+        };
+
         /**
          * @type {IWavesApp}
          */
@@ -208,25 +223,26 @@
             name: 'Waves Client',
             version: '{{pack.version}}',
             type: '{{build.type}}',
-            langList: ['en', 'ru', 'ko'],
             localize: {
-                en: {
-                    separators: {
-                        group: ',',
-                        decimal: '.'
-                    }
+                'en': {
+                    name: 'En',
+                    separators: localeSeparators.world
                 },
-                ru: {
-                    separators: {
-                        group: ' ',
-                        decimal: '.'
-                    }
+                'ru': {
+                    name: 'Ru',
+                    separators: localeSeparators.russian
                 },
-                ko: {
-                    separators: {
-                        group: ',',
-                        decimal: '.'
-                    }
+                'ko': {
+                    name: 'Ko',
+                    separators: localeSeparators.world
+                },
+                'zh-Hans-CN': {
+                    name: 'Zh',
+                    separators: localeSeparators.world
+                },
+                'tr': {
+                    name: 'Tr',
+                    separators: localeSeparators.turkish
                 }
             },
             network: {
@@ -347,6 +363,10 @@
 
 <ui-view name="main"></ui-view>
 
+<div class="notifications">
+    <w-container-alert-notification type="notification"></w-container-alert-notification>
+</div>
+
 <!-- JAVASCRIPT -->
 
 <script>
@@ -426,6 +446,14 @@
             matcherAddress: WavesApp.network.matcher,
             minimumSeedLength: 25,
             logLevel: 'none'
+        });
+
+        Waves.API.Node.v1.utils.time().then(function (nodeTime) {
+            var timeDiff = Waves.tools.calculateTimeDiff(nodeTime, Date.now());
+            var tenMinutes = 10 * 60 * 1000;
+            if (Math.abs(timeDiff) > tenMinutes) {
+                Waves.config.set({ timeDiff: timeDiff });
+            }
         });
     } catch (e) {
         console.error(e);

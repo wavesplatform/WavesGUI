@@ -55,6 +55,11 @@
                         this._setHandlers();
                     }
 
+                    $onDestroy() {
+                        super.$onDestroy();
+                        this.select.remove(this);
+                    }
+
                     /**
                      * @return {JQuery}
                      */

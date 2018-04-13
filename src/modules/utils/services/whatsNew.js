@@ -3,15 +3,15 @@
 
     /**
      *
-     * @param {NotificationManager} notificationManager
+     * @param {INotification} notification
      * @param {User} user
      * @param {Migration} migration
      * @param {app.utils} utils
      */
-    const factory = function (notificationManager, user, migration, utils) {
+    const factory = function (notification, user, migration, utils) {
 
         const MIGRATION_LIST = [
-            '1.0.0-beta.23'
+            '1.0.0-beta.23', '1.0.0-beta.25', '1.0.0-beta.26', '1.0.0-beta.27'
         ];
 
         /**
@@ -48,7 +48,7 @@
             const newVersionList = migration.migrateFrom(lastOpenVersion || WavesApp.version, MIGRATION_LIST);
 
             migration.sort(unique(newVersionList, notShownUpdates)).forEach((version) => {
-                notificationManager.info({
+                notification.info({
                     ns: 'app.utils',
                     title: {
                         literal: 'utils.whatsNew.title',
@@ -70,7 +70,7 @@
         return Object.create(null);
     };
 
-    factory.$inject = ['notificationManager', 'user', 'migration', 'utils'];
+    factory.$inject = ['notification', 'user', 'migration', 'utils'];
 
     angular.module('app.utils').factory('whatsNew', factory);
 })();

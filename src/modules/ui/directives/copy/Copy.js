@@ -5,10 +5,10 @@
      * @param {Base} Base
      * @param $scope
      * @param {app.utils} utils
-     * @param {NotificationManager} notificationManager
+     * @param {INotification} notification
      * @param {JQuery} $element
      */
-    const controller = function (Base, $scope, utils, notificationManager, $element) {
+    const controller = function (Base, $scope, utils, notification, $element) {
 
         class Copy extends Base {
 
@@ -22,14 +22,14 @@
                 });
 
                 clipboard.on('success', () => {
-                    notificationManager.info({
+                    notification.info({
                         ns: 'app.ui',
                         title: { literal: 'copySuccess' }
                     });
                 });
 
                 clipboard.on('error', () => {
-                    notificationManager.error({
+                    notification.error({
                         ns: 'app.ui',
                         title: { literal: 'copyError' }
                     });
@@ -45,7 +45,7 @@
         return new Copy();
     };
 
-    controller.$inject = ['Base', '$scope', 'utils', 'notificationManager', '$element'];
+    controller.$inject = ['Base', '$scope', 'utils', 'notification', '$element'];
 
     /**
      * @return {*}
