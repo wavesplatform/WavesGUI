@@ -46,50 +46,12 @@
      * @param {ModalManager} modalManager
      * @param {Storage} storage
      * @param {INotification} notification
-     * @param {ExtendedAsset} ExtendedAsset
      * @param {app.utils.decorators} decorators
+     * @param {Waves} waves
      * @return {AppRun}
      */
     const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
-                          notification, ExtendedAsset, decorators) {
-
-        function remapAssetProps(props) {
-            props.precision = props.decimals;
-            delete props.decimals;
-            return props;
-        }
-
-        const cache = Object.create(null);
-        Waves.config.set({
-            /**
-             * @param {string} id
-             * @return {Promise<ExtendedAsset>}
-             */
-            assetFactory(id) {
-
-                if (cache[id]) {
-                    return cache[id];
-                }
-
-                const promise = fetch(`${WavesApp.network.api}/assets/${id}`)
-                    .then((fullProps) => new ExtendedAsset(remapAssetProps(fullProps)))
-                    .catch(() => {
-                        if (id === Waves.constants.WAVES_PROPS.id) {
-                            const wavesTx = remapAssetProps(Waves.constants.WAVES_V1_ISSUE_TX);
-                            return Promise.resolve(new ExtendedAsset(wavesTx));
-                        }
-                        return Waves.API.Node.v1.transactions.get(id)
-                            .then((partialProps) => new ExtendedAsset(remapAssetProps(partialProps)));
-                    });
-
-                cache[id] = promise;
-                cache[id].catch(() => {
-                    delete cache[id];
-                });
-
-                return cache[id];
-            }
-        });
+                          notification, decorators, waves) {
 
         user.onLogin().then(() => {
             Waves.config.set({
@@ -109,8 +71,11 @@
                  * @type {Array<string>}
                  */
                 this.activeClasses = [];
+                /**
+                 * @type {Function}
+                 * @private
+                 */
                 this._changeLangHandler = null;
-
                 /**
                  * Configure library generation avatar by address
                  */
@@ -120,6 +85,7 @@
                 this._stopLoader();
                 this._initializeLogin();
                 this._initializeOutLinks();
+                waves.node.assets.initializeAssetFactory();
 
             }
 
@@ -145,6 +111,9 @@
                 }
             }
 
+            /**
+             * @private
+             */
             _listenChangeLanguage() {
                 this._changeLangHandler = () => {
                     localStorage.setItem('lng', i18next.language);
@@ -152,6 +121,9 @@
                 i18next.on('languageChanged', this._changeLangHandler);
             }
 
+            /**
+             * @private
+             */
             _stopListenChangeLanguage() {
                 i18next.off('languageChanged', this._changeLangHandler);
                 this._changeLangHandler = null;
@@ -404,8 +376,8 @@
         'modalManager',
         'storage',
         'notification',
-        'ExtendedAsset',
         'decorators',
+        'waves',
         'whatsNew'
     ];
 

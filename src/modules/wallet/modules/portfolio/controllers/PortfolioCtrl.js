@@ -40,12 +40,16 @@
                  * @type {string}
                  */
                 this.wavesId = WavesApp.defaultAssets.WAVES;
+                /**
+                 * @type {string}
+                 */
+                this.address = user.address;
 
 
                 this.syncSettings({ pinnedAssetIdList: 'pinnedAssetIdList' });
 
                 this.mirrorId = user.getSetting('baseAssetId');
-                waves.node.assets.info(this.mirrorId)
+                waves.node.assets.getExtendedAsset(this.mirrorId)
                     .then((mirror) => {
                         this.mirror = mirror;
                     });
@@ -83,6 +87,14 @@
 
             showQR() {
                 return modalManager.showAddressQrCode(user);
+            }
+
+            showBurn(assetId) {
+                return modalManager.showBurnModal(assetId);
+            }
+
+            showReissue(assetId) {
+                return modalManager.showReissueModal(assetId);
             }
 
             pinAsset(asset, state) {

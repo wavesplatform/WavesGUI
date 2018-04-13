@@ -283,6 +283,7 @@
             minAliasLength: 4,
             maxAliasLength: 30,
             maxAddressLength: 45,
+            maxCoinCount: null,
             getLocaleData: function () {
                 return WavesApp.localize[i18next.language];
             },
@@ -391,7 +392,9 @@
                 .then(function (response) {
                     if (response.ok) {
                         if (response.headers.get('Content-Type').indexOf('application/json') !== -1) {
-                            return response.json();
+                            return response.text().then(function (text) {
+                                return WavesApp.parseJSON(text);
+                            });
                         } else {
                             return response.text();
                         }
@@ -408,6 +411,8 @@
                 });
         };
     })(window.fetch);
+
+    WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
 
     WavesApp.parseJSON = parseJsonBignumber();
 
@@ -536,6 +541,7 @@
      * @property {number} minAliasLength
      * @property {number} maxAliasLength
      * @property {number} maxAddressLength
+     * @property {BigNumber} maxCoinsCount
      * @property {object} network
      * @property {string} network.code
      * @property {string} network.node

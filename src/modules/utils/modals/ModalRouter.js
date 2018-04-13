@@ -45,12 +45,12 @@
                 return {
                     '/send': () => modalManager.showSendAsset(user),
                     '/send/:assetId': ({ assetId }) => {
-                        return waves.node.assets.info(assetId).then(() => {
+                        return waves.node.assets.getExtendedAsset(assetId).then(() => {
                             return modalManager.showSendAsset(user, { assetId });
                         });
                     },
                     '/asset/:assetId': ({ assetId }) => {
-                        return waves.node.assets.info(assetId).then((asset) => {
+                        return waves.node.assets.getExtendedAsset(assetId).then((asset) => {
                             return modalManager.showAssetInfo(asset);
                         });
                     },
