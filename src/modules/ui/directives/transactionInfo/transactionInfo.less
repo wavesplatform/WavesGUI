@@ -2,6 +2,8 @@
 @import (reference) '../../../app/less/icons';
 @import (reference) '../../../app/less/typography';
 
+@tx-icon-size: 80px;
+
 w-transaction-info {
   display: block;
   width: 100%;
@@ -12,12 +14,12 @@ w-transaction-info {
     align-items: center;
 
     .transaction-icon {
-      width: 80px;
-      height: 80px;
+      width: @tx-icon-size;
+      height: @tx-icon-size;
       margin-top: 10px;
-      background-size: contain;
-      background-position: center;
-      background-repeat: no-repeat;
+      background: none transparent;
+      position: relative;
+      border-radius: 50%;
 
       &.send {
         .icon-tx-send();
@@ -72,6 +74,16 @@ w-transaction-info {
       &.cancel-leasing {
         .icon-tx-cancel-leasing();
       }
+
+      &::before {
+        width: @tx-icon-size;
+        height: @tx-icon-size;
+        background-size: @tx-icon-size;
+        background-color: @color-white;
+        content: '';
+        display: block;
+      }
+
     }
 
     .lead {

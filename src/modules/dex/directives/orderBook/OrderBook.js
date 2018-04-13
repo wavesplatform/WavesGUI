@@ -183,10 +183,13 @@
                 $box.html(template);
 
                 if (this._showSpread) {
-                    this._showSpread = false;
+                    requestAnimationFrame(() => {
+                        this._showSpread = false;
 
-                    const spread = box.querySelector('.spread');
-                    box.scrollTop = spread.offsetTop - box.offsetTop - box.clientHeight / 2 + spread.clientHeight / 2;
+                        const spread = box.querySelector('.spread');
+                        box.scrollTop =
+                            spread.offsetTop - box.offsetTop - box.clientHeight / 2 + spread.clientHeight / 2;
+                    });
                 }
             }
 

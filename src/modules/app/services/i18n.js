@@ -1,11 +1,38 @@
 (function () {
     'use strict';
 
-    const factory = function ($q) {
+    /**
+     * @param $q
+     * @param {Function} localeParser
+     */
+    const factory = function ($q, localeParser) {
 
         const onLoad = $q((resolve) => {
             i18next.on('initialized', resolve);
         });
+
+        const escape = function (text) {
+            return text.split('').map((char) => {
+                switch (char.charCodeAt(0)) {
+                    case 34: // "
+                        return '&quot;';
+                    case 38: // &
+                        return '&amp;';
+                    case 39: // '
+                        return '&#39;';
+                    case 60: // <
+                        return '&lt;';
+                    case 62: // >
+                        return '&gt;';
+                    default:
+                        return char;
+                }
+            }).join('');
+        };
+
+        const parse = function (text) {
+            return localeParser(escape(text));
+        };
 
         /**
          * @name app.i18n
@@ -32,12 +59,12 @@
                         return i18next.exists(key, params);
                     });
                     if (has) {
-                        return i18next.t(translate, params);
+                        return parse(i18next.t(translate, params));
                     } else {
                         return '';
                     }
                 }
-                return i18next.t(translate, params);
+                return parse(i18next.t(translate, { ...params, interpolation: { escapeValue: false } }));
             },
 
             /**
@@ -81,7 +108,7 @@
         };
     };
 
-    factory.$inject = ['$q'];
+    factory.$inject = ['$q', 'localeParser'];
 
     angular.module('app')
         .factory('i18n', factory);

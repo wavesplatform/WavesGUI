@@ -1,13 +1,4 @@
-.waves-logo {
-  width: 100px;
-  height: 21px;
-  background-image: url(/img/icons/waves_logo.svg);
-  background-repeat: no-repeat;
-  display: block;
-  margin: 40px auto 80px auto;
-  // TODO : icons should be only declared images
-  // TODO : move all unrelated styles to different LESS files
-}
+@tx-icon-size: 32px;
 
 .icon-close {
   width: 16px;
@@ -43,95 +34,114 @@
   margin: 10px auto 20px auto;
 }
 
-.icon-tx-send {
-  &::before {
-    background-color: rgba(255, 175, 0, 0.1);
-  }
-  background-image: url(/img/icons/transaction-send-icon.svg);
-}
-
-.icon-tx-receive {
-  &::before {
-    background-color: rgba(129, 201, 38, 0.1);
-  }
-  background-image: url(/img/icons/transaction-receive-icon.svg);
-}
-
-.icon-tx-mass-transfer {
-  &::before {
-    background-color: rgba(255, 175, 0, 0.1); // TODO : specify the exact color (this one is taken from the send tx)
-  }
-  background-image: url(/img/icons/transaction-mass-transfer-icon.svg);
-}
-
-.icon-tx-issue {
-  &::before {
-    background-color: rgba(38, 193, 201, 0.1);
-  }
-  background-image: url(/img/icons/transaction-issue-icon.svg);
-}
-
-.icon-tx-reissue {
-  &::before {
-    background-color: rgba(129, 201, 38, 0.1);
-  }
-  background-image: url(/img/icons/transaction-reissue-icon.svg);
-}
-
-.icon-tx-burn {
-  &::before {
-    background-color: rgba(255, 175, 0, 0.1);
-  }
-  background-image: url(/img/icons/transaction-burn-icon.svg);
-}
-
-.icon-tx-exchange {
-  &::before {
-    background-color: rgba(171, 125, 246, 0.1);
-  }
-  background-image: url(/img/icons/transaction-exchange-icon.svg);
-}
-
-.icon-tx-circular {
-  &::before {
-    background-color: rgba(239, 72, 41, 0.1);
-  }
-  background-image: url(/img/icons/transaction-circular-icon.svg);
+.icon-tx-bg {
+  background-image: url(/img/icons/transaction-icons.svg);
+  background-size: auto @tx-icon-size;
+  background-repeat: no-repeat;
 }
 
 .icon-tx-create-alias {
   &::before {
-    background-color: rgba(53, 165, 245, 0.1);
+    .icon-tx-bg();
+    background-position: 0 center;
   }
-  background-image: url(/img/icons/transaction-create-alias-icon.svg);
-}
-
-.icon-tx-lease {
-  &::before {
-    background-color: rgba(129, 201, 38, 0.1);
-  }
-  background-image: url(/img/icons/transaction-lease-icon.svg);
+  background-color: rgba(53, 165, 245, 0.1);
 }
 
 .icon-tx-cancel-leasing {
   &::before {
-    background-color: rgba(239, 72, 41, 0.1);
+    .icon-tx-bg();
+    background-position: -@tx-icon-size center;
   }
-  background-image: url(/img/icons/transaction-cancel-leasing-icon.svg);
+  background-color: rgba(239, 72, 41, 0.1);
+}
+
+.icon-tx-exchange {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 2 center;
+  }
+  background-color: rgba(171, 125, 246, 0.1);
+}
+
+.icon-tx-receive {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 3 center;
+  }
+  background-color: rgba(129, 201, 38, 0.1);
+}
+
+.icon-tx-circular {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 4 center;
+  }
+  background-color: rgba(239, 72, 41, 0.1);
+}
+
+.icon-tx-send {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 5 center;
+  }
+  background-color: rgba(255, 175, 0, 0.1);
+}
+
+.icon-tx-lease {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 6 center;
+  }
+  background-color: rgba(129, 201, 38, 0.1);
+}
+
+.icon-tx-burn {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 7 center;
+  }
+  background-color: rgba(255, 175, 0, 0.1);
+}
+
+.icon-tx-issue {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 8 center;
+  }
+  background-color: rgba(38, 193, 201, 0.1);
+}
+
+.icon-tx-reissue {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 9 center;
+  }
+  background-color: rgba(129, 201, 38, 0.1);
 }
 
 .icon-tx-incoming-leasing {
   &::before {
-    background-color: rgba(90, 129, 234, 0.1);
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 10 center;
   }
-  background-image: url(/img/icons/transaction-incoming-leasing-icon.svg);
+  background-color: rgba(90, 129, 234, 0.1);
 }
 
 .icon-tx-unknown {
   &::before {
-    background-color: rgba(153, 153, 153, 0.1);
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 11 center;
   }
-  background-image: url(/img/icons/transaction-unknown-icon.svg);
+  background-color: rgba(153, 153, 153, 0.1);
+}
+
+.icon-tx-mass-transfer {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 12 center;
+  }
+  background-color: rgba(255, 175, 0, 0.1); // TODO : specify the exact color (this one is taken from the send tx)
 }
 
 .icon-info {
