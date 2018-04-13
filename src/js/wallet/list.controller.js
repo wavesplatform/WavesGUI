@@ -53,8 +53,8 @@
                 depositWith: Currency.ZEC
             },
             {
-                balance: new Money(0, Currency.WTRY),
-                depositWith: Currency.WTRY
+                balance: new Money(0, Currency.TRY),
+                depositWith: Currency.TRY
             },
             {
                 balance: new Money(0, Currency.BCH),
@@ -96,7 +96,7 @@
                 type = 'crypto';
             } else if (id === Currency.EUR.id || id === Currency.USD.id) {
                 type = 'fiat';
-            } else if (id === Currency.WTRY.id) {
+            } else if (id === Currency.TRY.id) {
                 dialogService.open('#digilira-dialog');
             } else {
                 throw new Error('Add an option here!');
@@ -108,7 +108,7 @@
         function deposit (wallet) {
             if (wallet.balance.currency === Currency.WAVES) {
                 depositFromCard(wallet.balance.currency);
-            } else if (wallet.balance.currency === Currency.WTRY) {
+            } else if (wallet.balance.currency === Currency.TRY) {
                 dialogService.open('#digilira-dialog');
             } else {
                 $scope.$broadcast(events.WALLET_DEPOSIT + wallet.balance.currency.id, {

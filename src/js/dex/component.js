@@ -46,7 +46,7 @@
         if (Date.now() >= 1512993600000) {
             favoritePairs.push({
                 amountAsset: Currency.WAVES,
-                priceAsset: Currency.WTRY
+                priceAsset: Currency.TRY
             });
         }
 
