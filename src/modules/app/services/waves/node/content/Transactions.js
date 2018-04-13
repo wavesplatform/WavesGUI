@@ -24,15 +24,18 @@
      * @param {app.utils} utils
      * @param {Aliases} aliases
      * @param {app.utils.decorators} decorators
+     * @param {BaseNodeComponent} BaseNodeComponent
      * @return {Transactions}
      */
-    const factory = function (user, utils, aliases, decorators) {
+    const factory = function (user, utils, aliases, decorators, BaseNodeComponent) {
 
         const HOST = location.host;
 
-        class Transactions {
+        class Transactions extends BaseNodeComponent {
 
             constructor() {
+                super();
+
                 this.TYPES = TYPES;
 
                 Promise.all([
@@ -50,8 +53,7 @@
              * @return {Promise<ITransaction>}
              */
             get(id) {
-                return fetch(`${user.getSetting('network.node')}/transactions/info/${id}?h=${HOST}`)
-                    .then(utils.onFetch)
+                return fetch(`${this.network.node}/transactions/info/${id}?h=${HOST}`)
                     .then(Waves.tools.siftTransaction)
                     .then(this._pipeTransaction(false));
             }
@@ -85,8 +87,7 @@
              */
             @decorators.cachable(1)
             list(limit = 1000) {
-                return fetch(`${user.getSetting('network.node')}/transactions/address/${user.address}/limit/${limit}`)
-                    .then(utils.onFetch)
+                return fetch(`${this.network.node}/transactions/address/${user.address}/limit/${limit}`)
                     .then(([txList = []]) => Promise.all(txList.map(Waves.tools.siftTransaction)))
                     .then((list) => list.map(this._pipeTransaction(false)));
             }
@@ -96,8 +97,7 @@
              */
             @decorators.cachable(120)
             getActiveLeasingTx() {
-                return fetch(`${user.getSetting('network.node')}/leasing/active/${user.address}`)
-                    .then(utils.onFetch)
+                return fetch(`${this.network.node}/leasing/active/${user.address}`)
                     .then((txList = []) => Promise.all(txList.map(Waves.tools.siftTransaction)))
                     .then((list) => list.map(this._pipeTransaction(false)));
             }
@@ -107,7 +107,11 @@
              * @return {Promise<ITransaction[]>}
              */
             listUtx() {
-                return Waves.API.Node.v2.addresses.utxTransactions(user.address)
+                const address = user.address;
+
+                return fetch(`${this.network.node}/transactions/unconfirmed`)
+                    .then((list) => list.filter((item) => item.recipient === address || item.sender === address))
+                    .then(Waves.tools.siftTransaction)
                     .then((list = []) => list.map(this._pipeTransaction(true)));
             }
 
@@ -120,15 +124,6 @@
                     this.listUtx(),
                     this.list()
                 ]).then(([utxTxList, txList]) => utxTxList.concat(txList));
-            }
-
-            /**
-             * Get size of utx transactions list
-             * @return {Promise<number>}
-             */
-            utxSize() {
-                Waves.API.Node.v1.transactions.utxGetList(user.address)
-                    .then((list) => list.length);
             }
 
             createTransaction(transactionType, txData) {
@@ -330,7 +325,7 @@
         return utils.bind(new Transactions());
     };
 
-    factory.$inject = ['user', 'utils', 'aliases', 'decorators'];
+    factory.$inject = ['user', 'utils', 'aliases', 'decorators', 'BaseNodeComponent'];
 
     angular.module('app')
         .factory('transactions', factory);

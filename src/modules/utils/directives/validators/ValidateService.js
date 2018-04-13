@@ -119,7 +119,7 @@
                     return false;
                 } else if (value && value === 'no-self') {
                     return !waves.node.aliases.getAliasList().includes(address) &&
-                            waves.node.aliases.getAddress(address);
+                        waves.node.aliases.getAddress(address);
                 } else {
                     return waves.node.aliases.getAddress(address);
                 }
@@ -142,9 +142,9 @@
                     return false;
                 }
 
-                return Waves.API.Node.v1.addresses.balance(address)
+                return waves.node.assets.getBalanceByAddress(address)
                     .then((data) => {
-                        if (data && data.balance != null) {
+                        if (data && data.available != null) {
                             return $q.resolve();
                         } else {
                             return $q.reject();

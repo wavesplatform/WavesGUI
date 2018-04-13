@@ -4,11 +4,19 @@
     /**
      * @param {app.utils} utils
      * @param {EventManager} eventManager
+     * @param {User} user
      * @return {BaseNodeComponent}
      */
-    const factory = function (utils, eventManager) {
+    const factory = function (utils, eventManager, user) {
 
         class BaseNodeComponent {
+
+            /**
+             * @return {typeof WavesApp.network}
+             */
+            get network() {
+                return user.getSetting('network');
+            }
 
             /**
              * Get list of available fee for transaction
@@ -75,7 +83,7 @@
         return BaseNodeComponent;
     };
 
-    factory.$inject = ['utils', 'eventManager'];
+    factory.$inject = ['utils', 'eventManager', 'user'];
 
     angular.module('app')
         .factory('BaseNodeComponent', factory);
