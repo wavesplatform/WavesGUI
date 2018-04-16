@@ -254,6 +254,28 @@
                 });
             }
 
+            showBurnModal(assetId) {
+                return $injector.get('waves').node.assets.balance(assetId).then(({ available }) => this._getModal({
+                    id: 'token-burn',
+                    mod: 'change-token',
+                    locals: { money: available, txType: 'burn' },
+                    titleContent: '<w-i18n params="{name: $ctrl.asset.name}">modal.token.burn.title</w-i18n>',
+                    contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
+                    controller: 'TokenChangeModalCtrl'
+                }));
+            }
+
+            showReissueModal(assetId) {
+                return $injector.get('waves').node.assets.balance(assetId).then(({ available }) => this._getModal({
+                    id: 'token-burn',
+                    mod: 'change-token',
+                    locals: { money: available, txType: 'reissue' },
+                    titleContent: '<w-i18n params="{name: $ctrl.asset.name}">modal.token.reissue.title</w-i18n>',
+                    contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
+                    controller: 'TokenChangeModalCtrl'
+                }));
+            }
+
             /**
              * @param {IModalOptions} options
              * @return {$q.resolve}

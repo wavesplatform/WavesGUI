@@ -283,6 +283,7 @@
             minAliasLength: 4,
             maxAliasLength: 30,
             maxAddressLength: 45,
+            maxCoinCount: null,
             getLocaleData: function () {
                 return WavesApp.localize[i18next.language];
             },
@@ -370,6 +371,8 @@
 <!-- JAVASCRIPT -->
 
 <script>
+
+    WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
 
     WavesApp.parseJSON = parseJsonBignumber();
 
@@ -521,6 +524,7 @@
      * @property {number} minAliasLength
      * @property {number} maxAliasLength
      * @property {number} maxAddressLength
+     * @property {BigNumber} maxCoinsCount
      * @property {object} network
      * @property {string} network.code
      * @property {string} network.node

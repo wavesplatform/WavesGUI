@@ -434,7 +434,13 @@
                                 },
                                 parser: (value) => {
                                     if (value && precisionValidator.handler($ngModel.$modelValue, value)) {
-                                        return Validate._toMoney(value, validator.money);
+                                        const money = Validate._toMoney(value, validator.money);
+                                        if (money) {
+                                            return money;
+                                        } else {
+                                            this._validateByName('asset');
+                                            return null;
+                                        }
                                     } else {
                                         return null;
                                     }
