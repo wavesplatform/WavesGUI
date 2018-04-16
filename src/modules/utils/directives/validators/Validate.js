@@ -634,7 +634,7 @@
                             if (value instanceof BigNumber) {
                                 return value.toFixed();
                             } else if (value instanceof Waves.Money) {
-                                return value.getTokens().toFixed();
+                                return value.getTokens().toFormat();
                             } else if (!value) {
                                 return '';
                             } else {

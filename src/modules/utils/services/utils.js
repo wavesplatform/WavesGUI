@@ -351,7 +351,7 @@
 
             /**
              * @name app.utils#parseNiceNumber
-             * @param data
+             * @param {*} data
              * @return {BigNumber}
              */
             parseNiceNumber(data) {
