@@ -63,7 +63,7 @@
                 /**
                  * @type {object}
                  */
-                const userDataHash = this._getOterSessions().reduce((result, sessionId) => {
+                const userDataHash = this._getOtherSessions().reduce((result, sessionId) => {
                     const userData = this._getUserDataBySession(sessionId);
                     if (userData) {
                         result[userData.address] = userData;
@@ -217,7 +217,7 @@
              * @param {string} apiMethod
              * @param {string} targetSessionId
              * @param {*} [data]
-             * @return {Promise<IResponce>}
+             * @return {Promise<IResponse>}
              * @private
              */
             _runCommand(apiMethod, targetSessionId, data) {
@@ -356,7 +356,7 @@
              * @return {Array<string>}
              * @private
              */
-            _getAllSesions() {
+            _getAllSessions() {
                 return JSON.parse(localStorage.getItem(this._sessionListKey) || '[]');
             }
 
@@ -364,8 +364,8 @@
              * @return {string[]}
              * @private
              */
-            _getOterSessions() {
-                return this._getAllSesions().filter((sessionId) => sessionId !== this._sessionId);
+            _getOtherSessions() {
+                return this._getAllSessions().filter((sessionId) => sessionId !== this._sessionId);
             }
 
             /**
@@ -404,6 +404,11 @@
                 return `${this._getSessionDataKey(sessionId)}-${cmd}-cmd`;
             }
 
+            /**
+             * @param {string} localStorageKey
+             * @return {string|null}
+             * @private
+             */
             _parseCommand(localStorageKey) {
                 const [sessionId, cmd] = localStorageKey.split('-').slice(1, -1);
                 if (sessionId && cmd && sessionId === this._sessionId) {
@@ -439,7 +444,7 @@
  */
 
 /**
- * @typedef {object} IResponce
+ * @typedef {object} IResponse
  * @property {'error'|'success'} status
  * @property {string} [message]
  * @property {object} [data]
