@@ -21,21 +21,16 @@
                  */
                 this._sleep = false;
                 router.registerRouteHash(this._wrapClose(this._getRoutes()));
+            }
 
+            initialize() {
                 window.addEventListener('hashchange', () => {
                     if (!this._sleep) {
                         this._apply();
                     }
                 }, false);
 
-                user.onLogin().then(() => {
-                    const stop = $rootScope.$on('$stateChangeSuccess', () => {
-                        stop();
-                        setTimeout(() => {
-                            this._apply();
-                        }, 1000);
-                    });
-                });
+                this._apply();
             }
 
             /**

@@ -78,7 +78,6 @@
                  * @private
                  */
                 this._modalRouter = new ModalRouter();
-                modalManager.initialize(user);
                 /**
                  * @type {function}
                  * @private
@@ -170,9 +169,12 @@
 
                             i18next.changeLanguage(user.getSetting('lng'));
 
-                            modalManager.onReady()
+                            this._initializeTermsAccepted()
                                 .then(() => {
                                     this._initializeBackupWarning();
+                                })
+                                .then(() => {
+                                    this._modalRouter.initialize();
                                 });
 
                             $rootScope.$on('$stateChangeStart', (event, current) => {
@@ -184,6 +186,24 @@
                             });
                         });
                 });
+            }
+
+            /**
+             * @return Promise
+             * @private
+             */
+            _initializeTermsAccepted() {
+                if (!user.getSetting('termsAccepted')) {
+                    return modalManager.showTermsAccept(user).then(() => {
+                        if (user.getSetting('shareAnalytics')) {
+                            analytics.activate();
+                        }
+                    })
+                        .catch(() => false);
+                } else if (user.getSetting('shareAnalytics')) {
+                    analytics.activate();
+                }
+                return Promise.resolve();
             }
 
             /**
