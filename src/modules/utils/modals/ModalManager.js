@@ -200,7 +200,7 @@
                     return this._getModal({
                         id: 'user-address-qr-code',
                         locals: { address: user.address },
-                        title: 'modal.qr.title',
+                        title: 'modal.receive.receive',
                         contentUrl: 'modules/utils/modals/addressQrCode/address-qr-code.modal.html',
                         controller: 'AddressQrCode',
                         mod: 'modal-address-qr-code'

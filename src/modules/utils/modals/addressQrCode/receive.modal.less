@@ -5,13 +5,68 @@ md-dialog.modal-address-qr-code {
   md-dialog-content {
     position: relative;
 
+    .flex-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      &.split-half {
+        justify-content: space-between;
+        width: 100%;
+      }
+    }
+
+    .amount-wrap {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .amount-wrap-card {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      w-balance,
+      w-select {
+        width: calc(50% ~'- 10px');
+      }
+    }
+
+    .amount-modal-icon {
+      background-image: url(/img/icons/arrow.svg);
+      background-size: 100% 100%;
+      width: 24px;
+      height: 20px;
+      margin: 7px;
+    }
+
+    w-balance-input {
+      width: 204px;
+    }
+
+    .asset-name {
+      margin-left: 10px;
+    }
+
+    .card-icons {
+      position: absolute;
+      width: 84px;
+      right:0;
+      top: 0;
+      display: flex;
+    }
 
     //temp
     .temp {
-      height: 20px;
       background: green;
       margin: 20px 0;
+      border-radius: 4px;
       color:#fff;
+      padding: 15px;
+      text-align: center;
     }
 
     .modal-content {
