@@ -20,26 +20,29 @@
                  * @private
                  */
                 this._sleep = false;
+                /**
+                 * @type {{url: string, search: string}}
+                 * @private
+                 */
+                this._firstUrl = ModalRouter._getUrlData();
                 router.registerRouteHash(this._wrapClose(this._getRoutes()));
             }
 
             initialize() {
                 window.addEventListener('hashchange', () => {
                     if (!this._sleep) {
-                        this._apply();
+                        this._apply(ModalRouter._getUrlData());
                     }
                 }, false);
 
-                this._apply();
+                this._apply(this._firstUrl);
             }
 
             /**
              * @private
              */
-            _apply() {
-                const fullUrl = `/${decodeURIComponent(location.hash.replace('#', ''))}`;
-                const [url, search] = fullUrl.split('?');
-                router.apply(url, utils.parseSearchParams(search));
+            _apply({ url, search }) {
+                return router.apply(url, utils.parseSearchParams(search));
             }
 
             /**
@@ -90,6 +93,16 @@
                     };
                 });
                 return hash;
+            }
+
+            /**
+             * @return {{url: string, search: string}}
+             * @private
+             */
+            static _getUrlData() {
+                const fullUrl = `/${decodeURIComponent(location.hash.replace('#', ''))}`;
+                const [url, search] = fullUrl.split('?');
+                return { url, search };
             }
 
         }

@@ -40,8 +40,9 @@
                 });
 
                 if (listener) {
-                    listener(params, search);
+                    return listener(params, search);
                 }
+                return null;
             }
 
             registerRoute(route, listener) {
