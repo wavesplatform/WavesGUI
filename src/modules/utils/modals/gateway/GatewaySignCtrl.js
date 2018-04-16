@@ -71,6 +71,10 @@
                  * @type {boolean}
                  */
                 this.debug = !!search.debug;
+                /**
+                 * @type {string}
+                 */
+                this.titleLiteral = LOCALIZATION.title.normal;
 
                 this.observe('hasError', (value) => {
                     if (value) {
