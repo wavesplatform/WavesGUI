@@ -55,10 +55,21 @@
                 });
             }
 
+            showGatewaySign(search) {
+                return this._getModal({
+                    id: 'gateway-sign-in',
+                    title: '{{$ctrl.titleLiteral}}',
+                    contentUrl: 'modules/utils/modals/gateway/gatewaySign.html',
+                    controller: 'GatewaySignCtrl',
+                    locals: { search },
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
             showAssetInfo(asset) {
                 return this._getModal({
                     id: 'asset-info',
-                    ns: 'app.utils',
                     title: 'modal.assetInfo.title',
                     contentUrl: 'modules/utils/modals/assetInfo/assetInfo.html',
                     locals: asset,

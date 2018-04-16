@@ -1,0 +1,58 @@
+@import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
+
+.gateway {
+
+  .gateway-icon {
+    margin: 30px auto 50px auto;
+
+    img {
+      display: inline-block;
+      min-width: 140px;
+      min-height: 30px;
+      max-width: 200px;
+      max-height: 50px;
+    }
+  }
+
+  h3 {
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .content {
+    i.icon-lock  {
+      display: inline-block;
+      margin-right: 6px;
+      vertical-align: top;
+    }
+  }
+
+  .flex-caption {
+    display: flex;
+    align-items: flex-start;
+
+    div {
+      glex-grow: 1;
+    }
+  }
+
+  .buttons-wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    & > w-button {
+      flex-basis: 48%;
+    }
+  }
+
+  .note-plate {
+    background: @color-basic-50;
+    border-radius: @border-radius;
+    border: 1px dashed @color-basic-200;
+    padding: 12px;
+    overflow: auto;
+  }
+
+}

@@ -373,9 +373,22 @@
 
     WavesApp.parseJSON = parseJsonBignumber();
 
-    function isBrowserSupported() {
-        return window.Promise && window.fetch && Object.values && Object.assign && (window.crypto || window.msCrypto);
-    }
+
+    var isBrowserSupported = (function () {
+
+        var USE_NATIVE_API = [
+            window.Promise,
+            window.fetch,
+            Object.values,
+            Object.assign,
+            URL,
+            window.crypto || window.msCrypto
+        ];
+
+        return function () {
+            return USE_NATIVE_API.every(Boolean);
+        };
+    })();
 
     var notSupportedSelector = '.not-supported-browser';
 
@@ -402,6 +415,9 @@
     var analytics = eventSender.default.inactive();
 
     try {
+        /**
+         * @type {IWavesAPI}
+         */
         var Waves = WavesAPI.create({
             networkByte: WavesApp.network.code.charCodeAt(0),
             nodeAddress: WavesApp.network.node,
@@ -432,6 +448,13 @@
                     views: [{ name: 'main' }]
                 }
             },
+            // {
+            //     id: 'sessions',
+            //     data: {
+            //         noLogin: true,
+            //         views: [{ name: 'main' }]
+            //     }
+            // },
             {
                 id: 'create',
                 data: {
