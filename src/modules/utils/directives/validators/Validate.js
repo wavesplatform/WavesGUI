@@ -28,7 +28,7 @@
 
     const PATTERNS = {
         get NUMBER() {
-            const decimal = WavesApp.getLocaleData().decimal;
+            const decimal = WavesApp.getLocaleData().separators.decimal;
             return `\\d*\\${decimal}?\\d*`;
         },
         INTEGER: '\\d*'
