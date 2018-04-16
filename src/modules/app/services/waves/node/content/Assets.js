@@ -344,6 +344,7 @@
                 const wavesOrder = orderMoneyHash[WavesApp.defaultAssets.WAVES] || wavesNodeRegular.cloneWithCoins('0');
 
                 aliases.aliases = wavesDetails.aliases;
+                moneyList = moneyList.slice(1).sort(utils.comparators.process((money) => money.asset.name).asc);
 
                 return [{
                     asset: wavesNodeRegular.asset,
@@ -352,7 +353,7 @@
                     inOrders: wavesOrder,
                     leasedOut: wavesDetails.wavesBalance.leasedOut,
                     leasedIn: wavesDetails.wavesBalance.leasedIn
-                }].concat(moneyList.slice(1).map(Assets._remapAssetsMoney(orderMoneyHash, eventsMoneyHash)));
+                }].concat(moneyList.map(Assets._remapAssetsMoney(orderMoneyHash, eventsMoneyHash)));
             }
 
             /**
