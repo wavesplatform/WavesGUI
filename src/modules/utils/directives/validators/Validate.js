@@ -39,6 +39,10 @@
      * @param {app.utils} utils
      * @param {ValidateService} validateService
      * @param {app.utils.decorators} decorators
+     * @param {$rootScope.Scope} $rootScope
+     * @param {$rootScope.Scope} $rootScope
+     * @param {$compile} $compile
+     * @param {Base} Base
      */
     const directive = function (utils, validateService, decorators, $rootScope, $compile, Base) {
         return {
@@ -83,17 +87,18 @@
                         _addInputPattern(pattern) {
                             return new Promise((resolve) => {
                                 const create = () => {
-                                    const patternName = Validate._getAttrName('pattern');
+                                    const validatorName = 'pattern';
+                                    const patternName = Validate._getAttrName(validatorName);
                                     if (!$attrs[patternName]) {
                                         $attrs[patternName] = pattern;
-                                        resolve(this._createValidator('pattern'));
+                                        resolve(this._createValidator(validatorName));
                                     }
                                 };
 
                                 if (this._ready) {
                                     create();
                                 } else {
-                                    this._validatorsReady.once(create);
+                                    this.receiveOnce(this._validatorsReady, create);
                                 }
                             });
                         }
