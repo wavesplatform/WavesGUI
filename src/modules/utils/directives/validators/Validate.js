@@ -36,6 +36,8 @@
      * @param {app.utils} utils
      * @param {ValidateService} validateService
      * @param {app.utils.decorators} decorators
+     * @param {$rootScope.Scope} $rootScope
+     * @param {$compile} $compile
      */
     const directive = function (utils, validateService, decorators, $rootScope, $compile) {
         return {
