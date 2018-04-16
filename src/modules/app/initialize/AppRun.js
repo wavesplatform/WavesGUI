@@ -116,7 +116,8 @@
                  * @type {ModalRouter}
                  * @private
                  */
-                this._modalManager = new ModalRouter();
+                this._modalRouter = new ModalRouter();
+                modalManager.initialize(user);
                 /**
                  * @type {function}
                  * @private
@@ -202,7 +203,7 @@
 
                             i18next.changeLanguage(user.getSetting('lng'));
 
-                            this._initializeTermsAccepted()
+                            modalManager.onReady()
                                 .then(() => {
                                     this._initializeBackupWarning();
                                 });
@@ -216,24 +217,6 @@
                             });
                         });
                 });
-            }
-
-            /**
-             * @return Promise
-             * @private
-             */
-            _initializeTermsAccepted() {
-                if (!user.getSetting('termsAccepted')) {
-                    return modalManager.showTermsAccept(user).then(() => {
-                        if (user.getSetting('shareAnalytics')) {
-                            analytics.activate();
-                        }
-                    })
-                        .catch(() => false);
-                } else if (user.getSetting('shareAnalytics')) {
-                    analytics.activate();
-                }
-                return Promise.resolve();
             }
 
             /**

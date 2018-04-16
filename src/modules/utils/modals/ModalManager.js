@@ -41,6 +41,10 @@
                  * @private
                  */
                 this._counter = 0;
+                /**
+                 * @type {JQuery.Deferred}
+                 */
+                this._ready = $.Deferred();
 
                 state.signals.changeRouterStateStart.on((event) => {
                     if (event.defaultPrevented) {
@@ -53,6 +57,34 @@
                         $mdDialog.cancel();
                     }
                 });
+            }
+
+            /**
+             * @param {User} user
+             */
+            initialize(user) {
+                user.onLogin().then(() => {
+                    const onTermsAccepted = () => {
+                        if (user.getSetting('shareAnalytics')) {
+                            analytics.activate();
+                        }
+                        this._ready.resolve();
+                    };
+
+                    if (!user.getSetting('termsAccepted')) {
+                        this.showTermsAccept(user)
+                            .then(onTermsAccepted);
+                    } else {
+                        onTermsAccepted();
+                    }
+                });
+            }
+
+            /**
+             * @return {Promise}
+             */
+            onReady() {
+                return this._ready.promise();
             }
 
             showGatewaySign(search) {
@@ -281,7 +313,10 @@
                     target.bindToController = true;
                 }
 
-                return ModalManager._getTemplate(target)
+                const promise = options.id === 'terms-accept' ? Promise.resolve() : this.onReady();
+
+                return promise
+                    .then(() => ModalManager._getTemplate(target))
                     .then((template) => {
                         const { controller, controllerAs } = ModalManager._getController(options);
                         const changeCounter = () => {

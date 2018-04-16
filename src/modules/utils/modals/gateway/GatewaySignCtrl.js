@@ -17,14 +17,15 @@
      */
     const controller = function (Base, $scope, user, utils) {
 
+        const isEmpty = (value) => !value;
         const tsApiValidator = require('ts-api-validator');
         const schema = new tsApiValidator.Schema({
             type: tsApiValidator.ObjectPart,
             required: true,
             content: {
-                referrer: { type: tsApiValidator.StringPart, path: 'r', required: true },
-                name: { type: tsApiValidator.StringPart, path: 'n', required: true },
-                data: { type: tsApiValidator.StringPart, path: 'd', required: true },
+                referrer: { type: tsApiValidator.StringPart, isEmpty, path: 'r', required: true },
+                name: { type: tsApiValidator.StringPart, isEmpty, path: 'n', required: true },
+                data: { type: tsApiValidator.StringPart, isEmpty, path: 'd', required: true },
                 iconPath: { type: tsApiValidator.StringPart, path: 'i', required: false },
                 successPath: { type: tsApiValidator.StringPart, path: 's', required: false },
                 debug: { type: tsApiValidator.BooleanPart, required: false, defaultValue: false }
