@@ -60,7 +60,11 @@
 
                 hashes.forEach((hash) => {
                     const [key, val] = hash.split('=');
-                    params[key] = decodeURIComponent(val);
+                    if (val == null) {
+                        params[key] = true;
+                    } else {
+                        params[key] = decodeURIComponent(val);
+                    }
                 });
 
                 return params;
@@ -323,7 +327,7 @@
 
             /**
              * @name app.utils#parseNiceNumber
-             * @param data
+             * @param {*} data
              * @return {BigNumber}
              */
             parseNiceNumber(data) {

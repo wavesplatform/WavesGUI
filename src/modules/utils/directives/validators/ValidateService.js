@@ -138,6 +138,10 @@
                     return false;
                 }
 
+                if (!waves.node.isValidAddress(address)) {
+                    return false;
+                }
+
                 if (value && value === 'no-self' && address === user.address) {
                     return false;
                 }

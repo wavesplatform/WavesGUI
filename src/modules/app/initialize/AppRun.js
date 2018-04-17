@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-/* global openInBrowser, i18next, BigNumber, Waves, identityImg */
+/* global openInBrowser, BigNumber */
 (function () {
     'use strict';
 
@@ -48,10 +48,11 @@
      * @param {INotification} notification
      * @param {app.utils.decorators} decorators
      * @param {Waves} waves
+     * @param {ModalRouter} ModalRouter
      * @return {AppRun}
      */
     const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
-                          notification, decorators, waves) {
+                          notification, decorators, waves, ModalRouter) {
 
         user.onLogin().then(() => {
             Waves.config.set({
@@ -63,6 +64,7 @@
         class AppRun {
 
             constructor() {
+                const identityImg = require('identity-img');
 
                 LOADER.addProgress(PROGRESS_MAP.APP_RUN);
 
@@ -72,7 +74,12 @@
                  */
                 this.activeClasses = [];
                 /**
-                 * @type {Function}
+                 * @type {ModalRouter}
+                 * @private
+                 */
+                this._modalRouter = new ModalRouter();
+                /**
+                 * @type {function}
                  * @private
                  */
                 this._changeLangHandler = null;
@@ -165,6 +172,9 @@
                             this._initializeTermsAccepted()
                                 .then(() => {
                                     this._initializeBackupWarning();
+                                })
+                                .then(() => {
+                                    this._modalRouter.initialize();
                                 });
 
                             $rootScope.$on('$stateChangeStart', (event, current) => {
@@ -260,6 +270,7 @@
              * @private
              */
             _login(currentState) {
+                // const sessions = sessionBridge.getSessionsData();
 
                 const states = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => {
@@ -267,7 +278,11 @@
                             .join('.');
                     });
                 if (states.indexOf(currentState.name) === -1) {
+                    // if (sessions.length) {
+                    //     $state.go('sessions');
+                    // } else {
                     $state.go(states[0]);
+                    // }
                 }
                 return user.onLogin();
             }
@@ -378,6 +393,7 @@
         'notification',
         'decorators',
         'waves',
+        'ModalRouter',
         'whatsNew'
     ];
 
