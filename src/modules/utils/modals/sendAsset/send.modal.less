@@ -252,6 +252,29 @@ md-dialog.modal-send {
 @media screen and (max-width: 767px) {
   .modal-send {
     .modal-content {
+      padding-top: 80px;
+
+      .icon-close {
+        right: 0;
+      }
+
+      w-tabs {
+        .titles-wrap {
+          width: 100%;
+          margin: 0;
+
+          .title {
+            .headline-2();
+            margin-right: 20px;
+            color: @color-info-500;
+
+            &.active {
+              color: @color-submit-400;
+            }
+          }
+        }
+      }
+
       table tr {
         td {
           font-size: @mobile-low-fsize;
