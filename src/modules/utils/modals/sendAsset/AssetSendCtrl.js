@@ -86,6 +86,14 @@
                  * @type {*}
                  */
                 this.txInfo = Object.create(null);
+                /**
+                 * @type {string}
+                 */
+                this.tab = null;
+
+                this.syncSettings({
+                    tab: 'send.defaultTab'
+                });
 
                 this.receive(utils.observe(this.state, 'moneyHash'), this._onChangeMoneyHash, this);
                 this.receive(utils.observe(this.state, 'assetId'), () => this.poll.restart());

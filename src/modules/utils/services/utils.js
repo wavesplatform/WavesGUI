@@ -235,6 +235,20 @@
             },
 
             /**
+             * @name app.utils#getMoneyWithoutFee
+             * @param {Money} money
+             * @param {Money} fee
+             * @return {Money}
+             */
+            getMoneyWithoutFee(money, fee) {
+                if (fee && money.asset.id === fee.asset.id) {
+                    return money.sub(fee);
+                } else {
+                    return money;
+                }
+            },
+
+            /**
              * @name app.utils#isEqual
              * @param a
              * @param b

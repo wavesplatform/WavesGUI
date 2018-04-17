@@ -61,6 +61,10 @@
                     return null;
                 }
 
+                /**
+                 * @param {$rootScope.Scope}
+                 * @prarm {JQuery} $input
+                 */
                 return function ($scope, $input, $compiledAttrs, $ngModel) {
 
                     class Validate extends Base {
@@ -143,7 +147,7 @@
                         @decorators.async()
                         _validate() {
                             this._applyValidators(Object.keys(this._validators).map((name) => this._validators[name]));
-                            $scope.$apply();
+                            $scope.$digest();
                         }
 
                         /**

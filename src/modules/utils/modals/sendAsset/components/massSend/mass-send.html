@@ -27,6 +27,8 @@
         <w-input textarea="true"
                  class="tall"
                  name="recipientCsv"
+                 w-validate
+                 w-validator-custom="{{$ctrl.isValidCSV}}"
                  ng-model="$ctrl.recipientCsv"></w-input>
     </w-input-container>
 
@@ -45,6 +47,10 @@
             <w-i18n>modal.send.attachmentLength</w-i18n>
         </w-input-error>
     </w-input-container>
+
+    <div class="input-like">
+        <w-balance money="$ctrl.totalAmount"></w-balance>
+    </div>
 
     <div class="row fee margin-2">
         <div class="body basic-500">
