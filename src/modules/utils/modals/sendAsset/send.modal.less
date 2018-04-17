@@ -10,7 +10,7 @@ md-dialog.modal-send {
   .modal-content {
     width: 100%;
     position: relative;
-    padding-top: 50px;
+    padding-top: 90px;
   }
 
   .icon-close {
@@ -23,9 +23,22 @@ md-dialog.modal-send {
   w-tabs {
     .titles-wrap {
       position: absolute;
-      top: 0;
-      width: calc(100% ~'+ 80px');
-      margin: 0 -40px;
+      top: 10px;
+      width: calc(100% ~'+ 40px');
+      margin: 0 -20px;
+
+      .title {
+        .headline-2();
+        line-height: 30px;
+        padding: 12px 0 8px 0;
+        margin: 0 40px 0 0;
+        color: @color-info-500;
+
+        &.active {
+          color: @color-submit-400;
+        }
+      }
+
 
       &::before,
       &::after {
@@ -86,7 +99,7 @@ md-dialog.modal-send {
   }
 
   .row {
-    margin-top: 20px;
+    margin-bottom: 20px;
     position: relative;
 
     &:first-child {
@@ -222,6 +235,8 @@ md-dialog.modal-send {
       flex-grow: 1;
 
     }
+
+    w-import-file,
     a {
       flex-grow: 0;
       margin: 4px 0;

@@ -49,7 +49,8 @@
         </div>
 
         <div class="warning-plate basic-500">
-            <w-i18n params="{assetName: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.name}">modal.send.icoWarning</w-i18n>
+            <w-i18n params="{assetName: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.name}">modal.send.icoWarning
+            </w-i18n>
         </div>
     </div>
 
@@ -88,7 +89,9 @@
             <w-i18n>inputs.errors.required</w-i18n>
         </w-input-error>
         <w-input-error name="amount" message="precision">
-            <w-i18n params="{precision: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.precision}">modal.send.errors.precision</w-i18n>
+            <w-i18n params="{precision: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.precision}">
+                modal.send.errors.precision
+            </w-i18n>
         </w-input-error>
         <w-input-error name="amountMirror" message="precision">
             <w-i18n params="{precision: $ctrl.mirror.asset.precision}">modal.send.errors.precision</w-i18n>
@@ -131,12 +134,12 @@
         </w-i18n>
     </div>
 
-    <div class="row">
-        <w-button on-click="$ctrl.createTx()"
-                  disabled="send.$invalid || (!send.$invalid && !$ctrl.hasComission)"
-                  type="submit"
-                  class="big submit long">
-            <w-i18n>button.continue</w-i18n>
-        </w-button>
-    </div>
+
+    <w-button on-click="$ctrl.createTx()"
+              disabled="send.$invalid || (!send.$invalid && !$ctrl.hasComission)"
+              type="submit"
+              class="big submit long">
+        <w-i18n>button.continue</w-i18n>
+    </w-button>
+
 </form>
