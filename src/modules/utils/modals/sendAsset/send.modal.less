@@ -1,7 +1,40 @@
 @import (reference) '../../../config';
 @import (reference) '../../../app/less/typography';
 
-.modal-send {
+md-dialog.modal-send {
+
+  md-dialog-content {
+    padding-top: 0;
+  }
+
+  .modal-content {
+    width: 100%;
+    position: relative;
+    padding-top: 50px;
+  }
+
+  .icon-close {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    z-index: 10;
+  }
+
+
+
+  w-tabs {
+    .titles-wrap {
+      position: absolute;
+      top: 0;
+      width: calc(100% ~'+ 80px');
+      margin: 0 -40px;
+
+      &::before,
+      &::after {
+        display: none;
+      }
+    }
+  }
 
   w-qr-code-read {
     position: absolute;
@@ -137,11 +170,6 @@
     .decimal-muted {
       display: none;
     }
-  }
-
-  .modal-content {
-    width: 100%;
-    position: relative;
   }
 
   .ellipsis {
