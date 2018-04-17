@@ -46,7 +46,7 @@
                 const fileName = 'transactions.csv';
 
                 const fields = HEADERS.map((item) => i18n.translate(item.name, NS));
-                /* eslint complexity: ["warn"] */
+                /* eslint complexity: ["off"] */
                 const data = transactionList.map((tx) => HEADERS.map((header) => {
                     const id = header.id;
                     const value = tx[id];
