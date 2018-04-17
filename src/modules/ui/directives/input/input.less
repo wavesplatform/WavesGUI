@@ -108,6 +108,15 @@ w-input {
   }
 
   &[textarea="true"] {
+
+    &.tall textarea {
+      min-height: 150px;
+    }
+
+    &.normal textarea {
+      min-height: 80px;
+    }
+
     .w-input-wrap {
       &::after {
         display: none;
