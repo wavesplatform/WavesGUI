@@ -6,7 +6,7 @@ export function exist(path: string): Promise<void> {
     if (exists) {
         return Promise.resolve();
     } else {
-        return Promise.reject((new Error(`File with path ${path} does not exist!`));
+        return Promise.reject(new Error(`File with path ${path} does not exist!`));
     }
 }
 
