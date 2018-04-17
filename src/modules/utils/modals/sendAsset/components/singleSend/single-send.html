@@ -5,8 +5,17 @@
     <ng-transclude></ng-transclude>
 
     <div class="row">
+
         <w-input-container>
-            <div class="body-2" w-i18n="modal.send.recipient"></div>
+            <div class="flex-row-title">
+                <div class="body-2" w-i18n="modal.send.recipient"></div>
+                <a class="link"
+                   ng-if="!$ctrl.toBankMode && $ctrl.hasSendToBank"
+                   ng-click="$ctrl.toBankMode = true">
+                    <w-i18n>modal.send.toBank.toBankLink</w-i18n>
+                </a>
+            </div>
+
             <div class="read-address-wrap">
                 <w-input type="text"
                          name="recipient"
@@ -21,6 +30,13 @@
                                 max-height="160"></w-qr-code-read>
             </div>
 
+            <div class="to-bank-account" ng-if="$ctrl.toBankMode">
+                <div class="bank-recipient">
+                    <span w-i18n="modal.send.toBank.bankAccount"></span>
+                    <i class="toggle-mode btn" ng-click="$ctrl.toBankMode = false"></i>
+                </div>
+            </div>
+
             <w-input-error message="anyAddress">
                 <w-i18n>modal.send.errors.address</w-i18n>
             </w-input-error>
@@ -30,7 +46,18 @@
         </w-input-container>
     </div>
 
+    <div class="row" ng-if="$ctrl.toBankMode">
+        <div class="warning-plate basic-500 margin-2" w-i18n="modal.send.toBank.warning"></div>
+    </div>
+
+    <div class="warning-plate margin-2" ng-if="$ctrl.toBankMode">
+        <div class="body-2 warning-500" w-i18n="modal.send.toBank.feeTitle"></div>
+        <div class="footnote-1 basic-500" w-i18n="modal.send.toBank.feeExplanation"></div>
+    </div>
+
     <div ng-if="$ctrl.outerSendMode" class="row">
+
+
         <div class="warning-plate margin-2">
             <div class="body-2 warning-500"
                  w-i18n="modal.send.coinomat.feeTitle"
@@ -118,7 +145,7 @@
         </w-input-container>
     </div>
 
-    <div class="row fee margin-2">
+    <div class="row fee margin-1">
         <div class="body basic-500">
             <w-i18n params="{fee: $ctrl.tx.fee}">modal.send.fee</w-i18n>
         </div>
@@ -133,7 +160,6 @@
                 params="{fee:$ctrl.state.singleSend.fee}">modal.send.validationError.notEnoughFunds
         </w-i18n>
     </div>
-
 
     <w-button on-click="$ctrl.createTx()"
               disabled="send.$invalid || (!send.$invalid && !$ctrl.hasComission)"
