@@ -3,6 +3,8 @@
 
     const config = function ($urlRouterProvider, $stateProvider, $locationProvider) {
 
+        const tsUtils = require('ts-utils');
+
         class AppConfig {
 
             constructor() {

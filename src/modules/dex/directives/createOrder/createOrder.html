@@ -16,14 +16,18 @@
                 <div class="choice">
                     <div class="choose sell" ng-click="$ctrl.expand('sell')">
                         <div class="footnote-2 white-0">SELL</div>
-                        <div class="headline-2 white-0">{{$ctrl.bid.price}}</div>
+                        <div class="headline-2 white-0"
+                             w-nice-number="$ctrl.bid.price"
+                             precision="$ctrl.priceBalance.asset.precision"></div>
                     </div>
                     <div class="middle">
                         <div class="caption-3 disabled-900">SPREAD {{$ctrl.spreadPercent}}%</div>
                     </div>
                     <div class="choose buy" ng-click="$ctrl.expand('buy')">
                         <div class="footnote-2 white-0">BUY</div>
-                        <div class="headline-2 white-0">{{$ctrl.ask.price}}</div>
+                        <div class="headline-2 white-0"
+                             w-nice-number="$ctrl.ask.price"
+                             precision="$ctrl.priceBalance.asset.precision"></div>
                     </div>
                 </div>
             </w-step>

@@ -1,0 +1,47 @@
+<div class="gateway">
+    <div ng-if="!$ctrl.hasError">
+        <div class="text-center gateway-icon" ng-if="$ctrl.imageSrc !== ''">
+            <img src="{{::$ctrl.imageSrc}}"/>
+        </div>
+        <div class="headline-2 basic-700" ng-if="$ctrl.imageSrc === ''">
+            <i class="icon-connected"></i>
+        </div>
+
+        <h3 class="text-center margin-3 basic-700">
+            <w-i18n params="{url: $ctrl.referrer, name: $ctrl.name}">modal.gatewaySign.headline</w-i18n>
+        </h3>
+
+        <div class="warning-plate margin-2 body-2 warning-500">
+            <w-i18n>modal.gatewaySign.warning</w-i18n>
+        </div>
+
+        <div class="content margin-4 caption-1 basic-500 flex-caption">
+            <i class="icon-lock"></i>
+            <w-i18n>modal.gatewaySign.description</w-i18n>
+        </div>
+
+        <div class="buttons-wrapper">
+            <w-button class="big" w-modal-close>
+                <w-i18n>modal.gatewaySign.cancel</w-i18n>
+            </w-button>
+            <w-button class="big submit" on-click="$ctrl.send()">
+                <w-i18n>modal.gatewaySign.continue</w-i18n>
+            </w-button>
+        </div>
+    </div>
+    <div ng-if="$ctrl.hasError">
+        <div class="icon-disconnected"></div>
+
+        <h3 class="text-center margin-4 basic-700">
+            <w-i18n>modal.gatewaySign.error.headline</w-i18n>
+        </h3>
+
+        <div class="note-plate margin-4" ng-if="$ctrl.debug">
+            <pre class="body-2">{{::$ctrl.errorMessage}}</pre>
+        </div>
+
+        <w-button class="big long white" w-modal-close>
+            <w-i18n>modal.gatewaySign.error.button</w-i18n>
+        </w-button>
+    </div>
+</div>

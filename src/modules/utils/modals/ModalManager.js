@@ -55,10 +55,21 @@
                 });
             }
 
+            showGatewaySign(search) {
+                return this._getModal({
+                    id: 'gateway-sign-in',
+                    title: '{{$ctrl.titleLiteral}}',
+                    contentUrl: 'modules/utils/modals/gateway/gatewaySign.html',
+                    controller: 'GatewaySignCtrl',
+                    locals: { search },
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
             showAssetInfo(asset) {
                 return this._getModal({
                     id: 'asset-info',
-                    ns: 'app.utils',
                     title: 'modal.assetInfo.title',
                     contentUrl: 'modules/utils/modals/assetInfo/assetInfo.html',
                     locals: asset,
@@ -241,6 +252,28 @@
                     controller: 'ConfirmTxCtrl',
                     contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
                 });
+            }
+
+            showBurnModal(assetId) {
+                return $injector.get('waves').node.assets.balance(assetId).then(({ available }) => this._getModal({
+                    id: 'token-burn',
+                    mod: 'change-token',
+                    locals: { money: available, txType: 'burn' },
+                    titleContent: '<w-i18n params="{name: $ctrl.asset.name}">modal.token.burn.title</w-i18n>',
+                    contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
+                    controller: 'TokenChangeModalCtrl'
+                }));
+            }
+
+            showReissueModal(assetId) {
+                return $injector.get('waves').node.assets.balance(assetId).then(({ available }) => this._getModal({
+                    id: 'token-burn',
+                    mod: 'change-token',
+                    locals: { money: available, txType: 'reissue' },
+                    titleContent: '<w-i18n params="{name: $ctrl.asset.name}">modal.token.reissue.title</w-i18n>',
+                    contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
+                    controller: 'TokenChangeModalCtrl'
+                }));
             }
 
             /**

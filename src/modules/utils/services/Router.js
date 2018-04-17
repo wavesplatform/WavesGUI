@@ -9,7 +9,7 @@
                 this._routesHash = Object.create(null);
             }
 
-            apply(url) {
+            apply(url, search) {
                 const parts = url.split('/');
                 const urls = Object.keys(this._routesHash)
                     .sort((a, b) => {
@@ -40,8 +40,9 @@
                 });
 
                 if (listener) {
-                    listener(params);
+                    return listener(params, search);
                 }
+                return null;
             }
 
             registerRoute(route, listener) {
