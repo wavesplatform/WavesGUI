@@ -10,28 +10,45 @@ md-dialog.modal-send {
   .modal-content {
     width: 100%;
     position: relative;
-    padding-top: 50px;
+    padding-top: 90px;
   }
 
   .icon-close {
     position: absolute;
     top: 20px;
-    right: 0;
+    right: -20px;
     z-index: 10;
   }
 
   w-tabs {
     .titles-wrap {
       position: absolute;
-      top: 0;
-      width: calc(100% ~'+ 80px');
-      margin: 0 -40px;
+      top: 10px;
+      width: calc(100% ~'+ 40px');
+      margin: 0 -20px;
+
+      .title {
+        .headline-2();
+        line-height: 30px;
+        padding: 12px 0 8px 0;
+        margin: 0 40px 0 0;
+        color: @color-info-500;
+
+        &.active {
+          color: @color-submit-400;
+        }
+      }
 
       &::before,
       &::after {
         display: none;
       }
     }
+  }
+
+  .total-amount {
+    background-color: @color-basic-50;
+    border: 1px solid @color-basic-200;
   }
 
   w-qr-code-read {
@@ -86,7 +103,7 @@ md-dialog.modal-send {
   }
 
   .row {
-    margin-top: 20px;
+    margin-bottom: 20px;
     position: relative;
 
     &:first-child {
@@ -222,6 +239,8 @@ md-dialog.modal-send {
       flex-grow: 1;
 
     }
+
+    w-import-file,
     a {
       flex-grow: 0;
       margin: 4px 0;
@@ -233,6 +252,29 @@ md-dialog.modal-send {
 @media screen and (max-width: 767px) {
   .modal-send {
     .modal-content {
+      padding-top: 80px;
+
+      .icon-close {
+        right: 0;
+      }
+
+      w-tabs {
+        .titles-wrap {
+          width: 100%;
+          margin: 0;
+
+          .title {
+            .headline-2();
+            margin-right: 20px;
+            color: @color-info-500;
+
+            &.active {
+              color: @color-submit-400;
+            }
+          }
+        }
+      }
+
       table tr {
         td {
           font-size: @mobile-low-fsize;

@@ -4,19 +4,23 @@
         <ng-transclude></ng-transclude>
     </div>
 
-    <div class="flex-row body-2">
-        <w-i18n params="{count: $ctrl.tx.transfers.length, max: $ctrl.maxTransfersCount}">
-            modal.send.massSend.recipient
-        </w-i18n>
+    <div class="flex-row-title body-2">
+        <div>
+            <w-i18n params="{count: $ctrl.tx.transfers.length, max: $ctrl.maxTransfersCount}">
+                modal.send.massSend.recipient
+            </w-i18n>
+        </div>
         <w-import-file ng-if="$ctrl.tx.transfers.length === 0"
                        extantions="::'csv'"
                        on-change="$ctrl.importFile(file)">
-            <span w-i18n="modal.send.massSend.importFile"></span>
+            <a class="link">
+                <span w-i18n="modal.send.massSend.importFile"></span>
+            </a>
         </w-import-file>
-
-        <span ng-if="$ctrl.tx.transfers.length > 0"
-              ng-click="$ctrl.clear()"
-              w-i18n="modal.send.massSend.clear"></span>
+        <a ng-if="$ctrl.tx.transfers.length > 0"
+           class="link"
+           ng-click="$ctrl.clear()"
+           w-i18n="modal.send.massSend.clear"></a>
     </div>
 
     <w-input-container class="margin-2">
@@ -25,7 +29,10 @@
                  name="recipientCsv"
                  w-validate
                  w-validator-custom="{{$ctrl.isValidCSV}}"
-                 ng-model="$ctrl.recipientCsv"></w-input>
+                 ng-model="$ctrl.recipientCsv"
+                 w-i18n-attr="placeholder"
+                 placeholder="modal.send.massSend.recipientsAmountsPlaceholder"
+        ></w-input>
     </w-input-container>
 
     <div class="body-2" w-i18n="modal.send.massSend.description"></div>
@@ -44,7 +51,8 @@
         </w-input-error>
     </w-input-container>
 
-    <div class="input-like">
+    <div class="body-2" w-i18n="modal.send.massSend.totalAmount"></div>
+    <div class="input-like total-amount">
         <w-balance money="$ctrl.totalAmount"></w-balance>
     </div>
 
