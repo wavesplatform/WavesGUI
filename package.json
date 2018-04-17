@@ -34,6 +34,7 @@
     "@types/less": "0.0.32",
     "@types/mime": "2.0.0",
     "@types/node": "8.0.34",
+    "@types/papaparse": "4.1.33",
     "@types/serve-static": "1.7.32",
     "autoprefixer": "7.1.5",
     "babel-eslint": "8.2.2",
