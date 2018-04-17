@@ -29,7 +29,10 @@
                  name="recipientCsv"
                  w-validate
                  w-validator-custom="{{$ctrl.isValidCSV}}"
-                 ng-model="$ctrl.recipientCsv"></w-input>
+                 ng-model="$ctrl.recipientCsv"
+                 w-i18n-attr="placeholder"
+                 placeholder="modal.send.massSend.recipientsAmountsPlaceholder"
+        ></w-input>
     </w-input-container>
 
     <div class="body-2" w-i18n="modal.send.massSend.description"></div>
@@ -48,7 +51,8 @@
         </w-input-error>
     </w-input-container>
 
-    <div class="input-like">
+    <div class="body-2" w-i18n="modal.send.massSend.totalAmount"></div>
+    <div class="input-like total-amount margin-1">
         <w-balance money="$ctrl.totalAmount"></w-balance>
     </div>
 

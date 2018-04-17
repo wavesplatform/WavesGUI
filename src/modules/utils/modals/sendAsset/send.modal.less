@@ -16,7 +16,7 @@ md-dialog.modal-send {
   .icon-close {
     position: absolute;
     top: 20px;
-    right: 0;
+    right: -20px;
     z-index: 10;
   }
 
@@ -39,12 +39,16 @@ md-dialog.modal-send {
         }
       }
 
-
       &::before,
       &::after {
         display: none;
       }
     }
+  }
+
+  .total-amount {
+    background-color: @color-basic-50;
+    border: 1px solid @color-basic-200;
   }
 
   w-qr-code-read {
