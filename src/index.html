@@ -211,8 +211,8 @@
                 decimal: '.'
             },
             turkish: {
-                group: '.',
-                decimal: ','
+                group: ' ', // TODO change to '.'
+                decimal: '.' // TODO change to ','
             }
         };
 
@@ -283,6 +283,7 @@
             minAliasLength: 4,
             maxAliasLength: 30,
             maxAddressLength: 45,
+            maxCoinCount: null,
             getLocaleData: function () {
                 return WavesApp.localize[i18next.language];
             },
@@ -310,7 +311,7 @@
     <!-- CSS -->
 
     {{#if isWeb}}
-        <base href="/">
+    <base href="/">
     {{/if}}
 
 </head>
@@ -338,22 +339,22 @@
         </div>
         <div class="browsers-icons">
             <div class="browser-icon-block">
-                <img src="/img/no-preload/chrome-icon.svg" />
+                <img src="/img/no-preload/chrome-icon.svg"/>
                 <div>Chrome</div>
                 <div><a href="https://www.google.ru/chrome/index.html" target="_blank">Install or update</a></div>
             </div>
             <div class="browser-icon-block">
-                <img src="/img/no-preload/firefox-icon.svg" />
+                <img src="/img/no-preload/firefox-icon.svg"/>
                 <div>Firefox</div>
                 <div><a href="https://www.mozilla.org/en-US/firefox/" target="_blank">Install or update</a></div>
             </div>
             <div class="browser-icon-block">
-                <img src="/img/no-preload/safari-icon.svg" />
+                <img src="/img/no-preload/safari-icon.svg"/>
                 <div>Safari</div>
                 <div><a href="https://support.apple.com/downloads/safari" target="_blank">Install or update</a></div>
             </div>
             <div class="browser-icon-block">
-                <img src="/img/no-preload/opera-icon.svg" />
+                <img src="/img/no-preload/opera-icon.svg"/>
                 <div>Opera</div>
                 <div><a href="http://www.opera.com/" target="_blank">Install or update</a></div>
             </div>
@@ -371,11 +372,26 @@
 
 <script>
 
+    WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
+
     WavesApp.parseJSON = parseJsonBignumber();
 
-    function isBrowserSupported() {
-        return window.Promise && window.fetch && Object.values && Object.assign && (window.crypto || window.msCrypto);
-    }
+
+    var isBrowserSupported = (function () {
+
+        var USE_NATIVE_API = [
+            window.Promise,
+            window.fetch,
+            Object.values,
+            Object.assign,
+            URL,
+            window.crypto || window.msCrypto
+        ];
+
+        return function () {
+            return USE_NATIVE_API.every(Boolean);
+        };
+    })();
 
     var notSupportedSelector = '.not-supported-browser';
 
@@ -402,6 +418,9 @@
     var analytics = eventSender.default.inactive();
 
     try {
+        /**
+         * @type {IWavesAPI}
+         */
         var Waves = WavesAPI.create({
             networkByte: WavesApp.network.code.charCodeAt(0),
             nodeAddress: WavesApp.network.node,
@@ -432,6 +451,13 @@
                     views: [{ name: 'main' }]
                 }
             },
+            // {
+            //     id: 'sessions',
+            //     data: {
+            //         noLogin: true,
+            //         views: [{ name: 'main' }]
+            //     }
+            // },
             {
                 id: 'create',
                 data: {
@@ -498,6 +524,7 @@
      * @property {number} minAliasLength
      * @property {number} maxAliasLength
      * @property {number} maxAddressLength
+     * @property {BigNumber} maxCoinsCount
      * @property {object} network
      * @property {string} network.code
      * @property {string} network.node
@@ -520,13 +547,13 @@
      * @property {Array<string>} dex.resolutions
      * @property {string} dex.defaultResolution
      * @property {Array<string>} modules
-     * @property {Function} isWeb
-     * @property {Function} isDesktop
-     * @property {Function} isProduction
+     * @property {function():boolean} isWeb
+     * @property {function():boolean} isDesktop
+     * @property {function():boolean} isProduction
      * @property {Function} addController
      * @property {Function} getController
-     * @property {Function} getLocaleData
-     * @property {Function} parseJSON
+     * @property {function():{name: string, separators: {group: string, decimal: string}}} getLocaleData
+     * @property {function(data: string): object} parseJSON
      * @property {Tree} stateTree
      */
 

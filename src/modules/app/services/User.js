@@ -90,6 +90,13 @@
             }
 
             /**
+             * @return {boolean}
+             */
+            isMaster() {
+                return !!this._password;
+            }
+
+            /**
              * @param {string} name
              * @return {*}
              */

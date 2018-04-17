@@ -11,9 +11,11 @@
      * @param {PollCache} PollCache
      * @param {Aliases} aliases
      * @param {Matcher} matcher
+     * @param {ExtendedAsset} ExtendedAsset
      * @return {Assets}
      */
-    const factory = function (BaseNodeComponent, utils, user, eventManager, decorators, PollCache, aliases, matcher) {
+    const factory = function (BaseNodeComponent, utils, user, eventManager, decorators, PollCache, aliases, matcher,
+                              ExtendedAsset) {
 
         class Assets extends BaseNodeComponent {
 
@@ -28,15 +30,57 @@
                 });
             }
 
+            initializeAssetFactory() {
+                Waves.config.set({
+                    /**
+                     * @param {string} id
+                     * @return {Promise<ExtendedAsset>}
+                     */
+                    assetFactory: (id) => {
+                        return this.getExtendedAsset(id);
+                    }
+                });
+            }
+
+            /**
+             * Get asset info
+             * @param {string} assetId
+             * @return Promise<ExtendedAsset>
+             */
+            @decorators.cachable(5)
+            info(assetId) {
+                if (assetId === WavesApp.defaultAssets.WAVES) {
+                    return this.getExtendedAsset(assetId);
+                }
+                return Promise.all([
+                    this.getExtendedAsset(assetId),
+                    fetch(`${user.getSetting('network.node')}/assets/details/${assetId}`)
+                        .then(utils.onFetch)
+                ]).then(([asset, assetData]) => {
+                    Assets._updateAsset(asset, assetData);
+                    return asset;
+                });
+            }
+
             /**
              * Get Asset info
              * @param {string} assetId
              * @return {Promise<Asset>}
              */
             @decorators.cachable()
-            info(assetId) {
-                return Waves.Asset.get(assetId)
-                    .catch(() => Waves.Asset.get(assetId));
+            getExtendedAsset(assetId) {
+                return fetch(`${WavesApp.network.api}/assets/${assetId}`)
+                    .then(utils.onFetch)
+                    .catch(() => {
+                        if (assetId === Waves.constants.WAVES_PROPS.id) {
+                            return Waves.constants.WAVES_V1_ISSUE_TX;
+                        } else {
+                            return fetch(`${user.getSetting('network.node')}/transactions/info/${assetId}`)
+                                .then(utils.onFetch);
+                        }
+                    })
+                    .then(Assets._remapAssetProps)
+                    .then((assetData) => new ExtendedAsset(assetData));
             }
 
             /**
@@ -71,20 +115,22 @@
                 return utils.whenAll([this.userBalances(), this._getEmptyBalanceList(assetIdList)])
                     .then(([balanceList, emptyBalanceList]) => {
                         const balances = utils.toHash(balanceList, 'available.asset.id');
-                        return emptyBalanceList.map((money) => {
+                        return Promise.all(emptyBalanceList.map((money) => {
                             if (balances[money.asset.id]) {
-                                return balances[money.asset.id];
+                                return Promise.resolve(balances[money.asset.id]);
                             } else {
-                                return {
-                                    asset: money.asset,
-                                    regular: money,
-                                    available: money,
-                                    inOrders: money,
-                                    leasedOut: money,
-                                    leasedIn: money
-                                };
+                                return this.info(money.asset.id).then(() => {
+                                    return {
+                                        asset: money.asset,
+                                        regular: money,
+                                        available: money,
+                                        inOrders: money,
+                                        leasedOut: money,
+                                        leasedIn: money
+                                    };
+                                });
                             }
-                        });
+                        }));
                     });
             }
 
@@ -158,15 +204,24 @@
             /**
              * Create reissue transaction
              */
-            reissue() {
-
+            reissue({ quantity, reissuable, fee, keyPair }) {
+                return this.getFee('reissue', fee).then((fee) => Waves.API.Node.v1.assets.reissue({
+                    assetId: quantity.asset.id,
+                    fee: fee.toCoins(),
+                    quantity: quantity.toCoins(),
+                    reissuable
+                }, keyPair));
             }
 
             /**
              * Create burn transaction
              */
-            burn() {
-
+            burn({ quantity, fee, keyPair }) {
+                return this.getFee('burn', fee).then((fee) => Waves.API.Node.v1.assets.burn({
+                    quantity: quantity.toCoins(),
+                    fee: fee.toCoins(),
+                    assetId: quantity.asset.id
+                }, keyPair));
             }
 
             distribution() {
@@ -183,13 +238,23 @@
             }
 
             /**
+             * @return {Promise<Response>}
+             * @private
+             */
+            _getUserAssetBalances() {
+                return fetch(`${user.getSetting('network.node')}/assets/balance/${user.address}`)
+                    .then(utils.onFetch)
+                    .then(({ balances }) => this._remapBalanceList(balances));
+            }
+
+            /**
              * @return {Promise<IBalanceDetails[]>}
              * @private
              */
             _getBalances() {
                 return Promise.all([
                     Waves.API.Node.v2.addresses.get(user.address),
-                    Waves.API.Node.v2.addresses.balances(user.address),
+                    this._getUserAssetBalances(),
                     this._getBalanceOrders()
                 ]).then(Assets._remapBalance);
             }
@@ -200,7 +265,33 @@
              * @private
              */
             _getEmptyBalanceList(idList) {
-                return Promise.all(idList.map((id) => Waves.Money.fromCoins('0', id)));
+                return Promise.all(idList.map((id) => {
+                    return this.getExtendedAsset(id)
+                        .then((asset) => new Waves.Money('0', asset));
+                }));
+            }
+
+            /**
+             * @param balances
+             * @return {Promise<Money[]>}
+             * @private
+             */
+            _remapBalanceList(balances) {
+                return Promise.all(balances.map((balance) => {
+                    const id = balance.assetId;
+
+                    const _create = (asset) => {
+
+                        Assets._updateAsset(asset, {
+                            quantity: balance.quantity,
+                            reissuable: balance.reissuable
+                        });
+
+                        return Promise.resolve(new Waves.Money(String(balance.balance), asset));
+                    };
+
+                    return this.getExtendedAsset(id).then(_create);
+                }));
             }
 
             /**
@@ -253,6 +344,7 @@
                 const wavesOrder = orderMoneyHash[WavesApp.defaultAssets.WAVES] || wavesNodeRegular.cloneWithCoins('0');
 
                 aliases.aliases = wavesDetails.aliases;
+                moneyList = moneyList.sort(utils.comparators.process((money) => money.asset.name).asc);
 
                 return [{
                     asset: wavesNodeRegular.asset,
@@ -261,7 +353,7 @@
                     inOrders: wavesOrder,
                     leasedOut: wavesDetails.wavesBalance.leasedOut,
                     leasedIn: wavesDetails.wavesBalance.leasedIn
-                }].concat(moneyList.slice(1).map(Assets._remapAssetsMoney(orderMoneyHash, eventsMoneyHash)));
+                }].concat(moneyList.map(Assets._remapAssetsMoney(orderMoneyHash, eventsMoneyHash)));
             }
 
             /**
@@ -304,9 +396,33 @@
                 }
             }
 
+            /**
+             * @param props
+             * @return {*}
+             * @private
+             */
+            static _remapAssetProps(props) {
+                props.precision = props.decimals;
+                delete props.decimals;
+                return props;
+            }
+
+            /**
+             * @param {ExtendedAsset} asset
+             * @param {{quantity: string, reissuable: boolean}} props
+             * @private
+             */
+            static _updateAsset(asset, props) {
+                const divider = new BigNumber(10).pow(asset.precision);
+                const quantity = new BigNumber(props.quantity).div(divider);
+
+                asset.reissuable = props.reissuable;
+                asset.quantity = quantity;
+            }
+
         }
 
-        return new Assets();
+        return utils.bind(new Assets());
     };
 
     factory.$inject = [
@@ -317,7 +433,8 @@
         'decorators',
         'PollCache',
         'aliases',
-        'matcher'
+        'matcher',
+        'ExtendedAsset'
     ];
 
     angular.module('app')
