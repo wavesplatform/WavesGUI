@@ -27,7 +27,17 @@
              * @return {Money}
              */
             get totalAmount() {
-                return this.tx.transfers.map(({ amount }) => amount).reduce((result, item) => result.add(item));
+                const transfers = this.tx.transfers;
+                if (transfers.length) {
+                    return this.tx.transfers
+                        .map(({ amount }) => amount)
+                        .reduce((result, item) => result.add(item));
+                }
+                return this.state.moneyHash[this.state.assetId].cloneWithTokens('0');
+            }
+
+            get isValidCSV() {
+                return this._isValidAmounts && this._isValidAllRecipients;
             }
 
             constructor() {
@@ -85,6 +95,7 @@
                     this.tx.transfers = this.tx.transfers || [];
                     this._calculateFee();
                     this._updateTextAreaContent();
+                    this._validate();
                 });
             }
 
@@ -97,6 +108,10 @@
                         this._processTextAreaContent(content);
                         $scope.$digest();
                     });
+            }
+
+            clear() {
+                this.tx.transfers = [];
             }
 
             /**
@@ -132,6 +147,14 @@
                 }
             }
 
+            _validate() {
+                this._validateAmounts();
+                this._validateRecipients();
+            }
+
+            /**
+             * @private
+             */
             _validateRecipients() {
                 Promise.all(this.tx.transfers.map(({ recipient }) => validateService.wavesAddress(recipient)))
                     .then(() => {
@@ -142,8 +165,13 @@
                     });
             }
 
+            /**
+             * @private
+             */
             _validateAmounts() {
-                // const amount = this.totalAmount;
+                const moneyHash = utils.groupMoney([this.totalAmount, this.tx.fee]);
+                const balance = moneyHash[this.state.assetId];
+                this._isValidAmounts = this.state.moneyHash[this.state.assetId].gte(balance);
             }
 
             /**
