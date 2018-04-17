@@ -1,0 +1,48 @@
+<div w-i18n-ns="app.sessions">
+
+    <div class="waves-logo"></div>
+    <div class="headline-1">
+        <w-i18n>session.headline</w-i18n>
+    </div>
+
+    <div class="margin-4 body-2 disabled-600">
+        <span w-i18n="session.signIn"></span>
+    </div>
+
+    <!-- TODO @tsigel check, review and fix ng-if and icon-remove -->
+    <ul class="sessions-holder" ng-if="$ctrl.session.address.length <= 3">
+        <li class="input-like big margin-2" ng-repeat="session in $ctrl.sessions track by session.address"
+            ng-click="$ctrl.chooseSession(session)">
+            <w-avatar class="margin-right-1" size="30" address="session.address"></w-avatar>
+            <div class="mobile-caption-2" ng-class="::{'has-name': !!session.name}">
+                <span class="session-name">{{::session.name}}</span>
+                <span class="session-address">{{::session.address}}</span>
+            </div>
+            <i class="icon-remove-user icon-close"></i> <!-- TODO @tsigel remove session -->
+        </li>
+    </ul>
+
+    <!-- TODO @tsigel check, review and fix w-select -->
+    <div class="sessions-holder">
+        <w-select class="big" ng-if="$ctrl.session.address.length > 3" ng-model="$ctrl.activeSession">
+            <w-option ng-repeat="session in $ctrl.sessions track by session.address"
+                      value="{{::session.address}}">
+                <w-avatar class="margin-right-1" address="session.address" size="30"></w-avatar>
+                <div class="mobile-caption-2" ng-class="::{'has-name': !!user.name}">
+                    <span class="session-name">{{::session.name}}</span>
+                    <span class="session-address">{{::session.address}}</span>
+                </div>
+                <i class="icon-remove-user icon-close"></i> <!-- TODO @tsigel remove session -->
+            </w-option>
+        </w-select>
+    </div>
+
+    <div class="or margin-3">
+        <span w-i18n="session.or"></span>
+    </div>
+
+    <w-button class="big submit long">
+        <w-i18n>session.signInNew</w-i18n>
+    </w-button>
+
+</div>

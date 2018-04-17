@@ -63,9 +63,7 @@
                 // TODO : replace with waves-api method when it is implemented
                 return alias.length >= 4 &&
                     alias.length <= WavesApp.maxAliasLength &&
-                    alias.split('').some((char) => {
-                        return AVAILABLE_CHARS.indexOf(char) !== -1;
-                    });
+                    alias.split('').every((char) => AVAILABLE_CHARS.includes(char));
             }
 
         }

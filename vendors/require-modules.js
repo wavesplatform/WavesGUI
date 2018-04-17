@@ -6,7 +6,9 @@
         'bignumber.js': 'BigNumber',
         'ts-api-validator': 'tsApiValidator',
         'parse-json-bignumber': 'parseJsonBignumber',
-        'papaparse': 'Papa'
+        'papaparse': 'Papa',
+        'waves-api': 'WavesAPI',
+        'identity-img': 'identityImg'
     };
 
     if (window.require) {

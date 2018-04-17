@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-/* global openInBrowser, i18next, BigNumber, Waves, identityImg */
+/* global openInBrowser, BigNumber */
 (function () {
     'use strict';
 
@@ -46,51 +46,13 @@
      * @param {ModalManager} modalManager
      * @param {Storage} storage
      * @param {INotification} notification
-     * @param {ExtendedAsset} ExtendedAsset
      * @param {app.utils.decorators} decorators
+     * @param {Waves} waves
+     * @param {ModalRouter} ModalRouter
      * @return {AppRun}
      */
     const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
-                          notification, ExtendedAsset, decorators) {
-
-        function remapAssetProps(props) {
-            props.precision = props.decimals;
-            delete props.decimals;
-            return props;
-        }
-
-        const cache = Object.create(null);
-        Waves.config.set({
-            /**
-             * @param {string} id
-             * @return {Promise<ExtendedAsset>}
-             */
-            assetFactory(id) {
-
-                if (cache[id]) {
-                    return cache[id];
-                }
-
-                const promise = fetch(`${WavesApp.network.api}/assets/${id}`)
-                    .then(utils.onFetch)
-                    .then((fullProps) => new ExtendedAsset(remapAssetProps(fullProps)))
-                    .catch(() => {
-                        if (id === Waves.constants.WAVES_PROPS.id) {
-                            const wavesTx = remapAssetProps(Waves.constants.WAVES_V1_ISSUE_TX);
-                            return Promise.resolve(new ExtendedAsset(wavesTx));
-                        }
-                        return Waves.API.Node.v1.transactions.get(id)
-                            .then((partialProps) => new ExtendedAsset(remapAssetProps(partialProps)));
-                    });
-
-                cache[id] = promise;
-                cache[id].catch(() => {
-                    delete cache[id];
-                });
-
-                return cache[id];
-            }
-        });
+                          notification, decorators, waves, ModalRouter) {
 
         user.onLogin().then(() => {
             Waves.config.set({
@@ -102,6 +64,7 @@
         class AppRun {
 
             constructor() {
+                const identityImg = require('identity-img');
 
                 LOADER.addProgress(PROGRESS_MAP.APP_RUN);
 
@@ -110,8 +73,16 @@
                  * @type {Array<string>}
                  */
                 this.activeClasses = [];
+                /**
+                 * @type {ModalRouter}
+                 * @private
+                 */
+                this._modalRouter = new ModalRouter();
+                /**
+                 * @type {function}
+                 * @private
+                 */
                 this._changeLangHandler = null;
-
                 /**
                  * Configure library generation avatar by address
                  */
@@ -121,6 +92,7 @@
                 this._stopLoader();
                 this._initializeLogin();
                 this._initializeOutLinks();
+                waves.node.assets.initializeAssetFactory();
 
             }
 
@@ -146,6 +118,9 @@
                 }
             }
 
+            /**
+             * @private
+             */
             _listenChangeLanguage() {
                 this._changeLangHandler = () => {
                     localStorage.setItem('lng', i18next.language);
@@ -153,6 +128,9 @@
                 i18next.on('languageChanged', this._changeLangHandler);
             }
 
+            /**
+             * @private
+             */
             _stopListenChangeLanguage() {
                 i18next.off('languageChanged', this._changeLangHandler);
                 this._changeLangHandler = null;
@@ -194,6 +172,9 @@
                             this._initializeTermsAccepted()
                                 .then(() => {
                                     this._initializeBackupWarning();
+                                })
+                                .then(() => {
+                                    this._modalRouter.initialize();
                                 });
 
                             $rootScope.$on('$stateChangeStart', (event, current) => {
@@ -289,6 +270,7 @@
              * @private
              */
             _login(currentState) {
+                // const sessions = sessionBridge.getSessionsData();
 
                 const states = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => {
@@ -296,7 +278,11 @@
                             .join('.');
                     });
                 if (states.indexOf(currentState.name) === -1) {
+                    // if (sessions.length) {
+                    //     $state.go('sessions');
+                    // } else {
                     $state.go(states[0]);
+                    // }
                 }
                 return user.onLogin();
             }
@@ -405,8 +391,9 @@
         'modalManager',
         'storage',
         'notification',
-        'ExtendedAsset',
         'decorators',
+        'waves',
+        'ModalRouter',
         'whatsNew'
     ];
 
