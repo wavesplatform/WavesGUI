@@ -8,11 +8,13 @@
      * @param {app.utils} utils
      * @param {ValidateService} validateService
      * @param {Waves} waves
+     * @param {User} user
      * @return {MassSend}
      */
-    const controller = function (Base, readFile, $scope, utils, validateService, waves) {
+    const controller = function (Base, readFile, $scope, utils, validateService, waves, user) {
 
         const Papa = require('papaparse');
+        const TYPE = WavesApp.TRANSACTION_TYPES.NODE.MASS_TRANSFER;
 
         class MassSend extends Base {
 
@@ -72,23 +74,16 @@
             }
 
             $postLink() {
-                Promise.all([
-                    waves.node.getFee('transfer'),
-                    waves.node.getFee('massTransfer')
-                ]).then(([transferFee, massTransferFee]) => {
-                    this._transferFee = transferFee;
-                    this._massTransferFee = massTransferFee;
+                this._calculateFee();
 
-                    this.receive(utils.observe(this.state.massSend, 'transfers'), this._calculateTotalAmount, this);
-                    this.receive(utils.observe(this.state.massSend, 'transfers'), this._calculateFee, this);
-                    this.receive(utils.observe(this.state.massSend, 'transfers'), this._updateTextAreaContent, this);
-                    this.observe('recipientCsv', this._onChangeCSVText);
+                this.receive(utils.observe(this.state.massSend, 'transfers'), this._calculateTotalAmount, this);
+                this.receive(utils.observe(this.state.massSend, 'transfers'), this._calculateFee, this);
+                this.receive(utils.observe(this.state.massSend, 'transfers'), this._updateTextAreaContent, this);
+                this.observe('recipientCsv', this._onChangeCSVText);
 
-                    this.tx.transfers = this.tx.transfers || [];
-                    this._calculateFee();
-                    this._updateTextAreaContent();
-                    this._validate();
-                });
+                this.tx.transfers = this.tx.transfers || [];
+                this._updateTextAreaContent();
+                this._validate();
             }
 
             /**
@@ -104,6 +99,16 @@
 
             clear() {
                 this.tx.transfers = [];
+            }
+
+            nextStep() {
+
+                const tx = waves.node.transactions.createTransaction('massSend', {
+                    ...this.tx,
+                    sender: user.address
+                });
+
+                this.onContinue({ tx });
             }
 
             /**
@@ -131,13 +136,9 @@
              * @private
              */
             _calculateFee() {
-                const fee = this._transferFee
-                    .getTokens()
-                    .add(this._massTransferFee
-                        .getTokens()
-                        .mul(this.tx.transfers.length)
-                    );
-                this.tx.fee = this._massTransferFee.cloneWithTokens(fee);
+                waves.node.getFee({ type: TYPE, tx: this.tx }).then((fee) => {
+                    this.tx.fee = fee;
+                });
             }
 
             /**
@@ -280,7 +281,7 @@
         return new MassSend();
     };
 
-    controller.$inject = ['Base', 'readFile', '$scope', 'utils', 'validateService', 'waves'];
+    controller.$inject = ['Base', 'readFile', '$scope', 'utils', 'validateService', 'waves', 'user'];
 
     angular.module('app.ui').component('wMassSend', {
         bindings: {

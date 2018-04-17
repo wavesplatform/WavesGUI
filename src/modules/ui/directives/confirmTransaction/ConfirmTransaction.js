@@ -14,6 +14,8 @@
      */
     const controller = function (Base, waves, $attrs, $mdDialog, modalManager, user, utils) {
 
+        const TYPES = WavesApp.TRANSACTION_TYPES.NODE;
+
         class ConfirmTransaction extends Base {
 
             constructor() {
@@ -45,15 +47,18 @@
                     let txPromise = null;
 
                     switch (this.tx.transactionType) {
-                        case 'transfer':
+                        case TYPES.TRANSFER:
                             txPromise = waves.node.assets.transfer({ ...this.tx, keyPair });
                             break;
-                        case 'exchange':
+                        case TYPES.MASS_TRANSFER:
+                            txPromise = waves.node.massTransfer({ ...this.tx, keyPair });
+                            break;
+                        case TYPES.EXCHANGE:
                             throw new Error('Can\'t create exchange transaction!');
-                        case 'lease':
+                        case TYPES.LEASE:
                             txPromise = waves.node.lease({ ...this.tx, keyPair });
                             break;
-                        case 'cancelLeasing':
+                        case TYPES.CANCEL_LEASING:
                             txPromise = waves.node.cancelLeasing({
                                 fee: this.tx.fee,
                                 timestamp: this.tx.timestamp,
@@ -61,16 +66,16 @@
                                 keyPair
                             });
                             break;
-                        case 'createAlias':
+                        case TYPES.CREATE_ALIAS:
                             txPromise = waves.node.aliases.createAlias({ ...this.tx, keyPair });
                             break;
-                        case 'issue':
+                        case TYPES.ISSUE:
                             txPromise = waves.node.assets.issue({ ...this.tx, keyPair });
                             break;
-                        case 'reissue':
+                        case TYPES.REISSUE:
                             txPromise = waves.node.assets.reissue({ ...this.tx, keyPair });
                             break;
-                        case 'burn':
+                        case TYPES.BURN:
                             txPromise = waves.node.assets.burn({ ...this.tx, keyPair });
                             break;
                         default:

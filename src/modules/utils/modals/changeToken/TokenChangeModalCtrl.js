@@ -87,7 +87,7 @@
                     }
                 };
 
-                utils.when(waves.node.getFee(this.txType)).then((fee) => {
+                utils.when(waves.node.getFee({ type: this.txType })).then((fee) => {
                     this.fee = fee;
                 });
 

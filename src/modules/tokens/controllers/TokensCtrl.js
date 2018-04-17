@@ -69,12 +69,13 @@
 
                 this.observe('precision', this._onChangePrecision);
 
-                Promise.all([waves.node.assets.fee('issue'), poll.ready]).then(([[money]]) => {
-                    this._fee = money;
-                    this.observe(['_balance', '_fee'], this._onChangeBalance);
+                Promise.all([waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.ISSUE }), poll.ready])
+                    .then(([money]) => {
+                        this._fee = money;
+                        this.observe(['_balance', '_fee'], this._onChangeBalance);
 
-                    this._onChangeBalance();
-                });
+                        this._onChangeBalance();
+                    });
             }
 
             generate() {
