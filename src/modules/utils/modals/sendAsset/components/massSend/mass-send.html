@@ -1,29 +1,35 @@
 <form novalidate name="massSend">
 
-    <ng-transclude></ng-transclude>
+    <div class="margin-2">
+        <ng-transclude></ng-transclude>
+    </div>
 
-    <w-i18n params="{count: $ctrl.tx.transfers.length, max: $ctrl.maxTransfersCount}">
-        modal.send.massSend.recipient
-    </w-i18n>
+    <div class="flex-row body-2">
+        <w-i18n params="{count: $ctrl.tx.transfers.length, max: $ctrl.maxTransfersCount}">
+            modal.send.massSend.recipient
+        </w-i18n>
+        <w-import-file ng-if="$ctrl.tx.transfers.length === 0"
+                       extantions="::'csv'"
+                       on-change="$ctrl.importFile(file)">
+            <span w-i18n="modal.send.massSend.importFile"></span>
+        </w-import-file>
 
-    <w-import-file ng-if="$ctrl.tx.transfers.length === 0"
-                   extantions="::'csv'"
-                   on-change="$ctrl.importFile(file)">
-        <span w-i18n="modal.send.massSend.importFile"></span>
-    </w-import-file>
-    <span ng-if="$ctrl.tx.transfers.length > 0"
-          ng-click="$ctrl.clear()"
-          w-i18n="modal.send.massSend.clear"></span>
+        <span ng-if="$ctrl.tx.transfers.length > 0"
+              ng-click="$ctrl.clear()"
+              w-i18n="modal.send.massSend.clear"></span>
+    </div>
 
-    <w-input-container>
+    <w-input-container class="margin-2">
         <w-input textarea="true"
+                 class="tall"
                  name="recipientCsv"
                  ng-model="$ctrl.recipientCsv"></w-input>
     </w-input-container>
 
-    <w-i18n>modal.send.massSend.description</w-i18n>
-    <w-input-container>
+    <div class="body-2" w-i18n="modal.send.massSend.description"></div>
+    <w-input-container class="margin-2">
         <w-input textarea="true"
+                 class="normal"
                  name="attachment"
                  ng-model="$ctrl.tx.attachment"
                  w-i18n-attr="placeholder"
