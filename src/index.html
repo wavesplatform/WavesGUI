@@ -284,6 +284,36 @@
             maxAliasLength: 30,
             maxAddressLength: 45,
             maxCoinCount: null,
+            TRANSACTION_TYPES: {
+                EXTENDED: {
+                    SEND: 'send',
+                    RECEIVE: 'receive',
+                    MASS_SEND: 'mass-send',
+                    MASS_RECEIVE: 'mass-receive',
+                    CIRCULAR: 'circular',
+                    ISSUE: 'issue',
+                    REISSUE: 'reissue',
+                    BURN: 'burn',
+                    EXCHANGE_BUY: 'exchange-buy',
+                    EXCHANGE_SELL: 'exchange-sell',
+                    LEASE_IN: 'lease-in',
+                    LEASE_OUT: 'lease-out',
+                    CANCEL_LEASING: 'cancel-leasing',
+                    CREATE_ALIAS: 'create-alias',
+                    UNKNOWN: 'unknown'
+                },
+                NODE: {
+                    TRANSFER: 'transfer',
+                    MASS_TRANSFER: 'mass-transfer',
+                    ISSUE: 'issue',
+                    REISSUE: 'reissue',
+                    BURN: 'burn',
+                    CREATE_ALIAS: 'create-alias',
+                    LEASE: 'lease',
+                    CANCEL_LEASING: 'cancel-leasing',
+                    EXCHANGE: 'exchange'
+                }
+            },
             getLocaleData: function () {
                 return WavesApp.localize[i18next.language];
             },
@@ -526,6 +556,7 @@
      * @property {number} maxAliasLength
      * @property {number} maxAddressLength
      * @property {BigNumber} maxCoinsCount
+     * @property {typeof WavesApp.TRANSACTION_TYPES} TRANSACTION_TYPES
      * @property {object} network
      * @property {string} network.code
      * @property {string} network.node

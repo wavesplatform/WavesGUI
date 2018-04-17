@@ -111,7 +111,7 @@
 
             $postLink() {
                 this.receiveOnce(utils.observe(this.state, 'moneyHash'), () => {
-                    waves.node.assets.fee('transfer').then(([fee]) => {
+                    waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.TRANSFER }).then((fee) => {
 
                         this.observe('gatewayDetails', this._currentHasCommission);
                         this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
@@ -136,7 +136,7 @@
             createTx() {
                 const toGateway = this.outerSendMode && this.gatewayDetails;
 
-                const tx = waves.node.transactions.createTransaction('transfer', {
+                const tx = waves.node.transactions.createTransaction(WavesApp.TRANSACTION_TYPES.NODE.TRANSFER, {
                     ...this.tx,
                     sender: user.address,
                     recipient: toGateway ? this.gatewayDetails.address : this.tx.recipient,

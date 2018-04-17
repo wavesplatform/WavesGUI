@@ -34,14 +34,6 @@
             }
 
             /**
-             * Get list of min values fee
-             * @return {Promise<Money[]>}
-             */
-            fee() {
-                return this._feeList('createAlias');
-            }
-
-            /**
              * Create alias (transaction)
              * @param {string} alias
              * @param {string} keyPair
@@ -49,7 +41,7 @@
              * @return Promise<ITransaction>
              */
             createAlias({ alias, fee, keyPair }) {
-                return this.getFee('createAlias', fee).then((fee) => {
+                return this.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS, fee }).then((fee) => {
                     return Waves.API.Node.v1.aliases.createAlias({
                         fee: fee.toCoins(),
                         feeAssetId: fee.asset.id,

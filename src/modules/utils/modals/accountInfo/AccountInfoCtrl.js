@@ -36,8 +36,8 @@
                  */
                 this.fee = null;
 
-                waves.node.aliases.fee()
-                    .then(([fee]) => {
+                waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS })
+                    .then((fee) => {
                         this.fee = fee;
                     });
 

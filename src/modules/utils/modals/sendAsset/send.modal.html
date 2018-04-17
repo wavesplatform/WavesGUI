@@ -12,7 +12,8 @@
                             </w-single-send>
                         </w-tab>
                         <w-tab title-name="::'modal.send.massSendTitle'" id="::'massSend'">
-                            <w-mass-send state="$ctrl.state" on-continue="$ctrl.nextStep()">
+                            <w-mass-send state="$ctrl.state"
+                                         on-continue="$ctrl.nextStep(tx)">
                                 <ng-include src="::$ctrl.headerPath"></ng-include>
                             </w-mass-send>
                         </w-tab>
