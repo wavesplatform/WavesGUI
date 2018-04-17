@@ -50,8 +50,8 @@
 
                     // TODO : remove when Waves.Asset is created via factory
                     return Promise.all([
-                        waves.node.assets.info(amount.id),
-                        waves.node.assets.info(price.id)
+                        waves.node.assets.getExtendedAsset(amount.id),
+                        waves.node.assets.getExtendedAsset(price.id)
                     ]).then(([amountInfo, priceInfo]) => {
                         const amountName = amountInfo.ticker ? amountInfo.ticker : amountInfo.name;
                         const priceName = priceInfo.ticker ? priceInfo.ticker : priceInfo.name;

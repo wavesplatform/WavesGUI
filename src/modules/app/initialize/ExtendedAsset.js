@@ -1,7 +1,11 @@
 (function () {
     'use strict';
 
-    const factory = function () {
+    /**
+     * @param {User} user
+     * @return {*}
+     */
+    const factory = function (user) {
 
         if (!Waves) {
             return null;
@@ -27,6 +31,7 @@
                 this.ticker = props.ticker || '';
                 this.sign = props.sign || '';
                 this.displayName = props.ticker || props.name;
+                this.isMyAsset = props.sender === user.address;
             }
 
         }
@@ -34,7 +39,7 @@
         return ExtendedAsset;
     };
 
-    factory.$inject = [];
+    factory.$inject = ['user'];
 
     angular.module('app').factory('ExtendedAsset', factory);
 })();

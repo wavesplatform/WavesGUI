@@ -1,0 +1,106 @@
+@import (reference) '../../../config';
+
+html body md-dialog.change-token {
+
+  //TODO refactor input-like
+  .input-like {
+    padding: 0;
+    display: flex;
+    align-items: center;
+
+    w-input {
+      display: block;
+      width: 50%;
+
+      input {
+        height: 40px;
+        border: none;
+        border-radius: @border-radius;
+      }
+    }
+
+    .select-wrap {
+      position: relative;
+      height: 100%;
+      width: 50%;
+      background-color: @color-disabled-50;
+      border-top-right-radius: @border-radius;
+      border-bottom-right-radius: @border-radius;
+
+      .issue-select {
+        width: 216px;
+        height: 30px;
+        position: absolute;
+        right: 6px;
+        top: 6px;
+
+        .title-content {
+          display: flex;
+          align-items: center;
+        }
+
+        .title {
+          background-color: @color-white;
+        }
+      }
+    }
+  }
+
+  .rows {
+    margin-top: 50px;
+
+    .flex-row {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .row-style {
+      padding: 12px 0;
+      border-bottom: 1px dashed @color-basic-200;
+      align-items: center;
+
+      &:first-child {
+        border-top: 1px solid @color-basic-200;
+      }
+
+      &:last-child {
+        border-bottom: 1px solid @color-basic-200;
+      }
+    }
+  }
+
+  .chart-wrapper {
+    opacity: 0.2;
+    position: relative;
+    margin-left: -40px;
+    margin-right: -40px;
+    padding-bottom: 4px;
+    height: 76px;
+    border-bottom: 1px solid @color-submit-300;
+
+    .token-burn__chart-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    .chart-tooltip, .chart-legend { // Lib ng3-charts
+      display: none !important;
+    }
+  }
+
+  .asset-content {
+    height: 100%;
+
+    .one-line {
+      max-height: 1.3em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
