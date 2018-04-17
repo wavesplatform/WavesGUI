@@ -143,7 +143,7 @@
             onContinue: '&'
         },
         templateUrl: 'modules/utils/modals/sendAsset/components/massSend/mass-send.html',
-        transclude: false,
+        transclude: true,
         controller
     });
 })();

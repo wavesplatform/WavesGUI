@@ -1,4 +1,7 @@
 <form novalidate name="massSend">
+
+    <ng-transclude></ng-transclude>
+
     <w-i18n params="{count: $ctrl.tx.transfers.length, max: $ctrl.maxTransfersCount}">
         modal.send.massSend.recipient
     </w-i18n>
