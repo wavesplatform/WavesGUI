@@ -23,19 +23,6 @@
                 return this.state.massSend;
             }
 
-            /**
-             * @return {Money}
-             */
-            get totalAmount() {
-                const transfers = this.tx.transfers;
-                if (transfers.length) {
-                    return this.tx.transfers
-                        .map(({ amount }) => amount)
-                        .reduce((result, item) => result.add(item));
-                }
-                return this.state.moneyHash[this.state.assetId].cloneWithTokens('0');
-            }
-
             get isValidCSV() {
                 return this._isValidAmounts && this._isValidAllRecipients;
             }
@@ -58,6 +45,10 @@
                  * @type {string}
                  */
                 this.recipientCsv = '';
+                /**
+                 * @type {Money}
+                 */
+                this.totalAmount = null;
                 /**
                  * @type {boolean}
                  * @private
@@ -88,6 +79,7 @@
                     this._transferFee = transferFee;
                     this._massTransferFee = massTransferFee;
 
+                    this.receive(utils.observe(this.state.massSend, 'transfers'), this._calculateTotalAmount, this);
                     this.receive(utils.observe(this.state.massSend, 'transfers'), this._calculateFee, this);
                     this.receive(utils.observe(this.state.massSend, 'transfers'), this._updateTextAreaContent, this);
                     this.observe('recipientCsv', this._onChangeCSVText);
@@ -112,6 +104,27 @@
 
             clear() {
                 this.tx.transfers = [];
+            }
+
+            /**
+             * @private
+             */
+            _calculateTotalAmount() {
+                const transfers = this.tx.transfers;
+
+                if (!transfers) {
+                    this.totalAmount = null;
+                }
+
+                if (transfers.length) {
+                    this.totalAmount = this.tx.transfers
+                        .map(({ amount }) => amount)
+                        .reduce((result, item) => result.add(item));
+
+                    return null;
+                }
+
+                this.totalAmount = this.state.moneyHash[this.state.assetId].cloneWithTokens('0');
             }
 
             /**
