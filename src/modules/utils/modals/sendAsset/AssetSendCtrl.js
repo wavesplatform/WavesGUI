@@ -180,6 +180,7 @@
  * @typedef {object} IMassSendTx
  * @property {string} attachment
  * @property {Array<ITransferItem>} transfers
+ * @property {Money} fee
  */
 
 /**

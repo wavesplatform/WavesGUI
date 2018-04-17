@@ -19,6 +19,7 @@
             _feeList(transactionType) {
                 switch (transactionType) {
                     case 'transfer':
+                    case 'massTransfer':
                     case 'exchange':
                     case 'lease':
                     case 'cancelLeasing':

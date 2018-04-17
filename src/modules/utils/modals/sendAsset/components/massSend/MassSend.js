@@ -6,9 +6,11 @@
      * @param {ReadFile} readFile
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
+     * @param {ValidateService} validateService
+     * @param {Waves} waves
      * @return {MassSend}
      */
-    const controller = function (Base, readFile, $scope, utils) {
+    const controller = function (Base, readFile, $scope, utils, validateService, waves) {
 
         const Papa = require('papaparse');
 
@@ -46,13 +48,44 @@
                  * @type {string}
                  */
                 this.recipientCsv = '';
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
+                this._isValidAllRecipients = true;
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
+                this._isValidAmounts = true;
+                /**
+                 * @type {Money}
+                 * @private
+                 */
+                this._transferFee = null;
+                /**
+                 * @type {Money}
+                 * @private
+                 */
+                this._massTransferFee = null;
             }
 
             $postLink() {
-                this.tx.transfers = this.tx.transfers || [];
-                this._updateTextAreaContent();
+                Promise.all([
+                    waves.node.getFee('transfer'),
+                    waves.node.getFee('massTransfer')
+                ]).then(([transferFee, massTransferFee]) => {
+                    this._transferFee = transferFee;
+                    this._massTransferFee = massTransferFee;
 
-                this.receive(utils.observe(this.state.massSend, 'transfers'), this._updateTextAreaContent, this);
+                    this.receive(utils.observe(this.state.massSend, 'transfers'), this._calculateFee, this);
+                    this.receive(utils.observe(this.state.massSend, 'transfers'), this._updateTextAreaContent, this);
+                    this.observe('recipientCsv', this._onChangeCSVText);
+
+                    this.tx.transfers = this.tx.transfers || [];
+                    this._calculateFee();
+                    this._updateTextAreaContent();
+                });
             }
 
             /**
@@ -61,22 +94,71 @@
             importFile(file) {
                 return readFile.read(file)
                     .then((content) => {
-                        return Papa.parse(content);
-                    }).then(({ data }) => {
-                        const recipientHash = MassSend._getRecipientHashByCSVParseResult(data);
-                        const transfers = [];
-                        Object.keys(recipientHash).forEach((recipient) => {
-                            const amountNum = recipientHash[recipient]
-                                .map(MassSend._parseAmount)
-                                .reduce((result, item) => result.add(item));
-                            const amount = this.state.moneyHash[this.state.assetId].cloneWithTokens(amountNum);
-                            transfers.push({ recipient, amount });
-                        });
-                        this.tx.transfers = transfers;
+                        this._processTextAreaContent(content);
                         $scope.$digest();
                     });
             }
 
+            /**
+             * @private
+             */
+            _calculateFee() {
+                const fee = this._transferFee
+                    .getTokens()
+                    .add(this._massTransferFee
+                        .getTokens()
+                        .mul(this.tx.transfers.length)
+                    );
+                this.tx.fee = this._massTransferFee.cloneWithTokens(fee);
+            }
+
+            /**
+             * @param {string} content
+             * @private
+             */
+            _processTextAreaContent(content) {
+                const { data } = Papa.parse(content);
+                const recipientHash = MassSend._getRecipientHashByCSVParseResult(data);
+                const transfers = [];
+                Object.keys(recipientHash).forEach((recipient) => {
+                    const amountNum = recipientHash[recipient]
+                        .map(MassSend._parseAmount)
+                        .reduce((result, item) => result.add(item));
+                    const amount = this.state.moneyHash[this.state.assetId].cloneWithTokens(amountNum);
+                    transfers.push({ recipient, amount });
+                });
+                if (MassSend._isNotEqual(this.tx.transfers, transfers)) {
+                    this.tx.transfers = transfers;
+                }
+            }
+
+            _validateRecipients() {
+                Promise.all(this.tx.transfers.map(({ recipient }) => validateService.wavesAddress(recipient)))
+                    .then(() => {
+                        this._isValidAllRecipients = true;
+                    })
+                    .catch(() => {
+                        this._isValidAllRecipients = false;
+                    });
+            }
+
+            _validateAmounts() {
+                // const amount = this.totalAmount;
+            }
+
+            /**
+             * @private
+             */
+            _onChangeCSVText() {
+                const text = this.recipientCsv;
+                this._processTextAreaContent(text);
+                this._validateRecipients();
+                this._validateAmounts();
+            }
+
+            /**
+             * @private
+             */
             _updateTextAreaContent() {
                 const transfers = this.tx.transfers;
                 const text = transfers.reduce((text, item, index) => {
@@ -115,6 +197,28 @@
             }
 
             /**
+             * @param {ITransferItem[]} a
+             * @param {ITransferItem[]} b
+             * @return {boolean}
+             * @private
+             */
+            static _isNotEqual(a, b) {
+                return !MassSend._isEqual(a, b);
+            }
+
+            /**
+             * @param {ITransferItem[]} a
+             * @param {ITransferItem[]} b
+             * @return {boolean}
+             * @private
+             */
+            static _isEqual(a, b) {
+                return a.length === b.length && a.every((item, i) => {
+                    return item.recipient === b[i].recipient && item.amount.eq(b[i].amount);
+                });
+            }
+
+            /**
              * @param {string} amountString
              * @return {BigNumber}
              * @private
@@ -135,7 +239,7 @@
         return new MassSend();
     };
 
-    controller.$inject = ['Base', 'readFile', '$scope', 'utils'];
+    controller.$inject = ['Base', 'readFile', '$scope', 'utils', 'validateService', 'waves'];
 
     angular.module('app.ui').component('wMassSend', {
         bindings: {
