@@ -118,7 +118,7 @@
             }
 
             clear() {
-                this.tx.transfers = [];
+                this.transfers = [];
             }
 
             nextStep() {
