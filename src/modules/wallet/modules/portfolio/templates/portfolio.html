@@ -74,12 +74,12 @@
                         </w-button>
                         <w-button class="small"
                                   ng-if="$ctrl.isDepositSupported(balance.asset)"
-                                  on-click="$ctrl.showDeposit(balance.asset)">
+                                  on-click="$ctrl.showReceivePopup(balance.asset)">
                             <span class="btn-icon icon-receive" w-i18n="receive"></span>
                         </w-button>
                         <w-button class="small"
                                   ng-if="!$ctrl.isDepositSupported(balance.asset) && $ctrl.isSepaSupported(balance.asset)"
-                                  on-click="$ctrl.showSepa(balance.asset)">
+                                  on-click="$ctrl.showReceivePopup(balance.asset)">
                             <span class="btn-icon icon-receive" w-i18n="receive"></span>
                         </w-button>
                     </div>
@@ -99,12 +99,12 @@
                             <w-i18n>send</w-i18n>
                         </w-action>
                         <w-action ng-if="$ctrl.isDepositSupported(balance.asset)"
-                                  ng-click="$ctrl.showDeposit(balance.asset)">
+                                  ng-click="$ctrl.showReceivePopup(balance.asset)">
                             <w-i18n>receive</w-i18n>
                         </w-action>
                         <w-action
                                 ng-if="!$ctrl.isDepositSupported(balance.asset) && $ctrl.isSepaSupported(balance.asset)"
-                                ng-click="$ctrl.showSepa(balance.asset)">
+                                ng-click="$ctrl.showReceivePopup(balance.asset)">
                             <w-i18n>receive</w-i18n>
                         </w-action>
                         <w-action ng-if="balance.asset.isMyAsset"

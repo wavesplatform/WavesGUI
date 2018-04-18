@@ -110,22 +110,24 @@
 
             onAssetActionClick(event, asset, action) {
                 event.preventDefault();
-                switch (action) {
-                    case 'send':
-                        this.showSend(asset);
-                        break;
-                    case 'deposit':
-                        this.showDeposit(asset);
-                        break;
-                    case 'sepa':
-                        this.showSepa(asset);
-                        break;
-                    case 'info':
-                        this.showAsset(asset);
-                        break;
-                    default:
-                        throw new Error('Wrong action');
+                if (action === 'send') {
+                    return this.showSend(asset);
                 }
+
+                if (action === 'info') {
+                    return this.showAsset(asset);
+                }
+
+                const receiveActions = ['deposit', 'sepa', 'card'];
+                if (receiveActions.includes(action)) {
+                    return this.showReceivePopup(asset);
+                }
+
+                throw new Error('Wrong action');
+            }
+
+            showReceivePopup(asset) {
+                return modalManager.showReceivePopup(user, asset);
             }
 
             showSeedBackupModals() {

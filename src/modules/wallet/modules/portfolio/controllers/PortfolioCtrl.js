@@ -74,6 +74,13 @@
             /**
              * @param {Asset} asset
              */
+            showReceivePopup(asset) {
+                return modalManager.showReceivePopup(user, asset);
+            }
+
+            /**
+             * @param {Asset} asset
+             */
             showDeposit(asset) {
                 return modalManager.showDepositAsset(user, asset);
             }
