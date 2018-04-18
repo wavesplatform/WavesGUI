@@ -52,17 +52,19 @@
     </w-input-container>
 
     <div class="body-2" w-i18n="modal.send.massSend.totalAmount"></div>
-    <div class="input-like total-amount">
+    <div class="input-like total-amount margin-1">
         <w-balance money="$ctrl.totalAmount"></w-balance>
     </div>
 
-    <div class="row fee margin-2">
+    <div class="row fee margin-3">
         <div class="body basic-500">
             <w-i18n params="{fee: $ctrl.tx.fee}">modal.send.fee</w-i18n>
         </div>
     </div>
 
-    <w-button disabled="massSend.$invalid" class="submit long big" on-click="$ctrl.nextStep()">
+    <w-button disabled="massSend.$invalid || !$ctrl.tx.transfers.length"
+              class="submit long big"
+              on-click="$ctrl.nextStep()">
         <w-i18n>button.continue</w-i18n>
     </w-button>
 </form>

@@ -115,12 +115,20 @@
             }
 
             createTransaction(transactionType, txData) {
-                return this._pipeTransaction(false)({
+
+                const tx = {
                     transactionType,
                     sender: user.address,
                     timestamp: Date.now(),
                     ...txData
-                });
+                };
+
+                if (transactionType === WavesApp.TRANSACTION_TYPES.NODE.MASS_TRANSFER) {
+                    tx.totalAmount = tx.totalAmount || tx.transfers.map(({ amount }) => amount)
+                        .reduce((result, item) => result.add(item));
+                }
+
+                return this._pipeTransaction(false)(tx);
             }
 
             /**

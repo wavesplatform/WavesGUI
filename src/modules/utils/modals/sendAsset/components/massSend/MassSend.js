@@ -103,7 +103,7 @@
 
             nextStep() {
 
-                const tx = waves.node.transactions.createTransaction('massSend', {
+                const tx = waves.node.transactions.createTransaction(TYPE, {
                     ...this.tx,
                     sender: user.address
                 });
