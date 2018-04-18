@@ -112,7 +112,9 @@
             }
 
             isDepositSupported(asset) {
-                return gatewayService.hasSupportOf(asset, 'deposit');
+                const isWaves = asset.id === WavesApp.defaultAssets.WAVES;
+
+                return gatewayService.hasSupportOf(asset, 'deposit') || isWaves;
             }
 
             isSepaSupported(asset) {
