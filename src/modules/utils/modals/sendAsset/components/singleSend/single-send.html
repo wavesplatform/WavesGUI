@@ -59,7 +59,6 @@
 
     <div ng-if="$ctrl.outerSendMode" class="row">
 
-
         <div class="warning-plate margin-2">
             <div class="body-2 warning-500"
                  w-i18n="modal.send.coinomat.feeTitle"
@@ -130,7 +129,7 @@
         </w-input-error>
     </w-input-container>
 
-    <div ng-if="!($ctrl.outerSendMode || $ctrl.toBankMode)" class="row">
+    <div ng-if="!($ctrl.outerSendMode || $ctrl.toBankMode)" class="row margin-1">
         <div class="body-2" w-i18n="modal.send.description"></div>
         <w-input-container>
             <w-input textarea="true"

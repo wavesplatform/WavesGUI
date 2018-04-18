@@ -2,9 +2,8 @@
 @import (reference) '../../../app/less/typography';
 
 md-dialog.modal-send {
-
   md-dialog-content {
-    padding-top: 0;
+    padding: 0 40px 0;
   }
 
   .modal-content {
@@ -18,6 +17,10 @@ md-dialog.modal-send {
     top: 20px;
     right: -20px;
     z-index: 10;
+  }
+
+  w-confirm-transaction {
+    margin-top: -40px;
   }
 
   w-tabs {
@@ -81,6 +84,10 @@ md-dialog.modal-send {
     }
   }
 
+  w-input-container .error.active {
+    display: inline-block;
+  }
+
   textarea {
     resize: vertical;
     height: 47px;
@@ -89,6 +96,7 @@ md-dialog.modal-send {
 
   .flex-row {
     display: flex;
+    width: 100%;
     flex-direction: row;
     align-items: center;
 
@@ -98,8 +106,69 @@ md-dialog.modal-send {
 
       & > div.flex-row:last-child {
         text-align: right;
+        justify-content: flex-end;
       }
     }
+  }
+
+  .tx-section {
+    display: block;
+    width: 100%;
+
+    .section {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      width: 100%;
+      border-bottom: 1px dashed @color-basic-200;
+
+      &.padder {
+        display: block;
+        height: 70px;
+        padding-top: 5px;
+        border-bottom: 0 none;
+
+        span {
+          align-self: flex-start;
+        }
+      }
+
+      .key {
+        flex-grow: 1;
+        color: @color-black;
+      }
+
+      .value {
+        flex-grow: 0;
+        text-align: right;
+      }
+    }
+
+    & > .section {
+      .key {
+        color: @color-basic-500;
+      }
+    }
+
+    &.tx-header {
+       .section {
+        .footnote-1();
+        border-bottom: 0 none;
+        color: @color-basic-500;
+      }
+    }
+  }
+
+  .lead {
+    margin-bottom: 0;
+
+    & + .section {
+      padding-top: 0;
+    }
+  }
+
+  .section .tx-section {
+    margin-bottom: -14px;
   }
 
   .row {
@@ -112,6 +181,10 @@ md-dialog.modal-send {
 
     &:last-child {
       margin-top: 10px;
+    }
+
+    &.margin-1 {
+      margin-bottom: 10px;
     }
 
     textarea {

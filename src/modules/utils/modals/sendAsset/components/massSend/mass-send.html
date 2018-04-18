@@ -35,27 +35,45 @@
                  placeholder="modal.send.massSend.recipientsAmountsPlaceholder"
         ></w-input>
 
+        <w-input-error message="custom">
+            <w-i18n ng-if="$ctrl.tx.transfers.length">modal.send.errors.max</w-i18n>
+            <w-i18n ng-if="!$ctrl.tx.transfers.length">modal.send.errors.fillThiField</w-i18n>
+        </w-input-error>
+
         <div ng-if="$ctrl.errors.length" class="error active">
-            <div w-i18n="modal.send.massSend.errors.invalidAddress"></div>
-            <div ng-if="$ctrl.view.errors.showAll" ng-repeat="error in $ctrl.errors track by error.recipient">
-                {{::error.recipient}}
+
+            <div class="error active">
+                <div w-i18n="modal.send.massSend.errors.invalidAddress"></div>
+                <div ng-if="$ctrl.view.errors.showAll" ng-repeat="error in $ctrl.errors track by error.recipient">
+                    {{::error.recipient}}
+                </div>
+                <div ng-if="!$ctrl.view.errors.showAll">
+                    {{$ctrl.errors[0].recipient}}
+                </div>
+                <div ng-if="!$ctrl.view.errors.showAll && $ctrl.errors[1]">
+                    {{$ctrl.errors[1].recipient}}
+                </div>
             </div>
-            <div ng-if="!$ctrl.view.errors.showAll">
-                {{$ctrl.errors[0].recipient}}
-            </div>
-            <div ng-if="!$ctrl.view.errors.showAll && $ctrl.errors[1]">
-                {{$ctrl.errors[1].recipient}}
-            </div>
-            <span ng-if="$ctrl.errors.length > 2"
+
+            <div class="margin-2">
+            <span class="link"
+                  ng-if="$ctrl.errors.length > 2"
                   w-i18n="modal.send.massSend.showAllErrors.{{$ctrl.view.errors.showAll}}"
                   params="{count: $ctrl.errors.length}"
                   ng-click="$ctrl.view.errors.showAll = !$ctrl.view.errors.showAll"></span>
+            </div>
+
+            <div class="warning-plate margin-2">
+                <div class="body-2 warning-500" w-i18n="modal.send.massSend.warningPlate2Header"></div>
+            </div>
+
         </div>
 
     </w-input-container>
 
-    <div ng-if="$ctrl.tx.transfers.length > $ctrl.maxTransfersCount">
-        Warning!!!
+    <div class="warning-plate margin-2" ng-if="$ctrl.tx.transfers.length > $ctrl.maxTransfersCount">
+        <div class="body-2 warning-500" w-i18n="modal.send.massSend.warningPlate1Header"></div>
+        <div class="footnote-1 basic-500" w-i18n="modal.send.massSend.warningPlate1Text"></div>
     </div>
 
     <div class="body-2" w-i18n="modal.send.massSend.description"></div>
@@ -75,7 +93,7 @@
     </w-input-container>
 
     <div class="body-2" w-i18n="modal.send.massSend.totalAmount"></div>
-    <div class="input-like total-amount margin-2">
+    <div class="input-like total-amount margin-1">
         <w-balance money="$ctrl.totalAmount"></w-balance>
     </div>
 
