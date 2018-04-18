@@ -18,7 +18,7 @@
                 /**
                  * @type {string|Array<string>}
                  */
-                this.extantions = null;
+                this.extensionList = null;
                 /**
                  * @type {Function}
                  */
@@ -51,7 +51,6 @@
                     on: 'addEventListener',
                     off: 'removeEventListener'
                 });
-                this.observe('_file', ({ value }) => this.onChange({ file: value }));
             }
 
             /**
@@ -59,10 +58,23 @@
              */
             _onChange() {
                 const [file] = this._input.files;
+
                 if (file) {
-                    if (this._isFileValid(file) && this._isNotEqual(file)) {
-                        this._file = file;
+                    if (!this._isFileValid(file)) {
+                        this.onChange({
+                            data: {
+                                status: 'error',
+                                type: 'extension',
+                                message: 'Wrong extension',
+                                file
+                            }
+                        });
+                        this._file = null;
+                        return null;
                     }
+
+                    this._file = file;
+                    this.onChange({ data: { status: 'ok', file } });
                 } else if (this._file) {
                     this._file = null;
                 }
@@ -81,24 +93,13 @@
              * @private
              */
             _isFileValid(file) {
-                if (tsUtils.isNotEmpty(this.extantions)) {
-                    const extantions = utils.toArray(this.extantions);
-                    const fileExtantion = file.name.split('.')[1];
-                    return fileExtantion && extantions.some((ext) => ext === fileExtantion);
+                if (tsUtils.isNotEmpty(this.extensionList)) {
+                    const extensionList = utils.toArray(this.extensionList);
+                    const fileExtension = file.name.split('.')[1];
+                    return fileExtension && extensionList.some((ext) => ext === fileExtension);
                 } else {
                     return true;
                 }
-            }
-
-            /**
-             * @param {File} file
-             * @return {boolean}
-             * @private
-             */
-            _isNotEqual(file) {
-                return !this._file || !(this._file.lastModified === file.lastModified &&
-                    this._file.size === file.size &&
-                    this._file.type === file.type);
             }
 
             /**
@@ -127,7 +128,7 @@
 
     angular.module('app.ui').component('wImportFile', {
         bindings: {
-            extantions: '<',
+            extensionList: '<',
             onChange: '&'
         },
         template: '<ng-transclude></ng-transclude>',
@@ -135,3 +136,13 @@
         controller
     });
 })();
+
+/**
+ * @name ImportFile
+ *
+ * @typedef {object} ImportFile#IOnChangeOptions
+ * @property {'ok'|'error'} status
+ * @property {'extension'} [type]
+ * @property {File} file
+ */
+

@@ -11,8 +11,8 @@
             </w-i18n>
         </div>
         <w-import-file ng-if="$ctrl.tx.transfers.length === 0"
-                       extantions="::'csv'"
-                       on-change="$ctrl.importFile(file)">
+                       extension-list="::'csv'"
+                       on-change="$ctrl.importFile(data)">
             <a class="link">
                 <span w-i18n="modal.send.massSend.importFile"></span>
             </a>
@@ -30,10 +30,15 @@
                  w-validate
                  w-validator-custom="{{$ctrl.isValidCSV}}"
                  ng-model="$ctrl.recipientCsv"
+                 ng-model-options="{updateOn: 'input blur', debounce: { 'input': 5000, 'blur': 0 }}"
                  w-i18n-attr="placeholder"
                  placeholder="modal.send.massSend.recipientsAmountsPlaceholder"
         ></w-input>
     </w-input-container>
+
+    <div ng-if="$ctrl.tx.transfers.length > $ctrl.maxTransfersCount">
+        Warning!!!
+    </div>
 
     <div class="body-2" w-i18n="modal.send.massSend.description"></div>
     <w-input-container class="margin-2">

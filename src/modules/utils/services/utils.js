@@ -312,7 +312,7 @@
                 const getCallback = (state, resolve) => {
                     return (data) => resolve({ state, data });
                 };
-                return $q((resolve) => {
+                return new Promise((resolve) => {
                     promiseLike.then(getCallback(true, resolve), getCallback(false, resolve));
                 });
             },

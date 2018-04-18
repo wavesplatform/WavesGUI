@@ -26,7 +26,7 @@
             }
 
             get isValidCSV() {
-                return this._isValidAmounts && this._isValidAllRecipients;
+                return this._isValidAmounts && this.totalAmount && this.totalAmount.getTokens().gt(0) || false;
             }
 
             constructor() {
@@ -52,10 +52,9 @@
                  */
                 this.totalAmount = null;
                 /**
-                 * @type {boolean}
-                 * @private
+                 * @type {Array<{recipient: string, type: string}>}
                  */
-                this._isValidAllRecipients = true;
+                this.errors = [];
                 /**
                  * @type {boolean}
                  * @private
@@ -87,14 +86,18 @@
             }
 
             /**
-             * @param {File} file
+             * @param {ImportFile#IOnChangeOptions} data
              */
-            importFile(file) {
-                return readFile.read(file)
-                    .then((content) => {
-                        this._processTextAreaContent(content);
-                        $scope.$digest();
-                    });
+            importFile(data) {
+                if (data.status === 'ok') {
+                    return readFile.read(data.file)
+                        .then((content) => {
+                            this._processTextAreaContent(content);
+                            $scope.$digest();
+                        });
+                } else {
+                    // todo show import file error
+                }
             }
 
             clear() {
@@ -148,15 +151,26 @@
             _processTextAreaContent(content) {
                 const { data } = Papa.parse(content);
                 const recipientHash = MassSend._getRecipientHashByCSVParseResult(data);
+                const errors = [];
                 const transfers = [];
+
                 Object.keys(recipientHash).forEach((recipient) => {
                     const amountNum = recipientHash[recipient]
-                        .map(MassSend._parseAmount)
+                        .map((amount) => {
+                            try {
+                                return MassSend._parseAmount(amount);
+                            } catch (e) {
+                                errors.push({ recipient, type: 'amount' });
+                                return new BigNumber(0);
+                            }
+                        })
                         .reduce((result, item) => result.add(item));
                     const amount = this.state.moneyHash[this.state.assetId].cloneWithTokens(amountNum);
                     transfers.push({ recipient, amount });
                 });
+
                 if (MassSend._isNotEqual(this.tx.transfers, transfers)) {
+                    this.errors = errors;
                     this.tx.transfers = transfers;
                 }
             }
@@ -170,12 +184,27 @@
              * @private
              */
             _validateRecipients() {
-                Promise.all(this.tx.transfers.map(({ recipient }) => validateService.wavesAddress(recipient)))
-                    .then(() => {
-                        this._isValidAllRecipients = true;
-                    })
-                    .catch(() => {
-                        this._isValidAllRecipients = false;
+
+                const isValidRecipient = function ({ recipient }) {
+                    return utils.resolve(validateService.wavesAddress(recipient));
+                };
+
+                Promise.all(this.tx.transfers.map(isValidRecipient))
+                    .then((list) => {
+                        const errors = [];
+
+                        list.forEach((state, index) => {
+                            const recipient = this.tx.transfers[index].recipient;
+
+                            if (!state) {
+                                errors.push({ recipient, type: 'recipient' });
+                            }
+                        });
+
+                        if (errors.length) {
+                            this.errors.push(...errors);
+                            $scope.$digest();
+                        }
                     });
             }
 
@@ -204,7 +233,7 @@
                 const transfers = this.tx.transfers;
                 const text = transfers.reduce((text, item, index) => {
                     const prefix = index !== 0 ? '\n' : '';
-                    return `${text}${prefix}${item.recipient}, ${item.amount.toFormat()}`;
+                    return `${text}${prefix}${item.recipient}, "${item.amount.toFormat()}"`;
                 }, '');
                 if (text !== this.recipientCsv) {
                     this.recipientCsv = text;
@@ -223,7 +252,7 @@
                         return null;
                     }
 
-                    const [recipient, amountString] = item;
+                    const [recipient, amountString] = item.map((text) => text.replace(/\s/g, '').replace(/"/g, ''));
                     if (!(recipient && amountString)) {
                         return null;
                     }
@@ -265,14 +294,10 @@
              * @private
              */
             static _parseAmount(amountString) {
-                try {
-                    const amount = amountString
-                        .replace(/\s/g, '')
-                        .replace(/,/, '.');
-                    return new BigNumber(amount);
-                } catch (e) {
-                    return new BigNumber(0);
-                }
+                const amount = amountString
+                    .replace(/\s/g, '')
+                    .replace(/,/, '.');
+                return new BigNumber(amount);
             }
 
         }
