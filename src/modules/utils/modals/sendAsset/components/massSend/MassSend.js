@@ -74,16 +74,16 @@
             }
 
             $postLink() {
-                this._calculateFee();
+                this.tx.transfers = this.tx.transfers || [];
 
-                this.receive(utils.observe(this.state.massSend, 'transfers'), this._calculateTotalAmount, this);
-                this.receive(utils.observe(this.state.massSend, 'transfers'), this._calculateFee, this);
-                this.receive(utils.observe(this.state.massSend, 'transfers'), this._updateTextAreaContent, this);
+                const signal = utils.observe(this.state.massSend, 'transfers');
+
+                this.receive(signal, this._calculateTotalAmount, this);
+                this.receive(signal, this._calculateFee, this);
+                this.receive(signal, this._updateTextAreaContent, this);
                 this.observe('recipientCsv', this._onChangeCSVText);
 
-                this.tx.transfers = this.tx.transfers || [];
-                this._updateTextAreaContent();
-                this._validate();
+                signal.dispatch({ value: this.tx.transfers });
             }
 
             /**
@@ -194,8 +194,7 @@
             _onChangeCSVText() {
                 const text = this.recipientCsv;
                 this._processTextAreaContent(text);
-                this._validateRecipients();
-                this._validateAmounts();
+                this._validate();
             }
 
             /**
