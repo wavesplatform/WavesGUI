@@ -9,10 +9,10 @@
      * @param {$mdDialog} $mdDialog
      * @param {ModalManager} modalManager
      * @param {User} user
-     * @param {app.utils} utils
+     * @param {$rootScope.Scope} $scope
      * @returns {ConfirmTransaction}
      */
-    const controller = function (Base, waves, $attrs, $mdDialog, modalManager, user, utils) {
+    const controller = function (Base, waves, $attrs, $mdDialog, modalManager, user, $scope) {
 
         const TYPES = WavesApp.TRANSACTION_TYPES.NODE;
 
@@ -26,9 +26,10 @@
             }
 
             confirm() {
-                return utils.when(this.sendTransaction()).then(({ id }) => {
+                return this.sendTransaction().then(({ id }) => {
                     this.tx.id = id;
                     this.step++;
+                    $scope.$digest();
                 }).catch((e) => {
                     console.error(e);
                     console.error('Transaction error!');
@@ -112,7 +113,7 @@
         return new ConfirmTransaction();
     };
 
-    controller.$inject = ['Base', 'waves', '$attrs', '$mdDialog', 'modalManager', 'user', 'utils'];
+    controller.$inject = ['Base', 'waves', '$attrs', '$mdDialog', 'modalManager', 'user', 'utils', '$scope'];
 
     angular.module('app.ui').component('wConfirmTransaction', {
         bindings: {

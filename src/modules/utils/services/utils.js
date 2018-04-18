@@ -191,14 +191,20 @@
              * @return {Promise}
              */
             when(data) {
-                if (data && data.then && typeof data.then === 'function') {
-                    const defer = $q.defer();
-                    data.then(defer.resolve, defer.reject)
-                        .catch((e) => console.error(e));
-                    return defer.promise;
+                if (this.isPromise(data)) {
+                    return data;
                 } else {
-                    return $q.when(data);
+                    return Promise.resolve(data);
                 }
+            },
+
+            /**
+             * @name app.utils#isPromise
+             * @param {object|Promise} data
+             * @return {boolean}
+             */
+            isPromise(data) {
+                return data.then && typeof data.then === 'function';
             },
 
             /**
@@ -336,7 +342,7 @@
              * @return {Promise}
              */
             loadImage(url) {
-                return $q((resolve, reject) => {
+                return new Promise((resolve, reject) => {
                     const img = new Image();
                     img.onload = resolve;
                     img.onerror = reject;

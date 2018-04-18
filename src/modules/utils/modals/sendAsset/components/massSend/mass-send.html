@@ -6,7 +6,7 @@
 
     <div class="flex-row-title body-2">
         <div>
-            <w-i18n params="{count: $ctrl.tx.transfers.length, max: $ctrl.maxTransfersCount}">
+            <w-i18n params="{count: $ctrl.validTxCount, max: $ctrl.maxTransfersCount}">
                 modal.send.massSend.recipient
             </w-i18n>
         </div>
@@ -34,6 +34,24 @@
                  w-i18n-attr="placeholder"
                  placeholder="modal.send.massSend.recipientsAmountsPlaceholder"
         ></w-input>
+
+        <div ng-if="$ctrl.errors.length" class="error active">
+            <div w-i18n="modal.send.massSend.errors.invalidAddress"></div>
+            <div ng-if="$ctrl.view.errors.showAll" ng-repeat="error in $ctrl.errors track by error.recipient">
+                {{::error.recipient}}
+            </div>
+            <div ng-if="!$ctrl.view.errors.showAll">
+                {{$ctrl.errors[0].recipient}}
+            </div>
+            <div ng-if="!$ctrl.view.errors.showAll && $ctrl.errors[1]">
+                {{$ctrl.errors[1].recipient}}
+            </div>
+            <span ng-if="$ctrl.errors.length > 2"
+                  w-i18n="modal.send.massSend.showAllErrors.{{$ctrl.view.errors.showAll}}"
+                  params="{count: $ctrl.errors.length}"
+                  ng-click="$ctrl.view.errors.showAll = !$ctrl.view.errors.showAll"></span>
+        </div>
+
     </w-input-container>
 
     <div ng-if="$ctrl.tx.transfers.length > $ctrl.maxTransfersCount">

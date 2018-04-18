@@ -7,7 +7,7 @@
      * @param {User} user
      * @param {app.utils} utils
      * @param {IPollCreate} createPoll
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param {JQuery} $element
      * @param {INotification} notification
      * @param {DexDataService} dexDataService
@@ -86,13 +86,14 @@
 
                 Waves.Money.fromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
                     this.fee = money;
+                    $scope.$digest();
                 });
 
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.amount = this.amountBalance.cloneWithTokens(amount);
                     this.price = this.priceBalance.cloneWithTokens(price);
                     this.expand(type);
-                    $scope.$apply();
+                    $scope.$digest();
                 });
 
                 this.syncSettings({
@@ -294,6 +295,7 @@
                 if (data) {
                     this.amountBalance = data.amountBalance;
                     this.priceBalance = data.priceBalance;
+                    $scope.$digest();
                 }
             }
 
@@ -349,6 +351,7 @@
                 const buy = Number(this.ask.price);
 
                 this.spreadPercent = buy ? (((buy - sell) * 100 / buy) || 0).toFixed(2) : '0.00';
+                $scope.$digest();
             }
 
         }

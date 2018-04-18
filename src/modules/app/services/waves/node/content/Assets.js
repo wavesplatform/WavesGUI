@@ -141,7 +141,11 @@
              * @return {Promise<IBalanceDetails[]>}
              */
             userBalances() {
-                return user.onLogin().then(() => this._balanceCache.get());
+                if (this._balanceCache) {
+                    return this._balanceCache.get();
+                } else {
+                    return user.onLogin().then(() => this._balanceCache.get());
+                }
             }
 
             /**

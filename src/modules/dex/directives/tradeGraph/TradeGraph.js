@@ -32,9 +32,10 @@
      * @param utils
      * @param {Waves} waves
      * @param {IPollCreate} createPoll
+     * @param {$rootScope.Scope} $scope
      * @return {TradeGraph}
      */
-    const controller = function (Base, utils, waves, createPoll) {
+    const controller = function (Base, utils, waves, createPoll, $scope) {
 
         class TradeGraph extends Base {
 
@@ -118,6 +119,8 @@
 
                 this.data.asks = orderBook.asks;
                 this.data.bids = orderBook.bids;
+
+                $scope.$digest();
             }
 
             _cutOffOutlyingOrdersIfNecessary(orderBook) {
@@ -247,7 +250,7 @@
         return new TradeGraph();
     };
 
-    controller.$inject = ['Base', 'utils', 'waves', 'createPoll'];
+    controller.$inject = ['Base', 'utils', 'waves', 'createPoll', '$scope'];
 
     angular.module('app.dex')
         .component('wDexTradeGraph', {

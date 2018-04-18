@@ -21,9 +21,9 @@
              * @type {ngModel.NgModelController[]}
              */
             get target() {
-                return this.inputs.map((input) => {
-                    return this.form[input.getAttribute('name')];
-                });
+                return this.inputs
+                    .map((input) => this.form[input.getAttribute('name')])
+                    .filter(Boolean);
             }
 
             constructor() {

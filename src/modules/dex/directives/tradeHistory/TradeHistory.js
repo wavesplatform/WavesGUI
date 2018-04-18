@@ -4,7 +4,7 @@
 
     /**
      * @param {Base} Base
-     * @param {Scope} $scope
+     * @param {$rootScope.Scope} $scope
      * @param {Waves} waves
      * @param {DataFeed} dataFeed
      * @param {IPollCreate} createPoll
@@ -53,7 +53,7 @@
                 /**
                  * @type {Poll}
                  */
-                this.poll = createPoll(this, this._getTradeHistory, 'orders', 2000);
+                this.poll = createPoll(this, this._getTradeHistory, 'orders', 2000, { $scope });
                 this.observe('_assetIdPair', this._onChangeAssets);
 
                 this._onChangeAssets();
@@ -73,6 +73,7 @@
                 Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                     this.priceAsset = pair.priceAsset;
                     this.amountAsset = pair.amountAsset;
+                    $scope.$digest();
                 });
             }
 

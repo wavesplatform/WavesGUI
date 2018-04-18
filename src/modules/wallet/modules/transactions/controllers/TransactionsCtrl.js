@@ -3,7 +3,7 @@
 
     /**
      * @param Base
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param {TransactionsCsvGen} transactionsCsvGen
      * @param {Waves} waves
      * @param {IPollCreate} createPoll
@@ -72,7 +72,7 @@
             _setTxList(transactions) {
                 this.pending = false;
                 this.txList = transactions;
-                $scope.$apply();
+                $scope.$digest();
             }
 
         }

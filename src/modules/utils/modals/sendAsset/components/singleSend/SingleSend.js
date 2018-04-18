@@ -308,8 +308,9 @@
              * @private
              */
             _fillMirror() {
-                utils.when(waves.utils.getRate(this.assetId, this.mirrorId)).then((rate) => {
+                waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
                     this.mirror = this.tx.amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
+                    $scope.$digest();
                 });
             }
 
@@ -317,8 +318,9 @@
              * @private
              */
             _fillAmount() {
-                utils.when(waves.utils.getRate(this.mirrorId, this.assetId)).then((rate) => {
+                waves.utils.getRate(this.mirrorId, this.assetId).then((rate) => {
                     this.tx.amount = this.mirror.convertTo(this.moneyHash[this.assetId].asset, rate);
+                    $scope.$digest();
                 });
             }
 

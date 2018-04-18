@@ -9,9 +9,10 @@
      * @param {ValidateService} validateService
      * @param {Waves} waves
      * @param {User} user
+     * @param {app.utils.decorators} decorators
      * @return {MassSend}
      */
-    const controller = function (Base, readFile, $scope, utils, validateService, waves, user) {
+    const controller = function (Base, readFile, $scope, utils, validateService, waves, user, decorators) {
 
         const Papa = require('papaparse');
         const TYPE = WavesApp.TRANSACTION_TYPES.NODE.MASS_TRANSFER;
@@ -27,6 +28,18 @@
 
             get isValidCSV() {
                 return this._isValidAmounts && this.totalAmount && this.totalAmount.getTokens().gt(0) || false;
+            }
+
+            /**
+             * @type {number}
+             */
+            get validTxCount() {
+                if (this.tx.transfers.length) {
+                    const errors = utils.toHash(this.errors, 'recipient');
+                    return this.tx.transfers.filter((data) => !errors[data.recipient]).length;
+                } else {
+                    return 0;
+                }
             }
 
             constructor() {
@@ -52,24 +65,24 @@
                  */
                 this.totalAmount = null;
                 /**
-                 * @type {Array<{recipient: string, type: string}>}
+                 * @type {Array<{recipient: string}>}
                  */
                 this.errors = [];
+                /**
+                 * @type {Array<ITransferItem>}
+                 */
+                this.transfers = [];
+                /**
+                 * @type {MassSend.IView}
+                 */
+                this.view = utils.liteObject({
+                    errors: utils.liteObject({ showAll: false })
+                });
                 /**
                  * @type {boolean}
                  * @private
                  */
                 this._isValidAmounts = true;
-                /**
-                 * @type {Money}
-                 * @private
-                 */
-                this._transferFee = null;
-                /**
-                 * @type {Money}
-                 * @private
-                 */
-                this._massTransferFee = null;
             }
 
             $postLink() {
@@ -77,12 +90,16 @@
 
                 const signal = utils.observe(this.state.massSend, 'transfers');
 
+                this.observe(['transfers', 'errors'], this._updateTxList);
                 this.receive(signal, this._calculateTotalAmount, this);
-                this.receive(signal, this._calculateFee, this);
-                this.receive(signal, this._updateTextAreaContent, this);
+                this.receive(signal, this._validate, this);
+                this.observe('totalAmount', this._validate);
+                this.observe('transfers', this._calculateFee);
+                this.observe('transfers', this._updateTextAreaContent);
                 this.observe('recipientCsv', this._onChangeCSVText);
 
-                signal.dispatch({ value: this.tx.transfers });
+                signal.dispatch();
+                this.transfers = this.tx.transfers.slice();
             }
 
             /**
@@ -117,6 +134,19 @@
             /**
              * @private
              */
+            _updateTxList() {
+                const list = this.transfers.slice();
+                const errors = utils.toHash(this.errors, 'recipient');
+                const validList = list.filter((item) => !errors[item.recipient]);
+
+                if (MassSend._isNotEqual(this.tx.transfers, validList)) {
+                    this.tx.transfers = validList;
+                }
+            }
+
+            /**
+             * @private
+             */
             _calculateTotalAmount() {
                 const transfers = this.tx.transfers;
 
@@ -125,7 +155,7 @@
                 }
 
                 if (transfers.length) {
-                    this.totalAmount = this.tx.transfers
+                    this.totalAmount = transfers
                         .map(({ amount }) => amount)
                         .reduce((result, item) => result.add(item));
 
@@ -151,7 +181,6 @@
             _processTextAreaContent(content) {
                 const { data } = Papa.parse(content);
                 const recipientHash = MassSend._getRecipientHashByCSVParseResult(data);
-                const errors = [];
                 const transfers = [];
 
                 Object.keys(recipientHash).forEach((recipient) => {
@@ -160,7 +189,6 @@
                             try {
                                 return MassSend._parseAmount(amount);
                             } catch (e) {
-                                errors.push({ recipient, type: 'amount' });
                                 return new BigNumber(0);
                             }
                         })
@@ -169,12 +197,14 @@
                     transfers.push({ recipient, amount });
                 });
 
-                if (MassSend._isNotEqual(this.tx.transfers, transfers)) {
-                    this.errors = errors;
-                    this.tx.transfers = transfers;
+                if (MassSend._isNotEqual(this.transfers, transfers)) {
+                    this.transfers = transfers;
                 }
             }
 
+            /**
+             * @private
+             */
             _validate() {
                 this._validateAmounts();
                 this._validateRecipients();
@@ -183,26 +213,27 @@
             /**
              * @private
              */
+            @decorators.async()
             _validateRecipients() {
 
                 const isValidRecipient = function ({ recipient }) {
                     return utils.resolve(validateService.wavesAddress(recipient));
                 };
 
-                Promise.all(this.tx.transfers.map(isValidRecipient))
+                Promise.all(this.transfers.map(isValidRecipient))
                     .then((list) => {
                         const errors = [];
 
-                        list.forEach((state, index) => {
-                            const recipient = this.tx.transfers[index].recipient;
+                        list.forEach((response, index) => {
+                            const recipient = this.transfers[index].recipient;
 
-                            if (!state) {
-                                errors.push({ recipient, type: 'recipient' });
+                            if (!response.state) {
+                                errors.push({ recipient });
                             }
                         });
 
                         if (errors.length) {
-                            this.errors.push(...errors);
+                            this.errors = errors;
                             $scope.$digest();
                         }
                     });
@@ -223,7 +254,6 @@
             _onChangeCSVText() {
                 const text = this.recipientCsv;
                 this._processTextAreaContent(text);
-                this._validate();
             }
 
             /**
@@ -305,7 +335,7 @@
         return new MassSend();
     };
 
-    controller.$inject = ['Base', 'readFile', '$scope', 'utils', 'validateService', 'waves', 'user'];
+    controller.$inject = ['Base', 'readFile', '$scope', 'utils', 'validateService', 'waves', 'user', 'decorators'];
 
     angular.module('app.ui').component('wMassSend', {
         bindings: {
@@ -317,3 +347,11 @@
         controller
     });
 })();
+
+/**
+ * @name MassSend
+ *
+ * @typedef {object} MassSend#IView
+ * @property {object} errors
+ * @property {boolean} errors.showAll
+ */

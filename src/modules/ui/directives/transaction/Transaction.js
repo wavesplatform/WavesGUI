@@ -12,10 +12,11 @@
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
      * @param {DexService} dexService
+     * @param {$rootScope.Scope} $scope
      * @return {Transaction}
      */
     const controller = function (Base, $filter, modalManager, notification,
-                                 waves, user, baseAssetService, dexService) {
+                                 waves, user, baseAssetService, dexService, $scope) {
 
         class Transaction extends Base {
 
@@ -30,6 +31,7 @@
                     baseAssetService.convertToBaseAsset(this.transaction.amount)
                         .then((baseMoney) => {
                             this.mirrorBalance = baseMoney;
+                            $scope.$digest();
                         });
                 }
 
@@ -111,7 +113,8 @@
         'waves',
         'user',
         'baseAssetService',
-        'dexService'
+        'dexService',
+        '$scope'
     ];
 
     angular.module('app.ui')

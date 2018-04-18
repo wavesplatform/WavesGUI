@@ -3,7 +3,7 @@
 
     /**
      * @param Base
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param {User} user
      * @param {Waves} waves
      * @param {INotification} notification
@@ -39,6 +39,7 @@
                 waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS })
                     .then((fee) => {
                         this.fee = fee;
+                        $scope.$digest();
                     });
 
                 this.aliases = waves.node.aliases.getAliasList();
@@ -56,6 +57,7 @@
                                 ns: 'app.utils',
                                 title: { literal: 'modal.account.notifications.aliasCreated' }
                             });
+                            $scope.$digest();
                         })
                         .catch(() => {
                             analytics.push('User', 'User.CreateAlias.Error');

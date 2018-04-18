@@ -123,6 +123,7 @@
                                             $ngModel.$setValidity(`pending-${name}`, false);
                                             const onEnd = () => {
                                                 $ngModel.$setValidity(`pending-${name}`, true);
+                                                $scope.$digest();
                                             };
                                             utils.when(result).then(() => {
                                                 $ngModel.$setValidity(name, true);
