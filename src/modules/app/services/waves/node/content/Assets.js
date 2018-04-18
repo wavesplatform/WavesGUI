@@ -380,6 +380,8 @@
 
                 aliases.aliases = aliasList;
 
+                moneyList = moneyList.sort(utils.comparators.process((money) => money.asset.name).asc);
+
                 return [{
                     asset: wavesDetails.asset,
                     regular: Assets._getMoneySub(regularMoney, wavesTx),
