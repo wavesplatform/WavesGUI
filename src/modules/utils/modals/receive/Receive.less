@@ -41,6 +41,7 @@ md-dialog.modal-receive {
           padding: 12px 0 8px 0;
           margin: 0 40px 0 0;
           color: @color-info-500;
+          min-height: 45px;
 
           &.active {
             color: @color-submit-400;
@@ -52,6 +53,7 @@ md-dialog.modal-receive {
         }
       }
     }
+
 
     .receive-confirm {
       margin-top: -40px;
@@ -177,6 +179,38 @@ md-dialog.modal-receive {
         }
       }
 
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  md-dialog.modal-receive {
+    .modal-content {
+      padding-top: 80px;
+
+      .icon-close {
+        right: 20px;
+      }
+
+      w-tabs {
+        .titles-wrap {
+          width: 100%;
+          margin: 0;
+          margin: 0 -20px;
+          padding: 0 20px;
+
+          .title {
+            .body-2();
+            margin-right: 20px;
+            font-family: @font-roboto-medium;
+            color: @color-info-500;
+
+            &.active {
+              color: @color-submit-400;
+            }
+          }
+        }
+      }
     }
   }
 }
