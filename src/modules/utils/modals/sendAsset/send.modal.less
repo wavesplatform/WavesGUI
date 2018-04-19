@@ -27,8 +27,9 @@ md-dialog.modal-send {
     .titles-wrap {
       position: absolute;
       top: 10px;
-      width: calc(100% ~'+ 40px');
-      margin: 0 -20px;
+      width: calc(100% + 80px);
+      margin: 0 -40px;
+      padding: 0 40px;
 
       .title {
         .headline-2();
@@ -42,8 +43,7 @@ md-dialog.modal-send {
         }
       }
 
-      &::before,
-      &::after {
+      &::before {
         display: none;
       }
     }
@@ -232,6 +232,7 @@ md-dialog.modal-send {
 
   w-balance {
     vertical-align: top;
+    white-space: nowrap;
   }
 
   w-balance-input {
