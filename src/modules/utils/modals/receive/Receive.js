@@ -2,7 +2,7 @@
     'use strict';
 
     const DEFAULT_LINK = '#';
-    const COINOMAT_API_ROOT = 'https://coinomat.com/api/v2/indacoin/';
+    const COINOMAT_API = 'https://coinomat.com/api/v2/indacoin/';
 
     /**
      * @param Base
@@ -133,16 +133,22 @@
                 this.approximateAmount = '';
 
                 this.observe(['chosenCurrencyIndex', 'cardPayment'], () => {
+                    this.approximateAmount = null;
+
+                    if (!Number(this.cardPayment)) {
+                        this.approximateAmount = new Waves.Money(0, asset);
+                        return;
+                    }
+
+                    const params = {
+                        address: `address=${user.address}`,
+                        amount: `amount=${this.cardPayment}`,
+                        crypto: `crypto=${this.asset.displayName}`,
+                        fiat: `fiat=${this.currencies[this.chosenCurrencyIndex].fiat}`
+                    };
+
                     fetch(
-                        `${COINOMAT_API_ROOT}rate.php?address=${
-                            user.address
-                        }&amount=${
-                            this.cardPayment
-                        }&crypto=${
-                            this.asset.displayName
-                        }&fiat=${
-                            this.currencies[this.chosenCurrencyIndex].fiat
-                        }`
+                        `${COINOMAT_API}rate.php?${params.address}&${params.amount}&${params.crypto}&${params.fiat}`
                     )
                         .then(utils.onFetch)
                         .then((approximateAmount) => {
@@ -150,15 +156,9 @@
                             this.approximateAmount = new Waves.Money(coins.round(0), asset);
                         });
 
-                    this.indacoinLink = `${COINOMAT_API_ROOT}buy.php?address=${
-                        user.address
-                    }&fiat=${
-                        this.currencies[this.chosenCurrencyIndex].fiat
-                    }&amount=${
-                        this.cardPayment
-                    }&crypto=${
-                        this.asset.displayName
-                    }`;
+                    this.indacoinLink = (
+                        `${COINOMAT_API}buy.php?${params.address}&${params.fiat}&${params.amount}&${params.crypto}`
+                    );
                 });
 
                 const depositDetails = gatewayService.getDepositDetails(asset, address);
