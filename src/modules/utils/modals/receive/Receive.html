@@ -6,7 +6,8 @@
                 <w-step>
                     <w-tabs selected="cryptocurrency">
 
-                        <w-tab title-name="modal.receive.cryptocurrency.title" id="cryptocurrency" ng-if="$ctrl.showCryptocurrencyTab">
+                        <w-tab title-name="modal.receive.cryptocurrency.title" id="cryptocurrency"
+                               ng-if="$ctrl.showCryptocurrencyTab">
                             <div class="receive-crypto">
 
                                 <div class="row margin-2">
@@ -18,7 +19,6 @@
                                             <div class="asset-name">{{::$ctrl.asset.name}}</div>
                                         </div>
                                     </div>
-
                                 </div>
 
                                 <div class="warning-plate margin-1">
@@ -102,47 +102,51 @@
                                     </div>
 
                                     <div class="row margin-2">
-                                        <div class="amount-wrap amount-wrap-card">
                                             <w-input-container>
-                                                <w-input
-                                                    name="amount"
-                                                    type="text"
-                                                    class="big"
-                                                    ng-model="$ctrl.cardPayment"
-                                                    w-validate
-                                                    w-validator-gte="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].min}}"
-                                                    w-validator-lte="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].max}}"
-                                                    w-validator-precision="2"></w-input>
+
+                                                <div class="amount-wrap">
+                                                    <w-input
+                                                            name="amount"
+                                                            type="text"
+                                                            class="big"
+                                                            ng-model="$ctrl.cardPayment"
+                                                            w-validate
+                                                            w-validator-gte="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].min}}"
+                                                            w-validator-lte="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].max}}"
+                                                            w-validator-precision="2"></w-input>
+
+                                                    <w-select class="big" ng-model="$ctrl.chosenCurrencyIndex">
+                                                        <w-option
+                                                                ng-repeat="currency in $ctrl.currencies"
+                                                                value="{{::$index}}">
+                                                            <option>{{::currency.name}}</option>
+                                                        </w-option>
+                                                    </w-select>
+                                                </div>
 
                                                 <w-input-error message="gte">
-                                                    modal.receive.error.cardAmount.gte
+                                                    <w-i18n params="{
+                                                    gte: $ctrl.currencies[$ctrl.chosenCurrencyIndex].min,
+                                                    currency: $ctrl.currencies[$ctrl.chosenCurrencyIndex].name
+                                                    }">modal.receive.error.cardAmount.gte</w-i18n>
                                                 </w-input-error>
                                                 <w-input-error message="lte">
-                                                    modal.receive.error.cardAmount.lte
+                                                    <w-i18n params="{
+                                                            lte: $ctrl.currencies[$ctrl.chosenCurrencyIndex].max,
+                                                            currency: $ctrl.currencies[$ctrl.chosenCurrencyIndex].name
+                                                        }">modal.receive.error.cardAmount.lte</w-i18n>
                                                 </w-input-error>
                                                 <w-input-error message="precision">
-                                                    modal.receive.error.cardAmount.precision
+                                                    <w-i18n>modal.receive.error.cardAmount.precision</w-i18n>
                                                 </w-input-error>
 
+
                                             </w-input-container>
-                                            <w-select class="big" ng-model="$ctrl.chosenCurrencyIndex">
-                                                <w-option
-                                                    ng-repeat="currency in $ctrl.currencies"
-                                                    value="{{::$index}}">
-                                                    <option>{{::currency.name}}</option>
-                                                </w-option>
-                                            </w-select>
-                                        </div>
                                     </div>
 
                                     <div class="row margin-2">
                                         <div class="body-2 basic-900">
                                             <span w-i18n="modal.receive.youWillGet"></span>
-                                            <w-help-icon>
-                                                <div class="row-help headline-3"
-                                                     w-i18n="modal.receive.youWillGetHelpHeadline"></div>
-                                                <div class="row-help" w-i18n="modal.receive.youWillGetHelpText"></div>
-                                            </w-help-icon>
                                         </div>
 
                                         <div class="note-plate body-2">
