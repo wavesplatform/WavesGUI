@@ -26,10 +26,6 @@
                 return this.state.massSend;
             }
 
-            get isValidCSV() {
-                return this._isValidAmounts && this.totalAmount && this.totalAmount.getTokens().gt(0) || false;
-            }
-
             /**
              * @type {number}
              */
@@ -80,26 +76,43 @@
                 });
                 /**
                  * @type {boolean}
-                 * @private
                  */
-                this._isValidAmounts = true;
+                this.isValidAmounts = true;
+                /**
+                 * @type {form.FormController}
+                 */
+                this.massSend = null;
             }
 
             $postLink() {
                 this.tx.transfers = this.tx.transfers || [];
 
-                const signal = utils.observe(this.state.massSend, 'transfers');
+                const onHasMoneyHash = () => {
+                    const signal = utils.observe(this.state.massSend, 'transfers');
 
-                this.observe(['transfers', 'errors'], this._updateTxList);
-                this.receive(signal, this._calculateTotalAmount, this);
-                this.receive(signal, this._validate, this);
-                this.observe('totalAmount', this._validate);
-                this.observe('transfers', this._calculateFee);
-                this.observe('transfers', this._updateTextAreaContent);
-                this.observe('recipientCsv', this._onChangeCSVText);
+                    this.receive(utils.observe(this.state, 'assetId'), this._onChangeAssetId, this);
 
-                signal.dispatch();
-                this.transfers = this.tx.transfers.slice();
+                    this.observe(['transfers', 'errors'], this._updateTxList);
+                    this.observe('totalAmount', this._validate);
+                    this.observe('transfers', this._updateTextAreaContent);
+                    this.observe('recipientCsv', this._onChangeCSVText);
+                    this.receive(signal, this._calculateTotalAmount, this);
+                    this.receive(signal, this._validate, this);
+                    this.receive(signal, this._calculateFee, this);
+
+                    signal.dispatch();
+                    this.transfers = this.tx.transfers.slice();
+                    utils.observe(this, 'transfers').dispatch();
+                };
+
+                if (this.state.moneyHash) {
+                    onHasMoneyHash();
+                } else {
+                    utils.observe(this.state, 'moneyHash').once(() => {
+                        onHasMoneyHash();
+                        $scope.$digest();
+                    });
+                }
             }
 
             /**
@@ -110,6 +123,7 @@
                     return readFile.read(data.file)
                         .then((content) => {
                             this._processTextAreaContent(content);
+                            this.massSend.recipientCsv.$touched = true;
                             $scope.$digest();
                         });
                 } else {
@@ -119,6 +133,7 @@
 
             clear() {
                 this.transfers = [];
+                this.errors = [];
             }
 
             nextStep() {
@@ -129,6 +144,25 @@
                 });
 
                 this.onContinue({ tx });
+            }
+
+            /**
+             * @private
+             */
+            _onChangeAssetId() {
+                const transfers = this.transfers;
+                if (transfers && transfers.length) {
+                    const assetId = this.state.assetId;
+
+                    this.clear();
+
+                    this.transfers = transfers.map((item) => {
+                        return {
+                            recipient: item.recipient,
+                            amount: this.state.moneyHash[assetId].cloneWithTokens(item.amount.toTokens())
+                        };
+                    });
+                }
             }
 
             /**
@@ -168,9 +202,11 @@
             /**
              * @private
              */
+            @decorators.async()
             _calculateFee() {
                 waves.node.getFee({ type: TYPE, tx: this.tx }).then((fee) => {
                     this.tx.fee = fee;
+                    $scope.$digest();
                 });
             }
 
@@ -216,11 +252,7 @@
             @decorators.async()
             _validateRecipients() {
 
-                const isValidRecipient = function ({ recipient }) {
-                    return utils.resolve(validateService.wavesAddress(recipient));
-                };
-
-                Promise.all(this.transfers.map(isValidRecipient))
+                Promise.all(this.transfers.map((item) => MassSend._isValidRecipient(item.recipient)))
                     .then((list) => {
                         const errors = [];
 
@@ -245,7 +277,8 @@
             _validateAmounts() {
                 const moneyHash = utils.groupMoney([this.totalAmount, this.tx.fee]);
                 const balance = moneyHash[this.state.assetId];
-                this._isValidAmounts = this.state.moneyHash[this.state.assetId].gte(balance);
+                this.isValidAmounts = this.state.moneyHash[this.state.assetId].gte(balance) &&
+                    this.totalAmount.getTokens().gt('0');
             }
 
             /**
@@ -316,6 +349,16 @@
                 return a.length === b.length && a.every((item, i) => {
                     return item.recipient === b[i].recipient && item.amount.eq(b[i].amount);
                 });
+            }
+
+            /**
+             * @param {string} recipient
+             * @return Promise<boolean>
+             * @private
+             */
+            @decorators.cachable(60)
+            static _isValidRecipient(recipient) {
+                return utils.resolve(validateService.wavesAddress(recipient));
             }
 
             /**

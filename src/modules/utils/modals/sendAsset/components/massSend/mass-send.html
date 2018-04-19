@@ -1,4 +1,4 @@
-<form novalidate name="massSend">
+<form novalidate name="$ctrl.massSend">
 
     <div class="margin-2">
         <ng-transclude></ng-transclude>
@@ -10,14 +10,14 @@
                 modal.send.massSend.recipient
             </w-i18n>
         </div>
-        <w-import-file ng-if="$ctrl.tx.transfers.length === 0"
+        <w-import-file ng-if="$ctrl.transfers.length === 0"
                        extension-list="::'csv'"
                        on-change="$ctrl.importFile(data)">
             <a class="link">
                 <span w-i18n="modal.send.massSend.importFile"></span>
             </a>
         </w-import-file>
-        <a ng-if="$ctrl.tx.transfers.length > 0"
+        <a ng-if="$ctrl.transfers.length > 0"
            class="link"
            ng-click="$ctrl.clear()"
            w-i18n="modal.send.massSend.clear"></a>
@@ -28,16 +28,23 @@
                  class="tall"
                  name="recipientCsv"
                  w-validate
-                 w-validator-custom="{{$ctrl.isValidCSV}}"
+                 required
+                 w-validator-custom="{{$ctrl.isValidAmounts}}"
                  ng-model="$ctrl.recipientCsv"
                  ng-model-options="{updateOn: 'input blur', debounce: { 'input': 5000, 'blur': 0 }}"
                  w-i18n-attr="placeholder"
                  placeholder="modal.send.massSend.recipientsAmountsPlaceholder"
         ></w-input>
 
-        <w-input-error message="custom">
+        <w-input-error ng-if="$ctrl.tx.transfers.length || $ctrl.transfers.length" message="custom">
             <w-i18n ng-if="$ctrl.tx.transfers.length">modal.send.errors.max</w-i18n>
-            <w-i18n ng-if="!$ctrl.tx.transfers.length">modal.send.errors.allAddressesInvalid</w-i18n>
+            <w-i18n ng-if="$ctrl.transfers.length && !$ctrl.tx.transfers.length">
+                modal.send.errors.allAddressesInvalid
+            </w-i18n>
+        </w-input-error>
+
+        <w-input-error message="required">
+            <w-i18n>required</w-i18n>
         </w-input-error>
 
         <div ng-if="$ctrl.errors.length" class="error active">
@@ -103,7 +110,7 @@
         </div>
     </div>
 
-    <w-button disabled="massSend.$invalid || !$ctrl.tx.transfers.length"
+    <w-button disabled="$ctrl.massSend.$invalid || !$ctrl.tx.transfers.length"
               class="submit long big"
               on-click="$ctrl.nextStep()">
         <w-i18n>button.continue</w-i18n>
