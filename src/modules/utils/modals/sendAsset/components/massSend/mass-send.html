@@ -37,7 +37,7 @@
 
         <w-input-error message="custom">
             <w-i18n ng-if="$ctrl.tx.transfers.length">modal.send.errors.max</w-i18n>
-            <w-i18n ng-if="!$ctrl.tx.transfers.length">modal.send.errors.fillThiField</w-i18n>
+            <w-i18n ng-if="!$ctrl.tx.transfers.length">modal.send.errors.allAdressesInvalid</w-i18n>
         </w-input-error>
 
         <div ng-if="$ctrl.errors.length" class="error active">
