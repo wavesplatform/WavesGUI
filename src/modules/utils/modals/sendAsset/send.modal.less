@@ -3,296 +3,65 @@
 
 md-dialog.modal-send {
   md-dialog-content {
-    padding: 0 40px 0;
-  }
-
-  .modal-content {
-    width: 100%;
     position: relative;
-    padding-top: 90px;
-  }
 
-  .icon-close {
-    position: absolute;
-    top: 20px;
-    right: -20px;
-    z-index: 10;
-  }
+    .modal-content {
+      padding-top: 70px;
+    }
 
-  w-confirm-transaction {
-    margin-top: -40px;
-  }
-
-  w-tabs {
-    .titles-wrap {
+    .icon-close {
       position: absolute;
-      top: 10px;
-      width: calc(100% + 80px);
-      margin: 0 -40px;
-      padding: 0 40px;
+      top: 20px;
+      right: 40px;
+      z-index: 10;
+    }
 
-      .title {
-        .headline-2();
-        line-height: 30px;
-        padding: 12px 0 8px 0;
-        margin: 0 40px 0 0;
-        color: @color-info-500;
+    w-confirm-transaction {
+      margin-top: -40px;
+    }
 
-        &.active {
-          color: @color-submit-400;
+    w-tabs {
+      .titles-wrap {
+        position: absolute;
+        top: 10px;
+        width: 100%;
+        margin: 0 -40px;
+        padding: 0 40px;
+
+        .title {
+          .headline-2();
+          line-height: 30px;
+          padding: 12px 0 8px 0;
+          margin: 0 40px 0 0;
+          color: @color-info-500;
+          min-height: 45px;
+
+          &.active {
+            color: @color-submit-400;
+          }
+        }
+
+        &::before {
+          display: none;
         }
       }
-
-      &::before {
-        display: none;
-      }
-    }
-  }
-
-  .total-amount {
-    background-color: @color-basic-50;
-    border: 1px solid @color-basic-200;
-  }
-
-  w-qr-code-read {
-    position: absolute;
-    height: 34px;
-    width: 56px;
-    right: 0;
-    top: 50%;
-    margin-top: -17px;
-    border-left: 1px solid #dae1e9;
-
-    .btn:before {
-      width: 38px;
-      height: 32px;
-      background-size: 38px;
-      cursor: pointer;
-    }
-  }
-
-  .read-address-wrap w-input:not(.no-validate) .w-input-wrap::after {
-    right: 70px;
-  }
-
-  .read-address-wrap {
-    position: relative;
-
-    .w-input-wrap input {
-      height: 54px;
-      padding-right: 54px;
-    }
-  }
-
-  w-input-container .error.active {
-    display: inline-block;
-  }
-
-  textarea {
-    resize: vertical;
-    height: 47px;
-    max-height: 250px;
-  }
-
-  .flex-row {
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    align-items: center;
-
-    &.split-half {
-      justify-content: space-between;
-      width: 100%;
-
-      & > div.flex-row:last-child {
-        text-align: right;
-        justify-content: flex-end;
-      }
-    }
-  }
-
-  .tx-section {
-    display: block;
-    width: 100%;
-
-    .section {
-      display: flex;
-      align-items: center;
-      padding: 10px 0;
-      width: 100%;
-      border-bottom: 1px dashed @color-basic-200;
-
-      &.padder {
-        display: block;
-        height: 70px;
-        padding-top: 5px;
-        border-bottom: 0 none;
-
-        span {
-          align-self: flex-start;
-        }
-      }
-
-      .key {
-        flex-grow: 1;
-        color: @color-black;
-      }
-
-      .value {
-        flex-grow: 0;
-        text-align: right;
-      }
     }
 
-    & > .section {
-      .key {
-        color: @color-basic-500;
-      }
+    .total-amount {
+      background-color: @color-basic-50;
+      border: 1px solid @color-basic-200;
     }
 
-    &.tx-header {
-       .section {
-        .footnote-1();
-        border-bottom: 0 none;
-        color: @color-basic-500;
-      }
-    }
-  }
-
-  .lead {
-    margin-bottom: 0;
-
-    & + .section {
-      padding-top: 0;
-    }
-  }
-
-  .section .tx-section {
-    margin-bottom: -14px;
-  }
-
-  .row {
-    margin-bottom: 20px;
-    position: relative;
-
-    &:first-child {
-      margin-top: 10px;
-    }
-
-    &:last-child {
-      margin-top: 10px;
-    }
-
-    &.margin-1 {
-      margin-bottom: 10px;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 77px;
-      max-height: 300px;
-    }
-  }
-
-  .asset-name {
-    margin-left: 10px;
-  }
-
-  .input-like {
-    position: relative;
-    padding: 0 20px;
-    height: 54px;
-    border-radius: @border-radius;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-size: 15px;
-    overflow-x: hidden;
-  }
-
-  w-select .title {
-    overflow-x: hidden;
-  }
-
-  .amount-wrap {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .amount-modal-icon {
-    background-image: url(/img/icons/arrow.svg);
-    background-size: 100% 100%;
-    width: 24px;
-    height: 20px;
-    margin: 7px;
-  }
-
-  w-balance {
-    vertical-align: top;
-    white-space: nowrap;
-  }
-
-  w-balance-input {
-    width: 204px;
-
-    .input-wrap .w-input-wrap input {
-      padding-right: 60px;
-    }
-  }
-
-  .no-mirror {
-    .amount-modal-icon {
-      display: none;
-    }
-    w-balance-input {
-      width: 100%;
-    }
-  }
-
-  .fee {
-    display: flex;
-    flex-direction: row;
-
-    .decimal-muted {
-      display: none;
-    }
-  }
-
-  .ellipsis {
-    display: inline-block;
-    max-width: 60px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    vertical-align: top;
-  }
-
-  .to-bank-account {
-    background: @color-basic-50;
-    border: 1px solid @color-basic-200;
-    height: 54px;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    position: relative;
-    border-radius: @border-radius;
-
-    i {
+    w-qr-code-read {
       position: absolute;
       height: 34px;
       width: 56px;
       right: 0;
       top: 50%;
-      transform: translateY(-50%);
+      margin-top: -17px;
       border-left: 1px solid #dae1e9;
-      background: url(/img/icons/close.svg) center no-repeat;
-      background-size: 18px 18px;
-      cursor: pointer;
 
-      &::before {
+      .btn:before {
         width: 38px;
         height: 32px;
         background-size: 38px;
@@ -300,27 +69,256 @@ md-dialog.modal-send {
       }
     }
 
-    span {
-      .body-2();
+    .read-address-wrap w-input:not(.no-validate) .w-input-wrap::after {
+      right: 70px;
+    }
+
+    .read-address-wrap {
+      position: relative;
+
+      .w-input-wrap input {
+        height: 54px;
+        padding-right: 54px;
+      }
+    }
+
+    w-input-container .error.active {
+      display: inline-block;
+    }
+
+    textarea {
+      resize: vertical;
+      height: 47px;
+      max-height: 250px;
+    }
+
+    .flex-row {
+      display: flex;
+      width: 100%;
+      flex-direction: row;
+      align-items: center;
+
+      &.split-half {
+        justify-content: space-between;
+        width: 100%;
+
+        & > div.flex-row:last-child {
+          text-align: right;
+          justify-content: flex-end;
+        }
+      }
+    }
+
+    .tx-section {
+      display: block;
+      width: 100%;
+
+      .section {
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+        width: 100%;
+        border-bottom: 1px dashed @color-basic-200;
+
+        &.padder {
+          display: block;
+          height: 70px;
+          padding-top: 5px;
+          border-bottom: 0 none;
+
+          span {
+            align-self: flex-start;
+          }
+        }
+
+        .key {
+          flex-grow: 1;
+          color: @color-black;
+        }
+
+        .value {
+          flex-grow: 0;
+          text-align: right;
+        }
+      }
+
+      & > .section {
+        .key {
+          color: @color-basic-500;
+        }
+      }
+
+      &.tx-header {
+        .section {
+          .footnote-1();
+          border-bottom: 0 none;
+          color: @color-basic-500;
+        }
+      }
+    }
+
+    .lead {
+      margin-bottom: 0;
+
+      & + .section {
+        padding-top: 0;
+      }
+    }
+
+    .section .tx-section {
+      margin-bottom: -14px;
+    }
+
+    .row {
+      margin-bottom: 20px;
+      position: relative;
+
+      &:first-child {
+        margin-top: 10px;
+      }
+
+      &:last-child {
+        margin-top: 10px;
+      }
+
+      &.margin-1 {
+        margin-bottom: 10px;
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 77px;
+        max-height: 300px;
+      }
+    }
+
+    .asset-name {
+      margin-left: 10px;
+    }
+
+    .input-like {
+      position: relative;
+      padding: 0 20px;
+      height: 54px;
+      border-radius: @border-radius;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-size: 15px;
+      overflow-x: hidden;
+    }
+
+    w-select .title {
+      overflow-x: hidden;
+    }
+
+    .amount-wrap {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .amount-modal-icon {
+      background-image: url(/img/icons/arrow.svg);
+      background-size: 100% 100%;
+      width: 24px;
+      height: 20px;
+      margin: 7px;
+    }
+
+    w-balance {
+      vertical-align: top;
+      white-space: nowrap;
+    }
+
+    w-balance-input {
+      width: 204px;
+
+      .input-wrap .w-input-wrap input {
+        padding-right: 60px;
+      }
+    }
+
+    .no-mirror {
+      .amount-modal-icon {
+        display: none;
+      }
+      w-balance-input {
+        width: 100%;
+      }
+    }
+
+    .fee {
+      display: flex;
+      flex-direction: row;
+
+      .decimal-muted {
+        display: none;
+      }
+    }
+
+    .ellipsis {
+      display: inline-block;
+      max-width: 60px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      vertical-align: top;
+    }
+
+    .to-bank-account {
+      background: @color-basic-50;
+      border: 1px solid @color-basic-200;
+      height: 54px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      border-radius: @border-radius;
+
+      i {
+        position: absolute;
+        height: 34px;
+        width: 56px;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        border-left: 1px solid #dae1e9;
+        background: url(/img/icons/close.svg) center no-repeat;
+        background-size: 18px 18px;
+        cursor: pointer;
+
+        &::before {
+          width: 38px;
+          height: 32px;
+          background-size: 38px;
+          cursor: pointer;
+        }
+      }
+
+      span {
+        .body-2();
+      }
+    }
+
+    .flex-row-title {
+      display: flex;
+      align-items: center;
+
+      div {
+        flex-grow: 1;
+
+      }
+
+      w-import-file,
+      a {
+        flex-grow: 0;
+        margin: 4px 0;
+      }
     }
   }
-
-  .flex-row-title {
-    display: flex;
-    align-items: center;
-
-    div {
-      flex-grow: 1;
-
-    }
-
-    w-import-file,
-    a {
-      flex-grow: 0;
-      margin: 4px 0;
-    }
-  }
-
 }
 
 @media screen and (max-width: 767px) {
@@ -329,17 +327,20 @@ md-dialog.modal-send {
       padding-top: 80px;
 
       .icon-close {
-        right: 0;
+        right: 20px;
       }
 
       w-tabs {
         .titles-wrap {
           width: 100%;
           margin: 0;
+          margin: 0 -20px;
+          padding: 0 20px;
 
           .title {
-            .headline-2();
+            .body-2();
             margin-right: 20px;
+            font-family: @font-roboto-medium;
             color: @color-info-500;
 
             &.active {
