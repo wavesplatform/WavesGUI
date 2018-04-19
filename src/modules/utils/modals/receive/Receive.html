@@ -150,7 +150,7 @@
                                         </div>
 
                                         <div class="note-plate body-2">
-                                            <w-i18n params="{money: $ctrl.approximateAmount}">money-currency</w-i18n>
+                                            <w-i18n params="{money: $ctrl.approximateAmount}" ng-if="$ctrl.approximateAmount">money-currency</w-i18n>
                                             <w-loader ng-if="!$ctrl.approximateAmount"></w-loader>
                                         </div>
                                     </div>
