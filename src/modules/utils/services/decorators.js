@@ -56,17 +56,27 @@
              * @returns {Function}
              */
             async(timeout) {
+                let addTimeout, dropTimeout;
+
+                if (timeout) {
+                    addTimeout = (cb) => setTimeout(cb, timeout);
+                    dropTimeout = clearTimeout;
+                } else {
+                    addTimeout = requestAnimationFrame;
+                    dropTimeout = cancelAnimationFrame;
+                }
+
                 return function (target, key, descriptor) {
                     const origin = descriptor.value;
 
                     descriptor.value = function (...args) {
                         if (this[`__${key}_timer`]) {
-                            clearTimeout(this[`__${key}_timer`]);
+                            dropTimeout(this[`__${key}_timer`]);
                         }
-                        this[`__${key}_timer`] = setTimeout(() => {
+                        this[`__${key}_timer`] = addTimeout(() => {
                             this[`__${key}_timer`] = null;
                             origin.call(this, ...args);
-                        }, timeout || 0);
+                        });
                     };
                 };
             },

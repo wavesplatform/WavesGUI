@@ -1,0 +1,8 @@
+<td ng-class="{sorting: sorting, asc: sorting && isAsc, desc: sorting && !isAsc}">
+    <div ng-if="::search">
+        <input ng-model="searchQuery"/>
+    </div>
+    <div ng-if="::title.literal" class="smart-table__header" ng-class="::{'sort-by': sort}">
+        <w-i18n params="title.params">{{title.literal}}</w-i18n>
+    </div>
+</td>

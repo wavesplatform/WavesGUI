@@ -74,7 +74,6 @@
              * @param {Date|number|Moment} [to]
              * @return {Promise<{rate: number, timestamp: Date}[]>}
              */
-            @decorators.cachable(10)
             getRateHistory(assetFrom, assetTo, from, to) {
                 const idFrom = WavesUtils.toId(assetFrom);
                 const idTo = WavesUtils.toId(assetTo);
@@ -242,6 +241,7 @@
              * @return {Promise<{rate: number, timestamp: Date}[]>}
              * @private
              */
+            @decorators.cachable(60)
             _getRateHistory(fromId, toId, from, to) {
                 const interval = this._getChangeByInterval(from);
                 return Waves.AssetPair.get(fromId, toId)

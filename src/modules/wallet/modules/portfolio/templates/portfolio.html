@@ -9,116 +9,136 @@
         </w-button>
     </div>
 
-    <ul class="portfolio-list">
+    <w-smart-table data="$ctrl.portfolioBalances" header-info="$ctrl.tableHeaders">
+        <w-table-row ng-repeat="balance in $data track by balance.asset.id">
+            <w-table-cell>
+                <w-asset-logo class="margin-right-1" asset-id="{{::balance.asset.id}}" size="30"></w-asset-logo>
+                {{::balance.asset.name}}
+            </w-table-cell>
+            <w-table-cell>
+                <w-balance money="balance.available"></w-balance>
+            </w-table-cell>
+            <w-table-cell>
+                <w-balance money="balance.inOrders"></w-balance>
+            </w-table-cell>
+            <w-table-cell>
+                <w-exchange noUpdate balance="balance.available"></w-exchange>
+            </w-table-cell>
+            <w-table-cell>
+                <w-change-rate asset-id="balance.asset.id"></w-change-rate>
+                <div class="chart-wrap">
+                    <w-asset-rate-chart no-update="::true" asset-id="::balance.asset.id"></w-asset-rate-chart>
+                </div>
+            </w-table-cell>
+            <w-table-cell>
+                <w-change24 asset-from="balance.asset.id"
+                            asset-to="$ctrl.mirrorId"
+                            no-update></w-change24>
+                %
+            </w-table-cell>
+        </w-table-row>
+    </w-smart-table>
 
-        <li class="portfolio-item title body-2 disabled-600">
-            <div class="portfolio-item-name" w-i18n="list.name"></div>
-            <div class="portfolio-item-balance" w-i18n="list.balance"></div>
-            <div class="portfolio-item-mirror" w-i18n="list.mirror" params="{currency: $ctrl.mirror.ticker}"></div>
-            <div class="portfolio-item-rate" w-i18n="list.rate" params="{currency: $ctrl.mirror.ticker}"></div>
-            <div class="portfolio-item-change" w-i18n="list.change"></div>
-        </li>
+    <!--<w-scroll-box>-->
+    <!--<div class="scroll-list">-->
 
-        <w-scroll-box>
-            <div class="scroll-list">
-
-                <li class="portfolio-item" ng-repeat="balance in $ctrl.portfolioBalances track by balance.asset.id">
-                    <div class="portfolio-item-name">
-                        <span class="mobile-col-title" w-i18n="list.name"></span>
-                        <w-asset-logo class="margin-right-1" asset-id="{{::balance.asset.id}}" size="30"></w-asset-logo>
-                        {{::balance.asset.name}}
-                    </div>
-                    <div class="portfolio-item-balance">
-                        <span class="mobile-col-title" w-i18n="list.balance"></span>
-                        <w-balance money="balance.available"></w-balance>
-                    </div>
-                    <div class="portfolio-item-mirror">
-                        <span class="mobile-col-title"
-                              w-i18n="list.mirror"
-                              params="{currency: $ctrl.mirror.ticker}"></span>
-                        <div ng-if="balance.asset.id !== $ctrl.mirrorId">
-                            <span>$&nbsp;</span>
-                            <w-exchange noUpdate balance="balance.available"></w-exchange>
-                        </div>
-                        <div ng-if="balance.asset.id === $ctrl.mirrorId">
-                            —
-                        </div>
-                    </div>
-                    <div class="portfolio-item-rate">
-                        <span class="mobile-col-title"
-                              w-i18n="list.rate"
-                              params="{currency: $ctrl.mirror.ticker}"></span>
-                        <div ng-if="balance.asset.id !== $ctrl.mirrorId">
-                            <span>$&nbsp;</span>
-                            <w-change-rate asset-id="balance.asset.id"></w-change-rate>
-                        </div>
-                        <div ng-if="balance.asset.id === $ctrl.mirrorId">
-                            —
-                        </div>
-                    </div>
-                    <div class="portfolio-item-change">
-                        <span class="mobile-col-title" w-i18n="list.change"></span>
-                        <div ng-if="balance.asset.id !== $ctrl.mirrorId">
-                            <w-change24 asset-from="balance.asset.id"
-                                        asset-to="$ctrl.mirrorId"
-                                        no-update></w-change24>
-                            %
-                        </div>
-                        <div ng-if="balance.asset.id === $ctrl.mirrorId">
-                            —
-                        </div>
-                    </div>
-                    <div class="portfolio-item-actions">
-                        <w-button class="small" on-click="$ctrl.showSend(balance.asset)">
-                            <span class="btn-icon icon-send" w-i18n="send"></span>
-                        </w-button>
-                        <w-button class="small"
-                                  ng-if="$ctrl.isDepositSupported(balance.asset)"
-                                  on-click="$ctrl.showDeposit(balance.asset)">
-                            <span class="btn-icon icon-deposit" w-i18n="deposit"></span>
-                        </w-button>
-                        <w-button class="small"
-                                  ng-if="!$ctrl.isDepositSupported(balance.asset) && $ctrl.isSepaSupported(balance.asset)"
-                                  on-click="$ctrl.showSepa(balance.asset)">
-                            <span class="btn-icon icon-deposit" w-i18n="deposit"></span>
-                        </w-button>
-                    </div>
-                    <w-actions>
-                        <!--<w-action ng-if="balance.asset.id !== $ctrl.wavesId && balance.asset.pinned"
-                                  ng-click="$ctrl.pinAsset(balance.asset, false)">
-                            <w-i18n>unpin</w-i18n>
-                        </w-action>-->
-                        <w-action ng-if="balance.asset.id !== $ctrl.wavesId && !balance.asset.pinned"
-                                  ng-click="$ctrl.pinAsset(balance.asset, true)">
-                            <w-i18n>pin</w-i18n>
-                        </w-action>
-                        <w-action ng-click="$ctrl.showAsset(balance.asset)">
-                            <w-i18n>info</w-i18n>
-                        </w-action>
-                        <w-action ng-click="$ctrl.showSend(balance.asset)">
-                            <w-i18n>send</w-i18n>
-                        </w-action>
-                        <w-action ng-if="$ctrl.isDepositSupported(balance.asset)"
-                                  ng-click="$ctrl.showDeposit(balance.asset)">
-                            <w-i18n>deposit</w-i18n>
-                        </w-action>
-                        <w-action
-                                ng-if="!$ctrl.isDepositSupported(balance.asset) && $ctrl.isSepaSupported(balance.asset)"
-                                ng-click="$ctrl.showSepa(balance.asset)">
-                            <w-i18n>deposit</w-i18n>
-                        </w-action>
-                        <w-action ng-if="balance.asset.isMyAsset"
-                                  ng-click="$ctrl.showBurn(balance.asset.id)">
-                            <w-i18n>burn</w-i18n>
-                        </w-action>
-                        <w-action ng-if="balance.asset.isMyAsset && balance.asset.reissuable"
-                                  ng-click="$ctrl.showReissue(balance.asset.id)">
-                            <w-i18n>reissue</w-i18n>
-                        </w-action>
-                    </w-actions>
-                </li>
-            </div>
-        </w-scroll-box>
-    </ul>
+    <!--<li class="portfolio-item" ng-repeat="balance in $ctrl.portfolioBalances track by balance.asset.id">-->
+    <!--<div class="portfolio-item-name">-->
+    <!--<span class="mobile-col-title" w-i18n="list.name"></span>-->
+    <!--<w-asset-logo class="margin-right-1" asset-id="{{::balance.asset.id}}" size="30"></w-asset-logo>-->
+    <!--{{::balance.asset.name}}-->
+    <!--</div>-->
+    <!--<div class="portfolio-item-balance">-->
+    <!--<span class="mobile-col-title" w-i18n="list.balance"></span>-->
+    <!--<w-balance money="balance.available"></w-balance>-->
+    <!--</div>-->
+    <!--<div class="portfolio-item-mirror">-->
+    <!--<span class="mobile-col-title"-->
+    <!--w-i18n="list.mirror"-->
+    <!--params="{currency: $ctrl.mirror.ticker}"></span>-->
+    <!--<div ng-if="balance.asset.id !== $ctrl.mirrorId">-->
+    <!--<span>$&nbsp;</span>-->
+    <!--<w-exchange noUpdate balance="balance.available"></w-exchange>-->
+    <!--</div>-->
+    <!--<div ng-if="balance.asset.id === $ctrl.mirrorId">-->
+    <!--—-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="portfolio-item-rate">-->
+    <!--<span class="mobile-col-title"-->
+    <!--w-i18n="list.rate"-->
+    <!--params="{currency: $ctrl.mirror.ticker}"></span>-->
+    <!--<div ng-if="balance.asset.id !== $ctrl.mirrorId">-->
+    <!--<span>$&nbsp;</span>-->
+    <!--<w-change-rate asset-id="balance.asset.id"></w-change-rate>-->
+    <!--</div>-->
+    <!--<div ng-if="balance.asset.id === $ctrl.mirrorId">-->
+    <!--—-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="portfolio-item-change">-->
+    <!--<span class="mobile-col-title" w-i18n="list.change"></span>-->
+    <!--<div ng-if="balance.asset.id !== $ctrl.mirrorId">-->
+    <!--<w-change24 asset-from="balance.asset.id"-->
+    <!--asset-to="$ctrl.mirrorId"-->
+    <!--no-update></w-change24>-->
+    <!--%-->
+    <!--</div>-->
+    <!--<div ng-if="balance.asset.id === $ctrl.mirrorId">-->
+    <!--—-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="portfolio-item-actions">-->
+    <!--<w-button class="small" on-click="$ctrl.showSend(balance.asset)">-->
+    <!--<span class="btn-icon icon-send" w-i18n="send"></span>-->
+    <!--</w-button>-->
+    <!--<w-button class="small"-->
+    <!--ng-if="$ctrl.isDepositSupported(balance.asset)"-->
+    <!--on-click="$ctrl.showDeposit(balance.asset)">-->
+    <!--<span class="btn-icon icon-deposit" w-i18n="deposit"></span>-->
+    <!--</w-button>-->
+    <!--<w-button class="small"-->
+    <!--ng-if="!$ctrl.isDepositSupported(balance.asset) && $ctrl.isSepaSupported(balance.asset)"-->
+    <!--on-click="$ctrl.showSepa(balance.asset)">-->
+    <!--<span class="btn-icon icon-deposit" w-i18n="deposit"></span>-->
+    <!--</w-button>-->
+    <!--</div>-->
+    <!--<w-actions>-->
+    <!--&lt;!&ndash;<w-action ng-if="balance.asset.id !== $ctrl.wavesId && balance.asset.pinned"-->
+    <!--ng-click="$ctrl.pinAsset(balance.asset, false)">-->
+    <!--<w-i18n>unpin</w-i18n>-->
+    <!--</w-action>&ndash;&gt;-->
+    <!--<w-action ng-if="balance.asset.id !== $ctrl.wavesId && !balance.asset.pinned"-->
+    <!--ng-click="$ctrl.pinAsset(balance.asset, true)">-->
+    <!--<w-i18n>pin</w-i18n>-->
+    <!--</w-action>-->
+    <!--<w-action ng-click="$ctrl.showAsset(balance.asset)">-->
+    <!--<w-i18n>info</w-i18n>-->
+    <!--</w-action>-->
+    <!--<w-action ng-click="$ctrl.showSend(balance.asset)">-->
+    <!--<w-i18n>send</w-i18n>-->
+    <!--</w-action>-->
+    <!--<w-action ng-if="$ctrl.isDepositSupported(balance.asset)"-->
+    <!--ng-click="$ctrl.showDeposit(balance.asset)">-->
+    <!--<w-i18n>deposit</w-i18n>-->
+    <!--</w-action>-->
+    <!--<w-action-->
+    <!--ng-if="!$ctrl.isDepositSupported(balance.asset) && $ctrl.isSepaSupported(balance.asset)"-->
+    <!--ng-click="$ctrl.showSepa(balance.asset)">-->
+    <!--<w-i18n>deposit</w-i18n>-->
+    <!--</w-action>-->
+    <!--<w-action ng-if="balance.asset.isMyAsset"-->
+    <!--ng-click="$ctrl.showBurn(balance.asset.id)">-->
+    <!--<w-i18n>burn</w-i18n>-->
+    <!--</w-action>-->
+    <!--<w-action ng-if="balance.asset.isMyAsset && balance.asset.reissuable"-->
+    <!--ng-click="$ctrl.showReissue(balance.asset.id)">-->
+    <!--<w-i18n>reissue</w-i18n>-->
+    <!--</w-action>-->
+    <!--</w-actions>-->
+    <!--</li>-->
+    <!--</div>-->
+    <!--</w-scroll-box>-->
+    <!--</ul>-->
 
 </div>

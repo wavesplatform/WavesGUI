@@ -14,7 +14,7 @@
             <w-i18n ng-if="$ctrl.pinned">modal.assetInfo.pinned</w-i18n>
         </div>-->
         <div class="chart-wrapper">
-            <linechart ng-if="$ctrl.chartData" options="$ctrl.options" data="$ctrl.chartData"></linechart>
+            <w-asset-rate-chart no-update="::true" asset-id="::$ctrl.asset.id"></w-asset-rate-chart>
             <div class="interactive-stop"></div>
         </div>
     </div>

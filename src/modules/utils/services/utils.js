@@ -591,6 +591,34 @@
                         return 1;
                     }
                 },
+                money: {
+                    asc: function (a, b) {
+                        return utils.comparators.bigNumber.asc(a.getTokens(), b.getTokens());
+                    },
+                    desc: function (a, b) {
+                        return utils.comparators.bigNumber.desc(a.getTokens(), b.getTokens());
+                    }
+                },
+                smart: {
+                    asc: function (a, b) {
+                        if (a instanceof Waves.Money && b instanceof Waves.Money) {
+                            return utils.comparators.money.asc(a, b);
+                        } else if (a instanceof BigNumber && b instanceof BigNumber) {
+                            return utils.comparators.bigNumber.asc(a, b);
+                        }
+
+                        return utils.comparators.asc(a, b);
+                    },
+                    desc: function (a, b) {
+                        if (a instanceof Waves.Money && b instanceof Waves.Money) {
+                            return utils.comparators.money.desc(a, b);
+                        } else if (a instanceof BigNumber && b instanceof BigNumber) {
+                            return utils.comparators.bigNumber.desc(a, b);
+                        }
+
+                        return utils.comparators.desc(a, b);
+                    }
+                },
                 process(processor) {
                     return {
                         asc: (a, b) => utils.comparators.asc(processor(a), processor(b)),
@@ -598,6 +626,14 @@
                         bigNumber: {
                             asc: (a, b) => utils.comparators.bigNumber.asc(processor(a), processor(b)),
                             desc: (a, b) => utils.comparators.bigNumber.desc(processor(a), processor(b))
+                        },
+                        money: {
+                            asc: (a, b) => utils.comparators.money.asc(processor(a), processor(b)),
+                            desc: (a, b) => utils.comparators.money.desc(processor(a), processor(b))
+                        },
+                        smart: {
+                            asc: (a, b) => utils.comparators.smart.asc(processor(a), processor(b)),
+                            desc: (a, b) => utils.comparators.smart.desc(processor(a), processor(b))
                         }
                     };
                 }

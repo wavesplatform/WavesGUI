@@ -48,35 +48,6 @@
                     startFrom: Math.PI / 2
                 };
 
-                this.options = {
-                    grid: {
-                        x: false,
-                        y: false
-                    },
-                    margin: {
-                        top: 0,
-                        right: 0,
-                        left: 0,
-                        bottom: 0
-                    },
-                    series: [
-                        {
-                            dataset: 'values',
-                            key: 'rate',
-                            label: 'Rate',
-                            color: '#5a81ea',
-                            type: ['line', 'area']
-                        }
-                    ],
-                    axes: {
-                        x: {
-                            key: 'timestamp',
-                            type: 'date',
-                            ticks: 4
-                        }
-                    }
-                };
-
                 createPoll(this, this._getGraphData, 'chartData', 15000);
                 createPoll(this, this._getCircleGraphData, this._setCircleGraphData, 15000);
                 createPoll(this, waves.node.transactions.list, this._setTxList, 4000, { isBalance: true });

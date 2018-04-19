@@ -44,6 +44,42 @@
                  * @type {string}
                  */
                 this.address = user.address;
+                this.tableHeaders = [
+                    {
+                        id: 'name',
+                        title: { literal: 'list.name' },
+                        valuePath: 'item.asset.name',
+                        sort: true,
+                        search: true
+                    },
+                    {
+                        id: 'balance',
+                        title: { literal: 'list.balance' },
+                        valuePath: 'item.available',
+                        sort: true
+                    },
+                    {
+                        id: 'inOrders',
+                        title: { literal: 'list.inOrders' },
+                        valuePath: 'item.inOrders',
+                        sort: true
+                    },
+                    {
+                        id: 'mirror',
+                        title: { literal: 'list.mirror' }
+                    },
+                    {
+                        id: 'rate',
+                        title: { literal: 'list.rate' }
+                    },
+                    {
+                        id: 'change24',
+                        title: { literal: 'list.change' }
+                    },
+                    {
+                        id: 'controls'
+                    }
+                ];
 
 
                 this.syncSettings({ pinnedAssetIdList: 'pinnedAssetIdList' });
@@ -54,7 +90,7 @@
                         this.mirror = mirror;
                     });
 
-                createPoll(this, this._getPortfolio, 'portfolioBalances', 3000, { isBalance: true });
+                createPoll(this, this._getPortfolio, 'portfolioBalances', 1000, { isBalance: true });
             }
 
             /**
