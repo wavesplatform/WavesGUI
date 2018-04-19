@@ -1,11 +1,12 @@
 <md-dialog class="modal-receive" w-i18n-ns="app.utils" aria-label="modal">
     <md-dialog-content>
         <div class="modal-content">
+            <div class="btn icon-close ng-scope" w-modal-close></div>
             <w-step-by-step active-step="$ctrl.step">
                 <w-step>
                     <w-tabs selected="cryptocurrency">
 
-                        <w-tab title-name="Cryptocurrency" id="cryptocurrency" ng-if="$ctrl.showCryptocurrencyTab">
+                        <w-tab title-name="modal.receive.cryptocurrency.title" id="cryptocurrency" ng-if="$ctrl.showCryptocurrencyTab">
                             <div class="receive-crypto">
 
                                 <div class="row margin-2">
@@ -15,16 +16,6 @@
                                         <div class="flex-row">
                                             <w-asset-logo size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
                                             <div class="asset-name">{{::$ctrl.asset.name}}</div>
-                                        </div>
-                                        <div class="flex-row">
-                                            <w-balance>
-                                                <span>
-                                                    <span class="int">1.</span>
-                                                    <span class="decimal">10976538
-                                                        <span class="decimal-muted"></span>
-                                                    </span>
-                                                </span>
-                                            </w-balance>
                                         </div>
                                     </div>
 
@@ -77,7 +68,7 @@
                             </div>
                         </w-tab>
 
-                        <w-tab title-name="Card" id="card" ng-if="$ctrl.showCardTab">
+                        <w-tab title-name="modal.receive.card.title" id="card" ng-if="$ctrl.showCardTab">
                             <div class="receive-card">
                                 <form novalidate name="card">
 
@@ -115,6 +106,8 @@
                                             <w-input-container>
                                                 <w-input
                                                     name="amount"
+                                                    type="text"
+                                                    class="big"
                                                     ng-model="$ctrl.cardPayment"
                                                     w-validate
                                                     w-validator-gte="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].min}}"
@@ -122,14 +115,15 @@
                                                     w-validator-precision="2"></w-input>
 
                                                 <w-input-error message="gte">
-                                                    gte
+                                                    modal.receive.error.cardAmount.gte
                                                 </w-input-error>
                                                 <w-input-error message="lte">
-                                                    lte
+                                                    modal.receive.error.cardAmount.lte
                                                 </w-input-error>
                                                 <w-input-error message="precision">
-                                                    lte
+                                                    modal.receive.error.cardAmount.precision
                                                 </w-input-error>
+
                                             </w-input-container>
                                             <w-select class="big" ng-model="$ctrl.chosenCurrencyIndex">
                                                 <w-option
@@ -153,6 +147,7 @@
 
                                         <div class="note-plate body-2">
                                             <w-i18n params="{money: $ctrl.approximateAmount}">money-currency</w-i18n>
+                                            <w-loader></w-loader>
                                         </div>
                                     </div>
 
@@ -161,13 +156,13 @@
                                 <a href="{{$ctrl.indacoinLink}}" target="_blank">
                                     <w-button disabled="card.$invalid" class="big submit long"
                                               on-click="$ctrl.confirmIndacoin()">
-                                        <w-i18n>modal.sepa.proceed</w-i18n>
+                                        <w-i18n>modal.receive.card.continue</w-i18n>
                                     </w-button>
                                 </a>
                             </div>
                         </w-tab>
 
-                        <w-tab title-name="Bank" id="bank" ng-if="$ctrl.showBankTab">
+                        <w-tab title-name="modal.receive.bank.title" id="bank" ng-if="$ctrl.showBankTab">
                             <div class="receive-bank">
 
                                 <div class="get-verified" ng-if="!$ctrl.isLira()">
@@ -239,19 +234,19 @@
 
                 <w-step>
 
-                    <div class="text-center" ng-if="$ctrl.showIdNowRedirectionDescription">
+                    <div class="text-center receive-confirm" ng-if="$ctrl.showIdNowRedirectionDescription">
                         <i class="bank-success-icon margin-1"></i> <!-- if bank -->
                         <h3 class="basic-700" w-i18n="modal.receive.bankSuccessHeader"></h3>
                         <div class="body-2 basic-500 margin-4" w-i18n="modal.receive.bankSuccessText"></div>
                     </div>
 
-                    <div class="text-center" ng-if="$ctrl.showIndacoinRedirectionDescription"> <!-- if card -->
+                    <div class="text-center receive-confirm" ng-if="$ctrl.showIndacoinRedirectionDescription">
                         <i class="card-success-icon margin-1"></i>
                         <h3 class="basic-700" w-i18n="modal.receive.cardSuccessHeader"></h3>
                         <div class="body-2 basic-500 margin-4" w-i18n="modal.receive.cardSuccessText"></div>
                     </div>
 
-                    <div class="text-center" ng-if="$ctrl.showDigiliraRedirectionDescription"> <!-- if lira -->
+                    <div class="text-center receive-confirm" ng-if="$ctrl.showDigiliraRedirectionDescription">
                         <i class="bank-building-success-icon margin-1"></i>
                         <h3 class="basic-700" w-i18n="modal.receive.wtrySuccessHeader"></h3>
                     </div>
