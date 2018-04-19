@@ -32,30 +32,21 @@
 
         <div ng-if="!$ctrl.showAllTX">
 
-            <div class="section">
-                <div ng-if="::$ctrl.transaction.transfers[0]"
-                     class="key">{{::$ctrl.transaction.transfers[0].recipient}}
-                </div>
-                <div ng-if="::$ctrl.transaction.transfers[0]"
-                     class="value">
+            <div class="section" ng-if="::$ctrl.transaction.transfers[0]">
+                <div class="key">{{::$ctrl.transaction.transfers[0].recipient}}</div>
+                <div class="value">
                     <w-balance money="::$ctrl.transaction.transfers[0].amount"></w-balance>
                 </div>
             </div>
-            <div class="section">
-                <div ng-if="::$ctrl.transaction.transfers[1]"
-                     class="key">{{::$ctrl.transaction.transfers[1].recipient}}
-                </div>
-                <div ng-if="::$ctrl.transaction.transfers[1]"
-                     class="value">
+            <div class="section" ng-if="::$ctrl.transaction.transfers[1]">
+                <div class="key">{{::$ctrl.transaction.transfers[1].recipient}}</div>
+                <div class="value">
                     <w-balance money="::$ctrl.transaction.transfers[1].amount"></w-balance>
                 </div>
             </div>
-            <div class="section">
-                <div ng-if="::$ctrl.transaction.transfers[2]"
-                     class="key">{{::$ctrl.transaction.transfers[2].recipient}}
-                </div>
-                <div ng-if="::$ctrl.transaction.transfers[2]"
-                     class="value">
+            <div class="section" ng-if="::$ctrl.transaction.transfers[2]">
+                <div class="key">{{::$ctrl.transaction.transfers[2].recipient}}</div>
+                <div class="value">
                     <w-balance money="::$ctrl.transaction.transfers[2].amount"></w-balance>
                 </div>
             </div>
