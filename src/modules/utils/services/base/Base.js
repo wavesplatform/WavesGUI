@@ -87,7 +87,7 @@
                     return null;
                 }
                 if (!handler) {
-                    this.__emitterListeners[event].forEach((data) => {
+                    this.__emitterListeners[event].slice().forEach((data) => {
                         this.stopListenEventEmitter(event, data.handler, emitter);
                     });
                     return null;
