@@ -71,11 +71,6 @@ md-dialog.modal-receive {
       }
     }
 
-    .receive-confirm {
-      margin-top: -40px;
-      min-height: 180px;
-    }
-
     .amount-wrap {
       display: flex;
       flex-direction: row;
@@ -91,7 +86,6 @@ md-dialog.modal-receive {
       w-input .w-input-wrap input[type="text"] {
         padding-right: 50px;
       }
-
     }
 
     .amount-modal-icon {
@@ -118,6 +112,7 @@ md-dialog.modal-receive {
       display: flex;
     }
 
+    .receive-confirm,
     w-confirm-transaction {
       display: block;
       padding: 60px 40px 0;
@@ -130,6 +125,12 @@ md-dialog.modal-receive {
         display: block;
         height: 40px;
       }
+    }
+
+    .receive-confirm {
+      margin-top: -30px;
+      min-height: 220px;
+      padding-bottom: 30px;
     }
 
     .modal-content {
@@ -220,9 +221,8 @@ md-dialog.modal-receive {
       .modal-content {
 
         w-confirm-transaction {
-          padding: 0 20px;
-          overflow: auto;
-          max-height: calc(85vh ~'- 60px');
+          padding: 40px 20px 0;
+          max-height: 85vh;
 
           &::after {
             content: '';
