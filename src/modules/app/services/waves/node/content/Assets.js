@@ -63,7 +63,6 @@
                 return Promise.all([
                     this.getExtendedAsset(assetId),
                     fetch(`${this.network.node}/assets/details/${assetId}`)
-                        .then(utils.onFetch)
                 ]).then(([asset, assetData]) => {
                     Assets._updateAsset(asset, assetData);
                     return asset;
@@ -82,8 +81,7 @@
                         if (assetId === Waves.constants.WAVES_PROPS.id) {
                             return Waves.constants.WAVES_V1_ISSUE_TX;
                         } else {
-                            return fetch(`${this.network.node}/transactions/info/${assetId}`)
-                                .then(utils.onFetch);
+                            return fetch(`${this.network.node}/transactions/info/${assetId}`);
                         }
                     })
                     .then(Assets._remapAssetProps)

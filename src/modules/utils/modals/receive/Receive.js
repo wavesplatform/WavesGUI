@@ -9,10 +9,9 @@
      * @param {$rootScope.Scope} $scope
      * @param {GatewayService} gatewayService
      * @param {User} user
-     * @param {app.utils} utils
      * @return {ReceiveCtrl}
      */
-    const controller = function (Base, $scope, gatewayService, user, utils) {
+    const controller = function (Base, $scope, gatewayService, user) {
 
         class ReceiveCtrl extends Base {
 
@@ -154,7 +153,6 @@
                     fetch(
                         `${COINOMAT_API}rate.php?${params.address}&${params.amount}&${params.crypto}&${params.fiat}`
                     )
-                        .then(utils.onFetch)
                         .then((approximateAmount) => {
                             const coins = new BigNumber(approximateAmount).mul(Math.pow(10, asset.precision));
                             this.approximateAmount = new Waves.Money(coins.round(0), asset);
@@ -220,7 +218,7 @@
         return new ReceiveCtrl(this.locals);
     };
 
-    controller.$inject = ['Base', '$scope', 'gatewayService', 'user', 'utils'];
+    controller.$inject = ['Base', '$scope', 'gatewayService', 'user'];
 
     angular.module('app.utils').controller('ReceiveCtrl', controller);
 })();
