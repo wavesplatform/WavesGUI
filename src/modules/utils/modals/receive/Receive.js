@@ -110,22 +110,24 @@
                 this.currencies = [
                     {
                         name: 'USD',
+                        assetId: WavesApp.defaultAssets.USD,
                         fiat: 'USD',
-                        min: 30,
-                        max: 200
+                        min: '30',
+                        max: '200'
                     },
                     {
                         name: 'EUR',
+                        assetId: WavesApp.defaultAssets.EUR,
                         fiat: 'EURO',
-                        min: 30,
-                        max: 200
+                        min: '30',
+                        max: '200'
                     }
                 ];
 
                 /**
                  * @type {number}
                  */
-                this.cardPayment = this.currencies[this.chosenCurrencyIndex].min;
+                this.cardPayment = null;
 
                 /**
                  * @type {string}
@@ -135,14 +137,16 @@
                 this.observe(['chosenCurrencyIndex', 'cardPayment'], () => {
                     this.approximateAmount = null;
 
-                    if (!Number(this.cardPayment)) {
+                    const cardPayment = this.cardPayment && this.cardPayment.toTokens();
+
+                    if (!Number(cardPayment)) {
                         this.approximateAmount = new Waves.Money(0, asset);
                         return;
                     }
 
                     const params = {
                         address: `address=${user.address}`,
-                        amount: `amount=${this.cardPayment}`,
+                        amount: `amount=${cardPayment}`,
                         crypto: `crypto=${this.asset.displayName}`,
                         fiat: `fiat=${this.currencies[this.chosenCurrencyIndex].fiat}`
                     };
@@ -159,6 +163,10 @@
                     this.indacoinLink = (
                         `${COINOMAT_API}buy.php?${params.address}&${params.fiat}&${params.amount}&${params.crypto}`
                     );
+                });
+
+                Waves.Money.fromTokens(this.currencies[0].min, this.currencies[0].assetId).then((sum) => {
+                    this.cardPayment = sum;
                 });
 
                 const depositDetails = gatewayService.getDepositDetails(asset, address);
