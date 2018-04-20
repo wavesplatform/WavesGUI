@@ -95,6 +95,7 @@ w-create-order {
           display: flex;
           flex-direction: row;
           position: relative;
+          z-index: 10;
 
           .area {
             width: 50%;
@@ -130,6 +131,11 @@ w-create-order {
               font-size: 9px;
             }
           }
+        }
+
+        .create-order-notification {
+          position: absolute;
+          transform: translate(0, -100%);
         }
 
         .fields {
