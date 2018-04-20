@@ -100,7 +100,7 @@
              * @return {Promise}
              */
             animate($element, properties, options) {
-                return $q((resolve) => {
+                return new Promise((resolve) => {
                     options = options || Object.create(null);
                     if (options.complete) {
                         const origin = options.complete;
