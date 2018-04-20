@@ -118,6 +118,20 @@ md-dialog.modal-receive {
       display: flex;
     }
 
+    w-confirm-transaction {
+      display: block;
+      padding: 60px 40px 0;
+      overflow: auto;
+      max-height: calc(74vh ~'- 60px');
+      margin-top: -60px;
+
+      &::after {
+        content: '';
+        display: block;
+        height: 40px;
+      }
+    }
+
     .modal-content {
       padding-top: 60px;
 
@@ -204,6 +218,18 @@ md-dialog.modal-receive {
   md-dialog.modal-receive {
     md-dialog-content {
       .modal-content {
+
+        w-confirm-transaction {
+          padding: 0 20px;
+          overflow: auto;
+          max-height: calc(85vh ~'- 60px');
+
+          &::after {
+            content: '';
+            display: block;
+            height: 20px;
+          }
+        }
 
         .icon-close {
           right: 20px;
