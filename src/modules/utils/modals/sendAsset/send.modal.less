@@ -4,16 +4,22 @@
 md-dialog.modal-send {
   md-dialog-content {
     position: relative;
+    padding: 0;
+    overflow: hidden;
+
+    &::after {
+      display: none;
+    }
 
     .modal-content {
-      padding-top: 70px;
+      padding-top: 60px;
     }
 
     .icon-close {
-      position: absolute;
+      position: fixed;
       top: 20px;
       right: 40px;
-      z-index: 10;
+      z-index: 11;
     }
 
     w-confirm-transaction {
@@ -22,19 +28,21 @@ md-dialog.modal-send {
 
     w-tabs {
       .titles-wrap {
-        position: absolute;
-        top: 10px;
+        position: fixed;
+        top: 0;
         width: 100%;
-        margin: 0 -40px;
         padding: 0 40px;
+        z-index: 10;
+        height: 60px;
 
         .title {
           .headline-2();
           line-height: 30px;
-          padding: 12px 0 8px 0;
+          padding: 20px 0 10px;
           margin: 0 40px 0 0;
           color: @color-info-500;
-          min-height: 45px;
+          min-height: 60px;
+          cursor: pointer;
 
           &.active {
             color: @color-submit-400;
@@ -43,6 +51,19 @@ md-dialog.modal-send {
 
         &::before {
           display: none;
+        }
+      }
+
+      .tab-body-wrap .tab-tem {
+        max-height: calc(74vh ~'- 60px');
+        display: block;
+        overflow: auto;
+        padding: 40px 40px 0;
+
+        &::after {
+          display: block;
+          content: '';
+          height: 40px;
         }
       }
     }
@@ -322,82 +343,97 @@ md-dialog.modal-send {
 }
 
 @media screen and (max-width: 767px) {
-  .modal-send {
-    .modal-content {
-      padding-top: 80px;
+  md-dialog.modal-send {
+    md-dialog-content {
 
-      .icon-close {
-        right: 20px;
-      }
+      .modal-content {
 
-      w-tabs {
-        .titles-wrap {
-          width: 100%;
-          margin: 0;
-          margin: 0 -20px;
-          padding: 0 20px;
+        .icon-close {
+          right: 20px;
+        }
 
-          .title {
-            .body-2();
-            margin-right: 20px;
-            font-family: @font-roboto-medium;
-            color: @color-info-500;
+        w-tabs {
+          .titles-wrap {
+            width: 100%;
+            padding: 0 20px;
 
-            &.active {
-              color: @color-submit-400;
+            .title {
+              .body-2();
+              margin: 0;
+              margin-right: 20px;
+              font-family: @font-roboto-medium;
+              color: @color-info-500;
+              padding: 30px 0 0;
+
+              &.active {
+                color: @color-submit-400;
+              }
+            }
+          }
+
+          .tab-body-wrap .tab-tem {
+            padding: 20px 20px 0;
+
+            &::after {
+              height: 20px;
             }
           }
         }
-      }
 
-      table tr {
-        td {
-          font-size: @mobile-low-fsize;
+        table tr {
+          td {
+            font-size: @mobile-low-fsize;
+          }
+          td.headline-3 {
+            padding: 10px;
+          }
+          td:last-child {
+            padding: 10px;
+            font-size: @mobile-low-fsize;
+          }
         }
-        td.headline-3 {
-          padding: 10px;
-        }
-        td:last-child {
-          padding: 10px;
-          font-size: @mobile-low-fsize;
-        }
-      }
-      .confirm-block w-button {
-        width: 45%;
-      }
-    }
 
-    .flex-row.split-half {
-      white-space: nowrap;
-      font-size: 12px;
+        .confirm-block w-button {
+          width: 45%;
+        }
 
-      span {
-        vertical-align: top;
+        .flex-row.split-half {
+          white-space: nowrap;
+          font-size: 12px;
+
+          span {
+            vertical-align: top;
+          }
+        }
       }
     }
   }
 }
 
 @media screen and (max-width: 480px) {
-  .modal-send {
-    .read-address-wrap {
-      .w-input-wrap input {
-        padding-right: 50px;
+  md-dialog.modal-send {
+    md-dialog-content {
+
+      .read-address-wrap {
+        .w-input-wrap input {
+          padding-right: 50px;
+          font-size: @font-size-caption-2;
+        }
+      }
+
+      .mobile-ellipsis {
+        display: inline-block;
+        max-width: 50px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        vertical-align: top;
+      }
+
+      w-balance-input w-input .w-input-wrap input[type="text"].big {
         font-size: @font-size-caption-2;
       }
-    }
 
-    .mobile-ellipsis {
-      display: inline-block;
-      max-width: 50px;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      vertical-align: top;
-    }
-
-    w-balance-input w-input .w-input-wrap input[type="text"].big {
-      font-size: @font-size-caption-2;
     }
   }
 }
