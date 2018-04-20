@@ -314,10 +314,7 @@
              */
             _updateTextAreaContent() {
                 const transfers = this.transfers;
-                const text = transfers.reduce((text, item, index) => {
-                    const prefix = index !== 0 ? '\n' : '';
-                    return `${text}${prefix}${item.recipient}, "${item.amount.toFormat()}"`;
-                }, '');
+                const text = Papa.unparse(transfers.map((item) => [item.recipient, item.amount.toFormat()]));
                 if (text !== this.recipientCsv) {
                     this.recipientCsv = text;
                 }
@@ -387,9 +384,11 @@
              * @private
              */
             static _parseAmount(amountString) {
+                const data = WavesApp.getLocaleData();
                 const amount = amountString
-                    .replace(/\s/g, '')
-                    .replace(/,/, '.');
+                    .replace(new RegExp(`\\${data.separators.group}`, 'g'), '')
+                    .replace(new RegExp(`\\${data.separators.decimal}`), '.')
+                    .replace(',', '.');
                 return new BigNumber(amount);
             }
 
