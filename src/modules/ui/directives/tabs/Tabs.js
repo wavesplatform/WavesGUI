@@ -10,14 +10,14 @@
 
         addTab(tab) {
             this.tabs.push(tab);
+            this._initializeSelected();
         }
 
         select(tab) {
             this.tabs.forEach((myTab) => {
-                myTab.selected = false;
+                myTab.selected = myTab === tab;
             });
-            tab.selected = true;
-            this.selected = tab.id;
+            this.selected = (tab && tab.id) || null;
         }
 
         $postLink() {

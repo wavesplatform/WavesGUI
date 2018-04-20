@@ -40,7 +40,7 @@
                     attachment: ''
                 };
                 /**
-                 * @type {{BTC: string, USD: string, LTC: string, ETH: string, WAVES: string, EUR: string, ZEC: string}}
+                 * @type {typeof WavesApp.defaultAssets}
                  */
                 this.defaultAssets = WavesApp.defaultAssets;
                 /**

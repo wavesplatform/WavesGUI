@@ -166,6 +166,22 @@
 
             /**
              * @param {User} user
+             * @param {Asset} [asset]
+             * @return {Promise}
+             */
+            showReceivePopup(user, asset) {
+                return user.onLogin().then(() => {
+                    return this._getModal({
+                        id: 'receive-popup',
+                        locals: { address: user.address, asset },
+                        templateUrl: 'modules/utils/modals/receive/Receive.html',
+                        controller: 'ReceiveCtrl'
+                    });
+                });
+            }
+
+            /**
+             * @param {User} user
              * @param {Asset} asset
              * @return {Promise}
              */
