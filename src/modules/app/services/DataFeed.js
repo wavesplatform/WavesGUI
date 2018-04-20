@@ -3,10 +3,9 @@
 
     /**
      * @param decorators
-     * @param {app.utils} utils
      * @return {DataFeed}
      */
-    const factory = function (decorators, utils) {
+    const factory = function (decorators) {
 
         // TODO Refactor. Author Tsigel at 22/11/2017 08:24
 
@@ -22,8 +21,7 @@
             trades(amount, price, count) {
                 count = count || 50;
                 return Waves.AssetPair.get(amount, price)
-                    .then((pair) => fetch(`${WavesApp.network.datafeed}/api/trades/${pair.toString()}/${count}`))
-                    .then(utils.onFetch);
+                    .then((pair) => fetch(`${WavesApp.network.datafeed}/api/trades/${pair.toString()}/${count}`));
             }
 
             /**
@@ -56,7 +54,7 @@
         return new DataFeed();
     };
 
-    factory.$inject = ['decorators', 'utils'];
+    factory.$inject = ['decorators'];
 
     angular.module('app').factory('dataFeed', factory);
 })();
