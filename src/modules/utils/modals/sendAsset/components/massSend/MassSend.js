@@ -89,7 +89,16 @@
             }
 
             $postLink() {
-                this.tx.transfers = this.tx.transfers || [];
+
+                /**
+                 * @type {Array<ITransferItem>}
+                 */
+                const transfers = this.tx.transfers || [];
+                const assetId = this.state.assetId;
+                transfers.forEach((item) => {
+                    item.amount = this.state.moneyHash[assetId].cloneWithTokens(item.amount.toTokens());
+                });
+                this.tx.transfers = transfers;
 
                 const onHasMoneyHash = () => {
                     const signal = utils.observe(this.state.massSend, 'transfers');
@@ -104,9 +113,8 @@
                     this.receive(signal, this._validate, this);
                     this.receive(signal, this._calculateFee, this);
 
-                    signal.dispatch();
                     this.transfers = this.tx.transfers.slice();
-                    utils.observe(this, 'transfers').dispatch();
+                    signal.dispatch();
                 };
 
                 if (this.state.moneyHash) {
@@ -197,10 +205,6 @@
             _calculateTotalAmount() {
                 const transfers = this.tx.transfers;
 
-                if (!transfers) {
-                    this.totalAmount = null;
-                }
-
                 if (transfers.length) {
                     this.totalAmount = transfers
                         .map(({ amount }) => amount)
@@ -288,6 +292,11 @@
              * @private
              */
             _validateAmounts() {
+                if (!this.totalAmount) {
+                    this.isValidAmounts = true;
+                    return null;
+                }
+
                 const moneyHash = utils.groupMoney([this.totalAmount, this.tx.fee]);
                 const balance = moneyHash[this.state.assetId];
                 this.isValidAmounts = this.state.moneyHash[this.state.assetId].gte(balance) &&
