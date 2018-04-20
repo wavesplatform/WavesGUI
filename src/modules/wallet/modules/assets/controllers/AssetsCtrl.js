@@ -127,6 +127,10 @@
             }
 
             showReceivePopup(asset) {
+                if (!asset) {
+                    return;
+                }
+
                 return modalManager.showReceivePopup(user, asset);
             }
 
