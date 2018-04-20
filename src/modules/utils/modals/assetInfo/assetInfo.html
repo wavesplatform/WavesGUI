@@ -19,10 +19,6 @@
         </div>
     </div>
     <w-tabs>
-        <w-tab title-name="modal.assetInfo.transactions">
-            <w-transaction-list transactions="$ctrl.transactions"
-                                pending="$ctrl.transactionsPending"></w-transaction-list>
-        </w-tab>
         <w-tab title-name="modal.assetInfo.details" class="padding-content tab-details">
             <div class="line">
                 <div class="body-2 basic-700" w-i18n="modal.assetInfo.issuer"></div>
@@ -78,6 +74,10 @@
                     </div>
                 </div>
             </div>
+        </w-tab>
+        <w-tab title-name="modal.assetInfo.transactions">
+            <w-transaction-list transactions="$ctrl.transactions"
+                                pending="$ctrl.transactionsPending"></w-transaction-list>
         </w-tab>
     </w-tabs>
 </div>
