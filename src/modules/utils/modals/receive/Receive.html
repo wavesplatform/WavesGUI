@@ -170,6 +170,17 @@
                         <w-tab title-name="modal.receive.bank.title" id="bank" ng-if="$ctrl.showBankTab">
                             <div class="receive-bank">
 
+                                <div class="row margin-2">
+                                    <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
+
+                                    <div class="input-like big flex-row split-half">
+                                        <div class="flex-row">
+                                            <w-asset-logo size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
+                                            <div class="asset-name">{{::$ctrl.asset.name}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="get-verified" ng-if="!$ctrl.isLira()">
 
                                     <div class="warning-plate">
