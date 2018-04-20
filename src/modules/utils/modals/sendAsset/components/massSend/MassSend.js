@@ -281,10 +281,8 @@
                             }
                         });
 
-                        if (errors.length) {
-                            this.errors = errors;
-                            $scope.$digest();
-                        }
+                        this.errors = errors;
+                        $scope.$digest();
                     });
             }
 

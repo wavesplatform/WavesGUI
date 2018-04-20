@@ -176,12 +176,13 @@
             massTransfer({ fee, transfers, attachment, keyPair }) {
                 return this.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.MASS_TRANSFER, tx: { transfers }, fee })
                     .then((fee) => {
-                        return Waves.API.Node.v1.assets.massTransfer({
-                            fee,
+                        return Waves.API.Node.v1.transactions.massTransfer({
+                            fee: fee.toCoins(),
                             attachment,
+                            assetId: transfers[0].amount.asset.id,
                             transfers: transfers.map(({ recipient, amount }) => ({
                                 recipient,
-                                amount: amount.toTokens()
+                                amount: amount.toCoins()
                             }))
                         }, keyPair);
                     });

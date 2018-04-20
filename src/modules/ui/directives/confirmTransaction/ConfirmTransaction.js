@@ -52,7 +52,7 @@
                             txPromise = waves.node.assets.transfer({ ...this.tx, keyPair });
                             break;
                         case TYPES.MASS_TRANSFER:
-                            txPromise = waves.node.massTransfer({ ...this.tx, keyPair });
+                            txPromise = waves.node.assets.massTransfer({ ...this.tx, keyPair });
                             break;
                         case TYPES.EXCHANGE:
                             throw new Error('Can\'t create exchange transaction!');
@@ -113,7 +113,7 @@
         return new ConfirmTransaction();
     };
 
-    controller.$inject = ['Base', 'waves', '$attrs', '$mdDialog', 'modalManager', 'user', 'utils', '$scope'];
+    controller.$inject = ['Base', 'waves', '$attrs', '$mdDialog', 'modalManager', 'user', '$scope'];
 
     angular.module('app.ui').component('wConfirmTransaction', {
         bindings: {
