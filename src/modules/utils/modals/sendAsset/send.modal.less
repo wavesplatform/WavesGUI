@@ -23,7 +23,17 @@ md-dialog.modal-send {
     }
 
     w-confirm-transaction {
-      margin-top: -40px;
+      display: block;
+      padding: 60px 40px 0;
+      overflow: auto;
+      max-height: calc(74vh - 60px);
+      margin-top: -60px;
+
+      &::after {
+        content: '';
+        display: block;
+        height: 40px;
+      }
     }
 
     w-tabs {
@@ -404,6 +414,18 @@ md-dialog.modal-send {
 
           span {
             vertical-align: top;
+          }
+        }
+
+        w-confirm-transaction {
+          padding: 0 20px;
+          overflow: auto;
+          max-height: calc(85vh ~'- 60px');
+
+          &::after {
+            content: '';
+            display: block;
+            height: 20px;
           }
         }
       }
