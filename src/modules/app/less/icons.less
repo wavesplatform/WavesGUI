@@ -144,6 +144,14 @@
   background-color: rgba(255, 175, 0, 0.1); // TODO : specify the exact color (this one is taken from the send tx)
 }
 
+.icon-tx-mass-receive {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 13 center;
+  }
+  background-color: rgba(129, 201, 38, 0.1);
+}
+
 .icon-info {
   width: 20px;
   height: 20px;

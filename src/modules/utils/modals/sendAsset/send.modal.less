@@ -140,64 +140,70 @@ md-dialog.modal-send {
       }
     }
 
-    .tx-section {
-      display: block;
-      width: 100%;
-
-      .section {
-        display: flex;
-        align-items: center;
-        padding: 10px 0;
+    w-transaction-info .content {
+      .tx-section {
+        display: block;
         width: 100%;
-        border-bottom: 1px dashed @color-basic-200;
 
-        &.padder {
-          display: block;
-          height: 70px;
-          padding-top: 5px;
-          border-bottom: 0 none;
+        .section {
+          display: flex;
+          align-items: center;
+          padding: 10px 0;
+          width: 100%;
+          border-bottom: 1px dashed @color-basic-200;
 
-          span {
-            align-self: flex-start;
+          &.padder {
+            display: block;
+            height: 70px;
+            padding-top: 5px;
+            border-bottom: 0 none;
+
+            span {
+              align-self: flex-start;
+            }
+          }
+
+          .key {
+            flex-grow: 1;
+            color: @color-black;
+          }
+
+          .value {
+            flex-grow: 0;
+            text-align: right;
           }
         }
 
-        .key {
-          flex-grow: 1;
-          color: @color-black;
+        & > .section {
+          .key {
+            color: @color-basic-500;
+          }
         }
 
-        .value {
-          flex-grow: 0;
-          text-align: right;
-        }
-      }
-
-      & > .section {
-        .key {
-          color: @color-basic-500;
+        &.tx-header {
+          .section {
+            .footnote-1();
+            border-bottom: 0 none;
+            color: @color-basic-500;
+          }
         }
       }
 
-      &.tx-header {
-        .section {
-          .footnote-1();
-          border-bottom: 0 none;
-          color: @color-basic-500;
+      .lead {
+        margin-bottom: 0;
+
+        & + .section {
+          padding-top: 0;
         }
       }
-    }
 
-    .lead {
-      margin-bottom: 0;
-
-      & + .section {
-        padding-top: 0;
+      .tx-header {
+        margin-bottom: 0;
       }
-    }
 
-    .section .tx-section {
-      margin-bottom: -14px;
+      .section .tx-section {
+        margin-bottom: -14px;
+      }
     }
 
     .row {
