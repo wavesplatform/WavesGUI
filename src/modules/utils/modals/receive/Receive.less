@@ -4,9 +4,11 @@
 md-dialog.modal-receive {
   md-dialog-content {
     position: relative;
+    padding: 0;
+    overflow: hidden;
 
-    .modal-content {
-      padding-top: 70px;
+    &::after {
+      display: none;
     }
 
     .flex-row {
@@ -29,19 +31,21 @@ md-dialog.modal-receive {
 
     w-tabs {
       .titles-wrap {
-        position: absolute;
-        top: 10px;
+        position: fixed;
+        top: 0;
         width: 100%;
-        margin: 0 -40px;
         padding: 0 40px;
+        z-index: 10;
+        height: 60px;
 
         .title {
           .headline-2();
           line-height: 30px;
-          padding: 12px 0 8px 0;
+          padding: 20px 0 10px;
           margin: 0 40px 0 0;
           color: @color-info-500;
-          min-height: 45px;
+          min-height: 60px;
+          cursor: pointer;
 
           &.active {
             color: @color-submit-400;
@@ -50,6 +54,19 @@ md-dialog.modal-receive {
 
         &::before {
           display: none;
+        }
+      }
+
+      .tab-body-wrap .tab-tem {
+        max-height: calc(74vh ~'- 60px');
+        display: block;
+        overflow: auto;
+        padding: 40px 40px 0;
+
+        &::after {
+          display: block;
+          content: '';
+          height: 40px;
         }
       }
     }
@@ -102,10 +119,7 @@ md-dialog.modal-receive {
     }
 
     .modal-content {
-      left: 40px;
-      top: 40px;
-      right: 40px;
-      bottom: 40px;
+      padding-top: 60px;
 
       .qr-code-wrap {
         margin: auto;
@@ -188,28 +202,38 @@ md-dialog.modal-receive {
 
 @media screen and (max-width: 767px) {
   md-dialog.modal-receive {
-    .modal-content {
-      padding-top: 80px;
+    md-dialog-content {
+      .modal-content {
 
-      .icon-close {
-        right: 20px;
-      }
+        .icon-close {
+          right: 20px;
+        }
 
-      w-tabs {
-        .titles-wrap {
-          width: 100%;
-          margin: 0;
-          margin: 0 -20px;
-          padding: 0 20px;
+        w-tabs {
+          .titles-wrap {
+            width: 100%;
+            padding: 0 20px;
 
-          .title {
-            .body-2();
-            margin-right: 20px;
-            font-family: @font-roboto-medium;
-            color: @color-info-500;
+            .title {
+              .body-2();
+              margin: 0;
+              margin-right: 20px;
+              font-family: @font-roboto-medium;
+              color: @color-info-500;
+              padding: 30px 0 0;
 
-            &.active {
-              color: @color-submit-400;
+              &.active {
+                color: @color-submit-400;
+              }
+            }
+          }
+
+          .tab-body-wrap .tab-tem {
+            padding: 20px 20px 0;
+            max-height: calc(85vh ~'- 60px');
+
+            &::after {
+              height: 20px;
             }
           }
         }
