@@ -2,36 +2,29 @@
     'use strict';
 
     /**
+     * @param {Base} Base
      * @param {JQuery} $element
      * @param {$rootScope.Scope} $scope
+     * @param {IPollCreate} createPoll
+     * @param {app.utils.decorators} decorators
      * @return {InputContainer}
      */
-    const controller = function ($element, $scope) {
+    const controller = function (Base, $element, $scope, createPoll, utils, decorators) {
 
         const tsUtisl = require('ts-utils');
 
-        class InputContainer {
+        class InputContainer extends Base {
 
             constructor() {
+                super();
                 /**
                  * @type {form.FormController}
                  */
                 this.form = null;
                 /**
-                 * @type {Signal<InputContainer.ISignalData>}
+                 * @type {Signal<Array<HTMLInputElement|HTMLTextAreaElement>>}
                  */
-                this.userAction = new tsUtisl.Signal();
-                /**
-                 * @type {JQuery.Deferred}
-                 */
-                this._ready = $.Deferred();
-            }
-
-            /**
-             * @return {JQuery.Promise<any, any, any>}
-             */
-            onReady() {
-                return this._ready.promise();
+                this.tik = new tsUtisl.Signal();
             }
 
             $postLink() {
@@ -42,25 +35,27 @@
                     throw new Error('Can\'t get form!');
                 }
 
-                $element.on('input blur focus', 'input,textarea', (event) => {
-                    this.userAction.dispatch({
-                        element: event.target,
-                        eventName: event.type
-                    });
-                    requestAnimationFrame(() => {
-                        angular.element($element.closest('form').get(0)).scope().$digest();
-                    });
-                });
+                this.receive(utils.observe(this.form, '$valid'), this._runApply, this);
 
-                this._ready.resolve();
+                createPoll(this, () => null, () => {
+                    this.tik.dispatch(this._getElements());
+                }, 250);
             }
 
             /**
-             * @param {string} name
-             * @return {HTMLInputElement|HTMLTextAreaElement}
+             * @return {Array<HTMLInputElement|HTMLTextAreaElement>}
+             * @private
              */
-            getElementByName(name) {
-                return $element.find(`input[name="${name}"],textarea[name="${name}"]`).get(0);
+            _getElements() {
+                return $element.find('input,textarea').toArray();
+            }
+
+            /**
+             * @private
+             */
+            @decorators.async()
+            _runApply() {
+                $scope.$apply();
             }
 
         }
@@ -68,7 +63,7 @@
         return new InputContainer();
     };
 
-    controller.$inject = ['$element', '$scope'];
+    controller.$inject = ['Base', '$element', '$scope', 'createPoll', 'utils', 'decorators'];
 
     angular.module('app.ui')
         .component('wInputContainer', {
@@ -77,13 +72,3 @@
             controller
         });
 })();
-
-/**
- * @name InputContainer
- */
-
-/**
- * @typedef {object} InputContainer#ISignalData
- * @property {HTMLInputElement|HTMLTextAreaElement} element
- * @property {string} eventName
- */

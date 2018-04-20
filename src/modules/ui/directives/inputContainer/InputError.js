@@ -4,11 +4,9 @@
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
-     * @param {app.utils} utils
-     * @param {app.utils.decorators} decorators
      * @return {InputError}
      */
-    const controller = function (Base, $scope, utils, decorators) {
+    const controller = function (Base, $scope) {
 
         class InputError extends Base {
 
@@ -30,72 +28,50 @@
                  * @type {boolean}
                  */
                 this.canShow = false;
-                /**
-                 * @type {ngModel.NgModelController}
-                 */
-                this._model = null;
             }
 
             $postLink() {
+                this.receive(this.inputContainer.tik, this._onTick, this);
                 this.observe('canShow', this._onChangeCanShow);
-
-                this.inputContainer.onReady().then(() => {
-                    if (this.name) {
-                        this._model = this.inputContainer.form[this.name];
-
-                        if (this._model) {
-                            const signal = utils.observe(this._model, '$viewValue');
-
-                            this.receive(signal, () => {
-                                const element = this.inputContainer.getElementByName(this.name);
-                                if (element) {
-                                    this._onUserAction({ element, eventName: 'changeModelValue' });
-                                }
-                            });
-
-                            signal.dispatch();
-                        }
-                    }
-
-                    this.receive(this.inputContainer.userAction, this._onUserAction, this);
-                });
             }
 
             /**
              * @private
              */
             _onChangeCanShow() {
-                $scope.$digest();
+                $scope.$apply();
             }
 
             /**
-             * @param {InputContainer.ISignalData} data
+             * @param {Array<HTMLInputElement|HTMLTextAreaElement>} elements
              * @private
              */
-            @decorators.async()
-            _onUserAction(data) {
-                const name = data.element.getAttribute('name');
+            _onTick(elements) {
+                elements.forEach((element) => {
+                    const name = element.getAttribute('name');
 
-                if (!name) {
-                    return null;
-                }
+                    if (!name) {
+                        return null;
+                    }
 
-                if (this.name && this.name !== name) {
-                    return null;
-                }
+                    if (this.name && this.name !== name) {
+                        return null;
+                    }
 
-                /**
-                 * @type {ngModel.NgModelController}
-                 */
-                const model = this.inputContainer.form[name];
-                const isFocused = data.element === document.activeElement;
+                    /**
+                     * @type {ngModel.NgModelController}
+                     */
+                    const model = this.inputContainer.form[name];
 
-                if (!model) {
-                    return null;
-                }
+                    if (!model) {
+                        return null;
+                    }
 
-                const isTouchedOrSubmited = this.inputContainer.form.$submitted || model.$touched;
-                this.canShow = !isFocused && isTouchedOrSubmited && model.$error[this.message];
+                    const isFocused = element === document.activeElement;
+
+                    const isTouchedOrSubmited = this.inputContainer.form.$submitted || model.$touched;
+                    this.canShow = (!isFocused && isTouchedOrSubmited && model.$error[this.message]) || false;
+                });
             }
 
         }
@@ -103,7 +79,7 @@
         return new InputError();
     };
 
-    controller.$inject = ['Base', '$scope', 'utils', 'decorators'];
+    controller.$inject = ['Base', '$scope'];
 
     angular.module('app.ui')
         .component('wInputError', {
