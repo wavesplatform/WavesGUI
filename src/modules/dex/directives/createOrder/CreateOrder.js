@@ -370,7 +370,7 @@
 
             static _animateNotification($element) {
                 return utils.animate($element, { t: 100 }, {
-                    duration: 1700,
+                    duration: 1200,
                     step: function (tween) {
                         const progress = ease.bounceOut(tween / 100);
                         $element.css('transform', `translate(0, ${-100 + progress * 100}%)`);
@@ -379,9 +379,9 @@
                     .then(() => utils.wait(700))
                     .then(() => {
                         return utils.animate($element, { t: 0 }, {
-                            duration: 700,
+                            duration: 500,
                             step: function (tween) {
-                                const progress = ease.bounceIn(tween / 100);
+                                const progress = ease.linear(tween / 100);
                                 $element.css('transform', `translate(0, ${(-((1 - progress) * 100))}%)`);
                             }
                         });

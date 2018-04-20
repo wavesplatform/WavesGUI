@@ -50,8 +50,12 @@
                     </div>
                     <!--// has class 'success' or 'error' -->
                     <div class="create-order-notification js-order-notification">
-                        <div ng-if="$ctrl.createOrderFailed" w-i18n="create.order.failed"></div>
-                        <div ng-if="!$ctrl.createOrderFailed" w-i18n="create.order.success"></div>
+                        <div ng-if="$ctrl.createOrderFailed">
+                            <i></i><w-i18n>create.order.failed</w-i18n>
+                        </div>
+                        <div ng-if="!$ctrl.createOrderFailed">
+                            <i class="icon-checkbox"></i><w-i18n>create.order.success</w-i18n>
+                        </div>
                     </div>
                     <!--<div class="order-types"></div>-->
                     <form class="fields" novalidate name="order">
