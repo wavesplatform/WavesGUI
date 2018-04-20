@@ -113,7 +113,8 @@
                                                             w-validate
                                                             w-validator-gte="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].min}}"
                                                             w-validator-lte="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].max}}"
-                                                            w-validator-precision="2"></w-input>
+                                                            w-validator-asset="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].assetId}}"
+                                                            required></w-input>
 
                                                     <w-select class="big" ng-model="$ctrl.chosenCurrencyIndex">
                                                         <w-option
