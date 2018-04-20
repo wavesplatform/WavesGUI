@@ -314,7 +314,7 @@
              */
             _updateTextAreaContent() {
                 const transfers = this.transfers;
-                const text = Papa.unparse(transfers.map((item) => [item.recipient, item.amount.toFormat()]));
+                const text = Papa.unparse(transfers.map((item) => [item.recipient, item.amount.getTokens().toFixed()]));
                 if (text !== this.recipientCsv) {
                     this.recipientCsv = text;
                 }
