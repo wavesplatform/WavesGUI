@@ -36,16 +36,20 @@
                  placeholder="modal.send.massSend.recipientsAmountsPlaceholder"
         ></w-input>
 
-        <w-input-error ng-if="$ctrl.tx.transfers.length || $ctrl.transfers.length" message="custom">
+        <w-input-error ng-if="$ctrl.tx.transfers.length || $ctrl.transfers.length" name="recipientCsv" message="custom">
             <w-i18n ng-if="$ctrl.tx.transfers.length">modal.send.errors.max</w-i18n>
             <w-i18n ng-if="$ctrl.transfers.length && !$ctrl.tx.transfers.length">
                 modal.send.errors.allAddressesInvalid
             </w-i18n>
         </w-input-error>
 
-        <w-input-error message="required">
+        <w-input-error name="recipientCsv" message="required">
             <w-i18n>required</w-i18n>
         </w-input-error>
+
+        <div ng-if="$ctrl.importError" class="error active">
+            wrong import!
+        </div>
 
         <div ng-if="$ctrl.errors.length" class="error active">
 
@@ -78,7 +82,7 @@
 
     </w-input-container>
 
-    <div class="warning-plate margin-2" ng-if="$ctrl.tx.transfers.length > $ctrl.maxTransfersCount">
+    <div class="warning-plate margin-2" ng-if="$ctrl.transfers.length > $ctrl.maxTransfersCount">
         <div class="body-2 warning-500" w-i18n="modal.send.massSend.warningPlate1Header"></div>
         <div class="footnote-1 basic-500" w-i18n="modal.send.massSend.warningPlate1Text"></div>
     </div>

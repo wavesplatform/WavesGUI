@@ -24,11 +24,6 @@
                  */
                 this.onChange = null;
                 /**
-                 * @type {File}
-                 * @private
-                 */
-                this._file = null;
-                /**
                  * @type {HTMLInputElement}
                  * @private
                  */
@@ -69,15 +64,13 @@
                                 file
                             }
                         });
-                        this._file = null;
                         return null;
                     }
 
-                    this._file = file;
                     this.onChange({ data: { status: 'ok', file } });
-                } else if (this._file) {
-                    this._file = null;
                 }
+
+                this._input.value = '';
             }
 
             /**

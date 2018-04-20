@@ -3,34 +3,35 @@
 
     /**
      * @param {JQuery} $element
+     * @param {$rootScope.Scope} $scope
      * @return {InputContainer}
      */
     const controller = function ($element, $scope) {
 
+        const tsUtisl = require('ts-utils');
+
         class InputContainer {
-
-            /**
-             * @type {Array.<HTMLInputElement>}
-             */
-            get inputs() {
-                return $element.find('input,textarea')
-                    .toArray();
-            }
-
-            /**
-             * @type {ngModel.NgModelController[]}
-             */
-            get target() {
-                return this.inputs
-                    .map((input) => this.form[input.getAttribute('name')])
-                    .filter(Boolean);
-            }
 
             constructor() {
                 /**
-                 * @type {ngForm}
+                 * @type {form.FormController}
                  */
                 this.form = null;
+                /**
+                 * @type {Signal<InputContainer.ISignalData>}
+                 */
+                this.userAction = new tsUtisl.Signal();
+                /**
+                 * @type {JQuery.Deferred}
+                 */
+                this._ready = $.Deferred();
+            }
+
+            /**
+             * @return {JQuery.Promise<any, any, any>}
+             */
+            onReady() {
+                return this._ready.promise();
             }
 
             $postLink() {
@@ -41,6 +42,25 @@
                     throw new Error('Can\'t get form!');
                 }
 
+                $element.on('input blur focus', 'input,textarea', (event) => {
+                    this.userAction.dispatch({
+                        element: event.target,
+                        eventName: event.type
+                    });
+                    requestAnimationFrame(() => {
+                        angular.element($element.closest('form').get(0)).scope().$digest();
+                    });
+                });
+
+                this._ready.resolve();
+            }
+
+            /**
+             * @param {string} name
+             * @return {HTMLInputElement|HTMLTextAreaElement}
+             */
+            getElementByName(name) {
+                return $element.find(`input[name="${name}"],textarea[name="${name}"]`).get(0);
             }
 
         }
@@ -57,3 +77,13 @@
             controller
         });
 })();
+
+/**
+ * @name InputContainer
+ */
+
+/**
+ * @typedef {object} InputContainer#ISignalData
+ * @property {HTMLInputElement|HTMLTextAreaElement} element
+ * @property {string} eventName
+ */

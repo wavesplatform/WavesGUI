@@ -82,6 +82,10 @@
                  * @type {form.FormController}
                  */
                 this.massSend = null;
+                /**
+                 * @type {boolean}
+                 */
+                this.importError = false;
             }
 
             $postLink() {
@@ -120,20 +124,27 @@
              */
             importFile(data) {
                 if (data.status === 'ok') {
+                    this.importError = false;
                     return readFile.read(data.file)
                         .then((content) => {
-                            this._processTextAreaContent(content);
                             this.massSend.recipientCsv.$touched = true;
+                            this._processTextAreaContent(content);
                             $scope.$digest();
                         });
                 } else {
-                    // todo show import file error
+                    this.importError = true;
+                    $scope.$digest();
+                    setTimeout(() => {
+                        this.importError = false;
+                        $scope.$digest();
+                    }, 3000);
                 }
             }
 
             clear() {
                 this.transfers = [];
                 this.errors = [];
+                this.importError = false;
             }
 
             nextStep() {
@@ -172,9 +183,11 @@
                 const list = this.transfers.slice();
                 const errors = utils.toHash(this.errors, 'recipient');
                 const validList = list.filter((item) => !errors[item.recipient]);
+                const endIndex = Math.min(validList.length, this.maxTransfersCount);
+                const transfers = validList.slice(0, endIndex);
 
-                if (MassSend._isNotEqual(this.tx.transfers, validList)) {
-                    this.tx.transfers = validList;
+                if (MassSend._isNotEqual(this.tx.transfers, transfers)) {
+                    this.tx.transfers = transfers;
                 }
             }
 
@@ -293,7 +306,7 @@
              * @private
              */
             _updateTextAreaContent() {
-                const transfers = this.tx.transfers;
+                const transfers = this.transfers;
                 const text = transfers.reduce((text, item, index) => {
                     const prefix = index !== 0 ? '\n' : '';
                     return `${text}${prefix}${item.recipient}, "${item.amount.toFormat()}"`;
