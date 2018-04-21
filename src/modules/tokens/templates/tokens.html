@@ -13,6 +13,7 @@
                              name="name"
                              ng-model="$ctrl.name"
                              w-validate
+                             class="medium"
                              w-validator-byte-gte="4"
                              w-validator-byte-lte="16"
                              required></w-input>
@@ -58,8 +59,9 @@
                     </w-help-icon>
                 </div>
                 <w-input-container>
-                    <div class="input-like">
+                    <div class="input-like medium">
                         <w-input class="embed"
+                                 class="medium"
                                  type="text"
                                  name="count"
                                  ng-model="$ctrl.count"
@@ -110,6 +112,7 @@
                 </div>
                 <w-input-container>
                     <w-input type="text"
+                             class="medium"
                              name="precision"
                              ng-model="$ctrl.precision"
                              required
