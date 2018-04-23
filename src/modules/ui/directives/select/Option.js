@@ -10,7 +10,16 @@
             },
             transclude: true,
             template: '<div class="option" ng-transclude></div>',
-            link: ($scope, $element, $attrs, { select }) => {
+            link: ($scope, $element, $attrs, { select }, transclude) => {
+
+                let TEMPLATE = '';
+
+                transclude($scope, ($clone) => {
+                    $clone.each((index, element) => {
+                        TEMPLATE += element.outerHTML || element.textContent;
+                    });
+                    return $clone;
+                });
 
                 class Option extends Base {
 
@@ -84,12 +93,7 @@
                      * @private
                      */
                     static _getContentHTML() {
-                        return `<div class="title-content">${Option._getOptionHTML()}</div>`;
-                    }
-
-                    static _getOptionHTML() {
-                        return $element.find('.option:first')
-                            .html();
+                        return `<div class="title-content">${TEMPLATE}</div>`;
                     }
 
                     /**

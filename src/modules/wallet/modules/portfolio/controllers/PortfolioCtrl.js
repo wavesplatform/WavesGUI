@@ -21,10 +21,6 @@
             constructor() {
                 super($scope);
                 /**
-                 * @type {Money[]}
-                 */
-                this.portfolioBalances = [];
-                /**
                  * @type {string}
                  */
                 this.mirrorId = null;
@@ -52,6 +48,10 @@
                  * @type {Array<PortfolioCtrl.IPortfolioBalanceDetails>}
                  */
                 this.balanceList = null;
+                /**
+                 * @type {string}
+                 */
+                this.filter = null;
                 /**
                  * @type {Array<SmartTable.IHeaderInfo>}
                  */
@@ -248,18 +248,6 @@
             }
 
             /**
-             * @return {function(*=)}
-             * @private
-             */
-            _checkAssets() {
-                return (assets) => {
-                    return PortfolioCtrl._isEmptyBalance(assets) ?
-                        waves.node.assets.balanceList(this.pinned) :
-                        assets;
-                };
-            }
-
-            /**
              * @param assetId
              * @return {boolean}
              * @private
@@ -275,15 +263,6 @@
              */
             _isSpam(assetId) {
                 return this.spam.includes(assetId);
-            }
-
-            /**
-             * @param {Array} list
-             * @return {boolean}
-             * @private
-             */
-            static _isEmptyBalance(list) {
-                return list.length === 0;
             }
 
         }
