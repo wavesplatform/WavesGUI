@@ -12,7 +12,7 @@
      * @param {app.utils} utils
      * @return {ReceiveCtrl}
      */
-    const controller = function (Base, $scope, gatewayService, user, utils) {
+    const controller = function (Base, $scope, gatewayService, user, utils, waves) {
 
         class ReceiveCtrl extends Base {
 
@@ -28,6 +28,11 @@
                  * @type {Asset}
                  */
                 this.asset = asset;
+
+                /**
+                 * @type {string}
+                 */
+                this.chosenAssetId = '';
 
                 /**
                  * @type {number}
@@ -47,11 +52,11 @@
                 /**
                  * @type {string}
                  */
-                this.listOfEligibleCountries = null;
+                this.listOfEligibleCountries = DEFAULT_LINK;
                 /**
                  * @type {string}
                  */
-                this.idNowSiteUrl = null;
+                this.idNowSiteUrl = DEFAULT_LINK;
 
                 /**
                  * @type {string}
@@ -71,7 +76,17 @@
                 /**
                  * @type {boolean}
                  */
+                this.singleAsset = true;
+
+                /**
+                 * @type {boolean}
+                 */
                 this.showCryptocurrencyTab = false;
+
+                /**
+                 * @type {Array}
+                 */
+                this.cryptocurrencies = null;
 
                 /**
                  * @type {boolean}
@@ -79,10 +94,19 @@
                 this.showCardTab = false;
 
                 /**
+                 * @type {Array}
+                 */
+                this.purchasablesByCards = null;
+
+                /**
                  * @type {boolean}
                  */
                 this.showBankTab = false;
 
+                /**
+                 * @type {Array}
+                 */
+                this.fiats = null;
 
                 /**
                  * @type {boolean}
@@ -125,7 +149,7 @@
                 ];
 
                 /**
-                 * @type {number}
+                 * @type {Object}
                  */
                 this.cardPayment = null;
 
@@ -134,13 +158,56 @@
                  */
                 this.approximateAmount = '';
 
-                this.observe(['chosenCurrencyIndex', 'cardPayment'], () => {
-                    this.approximateAmount = null;
+                if (this.asset) {
+                    this.initForSingleAsset();
+                } else {
+                    this.singleAsset = false;
+                    this.initForAllAssets();
+                }
+            }
 
+            initForSingleAsset() {
+                this.initCryptocurrencyTab();
+                this.initCardTab();
+                this.initBankTab();
+            }
+
+            initCryptocurrencyTab() {
+                const depositDetails = gatewayService.getDepositDetails(this.asset, this.address);
+                if (depositDetails) {
+                    depositDetails.then((details) => {
+                        this.gatewayAddress = details.address;
+                    });
+
+                    this.assetKeyName = gatewayService.getAssetKeyName(this.asset, 'deposit');
+                    this.activateCryptocurrencyTab();
+                }
+            }
+
+            initCardTab() {
+                this.updateCardDetails();
+                if (this.showCardTab) {
+                    this.setCardObserver();
+                }
+            }
+
+            updateCardDetails() {
+                const cardDetails = gatewayService.getCardDetails(this.asset);
+                if (cardDetails) {
+                    Waves.Money.fromTokens(this.currencies[0].min, this.currencies[0].assetId).then((sum) => {
+                        this.cardPayment = sum;
+                    });
+
+                    this.activateCardTab();
+                }
+            }
+
+            setCardObserver() {
+                this.observe(['chosenCurrencyIndex', 'cardPayment', 'chosenAssetId'], () => {
                     const cardPayment = this.cardPayment && this.cardPayment.toTokens();
 
-                    if (!Number(cardPayment)) {
-                        this.approximateAmount = new Waves.Money(0, asset);
+                    if (!Number(cardPayment) || this.isNotPurchasableByCard(this.asset)) {
+                        this.approximateAmount = new Waves.Money(0, this.asset);
                         return;
                     }
 
@@ -151,45 +218,100 @@
                         fiat: `fiat=${this.currencies[this.chosenCurrencyIndex].fiat}`
                     };
 
-                    fetch(
-                        `${COINOMAT_API}rate.php?${params.address}&${params.amount}&${params.crypto}&${params.fiat}`
-                    )
-                        .then(utils.onFetch)
-                        .then((approximateAmount) => {
-                            const coins = new BigNumber(approximateAmount).mul(Math.pow(10, asset.precision));
-                            this.approximateAmount = new Waves.Money(coins.round(0), asset);
-                        });
+                    this.updateApproximateAmount(params);
 
                     this.indacoinLink = (
                         `${COINOMAT_API}buy.php?${params.address}&${params.fiat}&${params.amount}&${params.crypto}`
                     );
                 });
+            }
 
-                Waves.Money.fromTokens(this.currencies[0].min, this.currencies[0].assetId).then((sum) => {
-                    this.cardPayment = sum;
-                });
-
-                const depositDetails = gatewayService.getDepositDetails(asset, address);
-                if (depositDetails) {
-                    depositDetails.then((details) => {
-                        this.gatewayAddress = details.address;
-                    });
-
-                    this.assetKeyName = gatewayService.getAssetKeyName(asset, 'deposit');
-                    this.showCryptocurrencyTab = true;
+            isNotPurchasableByCard(asset) {
+                if (!this.purchasablesByCards) {
+                    return false;
                 }
 
-                const sepaDetails = gatewayService.getSepaDetails(asset, address);
+                return !(
+                    this.purchasablesByCards
+                        .find((purchasableByCard) => purchasableByCard.displayName === asset.displayName)
+                );
+            }
+
+            updateApproximateAmount(params) {
+                this.approximateAmount = null;
+
+                fetch(`${COINOMAT_API}rate.php?${params.address}&${params.amount}&${params.crypto}&${params.fiat}`)
+                    .then(utils.onFetch)
+                    .then((approximateAmount) => {
+                        const coins = new BigNumber(approximateAmount).mul(Math.pow(10, this.asset.precision));
+                        this.approximateAmount = new Waves.Money(coins.round(0), this.asset);
+                    });
+            }
+
+            initBankTab() {
+                const sepaDetails = gatewayService.getSepaDetails(this.asset, this.address);
                 if (sepaDetails) {
                     sepaDetails.then((details) => {
                         this.listOfEligibleCountries = details.listOfEligibleCountries;
                         this.idNowSiteUrl = details.idNowSiteUrl;
                         this.idNowUserLink = details.idNowUserLink;
                     });
-                    this.showBankTab = true;
-                }
 
-                this.showCardTab = gatewayService.getCardDetails(asset);
+                    this.activateBankTab();
+                }
+            }
+
+            initForAllAssets() {
+                const cryptocurrenciesRequests = this.getExtendedAssets(gatewayService.getCryptocurrencies());
+                const cryptocurrenciesRequest = Promise.all(cryptocurrenciesRequests).then((results) => {
+                    this.cryptocurrencies = results;
+                });
+
+                const cardsRequests = this.getExtendedAssets(gatewayService.getPurchasableByCards());
+                const cardsRequest = Promise.all(cardsRequests).then((results) => {
+                    this.purchasablesByCards = results;
+                });
+
+                const fiatsRequests = this.getExtendedAssets(gatewayService.getFiats());
+                const fiatsRequest = Promise.all(fiatsRequests).then((results) => {
+                    this.fiats = results;
+                });
+
+                Promise.all([cryptocurrenciesRequest, cardsRequest, fiatsRequest]).then(() => {
+                    this.activateCryptocurrencyTab();
+                    this.activateCardTab();
+                    this.activateBankTab();
+                });
+
+                this.observe('chosenAssetId', ({ value: id }) => {
+                    this.asset = (
+                        this.cryptocurrencies.find((cryptocurrency) => cryptocurrency.id === id) ||
+                        this.purchasablesByCards.find((purchasableByCards) => purchasableByCards.id === id) ||
+                        this.fiats.find((fiat) => fiat.id === id)
+                    );
+
+                    this.initForSingleAsset();
+                });
+            }
+
+            getExtendedAssets(assetsIds) {
+                return (
+                    Object
+                        .keys(assetsIds)
+                        .map(waves.node.assets.getExtendedAsset)
+                );
+            }
+
+            activateCryptocurrencyTab() {
+                this.showCryptocurrencyTab = true;
+            }
+
+            activateCardTab() {
+                this.showCardTab = true;
+            }
+
+            activateBankTab() {
+                this.showBankTab = true;
             }
 
             confirmIdNow() {
@@ -220,7 +342,7 @@
         return new ReceiveCtrl(this.locals);
     };
 
-    controller.$inject = ['Base', '$scope', 'gatewayService', 'user', 'utils'];
+    controller.$inject = ['Base', '$scope', 'gatewayService', 'user', 'utils', 'waves'];
 
     angular.module('app.utils').controller('ReceiveCtrl', controller);
 })();

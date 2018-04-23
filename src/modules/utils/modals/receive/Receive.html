@@ -12,13 +12,25 @@
 
                                 <div class="row margin-2">
                                     <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
-
-                                    <div class="input-like big flex-row split-half">
+                                    <div class="input-like big flex-row split-half" ng-if="$ctrl.singleAsset">
                                         <div class="flex-row">
                                             <w-asset-logo size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
                                             <div class="asset-name">{{::$ctrl.asset.name}}</div>
                                         </div>
                                     </div>
+                                    <w-select
+                                        class="big"
+                                        ng-if="!$ctrl.singleAsset"
+                                        ng-model="$ctrl.chosenAssetId">
+                                        <w-option ng-repeat="cryptocurrency in $ctrl.cryptocurrencies" value="{{::cryptocurrency.id}}">
+                                            <div class="flex-row split-half">
+                                                <div class="flex-row">
+                                                    <w-asset-logo size="24" asset-id="{{::cryptocurrency.id}}"></w-asset-logo>
+                                                    <div class="asset-name">{{::cryptocurrency.name}}</div>
+                                                </div>
+                                            </div>
+                                        </w-option>
+                                    </w-select>
                                 </div>
 
                                 <div class="warning-plate margin-1">
@@ -74,17 +86,25 @@
 
                                     <div class="row margin-2">
                                         <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
-
-                                        <div class="input-like big flex-row split-half">
+                                        <div class="input-like big flex-row split-half" ng-if="$ctrl.singleAsset">
                                             <div class="flex-row">
                                                 <w-asset-logo size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
                                                 <div class="asset-name">{{::$ctrl.asset.name}}</div>
                                             </div>
-                                            <div class="flex-row">
-                                                <w-balance></w-balance>
-                                                <span class="mobile-ellipsis ellipsis"><!-- nbsp; --></span>
-                                            </div>
                                         </div>
+                                        <w-select
+                                            class="big"
+                                            ng-if="!$ctrl.singleAsset"
+                                            ng-model="$ctrl.chosenAssetId">
+                                            <w-option ng-repeat="purchasableByCard in $ctrl.purchasablesByCards" value="{{::purchasableByCard.id}}">
+                                                <div class="flex-row split-half">
+                                                    <div class="flex-row">
+                                                        <w-asset-logo size="24" asset-id="{{::purchasableByCard.id}}"></w-asset-logo>
+                                                        <div class="asset-name">{{::purchasableByCard.name}}</div>
+                                                    </div>
+                                                </div>
+                                            </w-option>
+                                        </w-select>
                                     </div>
 
                                     <div class="row margin-1 relative">
@@ -172,13 +192,26 @@
 
                                 <div class="row margin-2">
                                     <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
-
-                                    <div class="input-like big flex-row split-half">
+                                    <div class="input-like big flex-row split-half" ng-if="$ctrl.singleAsset">
                                         <div class="flex-row">
                                             <w-asset-logo size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
                                             <div class="asset-name">{{::$ctrl.asset.name}}</div>
                                         </div>
                                     </div>
+                                    <w-select
+                                        class="big"
+                                        ng-if="!$ctrl.singleAsset"
+                                        ng-model="$ctrl.chosenAssetId">
+                                        <w-option ng-repeat="fiat in $ctrl.fiats" value="{{::fiat.id}}">
+                                            <div class="flex-row split-half">
+                                                <div class="flex-row">
+                                                    <w-asset-logo size="24" asset-id="{{::fiat.id}}"></w-asset-logo>
+                                                    <div class="asset-name">{{::fiat.name}}</div>
+                                                </div>
+                                            </div>
+                                        </w-option>
+                                    </w-select>
+
                                 </div>
 
                                 <div class="get-verified" ng-if="!$ctrl.isLira()">

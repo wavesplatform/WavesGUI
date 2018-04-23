@@ -23,6 +23,10 @@
 
         class CoinomatService {
 
+            getAll() {
+                return CURRENCIES;
+            }
+
             /**
              * From Coinomat to Waves
              * @param {Asset} asset
