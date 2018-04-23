@@ -10,18 +10,18 @@
 
         <w-select ng-model="$ctrl.filter">
             <w-option value="active">
-                All active ({{$ctrl.portfolioBalances.length - $ctrl.spam.length}})
+                All active ({{$ctrl.details.active.length}})
             </w-option>
-            <w-option value="favorites">
-                Favorites ({{$ctrl.pinned.length}})
+            <w-option value="pinned">
+                Favorites ({{$ctrl.details.pinned.length}})
             </w-option>
             <w-option value="spam">
-                Spam ({{$ctrl.spam.length}})
+                Spam ({{$ctrl.details.spam.length}})
             </w-option>
         </w-select>
     </div>
 
-    <w-smart-table data="$ctrl.portfolioBalances" header-info="$ctrl.tableHeaders">
+    <w-smart-table data="$ctrl.balanceList" header-info="$ctrl.tableHeaders">
         <w-table-row ng-repeat="balance in $data track by balance.asset.id">
             <w-table-cell>
                 <w-asset-logo class="margin-right-1" asset-id="{{::balance.asset.id}}" size="30"></w-asset-logo>
@@ -60,7 +60,7 @@
                           ng-click="$ctrl.showSepa(balance.asset)">
                         Recive!
                     </span>
-                    <span ng-if="::balance.asset.id !== 'WAVES'"
+                    <span ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES"
                           ng-click="$ctrl.toggleSpam(balance.asset)">
                          Spam!
                     </span>
@@ -93,107 +93,5 @@
             </w-table-cell>
         </w-table-row>
     </w-smart-table>
-
-    <!--<w-scroll-box>-->
-    <!--<div class="scroll-list">-->
-
-    <!--<li class="portfolio-item" ng-repeat="balance in $ctrl.portfolioBalances track by balance.asset.id">-->
-    <!--<div class="portfolio-item-name">-->
-    <!--<span class="mobile-col-title" w-i18n="list.name"></span>-->
-    <!--<w-asset-logo class="margin-right-1" asset-id="{{::balance.asset.id}}" size="30"></w-asset-logo>-->
-    <!--{{::balance.asset.name}}-->
-    <!--</div>-->
-    <!--<div class="portfolio-item-balance">-->
-    <!--<span class="mobile-col-title" w-i18n="list.balance"></span>-->
-    <!--<w-balance money="balance.available"></w-balance>-->
-    <!--</div>-->
-    <!--<div class="portfolio-item-mirror">-->
-    <!--<span class="mobile-col-title"-->
-    <!--w-i18n="list.mirror"-->
-    <!--params="{currency: $ctrl.mirror.ticker}"></span>-->
-    <!--<div ng-if="balance.asset.id !== $ctrl.mirrorId">-->
-    <!--<span>$&nbsp;</span>-->
-    <!--<w-exchange noUpdate balance="balance.available"></w-exchange>-->
-    <!--</div>-->
-    <!--<div ng-if="balance.asset.id === $ctrl.mirrorId">-->
-    <!--—-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="portfolio-item-rate">-->
-    <!--<span class="mobile-col-title"-->
-    <!--w-i18n="list.rate"-->
-    <!--params="{currency: $ctrl.mirror.ticker}"></span>-->
-    <!--<div ng-if="balance.asset.id !== $ctrl.mirrorId">-->
-    <!--<span>$&nbsp;</span>-->
-    <!--<w-change-rate asset-id="balance.asset.id"></w-change-rate>-->
-    <!--</div>-->
-    <!--<div ng-if="balance.asset.id === $ctrl.mirrorId">-->
-    <!--—-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="portfolio-item-change">-->
-    <!--<span class="mobile-col-title" w-i18n="list.change"></span>-->
-    <!--<div ng-if="balance.asset.id !== $ctrl.mirrorId">-->
-    <!--<w-change24 asset-from="balance.asset.id"-->
-    <!--asset-to="$ctrl.mirrorId"-->
-    <!--no-update></w-change24>-->
-    <!--%-->
-    <!--</div>-->
-    <!--<div ng-if="balance.asset.id === $ctrl.mirrorId">-->
-    <!--—-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="portfolio-item-actions">-->
-    <!--<w-button class="small" on-click="$ctrl.showSend(balance.asset)">-->
-    <!--<span class="btn-icon icon-send" w-i18n="send"></span>-->
-    <!--</w-button>-->
-    <!--<w-button class="small"-->
-    <!--ng-if="$ctrl.isDepositSupported(balance.asset)"-->
-    <!--on-click="$ctrl.showDeposit(balance.asset)">-->
-    <!--<span class="btn-icon icon-deposit" w-i18n="deposit"></span>-->
-    <!--</w-button>-->
-    <!--<w-button class="small"-->
-    <!--ng-if="!$ctrl.isDepositSupported(balance.asset) && $ctrl.isSepaSupported(balance.asset)"-->
-    <!--on-click="$ctrl.showSepa(balance.asset)">-->
-    <!--<span class="btn-icon icon-deposit" w-i18n="deposit"></span>-->
-    <!--</w-button>-->
-    <!--</div>-->
-    <!--<w-actions>-->
-    <!--&lt;!&ndash;<w-action ng-if="balance.asset.id !== $ctrl.wavesId && balance.asset.pinned"-->
-    <!--ng-click="$ctrl.pinAsset(balance.asset, false)">-->
-    <!--<w-i18n>unpin</w-i18n>-->
-    <!--</w-action>&ndash;&gt;-->
-    <!--<w-action ng-if="balance.asset.id !== $ctrl.wavesId && !balance.asset.pinned"-->
-    <!--ng-click="$ctrl.pinAsset(balance.asset, true)">-->
-    <!--<w-i18n>pin</w-i18n>-->
-    <!--</w-action>-->
-    <!--<w-action ng-click="$ctrl.showAsset(balance.asset)">-->
-    <!--<w-i18n>info</w-i18n>-->
-    <!--</w-action>-->
-    <!--<w-action ng-click="$ctrl.showSend(balance.asset)">-->
-    <!--<w-i18n>send</w-i18n>-->
-    <!--</w-action>-->
-    <!--<w-action ng-if="$ctrl.isDepositSupported(balance.asset)"-->
-    <!--ng-click="$ctrl.showDeposit(balance.asset)">-->
-    <!--<w-i18n>deposit</w-i18n>-->
-    <!--</w-action>-->
-    <!--<w-action-->
-    <!--ng-if="!$ctrl.isDepositSupported(balance.asset) && $ctrl.isSepaSupported(balance.asset)"-->
-    <!--ng-click="$ctrl.showSepa(balance.asset)">-->
-    <!--<w-i18n>deposit</w-i18n>-->
-    <!--</w-action>-->
-    <!--<w-action ng-if="balance.asset.isMyAsset"-->
-    <!--ng-click="$ctrl.showBurn(balance.asset.id)">-->
-    <!--<w-i18n>burn</w-i18n>-->
-    <!--</w-action>-->
-    <!--<w-action ng-if="balance.asset.isMyAsset && balance.asset.reissuable"-->
-    <!--ng-click="$ctrl.showReissue(balance.asset.id)">-->
-    <!--<w-i18n>reissue</w-i18n>-->
-    <!--</w-action>-->
-    <!--</w-actions>-->
-    <!--</li>-->
-    <!--</div>-->
-    <!--</w-scroll-box>-->
-    <!--</ul>-->
 
 </div>

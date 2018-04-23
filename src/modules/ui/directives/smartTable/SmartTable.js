@@ -92,8 +92,10 @@
             _render() {
                 this._visibleList = [];
                 this._filtredList = [];
-                this._filter();
-                this._sort();
+                if (this.data && this.data.length) {
+                    this._filter();
+                    this._sort();
+                }
                 this._draw();
             }
 

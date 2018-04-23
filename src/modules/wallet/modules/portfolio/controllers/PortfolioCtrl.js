@@ -39,15 +39,19 @@
                 /**
                  * @type {string}
                  */
-                this.wavesId = WavesApp.defaultAssets.WAVES;
-                /**
-                 * @type {string}
-                 */
                 this.address = user.address;
                 /**
                  * @type {Array<string>}
                  */
                 this.spam = null;
+                /**
+                 * @type {PortfolioCtrl.IBalances}
+                 */
+                this.details = null;
+                /**
+                 * @type {Array<PortfolioCtrl.IPortfolioBalanceDetails>}
+                 */
+                this.balanceList = null;
                 /**
                  * @type {Array<SmartTable.IHeaderInfo>}
                  */
@@ -103,7 +107,9 @@
                 /**
                  * @type {Poll}
                  */
-                this.poll = createPoll(this, this._getPortfolio, 'portfolioBalances', 1000, { isBalance: true });
+                this.poll = createPoll(this, this._getPortfolio, 'details', 1000, { isBalance: true });
+
+                this.observe('details', this._onChangeDetails);
             }
 
             /**
@@ -161,7 +167,7 @@
              * @param {Asset} asset
              * @param {boolean} state
              */
-            pinAsset(asset, state) {
+            togglePin(asset, state) {
                 user.togglePinAsset(asset.id, state);
                 this.poll.restart();
             }
@@ -171,7 +177,7 @@
              * @param {boolean} state
              */
             toggleSpam(asset, state) {
-                user.toggleArrayUserSetting('wallet.portfolio.spam', asset.id, state);
+                user.toggleSpamAsset(asset.id, state);
                 this.poll.restart();
             }
 
@@ -184,31 +190,61 @@
             }
 
             /**
+             * @private
+             */
+            _onChangeDetails() {
+                const details = this.details;
+                let balanceList;
+
+                switch (this.filter) {
+                    case 'active':
+                        balanceList = details.active.slice();
+                        break;
+                    case 'pinned':
+                        balanceList = details.pinned.slice();
+                        break;
+                    case 'spam':
+                        balanceList = details.spam.slice();
+                        break;
+                    default:
+                        throw new Error('Wrong filter name!');
+                }
+
+                this.balanceList = balanceList;
+            }
+
+            /**
              * @return {Promise<Money[]>}
              * @private
              */
             _getPortfolio() {
-                // TODO : request both userBalances() and balanceList(this.pinnedAssetIdList) @xenohunter
-                // TODO : move pinned assets to top from assets list @tsigel
+                /**
+                 * @param {IBalanceDetails} item
+                 * @return {PortfolioCtrl.IPortfolioBalanceDetails}
+                 */
                 const remapBalances = (item) => {
-                    item.pinned = this._isPinned(item.asset.id);
-                    return item;
+                    const isPinned = this._isPinned(item.asset.id);
+                    const isSpam = this._isSpam(item.asset.id);
+
+                    return {
+                        available: item.available,
+                        asset: item.asset,
+                        inOrders: item.inOrders,
+                        isPinned,
+                        isSpam
+                    };
                 };
 
-                switch (this.filter) {
-                    case 'active':
-                        return waves.node.assets.userBalances()
-                            .then((list) => list.filter((item) => !this.spam.includes(item.asset.id)))
-                            .then((list) => list.map(remapBalances));
-                    case 'favorites':
-                        return waves.node.assets.balanceList(this.pinned)
-                            .then((list) => list.map(remapBalances));
-                    case 'spam':
-                        return waves.node.assets.balanceList(this.spam)
-                            .then((list) => list.map(remapBalances));
-                    default:
-                        throw new Error('Wrong filter type!');
-                }
+                return Promise.all([
+                    waves.node.assets.userBalances().then((list) => list.map(remapBalances))
+                        .then((list) => list.filter((item) => !item.isSpam)),
+                    waves.node.assets.balanceList(this.pinned).then((list) => list.map(remapBalances)),
+                    waves.node.assets.balanceList(this.spam).then((list) => list.map(remapBalances))
+                ]).then(([activeList, pinned, spam]) => {
+                    const pinnedHash = utils.toHash(pinned, 'asset.id');
+                    const active = pinned.concat(activeList.filter((item) => !pinnedHash[item.asset.id]));
+                    return { active, pinned, spam };
+                });
             }
 
             /**
@@ -223,8 +259,22 @@
                 };
             }
 
+            /**
+             * @param assetId
+             * @return {boolean}
+             * @private
+             */
             _isPinned(assetId) {
-                return this.pinned.indexOf(assetId) !== -1;
+                return this.pinned.includes(assetId);
+            }
+
+            /**
+             * @param assetId
+             * @return {boolean}
+             * @private
+             */
+            _isSpam(assetId) {
+                return this.spam.includes(assetId);
             }
 
             /**
@@ -256,3 +306,23 @@
     angular.module('app.wallet.portfolio')
         .controller('PortfolioCtrl', controller);
 })();
+
+/**
+ * @name PortfolioCtrl
+ */
+
+/**
+ * @typedef {object} PortfolioCtrl#IPortfolioBalanceDetails
+ * @property {boolean} isPinned
+ * @property {boolean} isSpam
+ * @property {Asset} asset
+ * @property {Money} available
+ * @property {Money} inOrders
+ */
+
+/**
+ * @typedef {object} PortfolioCtrl#IBalances
+ * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} active
+ * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} pinned
+ * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} spam
+ */
