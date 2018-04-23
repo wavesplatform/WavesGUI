@@ -31,7 +31,7 @@
                 /**
                  * @type {string[]}
                  */
-                this.pinned = null;
+                this.pinned = [];
                 /**
                  * @type {string}
                  */
@@ -39,7 +39,7 @@
                 /**
                  * @type {Array<string>}
                  */
-                this.spam = null;
+                this.spam = [];
                 /**
                  * @type {PortfolioCtrl.IBalances}
                  */
@@ -47,7 +47,7 @@
                 /**
                  * @type {Array<PortfolioCtrl.IPortfolioBalanceDetails>}
                  */
-                this.balanceList = null;
+                this.balanceList = [];
                 /**
                  * @type {string}
                  */
@@ -238,12 +238,12 @@
                 return Promise.all([
                     waves.node.assets.userBalances().then((list) => list.map(remapBalances))
                         .then((list) => list.filter((item) => !item.isSpam)),
-                    waves.node.assets.balanceList(this.pinned).then((list) => list.map(remapBalances)),
+                    // waves.node.assets.balanceList(this.pinned).then((list) => list.map(remapBalances)),
                     waves.node.assets.balanceList(this.spam).then((list) => list.map(remapBalances))
-                ]).then(([activeList, pinned, spam]) => {
-                    const pinnedHash = utils.toHash(pinned, 'asset.id');
-                    const active = pinned.concat(activeList.filter((item) => !pinnedHash[item.asset.id]));
-                    return { active, pinned, spam };
+                ]).then(([activeList, /* pinned,*/ spam]) => {
+                    // const pinnedHash = utils.toHash(pinned, 'asset.id');
+                    // const active = pinned.concat(activeList.filter((item) => !pinnedHash[item.asset.id]));
+                    return { active: activeList, /* pinned, */ spam };
                 });
             }
 
@@ -302,6 +302,6 @@
 /**
  * @typedef {object} PortfolioCtrl#IBalances
  * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} active
- * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} pinned
+ * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} pinned // TODO when available assets store
  * @property {Array<PortfolioCtrl.IPortfolioBalanceDetails>} spam
  */
