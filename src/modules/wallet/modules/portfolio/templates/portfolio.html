@@ -7,6 +7,18 @@
         <w-button class="interface" on-click="$ctrl.showQR()">
             <span class="btn-icon icon-qr" w-i18n="qr"></span>
         </w-button>
+
+        <w-select ng-model="$ctrl.filter">
+            <w-option value="active">
+                All active ({{$ctrl.portfolioBalances.length - $ctrl.spam.length}})
+            </w-option>
+            <w-option value="favorites">
+                Favorites ({{$ctrl.pinned.length}})
+            </w-option>
+            <w-option value="spam">
+                Spam ({{$ctrl.spam.length}})
+            </w-option>
+        </w-select>
     </div>
 
     <w-smart-table data="$ctrl.portfolioBalances" header-info="$ctrl.tableHeaders">
@@ -35,6 +47,49 @@
                             asset-to="$ctrl.mirrorId"
                             no-update></w-change24>
                 %
+            </w-table-cell>
+            <w-table-cell>
+                <div class="portfolio-table__control-cell">
+                    <span ui-sref="main.dex($ctrl.getSrefParams(balance.asset))">Dex!</span>
+                    <span ng-click="$ctrl.showSend(balance.asset)">Send!</span>
+                    <span ng-if="$ctrl.isDepositSupported(balance.asset)"
+                          ng-click="$ctrl.showDeposit(balance.asset)">
+                        Recive!
+                    </span>
+                    <span ng-if="::!$ctrl.isDepositSupported(balance.asset) && $ctrl.isSepaSupported(balance.asset)"
+                          ng-click="$ctrl.showSepa(balance.asset)">
+                        Recive!
+                    </span>
+                    <span ng-if="::balance.asset.id !== 'WAVES'"
+                          ng-click="$ctrl.toggleSpam(balance.asset)">
+                         Spam!
+                    </span>
+                    <w-actions>
+                        <w-action ng-click="$ctrl.showAsset(balance.asset)">
+                            <w-i18n>info</w-i18n>
+                        </w-action>
+                        <w-action ng-click="$ctrl.showSend(balance.asset)">
+                            <w-i18n>send</w-i18n>
+                        </w-action>
+                        <w-action ng-if="$ctrl.isDepositSupported(balance.asset)"
+                                  ng-click="$ctrl.showDeposit(balance.asset)">
+                            <w-i18n>deposit</w-i18n>
+                        </w-action>
+                        <w-action
+                                ng-if="::!$ctrl.isDepositSupported(balance.asset) && $ctrl.isSepaSupported(balance.asset)"
+                                ng-click="$ctrl.showSepa(balance.asset)">
+                            <w-i18n>deposit</w-i18n>
+                        </w-action>
+                        <w-action ng-if="::balance.asset.isMyAsset"
+                                  ng-click="$ctrl.showBurn(balance.asset.id)">
+                            <w-i18n>burn</w-i18n>
+                        </w-action>
+                        <w-action ng-if="::balance.asset.isMyAsset && balance.asset.reissuable"
+                                  ng-click="$ctrl.showReissue(balance.asset.id)">
+                            <w-i18n>reissue</w-i18n>
+                        </w-action>
+                    </w-actions>
+                </div>
             </w-table-cell>
         </w-table-row>
     </w-smart-table>

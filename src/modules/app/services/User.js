@@ -19,6 +19,8 @@
      */
     const factory = function (storage, $q, $state, defaultSettings, state, UserRouteState, modalManager, timeLine) {
 
+        const tsUtils = require('ts-utils');
+
         class User {
 
             constructor() {
@@ -102,6 +104,40 @@
              */
             getSetting(name) {
                 return this._settings.get(name);
+            }
+
+            /**
+             * @param {string} assetId
+             * @param {boolean} [state]
+             */
+            togglePinAsset(assetId, state) {
+                this.toggleArrayUserSetting('pinnedAssetIdList', assetId, state);
+            }
+
+            /**
+             * @param {string} path
+             * @param {string|number} value
+             * @param {boolean} [state]
+             * @return {null}
+             */
+            toggleArrayUserSetting(path, value, state) {
+                const list = this.getSetting(path);
+                const index = list.indexOf(value);
+                state = tsUtils.isEmpty(state) ? index === -1 : state;
+
+                if (state && index === -1) {
+                    const newList = list.slice();
+                    newList.push(value);
+                    this.setSetting(path, newList);
+                    return null;
+                }
+
+                if (!state && index !== -1) {
+                    const newList = list.slice();
+                    newList.splice(index, 1);
+                    this.setSetting(path, newList);
+                    return null;
+                }
             }
 
             /**

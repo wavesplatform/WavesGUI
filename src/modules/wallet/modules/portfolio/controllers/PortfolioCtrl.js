@@ -35,7 +35,7 @@
                 /**
                  * @type {string[]}
                  */
-                this.pinnedAssetIdList = null;
+                this.pinned = null;
                 /**
                  * @type {string}
                  */
@@ -44,6 +44,13 @@
                  * @type {string}
                  */
                 this.address = user.address;
+                /**
+                 * @type {Array<string>}
+                 */
+                this.spam = null;
+                /**
+                 * @type {Array<SmartTable.IHeaderInfo>}
+                 */
                 this.tableHeaders = [
                     {
                         id: 'name',
@@ -81,8 +88,11 @@
                     }
                 ];
 
-
-                this.syncSettings({ pinnedAssetIdList: 'pinnedAssetIdList' });
+                this.syncSettings({
+                    pinned: 'pinnedAssetIdList',
+                    spam: 'wallet.portfolio.spam',
+                    filter: 'wallet.portfolio.filter'
+                });
 
                 this.mirrorId = user.getSetting('baseAssetId');
                 waves.node.assets.getExtendedAsset(this.mirrorId)
@@ -90,7 +100,10 @@
                         this.mirror = mirror;
                     });
 
-                createPoll(this, this._getPortfolio, 'portfolioBalances', 1000, { isBalance: true });
+                /**
+                 * @type {Poll}
+                 */
+                this.poll = createPoll(this, this._getPortfolio, 'portfolioBalances', 1000, { isBalance: true });
             }
 
             /**
@@ -133,18 +146,33 @@
                 return modalManager.showReissueModal(assetId);
             }
 
-            pinAsset(asset, state) {
-                asset.pinned = state;
-
-                if (state === true && !this._isPinned(asset.id)) {
-                    const list = this.pinnedAssetIdList.slice();
-                    list.push(asset.id);
-                    this.pinnedAssetIdList = list;
-                } else if (state === false && this._isPinned(asset.id)) {
-                    const list = this.pinnedAssetIdList.slice();
-                    list.splice(this.pinnedAssetIdList.indexOf(asset.id), 1);
-                    this.pinnedAssetIdList = list;
+            /**
+             * @param {Asset} asset
+             */
+            getSrefParams(asset) {
+                if (asset.id === WavesApp.defaultAssets.WAVES) {
+                    return { assetId1: asset.id, assetId2: WavesApp.defaultAssets.BTC };
+                } else {
+                    return { assetId1: asset.id, assetId2: WavesApp.defaultAssets.WAVES };
                 }
+            }
+
+            /**
+             * @param {Asset} asset
+             * @param {boolean} state
+             */
+            pinAsset(asset, state) {
+                user.togglePinAsset(asset.id, state);
+                this.poll.restart();
+            }
+
+            /**
+             * @param {Asset} asset
+             * @param {boolean} state
+             */
+            toggleSpam(asset, state) {
+                user.toggleArrayUserSetting('wallet.portfolio.spam', asset.id, state);
+                this.poll.restart();
             }
 
             isDepositSupported(asset) {
@@ -162,17 +190,25 @@
             _getPortfolio() {
                 // TODO : request both userBalances() and balanceList(this.pinnedAssetIdList) @xenohunter
                 // TODO : move pinned assets to top from assets list @tsigel
-                return waves.node.assets.userBalances()
-                    .then(this._checkAssets())
-                    .then((balancesList) => {
-                        return balancesList.map((balance) => {
-                            if (this._isPinned(balance.asset.id)) {
-                                balance.asset.pinned = true;
-                            }
+                const remapBalances = (item) => {
+                    item.pinned = this._isPinned(item.asset.id);
+                    return item;
+                };
 
-                            return balance;
-                        });
-                    });
+                switch (this.filter) {
+                    case 'active':
+                        return waves.node.assets.userBalances()
+                            .then((list) => list.filter((item) => !this.spam.includes(item.asset.id)))
+                            .then((list) => list.map(remapBalances));
+                    case 'favorites':
+                        return waves.node.assets.balanceList(this.pinned)
+                            .then((list) => list.map(remapBalances));
+                    case 'spam':
+                        return waves.node.assets.balanceList(this.spam)
+                            .then((list) => list.map(remapBalances));
+                    default:
+                        throw new Error('Wrong filter type!');
+                }
             }
 
             /**
@@ -182,13 +218,13 @@
             _checkAssets() {
                 return (assets) => {
                     return PortfolioCtrl._isEmptyBalance(assets) ?
-                        waves.node.assets.balanceList(this.pinnedAssetIdList) :
+                        waves.node.assets.balanceList(this.pinned) :
                         assets;
                 };
             }
 
             _isPinned(assetId) {
-                return this.pinnedAssetIdList.indexOf(assetId) !== -1;
+                return this.pinned.indexOf(assetId) !== -1;
             }
 
             /**
