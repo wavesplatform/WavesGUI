@@ -80,6 +80,76 @@
                             </div>
                         </w-tab>
 
+                        <w-tab title-name="modal.receive.invoice.title" id="invoice"
+                               ng-if="$ctrl.showInvoiceTab">
+                            <form novalidate name="invoice">
+                                <div class="receive-invoice">
+                                    <div class="row margin-2">
+                                        <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
+                                        <div class="input-like big flex-row split-half" ng-if="$ctrl.singleAsset">
+                                            <div class="flex-row">
+                                                <w-asset-logo size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
+                                                <div class="asset-name">{{::$ctrl.asset.name}}</div>
+                                            </div>
+                                        </div>
+                                        <w-select
+                                            class="big"
+                                            ng-if="!$ctrl.singleAsset"
+                                            ng-model="$ctrl.chosenAssetId">
+                                            <w-option ng-repeat="invoice in $ctrl.invoicables" value="{{::invoice.id}}">
+                                                <div class="flex-row split-half">
+                                                    <div class="flex-row">
+                                                        <w-asset-logo size="24" asset-id="{{::invoice.id}}"></w-asset-logo>
+                                                        <div class="asset-name">{{::invoice.name}}</div>
+                                                    </div>
+                                                </div>
+                                            </w-option>
+                                        </w-select>
+                                    </div>
+
+                                    <div class="row margin-2">
+                                        <div class="body-2 basic-900" w-i18n="modal.receive.addressOrAlias"></div>
+                                        <w-select class="big" ng-model="$ctrl.chosenAlias">
+                                            <w-option ng-repeat="alias in $ctrl.addressAndAliases" value="{{::alias}}">
+                                                {{::alias}}
+                                            </w-option>
+                                        </w-select>
+                                    </div>
+
+                                    <div class="row margin-2">
+                                        <w-input-container>
+                                            <div class="body-2" w-i18n="modal.send.amount"></div>
+                                            <div class="amount-wrap">
+                                                <w-input
+                                                    name="amount"
+                                                    type="text"
+                                                    class="big"
+                                                    ng-model="$ctrl.invoiceAmount"
+                                                    w-validate
+                                                    w-validator-asset="{{$ctrl.asset.id || $ctrl.chosenAssetId}}"
+                                                    required></w-input>
+                                            </div>
+                                        </w-input-container>
+                                    </div>
+
+                                    <div class="row margin-2">
+                                        <div class="body-2 basic-900" w-i18n="modal.receive.shareInvoiceLink"></div>
+                                        <w-copy-wrap class="body-1 basic-900 mobile-low-fsize" info="$ctrl.sendLink"
+                                                     ng-click="$ctrl.onCopyAddress()">
+                                            {{$ctrl.sendLink}}
+                                        </w-copy-wrap>
+                                    </div>
+
+                                    <div class="or">or</div>
+
+                                    <div class="center">
+                                        <div class="scan body-2 basic-900" w-i18n="modal.qr.scanQrCode"></div>
+                                        <w-qr-code size="160" url="$ctrl.sendLink"></w-qr-code>
+                                    </div>
+                                </div>
+                            </form>
+                        </w-tab>
+
                         <w-tab title-name="modal.receive.card.title" id="card" ng-if="$ctrl.showCardTab">
                             <div class="receive-card">
                                 <form novalidate name="card">

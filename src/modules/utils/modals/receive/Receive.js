@@ -10,6 +10,7 @@
      * @param {GatewayService} gatewayService
      * @param {User} user
      * @param {app.utils} utils
+     * @param {Waves} waves
      * @return {ReceiveCtrl}
      */
     const controller = function (Base, $scope, gatewayService, user, utils, waves) {
@@ -87,6 +88,41 @@
                  * @type {Array}
                  */
                 this.cryptocurrencies = null;
+
+                /**
+                 * @type {string}
+                 */
+                this.chosenAssetId = '';
+
+                /**
+                 * @type {boolean}
+                 */
+                this.showInvoiceTab = false;
+
+                /**
+                 * @type {Array}
+                 */
+                this.invoicables = null;
+
+                /**
+                 * @type {Array}
+                 */
+                this.addressAndAliases = null;
+
+                /**
+                 * @type {string}
+                 */
+                this.chosenAlias = '';
+
+                /**
+                 * @type {Object}
+                 */
+                this.invoiceAmount = null;
+
+                /**
+                 * @type {string}
+                 */
+                this.sendLink = '';
 
                 /**
                  * @type {boolean}
@@ -168,6 +204,7 @@
 
             initForSingleAsset() {
                 this.initCryptocurrencyTab();
+                this.initInvoiceTab();
                 this.initCardTab();
                 this.initBankTab();
             }
@@ -182,6 +219,43 @@
                     this.assetKeyName = gatewayService.getAssetKeyName(this.asset, 'deposit');
                     this.activateCryptocurrencyTab();
                 }
+            }
+
+            initInvoiceTab() {
+                this.addressAndAliases = [
+                    this.address,
+                    ...waves.node.aliases.getAliasList()
+                ];
+
+                this.activateInvoiceTab();
+
+                if (this.showInvoiceTab) {
+                    this.setInvoiceObserver();
+                }
+            }
+
+            setInvoiceObserver() {
+                this.observe(['chosenAlias', 'invoiceAmount'], () => {
+                    this.updateSendLink();
+                });
+            }
+
+            updateSendLink() {
+                const assetId = this.asset && this.asset.id;
+
+                const invoiceAmount = (this.invoiceAmount && this.invoiceAmount.toTokens()) || '';
+                if (!assetId || !this.chosenAlias || !invoiceAmount) {
+                    this.sendLink = '';
+                    return;
+                }
+
+                let url = `${location.protocol}//${location.hostname}`;
+                const port = location.port;
+                if (port) {
+                    url += `:${port}`;
+                }
+
+                this.sendLink = `${url}/#send/${assetId}?recipient=${this.chosenAlias}&amount=${invoiceAmount}`;
             }
 
             initCardTab() {
@@ -203,42 +277,39 @@
             }
 
             setCardObserver() {
-                this.observe(['chosenCurrencyIndex', 'cardPayment', 'chosenAssetId'], () => {
-                    const cardPayment = this.cardPayment && this.cardPayment.toTokens();
-
-                    if (!Number(cardPayment) || this.isNotPurchasableByCard(this.asset)) {
+                this.observe(['chosenCurrencyIndex', 'cardPayment'], () => {
+                    if (!Number(this.tokenizeCardPayment())) {
                         this.approximateAmount = new Waves.Money(0, this.asset);
                         return;
                     }
 
-                    const params = {
-                        address: `address=${user.address}`,
-                        amount: `amount=${cardPayment}`,
-                        crypto: `crypto=${this.asset.displayName}`,
-                        fiat: `fiat=${this.currencies[this.chosenCurrencyIndex].fiat}`
-                    };
+                    this.updateApproximateAmount();
 
-                    this.updateApproximateAmount(params);
-
+                    const params = this.getCoinomatParams();
                     this.indacoinLink = (
                         `${COINOMAT_API}buy.php?${params.address}&${params.fiat}&${params.amount}&${params.crypto}`
                     );
                 });
             }
 
-            isNotPurchasableByCard(asset) {
-                if (!this.purchasablesByCards) {
-                    return false;
-                }
-
-                return !(
-                    this.purchasablesByCards
-                        .find((purchasableByCard) => purchasableByCard.displayName === asset.displayName)
-                );
+            getCoinomatParams() {
+                return {
+                    address: `address=${user.address}`,
+                    amount: `amount=${this.tokenizeCardPayment()}`,
+                    crypto: `crypto=${this.asset.displayName}`,
+                    fiat: `fiat=${this.currencies[this.chosenCurrencyIndex].fiat}`
+                };
             }
 
-            updateApproximateAmount(params) {
+            tokenizeCardPayment() {
+                const cardPayment = this.cardPayment && this.cardPayment.toTokens();
+                return cardPayment;
+            }
+
+            updateApproximateAmount() {
                 this.approximateAmount = null;
+
+                const params = this.getCoinomatParams();
 
                 fetch(`${COINOMAT_API}rate.php?${params.address}&${params.amount}&${params.crypto}&${params.fiat}`)
                     .then(utils.onFetch)
@@ -251,20 +322,25 @@
             initBankTab() {
                 const sepaDetails = gatewayService.getSepaDetails(this.asset, this.address);
                 if (sepaDetails) {
+                    this.activateBankTab();
+
                     sepaDetails.then((details) => {
                         this.listOfEligibleCountries = details.listOfEligibleCountries;
                         this.idNowSiteUrl = details.idNowSiteUrl;
                         this.idNowUserLink = details.idNowUserLink;
                     });
-
-                    this.activateBankTab();
                 }
+
             }
 
             initForAllAssets() {
                 const cryptocurrenciesRequests = this.getExtendedAssets(gatewayService.getCryptocurrencies());
                 const cryptocurrenciesRequest = Promise.all(cryptocurrenciesRequests).then((results) => {
                     this.cryptocurrencies = results;
+                });
+
+                const invoicesRequest = waves.node.assets.userBalances().then((results) => {
+                    this.invoicables = results.map((balance) => balance.asset);
                 });
 
                 const cardsRequests = this.getExtendedAssets(gatewayService.getPurchasableByCards());
@@ -277,18 +353,17 @@
                     this.fiats = results;
                 });
 
-                Promise.all([cryptocurrenciesRequest, cardsRequest, fiatsRequest]).then(() => {
+                Promise.all([cryptocurrenciesRequest, invoicesRequest, cardsRequest, fiatsRequest]).then(() => {
                     this.activateCryptocurrencyTab();
+                    this.activateInvoiceTab();
                     this.activateCardTab();
                     this.activateBankTab();
                 });
 
-                this.observe('chosenAssetId', ({ value: id }) => {
-                    this.asset = (
-                        this.cryptocurrencies.find((cryptocurrency) => cryptocurrency.id === id) ||
-                        this.purchasablesByCards.find((purchasableByCards) => purchasableByCards.id === id) ||
-                        this.fiats.find((fiat) => fiat.id === id)
-                    );
+                this.observeOnce('chosenAssetId', ({ value: id }) => {
+                    this.updateAssetBy(id);
+
+                    this.observe('chosenAssetId', ({ value: id }) => this.updateAssetAndDataBy(id));
 
                     this.initForSingleAsset();
                 });
@@ -302,8 +377,36 @@
                 );
             }
 
+            updateAssetAndDataBy(id) {
+                this.updateAssetBy(id);
+
+                this.initCryptocurrencyTab();
+                this.updateSendLink();
+                if (this.isPurchasableByCard(this.asset)) {
+                    this.updateApproximateAmount();
+                }
+                this.initBankTab();
+            }
+
+            updateAssetBy(id) {
+                this.asset = (
+                    this.cryptocurrencies.find((cryptocurrency) => cryptocurrency.id === id) ||
+                    this.invoicables.find((invoicable) => invoicable.id === id) ||
+                    this.purchasablesByCards.find((purchasableByCards) => purchasableByCards.id === id) ||
+                    this.fiats.find((fiat) => fiat.id === id)
+                );
+            }
+
+            isPurchasableByCard(asset) {
+                return this.purchasablesByCards.find((purchasable) => purchasable.id === asset.id);
+            }
+
             activateCryptocurrencyTab() {
                 this.showCryptocurrencyTab = true;
+            }
+
+            activateInvoiceTab() {
+                this.showInvoiceTab = true;
             }
 
             activateCardTab() {
