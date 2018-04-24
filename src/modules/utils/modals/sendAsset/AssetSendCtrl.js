@@ -89,6 +89,16 @@
                  * @type {string}
                  */
                 this.tab = options.mode;
+                /**
+                 * @type {boolean}
+                 */
+                this.strict = options.amount && options.recipient && options.strict;
+
+                try {
+                    this._referrer = new URL(options.referrer).href;
+                } catch (e) {
+                    this._referrer = null;
+                }
 
                 if (!(options.mode || options.recipient || options.amount)) {
                     this.syncSettings({
@@ -97,8 +107,18 @@
                 } else {
                     this.tab = 'singleSend';
                     this.state.singleSend.recipient = options.recipient;
-                    Waves.Money.fromTokens(options.amount, this.state.assetId).then((money) => {
+
+                    Promise.all([
+                        Waves.Money.fromTokens(options.amount, this.state.assetId),
+                        waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.TRANSFER })
+                    ]).then(([money, fee]) => {
+
                         this.state.singleSend.amount = money;
+                        this.state.singleSend.fee = fee;
+
+                        if (this.strict) {
+                            this.nextStep();
+                        }
                     });
                 }
 
@@ -111,8 +131,23 @@
             }
 
             nextStep(tx) {
-                this.txInfo = tx;
+                const types = WavesApp.TRANSACTION_TYPES.NODE;
+                const type = this.tab === 'singleSend' ? types.TRANSFER : types.MASS_TRANSFER;
+
+                tx = tx || this.tab === 'singleSend' ? { ...this.state.singleSend } : { ...this.state.massSend };
+
+                this.txInfo = waves.node.transactions.createTransaction(type, {
+                    ...tx,
+                    sender: user.address
+                });
+
                 this.step++;
+            }
+
+            onTxSent(id) {
+                if (this._referrer) {
+                    location.href = `${this._referrer}?txId=${id}`;
+                }
             }
 
             /**
@@ -227,4 +262,5 @@
  * @property {string} [amount]
  * @property {string} [recipient]
  * @property {boolean} [strict]
+ * @property {string} [referrer]
  */

@@ -3,10 +3,13 @@
         <w-step>
             <w-transaction-info class="margin-3" transaction="$ctrl.tx"></w-transaction-info>
             <div class="buttons-wrapper">
-                <w-button class="big" on-click="$ctrl.onClickBack()">
+                <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
                     <w-i18n>confirmTransaction.back</w-i18n>
                 </w-button>
-                <w-button class="big submit" w-next-step on-click="$ctrl.confirm()">
+                <w-button class="big submit"
+                          ng-class="{long: $ctrl.noBackButton}"
+                          w-next-step
+                          on-click="$ctrl.confirm()">
                     <w-i18n>confirmTransaction.confirm</w-i18n>
                 </w-button>
             </div>

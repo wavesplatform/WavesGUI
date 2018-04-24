@@ -140,12 +140,11 @@
             createTx() {
                 const toGateway = this.outerSendMode && this.gatewayDetails;
 
-                const tx = waves.node.transactions.createTransaction(WavesApp.TRANSACTION_TYPES.NODE.TRANSFER, {
+                const tx = {
                     ...this.tx,
-                    sender: user.address,
                     recipient: toGateway ? this.gatewayDetails.address : this.tx.recipient,
                     attachment: toGateway ? this.gatewayDetails.attachment : this.tx.attachment
-                });
+                };
 
                 this.onContinue({ tx });
             }

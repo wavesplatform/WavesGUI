@@ -20,8 +20,17 @@
 
             constructor() {
                 super();
-
+                /**
+                 * @type {function}
+                 */
+                this.onTxSent = null;
+                /**
+                 * @type {*|string}
+                 */
                 this.locale = $attrs.locale || 'app.ui';
+                /**
+                 * @type {number}
+                 */
                 this.step = 0;
             }
 
@@ -29,6 +38,7 @@
                 return this.sendTransaction().then(({ id }) => {
                     this.tx.id = id;
                     this.step++;
+                    this.onTxSent({ id });
                     $scope.$digest();
                 }).catch((e) => {
                     console.error(e);
@@ -118,7 +128,9 @@
     angular.module('app.ui').component('wConfirmTransaction', {
         bindings: {
             tx: '<',
-            onClickBack: '&'
+            onClickBack: '&',
+            onTxSent: '&',
+            noBackButton: '<'
         },
         templateUrl: 'modules/ui/directives/confirmTransaction/confirmTransaction.html',
         transclude: false,
