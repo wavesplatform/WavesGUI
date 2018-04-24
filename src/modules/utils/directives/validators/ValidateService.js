@@ -156,9 +156,9 @@
                     return false;
                 }
 
-                return Waves.API.Node.v1.addresses.balance(address)
+                return waves.node.assets.getBalanceByAddress(address)
                     .then((data) => {
-                        if (data && data.balance != null) {
+                        if (data && data.available != null) {
                             return $q.resolve();
                         } else {
                             return $q.reject();

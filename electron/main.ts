@@ -72,7 +72,7 @@ class Main {
                 pathname: pack.server,
                 protocol: 'https:',
                 slashes: true
-            }));
+            }), {'extraHeaders' : 'pragma: no-cache\n'});
 
             this.mainWindow.on('closed', () => {
                 this.mainWindow = null;
