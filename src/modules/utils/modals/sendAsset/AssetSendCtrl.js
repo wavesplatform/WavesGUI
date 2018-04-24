@@ -6,13 +6,11 @@
      * @param {Waves} waves
      * @param {Base} Base
      * @param {app.utils} utils
-     * @param {User} user
      * @param {IPollCreate} createPoll
-     * @param outerBlockchains
-     * @param {GatewayService} gatewayService
+     * @param {User} user
      * @return {AssetSendCtrl}
      */
-    const controller = function ($scope, waves, Base, utils, user, createPoll, outerBlockchains, gatewayService) {
+    const controller = function ($scope, waves, Base, utils, createPoll, user) {
 
         class AssetSendCtrl extends Base {
 
@@ -20,7 +18,21 @@
              * @return {Money}
              */
             get balance() {
-                return this.moneyHash && this.moneyHash[this.assetId];
+                return this.state.moneyHash && this.state.moneyHash[this.state.assetId];
+            }
+
+            /**
+             * @return {boolean}
+             */
+            get outerSendMode() {
+                return this.state.outerSendMode;
+            }
+
+            /**
+             * @return {IGatewayDetails}
+             */
+            get gatewayDetails() {
+                return this.state.gatewayDetails;
             }
 
             /**
@@ -31,14 +43,9 @@
                 super($scope);
 
                 /**
-                 * @type {ISendTx}
+                 * @type {string}
                  */
-                this.tx = {
-                    amount: null,
-                    fee: null,
-                    recipient: '',
-                    attachment: ''
-                };
+                this.headerPath = 'modules/utils/modals/sendAsset/send-header.html';
                 /**
                  * @type {typeof WavesApp.defaultAssets}
                  */
@@ -48,18 +55,6 @@
                  */
                 this.choosableMoneyList = [];
                 /**
-                 * @type {string}
-                 */
-                this.focus = null;
-                /**
-                 * @type {string}
-                 */
-                this.mirrorId = null;
-                /**
-                 * @type {Money}
-                 */
-                this.mirror = null;
-                /**
                  * @type {number}
                  */
                 this.step = 0;
@@ -68,178 +63,61 @@
                  */
                 this.canChooseAsset = !assetId || canChooseAsset;
                 /**
-                 * @type {string}
-                 */
-                this.assetId = assetId || WavesApp.defaultAssets.WAVES;
-                /**
-                 * @type {boolean}
-                 */
-                this.noMirror = false;
-                /**
-                 * @type {boolean}
-                 */
-                this.outerSendMode = false;
-                /**
-                 * @type {object}
-                 */
-                this.gatewayDetails = null;
-                /**
-                 * @type {boolean}
-                 */
-                this.hasComission = true;
-                /**
-                 * @type {Array}
-                 */
-                this.feeList = null;
-                /**
                  * @type {Object.<string, Money>}
                  */
                 this.moneyHash = null;
                 /**
-                 * @type {boolean}
-                 * @private
+                 * @type {ISendState}
                  */
-                this._noCurrentRate = false;
-
-                this.syncSettings({
-                    mirrorId: 'baseAssetId'
-                });
-
-                this.observe('moneyHash', this._onChangeMoneyHash);
-
+                this.state = {
+                    assetId: assetId || WavesApp.defaultAssets.WAVES,
+                    mirrorId: user.getSetting('baseAssetId'),
+                    outerSendMode: false,
+                    gatewayDetails: null,
+                    moneyHash: null,
+                    singleSend: Object.create(null),
+                    massSend: Object.create(null)
+                };
                 /**
                  * @type {Poll}
                  */
-                this.poll = createPoll(this, this._getBalanceList, 'moneyHash', 1000, { isBalance: true });
+                this.poll = createPoll(this, this._getBalanceList, 'state.moneyHash', 1000, { isBalance: true });
+                /**
+                 * @type {*}
+                 */
+                this.txInfo = Object.create(null);
+                /**
+                 * @type {string}
+                 */
+                this.tab = null;
 
-                utils.whenAll([
-                    waves.node.assets.fee('transfer'),
-                    this.poll.ready
-                ]).then(([[fee]]) => {
-
-                    this.observe('gatewayDetails', this._currentHasCommission);
-                    this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
-
-                    this.tx.fee = fee;
-                    this.tx.amount = this.moneyHash[this.assetId].cloneWithTokens('0');
-                    this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
-
-                    this.observe('assetId', this._onChangeAssetId);
-                    this.observe('mirrorId', this._onChangeMirrorId);
-                    this.observe(['assetId', 'mirrorId'], () => this.poll.restart());
-                    this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
-                    this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
-                    this.observe('mirror', this._onChangeAmountMirror);
-
-                    this._onChangeBaseAssets();
-
-                    this._updateGatewayDetails();
-                });
-            }
-
-            fillMax() {
-                let amount = null;
-                const moneyHash = utils.groupMoney(this.feeList);
-                if (moneyHash[this.assetId]) {
-                    amount = this.balance.sub(moneyHash[this.assetId]);
-                } else {
-                    amount = this.balance;
-                }
-
-                if (amount.getTokens().lt(0)) {
-                    amount = this.moneyHash[this.assetId].cloneWithTokens('0');
-                }
-
-                waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
-                    this._noCurrentRate = true;
-                    this.mirror = amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
-                    this.tx.amount = amount;
-                    this._noCurrentRate = false;
-                });
-            }
-
-            onReadQrCode(result) {
-                this.tx.recipient = result.body;
-
-                analytics.push('Send', 'Send.QrCodeRead', 'Send.QrCodeRead.Success');
-
-                if (result.params) {
-
-                    const applyAmount = () => {
-                        if (result.params.amount) {
-                            this.tx.amount = this.moneyHash[this.assetId].cloneWithCoins(result.params.amount);
-                            this._fillMirror();
-                        }
-                    };
-
-                    if (result.params.assetId) {
-                        waves.node.assets.balance(result.params.assetId).then(({ available }) => {
-                            this.moneyHash[available.asset.id] = available;
-
-                            if (this.assetId !== available.asset.id) {
-                                const myAssetId = this.assetId;
-                                this.assetId = available.asset.id;
-                                this.canChooseAsset = true;
-                                // TODO fix (hack for render asset avatar)
-                                this.choosableMoneyList = [this.moneyHash[myAssetId], available];
-                            }
-
-                            applyAmount();
-                        }, applyAmount);
-                    } else {
-                        applyAmount();
-                    }
-                }
-            }
-
-            createTx() {
-                const toGateway = this.outerSendMode && this.gatewayDetails;
-
-                const tx = waves.node.transactions.createTransaction('transfer', {
-                    ...this.tx,
-                    sender: user.address,
-                    recipient: toGateway ? this.gatewayDetails.address : this.tx.recipient,
-                    attachment: toGateway ? this.gatewayDetails.attachment : this.tx.attachment
+                this.syncSettings({
+                    tab: 'send.defaultTab'
                 });
 
-                this.txInfo = tx;
-                this.step++;
+                this.receive(utils.observe(this.state, 'moneyHash'), this._onChangeMoneyHash, this);
+                this.receive(utils.observe(this.state, 'assetId'), () => this.poll.restart());
             }
 
             back() {
                 this.step--;
             }
 
-            onBlurMirror() {
-                if (!this.mirror) {
-                    this._fillMirror();
-                }
-                this.focus = '';
+            nextStep(tx) {
+                this.txInfo = tx;
+                this.step++;
             }
 
             /**
              * @private
              */
             _onChangeMoneyHash() {
-                const hash = this.moneyHash;
+                const hash = this.state.moneyHash;
                 const list = Object.values(hash).filter((money) => !money.getTokens().eq(0));
                 if (list.length) {
                     this.choosableMoneyList = list;
                 } else {
-                    this.choosableMoneyList = [this.moneyHash[this.assetId]];
-                }
-            }
-
-            /**
-             * @private
-             */
-            _onChangeBaseAssets() {
-                if (this.assetId === this.mirrorId) {
-                    this.noMirror = true;
-                } else {
-                    waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
-                        this.noMirror = rate.eq(0);
-                    });
+                    this.choosableMoneyList = [this.state.moneyHash[this.state.assetId]];
                 }
             }
 
@@ -252,118 +130,15 @@
                     .then((list) => list.map(({ available }) => available))
                     .then((list) => list.filter((money) => money.getTokens().gt(0)))
                     .then((list) => utils.toHash(list, 'asset.id'))
-                    .then(AssetSendCtrl._getAddMoneyProcessor(this.assetId))
-                    .then(AssetSendCtrl._getAddMoneyProcessor(this.mirrorId));
+                    .then(AssetSendCtrl._getAddMoneyProcessor(this.state.assetId))
+                    .then(AssetSendCtrl._getAddMoneyProcessor(this.state.mirrorId));
             }
 
             /**
+             * @param {string} assetId
+             * @return {AssetSendCtrl.IMoneyProcessor}
              * @private
              */
-            _onChangeMirrorId() {
-                if (!this.mirrorId) {
-                    throw new Error('Has no asset id!');
-                }
-
-                this._onChangeBaseAssets();
-
-                if (!this.moneyHash[this.mirrorId]) {
-                    return null;
-                }
-
-                this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
-                this._onChangeAmount();
-            }
-
-            /**
-             * @private
-             */
-            _onChangeAssetId() {
-                if (!this.assetId) {
-                    throw new Error('Has no asset id!');
-                }
-
-                this._onChangeBaseAssets();
-
-                if (!this.moneyHash[this.assetId]) {
-                    return null;
-                }
-
-                this.tx.amount = this.moneyHash[this.assetId].cloneWithTokens('0');
-                this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
-                this._updateGatewayDetails();
-
-                analytics.push('Send', 'Send.ChangeCurrency', this.assetId);
-            }
-
-            _currentHasCommission() {
-                const details = this.gatewayDetails;
-
-                const check = (feeList) => {
-                    const feeHash = utils.groupMoney(feeList);
-                    const balanceHash = this.moneyHash;
-                    this.hasComission = Object.keys(feeHash).every((feeAssetId) => {
-                        const fee = feeHash[feeAssetId];
-                        return balanceHash[fee.asset.id] && balanceHash[fee.asset.id].gte(fee);
-                    });
-                };
-
-                if (details) {
-                    const gatewayFee = this.balance.cloneWithTokens(details.gatewayFee);
-                    this.feeList = [this.tx.fee, gatewayFee];
-                    check(this.feeList);
-                } else {
-                    this.feeList = [this.tx.fee];
-                    check(this.feeList);
-                }
-            }
-
-            /**
-             * @private
-             */
-            _onChangeAmount() {
-                if (!this._noCurrentRate && !this.noMirror && this.tx.amount && this.focus === 'amount') {
-                    this._fillMirror();
-                }
-            }
-
-            /**
-             * @private
-             */
-            _onChangeAmountMirror() {
-                if (!this._noCurrentRate && this.mirror && this.focus === 'mirror') {
-                    this._fillAmount();
-                }
-            }
-
-            _fillMirror() {
-                utils.when(waves.utils.getRate(this.assetId, this.mirrorId)).then((rate) => {
-                    this.mirror = this.tx.amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
-                });
-            }
-
-            _fillAmount() {
-                utils.when(waves.utils.getRate(this.mirrorId, this.assetId)).then((rate) => {
-                    this.tx.amount = this.mirror.convertTo(this.moneyHash[this.assetId].asset, rate);
-                });
-            }
-
-            _updateGatewayDetails() {
-                const outerChain = outerBlockchains[this.assetId];
-                const isValidWavesAddress = waves.node.isValidAddress(this.tx.recipient);
-
-                this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
-
-                if (this.outerSendMode) {
-                    gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient).then((details) => {
-                        this.gatewayDetails = details;
-                        $scope.$apply();
-                        // TODO : validate amount field for gateway minimumAmount and maximumAmount
-                    });
-                } else {
-                    this.gatewayDetails = null;
-                }
-            }
-
             static _getAddMoneyProcessor(assetId) {
                 return (hash) => {
                     if (!hash[assetId]) {
@@ -387,10 +162,8 @@
         'waves',
         'Base',
         'utils',
-        'user',
         'createPoll',
-        'outerBlockchains',
-        'gatewayService'
+        'user'
     ];
 
     angular.module('app.utils')
@@ -398,9 +171,39 @@
 })();
 
 /**
- * @typedef {object} ISendTx
+ * @typedef {function} AssetSendCtrl.IMoneyProcessor
+ * @param {Object.<IMoney>} hash
+ * @return {Object.<Money>}
+ */
+
+/**
+ * @typedef {object} ISingleSendTx
+ * @property {string} recipient
  * @property {Money} amount
  * @property {Money} fee
- * @property {string} recipient
  * @property {string} attachment
+ */
+
+/**
+ * @typedef {object} IMassSendTx
+ * @property {string} attachment
+ * @property {Array<ITransferItem>} transfers
+ * @property {Money} fee
+ */
+
+/**
+ * @typedef {object} ITransferItem
+ * @property {string} recipient
+ * @property {Money} amount
+ */
+
+/**
+ * @typedef {object} ISendState
+ * @property {string} assetId
+ * @property {string} mirrorId
+ * @property {boolean} outerSendMode
+ * @property {IGatewayDetails} gatewayDetails
+ * @property {Object.<string, Money>} moneyHash
+ * @property {ISingleSendTx} singleSend
+ * @property {IMassSendTx} massSend
  */

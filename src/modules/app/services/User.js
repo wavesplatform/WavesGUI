@@ -8,7 +8,6 @@
 
     /**
      * @param {Storage} storage
-     * @param {$q} $q
      * @param {*} $state
      * @param {app.defaultSettings} defaultSettings
      * @param {State} state
@@ -17,7 +16,7 @@
      * @param {TimeLine} timeLine
      * @return {User}
      */
-    const factory = function (storage, $q, $state, defaultSettings, state, UserRouteState, modalManager, timeLine) {
+    const factory = function (storage, $state, defaultSettings, state, UserRouteState, modalManager, timeLine) {
 
         class User {
 
@@ -59,7 +58,7 @@
                  * @type {Deferred}
                  * @private
                  */
-                this._dfr = $q.defer();
+                this._dfr = $.Deferred();
                 /**
                  * @type {object}
                  * @private
@@ -126,7 +125,7 @@
              * @return {Promise}
              */
             onLogin() {
-                return this._dfr.promise;
+                return this._dfr.promise();
             }
 
             /**
@@ -394,7 +393,6 @@
 
     factory.$inject = [
         'storage',
-        '$q',
         '$state',
         'defaultSettings',
         'state',

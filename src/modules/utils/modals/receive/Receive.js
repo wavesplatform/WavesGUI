@@ -18,6 +18,7 @@
             constructor({ address, asset }) {
                 super($scope);
 
+                this.activeTab = 'cryptocurrency';
                 /**
                  * @type {string}
                  */

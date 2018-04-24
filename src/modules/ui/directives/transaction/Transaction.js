@@ -12,10 +12,11 @@
      * @param {User} user
      * @param {BaseAssetService} baseAssetService
      * @param {DexService} dexService
+     * @param {$rootScope.Scope} $scope
      * @return {Transaction}
      */
     const controller = function (Base, $filter, modalManager, notification,
-                                 waves, user, baseAssetService, dexService) {
+                                 waves, user, baseAssetService, dexService, $scope) {
 
         class Transaction extends Base {
 
@@ -30,6 +31,7 @@
                     baseAssetService.convertToBaseAsset(this.transaction.amount)
                         .then((baseMoney) => {
                             this.mirrorBalance = baseMoney;
+                            $scope.$digest();
                         });
                 }
 
@@ -42,8 +44,8 @@
             cancelLeasing() {
                 const leaseTransactionAmount = this.transaction.amount;
                 const leaseTransactionId = this.transaction.id;
-                return waves.node.getFee('cancelLeasing')
-                    .then((fee) => modalManager.showConfirmTx('cancelLeasing', {
+                return waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING })
+                    .then((fee) => modalManager.showConfirmTx(WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING, {
                         fee,
                         leaseTransactionAmount,
                         leaseTransactionId
@@ -67,7 +69,7 @@
                 const datetime = `Date: ${timestamp}`;
 
                 let sender = `Sender: ${tx.sender}`;
-                if (tx.transactionType === 'exchange') {
+                if (tx.transactionType === WavesApp.TRANSACTION_TYPES.NODE.EXCHANGE) {
                     sender += ' (matcher address)';
                 }
 
@@ -84,7 +86,8 @@
                     message += `\n${amount}`;
                 }
 
-                if (this.type === 'exchange-buy' || this.type === 'exchange-sell') {
+                if (this.type === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_BUY ||
+                    this.type === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_SELL) {
                     const asset = tx.price.pair.priceAsset;
                     const price = `Price: ${tx.price.toFormat()} ${asset.name} (${asset.id})`;
                     const totalPrice = `Total price: ${this.totalPrice} ${asset.name}`;
@@ -110,7 +113,8 @@
         'waves',
         'user',
         'baseAssetService',
-        'dexService'
+        'dexService',
+        '$scope'
     ];
 
     angular.module('app.ui')

@@ -3,7 +3,7 @@
 
     /**
      * @param Base
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param {ModalManager} modalManager
      * @param {IPollCreate} createPoll
      * @param {Waves} waves
@@ -65,16 +65,18 @@
                  */
                 this._fee = null;
 
-                const poll = createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true });
+                const poll = createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true, $scope });
 
                 this.observe('precision', this._onChangePrecision);
 
-                Promise.all([waves.node.assets.fee('issue'), poll.ready]).then(([[money]]) => {
-                    this._fee = money;
-                    this.observe(['_balance', '_fee'], this._onChangeBalance);
+                Promise.all([waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.ISSUE }), poll.ready])
+                    .then(([money]) => {
+                        this._fee = money;
+                        this.observe(['_balance', '_fee'], this._onChangeBalance);
 
-                    this._onChangeBalance();
-                });
+                        this._onChangeBalance();
+                        $scope.$digest();
+                    });
             }
 
             generate() {

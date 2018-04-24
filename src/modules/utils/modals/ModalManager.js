@@ -154,8 +154,7 @@
                 return this._getModal({
                     id: 'send-asset',
                     controller: 'AssetSendCtrl',
-                    titleContentUrl: 'modules/utils/modals/sendAsset/send-title.modal.html',
-                    contentUrl: 'modules/utils/modals/sendAsset/send.modal.html',
+                    templateUrl: 'modules/utils/modals/sendAsset/send.modal.html',
                     mod: 'modal-send',
                     locals: {
                         assetId: asset.id,

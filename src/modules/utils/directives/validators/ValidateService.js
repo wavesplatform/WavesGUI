@@ -79,6 +79,11 @@
                 return this.outerBlockchains(address, assetId) ? true : this.wavesAddress(address);
             }
 
+            /**
+             * @param {string} address
+             * @param {'no-self'} [value]
+             * @return {Promise<boolean>}
+             */
             wavesAddress(address, value) {
                 return utils.whenAll([
                     this.alias(address, value),
@@ -102,7 +107,12 @@
                 return outerChain.isValidAddress(address);
             }
 
-            alias(address, value = '') {
+            /**
+             * @param {string} address
+             * @param {'no-self'} [value]
+             * @return {boolean|Promise}
+             */
+            alias(address, value = undefined) {
                 if (!address) {
                     return true;
                 }

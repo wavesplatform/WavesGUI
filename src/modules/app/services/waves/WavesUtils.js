@@ -30,7 +30,7 @@
                 const to = WavesUtils.toId(assetTo);
 
                 if (from === to) {
-                    return utils.when(new BigNumber(1));
+                    return Promise.resolve(new BigNumber(1));
                 }
 
                 if (date) {
@@ -81,7 +81,7 @@
                 to = to || Date.now();
 
                 if (idFrom === idTo) {
-                    return utils.when([]);
+                    return Promise.resolve([]);
                 } else if (idFrom === wavesId || idTo === wavesId) {
                     return this._getRateHistory(idFrom, idTo, utils.moment(from), utils.moment(to));
                 } else {

@@ -1,20 +1,76 @@
 <div class="lead">
     <h3 class="basic-700"
-         w-i18n="transaction.amounts.{{::$ctrl.type}}"
-         params="{amount: $ctrl.transaction.amount.toFormat(), name: $ctrl.transaction.amount.asset.name}"></h3>
+        w-i18n="transaction.amounts.{{::$ctrl.type}}"
+        params="{amount: $ctrl.transaction.amount.toFormat(), name: $ctrl.transaction.amount.asset.name}"></h3>
     <div class="body-2 basic-500">≈ {{::$ctrl.mirrorBalance.toFormat()}} {{::$ctrl.mirrorBalance.asset.name}}</div>
+
+    <div class="tx-section tx-header" ng-if="::$ctrl.type === 'mass-send'">
+        <div class="flex-row section">
+            <div>Recipient</div>
+            <div>Amount</div>
+        </div>
+    </div>
 </div>
 
-<div class="section" ng-if="$ctrl.type !== 'circular'">
-    <div class="key" w-i18n="transaction.modals.to" ng-if="$ctrl.type === 'send'"></div>
-    <div class="key" w-i18n="transaction.modals.from" ng-if="$ctrl.type === 'receive' || $ctrl.type === 'mass-receive'"></div>
-    <div class="value" ng-if="$ctrl.type !== 'mass-send'">{{::$ctrl.shownAddress}}</div>
+<div class="section" ng-if="::$ctrl.type !== 'circular'">
 
-    <div class="key" w-i18n="transaction.modals.numberOfRecipients" ng-if="$ctrl.type === 'mass-send'"></div>
-    <div class="value" ng-if="$ctrl.type === 'mass-send'">{{::$ctrl.numberOfRecipients}}</div>
+    <div class="key" w-i18n="transaction.modals.to" ng-if="::$ctrl.type === 'send'"></div>
+    <div class="key" w-i18n="transaction.modals.from"
+         ng-if="::$ctrl.type === 'receive' || $ctrl.type === 'mass-receive'"></div>
+    <div class="value" ng-if="::$ctrl.type !== 'mass-send'">{{::$ctrl.shownAddress}}</div>
+
+    <div class="tx-section" ng-if="::$ctrl.type === 'mass-send'" ng-init="$ctrl.showAllTX = false">
+
+        <div ng-if="$ctrl.showAllTX">
+            <div class="section" ng-repeat="transfer in $ctrl.transaction.transfers track by transfer.recipient">
+                <div class="key">{{::transfer.recipient}}</div>
+                <div class="value">
+                    <w-balance money="::transfer.amount"></w-balance>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="!$ctrl.showAllTX">
+
+            <div class="section" ng-if="::$ctrl.transaction.transfers[0]">
+                <div class="key">{{::$ctrl.transaction.transfers[0].recipient}}</div>
+                <div class="value">
+                    <w-balance money="::$ctrl.transaction.transfers[0].amount"></w-balance>
+                </div>
+            </div>
+            <div class="section" ng-if="::$ctrl.transaction.transfers[1]">
+                <div class="key">{{::$ctrl.transaction.transfers[1].recipient}}</div>
+                <div class="value">
+                    <w-balance money="::$ctrl.transaction.transfers[1].amount"></w-balance>
+                </div>
+            </div>
+            <div class="section" ng-if="::$ctrl.transaction.transfers[2]">
+                <div class="key">{{::$ctrl.transaction.transfers[2].recipient}}</div>
+                <div class="value">
+                    <w-balance money="::$ctrl.transaction.transfers[2].amount"></w-balance>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="section padder">
+            <span class="link"
+              ng-if="$ctrl.transaction.transfers.length && $ctrl.transaction.transfers.length > 3"
+              ng-click="$ctrl.showAllTX = !$ctrl.showAllTX"
+              params="{count: $ctrl.transaction.transfers.length}"
+              w-i18n="transaction.modals.massSend.showAll.{{$ctrl.showAllTX}}"></span>
+        </div>
+
+        <div class="section">
+            <div class="key" w-i18n="transaction.modals.massSend.totalAmount"></div>
+            <div class="value">
+                <w-i18n params="{money: $ctrl.transaction.totalAmount}">money-currency</w-i18n>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="section contains-text" ng-if="$ctrl.transaction.attachment">
+<div class="section contains-text" ng-if="::$ctrl.transaction.attachment">
     <div class="key" w-i18n="transaction.modals.description"></div>
     <div class="value text">{{::$ctrl.transaction.attachment}}</div>
 </div>
