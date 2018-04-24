@@ -69,7 +69,7 @@
              * @param {Asset} asset
              */
             showSend(asset) {
-                return modalManager.showSendAsset(asset || Object.create(null));
+                return modalManager.showSendAsset({ assetId: asset.id });
             }
 
             /**

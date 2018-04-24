@@ -52,10 +52,8 @@
             _getRoutes() {
                 return {
                     '/send': () => modalManager.showSendAsset(),
-                    '/send/:assetId': ({ assetId }) => {
-                        return waves.node.assets.getExtendedAsset(assetId).then(() => {
-                            return modalManager.showSendAsset({ assetId });
-                        });
+                    '/send/:assetId': ({ assetId }, search) => {
+                        return modalManager.showSendAsset({ ...search, assetId });
                     },
                     '/asset/:assetId': ({ assetId }) => {
                         return waves.node.assets.getExtendedAsset(assetId).then((asset) => {
