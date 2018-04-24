@@ -241,11 +241,12 @@
             updateSendLink() {
                 const assetId = this.asset && this.asset.id;
 
-                const invoiceAmount = (this.invoiceAmount && this.invoiceAmount.toTokens()) || '';
-                if (!assetId || !this.chosenAlias || !invoiceAmount) {
+                if (!(assetId && this.chosenAlias)) {
                     this.sendLink = '';
                     return;
                 }
+
+                const invoiceAmount = (this.invoiceAmount && this.invoiceAmount.toTokens()) || '0';
 
                 let url = `${location.protocol}//${location.hostname}`;
                 const port = location.port;
