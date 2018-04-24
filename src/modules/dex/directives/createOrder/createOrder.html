@@ -160,11 +160,11 @@
                                   class="place-order tiny footnote-3"
                                   on-click="$ctrl.createOrder(order)">
                             <w-i18n ng-if="$ctrl.type === 'sell'"
-                                    params="{name: $ctrl.amount.asset.displayName}">
+                                    params="{name: $ctrl.amountBalance.asset.displayName}">
                                 directives.createOrder.placeSellOrder
                             </w-i18n>
                             <w-i18n ng-if="$ctrl.type === 'buy'"
-                                    params="{name: $ctrl.amount.asset.displayName}">
+                                    params="{name: $ctrl.amountBalance.asset.displayName}">
                                 directives.createOrder.placeBuyOrder
                             </w-i18n>
                         </w-button>
