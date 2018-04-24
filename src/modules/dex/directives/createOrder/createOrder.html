@@ -48,6 +48,14 @@
                             <div class="price headline-2">{{$ctrl.ask.price}}</div>
                         </div>
                     </div>
+                    <div class="create-order-notification js-order-notification">
+                        <div ng-if="$ctrl.createOrderFailed">
+                            <i></i><w-i18n>create.order.failed</w-i18n>
+                        </div>
+                        <div ng-if="!$ctrl.createOrderFailed">
+                            <i></i><w-i18n>create.order.success</w-i18n>
+                        </div>
+                    </div>
                     <!--<div class="order-types"></div>-->
                     <form class="fields" novalidate name="order">
                         <div class="amount">

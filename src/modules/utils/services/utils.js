@@ -100,7 +100,7 @@
              * @return {Promise}
              */
             animate($element, properties, options) {
-                return $q((resolve) => {
+                return new Promise((resolve) => {
                     options = options || Object.create(null);
                     if (options.complete) {
                         const origin = options.complete;
@@ -196,30 +196,6 @@
                     return defer.promise;
                 } else {
                     return $q.when(data);
-                }
-            },
-
-            /**
-             * @name app.utils#onFetch
-             * @param {Response} response
-             * @return {Promise}
-             */
-            onFetch(response) {
-                if (response.ok) {
-                    if (response.headers.get('Content-Type').indexOf('application/json') !== -1) {
-                        return response.text().then(WavesApp.parseJSON);
-                    } else {
-                        return response.text();
-                    }
-                } else {
-                    return response.text()
-                        .then((error) => {
-                            try {
-                                return Promise.reject(JSON.parse(error));
-                            } catch (e) {
-                                return Promise.reject(error);
-                            }
-                        });
                 }
             },
 

@@ -13,8 +13,7 @@
 
             @decorators.cachable(5)
             searchAsset(userInput) {
-                return fetch(`${WavesApp.network.api}/assets/search/${userInput}`)
-                    .then(utils.onFetch);
+                return fetch(`${WavesApp.network.api}/assets/search/${userInput}`);
             }
 
             /**
@@ -168,7 +167,6 @@
                     .then((pair) => {
                         const interval = this._getChangeByInterval(utils.moment().add().day(-1));
                         return fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
-                            .then(utils.onFetch)
                             .then((data) => {
 
                                 if (!data || data.status === 'error') {
@@ -221,7 +219,6 @@
                 return Waves.AssetPair.get(fromId, toId)
                     .then((pair) => {
                         return fetch(`${WavesApp.network.datafeed}/api/trades/${pair.toString()}/5`)
-                            .then(utils.onFetch)
                             .then(currentRate)
                             .then((rate) => {
                                 if (fromId !== pair.priceAsset.id) {
@@ -247,7 +244,6 @@
                 return Waves.AssetPair.get(fromId, toId)
                     .then((pair) => {
                         return fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
-                            .then(utils.onFetch)
                             .then((list) => {
 
                                 if (!list || !list.length) {
