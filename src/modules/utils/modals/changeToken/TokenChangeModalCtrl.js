@@ -3,7 +3,7 @@
 
     /**
      * @param Base
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param createPoll
      * @param {app.utils} utils
      * @param {Waves} waves
@@ -87,8 +87,9 @@
                     }
                 };
 
-                utils.when(waves.node.getFee(this.txType)).then((fee) => {
+                waves.node.getFee({ type: this.txType }).then((fee) => {
                     this.fee = fee;
+                    $scope.$digest();
                 });
 
                 createPoll(this, this._getGraphData, 'chartData', 15000);

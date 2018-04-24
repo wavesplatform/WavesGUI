@@ -3,7 +3,7 @@
 
     /**
      * @param Base
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
      * @param {Waves} waves
      * @param {ModalManager} modalManager
@@ -102,6 +102,7 @@
                     { id: 'leased', value: leasedOut },
                     { id: 'leasedIn', value: leasedIn }
                 ];
+                $scope.$digest();
             }
 
             /**
@@ -116,6 +117,7 @@
                 };
 
                 this.txList = txList.filter(({ type }) => AVAILABLE_TYPES_HASH[type]);
+                $scope.$digest();
             }
 
             /**

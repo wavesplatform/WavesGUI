@@ -1,0 +1,172 @@
+<form class="send-form"
+      name="$ctrl.send"
+      novalidate>
+
+    <ng-transclude></ng-transclude>
+
+    <div class="row">
+
+        <div class="flex-row-title">
+            <div class="body-2" w-i18n="modal.send.recipient"></div>
+            <a class="link"
+               ng-if="!$ctrl.toBankMode && $ctrl.hasSendToBank"
+               ng-click="$ctrl.toBankMode = true">
+                <w-i18n>modal.send.toBank.toBankLink</w-i18n>
+            </a>
+        </div>
+
+        <div ng-if="!$ctrl.toBankMode">
+            <w-input-container>
+                <div class="read-address-wrap">
+                    <w-input type="text"
+                             name="recipient"
+                             ng-model="$ctrl.state.singleSend.recipient"
+                             placeholder="modal.send.placeholderRecipient"
+                             w-i18n-attr="placeholder"
+                             w-validate
+                             w-validator-any-address="{{$ctrl.state.assetId}}"
+                             required></w-input>
+
+                    <w-qr-code-read on-read="$ctrl.onReadQrCode(result)" max-width="250"
+                                    max-height="160"></w-qr-code-read>
+                </div>
+
+                <div class="to-bank-account" ng-if="$ctrl.toBankMode">
+                    <div class="bank-recipient">
+                        <span w-i18n="modal.send.toBank.bankAccount"></span>
+                        <i class="toggle-mode btn" ng-click="$ctrl.toBankMode = false"></i>
+                    </div>
+                </div>
+
+                <w-input-error message="anyAddress">
+                    <w-i18n>modal.send.errors.address</w-i18n>
+                </w-input-error>
+                <w-input-error message="required">
+                    <w-i18n>modal.send.errors.required</w-i18n>
+                </w-input-error>
+            </w-input-container>
+        </div>
+    </div>
+
+    <div class="row" ng-if="$ctrl.toBankMode">
+        <div class="warning-plate basic-500 margin-2" w-i18n="modal.send.toBank.warning"></div>
+    </div>
+
+    <div class="warning-plate margin-2" ng-if="$ctrl.toBankMode">
+        <div class="body-2 warning-500" w-i18n="modal.send.toBank.feeTitle"></div>
+        <div class="footnote-1 basic-500" w-i18n="modal.send.toBank.feeExplanation"></div>
+    </div>
+
+    <div ng-if="$ctrl.outerSendMode" class="row">
+
+        <div class="warning-plate margin-2">
+            <div class="body-2 warning-500"
+                 w-i18n="modal.send.coinomat.feeTitle"
+                 params="{
+                               fee: $ctrl.gatewayDetails.gatewayFee,
+                               assetTicker: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.displayName
+                             }"></div>
+            <div class="footnote-1 basic-500"
+                 w-i18n="modal.send.coinomat.feeExplanation"
+                 params="{
+                               min: $ctrl.gatewayDetails.minimumAmount,
+                               max: $ctrl.gatewayDetails.maximumAmount,
+                               assetTicker: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.displayName,
+                               assetName: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.name
+                             }"></div>
+        </div>
+
+        <div class="warning-plate basic-500">
+            <w-i18n params="{assetName: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.name}">modal.send.icoWarning
+            </w-i18n>
+        </div>
+    </div>
+
+    <w-input-container class="row">
+        <div class="body-2" w-i18n="modal.send.amount"></div>
+        <div class="amount-wrap" ng-class="{'no-mirror': $ctrl.noMirror}">
+
+            <w-balance-input name="amount"
+                             asset-id="$ctrl.state.assetId"
+                             max-balance="$ctrl.state.moneyHash[$ctrl.state.assetId]"
+                             fee="$ctrl.feeList"
+                             input-classes="big"
+                             min="0"
+                             on-focus="$ctrl.focus = 'amount'"
+                             on-blur="$ctrl.focus = ''"
+                             amount="$ctrl.state.singleSend.amount">
+            </w-balance-input>
+            <div class="amount-modal-icon"></div>
+            <w-balance-input ng-if="!$ctrl.noMirror"
+                             on-focus="$ctrl.focus = 'mirror'"
+                             on-blur="$ctrl.onBlurMirror()"
+                             name="amountMirror"
+                             asset-id="$ctrl.mirrorId"
+                             fill-max="$ctrl.fillMax()"
+                             fee="$ctrl.tx.fee"
+                             input-classes="big"
+                             amount="$ctrl.mirror">
+            </w-balance-input>
+
+        </div>
+
+        <w-input-error name="amount" message="gt">
+            <w-i18n>inputs.errors.required</w-i18n>
+        </w-input-error>
+        <w-input-error name="amount" message="required">
+            <w-i18n>inputs.errors.required</w-i18n>
+        </w-input-error>
+        <w-input-error name="amount" message="precision">
+            <w-i18n params="{precision: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.precision}">
+                modal.send.errors.precision
+            </w-i18n>
+        </w-input-error>
+        <w-input-error name="amountMirror" message="precision">
+            <w-i18n params="{precision: $ctrl.mirror.asset.precision}">modal.send.errors.precision</w-i18n>
+        </w-input-error>
+        <w-input-error name="amount" message="lte">
+            <w-i18n>modal.send.errors.max</w-i18n>
+        </w-input-error>
+    </w-input-container>
+
+    <div ng-if="!($ctrl.outerSendMode || $ctrl.toBankMode)" class="row margin-1">
+        <div class="body-2" w-i18n="modal.send.description"></div>
+        <w-input-container>
+            <w-input textarea="true"
+                     name="attachment"
+                     ng-model="$ctrl.state.singleSend.attachment"
+                     w-i18n-attr="placeholder"
+                     w-validate
+                     w-validator-byte-lte="140"
+                     placeholder="modal.send.descriptionPlaceholder"></w-input>
+
+            <w-input-error message="byteLte">
+                <w-i18n>modal.send.attachmentLength</w-i18n>
+            </w-input-error>
+        </w-input-container>
+    </div>
+
+    <div class="row fee margin-1">
+        <div class="body basic-500">
+            <w-i18n params="{fee: $ctrl.tx.fee}">modal.send.fee</w-i18n>
+        </div>
+    </div>
+
+    <div class="row commission-error margin-2 footnote error-500" ng-if="!$ctrl.hasComission">
+        <w-i18n ng-show="$ctrl.outerSendMode"
+                params="{fee: $ctrl.state.singleSend.fee, getawayFee: $ctrl.gatewayDetails.gatewayFee, currency: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.displayName}">
+            modal.send.validationError.notEnoughFundsWithdraw
+        </w-i18n>
+        <w-i18n ng-hide="$ctrl.outerSendMode"
+                params="{fee:$ctrl.state.singleSend.fee}">modal.send.validationError.notEnoughFunds
+        </w-i18n>
+    </div>
+
+    <w-button on-click="$ctrl.createTx()"
+              disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission)"
+              type="submit"
+              class="big submit long">
+        <w-i18n>button.continue</w-i18n>
+    </w-button>
+
+</form>

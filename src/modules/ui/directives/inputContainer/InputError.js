@@ -1,11 +1,17 @@
 (function () {
     'use strict';
 
-    const controller = function () {
+    /**
+     * @param {Base} Base
+     * @param {$rootScope.Scope} $scope
+     * @return {InputError}
+     */
+    const controller = function (Base, $scope) {
 
-        class InputError {
+        class InputError extends Base {
 
             constructor() {
+                super();
                 /**
                  * @type {InputContainer}
                  */
@@ -18,50 +24,54 @@
                  * @type {string}
                  */
                 this.name = null;
+                /**
+                 * @type {boolean}
+                 */
+                this.canShow = false;
             }
 
-            canShow() {
-                return (this.inputContainer.form.$submitted || this._isTouched()) && this._hasError();
-            }
-
-            /**
-             * @return {boolean}
-             * @private
-             */
-            _isTouched() {
-                return this._getElements()
-                    .filter((item) => item.$touched && !item.$valid)
-                    .some((item) => item.$touched);
-            }
-
-            /**
-             * @return {boolean}
-             * @private
-             */
-            _hasError() {
-                return this._getElements().some((item) => item.$error[this.message]);
+            $postLink() {
+                this.receive(this.inputContainer.tik, this._onTick, this);
+                this.observe('canShow', this._onChangeCanShow);
             }
 
             /**
              * @private
              */
-            _getElements() {
-                const empty = tsUtils.isEmpty(this.name);
-
-                if (empty) {
-                    return this._getTarget();
-                } else {
-                    const target = this.inputContainer.form[this.name];
-                    return target && target.$$element.get(0) !== document.activeElement ? [target] : [];
-                }
+            _onChangeCanShow() {
+                $scope.$apply();
             }
 
             /**
-             * @return {Array.<{$touched: boolean, $error: *, $$element: JQuery}>}
+             * @param {Array<HTMLInputElement|HTMLTextAreaElement>} elements
              * @private
              */
-            _getTarget() {
-                return this.inputContainer.target.filter((item) => item.$$element.get(0) !== document.activeElement);
+            _onTick(elements) {
+                elements.forEach((element) => {
+                    const name = element.getAttribute('name');
+
+                    if (!name) {
+                        return null;
+                    }
+
+                    if (this.name && this.name !== name) {
+                        return null;
+                    }
+
+                    /**
+                     * @type {ngModel.NgModelController}
+                     */
+                    const model = this.inputContainer.form[name];
+
+                    if (!model) {
+                        return null;
+                    }
+
+                    const isFocused = element === document.activeElement;
+
+                    const isTouchedOrSubmited = this.inputContainer.form.$submitted || model.$touched;
+                    this.canShow = (!isFocused && isTouchedOrSubmited && model.$error[this.message]) || false;
+                });
             }
 
         }
@@ -69,7 +79,7 @@
         return new InputError();
     };
 
-    controller.$inject = [];
+    controller.$inject = ['Base', '$scope'];
 
     angular.module('app.ui')
         .component('wInputError', {
@@ -81,8 +91,7 @@
                 message: '@',
                 name: '@'
             },
-            template: '<span class="error" ng-class="{active: $ctrl.canShow()}"' +
-            ' ng-transclude></span>',
+            template: '<span class="error active" ng-if="$ctrl.canShow" ng-transclude></span>',
             controller
         });
 })();

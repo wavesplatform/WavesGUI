@@ -29,9 +29,12 @@ w-transaction-info {
         .icon-tx-receive();
       }
 
-      &.mass-send,
-      &.mass-receive {
+      &.mass-send {
         .icon-tx-mass-transfer();
+      }
+
+      &.mass-receive {
+        .icon-tx-mass-receive();
       }
 
       &.circular {
@@ -99,7 +102,6 @@ w-transaction-info {
       display: flex;
       align-items: flex-start;
       width: 100%;
-
       justify-content: space-between;
       padding: 13px 0;
       border-bottom: 1px dotted @color-basic-200;
@@ -142,6 +144,70 @@ w-transaction-info {
       &.solid-border {
         border-bottom-style: solid;
       }
+    }
+
+    .tx-section {
+      display: block;
+      width: 100%;
+
+      .section {
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+        width: 100%;
+        border-bottom: 1px dashed @color-basic-200;
+
+        &.padder {
+          display: block;
+          height: 70px;
+          padding-top: 5px;
+          border-bottom: 0 none;
+
+          span {
+            align-self: flex-start;
+          }
+        }
+
+        .key {
+          flex-grow: 1;
+          color: @color-black;
+        }
+
+        .value {
+          flex-grow: 0;
+          text-align: right;
+        }
+      }
+
+      & > .section {
+        .key {
+          color: @color-basic-500;
+        }
+      }
+
+      &.tx-header {
+        .section {
+          .footnote-1();
+          border-bottom: 0 none;
+          color: @color-basic-500;
+        }
+      }
+    }
+
+    .lead {
+      margin-bottom: 0;
+
+      & + .section {
+        padding-top: 0;
+      }
+
+      .tx-header {
+        margin-bottom: -30px;
+      }
+    }
+
+    .section .tx-section {
+      margin-bottom: -14px;
     }
 
     ng-include {

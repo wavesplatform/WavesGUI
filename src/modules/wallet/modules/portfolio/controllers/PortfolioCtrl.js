@@ -52,9 +52,10 @@
                 waves.node.assets.getExtendedAsset(this.mirrorId)
                     .then((mirror) => {
                         this.mirror = mirror;
+                        $scope.$digest();
                     });
 
-                createPoll(this, this._getPortfolio, 'portfolioBalances', 3000, { isBalance: true });
+                createPoll(this, this._getPortfolio, 'portfolioBalances', 3000, { isBalance: true, $scope });
             }
 
             /**
@@ -68,7 +69,7 @@
              * @param {Asset} asset
              */
             showSend(asset) {
-                return modalManager.showSendAsset(user, asset || Object.create(null));
+                return modalManager.showSendAsset({ assetId: asset.id });
             }
 
             /**

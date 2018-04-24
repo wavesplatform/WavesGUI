@@ -38,6 +38,9 @@
                     baseAssetId: WavesApp.defaultAssets.USD,
                     events: Object.create(null),
                     lng: 'en',
+                    send: {
+                        defaultTab: 'singleSend'
+                    },
                     pinnedAssetIdList: [
                         WavesApp.defaultAssets.WAVES,
                         WavesApp.defaultAssets.BTC,

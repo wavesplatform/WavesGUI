@@ -25,8 +25,8 @@
                 this.recipient = '';
                 this.amount = null;
 
-                waves.node.fee('lease')
-                    .then(([money]) => {
+                waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.LEASE })
+                    .then((money) => {
                         this.fee = money;
                     });
 

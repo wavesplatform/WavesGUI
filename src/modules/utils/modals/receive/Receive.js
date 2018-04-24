@@ -20,6 +20,7 @@
             constructor({ address, asset }) {
                 super($scope);
 
+                this.activeTab = 'cryptocurrency';
                 /**
                  * @type {string}
                  */
@@ -306,16 +307,16 @@
                 return cardPayment;
             }
 
-            updateApproximateAmount() {
+                    updateApproximateAmount() {
                 this.approximateAmount = null;
 
                 const params = this.getCoinomatParams();
+                        fetch(`${COINOMAT_API}rate.php?${params.address}&${params.amount}&${params.crypto}&${params.fiat}`)
 
-                fetch(`${COINOMAT_API}rate.php?${params.address}&${params.amount}&${params.crypto}&${params.fiat}`)
-                    .then(utils.onFetch)
-                    .then((approximateAmount) => {
-                        const coins = new BigNumber(approximateAmount).mul(Math.pow(10, this.asset.precision));
-                        this.approximateAmount = new Waves.Money(coins.round(0), this.asset);
+                        .then((approximateAmount) => {
+                            const coins = new BigNumber(approximateAmount).mul(Math.pow(10, this.asset.precision));
+                            this.approximateAmount = new Waves.Money(coins.round(0),
+                    this.asset);
                     });
             }
 
