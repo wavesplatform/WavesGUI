@@ -51,10 +51,10 @@
              */
             _getRoutes() {
                 return {
-                    '/send': () => modalManager.showSendAsset(user),
+                    '/send': () => modalManager.showSendAsset(),
                     '/send/:assetId': ({ assetId }) => {
                         return waves.node.assets.getExtendedAsset(assetId).then(() => {
-                            return modalManager.showSendAsset(user, { assetId });
+                            return modalManager.showSendAsset({ assetId });
                         });
                     },
                     '/asset/:assetId': ({ assetId }) => {

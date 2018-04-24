@@ -146,11 +146,10 @@
             }
 
             /**
-             * @param {User} user
              * @param {Asset} [asset]
              * @return {Promise}
              */
-            showSendAsset(user, asset = Object.create(null)) {
+            showSendAsset(asset = Object.create(null)) {
                 return this._getModal({
                     id: 'send-asset',
                     controller: 'AssetSendCtrl',
