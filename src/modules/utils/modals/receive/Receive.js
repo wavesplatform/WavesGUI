@@ -91,11 +91,6 @@
                 this.cryptocurrencies = null;
 
                 /**
-                 * @type {string}
-                 */
-                this.chosenAssetId = '';
-
-                /**
                  * @type {boolean}
                  */
                 this.showInvoiceTab = false;
@@ -215,6 +210,8 @@
                 if (depositDetails) {
                     depositDetails.then((details) => {
                         this.gatewayAddress = details.address;
+
+                        $scope.$digest();
                     });
 
                     this.assetKeyName = gatewayService.getAssetKeyName(this.asset, 'deposit');
@@ -307,16 +304,17 @@
                 return cardPayment;
             }
 
-                    updateApproximateAmount() {
+            updateApproximateAmount() {
                 this.approximateAmount = null;
 
                 const params = this.getCoinomatParams();
-                        fetch(`${COINOMAT_API}rate.php?${params.address}&${params.amount}&${params.crypto}&${params.fiat}`)
 
-                        .then((approximateAmount) => {
-                            const coins = new BigNumber(approximateAmount).mul(Math.pow(10, this.asset.precision));
-                            this.approximateAmount = new Waves.Money(coins.round(0),
-                    this.asset);
+                fetch(`${COINOMAT_API}rate.php?${params.address}&${params.amount}&${params.crypto}&${params.fiat}`)
+                    .then(utils.onFetch)
+                    .then((approximateAmount) => {
+                        const coins = new BigNumber(approximateAmount).mul(Math.pow(10, this.asset.precision));
+                        this.approximateAmount = new Waves.Money(coins.round(0), this.asset);
+                        $scope.$digest();
                     });
             }
 
@@ -436,7 +434,7 @@
             }
 
             isLira() {
-                return this.asset.id === WavesApp.defaultAssets.TRY;
+                return this.chosenAssetId === WavesApp.defaultAssets.TRY;
             }
 
         }

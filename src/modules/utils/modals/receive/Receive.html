@@ -6,13 +6,12 @@
                 <w-step>
                     <w-tabs ng-model="$ctrl.activeTab">
 
-                        <w-tab ng-if="$ctrl.showCryptocurrencyTab" title-name="::'modal.receive.cryptocurrency.title'"
-                               id="::'cryptocurrency'">
+                        <w-tab ng-if="$ctrl.showCryptocurrencyTab" title-name="::'modal.receive.cryptocurrency.title'" id="::'cryptocurrency'">
                             <div class="receive-crypto">
 
                                 <div class="row margin-2">
                                     <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
-                                    <div class="input-like big flex-row split-half" ng-if="$ctrl.singleAsset">
+                                    <div ng-if="$ctrl.singleAsset" class="input-like big flex-row split-half">
                                         <div class="flex-row">
                                             <w-asset-logo size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
                                             <div class="asset-name">{{::$ctrl.asset.name}}</div>
@@ -22,7 +21,7 @@
                                         class="big"
                                         ng-if="!$ctrl.singleAsset"
                                         ng-model="$ctrl.chosenAssetId">
-                                        <w-option ng-repeat="cryptocurrency in $ctrl.cryptocurrencies" value="{{::cryptocurrency.id}}">
+                                        <w-option ng-repeat="cryptocurrency in $ctrl.cryptocurrencies track by $index" value="::cryptocurrency.id">
                                             <div class="flex-row split-half">
                                                 <div class="flex-row">
                                                     <w-asset-logo size="24" asset-id="{{::cryptocurrency.id}}"></w-asset-logo>
@@ -35,26 +34,26 @@
 
                                 <div class="warning-plate margin-1">
                                     <div class="body-2 warning-500"
-                                         w-i18n="modal.deposit.{{::$ctrl.assetKeyName}}.warningTitle"></div>
+                                         w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningTitle"></div>
                                     <div class="footnote-1 basic-500"
-                                         w-i18n="modal.deposit.{{::$ctrl.assetKeyName}}.warningText"></div>
+                                         w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningText"></div>
                                 </div>
 
                                 <div class="warning-plate">
                                     <div class="body-2 warning-500"
-                                         w-i18n="modal.deposit.{{::$ctrl.assetKeyName}}.warningMinAmountTitle"></div>
+                                         w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountTitle"></div>
                                     <div class="footnote-1 basic-500"
-                                         w-i18n="modal.deposit.{{::$ctrl.assetKeyName}}.warningMinAmountText"></div>
+                                         w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountText"></div>
                                 </div>
 
                                 <div class="body-2 basic-900">
                                     <span w-i18n="modal.deposit.copyAndShare"></span>
                                     <w-help-icon>
                                         <div class="row-help headline-3">
-                                            <w-i18n>modal.deposit.{{::$ctrl.assetKeyName}}.helpDescrTitle</w-i18n>
+                                            <w-i18n>modal.deposit.{{$ctrl.assetKeyName}}.helpDescrTitle</w-i18n>
                                         </div>
                                         <div class="row-help">
-                                            <w-i18n>modal.deposit.{{::$ctrl.assetKeyName}}.helpDescrText</w-i18n>
+                                            <w-i18n>modal.deposit.{{$ctrl.assetKeyName}}.helpDescrText</w-i18n>
                                         </div>
                                         <div class="row-help">
                                             <w-i18n>modal.deposit.pleaseNote</w-i18n>
@@ -80,8 +79,7 @@
                             </div>
                         </w-tab>
 
-                        <w-tab title-name="modal.receive.invoice.title" id="invoice"
-                               ng-if="$ctrl.showInvoiceTab">
+                        <w-tab ng-if="$ctrl.showInvoiceTab" title-name="::'modal.receive.invoice.title'" id="::'invoice'">
                             <form novalidate name="invoice">
                                 <div class="receive-invoice">
                                     <div class="row margin-2">
@@ -96,7 +94,7 @@
                                             class="big"
                                             ng-if="!$ctrl.singleAsset"
                                             ng-model="$ctrl.chosenAssetId">
-                                            <w-option ng-repeat="invoice in $ctrl.invoicables" value="{{::invoice.id}}">
+                                            <w-option ng-repeat="invoice in $ctrl.invoicables track by $index" value="::invoice.id">
                                                 <div class="flex-row split-half">
                                                     <div class="flex-row">
                                                         <w-asset-logo size="24" asset-id="{{::invoice.id}}"></w-asset-logo>
@@ -110,7 +108,7 @@
                                     <div class="row margin-2">
                                         <div class="body-2 basic-900" w-i18n="modal.receive.addressOrAlias"></div>
                                         <w-select class="big" ng-model="$ctrl.chosenAlias">
-                                            <w-option ng-repeat="alias in $ctrl.addressAndAliases" value="{{::alias}}">
+                                            <w-option ng-repeat="alias in $ctrl.addressAndAliases track by $index" value="::alias">
                                                 {{::alias}}
                                             </w-option>
                                         </w-select>
@@ -156,7 +154,7 @@
 
                                     <div class="row margin-2">
                                         <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
-                                        <div class="input-like big flex-row split-half" ng-if="$ctrl.singleAsset">
+                                        <div ng-if="$ctrl.singleAsset" class="input-like big flex-row split-half">
                                             <div class="flex-row">
                                                 <w-asset-logo size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
                                                 <div class="asset-name">{{::$ctrl.asset.name}}</div>
@@ -166,7 +164,7 @@
                                             class="big"
                                             ng-if="!$ctrl.singleAsset"
                                             ng-model="$ctrl.chosenAssetId">
-                                            <w-option ng-repeat="purchasableByCard in $ctrl.purchasablesByCards" value="{{::purchasableByCard.id}}">
+                                            <w-option ng-repeat="purchasableByCard in $ctrl.purchasablesByCards track by $index" value="::purchasableByCard.id">
                                                 <div class="flex-row split-half">
                                                     <div class="flex-row">
                                                         <w-asset-logo size="24" asset-id="{{::purchasableByCard.id}}"></w-asset-logo>
@@ -207,8 +205,7 @@
                                                         required></w-input>
 
                                                 <w-select class="big" ng-model="$ctrl.chosenCurrencyIndex">
-                                                    <w-option ng-repeat="currency in $ctrl.currencies track by $index"
-                                                              value="$index">
+                                                    <w-option ng-repeat="currency in $ctrl.currencies track by $index" value="$index">
                                                         <option>{{::currency.name}}</option>
                                                     </w-option>
                                                 </w-select>
@@ -275,7 +272,7 @@
                                         class="big"
                                         ng-if="!$ctrl.singleAsset"
                                         ng-model="$ctrl.chosenAssetId">
-                                        <w-option ng-repeat="fiat in $ctrl.fiats" value="{{::fiat.id}}">
+                                        <w-option ng-repeat="fiat in $ctrl.fiats track by $index" value="::fiat.id">
                                             <div class="flex-row split-half">
                                                 <div class="flex-row">
                                                     <w-asset-logo size="24" asset-id="{{::fiat.id}}"></w-asset-logo>
@@ -287,7 +284,7 @@
 
                                 </div>
 
-                                <div class="get-verified" ng-if="!$ctrl.isLira()">
+                                <div ng-if="!$ctrl.isLira()" class="get-verified">
 
                                     <div class="warning-plate">
                                         <div class="body-2 warning-500" w-i18n="modal.sepa.warningTitle"></div>
@@ -327,7 +324,7 @@
 
                                 </div>
 
-                                <div class="bank-account wtry" ng-if="$ctrl.isLira()">
+                                <div ng-if="$ctrl.isLira()" class="bank-account wtry">
 
                                     <div class="warning-plate">
                                         <div class="body-2 warning-500" w-i18n="modal.receive.wtryPlate1Header"></div>
