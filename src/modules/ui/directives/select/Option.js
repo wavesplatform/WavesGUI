@@ -44,7 +44,7 @@
 
             onClick() {
                 this.wSelect.setActive(this);
-                $scope.$digest();
+                $scope.$apply();
             }
 
             setActive(active) {
