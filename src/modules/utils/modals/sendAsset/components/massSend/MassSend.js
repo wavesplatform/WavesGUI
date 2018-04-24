@@ -307,17 +307,20 @@
             _onChangeCSVText() {
                 const text = this.recipientCsv;
                 this._processTextAreaContent(text);
+                this._updateTextAreaContent();
                 this._validateRecipients();
             }
 
             /**
              * @private
              */
+            @decorators.async()
             _updateTextAreaContent() {
                 const transfers = this.transfers;
                 const text = Papa.unparse(transfers.map((item) => [item.recipient, item.amount.getTokens().toFixed()]));
                 if (text !== this.recipientCsv) {
                     this.recipientCsv = text;
+                    $scope.$digest();
                 }
             }
 
