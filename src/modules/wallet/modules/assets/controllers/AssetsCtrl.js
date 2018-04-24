@@ -118,8 +118,7 @@
                     return this.showAsset(asset);
                 }
 
-                const receiveActions = ['deposit', 'sepa', 'card'];
-                if (receiveActions.includes(action)) {
+                if (action === 'receive') {
                     return this.showReceivePopup(asset);
                 }
 
