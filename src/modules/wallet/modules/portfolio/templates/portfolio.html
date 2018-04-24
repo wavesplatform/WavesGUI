@@ -1,4 +1,4 @@
-<div w-i18n-ns="app.wallet.portfolio">
+<div class="portfolio-wrapper" w-i18n-ns="app.wallet.portfolio">
 
     <div class="toolbar">
         <w-button class="interface" on-click="$ctrl.showSend()">
@@ -21,48 +21,52 @@
         </w-select>
     </div>
 
-    <w-smart-table data="$ctrl.balanceList" header-info="$ctrl.tableHeaders">
+    <w-smart-table class="portfolio-table" data="$ctrl.balanceList" header-info="$ctrl.tableHeaders">
         <w-table-row ng-repeat="balance in $data track by balance.asset.id">
-            <w-table-cell>
+            <w-table-cell class="portfolio-table__name">
                 <w-asset-logo class="margin-right-1" asset-id="{{::balance.asset.id}}" size="30"></w-asset-logo>
-                {{::balance.asset.name}}
+                <span>{{::balance.asset.name}}</span>
             </w-table-cell>
-            <w-table-cell>
+            <w-table-cell class="portfolio-table__available">
                 <w-balance money="balance.available"></w-balance>
             </w-table-cell>
-            <w-table-cell>
+            <w-table-cell class="portfolio-table__in-orders">
                 <w-balance money="balance.inOrders"></w-balance>
             </w-table-cell>
-            <w-table-cell>
+            <w-table-cell class="portfolio-table__available-value">
                 <w-exchange noUpdate balance="balance.available"></w-exchange>
             </w-table-cell>
-            <w-table-cell>
+            <w-table-cell class="portfolio-table__chart-wrap">
                 <w-change-rate asset-id="balance.asset.id"></w-change-rate>
-                <div class="chart-wrap">
+                <div>
                     <w-asset-rate-chart no-update="::true" asset-id="::balance.asset.id"></w-asset-rate-chart>
                 </div>
             </w-table-cell>
-            <w-table-cell>
+            <w-table-cell class="portfolio-table__change">
                 <w-change24 asset-from="balance.asset.id"
                             asset-to="$ctrl.mirrorId"
                             no-update></w-change24>
-                %
+                <span>%</span>
             </w-table-cell>
             <w-table-cell>
                 <div class="portfolio-table__control-cell">
-                    <span ui-sref="main.dex($ctrl.getSrefParams(balance.asset))">Dex!</span>
-                    <span ng-click="$ctrl.showSend(balance.asset)">Send!</span>
-                    <span ng-if="$ctrl.isDepositSupported(balance.asset)"
+                    <span class="icon-dex" ui-sref="main.dex($ctrl.getSrefParams(balance.asset))">
+                        <div>Dex!</div>
+                    </span>
+                    <span class="icon-send" ng-click="$ctrl.showSend(balance.asset)">
+                        <div>Send!</div>
+                    </span>
+                    <span class="icon-receive" ng-if="$ctrl.isDepositSupported(balance.asset)"
                           ng-click="$ctrl.showDeposit(balance.asset)">
-                        Recive!
+                        <div>Recive!</div>
                     </span>
-                    <span ng-if="::!$ctrl.isDepositSupported(balance.asset) && $ctrl.isSepaSupported(balance.asset)"
+                    <span class="icon-receive" ng-if="::!$ctrl.isDepositSupported(balance.asset) && $ctrl.isSepaSupported(balance.asset)"
                           ng-click="$ctrl.showSepa(balance.asset)">
-                        Recive!
+                        <div>Recive!</div>
                     </span>
-                    <span ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES"
+                    <span class="icon-spam" ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES"
                           ng-click="$ctrl.toggleSpam(balance.asset)">
-                         Spam!
+                         <div>Spam!</div>
                     </span>
                     <w-actions>
                         <w-action ng-click="$ctrl.showAsset(balance.asset)">

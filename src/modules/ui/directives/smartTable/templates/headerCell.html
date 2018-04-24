@@ -1,5 +1,5 @@
 <td ng-class="{sorting: sorting, asc: sorting && isAsc, desc: sorting && !isAsc}">
-    <div ng-if="::search">
+    <div class="portfolio-table__search-block" ng-if="::search">
         <input ng-model="searchQuery"/>
     </div>
     <div ng-if="::title.literal" class="smart-table__header" ng-class="::{'sort-by': sort}">

@@ -1,27 +1,35 @@
 @import (reference) '../../../../config';
 @import (reference) '../../../../app/less/typography';
+@import (reference) '../../../../app/less/icons';
 
 .main.wallet.portfolio {
 
-  .chart-wrap {
-    width: 90px;
-    height: 20px;
-  }
-
-  .portfolio-table__control-cell {
-    position: relative;
+  .portfolio-wrapper {
+    display: block;
+    height: 100%;
   }
 
   .toolbar {
     w-button:not(:last-child) {
       margin-right: 5px;
     }
-  }
 
-  w-scroll-box {
-    border: 1px solid @color-accent-50;
-    border-top: 0 none;
-    border-radius: 0 0 @border-radius @border-radius;
+    w-select {
+      width: 100%;
+      max-width: 250px;
+      float: right;
+      height: 42px;
+      background: @color-white;
+      .title {
+        display: flex;
+
+        &:before {
+          content: '';
+          margin: 5px 7px 0 0;
+          .icon-filter();
+        }
+      }
+    }
   }
 
   .btn-icon {
@@ -43,125 +51,217 @@
     display: inline-block;
   }
 
-  .portfolio-list {
-    list-style: none;
-    padding: 0;
-    margin: 10px 0 0;
+  .portfolio-table {
+    height: 100%;
+    max-height: calc(100vh ~'- 142px');
+    margin-top: @padding-main-layout;
+    display: block;
+    position: relative;
+    overflow: auto;
+    border: 1px solid @color-accent-50;
+    border-radius: @border-radius;
 
-    .portfolio-item {
-      display: flex;
-      background-color: @color-white;
-      height: 65px;
-      align-items: center;
-      border-bottom: 1px solid @color-accent-50;
-      position: relative;
-      line-height: 30px;
-      padding: 0 355px 0 20px;
-      font-size: 15px;
+    table {
+      background: @color-white;
       color: @color-basic-700;
+      font-size: 15px;
+      border-collapse: collapse;
+      width: 100%;
+      overflow: auto;
 
-      @media screen and (max-width: 1240px) {
-        padding: 0 0 0 20px;
+      thead {
+        tr {
+          td {
+            color: @color-basic-500;
+            vertical-align: middle;
+            height: 64px;
+            padding: 0 10px;
+            border-bottom: 1px solid @color-accent-50;
+            text-align: right;
+            .footnote-1();
+
+            &:first-child {
+              padding-left: 68px;
+              text-align: left;
+            }
+          }
+        }
       }
 
-      &:not(.portfolio-item-name) {
-        text-align: right;
+      tbody {
+        tr {
+          td {
+            border-bottom: 1px solid @color-accent-50;
+            position: relative;
+            vertical-align: middle;
+            height: 64px;
+            padding: 0 10px;
+            text-align: right;
+
+            &:first-child {
+              padding-left: 20px;
+              text-align: left;
+            }
+
+            &:last-child {
+              padding-right: 20px;
+            }
+          }
+        }
       }
 
-      &:not(.title)::before {
-        content: '';
-        display: none;
-        width: 2px;
-        height: 100%;
-        background-color: @color-submit-400;
+      w-asset-logo {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+    }
+
+    &__name span {
+      vertical-align: middle;
+    }
+
+    &__chart-wrap {
+      min-width: 84px;
+
+      w-asset-rate-chart {
         position: absolute;
-        left: 0;
-        top: 0;
-      }
+        bottom: 0;
+        width: 84px;
+        height: 40%;
+        opacity: .3;
+        right: 0;
 
-      &:first-child:not(.title) {
-        border-top: 0 none;
-      }
-
-      &.title {
-        margin: 0;
-        line-height: 1.2em;
-        color: @color-disabled-600;
-        white-space: nowrap;
-        border-radius: @border-radius @border-radius 0 0;
-        border: 1px solid @color-accent-50;
-      }
-
-      &:not(.title):hover {
-        background-color: @color-basic-50;
-
-        &::before {
+        &::after {
+          content: '';
           display: block;
-        }
-      }
-
-      .currency {
-        text-transform: uppercase;
-        white-space: nowrap;
-      }
-
-      .portfolio-item-name {
-        display: flex;
-        width: 22%;
-        white-space: nowrap;
-      }
-
-      .portfolio-item-balance {
-        text-align: right;
-        width: 29%;
-      }
-
-      .portfolio-item-rate {
-        width: 13%;
-      }
-
-      .portfolio-item-mirror {
-        width: 14%;
-      }
-
-      .portfolio-item-bid {
-        width: 10%;
-      }
-
-      .portfolio-item-ask {
-        width: 10%;
-      }
-
-      .portfolio-item-change {
-        width: 14%;
-        &.success {
-          color: @color-success-600;
-        }
-        &.danger {
-          color: @color-error-500;
-        }
-      }
-
-      .portfolio-item-actions {
-        width: 100%;
-        max-width: 280px;
-        position: absolute;
-        right: 44px;
-        top: 50%;
-        margin-top: -20px;
-        white-space: nowrap;
-        padding-right: 0;
-        text-align: left;
-
-        @media screen and (max-width: 1240px) {
-          display: none;
-        }
-
-        w-button:not(:last-child) {
-          margin-right: 5px;
+          position: absolute;
+          bottom: 0;
+          width: 84px;
+          height: 100%;
         }
       }
     }
+
+    &__available {
+      font-family: @font-roboto-medium;
+    }
+
+    &__available-value,
+    &__chart-wrap,
+    &__in-orders {
+      .footnote-1();
+      height: 64px;
+    }
+
+    &__change {
+      .footnote-1();
+
+      w-change24 {
+        &.green {
+          color: @color-success-600;
+
+          & + span {
+            color: @color-success-600;
+          }
+        }
+
+        &.red {
+          color: @color-error-500;
+          & + span {
+            color: @color-error-500;
+          }
+        }
+      }
+    }
+
+    &__control-cell {
+      span {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        margin-right: 24px;
+        vertical-align: middle;
+        position: relative;
+        cursor: pointer;
+
+        &:last-of-type {
+          margin-right: 50px;
+        }
+
+        div {
+          display: none;
+          position: absolute;
+          background: @color-disabled-500;
+          top: 0;
+          left: 50%;
+          transform: translate(-50%, -40px);
+          color: @color-white;
+          padding: 10px 15px;
+          border-radius: @border-radius;
+
+          .tag-2();
+
+          &::after {
+            display: block;
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: @color-disabled-500;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 5px) rotate(45deg);
+
+          }
+        }
+
+        &:hover {
+          div {
+            display: block;
+          }
+        }
+
+      }
+
+      .icon-dex {
+        background: url(/img/icons/dex-icon-mini.svg) center no-repeat;
+      }
+      .icon-send {
+        background: url(/img/icons/send.svg) center no-repeat;
+      }
+      .icon-receive {
+        background: url(/img/icons/deposit.svg) center no-repeat;
+      }
+      .icon-spam {
+        background: url(/img/icons/spam-icon.svg) center no-repeat;
+      }
+
+    }
+
+    &__search-block {
+      input {
+        height: 36px;
+        width: 36px;
+        border-radius: @border-radius;
+        background: url(/img/icons/input-search-icon.svg) 11px center no-repeat @color-white;
+        border: 1px solid @color-disabled-200;
+        cursor: pointer;
+        margin-right: 10px;
+        transition: .3s;
+        position: absolute;
+        left: 20px;
+        top: 13px;
+        font-size: 0;
+
+        &:focus {
+          width: 200px;
+          padding-left: 35px;
+          cursor: default;
+          .footnote-1();
+        }
+      }
+    }
+
   }
 }
 
