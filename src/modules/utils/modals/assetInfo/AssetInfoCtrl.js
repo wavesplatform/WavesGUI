@@ -83,7 +83,7 @@
 
                 createPoll(this, this._getGraphData, 'chartData', 15000, { $scope });
                 createPoll(this, this._getCircleGraphData, this._setCircleGraphData, 15000);
-                createPoll(this, waves.node.transactions.list, this._setTxList, 4000, { isBalance: true });
+                createPoll(this, () => waves.node.transactions.list(100), this._setTxList, 4000, { isBalance: true });
             }
 
             togglePin() {

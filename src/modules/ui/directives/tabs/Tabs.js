@@ -47,7 +47,7 @@
              */
             _initializeSelected() {
                 if (!this.tabs.length) {
-                    throw new Error('Has no tabs!');
+                    return null;
                 }
 
                 if (this.ngModel == null) {

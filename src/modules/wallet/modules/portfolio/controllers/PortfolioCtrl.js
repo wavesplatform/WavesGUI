@@ -75,6 +75,13 @@
             /**
              * @param {Asset} asset
              */
+            showReceivePopup(asset) {
+                return modalManager.showReceivePopup(user, asset);
+            }
+
+            /**
+             * @param {Asset} asset
+             */
             showDeposit(asset) {
                 return modalManager.showDepositAsset(user, asset);
             }
@@ -113,7 +120,9 @@
             }
 
             isDepositSupported(asset) {
-                return gatewayService.hasSupportOf(asset, 'deposit');
+                const isWaves = asset.id === WavesApp.defaultAssets.WAVES;
+
+                return gatewayService.hasSupportOf(asset, 'deposit') || isWaves;
             }
 
             isSepaSupported(asset) {

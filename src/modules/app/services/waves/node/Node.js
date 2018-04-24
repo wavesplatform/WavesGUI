@@ -42,7 +42,7 @@
              * @return {Promise<Number>}
              */
             height() {
-                return Waves.API.Node.v1.blocks.height()
+                return fetch(`${this.network.node}/blocks/height`)
                     .then((res) => res.height);
             }
 

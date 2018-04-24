@@ -22,7 +22,8 @@
              * @return {Promise<string>}
              */
             getAddress(alias) {
-                return Waves.API.Node.v2.aliases.getAddress(alias).then(({ address }) => address);
+                return fetch(`${this.network.node}/alias/by-alias/${alias}`)
+                    .then(({ address }) => address);
             }
 
             /**

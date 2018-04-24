@@ -168,11 +168,7 @@
                     return null;
                 }
 
-                if (!(bids && asks)) {
-                    this.hasOrderBook = false;
-                } else {
-                    this.hasOrderBook = true;
-                }
+                this.hasOrderBook = Boolean(bids || asks);
 
                 const template = (
                     `<div class="asks">${asks}</div>` +

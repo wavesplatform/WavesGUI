@@ -262,7 +262,8 @@
                 ETH: '{{network.assets.ETH}}',
                 LTC: '{{network.assets.LTC}}',
                 ZEC: '{{network.assets.ZEC}}',
-                BCH: '{{network.assets.BCH}}'
+                BCH: '{{network.assets.BCH}}',
+                TRY: '{{network.assets.TRY}}'
             },
             otherAssetsWithIcons: {
                 // TODO @xenohunter : remove that when icons are in @dvshur's service
@@ -272,6 +273,7 @@
             remappedAssetNames: {
                 '{{network.assets.EUR}}': 'Euro',
                 '{{network.assets.USD}}': 'US Dollar',
+                '{{network.assets.TRY}}': 'TRY',
                 '{{network.assets.BTC}}': 'Bitcoin',
                 '{{network.assets.ETH}}': 'Ethereum'
             },
@@ -401,6 +403,46 @@
 <!-- JAVASCRIPT -->
 
 <script>
+
+    window.fetch = (function (fetch) {
+        if (!fetch) {
+            return undefined;
+        }
+
+        var DEFAULT_OPTIONS = {
+            credentials: 'include'
+        };
+
+        return function (url, options) {
+            options = options || Object.create(null);
+
+            if (url.indexOf(WavesApp.network.node) !== -1) {
+                Object.assign(options, DEFAULT_OPTIONS)
+            }
+
+            return fetch(url, options)
+                .then(function (response) {
+                    if (response.ok) {
+                        if (response.headers.get('Content-Type').indexOf('application/json') !== -1) {
+                            return response.text().then(function (text) {
+                                return WavesApp.parseJSON(text);
+                            });
+                        } else {
+                            return response.text();
+                        }
+                    } else {
+                        return response.text()
+                            .then(function (error) {
+                                try {
+                                    return Promise.reject(JSON.parse(error));
+                                } catch (e) {
+                                    return Promise.reject(error);
+                                }
+                            });
+                    }
+                });
+        };
+    })(window.fetch);
 
     WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
 
@@ -565,15 +607,7 @@
      * @property {string} network.coinomat
      * @property {string} network.datafeed
      * @property {string} network.support
-     * @property {object} defaultAssets
-     * @property {string} defaultAssets.WAVES
-     * @property {string} defaultAssets.EUR
-     * @property {string} defaultAssets.USD
-     * @property {string} defaultAssets.BTC
-     * @property {string} defaultAssets.ETH
-     * @property {string} defaultAssets.LTC
-     * @property {string} defaultAssets.ZEC
-     * @property {string} defaultAssets.BCH
+     * @property {typeof WavesApp.defaultAssets} defaultAssets
      * @property {object} remappedAssetNames
      * @property {object} dex
      * @property {Array<string>} dex.resolutions
