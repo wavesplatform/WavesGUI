@@ -77,7 +77,7 @@
             }
 
             $postLink() {
-                this._header = $element.find('thead');
+                this._header = $element.find('.w-thead');
             }
 
             _applySort() {
@@ -107,7 +107,7 @@
                     return null;
                 }
 
-                const $tr = this._header.find('tr');
+                const $tr = this._header.find('.smart-table__row');
                 $tr.empty();
 
                 this._clearHeader();

@@ -19,7 +19,7 @@
             body: '^wSmartTable'
         },
         replace: true,
-        template: '<tr ng-transclude></tr>',
+        template: '<div class="smart-table__row" ng-transclude></div>',
         transclude: true,
         controller: TableRow
     }));
