@@ -354,19 +354,17 @@
                 });
 
                 Promise.all([cryptocurrenciesRequest, invoicesRequest, cardsRequest, fiatsRequest]).then(() => {
+                    this.updateAssetBy(this.cryptocurrencies[0].id);
+
                     this.activateCryptocurrencyTab();
                     this.activateInvoiceTab();
                     this.activateCardTab();
                     this.activateBankTab();
-                });
-
-                this.observeOnce('chosenAssetId', ({ value: id }) => {
-                    this.updateAssetBy(id);
-
-                    this.observe('chosenAssetId', ({ value: id }) => this.updateAssetAndDataBy(id));
 
                     this.initForSingleAsset();
                 });
+
+                this.observe('chosenAssetId', ({ value: id }) => this.updateAssetAndDataBy(id));
             }
 
             getExtendedAssets(assetsIds) {
