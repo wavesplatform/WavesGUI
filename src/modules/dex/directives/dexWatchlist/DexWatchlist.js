@@ -6,7 +6,7 @@
      * @param {Waves} waves
      * @param {app.utils} utils
      * @param {JQuery} $element
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param {$state} $state
      * @param {$location} $location
      * @param {app.utils.decorators} decorators
@@ -112,6 +112,8 @@
                     this._initRowId();
                     this._onChangeBaseAsset();
                     this._onChangeIdWatchList();
+
+                    $scope.$digest();
                 });
             }
 
@@ -311,6 +313,7 @@
                 utils.whenAll(this._idWatchList.map(waves.node.assets.info))
                     .then((list) => {
                         this.watchlist = list;
+                        $scope.$digest();
                     });
             }
 

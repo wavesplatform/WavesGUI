@@ -140,17 +140,19 @@
                     return null;
                 }
 
-                try {
-                    const url = new URL(iconPath);
-                    utils.loadImage(url.href).then(() => {
-                        this.imageSrc = url.href;
-                    });
-                } catch (e) {
-                    const url = GatewaySignCtrl._normalizeUrl(`${referrer}/${iconPath}`);
-                    utils.loadImage(url).then(() => {
-                        this.imageSrc = url;
-                    });
-                }
+                const getUrl = function () {
+                    try {
+                        return new URL(iconPath).href;
+                    } catch (e) {
+                        return GatewaySignCtrl._normalizeUrl(`${referrer}/${iconPath}`);
+                    }
+                };
+
+                const url = getUrl();
+                utils.loadImage(url).then(() => {
+                    this.imageSrc = url;
+                    $scope.$digest();
+                });
             }
 
             /**

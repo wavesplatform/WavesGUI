@@ -32,6 +32,9 @@
                     const name = setter;
                     setter = (data) => {
                         tsUtils.set(this.parent, name, data);
+                        if (options && options.$scope) {
+                            options.$scope.$digest();
+                        }
                     };
                 } else {
                     setter = setter.bind(this.parent);
@@ -111,6 +114,7 @@
 /**
  * @typedef {object} ICreatePollOptions
  * @property {boolean} [isBalance]
+ * @property {$rootScope.Scope} [$scope]
  */
 
 /**

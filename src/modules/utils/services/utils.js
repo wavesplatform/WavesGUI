@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
-/* global tsUtils, BigNumber */
+/* global BigNumber */
 (function () {
     'use strict';
+
+    const tsUtils = require('ts-utils');
 
     /**
      * @name app.utils
@@ -189,14 +191,20 @@
              * @return {Promise}
              */
             when(data) {
-                if (data && data.then && typeof data.then === 'function') {
-                    const defer = $q.defer();
-                    data.then(defer.resolve, defer.reject)
-                        .catch((e) => console.error(e));
-                    return defer.promise;
+                if (this.isPromise(data)) {
+                    return data;
                 } else {
-                    return $q.when(data);
+                    return Promise.resolve(data);
                 }
+            },
+
+            /**
+             * @name app.utils#isPromise
+             * @param {object|Promise} data
+             * @return {boolean}
+             */
+            isPromise(data) {
+                return data.then && typeof data.then === 'function';
             },
 
             /**
@@ -206,6 +214,20 @@
              */
             whenAll(promises) {
                 return utils.when(Promise.all(promises));
+            },
+
+            /**
+             * @name app.utils#getMoneyWithoutFee
+             * @param {Money} money
+             * @param {Money} fee
+             * @return {Money}
+             */
+            getMoneyWithoutFee(money, fee) {
+                if (fee && money.asset.id === fee.asset.id) {
+                    return money.sub(fee);
+                } else {
+                    return money;
+                }
             },
 
             /**
@@ -272,7 +294,7 @@
                 const getCallback = (state, resolve) => {
                     return (data) => resolve({ state, data });
                 };
-                return $q((resolve) => {
+                return new Promise((resolve) => {
                     promiseLike.then(getCallback(true, resolve), getCallback(false, resolve));
                 });
             },
@@ -296,7 +318,7 @@
              * @return {Promise}
              */
             loadImage(url) {
-                return $q((resolve, reject) => {
+                return new Promise((resolve, reject) => {
                     const img = new Image();
                     img.onload = resolve;
                     img.onerror = reject;
@@ -671,6 +693,19 @@
             }
         }
 
+        function _getOriginalDescriptor(target, key) {
+            const descriptor = Object.getOwnPropertyDescriptor(target, key);
+
+            if (descriptor) {
+                return descriptor;
+            }
+
+            if (target.constructor && target.constructor !== Object.constructor && target.constructor.prototype) {
+                return Object.getOwnPropertyDescriptor(target.constructor.prototype, key);
+            }
+            return null;
+        }
+
         function _addObserverSignals(target, keys, options) {
             const observer = _getObserver(target);
             options = options || Object.create(null);
@@ -685,20 +720,46 @@
                     item.signal = new tsUtils.Signal();
                     item.timer = null;
                     item.value = target[key];
+
+                    const originalDescriptor = _getOriginalDescriptor(target, key);
                     observer[key] = item;
 
-                    Object.defineProperty(target, key, {
-                        enumerable: true,
-                        get: () => observer[key].value,
-                        set: (value) => {
-                            value = options.set ? options.set(value) : value;
-                            const prev = observer[key].value;
-                            if (isNotEqualValue(prev, value)) {
-                                observer[key].value = value;
-                                observer[key].signal.dispatch({ value, prev });
-                            }
+                    if (originalDescriptor && originalDescriptor.get) {
+
+                        const descriptor = {
+                            enumerable: originalDescriptor.enumerable,
+                            get: originalDescriptor.get
+                        };
+
+                        if (originalDescriptor.set) {
+                            descriptor.set = (value) => {
+                                const prev = originalDescriptor.get.call(target);
+                                if (isNotEqualValue(prev, value)) {
+                                    originalDescriptor.set.call(target, value);
+                                    observer[key].signal.dispatch({ value, prev });
+                                }
+                            };
+                        } else {
+                            descriptor.set = () => {
+                                throw new Error('Original descriptor has\'t set property!');
+                            };
                         }
-                    });
+
+                        Object.defineProperty(target, key, descriptor);
+                    } else {
+                        Object.defineProperty(target, key, {
+                            enumerable: true,
+                            get: () => observer[key].value,
+                            set: (value) => {
+                                value = options.set ? options.set(value) : value;
+                                const prev = observer[key].value;
+                                if (isNotEqualValue(prev, value)) {
+                                    observer[key].value = value;
+                                    observer[key].signal.dispatch({ value, prev });
+                                }
+                            }
+                        });
+                    }
                 });
 
             return _getSignal(observer, keys);

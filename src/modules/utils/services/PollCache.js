@@ -7,7 +7,7 @@
      * @param {EventManager} eventManager
      * @return {PollCache}
      */
-    const factory = function (Poll, $q, eventManager) {
+    const factory = function (Poll, eventManager) {
 
         class PollCache {
 
@@ -38,10 +38,10 @@
                  */
                 this._poll = new Poll(getData, this._applyData.bind(this), timeout || 5000);
                 /**
-                 * @type {Deferred}
+                 * @type {JQuery.Deferred}
                  * @private
                  */
-                this._readyDfr = $q.defer();
+                this._readyDfr = $.Deferred();
 
                 if (this._isBalance) {
                     this._changeBalanceHandler = () => {
@@ -60,9 +60,9 @@
 
             get() {
                 if (this._ready) {
-                    return $q.when(this.data);
+                    return Promise.resolve(this.data);
                 } else {
-                    return this._readyDfr.promise;
+                    return this._readyDfr.promise();
                 }
             }
 
@@ -84,7 +84,7 @@
         return PollCache;
     };
 
-    factory.$inject = ['Poll', '$q', 'eventManager'];
+    factory.$inject = ['Poll', 'eventManager'];
 
     angular.module('app.ui').factory('PollCache', factory);
 })();

@@ -1,24 +1,6 @@
 (function () {
     'use strict';
 
-    const TYPES = {
-        SEND: 'send',
-        RECEIVE: 'receive',
-        MASS_SEND: 'mass-send',
-        MASS_RECEIVE: 'mass-receive',
-        CIRCULAR: 'circular',
-        ISSUE: 'issue',
-        REISSUE: 'reissue',
-        BURN: 'burn',
-        EXCHANGE_BUY: 'exchange-buy',
-        EXCHANGE_SELL: 'exchange-sell',
-        LEASE_IN: 'lease-in',
-        LEASE_OUT: 'lease-out',
-        CANCEL_LEASING: 'cancel-leasing',
-        CREATE_ALIAS: 'create-alias',
-        UNKNOWN: 'unknown'
-    };
-
     /**
      * @param {User} user
      * @param {app.utils} utils
@@ -30,6 +12,7 @@
     const factory = function (user, utils, aliases, decorators, BaseNodeComponent) {
 
         const HOST = location.host;
+        const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
 
         class Transactions extends BaseNodeComponent {
 
@@ -128,12 +111,20 @@
             }
 
             createTransaction(transactionType, txData) {
-                return this._pipeTransaction(false)({
+
+                const tx = {
                     transactionType,
                     sender: user.address,
                     timestamp: Date.now(),
                     ...txData
-                });
+                };
+
+                if (transactionType === WavesApp.TRANSACTION_TYPES.NODE.MASS_TRANSFER) {
+                    tx.totalAmount = tx.totalAmount || tx.transfers.map(({ amount }) => amount)
+                        .reduce((result, item) => result.add(item));
+                }
+
+                return this._pipeTransaction(false)(tx);
             }
 
             /**

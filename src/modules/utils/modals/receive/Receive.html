@@ -4,10 +4,10 @@
             <div class="btn icon-close ng-scope" w-modal-close></div>
             <w-step-by-step active-step="$ctrl.step">
                 <w-step>
-                    <w-tabs selected="cryptocurrency">
+                    <w-tabs ng-model="$ctrl.activeTab">
 
-                        <w-tab title-name="modal.receive.cryptocurrency.title" id="cryptocurrency"
-                               ng-if="$ctrl.showCryptocurrencyTab">
+                        <w-tab ng-if="$ctrl.showCryptocurrencyTab" title-name="::'modal.receive.cryptocurrency.title'"
+                               id="::'cryptocurrency'">
                             <div class="receive-crypto">
 
                                 <div class="row margin-2">
@@ -68,7 +68,7 @@
                             </div>
                         </w-tab>
 
-                        <w-tab title-name="modal.receive.card.title" id="card" ng-if="$ctrl.showCardTab">
+                        <w-tab ng-if="$ctrl.showCardTab" title-name="::'modal.receive.card.title'" id="::'card'">
                             <div class="receive-card">
                                 <form novalidate name="card">
 
@@ -102,47 +102,48 @@
                                     </div>
 
                                     <div class="row margin-2">
-                                            <w-input-container>
+                                        <w-input-container>
 
-                                                <div class="amount-wrap">
-                                                    <w-input
-                                                            name="amount"
-                                                            type="text"
-                                                            class="big"
-                                                            ng-model="$ctrl.cardPayment"
-                                                            w-validate
-                                                            w-validator-gte="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].min}}"
-                                                            w-validator-lte="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].max}}"
-                                                            w-validator-asset="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].assetId}}"
-                                                            required></w-input>
+                                            <div class="amount-wrap">
+                                                <w-input
+                                                        name="amount"
+                                                        type="text"
+                                                        class="big"
+                                                        ng-model="$ctrl.cardPayment"
+                                                        w-validate
+                                                        w-validator-gte="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].min}}"
+                                                        w-validator-lte="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].max}}"
+                                                        w-validator-asset="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].assetId}}"
+                                                        required></w-input>
 
-                                                    <w-select class="big" ng-model="$ctrl.chosenCurrencyIndex">
-                                                        <w-option
-                                                                ng-repeat="currency in $ctrl.currencies"
-                                                                value="{{::$index}}">
-                                                            <option>{{::currency.name}}</option>
-                                                        </w-option>
-                                                    </w-select>
-                                                </div>
+                                                <w-select class="big" ng-model="$ctrl.chosenCurrencyIndex">
+                                                    <w-option ng-repeat="currency in $ctrl.currencies track by $index"
+                                                              value="$index">
+                                                        <span>{{::currency.name}}</span>
+                                                    </w-option>
+                                                </w-select>
+                                            </div>
 
-                                                <w-input-error message="gte">
-                                                    <w-i18n params="{
+                                            <w-input-error message="gte">
+                                                <w-i18n params="{
                                                     gte: $ctrl.currencies[$ctrl.chosenCurrencyIndex].min,
                                                     currency: $ctrl.currencies[$ctrl.chosenCurrencyIndex].name
-                                                    }">modal.receive.error.cardAmount.gte</w-i18n>
-                                                </w-input-error>
-                                                <w-input-error message="lte">
-                                                    <w-i18n params="{
+                                                    }">modal.receive.error.cardAmount.gte
+                                                </w-i18n>
+                                            </w-input-error>
+                                            <w-input-error message="lte">
+                                                <w-i18n params="{
                                                             lte: $ctrl.currencies[$ctrl.chosenCurrencyIndex].max,
                                                             currency: $ctrl.currencies[$ctrl.chosenCurrencyIndex].name
-                                                        }">modal.receive.error.cardAmount.lte</w-i18n>
-                                                </w-input-error>
-                                                <w-input-error message="precision">
-                                                    <w-i18n>modal.receive.error.cardAmount.precision</w-i18n>
-                                                </w-input-error>
+                                                        }">modal.receive.error.cardAmount.lte
+                                                </w-i18n>
+                                            </w-input-error>
+                                            <w-input-error message="precision">
+                                                <w-i18n>modal.receive.error.cardAmount.precision</w-i18n>
+                                            </w-input-error>
 
 
-                                            </w-input-container>
+                                        </w-input-container>
                                     </div>
 
                                     <div class="row margin-2">
@@ -151,7 +152,9 @@
                                         </div>
 
                                         <div class="note-plate body-2">
-                                            <w-i18n params="{money: $ctrl.approximateAmount}" ng-if="$ctrl.approximateAmount">money-currency</w-i18n>
+                                            <w-i18n params="{money: $ctrl.approximateAmount}"
+                                                    ng-if="$ctrl.approximateAmount">money-currency
+                                            </w-i18n>
                                             <w-loader ng-if="!$ctrl.approximateAmount"></w-loader>
                                         </div>
                                     </div>
@@ -167,7 +170,7 @@
                             </div>
                         </w-tab>
 
-                        <w-tab title-name="modal.receive.bank.title" id="bank" ng-if="$ctrl.showBankTab">
+                        <w-tab ng-if="$ctrl.showBankTab" title-name="::'modal.receive.bank.title'" id="::'bank'">
                             <div class="receive-bank">
 
                                 <div class="get-verified" ng-if="!$ctrl.isLira()">
