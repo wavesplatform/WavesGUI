@@ -175,16 +175,23 @@
              * @param {Asset} asset
              */
             getSrefParams(asset) {
-                if (asset.id === WavesApp.defaultAssets.WAVES) {
-                    return { assetId1: asset.id, assetId2: WavesApp.defaultAssets.BTC };
+                const id = user.getSetting('dex.watchlist.activeWatchListId');
+                const baseAssetId = user.getSetting(`dex.watchlist.${id}.baseAssetId`);
+
+                if (baseAssetId === asset.id) {
+                    if (baseAssetId === WavesApp.defaultAssets.WAVES) {
+                        return { assetId1: asset.id, assetId2: WavesApp.defaultAssets.BTC };
+                    } else {
+                        return { assetId1: asset.id, assetId2: WavesApp.defaultAssets.WAVES };
+                    }
                 } else {
-                    return { assetId1: asset.id, assetId2: WavesApp.defaultAssets.WAVES };
+                    return { assetId1: asset.id, assetId2: baseAssetId };
                 }
             }
 
             /**
              * @param {Asset} asset
-             * @param {boolean} state
+             * @param {boolean} [state]
              */
             togglePin(asset, state) {
                 user.togglePinAsset(asset.id, state);
@@ -193,7 +200,7 @@
 
             /**
              * @param {Asset} asset
-             * @param {boolean} state
+             * @param {boolean} [state]
              */
             toggleSpam(asset, state) {
                 user.toggleSpamAsset(asset.id, state);

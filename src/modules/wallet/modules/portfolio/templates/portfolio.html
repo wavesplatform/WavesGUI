@@ -83,7 +83,7 @@
             </w-table-cell>
             <w-table-cell class="portfolio-table__control-cell">
                 <div class="cell">
-                    <span class="icon icon-dex" ui-sref="main.dex($ctrl.getSrefParams(balance.asset))">
+                    <span class="icon icon-dex" ng-click="$ctrl.openDex(balance.asset)">
                         <div>Dex!</div>
                     </span>
                     <span class="icon icon-send" ng-click="$ctrl.showSend(balance.asset)">
@@ -129,10 +129,10 @@
                         <w-action ng-click="$ctrl.openDex(balance.asset)">
                             <w-i18n>DEX!</w-i18n>
                         </w-action>
-                        <!--<w-action ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES"-->
-                        <!--ng-click="$ctrl.toggleSpam(balance.asset)">-->
-                        <!--<w-i18n>SPA<!</w-i18n>-->
-                        <!--</w-action>-->
+                        <w-action ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES"
+                                  ng-click="$ctrl.toggleSpam(balance.asset)">
+                            <w-i18n>SPA!</w-i18n>
+                        </w-action>
                     </w-actions>
                     <i class="toggler" w-toggle-class></i>
                 </div>
