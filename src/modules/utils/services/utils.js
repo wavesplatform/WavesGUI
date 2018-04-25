@@ -392,9 +392,9 @@
                     const separatorDecimal = WavesApp.getLocaleData().separators.decimal;
                     const [int, decimal] = formatted.split(separatorDecimal);
                     if (decimal) {
-                        const decimalTpl = _processDecimal(decimal);
+                        const decimalTpl = _processDecimal(decimal, separatorDecimal);
                         return (
-                            `<span class="int">${int}${separatorDecimal}</span>` +
+                            `<span class="int">${int}</span>` +
                             `<span class="decimal">${decimalTpl}</span>`
                         );
                     } else {
@@ -662,7 +662,13 @@
             return openIndex !== -1 && closeIndex !== -1 && openIndex < closeIndex;
         }
 
-        function _processDecimal(decimal) {
+        /**
+         * @param {string} decimal
+         * @param {string} separator
+         * @return {string}
+         * @private
+         */
+        function _processDecimal(decimal, separator) {
             const mute = [];
             decimal.split('')
                 .reverse()
@@ -674,7 +680,10 @@
                     return true;
                 });
             const end = decimal.length - mute.length;
-            return `${decimal.substr(0, end)}<span class="decimal-muted">${mute.join('')}</span>`;
+            if (end) {
+                return `${separator}${decimal.substr(0, end)}<span class="decimal-muted">${mute.join('')}</span>`;
+            }
+            return `<span class="decimal-muted">${separator}${mute.join('')}</span>`;
         }
 
         function _getObserver(target) {
