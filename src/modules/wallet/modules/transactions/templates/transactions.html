@@ -43,6 +43,18 @@
             </w-option>
         </w-select>
 
+        <w-select ng-model="$ctrl.limit">
+            <w-option value="::100">
+                <w-i18n params="{count: 100}">limitItem</w-i18n>
+            </w-option>
+            <w-option value="::500">
+                <w-i18n params="{count: 500}">limitItem</w-i18n>
+            </w-option>
+            <w-option value="::1000">
+                <w-i18n params="{count: 1000}">limitItem</w-i18n>
+            </w-option>
+        </w-select>
+
         <w-button disabled="$ctrl.pending" class="download interface" on-click="$ctrl.exportTransactions()">
             <w-i18n>export</w-i18n>
         </w-button>
