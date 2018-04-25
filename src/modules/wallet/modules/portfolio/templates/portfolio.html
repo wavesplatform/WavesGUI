@@ -9,13 +9,13 @@
         </w-button>
 
         <w-select ng-model="$ctrl.filter">
-            <w-option value="active">
+            <w-option value="::'active'">
                 All active (<span>{{$ctrl.details.active.length || 0}}</span>)
             </w-option>
             <!--<w-option value="pinned">-->
             <!--Favorites ({{$ctrl.details.pinned.length}})-->
             <!--</w-option>-->
-            <w-option value="spam">
+            <w-option value="::'spam'">
                 Spam ({{$ctrl.details.spam.length || 0}})
             </w-option>
         </w-select>

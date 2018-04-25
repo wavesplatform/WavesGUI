@@ -111,7 +111,10 @@
                  */
                 this.poll = createPoll(this, this._getPortfolio, 'details', 1000, { isBalance: true, $scope });
 
-                this.observe('details', this._onChangeDetails);
+                this.poll.ready.then(() => {
+                    this.observe('details', this._onChangeDetails);
+                    this.observe('filter', this._onChangeDetails);
+                });
             }
 
             /**

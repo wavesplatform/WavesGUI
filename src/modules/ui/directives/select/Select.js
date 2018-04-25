@@ -71,6 +71,7 @@
              */
             registerOption(option) {
                 this._options.add(option);
+                this._render();
             }
 
             /**

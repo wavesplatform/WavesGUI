@@ -3,37 +3,21 @@
 
     /**
      * @param {Base} Base
-     * @param {$compile} $compile
-     * @param {JQuery} $element
      * @param {$rootScope.Scope} $scope
      */
-    const directive = (Base, $compile) => {
-
-        if ($compile) {
-            // todo tsigel
-        }
+    const directive = (Base) => {
 
         return {
-            scope: true,
+            scope: {
+                value: '<'
+            },
             require: {
                 select: '^wSelect'
             },
             transclude: true,
             template: '<div class="option" ng-transclude></div>',
-            link: ($scope, $element, $attrs, { select }, transclude) => {
+            link: ($scope, $element, $attrs, { select }, $transclude) => {
 
-                if (select) {
-                    // todo tsigel
-                }
-
-                let TEMPLATE = '';
-
-                transclude($scope, ($clone) => {
-                    $clone.each((index, element) => {
-                        TEMPLATE += element.outerHTML || element.textContent;
-                    });
-                    return $clone;
-                });
                 const tsUtils = require('ts-utils');
 
                 class Option extends Base {
@@ -43,20 +27,18 @@
                         /**
                          * @type {Select}
                          */
-                        this.wSelect = null;
+                        this.wSelect = select;
                         /**
                          * @type {string|number}
                          */
-                        this.value = null;
+                        this.value = $scope.value;
                         /**
                          * @type {Signal<Option>}
                          */
                         this.changeValue = new tsUtils.Signal();
 
                         this._setHandlers();
-                    }
 
-                    $onInit() {
                         this.wSelect.registerOption(this);
                     }
 
@@ -64,7 +46,11 @@
                      * @return {JQuery}
                      */
                     getContent() {
-                        return $(Option._getContentHTML());
+                        const $element = $(Option._getContentHTML());
+                        $transclude($scope.$parent, ($clone) => {
+                            $element.append($clone);
+                        });
+                        return $element;
                     }
 
                     onClick() {
@@ -83,7 +69,7 @@
                      * @private
                      */
                     static _getContentHTML() {
-                        return `<div class="title-content">${TEMPLATE}</div>`;
+                        return '<div class="title-content"></div>';
                     }
 
                     /**
@@ -109,7 +95,7 @@
         };
     };
 
-    directive.$inject = ['Base', '$compile'];
+    directive.$inject = ['Base'];
 
     angular.module('app.ui').directive('wOption', directive);
 
