@@ -121,7 +121,7 @@
                                                 <w-input
                                                     name="amount"
                                                     type="text"
-                                                    class="big"
+                                                    class="big long"
                                                     ng-model="$ctrl.invoiceAmount"
                                                     w-validate
                                                     w-validator-asset="{{$ctrl.asset.id || $ctrl.chosenAssetId}}"
@@ -134,7 +134,7 @@
                                         <div class="body-2 basic-900" w-i18n="modal.receive.shareInvoiceLink"></div>
                                         <w-copy-wrap class="body-1 basic-900 mobile-low-fsize" info="$ctrl.sendLink"
                                                      ng-click="$ctrl.onCopyAddress()">
-                                            {{$ctrl.sendLink}}
+                                            <span>{{$ctrl.sendLink}}<span>
                                         </w-copy-wrap>
                                     </div>
 

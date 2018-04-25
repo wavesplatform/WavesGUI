@@ -22,6 +22,10 @@ md-dialog.modal-receive {
       }
     }
 
+    w-select .select-list {
+      max-height: 325px;
+    }
+
     .icon-close {
       position: absolute;
       top: 20px;
@@ -83,6 +87,10 @@ md-dialog.modal-receive {
         flex-basis: 48%;
       }
 
+      w-input.long {
+        flex-basis: 100%;
+      }
+
       w-input .w-input-wrap input[type="text"] {
         padding-right: 50px;
       }
@@ -130,6 +138,16 @@ md-dialog.modal-receive {
     .receive-confirm {
       min-height: 220px;
       padding-bottom: 70px;
+    }
+
+    .receive-invoice {
+      w-copy-wrap span {
+        display: inline-block;
+        width: calc(100% ~'- 20px');
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
     }
 
     .modal-content {
