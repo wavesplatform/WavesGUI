@@ -131,9 +131,12 @@
                                 .then((list) => {
                                     const hash = utils.toHash(list, 'asset.id');
                                     const amount = this.tx.amount;
-                                    if (!hash[amount.asset.id] || hash[amount.asset.id].lt(amount)) {
+                                    if (!hash[amount.asset.id] ||
+                                        hash[amount.asset.id].lt(amount) ||
+                                        amount.getTokens().lte(0)) {
+
                                         errors.push({
-                                            literal: 'no balance'
+                                            literal: 'modal.send.errors.balance.invalid'
                                         });
                                     }
                                 }),
@@ -141,7 +144,7 @@
                                 .then(({ state }) => {
                                     if (!state) {
                                         errors.push({
-                                            literal: 'wrong address'
+                                            literal: 'modal.send.errors.recipient.invalid'
                                         });
                                     }
                                 })
