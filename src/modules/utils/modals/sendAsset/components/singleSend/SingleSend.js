@@ -129,6 +129,10 @@
 
                         this._onChangeBaseAssets();
                         this._updateGatewayDetails();
+
+                        if (this.tx.amount.getTokens().gt(0) || this.tx.recipient) {
+                            this.send.$setSubmitted(true);
+                        }
                     });
                 });
             }

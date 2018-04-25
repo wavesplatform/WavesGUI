@@ -22,6 +22,18 @@
                 ];
             }
 
+            getCryptocurrencies() {
+                return coinomatService.getAll();
+            }
+
+            getPurchasableByCards() {
+                return CARDS_PAYMENTS_AVAILABLE;
+            }
+
+            getFiats() {
+                return coinomatSepaService.getAll();
+            }
+
             /**
              * @param {Asset} asset
              * @param {string} wavesAddress

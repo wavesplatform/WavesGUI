@@ -36,10 +36,9 @@
             }
 
             /**
-             * @param {string} assetId
-             * @param {boolean} canChooseAsset
+             * @param {IAssetSendCtrl.IOptions} options
              */
-            constructor(assetId, canChooseAsset) {
+            constructor(options) {
                 super($scope);
 
                 /**
@@ -61,7 +60,7 @@
                 /**
                  * @type {boolean}
                  */
-                this.canChooseAsset = !assetId || canChooseAsset;
+                this.canChooseAsset = !options.assetId || options.canChooseAsset;
                 /**
                  * @type {Object.<string, Money>}
                  */
@@ -70,7 +69,7 @@
                  * @type {ISendState}
                  */
                 this.state = {
-                    assetId: assetId || WavesApp.defaultAssets.WAVES,
+                    assetId: options.assetId || WavesApp.defaultAssets.WAVES,
                     mirrorId: user.getSetting('baseAssetId'),
                     outerSendMode: false,
                     gatewayDetails: null,
@@ -89,11 +88,19 @@
                 /**
                  * @type {string}
                  */
-                this.tab = null;
+                this.tab = options.mode;
 
-                this.syncSettings({
-                    tab: 'send.defaultTab'
-                });
+                if (!(options.mode || options.recipient || options.amount)) {
+                    this.syncSettings({
+                        tab: 'send.defaultTab'
+                    });
+                } else {
+                    this.tab = 'singleSend';
+                    this.state.singleSend.recipient = options.recipient;
+                    Waves.Money.fromTokens(options.amount, this.state.assetId).then((money) => {
+                        this.state.singleSend.amount = money;
+                    });
+                }
 
                 this.receive(utils.observe(this.state, 'moneyHash'), this._onChangeMoneyHash, this);
                 this.receive(utils.observe(this.state, 'assetId'), () => this.poll.restart());
@@ -154,7 +161,7 @@
 
         }
 
-        return new AssetSendCtrl(this.assetId, this.canChooseAsset);
+        return new AssetSendCtrl(this.locals);
     };
 
     controller.$inject = [
@@ -206,4 +213,18 @@
  * @property {Object.<string, Money>} moneyHash
  * @property {ISingleSendTx} singleSend
  * @property {IMassSendTx} massSend
+ */
+
+/**
+ * @name IAssetSendCtrl
+ */
+
+/**
+ * @typedef {object} IAssetSendCtrl#IOptions
+ * @property {string} [assetId]
+ * @property {boolean} [canChooseAsset]
+ * @property {'singleSend'|'massSend'} [mode]
+ * @property {string} [amount]
+ * @property {string} [recipient]
+ * @property {boolean} [strict]
  */
