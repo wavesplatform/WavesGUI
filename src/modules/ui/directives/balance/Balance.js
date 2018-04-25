@@ -50,7 +50,7 @@
 
     angular.module('app.ui')
         .component('wBalance', {
-            template: `<span ${attrs.join()}></span>`,
+            template: `<span ${attrs.join(' ')}></span>`,
             bindings: {
                 money: '<',
                 shortMode: '<'

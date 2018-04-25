@@ -3,7 +3,7 @@
 
     /**
      * @param {Base} Base
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param {Waves} waves
      * @param {app.utils} utils
      * @param {ModalManager} modalManager
@@ -11,10 +11,11 @@
      * @param {EventManager} eventManager
      * @param {IPollCreate} createPoll
      * @param {GatewayService} gatewayService
+     * @param {$state} $state
      * @return {PortfolioCtrl}
      */
     const controller = function (Base, $scope, waves, utils, modalManager, user,
-                                 eventManager, createPoll, gatewayService) {
+                                 eventManager, createPoll, gatewayService, $state) {
 
         class PortfolioCtrl extends Base {
 
@@ -23,7 +24,7 @@
                 /**
                  * @type {string}
                  */
-                this.mirrorId = null;
+                this.mirrorId = user.getSetting('baseAssetId');
                 /**
                  * @type {Asset}
                  */
@@ -52,57 +53,58 @@
                  * @type {string}
                  */
                 this.filter = null;
-                /**
-                 * @type {Array<SmartTable.IHeaderInfo>}
-                 */
-                this.tableHeaders = [
-                    {
-                        id: 'name',
-                        title: { literal: 'list.name' },
-                        valuePath: 'item.asset.name',
-                        sort: true,
-                        search: true
-                    },
-                    {
-                        id: 'balance',
-                        title: { literal: 'list.balance' },
-                        valuePath: 'item.available',
-                        sort: true
-                    },
-                    {
-                        id: 'inOrders',
-                        title: { literal: 'list.inOrders' },
-                        valuePath: 'item.inOrders',
-                        sort: true
-                    },
-                    {
-                        id: 'mirror',
-                        title: { literal: 'list.mirror' }
-                    },
-                    {
-                        id: 'rate',
-                        title: { literal: 'list.rate' }
-                    },
-                    {
-                        id: 'change24',
-                        title: { literal: 'list.change' }
-                    },
-                    {
-                        id: 'controls'
-                    }
-                ];
+
+                waves.node.assets.getExtendedAsset(this.mirrorId)
+                    .then((mirror) => {
+                        this.mirror = mirror;
+                        /**
+                         * @type {Array<SmartTable.IHeaderInfo>}
+                         */
+                        this.tableHeaders = [
+                            {
+                                id: 'name',
+                                title: { literal: 'list.name' },
+                                valuePath: 'item.asset.name',
+                                sort: true,
+                                search: true
+                            },
+                            {
+                                id: 'balance',
+                                title: { literal: 'list.balance' },
+                                valuePath: 'item.available',
+                                sort: true
+                            },
+                            {
+                                id: 'inOrders',
+                                title: { literal: 'list.inOrders' },
+                                valuePath: 'item.inOrders',
+                                sort: true
+                            },
+                            {
+                                id: 'mirror',
+                                title: { literal: 'list.mirror', params: { currency: mirror.displayName } }
+                            },
+                            {
+                                id: 'rate',
+                                title: { literal: 'list.rate', params: { currency: mirror.displayName } }
+                            },
+                            {
+                                id: 'change24',
+                                title: { literal: 'list.change' }
+                            },
+                            {
+                                id: 'controls'
+                            }
+                        ];
+
+                        $scope.$digest();
+                    });
 
                 this.syncSettings({
                     pinned: 'pinnedAssetIdList',
                     spam: 'wallet.portfolio.spam',
                     filter: 'wallet.portfolio.filter'
                 });
-
-                this.mirrorId = user.getSetting('baseAssetId');
-                waves.node.assets.getExtendedAsset(this.mirrorId)
-                    .then((mirror) => {
-                        this.mirror = mirror;
-                    });
 
                 /**
                  * @type {Poll}
@@ -150,6 +152,13 @@
 
             showReissue(assetId) {
                 return modalManager.showReissueModal(assetId);
+            }
+
+            /**
+             * @param {Asset} asset
+             */
+            openDex(asset) {
+                $state.go('main.dex', this.getSrefParams(asset));
             }
 
             /**
@@ -279,7 +288,8 @@
         'user',
         'eventManager',
         'createPoll',
-        'gatewayService'
+        'gatewayService',
+        '$state'
     ];
 
     angular.module('app.wallet.portfolio')

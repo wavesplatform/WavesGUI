@@ -65,7 +65,7 @@
             /**
              * Get Asset info
              * @param {string} assetId
-             * @return {Promise<Asset>}
+             * @return {Promise<ExtendedAsset>}
              */
             @decorators.cachable()
             getExtendedAsset(assetId) {

@@ -132,10 +132,8 @@
                                   ng-click="$ctrl.showReissue(balance.asset.id)">
                             <w-i18n>reissue</w-i18n>
                         </w-action>
-                        <w-action>
-                            <a ui-sref="main.dex($ctrl.getSrefParams(balance.asset))">
-                                <w-i18n>DEX!</w-i18n>
-                            </a>
+                        <w-action ng-click="$ctrl.openDex(balance.asset)">
+                            <w-i18n>DEX!</w-i18n>
                         </w-action>
                         <!--<w-action ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES"-->
                         <!--ng-click="$ctrl.toggleSpam(balance.asset)">-->
