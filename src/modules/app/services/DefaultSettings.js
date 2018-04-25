@@ -38,6 +38,9 @@
                     baseAssetId: WavesApp.defaultAssets.USD,
                     events: Object.create(null),
                     lng: 'en',
+                    send: {
+                        defaultTab: 'singleSend'
+                    },
                     pinnedAssetIdList: [
                         WavesApp.defaultAssets.WAVES,
                         WavesApp.defaultAssets.BTC,
@@ -46,7 +49,8 @@
                         WavesApp.defaultAssets.EUR,
                         WavesApp.defaultAssets.LTC,
                         WavesApp.defaultAssets.ZEC,
-                        WavesApp.defaultAssets.BCH
+                        WavesApp.defaultAssets.BCH,
+                        WavesApp.defaultAssets.TRY
                     ],
                     wallet: {
                         activeState: 'assets',
@@ -133,7 +137,7 @@
                             },
                             center: {
                                 split: 75,
-                                collapsedBlock: true
+                                collapsedBlock: false
                             },
                             right: {
                                 collapsed: false,

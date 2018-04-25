@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="body-2" w-i18n="modal.send.currency"></div>
+    <div ng-if="!$ctrl.canChooseAsset || $ctrl.choosableMoneyList.length === 1"
+         class="input-like big flex-row split-half">
+        <div class="flex-row">
+            <w-asset-logo size="24" asset-id="{{::$ctrl.state.assetId}}"></w-asset-logo>
+            <div class="asset-name">{{$ctrl.balance.asset.name}}</div>
+        </div>
+        <div class="flex-row">
+            <w-balance money="$ctrl.balance"></w-balance>
+            <span class="mobile-ellipsis ellipsis">&nbsp;{{$ctrl.balance.asset.displayName}}</span>
+        </div>
+    </div>
+    <w-select class="big"
+              ng-if="$ctrl.canChooseAsset && $ctrl.choosableMoneyList.length > 1"
+              ng-model="$ctrl.state.assetId">
+        <w-option ng-repeat="option in $ctrl.choosableMoneyList track by option.asset.id"
+                  value="::option.asset.id">
+            <div class="flex-row split-half">
+                <div class="flex-row">
+                    <w-asset-logo size="24" asset-id="{{::option.asset.id}}"></w-asset-logo>
+                    <div class="asset-name">{{::option.asset.name}}</div>
+                </div>
+                <div>
+                    <w-balance money="option"></w-balance>
+                    <span class="mobile-ellipsis ellipsis">&nbsp;{{::option.asset.displayName}}</span>
+                </div>
+            </div>
+        </w-option>
+    </w-select>
+</div>

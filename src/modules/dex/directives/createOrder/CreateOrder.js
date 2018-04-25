@@ -7,14 +7,15 @@
      * @param {User} user
      * @param {app.utils} utils
      * @param {IPollCreate} createPoll
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param {JQuery} $element
      * @param {INotification} notification
      * @param {DexDataService} dexDataService
+     * @param {Ease} ease
      * @return {CreateOrder}
      */
     const controller = function (Base, waves, user, utils, createPoll, $scope,
-                                 $element, notification, dexDataService) {
+                                 $element, notification, dexDataService, ease) {
 
         class CreateOrder extends Base {
 
@@ -71,10 +72,9 @@
                  */
                 this.totalPrice = null;
                 /**
-                 * @type {{amount: string, price: string}}
-                 * @private
+                 * @type {form.FormController}
                  */
-                this._assetIdPair = null;
+                this.order = null;
                 /**
                  * @type {Money}
                  */
@@ -83,16 +83,22 @@
                  * @type {Money}
                  */
                 this.price = null;
+                /**
+                 * @type {{amount: string, price: string}}
+                 * @private
+                 */
+                this._assetIdPair = null;
 
                 Waves.Money.fromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
                     this.fee = money;
+                    $scope.$digest();
                 });
 
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.amount = this.amountBalance.cloneWithTokens(amount);
                     this.price = this.priceBalance.cloneWithTokens(price);
                     this.expand(type);
-                    $scope.$apply();
+                    $scope.$digest();
                 });
 
                 this.syncSettings({
@@ -187,6 +193,9 @@
             }
 
             createOrder(form) {
+                const notify = $element.find('.js-order-notification');
+                notify.removeClass('success').removeClass('error');
+
                 return user.getSeed()
                     .then((seed) => {
                         return Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
@@ -194,6 +203,7 @@
                         }).then((price) => {
                             const amount = this.amount;
                             this.amount = null;
+                            form.$setPristine();
                             form.$setUntouched();
                             $scope.$apply();
                             return waves.matcher.createOrder({
@@ -204,18 +214,23 @@
                                 amount: amount.toCoins()
                             }, seed.keyPair);
                         }).then(() => {
+                            notify.addClass('success');
+                            this.createOrderFailed = false;
                             const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                             analytics.push('DEX', `DEX.Order.${this.type}.Success`, pair);
                             notification.success({
                                 ns: 'app.dex',
                                 title: { literal: 'directives.createOrder.notifications.isCreated' }
                             });
+                            $element.find('input[name="amount"]').focus();
                         }).catch((err) => {
+                            this.createOrderFailed = true;
+                            notify.addClass('error');
                             const pair = `${this.amountBalance.asset.id}/${this.priceBalance.asset.id}`;
                             analytics.push('DEX', `DEX.Order.${this.type}.Error`, pair);
                             // TODO : refactor this
                             const notEnough = 'Not enough tradable balance';
-                            const isNotEnough = (err.data.message.slice(0, notEnough.length) === notEnough);
+                            const isNotEnough = (err.data && err.data.message.slice(0, notEnough.length) === notEnough);
                             notification.error({
                                 ns: 'app.dex',
                                 title: {
@@ -224,6 +239,9 @@
                                         'directives.createOrder.notifications.somethingWendWrong'
                                 }
                             });
+                        }).then(() => {
+                            $scope.$apply();
+                            CreateOrder._animateNotification(notify);
                         });
                     });
             }
@@ -294,6 +312,7 @@
                 if (data) {
                     this.amountBalance = data.amountBalance;
                     this.priceBalance = data.priceBalance;
+                    $scope.$digest();
                 }
             }
 
@@ -349,6 +368,27 @@
                 const buy = Number(this.ask.price);
 
                 this.spreadPercent = buy ? (((buy - sell) * 100 / buy) || 0).toFixed(2) : '0.00';
+                $scope.$digest();
+            }
+
+            static _animateNotification($element) {
+                return utils.animate($element, { t: 100 }, {
+                    duration: 1200,
+                    step: function (tween) {
+                        const progress = ease.bounceOut(tween / 100);
+                        $element.css('transform', `translate(0, ${-100 + progress * 100}%)`);
+                    }
+                })
+                    .then(() => utils.wait(700))
+                    .then(() => {
+                        return utils.animate($element, { t: 0 }, {
+                            duration: 500,
+                            step: function (tween) {
+                                const progress = ease.linear(tween / 100);
+                                $element.css('transform', `translate(0, ${(-((1 - progress) * 100))}%)`);
+                            }
+                        });
+                    });
             }
 
         }
@@ -365,7 +405,8 @@
         '$scope',
         '$element',
         'notification',
-        'dexDataService'
+        'dexDataService',
+        'ease'
     ];
 
     angular.module('app.dex').component('wCreateOrder', {

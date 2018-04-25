@@ -4,17 +4,17 @@
         params="{amount: $ctrl.transaction.quantity.toFormat($ctrl.transaction.precision), name: $ctrl.transaction.name}"></h3>
 </div>
 
-<div class="section" ng-if="$ctrl.transaction.assetId">
+<div class="section" ng-if="::$ctrl.transaction.assetId">
     <div class="key" w-i18n="transaction.modals.assetId"></div>
     <div class="value">{{::$ctrl.transaction.assetId}}</div>
 </div>
 
-<div class="section" ng-if="$ctrl.transaction.reissuable != null">
+<div class="section" ng-if="::$ctrl.transaction.reissuable != null">
     <div class="key" w-i18n="transaction.modals.type"></div>
     <div class="value" w-i18n="transaction.reissuable.{{::$ctrl.transaction.reissuable}}"></div>
 </div>
 
-<div class="section contains-text" ng-if="$ctrl.transaction.description">
+<div class="section contains-text" ng-if="::$ctrl.transaction.description">
     <div class="key" w-i18n="transaction.modals.description"></div>
     <div class="value text">{{::$ctrl.transaction.description}}</div>
 </div>

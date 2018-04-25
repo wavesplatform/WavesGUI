@@ -9,6 +9,12 @@
 
         class Asset {
 
+            get isReceiveSupported() {
+                const isWaves = this.balance.asset.id === WavesApp.defaultAssets.WAVES;
+
+                return this.isDepositSupported || isWaves;
+            }
+
             constructor() {
                 /**
                  * @type {IBalanceDetails}

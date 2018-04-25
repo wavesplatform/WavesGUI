@@ -17,6 +17,8 @@
     const factory = function (BaseNodeComponent, utils, user, eventManager, decorators, PollCache, aliases, matcher,
                               ExtendedAsset) {
 
+        const TX_TYPES = WavesApp.TRANSACTION_TYPES.NODE;
+
         class Assets extends BaseNodeComponent {
 
             constructor() {
@@ -43,6 +45,14 @@
             }
 
             /**
+             * @param {string} address
+             * @return {Promise<Assets.IWavesBalanceDetails>}
+             */
+            getBalanceByAddress(address) {
+                return this._getWavesBalanceDetails(address);
+            }
+
+            /**
              * Get asset info
              * @param {string} assetId
              * @return Promise<ExtendedAsset>
@@ -54,8 +64,7 @@
                 }
                 return Promise.all([
                     this.getExtendedAsset(assetId),
-                    fetch(`${user.getSetting('network.node')}/assets/details/${assetId}`)
-                        .then(utils.onFetch)
+                    fetch(`${this.network.node}/assets/details/${assetId}`)
                 ]).then(([asset, assetData]) => {
                     Assets._updateAsset(asset, assetData);
                     return asset;
@@ -70,13 +79,11 @@
             @decorators.cachable()
             getExtendedAsset(assetId) {
                 return fetch(`${WavesApp.network.api}/assets/${assetId}`)
-                    .then(utils.onFetch)
                     .catch(() => {
                         if (assetId === Waves.constants.WAVES_PROPS.id) {
                             return Waves.constants.WAVES_V1_ISSUE_TX;
                         } else {
-                            return fetch(`${user.getSetting('network.node')}/transactions/info/${assetId}`)
-                                .then(utils.onFetch);
+                            return fetch(`${this.network.node}/transactions/info/${assetId}`);
                         }
                     })
                     .then(Assets._remapAssetProps)
@@ -139,16 +146,11 @@
              * @return {Promise<IBalanceDetails[]>}
              */
             userBalances() {
-                return user.onLogin().then(() => this._balanceCache.get());
-            }
-
-            /**
-             * Get list of min values fee
-             * @param {string} type
-             * @return {Promise<Money[]>}
-             */
-            fee(type) {
-                return this._feeList(type);
+                if (this._balanceCache) {
+                    return this._balanceCache.get();
+                } else {
+                    return user.onLogin().then(() => this._balanceCache.get());
+                }
             }
 
             /**
@@ -161,7 +163,7 @@
              * @return {Promise<{id: string}>}
              */
             transfer({ amount, fee, recipient, attachment, keyPair }) {
-                return this.getFee('transfer', fee)
+                return this.getFee({ type: TX_TYPES.TRANSFER, fee })
                     .then((fee) => {
                         return Waves.API.Node.v1.assets.transfer({
                             amount: amount.toCoins(),
@@ -172,6 +174,22 @@
                             attachment
                         }, keyPair)
                             .then(this._pipeTransaction([amount, fee]));
+                    });
+            }
+
+
+            massTransfer({ fee, transfers, attachment, keyPair }) {
+                return this.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.MASS_TRANSFER, tx: { transfers }, fee })
+                    .then((fee) => {
+                        return Waves.API.Node.v1.transactions.massTransfer({
+                            fee: fee.toCoins(),
+                            attachment,
+                            assetId: transfers[0].amount.asset.id,
+                            transfers: transfers.map(({ recipient, amount }) => ({
+                                recipient,
+                                amount: amount.toCoins()
+                            }))
+                        }, keyPair);
                     });
             }
 
@@ -188,7 +206,7 @@
              */
             issue({ name, description, quantity, precision, reissuable, fee, keyPair }) {
                 quantity = quantity.mul(Math.pow(10, precision));
-                return this.getFee('issue', fee).then((fee) => {
+                return this.getFee({ type: TX_TYPES.ISSUE, fee }).then((fee) => {
                     return Waves.API.Node.v1.assets.issue({
                         name,
                         description,
@@ -205,7 +223,7 @@
              * Create reissue transaction
              */
             reissue({ quantity, reissuable, fee, keyPair }) {
-                return this.getFee('reissue', fee).then((fee) => Waves.API.Node.v1.assets.reissue({
+                return this.getFee({ type: TX_TYPES.REISSUE, fee }).then((fee) => Waves.API.Node.v1.assets.reissue({
                     assetId: quantity.asset.id,
                     fee: fee.toCoins(),
                     quantity: quantity.toCoins(),
@@ -217,7 +235,7 @@
              * Create burn transaction
              */
             burn({ quantity, fee, keyPair }) {
-                return this.getFee('burn', fee).then((fee) => Waves.API.Node.v1.assets.burn({
+                return this.getFee({ type: TX_TYPES.BURN, fee }).then((fee) => Waves.API.Node.v1.assets.burn({
                     quantity: quantity.toCoins(),
                     fee: fee.toCoins(),
                     assetId: quantity.asset.id
@@ -238,25 +256,77 @@
             }
 
             /**
-             * @return {Promise<Response>}
-             * @private
-             */
-            _getUserAssetBalances() {
-                return fetch(`${user.getSetting('network.node')}/assets/balance/${user.address}`)
-                    .then(utils.onFetch)
-                    .then(({ balances }) => this._remapBalanceList(balances));
-            }
-
-            /**
              * @return {Promise<IBalanceDetails[]>}
              * @private
              */
             _getBalances() {
                 return Promise.all([
-                    Waves.API.Node.v2.addresses.get(user.address),
-                    this._getUserAssetBalances(),
+                    this._getAliases(),
+                    this._getWavesBalanceDetails(),
+                    this._getUserAssets(),
                     this._getBalanceOrders()
                 ]).then(Assets._remapBalance);
+            }
+
+            /**
+             * @return {Promise<Array<string>>}
+             * @private
+             */
+            _getAliases() {
+                const char = this.network.code;
+                return fetch(`${this.network.node}/alias/by-address/${user.address}`)
+                    .then((aliases) => aliases.map((alias) => alias.replace(`alias:${char}:`, '')))
+                    .catch(() => aliases.getAliasList());
+            }
+
+            /**
+             * @param {string} [address]
+             * @return {Promise<Assets.IWavesBalanceDetails>}
+             * @private
+             */
+            _getWavesBalanceDetails(address) {
+                const url = `${this.network.node}/addresses/balance/details/${address || user.address}`;
+                return this.getExtendedAsset(WavesApp.defaultAssets.WAVES)
+                    .then((asset) => {
+                        return fetch(url)
+                            .then(({ available, effective, regular }) => {
+
+                                const regularMoney = new Waves.Money(String(regular || 0), asset);
+                                const availableMoney = new Waves.Money(String(available || 0), asset);
+                                const effectiveMoney = new Waves.Money(String(effective || 0), asset);
+
+                                return {
+                                    asset,
+                                    regular: regularMoney,
+                                    available: availableMoney,
+                                    leasedOut: regularMoney.sub(availableMoney),
+                                    leasedIn: effectiveMoney.sub(availableMoney)
+                                };
+                            });
+                    });
+            }
+
+            /**
+             * @return {Promise<Money[]>}
+             * @private
+             */
+            _getUserAssets() {
+                return fetch(`${this.network.node}/assets/balance/${user.address}`)
+                    .then(({ balances }) => this._remapAssetsList(balances));
+            }
+
+            /**
+             * @param {Array<{assetId: string, balance: string|number}>} balances
+             * @return {Promise<Money[]>}
+             * @private
+             */
+            _remapAssetsList(balances) {
+                const promiseList = balances.map(({ assetId, balance }) => {
+                    return this.getExtendedAsset(assetId)
+                        .then((asset) => new Waves.Money(String(balance), asset));
+                });
+
+                return Promise.all(promiseList);
             }
 
             /**
@@ -268,29 +338,6 @@
                 return Promise.all(idList.map((id) => {
                     return this.getExtendedAsset(id)
                         .then((asset) => new Waves.Money('0', asset));
-                }));
-            }
-
-            /**
-             * @param balances
-             * @return {Promise<Money[]>}
-             * @private
-             */
-            _remapBalanceList(balances) {
-                return Promise.all(balances.map((balance) => {
-                    const id = balance.assetId;
-
-                    const _create = (asset) => {
-
-                        Assets._updateAsset(asset, {
-                            quantity: balance.quantity,
-                            reissuable: balance.reissuable
-                        });
-
-                        return Promise.resolve(new Waves.Money(String(balance.balance), asset));
-                    };
-
-                    return this.getExtendedAsset(id).then(_create);
                 }));
             }
 
@@ -328,31 +375,31 @@
             }
 
             /**
-             * @param wavesDetails
-             * @param moneyList
-             * @param orderMoneyList
+             * @param {Array<string>} aliasList
+             * @param {Assets.IWavesBalanceDetails} wavesDetails
+             * @param {Array<Money>} moneyList
+             * @param {Array<Money>} orderMoneyList
              * @return {IBalanceDetails[]}
              * @private
              */
-            static _remapBalance([wavesDetails, moneyList, orderMoneyList]) {
+            static _remapBalance([aliasList, wavesDetails, moneyList, orderMoneyList]) {
                 const orderMoneyHash = utils.groupMoney(orderMoneyList);
                 const eventsMoneyHash = utils.groupMoney(eventManager.getReservedMoneyList());
+                const regularMoney = wavesDetails.regular;
+                const wavesTx = eventsMoneyHash[WavesApp.defaultAssets.WAVES] || regularMoney.cloneWithCoins('0');
+                const wavesOrder = orderMoneyHash[WavesApp.defaultAssets.WAVES] || regularMoney.cloneWithCoins('0');
 
-                const wavesNodeRegular = wavesDetails.wavesBalance.regular;
-                const wavesNodeAvailable = wavesDetails.wavesBalance.available;
-                const wavesTx = eventsMoneyHash[WavesApp.defaultAssets.WAVES] || wavesNodeRegular.cloneWithCoins('0');
-                const wavesOrder = orderMoneyHash[WavesApp.defaultAssets.WAVES] || wavesNodeRegular.cloneWithCoins('0');
+                aliases.aliases = aliasList;
 
-                aliases.aliases = wavesDetails.aliases;
                 moneyList = moneyList.sort(utils.comparators.process((money) => money.asset.name).asc);
 
                 return [{
-                    asset: wavesNodeRegular.asset,
-                    regular: Assets._getMoneySub(wavesNodeRegular, wavesTx),
-                    available: Assets._getMoneySub(wavesNodeAvailable, wavesTx, wavesOrder),
+                    asset: wavesDetails.asset,
+                    regular: Assets._getMoneySub(regularMoney, wavesTx),
+                    available: Assets._getMoneySub(wavesDetails.available, wavesTx, wavesOrder),
                     inOrders: wavesOrder,
-                    leasedOut: wavesDetails.wavesBalance.leasedOut,
-                    leasedIn: wavesDetails.wavesBalance.leasedIn
+                    leasedOut: wavesDetails.leasedOut,
+                    leasedIn: wavesDetails.leasedIn
                 }].concat(moneyList.map(Assets._remapAssetsMoney(orderMoneyHash, eventsMoneyHash)));
             }
 
@@ -447,6 +494,17 @@
  * @property {Money} regular
  * @property {Money} available
  * @property {Money} inOrders
+ * @property {Money} leasedOut
+ * @property {Money} leasedIn
+ */
+
+/**
+ * @name Assets
+ *
+ * @typedef {object} Assets#IWavesBalanceDetails
+ * @property {ExtendedAsset} asset
+ * @property {Money} regular
+ * @property {Money} available
  * @property {Money} leasedOut
  * @property {Money} leasedIn
  */

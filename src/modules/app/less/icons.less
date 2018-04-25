@@ -10,6 +10,49 @@
   cursor: pointer;
 }
 
+.visa-icon {
+  display: block;
+  width: 42px;
+  height: 42px;
+  background: url(/img/icons/visa-icon.svg) center no-repeat;
+}
+
+.mastercard-icon {
+  display: block;
+  width: 42px;
+  height: 42px;
+  background: url(/img/icons/mastercard-icon.svg) center no-repeat;
+}
+
+.card-success-icon {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  background: url(/img/icons/card-success.svg) center no-repeat;
+}
+
+.bank-success-icon {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  background: url(/img/icons/bank-success.svg) center no-repeat;
+}
+
+.bank-building-success-icon {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  background: url(/img/icons/bank-building-success.svg) center no-repeat;
+}
+
+.verified-icon {
+  background: url(/img/icons/input-valid-icon.svg) center center no-repeat rgba(129, 201, 38, 0.1);
+  border-radius: 100%;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+}
+
 .icon-send::before {
   background-image: url(/img/icons/send.svg);
 }
@@ -142,6 +185,14 @@
     background-position: -@tx-icon-size * 12 center;
   }
   background-color: rgba(255, 175, 0, 0.1); // TODO : specify the exact color (this one is taken from the send tx)
+}
+
+.icon-tx-mass-receive {
+  &::before {
+    .icon-tx-bg();
+    background-position: -@tx-icon-size * 13 center;
+  }
+  background-color: rgba(129, 201, 38, 0.1);
 }
 
 .icon-info {

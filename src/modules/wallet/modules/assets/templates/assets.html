@@ -30,7 +30,7 @@
                 <w-select class="toolbar-balance-select"
                           ng-model="$ctrl.activeChartAssetId">
                     <w-option w-add-class ng-repeat="balance in $ctrl.chartBalanceList track by balance.asset.id"
-                              value="{{::balance.asset.id}}">
+                              value="::balance.asset.id">
                         <span class="radio-name">{{::balance.asset.name}}</span>
                     </w-option>
                 </w-select>
