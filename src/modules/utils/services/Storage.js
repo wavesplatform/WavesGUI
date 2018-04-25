@@ -108,6 +108,18 @@
                     });
                     return storage.save('userList', newList);
                 });
+            },
+            '1.0.0-beta.34': function (storage) {
+                return storage.load('userList').then((list = []) => {
+                    list.forEach((item) => {
+                        const settings = item.settings || Object.create(null);
+                        const idList = settings.pinnedAssetIdList;
+                        if (idList) {
+                            idList.push(WavesApp.defaultAssets.DASH);
+                        }
+                    });
+                    return storage.save('userList', list);
+                });
             }
         };
 
