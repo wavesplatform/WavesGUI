@@ -157,6 +157,7 @@
                         .then((approximateAmount) => {
                             const coins = new BigNumber(approximateAmount).mul(Math.pow(10, asset.precision));
                             this.approximateAmount = new Waves.Money(coins.round(0), asset);
+                            $scope.$apply();
                         });
 
                     this.indacoinLink = (

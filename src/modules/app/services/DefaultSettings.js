@@ -137,7 +137,7 @@
                             },
                             center: {
                                 split: 75,
-                                collapsedBlock: true
+                                collapsedBlock: false
                             },
                             right: {
                                 collapsed: false,

@@ -201,7 +201,7 @@
 
                 if (transfers.length) {
                     this.totalAmount = transfers
-                        .map(({ amount }) => amount)
+                        .map(({ amount }) => amount.getTokens().gte(0) ? amount : amount.cloneWithTokens('0'))
                         .reduce((result, item) => result.add(item));
 
                     return null;
@@ -226,7 +226,7 @@
              * @private
              */
             _processTextAreaContent(content) {
-                const { data } = Papa.parse(content);
+                const { data } = Papa.parse(content || '');
                 const recipientHash = MassSend._getRecipientHashByCSVParseResult(data);
                 const transfers = [];
 
@@ -270,7 +270,7 @@
                         list.forEach((response, index) => {
                             const recipient = this.transfers[index].recipient;
 
-                            if (!response.state) {
+                            if (!response.state || this.transfers[index].amount.getTokens().lte(0)) {
                                 errors.push({ recipient });
                             }
                         });
@@ -301,16 +301,20 @@
             _onChangeCSVText() {
                 const text = this.recipientCsv;
                 this._processTextAreaContent(text);
+                this._updateTextAreaContent();
+                this._validateRecipients();
             }
 
             /**
              * @private
              */
+            @decorators.async()
             _updateTextAreaContent() {
                 const transfers = this.transfers;
                 const text = Papa.unparse(transfers.map((item) => [item.recipient, item.amount.getTokens().toFixed()]));
                 if (text !== this.recipientCsv) {
                     this.recipientCsv = text;
+                    $scope.$digest();
                 }
             }
 

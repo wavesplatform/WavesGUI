@@ -197,10 +197,6 @@ w-transaction-info {
     .lead {
       margin-bottom: 0;
 
-      & + .section {
-        padding-top: 0;
-      }
-
       .tx-header {
         margin-bottom: -30px;
       }
@@ -216,6 +212,14 @@ w-transaction-info {
 
       .lead + .section {
         border-top: 1px solid @color-basic-200;
+      }
+    }
+
+    .mass-send + ng-include {
+      .lead {
+        & + .section {
+          padding-top: 0;
+        }
       }
     }
   }
