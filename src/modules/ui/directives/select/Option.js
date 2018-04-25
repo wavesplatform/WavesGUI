@@ -1,7 +1,17 @@
 (function () {
     'use strict';
 
+    /**
+     * @param {Base} Base
+     * @param {$compile} $compile
+     * @param {JQuery} $element
+     * @param {$rootScope.Scope} $scope
+     */
     const directive = (Base, $compile) => {
+
+        if ($compile) {
+            // todo tsigel
+        }
 
         return {
             scope: true,
@@ -12,6 +22,10 @@
             template: '<div class="option" ng-transclude></div>',
             link: ($scope, $element, $attrs, { select }, transclude) => {
 
+                if (select) {
+                    // todo tsigel
+                }
+
                 let TEMPLATE = '';
 
                 transclude($scope, ($clone) => {
@@ -20,70 +34,46 @@
                     });
                     return $clone;
                 });
+                const tsUtils = require('ts-utils');
 
                 class Option extends Base {
 
                     constructor() {
-                        super($scope);
-                        /**
-                         * @type {boolean}
-                         * @private
-                         */
-                        this._isActive = false;
+                        super();
                         /**
                          * @type {Select}
                          */
-                        this.select = select;
+                        this.wSelect = null;
                         /**
                          * @type {string|number}
                          */
-                        this.value = $attrs.value;
-
-                        if ($attrs.optionType) {
-                            switch ($attrs.optionType) {
-                                case 'boolean':
-                                    this.value = this.value === 'true';
-                                    break;
-                                case 'number':
-                                    this.value = Number(this.value);
-                                    break;
-                                default:
-                                    throw new Error('Wrong option type!');
-                            }
-                        }
-
+                        this.value = null;
                         /**
-                         * @type {Select}
+                         * @type {Signal<Option>}
                          */
-                        this.select.registerOption(this);
-
-                        if (tsUtils.isEmpty(this.value)) {
-                            throw new Error('Empty value of option!');
-                        }
+                        this.changeValue = new tsUtils.Signal();
 
                         this._setHandlers();
                     }
 
-                    $onDestroy() {
-                        super.$onDestroy();
-                        this.select.remove(this);
+                    $onInit() {
+                        this.wSelect.registerOption(this);
                     }
 
                     /**
                      * @return {JQuery}
                      */
                     getContent() {
-                        return $compile(Option._getContentHTML())($scope);
+                        return $(Option._getContentHTML());
                     }
 
                     onClick() {
-                        this.select.setActive(this);
+                        this.wSelect.setActive(this);
                         $scope.$apply();
                     }
 
                     setActive(active) {
-                        this._isActive = active;
-                        const index = this.select.getOptionIndex(this);
+                        const index = this.wSelect.getOptionIndex(this);
                         // Get the active option to the top of the dropdown list
                         $element.css('order', active ? -index : 0).toggleClass('active', active);
                     }
@@ -100,12 +90,21 @@
                      * @private
                      */
                     _setHandlers() {
+                        this.observe('value', () => {
+                            const value = this.value;
+
+                            if (tsUtils.isEmpty(value)) {
+                                throw new Error('Value is empty!');
+                            }
+
+                            this.changeValue.dispatch(this);
+                        });
                         $element.on('click', this.onClick.bind(this));
                     }
 
                 }
 
-                new Option();
+                return new Option();
             }
         };
     };

@@ -8,6 +8,8 @@
      */
     const factory = function (user, utils) {
 
+        const tsUtils = require('ts-utils');
+
         class Base {
 
             /**
@@ -15,6 +17,14 @@
              * @param {$rootScope.Scope} [$scope]
              */
             constructor($scope) {
+                /**
+                 * @type {boolean}
+                 */
+                this.wasDestroed = false;
+                /**
+                 * @type {Object.<string, Array<Base.IEventEmitterData>>}
+                 * @private
+                 */
                 this.__emitterListeners = Object.create(null);
                 if ($scope) {
                     const stop = $scope.$on('$destroy', () => {
@@ -37,22 +47,29 @@
 
             /**
              * Method for listen outside event emitters like i18next or jQuery
-             * @param {{on: function, off: function}} emitter
+             * @param {*} emitter
              * @param {string} event
-             * @param {function} handler
+             * @param {Function} handler
+             * @param {Base.IMethods} [methods]
              */
-            listenEventEmitter(emitter, event, handler) {
+            listenEventEmitter(emitter, event, handler, methods) {
+
+                methods = methods || Object.create(null);
+                methods.on = methods.on || 'on';
+                methods.off = methods.off || 'off';
+
                 if (!this.__emitterListeners[event]) {
                     this.__emitterListeners[event] = [];
                 }
-                this.__emitterListeners[event].push({ emitter, handler });
-                emitter.on(event, handler);
+                this.__emitterListeners[event].push({ emitter, handler, methods });
+
+                emitter[methods.on](event, handler);
             }
 
             /**
              * @param {string} [event]
              * @param {function} [handler]
-             * @param {{on: function, off: function}} [emitter]
+             * @param {*} [emitter]
              * @return {null}
              */
             stopListenEventEmitter(...args) {
@@ -87,7 +104,7 @@
                     return null;
                 }
                 if (!handler) {
-                    this.__emitterListeners[event].forEach((data) => {
+                    this.__emitterListeners[event].slice().forEach((data) => {
                         this.stopListenEventEmitter(event, data.handler, emitter);
                     });
                     return null;
@@ -95,13 +112,13 @@
                 this.__emitterListeners[event] = this.__emitterListeners[event].filter((data) => {
                     if (emitter) {
                         if (data.emitter === emitter && data.handler === handler) {
-                            emitter.off(event, handler);
+                            emitter[data.methods.off](event, handler);
                             return false;
                         } else {
                             return true;
                         }
                     } else if (data.handler === handler) {
-                        data.emitter.off(event, handler);
+                        data.emitter[data.methods.off](event, handler);
                         return false;
                     } else {
                         return true;
@@ -163,6 +180,7 @@
                 this.stopReceive();
                 this.signals.destroy.off();
                 this.stopListenEventEmitter();
+                this.wasDestroed = true;
             }
 
         }
@@ -195,4 +213,21 @@
 /**
  * @typedef {object} IBaseSignals
  * @property {Signal} destroy
+ */
+
+/**
+ * @name Base
+ */
+
+/**
+ * @typedef {object} Base#IEventEmitterData
+ * @property {*} emitter
+ * @property {Function} handler
+ * @property {Base.IMethods} methods
+ */
+
+/**
+ * @typedef {object} Base#IMethods
+ * @property {string} on
+ * @property {string} off
  */

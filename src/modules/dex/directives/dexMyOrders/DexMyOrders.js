@@ -8,9 +8,10 @@
      * @param {IPollCreate} createPoll
      * @param {INotification} notification
      * @param {app.utils} utils
+     * @param {$rootScope.Scope} $scope
      * @return {DexMyOrders}
      */
-    const controller = function (Base, waves, user, createPoll, notification, utils) {
+    const controller = function (Base, waves, user, createPoll, notification, utils, $scope) {
 
         class DexMyOrders extends Base {
 
@@ -27,7 +28,7 @@
                     _assetIdPair: 'dex.assetIdPair'
                 });
 
-                const poll = createPoll(this, this._getOrders, 'orders', 5000);
+                const poll = createPoll(this, this._getOrders, 'orders', 5000, { $scope });
                 this.observe('_assetIdPair', () => poll.restart());
             }
 
@@ -41,6 +42,8 @@
                                 ns: 'app.dex',
                                 title: { literal: 'directives.myOrders.notifications.isCanceled' }
                             });
+
+                            $scope.$digest();
                         })
                         .catch(() => {
                             notification.error({
@@ -87,7 +90,7 @@
         return new DexMyOrders();
     };
 
-    controller.$inject = ['Base', 'waves', 'user', 'createPoll', 'notification', 'utils'];
+    controller.$inject = ['Base', 'waves', 'user', 'createPoll', 'notification', 'utils', '$scope'];
 
     angular.module('app.dex').component('wDexMyOrders', {
         bindings: {},

@@ -109,7 +109,7 @@
                 /**
                  * @type {Poll}
                  */
-                this.poll = createPoll(this, this._getPortfolio, 'details', 1000, { isBalance: true });
+                this.poll = createPoll(this, this._getPortfolio, 'details', 1000, { isBalance: true, $scope });
 
                 this.observe('details', this._onChangeDetails);
             }
@@ -126,6 +126,13 @@
              */
             showSend(asset) {
                 return modalManager.showSendAsset(user, asset || Object.create(null));
+            }
+
+            /**
+             * @param {Asset} asset
+             */
+            showReceivePopup(asset) {
+                return modalManager.showReceivePopup(user, asset);
             }
 
             /**
@@ -191,7 +198,9 @@
             }
 
             isDepositSupported(asset) {
-                return gatewayService.hasSupportOf(asset, 'deposit');
+                const isWaves = asset.id === WavesApp.defaultAssets.WAVES;
+
+                return gatewayService.hasSupportOf(asset, 'deposit') || isWaves;
             }
 
             isSepaSupported(asset) {

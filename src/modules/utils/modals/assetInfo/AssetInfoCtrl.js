@@ -3,7 +3,7 @@
 
     /**
      * @param Base
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param {User} user
      * @param {IPollCreate} createPoll
      * @param {app.utils} utils
@@ -27,6 +27,10 @@
                 this.totalBalance = null;
                 this.transactions = [];
                 this.transactionsPending = true;
+                /**
+                 * @type {string}
+                 */
+                this.tab = null;
 
                 this.chartOptions = {
                     items: {
@@ -50,7 +54,7 @@
 
                 createPoll(this, this._getGraphData, 'chartData', 15000);
                 createPoll(this, this._getCircleGraphData, this._setCircleGraphData, 15000);
-                createPoll(this, waves.node.transactions.list, this._setTxList, 4000, { isBalance: true });
+                createPoll(this, () => waves.node.transactions.list(100), this._setTxList, 4000, { isBalance: true });
             }
 
             togglePin() {
@@ -91,6 +95,8 @@
                             return false;
                     }
                 });
+
+                $scope.$digest();
             }
 
             /**
@@ -114,6 +120,7 @@
                     { id: 'inOrders', value: inOrders }
                 ];
                 this.totalBalance = available.add(leasedOut).add(inOrders);
+                $scope.$digest();
             }
 
         }

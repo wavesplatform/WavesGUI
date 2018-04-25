@@ -14,6 +14,8 @@
      */
     const controller = function (waves, assetsData, $scope, utils, Base, user, modalManager, createPoll) {
 
+        const tsUtils = require('ts-utils');
+
         class Assets extends Base {
 
             constructor() {
@@ -70,6 +72,7 @@
 
                 const hours = tsUtils.date('hh:mm');
                 const dates = tsUtils.date('DD/MM');
+
                 this.options.axes.x.tickFormat = (date) => {
                     if (this.chartMode === 'hour' || this.chartMode === 'day') {
                         return hours(date);
@@ -90,10 +93,14 @@
                 this.mirrorId = user.getSetting('baseAssetId');
                 this._onChangeMode();
 
-                this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000);
+                this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000, { $scope });
 
-                createPoll(this, this._getChartBalances, 'chartBalanceList', 15000, { isBalance: true });
-                const assetPoll = createPoll(this, this._getBalances, 'pinnedAssetBalances', 5000, { isBalance: true });
+                const isBalance = true;
+                createPoll(this, this._getChartBalances, 'chartBalanceList', 15000, { isBalance, $scope });
+                const assetPoll = createPoll(this, this._getBalances, 'pinnedAssetBalances', 5000, {
+                    isBalance,
+                    $scope
+                });
 
                 this.observe('chartMode', this._onChangeMode);
                 this.observe('_startDate', this._onChangeInterval);
@@ -110,22 +117,24 @@
 
             onAssetActionClick(event, asset, action) {
                 event.preventDefault();
-                switch (action) {
-                    case 'send':
-                        this.showSend(asset);
-                        break;
-                    case 'deposit':
-                        this.showDeposit(asset);
-                        break;
-                    case 'sepa':
-                        this.showSepa(asset);
-                        break;
-                    case 'info':
-                        this.showAsset(asset);
-                        break;
-                    default:
-                        throw new Error('Wrong action');
+                if (action === 'send') {
+                    return this.showSend(asset);
                 }
+
+                if (action === 'info') {
+                    return this.showAsset(asset);
+                }
+
+                const receiveActions = ['deposit', 'sepa', 'card'];
+                if (receiveActions.includes(action)) {
+                    return this.showReceivePopup(asset);
+                }
+
+                throw new Error('Wrong action');
+            }
+
+            showReceivePopup(asset) {
+                return modalManager.showReceivePopup(user, asset);
             }
 
             showSeedBackupModals() {
@@ -207,7 +216,7 @@
                 const from = this.activeChartAssetId;
                 const to = this.mirrorId;
 
-                return utils.when(waves.utils.getRateHistory(from, to, this._startDate))
+                return waves.utils.getRateHistory(from, to, this._startDate)
                     .then((values) => {
                         const first = values[0].rate;
                         const last = values[values.length - 1].rate;

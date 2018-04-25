@@ -3,7 +3,7 @@
 
     /**
      * @param Base
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param {Waves} waves
      * @param {User} user
      * @param {IPollCreate} createPoll
@@ -70,12 +70,13 @@
 
                 createPoll(this, waves.node.height, (height) => {
                     this.blockHeight = height;
-                    $scope.$apply();
+                    $scope.$digest();
                 }, 5000);
 
                 user.getSeed().then((seed) => {
                     this.phrase = seed.phrase;
                     this.privateKey = seed.keyPair.privateKey;
+                    $scope.$digest();
                 });
             }
 

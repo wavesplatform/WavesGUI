@@ -32,17 +32,14 @@
                 </div>
             </w-table-cell>
             <w-table-cell class="portfolio-table__available">
-
                 <div class="cell-header">
                     Available balance
                 </div>
                 <div class="cell">
                     <w-balance money="balance.available" short-mode="::true"></w-balance>
                 </div>
-
             </w-table-cell>
             <w-table-cell class="portfolio-table__in-orders">
-
                 <div class="cell-header">
                     In orders
                 </div>
@@ -51,7 +48,6 @@
                 </div>
             </w-table-cell>
             <w-table-cell class="portfolio-table__available-value">
-
                 <div class="cell-header">
                     Available value, USD
                 </div>
@@ -62,7 +58,6 @@
                 </div>
             </w-table-cell>
             <w-table-cell class="portfolio-table__chart-wrap">
-
                 <div class="cell-header">
                     Price, USD
                 </div>
@@ -76,7 +71,6 @@
                 </div>
             </w-table-cell>
             <w-table-cell class="portfolio-table__change">
-
                 <div class="cell-header">
                     Change (24h)
                 </div>
@@ -116,7 +110,7 @@
                             <w-i18n>send</w-i18n>
                         </w-action>
                         <w-action ng-if="$ctrl.isDepositSupported(balance.asset)"
-                                  ng-click="$ctrl.showDeposit(balance.asset)">
+                                  ng-click="$ctrl.showReceivePopup(balance.asset)">
                             <w-i18n>deposit</w-i18n>
                         </w-action>
                         <w-action
@@ -145,5 +139,4 @@
             </w-table-cell>
         </w-table-row>
     </w-smart-table>
-
 </div>
