@@ -10,13 +10,19 @@
 
         <w-select ng-model="$ctrl.filter">
             <w-option value="::'active'">
-                All active (<span>{{$ctrl.details.active.length || 0}}</span>)
+                <w-i18n w-i18n-ns="app.wallet.portfolio"
+                        params="{count: $ctrl.details.active.length || 0}">
+                    allactive
+                </w-i18n>
             </w-option>
             <!--<w-option value="pinned">-->
             <!--Favorites ({{$ctrl.details.pinned.length}})-->
             <!--</w-option>-->
             <w-option value="::'spam'">
-                Spam ({{$ctrl.details.spam.length || 0}})
+                <w-i18n w-i18n-ns="app.wallet.portfolio"
+                        params="{count: $ctrl.details.spam.length || 0}">
+                    spamselect
+                </w-i18n>
             </w-option>
         </w-select>
     </div>
@@ -33,7 +39,7 @@
             </w-table-cell>
             <w-table-cell class="portfolio-table__available">
                 <div class="cell-header">
-                    Available balance
+                    <w-i18n>list.balance</w-i18n>
                 </div>
                 <div class="cell">
                     <w-balance money="balance.available" short-mode="::true"></w-balance>
@@ -41,7 +47,7 @@
             </w-table-cell>
             <w-table-cell class="portfolio-table__in-orders">
                 <div class="cell-header">
-                    In orders
+                    <w-i18n>list.inOrders</w-i18n>
                 </div>
                 <div class="cell">
                     <w-balance money="balance.inOrders"></w-balance>
@@ -49,7 +55,7 @@
             </w-table-cell>
             <w-table-cell class="portfolio-table__available-value">
                 <div class="cell-header">
-                    Available value, USD
+                    <w-i18n>list.mirror</w-i18n>
                 </div>
                 <div class="cell">
                     <w-exchange noUpdate balance="balance.available"
@@ -59,7 +65,7 @@
             </w-table-cell>
             <w-table-cell class="portfolio-table__chart-wrap">
                 <div class="cell-header">
-                    Price, USD
+                    <w-i18n>list.rate</w-i18n>
                 </div>
                 <div class="cell">
                     <w-change-rate ng-if="::balance.asset.id !== WavesApp.defaultAssets.USD"
@@ -72,7 +78,7 @@
             </w-table-cell>
             <w-table-cell class="portfolio-table__change">
                 <div class="cell-header">
-                    Change (24h)
+                    <w-i18n>list.change</w-i18n>
                 </div>
                 <div class="cell">
                     <w-change24 asset-from="balance.asset.id"
@@ -84,23 +90,28 @@
             <w-table-cell class="portfolio-table__control-cell">
                 <div class="cell">
                     <span class="icon icon-dex" ng-click="$ctrl.openDex(balance.asset)">
-                        <div>Dex!</div>
+                        <div><w-i18n>dex</w-i18n></div>
                     </span>
                     <span class="icon icon-send" ng-click="$ctrl.showSend(balance.asset)">
-                        <div>Send!</div>
+                        <div><w-i18n>send</w-i18n></div>
                     </span>
                     <span class="icon icon-receive" ng-if="$ctrl.isDepositSupported(balance.asset)"
                           ng-click="$ctrl.showDeposit(balance.asset)">
-                        <div>Recive!</div>
+                        <div><w-i18n>receive</w-i18n></div>
                     </span>
                     <span class="icon icon-receive"
                           ng-if="::!$ctrl.isDepositSupported(balance.asset) && $ctrl.isSepaSupported(balance.asset)"
                           ng-click="$ctrl.showSepa(balance.asset)">
-                        <div>Recive!</div>
+                        <div><w-i18n>receive</w-i18n></div>
                     </span>
-                    <span class="icon icon-spam" ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES"
+                    <span class="icon"
+                          ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES"
+                          ng-class="{'icon-hide': !balance.isSpam, 'icon-show': balance.isSpam}"
                           ng-click="$ctrl.toggleSpam(balance.asset)">
-                         <div>Spam!</div>
+                         <div>
+                            <w-i18n ng-if="!balance.isSpam">tospam</w-i18n>
+                            <w-i18n ng-if="balance.isSpam">unspam</w-i18n>
+                         </div>
                     </span>
                     <w-actions>
                         <w-action ng-click="$ctrl.showAsset(balance.asset)">
@@ -111,12 +122,12 @@
                         </w-action>
                         <w-action ng-if="$ctrl.isDepositSupported(balance.asset)"
                                   ng-click="$ctrl.showReceivePopup(balance.asset)">
-                            <w-i18n>deposit</w-i18n>
+                            <w-i18n>receive</w-i18n>
                         </w-action>
                         <w-action
                                 ng-if="::!$ctrl.isDepositSupported(balance.asset) && $ctrl.isSepaSupported(balance.asset)"
                                 ng-click="$ctrl.showSepa(balance.asset)">
-                            <w-i18n>deposit</w-i18n>
+                            <w-i18n>receive</w-i18n>
                         </w-action>
                         <w-action ng-if="::balance.asset.isMyAsset"
                                   ng-click="$ctrl.showBurn(balance.asset.id)">
@@ -127,11 +138,12 @@
                             <w-i18n>reissue</w-i18n>
                         </w-action>
                         <w-action ng-click="$ctrl.openDex(balance.asset)">
-                            <w-i18n>DEX!</w-i18n>
+                            <w-i18n>dex</w-i18n>
                         </w-action>
                         <w-action ng-if="::balance.asset.id !== WavesApp.defaultAssets.WAVES"
                                   ng-click="$ctrl.toggleSpam(balance.asset)">
-                            <w-i18n>SPA!</w-i18n>
+                            <w-i18n w-i18n-ns="app.wallet.portfolio" ng-if="!balance.isSpam">tospam</w-i18n>
+                            <w-i18n w-i18n-ns="app.wallet.portfolio" ng-if="balance.isSpam">unspam</w-i18n>
                         </w-action>
                     </w-actions>
                     <i class="toggler" w-toggle-class></i>

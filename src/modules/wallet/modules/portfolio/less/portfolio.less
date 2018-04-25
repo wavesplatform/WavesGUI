@@ -79,9 +79,12 @@
         z-index: 1;
         background: @color-white;
 
+
         .smart-table__row {
           display: flex;
           width: 100%;
+          min-width: 768px;
+          overflow-x: auto;
           align-items: center;
           justify-content: space-between;
 
@@ -89,6 +92,37 @@
             padding: 0 10px;
             border-bottom: 1px solid @color-accent-50;
             width: 100%;
+
+            .sort-by {
+              cursor: pointer;
+              font-family: @font-roboto-medium;
+
+              &::after {
+                display: none;
+                width: 10px;
+                height: 10px;
+                margin-left: 5px;
+                margin-top: -1px;
+                content: '';
+                background: url(/img/icons/arrow-sorting.svg) center center no-repeat;
+                vertical-align: middle;
+                transform: rotate(0deg);
+              }
+
+            }
+
+            &.asc .sort-by::after,
+            &.desc .sort-by::after {
+              display: inline-block;
+            }
+
+            &.asc {
+              .sort-by {
+                &::after {
+                  transform: rotate(180deg);
+                }
+              }
+            }
 
             &:first-child {
               .cell {
@@ -139,36 +173,6 @@
               .footnote-1();
             }
 
-            .sort-by {
-              cursor: pointer;
-              font-family: @font-roboto-medium;
-
-              &::after {
-                display: none;
-                width: 10px;
-                height: 10px;
-                margin-left: 5px;
-                margin-top: -1px;
-                content: '';
-                background: url(/img/icons/arrow-sorting.svg) center center no-repeat;
-                vertical-align: middle;
-                transform: rotate(0deg);
-              }
-
-              &.asc::after,
-              &.desc::after {
-                display: inline-block;
-              }
-            }
-
-            &.desc {
-              .sort-by {
-                &::after {
-                  transform: rotate(180deg);
-                }
-              }
-            }
-
           }
         }
       }
@@ -178,6 +182,8 @@
         display: block;
         overflow: auto;
         max-height: calc(100vh ~'- 208px');
+        position: relative;
+        z-index: 2;
 
         .smart-table__row {
           display: flex;
@@ -186,6 +192,7 @@
           justify-content: space-between;
           transition: .2s;
           background: @color-white;
+          min-width: 768px;
 
           i.toggler {
             display: none;
@@ -329,8 +336,8 @@
             color: @color-white;
             padding: 10px 15px;
             border-radius: @border-radius;
-
             .tag-2();
+            text-transform: none;
 
             &::after {
               display: block;
@@ -365,11 +372,35 @@
           background: url(/img/icons/deposit.svg) center no-repeat;
           right: 97px;
         }
-        .icon-spam {
-          background: url(/img/icons/spam-icon.svg) center no-repeat;
+        .icon-hide {
+          background: url(/img/icons/hide-icon.svg) center no-repeat;
+          right: 55px;
+        }
+        .icon-show {
+          background: url(/img/icons/show-icon.svg) center no-repeat;
           right: 55px;
         }
 
+      }
+    }
+
+    .smart-table__row:first-child {
+      .portfolio-table__control-cell {
+        .cell {
+          span {
+            div {
+              top: auto;
+              bottom: 0;
+              left: 50%;
+              transform: translate(-50%, 40px);
+
+              &::after {
+                left: 50%;
+                transform: translate(-50%, -27px) rotate(45deg);
+              }
+            }
+          }
+        }
       }
     }
 
@@ -468,7 +499,7 @@
         .select-list {
           left: auto;
           right: 0;
-          min-width: 126px;
+          min-width: 156px;
           margin-top: -1px;
           border-top: 1px solid @color-accent-50;
           border-radius: @border-radius 0 @border-radius @border-radius;
@@ -501,6 +532,7 @@
             border: 1px solid @color-accent-50;
             padding: 20px 0 40px;
             transition: .3s;
+            min-width: 100%;
 
             i.toggler {
               width: 50px;
@@ -598,7 +630,7 @@
                   transform: translateX(50%);
                 }
 
-                .icon-spam {
+                .icon-hide {
                   right: 20px;
                 }
               }
@@ -612,7 +644,10 @@
       }
 
     }
+
+
   }
+
 }
 
 //@media screen and (max-height: 355px) and (min-width: 769px) {
