@@ -168,6 +168,14 @@
 @media screen and (max-width: 768px) {
   .main.wallet.portfolio {
 
+    .btn-icon {
+      font-size:0;
+
+      &::before {
+        margin: 0;
+      }
+    }
+
     w-scroll-box {
       border-radius: @border-radius;
       border-top: 1px solid @color-accent-50;
