@@ -1,9 +1,153 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
+@import (reference) '../../../app/less/icons';
 
-w-smart-table {
+@cell-height: 64px;
+@responsive-cell-height: auto;
+
+.smart-table {
+
+  &__w-table {
+    color: @color-basic-700;
+    font-size: 15px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__w-thead {
+    width: 100%;
+    background: @color-white;
+    z-index: 1;
+
+    .smart-table {
+      &__row {
+        display: flex;
+        width: 100%;
+        min-width: 768px;
+        overflow-x: auto;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      &__cell {
+        padding: 0 10px;
+        border-bottom: 1px solid @color-accent-50;
+        width: 100%;
+
+        .sort-by {
+          cursor: pointer;
+          font-family: @font-roboto-medium;
+
+          &::after {
+            display: none;
+            width: 10px;
+            height: 10px;
+            margin-left: 5px;
+            margin-top: -1px;
+            content: '';
+            background: url(/img/icons/arrow-sorting.svg) center center no-repeat;
+            vertical-align: middle;
+            transform: rotate(0deg);
+          }
+
+        }
+
+        &.asc .sort-by::after,
+        &.desc .sort-by::after {
+          display: inline-block;
+        }
+
+        &.asc {
+          .sort-by {
+            &::after {
+              transform: rotate(180deg);
+            }
+          }
+        }
+
+        &:first-child {
+          .cell {
+            min-width: 160px;
+            justify-content: flex-start;
+
+            .sort-by {
+              margin-left: 60px;
+            }
+          }
+        }
+
+        &:last-child {
+          min-width: 250px;
+          width: 250px;
+        }
+
+        .cell {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          color: @color-basic-500;
+          height: @cell-height;
+          white-space: nowrap;
+          .footnote-1();
+        }
+
+      }
+    }
+
+  }
+
+  &__search-container {
+    input {
+      position: absolute;
+      left: 20px;
+      top: 13px;
+      height: 36px;
+      width: 36px;
+      border-radius: @border-radius;
+      background: url(/img/icons/input-search-icon.svg) 11px center no-repeat @color-white;
+      border: 1px solid @color-disabled-200;
+      cursor: pointer;
+      margin-right: 10px;
+      transition: .3s;
+      font-size: 0;
+      z-index: 1;
+
+      &:focus {
+        width: 200px;
+        padding-left: 35px;
+        cursor: default;
+        border-color: @color-submit-300;
+        .footnote-1();
+      }
+
+      &.not-empty {
+        border-color: @color-submit-300;
+      }
+    }
+  }
+
+}
+
+@media screen and (max-width: 1340px) {
   .smart-table {
-    &__search-container input.not-empty {
-      border-color: @color-submit-300;
+    &__row {
+      .smart-table {
+        &__cell:last-child {
+          width: 50px;
+          min-width: 50px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .smart-table {
+    &__w-thead {
+      display: none;
     }
   }
 }

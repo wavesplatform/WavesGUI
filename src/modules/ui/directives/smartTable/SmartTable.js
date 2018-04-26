@@ -77,7 +77,7 @@
             }
 
             $postLink() {
-                this._header = $element.find('.w-thead');
+                this._header = $element.find('.smart-table__w-thead');
             }
 
             _applySort() {
