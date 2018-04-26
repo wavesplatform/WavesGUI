@@ -4,6 +4,8 @@
             <w-transaction-info class="margin-3"
                                 transaction="$ctrl.tx"></w-transaction-info>
 
+            <w-i18n ng-if="$ctrl.referrer" params="{referrer: $ctrl.referrer}">confirmTransaction.redirect</w-i18n>
+
             <w-i18n ng-repeat="error in $ctrl.errors">{{::error.literal}}</w-i18n>
 
             <div class="buttons-wrapper">

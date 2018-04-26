@@ -136,7 +136,7 @@
                                         amount.getTokens().lte(0)) {
 
                                         errors.push({
-                                            literal: 'modal.send.errors.balance.invalid'
+                                            literal: 'confirmTransaction.send.errors.balance.invalid'
                                         });
                                     }
                                 }),
@@ -144,7 +144,7 @@
                                 .then(({ state }) => {
                                     if (!state) {
                                         errors.push({
-                                            literal: 'modal.send.errors.recipient.invalid'
+                                            literal: 'confirmTransaction.send.errors.recipient.invalid'
                                         });
                                     }
                                 })
@@ -193,7 +193,8 @@
             onClickBack: '&',
             onTxSent: '&',
             noBackButton: '<',
-            showValidationErrors: '<'
+            showValidationErrors: '<',
+            referrer: '<'
         },
         templateUrl: 'modules/ui/directives/confirmTransaction/confirmTransaction.html',
         transclude: false,
