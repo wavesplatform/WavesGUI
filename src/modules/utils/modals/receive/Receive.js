@@ -435,7 +435,7 @@
             }
 
             isLira() {
-                return this.chosenAssetId === WavesApp.defaultAssets.TRY;
+                return this.asset.id === WavesApp.defaultAssets.TRY;
             }
 
         }
