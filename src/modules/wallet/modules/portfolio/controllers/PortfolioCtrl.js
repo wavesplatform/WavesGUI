@@ -132,7 +132,7 @@
              * @param {Asset} asset
              */
             showSend(asset) {
-                return modalManager.showSendAsset({ assetId: asset.id });
+                return modalManager.showSendAsset({ assetId: asset && asset.id });
             }
 
             /**
