@@ -23,15 +23,14 @@
 
         }
 
-        function getFirstVideoDevice(list) {
-            let item = null;
-            list.some((device) => {
-                if (device.kind === 'videoinput') {
-                    item = device;
-                }
-                return !!item;
-            });
-            return item;
+        function getFacingBackCamera(devices) {
+            let facingBackCamera = devices.find((device) => device.label.includes('back'));
+
+            if (!facingBackCamera) {
+                facingBackCamera = devices.find((device) => device.kind === 'videoinput');
+            }
+
+            return facingBackCamera || null;
         }
 
         return {
@@ -46,7 +45,7 @@
                     };
 
                     navigator.mediaDevices.enumerateDevices().then((deviceList) => {
-                        const deviceInfo = getFirstVideoDevice(deviceList);
+                        const deviceInfo = getFacingBackCamera(deviceList);
 
                         const constraints = {
                             video: {
