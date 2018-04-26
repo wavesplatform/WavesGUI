@@ -248,13 +248,9 @@
 
                 const invoiceAmount = (this.invoiceAmount && this.invoiceAmount.toTokens()) || '0';
 
-                let url = `${location.protocol}//${location.hostname}`;
-                const port = location.port;
-                if (port) {
-                    url += `:${port}`;
-                }
+                const WAVES_URL = 'https://beta.wavesplatform.com/';
 
-                this.sendLink = `${url}/#send/${assetId}?recipient=${this.chosenAlias}&amount=${invoiceAmount}`;
+                this.sendLink = `${WAVES_URL}/#send/${assetId}?recipient=${this.chosenAlias}&amount=${invoiceAmount}`;
             }
 
             initCardTab() {
