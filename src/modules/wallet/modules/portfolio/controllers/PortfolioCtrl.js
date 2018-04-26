@@ -123,6 +123,8 @@
                     this.pending = false;
                     this.observe('details', this._onChangeDetails);
                     this.observe('filter', this._onChangeDetails);
+
+                    this._onChangeDetails();
                 });
             }
 

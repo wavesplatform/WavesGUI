@@ -195,9 +195,6 @@
                     return null;
                 }
                 this._sleepStep = step;
-                if (this._maxSleep) {
-                    this._block.style.opacity = String(this._sleepStep * (1 / this._maxSleep));
-                }
                 this.signals.sleep.dispatch(this._sleepStep);
             }
 
