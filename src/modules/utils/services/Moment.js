@@ -255,7 +255,7 @@
 })();
 
 /**
- * @callback IAddDateCallback
+ * @typedef {function} IAddDateCallback
  * @param {number} count
  * @return {Moment}
  */

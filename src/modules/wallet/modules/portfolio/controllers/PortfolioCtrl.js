@@ -53,6 +53,10 @@
                  * @type {string}
                  */
                 this.filter = null;
+                /**
+                 * @type {Moment}
+                 */
+                this.chartStartDate = utils.moment().add().day(-7);
 
                 waves.node.assets.getExtendedAsset(this.mirrorId)
                     .then((mirror) => {

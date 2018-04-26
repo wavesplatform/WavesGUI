@@ -72,7 +72,9 @@
                                    asset-id="balance.asset.id"></w-change-rate>
                     <span ng-if="::balance.asset.id == WavesApp.defaultAssets.USD">—</span>
                     <div>
-                        <w-asset-rate-chart no-update="::true" asset-id="::balance.asset.id"></w-asset-rate-chart>
+                        <w-asset-rate-chart no-update="::true"
+                                            start-from="::$ctrl.chartStartDate"
+                                            asset-id="::balance.asset.id"></w-asset-rate-chart>
                     </div>
                 </div>
             </w-table-cell>
