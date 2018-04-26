@@ -35,7 +35,9 @@
                     }
                 }, false);
 
-                this._apply(this._firstUrl);
+                waves.node.assets.userBalances().then(() => {
+                    this._apply(this._firstUrl);
+                });
             }
 
             /**

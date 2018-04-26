@@ -152,6 +152,7 @@
              * @param {string} [data.amount]
              * @param {string} [data.recipient]
              * @param {boolean} [data.strict]
+             * @param {string} [data.referrer]
              * @return {Promise}
              */
             showSendAsset(data) {
@@ -168,7 +169,8 @@
                         mode: data.mode,
                         amount: data.amount,
                         recipient: data.recipient,
-                        strict: data.strict
+                        strict: data.strict,
+                        referrer: data.referrer
                     }
                 });
             }
