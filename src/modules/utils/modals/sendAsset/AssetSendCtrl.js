@@ -134,7 +134,7 @@
                 const types = WavesApp.TRANSACTION_TYPES.NODE;
                 const type = this.tab === 'singleSend' ? types.TRANSFER : types.MASS_TRANSFER;
 
-                tx = tx || this.tab === 'singleSend' ? { ...this.state.singleSend } : { ...this.state.massSend };
+                tx = tx || (this.tab === 'singleSend' ? { ...this.state.singleSend } : { ...this.state.massSend });
 
                 this.txInfo = waves.node.transactions.createTransaction(type, {
                     ...tx,
