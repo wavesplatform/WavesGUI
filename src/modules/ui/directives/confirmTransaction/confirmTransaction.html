@@ -8,10 +8,9 @@
                 <w-i18n params="{referrer: $ctrl.referrer}">confirmTransaction.redirect</w-i18n>
             </h3>
 
-            <div class="error error-500 body-2 margin-2"
+            <div class="error error-500 text-center body-2"
                  ng-repeat="error in $ctrl.errors"
                  w-i18n="{{::error.literal}}"></div>
-
 
             <div class="buttons-wrapper">
                 <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
