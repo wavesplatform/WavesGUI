@@ -50,7 +50,8 @@
                         WavesApp.defaultAssets.LTC,
                         WavesApp.defaultAssets.ZEC,
                         WavesApp.defaultAssets.BCH,
-                        WavesApp.defaultAssets.TRY
+                        WavesApp.defaultAssets.TRY,
+                        WavesApp.defaultAssets.DASH
                     ],
                     wallet: {
                         activeState: 'assets',

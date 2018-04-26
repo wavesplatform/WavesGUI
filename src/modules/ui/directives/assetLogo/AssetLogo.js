@@ -10,6 +10,7 @@
         [WavesApp.defaultAssets.ZEC]: '/img/assets/zec.svg',
         [WavesApp.defaultAssets.EUR]: '/img/assets/euro.svg',
         [WavesApp.defaultAssets.USD]: '/img/assets/usd.svg',
+        [WavesApp.defaultAssets.DASH]: '/img/assets/dash.svg',
         [WavesApp.defaultAssets.BCH]: '/img/assets/bitcoin-cash.svg',
         [WavesApp.defaultAssets.TRY]: '/img/assets/try.svg',
         [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
