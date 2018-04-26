@@ -6,7 +6,7 @@
     /**
      *
      * @param Base
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param $filter
      * @param {ExplorerLinks} explorerLinks
      * @param {BaseAssetService} baseAssetService
@@ -43,6 +43,7 @@
                     baseAssetService.convertToBaseAsset(amount)
                         .then((baseMoney) => {
                             this.mirrorBalance = baseMoney;
+                            $scope.$digest();
                         });
                 }
 

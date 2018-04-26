@@ -156,13 +156,7 @@
             }
 
             nextStep() {
-
-                const tx = waves.node.transactions.createTransaction(TYPE, {
-                    ...this.tx,
-                    sender: user.address
-                });
-
-                this.onContinue({ tx });
+                this.onContinue({ tx: { ...this.tx } });
             }
 
             /**
