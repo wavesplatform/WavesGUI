@@ -29,10 +29,11 @@
                 return this.sendTransaction().then(({ id }) => {
                     this.tx.id = id;
                     this.step++;
-                    $scope.$digest();
+                    $scope.$apply();
                 }).catch((e) => {
                     console.error(e);
                     console.error('Transaction error!');
+                    $scope.$apply();
                 });
             }
 
