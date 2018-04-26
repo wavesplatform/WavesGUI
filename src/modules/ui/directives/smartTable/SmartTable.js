@@ -208,7 +208,7 @@
                             item.sorting = false;
                         });
                         headerData.sorting = true;
-                        headerData.isAsc = true;
+                        headerData.isAsc = false;
                     }
                     this._applySort();
                 };
@@ -220,10 +220,7 @@
             _sort() {
                 const header = tsUtils.find(this._headerData || [], { sorting: true });
                 if (header) {
-                    this._visibleList = header.sort(this._filtredList.slice());
-                    if (!header.isAsc) {
-                        this._visibleList = this._visibleList.reverse();
-                    }
+                    this._visibleList = header.sort(this._filtredList.slice(), header.isAsc);
                 } else {
                     this._visibleList = this._filtredList.slice();
                 }
@@ -274,9 +271,10 @@
                     return sort;
                 }
 
-                return sort && function (list) {
+                return sort && function (list, isAsc) {
+                    const method = isAsc ? 'asc' : 'desc';
                     const getValue = (item) => tsUtils.get({ item }, valuePath);
-                    return list.sort(utils.comparators.process(getValue).smart.asc);
+                    return list.sort(utils.comparators.process(getValue).smart[method]);
                 } || null;
             }
 
