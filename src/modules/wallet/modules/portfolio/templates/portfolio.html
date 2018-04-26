@@ -28,6 +28,7 @@
     </div>
 
     <w-smart-table class="portfolio-table" data="$ctrl.balanceList" header-info="$ctrl.tableHeaders">
+        <w-loader ng-if="$ctrl.pending"></w-loader>
         <w-table-row
                 w-toggle-class-container
                 ng-repeat="balance in $data track by balance.asset.id">

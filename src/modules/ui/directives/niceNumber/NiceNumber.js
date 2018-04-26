@@ -47,7 +47,7 @@
                 scope: {
                     number: '<wNiceNumber',
                     precision: '<',
-                    shortMode: '@'
+                    shortMode: '<'
                 },
                 controller: controller
             };

@@ -57,6 +57,10 @@
                  * @type {Moment}
                  */
                 this.chartStartDate = utils.moment().add().day(-7);
+                /**
+                 * @type {boolean}
+                 */
+                this.pending = true;
 
                 waves.node.assets.getExtendedAsset(this.mirrorId)
                     .then((mirror) => {
@@ -116,6 +120,7 @@
                 this.poll = createPoll(this, this._getPortfolio, 'details', 1000, { isBalance: true, $scope });
 
                 this.poll.ready.then(() => {
+                    this.pending = false;
                     this.observe('details', this._onChangeDetails);
                     this.observe('filter', this._onChangeDetails);
                 });
