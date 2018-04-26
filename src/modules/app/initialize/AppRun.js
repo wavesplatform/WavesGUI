@@ -94,6 +94,7 @@
                 this._initializeOutLinks();
                 waves.node.assets.initializeAssetFactory();
 
+                $rootScope.WavesApp = WavesApp;
             }
 
             /**

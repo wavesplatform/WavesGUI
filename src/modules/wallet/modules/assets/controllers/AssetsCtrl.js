@@ -183,6 +183,10 @@
                     });
             }
 
+            /**
+             * @return {Promise<Money[]>}
+             * @private
+             */
             _getChartBalances() {
                 return waves.node.assets.balanceList(this.chartAssetIdList)
                     .then((list) => list.map(({ available }) => available));

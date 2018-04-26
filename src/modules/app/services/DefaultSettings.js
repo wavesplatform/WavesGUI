@@ -65,6 +65,10 @@
                         },
                         transactions: {
                             filter: 'all'
+                        },
+                        portfolio: {
+                            spam: [],
+                            filter: 'active'
                         }
                     },
                     dex: {
