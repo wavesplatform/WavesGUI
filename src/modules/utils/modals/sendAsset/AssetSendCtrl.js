@@ -95,9 +95,9 @@
                 this.strict = options.amount && options.recipient && options.strict;
 
                 try {
-                    this._referrer = new URL(options.referrer).href;
+                    this.referrer = new URL(options.referrer).href;
                 } catch (e) {
-                    this._referrer = null;
+                    this.referrer = null;
                 }
 
                 if (!(options.mode || options.recipient || options.amount)) {
@@ -145,8 +145,8 @@
             }
 
             onTxSent(id) {
-                if (this._referrer) {
-                    location.href = `${this._referrer}?txId=${id}`;
+                if (this.referrer) {
+                    location.href = `${this.referrer}?txId=${id}`;
                 }
             }
 
