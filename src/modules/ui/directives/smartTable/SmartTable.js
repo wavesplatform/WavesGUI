@@ -294,7 +294,7 @@
 
                     return list.filter((item) => {
                         const value = tsUtils.get({ item }, valuePath);
-                        return String(value).toLowerCase().indexOf(query) !== -1;
+                        return String(value).toLowerCase().indexOf(query.toLowerCase()) !== -1;
                     });
                 };
 
