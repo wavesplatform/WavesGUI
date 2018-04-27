@@ -189,7 +189,10 @@
                             this.tx.amount = this.moneyHash[this.assetId].cloneWithCoins(result.params.amount);
                             this._fillMirror();
                         }
+                        $scope.$apply();
                     };
+
+                    result.params.assetId = result.params.asset || result.params.assetId;
 
                     if (result.params.assetId) {
                         waves.node.assets.balance(result.params.assetId).then(({ available }) => {
