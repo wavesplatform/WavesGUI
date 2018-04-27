@@ -42,11 +42,18 @@
 
     controller.$inject = ['Base'];
 
+    const attrs = [
+        'w-nice-number="$ctrl.tokens"',
+        'short-mode="$ctrl.shortMode"',
+        'precision="$ctrl.money.asset.precision"'
+    ];
+
     angular.module('app.ui')
         .component('wBalance', {
-            template: '<span w-nice-number="$ctrl.tokens" precision="$ctrl.money.asset.precision"></span>',
+            template: `<span ${attrs.join(' ')}></span>`,
             bindings: {
-                money: '<'
+                money: '<',
+                shortMode: '<'
             },
             controller
         });

@@ -95,9 +95,9 @@
                 });
 
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
+                    this.expand(type);
                     this.amount = this.amountBalance.cloneWithTokens(amount);
                     this.price = this.priceBalance.cloneWithTokens(price);
-                    this.expand(type);
                     $scope.$digest();
                 });
 

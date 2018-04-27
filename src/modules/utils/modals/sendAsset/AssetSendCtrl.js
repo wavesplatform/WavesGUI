@@ -36,10 +36,9 @@
             }
 
             /**
-             * @param {string} assetId
-             * @param {boolean} canChooseAsset
+             * @param {IAssetSendCtrl.IOptions} options
              */
-            constructor(assetId, canChooseAsset) {
+            constructor(options) {
                 super($scope);
 
                 /**
@@ -61,7 +60,7 @@
                 /**
                  * @type {boolean}
                  */
-                this.canChooseAsset = !assetId || canChooseAsset;
+                this.canChooseAsset = !options.assetId || options.canChooseAsset;
                 /**
                  * @type {Object.<string, Money>}
                  */
@@ -70,7 +69,7 @@
                  * @type {ISendState}
                  */
                 this.state = {
-                    assetId: assetId || WavesApp.defaultAssets.WAVES,
+                    assetId: options.assetId || WavesApp.defaultAssets.WAVES,
                     mirrorId: user.getSetting('baseAssetId'),
                     outerSendMode: false,
                     gatewayDetails: null,
@@ -89,11 +88,39 @@
                 /**
                  * @type {string}
                  */
-                this.tab = null;
+                this.tab = options.mode;
+                /**
+                 * @type {boolean}
+                 */
+                this.strict = options.amount && options.recipient && options.strict;
 
-                this.syncSettings({
-                    tab: 'send.defaultTab'
-                });
+                try {
+                    this.referrer = new URL(options.referrer).href;
+                } catch (e) {
+                    this.referrer = null;
+                }
+
+                if (!(options.mode || options.recipient || options.amount)) {
+                    this.syncSettings({
+                        tab: 'send.defaultTab'
+                    });
+                } else {
+                    this.tab = 'singleSend';
+                    this.state.singleSend.recipient = options.recipient;
+
+                    Promise.all([
+                        Waves.Money.fromTokens(options.amount, this.state.assetId),
+                        waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.TRANSFER })
+                    ]).then(([money, fee]) => {
+
+                        this.state.singleSend.amount = money;
+                        this.state.singleSend.fee = fee;
+
+                        if (this.strict) {
+                            this.nextStep();
+                        }
+                    });
+                }
 
                 this.receive(utils.observe(this.state, 'moneyHash'), this._onChangeMoneyHash, this);
                 this.receive(utils.observe(this.state, 'assetId'), () => this.poll.restart());
@@ -104,8 +131,23 @@
             }
 
             nextStep(tx) {
-                this.txInfo = tx;
+                const types = WavesApp.TRANSACTION_TYPES.NODE;
+                const type = this.tab === 'singleSend' ? types.TRANSFER : types.MASS_TRANSFER;
+
+                tx = tx || (this.tab === 'singleSend' ? { ...this.state.singleSend } : { ...this.state.massSend });
+
+                this.txInfo = waves.node.transactions.createTransaction(type, {
+                    ...tx,
+                    sender: user.address
+                });
+
                 this.step++;
+            }
+
+            onTxSent(id) {
+                if (this.referrer) {
+                    location.href = `${this.referrer}?txId=${id}`;
+                }
             }
 
             /**
@@ -154,7 +196,7 @@
 
         }
 
-        return new AssetSendCtrl(this.assetId, this.canChooseAsset);
+        return new AssetSendCtrl(this.locals);
     };
 
     controller.$inject = [
@@ -206,4 +248,19 @@
  * @property {Object.<string, Money>} moneyHash
  * @property {ISingleSendTx} singleSend
  * @property {IMassSendTx} massSend
+ */
+
+/**
+ * @name IAssetSendCtrl
+ */
+
+/**
+ * @typedef {object} IAssetSendCtrl#IOptions
+ * @property {string} [assetId]
+ * @property {boolean} [canChooseAsset]
+ * @property {'singleSend'|'massSend'} [mode]
+ * @property {string} [amount]
+ * @property {string} [recipient]
+ * @property {boolean} [strict]
+ * @property {string} [referrer]
  */

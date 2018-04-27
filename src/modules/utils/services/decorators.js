@@ -56,17 +56,27 @@
              * @returns {Function}
              */
             async(timeout) {
+                let addTimeout, dropTimeout;
+
+                if (timeout) {
+                    addTimeout = (cb) => setTimeout(cb, timeout);
+                    dropTimeout = clearTimeout;
+                } else {
+                    addTimeout = requestAnimationFrame;
+                    dropTimeout = cancelAnimationFrame;
+                }
+
                 return function (target, key, descriptor) {
                     const origin = descriptor.value;
 
                     descriptor.value = function (...args) {
                         if (this[`__${key}_timer`]) {
-                            clearTimeout(this[`__${key}_timer`]);
+                            dropTimeout(this[`__${key}_timer`]);
                         }
-                        this[`__${key}_timer`] = setTimeout(() => {
+                        this[`__${key}_timer`] = addTimeout(() => {
                             this[`__${key}_timer`] = null;
                             origin.call(this, ...args);
-                        }, timeout || 0);
+                        });
                     };
                 };
             },
@@ -84,7 +94,7 @@
                     if (time > 0) {
                         descriptor.value = function (...args) {
                             const key = stringify(args);
-                            if (cache[key] && cache[key].timer) {
+                            if (cache[key] && cache[key]) {
                                 return cache[key].value;
                             } else {
                                 cache[key] = Object.create(null);
@@ -94,13 +104,10 @@
                                     typeof cache[key].value.then === 'function') {
 
                                     cache[key].value.catch(() => {
-                                        if (cache[key].timer) {
-                                            clearTimeout(cache[key].timer);
-                                        }
+                                        timeLine.cancel(cache[key].timer);
                                         delete cache[key];
                                     });
 
-                                    cache[key].timer = 1;
                                     cache[key].value
                                         .then(() => {
                                             cache[key].timer = timeLine.timeout(() => {
@@ -133,7 +140,7 @@
 
     };
 
-    factory.$inject = ['utils', 'timeLine'];
+    factory.$inject = ['utils', 'timeLine', 'PromiseControl'];
 
     /**
      * @param {Array} some

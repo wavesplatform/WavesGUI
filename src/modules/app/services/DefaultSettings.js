@@ -50,7 +50,8 @@
                         WavesApp.defaultAssets.LTC,
                         WavesApp.defaultAssets.ZEC,
                         WavesApp.defaultAssets.BCH,
-                        WavesApp.defaultAssets.TRY
+                        WavesApp.defaultAssets.TRY,
+                        WavesApp.defaultAssets.DASH
                     ],
                     wallet: {
                         activeState: 'assets',
@@ -65,6 +66,10 @@
                         },
                         transactions: {
                             filter: 'all'
+                        },
+                        portfolio: {
+                            spam: [],
+                            filter: 'active'
                         }
                     },
                     dex: {
@@ -80,6 +85,8 @@
                                 list: [
                                     WavesApp.defaultAssets.WAVES,
                                     WavesApp.defaultAssets.BTC,
+                                    WavesApp.defaultAssets.DASH,
+                                    WavesApp.defaultAssets.TRY,
                                     'HzfaJp8YQWLvQG4FkUxq2Q7iYWMYQ2k8UF89vVJAjWPj',
                                     'ABFYQjwDHSct6rNk59k3snoZfAqNHVZdHz4VGJe2oCV5',
                                     '474jTeYx2r2Va35794tCScAXWJG9hU2HcgxzMowaZUnu',
@@ -107,6 +114,8 @@
                                 list: [
                                     WavesApp.defaultAssets.WAVES,
                                     WavesApp.defaultAssets.BTC,
+                                    WavesApp.defaultAssets.DASH,
+                                    WavesApp.defaultAssets.TRY,
                                     'HzfaJp8YQWLvQG4FkUxq2Q7iYWMYQ2k8UF89vVJAjWPj',
                                     'ABFYQjwDHSct6rNk59k3snoZfAqNHVZdHz4VGJe2oCV5',
                                     '474jTeYx2r2Va35794tCScAXWJG9hU2HcgxzMowaZUnu',

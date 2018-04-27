@@ -125,8 +125,7 @@
                     return this.showAsset(asset);
                 }
 
-                const receiveActions = ['deposit', 'sepa', 'card'];
-                if (receiveActions.includes(action)) {
+                if (action === 'receive') {
                     return this.showReceivePopup(asset);
                 }
 
@@ -152,7 +151,7 @@
              * @param {Asset} asset
              */
             showSend(asset) {
-                return modalManager.showSendAsset(user, asset || Object.create(null));
+                return modalManager.showSendAsset({ assetId: asset && asset.id || null });
             }
 
             /**
@@ -184,6 +183,10 @@
                     });
             }
 
+            /**
+             * @return {Promise<Money[]>}
+             * @private
+             */
             _getChartBalances() {
                 return waves.node.assets.balanceList(this.chartAssetIdList)
                     .then((list) => list.map(({ available }) => available));

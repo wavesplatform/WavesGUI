@@ -23,6 +23,10 @@
 
                     <w-confirm-transaction ng-if="!$ctrl.outerSendMode"
                                            on-click-back="$ctrl.back()"
+                                           no-back-button="$ctrl.strict"
+                                           on-tx-sent="$ctrl.onTxSent(id)"
+                                           referrer="$ctrl.referrer"
+                                           show-validation-errors="$ctrl.strict"
                                            tx="$ctrl.txInfo"></w-confirm-transaction>
 
                     <w-confirm-gateway-transaction ng-if="$ctrl.outerSendMode"
