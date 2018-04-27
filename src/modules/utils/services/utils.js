@@ -57,7 +57,7 @@
              * @return {object}
              */
             parseSearchParams(search = '') {
-                const hashes = search.slice(search.indexOf('?') + 1).split('&');
+                const hashes = search.slice(search.indexOf('?') + 1).split('&').filter(Boolean);
                 const params = Object.create(null);
 
                 hashes.forEach((hash) => {

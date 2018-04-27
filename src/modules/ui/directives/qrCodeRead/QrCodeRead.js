@@ -193,8 +193,14 @@
             }
 
             _parseQrCode({ result }) {
-                const [protocol, data] = result.split('://');
-                const [body, search] = data.split('?');
+                let protocol, data;
+                if (result.includes('://')) {
+                    [protocol, data] = result.split('://');
+                } else {
+                    protocol = null;
+                    data = result;
+                }
+                const [body, search] = (data || '').split('?');
                 return { protocol, body, params: utils.parseSearchParams(search) };
             }
 
