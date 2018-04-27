@@ -54,11 +54,6 @@
 
 }
 
-//.send-form w-select .select .select-list {
-//  max-height: 400px;
-//  overflow-y: auto;
-//}
-
 .smart-table {
   max-height: calc(100vh ~'- 142px');
   margin-top: @padding-main-layout;
@@ -283,11 +278,6 @@
       min-width: 50px;
     }
 
-    &__cell:last-child {
-      width: 50px;
-      min-width: 50px;
-    }
-
   }
 
 }
@@ -382,7 +372,8 @@
         &__available-value,
         &__chart-wrap,
         &__change {
-          display: none;
+          height: 0;
+          overflow: hidden;
         }
       }
 
@@ -391,23 +382,22 @@
           &__available-value,
           &__chart-wrap,
           &__change {
-            display: block;
+            height: 30px;
           }
 
+          &__cell {
+            .icon {
+              display: block;
+            }
 
-            &__cell {
-              .icon {
-                display: block;
-              }
+            &:last-child {
+              padding-top: 20px;
 
-              &:last-child {
-                padding-top: 20px;
-
-                .cell {
-                  height: 30px;
-                }
+              .cell {
+                height: 30px;
               }
             }
+          }
         }
 
         i.toggler {
