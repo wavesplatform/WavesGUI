@@ -33,7 +33,7 @@
                     setter = (data) => {
                         tsUtils.set(this.parent, name, data);
                         if (options && options.$scope) {
-                            options.$scope.$digest();
+                            options.$scope.$apply();
                         }
                     };
                 } else {

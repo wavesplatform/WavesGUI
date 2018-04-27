@@ -3,6 +3,8 @@
 
     const factory = function () {
 
+        const tsUtils = require('ts-utils');
+
         class Moment {
 
             /**
@@ -16,10 +18,10 @@
                  */
                 this._date = Moment._parse(date, pattern);
                 /**
-                 * @type {function}
+                 * @type {function(date: Date|number): string}
                  * @private
                  */
-                this._formatter = pattern ? tsUtils.date(pattern) : null;
+                this._formatter = tsUtils.date(pattern || 'DD.MM.YYYY');
             }
 
             /**
@@ -72,10 +74,7 @@
              * @return {string}
              */
             toString() {
-                if (this._formatter) {
-                    return this._formatter(this._date);
-                }
-                return this._date.toString();
+                return this._formatter(this._date);
             }
 
             /**
@@ -256,7 +255,7 @@
 })();
 
 /**
- * @callback IAddDateCallback
+ * @typedef {function} IAddDateCallback
  * @param {number} count
  * @return {Moment}
  */
