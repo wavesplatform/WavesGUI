@@ -86,6 +86,12 @@ md-input-container {
   opacity: 0 !important;
 }
 
+.link {
+  .footnote-1();
+  color:@color-submit-300;
+  cursor: pointer;
+}
+
 .no-user-select {
   user-select: none;
 }
@@ -101,6 +107,10 @@ md-input-container {
 
 .relative {
   position: relative;
+}
+
+.absolute {
+  position: absolute;
 }
 
 w-scroll-box {
@@ -286,6 +296,7 @@ md-toolbar:not(.md-menu-toolbar) {
   padding: 12px;
   border: 1px dashed @color-warning-400;
   border-radius: @border-radius;
+  width: 100%;
 }
 
 .hide-selection() {
@@ -431,6 +442,7 @@ md-toolbar:not(.md-menu-toolbar) {
 
       md-dialog-content {
         padding: 20px 20px 0;
+        height: 100%;
       }
     }
   }

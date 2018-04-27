@@ -9,10 +9,12 @@
      * @param {$mdDialog} $mdDialog
      * @param {ModalManager} modalManager
      * @param {User} user
-     * @param {app.utils} utils
+     * @param {$rootScope.Scope} $scope
      * @returns {ConfirmTransaction}
      */
-    const controller = function (Base, waves, $attrs, $mdDialog, modalManager, user, utils) {
+    const controller = function (Base, waves, $attrs, $mdDialog, modalManager, user, $scope) {
+
+        const TYPES = WavesApp.TRANSACTION_TYPES.NODE;
 
         class ConfirmTransaction extends Base {
 
@@ -24,12 +26,14 @@
             }
 
             confirm() {
-                return utils.when(this.sendTransaction()).then(({ id }) => {
+                return this.sendTransaction().then(({ id }) => {
                     this.tx.id = id;
                     this.step++;
+                    $scope.$apply();
                 }).catch((e) => {
                     console.error(e);
                     console.error('Transaction error!');
+                    $scope.$apply();
                 });
             }
 
@@ -45,15 +49,18 @@
                     let txPromise = null;
 
                     switch (this.tx.transactionType) {
-                        case 'transfer':
+                        case TYPES.TRANSFER:
                             txPromise = waves.node.assets.transfer({ ...this.tx, keyPair });
                             break;
-                        case 'exchange':
+                        case TYPES.MASS_TRANSFER:
+                            txPromise = waves.node.assets.massTransfer({ ...this.tx, keyPair });
+                            break;
+                        case TYPES.EXCHANGE:
                             throw new Error('Can\'t create exchange transaction!');
-                        case 'lease':
+                        case TYPES.LEASE:
                             txPromise = waves.node.lease({ ...this.tx, keyPair });
                             break;
-                        case 'cancelLeasing':
+                        case TYPES.CANCEL_LEASING:
                             txPromise = waves.node.cancelLeasing({
                                 fee: this.tx.fee,
                                 timestamp: this.tx.timestamp,
@@ -61,16 +68,16 @@
                                 keyPair
                             });
                             break;
-                        case 'createAlias':
+                        case TYPES.CREATE_ALIAS:
                             txPromise = waves.node.aliases.createAlias({ ...this.tx, keyPair });
                             break;
-                        case 'issue':
+                        case TYPES.ISSUE:
                             txPromise = waves.node.assets.issue({ ...this.tx, keyPair });
                             break;
-                        case 'reissue':
+                        case TYPES.REISSUE:
                             txPromise = waves.node.assets.reissue({ ...this.tx, keyPair });
                             break;
-                        case 'burn':
+                        case TYPES.BURN:
                             txPromise = waves.node.assets.burn({ ...this.tx, keyPair });
                             break;
                         default:
@@ -107,7 +114,7 @@
         return new ConfirmTransaction();
     };
 
-    controller.$inject = ['Base', 'waves', '$attrs', '$mdDialog', 'modalManager', 'user', 'utils'];
+    controller.$inject = ['Base', 'waves', '$attrs', '$mdDialog', 'modalManager', 'user', '$scope'];
 
     angular.module('app.ui').component('wConfirmTransaction', {
         bindings: {

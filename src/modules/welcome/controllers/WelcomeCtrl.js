@@ -41,6 +41,9 @@
                     .then((list) => {
                         this.userList = list;
                         this._updateActiveUserAddress();
+                        setTimeout(() => {
+                            $scope.$apply(); // TODO FIX!
+                        }, 100);
                     });
             }
 

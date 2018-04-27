@@ -10,9 +10,10 @@
      * @param {Waves} waves
      * @param {DexDataService} dexDataService
      * @param {app.utils} utils
+     * @param {$rootScope.Scope} $scope
      * @return {OrderBook}
      */
-    const controller = function (Base, createPoll, $element, waves, dexDataService, utils) {
+    const controller = function (Base, createPoll, $element, waves, dexDataService, utils, $scope) {
 
         class OrderBook extends Base {
 
@@ -55,7 +56,7 @@
                     _assetIdPair: 'dex.assetIdPair'
                 });
 
-                const poll = createPoll(this, this._getOrders, 'orders', 1000);
+                const poll = createPoll(this, this._getOrders, 'orders', 1000, { $scope });
 
                 this.observe('_assetIdPair', () => {
                     this._showSpread = true;
@@ -167,11 +168,7 @@
                     return null;
                 }
 
-                if (!(bids && asks)) {
-                    this.hasOrderBook = false;
-                } else {
-                    this.hasOrderBook = true;
-                }
+                this.hasOrderBook = Boolean(bids || asks);
 
                 const template = (
                     `<div class="asks">${asks}</div>` +
@@ -198,7 +195,7 @@
         return new OrderBook();
     };
 
-    controller.$inject = ['Base', 'createPoll', '$element', 'waves', 'dexDataService', 'utils'];
+    controller.$inject = ['Base', 'createPoll', '$element', 'waves', 'dexDataService', 'utils', '$scope'];
 
     angular.module('app.dex').component('wDexOrderBook', {
         templateUrl: 'modules/dex/directives/orderBook/orderBook.html',

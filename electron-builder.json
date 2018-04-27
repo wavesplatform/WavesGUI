@@ -28,10 +28,13 @@
     "icon": "electron/icons/icon.icns"
   },
   "win": {
-    "target": [
-      "nsis",
-      "zip"
-    ],
+    "target": [{
+      "target": "nsis",
+      "arch": [ "x64", "ia32" ]
+    }, {
+      "target": "zip",
+      "arch": [ "x64" ]
+    }],
     "legalTrademarks": "Waves Platform",
     "icon": "electron/icons/icon.ico"
   },

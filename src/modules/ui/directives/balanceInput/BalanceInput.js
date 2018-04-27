@@ -89,6 +89,9 @@
                 }
             }
 
+            /**
+             * @private
+             */
             _setMaxBalance() {
                 if (this.fee && this.maxBalance) {
                     /**

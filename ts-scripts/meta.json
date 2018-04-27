@@ -3,7 +3,7 @@
     "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js",
     "node_modules/mousetrap/mousetrap.min.js",
     "node_modules/clipboard/dist/clipboard.min.js",
-    "node_modules/csv-gen/dist/CSV.min.js",
+    "node_modules/papaparse/papaparse.min.js",
     "node_modules/js-cookie/src/js.cookie.js",
     "vendors/require-modules.js",
     "vendors/qrcode.min.js",
@@ -148,9 +148,9 @@
   "configurations": {
     "testnet": {
       "code": "T",
-      "node": "https://testnodes.wavesnodes.com",
+      "node": "https://pool.testnet.wavesnodes.com",
       "matcher": "https://testnet1.wavesnodes.com/matcher",
-      "api": "http://TODO.com",
+      "api": "https://TODO.com",
       "coinomat": "https://test.coinomat.com",
       "datafeed": "https://marketdata.wavesplatform.com",
       "support": "https://support.wavesplatform.com",
@@ -162,6 +162,7 @@
         "LTC": "no-asset-id",
         "ZEC": "no-asset-id",
         "BCH": "no-asset-id",
+        "TRY": "no-asset-id",
         "EFYT": "no-asset-id",
         "WNET": "no-asset-id"
       }
@@ -182,6 +183,7 @@
         "LTC": "HZk1mbfuJpmxU1Fs4AX5MWLVYtctsNcg6e2C6VKqK8zk",
         "ZEC": "BrjUWjndUanm5VsJkbUip8VRYy6LWJePtxya3FNv4TQa",
         "BCH": "zMFqXuoyrn5w17PFurTqxB7GsS71fp9dfk6XFwxbPCy",
+        "TRY": "2mX5DzVKWrAJw8iwdJnV2qtoeVG9h5nTDpTqC1wb1WEN",
         "EFYT": "725Yv9oceWsB4GsYwyy4A52kEwyVrL5avubkeChSnL46",
         "WNET": "AxAmJaro7BJ4KasYiZhw7HkjwgYtt2nekPuF2CN9LMym"
       }

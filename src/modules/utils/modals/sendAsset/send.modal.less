@@ -1,210 +1,468 @@
 @import (reference) '../../../config';
 @import (reference) '../../../app/less/typography';
 
-.modal-send {
-
-  w-qr-code-read {
-    position: absolute;
-    height: 34px;
-    width: 56px;
-    right: 0;
-    top: 50%;
-    margin-top: -17px;
-    border-left: 1px solid #dae1e9;
-
-    .btn:before {
-      width: 38px;
-      height: 32px;
-      background-size: 38px;
-      cursor: pointer;
-    }
-  }
-
-  .read-address-wrap w-input:not(.no-validate) .w-input-wrap::after {
-    right: 70px;
-  }
-
-  .read-address-wrap {
+md-dialog.modal-send {
+  md-dialog-content {
     position: relative;
+    padding: 0;
+    overflow: hidden;
 
-    .w-input-wrap input {
-      height: 54px;
-      padding-right: 54px;
+    &::after {
+      display: none;
     }
-  }
 
-  textarea {
-    resize: vertical;
-    height: 47px;
-    max-height: 250px;
-  }
+    .modal-content {
+      padding-top: 60px;
+    }
 
-  .flex-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    .icon-close {
+      position: fixed;
+      top: 20px;
+      right: 40px;
+      z-index: 11;
+    }
 
-    &.split-half {
-      justify-content: space-between;
-      width: 100%;
+    w-confirm-gateway-transaction,
+    w-confirm-transaction {
+      display: block;
+      padding: 60px 40px 0;
+      overflow: auto;
+      max-height: calc(74vh ~'- 60px');
+      margin-top: -60px;
 
-      & > div.flex-row:last-child {
-        text-align: right;
+      &::after {
+        content: '';
+        display: block;
+        height: 40px;
       }
     }
-  }
 
-  .row {
-    margin-top: 20px;
-    position: relative;
+    w-tabs {
+      .titles-wrap {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 0 40px;
+        z-index: 10;
+        height: 60px;
 
-    &:first-child {
-      margin-top: 10px;
+        .title {
+          .headline-2();
+          line-height: 30px;
+          padding: 20px 0 10px;
+          margin: 0 40px 0 0;
+          color: @color-info-500;
+          min-height: 60px;
+          cursor: pointer;
+
+          &.active {
+            color: @color-submit-400;
+          }
+        }
+
+        &::before {
+          display: none;
+        }
+      }
+
+      .tab-body-wrap .tab-tem {
+        max-height: calc(74vh ~'- 60px');
+        display: block;
+        overflow: auto;
+        padding: 40px 40px 0;
+
+        &::after {
+          display: block;
+          content: '';
+          height: 40px;
+        }
+      }
     }
 
-    &:last-child {
-      margin-top: 10px;
+    .total-amount {
+      background-color: @color-basic-50;
+      border: 1px solid @color-basic-200;
+    }
+
+    w-qr-code-read {
+      position: absolute;
+      height: 34px;
+      width: 56px;
+      right: 0;
+      top: 50%;
+      margin-top: -17px;
+      border-left: 1px solid #dae1e9;
+
+      .btn:before {
+        width: 38px;
+        height: 32px;
+        background-size: 38px;
+        cursor: pointer;
+      }
+    }
+
+    .read-address-wrap w-input:not(.no-validate) .w-input-wrap::after {
+      right: 70px;
+    }
+
+    .read-address-wrap {
+      position: relative;
+
+      .w-input-wrap input {
+        height: 54px;
+        padding-right: 54px;
+      }
+    }
+
+    w-input-container .error.active {
+      display: inline-block;
     }
 
     textarea {
       resize: vertical;
-      min-height: 77px;
-      max-height: 300px;
+      height: 47px;
+      max-height: 250px;
     }
-  }
 
-  .asset-name {
-    margin-left: 10px;
-  }
+    .flex-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
 
-  .input-like {
-    position: relative;
-    padding: 0 20px;
-    height: 54px;
-    border-radius: @border-radius;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-size: 15px;
-    overflow-x: hidden;
-  }
+      &.split-half {
+        justify-content: space-between;
+        width: 100%;
 
-  w-select .title {
-    overflow-x: hidden;
-  }
-
-  .amount-wrap {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .amount-modal-icon {
-    background-image: url(/img/icons/arrow.svg);
-    background-size: 100% 100%;
-    width: 24px;
-    height: 20px;
-    margin: 7px;
-  }
-
-  w-balance {
-    vertical-align: top;
-  }
-
-  w-balance-input {
-    width: calc(50% ~'- 20px');
-
-    .input-wrap .w-input-wrap input {
-      padding-right: 60px;
+        & > div.flex-row:last-child {
+          text-align: right;
+          justify-content: flex-end;
+        }
+      }
     }
-  }
 
-  .no-mirror {
-    .amount-modal-icon {
-      display: none;
+    w-transaction-info .content {
+      .tx-section {
+        display: block;
+        width: 100%;
+
+        .section {
+          display: flex;
+          align-items: center;
+          padding: 10px 0;
+          width: 100%;
+          border-bottom: 1px dashed @color-basic-200;
+
+          &.padder {
+            display: block;
+            height: 70px;
+            padding-top: 5px;
+            border-bottom: 0 none;
+
+            span {
+              align-self: flex-start;
+            }
+          }
+
+          .key {
+            flex-grow: 1;
+            color: @color-black;
+          }
+
+          .value {
+            flex-grow: 0;
+            text-align: right;
+          }
+        }
+
+        & > .section {
+          .key {
+            color: @color-basic-500;
+          }
+        }
+
+        &.tx-header {
+          .section {
+            .footnote-1();
+            border-bottom: 0 none;
+            color: @color-basic-500;
+          }
+        }
+      }
+
+      .lead {
+        margin-bottom: 0;
+
+        & + .section {
+          padding-top: 0;
+        }
+      }
+
+      .tx-header {
+        margin-bottom: 0;
+      }
+
+      .section .tx-section {
+        margin-bottom: -14px;
+      }
     }
-    w-balance-input {
+
+    .row {
+      margin-bottom: 20px;
+      position: relative;
+
+      &:first-child {
+        margin-top: 10px;
+      }
+
+      &:last-child {
+        margin-top: 10px;
+      }
+
+      &.margin-1 {
+        margin-bottom: 10px;
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 77px;
+        max-height: 300px;
+      }
+    }
+
+    .asset-name {
+      margin-left: 10px;
+    }
+
+    .input-like {
+      position: relative;
+      padding: 0 20px;
+      height: 54px;
+      border-radius: @border-radius;
       width: 100%;
-    }
-  }
-
-  .fee {
-    display: flex;
-    flex-direction: row;
-
-    .decimal-muted {
-      display: none;
-    }
-  }
-
-  .modal-content {
-    width: 100%;
-    position: relative;
-  }
-
-  .ellipsis {
-    display: inline-block;
-    max-width: 60px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    vertical-align: top;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .modal-send {
-    .modal-content {
-      table tr {
-        td {
-          font-size: @mobile-low-fsize;
-        }
-        td.headline-3 {
-          padding: 10px;
-        }
-        td:last-child {
-          padding: 10px;
-          font-size: @mobile-low-fsize;
-        }
-      }
-      .confirm-block w-button {
-        width: 45%;
-      }
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-size: 15px;
+      overflow-x: hidden;
     }
 
-    .flex-row.split-half {
+    w-select .title {
+      overflow-x: hidden;
+    }
+
+    .amount-wrap {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .amount-modal-icon {
+      background-image: url(/img/icons/arrow.svg);
+      background-size: 100% 100%;
+      width: 24px;
+      height: 20px;
+      margin: 7px;
+    }
+
+    w-balance {
+      vertical-align: top;
       white-space: nowrap;
-      font-size: 12px;
-
-      span {
-        vertical-align: top;
-      }
     }
-  }
-}
 
-@media screen and (max-width: 480px) {
-  .modal-send {
-    .read-address-wrap {
-      .w-input-wrap input {
-        padding-right: 50px;
-        font-size: @font-size-caption-2;
+    w-balance-input {
+      width: 204px;
+
+      .input-wrap .w-input-wrap input {
+        padding-right: 60px;
       }
     }
 
-    .mobile-ellipsis {
+    .no-mirror {
+      .amount-modal-icon {
+        display: none;
+      }
+      w-balance-input {
+        width: 100%;
+      }
+    }
+
+    .fee {
+      display: flex;
+      flex-direction: row;
+
+      .decimal-muted {
+        display: none;
+      }
+    }
+
+    .ellipsis {
       display: inline-block;
-      max-width: 50px;
+      max-width: 60px;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
       vertical-align: top;
     }
 
-    w-balance-input w-input .w-input-wrap input[type="text"].big {
-      font-size: @font-size-caption-2;
+    .to-bank-account {
+      background: @color-basic-50;
+      border: 1px solid @color-basic-200;
+      height: 54px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      border-radius: @border-radius;
+
+      i {
+        position: absolute;
+        height: 34px;
+        width: 56px;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        border-left: 1px solid #dae1e9;
+        background: url(/img/icons/close.svg) center no-repeat;
+        background-size: 18px 18px;
+        cursor: pointer;
+
+        &::before {
+          width: 38px;
+          height: 32px;
+          background-size: 38px;
+          cursor: pointer;
+        }
+      }
+
+      span {
+        .body-2();
+      }
+    }
+
+    .flex-row-title {
+      display: flex;
+      align-items: center;
+
+      div {
+        flex-grow: 1;
+
+      }
+
+      w-import-file,
+      a {
+        flex-grow: 0;
+        margin: 4px 0;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  md-dialog.modal-send {
+    md-dialog-content {
+
+      .modal-content {
+
+        .icon-close {
+          right: 20px;
+        }
+
+        w-tabs {
+          .titles-wrap {
+            width: 100%;
+            padding: 0 20px;
+
+            .title {
+              .body-2();
+              margin: 0;
+              margin-right: 20px;
+              font-family: @font-roboto-medium;
+              color: @color-info-500;
+              padding: 30px 0 0;
+
+              &.active {
+                color: @color-submit-400;
+              }
+            }
+          }
+
+          .tab-body-wrap .tab-tem {
+            padding: 20px 20px 0;
+            max-height: calc(85vh ~'- 60px');
+
+            &::after {
+              height: 20px;
+            }
+          }
+        }
+
+        table tr {
+          td {
+            font-size: @mobile-low-fsize;
+          }
+          td.headline-3 {
+            padding: 10px;
+          }
+          td:last-child {
+            padding: 10px;
+            font-size: @mobile-low-fsize;
+          }
+        }
+
+        .confirm-block w-button {
+          width: 45%;
+        }
+
+        .flex-row.split-half {
+          white-space: nowrap;
+          font-size: 12px;
+
+          span {
+            vertical-align: top;
+          }
+        }
+
+        w-confirm-gateway-transaction,
+        w-confirm-transaction {
+          padding: 40px 20px 0;
+          max-height: 85vh;
+
+          &::after {
+            content: '';
+            display: block;
+            height: 20px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  md-dialog.modal-send {
+    md-dialog-content {
+
+      .read-address-wrap {
+        .w-input-wrap input {
+          padding-right: 50px;
+          font-size: @font-size-caption-2;
+        }
+      }
+
+      .mobile-ellipsis {
+        display: inline-block;
+        max-width: 50px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        vertical-align: top;
+      }
+
+      w-balance-input w-input .w-input-wrap input[type="text"].big {
+        font-size: @font-size-caption-2;
+      }
+
     }
   }
 }
