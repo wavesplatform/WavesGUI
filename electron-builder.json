@@ -43,11 +43,6 @@
   },
   "dmg": {
     "icon": null,
-    "window": {
-      "x": 400,
-      "y": 100,
-      "width": 540,
-      "height": 280
-    }
+    "background": "electron/icons/macos-installer-bg.png"
   }
 }
