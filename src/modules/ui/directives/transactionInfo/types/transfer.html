@@ -53,9 +53,8 @@
 
         </div>
 
-        <div class="section padder">
+        <div class="section padder" ng-if="$ctrl.transaction.transfers.length && $ctrl.transaction.transfers.length > 3">
             <span class="link"
-              ng-if="$ctrl.transaction.transfers.length && $ctrl.transaction.transfers.length > 3"
               ng-click="$ctrl.showAllTX = !$ctrl.showAllTX"
               params="{count: $ctrl.transaction.transfers.length}"
               w-i18n="transaction.modals.massSend.showAll.{{$ctrl.showAllTX}}"></span>
