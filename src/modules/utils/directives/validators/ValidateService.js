@@ -79,6 +79,11 @@
                 return this.outerBlockchains(address, assetId) ? true : this.wavesAddress(address);
             }
 
+            /**
+             * @param {string} address
+             * @param {'no-self'} [value]
+             * @return {Promise<boolean>}
+             */
             wavesAddress(address, value) {
                 return utils.whenAll([
                     this.alias(address, value),
@@ -102,7 +107,12 @@
                 return outerChain.isValidAddress(address);
             }
 
-            alias(address, value = '') {
+            /**
+             * @param {string} address
+             * @param {'no-self'} [value]
+             * @return {boolean|Promise}
+             */
+            alias(address, value = undefined) {
                 if (!address) {
                     return true;
                 }
@@ -146,9 +156,9 @@
                     return false;
                 }
 
-                return Waves.API.Node.v1.addresses.balance(address)
+                return waves.node.assets.getBalanceByAddress(address)
                     .then((data) => {
-                        if (data && data.balance != null) {
+                        if (data && data.available != null) {
                             return $q.resolve();
                         } else {
                             return $q.reject();

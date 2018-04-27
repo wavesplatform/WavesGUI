@@ -38,15 +38,11 @@
                 }
             }
 
-            fee(transactionType) {
-                return this._feeList(transactionType);
-            }
-
             /**
              * @return {Promise<Number>}
              */
             height() {
-                return Waves.API.Node.v1.blocks.height()
+                return fetch(`${this.network.node}/blocks/height`)
                     .then((res) => res.height);
             }
 
@@ -59,7 +55,7 @@
              * @return {Promise.<TResult>}
              */
             lease({ recipient, amount, fee, keyPair }) {
-                return this.getFee('lease', fee)
+                return this.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.LEASE, fee })
                     .then((fee) => {
                         return Waves.API.Node.v1.leasing.lease({
                             amount: amount.toCoins(),
@@ -78,7 +74,7 @@
              * @return {Promise<ITransaction>}
              */
             cancelLeasing({ transactionId, keyPair, fee }) {
-                return this.getFee('cancelLeasing', fee)
+                return this.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING, fee })
                     .then((fee) => {
                         return Waves.API.Node.v1.leasing.cancelLeasing({
                             fee: fee.toCoins(),
