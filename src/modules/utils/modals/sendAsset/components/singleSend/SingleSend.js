@@ -29,6 +29,10 @@
                 return this.state.assetId;
             }
 
+            set assetId(id) {
+                this.state.assetId = id;
+            }
+
             /**
              * @return {string}
              */
