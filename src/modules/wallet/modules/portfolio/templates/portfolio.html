@@ -56,7 +56,7 @@
             </w-table-cell>
             <w-table-cell class="smart-table__available-value">
                 <div class="cell-header">
-                    <w-i18n>list.mirror</w-i18n>
+                    <w-i18n params="{currency: $ctrl.mirror.displayName}">list.mirror</w-i18n>
                 </div>
                 <div class="cell">
                     <w-exchange noUpdate balance="balance.available"
@@ -66,7 +66,7 @@
             </w-table-cell>
             <w-table-cell class="smart-table__chart-wrap">
                 <div class="cell-header">
-                    <w-i18n>list.rate</w-i18n>
+                    <w-i18n params="{currency: $ctrl.mirror.displayName}">list.rate</w-i18n>
                 </div>
                 <div class="cell">
                     <w-change-rate ng-if="::balance.asset.id !== WavesApp.defaultAssets.USD"

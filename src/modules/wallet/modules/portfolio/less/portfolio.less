@@ -93,6 +93,10 @@
   }
 
   &__cell {
+    &:first-child {
+      min-width: 200px;
+    }
+
     .cell {
       height: @cell-height;
 
@@ -192,7 +196,7 @@
     }
   }
 
-  &__control-cell {
+  &__cell:last-child {
 
     .cell {
       display: flex;
@@ -264,20 +268,19 @@
   }
 }
 
-@media screen and (min-width: 769px) and (max-width: 1340px) {
+@media screen and (min-width: 769px) and (max-width: 1180px) {
 
   .smart-table {
-    &__control-cell .cell {
-      .icon {
-        display: none;
-      }
-    }
-
     &__cell:last-child {
       width: 50px;
       min-width: 50px;
-    }
 
+      .cell {
+        .icon {
+          display: none;
+        }
+      }
+    }
   }
 
 }
@@ -285,7 +288,7 @@
 @media screen and (min-width: 769px) {
 
   .smart-table {
-    &__control-cell .cell {
+    &__cell:last-child .cell {
       position: relative;
     }
   }
@@ -386,8 +389,10 @@
           }
 
           &__cell {
-            .icon {
-              display: block;
+            .cell {
+              .icon {
+                display: block;
+              }
             }
 
             &:last-child {
@@ -425,32 +430,32 @@
 
         .cell {
           height: 20px;
-        }
 
-        .icon {
-          display: none;
-          div {
+          .icon {
             display: none;
+            &:hover div {
+              display: none;
+            }
           }
-        }
 
-        .icon-dex {
-          right: auto;
-          left: 20px;
-        }
+          .icon-dex {
+            right: auto;
+            left: 20px;
+          }
 
-        .icon-send {
-          right: 65%;
-          transform: translateX(50%);
-        }
+          .icon-send {
+            right: 65%;
+            transform: translateX(50%);
+          }
 
-        .icon-receive {
-          right: 35%;
-          transform: translateX(50%);
-        }
+          .icon-receive {
+            right: 35%;
+            transform: translateX(50%);
+          }
 
-        .icon-hide {
-          right: 20px;
+          .icon-hide {
+            right: 20px;
+          }
         }
       }
     }
