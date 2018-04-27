@@ -175,6 +175,15 @@
                 return modalManager.showReissueModal(assetId);
             }
 
+            canShowDex(balance) {
+                return balance.isPinned ||
+                    balance.asset.isMyAsset ||
+                    balance.asset.id === WavesApp.defaultAssets.WAVES ||
+                    gatewayService.getPurchasableByCards()[balance.asset.id] ||
+                    gatewayService.getCryptocurrencies()[balance.asset.id] ||
+                    gatewayService.getFiats()[balance.asset.id];
+            }
+
             /**
              * @param {Asset} asset
              */
