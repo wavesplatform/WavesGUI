@@ -1,20 +1,20 @@
-<div class="lead">
+<div class="txinfo__lead">
     <h3 class="basic-700"
         w-i18n="transaction.amounts.{{::$ctrl.transaction.type}}"
         params="{amount: $ctrl.transaction.quantity.toFormat($ctrl.transaction.precision), name: $ctrl.transaction.name}"></h3>
 </div>
 
-<div class="section" ng-if="::$ctrl.transaction.assetId">
-    <div class="key" w-i18n="transaction.modals.assetId"></div>
-    <div class="value">{{::$ctrl.transaction.assetId}}</div>
+<div class="txinfo__row txinfo__row-border-bd txinfo__row-border-ts" ng-if="::$ctrl.transaction.assetId">
+    <div class="txinfo__key" w-i18n="transaction.modals.assetId"></div>
+    <div class="txinfo__value">{{::$ctrl.transaction.assetId}}</div>
 </div>
 
-<div class="section" ng-if="::$ctrl.transaction.reissuable != null">
-    <div class="key" w-i18n="transaction.modals.type"></div>
-    <div class="value" w-i18n="transaction.reissuable.{{::$ctrl.transaction.reissuable}}"></div>
+<div class="txinfo__row txinfo__row-border-bd txinfo__row-border-ts" ng-if="::$ctrl.transaction.reissuable != null">
+    <div class="txinfo__key" w-i18n="transaction.modals.type"></div>
+    <div class="txinfo__value" w-i18n="transaction.reissuable.{{::$ctrl.transaction.reissuable}}"></div>
 </div>
 
-<div class="section contains-text" ng-if="::$ctrl.transaction.description">
-    <div class="key" w-i18n="transaction.modals.description"></div>
-    <div class="value text">{{::$ctrl.transaction.description}}</div>
+<div class="txinfo__row txinfo__row-border-bd txinfo__row-border-ts txinfo__contains-text" ng-if="::$ctrl.transaction.description">
+    <div class="txinfo__key" w-i18n="transaction.modals.description"></div>
+    <div class="txinfo__value txinfo__text">{{::$ctrl.transaction.description}}</div>
 </div>

@@ -1,3 +1,20 @@
+.txinfo {
+  display: block;
+  width: 100%;
+
+  &__wrapper {
+    w-transaction-info {
+      .txinfo__data {
+        margin-bottom: -1px;
+        display: block;
+        background: #fff;
+        z-index: 1;
+        position: relative;
+      }
+    }
+  }
+}
+
 w-confirm-transaction {
   display: block;
   width: 100%;
@@ -6,10 +23,12 @@ w-confirm-transaction {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
+    margin-top: 1px;
 
     & > w-button {
       display: block;
-      width: 224px;
+      width: 48%;
     }
 
     & > w-button.long {

@@ -4,223 +4,202 @@
 
 @tx-icon-size: 80px;
 
-w-transaction-info {
+.txinfo {
   display: block;
   width: 100%;
 
-  .content {
+  .icon-close {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    z-index: 11;
+    padding: 20px;
+    background-size: 16px;
+    background-position: center;
+  }
+
+  &__wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    .transaction-icon {
-      width: @tx-icon-size;
-      height: @tx-icon-size;
-      margin-top: 10px;
-      background: none transparent;
-      position: relative;
-      border-radius: 50%;
-
-      &.send {
-        .icon-tx-send();
-      }
-
-      &.receive {
-        .icon-tx-receive();
-      }
-
-      &.mass-send {
-        .icon-tx-mass-transfer();
-      }
-
-      &.mass-receive {
-        .icon-tx-mass-receive();
-      }
-
-      &.circular {
-        .icon-tx-circular();
-      }
-
-      &.issue {
-        .icon-tx-issue();
-      }
-
-      &.reissue {
-        .icon-tx-reissue();
-      }
-
-      &.burn {
-        .icon-tx-burn();
-      }
-
-      &.exchange-buy,
-      &.exchange-sell {
-        .icon-tx-exchange();
-      }
-
-      &.create-alias {
-        .icon-tx-create-alias();
-      }
-
-      &.lease-in {
-        .icon-tx-incoming-leasing();
-      }
-
-      &.lease-out {
-        .icon-tx-lease();
-      }
-
-      &.unknown {
-        .icon-tx-unknown();
-      }
-
-      &.cancel-leasing {
-        .icon-tx-cancel-leasing();
-      }
-
-      &::before {
-        width: @tx-icon-size;
-        height: @tx-icon-size;
-        background-size: @tx-icon-size;
-        background-color: @color-white;
-        content: '';
-        display: block;
-      }
-
+    .buttons-wrapper {
+      margin-top: 1px;
     }
 
-    .lead {
-      text-align: center;
-      margin: 20px 0 30px;
-
-      h3 {
-        margin-bottom: 6px;
-      }
-    }
-
-    .section {
-      display: flex;
-      align-items: flex-start;
-      width: 100%;
-      justify-content: space-between;
-      padding: 13px 0;
-      border-bottom: 1px dotted @color-basic-200;
-
-      .key {
-        .footnote-1();
-        color: @color-disabled-600;
-      }
-
-      .value {
-        .footnote-1();
-        color: @color-basic-900;
-
-        &:not(.text) {
-          max-width: 80%;
-          word-wrap: break-word;
-        }
-      }
-
-      &.contains-text {
-        flex-wrap: wrap;
-        padding-bottom: 0;
-        border-bottom: none;
-
-        .key {
-          margin-bottom: 4px;
-        }
-
-        .text {
-          .footnote-1();
-          width: 100%;
-          padding: 13px 16px;
-          border: 1px dashed @color-basic-200;
-          border-radius: @border-radius;
-          background: @color-basic-50;
-          color: @color-basic-900;
-        }
-      }
-
-      &.solid-border {
-        border-bottom-style: solid;
-      }
-    }
-
-    .tx-section {
-      display: block;
+    w-transaction-info {
       width: 100%;
 
-      .section {
-        display: flex;
-        align-items: center;
-        padding: 10px 0;
+      .txinfo__data {
         width: 100%;
-        border-bottom: 1px dashed @color-basic-200;
+        margin-bottom: -1px;
+        display: block;
+        background: #fff;
+        z-index: 1;
+        position: relative;
 
-        &.padder {
-          display: block;
-          height: 70px;
-          padding-top: 5px;
-          border-bottom: 0 none;
-
-          span {
-            align-self: flex-start;
-          }
-        }
-
-        .key {
-          flex-grow: 1;
-          color: @color-black;
-        }
-
-        .value {
-          flex-grow: 0;
-          text-align: right;
-        }
-      }
-
-      & > .section {
-        .key {
-          color: @color-basic-500;
-        }
-      }
-
-      &.tx-header {
-        .section {
-          .footnote-1();
-          border-bottom: 0 none;
-          color: @color-basic-500;
-        }
-      }
-    }
-
-    .lead {
-      margin-bottom: 0;
-
-      .tx-header {
-        margin-bottom: -30px;
-      }
-    }
-
-    .section .tx-section {
-      margin-bottom: -14px;
-    }
-
-    ng-include {
-      display: block;
-      width: 100%;
-
-      .lead + .section {
-        border-top: 1px solid @color-basic-200;
-      }
-    }
-
-    .mass-send + ng-include {
-      .lead {
-        & + .section {
-          padding-top: 0;
+        .txinfo__row + .txinfo__row {
+          border-top: 0 none;
         }
       }
     }
   }
+
+  &__row {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    justify-content: space-between;
+    padding: 13px 0;
+    border-top: 1px dashed @color-basic-200;
+
+    &-border-ts {
+      border-top: 1px solid @color-basic-200;
+    }
+
+    &-border-bd {
+      border-bottom: 1px dashed @color-basic-200;
+    }
+
+    &-border-no {
+      border-bottom: 0 none;
+    }
+
+    &.txinfo__contains-text {
+      flex-wrap: wrap;
+      padding-bottom: 0;
+      border-bottom: none;
+
+      .txinfo__key {
+        margin-bottom: 4px;
+      }
+
+      .txinfo__text {
+        .footnote-1();
+        width: 100%;
+        padding: 13px 16px;
+        border: 1px dashed @color-basic-200;
+        border-radius: @border-radius;
+        background: @color-basic-50;
+        color: @color-basic-900;
+      }
+    }
+  }
+
+  &__key {
+    .footnote-1();
+    color: @color-disabled-600;
+  }
+
+  &__value {
+    .footnote-1();
+    color: @color-basic-900;
+
+    &:not(.txinfo__text) {
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+  }
+
+  &__lead {
+    text-align: center;
+    margin: 20px 0 30px;
+
+    h3 {
+      margin-bottom: 6px;
+    }
+  }
+
+  &__icon {
+    width: @tx-icon-size;
+    height: @tx-icon-size;
+    background: none transparent;
+    position: relative;
+    border-radius: 50%;
+    margin: 10px auto 0 auto;
+
+    &.send {
+      .icon-tx-send();
+    }
+
+    &.receive {
+      .icon-tx-receive();
+    }
+
+    &.mass-send {
+      .icon-tx-mass-transfer();
+    }
+
+    &.mass-receive {
+      .icon-tx-mass-receive();
+    }
+
+    &.circular {
+      .icon-tx-circular();
+    }
+
+    &.issue {
+      .icon-tx-issue();
+    }
+
+    &.reissue {
+      .icon-tx-reissue();
+    }
+
+    &.burn {
+      .icon-tx-burn();
+    }
+
+    &.exchange-buy,
+    &.exchange-sell {
+      .icon-tx-exchange();
+    }
+
+    &.create-alias {
+      .icon-tx-create-alias();
+    }
+
+    &.lease-in {
+      .icon-tx-incoming-leasing();
+    }
+
+    &.lease-out {
+      .icon-tx-lease();
+    }
+
+    &.unknown {
+      .icon-tx-unknown();
+    }
+
+    &.cancel-leasing {
+      .icon-tx-cancel-leasing();
+    }
+
+    &::before {
+      width: @tx-icon-size;
+      height: @tx-icon-size;
+      background-size: @tx-icon-size;
+      background-color: @color-white;
+      content: '';
+      display: block;
+    }
+  }
+
+  .status {
+    .tag-1();
+    padding: 4px 11px;
+    margin-top: -4px;
+    border-radius: @border-radius;
+
+    &.confirmed {
+      background: @color-success-50;
+      color: @color-success-400;
+    }
+
+    &.unconfirmed {
+      background: @color-warning-50;
+      color: @color-warning-500;
+    }
+  }
+
 }
