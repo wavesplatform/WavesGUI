@@ -40,16 +40,29 @@ md-dialog.modal-send {
         height: 40px;
       }
 
-      .txinfo__wrapper {
-        w-transaction-info {
-          .txinfo__data {
-            .txinfo__row + .txinfo__row {
-              border-top: 1px dashed @color-basic-200;
-            }
+    }
+
+    .txinfo__header {
+      margin-bottom: -31px;
+      background: @color-white;
+      position: relative;
+      z-index: 2;
+
+      .txinfo__row {
+        border-top: 0 none;
+        border-bottom: 1px solid @color-basic-200;
+
+      }
+    }
+
+    .txinfo__wrapper {
+      w-transaction-info {
+        .txinfo__data {
+          .txinfo__row + .txinfo__row {
+            border-top: 1px dashed @color-basic-200;
           }
         }
       }
-
     }
 
     w-tabs {

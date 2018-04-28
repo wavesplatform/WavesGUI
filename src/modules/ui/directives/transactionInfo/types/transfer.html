@@ -19,7 +19,7 @@
          ng-if="::$ctrl.type === 'receive' || $ctrl.type === 'mass-receive'"></div>
     <div class="txinfo__value" ng-if="::$ctrl.type !== 'mass-send'">{{::$ctrl.shownAddress}}</div>
 
-    <div ng-if="::$ctrl.type === 'mass-send'" ng-init="$ctrl.showAllTX = false">
+    <div ng-if="::$ctrl.type === 'mass-send'" ng-init="$ctrl.showAllTX = false" class="txinfo__mass-data">
 
         <div ng-if="$ctrl.showAllTX">
             <div class="txinfo__row" ng-repeat="transfer in $ctrl.transaction.transfers track by transfer.recipient">
