@@ -154,7 +154,7 @@
       "coinomat": "https://test.coinomat.com",
       "datafeed": "https://marketdata.wavesplatform.com",
       "support": "https://support.wavesplatform.com",
-      "nodeList": "http://dev.pywaves.org/generators/",
+      "nodeList": "http://dev.pywaves.org/testnet/generators/",
       "assets": {
         "EUR": "2xnE3EdpqXtFgCP156qt1AbyjpqdZ5jGjWo3CwTawcux",
         "USD": "HyFJ3rrq5m7FxdkWtQXkZrDat1F7LjVVGfpSkUuEXQHj",
