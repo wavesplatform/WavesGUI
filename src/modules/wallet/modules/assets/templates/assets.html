@@ -2,17 +2,14 @@
     <w-button class="interface" on-click="$ctrl.showSend()">
         <span class="btn-icon icon-send" w-i18n="send"></span>
     </w-button>
-    <w-button class="interface" on-click="$ctrl.showQR()">
-        <span class="btn-icon icon-qr" w-i18n="qr"></span>
+    <w-button class="interface" on-click="$ctrl.showReceivePopup()">
+        <span class="btn-icon icon-deposit" w-i18n="directives.asset.receive"></span>
     </w-button>
-    <!--<w-button class="right" on-click="$ctrl.addAsset()">-->
-        <!--<span class="btn-icon icon-add-asset" w-i18n="addAsset"></span>-->
-    <!--</w-button>-->
 </div>
 
 <div w-i18n-ns="app.wallet.assets" class="assets-wrapper">
 
-    <div class="chart-rate">
+    <div class="chart-rate" w-toggle-class-container>
 
         <div class="toolbar">
             <div>
@@ -29,8 +26,8 @@
 
                 <w-select class="toolbar-balance-select"
                           ng-model="$ctrl.activeChartAssetId">
-                    <w-option ng-repeat="balance in $ctrl.chartBalanceList track by balance.asset.id"
-                              value="{{::balance.asset.id}}">
+                    <w-option w-add-class ng-repeat="balance in $ctrl.chartBalanceList track by balance.asset.id"
+                              value="::balance.asset.id">
                         <span class="radio-name">{{::balance.asset.name}}</span>
                     </w-option>
                 </w-select>
@@ -39,27 +36,20 @@
 
             <div class="date-btns">
                 <w-radio-wrap mode="tab-mode" ng-model="$ctrl.chartMode">
-                    <!--<w-radio value="'hour'">-->
-                    <!--<w-i18n>chart.intervals.hour</w-i18n>-->
-                    <!--</w-radio>-->
-                    <w-radio value="'day'">
+                    <w-radio value="'day'" w-add-class>
                         <w-i18n>chart.intervals.day</w-i18n>
                     </w-radio>
-                    <w-radio value="'week'">
+                    <w-radio value="'week'" w-add-class>
                         <w-i18n>chart.intervals.week</w-i18n>
                     </w-radio>
-                    <w-radio value="'month'">
+                    <w-radio value="'month'" w-add-class>
                         <w-i18n>chart.intervals.month</w-i18n>
                     </w-radio>
-                    <!--<w-radio value="'year'">
-                        <w-i18n>chart.intervals.year</w-i18n>
-                    </w-radio>-->
                 </w-radio-wrap>
             </div>
         </div>
 
-        <input class="chart-toggler" id="chart-toggler" type="checkbox" />
-        <label for="chart-toggler"></label>
+        <i class="toggler" w-toggle-class></i>
 
         <div class="chart-info">
             <div class="rate">

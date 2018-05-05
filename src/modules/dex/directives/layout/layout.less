@@ -152,9 +152,37 @@ w-layout {
       }
     }
 
+    w-dex-my-orders,
+    w-dex-trade-history {
+      .empty-block-container {
+        margin: 4vh auto;
+
+        .icon {
+          margin-top: 0;
+        }
+      }
+    }
+
+    w-dex-order-book {
+      position: relative;
+      min-height: 200px;
+
+      .empty-block-container {
+        position: absolute;
+        margin: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        .icon {
+          margin-top: 0;
+        }
+      }
+    }
+
   }
 
-  .chart-toggler {
+  .toggler {
     display: none;
     position: absolute;
     right: 5px;
@@ -164,6 +192,11 @@ w-layout {
 
 }
 
+html body.dex .notifications,
+body.dex .notifications {
+  position: fixed
+}
+
 w-dex-candle-chart {
   .candle-chart-wrapper {
     height: 100%
@@ -171,7 +204,7 @@ w-dex-candle-chart {
 }
 
 /* Tablet */
-@media screen and (min-width: 481px) and (max-width: 768px) and (min-height:481px) {
+@media screen and (min-width: 481px) and (max-width: 768px) and (min-height: 481px) {
 
   w-layout {
 
@@ -188,7 +221,7 @@ w-dex-candle-chart {
         padding-right: 48px;
         min-width: 360px;
         z-index: 18;
-        padding-top:60px;
+        padding-top: 60px;
         height: 100vh;
         position: fixed;
         background: #fff;
@@ -311,7 +344,7 @@ w-dex-candle-chart {
       border: 1px solid @color-disabled-200;
     }
 
-    .chart-toggler {
+    .toggler {
       display: block;
     }
 
@@ -322,7 +355,7 @@ w-dex-candle-chart {
 /* end Tablet */
 /* Mobile */
 @media screen and (max-width: 480px),
-              (min-width: 481px) and (max-width: 768px) and (max-height:480px) {
+(min-width: 481px) and (max-width: 768px) and (max-height: 480px) {
 
   w-layout {
 
@@ -393,7 +426,7 @@ w-dex-candle-chart {
 
     }
 
-    .chart-toggler {
+    .toggler {
       display: block;
     }
 
@@ -423,4 +456,32 @@ w-dex-candle-chart {
     }
   }
 
+}
+
+//low height desktop fix
+@media screen and (max-height: 355px) and (min-width: 769px) {
+  body.dex {
+    ui-view[name="main"],
+    .main-content .content,
+    .content ui-view[name="mainContent"],
+    w-layout {
+      min-height: 800px;
+    }
+
+    .dex-layout__block-right-bottom-collapsed {
+      .dex-layout__column-right .dex-layout__block-top {
+        min-height: 761px;
+      }
+    }
+
+    .dex-layout__block-center-bottom-collapsed {
+      .dex-layout__column-center .dex-layout__block-top {
+        min-height: 761px;
+      }
+    }
+
+    w-left-menu {
+      position: fixed;
+    }
+  }
 }

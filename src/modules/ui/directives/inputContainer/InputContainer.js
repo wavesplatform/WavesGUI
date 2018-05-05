@@ -2,35 +2,29 @@
     'use strict';
 
     /**
+     * @param {Base} Base
      * @param {JQuery} $element
+     * @param {$rootScope.Scope} $scope
+     * @param {IPollCreate} createPoll
+     * @param {app.utils.decorators} decorators
      * @return {InputContainer}
      */
-    const controller = function ($element, $scope) {
+    const controller = function (Base, $element, $scope, createPoll, utils, decorators) {
 
-        class InputContainer {
+        const tsUtisl = require('ts-utils');
 
-            /**
-             * @type {Array.<HTMLInputElement>}
-             */
-            get inputs() {
-                return $element.find('input,textarea')
-                    .toArray();
-            }
-
-            /**
-             * @type {ngModel.NgModelController[]}
-             */
-            get target() {
-                return this.inputs.map((input) => {
-                    return this.form[input.getAttribute('name')];
-                });
-            }
+        class InputContainer extends Base {
 
             constructor() {
+                super();
                 /**
-                 * @type {ngForm}
+                 * @type {form.FormController}
                  */
                 this.form = null;
+                /**
+                 * @type {Signal<Array<HTMLInputElement|HTMLTextAreaElement>>}
+                 */
+                this.tik = new tsUtisl.Signal();
             }
 
             $postLink() {
@@ -41,6 +35,27 @@
                     throw new Error('Can\'t get form!');
                 }
 
+                this.receive(utils.observe(this.form, '$valid'), this._runApply, this);
+
+                createPoll(this, () => null, () => {
+                    this.tik.dispatch(this._getElements());
+                }, 250);
+            }
+
+            /**
+             * @return {Array<HTMLInputElement|HTMLTextAreaElement>}
+             * @private
+             */
+            _getElements() {
+                return $element.find('input,textarea').toArray();
+            }
+
+            /**
+             * @private
+             */
+            @decorators.async()
+            _runApply() {
+                $scope.$apply();
             }
 
         }
@@ -48,7 +63,7 @@
         return new InputContainer();
     };
 
-    controller.$inject = ['$element', '$scope'];
+    controller.$inject = ['Base', '$element', '$scope', 'createPoll', 'utils', 'decorators'];
 
     angular.module('app.ui')
         .component('wInputContainer', {

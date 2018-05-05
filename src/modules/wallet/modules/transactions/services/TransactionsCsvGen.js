@@ -1,4 +1,3 @@
-/* global CSV */
 (function () {
     'use strict';
 
@@ -8,6 +7,8 @@
      * @returns {TransactionsCsvGen}
      */
     const factory = function (i18n, utils) {
+
+        const Papa = require('papaparse');
 
         const HEADERS = [
             { name: 'csv.date', id: 'timestamp' },
@@ -37,49 +38,56 @@
             { name: 'csv.precision', id: 'precision' }
         ];
 
-        const MONEY_FIELDS = ['amount', 'fee'];
         const NS = 'app.wallet.transactions';
 
         class TransactionsCsvGen {
 
-            generate(data) {
+            generate(transactionList) {
                 const fileName = 'transactions.csv';
 
-                const csv = CSV.generate({
-                    header: HEADERS.map((item) => {
-                        return {
-                            id: item.id,
-                            name: i18n.translate(item.name, NS)
-                        };
-                    }),
-                    body: data.map((tx) => {
-                        const clone = { ...tx };
+                const fields = HEADERS.map((item) => i18n.translate(item.name, NS));
+                /* eslint complexity: ["off"] */
+                const data = transactionList.map((tx) => HEADERS.map((header) => {
+                    const id = header.id;
+                    const value = tx[id];
 
-                        MONEY_FIELDS.forEach((id) => {
-                            if (clone[id]) {
-                                clone[`${id}Name`] = clone[id].asset.name;
-                                clone[`${id}Ticker`] = clone[id].asset.ticker;
-                                clone[`${id}Id`] = clone[id].asset.id;
-                                clone[`${id}Value`] = clone[id].toFormat();
-                            }
-                        });
-                        if (clone.price) {
-                            clone.priceTicker = clone.price.pair.priceAsset.ticker;
-                            clone.priceName = clone.price.pair.priceAsset.name;
-                            clone.priceId = clone.price.pair.priceAsset.id;
-                            clone.priceValue = clone.price.getTokens()
-                                .toFormat(clone.price.pair.priceAsset.precision);
-                        }
-                        return clone;
-                    }),
-                    processors: {
-                        timestamp: (date) => {
-                            return date && utils.moment(date).format('DD.MM.YYYY hh:mm:ss') || date;
-                        },
-                        reissuable: (issue) => {
-                            return issue != null && i18n.translate(`csv.reissuable.${issue}`, NS) || issue;
-                        }
+                    switch (id) {
+                        case 'timestamp':
+                            return value && utils.moment(value).format('DD.MM.YYYY hh:mm:ss') || value;
+                        case 'reissuable':
+                            return value != null && i18n.translate(`csv.reissuable.${value}`, NS) || value;
+                        case 'priceTicker':
+                            return tx.price && tx.price.pair.priceAsset.ticker || '';
+                        case 'priceName':
+                            return tx.price && tx.price.pair.priceAsset.name || '';
+                        case 'priceValue':
+                            return tx.price && tx.price.toFormat() || '';
+                        case 'priceId':
+                            return tx.price && tx.price.pair.priceAsset.id || '';
+                        case 'amountTicker':
+                            return tx.amount && tx.amount.asset.ticker || '';
+                        case 'amountName':
+                            return tx.amount && tx.amount.asset.name || '';
+                        case 'amountValue':
+                            return tx.amount && tx.amount.toFormat() || '';
+                        case 'amountId':
+                            return tx.amount && tx.amount.asset.id || '';
+                        case 'feeTicker':
+                            return tx.fee && tx.fee.asset.ticker || '';
+                        case 'feeName':
+                            return tx.fee && tx.fee.asset.name || '';
+                        case 'feeValue':
+                            return tx.fee && tx.fee.toFormat() || '';
+                        case 'feeId':
+                            return tx.fee && tx.fee.asset.id || '';
+                        default:
+                            return value == null ? '' : String(value);
                     }
+                }));
+
+                const csv = Papa.unparse({
+                    fields,
+                    data
                 });
 
                 if (WavesApp.isDesktop()) {
@@ -88,8 +96,32 @@
                         fileName: fileName
                     });
                 } else {
-                    CSV.download(csv, fileName, { target: '_blank' });
+                    TransactionsCsvGen._download(csv, fileName, { target: '_blank' });
                 }
+            }
+
+            /**
+             * @param {string} csv
+             * @param {string} name
+             * @param {Object.<string, string>} attrs
+             * @private
+             */
+            static _download(csv, name, attrs = Object.create(null)) {
+                const content = encodeURI(`data:text/csv;charset=utf-8,${csv}`);
+                const link = document.createElement('a');
+                link.setAttribute('href', content);
+                link.setAttribute('download', name);
+                Object.keys(attrs).forEach((name) => {
+                    const value = attrs[name];
+                    link.setAttribute(name, value);
+                });
+                link.style.position = 'absolute';
+                link.style.opacity = '0';
+                document.body.appendChild(link);
+                link.click();
+                requestAnimationFrame(() => {
+                    document.body.removeChild(link);
+                });
             }
 
         }

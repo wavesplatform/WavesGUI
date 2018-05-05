@@ -14,15 +14,21 @@
     <div class="body-2 basic-900" w-i18n="userList.address"></div>
     <div ng-if="$ctrl.userList.length === 1"
          class="input-like big margin-3">
-        <w-avatar class="margin-right-1" address="$ctrl.address" size="30"></w-avatar>
-        <span class="body-1 basic-900 mobile-caption-2">{{::$ctrl.address}}</span>
-        <div class="icon-remove-user icon-close" ng-click="$ctrl.removeUser($ctrl.address)"></div>
+        <w-avatar class="margin-right-1" address="$ctrl.user.address" size="30"></w-avatar>
+        <div class="mobile-caption-2" ng-class="::{'has-name': !!$ctrl.user.name}">
+            <div class="name">{{::$ctrl.user.name}}</div>
+            <div class="address">{{::$ctrl.user.address}}</div>
+        </div>
+        <div class="icon-remove-user icon-close" ng-click="$ctrl.removeUser($ctrl.user.address)"></div>
     </div>
-    <w-select ng-if="$ctrl.userList.length > 1" ng-model="$ctrl.activeUser" class="big margin-3">
+    <w-select ng-if="$ctrl.userList.length > 1" ng-model="$ctrl.activeUserAddress" class="big margin-3">
         <w-option ng-repeat="user in $ctrl.userList track by user.address"
-                  value="{{::user.address}}">
+                  value="::user.address">
             <w-avatar class="margin-right-1" address="user.address" size="30"></w-avatar>
-            <div class="body-1 basic-900 mobile-caption-2">{{::user.address}}</div>
+            <div class="mobile-caption-2" ng-class="::{'has-name': !!user.name}">
+                <div class="name">{{::user.name}}</div>
+                <div class="address">{{::user.address}}</div>
+            </div>
             <div class="icon-remove-user icon-close" ng-click="$ctrl.removeUser(user.address)"></div>
         </w-option>
     </w-select>
@@ -45,9 +51,7 @@
                      placeholder="userList.placeholders.password"
                      required></w-input>
 
-            <div ng-class="{active: $ctrl.showPasswordError}" class="error">
-                Wrong Password!
-            </div>
+            <div ng-class="{active: $ctrl.showPasswordError}" class="error" w-i18n="password.error"></div>
         </w-input-container>
 
         <w-button disabled="$ctrl.loginForm.$invalid" type="submit" class="submit big long">

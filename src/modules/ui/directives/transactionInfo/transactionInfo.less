@@ -2,6 +2,8 @@
 @import (reference) '../../../app/less/icons';
 @import (reference) '../../../app/less/typography';
 
+@tx-icon-size: 80px;
+
 w-transaction-info {
   display: block;
   width: 100%;
@@ -12,12 +14,12 @@ w-transaction-info {
     align-items: center;
 
     .transaction-icon {
-      width: 80px;
-      height: 80px;
+      width: @tx-icon-size;
+      height: @tx-icon-size;
       margin-top: 10px;
-      background-size: contain;
-      background-position: center;
-      background-repeat: no-repeat;
+      background: none transparent;
+      position: relative;
+      border-radius: 50%;
 
       &.send {
         .icon-tx-send();
@@ -27,9 +29,12 @@ w-transaction-info {
         .icon-tx-receive();
       }
 
-      &.mass-send,
-      &.mass-receive {
+      &.mass-send {
         .icon-tx-mass-transfer();
+      }
+
+      &.mass-receive {
+        .icon-tx-mass-receive();
       }
 
       &.circular {
@@ -72,6 +77,16 @@ w-transaction-info {
       &.cancel-leasing {
         .icon-tx-cancel-leasing();
       }
+
+      &::before {
+        width: @tx-icon-size;
+        height: @tx-icon-size;
+        background-size: @tx-icon-size;
+        background-color: @color-white;
+        content: '';
+        display: block;
+      }
+
     }
 
     .lead {
@@ -87,7 +102,6 @@ w-transaction-info {
       display: flex;
       align-items: flex-start;
       width: 100%;
-
       justify-content: space-between;
       padding: 13px 0;
       border-bottom: 1px dotted @color-basic-200;
@@ -132,12 +146,80 @@ w-transaction-info {
       }
     }
 
+    .tx-section {
+      display: block;
+      width: 100%;
+
+      .section {
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+        width: 100%;
+        border-bottom: 1px dashed @color-basic-200;
+
+        &.padder {
+          display: block;
+          height: 70px;
+          padding-top: 5px;
+          border-bottom: 0 none;
+
+          span {
+            align-self: flex-start;
+          }
+        }
+
+        .key {
+          flex-grow: 1;
+          color: @color-black;
+        }
+
+        .value {
+          flex-grow: 0;
+          text-align: right;
+        }
+      }
+
+      & > .section {
+        .key {
+          color: @color-basic-500;
+        }
+      }
+
+      &.tx-header {
+        .section {
+          .footnote-1();
+          border-bottom: 0 none;
+          color: @color-basic-500;
+        }
+      }
+    }
+
+    .lead {
+      margin-bottom: 0;
+
+      .tx-header {
+        margin-bottom: -30px;
+      }
+    }
+
+    .section .tx-section {
+      margin-bottom: -14px;
+    }
+
     ng-include {
       display: block;
       width: 100%;
 
       .lead + .section {
         border-top: 1px solid @color-basic-200;
+      }
+    }
+
+    .mass-send + ng-include {
+      .lead {
+        & + .section {
+          padding-top: 0;
+        }
       }
     }
   }

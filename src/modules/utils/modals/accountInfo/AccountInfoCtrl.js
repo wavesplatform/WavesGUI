@@ -3,13 +3,13 @@
 
     /**
      * @param Base
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param {User} user
      * @param {Waves} waves
-     * @param {NotificationManager} notificationManager
+     * @param {INotification} notification
      * @return {AccountInfoCtrl}
      */
-    const controller = function (Base, $scope, user, waves, notificationManager) {
+    const controller = function (Base, $scope, user, waves, notification) {
 
         class AccountInfoCtrl extends Base {
 
@@ -36,9 +36,10 @@
                  */
                 this.fee = null;
 
-                waves.node.aliases.fee()
-                    .then(([fee]) => {
+                waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS })
+                    .then((fee) => {
                         this.fee = fee;
+                        $scope.$digest();
                     });
 
                 this.aliases = waves.node.aliases.getAliasList();
@@ -52,10 +53,11 @@
                             this.aliases.push(this.newAlias);
                             this.newAlias = '';
                             this.createAliasStep = 0;
-                            notificationManager.info({
+                            notification.info({
                                 ns: 'app.utils',
                                 title: { literal: 'modal.account.notifications.aliasCreated' }
                             });
+                            $scope.$digest();
                         })
                         .catch(() => {
                             analytics.push('User', 'User.CreateAlias.Error');
@@ -80,7 +82,7 @@
         return new AccountInfoCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'waves', 'notificationManager'];
+    controller.$inject = ['Base', '$scope', 'user', 'waves', 'notification'];
 
     angular.module('app.utils')
         .controller('AccountInfoCtrl', controller);

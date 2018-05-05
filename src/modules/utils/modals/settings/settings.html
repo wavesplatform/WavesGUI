@@ -34,9 +34,32 @@
                     <label for="shareStat" w-i18n="modal.termsAccept.body.analytics"></label>
                 </div>
 
-                <div class="row flex-row row-style unit-language">
+                <div class="row flex-row row-style unit-select">
                     <div class="footnote-1 disabled-600" w-i18n="modal.settings.general.language"></div>
                     <w-change-language on-change="$ctrl.onChangeLanguage(language)"></w-change-language>
+                </div>
+
+                <div class="row flex-row row-style unit-select">
+                    <div class="footnote-1 disabled-600" w-i18n="modal.settings.general.timeout"></div>
+                    <div>
+                        <w-select class="with-scroll" ng-model="$ctrl.logoutAfterMin">
+                            <w-option value="::5">
+                                <w-i18n w-i18n-ns="app.utils" params="{minutes: 5}">modal.settings.general.minutes</w-i18n>
+                            </w-option>
+                            <w-option value="::10">
+                                <w-i18n w-i18n-ns="app.utils" params="{minutes: 10}">modal.settings.general.minutes</w-i18n>
+                            </w-option>
+                            <w-option value="::20">
+                                <w-i18n w-i18n-ns="app.utils" params="{minutes: 20}">modal.settings.general.minutes</w-i18n>
+                            </w-option>
+                            <w-option value="::40">
+                                <w-i18n w-i18n-ns="app.utils" params="{minutes: 40}">modal.settings.general.minutes</w-i18n>
+                            </w-option>
+                            <w-option value="::60">
+                                <w-i18n w-i18n-ns="app.utils" params="{hours: 1}">modal.settings.general.hours</w-i18n>
+                            </w-option>
+                        </w-select>
+                    </div>
                 </div>
 
                 <div class="row flex-row row-style">
@@ -49,7 +72,7 @@
                 <div class="row margin-1">
                     <div class="footnote-1 disabled-600 label">
                         <w-i18n>modal.settings.security.backupPhrase</w-i18n>
-                        <a class="settings-copy" w-copy="{{::$ctrl.phrase}}" w-i18n="modal.settings.network.copy"></a>
+                        <a class="settings-copy" w-copy="::$ctrl.phrase" w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
                         <w-button ng-if="!$ctrl.shownSeed" class="tiny" on-click="$ctrl.shownSeed = true">
@@ -62,7 +85,9 @@
                 <div class="row margin-1">
                     <div class="footnote-1 disabled-600 label">
                         <w-i18n>modal.settings.security.privateKey</w-i18n>
-                        <a class="settings-copy" w-copy="{{::$ctrl.privateKey}}" w-i18n="modal.settings.network.copy"></a>
+                        <a class="settings-copy"
+                           w-copy="::$ctrl.privateKey"
+                           w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
                         <w-button ng-if="!$ctrl.shownKey" class="tiny" on-click="$ctrl.shownKey = true">
@@ -85,7 +110,7 @@
                 <div class="row margin-1">
                     <div class="footnote-1 disabled-600 label">
                         <w-i18n>modal.settings.network.nodeAddress</w-i18n>
-                        <a class="settings-copy" w-copy="{{::$ctrl.node}}" w-i18n="modal.settings.network.copy"></a>
+                        <a class="settings-copy" w-copy="$ctrl.node" w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
                         <w-input ng-model="$ctrl.node"></w-input>
@@ -95,7 +120,7 @@
                 <div class="row margin-3">
                     <div class="footnote-1 disabled-600 label">
                         <w-i18n>modal.settings.network.matcherAddress</w-i18n>
-                        <a class="settings-copy" w-copy="{{::$ctrl.matcher}}" w-i18n="modal.settings.network.copy"></a>
+                        <a class="settings-copy" w-copy="$ctrl.matcher" w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
                         <w-input ng-model="$ctrl.matcher"></w-input>
@@ -119,7 +144,7 @@
                 </div>
 
                 <div class="row flex-row row-style">
-                    <div class="footnote-1 disabled-600">&copy; 2017 Waves Platform</div>
+                    <div class="footnote-1 disabled-600">&copy; 2018 Waves Platform</div>
                     <div><span class="waves-logo"></span></div>
                 </div>
             </w-step>

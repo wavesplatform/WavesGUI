@@ -1,34 +1,33 @@
 <div class="line-wrapper">
     <div class="line">
         <div class="body-1 basic-700 fs-mobile">
-            <span w-i18n="transaction.headers.{{::$ctrl.type}}"></span>
-            <span class="nowrap" w-i18n="transaction.headers.exchange-amount"
+            <span w-i18n="transaction.headers.{{::$ctrl.type}}"
                   params="{
                     amountAsset: $ctrl.transaction.amount.asset.name,
                     priceAsset: $ctrl.transaction.price.pair.priceAsset.name
                   }"></span>
         </div>
         <div class="footnote-1 basic-500 fs-mobile">
-            <span w-i18n="transaction.amounts.{{::$ctrl.type}}"
-                  params="{
-                sign: $ctrl.type === 'exchange-buy' ? '+' : '–',
-                amount: $ctrl.transaction.amount.toFormat(),
-                name: $ctrl.transaction.amount.asset.name
-              }"></span>
+            <span w-i18n="transaction.subheaders.{{::$ctrl.type}}"
+                  params="{time: $ctrl.time}"></span>
         </div>
     </div>
     <div class="line">
         <div class="body-1 basic-700 fs-mobile">
-            <span w-i18n="transaction.subheaders.{{::$ctrl.type}}"
-              params="{time: $ctrl.time}"></span>
+            <span w-i18n="transaction.amounts.{{::$ctrl.type}}"
+                  params="{
+                    sign: $ctrl.type === 'exchange-buy' ? '+' : '–',
+                    amount: $ctrl.transaction.amount.toFormat(),
+                    name: $ctrl.transaction.amount.asset.name
+                  }"></span>
         </div>
         <div class="footnote-1 basic-500 fs-mobile">
            <span w-i18n="transaction.amounts.{{::$ctrl.type}}"
                  params="{
-                sign: $ctrl.type === 'exchange-buy' ? '–' : '+',
-                amount: $ctrl.totalPrice,
-                name: $ctrl.transaction.price.pair.priceAsset.name
-              }"></span>
+                    sign: $ctrl.type === 'exchange-buy' ? '–' : '+',
+                    amount: $ctrl.totalPrice,
+                    name: $ctrl.transaction.price.pair.priceAsset.name
+                  }"></span>
         </div>
     </div>
 </div>

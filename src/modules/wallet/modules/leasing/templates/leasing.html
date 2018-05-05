@@ -25,12 +25,11 @@
                 <w-i18n>chart.create</w-i18n>
             </w-button>
         </w-leasing-block>
-        <w-leasing-block class="leasingNote">
+        <w-leasing-block class="leasingNote" w-toggle-class-container>
             <div class="transactions-title headline-4 disabled-900">
                 <w-i18n>description.title</w-i18n>
             </div>
-            <input class="collapse-trigger" type="checkbox" id="note"/>
-            <label for="note"></label>
+            <i class="collapse-trigger" w-toggle-class></i>
             <div class="collapse-container" class="collapseable">
                 <div class="footnote-1 basic-500" w-i18n="description.text1"></div>
                 <div class="description-split"></div>
@@ -47,7 +46,7 @@
                 <w-transaction-list transaction-date-pattern="dd.MM.yyyy HH:mm"
                                     pending="$ctrl.pending"
                                     transactions="$ctrl.transactions"></w-transaction-list>
-                <div class="fake-transaction-line" ng-if="$ctrl.txList && !$ctrl.allActiveLeasing">
+                <div class="fake-transaction-line" ng-if="$ctrl.pendingAllLeasing">
                     <w-loader></w-loader>
                 </div>
             </div>

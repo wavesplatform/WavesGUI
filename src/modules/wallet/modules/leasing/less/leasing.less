@@ -37,6 +37,10 @@
     border: 1px solid #e9e9eb;
     border-radius: 0 0 @border-radius @border-radius;
     height: calc(~'100vh - ' 130px);
+
+    .scroll-list {
+      height: 100%;
+    }
   }
 
   .transaction-item > .date {
@@ -129,43 +133,41 @@ w-leasing-block.leasingNote {
     padding: 0;
   }
 
-  .collapse-trigger {
-    display: none;
+  i.collapse-trigger {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    z-index: 1;
+    text-align: center;
+    cursor: pointer;
+    transform-origin: center;
+    transition: transform 0.3s ease-in-out;
+    background-image: url(/img/icons/close_arrow.svg);
+  }
 
-    &:checked + label {
-      transform: rotate(-180deg);
+  div.collapse-container {
+    height: 0px;
+    transition: .4s;
+    overflow: hidden;
+    padding: 0 20px;
+    border-bottom: 0 none;
+    border-top: 0 none;
+  }
 
-      & + div.collapse-container {
-        height: auto;
-        border-top: 1px solid #e2e2e2;
-        padding: 20px;
-      }
+  &.active {
+    div.collapse-container {
+      height: auto;
+      border-top: 1px solid #e2e2e2;
+      padding: 20px;
     }
 
-    & + label {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: block;
-      width: 20px;
-      height: 20px;
-      z-index: 1;
-      text-align: center;
-      cursor: pointer;
-      transform-origin: center;
-      transition: transform 0.3s ease-in-out;
-      background-image: url(/img/icons/close_arrow.svg);
-
-      & + div.collapse-container {
-        height: 0px;
-        transition: .4s;
-        overflow: hidden;
-        padding: 0 20px;
-        border-bottom: 0 none;
-        border-top: 0 none;
-      }
+    i.collapse-trigger {
+      transform: rotate(-180deg)
     }
   }
+
 }
 
 @media screen and (max-width: @width-media-normal) {
@@ -203,5 +205,19 @@ w-leasing-block.leasingNote {
   w-transaction .transaction {
     height: auto;
     min-height: 74px;
+  }
+}
+
+@media screen and (max-height: 355px) {
+  .leasing-page {
+    max-height: 100%;
+
+    .left-panel {
+      min-height: 263px;
+    }
+
+    w-scroll-box {
+      min-height: 223px;
+    }
   }
 }

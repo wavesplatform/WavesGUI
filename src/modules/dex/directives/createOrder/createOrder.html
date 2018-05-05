@@ -16,14 +16,18 @@
                 <div class="choice">
                     <div class="choose sell" ng-click="$ctrl.expand('sell')">
                         <div class="footnote-2 white-0">SELL</div>
-                        <div class="headline-2 white-0">{{$ctrl.bid.price}}</div>
+                        <div class="headline-2 white-0"
+                             w-nice-number="$ctrl.bid.price"
+                             precision="$ctrl.priceBalance.asset.precision"></div>
                     </div>
                     <div class="middle">
                         <div class="caption-3 disabled-900">SPREAD {{$ctrl.spreadPercent}}%</div>
                     </div>
                     <div class="choose buy" ng-click="$ctrl.expand('buy')">
                         <div class="footnote-2 white-0">BUY</div>
-                        <div class="headline-2 white-0">{{$ctrl.ask.price}}</div>
+                        <div class="headline-2 white-0"
+                             w-nice-number="$ctrl.ask.price"
+                             precision="$ctrl.priceBalance.asset.precision"></div>
                     </div>
                 </div>
             </w-step>
@@ -42,6 +46,16 @@
                         <div class="area buy" ng-click="$ctrl.expand('buy')">
                             <div class="name footnote-2">BUY</div>
                             <div class="price headline-2">{{$ctrl.ask.price}}</div>
+                        </div>
+                    </div>
+                    <div class="create-order-notification js-order-notification">
+                        <div ng-if="$ctrl.createOrderFailed">
+                            <i></i>
+                            <w-i18n>create.order.failed</w-i18n>
+                        </div>
+                        <div ng-if="!$ctrl.createOrderFailed">
+                            <i></i>
+                            <w-i18n>create.order.success</w-i18n>
                         </div>
                     </div>
                     <!--<div class="order-types"></div>-->
@@ -68,7 +82,7 @@
                                              w-validate
                                              w-validator-asset="{{$ctrl.amountBalance.asset}}"
                                              w-validator-lte="{{$ctrl.maxAmountBalance}}"
-                                             w-validator-custom="{{$ctrl.canByOrder}}"
+                                             w-validator-custom="{{$ctrl.canBuyOrder}}"
                                              w-validator-gt="0"
                                              name="amount"
                                              ng-model="$ctrl.amount"
@@ -145,8 +159,14 @@
                         <w-button disabled="order.$invalid"
                                   class="place-order tiny footnote-3"
                                   on-click="$ctrl.createOrder(order)">
-                            <w-i18n ng-if="$ctrl.type === 'sell'">directives.createOrder.placeSellOrder</w-i18n>
-                            <w-i18n ng-if="$ctrl.type === 'buy'">directives.createOrder.placeBuyOrder</w-i18n>
+                            <w-i18n ng-if="$ctrl.type === 'sell'"
+                                    params="{name: $ctrl.amountBalance.asset.displayName}">
+                                directives.createOrder.placeSellOrder
+                            </w-i18n>
+                            <w-i18n ng-if="$ctrl.type === 'buy'"
+                                    params="{name: $ctrl.amountBalance.asset.displayName}">
+                                directives.createOrder.placeBuyOrder
+                            </w-i18n>
                         </w-button>
                     </form>
                 </div>

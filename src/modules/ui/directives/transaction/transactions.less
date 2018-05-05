@@ -30,22 +30,19 @@ w-transaction .transaction {
     position: relative;
     width: 48px;
     height: 48px;
-    background-size: 72%;
+    min-width: 48px;
     margin: auto 25px auto 20px;
-    background-repeat: no-repeat;
-    background-position: center center;
+    border-radius: 50%;
 
     &::before {
       content: '';
       display: block;
       position: absolute;
-      width: 48px;
-      height: 48px;
-      border-radius: 100%;
+      width: @tx-icon-size;
+      height: @tx-icon-size;
       overflow: hidden;
-      left: 50%;
-      top: 50%;
-      margin: -24px;
+      left: 8px;
+      top: 8px;
     }
 
     &.send {
@@ -56,9 +53,12 @@ w-transaction .transaction {
       .icon-tx-receive();
     }
 
-    &.mass-send,
-    &.mass-receive {
+    &.mass-send {
       .icon-tx-mass-transfer();
+    }
+
+    &.mass-receive {
+      .icon-tx-mass-receive();
     }
 
     &.circular {
@@ -75,7 +75,6 @@ w-transaction .transaction {
 
     &.burn {
       .icon-tx-burn();
-      background-size: 64%;
     }
 
     &.exchange-buy,
@@ -119,25 +118,39 @@ w-transaction .transaction {
       justify-content: space-between;
 
       .line {
-        flex-basis: 50%;
         height: 50%;
+        flex-basis: 50%;
 
         &:last-child {
           padding-right: @padding-main-layout * 4.4;
           text-align: right;
         }
       }
+
+      &.grow .line {
+        flex-basis: auto;
+        flex-grow: 1;
+
+        &:last-child {
+          flex-grow: 0;
+        }
+      }
+
     }
 
   }
 }
 
 @media screen and (max-width: 960px) {
-  .leasing w-transaction .transaction { //for leasing page
+  .leasing w-transaction .transaction {
     .icon {
-      zoom: .71;
       margin-right: 20px;
-      background-size: 90%;
+    }
+
+    .status {
+      right: 43px;
+      bottom: auto;
+      top: 10px;
     }
 
     .transaction-info {
@@ -152,7 +165,7 @@ w-transaction .transaction {
           height: 50%;
 
           .locale-address {
-            display:none;
+            display: none;
           }
 
           .footnote-1.fs-mobile {
@@ -177,17 +190,9 @@ w-transaction .transaction {
   w-transaction .transaction {
     height: auto;
 
-    .status {
-      right: 43px;
-      bottom: auto;
-      top: 10px;
-    }
-
     .icon {
-      zoom: .71;
       margin-right: 20px;
-      background-size: 90%;
-    }
+     }
 
     .transaction-info {
 
@@ -201,7 +206,7 @@ w-transaction .transaction {
           height: 50%;
 
           .locale-address {
-            display:none;
+            display: none;
           }
 
           .body-1.fs-mobile {

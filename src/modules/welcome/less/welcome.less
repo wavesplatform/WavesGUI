@@ -94,20 +94,30 @@
     .icon-remove-user {
       position: absolute;
       top: 50%;
-      right: 15px;
+      right: 5px;
       transform: translateY(-50%);
-      width: 10px;
-      height: 10px;
+      width: 30px;
+      height: 30px;
+      background-size: 10px 10px;
+      background-position: center;
     }
 
-    w-select .title-content .icon-remove-user {
-      display: none;
-    }
+    w-select {
+      .select-list {
+        max-height: 300px;
+        overflow: auto;
+      }
 
-    .title-content, .option {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
+      .title-content .icon-remove-user {
+        display: none;
+      }
+
+      .title-content, .option {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
     }
 
     .input-like {
@@ -115,6 +125,22 @@
       flex-direction: row;
       align-items: center;
       position: relative;
+    }
+
+    .input-like,
+    w-select {
+      .has-name {
+        .address {
+          .footnote-1();
+          color: @color-basic-500;
+          line-height: 1em;
+        }
+        .name {
+          .body-2();
+          line-height: 1em;
+          margin: 0 0 4px 0;
+        }
+      }
     }
 
     .center {

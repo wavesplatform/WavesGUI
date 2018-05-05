@@ -5,12 +5,13 @@
      * @param Base
      * @param {Waves} waves
      * @param {User} user
-     * @param createPoll
-     * @param {NotificationManager} notificationManager
+     * @param {IPollCreate} createPoll
+     * @param {INotification} notification
      * @param {app.utils} utils
+     * @param {$rootScope.Scope} $scope
      * @return {DexMyOrders}
      */
-    const controller = function (Base, waves, user, createPoll, notificationManager, utils) {
+    const controller = function (Base, waves, user, createPoll, notification, utils, $scope) {
 
         class DexMyOrders extends Base {
 
@@ -27,7 +28,7 @@
                     _assetIdPair: 'dex.assetIdPair'
                 });
 
-                const poll = createPoll(this, this._getOrders, 'orders', 5000);
+                const poll = createPoll(this, this._getOrders, 'orders', 5000, { $scope });
                 this.observe('_assetIdPair', () => poll.restart());
             }
 
@@ -37,13 +38,15 @@
                         .then(() => {
                             const canceledOrder = tsUtils.find(this.orders, { id: order.id });
                             canceledOrder.state = 'Canceled';
-                            notificationManager.info({
+                            notification.info({
                                 ns: 'app.dex',
                                 title: { literal: 'directives.myOrders.notifications.isCanceled' }
                             });
+
+                            $scope.$digest();
                         })
                         .catch(() => {
-                            notificationManager.error({
+                            notification.error({
                                 ns: 'app.dex',
                                 title: { literal: 'directives.myOrders.notifications.somethingWentWrong' }
                             });
@@ -87,7 +90,7 @@
         return new DexMyOrders();
     };
 
-    controller.$inject = ['Base', 'waves', 'user', 'createPoll', 'notificationManager', 'utils'];
+    controller.$inject = ['Base', 'waves', 'user', 'createPoll', 'notification', 'utils', '$scope'];
 
     angular.module('app.dex').component('wDexMyOrders', {
         bindings: {},

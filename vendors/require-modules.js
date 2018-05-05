@@ -1,20 +1,27 @@
 (function () {
     'use strict';
 
-    const MODULES_MAP = {
+    var MODULES_MAP = {
         'ts-utils': 'tsUtils',
         'bignumber.js': 'BigNumber',
         'ts-api-validator': 'tsApiValidator',
-        'parse-json-bignumber': 'parseJsonBignumber'
+        'parse-json-bignumber': 'parseJsonBignumber',
+        'papaparse': 'Papa',
+        'waves-api': 'WavesAPI',
+        'identity-img': 'identityImg'
     };
 
     if (window.require) {
-        const origin = require;
+        var origin = require;
         window.require = function (name) {
             if (name in MODULES_MAP) {
                 return window[MODULES_MAP[name]] || origin(name);
             } else {
-                return origin(name);
+                try {
+                    return angular.element(document).injector().get(name);
+                } catch (e) {
+                    return origin(name);
+                }
             }
         };
     } else {
@@ -22,17 +29,13 @@
             if (name in MODULES_MAP) {
                 return window[MODULES_MAP[name]];
             } else {
-                throw new Error(`Not loaded module with name "${name}"`);
+                try {
+                    return angular.element(document).injector().get(name);
+                } catch (e) {
+                    throw new Error('Not loaded module with name "' + name);
+                }
             }
         };
     }
-
-    window.require = window.require || function (name) {
-        if (name in MODULES_MAP) {
-            return window[MODULES_MAP[name]];
-        } else {
-            throw new Error(`Not loaded module with name "${name}"`);
-        }
-    };
 
 })();

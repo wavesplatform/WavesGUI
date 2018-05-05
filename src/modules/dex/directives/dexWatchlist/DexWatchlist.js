@@ -6,7 +6,7 @@
      * @param {Waves} waves
      * @param {app.utils} utils
      * @param {JQuery} $element
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param {$state} $state
      * @param {$location} $location
      * @param {app.utils.decorators} decorators
@@ -112,6 +112,8 @@
                     this._initRowId();
                     this._onChangeBaseAsset();
                     this._onChangeIdWatchList();
+
+                    $scope.$digest();
                 });
             }
 
@@ -296,7 +298,7 @@
              * @private
              */
             _onChangeBaseAsset() {
-                waves.node.assets.info(this.baseAssetId)
+                waves.node.assets.getExtendedAsset(this.baseAssetId)
                     .then((asset) => {
                         this._parent.title = asset.name;
                         $scope.$apply();
@@ -311,6 +313,7 @@
                 utils.whenAll(this._idWatchList.map(waves.node.assets.info))
                     .then((list) => {
                         this.watchlist = list;
+                        $scope.$digest();
                     });
             }
 

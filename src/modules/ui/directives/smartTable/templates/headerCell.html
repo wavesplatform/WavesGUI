@@ -1,0 +1,10 @@
+<w-table-cell ng-class="{sorting: sorting, asc: sorting && isAsc, desc: sorting && !isAsc}">
+    <div class="cell">
+        <div ng-if="::search" class="smart-table__search-container">
+            <input ng-model="searchQuery" ng-class="{'not-empty': searchQuery != ''}"/>
+        </div>
+        <div ng-if="::title.literal" class="smart-table__header" ng-class="::{'sort-by': sort}">
+            <w-i18n params="title.params">{{title.literal}}</w-i18n>
+        </div>
+    </div>
+</w-table-cell>

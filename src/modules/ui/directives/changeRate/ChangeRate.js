@@ -5,10 +5,11 @@
      * @param Base
      * @param {Waves} waves
      * @param {User} user
-     * @param createPoll
+     * @param {IPollCreate} createPoll
+     * @param {$rootScope.Scope} $scope
      * @return {ChangeRate}
      */
-    const controller = function (Base, waves, user, createPoll) {
+    const controller = function (Base, waves, user, createPoll, $scope) {
 
         class ChangeRate extends Base {
 
@@ -41,18 +42,21 @@
             $postLink() {
                 this.interval = Number(this.interval) || 5000;
 
-                waves.node.assets.info(user.getSetting('baseAssetId'))
+                waves.node.assets.getExtendedAsset(user.getSetting('baseAssetId'))
                     .then((mirror) => {
                         this.mirror = mirror;
 
                         if (!this.noUpdate) {
-                            this.poll = createPoll(this, this._getRate, 'rate', this.interval);
+                            this.poll = createPoll(this, this._getRate, 'rate', this.interval, { $scope });
                         } else {
                             this._onChangeAssetId();
                         }
                     });
             }
 
+            /**
+             * @private
+             */
             _onChangeAssetId() {
                 if (this.assetId) {
                     if (this.poll) {
@@ -60,6 +64,7 @@
                     } else {
                         this._getRate().then((rate) => {
                             this.rate = rate;
+                            $scope.$digest();
                         });
                     }
                 }
@@ -75,7 +80,7 @@
         return new ChangeRate();
     };
 
-    controller.$inject = ['Base', 'waves', 'user', 'createPoll'];
+    controller.$inject = ['Base', 'waves', 'user', 'createPoll', '$scope'];
 
     angular.module('app.ui').component('wChangeRate', {
         bindings: {

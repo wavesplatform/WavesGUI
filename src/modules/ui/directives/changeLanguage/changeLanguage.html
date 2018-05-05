@@ -1,5 +1,5 @@
 <w-select ng-model="$ctrl.active">
-    <w-option ng-repeat="lng in $ctrl.list" value="{{ ::lng }}">
-        <div class="lng-item lng-{{ ::lng }}">{{ ::lng }}</div>
+    <w-option ng-repeat="lng in $ctrl.list" value="::lng.code">
+        <div class="lng-item lng-{{ ::lng.code }}"><span>{{ ::lng.name }}</span></div>
     </w-option>
 </w-select>

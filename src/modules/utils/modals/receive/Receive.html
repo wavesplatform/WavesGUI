@@ -1,0 +1,378 @@
+<md-dialog class="modal-receive" w-i18n-ns="app.utils" aria-label="modal">
+    <md-dialog-content>
+        <div class="modal-content">
+            <div class="btn icon-close ng-scope" w-modal-close></div>
+            <w-step-by-step active-step="$ctrl.step">
+                <w-step>
+                    <w-tabs ng-model="$ctrl.activeTab">
+
+                        <w-tab ng-if="$ctrl.showCryptocurrencyTab" title-name="::'modal.receive.cryptocurrency.title'" id="::'cryptocurrency'">
+                            <div class="receive-crypto">
+
+                                <div class="row margin-2">
+                                    <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
+                                    <div ng-if="$ctrl.singleAsset" class="input-like big flex-row split-half">
+                                        <div class="flex-row">
+                                            <w-asset-logo size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
+                                            <div class="asset-name">{{::$ctrl.asset.name}}</div>
+                                        </div>
+                                    </div>
+                                    <w-select
+                                        class="big"
+                                        ng-if="!$ctrl.singleAsset"
+                                        ng-model="$ctrl.chosenAssetId">
+                                        <w-option ng-repeat="cryptocurrency in $ctrl.cryptocurrencies track by $index" value="::cryptocurrency.id">
+                                            <div class="flex-row split-half">
+                                                <div class="flex-row">
+                                                    <w-asset-logo size="24" asset-id="{{::cryptocurrency.id}}"></w-asset-logo>
+                                                    <div class="asset-name">{{::cryptocurrency.name}}</div>
+                                                </div>
+                                            </div>
+                                        </w-option>
+                                    </w-select>
+                                </div>
+
+                                <div class="warning-plate margin-1">
+                                    <div class="body-2 warning-500"
+                                         w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningTitle"></div>
+                                    <div class="footnote-1 basic-500"
+                                         w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningText"></div>
+                                </div>
+
+                                <div class="warning-plate">
+                                    <div class="body-2 warning-500"
+                                         w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountTitle"></div>
+                                    <div class="footnote-1 basic-500"
+                                         w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountText"></div>
+                                </div>
+
+                                <div class="body-2 basic-900">
+                                    <span w-i18n="modal.deposit.copyAndShare"></span>
+                                    <w-help-icon>
+                                        <div class="row-help headline-3">
+                                            <w-i18n>modal.deposit.{{$ctrl.assetKeyName}}.helpDescrTitle</w-i18n>
+                                        </div>
+                                        <div class="row-help">
+                                            <w-i18n>modal.deposit.{{$ctrl.assetKeyName}}.helpDescrText</w-i18n>
+                                        </div>
+                                        <div class="row-help">
+                                            <w-i18n>modal.deposit.pleaseNote</w-i18n>
+                                        </div>
+                                    </w-help-icon>
+                                </div>
+
+                                <w-copy-wrap class="body-1 basic-900 mobile-low-fsize" info="$ctrl.gatewayAddress">
+                                    {{$ctrl.gatewayAddress}}
+                                    <w-loader ng-if="!$ctrl.gatewayAddress"></w-loader>
+                                </w-copy-wrap>
+
+                                <div class="or">
+                                    <w-i18n>modal.deposit.or</w-i18n>
+                                </div>
+
+                                <div class="qr-wrapper">
+                                    <div class="scan body-2 center basic-900" w-i18n="modal.deposit.scanQrCode"></div>
+                                    <w-qr-code size="160" url="$ctrl.gatewayAddress"></w-qr-code>
+                                    <w-loader ng-if="!$ctrl.gatewayAddress"></w-loader>
+                                </div>
+
+                            </div>
+                        </w-tab>
+
+                        <w-tab ng-if="$ctrl.showInvoiceTab" title-name="::'modal.receive.invoice.title'" id="::'invoice'">
+                            <form novalidate name="invoice">
+                                <div class="receive-invoice">
+                                    <div class="row margin-2">
+                                        <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
+                                        <div class="input-like big flex-row split-half" ng-if="$ctrl.singleAsset">
+                                            <div class="flex-row">
+                                                <w-asset-logo size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
+                                                <div class="asset-name">{{::$ctrl.asset.name}}</div>
+                                            </div>
+                                        </div>
+                                        <w-select
+                                            class="big"
+                                            ng-if="!$ctrl.singleAsset"
+                                            ng-model="$ctrl.chosenAssetId">
+                                            <w-option ng-repeat="invoice in $ctrl.invoicables track by $index" value="::invoice.id">
+                                                <div class="flex-row split-half">
+                                                    <div class="flex-row">
+                                                        <w-asset-logo size="24" asset-id="{{::invoice.id}}"></w-asset-logo>
+                                                        <div class="asset-name">{{::invoice.name}}</div>
+                                                    </div>
+                                                </div>
+                                            </w-option>
+                                        </w-select>
+                                    </div>
+
+                                    <div class="row margin-2">
+                                        <div class="body-2 basic-900" w-i18n="modal.receive.addressOrAlias"></div>
+                                        <w-select class="big" ng-model="$ctrl.chosenAlias">
+                                            <w-option ng-repeat="alias in $ctrl.addressAndAliases track by $index" value="::alias">
+                                                {{::alias}}
+                                            </w-option>
+                                        </w-select>
+                                    </div>
+
+                                    <div class="row margin-2">
+                                        <w-input-container>
+                                            <div class="body-2" w-i18n="modal.send.amount"></div>
+                                            <div class="amount-wrap">
+                                                <w-input
+                                                    name="amount"
+                                                    type="text"
+                                                    class="big long"
+                                                    ng-model="$ctrl.invoiceAmount"
+                                                    w-validate
+                                                    w-validator-asset="{{$ctrl.asset.id || $ctrl.chosenAssetId}}"
+                                                    required></w-input>
+                                            </div>
+                                        </w-input-container>
+                                    </div>
+
+                                    <div class="row margin-2">
+                                        <div class="body-2 basic-900" w-i18n="modal.receive.shareInvoiceLink"></div>
+                                        <w-copy-wrap class="body-1 basic-900 mobile-low-fsize" info="$ctrl.sendLink"
+                                                     ng-click="$ctrl.onCopyAddress()">
+                                            <span>{{$ctrl.sendLink}}<span>
+                                        </w-copy-wrap>
+                                    </div>
+
+                                    <div class="or">or</div>
+
+                                    <div class="center">
+                                        <div class="scan body-2 basic-900" w-i18n="modal.qr.scanQrCode"></div>
+                                        <w-qr-code size="160" url="$ctrl.sendLink"></w-qr-code>
+                                    </div>
+                                </div>
+                            </form>
+                        </w-tab>
+
+                        <w-tab ng-if="$ctrl.showCardTab" title-name="::'modal.receive.card.title'" id="::'card'">
+                            <div class="receive-card">
+                                <form novalidate name="card">
+
+                                    <div class="row margin-2">
+                                        <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
+                                        <div ng-if="$ctrl.singleAsset" class="input-like big flex-row split-half">
+                                            <div class="flex-row">
+                                                <w-asset-logo size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
+                                                <div class="asset-name">{{::$ctrl.asset.name}}</div>
+                                            </div>
+                                        </div>
+                                        <w-select
+                                            class="big"
+                                            ng-if="!$ctrl.singleAsset"
+                                            ng-model="$ctrl.chosenAssetId">
+                                            <w-option ng-repeat="purchasableByCard in $ctrl.purchasablesByCards track by $index" value="::purchasableByCard.id">
+                                                <div class="flex-row split-half">
+                                                    <div class="flex-row">
+                                                        <w-asset-logo size="24" asset-id="{{::purchasableByCard.id}}"></w-asset-logo>
+                                                        <div class="asset-name">{{::purchasableByCard.name}}</div>
+                                                    </div>
+                                                </div>
+                                            </w-option>
+                                        </w-select>
+                                    </div>
+
+                                    <div class="row margin-1 relative">
+                                        <div class="body-2 basic-900" w-i18n="modal.receive.amountYouPay"></div>
+                                        <div class="basic-500 footnote-1">
+                                            <w-i18n>modal.receive.minimumIs</w-i18n>&nbsp;{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].min}}
+                                            {{$ctrl.currencies[$ctrl.chosenCurrencyIndex].name}},&nbsp;
+                                            <w-i18n>modal.receive.maximumIs</w-i18n>&nbsp;{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].max}}
+                                            {{$ctrl.currencies[$ctrl.chosenCurrencyIndex].name}}
+                                        </div>
+                                        <div class="card-icons">
+                                            <i class="visa-icon"></i>
+                                            <i class="mastercard-icon"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="row margin-2">
+                                        <w-input-container>
+
+                                            <div class="amount-wrap">
+                                                <w-input
+                                                        name="amount"
+                                                        type="text"
+                                                        class="big"
+                                                        ng-model="$ctrl.cardPayment"
+                                                        w-validate
+                                                        w-validator-gte="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].min}}"
+                                                        w-validator-lte="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].max}}"
+                                                        w-validator-asset="{{$ctrl.currencies[$ctrl.chosenCurrencyIndex].assetId}}"
+                                                        required></w-input>
+
+                                                <w-select class="big" ng-model="$ctrl.chosenCurrencyIndex">
+                                                    <w-option ng-repeat="currency in $ctrl.currencies track by $index"
+                                                              value="$index">
+                                                        <span>{{::currency.name}}</span>
+                                                    </w-option>
+                                                </w-select>
+                                            </div>
+
+                                            <w-input-error message="gte">
+                                                <w-i18n params="{
+                                                    gte: $ctrl.currencies[$ctrl.chosenCurrencyIndex].min,
+                                                    currency: $ctrl.currencies[$ctrl.chosenCurrencyIndex].name
+                                                    }">modal.receive.error.cardAmount.gte
+                                                </w-i18n>
+                                            </w-input-error>
+                                            <w-input-error message="lte">
+                                                <w-i18n params="{
+                                                            lte: $ctrl.currencies[$ctrl.chosenCurrencyIndex].max,
+                                                            currency: $ctrl.currencies[$ctrl.chosenCurrencyIndex].name
+                                                        }">modal.receive.error.cardAmount.lte
+                                                </w-i18n>
+                                            </w-input-error>
+                                            <w-input-error message="precision">
+                                                <w-i18n>modal.receive.error.cardAmount.precision</w-i18n>
+                                            </w-input-error>
+
+
+                                        </w-input-container>
+                                    </div>
+
+                                    <div class="row margin-2">
+                                        <div class="body-2 basic-900">
+                                            <span w-i18n="modal.receive.youWillGet"></span>
+                                        </div>
+
+                                        <div class="note-plate body-2">
+                                            <w-i18n params="{money: $ctrl.approximateAmount}"
+                                                    ng-if="$ctrl.approximateAmount">money-currency
+                                            </w-i18n>
+                                            <w-loader ng-if="!$ctrl.approximateAmount"></w-loader>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                                <a href="{{$ctrl.indacoinLink}}" target="_blank">
+                                    <w-button disabled="card.$invalid" class="big submit long"
+                                              on-click="$ctrl.confirmIndacoin()">
+                                        <w-i18n>modal.receive.card.continue</w-i18n>
+                                    </w-button>
+                                </a>
+                            </div>
+                        </w-tab>
+
+                        <w-tab ng-if="$ctrl.showBankTab" title-name="::'modal.receive.bank.title'" id="::'bank'">
+                            <div class="receive-bank">
+
+                                <div class="row margin-2">
+                                    <div class="body-2 basic-900" w-i18n="modal.receive.asset"></div>
+                                    <div class="input-like big flex-row split-half" ng-if="$ctrl.singleAsset">
+                                        <div class="flex-row">
+                                            <w-asset-logo size="24" asset-id="{{::$ctrl.asset.id}}"></w-asset-logo>
+                                            <div class="asset-name">{{::$ctrl.asset.name}}</div>
+                                        </div>
+                                    </div>
+                                    <w-select
+                                        class="big"
+                                        ng-if="!$ctrl.singleAsset"
+                                        ng-model="$ctrl.chosenAssetId">
+                                        <w-option ng-repeat="fiat in $ctrl.fiats track by $index" value="::fiat.id">
+                                            <div class="flex-row split-half">
+                                                <div class="flex-row">
+                                                    <w-asset-logo size="24" asset-id="{{::fiat.id}}"></w-asset-logo>
+                                                    <div class="asset-name">{{::fiat.name}}</div>
+                                                </div>
+                                            </div>
+                                        </w-option>
+                                    </w-select>
+
+                                </div>
+
+                                <div ng-if="!$ctrl.isLira()" class="get-verified">
+
+                                    <div class="warning-plate">
+                                        <div class="body-2 warning-500" w-i18n="modal.sepa.warningTitle"></div>
+                                    </div>
+
+                                    <div class="country-list-link">
+                                        <a class="caption-1 submit-300"
+                                           w-i18n="modal.sepa.countryList"
+                                           href="{{$ctrl.listOfEligibleCountries}}"
+                                           target="_blank"></a>
+                                    </div>
+
+                                    <table class="steps">
+                                        <tr>
+                                            <td class="step headline-3 basic-900" w-i18n="modal.sepa.step1"></td>
+                                            <td class="description body-2 basic-900"
+                                                w-i18n="modal.sepa.step1Description"
+                                                params="{assetName: $ctrl.asset.name, url: $ctrl.idNowSiteUrl}"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="step headline-3 basic-900" w-i18n="modal.sepa.step2"></td>
+                                            <td class="description body-2 basic-900"
+                                                w-i18n="modal.sepa.step2Description"></td>
+                                        </tr>
+                                    </table>
+
+                                    <div class="row margin-3 caption-1 info-block">
+                                        <i class="icon-info"></i>
+                                        <div w-i18n="modal.sepa.warning"></div>
+                                    </div>
+
+                                    <a href="{{$ctrl.idNowUserLink}}" target="_blank">
+                                        <w-button class="big submit long" on-click="$ctrl.confirmIdNow()">
+                                            <w-i18n>modal.sepa.proceed</w-i18n>
+                                        </w-button>
+                                    </a>
+
+                                </div>
+
+                                <div ng-if="$ctrl.isLira()" class="bank-account wtry">
+
+                                    <div class="warning-plate">
+                                        <div class="body-2 warning-500" w-i18n="modal.receive.wtryPlate1Header"></div>
+                                        <div class="footnote-1 basic-500" w-i18n="modal.receive.wtryPlate1Text"></div>
+                                    </div>
+
+                                    <div class="row margin-3 caption-1 info-block">
+                                        <i class="icon-info"></i>
+                                        <div w-i18n="modal.receive.wtry.info"></div>
+                                    </div>
+
+                                    <a href="{{$ctrl.digiLiraUserLink}}" target="_blank">
+                                        <w-button class="big submit long" on-click="$ctrl.confirmDigilira()">
+                                            <w-i18n>modal.receive.card.continue</w-i18n>
+                                        </w-button>
+                                    </a>
+
+                                </div>
+
+                            </div>
+                        </w-tab>
+
+                    </w-tabs>
+
+                </w-step>
+
+                <w-step>
+
+                    <div class="text-center receive-confirm" ng-if="$ctrl.showIdNowRedirectionDescription">
+                        <i class="bank-success-icon margin-1"></i> <!-- if bank -->
+                        <h3 class="basic-700" w-i18n="modal.receive.bankSuccessHeader"></h3>
+                        <div class="body-2 basic-500" w-i18n="modal.receive.bankSuccessText"></div>
+                    </div>
+
+                    <div class="text-center receive-confirm" ng-if="$ctrl.showIndacoinRedirectionDescription">
+                        <i class="card-success-icon margin-1"></i>
+                        <h3 class="basic-700" w-i18n="modal.receive.cardSuccessHeader"></h3>
+                        <div class="body-2 basic-500" w-i18n="modal.receive.cardSuccessText"></div>
+                    </div>
+
+                    <div class="text-center receive-confirm" ng-if="$ctrl.showDigiliraRedirectionDescription">
+                        <i class="bank-building-success-icon margin-1"></i>
+                        <h3 class="basic-700" w-i18n="modal.receive.wtrySuccessHeader"></h3>
+                    </div>
+
+                </w-step>
+            </w-step-by-step>
+        </div>
+    </md-dialog-content>
+</md-dialog>

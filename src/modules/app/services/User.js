@@ -8,7 +8,6 @@
 
     /**
      * @param {Storage} storage
-     * @param {$q} $q
      * @param {*} $state
      * @param {app.defaultSettings} defaultSettings
      * @param {State} state
@@ -17,7 +16,9 @@
      * @param {TimeLine} timeLine
      * @return {User}
      */
-    const factory = function (storage, $q, $state, defaultSettings, state, UserRouteState, modalManager, timeLine) {
+    const factory = function (storage, $state, defaultSettings, state, UserRouteState, modalManager, timeLine) {
+
+        const tsUtils = require('ts-utils');
 
         class User {
 
@@ -27,7 +28,11 @@
                  */
                 this.address = null;
                 /**
-                 * @type {Signal}
+                 * @type {string}
+                 */
+                this.name = null;
+                /**
+                 * @type {Signal<string>} setting path
                  */
                 this.changeSetting = null;
                 /**
@@ -55,7 +60,7 @@
                  * @type {Deferred}
                  * @private
                  */
-                this._dfr = $q.defer();
+                this._dfr = $.Deferred();
                 /**
                  * @type {object}
                  * @private
@@ -86,11 +91,76 @@
             }
 
             /**
+             * @return {boolean}
+             */
+            isMaster() {
+                return !!this._password;
+            }
+
+            /**
              * @param {string} name
              * @return {*}
              */
             getSetting(name) {
                 return this._settings.get(name);
+            }
+
+            /**
+             * @param {string} assetId
+             * @param {boolean} [state]
+             */
+            togglePinAsset(assetId, state) {
+                this.toggleArrayUserSetting('pinnedAssetIdList', assetId, state);
+                if (this.hasInArrayUserSetting('pinnedAssetIdList', assetId)) {
+                    this.toggleSpamAsset(assetId, false);
+                }
+            }
+
+            /**
+             * @param {string} assetId
+             * @param {boolean} [state]
+             */
+            toggleSpamAsset(assetId, state) {
+                this.toggleArrayUserSetting('wallet.portfolio.spam', assetId, state);
+                if (this.hasInArrayUserSetting('wallet.portfolio.spam', assetId)) {
+                    this.togglePinAsset(assetId, false);
+                }
+            }
+
+            /**
+             * @param {string} path
+             * @param {string|number} value
+             * @param {boolean} [state]
+             * @return {null}
+             */
+            toggleArrayUserSetting(path, value, state) {
+                const list = this.getSetting(path);
+                const index = list.indexOf(value);
+                state = tsUtils.isEmpty(state) ? index === -1 : state;
+
+                if (state && index === -1) {
+                    const newList = list.slice();
+                    newList.push(value);
+                    this.setSetting(path, newList);
+                    return null;
+                }
+
+                if (!state && index !== -1) {
+                    const newList = list.slice();
+                    newList.splice(index, 1);
+                    this.setSetting(path, newList);
+                    return null;
+                }
+            }
+
+            /**
+             * @param {string} path
+             * @param {string} value
+             * @return {boolean}
+             */
+            hasInArrayUserSetting(path, value) {
+                const list = this.getSetting(path);
+                return list.includes(value);
             }
 
             /**
@@ -115,7 +185,7 @@
              * @return {Promise}
              */
             onLogin() {
-                return this._dfr.promise;
+                return this._dfr.promise();
             }
 
             /**
@@ -133,6 +203,7 @@
             /**
              * @param {object} data
              * @param {string} data.address
+             * @param {string} data.name
              * @param {string} data.encryptedSeed
              * @param {string} data.publicKey
              * @param {string} data.password
@@ -143,6 +214,7 @@
                 return this._addUserData({
                     address: data.address,
                     password: data.password,
+                    name: data.name,
                     encryptedSeed: data.encryptedSeed,
                     publicKey: data.publicKey,
                     settings: {
@@ -210,7 +282,7 @@
              * @return {Promise}
              */
             getUserList() {
-                return storage.load('userList')
+                return storage.onReady().then(() => storage.load('userList'))
                     .then((list) => {
                         list = list || [];
 
@@ -271,8 +343,6 @@
 
                         return this._save()
                             .then(() => {
-
-                                state.setMaxSleep(this._settings.get('logoutAfterMin'));
                                 this.receive(state.signals.sleep, (min) => {
                                     if (min >= this._settings.get('logoutAfterMin')) {
                                         this.logout();
@@ -383,7 +453,6 @@
 
     factory.$inject = [
         'storage',
-        '$q',
         '$state',
         'defaultSettings',
         'state',

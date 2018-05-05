@@ -3,14 +3,15 @@
 
     /**
      * @param Base
-     * @param createPoll
+     * @param {IPollCreate} createPoll
      * @param {User} user
      * @param {Waves} waves
      * @param {app.utils} utils
      * @param {JQuery} $element
+     * @param {$rootScope.Scope} $scope
      * @return {Exchange}
      */
-    const controller = function (Base, createPoll, user, waves, utils, $element) {
+    const controller = function (Base, createPoll, user, waves, utils, $element, $scope) {
 
         class Exchange extends Base {
 
@@ -48,7 +49,7 @@
                 this.interval = Number(this.interval) || 5000;
                 this.noUpdate = this.noUpdate == null;
 
-                waves.node.assets.info(this.targetAssetId || user.getSetting('baseAssetId'))
+                waves.node.assets.getExtendedAsset(this.targetAssetId || user.getSetting('baseAssetId'))
                     .then((mirror) => {
                         this.mirror = mirror;
 
@@ -56,9 +57,11 @@
                             this._getMirrorBalance()
                                 .then((balance) => {
                                     this.mirrorBalance = balance;
+                                    $scope.$digest();
                                 });
                         } else {
-                            this.poll = createPoll(this, this._getMirrorBalance, 'mirrorBalance', this.interval);
+                            this.poll =
+                                createPoll(this, this._getMirrorBalance, 'mirrorBalance', this.interval, { $scope });
                         }
 
                         this.observe('balance', this._onChangeBalance);
@@ -90,7 +93,7 @@
              */
             _getMirrorBalance() {
                 if (!this.balance) {
-                    return utils.when(null);
+                    return Promise.resolve(null);
                 }
                 return waves.utils.getRateApi(this.balance.asset.id, this.mirror.id)
                     .then((api) => {
@@ -108,7 +111,7 @@
         return new Exchange();
     };
 
-    controller.$inject = ['Base', 'createPoll', 'user', 'waves', 'utils', '$element'];
+    controller.$inject = ['Base', 'createPoll', 'user', 'waves', 'utils', '$element', '$scope'];
 
     angular.module('app.ui').component('wExchange', {
         bindings: {

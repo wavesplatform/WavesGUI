@@ -3,10 +3,10 @@
 
     /**
      * @param Base
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param {TransactionsCsvGen} transactionsCsvGen
      * @param {Waves} waves
-     * @param {function} createPoll
+     * @param {IPollCreate} createPoll
      * @return {TransactionsCtrl}
      */
     const controller = function (Base, $scope, transactionsCsvGen, waves, createPoll) {
@@ -32,17 +32,29 @@
                  * @private
                  */
                 this.txList = [];
+                /**
+                 * @type {number}
+                 */
+                this.limit = 100;
 
                 this.syncSettings({ filter: 'wallet.transactions.filter' });
 
-                createPoll(this, waves.node.transactions.list, this._setTxList, 4000, { isBalance: true });
+                const poll = createPoll(this, this._getTxList, this._setTxList, 4000, { isBalance: true });
 
+                this.observe('filter', () => {
+                    this.limit = 100;
+                });
                 this.observe(['txList', 'filter'], this._applyTransactionList);
+                this.observe('limit', () => poll.restart());
             }
 
             exportTransactions() {
                 analytics.push('TransactionsPage', 'TransactionsPage.CSV', 'download');
                 transactionsCsvGen.generate(this.transactions);
+            }
+
+            _getTxList() {
+                return waves.node.transactions.list(this.limit);
             }
 
             /**
@@ -72,7 +84,7 @@
             _setTxList(transactions) {
                 this.pending = false;
                 this.txList = transactions;
-                $scope.$apply();
+                $scope.$digest();
             }
 
         }

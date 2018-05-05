@@ -3,26 +3,47 @@
 
     const PATH = 'modules/welcome/templates';
 
-    const controller = function ($state, user, modalManager) {
+    const controller = function (Base, $scope, $state, user, modalManager) {
 
-        class WelcomeCtrl {
+        class WelcomeCtrl extends Base {
 
-            get address() {
-                return this.activeUser;
+            get user() {
+                return this.userList[this._activeUserIndex];
             }
 
             get encryptedSeed() {
-                return tsUtils.find(this.userList, { address: this.activeUser }).encryptedSeed;
+                return this.user.encryptedSeed;
             }
 
             constructor() {
+                super($scope);
+                /**
+                 * @type {string}
+                 */
                 this.password = '';
+                /**
+                 * @type {null}
+                 */
                 this.loginForm = null;
+                /**
+                 * @type {string}
+                 */
+                this.activeUserAddress = null;
+                /**
+                 * @type {number}
+                 * @private
+                 */
+                this._activeUserIndex = null;
+
+                this.observe('activeUserAddress', this._calculateActiveIndex);
+
                 user.getUserList()
                     .then((list) => {
-                        this.activeUser = list.length && list[0].address;
                         this.userList = list;
-                        this._updatePageUrl();
+                        this._updateActiveUserAddress();
+                        setTimeout(() => {
+                            $scope.$apply(); // TODO FIX!
+                        }, 100);
                     });
             }
 
@@ -34,14 +55,14 @@
 
                 try {
                     this.showPasswordError = false;
-                    const activeUser = tsUtils.find(this.userList, { address: this.activeUser });
+                    const activeUser = this.user;
                     const encryptionRounds = user.getSettingByUser(activeUser, 'encryptionRounds');
                     const seed = Waves.Seed.decryptSeedPhrase(this.encryptedSeed, this.password, encryptionRounds);
 
                     Waves.Seed.fromExistingPhrase(seed);
 
                     user.login({
-                        address: this.address,
+                        address: activeUser.address,
                         password: this.password
                     });
                 } catch (e) {
@@ -51,13 +72,25 @@
 
             }
 
+            /**
+             * @param {string} address
+             */
             removeUser(address) {
                 user.removeUserByAddress(address);
                 this.userList = this.userList.filter((user) => user.address !== address);
-                this._updatePageUrl();
-                if (address === this.activeUser) {
-                    this.activeUser = this.userList.length && this.userList[0].address;
+                this._updateActiveUserAddress();
+            }
+
+            /**
+             * @private
+             */
+            _updateActiveUserAddress() {
+                if (this.userList.length) {
+                    this.activeUserAddress = this.userList[0].address;
+                } else {
+                    this.activeUserAddress = null;
                 }
+                this._updatePageUrl();
             }
 
             /**
@@ -71,12 +104,34 @@
                 }
             }
 
+            /**
+             * @private
+             */
+            _calculateActiveIndex() {
+                const activeAddress = this.activeUserAddress;
+                let index = null;
+
+                if (!activeAddress) {
+                    return null;
+                }
+
+                this.userList.some(({ address }, i) => {
+                    if (address === activeAddress) {
+                        index = i;
+                        return true;
+                    }
+                    return false;
+                });
+
+                this._activeUserIndex = index;
+            }
+
         }
 
         return new WelcomeCtrl();
     };
 
-    controller.$inject = ['$state', 'user', 'modalManager'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager'];
 
     angular.module('app.welcome')
         .controller('WelcomeCtrl', controller);

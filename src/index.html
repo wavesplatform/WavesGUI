@@ -7,7 +7,12 @@
     <title>Waves Client</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
+
     <style>
+
+        .not-supported-browser {
+            display: none;
+        }
 
         .app-loader {
             z-index: 10000;
@@ -162,27 +167,27 @@
         }
 
         @keyframes folding {
-           0%, 10% {
+            0%, 10% {
                 -moz-transform: perspective(140px) rotateX(-180deg);
                 -ms-transform: perspective(140px) rotateX(-180deg);
                 -webkit-transform: perspective(140px) rotateX(-180deg);
                 transform: perspective(140px) rotateX(-180deg);
                 opacity: 0;
-           }
-           25%, 75% {
-               -moz-transform: perspective(140px) rotateX(0deg);
-               -ms-transform: perspective(140px) rotateX(0deg);
-               -webkit-transform: perspective(140px) rotateX(0deg);
-               transform: perspective(140px) rotateX(0deg);
-               opacity: 1;
-           }
-           90%, 100% {
-               -moz-transform: perspective(140px) rotateY(180deg);
-               -ms-transform: perspective(140px) rotateY(180deg);
-               -webkit-transform: perspective(140px) rotateY(180deg);
-               transform: perspective(140px) rotateY(180deg);
-               opacity: 0;
-           }
+            }
+            25%, 75% {
+                -moz-transform: perspective(140px) rotateX(0deg);
+                -ms-transform: perspective(140px) rotateX(0deg);
+                -webkit-transform: perspective(140px) rotateX(0deg);
+                transform: perspective(140px) rotateX(0deg);
+                opacity: 1;
+            }
+            90%, 100% {
+                -moz-transform: perspective(140px) rotateY(180deg);
+                -ms-transform: perspective(140px) rotateY(180deg);
+                -webkit-transform: perspective(140px) rotateY(180deg);
+                transform: perspective(140px) rotateY(180deg);
+                opacity: 0;
+            }
         }
     </style>
 
@@ -196,6 +201,21 @@
 
         var __controllers = Object.create(null);
 
+        var localeSeparators = {
+            world: {
+                group: ',',
+                decimal: '.'
+            },
+            russian: {
+                group: ' ',
+                decimal: '.'
+            },
+            turkish: {
+                group: ' ', // TODO change to '.'
+                decimal: '.' // TODO change to ','
+            }
+        };
+
         /**
          * @type {IWavesApp}
          */
@@ -203,25 +223,34 @@
             name: 'Waves Client',
             version: '{{pack.version}}',
             type: '{{build.type}}',
-            langList: ['en', 'ru', 'ko'],
             localize: {
-                en: {
-                    separators: {
-                        group: ',',
-                        decimal: '.'
-                    }
+                'en': {
+                    name: 'En',
+                    separators: localeSeparators.world
                 },
-                ru: {
-                    separators: {
-                        group: ' ',
-                        decimal: '.'
-                    }
+                'ru': {
+                    name: 'Ru',
+                    separators: localeSeparators.russian
                 },
-                ko: {
-                    separators: {
-                        group: ',',
-                        decimal: '.'
-                    }
+                'ko': {
+                    name: 'Ko',
+                    separators: localeSeparators.world
+                },
+                'zh-Hans-CN': {
+                    name: 'Zh',
+                    separators: localeSeparators.world
+                },
+                'tr': {
+                    name: 'Tr',
+                    separators: localeSeparators.turkish
+                },
+                'nl': {
+                    name: 'Nl',
+                    separators: localeSeparators.world
+                },
+                'hi': {
+                    name: 'Hi',
+                    separators: localeSeparators.world
                 }
             },
             network: {
@@ -241,7 +270,9 @@
                 ETH: '{{network.assets.ETH}}',
                 LTC: '{{network.assets.LTC}}',
                 ZEC: '{{network.assets.ZEC}}',
-                BCH: '{{network.assets.BCH}}'
+                BCH: '{{network.assets.BCH}}',
+                DASH: '{{network.assets.DASH}}',
+                TRY: '{{network.assets.TRY}}'
             },
             otherAssetsWithIcons: {
                 // TODO @xenohunter : remove that when icons are in @dvshur's service
@@ -252,6 +283,7 @@
             remappedAssetNames: {
                 '{{network.assets.EUR}}': 'Euro',
                 '{{network.assets.USD}}': 'US Dollar',
+                '{{network.assets.TRY}}': 'TRY',
                 '{{network.assets.BTC}}': 'Bitcoin',
                 '{{network.assets.ETH}}': 'Ethereum'
             },
@@ -263,6 +295,37 @@
             minAliasLength: 4,
             maxAliasLength: 30,
             maxAddressLength: 45,
+            maxCoinCount: null,
+            TRANSACTION_TYPES: {
+                EXTENDED: {
+                    SEND: 'send',
+                    RECEIVE: 'receive',
+                    MASS_SEND: 'mass-send',
+                    MASS_RECEIVE: 'mass-receive',
+                    CIRCULAR: 'circular',
+                    ISSUE: 'issue',
+                    REISSUE: 'reissue',
+                    BURN: 'burn',
+                    EXCHANGE_BUY: 'exchange-buy',
+                    EXCHANGE_SELL: 'exchange-sell',
+                    LEASE_IN: 'lease-in',
+                    LEASE_OUT: 'lease-out',
+                    CANCEL_LEASING: 'cancel-leasing',
+                    CREATE_ALIAS: 'create-alias',
+                    UNKNOWN: 'unknown'
+                },
+                NODE: {
+                    TRANSFER: 'transfer',
+                    MASS_TRANSFER: 'massTransfer',
+                    ISSUE: 'issue',
+                    REISSUE: 'reissue',
+                    BURN: 'burn',
+                    CREATE_ALIAS: 'createAlias',
+                    LEASE: 'lease',
+                    CANCEL_LEASING: 'cancelLeasing',
+                    EXCHANGE: 'exchange'
+                }
+            },
             getLocaleData: function () {
                 return WavesApp.localize[i18next.language];
             },
@@ -297,6 +360,7 @@
 
 <body>
 
+
 <div class="app-loader">
     <div class="progress"></div>
     <div class="loader-wrapper">
@@ -305,13 +369,121 @@
     </div>
 </div>
 
+<div class="not-supported-browser">
+    <div class="overlay"></div>
+    <div class="not-supported-modal">
+        <i></i>
+        <h2 class="margin-2">
+            Your browser is not supported
+        </h2>
+        <div class="body-2 disabled-600 margin-4">
+            Please update to the latest version of one of the following browsers:
+        </div>
+        <div class="browsers-icons">
+            <div class="browser-icon-block">
+                <img src="/img/no-preload/chrome-icon.svg"/>
+                <div>Chrome</div>
+                <div><a href="https://www.google.ru/chrome/index.html" target="_blank">Install or update</a></div>
+            </div>
+            <div class="browser-icon-block">
+                <img src="/img/no-preload/firefox-icon.svg"/>
+                <div>Firefox</div>
+                <div><a href="https://www.mozilla.org/en-US/firefox/" target="_blank">Install or update</a></div>
+            </div>
+            <div class="browser-icon-block">
+                <img src="/img/no-preload/safari-icon.svg"/>
+                <div>Safari</div>
+                <div><a href="https://support.apple.com/downloads/safari" target="_blank">Install or update</a></div>
+            </div>
+            <div class="browser-icon-block">
+                <img src="/img/no-preload/opera-icon.svg"/>
+                <div>Opera</div>
+                <div><a href="http://www.opera.com/" target="_blank">Install or update</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <ui-view name="main"></ui-view>
+
+<div class="notifications">
+    <w-container-alert-notification type="notification"></w-container-alert-notification>
+</div>
 
 <!-- JAVASCRIPT -->
 
 <script>
 
+    window.fetch = (function (fetch) {
+        if (!fetch) {
+            return undefined;
+        }
+
+        var DEFAULT_OPTIONS = {
+            credentials: 'include'
+        };
+
+        return function (url, options) {
+            options = options || Object.create(null);
+
+            if (url.indexOf(WavesApp.network.node) !== -1) {
+                Object.assign(options, DEFAULT_OPTIONS)
+            }
+
+            return fetch(url, options)
+                .then(function (response) {
+                    if (response.ok) {
+                        if (response.headers.get('Content-Type').indexOf('application/json') !== -1) {
+                            return response.text().then(function (text) {
+                                return WavesApp.parseJSON(text);
+                            });
+                        } else {
+                            return response.text();
+                        }
+                    } else {
+                        return response.text()
+                            .then(function (error) {
+                                try {
+                                    return Promise.reject(JSON.parse(error));
+                                } catch (e) {
+                                    return Promise.reject(error);
+                                }
+                            });
+                    }
+                });
+        };
+    })(window.fetch);
+
+    WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
+
     WavesApp.parseJSON = parseJsonBignumber();
+
+
+    var isBrowserSupported = (function () {
+
+        var USE_NATIVE_API = [
+            window.Promise,
+            window.fetch,
+            Object.values,
+            Object.assign,
+            Object.getOwnPropertyDescriptor,
+            URL,
+            window.crypto || window.msCrypto
+        ];
+
+        return function () {
+            return USE_NATIVE_API.every(Boolean);
+        };
+    })();
+
+    var notSupportedSelector = '.not-supported-browser';
+
+    if (!isBrowserSupported()) {
+        document.body.querySelector(notSupportedSelector).style.display = 'block';
+    } else {
+        var modal = document.body.querySelector(notSupportedSelector);
+        modal.parentNode.removeChild(modal);
+    }
 
     if (WavesApp.isDesktop()) {
         var listenDevTools = false;
@@ -328,13 +500,28 @@
      */
     var analytics = eventSender.default.inactive();
 
-    var Waves = WavesAPI.create({
-        networkByte: WavesApp.network.code.charCodeAt(0),
-        nodeAddress: WavesApp.network.node,
-        matcherAddress: WavesApp.network.matcher,
-        minimumSeedLength: 25,
-        logLevel: 'none'
-    });
+    try {
+        /**
+         * @type {IWavesAPI}
+         */
+        var Waves = WavesAPI.create({
+            networkByte: WavesApp.network.code.charCodeAt(0),
+            nodeAddress: WavesApp.network.node,
+            matcherAddress: WavesApp.network.matcher,
+            minimumSeedLength: 25,
+            logLevel: 'none'
+        });
+
+        Waves.API.Node.v1.utils.time().then(function (nodeTime) {
+            var timeDiff = Waves.tools.calculateTimeDiff(nodeTime, Date.now());
+            var tenMinutes = 10 * 60 * 1000;
+            if (Math.abs(timeDiff) > tenMinutes) {
+                Waves.config.set({ timeDiff: timeDiff });
+            }
+        });
+    } catch (e) {
+        console.error(e);
+    }
 
     WavesApp.stateTree = new tsUtils.Tree({
         id: 'root',
@@ -347,6 +534,13 @@
                     views: [{ name: 'main' }]
                 }
             },
+            // {
+            //     id: 'sessions',
+            //     data: {
+            //         noLogin: true,
+            //         views: [{ name: 'main' }]
+            //     }
+            // },
             {
                 id: 'create',
                 data: {
@@ -409,10 +603,12 @@
      * @property {string} name
      * @property {string} version
      * @property {string} type
-     * @property {Object} localize
+     * @property {Object.<{separators: {group: string, decimal: string}}>} localize
      * @property {number} minAliasLength
      * @property {number} maxAliasLength
      * @property {number} maxAddressLength
+     * @property {BigNumber} maxCoinsCount
+     * @property {typeof WavesApp.TRANSACTION_TYPES} TRANSACTION_TYPES
      * @property {object} network
      * @property {string} network.code
      * @property {string} network.node
@@ -421,27 +617,19 @@
      * @property {string} network.coinomat
      * @property {string} network.datafeed
      * @property {string} network.support
-     * @property {object} defaultAssets
-     * @property {string} defaultAssets.WAVES
-     * @property {string} defaultAssets.EUR
-     * @property {string} defaultAssets.USD
-     * @property {string} defaultAssets.BTC
-     * @property {string} defaultAssets.ETH
-     * @property {string} defaultAssets.LTC
-     * @property {string} defaultAssets.ZEC
-     * @property {string} defaultAssets.BCH
+     * @property {typeof WavesApp.defaultAssets} defaultAssets
      * @property {object} remappedAssetNames
      * @property {object} dex
      * @property {Array<string>} dex.resolutions
      * @property {string} dex.defaultResolution
      * @property {Array<string>} modules
-     * @property {Function} isWeb
-     * @property {Function} isDesktop
-     * @property {Function} isProduction
+     * @property {function():boolean} isWeb
+     * @property {function():boolean} isDesktop
+     * @property {function():boolean} isProduction
      * @property {Function} addController
      * @property {Function} getController
-     * @property {Function} getLocaleData
-     * @property {Function} parseJSON
+     * @property {function():{name: string, separators: {group: string, decimal: string}}} getLocaleData
+     * @property {function(data: string): object} parseJSON
      * @property {Tree} stateTree
      */
 

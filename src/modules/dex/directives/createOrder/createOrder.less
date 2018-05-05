@@ -95,6 +95,7 @@ w-create-order {
           display: flex;
           flex-direction: row;
           position: relative;
+          z-index: 10;
 
           .area {
             width: 50%;
@@ -105,6 +106,7 @@ w-create-order {
             border-bottom: 1px solid @color-disabled-100;
             color: @color-disabled-400;
             cursor: pointer;
+            background: @color-white;
 
             &.sell {
               text-align: left;
@@ -128,6 +130,42 @@ w-create-order {
 
             .spread-label {
               font-size: 9px;
+            }
+          }
+        }
+
+        .create-order-notification {
+          will-change: transform;
+          position: absolute;
+          transform: translate(0, -100%);
+          color: @color-white;
+          z-index: 1;
+          width: 100%;
+          padding: 10px 0;
+          text-align: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-family: @font-roboto-medium;
+
+          i {
+            margin-right: 5px;
+            display: inline-block;
+            width: 13px;
+            height: 13px;
+            vertical-align: middle;
+          }
+
+          &.success {
+            background-color: @color-success-600;
+            i {
+              background: url(/img/icons/checkbox-icon.svg) no-repeat center center;
+            }
+          }
+          &.error {
+            background-color: @color-error-400;
+            i {
+              background: url(/img/icons/white-cancel-icon.svg) no-repeat center center;
             }
           }
         }
@@ -350,6 +388,7 @@ w-create-order {
 (min-width: 481px) and (max-width: 768px) and (max-height: 480px) {
   w-create-order {
     bottom: 0;
+    left: 0;
 
     .step-list {
       max-height: calc(100vh ~' - 84px');
@@ -357,4 +396,3 @@ w-create-order {
     }
   }
 }
-

@@ -1,13 +1,11 @@
 (function () {
     'use strict';
 
-    const MAX_OF_COINS_COUNT = new BigNumber('9223372036854775807');
-
     /**
      * @param Base
-     * @param $scope
+     * @param {$rootScope.Scope} $scope
      * @param {ModalManager} modalManager
-     * @param {function} createPoll
+     * @param {IPollCreate} createPoll
      * @param {Waves} waves
      * @return {TokensCtrl}
      */
@@ -67,16 +65,18 @@
                  */
                 this._fee = null;
 
-                const poll = createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true });
+                const poll = createPoll(this, this._getBalance, '_balance', 5000, { isBalance: true, $scope });
 
                 this.observe('precision', this._onChangePrecision);
 
-                Promise.all([waves.node.assets.fee('issue'), poll.ready]).then(([[money]]) => {
-                    this._fee = money;
-                    this.observe(['_balance', '_fee'], this._onChangeBalance);
+                Promise.all([waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.ISSUE }), poll.ready])
+                    .then(([money]) => {
+                        this._fee = money;
+                        this.observe(['_balance', '_fee'], this._onChangeBalance);
 
-                    this._onChangeBalance();
-                });
+                        this._onChangeBalance();
+                        $scope.$digest();
+                    });
             }
 
             generate() {
@@ -106,7 +106,7 @@
              */
             _onChangePrecision({ value }) {
                 if (value && value.lte(8)) {
-                    this.maxCoinsCount = MAX_OF_COINS_COUNT.div(Math.pow(10, Number(value)));
+                    this.maxCoinsCount = WavesApp.maxCoinsCount.div(Math.pow(10, Number(value)));
                 }
             }
 

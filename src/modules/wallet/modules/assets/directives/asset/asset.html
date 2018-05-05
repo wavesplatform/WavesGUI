@@ -18,13 +18,8 @@
         <div class="btn-icon icon-send"
              ng-click="$ctrl.onClick({event: $event, asset: $ctrl.balance.asset, action: 'send'})"
              w-i18n="directives.asset.send"></div>
-        <div ng-if="$ctrl.isDepositSupported"
-             class="btn-icon icon-deposit"
-             ng-click="$ctrl.onClick({event: $event, asset: $ctrl.balance.asset, action: 'deposit'})"
-             w-i18n="directives.asset.deposit"></div>
-        <div ng-if="!$ctrl.isDepositSupported && $ctrl.isSepaSupported"
-             class="btn-icon icon-deposit"
-             ng-click="$ctrl.onClick({event: $event, asset: $ctrl.balance.asset, action: 'sepa'})"
-             w-i18n="directives.asset.deposit"></div>
+        <div class="btn-icon icon-deposit"
+             ng-click="$ctrl.onClick({event: $event, asset: $ctrl.balance.asset, action: 'receive'})"
+             w-i18n="directives.asset.receive"></div>
     </div>
 </div>

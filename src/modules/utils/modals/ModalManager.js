@@ -13,6 +13,7 @@
      */
     const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state) {
 
+        const tsUtils = require('ts-utils');
 
         const DEFAULT_OPTIONS = {
             clickOutsideToClose: true,
@@ -31,7 +32,14 @@
         class ModalManager {
 
             constructor() {
+                /**
+                 * @type {Signal<Promise>}
+                 */
                 this.openModal = new tsUtils.Signal();
+                /**
+                 * @type {number}
+                 * @private
+                 */
                 this._counter = 0;
 
                 state.signals.changeRouterStateStart.on((event) => {
@@ -47,10 +55,21 @@
                 });
             }
 
+            showGatewaySign(search) {
+                return this._getModal({
+                    id: 'gateway-sign-in',
+                    title: '{{$ctrl.titleLiteral}}',
+                    contentUrl: 'modules/utils/modals/gateway/gatewaySign.html',
+                    controller: 'GatewaySignCtrl',
+                    locals: { search },
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
             showAssetInfo(asset) {
                 return this._getModal({
                     id: 'asset-info',
-                    ns: 'app.utils',
                     title: 'modal.assetInfo.title',
                     contentUrl: 'modules/utils/modals/assetInfo/assetInfo.html',
                     locals: asset,
@@ -70,10 +89,11 @@
                 });
             }
 
-            /**
-             * @param {User} user
-             */
-            showTermsAccept(user) {
+            showTermsAccept() {
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
                 return this._getModal({
                     id: 'terms-accept',
                     templateUrl: 'modules/utils/modals/termsAccept/terms-accept.html',
@@ -84,26 +104,74 @@
                     .then(() => user.setSetting('termsAccepted', true));
             }
 
-            /**
-             * @param {User} user
-             */
             showTutorialModals() {
                 return this._getModal({
                     id: 'tutorial-modals',
                     templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
-                    controller: 'TutorialModalsCtrl',
-                    clickOutsideToClose: false,
-                    escapeToClose: false
+                    controller: 'TutorialModalsCtrl'
                 });
             }
 
+            showSeedBackupModal() {
+                const user = this._getUser();
+
+                return user.getSeed()
+                    .then((seed) => {
+                        return this._getModal({
+                            id: 'seed-backup',
+                            title: 'modal.backup.title.{{$ctrl.titleLiteral}}',
+                            contentUrl: 'modules/utils/modals/seedBackup/seedBackupModals.html',
+                            controller: 'SeedBackupModalsCtrl',
+                            locals: { seed }
+                        });
+                    });
+            }
+
             showAccountInfo() {
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
                 return this._getModal({
                     id: 'account-info',
                     controller: 'AccountInfoCtrl',
                     title: 'modal.account.title',
+                    titleParams: {
+                        name: user.name || $injector.get('i18n')
+                            .translate('modal.account.title_default_name', 'app.utils')
+                    },
                     contentUrl: 'modules/utils/modals/accountInfo/account-info.modal.html',
                     mod: 'account-info'
+                });
+            }
+
+            /**
+             * @param {object} [data]
+             * @param {string} [data.assetId]
+             * @param {'singleSend'|'massSend'} [data.mode]
+             * @param {string} [data.amount]
+             * @param {string} [data.recipient]
+             * @param {boolean} [data.strict]
+             * @param {string} [data.referrer]
+             * @return {Promise}
+             */
+            showSendAsset(data) {
+                data = data || Object.create(null);
+
+                return this._getModal({
+                    id: 'send-asset',
+                    controller: 'AssetSendCtrl',
+                    templateUrl: 'modules/utils/modals/sendAsset/send.modal.html',
+                    mod: 'modal-send',
+                    locals: {
+                        assetId: data.assetId,
+                        canChooseAsset: !data.assetId,
+                        mode: data.mode,
+                        amount: data.amount,
+                        recipient: data.recipient,
+                        strict: data.strict,
+                        referrer: data.referrer
+                    }
                 });
             }
 
@@ -112,17 +180,14 @@
              * @param {Asset} [asset]
              * @return {Promise}
              */
-            showSendAsset(user, asset = Object.create(null)) {
-                return this._getModal({
-                    id: 'send-asset',
-                    controller: 'AssetSendCtrl',
-                    titleContentUrl: 'modules/utils/modals/sendAsset/send-title.modal.html',
-                    contentUrl: 'modules/utils/modals/sendAsset/send.modal.html',
-                    mod: 'modal-send',
-                    locals: {
-                        assetId: asset.id,
-                        canChooseAsset: !asset.id
-                    }
+            showReceivePopup(user, asset) {
+                return user.onLogin().then(() => {
+                    return this._getModal({
+                        id: 'receive-popup',
+                        locals: { address: user.address, asset },
+                        templateUrl: 'modules/utils/modals/receive/Receive.html',
+                        controller: 'ReceiveCtrl'
+                    });
                 });
             }
 
@@ -216,12 +281,42 @@
                 });
             }
 
+            showBurnModal(assetId) {
+                return $injector.get('waves').node.assets.balance(assetId).then(({ available }) => this._getModal({
+                    id: 'token-burn',
+                    mod: 'change-token',
+                    locals: { money: available, txType: 'burn' },
+                    titleContent: '<w-i18n params="{name: $ctrl.asset.name}">modal.token.burn.title</w-i18n>',
+                    contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
+                    controller: 'TokenChangeModalCtrl'
+                }));
+            }
+
+            showReissueModal(assetId) {
+                return $injector.get('waves').node.assets.balance(assetId).then(({ available }) => this._getModal({
+                    id: 'token-burn',
+                    mod: 'change-token',
+                    locals: { money: available, txType: 'reissue' },
+                    titleContent: '<w-i18n params="{name: $ctrl.asset.name}">modal.token.reissue.title</w-i18n>',
+                    contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
+                    controller: 'TokenChangeModalCtrl'
+                }));
+            }
+
             /**
              * @param {IModalOptions} options
              * @return {$q.resolve}
              */
             showCustomModal(options) {
                 return this._getModal(tsUtils.merge({}, DEFAULT_OPTIONS, options));
+            }
+
+            /**
+             * @return {User}
+             * @private
+             */
+            _getUser() {
+                return $injector.get('user');
             }
 
             /**
@@ -444,7 +539,7 @@
 
         }
 
-        return new ModalManager();
+        return utils.bind(new ModalManager());
     };
 
     factory.$inject = ['$mdDialog', 'utils', 'decorators', '$templateRequest', '$rootScope', '$injector', 'state'];

@@ -1,75 +1,65 @@
 (function () {
     'use strict';
 
-    const directive = (Base, $compile) => {
+    /**
+     * @param {Base} Base
+     * @param {$rootScope.Scope} $scope
+     */
+    const directive = (Base) => {
 
         return {
-            scope: true,
+            scope: {
+                value: '<'
+            },
             require: {
                 select: '^wSelect'
             },
             transclude: true,
             template: '<div class="option" ng-transclude></div>',
-            link: ($scope, $element, $attrs, { select }) => {
+            link: ($scope, $element, $attrs, { select }, $transclude) => {
+
+                const tsUtils = require('ts-utils');
 
                 class Option extends Base {
 
                     constructor() {
-                        super($scope);
-                        /**
-                         * @type {boolean}
-                         * @private
-                         */
-                        this._isActive = false;
+                        super();
                         /**
                          * @type {Select}
                          */
-                        this.select = select;
+                        this.wSelect = select;
                         /**
                          * @type {string|number}
                          */
-                        this.value = $attrs.value;
-
-                        if ($attrs.optionType) {
-                            switch ($attrs.optionType) {
-                                case 'boolean':
-                                    this.value = this.value === 'true';
-                                    break;
-                                case 'number':
-                                    this.value = Number(this.value);
-                                    break;
-                                default:
-                                    throw new Error('Wrong option type!');
-                            }
-                        }
-
+                        this.value = $scope.value;
                         /**
-                         * @type {Select}
+                         * @type {Signal<Option>}
                          */
-                        this.select.registerOption(this);
-
-                        if (tsUtils.isEmpty(this.value)) {
-                            throw new Error('Empty value of option!');
-                        }
+                        this.changeValue = new tsUtils.Signal();
 
                         this._setHandlers();
+
+                        this.wSelect.registerOption(this);
                     }
 
                     /**
                      * @return {JQuery}
                      */
                     getContent() {
-                        return $compile(Option._getContentHTML())($scope);
+                        const $element = $(Option._getContentHTML());
+                        $transclude($scope.$parent, ($clone) => {
+                            $element.append($clone);
+                        });
+                        return $element;
                     }
 
                     onClick() {
-                        this.select.setActive(this);
+                        this.wSelect.setActive(this);
                         $scope.$apply();
                     }
 
                     setActive(active) {
-                        this._isActive = active;
-                        const index = this.select.getOptionIndex(this);
+                        const index = this.wSelect.getOptionIndex(this);
                         // Get the active option to the top of the dropdown list
                         $element.css('order', active ? -index : 0).toggleClass('active', active);
                     }
@@ -79,29 +69,33 @@
                      * @private
                      */
                     static _getContentHTML() {
-                        return `<div class="title-content">${Option._getOptionHTML()}</div>`;
-                    }
-
-                    static _getOptionHTML() {
-                        return $element.find('.option:first')
-                            .html();
+                        return '<div class="title-content"></div>';
                     }
 
                     /**
                      * @private
                      */
                     _setHandlers() {
+                        this.observe('value', () => {
+                            const value = this.value;
+
+                            if (tsUtils.isEmpty(value)) {
+                                throw new Error('Value is empty!');
+                            }
+
+                            this.changeValue.dispatch(this);
+                        });
                         $element.on('click', this.onClick.bind(this));
                     }
 
                 }
 
-                new Option();
+                return new Option();
             }
         };
     };
 
-    directive.$inject = ['Base', '$compile'];
+    directive.$inject = ['Base'];
 
     angular.module('app.ui').directive('wOption', directive);
 

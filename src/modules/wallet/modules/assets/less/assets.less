@@ -51,6 +51,10 @@
       position: relative;
       border-radius: 4px;
 
+      .toggler {
+        display: none;
+      }
+
       .toolbar {
         position: relative;
         display: flex;
@@ -89,6 +93,7 @@
         h1 {
           margin: 0 0 5px;
           text-align: center;
+          font-weight: normal;
         }
       }
 
@@ -163,19 +168,15 @@
   display: none;
 }
 
-input.chart-toggler {
-  display: none;
-}
-
-label[for="chart-toggler"] {
+i.toggler {
   width: 100%;
   height: 28px;
   background: url(/img/icons/arrow-dropdown.svg) center center no-repeat;
   position: absolute;
   bottom: 0;
   left: 0;
+  display: block;
   cursor: pointer;
-  display: none;
 }
 
 @media screen and (max-width: 768px) {
@@ -186,7 +187,6 @@ label[for="chart-toggler"] {
   .toolbar-balance-select {
     display: block;
   }
-
 
   .toolbar {
     width: 100%;
@@ -210,12 +210,32 @@ label[for="chart-toggler"] {
       height: auto;
       padding-bottom: 28px;
 
+      .toggler {
+        display: block;
+      }
+
+      .chart-info,
       .chart-wrapper {
         display: none;
       }
 
+      &.active {
+
+        .chart-info {
+          display: flex;
+        }
+
+        .chart-wrapper {
+          display: block;
+        }
+
+        .toggler {
+          transform: rotate(180deg);
+        }
+
+      }
+
       .chart-info {
-        display: none;
 
         & > div:not(:last-child) {
           margin-right: 10px;
@@ -239,22 +259,6 @@ label[for="chart-toggler"] {
         .change {
           display: none;
         }
-      }
-
-      label[for="chart-toggler"] {
-        display: block;
-      }
-
-      input.chart-toggler:checked + label[for="chart-toggler"] {
-        transform: rotate(180deg);
-      }
-
-      input.chart-toggler:checked + label[for="chart-toggler"] ~ div.chart-info {
-        display: flex;
-      }
-
-      input.chart-toggler:checked + label[for="chart-toggler"] ~ div.chart-wrapper {
-        display: block;
       }
 
     }

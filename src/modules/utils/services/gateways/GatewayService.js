@@ -1,6 +1,11 @@
 (function () {
     'use strict';
 
+    const CARDS_PAYMENTS_AVAILABLE = {
+        [WavesApp.defaultAssets.WAVES]: true,
+        [WavesApp.defaultAssets.BTC]: true
+    };
+
     /**
      * @param {CoinomatService} coinomatService
      * @param {CoinomatSepaService} coinomatSepaService
@@ -17,6 +22,18 @@
                 ];
             }
 
+            getCryptocurrencies() {
+                return coinomatService.getAll();
+            }
+
+            getPurchasableByCards() {
+                return CARDS_PAYMENTS_AVAILABLE;
+            }
+
+            getFiats() {
+                return coinomatSepaService.getAll();
+            }
+
             /**
              * @param {Asset} asset
              * @param {string} wavesAddress
@@ -24,13 +41,18 @@
              */
             getDepositDetails(asset, wavesAddress) {
                 const gateway = this._findGatewayFor(asset, 'deposit');
-                return gateway.getDepositDetails(asset, wavesAddress);
+
+                if (gateway) {
+                    return gateway.getDepositDetails(asset, wavesAddress);
+                }
+
+                return null;
             }
 
             /**
              * @param {Asset} asset
              * @param {string} targetAddress
-             * @return {Promise}
+             * @return {Promise<IGatewayDetails>}
              */
             getWithdrawDetails(asset, targetAddress) {
                 const gateway = this._findGatewayFor(asset, 'withdraw');
@@ -44,7 +66,19 @@
              */
             getSepaDetails(asset, wavesAddress) {
                 const gateway = this._findGatewayFor(asset, 'sepa');
-                return gateway.getSepaDetails(asset, wavesAddress);
+
+                if (gateway) {
+                    return gateway.getSepaDetails(asset, wavesAddress);
+                }
+
+                return null;
+            }
+
+            /**
+             * @param {Asset} asset
+             */
+            getCardDetails(asset) {
+                return CARDS_PAYMENTS_AVAILABLE[asset.id] || false;
             }
 
             /**
@@ -114,4 +148,14 @@
  * @property {boolean} [withdraw]
  * @property {boolean} [sepa]
  * @property {boolean} [card]
+ */
+
+/**
+ * @typedef {object} IGatewayDetails
+ * @property {string} address
+ * @property {string} attachment
+ * @property {BigNumber} exchangeRate
+ * @property {BigNumber} gatewayFee
+ * @property {BigNumber} maximumAmount
+ * @property {BigNumber} minimumAmount
  */

@@ -1,18 +1,36 @@
 @import (reference) '../../../../config';
 @import (reference) '../../../../app/less/typography';
+@import (reference) '../../../../app/less/icons';
+@import (reference) '../../../../ui/directives/smartTable/smart-table';
 
 .main.wallet.portfolio {
+
+  .portfolio-wrapper {
+    display: block;
+    height: 100%;
+  }
 
   .toolbar {
     w-button:not(:last-child) {
       margin-right: 5px;
     }
-  }
 
-  w-scroll-box {
-    border: 1px solid @color-accent-50;
-    border-top:0 none;
-    border-radius: 0 0 @border-radius @border-radius;
+    w-select {
+      width: 100%;
+      max-width: 250px;
+      float: right;
+      height: 42px;
+      background: @color-white;
+      .title {
+        display: flex;
+
+        &:before {
+          content: '';
+          margin: 5px 7px 0 0;
+          .icon-filter();
+        }
+      }
+    }
   }
 
   .btn-icon {
@@ -34,184 +52,418 @@
     display: inline-block;
   }
 
-  .portfolio-list {
-    list-style: none;
-    padding: 0;
-    margin: 10px 0 0;
+}
 
-    .portfolio-item {
-      display: flex;
-      background-color: @color-white;
-      height: 65px;
-      align-items: center;
-      border-bottom: 1px solid @color-accent-50;
-      position: relative;
-      line-height: 30px;
-      padding: 0 355px 0 20px;
-      font-size: 15px;
-      color: @color-basic-700;
+.smart-table {
+  max-height: calc(100vh ~'- 142px');
+  margin-top: @padding-main-layout;
 
-      @media screen and (max-width: 1240px) {
-        padding: 0 0 0 20px;
-      }
-
-      &:not(.portfolio-item-name) {
-        text-align: right;
-      }
-
-      &:not(.title)::before {
-        content: '';
-        display: none;
-        width: 2px;
-        height: 100%;
-        background-color: @color-submit-400;
-        position: absolute;
-        left: 0;
-        top: 0;
-      }
-
-      &:first-child:not(.title) {
-        border-top: 0 none;
-      }
-
-      &.title {
-        margin: 0;
-        line-height: 1.2em;
-        color: @color-disabled-600;
-        white-space: nowrap;
-        border-radius: @border-radius @border-radius 0 0;
-        border: 1px solid @color-accent-50;
-      }
-
-      &:not(.title):hover {
-        background-color: @color-basic-50;
-
-        &::before {
-          display: block;
-        }
-      }
-
-      .currency {
-        text-transform: uppercase;
-        white-space: nowrap;
-      }
-
-      .portfolio-item-name {
-        display: flex;
-        width: 22%;
-        white-space: nowrap;
-      }
-
-      .portfolio-item-balance {
-        text-align: right;
-        width: 29%;
-      }
-
-      .portfolio-item-rate {
-        width: 13%;
-      }
-
-      .portfolio-item-mirror {
-        width: 14%;
-      }
-
-      .portfolio-item-bid {
-        width: 10%;
-      }
-
-      .portfolio-item-ask {
-        width: 10%;
-      }
-
-      .portfolio-item-change {
-        width: 14%;
-        &.success {
-          color: @color-success-600;
-        }
-        &.danger {
-          color: @color-error-500;
-        }
-      }
-
-      .portfolio-item-actions {
-        width: 100%;
-        max-width: 280px;
-        position: absolute;
-        right: 44px;
-        top: 50%;
-        margin-top: -20px;
-        white-space: nowrap;
-        padding-right: 0;
-        text-align: left;
-
-        @media screen and (max-width: 1240px) {
-          display: none;
-        }
-
-        w-button:not(:last-child) {
-          margin-right: 5px;
-        }
-      }
-    }
+  &__w-tbody {
+    max-height: calc(100vh ~'- 208px');
   }
-}
 
-.send-form w-select .select .select-list {
-  max-height: 400px;
-  overflow-y: auto;
-}
+  &__row {
+    min-width: 768px;
 
-.mobile-col-title {
-  display: none;
-}
-
-@media screen and (max-width: 768px) {
-  .main.wallet.portfolio {
-
-    w-scroll-box {
-      border-radius: @border-radius;
-      border-top: 1px solid @color-accent-50;
+    i.toggler {
+      display: none;
     }
 
-    .portfolio-list {
-      .portfolio-item {
-        flex-direction: column;
-        height: auto;
-        padding-top: 10px;
-        padding-bottom: 10px;
+    &:first-child {
+      .smart-table {
+        &__control-cell {
+          .cell {
+            span {
+              div {
+                top: auto;
+                bottom: 0;
+                left: 50%;
+                transform: translate(-50%, 40px);
 
-        .portfolio-item-name,
-        .portfolio-item-balance,
-        .portfolio-item-mirror,
-        .portfolio-item-rate,
-        .portfolio-item-change {
-          display: flex;
-          width: 100%;
-          padding: 0px;
-          text-align: left;
-          font-size: @mobile-mid-fsize;
-
-          span.mobile-col-title {
-            flex-basis: 40%;
+                &::after {
+                  left: 50%;
+                  transform: translate(-50%, -27px) rotate(45deg);
+                }
+              }
+            }
           }
         }
       }
+    }
+  }
 
-      .mobile-col-title {
-        display: block;
-        color: @color-disabled-600;
-      }
+  &__cell {
+    &:first-child {
+      min-width: 200px;
     }
 
-    .portfolio-list > .portfolio-item {
-      &:first-child {
+    .cell {
+      height: @cell-height;
+
+      .decimal-muted {
         display: none;
       }
     }
 
-    .portfolio-list .scroll-list li:first-child {
-      border-radius: @border-radius @border-radius 0 0;
+    &:first-child {
+      .cell {
+        min-width: 160px;
+        padding-left: 10px;
+        justify-content: flex-start;
+
+        .sort-by {
+          margin-left: 60px;
+        }
+      }
+    }
+
+    &:last-child {
+      padding-right: 5px;
+      min-width: 250px;
+      width: 250px;
+    }
+  }
+
+  &__chart-wrap {
+    .cell {
+      position: relative;
+      width: 84px;
+      padding-right: 10px;
+      float: right;
+
+      w-asset-rate-chart {
+        position: absolute;
+        bottom: 0;
+        width: 84px;
+        height: 40%;
+        opacity: .3;
+        right: 0;
+
+        &::after {
+          content: '';
+          display: block;
+          position: absolute;
+          bottom: 0;
+          width: 84px;
+          height: 100%;
+        }
+      }
+    }
+  }
+
+  &__name .cell {
+    .body-2();
+    margin: 0;
+
+    span {
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 160px;
+    }
+  }
+
+  &__available .cell {
+    .body-2();
+    font-family: @font-roboto-medium;
+    margin: 0;
+  }
+
+  &__available-value .cell,
+  &__chart-wrap .cell,
+  &__in-orders .cell {
+    .footnote-1();
+  }
+
+  &__change .cell {
+    .footnote-1();
+
+    w-change24 {
+      &.green {
+        color: @color-success-600;
+
+        & + span {
+          color: @color-success-600;
+        }
+      }
+
+      &.red {
+        color: @color-error-500;
+        & + span {
+          color: @color-error-500;
+        }
+      }
+    }
+  }
+
+  &__cell:last-child {
+
+    .cell {
+      display: flex;
+      align-items: center;
+
+      span {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        position: absolute;
+
+        div {
+          display: none;
+          position: absolute;
+          background: @color-disabled-500;
+          top: 0;
+          left: 50%;
+          transform: translate(-50%, -40px);
+          color: @color-white;
+          padding: 10px 15px;
+          border-radius: @border-radius;
+          .tag-2();
+          text-transform: none;
+
+          &::after {
+            display: block;
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: @color-disabled-500;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 5px) rotate(45deg);
+
+          }
+        }
+
+        &:hover {
+          div {
+            display: block;
+          }
+        }
+
+      }
+
+      .icon-dex {
+        background: url(/img/icons/dex-icon-mini.svg) center no-repeat;
+        right: 181px;
+      }
+      .icon-send {
+        background: url(/img/icons/send.svg) center no-repeat;
+        right: 139px;
+      }
+      .icon-receive {
+        background: url(/img/icons/deposit.svg) center no-repeat;
+        right: 97px;
+      }
+      .icon-hide {
+        background: url(/img/icons/hide-icon.svg) center no-repeat;
+        right: 55px;
+      }
+      .icon-show {
+        background: url(/img/icons/show-icon.svg) center no-repeat;
+        right: 55px;
+      }
+
+    }
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1180px) {
+
+  .smart-table {
+    &__cell:last-child {
+      width: 50px;
+      min-width: 50px;
+
+      .cell {
+        .icon {
+          display: none;
+        }
+      }
+    }
+  }
+
+}
+
+@media screen and (min-width: 769px) {
+
+  .smart-table {
+    &__cell:last-child .cell {
+      position: relative;
+    }
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+
+  .main.wallet.portfolio {
+
+    .toolbar {
+      w-select {
+        width: 50px;
+        height: 42px;
+
+        .title {
+          padding: 0;
+          position: relative;
+          font-size: 0;
+          background: url(/img/icons/icon-filter.svg) center no-repeat;
+
+          &::before {
+            display: none;
+          }
+
+          &::after {
+            display: none;
+          }
+
+          span {
+            font-size: 9px;
+            display: inline-block;
+            padding: 1px 2px;
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background: @color-submit-400;
+            color: @color-white;
+            border-radius: @border-radius / 2;
+            line-height: 1em;
+          }
+        }
+
+        .select-list {
+          left: auto;
+          right: 0;
+          min-width: 156px;
+          margin-top: -1px;
+          border-top: 1px solid @color-accent-50;
+          border-radius: @border-radius 0 @border-radius @border-radius;
+        }
+      }
+    }
+
+    .btn-icon {
+      font-size: 0;
+
+      &::before {
+        margin: 0;
+      }
+    }
+  }
+
+  .smart-table {
+    max-height: 100%;
+
+    &__w-tbody {
+      max-height: 100%;
+    }
+
+    &__row {
+      i.toggler {
+        width: 50px;
+        height: 20px;
+        background: url(/img/icons/arrow-dropdown.svg) center center no-repeat;
+        left: 50%;
+        bottom: 20px;
+        display: block;
+        cursor: pointer;
+        transform: translateX(-50%) rotate(0);
+      }
+
+      .smart-table {
+        &__available-value,
+        &__chart-wrap,
+        &__change {
+          height: 0;
+          overflow: hidden;
+        }
+      }
+
+      &.active {
+        .smart-table {
+          &__available-value,
+          &__chart-wrap,
+          &__change {
+            height: 30px;
+          }
+
+          &__cell {
+            .cell {
+              .icon {
+                display: block;
+              }
+            }
+
+            &:last-child {
+              padding-top: 20px;
+
+              .cell {
+                height: 30px;
+              }
+            }
+          }
+        }
+
+        i.toggler {
+          transform: translateX(-50%) rotate(180deg);
+        }
+      }
+
+    }
+
+    &__cell {
+      padding-top: 20px;
+
+      .cell {
+        height: 30px;
+      }
+
+      &:first-child {
+        .cell {
+          height: 40px;
+        }
+      }
+
+      &:last-child {
+        padding: 0;
+
+        .cell {
+          height: 20px;
+
+          .icon {
+            display: none;
+            &:hover div {
+              display: none;
+            }
+          }
+
+          .icon-dex {
+            right: auto;
+            left: 20px;
+          }
+
+          .icon-send {
+            right: 65%;
+            transform: translateX(50%);
+          }
+
+          .icon-receive {
+            right: 35%;
+            transform: translateX(50%);
+          }
+
+          .icon-hide {
+            right: 20px;
+          }
+        }
+      }
+    }
+
+    &__chart-wrap .cell {
+      padding-right: 0;
     }
 
   }
+
 }

@@ -13,7 +13,8 @@
         [WavesApp.defaultAssets.ETH]: { waves: 'WETH', gateway: 'ETH' },
         [WavesApp.defaultAssets.LTC]: { waves: 'WLTC', gateway: 'LTC' },
         [WavesApp.defaultAssets.ZEC]: { waves: 'WZEC', gateway: 'ZEC' },
-        [WavesApp.defaultAssets.BCH]: { waves: 'WBCH', gateway: 'BCH' }
+        [WavesApp.defaultAssets.BCH]: { waves: 'WBCH', gateway: 'BCH' },
+        [WavesApp.defaultAssets.DASH]: { waves: 'WDASH', gateway: 'DASH' }
     };
 
     /**
@@ -22,6 +23,10 @@
     const factory = function () {
 
         class CoinomatService {
+
+            getAll() {
+                return CURRENCIES;
+            }
 
             /**
              * From Coinomat to Waves

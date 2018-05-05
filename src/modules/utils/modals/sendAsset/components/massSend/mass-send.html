@@ -1,0 +1,133 @@
+<form novalidate name="$ctrl.massSend">
+
+    <div class="margin-2">
+        <ng-transclude></ng-transclude>
+    </div>
+
+    <div class="flex-row-title body-2">
+        <div>
+            <w-i18n params="{count: $ctrl.validTxCount, max: $ctrl.maxTransfersCount}">
+                modal.send.massSend.recipient
+            </w-i18n>
+        </div>
+        <w-import-file ng-if="$ctrl.transfers.length === 0"
+                       extension-list="::'csv'"
+                       on-change="$ctrl.importFile(data)">
+            <a class="link">
+                <span w-i18n="modal.send.massSend.importFile"></span>
+            </a>
+        </w-import-file>
+        <a ng-if="$ctrl.transfers.length > 0"
+           class="link"
+           ng-click="$ctrl.clear()"
+           w-i18n="modal.send.massSend.clear"></a>
+    </div>
+
+    <w-input-container class="margin-2">
+        <w-input textarea="true"
+                 class="tall"
+                 name="recipientCsv"
+                 w-validate
+                 required
+                 w-validator-custom="{{$ctrl.isValidAmounts}}"
+                 ng-model="$ctrl.recipientCsv"
+                 ng-model-options="{updateOn: 'input blur', debounce: { 'input': 5000, 'blur': 0 }}"
+                 w-i18n-attr="placeholder"
+                 placeholder="modal.send.massSend.recipientsAmountsPlaceholder"
+        ></w-input>
+
+
+        <div class="error active">
+
+            <div>
+                <w-input-error ng-if="$ctrl.tx.transfers.length || $ctrl.transfers.length"
+                               name="recipientCsv"
+                               message="custom">
+                    <w-i18n ng-if="$ctrl.tx.transfers.length">modal.send.errors.max</w-i18n>
+                    <w-i18n ng-if="$ctrl.transfers.length && !$ctrl.tx.transfers.length">
+                        modal.send.errors.allAddressesInvalid
+                    </w-i18n>
+                </w-input-error>
+            </div>
+
+            <div>
+                <w-input-error name="recipientCsv" message="required">
+                    <w-i18n>modal.receive.errors.required</w-i18n>
+                </w-input-error>
+            </div>
+
+            <div ng-if="$ctrl.errors.length">
+
+                <div>
+                    <div w-i18n="modal.send.massSend.errors.invalidAddress"></div>
+                    <div ng-if="$ctrl.view.errors.showAll" ng-repeat="error in $ctrl.errors track by error.recipient">
+                        {{::error.recipient}}
+                    </div>
+                    <div ng-if="!$ctrl.view.errors.showAll">
+                        {{$ctrl.errors[0].recipient}}
+                    </div>
+                    <div ng-if="!$ctrl.view.errors.showAll && $ctrl.errors[1]">
+                        {{$ctrl.errors[1].recipient}}
+                    </div>
+                </div>
+
+                <div class="margin-2">
+                  <span class="link"
+                        ng-if="$ctrl.errors.length > 2"
+                        w-i18n="modal.send.massSend.showAllErrors.{{$ctrl.view.errors.showAll}}"
+                        params="{count: $ctrl.errors.length}"
+                        ng-click="$ctrl.view.errors.showAll = !$ctrl.view.errors.showAll"></span>
+                </div>
+
+                <div class="warning-plate margin-2">
+                    <div class="body-2 warning-500" w-i18n="modal.send.massSend.warningPlate2Header"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </w-input-container>
+
+    <div class="warning-plate margin-2" ng-if="$ctrl.transfers.length > $ctrl.maxTransfersCount">
+        <div class="body-2 warning-500" w-i18n="modal.send.massSend.warningPlate1Header"></div>
+        <div class="footnote-1 basic-500" w-i18n="modal.send.massSend.warningPlate1Text"></div>
+    </div>
+
+    <div class="warning-plate margin-2">
+        <div class="body-2 warning-500" w-i18n="modal.send.massSend.warningPlate3Header"></div>
+        <div class="footnote-1 basic-500" w-i18n="modal.send.massSend.warningPlate3Text"></div>
+    </div>
+
+    <div class="body-2" w-i18n="modal.send.massSend.description"></div>
+    <w-input-container class="margin-2">
+        <w-input textarea="true"
+                 class="normal"
+                 name="attachment"
+                 ng-model="$ctrl.tx.attachment"
+                 w-i18n-attr="placeholder"
+                 w-validate
+                 w-validator-byte-lte="140"
+                 placeholder="modal.send.descriptionPlaceholder"></w-input>
+
+        <w-input-error message="byteLte">
+            <w-i18n>modal.send.attachmentLength</w-i18n>
+        </w-input-error>
+    </w-input-container>
+
+    <div class="body-2" w-i18n="modal.send.massSend.totalAmount"></div>
+    <div class="input-like total-amount margin-1">
+        <w-balance money="$ctrl.totalAmount"></w-balance>
+    </div>
+
+    <div class="row fee margin-3">
+        <div class="body basic-500">
+            <w-i18n params="{fee: $ctrl.tx.fee}">modal.send.fee</w-i18n>
+        </div>
+    </div>
+
+    <w-button disabled="$ctrl.massSend.$invalid || !$ctrl.tx.transfers.length"
+              class="submit long big"
+              on-click="$ctrl.nextStep()">
+        <w-i18n>button.continue</w-i18n>
+    </w-button>
+</form>

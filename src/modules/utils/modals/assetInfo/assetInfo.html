@@ -14,16 +14,14 @@
             <w-i18n ng-if="$ctrl.pinned">modal.assetInfo.pinned</w-i18n>
         </div>-->
         <div class="chart-wrapper">
-            <linechart ng-if="$ctrl.chartData" options="$ctrl.options" data="$ctrl.chartData"></linechart>
+            <w-asset-rate-chart no-update="::true" asset-id="::$ctrl.asset.id"></w-asset-rate-chart>
             <div class="interactive-stop"></div>
         </div>
     </div>
-    <w-tabs>
-        <w-tab title-name="modal.assetInfo.transactions">
-            <w-transaction-list transactions="$ctrl.transactions"
-                                pending="$ctrl.transactionsPending"></w-transaction-list>
-        </w-tab>
-        <w-tab title-name="modal.assetInfo.details" class="padding-content tab-details">
+    <w-tabs ng-model="$ctrl.tab">
+        <w-tab id="::'info'"
+               title-name="::'modal.assetInfo.details'"
+               class="padding-content tab-details">
             <div class="line">
                 <div class="body-2 basic-700" w-i18n="modal.assetInfo.issuer"></div>
                 <div class="footnote-1 basic-500 fs-mobile">{{::$ctrl.asset.sender}}</div>
@@ -51,8 +49,9 @@
                 <div class="footnote-1 basic-500">{{::$ctrl.asset.description}}</div>
             </div>
         </w-tab>
-        <w-tab class="padding-content"
-               title-name="modal.assetInfo.balance">
+        <w-tab id="::'balance'"
+               title-name="::'modal.assetInfo.balance'"
+               class="padding-content">
             <div class="line chart-container">
                 <div>
                     <w-circle-chart options="$ctrl.chartOptions" data="$ctrl.circleChartData"></w-circle-chart>
@@ -78,6 +77,11 @@
                     </div>
                 </div>
             </div>
+        </w-tab>
+        <w-tab id="::'tx'"
+               title-name="::'modal.assetInfo.transactions'">
+            <w-transaction-list transactions="$ctrl.transactions"
+                                pending="$ctrl.transactionsPending"></w-transaction-list>
         </w-tab>
     </w-tabs>
 </div>

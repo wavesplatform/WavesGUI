@@ -1,4 +1,4 @@
-<w-table>
+<w-table ng-if="$ctrl.orders.length">
     <w-t-head>
         <w-row>
             <w-cell>
@@ -19,10 +19,10 @@
     <w-scroll-box>
         <w-row ng-repeat="order in $ctrl.orders track by order.id" class="footnote-1 disabled-900 {{::order.type}}">
             <w-cell>
-                <span precision="$ctrl.amountAsset.precision" short-mode="true" w-nice-number="order.size"></span>
+                <span precision="$ctrl.amountAsset.precision" short-mode="::true" w-nice-number="order.size"></span>
             </w-cell>
             <w-cell class="size">
-                <span precision="$ctrl.priceAsset.precision" short-mode="true" w-nice-number="order.price"></span>
+                <span precision="$ctrl.priceAsset.precision" short-mode="::true" w-nice-number="order.price"></span>
             </w-cell>
             <w-cell>
                 {{::order.date | date:'MM-dd HH:mm:ss'}}
@@ -30,3 +30,8 @@
     </w-scroll-box>
     </w-row>
 </w-table>
+<div ng-if="!$ctrl.orders.length" class="empty-block-container">
+    <div class="icon"></div>
+    <div class="body-1 basic-700" w-i18n="emptyBlocks.tradeHistory.title"></div>
+    <div class="footnote-1 basic-500" w-i18n="emptyBlocks.tradeHistory.description"></div>
+</div>

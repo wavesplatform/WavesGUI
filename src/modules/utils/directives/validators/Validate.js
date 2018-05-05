@@ -27,7 +27,10 @@
     ];
 
     const PATTERNS = {
-        NUMBER: '\\d*\\.?\\d*', // TODO Add locale separators
+        get NUMBER() {
+            const decimal = WavesApp.getLocaleData().separators.decimal;
+            return `\\d*\\${decimal}?\\d*`;
+        },
         INTEGER: '\\d*'
     };
 
@@ -36,8 +39,11 @@
      * @param {app.utils} utils
      * @param {ValidateService} validateService
      * @param {app.utils.decorators} decorators
+     * @param {$rootScope.Scope} $rootScope
+     * @param {$compile} $compile
+     * @param {Base} Base
      */
-    const directive = function (utils, validateService, decorators) {
+    const directive = function (utils, validateService, decorators, $rootScope, $compile, Base) {
         return {
             require: 'ngModel',
             priority: 10000,
@@ -55,11 +61,16 @@
                     return null;
                 }
 
+                /**
+                 * @param {$rootScope.Scope}
+                 * @prarm {JQuery} $input
+                 */
                 return function ($scope, $input, $compiledAttrs, $ngModel) {
 
-                    class Validate {
+                    class Validate extends Base {
 
                         constructor() {
+                            super($scope);
                             this._validators = Object.create(null);
                             /**
                              * @type {Signal}
@@ -77,19 +88,22 @@
                         }
 
                         _addInputPattern(pattern) {
-                            const create = () => {
-                                const patternName = Validate._getAttrName('pattern');
-                                if (!$attrs[patternName]) {
-                                    $attrs[patternName] = pattern;
-                                    this._createValidator('pattern');
-                                }
-                            };
+                            return new Promise((resolve) => {
+                                const create = () => {
+                                    const validatorName = 'pattern';
+                                    const patternName = Validate._getAttrName(validatorName);
+                                    if (!$attrs[patternName]) {
+                                        $attrs[patternName] = pattern;
+                                        resolve(this._createValidator(validatorName));
+                                    }
+                                };
 
-                            if (this._ready) {
-                                create();
-                            } else {
-                                this._validatorsReady.once(create);
-                            }
+                                if (this._ready) {
+                                    create();
+                                } else {
+                                    this.receiveOnce(this._validatorsReady, create);
+                                }
+                            });
                         }
 
                         /**
@@ -109,6 +123,7 @@
                                             $ngModel.$setValidity(`pending-${name}`, false);
                                             const onEnd = () => {
                                                 $ngModel.$setValidity(`pending-${name}`, true);
+                                                $scope.$digest();
                                             };
                                             utils.when(result).then(() => {
                                                 $ngModel.$setValidity(name, true);
@@ -133,7 +148,7 @@
                         @decorators.async()
                         _validate() {
                             this._applyValidators(Object.keys(this._validators).map((name) => this._validators[name]));
-                            $scope.$apply();
+                            $scope.$digest();
                         }
 
                         /**
@@ -194,6 +209,10 @@
                                     break;
                                 case 'pattern':
                                     this._validators[name] = this._createPatternValidator(name);
+                                    break;
+                                case 'byteLt':
+                                case 'byteLte':
+                                    this._validators[name] = this._createByteValidator(name);
                                     break;
                                 default:
                                     this._validators[name] = this._createSimpleValidator(name);
@@ -341,7 +360,8 @@
                             let parserWorkedBeforeInputEvent = false;
 
                             function getCorrespondingToPatternPartOf(value) {
-                                const correspondingParts = validator.value.exec(value) || [];
+                                const inputWithoutGroup = Validate._replaceGroupSeparator(value);
+                                const correspondingParts = validator.value.exec(inputWithoutGroup) || [];
 
                                 return correspondingParts[0] || '';
                             }
@@ -398,7 +418,11 @@
                         _createAssetValidator(name) {
                             const precisionValidator = this._createValidator('precision');
 
-                            this._addInputPattern(PATTERNS.NUMBER);
+                            this._addInputPattern(PATTERNS.NUMBER).then((validator) => {
+                                this.listenEventEmitter(i18next, 'languageChanged', () => {
+                                    validator.value = PATTERNS.NUMBER;
+                                });
+                            });
 
                             let value = null;
 
@@ -415,7 +439,13 @@
                                 },
                                 parser: (value) => {
                                     if (value && precisionValidator.handler($ngModel.$modelValue, value)) {
-                                        return Validate._toMoney(value, validator.money);
+                                        const money = Validate._toMoney(value, validator.money);
+                                        if (money) {
+                                            return money;
+                                        } else {
+                                            this._validateByName('asset');
+                                            return null;
+                                        }
                                     } else {
                                         return null;
                                     }
@@ -474,6 +504,32 @@
                                 handler: (value) => validateService[name](value, validator.value)
                             };
                             this._listenValidatorChanges(name, validator);
+
+                            return validator;
+                        }
+
+                        _createByteValidator(name) {
+                            const validator = this._createSimpleValidator(name);
+                            const $byteScope = $rootScope.$new(true);
+                            const attrs = [
+                                'w-i18n-ns="app.utils"',
+                                'class="byte-validator__help"',
+                                'w-i18n="validators.byte.help"',
+                                'params="{bytes: bytes}"'
+                            ];
+                            const $element = $compile(`<div ${attrs.join(' ')}></div>`)($byteScope);
+                            $input.after($element);
+                            $scope.$on('$destroy', () => {
+                                $byteScope.$destroy();
+                            });
+
+                            const origin = validator.handler;
+                            validator.handler = function (modelValue) {
+                                const stringBytes = validateService.getByteFromString(modelValue || '');
+                                $byteScope.bytes = Number(validator.value) - stringBytes;
+                                $byteScope.$digest();
+                                return origin(modelValue);
+                            };
 
                             return validator;
                         }
@@ -583,7 +639,7 @@
                             if (value instanceof BigNumber) {
                                 return value.toFixed();
                             } else if (value instanceof Waves.Money) {
-                                return value.toFormat();
+                                return value.getTokens().toFormat();
                             } else if (!value) {
                                 return '';
                             } else {
@@ -653,6 +709,17 @@
                             $ngModel.$render();
                         }
 
+                        /**
+                         * @param {string} value
+                         * @return {string}
+                         * @private
+                         */
+                        static _replaceGroupSeparator(value) {
+                            const separator = WavesApp.localize[i18next.language].separators.group;
+                            const reg = new RegExp(`\\${separator}`, 'g');
+                            return value.replace(reg, '');
+                        }
+
                     }
 
                     return new Validate();
@@ -661,7 +728,7 @@
         };
     };
 
-    directive.$inject = ['utils', 'validateService', 'decorators'];
+    directive.$inject = ['utils', 'validateService', 'decorators', '$rootScope', '$compile', 'Base'];
 
     angular.module('app.utils').directive('wValidate', directive);
 

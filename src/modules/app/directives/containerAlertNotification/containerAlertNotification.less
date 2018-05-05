@@ -1,0 +1,93 @@
+@import (reference) '../../../config';
+
+w-container-alert-notification {
+  display: flex;
+  width: 330px;
+  flex-direction: column;
+
+  &.welcome-notifications {
+    // TODO
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .notification {
+    position: relative;
+    width: 100%;
+    margin-top: 10px;
+    padding: 16px 21px;
+    background: @color-white;
+    box-shadow: 0 1px 3px 0 fade(@color-black, 18%);
+    border-radius: @border-radius;
+    overflow: hidden;
+
+    &.error {
+      div:not(:last-child) {
+        margin-bottom: 10px;
+      }
+
+      & [w-notification-action] {
+        cursor: pointer;
+        color: @color-error-500;
+        text-decoration: underline;
+
+        &::after {
+          content: '→';
+          display: inline-block;
+          font-size: inherit;
+          margin-left: 3px;
+          text-decoration: none;
+        }
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+
+    span.line {
+      display: block;
+
+      &:first-child {
+        margin-top: 10px;
+      }
+    }
+
+    .icon-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+    }
+
+    &.info:before {
+      background-color: @color-submit-300;
+    }
+
+    &.success:before {
+      background-color: @color-success-400;
+    }
+
+    &.warn:before {
+      background-color: @color-warning-400;
+    }
+
+    &.error:before {
+      background-color: @color-error-500;
+    }
+
+    [ng-click] {
+      cursor: pointer;
+    }
+  }
+}

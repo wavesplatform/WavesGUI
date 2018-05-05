@@ -1,11 +1,38 @@
 (function () {
     'use strict';
 
-    const factory = function ($q) {
+    /**
+     * @param $q
+     * @param {Function} localeParser
+     */
+    const factory = function ($q, localeParser) {
 
         const onLoad = $q((resolve) => {
             i18next.on('initialized', resolve);
         });
+
+        const escape = function (text) {
+            return text.split('').map((char) => {
+                switch (char.charCodeAt(0)) {
+                    case 34: // "
+                        return '&quot;';
+                    case 38: // &
+                        return '&amp;';
+                    case 39: // '
+                        return '&#39;';
+                    case 60: // <
+                        return '&lt;';
+                    case 62: // >
+                        return '&gt;';
+                    default:
+                        return char;
+                }
+            }).join('');
+        };
+
+        const parse = function (text) {
+            return localeParser(escape(text));
+        };
 
         /**
          * @name app.i18n
@@ -29,38 +56,42 @@
                 }
                 if (skipErrors) {
                     const has = translate.some((key) => {
-                        return i18next.exists(key, params);
+                        return i18next.extantion(key, params);
                     });
                     if (has) {
-                        return i18next.t(translate, params);
+                        return parse(i18next.t(translate, params));
                     } else {
                         return '';
                     }
                 }
-                return i18next.t(translate, params);
+                return parse(i18next.t(translate, { ...params, interpolation: { escapeValue: false } }));
             },
 
             /**
              * @name app.i18n#translateField
              * @param {Base} controller
-             * @param {string} from name field with literal
-             * @param {string} to name field with translate result
+             * @param {string} literalField name field with literal
+             * @param {string} translatedField name field with translate result
              * @param {string} [ns]
              * @param {object} [params]
              */
-            translateField(controller, from, to, ns, params) {
+            translateField(controller, literalField, translatedField, ns, params) {
                 const apply = () => {
-                    if (controller[from] != null) {
-                        controller[to] = this.translate(controller[from], ns, params);
+                    if (controller[literalField] != null) {
+                        controller[translatedField] = this.translate(controller[literalField], ns, params);
                     }
                 };
 
-                controller.observe(from, apply);
+                controller.observe(literalField, apply);
                 i18next.on('languageChanged', apply);
 
                 controller.signals.destroy.once(() => {
                     i18next.off('languageChanged');
                 });
+
+                if (!controller[translatedField]) {
+                    apply();
+                }
             },
 
             /**
@@ -77,7 +108,7 @@
         };
     };
 
-    factory.$inject = ['$q'];
+    factory.$inject = ['$q', 'localeParser'];
 
     angular.module('app')
         .factory('i18n', factory);

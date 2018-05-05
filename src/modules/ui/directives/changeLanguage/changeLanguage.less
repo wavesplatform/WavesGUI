@@ -9,19 +9,33 @@ w-change-language {
     top: 34px;
     z-index: 1;
 
-    .select .title {
-      border: 1px solid transparent;
-    }
-
     .select.expanded .title {
       border: 1px solid @color-basic-200;
       border-bottom: 1px solid transparent;
+    }
+
+    .select {
+      .title {
+        border: 1px solid transparent;
+      }
+
+      .select-list {
+        max-height: 171px;
+        overflow: auto;
+      }
     }
 
     .lng-item {
       text-transform: capitalize;
       font-size: 13px;
       white-space: nowrap;
+      width: 100%;
+      text-align: right;
+
+      span {
+        display: inline-block;
+        min-width: 18px;
+      }
 
       &::before {
         content: '';
@@ -45,6 +59,22 @@ w-change-language {
 
     .lng-ko::before {
       background: url(/img/icons/flags/ko.svg);
+    }
+
+    .lng-tr::before {
+      background: url(/img/icons/flags/tr.svg);
+    }
+
+    .lng-zh-Hans-CN::before {
+      background: url(/img/icons/flags/zh-Hans-CN.svg);
+    }
+
+    .lng-nl::before {
+      background: url(/img/icons/flags/nl.svg);
+    }
+
+    .lng-hi::before {
+      background: url(/img/icons/flags/hi.svg);
     }
 
   }

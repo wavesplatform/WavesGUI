@@ -31,10 +31,11 @@
      * @param Base
      * @param utils
      * @param {Waves} waves
-     * @param {function} createPoll
+     * @param {IPollCreate} createPoll
+     * @param {$rootScope.Scope} $scope
      * @return {TradeGraph}
      */
-    const controller = function (Base, utils, waves, createPoll) {
+    const controller = function (Base, utils, waves, createPoll, $scope) {
 
         class TradeGraph extends Base {
 
@@ -118,11 +119,19 @@
 
                 this.data.asks = orderBook.asks;
                 this.data.bids = orderBook.bids;
+
+                $scope.$digest();
             }
 
             _cutOffOutlyingOrdersIfNecessary(orderBook) {
-                if (TradeGraph._areEnoughOrders(orderBook)) {
-                    return this._cutOffOutlyingOrders(orderBook);
+                if (TradeGraph._isLackOfAsks(orderBook) || TradeGraph._isLackOfBids(orderBook)) {
+                    return orderBook;
+                }
+
+                const filteredOrderBook = this._cutOffOutlyingOrders(orderBook);
+
+                if (TradeGraph._areEitherAsksOrBids(filteredOrderBook)) {
+                    return filteredOrderBook;
                 }
 
                 return orderBook;
@@ -130,9 +139,8 @@
 
             _cutOffOutlyingOrders({ asks, bids }) {
                 const spreadPrice = new BigNumber(asks[0].price)
-                    .sub(bids[0].price)
-                    .div(2)
-                    .add(bids[0].price);
+                    .add(bids[0].price)
+                    .div(2);
                 const delta = spreadPrice.mul(this._chartCropRate).div(2);
                 const max = spreadPrice.add(delta);
                 const min = BigNumber.max(0, spreadPrice.sub(delta));
@@ -144,7 +152,7 @@
             }
 
             _updateGraphAccordingToOrderBook(orderBook) {
-                if (TradeGraph._areSomeOrdersToShow(orderBook)) {
+                if (TradeGraph._areEitherAsksOrBids(orderBook)) {
                     this._prepareGraphForOrders(orderBook);
                 } else {
                     this._hideGraphAndShowStub();
@@ -156,7 +164,7 @@
             _prepareGraphForOrders(orderBook) {
                 this._showGraphAndHideStub();
 
-                if (TradeGraph._areEnoughOrders(orderBook)) {
+                if (TradeGraph._areEnoughAsks(orderBook) && TradeGraph._areEnoughBids(orderBook)) {
                     this._setGraphToShowAsksAndBids();
                 }
 
@@ -195,18 +203,16 @@
                 this.options.series = seriesOptions;
             }
 
-            static _areSomeOrdersToShow(orderBook) {
-                return !(
-                    TradeGraph._isLackOfAsks(orderBook) &&
-                    TradeGraph._isLackOfBids(orderBook)
-                );
+            static _areEitherAsksOrBids(orderBook) {
+                return TradeGraph._areEnoughAsks(orderBook) || TradeGraph._areEnoughBids(orderBook);
             }
 
-            static _areEnoughOrders(orderBook) {
-                return !(
-                    TradeGraph._isLackOfAsks(orderBook) ||
-                    TradeGraph._isLackOfBids(orderBook)
-                );
+            static _areEnoughAsks(orderBook) {
+                return !TradeGraph._isLackOfAsks(orderBook);
+            }
+
+            static _areEnoughBids(orderBook) {
+                return !TradeGraph._isLackOfBids(orderBook);
             }
 
             static _isLackOfAsks(orderBook) {
@@ -247,7 +253,7 @@
         return new TradeGraph();
     };
 
-    controller.$inject = ['Base', 'utils', 'waves', 'createPoll'];
+    controller.$inject = ['Base', 'utils', 'waves', 'createPoll', '$scope'];
 
     angular.module('app.dex')
         .component('wDexTradeGraph', {
