@@ -39,30 +39,6 @@ md-dialog.modal-send {
         display: block;
         height: 40px;
       }
-
-    }
-
-    .txinfo__header {
-      margin-bottom: -31px;
-      background: @color-white;
-      position: relative;
-      z-index: 2;
-
-      .txinfo__row {
-        border-top: 0 none;
-        border-bottom: 1px solid @color-basic-200;
-
-      }
-    }
-
-    .txinfo__wrapper {
-      w-transaction-info {
-        .txinfo__data {
-          .txinfo__row + .txinfo__row {
-            border-top: 1px dashed @color-basic-200;
-          }
-        }
-      }
     }
 
     w-tabs {
@@ -335,7 +311,8 @@ md-dialog.modal-send {
       .modal-content {
 
         .icon-close {
-          right: 20px;
+          right: 0;
+          top: 0;
         }
 
         w-tabs {

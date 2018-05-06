@@ -8,10 +8,21 @@
   display: block;
   width: 100%;
 
+  &__data {
+    width: 100%;
+  }
+
+  .noborder {
+    margin-bottom: -1px;
+    background: @color-white;
+    position: relative;
+    z-index: 1;
+  }
+
   .icon-close {
     position: absolute;
     top: 10px;
-    right: 30px;
+    right: 20px;
     z-index: 11;
     padding: 20px;
     background-size: 16px;
@@ -23,90 +34,108 @@
     flex-direction: column;
     align-items: center;
 
-    .buttons-wrapper {
-      margin-top: 1px;
-    }
-
     w-transaction-info {
       width: 100%;
-
-      .txinfo__data {
-        width: 100%;
-        margin-bottom: -1px;
-        display: block;
-        background: #fff;
-        z-index: 1;
-        position: relative;
-
-        .txinfo__row + .txinfo__row {
-          border-top: 0 none;
-        }
-      }
-    }
-  }
-
-  &__row {
-    display: flex;
-    align-items: flex-start;
-    width: 100%;
-    justify-content: space-between;
-    padding: 13px 0;
-    border-top: 1px dashed @color-basic-200;
-
-    &-border-ts {
-      border-top: 1px solid @color-basic-200;
-    }
-
-    &-border-bd {
-      border-bottom: 1px dashed @color-basic-200;
-    }
-
-    &-border-no {
-      border-bottom: 0 none;
-    }
-
-    &.txinfo__contains-text {
-      flex-wrap: wrap;
-      padding-bottom: 0;
-      border-bottom: none;
-
-      .txinfo__key {
-        margin-bottom: 4px;
-      }
-
-      .txinfo__text {
-        .footnote-1();
-        width: 100%;
-        padding: 13px 16px;
-        border: 1px dashed @color-basic-200;
-        border-radius: @border-radius;
-        background: @color-basic-50;
-        color: @color-basic-900;
-      }
-    }
-  }
-
-  &__key {
-    .footnote-1();
-    color: @color-disabled-600;
-  }
-
-  &__value {
-    .footnote-1();
-    color: @color-basic-900;
-
-    &:not(.txinfo__text) {
-      max-width: 80%;
-      word-wrap: break-word;
     }
   }
 
   &__lead {
     text-align: center;
-    margin: 20px 0 30px;
+    padding: 20px 0 30px;
+    border-bottom: 1px solid @color-basic-200;
+    .noborder();
+    z-index: 2;
 
     h3 {
       margin-bottom: 6px;
+    }
+  }
+
+  &__row {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 13px 0;
+    border-top: 1px dashed @color-basic-200;
+
+    &-header {
+      border-bottom: 1px solid @color-basic-200;
+      border-top: 0 none;
+      color: @color-disabled-600;
+      .noborder();
+      z-index: 3;
+      margin: -1px 0;
+    }
+
+    &-contains-text {
+      flex-wrap: wrap;
+      padding-bottom: 0;
+      .noborder();
+
+      .txinfo {
+        &__key {
+          margin-bottom: 4px;
+        }
+
+        &__text {
+          .footnote-1();
+          width: 100%;
+          padding: 13px 16px;
+          border: 1px dashed @color-basic-200;
+          border-radius: @border-radius;
+          background: @color-basic-50;
+          color: @color-basic-900;
+        }
+      }
+    }
+
+    &-padder {
+      height: 40px;
+      padding-top: 5px;
+      .noborder();
+    }
+
+    .txinfo {
+      .key-props {
+        flex-basis: 50%;
+        flex-grow: 1;
+        padding-right: 10px;
+        max-width: 50%;
+        overflow: hidden;
+        word-break: break-all;
+        .footnote-1();
+      }
+
+      &__key {
+        .key-props();
+        color: @color-disabled-600;
+
+        &-mass {
+          .key-props();
+          color: @color-basic-900;
+        }
+      }
+
+      &__value {
+        flex-basis: 50%;
+        flex-grow: 0;
+        padding-left: 10px;
+        text-align: right;
+        word-break: break-all;
+        .footnote-1();
+        color: @color-basic-900;
+      }
+
+      &__text {
+        flex-basis: 100%;
+        flex-grow: 1;
+        text-align: left;
+      }
+    }
+
+    &-border-ts {
+      border-top: 1px solid @color-basic-200;
     }
   }
 
@@ -202,4 +231,25 @@
     }
   }
 
+}
+
+@media screen and (max-width: 540px) {
+  .txinfo {
+    .icon-close {
+      top: 0;
+      right: 0;
+    }
+
+    &__lead {
+      padding: 10px 0;
+    }
+
+    &__row {
+      padding: 8px 0;
+
+      &-padder {
+        height: 30px;
+      }
+    }
+  }
 }

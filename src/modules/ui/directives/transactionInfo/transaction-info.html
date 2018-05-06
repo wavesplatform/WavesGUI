@@ -2,11 +2,9 @@
 
     <div class="txinfo__icon" ng-class="$ctrl.transaction.type"></div>
 
-    <div class="txinfo__data">
-        <ng-include class="" src="$ctrl.templateUrl"></ng-include>
-    </div>
+    <ng-include class="" src="$ctrl.templateUrl"></ng-include>
 
-    <div class="txinfo__row txinfo__row-border-ts" ng-if="$ctrl.transaction.height">
+    <div class="txinfo__row" ng-if="$ctrl.transaction.height">
         <div class="txinfo__key" w-i18n="transaction.modals.height"></div>
         <div class="txinfo__value">{{::$ctrl.transaction.height}}</div>
     </div>

@@ -1,18 +1,8 @@
+@import (reference) '../../../config';
+
 .txinfo {
   display: block;
   width: 100%;
-
-  &__wrapper {
-    w-transaction-info {
-      .txinfo__data {
-        margin-bottom: -1px;
-        display: block;
-        background: #fff;
-        z-index: 1;
-        position: relative;
-      }
-    }
-  }
 }
 
 w-confirm-transaction {
@@ -24,7 +14,8 @@ w-confirm-transaction {
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-    margin-top: 1px;
+    padding-top: 30px;
+    border-top: 1px solid @color-basic-200;
 
     & > w-button {
       display: block;
@@ -39,19 +30,12 @@ w-confirm-transaction {
   h3.info {
     text-align: center;
   }
-
-  .error + .buttons-wrapper {
-    margin-top: 30px;
-  }
-
 }
 
-@media screen and (max-width: 520px) {
+@media screen and (max-width: 540px) {
   w-confirm-transaction {
     .buttons-wrapper {
-      & > w-button {
-         width: 48%;
-      }
+      padding-top: 20px;
     }
   }
 }

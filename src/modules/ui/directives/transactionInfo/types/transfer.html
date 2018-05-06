@@ -3,73 +3,77 @@
         w-i18n="transaction.amounts.{{::$ctrl.type}}"
         params="{amount: $ctrl.transaction.amount.toFormat(), name: $ctrl.transaction.amount.asset.name}"></h3>
     <div class="body-2 basic-500">≈ {{::$ctrl.mirrorBalance.toFormat()}} {{::$ctrl.mirrorBalance.asset.name}}</div>
+</div>
 
-    <div class="txinfo__header" ng-if="::$ctrl.type === 'mass-send'">
-        <div class="txinfo__row">
-            <div><w-i18n>recipient</w-i18n></div>
-            <div><w-i18n>amount</w-i18n></div>
-        </div>
+<div class="txinfo__row txinfo__row-header" ng-if="::$ctrl.type === 'mass-send'">
+    <div w-i18n="recipient"></div>
+    <div w-i18n="amount"></div>
+</div>
+
+<div ng-if="::$ctrl.type !== 'circular' || $ctrl.type !== 'mass-send')" class="txinfo__data">
+
+    <div class="txinfo__row">
+        <div class="txinfo__key" w-i18n="transaction.modals.to" ng-if="::$ctrl.type === 'send'"></div>
+        <div class="txinfo__key" w-i18n="transaction.modals.from"
+             ng-if="::$ctrl.type === 'receive' || $ctrl.type === 'mass-receive'"></div>
+        <div class="txinfo__value" ng-if="::$ctrl.type !== 'mass-send'">{{::$ctrl.shownAddress}}</div>
     </div>
+
 </div>
 
 <div ng-if="::$ctrl.type !== 'circular'" class="txinfo__data">
+<div ng-if="::$ctrl.type === 'mass-send'" ng-init="$ctrl.showAllTX = false">
 
-    <div class="txinfo__key" w-i18n="transaction.modals.to" ng-if="::$ctrl.type === 'send'"></div>
-    <div class="txinfo__key" w-i18n="transaction.modals.from"
-         ng-if="::$ctrl.type === 'receive' || $ctrl.type === 'mass-receive'"></div>
-    <div class="txinfo__value" ng-if="::$ctrl.type !== 'mass-send'">{{::$ctrl.shownAddress}}</div>
-
-    <div ng-if="::$ctrl.type === 'mass-send'" ng-init="$ctrl.showAllTX = false" class="txinfo__mass-data">
-
-        <div ng-if="$ctrl.showAllTX">
-            <div class="txinfo__row" ng-repeat="transfer in $ctrl.transaction.transfers track by transfer.recipient">
-                <div class="txinfo__key">{{::transfer.recipient}}</div>
-                <div class="txinfo__value">
-                    <w-balance money="::transfer.amount"></w-balance>
-                </div>
-            </div>
-        </div>
-
-        <div ng-if="!$ctrl.showAllTX">
-
-            <div class="txinfo__row" ng-if="::$ctrl.transaction.transfers[0]">
-                <div class="txinfo__key">{{::$ctrl.transaction.transfers[0].recipient}}</div>
-                <div class="txinfo__value">
-                    <w-balance money="::$ctrl.transaction.transfers[0].amount"></w-balance>
-                </div>
-            </div>
-            <div class="txinfo__row" ng-if="::$ctrl.transaction.transfers[1]">
-                <div class="txinfo__key">{{::$ctrl.transaction.transfers[1].recipient}}</div>
-                <div class="txinfo__value">
-                    <w-balance money="::$ctrl.transaction.transfers[1].amount"></w-balance>
-                </div>
-            </div>
-            <div class="txinfo__row" ng-if="::$ctrl.transaction.transfers[2]">
-                <div class="txinfo__key">{{::$ctrl.transaction.transfers[2].recipient}}</div>
-                <div class="txinfo__value">
-                    <w-balance money="::$ctrl.transaction.transfers[2].amount"></w-balance>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="txinfo__row txinfo__padder" ng-if="$ctrl.transaction.transfers.length && $ctrl.transaction.transfers.length > 3">
-            <span class="link"
-              ng-click="$ctrl.showAllTX = !$ctrl.showAllTX"
-              params="{count: $ctrl.transaction.transfers.length}"
-              w-i18n="transaction.modals.massSend.showAll.{{$ctrl.showAllTX}}"></span>
-        </div>
-
-        <div class="txinfo__row">
-            <div class="txinfo__key" w-i18n="transaction.modals.massSend.totalAmount"></div>
+    <div ng-if="$ctrl.showAllTX">
+        <div class="txinfo__row" ng-repeat="transfer in $ctrl.transaction.transfers track by transfer.recipient">
+            <div class="txinfo__key-mass">{{::transfer.recipient}}</div>
             <div class="txinfo__value">
-                <w-i18n params="{money: $ctrl.transaction.totalAmount}">money-currency</w-i18n>
+                <w-balance money="::transfer.amount"></w-balance>
             </div>
         </div>
     </div>
+
+    <div ng-if="!$ctrl.showAllTX">
+
+        <div class="txinfo__row" ng-if="::$ctrl.transaction.transfers[0]">
+            <div class="txinfo__key-mass">{{::$ctrl.transaction.transfers[0].recipient}}</div>
+            <div class="txinfo__value">
+                <w-balance money="::$ctrl.transaction.transfers[0].amount"></w-balance>
+            </div>
+        </div>
+        <div class="txinfo__row" ng-if="::$ctrl.transaction.transfers[1]">
+            <div class="txinfo__key-mass">{{::$ctrl.transaction.transfers[1].recipient}}</div>
+            <div class="txinfo__value">
+                <w-balance money="::$ctrl.transaction.transfers[1].amount"></w-balance>
+            </div>
+        </div>
+        <div class="txinfo__row" ng-if="::$ctrl.transaction.transfers[2]">
+            <div class="txinfo__key-mass">{{::$ctrl.transaction.transfers[2].recipient}}</div>
+            <div class="txinfo__value">
+                <w-balance money="::$ctrl.transaction.transfers[2].amount"></w-balance>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="txinfo__row txinfo__row-padder"
+         ng-if="$ctrl.transaction.transfers.length && $ctrl.transaction.transfers.length > 3">
+            <span class="link"
+                  ng-click="$ctrl.showAllTX = !$ctrl.showAllTX"
+                  params="{count: $ctrl.transaction.transfers.length}"
+                  w-i18n="transaction.modals.massSend.showAll.{{$ctrl.showAllTX}}"></span>
+    </div>
+
+    <div class="txinfo__row">
+        <div class="txinfo__key" w-i18n="transaction.modals.massSend.totalAmount"></div>
+        <div class="txinfo__value">
+            <w-i18n params="{money: $ctrl.transaction.totalAmount}">money-currency</w-i18n>
+        </div>
+    </div>
+</div>
 </div>
 
-<div class="txinfo__row txinfo__row-border-ts txinfo__contains-text" ng-if="::$ctrl.transaction.attachment">
+<div class="txinfo__row txinfo__row-contains-text" ng-if="::$ctrl.transaction.attachment">
     <div class="txinfo__key" w-i18n="transaction.modals.description"></div>
     <div class="txinfo__value txinfo__text">{{::$ctrl.transaction.attachment}}</div>
 </div>

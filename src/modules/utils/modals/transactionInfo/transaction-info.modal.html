@@ -13,14 +13,14 @@
 
                 <div class="txinfo__row">
                     <div class="txinfo__key" w-i18n="transaction.modals.viewTransactionKey"></div>
-                    <div class="txinfo__value">
+                    <div class="txinfo__value nowrap">
                         <a w-i18n="transaction.modals.viewTransactionValue"
                            href="{{::$ctrl.explorerLink}}"
                            target="_blank"></a>
                     </div>
                 </div>
 
-                <div class="txinfo__row txinfo__row-border-ts">
+                <div class="txinfo__row txinfo__row-border-ts ">
                     <time>{{::$ctrl.transaction.timestamp | date: 'dd.MM.yyyy, HH:mm'}}</time>
                     <div class="status"
                          ng-class="{confirmed: $ctrl.confirmed, unconfirmed: !$ctrl.confirmed}"

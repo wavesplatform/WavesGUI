@@ -5,10 +5,10 @@
           amount: $ctrl.transaction.leaseTransactionAmount.toFormat(),
           name: $ctrl.transaction.leaseTransactionAmount.asset.name
         }"></h3>
-    <div class="body-2 basic-500">≈ {{::$ctrl.mirrorBalance.toFormat()}} {{::$ctrl.mirrorBalance.asset.name}}</div>
+    <!--div class="body-2 basic-500">≈ {{::$ctrl.mirrorBalance.toFormat()}} {{::$ctrl.mirrorBalance.asset.name}}</div-->
 </div>
 
-<div class="txinfo__row txinfo__row-border-bd txinfo__row-border-ts">
+<div class="txinfo__row">
     <div class="txinfo__key" w-i18n="transaction.modals.cancelTx"></div>
     <div class="txinfo__value">{{::$ctrl.transaction.leaseTransactionId}}</div>
 </div>
