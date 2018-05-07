@@ -9,6 +9,17 @@
         'display_market_status'
     ];
 
+    const OVERRIDES = {
+        'mainSeriesProperties.candleStyle.upColor': '#5a81ea',
+        'mainSeriesProperties.candleStyle.downColor': '#d1383c',
+        'mainSeriesProperties.candleStyle.drawBorder': false
+    };
+
+    const STUDIES_OVERRIDES = {
+        'volume.volume.color.0': 'rgba(209,56,60,0.3)',
+        'volume.volume.color.1': 'rgba(90,129,234,0.3)'
+    };
+
     let counter = 0;
 
     /**
@@ -61,7 +72,9 @@
                         datafeed: candlesService,
                         library_path: 'trading-view/',
                         autosize: true,
-                        disabled_features: DISABLED_FEATURES
+                        disabled_features: DISABLED_FEATURES,
+                        overrides: OVERRIDES,
+                        studies_overrides: STUDIES_OVERRIDES
                     });
 
                     this.chart.onChartReady(() => {
