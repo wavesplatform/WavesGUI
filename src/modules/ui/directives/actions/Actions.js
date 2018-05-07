@@ -75,20 +75,24 @@
             }
 
             setActionsOpeningStyle(dropDown) {
-                const dropDownPosition = dropDown.getBoundingClientRect();
-                const bodyPosition = document.body.getBoundingClientRect();
-                if (dropDownPosition.bottom > bodyPosition.bottom) {
-                    this.openUp = true;
-                    $scope.$digest();
-                }
+                // Adding timeout is required to wait until full drop-down rendering. This includes replacing
+                // text with values for certain languages.
+                setTimeout(() => {
+                    const dropDownPosition = dropDown.getBoundingClientRect();
+                    const bodyPosition = document.body.getBoundingClientRect();
+                    if (dropDownPosition.bottom > bodyPosition.bottom) {
+                        this.openUp = true;
+                        $scope.$digest();
+                    }
+                }, 0);
             }
 
             preventBlink(dropDown) {
                 dropDown.style.visibility = 'hidden';
 
-                requestAnimationFrame(() => {
+                setTimeout(() => {
                     dropDown.style.visibility = '';
-                });
+                }, 0);
             }
 
             onClick() {
