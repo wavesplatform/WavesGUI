@@ -98,10 +98,9 @@
 
     .txinfo {
       .key-props {
-        flex-basis: 50%;
-        flex-grow: 1;
+        flex-basis: auto;
+        flex-grow: 0;
         padding-right: 10px;
-        max-width: 50%;
         overflow: hidden;
         word-break: break-all;
         .footnote-1();
@@ -118,7 +117,7 @@
       }
 
       &__value {
-        flex-basis: 50%;
+        flex-basis: auto;
         flex-grow: 0;
         padding-left: 10px;
         text-align: right;
@@ -250,6 +249,18 @@
       &-padder {
         height: 30px;
       }
+
+      .txinfo {
+        .key-props {
+          flex-basis: 50%;
+          max-width: 50%;
+        }
+
+        &__value {
+          flex-basis: 50%;
+        }
+      }
+
     }
   }
 }
