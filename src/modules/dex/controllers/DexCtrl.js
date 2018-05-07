@@ -18,9 +18,10 @@
 
                 this.syncSettings({
                     _leftHidden: 'dex.layout.leftColumnState',
-                    _rightHidden: 'dex.layout.rightColumnState',
-                    collapseMyOrders: 'dex.layout.myOrders.collapsed',
-                    collapseTradeHistory: 'dex.layout.tradeHistory.collapsed'
+                    _rightHidden: 'dex.layout.rightColumnState'
+                    // collapseMyOrders: 'dex.layout.myOrders.collapsed',
+                    // collapseTradeHistory: 'dex.layout.tradeHistory.collapsed'
+
                 });
 
                 this.observe(['_leftHidden', '_rightHidden'], this._onChangeProperty);

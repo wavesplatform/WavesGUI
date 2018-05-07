@@ -1,34 +1,65 @@
 <div class="dex-wrapper" w-i18n-ns="app.dex">
     <w-layout>
 
-        <w-dex-block column="left" block="top" has-search="true">
+        <w-dex-block column="topleft"
+                     block="top"
+                     has-search="true">
             <w-dex-watchlist id="top"></w-dex-watchlist>
         </w-dex-block>
 
-        <w-dex-block column="left" block="bottom" has-search="true">
-            <w-dex-watchlist id="bottom"></w-dex-watchlist>
-        </w-dex-block>
-
-        <w-dex-block column="center" block="top">
+        <w-dex-block column="topcenter" block="top">
             <w-dex-candle-chart></w-dex-candle-chart>
-            <w-dex-trade-graph></w-dex-trade-graph>
         </w-dex-block>
 
-        <w-dex-block can-collapse="true" column="center" block="bottom" title-name="layout.center.bottom">
-            <w-dex-my-orders></w-dex-my-orders>
-        </w-dex-block>
-
-        <w-dex-block column="right" block="top" title-name="layout.right.top">
+        <w-dex-block
+                column="topright"
+                block="top"
+                title-name="layout.right.top">
             <w-dex-order-book></w-dex-order-book>
         </w-dex-block>
 
-        <w-dex-block column="right"
-                     block="bottom"
-                     collapsed="$ctrl.collapseTradeHistory"
-                     can-collapse="true"
-                     title-name="layout.right.bottom">
-            <w-dex-trade-history></w-dex-trade-history>
+        <w-dex-block column="topright" block="bottom" can-collapse="true">
+            <w-dex-trade-graph></w-dex-trade-graph>
         </w-dex-block>
+
+        <w-dex-block column="bottomleft" block="bottom">
+            <div class="tabs">
+                <div class="tabs-headers">
+                    <div class="item active">My Open Orders</div>
+                    <div class="item">My Trade History</div>
+                    <div class="item">Trade History</div>
+                    <div class="item">My balance</div>
+                </div>
+                <div class="tabs-content">
+
+                    <div class="tab tab-1">
+                        <w-dex-my-orders></w-dex-my-orders>
+                    </div>
+
+                    <div class="tab tab-2">
+                        <w-dex-trade-history></w-dex-trade-history>
+                    </div>
+
+                    <!-- todo @tsigel -->
+
+                    <!--div class="tab tab-3">
+                        <w-dex-my-trade-history></w-dex-my-trade-history>
+                    </div>
+
+                    <div class="tab tab-4">
+                        <w-dex-my-balance></w-dex-my-balance>
+                    </div-->
+
+                </div>
+            </div>
+
+        </w-dex-block>
+
+        <w-dex-block column="bottomright" block="bottom">
+            <w-create-order></w-create-order>
+        </w-dex-block>
+
+        <!-- title-name="layout.center.bottom"> -->
+
     </w-layout>
-    <w-create-order w-draggable></w-create-order>
 </div>

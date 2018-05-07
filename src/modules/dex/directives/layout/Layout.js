@@ -44,15 +44,23 @@
                  * @private
                  */
                 this._children = {
-                    left: {
+                    topleft: {
                         top: null,
                         bottom: null
                     },
-                    center: {
+                    topcenter: {
                         top: null,
                         bottom: null
                     },
-                    right: {
+                    topright: {
+                        top: null,
+                        bottom: null
+                    },
+                    bottomleft: {
+                        top: null,
+                        bottom: null
+                    },
+                    bottomright: {
                         top: null,
                         bottom: null
                     }
@@ -66,55 +74,57 @@
                  * @type {number}
                  * @private
                  */
-                this._leftHeight = null;
+                this._topLeftHeight = null;
                 /**
                  *
                  * @type {number}
                  * @private
                  */
-                this._rightHeight = null;
+                this._topRightHeight = null;
                 /**
                  *
                  * @type {boolean}
                  * @private
                  */
-                this._leftCollapsed = null;
+                this._topLeftCollapsed = null;
                 /**
                  *
                  * @type {boolean}
                  * @private
                  */
-                this._rightCollapsed = null;
+                this._topRightCollapsed = null;
 
                 this.syncSettings({
-                    _leftHeight: 'dex.layout.left.split',
-                    _rightHeight: 'dex.layout.right.split',
-                    _centerHeight: 'dex.layout.center.split',
-                    _leftCollapsed: 'dex.layout.left.collapsed',
-                    _rightCollapsed: 'dex.layout.right.collapsed'
+                    _topLeftHeight: 'dex.layout.left.split',
+                    _topRightHeight: 'dex.layout.right.split',
+                    _topCenterHeight: 'dex.layout.center.split',
+                    _topLeftCollapsed: 'dex.layout.left.collapsed',
+                    _topRightCollapsed: 'dex.layout.right.collapsed'
                 });
 
-                this.observe(['_leftCollapsed', '_rightCollapsed'], this._onChangeCollapsed);
-                this.observe(['_leftHeight', '_rightHeight'], this._onChangeHeight);
+                this.observe(['_topLeftCollapsed', '_topRightCollapsed'], this._onChangeCollapsed);
+                this.observe(['_topLeftHeight', '_topRightHeight'], this._onChangeHeight);
             }
 
             $postLink() {
                 this._node = $element.find('.dex-layout');
                 this._dom = {
-                    left: Layout._getColumn('left'),
-                    center: Layout._getColumn('center'),
-                    right: Layout._getColumn('right')
+                    topleft: Layout._getColumn('topleft'),
+                    topcenter: Layout._getColumn('topcenter'),
+                    topright: Layout._getColumn('topright'),
+                    bottomleft: Layout._getColumn('bottomleft'),
+                    bottomright: Layout._getColumn('bottomright')
                 };
 
-                const left = this._leftCollapsed;
-                const right = this._rightCollapsed;
+                const topleft = this._topLeftCollapsed;
+                const topright = this._topRightCollapsed;
                 const base = 'dex-layout';
 
                 this._node.get(0).className = 'dex-layout';
-                this._node.toggleClass(`${base}__left-collapsed`, left);
-                this._node.toggleClass(`${base}__right-collapsed`, right);
-                this._dom.left.slider.toggleClass(`${base}__sidebar-toggle-open`, !left);
-                this._dom.right.slider.toggleClass(`${base}__sidebar-toggle-open`, !right);
+                this._node.toggleClass(`${base}__left-collapsed`, topleft);
+                this._node.toggleClass(`${base}__right-collapsed`, topright);
+                this._dom.topleft.slider.toggleClass(`${base}__sidebar-toggle-open`, !topleft);
+                this._dom.topright.slider.toggleClass(`${base}__sidebar-toggle-open`, !topright);
 
                 this._onChangeHeight();
 
@@ -146,11 +156,11 @@
 
             toggleColumn(column) {
                 switch (column) {
-                    case 'left':
-                        this._leftCollapsed = !this._leftCollapsed;
+                    case 'topleft':
+                        this._topLeftCollapsed = !this._topLeftCollapsed;
                         break;
-                    case 'right':
-                        this._rightCollapsed = !this._rightCollapsed;
+                    case 'topright':
+                        this._topRightCollapsed = !this._topRightCollapsed;
                         break;
                     default:
                         throw new Error('Wrong column name!');
@@ -158,42 +168,42 @@
             }
 
             _onChangeHeight() {
-                const left = this._leftHeight;
-                const center = this._centerHeight;
-                const right = this._rightHeight;
+                // const left = this._leftHeight;
+                // const center = this._centerHeight;
+                const topright = this._topRightHeight;
 
-                this._dom.left.top.css('height', `${left}%`);
-                this._dom.left.bottom.css('height', `${100 - left}%`);
+                // this._dom.left.top.css('height', `${left}%`);
+                // this._dom.left.bottom.css('height', `${100 - left}%`);
+                //
+                // this._dom.center.top.css('height', `${center}%`);
+                // this._dom.center.bottom.css('height', `${100 - center}%`);
 
-                this._dom.center.top.css('height', `${center}%`);
-                this._dom.center.bottom.css('height', `${100 - center}%`);
-
-                this._dom.right.top.css('height', `${right}%`);
-                this._dom.right.bottom.css('height', `${100 - right}%`);
+                this._dom.topright.top.css('height', `${topright}%`);
+                this._dom.topright.bottom.css('height', `${100 - topright}%`);
             }
 
             _onChangeCollapsed() {
-                const left = this._leftCollapsed;
-                const right = this._rightCollapsed;
+                const topleft = this._topLeftCollapsed;
+                const topright = this._topRightCollapsed;
                 const base = 'dex-layout';
 
-                utils.animateByClass(this._dom.center.column, 'ghost', true, 'opacity')
+                utils.animateByClass(this._dom.topcenter.column, 'ghost', true, 'opacity')
                     .then(() => {
-                        this._dom.center.column.css('display', 'none'); // TODO check
-                        this._dom.left.slider.toggleClass(`${base}__sidebar-toggle-open`, !left);
-                        this._dom.right.slider.toggleClass(`${base}__sidebar-toggle-open`, !right);
+                        this._dom.topcenter.column.css('display', 'none'); // TODO check
+                        this._dom.topleft.slider.toggleClass(`${base}__sidebar-toggle-open`, !topleft);
+                        this._dom.topright.slider.toggleClass(`${base}__sidebar-toggle-open`, !topright);
 
                         return utils.whenAll([
-                            utils.animateByClass(this._node, `${base}__left-collapsed`, left, 'transform'),
-                            utils.animateByClass(this._node, `${base}__right-collapsed`, right, 'transform')
+                            utils.animateByClass(this._node, `${base}__left-collapsed`, topleft, 'transform'),
+                            utils.animateByClass(this._node, `${base}__right-collapsed`, topright, 'transform')
                         ]);
                     })
                     .then(() => {
-                        this._dom.center.column.css('display', 'block');
+                        this._dom.topcenter.column.css('display', 'block');
                         return utils.wait(0);
                     })
                     .then(() => {
-                        utils.animateByClass(this._dom.center.column, 'ghost', false, 'opacity');
+                        utils.animateByClass(this._dom.topcenter.column, 'ghost', false, 'opacity');
                     });
             }
 
