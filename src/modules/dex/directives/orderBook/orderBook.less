@@ -6,33 +6,41 @@ w-dex-order-book {
   height: 100%;
   text-align: right;
 
-  w-table w-row {
-    padding: 0 10px 0 5px;
-    border-bottom: 1px solid transparent;
-    border-top: 1px solid transparent;
-  }
+  w-table {
+    w-row {
+      padding: 0 10px 0 5px;
+      border-bottom: 1px solid transparent;
+      border-top: 1px solid transparent;
 
-  w-table w-t-head w-row {
-    padding: 0 14px 0 5px;
-
-    &:hover {
-      background-color: #fff;
-      border-color: transparent;
+      &:hover {
+        background-color: @color-basic-50;
+        border-color: @color-basic-200;
+      }
     }
 
-    .table-cell {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    w-t-head {
+      w-row {
+        padding: 0 14px 0 5px;
+        background: @color-white;
+
+        &:hover {
+          background: @color-white;
+          border-color: transparent;
+        }
+
+        .table-cell {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
     }
   }
 
-  w-scroll-box .asks w-row, w-scroll-box .bids w-row {
-    cursor: pointer;
-
-    &:hover {
-      background-color: @color-basic-50;
-      border-color: @color-basic-200;
+  w-scroll-box {
+    .asks w-row,
+    .bids w-row {
+      cursor: pointer;
     }
   }
 
@@ -80,5 +88,4 @@ w-dex-order-book {
       color: @color-error-200;
     }
   }
-
 }

@@ -45,24 +45,20 @@
                  */
                 this._children = {
                     topleft: {
-                        top: null,
-                        bottom: null
+                        top: null
                     },
                     topcenter: {
-                        top: null,
-                        bottom: null
+                        top: null
                     },
                     topright: {
                         top: null,
                         bottom: null
                     },
                     bottomleft: {
-                        top: null,
-                        bottom: null
+                        top: null
                     },
                     bottomright: {
-                        top: null,
-                        bottom: null
+                        top: null
                     }
                 };
                 /**
@@ -95,15 +91,15 @@
                 this._topRightCollapsed = null;
 
                 this.syncSettings({
-                    _topLeftHeight: 'dex.layout.left.split',
-                    _topRightHeight: 'dex.layout.right.split',
-                    _topCenterHeight: 'dex.layout.center.split',
-                    _topLeftCollapsed: 'dex.layout.left.collapsed',
-                    _topRightCollapsed: 'dex.layout.right.collapsed'
+                    // _topLeftHeight: 'dex.layout.topleft.split',
+                    // _topRightHeight: 'dex.layout.topright.split',
+                    // _topCenterHeight: 'dex.layout.topcenter.split',
+                    _topLeftCollapsed: 'dex.layout.topleft.collapsed',
+                    _topRightCollapsed: 'dex.layout.topright.collapsed'
                 });
 
                 this.observe(['_topLeftCollapsed', '_topRightCollapsed'], this._onChangeCollapsed);
-                this.observe(['_topLeftHeight', '_topRightHeight'], this._onChangeHeight);
+                // this.observe(['_topLeftHeight', '_topRightHeight'], this._onChangeHeight);
             }
 
             $postLink() {
@@ -121,8 +117,8 @@
                 const base = 'dex-layout';
 
                 this._node.get(0).className = 'dex-layout';
-                this._node.toggleClass(`${base}__left-collapsed`, topleft);
-                this._node.toggleClass(`${base}__right-collapsed`, topright);
+                this._node.toggleClass(`${base}__topleft-collapsed`, topleft);
+                this._node.toggleClass(`${base}__topright-collapsed`, topright);
                 this._dom.topleft.slider.toggleClass(`${base}__sidebar-toggle-open`, !topleft);
                 this._dom.topright.slider.toggleClass(`${base}__sidebar-toggle-open`, !topright);
 
@@ -170,16 +166,13 @@
             _onChangeHeight() {
                 // const left = this._leftHeight;
                 // const center = this._centerHeight;
-                const topright = this._topRightHeight;
-
+                // const topright = this._topRightHeight;
                 // this._dom.left.top.css('height', `${left}%`);
                 // this._dom.left.bottom.css('height', `${100 - left}%`);
-                //
                 // this._dom.center.top.css('height', `${center}%`);
                 // this._dom.center.bottom.css('height', `${100 - center}%`);
-
-                this._dom.topright.top.css('height', `${topright}%`);
-                this._dom.topright.bottom.css('height', `${100 - topright}%`);
+                // this._dom.topright.top.css('height', `${topright}%`);
+                // this._dom.topright.bottom.css('height', `${100 - topright}%`);
             }
 
             _onChangeCollapsed() {

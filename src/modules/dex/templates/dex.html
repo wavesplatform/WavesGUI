@@ -11,10 +11,9 @@
             <w-dex-candle-chart></w-dex-candle-chart>
         </w-dex-block>
 
-        <w-dex-block
-                column="topright"
-                block="top"
-                title-name="layout.right.top">
+        <w-dex-block column="topright"
+                     block="top"
+                     title-name="directives.orderBook.title"> <!--  -->
             <w-dex-order-book></w-dex-order-book>
         </w-dex-block>
 
@@ -22,40 +21,26 @@
             <w-dex-trade-graph></w-dex-trade-graph>
         </w-dex-block>
 
-        <w-dex-block column="bottomleft" block="bottom">
-            <div class="tabs">
-                <div class="tabs-headers">
-                    <div class="item active">My Open Orders</div>
-                    <div class="item">My Trade History</div>
-                    <div class="item">Trade History</div>
-                    <div class="item">My balance</div>
-                </div>
-                <div class="tabs-content">
+        <w-dex-block column="bottomleft" block="top">
 
-                    <div class="tab tab-1">
-                        <w-dex-my-orders></w-dex-my-orders>
-                    </div>
-
-                    <div class="tab tab-2">
-                        <w-dex-trade-history></w-dex-trade-history>
-                    </div>
-
-                    <!-- todo @tsigel -->
-
-                    <!--div class="tab tab-3">
-                        <w-dex-my-trade-history></w-dex-my-trade-history>
-                    </div>
-
-                    <div class="tab tab-4">
-                        <w-dex-my-balance></w-dex-my-balance>
-                    </div-->
-
-                </div>
-            </div>
+            <w-tabs ng-model="$ctrl.tab">
+                <w-tab title-name="::'tabs.title.openOrders'" id="::'myOpenOrders'">
+                    <w-dex-my-orders></w-dex-my-orders>
+                </w-tab>
+                <w-tab title-name="::'tabs.title.myTradeHistory'" id="::'myTradeHistory'">
+                    <w-dex-trade-history></w-dex-trade-history>
+                </w-tab>
+                <w-tab title-name="::'tabs.title.tradeHistory'" id="::'tradeHistory'">
+                    <!--w-dex-my-trade-history></w-dex-my-trade-history--> <!-- todo @tsigel -->
+                </w-tab>
+                <w-tab title-name="::'tabs.title.myBalance'" id="::'myBalance'">
+                    <!--w-dex-my-balance></w-dex-my-balance--> <!-- todo @tsigel -->
+                </w-tab>
+            </w-tabs>
 
         </w-dex-block>
 
-        <w-dex-block column="bottomright" block="bottom">
+        <w-dex-block column="bottomright" block="top">
             <w-create-order></w-create-order>
         </w-dex-block>
 

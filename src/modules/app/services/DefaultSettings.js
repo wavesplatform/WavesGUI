@@ -140,19 +140,15 @@
                             }
                         },
                         layout: {
-                            left: {
-                                collapsed: false,
-                                split: 65
+                            topleft: {
+                                collapsed: false
                             },
-                            center: {
-                                split: 75,
-                                collapsedBlock: false
+                            topcenter: {},
+                            topright: {
+                                collapsed: false
                             },
-                            right: {
-                                collapsed: false,
-                                split: 65,
-                                collapsedBlock: true
-                            }
+                            bottomleft: {},
+                            bottomright: {}
                         }
                     }
                 };

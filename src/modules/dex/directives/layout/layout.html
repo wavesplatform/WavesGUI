@@ -1,29 +1,20 @@
 <div class="dex-layout" w-toggle-class-container>
 
-
     <div class="dex-layout__row dex-layout__row-top">
-
-        <div class="dex-layout__row-one">
-            <div class="dex-layout__row-one-two">
-                <div class="dex-layout__row-one-two-three">
-                </div>
-            </div>
-        </div>
 
         <div data-column="topleft" class="dex-layout__column dex-layout__column-left">
             <div data-block="top" class="dex-layout__block dex-layout__block-top"></div>
-
         </div>
 
         <div data-column="topcenter" class="dex-layout__column dex-layout__column-center">
             <div data-slider
-                 ng-click="$ctrl.toggleColumn('left')"
+                 ng-click="$ctrl.toggleColumn('topleft')"
                  class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-left"></div>
 
             <div data-block="top" class="dex-layout__block dex-layout__block-top"></div>
 
             <div data-slider
-                 ng-click="$ctrl.toggleColumn('right')"
+                 ng-click="$ctrl.toggleColumn('topright')"
                  class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-right"></div>
         </div>
 
@@ -37,10 +28,10 @@
     <div class="dex-layout__row dex-layout__row-bottom">
 
         <div data-column="bottomleft" class="dex-layout__column dex-layout__column-left">
-            <div data-block="bottom" class="dex-layout__block dex-layout__block-bottom"></div>
+            <div data-block="top" class="dex-layout__block dex-layout__block-bottom"></div>
         </div>
         <div data-column="bottomright" class="dex-layout__column dex-layout__column-right">
-            <div data-block="bottom" class="dex-layout__block dex-layout__block-bottom"></div>
+            <div data-block="top" class="dex-layout__block dex-layout__block-bottom"></div>
         </div>
 
     </div>

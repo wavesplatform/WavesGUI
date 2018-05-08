@@ -3,8 +3,8 @@
 w-create-order {
   display: block;
   width: 100%;
-  overflow: hidden;
-  border-radius: @border-radius;
+  max-height: 100%;
+  overflow: auto;
 
   .split-half {
     display: flex;
@@ -87,22 +87,14 @@ w-create-order {
 
           .area {
             width: 50%;
-            height: 110px;
             flex-grow: 1;
-            padding: 33px 17px 0;
-            border-top: 1px solid @color-disabled-100;
-            border-bottom: 1px solid @color-disabled-100;
+            height: 36px;
             color: @color-disabled-400;
+            border-bottom: 1px solid @color-basic-100;
             cursor: pointer;
             background: @color-white;
+            text-align: center;
 
-            &.sell {
-              text-align: left;
-            }
-
-            &.buy {
-              text-align: right;
-            }
           }
 
           .spread {
@@ -211,67 +203,69 @@ w-create-order {
         }
       }
 
-      .making-order.sell {
-        .areas {
-          .area.sell {
-            background: @color-error-100;
 
-            .name,
-            .price,
-            .second-name {
-              color: @color-error-400;
+      .making-order {
+        .areas .area {
+          border-top: 2px solid @color-white;
+
+          &:first-child {
+            border-right: 1px solid @color-basic-100;
+          }
+
+          .name {
+            line-height: 36px;
+          }
+        }
+
+        &.buy {
+
+          .areas .area.buy {
+            border-top: 2px solid @color-submit-400;
+            border-bottom: 1px solid white;
+          }
+
+          .place-order {
+            background: @color-error-400;
+            &:hover {
+              background: @color-error-600;
+            }
+            &:active {
+              background: @color-error-700;
+            }
+            &[disabled] {
+              background: @color-error-200;
             }
           }
-
-          .spread {
-            color: @color-error-400;
-          }
         }
 
-        .place-order {
-          background: @color-error-400;
-          &:hover {
-            background: @color-error-600;
-          }
-          &:active {
-            background: @color-error-700;
-          }
-          &[disabled] {
-            background: @color-error-200;
-          }
-        }
-      }
+        &.sell {
 
-      .making-order.buy {
-        .areas {
-          .area.buy {
-            background: @color-success-50;
+          .areas .area.sell {
+            border-top: 2px solid @color-error-400;
+            border-bottom: 1px solid white;
+          }
 
-            .name,
-            .price,
-            .second-name {
-              color: @color-success-600;
+          .place-order {
+            background: @color-error-400;
+            &:hover {
+              background: @color-error-600;
+            }
+            &:active {
+              background: @color-error-700;
+            }
+            &[disabled] {
+              background: @color-error-200;
             }
           }
-
-          .spread {
-            color: @color-success-600;
-          }
         }
 
-        .place-order {
-          background: @color-success-600;
-          &:hover {
-            background: @color-success-700;
-          }
-          &:active {
-            background: @color-success-800;
-          }
-          &[disabled] {
-            background: @color-success-200;
-          }
-        }
+
+
       }
+
+
+
+
     }
   }
 }

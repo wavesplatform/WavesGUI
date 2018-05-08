@@ -40,7 +40,7 @@
                  * Expanded state
                  * @type {number}
                  */
-                this.step = 0;
+                this.step = 1;
                 /**
                  * Max amount (with fee)
                  * @type {Money}
@@ -65,7 +65,7 @@
                  * Order type
                  * @type {string}
                  */
-                this.type = null;
+                this.type = 'buy';
                 /**
                  * Total price (amount multiply price)
                  * @type {Money}
