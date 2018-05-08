@@ -68,6 +68,15 @@ w-layout {
             flex-basis: 25%;
             margin-left: 5px;
             border-radius: @border-radius / 2;
+            position: relative;
+            background: @color-white;
+
+            .dex-layout__block-top {
+              .block-wrapper,
+              w-scroll-box {
+                background: none transparent;
+              }
+            }
           }
 
         }
@@ -137,6 +146,34 @@ w-layout {
     //  }
     //}
 
+
+
+    &__vertical-graph {
+      position: absolute;
+      height: calc(45% ~'- 34px');
+      width: 50%;
+      opacity: .3;
+
+      &-top {
+        top: 68px;
+      }
+
+      &-bottom {
+        bottom: 0;
+      }
+
+      .line {
+        background: pink;
+        height: 20%;
+      }
+    }
+
+
+
+
+
+
+
     &__sidebar-toggle {
       cursor: pointer;
       height: 100%;
@@ -152,7 +189,7 @@ w-layout {
         margin-top: -15px;
         position: absolute;
         height: 15px;
-        width: 30px;
+        width: 15px;
         background: url(/img/icons/dex-toggle.svg) center no-repeat;
 
       }
@@ -160,14 +197,12 @@ w-layout {
       &-left {
         &::after {
           transform: rotate(90deg);
-          transform-origin: top;
         }
       }
 
       &-right {
         &::after {
           transform: rotate(-90deg);
-          transform-origin: bottom;
         }
       }
 
