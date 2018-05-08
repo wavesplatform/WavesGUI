@@ -69,6 +69,7 @@
                 controller.load().then(() => {
                     this.chart = new TradingView.widget({
                         // debug: true,
+                        toolbar_bg: '#fff',
                         symbol: `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
                         interval: WavesApp.dex.defaultResolution,
                         container_id: this.elementId,
