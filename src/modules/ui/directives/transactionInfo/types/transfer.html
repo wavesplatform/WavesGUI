@@ -10,7 +10,7 @@
     <div w-i18n="amount"></div>
 </div>
 
-<div ng-if="::$ctrl.type !== 'circular' || $ctrl.type !== 'mass-send'" class="txinfo__data">
+<div ng-if="::!($ctrl.type === 'circular' || $ctrl.type === 'mass-send')" class="txinfo__data">
 
     <div class="txinfo__row">
         <div class="txinfo__key" w-i18n="transaction.modals.to" ng-if="::$ctrl.type === 'send'"></div>
