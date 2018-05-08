@@ -6,7 +6,10 @@
         'header_screenshot',
         'header_symbol_search',
         'symbol_search_hot_key',
-        'display_market_status'
+        'display_market_status',
+        // 'border_around_the_chart', // TODO : decide whether to switch it off or not
+        'control_bar',
+        'timeframes_toolbar'
     ];
 
     const OVERRIDES = {
