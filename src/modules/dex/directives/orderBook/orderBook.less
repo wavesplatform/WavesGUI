@@ -7,6 +7,9 @@ w-dex-order-book {
   text-align: right;
 
   w-table {
+    position: relative;
+    z-index: 1;
+
     w-row {
       padding: 0 10px 0 5px;
       border-bottom: 1px solid transparent;
@@ -50,7 +53,9 @@ w-dex-order-book {
 
   .spread {
     padding: 7px 0;
-    background-color: @color-disabled-50;
+    border-top: 1px solid @color-basic-100;
+    border-bottom: 1px solid @color-basic-100;
+    background: @color-white;
 
     .cell-0 {
       color: @color-error-400;

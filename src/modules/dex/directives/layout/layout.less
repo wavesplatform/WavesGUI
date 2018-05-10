@@ -150,12 +150,12 @@ w-layout {
 
     &__vertical-graph {
       position: absolute;
-      height: calc(45% ~'- 34px');
+      height: calc(50% ~'- 32px');
       width: 50%;
-      opacity: .3;
+      z-index: 0;
 
       &-top {
-        top: 68px;
+        top: 30px;
       }
 
       &-bottom {
@@ -163,7 +163,7 @@ w-layout {
       }
 
       .line {
-        background: pink;
+        background: @color-graph;
         height: 20%;
       }
     }
@@ -316,10 +316,8 @@ w-layout {
           &.active {
             color: @color-basic-700;
             border-top: 2px solid @color-submit-400;
-            position: relative;
-            &:hover {
-              border-bottom-color: 1px solid @color-submit-400;
-            }
+            border-bottom: 1px solid @color-white;
+
           }
         }
       }

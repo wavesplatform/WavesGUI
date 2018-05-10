@@ -9,10 +9,6 @@ body.dex {
     display: none;
   }
 
-  w-t-head {
-    height: 30px;
-  }
-
   .main-content .content {
     height: calc(~'100vh - ' @padding-main-layout);
     width: calc(~'100% - '@width-left-menu + @padding-main-layout);
@@ -89,11 +85,6 @@ body.dex {
 
         w-row {
           font-size: @font-size-caption-2;
-
-          .table-row:hover {
-            background-color: white;
-            border-color: transparent;
-          }
         }
 
         .table-row {
@@ -110,6 +101,7 @@ body.dex {
 
       .spread w-row {
         .footnote-1();
+        cursor: pointer;
         font-weight: bold;
         white-space: nowrap;
       }

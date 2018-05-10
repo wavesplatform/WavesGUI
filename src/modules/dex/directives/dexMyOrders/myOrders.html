@@ -2,19 +2,34 @@
     <w-t-head>
         <w-row>
             <w-cell>
-                <w-i18n>directives.myOrders.pair</w-i18n>
+                <div> <!-- todo sort onClick @tsigel -->
+                    <w-i18n>directives.myOrders.pair</w-i18n>
+                    <i class="icon-sorting"></i>
+                </div>
             </w-cell>
             <w-cell>
-                <w-i18n>directives.myOrders.type</w-i18n>
+                <div>
+                    <w-i18n>directives.myOrders.type</w-i18n>
+                    <i class="icon-sorting"></i>
+                </div>
             </w-cell>
             <w-cell>
-                <w-i18n>directives.myOrders.price</w-i18n>
+                <div>
+                    <w-i18n>directives.myOrders.price</w-i18n>
+                    <i class="icon-sorting"></i>
+                </div>
             </w-cell>
             <w-cell>
-                <w-i18n>directives.myOrders.amount</w-i18n>
+                <div>
+                    <w-i18n>directives.myOrders.amount</w-i18n>
+                    <i class="icon-sorting"></i>
+                </div>
             </w-cell>
             <w-cell>
-                <w-i18n>directives.myOrders.status</w-i18n>
+                <div>
+                    <w-i18n>directives.myOrders.status</w-i18n>
+                    <i class="icon-sorting"></i>
+                </div>
             </w-cell>
         </w-row>
     </w-t-head>
@@ -24,13 +39,16 @@
                 <span>{{::order.pair}}</span>
             </w-cell>
             <w-cell>
-                <span class="order-side {{::order.type}}" w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
+                <span class="order-side {{::order.type}}"
+                      w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
             </w-cell>
             <w-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n>:</span><w-balance money="order.price"></w-balance>
+                <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n>:</span>
+                <w-balance money="order.price"></w-balance>
             </w-cell>
             <w-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n>:</span><w-balance money="order.amount"></w-balance>
+                <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n>:</span>
+                <w-balance money="order.amount"></w-balance>
             </w-cell>
             <w-cell>
                 {{order.state}}

@@ -24,7 +24,7 @@ w-create-order {
     }
   }
 
- .create-order {
+  .create-order {
     position: relative;
     background: @color-disabled-50;
 
@@ -88,27 +88,36 @@ w-create-order {
           .area {
             width: 50%;
             flex-grow: 1;
-            height: 36px;
+            height: 38px;
             color: @color-disabled-400;
             border-bottom: 1px solid @color-basic-100;
             cursor: pointer;
             background: @color-white;
             text-align: center;
-          }
+            border-top: 2px solid @color-white;
 
-          .spread {
-            position: absolute;
-            left: 50%;
-            transform: translate(-50%, 50px);
-            margin-top: -12px;
-
-            span {
-              display: block;
-              text-align: center;
+            .name {
+              line-height: 32px;
             }
 
-            .spread-label {
-              font-size: 9px;
+            &:first-child {
+              border-right: 1px solid @color-basic-100;
+            }
+
+            .spread {
+              position: absolute;
+              left: 50%;
+              transform: translate(-50%, 50px);
+              margin-top: -12px;
+
+              span {
+                display: block;
+                text-align: center;
+              }
+
+              .spread-label {
+                font-size: 9px;
+              }
             }
           }
         }
@@ -200,21 +209,6 @@ w-create-order {
             border-radius: @border-radius;
           }
         }
-      }
-
-
-      .making-order {
-        .areas .area {
-          border-top: 2px solid @color-white;
-
-          &:first-child {
-            border-right: 1px solid @color-basic-100;
-          }
-
-          .name {
-            line-height: 36px;
-          }
-        }
 
         &.buy {
 
@@ -259,14 +253,7 @@ w-create-order {
             }
           }
         }
-
-
-
       }
-
-
-
-
     }
   }
 }
