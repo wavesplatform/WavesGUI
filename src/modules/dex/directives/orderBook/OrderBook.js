@@ -52,6 +52,12 @@
                  */
                 this._noRender = false;
 
+                this.SECTIONS = {
+                    ASKS: 'asks',
+                    INFO: 'info',
+                    BIDS: 'bids'
+                };
+
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
                 });
@@ -170,23 +176,25 @@
 
                 this.hasOrderBook = Boolean(bids || asks);
 
-                const template = (
-                    `<div><w-i18n>directives.orderBook.lastprice</w-i18n></div>` +
-                    `<div class="spread body-2">${spread} <i></i></div>` +
-                    `<div><w-i18n>directives.orderBook.spread<w-i18n> 0.17%</div>`
-                );
                 const $box = $element.find('w-scroll-box');
-                const box = $box.get(0);
-                $box.html(template);
+
+                $box.children(`.${this.SECTIONS.ASKS}`).html(asks);
+
+                const $info = $box.children(`.${this.SECTIONS.INFO}`);
+                $info.children('.last-price').text('0.00060967');
+                $info.find('.spread').text(' 0.17%');
+
+                $box.children(`.${this.SECTIONS.BIDS}`).html(bids);
 
                 if (this._showSpread) {
                     setTimeout(() => {
                         requestAnimationFrame(() => {
                             this._showSpread = false;
 
-                            const spread = box.querySelector('.spread');
+                            const box = $box.get(0);
+                            const info = box.querySelector('.info');
                             box.scrollTop =
-                                spread.offsetTop - box.offsetTop - box.clientHeight / 2 + spread.clientHeight / 2;
+                                info.offsetTop - box.offsetTop - box.clientHeight / 2 + info.clientHeight / 2;
                         });
                     }, 0);
                 }

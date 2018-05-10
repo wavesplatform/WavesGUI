@@ -13,6 +13,16 @@
         </w-row>
     </w-t-head>
     <w-scroll-box>
+        <div class="{{::$ctrl.SECTIONS.ASKS}}"></div>
+        <div class="{{::$ctrl.SECTIONS.INFO}}">
+            <div><w-i18n>directives.orderBook.lastprice</w-i18n></div>
+            <div class="last-price body-2"><i></i></div>
+            <div>
+                <span><w-i18n>directives.orderBook.spread<w-i18n></span>
+                <span class="spread"></span>
+            </div>
+        </div>
+        <div class="{{::$ctrl.SECTIONS.BIDS}}"></div>
     </w-scroll-box>
 </w-table>
 
