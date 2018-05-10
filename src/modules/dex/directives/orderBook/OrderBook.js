@@ -171,9 +171,9 @@
                 this.hasOrderBook = Boolean(bids || asks);
 
                 const template = (
-                    `<div class="asks">${asks}</div>` +
-                    `<div class="spread body-2">${spread}</div>` +
-                    `<div class="bids">${bids}</div>`
+                    `<div><w-i18n>directives.orderBook.lastprice</w-i18n></div>` +
+                    `<div class="spread body-2">${spread} <i></i></div>` +
+                    `<div><w-i18n>directives.orderBook.spread<w-i18n> 0.17%</div>`
                 );
                 const $box = $element.find('w-scroll-box');
                 const box = $box.get(0);
