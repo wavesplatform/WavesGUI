@@ -109,7 +109,7 @@
                     this.state.singleSend.recipient = options.recipient;
 
                     Promise.all([
-                        Waves.Money.fromTokens(options.amount, this.state.assetId),
+                        Waves.Money.fromTokens(options.amount || '0', this.state.assetId),
                         waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.TRANSFER })
                     ]).then(([money, fee]) => {
 
