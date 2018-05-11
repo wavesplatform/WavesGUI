@@ -4,133 +4,81 @@
 
 @tx-icon-size: 80px;
 
-w-transaction-info {
+.txinfo {
   display: block;
   width: 100%;
 
-  .content {
+  &__data {
+    width: 100%;
+  }
+
+  .noborder {
+    margin-bottom: -1px;
+    background: @color-white;
+    position: relative;
+    z-index: 1;
+  }
+
+  .icon-close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    z-index: 11;
+    padding: 20px;
+    background-size: 16px;
+    background-position: center;
+  }
+
+  &__wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    .transaction-icon {
-      width: @tx-icon-size;
-      height: @tx-icon-size;
-      margin-top: 10px;
-      background: none transparent;
-      position: relative;
-      border-radius: 50%;
-
-      &.send {
-        .icon-tx-send();
-      }
-
-      &.receive {
-        .icon-tx-receive();
-      }
-
-      &.mass-send {
-        .icon-tx-mass-transfer();
-      }
-
-      &.mass-receive {
-        .icon-tx-mass-receive();
-      }
-
-      &.circular {
-        .icon-tx-circular();
-      }
-
-      &.issue {
-        .icon-tx-issue();
-      }
-
-      &.reissue {
-        .icon-tx-reissue();
-      }
-
-      &.burn {
-        .icon-tx-burn();
-      }
-
-      &.exchange-buy,
-      &.exchange-sell {
-        .icon-tx-exchange();
-      }
-
-      &.create-alias {
-        .icon-tx-create-alias();
-      }
-
-      &.lease-in {
-        .icon-tx-incoming-leasing();
-      }
-
-      &.lease-out {
-        .icon-tx-lease();
-      }
-
-      &.unknown {
-        .icon-tx-unknown();
-      }
-
-      &.cancel-leasing {
-        .icon-tx-cancel-leasing();
-      }
-
-      &::before {
-        width: @tx-icon-size;
-        height: @tx-icon-size;
-        background-size: @tx-icon-size;
-        background-color: @color-white;
-        content: '';
-        display: block;
-      }
-
-    }
-
-    .lead {
-      text-align: center;
-      margin: 20px 0 30px;
-
-      h3 {
-        margin-bottom: 6px;
-      }
-    }
-
-    .section {
-      display: flex;
-      align-items: flex-start;
+    w-transaction-info {
       width: 100%;
-      justify-content: space-between;
-      padding: 13px 0;
-      border-bottom: 1px dotted @color-basic-200;
+    }
+  }
 
-      .key {
-        .footnote-1();
-        color: @color-disabled-600;
-      }
+  &__lead {
+    text-align: center;
+    padding: 20px 0 30px;
+    border-bottom: 1px solid @color-basic-200;
+    .noborder();
+    z-index: 2;
 
-      .value {
-        .footnote-1();
-        color: @color-basic-900;
+    h3 {
+      margin-bottom: 6px;
+    }
+  }
 
-        &:not(.text) {
-          max-width: 80%;
-          word-wrap: break-word;
-        }
-      }
+  &__row {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 13px 0;
+    border-top: 1px dashed @color-basic-200;
 
-      &.contains-text {
-        flex-wrap: wrap;
-        padding-bottom: 0;
-        border-bottom: none;
+    &-header {
+      border-bottom: 1px solid @color-basic-200;
+      border-top: 0 none;
+      color: @color-disabled-600;
+      .noborder();
+      z-index: 3;
+      margin: -1px 0;
+    }
 
-        .key {
+    &-contains-text {
+      flex-wrap: wrap;
+      padding-bottom: 0;
+      .noborder();
+
+      .txinfo {
+        &__key {
           margin-bottom: 4px;
         }
 
-        .text {
+        &__text {
           .footnote-1();
           width: 100%;
           padding: 13px 16px;
@@ -140,87 +88,183 @@ w-transaction-info {
           color: @color-basic-900;
         }
       }
+    }
 
-      &.solid-border {
-        border-bottom-style: solid;
+    &-padder {
+      height: 40px;
+      padding-top: 5px;
+      .noborder();
+    }
+
+    .txinfo {
+      .key-props {
+        flex-basis: auto;
+        flex-grow: 0;
+        padding-right: 10px;
+        overflow: hidden;
+        word-break: break-all;
+        .footnote-1();
+      }
+
+      &__key {
+        .key-props();
+        color: @color-disabled-600;
+
+        &-mass {
+          .key-props();
+          color: @color-basic-900;
+        }
+      }
+
+      &__value {
+        flex-basis: auto;
+        flex-grow: 0;
+        padding-left: 10px;
+        text-align: right;
+        word-break: break-all;
+        .footnote-1();
+        color: @color-basic-900;
+      }
+
+      &__text {
+        flex-basis: 100%;
+        flex-grow: 1;
+        text-align: left;
       }
     }
 
-    .tx-section {
+    &-border-ts {
+      border-top: 1px solid @color-basic-200;
+    }
+  }
+
+  &__icon {
+    width: @tx-icon-size;
+    height: @tx-icon-size;
+    background: none transparent;
+    position: relative;
+    border-radius: 50%;
+    margin: 10px auto 0 auto;
+
+    &.send {
+      .icon-tx-send();
+    }
+
+    &.receive {
+      .icon-tx-receive();
+    }
+
+    &.mass-send {
+      .icon-tx-mass-transfer();
+    }
+
+    &.mass-receive {
+      .icon-tx-mass-receive();
+    }
+
+    &.circular {
+      .icon-tx-circular();
+    }
+
+    &.issue {
+      .icon-tx-issue();
+    }
+
+    &.reissue {
+      .icon-tx-reissue();
+    }
+
+    &.burn {
+      .icon-tx-burn();
+    }
+
+    &.exchange-buy,
+    &.exchange-sell {
+      .icon-tx-exchange();
+    }
+
+    &.create-alias {
+      .icon-tx-create-alias();
+    }
+
+    &.lease-in {
+      .icon-tx-incoming-leasing();
+    }
+
+    &.lease-out {
+      .icon-tx-lease();
+    }
+
+    &.unknown {
+      .icon-tx-unknown();
+    }
+
+    &.cancel-leasing {
+      .icon-tx-cancel-leasing();
+    }
+
+    &::before {
+      width: @tx-icon-size;
+      height: @tx-icon-size;
+      background-size: @tx-icon-size;
+      background-color: @color-white;
+      content: '';
       display: block;
-      width: 100%;
+    }
+  }
 
-      .section {
-        display: flex;
-        align-items: center;
-        padding: 10px 0;
-        width: 100%;
-        border-bottom: 1px dashed @color-basic-200;
+  .status {
+    .tag-1();
+    padding: 4px 11px;
+    margin-top: -4px;
+    border-radius: @border-radius;
 
-        &.padder {
-          display: block;
-          height: 70px;
-          padding-top: 5px;
-          border-bottom: 0 none;
-
-          span {
-            align-self: flex-start;
-          }
-        }
-
-        .key {
-          flex-grow: 1;
-          color: @color-black;
-        }
-
-        .value {
-          flex-grow: 0;
-          text-align: right;
-        }
-      }
-
-      & > .section {
-        .key {
-          color: @color-basic-500;
-        }
-      }
-
-      &.tx-header {
-        .section {
-          .footnote-1();
-          border-bottom: 0 none;
-          color: @color-basic-500;
-        }
-      }
+    &.confirmed {
+      background: @color-success-50;
+      color: @color-success-400;
     }
 
-    .lead {
-      margin-bottom: 0;
+    &.unconfirmed {
+      background: @color-warning-50;
+      color: @color-warning-500;
+    }
+  }
 
-      .tx-header {
-        margin-bottom: -30px;
+}
+
+@media screen and (max-width: 540px) {
+  .txinfo {
+    .icon-close {
+      top: 0;
+      right: 0;
+    }
+
+    &__lead {
+      padding: 10px 0;
+    }
+
+    &__row {
+      padding: 8px 0;
+
+      &-contains-text {
+        flex-direction: column;
       }
-    }
 
-    .section .tx-section {
-      margin-bottom: -14px;
-    }
-
-    ng-include {
-      display: block;
-      width: 100%;
-
-      .lead + .section {
-        border-top: 1px solid @color-basic-200;
+      &-padder {
+        height: 30px;
       }
-    }
 
-    .mass-send + ng-include {
-      .lead {
-        & + .section {
-          padding-top: 0;
+      .txinfo {
+        .key-props {
+          flex-basis: 50%;
+          max-width: 50%;
+        }
+
+        &__value {
+          flex-basis: 50%;
         }
       }
+
     }
   }
 }
