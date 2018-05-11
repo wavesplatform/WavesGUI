@@ -245,7 +245,6 @@ md-dialog.modal-send {
       display: flex;
       flex-direction: row;
       align-items: center;
-      font-size: 15px;
       overflow-x: hidden;
     }
 
@@ -368,14 +367,14 @@ md-dialog.modal-send {
   }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 540px) {
   md-dialog.modal-send {
     md-dialog-content {
 
       .modal-content {
 
         .icon-close {
-          right: 20px;
+          right: 10px;
         }
 
         w-tabs {
@@ -399,7 +398,7 @@ md-dialog.modal-send {
 
           .tab-body-wrap .tab-tem {
             padding: 20px 20px 0;
-            max-height: calc(85vh ~'- 60px');
+            max-height: calc(100vh ~'- 60px');
 
             &::after {
               height: 20px;
@@ -436,7 +435,7 @@ md-dialog.modal-send {
         w-confirm-gateway-transaction,
         w-confirm-transaction {
           padding: 40px 20px 0;
-          max-height: 85vh;
+          max-height: 100%;
 
           &::after {
             content: '';
@@ -469,8 +468,9 @@ md-dialog.modal-send {
         vertical-align: top;
       }
 
-      w-balance-input w-input .w-input-wrap input[type="text"].big {
-        font-size: @font-size-caption-2;
+      w-balance-input w-input .w-input-wrap input[type="text"].big,
+      w-select .select .title {
+        font-size: @font-size-caption-1;
       }
 
     }
