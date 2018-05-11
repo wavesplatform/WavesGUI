@@ -15,7 +15,19 @@
                 </div>
             </div>
             <div class="row">
-                <div class="body-2 basic-900" w-i18n="modal.startLease.recipient"></div>
+
+                <div class="flex-row-title">
+                    <div class="body-2 basic-900" w-i18n="modal.startLease.recipient"></div>
+                    <a
+                        class="link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        ng-href="{{::$ctrl.nodeListLink}}"
+                    >
+                        <w-i18n>modal.startLease.nodeListLink</w-i18n>
+                    </a>
+                </div>
+
                 <w-input-container>
                     <w-input class="big"
                              type="text"
@@ -34,7 +46,9 @@
                 </w-input-container>
             </div>
             <div class="row">
+
                 <div class="body-2 basic-900" w-i18n="modal.startLease.amount"></div>
+
                 <w-input-container>
                     <w-balance-input name="amount"
                                      asset-id="$ctrl.assetId"
