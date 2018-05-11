@@ -43,6 +43,7 @@
     "babel-plugin-transform-decorators-legacy": "1.3.4",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
     "babel-preset-es2015": "6.24.1",
+    "babel-polyfill": "6.26.0",
     "cookie": "0.3.1",
     "electron": "1.8.2-beta.5",
     "electron-builder": "20.10.0",

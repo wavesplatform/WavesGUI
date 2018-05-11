@@ -24,7 +24,8 @@
     "node_modules/worker-wrapper/dist/WorkerWrapper.min.js",
     "node_modules/i18next/dist/umd/i18next.min.js",
     "node_modules/n3-charts/build/LineChart.min.js",
-    "node_modules/@waves/event-sender/dist/umd.js"
+    "node_modules/@waves/event-sender/dist/umd.js",
+    "node_modules/babel-polyfill/dist/polyfill.min.js"
   ],
   "electronScripts": [
   ],

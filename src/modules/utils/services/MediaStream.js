@@ -23,15 +23,34 @@
 
         }
 
-        function getFirstVideoDevice(list) {
-            let item = null;
-            list.some((device) => {
-                if (device.kind === 'videoinput') {
-                    item = device;
+        function getFacingBackCamera(devices) {
+            let facingBackCamera = devices.find((device) => device.label.includes('back'));
+
+            if (!facingBackCamera) {
+                const videoInputDevices = devices.filter((device) => device.kind === 'videoinput');
+                // Android devices facing back camera is usually placed later in array of devices.
+                facingBackCamera = videoInputDevices[videoInputDevices.length - 1];
+            }
+
+            return facingBackCamera || null;
+        }
+
+        function getConstraints(deviceList) {
+            if (navigator.mediaDevices.getSupportedConstraints().facingMode) {
+                return {
+                    video: {
+                        facingMode: 'environment'
+                    }
+                };
+            }
+
+            const deviceInfo = getFacingBackCamera(deviceList);
+
+            return {
+                video: {
+                    deviceId: { exact: deviceInfo.deviceId }
                 }
-                return !!item;
-            });
-            return item;
+            };
         }
 
         return {
@@ -46,15 +65,13 @@
                     };
 
                     navigator.mediaDevices.enumerateDevices().then((deviceList) => {
-                        const deviceInfo = getFirstVideoDevice(deviceList);
-
-                        const constraints = {
-                            video: {
-                                deviceId: { exact: deviceInfo.deviceId }
-                            }
-                        };
-
-                        return navigator.mediaDevices.getUserMedia(constraints);
+                        return (
+                            navigator
+                                .mediaDevices
+                                .getUserMedia(
+                                    getConstraints(deviceList)
+                                )
+                        );
                     }).then(handler, reject);
                 });
             }
