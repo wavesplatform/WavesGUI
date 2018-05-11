@@ -10,9 +10,16 @@ input[type="checkbox"] {
 
 .input-like {
   width: 100%;
-  height: @height-control;
-  padding: @padding-control;
-  font-size: @font-size-control;
+  height: @height-control-big;
+  padding: @padding-control-big;
+  font-size: @font-size-control-big;
+
+  @media screen and (max-width: 768px) {
+    height: @height-control-big-responsive;
+    padding: @padding-control-big-responsive;
+    font-size: @font-size-control-big-responsive;
+  }
+
   text-align: left;
   box-shadow: none;
   appearance: none;
@@ -39,6 +46,12 @@ input[type="checkbox"] {
     }
   }
 
+  &.medium {
+    height: @height-control;
+    padding: @padding-control;
+    font-size: @font-size-control;
+  }
+
   &.small {
     height: @height-control-small;
     padding: @padding-control-small;
@@ -49,15 +62,30 @@ input[type="checkbox"] {
     }
   }
 
-  &.big {
-    height: @height-control-big;
-    padding: @padding-control-big;
-    font-size: @font-size-control-big;
-
-    &::placeholder {
+  @media screen and (min-width: 769px) {
+    &.big {
+      height: @height-control-big;
+      padding: @padding-control-big;
       font-size: @font-size-control-big;
+
+      &::placeholder {
+        font-size: @font-size-control-big;
+      }
     }
   }
+
+  @media screen and (max-width: 768px) {
+    &.big {
+      height: @height-control-big-responsive;
+      padding: @padding-control-big-responsive;
+      font-size: @font-size-control-big-responsive;
+
+      &::placeholder {
+        font-size: @font-size-control-big-responsive;
+      }
+    }
+  }
+
 }
 
 w-input {
@@ -105,6 +133,12 @@ w-input {
       background-size: 100% 100%;
     }
 
+    @media screen and (max-width: 768px) {
+      &::after {
+        top: 14px;
+        transform: translateY(0);
+      }
+    }
   }
 
   &[textarea="true"] {
@@ -158,7 +192,7 @@ w-input {
 
   .byte-validator__help {
     position: absolute;
-    top: -22px;
+    top: -20px;
     display: none;
     right: 0;
     color: @color-basic-500;
