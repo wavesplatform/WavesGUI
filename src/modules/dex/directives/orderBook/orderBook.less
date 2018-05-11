@@ -51,30 +51,28 @@ w-dex-order-book {
     color: @color-disabled-500;
   }
 
-  .spread {
+  .info {
     padding: 7px 0;
     border-top: 1px solid @color-basic-100;
     border-bottom: 1px solid @color-basic-100;
     background: @color-white;
+    display: flex;
+    align-items: center;
+    text-align: right;
+    font-size: 9px;
+    width: 100%;
+    min-height: 40px;
+    padding-right: 10px;
+    text-transform: uppercase;
 
-    .cell-0 {
-      color: @color-error-400;
-
-      .decimal-muted {
-        color: @color-error-200;
-      }
+    div {
+      flex-basis: 33.3%;
     }
 
-    .cell-1 {
-      color: @color-submit-300;
-    }
+    .last-price {
+      color: @color-soft-blue;
 
-    .cell-2 {
-      color: @color-success-600;
-
-      .decimal-muted {
-        color: @color-success-200;
-      }
+      i {}
     }
   }
 

@@ -1,11 +1,9 @@
 @import (reference) '../../../config';
 
-
 .dex.main .main-content {
+  //background: @color-basic-100;
   background: #333;
 }
-
-
 
 @column-width: 320px;
 @dex-padding: 7px;
@@ -14,7 +12,6 @@ w-layout {
 
   width: 100%;
   height: 100%;
-  //background: @color-basic-100;
 
 
   .dex-layout {
@@ -24,6 +21,28 @@ w-layout {
     width: 100%;
     height: 100%;
     position: relative;
+
+    &__block-topright-bottom-collapsed {
+      .dex-layout {
+        &__row-top {
+          .dex-layout {
+            &__column-right {
+              .dex-layout {
+                &__block-top {
+                  height: calc(100% ~'- 38px');
+                }
+                &__block-bottom {
+                  height: 38px;
+                }
+              }
+            }
+          }
+        }
+      }
+      .collapse-dex-block i {
+        transform: rotate(-180deg);
+      }
+    }
 
     &__row {
 
@@ -52,7 +71,6 @@ w-layout {
             border-radius: @border-radius / 2;
             display: flex;
 
-
             .block-title {
               display: none;
             }
@@ -72,9 +90,19 @@ w-layout {
             background: @color-white;
 
             .dex-layout__block-top {
+              transition: .3s;
+              height: calc(100% ~'- 200px');
+
               .block-wrapper,
               w-scroll-box {
                 background: none transparent;
+              }
+            }
+            .dex-layout__block-bottom {
+              transition: .3s;
+              height: 200px;
+              .block-title {
+                border-top: 1px solid @color-basic-100;
               }
             }
           }
@@ -146,8 +174,6 @@ w-layout {
     //  }
     //}
 
-
-
     &__vertical-graph {
       position: absolute;
       height: calc(50% ~'- 32px');
@@ -208,8 +234,6 @@ w-layout {
       }
     }
 
-
-
     //collapsing
 
     //&__topleft-collapsed {
@@ -239,19 +263,6 @@ w-layout {
     //    }
     //  }
     //}
-
-
-
-
-
-    w-dex-block .collapse-dex-block {
-      transition: transform 0.3s ease-in-out;
-      background-image: url(/img/icons/close_arrow.svg);
-      background-position: center;
-      background-repeat: no-repeat;
-      padding: 15px;
-    }
-
 
     w-dex-my-orders,
     w-dex-trade-history {
@@ -338,6 +349,10 @@ w-dex-candle-chart {
   .candle-chart-wrapper {
     height: 100%
   }
+}
+
+.collapsed {
+  background: red !important;
 }
 
 //

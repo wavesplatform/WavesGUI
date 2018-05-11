@@ -13,11 +13,14 @@
 
         <w-dex-block column="topright"
                      block="top"
-                     title-name="directives.orderBook.title"> <!--  -->
+                     title-name="directives.orderBook.title">
             <w-dex-order-book></w-dex-order-book>
         </w-dex-block>
 
-        <w-dex-block column="topright" block="bottom" can-collapse="true">
+        <w-dex-block column="topright"
+                     block="bottom"
+                     can-collapse="true"
+                     title-name="directives.marketDepth">
             <w-dex-trade-graph></w-dex-trade-graph>
         </w-dex-block>
 
@@ -28,10 +31,10 @@
                     <w-dex-my-orders></w-dex-my-orders>
                 </w-tab>
                 <w-tab title-name="::'tabs.title.myTradeHistory'" id="::'myTradeHistory'">
-                    <w-dex-trade-history></w-dex-trade-history>
+                    <!--w-dex-my-trade-history></w-dex-my-trade-history--> <!-- todo @tsigel -->
                 </w-tab>
                 <w-tab title-name="::'tabs.title.tradeHistory'" id="::'tradeHistory'">
-                    <!--w-dex-my-trade-history></w-dex-my-trade-history--> <!-- todo @tsigel -->
+                    <w-dex-trade-history></w-dex-trade-history>
                 </w-tab>
                 <w-tab title-name="::'tabs.title.myBalance'" id="::'myBalance'">
                     <!--w-dex-my-balance></w-dex-my-balance--> <!-- todo @tsigel -->
