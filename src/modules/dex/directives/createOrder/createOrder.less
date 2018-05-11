@@ -10,12 +10,32 @@ w-create-order {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    .flex {
+      display:flex;
+      justify-content: flex-end;
+
+      span {
+        margin-left: 20px;
+        height: 13px;
+      }
+    }
   }
 
-  .amount-balance {
+  .underline {
+    &::after {
+      content: '';
+      border-bottom: 1px solid @color-basic-200;
+      display: block;
+      position: relative;
+      top: -1px;
+    }
+  }
+
+  .underline-dashed {
     cursor: pointer;
 
-    &::after { // TODO add mixin for colors
+    &::after {
       content: '';
       border-bottom: 1px dashed @color-disabled-400;
       display: block;
@@ -162,14 +182,23 @@ w-create-order {
           padding: 6px 17px 17px;
 
           .field-label {
-            margin-top: 13px;
+            margin-top: 8px;
             padding-bottom: 4px;
+          }
+
+          .field-fee {
+            margin: 13px 0;
+
+            span:last-child {
+              margin-left: 5px;
+            }
           }
 
           .input-like {
             padding: 0;
             display: flex;
             align-items: center;
+            border-radius: @border-radius / 2;
 
             w-input {
               display: block;
@@ -178,7 +207,6 @@ w-create-order {
               input {
                 height: 28px;
                 border: none;
-                border-radius: @border-radius;
               }
             }
 
@@ -203,10 +231,10 @@ w-create-order {
 
           .place-order {
             width: 100%;
-            height: 30px;
             color: @color-white;
             border: none;
-            border-radius: @border-radius;
+            height: 36px;
+            border-radius: @border-radius / 2;
           }
         }
 
@@ -219,15 +247,15 @@ w-create-order {
           }
 
           .place-order {
-            background: @color-error-400;
+            background: @color-submit-400;
             &:hover {
-              background: @color-error-600;
+              background: @color-submit-600;
             }
             &:active {
-              background: @color-error-700;
+              background: @color-submit-700;
             }
             &[disabled] {
-              background: @color-error-200;
+              background: @color-submit-200;
             }
           }
         }
@@ -242,6 +270,7 @@ w-create-order {
 
           .place-order {
             background: @color-error-400;
+
             &:hover {
               background: @color-error-600;
             }

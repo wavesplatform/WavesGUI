@@ -1,4 +1,6 @@
 @import (reference) '../../../config';
+@import (reference) '../../../app/less/typography';
+@import (reference) '../../../app/less/icons';
 
 w-dex-order-book {
   display: block;
@@ -70,10 +72,22 @@ w-dex-order-book {
     }
 
     .last-price {
-      color: @color-soft-blue;
+      .footnote-2();
+      background-repeat: no-repeat;
+      background-position: right -1px;
+      padding-right: 18px;
 
-      i {}
+      &.top {
+        color: @color-submit-300;
+        background-image: url(/img/icons/arrow-orderbook-top.svg);
+      }
+
+      &.down {
+        color: @color-error-400;
+        background-image: url(/img/icons/arrow-orderbook-top.svg);
+      }
     }
+
   }
 
   .bids .cell-1 {

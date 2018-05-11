@@ -257,7 +257,7 @@
 
     angular.module('app.dex')
         .component('wDexTradeGraph', {
-            templateUrl: 'modules/dex/directives/tradeGraph/tradeGraph.html',
+            templateUrl: 'img/icons/tradeGraph/tradeGraph.html',
             controller
         });
 })();

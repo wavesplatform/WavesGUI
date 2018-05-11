@@ -6,7 +6,16 @@
 
         <div class="making-order" ng-class="$ctrl.type">
             <div class="areas">
-                <!-- todo @tsigel rename expand -->
+
+
+
+
+                <!-- todo @german rename expand -->
+
+
+
+
+
                 <div class="area buy" ng-click="$ctrl.expand('buy')">
                     <div class="name headline-4 basic-700">BUY</div>
                 </div>
@@ -28,19 +37,20 @@
             <form class="fields" novalidate name="order">
                 <div class="amount">
                     <div class="split-half field-label">
-                        <div class="footnote-1 disabled-900"
+                        <div class="caption-2 disabled-900"
                              w-i18n="directives.createOrder.amountField"></div>
                         <div ng-if="$ctrl.type === 'buy'"
                              ng-click="$ctrl.setMaxPrice()"
-                             class="caption-1 disabled-900 amount-balance">
+                             class="caption-2 disabled-900 underline-dashed">
                             <w-balance money="$ctrl.priceBalance"></w-balance>&nbsp;{{$ctrl.priceBalance.asset.displayName}}
                         </div>
                         <div ng-if="$ctrl.type === 'sell'"
                              ng-click="$ctrl.setMaxAmount()"
-                             class="caption-1 disabled-900 amount-balance">
+                             class="caption-2 disabled-900 underline-dashed">
                             <w-balance money="$ctrl.amountBalance"></w-balance>&nbsp;{{$ctrl.amountBalance.asset.displayName}}
                         </div>
                     </div>
+
                     <w-input-container>
                         <div class="input-like tiny">
                             <w-input class="tiny embed no-validate-icons"
@@ -54,7 +64,7 @@
                                      ng-model="$ctrl.amount"
                                      required></w-input>
                             <div class="asset-name-wrap">
-                                <div class="caption-1 disabled-500">{{$ctrl.amountDisplayName}}</div>
+                                <div class="caption-2caption-2 disabled-500">{{$ctrl.amountDisplayName}}</div>
                             </div>
                         </div>
 
@@ -83,9 +93,16 @@
                 </div>
 
                 <div class="price">
+                    <div class="split-half field-label">
+                        <div class="caption-2 disabled-900" w-i18n="directives.createOrder.priceField"></div>
+                        <div class="caption-2 disabled-900 flex">
+                            <span class="underline-dashed"><w-i18n>directives.createOrder.bid</w-i18n></span>
+                            <span class="underline-dashed"><w-i18n>directives.createOrder.ask</w-i18n></span>
+                            <span class="underline-dashed"><w-i18n>directives.createOrder.last</w-i18n></span>
+                        </div>
+                    </div>
+
                     <w-input-container>
-                        <div class="field-label footnote-1 disabled-900"
-                             w-i18n="directives.createOrder.priceField"></div>
                         <div class="input-like tiny">
                             <w-input class="tiny embed no-validate-icons"
                                      type="text"
@@ -113,17 +130,46 @@
                     </w-input-container>
                 </div>
 
-                <div class="summary">
-                    <div class="caption-2 disabled-700">
-                        <w-i18n>directives.createOrder.total</w-i18n>
-                        <span>&nbsp;{{$ctrl.totalPrice.toFormat($ctrl.priceBalance.asset.precision)}}</span>
-                        <span>&nbsp;{{$ctrl.priceDisplayName}}</span>
-                    </div>
-                    <div class="caption-2 disabled-700">Fee 0.003 WAVES</div>
+
+
+                <div class="total">
+                    <w-input-container>
+                        <div class="field-label caption-2 disabled-900"
+                             w-i18n="directives.createOrder.total"></div>
+                        <div class="input-like tiny">
+                            <w-input class="tiny embed no-validate-icons"
+                                     type="text"
+                                     name="total"
+                                     ng-model="$ctrl.totalPrice"
+
+                                     required></w-input>
+                            <div class="asset-name-wrap">
+                                <div class="caption-1 disabled-500">{{$ctrl.priceDisplayName}}</div>
+                            </div>
+                        </div>
+                        <!--w-input-error message="">  <!-- todo validation @german -->
+                            <!--w-i18n></w-i18n-->
+                        <!--/w-input-error---->
+                    </w-input-container>
                 </div>
 
+                <div class="split-half field-fee">
+                    <div class="caption-2 disabled-600">Fee 0.003 WAVES</div>
+                    <div class="caption-2 disabled-600 flex">
+                        <span>
+                            <w-i18n>directives.createOrder.expiration</w-i18n>
+                        </span>
+                        <span class="underline basic-900">
+                            <w-i18n>directives.createOrder.days</w-i18n>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- todo @german -->
+                <!--span>&nbsp;{{$ctrl.totalPrice.toFormat($ctrl.priceBalance.asset.precision)}}</span-->
+
                 <w-button disabled="order.$invalid"
-                          class="place-order tiny footnote-3"
+                          class="place-order small footnote-3"
                           on-click="$ctrl.createOrder(order)">
                     <w-i18n ng-if="$ctrl.type === 'sell'"
                             params="{name: $ctrl.amountBalance.asset.displayName}">

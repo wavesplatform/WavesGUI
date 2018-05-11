@@ -16,7 +16,8 @@
         <div class="{{::$ctrl.SECTIONS.ASKS}}"></div>
         <div class="{{::$ctrl.SECTIONS.INFO}}">
             <div><w-i18n>directives.orderBook.lastprice</w-i18n></div>
-            <div class="last-price body-2"><i></i></div>
+            <!-- todo @german div.last-price must has class 'top' or 'down' -->
+            <div class="last-price body-2 top"></div>
             <div>
                 <span><w-i18n>directives.orderBook.spread<w-i18n></span>
                 <span class="spread"></span>

@@ -2,14 +2,17 @@
 <w-table selected="$ctrl.activeRowId">
     <w-t-head>
         <w-row>
-            <w-cell>
-                <w-i18n>directives.watchlist.coin</w-i18n>
+            <w-cell class="col-pair">
+                <w-i18n>directives.watchlist.pair</w-i18n>
             </w-cell>
-            <w-cell>
+            <w-cell class="col-price">
                 <w-i18n>directives.watchlist.price</w-i18n>
             </w-cell>
-            <w-cell>
-                <w-i18n>directives.watchlist.change</w-i18n>
+            <w-cell class="col-change">
+                <w-i18n>directives.watchlist.chg</w-i18n>
+            </w-cell>
+            <w-cell class="col-volume">
+                <w-i18n>directives.watchlist.volume</w-i18n>
             </w-cell>
         </w-row>
     </w-t-head>
@@ -18,17 +21,20 @@
                ng-repeat="asset in $ctrl.watchlist track by asset.id"
                ng-if="asset.id !== $ctrl.baseAssetId"
                select-value="{{::asset.id}}">
-            <w-cell>
+            <w-cell class="col-pair">
                 <w-dex-pair asset-id="{{::asset.id}}" base-asset-id="$ctrl.baseAssetId"></w-dex-pair>
             </w-cell>
-            <w-cell>
+            <w-cell class="col-price">
                 <w-dex-exchange base-asset-id="$ctrl.baseAssetId" asset-id="{{::asset.id}}"></w-dex-exchange>
             </w-cell>
-            <w-cell>
+            <w-cell class="col-change">
                 <w-change24 direction-by-pair="::true"
                             asset-from="$ctrl.baseAssetId"
                             asset-to="asset.id"></w-change24>
                 %
+            </w-cell>
+            <w-cell class="col-volume">
+                999.9k
             </w-cell>
             <div ng-if="$ctrl.watchlist.length > 2"
                  class="remove-item"

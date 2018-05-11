@@ -5,14 +5,13 @@
                  placeholder="directives.watchlist.placeholders.base"
                  w-i18n-attr="placeholder"
                  class="embed change-base-asset-input" type="text"></w-input>
-        <div ng-class="{interactive: $ctrl.hasSearch}"
-             class="basic-700 footnote-2 dex-block-title"
+        <div class="basic-700 footnote-2 dex-block-title"
              ng-click="$ctrl.onClickTitle()">
             {{$ctrl.title}}
         </div>
-        <div ng-if="$ctrl.hasSearch">
+        <div ng-if="$ctrl.hasSearch" class="has-search">
             <w-input ng-focus="$ctrl.focused = true"
-                     placeholder="directives.watchlist.placeholders.coin"
+                     placeholder="directives.watchlist.placeholders.filter"
                      w-i18n-attr="placeholder"
                      ng-blur="$ctrl.focused = false" ng-model="$ctrl.search"></w-input>
         </div>
