@@ -5,6 +5,18 @@
   background: #333;
 }
 
+.scroll {
+  ::-webkit-scrollbar-thumb {
+    border-right: 2px solid #fff;
+    box-shadow: none;
+    background: @color-basic-200;
+  }
+
+  ::-webkit-scrollbar-thumb:window-inactive {
+    border-right: 2px solid #fff;
+  }
+}
+
 @column-width: 320px;
 @dex-padding: 7px;
 

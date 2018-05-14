@@ -8,7 +8,6 @@ body {
   min-width: 360px;
   overflow: auto;
   background-color: @color-background-default;
-  .scroll();
 
   .notifications {
     position: absolute;
@@ -16,6 +15,14 @@ body {
     bottom: 10px;
     z-index: 10000;
   }
+}
+
+body:not(.dex) {
+  .scroll();
+}
+
+body.dex {
+  .scroll-dex();
 }
 
 ui-view[name="main"] {
@@ -345,6 +352,27 @@ md-toolbar:not(.md-menu-toolbar) {
 
   ::-webkit-scrollbar-thumb:window-inactive {
     background: @color-basic-200;
+  }
+}
+
+.scroll-dex {
+  ::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+  }
+
+  :hover::-webkit-scrollbar {
+    display: block;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-right: 2px;
+    background: @color-basic-200;
+  }
+
+  ::-webkit-scrollbar-thumb:window-inactive {
+    background: @color-basic-200;
+    border-right: 2px;
   }
 }
 

@@ -54,7 +54,6 @@ w-dex-order-book {
   }
 
   .info {
-    padding: 7px 0;
     border-top: 1px solid @color-basic-100;
     border-bottom: 1px solid @color-basic-100;
     background: @color-white;
@@ -63,7 +62,7 @@ w-dex-order-book {
     text-align: right;
     font-size: 9px;
     width: 100%;
-    min-height: 40px;
+    min-height: 43px;
     padding-right: 10px;
     text-transform: uppercase;
 
@@ -84,18 +83,10 @@ w-dex-order-book {
 
       &.down {
         color: @color-error-400;
-        background-image: url(/img/icons/arrow-orderbook-top.svg);
+        background-image: url(/img/icons/arrow-orderbook-down.svg);
       }
     }
 
-  }
-
-  .bids .cell-1 {
-    color: @color-success-600;
-
-    .decimal-muted {
-      color: @color-success-200;
-    }
   }
 
   .asks .cell-1 {
@@ -103,6 +94,14 @@ w-dex-order-book {
 
     .decimal-muted {
       color: @color-error-200;
+    }
+  }
+
+  .bids .cell-1 {
+    color: @color-submit-600;
+
+    .decimal-muted {
+      color: @color-submit-200;
     }
   }
 }

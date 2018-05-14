@@ -12,7 +12,7 @@ w-create-order {
     align-items: center;
 
     .flex {
-      display:flex;
+      display: flex;
       justify-content: flex-end;
 
       span {
@@ -46,41 +46,54 @@ w-create-order {
     }
   }
 
-
   .expiration {
     position: relative;
 
     .select-like {
       display: none;
       position: absolute;
-      top: 0;
-      left: 0;
-      border-radius: @border-radius / 2;
-      width: 100px;
+      top: -5px;
+      right: 0;
+      border-radius: 2px;
+      background: #fff;
+      z-index: 1;
       box-shadow: 0 2px 5px 0 rgba(45, 55, 81, 0.3);
+      min-width: 70px;
+      max-width: 100px;
 
       .option-like {
         font-size: 13px;
+        padding: 2px 4px;
+        line-height: 20px;
+        cursor: pointer;
+        padding-right: 15px;
 
-        &::after {
-          content: '';
-          display: block;
-          position: absolute;
-          right: 16px;
-          top: 50%;
-          width: 5px;
-          height: 5px;
-          transform: translateY(-50%) rotate(180deg);
-          background-image: url(/img/icons/arrow-select.svg);
-          background-size: cover;
+        &:hover {
+          background: @color-basic-50;
         }
+
+        &:first-child {
+          position: relative;
+
+          &::after {
+            content: '';
+            display: block;
+            position: absolute;
+            right: 9px;
+            top: 50%;
+            width: 5px;
+            height: 5px;
+            transform: translateY(-5px) rotate(135deg);
+            background-image: url(/img/icons/arrow-select.svg);
+            background-size: cover;
+          }
+        }
+
       }
     }
 
-
-
     &:hover {
-      w-select {
+      .select-like {
         display: block;
       }
     }
@@ -100,6 +113,7 @@ w-create-order {
       width: 100%;
       padding: 8px 16px;
       cursor: move;
+      position: absolute;
 
       .icon-close {
         position: absolute;

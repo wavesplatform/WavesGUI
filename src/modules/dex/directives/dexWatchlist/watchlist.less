@@ -71,40 +71,10 @@ w-dex-watchlist {
     }
   }
 
-  w-row {
-    position: relative;
-
-    .remove-item {
-      display: none;
-      width: 17px;
-      height: 17px;
-      transform: translateY(-50%);
-      position: absolute;
-      right: 3px;
-      top: 50%;
-      opacity: 0.89;
-      background: url(/img/icons/white_cancel.svg) no-repeat center @color-error-400;
-      cursor: pointer;
-    }
-  }
-
-  w-row:hover .remove-item {
-    display: block;
-  }
-
-  w-row .selected .remove-item {
-    display: none;
-  }
-
-  .cell-2, .cell-3 {
-    text-align: right;
-  }
-
   w-cell > div {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    width: 100%;
     padding: 0 1px;
   }
 
@@ -125,28 +95,33 @@ w-dex-watchlist {
     }
   }
 
-  w-table w-row .table-row {
-    .cell-0 {
-      width: 30%;
-      padding-left: 15px;
-    }
-    .cell-1 {
-      width: 35%;
-      text-align: right;
-    }
-    .cell-2 {
-      width: 35%;
-      padding-right: 26px;
+  .col-fav {
+    padding-left: 10px;
+    max-width: 21px;
+
+    i.icon-fav {
+      margin-top: -1px;
+      display: inline-block;
+      vertical-align: middle;
+      background: url(/img/icons/dex-star.svg) center no-repeat;
+      width: 10px;
+      height: 10px;
+
+      &.active {
+        background: url(/img/icons/dex-star-active.svg) center no-repeat;
+      }
     }
   }
 
-  w-table w-t-head w-row .table-row {
-    cursor: default;
-
-    .cell-2 {
-      padding-right: 30px
-    }
+  .col-price,
+  .col-change,
+  .col-volume {
+    text-align: right;
   }
+  .col-volume {
+    padding-right: 10px;
+  }
+
 
 }
 
