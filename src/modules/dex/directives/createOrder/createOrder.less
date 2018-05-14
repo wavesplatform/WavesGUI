@@ -23,6 +23,8 @@ w-create-order {
   }
 
   .underline {
+    cursor: pointer;
+
     &::after {
       content: '';
       border-bottom: 1px solid @color-basic-200;
@@ -41,6 +43,46 @@ w-create-order {
       display: block;
       position: relative;
       top: -1px;
+    }
+  }
+
+
+  .expiration {
+    position: relative;
+
+    .select-like {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: @border-radius / 2;
+      width: 100px;
+      box-shadow: 0 2px 5px 0 rgba(45, 55, 81, 0.3);
+
+      .option-like {
+        font-size: 13px;
+
+        &::after {
+          content: '';
+          display: block;
+          position: absolute;
+          right: 16px;
+          top: 50%;
+          width: 5px;
+          height: 5px;
+          transform: translateY(-50%) rotate(180deg);
+          background-image: url(/img/icons/arrow-select.svg);
+          background-size: cover;
+        }
+      }
+    }
+
+
+
+    &:hover {
+      w-select {
+        display: block;
+      }
     }
   }
 
