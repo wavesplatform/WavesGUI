@@ -4,6 +4,18 @@
 
 md-dialog.modal-send {
   md-dialog-content {
+
+    .modal-content,
+    .tab-container,
+    .tab-body-wrap,
+    w-tab,
+    .step-list,
+    w-step-by-step,
+    w-step,
+    w-step > div {
+      height: 100%;
+    }
+
     position: relative;
     padding: 0;
     overflow: hidden;
@@ -30,7 +42,6 @@ md-dialog.modal-send {
     w-confirm-transaction {
       display: block;
       padding: 60px 40px 0;
-      overflow: auto;
       max-height: calc(74vh ~'- 60px');
       margin-top: -60px;
 
@@ -306,6 +317,7 @@ md-dialog.modal-send {
     md-dialog-content {
 
       .modal-content {
+        overflow: auto;
 
         .icon-close {
           right: 10px;
@@ -332,7 +344,7 @@ md-dialog.modal-send {
 
           .tab-body-wrap .tab-tem {
             padding: 20px 20px 0;
-            max-height: calc(100vh ~'- 60px');
+            max-height: 100%;
 
             &::after {
               height: 20px;
@@ -369,7 +381,7 @@ md-dialog.modal-send {
         w-confirm-gateway-transaction,
         w-confirm-transaction {
           padding: 40px 20px 0;
-          max-height: 100%;
+          max-height: calc(100% + 60px);
 
           &::after {
             content: '';
