@@ -18,11 +18,30 @@ w-dex-my-orders {
     }
   }
 
+  w-input.orders-filter {
+    .w-input-wrap {
+      input[type="text"] {
+        padding: 0 8px 3px 21px;
+        background-image: url(/img/icons/input-search-icon.svg);
+        background-repeat: no-repeat;
+        background-size: 12px 12px;
+        background-position: 0 center;
+        font-size: 11px;
+        height: 28px;
+        line-height: 25px;
+        border: 0 none;
+        border-radius: 0;
+        width: 100%;
+        max-width: 110px;
+      }
+    }
+  }
+
   w-scroll-box {
     overflow-x: visible;
 
     w-row {
-      padding: 6px 16px 6px 16px;
+      padding: 6px 16px;
 
       &:last-child {
         margin-bottom: 10px;
@@ -32,28 +51,77 @@ w-dex-my-orders {
         .stop {
           background-image: url(/img/icons/red-cancel.svg);
           background-size: 16px 16px;
+          background-position: 0 center;
         }
       }
+
+      .status {
+        color: @color-submit-400;
+        margin-top: 3px;
+        .tag-3();
+
+        .progress-bar {
+          width: 80px;
+          height: 2px;
+          margin-top: 2px;
+
+          .progress-fill {
+            max-width: 80px;
+            height: 2px;
+            background-color: @color-submit-400;
+          }
+        }
+      }
+
+      &[ng-class='filled'] {
+        .status {
+          .progress-bar {
+            background-color: @color-disabled-200;
+          }
+        }
+      }
+
+      &[ng-class='accepted'],
+      &[ng-class='canceled'] {
+        .status {
+          .progress-bar {
+            background-color: @color-submit-50;
+          }
+        }
+      }
+
+      &[ng-class="cancelled"],
+      &[ng-class="filled"] {
+        color: @color-disabled-500;
+
+        .order-side.sell, .order-side.buy {
+          color: @color-disabled-500;
+        }
+      }
+
     }
+
   }
 
   w-row {
     position: relative;
-    padding: 0 16px 0 16px;
-
-    &[ng-class="cancelled"], &[ng-class="filled"] {
-      color: @color-disabled-500;
-
-      .order-side.sell, .order-side.buy {
-        color: @color-disabled-500;
-      }
-    }
+    padding: 0 16px;
 
     w-cell {
       white-space: nowrap;
+      padding-left: 20px;
+    }
+
+    .cell-2,
+    .cell-3,
+    .cell-4,
+    .cell-5 {
+      text-align: right;
     }
 
     .cell-0 {
+      padding-left: 0;
+
       span {
         display: block;
         text-overflow: ellipsis;
@@ -63,26 +131,36 @@ w-dex-my-orders {
       }
     }
 
-    .cell-1 {
-      max-width: 5%;
-      padding: 0 14px;
+
+
+    .cell-1,
+    .cell-6,
+    .cell-7 {
+      width: 100px !important;
     }
 
-    .cell-2, .cell-3, .cell-4 {
-      text-align: right;
-      min-width: 100px;
-      padding-right: 20px;
-    }
 
-    .cell-2 {
-      min-width: 140px;
-    }
 
-    .cell-4 {
-      margin-right: 30px;
-      padding-right: 0;
-      width: 26%;
-    }
+    //.cell-1 {
+    //  max-width: 5%;
+    //  padding: 0 14px;
+    //}
+    //
+    //.cell-2, .cell-3, .cell-4 {
+    //  text-align: right;
+    //  min-width: 100px;
+    //  padding-right: 20px;
+    //}
+    //
+    //.cell-2 {
+    //  min-width: 140px;
+    //}
+    //
+    //.cell-4 {
+    //  margin-right: 30px;
+    //  padding-right: 0;
+    //  width: 26%;
+    //}
 
     .order-side.sell {
       color: @color-error-400;
@@ -94,14 +172,14 @@ w-dex-my-orders {
 
     .stop {
       cursor: pointer;
-      position: absolute;
-      right: 10px;
       background-image: url(/img/icons/order_cancel.svg);
       background-size: 8px 8px;
       background-repeat: no-repeat;
-      background-position: center;
+      background-position: 5px center;
       top: 2px;
-      width: 30px;
+      display: inline-block;
+      text-transform: capitalize;
+      padding-left: 26px;
       height: calc(100% ~'- 4px');
     }
 
@@ -135,25 +213,25 @@ w-dex-my-orders {
               height: auto;
 
               w-cell {
-                &.cell-0 {
-                  width: 45%;
-                }
-
-                &.cell-1 {
-                  width: 15%;
-                  max-width: 15%;
-                  padding: 0;
-                }
-
-                &.cell-2,
-                &.cell-3 {
-                  display: none;
-                }
-
-                &.cell-4 {
-                  width: 40%;
-                  margin-right: 0;
-                }
+                //&.cell-0 {
+                //  width: 45%;
+                //}
+                //
+                //&.cell-1 {
+                //  width: 15%;
+                //  max-width: 15%;
+                //  padding: 0;
+                //}
+                //
+                //&.cell-2,
+                //&.cell-3 {
+                //  display: none;
+                //}
+                //
+                //&.cell-4 {
+                //  width: 40%;
+                //  margin-right: 0;
+                //}
               }
             }
           }
@@ -180,44 +258,44 @@ w-dex-my-orders {
                 display: inline-block;
               }
 
-              &.cell-0 {
-                flex-basis: 45%;
-                width: 45%;
-                order: 0;
-
-                span {
-                  max-width: 120px;
-                }
-              }
-
-              &.cell-1 {
-                max-width: 15%;
-                flex-basis: 15%;
-                width: 15%;
-                order: 1;
-              }
-
-              &.cell-2 {
-                flex-basis: 40%;
-                width: 40%;
-                min-width: 40%;
-                order: 3;
-                text-align: left;
-              }
-
-              &.cell-3 {
-                flex-basis: 60%;
-                width: 60%;
-                order: 4;
-                text-align: right;
-              }
-
-              &.cell-4 {
-                flex-basis: 40%;
-                width: 40%;
-                margin-right: 0;
-                order: 2;
-              }
+              //&.cell-0 {
+              //  flex-basis: 45%;
+              //  width: 45%;
+              //  order: 0;
+              //
+              //  span {
+              //    max-width: 120px;
+              //  }
+              //}
+              //
+              //&.cell-1 {
+              //  max-width: 15%;
+              //  flex-basis: 15%;
+              //  width: 15%;
+              //  order: 1;
+              //}
+              //
+              //&.cell-2 {
+              //  flex-basis: 40%;
+              //  width: 40%;
+              //  min-width: 40%;
+              //  order: 3;
+              //  text-align: left;
+              //}
+              //
+              //&.cell-3 {
+              //  flex-basis: 60%;
+              //  width: 60%;
+              //  order: 4;
+              //  text-align: right;
+              //}
+              //
+              //&.cell-4 {
+              //  flex-basis: 40%;
+              //  width: 40%;
+              //  margin-right: 0;
+              //  order: 2;
+              //}
             }
 
           }

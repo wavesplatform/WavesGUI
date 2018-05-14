@@ -21,25 +21,29 @@ body.dex {
     width: 100%;
     height: 100%;
 
-    w-dex-trade-history w-t-head w-row {
-      padding-right: 14px;
+    w-dex-trade-history {
+      w-t-head w-row {
+        padding-right: 14px;
 
-      .table-cell {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        .table-cell {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
+
+      w-scroll-box {
+        padding-right: @padding-main-layout;
+
+        w-row {
+          white-space: nowrap;
+        }
+
+      }
+
     }
 
-    w-dex-trade-history w-scroll-box {
-      padding-right: @padding-main-layout;
-
-      w-row {
-        white-space: nowrap;
-      }
-    }
-
-    w-dex-trade-history .cell-2 div {
+    .cell-2 div {
       font-size: @font-size-caption-2;
       line-height: 1.2em;
     }

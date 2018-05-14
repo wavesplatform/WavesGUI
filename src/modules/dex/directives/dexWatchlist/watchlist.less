@@ -88,11 +88,6 @@ w-dex-watchlist {
       background-color: @color-submit-50;
       border-color: @color-submit-200;
     }
-
-    &:not(.selected):hover {
-      background-color: @color-disabled-50;
-      border-color: @color-disabled-200;
-    }
   }
 
   .col-fav {
@@ -100,6 +95,7 @@ w-dex-watchlist {
     max-width: 21px;
 
     i.icon-fav {
+      cursor: pointer;
       margin-top: -1px;
       display: inline-block;
       vertical-align: middle;
@@ -118,6 +114,16 @@ w-dex-watchlist {
   .col-volume {
     text-align: right;
   }
+
+  .col-change {
+    &.plus {
+      color: @color-error-400;
+    }
+    &.minus {
+      color: @color-submit-400;
+    }
+  }
+
   .col-volume {
     padding-right: 10px;
   }

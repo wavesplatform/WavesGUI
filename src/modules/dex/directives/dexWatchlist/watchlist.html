@@ -38,6 +38,8 @@
                 <w-dex-exchange base-asset-id="$ctrl.baseAssetId" asset-id="{{::asset.id}}"></w-dex-exchange>
             </w-cell>
             <w-cell class="col-change">
+                <!-- todo @german -->
+                <!-- .col-change must have class .plus if > 0% || .minus if < 0% || and no class if 0%-->
                 <w-change24 direction-by-pair="::true"
                             asset-from="$ctrl.baseAssetId"
                             asset-to="asset.id"></w-change24>
