@@ -106,7 +106,7 @@ task('load-trading-view', (done) => {
                             const name = basename(path);
                             forCopy.push(copy(path, join(targetPath, name)));
                         });
-                        forCopy.push(copy(join(__dirname, 'electron', 'icons', 'icon128x128.png'), join(targetPath, 'img', 'icon.png')));
+                        forCopy.push(copy(join(__dirname, 'electron', 'icons'), join(targetPath, 'img', 'icon.png')));
                         forCopy.push(copy(join(__dirname, 'dist', 'tmp', 'trading-view'), join(targetPath, 'trading-view')));
                     }
 

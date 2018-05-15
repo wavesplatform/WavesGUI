@@ -25,6 +25,11 @@
                 this.recipient = '';
                 this.amount = null;
 
+                /**
+                 * @type {string}
+                 */
+                this.nodeListLink = WavesApp.network.nodeList;
+
                 waves.node.getFee({ type: WavesApp.TRANSACTION_TYPES.NODE.LEASE })
                     .then((money) => {
                         this.fee = money;

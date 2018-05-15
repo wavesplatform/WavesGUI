@@ -17,8 +17,7 @@
       "deb",
       "zip"
     ],
-    "executableName": "waves-client",
-    "icon": "electron/icons/icon128x128.png"
+    "executableName": "waves-client"
   },
   "mac": {
     "category": "public.app-category.finance",

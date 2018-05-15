@@ -7,7 +7,21 @@
         'header_symbol_search',
         'symbol_search_hot_key',
         'display_market_status'
+        // 'border_around_the_chart', // TODO : decide whether to switch it off or not
+        // 'control_bar',
+        // 'timeframes_toolbar'
     ];
+
+    // const OVERRIDES = {
+    //     'mainSeriesProperties.candleStyle.upColor': '#5a81ea',
+    //     'mainSeriesProperties.candleStyle.downColor': '#d1383c',
+    //     'mainSeriesProperties.candleStyle.drawBorder': false
+    // };
+    //
+    // const STUDIES_OVERRIDES = {
+    //     'volume.volume.color.0': 'rgba(209,56,60,0.3)',
+    //     'volume.volume.color.1': 'rgba(90,129,234,0.3)'
+    // };
 
     let counter = 0;
 
@@ -55,6 +69,7 @@
                 controller.load().then(() => {
                     this.chart = new TradingView.widget({
                         // debug: true,
+                        toolbar_bg: '#fff',
                         symbol: `${this._assetIdPair.amount}/${this._assetIdPair.price}`,
                         interval: WavesApp.dex.defaultResolution,
                         container_id: this.elementId,
@@ -62,6 +77,8 @@
                         library_path: 'trading-view/',
                         autosize: true,
                         disabled_features: DISABLED_FEATURES
+                        // overrides: OVERRIDES,
+                        // studies_overrides: STUDIES_OVERRIDES
                     });
 
                     this.chart.onChartReady(() => {

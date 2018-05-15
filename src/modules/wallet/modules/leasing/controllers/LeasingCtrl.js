@@ -56,6 +56,11 @@
                  */
                 this.transactions = [];
 
+                /**
+                 * @type {string}
+                 */
+                this.nodeListLink = WavesApp.network.nodeList;
+
                 waves.node.transactions.getActiveLeasingTx().then((txList) => {
                     this.allActiveLeasing = txList;
                 });
