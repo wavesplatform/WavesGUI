@@ -48,6 +48,18 @@ w-create-order {
 
   .expiration {
     position: relative;
+    padding-right: 13px;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 1px;
+      right: 0;
+      width: 10px;
+      height: 10px;
+      background: url(/img/icons/arrow-disabled-down-little.svg) center no-repeat;
+    }
 
     .select-like {
       display: none;
@@ -60,6 +72,16 @@ w-create-order {
       box-shadow: 0 2px 5px 0 rgba(45, 55, 81, 0.3);
       min-width: 70px;
       max-width: 100px;
+
+      &:hover {
+        .option-like {
+          &:first-child {
+            &::after {
+              transform: rotate(-45deg);
+            }
+          }
+        }
+      }
 
       .option-like {
         font-size: 13px;

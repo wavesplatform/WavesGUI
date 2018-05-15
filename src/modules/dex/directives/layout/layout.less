@@ -1,8 +1,7 @@
 @import (reference) '../../../config';
 
 .dex.main .main-content {
-  //background: @color-basic-100;
-  background: #333;
+  background: @color-basic-100;
 }
 
 .scroll {
@@ -25,7 +24,6 @@ w-layout {
   width: 100%;
   height: 100%;
 
-
   .dex-layout {
     display: flex;
     flex-direction: column;
@@ -42,6 +40,11 @@ w-layout {
               .dex-layout {
                 &__block-top {
                   height: calc(100% ~'- 38px');
+
+                  .empty-block-container {
+                    top: 50%;
+                    transform: translate(-50%,-50%);
+                  }
                 }
                 &__block-bottom {
                   height: 38px;
@@ -57,7 +60,6 @@ w-layout {
     }
 
     &__row {
-
       display: flex;
       flex-direction: row;
       justify-content: space-around;
@@ -109,14 +111,21 @@ w-layout {
               transition: .3s;
               height: calc(100% ~'- 200px');
 
+              .empty-block-container {
+                transform: translate(-50%, 0%);
+                top: 90px;
+              }
+
               .block-wrapper,
               w-scroll-box {
                 background: none transparent;
               }
             }
+
             .dex-layout__block-bottom {
               transition: .3s;
               height: 200px;
+
               .block-title {
                 border-top: 1px solid @color-basic-100;
               }
@@ -139,7 +148,6 @@ w-layout {
             .block-title {
               display: none;
             }
-
           }
 
           &__column-right {
@@ -189,26 +197,6 @@ w-layout {
     //    }
     //  }
     //}
-
-    &__vertical-graph {
-      position: absolute;
-      height: calc(50% ~'- 32px');
-      width: 50%;
-      z-index: 0;
-
-      &-top {
-        top: 30px;
-      }
-
-      &-bottom {
-        bottom: 0;
-      }
-
-      .line {
-        background: @color-graph;
-        height: calc(100% / 7);
-      }
-    }
 
     &__sidebar-toggle {
       cursor: pointer;
@@ -280,31 +268,14 @@ w-layout {
     //  }
     //}
 
-    w-dex-my-orders,
-    w-dex-trade-history {
-      .empty-block-container {
-        margin: 4vh auto;
+    .empty-block-container {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      top: 50%;
+      left: 50%;
 
-        .icon {
-          margin-top: 0;
-        }
-      }
-    }
-
-    w-dex-order-book {
-      position: relative;
-      min-height: 200px;
-
-      .empty-block-container {
-        position: absolute;
-        margin: 0;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-
-        .icon {
-          margin-top: 0;
-        }
+      .icon {
+        margin-top: 0;
       }
     }
 

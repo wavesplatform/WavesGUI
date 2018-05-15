@@ -15,6 +15,15 @@ w-dex-my-orders {
       div {
         cursor: pointer;
       }
+
+      w-cell {
+        height: 100%;
+        line-height: 28px;
+
+        &:last-child {
+          border-left: 1px solid @color-basic-100;
+        }
+      }
     }
   }
 
@@ -39,6 +48,7 @@ w-dex-my-orders {
 
   w-scroll-box {
     overflow-x: visible;
+    max-height: calc(100% ~'- 29px');
 
     w-row {
       padding: 6px 16px;
@@ -131,15 +141,11 @@ w-dex-my-orders {
       }
     }
 
-
-
     .cell-1,
     .cell-6,
     .cell-7 {
       width: 100px !important;
     }
-
-
 
     //.cell-1 {
     //  max-width: 5%;

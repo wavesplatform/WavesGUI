@@ -129,7 +129,16 @@
                                     .filter(Boolean)
                                     .join(' ');
 
-                                return `<w-row ${attrs}><div class="table-row">${cells}</div></w-row>`;
+                                // 1) todo @german dex-layout__line-graph-fill must have style="width: XX%"
+                                // 2) todo @german <w-row> must have class .active если это твой активный ордер
+                                return `<w-row ${attrs}> 
+                                            <div class="table-row">
+                                                <div class="dex-layout__line-graph">
+                                                    <div class="dex-layout__line-graph-fill"></div>
+                                                </div>
+                                                ${cells}
+                                            </div>
+                                        </w-row>`;
                             });
                         };
 
