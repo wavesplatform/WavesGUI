@@ -1,5 +1,6 @@
 <!-- todo @german
-    тут должны отображаться только твои текущие активные ордера
+    тут должны отображаться мои ордера завершенные или отмененные ордера.
+    щас это копия это копия опен ордерса - переделать
 -->
 
 <w-table ng-if="$ctrl.orders.length">
@@ -39,6 +40,12 @@
             </w-cell>
             <w-cell>
                 <div>
+                    <w-i18n>directives.myOrders.fee</w-i18n>
+                    <i class="icon-sorting"></i>
+                </div>
+            </w-cell>
+            <w-cell>
+                <div>
                     <w-i18n>directives.myOrders.time</w-i18n>
                     <i class="icon-sorting"></i>
                 </div>
@@ -69,15 +76,21 @@
             </w-cell>
             <w-cell>
                 <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n>:</span>
-                <w-balance money="order.price"></w-balance>
+                <w-balance money="order.price"></w-balance><!-- todo @german -->
             </w-cell>
             <w-cell>
                 <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n>:</span>
-                <w-balance money="order.amount"></w-balance>
+                <w-balance money="order.amount"></w-balance><!-- todo @german -->
             </w-cell>
             <w-cell>
                 <span class="cell-label"><w-i18n>directives.myOrders.total</w-i18n>:</span>
-                <w-balance money="order.amount"></w-balance> <!-- todo @german -->
+                <w-balance money="order.amount"></w-balance> BTC
+                <!-- todo @german -->
+                <!-- params="{assetName: $ctrl.amountAsset.displayName}-->
+            </w-cell>
+            <w-cell>
+                <span class="cell-label"><w-i18n>directives.myOrders.fee</w-i18n>:</span>
+                <w-balance money="order.fee"></w-balance> <!-- todo @german -->
             </w-cell>
             <w-cell>
                 <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n>:</span>
@@ -88,7 +101,7 @@
                 <div class="status">
                     <div>
                         <w-i18n>directives.myOrders.canceled</w-i18n>
-                    </div> <!-- XX% || 100%  -->
+                    </div> <!-- XX% || 100% || <w-i18n>directives.myOrders.canceled</w-i18n> -->
                     <div class="progress-bar">
                         <div class="progress-fill"></div><!-- must have width % by style attr -->
                     </div>
