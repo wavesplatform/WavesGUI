@@ -15,19 +15,28 @@ w-dex-my-orders {
       div {
         cursor: pointer;
       }
+
+      w-cell {
+        height: 100%;
+        line-height: 28px;
+
+        &:last-child {
+          border-left: 1px solid @color-basic-100;
+        }
+      }
     }
   }
 
   w-input.orders-filter {
     .w-input-wrap {
       input[type="text"] {
-        padding: 0 8px 3px 21px;
+        padding: 0 8px 2px 21px;
         background-image: url(/img/icons/input-search-icon.svg);
         background-repeat: no-repeat;
         background-size: 12px 12px;
         background-position: 0 center;
         font-size: 11px;
-        height: 28px;
+        height: 27px;
         line-height: 25px;
         border: 0 none;
         border-radius: 0;
@@ -39,6 +48,7 @@ w-dex-my-orders {
 
   w-scroll-box {
     overflow-x: visible;
+    max-height: calc(100% ~'- 29px');
 
     w-row {
       padding: 6px 16px;
@@ -131,15 +141,11 @@ w-dex-my-orders {
       }
     }
 
-
-
     .cell-1,
     .cell-6,
     .cell-7 {
       width: 100px !important;
     }
-
-
 
     //.cell-1 {
     //  max-width: 5%;

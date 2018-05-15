@@ -14,12 +14,15 @@ w-dex-order-book {
 
     w-row {
       padding: 0 10px 0 5px;
-      border-bottom: 1px solid transparent;
-      border-top: 1px solid transparent;
+      position: relative;
 
       &:hover {
         background-color: @color-basic-50;
         border-color: @color-basic-200;
+      }
+
+      w-cell {
+        z-index: 2;
       }
     }
 
@@ -43,9 +46,41 @@ w-dex-order-book {
   }
 
   w-scroll-box {
+    height: calc(100% ~'- 29px');
+
+    w-row.active::before {
+      background-image: url(/img/icons/active-order-arrow.svg);
+      background-repeat: no-repeat;
+      width: 10px;
+      height: 10px;
+      left: 6px;
+      top: 50%;
+      display: block;
+      content: '';
+      z-index: 3;
+      transform: translateY(-50%);
+      position: absolute;
+    }
+
     .asks w-row,
     .bids w-row {
       cursor: pointer;
+    }
+
+    .dex-layout {
+      &__line-graph {
+        height: 100%;
+        width: 100%;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        position: absolute;
+
+        &-fill {
+          height: 100%;
+          background: @color-graph;
+        }
+      }
     }
   }
 

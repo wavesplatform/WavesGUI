@@ -1,8 +1,7 @@
 @import (reference) '../../../config';
 
 .dex.main .main-content {
-  //background: @color-basic-100;
-  background: #333;
+  background: @color-basic-100;
 }
 
 .scroll {
@@ -25,7 +24,6 @@ w-layout {
   width: 100%;
   height: 100%;
 
-
   .dex-layout {
     display: flex;
     flex-direction: column;
@@ -33,6 +31,73 @@ w-layout {
     width: 100%;
     height: 100%;
     position: relative;
+    overflow: hidden;
+
+    &__topleft-collapsed {
+      .dex-layout {
+        &__row-top {
+          .dex-layout {
+            &__column-left {
+              overflow: hidden;
+              flex-basis: 0;
+              width: 0;
+              margin-right: 0;
+            }
+
+            &__column-center {
+              flex-basis: calc(75% ~'- 5px');
+            }
+          }
+        }
+      }
+    }
+
+    &__topright-collapsed {
+      .dex-layout {
+        &__row-top {
+          .dex-layout {
+            &__column-right {
+              overflow: hidden;
+              width: 0;
+              flex-basis: 0;
+              margin-left: 0;
+            }
+
+            &__column-center {
+              flex-basis: calc(75% ~'- 5px');
+            }
+          }
+        }
+      }
+    }
+
+    &__topleft-collapsed {
+      &.dex-layout {
+        &__topright-collapsed {
+          &__row-top {
+            .dex-layout {
+              &__column-left {
+                overflow: hidden;
+                flex-basis: 0;
+                width: 0;
+                margin-right: 0;
+              }
+
+              &__column-center {
+                flex-basis: 100%;
+              }
+
+              &__column-right {
+                overflow: hidden;
+                flex-basis: 0;
+                width: 0;
+                margin-left: 0;
+              }
+            }
+          }
+        }
+      }
+    }
 
     &__block-topright-bottom-collapsed {
       .dex-layout {
@@ -42,6 +107,11 @@ w-layout {
               .dex-layout {
                 &__block-top {
                   height: calc(100% ~'- 38px');
+
+                  .empty-block-container {
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                  }
                 }
                 &__block-bottom {
                   height: 38px;
@@ -57,7 +127,6 @@ w-layout {
     }
 
     &__row {
-
       display: flex;
       flex-direction: row;
       justify-content: space-around;
@@ -72,6 +141,7 @@ w-layout {
         .dex-layout {
 
           &__column-left {
+            transition: .3s;
             flex-basis: 25%;
             margin-right: 5px;
             border-radius: @border-radius / 2;
@@ -86,6 +156,7 @@ w-layout {
             position: relative;
             border-radius: @border-radius / 2;
             display: flex;
+            transition: .3s;
 
             .block-title {
               display: none;
@@ -99,6 +170,7 @@ w-layout {
           }
 
           &__column-right {
+            transition: .3s;
             flex-basis: 25%;
             margin-left: 5px;
             border-radius: @border-radius / 2;
@@ -109,14 +181,21 @@ w-layout {
               transition: .3s;
               height: calc(100% ~'- 200px');
 
+              .empty-block-container {
+                transform: translate(-50%, 0%);
+                top: 90px;
+              }
+
               .block-wrapper,
               w-scroll-box {
                 background: none transparent;
               }
             }
+
             .dex-layout__block-bottom {
               transition: .3s;
               height: 200px;
+
               .block-title {
                 border-top: 1px solid @color-basic-100;
               }
@@ -139,7 +218,6 @@ w-layout {
             .block-title {
               display: none;
             }
-
           }
 
           &__column-right {
@@ -160,54 +238,13 @@ w-layout {
     &__column {
       height: 100%;
       overflow: hidden;
+      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
     }
 
     &__block {
       height: 100%;
       width: 100%;
       min-width: @column-width;
-    }
-
-    //&__block-right-bottom-collapsed {
-    //  .dex-layout__column-right {
-    //    .dex-layout__block-top {
-    //      height: calc(~'100vh - 49px') !important;
-    //    }
-    //    .dex-layout__block-bottom {
-    //      height: 39px !important;
-    //    }
-    //  }
-    //}
-    //
-    //&__block-center-bottom-collapsed {
-    //  .dex-layout__column-center {
-    //    .dex-layout__block-top {
-    //      height: calc(~'100vh - 49px') !important;
-    //    }
-    //    .dex-layout__block-bottom {
-    //      height: 39px !important;
-    //    }
-    //  }
-    //}
-
-    &__vertical-graph {
-      position: absolute;
-      height: calc(50% ~'- 32px');
-      width: 50%;
-      z-index: 0;
-
-      &-top {
-        top: 30px;
-      }
-
-      &-bottom {
-        bottom: 0;
-      }
-
-      .line {
-        background: @color-graph;
-        height: calc(100% / 7);
-      }
     }
 
     &__sidebar-toggle {
@@ -280,31 +317,14 @@ w-layout {
     //  }
     //}
 
-    w-dex-my-orders,
-    w-dex-trade-history {
-      .empty-block-container {
-        margin: 4vh auto;
+    .empty-block-container {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      top: 50%;
+      left: 50%;
 
-        .icon {
-          margin-top: 0;
-        }
-      }
-    }
-
-    w-dex-order-book {
-      position: relative;
-      min-height: 200px;
-
-      .empty-block-container {
-        position: absolute;
-        margin: 0;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-
-        .icon {
-          margin-top: 0;
-        }
+      .icon {
+        margin-top: 0;
       }
     }
 
