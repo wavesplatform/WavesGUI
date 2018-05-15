@@ -31,6 +31,73 @@ w-layout {
     width: 100%;
     height: 100%;
     position: relative;
+    overflow: hidden;
+
+    &__topleft-collapsed {
+      .dex-layout {
+        &__row-top {
+          .dex-layout {
+            &__column-left {
+              overflow: hidden;
+              flex-basis: 0;
+              width: 0;
+              margin-right: 0;
+            }
+
+            &__column-center {
+              flex-basis: calc(75% ~'- 5px');
+            }
+          }
+        }
+      }
+    }
+
+    &__topright-collapsed {
+      .dex-layout {
+        &__row-top {
+          .dex-layout {
+            &__column-right {
+              overflow: hidden;
+              width: 0;
+              flex-basis: 0;
+              margin-left: 0;
+            }
+
+            &__column-center {
+              flex-basis: calc(75% ~'- 5px');
+            }
+          }
+        }
+      }
+    }
+
+    &__topleft-collapsed {
+      &.dex-layout {
+        &__topright-collapsed {
+          &__row-top {
+            .dex-layout {
+              &__column-left {
+                overflow: hidden;
+                flex-basis: 0;
+                width: 0;
+                margin-right: 0;
+              }
+
+              &__column-center {
+                flex-basis: 100%;
+              }
+
+              &__column-right {
+                overflow: hidden;
+                flex-basis: 0;
+                width: 0;
+                margin-left: 0;
+              }
+            }
+          }
+        }
+      }
+    }
 
     &__block-topright-bottom-collapsed {
       .dex-layout {
@@ -43,7 +110,7 @@ w-layout {
 
                   .empty-block-container {
                     top: 50%;
-                    transform: translate(-50%,-50%);
+                    transform: translate(-50%, -50%);
                   }
                 }
                 &__block-bottom {
@@ -74,6 +141,7 @@ w-layout {
         .dex-layout {
 
           &__column-left {
+            transition: .3s;
             flex-basis: 25%;
             margin-right: 5px;
             border-radius: @border-radius / 2;
@@ -88,6 +156,7 @@ w-layout {
             position: relative;
             border-radius: @border-radius / 2;
             display: flex;
+            transition: .3s;
 
             .block-title {
               display: none;
@@ -101,6 +170,7 @@ w-layout {
           }
 
           &__column-right {
+            transition: .3s;
             flex-basis: 25%;
             margin-left: 5px;
             border-radius: @border-radius / 2;
@@ -168,6 +238,7 @@ w-layout {
     &__column {
       height: 100%;
       overflow: hidden;
+      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
     }
 
     &__block {
@@ -175,28 +246,6 @@ w-layout {
       width: 100%;
       min-width: @column-width;
     }
-
-    //&__block-right-bottom-collapsed {
-    //  .dex-layout__column-right {
-    //    .dex-layout__block-top {
-    //      height: calc(~'100vh - 49px') !important;
-    //    }
-    //    .dex-layout__block-bottom {
-    //      height: 39px !important;
-    //    }
-    //  }
-    //}
-    //
-    //&__block-center-bottom-collapsed {
-    //  .dex-layout__column-center {
-    //    .dex-layout__block-top {
-    //      height: calc(~'100vh - 49px') !important;
-    //    }
-    //    .dex-layout__block-bottom {
-    //      height: 39px !important;
-    //    }
-    //  }
-    //}
 
     &__sidebar-toggle {
       cursor: pointer;
