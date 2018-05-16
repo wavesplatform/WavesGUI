@@ -44,6 +44,6 @@
   },
   "dmg": {
     "icon": null,
-    "background": "electron/icons/macos-installer-bg.png"
+    "background": "electron/icons/macos-installer-bg.tiff"
   }
 }
