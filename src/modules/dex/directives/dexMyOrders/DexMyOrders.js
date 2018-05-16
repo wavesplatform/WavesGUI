@@ -1,6 +1,11 @@
 (function () {
     'use strict';
 
+    const COMPARATORS = {
+        ASCENDING: 'asc',
+        DESCENDING: 'desc'
+    };
+
     /**
      * @param Base
      * @param {Waves} waves
@@ -9,9 +14,21 @@
      * @param {INotification} notification
      * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
+     * @param orderStatuses
+     * @param Sortable
      * @return {DexMyOrders}
      */
-    const controller = function (Base, waves, user, createPoll, notification, utils, $scope) {
+    const controller = function (
+        Base,
+        waves,
+        user,
+        createPoll,
+        notification,
+        utils,
+        $scope,
+        orderStatuses,
+        Sortable
+    ) {
 
         class DexMyOrders extends Base {
 
@@ -24,6 +41,17 @@
                  */
                 this._assetIdPair = null;
 
+                /**
+                 * @type {Object}
+                 */
+                this.orders = null;
+
+                this.columns = new Sortable.Columns([
+                    DexMyOrders._getSortingColumn('type'),
+                    ...['price', 'amount'].map(DexMyOrders._getSortingMoneyColumn),
+                    DexMyOrders._getSortingStatusColumn('status')
+                ]);
+
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
                 });
@@ -32,6 +60,16 @@
                 this.observe('_assetIdPair', () => poll.restart());
             }
 
+            /**
+             * @param columnName
+             */
+            sortBy(columnName) {
+                this.columns.sortBy(columnName, this.orders);
+            }
+
+            /**
+             * @param order
+             */
             dropOrder(order) {
                 user.getSeed().then((seed) => {
                     waves.matcher.cancelOrder(order.amount.asset.id, order.price.asset.id, order.id, seed.keyPair)
@@ -81,8 +119,158 @@
                         active.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
                         others.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
 
-                        return active.concat(others);
+                        return this.columns.applyCurrentSort(active.concat(others));
                     });
+            }
+
+            /**
+             * @type ColumnDataBuilder
+             */
+            static _getSortingColumn(name) {
+                return {
+                    ...DexMyOrders._getTimeStabilizingColumn(name),
+                    compareAscending: DexMyOrders._getAscendingComparator(name),
+                    compareDescending: DexMyOrders._getDescendingComparator(name)
+                };
+            }
+
+            /**
+             * @type ColumnDataBuilder
+             */
+            static _getSortingMoneyColumn(name) {
+                return {
+                    ...DexMyOrders._getTimeStabilizingColumn(name),
+                    compareAscending: DexMyOrders._getAscendingMoneyComparator(name),
+                    compareDescending: DexMyOrders._getDescendingMoneyComparator(name)
+                };
+            }
+
+            /**
+             * @type ColumnDataBuilder
+             */
+            static _getSortingStatusColumn(name) {
+                return {
+                    ...DexMyOrders._getTimeStabilizingColumn(name),
+                    compareAscending: DexMyOrders._compareStatusAscending,
+                    compareDescending(order, anotherOrder) {
+                        return -1 * DexMyOrders._compareStatusAscending(order, anotherOrder);
+                    }
+                };
+            }
+
+            /**
+             * @param name
+             * @returns {{name: *, compareStabilizing: Comparator}}
+             * @private
+             */
+            static _getTimeStabilizingColumn(name) {
+                return {
+                    name,
+                    compareStabilizing: DexMyOrders._getDescendingComparator('timestamp')
+                };
+            }
+
+            /**
+             * @param order
+             * @param anotherOrder
+             * @returns {number}
+             * @private
+             */
+            static _compareStatusAscending(order, anotherOrder) {
+                if (DexMyOrders._isStatusOpen(order) && DexMyOrders._isStatusOpen(anotherOrder)) {
+                    return 0;
+                }
+
+                if (DexMyOrders._isStatusOpen(order) && DexMyOrders._isStatusClosed(anotherOrder)) {
+                    return -1;
+                }
+
+                if (DexMyOrders._isStatusClosed(order) && DexMyOrders._isStatusOpen(anotherOrder)) {
+                    return 1;
+                }
+
+                if (DexMyOrders._isStatusClosed(order) && DexMyOrders._isStatusClosed(anotherOrder)) {
+                    return 0;
+                }
+            }
+
+            /**
+             * @type StatusChecker
+             */
+            static _isStatusOpen({ status }) {
+                return status === orderStatuses.accepted || status === orderStatuses.partiallyFilled;
+            }
+
+            /**
+             * @type StatusChecker
+             */
+            static _isStatusClosed({ status }) {
+                return status === orderStatuses.filled || status === orderStatuses.cancelled;
+            }
+
+            /**
+             * @type Comparator
+             */
+            static _getAscendingComparator(field) {
+                return DexMyOrders._getComparator({
+                    type: COMPARATORS.ASCENDING,
+                    field
+                });
+            }
+
+            /**
+             * @type Comparator
+             */
+            static _getDescendingComparator(field) {
+                return DexMyOrders._getComparator({
+                    type: COMPARATORS.DESCENDING,
+                    field
+                });
+            }
+
+            /**
+             * @type Comparator
+             */
+            static _getAscendingMoneyComparator(field) {
+                return DexMyOrders._getMoneyComparator({
+                    type: COMPARATORS.ASCENDING,
+                    field
+                });
+            }
+
+            /**
+             * @type Comparator
+             */
+            static _getDescendingMoneyComparator(field) {
+                return DexMyOrders._getMoneyComparator({
+                    type: COMPARATORS.DESCENDING,
+                    field
+                });
+            }
+
+            /**
+             * @param type
+             * @param field
+             * @returns {function(*, *): number}
+             * @private
+             */
+            static _getMoneyComparator({ type, field }) {
+                return DexMyOrders._getComparator({
+                    type,
+                    field,
+                    comparators: utils.comparators.money
+                });
+            }
+
+            /**
+             * @param type
+             * @param field
+             * @param comparators
+             * @returns {function(*, *): number}
+             * @private
+             */
+            static _getComparator({ type, field, comparators = utils.comparators }) {
+                return (order, anotherOrder) => comparators[type](order[field], anotherOrder[field]);
             }
 
         }
@@ -90,7 +278,17 @@
         return new DexMyOrders();
     };
 
-    controller.$inject = ['Base', 'waves', 'user', 'createPoll', 'notification', 'utils', '$scope'];
+    controller.$inject = [
+        'Base',
+        'waves',
+        'user',
+        'createPoll',
+        'notification',
+        'utils',
+        '$scope',
+        'orderStatuses',
+        'Sortable'
+    ];
 
     angular.module('app.dex').component('wDexMyOrders', {
         bindings: {},
@@ -98,3 +296,30 @@
         controller
     });
 })();
+
+/**
+ * @typedef {function} ColumnDataBuilder
+ * @param {string} name
+ * @returns {
+ *  {
+ *      name: string,
+ *      compareStabilizing: Comparator,
+ *      compareAscending: Comparator,
+ *      compareDescending: Comparator
+ *  }
+ * }
+ * @private
+ */
+
+/**
+ * @typedef {function} StatusChecker
+ * @returns {boolean}
+ * @private
+ */
+
+/**
+ * @typedef {function} Comparator
+ * @param {string} field
+ * @returns {function(*, *): number}
+ * @private
+ */

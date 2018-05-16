@@ -219,7 +219,7 @@
     "no-iterator": "error",
     "no-label-var": "error",
     "no-labels": "error",
-    "no-lone-blocks": "error",
+    "no-lone-blocks": "off",
     "no-lonely-if": "error",
     "no-loop-func": "error",
     "no-magic-numbers": "off",

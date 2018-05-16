@@ -7,9 +7,10 @@
      * @param {app.i18n} i18n
      * @param {User} user
      * @param {PollCache} PollCache
+     * @param orderStatuses
      * @return {Matcher}
      */
-    const factory = function (utils, decorators, i18n, user, PollCache) {
+    const factory = function (utils, decorators, i18n, user, PollCache, orderStatuses) {
 
         class Matcher {
 
@@ -181,10 +182,10 @@
                         const percent = filled.getTokens().div(amount.getTokens()).mul(100).round(2); // TODO
                         // TODO Move to component myOrders (dex refactor);
                         const STATUS_MAP = {
-                            Cancelled: 'matcher.orders.statuses.canceled',
-                            Accepted: 'matcher.orders.statuses.opened',
-                            Filled: 'matcher.orders.statuses.filled',
-                            PartiallyFilled: 'matcher.orders.statuses.filled'
+                            [orderStatuses.cancelled]: 'matcher.orders.statuses.canceled',
+                            [orderStatuses.accepted]: 'matcher.orders.statuses.opened',
+                            [orderStatuses.filled]: 'matcher.orders.statuses.filled',
+                            [orderStatuses.partiallyFilled]: 'matcher.orders.statuses.filled'
                         };
                         const state = i18n.translate(STATUS_MAP[order.status], 'app', { percent });
                         const isActive = ['Accepted', 'PartiallyFilled'].indexOf(order.status) !== -1;
@@ -227,7 +228,7 @@
         return new Matcher();
     };
 
-    factory.$inject = ['utils', 'decorators', 'i18n', 'user', 'PollCache'];
+    factory.$inject = ['utils', 'decorators', 'i18n', 'user', 'PollCache', 'orderStatuses'];
 
     angular.module('app').factory('matcher', factory);
 })();
