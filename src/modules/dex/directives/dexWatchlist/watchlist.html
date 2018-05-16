@@ -2,25 +2,25 @@
 <w-table selected="$ctrl.activeRowId">
     <w-t-head>
         <w-row>
-            <w-cell class="col-fav">
-                <i class="icon-fav"></i>
-            </w-cell>
-            <w-cell class="col-pair">
-                <w-i18n>directives.watchlist.pair</w-i18n>
-                <i class="icon-sorting"></i>
-            </w-cell>
-            <w-cell class="col-price">
-                <w-i18n>directives.watchlist.price</w-i18n>
-                <i class="icon-sorting"></i>
-            </w-cell>
-            <w-cell class="col-change">
-                <w-i18n>directives.watchlist.chg</w-i18n>
-                <i class="icon-sorting"></i>
-            </w-cell>
-            <w-cell class="col-volume">
-                <w-i18n>directives.watchlist.volume</w-i18n>
-                <i class="icon-sorting"></i>
-            </w-cell>
+            <div class="cells">
+                <w-cell class="col-pair">
+                    <i class="icon-fav"></i>
+                    <w-i18n>directives.watchlist.pair</w-i18n>
+                    <i class="icon-sorting"></i>
+                </w-cell>
+                <w-cell class="col-price">
+                    <w-i18n>directives.watchlist.price</w-i18n>
+                    <i class="icon-sorting"></i>
+                </w-cell>
+                <w-cell class="col-change">
+                    <w-i18n>directives.watchlist.chg</w-i18n>
+                    <i class="icon-sorting"></i>
+                </w-cell>
+                <w-cell class="col-volume">
+                    <w-i18n>directives.watchlist.volume</w-i18n>
+                    <i class="icon-sorting"></i>
+                </w-cell>
+            </div>
         </w-row>
     </w-t-head>
     <w-scroll-box>
@@ -28,29 +28,37 @@
                ng-repeat="asset in $ctrl.watchlist track by asset.id"
                ng-if="asset.id !== $ctrl.baseAssetId"
                select-value="{{::asset.id}}">
-            <w-cell class="col-fav">
-                <i class="icon-fav"></i>
-            </w-cell>
-            <w-cell class="col-pair">
-                <w-dex-pair asset-id="{{::asset.id}}" base-asset-id="$ctrl.baseAssetId"></w-dex-pair>
-            </w-cell>
-            <w-cell class="col-price">
-                <w-dex-exchange base-asset-id="$ctrl.baseAssetId" asset-id="{{::asset.id}}"></w-dex-exchange>
-            </w-cell>
-            <w-cell class="col-change">
-                <!-- todo @german -->
-                <!-- .col-change must have class .plus if > 0% || .minus if < 0% || and no class if 0%-->
-                <w-change24 direction-by-pair="::true"
-                            asset-from="$ctrl.baseAssetId"
-                            asset-to="asset.id"></w-change24>
-                %
-            </w-cell>
-            <w-cell class="col-volume">
-                999.9k
-            </w-cell>
+
+            <div class="cells">
+                <w-cell class="col-pair">
+                    <i class="icon-fav"></i>
+                    <w-dex-pair asset-id="{{::asset.id}}"
+                                base-asset-id="$ctrl.baseAssetId"></w-dex-pair>
+                </w-cell>
+                <w-cell class="col-price">
+                    <w-dex-exchange base-asset-id="$ctrl.baseAssetId"
+                                    asset-id="{{::asset.id}}"></w-dex-exchange>
+                </w-cell>
+                <w-cell class="col-change">
+                    <!-- todo @german -->
+                    <!-- .col-change must have class .plus if > 0% || .minus if < 0% || and no class if 0%-->
+                    <w-change24 direction-by-pair="::true"
+                                asset-from="$ctrl.baseAssetId"
+                                asset-to="asset.id"></w-change24>
+                    %
+                </w-cell>
+                <w-cell class="col-volume"> <!-- todo @german -->
+                    999.9k
+                </w-cell>
+
+            </div>
+            <div class="info"> <!-- todo @german asset address -->
+                <div class="disabled-900">3PCAB4sHXgvtu5asdfasdfsadfNPoen6EXR5yaNbvsEA8Fj <span>/</span></div>
+                <div class="disabled-900">WAVES</div>
+            </div>
             <!--<div ng-if="$ctrl.watchlist.length > 2"-->
-                 <!--class="remove-item"-->
-                 <!--ng-click="$ctrl.removeWatchedAsset($event, asset)"></div>-->
+            <!--class="remove-item"-->
+            <!--ng-click="$ctrl.removeWatchedAsset($event, asset)"></div>-->
         </w-row>
     </w-scroll-box>
 </w-table>

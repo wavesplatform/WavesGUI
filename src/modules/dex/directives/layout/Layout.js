@@ -182,17 +182,17 @@
 
                 utils.animateByClass(this._dom.topcenter.column, 'ghost', true, 'opacity')
                     .then(() => {
-                        this._dom.topcenter.column.css('display', 'none'); // TODO check
+                        // this._dom.topcenter.column.css('display', 'none'); // TODO check
                         this._dom.topleft.slider.toggleClass(`${base}__sidebar-toggle-open`, !topleft);
                         this._dom.topright.slider.toggleClass(`${base}__sidebar-toggle-open`, !topright);
 
                         return utils.whenAll([
-                            utils.animateByClass(this._node, `${base}__left-collapsed`, topleft, 'transform'),
-                            utils.animateByClass(this._node, `${base}__right-collapsed`, topright, 'transform')
+                            utils.animateByClass(this._node, `${base}__topleft-collapsed`, topleft, 'flex-basis'),
+                            utils.animateByClass(this._node, `${base}__topright-collapsed`, topright, 'flex-basis')
                         ]);
                     })
                     .then(() => {
-                        this._dom.topcenter.column.css('display', 'block');
+                        // this._dom.topcenter.column.css('display', 'flex');
                         return utils.wait(0);
                     })
                     .then(() => {

@@ -46,6 +46,12 @@ w-layout {
 
             &__column-center {
               flex-basis: calc(75% ~'- 5px');
+
+              .dex-layout {
+                &__sidebar-toggle-left::after {
+                  transform: rotate(-90deg);
+                }
+              }
             }
           }
         }
@@ -65,33 +71,11 @@ w-layout {
 
             &__column-center {
               flex-basis: calc(75% ~'- 5px');
-            }
-          }
-        }
-      }
-    }
 
-    &__topleft-collapsed {
-      &.dex-layout {
-        &__topright-collapsed {
-          &__row-top {
-            .dex-layout {
-              &__column-left {
-                overflow: hidden;
-                flex-basis: 0;
-                width: 0;
-                margin-right: 0;
-              }
-
-              &__column-center {
-                flex-basis: 100%;
-              }
-
-              &__column-right {
-                overflow: hidden;
-                flex-basis: 0;
-                width: 0;
-                margin-left: 0;
+              .dex-layout {
+                &__sidebar-toggle-right::after {
+                  transform: rotate(90deg);
+                }
               }
             }
           }
@@ -332,7 +316,37 @@ w-layout {
         }
       }
     }
+  }
 
+  .dex-layout__topleft-collapsed.dex-layout__topright-collapsed {
+    .dex-layout {
+      &__row-top {
+        .dex-layout {
+          &__column-left {
+            overflow: hidden;
+            flex-basis: 0;
+            width: 0;
+            margin-right: 0;
+          }
+
+          &__column-center {
+            flex-basis: 100%;
+            flex-grow: 1;
+          }
+
+          &__column-right {
+            overflow: hidden;
+            flex-basis: 0;
+            width: 0;
+            margin-left: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .ghost {
+    background: @color-white;
   }
 
   .toggler {
