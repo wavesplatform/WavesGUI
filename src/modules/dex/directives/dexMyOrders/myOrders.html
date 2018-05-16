@@ -15,44 +15,58 @@
             </w-cell>
             <w-cell>
                 <div>
-                    <w-i18n>directives.myOrders.type</w-i18n>
-                    <i class="icon-sorting"></i>
+                    <span>
+                        <w-i18n>directives.myOrders.type</w-i18n>
+                        <i class="icon-sorting"></i>
+                    </span>
                 </div>
             </w-cell>
             <w-cell>
                 <div>
-                    <w-i18n>directives.myOrders.price</w-i18n>
-                    <i class="icon-sorting"></i>
+                    <span>
+                        <w-i18n>directives.myOrders.price</w-i18n>
+                        <i class="icon-sorting"></i>
+                    </span>
                 </div>
             </w-cell>
             <w-cell>
                 <div>
-                    <w-i18n>directives.myOrders.amount</w-i18n>
-                    <i class="icon-sorting"></i>
+                    <span>
+                        <w-i18n>directives.myOrders.amount</w-i18n>
+                        <i class="icon-sorting"></i>
+                    </span>
                 </div>
             </w-cell>
             <w-cell>
                 <div>
-                    <w-i18n>directives.myOrders.total</w-i18n>
-                    <i class="icon-sorting"></i>
+                    <span>
+                        <w-i18n>directives.myOrders.total</w-i18n>
+                        <i class="icon-sorting"></i>
+                    </span>
                 </div>
             </w-cell>
             <w-cell>
                 <div>
-                    <w-i18n>directives.myOrders.time</w-i18n>
-                    <i class="icon-sorting"></i>
+                    <span>
+                        <w-i18n>directives.myOrders.time</w-i18n>
+                        <i class="icon-sorting"></i>
+                    </span>
                 </div>
             </w-cell>
             <w-cell>
                 <div>
-                    <w-i18n>directives.myOrders.status</w-i18n>
-                    <i class="icon-sorting"></i>
+                    <span>
+                        <w-i18n>directives.myOrders.status</w-i18n>
+                        <i class="icon-sorting"></i>
+                    </span>
                 </div>
             </w-cell>
             <w-cell>
                 <!-- todo @german CancelAll button -->
                 <div class="stop">
-                    <w-i18n>directives.myOrders.cancelAll</w-i18n>
+                    <span>
+                        <w-i18n>directives.myOrders.cancelAll</w-i18n>
+                    </span>
                 </div>
             </w-cell>
         </w-row>
@@ -81,7 +95,8 @@
             </w-cell>
             <w-cell>
                 <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n>:</span>
-                {{::order.date | date:'MM-dd HH:mm:ss'}} <!-- todo @german -->
+                2017-06-29 06:26:49
+                <!-- {{::order.date | date:'MM-dd HH:mm:ss'}} не работает --><!-- todo @german -->
             </w-cell>
             <w-cell>
                 <!-- было {{order.state}} , которое выводило Filled (XX%) || Cancelled -->

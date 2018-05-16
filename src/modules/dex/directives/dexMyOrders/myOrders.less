@@ -9,11 +9,10 @@ w-dex-my-orders {
   overflow-x: auto;
 
   w-table {
-    min-width: 500px;
-
     w-t-head {
-      div {
-        cursor: pointer;
+
+      .stop {
+        margin-left: 17px;
       }
 
       w-cell {
@@ -46,22 +45,10 @@ w-dex-my-orders {
     }
   }
 
-  w-scroll-box {
-    overflow-x: visible;
-    max-height: calc(100% ~'- 29px');
-  }
-
   w-row {
 
     w-cell {
       flex-basis: calc(100% / 7);
-    }
-
-    .cell-2,
-    .cell-3,
-    .cell-4,
-    .cell-5 {
-      text-align: right;
     }
 
     .cell-0 {
@@ -76,10 +63,15 @@ w-dex-my-orders {
       }
     }
 
-    .cell-1,
-    .cell-6,
-    .cell-7 {
-      width: 100px !important;
+    .cell-2,
+    .cell-3,
+    .cell-4,
+    .cell-5 {
+      text-align: right;
+    }
+
+    .cell-1 {
+      flex-basis: 100px;
     }
 
     .order-side.sell {
@@ -96,8 +88,8 @@ w-dex-my-orders {
       background-size: 8px 8px;
       background-repeat: no-repeat;
       background-position: 5px center;
-      top: 2px;
       display: inline-block;
+      margin-left: 20px;
       text-transform: capitalize;
       padding-left: 26px;
       height: calc(100% ~'- 4px');
@@ -119,28 +111,6 @@ w-dex-my-orders {
             .table-row {
               margin: 0 30px 0 10px;
               height: auto;
-
-              w-cell {
-                //&.cell-0 {
-                //  width: 45%;
-                //}
-                //
-                //&.cell-1 {
-                //  width: 15%;
-                //  max-width: 15%;
-                //  padding: 0;
-                //}
-                //
-                //&.cell-2,
-                //&.cell-3 {
-                //  display: none;
-                //}
-                //
-                //&.cell-4 {
-                //  width: 40%;
-                //  margin-right: 0;
-                //}
-              }
             }
           }
         }

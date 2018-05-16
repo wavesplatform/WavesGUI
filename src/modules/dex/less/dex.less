@@ -21,18 +21,6 @@ body.dex {
     width: 100%;
     height: 100%;
 
-    w-dex-trade-history {
-      w-t-head w-row {
-        padding-right: 14px;
-
-        .table-cell {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-    }
-
     .block-title {
       .w-input-wrap input {
         padding: 6px 8px 6px 21px;
@@ -74,6 +62,12 @@ body.dex {
         color: @color-disabled-700;
         border-bottom: 1px solid @color-disabled-100;
 
+        div {
+          span {
+            cursor: pointer;
+          }
+        }
+
         w-row {
           font-size: @font-size-caption-2;
         }
@@ -83,18 +77,18 @@ body.dex {
           padding: 0;
           display: flex;
           align-items: center;
+
+          w-cell {
+            text-transform: capitalize;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
       }
 
       w-row {
         font-size: @font-size-caption-1;
-      }
-
-      .spread w-row {
-        .footnote-1();
-        cursor: pointer;
-        font-weight: bold;
-        white-space: nowrap;
       }
 
       .table-row {
@@ -146,13 +140,19 @@ body.dex {
 
       .table-row {
         display: flex;
-        padding: 6px 0;
       }
 
       w-cell {
         white-space: nowrap;
-        flex-basis: calc(100% / 7);
-        flex-grow: 0;
+        padding: 0 10px;
+
+        &.cell-0 {
+          padding-left: 0;
+        }
+
+        &:last-child {
+          padding-right: 0;
+        }
       }
 
       .cell-label {
@@ -209,7 +209,11 @@ body.dex {
     }
 
     w-scroll-box {
+      height:calc(100% ~'- 29px');
+
       w-row {
+        padding: 6px 14px;
+
         &:last-child {
           margin-bottom: 10px;
         }
@@ -255,92 +259,92 @@ body.dex {
 
     }
   }
-
 }
 
-@media screen and (max-width: 768px) {
-
-  //firefox fixes
-  w-layout .dex-layout__block {
-    height: auto !important;
-
-    &-center-bottom-collapsed w-dex-block .block-wrapper .block-title {
-      height: auto;
-      min-height: 39px;
-    }
-  }
-
-  body.dex {
-    w-dex-trade-graph,
-    w-dex-trade-graph .graph-wrapper {
-      height: 130px;
-      min-height: 130px;
-      max-height: 130px;
-      overflow: hidden;
-    }
-  }
-}
-
-//Tablet
-@media screen and (min-width: 481px) and (max-width: 768px) {
-
-  body.dex {
-    min-width: 580px;
-
-    ui-view[name="main"] {
-      height: auto;
-    }
-
-    .main-content .content {
-      height: auto;
-      width: 100%;
-      margin: 0;
-      overflow: auto;
-      padding: 10px 10px 0 10px;
-    }
-
-    .dex-layout__column-right {
-      padding-bottom: 100px;
-    }
-
-    .block-wrapper w-scroll-box w-row {
-      font-size: 80%;
-    }
-
-    .dex-wrapper w-table > div.table w-scroll-box {
-      height: auto;
-      overflow: auto;
-      max-height: calc(50vh ~'- 100px');
-    }
-  }
-
-}
-
-//Mobile
-@media screen and (max-width: 480px),
-(min-width: 481px) and (max-width: 768px) and (max-height: 480px) {
-
-  body.dex {
-    ui-view[name="main"] {
-      height: auto;
-    }
-
-    .main-content .content {
-      height: auto;
-      width: 100%;
-      overflow-y: auto;
-      margin-top: 60px;
-    }
-
-    .dex-layout__column-right {
-      padding-bottom: 90px;
-    }
-
-    .dex-wrapper w-table > div.table w-scroll-box {
-      height: auto;
-      overflow: auto;
-      max-height: 217px;
-    }
-  }
-
-}
+//
+//@media screen and (max-width: 768px) {
+//
+//  //firefox fixes
+//  w-layout .dex-layout__block {
+//    height: auto !important;
+//
+//    &-center-bottom-collapsed w-dex-block .block-wrapper .block-title {
+//      height: auto;
+//      min-height: 39px;
+//    }
+//  }
+//
+//  body.dex {
+//    w-dex-trade-graph,
+//    w-dex-trade-graph .graph-wrapper {
+//      height: 130px;
+//      min-height: 130px;
+//      max-height: 130px;
+//      overflow: hidden;
+//    }
+//  }
+//}
+//
+////Tablet
+//@media screen and (min-width: 481px) and (max-width: 768px) {
+//
+//  body.dex {
+//    min-width: 580px;
+//
+//    ui-view[name="main"] {
+//      height: auto;
+//    }
+//
+//    .main-content .content {
+//      height: auto;
+//      width: 100%;
+//      margin: 0;
+//      overflow: auto;
+//      padding: 10px 10px 0 10px;
+//    }
+//
+//    .dex-layout__column-right {
+//      padding-bottom: 100px;
+//    }
+//
+//    .block-wrapper w-scroll-box w-row {
+//      font-size: 80%;
+//    }
+//
+//    .dex-wrapper w-table > div.table w-scroll-box {
+//      height: auto;
+//      overflow: auto;
+//      max-height: calc(50vh ~'- 100px');
+//    }
+//  }
+//
+//}
+//
+////Mobile
+//@media screen and (max-width: 480px),
+//(min-width: 481px) and (max-width: 768px) and (max-height: 480px) {
+//
+//  body.dex {
+//    ui-view[name="main"] {
+//      height: auto;
+//    }
+//
+//    .main-content .content {
+//      height: auto;
+//      width: 100%;
+//      overflow-y: auto;
+//      margin-top: 60px;
+//    }
+//
+//    .dex-layout__column-right {
+//      padding-bottom: 90px;
+//    }
+//
+//    .dex-wrapper w-table > div.table w-scroll-box {
+//      height: auto;
+//      overflow: auto;
+//      max-height: 217px;
+//    }
+//  }
+//
+//}
