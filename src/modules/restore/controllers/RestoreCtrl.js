@@ -6,6 +6,7 @@
      * @param $scope
      * @param {User} user
      * @param {app.utils} utils
+     * @param modalManager
      * @return {RestoreCtrl}
      */
     const controller = function (Base, $scope, user, utils, modalManager) {
@@ -19,11 +20,11 @@
                 /**
                  * @type {string}
                  */
-                this.address = null;
+                this.address = '';
                 /**
                  * @type {string}
                  */
-                this.seed = null;
+                this.seed = '';
                 /**
                  * @type {string}
                  */
@@ -31,11 +32,11 @@
                 /**
                  * @type {string}
                  */
-                this.encryptedSeed = null;
+                this.encryptedSeed = '';
                 /**
                  * @type {string}
                  */
-                this.password = null;
+                this.password = '';
 
                 this.observe('seed', this._onChangeSeed);
                 this.observeOnce('seedForm', () => {
@@ -61,6 +62,11 @@
                     encryptedSeed,
                     publicKey
                 }, true);
+            }
+
+            resetNameAndPassword() {
+                this.name = '';
+                this.password = '';
             }
 
             /**

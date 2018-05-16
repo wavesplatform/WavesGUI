@@ -2,8 +2,7 @@
     'use strict';
 
     const CARDS_PAYMENTS_AVAILABLE = {
-        [WavesApp.defaultAssets.WAVES]: true,
-        [WavesApp.defaultAssets.BTC]: true
+        [WavesApp.defaultAssets.WAVES]: true
     };
 
     /**

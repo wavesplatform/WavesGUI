@@ -6,13 +6,20 @@ w-copy-wrap {
   background-color: @color-basic-50;
   border: 1px solid @color-basic-200;
   border-radius: @border-radius;
-  height: 54px;
+  height: @height-control-big;
+  padding: @padding-control-big;
+  font-size: @font-size-control-big;
+
+  @media screen and (max-width: 768px) {
+    height: @height-control-big-responsive;
+    padding: @padding-control-big-responsive;
+    font-size: @font-size-control-big-responsive;
+  }
 
   .container {
     height: 100%;
     display: flex;
     align-items: center;
-    padding: 0 15px;
   }
 
   .copy-icon {

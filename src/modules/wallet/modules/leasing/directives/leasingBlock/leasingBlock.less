@@ -29,9 +29,26 @@ w-leasing-block {
       .int {
         font-family: @font-roboto-regular;
       }
-      .decimal-muted {
+      .decimal {
         font-family: @font-roboto-light;
       }
     }
+  }
+
+  &.noheader {
+    .leasing-block-title {
+      border-bottom: 0 none;
+      padding: 0 20px;
+      height: 20px;
+      margin-top: 20px;
+      justify-content: center;
+      font-weight: normal;
+      font-family: @font-roboto-regular;
+    }
+
+    .leasing-block-content {
+      padding-top: 0;
+    }
+
   }
 }

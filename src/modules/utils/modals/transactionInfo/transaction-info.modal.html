@@ -1,26 +1,33 @@
-<div ng-if="$ctrl.transaction" class="content">
+<md-dialog w-i18n-ns="app.ui" class="txinfo" aria-label="modal">
+    <div class="btn icon-close" w-modal-close></div>
+    <md-dialog-content>
+        <div class="modal-content">
+            <div ng-if="$ctrl.transaction" class="txinfo__wrapper">
 
-    <w-transaction-info transaction="::$ctrl.transaction"></w-transaction-info>
+                <w-transaction-info transaction="::$ctrl.transaction"></w-transaction-info>
 
-    <div class="section" ng-if="$ctrl.confirmed">
-        <div class="key" w-i18n="transaction.modals.confirmations"></div>
-        <div class="value">{{$ctrl.confirmations}}</div>
-    </div>
+                <div class="txinfo__row" ng-if="$ctrl.confirmed">
+                    <div class="txinfo__key" w-i18n="transaction.modals.confirmations"></div>
+                    <div class="txinfo__value">{{$ctrl.confirmations}}</div>
+                </div>
 
-    <div class="section solid-border">
-        <div class="key" w-i18n="transaction.modals.viewTransactionKey"></div>
-        <div class="value">
-            <a w-i18n="transaction.modals.viewTransactionValue"
-               href="{{::$ctrl.explorerLink}}"
-               target="_blank"></a>
+                <div class="txinfo__row">
+                    <div class="txinfo__key" w-i18n="transaction.modals.viewTransactionKey"></div>
+                    <div class="txinfo__value nowrap">
+                        <a w-i18n="transaction.modals.viewTransactionValue"
+                           href="{{::$ctrl.explorerLink}}"
+                           target="_blank"></a>
+                    </div>
+                </div>
+
+                <div class="txinfo__row txinfo__row-border-ts ">
+                    <time>{{::$ctrl.transaction.timestamp | date: 'dd.MM.yyyy, HH:mm'}}</time>
+                    <div class="status"
+                         ng-class="{confirmed: $ctrl.confirmed, unconfirmed: !$ctrl.confirmed}"
+                         w-i18n="transaction.confirmed.{{$ctrl.confirmed}}"></div>
+                </div>
+
+            </div>
         </div>
-    </div>
-
-    <div class="section last">
-        <time>{{::$ctrl.transaction.timestamp | date: 'dd.MM.yyyy, HH:mm'}}</time>
-        <div class="status"
-             ng-class="{confirmed: $ctrl.confirmed, unconfirmed: !$ctrl.confirmed}"
-             w-i18n="transaction.confirmed.{{$ctrl.confirmed}}"></div>
-    </div>
-
-</div>
+    </md-dialog-content>
+</md-dialog>

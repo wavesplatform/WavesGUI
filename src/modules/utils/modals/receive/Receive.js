@@ -261,12 +261,11 @@
             }
 
             updateCardDetails() {
-                const cardDetails = gatewayService.getCardDetails(this.asset);
-                if (cardDetails) {
-                    Waves.Money.fromTokens(this.currencies[0].min, this.currencies[0].assetId).then((sum) => {
-                        this.cardPayment = sum;
-                    });
+                Waves.Money.fromTokens(this.currencies[0].min, this.currencies[0].assetId).then((sum) => {
+                    this.cardPayment = sum;
+                });
 
+                if (gatewayService.getCardDetails(this.asset)) {
                     this.activateCardTab();
                 }
             }

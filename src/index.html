@@ -260,7 +260,8 @@
                 api: '{{network.api}}',
                 coinomat: '{{network.coinomat}}',
                 datafeed: '{{network.datafeed}}',
-                support: '{{network.support}}'
+                support: '{{network.support}}',
+                nodeList: '{{network.nodeList}}'
             },
             defaultAssets: {
                 WAVES: 'WAVES',
@@ -453,6 +454,7 @@
         };
     })(window.fetch);
 
+    // Signed 64-bit integer.
     WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
 
     WavesApp.parseJSON = parseJsonBignumber();

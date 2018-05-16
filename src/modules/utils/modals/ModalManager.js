@@ -251,8 +251,7 @@
                     id: 'transaction-info',
                     ns: 'app.ui',
                     controller: 'TransactionInfoCtrl',
-                    titleContentUrl: 'modules/utils/modals/transactionInfo/transaction-info-title.modal.html',
-                    contentUrl: 'modules/utils/modals/transactionInfo/transaction-info.modal.html',
+                    templateUrl: 'modules/utils/modals/transactionInfo/transaction-info.modal.html',
                     mod: 'transaction-info',
                     locals: { transactionId }
                 });
