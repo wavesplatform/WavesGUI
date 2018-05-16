@@ -40,7 +40,9 @@
   },
   "nsis": {
     "artifactName": "waves-client[${env.WAVES_CONFIGURATION}]-setup-${version}.${ext}",
-    "include": "electron/installer.nsh"
+    "include": "electron/installer.nsh",
+    "installerIcon": "electron/icons/icon.ico",
+    "uninstallerIcon": "electron/icons/icon.ico"
   },
   "dmg": {
     "icon": null,
