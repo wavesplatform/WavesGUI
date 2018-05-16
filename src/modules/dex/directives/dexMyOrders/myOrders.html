@@ -6,7 +6,7 @@
     <w-t-head>
         <w-row>
             <w-cell>
-                <div> <!--  todo sorting & filter @german -->
+                <div> <!--  todo filter @german -->
                     <w-input ng-model="$ctrl.search"
                              placeholder="directives.myOrders.filter"
                              w-i18n-attr="placeholder"
@@ -15,7 +15,7 @@
             </w-cell>
             <w-cell>
                 <div>
-                    <span>
+                    <span ng-click="$ctrl.sortBy('type')">
                         <w-i18n>directives.myOrders.type</w-i18n>
                         <i class="icon-sorting"></i>
                     </span>
@@ -23,7 +23,7 @@
             </w-cell>
             <w-cell>
                 <div>
-                    <span>
+                    <span ng-click="$ctrl.sortBy('price')">
                         <w-i18n>directives.myOrders.price</w-i18n>
                         <i class="icon-sorting"></i>
                     </span>
@@ -31,7 +31,7 @@
             </w-cell>
             <w-cell>
                 <div>
-                    <span>
+                    <span ng-click="$ctrl.sortBy('amount')">
                         <w-i18n>directives.myOrders.amount</w-i18n>
                         <i class="icon-sorting"></i>
                     </span>
@@ -55,7 +55,7 @@
             </w-cell>
             <w-cell>
                 <div>
-                    <span>
+                    <span ng-click="$ctrl.sortBy('status')">
                         <w-i18n>directives.myOrders.status</w-i18n>
                         <i class="icon-sorting"></i>
                     </span>
