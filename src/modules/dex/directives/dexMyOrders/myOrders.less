@@ -53,6 +53,7 @@ w-dex-my-orders {
 
     .cell-0 {
       padding-left: 0;
+      flex-basis: calc((100% / 7) ~'+ 100px');
 
       span {
         display: block;
@@ -61,6 +62,21 @@ w-dex-my-orders {
         white-space: nowrap;
         max-width: 160px;
       }
+    }
+
+    .cell-1 {
+      flex-basis: calc((100% / 7) ~'- 100px');
+      min-width: 100px;
+    }
+
+    .cell-6 {
+      flex-basis: calc((100% / 7) ~'- 50px');
+      min-width: 100px;
+    }
+
+    .cell-5 {
+      flex-basis: calc((100% / 7) ~'+ 50px');
+      min-width: 100px;
     }
 
     .cell-2,

@@ -36,7 +36,20 @@ body.dex {
       }
 
       .has-search {
-        width: 100%;
+        width: 50%;
+        margin-left: 20px;
+        position: relative;
+
+        &::before {
+          width: 1px;
+          height: 37px;
+          content: '';
+          background: @color-basic-100;
+          display: block;
+          position: absolute;
+          left: -10px;
+          top: -4px;
+        }
       }
     }
 
@@ -88,7 +101,7 @@ body.dex {
       }
 
       w-row {
-        font-size: @font-size-caption-1;
+        font-size: @font-size-caption-2;
       }
 
       .table-row {
@@ -107,7 +120,7 @@ body.dex {
     }
 
     .titles-wrap {
-      height: 38px;
+      height: 39px;
       padding: 0;
 
       .title {
@@ -116,20 +129,34 @@ body.dex {
         font-size: 13px;
         margin: 0;
         padding: 0 20px;
+        margin-top: 1px;
         line-height: 40px;
         border: 0 none;
         font-family: @font-roboto-medium;
+        position: relative;
+        border-left: 1px solid transparent;
+        border-right: 1px solid transparent;
 
         &.active:first-child {
-          border-left: 0 none;
+          border-left: 1px solid @color-white;
         }
 
         &.active {
           color: @color-basic-700;
-          border-top: 2px solid @color-submit-400;
           border-bottom: 1px solid @color-white;
           border-right: 1px solid @color-disabled-200;
           border-left: 1px solid @color-disabled-200;
+
+          &::before {
+            display: block;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            content: '';
+            left: 0;
+            height: 2px;
+            background: @color-submit-400;
+          }
         }
       }
     }
@@ -209,7 +236,7 @@ body.dex {
     }
 
     w-scroll-box {
-      height:calc(100% ~'- 29px');
+      height: calc(100% ~'- 29px');
 
       w-row {
         padding: 6px 14px;

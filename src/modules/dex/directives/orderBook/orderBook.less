@@ -107,18 +107,34 @@ w-dex-order-book {
 
     .last-price {
       .footnote-2();
-      background-repeat: no-repeat;
-      background-position: right -1px;
-      padding-right: 18px;
+      position: relative;
 
-      &.top {
-        color: @color-submit-300;
-        background-image: url(/img/icons/arrow-orderbook-top.svg);
+      &:after {
+        background-repeat: no-repeat;
+        background-position: center;
+        position: absolute;
+        content: '';
+        width: 18px;
+        height: 18px;
+        display: block;
+        right: -18px;
+        top: -1px;
       }
 
-      &.down {
+      &.buy {
+        color: @color-submit-300;
+
+        &:after {
+          background-image: url(/img/icons/arrow-orderbook-top.svg);
+        }
+      }
+
+      &.sell {
         color: @color-error-400;
-        background-image: url(/img/icons/arrow-orderbook-down.svg);
+
+        &:after {
+          background-image: url(/img/icons/arrow-orderbook-down.svg);
+        }
       }
     }
 
