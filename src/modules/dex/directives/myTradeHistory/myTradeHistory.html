@@ -2,130 +2,132 @@
     тут должны отображаться мои ордера завершенные или отмененные ордера.
     щас это копия это копия опен ордерса - переделать
 -->
-
-<w-table ng-if="$ctrl.orders.length">
-    <w-t-head>
-        <w-row>
-            <w-cell>
-                <div> <!--  todo sorting & filter @german -->
-                    <w-input ng-model="$ctrl.search"
-                             placeholder="directives.myOrders.filter"
-                             w-i18n-attr="placeholder"
-                             class="orders-filter" type="text"></w-input>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div>
-                    <w-i18n>directives.myOrders.type</w-i18n>
-                    <i class="icon-sorting"></i>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div>
-                    <w-i18n>directives.myOrders.price</w-i18n>
-                    <i class="icon-sorting"></i>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div>
-                    <w-i18n>directives.myOrders.amount</w-i18n>
-                    <i class="icon-sorting"></i>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div>
-                    <w-i18n>directives.myOrders.total</w-i18n>
-                    <i class="icon-sorting"></i>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div>
-                    <w-i18n>directives.myOrders.fee</w-i18n>
-                    <i class="icon-sorting"></i>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div>
-                    <w-i18n>directives.myOrders.time</w-i18n>
-                    <i class="icon-sorting"></i>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div>
-                    <w-i18n>directives.myOrders.status</w-i18n>
-                    <i class="icon-sorting"></i>
-                </div>
-            </w-cell>
-            <w-cell>
-                <!-- todo @german CancelAll button -->
-                <div class="stop">
-                    <w-i18n>directives.myOrders.cancelAll</w-i18n>
-                </div>
-            </w-cell>
-        </w-row>
-    </w-t-head>
-    <w-scroll-box>
-        <w-row ng-repeat="order in $ctrl.orders track by order.id"
-               ng-class="{{order.status.toLowerCase()}}">
-            <w-cell>
-                <span>{{::order.pair}}</span>
-            </w-cell>
-            <w-cell>
+<div class="myTradeHistory">
+    <w-table ng-if="$ctrl.orders.length">
+        <w-t-head>
+            <w-row>
+                <w-cell>
+                    <div> <!--  todo sorting & filter @german -->
+                        <w-input ng-model="$ctrl.search"
+                                 placeholder="directives.myOrders.filter"
+                                 w-i18n-attr="placeholder"
+                                 class="orders-filter" type="text"></w-input>
+                    </div>
+                </w-cell>
+                <w-cell>
+                    <div>
+                        <w-i18n>directives.myOrders.type</w-i18n>
+                        <i class="icon-sorting"></i>
+                    </div>
+                </w-cell>
+                <w-cell>
+                    <div>
+                        <w-i18n>directives.myOrders.price</w-i18n>
+                        <i class="icon-sorting"></i>
+                    </div>
+                </w-cell>
+                <w-cell>
+                    <div>
+                        <w-i18n>directives.myOrders.amount</w-i18n>
+                        <i class="icon-sorting"></i>
+                    </div>
+                </w-cell>
+                <w-cell>
+                    <div>
+                        <w-i18n>directives.myOrders.total</w-i18n>
+                        <i class="icon-sorting"></i>
+                    </div>
+                </w-cell>
+                <w-cell>
+                    <div>
+                        <w-i18n>directives.myOrders.fee</w-i18n>
+                        <i class="icon-sorting"></i>
+                    </div>
+                </w-cell>
+                <w-cell>
+                    <div>
+                        <w-i18n>directives.myOrders.time</w-i18n>
+                        <i class="icon-sorting"></i>
+                    </div>
+                </w-cell>
+                <w-cell>
+                    <div>
+                        <w-i18n>directives.myOrders.status</w-i18n>
+                        <i class="icon-sorting"></i>
+                    </div>
+                </w-cell>
+                <w-cell>
+                    <!-- todo @german CancelAll button -->
+                    <div class="stop">
+                        <w-i18n>directives.myOrders.cancelAll</w-i18n>
+                    </div>
+                </w-cell>
+            </w-row>
+        </w-t-head>
+        <w-scroll-box>
+            <w-row ng-repeat="order in $ctrl.orders track by order.id"
+                   ng-class="{{order.status.toLowerCase()}}">
+                <w-cell>
+                    <span>{{::order.pair}}</span>
+                </w-cell>
+                <w-cell>
                 <span class="order-side {{::order.type}}"
                       w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
-            </w-cell>
-            <w-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n>:</span>
-                <w-balance money="order.price"></w-balance><!-- todo @german -->
-            </w-cell>
-            <w-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n>:</span>
-                <w-balance money="order.amount"></w-balance><!-- todo @german -->
-            </w-cell>
-            <w-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.total</w-i18n>:</span>
-                <w-balance money="order.amount"></w-balance> BTC
-                <!-- todo @german -->
-                <!-- params="{assetName: $ctrl.amountAsset.displayName}-->
-            </w-cell>
-            <w-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.fee</w-i18n>:</span>
-                <w-balance money="order.fee"></w-balance> <!-- todo @german -->
-            </w-cell>
-            <w-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n>:</span>
-                2017-06-29 06:26:49 <!-- todo @german -->
-            </w-cell>
-            <w-cell>
-                <!-- было {{order.state}} , которое выводило Filled (XX%) || Cancelled -->
-                <div class="status">
-                    <div>
-                        <w-i18n>directives.myOrders.canceled</w-i18n>
-                    </div> <!-- XX% || 100% || <w-i18n>directives.myOrders.canceled</w-i18n> -->
-                    <div class="progress-bar">
-                        <div class="progress-fill"></div><!-- must have width % by style attr -->
+                </w-cell>
+                <w-cell>
+                    <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n>:</span>
+                    <w-balance money="order.price"></w-balance><!-- todo @german -->
+                </w-cell>
+                <w-cell>
+                    <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n>:</span>
+                    <w-balance money="order.amount"></w-balance><!-- todo @german -->
+                </w-cell>
+                <w-cell>
+                    <span class="cell-label"><w-i18n>directives.myOrders.total</w-i18n>:</span>
+                    <w-balance money="order.amount"></w-balance>
+                    BTC
+                    <!-- todo @german -->
+                    <!-- params="{assetName: $ctrl.amountAsset.displayName}-->
+                </w-cell>
+                <w-cell>
+                    <span class="cell-label"><w-i18n>directives.myOrders.fee</w-i18n>:</span>
+                    <w-balance money="order.fee"></w-balance> <!-- todo @german -->
+                </w-cell>
+                <w-cell>
+                    <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n>:</span>
+                    2017-06-29 06:26:49 <!-- todo @german -->
+                </w-cell>
+                <w-cell>
+                    <!-- было {{order.state}} , которое выводило Filled (XX%) || Cancelled -->
+                    <div class="status">
+                        <div>
+                            <w-i18n>directives.myOrders.canceled</w-i18n>
+                        </div> <!-- XX% || 100% || <w-i18n>directives.myOrders.canceled</w-i18n> -->
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div><!-- must have width % by style attr -->
+                        </div>
                     </div>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div ng-if="order.status === 'Accepted' || order.status === 'PartiallyFilled'"
-                     ng-click="$ctrl.dropOrder(order)"
-                     w-i18n="directives.myOrders.cancel"
-                     class="stop"></div>
+                </w-cell>
+                <w-cell>
+                    <div ng-if="order.status === 'Accepted' || order.status === 'PartiallyFilled'"
+                         ng-click="$ctrl.dropOrder(order)"
+                         w-i18n="directives.myOrders.cancel"
+                         class="stop"></div>
 
-                <!-- todo @german -->
-                <!-- при каких-то статусах можно удалять ордер - надо уточнить у каких и поправить условие
-                что бы воводилась либо кнопка cancel либо delete, и для delete написать ее функционал -->
-                <div ng-if="order.status === '???' || order.status === 'PartiallyFilled'"
-                     ng-click="$ctrl.dropOrder(order)"
-                     w-i18n="directives.myOrders.delete"
-                     class="stop"></div>
-            </w-cell>
-        </w-row>
-    </w-scroll-box>
-</w-table>
-<div ng-if="!$ctrl.orders.length" class="empty-block-container">
-    <div class="icon"></div>
-    <div class="body-1 basic-700" w-i18n="emptyBlocks.myOrders.title"></div>
-    <div class="footnote-1 basic-500" w-i18n="emptyBlocks.myOrders.description"></div>
+                    <!-- todo @german -->
+                    <!-- при каких-то статусах можно удалять ордер - надо уточнить у каких и поправить условие
+                    что бы воводилась либо кнопка cancel либо delete, и для delete написать ее функционал -->
+                    <div ng-if="order.status === '???' || order.status === 'PartiallyFilled'"
+                         ng-click="$ctrl.dropOrder(order)"
+                         w-i18n="directives.myOrders.delete"
+                         class="stop"></div>
+                </w-cell>
+            </w-row>
+        </w-scroll-box>
+    </w-table>
+    <div ng-if="!$ctrl.orders.length" class="empty-block-container">
+        <div class="icon"></div>
+        <div class="body-1 basic-700" w-i18n="emptyBlocks.myOrders.title"></div>
+        <div class="footnote-1 basic-500" w-i18n="emptyBlocks.myOrders.description"></div>
+    </div>
 </div>
