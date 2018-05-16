@@ -1,3 +1,7 @@
+<!-- todo @german
+    тут должны отображаться только твои текущие активные ордера
+-->
+
 <w-table ng-if="$ctrl.orders.length">
     <w-t-head>
         <w-row>
@@ -36,11 +40,13 @@
             <w-cell>
                 <div>
                     <w-i18n>directives.myOrders.total</w-i18n>
+                    <i class="icon-sorting"></i>
                 </div>
             </w-cell>
             <w-cell>
                 <div>
                     <w-i18n>directives.myOrders.time</w-i18n>
+                    <i class="icon-sorting"></i>
                 </div>
             </w-cell>
             <w-cell>
@@ -83,16 +89,16 @@
             </w-cell>
             <w-cell>
                 <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n>:</span>
-                2017-06-29 06:26:49 <!-- todo @german -->
+                {{::order.date | date:'MM-dd HH:mm:ss'}} <!-- todo @german -->
             </w-cell>
             <w-cell>
                 <!-- было {{order.state}} , которое выводило Filled (XX%) || Cancelled -->
                 <div class="status">
                     <div>
-                        <w-i18n>directives.myOrders.canceled</w-i18n>
-                    </div> <!-- XX% || 100% || <w-i18n>directives.myOrders.canceled</w-i18n> -->
+                        50% <!-- XX%  -->
+                    </div>
                     <div class="progress-bar">
-                        <div class="progress-fill"></div><!-- must have width % by style attr -->
+                        <div class="progress-fill" style="width: 50%"></div><!-- must have width % by style attr -->
                     </div>
                 </div>
             </w-cell>

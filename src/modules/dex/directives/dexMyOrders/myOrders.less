@@ -49,77 +49,12 @@ w-dex-my-orders {
   w-scroll-box {
     overflow-x: visible;
     max-height: calc(100% ~'- 29px');
-
-    w-row {
-      padding: 6px 16px;
-
-      &:last-child {
-        margin-bottom: 10px;
-      }
-
-      &:hover {
-        .stop {
-          background-image: url(/img/icons/red-cancel.svg);
-          background-size: 16px 16px;
-          background-position: 0 center;
-        }
-      }
-
-      .status {
-        color: @color-submit-400;
-        margin-top: 3px;
-        .tag-3();
-
-        .progress-bar {
-          width: 80px;
-          height: 2px;
-          margin-top: 2px;
-
-          .progress-fill {
-            max-width: 80px;
-            height: 2px;
-            background-color: @color-submit-400;
-          }
-        }
-      }
-
-      &[ng-class='filled'] {
-        .status {
-          .progress-bar {
-            background-color: @color-disabled-200;
-          }
-        }
-      }
-
-      &[ng-class='accepted'],
-      &[ng-class='canceled'] {
-        .status {
-          .progress-bar {
-            background-color: @color-submit-50;
-          }
-        }
-      }
-
-      &[ng-class="cancelled"],
-      &[ng-class="filled"] {
-        color: @color-disabled-500;
-
-        .order-side.sell, .order-side.buy {
-          color: @color-disabled-500;
-        }
-      }
-
-    }
-
   }
 
   w-row {
-    position: relative;
-    padding: 0 16px;
 
     w-cell {
-      white-space: nowrap;
-      padding-left: 20px;
+      flex-basis: calc(100% / 7);
     }
 
     .cell-2,
@@ -147,27 +82,6 @@ w-dex-my-orders {
       width: 100px !important;
     }
 
-    //.cell-1 {
-    //  max-width: 5%;
-    //  padding: 0 14px;
-    //}
-    //
-    //.cell-2, .cell-3, .cell-4 {
-    //  text-align: right;
-    //  min-width: 100px;
-    //  padding-right: 20px;
-    //}
-    //
-    //.cell-2 {
-    //  min-width: 140px;
-    //}
-    //
-    //.cell-4 {
-    //  margin-right: 30px;
-    //  padding-right: 0;
-    //  width: 26%;
-    //}
-
     .order-side.sell {
       color: @color-error-400;
     }
@@ -188,19 +102,7 @@ w-dex-my-orders {
       padding-left: 26px;
       height: calc(100% ~'- 4px');
     }
-
-    &:not(:last-child) {
-      border-bottom: 1px solid @color-disabled-100;
-    }
   }
-
-  .cell-label {
-    display: none;
-    color: @color-disabled-700;
-    margin-right: 7px;
-    font-size: 9px;
-  }
-
 }
 
 @media screen and (max-width: 480px) {

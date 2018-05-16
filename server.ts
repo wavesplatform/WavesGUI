@@ -30,7 +30,7 @@ const handler = function (req, res) {
 
         res.setHeader('Set-Cookie', cookie);
         res.statusCode = 302;
-        res.setHeader('Location', 'https://localhost:8080');
+        res.setHeader('Location', req.headers.referer);
         res.end();
 
         return null;

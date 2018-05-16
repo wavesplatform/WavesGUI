@@ -31,14 +31,6 @@ body.dex {
           text-overflow: ellipsis;
         }
       }
-
-      w-scroll-box {
-        padding-right: @padding-main-layout;
-
-        w-row {
-          white-space: nowrap;
-        }
-      }
     }
 
     .block-title {
@@ -112,6 +104,118 @@ body.dex {
         align-items: center;
       }
     }
+  }
+
+  w-tabs {
+
+    .tab-body-wrap {
+      height: calc(100% ~'- 39px');
+    }
+
+    .titles-wrap {
+      height: 38px;
+      padding: 0;
+
+      .title {
+        color: @color-basic-700;
+        height: 38px;
+        font-size: 13px;
+        margin: 0;
+        padding: 0 20px;
+        line-height: 40px;
+        border: 0 none;
+        font-family: @font-roboto-medium;
+
+        &.active:first-child {
+          border-left: 0 none;
+        }
+
+        &.active {
+          color: @color-basic-700;
+          border-top: 2px solid @color-submit-400;
+          border-bottom: 1px solid @color-white;
+          border-right: 1px solid @color-disabled-200;
+          border-left: 1px solid @color-disabled-200;
+        }
+      }
+    }
+
+    w-row {
+      padding: 0 14px;
+      position: relative;
+
+      .table-row {
+        display: flex;
+        padding: 6px 0;
+      }
+
+      w-cell {
+        white-space: nowrap;
+        flex-basis: calc(100% / 7);
+        flex-grow: 0;
+      }
+
+      .cell-label {
+        display: none;
+        color: @color-disabled-700;
+        margin-right: 7px;
+        font-size: 9px;
+      }
+
+      .status {
+        color: @color-submit-400;
+        margin-top: 3px;
+        .tag-3();
+
+        .progress-bar {
+          width: 80px;
+          height: 2px;
+          margin-top: 2px;
+
+          .progress-fill {
+            max-width: 80px;
+            height: 2px;
+            background-color: @color-submit-400;
+          }
+        }
+      }
+
+      &[ng-class='filled'] {
+        .status {
+          .progress-bar {
+            background-color: @color-disabled-200;
+          }
+        }
+      }
+
+      &[ng-class='accepted'],
+      &[ng-class='canceled'] {
+        .status {
+          .progress-bar {
+            background-color: @color-submit-50;
+          }
+        }
+      }
+
+      &[ng-class="cancelled"],
+      &[ng-class="filled"] {
+        color: @color-disabled-500;
+
+        .order-side.sell, .order-side.buy {
+          color: @color-disabled-500;
+        }
+      }
+
+    }
+
+    w-scroll-box {
+      w-row {
+        &:last-child {
+          margin-bottom: 10px;
+        }
+      }
+    }
+
   }
 
   w-dex-trade-graph {

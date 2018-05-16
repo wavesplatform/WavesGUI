@@ -81,13 +81,17 @@ md-dialog {
   }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 540px) {
   md-dialog {
 
     md-dialog-content {
       &::after {
         min-height: 20px;
       }
+    }
+
+    md-backdrop {
+      display: none;
     }
 
     md-toolbar {

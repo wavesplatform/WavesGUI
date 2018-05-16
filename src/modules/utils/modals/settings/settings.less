@@ -156,10 +156,15 @@ md-dialog.settings-modal {
       padding-top: 5px;
 
       w-checkbox-submit {
+        flex-grow: 0;
         display: block;
         margin-right: 18px;
         padding-right: 18px;
         align-self: flex-start;
+      }
+
+      label {
+        flex-grow: 1;
       }
     }
 
@@ -221,16 +226,26 @@ md-dialog.settings-modal {
 }
 
 @media screen and (max-width: 767px) {
-
   md-dialog.settings-modal {
-    width: calc(100% ~' - 20px');
-    min-width: 340px;
-    max-width: 400px;
-    height: 82vh;
-    max-height: 82vh;
+    min-width: 360px;
+    max-width: 420px;
+
+    md-toolbar {
+      padding: 20px;
+
+      .icon-close {
+        right: 20px;
+      }
+    }
+
+    md-dialog-content {
+      padding: 20px 20px 0;
+      height: 100%;
+    }
 
     w-responsive-menu {
-      width: calc(100% ~' + 40px');
+      width: calc(100% ~'+ 40px');
+      min-width: 360px;
       border-bottom: 1px solid @color-accent-50;
       left: 0;
       top: 0;
@@ -328,5 +343,15 @@ md-dialog.settings-modal {
       }
 
     }
+
   }
+}
+
+@media screen and (max-width: 540px) {
+
+  md-dialog.settings-modal {
+    max-width: 100%;
+    min-width: 100%;
+  }
+
 }

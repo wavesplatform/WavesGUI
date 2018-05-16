@@ -6,30 +6,25 @@ w-dex-trade-history {
   height: 100%;
   text-align: right;
 
+  w-row {
+    w-cell {
+      flex-basis: 20%;
+    }
+  }
+
   .decimal-muted {
     color: @color-disabled-500;
   }
 
-  .cell-1 .table-cell {
-    position: relative;
+  .cell-0 {
+    text-align: left;
   }
 
-  .cell-1 .table-cell::before {
-    content: '';
-    display: block;
-    width: 8px;
-    height: 9px;
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translate(0, -50%);
+  .sell .cell-0 {
+    color: @color-error-400;
   }
 
-  .sell .cell-1 .table-cell::before {
-    background-image: url(/img/icons/arrow_down.svg);
-  }
-
-  .buy .cell-1 .table-cell::before {
-    background-image: url(/img/icons/arrow_up.svg);
+  .buy .cell-0 {
+    color: @color-submit-400;
   }
 }
