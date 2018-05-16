@@ -78,11 +78,7 @@
                  * @private
                  */
                 this._modalRouter = new ModalRouter();
-                /**
-                 * @type {function}
-                 * @private
-                 */
-                this._changeLangHandler = null;
+
                 /**
                  * Configure library generation avatar by address
                  */
@@ -123,9 +119,6 @@
              * @private
              */
             _listenChangeLanguage() {
-                this._changeLangHandler = () => {
-                    localStorage.setItem('lng', i18next.language);
-                };
                 i18next.on('languageChanged', this._changeLangHandler);
             }
 
@@ -134,7 +127,13 @@
              */
             _stopListenChangeLanguage() {
                 i18next.off('languageChanged', this._changeLangHandler);
-                this._changeLangHandler = null;
+            }
+
+            /**
+             * @private
+             */
+            _changeLangHandler() {
+                localStorage.setItem('lng', i18next.language);
             }
 
             /**
