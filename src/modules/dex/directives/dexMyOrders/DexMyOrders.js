@@ -87,7 +87,10 @@
                     },
                     {
                         id: 'controls',
-                        templateUrl: ''
+                        templatePath: 'modules/dex/directives/dexMyOrders/header-control-cell.html',
+                        scopeData: {
+                            cancelAllOrders: this.cancelAllOrders.bind(this)
+                        }
                     }
                 ];
 
