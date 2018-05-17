@@ -42,22 +42,38 @@
                 this._assetIdPair = null;
 
                 /**
-                 * @type {Object}
+                 * @type {Array}
                  */
                 this.orders = null;
 
+                /**
+                 * @type {Array}
+                 */
+                this.filteredOrders = null;
+
                 this.columns = new Sortable.Columns([
-                    DexMyOrders._getSortingColumn('type'),
-                    ...['price', 'amount'].map(DexMyOrders._getSortingMoneyColumn),
+                    ...['type', 'timestamp'].map(DexMyOrders._getSortingColumn),
+                    ...['price', 'amount', 'total'].map(DexMyOrders._getSortingMoneyColumn),
                     DexMyOrders._getSortingStatusColumn('status')
                 ]);
+
+                this.mask = '';
 
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
                 });
 
-                const poll = createPoll(this, this._getOrders, 'orders', 5000, { $scope });
+                const poll = createPoll(this, this._getOrders, this._setOrders, 5000, { $scope });
                 this.observe('_assetIdPair', () => poll.restart());
+            }
+
+            applyFilter() {
+                this.filteredOrders = this.orders.filter((order) => {
+                    const pair = order.pair.toLowerCase();
+                    const mask = this.mask.toLowerCase();
+
+                    return pair.includes(mask);
+                });
             }
 
             /**
@@ -65,6 +81,13 @@
              */
             sortBy(columnName) {
                 this.columns.sortBy(columnName, this.orders);
+                this.applyFilter();
+            }
+
+            cancelAllOrders() {
+                this.orders.filter(DexMyOrders._isStatusOpen).forEach((order) => {
+                    this.dropOrder(order);
+                });
             }
 
             /**
@@ -123,6 +146,11 @@
                     });
             }
 
+            _setOrders(orders) {
+                this.orders = orders;
+                this.applyFilter();
+            }
+
             /**
              * @type ColumnDataBuilder
              */
@@ -177,6 +205,8 @@
              * @private
              */
             static _compareStatusAscending(order, anotherOrder) {
+                // todo: стабилизация в этом случае работает плохо.
+                // todo: алгоритм требует уточнения и переработки.
                 if (DexMyOrders._isStatusOpen(order) && DexMyOrders._isStatusOpen(anotherOrder)) {
                     return 0;
                 }

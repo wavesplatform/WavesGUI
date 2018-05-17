@@ -179,6 +179,22 @@
                         Promise.resolve(`${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`)
                     ]))
                     .then(([price, amount, filled, pair]) => {
+                        const totalAmount = price.getTokens().mul(amount.getTokens());
+
+                        return (
+                            Waves
+                                .Money
+                                .fromTokens(totalAmount, priceAssetId)
+                                .then((total) => ({
+                                    price,
+                                    amount,
+                                    total,
+                                    filled,
+                                    pair
+                                }))
+                        );
+                    })
+                    .then(({ price, amount, total, filled, pair }) => {
                         const percent = filled.getTokens().div(amount.getTokens()).mul(100).round(2); // TODO
                         // TODO Move to component myOrders (dex refactor);
                         const STATUS_MAP = {
@@ -190,7 +206,7 @@
                         const state = i18n.translate(STATUS_MAP[order.status], 'app', { percent });
                         const isActive = ['Accepted', 'PartiallyFilled'].indexOf(order.status) !== -1;
 
-                        return { ...order, isActive, price, amount, filled, pair, percent, state };
+                        return { ...order, isActive, price, amount, total, filled, pair, percent, state };
                     });
             }
 
