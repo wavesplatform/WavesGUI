@@ -10,15 +10,15 @@
             dataset: ORDERS_TYPES.asks,
             key: 'amount',
             label: 'Asks',
-            color: '#f27057',
-            type: ['line', 'line', 'area']
+            color: '#ced9f9',
+            type: ['area']
         },
         bids: {
             dataset: ORDERS_TYPES.bids,
             key: 'amount',
             label: 'Bids',
-            color: '#2b9f72',
-            type: ['line', 'line', 'area']
+            color: '#eabcbe',
+            type: ['area']
         }
     };
     const ORDER_LIST_STUB = [{ amount: 0, price: 0 }];
@@ -62,9 +62,10 @@
 
                 this.options = {
                     margin: {
-                        top: 10,
-                        left: 70,
-                        right: 70
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0
                     },
                     grid: {
                         x: false,
