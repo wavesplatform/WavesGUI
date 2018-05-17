@@ -1,26 +1,29 @@
 (function () {
     'use strict';
 
-
-    class TableCell {
-
-        constructor() {
-            /**
-             * @type {TableRow}
-             */
-            this.row = null;
-        }
-
-    }
-
-    angular.module('app.ui').directive('wTableCell', () => ({
+    /**
+     * @param {STService} stService
+     * @return {*}
+     */
+    const directive = (stService) => ({
         bindings: {},
-        require: {
-            body: '^wTableRow'
-        },
         replace: true,
-        template: '<div class="smart-table__cell" ng-transclude></div>',
+        template: '<div data-column-id="{{::id}}" class="smart-table__cell" ng-transclude></div>',
         transclude: true,
-        controller: TableCell
-    }));
+        /**
+         * @param {$rootScope.Scope} $scope
+         * @param {JQuery} $element
+         */
+        link: {
+            post: function ($scope, $element) {
+                const parentCid = $element.closest('[data-cid]').attr('data-cid');
+                const index = $element.index();
+                $scope.id = $scope.id || stService.getTableByCid(parentCid).getIdByIndex(index);
+            }
+        }
+    });
+
+    directive.$inject = ['stService'];
+
+    angular.module('app.ui').directive('wTableCell', directive);
 })();

@@ -63,8 +63,14 @@
                     },
                     {
                         id: 'amount',
-                        title: { literal: 'directives.myOrders.total' },
+                        title: { literal: 'directives.myOrders.amount' },
                         valuePath: 'item.amount',
+                        sort: true
+                    },
+                    {
+                        id: 'total',
+                        title: { literal: 'directives.myOrders.total' },
+                        valuePath: 'item.total',
                         sort: true
                     },
                     {
@@ -75,7 +81,9 @@
                     },
                     {
                         id: 'status',
-                        title: { literal: 'directives.myOrders.status' }
+                        title: { literal: 'directives.myOrders.status' },
+                        valuePath: 'item.percent',
+                        sort: true
                     },
                     {
                         id: 'controls',

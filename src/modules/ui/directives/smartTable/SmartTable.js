@@ -12,9 +12,10 @@
      * @param {function(url: string): Promise<string>} $templateRequest
      * @param {$compile} $compile
      * @param {app.utils} utils
+     * @param {STService} stService
      * @return {SmartTable}
      */
-    const controller = function (Base, $scope, $element, decorators, $templateRequest, $compile, utils) {
+    const controller = function (Base, $scope, $element, decorators, $templateRequest, $compile, utils, stService) {
 
         const tsUtils = require('ts-utils');
 
@@ -70,10 +71,21 @@
                     this.observe(['data', 'filterList'], this._render);
                     this._render();
                 });
+
+                stService.register(this);
             }
 
             $postLink() {
                 this._header = $element.find('.smart-table__w-thead');
+            }
+
+            $onDestroy() {
+                stService.unregister(this);
+                super.$onDestroy();
+            }
+
+            getIdByIndex(index) {
+                return this._headerData[index].id;
             }
 
             /**
@@ -180,7 +192,7 @@
                 const $headerScope = $scope.$new(true);
                 const xhr = header.templatePath ? $templateRequest(header.templatePath) : this._headerCellPromise;
 
-                Object.assign($headerScope, { ...header.scopeData || Object.create(null) });
+                Object.assign($headerScope, { ...header.scopeData || Object.create(null) }, { id });
 
                 return xhr.then((template) => {
                     const $element = $compile(template)($headerScope);
@@ -316,7 +328,16 @@
         return new SmartTable();
     };
 
-    controller.$inject = ['Base', '$scope', '$element', 'decorators', '$templateRequest', '$compile', 'utils'];
+    controller.$inject = [
+        'Base',
+        '$scope',
+        '$element',
+        'decorators',
+        '$templateRequest',
+        '$compile',
+        'utils',
+        'stService'
+    ];
 
     angular.module('app.ui').component('wSmartTable', {
         bindings: {
