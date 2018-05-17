@@ -1,11 +1,6 @@
 (function () {
     'use strict';
 
-    const COMPARATORS = {
-        ASCENDING: 'asc',
-        DESCENDING: 'desc'
-    };
-
     /**
      * @param Base
      * @param {Waves} waves
@@ -15,7 +10,6 @@
      * @param {app.utils} utils
      * @param {$rootScope.Scope} $scope
      * @param orderStatuses
-     * @param Sortable
      * @return {DexMyOrders}
      */
     const controller = function (
@@ -26,8 +20,7 @@
         notification,
         utils,
         $scope,
-        orderStatuses,
-        Sortable
+        orderStatuses
     ) {
 
         class DexMyOrders extends Base {
@@ -46,42 +39,52 @@
                  */
                 this.orders = null;
 
-                /**
-                 * @type {Array}
-                 */
-                this.filteredOrders = null;
-
-                this.columns = new Sortable.Columns([
-                    ...['type', 'timestamp'].map(DexMyOrders._getSortingColumn),
-                    ...['price', 'amount', 'total'].map(DexMyOrders._getSortingMoneyColumn),
-                    DexMyOrders._getSortingStatusColumn('status')
-                ]);
-
-                this.mask = '';
-
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
                 });
 
-                const poll = createPoll(this, this._getOrders, this._setOrders, 5000, { $scope });
+                this.headers = [
+                    {
+                        id: 'pair',
+                        valuePath: 'item.pair',
+                        search: true
+                    },
+                    {
+                        id: 'type',
+                        title: { literal: 'directives.myOrders.type' },
+                        valuePath: 'item.type',
+                        sort: true
+                    },
+                    {
+                        id: 'price',
+                        title: { literal: 'directives.myOrders.price' },
+                        valuePath: 'item.price',
+                        sort: true
+                    },
+                    {
+                        id: 'amount',
+                        title: { literal: 'directives.myOrders.total' },
+                        valuePath: 'item.amount',
+                        sort: true
+                    },
+                    {
+                        id: 'time',
+                        title: { literal: 'directives.myOrders.time' },
+                        valuePath: 'item.timestamp',
+                        sort: true
+                    },
+                    {
+                        id: 'status',
+                        title: { literal: 'directives.myOrders.status' }
+                    },
+                    {
+                        id: 'controls',
+                        templateUrl: ''
+                    }
+                ];
+
+                const poll = createPoll(this, this._getOrders, 'orders', 3000, { $scope });
                 this.observe('_assetIdPair', () => poll.restart());
-            }
-
-            applyFilter() {
-                this.filteredOrders = this.orders.filter((order) => {
-                    const pair = order.pair.toLowerCase();
-                    const mask = this.mask.toLowerCase();
-
-                    return pair.includes(mask);
-                });
-            }
-
-            /**
-             * @param columnName
-             */
-            sortBy(columnName) {
-                this.columns.sortBy(columnName, this.orders);
-                this.applyFilter();
             }
 
             cancelAllOrders() {
@@ -142,60 +145,8 @@
                         active.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
                         others.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
 
-                        return this.columns.applyCurrentSort(active.concat(others));
+                        return active.concat(others);
                     });
-            }
-
-            _setOrders(orders) {
-                this.orders = orders;
-                this.applyFilter();
-            }
-
-            /**
-             * @type ColumnDataBuilder
-             */
-            static _getSortingColumn(name) {
-                return {
-                    ...DexMyOrders._getTimeStabilizingColumn(name),
-                    compareAscending: DexMyOrders._getAscendingComparator(name),
-                    compareDescending: DexMyOrders._getDescendingComparator(name)
-                };
-            }
-
-            /**
-             * @type ColumnDataBuilder
-             */
-            static _getSortingMoneyColumn(name) {
-                return {
-                    ...DexMyOrders._getTimeStabilizingColumn(name),
-                    compareAscending: DexMyOrders._getAscendingMoneyComparator(name),
-                    compareDescending: DexMyOrders._getDescendingMoneyComparator(name)
-                };
-            }
-
-            /**
-             * @type ColumnDataBuilder
-             */
-            static _getSortingStatusColumn(name) {
-                return {
-                    ...DexMyOrders._getTimeStabilizingColumn(name),
-                    compareAscending: DexMyOrders._compareStatusAscending,
-                    compareDescending(order, anotherOrder) {
-                        return -1 * DexMyOrders._compareStatusAscending(order, anotherOrder);
-                    }
-                };
-            }
-
-            /**
-             * @param name
-             * @returns {{name: *, compareStabilizing: Comparator}}
-             * @private
-             */
-            static _getTimeStabilizingColumn(name) {
-                return {
-                    name,
-                    compareStabilizing: DexMyOrders._getDescendingComparator('timestamp')
-                };
             }
 
             /**
@@ -238,71 +189,6 @@
                 return status === orderStatuses.filled || status === orderStatuses.cancelled;
             }
 
-            /**
-             * @type Comparator
-             */
-            static _getAscendingComparator(field) {
-                return DexMyOrders._getComparator({
-                    type: COMPARATORS.ASCENDING,
-                    field
-                });
-            }
-
-            /**
-             * @type Comparator
-             */
-            static _getDescendingComparator(field) {
-                return DexMyOrders._getComparator({
-                    type: COMPARATORS.DESCENDING,
-                    field
-                });
-            }
-
-            /**
-             * @type Comparator
-             */
-            static _getAscendingMoneyComparator(field) {
-                return DexMyOrders._getMoneyComparator({
-                    type: COMPARATORS.ASCENDING,
-                    field
-                });
-            }
-
-            /**
-             * @type Comparator
-             */
-            static _getDescendingMoneyComparator(field) {
-                return DexMyOrders._getMoneyComparator({
-                    type: COMPARATORS.DESCENDING,
-                    field
-                });
-            }
-
-            /**
-             * @param type
-             * @param field
-             * @returns {function(*, *): number}
-             * @private
-             */
-            static _getMoneyComparator({ type, field }) {
-                return DexMyOrders._getComparator({
-                    type,
-                    field,
-                    comparators: utils.comparators.money
-                });
-            }
-
-            /**
-             * @param type
-             * @param field
-             * @param comparators
-             * @returns {function(*, *): number}
-             * @private
-             */
-            static _getComparator({ type, field, comparators = utils.comparators }) {
-                return (order, anotherOrder) => comparators[type](order[field], anotherOrder[field]);
-            }
-
         }
 
         return new DexMyOrders();
@@ -316,8 +202,7 @@
         'notification',
         'utils',
         '$scope',
-        'orderStatuses',
-        'Sortable'
+        'orderStatuses'
     ];
 
     angular.module('app.dex').component('wDexMyOrders', {

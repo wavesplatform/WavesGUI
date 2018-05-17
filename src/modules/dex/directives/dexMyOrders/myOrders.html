@@ -1,122 +1,46 @@
-<!-- todo @Daniil
-    тут должны отображаться только твои текущие активные ордера
--->
-
-<w-table ng-if="$ctrl.orders.length">
-    <w-t-head>
-        <w-row>
-            <w-cell>
-                <div>
-                    <w-input type="text"
-                             placeholder="directives.myOrders.filter"
-                             class="orders-filter"
-                             ng-model="$ctrl.mask"
-                             ng-change="$ctrl.applyFilter()"
-                             w-i18n-attr="placeholder"></w-input>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div>
-                    <span ng-click="$ctrl.sortBy('type')">
-                        <w-i18n>directives.myOrders.type</w-i18n>
-                        <i class="icon-sorting"></i>
-                    </span>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div>
-                    <span ng-click="$ctrl.sortBy('price')">
-                        <w-i18n>directives.myOrders.price</w-i18n>
-                        <i class="icon-sorting"></i>
-                    </span>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div>
-                    <span ng-click="$ctrl.sortBy('amount')">
-                        <w-i18n>directives.myOrders.amount</w-i18n>
-                        <i class="icon-sorting"></i>
-                    </span>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div>
-                    <span ng-click="$ctrl.sortBy('total')">
-                        <w-i18n>directives.myOrders.total</w-i18n>
-                        <i class="icon-sorting"></i>
-                    </span>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div>
-                    <span ng-click="$ctrl.sortBy('timestamp')">
-                        <w-i18n>directives.myOrders.time</w-i18n>
-                        <i class="icon-sorting"></i>
-                    </span>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div>
-                    <span ng-click="$ctrl.sortBy('status')">
-                        <w-i18n>directives.myOrders.status</w-i18n>
-                        <i class="icon-sorting"></i>
-                    </span>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div class="stop">
-                    <span ng-click="$ctrl.cancelAllOrders()">
-                        <w-i18n>directives.myOrders.cancelAll</w-i18n>
-                    </span>
-                </div>
-            </w-cell>
-        </w-row>
-    </w-t-head>
-    <w-scroll-box>
-        <w-row ng-repeat="order in $ctrl.filteredOrders track by order.id"
-               ng-class="{{order.status.toLowerCase()}}">
-            <w-cell>
-                <span>{{::order.pair}}</span>
-            </w-cell>
-            <w-cell>
+<w-smart-table data="$ctrl.orders" header-info="$ctrl.headers">
+    <w-table-row ng-repeat="order in $data track by order.id">
+        <w-table-cell>
+            <span>{{::order.pair}}</span>
+        </w-table-cell>
+        <w-table-cell>
                 <span class="order-side {{::order.type}}"
                       w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
-            </w-cell>
-            <w-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n>:</span>
-                <w-balance money="order.price"></w-balance>
-            </w-cell>
-            <w-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n>:</span>
-                <w-balance money="order.amount"></w-balance>
-            </w-cell>
-            <w-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.total</w-i18n>:</span>
-                <w-balance money="order.total"></w-balance>
-            </w-cell>
-            <w-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n>:</span>
-                {{ order.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}
-            </w-cell>
-            <w-cell>
-                <div class="status">
-                    <div>
-                        {{order.percent.toString()}}%
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: {{order.percent.toString()}}%"></div>
-                    </div>
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n>:</span>
+            <w-balance money="order.price"></w-balance>
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n>:</span>
+            <w-balance money="order.amount"></w-balance>
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label"><w-i18n>directives.myOrders.total</w-i18n>:</span>
+            <w-balance money="order.total"></w-balance>
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n>:</span>
+            {{ order.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}
+        </w-table-cell>
+        <w-table-cell>
+            <div class="status">
+                <div>
+                    {{order.percent.toString()}}%
                 </div>
-            </w-cell>
-            <w-cell>
-                <div ng-if="order.status === 'Accepted' || order.status === 'PartiallyFilled'"
-                     ng-click="$ctrl.dropOrder(order)"
-                     w-i18n="directives.myOrders.cancel"
-                     class="stop"></div>
-            </w-cell>
-        </w-row>
-    </w-scroll-box>
-</w-table>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{order.percent.toString()}}%"></div>
+                </div>
+            </div>
+        </w-table-cell>
+        <w-table-cell>
+            <div ng-if="order.status === 'Accepted' || order.status === 'PartiallyFilled'"
+                 ng-click="$ctrl.dropOrder(order)"
+                 w-i18n="directives.myOrders.cancel"
+                 class="stop"></div>
+        </w-table-cell>
+    </w-table-row>
+</w-smart-table
 <div ng-if="!$ctrl.orders.length" class="empty-block-container">
     <div class="icon"></div>
     <div class="body-1 basic-700" w-i18n="emptyBlocks.myOrders.title"></div>
