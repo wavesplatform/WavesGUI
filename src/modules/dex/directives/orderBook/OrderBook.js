@@ -119,6 +119,11 @@
                         };
 
                         const process = function (list) {
+                            const total = Math.max(
+                                Number(list[list.length - 1].totalAmount),
+                                Number(list[0].totalAmount)
+                            );
+
                             return list.map((item) => {
                                 const cells = getCells(item);
                                 const attrs = [
@@ -129,12 +134,15 @@
                                     .filter(Boolean)
                                     .join(' ');
 
+                                const percent = (Number(item.amount) / total * 100).toFixed(2);
+                                const width = `style="width: ${percent}%;"`;
+
                                 // 1) todo @german dex-layout__line-graph-fill must have style="width: XX%"
                                 // 2) todo @german <w-row> must have class .active если это твой активный ордер
                                 return `<w-row ${attrs}> 
                                             <div class="table-row">
                                                 <div class="dex-layout__line-graph">
-                                                    <div class="dex-layout__line-graph-fill"></div>
+                                                    <div ${width} class="dex-layout__line-graph-fill"></div>
                                                 </div>
                                                 ${cells}
                                             </div>
