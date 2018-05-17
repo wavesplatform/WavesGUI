@@ -24,10 +24,6 @@
             constructor() {
                 super();
                 /**
-                 * @type {string}
-                 */
-                this.templatesPath = PATH;
-                /**
                  * @type {Array<*>}
                  */
                 this.data = null;
@@ -80,6 +76,9 @@
                 this._header = $element.find('.smart-table__w-thead');
             }
 
+            /**
+             * @private
+             */
             _applySort() {
                 this._sort();
                 this._draw();
@@ -99,6 +98,10 @@
                 this._draw();
             }
 
+            /**
+             * @return {null}
+             * @private
+             */
             @decorators.async()
             _onChangeHeader() {
                 const headers = this.headerInfo;
@@ -112,9 +115,7 @@
 
                 this._clearHeader();
 
-                this._headerCellPromise.then((template) => {
-
-                    const headerDataList = this.headerInfo.map(this._remapHeaders(template));
+                Promise.all(this.headerInfo.map(this._remapHeaders, this)).then((headerDataList) => {
 
                     headerDataList.forEach((data) => {
                         const descriptorHash = Object.create(null);
@@ -169,30 +170,34 @@
             }
 
             /**
-             * @param {string} template
-             * @return {function(head: SmartTable.IHeaderInfo): SmartTable._IHeaderData}
+             * @param {SmartTable.IHeaderInfo} header
+             * @return {Promise<SmartTable._IHeaderData>}
              * @private
              */
-            _remapHeaders(template) {
-                return (header) => {
-                    const { id, title } = header;
-                    const valuePath = header.valuePath || id;
-                    const $headeScope = $scope.$new(true);
-                    const $element = $compile(template)($headeScope);
+            _remapHeaders(header) {
+                const { id, title } = header;
+                const valuePath = header.valuePath || id;
+                const $headerScope = $scope.$new(true);
+                const xhr = header.templatePath ? $templateRequest(header.templatePath) : this._headerCellPromise;
+
+                Object.assign($headerScope, { ...header.scopeData || Object.create(null) });
+
+                return xhr.then((template) => {
+                    const $element = $compile(template)($headerScope);
 
                     return {
                         id,
                         title,
                         valuePath,
                         sort: SmartTable._getSortFunction(header.sort, valuePath),
-                        search: SmartTable._getSearchFunction($headeScope, header.search, valuePath),
+                        search: SmartTable._getSearchFunction($headerScope, header.search, valuePath),
                         sorting: false,
                         isAsc: true,
                         searchQuery: '',
-                        $scope: $headeScope,
+                        $scope: $headerScope,
                         $element
                     };
-                };
+                });
             }
 
             /**
@@ -341,6 +346,8 @@
  * @property {SmartTable.ILocaleItem} title
  * @property {string} id
  * @property {string} [valuePath]
+ * @property {string} [templatePath]
+ * @property {*} [scopeData]
  * @property {boolean|SmartTable.ISortCallback} sort
  * @property {boolean|SmartTable.ISearchCallback} search
  */
