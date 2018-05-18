@@ -9,13 +9,20 @@ w-change-language {
     top: 34px;
     z-index: 1;
 
-    .select .title {
-      border: 1px solid transparent;
-    }
-
     .select.expanded .title {
       border: 1px solid @color-basic-200;
       border-bottom: 1px solid transparent;
+    }
+
+    .select {
+      .title {
+        border: 1px solid transparent;
+      }
+
+      .select-list {
+        max-height: 171px;
+        overflow: auto;
+      }
     }
 
     .lng-item {
@@ -60,6 +67,14 @@ w-change-language {
 
     .lng-zh-Hans-CN::before {
       background: url(/img/icons/flags/zh-Hans-CN.svg);
+    }
+
+    .lng-nl::before {
+      background: url(/img/icons/flags/nl.svg);
+    }
+
+    .lng-hi::before {
+      background: url(/img/icons/flags/hi.svg);
     }
 
   }

@@ -146,19 +146,31 @@
             }
 
             /**
-             * @param {User} user
-             * @param {Asset} [asset]
+             * @param {object} [data]
+             * @param {string} [data.assetId]
+             * @param {'singleSend'|'massSend'} [data.mode]
+             * @param {string} [data.amount]
+             * @param {string} [data.recipient]
+             * @param {boolean} [data.strict]
+             * @param {string} [data.referrer]
              * @return {Promise}
              */
-            showSendAsset(user, asset = Object.create(null)) {
+            showSendAsset(data) {
+                data = data || Object.create(null);
+
                 return this._getModal({
                     id: 'send-asset',
                     controller: 'AssetSendCtrl',
                     templateUrl: 'modules/utils/modals/sendAsset/send.modal.html',
                     mod: 'modal-send',
                     locals: {
-                        assetId: asset.id,
-                        canChooseAsset: !asset.id
+                        assetId: data.assetId,
+                        canChooseAsset: !data.assetId,
+                        mode: data.mode,
+                        amount: data.amount,
+                        recipient: data.recipient,
+                        strict: data.strict,
+                        referrer: data.referrer
                     }
                 });
             }
@@ -239,8 +251,7 @@
                     id: 'transaction-info',
                     ns: 'app.ui',
                     controller: 'TransactionInfoCtrl',
-                    titleContentUrl: 'modules/utils/modals/transactionInfo/transaction-info-title.modal.html',
-                    contentUrl: 'modules/utils/modals/transactionInfo/transaction-info.modal.html',
+                    templateUrl: 'modules/utils/modals/transactionInfo/transaction-info.modal.html',
                     mod: 'transaction-info',
                     locals: { transactionId }
                 });

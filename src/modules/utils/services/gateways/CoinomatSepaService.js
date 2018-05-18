@@ -24,6 +24,10 @@
 
         class CoinomatSepaService {
 
+            getAll() {
+                return CURRENCIES;
+            }
+
             /**
              * @param {Asset} asset
              * @param {string} wavesAddress

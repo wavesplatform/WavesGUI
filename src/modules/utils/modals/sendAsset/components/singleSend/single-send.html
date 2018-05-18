@@ -1,5 +1,5 @@
 <form class="send-form"
-      name="send"
+      name="$ctrl.send"
       novalidate>
 
     <ng-transclude></ng-transclude>
@@ -163,7 +163,7 @@
     </div>
 
     <w-button on-click="$ctrl.createTx()"
-              disabled="send.$invalid || (!send.$invalid && !$ctrl.hasComission)"
+              disabled="$ctrl.send.$invalid || (!$ctrl.send.$invalid && !$ctrl.hasComission)"
               type="submit"
               class="big submit long">
         <w-i18n>button.continue</w-i18n>

@@ -11,6 +11,10 @@
             return null;
         }
 
+        /**
+         * @class ExtendedAsset
+         * @extends Asset
+         */
         class ExtendedAsset extends Waves.Asset {
 
             constructor(props) {

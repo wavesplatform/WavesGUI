@@ -1,14 +1,29 @@
-<div w-i18n-ns="{{::$ctrl.locale}}" class="transaction-confirm">
+<div w-i18n-ns="{{::$ctrl.locale}}" class="transaction-confirm txinfo">
     <w-step-by-step active-step="$ctrl.step">
         <w-step>
-            <w-transaction-info class="margin-3" transaction="$ctrl.tx"></w-transaction-info>
-            <div class="buttons-wrapper">
-                <w-button class="big" on-click="$ctrl.onClickBack()">
-                    <w-i18n>confirmTransaction.back</w-i18n>
-                </w-button>
-                <w-button class="big submit" w-next-step on-click="$ctrl.confirm()">
-                    <w-i18n>confirmTransaction.confirm</w-i18n>
-                </w-button>
+            <div class="txinfo__wrapper">
+                <w-transaction-info transaction="$ctrl.tx"></w-transaction-info>
+
+                <h3 class="info margin-4 basic-700" ng-if="$ctrl.referrer">
+                    <w-i18n params="{referrer: $ctrl.referrer}">confirmTransaction.redirect</w-i18n>
+                </h3>
+
+                <div class="error error-500 text-center body-2"
+                     ng-repeat="error in $ctrl.errors"
+                     w-i18n="{{::error.literal}}"></div>
+
+                <div class="buttons-wrapper">
+                    <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.onClickBack()">
+                        <w-i18n>confirmTransaction.back</w-i18n>
+                    </w-button>
+                    <w-button class="big submit"
+                              disabled="$ctrl.errors.length > 0"
+                              ng-class="{long: $ctrl.noBackButton}"
+                              w-next-step
+                              on-click="$ctrl.confirm()">
+                        <w-i18n>confirmTransaction.confirm</w-i18n>
+                    </w-button>
+                </div>
             </div>
         </w-step>
         <w-step>

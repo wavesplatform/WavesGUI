@@ -2,8 +2,7 @@
     'use strict';
 
     const CARDS_PAYMENTS_AVAILABLE = {
-        [WavesApp.defaultAssets.WAVES]: true,
-        [WavesApp.defaultAssets.BTC]: true
+        [WavesApp.defaultAssets.WAVES]: true
     };
 
     /**
@@ -20,6 +19,18 @@
                     coinomatService,
                     coinomatSepaService
                 ];
+            }
+
+            getCryptocurrencies() {
+                return coinomatService.getAll();
+            }
+
+            getPurchasableByCards() {
+                return CARDS_PAYMENTS_AVAILABLE;
+            }
+
+            getFiats() {
+                return coinomatSepaService.getAll();
             }
 
             /**

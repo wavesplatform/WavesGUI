@@ -2,6 +2,10 @@
 
 .transactions {
 
+  w-radio-wrap {
+    flex-grow: 1;
+  }
+
   .transactions-content {
     display: flex;
     flex-direction: column;
@@ -10,13 +14,14 @@
     .controls {
       display: flex;
       flex-direction: row;
-      align-items: center;
       justify-content: space-between;
       margin: 6px 0 16px;
       min-height: 32px;
 
       .btn-wrap.btn-group {
+        justify-content: flex-start;
         padding: 0;
+
         .btn.btn-radio {
           font-size: 15px;
           font-family: @font-roboto-medium;
@@ -29,9 +34,18 @@
     display: none;
   }
 
+  w-select.tx-filter {
+    margin-right: 10px;
+    background: @color-white;
+    flex-grow: 0;
+    height: 42px;
+    white-space: nowrap;
+  }
+
   button.download {
     background: url(/img/icons/download.svg) 20px center no-repeat @color-white;
     padding-left: 40px;
+    flex-grow: 0;
   }
 }
 
@@ -49,6 +63,17 @@
 
       .title {
         height: 42px;
+      }
+    }
+
+    button.download {
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      background-position: center;
+
+      span {
+        display: none;
       }
     }
   }

@@ -243,6 +243,14 @@
                 'tr': {
                     name: 'Tr',
                     separators: localeSeparators.turkish
+                },
+                'nl': {
+                    name: 'Nl',
+                    separators: localeSeparators.world
+                },
+                'hi': {
+                    name: 'Hi',
+                    separators: localeSeparators.world
                 }
             },
             network: {
@@ -252,7 +260,8 @@
                 api: '{{network.api}}',
                 coinomat: '{{network.coinomat}}',
                 datafeed: '{{network.datafeed}}',
-                support: '{{network.support}}'
+                support: '{{network.support}}',
+                nodeList: '{{network.nodeList}}'
             },
             defaultAssets: {
                 WAVES: 'WAVES',
@@ -263,6 +272,7 @@
                 LTC: '{{network.assets.LTC}}',
                 ZEC: '{{network.assets.ZEC}}',
                 BCH: '{{network.assets.BCH}}',
+                DASH: '{{network.assets.DASH}}',
                 TRY: '{{network.assets.TRY}}'
             },
             otherAssetsWithIcons: {
@@ -444,6 +454,7 @@
         };
     })(window.fetch);
 
+    // Signed 64-bit integer.
     WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
 
     WavesApp.parseJSON = parseJsonBignumber();

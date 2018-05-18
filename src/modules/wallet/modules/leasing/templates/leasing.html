@@ -1,6 +1,6 @@
 <div w-i18n-ns="app.wallet.leasing" class="leasing-page">
     <div class="left-panel">
-        <w-leasing-block class="margin-1" title-locale="chart.title">
+        <w-leasing-block class="noheader margin-1" title-locale="chart.title">
             <div class="balance-container text-center margin-4">
                 <w-balance money="$ctrl.total"></w-balance>
             </div>
@@ -35,7 +35,15 @@
                 <div class="description-split"></div>
                 <div class="icon-description footnote-1 basic-500" w-i18n="description.text2"></div>
                 <div class="description-split"></div>
-                <div class="footnote-1 basic-500" w-i18n="description.text3"></div>
+                <div class="footnote-1 basic-500 margin-1" w-i18n="description.text3"></div>
+                <a
+                    class="link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    ng-href="{{::$ctrl.nodeListLink}}"
+                >
+                    <w-i18n>nodeListLink</w-i18n>
+                </a>
             </div>
         </w-leasing-block>
     </div>

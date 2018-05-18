@@ -18,6 +18,8 @@
      */
     const factory = function (storage, $state, defaultSettings, state, UserRouteState, modalManager, timeLine) {
 
+        const tsUtils = require('ts-utils');
+
         class User {
 
             constructor() {
@@ -101,6 +103,64 @@
              */
             getSetting(name) {
                 return this._settings.get(name);
+            }
+
+            /**
+             * @param {string} assetId
+             * @param {boolean} [state]
+             */
+            togglePinAsset(assetId, state) {
+                this.toggleArrayUserSetting('pinnedAssetIdList', assetId, state);
+                if (this.hasInArrayUserSetting('pinnedAssetIdList', assetId)) {
+                    this.toggleSpamAsset(assetId, false);
+                }
+            }
+
+            /**
+             * @param {string} assetId
+             * @param {boolean} [state]
+             */
+            toggleSpamAsset(assetId, state) {
+                this.toggleArrayUserSetting('wallet.portfolio.spam', assetId, state);
+                if (this.hasInArrayUserSetting('wallet.portfolio.spam', assetId)) {
+                    this.togglePinAsset(assetId, false);
+                }
+            }
+
+            /**
+             * @param {string} path
+             * @param {string|number} value
+             * @param {boolean} [state]
+             * @return {null}
+             */
+            toggleArrayUserSetting(path, value, state) {
+                const list = this.getSetting(path);
+                const index = list.indexOf(value);
+                state = tsUtils.isEmpty(state) ? index === -1 : state;
+
+                if (state && index === -1) {
+                    const newList = list.slice();
+                    newList.push(value);
+                    this.setSetting(path, newList);
+                    return null;
+                }
+
+                if (!state && index !== -1) {
+                    const newList = list.slice();
+                    newList.splice(index, 1);
+                    this.setSetting(path, newList);
+                    return null;
+                }
+            }
+
+            /**
+             * @param {string} path
+             * @param {string} value
+             * @return {boolean}
+             */
+            hasInArrayUserSetting(path, value) {
+                const list = this.getSetting(path);
+                return list.includes(value);
             }
 
             /**

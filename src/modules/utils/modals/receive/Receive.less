@@ -3,6 +3,22 @@
 
 md-dialog.modal-receive {
   md-dialog-content {
+
+    .modal-content,
+    .tab-container,
+    .tab-body-wrap,
+    w-tab,
+    .step-list,
+    w-step-by-step,
+    w-step,
+    w-step > div {
+      height: 100%;
+    }
+
+    .modal-content {
+      overflow: auto;
+    }
+
     position: relative;
     padding: 0;
     overflow: hidden;
@@ -22,11 +38,19 @@ md-dialog.modal-receive {
       }
     }
 
+    w-select .select-list {
+      max-height: 325px;
+      overflow: auto;
+    }
+
     .icon-close {
-      position: absolute;
-      top: 20px;
-      right: 40px;
+      position: fixed;
+      top: 10px;
+      right: 30px;
       z-index: 11;
+      padding: 20px;
+      background-size: 16px;
+      background-position: center;
     }
 
     w-tabs {
@@ -83,6 +107,10 @@ md-dialog.modal-receive {
         flex-basis: 48%;
       }
 
+      w-input.long {
+        flex-basis: 100%;
+      }
+
       w-input .w-input-wrap input[type="text"] {
         padding-right: 50px;
       }
@@ -116,7 +144,6 @@ md-dialog.modal-receive {
     w-confirm-transaction {
       display: block;
       padding: 60px 40px 0;
-      overflow: auto;
       max-height: calc(74vh ~'- 60px');
       margin-top: -60px;
 
@@ -130,6 +157,16 @@ md-dialog.modal-receive {
     .receive-confirm {
       min-height: 220px;
       padding-bottom: 70px;
+    }
+
+    .receive-invoice {
+      w-copy-wrap span {
+        display: inline-block;
+        width: calc(100% ~'- 20px');
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
     }
 
     .modal-content {
@@ -214,7 +251,7 @@ md-dialog.modal-receive {
   }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 540px) {
   md-dialog.modal-receive {
     md-dialog-content {
       .modal-content {
@@ -222,7 +259,7 @@ md-dialog.modal-receive {
         .receive-confirm,
         w-confirm-transaction {
           padding: 40px 20px 0;
-          max-height: 85vh;
+          max-height: calc(100% + 60px);
 
           &::after {
             content: '';
@@ -238,7 +275,7 @@ md-dialog.modal-receive {
         }
 
         .icon-close {
-          right: 20px;
+          right: 10px;
         }
 
         w-tabs {
@@ -262,7 +299,7 @@ md-dialog.modal-receive {
 
           .tab-body-wrap .tab-tem {
             padding: 20px 20px 0;
-            max-height: calc(85vh ~'- 60px');
+            max-height: 100%;
 
             &::after {
               height: 20px;
@@ -271,6 +308,13 @@ md-dialog.modal-receive {
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 420px) {
+  w-balance-input w-input .w-input-wrap input[type="text"].big,
+  w-select .select .title {
+    font-size: @font-size-caption-1;
   }
 }
 

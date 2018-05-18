@@ -71,6 +71,7 @@
              */
             registerOption(option) {
                 this._options.add(option);
+                this._render();
             }
 
             /**
@@ -129,6 +130,7 @@
                     this.setActive(active);
                 } else {
                     this.setActive(this._options.first());
+                    $scope.$apply();
                 }
             }
 

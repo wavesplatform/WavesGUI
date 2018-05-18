@@ -29,6 +29,10 @@
                 return this.state.assetId;
             }
 
+            set assetId(id) {
+                this.state.assetId = id;
+            }
+
             /**
              * @return {string}
              */
@@ -129,6 +133,10 @@
 
                         this._onChangeBaseAssets();
                         this._updateGatewayDetails();
+
+                        if (this.tx.amount.getTokens().gt(0) || this.tx.recipient) {
+                            this.send.$setSubmitted(true);
+                        }
                     });
                 });
             }
@@ -136,12 +144,11 @@
             createTx() {
                 const toGateway = this.outerSendMode && this.gatewayDetails;
 
-                const tx = waves.node.transactions.createTransaction(WavesApp.TRANSACTION_TYPES.NODE.TRANSFER, {
+                const tx = {
                     ...this.tx,
-                    sender: user.address,
                     recipient: toGateway ? this.gatewayDetails.address : this.tx.recipient,
                     attachment: toGateway ? this.gatewayDetails.attachment : this.tx.attachment
-                });
+                };
 
                 this.onContinue({ tx });
             }
@@ -186,7 +193,10 @@
                             this.tx.amount = this.moneyHash[this.assetId].cloneWithCoins(result.params.amount);
                             this._fillMirror();
                         }
+                        $scope.$apply();
                     };
+
+                    result.params.assetId = result.params.asset || result.params.assetId;
 
                     if (result.params.assetId) {
                         waves.node.assets.balance(result.params.assetId).then(({ available }) => {

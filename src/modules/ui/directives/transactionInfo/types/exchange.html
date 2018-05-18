@@ -1,4 +1,4 @@
-<div class="lead">
+<div class="txinfo__lead">
     <h3 class="basic-700"
         w-i18n="transaction.amounts.{{::$ctrl.type}}"
         params="{
@@ -15,9 +15,9 @@
          }"></div>
 </div>
 
-<div class="section">
-    <div class="key"
+<div class="txinfo__row">
+    <div class="txinfo__key"
          w-i18n="transaction.modals.price"
          params="{name: $ctrl.transaction.amount.asset.name}"></div>
-    <div class="value">{{::$ctrl.transaction.price.toFormat()}} {{::$ctrl.transaction.price.pair.priceAsset.name}}</div>
+    <div class="txinfo__value">{{::$ctrl.transaction.price.toFormat()}} {{::$ctrl.transaction.price.pair.priceAsset.name}}</div>
 </div>

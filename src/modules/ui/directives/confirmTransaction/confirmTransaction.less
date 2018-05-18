@@ -1,3 +1,10 @@
+@import (reference) '../../../config';
+
+.txinfo {
+  display: block;
+  width: 100%;
+}
+
 w-confirm-transaction {
   display: block;
   width: 100%;
@@ -6,20 +13,29 @@ w-confirm-transaction {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
+    padding-top: 30px;
+    border-top: 1px solid @color-basic-200;
 
     & > w-button {
       display: block;
-      width: 224px;
+      width: 48%;
     }
+
+    & > w-button.long {
+      width: 100%;
+    }
+  }
+
+  h3.info {
+    text-align: center;
   }
 }
 
-@media screen and (max-width: 520px) {
+@media screen and (max-width: 540px) {
   w-confirm-transaction {
     .buttons-wrapper {
-      & > w-button {
-         width: 48%;
-      }
+      padding-top: 20px;
     }
   }
 }

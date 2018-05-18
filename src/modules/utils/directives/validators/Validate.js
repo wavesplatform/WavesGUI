@@ -433,6 +433,7 @@
                                 apply: () => {
                                     precisionValidator.value = validator.money.asset.precision;
                                     this._validateByName(name);
+                                    this._validateByName(precisionValidator.name);
                                 },
                                 handler: () => {
                                     return true; // Can't write no number values! :)
