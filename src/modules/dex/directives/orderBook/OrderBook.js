@@ -62,8 +62,7 @@
                     _assetIdPair: 'dex.assetIdPair'
                 });
 
-                // !TODO 1000!
-                const poll = createPoll(this, this._getOrders, 'orders', 99999991000, { $scope });
+                const poll = createPoll(this, this._getOrders, 'orders', 1000, { $scope });
 
                 this.observe('_assetIdPair', () => {
                     this._showSpread = true;
