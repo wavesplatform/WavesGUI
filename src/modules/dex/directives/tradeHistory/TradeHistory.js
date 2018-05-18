@@ -46,6 +46,41 @@
                     }
                 });
 
+                this.headers = [
+                    {
+                        id: 'type',
+                        title: { literal: 'directives.tradeHistory.tableTitle.type' },
+                        valuePath: 'item.type',
+                        sort: true
+                    },
+                    {
+                        id: 'price',
+                        title: { literal: 'directives.tradeHistory.tableTitle.price' },
+                        valuePath: 'item.price',
+                        sort: true
+                    },
+                    {
+                        id: 'amount',
+                        title: { literal: 'directives.tradeHistory.tableTitle.size' },
+                        valuePath: 'item.amount',
+                        sort: true
+                    },
+                    {
+                        id: 'total',
+                        title: { literal: 'directives.tradeHistory.tableTitle.total' },
+                        valuePath: 'item.total',
+                        sort: true
+                    },
+                    {
+                        id: 'time',
+                        title: { literal: 'directives.tradeHistory.tableTitle.date' },
+                        valuePath: 'item.timestamp',
+                        sort: true,
+                        sortActive: true,
+                        isAsc: false
+                    },
+                ];
+
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair'
                 });

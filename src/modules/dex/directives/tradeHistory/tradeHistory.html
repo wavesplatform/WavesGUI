@@ -1,75 +1,34 @@
-<!-- todo @german
-    тут должны отображаться ордера по рынку
--->
+<w-smart-table data="$ctrl.orders" header-info="$ctrl.headers">
+    <div ng-if="!$ctrl.orders.length" class="empty-block-container">
+        <div class="icon"></div>
+        <div class="body-1 basic-700" w-i18n="emptyBlocks.tradeHistory.title"></div>
+        <div class="footnote-1 basic-500" w-i18n="emptyBlocks.tradeHistory.description"></div>
+    </div>
+    <!-- TODO @uIsk remove asset name from locize after release -->
+    <w-table-row ng-repeat="order in $data track by order.id"
+                 class="footnote-1 disabled-900 {{::order.type}}">
+        <w-table-cell>
+            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.type"></span>
+            <span class="order-side {{::order.type}}"
+                  w-i18n="directives.tradeHistory.orderType.{{::order.type}}"></span>
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.price"></span>
+            <span precision="$ctrl.priceAsset.precision" short-mode="::true" w-nice-number="order.price"></span>
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.size"></span>
+            <span precision="$ctrl.amountAsset.precision" short-mode="::true" w-nice-number="order.size"></span>
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.total"></span>
+            15500.<span style="color:red">HARDCODE</span>
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.date"></span>
+            <span style="color:red">XXXX-XX-XX XX:XX:XX</span>
+            <!-- {{ order.timestamp | date:'yyyy-MM-dd HH:mm:ss' }} -->
+        </w-table-cell>
+    </w-table-row>
+</w-smart-table>
 
-<w-table ng-if="$ctrl.orders.length">
-    <w-t-head>
-        <w-row>
-            <w-cell>
-                <div>
-                    <span>
-                        <w-i18n>directives.tradeHistory.tableTitle.type</w-i18n>
-                        <i class="icon-sorting"></i>
-                    </span>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div>
-                    <span>
-                        <w-i18n>directives.tradeHistory.tableTitle.price</w-i18n>
-                        <i class="icon-sorting"></i>
-                    </span>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div>
-                    <span>
-                        <w-i18n>directives.tradeHistory.tableTitle.size</w-i18n>
-                        <i class="icon-sorting"></i>
-                    </span>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div>
-                    <span>
-                        <w-i18n>directives.tradeHistory.tableTitle.total</w-i18n>
-                        <i class="icon-sorting"></i>
-                    </span>
-                </div>
-            </w-cell>
-            <w-cell>
-                <div>
-                    <span>
-                        <w-i18n>directives.tradeHistory.tableTitle.date</w-i18n>
-                        <i class="icon-sorting"></i>
-                    </span>
-                </div>
-            </w-cell>
-        </w-row>
-    </w-t-head>
-    <w-scroll-box>
-        <w-row ng-repeat="order in $ctrl.orders track by order.id" class="footnote-1 disabled-900 {{::order.type}}">
-            <w-cell>
-                 <span class="order-side {{::order.type}}"
-                       w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
-            </w-cell>
-            <w-cell class="size">
-                <span precision="$ctrl.priceAsset.precision" short-mode="::true" w-nice-number="order.price"></span>
-            </w-cell>
-            <w-cell>
-                <span precision="$ctrl.amountAsset.precision" short-mode="::true" w-nice-number="order.size"></span>
-            </w-cell>
-            <w-cell> <!-- todo @german 'Total' cell-->
-                15500.0000001
-            </w-cell>
-            <w-cell>
-                2017-06-29 06:26:49 <!-- todo @german -->
-            </w-cell>
-    </w-scroll-box>
-    </w-row>
-</w-table>
-<div ng-if="!$ctrl.orders.length" class="empty-block-container"> <!-- todo @german ng-if -->
-    <div class="icon"></div>
-    <div class="body-1 basic-700" w-i18n="emptyBlocks.tradeHistory.title"></div>
-    <div class="footnote-1 basic-500" w-i18n="emptyBlocks.tradeHistory.description"></div>
-</div>
