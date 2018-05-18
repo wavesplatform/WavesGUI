@@ -1,0 +1,17 @@
+<w-smart-table data="$ctrl.balanceList" header-info="$ctrl.headers">
+    <w-table-row ng-repeat="balance in $data track by balance.asset.id">
+        <w-table-cell>
+            <w-asset-logo size="20" asset-id="{{::balance.asset.id}}"></w-asset-logo>
+            {{::balance.asset.name}}
+        </w-table-cell>
+        <w-table-cell>
+            <w-balance money="balance.available"></w-balance>
+        </w-table-cell>
+        <w-table-cell>
+            <w-balance money="balance.inOrders"></w-balance>
+        </w-table-cell>
+        <w-table-cell>
+            <w-balance money="balance.regular"></w-balance>
+        </w-table-cell>
+    </w-table-row>
+</w-smart-table>

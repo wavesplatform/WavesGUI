@@ -147,7 +147,9 @@
                             topright: {
                                 collapsed: false
                             },
-                            bottomleft: {},
+                            bottomleft: {
+                                tab: 'myOpenOrders'
+                            },
                             bottomright: {}
                         }
                     }

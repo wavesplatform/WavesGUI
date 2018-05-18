@@ -17,6 +17,7 @@
                 this._rightHidden = false;
 
                 this.syncSettings({
+                    tab: 'dex.layout.bottomleft.tab',
                     _leftHidden: 'dex.layout.leftColumnState',
                     _rightHidden: 'dex.layout.rightColumnState'
                     // collapseMyOrders: 'dex.layout.myOrders.collapsed',
@@ -32,6 +33,9 @@
                 this[`_${column}Hidden`] = !this[`_${column}Hidden`];
             }
 
+            /**
+             * @private
+             */
             _onChangeProperty() {
                 const $graphWrapper = $element.find('.graph-wrapper');
                 $graphWrapper.hide();

@@ -15,7 +15,7 @@
         class MyTradeHistory extends Base {
 
             constructor() {
-                super($scope);
+                super();
 
                 /**
                  * @type {Array}

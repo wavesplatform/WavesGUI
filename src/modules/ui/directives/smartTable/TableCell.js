@@ -17,8 +17,12 @@
         link: {
             post: function ($scope, $element) {
                 const parentCid = $element.closest('[data-cid]').attr('data-cid');
+                const element = $element.get(0);
                 const index = $element.index();
-                $scope.id = $scope.id || stService.getTableByCid(parentCid).getIdByIndex(index);
+
+                if (element.parentElement) {
+                    $scope.id = stService.getTableByCid(parentCid).getIdByIndex(index);
+                }
             }
         }
     });
