@@ -35,12 +35,6 @@
 
             constructor() {
                 super();
-
-                /**
-                 * Expanded state
-                 * @type {number}
-                 */
-                this.step = 1;
                 /**
                  * Max amount (with fee)
                  * @type {Money}
@@ -131,7 +125,7 @@
                     }));
                 });
 
-                this.observe(['amount', 'price', 'step', 'type'], this._currentTotal);
+                this.observe(['amount', 'price', 'type'], this._currentTotal);
 
                 // TODO Add directive for stop propagation (catch move for draggable)
                 $element.on('mousedown touchstart', '.body', (e) => {
@@ -141,7 +135,6 @@
 
             expand(type) {
                 this.type = type;
-                this.step = 1;
                 this.price = this._getCurrentPrice();
 
                 $scope.$$postDigest(() => {
@@ -185,11 +178,6 @@
                         .div(this.price.getTokens())
                         .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
                 }
-            }
-
-            collapse() {
-                this.type = null;
-                this.step = 0;
             }
 
             createOrder(form) {
@@ -320,9 +308,6 @@
              * @private
              */
             _currentTotal() {
-                if (this.step !== 1) {
-                    return null;
-                }
 
                 if (!this.price || !this.amount) {
                     this.totalPrice = this.priceBalance.cloneWithTokens('0');

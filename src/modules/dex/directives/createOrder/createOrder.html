@@ -1,6 +1,5 @@
-<div class="create-order"
+<div class="create-order expanded"
      w-i18n-ns="app.dex"
-     ng-class="{expanded: $ctrl.step !== 0}"
      ng-if="$ctrl.amountBalance && $ctrl.priceBalance">
     <div class="body">
 
@@ -36,12 +35,12 @@
                             <div ng-if="$ctrl.type === 'buy'"
                                  ng-click="$ctrl.setMaxPrice()"
                                  class="caption-2 disabled-900 underline-dashed">
-                                <w-balance money="$ctrl.priceBalance"></w-balance>&nbsp;{{$ctrl.priceBalance.asset.displayName}}
+                                <w-i18n params="{money: $ctrl.priceBalance}">money-currency</w-i18n>
                             </div>
                             <div ng-if="$ctrl.type === 'sell'"
                                  ng-click="$ctrl.setMaxAmount()"
                                  class="caption-2 disabled-900 underline-dashed">
-                                <w-balance money="$ctrl.amountBalance"></w-balance>&nbsp;{{$ctrl.amountBalance.asset.displayName}}
+                                <w-i18n params="{money: $ctrl.amountBalance}">money-currency</w-i18n>
                             </div>
                         </div>
 
@@ -134,7 +133,9 @@
                                          type="text"
                                          name="total"
                                          ng-model="$ctrl.totalPrice"
-
+                                         w-validate
+                                         w-validator-asset="{{$ctrl.priceBalance.asset}}"
+                                         w-validator-gt="0"
                                          required></w-input>
                                 <div class="asset-name-wrap">
                                     <div class="caption-1 disabled-500">{{$ctrl.priceDisplayName}}</div>

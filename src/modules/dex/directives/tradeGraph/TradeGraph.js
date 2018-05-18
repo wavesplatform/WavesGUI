@@ -11,14 +11,14 @@
             key: 'amount',
             label: 'Asks',
             color: '#adbff5',
-            type: ['area']
+            type: ['line', 'area']
         },
         bids: {
             dataset: ORDERS_TYPES.bids,
             key: 'amount',
             label: 'Bids',
             color: '#db8d92',
-            type: ['area']
+            type: ['line', 'area']
         }
     };
     const ORDER_LIST_STUB = [{ amount: 0, price: 0 }];
