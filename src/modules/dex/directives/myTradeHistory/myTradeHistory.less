@@ -1,7 +1,55 @@
-.myTradeHistory {
-  w-row {
-    w-cell {
-      flex-basis: calc(100% / 9);
+@import (reference) '../../../config';
+
+w-dex-my-trade-history {
+
+  .smart-table {
+    &__cell {
+      flex-basis: calc(100% / 8);
+    }
+
+    &__cell[data-column-id="status"] {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &__cell[data-column-id="type"] {
+      flex-basis: calc(100% / 8 ~'- 100px');
+      min-width: 100px;
+    }
+
+    &__cell[data-column-id="pair"] {
+      flex-basis: calc(100% / 8 ~'+ 100px');
+    }
+
+    &__cell[data-column-id="price"],
+    &__cell[data-column-id="amount"],
+    &__cell[data-column-id="total"],
+    &__cell[data-column-id="time"] {
+      text-align: right;
     }
   }
+
+  w-actions {
+    text-transform: capitalize;
+    margin-left: 30px;
+
+    .click-area {
+      .dots {
+        background: url(/img/icons/actions-blue.svg) center no-repeat;
+        width: 100%;
+
+        .dot {
+          display: none;
+        }
+      }
+
+      &:hover {
+        .dots {
+          background: url(/img/icons/actions-blue-hover.svg) center no-repeat;
+        }
+      }
+    }
+  }
+
 }

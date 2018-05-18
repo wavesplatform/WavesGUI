@@ -62,18 +62,11 @@ body.dex {
       }
     }
 
-    w-table,
     .smart-table {
       width: 100%;
       height: 100%;
       display: block;
 
-      .table,
-      &__w-table {
-        height: 100%;
-      }
-
-      w-t-head,
       &__w-thead {
         color: @color-disabled-700;
         border-bottom: 1px solid @color-disabled-100;
@@ -84,32 +77,35 @@ body.dex {
           }
         }
 
-        .table-row,
-        .smart-table__row {
-          height: 28px;
-          padding: 0;
-          width: 100%;
-          display: flex;
-          align-items: center;
-          font-size: @font-size-caption-2;
-        }
+        .smart-table {
+          &__row {
+            height: 28px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            font-size: @font-size-caption-2;
+          }
 
-        w-cell,
-        .smart-table__cell {
-          text-transform: capitalize;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+          &__cell {
+            text-transform: capitalize;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
       }
 
-      .table-row,
       &__row {
         font-size: @font-size-caption-2;
-        height: 21px;
-        padding: 0;
         display: flex;
         align-items: center;
+
+        .cell-label {
+          display: none;
+          color: @color-disabled-700;
+          margin-right: 7px;
+          font-size: 9px;
+        }
       }
     }
   }
@@ -184,13 +180,6 @@ body.dex {
           margin-bottom: 10px;
         }
 
-        .cell-label {
-          display: none;
-          color: @color-disabled-700;
-          margin-right: 7px;
-          font-size: 9px;
-        }
-
         .status {
           color: @color-submit-400;
           margin-top: 3px;
@@ -239,7 +228,6 @@ body.dex {
 
       &__cell {
         white-space: nowrap;
-        padding: 0 10px;
 
         &:first-child {
           min-width: auto;

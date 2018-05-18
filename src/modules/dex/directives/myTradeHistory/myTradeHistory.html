@@ -25,6 +25,10 @@
             <w-balance money="order.total"></w-balance>
         </w-table-cell>
         <w-table-cell>
+            <span class="cell-label"><w-i18n>directives.myOrders.fee</w-i18n>:</span>
+            <span style="color:red">999 BTC</span> <!-- todo @german -->
+        </w-table-cell>
+        <w-table-cell>
             <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n>:</span>
             {{ order.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}
         </w-table-cell>
@@ -37,6 +41,14 @@
                     <div class="progress-fill" style="width: {{order.percent.toString()}}%"></div>
                 </div>
             </div>
+            <w-actions>
+                <w-action ng-click=""> <!-- todo @german -->
+                    <w-i18n>directives.myOrders.detail</w-i18n>
+                </w-action>
+                <w-action ng-click=""> <!-- todo @german -->
+                    <w-i18n>directives.myOrders.delete</w-i18n>
+                </w-action>
+            </w-actions>
         </w-table-cell>
     </w-table-row>
 </w-smart-table>
