@@ -19,9 +19,10 @@
         createPoll,
         notification,
         utils,
-        $scope,
-        orderStatuses
+        $scope
     ) {
+
+        const tsUtils = require('ts-utils');
 
         class DexMyOrders extends Base {
 
@@ -77,7 +78,9 @@
                         id: 'time',
                         title: { literal: 'directives.myOrders.time' },
                         valuePath: 'item.timestamp',
-                        sort: true
+                        sort: true,
+                        sortActive: true,
+                        isAsc: false
                     },
                     {
                         id: 'status',
@@ -94,12 +97,12 @@
                     }
                 ];
 
-                const poll = createPoll(this, this._getOrders, 'orders', 3000, { $scope });
+                const poll = createPoll(this, this._getOrders, 'orders', 1000, { $scope });
                 this.observe('_assetIdPair', () => poll.restart());
             }
 
             cancelAllOrders() {
-                this.orders.filter(DexMyOrders._isStatusOpen).forEach((order) => {
+                this.orders.filter(tsUtils.contains({ isActive: true })).forEach((order) => {
                     this.dropOrder(order);
                 });
             }
@@ -134,70 +137,8 @@
              * @private
              */
             _getOrders() {
-                return user.getSeed()
-                    .then((seed) => waves.matcher.getOrders(seed.keyPair))
-                    .then((orders) => {
-                        const active = [];
-                        const others = [];
-
-                        orders.forEach((order) => {
-                            switch (order.status) {
-                                case 'Accepted':
-                                    active.push(order);
-                                    break;
-                                case 'PartiallyFilled':
-                                    active.push(order);
-                                    break;
-                                default:
-                                    others.push(order);
-                            }
-                        });
-
-                        active.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
-                        others.sort(utils.comparators.process(({ timestamp }) => timestamp).desc);
-
-                        return active.concat(others);
-                    });
-            }
-
-            /**
-             * @param order
-             * @param anotherOrder
-             * @returns {number}
-             * @private
-             */
-            static _compareStatusAscending(order, anotherOrder) {
-                // todo: стабилизация в этом случае работает плохо.
-                // todo: алгоритм требует уточнения и переработки.
-                if (DexMyOrders._isStatusOpen(order) && DexMyOrders._isStatusOpen(anotherOrder)) {
-                    return 0;
-                }
-
-                if (DexMyOrders._isStatusOpen(order) && DexMyOrders._isStatusClosed(anotherOrder)) {
-                    return -1;
-                }
-
-                if (DexMyOrders._isStatusClosed(order) && DexMyOrders._isStatusOpen(anotherOrder)) {
-                    return 1;
-                }
-
-                if (DexMyOrders._isStatusClosed(order) && DexMyOrders._isStatusClosed(anotherOrder)) {
-                    return 0;
-                }
-            }
-
-            /**
-             * @type StatusChecker
-             */
-            static _isStatusOpen({ status }) {
-                return status === orderStatuses.accepted || status === orderStatuses.partiallyFilled;
-            }
-
-            /**
-             * @type StatusChecker
-             */
-            static _isStatusClosed({ status }) {
-                return status === orderStatuses.filled || status === orderStatuses.cancelled;
+                return waves.matcher.getOrders()
+                    .then((orders) => orders.filter(tsUtils.contains({ isActive: true })));
             }
 
         }
@@ -212,8 +153,7 @@
         'createPoll',
         'notification',
         'utils',
-        '$scope',
-        'orderStatuses'
+        '$scope'
     ];
 
     angular.module('app.dex').component('wDexMyOrders', {
@@ -222,30 +162,3 @@
         controller
     });
 })();
-
-/**
- * @typedef {function} ColumnDataBuilder
- * @param {string} name
- * @returns {
- *  {
- *      name: string,
- *      compareStabilizing: Comparator,
- *      compareAscending: Comparator,
- *      compareDescending: Comparator
- *  }
- * }
- * @private
- */
-
-/**
- * @typedef {function} StatusChecker
- * @returns {boolean}
- * @private
- */
-
-/**
- * @typedef {function} Comparator
- * @param {string} field
- * @returns {function(*, *): number}
- * @private
- */

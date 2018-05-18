@@ -45,6 +45,9 @@
                 });
             }
 
+            /**
+             * @return {Promise<Array>}
+             */
             getOrders() {
                 return this._ordersCache.get();
             }

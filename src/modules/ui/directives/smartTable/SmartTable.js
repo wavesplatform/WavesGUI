@@ -85,7 +85,7 @@
             }
 
             getIdByIndex(index) {
-                return this._headerData[index].id;
+                return this.headerInfo[index].id;
             }
 
             /**
@@ -191,6 +191,7 @@
                 const valuePath = header.valuePath || id;
                 const $headerScope = $scope.$new(true);
                 const xhr = header.templatePath ? $templateRequest(header.templatePath) : this._headerCellPromise;
+                const sorting = header.sortActive || false;
 
                 Object.assign($headerScope, { ...header.scopeData || Object.create(null) }, { id });
 
@@ -203,8 +204,8 @@
                         valuePath,
                         sort: SmartTable._getSortFunction(header.sort, valuePath),
                         search: SmartTable._getSearchFunction($headerScope, header.search, valuePath),
-                        sorting: false,
-                        isAsc: true,
+                        sorting,
+                        isAsc: tsUtils.isEmpty(header.isAsc) ? true : header.isAsc,
                         searchQuery: '',
                         $scope: $headerScope,
                         $element
@@ -370,6 +371,8 @@
  * @property {string} [templatePath]
  * @property {*} [scopeData]
  * @property {boolean|SmartTable.ISortCallback} sort
+ * @property {boolean} [sortActive]
+ * @property {boolean} [isAsc]
  * @property {boolean|SmartTable.ISearchCallback} search
  */
 
