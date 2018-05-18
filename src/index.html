@@ -459,6 +459,8 @@
 
     WavesApp.parseJSON = parseJsonBignumber();
 
+    WavesApp.device = new MobileDetect(navigator.userAgent);
+
 
     var isBrowserSupported = (function () {
 
@@ -604,6 +606,7 @@
      * @property {string} name
      * @property {string} version
      * @property {string} type
+     * @property {MobileDetect} device
      * @property {Object.<{separators: {group: string, decimal: string}}>} localize
      * @property {number} minAliasLength
      * @property {number} maxAliasLength

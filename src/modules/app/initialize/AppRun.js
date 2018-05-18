@@ -61,6 +61,26 @@
             });
         });
 
+        const phone = WavesApp.device.phone();
+        const tablet = WavesApp.device.tablet();
+
+        const isPhone = !!phone;
+        const isTablet = !!tablet;
+        const isDesktop = !(isPhone || isTablet);
+
+        $rootScope.isDesktop = isDesktop;
+        $rootScope.isNotDesktop = !isDesktop;
+        $rootScope.isPhone = isPhone;
+        $rootScope.isTablet = isTablet;
+
+        if (isPhone) {
+            document.body.classList.add('phone');
+        } else if (isTablet) {
+            document.body.classList.add('tablet');
+        } else {
+            document.body.classList.add('desktop');
+        }
+
         class AppRun {
 
             constructor() {
@@ -401,3 +421,10 @@
     angular.module('app')
         .run(run);
 })();
+
+/**
+ * @property {boolean} $rootScope.Scope#isDesktop
+ * @property {boolean} $rootScope.Scope#isNotDesktop
+ * @property {boolean} $rootScope.Scope#isPhone
+ * @property {boolean} $rootScope.Scope#isTablet
+ */

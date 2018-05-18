@@ -13,28 +13,28 @@
                       w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
         </w-table-cell>
         <w-table-cell>
-            <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n>:</span>
+            <span ng-if="::isNotDesktop" class="cell-label"><w-i18n>directives.myOrders.price</w-i18n>:</span>
             <w-balance money="order.price"></w-balance>
         </w-table-cell>
         <w-table-cell>
-            <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n>:</span>
+            <span ng-if="::isNotDesktop" class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n>:</span>
             <w-balance money="order.amount"></w-balance>
         </w-table-cell>
         <w-table-cell>
-            <span class="cell-label"><w-i18n>directives.myOrders.total</w-i18n>:</span>
+            <span ng-if="::isNotDesktop" class="cell-label"><w-i18n>directives.myOrders.total</w-i18n>:</span>
             <w-balance money="order.total"></w-balance>
         </w-table-cell>
         <w-table-cell>
-            <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n>:</span>
-            {{ order.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}
+            <span ng-if="::isNotDesktop" class="cell-label"><w-i18n>directives.myOrders.time</w-i18n>:</span>
+            {{::order.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}
         </w-table-cell>
         <w-table-cell>
             <div class="status">
                 <div>
-                    {{order.percent.toString()}}%
+                    {{order.percent}}%
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill" style="width: {{order.percent.toString()}}%"></div>
+                    <div class="progress-fill" style="width: {{order.percent}}%"></div>
                 </div>
             </div>
         </w-table-cell>
