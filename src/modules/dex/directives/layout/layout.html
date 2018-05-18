@@ -7,15 +7,13 @@
         </div>
 
         <div data-column="topcenter" class="dex-layout__column dex-layout__column-center">
-            <div data-slider
-                 ng-click="$ctrl.toggleColumn('topleft')"
-                 class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-left"></div>
-
+            <div class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-left">
+                <div data-slider ng-click="$ctrl.toggleColumn('topleft')"></div>
+            </div>
             <div data-block="top" class="dex-layout__block dex-layout__block-top"></div>
-
-            <div data-slider
-                 ng-click="$ctrl.toggleColumn('topright')"
-                 class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-right"></div>
+            <div class="dex-layout__sidebar-toggle dex-layout__sidebar-toggle-right">
+                <div data-slider ng-click="$ctrl.toggleColumn('topright')"></div>
+            </div>
         </div>
 
         <div data-column="topright"
