@@ -62,16 +62,19 @@ body.dex {
       }
     }
 
-    w-table {
+    w-table,
+    .smart-table {
       width: 100%;
       height: 100%;
       display: block;
 
-      & > div.table {
+      .table,
+      &__w-table {
         height: 100%;
       }
 
-      w-t-head {
+      w-t-head,
+      &__w-thead {
         color: @color-disabled-700;
         border-bottom: 1px solid @color-disabled-100;
 
@@ -81,30 +84,28 @@ body.dex {
           }
         }
 
-        w-row {
+        .table-row,
+        .smart-table__row {
+          height: 28px;
+          padding: 0;
+          width: 100%;
+          display: flex;
+          align-items: center;
           font-size: @font-size-caption-2;
         }
 
-        .table-row {
-          height: 28px;
-          padding: 0;
-          display: flex;
-          align-items: center;
-
-          w-cell {
-            text-transform: capitalize;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
+        w-cell,
+        .smart-table__cell {
+          text-transform: capitalize;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
 
-      w-row {
+      .table-row,
+      &__row {
         font-size: @font-size-caption-2;
-      }
-
-      .table-row {
         height: 21px;
         padding: 0;
         display: flex;
@@ -136,6 +137,7 @@ body.dex {
         position: relative;
         border-left: 1px solid transparent;
         border-right: 1px solid transparent;
+        white-space: nowrap;
 
         &.active:first-child {
           border-left: 1px solid @color-white;
@@ -161,88 +163,91 @@ body.dex {
       }
     }
 
-    w-row {
-      padding: 0 14px;
-      position: relative;
+    .smart-table {
 
-      .table-row {
-        display: flex;
+      &__w-thead {
+        .smart-table {
+          &__row {
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+        }
       }
 
-      w-cell {
+      &__row {
+        position: relative;
+        display: flex;
+        padding: 6px 14px;
+
+        &:last-child {
+          margin-bottom: 10px;
+        }
+
+        .cell-label {
+          display: none;
+          color: @color-disabled-700;
+          margin-right: 7px;
+          font-size: 9px;
+        }
+
+        .status {
+          color: @color-submit-400;
+          margin-top: 3px;
+          .tag-3();
+
+          .progress-bar {
+            width: 80px;
+            height: 2px;
+            margin-top: 2px;
+
+            .progress-fill {
+              max-width: 80px;
+              height: 2px;
+              background-color: @color-submit-400;
+            }
+          }
+        }
+
+        &[ng-class='filled'] {
+          .status {
+            .progress-bar {
+              background-color: @color-disabled-200;
+            }
+          }
+        }
+
+        &[ng-class='accepted'],
+        &[ng-class='canceled'] {
+          .status {
+            .progress-bar {
+              background-color: @color-submit-50;
+            }
+          }
+        }
+
+        &[ng-class="cancelled"],
+        &[ng-class="filled"] {
+          color: @color-disabled-500;
+
+          .order-side.sell, .order-side.buy {
+            color: @color-disabled-500;
+          }
+        }
+
+      }
+
+      &__cell {
         white-space: nowrap;
         padding: 0 10px;
 
-        &.cell-0 {
+        &:first-child {
+          min-width: auto;
           padding-left: 0;
         }
 
         &:last-child {
           padding-right: 0;
-        }
-      }
-
-      .cell-label {
-        display: none;
-        color: @color-disabled-700;
-        margin-right: 7px;
-        font-size: 9px;
-      }
-
-      .status {
-        color: @color-submit-400;
-        margin-top: 3px;
-        .tag-3();
-
-        .progress-bar {
-          width: 80px;
-          height: 2px;
-          margin-top: 2px;
-
-          .progress-fill {
-            max-width: 80px;
-            height: 2px;
-            background-color: @color-submit-400;
-          }
-        }
-      }
-
-      &[ng-class='filled'] {
-        .status {
-          .progress-bar {
-            background-color: @color-disabled-200;
-          }
-        }
-      }
-
-      &[ng-class='accepted'],
-      &[ng-class='canceled'] {
-        .status {
-          .progress-bar {
-            background-color: @color-submit-50;
-          }
-        }
-      }
-
-      &[ng-class="cancelled"],
-      &[ng-class="filled"] {
-        color: @color-disabled-500;
-
-        .order-side.sell, .order-side.buy {
-          color: @color-disabled-500;
-        }
-      }
-
-    }
-
-    w-scroll-box {
-      height: calc(100% ~'- 29px');
-
-      w-row {
-        padding: 6px 14px;
-
-        &:last-child {
-          margin-bottom: 10px;
         }
       }
     }
@@ -286,6 +291,39 @@ body.dex {
 
     }
   }
+}
+
+@media screen and (max-width: 768px) {
+
+  body.dex {
+    .main-content .content {
+      width: 100%;
+      padding: 5px;
+      overflow: auto;
+      height: 100%;
+
+      .dex-wrapper {
+        w-tabs {
+          w-scroll-box {
+            height: 392px;
+            width: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+          }
+        }
+
+        w-tabs,
+        w-dex-watchlist {
+          w-table {
+            w-t-head {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+
 }
 
 //
