@@ -2,15 +2,28 @@
 (function () {
     'use strict';
 
+    const tsApiValidator = require('ts-api-validator');
+
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
      * @param {Waves} waves
      * @param {DataFeed} dataFeed
      * @param {IPollCreate} createPoll
+     * @param {app.utils} utils
      * @return {TradeHistory}
      */
-    const controller = function (Base, $scope, waves, dataFeed, createPoll) {
+    const controller = function (Base, $scope, waves, dataFeed, createPoll, utils) {
+
+        class TotalAmountPart extends tsApiValidator.BasePart {
+
+            getValue(data) {
+                const amount = new BigNumber(data.amount);
+                const price = new BigNumber(data.price);
+                return amount.mul(price);
+            }
+
+        }
 
         class TradeHistory extends Base {
 
@@ -37,8 +50,9 @@
                         type: tsApiValidator.ObjectPart,
                         required: true,
                         content: {
-                            price: { type: tsApiValidator.StringPart, required: true },
-                            size: { type: tsApiValidator.StringPart, required: true, path: 'amount' },
+                            price: { type: utils.apiValidatorParts.BigNumberPart, required: true },
+                            amount: { type: utils.apiValidatorParts.BigNumberPart, required: true },
+                            total: { type: TotalAmountPart, required: true, path: null },
                             date: { type: tsApiValidator.DatePart, required: true, path: 'timestamp' },
                             type: { type: tsApiValidator.StringPart, required: true },
                             id: { type: tsApiValidator.StringPart, required: true }
@@ -78,7 +92,7 @@
                         sort: true,
                         sortActive: true,
                         isAsc: false
-                    },
+                    }
                 ];
 
                 this.syncSettings({

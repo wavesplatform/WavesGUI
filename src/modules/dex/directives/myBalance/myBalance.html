@@ -5,13 +5,13 @@
             {{::balance.asset.name}}
         </w-table-cell>
         <w-table-cell>
-            <w-balance money="balance.available"></w-balance>
+            <w-balance short-mode="::true" money="balance.available"></w-balance>
         </w-table-cell>
         <w-table-cell>
-            <w-balance money="balance.inOrders"></w-balance>
+            <w-balance short-mode="::true" money="balance.inOrders"></w-balance>
         </w-table-cell>
         <w-table-cell>
-            <w-balance money="balance.regular"></w-balance>
+            <w-balance short-mode="::true" money="balance.regular"></w-balance>
         </w-table-cell>
     </w-table-row>
 </w-smart-table>

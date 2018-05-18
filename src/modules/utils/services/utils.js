@@ -4,6 +4,21 @@
     'use strict';
 
     const tsUtils = require('ts-utils');
+    const tsApiValidator = require('ts-api-validator');
+
+    class BigNumberPart extends tsApiValidator.BasePart {
+
+        getValue(data) {
+            switch (typeof data) {
+                case 'string':
+                case 'number':
+                    return new BigNumber(data);
+                default:
+                    return null;
+            }
+        }
+
+    }
 
     /**
      * @name app.utils
@@ -18,6 +33,13 @@
     const factory = function ($q, Moment, $injector) {
 
         const utils = {
+
+            /**
+             * @name app.utils#apiValidatorParts
+             */
+            apiValidatorParts: {
+                BigNumberPart
+            },
 
             /**
              * @name app.utils#observe

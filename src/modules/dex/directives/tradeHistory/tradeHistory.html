@@ -14,20 +14,19 @@
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.price"></span>
-            <span precision="$ctrl.priceAsset.precision" short-mode="::true" w-nice-number="order.price"></span>
+            <span precision="::$ctrl.priceAsset.precision" short-mode="::true" w-nice-number="::order.price"></span>
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.size"></span>
-            <span precision="$ctrl.amountAsset.precision" short-mode="::true" w-nice-number="order.size"></span>
+            <span precision="::$ctrl.amountAsset.precision" short-mode="::true" w-nice-number="::order.amount"></span>
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.total"></span>
-            15500.<span style="color:red">HARDCODE</span>
+            <span precision="::$ctrl.priceAsset.precision" short-mode="::true" w-nice-number="::order.total"></span>
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.date"></span>
-            <span style="color:red">XXXX-XX-XX XX:XX:XX</span>
-            <!-- {{ order.timestamp | date:'yyyy-MM-dd HH:mm:ss' }} -->
+            {{::order.date | date:'yyyy-MM-dd HH:mm:ss'}}
         </w-table-cell>
     </w-table-row>
 </w-smart-table>
