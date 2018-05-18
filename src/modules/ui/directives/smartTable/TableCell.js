@@ -7,6 +7,7 @@
      */
     const directive = (stService) => ({
         bindings: {},
+        scope: true,
         replace: true,
         template: '<div data-column-id="{{::id}}" class="smart-table__cell" ng-transclude></div>',
         transclude: true,
