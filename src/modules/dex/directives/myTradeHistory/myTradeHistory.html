@@ -14,29 +14,41 @@
         </w-table-cell>
         <w-table-cell>
             <span ng-if="::isNotDesktop" class="cell-label"><w-i18n>directives.myOrders.price</w-i18n>:</span>
-            <w-balance money="order.price"></w-balance>
+            <w-balance money="::order.price"></w-balance>
         </w-table-cell>
         <w-table-cell>
             <span ng-if="::isNotDesktop" class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n>:</span>
-            <w-balance money="order.amount"></w-balance>
+            <w-balance money="::order.amount"></w-balance>
         </w-table-cell>
         <w-table-cell>
             <span ng-if="::isNotDesktop" class="cell-label"><w-i18n>directives.myOrders.total</w-i18n>:</span>
-            <w-balance money="order.total"></w-balance>
+            <w-balance money="::order.total"></w-balance>
         </w-table-cell>
         <w-table-cell>
-            <span ng-if="::isNotDesktop" class="cell-label"><w-i18n>directives.myOrders.time</w-i18n>:</span>
+            <span ng-if="::isNotDesktop" class="cell-label"><w-i18n>directives.myOrders.fee</w-i18n>:</span>
+            <span style="color:red">999 BTC</span> <!-- todo @dima -->
+        </w-table-cell>
+        <w-table-cell>
+            <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n>:</span>
             {{::order.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}
         </w-table-cell>
         <w-table-cell>
             <div class="status">
                 <div>
-                    {{order.percent}}%
+                    {{::order.percent}}%
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill" style="width: {{order.percent}}%"></div>
+                    <div class="progress-fill" style="width: {{::order.percent}}%"></div>
                 </div>
             </div>
+            <w-actions>
+                <w-action ng-click=""> <!-- todo @german -->
+                    <w-i18n>directives.myOrders.detail</w-i18n>
+                </w-action>
+                <w-action ng-click=""> <!-- todo @german -->
+                    <w-i18n>directives.myOrders.delete</w-i18n>
+                </w-action>
+            </w-actions>
         </w-table-cell>
     </w-table-row>
 </w-smart-table>

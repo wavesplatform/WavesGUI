@@ -11,10 +11,20 @@ w-dex-order-book {
   w-table {
     position: relative;
     z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: block;
+
+    .table-row {
+      height: 100%;
+    }
 
     w-row {
       padding: 0 10px 0 5px;
       position: relative;
+      height: 22px;
+      line-height: 23px;
+      font-size: @font-size-caption-2;
 
       &:hover {
         background-color: @color-basic-50;
@@ -27,13 +37,27 @@ w-dex-order-book {
     }
 
     w-t-head {
+      color: @color-disabled-700;
+      border-bottom: 1px solid @color-disabled-100;
+
       w-row {
         padding: 0 14px 0 5px;
         background: @color-white;
+        height: 28px;
+        width: 100%;
+        display: flex;
+        align-items: center;
 
         &:hover {
           background: @color-white;
           border-color: transparent;
+        }
+
+        w-cell {
+          text-transform: capitalize;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .table-cell {

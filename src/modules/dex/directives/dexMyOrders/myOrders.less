@@ -18,7 +18,6 @@ w-dex-my-orders {
       .smart-table {
         &__cell {
           height: 100%;
-          line-height: 28px;
 
           &:last-child {
             border-left: 1px solid @color-basic-100;
@@ -31,9 +30,9 @@ w-dex-my-orders {
       flex-basis: calc(100% / 7);
     }
 
-    .cell-0 {
+    &__cell[data-column-id="pair"] {
       padding-left: 0;
-      flex-basis: calc((100% / 7) ~'+ 100px');
+      flex-basis: calc(100% / 7 ~'+ 100px');
 
       span {
         display: block;
@@ -44,30 +43,25 @@ w-dex-my-orders {
       }
     }
 
-    .cell-1 {
-      flex-basis: calc((100% / 7) ~'- 100px');
+    &__cell[data-column-id="type"] {
+      flex-basis: calc(100% / 7 ~'- 100px');
       min-width: 100px;
     }
 
-    .cell-6 {
-      flex-basis: calc((100% / 7) ~'- 50px');
+    &__cell[data-column-id="status"]  {
+      flex-basis: calc(100% / 7 ~'- 50px');
       min-width: 100px;
     }
 
-    .cell-5 {
-      flex-basis: calc((100% / 7) ~'+ 50px');
-      min-width: 100px;
+    &__cell[data-column-id="time"] {
+      flex-basis: calc(100% / 7 ~'+ 50px');
     }
 
-    .cell-2,
-    .cell-3,
-    .cell-4,
-    .cell-5 {
+    &__cell[data-column-id="price"],
+    &__cell[data-column-id="amount"],
+    &__cell[data-column-id="total"],
+    &__cell[data-column-id="time"]  {
       text-align: right;
-    }
-
-    .cell-1 {
-      flex-basis: 100px;
     }
 
     &__row {

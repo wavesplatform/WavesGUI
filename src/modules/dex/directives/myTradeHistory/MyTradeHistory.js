@@ -53,6 +53,12 @@
                         sort: true
                     },
                     {
+                        id: 'fee',
+                        title: { literal: 'directives.myOrders.fee' },
+                        valuePath: 'item.fee',
+                        sort: true
+                    },
+                    {
                         id: 'time',
                         title: { literal: 'directives.myOrders.time' },
                         valuePath: 'item.timestamp',

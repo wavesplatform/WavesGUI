@@ -27,7 +27,7 @@
         </w-select>
     </div>
 
-    <w-smart-table class="smart-table smart-table__mode-large smart-table__table" data="$ctrl.balanceList" header-info="$ctrl.tableHeaders">
+    <w-smart-table class="smart-table smart-table__mode-large" data="$ctrl.balanceList" header-info="$ctrl.tableHeaders">
         <w-loader ng-if="$ctrl.pending"></w-loader>
         <w-table-row
                 w-toggle-class-container
