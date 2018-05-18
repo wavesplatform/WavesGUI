@@ -1,15 +1,9 @@
-<<<<<<< HEAD
 <w-smart-table data="$ctrl.orders" header-info="$ctrl.headers">
     <div ng-if="!$ctrl.orders.length" class="empty-block-container">
         <div class="icon"></div>
         <div class="body-1 basic-700" w-i18n="emptyBlocks.myOrders.title"></div>
         <div class="footnote-1 basic-500" w-i18n="emptyBlocks.myOrders.description"></div>
     </div>
-=======
-<w-smart-table data="$ctrl.orders"
-               header-info="$ctrl.headers"
-               class="smart-table">
->>>>>>> ef14ff0e6f15ec843916d2fd75c8dd624be52196
     <w-table-row ng-repeat="order in $data track by order.id">
         <w-table-cell>
             <span>{{::order.pair}}</span>
@@ -51,11 +45,3 @@
         </w-table-cell>
     </w-table-row>
 </w-smart-table>
-<<<<<<< HEAD
-=======
-<div ng-if="!$ctrl.orders.length" class="empty-block-container">
-    <div class="icon"></div>
-    <div class="body-1 basic-700" w-i18n="emptyBlocks.myOrders.title"></div>
-    <div class="footnote-1 basic-500" w-i18n="emptyBlocks.myOrders.description"></div>
-</div>
->>>>>>> ef14ff0e6f15ec843916d2fd75c8dd624be52196
