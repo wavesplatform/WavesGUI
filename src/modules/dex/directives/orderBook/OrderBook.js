@@ -98,11 +98,24 @@
              * @private
              */
             _getOrders() {
-                return waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
-                    .then(({ bids, asks, spread, pair }) => {
+                return Promise.all([
+                    waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price),
+                    waves.matcher.getOrders()
+                ])
+                    .then(([{ bids, asks, spread, pair }, orders]) => {
 
                         this.amountAsset = pair.amountAsset;
                         this.priceAsset = pair.priceAsset;
+
+                        const priceHash = orders.reduce((result, item) => {
+                            if (item.isActive) {
+                                if (item.amount.asset.id === pair.amountAsset.id &&
+                                    item.price.asset.id === pair.priceAsset.id) {
+                                    result[item.price.getTokens().toFixed(item.price.asset.precision)] = true;
+                                }
+                            }
+                            return result;
+                        }, Object.create(null));
 
                         const getCell = function (content) {
                             return `<div class="table-cell">${content}</div>`;
@@ -129,7 +142,8 @@
                                 const attrs = [
                                     item.totalAmount ? `data-amount="${item.totalAmount}"` : null,
                                     item.price ? `data-price="${item.price}"` : null,
-                                    item.type ? `data-type="${item.type}"` : null
+                                    item.type ? `data-type="${item.type}"` : null,
+                                    priceHash[item.price] ? 'class="active"' : null
                                 ]
                                     .filter(Boolean)
                                     .join(' ');
@@ -137,8 +151,6 @@
                                 const percent = (Number(item.amount) / total * 100).toFixed(2);
                                 const width = `style="width: ${percent}%;"`;
 
-                                // 1) todo @german dex-layout__line-graph-fill must have style="width: XX%"
-                                // 2) todo @german <w-row> must have class .active если это твой активный ордер
                                 return `<w-row ${attrs}> 
                                             <div class="table-row">
                                                 <div class="dex-layout__line-graph">

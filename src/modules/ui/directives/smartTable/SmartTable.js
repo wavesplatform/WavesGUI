@@ -163,6 +163,7 @@
                     });
 
                     this._headerData = headerDataList;
+                    $scope.$digest();
                 });
             }
 
