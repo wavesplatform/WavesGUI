@@ -99,6 +99,9 @@
                         }
                     }
 
+                    /**
+                     * @private
+                     */
                     _setHandlers() {
                         this._$input.on('focus', () => {
                             this._$inputWrap.addClass('focused');
@@ -109,6 +112,10 @@
                         });
                     }
 
+                    /**
+                     * @return {string}
+                     * @private
+                     */
                     _getName() {
                         const name = this._$input.attr('name');
 
@@ -125,6 +132,11 @@
                         }
                     }
 
+                    /**
+                     * @param name
+                     * @return {*}
+                     * @private
+                     */
                     _getForm(name) {
                         let $localScope = $scope;
                         let form = null;
