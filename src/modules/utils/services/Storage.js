@@ -122,7 +122,7 @@
                 users.forEach((user) => {
                     const settings = user.settings || Object.create(null);
                     const idList = settings.pinnedAssetIdList;
-                    if (idList) {
+                    if (idList && !idList.includes(gateway)) {
                         idList.push(gateway);
                     }
                 });
