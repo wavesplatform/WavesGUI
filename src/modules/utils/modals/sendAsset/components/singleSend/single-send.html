@@ -88,10 +88,10 @@
 
             <w-balance-input name="amount"
                              asset-id="$ctrl.state.assetId"
-                             max-balance="$ctrl.state.moneyHash[$ctrl.state.assetId]"
+                             max-balance="$ctrl.maxAmount"
                              fee="$ctrl.feeList"
                              input-classes="big"
-                             min="0"
+                             min="$ctrl.minAmount"
                              on-focus="$ctrl.focus = 'amount'"
                              on-blur="$ctrl.focus = ''"
                              amount="$ctrl.state.singleSend.amount">
@@ -110,11 +110,13 @@
 
         </div>
 
-        <w-input-error name="amount" message="gt">
-            <w-i18n>inputs.errors.required</w-i18n>
-        </w-input-error>
         <w-input-error name="amount" message="required">
             <w-i18n>inputs.errors.required</w-i18n>
+        </w-input-error>
+        <w-input-error name="amount" message="gt">
+            <w-i18n ng-if="$ctrl.tx.amount.getTokens().eq(0)">inputs.errors.required</w-i18n>
+            <!--TODO-->
+            <w-i18n ng-if="$ctrl.tx.amount.getTokens().gt(0)">has no money to send</w-i18n>
         </w-input-error>
         <w-input-error name="amount" message="precision">
             <w-i18n params="{precision: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.precision}">

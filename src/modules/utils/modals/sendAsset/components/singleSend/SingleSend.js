@@ -103,6 +103,14 @@
                  */
                 this.feeList = null;
                 /**
+                 * @type {Money}
+                 */
+                this.minAmount = null;
+                /**
+                 * @type {Money}
+                 */
+                this.maxAmount = null;
+                /**
                  * @type {ISendState}
                  */
                 this.state = Object.create(null);
@@ -120,6 +128,7 @@
                         this.observe('gatewayDetails', this._currentHasCommission);
                         this.receive(utils.observe(this.tx, 'fee'), this._currentHasCommission, this);
 
+                        this.minAmount = this.state.moneyHash[this.state.assetId].cloneWithTokens('0');
                         this.tx.fee = fee;
                         this.tx.amount = this.tx.amount || this.moneyHash[this.assetId].cloneWithTokens('0');
                         this._fillMirror();
@@ -345,11 +354,17 @@
 
                 if (this.outerSendMode) {
                     gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient).then((details) => {
+                        const max = BigNumber.min(details.maximumAmount, this.moneyHash[this.assetId].getTokens());
+
                         this.gatewayDetails = details;
+                        this.minAmount = this.moneyHash[this.assetId].cloneWithTokens(details.minimumAmount);
+                        this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
+
                         $scope.$digest();
-                        // TODO : validate amount field for gateway minimumAmount and maximumAmount
                     });
                 } else {
+                    this.minAmount = this.state.moneyHash[this.assetId].cloneWithTokens('0');
+                    this.maxAmount = this.moneyHash[this.assetId];
                     this.gatewayDetails = null;
                 }
             }
