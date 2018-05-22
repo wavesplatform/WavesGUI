@@ -15,7 +15,7 @@
              * @param {string} amount amount asset id
              * @param {string} price price asset id
              * @param {number} [count] blocks count (default 50)
-             * @return {Promise}
+             * @return {Promise<Array<DataFeed.ITrade>>}
              */
             @decorators.cachable(2)
             trades(amount, price, count) {
@@ -58,3 +58,20 @@
 
     angular.module('app').factory('dataFeed', factory);
 })();
+
+/**
+ * @name DataFeed
+ */
+
+/**
+ * @typedef {object} DataFeed#ITrade
+ * @property {string} amount
+ * @property {string} buyer
+ * @property {boolean} confirmed
+ * @property {string} id
+ * @property {string} matcher
+ * @property {string} price
+ * @property {string} seller
+ * @property {string} type
+ * @property {number} timestamp
+ */

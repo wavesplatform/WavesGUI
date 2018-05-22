@@ -224,13 +224,10 @@ task('up-version-json', function (done) {
 });
 
 task('templates', function () {
-    return gulp.src('src/!(index.html)/**/*.html')
+    return gulp.src(['src/!(index.html)/**/*.html', 'src/**/*.hbs'])
         .pipe(htmlmin({ collapseWhitespace: true }))
         .pipe(templateCache({
-            module: 'app.templates',
-            // transformUrl: function (url) {
-            //     return `/${url}`;
-            // }
+            module: 'app.templates'
         }))
         .pipe(gulp.dest(tmpJsPath));
 });
