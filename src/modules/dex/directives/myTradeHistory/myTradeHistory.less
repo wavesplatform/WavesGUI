@@ -4,10 +4,21 @@
 w-dex-my-trade-history {
 
   .smart-table {
-    &__row {
-      &:hover {
-        background: @color-basic-50;
+    min-width: 100%;
+
+    &__w-tbody {
+      .smart-table {
+        &__row {
+          &:hover {
+            background: @color-basic-50;
+          }
+        }
       }
+    }
+
+    &__row {
+      padding: 6px 14px;
+      flex-wrap: nowrap;
     }
 
     &__cell {
@@ -85,4 +96,97 @@ w-dex-my-trade-history {
     }
   }
 
+}
+
+@media screen and (max-width: 768px) {
+  body.dex .dex-wrapper {
+    w-dex-my-trade-history {
+      .smart-table {
+        min-width: 100%;
+
+        &__w-thead {
+          display: none;
+        }
+
+        &__row {
+          padding: 14px 40px 14px 14px;
+          flex-wrap: wrap;
+
+          &:not(:last-child) {
+            border-bottom: 1px solid @color-basic-100;
+          }
+        }
+
+        &__cell {
+          flex-basis: calc(50% ~'- 20px');
+
+          .cell-label {
+            display: inline-block;
+          }
+        }
+
+        &__cell[data-column-id="pair"] {
+          order: 0;
+          margin-bottom: 5px;
+          font-family: @font-roboto-medium;
+
+          span {
+            max-width: auto;
+          }
+        }
+
+        &__cell[data-column-id="status"],
+        &__cell[data-column-id="total"],
+        &__cell[data-column-id="fee"],
+        &__cell[data-column-id="type"] {
+          display: none;
+        }
+
+        &__cell[data-column-id="price"] {
+          text-align: left;
+          order: 2;
+        }
+
+        &__cell[data-column-id="amount"] {
+          order: 3;
+        }
+
+        &__cell[data-column-id="time"] {
+          margin-bottom: 5px;
+          order: 1;
+          text-align: right;
+          margin-right: 0;
+          color: @color-basic-500;
+          font-size: @font-size-caption-2;
+
+          .cell-label {
+            display: none;
+          }
+        }
+
+        &__cell[data-column-id="controls"] {
+          order: 4;
+          position: absolute;
+          flex-basis: 30px;
+          right: 10px;
+          min-width: 30px;
+          top: 0;
+          height: 30px;
+          width: 30px;
+          font-size: 0;
+          margin-top: 5px;
+
+          .stop {
+            background-size: 10px 10px;
+            background-repeat: no-repeat;
+            background-position: center center;
+            margin-left: 0;
+            height: 30px;
+            width: 30px;
+          }
+        }
+
+      }
+    }
+  }
 }

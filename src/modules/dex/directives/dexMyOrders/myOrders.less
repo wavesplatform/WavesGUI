@@ -17,13 +17,15 @@ w-dex-my-orders {
 
       .smart-table {
         &__cell {
-          height: 100%;
-
           &:last-child {
             border-left: 1px solid @color-basic-100;
           }
         }
       }
+    }
+
+    &__row {
+      padding: 6px 14px;
     }
 
     &__cell {
@@ -108,72 +110,112 @@ w-dex-my-orders {
   }
 }
 
-@media screen and (max-width: 480px) {
-
+@media screen and (max-width: 768px) {
   body.dex .dex-wrapper {
     w-dex-my-orders {
       .smart-table {
         min-width: 100%;
 
         &__w-thead {
-          .smart-table {
-            &__row {
-              padding: 8px 0;
+          display: none;
+        }
 
-              .table-row {
-                margin: 0 30px 0 10px;
-                height: auto;
-              }
-            }
+        &__row {
+          padding-left: 50px;
+          padding-right: 50px;
+          padding-top: 14px;
+          padding-bottom: 14px;
+          flex-wrap: wrap;
+
+          &:not(:last-child) {
+            border-bottom: 1px solid @color-basic-100;
           }
         }
 
-        &__w-tbody {
-          .smart-table {
-            &__row {
-              padding: 8px 0;
+        &__cell {
+          flex-basis: calc(50% ~'- 40px');
 
-              .table-row {
-                display: flex;
-                flex-wrap: wrap;
-                height: auto;
-                margin: 0 30px 0 10px;
-
-                .stop {
-                  right: 2px;
-                  width: 26px;
-                }
-              }
-            }
-
-            &__cell {
-              padding: 0;
-
-              .cell-label {
-                display: inline-block;
-              }
-            }
+          .cell-label {
+            display: inline-block;
           }
         }
+
+        &__cell[data-column-id="pair"] {
+          order: 0;
+          margin-bottom: 5px;
+          font-family: @font-roboto-medium;
+
+          span {
+            max-width: auto;
+          }
+        }
+
+        &__cell[data-column-id="price"] {
+          text-align: left;
+          order: 2;
+        }
+
+        &__cell[data-column-id="amount"] {
+          order: 3;
+        }
+
+        &__cell[data-column-id="type"],
+        &__cell[data-column-id="total"] {
+          display: none;
+        }
+
+        &__cell[data-column-id="time"] {
+          margin-bottom: 5px;
+          order: 1;
+          text-align: right;
+          color: @color-basic-500;
+          font-size: @font-size-caption-2;
+
+          .cell-label {
+            display: none;
+          }
+        }
+
+        &__cell[data-column-id="status"] {
+          order: 0;
+          position: absolute;
+          min-width: 30px;
+          left: 10px;
+          top: 50%;
+          transform: translate(0, -50%);
+          height: 30px;
+          width: 30px;
+          background: pink;
+
+          .progress-bar {
+            display: none;
+          }
+        }
+
+        &__cell[data-column-id="controls"] {
+          order: 4;
+          position: absolute;
+          flex-basis: 30px;
+          right: 10px;
+          min-width: 30px;
+          top: 50%;
+          transform: translate(0, -50%);
+          height: 30px;
+          width: 30px;
+          font-size: 0;
+          background-color: pink;
+
+          .stop {
+            background-size: 10px 10px;
+            background-repeat: no-repeat;
+            background-position: center center;
+            margin-left: 0;
+            height: 30px;
+            width: 30px;
+          }
+        }
+
       }
     }
   }
-}
-
-@media screen and (max-width: 380px) {
-
-  body.dex .dex-wrapper {
-    w-dex-my-orders {
-      .smart-table {
-        &__w-tbody {
-          .smart-table {
-            &__row {
-              font-size: @font-size-caption-2;
-            }
-          }
-        }
-      }
-    }
-  }
-
 }
