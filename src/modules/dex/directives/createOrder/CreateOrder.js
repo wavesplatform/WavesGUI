@@ -12,10 +12,11 @@
      * @param {INotification} notification
      * @param {DexDataService} dexDataService
      * @param {Ease} ease
+     * @param {DataFeed} dataFeed
      * @return {CreateOrder}
      */
     const controller = function (Base, waves, user, utils, createPoll, $scope,
-                                 $element, notification, dexDataService, ease) {
+                                 $element, notification, dexDataService, ease, dataFeed) {
 
         class CreateOrder extends Base {
 
@@ -82,6 +83,15 @@
                  * @private
                  */
                 this._assetIdPair = null;
+                /**
+                 * @type {Money}
+                 * @private
+                 */
+                this.lastTradePrice = null;
+                /**
+                 * @type {string}
+                 */
+                this.focusedInputName = null;
 
                 Waves.Money.fromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
                     this.fee = money;
@@ -107,6 +117,7 @@
                  * @type {Poll}
                  */
                 const spreadPoll = createPoll(this, this._getData, this._setData, 1000);
+                const lastTraderPoll = createPoll(this, this._getLastTrade, 'lastTradePrice', 1000);
 
                 this.observe(['amountBalance', 'type', 'fee'], this._updateMaxAmountBalance);
 
@@ -117,6 +128,7 @@
                     this.ask = null;
                     balancesPoll.restart();
                     spreadPoll.restart();
+                    lastTraderPoll.restart();
                     this.observeOnce(['bid', 'ask'], utils.debounce(() => {
                         if (this.type) {
                             this.price = this._getCurrentPrice();
@@ -126,10 +138,15 @@
                 });
 
                 this.observe(['amount', 'price', 'type'], this._currentTotal);
+                this.observe('totalPrice', this._currentAmount);
 
                 // TODO Add directive for stop propagation (catch move for draggable)
                 $element.on('mousedown touchstart', '.body', (e) => {
                     e.stopPropagation();
+                });
+
+                balancesPoll.ready.then(() => {
+                    this.price = this._getCurrentPrice();
                 });
             }
 
@@ -178,6 +195,18 @@
                         .div(this.price.getTokens())
                         .round(this.amountBalance.asset.precision, BigNumber.ROUND_FLOOR));
                 }
+            }
+
+            setBidPrice() {
+                this.price = this.priceBalance.cloneWithTokens(String(this.bid.price));
+            }
+
+            setAskPrice() {
+                this.price = this.priceBalance.cloneWithTokens(String(this.ask.price));
+            }
+
+            setLastPrice() {
+                this.price = this.lastTradePrice;
             }
 
             createOrder(form) {
@@ -232,6 +261,15 @@
                             CreateOrder._animateNotification(notify);
                         });
                     });
+            }
+
+            /**
+             * @return {Promise<Money>}
+             * @private
+             */
+            _getLastTrade() {
+                return dataFeed.trades(this._assetIdPair.amount, this._assetIdPair.price)
+                    .then((list) => list[0] && this.priceBalance.cloneWithTokens(String(list[0].price)) || null);
             }
 
             /**
@@ -308,6 +346,9 @@
              * @private
              */
             _currentTotal() {
+                if (this.focusedInputName === 'total') {
+                    return null;
+                }
 
                 if (!this.price || !this.amount) {
                     this.totalPrice = this.priceBalance.cloneWithTokens('0');
@@ -324,6 +365,19 @@
                 } else {
                     this.canBuyOrder = true;
                 }
+            }
+
+            /**
+             * @return {}
+             * @private
+             */
+            _currentAmount() {
+                if (!this.price || !this.totalPrice || this.focusedInputName !== 'total') {
+                    return null;
+                }
+
+                const amount = this.totalPrice.getTokens().div(this.price.getTokens());
+                this.amount = this.priceBalance.cloneWithTokens(amount);
             }
 
             /**
@@ -391,7 +445,8 @@
         '$element',
         'notification',
         'dexDataService',
-        'ease'
+        'ease',
+        'dataFeed'
     ];
 
     angular.module('app.dex').component('wCreateOrder', {

@@ -7,9 +7,8 @@
      */
     const directive = (stService) => ({
         bindings: {},
-        scope: true,
         replace: true,
-        template: '<div data-column-id="{{::id}}" class="smart-table__cell" ng-transclude></div>',
+        template: '<div class="smart-table__cell" ng-transclude></div>',
         transclude: true,
         /**
          * @param {$rootScope.Scope} $scope
@@ -20,9 +19,12 @@
                 const parentCid = $element.closest('[data-cid]').attr('data-cid');
                 const element = $element.get(0);
                 const index = $element.index();
+                const idAttrName = 'data-column-id';
 
                 if (element.parentElement) {
-                    $scope.id = stService.getTableByCid(parentCid).getIdByIndex(index);
+                    $element.attr(idAttrName, stService.getTableByCid(parentCid).getIdByIndex(index));
+                } else {
+                    $element.attr(idAttrName, $scope.id);
                 }
             }
         }

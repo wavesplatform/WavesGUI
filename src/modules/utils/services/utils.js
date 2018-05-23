@@ -375,6 +375,9 @@
              * @return {BigNumber}
              */
             parseNiceNumber(data) {
+                if (data instanceof BigNumber) {
+                    return data;
+                }
                 return new BigNumber((String(data)
                     .replace(',', '')
                     .replace(/\s/g, '') || 0), 10);
@@ -532,6 +535,56 @@
                 const result = Object.create(null);
                 Object.assign(result, props);
                 return result;
+            },
+
+            /**
+             * @name app.utils#filterOrderBookByCharCropRate
+             * @param {object} data
+             * @param {number} data.chartCropRate
+             * @param {Array<{price: string}>} data.asks
+             * @param {Array<{price: string}>} data.bids
+             * @return {{bids: Array, asks: Array}}
+             */
+            filterOrderBookByCharCropRate(data) {
+                const { min, max } = this.getOrderBookRangeByCropRate(data);
+
+                if (!min || !max) {
+                    return {
+                        bids: [],
+                        asks: []
+                    };
+                }
+
+                return {
+                    asks: data.asks.filter((ask) => new BigNumber(ask.price).lte(max)),
+                    bids: data.bids.filter((bid) => new BigNumber(bid.price).gte(min))
+                };
+            },
+
+            /**
+             * @name app.utils#filterOrderBookByCharCropRate
+             * @param {object} data
+             * @param {number} data.chartCropRate
+             * @param {Array<{price: string}>} data.asks
+             * @param {Array<{price: string}>} data.bids
+             * @return {{min: BigNumber, max: BigNumber}}
+             */
+            getOrderBookRangeByCropRate(data) {
+                if (!data.asks || !data.asks.length || !data.bids || !data.bids.length) {
+                    return {
+                        min: null,
+                        max: null
+                    };
+                }
+
+                const spreadPrice = new BigNumber(data.asks[0].price)
+                    .add(data.bids[0].price)
+                    .div(2);
+                const delta = spreadPrice.mul(data.chartCropRate).div(2);
+                const max = spreadPrice.add(delta);
+                const min = BigNumber.max(0, spreadPrice.sub(delta));
+
+                return { min, max };
             },
 
             /**

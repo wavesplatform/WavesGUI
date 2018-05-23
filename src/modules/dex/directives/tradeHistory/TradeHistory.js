@@ -88,7 +88,7 @@
                     {
                         id: 'time',
                         title: { literal: 'directives.tradeHistory.tableTitle.date' },
-                        valuePath: 'item.timestamp',
+                        valuePath: 'item.date',
                         sort: true,
                         sortActive: true,
                         isAsc: false
