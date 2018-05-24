@@ -6,13 +6,15 @@
         <div class="body-1 basic-700" w-i18n="emptyBlocks.myOrders.title"></div>
         <div class="footnote-1 basic-500" w-i18n="emptyBlocks.myOrders.description"></div>
     </div>
-    <w-table-row ng-repeat="order in $data track by order.id">
+    <w-table-row ng-repeat="order in $data track by order.id"
+                 class="{{::order.type}}"
+                ng-class="{cancelled: order.status === 'Cancelled'}">
         <w-table-cell>
             <span>{{::order.pair}}</span>
+            <span class="status-mobile">{{::order.percent}}%</span>
         </w-table-cell>
         <w-table-cell>
-                <span class="order-side {{::order.type}}"
-                      w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
+            <span w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n></span>

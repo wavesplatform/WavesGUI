@@ -81,7 +81,12 @@ body.dex {
         .smart-table {
           &__search-container {
             input {
+              background: url(/img/icons/input-search-icon.svg) left 48% no-repeat @color-white;
+              background-size: 10px;
               border: 0 none;
+              width: 100%;
+              padding-left: 20px;
+              height: 27px;
             }
           }
 
@@ -91,6 +96,7 @@ body.dex {
             display: flex;
             align-items: center;
             font-size: @font-size-caption-2;
+            padding: 0 14px;
           }
 
           &__cell {
@@ -193,6 +199,123 @@ body.dex {
         }
       }
 
+      .status {
+        margin-top: 3px;
+        .tag-3();
+
+        .progress-bar {
+          width: 80px;
+          height: 2px;
+          margin-top: 2px;
+
+          .progress-fill {
+            max-width: 80px;
+            height: 2px;
+          }
+        }
+      }
+
+      // status and type colors
+      &__row {
+
+        .status-mobile {
+          display: none;
+          border-radius: @border-radius / 2;
+          padding: 4px 4px 3px 4px;
+          font-family: @font-roboto-regular;
+          transform: translate(5px, -1px);
+          .tag-3();
+        }
+
+        &.buy {
+          .smart-table {
+
+            &__cell[data-column-id="pair"] {
+              span.status-mobile {
+                color: @color-submit-400;
+                background: @color-submit-50;
+              }
+            }
+
+            &__cell[data-column-id="type"],
+            &__cell[data-column-id="status"] {
+              color: @color-submit-400;
+
+              .progress-bar {
+                background: @color-submit-50;
+
+                .progress-fill {
+                  background: @color-submit-400;
+                }
+              }
+
+            }
+          }
+        }
+
+        &.sell {
+          .smart-table {
+
+            &__cell[data-column-id="pair"] {
+              span.status-mobile {
+                color: @color-error-500;
+                background: @color-error-100;
+              }
+            }
+
+            &__cell[data-column-id="type"],
+            &__cell[data-column-id="status"] {
+              color: @color-error-500;
+
+              .progress-bar {
+                background: @color-error-100;
+
+                .progress-fill {
+                  background: @color-error-500;
+                }
+              }
+            }
+          }
+        }
+
+        &.cancelled {
+          color: @color-disabled-500;
+
+          .progress-fill {
+            display: none;
+          }
+
+          &.sell {
+            .smart-table {
+              &__cell[data-column-id="type"],
+              &__cell[data-column-id="status"] {
+                color: @color-error-200;
+
+                .progress-bar {
+                  background: @color-error-100;
+                }
+              }
+            }
+          }
+
+          &.buy {
+            .smart-table {
+              &__cell[data-column-id="type"],
+              &__cell[data-column-id="status"] {
+                color: @color-submit-200;
+
+                .progress-bar {
+                  background: @color-submit-50;
+                }
+
+              }
+            }
+          }
+
+        }
+      }
+      // end
+
       &__row {
         position: relative;
         display: flex;
@@ -200,51 +323,6 @@ body.dex {
         &:last-child {
           margin-bottom: 10px;
         }
-
-        .status {
-          color: @color-submit-400;
-          margin-top: 3px;
-          .tag-3();
-
-          .progress-bar {
-            width: 80px;
-            height: 2px;
-            margin-top: 2px;
-
-            .progress-fill {
-              max-width: 80px;
-              height: 2px;
-              background-color: @color-submit-400;
-            }
-          }
-        }
-
-        &[ng-class='filled'] {
-          .status {
-            .progress-bar {
-              background-color: @color-disabled-200;
-            }
-          }
-        }
-
-        &[ng-class='accepted'],
-        &[ng-class='canceled'] {
-          .status {
-            .progress-bar {
-              background-color: @color-submit-50;
-            }
-          }
-        }
-
-        &[ng-class="cancelled"],
-        &[ng-class="filled"] {
-          color: @color-disabled-500;
-
-          .order-side.sell, .order-side.buy {
-            color: @color-disabled-500;
-          }
-        }
-
       }
 
       &__cell {
@@ -366,6 +444,10 @@ body.dex {
             .smart-table {
               &__row {
                 position: relative;
+
+                .status-mobile {
+                  display: inline-block;
+                }
               }
             }
           }
