@@ -299,9 +299,8 @@
                 waves.node.assets.getExtendedAsset(this.baseAssetId)
                     .then((asset) => {
                         this._parent.title = asset.name;
-                        this._activateAssets().then(() => {
-                            $scope.$apply();
-                        });
+                        this._activateAssets();
+                        $scope.$apply();
                     });
             }
 
