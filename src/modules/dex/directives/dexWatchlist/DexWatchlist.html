@@ -1,63 +1,83 @@
-<div
-    class="search-list"
-    ng-if="$ctrl.shouldShowSearchResults()">
-    <div class="search-item"
-         ng-repeat="asset in $ctrl.assetSearchResults track by asset.id"
-         ng-click="$ctrl.addSecondaryAsset(asset)"
-         ng-class="{
+<w-tabs ng-model="$ctrl.tab">
+    <w-tab title-name="::'tabs.title.all'" id="::'all'">
+
+        <w-input placeholder="directives.watchlist.placeholders.coin"
+                 ng-model="$ctrl.search"
+                 ng-focus="$ctrl.focused = true"
+                 ng-blur="$ctrl.focused = false"
+                 w-i18n-attr="placeholder"></w-input>
+
+        <div class="search-list"
+             ng-if="$ctrl.shouldShowSearchResults()">
+            <div class="search-item"
+                 ng-repeat="asset in $ctrl.assetSearchResults track by asset.id"
+                 ng-click="$ctrl.addSecondaryAsset(asset)"
+                 ng-class="{
             'watched': asset.isWatched
          }">
-        <div class="ticker">
-            {{asset.ticker.beginning}}<span class="selected">{{asset.ticker.inputPart}}</span>{{asset.ticker.ending}}
-        </div>
-        <div class="name">
-            {{asset.name.beginning}}<span class="selected">{{asset.name.inputPart}}</span>{{asset.name.ending}}
-        </div>
-        <div
-            ng-class="{
+                <div class="ticker">
+                    {{asset.ticker.beginning}}<span class="selected">{{asset.ticker.inputPart}}</span>{{asset.ticker.ending}}
+                </div>
+                <div class="name">
+                    {{asset.name.beginning}}<span class="selected">{{asset.name.inputPart}}</span>{{asset.name.ending}}
+                </div>
+                <div ng-class="{
                 'add': !asset.isWatched,
                 'remove': asset.isWatched
             }"></div>
-    </div>
-    <div class="not-found footnote-1 basic-500"
-         ng-if="$ctrl.nothingFound"
-    >No assets found
-    </div>
-</div>
-<w-smart-table data="$ctrl.assets" header-info="$ctrl.headers">
-    <w-table-row ng-repeat="asset in $data track by asset.id"
-                 ng-if="asset.id !== $ctrl.baseAssetId"
-                 ng-click="$ctrl.changePair(asset.id)"
-                 ng-class="{
+            </div>
+            <div class="not-found footnote-1 basic-500"
+                 ng-if="$ctrl.nothingFound">
+                <w-i18n>directives.watchlist.placeholders.noMarkets</w-i18n>
+            </div>
+        </div>
+
+
+        <w-smart-table data="$ctrl.assets" header-info="$ctrl.headers">
+            <w-table-row ng-repeat="asset in $data track by asset.id"
+                         ng-if="asset.id !== $ctrl.baseAssetId"
+                         ng-click="$ctrl.changePair(asset.id)"
+                         ng-class="{
                      'selected': $ctrl.isSelected(asset.id)
                  }">
-        <w-table-cell class="col-pair">
-            <i class="icon-fav"></i>
-            <w-dex-pair asset-id="{{::asset.id}}"
-                        base-asset-id="$ctrl.baseAssetId"></w-dex-pair>
-        </w-table-cell>
-        <w-table-cell class="col-price">
-            <w-dex-exchange base-asset-id="$ctrl.baseAssetId"
-                            asset-id="{{::asset.id}}"></w-dex-exchange>
-        </w-table-cell>
-        <!-- todo: @germantebiev доработать установку класса. -->
-        <w-table-cell class="col-change"
-                      ng-class="{
+                <w-table-cell>
+                    <i class="icon-fav"></i>
+                    <w-dex-pair asset-id="{{::asset.id}}"
+                                base-asset-id="$ctrl.baseAssetId"></w-dex-pair>
+                </w-table-cell>
+                <w-table-cell>
+                    <w-dex-exchange base-asset-id="$ctrl.baseAssetId"
+                                    asset-id="{{::asset.id}}"></w-dex-exchange>
+                </w-table-cell>
+                <!-- todo: @germantebiev доработать установку класса. -->
+                <w-table-cell ng-class="{
                         'plus': false,
                         'minus': false
                       }">
-            <w-change24 direction-by-pair="::true"
-                        asset-from="$ctrl.baseAssetId"
-                        asset-to="asset.id"></w-change24>
-        </w-table-cell>
-        <!-- todo: @germantebiev разработать подсчёт объёмов -->
-        <w-table-cell class="col-volume">
-            999.9k
-        </w-table-cell>
-        <!-- todo: @germantebiev добавить информацию о выбранной паре. -->
-        <div class="info" ng-if="$ctrl.isSelected(asset.id)">
-            <div class="disabled-900">3PCAB4sHXgvtu5asdfasdfsadfNPoen6EXR5yaNbvsEA8Fj <span>/</span></div>
-            <div class="disabled-900">WAVES</div>
-        </div>
-    </w-table-row>
-</w-smart-table>
+                    <w-change24 direction-by-pair="::true"
+                                asset-from="$ctrl.baseAssetId"
+                                asset-to="asset.id"></w-change24>
+                </w-table-cell>
+                <!-- todo: @germantebiev разработать подсчёт объёмов -->
+                <w-table-cell>
+                    999.9k
+                </w-table-cell>
+                <!-- todo: @germantebiev добавить информацию о выбранной паре. -->
+                <w-table-cell ng-if="$ctrl.isSelected(asset.id)">
+                    <div class="disabled-900">3PCAB4sHXgvtu5asdfasdfsadfNPoen6EXR5yaNbvsEA8Fj <span>/</span></div>
+                    <div class="disabled-900">WAVES</div>
+                </w-table-cell>
+            </w-table-row>
+        </w-smart-table>
+
+    </w-tab>
+    <w-tab title-name="::'tabs.title.waves'" id="::'waves'">
+
+    </w-tab>
+    <w-tab title-name="::'tabs.title.btc'" id="::'btc'">
+
+    </w-tab>
+    <w-tab title-name="::'tabs.title.eth'" id="::'select'">
+
+    </w-tab>
+</w-tabs>

@@ -61,6 +61,10 @@
                     {
                         id: 'volume',
                         title: { literal: 'directives.watchlist.volume' }
+                    },
+                    {
+                        id: 'info',
+                        title: false
                     }
                 ];
 

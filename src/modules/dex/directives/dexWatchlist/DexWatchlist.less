@@ -74,61 +74,77 @@ body.dex .dex-wrapper {
       }
     }
 
-    w-scroll-box {
-      max-height: calc(100% ~'- 30px');
-    }
+    w-tabs {
+      width: 100%;
 
-    w-cell > div {
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      padding: 0 1px;
-    }
+      .smart-table {
+        width: 100%;
 
-    /*
-    todo: @iskander, тут необходимо заменить на w-smart-table и его составляющие.
-    Гипотетически можно воспользоваться классами вроде smart-table__<название сущности>, но проблема в том, что на
-    странице уже присутствует другой элемент w-smart-table с такими же классами.
-     */
-    w-table {
-      .table-row {
-        border: 1px solid transparent;
-        border-left: none;
-        border-right: none;
-        cursor: pointer;
-        flex-direction: column;
-        height: auto;
-        min-height: 21px;
+        &__row {
+          flex-wrap: wrap;
+          cursor: pointer;
 
-        .cells {
-          padding: 0 14px;
-          width: 100%;
-          display: flex;
+          &.selected {
+            background-color: @color-submit-50;
 
-          w-cell {
-            flex-basis: 25%;
+            .smart-table {
+              &__cell[data-column-id="info"] {
+                display: block;
+              }
+            }
           }
         }
 
-        .info {
+        &__cell {
+          padding: 0;
+
+          &:first-child {
+            padding-left: 10px;
+          }
+
+          &[data-column-id="volume"] {
+            padding-right: 10px;
+          }
+        }
+
+        &__cell[data-column-id="pair"] {
+          flex-basis: 35%;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+        &__cell[data-column-id="price"] {
+          flex-basis: 25%;
+          text-align: right;
+        }
+
+        &__cell[data-column-id="change"] {
+          flex-basis: 20%;
+          text-align: right;
+
+          &.plus {
+            color: @color-submit-400;
+          }
+          &.minus {
+            color: @color-error-400;
+          }
+        }
+
+        &__cell[data-column-id="volume"] {
+          flex-basis: 15%;
+          text-align: right;
+        }
+
+        &__cell[data-column-id="info"] {
+          flex-basis: 100%;
           display: none;
           width: 100%;
           padding: 10px 20px 10px 35px;
           .caption-3();
         }
-
-        &.selected {
-          background-color: @color-submit-50;
-
-          .info {
-            display: block;
-          }
-        }
       }
 
-      w-t-head .table-row {
-        flex-direction: row;
-      }
     }
 
     i.icon-fav {
@@ -145,31 +161,13 @@ body.dex .dex-wrapper {
         background: url(/img/icons/dex-star-active.svg) center no-repeat;
       }
     }
-
-    .col-price,
-    .col-change,
-    .col-volume {
-      text-align: right;
-    }
-
-    .col-change {
-      &.plus {
-        color: @color-submit-400;
-      }
-      &.minus {
-        color: @color-error-400;
-      }
-    }
   }
 }
 
 @media screen and (max-width: 768px) {
   body.dex .dex-wrapper {
     w-dex-watchlist {
-      w-scroll-box {
-        max-height: 290px;
-        overflow: auto;
-      }
+      min-height: 290px;
     }
   }
 }

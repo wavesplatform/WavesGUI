@@ -8,10 +8,14 @@
     </div>
     <w-table-row ng-repeat="order in $data track by order.id"
                  class="{{::order.type}}"
-                ng-class="{cancelled: order.status === 'Cancelled'}">
+                 ng-class="{cancelled: order.status === 'Cancelled'}">
         <w-table-cell>
             <span>{{::order.pair}}</span>
-            <span class="status-mobile">{{::order.percent}}%</span>
+            <span ng-if="order.status !== 'Cancelled'"
+                  class="status-mobile">{{::order.percent}}%</span>
+            <span ng-if="order.status === 'Cancelled'"
+                  class="status-mobile">
+                <w-i18n>directives.myOrders.canceled</w-i18n></span>
         </w-table-cell>
         <w-table-cell>
             <span w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
@@ -38,8 +42,11 @@
         </w-table-cell>
         <w-table-cell>
             <div class="status">
-                <div>
+                <div ng-if="order.status !== 'Cancelled'">
                     {{::order.percent}}%
+                </div>
+                <div ng-if="order.status === 'Cancelled'">
+                    <w-i18n>directives.myOrders.canceled</w-i18n>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: {{::order.percent}}%"></div>
