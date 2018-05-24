@@ -66,6 +66,7 @@ body.dex {
       width: 100%;
       height: 100%;
       display: block;
+      min-width: 1130px;
 
       &__w-thead {
         color: @color-disabled-700;
@@ -78,12 +79,24 @@ body.dex {
         }
 
         .smart-table {
+          &__search-container {
+            input {
+              background: url(/img/icons/input-search-icon.svg) left 48% no-repeat @color-white;
+              background-size: 10px;
+              border: 0 none;
+              width: 100%;
+              padding-left: 20px;
+              height: 27px;
+            }
+          }
+
           &__row {
             height: 28px;
             width: 100%;
             display: flex;
             align-items: center;
             font-size: @font-size-caption-2;
+            padding: 0 14px;
           }
 
           &__cell {
@@ -102,15 +115,19 @@ body.dex {
 
         .cell-label {
           display: none;
-          color: @color-disabled-700;
+          color: @color-basic-500;
           margin-right: 7px;
-          font-size: 9px;
+          font-size: @font-size-caption-2;
         }
       }
     }
   }
 
   w-tabs {
+
+    .tab-tem {
+      overflow-x: auto;
+    }
 
     .tab-body-wrap {
       height: calc(100% ~'- 39px');
@@ -126,7 +143,6 @@ body.dex {
         font-size: 13px;
         margin: 0;
         padding: 0 20px;
-        margin-top: 1px;
         line-height: 40px;
         border: 0 none;
         font-family: @font-roboto-medium;
@@ -155,6 +171,18 @@ body.dex {
             height: 2px;
             background: @color-submit-400;
           }
+
+          &:after {
+            position: absolute;
+            bottom: -2px;
+            height: 2px;
+            width: 100%;
+            left: 0;
+            content: '';
+            display: block;
+            z-index: 1;
+            background: @color-white;
+          }
         }
       }
     }
@@ -171,59 +199,130 @@ body.dex {
         }
       }
 
+      .status {
+        margin-top: 3px;
+        .tag-3();
+
+        .progress-bar {
+          width: 80px;
+          height: 2px;
+          margin-top: 2px;
+
+          .progress-fill {
+            max-width: 80px;
+            height: 2px;
+          }
+        }
+      }
+
+      // status and type colors
+      &__row {
+
+        .status-mobile {
+          display: none;
+          border-radius: @border-radius / 2;
+          padding: 4px 4px 3px 4px;
+          font-family: @font-roboto-regular;
+          transform: translate(5px, -1px);
+          .tag-3();
+        }
+
+        &.buy {
+          .smart-table {
+
+            &__cell[data-column-id="pair"] {
+              span.status-mobile {
+                color: @color-submit-400;
+                background: @color-submit-50;
+              }
+            }
+
+            &__cell[data-column-id="type"],
+            &__cell[data-column-id="status"] {
+              color: @color-submit-400;
+
+              .progress-bar {
+                background: @color-submit-50;
+
+                .progress-fill {
+                  background: @color-submit-400;
+                }
+              }
+
+            }
+          }
+        }
+
+        &.sell {
+          .smart-table {
+
+            &__cell[data-column-id="pair"] {
+              span.status-mobile {
+                color: @color-error-500;
+                background: @color-error-100;
+              }
+            }
+
+            &__cell[data-column-id="type"],
+            &__cell[data-column-id="status"] {
+              color: @color-error-500;
+
+              .progress-bar {
+                background: @color-error-100;
+
+                .progress-fill {
+                  background: @color-error-500;
+                }
+              }
+            }
+          }
+        }
+
+        &.cancelled {
+          color: @color-disabled-500;
+
+          .progress-fill {
+            display: none;
+          }
+
+          &.sell {
+            .smart-table {
+              &__cell[data-column-id="type"],
+              &__cell[data-column-id="status"] {
+                color: @color-error-200;
+
+                .progress-bar {
+                  background: @color-error-100;
+                }
+              }
+            }
+          }
+
+          &.buy {
+            .smart-table {
+              &__cell[data-column-id="type"],
+              &__cell[data-column-id="status"] {
+                color: @color-submit-200;
+
+                .progress-bar {
+                  background: @color-submit-50;
+                }
+
+              }
+            }
+          }
+
+        }
+      }
+      // end
+
       &__row {
         position: relative;
         display: flex;
-        padding: 6px 14px;
 
         &:last-child {
           margin-bottom: 10px;
         }
-
-        .status {
-          color: @color-submit-400;
-          margin-top: 3px;
-          .tag-3();
-
-          .progress-bar {
-            width: 80px;
-            height: 2px;
-            margin-top: 2px;
-
-            .progress-fill {
-              max-width: 80px;
-              height: 2px;
-              background-color: @color-submit-400;
-            }
-          }
-        }
-
-        &[ng-class='filled'] {
-          .status {
-            .progress-bar {
-              background-color: @color-disabled-200;
-            }
-          }
-        }
-
-        &[ng-class='accepted'],
-        &[ng-class='canceled'] {
-          .status {
-            .progress-bar {
-              background-color: @color-submit-50;
-            }
-          }
-        }
-
-        &[ng-class="cancelled"],
-        &[ng-class="filled"] {
-          color: @color-disabled-500;
-
-          .order-side.sell, .order-side.buy {
-            color: @color-disabled-500;
-          }
-        }
-
       }
 
       &__cell {
@@ -309,95 +408,70 @@ body.dex {
           }
         }
       }
+
+      w-tabs {
+
+        .titles-wrap {
+          height: 50px;
+
+          &::after {
+            display: none;
+          }
+
+          .title {
+            height: 48px;
+            line-height: 48px;
+
+            &.active {
+              border: 0 none;
+              border-bottom: 1px solid @color-submit-400;
+
+              &::after,
+              &::before {
+                display: none;
+              }
+            }
+          }
+
+        }
+
+        .smart-table {
+
+          &__w-tbody {
+            max-height: 320px;
+            min-height: 320px;
+
+            .smart-table {
+              &__row {
+                position: relative;
+
+                .status-mobile {
+                  display: inline-block;
+                }
+              }
+            }
+          }
+
+          &__cell {
+            padding: 0;
+          }
+
+        }
+      }
+
     }
   }
 
 }
 
-//
 //@media screen and (max-width: 768px) {
-//
-//  //firefox fixes
-//  w-layout .dex-layout__block {
-//    height: auto !important;
-//
-//    &-center-bottom-collapsed w-dex-block .block-wrapper .block-title {
-//      height: auto;
-//      min-height: 39px;
-//    }
-//  }
-//
-//  body.dex {
-//    w-dex-trade-graph,
-//    w-dex-trade-graph .graph-wrapper {
-//      height: 130px;
-//      min-height: 130px;
-//      max-height: 130px;
-//      overflow: hidden;
-//    }
-//  }
 //}
 //
 ////Tablet
 //@media screen and (min-width: 481px) and (max-width: 768px) {
-//
-//  body.dex {
-//    min-width: 580px;
-//
-//    ui-view[name="main"] {
-//      height: auto;
-//    }
-//
-//    .main-content .content {
-//      height: auto;
-//      width: 100%;
-//      margin: 0;
-//      overflow: auto;
-//      padding: 10px 10px 0 10px;
-//    }
-//
-//    .dex-layout__column-right {
-//      padding-bottom: 100px;
-//    }
-//
-//    .block-wrapper w-scroll-box w-row {
-//      font-size: 80%;
-//    }
-//
-//    .dex-wrapper w-table > div.table w-scroll-box {
-//      height: auto;
-//      overflow: auto;
-//      max-height: calc(50vh ~'- 100px');
-//    }
-//  }
-//
 //}
 //
 ////Mobile
 //@media screen and (max-width: 480px),
 //(min-width: 481px) and (max-width: 768px) and (max-height: 480px) {
-//
-//  body.dex {
-//    ui-view[name="main"] {
-//      height: auto;
-//    }
-//
-//    .main-content .content {
-//      height: auto;
-//      width: 100%;
-//      overflow-y: auto;
-//      margin-top: 60px;
-//    }
-//
-//    .dex-layout__column-right {
-//      padding-bottom: 90px;
-//    }
-//
-//    .dex-wrapper w-table > div.table w-scroll-box {
-//      height: auto;
-//      overflow: auto;
-//      max-height: 217px;
-//    }
-//  }
-//
 //}

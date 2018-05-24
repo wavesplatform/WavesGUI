@@ -1,17 +1,26 @@
-<w-smart-table data="$ctrl.balanceList" header-info="$ctrl.headers">
-    <w-table-row ng-repeat="balance in $data track by balance.asset.id">
+<w-smart-table class="smart-table"
+               data="$ctrl.balanceList"
+               header-info="$ctrl.headers">
+    <w-table-row ng-repeat="balance in $data track by balance.asset.id"
+                 w-toggle-class-container>
         <w-table-cell>
             <w-asset-logo size="20" asset-id="{{::balance.asset.id}}"></w-asset-logo>
             {{::balance.asset.name}}
         </w-table-cell>
         <w-table-cell>
+            <span class="cell-label"><w-i18n>directives.balance.available</w-i18n></span>
             <w-balance short-mode="::true" money="balance.available"></w-balance>
         </w-table-cell>
         <w-table-cell>
+            <span class="cell-label"><w-i18n>directives.balance.inOrders</w-i18n></span>
             <w-balance short-mode="::true" money="balance.inOrders"></w-balance>
         </w-table-cell>
         <w-table-cell>
+            <span class="cell-label"><w-i18n>directives.balance.total</w-i18n></span>
             <w-balance short-mode="::true" money="balance.regular"></w-balance>
         </w-table-cell>
+        <w-table-cell></w-table-cell>
     </w-table-row>
 </w-smart-table>
+
+<!-- todo add ng-if="::isNotDesktop" -->

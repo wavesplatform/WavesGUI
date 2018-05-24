@@ -46,12 +46,17 @@
             }
 
             /**
-             * @return {Promise<Array>}
+             * @return {Promise<Array<IOrder>>}
              */
             getOrders() {
                 return this._ordersCache.get();
             }
 
+            /**
+             * @param {string} asset1
+             * @param {string} asset2
+             * @return {Promise<Matcher.IOrderBookResult>}
+             */
             getOrderBook(asset1, asset2) {
                 return this._getOrderBookCache(asset1, asset2).get();
             }
@@ -179,9 +184,9 @@
                             .then((orderPrice) => Waves.Money.fromTokens(orderPrice.getTokens(), priceAssetId)),
                         Waves.Money.fromCoins(String(order.amount), amountAssetId),
                         Waves.Money.fromCoins(String(order.filled), amountAssetId),
-                        Promise.resolve(`${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`)
+                        Promise.resolve(assetPair)
                     ]))
-                    .then(([price, amount, filled, pair]) => {
+                    .then(([price, amount, filled, assetPair]) => {
                         const totalAmount = price.getTokens().mul(amount.getTokens());
 
                         return (
@@ -193,11 +198,11 @@
                                     amount,
                                     total,
                                     filled,
-                                    pair
+                                    assetPair
                                 }))
                         );
                     })
-                    .then(({ price, amount, total, filled, pair }) => {
+                    .then(({ price, amount, total, filled, assetPair }) => {
                         const percent = filled.getTokens().div(amount.getTokens()).mul(100).round(2); // TODO
                         // TODO Move to component myOrders (dex refactor);
                         const STATUS_MAP = {
@@ -208,29 +213,32 @@
                         };
                         const state = i18n.translate(STATUS_MAP[order.status], 'app', { percent });
                         const isActive = ['Accepted', 'PartiallyFilled'].indexOf(order.status) !== -1;
+                        const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
 
-                        return { ...order, isActive, price, amount, total, filled, pair, percent, state };
+                        return { ...order, isActive, price, amount, total, filled, assetPair, pair, percent, state };
                     });
             }
 
             /**
              * @param {Array} bids
              * @param {Array} asks
-             * @param {AssetPair} pair
-             * @returns {{amount: string, price: string, total: string}}
+             * @returns {Matcher.ISpread}
              * @private
              */
-            static _getSpread(bids, asks, pair) {
+            static _getSpread(bids, asks) {
                 const [lastAsk] = asks;
                 const [firstBid] = bids;
+                const sell = new BigNumber(firstBid && firstBid.price);
+                const buy = new BigNumber(lastAsk && lastAsk.price);
+                const percent = (sell && buy && buy.gt(0)) ? buy.sub(sell).mul(100).div(buy) : new BigNumber(0);
 
                 return firstBid && lastAsk && {
-                    amount: lastAsk.price,
-                    price: new BigNumber(lastAsk.price).sub(firstBid.price)
-                        .abs()
-                        .toFixed(pair.priceAsset.precision),
-                    total: firstBid.price
-                } || { amount: '0', price: '0', total: '0' };
+                    lastAsk,
+                    firstBid,
+                    buy,
+                    sell,
+                    percent
+                } || null;
             }
 
             /**
@@ -251,3 +259,59 @@
 
     angular.module('app').factory('matcher', factory);
 })();
+
+/**
+ * @name Matcher
+ */
+
+/**
+ * @typedef {object} Matcher#IOrderApi
+ * @property {string} price
+ * @property {string} amount
+ */
+
+/**
+ * @typedef {object} Matcher#IOrder
+ * @property {string} price
+ * @property {string} amount
+ * @property {string} total
+ */
+
+/**
+ * @typedef {object} Matcher#IPair
+ * @property {string} priceAsset
+ * @property {string} amountAsset
+ */
+
+/**
+ * @typedef {object} Matcher#ISpread
+ * @property {Matcher.IOrderApi} lastAsk
+ * @property {Matcher.IOrderApi} firstBid
+ * @property {BigNumber} buy
+ * @property {BigNumber} sell
+ * @property {BigNumber} percent
+ */
+
+/**
+ * @typedef {object} Matcher#IOrderBookResult
+ * @property {Array<Matcher.IOrder>} asks
+ * @property {Array<Matcher.IOrder>} bids
+ * @property {Matcher.IPair} pair
+ * @property {Matcher.ISpread} spread
+ * @property {number} timestamp
+ */
+
+/**
+ * @typedef {object} Matcher#IOrder
+ * @property {string} id
+ * @property {IAssetPair} assetPair
+ * @property {Money} filled
+ * @property {boolean} isActive
+ * @property {string} pair
+ * @property {BigNumber} percent
+ * @property {Money} price
+ * @property {string} state
+ * @property {string} status
+ * @property {Money} total
+ * @property {string} type
+ */

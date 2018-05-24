@@ -1,4 +1,6 @@
-<w-smart-table data="$ctrl.orders" header-info="$ctrl.headers">
+<w-smart-table clas="smart-table"
+               data="$ctrl.orders"
+               header-info="$ctrl.headers">
     <div ng-if="!$ctrl.orders.length" class="empty-block-container">
         <div class="icon"></div>
         <div class="body-1 basic-700" w-i18n="emptyBlocks.tradeHistory.title"></div>
@@ -13,20 +15,22 @@
                   w-i18n="directives.tradeHistory.orderType.{{::order.type}}"></span>
         </w-table-cell>
         <w-table-cell>
-            <span ng-if="::isNotDesktop" class="cell-label" w-i18n="directives.tradeHistory.tableTitle.price"></span>
+            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.price"></span>
             <span precision="::$ctrl.priceAsset.precision" short-mode="::true" w-nice-number="::order.price"></span>
         </w-table-cell>
         <w-table-cell>
-            <span ng-if="::isNotDesktop" class="cell-label" w-i18n="directives.tradeHistory.tableTitle.size"></span>
+            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.size"></span>
             <span precision="::$ctrl.amountAsset.precision" short-mode="::true" w-nice-number="::order.amount"></span>
         </w-table-cell>
         <w-table-cell>
-            <span ng-if="::isNotDesktop" class="cell-label" w-i18n="directives.tradeHistory.tableTitle.total"></span>
+            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.total"></span>
             <span precision="::$ctrl.priceAsset.precision" short-mode="::true" w-nice-number="::order.total"></span>
         </w-table-cell>
         <w-table-cell>
-            <span ng-if="::isNotDesktop" class="cell-label" w-i18n="directives.tradeHistory.tableTitle.date"></span>
+            <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.date"></span>
             {{::order.date | date:'yyyy-MM-dd HH:mm:ss'}}
         </w-table-cell>
     </w-table-row>
 </w-smart-table>
+
+<!-- todo add !ng-if="::isNotDesktop"-->

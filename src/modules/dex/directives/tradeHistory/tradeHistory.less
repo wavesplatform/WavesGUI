@@ -1,4 +1,5 @@
 @import (reference) '../../../config';
+@import (reference) "../../../app/less/typography";
 
 w-dex-trade-history {
   display: block;
@@ -6,6 +7,11 @@ w-dex-trade-history {
   height: 100%;
 
   .smart-table {
+    &__row {
+      flex-wrap: nowrap;
+      padding: 6px 14px;
+    }
+
     &__cell {
       flex-basis: calc(20% ~' - 20px');
     }
@@ -36,4 +42,96 @@ w-dex-trade-history {
     }
   }
 
+}
+
+
+@media screen and (max-width: 768px) {
+
+  body.dex .main-content .content .dex-wrapper {
+    w-dex-trade-history {
+      .smart-table {
+        min-width: 100%;
+
+        &__w-thead {
+          display: flex;
+        }
+
+        &__cell {
+          flex-basis: 25%;
+
+          .cell-label {
+            display: none;
+          }
+        }
+
+        &__row {
+          flex-wrap: nowrap;
+          padding: 14px 6px;
+        }
+
+        &__cell[data-column-id="pair"] {
+          order: 0;
+          margin-bottom: 5px;
+          font-family: @font-roboto-medium;
+
+          span {
+            max-width: auto;
+          }
+        }
+
+
+        &__cell[data-column-id="type"] {
+          display: none;
+        }
+
+        &__cell[data-column-id="price"] {
+          text-align: left;
+          order: 0;
+        }
+
+        &__cell[data-column-id="total"] {
+          order: 1;
+        }
+
+        &__cell[data-column-id="amount"] {
+          order: 2;
+        }
+
+        &__cell[data-column-id="time"] {
+          order: 3;
+          text-align: right;
+          margin-right: 0;
+          color: @color-basic-500;
+          font-size: @font-size-caption-2;
+
+          .cell-label {
+            display: none;
+          }
+        }
+
+        &__cell[data-column-id="controls"] {
+          order: 4;
+          position: absolute;
+          flex-basis: 30px;
+          right: 10px;
+          min-width: 30px;
+          top: 0;
+          height: 30px;
+          width: 30px;
+          font-size: 0;
+          margin-top: 5px;
+
+          .stop {
+            background-size: 10px 10px;
+            background-repeat: no-repeat;
+            background-position: center center;
+            margin-left: 0;
+            height: 30px;
+            width: 30px;
+          }
+        }
+
+      }
+    }
+  }
 }

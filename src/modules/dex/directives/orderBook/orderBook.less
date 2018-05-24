@@ -71,6 +71,8 @@ w-dex-order-book {
 
   w-scroll-box {
     height: calc(100% ~'- 29px');
+    overflow-y: auto;
+    overflow-x: hidden;
 
     w-row.active::before {
       background-image: url(/img/icons/active-order-arrow.svg);
@@ -184,6 +186,8 @@ w-dex-order-book {
 @media screen and (max-width: 768px) {
   body.dex .dex-wrapper {
     w-dex-order-book {
+      min-height: 290px;
+
       w-scroll-box {
         max-height: 290px;
         overflow: auto;

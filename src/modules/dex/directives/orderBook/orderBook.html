@@ -13,17 +13,16 @@
         </w-row>
     </w-t-head>
     <w-scroll-box>
-        <div class="{{::$ctrl.SECTIONS.ASKS}}"></div>
-        <div class="{{::$ctrl.SECTIONS.INFO}}">
-            <div><w-i18n>directives.orderBook.lastprice</w-i18n></div>
-            <!-- todo @german div.last-price must has class 'buy' or 'sell' -->
+        <div class="asks"></div>
+        <div class="info">
+            <div w-i18n="directives.orderBook.lastprice"></div>
             <div class="last-price body-2 buy"></div>
             <div>
-                <span><w-i18n>directives.orderBook.spread<w-i18n></span>
+                <span w-i18n="directives.orderBook.spread"></span>
                 <span class="spread"></span>
             </div>
         </div>
-        <div class="{{::$ctrl.SECTIONS.BIDS}}"></div>
+        <div class="bids"></div>
     </w-scroll-box>
 </w-table>
 

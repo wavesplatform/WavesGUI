@@ -33,6 +33,7 @@
      * @param {Waves} waves
      * @param {IPollCreate} createPoll
      * @param {$rootScope.Scope} $scope
+     * @param {app.utils} utils
      * @return {TradeGraph}
      */
     const controller = function (Base, utils, waves, createPoll, $scope) {
@@ -129,27 +130,17 @@
                     return orderBook;
                 }
 
-                const filteredOrderBook = this._cutOffOutlyingOrders(orderBook);
+                const filteredOrderBook = utils.filterOrderBookByCharCropRate({
+                    chartCropRate: this._chartCropRate,
+                    asks: orderBook.asks,
+                    bids: orderBook.bids
+                });
 
                 if (TradeGraph._areEitherAsksOrBids(filteredOrderBook)) {
                     return filteredOrderBook;
                 }
 
                 return orderBook;
-            }
-
-            _cutOffOutlyingOrders({ asks, bids }) {
-                const spreadPrice = new BigNumber(asks[0].price)
-                    .add(bids[0].price)
-                    .div(2);
-                const delta = spreadPrice.mul(this._chartCropRate).div(2);
-                const max = spreadPrice.add(delta);
-                const min = BigNumber.max(0, spreadPrice.sub(delta));
-
-                return {
-                    asks: asks.filter((ask) => new BigNumber(ask.price).lte(max)),
-                    bids: bids.filter((bid) => new BigNumber(bid.price).gte(min))
-                };
             }
 
             _updateGraphAccordingToOrderBook(orderBook) {
