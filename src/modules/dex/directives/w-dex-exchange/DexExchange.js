@@ -19,17 +19,22 @@
                 /**
                  * @type {string}
                  */
-                this.baseAssetId = null;
+                this.baseAssetId = '';
+
                 /**
                  * @type {string}
                  */
-                this.assetId = null;
-                this._requestTimer = null;
+                this.assetId = '';
 
-                this.observe('baseAssetId', this._onChangePair);
+                /**
+                 * @type {PromiseControl}
+                 * @private
+                 */
+                this._requestTimer = null;
             }
 
             $postLink() {
+                this.observe('baseAssetId', this._onChangePair);
                 this._onChangePair();
             }
 

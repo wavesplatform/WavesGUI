@@ -13,40 +13,42 @@
 
             constructor() {
                 super();
+
                 /**
                  * @type {string}
                  */
-                this.assetId = null;
+                this.assetId = '';
+
                 /**
                  * @type {string}
                  */
-                this.baseAssetId = null;
+                this.baseAssetId = '';
+
+                /**
+                 * @type {PromiseControl}
+                 * @private
+                 */
                 this._requestTimer = null;
             }
 
             $postLink() {
-                if (!this.assetId) {
-                    throw new Error('Has no asset id!');
-                }
-                this.observe('baseAssetId', this._onChangeAssetId);
-                this._onChangeAssetId();
+                this.observe('baseAssetId', this._getPairAndSetTemplate);
+                this._getPairAndSetTemplate();
             }
 
             /**
              * @private
              */
-            _onChangeAssetId() {
+            _getPairAndSetTemplate() {
                 if (this._requestTimer) {
                     timeLine.cancel(this._requestTimer);
                 }
                 if (this.assetId && this.baseAssetId) {
                     Waves.AssetPair.get(this.assetId, this.baseAssetId)
                         .then((pair) => {
-                            const amount = pair.amountAsset.displayName;
-                            const price = pair.priceAsset.displayName;
-                            this._addTemplate(`${amount} / ${price}`);
+                            this._addTemplate(`${pair.amountAsset.displayName} / ${pair.priceAsset.displayName}`);
                         }, () => {
-                            timeLine.timeout(() => this._onChangeAssetId(), 1000);
+                            this._requestTimer = timeLine.timeout(() => this._getPairAndSetTemplate(), 1000);
                         });
                 } else {
                     this._addTemplate('');

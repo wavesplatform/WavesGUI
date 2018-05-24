@@ -34,11 +34,6 @@
                  */
                 this.focused = false;
                 /**
-                 * Mode for choose base asset id for dex block
-                 * @type {boolean}
-                 */
-                this.changeBaseAssetMode = false;
-                /**
                  * @type {string}
                  */
                 this.block = null;
@@ -53,7 +48,6 @@
                 this._parent = null;
 
                 i18n.translateField(this, 'titleLiteral', 'title', 'app.dex');
-                this.observe('changeBaseAssetMode', this._onChangeAssetMode);
             }
 
             $postLink() {
@@ -80,31 +74,6 @@
                         .then(() => {
                             this.collapsed = !collapsed;
                         });
-                }
-            }
-
-            onClickTitle() {
-                if (this.hasSearch) {
-                    this.changeBaseAssetMode = true;
-                    utils.wait().then(() => {
-                        $element.find('input.change-base-asset-input').focus();
-                    });
-                }
-            }
-
-            /**
-             * @param {boolean} value
-             * @private
-             */
-            _onChangeAssetMode({ value }) {
-                if (value) {
-                    this.focused = true;
-                    this.search = this.title;
-                    $element.find('.change-base-asset-input')
-                        .focus();
-                } else {
-                    this.focused = false;
-                    this.search = '';
                 }
             }
 

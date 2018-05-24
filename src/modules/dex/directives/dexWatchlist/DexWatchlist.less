@@ -17,7 +17,7 @@ body.dex .dex-wrapper {
       background-color: @color-white;
       border-radius: @border-radius;
       overflow: auto;
-      z-index: 1;
+      z-index: 3;
 
       .not-found {
         padding: 17px 19px;
@@ -85,6 +85,11 @@ body.dex .dex-wrapper {
       padding: 0 1px;
     }
 
+    /*
+    todo: @iskander, тут необходимо заменить на w-smart-table и его составляющие.
+    Гипотетически можно воспользоваться классами вроде smart-table__<название сущности>, но проблема в том, что на
+    странице уже присутствует другой элемент w-smart-table с такими же классами.
+     */
     w-table {
       .table-row {
         border: 1px solid transparent;
@@ -149,10 +154,10 @@ body.dex .dex-wrapper {
 
     .col-change {
       &.plus {
-        color: @color-error-400;
+        color: @color-submit-400;
       }
       &.minus {
-        color: @color-submit-400;
+        color: @color-error-400;
       }
     }
   }
