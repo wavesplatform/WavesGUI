@@ -48,23 +48,27 @@
                 this.headers = [
                     {
                         id: 'pair',
-                        title: { literal: 'directives.watchlist.pair' }
+                        title: { literal: 'directives.watchlist.pair' },
+                        sort: true
                     },
                     {
                         id: 'price',
-                        title: { literal: 'directives.watchlist.price' }
+                        title: { literal: 'directives.watchlist.price' },
+                        sort: true
                     },
                     {
                         id: 'change',
-                        title: { literal: 'directives.watchlist.chg' }
+                        title: { literal: 'directives.watchlist.chg' },
+                        sort: true
                     },
                     {
                         id: 'volume',
-                        title: { literal: 'directives.watchlist.volume' }
+                        title: { literal: 'directives.watchlist.volume' },
+                        sort: true
                     },
                     {
                         id: 'info',
-                        title: false
+                        title: { literal: 'directives.watchlist.volume' }
                     }
                 ];
 

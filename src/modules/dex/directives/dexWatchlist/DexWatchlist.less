@@ -77,12 +77,40 @@ body.dex .dex-wrapper {
     w-tabs {
       width: 100%;
 
+      .tab-tem {
+        overflow: hidden;
+      }
+
+      input {
+        background: url(/img/icons/input-search-icon.svg) 11px 48% no-repeat @color-white;
+        background-size: 10px;
+        border: 0 none;
+        width: 100%;
+        padding-left: 31px;
+        height: 35px;
+        font-size: @font-size-caption-1;
+        border-bottom: 1px solid @color-basic-100;
+      }
+
       .smart-table {
         width: 100%;
+
+        &__w-thead {
+          .smart-table {
+            &__row {
+              padding: 0;
+            }
+          }
+        }
+
+        &__w-tbody {
+          height: calc(100% ~'- 64px');
+        }
 
         &__row {
           flex-wrap: wrap;
           cursor: pointer;
+          padding: 0;
 
           &.selected {
             background-color: @color-submit-50;
@@ -96,7 +124,7 @@ body.dex .dex-wrapper {
         }
 
         &__cell {
-          padding: 0;
+          padding: 2px 0;
 
           &:first-child {
             padding-left: 10px;
@@ -120,7 +148,7 @@ body.dex .dex-wrapper {
         }
 
         &__cell[data-column-id="change"] {
-          flex-basis: 20%;
+          flex-basis: 15%;
           text-align: right;
 
           &.plus {
@@ -132,7 +160,7 @@ body.dex .dex-wrapper {
         }
 
         &__cell[data-column-id="volume"] {
-          flex-basis: 15%;
+          flex-basis: 25%;
           text-align: right;
         }
 
