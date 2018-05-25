@@ -406,6 +406,7 @@ export function isPage(url: string): boolean {
         'modules',
         'locales',
         'loginDaemon',
+        'data-service-dist',
         'transfer.js'
     ];
     return !staticPathPartial.some((path) => {
