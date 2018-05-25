@@ -356,7 +356,7 @@ task('electron-debug', ['electron-task-list'], function (done) {
 });
 
 task('data-service', function () {
-    execSync('node_modules/.bin/tsc -p ./data-service && ./node_modules/.bin/browserify data-service/index.js -s ds -u ts-utils -o ./api-dist/data-service.js');
+    execSync('node_modules/.bin/tsc -p ./data-service && ./node_modules/.bin/browserify data-service/index.js -s ds -u ts-utils -o ./data-service-dist/data-service.js');
 });
 
 task('all', [
