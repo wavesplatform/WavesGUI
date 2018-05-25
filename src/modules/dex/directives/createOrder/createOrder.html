@@ -1,4 +1,4 @@
-<div class="create-order expanded"
+<div class="create-order"
      w-i18n-ns="app.dex"
      ng-if="$ctrl.amountBalance && $ctrl.priceBalance">
     <div class="body">
@@ -13,6 +13,44 @@
                     <div class="name headline-4 basic-700">SELL</div>
                 </div>
             </div>
+
+            <!--<div class="choice">-->
+                <!--<div class="choose sell" ng-click="$ctrl.expand('sell')">-->
+                    <!--<div class="footnote-2 white-0">SELL</div>-->
+                    <!--<div class="headline-2 white-0"-->
+                         <!--w-nice-number="$ctrl.bid.price"-->
+                         <!--precision="$ctrl.priceBalance.asset.precision"></div>-->
+                <!--</div>-->
+                <!--<div class="middle">-->
+                    <!--<div class="caption-3 disabled-900">SPREAD {{$ctrl.spreadPercent}}%</div>-->
+                <!--</div>-->
+                <!--<div class="choose buy" ng-click="$ctrl.expand('buy')">-->
+                    <!--<div class="footnote-2 white-0">BUY</div>-->
+                    <!--<div class="headline-2 white-0"-->
+                         <!--w-nice-number="$ctrl.ask.price"-->
+                         <!--precision="$ctrl.priceBalance.asset.precision"></div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <div class="choice">
+                <div class="choose buy" ng-click="$ctrl.expand('buy')">
+                    <div class="footnote-2 white-0">BUY</div>
+                    <div class="headline-2 white-0"
+                         w-nice-number="$ctrl.ask.price"
+                         precision="$ctrl.priceBalance.asset.precision"></div>
+                </div>
+                <div class="middle caption-3 disabled-900">
+                    <div>SPREAD</div>
+                    <div>{{$ctrl.spreadPercent}}%</div>
+                </div>
+                <div class="choose sell" ng-click="$ctrl.expand('sell')">
+                    <div class="footnote-2 white-0">SELL</div>
+                    <div class="headline-2 white-0"
+                         w-nice-number="$ctrl.bid.price"
+                         precision="$ctrl.priceBalance.asset.precision"></div>
+                </div>
+            </div>
+
 
             <div class="create-order-notification js-order-notification">
                 <div ng-if="$ctrl.createOrderFailed">

@@ -148,7 +148,7 @@ w-create-order {
 
     .body {
       .choice {
-        display: flex;
+        display: none;
         flex-direction: row;
 
         .choose {
@@ -225,7 +225,7 @@ w-create-order {
           position: absolute;
           transform: translate(0, -100%);
           color: @color-white;
-          z-index: 1;
+          z-index: -1;
           width: 100%;
           padding: 10px 0;
           text-align: center;
@@ -359,6 +359,18 @@ w-create-order {
               background: @color-error-200;
             }
           }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  w-create-order {
+    .create-order {
+      .body {
+        .choice {
+          display: flex;
         }
       }
     }

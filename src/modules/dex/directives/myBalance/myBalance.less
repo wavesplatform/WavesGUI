@@ -37,6 +37,7 @@ w-dex-my-balance {
 }
 
 @media screen and (max-width: 768px) {
+
   body.dex .dex-wrapper {
     w-dex-my-balance {
       .smart-table {
@@ -45,8 +46,17 @@ w-dex-my-balance {
         &__w-thead {
           .smart-table {
             &__row {
+              height: 37px;
               border-top: 1px solid @color-basic-100;
               padding: 0 10px;
+
+              &:hover {
+                background: @color-white;
+              }
+            }
+
+            &__search-container input {
+              height: 36px;
             }
 
             &__cell {
