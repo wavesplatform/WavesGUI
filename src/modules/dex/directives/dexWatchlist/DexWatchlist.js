@@ -97,21 +97,9 @@
                  * @private
                  */
                 this._assetSearchDelay = null;
-
-                /**
-                 * @type {DexBlock}
-                 * @private
-                 */
-                this._parent = null;
             }
 
             $postLink() {
-                if (!this._parent) {
-                    throw new Error('Wrong directive params!');
-                }
-
-                this.receive(utils.observe(this._parent, 'search'), this._onChangeSearch, this);
-
                 this.syncSettings({
                     baseAssetId: 'dex.watchlist.baseAssetId',
                     _assetsIds: 'dex.watchlist.list',
@@ -123,6 +111,7 @@
                     this.observe('secondaryAssetId', this._onChangeSecondaryAsset);
                     this.observe('_assetsIds', this._onChangeAssetsIds);
                     this.observe('_assetIdPair', this._switchLocationToCurrentPair);
+                    this.observe('search', this._onChangeSearch);
 
                     this._onChangeBaseAsset();
                     this._initSecondaryAssetId();
@@ -147,7 +136,7 @@
             addSecondaryAsset({ id }) {
                 this._addToAssetIds([id]);
                 this.secondaryAssetId = id;
-                this._parent.search = '';
+                this.search = '';
             }
 
             /**
@@ -300,12 +289,7 @@
              * @private
              */
             _onChangeBaseAsset() {
-                waves.node.assets.getExtendedAsset(this.baseAssetId)
-                    .then((asset) => {
-                        this._parent.title = asset.name;
-                        this._activateAssets();
-                        $scope.$apply();
-                    });
+                this._activateAssets();
             }
 
             /**
@@ -408,11 +392,7 @@
 
     angular.module('app.dex')
         .component('wDexWatchlist', {
-            require: {
-                _parent: '^wDexBlock'
-            },
             templateUrl: 'modules/dex/directives/dexWatchlist/DexWatchlist.html',
-            transclude: false,
             controller
         });
 })();
