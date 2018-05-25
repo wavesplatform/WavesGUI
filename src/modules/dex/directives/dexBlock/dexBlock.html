@@ -7,11 +7,11 @@
                      ng-blur="$ctrl.focused = false"
                      w-i18n-attr="placeholder"></w-input>
         </div>
-        <div ng-if="$ctrl.canCollapse" ng-click="$ctrl.toggleCollapse()" class="collapse-dex-block"><i></i></div>
         <div class="basic-700 footnote-2 dex-block-title"
              ng-click="$ctrl.onClickTitle()">
             {{$ctrl.title}}
         </div>
+        <div ng-if="$ctrl.canCollapse" ng-click="$ctrl.toggleCollapse()" class="collapse-dex-block"><i></i></div>
     </div>
     <div class="dex-block-content" ng-transclude></div>
 </div>
