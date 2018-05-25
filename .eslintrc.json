@@ -12,6 +12,7 @@
     "es6": true
   },
   "globals": {
+    "ds": true,
     "transfer": true,
     "Waves": true,
     "BigNumber": true,

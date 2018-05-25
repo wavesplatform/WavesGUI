@@ -36,7 +36,7 @@
              * @return {Promise<ITransaction>}
              */
             get(id) {
-                return fetch(`${this.network.node}/transactions/info/${id}?h=${HOST}`)
+                return ds.fetch(`${this.network.node}/transactions/info/${id}?h=${HOST}`)
                     .then(Waves.tools.siftTransaction)
                     .then(this._pipeTransaction(false));
             }
@@ -70,7 +70,7 @@
              */
             @decorators.cachable(1)
             list(limit = 1000) {
-                return fetch(`${this.network.node}/transactions/address/${user.address}/limit/${limit}`)
+                return ds.fetch(`${this.network.node}/transactions/address/${user.address}/limit/${limit}`)
                     .then(([txList = []]) => Promise.all(txList.map(Waves.tools.siftTransaction)))
                     .then((list) => list.map(this._pipeTransaction(false)));
             }
@@ -80,7 +80,7 @@
              */
             @decorators.cachable(120)
             getActiveLeasingTx() {
-                return fetch(`${this.network.node}/leasing/active/${user.address}`)
+                return ds.fetch(`${this.network.node}/leasing/active/${user.address}`)
                     .then((txList = []) => Promise.all(txList.map(Waves.tools.siftTransaction)))
                     .then((list) => list.map(this._pipeTransaction(false)));
             }
@@ -92,7 +92,7 @@
             listUtx() {
                 const address = user.address;
 
-                return fetch(`${this.network.node}/transactions/unconfirmed`)
+                return ds.fetch(`${this.network.node}/transactions/unconfirmed`)
                     .then((list) => list.filter((item) => item.recipient === address || item.sender === address))
                     .then((list) => list.map(Waves.tools.siftTransaction))
                     .then((list) => Promise.all(list))

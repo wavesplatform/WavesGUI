@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "sourceMap": true,
+    "lib": [
+      "dom",
+      "es2015",
+      "es2017.object",
+      "es2015.promise"
+    ]
+  },
+  "files": [
+    "api/API.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

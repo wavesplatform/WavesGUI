@@ -13,7 +13,7 @@
 
             @decorators.cachable(5)
             searchAsset(userInput) {
-                return fetch(`${WavesApp.network.api}/assets/search/${userInput}`);
+                return ds.fetch(`${WavesApp.network.api}/assets/search/${userInput}`);
             }
 
             /**
@@ -166,7 +166,7 @@
                 return Waves.AssetPair.get(from, to)
                     .then((pair) => {
                         const interval = this._getChangeByInterval(utils.moment().add().day(-1));
-                        return fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
+                        return ds.fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
                             .then((data) => {
 
                                 if (!data || data.status === 'error') {
@@ -218,7 +218,7 @@
 
                 return Waves.AssetPair.get(fromId, toId)
                     .then((pair) => {
-                        return fetch(`${WavesApp.network.datafeed}/api/trades/${pair.toString()}/5`)
+                        return ds.fetch(`${WavesApp.network.datafeed}/api/trades/${pair.toString()}/5`)
                             .then(currentRate)
                             .then((rate) => {
                                 if (fromId !== pair.priceAsset.id) {
@@ -243,7 +243,7 @@
                 const interval = this._getChangeByInterval(from);
                 return Waves.AssetPair.get(fromId, toId)
                     .then((pair) => {
-                        return fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
+                        return ds.fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
                             .then((list) => {
 
                                 if (!list || !list.length) {

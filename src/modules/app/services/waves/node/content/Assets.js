@@ -64,7 +64,7 @@
                 }
                 return Promise.all([
                     this.getExtendedAsset(assetId),
-                    fetch(`${this.network.node}/assets/details/${assetId}`)
+                    ds.fetch(`${this.network.node}/assets/details/${assetId}`)
                 ]).then(([asset, assetData]) => {
                     Assets._updateAsset(asset, assetData);
                     return asset;
@@ -78,12 +78,12 @@
              */
             @decorators.cachable()
             getExtendedAsset(assetId) {
-                return fetch(`${WavesApp.network.api}/assets/${assetId}`)
+                return ds.fetch(`${WavesApp.network.api}/assets/${assetId}`)
                     .catch(() => {
                         if (assetId === Waves.constants.WAVES_PROPS.id) {
                             return Waves.constants.WAVES_V1_ISSUE_TX;
                         } else {
-                            return fetch(`${this.network.node}/transactions/info/${assetId}`);
+                            return ds.fetch(`${this.network.node}/transactions/info/${assetId}`);
                         }
                     })
                     .then(Assets._remapAssetProps)
@@ -274,7 +274,7 @@
              */
             _getAliases() {
                 const char = this.network.code;
-                return fetch(`${this.network.node}/alias/by-address/${user.address}`)
+                return ds.fetch(`${this.network.node}/alias/by-address/${user.address}`)
                     .then((aliases) => aliases.map((alias) => alias.replace(`alias:${char}:`, '')))
                     .catch(() => aliases.getAliasList());
             }
@@ -288,7 +288,7 @@
                 const url = `${this.network.node}/addresses/balance/details/${address || user.address}`;
                 return this.getExtendedAsset(WavesApp.defaultAssets.WAVES)
                     .then((asset) => {
-                        return fetch(url)
+                        return ds.fetch(url)
                             .then(({ available, effective, regular }) => {
 
                                 const regularMoney = new Waves.Money(String(regular || 0), asset);
@@ -311,7 +311,7 @@
              * @private
              */
             _getUserAssets() {
-                return fetch(`${this.network.node}/assets/balance/${user.address}`)
+                return ds.fetch(`${this.network.node}/assets/balance/${user.address}`)
                     .then(({ balances }) => this._remapAssetsList(balances));
             }
 

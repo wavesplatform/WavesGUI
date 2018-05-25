@@ -137,7 +137,7 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
     const filter = moveTo(param.target);
 
     return Promise.all([
-        readFile(join(__dirname, '../src/index.html'), 'utf8') as Promise<string>,
+        readFile(join(__dirname, '../src/index.hbs'), 'utf8') as Promise<string>,
         readJSON(join(__dirname, '../package.json')) as Promise<IPackageJSON>,
         readJSON(join(__dirname, './meta.json')) as Promise<IMetaJSON>
     ])
@@ -245,7 +245,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
 
         if (buildType !== 'dev') {
             if (isPage(req.url)) {
-                const path = join(__dirname, '..', 'dist', type, connectionType, buildType, 'index.html');
+                const path = join(__dirname, '..', 'dist', type, connectionType, buildType, 'index.hbs');
                 return readFile(path, 'utf8').then((file) => {
                     res.end(file);
                 });

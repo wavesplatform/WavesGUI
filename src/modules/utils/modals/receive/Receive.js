@@ -305,7 +305,7 @@
 
                 const params = this.getCoinomatParams();
 
-                fetch(`${COINOMAT_API}rate.php?${params.address}&${params.amount}&${params.crypto}&${params.fiat}`)
+                ds.fetch(`${COINOMAT_API}rate.php?${params.address}&${params.amount}&${params.crypto}&${params.fiat}`)
                     .then(utils.onFetch)
                     .then((approximateAmount) => {
                         const coins = new BigNumber(approximateAmount).mul(Math.pow(10, this.asset.precision));
