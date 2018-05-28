@@ -273,22 +273,30 @@
                 const remapBalances = (item) => {
                     const isPinned = this._isPinned(item.asset.id);
                     const isSpam = this._isSpam(item.asset.id);
+                    const hasSpamSignatures = PortfolioCtrl._hasSpamSignatures(item.asset.name);
 
                     return {
                         available: item.available,
                         asset: item.asset,
                         inOrders: item.inOrders,
                         isPinned,
-                        isSpam
+                        isSpam,
+                        hasSpamSignatures
                     };
                 };
 
                 return Promise.all([
-                    waves.node.assets.userBalances().then((list) => list.map(remapBalances))
+                    waves.node.assets.userBalances()
+                        .then((list) => list.map(remapBalances))
                         .then((list) => list.filter((item) => !item.isSpam)),
                     // waves.node.assets.balanceList(this.pinned).then((list) => list.map(remapBalances)),
                     waves.node.assets.balanceList(this.spam).then((list) => list.map(remapBalances))
                 ]).then(([activeList, /* pinned,*/ spam]) => {
+                    for (let i = activeList.length - 1; i > 0; i--) {
+                        if (activeList[i].hasSpamSignatures) {
+                            spam.push(activeList.splice(i, 1)[0]);
+                        }
+                    }
                     // const pinnedHash = utils.toHash(pinned, 'asset.id');
                     // const active = pinned.concat(activeList.filter((item) => !pinnedHash[item.asset.id]));
                     return { active: activeList, /* pinned, */ spam };
@@ -311,6 +319,14 @@
              */
             _isSpam(assetId) {
                 return this.spam.includes(assetId);
+            }
+
+            /**
+             * @param {string} name
+             * @return {boolean}
+             */
+            static _hasSpamSignatures(name) {
+                return /(www\.|https?:)/i.test(name);
             }
 
         }
@@ -343,6 +359,7 @@
  * @typedef {object} PortfolioCtrl#IPortfolioBalanceDetails
  * @property {boolean} isPinned
  * @property {boolean} isSpam
+ * @property {boolean} hasSpamSignatures
  * @property {Asset} asset
  * @property {Money} available
  * @property {Money} inOrders
