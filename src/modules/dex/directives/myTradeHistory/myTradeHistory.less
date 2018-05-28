@@ -11,6 +11,12 @@ w-dex-my-trade-history {
         &__row {
           &:hover {
             background: @color-basic-50;
+
+            w-actions {
+              .dots {
+                background: url(/img/icons/actions-blue-active.svg) center no-repeat;
+              }
+            }
           }
         }
       }
@@ -29,6 +35,11 @@ w-dex-my-trade-history {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      min-width: 120px;
+    }
+
+    &__cell[data-column-id="type"] {
+      flex-basis: 80px;
     }
 
     &__cell[data-column-id="price"],
@@ -58,12 +69,6 @@ w-dex-my-trade-history {
           display: none;
         }
       }
-
-      &:hover {
-        .dots {
-          background: url(/img/icons/actions-blue-hover.svg) center no-repeat;
-        }
-      }
     }
   }
 
@@ -90,6 +95,8 @@ w-dex-my-trade-history {
         }
 
         &__w-tbody {
+          max-height: 276px;
+
           .smart-table {
             &__row {
               &:hover {

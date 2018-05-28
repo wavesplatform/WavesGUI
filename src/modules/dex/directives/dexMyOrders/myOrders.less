@@ -10,17 +10,10 @@ w-dex-my-orders {
 
   .smart-table {
     &__w-thead {
-
-      .stop {
-        margin-left: 17px;
-      }
-
       .smart-table {
-        &__cell {
-          &__cell[data-column-id="controls"] {
-            border-left: 1px solid @color-basic-100;
-            .stop();
-          }
+        &__cell[data-column-id="controls"] {
+          .stop();
+          border-left: 1px solid @color-basic-100;
         }
       }
     }
@@ -30,7 +23,18 @@ w-dex-my-orders {
     }
 
     &__cell {
-      flex-basis: calc(100% / 8);
+      //flex-basis: calc(100% / 8);
+      flex-basis: 100px;
+      flex-grow: 1;
+      min-width: 100px;
+    }
+
+    &__cell[data-column-id="controls"],
+    &__cell[data-column-id="type"],
+    &__cell[data-column-id="fee"] {
+      flex-basis: 80px;
+      flex-grow: 0;
+      min-width: auto;
     }
 
     &__cell[data-column-id="pair"] {
@@ -48,7 +52,8 @@ w-dex-my-orders {
     &__cell[data-column-id="price"],
     &__cell[data-column-id="amount"],
     &__cell[data-column-id="total"],
-    &__cell[data-column-id="time"] {
+    &__cell[data-column-id="time"],
+    &__cell[data-column-id="controls"] {
       text-align: right;
     }
 
@@ -59,9 +64,9 @@ w-dex-my-orders {
       background-repeat: no-repeat;
       background-position: 5px center;
       display: inline-block;
-      margin-left: 20px;
       text-transform: capitalize;
       padding-left: 26px;
+      margin-top: -1px;
       height: calc(100% ~'- 4px');
     }
   }
@@ -115,7 +120,7 @@ w-dex-my-orders {
 
           &:not(:first-child) {
             &::before {
-              background:@color-basic-100;
+              background: @color-basic-100;
               height: 1px;
               width: calc(100% ~'- 20px');
               position: absolute;

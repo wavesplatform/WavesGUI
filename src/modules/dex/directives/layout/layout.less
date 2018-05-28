@@ -2,6 +2,9 @@
 
 .dex.main .main-content {
   background: @color-basic-100;
+  min-width: 1280px;
+  min-height: 480px;
+  overflow-y: hidden
 }
 
 .scroll {
@@ -97,16 +100,18 @@ w-layout {
                     transform: translate(-50%, -50%);
                   }
                 }
+
                 &__block-bottom {
                   height: 38px;
+
+                  .block-title i {
+                    transform: rotate(-180deg);
+                  }
                 }
               }
             }
           }
         }
-      }
-      .collapse-dex-block i {
-        transform: rotate(-180deg);
       }
     }
 
@@ -137,6 +142,12 @@ w-layout {
               line-height: 17px;
               border-bottom: 1px dashed @color-submit-400;
               cursor: pointer;
+            }
+
+            w-tabs {
+              .title {
+                text-transform:  uppercase;
+              }
             }
           }
 
@@ -188,6 +199,10 @@ w-layout {
               .block-title {
                 border-top: 1px solid @color-basic-100;
               }
+
+              .dex-block-top-btn:last-child {
+                display: none;
+              }
             }
           }
 
@@ -197,6 +212,7 @@ w-layout {
 
       &-bottom {
         max-height: 303px;
+        min-height: 303px;
 
         .dex-layout {
 
@@ -217,12 +233,6 @@ w-layout {
             .block-title {
               display: none;
             }
-
-            .overflow-auto {
-              overflow: auto;
-              max-height: 264px;
-            }
-
           }
         }
 
@@ -362,12 +372,13 @@ w-dex-candle-chart {
   }
 }
 
-.collapsed {
-  background: red !important;
-}
-
 //responsive
 @media screen and (max-width: 768px) {
+
+  .dex.main .main-content {
+    min-width: 100%;
+    min-height: 100%;
+  }
 
   w-layout {
     .dex-layout {

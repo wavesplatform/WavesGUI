@@ -123,7 +123,6 @@ w-create-order {
 
   .create-order {
     position: relative;
-    background: @color-disabled-50;
 
     &.expanded {
       background: @color-white;
@@ -248,6 +247,7 @@ w-create-order {
               background: url(/img/icons/checkbox-icon.svg) no-repeat center center;
             }
           }
+
           &.error {
             background-color: @color-error-400;
             i {
@@ -255,6 +255,21 @@ w-create-order {
             }
           }
         }
+
+        //w-input-container {
+        //  position: relative;
+        //
+        //  aria-invalid
+        //
+        //  w-input-error {
+        //    position: absolute;
+        //    display: inline-block;
+        //    height: 30px;
+        //    background: red;
+        //    color: @color-white;
+        //    padding: 0 10px;
+        //  }
+        //}
 
         .fields {
           padding: 6px 17px 17px;
