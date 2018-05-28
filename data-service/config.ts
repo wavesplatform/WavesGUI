@@ -14,8 +14,8 @@ export function get<K extends keyof IConfigParams>(key: K): IConfigParams[K] {
 
 export function set<K extends keyof IConfigParams>(key: K, value: IConfigParams[K]): void {
     config[key] = value;
-    if (key === 'client') {
-        dataService = new DataServiceClient({ nodeUrl: config.client, parser: parse });
+    if (key === 'dsApi') {
+        dataService = new DataServiceClient({ nodeUrl: config.dsApi, parser: parse });
     }
 }
 
@@ -34,7 +34,7 @@ export interface IConfigParams {
     node: string;
     matcher: string;
     api: string;
-    client: string;
+    dsApi: string;
     coinomat: string;
     datafeed: string;
     support: string;

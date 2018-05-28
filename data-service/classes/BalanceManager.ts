@@ -20,6 +20,7 @@ export class BalanceManager {
     private _poll: Poll<IPollData>;
     private _txHash: IHash<Money>;
     private _ordersHash: IHash<Money>;
+    private _firstBalancePromise: Promise<any>;
 
 
     public applyAddress(address: string): void {
@@ -31,6 +32,9 @@ export class BalanceManager {
             this._poll.restart();
         }
         this.transactions.applyAddress(this._address);
+        this._firstBalancePromise = new Promise((resolve) => {
+            this._poll.signals.requestSuccess.once(() => resolve(this.balanceList));
+        });
     }
 
     public dropAddress() {
@@ -42,6 +46,13 @@ export class BalanceManager {
         this.transactions.dropAddress();
     }
 
+    public getBalances(): Promise<Array<IBalanceItem>> {
+        if (this.balanceList) {
+            return Promise.resolve(this.balanceList);
+        } else {
+            return this._firstBalancePromise;
+        }
+    }
 
     private _getPollBalanceApi(): IPollAPI<IPollData> {
         return {

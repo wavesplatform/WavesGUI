@@ -5,6 +5,8 @@
 
         const tsUtils = require('ts-utils');
 
+        ds.config.setConfig(WavesApp.network);
+
         class AppConfig {
 
             constructor() {

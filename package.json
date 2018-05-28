@@ -83,7 +83,8 @@
     "electron:win": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.ico --platform=win32 --out=./dist/win",
     "electron:osx": "electron-packager ./dist/desktop/mainnet/min/ --icon=./electron/icons/icon.icns --platform=darwin --out=./dist/osx",
     "electron": "gulp all && npm run electron:linux && npm run electron:win && npm run electron:osx",
-    "electron-debug": "gulp html-desktop-mainnet-min && node_modules/.bin/electron ./dist/desktop/mainnet/min/ --inspect"
+    "electron-debug": "gulp html-desktop-mainnet-min && node_modules/.bin/electron ./dist/desktop/mainnet/min/ --inspect",
+    "data-service": "tsc -p ./data-service && ./node_modules/.bin/browserify data-service/index.js -s ds -u ts-utils -o ./data-service-dist/data-service.js"
   },
   "dependencies": {
     "@uirouter/angularjs": "1.0.8",
@@ -92,7 +93,7 @@
     "@waves/data-service-client-js": "0.1.0",
     "@waves/event-sender": "0.4.4",
     "@waves/waves-api": "0.28.0",
-    "@waves/waves-signature-generator": "0.0.3",
+    "@waves/waves-signature-generator": "0.1.0",
     "angular": "1.6.6",
     "angular-animate": "1.6.6",
     "angular-aria": "1.6.6",

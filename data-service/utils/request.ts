@@ -28,7 +28,7 @@ export function request<T>(params: IRequestParams<T>): Promise<T> {
     return promise;
 }
 
-function addDefaultRequestParams(url: string, options: IFetchOptions): void {
+function addDefaultRequestParams(url: string, options: IFetchOptions = Object.create(null)): void {
     if (url.indexOf(get('node')) === 0 && isEmpty(options.credentials)) {
         options.credentials = 'include';
     }

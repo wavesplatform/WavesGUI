@@ -303,6 +303,7 @@
 
             /**
              * @param {object} data
+             * @param {ISignatureApi} data.api
              * @param {string} data.address
              * @param {string} [data.encryptedSeed]
              * @param {string} [data.publicKey]
@@ -313,7 +314,8 @@
              * @private
              */
             _addUserData(data) {
-                return this._loadUserByAddress(data.address)
+                return ds.app.login(data.address, data.api)
+                    .then(() => this._loadUserByAddress(data.address))
                     .then((item) => {
                         this._fieldsForSave.forEach((propertyName) => {
                             if (data[propertyName] != null) {
