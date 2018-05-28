@@ -33,39 +33,31 @@
         </div>
 
 
-        <w-smart-table data="$ctrl.assets" header-info="$ctrl.headers">
-            <w-table-row ng-repeat="asset in $data track by asset.id"
-                         ng-if="asset.id !== $ctrl.baseAssetId"
-                         ng-click="$ctrl.changePair(asset.id)"
+        <w-smart-table data="$ctrl.pairsData" header-info="$ctrl.headers">
+            <w-table-row ng-repeat="pair in $data"
+                         ng-click="$ctrl.changePair(pair.priceId)"
                          ng-class="{
-                     'selected': $ctrl.isSelected(asset.id)
+                     'selected': $ctrl.isSelected(pair.priceId)
                  }">
                 <w-table-cell>
                     <i class="icon-fav"></i>
-                    <w-dex-pair asset-id="{{::asset.id}}"
-                                base-asset-id="$ctrl.baseAssetId"></w-dex-pair>
+                    <span>{{pair.pair}}</span>
                 </w-table-cell>
                 <w-table-cell>
-                    <w-dex-exchange base-asset-id="$ctrl.baseAssetId"
-                                    asset-id="{{::asset.id}}"></w-dex-exchange>
+                    <span>{{pair.price}}</span>
                 </w-table-cell>
-                <!-- todo: @germantebiev доработать установку класса. -->
                 <w-table-cell ng-class="{
-                        'plus': false,
-                        'minus': false
+                        'plus': $ctrl.isPositive(pair.change),
+                        'minus': $ctrl.isNegative(pair.change)
                       }">
-                    <w-change24 direction-by-pair="::true"
-                                asset-from="$ctrl.baseAssetId"
-                                asset-to="asset.id"></w-change24>
+                    <span>{{pair.change}}</span>
                 </w-table-cell>
-                <!-- todo: @germantebiev разработать подсчёт объёмов -->
                 <w-table-cell>
-                    999.9k
+                    {{pair.volume}}
                 </w-table-cell>
-                <!-- todo: @germantebiev добавить информацию о выбранной паре. -->
-                <w-table-cell ng-if="$ctrl.isSelected(asset.id)">
-                    <div class="disabled-900">3PCAB4sHXgvtu5asdfasdfsadfNPoen6EXR5yaNbvsEA8Fj <span>/</span></div>
-                    <div class="disabled-900">WAVES</div>
+                <w-table-cell ng-if="$ctrl.isSelected(pair.priceId)">
+                    <div class="disabled-900">{{pair.amountId}}<span>/</span></div>
+                    <div class="disabled-900">{{pair.priceId}}</div>
                 </w-table-cell>
             </w-table-row>
         </w-smart-table>

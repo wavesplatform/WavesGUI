@@ -22,9 +22,9 @@
                 super();
 
                 /**
-                 * @type {Array<Asset>}
+                 * @type {Array}
                  */
-                this.assets = null;
+                this.pairsData = [];
 
                 /**
                  * @type {Array}
@@ -41,6 +41,12 @@
                  * @type {string}
                  */
                 this.secondaryAssetId = null;
+
+                /**
+                 * @type {Array<string>}
+                 * @private
+                 */
+                this._assetsIds = [];
 
                 /**
                  * @type {*[]}
@@ -67,16 +73,9 @@
                         sort: true
                     },
                     {
-                        id: 'info',
-                        title: { literal: 'directives.watchlist.volume' }
+                        id: 'info'
                     }
                 ];
-
-                /**
-                 * @type {Array<string>}
-                 * @private
-                 */
-                this._assetsIds = null;
 
                 /**
                  * @type {{amount: string, price: string}}
@@ -167,6 +166,23 @@
             }
 
             /**
+             * @param {string} change
+             * @returns {boolean}
+             */
+            isPositive(change) {
+                return parseFloat(change) > 0;
+            }
+
+            /**
+             * @param {string} change
+             * @returns {boolean}
+             */
+            isNegative(change) {
+                return parseFloat(change) < 0;
+            }
+
+
+            /**
              * @param value
              * @private
              */
@@ -199,7 +215,7 @@
 
                                         return {
                                             id,
-                                            isWatched: this.assets.some((asset) => asset.id === id),
+                                            isWatched: this._assetsIds.some((assetId) => assetId === id),
                                             ticker: DexWatchlist._getInputPartAndRemainder(value, ticker),
                                             name: DexWatchlist._getInputPartAndRemainder(value, name)
                                         };
@@ -328,7 +344,7 @@
              */
             @decorators.async()
             _setNewAssetPair() {
-                DexWatchlist._getPair(this.baseAssetId, this.secondaryAssetId)
+                this._getPairRelativeToBase(this.secondaryAssetId)
                     .then((pair) => {
                         this._setAssetIdPair(pair);
                     });
@@ -338,10 +354,76 @@
              * @private
              */
             _onChangeAssetsIds() {
-                utils.whenAll(this._assetsIds.map(waves.node.assets.info))
-                    .then((list) => {
-                        this.assets = list;
-                        $scope.$digest();
+                const pairsRequestsAndData = (
+                    this._assetsIds
+                        .filter((assetId) => this.baseAssetId !== assetId)
+                        .map((assetId) => ({
+                            request: this._getPairRelativeToBase(assetId),
+                            data: {
+                                amountId: this.baseAssetId,
+                                priceId: assetId,
+                                pair: '',
+                                price: '',
+                                change: '',
+                                volume: ''
+                            }
+                        }))
+                );
+
+                this.pairsData = pairsRequestsAndData.map((requestAndData) => requestAndData.data);
+
+                pairsRequestsAndData.forEach((pairRequestAndData) => {
+                    pairRequestAndData
+                        .request
+                        .then((pair) => {
+                            const pairData = pairRequestAndData.data;
+
+                            pairData.pair = `${pair.amountAsset.displayName} / ${pair.priceAsset.displayName}`;
+
+                            this._getPriceData(pair).then((price) => {
+                                pairData.price = price;
+                            });
+
+                            DexWatchlist._getChange(pair).then((change) => {
+                                pairData.change = change.toFixed(2);
+                            });
+
+                            DexWatchlist._getVolume(pair).then((volume) => {
+                                // todo: replace with discussed algorithm.
+                                pairData.volume = volume.slice(0, 4);
+                            });
+                        });
+                });
+            }
+
+            /**
+             * @param assetId
+             * @returns {*}
+             * @private
+             */
+            _getPairRelativeToBase(assetId) {
+                return DexWatchlist._getPair(this.baseAssetId, assetId);
+            }
+
+            /**
+             * @param pair
+             * @returns {Promise<*[]>}
+             * @private
+             */
+            _getPriceData(pair) {
+                const { amountAsset, priceAsset } = pair;
+
+                return Promise.all([
+                    Waves.Money.fromTokens('1', amountAsset),
+                    waves.utils.getRateApi(amountAsset, priceAsset)
+                ])
+                    .then(([money, api]) => {
+                        const price = api.exchange(money.getTokens());
+
+                        return Waves.Money.fromTokens(price, priceAsset)
+                            .then((price = new BigNumber(0)) => {
+                                return price.toFormat(priceAsset.precision);
+                            });
                     });
             }
 
@@ -381,6 +463,24 @@
              */
             static _getPair(assetId, anotherAssetId) {
                 return Waves.AssetPair.get(assetId, anotherAssetId);
+            }
+
+            /**
+             * @param pair
+             * @returns {Promise<number>}
+             * @private
+             */
+            static _getChange(pair) {
+                return waves.utils.getChange(pair.amountAsset.id, pair.priceAsset.id);
+            }
+
+            /**
+             * @param pair
+             * @returns {Promise<string>}
+             * @private
+             */
+            static _getVolume(pair) {
+                return waves.utils.getVolume(pair);
             }
 
         }
