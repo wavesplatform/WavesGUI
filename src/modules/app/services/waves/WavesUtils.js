@@ -128,6 +128,22 @@
             }
 
             /**
+             * @param pair
+             * @returns {Promise<string>}
+             */
+            @decorators.cachable(60)
+            getVolume(pair) {
+                return fetch(`${WavesApp.network.api}/v0/pairs/${pair.toString()}`)
+                    .then((pairString) => {
+                        const pairInfo = JSON.parse(pairString);
+
+                        return pairInfo.data.volume.toString();
+                    }, () => {
+                        return '0';
+                    });
+            }
+
+            /**
              * @param {Moment} from
              * @private
              */
