@@ -32,9 +32,10 @@
             <span class="cell-label"><w-i18n>directives.myOrders.total</w-i18n></span>
             <w-balance money="::order.total"></w-balance>
         </w-table-cell>
+        <!-- todo @dima -->
         <w-table-cell>
             <span class="cell-label"><w-i18n>directives.myOrders.fee</w-i18n></span>
-            <span style="color:red">999 BTC</span> <!-- todo @dima -->
+            <w-balance money="order.fee"></w-balance>
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label"><w-i18n>directives.myOrders.time</w-i18n></span>
@@ -53,9 +54,10 @@
                 </div>
             </div>
             <w-actions>
-                <w-action ng-click=""> <!-- todo @german -->
+                <!-- todo @german -->
+                <!--w-action ng-click="">
                     <w-i18n>directives.myOrders.detail</w-i18n>
-                </w-action>
+                </w-action-->
                 <w-action ng-click=""> <!-- todo @german -->
                     <w-i18n>directives.myOrders.delete</w-i18n>
                 </w-action>

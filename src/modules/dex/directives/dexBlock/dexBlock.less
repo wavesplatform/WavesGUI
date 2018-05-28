@@ -25,20 +25,31 @@ w-dex-block {
       flex-shrink: 0;
     }
 
-    .collapse-dex-block {
+    .dex-block-top-btn {
       padding: 6px;
       width: 32px;
       height: 32px;
       vertical-align: middle;
 
-      i {
-        width: 20px;
+      i.collapse {
         display: block;
+        width: 20px;
         height: 20px;
         cursor: pointer;
         transition: transform 0.3s ease-in-out;
         border-radius: @border-radius / 2;
         .icon-dex-arrow();
+        background-color: @color-basic-50;
+      }
+
+      i.tospread {
+        display: block;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out;
+        border-radius: @border-radius / 2;
+        .icon-dex-tospread();
         background-color: @color-basic-50;
       }
     }

@@ -323,6 +323,18 @@ body.dex {
         &:last-child {
           margin-bottom: 10px;
         }
+
+        .dropdown {
+          display: none;
+          cursor: pointer;
+          width: 30px;
+          height: 30px;
+          position: absolute;
+          right: 4px;
+          top: 1px;
+          background: url(/img/icons/dex-toggle.svg) center no-repeat;
+          background-size: 10px;
+        }
       }
 
       &__cell {
@@ -412,7 +424,10 @@ body.dex {
       w-tabs {
 
         .titles-wrap {
-          height: 50px;
+          height: 47px;
+          box-shadow: 1px 1px 3px @color-disabled-200;
+          position: relative;
+          z-index: 2;
 
           &::after {
             display: none;
@@ -438,8 +453,8 @@ body.dex {
         .smart-table {
 
           &__w-tbody {
-            max-height: 320px;
-            min-height: 320px;
+            max-height: 240px;
+            min-height: 240px;
 
             .smart-table {
               &__row {
@@ -448,12 +463,33 @@ body.dex {
                 .status-mobile {
                   display: inline-block;
                 }
+
+                &.active {
+                  .dropdown {
+                    transform: rotate(180deg);
+                  }
+
+                  & + .active::before {
+                      background:@color-basic-100;
+                      height: 1px;
+                      width: calc(100% ~'- 20px');
+                      position: absolute;
+                      top: 0;
+                      left: 10px;
+                      display: block;
+                      content: '';
+                  }
+                }
               }
             }
           }
 
           &__cell {
             padding: 0;
+
+            .dropdown {
+              display: block;
+            }
           }
 
         }

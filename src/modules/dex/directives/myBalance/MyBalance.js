@@ -42,10 +42,6 @@
                         sort: true,
                         title: { literal: 'directives.balance.total' },
                         valuePath: 'item.regular'
-                    },
-                    {
-                        id: 'controls',
-                        templatePath: 'modules/dex/directives/myBalance/header-control-cell.html'
                     }
                 ];
 
