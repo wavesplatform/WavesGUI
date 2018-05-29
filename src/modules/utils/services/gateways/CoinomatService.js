@@ -7,25 +7,16 @@
     // That is used to access values from `**/locales/*.json` files
     const KEY_NAME_PREFIX = 'coinomat';
 
-    const CURRENCIES = {
-        // TODO : move this list to a server-size DB
-        [WavesApp.defaultAssets.BTC]: { waves: 'WBTC', gateway: 'BTC' },
-        [WavesApp.defaultAssets.ETH]: { waves: 'WETH', gateway: 'ETH' },
-        [WavesApp.defaultAssets.LTC]: { waves: 'WLTC', gateway: 'LTC' },
-        [WavesApp.defaultAssets.ZEC]: { waves: 'WZEC', gateway: 'ZEC' },
-        [WavesApp.defaultAssets.BCH]: { waves: 'WBCH', gateway: 'BCH' },
-        [WavesApp.defaultAssets.DASH]: { waves: 'WDASH', gateway: 'DASH' }
-    };
-
     /**
-     * @return {CoinomatService}
+     * @param gateways
+     * @returns {CoinomatService}
      */
-    const factory = function () {
+    const factory = function (gateways) {
 
         class CoinomatService {
 
             getAll() {
-                return CURRENCIES;
+                return gateways;
             }
 
             /**
@@ -36,8 +27,8 @@
              */
             getDepositDetails(asset, wavesAddress) {
                 CoinomatService._isSupportedAsset(asset.id);
-                const from = CURRENCIES[asset.id].gateway;
-                const to = CURRENCIES[asset.id].waves;
+                const from = gateways[asset.id].gateway;
+                const to = gateways[asset.id].waves;
                 return this._loadPaymentDetails(from, to, wavesAddress).then((details) => {
                     return { address: details.tunnel.wallet_from };
                 });
@@ -51,8 +42,8 @@
              */
             getWithdrawDetails(asset, targetAddress) {
                 CoinomatService._isSupportedAsset(asset.id);
-                const from = CURRENCIES[asset.id].waves;
-                const to = CURRENCIES[asset.id].gateway;
+                const from = gateways[asset.id].waves;
+                const to = gateways[asset.id].gateway;
                 return Promise.all([
                     this._loadPaymentDetails(from, to, targetAddress),
                     this._loadWithdrawRate(from, to)
@@ -73,7 +64,7 @@
              * @return {IGatewaySupportMap}
              */
             getSupportMap(asset) {
-                if (CURRENCIES[asset.id]) {
+                if (gateways[asset.id]) {
                     return {
                         deposit: true,
                         withdraw: true
@@ -82,7 +73,7 @@
             }
 
             getAssetKeyName(asset) {
-                return `${KEY_NAME_PREFIX}${CURRENCIES[asset.id].gateway}`;
+                return `${KEY_NAME_PREFIX}${gateways[asset.id].gateway}`;
             }
 
             _loadPaymentDetails(from, to, recipientAddress) {
@@ -122,7 +113,7 @@
             }
 
             static _isSupportedAsset(assetId) {
-                if (!CURRENCIES[assetId]) {
+                if (!gateways[assetId]) {
                     throw new Error('Asset is not supported by Coinomat');
                 }
             }
