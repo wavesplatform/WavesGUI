@@ -17,7 +17,7 @@
              * @param {number} [count] blocks count (default 50)
              * @return {Promise}
              */
-            @decorators.cachable(5)
+            @decorators.cachable(2)
             trades(amount, price, count) {
                 count = count || 50;
                 return Waves.AssetPair.get(amount, price)
