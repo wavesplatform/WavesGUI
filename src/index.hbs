@@ -463,28 +463,15 @@
      */
     var analytics = eventSender.default.inactive();
 
-    try {
-        /**
-         * @type {IWavesAPI}
-         */
-        var Waves = WavesAPI.create({
-            networkByte: WavesApp.network.code.charCodeAt(0),
-            nodeAddress: WavesApp.network.node,
-            matcherAddress: WavesApp.network.matcher,
-            minimumSeedLength: 25,
-            logLevel: 'none'
-        });
 
-        Waves.API.Node.v1.utils.time().then(function (nodeTime) {
-            var timeDiff = Waves.tools.calculateTimeDiff(nodeTime, Date.now());
-            var tenMinutes = 10 * 60 * 1000;
-            if (Math.abs(timeDiff) > tenMinutes) {
-                Waves.config.set({ timeDiff: timeDiff });
-            }
-        });
-    } catch (e) {
-        console.error(e);
-    }
+    // TODO Add dif time
+    // Waves.API.Node.v1.utils.time().then(function (nodeTime) {
+    //     var timeDiff = Waves.tools.calculateTimeDiff(nodeTime, Date.now());
+    //     var tenMinutes = 10 * 60 * 1000;
+    //     if (Math.abs(timeDiff) > tenMinutes) {
+    //         Waves.config.set({ timeDiff: timeDiff });
+    //     }
+    // });
 
     WavesApp.stateTree = new tsUtils.Tree({
         id: 'root',

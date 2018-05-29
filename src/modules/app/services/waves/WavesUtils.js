@@ -57,8 +57,8 @@
              */
             getRateApi(assetFrom, assetTo, date) {
                 return utils.whenAll([
-                    assets.getExtendedAsset(WavesUtils.toId(assetFrom)),
-                    assets.getExtendedAsset(WavesUtils.toId(assetTo)),
+                    assets.getAsset(WavesUtils.toId(assetFrom)),
+                    assets.getAsset(WavesUtils.toId(assetTo)),
                     this.getRate(assetFrom, assetTo, date)
                 ])
                     .then(([from, to, rate]) => {
@@ -163,7 +163,7 @@
              * @private
              */
             _getChange(from, to) {
-                return Waves.AssetPair.get(from, to)
+                return ds.api.assets.getAssetPair(from, to)
                     .then((pair) => {
                         const interval = this._getChangeByInterval(utils.moment().add().day(-1));
                         return ds.fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
@@ -216,7 +216,7 @@
                     return trades && trades.length ? calculateCurrentRate(trades) : new BigNumber(0);
                 };
 
-                return Waves.AssetPair.get(fromId, toId)
+                return ds.api.assets.getAssetPair(fromId, toId)
                     .then((pair) => {
                         return ds.fetch(`${WavesApp.network.datafeed}/api/trades/${pair.toString()}/5`)
                             .then(currentRate)
@@ -241,7 +241,7 @@
              */
             _getRateHistory(fromId, toId, from, to) {
                 const interval = this._getChangeByInterval(from);
-                return Waves.AssetPair.get(fromId, toId)
+                return ds.api.assets.getAssetPair(fromId, toId)
                     .then((pair) => {
                         return ds.fetch(`${WavesApp.network.datafeed}/api/candles/${pair.toString()}/${interval}`)
                             .then((list) => {
@@ -283,8 +283,8 @@
                      * @return {BigNumber}
                      */
                     exchange(balance) {
-                        return balance.mul(rate.toFixed(8))
-                            .round(to.precision);
+                        return balance.times(rate.toFixed(8))
+                            .precision(to.precision);
                     },
 
                     /**
@@ -293,7 +293,7 @@
                      * @return {BigNumber}
                      */
                     exchangeReverse(balance) {
-                        return (rate ? balance.div(rate) : new BigNumber(0)).round(from.precision);
+                        return (rate ? balance.div(rate) : new BigNumber(0)).precision(from.precision);
                     },
 
                     /**

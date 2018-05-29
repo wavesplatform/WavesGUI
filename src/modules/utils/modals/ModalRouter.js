@@ -58,7 +58,7 @@
                         return modalManager.showSendAsset({ ...search, assetId });
                     },
                     '/asset/:assetId': ({ assetId }) => {
-                        return waves.node.assets.getExtendedAsset(assetId).then((asset) => {
+                        return waves.node.assets.getAsset(assetId).then((asset) => {
                             return modalManager.showAssetInfo(asset);
                         });
                     },

@@ -25,9 +25,9 @@
                 this.templateUrl = `${PATH}/${this.transaction.templateType}.html`;
                 this.time = $filter('date')(this.transaction.timestamp, this.datePattern || 'HH:mm');
                 this.shownAddress = this.transaction.shownAddress;
-                this.type = this.transaction.type;
+                this.typeName = this.transaction.typeName;
 
-                if (this.transaction.amount && this.transaction.amount instanceof Waves.Money) {
+                if (this.transaction.amount && this.transaction.amount instanceof ds.wavesDataEntities.Money) {
                     baseAssetService.convertToBaseAsset(this.transaction.amount)
                         .then((baseMoney) => {
                             this.mirrorBalance = baseMoney;
@@ -80,7 +80,7 @@
                     message += `\n${recipient}`;
                 }
 
-                if (tx.amount && tx.amount instanceof Waves.Money) {
+                if (tx.amount && tx.amount instanceof ds.wavesDataEntities.Money) {
                     const asset = tx.amount.asset;
                     const amount = `Amount: ${tx.amount.toFormat()} ${asset.name} (${asset.id})`;
                     message += `\n${amount}`;

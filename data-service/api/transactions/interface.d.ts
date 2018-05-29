@@ -1,5 +1,5 @@
 import { Money, BigNumber } from '@waves/data-entities';
-import { IAssetPair } from '../../interface';
+import { IAssetPair, TLeasingStatus, TOrderType } from '../../interface';
 import { TRANSACTION_TYPE_NUMBER } from '@waves/waves-signature-generator';
 
 
@@ -34,6 +34,7 @@ export module txApi {
         timestamp: number;
         sender: string;
         senderPublicKey: string;
+        fee: string;
         signature?: string;
         proofs?: Array<string>;
         height?: number;
@@ -131,7 +132,7 @@ export module txApi {
         id: string;
         matcherFee: string;
         matcherPublicKey: string;
-        orderType: string;
+        orderType: TOrderType;
         price: string;
         senderPublicKey: string;
         signature: string;
@@ -139,8 +140,17 @@ export module txApi {
     }
 }
 
-export interface IBaseTransaction extends txApi.IBaseTransaction {
-    isUtx: boolean;
+export interface IBaseTransaction {
+    type: number;
+    id: string;
+    timestamp: number;
+    sender: string;
+    senderPublicKey: string;
+    fee: Money;
+    isUTX: boolean;
+    signature?: string;
+    proofs?: Array<string>;
+    height?: number;
 }
 
 export interface IOldTransferTx extends IBaseTransaction {
@@ -194,13 +204,15 @@ export interface IExchange extends IBaseTransaction {
     price: Money;
     order1: IExchangeOrder;
     order2: IExchangeOrder;
+    buyOrder: IExchangeOrder;
+    sellOrder: IExchangeOrder;
 }
 
 export interface ILease extends IBaseTransaction {
     type: TRANSACTION_TYPE_NUMBER.LEASE;
     amount: Money;
     fee: Money;
-    status?: 'active' | 'canceled';
+    status?: TLeasingStatus;
     recipient: string;
 }
 
@@ -235,7 +247,7 @@ export interface IExchangeOrder {
     id: string;
     matcherFee: Money;
     matcherPublicKey: string;
-    orderType: string;
+    orderType: TOrderType;
     price: Money;
     senderPublicKey: string;
     signature: string;

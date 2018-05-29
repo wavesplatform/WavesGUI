@@ -62,7 +62,7 @@
                  */
                 this.pending = true;
 
-                waves.node.assets.getExtendedAsset(this.mirrorId)
+                waves.node.assets.getAsset(this.mirrorId)
                     .then((mirror) => {
                         this.mirror = mirror;
                         /**

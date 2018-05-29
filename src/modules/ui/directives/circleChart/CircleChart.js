@@ -53,7 +53,7 @@
             _getBalances() {
                 return this._data
                     .map((item) => {
-                        const value = item.value instanceof Waves.Money ? item.value.getTokens() : item.value;
+                        const value = item.value instanceof ds.wavesDataEntities.Money ? item.value.getTokens() : item.value;
                         return { id: item.id, value };
                     });
             }

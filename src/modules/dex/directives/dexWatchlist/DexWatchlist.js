@@ -298,7 +298,7 @@
              * @private
              */
             _onChangeBaseAsset() {
-                waves.node.assets.getExtendedAsset(this.baseAssetId)
+                waves.node.assets.getAsset(this.baseAssetId)
                     .then((asset) => {
                         this._parent.title = asset.name;
                         $scope.$apply();

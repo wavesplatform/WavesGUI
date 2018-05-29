@@ -54,12 +54,7 @@
     const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
                           notification, decorators, waves, ModalRouter) {
 
-        user.onLogin().then(() => {
-            Waves.config.set({
-                nodeAddress: user.getSetting('network.node'),
-                matcherAddress: user.getSetting('network.matcher')
-            });
-        });
+        // TODO! Apply user node address!
 
         class AppRun {
 
@@ -92,7 +87,6 @@
                 this._stopLoader();
                 this._initializeLogin();
                 this._initializeOutLinks();
-                waves.node.assets.initializeAssetFactory();
 
                 $rootScope.WavesApp = WavesApp;
             }

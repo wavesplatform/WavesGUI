@@ -48,12 +48,12 @@
                 Waves.AssetPair.get(this.baseAssetId, this.assetId)
                     .then((pair) => {
                         return Promise.all([
-                            Waves.Money.fromTokens('1', pair.amountAsset),
+                            ds.wavesDataEntities.Money.fromTokens('1', pair.amountAsset),
                             waves.utils.getRateApi(pair.amountAsset, pair.priceAsset)
                         ])
                             .then(([money, api]) => {
                                 const price = api.exchange(money.getTokens());
-                                return Waves.Money.fromTokens(price, pair.priceAsset)
+                                return ds.wavesDataEntities.Money.fromTokens(price, pair.priceAsset)
                                     .then((price) => {
                                         const precision = pair.priceAsset.precision;
                                         const num = price ? price.getTokens() : new BigNumber(0);

@@ -1,23 +1,23 @@
 <div class="line-wrapper">
     <div class="line">
         <div class="body-1 basic-700 fs-mobile">
-             <span w-i18n="transaction.headers.{{::$ctrl.type}}"
+             <span w-i18n="transaction.headers.{{::$ctrl.typeName}}"
                    params="{name: $ctrl.transaction.quantity.asset.name}"></span>
         </div>
         <div class="footnote-1 basic-500 fs-mobile">
-             <span w-i18n="transaction.subheaders.{{::$ctrl.type}}"
+             <span w-i18n="transaction.subheaders.{{::$ctrl.typeName}}"
                    params="{time: $ctrl.time}"></span>
         </div>
     </div>
     <div class="line">
         <div class="body-1 basic-700 fs-mobile">
-        <span w-i18n="transaction.amounts.{{::$ctrl.type}}"
+        <span w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
               params="{
                 amount: $ctrl.transaction.quantity.toFormat(),
                 name: $ctrl.transaction.quantity.asset.name
               }"></span>
         </div>
-        <div ng-if="$ctrl.type === 'issue' || $ctrl.type === 'reissue'">
+        <div ng-if="$ctrl.typeName === 'issue' || $ctrl.typeName === 'reissue'">
              <w-i18n>transaction.reissuable.{{::$ctrl.transaction.reissuable}}</w-i18n>
         </div>
     </div>

@@ -2,6 +2,8 @@
 (function () {
     'use strict';
 
+    const dataEntities = require('@waves/data-entities');
+
     /**
      * @param {BaseNodeComponent} BaseNodeComponent
      * @param {app.utils} utils
@@ -15,18 +17,6 @@
         const TX_TYPES = WavesApp.TRANSACTION_TYPES.NODE;
 
         class Assets extends BaseNodeComponent {
-
-            initializeAssetFactory() {
-                Waves.config.set({
-                    /**
-                     * @param {string} id
-                     * @return {Promise<ExtendedAsset>}
-                     */
-                    assetFactory: (id) => {
-                        return this.getExtendedAsset(id);
-                    }
-                });
-            }
 
             /**
              * @param {string} address
@@ -44,10 +34,10 @@
             @decorators.cachable(5)
             info(assetId) {
                 if (assetId === WavesApp.defaultAssets.WAVES) {
-                    return this.getExtendedAsset(assetId);
+                    return this.getAsset(assetId);
                 }
                 return Promise.all([
-                    this.getExtendedAsset(assetId),
+                    this.getAsset(assetId),
                     ds.fetch(`${this.network.node}/assets/details/${assetId}`)
                 ]).then(([asset, assetData]) => {
                     Assets._updateAsset(asset, assetData);
@@ -58,10 +48,9 @@
             /**
              * Get Asset info
              * @param {string} assetId
-             * @return {Promise<ExtendedAsset>}
+             * @return {Promise<Asset>}
              */
-            @decorators.cachable()
-            getExtendedAsset(assetId) {
+            getAsset(assetId) {
                 return ds.api.assets.get(assetId);
             }
 
@@ -176,7 +165,7 @@
              * @return {Promise<ITransaction>}
              */
             issue({ name, description, quantity, precision, reissuable, fee, keyPair }) {
-                quantity = quantity.mul(Math.pow(10, precision));
+                quantity = quantity.times(Math.pow(10, precision));
                 return this.getFee({ type: TX_TYPES.ISSUE, fee }).then((fee) => {
                     return Waves.API.Node.v1.assets.issue({
                         name,
@@ -224,8 +213,8 @@
              */
             _getEmptyBalanceList(idList) {
                 return Promise.all(idList.map((id) => {
-                    return this.getExtendedAsset(id)
-                        .then((asset) => new Waves.Money('0', asset));
+                    return this.getAsset(id)
+                        .then((asset) => new dataEntities.Money('0', asset));
                 }));
             }
 

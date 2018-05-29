@@ -482,7 +482,7 @@
 
                                     value = Validate._toAssetId(assetData);
                                     if (value) {
-                                        Waves.Money.fromTokens('0', value).then((money) => {
+                                        ds.wavesDataEntities.Money.fromTokens('0', value).then((money) => {
                                             if (utils.isNotEqualValue(validator.money, money)) {
                                                 validator.money = money;
                                                 validator.apply();
@@ -627,9 +627,9 @@
                         static _toAssetId(data) {
                             if (typeof data === 'string') {
                                 return data;
-                            } else if (data instanceof Waves.Money) {
+                            } else if (data instanceof ds.wavesDataEntities.Money) {
                                 return data.asset.id;
-                            } else if (data instanceof Waves.Asset) {
+                            } else if (data instanceof ds.wavesDataEntities.Asset) {
                                 return data.id;
                             } else {
                                 return null;
@@ -639,7 +639,7 @@
                         static _toString(value) {
                             if (value instanceof BigNumber) {
                                 return value.toFixed();
-                            } else if (value instanceof Waves.Money) {
+                            } else if (value instanceof ds.wavesDataEntities.Money) {
                                 return value.getTokens().toFormat();
                             } else if (!value) {
                                 return '';

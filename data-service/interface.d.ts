@@ -12,3 +12,6 @@ export interface IKeyPair {
     publicKey: string;
     privateKey: string;
 }
+
+export type TOrderType = 'buy' | 'sell';
+export type TLeasingStatus = 'active' | 'canceled'

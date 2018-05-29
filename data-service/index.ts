@@ -5,8 +5,14 @@ import * as sign from './sign';
 import * as utilsModule from './utils/utils';
 import { request } from './utils/request';
 import { IFetchOptions } from './utils/request';
+import * as wavesDataEntitiesModule from '@waves/data-entities';
+
+export { Seed } from './classes/Seed';
 
 
+export const wavesDataEntities = {
+    ...wavesDataEntitiesModule
+};
 export const api = { ...apiMethods };
 export const balanceManager = new BalanceManager();
 export const config = { ...configApi };

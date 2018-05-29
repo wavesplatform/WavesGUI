@@ -89,7 +89,7 @@
                  */
                 this._assetIdPair = null;
 
-                Waves.Money.fromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
+                ds.wavesDataEntities.Money.fromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
                     this.fee = money;
                     $scope.$digest();
                 });
@@ -328,7 +328,7 @@
                     this.totalPrice = this.priceBalance.cloneWithTokens('0');
                 } else {
                     this.totalPrice = this.priceBalance.cloneWithTokens(
-                        this.price.getTokens().mul(this.amount.getTokens())
+                        this.price.getTokens().times(this.amount.getTokens())
                     );
                 }
 

@@ -68,8 +68,10 @@ export class AssetStorage {
     }
 
     private _getNewRequestPromise(idList: Array<string>, getMethod: (idList: Array<string>) => Promise<Array<Asset>>): Promise<Array<Asset>> {
-        const newRequestPromise = getMethod(idList);
-        this.save(idList, newRequestPromise);
+        let newRequestPromise = idList.length ? getMethod(idList) : Promise.resolve([]);
+        if (idList.length) {
+            this.save(idList, newRequestPromise);
+        }
         return newRequestPromise;
     }
 }

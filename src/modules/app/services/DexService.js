@@ -16,7 +16,7 @@
                 const amountTokens = amount.getTokens();
                 const priceTokens = price.getTokens();
                 const precision = price.pair.priceAsset.precision;
-                return amountTokens.mul(priceTokens).toFormat(precision);
+                return amountTokens.times(priceTokens).toFormat(precision);
             }
 
         }

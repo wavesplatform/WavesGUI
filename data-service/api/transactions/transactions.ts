@@ -30,12 +30,14 @@ export function listUTX(address?: string): Promise<Array<T_TX>> {
 
 export function get(id: string): Promise<T_TX> {
     return request<T_API_TX>({ url: `${configGet('node')}/transactions/info/${id}` })
-        .then((tx) => parseTx([tx], false)[0]);
+        .then((tx) => parseTx([tx], false))
+        .then((list: Array<T_TX>) => list[0]);
 }
 
 export function getUTX(id: string): Promise<T_TX> {
     return request<T_API_TX>({ url: `${configGet('node')}/transactions/unconfirmed/info/${id}` })
-        .then((tx) => parseTx([tx], true)[0]);
+        .then((tx) => parseTx([tx], true))
+        .then((list: Array<T_TX>) => list[0]);
 }
 
 export function filterByAddress(transactions: Array<T_API_TX>, address?: string): Array<T_API_TX> {

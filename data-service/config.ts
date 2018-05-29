@@ -40,4 +40,6 @@ export interface IConfigParams {
     support: string;
     nodeList: string;
     assets: IHash<string>;
+    minimalSeedLength: number;
+    remappedAssetNames: IHash<string>;
 }

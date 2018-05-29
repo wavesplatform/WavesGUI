@@ -16,23 +16,6 @@
             constructor() {
 
                 this._orderBookCacheHash = Object.create(null);
-
-                user.onLogin().then(() => {
-                    /**
-                     * @type {Promise<Seed>}
-                     * @private
-                     */
-                    this._seedPromise = user.getSeed();
-                    /**
-                     * @type {PollCache}
-                     * @private
-                     */
-                    this._ordersCache = new PollCache({
-                        getData: this._getOrdersData.bind(this),
-                        timeout: 2000,
-                        isBalance: true
-                    });
-                });
             }
 
             createOrder(orderData, keyPair) {
@@ -45,7 +28,7 @@
             }
 
             getOrders() {
-                return this._ordersCache.get();
+                return Promise.resolve(ds.balanceManager.orders);
             }
 
             getOrderBook(asset1, asset2) {
@@ -143,15 +126,15 @@
             static _remapBidAsks(list, pair) {
                 return Promise.all((list || [])
                     .map((item) => Promise.all([
-                        Waves.Money.fromCoins(String(item.amount), pair.amountAsset)
+                        ds.wavesDataEntities.Money.fromCoins(String(item.amount), pair.amountAsset)
                             .then((amount) => amount.getTokens()),
-                        Waves.OrderPrice.fromMatcherCoins(String(item.price), pair)
+                        ds.wavesDataEntities.OrderPrice.fromMatcherCoins(String(item.price), pair)
                             .then((orderPrice) => orderPrice.getTokens())
                     ])
                         .then((amountPrice) => {
                             const amount = amountPrice[0];
                             const price = amountPrice[1];
-                            const total = amount.mul(price);
+                            const total = amount.times(price);
                             return {
                                 amount: amount.toFixed(pair.amountAsset.precision),
                                 price: price.toFixed(pair.priceAsset.precision),
@@ -171,14 +154,14 @@
 
                 return Waves.AssetPair.get(priceAssetId, amountAssetId)
                     .then((assetPair) => Promise.all([
-                        Waves.OrderPrice.fromMatcherCoins(String(order.price), assetPair)
-                            .then((orderPrice) => Waves.Money.fromTokens(orderPrice.getTokens(), priceAssetId)),
-                        Waves.Money.fromCoins(String(order.amount), amountAssetId),
-                        Waves.Money.fromCoins(String(order.filled), amountAssetId),
+                        ds.wavesDataEntities.OrderPrice.fromMatcherCoins(String(order.price), assetPair)
+                            .then((orderPrice) => ds.wavesDataEntities.Money.fromTokens(orderPrice.getTokens(), priceAssetId)),
+                        ds.wavesDataEntities.Money.fromCoins(String(order.amount), amountAssetId),
+                        ds.wavesDataEntities.Money.fromCoins(String(order.filled), amountAssetId),
                         Promise.resolve(`${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`)
                     ]))
                     .then(([price, amount, filled, pair]) => {
-                        const percent = filled.getTokens().div(amount.getTokens()).mul(100).round(2); // TODO
+                        const percent = filled.getTokens().div(amount.getTokens()).times(100).round(2); // TODO
                         // TODO Move to component myOrders (dex refactor);
                         const STATUS_MAP = {
                             Cancelled: 'matcher.orders.statuses.canceled',

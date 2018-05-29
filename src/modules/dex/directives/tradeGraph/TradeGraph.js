@@ -141,7 +141,7 @@
                 const spreadPrice = new BigNumber(asks[0].price)
                     .add(bids[0].price)
                     .div(2);
-                const delta = spreadPrice.mul(this._chartCropRate).div(2);
+                const delta = spreadPrice.times(this._chartCropRate).div(2);
                 const max = spreadPrice.add(delta);
                 const min = BigNumber.max(0, spreadPrice.sub(delta));
 
