@@ -213,13 +213,17 @@
              * @param {Asset} asset
              * @return {Promise<boolean>}
              */
-            @decorators.cachable(null, ([asset]) => asset.id)
+                @decorators.cachable(null, ([asset]) => asset.id)
             isLiquid(asset) {
                 const gatewaySvc = $injector.get('gatewayService');
                 const dataFeed = $injector.get('dataFeed');
 
                 if (asset.id === WavesApp.defaultAssets.WAVES) {
                     return Promise.resolve(true);
+                }
+
+                if (WavesApp.scam[asset.id]) {
+                    return Promise.resolve(false);
                 }
 
                 if (gatewaySvc.hasSupportOf(asset, 'sepa') || gatewaySvc.hasSupportOf(asset, 'deposit')) {

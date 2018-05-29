@@ -61,6 +61,15 @@
             });
         });
 
+        const papa = require('papaparse');
+
+        fetch('https://raw.githubusercontent.com/wavesplatform/WavesGUI/client-907-fix-portfolio/scam.csv')
+            .then((text) => {
+                papa.parse(text).data.forEach(([id]) => {
+                    WavesApp.scam[id] = true;
+                });
+            });
+
         class AppRun {
 
             constructor() {
