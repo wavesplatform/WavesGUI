@@ -138,7 +138,8 @@
                                 });
                             }
                         }));
-                    });
+                    })
+                    .then((balances) => balances.filter((data) => !WavesApp.scam[data.asset.id]));
             }
 
             /**
@@ -265,7 +266,8 @@
                     this._getWavesBalanceDetails(),
                     this._getUserAssets(),
                     this._getBalanceOrders()
-                ]).then(Assets._remapBalance);
+                ]).then(Assets._remapBalance)
+                    .then((balances) => balances.filter((data) => !WavesApp.scam[data.asset.id]));
             }
 
             /**
