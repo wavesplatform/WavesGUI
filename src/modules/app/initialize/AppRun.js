@@ -61,9 +61,13 @@
             });
         });
 
+
+        const proxy = 'https://github-proxy.wvservices.com/wavesplatform/WavesGUI/client-907-fix-portfolio/scam.csv';
+        const origin = 'https://raw.githubusercontent.com/wavesplatform/WavesGUI/client-907-fix-portfolio/scam.csv';
         const papa = require('papaparse');
 
-        fetch('https://github-proxy.wvservices.com/wavesplatform/WavesGUI/client-907-fix-portfolio/scam.csv')
+        fetch(proxy)
+            .catch(() => fetch(origin))
             .then((text) => {
                 papa.parse(text).data.forEach(([id]) => {
                     WavesApp.scam[id] = true;
