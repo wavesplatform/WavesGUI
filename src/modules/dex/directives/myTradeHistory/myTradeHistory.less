@@ -31,6 +31,12 @@ w-dex-my-trade-history {
       flex-basis: calc(100% / 8);
     }
 
+    &__cell[data-column-id="pair"] {
+      overflow: hidden;
+      max-width: 100%;
+      text-overflow: ellipsis;
+    }
+
     &__cell[data-column-id="status"] {
       display: flex;
       justify-content: space-between;

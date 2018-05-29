@@ -93,6 +93,52 @@ body.dex .dex-wrapper {
         border-bottom: 1px solid @color-basic-100;
       }
 
+      .titles-wrap {
+        border-bottom: 1px solid @color-basic-100;
+
+        &::after {
+          display: none;
+        }
+
+        a.title {
+          border-top: 0 none;
+          border-left: 1px solid transparent;
+          border-right: 1px solid transparent;
+
+          &.active {
+            border-top: 2px solid @color-submit-400;
+            border-left: 1px solid @color-basic-100;
+            border-right: 1px solid @color-basic-100;
+            line-height: 36px;
+
+            &::before {
+              position: absolute;
+              bottom: -2px;
+              height: 2px;
+              width: 100%;
+              top: auto;
+              left: 0;
+              content: '';
+              display: block;
+              z-index: 1;
+              background: #fff;
+            }
+          }
+
+          &:last-child::after {
+            content: '';
+            display: inline-block;
+            margin-left: 5px;
+            width: 10px;
+            height: 10px;
+            z-index: 2;
+            position: relative;
+            top: -1px;
+            background: url(/img/icons/arrow-disabled-down-little.svg) center no-repeat;
+          }
+        }
+      }
+
       .smart-table {
         width: 100%;
 
@@ -184,7 +230,7 @@ body.dex .dex-wrapper {
       background: url(/img/icons/dex-star.svg) center no-repeat;
       width: 10px;
       height: 10px;
-      margin-right: 10px;
+      margin-right: 7px;
 
       &.active {
         background: url(/img/icons/dex-star-active.svg) center no-repeat;
@@ -194,9 +240,25 @@ body.dex .dex-wrapper {
 }
 
 @media screen and (max-width: 768px) {
-  body.dex .dex-wrapper {
-    w-dex-watchlist {
-      min-height: 290px;
+  body.dex .main-content .content {
+    .dex-wrapper {
+      w-dex-watchlist {
+        min-height: 290px;
+
+        w-tabs {
+          .titles-wrap a {
+            border-left: 0 none;
+            border-right: 0 none;
+
+            &.active {
+              border-left: 0 none;
+              border-right: 0 none;
+              line-height: 48px;
+            }
+          }
+        }
+      }
     }
   }
 }
+

@@ -146,7 +146,7 @@ w-layout {
 
             w-tabs {
               .title {
-                text-transform:  uppercase;
+                text-transform: uppercase;
               }
             }
           }
@@ -428,9 +428,6 @@ w-dex-candle-chart {
           max-height: 100%;
 
           .dex-layout {
-            &__column-left {
-
-            }
             &__column-right {
               margin-left: 0;
               margin-top: 5px;
@@ -442,290 +439,20 @@ w-dex-candle-chart {
       &__sidebar-toggle {
         display: none;
       }
+
+      &__topleft-collapsed,
+      &__topright-collapsed {
+        .dex-layout {
+          &__row-top {
+            .dex-layout {
+              &__column-right,
+              &__column-left {
+                min-width: 100%;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
-
-//
-///* Tablet */
-//@media screen and (min-width: 481px) and (max-width: 768px) and (min-height: 481px) {
-//
-//  w-layout {
-//
-//    .dex-layout {
-//      flex-direction: column;
-//      padding-left: 48px;
-//
-//      .dex-layout__column {
-//        height: auto;
-//      }
-//
-//      .dex-layout__column-left {
-//        width: 360px;
-//        padding-right: 48px;
-//        min-width: 360px;
-//        z-index: 18;
-//        padding-top: 60px;
-//        height: 100vh;
-//        position: fixed;
-//        background: #fff;
-//        border-right: 1px solid #dfdfdf;
-//        box-shadow: 3px 0 10px 0 rgba(20, 47, 85, 0.06);
-//
-//        .dex-layout__block.dex-layout__block-top {
-//          height: 50% !important;
-//        }
-//        .dex-layout__block.dex-layout__block-bottom {
-//          height: 50% !important;
-//        }
-//      }
-//
-//      .dex-layout__column-right {
-//        position: relative;
-//        display: flex;
-//        flex-direction: row;
-//        width: 100%;
-//        margin-top: 10px;
-//
-//        .dex-layout__block-top {
-//          flex-basis: 50%;
-//          margin-right: 5px;
-//        }
-//        .dex-layout__block-bottom {
-//          flex-basis: 50%;
-//          margin-left: 5px;
-//        }
-//
-//        .dex-layout__sidebar-toggle-right {
-//          display: none;
-//        }
-//      }
-//
-//      .dex-layout__column-center {
-//        left: 0;
-//        position: relative;
-//
-//        .dex-layout__block-top {
-//          margin-top: 60px;
-//          margin-bottom: 10px;
-//
-//          .block-wrapper {
-//            border: 0 none;
-//            background: transparent;
-//          }
-//        }
-//
-//        .dex-layout__block-bottom {
-//          margin-top: 10px;
-//          height: 15vh;
-//        }
-//      }
-//
-//      .dex-layout__sidebar-toggle-left {
-//        width: 30px;
-//        height: 30px;
-//        border: 0 none;
-//        right: 11px;
-//        transition: .3s;
-//        top: calc(50vh ~'- 10px');
-//
-//        &:hover {
-//          opacity: .7;
-//        }
-//
-//        &::after {
-//          background: url(/img/icons/dex-mobile-column-toggler.svg) center center no-repeat;
-//        }
-//      }
-//
-//    }
-//
-//    //different collapse states
-//    .dex-layout__block-right-bottom-collapsed .dex-layout__column-right .dex-layout__block-top,
-//    .dex-layout__block-right-bottom-collapsed .dex-layout__column-right .dex-layout__block-bottom,
-//    .dex-layout__block-center-bottom-collapsed .dex-layout__column-center .dex-layout__block-top {
-//      height: auto !important;
-//    }
-//
-//    .dex-layout__left-collapsed .dex-layout__column-left {
-//      transform: translateX(-311px);
-//    }
-//
-//    .dex-layout__left-collapsed .dex-layout__column-center {
-//      left: 0;
-//    }
-//
-//    .dex-layout__column-right .collapse-dex-block {
-//      display: none;
-//    }
-//
-//    .dex-layout.dex-layout__right-collapsed .dex-layout__column-right {
-//      transform: translateX(0);
-//    }
-//
-//    //if chart is Opened
-//    .dex-layout:not(.chart-collapsed) {
-//      .dex-layout__column-center w-dex-candle-chart {
-//        height: 50vh;
-//        min-height: 39px;
-//      }
-//    }
-//
-//    //if chart is Closed
-//    .dex-layout.chart-collapsed {
-//      .dex-layout__column-center w-dex-candle-chart {
-//        height: 39px;
-//      }
-//    }
-//
-//    w-dex-candle-chart {
-//      height: calc(50vh ~' - 195px');
-//      margin-bottom: 10px;
-//      border: 1px solid @color-disabled-200;
-//    }
-//
-//    w-dex-trade-graph {
-//      border: 1px solid @color-disabled-200;
-//    }
-//
-//    .toggler {
-//      display: block;
-//    }
-//
-//  }
-//
-//}
-//
-///* end Tablet */
-///* Mobile */
-//@media screen and (max-width: 480px),
-//(min-width: 481px) and (max-width: 768px) and (max-height: 480px) {
-//
-//  w-layout {
-//
-//    .dex-layout {
-//      flex-direction: column;
-//      flex-shrink: 0;
-//
-//      &__sidebar-toggle {
-//        display: none;
-//      }
-//
-//      &__column-left,
-//      &__column-right,
-//      &__column-center {
-//        width: 100%;
-//        left: auto;
-//        top: auto;
-//        right: auto;
-//        position: relative;
-//        height: auto;
-//      }
-//
-//      &__column-left .dex-layout__block-top,
-//      &__column-center .dex-layout__block-bottom,
-//      &__column-right .dex-layout__block-top,
-//      &__column-right .dex-layout__block-bottom {
-//        max-height: 290px;
-//        margin-top: 10px;
-//      }
-//
-//      &__column-left .dex-layout__block-top {
-//        margin-top: 0px;
-//        margin-bottom: 10px;
-//      }
-//
-//      &__column {
-//        display: block;
-//      }
-//
-//      &__column-left .dex-layout__block-bottom {
-//        display: none;
-//      }
-//
-//      &__column.dex-layout__column-center .dex-layout__block-top .block-wrapper {
-//        border: 0 none;
-//        background: none transparent;
-//      }
-//
-//      &__block-center-bottom-collapsed .dex-layout__column-center .dex-layout__block-top {
-//        height: auto !important;
-//      }
-//
-//      &__right-collapsed .dex-layout__column-right {
-//        transform: translateX(0);
-//      }
-//
-//      &__right-collapsed .dex-layout__column-center {
-//        right: 0;
-//      }
-//
-//      &__left-collapsed .dex-layout__column-left {
-//        transform: translateX(0);
-//      }
-//
-//      &__left-collapsed .dex-layout__column-center {
-//        left: 0;
-//      }
-//
-//    }
-//
-//    .toggler {
-//      display: block;
-//    }
-//
-//  }
-//
-//  w-dex-candle-chart {
-//    margin-bottom: 10px;
-//    min-height: 39px;
-//    border: 1px solid @color-disabled-200;
-//
-//    .candle-chart-wrapper {
-//      height: 420px;
-//    }
-//  }
-//
-//  .dex-layout.chart-collapsed w-dex-candle-chart {
-//    height: 39px;
-//    overflow: hidden;
-//  }
-//
-//  w-dex-trade-graph {
-//    border: 1px solid @color-disabled-200;
-//
-//    .graph-wrapper {
-//      height: 100%;
-//      max-height: 150px;
-//    }
-//  }
-//
-//}
-//
-////low height desktop fix
-//@media screen and (max-height: 355px) and (min-width: 769px) {
-//  body.dex {
-//    ui-view[name="main"],
-//    .main-content .content,
-//    .content ui-view[name="mainContent"],
-//    w-layout {
-//      min-height: 800px;
-//    }
-//
-//    .dex-layout__block-right-bottom-collapsed {
-//      .dex-layout__column-right .dex-layout__block-top {
-//        min-height: 761px;
-//      }
-//    }
-//
-//    .dex-layout__block-center-bottom-collapsed {
-//      .dex-layout__column-center .dex-layout__block-top {
-//        min-height: 761px;
-//      }
-//    }
-//
-//    w-left-menu {
-//      position: fixed;
-//    }
-//  }
-//}
