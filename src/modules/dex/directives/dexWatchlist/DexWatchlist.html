@@ -11,7 +11,7 @@
              ng-if="$ctrl.shouldShowSearchResults()">
             <div class="search-item"
                  ng-repeat="asset in $ctrl.assetSearchResults track by asset.id"
-                 ng-click="$ctrl.addSecondaryAsset(asset)"
+                 ng-click="$ctrl.addNewPair(asset)"
                  ng-class="{
             'watched': asset.isWatched
          }">
@@ -35,9 +35,9 @@
 
         <w-smart-table data="$ctrl.pairsData" header-info="$ctrl.headers">
             <w-table-row ng-repeat="pair in $data"
-                         ng-click="$ctrl.changePair(pair.priceId)"
+                         ng-click="$ctrl.choosePair(pair)"
                          ng-class="{
-                     'selected': $ctrl.isSelected(pair.priceId)
+                     'selected': $ctrl.isSelected(pair)
                  }">
                 <w-table-cell>
                     <i class="icon-fav"></i>
@@ -55,7 +55,7 @@
                 <w-table-cell>
                     {{pair.volume}}
                 </w-table-cell>
-                <w-table-cell ng-if="$ctrl.isSelected(pair.priceId)">
+                <w-table-cell ng-if="$ctrl.isSelected(pair)">
                     <div class="disabled-900">{{pair.amountId}}<span>/</span></div>
                     <div class="disabled-900">{{pair.priceId}}</div>
                 </w-table-cell>

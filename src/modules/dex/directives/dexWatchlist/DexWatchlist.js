@@ -6,15 +6,26 @@
     /**
      * @param Base
      * @param {Waves} waves
-     * @param {app.utils} utils
-     * @param {JQuery} $element
      * @param {$rootScope.Scope} $scope
      * @param {$state} $state
      * @param {$location} $location
      * @param {app.utils.decorators} decorators
+     * @param gateways
+     * @param sepaGateways
+     * @param PairData
      * @return {DexWatchlist}
      */
-    const controller = function (Base, waves, utils, $element, $scope, $state, $location, decorators) {
+    const controller = function (
+        Base,
+        waves,
+        $scope,
+        $state,
+        $location,
+        decorators,
+        gateways,
+        sepaGateways,
+        PairData
+    ) {
 
         class DexWatchlist extends Base {
 
@@ -36,17 +47,6 @@
                  * @private
                  */
                 this.baseAssetId = null;
-
-                /**
-                 * @type {string}
-                 */
-                this.secondaryAssetId = null;
-
-                /**
-                 * @type {Array<string>}
-                 * @private
-                 */
-                this._assetsIds = [];
 
                 /**
                  * @type {*[]}
@@ -78,6 +78,30 @@
                 ];
 
                 /**
+                 * @type {string[]}
+                 * @private
+                 */
+                this._chosenPair = null;
+
+                /**
+                 * @type {Array}
+                 * @private
+                 */
+                this._favouritePairs = [];
+
+                /**
+                 * @type {Array}
+                 * @private
+                 */
+                this._otherPairs = [];
+
+                /**
+                 * @type {Array<string>}
+                 * @private
+                 */
+                this._assetsIds = [];
+
+                /**
                  * @type {{amount: string, price: string}}
                  * @private
                  */
@@ -105,88 +129,120 @@
                     _assetIdPair: 'dex.assetIdPair'
                 });
 
-                this._resolveState().then(() => {
-                    this.observe('baseAssetId', this._onChangeBaseAsset);
-                    this.observe('secondaryAssetId', this._onChangeSecondaryAsset);
-                    this.observe('_assetsIds', this._onChangeAssetsIds);
-                    this.observe('_assetIdPair', this._switchLocationToCurrentPair);
-                    this.observe('search', this._onChangeSearch);
+                this._setFavouritePairs();
+                this._setOtherPairs();
+                this._setPairsData();
 
-                    this._onChangeBaseAsset();
-                    this._initSecondaryAssetId();
-                    this._onChangeAssetsIds();
+                this._resolveState().then(() => {
+                    this.observe('_assetsIds', this._setPairsData);
+                    this.observe('search', this._prepareSearchResults);
+                    this.observe('_chosenPair', this._switchLocationAndUpdateAssetIdPair);
 
                     $scope.$digest();
                 });
             }
 
             /**
+             * @private
+             */
+            _setFavouritePairs() {
+                const allGateways = Object.assign({}, gateways, sepaGateways);
+                Object.keys(allGateways).forEach((gatewayId) => {
+                    this._favouritePairs.push([WavesApp.defaultAssets.WAVES, gatewayId]);
+                });
+            }
+
+            /**
+             * @private
+             */
+            _setOtherPairs() {
+                this._assetsIds.forEach((assetId, index) => {
+                    this._assetsIds
+                        .slice(index + 1)
+                        .forEach((anotherAssetId) => {
+                            if (this._isFavourite([assetId, anotherAssetId])) {
+                                return;
+                            }
+
+                            this._otherPairs.push([assetId, anotherAssetId]);
+                        });
+                });
+            }
+
+            /**
+             * @param pairOfIds
              * @returns {boolean}
+             * @private
              */
-            shouldShowSearchResults() {
-                return Boolean(this.assetSearchResults.length) || this.nothingFound;
+            _isFavourite(pairOfIds) {
+                return this._favouritePairs.some((knownPair) => {
+                    return this._areEqualPairs(knownPair, pairOfIds);
+                });
             }
 
             /**
-             * @param isChangeBase
-             * @param id
              * @private
              */
-            addSecondaryAsset({ id }) {
-                this._addToAssetIds([id]);
-                this.secondaryAssetId = id;
-                this.search = '';
+            _setPairsData() {
+                // todo: move 30 to settings.
+                this.pairsData = (
+                    [
+                        ...this._favouritePairs,
+                        ...this._otherPairs
+                    ]
+                        .slice(0, 30)
+                        .map((pairOfIds) => new PairData(pairOfIds))
+                        .map((requestAndData) => requestAndData.data)
+                );
             }
 
             /**
-             * @param {Array<string>} ids
+             * @returns {Promise}
              * @private
              */
-            _addToAssetIds(ids) {
-                const uniqueAssetsIds = new Set([
-                    ...this._assetsIds,
-                    ...ids
+            _resolveState() {
+                const { assetId1, assetId2 } = $state.params;
+
+                if (!(assetId1 && assetId2)) {
+                    this._switchLocationToChosenPair();
+                    return Promise.resolve();
+                }
+
+                return DexWatchlist._getPair(assetId1, assetId2)
+                    .then((pair) => {
+                        this._setPairAndAddToAssetsIds(pair);
+                    })
+                    .catch(() => {
+                        const { WAVES, BTC } = WavesApp.defaultAssets;
+
+                        return DexWatchlist._getPair(WAVES, BTC)
+                            .then((pair) => {
+                                this._setPairAndAddToAssetsIds(pair);
+                                this._switchLocationToChosenPair();
+                            });
+                    });
+            }
+
+            /**
+             * @param pair
+             * @private
+             */
+            _setPairAndAddToAssetsIds(pair) {
+                const amountAssetId = pair.amountAsset.id;
+                const priceAssetId = pair.priceAsset.id;
+
+                this._chooseExistingPair([amountAssetId, priceAssetId]);
+                this._addToAssetIds([
+                    amountAssetId,
+                    priceAssetId
                 ]);
-                this._assetsIds = Array.from(uniqueAssetsIds);
             }
-
-            /**
-             * @param {string} secondaryAssetId
-             */
-            changePair(secondaryAssetId) {
-                this.secondaryAssetId = secondaryAssetId;
-            }
-
-            /**
-             * @param {string} id
-             * @returns {boolean}
-             */
-            isSelected(id) {
-                return id === this.secondaryAssetId;
-            }
-
-            /**
-             * @param {string} change
-             * @returns {boolean}
-             */
-            isPositive(change) {
-                return parseFloat(change) > 0;
-            }
-
-            /**
-             * @param {string} change
-             * @returns {boolean}
-             */
-            isNegative(change) {
-                return parseFloat(change) < 0;
-            }
-
 
             /**
              * @param value
              * @private
              */
-            _onChangeSearch({ value }) {
+            _prepareSearchResults({ value }) {
                 if (this._assetSearchInProgress) {
                     this._assetSearchInProgress.abort();
                     this._assetSearchInProgress = null;
@@ -243,6 +299,86 @@
             /**
              * @private
              */
+            _switchLocationAndUpdateAssetIdPair() {
+                this._switchLocationToChosenPair();
+                this._assetIdPair = {
+                    amount: this._chosenPair.amountId,
+                    price: this._chosenPair.priceId
+                };
+            }
+
+            /**
+             * @private
+             */
+            _switchLocationToChosenPair() {
+                $location.search('assetId1', this._chosenPair.amountId);
+                $location.search('assetId2', this._chosenPair.priceId);
+            }
+
+            /**
+             * @returns {boolean}
+             */
+            shouldShowSearchResults() {
+                return Boolean(this.assetSearchResults.length) || this.nothingFound;
+            }
+
+            /**
+             * @param isChangeBase
+             * @param id
+             * @private
+             */
+            addNewPair({ id }) {
+                this._addToAssetIds([id]);
+                this.search = '';
+            }
+
+            /**
+             * @param {Array<string>} ids
+             * @private
+             */
+            _addToAssetIds(ids) {
+                const uniqueAssetsIds = new Set([
+                    ...this._assetsIds,
+                    ...ids
+                ]);
+                this._assetsIds = Array.from(uniqueAssetsIds);
+            }
+
+            /**
+             * @param pair
+             */
+            choosePair(pair) {
+                this._chosenPair = pair;
+            }
+
+
+            /**
+             * @param pair
+             * @returns {boolean}
+             */
+            isSelected(pair) {
+                return pair === this._chosenPair;
+            }
+
+            /**
+             * @param {string} change
+             * @returns {boolean}
+             */
+            isPositive(change) {
+                return parseFloat(change) > 0;
+            }
+
+            /**
+             * @param {string} change
+             * @returns {boolean}
+             */
+            isNegative(change) {
+                return parseFloat(change) < 0;
+            }
+
+            /**
+             * @private
+             */
             _clearSearchResults() {
                 this.assetSearchResults = [];
             }
@@ -255,187 +391,29 @@
             }
 
             /**
-             * @returns {Promise}
+             * @param pairOfIds
              * @private
              */
-            _resolveState() {
-                const { assetId1, assetId2 } = $state.params;
-
-                if (!(assetId1 && assetId2)) {
-                    this._switchLocationToCurrentPair();
-                    return Promise.resolve();
-                }
-
-                return DexWatchlist._getPair(assetId1, assetId2)
-                    .then((pair) => {
-                        this._setAssetIdPairAndAddToAssetsIds(pair);
-                    })
-                    .catch(() => {
-                        const { WAVES, BTC } = WavesApp.defaultAssets;
-
-                        return DexWatchlist._getPair(WAVES, BTC)
-                            .then((pair) => {
-                                this._setAssetIdPairAndAddToAssetsIds(pair);
-                                this._switchLocationToCurrentPair();
-                            });
-                    });
+            _chooseExistingPair(pairOfIds) {
+                const knownPair = this._getKnownPairDataBy(pairOfIds);
+                this._chosenPair = knownPair || this.pairsData[0];
             }
 
-            /**
-             * @private
-             */
-            _switchLocationToCurrentPair() {
-                $location.search('assetId1', this._assetIdPair.price);
-                $location.search('assetId2', this._assetIdPair.amount);
-            }
-
-            /**
-             * @param pair
-             * @private
-             */
-            _setAssetIdPairAndAddToAssetsIds(pair) {
-                this._setAssetIdPair(pair);
-                this._addToAssetIds([
-                    pair.amountAsset.id,
-                    pair.priceAsset.id
-                ]);
-            }
-
-            /**
-             * @private
-             */
-            _onChangeBaseAsset() {
-                this._activateAssets();
-            }
-
-            /**
-             * @return {null}
-             * @private
-             */
-            _activateAssets() {
-                this.secondaryAssetId = this.secondaryAssetId || this._assetsIds[0];
-                this._setNewAssetPair();
-            }
-
-            /**
-             * @param pair
-             * @private
-             */
-            _setAssetIdPair(pair) {
-                this._assetIdPair = {
-                    amount: pair.amountAsset.id,
-                    price: pair.priceAsset.id
-                };
-            }
-
-            /**
-             * @return {null}
-             * @private
-             */
-            _onChangeSecondaryAsset() {
-                if (!this.secondaryAssetId) {
-                    return null;
-                }
-                this._setNewAssetPair();
-            }
-
-            /**
-             * @private
-             */
-            @decorators.async()
-            _setNewAssetPair() {
-                this._getPairRelativeToBase(this.secondaryAssetId)
-                    .then((pair) => {
-                        this._setAssetIdPair(pair);
-                    });
-            }
-
-            /**
-             * @private
-             */
-            _onChangeAssetsIds() {
-                const pairsRequestsAndData = (
-                    this._assetsIds
-                        .filter((assetId) => this.baseAssetId !== assetId)
-                        .map((assetId) => ({
-                            request: this._getPairRelativeToBase(assetId),
-                            data: {
-                                amountId: this.baseAssetId,
-                                priceId: assetId,
-                                pair: '',
-                                price: '',
-                                change: '',
-                                volume: ''
+            _getKnownPairDataBy(pairOfIds) {
+                return (
+                    this.pairsData
+                        .reduce((knownPairData, somePairData) => {
+                            if (this._areEqualPairs(somePairData.pairOfIds, pairOfIds)) {
+                                knownPairData = somePairData;
                             }
-                        }))
+
+                            return knownPairData;
+                        }, null)
                 );
-
-                this.pairsData = pairsRequestsAndData.map((requestAndData) => requestAndData.data);
-
-                pairsRequestsAndData.forEach((pairRequestAndData) => {
-                    pairRequestAndData
-                        .request
-                        .then((pair) => {
-                            const pairData = pairRequestAndData.data;
-
-                            pairData.pair = `${pair.amountAsset.displayName} / ${pair.priceAsset.displayName}`;
-
-                            this._getPriceData(pair).then((price) => {
-                                pairData.price = price;
-                            });
-
-                            DexWatchlist._getChange(pair).then((change) => {
-                                pairData.change = change.toFixed(2);
-                            });
-
-                            DexWatchlist._getVolume(pair).then((volume) => {
-                                // todo: replace with discussed algorithm.
-                                pairData.volume = volume.slice(0, 4);
-                            });
-                        });
-                });
             }
 
-            /**
-             * @param assetId
-             * @returns {*}
-             * @private
-             */
-            _getPairRelativeToBase(assetId) {
-                return DexWatchlist._getPair(this.baseAssetId, assetId);
-            }
-
-            /**
-             * @param pair
-             * @returns {Promise<*[]>}
-             * @private
-             */
-            _getPriceData(pair) {
-                const { amountAsset, priceAsset } = pair;
-
-                return Promise.all([
-                    Waves.Money.fromTokens('1', amountAsset),
-                    waves.utils.getRateApi(amountAsset, priceAsset)
-                ])
-                    .then(([money, api]) => {
-                        const price = api.exchange(money.getTokens());
-
-                        return Waves.Money.fromTokens(price, priceAsset)
-                            .then((price = new BigNumber(0)) => {
-                                return price.toFormat(priceAsset.precision);
-                            });
-                    });
-            }
-
-            /**
-             * @private
-             */
-            _initSecondaryAssetId() {
-                if (this._assetIdPair.amount === this.baseAssetId) {
-                    this.secondaryAssetId = this._assetIdPair.price;
-                } else {
-                    this.secondaryAssetId = this._assetIdPair.amount;
-                }
+            _areEqualPairs(pair, anotherPair) {
+                return pair.reduce((isKnownPair, id) => isKnownPair && anotherPair.includes(id), true);
             }
 
             /**
@@ -465,30 +443,22 @@
                 return Waves.AssetPair.get(assetId, anotherAssetId);
             }
 
-            /**
-             * @param pair
-             * @returns {Promise<number>}
-             * @private
-             */
-            static _getChange(pair) {
-                return waves.utils.getChange(pair.amountAsset.id, pair.priceAsset.id);
-            }
-
-            /**
-             * @param pair
-             * @returns {Promise<string>}
-             * @private
-             */
-            static _getVolume(pair) {
-                return waves.utils.getVolume(pair);
-            }
-
         }
 
         return new DexWatchlist();
     };
 
-    controller.$inject = ['Base', 'waves', 'utils', '$element', '$scope', '$state', '$location', 'decorators'];
+    controller.$inject = [
+        'Base',
+        'waves',
+        '$scope',
+        '$state',
+        '$location',
+        'decorators',
+        'gateways',
+        'sepaGateways',
+        'PairData'
+    ];
 
     angular.module('app.dex')
         .component('wDexWatchlist', {
