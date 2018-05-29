@@ -96,6 +96,12 @@
                 this._otherPairs = [];
 
                 /**
+                 * @type {Array}
+                 * @private
+                 */
+                this._wanderingPairs = [];
+
+                /**
                  * @type {Array<string>}
                  * @private
                  */
@@ -131,6 +137,7 @@
 
                 this._setFavouritePairs();
                 this._setOtherPairs();
+                this._setWanderingPair();
                 this._setPairsData();
 
                 this._resolveState().then(() => {
@@ -156,17 +163,37 @@
              * @private
              */
             _setOtherPairs() {
-                this._assetsIds.forEach((assetId, index) => {
-                    this._assetsIds
+                this._assetsIds.some((assetId, index) => {
+                    return this._assetsIds
                         .slice(index + 1)
-                        .forEach((anotherAssetId) => {
+                        .some((anotherAssetId) => {
                             if (this._isFavourite([assetId, anotherAssetId])) {
-                                return;
+                                return false;
                             }
 
                             this._otherPairs.push([assetId, anotherAssetId]);
+
+                            // todo: move 30 to settings.
+                            return this._otherPairs.length >= 30 - this._favouritePairs.length;
                         });
                 });
+            }
+
+            /**
+             * @private
+             */
+            _setWanderingPair() {
+                const pairFromState = this._getPairFromState();
+
+                if (!pairFromState) {
+                    return;
+                }
+
+                if (this._isFavourite(pairFromState) || this._isOther(pairFromState)) {
+                    return;
+                }
+
+                this._wanderingPairs.push(pairFromState);
             }
 
             /**
@@ -175,8 +202,21 @@
              * @private
              */
             _isFavourite(pairOfIds) {
-                return this._favouritePairs.some((knownPair) => {
-                    return this._areEqualPairs(knownPair, pairOfIds);
+                return this._isPairFromList(this._favouritePairs, pairOfIds);
+            }
+
+            /**
+             * @param pairOfIds
+             * @returns {boolean}
+             * @private
+             */
+            _isOther(pairOfIds) {
+                return this._isPairFromList(this._otherPairs, pairOfIds);
+            }
+
+            _isPairFromList(pairList, pairOfIds) {
+                return pairList.some((pairFromList) => {
+                    return this._areEqualPairs(pairFromList, pairOfIds);
                 });
             }
 
@@ -184,13 +224,14 @@
              * @private
              */
             _setPairsData() {
-                // todo: move 30 to settings.
+                const favouriteTopAndWandering = [
+                    ...this._favouritePairs,
+                    ...this._otherPairs,
+                    ...this._wanderingPairs
+                ];
+
                 this.pairsData = (
-                    [
-                        ...this._favouritePairs,
-                        ...this._otherPairs
-                    ]
-                        .slice(0, 30)
+                    favouriteTopAndWandering
                         .map((pairOfIds) => new PairData(pairOfIds))
                         .map((requestAndData) => requestAndData.data)
                 );
@@ -201,14 +242,14 @@
              * @private
              */
             _resolveState() {
-                const { assetId1, assetId2 } = $state.params;
+                const pairFromState = this._getPairFromState();
 
-                if (!(assetId1 && assetId2)) {
+                if (!pairFromState) {
                     this._switchLocationToChosenPair();
                     return Promise.resolve();
                 }
 
-                return DexWatchlist._getPair(assetId1, assetId2)
+                return DexWatchlist._getPair(...pairFromState)
                     .then((pair) => {
                         this._setPairAndAddToAssetsIds(pair);
                     })
@@ -221,6 +262,23 @@
                                 this._switchLocationToChosenPair();
                             });
                     });
+            }
+
+            /**
+             * @returns {*}
+             * @private
+             */
+            _getPairFromState() {
+                const { assetId1, assetId2 } = $state.params;
+
+                if (assetId1 && assetId2) {
+                    return [
+                        $state.params.assetId1,
+                        $state.params.assetId2
+                    ];
+                }
+
+                return null;
             }
 
             /**
