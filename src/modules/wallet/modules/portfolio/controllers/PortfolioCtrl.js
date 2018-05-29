@@ -299,7 +299,7 @@
                 ]).then(([activeList, /* pinned,*/ spam]) => {
 
                     for (let i = activeList.length - 1; i > 0; i--) {
-                        if (activeList[i].hasSpamSignatures) {
+                        if (activeList[i].hasSpamSignatures || WavesApp.scam[activeList[i].asset.id]) {
                             spam.push(activeList.splice(i, 1)[0]);
                         }
                     }
