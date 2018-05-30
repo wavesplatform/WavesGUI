@@ -8,12 +8,14 @@ import { IOrder } from '../api/matcher/interface';
 import { contains } from 'ts-utils';
 import { MoneyHash } from '../utils/MoneyHash';
 import { UTXManager } from './UTXManager';
+import { getAliasesByAddress } from '../api/aliases/aliases';
 
 
 export class BalanceManager {
 
     public balanceList: Array<IBalanceItem>;
     public orders: Array<IOrder>;
+    public aliasList: Array<string>;
     public transactions: UTXManager = new UTXManager();
 
     private _address: string;
@@ -32,6 +34,9 @@ export class BalanceManager {
             this._poll.restart();
         }
         this.transactions.applyAddress(this._address);
+        getAliasesByAddress(address).then((aliasList) => {
+            this.aliasList = aliasList;
+        });
         this._firstBalancePromise = new Promise((resolve) => {
             this._poll.signals.requestSuccess.once(() => resolve(this.balanceList));
         });
@@ -39,6 +44,9 @@ export class BalanceManager {
 
     public dropAddress() {
         this._address = null;
+        this.balanceList = null;
+        this.orders = null;
+        this.aliasList = null;
         if (this._poll) {
             this._poll.destroy();
             this._poll = null;

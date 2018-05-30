@@ -144,7 +144,7 @@
                     return Promise.resolve();
                 }
                 if ($state.params.assetId1 && $state.params.assetId2) {
-                    return Waves.AssetPair.get($state.params.assetId1, $state.params.assetId2)
+                    return ds.api.assets.getAssetPair($state.params.assetId1, $state.params.assetId2)
                         .then((pair) => {
                             this._assetIdPair = {
                                 amount: pair.amountAsset.id,
@@ -154,7 +154,7 @@
                             utils.addUniqueToArray([pair.amountAsset.id, pair.priceAsset.id], list);
                             this._idWatchList = list;
                         }).catch(() => {
-                            return Waves.AssetPair.get(WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC)
+                            return ds.api.assets.getAssetPair(WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC)
                                 .then((pair) => {
                                     this._assetIdPair = {
                                         amount: pair.amountAsset.id,
@@ -323,7 +323,7 @@
             @decorators.async()
             _setNewAssetPair() {
                 if (this.active) {
-                    Waves.AssetPair.get(this.baseAssetId, this.activeRowId).then((pair) => {
+                    ds.api.assets.getAssetPair(this.baseAssetId, this.activeRowId).then((pair) => {
                         if (this.active) {
                             this._assetIdPair = {
                                 amount: pair.amountAsset.id,

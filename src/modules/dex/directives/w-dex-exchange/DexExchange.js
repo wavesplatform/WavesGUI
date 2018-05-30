@@ -45,15 +45,15 @@
                     timeLine.cancel(this._requestTimer);
                 }
 
-                Waves.AssetPair.get(this.baseAssetId, this.assetId)
+                ds.api.assets.getAssetPair(this.baseAssetId, this.assetId)
                     .then((pair) => {
                         return Promise.all([
-                            ds.wavesDataEntities.Money.fromTokens('1', pair.amountAsset),
+                            ds.moneyFromTokens('1', pair.amountAsset),
                             waves.utils.getRateApi(pair.amountAsset, pair.priceAsset)
                         ])
                             .then(([money, api]) => {
                                 const price = api.exchange(money.getTokens());
-                                return ds.wavesDataEntities.Money.fromTokens(price, pair.priceAsset)
+                                return ds.moneyFromTokens(price, pair.priceAsset)
                                     .then((price) => {
                                         const precision = pair.priceAsset.precision;
                                         const num = price ? price.getTokens() : new BigNumber(0);

@@ -337,10 +337,10 @@
                 switch (typeof num) {
                     case 'string':
                     case 'number':
-                        return new BigNumber(num, 10).toFormat(precision);
+                        return new BigNumber(num, 10).toFormat(Number(precision));
                     case 'object':
                         if (num != null) {
-                            return num.toFormat(precision);
+                            return num.toFormat(Number(precision));
                         }
                         throw new Error('Wrong format!');
                     default:

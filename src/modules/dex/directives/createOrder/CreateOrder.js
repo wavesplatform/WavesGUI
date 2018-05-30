@@ -89,7 +89,7 @@
                  */
                 this._assetIdPair = null;
 
-                ds.wavesDataEntities.Money.fromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
+                ds.moneyFromTokens('0.003', WavesApp.defaultAssets.WAVES).then((money) => {
                     this.fee = money;
                     $scope.$digest();
                 });
@@ -198,7 +198,7 @@
 
                 return user.getSeed()
                     .then((seed) => {
-                        return Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
+                        return ds.api.assets.getAssetPair(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                             return Waves.OrderPrice.fromTokens(this.price.getTokens(), pair);
                         }).then((price) => {
                             const amount = this.amount;
@@ -293,7 +293,7 @@
              * @private
              */
             _getBalances() {
-                return Waves.AssetPair.get(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
+                return ds.api.assets.getAssetPair(this._assetIdPair.amount, this._assetIdPair.price).then((pair) => {
                     return utils.whenAll([
                         waves.node.assets.balance(pair.amountAsset.id),
                         waves.node.assets.balance(pair.priceAsset.id)

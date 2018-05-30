@@ -59,8 +59,7 @@
              * @private
              */
             _getOrders() {
-                return user.getSeed()
-                    .then((seed) => waves.matcher.getOrders(seed.keyPair))
+                waves.matcher.getOrders()
                     .then((orders) => {
                         const active = [];
                         const others = [];

@@ -7,7 +7,6 @@
     "node_modules/js-cookie/src/js.cookie.js",
     "vendors/require-modules.js",
     "node_modules/ts-utils/dist/ts-utils.min.js",
-    "node_modules/bignumber.js/bignumber.min.js",
     "data-service-dist/data-service.js",
     "vendors/qrcode.min.js",
     "node_modules/ts-api-validator/dist/ts-api-validator.partial.min.js",

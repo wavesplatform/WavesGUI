@@ -1,5 +1,7 @@
 import { IAssetPair, IHash } from '../interface';
 import { WAVES_ID } from '@waves/waves-signature-generator';
+import { BigNumber, Asset } from '@waves/data-entities';
+import { get } from '../api/assets/assets';
 
 
 export function normalizeAssetPair(assetPair: IAssetPair): IAssetPair {
@@ -69,4 +71,34 @@ export function getTime(count, timeType: TTimeType): Date {
         case 'day':
             return getTime(24 * count, 'hour');
     }
+}
+
+export type TFunctionWithArgsList<T, R> = (...args: Array<T>) => R;
+export type TCurryFunc<T, R> = (...args: Array<T>) => (R | TCurryFunc<T, R>);
+
+export function curryN<T, R>(deep: number, cb: TFunctionWithArgsList<T, R>): TCurryFunc<T, R> {
+    return (...args: Array<T>) => getCurryCallback(deep, [], cb)(...args);
+}
+
+export function curry<T, R>(cb: TFunctionWithArgsList<T, R>): TCurryFunc<T, R> {
+    return curryN(cb.length, cb);
+}
+
+function getCurryCallback<T, R>(deep: number, args1: Array<T>, cb: TFunctionWithArgsList<T, R>): TCurryFunc<T, R> {
+    return (...args2: Array<T>) => {
+        const args3 = args1.concat(args2);
+        if (args3.length >= deep) {
+            return cb.call(null, ...args3);
+        } else {
+            return getCurryCallback(deep, args3, cb);
+        }
+    };
+}
+
+export function toBigNumber(some: string | number | BigNumber): BigNumber {
+    return some instanceof BigNumber ? some : new BigNumber(some);
+}
+
+export function toAsset(asset: Asset | string): Promise<Asset> {
+    return typeof asset === 'string' ? get(asset) : Promise.resolve(asset);
 }

@@ -261,7 +261,7 @@
             }
 
             updateCardDetails() {
-                ds.wavesDataEntities.Money.fromTokens(this.currencies[0].min, this.currencies[0].assetId).then((sum) => {
+                ds.moneyFromTokens(this.currencies[0].min, this.currencies[0].assetId).then((sum) => {
                     this.cardPayment = sum;
                 });
 
@@ -309,7 +309,7 @@
                     .then(utils.onFetch)
                     .then((approximateAmount) => {
                         const coins = new BigNumber(approximateAmount).times(Math.pow(10, this.asset.precision));
-                        this.approximateAmount = new ds.wavesDataEntities.Money(coins.round(0), this.asset);
+                        this.approximateAmount = new ds.wavesDataEntities.Money(coins.dp(0), this.asset);
                         $scope.$digest();
                     });
             }

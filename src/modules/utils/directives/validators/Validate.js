@@ -260,7 +260,7 @@
                                 handler: (modelValue) => {
                                     try {
                                         const num = Validate._toBigNumber(modelValue);
-                                        return !modelValue || num.round(0).eq(Validate._toBigNumber(modelValue));
+                                        return !modelValue || num.dp(0).eq(Validate._toBigNumber(modelValue));
                                     } catch (e) {
                                         return false;
                                     }
@@ -482,7 +482,7 @@
 
                                     value = Validate._toAssetId(assetData);
                                     if (value) {
-                                        ds.wavesDataEntities.Money.fromTokens('0', value).then((money) => {
+                                        ds.moneyFromTokens('0', value).then((money) => {
                                             if (utils.isNotEqualValue(validator.money, money)) {
                                                 validator.money = money;
                                                 validator.apply();

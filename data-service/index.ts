@@ -6,9 +6,12 @@ import * as utilsModule from './utils/utils';
 import { request } from './utils/request';
 import { IFetchOptions } from './utils/request';
 import * as wavesDataEntitiesModule from '@waves/data-entities';
+import { BigNumber, Asset, Money } from '@waves/data-entities';
+import { toAsset, toBigNumber } from './utils/utils';
+import { IAssetInfo } from '@waves/data-entities/dist/entities/Asset';
+import { get } from './config';
 
 export { Seed } from './classes/Seed';
-
 
 export const wavesDataEntities = {
     ...wavesDataEntitiesModule
@@ -21,8 +24,23 @@ export const signature = {
     ...sign
 };
 
+wavesDataEntitiesModule.config.set('remapAsset', (data: IAssetInfo) => {
+    const name = get('remappedAssetNames')[data.id] || data.name;
+    return { ...data, name };
+});
+
 export function fetch<T>(url: string, fetchOptions: IFetchOptions): Promise<T> {
     return request<T>({ url, fetchOptions });
+}
+
+export function moneyFromTokens(tokens: string | number | BigNumber, assetData: Asset | string): Promise<Money> {
+    return toAsset(assetData).then((asset) => {
+        return wavesDataEntities.Money.fromTokens(tokens, asset);
+    });
+}
+
+export function moneyFromCoins(coins: string | number | BigNumber, assetData: Asset | string): Promise<Money> {
+    return toAsset(assetData).then((asset) => new Money(coins, asset));
 }
 
 class App {

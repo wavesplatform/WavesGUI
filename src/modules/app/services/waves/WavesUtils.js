@@ -206,7 +206,7 @@
                     return (
                         trades
                             .reduce((result, item) => {
-                                return result.add(new BigNumber(item.price));
+                                return result.plus(new BigNumber(item.price));
                             }, new BigNumber(0))
                             .div(trades.length)
                     );
@@ -284,7 +284,7 @@
                      */
                     exchange(balance) {
                         return balance.times(rate.toFixed(8))
-                            .precision(to.precision);
+                            .dp(to.precision);
                     },
 
                     /**
@@ -293,7 +293,7 @@
                      * @return {BigNumber}
                      */
                     exchangeReverse(balance) {
-                        return (rate ? balance.div(rate) : new BigNumber(0)).precision(from.precision);
+                        return (rate ? balance.div(rate) : new BigNumber(0)).dp(from.precision);
                     },
 
                     /**

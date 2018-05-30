@@ -23,7 +23,7 @@
                 return user.getSeed().then(({ keyPair }) => {
 
                     let amount = this.tx.amount;
-                    amount = amount.cloneWithTokens(amount.getTokens().add(this.gatewayDetails.gatewayFee));
+                    amount = amount.cloneWithTokens(amount.getTokens().plus(this.gatewayDetails.gatewayFee));
 
                     return waves.node.assets.transfer({ ...this.tx, amount, keyPair }).then(({ id }) => {
                         this.tx.id = id;

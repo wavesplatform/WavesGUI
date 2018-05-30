@@ -10,6 +10,6 @@ export function getAddressByAlias(alias: string): Promise<{ address: string }> {
     return request<{ address: string }>({ url: `${get('node')}/alias/by-alias/${alias}` });
 }
 
-export function clearAliasName(item) {
-    return item.replace(`alias:${get('code')}`, '');
+export function clearAliasName(item: string): string {
+    return item.replace(`alias:${get('code')}:`, '');
 }

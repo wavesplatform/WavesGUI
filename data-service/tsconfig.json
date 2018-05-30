@@ -11,7 +11,7 @@
     ]
   },
   "files": [
-    "api/API.ts"
+    "index.ts"
   ],
   "exclude": [
     "node_modules"

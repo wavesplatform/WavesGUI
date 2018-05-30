@@ -40,7 +40,7 @@
                     timeLine.cancel(this._requestTimer);
                 }
                 if (this.assetId && this.baseAssetId) {
-                    Waves.AssetPair.get(this.assetId, this.baseAssetId)
+                    ds.api.assets.getAssetPair(this.assetId, this.baseAssetId)
                         .then((pair) => {
                             const amount = pair.amountAsset.displayName;
                             const price = pair.priceAsset.displayName;

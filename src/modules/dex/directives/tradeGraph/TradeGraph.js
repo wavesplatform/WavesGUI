@@ -139,7 +139,7 @@
 
             _cutOffOutlyingOrders({ asks, bids }) {
                 const spreadPrice = new BigNumber(asks[0].price)
-                    .add(bids[0].price)
+                    .plus(bids[0].price)
                     .div(2);
                 const delta = spreadPrice.times(this._chartCropRate).div(2);
                 const max = spreadPrice.add(delta);

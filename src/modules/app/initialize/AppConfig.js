@@ -6,6 +6,7 @@
         const tsUtils = require('ts-utils');
 
         ds.config.setConfig(WavesApp.network);
+        ds.config.set('remappedAssetNames', WavesApp.remappedAssetNames);
 
         class AppConfig {
 

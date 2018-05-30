@@ -20,7 +20,7 @@
                     // TODO : change to getRateByDate()
                     return waves.utils.getRateApi(money.asset.id, baseAsset.id)
                         .then((api) => api.exchange(money.getTokens()))
-                        .then((balance) => ds.wavesDataEntities.Money.fromTokens(balance, baseAsset));
+                        .then((balance) => ds.moneyFromTokens(balance, baseAsset));
                 });
             }
 

@@ -11,6 +11,8 @@
      */
     const factory = function (user, utils, aliases, decorators, BaseNodeComponent) {
 
+        const tsUtils = require('ts-utils');
+
         const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
 
         class Transactions extends BaseNodeComponent {
@@ -70,7 +72,7 @@
             @decorators.cachable(120)
             getActiveLeasingTx() {
                 return ds.fetch(`${this.network.node}/leasing/active/${user.address}`)
-                    .then((list) => ds.transactions.parseTx(list, false))
+                    .then((list) => ds.api.transactions.parseTx(list, false))
                     .then((list) => list.map(this._pipeTransaction()));
             }
 
@@ -101,6 +103,8 @@
                     ...txData
                 };
 
+                tx.type = Transactions._getTypeByName(transactionType);
+
                 if (transactionType === WavesApp.TRANSACTION_TYPES.NODE.MASS_TRANSFER) {
                     tx.totalAmount = tx.totalAmount || tx.transfers.map(({ amount }) => amount)
                         .reduce((result, item) => result.add(item));
@@ -126,7 +130,9 @@
                     switch (tx.typeName) {
                         case TYPES.BURN:
                         case TYPES.REISSUE:
-                            tx.name = tx.name || tx.quantity.asset.name;
+                            tx.name = tx.name ||
+                                tsUtils.get(tx, 'quantity.asset.name') ||
+                                tsUtils.get(tx, 'amount.asset.name');
                             break;
                         case TYPES.ISSUE:
                             tx.quantityStr = tx.quantity.toFormat(tx.precision);
@@ -184,6 +190,29 @@
                 }
             }
 
+            static _getTypeByName(txTypeName) {
+                switch (txTypeName) {
+                    case WavesApp.TRANSACTION_TYPES.NODE.TRANSFER:
+                        return 4;
+                    case WavesApp.TRANSACTION_TYPES.NODE.MASS_TRANSFER:
+                        return 11;
+                    case WavesApp.TRANSACTION_TYPES.NODE.LEASE:
+                        return 8;
+                    case WavesApp.TRANSACTION_TYPES.NODE.CANCEL_LEASING:
+                        return 9;
+                    case WavesApp.TRANSACTION_TYPES.NODE.ISSUE:
+                        return 3;
+                    case WavesApp.TRANSACTION_TYPES.NODE.REISSUE:
+                        return 5;
+                    case WavesApp.TRANSACTION_TYPES.NODE.BURN:
+                        return 6;
+                    case WavesApp.TRANSACTION_TYPES.NODE.CREATE_ALIAS:
+                        return 10;
+                    default:
+                        throw new Error('Wrong tx name!');
+                }
+            }
+
             /**
              * @param {string} sender
              * @param {string} recipient
@@ -191,7 +220,7 @@
              * @private
              */
             static _getTransferType({ sender, recipient }) {
-                const aliasList = aliases.getAliasList();
+                const aliasList = ds.balanceManager.aliasList;
                 if (sender === recipient || (sender === user.address && aliasList.indexOf(recipient) !== -1)) {
                     return TYPES.CIRCULAR;
                 } else {

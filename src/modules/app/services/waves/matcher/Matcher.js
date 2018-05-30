@@ -40,25 +40,14 @@
             }
 
             /**
-             * @param keyPair
-             * @returns {Promise<any>}
-             * @private
-             */
-            _getOrders(keyPair) {
-                return Waves.API.Matcher.v1.getAllOrders(keyPair)
-                    .then((list) => list.map(Matcher._remapOrder))
-                    .then(utils.whenAll);
-            }
-
-            /**
              * @param {string} asset1
              * @param {string} asset2
              * @return {Promise<{bids, asks, pair: IAssetPair, spread: {amount: string, price: string, total: string}}>}
              * @private
              */
             _getOrderBook(asset1, asset2) {
-                return Waves.AssetPair.get(asset1, asset2)
-                    .then((pair) => Waves.API.Matcher.v1.getOrderbook(pair.amountAsset.id, pair.priceAsset.id)
+                return ds.api.assets.getAssetPair(asset1, asset2)
+                    .then((pair) => ds.api.matcher.getOrderBook(pair.amountAsset.id, pair.priceAsset.id)
                         .then((orderBook) => Matcher._remapOrderBook(orderBook, pair))
                         .then(([bids, asks]) => ({ bids, asks, pair, spread: Matcher._getSpread(bids, asks, pair) }))
                     );
@@ -96,14 +85,6 @@
             }
 
             /**
-             * @returns {Promise<T>}
-             * @private
-             */
-            _getOrdersData() {
-                return this._seedPromise.then((seed) => this._getOrders(seed.keyPair));
-            }
-
-            /**
              * @param bids
              * @param asks
              * @param pair
@@ -126,7 +107,7 @@
             static _remapBidAsks(list, pair) {
                 return Promise.all((list || [])
                     .map((item) => Promise.all([
-                        ds.wavesDataEntities.Money.fromCoins(String(item.amount), pair.amountAsset)
+                        ds.moneyFromCoins(String(item.amount), pair.amountAsset)
                             .then((amount) => amount.getTokens()),
                         ds.wavesDataEntities.OrderPrice.fromMatcherCoins(String(item.price), pair)
                             .then((orderPrice) => orderPrice.getTokens())
@@ -152,12 +133,12 @@
                 const priceAssetId = Matcher._getAssetId(order.assetPair.priceAsset);
                 const amountAssetId = Matcher._getAssetId(order.assetPair.amountAsset);
 
-                return Waves.AssetPair.get(priceAssetId, amountAssetId)
+                return ds.api.assets.getAssetPair(priceAssetId, amountAssetId)
                     .then((assetPair) => Promise.all([
                         ds.wavesDataEntities.OrderPrice.fromMatcherCoins(String(order.price), assetPair)
-                            .then((orderPrice) => ds.wavesDataEntities.Money.fromTokens(orderPrice.getTokens(), priceAssetId)),
-                        ds.wavesDataEntities.Money.fromCoins(String(order.amount), amountAssetId),
-                        ds.wavesDataEntities.Money.fromCoins(String(order.filled), amountAssetId),
+                            .then((orderPrice) => ds.moneyFromTokens(orderPrice.getTokens(), priceAssetId)),
+                        ds.moneyFromCoins(String(order.amount), amountAssetId),
+                        ds.moneyFromCoins(String(order.filled), amountAssetId),
                         Promise.resolve(`${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`)
                     ]))
                     .then(([price, amount, filled, pair]) => {
