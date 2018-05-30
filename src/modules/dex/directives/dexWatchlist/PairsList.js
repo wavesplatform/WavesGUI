@@ -9,12 +9,6 @@
                      * @type {Array}
                      * @private
                      */
-                    this._pairs = [];
-
-                    /**
-                     * @type {Array}
-                     * @private
-                     */
                     this._pairsData = [];
 
                     /**
@@ -23,14 +17,30 @@
                     this.pairsSorted = null;
                 }
 
-                addPair(pairOfIds) {
-                    this._pairs.push(pairOfIds);
+                addPair(pair) {
+                    this._pairsData.push(pair);
+                    return this._sortOnceVolumesLoaded();
+                }
+
+                removePair(pair) {
+                    const pairIndex = this._pairsData.indexOf(pair);
+
+                    if (pairIndex >= 0) {
+                        this._pairsData.splice(pairIndex, 1);
+                    }
+                }
+
+                includes(pair) {
+                    return this._pairsData.includes(pair);
+                }
+
+                addPairOfIds(pairOfIds) {
                     this._pairsData.push(new PairData(pairOfIds));
                 }
 
-                includes(pairOfIds) {
-                    return this._pairs.some((pairFromList) => {
-                        return this._areEqualPairs(pairFromList, pairOfIds);
+                includesPairOfIds(pairOfIds) {
+                    return this._pairsData.some((pairFromList) => {
+                        return this._areEqualPairs(pairFromList.pairOfIds, pairOfIds);
                     });
                 }
 
@@ -44,29 +54,31 @@
                 }
 
                 clear() {
-                    this._pairs = [];
-                    this._pairsData = [];
+                    this._pairsData.length = 0;
                 }
 
                 sortOnceVolumesLoaded() {
                     this.pairsSorted = new Promise((resolve) => {
-                        this._pairsData
-                            .reduce((loadingProgress, pairData) => {
-                                return (loadingProgress.then(() => pairData.volumeRequest));
-                            }, Promise.resolve())
-                            .then(() => {
-                                this._pairsData.sort((pairData, anotherPairData) => {
-                                    return (
-                                        utils
-                                            .comparators
-                                            .bigNumber
-                                            .desc(pairData.bigNumberVolume, anotherPairData.bigNumberVolume)
-                                    );
-                                });
-
-                                resolve();
-                            });
+                        this._sortOnceVolumesLoaded()
+                            .then(resolve);
                     });
+                }
+
+                _sortOnceVolumesLoaded() {
+                    return this._pairsData
+                        .reduce((loadingProgress, pairData) => {
+                            return (loadingProgress.then(() => pairData.volumeRequest));
+                        }, Promise.resolve())
+                        .then(() => {
+                            this._pairsData.sort((pairData, anotherPairData) => {
+                                return (
+                                    utils
+                                        .comparators
+                                        .bigNumber
+                                        .desc(pairData.bigNumberVolume, anotherPairData.bigNumberVolume)
+                                );
+                            });
+                        });
                 }
 
             };

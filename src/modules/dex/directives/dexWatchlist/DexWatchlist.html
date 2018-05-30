@@ -62,7 +62,13 @@
                      'selected': $ctrl.isSelected(pair)
                  }">
             <w-table-cell>
-                <i class="icon-fav"></i>
+                <i
+                    class="icon-fav"
+                    ng-class="{
+                        'active': $ctrl.isFavourite(pair)
+                    }"
+                    ng-click="$ctrl.toggleFavourite($event, pair)"
+                ></i>
                 <span>{{pair.pair}}</span>
             </w-table-cell>
             <w-table-cell>

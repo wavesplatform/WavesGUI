@@ -162,7 +162,7 @@
             _setFavouritePairs() {
                 const allGateways = Object.assign({}, gateways, sepaGateways);
                 Object.keys(allGateways).forEach((gatewayId) => {
-                    this._favourite.addPair([WavesApp.defaultAssets.WAVES, gatewayId]);
+                    this._favourite.addPairOfIds([WavesApp.defaultAssets.WAVES, gatewayId]);
                 });
 
                 this._favourite.sortOnceVolumesLoaded();
@@ -176,11 +176,11 @@
                     return this._assetsIds
                         .slice(index + 1)
                         .forEach((anotherAssetId) => {
-                            if (this._isFavourite([assetId, anotherAssetId])) {
+                            if (this._isFavouritePairOfIds([assetId, anotherAssetId])) {
                                 return false;
                             }
 
-                            this._other.addPair([assetId, anotherAssetId]);
+                            this._other.addPairOfIds([assetId, anotherAssetId]);
                         });
                 });
 
@@ -191,17 +191,17 @@
              * @private
              */
             _setWanderingPair() {
-                const pairFromState = this._getPairFromState();
+                const pairFromState = DexWatchlist._getPairFromState();
 
                 if (!pairFromState) {
                     return;
                 }
 
-                if (this._isFavourite(pairFromState) || this._isOther(pairFromState)) {
+                if (this._isFavouritePairOfIds(pairFromState) || this._isOther(pairFromState)) {
                     return;
                 }
 
-                this._wandering.addPair(pairFromState);
+                this._wandering.addPairOfIds(pairFromState);
 
                 this._wandering.sortOnceVolumesLoaded();
             }
@@ -211,8 +211,8 @@
              * @returns {boolean}
              * @private
              */
-            _isFavourite(pairOfIds) {
-                return this._favourite.includes(pairOfIds);
+            _isFavouritePairOfIds(pairOfIds) {
+                return this._favourite.includesPairOfIds(pairOfIds);
             }
 
             /**
@@ -221,7 +221,7 @@
              * @private
              */
             _isOther(pairOfIds) {
-                return this._other.includes(pairOfIds);
+                return this._other.includesPairOfIds(pairOfIds);
             }
 
             /**
@@ -229,7 +229,7 @@
              * @private
              */
             _resolveState() {
-                const pairFromState = this._getPairFromState();
+                const pairFromState = DexWatchlist._getPairFromState();
 
                 if (!pairFromState) {
                     this._setDefaultPair();
@@ -250,23 +250,6 @@
                                 this._switchLocationToChosenPair();
                             });
                     });
-            }
-
-            /**
-             * @returns {*}
-             * @private
-             */
-            _getPairFromState() {
-                const { assetId1, assetId2 } = $state.params;
-
-                if (assetId1 && assetId2) {
-                    return [
-                        $state.params.assetId1,
-                        $state.params.assetId2
-                    ];
-                }
-
-                return null;
             }
 
             /**
@@ -399,7 +382,7 @@
             _updateWanderingPairs(pairOfIds) {
                 this._wandering.clear();
                 if (pairOfIds) {
-                    this._wandering.addPair(pairOfIds);
+                    this._wandering.addPairOfIds(pairOfIds);
                 }
                 this._updatePairsData();
             }
@@ -421,6 +404,38 @@
              */
             isSelected(pair) {
                 return pair === this._chosenPair;
+            }
+
+            /**
+             * @param pair
+             * @returns {Boolean}
+             */
+            isFavourite(pair) {
+                return this._favourite.includes(pair);
+            }
+
+            /**
+             * @param $event
+             * @param pair
+             */
+            toggleFavourite($event, pair) {
+                $event.stopPropagation();
+
+                if (this.isFavourite(pair)) {
+                    this._exchangePair([this._favourite], this._other, pair);
+                } else {
+                    this._exchangePair([this._other, this._wandering], this._favourite, pair);
+                }
+            }
+
+            _exchangePair(donors, recipient, pair) {
+                donors.forEach((donor) => {
+                    donor.removePair(pair);
+                });
+                recipient.addPair(pair)
+                    .then(() => {
+                        this._updatePairsData();
+                    });
             }
 
             /**
@@ -480,6 +495,33 @@
             }
 
             /**
+             * @returns {*}
+             * @private
+             */
+            static _getPairFromState() {
+                const { assetId1, assetId2 } = $state.params;
+
+                if (assetId1 && assetId2) {
+                    return [
+                        $state.params.assetId1,
+                        $state.params.assetId2
+                    ];
+                }
+
+                return null;
+            }
+
+            /**
+             * @param {string} assetId
+             * @param {string} anotherAssetId
+             * @returns {*}
+             * @private
+             */
+            static _getPair(assetId, anotherAssetId) {
+                return Waves.AssetPair.get(assetId, anotherAssetId);
+            }
+
+            /**
              * @param {string} query
              * @param {string} text
              * @returns {{beginning: string, inputPart: string, ending: string}}
@@ -494,16 +536,6 @@
                     inputPart: splitResult[2],
                     ending: splitResult[3]
                 };
-            }
-
-            /**
-             * @param {string} assetId
-             * @param {string} anotherAssetId
-             * @returns {*}
-             * @private
-             */
-            static _getPair(assetId, anotherAssetId) {
-                return Waves.AssetPair.get(assetId, anotherAssetId);
             }
 
         }
