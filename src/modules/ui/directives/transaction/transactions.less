@@ -101,6 +101,14 @@ w-transaction .transaction {
     &.unknown {
       .icon-tx-unknown();
     }
+
+    &.spam {
+      .icon-tx-spam();
+    }
+
+    &.mass-spam {
+      .icon-tx-mass-spam();
+    }
   }
 
   .transaction-info {
@@ -125,6 +133,13 @@ w-transaction .transaction {
           padding-right: @padding-main-layout * 4.4;
           text-align: right;
         }
+
+        .top {
+          color: @color-basic-700;
+        }
+        .bottom {
+          color: @color-basic-500;
+        }
       }
 
       &.grow .line {
@@ -139,6 +154,22 @@ w-transaction .transaction {
     }
 
   }
+
+  &.spam {
+    .transaction-info {
+      .line-wrapper {
+        .line {
+          .top {
+            color: @color-basic-500;
+          }
+          .bottom {
+            color: @color-accent-100;
+          }
+        }
+      }
+    }
+  }
+
 }
 
 @media screen and (max-width: 960px) {
