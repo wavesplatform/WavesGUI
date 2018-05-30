@@ -55,6 +55,18 @@
                  */
                 this.headers = [
                     {
+                        id: 'favourite',
+                        templatePath: 'modules/dex/directives/dexWatchlist/FavouritesColumnHeader.html',
+                        scopeData: {
+                            toggleOnlyFavourite: () => {
+                                this.toggleOnlyFavourite();
+                            },
+                            shouldShowOnlyFavourite: () => {
+                                return this.shouldShowOnlyFavourite();
+                            }
+                        }
+                    },
+                    {
                         id: 'pair',
                         title: { literal: 'directives.watchlist.pair' },
                         sort: true
@@ -126,6 +138,12 @@
                  * @private
                  */
                 this._assetSearchDelay = null;
+
+                /**
+                 * @type {boolean}
+                 * @private
+                 */
+                this._shouldShowOnlyFavourite = false;
             }
 
             $postLink() {
@@ -138,7 +156,6 @@
                 this._setFavouritePairs();
                 this._setOtherPairs();
                 this._setWanderingPair();
-                this._updatePairsData();
 
                 Promise.all([
                     this._favourite.pairsSorted,
@@ -346,10 +363,24 @@
 
                 // todo: move 30 to settings.
                 this.pairsData = [
-                    ...favouritePairsData,
-                    ...this._other.getPairsData().slice(0, 30 - favouritePairsData.length),
-                    ...this._wandering.getPairsData()
+                    ...favouritePairsData
                 ];
+
+                if (!this.shouldShowOnlyFavourite()) {
+                    this.pairsData.push(
+                        ...this._other.getPairsData().slice(0, 30 - favouritePairsData.length),
+                        ...this._wandering.getPairsData()
+                    );
+                }
+            }
+
+            toggleOnlyFavourite() {
+                this._shouldShowOnlyFavourite = !this._shouldShowOnlyFavourite;
+                this._updatePairsData();
+            }
+
+            shouldShowOnlyFavourite() {
+                return this._shouldShowOnlyFavourite;
             }
 
             /**
