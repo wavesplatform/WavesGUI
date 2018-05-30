@@ -234,6 +234,13 @@
             }
 
             /**
+             * @return {boolean}
+             */
+            isOldMoneroAddress() {
+                return this.state.assetId === WavesApp.defaultAssets.XMR && this.state.assetId.substr(0, 1) === '4';
+            }
+
+            /**
              * @private
              */
             _onChangeMirrorId() {

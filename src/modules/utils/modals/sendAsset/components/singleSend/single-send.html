@@ -81,7 +81,7 @@
         </div>
     </div>
 
-    <div ng-if="$ctrl.outerSendMode && $ctrl.balance.asset.id === WavesApp.defaultAssets.XMR">
+    <div ng-if="$ctrl.outerSendMode && $ctrl.isOldMoneroAddress()">
         <div class="body-2" w-i18n="modal.send.moneroPaymentId"></div>
         <w-input-container class="row">
             <div>
