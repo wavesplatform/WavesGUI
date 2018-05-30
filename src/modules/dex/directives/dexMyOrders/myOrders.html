@@ -21,19 +21,22 @@
     <w-scroll-box>
         <w-row ng-repeat="order in $ctrl.orders track by order.id" ng-class="{{order.status.toLowerCase()}}">
             <w-cell>
-                <span>{{::order.pair}}</span>
+                <span>{{::order.assetPair.amountAsset.displayName}} / {{::order.assetPair.priceAsset.displayName}}</span>
             </w-cell>
             <w-cell>
-                <span class="order-side {{::order.type}}" w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
+                <span class="order-side {{::order.type}}"
+                      w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
             </w-cell>
             <w-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n>:</span><w-balance money="order.price"></w-balance>
+                <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n>:</span>
+                <w-balance money="order.price"></w-balance>
             </w-cell>
             <w-cell>
-                <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n>:</span><w-balance money="order.amount"></w-balance>
+                <span class="cell-label"><w-i18n>directives.myOrders.amount</w-i18n>:</span>
+                <w-balance money="order.amount"></w-balance>
             </w-cell>
             <w-cell>
-                {{order.state}}
+                <w-i18n params="{ percent: order.progress * 100 }">{{$ctrl.statusMap[order.status]}}</w-i18n>
             </w-cell>
             <div ng-if="order.status === 'Accepted' || order.status === 'PartiallyFilled'"
                  ng-click="$ctrl.dropOrder(order)"

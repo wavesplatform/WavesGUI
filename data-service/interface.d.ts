@@ -1,3 +1,5 @@
+import { Asset, BigNumber } from '@waves/data-entities';
+
 export interface IHash<T> {
     [key: string]: T;
 }
@@ -15,3 +17,6 @@ export interface IKeyPair {
 
 export type TOrderType = 'buy' | 'sell';
 export type TLeasingStatus = 'active' | 'canceled'
+
+export type TBigNumberData = string | number | BigNumber;
+export type TAssetData = Asset | string;

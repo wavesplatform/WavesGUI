@@ -102,3 +102,18 @@ export function toBigNumber(some: string | number | BigNumber): BigNumber {
 export function toAsset(asset: Asset | string): Promise<Asset> {
     return typeof asset === 'string' ? get(asset) : Promise.resolve(asset);
 }
+
+export type TDefer<T> = {
+    resolve: (data: T) => any;
+    reject: (data: any) => any;
+    promise: Promise<T>;
+}
+
+export function defer<T>(): TDefer<T> {
+    let resolve, reject;
+    const promise = new Promise<T>((res, rej) => {
+        resolve = res;
+        reject = rej;
+    });
+    return { resolve, reject, promise };
+}

@@ -133,8 +133,8 @@
 
                             return list.map((item) => {
                                 item = tsUtils.clone(item);
-                                total = total.add(item.total);
-                                amountTotal = amountTotal.add(item.amount);
+                                total = total.plus(item.total);
+                                amountTotal = amountTotal.plus(item.amount);
                                 item.type = type;
                                 item.total = total.toFixed(pair.priceAsset.precision);
                                 item.totalAmount = amountTotal.toFixed(pair.amountAsset.precision);

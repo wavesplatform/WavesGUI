@@ -28,30 +28,35 @@
                     _assetIdPair: 'dex.assetIdPair'
                 });
 
-                const poll = createPoll(this, this._getOrders, 'orders', 5000, { $scope });
+                this.statusMap = {
+                    Cancelled: 'matcher.orders.statuses.canceled',
+                    Accepted: 'matcher.orders.statuses.opened',
+                    Filled: 'matcher.orders.statuses.filled',
+                    PartiallyFilled: 'matcher.orders.statuses.filled'
+                };
+
+                const poll = createPoll(this, this._getOrders, 'orders', 1000, { $scope });
                 this.observe('_assetIdPair', () => poll.restart());
             }
 
             dropOrder(order) {
-                user.getSeed().then((seed) => {
-                    waves.matcher.cancelOrder(order.amount.asset.id, order.price.asset.id, order.id, seed.keyPair)
-                        .then(() => {
-                            const canceledOrder = tsUtils.find(this.orders, { id: order.id });
-                            canceledOrder.state = 'Canceled';
-                            notification.info({
-                                ns: 'app.dex',
-                                title: { literal: 'directives.myOrders.notifications.isCanceled' }
-                            });
-
-                            $scope.$digest();
-                        })
-                        .catch(() => {
-                            notification.error({
-                                ns: 'app.dex',
-                                title: { literal: 'directives.myOrders.notifications.somethingWentWrong' }
-                            });
+                return waves.matcher.cancelOrder(order.amount.asset.id, order.price.asset.id, order.id, seed.keyPair)
+                    .then(() => {
+                        const canceledOrder = tsUtils.find(this.orders, { id: order.id });
+                        canceledOrder.state = 'Canceled';
+                        notification.info({
+                            ns: 'app.dex',
+                            title: { literal: 'directives.myOrders.notifications.isCanceled' }
                         });
-                });
+
+                        $scope.$digest();
+                    })
+                    .catch(() => {
+                        notification.error({
+                            ns: 'app.dex',
+                            title: { literal: 'directives.myOrders.notifications.somethingWentWrong' }
+                        });
+                    });
             }
 
             /**
@@ -59,7 +64,7 @@
              * @private
              */
             _getOrders() {
-                waves.matcher.getOrders()
+                return waves.matcher.getOrders()
                     .then((orders) => {
                         const active = [];
                         const others = [];

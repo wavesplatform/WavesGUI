@@ -6,10 +6,12 @@ import * as utilsModule from './utils/utils';
 import { request } from './utils/request';
 import { IFetchOptions } from './utils/request';
 import * as wavesDataEntitiesModule from '@waves/data-entities';
-import { BigNumber, Asset, Money } from '@waves/data-entities';
+import { BigNumber, Asset, Money, AssetPair, OrderPrice } from '@waves/data-entities';
 import { toAsset, toBigNumber } from './utils/utils';
 import { IAssetInfo } from '@waves/data-entities/dist/entities/Asset';
 import { get } from './config';
+import { TAssetData, TBigNumberData } from './interface';
+import { getAssetPair } from './api/assets/assets';
 
 export { Seed } from './classes/Seed';
 
@@ -33,14 +35,34 @@ export function fetch<T>(url: string, fetchOptions: IFetchOptions): Promise<T> {
     return request<T>({ url, fetchOptions });
 }
 
-export function moneyFromTokens(tokens: string | number | BigNumber, assetData: Asset | string): Promise<Money> {
+export function moneyFromTokens(tokens: TBigNumberData, assetData: TAssetData): Promise<Money> {
     return toAsset(assetData).then((asset) => {
         return wavesDataEntities.Money.fromTokens(tokens, asset);
     });
 }
 
-export function moneyFromCoins(coins: string | number | BigNumber, assetData: Asset | string): Promise<Money> {
+export function moneyFromCoins(coins: TBigNumberData, assetData: TAssetData): Promise<Money> {
     return toAsset(assetData).then((asset) => new Money(coins, asset));
+}
+
+export function orderPriceFromCoins(coins: TBigNumberData, pair: AssetPair): Promise<OrderPrice>;
+export function orderPriceFromCoins(coins: TBigNumberData, asset1: TAssetData, asset2: TAssetData): Promise<OrderPrice>;
+export function orderPriceFromCoins(coins: TBigNumberData, pair: AssetPair | TAssetData, asset2?: TAssetData): Promise<OrderPrice> {
+    if (pair instanceof AssetPair) {
+        return Promise.resolve(OrderPrice.fromMatcherCoins(coins, pair));
+    } else {
+        return getAssetPair(pair, asset2).then((pair) => OrderPrice.fromMatcherCoins(coins, pair));
+    }
+}
+
+export function orderPriceFromTokens(tokens: TBigNumberData, pair: AssetPair): Promise<OrderPrice>;
+export function orderPriceFromTokens(tokens: TBigNumberData, asset1: TAssetData, asset2: TAssetData): Promise<OrderPrice>;
+export function orderPriceFromTokens(tokens: TBigNumberData, pair: AssetPair | TAssetData, asset2?: TAssetData): Promise<OrderPrice> {
+    if (pair instanceof AssetPair) {
+        return Promise.resolve(OrderPrice.fromTokens(tokens, pair));
+    } else {
+        return getAssetPair(pair, asset2).then((pair) => OrderPrice.fromTokens(tokens, pair));
+    }
 }
 
 class App {

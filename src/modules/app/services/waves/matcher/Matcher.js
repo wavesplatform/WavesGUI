@@ -28,7 +28,7 @@
             }
 
             getOrders() {
-                return Promise.resolve(ds.balanceManager.orders);
+                return ds.balanceManager.getOrders();
             }
 
             getOrderBook(asset1, asset2) {
@@ -109,7 +109,7 @@
                     .map((item) => Promise.all([
                         ds.moneyFromCoins(String(item.amount), pair.amountAsset)
                             .then((amount) => amount.getTokens()),
-                        ds.wavesDataEntities.OrderPrice.fromMatcherCoins(String(item.price), pair)
+                        ds.orderPriceFromCoins(String(item.price), pair)
                             .then((orderPrice) => orderPrice.getTokens())
                     ])
                         .then((amountPrice) => {
@@ -125,39 +125,6 @@
             }
 
             /**
-             * @param order
-             * @returns {Promise<*[]>}
-             * @private
-             */
-            static _remapOrder(order) {
-                const priceAssetId = Matcher._getAssetId(order.assetPair.priceAsset);
-                const amountAssetId = Matcher._getAssetId(order.assetPair.amountAsset);
-
-                return ds.api.assets.getAssetPair(priceAssetId, amountAssetId)
-                    .then((assetPair) => Promise.all([
-                        ds.wavesDataEntities.OrderPrice.fromMatcherCoins(String(order.price), assetPair)
-                            .then((orderPrice) => ds.moneyFromTokens(orderPrice.getTokens(), priceAssetId)),
-                        ds.moneyFromCoins(String(order.amount), amountAssetId),
-                        ds.moneyFromCoins(String(order.filled), amountAssetId),
-                        Promise.resolve(`${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`)
-                    ]))
-                    .then(([price, amount, filled, pair]) => {
-                        const percent = filled.getTokens().div(amount.getTokens()).times(100).round(2); // TODO
-                        // TODO Move to component myOrders (dex refactor);
-                        const STATUS_MAP = {
-                            Cancelled: 'matcher.orders.statuses.canceled',
-                            Accepted: 'matcher.orders.statuses.opened',
-                            Filled: 'matcher.orders.statuses.filled',
-                            PartiallyFilled: 'matcher.orders.statuses.filled'
-                        };
-                        const state = i18n.translate(STATUS_MAP[order.status], 'app', { percent });
-                        const isActive = ['Accepted', 'PartiallyFilled'].indexOf(order.status) !== -1;
-
-                        return { ...order, isActive, price, amount, filled, pair, percent, state };
-                    });
-            }
-
-            /**
              * @param {Array} bids
              * @param {Array} asks
              * @param {AssetPair} pair
@@ -170,20 +137,11 @@
 
                 return firstBid && lastAsk && {
                     amount: lastAsk.price,
-                    price: new BigNumber(lastAsk.price).sub(firstBid.price)
+                    price: new BigNumber(lastAsk.price).minus(firstBid.price)
                         .abs()
                         .toFixed(pair.priceAsset.precision),
                     total: firstBid.price
                 } || { amount: '0', price: '0', total: '0' };
-            }
-
-            /**
-             * @param id
-             * @returns {string}
-             * @private
-             */
-            static _getAssetId(id) {
-                return id || WavesApp.defaultAssets.WAVES;
             }
 
         }

@@ -9,6 +9,7 @@ import { contains } from 'ts-utils';
 import { MoneyHash } from '../utils/MoneyHash';
 import { UTXManager } from './UTXManager';
 import { getAliasesByAddress } from '../api/aliases/aliases';
+import { defer, TDefer } from '../utils/utils';
 
 
 export class BalanceManager {
@@ -23,6 +24,7 @@ export class BalanceManager {
     private _txHash: IHash<Money>;
     private _ordersHash: IHash<Money>;
     private _firstBalancePromise: Promise<any>;
+    private _firstOrdersDefer: TDefer<Array<IOrder>>;
 
 
     public applyAddress(address: string): void {
@@ -40,6 +42,7 @@ export class BalanceManager {
         this._firstBalancePromise = new Promise((resolve) => {
             this._poll.signals.requestSuccess.once(() => resolve(this.balanceList));
         });
+        this._firstOrdersDefer = defer();
     }
 
     public dropAddress() {
@@ -62,6 +65,14 @@ export class BalanceManager {
         }
     }
 
+    public getOrders(): Promise<Array<IOrder>> {
+        if (this.orders) {
+            return Promise.resolve(this.orders);
+        } else {
+            return this._firstOrdersDefer.promise;
+        }
+    }
+
     private _getPollBalanceApi(): IPollAPI<IPollData> {
         return {
             get: () => Promise.all([
@@ -79,6 +90,7 @@ export class BalanceManager {
         if (hasSignature()) {
             return getOrders().then((orders) => {
                 this._updateInOrdersHash(orders);
+                this._firstOrdersDefer.resolve(orders);
                 return orders;
             });
         } else {
