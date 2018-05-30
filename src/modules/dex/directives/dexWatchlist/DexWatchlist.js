@@ -84,22 +84,32 @@
                 this._chosenPair = null;
 
                 /**
-                 * @type {Array}
+                 * @type {{pairs: Array, pairsData: Array}}
                  * @private
                  */
-                this._favouritePairs = [];
+                this._favourite = {
+                    pairs: [],
+                    pairsData: []
+                };
+
 
                 /**
-                 * @type {Array}
+                 * @type {{pairs: Array, pairsData: Array}}
                  * @private
                  */
-                this._otherPairs = [];
+                this._other = {
+                    pairs: [],
+                    pairsData: []
+                };
 
                 /**
-                 * @type {Array}
+                 * @type {{pairs: Array, pairsData: Array}}
                  * @private
                  */
-                this._wanderingPairs = [];
+                this._wandering = {
+                    pairs: [],
+                    pairsData: []
+                };
 
                 /**
                  * @type {Array<string>}
@@ -138,10 +148,9 @@
                 this._setFavouritePairs();
                 this._setOtherPairs();
                 this._setWanderingPair();
-                this._setPairsData();
+                this._initPairsData();
 
                 this._resolveState().then(() => {
-                    this.observe('_assetsIds', this._setPairsData);
                     this.observe('search', this._prepareSearchResults);
                     this.observe('_chosenPair', this._switchLocationAndUpdateAssetIdPair);
 
@@ -155,7 +164,7 @@
             _setFavouritePairs() {
                 const allGateways = Object.assign({}, gateways, sepaGateways);
                 Object.keys(allGateways).forEach((gatewayId) => {
-                    this._favouritePairs.push([WavesApp.defaultAssets.WAVES, gatewayId]);
+                    this._favourite.pairs.push([WavesApp.defaultAssets.WAVES, gatewayId]);
                 });
             }
 
@@ -171,10 +180,10 @@
                                 return false;
                             }
 
-                            this._otherPairs.push([assetId, anotherAssetId]);
+                            this._other.pairs.push([assetId, anotherAssetId]);
 
                             // todo: move 30 to settings.
-                            return this._otherPairs.length >= 30 - this._favouritePairs.length;
+                            return this._other.pairs.length >= 30 - this._favourite.pairs.length;
                         });
                 });
             }
@@ -193,7 +202,7 @@
                     return;
                 }
 
-                this._wanderingPairs.push(pairFromState);
+                this._wandering.pairs.push(pairFromState);
             }
 
             /**
@@ -202,7 +211,7 @@
              * @private
              */
             _isFavourite(pairOfIds) {
-                return this._isPairFromList(this._favouritePairs, pairOfIds);
+                return this._isPairFromList(this._favourite.pairs, pairOfIds);
             }
 
             /**
@@ -211,7 +220,7 @@
              * @private
              */
             _isOther(pairOfIds) {
-                return this._isPairFromList(this._otherPairs, pairOfIds);
+                return this._isPairFromList(this._other.pairs, pairOfIds);
             }
 
             _isPairFromList(pairList, pairOfIds) {
@@ -223,18 +232,9 @@
             /**
              * @private
              */
-            _setPairsData() {
-                const favouriteTopAndWandering = [
-                    ...this._favouritePairs,
-                    ...this._otherPairs,
-                    ...this._wanderingPairs
-                ];
-
-                this.pairsData = (
-                    favouriteTopAndWandering
-                        .map((pairOfIds) => new PairData(pairOfIds))
-                        .map((requestAndData) => requestAndData.data)
-                );
+            _initPairsData() {
+                [this._favourite, this._other, this._wandering].forEach(DexWatchlist._setListPairsData);
+                this._updatePairsData();
             }
 
             /**
@@ -245,6 +245,7 @@
                 const pairFromState = this._getPairFromState();
 
                 if (!pairFromState) {
+                    this._setDefaultPair();
                     this._switchLocationToChosenPair();
                     return Promise.resolve();
                 }
@@ -286,14 +287,7 @@
              * @private
              */
             _setPairAndAddToAssetsIds(pair) {
-                const amountAssetId = pair.amountAsset.id;
-                const priceAssetId = pair.priceAsset.id;
-
-                this._chooseExistingPair([amountAssetId, priceAssetId]);
-                this._addToAssetIds([
-                    amountAssetId,
-                    priceAssetId
-                ]);
+                this._chooseExistingPair([pair.amountAsset.id, pair.priceAsset.id]);
             }
 
             /**
@@ -365,12 +359,24 @@
                 };
             }
 
+            _setDefaultPair() {
+                this._chosenPair = this.pairsData[0];
+            }
+
             /**
              * @private
              */
             _switchLocationToChosenPair() {
-                $location.search('assetId1', this._chosenPair.amountId);
-                $location.search('assetId2', this._chosenPair.priceId);
+                $location.search('assetId1', this._chosenPair.pairOfIds[0]);
+                $location.search('assetId2', this._chosenPair.pairOfIds[1]);
+            }
+
+            _updatePairsData() {
+                this.pairsData = [
+                    ...this._favourite.pairsData,
+                    ...this._other.pairsData,
+                    ...this._wandering.pairsData
+                ];
             }
 
             /**
@@ -381,34 +387,44 @@
             }
 
             /**
-             * @param isChangeBase
-             * @param id
-             * @private
+             * @param asset
              */
-            addNewPair({ id }) {
-                this._addToAssetIds([id]);
+            addNewPair(asset) {
+                const pairOfIds = [WavesApp.defaultAssets.WAVES, asset.id];
+
+                let wanderingPair = this._getKnownPairDataBy(pairOfIds);
+                if (!wanderingPair) {
+                    this._updateWanderingPairs(pairOfIds);
+
+                    wanderingPair = this._wandering.pairsData[0];
+                }
+
+                wanderingPair.request.then(() => {
+                    this.choosePair(wanderingPair);
+                });
+
                 this.search = '';
             }
 
-            /**
-             * @param {Array<string>} ids
-             * @private
-             */
-            _addToAssetIds(ids) {
-                const uniqueAssetsIds = new Set([
-                    ...this._assetsIds,
-                    ...ids
-                ]);
-                this._assetsIds = Array.from(uniqueAssetsIds);
+            _updateWanderingPairs(pairOfIds) {
+                this._wandering.pairs = [];
+                if (pairOfIds) {
+                    this._wandering.pairs = [pairOfIds];
+                }
+                DexWatchlist._setListPairsData(this._wandering);
+                this._updatePairsData();
             }
 
             /**
              * @param pair
              */
             choosePair(pair) {
+                if (pair !== this._wandering.pairsData[0]) {
+                    this._updateWanderingPairs();
+                }
+
                 this._chosenPair = pair;
             }
-
 
             /**
              * @param pair
@@ -475,12 +491,20 @@
             }
 
             /**
+             * @param pairList
+             * @private
+             */
+            static _setListPairsData(pairList) {
+                pairList.pairsData = pairList.pairs.map((pairOfIds) => new PairData(pairOfIds));
+            }
+
+            /**
              * @param {string} query
              * @param {string} text
              * @returns {{beginning: string, inputPart: string, ending: string}}
              * @private
              */
-            static _getInputPartAndRemainder(query, text) {
+            static _getInputPartAndRemainder(query, text = '') {
                 const splitMask = new RegExp(`(.*)(${query})(.*)`, 'i');
                 const splitResult = splitMask.exec(text) || ['', '', '', NAME_STUB];
 

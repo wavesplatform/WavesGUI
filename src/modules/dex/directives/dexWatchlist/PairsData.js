@@ -5,43 +5,46 @@
             return class PairData {
 
                 constructor(pairOfIds) {
-                    this.data = {
-                        pairOfIds,
-                        amountId: '',
-                        priceId: '',
-                        pair: '',
-                        price: '',
-                        change: '',
-                        volume: ''
-                    };
+                    this.pairOfIds = pairOfIds;
+                    this.amountId = '';
+                    this.priceId = '';
+                    this.pair = '';
+                    this.price = '';
+                    this.change = '';
+                    this.volume = '';
+
+                    this.request = Promise.resolve();
 
                     this._init();
                 }
 
                 _init() {
-                    Waves.AssetPair.get(this.data.pairOfIds[0], this.data.pairOfIds[1])
-                        .then((pair) => {
-                            const amountAsset = pair.amountAsset;
-                            this.data.amountId = amountAsset.id;
+                    this.request = (
+                        Waves.AssetPair.get(this.pairOfIds[0], this.pairOfIds[1])
+                            .then((pair) => {
+                                const amountAsset = pair.amountAsset;
+                                this.amountId = amountAsset.id;
 
-                            const priceAsset = pair.priceAsset;
-                            this.data.priceId = priceAsset.id;
+                                const priceAsset = pair.priceAsset;
+                                this.priceId = priceAsset.id;
 
-                            this.data.pair = `${amountAsset.displayName} / ${priceAsset.displayName}`;
+                                this.pair = `${amountAsset.displayName} / ${priceAsset.displayName}`;
 
-                            this._getPriceData(pair).then((price) => {
-                                this.data.price = price;
-                            });
+                                this._getPriceData(pair).then((price) => {
+                                    this.price = price;
+                                });
 
-                            PairData._getChange(pair).then((change) => {
-                                this.data.change = change.toFixed(2);
-                            });
+                                PairData._getChange(pair).then((change) => {
+                                    this.change = change.toFixed(2);
+                                });
 
-                            PairData._getVolume(pair).then((volume) => {
-                                // todo: replace with discussed algorithm.
-                                this.data.volume = volume.slice(0, 4);
-                            });
-                        });
+                                PairData._getVolume(pair).then((volume) => {
+                                    // todo: replace with discussed algorithm.
+                                    this.volume = volume.slice(0, 4);
+                                });
+
+                            })
+                    );
                 }
 
                 /**
