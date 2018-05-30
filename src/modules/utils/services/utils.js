@@ -395,22 +395,7 @@
                 const formatted = this.getNiceNumber(bigNum, precision);
 
                 if (shortMode && bigNum.gte(10000)) {
-                    /**
-                     * @type {app.i18n}
-                     */
-                    const i18n = $injector.get('i18n');
-                    let stringNum;
-                    let postfix;
-
-                    if (bigNum.gte(1000000)) {
-                        stringNum = bigNum.div(1000000).toFormat(1);
-                        postfix = i18n.translate('number.short.million');
-                    } else {
-                        stringNum = bigNum.div(1000).toFormat(1);
-                        postfix = i18n.translate('number.short.thousand');
-                    }
-
-                    return `${stringNum}${postfix}`;
+                    return this.getNiceBigNumberTemplate(bigNum);
                 } else {
                     const separatorDecimal = WavesApp.getLocaleData().separators.decimal;
                     const [int, decimal] = formatted.split(separatorDecimal);
@@ -424,6 +409,29 @@
                         return `<span class="int">${int}</span>`;
                     }
                 }
+            },
+
+            /**
+             * @param bigNum
+             * @returns {string}
+             */
+            getNiceBigNumberTemplate: function (bigNum) {
+                /**
+                 * @type {app.i18n}
+                 */
+                const i18n = $injector.get('i18n');
+                let stringNum;
+                let postfix;
+
+                if (bigNum.gte(1000000)) {
+                    stringNum = bigNum.div(1000000).toFormat(1);
+                    postfix = i18n.translate('number.short.million');
+                } else {
+                    stringNum = bigNum.div(1000).toFormat(1);
+                    postfix = i18n.translate('number.short.thousand');
+                }
+
+                return `${stringNum}${postfix}`;
             },
 
             /**

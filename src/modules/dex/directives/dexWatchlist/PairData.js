@@ -1,7 +1,7 @@
 {
     class PairDataService {
 
-        constructor(waves) {
+        constructor(waves, utils) {
             return class PairData {
 
                 constructor(pairOfIds) {
@@ -13,6 +13,7 @@
                     this.change = '';
                     this.bigNumberVolume = new BigNumber(0);
                     this.volume = '';
+                    this.fullVolume = '';
 
                     this.amountAndPriceRequest = Promise.resolve();
                     this.volumeRequest = Promise.resolve();
@@ -49,12 +50,31 @@
                                 PairData._getVolume(pair).then((volume) => {
                                     this.bigNumberVolume = volume;
                                     // todo: replace with discussed algorithm.
-                                    this.volume = volume.toFormat(pair.priceAsset.precision).slice(0, 4);
+                                    this.volume = PairData._getVolumeString(volume);
+                                    this.fullVolume = volume.toString();
                                     resolveVolume();
                                 }, resolveVolume);
 
                             }, resolveVolume)
                     );
+                }
+
+                /**
+                 * @param volume
+                 * @returns {string}
+                 * @private
+                 */
+                static _getVolumeString(volume) {
+                    if (volume.gte(1000)) {
+                        return utils.getNiceBigNumberTemplate(volume);
+                    }
+
+                    const volumeString = volume.toString();
+                    if (volume.lt(0.0001) && volume.gt(0)) {
+                        return `...${volumeString.substring(-4)}`;
+                    }
+
+                    return volumeString.substr(0, 5);
                 }
 
                 /**
@@ -110,7 +130,7 @@
 
     }
 
-    PairDataService.$inject = ['waves'];
+    PairDataService.$inject = ['waves', 'utils'];
 
     angular.module('app.dex').service('PairData', PairDataService);
 }
