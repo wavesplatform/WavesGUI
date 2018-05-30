@@ -1,4 +1,5 @@
 @import (reference) '../../../config';
+@import (reference) "../../../app/less/typography";
 
 .dex.main .main-content {
   background: @color-basic-100;
@@ -295,19 +296,6 @@ w-layout {
       }
     }
 
-    &__topright-collapsed,
-    &__topleft-collapsed {
-      .dex-layout {
-        &__sidebar-toggle {
-          div {
-            &::after {
-              transform: rotate(270deg);
-            }
-          }
-        }
-      }
-    }
-
     .empty-block-container {
       position: absolute;
       transform: translate(-50%, -50%);
@@ -357,6 +345,40 @@ w-layout {
     right: 5px;
     top: 10px;
     z-index: 1;
+  }
+
+  //validation errors todo uIsk вынести в общие стили
+  w-input-container {
+    position: relative;
+
+    w-input-error {
+      span.error {
+        background: @color-error-400;
+        color: @color-white;
+        font-size: @font-size-caption-2;
+        position: absolute;
+        border-radius: @border-radius;
+        padding: 5px 10px;
+        display: inline-block;
+        top: 35px;
+        width: auto;
+        overflow: visible;
+        z-index: 3;
+
+        &::before {
+          display: inline-block;
+          width: 10px;
+          height: 10px;
+          content: '';
+          transform: rotate(45deg);
+          top: -3px;
+          left: 20px;
+          z-index: 2;
+          position: absolute;
+          background: @color-error-400;
+        }
+      }
+    }
   }
 
 }
@@ -453,6 +475,17 @@ w-dex-candle-chart {
           }
         }
       }
+    }
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  w-layout {
+    .dex-layout {
+      &__row-top .dex-layout__column-right {
+        //display: none;
+      }
+
     }
   }
 }

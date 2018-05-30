@@ -125,6 +125,15 @@
                 this._onChangeHeight();
 
                 this._ready.resolve();
+
+                $(window).resize(() => {
+                    if (
+                        window.innerWidth >= 481 &&
+                        window.innerWidth <= 768
+                    ) {
+                        $('.dex-layout__row-top').prepend(this._dom.topright.column);
+                    }
+                });
             }
 
             /**

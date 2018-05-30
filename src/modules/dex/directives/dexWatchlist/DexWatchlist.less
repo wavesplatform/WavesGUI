@@ -75,25 +75,35 @@ body.dex .dex-wrapper {
       }
     }
 
-    w-tabs {
+    .wrapper {
       width: 100%;
-
-      .tab-tem {
-        overflow: hidden;
-      }
 
       input {
         background: url(/img/icons/input-search-icon.svg) 11px 48% no-repeat @color-white;
         background-size: 10px;
         border: 0 none;
-        width: 100%;
+        width: calc(100% ~'- 2px');
         padding-left: 31px;
         height: 35px;
         font-size: @font-size-caption-1;
         border-bottom: 1px solid @color-basic-100;
+
+        &:focus {
+          box-shadow: 0 0 0 1px @color-submit-400;
+          position: relative;
+          z-index: 2;
+        }
       }
 
       .titles-wrap {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        height: 40px;
+        background-color: @color-white;
+        box-sizing: border-box;
+        padding: 0;
+        position: relative;
         border-bottom: 1px solid @color-basic-100;
 
         &::after {
@@ -101,15 +111,37 @@ body.dex .dex-wrapper {
         }
 
         a.title {
+          font-size: @font-size-caption-2;
+          color: @color-basic-700;
+          font-family: @font-roboto-medium;
+          display: block;
+          border: 1px solid transparent;
+          box-sizing: border-box;
+          line-height: 40px;
+          padding: 0 16px;
+          text-transform: uppercase;
+          position: relative;
+          z-index: 1;
+          margin: 0;
           border-top: 0 none;
           border-left: 1px solid transparent;
           border-right: 1px solid transparent;
 
+          &:not(.active) {
+            cursor: pointer;
+          }
+
           &.active {
+            border-bottom: 0 none;
+            position: relative;
             border-top: 2px solid @color-submit-400;
             border-left: 1px solid @color-basic-100;
             border-right: 1px solid @color-basic-100;
             line-height: 36px;
+
+            &:first-child {
+              border-left: 1px solid transparent;
+            }
 
             &::before {
               position: absolute;
@@ -125,16 +157,42 @@ body.dex .dex-wrapper {
             }
           }
 
-          &:last-child::after {
+          &.has-select::after {
             content: '';
             display: inline-block;
-            margin-left: 5px;
-            width: 10px;
-            height: 10px;
+            margin-left: 3px;
+            width: 11px;
+            height: 11px;
             z-index: 2;
             position: relative;
-            top: -1px;
             background: url(/img/icons/arrow-disabled-down-little.svg) center no-repeat;
+            background-size: contain;
+          }
+        }
+
+        w-select {
+          display: none;
+          position: absolute;
+          left: 179px;
+          z-index: 4;
+          top: 2px;
+
+          .select-list {
+            max-height: 155px;
+            overflow: auto;
+          }
+
+          .title {
+            background: @color-white;
+            font-size: @font-size-caption-2;
+            color: @color-basic-700;
+            font-family: @font-roboto-medium;
+          }
+
+          w-option {
+            font-size: @font-size-caption-2;
+            color: @color-basic-700;
+            font-family: @font-roboto-medium;
           }
         }
       }
@@ -151,7 +209,7 @@ body.dex .dex-wrapper {
         }
 
         &__w-tbody {
-          height: calc(100% ~'- 64px');
+          height: calc(100% ~'- 104px');
         }
 
         &__row {
@@ -245,16 +303,32 @@ body.dex .dex-wrapper {
       w-dex-watchlist {
         min-height: 290px;
 
-        w-tabs {
-          .titles-wrap a {
-            border-left: 0 none;
-            border-right: 0 none;
+        .wrapper .smart-table__w-tbody {
+          max-height: 240px;
+        }
+
+        .titles-wrap {
+          a.title {
+            border-left: 0;
+            border-right: 0;
+            border-top: 0;
+
+            &::before {
+              display: none;
+            }
 
             &.active {
-              border-left: 0 none;
-              border-right: 0 none;
-              line-height: 48px;
+              line-height: 40px;
+              border-bottom: 1px solid @color-submit-400;
             }
+
+            &:hover {
+              border-bottom: 1px solid @color-info-500;
+            }
+          }
+
+          w-select {
+            left: 173px;
           }
         }
       }

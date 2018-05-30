@@ -11,7 +11,7 @@
             <span>{{::order.pair}}</span>
         </w-table-cell>
         <w-table-cell>
-                <span w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
+            <span w-i18n="directives.myOrders.orderType.{{::order.type}}"></span>
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label"><w-i18n>directives.myOrders.price</w-i18n></span>
@@ -31,11 +31,20 @@
         </w-table-cell>
         <w-table-cell>
             <div class="status">
-                <div>
+                <div class="progress-precents">
                     {{order.percent.toString()}}%
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: {{order.percent}}%"></div>
+                </div>
+                <div class="circle-holder">
+                    <div class="circle-loader p{{order.percent.toString()}}">
+                        <span>{{order.percent.toString()}}</span>
+                        <div class="left-half-clipper">
+                            <div class="first50-bar"></div>
+                            <div class="value-bar"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </w-table-cell>

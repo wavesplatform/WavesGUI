@@ -1,75 +1,87 @@
-<w-tabs ng-model="$ctrl.tab">
-    <w-tab title-name="::'tabs.title.all'" id="::'all'">
+<div class="wrapper">
 
-        <w-input placeholder="directives.watchlist.placeholders.coin"
-                 ng-model="$ctrl.search"
-                 ng-focus="$ctrl.focused = true"
-                 ng-blur="$ctrl.focused = false"
-                 w-i18n-attr="placeholder"></w-input>
+    <div class="titles-wrap">
+        <a href="#" class="title active">
+            <w-i18n>tabs.title.all</w-i18n>
+        </a> <!-- todo @german // must have .active if selected -->
+        <a href="#" class="title">
+            <w-i18n>tabs.title.waves</w-i18n>
+        </a>
+        <a href="#" class="title">
+            <w-i18n>tabs.title.btc</w-i18n>
+        </a>
+        <a href="#" class="title has-select"> <!-- onClick show select -->
+            <w-i18n>tabs.title.eth</w-i18n>
+        </a>
 
-        <div class="search-list"
-             ng-if="$ctrl.shouldShowSearchResults()">
-            <div class="search-item"
-                 ng-repeat="asset in $ctrl.assetSearchResults track by asset.id"
-                 ng-click="$ctrl.addNewPair(asset)"
-                 ng-class="{
+        <w-select>
+            <w-option>USD</w-option>
+            <w-option>EUR</w-option>
+            <w-option>XMR</w-option>
+            <w-option>...</w-option>
+            <w-option>QWR</w-option>
+            <w-option>TYU</w-option>
+        </w-select>
+    </div>
+
+    <w-input placeholder="directives.watchlist.placeholders.coin"
+             ng-model="$ctrl.search"
+             ng-focus="$ctrl.focused = true"
+             ng-blur="$ctrl.focused = false"
+             w-i18n-attr="placeholder"></w-input>
+
+    <div class="search-list"
+         ng-if="$ctrl.shouldShowSearchResults()">
+        <div class="search-item"
+             ng-repeat="asset in $ctrl.assetSearchResults track by asset.id"
+             ng-click="$ctrl.addNewPair(asset)"
+             ng-class="{
             'watched': asset.isWatched
          }">
-                <div class="ticker">
-                    {{asset.ticker.beginning}}<span class="selected">{{asset.ticker.inputPart}}</span>{{asset.ticker.ending}}
-                </div>
-                <div class="name">
-                    {{asset.name.beginning}}<span class="selected">{{asset.name.inputPart}}</span>{{asset.name.ending}}
-                </div>
-                <div ng-class="{
+            <div class="ticker">
+                {{asset.ticker.beginning}}<span class="selected">{{asset.ticker.inputPart}}</span>{{asset.ticker.ending}}
+            </div>
+            <div class="name">
+                {{asset.name.beginning}}<span class="selected">{{asset.name.inputPart}}</span>{{asset.name.ending}}
+            </div>
+            <div ng-class="{
                 'add': !asset.isWatched,
                 'remove': asset.isWatched
             }"></div>
-            </div>
-            <div class="not-found footnote-1 basic-500"
-                 ng-if="$ctrl.nothingFound">
-                <w-i18n>directives.watchlist.placeholders.noMarkets</w-i18n>
-            </div>
         </div>
+        <div class="not-found footnote-1 basic-500"
+             ng-if="$ctrl.nothingFound">
+            <w-i18n>directives.watchlist.placeholders.noMarkets</w-i18n>
+        </div>
+    </div>
 
-
-        <w-smart-table data="$ctrl.pairsData" header-info="$ctrl.headers">
-            <w-table-row ng-repeat="pair in $data"
-                         ng-click="$ctrl.choosePair(pair)"
-                         ng-class="{
+    <w-smart-table data="$ctrl.pairsData" header-info="$ctrl.headers">
+        <w-table-row ng-repeat="pair in $data"
+                     ng-click="$ctrl.choosePair(pair)"
+                     ng-class="{
                      'selected': $ctrl.isSelected(pair)
                  }">
-                <w-table-cell>
-                    <i class="icon-fav"></i>
-                    <span>{{pair.pair}}</span>
-                </w-table-cell>
-                <w-table-cell>
-                    <span>{{pair.price}}</span>
-                </w-table-cell>
-                <w-table-cell ng-class="{
+            <w-table-cell>
+                <i class="icon-fav"></i>
+                <span>{{pair.pair}}</span>
+            </w-table-cell>
+            <w-table-cell>
+                <span>{{pair.price}}</span>
+            </w-table-cell>
+            <w-table-cell ng-class="{
                         'plus': $ctrl.isPositive(pair.change),
                         'minus': $ctrl.isNegative(pair.change)
                       }">
-                    <span>{{pair.change}}</span>
-                </w-table-cell>
-                <w-table-cell>
-                    {{pair.volume}}
-                </w-table-cell>
-                <w-table-cell ng-if="$ctrl.isSelected(pair)">
-                    <div class="disabled-900">{{pair.amountId}}<span>/</span></div>
-                    <div class="disabled-900">{{pair.priceId}}</div>
-                </w-table-cell>
-            </w-table-row>
-        </w-smart-table>
+                <span>{{pair.change}}</span>
+            </w-table-cell>
+            <w-table-cell>
+                {{pair.volume}}
+            </w-table-cell>
+            <w-table-cell ng-if="$ctrl.isSelected(pair)">
+                <div class="disabled-900">{{pair.amountId}}<span>/</span></div>
+                <div class="disabled-900">{{pair.priceId}}</div>
+            </w-table-cell>
+        </w-table-row>
+    </w-smart-table>
 
-    </w-tab>
-    <w-tab title-name="::'tabs.title.waves'" id="::'waves'">
-
-    </w-tab>
-    <w-tab title-name="::'tabs.title.btc'" id="::'btc'">
-
-    </w-tab>
-    <w-tab class="has-select" title-name="::'tabs.title.eth'" id="::'select'">
-        <w-seclect>...</w-seclect> <!-- todo like in design -->
-    </w-tab>
-</w-tabs>
+</div>
