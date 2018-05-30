@@ -25,6 +25,13 @@ export function getPublicKey(): Promise<string> {
     return API.getPublicKey();
 }
 
+export function getAddress(): Promise<string> {
+    if (!API) {
+        throw new Error('Api is not available!');
+    }
+    return API.getAddress();
+}
+
 export function sign(data: TSignData): Promise<string> {
     if (!API) {
         throw new Error('Api is not available!');
@@ -32,10 +39,11 @@ export function sign(data: TSignData): Promise<string> {
     return API.sign(data);
 }
 
-export function getDefaultSignatureApi(keyPair: IKeyPair): ISignatureApi {
+export function getDefaultSignatureApi(keyPair: IKeyPair, address: string): ISignatureApi {
     return {
         getPublicKey: () => Promise.resolve(keyPair.publicKey),
-        sign: (data: TSignData) => addSignForData(data, keyPair.privateKey)
+        sign: (data: TSignData) => addSignForData(data, keyPair.privateKey),
+        getAddress: () => Promise.resolve(address)
     };
 }
 
@@ -88,6 +96,7 @@ export const AUTH_SIGNATURE = generate<IAuthData>([
 export interface ISignatureApi {
     sign: (data: TSignData) => Promise<string>;
     getPublicKey: () => Promise<string>;
+    getAddress: () => Promise<string>;
 }
 
 export const enum SIGN_TYPE {
@@ -179,7 +188,6 @@ export interface IGetOrders {
 export interface ICreateTxData {
     fee: string;
     sender: string;
-    signature: string;
     timestamp: number;
     senderPublicKey: string;
 }

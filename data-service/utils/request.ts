@@ -29,7 +29,7 @@ export function request<T>(params: IRequestParams<T>): Promise<T> {
 }
 
 function addDefaultRequestParams(url: string, options: IFetchOptions = Object.create(null)): void {
-    if (url.indexOf(get('node')) === 0 && isEmpty(options.credentials)) {
+    if (url.indexOf(get('node')) === 0 && isEmpty(options.credentials) && options.method !== 'POST') {
         options.credentials = 'include';
     }
 }
@@ -44,7 +44,8 @@ export interface IRequestParams<T> {
 declare const fetch: (url: string, options?: IFetchOptions) => Promise<any>;
 
 export interface IFetchOptions {
-    type?: 'POST' | 'GET';
+    method?: 'POST' | 'GET';
     headers?: object;
     credentials?: string;
+    body?: string;
 }

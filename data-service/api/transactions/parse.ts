@@ -1,5 +1,5 @@
 import { Money, Asset, BigNumber } from '@waves/data-entities';
-import { TRANSACTION_TYPE_NUMBER } from '@waves/waves-signature-generator';
+import { TRANSACTION_TYPE_NUMBER, utils, libs } from '@waves/waves-signature-generator';
 import { get } from '../assets/assets';
 import {
     txApi,
@@ -90,10 +90,18 @@ export function parseIssueTx(tx: txApi.IIssue, assetsHash: IHash<Asset>, isUTX: 
 }
 
 export function parseTransferTx(tx: txApi.ITransfer, assetsHash: IHash<Asset>, isUTX: boolean): ITransfer {
+    const bytes = libs.base58.decode(tx.attachment);
+    let attachment;
+    try {
+        attachment = libs.converters.byteArrayToString(bytes);
+    } catch (e) {
+        attachment = null;
+    }
+    const rawAttachment = tx.attachment;
     const amount = new Money(new BigNumber(tx.amount), assetsHash[normalizeAssetId(tx.assetId)]);
     const fee = new Money(new BigNumber(tx.fee), assetsHash[normalizeAssetId(tx.feeAsset)]);
     const assetId = normalizeAssetId(tx.assetId);
-    return { ...tx, amount, fee, assetId, isUTX };
+    return { ...tx, amount, fee, assetId, isUTX, attachment, rawAttachment };
 }
 
 export function parseReissueTx(tx: txApi.IReissue, assetsHash: IHash<Asset>, isUTX: boolean): IReissue {

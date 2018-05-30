@@ -175,6 +175,7 @@ export interface ITransfer extends IBaseTransaction {
     amount: Money;
     assetId: string;
     attachment: string;
+    rawAttachment: string;
     fee: Money;
     feeAsset: string;
     recipient: string;

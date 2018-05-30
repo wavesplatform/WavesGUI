@@ -62,7 +62,7 @@
 
                     user.login({
                         address: activeUser.address,
-                        api: ds.signature.getDefaultSignatureApi(keyPair),
+                        api: ds.signature.getDefaultSignatureApi(keyPair, activeUser.address),
                         password: this.password
                     });
                 } catch (e) {

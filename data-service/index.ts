@@ -12,6 +12,7 @@ import { IAssetInfo } from '@waves/data-entities/dist/entities/Asset';
 import { get } from './config';
 import { TAssetData, TBigNumberData } from './interface';
 import { getAssetPair } from './api/assets/assets';
+import { broadcast as broadcastF } from './broadcast/broadcast';
 
 export { Seed } from './classes/Seed';
 
@@ -25,6 +26,8 @@ export const utils = { ...utilsModule };
 export const signature = {
     ...sign
 };
+
+export const broadcast = broadcastF;
 
 wavesDataEntitiesModule.config.set('remapAsset', (data: IAssetInfo) => {
     const name = get('remappedAssetNames')[data.id] || data.name;

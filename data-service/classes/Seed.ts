@@ -1,4 +1,4 @@
-import { base58, crypto } from '@waves/waves-signature-generator';
+import { utils, libs } from '@waves/waves-signature-generator';
 import dictionary from '../utils/seedDictionary';
 import { get } from '../config';
 import { IKeyPair } from '../interface';
@@ -15,13 +15,13 @@ export class Seed {
             throw new Error('Your seed length is less than allowed in config');
         }
 
-        const keys = crypto.default.buildKeyPair(phrase);
+        const keys = utils.crypto.buildKeyPair(phrase);
 
         this.phrase = phrase;
-        this.address = crypto.default.buildRawAddress(keys.publicKey);
+        this.address = utils.crypto.buildRawAddress(keys.publicKey);
         this.keyPair = {
-            privateKey: base58.default.encode(keys.privateKey),
-            publicKey: base58.default.encode(keys.publicKey)
+            privateKey: libs.base58.encode(keys.privateKey),
+            publicKey: libs.base58.encode(keys.publicKey)
         };
 
         Object.freeze(this);
@@ -46,7 +46,7 @@ export class Seed {
             throw new Error('The seed phrase you are trying to encrypt is too short');
         }
 
-        return crypto.default.encryptSeed(seedPhrase, password, encryptionRounds);
+        return utils.crypto.encryptSeed(seedPhrase, password, encryptionRounds);
     }
 
     public static decryptSeedPhrase(encryptedSeedPhrase: string, password: string, encryptionRounds: number = 5000): string {
@@ -56,7 +56,7 @@ export class Seed {
         let phrase;
 
         try {
-            phrase = crypto.default.decryptSeed(encryptedSeedPhrase, password, encryptionRounds);
+            phrase = utils.crypto.decryptSeed(encryptedSeedPhrase, password, encryptionRounds);
         } catch (e) {
             throw new Error(wrongPasswordMessage);
         }
@@ -83,7 +83,7 @@ export class Seed {
 
     private static _generateNewSeed(length: number): string {
 
-        const random = crypto.default.generateRandomUint32Array(length);
+        const random = utils.crypto.generateRandomUint32Array(length);
         const wordCount = dictionary.length;
         const phrase = [];
 

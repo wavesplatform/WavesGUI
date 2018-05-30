@@ -5,8 +5,8 @@ import { get } from '../api/assets/assets';
 
 
 export function normalizeAssetPair(assetPair: IAssetPair): IAssetPair {
-    const priceAsset = assetPair.priceAsset || WAVES_ID;
-    const amountAsset = assetPair.amountAsset || WAVES_ID;
+    const priceAsset = normalizeAssetId(assetPair.priceAsset);
+    const amountAsset = normalizeAssetId(assetPair.amountAsset);
     return { priceAsset, amountAsset };
 }
 
@@ -23,6 +23,10 @@ export function normalizeUrl(url: string): string {
 
 export function normalizeAssetId(assetId: string | void) {
     return assetId || WAVES_ID;
+}
+
+export function idToNode(id: string): string {
+    return id === WAVES_ID ? '' : id;
 }
 
 export function toHash<T, K extends keyof T>(list: Array<T>, property: K): IHash<T> {
