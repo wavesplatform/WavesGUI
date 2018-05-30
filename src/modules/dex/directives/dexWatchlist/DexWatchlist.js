@@ -13,6 +13,7 @@
      * @param gateways
      * @param sepaGateways
      * @param PairData
+     * @param PairList
      * @return {DexWatchlist}
      */
     const controller = function (
@@ -24,7 +25,8 @@
         decorators,
         gateways,
         sepaGateways,
-        PairData
+        PairData,
+        PairList
     ) {
 
         class DexWatchlist extends Base {
@@ -84,32 +86,20 @@
                 this._chosenPair = null;
 
                 /**
-                 * @type {{pairs: Array, pairsData: Array}}
                  * @private
                  */
-                this._favourite = {
-                    pairs: [],
-                    pairsData: []
-                };
+                this._favourite = new PairList();
 
 
                 /**
-                 * @type {{pairs: Array, pairsData: Array}}
                  * @private
                  */
-                this._other = {
-                    pairs: [],
-                    pairsData: []
-                };
+                this._other = new PairList();
 
                 /**
-                 * @type {{pairs: Array, pairsData: Array}}
                  * @private
                  */
-                this._wandering = {
-                    pairs: [],
-                    pairsData: []
-                };
+                this._wandering = new PairList();
 
                 /**
                  * @type {Array<string>}
@@ -148,7 +138,15 @@
                 this._setFavouritePairs();
                 this._setOtherPairs();
                 this._setWanderingPair();
-                this._initPairsData();
+                this._updatePairsData();
+
+                Promise.all([
+                    this._favourite.pairsSorted,
+                    this._other.pairsSorted,
+                    this._wandering.pairsSorted
+                ]).then(() => {
+                    this._updatePairsData();
+                });
 
                 this._resolveState().then(() => {
                     this.observe('search', this._prepareSearchResults);
@@ -164,28 +162,29 @@
             _setFavouritePairs() {
                 const allGateways = Object.assign({}, gateways, sepaGateways);
                 Object.keys(allGateways).forEach((gatewayId) => {
-                    this._favourite.pairs.push([WavesApp.defaultAssets.WAVES, gatewayId]);
+                    this._favourite.addPair([WavesApp.defaultAssets.WAVES, gatewayId]);
                 });
+
+                this._favourite.sortOnceVolumesLoaded();
             }
 
             /**
              * @private
              */
             _setOtherPairs() {
-                this._assetsIds.some((assetId, index) => {
+                this._assetsIds.forEach((assetId, index) => {
                     return this._assetsIds
                         .slice(index + 1)
-                        .some((anotherAssetId) => {
+                        .forEach((anotherAssetId) => {
                             if (this._isFavourite([assetId, anotherAssetId])) {
                                 return false;
                             }
 
-                            this._other.pairs.push([assetId, anotherAssetId]);
-
-                            // todo: move 30 to settings.
-                            return this._other.pairs.length >= 30 - this._favourite.pairs.length;
+                            this._other.addPair([assetId, anotherAssetId]);
                         });
                 });
+
+                this._other.sortOnceVolumesLoaded();
             }
 
             /**
@@ -202,7 +201,9 @@
                     return;
                 }
 
-                this._wandering.pairs.push(pairFromState);
+                this._wandering.addPair(pairFromState);
+
+                this._wandering.sortOnceVolumesLoaded();
             }
 
             /**
@@ -211,7 +212,7 @@
              * @private
              */
             _isFavourite(pairOfIds) {
-                return this._isPairFromList(this._favourite.pairs, pairOfIds);
+                return this._favourite.includes(pairOfIds);
             }
 
             /**
@@ -220,21 +221,7 @@
              * @private
              */
             _isOther(pairOfIds) {
-                return this._isPairFromList(this._other.pairs, pairOfIds);
-            }
-
-            _isPairFromList(pairList, pairOfIds) {
-                return pairList.some((pairFromList) => {
-                    return this._areEqualPairs(pairFromList, pairOfIds);
-                });
-            }
-
-            /**
-             * @private
-             */
-            _initPairsData() {
-                [this._favourite, this._other, this._wandering].forEach(DexWatchlist._setListPairsData);
-                this._updatePairsData();
+                return this._other.includes(pairOfIds);
             }
 
             /**
@@ -372,10 +359,13 @@
             }
 
             _updatePairsData() {
+                const favouritePairsData = this._favourite.getPairsData();
+
+                // todo: move 30 to settings.
                 this.pairsData = [
-                    ...this._favourite.pairsData,
-                    ...this._other.pairsData,
-                    ...this._wandering.pairsData
+                    ...favouritePairsData,
+                    ...this._other.getPairsData().slice(0, 30 - favouritePairsData.length),
+                    ...this._wandering.getPairsData()
                 ];
             }
 
@@ -396,10 +386,10 @@
                 if (!wanderingPair) {
                     this._updateWanderingPairs(pairOfIds);
 
-                    wanderingPair = this._wandering.pairsData[0];
+                    wanderingPair = this._wandering.getPairsData()[0];
                 }
 
-                wanderingPair.request.then(() => {
+                wanderingPair.amountAndPriceRequest.then(() => {
                     this.choosePair(wanderingPair);
                 });
 
@@ -407,11 +397,10 @@
             }
 
             _updateWanderingPairs(pairOfIds) {
-                this._wandering.pairs = [];
+                this._wandering.clear();
                 if (pairOfIds) {
-                    this._wandering.pairs = [pairOfIds];
+                    this._wandering.addPair(pairOfIds);
                 }
-                DexWatchlist._setListPairsData(this._wandering);
                 this._updatePairsData();
             }
 
@@ -419,7 +408,7 @@
              * @param pair
              */
             choosePair(pair) {
-                if (pair !== this._wandering.pairsData[0]) {
+                if (pair !== this._wandering.getPairsData()[0]) {
                     this._updateWanderingPairs();
                 }
 
@@ -491,14 +480,6 @@
             }
 
             /**
-             * @param pairList
-             * @private
-             */
-            static _setListPairsData(pairList) {
-                pairList.pairsData = pairList.pairs.map((pairOfIds) => new PairData(pairOfIds));
-            }
-
-            /**
              * @param {string} query
              * @param {string} text
              * @returns {{beginning: string, inputPart: string, ending: string}}
@@ -539,7 +520,8 @@
         'decorators',
         'gateways',
         'sepaGateways',
-        'PairData'
+        'PairData',
+        'PairList'
     ];
 
     angular.module('app.dex')

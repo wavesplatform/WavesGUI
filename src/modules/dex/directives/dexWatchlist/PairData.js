@@ -11,15 +11,23 @@
                     this.pair = '';
                     this.price = '';
                     this.change = '';
+                    this.bigNumberVolume = new BigNumber(0);
                     this.volume = '';
 
-                    this.request = Promise.resolve();
+                    this.amountAndPriceRequest = Promise.resolve();
+                    this.volumeRequest = Promise.resolve();
+
 
                     this._init();
                 }
 
                 _init() {
-                    this.request = (
+                    let resolveVolume = null;
+                    this.volumeRequest = new Promise((resolve) => {
+                        resolveVolume = resolve;
+                    });
+
+                    this.amountAndPriceRequest = (
                         Waves.AssetPair.get(this.pairOfIds[0], this.pairOfIds[1])
                             .then((pair) => {
                                 const amountAsset = pair.amountAsset;
@@ -39,11 +47,13 @@
                                 });
 
                                 PairData._getVolume(pair).then((volume) => {
+                                    this.bigNumberVolume = volume;
                                     // todo: replace with discussed algorithm.
-                                    this.volume = volume.slice(0, 4);
-                                });
+                                    this.volume = volume.toFormat(pair.priceAsset.precision).slice(0, 4);
+                                    resolveVolume();
+                                }, resolveVolume);
 
-                            })
+                            }, resolveVolume)
                     );
                 }
 
@@ -84,7 +94,15 @@
                  * @private
                  */
                 static _getVolume(pair) {
-                    return waves.utils.getVolume(pair);
+                    return Promise.all([
+                        waves.utils.getVolume(pair),
+                        waves.utils.getRate(pair.priceAsset, WavesApp.defaultAssets.WAVES)
+                    ])
+                        .then(([volume, rate]) => {
+                            return new BigNumber(volume).mul(rate);
+                        }, () => {
+                            return new BigNumber(0);
+                        });
                 }
 
             };
